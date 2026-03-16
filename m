@@ -1,410 +1,1102 @@
-Return-Path: <hongxu.jia@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 533EDD58B22
-	for <webhook@archiver.kernel.org>; Mon, 16 Mar 2026 04:34:51 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44035.1773635689507195294
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52689D58B36
+	for <webhook@archiver.kernel.org>; Mon, 16 Mar 2026 04:52:11 +0000 (UTC)
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43804.1773636723616163160
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Mar 2026 21:34:49 -0700
+ Sun, 15 Mar 2026 21:52:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=nVWoyugV;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75357a93d8=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62G3fZcB2989999
-	for <openembedded-core@lists.openembedded.org>; Sun, 15 Mar 2026 21:34:49 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=EwWbYhUYBi+dAkUoRaFypT
-	x0L/j2XAhQdew3LmRB1so=; b=nVWoyugVQVLH8qpBzQS09cLUUTMEXLozlc4mDC
-	d7ul9JUv7G0gN9Lt8jdJBVfp/IwWV0pbx9oMPP+t3J3O4xJlH4PKsO58lGHwOmsL
-	DvG6M9N7q/Ky5Lg+AAKHtCQOR9KEsEIOKeWmq8sFpPWsUhzp2dYHYICdww7PXr0+
-	VMPMI0sc5bikSQEtZIMmlTcK7Rn6jttuRx5xsMWuJiz+GupDeYogNtaghHph5+hm
-	/DIt9zRPSeHPh40WI4F34R3HcevGqPNGcw40SdOezuUMxekQpF4KhwAzwcfI8tj1
-	4v6NrFbSfxWE/31SthQrYzNJtP58ANbS0WolsTQilWjbxj7A==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010065.outbound.protection.outlook.com [40.93.198.65])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cw76ds8ax-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 15 Mar 2026 21:34:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nGtyLMPApWdUOGqG35kMxBv9vDGIyKhV77mp1Z9zD3Ve/stu4fUnpN8JWIpXb2DGKHnopYf4DthoGpvCbZDUUWP/ceTcVIprRhcKn3SaTynAvCChCoON39xHh8/y9xwSlB4is88U1adfb/M6E8kbHjmFrdBtBa0U7yf7VD+uPcJP96nH9lC8nUSyuuizh2OGTAgm+ufqDJsCojglAVSbnFBK7M8a4lIjdjp7SZecWNArZKXeLRVXXr64MNA/THXZB6KptLbJmxQpRq4lUjlRLufFzj4CkVp84Nfvn6vyHGFv9NCWfF+/0/Ms69qvnZuXs3GbP30VrSLKZRTRZUGeig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EwWbYhUYBi+dAkUoRaFypTx0L/j2XAhQdew3LmRB1so=;
- b=e1v8ayBEYyqjIHKgxN6XUPwzTccJJCRNoPvPbVtiwCh64Efy4y/Ia+5WwJiCvGNumyTErogZcplO5I2o+NyVzxlYs9ZWilrFT98uXBcbIJsgixrucz8Xb/+ScG8yHCEnit12qanXe1CSj1Yz6b8tDJ3BW+QL2OnpUI4OsowUWQih617sIukLPhJjqa1PsQQZyo9v59VMdpsr20IXBa2LAIukprpIiWVTdmoomv6sGS1gUdp/or+4fKR8W7vZ6s9vZhdWQ5vUl9npArl2Zqzv7z8dI36c3gYclWjtqHgiIh6+Zqaz0K3ILOj7Hm7UJkBiQJb5s9cUt1LU+e22HPfMEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
- by DS4PPF1B1B74C09.namprd11.prod.outlook.com (2603:10b6:f:fc02::e) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.8; Mon, 16 Mar
- 2026 04:34:46 +0000
-Received: from PH7PR11MB7608.namprd11.prod.outlook.com
- ([fe80::c84c:d2c3:1102:cf45]) by PH7PR11MB7608.namprd11.prod.outlook.com
- ([fe80::c84c:d2c3:1102:cf45%3]) with mapi id 15.20.9723.013; Mon, 16 Mar 2026
- 04:34:46 +0000
+ dkim=pass header.i=@mvista.com header.s=google header.b=Yl/5zHCf;
+ spf=pass (domain: mvista.com, ip: 74.125.82.177, mailfrom: hprajapati@mvista.com)
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2c0b7eda342so778381eec.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Mar 2026 21:52:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1773636723; x=1774241523; darn=lists.openembedded.org;
+        h=in-reply-to:from:content-language:references:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L5/hQqVmfKH5thf87FWikCPaQAxTSaFTYjKe9nwDQtU=;
+        b=Yl/5zHCfQRqQU+Uq+51xC6lJgloy3KubRLFjQsSE0TYoYGmsgzGA92Nb+2proKL9A3
+         FLqYuyA6vUw7cY7k0/A4MNq3eUYuAriBUHhyxLfD2x2biuRlcnX6WTKtq9UNTKyQkO2h
+         5L9ZGt2Qe9LghfCreHthExzC8gb+UcfLwA9D8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773636723; x=1774241523;
+        h=in-reply-to:from:content-language:references:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L5/hQqVmfKH5thf87FWikCPaQAxTSaFTYjKe9nwDQtU=;
+        b=RNiJeso5ie5+Hv7g3IwlMLgUFrKAWibIopkNkboRdDV+wfm55t24yrYT3pXT1JpT8g
+         YGIktF4CTQpvHjoga+UrCI4jv2Mpp4eSeqaM8ZcxKZeZTo67W71+uLKqSxoN9ZSiJStL
+         GGbq1jr44ndg+qufJnGkM3Pdc+Z+jlAfaNj90VHIkDqRB7v0ZBfDNIfYzQL56aI+U4IO
+         90nzaf6oCo2DhQ2I31297O8+fTj4okxiwKxPU6q5hU3QLfc4VUzRJHpSbq8Dr4Qm4uoO
+         6eqsnk78IWVJavPUk0ABTrX+1c/sLLmzGsxMGdKphVK54HVxE+YoQZQ/JPOWH7i6VPfb
+         0I3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUciZZfCNEjiP2Lp0mIIJljymcqKkTBhtY2QMotaN9xeUo1wWPE0wml/dCvMUKpQV+9Nqy33ybco8XneIDt0P6X1A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzkJ9kxsXuX9CBNzt/52Xohyc8f+UiWnDJAjiLXz92gHULQ6vjL
+	a7tf4LITiFp5q3pLIIc9o+DXR1hbeEAcvejCJ/YYLihzpKjC36bHQK8AwB5QDK4sFZ8=
+X-Gm-Gg: ATEYQzwXIomPZJl7lXP/BylW8kj8mRdVqGjWwWEF2HUhu9WXmWt8yde+hfxPwvCVZKe
+	Iyezr/ErgcYTT7+Yp/CUdew1wkzNUQFCi6DkNGuTDu0yWQYhtGF9z3qsScNnpHgu2J7Z6U/FNvx
+	RNKZZqvYtMtu5FpHNHCPzisBDytyByY1FKcTxtzkx0ZvYMWYT33JL21Zk1Qybg89yS3pOw7b9Rs
+	JYOIeIERMrwWYh6hIJXBSdq7z7rH1zavy4KcvNDkj/Fdd5lsnUitQ4IoyNHYbBzUksEX/jxPylH
+	zlnIUcKIv7NqnPMFEYuE9JdtB9Hp6jSXU3LVgeSSoXPfIgfJJqm0GfWeFUFhDJ+fm5MllwKcucx
+	I9VzMUv7bKo1M1CXyzWKdI8rroPmG2iAb/ydn5NtSB9vAH8HEIZJXV4x42V6M0Du1fUZeHoabOH
+	GMT0damH9kFL0NPlSTx9c8cGGHrPQxww==
+X-Received: by 2002:a05:7300:e887:b0:2be:2043:614b with SMTP id 5a478bee46e88-2bea554ad84mr4805845eec.18.1773636722483;
+        Sun, 15 Mar 2026 21:52:02 -0700 (PDT)
+Received: from [192.168.1.100] ([103.250.136.197])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0bfd41aacsm4803630eec.27.2026.03.15.21.52.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Mar 2026 21:52:02 -0700 (PDT)
 Content-Type: multipart/alternative;
- boundary="------------sd3SJU5IjuU0aMIGJkfIbBSA"
-Message-ID: <c936f21f-3f43-4a99-ae95-94c3f7e654c0@windriver.com>
-Date: Mon, 16 Mar 2026 12:34:41 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] python3-setuptools: upgrade 80.9.0 -> 82.0.0
-To: Marcel Ziswiler <marcel@ziswiler.com>,
-        openembedded-core@lists.openembedded.org
-Cc: mathieu.dubois-briand@bootlin.com
-References: <20260304045413.3265198-1-hongxu.jia@windriver.com>
- <d291e85326d0d184045b7492aa5a1241b210763a.camel@ziswiler.com>
-Content-Language: en-US
-From: Hongxu Jia <hongxu.jia@windriver.com>
-In-Reply-To: <d291e85326d0d184045b7492aa5a1241b210763a.camel@ziswiler.com>
-X-ClientProxiedBy: SL2P216CA0135.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:1::14) To PH7PR11MB7608.namprd11.prod.outlook.com
- (2603:10b6:510:269::20)
+ boundary="------------xsBDl08mroTXDUVuSxIkakVJ"
+Message-ID: <38450c35-5cbe-4f60-ad6b-a02353712329@mvista.com>
+Date: Mon, 16 Mar 2026 10:21:56 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|DS4PPF1B1B74C09:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14052012-8731-4445-469c-08de83155a1a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|1800799024|56012099003|18002099003|22082099003|13003099007|8096899003;
-X-Microsoft-Antispam-Message-Info: 
-	XjYNC7MIgsplWvH3hux1iW8drlfJ9iBf/Wxii5F5cq7WtYSzg4BKXDqINfnauuyi6/iYh1iJc21RKOENMAA4Miutc4iPoO+P8XE7YB2G80gFMoReNFm3oGyVFW7QpMyXUTZ9x0/EfjafBuMY2FddqVSjav3poqymODKttrXDAdaSvr9JkAHAN1ERYgnM23srJx4AahMGtc4M2Z8V80yYlWhOHs4Xy4KCbpVE1v/k2BVGZ7vJx+dQJ2k1TNQLXiqLc0kQ33PXZ2KGTsY1vc6Y/YhhAVvpj/XUqaHJZkO+LTs4aI/2l7KmC4EReIWnPcEbKlurruPp7CumppUc6rPVb8cfkXAwbYTSfFSbUJu/zPr+w4SLMaUI94ROfyHGQsDMr0jkZHwN1K84gXJCCGQS5tZ5qTz9nlD6f38dj57v+u6ZCadH5D0ZkS17wTHFrs6hb7LR7tUDvZZ65uLopiJgvJag/cvU2/uoEn7QBkMg12ViKsNqJ92m7J+fmAkS2i51pySq7O+CDAbCSE2shgifvtPfNvnz+opgPN8cbGnR8XGnbAwhyNiC0XYJekXLUOoVLH+IG2AT1ESXi5FfKt59twOoAkaZ56XnUzz3D4qF+FxyN52EQLzxiavFY8XtJO2AxElquh+WL3WXTfJZW/bReiQIuKFqLcqMA9WUOCQTAsk5YccSd+FjXWuDMuw+jEKl
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(56012099003)(18002099003)(22082099003)(13003099007)(8096899003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZXZSWXczR3EvZlpmWWNObnhrVjhBK0hDajhsOWhkNlJTdzJCSWhRdG1OdC9w?=
- =?utf-8?B?SkZrWDJySlFlalBkcGpqK09TRzZDejRldTlvam4va1VFQmNTSDBNZnptQmla?=
- =?utf-8?B?Wkp3QkNJajZaYi9LY25uMlpmRWlEWWZQYXVqTjA2cURDckgxcnZ3YVg0Y01U?=
- =?utf-8?B?SWpza1pOdnNOcGNqUmJ4MWs2cG0wMmR1RXRra21tT0w3R0dTaFJIejloQmtV?=
- =?utf-8?B?elB5V1hyRjNYbUcwOGxrSGFvaVQrWk90Znk5L3lVaGlLR1NKWVVDckFjMGFU?=
- =?utf-8?B?SFBsNFlUR0F5Um1ZYVlhMnRMU09wNlFwY3d4ZjhpYzFyVnBIdGdpU0JZWkUx?=
- =?utf-8?B?b09qcy9sV0pLVi9POGg1R3RJSDBMUkEyaWNLTW5JMjJrQnUwNTc1T3FzVVFX?=
- =?utf-8?B?dTA4b2ZNMlhOZHRIbktlZFhCZ3l4L2NuMFpWNHJlbnVOb25Wd2h5UG4yN2Ji?=
- =?utf-8?B?ODVzRno2VXl4SE1mYTZGZHhsQnhXai9tNHo3Q1AyRUhrWlhySFc2TWFuYjI5?=
- =?utf-8?B?UjZYdjRuNkdZaitBNTJUbXpOM1JBUFhEeGVuQVZWZDJBUVdpT3VKMzZwTk50?=
- =?utf-8?B?Tnk5K0U2Lyt5ako4ODA1NUhuQ1U0VmFFamxsME9uUzE3YVZPRDRCZDkvb0lS?=
- =?utf-8?B?SjhvRi9EYThSYjJhc1ZWTEJFZGdQT0VES08yVytIbXJ4SzNZZDZFd3R6Y01D?=
- =?utf-8?B?SUtzQ0hjVGExeHFNK1RjR2p5NzBLaHpLUDlwY000NGhVVFpBV3BYVU85NDdF?=
- =?utf-8?B?SS92bUV0dzFqU2NhQUdnUGRIWUVCcHV1V0o0Y0NiL1RKTTJBcFJjSW1jRlU1?=
- =?utf-8?B?bXRsdTI3L0Fzbi91ekpYVW5HRUF3TGE5ZU8vODMzbWMrcGM1R0w2WjdCcFZw?=
- =?utf-8?B?aEFWMkpnRklFRVNpbktVWDRoQS9hbmwrODB5dnQ5OFBmeE5lbzFnQXB2RXNi?=
- =?utf-8?B?VGRlSFpnQzlnMUVnZi9XUUgzVzhDdm1XNkVFSG5LVS82U2dpOFdWQ2V4Ynhl?=
- =?utf-8?B?aGxRTEEzUmlVVEdEM3JBN0RVUUM3ZHpUOW4rK3hCK21EZnFVZDBOTkozUlZP?=
- =?utf-8?B?NGsrM0lqMlhIMnRkY3oxNmRVa1UzWFpZanY3MisyOVFPZXVhU25tWFk5QXZK?=
- =?utf-8?B?ZWZjbGh1cmNLYWRQdHZzblZiejhOY053bmZEWU9oaS90RW8rNFVSaFdOWFNP?=
- =?utf-8?B?MkUyY1hFenc3ME9kUjFBSEdnUDlpVFR2N2VqNjdNZzFLZlFMTHE4bGxHbjN5?=
- =?utf-8?B?ZW0rV1FGZzV2TVBncXA5YUM3azByK2VTcEMyWHhnRnBES1NtQ0orVzR2bkpm?=
- =?utf-8?B?REpiNFVtbGduYUZxblV5N2ViUG5raVFLa1ozT2liSG8zZ2FiZWFVdWJKWk9l?=
- =?utf-8?B?b1R0Y1dhOHhIcHFoajBRZWlEZ0FvNUtqY2NON0tkQlpNdTIrcEhDTDdXbHBH?=
- =?utf-8?B?MEo0OTBBMG4ySXo4YUVYSStNYU9vR2ZBcG41aUI0WmJBS29QbWg1akowU1Bm?=
- =?utf-8?B?V1M1R25Od3ZpVld5WVAwV2x2WGVLSFNOMFJTSi9WcUt6ZmdKL2liQ2EyZCtp?=
- =?utf-8?B?MzJPdG03VjVOUWZYdWF4UTBnVmdmK0tDNHA2UVVlQlh5ODhlci91VkpTNGlD?=
- =?utf-8?B?QlBoZXpJNnBCRkJzbnU1N3htbWdzOTNCS1JIM3EvMzZ1R2tMZm1aRW9Hd0c0?=
- =?utf-8?B?T05nVGRBZktkTitGR0lhYUV4cnVsTXN2Zk9ieWdXRWRyN0h6c0pDNjYvdTds?=
- =?utf-8?B?dmFtR3U3UVZlck9RbVZvSDMzOFNVMGlSeklqdkV3K1JUN0I5bWpsbnRNeHJ1?=
- =?utf-8?B?YW4zTy94c1ZhTkRaLzJZa052K2xqeG9FYVlGMU11MEZCbEhlTy9Pb3RiditO?=
- =?utf-8?B?b096R0xHWmt0L0IwVW10cGdSRzRsVzY3WG5ZYnhxOHFSKzBDOHFhNUhjcDU2?=
- =?utf-8?B?ZGowdHZKUHRpZGtMWG1hSm0zTCtMd29RNUdDam91R2RPdHdLeU1ZU21IMWJp?=
- =?utf-8?B?WEF2V2RrTzVOQnhPVVJCMFpzQlAyZ1ZST3ZGQlduTzZTc05OTFk4MHJOUWoz?=
- =?utf-8?B?ZDdQMVhlOVdNMWdKNjNQSi9zcUlqdjFMSTRJbDRJTGNSMFpqQm1UdmVSM1dX?=
- =?utf-8?B?Y3BITnVRc1ZLOHlyNlI1RjVNQ04wV1ROOERkY3ZVZDBQZ3ZKeWJzc3BRZW80?=
- =?utf-8?B?UXhLVjZjbXhlWHh6VTVSWmhxa2tlcG9kK2lETzd1N21uY253cU1PbWN2NWlt?=
- =?utf-8?B?L0VRYjJWMDhpNUFSZnNJajByREluT3ZXWmR0bHZVUHFFSDZXby9oc3dPdWRo?=
- =?utf-8?B?R3BJcVlHVW5yK2NUOTA2UE5TYTdiWkU4NVBFQWcrSmd1RnRKV2JVdz09?=
-X-Exchange-RoutingPolicyChecked: 
-	STJxewbAZ4YeWMFGWKeDvYx+0EAPmgvqrV6CJUhjshmz74s/QYnSwXmBZZjOzNh15uEYb1PJUwzQhedrYIzr9xXfV4Z0A230TAbuQw2TkoNweibiGfVC+X/SxMNah9gSuv4GNKl/oZ9qTSqmqJuny23QEWAuY92ZHcD5QXuHYl6/h/xrgndFyRUKe8x8MEQ5DdNQWJrgla3VLbfCM0G6Bb8Ygg4blMnm4qjBXo/Ort3DqkkaYgXjIq51pgDcl5IrJJU6f5HLkKsSQEwzGzF3Tzc13y36aiiUOiDBMRRFEqesK+zw0iDXtTHkzlIokxEfYBIAkfqL4LywyeGhhUFBbg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14052012-8731-4445-469c-08de83155a1a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2026 04:34:46.3454
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MvxdzkifEaFa8JtFdYOaOyyOBgKcAcSmwdZBwCYly0HbJ2zXQZ+06AveTuQmH1wuVDCr5cTOzdFgSSpx7IIqpfEnmZqM4rU0DAKL5UBD/1k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF1B1B74C09
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=S9nUAYsP c=1 sm=1 tr=0 ts=69b78868 cx=c_pps
- a=zsOV+8tnETx+K6VwtxJO8A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=dXvAoEkxAAAA:8
- a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=xkeKmrcl5rkhlbhb1AIA:9
- a=36DcYDAlGrXZe9iL:21 a=QEXdDO2ut3YA:10 a=j-NXPswCAAAA:8
- a=TGWRFvGZnzJx6LKCTUUA:9 a=co0A5TqiIt_dN-6z:21 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=iJ39DRKJB4kz2P1Iyp3E:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=UdV-L189IiqUQIgB40x4:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDAzMiBTYWx0ZWRfX6OyyB7Z/DUOL
- h5aokywR6R8ovvk74fbPR8mRZiX4XYA4dys9YpEmmAIBlajnLH/qdhO/KR6i7uQtCiS5lHlzaIf
- Va12aldmnwsL7N+0yP9qevbTMz4Xt6QEQKSjV4El2HNPe51qnAshQzDLWn/DNZJHZ5A+lfKkN2y
- 07PcgRl9v+fosoXHEiraDEyPAnOSnl0oslcoryLrXo2SeTNdRPIBuOyABUCYutcrDZJ1zT1/FSP
- 2+yBix057mV6uYwpn78EsSqDVupDPiXgA9Wxq9apzJo9A3wNFBIKcQPpbZRC+KL77nlc/4ivZEU
- hMxfRl5/nHFnLxmMAPpW+E00BzT72+wpVnPDwR5yPeQu+KJI4+TkrwcH7ZwY0jgofmbkhaKr0uI
- F4fD0uNYVn3JbjvG6tBQkHwVgTeDXfM9LDpnfBPpH+zPMPHQVvnL34Zef8g2HALPIHSy2UjCV9y
- K3sP+yFm/eySPArZE8g==
-X-Proofpoint-ORIG-GUID: oN0xvo5lbTpM41-2t7eamuxrMqEaLD3H
-X-Proofpoint-GUID: 2N-HVdUSyi_8FCPLxoe7jCDA-hoEg927
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-16_02,2026-03-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 bulkscore=0 impostorscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 adultscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603160032
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [kirkstone][PATCH] perl: fix CVE-2025-40909
+To: Yoann Congal <yoann.congal@smile.fr>,
+ openembedded-core@lists.openembedded.org
+References: <20260227083801.544222-1-hprajapati@mvista.com>
+ <DH2MQQRN46UP.32FYBDWM15C6I@smile.fr>
+Content-Language: en-US
+From: Hitendra Prajapati <hprajapati@mvista.com>
+In-Reply-To: <DH2MQQRN46UP.32FYBDWM15C6I@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 04:34:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233209
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 04:52:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233210
 
---------------sd3SJU5IjuU0aMIGJkfIbBSA
+This is a multi-part message in MIME format.
+--------------xsBDl08mroTXDUVuSxIkakVJ
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/13/26 17:25, Marcel Ziswiler wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+Hi Yoann,
+
+I'll look into this.
+
+On 14/03/26 9:32 pm, Yoann Congal wrote:
+> Hello,
 >
-> Hi Hongxu Jia
->
-> On Wed, 2026-03-04 at 12:54 +0800, Hongxu Jia wrote:
->> Remove python3-pkg-resources
+> On Fri Feb 27, 2026 at 9:38 AM CET, Hitendra Prajapati via lists.openembedded.org wrote:
+>> Backport the patch[1] which fixes this vulnerability as mentioned in NVD report.
+>> Details:https://nvd.nist.gov/vuln/detail/CVE-2025-40909
 >>
->> History v82.0.0 [1]:
+>> [1]https://github.com/Perl/perl5/commit/918bfff86ca8d6d4e4ec5b30994451e0bd74aba9
 >>
->> Deprecations and Removals
->> - pkg_resources has been removed from Setuptools. Most common uses of pkg_resources have
->>    been superseded by the importlib.resources and importlib.metadata projects. Projects
->>    and environments relying on pkg_resources for namespace packages or other behavior
->>    should depend on older versions of setuptools. (#3085)
+>> Backport of upstream commit 918bfff (CVE-2025-40909) introduces a new
+>> configuration variable "d_fdopendir" which is used by config_h.SH to
+>> generate HAS_FDOPENDIR.
+> Looks to me that this fix is needed for scarthgap and whinlatter. Can
+> you please send an equivalent fix there first?
+>
+>> In standard Perl builds this variable is detected by Configure.
+>> However in Yocto the perl-native/perl builds rely on
+>> perlcross with pre-seeded config.sh and Configure is not fully
+>> executed. As a result d_fdopendir may be unset, which causes
+>> config_h.SH to emit an invalid preprocessor directive:
 >>
->> [1]https://setuptools.pypa.io/en/stable/history.html#v82-0-0
+>>      # HAS_FDOPENDIR
 >>
->> Signed-off-by: Hongxu Jia<hongxu.jia@windriver.com>
-> [snip]
+>> leading to build failures.
+>>
+>> Additionally, leaving the variable unset disables the new code path
+>> introduced by the CVE fix.
+>>
+>> Seed d_fdopendir to "define" to match expected Linux/glibc behaviour
+>> where fdopendir() is available. This restores correct config.h
+>> generation and ensures the CVE fix is active.
+> I'm not really familiar with perl integration but instead of using sed
+> to patch a generated file, shouldn't we patch perl-cross with this
+> (submitted but not merged) PR?
+> https://github.com/arsv/perl-cross/pull/159/changes/f702c387e6940fab3801d7562a668b974a2b3a8f
 >
-> Unfortunately, this seems to break all my meta-riscv machine builds:
 >
-> ...
-> | gcc -shared -L/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-> native/3.2.4/recipe-sysroot-native/usr/lib -L/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-
-> linux/python3-cython-native/3.2.4/recipe-sysroot-native/lib -Wl,--enable-new-dtags -Wl,-rpath-
-> link,/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/recipe-sysroot-
-> native/usr/lib -Wl,-rpath-link,/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-> native/3.2.4/recipe-sysroot-native/lib -Wl,-rpath,/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-
-> linux/python3-cython-native/3.2.4/recipe-sysroot-native/usr/lib -Wl,-rpath,/var/home/sumo/Sources/riscv-
-> yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/recipe-sysroot-native/lib -Wl,-O1 -Wl,--allow-
-> shlib-undefined -Wl,--dynamic-linker=/var/home/sumo/Sources/riscv-yocto/build/tmp/sysroots-uninative/x86_64-
-> linux/lib/ld-linux-x86-64.so.2 -pthread -isystem/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-
-> linux/python3-cython-native/3.2.4/recipe-sysroot-native/usr/include -O2 -pipe -
-> isystem/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/recipe-
-> sysroot-native/usr/include build/temp.linux-x86_64-cpython-314/var/home/sumo/Sources/riscv-
-> yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/sources/cython-3.2.4/Cython/Compiler/Code.o -
-> L/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/recipe-sysroot-
-> native/usr/lib -o build/lib.linux-x86_64-cpython-314/Cython/Compiler/Code.cpython-314-x86_64-linux-gnu.so
-> | running bdist_wheel
-> | error: invalid command 'egg_info'
-> | WARNING: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-> native/3.2.4/temp/run.do_compile.2101018:159 exit 1 from 'nativepython3 setup.py --verbose build -j 48
-> bdist_wheel --dist-dir /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-> native/3.2.4/dist'
-> | WARNING: Backtrace (BB generated script):
-> |       #1: setuptools3_do_compile, /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-
-> cython-native/3.2.4/temp/run.do_compile.2101018, line 159
-> |       #2: do_compile, /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-> native/3.2.4/temp/run.do_compile.2101018, line 149
-> |       #3: main, /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-> native/3.2.4/temp/run.do_compile.2101018, line 166
-> ERROR: Task (virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-> devtools/python/python3-cython_3.2.4.bb:do_compile) failed with exit code '1'
-> ...
-> Summary: 7 tasks failed:
->    virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-> devtools/python/python3-pyelftools_0.32.bb:do_compile
->      log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-pyelftools-
-> native/0.32/temp/log.do_compile.2101167
->    virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-> devtools/python/python3-markupsafe_3.0.3.bb:do_compile
->      log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-markupsafe-
-> native/3.0.3/temp/log.do_compile.2100841
->    virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-> devtools/python/python3-calver_2025.10.20.bb:do_compile
->      log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-calver-
-> native/2025.10.20/temp/log.do_compile.2101147
->    virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-> devtools/meson/meson_1.10.1.bb:do_compile
->      log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/meson-
-> native/1.10.1/temp/log.do_compile.2100900
->    virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-> devtools/python/python3-setuptools-scm_9.2.2.bb:do_compile
->      log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-setuptools-scm-
-> native/9.2.2/temp/log.do_compile.2100993
->    virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-> devtools/python/python3-mako_1.3.10.bb:do_compile
->      log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-mako-
-> native/1.3.10/temp/log.do_compile.2101162
->    virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-> devtools/python/python3-cython_3.2.4.bb:do_compile
->      log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-> native/3.2.4/temp/log.do_compile.2101018
-> Summary: There were 16 WARNING messages.
-> Summary: There were 7 ERROR messages, returning a non-zero exit code.
->
-> If I revert commit ab6b2bf7b555d3516abea6255b800fe6f9673a69 all builds fine again.
->
-> Any ideas?
-
-The recipe python3-cython is in oe-core, would you please apply [1] to 
-recipe python3-cython and retry?
-
-[1] 
-https://github.com/cython/cython/commit/fd847477a47855f9c0d036f35c8865196d5267cc 
-
-
-//Hongxu
-
-> Thanks!
->
-> Cheers
->
-> Marcel
-
-
---------------sd3SJU5IjuU0aMIGJkfIbBSA
+> I'm also not that much familier with perl. But, I'll look to fix this in perl-cross and give proper patch.
+>> Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
+>> ---
+>>   .../perl/files/CVE-2025-40909.patch           | 415 ++++++++++++++++++
+>>   meta/recipes-devtools/perl/perl_5.34.3.bb     |   2 +
+>>   2 files changed, 417 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/perl/files/CVE-2025-40909.patch
+>>
+>> diff --git a/meta/recipes-devtools/perl/files/CVE-2025-40909.patch b/meta/recipes-devtools/perl/files/CVE-2025-40909.patch
+>> new file mode 100644
+>> index 0000000000..b5cb20e112
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/perl/files/CVE-2025-40909.patch
+>> @@ -0,0 +1,415 @@
+>> +From 918bfff86ca8d6d4e4ec5b30994451e0bd74aba9 Mon Sep 17 00:00:00 2001
+>> +From: Leon Timmermans<fawaka@gmail.com>
+>> +Date: Fri, 23 May 2025 15:40:41 +0200
+>> +Subject: [PATCH] CVE-2025-40909: Clone dirhandles without fchdir
+>> +
+>> +This uses fdopendir and dup to dirhandles. This means it won't change
+>> +working directory during thread cloning, which prevents race conditions
+>> +that can happen if a third thread is active at the same time.
+>> +
+>> +CVE: CVE-2025-40909
+>> +Upstream-Status: Backport [https://github.com/Perl/perl5/commit/918bfff86ca8d6d4e4ec5b30994451e0bd74aba9]
+>> +Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
+>> +---
+>> + Configure                      |   6 ++
+>> + Cross/config.sh-arm-linux      |   1 +
+>> + Cross/config.sh-arm-linux-n770 |   1 +
+>> + Porting/Glossary               |   5 ++
+>> + Porting/config.sh              |   1 +
+>> + config_h.SH                    |   6 ++
+>> + configure.com                  |   1 +
+>> + plan9/config_sh.sample         |   1 +
+>> + sv.c                           |  91 +----------------------------
+>> + t/op/threads-dirh.t            | 104 +--------------------------------
+>> + win32/config.gc                |   1 +
+>> + win32/config.vc                |   1 +
+>> + 12 files changed, 28 insertions(+), 191 deletions(-)
+>> +
+>> +diff --git a/Configure b/Configure
+>> +index 913e080..b668593 100755
+>> +--- a/Configure
+>> ++++ b/Configure
+>> +@@ -476,6 +476,7 @@ d_fd_set=''
+>> + d_fds_bits=''
+>> + d_fdclose=''
+>> + d_fdim=''
+>> ++d_fdopendir=''
+>> + d_fegetround=''
+>> + d_fgetpos=''
+>> + d_finite=''
+>> +@@ -13222,6 +13223,10 @@ esac
+>> + set i_fcntl
+>> + eval $setvar
+>> +
+>> ++: see if fdopendir exists
+>> ++set fdopendir d_fdopendir
+>> ++eval $inlibc
+>> ++
+>> + : see if fork exists
+>> + set fork d_fork
+>> + eval $inlibc
+>> +@@ -24329,6 +24334,7 @@ d_flockproto='$d_flockproto'
+>> + d_fma='$d_fma'
+>> + d_fmax='$d_fmax'
+>> + d_fmin='$d_fmin'
+>> ++d_fdopendir='$d_fdopendir'
+>> + d_fork='$d_fork'
+>> + d_fp_class='$d_fp_class'
+>> + d_fp_classify='$d_fp_classify'
+>> +diff --git a/Cross/config.sh-arm-linux b/Cross/config.sh-arm-linux
+>> +index c472b09..4b346a3 100644
+>> +--- a/Cross/config.sh-arm-linux
+>> ++++ b/Cross/config.sh-arm-linux
+>> +@@ -211,6 +211,7 @@ d_fd_macros='define'
+>> + d_fd_set='define'
+>> + d_fdclose='undef'
+>> + d_fdim='undef'
+>> ++d_fdopendir='undef'
+>> + d_fds_bits='undef'
+>> + d_fegetround='define'
+>> + d_fgetpos='define'
+>> +diff --git a/Cross/config.sh-arm-linux-n770 b/Cross/config.sh-arm-linux-n770
+>> +index 7b10cbf..8dc2f83 100644
+>> +--- a/Cross/config.sh-arm-linux-n770
+>> ++++ b/Cross/config.sh-arm-linux-n770
+>> +@@ -210,6 +210,7 @@ d_fd_macros='define'
+>> + d_fd_set='define'
+>> + d_fdclose='undef'
+>> + d_fdim='undef'
+>> ++d_fdopendir='undef'
+>> + d_fds_bits='undef'
+>> + d_fegetround='define'
+>> + d_fgetpos='define'
+>> +diff --git a/Porting/Glossary b/Porting/Glossary
+>> +index d28e8c5..0a98386 100644
+>> +--- a/Porting/Glossary
+>> ++++ b/Porting/Glossary
+>> +@@ -933,6 +933,11 @@ d_fmin (d_fmin.U):
+>> + 	This variable conditionally defines the HAS_FMIN symbol, which
+>> + 	indicates to the C program that the fmin() routine is available.
+>> +
+>> ++d_fdopendir (d_fdopendir.U):
+>> ++	This variable conditionally defines the HAS_FORK symbol, which
+>> ++	indicates that the fdopen routine is available to open a
+>> ++	directory descriptor.
+>> ++
+>> + d_fork (d_fork.U):
+>> + 	This variable conditionally defines the HAS_FORK symbol, which
+>> + 	indicates to the C program that the fork() routine is available.
+>> +diff --git a/Porting/config.sh b/Porting/config.sh
+>> +index a88cffb..6ab32ac 100644
+>> +--- a/Porting/config.sh
+>> ++++ b/Porting/config.sh
+>> +@@ -227,6 +227,7 @@ d_fd_macros='define'
+>> + d_fd_set='define'
+>> + d_fdclose='undef'
+>> + d_fdim='define'
+>> ++d_fdopendir='define'
+>> + d_fds_bits='define'
+>> + d_fegetround='define'
+>> + d_fgetpos='define'
+>> +diff --git a/config_h.SH b/config_h.SH
+>> +index 8264f91..61040b5 100755
+>> +--- a/config_h.SH
+>> ++++ b/config_h.SH
+>> +@@ -142,6 +142,12 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#undef\(.*/\)\*!/\*#define\1 \*!' -e 's!^#un
+>> +  */
+>> + #$d_fcntl HAS_FCNTL		/**/
+>> +
+>> ++/* HAS_FDOPENDIR:
+>> ++ * This symbol, if defined, indicates that the fdopen routine is
+>> ++ * available to open a directory descriptor.
+>> ++ */
+>> ++#$d_fdopendir HAS_FDOPENDIR		/**/
+>> ++
+>> + /* HAS_FGETPOS:
+>> +  *	This symbol, if defined, indicates that the fgetpos routine is
+>> +  *	available to get the file position indicator, similar to ftell().
+>> +diff --git a/configure.com b/configure.com
+>> +index df29582..0d80fa0 100644
+>> +--- a/configure.com
+>> ++++ b/configure.com
+>> +@@ -6211,6 +6211,7 @@ $ WC "d_fd_set='" + d_fd_set + "'"
+>> + $ WC "d_fd_macros='define'"
+>> + $ WC "d_fdclose='undef'"
+>> + $ WC "d_fdim='" + d_fdim + "'"
+>> ++$ WC "d_fdopendir='undef'"
+>> + $ WC "d_fds_bits='define'"
+>> + $ WC "d_fegetround='undef'"
+>> + $ WC "d_fgetpos='define'"
+>> +diff --git a/plan9/config_sh.sample b/plan9/config_sh.sample
+>> +index d4f6928..c87fc9b 100644
+>> +--- a/plan9/config_sh.sample
+>> ++++ b/plan9/config_sh.sample
+>> +@@ -211,6 +211,7 @@ d_fd_macros='undef'
+>> + d_fd_set='undef'
+>> + d_fdclose='undef'
+>> + d_fdim='undef'
+>> ++d_fdopendir='undef'
+>> + d_fds_bits='undef'
+>> + d_fegetround='undef'
+>> + d_fgetpos='define'
+>> +diff --git a/sv.c b/sv.c
+>> +index 46bf981..1fd16ca 100644
+>> +--- a/sv.c
+>> ++++ b/sv.c
+>> +@@ -13619,15 +13619,6 @@ Perl_dirp_dup(pTHX_ DIR *const dp, CLONE_PARAMS *const param)
+>> + {
+>> +     DIR *ret;
+>> +
+>> +-#if defined(HAS_FCHDIR) && defined(HAS_TELLDIR) && defined(HAS_SEEKDIR)
+>> +-    DIR *pwd;
+>> +-    const Direntry_t *dirent;
+>> +-    char smallbuf[256]; /* XXX MAXPATHLEN, surely? */
+>> +-    char *name = NULL;
+>> +-    STRLEN len = 0;
+>> +-    long pos;
+>> +-#endif
+>> +-
+>> +     PERL_UNUSED_CONTEXT;
+>> +     PERL_ARGS_ASSERT_DIRP_DUP;
+>> +
+>> +@@ -13639,89 +13630,13 @@ Perl_dirp_dup(pTHX_ DIR *const dp, CLONE_PARAMS *const param)
+>> +     if (ret)
+>> + 	return ret;
+>> +
+>> +-#if defined(HAS_FCHDIR) && defined(HAS_TELLDIR) && defined(HAS_SEEKDIR)
+>> ++#ifdef HAS_FDOPENDIR
+>> +
+>> +     PERL_UNUSED_ARG(param);
+>> +
+>> +-    /* create anew */
+>> +-
+>> +-    /* open the current directory (so we can switch back) */
+>> +-    if (!(pwd = PerlDir_open("."))) return (DIR *)NULL;
+>> +-
+>> +-    /* chdir to our dir handle and open the present working directory */
+>> +-    if (fchdir(my_dirfd(dp)) < 0 || !(ret = PerlDir_open("."))) {
+>> +-	PerlDir_close(pwd);
+>> +-	return (DIR *)NULL;
+>> +-    }
+>> +-    /* Now we should have two dir handles pointing to the same dir. */
+>> +-
+>> +-    /* Be nice to the calling code and chdir back to where we were. */
+>> +-    /* XXX If this fails, then what? */
+>> +-    PERL_UNUSED_RESULT(fchdir(my_dirfd(pwd)));
+>> +-
+>> +-    /* We have no need of the pwd handle any more. */
+>> +-    PerlDir_close(pwd);
+>> +-
+>> +-#ifdef DIRNAMLEN
+>> +-# define d_namlen(d) (d)->d_namlen
+>> +-#else
+>> +-# define d_namlen(d) strlen((d)->d_name)
+>> +-#endif
+>> +-    /* Iterate once through dp, to get the file name at the current posi-
+>> +-       tion. Then step back. */
+>> +-    pos = PerlDir_tell(dp);
+>> +-    if ((dirent = PerlDir_read(dp))) {
+>> +-	len = d_namlen(dirent);
+>> +-        if (len > sizeof(dirent->d_name) && sizeof(dirent->d_name) > PTRSIZE) {
+>> +-            /* If the len is somehow magically longer than the
+>> +-             * maximum length of the directory entry, even though
+>> +-             * we could fit it in a buffer, we could not copy it
+>> +-             * from the dirent.  Bail out. */
+>> +-            PerlDir_close(ret);
+>> +-            return (DIR*)NULL;
+>> +-        }
+>> +-	if (len <= sizeof smallbuf) name = smallbuf;
+>> +-	else Newx(name, len, char);
+>> +-	Move(dirent->d_name, name, len, char);
+>> +-    }
+>> +-    PerlDir_seek(dp, pos);
+>> +-
+>> +-    /* Iterate through the new dir handle, till we find a file with the
+>> +-       right name. */
+>> +-    if (!dirent) /* just before the end */
+>> +-	for(;;) {
+>> +-	    pos = PerlDir_tell(ret);
+>> +-	    if (PerlDir_read(ret)) continue; /* not there yet */
+>> +-	    PerlDir_seek(ret, pos); /* step back */
+>> +-	    break;
+>> +-	}
+>> +-    else {
+>> +-	const long pos0 = PerlDir_tell(ret);
+>> +-	for(;;) {
+>> +-	    pos = PerlDir_tell(ret);
+>> +-	    if ((dirent = PerlDir_read(ret))) {
+>> +-		if (len == (STRLEN)d_namlen(dirent)
+>> +-                    && memEQ(name, dirent->d_name, len)) {
+>> +-		    /* found it */
+>> +-		    PerlDir_seek(ret, pos); /* step back */
+>> +-		    break;
+>> +-		}
+>> +-		/* else we are not there yet; keep iterating */
+>> +-	    }
+>> +-	    else { /* This is not meant to happen. The best we can do is
+>> +-	              reset the iterator to the beginning. */
+>> +-		PerlDir_seek(ret, pos0);
+>> +-		break;
+>> +-	    }
+>> +-	}
+>> +-    }
+>> +-#undef d_namlen
+>> +-
+>> +-    if (name && name != smallbuf)
+>> +-	Safefree(name);
+>> +-#endif
+>> ++    ret = fdopendir(dup(my_dirfd(dp)));
+>> +
+>> +-#ifdef WIN32
+>> ++#elif defined(WIN32)
+>> +     ret = win32_dirp_dup(dp, param);
+>> + #endif
+>> +
+>> +diff --git a/t/op/threads-dirh.t b/t/op/threads-dirh.t
+>> +index bb4bcfc..14c399c 100644
+>> +--- a/t/op/threads-dirh.t
+>> ++++ b/t/op/threads-dirh.t
+>> +@@ -13,16 +13,12 @@ BEGIN {
+>> +      skip_all_if_miniperl("no dynamic loading on miniperl, no threads");
+>> +      skip_all("runs out of memory on some EBCDIC") if $ENV{PERL_SKIP_BIG_MEM_TESTS};
+>> +
+>> +-     plan(6);
+>> ++     plan(1);
+>> + }
+>> +
+>> + use strict;
+>> + use warnings;
+>> + use threads;
+>> +-use threads::shared;
+>> +-useFile::Path;
+>> +-useFile::Spec::Functions  qw 'updir catdir';
+>> +-use Cwd 'getcwd';
+>> +
+>> + # Basic sanity check: make sure this does not crash
+>> + fresh_perl_is <<'# this is no comment', 'ok', {}, 'crash when duping dirh';
+>> +@@ -31,101 +27,3 @@ fresh_perl_is <<'# this is no comment', 'ok', {}, 'crash when duping dirh';
+>> +    async{}->join for 1..2;
+>> +    print "ok";
+>> + # this is no comment
+>> +-
+>> +-my $dir;
+>> +-SKIP: {
+>> +- skip "telldir or seekdir not defined on this platform", 5
+>> +-    if !$Config::Config{d_telldir} || !$Config::Config{d_seekdir};
+>> +- my $skip = sub {
+>> +-   chdir($dir);
+>> +-   chdir updir;
+>> +-   skip $_[0], 5
+>> +- };
+>> +-
+>> +- if(!$Config::Config{d_fchdir} && $^O ne "MSWin32") {
+>> +-  $::TODO = 'dir handle cloning currently requires fchdir on non-Windows platforms';
+>> +- }
+>> +-
+>> +- my @w :shared; # warnings accumulator
+>> +- local $SIG{__WARN__} = sub { push @w, $_[0] };
+>> +-
+>> +- $dir = catdir getcwd(), "thrext$$" . int rand() * 100000;
+>> +-
+>> +- rmtree($dir) if -d $dir;
+>> +- mkdir($dir);
+>> +-
+>> +- # Create a dir structure like this:
+>> +- #   $dir
+>> +- #     |
+>> +- #     `- toberead
+>> +- #            |
+>> +- #            +---- thrit
+>> +- #            |
+>> +- #            +---- rile
+>> +- #            |
+>> +- #            `---- zor
+>> +-
+>> +- chdir($dir);
+>> +- mkdir 'toberead';
+>> +- chdir 'toberead';
+>> +- {open my $fh, ">thrit" or &$skip("Cannot create file thrit")}
+>> +- {open my $fh, ">rile" or &$skip("Cannot create file rile")}
+>> +- {open my $fh, ">zor" or &$skip("Cannot create file zor")}
+>> +- chdir updir;
+>> +-
+>> +- # Then test that dir iterators are cloned correctly.
+>> +-
+>> +- opendir my $toberead, 'toberead';
+>> +- my $start_pos = telldir $toberead;
+>> +- my @first_2 = (scalar readdir $toberead, scalar readdir $toberead);
+>> +- my @from_thread = @{; async { [readdir $toberead ] } ->join };
+>> +- my @from_main = readdir $toberead;
+>> +- is join('-', sort @from_thread), join('-', sort @from_main),
+>> +-     'dir iterator is copied from one thread to another';
+>> +- like
+>> +-   join('-', "", sort(@first_2, @from_thread), ""),
+>> +-   qr/(?<!-rile)-rile-thrit-zor-(?!zor-)/i,
+>> +-  'cloned iterator iterates exactly once over everything not already seen';
+>> +-
+>> +- seekdir $toberead, $start_pos;
+>> +- readdir $toberead for 1 .. @first_2+@from_thread;
+>> +- {
+>> +-  local $::TODO; # This always passes when dir handles are not cloned.
+>> +-  is
+>> +-    async { readdir $toberead // 'undef' } ->join, 'undef',
+>> +-   'cloned dir iterator that points to the end of the directory'
+>> +-  ;
+>> +- }
+>> +-
+>> +- # Make sure the cloning code can handle file names longer than 255 chars
+>> +- SKIP: {
+>> +-  chdir 'toberead';
+>> +-  open my $fh,
+>> +-    ">floccipaucinihilopilification-"
+>> +-   . "pneumonoultramicroscopicsilicovolcanoconiosis-"
+>> +-   . "lopadotemachoselachogaleokranioleipsanodrimypotrimmatosilphiokarabo"
+>> +-   . "melitokatakechymenokichlepikossyphophattoperisteralektryonoptokephal"
+>> +-   . "liokinklopeleiolagoiosiraiobaphetraganopterygon"
+>> +-    or
+>> +-     chdir updir,
+>> +-     skip("OS does not support long file names (and I mean *long*)", 1);
+>> +-  chdir updir;
+>> +-  opendir my $dirh, "toberead";
+>> +-  my $test_name
+>> +-    = "dir iterators can be cloned when the next fn > 255 chars";
+>> +-  while() {
+>> +-   my $pos = telldir $dirh;
+>> +-   my $fn = readdir($dirh);
+>> +-   if(!defined $fn) { fail($test_name); last SKIP; }
+>> +-   if($fn =~ 'lagoio') {
+>> +-    seekdir $dirh, $pos;
+>> +-    last;
+>> +-   }
+>> +-  }
+>> +-  is length async { scalar readdir $dirh } ->join, 258, $test_name;
+>> +- }
+>> +-
+>> +- is scalar @w, 0, 'no warnings during all that' or diag @w;
+>> +- chdir updir;
+>> +-}
+>> +-rmtree($dir);
+>> +diff --git a/win32/config.gc b/win32/config.gc
+>> +index af6fed9..7ae6f9b 100644
+>> +--- a/win32/config.gc
+>> ++++ b/win32/config.gc
+>> +@@ -198,6 +198,7 @@ d_fd_macros='define'
+>> + d_fd_set='define'
+>> + d_fdclose='undef'
+>> + d_fdim='undef'
+>> ++d_fdopendir='undef'
+>> + d_fds_bits='define'
+>> + d_fegetround='undef'
+>> + d_fgetpos='define'
+>> +diff --git a/win32/config.vc b/win32/config.vc
+>> +index f4625bf..8725177 100644
+>> +--- a/win32/config.vc
+>> ++++ b/win32/config.vc
+>> +@@ -198,6 +198,7 @@ d_fd_macros='define'
+>> + d_fd_set='define'
+>> + d_fdclose='undef'
+>> + d_fdim='undef'
+>> ++d_fdopendir='undef'
+>> + d_fds_bits='define'
+>> + d_fegetround='undef'
+>> + d_fgetpos='define'
+>> +--
+>> +2.50.1
+>> +
+>> diff --git a/meta/recipes-devtools/perl/perl_5.34.3.bb b/meta/recipes-devtools/perl/perl_5.34.3.bb
+>> index c8475fc450..25c4e4991d 100644
+>> --- a/meta/recipes-devtools/perl/perl_5.34.3.bb
+>> +++ b/meta/recipes-devtools/perl/perl_5.34.3.bb
+>> @@ -22,6 +22,7 @@ SRC_URI ="https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \ 
+>> file://CVE-2023-31486-0001.patch \ file://CVE-2023-31486-0002.patch \ 
+>> file://0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch \ + 
+>> file://CVE-2025-40909.patch \ "
+>>   SRC_URI:append:class-native = " \
+>>              file://perl-configpm-switch.patch  \
+>> @@ -56,6 +57,7 @@ CVE_CHECK_IGNORE:append = " CVE-2023-47038"
+>>   
+>>   do_configure:prepend() {
+>>       cp -rfp ${STAGING_DATADIR_NATIVE}/perl-cross/* ${S}
+>> +    sed -i '1i d_fdopendir=define' ${S}/config_h.SH
+>>   }
+>>   
+>>   do_configure:class-target() {
+-- 
+Regards,
+Hitendra Prajapati
+MontaVista Software LLC
+Mo: +91 9998906483
+--------------xsBDl08mroTXDUVuSxIkakVJ
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
-    <div class="moz-cite-prefix">On 3/13/26 17:25, Marcel Ziswiler
+    <p>Hi Yoann,</p>
+    <p>I'll look into this.<br>
+    </p>
+    <div class="moz-cite-prefix">On 14/03/26 9:32 pm, Yoann Congal
       wrote:<br>
     </div>
-    <blockquote type="cite" cite="mid:d291e85326d0d184045b7492aa5a1241b210763a.camel@ziswiler.com">
-      <pre wrap="" class="moz-quote-pre">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
+    <blockquote type="cite"
+      cite="mid:DH2MQQRN46UP.32FYBDWM15C6I@smile.fr">
+      <pre class="moz-quote-pre" wrap="">Hello,
 
-Hi Hongxu Jia
-
-On Wed, 2026-03-04 at 12:54 +0800, Hongxu Jia wrote:
+On Fri Feb 27, 2026 at 9:38 AM CET, Hitendra Prajapati via lists.openembedded.org wrote:
 </pre>
       <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">Remove python3-pkg-resources
+        <pre class="moz-quote-pre" wrap="">Backport the patch[1] which fixes this vulnerability as mentioned in NVD report.
+Details: <a class="moz-txt-link-freetext" href="https://nvd.nist.gov/vuln/detail/CVE-2025-40909">https://nvd.nist.gov/vuln/detail/CVE-2025-40909</a>
 
-History v82.0.0 [1]:
+[1] <a class="moz-txt-link-freetext" href="https://github.com/Perl/perl5/commit/918bfff86ca8d6d4e4ec5b30994451e0bd74aba9">https://github.com/Perl/perl5/commit/918bfff86ca8d6d4e4ec5b30994451e0bd74aba9</a>
 
-Deprecations and Removals
-- pkg_resources has been removed from Setuptools. Most common uses of pkg_resources have
-  been superseded by the importlib.resources and importlib.metadata projects. Projects
-  and environments relying on pkg_resources for namespace packages or other behavior
-  should depend on older versions of setuptools. (#3085)
-
-[1] <a class="moz-txt-link-freetext" href="https://setuptools.pypa.io/en/stable/history.html#v82-0-0">https://setuptools.pypa.io/en/stable/history.html#v82-0-0</a>
-
-Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
+Backport of upstream commit 918bfff (CVE-2025-40909) introduces a new
+configuration variable "d_fdopendir" which is used by config_h.SH to
+generate HAS_FDOPENDIR.
 </pre>
       </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-[snip]
+      <pre class="moz-quote-pre" wrap="">
+Looks to me that this fix is needed for scarthgap and whinlatter. Can
+you please send an equivalent fix there first?
 
-Unfortunately, this seems to break all my meta-riscv machine builds:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">In standard Perl builds this variable is detected by Configure.
+However in Yocto the perl-native/perl builds rely on
+perlcross with pre-seeded config.sh and Configure is not fully
+executed. As a result d_fdopendir may be unset, which causes
+config_h.SH to emit an invalid preprocessor directive:
 
-...
-| gcc -shared -L/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-native/3.2.4/recipe-sysroot-native/usr/lib -L/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-
-linux/python3-cython-native/3.2.4/recipe-sysroot-native/lib -Wl,--enable-new-dtags -Wl,-rpath-
-link,/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/recipe-sysroot-
-native/usr/lib -Wl,-rpath-link,/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-native/3.2.4/recipe-sysroot-native/lib -Wl,-rpath,/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-
-linux/python3-cython-native/3.2.4/recipe-sysroot-native/usr/lib -Wl,-rpath,/var/home/sumo/Sources/riscv-
-yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/recipe-sysroot-native/lib -Wl,-O1 -Wl,--allow-
-shlib-undefined -Wl,--dynamic-linker=/var/home/sumo/Sources/riscv-yocto/build/tmp/sysroots-uninative/x86_64-
-linux/lib/ld-linux-x86-64.so.2 -pthread -isystem/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-
-linux/python3-cython-native/3.2.4/recipe-sysroot-native/usr/include -O2 -pipe -
-isystem/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/recipe-
-sysroot-native/usr/include build/temp.linux-x86_64-cpython-314/var/home/sumo/Sources/riscv-
-yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/sources/cython-3.2.4/Cython/Compiler/Code.o -
-L/var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-native/3.2.4/recipe-sysroot-
-native/usr/lib -o build/lib.linux-x86_64-cpython-314/Cython/Compiler/Code.cpython-314-x86_64-linux-gnu.so
-| running bdist_wheel
-| error: invalid command 'egg_info'
-| WARNING: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-native/3.2.4/temp/run.do_compile.2101018:159 exit 1 from 'nativepython3 setup.py --verbose build -j 48
-bdist_wheel --dist-dir /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-native/3.2.4/dist'
-| WARNING: Backtrace (BB generated script):
-|       #1: setuptools3_do_compile, /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-
-cython-native/3.2.4/temp/run.do_compile.2101018, line 159
-|       #2: do_compile, /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-native/3.2.4/temp/run.do_compile.2101018, line 149
-|       #3: main, /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-native/3.2.4/temp/run.do_compile.2101018, line 166
-ERROR: Task (virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-devtools/python/python3-cython_3.2.4.bb:do_compile) failed with exit code '1'
-...
-Summary: 7 tasks failed:
-  virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-devtools/python/python3-pyelftools_0.32.bb:do_compile
-    log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-pyelftools-
-native/0.32/temp/log.do_compile.2101167
-  virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-devtools/python/python3-markupsafe_3.0.3.bb:do_compile
-    log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-markupsafe-
-native/3.0.3/temp/log.do_compile.2100841
-  virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-devtools/python/python3-calver_2025.10.20.bb:do_compile
-    log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-calver-
-native/2025.10.20/temp/log.do_compile.2101147
-  virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-devtools/meson/meson_1.10.1.bb:do_compile
-    log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/meson-
-native/1.10.1/temp/log.do_compile.2100900
-  virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-devtools/python/python3-setuptools-scm_9.2.2.bb:do_compile
-    log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-setuptools-scm-
-native/9.2.2/temp/log.do_compile.2100993
-  virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-devtools/python/python3-mako_1.3.10.bb:do_compile
-    log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-mako-
-native/1.3.10/temp/log.do_compile.2101162
-  virtual:native:/var/home/sumo/Sources/riscv-yocto/layers/openembedded-core/meta/recipes-
-devtools/python/python3-cython_3.2.4.bb:do_compile
-    log: /var/home/sumo/Sources/riscv-yocto/build/tmp/work/x86_64-linux/python3-cython-
-native/3.2.4/temp/log.do_compile.2101018
-Summary: There were 16 WARNING messages.
-Summary: There were 7 ERROR messages, returning a non-zero exit code.
+    # HAS_FDOPENDIR
 
-If I revert commit ab6b2bf7b555d3516abea6255b800fe6f9673a69 all builds fine again.
+leading to build failures.
 
-Any ideas?
+Additionally, leaving the variable unset disables the new code path
+introduced by the CVE fix.
+
+Seed d_fdopendir to "define" to match expected Linux/glibc behaviour
+where fdopendir() is available. This restores correct config.h
+generation and ensures the CVE fix is active.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I'm not really familiar with perl integration but instead of using sed
+to patch a generated file, shouldn't we patch perl-cross with this
+(submitted but not merged) PR?
+<a class="moz-txt-link-freetext" href="https://github.com/arsv/perl-cross/pull/159/changes/f702c387e6940fab3801d7562a668b974a2b3a8f">https://github.com/arsv/perl-cross/pull/159/changes/f702c387e6940fab3801d7562a668b974a2b3a8f</a>
+
+
+I'm also not that much familier with perl. But, I'll look to fix this in perl-cross and give proper patch.
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Signed-off-by: Hitendra Prajapati <a class="moz-txt-link-rfc2396E" href="mailto:hprajapati@mvista.com">&lt;hprajapati@mvista.com&gt;</a>
+---
+ .../perl/files/CVE-2025-40909.patch           | 415 ++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.34.3.bb     |   2 +
+ 2 files changed, 417 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2025-40909.patch
+
+diff --git a/meta/recipes-devtools/perl/files/CVE-2025-40909.patch b/meta/recipes-devtools/perl/files/CVE-2025-40909.patch
+new file mode 100644
+index 0000000000..b5cb20e112
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2025-40909.patch
+@@ -0,0 +1,415 @@
++From 918bfff86ca8d6d4e4ec5b30994451e0bd74aba9 Mon Sep 17 00:00:00 2001
++From: Leon Timmermans <a class="moz-txt-link-rfc2396E" href="mailto:fawaka@gmail.com">&lt;fawaka@gmail.com&gt;</a>
++Date: Fri, 23 May 2025 15:40:41 +0200
++Subject: [PATCH] CVE-2025-40909: Clone dirhandles without fchdir
++
++This uses fdopendir and dup to dirhandles. This means it won't change
++working directory during thread cloning, which prevents race conditions
++that can happen if a third thread is active at the same time.
++
++CVE: CVE-2025-40909
++Upstream-Status: Backport [<a class="moz-txt-link-freetext" href="https://github.com/Perl/perl5/commit/918bfff86ca8d6d4e4ec5b30994451e0bd74aba9">https://github.com/Perl/perl5/commit/918bfff86ca8d6d4e4ec5b30994451e0bd74aba9</a>]
++Signed-off-by: Hitendra Prajapati <a class="moz-txt-link-rfc2396E" href="mailto:hprajapati@mvista.com">&lt;hprajapati@mvista.com&gt;</a>
++---
++ Configure                      |   6 ++
++ Cross/config.sh-arm-linux      |   1 +
++ Cross/config.sh-arm-linux-n770 |   1 +
++ Porting/Glossary               |   5 ++
++ Porting/config.sh              |   1 +
++ config_h.SH                    |   6 ++
++ configure.com                  |   1 +
++ plan9/config_sh.sample         |   1 +
++ sv.c                           |  91 +----------------------------
++ t/op/threads-dirh.t            | 104 +--------------------------------
++ win32/config.gc                |   1 +
++ win32/config.vc                |   1 +
++ 12 files changed, 28 insertions(+), 191 deletions(-)
++
++diff --git a/Configure b/Configure
++index 913e080..b668593 100755
++--- a/Configure
+++++ b/Configure
++@@ -476,6 +476,7 @@ d_fd_set=''
++ d_fds_bits=''
++ d_fdclose=''
++ d_fdim=''
+++d_fdopendir=''
++ d_fegetround=''
++ d_fgetpos=''
++ d_finite=''
++@@ -13222,6 +13223,10 @@ esac
++ set i_fcntl
++ eval $setvar
++ 
+++: see if fdopendir exists
+++set fdopendir d_fdopendir
+++eval $inlibc
+++
++ : see if fork exists
++ set fork d_fork
++ eval $inlibc
++@@ -24329,6 +24334,7 @@ d_flockproto='$d_flockproto'
++ d_fma='$d_fma'
++ d_fmax='$d_fmax'
++ d_fmin='$d_fmin'
+++d_fdopendir='$d_fdopendir'
++ d_fork='$d_fork'
++ d_fp_class='$d_fp_class'
++ d_fp_classify='$d_fp_classify'
++diff --git a/Cross/config.sh-arm-linux b/Cross/config.sh-arm-linux
++index c472b09..4b346a3 100644
++--- a/Cross/config.sh-arm-linux
+++++ b/Cross/config.sh-arm-linux
++@@ -211,6 +211,7 @@ d_fd_macros='define'
++ d_fd_set='define'
++ d_fdclose='undef'
++ d_fdim='undef'
+++d_fdopendir='undef'
++ d_fds_bits='undef'
++ d_fegetround='define'
++ d_fgetpos='define'
++diff --git a/Cross/config.sh-arm-linux-n770 b/Cross/config.sh-arm-linux-n770
++index 7b10cbf..8dc2f83 100644
++--- a/Cross/config.sh-arm-linux-n770
+++++ b/Cross/config.sh-arm-linux-n770
++@@ -210,6 +210,7 @@ d_fd_macros='define'
++ d_fd_set='define'
++ d_fdclose='undef'
++ d_fdim='undef'
+++d_fdopendir='undef'
++ d_fds_bits='undef'
++ d_fegetround='define'
++ d_fgetpos='define'
++diff --git a/Porting/Glossary b/Porting/Glossary
++index d28e8c5..0a98386 100644
++--- a/Porting/Glossary
+++++ b/Porting/Glossary
++@@ -933,6 +933,11 @@ d_fmin (d_fmin.U):
++ 	This variable conditionally defines the HAS_FMIN symbol, which
++ 	indicates to the C program that the fmin() routine is available.
++ 
+++d_fdopendir (d_fdopendir.U):
+++	This variable conditionally defines the HAS_FORK symbol, which
+++	indicates that the fdopen routine is available to open a
+++	directory descriptor.
+++
++ d_fork (d_fork.U):
++ 	This variable conditionally defines the HAS_FORK symbol, which
++ 	indicates to the C program that the fork() routine is available.
++diff --git a/Porting/config.sh b/Porting/config.sh
++index a88cffb..6ab32ac 100644
++--- a/Porting/config.sh
+++++ b/Porting/config.sh
++@@ -227,6 +227,7 @@ d_fd_macros='define'
++ d_fd_set='define'
++ d_fdclose='undef'
++ d_fdim='define'
+++d_fdopendir='define'
++ d_fds_bits='define'
++ d_fegetround='define'
++ d_fgetpos='define'
++diff --git a/config_h.SH b/config_h.SH
++index 8264f91..61040b5 100755
++--- a/config_h.SH
+++++ b/config_h.SH
++@@ -142,6 +142,12 @@ sed &lt;&lt;!GROK!THIS! &gt;$CONFIG_H -e 's!^#undef\(.*/\)\*!/\*#define\1 \*!' -e 's!^#un
++  */
++ #$d_fcntl HAS_FCNTL		/**/
++ 
+++/* HAS_FDOPENDIR:
+++ * This symbol, if defined, indicates that the fdopen routine is
+++ * available to open a directory descriptor.
+++ */
+++#$d_fdopendir HAS_FDOPENDIR		/**/
+++
++ /* HAS_FGETPOS:
++  *	This symbol, if defined, indicates that the fgetpos routine is
++  *	available to get the file position indicator, similar to ftell().
++diff --git a/configure.com b/configure.com
++index df29582..0d80fa0 100644
++--- a/configure.com
+++++ b/configure.com
++@@ -6211,6 +6211,7 @@ $ WC "d_fd_set='" + d_fd_set + "'"
++ $ WC "d_fd_macros='define'"
++ $ WC "d_fdclose='undef'"
++ $ WC "d_fdim='" + d_fdim + "'"
+++$ WC "d_fdopendir='undef'"
++ $ WC "d_fds_bits='define'"
++ $ WC "d_fegetround='undef'"
++ $ WC "d_fgetpos='define'"
++diff --git a/plan9/config_sh.sample b/plan9/config_sh.sample
++index d4f6928..c87fc9b 100644
++--- a/plan9/config_sh.sample
+++++ b/plan9/config_sh.sample
++@@ -211,6 +211,7 @@ d_fd_macros='undef'
++ d_fd_set='undef'
++ d_fdclose='undef'
++ d_fdim='undef'
+++d_fdopendir='undef'
++ d_fds_bits='undef'
++ d_fegetround='undef'
++ d_fgetpos='define'
++diff --git a/sv.c b/sv.c
++index 46bf981..1fd16ca 100644
++--- a/sv.c
+++++ b/sv.c
++@@ -13619,15 +13619,6 @@ Perl_dirp_dup(pTHX_ DIR *const dp, CLONE_PARAMS *const param)
++ {
++     DIR *ret;
++ 
++-#if defined(HAS_FCHDIR) &amp;&amp; defined(HAS_TELLDIR) &amp;&amp; defined(HAS_SEEKDIR)
++-    DIR *pwd;
++-    const Direntry_t *dirent;
++-    char smallbuf[256]; /* XXX MAXPATHLEN, surely? */
++-    char *name = NULL;
++-    STRLEN len = 0;
++-    long pos;
++-#endif
++-
++     PERL_UNUSED_CONTEXT;
++     PERL_ARGS_ASSERT_DIRP_DUP;
++ 
++@@ -13639,89 +13630,13 @@ Perl_dirp_dup(pTHX_ DIR *const dp, CLONE_PARAMS *const param)
++     if (ret)
++ 	return ret;
++ 
++-#if defined(HAS_FCHDIR) &amp;&amp; defined(HAS_TELLDIR) &amp;&amp; defined(HAS_SEEKDIR)
+++#ifdef HAS_FDOPENDIR
++ 
++     PERL_UNUSED_ARG(param);
++ 
++-    /* create anew */
++-
++-    /* open the current directory (so we can switch back) */
++-    if (!(pwd = PerlDir_open("."))) return (DIR *)NULL;
++-
++-    /* chdir to our dir handle and open the present working directory */
++-    if (fchdir(my_dirfd(dp)) &lt; 0 || !(ret = PerlDir_open("."))) {
++-	PerlDir_close(pwd);
++-	return (DIR *)NULL;
++-    }
++-    /* Now we should have two dir handles pointing to the same dir. */
++-
++-    /* Be nice to the calling code and chdir back to where we were. */
++-    /* XXX If this fails, then what? */
++-    PERL_UNUSED_RESULT(fchdir(my_dirfd(pwd)));
++-
++-    /* We have no need of the pwd handle any more. */
++-    PerlDir_close(pwd);
++-
++-#ifdef DIRNAMLEN
++-# define d_namlen(d) (d)-&gt;d_namlen
++-#else
++-# define d_namlen(d) strlen((d)-&gt;d_name)
++-#endif
++-    /* Iterate once through dp, to get the file name at the current posi-
++-       tion. Then step back. */
++-    pos = PerlDir_tell(dp);
++-    if ((dirent = PerlDir_read(dp))) {
++-	len = d_namlen(dirent);
++-        if (len &gt; sizeof(dirent-&gt;d_name) &amp;&amp; sizeof(dirent-&gt;d_name) &gt; PTRSIZE) {
++-            /* If the len is somehow magically longer than the
++-             * maximum length of the directory entry, even though
++-             * we could fit it in a buffer, we could not copy it
++-             * from the dirent.  Bail out. */
++-            PerlDir_close(ret);
++-            return (DIR*)NULL;
++-        }
++-	if (len &lt;= sizeof smallbuf) name = smallbuf;
++-	else Newx(name, len, char);
++-	Move(dirent-&gt;d_name, name, len, char);
++-    }
++-    PerlDir_seek(dp, pos);
++-
++-    /* Iterate through the new dir handle, till we find a file with the
++-       right name. */
++-    if (!dirent) /* just before the end */
++-	for(;;) {
++-	    pos = PerlDir_tell(ret);
++-	    if (PerlDir_read(ret)) continue; /* not there yet */
++-	    PerlDir_seek(ret, pos); /* step back */
++-	    break;
++-	}
++-    else {
++-	const long pos0 = PerlDir_tell(ret);
++-	for(;;) {
++-	    pos = PerlDir_tell(ret);
++-	    if ((dirent = PerlDir_read(ret))) {
++-		if (len == (STRLEN)d_namlen(dirent)
++-                    &amp;&amp; memEQ(name, dirent-&gt;d_name, len)) {
++-		    /* found it */
++-		    PerlDir_seek(ret, pos); /* step back */
++-		    break;
++-		}
++-		/* else we are not there yet; keep iterating */
++-	    }
++-	    else { /* This is not meant to happen. The best we can do is
++-	              reset the iterator to the beginning. */
++-		PerlDir_seek(ret, pos0);
++-		break;
++-	    }
++-	}
++-    }
++-#undef d_namlen
++-
++-    if (name &amp;&amp; name != smallbuf)
++-	Safefree(name);
++-#endif
+++    ret = fdopendir(dup(my_dirfd(dp)));
++ 
++-#ifdef WIN32
+++#elif defined(WIN32)
++     ret = win32_dirp_dup(dp, param);
++ #endif
++ 
++diff --git a/t/op/threads-dirh.t b/t/op/threads-dirh.t
++index bb4bcfc..14c399c 100644
++--- a/t/op/threads-dirh.t
+++++ b/t/op/threads-dirh.t
++@@ -13,16 +13,12 @@ BEGIN {
++      skip_all_if_miniperl("no dynamic loading on miniperl, no threads");
++      skip_all("runs out of memory on some EBCDIC") if $ENV{PERL_SKIP_BIG_MEM_TESTS};
++ 
++-     plan(6);
+++     plan(1);
++ }
++ 
++ use strict;
++ use warnings;
++ use threads;
++-use threads::shared;
++-use <a class="moz-txt-link-freetext" href="File::Path">File::Path</a>;
++-use <a class="moz-txt-link-freetext" href="File::Spec::Functions">File::Spec::Functions</a> qw 'updir catdir';
++-use Cwd 'getcwd';
++ 
++ # Basic sanity check: make sure this does not crash
++ fresh_perl_is &lt;&lt;'# this is no comment', 'ok', {}, 'crash when duping dirh';
++@@ -31,101 +27,3 @@ fresh_perl_is &lt;&lt;'# this is no comment', 'ok', {}, 'crash when duping dirh';
++    async{}-&gt;join for 1..2;
++    print "ok";
++ # this is no comment
++-
++-my $dir;
++-SKIP: {
++- skip "telldir or seekdir not defined on this platform", 5
++-    if !$Config::Config{d_telldir} || !$Config::Config{d_seekdir};
++- my $skip = sub {
++-   chdir($dir);
++-   chdir updir;
++-   skip $_[0], 5
++- };
++-
++- if(!$Config::Config{d_fchdir} &amp;&amp; $^O ne "MSWin32") {
++-  $::TODO = 'dir handle cloning currently requires fchdir on non-Windows platforms';
++- }
++-
++- my @w :shared; # warnings accumulator
++- local $SIG{__WARN__} = sub { push @w, $_[0] };
++-
++- $dir = catdir getcwd(), "thrext$$" . int rand() * 100000;
++-
++- rmtree($dir) if -d $dir;
++- mkdir($dir);
++-
++- # Create a dir structure like this:
++- #   $dir
++- #     |
++- #     `- toberead
++- #            |
++- #            +---- thrit
++- #            |
++- #            +---- rile
++- #            |
++- #            `---- zor
++-
++- chdir($dir);
++- mkdir 'toberead';
++- chdir 'toberead';
++- {open my $fh, "&gt;thrit" or &amp;$skip("Cannot create file thrit")}
++- {open my $fh, "&gt;rile" or &amp;$skip("Cannot create file rile")}
++- {open my $fh, "&gt;zor" or &amp;$skip("Cannot create file zor")}
++- chdir updir;
++-
++- # Then test that dir iterators are cloned correctly.
++-
++- opendir my $toberead, 'toberead';
++- my $start_pos = telldir $toberead;
++- my @first_2 = (scalar readdir $toberead, scalar readdir $toberead);
++- my @from_thread = @{; async { [readdir $toberead ] } -&gt;join };
++- my @from_main = readdir $toberead;
++- is join('-', sort @from_thread), join('-', sort @from_main),
++-     'dir iterator is copied from one thread to another';
++- like
++-   join('-', "", sort(@first_2, @from_thread), ""),
++-   qr/(?&lt;!-rile)-rile-thrit-zor-(?!zor-)/i,
++-  'cloned iterator iterates exactly once over everything not already seen';
++-
++- seekdir $toberead, $start_pos;
++- readdir $toberead for 1 .. @first_2+@from_thread;
++- {
++-  local $::TODO; # This always passes when dir handles are not cloned.
++-  is
++-    async { readdir $toberead // 'undef' } -&gt;join, 'undef',
++-   'cloned dir iterator that points to the end of the directory'
++-  ;
++- }
++-
++- # Make sure the cloning code can handle file names longer than 255 chars
++- SKIP: {
++-  chdir 'toberead';
++-  open my $fh,
++-    "&gt;floccipaucinihilopilification-"
++-   . "pneumonoultramicroscopicsilicovolcanoconiosis-"
++-   . "lopadotemachoselachogaleokranioleipsanodrimypotrimmatosilphiokarabo"
++-   . "melitokatakechymenokichlepikossyphophattoperisteralektryonoptokephal"
++-   . "liokinklopeleiolagoiosiraiobaphetraganopterygon"
++-    or
++-     chdir updir,
++-     skip("OS does not support long file names (and I mean *long*)", 1);
++-  chdir updir;
++-  opendir my $dirh, "toberead";
++-  my $test_name
++-    = "dir iterators can be cloned when the next fn &gt; 255 chars";
++-  while() {
++-   my $pos = telldir $dirh;
++-   my $fn = readdir($dirh);
++-   if(!defined $fn) { fail($test_name); last SKIP; }
++-   if($fn =~ 'lagoio') { 
++-    seekdir $dirh, $pos;
++-    last;
++-   }
++-  }
++-  is length async { scalar readdir $dirh } -&gt;join, 258, $test_name;
++- }
++-
++- is scalar @w, 0, 'no warnings during all that' or diag @w;
++- chdir updir;
++-}
++-rmtree($dir);
++diff --git a/win32/config.gc b/win32/config.gc
++index af6fed9..7ae6f9b 100644
++--- a/win32/config.gc
+++++ b/win32/config.gc
++@@ -198,6 +198,7 @@ d_fd_macros='define'
++ d_fd_set='define'
++ d_fdclose='undef'
++ d_fdim='undef'
+++d_fdopendir='undef'
++ d_fds_bits='define'
++ d_fegetround='undef'
++ d_fgetpos='define'
++diff --git a/win32/config.vc b/win32/config.vc
++index f4625bf..8725177 100644
++--- a/win32/config.vc
+++++ b/win32/config.vc
++@@ -198,6 +198,7 @@ d_fd_macros='define'
++ d_fd_set='define'
++ d_fdclose='undef'
++ d_fdim='undef'
+++d_fdopendir='undef'
++ d_fds_bits='define'
++ d_fegetround='undef'
++ d_fgetpos='define'
++-- 
++2.50.1
++
+diff --git a/meta/recipes-devtools/perl/perl_5.34.3.bb b/meta/recipes-devtools/perl/perl_5.34.3.bb
+index c8475fc450..25c4e4991d 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.3.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.3.bb
+@@ -22,6 +22,7 @@ SRC_URI = <a class="moz-txt-link-rfc2396E" href="https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl\file://CVE-2023-31486-0001.patch\file://CVE-2023-31486-0002.patch\file://0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch\+file://CVE-2025-40909.patch\">"https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://CVE-2023-31486-0001.patch \
+            file://CVE-2023-31486-0002.patch \
+            file://0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch \
++           file://CVE-2025-40909.patch \
+            "</a>
+ SRC_URI:append:class-native = " \
+            <a class="moz-txt-link-freetext" href="file://perl-configpm-switch.patch">file://perl-configpm-switch.patch</a> \
+@@ -56,6 +57,7 @@ CVE_CHECK_IGNORE:append = " CVE-2023-47038"
+ 
+ do_configure:prepend() {
+     cp -rfp ${STAGING_DATADIR_NATIVE}/perl-cross/* ${S}
++    sed -i '1i d_fdopendir=define' ${S}/config_h.SH
+ }
+ 
+ do_configure:class-target() {
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
 </pre>
     </blockquote>
-    <p>The recipe <span style="white-space: pre-wrap">python3-cython is in oe-core, would you please apply [1] to recipe </span><span style="white-space: pre-wrap">python3-cython and retry?</span></p>
-    <p><span style="white-space: pre-wrap">[1] <a class="moz-txt-link-freetext" href="https://github.com/cython/cython/commit/fd847477a47855f9c0d036f35c8865196d5267cc">https://github.com/cython/cython/commit/fd847477a47855f9c0d036f35c8865196d5267cc</a>
-</span></p>
-    <p>//Hongxu<br>
-    </p>
-    <blockquote type="cite" cite="mid:d291e85326d0d184045b7492aa5a1241b210763a.camel@ziswiler.com">
-      <pre wrap="" class="moz-quote-pre">
-Thanks!
-
-Cheers
-
-Marcel
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
+    <div class="moz-signature">-- <br>
+      <font color="#0000FF">
+        Regards,<br>
+        Hitendra Prajapati<br>
+        MontaVista Software LLC<br>
+        Mo: +91 9998906483 <br>
+      </font></div>
   </body>
 </html>
 
---------------sd3SJU5IjuU0aMIGJkfIbBSA--
+--------------xsBDl08mroTXDUVuSxIkakVJ--
 
