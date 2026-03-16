@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6246EF4642E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A02E6F46433
 	for <webhook@archiver.kernel.org>; Mon, 16 Mar 2026 09:30:09 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.46890.1773653406670551568
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.46601.1773653407249295582
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Mar 2026 02:30:06 -0700
+ Mon, 16 Mar 2026 02:30:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=FFtv6dV7;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48534237460so48096705e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 02:30:06 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=KHmlcNx2;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4852f8ac7e9so51650365e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 02:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1773653405; x=1774258205; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mgDj4GsYwW1svVHTakXHoT8o1nrjyimtmjEavzLF0WA=;
-        b=FFtv6dV74Y1ssf2JYYJSHJsP1rDovfVYEOC6xaUVhJKgcVhEwZjisghCS4vHNV/tz4
-         qPlPBvqk6/xtaBL+ey9TudM/fFdDxXpM8jzBt0EG18R6yQFYvVdvlNMvfEvfB+Jewk/q
-         YD/DwC9B1CNBuzzv6uIBhqS56bwnXxXvKbMH0=
+        bh=qQNIJ+4apFeSkKoE2KIKlfCENN1+qzqm+9JbtTU2HFg=;
+        b=KHmlcNx2MxSNSABRsTYzDA6tYx7FpnkpwUD4Z8DuMqCYZ2KMKRZ2T5s/4bedEP9j1s
+         4x3dx8FmpuTRycVcZMJunkVnlS8KiR1gs2zDwBwviEu908xYZEdQYeX5UUiNuQTmn0ro
+         jHnEA/vHJkAIOmZWTKvsUMmze6R45zU1XupU0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1773653405; x=1774258205;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=mgDj4GsYwW1svVHTakXHoT8o1nrjyimtmjEavzLF0WA=;
-        b=gxwLZj64bq+wqLFd5KWY+p9bsXHjQUY1UDD5WTwXl6pD4mYM1F9xSGKIrzjVniTY+s
-         LvEVk82xN3I1M3WpAab+SfFPKyPf/n0/Z0qzUFRZaRXqwEXyQTydb2UthjcdyX64N1Gm
-         vObrwUjKvIVWIURqY/Asx01cDPv/bmxBZpsjhVY2XJCFB6vA+i9If2X/oplFc4plqXsx
-         bLVcB3UOhZX86N6bkSorD80AHiX92eGYk78CAekLZQQPgB0uWO/w2q9tdQ3xlBTB8YmM
-         iuBDi8WFn+d2qpeWMkoE//RSm/FftJsajry+WDbDVHHn6kTqEbAJDDgd6im4iCP/da/O
-         u6yw==
-X-Gm-Message-State: AOJu0YxKiQ4Wv9/8GcyTU+ncMZGp3496YvYMKwtzP8o14nzP1/3ciMpL
-	TUCAN69dtZwJ1wYM9OAiYmVHEvvi0ua3aSplqOWvfA8POxXCNjUjb0t6J/mO9RWKJ7qM8mB2vai
-	VvJqU
-X-Gm-Gg: ATEYQzyGz5T/bY1ZOXA8EyNC504uAA+330RdzyUwhA098b1Vr+422zumm44p9epV7DH
-	XXbQ+D2hYc6s944osQs18k/3Likwy/MJVCrf1hTbTIXQezUrLkCT9Cj7Icni0re5YBm0by16Du9
-	1yT5xoQsuV811lSfHrFofClF6ZQkz8QcPN1jO7opPWycvCOIVPw58DVpjNUi0zhzbnV1GBfY/SG
-	J10YkLgbf8DMGOrDPKhtRozDjrhB2nCGU33RuYearDcJaCfFfgW84yX6UlmqaYgBZbiJfXiBGsJ
-	N3/kWACxflqH34+fvRMsVQLcWuTfN5015XtexH0UhSR2vKi60CuaYbXrfmCeGDIxkXeWJXX+/WM
-	LDwOwFMRmmXEFXhY0Ga2OosQDFYH+Aoq9+Or3pVpwIsXhhtTlyFadgwoepXxJQBd3mbEvxnIM5W
-	7tQYYnkC2J+cV5hGcoegf+38VvZrV7S8/RKWgSr6ITBAnwaH2b6L1tog/Ttm0pr+R7RWSfWjRvD
-	S0qRusTdWrj6TbsjzWX66UR3D1yqx5N7A==
-X-Received: by 2002:a05:600c:a4a:b0:477:76bf:e1fb with SMTP id 5b1f17b1804b1-485566f7bd0mr199474985e9.16.1773653404575;
-        Mon, 16 Mar 2026 02:30:04 -0700 (PDT)
+        bh=qQNIJ+4apFeSkKoE2KIKlfCENN1+qzqm+9JbtTU2HFg=;
+        b=hV3L6XFUGb811HqTbxqbMjhVVVNzX39zcDVX2FNRYde1grJiCUNaBtathsEUax8Ir0
+         GL/HaEkwhRhy3YpjCT3IXtWiEtGH+QabDQRRphe9YQSa9pHTjdUzBCpqdz1sL0UDIOM3
+         +rcb/FgHi4dLOW1B/BNzT6VKIZcwMwzLC2h6Sbo16lH3XhV0YMhEj/4923IV14D4fHvk
+         KP+SFZIeylJG2CEPXkbddb+akbvBWiY7STlUV0jeH7vy1pfV7DNy8gtgM/M5lGNx2jej
+         tqZr37yn2tdltzioPUcpnvlG6qDB8jrdufkGDVrwFw/o/kDAz+LTVDXAMSYX15XZrhYW
+         xe+g==
+X-Gm-Message-State: AOJu0YzUcx9vrDevX5ERXnUPriyAcTaNoDeuDUTKzHjKS6B5/cIZwFbt
+	s+ze6q9uwQ1Nllb8IOQ7LhaCqCUQ7v8x0FiUYSaVSJ7HwZungA/70rhZRNab1474r0ianQp8wz5
+	PmXnc
+X-Gm-Gg: ATEYQzyVyBLmuL8Em6AbpUe7LJNLlJFWMi1jfkfZpLYnFIK1wK/TCwYj3zx5d3gyvz3
+	lLqszv8fxhd8dVEmwBQg/+bNdsB46hiYqb5O5sw+nOflZUjl0gZM86nTcZrHCFVBswg9WBULsnE
+	lYNFPqCglogsDmpElcNy/IaILy781TUxI7t3QwWHWzLJB4AIOW1LXrbMCvg3d0c93X99jWEDzFs
+	wmd1ituM16QnXeHn8gpPckDrd6EgN2thdb+BT9IPjwqhEySad6KS3EL9F+1a9xFejFYW3ZJYE56
+	cdQQcdywOdOOEZm90Rljs2TotXG7SaNzlDXvohwrogVX89PVGwPgEW51GUuv93fLit4Pf8aZ3Nh
+	EmpOzsKMpFc16v+BcIH+Tymsj/XTnFhkqS7gdij6YMEPIaxzVmGr+OA5vsQR+1HZvNAgoBg+WWw
+	SjiBxsAkImoSIeCHJOnp7YrR+gScmfpMLtv2zHFgK5u0Z36H7f+6P8BImjV44H4qisixT7IRmq7
+	8FzQhAFCgJqxbM998j5O7SuFI5V1jrjlg==
+X-Received: by 2002:a05:600c:4f54:b0:485:353f:c651 with SMTP id 5b1f17b1804b1-48556702b4dmr202764035e9.22.1773653405147;
+        Mon, 16 Mar 2026 02:30:05 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48557a732cesm91138265e9.12.2026.03.16.02.30.04
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouygu
         Mon, 16 Mar 2026 02:30:04 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/17] ffmpeg: patch CVE-2025-10256
-Date: Mon, 16 Mar 2026 10:28:23 +0100
-Message-ID: <2fbcad701a42773e8643abb69b0d3e64a74049d5.1773652940.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 05/17] inetutils: patch CVE-2026-28372
+Date: Mon, 16 Mar 2026 10:28:24 +0100
+Message-ID: <3f103e7164526c109bd9e5426026540d525eb5fd.1773652940.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1773652940.git.yoann.congal@smile.fr>
 References: <cover.1773652940.git.yoann.congal@smile.fr>
@@ -66,68 +66,130 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 09:30:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233226
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233227
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch metioned in NVD report.
+Pick patch according to [1] (equivalent to patch from [2]).
+
+This CVE is needed if util-linux >= 2.40 is used which is not the case
+in Yocto kirkstone, however it's always possible that users update
+packages in their layers.
+
+[1] https://security-tracker.debian.org/tracker/CVE-2026-28372
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28372
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../ffmpeg/ffmpeg/CVE-2025-10256.patch        | 31 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-10256.patch
+ .../inetutils/inetutils/CVE-2026-28372.patch  | 86 +++++++++++++++++++
+ .../inetutils/inetutils_2.2.bb                |  1 +
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-10256.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-10256.patch
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
 new file mode 100644
-index 00000000000..6c5f98efe2f
+index 00000000000..b0038ab90f9
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-10256.patch
-@@ -0,0 +1,31 @@
-+From a25462482c02c004d685a8fcf2fa63955aaa0931 Mon Sep 17 00:00:00 2001
-+From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-+Date: Wed, 6 Aug 2025 16:39:47 +0000
-+Subject: [PATCH] libavfilter/af_firequalizer: Add check for av_malloc_array()
++++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
+@@ -0,0 +1,86 @@
++From 4db2f19f4caac03c7f4da6363c140bd70df31386 Mon Sep 17 00:00:00 2001
++From: Erik Auerswald <auerswal@unix-ag.uni-kl.de>
++Date: Sun, 15 Feb 2026 15:38:50 +0100
++Subject: [PATCH] telnetd: don't allow systemd service credentials
 +
-+Add check for the return value of av_malloc_array() to avoid potential NULL pointer dereference.
++The login(1) implementation of util-linux added support for
++systemd service credentials in release 2.40.  This allows to
++bypass authentication by specifying a directory name in the
++environment variable CREDENTIALS_DIRECTORY.  If this directory
++contains a file named 'login.noauth' with the content of 'yes',
++login(1) skips authentication.
 +
-+Fixes: d3be186ed1 ("avfilter/firequalizer: add dumpfile and dumpscale option")
-+Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++GNU Inetutils telnetd supports to set arbitrary environment
++variables using the 'Environment' and 'New Environment'
++Telnet options.  This allows specifying a directory containing
++'login.noauth'.  A local user can create such a directory
++and file, and, e.g., specify the user name 'root' to escalate
++privileges.
 +
-+CVE: CVE-2025-10256
-+Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/a25462482c02c004d685a8fcf2fa63955aaa0931]
++This problem was reported by Ron Ben Yizhak in
++<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
++
++This commit clears CREDENTIALS_DIRECTORY from the environment
++before executing login(1) to implement a simple fix that can
++be backported easily.
++
++* NEWS.md: Mention fix.
++* THANKS: Mention Ron Ben Yizhak.
++* telnetd/pty.c: Clear CREDENTIALS_DIRECTORY from the environment
++before executing 'login'.
++
++CVE: CVE-2026-28372
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=4db2f19f4caac03c7f4da6363c140bd70df31386]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ libavfilter/af_firequalizer.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ NEWS          | 5 +++++
++ THANKS        | 1 +
++ telnetd/pty.c | 8 ++++++++
++ 3 files changed, 14 insertions(+)
 +
-+diff --git a/libavfilter/af_firequalizer.c b/libavfilter/af_firequalizer.c
-+index 38663200eb..f14983b431 100644
-+--- a/libavfilter/af_firequalizer.c
-++++ b/libavfilter/af_firequalizer.c
-+@@ -793,6 +793,8 @@ static int config_input(AVFilterLink *inlink)
-+     if (s->dumpfile) {
-+         s->analysis_rdft = av_rdft_init(rdft_bits, DFT_R2C);
-+         s->dump_buf = av_malloc_array(s->analysis_rdft_len, sizeof(*s->dump_buf));
-++        if (!s->dump_buf)
-++            return AVERROR(ENOMEM);
-+     }
++diff --git a/NEWS b/NEWS
++index 877ca53b..f5172a71 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -1,5 +1,10 @@
++ GNU inetutils NEWS -- history of user-visible changes.
 + 
-+     s->analysis_buf = av_malloc_array(s->analysis_rdft_len, sizeof(*s->analysis_buf));
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-index 4793035eb72..f89fb2d0d78 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-@@ -53,6 +53,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://CVE-2023-6602-CVE-2023-6604-CVE-2023-6605-0002.patch \
-            file://CVE-2023-6602-CVE-2023-6604-CVE-2023-6605-0003.patch \
-            file://CVE-2025-1594.patch \
-+           file://CVE-2025-10256.patch \
-           "
+++** Prevent privilege escalation via telnetd abusing systemd service
+++credentials support added to the login(1) implementation of util-linux
+++in release 2.40.  Reported by Ron Ben Yizhak in
+++<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
+++
++ * Noteworthy changes in release 2.2 (2021-09-01) [stable]
++ 
++ ** ftp
++diff --git a/THANKS b/THANKS
++index 8d1d3dbb..ef5f6063 100644
++--- a/THANKS
+++++ b/THANKS
++@@ -9,6 +9,7 @@ In particular:
++   NIIBE Yutaka		 (Security fixes & making talk finally work)
++   Nathan Neulinger       (tftpd)
++   Thomas Bushnell        (sockaddr sin_len field)
+++  Ron Ben Yizhak         (reported privilege escalation via telnetd)
++ 
++ Please see version control logs and ChangeLog.? for full credits.
++ 
++diff --git a/telnetd/pty.c b/telnetd/pty.c
++index c727e7be..f3518049 100644
++--- a/telnetd/pty.c
+++++ b/telnetd/pty.c
++@@ -132,6 +132,14 @@ start_login (char *host, int autologin, char *name)
++   if (!cmd)
++     fatal (net, "can't expand login command line");
++   argcv_get (cmd, "", &argc, &argv);
+++
+++  /* util-linux's "login" introduced an authentication bypass method
+++   * via environment variable "CREDENTIALS_DIRECTORY" in version 2.40.
+++   * Clear it from the environment before executing "login" to prevent
+++   * abuse via Telnet.
+++   */
+++  unsetenv ("CREDENTIALS_DIRECTORY");
+++
++   execv (argv[0], argv);
++   syslog (LOG_ERR, "%s: %m\n", cmd);
++   fatalperror (net, cmd);
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.2.bb b/meta/recipes-connectivity/inetutils/inetutils_2.2.bb
+index 9f4e1a82e1b..c6e99ab09b3 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_2.2.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_2.2.bb
+@@ -26,6 +26,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
+            file://0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch \
+            file://CVE-2026-24061-01.patch \
+            file://CVE-2026-24061-02.patch \
++           file://CVE-2026-28372.patch \
+ "
  
- SRC_URI[sha256sum] = "04c70c377de233a4b217c2fdf76b19aeb225a287daeb2348bccd978c47b1a1db"
+ inherit autotools gettext update-alternatives texinfo
 
