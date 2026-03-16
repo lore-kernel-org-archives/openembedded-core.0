@@ -1,108 +1,233 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 057C4F46450
-	for <webhook@archiver.kernel.org>; Mon, 16 Mar 2026 11:11:21 +0000 (UTC)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.47890.1773659476174150950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 424C1F46452
+	for <webhook@archiver.kernel.org>; Mon, 16 Mar 2026 11:21:11 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.48024.1773660066543708769
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Mar 2026 04:11:16 -0700
+ Mon, 16 Mar 2026 04:21:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WaH6IuVI;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-50917e02472so56684051cf.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 04:11:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773659475; cv=none;
-        d=google.com; s=arc-20240605;
-        b=igMHZ7sqLiJWmbK7sk4U1Itr7FKY8KeLEvxbmlLy/YOtCJftZjCw7L4/ZsYy2+P8qc
-         QRvEr1STYR7CeQSmsN2bbMRO80zn8LYjUJp9jM24l6TM78t6driqo7pFgh3kT61PApu6
-         FgyEEMNJ3U0oYTkWAxeno7MW2CcVhG6ccDdLEOEK31ckMVM3YpLvC1HEtYQRt6DDYGBc
-         5yQGrs5+SmBTlCOG0UDQSIbMD7rdAF8zvemVjVCFOlR4LoECnMLVnQ5BfEiPlk8aKSdA
-         sF4DXxUKc12VecyqkZ9uMAW522t+lARZtaelsRzsnjnhYyZYDRrpdRY7jUk9X8Vcz1ra
-         g9BA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Q4VjNUAkFEC1x5NiirLLlWlpy2oRiAPAOJ1pWcEnn68=;
-        fh=BwkvW7yGJjeL00XyqZrBXM7Dcz/tjL13mEPe8xjOnqA=;
-        b=K+VxExTlD94RUj8T0A9AJb60zJykQ+OotRc5xFu1UtBLPZr4XIaXetcHe3xG7PKFVJ
-         CND8qMEdl6liCyILl5BgUKJ1sYJqKStoH9R5qkRY2y9YLDZ+IOhCUFYEs6ZkWP6OE+Jj
-         nnvvr/yBclKje4h9HZe+LoSl7YYi44olHHesoLi+73xbNyM2qaqbr0IVEZAxJOiikLh5
-         UWKffXmiF1DZHqgI2XpwS9JVd577qaSdm6bppfGR7AqZdV+lPRHmT3zAi/QByGPd5wte
-         hNARmuJJ5tWNvDy72fhU7kgqAZfO8HdC2sQovELL5mZywyomLn3kennsLrbWQp3GGCRT
-         hbVQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773659475; x=1774264275; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4VjNUAkFEC1x5NiirLLlWlpy2oRiAPAOJ1pWcEnn68=;
-        b=WaH6IuVIVCFUi8HVCh3i+MPMy35XI6a1BLKGRFse6hYTvdLDraTfrSDqImRgwoeOIS
-         jqPKrEl7z28esb0Lzkrl5fUt0cGPcpC8pvkF9V7B5dBWlVIWf9pSofbxibWdDMzX1Aw3
-         OrkajtjuNRyzSM3vPjQ0isURGm7rzKND9ubqcpSPmkKQWoA0h54SZA+B286M1Alm/FJG
-         1Qe0/2DAJCb9P1NsoIr3822H1Jl3HmF78+W5d2K4hjA107Os3+SvdS2uHdBbMFl5IHI9
-         q5t1j4/lySmtP3ze33rSvfBxskMFyqvMJ7oypYYaqxhcekaz+xPiiKFjjmJUMmjQtsWi
-         PmrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773659475; x=1774264275;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q4VjNUAkFEC1x5NiirLLlWlpy2oRiAPAOJ1pWcEnn68=;
-        b=YV94gV6Rd75mtzzPWxcC2xsawgHnvTTw4OsUoK4rxHPiuiWWGkEibbyXtGWhc6GHXi
-         UFJntxcyb7pTNfCaG9RPRt/m3NL/V2SSh3plF1V8Ahv0Y8sH3ztNNMpmQzvlqchIZKfm
-         rEqzjKUFSnBmkZFOx0VgIgxbJsgAtvZF73zgJmwy9Sj4SVcbi2gPb0FBC4SQm/U/6rfV
-         LbiLQZA8WZ5+lsjO+/o8U8MJDixgElTy2BpkgTrrQSC5wxjT3Wq1E4QHoPWxt7kqbmKW
-         woczhQQMe5N13zq/lAIuMleclYTM2INq+ZuPbcNT2M0bE9s4LMRa0TtJLoPAzq4xcLtI
-         7EGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXq5gNw9Ucn8VFAjyomQzbz6h9wwdF50XpuDGByC7OQdsZizC+ZmuiI6+ouKOi238/Jam/Lr8Ae/hEmCRClqSuzBA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzcuWKqmxVLn+uV32tT3O5rwq/oCm5EBKsUsPrl0yhn72kAAXmq
-	7poM/fXAWeoH7oddZ9dA5cjoNjpBMQqcHnjK4vagZKsdl5jNP9L7LrszyB32XUeL1YO9k9mqTT6
-	JSTc1aqXNOZh/bNd6x7Ig6BZ8Clb/HDQ=
-X-Gm-Gg: ATEYQzwmB4laYFEGvM28GY43JAlErcH3UmveLTfYwIF5n3BozPQeUFPA0TvVLdoO9Vd
-	Ax4sWpJrYUAen11/3fcOPcYvtxXxrqO5szdZKT/JWaDUQYwacJkO2csn7lPfgEn1CMbZ5QX0h93
-	tOIquE2L56OSFIOEbNS0Hhf7NiAgj6jFSJxnTahl2rDHXN6ww+PfwT8d+mWE1OozClFkbONyEVL
-	hppVug5eItfDui7Q2op5/XSYKLO+UKhiYiCLUE8tBgyk+psKq99DuHeo38G6Y9UD0N4Sx58ThL0
-	SXTEitRB73aPRIKP4Vf1NkD8vCRSlB/8muAlnEYcmg==
-X-Received: by 2002:a05:622a:253:b0:509:4198:5471 with SMTP id
- d75a77b69052e-50957b78d8fmr177919911cf.3.1773659475142; Mon, 16 Mar 2026
- 04:11:15 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=IJVmqBux;
+ spf=pass (domain: axis.com, ip: 52.101.84.56, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qTFqx53jJnAZNttVCp/qWtwBBT9bPrTLpQYh8+jAhh3JkF0A031pkXdonwOo0/i9gRedmS/JUudUJ0zoTfn/yRKPUb2FGZYBp3C6NrQOcTso6TXa+c1O3n6ASpyui3LHlCCyiZ42i7xNJ2TN8wIMSUqL4TPFHlmh5hRkYSeqS9JzxOe5tlt/huoT3BGIut7KZxtyj/zxtN+OSqCvPhzPrpRe/d1AP9SolLRU/7V3CJqrF3NeSgArpFEvCyA7A9T+Ob8DioV4PnUh3CBWZtgPCVEcDFi1k3ltc0Zoa+kLvAtrOLI6xo3GTOo5tIS+cPXSgFYxgOVM9AW7/tXPUDRr0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N5UoOpnPKa/e8doW/dbMlXkQE+McSue0lxeP417AhVE=;
+ b=kWys2pA5/va1OvEREbcMIidxPT4plXXb2Io2vXzDKSVJKyMyyT+qSOOEiqA6pdOGvahHpopGIe8rt8CfJgDNiBfPG0tF+06ys+hn5Ci5wh9rmmRHZ6V2AF8ymaD7r9i+fUcERMpc1zgPmyXZbsSWz2NZ/1khTdeIqJSak+DhnmDu8xyDMyqszXI1RdHCDJgSSU8cZQHcNTALjeMuaSo84yadboGOx9roXGV/TC1Um108DPSsAMRu6pn3SNhptg2YMQf3UPZ+cc3462k9AnNwt4AXyTOYPg7Dg6RbeGh7YHzmLX93SMtq2j1kwhRhQZt5EUhctJi8qn4us2yyORG9zA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N5UoOpnPKa/e8doW/dbMlXkQE+McSue0lxeP417AhVE=;
+ b=IJVmqBuxbY23iEYlyZd0JcoKrNBc+jFCilZUXRBm32wGuUPB5EKsfaa9EyA/6GwdvvEFsDfsXbYufZeIw14eQel9JUhXGgj5nO1+YK4P1O27Bf/Hxz/jYhate4QrtKrE8DI+gjVyELXJHQBIHmmzFTtg2/3leEpnYI4ojRpRzM4=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by AM7PPFEACE89EBF.eurprd02.prod.outlook.com (2603:10a6:20f:fff1::822) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.19; Mon, 16 Mar
+ 2026 11:21:01 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9700.022; Mon, 16 Mar 2026
+ 11:21:01 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] sstate/sstatesig: Abstract dummy package
+ architectures into layer.conf settings
+Thread-Topic: [OE-core] [PATCH] sstate/sstatesig: Abstract dummy package
+ architectures into layer.conf settings
+Thread-Index: AQHcs50kBh1WHvRh9EeNNO1NUSlroLWxBQYA
+Date: Mon, 16 Mar 2026 11:21:01 +0000
+Message-ID: 
+ <DB5PR02MB10213C75B95E2CBE99D91221DEF40A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20260314102702.3942139-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20260314102702.3942139-1-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AM7PPFEACE89EBF:EE_
+x-ms-office365-filtering-correlation-id: f1de594c-22a6-4848-b77c-08de834e1b05
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|56012099003|22082099003|18002099003|38070700021;
+x-microsoft-antispam-message-info: 
+ N64k3W5RHOuVMbgTyYX8xlM08MhPWGsuHpDeFHK5PNQYdJTvSSTPus4HNYeE3rrcu9RIaA0vuhIU0kwiLZbA26xLq9bG5DLACol102nJQqDC/coBuA3k0zQ6MrL1zuZRuT+rwAQm+PziVUktVKdD2yy6CXXmqK+DyP/Z3Imp+HB3Rs8ZxwnvYYUCBSXE6/MtsVnRdKIitgrtZNOemqPzcgNCyLUXk/gJ8eZemwkJ7T05hO5JyjiH6Pca4Xh/LNiqDE3Rci1mz05rKKYYQ5w0dsLO1jUbSAepbLqh1hvZgQmYGzQCGmlgJ0vYbgLaKGS/1BHGQ0/oABidxgacWQYIK2s0rHaDjJhX9ad/hK83SlW2IjJ5mHR2NJ5TllpE4zj+sqxtJ60XUBBADF2zxUKICdWtPXVqYJfh3KLQckwVnWQ4iIFRAw6Xvmko7UICdo2/gwekKwYpVaIe/0rv3zFBNpX3L9kIu+Dv2Bf1Q6+wB16bxsnt06GlFbSXiKqrQl+caudCkOAlqjiJYRLc8xzMidbkEHS4wY9mShraeJasHtomBkolSH2We6k0HBHA5773SOsu+4l468icdwpZVUSu4SjnvpzwdVCaAyF+2R7e5H6oYzmngHFnsSWWW47uw9ShEjGkySHowAo4y6PLFYkuSIHKiQeZaohsPfk8hPxqwnTDB5tYSob5+4f04L9TXe5gUgJUt9yx0ksA2TpxzhjdTIxcIbY97qOB1NMDWk/D3R6K8VC8Wy5ruNTnbbuy5Adq0HOzcdC6jpIxklJDeOrkM5UvlZeSfP6EXyJE+N4z6RE=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(56012099003)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?JMl5ISHjre4ot0EoNJiI4mGrKJVsYv2mb/agfRmagD2pclpXRq/ua0BqZYP7?=
+ =?us-ascii?Q?2v6FxTW5bsK1NC/MD4nACXnleZVXzc1ysMh9XeQkTths8MZ1JOL+MCg5Xxhu?=
+ =?us-ascii?Q?bGCmqFAzQRE9GXF2PwevRkCj4HKxuxHnx2MPIR966F6mU5Bfsc5TLL370sS7?=
+ =?us-ascii?Q?DtGeKQ+HIXYpjSE41bbbC3/BUxEpJG9mZJBEEBYkjWnf1pkpAUpXsZC71lF2?=
+ =?us-ascii?Q?e93UP/g0uq/LXlEwFuBTQ4Y5aHiJIsoT475k/dn/XrUOqHh0eDAT2af/0s+N?=
+ =?us-ascii?Q?RVeLLPffhjNdNJYfK2aCuningFH6gCft0Yled+6vUHyyucQzDMuVSS8kGIlQ?=
+ =?us-ascii?Q?6a18SSmKbe0W0DgqWt15oIEIATNiKs8U7WAZ1vRibBvBwhlJkXt0eUlyrEdN?=
+ =?us-ascii?Q?2O5j+T/vAfAvhzGYS3uoHCiFEmcE2+i1/sP7NILHIj8qwbc0J5UPAZOZuAxA?=
+ =?us-ascii?Q?BAAzfw6yYjz88IePjv331LMbrkFqJdX210CuJDZyu7ksZKHYJgwh+yWTh+Ym?=
+ =?us-ascii?Q?rDVnR0TsU73YQCBORC/qCXvPRDdavdO+nv1mLXDv/cjBFMLSWlWRaa9pNwlp?=
+ =?us-ascii?Q?N/ReEirjgJ3SRYQuXKAVY4je8jRAVWGaS/C5TOdgMiQGsndu5Cb3WryewG1b?=
+ =?us-ascii?Q?A2aA7rz2VZCIfc8NA3HdaQExYOfwPO1XlLM9U+gMo4eBEYWfBmZ8Nt2pd9zd?=
+ =?us-ascii?Q?8aNEUhMFTD1AjuAxtEjaig/P1+B77c90nuDb9ESlv0MAlxp9jdIsToyn5Nxq?=
+ =?us-ascii?Q?RaqXyVIqbPzTm68KSy6g76518LFQ9x7SEZRcJ0DefZuFP30n8/5U1b6NE4ns?=
+ =?us-ascii?Q?4pbD+CaoSxBprBDk6aYWtLD6N9vNCP9tliAVOnXOQ9WnFTZicImbl0N3nAdu?=
+ =?us-ascii?Q?htSKJ7epIPhKo7aV2f/X3x+wFTMXFOKNotCeUOrUxXpGzXq7LFl+FwlZi2YB?=
+ =?us-ascii?Q?XM2zW3qsBe2G0F+ZfY1ryw29EmtvLBhlCor2cZgj5RNT5LLuVeDWuFnvwiJ2?=
+ =?us-ascii?Q?IeS6HVE1nN9Kcsmd+Dwm3cTY07reKq6tTAPjmzXpbMG3wivazQBPWRxv66hJ?=
+ =?us-ascii?Q?ayoRMqUN6/ZlU3jT27wWMaaYhGyAAgN2xno3AurA+thGYFgVcB6qlAOHWhrJ?=
+ =?us-ascii?Q?ll2s2oGmwUswXRMIaZT50slJee3UEGK7I/eu8GK8jMYvIFNIaA4oFitm0SGx?=
+ =?us-ascii?Q?KD86gSpMCIVbraHuSpAlLsll2Z+BG4e1knUW1XbaYVEuKQ0pYJ+f3jISFaZe?=
+ =?us-ascii?Q?10mdJ2wsQwr7ESv+7Zh9V4h3QPbcEFfvmr5ODVf0S2nHHhqQETNbyrU3g+rx?=
+ =?us-ascii?Q?5Wc1JisvuJHDAAZ6B+invhY5TBKHTrTLyfBnpMnQkWv7ieSUD7Xk4jbLuJDK?=
+ =?us-ascii?Q?dkqzXhFMls6rMpHmUXWXo9kUm3GVmqBNDshfUC0C5t2QT/JN1/q+OI0BRSye?=
+ =?us-ascii?Q?fzhfweA/bT3ntzBMl1wRIDjNirC+sBeO2De+oTiEs/7bdAyoroGdAq3i6YS2?=
+ =?us-ascii?Q?5p4j2zmg0/ft2/4nun5GXW/tgQ1H6+crzYLYPhjXFpWt74w+0YcHKGikIrNo?=
+ =?us-ascii?Q?6zs/qsJxguSoMnaQ9dwfQaeXvNT8pbdMPg0s77vAUDT/WeDpfXtpCU3vZ7hB?=
+ =?us-ascii?Q?p5wdduchy0tavBdxamEfrscXqLNo3+BQPvpn/9RSOU7wJOukTNRZcg+oJvAv?=
+ =?us-ascii?Q?ohGo5mUUWZllMAF5fA2ZXoMBC7Y=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <0101019cf1bb5bec-59c0036d-cf9f-4133-9a27-4f70a7286fa7-000000@us-west-2.amazonses.com>
- <420d9aeb-72b4-448a-8e41-9e20f1fd3a47@windriver.com>
-In-Reply-To: <420d9aeb-72b4-448a-8e41-9e20f1fd3a47@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 16 Mar 2026 12:11:04 +0100
-X-Gm-Features: AaiRm52qtD011OTlqkJCNfSBbznAcfXSkWNgj5pRqIGLIRv3vp_3dy_DOrRcHE0
-Message-ID: <CANNYZj8eGhjci6Umfvhy1b8_-PDw_q8HrjyY22NOiP8y0H2iFA@mail.gmail.com>
-Subject: Re: [OE-core] [AUH] barebox-tools: upgrading to 2026.03.0 SUCCEEDED
-To: Hemanth.KumarMD@windriver.com
-Cc: richard.purdie@linuxfoundation.org, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1de594c-22a6-4848-b77c-08de834e1b05
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2026 11:21:01.7177
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oT/2Hb8F4ngekRQf7cG/QwerWomdM+M6bEmik0E+MHKWtbdgSPNp/3IZ3VPIfIR0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PPFEACE89EBF
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 11:11:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233246
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 11:21:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233247
 
-On Mon, 16 Mar 2026 at 12:03, Hemanth Kumar M D via
-lists.openembedded.org
-<Hemanth.KumarMD=windriver.com@lists.openembedded.org> wrote:
-> The recipe currently carries a local patch added for a glibc 2.43 build
-> issue (which is anyway dropped in this AUH update).
-> Will this upgrade be taken automatically, or should we prepare and send
-> the upgrade patch?
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Richard Purdie via lists.openembedded.org
+> Sent: den 14 mars 2026 11:27
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] sstate/sstatesig: Abstract dummy package archi=
+tectures into layer.conf settings
+>=20
+> Other layers need to be able to add dummy recipes. To do this add
+> DUMMY_PACKAGE_ARCHS_SDK and DUMMY_PACKAGE_ARCHS_TARGET in layer.conf
+> which can be used to add these to the right places in the code.
+>=20
+> Don't add the variables to task signatures as these only matter in the
+> context of constructed images and not the recipes.
+>=20
+> d-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes-global/sstate.bbclass | 7 +++----
+>  meta/conf/layer.conf               | 3 +++
+>  meta/lib/oe/sstatesig.py           | 9 +++------
+>  3 files changed, 9 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sst=
+ate.bbclass
+> index a7c3f5332a2..fe70a976869 100644
+> --- a/meta/classes-global/sstate.bbclass
+> +++ b/meta/classes-global/sstate.bbclass
+> @@ -86,14 +86,13 @@ SSTATE_ARCHS =3D " \
+>      ${BUILD_ARCH}_${ORIGNATIVELSBSTRING} \
+>      ${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS} \
+>      ${SDK_ARCH}-${SDKPKGSUFFIX} \
+> -    buildtools-dummy-${SDKPKGSUFFIX} \
+> -    sdk-provides-dummy-target \
+> -    sdk-provides-dummy-${SDKPKGSUFFIX} \
+> +    ${DUMMY_PACKAGE_ARCHS_SDK} \
+> +    ${DUMMY_PACKAGE_ARCHS_TARGET} \
+>      allarch \
+>      ${SSTATE_ARCHS_TUNEPKG} \
+>      ${PACKAGE_EXTRA_ARCHS} \
+>      ${MACHINE_ARCH}"
+> -SSTATE_ARCHS[vardepsexclude] =3D "ORIGNATIVELSBSTRING"
+> +SSTATE_ARCHS[vardepsexclude] =3D "ORIGNATIVELSBSTRING DUMMY_PACKAGE_ARCH=
+S_SDK DUMMY_PACKAGE_ARCHS_TARGET"
+>=20
+>  SSTATECREATEFUNCS +=3D "sstate_hardcode_path"
+>  SSTATECREATEFUNCS[vardeps] =3D "SSTATE_SCAN_FILES"
+> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+> index ba25ca30296..4794e660aed 100644
+> --- a/meta/conf/layer.conf
+> +++ b/meta/conf/layer.conf
+> @@ -133,6 +133,9 @@ SSTATE_EXCLUDEDEPS_SYSROOT +=3D "\
+>  # dependency in the recipe.
+>  SSTATE_EXCLUDEDEPS_SYSROOT +=3D ".*->autoconf-archive-native"
+>=20
+> +DUMMY_PACKAGE_ARCHS_SDK =3D "buildtools-dummy-${SDKPKGSUFFIX} sdk-provid=
+es-dummy-${SDKPKGSUFFIX}"
+> +DUMMY_PACKAGE_ARCHS_TARGET =3D "sdk-provides-dummy-target"
 
-You should take the auh patch and follow the instructions above to
-re-send it from yourself. AUH patches are not taken automatically, as
-they're made by a bot. They're meant as a starting point for anyone
-interested in that particular upgrade. Sometimes, resetting the author
-to yourself and adding s-o-b, and then saying in commit message that
-the removed recipe patch has been merged upstream is all you need to
-do (the above update patch seems to be of that kind).
+Wouldn't it be more appropriate to use +=3D for these two?
+Otherwise one will have to use :append to add to them in other layers.
 
-Alex
+> +
+>  # We need to keep bitbake tools in PATH
+>  # Avoid empty path entries
+>  BITBAKEPATH :=3D "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bi=
+tbake'))}"
+> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+> index 86d159ed209..cae12eb8781 100644
+> --- a/meta/lib/oe/sstatesig.py
+> +++ b/meta/lib/oe/sstatesig.py
+> @@ -494,7 +494,7 @@ def sstate_get_manifest_filename(task, d):
+>          d2.setVar("SSTATE_PKGARCH", extrainf)
+>      return (d2.expand("${SSTATE_MANFILEPREFIX}.%s" % task), d2)
+>=20
+> -@bb.parse.vardepsexclude("BBEXTENDCURR", "BBEXTENDVARIANT", "OVERRIDES",=
+ "PACKAGE_EXTRA_ARCHS")
+> +@bb.parse.vardepsexclude("BBEXTENDCURR", "BBEXTENDVARIANT", "OVERRIDES",=
+ "PACKAGE_EXTRA_ARCHS", "DUMMY_PACKAGE_ARCHS_SDK", "DUMMY_PACKAGE_ARCHS_TAR=
+GET")
+>  def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache=
+):
+>      d2 =3D d
+>      variant =3D ''
+> @@ -513,10 +513,7 @@ def find_sstate_manifest(taskdata, taskdata2, taskna=
+me, d, multilibcache):
+>      if taskdata.endswith("-native"):
+>          pkgarchs =3D ["${BUILD_ARCH}", "${BUILD_ARCH}_${ORIGNATIVELSBSTR=
+ING}"]
+>      elif taskdata.startswith("nativesdk-") or "-cross-canadian" in taskd=
+ata:
+> -        pkgarchs =3D ["${SDK_ARCH}-${SDKPKGSUFFIX}",
+> -                    "allarch",
+> -                    "buildtools-dummy-${SDKPKGSUFFIX}",
+> -                    "sdk-provides-dummy-${SDKPKGSUFFIX}"]
+> +        pkgarchs =3D ["${SDK_ARCH}-${SDKPKGSUFFIX}", "allarch", (d.getVa=
+r("DUMMY_PACKAGE_ARCHS_SDK") or "").split()]
+>      elif "-cross-" in taskdata:
+>          pkgarchs =3D ["${BUILD_ARCH}"]
+>      elif "-crosssdk" in taskdata:
+> @@ -525,7 +522,7 @@ def find_sstate_manifest(taskdata, taskdata2, tasknam=
+e, d, multilibcache):
+>          pkgarchs =3D ['${MACHINE_ARCH}']
+>          pkgarchs =3D pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_A=
+RCHS").split()))
+>          pkgarchs.append('allarch')
+> -        pkgarchs.append('sdk-provides-dummy-target')
+> +        pkgarchs.extend((d.getVar("DUMMY_PACKAGE_ARCHS_TARGET") or "").s=
+plit() )
+>          pkgarchs.append('${SDK_ARCH}-${SDKPKGSUFFIX}')
+>=20
+>      searched_manifests =3D []
+
+//Peter
+
 
