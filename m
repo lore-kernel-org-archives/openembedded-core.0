@@ -2,63 +2,64 @@ Return-Path: <michalwsieron@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB4EFB5E98
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B42FB5E9D
 	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 00:03:45 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.65243.1773705816778848436
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.65245.1773705817775732104
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Mar 2026 17:03:37 -0700
+ Mon, 16 Mar 2026 17:03:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Yb0DkYhj;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: michalwsieron@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b97a9f4b4dcso245815866b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 17:03:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nj0qok37;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: michalwsieron@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b96d784828bso781723366b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 17:03:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773705815; x=1774310615; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773705816; x=1774310616; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=I7uk2iFidE9qoIbV8LH3NVLwJFN6tYOTX8P+Xua2W+Q=;
-        b=Yb0DkYhjn1HUe+JfS35jx7LaPsJwpUbrF98fSwTDIKuOWMIzmqdEiqm5zBvCLHQtfK
-         aMsqbmpJI3BK4XwrAoXlKQWrYcmjkKW6z+FML1tQhm6cZ5aMYanojLK13Jl1Up8WUyzu
-         AkQuMMfuswCjIKuxdfsj5nQ75NhIiRedkMS4/QHtF6thFAtJMFpdaSec8sjiXG7HLFn5
-         HvHEaIt88L1JvUTrIxVHw61ORQZU1JLbyIRzaIexKsDDE0VRx7QultHGljnjm7gZa5q8
-         5FjceFeFEAxKpWDnfTpTGiSo+qesbIJi/zy299z41YaV9+OmZmw+Itvb2Mwjwl2dsbjV
-         ZpPg==
+        bh=wU48mfeLafroqGwpfZT9e8T8l7jd+s8URdc22F4rldY=;
+        b=nj0qok37/naOs4WCh2hamVnPHe5zWYCBkChEfbLsVWfOazSClk/tDBKjYlo2lR6kkI
+         xwcM8uPaE6qhaJeJl+lN0Pd6bjYxkFY1k+7kOnUeFMkeghHLNGUVe0ETDQCyKdDphxpy
+         EnHwcQoACgbxswgGVhDqI/y7APZAp3Wt2Rh49QMufg1lwL7hPjv3JCenuyazaNuTuGA2
+         tTCpzyiFK93wJZxOyARu9lf8o/AEI2nNDed4uGwRz/0ERRt2ecFTN7v7XmcS4brwvJc8
+         nZMRaaH82St/qR+2FPYG3XtDKLkOSYMxERZNG3Z9nWJo1aneDL6IxCvba30S7DJbTOPE
+         f6HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773705815; x=1774310615;
+        d=1e100.net; s=20251104; t=1773705816; x=1774310616;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=I7uk2iFidE9qoIbV8LH3NVLwJFN6tYOTX8P+Xua2W+Q=;
-        b=XZPnE1ksXKR+cvjlBt8PcPf2b53FgGGObVnVDFeM79iqdxUMPFmwzC0T3TIbuJRUDK
-         1swicJV/9lyMbUijPFe/4IAfHQpmNBLnhpmpn8hvqQ045ZAbpV7WgO5GboSI/aPpUY8p
-         bwWXRy1AUS7r4nkL2zD/v8W01XvzOJJqPyOHBPEC0OqVn1y6MSSEn/Ex2ccAylLGzUSy
-         vyouL28Lg/mNQnOzbTPQWkNrrvB/xrCIWY1InPuT0F3CPnwuHzWaFhrqFdiZPcw8d1kP
-         BeK77yEeWy3KXN7X2uKC5MDNOtpl9eIMiacvy/+YrlGY+IQNJobaJ3xBJin0KrD2Xm1k
-         nmnA==
-X-Gm-Message-State: AOJu0YweI5jWbeqZrNuAVD3E2pEUJFcgxVvWx4SJyHZLT8ogAviQrQgd
-	Zaep+Bs7hubRvPn7re41Ld+kiG60Ui0ylIlfYbsZHS8wq4yRhn9qeJyT
-X-Gm-Gg: ATEYQzxQKIMSVwEUhZ9hYq6EyXQ2//HE/WmRrwdvzk/k51nNgl9znB+JnpibhXNX89b
-	7SJaCjg6HCUweJzEtcsNiOHwpzv9LxsV73pej13kx9rnxBhStN6UZNOpjpBE/6DbMwuY9DXRxaj
-	NevT8h85Q/xiN8aOsRTbXNdEzPelVJ2ZRycX3KB5GTr0jvRFR6psr/qfDRxMuXAR/aEiXXig7jZ
-	PMt6vOJrhoPUA/juIt1QCkeAZ5945Z2sEb1l66zdWP/58xuDOg0vWNtcFG9Pvh6UHO/uKUEPo7p
-	6uKoDp0zB99PA1evYZroeEQOryq4z4e4YbCRXu/ooWuicxT7nZonZVUu9JpeVBTdSdgGZHDhQWg
-	9a9BXJeRQ9DnRNWgrVN2p3zKpWE4L3y10d++Ok5H/cs4QBbck/HWsuz4avvZPU3QyqaxMliKCKR
-	pJTqLohiXIb7eYGaT7Q9NVcBIbTzFSced+08lIIYOGC7kVBh90fSfHhd1451RBC0BuXw==
-X-Received: by 2002:a17:907:720f:b0:b97:8dbe:1ee6 with SMTP id a640c23a62f3a-b978dbe1f14mr647128266b.43.1773705814842;
-        Mon, 16 Mar 2026 17:03:34 -0700 (PDT)
+        bh=wU48mfeLafroqGwpfZT9e8T8l7jd+s8URdc22F4rldY=;
+        b=Dw2RGdd7YqPqnAxc92tpkXCrRkO2wYR4TvzTeUBoGCHngHxjhtMXNLnqBlbJ/thrgt
+         qLyl8NKyzyctPv0S63Yq3MlxEnJVKv+w87nBJdN+JdOXaE5pO29aekLDC7t9UsFlH47O
+         m4EkP3+dXUsFtWgBF9M5LD+GLpRSQouMsRXKnj+CgvVQNSouhyDI5BTigwugv6Simnz6
+         l90SJN4RFLbI+0WjFMZJkHZz3K0B2paXI5tWm0gWYClt0OKtjSHTIjrnTsQ9vBr82/kA
+         QWzb9eA3+Wp8wQ7uQ3mPMpIa9x9Ndk8+lRyiZZ2Ya6L7rhd3MohIs1oeP3SbDA6lGwf/
+         ZixA==
+X-Gm-Message-State: AOJu0Yyrob/OBYP4o3ITHLedzNPnZ1iJtf25k8Alh9Kl/4vXScrNgr92
+	VyZP/SFIwslvxuztxuD99Mi9hsgy6i1os8xl0msztXrt2luHZTEKzOXyIbLfhi8O
+X-Gm-Gg: ATEYQzylJsliqMl7YumilwpzJTOV1zvnW3vSLC6/Z7SUchg8Uh66ZoFoW6tTCLPNAND
+	+hrF5Zg6iEdzqTimB8YhaIPL4LRvcdIL0v6Lfhj6kSjSwY8Kq6suTSprcahDiL1b/eVLjL4CwiU
+	mUb7Ia7tu0nkNuXwURLNgvBP6Uc/oVyILi0Vu+pbAwLrG3L7iaauGJnJIS4TNh0t4vcBQ1piFZw
+	tB/s6VscPrJorCM1OJv3DYCC3tI+fGBOOVFthsdVW1Npe90vOgDPFRT4P6e3GkvSVdC9FqzMNFE
+	o8vkb8ct9Kcbro9zL6kKCUkZDXsHfieCbeXR/KxHmz7hGNzFZ2ZsJ1ORfTGRGSuSeu2V4BwuU4X
+	/DMippDnPlINLGsDMzgoFPm9V1M6RD6Mm9oIQf5U5XwcUO7n79+Dyhf4w6j1buLyoDa31kMnQ3a
+	OCBjSwM1y+TLboswvXoKt5L4qc2wQ8x90++3NPBJJ3rpvtXD0y3wUWQaU=
+X-Received: by 2002:a17:906:794e:b0:b97:ba66:167f with SMTP id a640c23a62f3a-b97ba661f5emr394408466b.42.1773705815951;
+        Mon, 16 Mar 2026 17:03:35 -0700 (PDT)
 Received: from [127.0.1.1] (93-159-20-97.cgnat.inetia.pl. [93.159.20.97])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b976cf49fa6sm654584766b.58.2026.03.16.17.03.34
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b976cf49fa6sm654584766b.58.2026.03.16.17.03.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 17:03:34 -0700 (PDT)
+        Mon, 16 Mar 2026 17:03:35 -0700 (PDT)
 From: Michal Sieron <michalwsieron@gmail.com>
-Date: Tue, 17 Mar 2026 01:03:05 +0100
-Subject: [PATCH v2 01/12] libffi: Fix invalid conditional append
+Date: Tue, 17 Mar 2026 01:03:07 +0100
+Subject: [PATCH v2 03/12] expat: Convert confusing append to override
+ syntax
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260317-fix-invalid-appends-v2-1-5c65ae5787d9@gmail.com>
+Message-Id: <20260317-fix-invalid-appends-v2-3-5c65ae5787d9@gmail.com>
 References: <20260317-fix-invalid-appends-v2-0-5c65ae5787d9@gmail.com>
 In-Reply-To: <20260317-fix-invalid-appends-v2-0-5c65ae5787d9@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -68,29 +69,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 00:03:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233274
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233276
 
-`EXTRA_OECONF:class-native +=` was actually overriding previously set
-`EXTRA_OECONF`.
+While in this case `EXTRA_OECMAKE:class-native +=` wouldn't result in
+any unwanted override, there is no guarantee there won't be a change,
+which would be hidden by this override. To avoid any surprises in the
+future let's use `:append:class-native =` syntax here.
 
 Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
 ---
- meta/recipes-support/libffi/libffi_3.5.2.bb | 2 +-
+ meta/recipes-core/expat/expat_2.7.4.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb b/meta/recipes-support/libffi/libffi_3.5.2.bb
-index f648a33a46..2b2a368151 100644
---- a/meta/recipes-support/libffi/libffi_3.5.2.bb
-+++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
-@@ -16,7 +16,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
- SRC_URI[sha256sum] = "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
+diff --git a/meta/recipes-core/expat/expat_2.7.4.bb b/meta/recipes-core/expat/expat_2.7.4.bb
+index 95a1ed52c4..b3a9d8aa2d 100644
+--- a/meta/recipes-core/expat/expat_2.7.4.bb
++++ b/meta/recipes-core/expat/expat_2.7.4.bb
+@@ -17,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
  
- EXTRA_OECONF += "--disable-builddir --disable-exec-static-tramp"
--EXTRA_OECONF:class-native += "--with-gcc-arch=generic"
-+EXTRA_OECONF:append:class-native = " --with-gcc-arch=generic"
- EXTRA_OEMAKE:class-target = "LIBTOOLFLAGS='--tag=CC'"
+ SRC_URI[sha256sum] = "e6af11b01e32e5ef64906a5cca8809eabc4beb7ff2f9a0e6aabbd42e825135d0"
  
- inherit autotools texinfo multilib_header github-releases
+-EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
++EXTRA_OECMAKE:append:class-native = " -DEXPAT_BUILD_DOCS=OFF"
+ 
+ RDEPENDS:${PN}-ptest += "bash"
+ 
 
 -- 
 2.53.0
