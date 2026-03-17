@@ -2,67 +2,67 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D95DCF53D84
-	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 05:43:27 +0000 (UTC)
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.69647.1773726202212179049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4010BF506CF
+	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 06:16:18 +0000 (UTC)
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.70218.1773728177064489064
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Mar 2026 22:43:22 -0700
+ Mon, 16 Mar 2026 23:16:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=XAsSftxg;
- spf=pass (domain: mvista.com, ip: 74.125.82.44, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1271257ae53so7218920c88.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 22:43:22 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=IzBi9Y/M;
+ spf=pass (domain: mvista.com, ip: 74.125.82.48, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1271257ae53so7246879c88.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 23:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1773726201; x=1774331001; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1773728176; x=1774332976; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G+q3FQZlIXzrBpN//E+MeU3kfGXON87QGRHWH7JNfI0=;
-        b=XAsSftxgY0webphLTHAF0Yxb+Z3xQlzEihcRuD4Rvc7V7cS2J06S64Jx7J110Uf6ue
-         uSDY9NXG9gHi6gEpx2PxfgUzSZqtMUTT1w5mOEdadgoT66X4hM7f8kTB2gcTZJF7pdTo
-         +tcQEZFyBAhR2HX4+08JU+tGZdLSMzGsnv4s4=
+        bh=J/M1iXkFW/Wau9W0dk1E88Q8Yr5onnKVqzpyGDsEO4g=;
+        b=IzBi9Y/MqgQklCtThu1ujbzxXlq2jkABnTdYdVJW1cSEXLJCkTbW/mg7D9pVtvtbAQ
+         x+LiS8h7sk0987yYQz75YM4KBTbNWpvCyVc0wj0/UlnADKeI3Lwi+wryJAV9h45d480F
+         ccTfS0ZhsOUK1YFbjk4ciPAgQA6Py0vQ8XWw0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773726201; x=1774331001;
+        d=1e100.net; s=20251104; t=1773728176; x=1774332976;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G+q3FQZlIXzrBpN//E+MeU3kfGXON87QGRHWH7JNfI0=;
-        b=OZ1UKtB7Bz6FjCpePy1Ds0QlhJgztDKWjGSV8pag1ucpn+xBStAzRN68V/THKAxGk3
-         ET4BHQM6sSmF0NmFI6sbhyEI5vRwzSjJtVHuxWS9f6q0ljHsQR2opxkQGpBWQAzXwLzl
-         kvQ+i/vcz42NwPbNI2HOvh3ky6v6e7cwcYQootpJncLNDrPrvpbOILuvuUqrO1lNHSOe
-         5QOk5FUNQtFSV0h8tyraGCtmlprs6Wgez8fkblG8PhSP/EL4+hPMmDjmooJ25Kip/GxL
-         HsT6PZiculM2gPvMJIrSMDx4x9E6Vz5l00oCt6PG+j3okIiq/MdF3LhhRL2hy89IG0BH
-         WJCA==
-X-Gm-Message-State: AOJu0YzmHpoRKtXCls6zBAKvVsUkUy3R26KT3WTM3qEu3cX5KGmJRH01
-	mOEIx5cAMuZb4zfgIJZM0SEuaK9qkEObM3E7aYm7q7AyhByjHn8xDMQdy+ZDMG9eYO72M7NZS47
-	wUS/s
-X-Gm-Gg: ATEYQzyqZkj1t6NOmGGqNtbathWqVIGWnhRJ+k+IOqh0g7thuDnqfFMKq3R51TbsS7f
-	I5DzbbE5HZRgelLwfoK/W1r1sCf8/3cXZKb+cEu4YbHCUlSpZCzMfAy86D8IEHgX0pNkUukQ7fI
-	3DtEUD1SBqqqyPvTVPui8v0v+7WU+UsSFCAZeO/124HwZpuUjXYEGa78d3sC+IasZ6Zu70a1VkO
-	zDd9jrrPDWTpq8TmhbNwX99If+I8YfpRtVExJrSXDaDQT7n0i7tX/B7shYA3YKOC6aFWLpeO2Sk
-	47imjwVXedOOiEPoUVeyeQavWzOTk228+3c2nfeKnb/xhT4vYfADzP5M0gE8Gwg+FoD0aCnMFPQ
-	AxwjviGJEEpoP4PEx5FEISuC6vrWx2hrSQrMnjwoGvkl1w3IKAkvJdBk4hvS3aYCXIQZ0/uUypM
-	Di/HLa3D8pozZO+O/iydjA742jsSZlPd140aW6
-X-Received: by 2002:a05:7022:628b:b0:128:ccb7:7fa3 with SMTP id a92af1059eb24-128f3e06b8emr6888095c88.34.1773726201250;
-        Mon, 16 Mar 2026 22:43:21 -0700 (PDT)
+        bh=J/M1iXkFW/Wau9W0dk1E88Q8Yr5onnKVqzpyGDsEO4g=;
+        b=lVk9eY9BGR2Fc6BU26G9RYFAGAxx/fvCBsH/HtqF99CU3J74S5CL6qUZsvy58jdnDH
+         fjDO0BUaVQWHgSdvUmI2Y8NoKZ/q1FjeGnDLmYicBGNe+Y8YdC26BuB8LzNMdTFHzQfM
+         LFqFxTokfaWQwDcgwoQ6B4rwBBMTYxp8XtHhOnZCgIHMO7BYVBLekPRRQmutE8eQ5oap
+         CTEMrK7NkB/1RhltFK8pfgMzMTwutTV9hoE2C1KgcEhhMfHoUMvWki5xi/gnfpV/LhoY
+         7Nq8JN5XRzwyIIRKEUeQK/bxfb9k9qxei6m3bRwfmt2CMgoAFQ6HMo+4HE0aK7kt1JN6
+         RQow==
+X-Gm-Message-State: AOJu0YxZ0sANMtFHulMx537jx9pgUpuKmakoJ17IOzi6bS8nQ+7q4YEs
+	n2fWeHM5yelmycRbtHPhzSAu8jLE8n5xim+XyDTI0OiHYHI0bclnutYxJw4KRPckZXpnTNnj6Yy
+	9tepW
+X-Gm-Gg: ATEYQzwcUE9xV6+tI8lvqMw5SGrwv74Rr6maRq2U1fp5bmblZg+AL9O/cxW3H3M0Bc7
+	HoBZjWLeuTmyBTdGjXipoyysIvcCcVJhntPX1MP71tvUzlMSUIJf9+bi5YVN8+/NNH2dzggxe2n
+	DrVcufNP51QtfnqTSQQeOQ8iflfM5qmDpkZQiMRj2XA75KOPZ8L2X6sOsRLTxT6c0eGC+ig8Oq4
+	Xo08j8JUObGfSR35VlJJmv4sHCbEwHOnE2KV4aYAWT8sEqrbNS/+0tuReQr1UdzV+vG7mCoNBnF
+	wopxHGfP3fcJF8Q4dl+fAnrWlXpLEmxIdrfBJadQlxb+m/CUzUVQMWf7yC7QguMXFPJJ56e2b7q
+	tmpqw8mWIVaysHe0uR1YScSfNDAed29t1F26GSPPF1jvbgD4VMmtmrN/hTR/zYwVRMrMwYoA/Ai
+	lqpX6vEBoTum3xDYk6GBFDDtXTj+xNA9dIPobM
+X-Received: by 2002:a05:7022:4a3:b0:127:5cd6:fa45 with SMTP id a92af1059eb24-128f3d33acfmr6718311c88.14.1773728176202;
+        Mon, 16 Mar 2026 23:16:16 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([152.59.0.115])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0b1fc876csm12772419eec.29.2026.03.16.22.43.18
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab3eec8fsm17788437eec.13.2026.03.16.23.16.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 22:43:20 -0700 (PDT)
+        Mon, 16 Mar 2026 23:16:15 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH 1/2] vim: upgrade 9.1.1683 -> 9.1.2128
-Date: Tue, 17 Mar 2026 11:03:40 +0530
-Message-ID: <20260317053341.42864-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCH 1/2] vim: upgrade 9.1.1683 -> 9.1.2128
+Date: Tue, 17 Mar 2026 11:44:04 +0530
+Message-ID: <20260317061405.278524-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 05:43:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233297
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 06:16:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233299
 
 Removes CVE-2025-66476 from CVE metrics.
 It's fixed in 9.1.1947, but only affects Vim for Windows.
@@ -75,8 +75,8 @@ Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
  meta/recipes-support/vim/files/disable_acl_header_check.patch | 4 ++--
  meta/recipes-support/vim/files/no-path-adjust.patch           | 2 +-
  meta/recipes-support/vim/vim.inc                              | 4 ++--
- meta/recipes-support/vim/vim_9.1.bb                           | 2 --
- 5 files changed, 7 insertions(+), 9 deletions(-)
+ meta/recipes-support/vim/vim_9.1.bb                           | 3 ---
+ 5 files changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/meta/recipes-support/vim/files/0001-src-Makefile-improve-reproducibility.patch b/meta/recipes-support/vim/files/0001-src-Makefile-improve-reproducibility.patch
 index 0741745adc..ae78059296 100644
@@ -151,15 +151,16 @@ index 289f31be70..0ce6aa71a4 100644
  # Do not consider .z in x.y.z, as that is updated with every commit
  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/vim/vim_9.1.bb
-index c492342ffb..fee9f055e9 100644
+index e536d4ce4b..f358e61132 100644
 --- a/meta/recipes-support/vim/vim_9.1.bb
 +++ b/meta/recipes-support/vim/vim_9.1.bb
-@@ -21,5 +21,3 @@ ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
+@@ -17,6 +17,3 @@ ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
  # in many places for _FORTIFY_SOURCE=2.  Security flags become part of CC.
  #
  lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=1',d)}"
 -
--CVE_STATUS[CVE-2025-66476] = "not-applicable-platform: Issue only applies on Windows"
+-# not-applicable-platform: Issue only applies on Windows
+-CVE_CHECK_IGNORE += "CVE-2025-66476"
 -- 
 2.50.1
 
