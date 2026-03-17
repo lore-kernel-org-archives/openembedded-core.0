@@ -2,64 +2,64 @@ Return-Path: <michalwsieron@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7654CFB5E96
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D2E9FB5E97
 	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 00:03:45 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.65250.1773705820188542398
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.65248.1773705819330245170
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Mar 2026 17:03:40 -0700
+ Mon, 16 Mar 2026 17:03:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VN8SESik;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: michalwsieron@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b97b333673eso239856466b.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c00/iJ+x;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: michalwsieron@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b97d5b790cbso68782966b.0
         for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 17:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1773705818; x=1774310618; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VPf/V94lFEk6e772LqQe/vDb6RywCzY8qv34drg5/pY=;
-        b=VN8SESikBAsI7H/xTTzMDcd++zCMpadA3663xdLrJRXp4GC9Gz2uC7gAf4tOUfmJbq
-         /B6R9/ufD89K8BnO2EZ5oZcJn1A4t02Kmjq6V4ltU3jhKDCqWnp4inZf7Vgrhpjvq4NW
-         SurBemQzQgcAFfAWohsboQ4j+P9kM6Ki8I9z3xo4Q7v2U5j+KXyqHPkiAvXpqkIDXB7D
-         8+1Fg3z7pJJwhYlMICsgAcgSbCbSOIcXbUbfMUZngguiPe93xU4SPiYUsgZB2x0riwdb
-         vaeQl3m8LrnrMYJcRk4TR/Amg7bjKHJUgVRjt5F6boD4iuPOnFRm+ITXxpWNV+BGvQVc
-         9qOg==
+        bh=dugZ2Sn8XhtqwG8js6QJJkEBeTyA9A4mQm/615Rr224=;
+        b=c00/iJ+x3p8cOldIYc0HyJvYcJ3HzFQ+BVedj+0htxfbN5r2D2XP4/pdaX6OA86ybH
+         LzJcgBM9ulkCYZI71T69jWrNUj2EclYsEUc4WlKR+aTBVZuoLfvpTIkWC3+0ESbzKW+y
+         zpEuARFjVsg/J7vFDeSiIZzCbGVyXWDUo46wJlRDqLawEwklRH9C6aTAJhtjmg9uEnQ9
+         MQ9LY1ZZxz8fyGoHBMyX2Wt2auh0p9ABK1NCAoNmqHQ2f+hFfU5Tppdg7rfb2qATmtm2
+         O0Yge7BTsosZDFi0KY7WziK4IuVXSygErbIhi/SC+FoeH6k9wd43Xpm4RjfKAM6GyjlP
+         A7fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1773705818; x=1774310618;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=VPf/V94lFEk6e772LqQe/vDb6RywCzY8qv34drg5/pY=;
-        b=gz4y0F5txJm8ojEH/NtWTydFi3HwDwvlDREJJZ4T8D5mRpfpACBn746Hd+P4WUv4Ny
-         /t3pySsOP6tkk5jVjMIa8yocnbl6t0//TcWqLcoJvLV+KdaXe3FHN7hB+2R9nzQQwkkY
-         W2MlvbpMYOS9U7OATQejDdlP/EamGvUFwCmubROy2RN4asAlxYyDBGzKN32LzzhEJY+g
-         zCPZvHAuxlmjj7ubqumqfltT7m+WI6x1I/XEn+SspKzd7XniorrsCQIfRfMiGBK4iuoB
-         lJBHb/P0SjZAaw4KKRugB4h3MXtHGBe0DrpciIRrmyGopjZrX4lCjZT5b7zC41LiMRJn
-         SWgw==
-X-Gm-Message-State: AOJu0Yz2n4tdBfEKWTNtWzfTJ/yk5lP/dFkGE+WBFa3tIX6t8sdJYA2O
-	sijm3+Czm6lrPKtH4YhnWNG10uUC4cwDBnGTEqEBOhfPlmQXgfRcW5W+
-X-Gm-Gg: ATEYQzxSfyg6u/241CmlOwsCf1LovapdKB5EnSAcMyA6hnEm/lpmcC7VkZg7mMWl4Td
-	MMlRj1BtR/nCS2Juax53flAa/fisM2SpjlMorHMBmRamV6LlRhVA+9Bq+mDTekmsgmMzvfqLpsP
-	nBoCjlOqoRxdmzggtLryuxpSrMkoEB5qgYPn+d16GSaH30YMRCuYIl5FI1Y7Bo9HiD4D+wci/FR
-	Qem5fn8JvO3iHf8Qb1r5h00MhhasW4um+S1ckl4m/dUMJrXDh0YO8RP9WD/10emipBQeI4k5MYR
-	xJLcq2r2myoh0H84K3HOgjnycd68kuY5247S9d9w8aTDnL07q48dT3z2Yc+5WOv4DvtF31IgG7o
-	KrZtLW1rffTNgc9Gf4V5CNOymEn5v+LMlHY221fvZnwuYMdQtYtaO1QwwvqzYosYJXtla8VNQHD
-	Ii/dEPJ5Zpj1zVEmMf2pQ3IerSvNSyowPWxcyzfAOkEjfc83RnoX2QhQg=
-X-Received: by 2002:a17:907:7fa2:b0:b97:ad82:973f with SMTP id a640c23a62f3a-b97ad829ee0mr395515966b.13.1773705818537;
-        Mon, 16 Mar 2026 17:03:38 -0700 (PDT)
+        bh=dugZ2Sn8XhtqwG8js6QJJkEBeTyA9A4mQm/615Rr224=;
+        b=nO2ESCUIXaTaP7Fr9jdw7AYDIrawUR4q8Bfse3xUMhU+OcsGSK4pYy5gZnqJo0uSFw
+         KHyPhExQMH4F9cdgQUifbYHLlVeAB8GIXsO7aSI6UhdjEGWlh5tWrjO/fIrQKp8o7GJH
+         SWMflwm6yFOt/MOQutrjkKKROqTLltzOiDacJi8thdSd/qZdiIRYYeKIp047AIOR5gjk
+         H4ZFTUrRUlyUx57chNajw+GDWOnM+jjVxvpBvPbYwkTu1oUULi5E30ae2ecqH8tppRes
+         Z/tUsEyrlNDWDJMi8BjhhIGZHvDr04x8pxofEr+nzs82yWK/cLb6MehTJ7uPUrfvvu31
+         JDpg==
+X-Gm-Message-State: AOJu0Yxd8Axioac0BCtQZfpMHvfzFKrJhCkmLajX/K4rdhLn1XHUL5vU
+	pYmdOPd+xuStiVA9DX1yK9+AtXw+P73iCdBcXqbTQBVL5b7k6l0P3H9f
+X-Gm-Gg: ATEYQzzcivFGvPa9DgoKU5RMVR1f5Cuh3q9woc95HbwK3vHyohNMxJprNxJUUE3IUqQ
+	+DzKEep9txqtkKkLKYlpIG06yg2pEStYX90xDuVeuGIFvgsbZ0rNuspjzE5vpHOecxByCgmr9rv
+	xybPpLFVw6RpzzG3SIcXbMcmxw7CZQg47I2+kf9doX+1pbZCRxGyUrvR2cDPhvGNvyTSn63KhTt
+	rpdP4+GLFo04FThwHg9oxxQxxEo6bYJZv3fbrJpw8FUOsuumLXHuVu+xbxxauQBoevj4NXitqZO
+	IN2levBGjDAHsr0lCrfChRCNLqifFODygY9/i+5+gOFay7x3dGSMwEI6/DBkQLaurxa+Z/M2GnN
+	aNK0OB7lafsUTMlFgbwZ+pM1mWoNfzZCQjKadRBQ2paUZyp55N5/Ifj1EgJmWUPR3BuIbD4Bjg7
+	pRAVb4VnRTzqYKO3mu3OJFyRBeWKensGia3ReaS17ky0DCkUR2leUrwtc=
+X-Received: by 2002:a17:906:f5a9:b0:b97:c801:2c29 with SMTP id a640c23a62f3a-b97c8013c05mr296066266b.7.1773705817486;
+        Mon, 16 Mar 2026 17:03:37 -0700 (PDT)
 Received: from [127.0.1.1] (93-159-20-97.cgnat.inetia.pl. [93.159.20.97])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b976cf49fa6sm654584766b.58.2026.03.16.17.03.38
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b976cf49fa6sm654584766b.58.2026.03.16.17.03.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 17:03:38 -0700 (PDT)
+        Mon, 16 Mar 2026 17:03:37 -0700 (PDT)
 From: Michal Sieron <michalwsieron@gmail.com>
-Date: Tue, 17 Mar 2026 01:03:12 +0100
-Subject: [PATCH v2 08/12] systemtap: Convert confusing append to override
+Date: Tue, 17 Mar 2026 01:03:10 +0100
+Subject: [PATCH v2 06/12] bootchart2: Convert confusing appends to override
  syntax
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260317-fix-invalid-appends-v2-8-5c65ae5787d9@gmail.com>
+Message-Id: <20260317-fix-invalid-appends-v2-6-5c65ae5787d9@gmail.com>
 References: <20260317-fix-invalid-appends-v2-0-5c65ae5787d9@gmail.com>
 In-Reply-To: <20260317-fix-invalid-appends-v2-0-5c65ae5787d9@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -69,31 +69,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 00:03:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233281
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233279
 
 While in this case `RDEPENDS:${PN}:class-target +=` wouldn't result in
 any unwanted override, there is no guarantee there won't be a change,
 which would be hidden by this override. To avoid any surprises in the
 future let's use `:append:class-target =` syntax here.
 
+Also moving BBCLASSEXTEND to the bottom to conform to the style guide.
+
 Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_5.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_5.4.bb b/meta/recipes-kernel/systemtap/systemtap_5.4.bb
-index 254bac4d6f..f319aa54fd 100644
---- a/meta/recipes-kernel/systemtap/systemtap_5.4.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_5.4.bb
-@@ -52,7 +52,7 @@ FILES:${PN}-runtime = "\
-  ${bindir}/stapsh \
-  ${libexecdir}/${BPN}/stapio \
- "
--RDEPENDS:${PN}:class-target += "${PN}-runtime"
-+RDEPENDS:${PN}:append:class-target = " ${PN}-runtime"
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
+index 922e665028..013a86bf78 100644
+--- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
++++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
+@@ -106,9 +106,6 @@ ALTERNATIVE:${PN} = "bootchartd"
+ ALTERNATIVE_LINK_NAME[bootchartd] = "${base_sbindir}/bootchartd"
+ ALTERNATIVE_PRIORITY = "100"
  
- PACKAGES =+ "${PN}-examples"
- FILES:${PN}-examples = "${datadir}/${BPN}/examples/"
+-# The only reason to build bootchart2-native is for a native pybootchartgui.
+-BBCLASSEXTEND = "native"
+-
+ SYSTEMD_SERVICE:${PN} = "bootchart2.service bootchart2-done.service bootchart2-done.timer"
+ 
+ UPDATERCPN = "bootchartd-stop-initscript"
+@@ -150,8 +147,8 @@ do_install () {
+ PACKAGES =+ "pybootchartgui"
+ FILES:pybootchartgui += "${PYTHON_SITEPACKAGES_DIR}/pybootchartgui ${bindir}/pybootchartgui"
+ RDEPENDS:pybootchartgui = "python3-pycairo python3-compression python3-image python3-math python3-shell python3-compression python3-codecs"
+-RDEPENDS:${PN}:class-target += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit-pidof', 'procps', d)}"
+-RDEPENDS:${PN}:class-target += "lsb-release"
++RDEPENDS:${PN}:append:class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit-pidof', 'procps', d)}"
++RDEPENDS:${PN}:append:class-target = " lsb-release"
+ DEPENDS:append:class-native = " python3-pycairo-native"
+ 
+ PACKAGES =+ "bootchartd-stop-initscript"
+@@ -164,3 +161,6 @@ FILES:${PN} += "${libdir}"
+ FILES:${PN}-doc += "${datadir}/docs"
+ 
+ RCONFLICTS:${PN} = "bootchart"
++
++# The only reason to build bootchart2-native is for a native pybootchartgui.
++BBCLASSEXTEND = "native"
 
 -- 
 2.53.0
