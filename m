@@ -2,92 +2,92 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D9BEFB5E98
-	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 00:42:06 +0000 (UTC)
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.65993.1773708123398147976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7561BFB5E9B
+	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 00:45:26 +0000 (UTC)
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.66137.1773708314436653859
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Mar 2026 17:42:03 -0700
+ Mon, 16 Mar 2026 17:45:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XKg/DqLa;
- spf=pass (domain: gmail.com, ip: 74.125.224.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64d5a7926cfso5048347d50.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 17:42:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773708122; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=M1f1XxGG;
+ spf=pass (domain: gmail.com, ip: 74.125.224.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64c31ca77b4so5453108d50.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 17:45:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773708313; cv=none;
         d=google.com; s=arc-20240605;
-        b=Ycpt3hQTxtg0kbdwk3wOkQa8W8KI6Us9TlcClfoE5BPOxJ9Etyo3xhN2vHRU/0Ew2I
-         8PnOCLhXFVo2woPkqdbImRNTCNuiWTFUOq8le/CyRP0KDmXF6nGxhQaeBFp2PQpJ6Dd4
-         kTbjd7PO8oOlKknZjbHEEauhQO9bJ47G2f56aKtyi17Z2mfE0ePt2IprS4nUa40qOiZJ
-         uKK+JWbjxTuWGWR73g3Az+XxXL4qi6sbwdTjhifX346B4ee8gXSNmuUJJc88OT/wfjYW
-         9agKuDMyOBi0YOzSIrNEuTM8DM4OT7gsV6Sa5mnnyUSkbrxMsY6SRnF3BvaMYMq68xMU
-         t5iw==
+        b=LKMMjTNO8q3B8Yxeuv7qLpC/DueTCXaQn+aWY8iRSqWRgeT3A3Wz4XITJniTKHD/s1
+         LTuUh+XntzPlAcMDKzoXY0U2jxp6/8rN2sAuKtTmkln9yj7WGCMwjtdpxbbzj1LU6u9x
+         yu29vO3vZ4jqDULfV6POszupCP/SZVfpf0aVtbJ2/nyVIlLdgMKIL6ZdfCWWfkK8Vf0j
+         VBlPUiSkzVwo8AMcHW0FySMkbLRS883SnNyey0eNP3bQBlqhMk57FUE6gp7Lstlw5l6H
+         Mjd2raISsa8UKs7e/PuLsUk9AIu6hvmGTe0MCQmep9A2mt1fnjSecIdnBFkDY7cxosB0
+         ruwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=6IixNqs48lgSvs0v+eec0b/bCr+IOf8D1ICCk2nMOYI=;
+        bh=cnRElu68pgvr3qL7cq9pGS9eLocN2lUnI/s2b/bFVSg=;
         fh=Bwcj6kAs3AYnqc6ZaGzuuA5GE2EyA/HuIyUMiAHm0WI=;
-        b=H7iiqBr1F5GdL0sC/cEvVJOvKT5tL6UHOhe7AxexWBY1gb4kPhDsJeedMBZh6Z6abu
-         Yw+1XRtupnkGiz6HeTzO9OetttQQyhcbYMxBDjf8oSbVNwKV9np5sROleu2iA2upuQH3
-         4UuIfVpCs1t0h1mJhO7bMO4casaKtg257ix1kWnq3xOTOPUfgOfveXEVZH6au6PgmFxv
-         vJAT89s6bIoLxI3R/q2vagcDlE4j6Gv377BXzpmuxklBtyEBoIWY8Yv1xGMF4EJSnIvf
-         zvU3cXnGOgUu9/ljVQMUiZbcTjzFYVwo/u7zITHiirXW75ABpE7ZebE7SscoO0/eAND+
-         tuhw==;
+        b=VwONc2TSRFD4c3PsaYj6L+5PSgw52G2fbVS8zopSzj2zO5Z0udp8xhyucxPFAG/AVV
+         8JsxcH5tmBF8zRifm3VzPAfni97osyNTmb7+ZBsI0B8h11HuD/D6PZZLFFDyWmEJkvKa
+         CJ3w5/onM9V072qs1XKP7Tz5PJn4vvzYW3/+bxgavrpNn9kc3BYqmAwP7oXlP1F9J6dj
+         jOFC0+w5gwcv2zYvsDlXjr46872kf1MxK0PX+RG/WsfYvMTShAS3Y03K9KwIfvj4yWn2
+         0AvO+ixZO6fEh/CsnvOLwt/3CKaHfyAUW1AN2y9PYUb9A2NFr6xgSCMo2Wzny/jwEhkx
+         hV8g==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773708122; x=1774312922; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773708313; x=1774313113; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6IixNqs48lgSvs0v+eec0b/bCr+IOf8D1ICCk2nMOYI=;
-        b=XKg/DqLaHWL4+ZsnrYnj8HfNquXvGYuEgaXN72C2WSp9Bk/lO+uD0Myubtk8IcgsKH
-         fIc2X3gg3xyGAbznhYk+RLaJe4/lCuwiWncchyeXvQLITGfyb6hofc3zY6S3nng4/pDD
-         LaUb1uptLy+ponTJJx9KV47YhmEF+EAsd7fXXqy1L6mHiahtiVYLfBVQ1y6EugjisQfc
-         mGrLUBl7Y/XhYtKDX71MzwQ2tnatbFaKfyScqgg2YjLJawxC0NOgecZlOVg3xldACWnf
-         9uiNftxj7ofhUHHnGsQaInmCmjSOSoGhmzyNUmgBJu+OhY/dS1PE/d0x7q0YEgC/a91U
-         wmmQ==
+        bh=cnRElu68pgvr3qL7cq9pGS9eLocN2lUnI/s2b/bFVSg=;
+        b=M1f1XxGGTYuI9paHVlX+TsNYMJEOFRmL98iLRvJ1+CqGqBkpG3uCGq1rLd4RmLgV0/
+         V4NBNAp5mf8vrYwddIG7ccw/YlQQcNyXk9MPB4OxtGbyWEfpJabwmuGozZDc8vDsBEQf
+         UpLW0cI16VlUGR9WiAqbjn8clLopu0kn6ZnykeO6XcZtMunqysDhMkh0R943t+ogYvTh
+         BWCOoxoGUrn4F7cP+e6Gg8xy3+4yZdbytbKk9rMujxViagNAfLtAZNbGhWl0/ewk0OPR
+         KjqqnJT20ITqi0oJx2TaFA2roAhT11ozyrZ/j6EcY4FKW8F42lRYLZFXWwbJmVjYr/RB
+         70/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773708122; x=1774312922;
+        d=1e100.net; s=20251104; t=1773708313; x=1774313113;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6IixNqs48lgSvs0v+eec0b/bCr+IOf8D1ICCk2nMOYI=;
-        b=a5yT4jGeXHXCw9Ga0ZENMxYW9HdZbv5bF7uzO+oUTG2oUSggXvqNkzvYvCCYyVvfax
-         aHFkql80csuipT8SL7F1yCP5xsB0sK5hl2fJl0KGKb76P0GIuV9qdCXvrA6gdxEu0J9+
-         1rd8A9xk4rutLwkrAKhsT5mpnLfF0g0jtXnboWKtJWMASurIVHybPJNkipI2tWYKh1fm
-         OUhX2SoMnmQvacYqbGJRaz86Ef6ve0lsxMGLeQiNlOVmdPDZ9nFpaeadJnoOJiBRxTCX
-         NyUrjQiUon5bnaH3OECWzli3bt/0r66k/iUhSxbBQJl31tDbk5iiuGOYjkCk/rWDghwG
-         VHuw==
-X-Gm-Message-State: AOJu0YzDMtf+TirgnyAA7MIfVfRyVdN9PbKKzcONcdYwMSAQHJnSnKJA
-	3+v3gvxH4DLUNQJ6HaYqn+BeJJOzU1TZgbLt6Dv/sxQFqqFbNZoOj3DZPkrGWHW3tDXtKmrq6FB
-	G73wuZZbiOLVu18+jGSFOA9Tli1LhUMMZVg==
-X-Gm-Gg: ATEYQzz+OkCntkPViYUOKaMrf7L7nmCneHNU62GzJLSbghVAQtyOe4ZmJFWEeN5DdqU
-	6r35oNCvyJmIOW3KiuzJY3cdyQT7soEPa0vK9GPsfhuHquGMfIo1iJCK9T4fhbGtwf/3b58MIVA
-	15qcO+apUFSCsz8jmoTyb3CmMQ5C26iUJjobC2/rzK0MMD18COcc5zbRROmrAF/epBXxM6YNFRk
-	Jp18l+F3/3zEGiGWUc6Y3/jL3rTbLmyYU3uYG+5fcMWAlE/qk1oq/xUdd4ydi4RiQgLD0HDHMDe
-	g6cv1q44uv1m/pMy4NTr/K89ZzT88Qqi+Isp9RfEcc05E75rjpcME1A6kf7UkDWrDHk8vYJHwPI
-	jHjGag8VrAgVMy//sWBER0VQh
-X-Received: by 2002:a05:690e:e20:b0:64c:9a19:238 with SMTP id
- 956f58d0204a3-64e62f1f3eemr12251032d50.19.1773708122362; Mon, 16 Mar 2026
- 17:42:02 -0700 (PDT)
+        bh=cnRElu68pgvr3qL7cq9pGS9eLocN2lUnI/s2b/bFVSg=;
+        b=h/YRLbg1yA4dZEZEXJ9Qsdo2rMwXtl4gtRvosSgzlhxh1quf17UBKtfRyk7TCkgxRD
+         bor0OsS/2NLgTaCvuBA9kqbj/hpP1vx+FQOYyfv6uESBGdRgcun5U1KwWJ0lEuhpAIlA
+         kfdIxVS36sHzQNx2+JuZDbmbbBa5EQiCURqfgSONDQJCN+VUs15gPjsV2aF14bRoB3JP
+         G440Hykgw+G+6nwmNHfjlT2Y087BjeCdy7ulo2HIsOOLG3zFiw7sK6mmmyT8yKsecqee
+         YOHJIoaBup5I0lZ1o2kDdVIon7vtE06+2wb3Q2YSH7R2j7G11WhpcTvG54pVFK4xQhl0
+         OaEQ==
+X-Gm-Message-State: AOJu0Yxad+xm7Y7F4M5RwcmqLwF7AjNaNj3mKNSOSDAoGmNEusVPjtV2
+	7Z/3t2HioR/y6SCWBVPE3lJX+Ley3E+exPcgCpsEMJ5tEr20xjex9frU8tuJLQYdzg3hV6YXXdS
+	BaBfosXMH9bleZQasQYTlqk8XFuI+F38=
+X-Gm-Gg: ATEYQzyxcQ/a9R0CZAEejKbwbMdCMOLPT0D/+CpU2dqyqtKKxGSYct8Tm2oKNOF2tKO
+	fSGNahDMZ1wkTzG4RDEfAI3nkujhiCZWevnV5hiiEkmxz1x2m0PTn1a9VQGWP2X85huGmtrjs6s
+	0NiqFCoyY3SHKZeg3b9cxLv7CGFCmVqchsRbqFWtPmO5/Ind+HDE4zVGpayxGMMYX/nDs9xg437
+	Tgqn3Piqxg2Y3FTJhgrAUZXpMDLrbqZdMPf4CmwdOGIDoT+UWr0Bhs2xsXb1l7dhXuf738weaJK
+	edBuomojRo0Uy2Hslub62JyuNeD8FBN6qzZW+FQ2SuG8o1XQOr6V0FsNOdaLoykDqfzAQlVBgwU
+	PyhSm0SlFhLPooJtAECFrSclG
+X-Received: by 2002:a05:690e:24d4:b0:64c:97bc:52bf with SMTP id
+ 956f58d0204a3-64e63074c58mr11214847d50.43.1773708313523; Mon, 16 Mar 2026
+ 17:45:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260317-fix-invalid-appends-v2-0-5c65ae5787d9@gmail.com> <20260317-fix-invalid-appends-v2-3-5c65ae5787d9@gmail.com>
-In-Reply-To: <20260317-fix-invalid-appends-v2-3-5c65ae5787d9@gmail.com>
+References: <20260317-fix-invalid-appends-v2-0-5c65ae5787d9@gmail.com> <20260317-fix-invalid-appends-v2-5-5c65ae5787d9@gmail.com>
+In-Reply-To: <20260317-fix-invalid-appends-v2-5-5c65ae5787d9@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 16 Mar 2026 17:41:35 -0700
-X-Gm-Features: AaiRm52Pm749Sx3hV-hcE5a8B1QkWKTkJD-qwnJsMgIUMbCoZTSM3BEv5-YFvFI
-Message-ID: <CAMKF1sqUqJ72+nVorJmCaPoRE0qq-0fWHSkVVVeUsOjM_aU61A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 03/12] expat: Convert confusing append to
- override syntax
+Date: Mon, 16 Mar 2026 17:44:46 -0700
+X-Gm-Features: AaiRm53H-EathlgqB4xLRKv0fmuTdU5GGMudMS48LtWky-cZRhxoYpCn-bDY1hU
+Message-ID: <CAMKF1spbt7evovSp1rYT+XxCi_y9JALseR-3EqRw9UA=6b_M3Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 05/12] no-gplv3.inc: Convert confusing
+ appends to override syntax
 To: michalwsieron@gmail.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000091984f064d2d9ac5"
+Content-Type: multipart/alternative; boundary="000000000000f677eb064d2da56a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 00:42:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233288
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 00:45:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233289
 
---00000000000091984f064d2d9ac5
+--000000000000f677eb064d2da56a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -95,37 +95,43 @@ On Mon, Mar 16, 2026 at 5:03=E2=80=AFPM Michal Sieron via lists.openembedde=
 d.org
 <michalwsieron=3Dgmail.com@lists.openembedded.org> wrote:
 
-> While in this case `EXTRA_OECMAKE:class-native +=3D` wouldn't result in
-> any unwanted override, there is no guarantee there won't be a change,
+> While in this case `CORE_IMAGE_EXTRA_INSTALL::pn-* +=3D` wouldn't result
+> in any unwanted override, there is no guarantee there won't be a change,
 > which would be hidden by this override. To avoid any surprises in the
-> future let's use `:append:class-native =3D` syntax here.
+> future let's use `:append:pn-* =3D` syntax here.
 >
 > Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
 > ---
->  meta/recipes-core/expat/expat_2.7.4.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/conf/distro/include/no-gplv3.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-core/expat/expat_2.7.4.bb
-> b/meta/recipes-core/expat/expat_2.7.4.bb
-> index 95a1ed52c4..b3a9d8aa2d 100644
-> --- a/meta/recipes-core/expat/expat_2.7.4.bb
-> +++ b/meta/recipes-core/expat/expat_2.7.4.bb
-> @@ -17,7 +17,7 @@ UPSTREAM_CHECK_REGEX =3D "releases/tag/R_(?P<pver>.+)"
->
->  SRC_URI[sha256sum] =3D
-> "e6af11b01e32e5ef64906a5cca8809eabc4beb7ff2f9a0e6aabbd42e825135d0"
->
-> -EXTRA_OECMAKE:class-native +=3D "-DEXPAT_BUILD_DOCS=3DOFF"
-> +EXTRA_OECMAKE:append:class-native =3D " -DEXPAT_BUILD_DOCS=3DOFF"
+> diff --git a/meta/conf/distro/include/no-gplv3.inc
+> b/meta/conf/distro/include/no-gplv3.inc
+> index 705e05319a..2034204035 100644
+> --- a/meta/conf/distro/include/no-gplv3.inc
+> +++ b/meta/conf/distro/include/no-gplv3.inc
+> @@ -18,9 +18,9 @@ PACKAGECONFIG:remove:pn-bluez5 =3D "readline"
+>  # dnf pulls in gpg which is gpl3; it also pulls in python3-rpm which
+> pulls in rpm-build which pulls in bash
+>  # so install rpm but not dnf
+>  IMAGE_FEATURES:remove:pn-core-image-weston =3D "package-management"
+> -CORE_IMAGE_EXTRA_INSTALL:pn-core-image-weston +=3D "rpm"
+> +CORE_IMAGE_EXTRA_INSTALL:append:pn-core-image-weston =3D " rpm"
+>  IMAGE_FEATURES:remove:pn-core-image-full-cmdline =3D "package-management=
+"
+> -CORE_IMAGE_EXTRA_INSTALL:pn-core-image-full-cmdline +=3D "rpm"
+> +CORE_IMAGE_EXTRA_INSTALL:append:pn-core-image-full-cmdline =3D " rpm"
 >
 
-This is the only EXTRA_OECMAKE setting in recipe. Perhaps just drop +=3D he=
-re.
+while this patch is ok, I wonder if hardcoding rpm is the right thing here
+as it might be not right
+for distros not using rpm backend e.g. ipk or deb backends instead.
 
 
 >
->  RDEPENDS:${PN}-ptest +=3D "bash"
->
+>  # matchbox-terminal depends on vte, which is gpl3
+>  CORE_IMAGE_BASE_INSTALL:remove:pn-core-image-weston =3D "matchbox-termin=
+al"
 >
 > --
 > 2.53.0
@@ -133,9 +139,9 @@ re.
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#233276):
-> https://lists.openembedded.org/g/openembedded-core/message/233276
-> Mute This Topic: https://lists.openembedded.org/mt/118356435/1997914
+> View/Reply Online (#233278):
+> https://lists.openembedded.org/g/openembedded-core/message/233278
+> Mute This Topic: https://lists.openembedded.org/mt/118356437/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > raj.khem@gmail.com]
@@ -143,7 +149,7 @@ re.
 >
 >
 
---00000000000091984f064d2d9ac5
+--000000000000f677eb064d2da56a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -154,44 +160,47 @@ dded.org">lists.openembedded.org</a> &lt;michalwsieron=3D<a href=3D"mailto:=
 gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; =
 wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
 px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">While in =
-this case `EXTRA_OECMAKE:class-native +=3D` wouldn&#39;t result in<br>
-any unwanted override, there is no guarantee there won&#39;t be a change,<b=
-r>
+this case `CORE_IMAGE_EXTRA_INSTALL::pn-* +=3D` wouldn&#39;t result<br>
+in any unwanted override, there is no guarantee there won&#39;t be a change=
+,<br>
 which would be hidden by this override. To avoid any surprises in the<br>
-future let&#39;s use `:append:class-native =3D` syntax here.<br>
+future let&#39;s use `:append:pn-* =3D` syntax here.<br>
 <br>
 Signed-off-by: Michal Sieron &lt;<a href=3D"mailto:michalwsieron@gmail.com"=
  target=3D"_blank">michalwsieron@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-core/expat/<a href=3D"http://expat_2.7.4.bb" rel=3D"nore=
-ferrer" target=3D"_blank">expat_2.7.4.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0meta/conf/distro/include/no-gplv3.inc | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/meta/recipes-core/expat/<a href=3D"http://expat_2.7.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">expat_2.7.4.bb</a> b/meta/recipes-core/ex=
-pat/<a href=3D"http://expat_2.7.4.bb" rel=3D"noreferrer" target=3D"_blank">=
-expat_2.7.4.bb</a><br>
-index 95a1ed52c4..b3a9d8aa2d 100644<br>
---- a/meta/recipes-core/expat/<a href=3D"http://expat_2.7.4.bb" rel=3D"nore=
-ferrer" target=3D"_blank">expat_2.7.4.bb</a><br>
-+++ b/meta/recipes-core/expat/<a href=3D"http://expat_2.7.4.bb" rel=3D"nore=
-ferrer" target=3D"_blank">expat_2.7.4.bb</a><br>
-@@ -17,7 +17,7 @@ UPSTREAM_CHECK_REGEX =3D &quot;releases/tag/R_(?P&lt;pver=
-&gt;.+)&quot;<br>
+diff --git a/meta/conf/distro/include/no-gplv3.inc b/meta/conf/distro/inclu=
+de/no-gplv3.inc<br>
+index 705e05319a..2034204035 100644<br>
+--- a/meta/conf/distro/include/no-gplv3.inc<br>
++++ b/meta/conf/distro/include/no-gplv3.inc<br>
+@@ -18,9 +18,9 @@ PACKAGECONFIG:remove:pn-bluez5 =3D &quot;readline&quot;<b=
+r>
+=C2=A0# dnf pulls in gpg which is gpl3; it also pulls in python3-rpm which =
+pulls in rpm-build which pulls in bash<br>
+=C2=A0# so install rpm but not dnf<br>
+=C2=A0IMAGE_FEATURES:remove:pn-core-image-weston =3D &quot;package-manageme=
+nt&quot;<br>
+-CORE_IMAGE_EXTRA_INSTALL:pn-core-image-weston +=3D &quot;rpm&quot;<br>
++CORE_IMAGE_EXTRA_INSTALL:append:pn-core-image-weston =3D &quot; rpm&quot;<=
+br>
+=C2=A0IMAGE_FEATURES:remove:pn-core-image-full-cmdline =3D &quot;package-ma=
+nagement&quot;<br>
+-CORE_IMAGE_EXTRA_INSTALL:pn-core-image-full-cmdline +=3D &quot;rpm&quot;<b=
+r>
++CORE_IMAGE_EXTRA_INSTALL:append:pn-core-image-full-cmdline =3D &quot; rpm&=
+quot;<br></blockquote><div><br></div><div>while this patch is ok, I wonder =
+if hardcoding rpm is the right thing here as it might be not right</div><di=
+v>for distros not using rpm backend e.g. ipk or deb backends instead.</div>=
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;e6af11b01e32e5ef64906a5cca8809eabc4beb7f=
-f2f9a0e6aabbd42e825135d0&quot;<br>
-<br>
--EXTRA_OECMAKE:class-native +=3D &quot;-DEXPAT_BUILD_DOCS=3DOFF&quot;<br>
-+EXTRA_OECMAKE:append:class-native =3D &quot; -DEXPAT_BUILD_DOCS=3DOFF&quot=
-;<br></blockquote><div><br></div><div>This is the only EXTRA_OECMAKE settin=
-g in recipe. Perhaps just drop=C2=A0<a class=3D"gmail_plusreply" id=3D"plus=
-ReplyChip-0">+=3D here.</a></div><div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">
-<br>
-=C2=A0RDEPENDS:${PN}-ptest +=3D &quot;bash&quot;<br>
-<br>
+=C2=A0# matchbox-terminal depends on vte, which is gpl3<br>
+=C2=A0CORE_IMAGE_BASE_INSTALL:remove:pn-core-image-weston =3D &quot;matchbo=
+x-terminal&quot;<br>
 <br>
 -- <br>
 2.53.0<br>
@@ -199,12 +208,12 @@ l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#233276): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/233276" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/233276</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118356435/199=
+View/Reply Online (#233278): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/233278" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/233278</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118356437/199=
 7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/118356435/1997914</a><br>
+t/118356437/1997914</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -216,5 +225,5 @@ g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
 <br>
 </blockquote></div></div>
 
---00000000000091984f064d2d9ac5--
+--000000000000f677eb064d2da56a--
 
