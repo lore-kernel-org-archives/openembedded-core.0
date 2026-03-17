@@ -1,124 +1,108 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 368C6FD8755
-	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 12:13:18 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.74512.1773749591346345129
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E8DFD8756
+	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 12:14:18 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.74368.1773749653001460778
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Mar 2026 05:13:11 -0700
+ Tue, 17 Mar 2026 05:14:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V2uIvQHa;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43b49819938so574955f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 05:13:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SKdOpOmb;
+ spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-5094ba0af1aso63095241cf.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 05:14:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773749652; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HTHDE4hw/3uGZfPXxXHBHYY+mV4cautWUglYnWVB7zSAkYX3LXPgmawI13xdF5oX38
+         3uno564cLX32zFvzCIRzDjkyE1ryvuLPN5Y94kGLjshk8bt2y5kisOGGAjr4RddTgSNP
+         9kg3m53zW5NJ1X26uQVucCI/sB0UfJ1jT7Jml3YiZS2SN4Z+kGbVcSz+21SoWMWYhpRq
+         3xoFDioX0eBkdd36mCpfwBN8S3aia7Yyv15asqdpBjz8Q8zG1YWw0TQ3u+C5UcduD5aq
+         drPwCFU9sUAu5ng214Qo4yTxRu/4GIXGkv+pku5S81zhc8TRIVRSBVWn4X2W1A9aVqaA
+         tB/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=N4Q4aMVGJM1XdGp3adndgYFG3u9CQK3of6epBzK2j/Y=;
+        fh=ZiYcxsYBdEEXDs9HoIhOz/2u/sKFw2l+p6YL98DFjK8=;
+        b=PQ2VKN4MXlXXbIad1hM91rRssybofNWXVaz4AJAF/fpgwgHaGM9zAzs1J2pyJi3zzD
+         SgD2pt9fJ2xI4Un0q0fyqxpKqP64QlyKiv2x4ME+x004NZ7zRRQTph6KpdGrSg5p5IsB
+         wjC5Db++7D6rqogHA/zeydGGsNC8xaLVslt1VPL8fjsEvoLjYsAiTTc4IgoAJ+Elsa3I
+         pExsVtlL1ysYE0IFA4N8HbSFP+wYmhNmGtsQACjJby93XZIB7d/Gz6XOVFz1RCYR61nQ
+         OVJ4eS6CqLH00zYPKqQdP8qjvIUXYQZkwU1H1HCSgJUxYK8v0bVyie3eHG9TJIQTyaJ3
+         kGAg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773749589; x=1774354389; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DqBFXNLotwpuLUjHJyj2SJSFKd5hCBpM4jxvF+8rzdQ=;
-        b=V2uIvQHavT3/f5yfmEaVjJsIUqdXExmM0sPGq6Q1zd9nhCTRg1wsbrT+cXe0X7z7w2
-         WF8MBcb0/dyqJsAN1+2JNc8gbw23BSSon49J50G2TielJKqxtEW08HOfQlJfKHNlGtHP
-         L5vssqs2u8Y/MzHdsjOOq/A6K15zCETc+ZVwg=
+        d=gmail.com; s=20230601; t=1773749652; x=1774354452; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N4Q4aMVGJM1XdGp3adndgYFG3u9CQK3of6epBzK2j/Y=;
+        b=SKdOpOmbnsBog3kZ/W2sRx9k819Q9LLjF28gjL5di2jspVfDqWdoS/Gq38xf/XsYuk
+         8pK4U4FIrtK7FntvTibGUyBMmqrBE+VdY7/ZVRV7a/Ffe616MkEVBNRk9iP5WAEnRHrW
+         UxQ0j/sOptLnOVkPGc6XUotuRXCfvLkqo751PAeYjAy8Zd1gYc+9GO92CNFYjW3JJ9Hh
+         a6S/gWHjXLFTVHPrrRP8JtoDK5hoO0ZyJ1hlAcT1h6XJCmbAkMcM/q8szIgLLp+SI5Rj
+         OiBs8xkRYUW6SePLAYdS3So7aWJw6z9MzrbjdFWml43GTRIw89HqKH+2q9hL2Q/QrGVx
+         Z0rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773749589; x=1774354389;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DqBFXNLotwpuLUjHJyj2SJSFKd5hCBpM4jxvF+8rzdQ=;
-        b=iEm99VmOvYU4N2hrS0FgSKEF1QqThpShVwBp4hT0PGP4uzntoEeneUEwfigt86aSHa
-         VYR1wKtDxtOe/iCJ/7gdYSGwCcyhblKT9WluWKC28HW+A4VBj9pyNv5/2Or8na2HzK56
-         5PAGI0t7mt4VhW3dPxi8+4NrPJFkLlVDlfES1Er/KTu11g6gs55vPyUvQRz9rSxiWWCs
-         BQX+17i/VBVYxzTRJcgfAxiT2XaqDgQZhGKTbvas8JTEVM4i/ewy/4eiJjakEJgz1Mtp
-         OqSk67hSSTpGmi9VMJXD4J1nJri3yvcDf58DD6+vZVZJEHd66uYcuzeoSyaJBTavDvag
-         X/EA==
-X-Gm-Message-State: AOJu0Yzqjx9ATwMSdRurSq6f6few3FTdZOcnTHPIj4yiNKFqge9olwLF
-	S0Ac/kO1zY82mDXY2Zy83Hmx2elH5HtiwF3eFisG1tCfP+b/rx0yYxn23ZfaH12WZiL7WqqOcN+
-	1uhxxHfc=
-X-Gm-Gg: ATEYQzxLIkk9fPAD2O4vvZBiBx+Cmwf0FeyHdHHWdhJP2q8ae/XkLiDCLc0A7wWGQAW
-	JCyNWNYdg+5Uh7a+0b35hbbYkaYa82a1oonmx9vTCxq2u1+/P2te+/NxdVFR49ppZWZmcxZrDCY
-	cOZk4c0Vzu8Ya3gDvbWKmkmdQuI37Lg0RGR4lwEhzHvATc/Ap127GUNNvGzNoRHXuZS8tk2QhwM
-	RXOBNytKeevcwUMFJIoJOl+Me0ZMdR9T8E69/Q0txMxQLJmdWtWXjXI85QSFeuMP8OfSKacyGuA
-	Cb0PrX2pvUyR/mjs9+HkCib74vW0fn9QJ88+n5evOQawQdgb0xzlOuRyrDHJG80WwyCPnuB41Er
-	M9R6M2unAPIkDvM3umCs1TbhsTs9YE6ynkt8VYd8slV4ELzgzE8o3RUvgOwCuKwN/d55d32wppk
-	CxyKUMU2M2cwoTpANviewYCyMoXOoWB24unHXytcZFWJMYDm4qAXc=
-X-Received: by 2002:a05:600c:8b6f:b0:485:3dfc:57c with SMTP id 5b1f17b1804b1-48556700bcemr278129715e9.21.1773749588913;
-        Tue, 17 Mar 2026 05:13:08 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:183c:b889:ee72:b492])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48557c6ce2fsm114689195e9.25.2026.03.17.05.13.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 05:13:08 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] license: Fix sstate hash conflict issues
-Date: Tue, 17 Mar 2026 12:13:07 +0000
-Message-ID: <20260317121307.935437-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+        d=1e100.net; s=20251104; t=1773749652; x=1774354452;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N4Q4aMVGJM1XdGp3adndgYFG3u9CQK3of6epBzK2j/Y=;
+        b=OcwiG2vgyDVhcGSblL3xza0qKUnXvyYWhpxFu/GMsXBcdM1q4Dm0mQmAfgl3YWrF44
+         KZPPN9BNgQVRq5oy2fa6ZUausdQVtCF+p/yTuhiurcDr4fJy2VoeeCnZxmhK9xMhFDuO
+         SlDy00cm6wMhM5quIKjUpQUGDiPKdTs6aC7DRAXHxJ+8rofdFUJl1bfCkOWezpaolenb
+         AHYME7pPFfAJP8aujveu+c+W1bYDs3D5JXk3P6P8aEwUciEM3WlVBebfiScpSogAz5mk
+         Pmr1oa7eSAEPEX1ZeVQK4ywNuiURxHhxGjmFtOHHP8ArtAFxpqz4fniE6Pi2VnuKjwtl
+         d7MQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqOwQ1l5lq5y/BS7kQ8HkvRlt0OQP1ijdfgr+el9qVO65epczu1szVu4RsZqs+XLZfo971KDu7JEPhkkLiumB8Tg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyec540TH1Be7AAHWOy1MehJRwUO7tQX7wsCoIbbBtsY+KJr6yR
+	WhdMlQsT37grEI3ujbrlb2YwR+1oGU2LpTEuhCJ6UW8kk5FLcX2BTWN8BwekzCYzIi6KPZxGEeG
+	eNUUMsCitAoKD1VB/hpILrTKoCRkaGjjWKA==
+X-Gm-Gg: ATEYQzydQNblqwO0au3HbG/VNsU6ZGkJ3IAnsrEGt0lCjatM3jDSsLVFDcjbv3PYKzx
+	wob5ZVNAfgfCFLnNeTegLFrNcos1ur79NItKuEfPX7x7jDi2CznebfsMCzj3lOu96Ysy27bY26+
+	b0xQM6plAitOYxJaz4HVXUd9kBrQbs0izMKcUzcDtdV4kk6G1aWUnrU0RdkSKN0sufAiyyslqYN
+	yOPRjQFWol6M2qd2/4mKvrTADjleI/Zj5zWpaAa57u+6V7MIXhrb1XzFY8BS5IKchKmO2sQEWAd
+	LXMhSZqOIiXnX/uH1tjo1SctcSQLQO2wb/2cRv2zLd4QIf1R+HJm
+X-Received: by 2002:ac8:5dc9:0:b0:509:1a36:6aca with SMTP id
+ d75a77b69052e-50957da5679mr225643181cf.17.1773749651719; Tue, 17 Mar 2026
+ 05:14:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260310174403.2309825-1-Hemanth.KumarMD@windriver.com>
+ <20260310174403.2309825-5-Hemanth.KumarMD@windriver.com> <CANNYZj_JtZZ7Ftskf+W46LuradpnFv1CvyYt2G_HPJovyCq09Q@mail.gmail.com>
+ <0d193cac-0f0e-4eb3-a462-ba5c459bce73@windriver.com> <CANNYZj-UY4DVgPbs9RtnCo3g9mxNu6Vh7WbhzXjLeN67J3qHaQ@mail.gmail.com>
+ <67653695-5d20-4ef6-bd99-9a6ee5e70966@pengutronix.de> <71345a0e-8179-4f77-84a4-291f2adc188a@windriver.com>
+In-Reply-To: <71345a0e-8179-4f77-84a4-291f2adc188a@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 17 Mar 2026 13:14:00 +0100
+X-Gm-Features: AaiRm51H_7tQEaTHXjJXCRwxVz7f86MNqCXoFORk2Qt2LT0R9U6sYjTzk5SJsQY
+Message-ID: <CANNYZj8pWiNp+BauBBfnq8HyTr_q6KnDSkkY6=VsiGS-Oo8NTw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 5/6] barebox-tools: fix build failure with
+ glibc 2.43
+To: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>, Randy MacLeod <randy.macleod@windriver.com>, 
+	openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 12:13:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233320
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 12:14:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233321
 
-Currently, SSTATE_PKGARCH is injected into the sstate packages themselves but
-the output of do_populate_lic is meant to be architecture invariant.
+On Tue, 17 Mar 2026 at 11:14, Hemanth Kumar M D
+<Hemanth.KumarMD@windriver.com> wrote:
+> Thanks for forwarding the patch upstream in time.
+>
+> I=E2=80=99ve just sent the barebox-tools recipe upgrade, so it should bec=
+ome patch-free once that lands.
 
-Instead of putting it into the package, use that part of the path as the
-installation location. This makes the sstate packages architecture invariant
-and avoids hash mismatch issues.
+The Pending patch for ltp has also landed in master, so can you please
+file a ticket upstream, and update the Upstream-Status to
+Inappropriate [workaround; ticket link]
 
-Since the sstate install path isn't part of the task checksums, we can just
-remove all the LICENSE_DEPLOY_PATHCOMPONENT code entirely. do_populate_lic doesn't
-run for native/cross.
-
-I suspect this was what I'd originally intended when I added SSTATE_PKGARCH to
-the path but things weren't quite done correctly.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-global/license.bbclass | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/license.bbclass
-index af5f1ed41df..2d4ad6df267 100644
---- a/meta/classes-global/license.bbclass
-+++ b/meta/classes-global/license.bbclass
-@@ -18,14 +18,8 @@ LICENSE_CREATE_PACKAGE ??= "0"
- LICENSE_PACKAGE_SUFFIX ??= "-lic"
- LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
- 
--LICENSE_DEPLOY_PATHCOMPONENT = "${SSTATE_PKGARCH}"
--LICENSE_DEPLOY_PATHCOMPONENT:class-cross = "native"
--LICENSE_DEPLOY_PATHCOMPONENT:class-native = "native"
--# Ensure the *value* of SSTATE_PKGARCH is captured as it is used in the output paths
--LICENSE_DEPLOY_PATHCOMPONENT[vardepvalue] += "${LICENSE_DEPLOY_PATHCOMPONENT}"
--
- addtask populate_lic after do_patch before do_build
--do_populate_lic[dirs] = "${LICSSTATEDIR}/${LICENSE_DEPLOY_PATHCOMPONENT}/${PN}"
-+do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
- do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
- 
- python do_populate_lic() {
-@@ -35,7 +29,7 @@ python do_populate_lic() {
-     lic_files_paths = find_license_files(d)
- 
-     # The base directory we wrangle licenses to
--    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('LICENSE_DEPLOY_PATHCOMPONENT'), d.getVar('PN'))
-+    destdir = os.path.join(d.getVar('LICSSTATEDIR'),  d.getVar('PN'))
-     copy_license_files(lic_files_paths, destdir)
-     info = get_recipe_info(d)
-     with open(os.path.join(destdir, "recipeinfo"), "w") as f:
-@@ -256,7 +250,7 @@ def find_license_files(d):
- 
- SSTATETASKS += "do_populate_lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
--do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
-+do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/${SSTATE_PKGARCH}/"
- 
- IMAGE_CLASSES:append = " license_image"
- 
+Alex
 
