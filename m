@@ -2,253 +2,378 @@ Return-Path: <Hemanth.KumarMD@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D839DF33832
-	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 09:57:27 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.72296.1773741445420170831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58ED2FD706A
+	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 10:14:21 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.72531.1773742458851234965
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Mar 2026 02:57:25 -0700
+ Tue, 17 Mar 2026 03:14:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cc5+QRvD;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75360f6290=hemanth.kumarmd@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62H7StcG1504384
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 02:57:24 -0700
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=i8J0cpbY;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=75360f6290=hemanth.kumarmd@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62H4nWmY494843
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 10:14:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=IuzwjkbpE
-	XTsy1rT53J3GNgwEXQSUNtVBhBq7NAdowo=; b=cc5+QRvDpFoK3JZk+B0uNjxCX
-	lemJ25GwuPQyE43XHzaONSC7QP+lvMZa4p9jhVfajfyvzDRpcAI0K89ehpRc83G+
-	fixfcRMuUhWffcbzWiFm1/CBX22Rdqft+skME6TJvsz4Yicz0J+Bw0rY9XXJpwl3
-	QIcdAMW31JAQ70F743onlXdZd+1T4kv1vFmT9CuIgW0GAerg357rcgHT1PGsn+oZ
-	VophVBT4e2INEMiaFyxsE+CWyVgih0+5yPVQo9d1lfU78sTQGeZ1+snFH7SFEZM/
-	3bAi3YCFK3aCMDkjG6ev0mL47d0kKZt9AmfdeozQ6z3pLS90eApeTVJGj0cqA==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010065.outbound.protection.outlook.com [52.101.85.65])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cw2y1303m-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 02:57:24 -0700 (PDT)
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=dS8RBBZNM8NzGv68wdK7LQ
+	hi2uvVYDiGDn6TIAXnuPc=; b=i8J0cpbYMq0Mpa/2xmKxZMQuNhIcSon+Udzr9B
+	WsGaTYkQOG9Lg4sMQUrSdi6AzphrcG8hoCb3yKG+ARqw69yzXFy2GQdFDLMCIneV
+	aK8b3avwg12G9Kf7hJFgJdFAmvYbBR+AIUFK6+GZF0D1doP4e97+RAgwZcP2nBwx
+	Uz/0IhepJe6R89VbQQP56bKXWuuLTXzyWSPSrCdURxIE+KyUTbX4LrQze2Lt8z80
+	8GnnT7trDZHJXb6+Ez2G5EvWQbj716IOeO8zE0DeszMqb3tSIZpuj4fIauevmgL/
+	gCymtMycmv3bsA/H1kWRx97J6E6ywWEpahohJmH5wzhTdfFQ==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010001.outbound.protection.outlook.com [52.101.56.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cvvvyk8rg-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 17 Mar 2026 10:14:16 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V8PCXhGRa427NXQh6AqKcVK5ou/wyj2AoerUvMj83/wqykkgk6cVVjC5ttnXZzG1ZnYur/ohKOFsoSizKP1Bq8wbM+NrMjzZfeTmGz8zajAfE5shgM9/n1whQlvPrfTiPvy0+9qnsVn/WFnz5CCJp65vK2l7SfDJ3J+Gb88akhQGZiCD0rhgnK5j1yB9S3bJ6SHx+8yucjfCNmAtjc3+1HB8esbQRd0bxf4S/F35A+Rmxz+kbBd4P/xCppsfcVZOx3PXXhBd3/BcKyizic5f7lv0PaUWnF4KiFGrK8INGcHMyrDPKVWIKmx5qsCc7BaZIQze2sOPdEZhyao97Gx4yQ==
+ b=HpMiqr60Zv9KjX8AkqNiR6vBxktqZppXCkz34aNukw7TRQ7Tgoh039Pu+Fn/fM847ZIYkvxXubwUdFs72eOTqwGoaaK8VynCij64/+ejRiXBM5SkYk//8dcCxLyNm1wUPLZ2A1phIXrtyuOkaf4PC659fjQp0G7ItXrzv6hNN/L5aJjE4GGHYs37vLNiSjo07uKw2ihI9unRbAU9g/8+JNtZ+091Rkj/KiSd6Bu/FFUeeI09yCnncf9h3XV4dohgPQbvZV3dk4gE0pmuot/GexhjqxT+rdRWabTn7fQEJtRaEGw6Lt420jnElE7sgtai9TOonCwrg5NlndwojJf10g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IuzwjkbpEXTsy1rT53J3GNgwEXQSUNtVBhBq7NAdowo=;
- b=T6flfEp8MtW4I9u8fnGSqoYrWA6hOnheR8mt2NdmSDS0/pBVmElKwtJww+Wqz43e8EH5jANo7IHxcwGKDpspICpc0Goevryd1LqSB0qOQTcSftR2B83RJhtJx8ZuzfQMy16Pn/xvQudGNF9kbhjRDDjAgn46DmTqiZwA2+O40qKsoecRBf6F0azYVSnVkm6P8oL5FCAzPF0I+Hiq2Lgp2RiFTooIEGWF90kpmWTFT22xkAfXhxoUAz3cioEH7I0tMEo2WMVH2OpE0myXFqzSp40kk4NFW2pPn+Umr9Nvw+mVrEeSnXyxl0/4bic5ckh8v2o12/eMX7yVm2lrE5TSTQ==
+ bh=dS8RBBZNM8NzGv68wdK7LQhi2uvVYDiGDn6TIAXnuPc=;
+ b=S41s9R+cSgdH4xZI6YSMj6XV8qhIFgGI0zVTVDzSrfoLApeC0jR8yDuXrgAWKZhAgP3bWXIgMVjksPV9iqqAY5AC6eMvG7FhCk0NNGmoYfkBKdLn0tAJfBXSN04a5GVh71PIG6i5iSrZbUDoZ8JSGg75njEoFJj7MjknL8+Dzsrsw320LSwWGFqrjmsI63vpcCqphuoiVl8J3HR36/SQ0ircVsDV+/E8xHqjGMTT9itzaToVTU/2cYNO8R7Ae9b2HgRJ0R02n7bLVwOQn1zHPfVv+UF51YCT9hQbskC4CBr4gzIsVtdvrXjwtItPKtOJjVY82uMJaJMeTIzelpavjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
- DS0PR11MB8133.namprd11.prod.outlook.com (2603:10b6:8:15b::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.19; Tue, 17 Mar 2026 09:57:22 +0000
+ SN7PR11MB6773.namprd11.prod.outlook.com (2603:10b6:806:266::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.17; Tue, 17 Mar
+ 2026 10:14:13 +0000
 Received: from DM6PR11MB4564.namprd11.prod.outlook.com
  ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
  ([fe80::21dd:5cab:fc47:1dfe%3]) with mapi id 15.20.9723.014; Tue, 17 Mar 2026
- 09:57:22 +0000
-From: Hemanth.KumarMD@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Hemanth.KumarMD@windriver.com
-Subject: [PATCH] barebox-tools: upgrade 2026.01.0 -> 2026.03.0
-Date: Tue, 17 Mar 2026 02:56:50 -0700
-Message-ID: <20260317095650.990672-1-Hemanth.KumarMD@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0574.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:276::12) To DM6PR11MB4564.namprd11.prod.outlook.com
+ 10:14:13 +0000
+Content-Type: multipart/alternative;
+ boundary="------------fRSjTU5uSVXW0IfDip7q5uJw"
+Message-ID: <71345a0e-8179-4f77-84a4-291f2adc188a@windriver.com>
+Date: Tue, 17 Mar 2026 15:44:05 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 5/6] barebox-tools: fix build failure with
+ glibc 2.43
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>, alex.kanavin@gmail.com,
+        Randy MacLeod <randy.macleod@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+References: <20260310174403.2309825-1-Hemanth.KumarMD@windriver.com>
+ <20260310174403.2309825-5-Hemanth.KumarMD@windriver.com>
+ <CANNYZj_JtZZ7Ftskf+W46LuradpnFv1CvyYt2G_HPJovyCq09Q@mail.gmail.com>
+ <0d193cac-0f0e-4eb3-a462-ba5c459bce73@windriver.com>
+ <CANNYZj-UY4DVgPbs9RtnCo3g9mxNu6Vh7WbhzXjLeN67J3qHaQ@mail.gmail.com>
+ <67653695-5d20-4ef6-bd99-9a6ee5e70966@pengutronix.de>
+Content-Language: en-US
+From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+In-Reply-To: <67653695-5d20-4ef6-bd99-9a6ee5e70966@pengutronix.de>
+X-ClientProxiedBy: PN5PR01CA0016.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:25e::6) To DM6PR11MB4564.namprd11.prod.outlook.com
  (2603:10b6:5:2a0::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|DS0PR11MB8133:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d23e932-c5b2-4dd9-4ff7-08de840b9554
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|SN7PR11MB6773:EE_
+X-MS-Office365-Filtering-Correlation-Id: c9739810-8b9e-4351-d2cf-08de840df009
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014|18002099003|56012099003;
+	BCL:0;ARA:13230040|4022899009|376014|366016|1800799024|22082099003|18002099003|56012099003|7053199007|13003099007|8096899003;
 X-Microsoft-Antispam-Message-Info: 
-	mPRe96PK8lyFwPtUWTg2hfiR05jftAEBYfN7MNuD3JsEZCQmSqewtYb/vh4UUmtpSemiiSWnJRKr4U66z1DmutAauLeHTPO0b02cYclYcTp9iqHKFbOTWbG26N7tEPg6P5A0HrRAVsKDZ6yQOsvHTkzIHMdt7nOZ57B7LFVvGB6Kp3W7gZzNXsB+xTjUIm4NcDiKM6QmLoZ/mu8RNLnv2rMqPF9nI6KSBAJLnC5Vbk1r/cBWck2qp7BZOetF1M4mqqxdyuU7VEJMQtIRV9MvZBFQxQ0fAuKdKoXJa+77g7ct69mnyXtAtSOD2sIQENXEHwxWEiQpaNccZK95tEmJSbhQaNbev+0qZG3MCZBGQ93jFYBAtNVmnlAbVv3tWIpvDltoxBDfTd3bEtGrYThV/tBmYfWo12ItX/RAq7RVO5qGAZDBcwoK7pSpNeaZ68XrDE4ADzwzUQpkdR8669weftdId3GcKfzLrr8kQdkwFEjEi6IguaS2tV1PaqGVWCY1mVwqw0mTO/vAPIGAnT6+BL/7gA5k9K5VGuBhaqY1v/lsHzxTPGEORIRUpUH3wFRWxnIa+dIsvWVnVi4MUwwu3kfIXNmErnEhQVcad1JiDHke57Q10n+PGL96E0tdJI8/2dwrRd2XZWyxez8fVO1IGvHvfb6eXFui5OZmd8C29wJQBrUyrshkgnP4SRf68ggxbJa0oPDGhOArWjR/Nwx2re5l5bOIgJypw0Yf0dJ3Kk2Ij5jG2IBJlJG3e4Q8T+v7
+	u4tlbfKTk/qBqqBAmvYiSz9fpaiaRlP3yCldA2U/vGnyfOTFTWjDmHu8EiVRFHO6gJidXCStdigRVDxxSv0Ux9z5AP0WfKXfeQ5pmHj6SMmr9Yb4TmbAd+8EIWvU8wu3DGeGQDERFsnyyH3bj93G4FyLjY2KSnFby3pB0UTYcRZWB+7282gUiMWQHbwI5AWupjBGpnwEfTwlqD7DUKxrWvHP0BkVYnoCK3U2x6OwKL5rAH6IoVyC0XZDAfdcbRxOC6BPyDN8pndMiykK4yOl3ccybROLzXGaOy27Po4YgghWcD6I46uOCbc00pWNm+2J1qcizYTdUksefRmttpEZjohsOO3AUmLlz4R5b62CHtMwr3LGlg1d066WxXI+1GY2hqdhbSyqz/L7Oc00Rf6uxeG7dwfA6lov8xgR/xJu+EH+rSt9+BGOrJ1yT5Z0cmCMj3tlOUa6+ipDhqEiNf84aU8pRBNw46SLan2G4tCX8rduF9Y6ks1myLtkidT3C91SR6xImCaikF4zOk/TWwhOKkZBYLID+LQOS6Fpuk25GkPALJI6Xih5sgEeWM0+ITrpshDXieePdt4g9c+JWwubuftd2PS2cq0nXke2vqkEIJgZ9A6yaXKzJxvvYu8HX10odSO5HyzJCw/doEg7Fb4ZnczBg4hHDCe5HxQ1z74tvCBHxPUcwGAZOqgDfcStMK3T
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(366016)(1800799024)(22082099003)(18002099003)(56012099003)(7053199007)(13003099007)(8096899003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hESFSvKVCnqPGSt3dVqpwyeWqKo8H57OTC3sLZXPmmdCZsqmNEi/KsgDOmPX?=
- =?us-ascii?Q?pZX6h37yrFtUoVhiqta1Jxac2oiZryV82hvPxiKqi+BoJ51zgdykUWquITYg?=
- =?us-ascii?Q?8Ka1QGtEVVqGD+6izOQIfDj21izlkQkwA6jfoLuxrDjE45TkMre4gzSs7NkK?=
- =?us-ascii?Q?SareSmr6pq+Nnp6apXeODER2brKMlg1vFLNbqEosOZ0p/TwyGOG13W0JXm1o?=
- =?us-ascii?Q?l6eylGYGvUdr5qYLMegnYqfM/rkY+nhxpWlrmh4Vh8M/MQowhvcmv5Vmsdnf?=
- =?us-ascii?Q?hon9+UUaGhhVbjrvm0nhgSgIdC2S1dlAsHQ3AsC9/udrG3q1itMtTWGr1YNL?=
- =?us-ascii?Q?YSP09+Ye+XYd2v/8pPWEFazG6hsayRCVXmgV7rPZl6mYuQlBEKCYzOGPqq6M?=
- =?us-ascii?Q?uqDorXZjRUlWu+noNrRmha6m65luFPqifwfNJEOjPAyl6y1EROFs/8SxyCyi?=
- =?us-ascii?Q?vcG9CDNvq4eXsYWCL//BwxAkjmGjfH+O+cLTK/dxMtMK8BPtGIcurF0IorfC?=
- =?us-ascii?Q?/8sdnOsaq09Dsx5GO8R8f3q1qB2ikksvqfx1lx9j2piclDQceNL7FInoV+IP?=
- =?us-ascii?Q?Y6XW8WztQzx7hVdmOIbi26xLB3th+0COkVJAUC7gqtRT6f81jIgRgmtYWixl?=
- =?us-ascii?Q?H6IzGNroyIlM6UH+4myXMHegPTU8qAq23tI9yPaIA9IMdKW1QW99fbYPEVKH?=
- =?us-ascii?Q?CzaumsgnadHMn33C6Q1bhfGq9mSwvWq8BINkgPCUEtbRC+E79D7v5Uuk39zT?=
- =?us-ascii?Q?IkwRS0dgF6Sc4QINE6CE6E+/HHhtCY1OQvIHeFDuMP3XNZwgCtk1XzUqDJKA?=
- =?us-ascii?Q?AvAd4Mc/N8Y4NAVcUqFPTSwTQBh9H6tzoc9j/TpMg9NJbfUq/5GisldFCF4B?=
- =?us-ascii?Q?1bUrQcowCP/plAY3yY07QfbYPGhr7Dhyj5jYT0s+McB7GTl3VXGZbWUc4hNo?=
- =?us-ascii?Q?/mD5fbKJWPaX6ZXSFigGJDtwiauuOrgIZBTdTOiGxPOfJAyNcTd1fM9PjoDl?=
- =?us-ascii?Q?zxbZRY1PQP9aIENxTW8DeX56KaeUogxX1daFJkUo33bA5d99LknsUaDESPnU?=
- =?us-ascii?Q?8Z/26tHT15OjgEgSCDiLyezg9rhd116rwb09yYTD6VtWF0u7Vl2EJYagtqi3?=
- =?us-ascii?Q?uRD7/6fX3vRDNNjnHyYofDfsJFSZSb9vgT6zIwBFyWTZMkGgGvTtHNvaA2kn?=
- =?us-ascii?Q?Ua1nEZfJPese/QiibwrBVAlWqEToOxVfcv2eVLu13UNovtV7hZ7EM7ZVft4Q?=
- =?us-ascii?Q?BozS85xvn+XtA2g26APQyovotnykdXqEDBRljfWuBrZ1QfW+9RLOhGH5/vVx?=
- =?us-ascii?Q?bLs1tzL1dq/3V2J0Y9a64XJgIvgH4eaH3tiBsoLpLDr4t4xhMIic1jF4iHkp?=
- =?us-ascii?Q?EXi0HYqQ/mN1eDY7Nfg+MdggXuZClxS+YQJ0Qs39OiOjeWzQrx61FB07Oup7?=
- =?us-ascii?Q?2nJfkwD7nMXkjsNVTZEpUqXTYZP9aAudvp57e9mi9NnO16SfNS/zsUUmTKfP?=
- =?us-ascii?Q?KUkLzuV/P09wyP/HeF6iHCTvdvsN2W/XduLQKTU2yuZWgvTdD9WfOqj3ICp+?=
- =?us-ascii?Q?OqX/KHX1C6cN4kMPdxz/AaYiSLUEoaxxGzwuWIusYiPi+GVi4Z1yqw7jgGaz?=
- =?us-ascii?Q?fzEQlJ7Uus3awu8TeXeJinNMBiBbs2ieIutsY8xxHhVbkbdsMUqJAXAoIeFa?=
- =?us-ascii?Q?d0L10XrRakfzlZY4VkyL+coPNH40hD8XEqEcn37ibqg7MYpBqZ4swvEDFVvY?=
- =?us-ascii?Q?6xwCba8KiXQgGCdvGE3nJoPocKPraOM=3D?=
+	=?utf-8?B?RmdVRXI3V0dndWFJL1JEVEE4TjkvQkdXVlNIYWRISEdSNzNNbzd6L1dEZHdn?=
+ =?utf-8?B?QkJLanJUMGxERVo2ZzV6dXI4NUk1a3piaU9KVk9HUTcvK3BtREZ3VGMvMDNp?=
+ =?utf-8?B?Zy9nRzh6bUEzNFJ3WktjdlBjTUJMeVpaUEx1eVVGMXRiMExuQU1OZjFyblc5?=
+ =?utf-8?B?TDBZSXFSdDBHZzc0ek1VU01pUHZVaVVVVzlTSXFQNHJodjdIc1VKWTVZdWtp?=
+ =?utf-8?B?cU91VW4yK1JuSmJlT3hxVlJwd2VQR05oRUtpTWFoYzV0djBaNjg3bm56TS9j?=
+ =?utf-8?B?d05hc3YwdnUya0xqbThiOEJ0MFZBNExwVm50b1NvUUlNZUdkNTEyRXk2NFM0?=
+ =?utf-8?B?aGN0LzlVckl2ZDZySXVNR0pVT2Z6ME9XejdKRHZuRmhFemJLWUtIcnRITnFM?=
+ =?utf-8?B?K2VPblZqSUVCT1VMV1Y1bWZpYjlVeUU4QjViaWZJaTRTempjUzM2c1p2UFlw?=
+ =?utf-8?B?ZVA3ZHpvRlRucmRjRjAwZnlHUVFCMEN1WU54eFQ4QWk5TWJUbUZJb3lqMHBE?=
+ =?utf-8?B?Q1NFcWFMVko1MHZUK2wzRXZMZlBTRjJITGRxbTdOU2VyL3hCMnJpd2NveVRZ?=
+ =?utf-8?B?S0llYWdvTnJGVVg0eHpqZVVaWDdkSENSUml6ZHNEaFZTS3p0a0pRVWl5WExs?=
+ =?utf-8?B?eC9Ia0dZMFJjU0tDUDY5TUR1cnhwbEVQakZKcmdLb2h2bU85UHp3TnZqNVZV?=
+ =?utf-8?B?MFBuSENsRGhiM1MwYWxHb1NYSzZkaE1RekFoYk1SUi9BYkZvNnFUakt3eFBF?=
+ =?utf-8?B?MnVUa2tMVmtybVYva0ZiZkFpK0xzb29JTEI2NXhGbkRwSG9BNHRIaDVYZ1U2?=
+ =?utf-8?B?cEFqM2cvei9DaXhmZnczaTRKd2RYbHYzWFRIa0paUEgrMGZzbXoyZmdXYVl5?=
+ =?utf-8?B?N1lRMVpyRmtBazd6dWhwM2hEV2JEVEFQK01SWHNDeE51dEJkTngzRkJ0dE40?=
+ =?utf-8?B?aXBGbkE3NzExY0g3TlNxYTVjRkdwUXI3WlJmenFGKzlId2pRQmJGdldZaU5s?=
+ =?utf-8?B?dmdaY2xBWm5HVms3UWdwR2RiYzkvdXVnM09RTzF4UFlRQmNKTU03MzA1R1BL?=
+ =?utf-8?B?NGVORDdUakpvTzZGbWxYN0JDdjU4MHd0U25EWHU3R2N2bnlQZjRTdk5RTXlI?=
+ =?utf-8?B?Sk9qYTdYejJ5VUdtMjZTUG5ZaWVNVUNJWUFhZWFITDArcWtjNUxia3h0Wkkw?=
+ =?utf-8?B?Q3FPNXVJK3RDOHhwTFR2MFlpTTZmb284aHlRRjRMUy9EOU5ydzBnUThJWG1I?=
+ =?utf-8?B?ZWFxaVl3L0dpdzdUdFI2dXNnUUprUkcvb0h1ekdKbjRXaW9VQVVsNUF0VXZH?=
+ =?utf-8?B?b0hxY1liNWU5TjlpM09TRkFUYUp5YllPUVlnODN0TFRKaldVK1k3eTZTdk9o?=
+ =?utf-8?B?cHNIQytFakdkNzI1Vyt0ZFc5Z1kxZ0VuTk1QcDFzL1BLUUxEY3ZqMU05eTRl?=
+ =?utf-8?B?T2VpL3kyckwzcjJLYXoxcWlhNTVWMm5qUWdURUtiTit0YTdPWjV5YmpmTGtj?=
+ =?utf-8?B?QVZIeDZaWGJob0wzV3BadUVXQ2dvZFRZU3Zvd0swNndOQlFLVUx6Z2VWRmpJ?=
+ =?utf-8?B?Y0Z4YkFqd0hYSG4ydmRPOERlYzVEeDRTTW1TZjVmK011Mm93L2hVc1NuWW9j?=
+ =?utf-8?B?RjF1d3d6T1FqNjlUM0pZV0hlalE3TUVXTW45MXZoYjdKNEpsVFVmdVRuRk1l?=
+ =?utf-8?B?UzR6citHM1Q1bVhqVkJKaFZhUVVHQnkzV01xemdNK3FGbWdwZURWT2ZyRzB6?=
+ =?utf-8?B?ekM1T0RHRDU1VmswbnRTNVB0SHUxNmhxR3VHa1JZSjhiS0VBV1NLWk5XVXlZ?=
+ =?utf-8?B?VUpRNHpqZUVVek8zeXhORDhHbE9DdkNtSUxwZnE1UDl2cFNpQXp4TGg0MHlL?=
+ =?utf-8?B?aDEvN3BUZE90dzY0NXFnVlFWYWNPUktncDdXRU11MlhybVAyMDRONjJzY0VM?=
+ =?utf-8?B?bmFrQTc5U0FsM1Y3d25LeWI2MUhBRFYzbStiMkRUbW5BbnppQ1ltSlRnOUNG?=
+ =?utf-8?B?aFN5TU1QS29zTHk1R0NlWHdtUmdQSVAwZHRZTFoydEtzVDBNSzEwZW5SVVhT?=
+ =?utf-8?B?anRlVGRKeUpYc1V5ZVFMa09IbGNqa3VUMXRRSHRIaDNsendXeCtuUlpkeVEr?=
+ =?utf-8?B?WXJLNWQ1ZWhYUnRaQThEMWQvWHRmSmU5UndFVXJONFZUWDNDclBVQW12eTdp?=
+ =?utf-8?B?anoxbW9HRDlBcThKdVp0cVQ1WkhUcEV2RXRKVXJFOVk2TDFMSWhJQllnRkNF?=
+ =?utf-8?B?bnNjK2pTRS9GL1dHL2xEMW5EbWlobDVjMmlzeDA5ZS9XTW53WGtHSEFxaHg5?=
+ =?utf-8?B?UVdYeHlvUElzdmtkeEJVd2FiOEdUTmszQ3ZsaGx5V1NYT01yd3dJaE1FU21W?=
+ =?utf-8?Q?xx/aHWz+oQwlnx3w=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	gDF/UdnmNvZgn6tL/n8qIbjzc0S2i9NFfQYr75xiFijKGyJ9/XbRP2hUCrEO4gCWdDyixDYYriL6W2BLOZj5ZTnBoBAImTGFUkwWqQ4eDw1wgYTZSVKZoLXb0MdPskK6TwTCrZiGKi9VNkRHSKls6nrkNir1G6hQp/ZIXvrYQxlVUuxsIbkMqMpm2Fu2ju4cutw2OVM7CoGdeZ1DN3R1nVTuBmgCgYeX67vRRWQifMQRVWXtbhabA76mRw4vREV8ULiNTzTHRqJHIc+VSsyo1Nx69f2pOD1DzaLB85+xlz19xufgWnUvMJbpRip6FRmX/DnUhDHVLPSVsqa9DPLhjg==
+	oBmEfk+1uPqoVqdNl1M6Bmnlp+qNg7Am1Iuco+nGtikjhFpb8dpC1z83Hd9medPr/hEOIY3Y63JWUUujTjk2gcNwaEv1wqs7XY2OJwPT5VMg8qSU2svU+/yOeHH9Jkd20BAbadKW233RXYSr+gEWd23FjVTanY5WhoVLOCHRDhWsIAUa+alkIjEbzTk5uLff2qU9hyGI+q6gnmqYOQVr1zSa91O0UKx9PHRJUUqnm8/3KUd+1mM7iLqJFybBAo5QdU9/SvjVZaiYy36wCazSqQyfzghAQdaKtR83z0bc2TXE+/YK4v8nl68X/RenshdCVBdQ4qg0jaq5NyCdDDSF8g==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d23e932-c5b2-4dd9-4ff7-08de840b9554
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9739810-8b9e-4351-d2cf-08de840df009
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 09:57:22.0394
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 10:14:13.3188
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vTiCW4FVEro12lXCEd1o8aN1FeFHvh5nLPfod5Z2DAd1vcwLPbAW/V3l8G7GpU67n4ypmjQcRTYWFMHiljXqnmX+9WwA1cl/bmLyUsEheqU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8133
-X-Authority-Analysis: v=2.4 cv=CekFJbrl c=1 sm=1 tr=0 ts=69b92584 cx=c_pps
- a=ZfP+Ya0swgQO+W9lSFUZ5g==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: jWsb80QVrcETOBXxvr1hnXKrs5kXSG5YdouNngSOtZVF+27ZlS1YigJAPiS2JozQh0/VmePLDfsXpJSZK3ohLhSWL2BQ73ShyLu9JUO5fH0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6773
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=E4XAZKdl c=1 sm=1 tr=0 ts=69b92978 cx=c_pps
+ a=qHW1pi9L+1RZ0SKNcL3CYw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=VwQbUJbxAAAA:8
- a=nTWVe4aRAAAA:8 a=t7CeM3EgAAAA:8 a=Iil2exeA2RwXTvETjisA:9
- a=OCs18tFjoTMAgHLyVtgT:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDA4NyBTYWx0ZWRfX6QG1kB02J8uG
- tXmX8RLD+MeP/lpJFT6nM32UlsyJtbioa+uurpr3iwVOAMBBLj5jJiwtMRx3BNmrJZ+/xei25F4
- axha8pvHePmb/QM4VoQMSUBitdTVDRsI4CXgmic5Ex3zQ/LZbcjDsEa1qjhyMOrcwcZV4tsYj4y
- hMLOsvNCYkjPuv0wxELeioazrb2oDewP/qhQ9Itp0Fp8p6lrsD6LYGMPzNdbwzwwpVBmHTi2jXD
- Ks9O3JEls5QrzaGH5xyx9hshZUqJnrLClKmu9b10pD/otO06gsZNiZGIp0P5vNlKhIhyj0LW9po
- NmLnwawIQFrvOqmwK7odjK5tNPrduq1dGXbY6SBQm7OketbeDi3tSDIHW+a56fNcfNLex2+Ptw1
- HlrZvHTkpvhZhfWkvvjF5NQwWcs5LAPjfrV4tqhrmmIZN8um8cAvbrLpTPn48nwrRd9xgDlxeEK
- TQ5E/ajFTQCHcOYXvRg==
-X-Proofpoint-GUID: YqSonb7OPQM3Rut71LXysEACTN458bV9
-X-Proofpoint-ORIG-GUID: YqSonb7OPQM3Rut71LXysEACTN458bV9
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=NEAV23lmAAAA:8
+ a=VwQbUJbxAAAA:8 a=Q4-j1AaZAAAA:8 a=bGNZPXyTAAAA:8 a=t7CeM3EgAAAA:8
+ a=jZth-gyJDXovKhO_SLUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=yj-aMKAYKbz0kkd27lYA:9 a=Vmbg3YxQRtdyI2ld:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=yL4RfsBhuEsimFDS2qtJ:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDA5MCBTYWx0ZWRfXywC2WQCG4InX
+ 3Ba+oCqCgOchDG6dBIGsb4n46QVi6eMMnZGsRZAt+RCD+n4WN0ml+G84FfOt1f1WdJFJRIMlb1m
+ 49bg2A4lPGy4MGwNQ0uXScvhRjvRoGhMeW46bGWnfjEvmwf9MxaJ5jhoiaSOnRerM05R9nIf5Fe
+ 4imV2XfpRT5OtP5G5uWjAIURI2EH9iUdoWfGD/CH9vj2/w9ugBd8rFzMGuJLqrSdMyG6rxGxoxi
+ GwnUKhsOsj+gTyup3lq7eBdP2aEx0hUyAnIdIFZahg4ZPzoPJRrreQ/DXnzitQZv2/2WRvO59fB
+ 26wEFXD17BRlET8JKdhN/wx1mnHKzoUCyHF74mLF1WtCCGOzxQWT+wIdKEXOKNcg7epTA/93nL0
+ SYa38R2OkJNoUtjFlyG5VcI8Iw2meR9994nnCU4X5VlYI3Vp+m0D5acWMbJMuA2b6U0a5Z7VH+F
+ WUUqB6bVezKreonec5A==
+X-Proofpoint-GUID: Y9TwFwkpZpt5MpTgXY6x8CQCJGRVsIL0
+X-Proofpoint-ORIG-GUID: 87Em4hAHsF3jP0aN9OmvMloq1Wda_diU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-17_01,2026-03-16_06,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0 suspectscore=0 adultscore=0 impostorscore=0
- malwarescore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603170087
+ clxscore=1015 malwarescore=0 suspectscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603170090
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 09:57:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233311
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 10:14:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233312
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+--------------fRSjTU5uSVXW0IfDip7q5uJw
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 62H4nWmY494843
 
-Highlights in v2026.03.0:
-- Security fix: signed FIT image vulnerability fixed; users doing
-  secure boot with signed FIT images should update to this release
-- Added Rockchip RK3562 SoC support along with KickPi K3 board
-- USB Fastboot now supports booting Linux kernels generically across
-  architectures (previously limited to ARM32 zImage)
-- CI infrastructure gained PowerPC Qemu test coverage
-- ARM NXP i.MX8MP: Fixed SoC UID incorrectly reading 64bit instead of
-  128bit; enable CONFIG_ARCH_IMX8MP_KEEP_COMPATIBLE_SOC_UID if rolled
-  out devices depend on constant SoC UID
 
-For full release notes, see:
-https://lore.kernel.org/barebox/abQ56zuKfzKlZvcr@pengutronix.de/T/#u
+On 13-03-2026 10:45 pm, Ahmad Fatoum wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> Hi,
+>
+> On 3/12/26 8:17 PM, Alexander Kanavin via lists.openembedded.org wrote:
+>> On Thu, 12 Mar 2026 at 20:07, Randy MacLeod<randy.macleod@windriver.co=
+m> wrote:
+>>
+>>> Hemanth meant to reply saying:
+>>>
+>>> Hi Alex,
+>>>
+>>> Sure, I'll do that but since we're in a hurry to get the glibc-2.43 m=
+erged,
+>>> I'll keep the existing status and follow-up with a status change next=
+ week,
+>>> once I've had time to submit a patch to upstream barebox:
+>>>    https://github.com/barebox/barebox?tab=3Dreadme-ov-file#contributi=
+ng
+>>>
+>>> Right Hemanth ?   :-)
+>> No problem :) Note that v4 also does not address a Pending patch in
+>> ltp. I made a comment to v3.
+> Thank you Hemanth for your patch. I took the liberty of resending[1]
+> your patch to the barebox mailing list, so it could make it into today'=
+s
+> v2026.03.0 in time.
+>
+> The barebox recipe in OE-core should thus become patch free once the
+> recipe is updated.
+>
+> [1]:
+> https://lore.kernel.org/barebox/177340033069.206252.6842304138227246713=
+.b4-ty@pengutronix.de
+>
+> Cheers,
+> Ahmad
+Hi Ahmad,
 
-Dropped a local patch 0001-barebox-tools-fix-glibc-2.43-openat2-build.patch
-as it has been merged now with this release.
+Thanks for forwarding the patch upstream in time.
 
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
----
- meta/recipes-bsp/barebox/barebox-common.inc   |  4 +-
- meta/recipes-bsp/barebox/barebox-tools.bb     |  2 -
- ...x-tools-fix-glibc-2.43-openat2-build.patch | 43 -------------------
- 3 files changed, 2 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-bsp/barebox/files/0001-barebox-tools-fix-glibc-2.43-openat2-build.patch
+I=E2=80=99ve just sent the barebox-tools recipe upgrade, so it should bec=
+ome=20
+patch-free once that lands.
 
-diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
-index 14a5ca9709..17cfc25692 100644
---- a/meta/recipes-bsp/barebox/barebox-common.inc
-+++ b/meta/recipes-bsp/barebox/barebox-common.inc
-@@ -3,6 +3,6 @@ SECTION = "bootloaders"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
- 
--PV = "2026.01.0"
-+PV = "2026.03.0"
- SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "219283d67c5d2f79bd22915b8a71906531223cb01e6e5b8d1658f299441e4169"
-+SRC_URI[sha256sum] = "760f22ff34ca00539d29826cce07d83210e41ebb51266616c6969b855c099bc2"
-diff --git a/meta/recipes-bsp/barebox/barebox-tools.bb b/meta/recipes-bsp/barebox/barebox-tools.bb
-index 1459f48db2..eb327306d9 100644
---- a/meta/recipes-bsp/barebox/barebox-tools.bb
-+++ b/meta/recipes-bsp/barebox/barebox-tools.bb
-@@ -2,8 +2,6 @@ SUMMARY = "barebox bootloader tools"
- 
- require barebox-common.inc
- 
--SRC_URI += "file://0001-barebox-tools-fix-glibc-2.43-openat2-build.patch"
--
- LICENSE = "GPL-2.0-only"
- 
- DEPENDS = "bison-native flex-native libusb1"
-diff --git a/meta/recipes-bsp/barebox/files/0001-barebox-tools-fix-glibc-2.43-openat2-build.patch b/meta/recipes-bsp/barebox/files/0001-barebox-tools-fix-glibc-2.43-openat2-build.patch
-deleted file mode 100644
-index 2ff7cb82a6..0000000000
---- a/meta/recipes-bsp/barebox/files/0001-barebox-tools-fix-glibc-2.43-openat2-build.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--barebox-tools: fix build failure with glibc 2.43
--
--glibc 2.43 introduces linux/openat2.h through the fcntl include chain
--(bits/fcntl-linux.h -> linux/openat2.h). This header expects the
--__u64 type to be defined before inclusion.
--
--In barebox scripts/include/linux/types.h the header <fcntl.h> was
--included before the __u64 typedef, causing build failures such as:
--
--  linux/openat2.h:20:9: error: unknown type name '__u64'
--
--Move the inclusion of <fcntl.h> after the typedef definitions so that
--__u64 and related types are defined before linux/openat2.h is parsed.
--
--Upstream-Status: Pending
--
--Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-----
--
-- scripts/include/linux/types.h | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/scripts/include/linux/types.h b/scripts/include/linux/types.h
--index 5b01333..33cea19 100644
----- a/scripts/include/linux/types.h
--+++ b/scripts/include/linux/types.h
--@@ -4,7 +4,6 @@
-- #include <stdbool.h>
-- #include <stddef.h>
-- #include <stdint.h>
---#include <fcntl.h>
--
-- typedef uint64_t __u64;
-- typedef int64_t __s64;
--@@ -15,6 +14,8 @@ typedef int16_t __s16;
-- typedef uint8_t __u8;
-- typedef int8_t __s8;
--
--+#include <fcntl.h>
--+
-- #ifndef __linux__
-- typedef long long loff_t;
-- #endif
--- 
-2.49.0
+Appreciate your help!
 
+>> Alex
+>>
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#233002):https://lists.openembedded.org/g/openembed=
+ded-core/message/233002
+>> Mute This Topic:https://lists.openembedded.org/mt/118245373/4830399
+>> Group Owner:openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [=
+a.fatoum@pengutronix.de]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+> --
+> Pengutronix e.K.                  |                             |
+> Steuerwalder Str. 21              |http://www.pengutronix.de/  |
+> 31137 Hildesheim, Germany         | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686  | Fax:   +49-5121-206917-5555 |
+>
+--=20
+Regards,
+Hemanth Kumar M D
+
+--------------fRSjTU5uSVXW0IfDip7q5uJw
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 62H4nWmY494843
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 13-03-2026 10:45 pm, Ahmad Fatoum
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:67653695-5d20-4ef6-bd99-9a6ee5e=
+70966@pengutronix.de">
+      <pre wrap=3D"" class=3D"moz-quote-pre">CAUTION: This email comes fr=
+om a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
+
+Hi,
+
+On 3/12/26 8:17 PM, Alexander Kanavin via lists.openembedded.org wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">On Thu, 12 Mar 2026 at 20:=
+07, Randy MacLeod <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:randy=
+.macleod@windriver.com">&lt;randy.macleod@windriver.com&gt;</a> wrote:
+
+</pre>
+        <blockquote type=3D"cite">
+          <pre wrap=3D"" class=3D"moz-quote-pre">Hemanth meant to reply s=
+aying:
+
+Hi Alex,
+
+Sure, I'll do that but since we're in a hurry to get the glibc-2.43 merge=
+d,
+I'll keep the existing status and follow-up with a status change next wee=
+k,
+once I've had time to submit a patch to upstream barebox:
+  <a class=3D"moz-txt-link-freetext" href=3D"https://github.com/barebox/b=
+arebox?tab=3Dreadme-ov-file#contributing">https://github.com/barebox/bare=
+box?tab=3Dreadme-ov-file#contributing</a>
+
+Right Hemanth ?   :-)
+</pre>
+        </blockquote>
+        <pre wrap=3D"" class=3D"moz-quote-pre">
+No problem :) Note that v4 also does not address a Pending patch in
+ltp. I made a comment to v3.
+</pre>
+      </blockquote>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+Thank you Hemanth for your patch. I took the liberty of resending[1]
+your patch to the barebox mailing list, so it could make it into today's
+v2026.03.0 in time.
+
+The barebox recipe in OE-core should thus become patch free once the
+recipe is updated.
+
+[1]:
+<a class=3D"moz-txt-link-freetext" href=3D"https://lore.kernel.org/barebo=
+x/177340033069.206252.6842304138227246713.b4-ty@pengutronix.de">https://l=
+ore.kernel.org/barebox/177340033069.206252.6842304138227246713.b4-ty@peng=
+utronix.de</a>
+
+Cheers,
+Ahmad
+</pre>
+    </blockquote>
+    <span>Hi Ahmad,</span>
+    <p class=3D"isSelectedEnd"><span>Thanks for forwarding the patch
+        upstream in time.</span></p>
+    <p class=3D"isSelectedEnd"><span>I=E2=80=99ve just sent the barebox-t=
+ools
+        recipe upgrade, so it should become patch-free once that lands.</=
+span></p>
+    <p><span>Appreciate your help!</span></p>
+    <blockquote type=3D"cite" cite=3D"mid:67653695-5d20-4ef6-bd99-9a6ee5e=
+70966@pengutronix.de">
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+</pre>
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">
+Alex
+
+
+
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#233002): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/233002">https:/=
+/lists.openembedded.org/g/openembedded-core/message/233002</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/118245373/4830399">https://lists.openembedded.org/mt=
+/118245373/4830399</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:a.fatoum@pengutronix.de">a.fatoum@pengutronix.de</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+      </blockquote>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+--
+Pengutronix e.K.                  |                             |
+Steuerwalder Str. 21              | <a class=3D"moz-txt-link-freetext" hr=
+ef=3D"http://www.pengutronix.de/">http://www.pengutronix.de/</a>  |
+31137 Hildesheim, Germany         | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686  | Fax:   +49-5121-206917-5555 |
+
+</pre>
+    </blockquote>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+Regards,
+Hemanth Kumar M D</pre>
+  </body>
+</html>
+
+--------------fRSjTU5uSVXW0IfDip7q5uJw--
 
