@@ -1,160 +1,224 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DBAAFED9EC
-	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 16:23:42 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.80232.1773764617245229952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37747FED9FB
+	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 17:41:52 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.21])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.82263.1773769304007751429
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Mar 2026 09:23:37 -0700
+ Tue, 17 Mar 2026 10:41:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jj12cAUR;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so42454515e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 09:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773764615; x=1774369415; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ZEDZp2o0N53pr2k3Vl1RBJxI3bHw6rQQTosG0EaMBg=;
-        b=jj12cAURFIBoeWsO16voylfBwOqwJ3s99SoihISApUhv6bo0yiGL5hlCRSCXqRyRtQ
-         qoOcaDRUT//gbdKz6QMWxmxleWK96DzUdrZB6Y0D+4wNCrhuSNmwUl7Z3u3c1KsqpBQw
-         Bif04DfcLISdxrDecAZ4fmouAZo/ApNBaRc+TtY53ASNlLzdlAagIFEPy6hpspuDY4C8
-         cM8+Ehr1l2FZMoAXZ5ud0NiexdsaGO/pRXIGr/DH0ZO9W90Mn/nmXGcK90z9CcpDgxy6
-         TF6v5KLaEv/xWcruE7UJgW2B2FkIhbIV5v3zY9hY7Xb+G+gLQbzNUTn8n/LEg/kqoXZp
-         n8Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773764615; x=1774369415;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1ZEDZp2o0N53pr2k3Vl1RBJxI3bHw6rQQTosG0EaMBg=;
-        b=b2wk1TY5cufJsCyZC/KvgFekReBLwUqABCG9zDsH0xEAvMpAknamIvl30BrcC1/q9x
-         B+JTEQupUYvBBxdFlMQjBVmVVSasLFY9si7vgGxFcT3J2hbYXEHihE8jCQu4coCY9M2x
-         jTRF5/STbdKbS2fWtDCmeuef6tT+fWnagdcpDLa5bfzzcppS6eUx01Q4i6DbP4UBZ3K9
-         92yr9EijloUjRteC/I01VkG6FQxa6EglXRjRzuQK/i3abs+3beVdl1piwGdlI3N6xkBr
-         5jv+6RFhG7ifdh2RB2Pm5kzwWqXowxB911A6PuulbUfKW2XMH5fm7DwWahKvm3C5vDhx
-         q66Q==
-X-Gm-Message-State: AOJu0YzHsddPJGD4C7b6/xxBDyMz79TYtAghlOi8dWx6Qs1fAwE8UNgu
-	aPsFSYg/IBROSOmogFMMUxXU4KJX9FFOQqSeKksLuXdQIw6RWCf/o7jdmfEFpg==
-X-Gm-Gg: ATEYQzyUmny1M92sIxLksSM07Zkyt950dFjW69QGRYkdhkUF+eaxzx4TbsEQwNc9aRN
-	bW6wf9ALgA7CGIRUTzhkKKni0GpbUKp/1YPu4Ad/mLT/aCupcz+SZsPEJOMxSfe3+bLcNb3s5Bf
-	FxT2LV2SkpCFgGdNP8y44UMS6T7yn2qRWdzzMgWKX4r8QAEbaKEOdyMgDiVJb90zfjvxn1R9LDs
-	hWNzVTibQ6HAFJ79p2DRoq9XDpXXgPxRggD93Nb9f66zhPT/ric5aOEAniEHhg7mKX3zcvAxX8Y
-	OB4X25ogSdCvP2BptQbUMxlippR+lz9ab6KXfcbacD2LJRCR05w38CC1DOZnRCdruwLNpVOYV2G
-	E74Od4IUylisxNvjD0J2DbYoVSYAVeB+vi4SACOA0lZwzNZbUUuFKfgIbruVckzT0p+/rTMjEkf
-	rnqOo5+KDTuTW1uAITCR/uddXgNRy89nyq
-X-Received: by 2002:a05:600c:c8f:b0:485:2ce2:4c75 with SMTP id 5b1f17b1804b1-486f442206emr2904385e9.1.1773764614321;
-        Tue, 17 Mar 2026 09:23:34 -0700 (PDT)
-Received: from toster.lan ([185.228.162.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f420d946sm2691145e9.1.2026.03.17.09.23.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 09:23:33 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>,
-	Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-Subject: [PATCH v3] sanity: condition hash equivalence warnings to when it is in use.
-Date: Tue, 17 Mar 2026 16:22:12 +0000
-Message-ID: <20260317162211.321710-2-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=TPf59l5m;
+ spf=pass (domain: axis.com, ip: 40.107.130.21, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PEY+nhPXXKGISgnsu0bQD46npVLQLsTKtJ+7X8abs57Ni7A29rLo1TaWgJW2jP/b3/8MNa13ZmvpWdO8ElKXaQJ9rN3yct3gv9VrXlWaHso9gFQznuoy3LSPPMQOVKRxlCvVGoYVZB9yNV2J8Z81OWt+S5Q+sGLjbI71kGp9+XiXPWw5CCLMjuqp+pJSQvlY7pJjcsVk28eK2xZexAqqQBHBIJUtaj1c7RpUIDZhau7OyHPA6aQk7OoehBmMIz4+UbzLOq4tcMCYTRqXYNVBm2qn/uC4m2bAmayeLx1yGGwZXP/skA1v7DZAWClpJP0XOoAgeUhWOOpvpueFSKMUBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N9JGViK8WcxbTDw9lFOBbHQqbiwe2cWrYbZ9P+vslDs=;
+ b=ALF7thDsLde4qvt8kI6BJ4HHMPMc0DoKtb4RpuE0BykBLccOrS12rzxyDncp31b4F9NFCm9qd2157TaZt09V4EmwV8caeBU8V920D7czXknt96n7AB0N1SAvNEFRfSFoIZsZoR8R7+z/uZZ3fXs7M01FZFWDZ1BexRutylKAVRxGGjxiWShy1ocWgJkT5hpOESGTi21SwO2guqsBk85Z0ig70maRm2hDIVpOh5d9KrsgOoDKfatZk6mgeAlsDPt9zYRkM+YFDBgubqtty3hHrBvPTCCgnknmbWqwzC7AK1lWUFXcK/chYVUcgak+Ov9uh3SSNuKBc8x4+r52rbpy8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N9JGViK8WcxbTDw9lFOBbHQqbiwe2cWrYbZ9P+vslDs=;
+ b=TPf59l5mhsx2xM/xVNNJ+cUY0Rm2MHiiss4soQc6FIpt2a9TxEtXwNi/xz1cPUNT8mVk+dKLZ5DJg/10MEl8B1Ye0AAKbrNWmg8tGJU8nMrhJU3nkkCjvKEk3HP/ZjWkUeT8ayzaRU6CRCbK5sAkOu6aLrgL8fNtOCmeOdcwPFA=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by AS2PR02MB10053.eurprd02.prod.outlook.com (2603:10a6:20b:646::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.24; Tue, 17 Mar
+ 2026 17:41:39 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9700.022; Tue, 17 Mar 2026
+ 17:41:38 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] sstate/sstatesig: Abstract dummy package
+ architectures into layer.conf settings
+Thread-Topic: [OE-core] [PATCH] sstate/sstatesig: Abstract dummy package
+ architectures into layer.conf settings
+Thread-Index: AQHcs50kBh1WHvRh9EeNNO1NUSlroLWxBQYAgAAD4wCAABa7oIABR3KAgACDQEA=
+Date: Tue, 17 Mar 2026 17:41:38 +0000
+Message-ID: 
+ <DB5PR02MB10213EE78C9A650941C636DF0EF41A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20260314102702.3942139-1-richard.purdie@linuxfoundation.org>
+		 <DB5PR02MB10213C75B95E2CBE99D91221DEF40A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+	 <3f73b46c12aff52292d488f48d11572c66991b70.camel@linuxfoundation.org>
+	 <DB5PR02MB102139B16A3C8B755F94EFCD8EF40A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <e69ed8a6abe51f1bca2779f24edfa9d9e4d23d01.camel@linuxfoundation.org>
+In-Reply-To: 
+ <e69ed8a6abe51f1bca2779f24edfa9d9e4d23d01.camel@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AS2PR02MB10053:EE_
+x-ms-office365-filtering-correlation-id: 41fcdf30-46fd-4d81-a3a4-08de844c717a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700021|18002099003|56012099003|22082099003;
+x-microsoft-antispam-message-info: 
+ kuNnYc6TwsMwQqu5dZbB0+1eDGJDz1WPkmAmaUD8qrE+pk6O8PHMz76Volr09XM/Zb0sVontoibkS6DQxlQqeMZVhKOOLFLenJPZhdoZ64lpxPvk6FvNZM/QdmMAdGQ4EBUxaOcpyOUjho11PYEAATXrvpKzFlS0dWGgt+hY/kXSzn/p7kohEKnd+ZXKyz28gDtuRK1G4xhS2+kRhiyvN9VciF/Utfor7Ow2+e2E9ubLL8a2eGopN5oHNxlMHhnmvlBEojXNFWrJhX5YEKGmqemvYDMDoGHo1UgsHDddeR0V9IJD6ZNrCRsX0TlsfPmzK/CaNhuS24O11W1p/AGNQ5dPCwzdMrVjLSmexQBL7e7ztYZ9juBKrxqLC24KesdKAzWoarICgu5BvmJ+08Zjn/uPBU34z+0syZC/M1T3OnftWCER3VfXnbnBUbvqEJS1nG/bfrrGenF2UbP6/OeiOITYO/WhzClui8BJAaWtwT7WL6r5kNt7BBvmYkJrz6zwVpbNkrdwGGgff01kqg+Lu5o2uTj1UejgiiEE30Id51eMDRNo3qKUB8a9zO0KD5dHDYMhKOqGQPsGf/Ag1fVFPBf+b7AnTgi6t5bpTQrWtpQdiGftHxWmDwlOUzo0/RfkZyt7cbtAkC+JcbaDLk3lcjqdMkRVZJG6meebvjKsRQQxMwM5DoULnuIbkwrOF2EffzkoHaClHH5ZVJR67FOzRwntDWp5RTjBr1BsNuYaEFSEoZyXPytHkuVbE21lcZXpT8Idn6mY+eKiKgiQHOU7OxaeVPyVY9KrqpeA/TOw/tU=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?bXdQQkRoanpIejI5N0RWRVZxUHV0RkxwMFU3am9hY2g4TTV0S1U1d21DWXN4?=
+ =?utf-8?B?Y1RmdFJQM0g0Zit5UDRqZUwrOGV5VjJscDdEVDVFOWpwcFA3OU00aXE1bW1L?=
+ =?utf-8?B?Wmo1UnpSSndXbElSUEF5dnJXU3RBWUYxTVJqZlJiRERkWTJxb2FFekxXZFVi?=
+ =?utf-8?B?NTR5Uzg0d2E4T3lXUUlta3UzaUNPckRySzZ4QzNLTlQ0TkcvNGdBZFBkcVZi?=
+ =?utf-8?B?MW5EV21mZTBPMzJxZUFVQU9lVDNuWlNOUkdXQWtFQzIveVZQTmtYZ2J2UlZn?=
+ =?utf-8?B?MnBvV1MyZHlpZzBpa2ZINEZNMVdvT01Jd0xISy9QSy9NZ292SUh4V2JxUVBZ?=
+ =?utf-8?B?SjhDSFIvUEJjREg1NDI4NlpzSlZCL0FmdHB6dzAybHlGMXo5YU16MnM3RE5j?=
+ =?utf-8?B?Tk1xa3FoQm1QUWpTdStGd1UrdzdIZUVaU1JJSjNPRWFOZUx3bThLS2tEdmpq?=
+ =?utf-8?B?UnVadEtEV3hFSEx5bmtSSFEzYzBOVEtKczdBblB4ZTBHakNRNlF6dHpJNVJZ?=
+ =?utf-8?B?SVZ1R3BXbFRFUHZIaVZVNXRiNGxrVTd3Q0ttcTVFait2T1Znc1ppakZoRUtH?=
+ =?utf-8?B?TVdSMnVTYUE2VytVT2pGM2Y0UDUzeW1BcVFQTEVaS2xIOWFwbFFyOWg2dnZn?=
+ =?utf-8?B?K2hMcDZwMzh3UStHUnRONmVXejlBbFRGL2xwRTZ1ZW8wbERoMzdZbi9ZUkcx?=
+ =?utf-8?B?QVBEYTU5bFhMcFNPVVc4Nk1EZDR4L2hwejhzZEhQK0tmc3ZLelRsMUdvckVB?=
+ =?utf-8?B?QzdvcmQ1QzFuU2cxb1dEUEdWS29GM1EvdmNjRUFYWGYxTDdIVVlueUd6c2h5?=
+ =?utf-8?B?cTkzV1I1eGkxYXYxZ3ZvTXlQcFVRWWxqUFpNaUY1cHI2L0M0R3RMSXFlT1Zw?=
+ =?utf-8?B?V21UNmwzNmpyWTRnTEd3VllKY294KzFSZkw4Wk5DSldSeU56dk5OZjVyVVM2?=
+ =?utf-8?B?VGZiZnpDZG1DeGNaYTFHdm9XYkZkRUI5RWl6MkNrV3hLSjJoUUh3cUVHUEpw?=
+ =?utf-8?B?cS9ZSS9GdU91Q0wyall4TUt1aUVSUVBQMnFvbTNuUmgvWmFyNmI5RCs4T1dX?=
+ =?utf-8?B?d1FHQ01UbGxKcWs3Y2tGZ0NUYlJYVzNkK0lwVXV5MWV3SSsvSHk0WGorbER5?=
+ =?utf-8?B?UlBFTGZFbVR6S2lmck8rbmN2Q1NmWWl6dGpMZmdja2tFZUdtWmhwVFlCK29p?=
+ =?utf-8?B?cnNucWV0a0I2ZDVEUWNoenl1Y29CRnN6aVc0MzZGNG9JOTdlYnZZdjdrU0FB?=
+ =?utf-8?B?azdQT25GaTFpWUtYOEg3SVNjYWkwV3dQYzhjTFNhc1crRHE0K3F3QUNXZ3JB?=
+ =?utf-8?B?UGlWN1ZwZTB1b2lMZGdubzBlaEF2Y3lnZElob2RCQTZOa3lzMGR0OFl6VG9W?=
+ =?utf-8?B?L3Jhei9vdzhFMENQOU5KMTBreG9qRXg5QldhL0MwUXF4RmUyUEVCTUw0UTI3?=
+ =?utf-8?B?Q1RNcjlSY2dZM0FtVGptLzhycFJuV0xkTHNiekI2MU5nam0xTGNzVnFkY0cz?=
+ =?utf-8?B?aE9BMmNwSS9ZTHc2clJMQzFGTjVXbXZRWmJkdmxjL2Z6bXNnMSt2cWZIeGdw?=
+ =?utf-8?B?azFMY1VoY0xUT0ZBVXkzMjY2aU50VVlBdytRNzFLdnN1OUgweG1qb2tRVVVO?=
+ =?utf-8?B?ZnNPYmMwV3JubzNhZFQ2S0N1Vmg0K0gyNHRLRjVBd3NIN2hSQ25pU1ovclFr?=
+ =?utf-8?B?bDNPbHkrdW11V01wQTlLQW1vUm1XNDZNczVUKzF0WjFkMmhoMUFUTUFkOG1y?=
+ =?utf-8?B?Y2dKL3dodFJDcVF4UUVFWXJ5YlNERHBSeHlSRmtQZEc2bTVZTjc4WHZmZzVB?=
+ =?utf-8?B?VDlFT3RNdk1Qb285dTlWOE1wNEp0ZDB5K2JWWmhrcHI1MDAzVFZzU2NncERE?=
+ =?utf-8?B?MjQ0ZkFsZ1NFUWRUVlhwck9Uc2pTYzJZNDFsVDFQZ3NsTiszdjFyR2VwQll2?=
+ =?utf-8?B?ZkdkeWE2M3A5dnp3Vm5pWFhWUUJTYnhhWGlyUHZma1FXWFhqUVNMT29vREM3?=
+ =?utf-8?B?TVNrWDU5VHVVYWtMbFhFbVRJV3hOUURlZUR4ZkF3eVBmZExpSEs5UjljT0xC?=
+ =?utf-8?B?TGJnOFc1OW5FTXo3QXpJcTY2dUY2N1dUTU1wUDF5SHRDYy9xelQ1TGdEQ3NT?=
+ =?utf-8?B?TFltZUZwQWRmQTNWZGVYWjV3L0YrdlRWbWxOT29ZTWwvaDlRSkM5TmVKVWhy?=
+ =?utf-8?B?MVZpSDlycGVtaWdZbU1aVnpHNDlGTnprRmp4bzlHTFdtK3N4dHlvRGVYQUZZ?=
+ =?utf-8?Q?hjwnqdWvWkm7mnyGwN915QgsCLJzFugzKbuPL8rgPk=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41fcdf30-46fd-4d81-a3a4-08de844c717a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2026 17:41:38.8994
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uwDHIp5p3/V6xfmu+EUaqiI7tRliTFkrLpfvIYCruIDFqJDqMWEi5yV84zEMT60q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR02MB10053
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 16:23:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233329
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 17:41:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233330
 
-From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-
-The warnings about the hash equivalence server are only valid when the signature is
-being used, and for that we have to check the BB_SIGNATURE_HANDLER variable.
-
-This fix the warning that is displayed when using the basic signature hash, OEBasicHash.
-
-| WARNING:
-| You are using a local hash equivalence server but have configured an sstate mirror.
-| This will likely mean no sstate will match from the mirror.
-| You may wish to disable the hash equivalence use (BB_HASHSERVE),
-| or use a hash equivalence server alongside the sstate mirror.
-
-Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
----
-
- v2: add new top conditions for the BB_SIGNATURE_HANDLER and ident the existing one
- v3: ident the hash equivalence complete block
-
- meta/classes-global/sanity.bbclass | 51 +++++++++++++++---------------
- 1 file changed, 26 insertions(+), 25 deletions(-)
-
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index a170c3f5f5..b5d905399b 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -1006,33 +1006,34 @@ def check_sanity_everybuild(status, d):
-                     mirror_base = urllib.parse.urlparse(mirror[:-1*len('/PATH')]).path
-                     check_symlink(mirror_base, d)
- 
--    # Check sstate mirrors aren't being used with a local hash server and no remote
--    hashserv = d.getVar("BB_HASHSERVE")
--    if d.getVar("SSTATE_MIRRORS") and hashserv and hashserv.startswith("unix://") and not d.getVar("BB_HASHSERVE_UPSTREAM"):
--        bb.warn("You are using a local hash equivalence server but have configured an sstate mirror. This will likely mean no sstate will match from the mirror. You may wish to disable the hash equivalence use (BB_HASHSERVE), or use a hash equivalence server alongside the sstate mirror.")
--
--    # Check that when SSTATE_DIR is shared between builds, hashserve database is not private to a build
--    hashserv_proto,_,hashserv_path,_,_,_ = bb.fetch2.decodeurl(hashserv)
--    if hashserv_proto == "unix":
--        dbdir = d.getVar("BB_HASHSERVE_DB_DIR") or d.getVar("PERSISTENT_DIR") or d.getVar("CACHE")
--        topdir = d.getVar("TOPDIR")
--        sstatedir = d.getVar("SSTATE_DIR")
--
--        if (hashserv_path.startswith(topdir) and dbdir.startswith(topdir) and not sstatedir.startswith(topdir)):
--            if bb.utils.is_path_on_nfs(sstatedir):
--                bb.warn("""Sstate directory is on a shared NFS (it is set via SSTATE_DIR to {}),
--    but hash equivalency database is inside this particular build directory {}.
--
--    This will prevent sstate reuse, and it is recommended to set up a permanently running hash equivalency server
--    according to https://docs.yoctoproject.org/dev-manual/hashequivserver.html""".format(sstatedir, topdir))
--            else:
--                bb.warn("""Sstate directory is shared between several builds (it is set via SSTATE_DIR to {}),
--    but hash equivalency database is inside this particular build directory {}.
-+    if d.getVar("BB_SIGNATURE_HANDLER") == "OEEquivHash":
-+        # Check sstate mirrors aren't being used with a local hash server and no remote
-+        hashserv = d.getVar("BB_HASHSERVE")
-+        if d.getVar("SSTATE_MIRRORS") and hashserv and hashserv.startswith("unix://") and not d.getVar("BB_HASHSERVE_UPSTREAM"):
-+            bb.warn("You are using a local hash equivalence server but have configured an sstate mirror. This will likely mean no sstate will match from the mirror. You may wish to disable the hash equivalence use (BB_HASHSERVE), or use a hash equivalence server alongside the sstate mirror.")
-+
-+        # Check that when SSTATE_DIR is shared between builds, hashserve database is not private to a build
-+        hashserv_proto,_,hashserv_path,_,_,_ = bb.fetch2.decodeurl(hashserv)
-+        if hashserv_proto == "unix":
-+            dbdir = d.getVar("BB_HASHSERVE_DB_DIR") or d.getVar("PERSISTENT_DIR") or d.getVar("CACHE")
-+            topdir = d.getVar("TOPDIR")
-+            sstatedir = d.getVar("SSTATE_DIR")
-+
-+            if (hashserv_path.startswith(topdir) and dbdir.startswith(topdir) and not sstatedir.startswith(topdir)):
-+                if bb.utils.is_path_on_nfs(sstatedir):
-+                    bb.warn("""Sstate directory is on a shared NFS (it is set via SSTATE_DIR to {}),
-+        but hash equivalency database is inside this particular build directory {}.
-+
-+        This will prevent sstate reuse, and it is recommended to set up a permanently running hash equivalency server
-+        according to https://docs.yoctoproject.org/dev-manual/hashequivserver.html""".format(sstatedir, topdir))
-+                else:
-+                    bb.warn("""Sstate directory is shared between several builds (it is set via SSTATE_DIR to {}),
-+        but hash equivalency database is inside this particular build directory {}.
- 
--    This will prevent sstate reuse, and it is recommended to set the location for the database to a common path
--    via BB_HASHSERVE_DB_DIR, for example:
-+        This will prevent sstate reuse, and it is recommended to set the location for the database to a common path
-+        via BB_HASHSERVE_DB_DIR, for example:
- 
--    BB_HASHSERVE_DB_DIR = \"${{SSTATE_DIR}}\"""".format(sstatedir, topdir))
-+        BB_HASHSERVE_DB_DIR = \"${{SSTATE_DIR}}\"""".format(sstatedir, topdir))
- 
-     # Check that TMPDIR hasn't changed location since the last time we were run
-     tmpdir = d.getVar('TMPDIR')
--- 
-2.53.0
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDE3IG1hcnMgMjAy
+NiAwOToyMg0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBzc3RhdGUvc3N0YXRlc2lnOiBBYnN0cmFjdCBkdW1t
+eSBwYWNrYWdlIGFyY2hpdGVjdHVyZXMgaW50byBsYXllci5jb25mIHNldHRpbmdzDQo+IA0KPiBP
+biBNb24sIDIwMjYtMDMtMTYgYXQgMTM6MDMgKzAwMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90
+ZToNCj4gPiA+ID4gV291bGRuJ3QgaXQgYmUgbW9yZSBhcHByb3ByaWF0ZSB0byB1c2UgKz0gZm9y
+IHRoZXNlIHR3bz8NCj4gPiA+ID4gT3RoZXJ3aXNlIG9uZSB3aWxsIGhhdmUgdG8gdXNlIDphcHBl
+bmQgdG8gYWRkIHRvIHRoZW0gaW4gb3RoZXINCj4gPiA+ID4gbGF5ZXJzLg0KPiA+ID4NCj4gPiA+
+IFRoYXQgZGVwZW5kcyBvbiB3aGV0aGVyIHlvdXIgbGF5ZXIgaXMgaW5jbHVkZWQgYWZ0ZXIgY29y
+ZSBvciBub3QuDQo+ID4gPiBJJ2QgaGF2ZSB0aG91Z2h0IGluY2x1ZGluZyBiZWZvcmUgY29yZSB3
+b3VsZCBiZSBwb3RlbnRpYWxseQ0KPiA+ID4gcHJvYmxlbWF0aWMgYW55d2F5Li4uDQo+ID4NCj4g
+PiBTdXJlLCBidXQgd2l0aCArPSB0aGUgb3JkZXIgZG9lcyBub3QgbWF0dGVyLg0KPiA+DQo+ID4g
+V2UgaGF2ZSAibWV0YSIgYXMgdGhlIGxhc3QgbGF5ZXIgaW4gQkJMQVlFUlMgaW4gb3VyIHNldHVw
+LiBFLmcuLA0KPiA+IHRoZXNlIGFyZSB0aGUgZXh0ZXJuYWwgbGF5ZXJzIEkgaGF2ZSBpbiBvbmUg
+b2Ygb3VyIGNvbmZpZ3VyYXRpb25zOg0KPiA+DQo+ID4gQkJMQVlFUlMgPz0gIiBcDQo+ID4gwqAg
+Li4uDQo+ID4gwqAgLi4uL21ldGEtdmlydHVhbGl6YXRpb24gXA0KPiA+IMKgIC4uLi9tZXRhLXdl
+YnNlcnZlciBcDQo+ID4gwqAgLi4uL21ldGEtbXVsdGltZWRpYSBcDQo+ID4gwqAgLi4uL21ldGEt
+ZmlsZXN5c3RlbXMgXA0KPiA+IMKgIC4uLi9tZXRhLW5ldHdvcmtpbmcgXA0KPiA+IMKgIC4uLi9t
+ZXRhLXB5dGhvbiBcDQo+ID4gwqAgLi4uL21ldGEtb2UgXA0KPiA+IMKgIC4uLi9tZXRhLXBva3kg
+XA0KPiA+IMKgIC4uLi9tZXRhIFwNCj4gPiAiDQo+ID4NCj4gPiBXZSBoYXZlIHRoZW0gY29uZmln
+dXJlZCBsaWtlIHRoaXMgdG8gYXMgYmVzdCBhcyBwb3NzaWJsZSBtYXRjaCB0aGUNCj4gPiBsYXll
+ciBwcmlvcml0aWVzLiBJdCBpcyBub3QgcGVyZmVjdCAoZS5nLiwgbWV0YS1wb2t5IHByZXBlbmRz
+IHRvDQo+ID4gQkJQQVRIIGluc3RlYWQgb2YgYXBwZW5kaW5nIGxpa2UgYWxsIHRoZSBvdGhlciBs
+YXllcnMgZG8pLCBidXQgaXQNCj4gPiBoYXMgcmVzdWx0ZWQgaW4gdGhlIGxlYXN0IHN1cnByaXNl
+cyByZWdhcmRpbmcgdGhpbmdzIHRoYXQgYXJlIGJhc2VkDQo+ID4gb24gQkJQQVRIIGFuZCB0aGlu
+Z3MgdGhhdCBhcmUgYmFzZWQgb24gbGF5ZXIgcHJpb3JpdGllcy4NCj4gDQo+IFdlIG5lZWQgdG8g
+cmV3cml0ZSBob3cgdGhpcyBhbGwgd29ya3MgYW5kIHJlbW92ZSBzb21lIG9mIHRoZSBvcHRpb25z
+IGFzDQo+IGl0IGlzIGFsbCB0b28gY29tcGxleCBhbmQgZXZlcnlvbmUgaXMgcHV0dGluZyBpdCB0
+b2dldGhlciBkaWZmZXJlbnRseQ0KPiBhbmQgaG9waW5nIGZvciB0aGUgYmVzdCA6KC4NCj4gDQo+
+IFRyeWluZyB0byAic3VwcG9ydCIgdGhlIG51bWJlciBvZiBwb3NzaWJsZSBjb21iaW5hdGlvbnMg
+dGhhdCBwZW9wbGUNCj4gbWlnaHQgcHV0IHRoaW5ncyB0b2dldGhlciBpcyBwcm9ibGVtYXRpYy4g
+VGhlIGFzayBpcyB0aGF0IGV2ZXJ5dGhpbmcNCj4gd29ya3MgcmVnYXJkbGVzcyBvZiBob3cgeW91
+IGNvbmZpZ3VyZSBpdCBhbmQgbm9ib2R5IGV2ZW4NCj4gdW5kZXJzdGFuZHMvYWdyZWVzIG9uIHRo
+ZSBiYXNpYyBydWxlcy4NCg0KSSB0aGluayBvbmUgb2YgdGhlIGJpZ2dlc3QgcHJvYmxlbXMgaGVy
+ZSBhY3R1YWxseSBpcyB0aGUgZnJlZWRvbSANCnByb3ZpZGVkIGJ5IHRoZSBjdXJyZW50IHNvbHV0
+aW9uIGZvciBob3cgbGF5ZXJzIGFyZSBhZGRlZCBhbmQgDQpjb25maWd1cmVkLCBhbmQgSSBiZWxp
+ZXZlIHdlIGFjdHVhbGx5IHdhbnQgdG8gbWFrZSBpdCBtdWNoIG1vcmUgDQpyaWdpZC4gV2hpY2gg
+b2YgY291cnNlIHdpbGwgbWFrZSBwZW9wbGUgc2NyZWFtIChwb3NzaWJseSANCmluY2x1ZGluZyBt
+eXNlbGYpLg0KDQo+IElmIHlvdSBkb24ndCB1bmRlcnN0YW5kIG15IGNvbmNlcm4sIHRoaW5rIGFi
+b3V0IGhvdyB5b3UnZCByZWNyZWF0ZSB0aGF0DQo+IHNldHVwIGp1c3Qgc3RhcnRpbmcgZnJvbSBj
+b3JlIGFuZCB1c2luZyBiaXRiYWtlLWxheWVycyBhZGQtbGF5ZXIuIEkNCj4gZG9uJ3QgdGhpbmsg
+eW91IGNhbi4NCg0KV2VsbCwgYWN0dWFsbHksIEkgZG8gaGF2ZSBzb21lIGV4cGVyaWVuY2UgaW4g
+dGhlIGFyZWEuIFdoaWxlIHdlIA0KZG8gbm90IHVzZSBiaXRiYWtlLWxheWVycyBhZGQtbGF5ZXIs
+IGJ1dCByYXRoZXIgdXNlIHRoZSBsYXllcnMgDQphcyBzcGVjaWZpZWQgaW4gb3VyIHJlcG8gbWFu
+aWZlc3RzLCB0aGlzIHN0aWxsIG1lYW5zIHdlIGhhdmUgYSANCmRpZmZlcmVudCBzZXQgb2YgbGF5
+ZXJzIGZvciBlYWNoIG1hbmlmZXN0IHRoYXQgbmVlZHMgdG8gYmUgcHV0IA0KaW50byB0aGUgY29y
+cmVjdCBvcmRlciBpbiBCQkxBWUVSUy4gSW4gYSBwZXJmZWN0IHdvcmxkLCB0aGlzIA0Kd291bGQg
+YmUgZG9uZSBieSB0YWtpbmcgbGF5ZXIgcHJpb3JpdGllcyBhbmQgbGF5ZXIgZGVwZW5kZW5jaWVz
+IA0KaW50byBjb25zaWRlcmF0aW9uLiBIb3dldmVyLCB3ZSBoYXZlIGNoZWF0ZWQgaW4gb3VyIGN1
+cnJlbnQgDQpzb2x1dGlvbiwgc28gaW5zdGVhZCB3ZSBoYXZlIGEgc3RhdGljIGxpc3QgZm9yIHRo
+ZSBvcmRlciBvZiANCmtub3duIGxheWVycywgYW5kIGFueSB1bmtub3duIGxheWVycyBnbyBvbiB0
+b3AgKGluIG91ciBjYXNlIA0KdGhlc2UgYXJlIHR5cGljYWxseSBwcm9qZWN0IGxheWVycyB0aGF0
+IGRlcGVuZCBvbiB0aGUga25vd24gDQpsYXllcnMgYW55d2F5KS4NCj4gDQo+IEl0IGlzIHRvbyBs
+YXRlIHRvIGRvIGFueXRoaW5nIGFib3V0IGl0IHJpZ2h0IG5vdyBhbmQgSSd2ZSBwdXQgb2ZmDQo+
+IHRyeWluZyB0byBpbXByb3ZlIHRoaW5ncyBhcyBJIGtub3cgdGhlIHNoZWFyIGFtb3VudCBvZiBj
+b21wbGFpbnRzIEknbGwNCj4gZ2V0IGJ1dCB0aGVyZSBpcyBhIHByb2JsZW0gaGVyZS4NCg0KSSBl
+eHBlY3QgeW91IHRvIGhhdmUgZ2l2ZW4gdGhpcyBhIGxvdCBtb3JlIHRob3VnaHQgb3ZlciB0aGUg
+DQp5ZWFycyB0aGFuIEkgaGF2ZSwgc28gcGxlYXNlIHRha2UgbXkgbmHDr3ZlIGlkZWFzIGJlbG93
+IGZvciANCndoYXQgdGhleSBhcmUuDQoNCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0K
+SSB3b3VsZCBsb3ZlIHRvIHNlZSBhbiBhZGRsYXllciBjb21tYW5kIChvciBzb21ldGhpbmcgc2lt
+aWxhcikgDQp0aGF0IHdvdWxkIGhpZGUgYWxsIHRoZSBnb3J5IGRldGFpbHMgb2YgbGF5ZXIgcHJp
+b3JpdGllcywgDQpkZXBlbmRlbmNpZXMsIGFuZCBtYWtpbmcgc3VyZSBpdCBpcyBjb25zaXN0ZW50
+IHdoZW4gYXBwbHlpbmcgDQpiYmFwcGVuZHMgYW5kIHRoZSBvcmRlciAuY29uZiBmaWxlcyBhcmUg
+cmVhZCwgZXRjLCBhbmQgYXZvaWRzIA0KcHJvYmxlbXMgd2l0aCBkaWZmZXJlbnQgbGF5ZXJzIGhh
+dmluZyB0aGVpciBvd24gaWRlYXMgYWJvdXQgaG93IA0KdG8gZG8gdGhpbmdzLiBVbmZvcnR1bmF0
+ZWx5LCBJIGRvIHJlYWxpemUgdGhpcyBpcyBhbiBlbm9ybW91cyANCmpvYiwgYW5kIGdldHRpbmcg
+YWxsIHRoZSBkZXRhaWxzIHJpZ2h0IHdpbGwgcHJvYmFibHkgYmUgbmVhciANCmltcG9zc2libGUs
+IGVzcGVjaWFsbHkgYXMgZXZlcnlvbmUgdW5kb3VidGVkbHkgaGF2ZSB0aGVpciBvd24gDQppZGVh
+cyBhYm91dCBob3cgbGF5ZXIgY29uZmlndXJhdGlvbiBzaG91bGQgYmUgZG9uZSAoSSBrbm93IEkg
+ZG8pLiANCkFuZCwgdW5mb3J0dW5hdGVseSwgSSBhbHNvIGhhdmUgYSBwcmV0dHkgZ29vZCBpZGVh
+IG9mIHdobyB3b3VsZCANCmhhdmUgdG8gZG8gbW9zdCB3b3JrIHRvIG1ha2UgYW55dGhpbmcgbGlr
+ZSB0aGlzIGhhcHBlbi4NCihJIGhhdmUgYSBmZWVsaW5nIEknbSBub3Qgc2VsbGluZyB0aGlzIGlk
+ZWEgdmVyeSB3ZWxsLi4uIOKYuSkNCg0KQW5vdGhlciB0aGluZyBJIHdvdWxkIGxpa2UgdG8gc2Vl
+IGlzIHRoYXQgdGhlIG9yZGVyIGluIEJCTEFZRVJTIA0KZG9lcyBub3QgbWF0dGVyLiBJbnN0ZWFk
+LCB0aGUgbGF5ZXIgZGVwZW5kZW5jaWVzIHNob3VsZCBkZXRlcm1pbmUgDQp0aGUgb3JkZXIsIHBy
+ZXR0eSBtdWNoIGxpa2UgaG93IHRoZSB0YXNrIGRlcGVuZGVuY2llcyBkZWNpZGUgdGhlIA0Kb3Jk
+ZXIgdGhlIHRhc2tzIGFyZSBleGVjdXRlZC4gVW5mb3J0dW5hdGVseSwgSSBkbyBub3Qga25vdyBp
+ZiANCmV2ZW4gdGhpcyBpcyBwb3NzaWJsZSwgb3IgaWYgbXkgdmlldyBvZiBob3cgdGhlIGxheWVy
+cyBhcmUgDQpjb25maWd1cmVkIGlzIHRvbyBzaW1wbGUuDQoNCkFuZCBpZiBJIG1heSBiZSBhIGJp
+dCBhZHZlbnR1cm91cywgSSBjb3VsZCBldmVuIHNlZSB0aGUgQkJMQVlFUlMgDQp2YXJpYWJsZSBi
+ZWluZyByZW1vdmVkIGFsdG9nZXRoZXIgKG9yIGF0IGxlYXN0IG5vdCB1c2VkIGFzIGlucHV0KSwg
+DQphbmQgaW5zdGVhZCBiZSByZXBsYWNlZCBieSwgZS5nLiwgYSBkcm9wIGRpcmVjdG9yeSB3aGVy
+ZSB5b3UgDQpjcmVhdGUgbGlua3MgdG8gdGhlIGxheWVycyB5b3Ugd2FudCB0byB1c2UgaW4gYSBz
+cGVjaWZpYyANCmNvbmZpZ3VyYXRpb24uIFRoZW4gYWRkaW5nL3JlbW92aW5nIGEgbGF5ZXIgdG8g
+dGhlIGJ1aWxkIGlzIGp1c3QgYSANCm1hdHRlciBvZiBhZGRpbmcvcmVtb3ZpbmcgYSBsaW5rLCB3
+aGljaCBpcyBlYXNpbHkgZG9uZSBieSB0b29scyANCmxpa2UgYml0YmFrZS1zZXR1cCwgYml0YmFr
+ZS1sYXllcnMsIGthcywgcmVwbywgb3IgZXZlbiBqdXN0IGxuIC1zLCANCndpdGhvdXQgaGF2aW5n
+IHRvIG1hbmlwdWxhdGUgYW4gYWN0dWFsIGNvbmZpZ3VyYXRpb24gZmlsZSwgd2hpY2ggDQppcyBh
+bHdheXMgZXJyb3IgcHJvbmUuDQoNCi8vUGV0ZXINCg0K
 
