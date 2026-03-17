@@ -1,127 +1,227 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 688DCFB5E96
-	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 00:35:16 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.64])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.65881.1773707710590228808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F20CFB5E97
+	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 00:39:16 +0000 (UTC)
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.65931.1773707954716954775
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Mar 2026 17:35:11 -0700
+ Mon, 16 Mar 2026 17:39:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=OtA9JRDL;
- spf=pass (domain: axis.com, ip: 40.107.159.64, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mp3zRmy/foCQhba4NjGLhtvWs50lRI7SCTqGYgkq1nGpIN5tZQV3497+4nFHmCIRvPi0TXb7ZoV01/uwha1Lqodo48GtL5nE4S8oFUrQdt8FyIEYhDKUd89DOK7VKZ2uk5r25jM51qQuvsjaBnMfERv83GvAH+fZ7xdNZp90NOF0JB6C4nYsH19B+/hCPwRAykdF6+23TMZvYdgZXMSMu/4tpO+KTmq2QR2hAOX6SYzigMYGDGBIAGT8RwF9vq3kw8eN8IQ3olS4Ln0MuFnZis+7ioQajlOb2dq0SZBjoXeKFnApLkzh1cKIHwhEWP0qlf4Y/EC6BvvdF+34hOSchA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kOpE6HteHmzdWfGn6vybhE/dy4849QFKp4kw/O3380k=;
- b=wacwE8pi6GqRTtS9xtFcx+xnEpXMb3aRQx8i1pXeG3qQYd4uJzuMKiYdiCSPNAfmXW5dZoZwStJToJlCRhIUEKaJIFVPovizP2n5Y211agARUrikFcPDOLkp7CVFQ/B5n+Ma91KM9kmXUz1F0w2CzZ6LoA1evTbfCjaFsOTa3h+musB15ob3ESr+yA2FKXToqhz3SgMFEzEox7pyno7ge+X3/Ipj7GUHVU2UF/kQUi8Dpwb9EHMwyv3VpDUalzCtwlIpGfJE5hRxRZ6c9kagSqDnSbFpXKdkMSAIQccqWuvNFvhlJDlXgCbOSVeAUeID3tBNVZuwuGxXVt9sYoH1wA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kOpE6HteHmzdWfGn6vybhE/dy4849QFKp4kw/O3380k=;
- b=OtA9JRDLVFC8vHgq1lLwIz/aAJeHV+WGZ6sux65cNFrX4lwCyoGfgKZRDk8BNVDAzaWPXeLhkOH31cbYNfgKzka8jSh9oz78hOAFo5XVCidA+J6PJVmkotspn33ILBofqco05/9BSENQXAPyfYdIIsJ5dyetYNpioSNyqsiF5as=
-Received: from DB9PR01CA0010.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:1d8::15) by GV2PR02MB11708.eurprd02.prod.outlook.com
- (2603:10a6:150:2fb::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.24; Tue, 17 Mar
- 2026 00:35:03 +0000
-Received: from DU2PEPF00028D08.eurprd03.prod.outlook.com
- (2603:10a6:10:1d8:cafe::c8) by DB9PR01CA0010.outlook.office365.com
- (2603:10a6:10:1d8::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.25 via Frontend Transport; Tue,
- 17 Mar 2026 00:34:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU2PEPF00028D08.mail.protection.outlook.com (10.167.242.168) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9678.18 via Frontend Transport; Tue, 17 Mar 2026 00:35:02 +0000
-Received: from se-mail10w.axis.com (10.20.40.10) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Tue, 17 Mar
- 2026 01:35:02 +0100
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Tue, 17 Mar 2026 01:35:02 +0100
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 877F4F9B
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 01:35:02 +0100 (CET)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 7839F12AB28; Tue, 17 Mar 2026 01:35:02 +0100 (CET)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] layer.conf: Use += to add to the DUMMY_PACKAGE_ARCHS_* variables
-Date: Tue, 17 Mar 2026 01:34:58 +0100
-Message-ID: <20260317003458.3583571-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VWOc4+Vh;
+ spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64caaacb9bcso5433331d50.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Mar 2026 17:39:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773707954; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dSKIfN2HCYGAUFm7HdQG+xUTTd+I0G2/C61ZiLxrMQy+qxBT6IM6Vp125Kjznxm7UZ
+         9EvVS/2Rs2dKHS1dXZhRb18hTnLlCy3FMdukXIabQjTxhtj6csi0DSZNWurfv+bu8zxj
+         923lHZsjbLCCs0lwo8xTHhV8bZbtO3VKkiVu/WWfQ5Hufa2prQeHMLxLYHg1GhZOsA7b
+         UgVa0QsIoPCbPdU/FyQ4XqVa8zBmfrMLQEZIU7Dv67783CUK1z5tMcd9Sz2mvhwSgH5/
+         ziPPJm/vxnrzWdavJ3AQBlEIDdq1EQIL1W9+WA/QGjuTWVnhUynwg6Hplz/Tv/+/qv5g
+         DB9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=bEvEV6cbjSXXmQsYo17DFlNBGFfQr3kkxTscaBl+RdA=;
+        fh=Bwcj6kAs3AYnqc6ZaGzuuA5GE2EyA/HuIyUMiAHm0WI=;
+        b=bbG7XJ4DU4f6SVXRwDfYI0IhvkPbFGyeQPQo7zft3tspHTq4l/uGgtKbi8GKvrla1W
+         JFLyBJUPURIvhR4wU7P+kcnVOf0rIuHgy8MvldGOMFGcSep6WVu8oJ2bCmbkcuBlzMuW
+         tbf9RA7vdcjeyJjsrghxEQSAAP3jcNAIJQdoP8IuinpfWcpmGdAD48jlU3t8Hb8QOOA1
+         N1q5yCpgct3RrmJw2PMECG54PaLnmrVSnF1sCxk6Uinl+gZwh7yAjVSL6nbAmXNV3HRb
+         3lRmTWJ00h4VcxsABLMKvnCSoYrptcieULjCZDc+fzxdEM578R2SbLTisQGfJOYHB7wQ
+         qEBg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773707954; x=1774312754; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bEvEV6cbjSXXmQsYo17DFlNBGFfQr3kkxTscaBl+RdA=;
+        b=VWOc4+VhjP1Sz7IcsJL7anotG44LmHSJfAoz80htdIiATjN8+TF4jcJiflN+ngCxJq
+         RfQdTr7LS6duN2yRHkxhDYiK4VqWbvqVEp2qmn9PHGfEd/cFXmUR76gxbZ86kN9lfhvm
+         QOV/ue0BbBNCu1jYtveqqUR7fHso4ms5Gg5/Xwgyy6DPVL6GfdR1rDXCaAjm7LcV9+wS
+         f0+0iLVr8qyfb3tLm7U835YoYqMBJXxqeJhtfIOTohArFydSXJ0758mHgvzziQPPsRSd
+         Ipb3S96EwsOIvZeaNg+Uiom0V60MOQRSLLPwzwkL+sZfzWm6Z8y0k7h8vHQ3whk1CHfG
+         n/SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773707954; x=1774312754;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bEvEV6cbjSXXmQsYo17DFlNBGFfQr3kkxTscaBl+RdA=;
+        b=O9Rh0bxTH47pIqbBFpzPBxutEn5nWMU4L7XXe2QYnZX7ofZ9pxKtrcDMkWw9lS2jHU
+         pCUTeMmgbvAxrQcNVKz5bZuzZV8oiC7Ahgnl8Ju37eC4EfmqWZT/PkIIns2cT3FSIYvh
+         HydVfpakShOkoIfPaa+i5BSU1xbB/6KF3cFcb5tz8rMq0riUxjGgYKUMHxjv0nEE+VBk
+         W+/g6KV7CfEd8K3e/Qhs3i14ViR0kHSaQBo0X1/WgY5DuKvPkUyonal2MWgoEc8gxE25
+         sskQG7uKUNfzKX8NQYcbjbIxwzX3AOUQjbSFCtaXbQxR772HgifvgZ5DTYct2w7Djaix
+         XNsg==
+X-Gm-Message-State: AOJu0YwHRIQ9ghm9l56Elg5c/NRq683XDsWjxd6QRPxFrR4m//MiQtzB
+	qnPHjVl6mLCsu7EU6Vg4/kpRzG8ytMUOb2kGEZnoeadhGUAYMpLBAmoy0OQzfG6cBw4LKROd6r+
+	n8M1LvhLDbyi/V5rWuWbsgeyeFluxLOiCtyS4
+X-Gm-Gg: ATEYQzzzrAMZ3W+rW1ogSCxn8mO777PK4brBNFRIvpp2nfpa62F6P9fYBWNr5Xq5CYb
+	5CnQKahwMfiM9YS2uIaoeSaYOKpYzk0gqsGRYfZsawGhoFya/mNjcipA7d65GhmM+Tx+svlhH7+
+	Ek1/FHVudbtKpI80Lzu+divKvegKM5nFbcC6lMNltc+a5iikZnlLbV03AiGrcjIeFZ1y77Vats9
+	Zzg5QaNh3wgDS78MmRnU1s4VyXmPn9ajyaSJ/7OZyz2Ud3kd5eN6DgXeJ/nm61CojbV7JTj14YT
+	F59KLQrcc9zItPtLev1Ul7yInB3nNIhw5Op/u7qUOP2ocSHGaPksu37Xp+bWNIVWnVh3gdNMzU4
+	tfcXhZ1ROzGlZn34+kCWrFQWY
+X-Received: by 2002:a05:690e:b86:b0:64e:79a5:4032 with SMTP id
+ 956f58d0204a3-64e79a54920mr6136451d50.81.1773707953730; Mon, 16 Mar 2026
+ 17:39:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D08:EE_|GV2PR02MB11708:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4fc5ddd3-57ba-451f-0911-08de83bd0774
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|82310400026|1800799024|376014|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	iEjWYNI2+qfNl9eaAT3csgN+v1MfZlgz3JGdaEp7tnbASVgqYRPcl8xZ5tT76CzSIU7H2f+HE6RwbPVxDmdFdzPySESRdM8IMg7tDVnvCXLSTv1kOZ3TjlvYV6dw/gHkEd2tVrYfV+Ud35ApUDPtx14hKGz6e/HZPACzZYsblgnzp7T0UWDkrvWfVIiSplm+XrwazH8LqHtWxW+w2OIO1Z0YSUVpPHyvnSl3auwMc04FdK8KHQ1jBd0ZulonqfkknBjFqpNpmBwva0gMcHD+HmEijRaY5ilwgPAeiJdjdr49y2yYvahI+3NiCbObxX8zzq9mHFDjscW/cMMUAEX1X46h6pikWV3payjNI/y/Bocu026njinGOet5sEEkIzQSXZvXyH8E+MspLttnsOZAp6zoclaRB1snrdWfWMx7HsXIgTKKTrZ6cJ7BmzyPgCUIe9V6ekYBAdLCD5FCT2OERjgAAYrHiqI5cNEvdsicDISBdvUIwn2K2k57Tp+0ctgwu7GTqYzXbu2UborooXyPHpbqjBGdNWxCP9PXkz1KWF7xjm4PPtvyo//DGmKlRUA0TXx2WIOltROPWaie3K3hbCz2tTB/b70fkpdR8Htxl8O5nz+u7cRphuGtLihcNSU8LsYJVGMGJ6wWTLFYjkn7RFA9837IQET5WrcELbhUiIGKukxxPyJxfu7r919KECZbqDfmJEGybaPzuD0xU66uOV09epSJzBvPc7wE9rqY+97oN8UhIfi9iasuEmMViyF5mqBFkCpDZuzrmMtP0qcUGQ==
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(1800799024)(376014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	4HPsz/D9gxckEugb81KiRJ4aWWXVfz95bCuMugPT7B4mAPS6gmzMv+D7yMn6sF4do3C2vIWbwawZsy7GmRwy/ISfIAi7chQlQ7BmaTaGIlVqoyUWSudeLm2atxpbS7cyvsHzJHA7sWDKdHga7Nc19nGnCPFdx/4iz3QZyWseXsgzSDJ320Jh7tWowgT640PUw4XC1YuGEBxf+ewnLNMSxZ57nPm3+pWtzh3TI5W+AEB5l3e+J/Nuf1sgBMpXk+EXO4pWTRuw19uLIS/2KFliDFG2uz7U/aog5uOYOSpRjzxQ5svbfyBYXKpDuVNDk/ZH0zclhG+i0NA9Uk9e5KUdofM/kPr6RbjrVXHelYaMTiUTFCehVeombawUD08Yx5sbu4J5iiMK+aga2qOtqQ1njzTZbW3F59XRbGpdyJtSf/a2ikXvrdc6K6LHBs8uHdwp
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 00:35:02.9798
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fc5ddd3-57ba-451f-0911-08de83bd0774
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D08.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR02MB11708
+References: <20260317-fix-invalid-appends-v2-0-5c65ae5787d9@gmail.com> <20260317-fix-invalid-appends-v2-1-5c65ae5787d9@gmail.com>
+In-Reply-To: <20260317-fix-invalid-appends-v2-1-5c65ae5787d9@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 16 Mar 2026 17:38:47 -0700
+X-Gm-Features: AaiRm52IaHG3N5qWev56H-QbwCprxpBXcigsZsSdQugCIAn7I5fc-TYTIqkSB1k
+Message-ID: <CAMKF1sox4WC2xCRK+j3m3dvX-mvMy+PZA=FZHC0V8VPx8vgbOQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 01/12] libffi: Fix invalid conditional append
+To: michalwsieron@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000084769b064d2d9099"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 00:35:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233286
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 00:39:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233287
 
-This avoids the assumption that the meta layer is the first layer listed
-in the BBLAYERS variable.
+--00000000000084769b064d2d9099
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/conf/layer.conf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, Mar 16, 2026 at 5:03=E2=80=AFPM Michal Sieron via lists.openembedde=
+d.org
+<michalwsieron=3Dgmail.com@lists.openembedded.org> wrote:
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 4794e660ae..9c80153233 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -133,8 +133,8 @@ SSTATE_EXCLUDEDEPS_SYSROOT +=3D "\
- # dependency in the recipe.
- SSTATE_EXCLUDEDEPS_SYSROOT +=3D ".*->autoconf-archive-native"
-=20
--DUMMY_PACKAGE_ARCHS_SDK =3D "buildtools-dummy-${SDKPKGSUFFIX} sdk-provides=
--dummy-${SDKPKGSUFFIX}"
--DUMMY_PACKAGE_ARCHS_TARGET =3D "sdk-provides-dummy-target"
-+DUMMY_PACKAGE_ARCHS_SDK +=3D "buildtools-dummy-${SDKPKGSUFFIX} sdk-provide=
-s-dummy-${SDKPKGSUFFIX}"
-+DUMMY_PACKAGE_ARCHS_TARGET +=3D "sdk-provides-dummy-target"
-=20
- # We need to keep bitbake tools in PATH
- # Avoid empty path entries
+> `EXTRA_OECONF:class-native +=3D` was actually overriding previously set
+> `EXTRA_OECONF`.
+>
+> Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
+> ---
+>  meta/recipes-support/libffi/libffi_3.5.2.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb
+> b/meta/recipes-support/libffi/libffi_3.5.2.bb
+> index f648a33a46..2b2a368151 100644
+> --- a/meta/recipes-support/libffi/libffi_3.5.2.bb
+> +++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
+> @@ -16,7 +16,7 @@ SRC_URI =3D
+> "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
+>  SRC_URI[sha256sum] =3D
+> "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
+>
+>  EXTRA_OECONF +=3D "--disable-builddir --disable-exec-static-tramp"
+> -EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
+> +EXTRA_OECONF:append:class-native =3D " --with-gcc-arch=3Dgeneric"
+>
+
+Usually we want to use default options for native builds and accidentally
+this was being done
+when you fix it, I think it is better to assess that and see if it should
+be appended or it should be
+overridden, In this case override seems more appropriate, making it
+
+EXTRA_OECONF:class-native =3D "--with-gcc-arch=3Dgeneric"
+
+might be closer to intention.
+
+ EXTRA_OEMAKE:class-target =3D "LIBTOOLFLAGS=3D'--tag=3DCC'"
+>
+>  inherit autotools texinfo multilib_header github-releases
+>
+> --
+> 2.53.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#233274):
+> https://lists.openembedded.org/g/openembedded-core/message/233274
+> Mute This Topic: https://lists.openembedded.org/mt/118356433/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000084769b064d2d9099
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 16,=
+ 2026 at 5:03=E2=80=AFPM Michal Sieron via <a href=3D"http://lists.openembe=
+dded.org">lists.openembedded.org</a> &lt;michalwsieron=3D<a href=3D"mailto:=
+gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">`EXTRA_OE=
+CONF:class-native +=3D` was actually overriding previously set<br>
+`EXTRA_OECONF`.<br>
+<br>
+Signed-off-by: Michal Sieron &lt;<a href=3D"mailto:michalwsieron@gmail.com"=
+ target=3D"_blank">michalwsieron@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-support/libffi/<a href=3D"http://libffi_3.5.2.bb" rel=3D=
+"noreferrer" target=3D"_blank">libffi_3.5.2.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-support/libffi/<a href=3D"http://libffi_3.5.2.bb"=
+ rel=3D"noreferrer" target=3D"_blank">libffi_3.5.2.bb</a> b/meta/recipes-su=
+pport/libffi/<a href=3D"http://libffi_3.5.2.bb" rel=3D"noreferrer" target=
+=3D"_blank">libffi_3.5.2.bb</a><br>
+index f648a33a46..2b2a368151 100644<br>
+--- a/meta/recipes-support/libffi/<a href=3D"http://libffi_3.5.2.bb" rel=3D=
+"noreferrer" target=3D"_blank">libffi_3.5.2.bb</a><br>
++++ b/meta/recipes-support/libffi/<a href=3D"http://libffi_3.5.2.bb" rel=3D=
+"noreferrer" target=3D"_blank">libffi_3.5.2.bb</a><br>
+@@ -16,7 +16,7 @@ SRC_URI =3D &quot;${GITHUB_BASE_URI}/download/v${PV}/${BP=
+N}-${PV}.tar.gz \<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;f3a3082a23b37c293a4fcd1053147b371f2ff91f=
+a7ea1b2a52e335676bac82dc&quot;<br>
+<br>
+=C2=A0EXTRA_OECONF +=3D &quot;--disable-builddir --disable-exec-static-tram=
+p&quot;<br>
+-EXTRA_OECONF:class-native +=3D &quot;--with-gcc-arch=3Dgeneric&quot;<br>
++EXTRA_OECONF:append:class-native =3D &quot; --with-gcc-arch=3Dgeneric&quot=
+;<br></blockquote><div><br></div><div>Usually we want to use default option=
+s for native builds and accidentally this was being done</div><div>when you=
+ fix it, I think it is better to assess that and see if it should be append=
+ed or it should be</div><div>overridden, In this case override seems more a=
+ppropriate, making it</div><div>=C2=A0</div><div>EXTRA_OECONF:class-native =
+=3D &quot;--with-gcc-arch=3Dgeneric&quot;</div><div><br></div><div>might be=
+ closer to intention.</div><div><br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+=C2=A0EXTRA_OEMAKE:class-target =3D &quot;LIBTOOLFLAGS=3D&#39;--tag=3DCC&#3=
+9;&quot;<br>
+<br>
+=C2=A0inherit autotools texinfo multilib_header github-releases<br>
+<br>
+-- <br>
+2.53.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#233274): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/233274" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/233274</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118356433/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/118356433/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000084769b064d2d9099--
 
