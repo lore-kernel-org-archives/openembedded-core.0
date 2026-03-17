@@ -1,145 +1,275 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 722DBFF6E75
-	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 20:39:19 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.86717.1773779952862988952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55EA5FF6E7B
+	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 20:39:29 +0000 (UTC)
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.86720.1773779960403785159
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Mar 2026 13:39:13 -0700
+ Tue, 17 Mar 2026 13:39:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bjWbqK3E;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48540355459so59628625e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 13:39:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QZ0UxJdr;
+ spf=pass (domain: gmail.com, ip: 74.125.224.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64e8c7f5082so1176694d50.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 13:39:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773779959; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VbtoPo9mHPrKDXSj0jFua/tbqrBT6gyJ5GkujN5OlS5F6/o5QKzjimQIOT2Lk34GiK
+         0bCEygfmrNC6+JLLYYsqXJiOUGYH0Ub4C2tYBB94pR00lHHgEbqm8WTJD5cAWbrSdX0R
+         /s04T7iy7kCju3xMF35A1NPcFuFJjujvo/TZeETyqNfdg46QXCzlyNmF091MqivbhusV
+         OWCx2pJLVVTKQe5zsSsMRGn10IRE2U+PJVeR0guAURZWsDOluGAOTzhAc5RZJVKdoGi2
+         ZlBRlbxxerwLvNmi5dsn0PRM4EsRtYtTsIYDrMocB0S1L2U73fYnHqQAbKyC6vQEKtNP
+         BK9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=XGsL26zJwnQPKTDHzoz36MQc2dBJSYRBHyX4l63WLTw=;
+        fh=hUVUF+Ud3eB2W5oXyGHPmWd8HBTgohiGsEe/gKWKlyI=;
+        b=kjh4tdxVHlEBqy5YpS5/uBGPAolR0oLDOlqBYRKOoPR2mzYnrEFys4aOyGDsg8jJrw
+         +PkXUcYkOdic7OaV3JB5PDLDG9SctQTTACZh8NNZGJ/UedTUOXX/zJTPzQWrK4dnJ8Yd
+         VARvZLFv43r/Zn7LbWB7DxQJauCmD/iRhJ7IfyHG7JRx2FEF3Re01ecm3hlNTkZUoB6a
+         Li++Ma63hz1X6wR4SbzOmoE9xWKBiqEsYHKX0aigPhYJLVznGoxwQkThalOsX9YJOI1E
+         txEaRlcgmzC23G2eHN/teueQsuGkXYpMKfWbDTsQ+mONqFxmtQk3CN12HxgVmhPhuzqV
+         Wu9A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773779951; x=1774384751; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BuXrqE7bZkEPZmgq80Xd5PuLd0cVohNcKNjxoTWMjMg=;
-        b=bjWbqK3E/IDEjycvRLgmTNcbxqIhiEqCg/njD72WWNQJV+vxR320f6yRd/U041NPNZ
-         ERGWSra/AVi5FuMuw0KO7C4fnhWGv8mN2JjjC3nnZPHJBPctWQU9F3YxVTVz8gLwFr51
-         HgW86lqsq0cbQQPZuCpq/kpsb1h9yg3cSvnC0=
+        d=gmail.com; s=20230601; t=1773779959; x=1774384759; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XGsL26zJwnQPKTDHzoz36MQc2dBJSYRBHyX4l63WLTw=;
+        b=QZ0UxJdr3dNvwqWgf1rjIWvpHaW53Me1/QCFjOwNnfHEWH1pukqRuo66/g0fnA//Fu
+         oq2ys0HkJ+rNhC3UGDeLaeTxBwbmyIGr041IKBmVAp2rnS7GRfrZqRDf+IiztWfgAS+x
+         YvuaVo2QBmlvYlJOO/UVZda8g643LVwuqm7tC5CKWKnVztSnUiDKJs9bnRVpLNZNyE9t
+         f4TKs5QRwkvHpRUcbM4lRonSDxds2Q0C8qealyVE3b+GWI/M3MXRLY/kQpvLjQRxxQf9
+         +kdO9j6hzwYf3BfkEvcVzqAjhLejrwV9odBU2AQpPcBMKz4eaGAlo7RSnkSPfDPxaQ1M
+         KgYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773779951; x=1774384751;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BuXrqE7bZkEPZmgq80Xd5PuLd0cVohNcKNjxoTWMjMg=;
-        b=MbRNAMQcS0C7YSNcUJK7XMzmbyWe45X4navshJ46xPXYtNZxrSA8XH0EUUU1RQgYpR
-         iACvzA/C//i+1vHWQK91ix3rksk197OFbAizGDfWAqLpyRR2anfhwsyPqot13uQ45ERm
-         GJFWXFmqbM/dbchKN96iBVNmMIx2Hs3rtvL17UnJoRRjuyIorkyijhuABVbL3IjBQ2t+
-         HNN+YoqSHWTEm4v+ixUjKrmwTt/cdck79hyUH9xK+jSHf4VQPB4cbIVlUpdNqGVjPjUC
-         irKKICksBu71zhYBWABjeJ8ROpzibo+6TcFD7oeJzdransnPcFgfWNgrXf9qLMYxlumH
-         qAiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVNOz/81g7ZvGyPyAoneyvA8CRIjqGELxRhFpdSSSTWIZWbi1uymPdj88lWLmgLVO/YA4orkByOpGESWLwDsFa7+g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyBAyc6hn5BvOr2cflA5EE1SZ97k1oBw8ErSfkjl1ZL2SV5G1ZF
-	XoUk6B4teCu0WZ17fUVa4Dd4F0wSsDZmVO7iZ1eoFz5/pmyT2MvjZX1HwjyEZUnbPQTYwi2cCHA
-	m/n/Hyrs=
-X-Gm-Gg: ATEYQzyOzMwnmQdPvlJBGmSpb8Gb6sS0DMA5IeVBUx4UXvf+wSVYW1Cy8gKtDrTRHv5
-	Ic4KZJgtSrJ2rYV2Wmc24rlQrUBj2yeJmtvB8D3mzrnb8qkmkEBTCb19NTScytCNBEbMPEKRrOJ
-	hNRI5jxNK+iDPKOz00SKAVEPq/Xg8EQnOS74Hh6pu7zqBl7BM/6plBNBONEqXUax3v6NxSKT0p6
-	K6MUgNNFtYInzwHZZnGWSZQvNlAc+ONo0GDGuQ7fg4a7C5IOxpBvj9G2WPW36rkvXtgyVQSaEax
-	NwHTp+XWCC86fBykOnbkkBtgAPCEZl2unroBwsj08wJVPueh4SOgvDRuyqVZzQzZjg7WeAuH0Af
-	36c7/yn9+OlgfJpFXLsow3j7ozYULNEB13xzF2j+NPXVzdGBRUpu6KEg2E7BOdrxGKVwq10H7Nv
-	Yn1ITxFJY2tnLc2955MWUtqjDpKAkaJSV8CovqGizAFDm4xeGRIZ9gr/EdoB6rCCnr6NwFrH5xK
-	pc/gOybeWgdDiJGeEympSzjyg==
-X-Received: by 2002:a05:600c:c493:b0:485:3e19:9e01 with SMTP id 5b1f17b1804b1-486f456fe60mr17544615e9.28.1773779951077;
-        Tue, 17 Mar 2026 13:39:11 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e931:c430:a510:1d6c? ([2001:8b0:aba:5f3c:e931:c430:a510:1d6c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b51851e43sm1814875f8f.10.2026.03.17.13.39.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 13:39:10 -0700 (PDT)
-Message-ID: <01a58e8e40735b71f3bf078b4a5c9e37162cc060.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] sstate/sstatesig: Abstract dummy package
- architectures into layer.conf settings
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Mar 2026 20:39:08 +0000
-In-Reply-To: <DB5PR02MB10213EE78C9A650941C636DF0EF41A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20260314102702.3942139-1-richard.purdie@linuxfoundation.org>
-			 <DB5PR02MB10213C75B95E2CBE99D91221DEF40A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-		 <3f73b46c12aff52292d488f48d11572c66991b70.camel@linuxfoundation.org>
-		 <DB5PR02MB102139B16A3C8B755F94EFCD8EF40A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-	 <e69ed8a6abe51f1bca2779f24edfa9d9e4d23d01.camel@linuxfoundation.org>
-	 <DB5PR02MB10213EE78C9A650941C636DF0EF41A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+        d=1e100.net; s=20251104; t=1773779959; x=1774384759;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XGsL26zJwnQPKTDHzoz36MQc2dBJSYRBHyX4l63WLTw=;
+        b=iLYM/BdFuX4amqaUV+zQUDjgK8AvjVJfSTzUGEdZ+7WfkuzaS0FFvU1Soqa6ebuuAn
+         hwTul6f/AuEcXdWNGILKAIHvfPKQTTkQJ6HWTDNJ687LVojeCJdKZuf02AVyb7r1oLJW
+         g0r9ZfxcAAt+O7m1mSv7aXWUj/9XY7Y+nrd5q3OmOC/RaGgvuKh1mYN4PQ+QHTQniZM/
+         42GXnCB51xswfv91VKlxz2glRVdRflRfPf3lzbOUKSxEXYeCYYfCF6PezhV/9b6Jmaro
+         Ji/TyJj95Y0+C8g232wY+DF1BfreEY6nclIlyqJHYtB0koMFsD0h0F+2eGUhfh2p9+P5
+         TIAA==
+X-Forwarded-Encrypted: i=1; AJvYcCWts9qMkaKNiSqLr0XK2hlHbfU3fR0sClTiAkivvUoEqblY+Wt1YWqvctyAzBpQpsrxph6x6jNGy7tVL/J+4nrs6g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxePyIe2fDv0iepDt66wT+AMPUvq9/BOOClX+SCiHQDijxm7UpQ
+	nZTLrY9kfEQGOcfXCwEkgPNH1OtgJMKoo+hFB+kC3PPb52ZQE1KlxIcX6Q5Q1tqnQvqCLXU5cJB
+	fGaW4+x+8aNQ6CkSH35JYvMjt6AujQnjPCQ==
+X-Gm-Gg: ATEYQzzG/yVMUH1HwcZxZu7lY6VkwkNnwilMnNUpEEe2/TVL30pGZGxqvZW7cso4s4v
+	GJj2BttuahDgb/iQrsi9sGsRB2RnTAnL4xmadGSDby1g1nZnKnOuTXe2/ICDoMALuKMQMRPo0Je
+	u2W3zeIE9qagtC/eTO9sEqM3WLgh6wDXgMOZ6MC9Zf8Dm8t/N92YPVtWGJ30ZJhHG4UuzIEPQiZ
+	ULfLQtEwCw7Y59vCzN0A34Cc8NqBTkwdejn+haCgOEpMdBD9ynDscckW3jxbX1N4vwElbYpgleu
+	3dJXuo4mU96OczKpKawPspyHwS+DFLTbYZ6Xs8/Uk7K3y3uiY6LVJgPHQty8nDlHyUCXhIZLuTV
+	Ryg4yqtNUrFyjvnCN1oS3C8Gr
+X-Received: by 2002:a05:690e:158e:20b0:64e:7240:ce2c with SMTP id
+ 956f58d0204a3-64e91324d34mr1085128d50.22.1773779959181; Tue, 17 Mar 2026
+ 13:39:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260317112407.312819-1-kory.maincent@bootlin.com>
+ <8ABAF2EF-06EE-43ED-8D90-589322F0CD84@arm.com> <20260317150420.07fcd2ac@kmaincent-XPS-13-7390>
+In-Reply-To: <20260317150420.07fcd2ac@kmaincent-XPS-13-7390>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 17 Mar 2026 13:38:52 -0700
+X-Gm-Features: AaiRm5001szbRv-cVPf7jWJMHDiQpsefHz6rcP6Ma2Etjqw38T6qhGU7wE1atvA
+Message-ID: <CAMKF1so9yGYEu8PnZ-Fs7RbipRJVCzHbMZmLH1+Ht+itajqJ3w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] default-providers: switch pkgconfig provider to pkgconf
+To: kory.maincent@bootlin.com
+Cc: Ross Burton <Ross.Burton@arm.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Louis Chauvet <louis.chauvet@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: multipart/alternative; boundary="0000000000006075db064d3e54ae"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 20:39:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233350
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 20:39:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233351
 
-On Tue, 2026-03-17 at 17:41 +0000, Peter Kjellerstedt wrote:
->=20
-> I think one of the biggest problems here actually is the freedom=20
-> provided by the current solution for how layers are added and=20
-> configured, and I believe we actually want to make it much more=20
-> rigid. Which of course will make people scream (possibly=20
-> including myself).
+--0000000000006075db064d3e54ae
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Agreed, there are just too many options currently. Anything we choose
-to remove or restrict will upset someone though.
+On Tue, Mar 17, 2026 at 7:04=E2=80=AFAM Kory Maincent via lists.openembedde=
+d.org
+<kory.maincent=3Dbootlin.com@lists.openembedded.org> wrote:
 
->=20
-> I would love to see an addlayer command (or something similar)=20
-> that would hide all the gory details of layer priorities,=20
+> Hello Ross,
+>
+> On Tue, 17 Mar 2026 13:37:48 +0000
+> Ross Burton <Ross.Burton@arm.com> wrote:
+>
+> > On 17 Mar 2026, at 11:24, Kory Maincent via lists.openembedded.org
+> > <kory.maincent=3Dbootlin.com@lists.openembedded.org> wrote:
+> > >
+> > > pkg-config has been unmaintained since 2017. Major Linux distribution=
+s
+> > > such as Fedora, Debian, Alpine, and Arch Linux have all switched to
+> > > pkgconf as their default pkg-config implementation. Upstream projects
+> > > no longer use or recommend pkg-config. There is no reason for Yocto
+> > > to keep lagging behind and continue using a dead tool.
+> > >
+> > > Switch the preferred providers for pkgconfig, nativesdk-pkgconfig and
+> > > pkgconfig-native to pkgconf, aligning with the broader ecosystem.
+> >
+> > I=E2=80=99ve been working on this migration during this cycle and liter=
+ally last
+> > night did one last built of the universe with pkgconfig vs pkgconf. It=
+=E2=80=99s
+> not
+> > quite as simple as just switching the providers, but it=E2=80=99s close=
+.
+>
+> Oh, great!
+>
+> > > Should we keep making pkgconf emulate the legacy pkg-config behavior?
+> > > At this point, projects have had sufficient time to adopt native
+> pkgconf
+> > > compatibility, so it may be worth dropping the wrappers and letting
+> > > pkgconf behave as its own tool.
+> >
+> > This is a bigger question.  The pkgconf maintainers have Opinions on ho=
+w
+> > =E2=80=94variable and sysroots interact and simply dropping the fdo beh=
+aviour
+> does
+> > result in build breakage.
+>
+> I know it will raise some discussion, but maybe we could align with
+> Buildroot
+> choice on this topic:
+>
+> https://github.com/buildroot/buildroot/blob/master/package/pkgconf/0001-O=
+nly-prefix-with-the-sysroot-a-subset-of-variables.patch
+>
+>
+Whats upstreams view on this patch ? it seems that it will be custom from
+distro to distro. I wonder if upstream could consider an option
+to add a list of such dirs via envvar or some other mechanism to insert it.
 
-Oddly enough, somewhere I have a patch which does add an addlayer
-directive so it was something I already experimented with.
 
-The sticking point was that I really wanted to just drop the layer
-priority part of the code and I couldn't face the number of complaints
-that might generate.
+> Regards,
+> --
+> K=C3=B6ry Maincent, Bootlin
+> Embedded Linux and kernel engineering
+> https://bootlin.com
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#233324):
+> https://lists.openembedded.org/g/openembedded-core/message/233324
+> Mute This Topic: https://lists.openembedded.org/mt/118362272/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-> dependencies, and making sure it is consistent when applying=20
-> bbappends and the order .conf files are read, etc, and avoids=20
-> problems with different layers having their own ideas about how=20
-> to do things. Unfortunately, I do realize this is an enormous=20
-> job, and getting all the details right will probably be near=20
-> impossible, especially as everyone undoubtedly have their own=20
-> ideas about how layer configuration should be done (I know I do).=20
-> And, unfortunately, I also have a pretty good idea of who would=20
-> have to do most work to make anything like this happen.
-> (I have a feeling I'm not selling this idea very well... =E2=98=B9)
+--0000000000006075db064d3e54ae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The last time I touched this issue, I got into a lot of trouble very
-quickly. It needs time available to handle all that correctly and it
-simply isn't something I've had.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 17,=
+ 2026 at 7:04=E2=80=AFAM Kory Maincent via <a href=3D"http://lists.openembe=
+dded.org">lists.openembedded.org</a> &lt;kory.maincent=3D<a href=3D"mailto:=
+bootlin.com@lists.openembedded.org">bootlin.com@lists.openembedded.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hello=
+ Ross,<br>
+<br>
+On Tue, 17 Mar 2026 13:37:48 +0000<br>
+Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com" target=3D"_blank">Ro=
+ss.Burton@arm.com</a>&gt; wrote:<br>
+<br>
+&gt; On 17 Mar 2026, at 11:24, Kory Maincent via <a href=3D"http://lists.op=
+enembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org=
+</a><br>
+&gt; &lt;kory.maincent=3D<a href=3D"mailto:bootlin.com@lists.openembedded.o=
+rg" target=3D"_blank">bootlin.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; pkg-config has been unmaintained since 2017. Major Linux distribu=
+tions<br>
+&gt; &gt; such as Fedora, Debian, Alpine, and Arch Linux have all switched =
+to<br>
+&gt; &gt; pkgconf as their default pkg-config implementation. Upstream proj=
+ects<br>
+&gt; &gt; no longer use or recommend pkg-config. There is no reason for Yoc=
+to<br>
+&gt; &gt; to keep lagging behind and continue using a dead tool.<br>
+&gt; &gt; <br>
+&gt; &gt; Switch the preferred providers for pkgconfig, nativesdk-pkgconfig=
+ and<br>
+&gt; &gt; pkgconfig-native to pkgconf, aligning with the broader ecosystem.=
+=C2=A0 <br>
+&gt; <br>
+&gt; I=E2=80=99ve been working on this migration during this cycle and lite=
+rally last<br>
+&gt; night did one last built of the universe with pkgconfig vs pkgconf. It=
+=E2=80=99s not<br>
+&gt; quite as simple as just switching the providers, but it=E2=80=99s clos=
+e.<br>
+<br>
+Oh, great!<br>
+<br>
+&gt; &gt; Should we keep making pkgconf emulate the legacy pkg-config behav=
+ior?<br>
+&gt; &gt; At this point, projects have had sufficient time to adopt native =
+pkgconf<br>
+&gt; &gt; compatibility, so it may be worth dropping the wrappers and letti=
+ng<br>
+&gt; &gt; pkgconf behave as its own tool.=C2=A0 <br>
+&gt; <br>
+&gt; This is a bigger question.=C2=A0 The pkgconf maintainers have Opinions=
+ on how<br>
+&gt; =E2=80=94variable and sysroots interact and simply dropping the fdo be=
+haviour does<br>
+&gt; result in build breakage.<br>
+<br>
+I know it will raise some discussion, but maybe we could align with Buildro=
+ot<br>
+choice on this topic:<br>
+<a href=3D"https://github.com/buildroot/buildroot/blob/master/package/pkgco=
+nf/0001-Only-prefix-with-the-sysroot-a-subset-of-variables.patch" rel=3D"no=
+referrer" target=3D"_blank">https://github.com/buildroot/buildroot/blob/mas=
+ter/package/pkgconf/0001-Only-prefix-with-the-sysroot-a-subset-of-variables=
+.patch</a><br>
+<br></blockquote><div><br></div><div>Whats upstreams view on this patch ? i=
+t seems that it will be custom from distro to distro. I wonder if upstream =
+could consider an option</div><div>to add a list of such dirs via envvar or=
+ some other mechanism to insert it.</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+Regards,<br>
+-- <br>
+K=C3=B6ry Maincent, Bootlin<br>
+Embedded Linux and kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#233324): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/233324" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/233324</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118362272/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/118362272/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-> Another thing I would like to see is that the order in BBLAYERS=20
-> does not matter. Instead, the layer dependencies should determine=20
-> the order, pretty much like how the task dependencies decide the=20
-> order the tasks are executed. Unfortunately, I do not know if=20
-> even this is possible, or if my view of how the layers are=20
-> configured is too simple.
-
-I'm certainly want to explore that idea. We need to work out what
-issues people may run into that couldn't be solved in that case and
-whether we're prepared to accept those compromises.
-
-> And if I may be a bit adventurous, I could even see the BBLAYERS=20
-> variable being removed altogether (or at least not used as input),=20
-> and instead be replaced by, e.g., a drop directory where you=20
-> create links to the layers you want to use in a specific=20
-> configuration. Then adding/removing a layer to the build is just a=20
-> matter of adding/removing a link, which is easily done by tools=20
-> like bitbake-setup, bitbake-layers, kas, repo, or even just ln -s,=20
-> without having to manipulate an actual configuration file, which=20
-> is always error prone.
-
-I think BBLAYERS as a list of places to look isn't the main issue at
-this point but I appreciate the idea.
-
-Cheers,
-
-Richard
-
+--0000000000006075db064d3e54ae--
 
