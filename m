@@ -2,147 +2,98 @@ Return-Path: <michalwsieron@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 658F9FD875D
-	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 20:29:23 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.86038.1773779358584334043
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B94FF6E66
+	for <webhook@archiver.kernel.org>; Tue, 17 Mar 2026 20:29:25 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.86039.1773779359317883229
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Mar 2026 13:29:18 -0700
+ Tue, 17 Mar 2026 13:29:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MRrRDL1X;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: michalwsieron@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-66174cf4549so547676a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 13:29:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=l66CuBSw;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: michalwsieron@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-664f8bef4e7so4239944a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 13:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773779357; x=1774384157; darn=lists.openembedded.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qk309NV4qRE6s7c+gZaZ882zaudB3QB3JdZ0vncbqYQ=;
-        b=MRrRDL1XtdUbpifU5eSWVvaRafXlxUWOR8LWfLW4ITrJNbgDFyg5S81WGGa0IXHXmK
-         DkXgnOZQ8vSd51+3dm97143a4/N+ltk4hSqJrjgTrgo4jF3DmbhtWGJkhzcmCDC7zAE+
-         2jzEjAPw2Gwts690nUVVUDanH2Pe8jW0vXSbaKSXqhk4ifg/9wtxslLDLefGJLv69Zcl
-         f/eEVwEMB/AS52DISsYxdr6A/XnR3nm89ioxiNATFvahAqWG0BmFCQctzG/IAUZgnxZD
-         ii9HAo5lx8nXRf0J47F0W7fEvS0sPfVOfKp82IPv3NnN9qgW7VyzejOCqhdZdu1PSFNE
-         iq+w==
+        d=gmail.com; s=20230601; t=1773779358; x=1774384158; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zFFUWIFcgurMy5oIKWV5WcCw2zJrNUNGnIsKjRKe9Oo=;
+        b=l66CuBSw6VWcpKVNp53i8tFtIRI3QEv6uAXiYUR5j0KBn5h1ET8pGAD3YOVODn++AA
+         ZMOokjd8Qx0zpwv69xD3CNT44JIkN02iEMyLNM6aRFkth8LUkcP7dpQ3919bA/iYEeQ9
+         PxWojhGwwX4rynfItZMswtE26Epg2cOaUdEIKYp/4Yn5yJX8av3GJ1tzGfUzFtLfHeEL
+         5spPqqLsXfwJIgSOxTSUF4sOAl+s6KaV6kf3eumMPmkhaNgiapbtMVnRRBDTyBcpRkKY
+         GBlQY/e+aGDo790qqAVzIdku0zRDfXuT2CI/5fVVAzlNFiJayXUBC7nS97U6zyt9Lx/s
+         4vLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773779357; x=1774384157;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qk309NV4qRE6s7c+gZaZ882zaudB3QB3JdZ0vncbqYQ=;
-        b=geMi2fmvA6WQTtpgcCx/OzXjT14D1UdBBTqNq5Mk8/cZNea6GHZMEy4Fp3HzOkqica
-         RBu1kPJs5MuVzN0lMxVhdDBtTaRAxwPXoel38EiOz8W2vsdfqaFkN0OZ0YKPriYlmCXz
-         FHmV37ZxNSflZvXSPRWjeQXZX/JEZgIb3r9NtuR+Y6ajNeRSuJ9jjnBdWlgqbYUQSPLg
-         zMDALPwJBxGsGJw+EOg9DT5W+g3iz1xGKYb3QuHs1I5Q1GVnjTXN5pP1GGTOFM3qv00G
-         k6yus5taoa4KKuLLBlZe5WicWj/MgdcY4n4tpERGVBHcuxny2s0QqyjtZE5Ol8Dfvaya
-         L0MQ==
-X-Gm-Message-State: AOJu0YxOgpF5b93IgBk7pIqrV1dqgIhrDkOW/W5zOM5ilcf3iDu1X9Bf
-	U+j72eA8XNPbZs9tGLcWT9rj09wbZuUuYzYHKDuttLbItDWmOpTat0rQ
-X-Gm-Gg: ATEYQzz3YGgEdUk8TBiH/hlXRGW9p0Ysk4kzsV83X2aPMmDbR8XISTWVX0M/J4T9XHi
-	BeeS5jRwqvT/TrrsCdtfMjWLXJH0MZlfnUxM25Rc5vct7SMksRUb2a2O1JZ8a0vwzr5DFFlF7/9
-	sOXC0wtkO6ZWM4tWV49OQlMz1XnmNzbNF24+2NDnqWDSAxeR/LBQOyqhbmCbhHHVCNYN4PCa7/G
-	GtYvEtnjeWYBUmT+iHTpJ7DWIfosqyg13/s37k8l9+EuXmJlW2UlXLgqF8Xb4kDc9thPRJDqcm1
-	QIkTY1M5+KEeDSgf28AOjH2zR97SnFUaQy1iS2e+JwMAKK5pw63JNzIMujKwBaYPL++/KjE/Lcq
-	F95KdleTfYkqEREyeqzwarNgL89iVkfF1ZxBAPwi2R10U76oYxNxZsNYdo8wRZbRnowkaUdzpdz
-	360nGaX+mB99ILX3/nFODb1oMiYJ8OFeK3cKmvBmF2tOzgXxajizbJH7PIeqYoAmw=
-X-Received: by 2002:a05:6402:5342:10b0:665:33ea:255 with SMTP id 4fb4d7f45d1cf-667083aea2dmr2192914a12.6.1773779356680;
-        Tue, 17 Mar 2026 13:29:16 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773779358; x=1774384158;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zFFUWIFcgurMy5oIKWV5WcCw2zJrNUNGnIsKjRKe9Oo=;
+        b=kemqKU7ahICGdCLKyOPoUVrpHVK821x3PdPPRB5z+OuDI6aw4vhfZw9NmqkTTnp1wW
+         VvW+hlcG8SzzrQlxD5bCoxNPOuSdHHdBeh6xe/tPEAgMitYFmJRayDaho5sTNQM0SMuy
+         a/W7FnqwiRGGhUXmOH/c1ExP7Gd7ACes32xaZZTen/H5VRjt3ODMXtoquutAJz9uJSWD
+         pOgjfp5bVEsLrbpwWFoLVnwf9zH8OVCEeAGNVQoPCcYJ+H36eRos3Zw7qZ6Rcvq9pNF3
+         Ue0TfiKKHfQ22aHVCTV8F0GPjrui8BHraQ6xbZTP568LvZ964BfNWo3fRNlL5FAEgPnr
+         mgIQ==
+X-Gm-Message-State: AOJu0YzJd28egmz+J9P1Rto3J8SErBeF+KiG6oDl+8aTGbuiveNg3gAP
+	GK+t3pZna+UW4lMWXKuiRNp/ZzGNmSeQ51S+ycf2Enyy2tUW94fSyERv6RoS2Q==
+X-Gm-Gg: ATEYQzyeE4RBVuXwddkcFjZRGlsxs1gpWAwBk2DSTuybGVrwRMjq9fOToKc0rMAQQUx
+	TrQggWUmKuXwL1EmWYzVnywtoZJx4JYokdYntkFIXtU7BwZAshwbtXRgt8SwO4n3QqGRG13hOVj
+	EKBB33KsojBotfADgVD9/jGhNEdG4JEHWkxaLDtyKJkYngUuCU2fj0PPdqtViXO5evkokzlQkIH
+	zr2MZIPOXd5h3uEW2PeYfKZgvUvJSpFVRLxkleYG94nS/R+6LRqTn/HfgK2BwjMl+n3pXhq6/tl
+	WGPxhbHvb1Yj5soPQnclgtmCBQZsCFfOw5zxNbFlAw/Ud23+AUNlsyLmRgIKgBbI5J0F7fTmFeQ
+	jW7Bdp58K1zeQ8NkgUMi9SAnmpC6cIk9CPefxhbG/Y9DR8UusH+LmcdxNWtJJjAf7zSg7RPd0Rw
+	gvKFYg29Tyc5L0vAh5ZdqCdznFw+eDy8tr794Y8GABuROTeVepgal9Xdpu4uE2Jd0=
+X-Received: by 2002:a05:6402:4408:b0:665:33ec:fc58 with SMTP id 4fb4d7f45d1cf-667b1e654e1mr706394a12.2.1773779357603;
+        Tue, 17 Mar 2026 13:29:17 -0700 (PDT)
 Received: from [127.0.1.1] (185-164-141-154.cgnat.inetia.pl. [185.164.141.154])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-667b0eb9c02sm451909a12.19.2026.03.17.13.29.15
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-667b0eb9c02sm451909a12.19.2026.03.17.13.29.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Mar 2026 13:29:16 -0700 (PDT)
 From: Michal Sieron <michalwsieron@gmail.com>
-Subject: [PATCH v3 00/13] Confusing and invalid conditional appends
-Date: Tue, 17 Mar 2026 21:28:59 +0100
-Message-Id: <20260317-fix-invalid-appends-v3-0-59452f073f31@gmail.com>
+Date: Tue, 17 Mar 2026 21:29:00 +0100
+Subject: [PATCH v3 01/13] libffi: Convert confusing append to assignment
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NzQ7CIAzA8VdZOFsDbAznyfcwHhDK1mRfAUM0y
- 95dttMOxuO/aX9dWMRAGNm1WFjARJGmMUd5KpjtzNgikMvNJJc1L0UFnt5AYzI9OTDzjKOLYL0
- SjUYvPdcsX84B89qu3h+5O4qvKXz2J0ls0/9eEiCAl2j50/u6qeStHQz1ZzsNbPOSPBr6tyGBg
- 7K1Mqj0RbvmaKzr+gWyVnn5+gAAAA==
-X-Change-ID: 20260314-fix-invalid-appends-cf5197ef2f07
+Message-Id: <20260317-fix-invalid-appends-v3-1-59452f073f31@gmail.com>
+References: <20260317-fix-invalid-appends-v3-0-59452f073f31@gmail.com>
+In-Reply-To: <20260317-fix-invalid-appends-v3-0-59452f073f31@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Michal Sieron <michalwsieron@gmail.com>
 X-Mailer: b4 0.14.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 20:29:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233335
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Mar 2026 20:29:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233336
 
-This patchset fixes several findings for variable assignments of form:
-    A:someoverride += "foo"
-and transforms them into:
-    A:append:someoverride = " foo"
+While in this case override caused by `EXTRA_OECONF:class-native +=` is
+desirable, the `+=` can be confusing. Let's avoid that and use explicit
+assignment.
 
-In most of those cases I assume the original intent was to have a
-conditional append, but what was actually happening was append to
-a conditional override.
-
-I first noticed such problem in our internal recipes and bbappends, but
-then I decided to check if similar issue exists upstream and turns out
-it does.
-
+Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
 ---
-Changes in v3:
-- Use normal assignment in libffi and expat instead
-- Fix package name typo in musl-locales
-- Link to v2: https://lore.kernel.org/r/20260317-fix-invalid-appends-v2-0-5c65ae5787d9@gmail.com
+ meta/recipes-support/libffi/libffi_3.5.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
-- Split initial single commit into smaller ones
-- Described actual impact on the overriden variables
-- Added some recipes that I missed last time
-- Link to v1: https://lore.kernel.org/r/20260314-fix-invalid-appends-v1-1-03ec0bff6942@gmail.com
+diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb b/meta/recipes-support/libffi/libffi_3.5.2.bb
+index f648a33a46..97c8996a38 100644
+--- a/meta/recipes-support/libffi/libffi_3.5.2.bb
++++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
+ SRC_URI[sha256sum] = "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
+ 
+ EXTRA_OECONF += "--disable-builddir --disable-exec-static-tramp"
+-EXTRA_OECONF:class-native += "--with-gcc-arch=generic"
++EXTRA_OECONF:class-native = "--with-gcc-arch=generic"
+ EXTRA_OEMAKE:class-target = "LIBTOOLFLAGS='--tag=CC'"
+ 
+ inherit autotools texinfo multilib_header github-releases
 
----
-Michal Sieron (13):
-      libffi: Convert confusing append to assignment
-      coreutils: Convert confusing append to override syntax
-      expat: Convert confusing append to assignment
-      tune-power[567]: Remove confusing overrides
-      no-gplv3.inc: Convert confusing appends to override syntax
-      bootchart2: Convert confusing appends to override syntax
-      pigz: Convert confusing append to override syntax
-      systemtap: Convert confusing append to override syntax
-      ovmf: Convert confusing append to override syntax
-      dnf: Convert confusing append to override syntax
-      qemu: Convert confusing append to override syntax
-      recipes-devtools/python: Convert confusing appends to override syntax
-      musl-locales: Fix locale-base-sr-sr typo
-
- meta/conf/distro/include/no-gplv3.inc                    |  4 ++--
- meta/conf/machine/include/powerpc/tune-power5.inc        |  3 +--
- meta/conf/machine/include/powerpc/tune-power6.inc        |  3 +--
- meta/conf/machine/include/powerpc/tune-power7.inc        |  3 +--
- meta/recipes-core/coreutils/coreutils_9.10.bb            |  4 ++--
- meta/recipes-core/expat/expat_2.7.4.bb                   |  2 +-
- meta/recipes-core/musl/musl-locales_git.bb               |  2 +-
- meta/recipes-core/ovmf/ovmf_git.bb                       |  2 +-
- meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb    | 10 +++++-----
- meta/recipes-devtools/dnf/dnf_4.24.0.bb                  |  2 +-
- meta/recipes-devtools/python/python3-asn1crypto_1.5.1.bb |  2 +-
- meta/recipes-devtools/python/python3-bcrypt_5.0.0.bb     |  2 +-
- meta/recipes-devtools/python/python3-chardet_5.2.0.bb    |  2 +-
- meta/recipes-devtools/python/python3-cython_3.2.4.bb     |  4 ++--
- meta/recipes-devtools/python/python3-ply_3.11.bb         |  2 +-
- meta/recipes-devtools/python/python3-pyasn1_0.6.2.bb     |  2 +-
- meta/recipes-devtools/python/python3-pycparser_3.0.bb    |  4 ++--
- meta/recipes-devtools/python/python3-pysocks_1.7.1.bb    |  2 +-
- meta/recipes-devtools/python/python3-pytz_2025.2.bb      |  2 +-
- meta/recipes-devtools/qemu/qemu_10.2.0.bb                |  2 +-
- meta/recipes-extended/pigz/pigz_2.8.bb                   |  2 +-
- meta/recipes-kernel/systemtap/systemtap_5.4.bb           |  2 +-
- meta/recipes-support/libffi/libffi_3.5.2.bb              |  2 +-
- 23 files changed, 31 insertions(+), 34 deletions(-)
----
-base-commit: 2dc4d2f8b5c7a6e87291385fb860436593767199
-change-id: 20260314-fix-invalid-appends-cf5197ef2f07
-
-Best regards,
 -- 
-Michal Sieron <michalwsieron@gmail.com>
+2.53.0
 
 
