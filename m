@@ -2,64 +2,65 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F37810775F9
-	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 17:22:47 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19947.1773854562426697016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B583910775FC
+	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 17:29:27 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20001.1773854961015136128
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Mar 2026 10:22:42 -0700
+ Wed, 18 Mar 2026 10:29:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IVM6GWDP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43b4915161fso20152f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 10:22:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OesU10mx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48534237460so838375e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 10:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773854560; x=1774459360; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1773854959; x=1774459759; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s3UwZs6XicQ7VlcNkmxxswop3ZtKnKur8VA2xCnXHTI=;
-        b=IVM6GWDP3HnJM9Zvy3us5dUUKe0MVuZqRiZjU+ucAeyHodLHs4K1BxX5MKmx2YwkNh
-         l817V4BTis98yxKlhlRfC55oDyamntEWANewQDFqHZPGtmT6SpuGWHi4u3NJXfTrZ9sv
-         6XSNnjdF30VUBMMtANF5wVCxFNMSW4EN4Ct7Q=
+        bh=D1JgC+n5IcQ0bJIz4oQoUx6aBUKaFcL/VyteW2mQh9U=;
+        b=OesU10mxNXlAnzW9mB/RGRXWvW4l5bo3MJE/ordNXJbapPF3zpe3UmyDq1hVl7R+xk
+         aRjFgPvnEnWMWFcMmE5qgdM8unMI+1USTvwrdmYeGupHemPJBSUvIlbgJ06hxE76cv/t
+         tBgHmTco5w49on3tHY4Q+WXH6JQSnV4idS/2Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773854560; x=1774459360;
+        d=1e100.net; s=20251104; t=1773854959; x=1774459759;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s3UwZs6XicQ7VlcNkmxxswop3ZtKnKur8VA2xCnXHTI=;
-        b=W+avIGIo1jSTdveVYzqtmAEVjYIWSNnIyw1SbgO+OdG/8GbyB+7fZQad5KznINPJGg
-         U5otMUNXN+Oa6xNTjJ7+IyeMkOTvtqB+J4i9TfEpRhC+NYptbUZcIQ37Hfj2uO/SsrXE
-         cQgpEJoV6AR/mW1RxwmzdWriJCIm4G+AZnUitd8Vnf0STH5ztLyfafAXWVYdaMeIjSVr
-         5V3ZO0xRxPQS1xR6OAM1zmpbj8k0nZeQ49jjjn1MC0vci6BASNCRsgljuT95SxQ7Uc0N
-         2JyWWlnjgjTDEXIDZ74S5Lpjr9hxRrJrLhG11VV4o+Z5wTj+DKybWCz+U/0HaVkqI1jw
-         SQPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLnbbjvs6mw4EaZnXNnXiqawzOe0OwpHL1sqolxksqq07QQhhSKQcjiUT0BMbuE+Zo0tc6hF1CXOomXyG7F+Twug==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw6OfYsq2GUCg+KtpmrDxOzIo+QVxt1915qf7iCwuxlJTOOjI7l
-	5Yc/0GLhoUeO2livrWLJoDDz3CG9r5/4UfMcMPu8LurUpoc61xcNRf89WRgauQgmUJ8=
-X-Gm-Gg: ATEYQzwqoT/OH5pvUmBzbJOj7yELpQE6jjQnOmsF4QyqK3bpfr/UGtOUli/jH1Asw7+
-	kUJeg1snTWiRrrZatMGWt7krZhqXLEh6UZ4+bWOc3wLPj7VgrxjFcJn4pyK+eXWh87MtSLzAUSS
-	6PKJaLZ8wgR99JvMRLNogOVRJY+ecFCK9NnfGvEj8bvzcvw3oGqwqnXlDFgws1OedoT/0sTQZAx
-	yYCxKqR3Sg6QZ1GqX9Xpyx6KaRlcDwxpkdAhkWNUb+edFVUARSNvRA82VqdugSrlhv9C3cdrxdg
-	V20aLy6+l4PQSKMIHhqZ1LahKzs53E61YzlqNGqdYVd6Xa/Rhfu9DHRGgLq4+zbRqTVgX/raeoX
-	FsSdXWqD+Y0fkln0BWLtNgfNIA7nyauF5IvgHBJV/NzdidrsQKErvhJskksNzoTEiUBb5JMUFtQ
-	6UcgxszcfxCOfbuvQw7uG8vgmC58sK59ad5ByyUuCYuQ5ilGUu3Hf3GD1ZsEPdNEMDW8K1IxArb
-	ZNNAgDzjRQHMhg=
-X-Received: by 2002:a05:6000:2509:b0:43b:436d:77f6 with SMTP id ffacd0b85a97d-43b527c8f48mr7061605f8f.37.1773854560477;
-        Wed, 18 Mar 2026 10:22:40 -0700 (PDT)
+        bh=D1JgC+n5IcQ0bJIz4oQoUx6aBUKaFcL/VyteW2mQh9U=;
+        b=KUoJeKkJFKDsxcGnuq0xwpQBWhvDqMgG/qKRMqkeOBl+BdKtLOzhtCt/E5+RN0F9Vf
+         Pw3ueFyg3lVRUAqVQpMp8zG7UHt9e55UTKjYQ0GM64qSRl1twfnhXFWjQSi8vfNnTiGX
+         Sv/2Gogw8iiDxs7Lhv+tB7dllgkWA+c8Q0Uodesrfhp5KS/OVGWOpr/Jiwr/0jVvNT4P
+         OKPzlWDfxtN9Sqyb2QK5tW4qKN1tBx8Jfi8GNphIM5vH88wbQoaXuCd7jHXw4ILwJyKy
+         X7PixgBQYFY5UPyuwsasZ6ZgQCCCZKQaXQGBkLf2s78o2Jp4ePD8SSslFLIGt2izod/t
+         jAEg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRisvW8WzDzMjV1P64q1MhR0iLfA3mh59GQuf+RP1pLXORpHxy1qP0O3xCAKbZGK+RufJHd3ExvWTPRrZ+kYFlpQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyg5qXxRwJUBiGqrDiKwhnCAWCkOvC5nlfLj4qe41fhtUPQxyo6
+	1XRiR5eAVdXcr73/6GcEM8ppYUgmbOj0ehbFEHN4E02y37Q6rNYpyYhddGWRrIU63WiHBg8OQpg
+	Cee/HRc8=
+X-Gm-Gg: ATEYQzyUFU1XK33RAvuF0eII6yye9JaT8vAW2iXOSQtZEGTMMyVYyywOZgcIWYx9WKJ
+	xPqkwNmy9Tr35E67yHXfm8JvFbC9SzLDmgiO2XpJrG//sstgF3dhdTdk2Zw9vFoU+CMQRELotqv
+	DzmVSn2id3N0ygVwo6mN876B/qzfE0KBzBzwRDnGuI5wrsytUSGF/T+rlf/oMIqspO41iYFaoa8
+	vJSj89MBCk/xOTVQ9qx296G9AAt6y51zqbQpTG24p7qlPTXCbhKo3NVuLsbX+4gi3nyG+0jNjTx
+	xFA2/vXNtiNqAB7n6xngY2Jf59P8hA8+1dkUo+UJcmoeIo2Op6MTTiy6BrErajWqQsWDZr3qmJv
+	O5XJGnNAwYnOmK4PftpNCzWTIxaN3r5patvL5ZD4k5dYM/aoh4yWpP/arXmFHiVYPG1ugZFK0p9
+	djWf7mmPAh+VYpLL6dZckuhnSnHCFNbjyNNfMXnMFb/6iOyF4uw9+PBUqvJXwQFbp95NM1p66iv
+	tjuncf4B6SH3NI=
+X-Received: by 2002:a05:600c:1f13:b0:485:3c05:24dc with SMTP id 5b1f17b1804b1-486f4465ec5mr70626165e9.33.1773854959244;
+        Wed, 18 Mar 2026 10:29:19 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:c5d8:efeb:ae8c:c686? ([2001:8b0:aba:5f3c:c5d8:efeb:ae8c:c686])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b518986fcsm8630231f8f.26.2026.03.18.10.22.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b518a3dedsm8944627f8f.36.2026.03.18.10.29.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 10:22:39 -0700 (PDT)
-Message-ID: <b29e8565403d5666a6b17df55379c143cf22932b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 08/12] initscripts: Make SRC_URI arch
- independent
+        Wed, 18 Mar 2026 10:29:18 -0700 (PDT)
+Message-ID: <b2f33df7c4ca8457f34482ab5ce8bc1b1a9c5c7d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 10/12] libsdl2: Explicitly set PACKAGECONFIG
+ vardeps
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: paul@pbarker.dev, openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2026 17:22:39 +0000
-In-Reply-To: <20260318-fix-checklayer-2-v1-8-388ba6ce47cd@pbarker.dev>
+Date: Wed, 18 Mar 2026 17:29:17 +0000
+In-Reply-To: <20260318-fix-checklayer-2-v1-10-388ba6ce47cd@pbarker.dev>
 References: <20260318-fix-checklayer-2-v1-0-388ba6ce47cd@pbarker.dev>
-	 <20260318-fix-checklayer-2-v1-8-388ba6ce47cd@pbarker.dev>
+	 <20260318-fix-checklayer-2-v1-10-388ba6ce47cd@pbarker.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0-1ubuntu0.1 
@@ -67,49 +68,50 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 17:22:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233431
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 17:29:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233432
 
 On Wed, 2026-03-18 at 17:14 +0000, Paul Barker via lists.openembedded.org w=
 rote:
-> Avoid making SRC_URI unnecessarily dependent on the target architecture.
+> The variable dependencies are discarded for PACKAGECONFIG, which may
+> cause tasks which use the value of PACKAGECONFIG to be considered
+> arch-independent, even when the value is actually different depending on
+> the target architecture.
+>=20
+> In this case, we use the value of TUNE_FEATURES in PACKAGECONFIG, which
+> is obviously arch-dependent so we should explicitly list this
+> dependency.
 >=20
 > Signed-off-by: Paul Barker <paul@pbarker.dev>
 > ---
-> =C2=A0meta/recipes-core/initscripts/initscripts_1.0.bb | 4 +---
-> =C2=A01 file changed, 1 insertion(+), 3 deletions(-)
+> =C2=A0meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb | 3 +++
+> =C2=A01 file changed, 3 insertions(+)
 >=20
-> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/reci=
-pes-core/initscripts/initscripts_1.0.bb
-> index c984257c5c8f..23411b6a7149 100644
-> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> @@ -32,14 +32,12 @@ SRC_URI =3D "file://functions=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/save-rtc.sh=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/dmesg.sh=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/logrotate-dmesg.conf=C2=A0\
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://alig=
-nment.sh=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.=
-utils.contains('DISTRO_FEATURES','selinux','file://sushell','',d)}=C2=A0\
-> =C2=A0"
+> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb b/meta/reci=
+pes-graphics/libsdl2/libsdl2_2.32.10.bb
+> index 834cf096b977..f7c292b6adb0 100644
+> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
+> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
+> @@ -80,6 +80,9 @@ PACKAGECONFIG[vulkan]=C2=A0=C2=A0=C2=A0 =3D "-DSDL_VULK=
+AN=3DON,-DSDL_VULKAN=3DOFF"
+> =C2=A0PACKAGECONFIG[wayland]=C2=A0=C2=A0=C2=A0 =3D "-DSDL_WAYLAND=3DON,-D=
+SDL_WAYLAND=3DOFF,wayland-native wayland wayland-protocols libxkbcommon"
+> =C2=A0PACKAGECONFIG[x11]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-=
+DSDL_X11=3DON,-DSDL_X11=3DOFF,virtual/libx11 libxext libxrandr libxrender"
 > =C2=A0
-> =C2=A0S =3D "${UNPACKDIR}"
-> =C2=A0
-> -SRC_URI:append:arm =3D " file://alignment.sh"
-> -SRC_URI:append:armeb =3D " file://alignment.sh"
-> -
->=20
+> +# PACKAGECONFIG dependencies are not automatically carried forwards
+> +PACKAGECONFIG[vardeps] +=3D "TUNE_FEATURES"
 
+I'm not understanding the issue here.
 
-alignment.sh is pointless outside of arm. The commit message needs to
-mention that the installation of it is still conditional on the arm
-arch.
+I added a vardepvalue for PACKAGECONFIG but the usage of TUNE_FEATURES
+here shouldn't matter, the expanded value will differ and that should
+be all we need for the taskhashes to work properly.
+
+What issue are you trying to solve here?
 
 Cheers,
 
 Richard
+
 
