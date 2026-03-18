@@ -2,63 +2,63 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E98F103E18D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84907103E18F
 	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 13:47:10 +0000 (UTC)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14441.1773841627118326339
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14442.1773841628123874849
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Mar 2026 06:47:07 -0700
+ Wed, 18 Mar 2026 06:47:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=H+1Y8T4r;
- spf=pass (domain: gmail.com, ip: 209.85.161.52, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-67bbea1e090so397359eaf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 06:47:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NFfVuXar;
+ spf=pass (domain: gmail.com, ip: 209.85.167.169, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-4670676ba03so2437625b6e.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 06:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773841626; x=1774446426; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773841627; x=1774446427; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FCaaEZW0U/AEs0relez15VB/j0mdCHwpFh7bL0M3bMQ=;
-        b=H+1Y8T4r/D6uLM6MG7moPZkdJY4VZ8k6tU77mqiT0aKzdO/9WY2guBOppiXGBJjWs8
-         yER38T9ZX+S7yvd1JgFD39xcfG+p3OYTERuEi70gq2sv8EkcUAhhwADc6Dp/qC6dnHyK
-         iN65MEQF3A8QXufTf1Juj3rUKUXB75er30mpuFZstJKA5HwmpJCgIn7S8iQTSsUwzehS
-         4HMvHKXGHdZnnsENUPJynN42XNYwwQuvETnkLbBLj89n9LlQxJ7XM/KtL614Xvq8Xc+g
-         jyLTCOysPMARZ9v3AhjCJ7uHC4fevrp+9TFSzahfhpgYM26pJsYVi626gJdHJ9VkXtJr
-         zPgw==
+        bh=4GQr03avjj4R9pZ+lu2O4W8U9AvEqC/e3JtfjqlshRU=;
+        b=NFfVuXarA1jFTY7izgzHmM3ysry32D8dZ2QzMJM28P9BDDftPaLFEVy8bTCtuWyUOJ
+         dA5C9fAAy1RLDqc8V8fUUyrF2CirVbBd+zJdq3JEBtKFRpoRuRTROKvXP+mRZLjPinTG
+         cZpL1i00p3nD0/HwX4DfQJwXvzvW6Zf+L4HRfQLwleodUwMQc/KgpECkZ9925Y5hgPbN
+         +hY0w8neRKmRysLeeLv8JT/eVNOarSYWz2emqhRsvB7X2K+KolmGX4zPGu5DdoC/rMK3
+         B8Nr5g03PaSIkTqsLnwY8QcMV3p7sBa7BUze7HPwkiaFIu7YiV2rjQh83r8+PyDIrR45
+         Gptw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773841626; x=1774446426;
+        d=1e100.net; s=20251104; t=1773841627; x=1774446427;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FCaaEZW0U/AEs0relez15VB/j0mdCHwpFh7bL0M3bMQ=;
-        b=SZ9uNAEtjviEkINDYV1CYjTqBXp569oearTSFwgAK/xmLPfJt4ntgWs7+rsVVvYBUp
-         rC3xhRFunciMNuVrEAgpxqIsPd+GI9a114g1MnQdGehKwMpaiLj/S/ai0W+x3WeDAQ91
-         NhUpQxqDtBIB2HIvjBLmtScL17p7szRcGmmcccvAE6TWNWYLEA4ZSO11KszbahiSStbT
-         gy7NfvMH7OCNqIVSkray1S1FYz6LoRkWfu1weno8mjWIgb1Q3DPHkywZx4CrEBQM6Pdq
-         KgHdWLZ/dknJ28KPR6byjUU1VwAh8wp2MwFOcSE1CJsxXQ/uclEiFUFtI61bkpmH3aXC
-         7u9A==
-X-Gm-Message-State: AOJu0YygaKNDe7bwci9jide9ShnTp9SXtHk/Zr6haHX4jL9j+v2ojiTO
-	hVwTL1beVPkI0OgYSrk4LkS2Ijs4SAmNPrbJvYeFEK4+yhMbYUfdpt3hYWoTgA==
-X-Gm-Gg: ATEYQzzOfXL6PWo6XGDnjS8K/Jc8pvegxura+1+gtkXcp2PDYN40qVIR/nsJpe1wtZ9
-	h+XDAuhFph3ipdKKBERyGpGBlG6GvkkKJBaBC5HkW2cEOZPxWFlTGE9EFEtfteFLvehpQ5TSBpN
-	MVtGg3R2v9i59SlEmPZnShrdCpww83d2U7sn+rTxFOsDN0GUeFP1e3BV/MABMaGqTpZC056Ac7O
-	NfVxnFrFIzKsOufF4wAimJ7+r+s/UZFTr4fFQ2EWCFazXpY0DqNOgaJ77ZZ19bydZOT7JIbCmk5
-	U3IlfZNtUEGd9tz89UqgV0m59nF+8cQXrxnFV5FRDK6uneTTBqaablguPTgS9xqWktMsNzGYu8Y
-	r86hYFaaEudbLy86u5EgmxIZW9zdIuYIXvqOGJoE+WESGqaNorOCc8OntBIj9fzHi0BftzP1W6U
-	1OVxvIfEi5t/zsmyFYP0xy
-X-Received: by 2002:a4a:e84b:0:b0:67b:d213:e64e with SMTP id 006d021491bc7-67c0daf32bamr2145569eaf.34.1773841625934;
-        Wed, 18 Mar 2026 06:47:05 -0700 (PDT)
+        bh=4GQr03avjj4R9pZ+lu2O4W8U9AvEqC/e3JtfjqlshRU=;
+        b=cOqdNMNq8ESBC9LjXXyXw2X4CAIhnb1QtDM0oZTPVaZ/hBNzbsGi5VZj0IdvVdQ0ku
+         34pd1jq81xUViH8j9y2JEtT3Dh2PLapTMWHpaoi15GxwoMIKSgbVJMlRLDcAvNxbs7N8
+         A2rQwWOP1SDF5/kPBMOxZETJpKxvzcPEBFrFNGOqTeOeiQKSULaxxyUIfEyDIha6nlbb
+         iJRQzMl9oA2GBxyDJarZMdYPEuNZBAVjileDy43iIt5QsLWnaAU8BwPyAamvN6LFoXs/
+         sldC8u80GDKDJ5lMEV+arSrQWNGWBY7NhLkWyY5Mjr7f4/7tCIvHt1QwyTf3vY3Bme7l
+         12ww==
+X-Gm-Message-State: AOJu0YyFrEbt49mIVbDL9nB1073nWFv5ibAMIx1oNdsdFn5xydXwMcm9
+	0J72NFoJ/HrRVlcWaYPFhT+298ielPR0PXFWz6nr4EQaACh3aLMY9fnOfSC4Gg==
+X-Gm-Gg: ATEYQzy63hc0q8IDe1Jw4vvwf8xOk3szxNxmZ12YJsbkycjG/4Iot7PVr6SbJFysmSJ
+	KDFe/vMW9BEtbJfserfKAUjbjkhy6Tw/1TtsYfkQrXvThI3TktDMUmJif9ItsXYgJ+5uDvK3dVe
+	ovIQ/5M6gy029LRmiJHDVVg8irRQMwxmufNrh0GBAbHws5GxHfj7Y3DNbbAvWWoO6SmRcGrwU00
+	LjqOE5CHc85GlmizMa6XCdiMOC/X01MW0WRnjJQBuWo7uRl9QM3XxhI3b3COki9Xaw5jeDDtogY
+	ZubmgBz8BlWFmhSrBcld66aLozjNEEK3NrtNAQ+59KDPYOHCDJiLKoCT+h5qZ4iiuGg65Fgepxr
+	rTnLXo4bGy+/El7gOzxtBocrz1gcHgLvtsHjL0Ai2xT9eaUZ/562jYJdNZZBPRqWeGRQe9dlaAc
+	zmjihnOzGTx79hx0hbix0N6wz3Li+lkHQ=
+X-Received: by 2002:a05:6820:f029:b0:67b:b01c:5887 with SMTP id 006d021491bc7-67c0db41fecmr2309940eaf.56.1773841627100;
+        Wed, 18 Mar 2026 06:47:07 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4200:11c0::8279])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67c0d89c739sm1763625eaf.13.2026.03.18.06.47.05
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67c0d89c739sm1763625eaf.13.2026.03.18.06.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 06:47:05 -0700 (PDT)
+        Wed, 18 Mar 2026 06:47:06 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v7 08/12] spdx: Remove fatal errors for missing providers
-Date: Wed, 18 Mar 2026 07:44:36 -0600
-Message-ID: <20260318134655.953233-9-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v7 09/12] spdx3: Use common variable for vardeps
+Date: Wed, 18 Mar 2026 07:44:37 -0600
+Message-ID: <20260318134655.953233-10-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260318134655.953233-1-JPEWhacker@gmail.com>
 References: <20260310184058.533343-1-JPEWhacker@gmail.com>
@@ -69,64 +69,88 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 13:47:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233398
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233399
 
-When creating images and SDKs, do not error on missing providers. This
-allows recipes to use the `nospdx` inherit to prevent SPDX from being
-generated, but not result in an error when assembling the final image.
-
-Note that runtime packages generation already ignored missing
-providers, so this is changing image and SDK generation to match
+Instead of repeating the vardeps for each SPDX task with the necessary
+variables, use a common variable to make it easier to manage
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/create-spdx-2.2.bbclass | 3 ++-
- meta/lib/oe/spdx30_tasks.py          | 8 +-------
- 2 files changed, 3 insertions(+), 8 deletions(-)
+ meta/classes/create-spdx-3.0.bbclass | 33 ++++++++++------------------
+ 1 file changed, 12 insertions(+), 21 deletions(-)
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 3288cdf75a..aa39208eae 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -858,7 +858,8 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
-     if packages:
-         for name in sorted(packages.keys()):
-             if name not in providers:
--                bb.fatal("Unable to find SPDX provider for '%s'" % name)
-+                bb.note("Unable to find SPDX provider for '%s'" % name)
-+                continue
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index c3ea95b8bc..869bbd472f 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -163,6 +163,14 @@ SPDX3_DEP_FILES = "\
+     ${SPDX_LICENSES}:True \
+     "
  
-             pkg_name, pkg_hashfn = providers[name]
++SPDX3_VAR_DEPS = "\
++    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
++    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
++    SPDX_PROFILES \
++    SPDX_NAMESPACE_PREFIX \
++    SPDX_UUID_NAMESPACE \
++    "
++
+ python do_create_recipe_spdx() {
+     import oe.spdx30_tasks
+     oe.spdx30_tasks.create_recipe_spdx(d)
+@@ -174,13 +182,7 @@ do_create_recipe_spdx[sstate-inputdirs] = "${SPDXRECIPEDEPLOY}"
+ do_create_recipe_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
+ do_create_recipe_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
+ do_create_recipe_spdx[cleandirs] = "${SPDXRECIPEDEPLOY}"
+-do_create_recipe_spdx[vardeps] += "\
+-    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
+-    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
+-    SPDX_PROFILES \
+-    SPDX_NAMESPACE_PREFIX \
+-    SPDX_UUID_NAMESPACE \
+-    "
++do_create_recipe_spdx[vardeps] += "${SPDX3_VAR_DEPS}"
  
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 5b651900c4..c4af191974 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -1178,11 +1178,10 @@ def collect_build_package_inputs(d, objset, build, packages, files_by_hash=None)
-     providers = oe.spdx_common.collect_package_providers(d)
+ python do_create_recipe_spdx_setscene () {
+     sstate_setscene(d)
+@@ -211,13 +213,7 @@ do_create_spdx[depends] += " \
+     ${PATCHDEPENDENCY} \
+     ${@create_spdx_source_deps(d)} \
+ "
+-do_create_spdx[vardeps] += "\
+-    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
+-    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
+-    SPDX_PROFILES \
+-    SPDX_NAMESPACE_PREFIX \
+-    SPDX_UUID_NAMESPACE \
+-    "
++do_create_spdx[vardeps] += "${SPDX3_VAR_DEPS}"
  
-     build_deps = set()
--    missing_providers = set()
+ python do_create_spdx_setscene () {
+     sstate_setscene(d)
+@@ -238,6 +234,7 @@ do_create_package_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
+ do_create_package_spdx[dirs] = "${SPDXRUNTIMEDEPLOY}"
+ do_create_package_spdx[cleandirs] = "${SPDXRUNTIMEDEPLOY}"
+ do_create_package_spdx[rdeptask] = "do_create_spdx"
++do_create_package_spdx[vardeps] += "${SPDX3_VAR_DEPS}"
  
-     for name in sorted(packages.keys()):
-         if name not in providers:
--            missing_providers.add(name)
-+            bb.note(f"Unable to find SPDX provider for '{name}'")
-             continue
+ python do_create_package_spdx_setscene () {
+     sstate_setscene(d)
+@@ -259,13 +256,7 @@ do_create_recipe_sbom[sstate-inputdirs] = "${SPDXRECIPESBOMDEPLOY}"
+ do_create_recipe_sbom[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+ do_create_recipe_sbom[file-checksums] += "${SPDX3_DEP_FILES}"
+ do_create_recipe_sbom[cleandirs] = "${SPDXRECIPESBOMDEPLOY}"
+-do_create_recipe_sbom[vardeps] += "\
+-    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
+-    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
+-    SPDX_PROFILES \
+-    SPDX_NAMESPACE_PREFIX \
+-    SPDX_UUID_NAMESPACE \
+-    "
++do_create_recipe_sbom[vardeps] += "${SPDX3_VAR_DEPS}"
  
-         pkg_name, pkg_hashfn = providers[name]
-@@ -1201,11 +1200,6 @@ def collect_build_package_inputs(d, objset, build, packages, files_by_hash=None)
-             for h, f in pkg_objset.by_sha256_hash.items():
-                 files_by_hash.setdefault(h, set()).update(f)
- 
--    if missing_providers:
--        bb.fatal(
--            f"Unable to find SPDX provider(s) for: {', '.join(sorted(missing_providers))}"
--        )
--
-     if build_deps:
-         objset.new_scoped_relationship(
-             [build],
+ python do_create_recipe_sbom_setscene () {
+     sstate_setscene(d)
 -- 
 2.53.0
 
