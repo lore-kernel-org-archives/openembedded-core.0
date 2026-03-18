@@ -1,141 +1,155 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32F25FCD0CF
-	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 08:09:28 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9003.1773821361578939502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2358EFCD0D2
+	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 08:21:38 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.78])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9144.1773822087068771810
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Mar 2026 01:09:21 -0700
+ Wed, 18 Mar 2026 01:21:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=JqbMF3I7;
- spf=pass (domain: mvista.com, ip: 209.85.216.51, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-35a09e0dd63so7505391a91.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 01:09:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1773821360; x=1774426160; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AhWMH484dTGjEe8ieOw7Tnx4MK8/gXJlWie+PLk4oPw=;
-        b=JqbMF3I7Ij+V+v40aMJKZWXc92+6xMznlwB5J5M8alLgsjiebsX48oYxnnSz4elNGL
-         MHvVZ107DRuObHnJqR8J9GaSO8BSlBW9Ii005/Pgf9+RRW9i4gMySWqxqW1uUYyY2blw
-         iGhnVeEr/I/ireje4d9ZGSwy2jBgMzT02gg0w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773821360; x=1774426160;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AhWMH484dTGjEe8ieOw7Tnx4MK8/gXJlWie+PLk4oPw=;
-        b=rkaDZktjujjg+SLBXUGfQ5aPgdSG8PLpywNGWimxfr8gMFJP8c284FVrYrZlLLk4Ek
-         mJvaU1LUeWZ78hs9vz9w5cVyHgnMXsnoYX3WycGidcC8rgx1ALltWECSOMlMPH0QoPRK
-         kKYNGkuUWDJ66h0K+SpEQXdxKJ8/pKLo4HIwIqDUjfxCTYZqbYMH8ISNpxroEVt9lEd4
-         9sFvqc3eAzqo77GHkKVYIp7JZFu1+bISJviI5wQ7CnYY/v61J6Qr2bZrL51weUG5Ql5r
-         yqon+CZld0fy5lh3SLnEEQnTxe6/ppnnyKej6q1+V6HxBHtH0Egv//UOwkYFb3g2oaAT
-         nlnQ==
-X-Gm-Message-State: AOJu0YwJOIzuSOdFzRs2/1nkr4TLTbu1rjc+K2W/2k9eG0gBOi2Fy5FV
-	yxC95Gk8GGbmMjo/YNWJo31TrVIeeMQSijfVoQOYmzVOvpmivwC4kLIn2uIkQyfUtiqdYV1PRd5
-	n5ioRxJI=
-X-Gm-Gg: ATEYQzwa622UX029vU+sWBYN0vXFU7gEouqsOrKMfWpeKzD1//ixRxxyK5NGVPEn0+Q
-	p98SP9aCZDLjNdfHJNENfCQQ4GwVwYfddHWQwB4lxxPaURA+P/c6xgMi43qPSRQUSfaJ1ltI66s
-	G+Ccx9jdQNauMqocD8VWpYq7YldNEgJoMOeVyfmYF7W9SLPuWgBmc1NlewPEzILkN34MDBeJZGC
-	5YHwK9cwCkuHB7NW8OKwmR4VEAq8qLDBuZrtiluMDQvwZSlvCLg1N8ui2vX+uLjcWx+2oKlLROL
-	AJhE1+qxSeoTV+u2ZHzIXmwCNIh4lNLgCYjkiyRh1ELKpNDXWZH44td3uyoUTIbSz+bH1Y4h15z
-	JzFHZBKF6hSzVNGgk9Exngk8wb22zLSosBTWCyJ1e2ymo7crqvXmFcW1vOYFF7tYZlINBFeeNVg
-	mAlo13/eqRIsdCNpg6ABdVa0PNUcU=
-X-Received: by 2002:a17:90b:2e49:b0:359:877:370f with SMTP id 98e67ed59e1d1-35bb9ef1cbemr2010163a91.17.1773821360386;
-        Wed, 18 Mar 2026 01:09:20 -0700 (PDT)
-Received: from MVIN00352.. ([2401:4900:6304:fa7e:40dc:826f:d868:e60f])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bbabae770sm740199a91.1.2026.03.18.01.09.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 01:09:19 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch] inetutils: Fix CVE-2026-32746
-Date: Wed, 18 Mar 2026 13:39:10 +0530
-Message-ID: <20260318080910.1095604-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=Kd+C3uTK;
+ spf=pass (domain: navimatix.de, ip: 40.107.159.78, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pBtcR6Q/AIRWKtj/AUrhhTQZWNb2YFmR/MYJ5PKFGvq1uevkwCCIlTsXqex7VVuS9p8xRPIvVRS/m3KgTDU7ZxIVpfN5atE1iMKXyJAblvR01nlU/8YTQbCICmq55e1K+hMuFKW28k3pxm905kGDlR8QvsHsNw534AcD9xkraNpxWPooeLGC52nvJ0dBbl1YBQuni+KJOA92g27119NIkvOpTb+dksOwRdBsQrJRZRxnszrPUmPmD+vfHHwBA5SMxfPFO4iULB6lEACLMOCEZqBAk3SP1lH0VAtQXj8x4zNb58CmKnXFaoIcMhyLMw3Vdx+sdaML+D3AGbtk6BD5Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xhm2MsRVKh+eMUU73ehsiPwVMBxtOUB7u1pE4pw52W8=;
+ b=s4/MdCO8ONaHsOw0prWFS6H+H8Z+nwJl4eeKU5xepRSYezhODNEFDL8oXCYPndZbnxiNxw/BcM+ZShwQRn+dFmZ+kxvKBneuc8QuuX9gtbIv2CdOHi7+tNZuIzVwhhlkUZu5Kdm74zrFUkl6yPVkQGG5Un18dbrXdeetFH2RFHTkL7tUaLg7jyki0ZOTUcpjr2mIlSmQaG+iswa8JHTv8LJJAApYIAZ4ACiTbhAF9K8dhM231+EOQKmhSzkwPWFUL4T91qbh5TJJMSH5q6OBCGxYvWpXk3E62W2TEFyPpflSFQUZfqv10AJ+oOJCyIDunfjd4kb4QXsemgEDNqwaTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xhm2MsRVKh+eMUU73ehsiPwVMBxtOUB7u1pE4pw52W8=;
+ b=Kd+C3uTKSosX9C8nknx/FXhoTN0XEt45262Y12frhJexZOTEvy2l7S9nAbHOLHUWBoEwYoSbjeXHR/fQBxJ4VwoW7cTirHm2UiI5h2RTcy9i7/VOp+5CipnhkhR5a4/NW6kCFMx2w7PdXF9D2lrPrhmR9DuoGh/kLGNfkV5Pvkw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by PA1PR01MB11346.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:489::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.27; Wed, 18 Mar
+ 2026 08:21:22 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.20.9700.018; Wed, 18 Mar 2026 08:21:21 +0000
+Date: Wed, 18 Mar 2026 09:21:20 +0100
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
+CC: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [PATCH] icu: Skip buildpaths QA check, if TMPDIR is /build/tmp
+Message-ID: <dddfc185f8b0627d2851b95fe37b697d6453e7c0.1773822079.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.53.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BE1P281CA0399.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:80::6) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|PA1PR01MB11346:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b83f04c-ec91-4fb5-fff4-08de84c7567a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|1800799024|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	Q2aMVziJYZ+HEaNexriTJCW343XaiTSgChSEO4OTOgqCy45qHF49C3laL31dtq3y7xGO+BM1PqOvjDPqyBmFAzay1Ir+a33Lw4LbO05eBr3jEI9DpYgLvWXzkwQgB7z7V3slJF0STH4noxXNBkdhPXwCYgoTUMes+C8cmpSEwAJyVhhbRg0jegktxqzyK20BAM7nM58neKfB+PSslYF93U2RO7vdaYP5YYPD/M/qzIloNjOnRNjIkmH7arF6UBGYQydGIhKVH3NhqX4+Bxj48ihAiBa8pfJZzLtAu19Ul6lyOFHDPSoNYDR0G2aRK6Bwnl1uIOXLnrALudrHb8J5fhzzYX1QDxV0ZU5YsPMHe5rVB2DBD7MCQs6rPHdHvwxttzvoRapE7s9CgICOXRpLUCdlGQQVhDQmpsKNyJfscORJjbA5jvOAVxMkq82wb/j7QDQW3bHCFcDuWTrUzLFFCiuUpCN2x4X1brJwQSiXuaiURs0upLbwbXzx6r5Z5Z96fZQIePTYXyeuJuoGNHaBvhBJSCSoOOt7eT9+JaiK5zPzK5ezv4G3NSiTMyJiK4ET4M3iA2y008fLZkLdmvylkIMLichLv1nN8yOuMikJRxBE7PGkntlg9hDcREMNRlRJqCYEhjw/65Tj1yzL85b+dkAyOHGYpMCYgCRDb8/AiHaEOGE3F1eHStzSvbHZQKU5vCo+fMl5n19ZnNGdKqkhOhijmhCwutdGDndtEezjvKk=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(18002099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?I3Lh3RjUYU52h/szxUH907FtlsfUbIU3c7Y7xeVF2v02im6TcPTmVncY+JLX?=
+ =?us-ascii?Q?LsytvsbrqZiztUPDWiztsSdLqNseVOh/+49Kzie3KAU75hnh19etD+XH10fx?=
+ =?us-ascii?Q?twel7YSvkxrq7nQVhPVedTDtF51bv/Zamr/6hZ5FwRfiN8sbKcdohbwxD8FS?=
+ =?us-ascii?Q?Ml5KKT8kzgbn/eAXp2bcTBdF0LWSF2IjZGdswluzXU3cYyn6OpaqMvpxUD6n?=
+ =?us-ascii?Q?fJgIngmvn05wL/xivrqWsPzolAEVANQ/bGjxrYOeo9eSHh3mRR+dXYc/9QgD?=
+ =?us-ascii?Q?EKFGJFV2igQXIc1WRLfRPdtpA7Gkuf0Uk/irYXOU8oXqJ8GiIrbH+i8TbGOX?=
+ =?us-ascii?Q?odMeKM/G6pwZ2n4dcIOcFLxy8o6xixfosvhlHXY2cABjiFCe5hXT3xrXv6li?=
+ =?us-ascii?Q?TQj5ZDwUV9dCDt4ssN6tYaeKUxSmcCc3epyhr+9lEvBhct6O/NIqn15SzXvg?=
+ =?us-ascii?Q?Fqb9b6BwY5JtG174wNdA5ACm/6rSjC6fXM4XcGO8b5EmIDU4HzfY/xa0D5tg?=
+ =?us-ascii?Q?u6emrhQHVEmrho/QbppAx6oDK1D/JGISSzSspbPQDReFUl3ChLyfsyEHJZ+N?=
+ =?us-ascii?Q?HjDSEMDoTb/cSxwkhUYQk/H6DMYaFsMJ29MNgpgtqp6cpc48FwCc9ClXuxMh?=
+ =?us-ascii?Q?YLSvtG6T8dWAUqKiOAmDrUmaBwgqCtpVJhEwaEKhuHRu8e/SaF7LdUV7qjPc?=
+ =?us-ascii?Q?GHlMqRaOGZ4vY1zqHFZhUq95kI8/9fo1MFvZwv7uHKyJiIWJA3bZnT9bzijy?=
+ =?us-ascii?Q?5ychpdmvtsvTtEprnp1QWIsXU102kTi8+Ds2OnT5FeJwxFCHKbsS48Yv1hn2?=
+ =?us-ascii?Q?Q26vOYj3QbfAUck23yX7hN7nCRUOPbZriZyWK/KxXm+rLS1CF0FKDYNQdmkY?=
+ =?us-ascii?Q?n+0BS5dYA8cKRH7JZLOVeEnCXeYMpNR4zVRAYew0+RLlLiWzLZNxQU/rC7SM?=
+ =?us-ascii?Q?+0vFGiJpQ46CTrMspZWdOBhGGr1LmB0wmmhXoRJDMO/VEJsmcKh0k92NCya4?=
+ =?us-ascii?Q?n1WJzOtB9B4bKqZmPT720V6mINyhZFlye9Edq0EroCWN9Fq4lwDvjTunJY5l?=
+ =?us-ascii?Q?zBlFjs9gbAMk3XRaclCshXG+IGC5/Y1zW21IPhXMizOs73RtMt6RrIr8EDIu?=
+ =?us-ascii?Q?p86a70LqaoiSqtzd78jgGwbWN9G8bwt+unCy1C64WaKL+/gruYPAS+qAygjC?=
+ =?us-ascii?Q?flASRV/6UIrF4p4sT32r5iOVHlfz1I9g53L1GZHQXbidw5A9z539WT9D6SCj?=
+ =?us-ascii?Q?Jt37nuYu5alVMoNUosu1AVblJ+6rl9BuFnvshqDyJirrb3aJnB/Y9EoCkleC?=
+ =?us-ascii?Q?MM0Vg5PTq2gTOeTgU5sHEePp+mcqQerlyC5S2ROxxTaHuToKfaKhKRn3GSgi?=
+ =?us-ascii?Q?9jjJP+ZHLNUZqb9WoG3dx31AiLWmxr4cqiyDn9awGI7PvAJeXAf0M5+NR/nc?=
+ =?us-ascii?Q?UEi3hSUb9s1oUXj+YzxygQ9xqkqCoSLE8R11lUW/unnz5MPsFmhVp/iH/zld?=
+ =?us-ascii?Q?Xd1IH4WIGw8AuvVLbw9dK+TcvenFc7geQ1keMoMkyQxauYt6Z2SaZ0kzkFnM?=
+ =?us-ascii?Q?Rvt1vOWr+wxfFlV7xccJtfse5AMl1Xy5eFM4javC4IEXh0gziC3LgSQaDxOu?=
+ =?us-ascii?Q?MHJD5NJUCH77oQkTfSDdsI/t0CDQquS4P3ogj47TSdsAXBmqbvpUHfOJ9GAp?=
+ =?us-ascii?Q?DxLlC8PPWRDOWJzZSvnHvJ41FuPzk9iyXqfj5DYCCB9f7hQSIWW+4aOmh1+0?=
+ =?us-ascii?Q?WDbfm9YiMTqoj2oxHuC5y0wR2SoTW80=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b83f04c-ec91-4fb5-fff4-08de84c7567a
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 08:21:21.9318
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nJv6D+TXzR8qG2ZMfjJOYYy7/10tUQHmymo8UuHCVUSd3g+R417h9x8VSxeAMiUelIliKnnZCuLJfe43LXxLsrNUfVAHeXEBPLxGlL3ED9M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR01MB11346
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 08:09:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233369
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 08:21:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233370
 
-Pick patch according to [1]
+From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-32746
-[2] https://lists.gnu.org/archive/html/bug-inetutils/2026-03/msg00031.html
-[3] https://codeberg.org/inetutils/inetutils/pulls/17/files
+The file udatatst.c really contains the string /build/tmp. When building
+with kas-container the build directory is /build and hence the TMPDIR
+becomes /build/tmp.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+% grep -n -C2 /build/tmp source/test/cintltst/udatatst.c
+136-    char* path=3D(char*)malloc(sizeof(char) * (strlen(ctest_dataOutDir(=
+))
+137-                                           + strlen(U_ICUDATA_NAME)
+138:                                           + strlen("/build/tmp/..")+1 =
+) );
+139-
+140-    char        *icuDataFilePath =3D 0;
+
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
 ---
- .../inetutils/inetutils/CVE-2026-32746.patch  | 40 +++++++++++++++++++
- .../inetutils/inetutils_2.5.bb                |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
+ meta/recipes-support/icu/icu_78.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
-new file mode 100644
-index 0000000000..0e55f3f0a4
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
-@@ -0,0 +1,40 @@
-+From 6864598a29b652a6b69a958f5cd1318aa2b258af Mon Sep 17 00:00:00 2001
-+From: Collin Funk <collin.funk1@gmail.com>
-+Date: Wed, 11 Mar 2026 23:06:46 -0700
-+Subject: [PATCH] telnetd: fix stack buffer overflow processing SLC suboption triplets
+diff --git a/meta/recipes-support/icu/icu_78.2.bb b/meta/recipes-support/ic=
+u/icu_78.2.bb
+index 1e99803105..b2e3e1a588 100644
+--- a/meta/recipes-support/icu/icu_78.2.bb
++++ b/meta/recipes-support/icu/icu_78.2.bb
+@@ -122,6 +122,9 @@ SRC_URI[data.sha256sum] =3D "582968cf174c9498b2046b4f4e=
+7f786def5f18222bd8d98432d7a
+ UPSTREAM_CHECK_REGEX =3D "releases/tag/release-(?P<pver>(?!.+rc).+)"
+ GITHUB_BASE_URI =3D "https://github.com/unicode-org/icu/releases"
+=20
++# The file source/test/cintltst/udatatst.c contains the string "/build/tmp=
+/.."
++INSANE_SKIP:${PN}-src +=3D "${@'buildpaths' if d.getVar('TMPDIR') =3D=3D '=
+/build/tmp' else ''}"
 +
-+Previously a client could write past the end of an internal buffer using
-+an SLC suboption with many triplets using function octets greater than
-+18, possibly leading to remote code execution. Reported by Adiel Sol,
-+Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg, Daniel Lubel at DREAM
-+Security Research Team at:
-+<https://lists.gnu.org/r/bug-inetutils/2026-03/msg00031.html>.
-+
-+* telnetd/slc.c (add_slc): Return early if writing the tuple would lead
-+us to writing past the end of the buffer.
-+* NEWS.md: Mention the fix.
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=6864598a29b652a6b69a958f5cd1318aa2b258af]
-+CVE: CVE-2026-32746
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ telnetd/slc.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/telnetd/slc.c b/telnetd/slc.c
-+index b3cc117..9d6bad1 100644
-+--- a/telnetd/slc.c
-++++ b/telnetd/slc.c
-+@@ -162,6 +162,9 @@ get_slc_defaults (void)
-+ void
-+ add_slc (register char func, register char flag, register cc_t val)
-+ {
-++  /* Do nothing if the entire triplet cannot fit in the buffer.  */
-++  if (slcbuf + sizeof slcbuf - slcptr <= 6)
-++    return;
-+ 
-+   if ((*slcptr++ = (unsigned char) func) == 0xff)
-+     *slcptr++ = 0xff;
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.5.bb b/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
-index 6c53902356..29ff62379d 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://CVE-2026-24061-1.patch \
-            file://CVE-2026-24061-2.patch \
-            file://CVE-2026-28372.patch \
-+           file://CVE-2026-32746.patch \
-            "
- 
- inherit autotools gettext update-alternatives texinfo
--- 
-2.43.0
+ EXTRA_OECONF:append:libc-musl =3D " ac_cv_func_strtod_l=3Dno"
+=20
+ PACKAGECONFIG ?=3D ""
+--=20
+2.53.0
 
 
