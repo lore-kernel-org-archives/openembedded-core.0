@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 919D81088E5A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7CF1088E5C
 	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 22:38:34 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27343.1773873511005304171
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27165.1773873511001581849
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Mar 2026 15:38:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=S/+OFosT;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-2026031822382805ac13a2f800020711-nejkji@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 2026031822382805ac13a2f800020711
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=VvlPuH3g;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-20260318223828883b89edbc00020760-q9tpe_@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260318223828883b89edbc00020760
         for <openembedded-core@lists.openembedded.org>;
         Wed, 18 Mar 2026 23:38:28 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=+qWFJLbmdyfC5DaqGBtB/XO0H5NT6fdPVUNm1h2qds8=;
- b=S/+OFosT5O0l7PtkG0ly93srElvqx6KNrAt61sWTekTGM5g3UHQGmUlxWZOcEJFvd/CKCa
- mUGH78PN4HxsEiJCdPfLbYqunBrH3ewJsqZlG4E0c7s24n+feYOGTYapvda26KgpVN/2uM0x
- PtaSjwQxUpgkzZemCBOR4EOlRJ/XYh5gewH6b3Z0OhpmTkCu2KXAtMG3jvH/JRMafcVXCNrp
- wE75Dqjun8UXHbCYUwDs8sAC2tr92GjvXcdL6Rm0aYEI+UaMUyg4zGR7f3xN00Qla2gGwM8M
- RgRLhXBCxrdAJnucGiTUytbURizqfzYCec64XEZVMMka1aVdlMThqnLQ==;
+ bh=hhs5T89OYgG8aDf6D1ZGK6SZCRkm2A/2BtvBCbp7djU=;
+ b=VvlPuH3g8Nqtp+gR9ZKFFhwvIFGvu3JXi70c0NMkEGHIMB8hEeD+DTnoutL2TU9xf3QfA2
+ sR5YUcoPZC70f7tAweLMQNv5hwhiofCCuG2L7m6XyH/7FnAnKYdnRovTunGlq2/TvFdb0ANS
+ WpWhd9mnWDislCZv+z6hoRme5iU0E6olVg7Hh+2Osq1lxxb68V69+lthjYPz82if3lIHTHGn
+ MKOvzsrNWzjpKwZzE1Bb4aDEL15QPK+H5turjGCpdR+p5L3uikWlMgbd6T8ZuF1R568rLdzD
+ mVXigb2lgRnZjj/0BZN4A/FXRNj4WIEkFGGIpSvTCG+72uP7TUlmmGwA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 7/9] devtool: ide-sdk add LLDB support for clang toolchain
-Date: Wed, 18 Mar 2026 23:36:15 +0100
-Message-ID: <20260318223736.3414885-8-adrian.freihofer@siemens.com>
+Subject: [PATCH 4/9] oe-selftest/cpp-example: fix conf file ownership with static UIDs/GIDs
+Date: Wed, 18 Mar 2026 23:36:12 +0100
+Message-ID: <20260318223736.3414885-5-adrian.freihofer@siemens.com>
 In-Reply-To: <20260318223736.3414885-1-adrian.freihofer@siemens.com>
 References: <20260318223736.3414885-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,359 +39,127 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 22:38:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233441
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233442
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add support for LLDB (CodeLLDB) remote debugging in VSCode when using
-the clang toolchain. This includes:
+test_devtool_ide_sdk_none_qemu builds an image containing both
+cmake-example and meson-example, starts a QEMU instance, then uses
+devtool ide-sdk + devtool deploy-target to rebuild and redeploy each
+recipe in turn. The test verifies that /etc/<recipe>.conf is owned by
+the matching user both before and after each deploy cycle.
 
-- New LldbServerConfig class for configuring lldb-server on the target
-- LldbServerConfigVSCode for VSCode-specific LLDB configuration
-- RecipeLldbNative to handle lldb-native (architecture-agnostic) on the
-  host
-- CodeLLDB VSCode extension recommendation for clang toolchain
-- Launch configuration generator for LLDB debugging
-- Proper handling of source maps and debug symbol paths for LLDB
+The test was failing with:
+
+  /etc/meson-example.conf not owned by user meson-example: got cmake-example
+
+Root cause: both recipes call
+
+  install -m 0644 -o ${BPN} -g ${BPN} ... ${D}${sysconfdir}/${BPN}.conf
+
+During do_install, pseudo resolves ${BPN} to a UID by looking up
+/etc/passwd in the recipe's own isolated RECIPE_SYSROOT. Since the
+sysroots are independent, both cmake-example and meson-example each
+see themselves as the first --system user and get the same UID (e.g.
+100). Both ${D} trees therefore contain files with UID 100. In the
+final rootfs cmake-example is allocated UID 100 and meson-example UID
+101. Files packaged for meson-example still carry UID 100, so stat
+reports them as owned by cmake-example.
+
+A pkg_postinst chown would fix the rootfs, but devtool deploy-target
+is a plain tar pipe over SSH with no package-manager involvement - it
+never runs pkg_postinst. Whatever UID is embedded in ${D} is what
+lands on the target. Not sure how this could be fixed with dynamic UIDs.
+
+A clean solution is to make every recipe sysroot and the final image
+agree on the same UIDs from the start, i.e. static IDs.
+
+Fix:
+- Enable USERADDEXTENSION = "useradd-staticids" in _write_bb_config so
+  the test builds with static IDs for the duration of the test.
+- Add cmake-example (UID/GID 533) and meson-example (UID/GID 534) to
+  meta-selftest/files/static-passwd and static-group.
+- Expand the comment in cpp-example.inc's do_install to document the
+  static-ID requirement so future readers understand why the -o/-g
+  flags work correctly only under useradd-staticids.
+- Fix a copy-paste error in the in-test comment (said
+  "meson-example.conf ... cmake-example user" for the cmake block).
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_plugins/__init__.py |  63 +++++++++++
- scripts/lib/devtool/ide_plugins/ide_code.py | 114 +++++++++++++++++++-
- scripts/lib/devtool/ide_sdk.py              |  61 ++++++++++-
- 3 files changed, 229 insertions(+), 9 deletions(-)
+ meta-selftest/files/static-group               |  2 ++
+ meta-selftest/files/static-passwd              |  2 ++
+ meta-selftest/recipes-test/cpp/cpp-example.inc |  6 +++++-
+ meta/lib/oeqa/selftest/cases/devtool.py        | 12 +++++++++++-
+ 4 files changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
-index 8c41afc640..d7d06567ee 100644
---- a/scripts/lib/devtool/ide_plugins/__init__.py
-+++ b/scripts/lib/devtool/ide_plugins/__init__.py
-@@ -181,6 +181,69 @@ class GdbCrossConfig(DebuggerCrossConfig):
-         return "\"kill \\$(pgrep -o -f 'gdbserver --attach :%s') 2>/dev/null || true\"" % self.port
+diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
+index 3fca4aa5c9..adf436f310 100644
+--- a/meta-selftest/files/static-group
++++ b/meta-selftest/files/static-group
+@@ -28,4 +28,6 @@ ptest:x:529:
+ xuser:x:530:
+ seat:x:531:
+ audio:x:532:
++cmake-example:x:533:
++meson-example:x:534:
+ nogroup:x:65534:
+diff --git a/meta-selftest/files/static-passwd b/meta-selftest/files/static-passwd
+index cc6c5acd5c..8d9f149b9f 100644
+--- a/meta-selftest/files/static-passwd
++++ b/meta-selftest/files/static-passwd
+@@ -19,3 +19,5 @@ _apt:x:523:523::/:/bin/nologin
+ weston:x:525:525::/:/bin/nologin
+ ptest:x:529:529::/:/bin/nologin
+ xuser:x:530:530::/:/bin/nologin
++cmake-example:x:533:533::/var/lib/cmake-example:/bin/false
++meson-example:x:534:534::/var/lib/meson-example:/bin/false
+diff --git a/meta-selftest/recipes-test/cpp/cpp-example.inc b/meta-selftest/recipes-test/cpp/cpp-example.inc
+index 2653f45e90..0671824d1c 100644
+--- a/meta-selftest/recipes-test/cpp/cpp-example.inc
++++ b/meta-selftest/recipes-test/cpp/cpp-example.inc
+@@ -41,7 +41,11 @@ USERADD_PARAM:${PN} = "--system --home /var/lib/${BPN} --no-create-home --shell
+ EX_BINARY_NAME ?= "${BPN}"
  
- 
-+class LldbServerConfig(DebuggerCrossConfig):
-+    """Configure lldb-server (platform mode) on the target for CodeLLDB remote debugging.
-+
-+    Unlike gdbserver, lldb-server platform mode is architecture-agnostic on the host
-+    side: a single lldb-native binary handles all target architectures via the
-+    LLDB platform protocol that CodeLLDB speaks natively.
-+
-+    The ATTACH mode is not supported because lldb-server platform does not take a
-+    PID argument; attaching is done client-side via 'process attach'.
-+    """
-+
-+    def __init__(self, image_recipe, modified_recipe, binary,
-+                 default_mode=GdbServerModes.MULTI):
-+        super().__init__(image_recipe, modified_recipe, binary,
-+                         default_mode)
-+
-+    def _lldb_server_tmp_dir(self, mode):
-+        return os.path.join('/tmp', 'lldb_server_%s' % self.id_pretty_mode(mode))
-+
-+    def _lldb_server_pid_file(self, mode):
-+        return os.path.join(self._lldb_server_tmp_dir(mode), 'lldb_server.pid')
-+
-+    def _lldb_server_log_file(self, mode):
-+        return os.path.join(self._lldb_server_tmp_dir(mode), 'lldb_server.log')
-+
-+    def _target_start_cmd(self, mode):
-+        """SSH command to start lldb-server in platform mode on the target."""
-+        lldb_server = self.gdb_cross.gdbserver_path
-+        # Use '*:<port>' so lldb-server binds on all interfaces (0.0.0.0), not
-+        # just loopback.  The bare ':<port>' form only binds to 127.0.0.1 in
-+        # lldb-server 21.x and the remote lldb client connects from the host.
-+        # Start from /tmp because lldb-server creates temp files in its cwd and
-+        # the SSH default cwd (/home/root) may not exist on a minimal image.
-+        if mode == GdbServerModes.ONCE:
-+            cmd = "cd /tmp && %s platform --one-shot --server --listen *:%s" % (
-+                lldb_server, self.port)
-+        elif mode == GdbServerModes.MULTI:
-+            pid_file = self._lldb_server_pid_file(mode)
-+            tmp_dir = self._lldb_server_tmp_dir(mode)
-+            log_file = self._lldb_server_log_file(mode)
-+            cmd = "test -f %s && exit 0; " % pid_file
-+            cmd += "mkdir -p %s; " % tmp_dir
-+            cmd += "cd %s; " % tmp_dir
-+            cmd += "%s platform --server --listen *:%s > %s 2>&1 & " % (
-+                lldb_server, self.port, log_file)
-+            cmd += "echo \\$! > %s;" % pid_file
-+        else:
-+            raise DevtoolError(
-+                "lldb-server does not support mode %s "
-+                "(ATTACH is handled client-side with 'process attach')" % mode)
-+        return "\"/bin/sh -c '" + cmd + "'\""
-+
-+    def _target_kill_cmd(self):
-+        """SSH command to stop a MULTI-mode lldb-server on the target."""
-+        pid_file = self._lldb_server_pid_file(GdbServerModes.MULTI)
-+        tmp_dir = self._lldb_server_tmp_dir(GdbServerModes.MULTI)
-+        cmd = ("test -f %(pf)s && kill \\$(cat %(pf)s) 2>/dev/null; rm -rf %(td)s"
-+               % {'pf': pid_file, 'td': tmp_dir})
-+        return "\"/bin/sh -c '" + cmd + "'\""
-+
-+    def server_modes(self):
-+        """ATTACH mode is not applicable for lldb-server platform."""
-+        return [self.default_mode]
- 
- 
- class IdeBase:
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
-index 7fe5a40eb1..1b8434ab1c 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -9,7 +9,7 @@ import json
- import logging
- import os
- import shutil
--from devtool.ide_plugins import BuildTool, IdeBase, DebuggerCrossConfig, GdbCrossConfig, GdbServerModes, get_devtool_deploy_opts
-+from devtool.ide_plugins import BuildTool, IdeBase, DebuggerCrossConfig, GdbCrossConfig, GdbServerModes, LldbServerConfig, get_devtool_deploy_opts
- 
- logger = logging.getLogger('devtool')
- 
-@@ -43,6 +43,28 @@ class GdbCrossConfigVSCode(GdbCrossConfig):
+ do_install:append() {
+-    # Install configuration file owned by unprivileged user
++    # Install configuration file owned by the recipe's unprivileged user.
++    # Note: this requires static UIDs/GIDs (USERADDEXTENSION = "useradd-staticids")
++    # so that the UID embedded by pseudo during do_install matches the UID assigned
++    # in the final image. devtool deploy-target is a raw file copy and does not run
++    # pkg_postinst, so the UID in ${D} must already be correct.
+     install -d ${D}${sysconfdir}
+     install -m 0644 -g ${BPN} -o ${BPN} ${S}/cpp-example.conf ${D}${sysconfdir}/${BPN}.conf
+     sed -i -e 's|@BINARY_NAME@|${BPN}|g' ${D}${sysconfdir}/${BPN}.conf
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index dc83d406fd..6c6f22a667 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2598,6 +2598,16 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             'IMAGE_INSTALL:append = " gdbserver %s"' % ' '.join(
+                 [r + '-ptest' for r in recipe_names]),
+             'DISTRO_FEATURES:append = " ptest"'
++            # Static UIDs/GIDs are required so that files installed via
++            # "install -o ${BPN}" in do_install embed the same UID that gets
++            # assigned in the final image. Without this, each recipe's isolated
++            # sysroot allocates UIDs independently (both start at the first free
++            # system UID), so files end up with colliding UIDs in the image.
++            # devtool deploy-target is a raw file copy and does not run
++            # pkg_postinst, so ownership must be correct already in ${D}.
++            'USERADDEXTENSION = "useradd-staticids"',
++            'USERADD_UID_TABLES += "files/static-passwd"',
++            'USERADD_GID_TABLES += "files/static-group"',
          ]
+         self.write_config("\n".join(conf_lines))
  
+@@ -2985,7 +2995,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             self.assertEqual(self._workspace_scripts_dir(
+                 recipe_name), self._sources_scripts_dir(tempdir))
  
-+class LldbServerConfigVSCode(LldbServerConfig):
-+    """VSCode-specific lldb-server configuration for CodeLLDB remote debugging."""
-+
-+    def __init__(self, image_recipe, modified_recipe, binary,
-+                 default_mode=GdbServerModes.MULTI):
-+        super().__init__(image_recipe, modified_recipe, binary,
-+                         default_mode)
-+
-+    def target_ssh_gdbserver_start_args(self, mode=None):
-+        """SSH argument list to start lldb-server on the target"""
-+        if mode is None:
-+            mode = self.default_mode
-+        return self._target_ssh_args() + [
-+            self._target_start_cmd(mode)
-+        ]
-+
-+    def target_ssh_gdbserver_kill_args(self):
-+        """SSH argument list to stop a running MULTI-mode lldb-server"""
-+        return self._target_ssh_args() + [
-+            self._target_kill_cmd()
-+        ]
-+
- class IdeVSCode(IdeBase):
-     """Manage IDE configurations for VSCode
- 
-@@ -243,6 +265,10 @@ class IdeVSCode(IdeBase):
-                 "ms-vscode.cpptools-extension-pack",
-                 "ms-vscode.cpptools-themes"
-             ]
-+        # For clang toolchain, CodeLLDB provides native LLDB debugging in VSCode
-+        if (modified_recipe.toolchain == 'clang'
-+                and modified_recipe.build_tool.is_c_cpp):
-+            recommendations.append("vadimcn.vscode-lldb")
-         if modified_recipe.build_tool is BuildTool.CMAKE:
-             recommendations.append("ms-vscode.cmake-tools")
-         if modified_recipe.build_tool is BuildTool.MESON:
-@@ -286,7 +312,9 @@ class IdeVSCode(IdeBase):
-             self.dot_code_dir(modified_recipe), prop_file, properties_dicts)
- 
-     def vscode_launch_bin_dbg(self, gdb_cross_config, gdbserver_mode):
--        """Dispatch to the GDB launch config generator."""
-+        """Dispatch to the GDB or LLDB launch config generator."""
-+        if isinstance(gdb_cross_config, LldbServerConfig):
-+            return self._vscode_launch_bin_dbg_lldb(gdb_cross_config, gdbserver_mode)
-         return self._vscode_launch_bin_dbg_gdb(gdb_cross_config, gdbserver_mode)
- 
-     def _vscode_launch_bin_dbg_gdb(self, gdb_cross_config, gdbserver_mode):
-@@ -373,6 +401,80 @@ class IdeVSCode(IdeBase):
- 
-         return launch_config
- 
-+    def _vscode_launch_bin_dbg_lldb(self, lldb_config, gdbserver_mode):
-+        """Generate a CodeLLDB (type: lldb) launch configuration entry for launch.json.
-+
-+        CodeLLDB connects to lldb-server via the LLDB platform protocol.  The
-+        initCommands select the remote platform and open the connection before
-+        the process is launched, so CodeLLDB can inspect and control it.
-+        """
-+        modified_recipe = lldb_config.modified_recipe
-+        gdb_cross = modified_recipe.gdb_cross
-+
-+        init_commands = [
-+            "platform select remote-linux",
-+            "platform connect connect://%s:%d" % (gdb_cross.host, lldb_config.port),
-+            # Clear the default step-avoid-regexp so std:: and other library
-+            # namespaces are not silently skipped on step-in. (default is "std::" in LLDB 15+)
-+            "settings set target.process.thread.step-avoid-regexp \"\"",
-+        ]
-+        # Point LLDB at the installed files in ${D} so it resolves shared
-+        # library paths automatically (equivalent of GDB's 'set sysroot').
-+        # target.sysroot is not a valid LLDB setting; use the module search
-+        # path substitution instead, which requires a target to exist and
-+        # therefore must run in preRunCommands, not initCommands.
-+        pre_run_commands = [
-+            "target modules search-paths add / %s" % modified_recipe.d,
-+        ]
-+
-+        # Search for header files in recipe-sysroot (same as GDB sourceFileMap).
-+        source_map = {
-+            "/usr/include": os.path.join(modified_recipe.recipe_sysroot, "usr", "include")
-+        }
-+        if lldb_config.image_recipe.rootfs_dbg:
-+            # Map build-time paths back to the workspace source tree.
-+            for target_path, host_path in modified_recipe.reverse_debug_prefix_map.items():
-+                if host_path.startswith(modified_recipe.real_srctree):
-+                    source_map[target_path] = (
-+                        "${workspaceFolder}"
-+                        + host_path[len(modified_recipe.real_srctree):])
-+                else:
-+                    source_map[target_path] = host_path
-+            if "/usr/src/debug" in source_map:
-+                logger.error(
-+                    'Key "/usr/src/debug" already exists in source_map. '
-+                    'Something with DEBUG_PREFIX_MAP looks unexpected and finding '
-+                    'sources in the rootfs-dbg will not work as expected.')
-+            else:
-+                source_map["/usr/src/debug"] = os.path.join(
-+                    lldb_config.image_recipe.rootfs_dbg, "usr", "src", "debug")
-+
-+            # Point LLDB at the .debug directories in rootfs-dbg.
-+            debug_search_paths = " ".join(
-+                modified_recipe.solib_search_path(lldb_config.image_recipe))
-+            init_commands.append(
-+                "settings set target.debug-file-search-paths %s" % debug_search_paths)
-+        else:
-+            logger.warning(
-+                "Cannot setup debug symbols configuration for LLDB. "
-+                "IMAGE_GEN_DEBUGFS is not enabled.")
-+
-+        launch_config = {
-+            "name": lldb_config.id_pretty_mode(gdbserver_mode),
-+            "type": "lldb",
-+            "request": "launch",
-+            "program": lldb_config.binary.binary_host_path,
-+            "stopOnEntry": False,
-+            "cwd": "/tmp",
-+            "preLaunchTask": lldb_config.id_pretty_mode(gdbserver_mode),
-+            "initCommands": init_commands,
-+            "preRunCommands": pre_run_commands,
-+        }
-+        if source_map:
-+            launch_config["sourceMap"] = source_map
-+
-+        return launch_config
-+
-     def vscode_launch(self, args, modified_recipe):
-         """GDB launch configurations for user-space binaries.
- 
-@@ -682,8 +784,12 @@ class IdeVSCode(IdeBase):
-         self.vscode_extensions(modified_recipe)
-         self.vscode_c_cpp_properties(modified_recipe)
-         if args.target:
--            self.initialize_gdb_cross_configs(
--                image_recipe, modified_recipe, GdbCrossConfigVSCode)
-+            if modified_recipe.toolchain == 'clang':
-+                self.initialize_gdb_cross_configs(
-+                    image_recipe, modified_recipe, LldbServerConfigVSCode)
-+            else:
-+                self.initialize_gdb_cross_configs(
-+                    image_recipe, modified_recipe, GdbCrossConfigVSCode)
-             self.vscode_launch(args, modified_recipe)
-             self.vscode_tasks(args, modified_recipe)
- 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 76cbccf618..7c461e6b0e 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -137,6 +137,45 @@ class RecipeGdbCross(RecipeNative):
-         return self.target_device.host
- 
- 
-+class RecipeLldbNative(RecipeNative):
-+    """Handle lldb on the host and lldb-server on the target device.
-+
-+    Unlike GDB which requires a per-architecture gdb-cross-<arch> binary, LLDB
-+    is architecture-agnostic: a single lldb-native installation can debug any
-+    target architecture via the LLDB platform protocol.
-+
-+    On the target side, lldb-server (the ${PN}-server sub-package from the lldb
-+    recipe) provides the platform server that CodeLLDB connects to.
-+    """
-+
-+    def __init__(self, args, target_device):
-+        super().__init__('lldb-native')
-+        self.target_device = target_device
-+        self._lldb = None
-+        self._lldb_server_path = None
-+
-+    def __find_lldb_server(self, config, tinfoil):
-+        """Absolute path of lldb-server on the target (from the lldb recipe)."""
-+        recipe_d_lldb = parse_recipe(
-+            config, tinfoil, 'lldb', appends=True, filter_workspace=False)
-+        if not recipe_d_lldb:
-+            raise DevtoolError("Parsing lldb recipe failed")
-+        return os.path.join(recipe_d_lldb.getVar('bindir'), 'lldb-server')
-+
-+    def initialize(self, config, workspace, tinfoil):
-+        super()._initialize(config, workspace, tinfoil)
-+        self._lldb = os.path.join(self.staging_bindir_native, 'lldb')
-+        self._lldb_server_path = self.__find_lldb_server(config, tinfoil)
-+
-+    @property
-+    def gdbserver_path(self):
-+        return self._lldb_server_path
-+
-+    @property
-+    def host(self):
-+        return self.target_device.host
-+
-+
- class RecipeImage:
-     """Handle some image recipe related properties
- 
-@@ -169,8 +208,9 @@ class RecipeImage:
-         if image_d.getVar('IMAGE_GEN_DEBUGFS') == "1":
-             self.__rootfs_dbg = os.path.join(workdir, 'rootfs-dbg')
- 
--        self.gdbserver_missing = 'gdbserver' not in image_d.getVar(
--            'IMAGE_INSTALL') and 'tools-debug' not in image_d.getVar('IMAGE_FEATURES')
-+        package_install = image_d.getVar('PACKAGE_INSTALL').split()
-+        self.gdbserver_missing = 'gdbserver' not in package_install
-+        self.lldb_server_missing = 'lldb-server' not in package_install
- 
-     @property
-     def debug_support(self):
-@@ -1172,8 +1212,11 @@ def ide_setup(args, config, basepath, workspace):
-                                 recipe_modified.toolchain or '')
-                 if debugger_key not in debuggers:
-                     target_device = TargetDevice(args)
--                    debugger = RecipeGdbCross(
--                        args, recipe_modified.target_arch, target_device)
-+                    if recipe_modified.toolchain == 'clang':
-+                        debugger = RecipeLldbNative(args, target_device)
-+                    else:
-+                        debugger = RecipeGdbCross(
-+                            args, recipe_modified.target_arch, target_device)
-                     debugger.initialize(config, workspace, tinfoil)
-                     bootstrap_tasks += debugger.bootstrap_tasks
-                     debuggers[debugger_key] = debugger
-@@ -1197,12 +1240,20 @@ def ide_setup(args, config, basepath, workspace):
-     wants_gdbserver = any(
-         r.wants_gdbserver and r.toolchain == 'gcc'
-         for r in recipes_modified)
-+    wants_lldb_server = any(
-+        r.wants_gdbserver and r.toolchain == 'clang'
-+        for r in recipes_modified)
-     for recipe_image in recipes_images:
-         if wants_gdbserver and recipe_image.gdbserver_missing:
-             logger.warning(
-                 "gdbserver not installed in image %s. Remote debugging will not be available" % recipe_image)
-+        if wants_lldb_server and recipe_image.lldb_server_missing:
-+            logger.warning(
-+                "lldb-server not installed in image %s. "
-+                "Remote debugging with LLDB (CodeLLDB) will not be available. "
-+                "Add 'lldb-server' to IMAGE_INSTALL." % recipe_image)
- 
--        if wants_gdbserver and recipe_image.combine_dbg_image is False:
-+        if (wants_gdbserver or wants_lldb_server) and recipe_image.combine_dbg_image is False:
-             logger.warning(
-                 'IMAGE_CLASSES += "image-combined-dbg" is missing for image %s. Remote debugging will not find debug symbols from rootfs-dbg.' % recipe_image)
+-            # Verify /etc/meson-example.conf is still owned by the cmake-example user
++            # Verify /etc/cmake-example.conf is still owned by the cmake-example user
+             # after the install and deploy scripts updated the file
+             self._verify_conf_file(qemu, conf_file, example_exe, example_exe)
  
 -- 
 2.53.0
