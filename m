@@ -2,130 +2,230 @@ Return-Path: <hetpat@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68160FCD0B6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A8DFCD0B8
 	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 05:39:17 +0000 (UTC)
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7592.1773812351113284123
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7590.1773812349295877277
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Mar 2026 22:39:11 -0700
+ Tue, 17 Mar 2026 22:39:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=D451APU5;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: hetpat@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Iv3onUam;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: hetpat@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2360; q=dns/txt;
-  s=iport01; t=1773812351; x=1775021951;
+  d=cisco.com; i=@cisco.com; l=5947; q=dns/txt;
+  s=iport01; t=1773812349; x=1775021949;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=5w9aO5h3SqwaHC66ykhefrYzQ+Z5hMC0pexYcmToKQ8=;
-  b=D451APU5nFvz3DO8CXz4zD4OSYguxxKgFNIrTUcunj2QzK0aPhUOisWw
-   4w9QYh2SYaTB2E0rncKpozjYZAomCWHRYOF3YYZ8MvuGCuZUkJEY+eHHS
-   vZ/OYH6bmfzqYc+a19Dro5QMmz6oNrLwm1KB+LFvz6Ei2YEDYhGG6z991
-   TZtXKDF2F9+bFHhw5X5jBwDZA3NTNqyDEXf5NMbn5T8INXV9WJh+vihzb
-   JqZXBwcNgAAde3L94eC68b+KQX8l+gtlRm4jDu8WrXNwdvBVHDwipRLed
-   ngVB+ccb+HHnuAlb6g3EaK+0sGC603y7LdxyehMlDtVo20q710kibBx8X
+  bh=RPz35DxSaIaZcoE9qJ2U275qxVI3j6VH5ytLgamlQ6U=;
+  b=Iv3onUamD39M7P7m5iLWi2PCvuh/Q2BBnsa900wUn0JnFr0fnrgcEGtq
+   Uok6ZYwkt1EIKG3CHToZIy8VQAzm4Bjd/JKl0M3PaOlRuS5Au0NhkzGcF
+   u4ppd8xs9ywiatbaZVFCJkAt79ikVM3gpuz/CsKbGKX8PCOJ0hd+4MfmG
+   z4hyWBYWv7GZ2WHL5wDE/kaMuYIpcrNAG3lt2v+ZbC0iohlAuXp9E4Qpm
+   kkk+ClEgwLkXtJCDg6+vQ/lVsD57Qdt6wRJdNVqGIs8134lUFelszIVBS
+   NEGn6+hHTds2fHn4G4OaVYsorZV9hPFxbVTyvsOrNQVocnfJEsUvi4enb
    g==;
-X-CSE-ConnectionGUID: 6vQJwWrDTKm7f3OOrA9E4w==
-X-CSE-MsgGUID: xBD9Zo33RQW8bct0XlYzSw==
-X-IPAS-Result: =?us-ascii?q?A0CMBQCqObpp/5AQJK1aglmCGDAPgVBCSZZLA54agX8PA?=
- =?us-ascii?q?QEBD1EEAQGFBwKNIgImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGXIZbAgEDMgFGECAxKysZgwKCdAIBsw6CLIEBhHzbJgELFAGBO?=
- =?us-ascii?q?IU8iBlaGoR6JxsbgXKEfYUQhXcEgiKBDpJ8SIEeA1ksAVUTDQoLBwWBZgM1E?=
- =?us-ascii?q?ioVbjIdgSM+F4ELGwcFhAAPiG10bYEThAwDCxgNSBEsNxQbBD5uB41PO4IzA?=
- =?us-ascii?q?QGBDTCCO6VhoQ4KKIN0oVgaM4QEpmeZBoJYoUo3hGiBaDyBWXAVgyJSGQ+PV?=
- =?us-ascii?q?QEHyDcjNT0CBwIHDQMLk2UBAQ?=
-IronPort-Data: A9a23:729wyKujDSh9tS/oFr7kFtbdAOfnVAJfMUV32f8akzHdYApBsoF/q
- tZmKWCDOv7eZmSgf9hzbIm0/ENV75OGztRkGlA9+HozHnsVgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFYzdJ5xYuajhKs/na90s11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwpPhOI35x7
- 9AkCzVSYEukoPifkZ/nVbw57igjBJGD0II3s3Vky3TdSP0hW52GG/qM7t5D1zB2jcdLdRrcT
- 5NGMnw0MlKZPVsWZgt/5JEWxI9EglH/fiFAoU69rqss6G+Vxwt0uFToGIaLIIbRFZkNxS50o
- ErW1UioMBZBb+am9mqP+W70tuv+jxjkDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q+7AfIzu/f5ByUQzBbCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3uz8Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:3AR2H6mBPD6BDXIhQT7JdCx3TEbpDfIr3DAbv31ZSRFFG/FwWf
- rAoB19726StN9/YhAdcLy7VZVoBEmsl6KdgrNhWYtKIjOHhILAFugLhuHfKn/bakjDH4Vmu5
- uIHZITNDSJNykYsS4/izPIaurJB7K8gcaVuds=
-X-Talos-CUID: 9a23:4FJB926z263bGNJqtNssqlAtON8aaFHh73KPLRSfLnxAGZDJVgrF
-X-Talos-MUID: =?us-ascii?q?9a23=3A+Y2Kow74X6IDid4Vm3tmJfM0xox4yYj/OkdWyq8?=
- =?us-ascii?q?/hJmOPjAoCzOsng+oF9o=3D?=
+X-CSE-ConnectionGUID: 9oy/KgwoRJyCp/u2vJq7bQ==
+X-CSE-MsgGUID: JN+5zb2BSg+0Y5MLs4dNKg==
+X-IPAS-Result: =?us-ascii?q?A0D0BQA1Obpp/5IQJK1aglmCSA+BUEJJlksDi2SSNoF/D?=
+ =?us-ascii?q?wEBAQ9RBAEBhQcCjSICJjQJDgECBAEBAQEDAgMBAQEBAQEBAQEBAQsBAQUBA?=
+ =?us-ascii?q?QECAQcFgQ4ThlyGWwIBAzIBRhAgMSALKxmDAoI7AzYCAbMOgiyBAd1DDYJSA?=
+ =?us-ascii?q?QsUAYE4hTyCeYUgWhqEeicbG4FyhH2CH4hoBIIigQ6Ef4ZHhzZIgR4DWSwBV?=
+ =?us-ascii?q?RMNCgsHBYFmAzUSKhVuMh2BIz4XgQsbBwWEAA+IbXRtgROEDAMLGA1IESw3F?=
+ =?us-ascii?q?BsEPm4HjU87gUFsBwGBDQFCCTArIJRQPZF4oB1xCiiDdJtchXwaM6prLphYk?=
+ =?us-ascii?q?hKSR4RogWg8gVlwFYMiUhkPiACGX8lDIzU9AgcCBw0DC5NlAQE?=
+IronPort-Data: A9a23:mlJecaOlzWegzeHvrR3xlsFynXyQoLVcMsEvi/4bfWQNrUog3jZVy
+ 2AbCjiOOPqNZmL1f4glbNywoB5V7JWHx9dqTnM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+ ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WVjlV
+ e/a+ZWFZgf+gmEsaAr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
+ 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj66RpHQYVMpIfwMRmKnkJ6
+ KYGCilSZCnW0opawJrjIgVtrs0nKM+uOMYUvWttiGmIS/0nWpvEBa7N4Le03h9p2ZsIRqiYP
+ pRfMGYxBPjDS0Un1lM/CJ8ihO60rnL+aDZf7lmSoMLb5kCPklcojeKxbIK9ltqiZ+MWw1SS/
+ Ej98CehM0w/EMfDxRym/Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
+ 0ES9y8koKQ++UDtScPyNyBUu1aNuhoaHt4VGOog5UTVm+zf4h2SAS4PSTsphMEaifLajAcCj
+ jeh9+4FzxQ12FFJYRpxLoupkA4=
+IronPort-HdrOrdr: A9a23:K6w3DKzqgpZilDla7eSzKrPwK71zdoMgy1knxilNoNJuHfBw8P
+ re+8jzuiWUtN98YhwdcJW7Scu9qBDnhPpICPcqXYtKNTOO0ADDEGgh1/qG/9SKIUPDH4BmuZ
+ uIC5IOa+EZyTNB/L/HCM7SKadH/OW6
+X-Talos-CUID: =?us-ascii?q?9a23=3AAaZkYWjuab6zMvquwsoMuutevDJuI3rMi1TfPEi?=
+ =?us-ascii?q?CK3dCUPqIE0Gy4fxuqp87?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AXG8JCQ3FrXtHfRhEt3hGHB0ErzUjwYLtVVIHy78?=
+ =?us-ascii?q?9tIrcBHFVHyzBgBKUTdpy?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.23,126,1770595200"; 
-   d="scan'208";a="462238403"
-Received: from alln-l-core-07.cisco.com ([173.36.16.144])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 18 Mar 2026 05:39:08 +0000
+   d="scan'208";a="463152440"
+Received: from alln-l-core-09.cisco.com ([173.36.16.146])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 18 Mar 2026 05:39:08 +0000
 Received: from sjc-ads-8556.cisco.com (sjc-ads-8556.cisco.com [171.68.222.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by alln-l-core-07.cisco.com (Postfix) with ESMTPS id 5221D18000365;
+	by alln-l-core-09.cisco.com (Postfix) with ESMTPS id 44E9C18000146;
 	Wed, 18 Mar 2026 05:39:08 +0000 (GMT)
 Received: by sjc-ads-8556.cisco.com (Postfix, from userid 1847788)
-	id ED8B8CE2A7B; Tue, 17 Mar 2026 22:39:07 -0700 (PDT)
+	id E20A3CE2A78; Tue, 17 Mar 2026 22:39:07 -0700 (PDT)
 From: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hetpat@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	vchavda@cisco.com
-Subject: [OE-core] [scarthgap] [PATCH v1 4/4] cve-check: fix debug message
-Date: Tue, 17 Mar 2026 22:39:06 -0700
-Message-Id: <20260318053906.26606-5-hetpat@cisco.com>
+Subject: [OE-core] [scarthgap] [PATCH v1 1/4] cve-check: encode affected product/vendor in CVE_STATUS
+Date: Tue, 17 Mar 2026 22:39:03 -0700
+Message-Id: <20260318053906.26606-2-hetpat@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260318053906.26606-1-hetpat@cisco.com>
 References: <20260318053906.26606-1-hetpat@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-SMTP-Client: 171.68.222.95, sjc-ads-8556.cisco.com
-X-Outbound-Node: alln-l-core-07.cisco.com
+X-Outbound-Node: alln-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 05:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233363
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233359
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
 
-Debug level was not added as a parameter, causing a warning.
+CVE_STATUS contains assesment of a given CVE, but until now it didn't have
+include the affected vendor/product. In the case of a global system include,
+that CVE_STATUS was visible in all recipes.
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+This patch allows encoding of affected product/vendor to each CVE_STATUS
+assessment, also for groups. We can then filter them later and use only
+CVEs that correspond to the recipe.
+
+This is going to be used in meta/conf/distro/include/cve-extra-exclusions.inc
+and similar places.
+
+Backport Changes:
+- Discarded the changes to meta/lib/oe/spdx30_tasks.py, as the
+commit history for this file diverges from the base commit
+itself (9c9b9545049a in the scarthgap branch).
+- Additionally, the changes do not introduce any major features
+and are primarily focused on code restructuring.
+
+Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 40157fcbd9066f261812ba665ec963b2e496aa53)
+(cherry picked from commit abca80a716e92fc18d3085aba1a15f4bac72379c)
 Signed-off-by: Het Patel <hetpat@cisco.com>
 ---
- meta/classes/cve-check.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/cve-check.bbclass | 24 ++++++++++-----------
+ meta/lib/oe/cve_check.py       | 39 ++++++++++++++++++++++++++--------
+ 2 files changed, 42 insertions(+), 21 deletions(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 32fb9e8a5c..d84fe2a0d3 100644
+index 3f4704fb4e..de5ddf6f04 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -307,7 +307,7 @@ def cve_update(d, cve_data, cve, entry):
-         cve_data[cve] = entry
-         return
-     # If we are updating, there might be change in the status
--    bb.debug("Trying CVE entry update for %s from %s to %s" % (cve, cve_data[cve]['abbrev-status'], entry['abbrev-status']))
-+    bb.debug(1, "Trying CVE entry update for %s from %s to %s" % (cve, cve_data[cve]['abbrev-status'], entry['abbrev-status']))
-     if cve_data[cve]['abbrev-status'] == "Unknown":
-         cve_data[cve] = entry
-         return
-@@ -318,16 +318,16 @@ def cve_update(d, cve_data, cve, entry):
-         if entry['status'] == "version-in-range" and cve_data[cve]['status'] == "version-not-in-range":
-             # New result from the scan, vulnerable
-             cve_data[cve] = entry
--            bb.debug("CVE entry %s update from Patched to Unpatched from the scan result" % cve)
-+            bb.debug(1, "CVE entry %s update from Patched to Unpatched from the scan result" % cve)
-             return
-     if entry['abbrev-status'] == "Patched" and cve_data[cve]['abbrev-status'] == "Unpatched":
-         if entry['status'] == "version-not-in-range" and cve_data[cve]['status'] == "version-in-range":
-             # Range does not match the scan, but we already have a vulnerable match, ignore
--            bb.debug("CVE entry %s update from Patched to Unpatched from the scan result - not applying" % cve)
-+            bb.debug(1, "CVE entry %s update from Patched to Unpatched from the scan result - not applying" % cve)
-             return
-     # If we have an "Ignored", it has a priority
-     if cve_data[cve]['abbrev-status'] == "Ignored":
--        bb.debug("CVE %s not updating because Ignored" % cve)
-+        bb.debug(1, "CVE %s not updating because Ignored" % cve)
-         return
-     bb.warn("Unhandled CVE entry update for %s from %s to %s" % (cve, cve_data[cve], entry))
+@@ -316,8 +316,8 @@ def check_cves(d, patched_cves):
+     # Convert CVE_STATUS into ignored CVEs and check validity
+     cve_ignore = []
+     for cve in (d.getVarFlags("CVE_STATUS") or {}):
+-        decoded_status, _, _ = decode_cve_status(d, cve)
+-        if decoded_status == "Ignored":
++        decoded_status = decode_cve_status(d, cve)
++        if 'mapping' in decoded_status and decoded_status['mapping'] == "Ignored":
+             cve_ignore.append(cve)
  
+     import sqlite3
+@@ -500,11 +500,11 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+         write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
+         write_string += "CVE: %s\n" % cve
+         write_string += "CVE STATUS: %s\n" % status
+-        _, detail, description = decode_cve_status(d, cve)
+-        if detail:
+-            write_string += "CVE DETAIL: %s\n" % detail
+-        if description:
+-            write_string += "CVE DESCRIPTION: %s\n" % description
++        status_details = decode_cve_status(d, cve)
++        if 'detail' in status_details:
++            write_string += "CVE DETAIL: %s\n" % status_details['detail']
++        if 'description' in status_details:
++            write_string += "CVE DESCRIPTION: %s\n" % status_details['description']
+         write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
+         write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scorev2"]
+         write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scorev3"]
+@@ -632,11 +632,11 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+             "status" : status,
+             "link": issue_link
+         }
+-        _, detail, description = decode_cve_status(d, cve)
+-        if detail:
+-            cve_item["detail"] = detail
+-        if description:
+-            cve_item["description"] = description
++        status_details = decode_cve_status(d, cve)
++        if 'detail' in status_details:
++            cve_item["detail"] = status_details['detail']
++        if 'description' in status_details:
++            cve_item["description"] = status_details['description']
+         cve_list.append(cve_item)
+ 
+     package_data["issue"] = cve_list
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index 7c09b78242..767d1a6750 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -132,8 +132,8 @@ def get_patched_cves(d):
+ 
+     # Search for additional patched CVEs
+     for cve in (d.getVarFlags("CVE_STATUS") or {}):
+-        decoded_status, _, _ = decode_cve_status(d, cve)
+-        if decoded_status == "Patched":
++        decoded_status = decode_cve_status(d, cve)
++        if 'mapping' in decoded_status and decoded_status['mapping'] == "Patched":
+             bb.debug(2, "CVE %s is additionally patched" % cve)
+             patched_cves.add(cve)
+ 
+@@ -227,22 +227,43 @@ def convert_cve_version(version):
+ 
+ def decode_cve_status(d, cve):
+     """
+-    Convert CVE_STATUS into status, detail and description.
++    Convert CVE_STATUS into status, vendor, product, detail and description.
+     """
+     status = d.getVarFlag("CVE_STATUS", cve)
+     if not status:
+-        return ("", "", "")
++        return {}
++
++    status_split = status.split(':', 5)
++    status_out = {}
++    status_out["detail"] = status_split[0]
++    product = "*"
++    vendor = "*"
++    description = ""
++    if len(status_split) >= 4 and status_split[1].strip() == "cpe":
++        # Both vendor and product are mandatory if cpe: present, the syntax is then:
++        # detail: cpe:vendor:product:description
++        vendor = status_split[2].strip()
++        product = status_split[3].strip()
++        description = status_split[4].strip()
++    elif len(status_split) >= 2 and status_split[1].strip() == "cpe":
++        # Malformed CPE
++        bb.warn('Invalid CPE information for CVE_STATUS[%s] = "%s", not setting CPE' % (detail, cve, status))
++    else:
++        # Other case: no CPE, the syntax is then:
++        # detail: description
++        description = status_split[len(status_split)-1].strip() if (len(status_split) > 1) else ""
+ 
+-    status_split = status.split(':', 1)
+-    detail = status_split[0]
+-    description = status_split[1].strip() if (len(status_split) > 1) else ""
++    status_out["vendor"] = vendor
++    status_out["product"] = product
++    status_out["description"] = description
+ 
+-    status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", detail)
++    status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", status_out['detail'])
+     if status_mapping is None:
+         bb.warn('Invalid detail "%s" for CVE_STATUS[%s] = "%s", fallback to Unpatched' % (detail, cve, status))
+         status_mapping = "Unpatched"
++    status_out["mapping"] = status_mapping
+ 
+-    return (status_mapping, detail, description)
++    return status_out
+ 
+ def extend_cve_status(d):
+     # do this only once in case multiple classes use this
 
