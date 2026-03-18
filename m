@@ -2,30 +2,30 @@ Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF5DC10706ED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD746103E19E
 	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 16:00:44 +0000 (UTC)
 Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.78])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.17813.1773849637322579934
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Mar 2026 09:00:43 -0700
+ Wed, 18 Mar 2026 09:00:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=KeIMdN4p;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=oMhEFL/q;
  spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 52.101.83.78, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PPlVoyORVKdONDWeVqlappn29IWXoPJ5gcctRpLZLQxrXcDnQswU6zANp5USRry/iLlCNA1Q0d5eFDRIuOL6GxVUBphNzNlGboJxDZeL6TyXbh7xxPB+G2F3ItjwsqFPeKoQqxOzfoEG1E1tB8bhuUhOWBpzonD7FQg/nl02A6P/f0h6Ty2ZrzTx01QiNqWz+LEMLKso8uOjTqoUlRuk7gACKr76uHwnUHutv8KFKkVn+L/ROlO7hOpyc9arkUmw/mxF4LC4nMyMHEMXZwUjQs8b42Xkh7YrWM2JVWJGYdqnGEo68RIsebclfh0MPbZwx/puh5smHU7h5gKRnH0nuw==
+ b=tXeTtfm+uUkCaMOIU7nlBhQlgjtof/GTMZuTaV/3mOiPbjBkg9DUsbh3Q8+r34ovbyWZnR2hnfratgLUK3g4B1X9GX8gkX3rKsIn9Jnr1nVzForDtqGKHRUGGtHSbk6uoio5HKpXzeWSVwXxDCDgjRJoPNYaiFGAUgeRAFb91S8/Y3wS9I3HtZWquaB6X+eaodHVODWMEBc3UnO7wnOgrFwQvj/ai40EgnirjyCcsFptQUhes0asdbmaj6YaKpe1HUndXYi+HPEE+cjqnnP6GUDJgT++Dw2c3NWH/k3VYASFQ3WAgTOmSLt5K9nRAN+s/GYRe9t2J7cPDrBiZ5gBLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S/K07NNV2KkEFOQoeFdbjDZr6ZOu9xE1kWHbgvIMm7w=;
- b=hF68WU4OiAgjZ+ktfjMnWrx/U887HuiHHEtEqDtGGHRMrKnJtYCvLocGB9kSpxElo5LIJqf2cxl93tEvM/ni22blFCWP0FHbYaD3tQUpIii28uaufg2N3nqWz5A8k6mp1AK8RiOmTNml3obeUhfsXYJFA0n5VbY0Kjffp/DNuU90RZj2PgZiCTC1NNwMjJjbNftvx2XaySYQQ8duW+1OQy8GDL9ECrRWnvT3Iqx8MVsFqlwSPoiFIlsob3XojsGpHFUHgHDO+D+LKX+mrXbHidZRpbnLDhtDvWsfswRN+2G4VUdKgGau8Be2qn3Ln3R+qhGe2QGRx/v8HxWdZBGj7A==
+ bh=2xXMl+jbfG/H0gMuDW3tq6ssngo+tRs/1Q91w/+fQg0=;
+ b=klOUpuQEpmVk0j70mNl7jR7Fcrxf/P0AmpD9tRASphxytJr7EBCsYAO2jvoosyM42xnxObRQnOlDQdnB1GryjHqo/Y06T89wHdwzepPzgLBTbXz1Wk1derfSoCQYIkUjmY65vvG3cL5Rr1tMxnDormv8rSpEujbWmnpSmR22eF7HLLSLO9qeR2SV8Yb6WKmv2guZo4OKVss3EbIgGyNdKyNxzZWbW9CMCf/GXWR2gkS1wS7nCdzRjsbfW/+KsZXrsMTsSIyRM9g/DqgVQD8+uJnrzigdP5kwFTqYiJkAliFVP/1cWDfWVgz+xMe7H4GKMCgOoFcnoss4qVYE9/F3vA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S/K07NNV2KkEFOQoeFdbjDZr6ZOu9xE1kWHbgvIMm7w=;
- b=KeIMdN4pm76+Q7mC7vXxkV3bXlcHQFBFb3+3wDxyqAENrZ3WgUHnKMpIUKfd9fugLdDDjldP0wsMXbjG3hKoQn4p+wGy7sJ7/uIIi23HE2nr2LnFKunGbrzQyBxdMDqsM4QRCsgPGMlenHb1+0Vzaj7IKFJDhaVbcy5eIKrjQhiZ4emHuVAkM3v81fMYFGxbkGLYXGW5v9+VKGa2ykBcALaiE0ai+O2WaM5bIfWbA5V5RC5VHFnvUqd9R9F1kf1eF0hokq0lAZ0e5WU1wGaIu4maY5J1YLy0eN+dN8C9mbbbFImMJkEZqNqoNFWp2/44aAB6sTUQJFBdMOVqWCzFmw==
+ bh=2xXMl+jbfG/H0gMuDW3tq6ssngo+tRs/1Q91w/+fQg0=;
+ b=oMhEFL/qnBF79tL/8ISrB41LGUwS3Hn8iR1cVzsLzNGJ+Ih2T9IX8SoyEz5OtSz3sxhuwZYE3428ySAzvMyS18R9le8VyG6KGDw0bh0ntHnfjV/af6EGLbFGVq5qq6sXsw5eJ5o1kJec4fsZcgaMXXJnjeLZq22ByCGnAhFcZifWMujqWtrnsLrhT9EFpKN1U67xy/lnK+0RsyERUatrmkgjBk1AoNRv10RwugQIKm8/6V8MP3su5A14xMc5ByTVXs3EOny0kMTw0EqH6nW6Av8+KaD6X3flBNBYM/1kDpfMbmK8Bx3Gz/V6gK7Y02QKUIK4ySM8mi9NsEByQBaTBw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=vaisala.com;
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
@@ -40,12 +40,10 @@ Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
 From: Niko Mauno <niko.mauno@vaisala.com>
 To: openembedded-core@lists.openembedded.org
 CC: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH 2/2] documentation.conf: Drop obsolete QMAKE vars
-Date: Wed, 18 Mar 2026 16:00:18 +0000
-Message-ID: <20260318160018.1765725-2-niko.mauno@vaisala.com>
+Subject: [PATCH 1/2] documentation.conf: Drop obsolete INC_PR
+Date: Wed, 18 Mar 2026 16:00:17 +0000
+Message-ID: <20260318160018.1765725-1-niko.mauno@vaisala.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260318160018.1765725-1-niko.mauno@vaisala.com>
-References: <20260318160018.1765725-1-niko.mauno@vaisala.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: GVZP280CA0036.SWEP280.PROD.OUTLOOK.COM
@@ -54,105 +52,93 @@ X-ClientProxiedBy: GVZP280CA0036.SWEP280.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|AMBPR06MB10971:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0585db1-200d-4ee9-c0e4-08de85077c7c
+X-MS-Office365-Filtering-Correlation-Id: a51eabf5-bb8e-4e9e-ce50-08de85077c3a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|22082099003|56012099003|18002099003|38350700014;
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|56012099003|18002099003|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	AMnB61lHDPRsQ8jCFI7MglDfpED/J39QtR/lHAJ9vMmnxjFJqUx4J1dSCN3VlPC5JCI7ZY6zhoN3YwVOCIOawbogUgNvFsBluzENjTM+4p8pszVDy1WQCYnu9uSKJUTwNNDfPgQj9RRhCTEI+aeFXJsmmHmMNH48s6HOKmel0O0RqF0Mc49UGNm8anH1up4U6kN9nspMx5xB98rh6H+ZFC6iWtrBWcodNfAgq65iq6qwd18ctTLfMM6WjO0SPoSU8SPuKaRyCZC9fJH9zcTNonT3KpF7AuqWqyL6T01ml5kLx4ptpwZG7ZjMRMTdWQRsGKFPgsi8aX669Z/xrpihLw9KrRMtnSVH8wf8GllgZY4shX8sKSyUp+3N6by68Rr1Sfljn/Mr3jB8kZWF1eC1jXQKWyIXgP7u5aUlBg1mq2033cMHqJhd4i7zAr9geRYC88NmrX06eTvtuzUz+or4l2JeWEGXmHQEonPUmG194seUVVQVSJm7pNYFCkiGCOYDJR2IpOI7RLXpGF8H3sJEzqEF9+UGSoxGpCzxURdmWclhTQMtXeZ3tJ7Ja3z9i/ykeY2qsCSctJ7FqX7gprZ9oNfHzfLopm73Za/rgWar/wCydaXPafS4nZFK632LyWVcg5a8GFr6QeIJAmVT43Xun/EBgqJbpvNDmCQ6jWha1kXKcJue7CTBNqrvm3k59K2fcc17CbIWQX73eB/4pxhaGwvirVJbK5/sb9umoaSBxiToC5gHRvL9jPsVYHWlhGwpUT2Bh2s0yBj2C+SvucwvY0K25ydIqLZiUcmbsJSWr1g=
+	o8mh5fLWSqCgsi/xR7yfsipPeNmUl1pPoYEnRwxFENEIWDoauHORX2vBh5GftZY++uKCIwsc0X0mmzdUWUV80EuvP4hySLm27X988wpDX/41W54hCpXq6DM01il4gYLS2rplkCq0Alax4DO2EghX2u0Ghx2Ruj3P0PWE1Ko/IvQEdtFjuM/enQF+/VqnMQG5UtBFhakeW8YG11y3rppaTFHuE+4xf8FuzJVjJhy62zsZh2uttSPBhKnYS7vbch0wuR6vYzzKvFuPJNr/OrgInbSaK2bpGLA4ecVI1x+YQyFnJ12rb3yV2EgBG0hYiJOh6OeGFci0u/YVJ7+QDj2C56rXTi8Yv39LOX5HRJzIPBaOZ9f1SHrhCBbTw5LevjNaWmszNxhTRY6Rzm5Cg5vzJw5/2je6w+v6K+eGkbVnKZFv1w1xQxEPRazi5fiH0wMOy0UcyAokZykwXeoQCnFvj0rgaf9sEvolwTLlU9PMT1Q9J8ifcaJFRLSV/tIgRiMmwDHvX9Yetzxdlslxjl3iOXqcZ8ucZCv/9l0zG6KWhhg/DqBWgX8bYNEFH0ZU1H1yjcwR/WEJftRkM0qtwEIzdn3WUllSXyMIUetD9z37ROlaViLRK/t4Iu7eJaJISPMyygd5OXEEZWHxaAyQ86tFk2qf5xl/McHg27LL8yemcpk6+nMQn25gOZQqNl77xNR13KFziyhn7zHqPuNBaBYMrP0lt2GS5UvmNc0lhPzGN+pqoFAAdTENk39E1H8Y3rEV7EM8el3u1gcLi2VgMHbP7IPoAvzMnC4eOr7Yyc5Gl84=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(22082099003)(56012099003)(18002099003)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(56012099003)(18002099003)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?BxgCEI3U/dXPXg/CwhDAYcBxJTC/rNRDM4ekW3zPZmcMix7IzMDTIyGLblLo?=
- =?us-ascii?Q?mEjRGxhxowenE/d/PDlVmnhN3qLapDMwgrQoip9h6da8RWAJwVr6fe9AscWM?=
- =?us-ascii?Q?c8DH1tVfqXJ0UTIKiU3qQA6dqSAHDRUxWfEp7OUzTLFSf8lff42HO7yyu0eG?=
- =?us-ascii?Q?s3bkqh+eD7+KPOc2djPtOj2I9c6IAsemMm3oTyOEtGtL1aauLDwhzgcMy/jB?=
- =?us-ascii?Q?TBSkyVcKFoGyQdAnpK7Vst0afF8y+gyZZv02Vb/k/YoohL4SXPVqLM9A7fct?=
- =?us-ascii?Q?AVQljhtOEMeOX0HWh+OBg3yzKiZc4vchN1Vw8uhd1D+U348nWHv7076rbRiv?=
- =?us-ascii?Q?xq0f/OaXBAqqr2vyOyEzhX84B3HfpQiFinlH9s/eUsUEeXqfNG8MdFr797Vv?=
- =?us-ascii?Q?USsdfV/N88SB+OKebs+ufQGLWozC7T+hQ6o2NO/M+lP1uUdbGvOdzLU0WGjp?=
- =?us-ascii?Q?O9Rm8vn7qKkQEr6u/bA6zkOucRnT3Re4CvXIhdl5DKyvss9mtU/cX9ame4Ka?=
- =?us-ascii?Q?xIlYlxIMvqRBVsqAjUWVldWAJR2PS5E+mWmM61O1xaz/Nl+/B5rbx5nHat3L?=
- =?us-ascii?Q?P7Qmf4igtwdRRotPERNZxqqRPKBM+7Q48uWsfxweYSD4i2jXdH+D9skN6Pf/?=
- =?us-ascii?Q?giRwgKUnONWfK+mBJOos4SM3eUuFyMcJtluqoXkWuOpEL1VAk+8RjNTU9StO?=
- =?us-ascii?Q?C98ufJ3vjZTklInssL6m5Y8wnJsGuFOie+6lte+T62e71HkpweqSB89CMTf/?=
- =?us-ascii?Q?ymmmHn2pNZ7AKR+McXAvft4ikIqEEG8OxR4PXhunK4Mp1ucuHz32tkwIvf8Y?=
- =?us-ascii?Q?azZsVlzudi0gaQBdpqnrZZjtBl6Fh/uT3WlyZQU4X/qAOxYrigelQmxh4WEV?=
- =?us-ascii?Q?Fguvf+W9ccbOelPzFlKG996Kw+NY+lpdQYsJ1z8cCIVsrkj1fp6kzrGZfw34?=
- =?us-ascii?Q?6M70LMDsWSDfNTlHDyGuwNFlnKw580AOD6XQ8lhF9hRVhm7p1E9EPlFcyFG5?=
- =?us-ascii?Q?/26iqZCpJHOrIRRuH62oIGDLXrxXtqfuCs+4ZBEa/lDPELp14aWP0PIhQz1O?=
- =?us-ascii?Q?LOOQ5aaxbVxFk0jPZDrtp+mByw1nBwcHsm32yAgnp+YvcokT/i5pIxnqc+qy?=
- =?us-ascii?Q?39d4njeivGzKA/ecPCt7LhV0zPVU5bCNoNUNpvVeSYsGxp0Bwmw02h8OT1GS?=
- =?us-ascii?Q?eDslMBZ8KILdCS0OavoilZNlWBoPwMy0+whRLfaT5kX4F3KIJCcWsoeIDR/c?=
- =?us-ascii?Q?6B3xFRz1UsSl2T0/363BHChz7krt6ej4lJeraBoFDKsNcHlKik6TSiwHli3B?=
- =?us-ascii?Q?yI3n+h0GSlRyf/Kh9Nr2QJuJ4CvcEwHTtaGo72okCMipC7MTqx3ouFMUXbmY?=
- =?us-ascii?Q?nKdZNDLaesDTlUxa4ppQ5A+3rp/yQrSxBKwMQMxqTaTvET9YjlUvPM0g9yMT?=
- =?us-ascii?Q?JdoYHvqjtXkQNE2QAuxbEuydxWTNa40YwVHu1A3pm3ZQl1YL7KiQ3f4p4v4s?=
- =?us-ascii?Q?ll8L6vDWLj/+oIHMgBdvc7qw5l7FkaxE3+1RP14a0WageVoZZg2US9wDa5vY?=
- =?us-ascii?Q?CzBzbmjqhUx4P2QbK+2UpZebOmYiCPY8vMNS00eFcXFuPU6AAIHUchL5onzn?=
- =?us-ascii?Q?aUOk2odYK8nsxhDUTPqB0DVhN1yj0bWJDCMxVjRzMwuf+o3ahwJCuB5SK9md?=
- =?us-ascii?Q?dIZm//MgLQMftjFUwR08niK6bTSRy4Lio7ihRFmKhK+MRdBLwmBUw8xfnDBr?=
- =?us-ascii?Q?qZr9qtIl4Y7SL4FfZrm/V7IkN3/LMFg=3D?=
+	=?us-ascii?Q?BQznrcdgHBd8k6RhwbsXBApYczuYmId7u4njbTSoSPmjsO9yNstMDEERrOkk?=
+ =?us-ascii?Q?G6WWd7654sMNrnNad3TQe40HygrsVSk36aqgjG+/AwsSKHYpr8K6NTEBRiaj?=
+ =?us-ascii?Q?bR7EI8gzACq83NoUY2zzNO8DHERyczLnmP7UQuuwebdrA9BQJrAGk4pxyg4y?=
+ =?us-ascii?Q?ge/1Qih7WwDd5/6yDJNFzCKCQFLSJp+g0pJZwjebdUU886oODXh+18nRdAyH?=
+ =?us-ascii?Q?ZJ7B1wF91Tc5qsowCJ9k+sCCXUDD5UY1qKP+iXodyNWcIgzAq2yr8ZSr7iQs?=
+ =?us-ascii?Q?dG2aynYLSoKd2k174IAT6nCwuioH1EcDi6MaNDiY8AuAH93xFRzZxPvWrk6S?=
+ =?us-ascii?Q?46SPx8Z6shDl8nnEj3sMs4QGrXKrVhB3qUR0/H2gcLGOLAXv/v/HyLWvqg33?=
+ =?us-ascii?Q?oN7LbeFL5fzXLFy1mE+3c6iGNUFj2NWVBADkXZekTF76S8z2ceY1j4dNC0c/?=
+ =?us-ascii?Q?F/3qjNzvGtQKxfyx/P6MfPydTwk8VUl8YlLK05oTaNJSV3bEQm7HoZkVkXca?=
+ =?us-ascii?Q?LMIQeuazBj1bGHboaqiwxm9BqcTvFbrvDvN8SjhI727Zh8FIlLNg6HEDcScF?=
+ =?us-ascii?Q?pK4fgo92fVsj8gOIMqiikQtTpqgUtsxX9mKLOYDNRB6UwoGfYdCWH75NRrwz?=
+ =?us-ascii?Q?G3+Qfx+q5f1hd4OWNloYsh+l0DbiYp3mxrLZsCl2oG3OmN0GuOsCY4Zj964h?=
+ =?us-ascii?Q?Iq/L6vDhXOleZCIyIL0yWRg1C4IdgYe8VTBk9wMTCXuVkcysjc35hkToyu9W?=
+ =?us-ascii?Q?RuJEQX2tgc6A2PEuwR4ZAn+F1yfCLDmtO1MjjotzO4SCgluCQI3TRjmyFwi6?=
+ =?us-ascii?Q?m+0gBzMt2EayxP1NuB4P4hz0Y9nRIeycgG1L7VYFtZx7Lc341TUmfOxeToWh?=
+ =?us-ascii?Q?rePMCTnFXBMwkcRfHdclccqZPWmACZsh39uL/a0NSM5M0b9CyUJeRgrnCwcs?=
+ =?us-ascii?Q?4xXC99kw3V8wnonvFQxSXvWUm5thZjbJaeKaBA4N6caAjy2Tcf9p95zx0qQ4?=
+ =?us-ascii?Q?L+6ddYqqDhfnAoZlINoo2iNBSfms5RKkWgWWmPnYeqAMm1OG5D5q/SGIKdvs?=
+ =?us-ascii?Q?iBmu1SdLmFT7ywv1Jj83vjTOsV4hMHwAigtGPt6nnk6igTgVsgkwgNGWfsG4?=
+ =?us-ascii?Q?4w11AXWG0OI8qkf+svrLutoa3ejZNCXcof0kVHKg5D4iXKhTTzEd5QWs8zlQ?=
+ =?us-ascii?Q?lVQfi4aGBq52UV47XOncGY+3d8FtV0L/ZaQQ0uei9zIhT/5HT1eDUgiRO5BE?=
+ =?us-ascii?Q?11aKmR77nFGp7PaTv+TgjRsm6dPvZlfBdEPe1QYln/qV4JqdyYLO7f1e7Xbr?=
+ =?us-ascii?Q?DR+WeppxL81vqKTcmV47PLjU8uZ6wOKW7fF/HnMJfBTdq8tfXky7IpfT52j4?=
+ =?us-ascii?Q?CxXs5YI37ZI0Wkoj5JWGvUrn0hemJqWZ/tJh3QeL4EZe/hou44W9KFkNdmlu?=
+ =?us-ascii?Q?ULcw1V6qKj3emLBJH3LdkZm9voKTxjk6cvMWyBJ165GPUgYoJPciGgKIydWw?=
+ =?us-ascii?Q?ZPSA9bBdbm2C9hZDfHuntaIyiXdJM+TfIeSbg+fviZVEukNiIgqrHJwswB31?=
+ =?us-ascii?Q?llSumpoQmBWbwncE1tOVDlAniPYt3lAzPdlO5baEM2uT+HxmiN56zuT91TyG?=
+ =?us-ascii?Q?t7DILXv0Ypb2/NTinbDdJ8JgEnrY/TihosNunuCVInn/JvkDpUFPxsDT1fFD?=
+ =?us-ascii?Q?bRF9hOaeSG9xt+wmUmnwUy9PxaZhfAWEACPd1POfQLjwIBIrZ8uiZWxbAiTB?=
+ =?us-ascii?Q?IdqKRwqmsdneowXMHfZDqneOe1k/Wqo=3D?=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0585db1-200d-4ee9-c0e4-08de85077c7c
+X-MS-Exchange-CrossTenant-Network-Message-Id: a51eabf5-bb8e-4e9e-ce50-08de85077c3a
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 16:00:33.3798
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 16:00:33.0298
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EcaJwFnzG/4awzmbCNqQ1wz6lsqXBihAVzsYDvStqVjUBVuZ7ybEDTHTYurF04jvwnPu8QMyfo+ytz3pmuuCcw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: DWHE31HZQ6HKnxjRQ/28QxvMpwRz5shx0FETSvXozBOjKOfByZ921ABPCfQ+dhz98XZG40Ee9VE27L3UMTV85Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR06MB10971
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 16:00:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233409
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233408
 
-The use of these variables ceased already in 2015, since
-commit cb89d2b25b4e ("qt4: remove recipes and classes")
+The use of the variable ceased already in 2020, since
+commit 3fdd772b419b ("recipes: Remove remaining INC_PR variables")
 
 Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 ---
- meta/conf/documentation.conf | 3 ---
- 1 file changed, 3 deletions(-)
+ meta/conf/documentation.conf | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index bf6b4193b2..c9b7711c01 100644
+index 741130a392..bf6b4193b2 100644
 --- a/meta/conf/documentation.conf
 +++ b/meta/conf/documentation.conf
-@@ -164,8 +164,6 @@ EXTRA_OECMAKE[doc] =3D "Additional cmake options."
- EXTRA_OECONF[doc] =3D "Additional configure script options."
- EXTRA_OEMAKE[doc] =3D "Additional GNU make options."
- EXTRA_OESCONS[doc] =3D "When a recipe inherits the scons class, this varia=
-ble specifies additional configuration options you want to pass to the scon=
-s command line."
--EXTRA_QMAKEVARS_POST[doc] =3D "Configuration variables or options you want=
- to pass to qmake when the arguments need to be after the .pro file list on=
- the command line."
--EXTRA_QMAKEVARS_PRE[doc] =3D "Configuration variables or options you want =
-to pass to qmake when the arguments need to be before the .pro file list on=
- the command line."
- EXTRA_USERS_PARAMS[doc] =3D "When a recipe inherits the extrausers class, =
-this variable provides image level user and group operations."
-=20
- #F
-@@ -340,7 +338,6 @@ PYPI_SRC_URI[doc] =3D "The URI to use to fetch from pyp=
-i, default uses pythonhoste
-=20
- QA_EMPTY_DIRS[doc] =3D "A list of directories that are expected to be empt=
-y."
- QA_EMPTY_DIRS_RECOMMENDATION[doc] =3D "This specifies a recommendation for=
- a directory why it must be empty, which will be included in the error mess=
-age if the directory is not empty."
--QMAKE_PROFILES[doc] =3D "Specifies your own subset of .pro files to be bui=
-lt for use with qmake."
-=20
- #R
-=20
+@@ -219,7 +219,6 @@ IMAGE_ROOTFS_EXTRA_SPACE[doc] =3D "Defines additional f=
+ree disk space created in t
+ IMAGE_ROOTFS_MAXSIZE[doc] =3D "Defines the maximum size in Kbytes for the =
+generated image."
+ IMAGE_ROOTFS_SIZE[doc] =3D "Defines the size in Kbytes for the generated i=
+mage."
+ IMAGE_TYPES[doc] =3D "Specifies the complete list of supported image types=
+ by default."
+-INC_PR[doc] =3D "Helps define the recipe revision for recipes that share a=
+ common include file."
+ INCOMPATIBLE_LICENSE[doc] =3D "Specifies a space-separated list of license=
+ names (as they would appear in LICENSE) that should be excluded from the b=
+uild. Wildcard is supported, such as '*GPL-3.0*'"
+ INHIBIT_DEFAULT_DEPS[doc] =3D "Prevents the default dependencies, namely t=
+he C compiler and standard C library (libc), from being added to DEPENDS."
+ INHIBIT_PACKAGE_STRIP[doc] =3D "If set to "1", causes the build to not str=
+ip binaries in resulting packages."
 --=20
 2.47.3
 
