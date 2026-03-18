@@ -2,135 +2,130 @@ Return-Path: <hetpat@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 335E4FCD0B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68160FCD0B6
 	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 05:39:17 +0000 (UTC)
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7591.1773812349398889198
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7592.1773812351113284123
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Mar 2026 22:39:09 -0700
+ Tue, 17 Mar 2026 22:39:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=A62EaP50;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: hetpat@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=D451APU5;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: hetpat@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2535; q=dns/txt;
-  s=iport01; t=1773812349; x=1775021949;
+  d=cisco.com; i=@cisco.com; l=2360; q=dns/txt;
+  s=iport01; t=1773812351; x=1775021951;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=O8SR6U+bdA1Wp2hQ9N7Qf1aCBSztoRgEJvHWKiEOFaA=;
-  b=A62EaP50w8yYyP1OqFDwp+XgqRpfjID4gAVnF+OGinFUGAitcgK9L95H
-   Uu2DdtNlHUaavhNxtnO5KwL4JrKY6dEq2JSNXlkcwlVPNx+xMe6L8laA4
-   7F7qp4kxGp+eA113t49Dmf89j+jDOin7/IiZyHThI3I7c3WgzWKWZn3FG
-   2Qj7AMk91IagESGrIL6zeeXwJfEX41/9jlX1tH5MhEVK9DlLfWjkVx5VG
-   2lQ8+lzp4phsCnqVuGXghuW88ndFpNBIeNDweoQC4ver1CWIz60TOSb9k
-   /BefF5CGKlLA+R85G3cD0mYU42E8v2sD73LaBLq4PHqFTPNM5yYWPlmrE
-   A==;
-X-CSE-ConnectionGUID: pEinnSt3TBC4eotn9E5zAQ==
-X-CSE-MsgGUID: T6V3JBhGRk66gvZD6JSR+Q==
-X-IPAS-Result: =?us-ascii?q?A0DzBQCqObpp/4oQJK1aHgEBCxIMggULgkgPgVBCSZZLA?=
- =?us-ascii?q?4tkkjaBfw8BAQEPUQQBAYUHAo0iAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBA?=
- =?us-ascii?q?QELAQEFAQEBAgEHBYEOE4ZchlsCAQMyAUYQIDEgCysZgwKCOwM2AgGzDoIsg?=
- =?us-ascii?q?QGEfNhHDYJSAQsUAYE4hTyCeYUgWhqEeicbG4FyhAd2gh+CcYV3BIIigQ6Sf?=
- =?us-ascii?q?EiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBCxsHBYQAD4htdG2BE4QMA?=
- =?us-ascii?q?wsYDUgRLDcUGwQ+bgeNTzuCADQBHjQ7RWynG6AdcQoog3SbXIV8GjOqa5kGk?=
- =?us-ascii?q?hKSR4RogWg8gVlwFYMiUhkP2BQjNT0CBwIHDQMLk2UBAQ?=
-IronPort-Data: A9a23:pSon/a11Jvn/nbo9PPbD5Ydwkn2cJEfYwER7XKvMYLTBsI5bp2QGn
- zYfDG+CPvrbNDOmeY92aIu190tSu5SEx9JnGgY53Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX4
- rsen+WFYAX7g2UtbTpOg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGFGw3O4sj5r1LK0oS+
- PsELmEgMwKqvrfjqF67YrEEasULJc3vOsYb/3pn1zycVa9gSpHYSKKM7thdtNsyrpkRRrCFO
- YxAN3w2N0Sojx5nYj/7DLo+kfuwj2XXeDxDo1XTrq0yi4TW5FAsjOC2bYSPIbRmQ+1pwHjDh
- EjG0F76XE8VKu6zlxi+yDGV07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflhcYX9wVF6gx7xuAj/KNpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOf9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:CXyNAKAc+Q1NEuPlHemr55DYdb4zR+YMi2TDGXofdfUzSL3+qy
- nAppUmPHPP5Qr5HUtQ++xoW5PwJU80i6QU3WB5B97LN2PbUSmTXeRfBODZrQEIdReTygck79
- YCT0C7Y+eAdGSTSq3BkW+FL+o=
-X-Talos-CUID: 9a23:kx/qjmHXy5eBJcR/qmJ/2U8SHPs5KUH35yvdJFO+WEs0WpSsHAo=
-X-Talos-MUID: 9a23:8B8YwwrCyS/9/Yg6rGwezw08CpxKyaSBMkNTz5oYieXaFxdKeA7I2Q==
+  bh=5w9aO5h3SqwaHC66ykhefrYzQ+Z5hMC0pexYcmToKQ8=;
+  b=D451APU5nFvz3DO8CXz4zD4OSYguxxKgFNIrTUcunj2QzK0aPhUOisWw
+   4w9QYh2SYaTB2E0rncKpozjYZAomCWHRYOF3YYZ8MvuGCuZUkJEY+eHHS
+   vZ/OYH6bmfzqYc+a19Dro5QMmz6oNrLwm1KB+LFvz6Ei2YEDYhGG6z991
+   TZtXKDF2F9+bFHhw5X5jBwDZA3NTNqyDEXf5NMbn5T8INXV9WJh+vihzb
+   JqZXBwcNgAAde3L94eC68b+KQX8l+gtlRm4jDu8WrXNwdvBVHDwipRLed
+   ngVB+ccb+HHnuAlb6g3EaK+0sGC603y7LdxyehMlDtVo20q710kibBx8X
+   g==;
+X-CSE-ConnectionGUID: 6vQJwWrDTKm7f3OOrA9E4w==
+X-CSE-MsgGUID: xBD9Zo33RQW8bct0XlYzSw==
+X-IPAS-Result: =?us-ascii?q?A0CMBQCqObpp/5AQJK1aglmCGDAPgVBCSZZLA54agX8PA?=
+ =?us-ascii?q?QEBD1EEAQGFBwKNIgImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
+ =?us-ascii?q?QIBBwWBDhOGXIZbAgEDMgFGECAxKysZgwKCdAIBsw6CLIEBhHzbJgELFAGBO?=
+ =?us-ascii?q?IU8iBlaGoR6JxsbgXKEfYUQhXcEgiKBDpJ8SIEeA1ksAVUTDQoLBwWBZgM1E?=
+ =?us-ascii?q?ioVbjIdgSM+F4ELGwcFhAAPiG10bYEThAwDCxgNSBEsNxQbBD5uB41PO4IzA?=
+ =?us-ascii?q?QGBDTCCO6VhoQ4KKIN0oVgaM4QEpmeZBoJYoUo3hGiBaDyBWXAVgyJSGQ+PV?=
+ =?us-ascii?q?QEHyDcjNT0CBwIHDQMLk2UBAQ?=
+IronPort-Data: A9a23:729wyKujDSh9tS/oFr7kFtbdAOfnVAJfMUV32f8akzHdYApBsoF/q
+ tZmKWCDOv7eZmSgf9hzbIm0/ENV75OGztRkGlA9+HozHnsVgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFYzdJ5xYuajhKs/na90s11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwpPhOI35x7
+ 9AkCzVSYEukoPifkZ/nVbw57igjBJGD0II3s3Vky3TdSP0hW52GG/qM7t5D1zB2jcdLdRrcT
+ 5NGMnw0MlKZPVsWZgt/5JEWxI9EglH/fiFAoU69rqss6G+Vxwt0uFToGIaLIIbRFZkNxS50o
+ ErW1UioMBZBb+am9mqP+W70tuv+jxjkDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q+7AfIzu/f5ByUQzBbCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ32JX9dJ5X3uz8Qe+aUcTNEVI/WA==
+IronPort-HdrOrdr: A9a23:3AR2H6mBPD6BDXIhQT7JdCx3TEbpDfIr3DAbv31ZSRFFG/FwWf
+ rAoB19726StN9/YhAdcLy7VZVoBEmsl6KdgrNhWYtKIjOHhILAFugLhuHfKn/bakjDH4Vmu5
+ uIHZITNDSJNykYsS4/izPIaurJB7K8gcaVuds=
+X-Talos-CUID: 9a23:4FJB926z263bGNJqtNssqlAtON8aaFHh73KPLRSfLnxAGZDJVgrF
+X-Talos-MUID: =?us-ascii?q?9a23=3A+Y2Kow74X6IDid4Vm3tmJfM0xox4yYj/OkdWyq8?=
+ =?us-ascii?q?/hJmOPjAoCzOsng+oF9o=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.23,126,1770595200"; 
-   d="scan'208";a="454035623"
-Received: from alln-l-core-01.cisco.com ([173.36.16.138])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 18 Mar 2026 05:39:08 +0000
+   d="scan'208";a="462238403"
+Received: from alln-l-core-07.cisco.com ([173.36.16.144])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 18 Mar 2026 05:39:08 +0000
 Received: from sjc-ads-8556.cisco.com (sjc-ads-8556.cisco.com [171.68.222.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id 508751800019B;
+	by alln-l-core-07.cisco.com (Postfix) with ESMTPS id 5221D18000365;
 	Wed, 18 Mar 2026 05:39:08 +0000 (GMT)
 Received: by sjc-ads-8556.cisco.com (Postfix, from userid 1847788)
-	id E9E78CE2A7A; Tue, 17 Mar 2026 22:39:07 -0700 (PDT)
+	id ED8B8CE2A7B; Tue, 17 Mar 2026 22:39:07 -0700 (PDT)
 From: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hetpat@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	vchavda@cisco.com
-Subject: [OE-core] [scarthgap] [PATCH v1 3/4] cve-check-map: add new statuses
-Date: Tue, 17 Mar 2026 22:39:05 -0700
-Message-Id: <20260318053906.26606-4-hetpat@cisco.com>
+Subject: [OE-core] [scarthgap] [PATCH v1 4/4] cve-check: fix debug message
+Date: Tue, 17 Mar 2026 22:39:06 -0700
+Message-Id: <20260318053906.26606-5-hetpat@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260318053906.26606-1-hetpat@cisco.com>
 References: <20260318053906.26606-1-hetpat@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-SMTP-Client: 171.68.222.95, sjc-ads-8556.cisco.com
-X-Outbound-Node: alln-l-core-01.cisco.com
+X-Outbound-Node: alln-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 05:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233360
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233363
 
-From: Marta Rybczynska <rybczynska@gmail.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Add 'fix-file-included', 'version-not-in-range' and 'version-in-range' generated
-by the cve-check.
+Debug level was not added as a parameter, causing a warning.
 
-'fix-file-included' means that a fix file for the CVE has been located.
-
-'version-not-in-range' means that the product version has been found outside of
-the vulnerable range.
-
-'version-in-range' means that the product version has been found inside of the
-vulnerable range.
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Signed-off-by: Samantha Jalabert <samantha.jalabert@syslinbit.com>
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d25f1817752bc8a84c40dcbef75f7559801ce15e)
+(cherry picked from commit 40157fcbd9066f261812ba665ec963b2e496aa53)
 Signed-off-by: Het Patel <hetpat@cisco.com>
 ---
- meta/conf/cve-check-map.conf | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/classes/cve-check.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/cve-check-map.conf b/meta/conf/cve-check-map.conf
-index 17b0f15571..ac956379d1 100644
---- a/meta/conf/cve-check-map.conf
-+++ b/meta/conf/cve-check-map.conf
-@@ -8,11 +8,17 @@ CVE_CHECK_STATUSMAP[backported-patch] = "Patched"
- CVE_CHECK_STATUSMAP[cpe-stable-backport] = "Patched"
- # use when NVD DB does not mention correct version or does not mention any verion at all
- CVE_CHECK_STATUSMAP[fixed-version] = "Patched"
-+# use when a fix file has been included (set automatically)
-+CVE_CHECK_STATUSMAP[fix-file-included] = "Patched"
-+# do not use directly: automatic scan reports version number NOT in the vulnerable range (set automatically)
-+CVE_CHECK_STATUSMAP[version-not-in-range] = "Patched"
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 32fb9e8a5c..d84fe2a0d3 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -307,7 +307,7 @@ def cve_update(d, cve_data, cve, entry):
+         cve_data[cve] = entry
+         return
+     # If we are updating, there might be change in the status
+-    bb.debug("Trying CVE entry update for %s from %s to %s" % (cve, cve_data[cve]['abbrev-status'], entry['abbrev-status']))
++    bb.debug(1, "Trying CVE entry update for %s from %s to %s" % (cve, cve_data[cve]['abbrev-status'], entry['abbrev-status']))
+     if cve_data[cve]['abbrev-status'] == "Unknown":
+         cve_data[cve] = entry
+         return
+@@ -318,16 +318,16 @@ def cve_update(d, cve_data, cve, entry):
+         if entry['status'] == "version-in-range" and cve_data[cve]['status'] == "version-not-in-range":
+             # New result from the scan, vulnerable
+             cve_data[cve] = entry
+-            bb.debug("CVE entry %s update from Patched to Unpatched from the scan result" % cve)
++            bb.debug(1, "CVE entry %s update from Patched to Unpatched from the scan result" % cve)
+             return
+     if entry['abbrev-status'] == "Patched" and cve_data[cve]['abbrev-status'] == "Unpatched":
+         if entry['status'] == "version-not-in-range" and cve_data[cve]['status'] == "version-in-range":
+             # Range does not match the scan, but we already have a vulnerable match, ignore
+-            bb.debug("CVE entry %s update from Patched to Unpatched from the scan result - not applying" % cve)
++            bb.debug(1, "CVE entry %s update from Patched to Unpatched from the scan result - not applying" % cve)
+             return
+     # If we have an "Ignored", it has a priority
+     if cve_data[cve]['abbrev-status'] == "Ignored":
+-        bb.debug("CVE %s not updating because Ignored" % cve)
++        bb.debug(1, "CVE %s not updating because Ignored" % cve)
+         return
+     bb.warn("Unhandled CVE entry update for %s from %s to %s" % (cve, cve_data[cve], entry))
  
- # used internally by this class if CVE vulnerability is detected which is not marked as fixed or ignored
- CVE_CHECK_STATUSMAP[unpatched] = "Unpatched"
- # use when CVE is confirmed by upstream but fix is still not available
- CVE_CHECK_STATUSMAP[vulnerable-investigating] = "Unpatched"
-+# do not use directly: automatic scan reports version number IS in the vulnerable range (set automatically)
-+CVE_CHECK_STATUSMAP[version-in-range] = "Unpatched"
- 
- # used for migration from old concept, do not use for new vulnerabilities
- CVE_CHECK_STATUSMAP[ignored] = "Ignored"
-@@ -26,3 +32,6 @@ CVE_CHECK_STATUSMAP[not-applicable-config] = "Ignored"
- CVE_CHECK_STATUSMAP[not-applicable-platform] = "Ignored"
- # use when upstream acknowledged the vulnerability but does not plan to fix it
- CVE_CHECK_STATUSMAP[upstream-wontfix] = "Ignored"
-+
-+# use when it is impossible to conclude if the vulnerability is present or not
-+CVE_CHECK_STATUSMAP[unknown] = "Unknown"
 
