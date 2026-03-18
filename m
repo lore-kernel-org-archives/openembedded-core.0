@@ -2,49 +2,49 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9F310775F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27BC810775F3
 	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 17:14:57 +0000 (UTC)
 Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19754.1773854096455737919
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19753.1773854095763727123
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Mar 2026 10:14:56 -0700
+ Wed, 18 Mar 2026 10:14:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=PvTpku7C;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=mVfXA+dK;
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=CkAkEI8J;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=YkZ1OjAX;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.151, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id CD8EFEC017E;
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 18C2FEC0143;
 	Wed, 18 Mar 2026 13:14:55 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 18 Mar 2026 13:14:55 -0400
+  by phl-compute-03.internal (MEProxy); Wed, 18 Mar 2026 13:14:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to; s=fm3; t=1773854095;
-	 x=1773940495; bh=s3Boz2FTAj2p883fZGf/Flvt1bZG70+9OVeYmPmInv0=; b=
-	PvTpku7CC96fXP5Xi3eLufVtl6Ek/ealscnv7gFNmLf374ELnvwf/tNPlYGvkyjT
-	wJ/YY4qxOTDw0RMwbyyToiRxWsSVWy9sZcVo1W6UP8hM3m8sYhViIr++69jWCVga
-	/0MTueKMFSKHo2YkVIVWHqo/3p4LGq7S+Yt/K9yiAgErZbkiiEzzefkZDhvj2Exm
-	0nDOXMH60Cc4V96BKVsWclm+mxd5tui0xJYwhiYbfy/S/St6qGnoPOgcKWZKG3lr
-	XBfdG7Q0dcA/XLArA3JHZk5CsUT/RF4PwlfebHPZKFcSIRh9EeLOlwOi5Jld21V1
-	U3DnRaojImv6bkjXf/QTHw==
+	 x=1773940495; bh=mWkrAAkKIBNarWc59V+OilYKwqxsoABHzJ4Jp8dUms0=; b=
+	CkAkEI8JN+R9eiHYZIYxvsHsBqwczZcN88VH/zSqlyBsrfF8qGxnXSs8Ljb1n52v
+	cHOmrGljCG3Xcz7a5rcqVGZW/n2e2R0q46fMEeLOx6fwIpISFoi3bpvknMk+sXSA
+	6Yy5amF1FkFgT+Idy2adapQoSTW8dT9W550Q/nXxn9mWuQfJfF3LxtOXNKltWvNh
+	pqiSaSIeBYFWrHw4Mlp7+9bGXjlhKFonUmeC2pQh5T7hXUDWPvMCs7TpYBEwD9ER
+	y9mId/Lv7AhT08jOmq43hLrtwFH9D5g9ue42+mbAVWAiso4x1pa6RWHpToK5bXDq
+	JA8tbz8BHH3MnXrXFlztsA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
 	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773854095; x=
-	1773940495; bh=s3Boz2FTAj2p883fZGf/Flvt1bZG70+9OVeYmPmInv0=; b=m
-	VfXA+dK2u5nh8V6d5Y8nuQiLG3q/m4rprWX3i6qFY5aUfq+cX4boa62iqhCaKplD
-	qNB6ma7uFc+r/JBHC4mTUwAjksmG/GGD51CiUTDk9LRDm/Clm1Zq2hj4573U2bYT
-	2V9oNr4T3FVxBKPL7OONh8x1OmHkymZfU11sfi57y8TJqI0pS4h9U2gdxtJ3d5Ec
-	xdFHVzeiRXJmNIzWMrOzKk2a6UfMg87wPFeMiuCfjcAvhFgX8xvVD8LuUL+QWVow
-	ipRlGFS0HZF6nzmjeWUr5juYC2E+O0L75I9rfyRYRFJml0utwQzUdzIrSAArWlCb
-	bX2Mbd4jq+/6Z2mFmJPtg==
-X-ME-Sender: <xms:j926aaNCy-sKA5XRB1s-j6iAIS7wJcftW3pTKBEDbKgZUSsnr_dQkw>
-    <xme:j926ae9wQaTvG-pO3_UgNkHNXi-qSLpdHert-OCP0rse2eooGplBYBn4cgmTBr-7U
-    nTgXwnRyjkMRjKvaCUVC2mTMTHzCh73bjl2Hh-qy_Z9uKAEKJJrh6E>
-X-ME-Received: <xmr:j926ae7F8E0-8bwm_R2DeWpBokDZ1eoZSP-28J_oMspp8jBOsqPwDYryTvK0t09NTUcRlaFaqYf21juDzhdWZhjdRGoN4LE>
+	1773940495; bh=mWkrAAkKIBNarWc59V+OilYKwqxsoABHzJ4Jp8dUms0=; b=Y
+	kZ1OjAX8Md9WpNWUBLUyrkFZDI4WV2XA+bxILb+u06ISIjjyztZaUg2oS9kCm5Fw
+	nPd3moTd5yidNoy7eBlmgvnGnJM97R7nqYEQkXebq2zki7PID/Vy+db6DlctXccG
+	uSdTwlalt0qPtjJLHIy2wmGULi0MMQa9UjHQLOPYBrllosGc25Fzx/VUrn7rkDOr
+	Vb5NGFBngDfW3cVXlTx4W462oSanilH1L+m7Qi4Q464WKh+O9Dk7oHVcM8NFPm1r
+	GHeG27Kuu81J855qR4M4/yOuoqz85TrKG0IolIsJNthl4uMq5HsQleZaQf9KaafK
+	WdCttSLODBA+FkUT17ZFA==
+X-ME-Sender: <xms:jt26abHoIHvWAT18ybAKhkPxpZsRhPiK2WHMLDcLgccThtUjKRnnbg>
+    <xme:jt26aeW40dfyKWxAk6oxEDpXlJeMq2vFTx844NDWodagVovDASQ6jQBLP0QmlbJPH
+    wljUwgN7qcQXerEb-L8PW_HXjHmYwbKrWhLsCdca_3NwH238Il6mjE>
+X-ME-Received: <xmr:jt26aaxtzo0iLSSOjMT7TNiuS9nAl7YRP4ZarNgWbDU4pZEzWhjaA3BK9YQLyZxcAB-J_Km6IJS5gB_Tpg7vgn73nu03DAg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdegjedtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkfhgjvfevofesthejre
@@ -55,65 +55,66 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdegjedtucetufdote
     htthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghulhesphgsrghr
     khgvrhdruggvvhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlih
     hsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:j926aV1jmoTw-LB0Ssc-nmQPc3nSjeVdcUTZi3m3UFMsRV7GFkZjEQ>
-    <xmx:j926aVBahFSVZ79CWqaElrgJ4oxNPdsYCPyR7ijTLH01TfOzQ9uLrA>
-    <xmx:j926aX0_1iSqkkN7yOBbjfud8QrHpfJ30AzGB58EZUNKS-Hp79wgAA>
-    <xmx:j926afsIFPU9GEZ8HSPqsDuSn00jNBCfJiK6BRzf5mQ28qICGzlbUw>
-    <xmx:j926aZwK5spEL0gPX70g49DVhyDhSg8Ysbqt7iAG_GnvMYhLrswSRlG_>
+X-ME-Proxy: <xmx:j926aUOD10HvdeVZWfjnXU_OXlPBzPXCATvkZxKZhfQOjyOHNHhikg>
+    <xmx:j926aT6TO67jd9lFhoOD8J_wIUDN8CwNm6SXgIaVEf9Uf465oA1IEw>
+    <xmx:j926adNQZ9QZ8WCnpz57PW1ioP5arQ__eMrYJO8MMghf-mwQGB3ySg>
+    <xmx:j926aZmus5pN6Q6gJ8nS2OgrjFKv4EhRmGJRPkY_DScK8Oc7ai-5Gw>
+    <xmx:j926aYpSAtHrhebfUNTXclUzriQVa4T7P7Ek2i7ZjqBbFiegoTm31uo1>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Mar 2026 13:14:55 -0400 (EDT)
+ 18 Mar 2026 13:14:54 -0400 (EDT)
 From: Paul Barker <paul@pbarker.dev>
-Date: Wed, 18 Mar 2026 17:14:49 +0000
-Subject: [PATCH 06/12] gettext: Use arch independent search paths
+Date: Wed, 18 Mar 2026 17:14:48 +0000
+Subject: [PATCH 05/12] flac: Use arch independent search path
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260318-fix-checklayer-2-v1-6-388ba6ce47cd@pbarker.dev>
+Message-Id: <20260318-fix-checklayer-2-v1-5-388ba6ce47cd@pbarker.dev>
 References: <20260318-fix-checklayer-2-v1-0-388ba6ce47cd@pbarker.dev>
 In-Reply-To: <20260318-fix-checklayer-2-v1-0-388ba6ce47cd@pbarker.dev>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1573; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=BAaD4PlnAEoNqXsBA/s5qaJiqYwrNO8d6FJx6I9VsDk=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWTuutv56uDZdKY9PxdmM9acTHr7fIaXbWXEVYG7G14av
- 9vuubeUr6OUhUGMi0FWTJFlc8/X+097HXkzQm4pwMxhZQIZwsDFKQATEdzG8IevvPj2c4HTTps3
- MJ13PL5wRdkcjj2rJZoEu7xbZiy5e6aI4X+WSNnxkNX1mx9sN21+VLbN1kvwc/USxXMKP15d9RP
- dqMICAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1160; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=vTmnQPcwA/m0OTkn5T/0aBJqtGlpNDV6RGvKnnGC0bI=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWTuuttZdfL6a96X9vlqWgf2G2mU/avaOrfj5uQ07udWR
+ 7+9EtwU11HKwiDGxSArpsiyuefr/ae9jrwZIbcUYOawMoEMYeDiFICJ7F/H8D+/c3vrjHjuR/Pu
+ d52LZvlSZ6R4ZIHrrwP7117fu+O5XUQNwz91xczGKF2tlUEf0qpETq49Hsi3bPLn8lZBMeYMN4F
+ cNX4A
 X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
  fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 17:14:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233423
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233422
 
 The value of STAGING_LIBDIR depends on baselib, which may be "lib" or
 "lib64" depending on the target architecture. To avoid making
 PACKAGECONFIG unnecessarily arch-dependent, we can use STAGING_DIR_HOST
-as the search prefix for libunistring & ncurses instead.
+as the search prefix for libogg instead.
+
+The search prefix is necessary here, removing it completely results in
+compilation errors.
 
 Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- meta/recipes-core/gettext/gettext_1.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/flac/flac_1.5.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/gettext/gettext_1.0.bb b/meta/recipes-core/gettext/gettext_1.0.bb
-index 37e46869a7b6..e20ad8807def 100644
---- a/meta/recipes-core/gettext/gettext_1.0.bb
-+++ b/meta/recipes-core/gettext/gettext_1.0.bb
-@@ -63,8 +63,8 @@ PACKAGECONFIG[glib] = "--without-included-glib,--with-included-glib,glib-2.0"
- PACKAGECONFIG[libxml] = "--without-included-libxml,--with-included-libxml,libxml2"
- # Need paths here to avoid host contamination but this can cause RPATH warnings
- # or problems if $libdir isn't $prefix/lib.
--PACKAGECONFIG[libunistring] = "--with-libunistring-prefix=${STAGING_LIBDIR}/..,--with-included-libunistring,libunistring"
--PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/..,--disable-curses,ncurses,"
-+PACKAGECONFIG[libunistring] = "--with-libunistring-prefix=${STAGING_DIR_HOST},--with-included-libunistring,libunistring"
-+PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${STAGING_DIR_HOST},--disable-curses,ncurses,"
- PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux --disable-acl,attr libselinux"
+diff --git a/meta/recipes-multimedia/flac/flac_1.5.0.bb b/meta/recipes-multimedia/flac/flac_1.5.0.bb
+index e227133ad794..2f43b4e84b24 100644
+--- a/meta/recipes-multimedia/flac/flac_1.5.0.bb
++++ b/meta/recipes-multimedia/flac/flac_1.5.0.bb
+@@ -34,7 +34,7 @@ PACKAGECONFIG ??= " \
+     ogg \
+ "
+ PACKAGECONFIG[avx] = "--enable-avx,--disable-avx"
+-PACKAGECONFIG[ogg] = "--enable-ogg --with-ogg-libraries=${STAGING_LIBDIR} --with-ogg-includes=${STAGING_INCDIR},--disable-ogg,libogg"
++PACKAGECONFIG[ogg] = "--enable-ogg --with-ogg=${STAGING_DIR_HOST},--disable-ogg,libogg"
  
- do_install:append:libc-musl () {
+ PACKAGES += "libflac libflac++"
+ FILES:${PN} = "${bindir}/*"
 
 -- 
 2.43.0
