@@ -2,69 +2,69 @@ Return-Path: <francesco@valla.it>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA4E1088E5D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A991088E5C
 	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 23:31:15 +0000 (UTC)
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.0])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28201.1773876673682153106
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.9])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28202.1773876673988802525
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Mar 2026 16:31:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=2D1yQCcL;
- dkim=pass header.i=@valla.it header.s=default header.b=cws5Rpwo;
- spf=pass (domain: valla.it, ip: 185.56.87.0, mailfrom: francesco@valla.it)
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-q0dl.prod.antispam.mailspamprotection.com; s=arckey; t=1773876673;
-	 b=KxQpDTEsORLbv1UhUdcIk8Onont2e77UkuII7fC5hPPUsgMuAOBEKkAtpoaTxsTM+1hHzxw3va
-	  9aTuFHUZZ6cnTA54WLOYgbZQh9VIoB1Bd4hU67lkUSA/dWdxkCnN4VKOHhWUtl6LfRITGzB9iB
-	  oi0h8LTc8Y5b7jKE4I0VV8qkO4zWaxC7VI32uDXTa+JXYuutOl3U0bFMvxdLn2CC9zCTDb0nhv
-	  P+gZPkuji+S2ZhTdv+HFDQNa5IKzrZqCYC8A9JNB7MSzCVUyDoM1zWHlltTCRda6c+gjbYZyA1
-	  ARzlw4q9diIQdK75FcVrIKHgcD18Rq0Lt4Cmost1x3SNQg==;
-ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-q0dl.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+ dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=RGOttPym;
+ dkim=pass header.i=@valla.it header.s=default header.b=iUyrdHLo;
+ spf=pass (domain: valla.it, ip: 185.56.87.9, mailfrom: francesco@valla.it)
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-jxsh.prod.antispam.mailspamprotection.com; s=arckey; t=1773876674;
+	 b=BHNp/0rbcJ+by3TsTuNOKe0WQR/67xi+m+97jT5cuMZ5ogfLmIkO2Kw/cPszEl4cT20wswnYOW
+	  bcJHvm6Psi0XcoWCKqf9ho7MPIlplw76G+gwfu93jMqbEjoXGq6Uy8998SDnq8ERv9CF/UTRBA
+	  EH4z7T3MnppQyepD8h54sGMRYUWdrcftSccxEvWbB6sKNKQBsHfwunGooOIIBC+8i13IMggRRQ
+	  DuDS15J+EL11yqKkMmKhOneWQZgSnP0x+e9ATksi/JfS3R4oJY+ozvG0nQQ06DIUBQegYvfpc/
+	  jQeH/JI2a3ducFTwlLr7SX1Qgn3I2CWqetFq863zTG39sg==;
+ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-jxsh.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
 	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
 	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
 	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
 	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-q0dl.prod.antispam.mailspamprotection.com; s=arckey; t=1773876673;
-	bh=Vw9mGtbDOhJ329QqCYKT2+fJMnTnLr4YQNo5LgarFLs=;
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-jxsh.prod.antispam.mailspamprotection.com; s=arckey; t=1773876674;
+	bh=ufKnjS6Nrw6tfuZfwT5mLqvpNhC8fqraIzVx4+SAFjA=;
 	h=Cc:To:In-Reply-To:References:Message-ID:Content-Transfer-Encoding:
 	  Content-Type:MIME-Version:Subject:Date:From:DKIM-Signature:DKIM-Signature;
-	b=dXIjm/cj4tpMbh/w/NTQFY7F8st30psTp0uixGVxDypzgE6TAWTGjBnLv8UO9RVzd8klYb/2B/
-	  d2W3guxV+qCR9kzQ2N8oDtkLsaMFSnNkgnFB071VfyH8oJmIzBdFACfNXQ7yrqZDrf4P8chupm
-	  CaNIa88lBhSUaLmGE7qeY7ffp0pajYVxZHyEebFlviB47bLOs4Ji81vaGxj425yWc6ZyeBd5EA
-	  PBkOcMBkFbm0C6+NrMG8vvCpFJPwfQ12rOIMFJ+AAxXM/ZlBqU4b8WGo46bdZn+iGxIfqxTIo3
-	  yppCEJyqc+cqudJDaeGTy/hUYANrcj6seK/2mBIIDNeJOA==;
+	b=tnmL20sc5n8ZBC2P8kygjhH069QwwqT1Dz5G7q0o82lUunoxTCcO1Kn6v9kANdbNqleCtzHZ7s
+	  6DbQh0+tmTMWDRI2lu3lVIC/NSt0iUaWiK/I0e2Wmbk9cptMSyNd1Oi1nfKdVcYYQZdJZQDboy
+	  k1Zuber5VPvpvB1XW9qGAaXveJcGaq7a2Pc1td/r9N3r7ZM2MthtB+nmvV54QEW742ghA1bjqi
+	  wEQ97HJjjcQEA4KEpwikhWN+8ZBIn8xnFRY7CWLQcoi/+p08FglLKEJ/iNnmmiig0rHPBAaBMS
+	  fsCdLZCpwbTWFO85zLB8qeWz7owQSNheHbuFZHk7sv7O1g==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
 	:Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
 	:Date:From:Reply-To:List-Unsubscribe;
-	bh=hXSTLfHN7RA+qZbxOxhvqelSM6H625s5MZPQ6MLcb1c=; b=2D1yQCcL2IcA1oR2T38CKWhLIT
-	txNSBRTTljYekp/HMx1QkNSOOE6cJJyGT2xzGwc1E4O3tk6frHjXt+BZBy9oarQ5HCOzz63qjj2B+
-	5MVOnl2LUU08OT9rM08KoEpEf4V+k+45QCLMKH0T4VK5cEKKNot7cJbYwdmSfRxwUA/g=;
+	bh=Pc+tnRJ83ZyDrF5FXkdsoQ0oH7VketqCKMCDjLknofE=; b=RGOttPym2ZUAjhWeP6FYhtH7Do
+	TmKqI997gR5yG5nWAmREDtxLcourD0ko7Pt4Lxkg9pn6YBbmRw7/IZIAjE765F0k/L7mu7EsD6ZBt
+	1PT3XFnvLngdnk5WCYrUw3ZuNcLVcAMcerLeTwA4BtAoiudQYDacmF6S331Ta9fD7TIw=;
 Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
-	by instance-europe-west4-q0dl.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	by instance-europe-west4-jxsh.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.98.1)
 	(envelope-from <francesco@valla.it>)
-	id 1w30Lx-00000002v0B-2BmE
+	id 1w30Lx-00000000hVV-3Bzy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Mar 2026 23:31:11 +0000
+	Wed, 18 Mar 2026 23:31:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
 	s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
 	list-subscribe:list-post:list-owner:list-archive;
-	bh=hXSTLfHN7RA+qZbxOxhvqelSM6H625s5MZPQ6MLcb1c=; b=cws5RpworKRBWYQco6dM4GsviH
-	xTAe9rlyx+RnAOzbBaCB3ij0OTvSA84fMiPSVghtyJUQo9xyy+2lVMbSy7IDcH9x5X3dd70PWpymN
-	kVZ+9sDE8me0Dmms6xO/FDhlLkWE8oTXM0HAltRcfoyUFqtBr20L0iXeAAZO0JLqPYLA=;
+	bh=Pc+tnRJ83ZyDrF5FXkdsoQ0oH7VketqCKMCDjLknofE=; b=iUyrdHLohIWB0KC9batsrrV130
+	AbYkhtExg8RWvwHED9z3RtKJTEd3lK/q69skryjJszWxtXIww5t3Z5EZ0KuWeRqo1CoFEFOzSlOit
+	dRV+ZtEYqXdrNjmBvG8RuA1gkb2n3J1RLwZVQQ/d5ryFHkKmqUTRm8EU/Z/JByqTq/YU=;
 Received: from [82.57.88.19] (port=60381 helo=[192.168.178.43])
 	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.99.1)
 	(envelope-from <francesco@valla.it>)
-	id 1w30Lr-00000000OEU-2vzj;
+	id 1w30Lr-00000000OEU-3sn4;
 	Wed, 18 Mar 2026 23:30:59 +0000
 From: Francesco Valla <francesco@valla.it>
-Date: Thu, 19 Mar 2026 00:30:49 +0100
-Subject: [PATCH RFC 1/4] bootconfig: add recipe
+Date: Thu, 19 Mar 2026 00:30:50 +0100
+Subject: [PATCH RFC 2/4] image_types: add bootconfig conversion type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260319-bootconfig-v1-1-a4d467c3f0ba@valla.it>
+Message-Id: <20260319-bootconfig-v1-2-a4d467c3f0ba@valla.it>
 References: <20260319-bootconfig-v1-0-a4d467c3f0ba@valla.it>
 In-Reply-To: <20260319-bootconfig-v1-0-a4d467c3f0ba@valla.it>
 To: openembedded-core@lists.openembedded.org
@@ -72,12 +72,12 @@ Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
  Francesco Castagnotto <fcastagnotto@linux.com>, 
  Francesco Valla <francesco@valla.it>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1756; i=francesco@valla.it;
- h=from:subject:message-id; bh=Vw9mGtbDOhJ329QqCYKT2+fJMnTnLr4YQNo5LgarFLs=;
- b=owGbwMvMwCX2aH1OUIzHTgbG02pJDJm7TTc1Pk95FhU498W2oP0nLIzWKu7a2Zao8V3ldSD7n
- pkLTQQvdZSyMIhxMciKKbKErLtxb89c829pGxgfwcxhZQIZwsDFKQATsfNg+Gfbqp64UZlJa9IO
- o4kbuja9z65ryPGcVX7onegFA421bNIMf6UTvpQuW2e5fmFIZMi30z+YQq7/sOpL1FK1s0qYdiM
- imhMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4249; i=francesco@valla.it;
+ h=from:subject:message-id; bh=ufKnjS6Nrw6tfuZfwT5mLqvpNhC8fqraIzVx4+SAFjA=;
+ b=owGbwMvMwCX2aH1OUIzHTgbG02pJDJm7TTdVr7u2fX1UbUi1ypL+nydSn32J3dLlXszu7X9UN
+ rXgp8eqjlIWBjEuBlkxRZaQdTfu7Zlr/i1tA+MjmDmsTCBDGLg4BWAiUyYxMvx4Xn0v17mXp8Jg
+ NfdtFmuxacuExQ1Tkj/v8Heeq73h4SeG/64Wu+e8tjQI4l+RIseSu+VQ1tnSDcs/SlXFlWm2Tf5
+ ezQAA
 X-Developer-Key: i=francesco@valla.it; a=openpgp;
  fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -88,15 +88,15 @@ X-AntiAbuse: Sender Address Domain - valla.it
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-SGantispam-id: 9a8a90d00fe595008f659b536e084428
-X-AntiAbuse: ID - 9a8a90d00fe595008f659b536e084428
+X-SGantispam-id: e38abe9fad07af3a65c519cbc7e149c7
+X-AntiAbuse: ID - e38abe9fad07af3a65c519cbc7e149c7
 AntiSpam-DLS: false
 AntiSpam-DLSP: 
 AntiSpam-DLSRS: 
 AntiSpam-TS: 1.0
 CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1w30Lx-00000002v0B-2BmE-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-q0dl.prod.antispam.mailspamprotection.com;
+CFBL-Feedback-ID: 1w30Lx-00000000hVV-3Bzy-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-jxsh.prod.antispam.mailspamprotection.com;
 	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
 	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
 	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
@@ -105,66 +105,96 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 23:31:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233451
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233450
 
-Add a new recipe for the bootconfig tool, with source coming directly
-from the kernel shared workdir.
+Add the addition of a bootconfig block at the end of an image as a
+conversion type; while a bootconfig is mostly used in conjuntion with an
+initramfs (i.e.: a cpio image or one of its compressed forms), having it
+as a generic conversion type simplifies the implemntation and is ready
+for future modifications at kernel side.
+
+The following configurations variables are introduced (in a separate
+bbclass, for further usage by other components):
+
+  - BOOTCONFIG_SRC: source file to be used as bootconfig, to be found
+    inside DEPLOY_DIR_IMAGE;
+  - BOOTCONFIG_TASK: task deploying the bootconfig source file specified
+    in BOOTCONFIG_SRC to DEPLOY_DIR_IMAGE; an image using the bootconfig
+    modifier will depend on it.
 
 Signed-off-by: Francesco Valla <francesco@valla.it>
 ---
- meta/recipes-kernel/bootconfig/bootconfig.bb | 44 ++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ meta/classes-recipe/bootconfig-config.bbclass | 12 ++++++++++++
+ meta/classes-recipe/image_types.bbclass       | 15 +++++++++++++--
+ 2 files changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/bootconfig/bootconfig.bb b/meta/recipes-kernel/bootconfig/bootconfig.bb
+diff --git a/meta/classes-recipe/bootconfig-config.bbclass b/meta/classes-recipe/bootconfig-config.bbclass
 new file mode 100644
-index 0000000000000000000000000000000000000000..77ee70dd1839ef90a292cf829f4f3a4353f85c28
+index 0000000000000000000000000000000000000000..3d34fc47a3a684aef1ecdbd5ed52c904611bf95d
 --- /dev/null
-+++ b/meta/recipes-kernel/bootconfig/bootconfig.bb
-@@ -0,0 +1,44 @@
-+SUMMARY = "Apply, delete or show boot config"
-+DESCRIPTION = "bootconfig is a tool that can be used to add a boot config block \
-+at the end of a kernel initramfs, as well as remove it or show its content."
-+LICENSE = "GPL-2.0-only"
++++ b/meta/classes-recipe/bootconfig-config.bbclass
+@@ -0,0 +1,12 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
 +
-+inherit kernelsrc kernel-arch
++# Name of the file to be used as bootconfig source, to be found inside DEPLOY_DIR_IMAGE
++BOOTCONFIG_SRC ?= ""
 +
-+do_populate_lic[depends] += "virtual/kernel:do_shared_workdir"
-+do_configure[depends] += "virtual/kernel:do_shared_workdir"
-+
-+EXTRA_OEMAKE = "\
-+    -C ${S}/tools/bootconfig \
-+    O=${B} \
-+    CROSS=${TARGET_PREFIX} \
-+    CC="${CC} ${DEBUG_PREFIX_MAP} -ffile-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH} ${CFLAGS}" \
-+    HOSTCC="${BUILD_CC} ${BUILD_CFLAGS}" \
-+    LD="${LD}" \
-+    AR=${AR} \
-+    ARCH=${ARCH} \
-+    V=1 \
-+    'DESTDIR=${D}' \
-+    'prefix=${prefix}' \
-+    'bindir=${bindir}' \
-+"
-+
-+do_compile() {
-+	oe_runmake ${B}/bootconfig
++# Task deploying the bootconfig source to DEPLOY_DIR_IMAGE
++#  e.g.: BOOTCONFIG_TASK = "bootconfig-debug:do_deploy"
++BOOTCONFIG_TASK ?= ""
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index e6ef0ce11e40c0f8388fb5547ab03943004bde2f..98c6d9e836f5c80f78e6f6f32aa923de66feb836 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -264,9 +264,18 @@ IMAGE_CMD:f2fs () {
+ 	sload.f2fs -f ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}.f2fs
+ }
+ 
++oe_bootconfig() {
++	local src_image=$1
++	if [ -z "${BOOTCONFIG_SRC}" ]; then
++		bbfatal "bootconfig image type requested but BOOTCONFIG_SRC is not set"
++	fi
++	cp ${src_image} ${src_image}.bootconfig
++	bootconfig -a ${DEPLOY_DIR_IMAGE}/${BOOTCONFIG_SRC} ${src_image}.bootconfig
 +}
 +
-+do_install() {
-+	install -d ${D}${bindir}
-+	oe_runmake install
-+}
-+
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+python do_package:prepend() {
-+    d.setVar('PKGV', d.getVar("KERNEL_VERSION").split("-")[0])
-+}
-+
-+B = "${WORKDIR}/${BPN}-${PV}"
-+
-+BBCLASSEXTEND = "native nativesdk"
+ EXTRA_IMAGECMD = ""
+ 
+-inherit siteinfo kernel-arch image-artifact-names
++inherit siteinfo kernel-arch image-artifact-names bootconfig-config
+ 
+ JFFS2_ENDIANNESS ?= "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le', '-l', '-b', d)}"
+ JFFS2_ERASEBLOCK ?= "0x40000"
+@@ -333,7 +342,7 @@ IMAGE_TYPES:append:x86-64 = " hddimg iso"
+ # CONVERSION_CMD/DEPENDS.
+ COMPRESSIONTYPES ?= ""
+ 
+-CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
++CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync bootconfig ${COMPRESSIONTYPES}"
+ CONVERSION_CMD:lzma = "lzma -k -f -7 ${IMAGE_NAME}.${type}"
+ CONVERSION_CMD:gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.gz"
+ CONVERSION_CMD:bz2 = "pbzip2 -f -k ${IMAGE_NAME}.${type}"
+@@ -360,6 +369,7 @@ CONVERSION_CMD:qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}.${type} ${IMAGE_
+ CONVERSION_CMD:base64 = "base64 ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.base64"
+ CONVERSION_CMD:zsync = "zsyncmake_curl ${IMAGE_NAME}.${type}"
+ CONVERSION_CMD:gzsync = "zsyncmake_curl -z ${IMAGE_NAME}.${type}"
++CONVERSION_CMD:bootconfig = "oe_bootconfig ${IMAGE_NAME}.${type}"
+ CONVERSION_DEPENDS_lzma = "xz-native"
+ CONVERSION_DEPENDS_gz = "pigz-native"
+ CONVERSION_DEPENDS_bz2 = "pbzip2-native"
+@@ -380,6 +390,7 @@ CONVERSION_DEPENDS_vhdx = "qemu-system-native"
+ CONVERSION_DEPENDS_vhd = "qemu-system-native"
+ CONVERSION_DEPENDS_zsync = "zsync-curl-native"
+ CONVERSION_DEPENDS_gzsync = "zsync-curl-native"
++CONVERSION_DEPENDS_bootconfig = "bootconfig-native ${BOOTCONFIG_TASK}"
+ 
+ RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
+ RUNNABLE_MACHINE_PATTERNS ?= "qemu"
 
 -- 
 2.53.0
