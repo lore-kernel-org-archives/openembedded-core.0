@@ -1,131 +1,154 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 899C510775E8
-	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 16:55:15 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19237.1773852905155177326
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A4410775EB
+	for <webhook@archiver.kernel.org>; Wed, 18 Mar 2026 17:14:55 +0000 (UTC)
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19748.1773854092330464099
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Mar 2026 09:55:05 -0700
+ Wed, 18 Mar 2026 10:14:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ayrBkU5C;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486b9675d36so641855e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 09:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773852903; x=1774457703; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JnpGhbzY+Z69aoOJ+HysXyhc3t4xLvZ8rc4K+2ybFKk=;
-        b=ayrBkU5CVDY/WlqXoDxZXBq81wYuGRxzUfyTnAAPjVDno0dZy676MxN/ItRTNZNoqP
-         6CmauWaS7U4iekn9A37NrAKGVNhOqips4oPcBzGJzEXn4artNp3wSsGLqoaKez6pSBiC
-         RKxn4J3IQEndGvaTOPHKiQwbls/j4f9nh0a7w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773852903; x=1774457703;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JnpGhbzY+Z69aoOJ+HysXyhc3t4xLvZ8rc4K+2ybFKk=;
-        b=Qb0bYwFA7DvYOk8INb1ytXuJMYw4aVtv7yAD0KlrM13yGa4s1I4qnInPdBHdgJlawU
-         FCleHmUSrofJ8uFvVblhyXTbq8Elaxskn3Q7PmkS2CJXfVcW4DTuNo3i/iv0Mae46kHv
-         j7LZYEqqilLY0IcH3SRkxBUwtyDric/pQ3cCB/S3qYlW9w/TJ+HEGoHFmcog9vGBI4B1
-         gyZnY6OIqC8HRivxjzUKyOL6LGX3ueJJiWUJyDri735Hftw8RnVuYNHzLmLwoetSxb8j
-         Et9zL0SdPr/j+MdfLKMJEtuSNCxCaFBeTYI3q/7k5qlrcCJuPLIu81v5d04Q8KvIziF6
-         TdRw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqq0oO74f49Osn6jr+D/INPR8Sv4/7xwWzoWTX8LddNND4lzIytAfzCiCo45T4b1+QTc+QgiL7JqTZYKPistZtIQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw1XkNF9Dh6PookI10LG7LQVmnGa6Pffx1M9tpUqN2H+k0AH+2f
-	9wRd/fLEVt8X5tq/IHZPZmQBfK5b9SZioyQG3jN6kx6LxgsbvQqHXVoZTX7oR7UjoXw=
-X-Gm-Gg: ATEYQzymuoKgnv8TPHtBAyhPamfvnlEFX4p5RuzkK1XcWJBP4NZRxWLuZutJKxBVIOQ
-	zqYpWBegeImaLIVLkUFcpffCpnnXrXq/jSGRDXccHrvaX6Y5ntch80ncbArIkVfjDgHqg7+aOz6
-	8te54YjheJ9Zjqz18ecrACoc7no2NSYqsxxqaZiXJyAK3xLogJrM2o51y32pd1P3gHWglwcK9o0
-	XhUE6hVfMzEx816kqQ3PhCmWU0QIwXzSRvBhJrjiMJXu7KTnJGZm6sWwXJALXPNuLqzsQWs5dzT
-	cF6nvUFKEUGhQFhXxuc/DKph6Ea4beT8y0qP9Fp1ek8FH5J0VGwTUod3cV0dG/c+cBNJDQbhXiB
-	mm2wccYKeTxln+74kIidw9XduGs/2bEoe4P2jJtcSqe9TtYQxHsK9yitmhFRAgXUKmHxYcR4HE0
-	vGYn/Ad2+/8MoXfOXXN7l7eaCZCcfQtlbvHKSwvBLV9bM2ifGFSs5VLh00AkINyuQAKD++Yz6G4
-	8AJTfOWoSm6EojJBZjnPzaQWg==
-X-Received: by 2002:a05:600c:4e46:b0:485:3c8f:e4c5 with SMTP id 5b1f17b1804b1-486f44485b3mr64345825e9.17.1773852903368;
-        Wed, 18 Mar 2026 09:55:03 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c5d8:efeb:ae8c:c686? ([2001:8b0:aba:5f3c:c5d8:efeb:ae8c:c686])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8b0bc58sm7402875e9.3.2026.03.18.09.55.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 09:55:02 -0700 (PDT)
-Message-ID: <d17f26cf2f1ee24072c836c84b6ab8cc4e7dd79d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [openembedded-core][scarthgap][PATCH] tcp-wrappers:
- extend recipe for native/nativesdk builds
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yoann.congal@smile.fr, deeratho@cisco.com, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2026 16:55:01 +0000
-In-Reply-To: <DH62AM0LD7ST.12CQ28MWFWBFR@smile.fr>
-References: <20260309145640.3432992-1-deeratho@cisco.com>
-	 <DH62AM0LD7ST.12CQ28MWFWBFR@smile.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=qSpeFk6T;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=T6ceisaH;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.158, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6488B1400174;
+	Wed, 18 Mar 2026 13:14:51 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 18 Mar 2026 13:14:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1773854091; x=1773940491; bh=xn
+	75aDXBNTDXyaDz2rFH1PkSxR8NleioPbnEMTC0o2c=; b=qSpeFk6TR9GUR30T3v
+	zULHm/oLgEdPs3vDJ1eE8UhHgcVl47BoZactR5u5ltuSKQFRxlzABm0pn/R2COu6
+	nSVF4AInhh0XUdX5Ve52p8vFlx4YDgt9d/qdaT389CdD8NijAcIh6M79Z0Ch+mra
+	p9Aq2yBUZV12Wv8bUeTookpVk+fbrmvrDHAoK8DfnYZ6n4mIlqXSjmMjZOZ9Aja7
+	OKp6Lw+CNbE2UDg4TT0JYVEO/8s8xzL5OvPUImyqT3TVMCnRi4djrUudH9rZadEP
+	lC+i3m+yv1wy3sgwUuqVrO2pPiYARsswfh0DIUZOzbP2WfFZzzOfZis3++MHgvEk
+	7edg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1773854091; x=1773940491; bh=xn75aDXBNTDXyaDz2rFH1PkSxR8N
+	leioPbnEMTC0o2c=; b=T6ceisaHoXAXuve+DP0qsMPJZ9Sgrz85roH1Z7VHFavP
+	L1jnUntJoQWpzvx3GOJWr7Brz20E9pYXWJXA4CjS2+FZbYQmBbMKI0avDX/1g1jC
+	eI3wILml9MqEwT7fXiPxiqB9ZLxvXDLbemLCRZo/bD1CLZbTuoyYMzQhG/G4HOxy
+	HdrQUJt+AEP9F4KQXoO4wsw7WpGntLZkrt9LV9OMD3VIzzmgK0/XY90r8kosyz9l
+	9plU1+1uUiwP82mGwWJLCIlOCJFmFAYfcdb9hIPpX/xtczACVRUAh7D8vjCr4iKh
+	/BwN0V99KJZuF7q+7HwbWpe6lQ4SIVSARMR+8RlnHg==
+X-ME-Sender: <xms:i926aYnZ5GuPfUm2B2OKSu530uDHt_e0mSjKJYx6qr4uOmRn7PaThA>
+    <xme:i926ad1Uwby-_6eBiCo8M6X4d0yuFN9PVsMNxq5d7aop5f_E3kqx3c_2PbaFqMbuS
+    5HkTUOYOALqYtv7EsD_u9Eep7MC4xXtUdYRphTQy9qG-kknJqce1Tk>
+X-ME-Received: <xmr:i926aUSmlCZNGMhsCP6tVBXqtUZH2RufK8Q0ngY0EKiS-m872LdEvQ5nWw2zdWmrXek4muwQmFr1vOBMUIaSYwzWtsh1tk8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdegjedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhufffkfggtgfgvfevofesthejredtre
+    dtjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepkedtgffhhfeigedtfeeifefhjedtkeffjeejff
+    evfedtudehhfeigedtheeiuedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpuddt
+    rdgssgdpuddvrdgssgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepvddp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepphgruhhlsehpsggrrhhkvghrrdguvg
+    hvpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhp
+    vghnvghmsggvugguvggurdhorhhg
+X-ME-Proxy: <xmx:i926afsrNmGl3IBu1UWyhBRfQZkxMH2nMXvyMBhltrvbieimLR_G0w>
+    <xmx:i926aZa5vi7wrMXENXiAFLT1SmQm4WrvrGYrpzuW0d6MVVo1KB4wHQ>
+    <xmx:i926aUu00Qm-1eq_P4XhJ1b_t1uwKmsiPWLAfPtz_ndvfuwdY80mGQ>
+    <xmx:i926abHY_bD7bO36TIgSdrvIZtTfkNzNA_PWYEA6bG_zxLY6ejuz8A>
+    <xmx:i926aeKEj8EHfUNAeMsPTXeArDyYV6zkh40HxXV_gxVCbpqooZa9i6wz>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Mar 2026 13:14:50 -0400 (EDT)
+From: Paul Barker <paul@pbarker.dev>
+Subject: [PATCH 00/12] Further check-layer fixes
+Date: Wed, 18 Mar 2026 17:14:43 +0000
+Message-Id: <20260318-fix-checklayer-2-v1-0-388ba6ce47cd@pbarker.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIPdumkC/x2MWwqAIBAArxL73YLZQ+kq0cdiWy5FhUIU4d2TP
+ gdm5oXIQThCX7wQ+JIox56hKgtwnvaFUabMoJXuVF1ZnOVG59mtGz0cUCPNqjVktSPTQM7OwNn
+ 5l8OY0gcAJ1qQYgAAAA==
+X-Change-ID: 20260318-fix-checklayer-2-af057a82ca74
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2992; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=c0IrElvCrh1RWXz2jfJsohTyU87fgrJdr+GvYXUQftg=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWTuuttRlb1Z1+zX7yWpL3/ffr/r5OLnHPtvZfG+P3bv5
+ odD74SMbnSUsjCIcTHIiimybO75ev9pryNvRsgtBZg5rEwgQxi4OAVgImulGRl6O9apiUzcYfRi
+ 7lauQ7FnvBkPuAkL69U8WOSi9M/92VxNhn9m/h2KUi6zeYKVV68Ms3O+JPZ6hfTy9IZ9c7+JPLs
+ 68xwHAA==
+X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
+ fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 16:55:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233416
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Mar 2026 17:14:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233417
 
-On Wed, 2026-03-18 at 17:51 +0100, Yoann Congal via lists.openembedded.org =
-wrote:
-> On Mon Mar 9, 2026 at 3:56 PM CET, Deepak Rathore via lists.openembedded.=
-org wrote:
-> > From: Deepak Rathore <deeratho@cisco.com>
-> >=20
-> > Some SDK dependency chains require tcp-wrappers to be available
-> > as host/SDK artifacts. The current metadata only partially provides thi=
-s,
-> > which can lead to dependency resolution failures when this recipe is pu=
-lled
-> > into SDK-oriented builds.
-> >=20
-> > This change does not alter target package behavior; it only enables req=
-uired
-> > native/nativesdk variants for build and SDK integration paths.
-> >=20
-> > Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> >=20
-> > diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/m=
-eta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-> > index bcd1d6f792..26eaeab1ac 100644
-> > --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-> > +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-> > @@ -132,3 +132,4 @@ do_install () {
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0FILES:${PN} +=3D "${sysconfdir}/hosts.allow ${sysconfdir}/hosts.d=
-eny"
-> > +BBCLASSEXTEND =3D "native nativesdk"
->=20
-> That effectively create 2 new recipes tcp-wrappers-native and
-> nativesdk-tcp-wrappers. That is not a trivial change that I can take
-> without a clear and strong justification.
->=20
-> What "dependency resolution failures" did you see?
->=20
-> Also, can you check that tcp-wrapper-native builds on Fedora 41? This is
-> the scarthgap supported distro with the most recent GCC : gcc-14 (and it
-> usually trigger build failures on old/unmaintained packages)
->=20
-> Finally, OE-Core master did remove the recipe for it being really
-> unmaintained[0]. This is not a good sign :/
+This series follows on from the two patches I sent earlier this week
+[1], and Richard's patch to fix [2]. With all these applied, most of the
+check-layer failures in openembedded-core are resolved, with two
+exceptions:
 
-The other question that needs to be asked is why would you even need
-tcp-wrappers-native? Why are you creating TCP services using the native
-tools in a build? It doesn't make any sense.
+  - mesa:do_recipe_qa signature changes based on MACHINE due to use of
+    VULKAN_DRIVES in PACKAGECONFIG. However, adding VULKAN_DRIVERS to
+    PACKAGECONFIG[vardeps] doesn't fix the issue.
 
-We've had a flood of these "extend for native/nativesdk" patches and
-I'm afraid I'm leaning toward saying no to all of them until we better
-understand the actual use cases and make sure this isn't just a random
-dependency explosion as people haven't actually thought about the
-dependencies.
+  - lttng-ust:do_recipe_qa signature changes based on MACHINE due to use
+    of PYTHON_OPTION (-> PYTHON_SITEPACKAGES_DIR -> libdir) in
+    PACKAGECONFIG. However, adding PYTHON_OPTION or
+    PYTHON_SITEPACKAGES_DIR to PACKAGECONFIG[vardeps] doesn't fix the
+    issue.
 
-Cheers,
+There may be a couple of other things that need investigating to make
+everything pass, but I wanted to get validation on this initial set of
+fixes now. In particular, is setting PACKAGECONFIG[vardeps] the right
+thing to do?
 
-Richard
+[1]: https://lore.kernel.org/openembedded-core/20260316-fix-checklayer-v1-0-f3bcaa60e93c@pbarker.dev/
+[2]: https://lore.kernel.org/openembedded-core/20260317121307.935437-1-richard.purdie@linuxfoundation.org/
+
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+---
+Paul Barker (12):
+      checklayer: Fix regex in get_signatures
+      curl: Drop arch dependent search paths
+      ghostscript: Drop arch dependent search paths
+      libssh2: Drop arch dependent search paths
+      flac: Use arch independent search path
+      gettext: Use arch independent search paths
+      gnutls: Use arch independent search paths
+      initscripts: Make SRC_URI arch independent
+      linux-yocto: Avoid arch dependent vardeps for SRC_URI
+      libsdl2: Explicitly set PACKAGECONFIG vardeps
+      graphene: Explicitly set PACKAGECONFIG vardeps
+      gstreamer1.0-plugins-good: Explicitly set PACKAGECONFIG vardeps
+
+ meta/recipes-core/gettext/gettext_1.0.bb                             | 4 ++--
+ meta/recipes-core/initscripts/initscripts_1.0.bb                     | 4 +---
+ meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb             | 3 +--
+ meta/recipes-graphics/graphene/graphene_1.10.8.bb                    | 3 +++
+ meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb                     | 3 +++
+ meta/recipes-kernel/linux/linux-yocto.inc                            | 5 +++++
+ meta/recipes-multimedia/flac/flac_1.5.0.bb                           | 2 +-
+ .../recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.9.bb | 3 +++
+ meta/recipes-support/curl/curl_8.19.0.bb                             | 2 +-
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb                         | 4 ++--
+ meta/recipes-support/libssh2/libssh2_1.11.1.bb                       | 3 +--
+ scripts/lib/checklayer/__init__.py                                   | 2 +-
+ 12 files changed, 24 insertions(+), 14 deletions(-)
+---
+base-commit: 531f87111d83430615f2e20dd41a3dd5fc25c7ab
+change-id: 20260318-fix-checklayer-2-af057a82ca74
+
+Best regards,
+-- 
+Paul Barker
+
 
