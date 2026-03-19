@@ -1,429 +1,152 @@
-Return-Path: <fabien.thomas@smile.fr>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E39BA108E1E8
-	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 11:05:16 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8563.1773918307093955422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C99CA108E1E9
+	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 11:06:06 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8572.1773918357995823660
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Mar 2026 04:05:07 -0700
+ Thu, 19 Mar 2026 04:05:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=izAXgybc;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4852c9b4158so4646445e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 04:05:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1773918305; x=1774523105; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EHALMsvYziNUkD1uvrZTHfMSLt7cnOeKnbe2nBVtCHU=;
-        b=izAXgybcSbPVRvaheaKJxw/CFMEQQSl6SGKmmMBXb48JDkhAKQTbuNKl4pVhauwSF7
-         +f2mFdGcPtIG87qVPxoerV1JasbkbbURX22csEEbPVDg9d5lB9mt5C4UEDor8s3RNY7J
-         MXJAg4x6aNtmwtsINrorDMEiEoMwIZp6os60M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773918305; x=1774523105;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EHALMsvYziNUkD1uvrZTHfMSLt7cnOeKnbe2nBVtCHU=;
-        b=keMBB+NYsts9NImIpj/I44lS8YhZqT1oKlczgmBj8W1Jhd9lc9PomHhTQaTxEZ6P+v
-         R89jPsoZ8Qm594diGO/JZEkER5bGrfm4YGNv1rGbah1BhyPm/spO0FJ6byzFq3pOEIa9
-         Epgk3RFpqNKYMcq1COlOUP6KVjil808GO81P/tR1egihqYrnRrlqkuRRhTBrTeJY41U/
-         dkIa1rhPP2WSBfLnv0M/lah7YGLgs6mg6911sjpQP05ioVUvACMpKAY7YfuM70Y/yzg7
-         7uTiYpFSzSeOaDS0sEBs3JIgj0aMAOqNYbuU4upoZb2mA75CtKlPKGQcikZzn6LOCr+n
-         0AGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVAQFgTh1Bysabj6SWLjZN9391g9QMUVG/ywDuPmoE3CrErdRzK5DOaxMxgR5vkLX4CPR5tP8t5H3Ib1mWwKELpag==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxjwq1AjCEBQrKsDFTQxlHcUYqypeDIatlyZBbMwbq/gzlihTRz
-	8kqabqy3rglsOX10hkVdUX6ypCt/EMe8yHAMw0+1wayDhfr+qDGXZuTtXIxhHyrYarnDOWEvB5g
-	ETnXr/G8=
-X-Gm-Gg: ATEYQzzsEuLvWBorJSD2Ig2FBn3sCOGPdtIlx4mKGormWViWD5yVadWzNkmPSi2SGv+
-	jhhVyATiHIUTp6JTDuv1gKSYrkxP6SgwoFc4CSpbYq4zPuv4MftY0Tav83D6xTqJ3ACNKrXhrcT
-	eeB3TO4ZFLKa4dvPMt/IRdE2I/Xeu2J4FCQE05q5cPLyfJKUTAPrUQJ63bGjwfBbfrDMrlnAJJK
-	GAyyrJBQlmPJYEvxLrEXhYxB9t8OHiMzP3Hsqg3YCz5XOjc52eiXdLjzuDrytiSXKIDA/GV7XwT
-	EGFpZCitcVMfAGGWJjcRMf72mM2roJ2N8adwdqS1ErwZIQQ8L6ggrARQiPOstmjsjZXMR1dTOXW
-	/iltFMxb0OiRxwUosxelWJXs4zHs5YzrwefOyzdusuSMpbqPvVfTcA+Oea/c5Y4D9TZ5G4mgLKG
-	vw4TggCAkbUJsjP6wEEV++7fno3vYB2P5hPhA0Zk2ymoIdSyYGouxOAhHfwsyFdwOxEqOXeg5Vb
-	SnYg89WzPNVTguAE8owCStq51Lw1Ax5RSZAcJ3I8Y1spcXiLCdUtOnsyeTftL9JYSXsirVOyg==
-X-Received: by 2002:a05:600c:1d0c:b0:485:363b:fafd with SMTP id 5b1f17b1804b1-486f442e4f0mr113876655e9.6.1773918304956;
-        Thu, 19 Mar 2026 04:05:04 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f5e162e2sm36280805e9.34.2026.03.19.04.05.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2026 04:05:04 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Mar 2026 12:05:03 +0100
-Message-Id: <DH6PK2HKFZEL.OW09CNJ5IJ15@smile.fr>
-Subject: Re: [OE-core] [kirkstone][PATCH] busybox: fix for CVE-2026-26157,
- CVE-2026-26158
-From: "Fabien Thomas" <fabien.thomas@smile.fr>
-To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0
-References: <20260313131845.56221-1-hprajapati@mvista.com>
-In-Reply-To: <20260313131845.56221-1-hprajapati@mvista.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=WzVy0aKx;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=WzVy0aKx;
+ spf=pass (domain: arm.com, ip: 40.107.130.41, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=nwOS6Ldf7NQRrZaZWBvBzYiEgNZHvY6pkDAtzLnkuwZ6BGf3c7nUTMcpHFt63WXIHZ+e2VutPz21IhJYiEHHqs0RpCR7vm/txtVvHvPDHgnhtn/jYU1O3D2y/SHrGQv8JdTU/WrO19lVExcHG56ATbQonghA9HYhyeSNtOlSYBHTAuH6+wYuxMyoj5+Tnxe5g86PpdnQ8NTRn46J2/tqM9BaR3OyXjdSRcK/mLPB0KIGFJdlH3th978Dd+486fu+e5TVN/6SjsN9Q58FBuUHGqysWffuXPv62L0nlIVueNTGwK12BWODtu0U3LX3DIaxuInjXeoph37UNWjtOdU3Jg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BzODX4ahHIQATP5mkcYVTCop1Pwae1lZ6jiSrTfSgfs=;
+ b=NRqT6NtdraGuL7UcM+EfhpiVb3bIAjJ3ze/9L2I5k+nL31uOMckmn0S5hjsr66VcWBO80nE2tc3sRUp/2rUc2cBoi3XI95fYe+ZqiXnInzYCk2Cf06TmtYMx0UnIBVu/MjO9c1PhBPYWe9TdygRcmg3yr5RXqdejA6h+xNzMURAsDaFO49dUsHKZowLszzn5xjiEGAmubMwZWRy1CbycRKEjk1mMxxpL/KjMGATpZBT6RNh4OhmpN1I4si7ABUYHdsiePeS90ibaLA/o9w4RqDAitv4JkU8K++zqfy/kkihfcDyipMQQ6NOWOVz1mYgSqhVJn2L6cYS390bwpljw0Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BzODX4ahHIQATP5mkcYVTCop1Pwae1lZ6jiSrTfSgfs=;
+ b=WzVy0aKxRFzZ5dQz6/w+j+LQpub+8cqw/hD2E7xJqVzwqDsjdXk5jk5NNSsN2WgNMnsVILOjckwaPe7ILB8hbKsWyQHL21mVM4F5ASElhIaJ+Gggkm9j2lPSPc7U99/ec9HbibEX+6egNKBFo7LrBqzoRxhqRZKG8tszWMZtuD4=
+Received: from DUZPR01CA0299.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b7::10) by AS8PR08MB6007.eurprd08.prod.outlook.com
+ (2603:10a6:20b:29e::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
+ 2026 11:05:52 +0000
+Received: from DB1PEPF00050A00.eurprd03.prod.outlook.com
+ (2603:10a6:10:4b7:cafe::7b) by DUZPR01CA0299.outlook.office365.com
+ (2603:10a6:10:4b7::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.27 via Frontend Transport; Thu,
+ 19 Mar 2026 11:05:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF00050A00.mail.protection.outlook.com (10.167.242.42) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.19
+ via Frontend Transport; Thu, 19 Mar 2026 11:05:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ir0BAFrr//lipjpFuXobs0mX7Gx5vW3jPFB4HyPw/KZKjU0tQG8Kr8l5zBXi0WNX6FAchthKFH9RqbEVxQ4KEwl4pAIc94EEvM2keNAucLcpMPNfMoX1lsHhue9PmbOf/qGLQrCgCpw1jcQHl4OUHHP9RF6mo2w/mG2gltvA1LEVlPfCVO9/oCViaRllI5wDkuEhwO89dpTHH2z2ykHxsf0zE4ab3y98HkacemUM1+NWXNBNplLPm4+uP8Rv63G4pmjjdL1tX+c4oihd9NGhDEY1vnDzeyZ829t4nzLqBJZ73GFG7zDGnw9JNCXxeeqb8TVwSTczCP3xdAbsyOhM7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BzODX4ahHIQATP5mkcYVTCop1Pwae1lZ6jiSrTfSgfs=;
+ b=kqr38Lv4bFIrKOnw+8gxdGn4clWRH5M0J3dx61n55GAns6AYSGocm+tmDMQwIqcizoeCXk4VWqQuqXIv5fDSPN190s878/u0v8a2Lpe/H0hID4G404LLu+LTE4Bj1iUtJrWhYr1gkZGBXA8hPYRQlONZKVEJ4RgfROiWybfw2djnRivhxZ5MaOjkGmf3oI5NKVKlXQRN5OyGuBdsQDoIXUtRG4wAWm4iNk/CJUcabU6RHzZnvSnYP4U/BR7AkgWvcM4eA83LB+HCmoZdu98LybRYs2PoO9leDJqPxPE7/EnGdRywNMOY0Gv+8Wa3YTxsNJ6GhM7/hQr5TcdnOO8Fcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BzODX4ahHIQATP5mkcYVTCop1Pwae1lZ6jiSrTfSgfs=;
+ b=WzVy0aKxRFzZ5dQz6/w+j+LQpub+8cqw/hD2E7xJqVzwqDsjdXk5jk5NNSsN2WgNMnsVILOjckwaPe7ILB8hbKsWyQHL21mVM4F5ASElhIaJ+Gggkm9j2lPSPc7U99/ec9HbibEX+6egNKBFo7LrBqzoRxhqRZKG8tszWMZtuD4=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS8PR08MB6118.eurprd08.prod.outlook.com (2603:10a6:20b:29b::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
+ 2026 11:04:46 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
+ 11:04:46 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "Jiaying.Song.CN@windriver.com" <Jiaying.Song.CN@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] python3-chardet: upgrade 5.2.0 -> 6.0.0.post1
+Thread-Topic: [OE-core] [PATCH] python3-chardet: upgrade 5.2.0 -> 6.0.0.post1
+Thread-Index: AQHcsfnITwj1TwpKYkmOKbUsFcDE5LW1vGOA
+Date: Thu, 19 Mar 2026 11:04:46 +0000
+Message-ID: <856576AF-E10D-4997-963B-7B8691D0CC5B@arm.com>
+References: <20260312082515.4074831-1-jiaying.song.cn@windriver.com>
+In-Reply-To: <20260312082515.4074831-1-jiaying.song.cn@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81.1.4)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS8PR08MB6118:EE_|DB1PEPF00050A00:EE_|AS8PR08MB6007:EE_
+X-MS-Office365-Filtering-Correlation-Id: f083b053-fca3-4e84-1812-08de85a77bb4
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ ulML25QKl1QXKBJPF8BHBt449YU4KOtqxFiBT9AKhEJWpjt7KKg9R0jSF5f3FGr/RF92rIhXdn9KBnXnf23zOrx8yMT0agrGU2XmNoeMuRt6QkldRO5n9E0R1ShkwtDquCFYOsaouk8Sdf6oF7g09EoKgLdKmw1dHDeiACzRPIFd0ixM73ai0YwMDeIVfz5m4jFqlABc51mvY8ocEultncmPOswEuiwNRPWWcXqgUOpP5f8TDHiZP5A+F9beaKk5zKj+Ca36bTHHVyrdxCJIFIf6IjlqjOWKFOsQ3GGIMEn4obFJebrLBcO7m48YftpIQZO/sB9T2JfyjJl90e12t9LXkT/g6v40FSRsWarwg1hT5Bic628zUfPnGlfpXrIgNSPlIkldd4E8tPqbwK/4z538LdfBenY6AaUnUzHooSqAzSyamzEKcX60U6RNrEGTEXu27rYl96m/txzTym9SDxJrir5PmCIHuhuPCz5ZZRLqYoUcqLpK8vXQ7tNCH11cBXEXTWCCHlHFhMETzFSEI/+eik9+S2NkOQ5vSxglTsv8/YDQzTwFysd67FezN9tbrDDjQxepQJfou3CSzlijjNFr458k25UFgkqnOY2ghztzLpQk3ZB72xmTAb4D6cT6z3vG5mVk1yvBmR922xLYAjG3y7EBeieZq19L5ksZS+FurvuWeYYY+vjfHAmKfwE/RusUPceHuBnAXJXZ2HYjHAubJpYBeCJRFvgqrFJNyieHEZdxNwertsWu+r4DbSBH//fC5jkhM+KVun58LA/dV3pntSblJ7eEVjtJpDgowj0=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FFB6DE1BA6156D438F2CC35D3148C81E@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: 
+ pn76soWcNtiXrtO5p+4EmOsblwr5vufQpIsE20SyDrgYpYBSPwtZCxZMq8vhR4END8z/g7nnfk7i9jbgqYtTfKnasqygBFIh0xWrPdAll+jvjDeYFThywvshmZ5CSj8zY0zLPI6808S0pOYJXhhUlqqyGE9TXIi49MmpGJVY+VHVAaYykcA04lB8cpnntEY5MjwZIW3/kNq8uMuciPuIhD+eETuScirlOze1cdmU9qQTUPdw+USVKF/0afqhArIbrsIVAxEzowbSSQ5Uhe9e2qLszLisstbCHyvQW7XGUDNk8jHS6qhAvxBE+1z+KMKEX8DbG+F/+GEB/DcEyUi1qA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6118
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF00050A00.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	90757ffa-8bc1-4bbe-a9ca-08de85a754b2
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|14060799003|376014|36860700016|35042699022|1800799024|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 
+	7PTTbRU0He2DlcGq+9dcOCisZcfauYGAFUJMbU67u8Wrldig0p6wJRznaX9NGc42b/p8zDcyk8MLRceMJNZ67mETkC0XKBq9wWeJEQYgdUZaK+JMvxxlXTLfI4GtZ8tLAPWnyx6tkZsEpXVaLDZNon1TXWAut7Sye8PIYHxafrNDy4T7ATzS+SDlwY9k1MGTJx/+YYkusL/fHNKRCjvxPkbJNn/S0kJ01Xbov+wfOStWzY1UOj1bpynFwU6MzLhpZPyF3Tl7fEWtn4w2/sC3zMWOElTHpRdopTNuybF1VCEO8s92nQ4v8gkSXDNnm1AcvMw34yG7iRYT7n7QRPrDYCNiujGcAseQBKXjXPcSiB9Zbmc46i/nVaXO3naHBWmqVoYVU+aAcsbwYFDwFwy00cng7aKK8nuBZGFLMJXVc0uG5hpPu0FnEk/P81l/y1oGs2evqCor8FxtJjhkJvGpDyBKGVxROshYPB3z7P9AKviLD3uES8S/DL/9iMZwdbgduHNAN98UOeYqVJ/X1rXRREjow5DCGnmsc7A0QaXGExfJuMXv6BoVemrmojNuwbJhNiU+13zYWqb7HPLngieQU0qSvER1w+ABpngnb8ZGf2AsdyebndpjxXamA0lm31xOj1+je6yAMouZKwS0GSW1bhvO2kiXxW81P8zUB5PxnGlrzAQGCYc4N1XJSd5kM+56zOLdEXDXuIUOfHan6knhT0xfqCVtZfrPrtF9ZnLvdmPkh8Qkg4FkCX4Txgej2AtKUwI4BWpxB5z+ZFPPROJ+8A==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(14060799003)(376014)(36860700016)(35042699022)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	zrykGztDNNMAOcMYEepjAsV0PwpXKX+jDfH+CLWDacAnq/+TvTjnCDItAPE8FnwUnSZ2v8yLo8gNYFl7ufuyoSCo1N/iZvDKIzZs+DprS01I2WMSKFm8KorMACAjdQ//TwEMyfXNRt4ZV7Oht/FNFPu0yWgeZXgCFc4N03XYHW9N+SjzPSFxZjSCDxxqHelh/6Hhe2BqwhiTOouaciWA0hBJuGbVpntEeT67GE/9o+s31FdLtKMrBrZqXtZk0HcsHUCWrsmc5JvQ6N9dXhHkLSRV9mNwBFJI9W1OaukSNd+CjZY9VxdVMhy3IgebxTn+AtCL9rNeIAEWmwgagYXwolQ055gg6BWhTPoWI1F7kaJnqIIeKpaqTRtSrXp/xshcT0O/7bp54IZhKhrDAJGHO9sSk12gIqagDITXJ9LQHReBNe5VQrcnqeYLCtsIKNnm
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 11:05:51.4158
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f083b053-fca3-4e84-1812-08de85a77bb4
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF00050A00.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6007
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 11:05:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233512
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 11:06:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233513
 
-On Fri Mar 13, 2026 at 2:18 PM CET, Hitendra Prajapati via lists.openembedd=
-ed.org wrote:
-> Although the patch was not merged yet, Debian already took it ([1] & [2])=
-.
-> Since busybox CVE handling is slow, follow Debian decision.
->
-> [1] https://sources.debian.org/src/busybox/1:1.37.0-10.1/debian/patches/0=
-001-tar-strip-unsafe-hardlink-components-GNU-tar-does-th.patch
-> [2] https://sources.debian.org/src/busybox/1:1.37.0-10.1/debian/patches/0=
-002-tar-only-strip-unsafe-components-from-hardlinks-not-.patch
->
-> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> ---
->  .../CVE-2026-26157-CVE-2026-26158-01.patch    |  35 ++++
->  .../CVE-2026-26157-CVE-2026-26158-02.patch    | 197 ++++++++++++++++++
->  meta/recipes-core/busybox/busybox_1.35.0.bb   |   2 +
->  3 files changed, 234 insertions(+)
->  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-=
-2026-26158-01.patch
->  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-=
-2026-26158-02.patch
->
-> diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26=
-158-01.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26=
-158-01.patch
-> new file mode 100644
-> index 0000000000..306ccad511
-> --- /dev/null
-> +++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.=
-patch
-> @@ -0,0 +1,35 @@
-> +From 038e0e4d791ea4e8a8da5e06904756142fc6b8dc Mon Sep 17 00:00:00 2001
-> +From: Radoslav Kolev <radoslav.kolev@suse.com>
-> +Date: Mon, 16 Feb 2026 11:50:04 +0200
-> +Subject: tar: only strip unsafe components from hardlinks, not symlinks
-> +
-> +commit 3fb6b31c7 introduced a check for unsafe components in
-> +tar archive hardlinks, but it was being applied to symlinks too
-> +which broke "Symlinks and hardlinks coexist" tar test.
-> +
-> +Signed-off-by: Radoslav Kolev <radoslav.kolev@suse.com>
-> +Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-> +
-> +CVE: CVE-2026-26157, CVE-2026-26158=20
-> +Upstream-Status: Backport [https://github.com/mirror/busybox/commit/3fb6=
-b31c716669e12f75a2accd31bb7685b1a1cb]
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +---
-> + archival/libarchive/get_header_tar.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/=
-get_header_tar.c
-> +index dc0f7e0..a8c2ad8 100644
-> +--- a/archival/libarchive/get_header_tar.c
-> ++++ b/archival/libarchive/get_header_tar.c
-> +@@ -453,7 +453,7 @@ char FAST_FUNC get_header_tar(archive_handle_t *arch=
-ive_handle)
-> +=20
-> + 	/* Everything up to and including last ".." component is stripped */
-> + 	strip_unsafe_prefix(file_header->name);
-> +-	if (file_header->link_target) {
-> ++	if (file_header->link_target && !S_ISLNK(file_header->mode)) {
-> + 		/* GNU tar 1.34 examples:
-> + 		 * tar: Removing leading '/' from hard link targets
-> + 		 * tar: Removing leading '../' from hard link targets
-> +--=20
-> +2.50.1
-> +
-> diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26=
-158-02.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26=
-158-02.patch
-> new file mode 100644
-> index 0000000000..69e6e98c75
-> --- /dev/null
-> +++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.=
-patch
-> @@ -0,0 +1,197 @@
-> +From 0c20d6b353b058ab910dd3a0211e2b906802b105 Mon Sep 17 00:00:00 2001
-> +From: Denys Vlasenko <vda.linux@googlemail.com>
-> +Date: Thu, 29 Jan 2026 11:48:02 +0100
-> +Subject: tar: strip unsafe hardlink components - GNU tar does the same
-> +
-> +Defends against files like these (python reproducer):
-> +
-> +import tarfile
-> +ti =3D tarfile.TarInfo("leak_hosts")
-> +ti.type =3D tarfile.LNKTYPE
-> +ti.linkname =3D "/etc/hosts"  # or "../etc/hosts" or ".."
-> +ti.size =3D 0
-> +with tarfile.open("/tmp/hardlink.tar", "w") as t:
-> +	t.addfile(ti)
-> +
-> +function                                             old     new   delta
-> +skip_unsafe_prefix                                     -     127    +127
-> +get_header_tar                                      1752    1754      +2
-> +.rodata                                           106861  106856      -5
-> +unzip_main                                          2715    2706      -9
-> +strip_unsafe_prefix                                  102      18     -84
-> +------------------------------------------------------------------------=
-------
-> +(add/remove: 1/0 grow/shrink: 1/3 up/down: 129/-98)            Total: 31=
- bytes
-> +
-> +Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-> +
-> +CVE: CVE-2026-26157, CVE-2026-26158=20
-> +Upstream-Status: Backport [https://github.com/mirror/busybox/commit/3fb6=
-b31c716669e12f75a2accd31bb7685b1a1cb]
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +---
-> + .../archival/libarchive/data_extract_all.c    |  7 ++---
-> + .../archival/libarchive/get_header_tar.c      | 11 +++++--
-> + .../archival/libarchive/unsafe_prefix.c       | 30 +++++++++++++++----
-> + .../libarchive/unsafe_symlink_target.c        |  1 +
-> + archival/tar.c                 |  2 +-
-> + archival/unzip.c               |  2 +-
-> + include/bb_archive.h           |  3 +-
-> + 7 files changed, 42 insertions(+), 14 deletions(-)
-> +
-> +diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchiv=
-e/data_extract_all.c
-> +index 8a69711..b84b960 100644
-> +--- a/archival/libarchive/data_extract_all.c
-> ++++ b/archival/libarchive/data_extract_all.c
-> +@@ -66,8 +66,8 @@ void FAST_FUNC data_extract_all(archive_handle_t *arch=
-ive_handle)
-> + 	}
-> + #endif
-> + #if ENABLE_FEATURE_PATH_TRAVERSAL_PROTECTION
-> +-	/* Strip leading "/" and up to last "/../" path component */
-> +-	dst_name =3D (char *)strip_unsafe_prefix(dst_name);
-> ++	/* Skip leading "/" and past last ".." path component */
-> ++	dst_name =3D (char *)skip_unsafe_prefix(dst_name);
-> + #endif
-> + // ^^^ This may be a problem if some applets do need to extract absolut=
-e names.
-> + // (Probably will need to invent ARCHIVE_ALLOW_UNSAFE_NAME flag).
-> +@@ -185,8 +185,7 @@ void FAST_FUNC data_extract_all(archive_handle_t *ar=
-chive_handle)
-> +=20
-> + 		/* To avoid a directory traversal attack via symlinks,
-> + 		 * do not restore symlinks with ".." components
-> +-		 * or symlinks starting with "/", unless a magic
-> +-		 * envvar is set.
-> ++		 * or symlinks starting with "/"
-> + 		 *
-> + 		 * For example, consider a .tar created via:
-> + 		 *  $ tar cvf bug.tar anything.txt
-> +diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/=
-get_header_tar.c
-> +index d26868b..dc0f7e0 100644
-> +--- a/archival/libarchive/get_header_tar.c
-> ++++ b/archival/libarchive/get_header_tar.c
-> +@@ -452,8 +452,15 @@ char FAST_FUNC get_header_tar(archive_handle_t *arc=
-hive_handle)
-> + #endif
-> +=20
-> + 	/* Everything up to and including last ".." component is stripped */
-> +-	overlapping_strcpy(file_header->name, strip_unsafe_prefix(file_header-=
->name));
-> +-//TODO: do the same for file_header->link_target?
-> ++	strip_unsafe_prefix(file_header->name);
-> ++	if (file_header->link_target) {
-> ++		/* GNU tar 1.34 examples:
-> ++		 * tar: Removing leading '/' from hard link targets
-> ++		 * tar: Removing leading '../' from hard link targets
-> ++		 * tar: Removing leading 'etc/../' from hard link targets
-> ++		 */
-> ++		strip_unsafe_prefix(file_header->link_target);
-> ++	}
-> +=20
-> + 	/* Strip trailing '/' in directories */
-> + 	/* Must be done after mode is set as '/' is used to check if it's a di=
-rectory */
-> +diff --git a/archival/libarchive/unsafe_prefix.c b/archival/libarchive/u=
-nsafe_prefix.c
-> +index 6670811..89a371a 100644
-> +--- a/archival/libarchive/unsafe_prefix.c
-> ++++ b/archival/libarchive/unsafe_prefix.c
-> +@@ -5,11 +5,11 @@
-> + #include "libbb.h"
-> + #include "bb_archive.h"
-> +=20
-> +-const char* FAST_FUNC strip_unsafe_prefix(const char *str)
-> ++const char* FAST_FUNC skip_unsafe_prefix(const char *str)
-> + {
-> + 	const char *cp =3D str;
-> + 	while (1) {
-> +-		char *cp2;
-> ++		const char *cp2;
-> + 		if (*cp =3D=3D '/') {
-> + 			cp++;
-> + 			continue;
-> +@@ -22,10 +22,25 @@ const char* FAST_FUNC strip_unsafe_prefix(const char=
- *str)
-> + 			cp +=3D 3;
-> + 			continue;
-> + 		}
-> +-		cp2 =3D strstr(cp, "/../");
-> ++		cp2 =3D cp;
-> ++ find_dotdot:
-> ++		cp2 =3D strstr(cp2, "/..");
-> + 		if (!cp2)
-> +-			break;
-> +-		cp =3D cp2 + 4;
-> ++			break; /* No (more) malicious components */
-> ++
-> ++		/* We found "/..something" */
-> ++		cp2 +=3D 3;
-> ++		if (*cp2 !=3D '/') {
-> ++			if (*cp2 =3D=3D '\0') {
-> ++				/* Trailing "/..": malicious, return "" */
-> ++				/* (causes harmless errors trying to create or hardlink a file name=
-d "") */
-> ++				return cp2;
-> ++			}
-> ++			/* "/..name" is not malicious, look for next "/.." */
-> ++			goto find_dotdot;
-> ++		}
-> ++		/* Found "/../": malicious, advance past it */
-> ++		cp =3D cp2 + 1;
-> + 	}
-> + 	if (cp !=3D str) {
-> + 		static smallint warned =3D 0;
-> +@@ -37,3 +52,8 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *=
-str)
-> + 	}
-> + 	return cp;
-> + }
-> ++
-> ++void FAST_FUNC strip_unsafe_prefix(char *str)
-> ++{
-> ++	overlapping_strcpy(str, skip_unsafe_prefix(str));
-> ++}
-> +diff --git a/archival/libarchive/unsafe_symlink_target.c b/archival/liba=
-rchive/unsafe_symlink_target.c
-> +index f8dc803..d764c89 100644
-> +--- a/archival/libarchive/unsafe_symlink_target.c
-> ++++ b/archival/libarchive/unsafe_symlink_target.c
-> +@@ -36,6 +36,7 @@ void FAST_FUNC create_links_from_list(llist_t *list)
-> + 				*list->data ? "hard" : "sym",
-> + 				list->data + 1, target
-> + 			);
-> ++			/* Note: GNU tar 1.34 errors out only _after_ all links are (attempt=
-ed to be) created */
-> + 		}
-> + 		list =3D list->link;
-> + 	}
-> +diff --git a/archival/tar.c b/archival/tar.c
-> +index 9de3759..cf8c2d1 100644
-> +--- a/archival/tar.c
-> ++++ b/archival/tar.c
-> +@@ -475,7 +475,7 @@ static int FAST_FUNC writeFileToTarball(struct recur=
-sive_state *state,
-> + 	DBG("writeFileToTarball('%s')", fileName);
-> +=20
-> + 	/* Strip leading '/' and such (must be before memorizing hardlink's na=
-me) */
-> +-	header_name =3D strip_unsafe_prefix(fileName);
-> ++	header_name =3D skip_unsafe_prefix(fileName);
-> +=20
-> + 	if (header_name[0] =3D=3D '\0')
-> + 		return TRUE;
-> +diff --git a/archival/unzip.c b/archival/unzip.c
-> +index fc92ac6..7b29d77 100644
-> +--- a/archival/unzip.c
-> ++++ b/archival/unzip.c
-> +@@ -842,7 +842,7 @@ int unzip_main(int argc, char **argv)
-> + 		unzip_skip(zip.fmt.extra_len);
-> +=20
-> + 		/* Guard against "/abspath", "/../" and similar attacks */
-> +-		overlapping_strcpy(dst_fn, strip_unsafe_prefix(dst_fn));
-> ++		strip_unsafe_prefix(dst_fn);
-> +=20
-> + 		/* Filter zip entries */
-> + 		if (find_list_entry(zreject, dst_fn)
-> +diff --git a/include/bb_archive.h b/include/bb_archive.h
-> +index e0ef8fc..1dc77f3 100644
-> +--- a/include/bb_archive.h
-> ++++ b/include/bb_archive.h
-> +@@ -202,7 +202,8 @@ char get_header_tar_xz(archive_handle_t *archive_han=
-dle) FAST_FUNC;
-> + void seek_by_jump(int fd, off_t amount) FAST_FUNC;
-> + void seek_by_read(int fd, off_t amount) FAST_FUNC;
-> +=20
-> +-const char *strip_unsafe_prefix(const char *str) FAST_FUNC;
-> ++const char *skip_unsafe_prefix(const char *str) FAST_FUNC;
-> ++void strip_unsafe_prefix(char *str) FAST_FUNC;
-> + void create_or_remember_link(llist_t **link_placeholders,
-> + 		const char *target,
-> + 		const char *linkname,
-> +--=20
-> +2.50.1
-> +
-> diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-c=
-ore/busybox/busybox_1.35.0.bb
-> index 0b5ac220f5..bb07502ccc 100644
-> --- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
-> @@ -62,6 +62,8 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${PV=
-}.tar.bz2;name=3Dtarball \
->             file://CVE-2025-46394-01.patch \
->             file://CVE-2025-46394-02.patch \
->             file://CVE-2025-60876.patch \
-> +           file://CVE-2026-26157-CVE-2026-26158-01.patch \
-> +           file://CVE-2026-26157-CVE-2026-26158-02.patch \
->             "
->  SRC_URI:append:libc-musl =3D " file://musl.cfg "
-> =20
-
-Hi Hitendra,
-
-I'm working with Yoann, helping him to support the maintenance of=20
-the stable branches.
-
-Thanks for the patch. Indeed, since the Busybox CVE handling is indeed slow=
-,=20
-following Debian is acceptable. However, there are a few issues that need t=
-o=20
-be addressed before this can be merged:
-
-In the patch metadata (Upstream-Status / Backport):
-- Source URL: Please use the official upstream repository (git.busybox.net,=
-=20
-which I'm aware is littlebit downish) instead of the GitHub mirror.
-- Commit Reference: The Debian patches you cited do not actually backport=
-=20
-the commit 3fb6b31c716669e12f75a2accd31bb7685b1a1cb as claimed in the statu=
-s.=20
-Seems that the first one is actually a backport of=20
-599f5dd8fac390c18b79cba4c14c334957605dae, recently merged in busybox master=
-.
-
-Please clarify the "Upstream-Status" to reflect exactly=20
-what these patches represent.
-
-The first patch (01.patch) fails to apply on the current Kirkstone=20
-busybox_1.35.0 recipe:
-
-ERROR: busybox-1.35.0-r0 do_patch:=20
-Applying patch 'CVE-2026-26157-CVE-2026-26158-01.patch'
-patching file archival/libarchive/get_header_tar.c
-Hunk #1 FAILED at 453.
-1 out of 1 hunk FAILED -- rejects in file archival/libarchive/get_header_ta=
-r.c
-
-Please ensure the patches are rebased and tested against=20
-the kirkstone branch of openembedded-core.
-
-Best regards,
-
---=20
-Fabien Thomas
-Smile ECS
-
+DQoNCj4gT24gMTIgTWFyIDIwMjYsIGF0IDA4OjI1LCBTb25nLCBKaWF5aW5nIChDTikgdmlhIGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcgPEppYXlpbmcuU29uZy5DTj13aW5kcml2ZXIuY29tQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0KPiAtTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+TElDRU5TRTttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMiDQo+ICtMSUNfRklM
+RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT00YmY2NjFjMWUzNzkzZTU1YzhkMTA1MWJj
+NWUwYWUyMeKAnQ0KDQpDYW4geW91IGFkZCBhIExpY2Vuc2UtVXBkYXRlOiB0YWcgZXhwbGFpbmlu
+ZyB3aHkgdGhlIGxpY2Vuc2UgY2hlY2tzdW0gY2hhbmdlZD8NCg0KVGhhbmtzLA0KUm9zcw0KDQo=
 
