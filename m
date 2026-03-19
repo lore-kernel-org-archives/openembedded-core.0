@@ -1,128 +1,136 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A08108E1FC
-	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 12:03:07 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9448.1773921778036204471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67533108E1FD
+	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 12:03:47 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9380.1773921818226380805
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Mar 2026 05:02:59 -0700
+ Thu, 19 Mar 2026 05:03:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=Qk1g8Ern;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=ji/i0AwV;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 9A28CC5507B;
-	Thu, 19 Mar 2026 12:03:20 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id B92101A2E2D;
+	Thu, 19 Mar 2026 12:03:35 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A7BB25FDEB;
-	Thu, 19 Mar 2026 12:02:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AF34310450700;
-	Thu, 19 Mar 2026 13:02:53 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8E2415FDEB;
+	Thu, 19 Mar 2026 12:03:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EE3C410450703;
+	Thu, 19 Mar 2026 13:03:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773921774; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1773921814; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=2gQ/1TtXMRAaifZ/pJWZFHWChLq8RgDOEsGo2C/hmtk=;
-	b=Qk1g8ErnPDxCxTyvI+M6XXxDw7g9PNZp3xqL1bKesarSHvQ+PI+ZwVCrmYpWA69OnBiU0X
-	touO5H0YAFJ6j/qQ9HRZZEm3Kln4TZ4b7zhRCJkvSMR31ynSPBhlYXslpG2xCxHGBYDczt
-	KzGdgBK2nd7UTgIwj9uOQTOtSRkQFf6SMxrfRGyo20hT26aK1JSV3a/IjsHR6JGzfYwqpP
-	vtILKMe+l95xKgK5refTUdYZimFGQQkGPTCpBb/gsuPxlRAj743tSQXSfw7/10yZsea86j
-	gNivVvyCtp6EDu6uXzpw/h/Dg6zwonTfT1zII0fe0xW8wH1si85K+h0bdGkJ7A==
-Mime-Version: 1.0
+	bh=Yl5/EsL1kfqTGk9kv9yAE5EQaaoziLyWL9NnX+MDsW0=;
+	b=ji/i0AwVNRjnuW6acfLhFRr8V6QgOpajX41hmdv2Yk2AGQ/HIXeP5h3F5s7r6iWIuC0znX
+	+exGeBdkXM2HQ/smwkKAWowHdphJMz250+K6s68zv710iRi5h1fUO3x3yTGkCBcnmNXARA
+	h5gZvLnMkahAS4aX/1ie+usU4gwDpG9ZAgedQLX824Du/j6FenLxXxrNuQ4x49RP3axXHz
+	8tbHR5Id5ESr7I/pAjj039y814TqRqKiMQ+USKerIPWJoUXdGBnn8c+ldfOjJtUES1CFje
+	OfuyqmpUmjTDYeRWiJD87UFOOl7jPQTB/kbXSciraD2a4XcuhIIfE7v23PoxPg==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Richard Purdie <richard.purdie@linuxfoundation.org>, ross.burton@arm.com,
+ peter.marko@siemens.com, jpewhacker@gmail.com, olivier.benjamin@bootlin.com,
+ antonin.godard@bootlin.com, mathieu.dubois-briand@bootlin.com,
+ thomas.petazzoni@bootlin.com
+Subject: 
+ Re: [OE-core] [PATCH RFC 0/2] sbom-cve-check: Download CVE DB using BitBake
+ fetcher
+Date: Thu, 19 Mar 2026 13:03:31 +0100
+Message-ID: <2323982.Icojqenx9y@brobin-bootlin>
+In-Reply-To: 
+ <CAApg2=SpoAyoJrwL_f6jfX5Putwj_dzeYH1FnBnqJQOsKSQbGQ@mail.gmail.com>
+References: 
+ <20260309-add-sbom-cve-check-p2b-v1-0-09165cddfcf1@bootlin.com>
+ <2750263.Lt9SDvczpP@brobin-bootlin>
+ <CAApg2=SpoAyoJrwL_f6jfX5Putwj_dzeYH1FnBnqJQOsKSQbGQ@mail.gmail.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Mar 2026 13:02:53 +0100
-Message-Id: <DH6QSCE6R82T.2WO56HSJAI76G@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Joshua Watt" <jpewhacker@gmail.com>,
- <openembedded-core@lists.openembedded.org>, "Stefano Tondo"
- <stondo@gmail.com>
-Subject: Re: [OE-core][PATCH v7 00/12] Add SPDX 3 Recipe Information
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260310184058.533343-1-JPEWhacker@gmail.com>
- <20260318134655.953233-1-JPEWhacker@gmail.com>
- <CAJdd5GZUvWKb37Ys-dNjOShHYb0Gis9wU3Q2WkdA2_m6xoLdhQ@mail.gmail.com>
- <DH6KHVSGCDH0.DZ1GQQ228GWT@bootlin.com>
-In-Reply-To: <DH6KHVSGCDH0.DZ1GQQ228GWT@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 12:03:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233524
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 12:03:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233525
 
-On Thu Mar 19, 2026 at 8:07 AM CET, Mathieu Dubois-Briand wrote:
-> On Wed Mar 18, 2026 at 2:49 PM CET, Joshua Watt wrote:
->> Mathieu,
->>
->> Here is my latest SPDX patch set (finally!). I'm sorry for the delay
->> and the mix up with Stefano's patches. I believe that you can now
->> stack Stefanos patches on top of mine and everything should be OK
->>
->> Thank you,
->> Joshua
->>
->
-> Thanks!
->
-> I did apply this series, but got some conflicts. I did try to solve
-> them, but I might have solved them wrong.
->
-> For reference, the result is here:
->
-> https://git.yoctoproject.org/poky-ci-archive/log/?h=3Doecore/autobuilder.=
-yoctoproject.org/valkyrie/a-full-3456
->
-> So with this, I've got a few issues. First an error appearing in various
-> builds:
->
-> ERROR: buildtools-tarball-1.0-r0 do_create_spdx: Could not find a static =
-SPDX document named static-buildtools-tarball
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/3422
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/36/builds/3405
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/3422
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/3422
->
-> And still some selftest failures:
->
-> 2026-03-18 21:56:34,082 - oe-selftest - INFO - runtime_test.TestExport.te=
-st_testexport_sdk (subunit.RemotedTestCase)
-> 2026-03-18 21:56:34,083 - oe-selftest - INFO -  ... FAIL
-> ...
-> 2026-03-18 22:25:15,422 - oe-selftest - INFO - spdx.SPDX30Check.test_down=
-load_location_defensive_handling (subunit.RemotedTestCase)
-> 2026-03-18 22:25:15,422 - oe-selftest - INFO -  ... FAIL
-> ...
-> 2026-03-18 23:06:54,297 - oe-selftest - INFO - spdx.SPDX30Check.test_vers=
-ion_extraction_patterns (subunit.RemotedTestCase)
-> 2026-03-18 23:06:54,297 - oe-selftest - INFO -  ... FAIL
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3462
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3568
->
-> I will probably launch a build with this series alone a bit later today,
-> to distinguish what comes from this series and what comes from the
-> combination.
->
-> Thank,
-> Mathieu
+On Thursday, March 19, 2026 at 1:00=E2=80=AFPM, Marta Rybczynska wrote:
+> On Thu, Mar 19, 2026 at 10:48=E2=80=AFAM Benjamin Robin <benjamin.robin@b=
+ootlin.com>
+> wrote:
+>=20
+> > Hello Marta,
+> >
+> > On Thursday, March 19, 2026 at 9:58=E2=80=AFAM, Marta Rybczynska wrote:
+> > > On Thu, Mar 19, 2026 at 9:45=E2=80=AFAM Benjamin Robin via
+> > lists.openembedded.org
+> > > <benjamin.robin=3Dbootlin.com@lists.openembedded.org> wrote:
+> >
+> > > > I have just a slight implementation "detail" if we are using BitBake
+> > > > fetcher. What is the license that we should use for the sources?
+> > > > How to declare that in the recipes?
+> > > >
+> > > > Because the license of the repositories:
+> > > >  - https://github.com/CVEProject/cvelistV5 : Their is none
+> > > >  - https://github.com/fkie-cad/nvd-json-data-feeds/tree/main/LICENS=
+ES
+> > > >    It looks like custom license.
+> >
+> > > The CVE project repo does not have a licence included, but it is cove=
+red
+> > by
+> > > https://www.cve.org/legal/termsofuse (the usage part). It is basically
+> > MIT.
+> > >
+> > > NVD has the specific,  licence, the one that is in the repo. A warnin=
+g on
+> > > the
+> > > needed disclosure sentence in all documentation.
+> >
+> > So for you, it is fine to declare that the CVE databases are MIT?
+> >
+>=20
+> CVE database is MIT
+> NVD (so also FKIE) is custom
 
-So I did launch some build with this series applied on top of master,
-and we basically have the same errors:
+NVD license is apparently "cve-tou" which is available in Yocto.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/36/builds/3410
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/3389
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3467
-The last one is still building right now, but we do see some errors
-already.
+> >
+> > > AUTOREV isn't great here because it will re-fetch for each build. So =
+if
+> > > you're
+> > > building multiple images or platforms (in CI or so), you will get
+> > > potentially different
+> > > results. cve-check has a set of variable to handle such use cases. You
+> > pin
+> > > to one specific release and do the whole checking with one single com=
+mon
+> > > version.
+> >
+> > Yes, that is why I initially pushed to use my custom fetcher that is
+> > doing a git pull / shallow clone. With this fetcher I have a full contr=
+ol
+> > on the update period.
+> >
+> > But if we want to use BitBake fetcher, an user could pin to a specific
+> > version instead of using AUTOREV. But the user needs to to that manuall=
+y.
+> >
+> >
+> I agree with Richard that using a git fetcher (or other existing fetcher)
+> is a better
+> idea than developing a custom fetcher.
 
-Thanks,
-Mathieu
+I am preparing a v5 of the patch series based on this RFC series, which is
+going to use the BitBake fetcher.
 
---=20
-Mathieu Dubois-Briand, Bootlin
+=2D-=20
+Benjamin Robin, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
+
+
 
 
