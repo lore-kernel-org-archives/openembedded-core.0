@@ -1,152 +1,169 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C99CA108E1E9
-	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 11:06:06 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8572.1773918357995823660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E083A108E1EC
+	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 11:20:56 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.60])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8664.1773919250316567824
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Mar 2026 04:05:58 -0700
+ Thu, 19 Mar 2026 04:20:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=WzVy0aKx;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=WzVy0aKx;
- spf=pass (domain: arm.com, ip: 40.107.130.41, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=nwOS6Ldf7NQRrZaZWBvBzYiEgNZHvY6pkDAtzLnkuwZ6BGf3c7nUTMcpHFt63WXIHZ+e2VutPz21IhJYiEHHqs0RpCR7vm/txtVvHvPDHgnhtn/jYU1O3D2y/SHrGQv8JdTU/WrO19lVExcHG56ATbQonghA9HYhyeSNtOlSYBHTAuH6+wYuxMyoj5+Tnxe5g86PpdnQ8NTRn46J2/tqM9BaR3OyXjdSRcK/mLPB0KIGFJdlH3th978Dd+486fu+e5TVN/6SjsN9Q58FBuUHGqysWffuXPv62L0nlIVueNTGwK12BWODtu0U3LX3DIaxuInjXeoph37UNWjtOdU3Jg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BzODX4ahHIQATP5mkcYVTCop1Pwae1lZ6jiSrTfSgfs=;
- b=NRqT6NtdraGuL7UcM+EfhpiVb3bIAjJ3ze/9L2I5k+nL31uOMckmn0S5hjsr66VcWBO80nE2tc3sRUp/2rUc2cBoi3XI95fYe+ZqiXnInzYCk2Cf06TmtYMx0UnIBVu/MjO9c1PhBPYWe9TdygRcmg3yr5RXqdejA6h+xNzMURAsDaFO49dUsHKZowLszzn5xjiEGAmubMwZWRy1CbycRKEjk1mMxxpL/KjMGATpZBT6RNh4OhmpN1I4si7ABUYHdsiePeS90ibaLA/o9w4RqDAitv4JkU8K++zqfy/kkihfcDyipMQQ6NOWOVz1mYgSqhVJn2L6cYS390bwpljw0Q==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BzODX4ahHIQATP5mkcYVTCop1Pwae1lZ6jiSrTfSgfs=;
- b=WzVy0aKxRFzZ5dQz6/w+j+LQpub+8cqw/hD2E7xJqVzwqDsjdXk5jk5NNSsN2WgNMnsVILOjckwaPe7ILB8hbKsWyQHL21mVM4F5ASElhIaJ+Gggkm9j2lPSPc7U99/ec9HbibEX+6egNKBFo7LrBqzoRxhqRZKG8tszWMZtuD4=
-Received: from DUZPR01CA0299.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b7::10) by AS8PR08MB6007.eurprd08.prod.outlook.com
- (2603:10a6:20b:29e::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
- 2026 11:05:52 +0000
-Received: from DB1PEPF00050A00.eurprd03.prod.outlook.com
- (2603:10a6:10:4b7:cafe::7b) by DUZPR01CA0299.outlook.office365.com
- (2603:10a6:10:4b7::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.27 via Frontend Transport; Thu,
- 19 Mar 2026 11:05:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB1PEPF00050A00.mail.protection.outlook.com (10.167.242.42) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.19
- via Frontend Transport; Thu, 19 Mar 2026 11:05:51 +0000
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=dh+JNzXU;
+ spf=pass (domain: siemens.com, ip: 52.101.70.60, mailfrom: peter.marko@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ir0BAFrr//lipjpFuXobs0mX7Gx5vW3jPFB4HyPw/KZKjU0tQG8Kr8l5zBXi0WNX6FAchthKFH9RqbEVxQ4KEwl4pAIc94EEvM2keNAucLcpMPNfMoX1lsHhue9PmbOf/qGLQrCgCpw1jcQHl4OUHHP9RF6mo2w/mG2gltvA1LEVlPfCVO9/oCViaRllI5wDkuEhwO89dpTHH2z2ykHxsf0zE4ab3y98HkacemUM1+NWXNBNplLPm4+uP8Rv63G4pmjjdL1tX+c4oihd9NGhDEY1vnDzeyZ829t4nzLqBJZ73GFG7zDGnw9JNCXxeeqb8TVwSTczCP3xdAbsyOhM7w==
+ b=fAx6JKlr90osJIxGOJH2inhTDC27/0ipc5YsQeLaOMsWM7GCSKaKC6u8bae19lrf0gH1IVXwiSPChQ16q7lbmd/HSFoTfdUwmPWm16ILIY9mTzUw6IINdtrJeJdOcCrdnJztg6zmB2f30Gbo7y9/Cl8QgO2Phyh9CCvSaFuaVeE1PmouQu/33uXkVqGWjeTek6LU7Y+TsbfzQ3uRy4vqgcsdfOkjzl06ROXxrUTewMByeyop0QdHW5YuMo66GbU2mCMwsWaAAC2xCXD8vo5kdwYMtOlbHCTvQRgXKvgl6Qts90hW2M4QMgv0pkQlmz5pwXu4Dhkt56g0CUDTH39v+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BzODX4ahHIQATP5mkcYVTCop1Pwae1lZ6jiSrTfSgfs=;
- b=kqr38Lv4bFIrKOnw+8gxdGn4clWRH5M0J3dx61n55GAns6AYSGocm+tmDMQwIqcizoeCXk4VWqQuqXIv5fDSPN190s878/u0v8a2Lpe/H0hID4G404LLu+LTE4Bj1iUtJrWhYr1gkZGBXA8hPYRQlONZKVEJ4RgfROiWybfw2djnRivhxZ5MaOjkGmf3oI5NKVKlXQRN5OyGuBdsQDoIXUtRG4wAWm4iNk/CJUcabU6RHzZnvSnYP4U/BR7AkgWvcM4eA83LB+HCmoZdu98LybRYs2PoO9leDJqPxPE7/EnGdRywNMOY0Gv+8Wa3YTxsNJ6GhM7/hQr5TcdnOO8Fcg==
+ bh=A5E9RcyFmW+VXqS2Cu2zmnlxYLQ3lEr42imW77bMrl0=;
+ b=Stez7QSqopxjJ1FmbVbKhaUzpurvz80HZA4UqFXumvR5ofQmkIUs4BUTFHxy02Dz2Uv+SCP3hHp9jOc2XlLs3M8YYOKwbIjEBcnfHif3aMwM2oNNlSXb92EvJD/PJRio7SgjXuO174SCLAS4amzSGgyJt0oIgBsGTM4+EE0WCTWkdl22wK3gsuvnOzvcsuhgJUeVJCBHHtkTZlLfy2ZKB3YVTrQERquxYl0FqH440CVQaVGAdsIXk0QmCwdzI1xWY+aOFGtA69mFg6GIZA6ka/beUKF91KXT387YOhgsFrNKlENo8ETXs4r4QvVcCZbLJhGoMJ1fpPp8Q3pyEWybgA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BzODX4ahHIQATP5mkcYVTCop1Pwae1lZ6jiSrTfSgfs=;
- b=WzVy0aKxRFzZ5dQz6/w+j+LQpub+8cqw/hD2E7xJqVzwqDsjdXk5jk5NNSsN2WgNMnsVILOjckwaPe7ILB8hbKsWyQHL21mVM4F5ASElhIaJ+Gggkm9j2lPSPc7U99/ec9HbibEX+6egNKBFo7LrBqzoRxhqRZKG8tszWMZtuD4=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS8PR08MB6118.eurprd08.prod.outlook.com (2603:10a6:20b:29b::23) with
+ bh=A5E9RcyFmW+VXqS2Cu2zmnlxYLQ3lEr42imW77bMrl0=;
+ b=dh+JNzXULo3ZVDWLprhnkzFFVq8jnsr6Xa1Yd9H+k5G3dGxziykxsfh0aiy1MyTT2vK6su1lsqUAYkNFDgd0WezTId1PoWUsGa0xwUzDn7D20lByXucxqfOQafH1keU3jIfdHge3J7piBDPGL3daoQpFGe9jsCwvT0Z7y9ySprHZZ8CWruoeWKA9cilmOax+eHRT0Q25RWfUoAgdJKXme2uM056hDol9d2JmOWt+y/ql14u9jCMfDXHFIxINVqyZMeMR/MSFA+EOc5R5v9wJTIcVR1BknOwg7gViM8VFSgBAV+R/SLAFyWOmBHlj4hcIbfMFdodLtzW6Hqq2V9Pq7A==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by GV1PR10MB6371.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:a4::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
- 2026 11:04:46 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
- 11:04:46 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "Jiaying.Song.CN@windriver.com" <Jiaying.Song.CN@windriver.com>
-CC: "openembedded-core@lists.openembedded.org"
+ 2026 11:20:43 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7%6]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
+ 11:20:43 +0000
+From: "Marko, Peter (FT D EU SK BFS1)" <Peter.Marko@siemens.com>
+To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] python3-chardet: upgrade 5.2.0 -> 6.0.0.post1
-Thread-Topic: [OE-core] [PATCH] python3-chardet: upgrade 5.2.0 -> 6.0.0.post1
-Thread-Index: AQHcsfnITwj1TwpKYkmOKbUsFcDE5LW1vGOA
-Date: Thu, 19 Mar 2026 11:04:46 +0000
-Message-ID: <856576AF-E10D-4997-963B-7B8691D0CC5B@arm.com>
-References: <20260312082515.4074831-1-jiaying.song.cn@windriver.com>
-In-Reply-To: <20260312082515.4074831-1-jiaying.song.cn@windriver.com>
-Accept-Language: en-GB, en-US
+Subject: RE: [OE-core] [PATCH 24/40] openssl: upgrade 3.5.5 -> 3.6.1
+Thread-Topic: [OE-core] [PATCH 24/40] openssl: upgrade 3.5.5 -> 3.6.1
+Thread-Index: AQHct4rPgjuB7ARMvUm+6imbGAcw07W1tPZw
+Date: Thu, 19 Mar 2026 11:20:43 +0000
+Message-ID: 
+ <AS1PR10MB56977E701E7010126EF9EC52FD4FA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260319101332.2067-1-wangmy@fujitsu.com>
+ <20260319101332.2067-24-wangmy@fujitsu.com>
+In-Reply-To: <20260319101332.2067-24-wangmy@fujitsu.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.4)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS8PR08MB6118:EE_|DB1PEPF00050A00:EE_|AS8PR08MB6007:EE_
-X-MS-Office365-Filtering-Correlation-Id: f083b053-fca3-4e84-1812-08de85a77bb4
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info-Original: 
- ulML25QKl1QXKBJPF8BHBt449YU4KOtqxFiBT9AKhEJWpjt7KKg9R0jSF5f3FGr/RF92rIhXdn9KBnXnf23zOrx8yMT0agrGU2XmNoeMuRt6QkldRO5n9E0R1ShkwtDquCFYOsaouk8Sdf6oF7g09EoKgLdKmw1dHDeiACzRPIFd0ixM73ai0YwMDeIVfz5m4jFqlABc51mvY8ocEultncmPOswEuiwNRPWWcXqgUOpP5f8TDHiZP5A+F9beaKk5zKj+Ca36bTHHVyrdxCJIFIf6IjlqjOWKFOsQ3GGIMEn4obFJebrLBcO7m48YftpIQZO/sB9T2JfyjJl90e12t9LXkT/g6v40FSRsWarwg1hT5Bic628zUfPnGlfpXrIgNSPlIkldd4E8tPqbwK/4z538LdfBenY6AaUnUzHooSqAzSyamzEKcX60U6RNrEGTEXu27rYl96m/txzTym9SDxJrir5PmCIHuhuPCz5ZZRLqYoUcqLpK8vXQ7tNCH11cBXEXTWCCHlHFhMETzFSEI/+eik9+S2NkOQ5vSxglTsv8/YDQzTwFysd67FezN9tbrDDjQxepQJfou3CSzlijjNFr458k25UFgkqnOY2ghztzLpQk3ZB72xmTAb4D6cT6z3vG5mVk1yvBmR922xLYAjG3y7EBeieZq19L5ksZS+FurvuWeYYY+vjfHAmKfwE/RusUPceHuBnAXJXZ2HYjHAubJpYBeCJRFvgqrFJNyieHEZdxNwertsWu+r4DbSBH//fC5jkhM+KVun58LA/dV3pntSblJ7eEVjtJpDgowj0=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FFB6DE1BA6156D438F2CC35D3148C81E@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=9feeacdb-a837-422b-8f76-7bef960a7de0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-03-19T11:17:50Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB6371:EE_
+x-ms-office365-filtering-correlation-id: 53000dd0-9d8c-4198-15cd-08de85a98f47
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|18002099003|56012099003|55112099003|22082099003|38070700021;
+x-microsoft-antispam-message-info: 
+ IP0gZyxRMxAIii5fImE6Tl4TSocHWicHTK1nfo4N5H+1OHuQeIcv1EhIsetJNAuw3hzaFTC0FET8STmNOAXc8dBlrOcXOPI512akLYDAcw1I0TUFwPW2vF2h3b3a+JBtjefE9XtTzPyNWhP420F3wUVBFYh6rXQEWOwNu3ctgwXK8P89HABevCQkaFgFMx/OaRI1oAgeEXdxVW+oxZPcMBQEFrvNlVXPz8dEJk0bIREXN8WwiOla9hpUiv2jTfuveAubIMPstU54cOW0DISvec7AzRl1V2BtEQ2JWqv3NMgaJ9Kr+aQVaYiLdxKCLM8wmcx+h40cO8jf4UiKbpHLSTwBr3XRxpGmmHVCzfM0BqztMMdQ2UfllZosNDAtgvMIKCFGsQIBmGDPcZvE0/899drK/boQ6z8og7uYM9qCZ+Ug6+0cIYJHf3uuxFQkCC6ZONtTe2fXVN+1GaIJedhJern3Crm5VntBxZWU1Q2y4NGXOn5Qjh0DJxeP9s0p9iZeDA/q8JgjIKtxfaLjSei8Q+KIRAhmfNbeuOX31Vbo9PJeVEqHlEOuV9w5rmh2YKlXk/ORURKtXy9LxxlOY9p4ayJM01R2J0hJCg3eNI/IxWCKSY0e1ZSSfEZVnb5qzQ/E1reayqGmArdKnAgCf0z+H6CNkVF3qhEhdA4FKvrl5FEOYB8QlA/yvKZkcB4SBg2McBrQo5USLQt4RuehZInwNCrEzOd/xnXj3Mv8G99eCTdM9RBz4aV029Fx4gbBcXwA2afSfAuRHZ3NySKiejTb7XMWTzS8eurAOKyY7K9j0rQ=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(18002099003)(56012099003)(55112099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?GiSjW79QTF/binKHzB1uIKPFK3Q+Z8CRHTXqxHF1B2qLl/oE6JJYRVPkbte0?=
+ =?us-ascii?Q?zx5VVG01ydeYRdxN9i8XXfrGbIu0aRKbLCE+Q1b9S5/X/ozj0WImlQkf5PkC?=
+ =?us-ascii?Q?/bK3HP3pJMAR9hbz636kFYkhxqnVbS4UpaqDWrne7dUVqJhdMAH5MXDe17qM?=
+ =?us-ascii?Q?I6rmfLlHclYIF+ua72T02BSv/PmKPkY86ct4SbQ3TVuzPCmmTM4bKsxsoJ8+?=
+ =?us-ascii?Q?tt0MnJh4MkaL0ELaP9djhYQXR804dd++Na0fgLKjLx7+RkaRtEndV4m2ZISk?=
+ =?us-ascii?Q?dp/LL66FkS4OoCy9D9MyVjuz8pWkBZkbm+ocz9i0k/hkjkQ5Ky8HMYI3cuNB?=
+ =?us-ascii?Q?u+dXKaAygnEg+93CAcI5x2lHzuQD1ofFFWpYUQerXAgmypMq9TllzKah/wtH?=
+ =?us-ascii?Q?3wZF8feIsEIKIIviwt4UUKAeLLRnu/iS2rF+x5Z5DuEpjSmVc6zNI7tQAlQ+?=
+ =?us-ascii?Q?jMkoTXTV2YXsBTFXVJ4weHnza26zXm1b8C88+8UQQKcdvXDlLD8LRZUmXdSn?=
+ =?us-ascii?Q?lqIQ93aSMo8h1iN1NjZZat/QkxJ3j2K16lhB9u/R6mjMwKdI1RFmXkIYajDi?=
+ =?us-ascii?Q?twIblKG3HDw/LGolw/tLddGHEyxxilCboPuDg+Sblm+SDrCYqYtBbmU6UhyP?=
+ =?us-ascii?Q?zcpP1mzkIGIG7eXOeD7tH3z4X/flimsbP+H9x21EFdtjao2ANH6qusZ0u2kV?=
+ =?us-ascii?Q?cR3MNLWpc6mqLLPfwvUeeWnVFm/m3yQ3llKrij1eqxlg+2Kv+5pc/hzKHXHj?=
+ =?us-ascii?Q?hyAUv7UdvkU7jOxRMAoP3CX2tvsihwhDgPrwtv51e4SHpXr4BvdUEiFPDi1p?=
+ =?us-ascii?Q?cp1MSVV9XwIsLMpz1WbA2vPMzI9vPJsPctoXEPcvkORaUuf7Qa+oMo5WgDKF?=
+ =?us-ascii?Q?oY4Ve7Kd9r2isQJZ4nchXnInVj2gGqUvN8HinTetwojq+5j5IeKPrg0qv2BO?=
+ =?us-ascii?Q?RKifB8A3RfQ/XOITsK/7pFPf+KWbTgHCihN3bHx/u1GHdNKVMH9ueVTMCl+F?=
+ =?us-ascii?Q?3fjQJlSU8PAA5nKjftyM/EkDnAKLsh06k9YFTa9GU0SMKyJdC+4UYeYK9FbO?=
+ =?us-ascii?Q?iIxOk2BV22fmEwtn2izkiyZ1gq9rpnFQhKj60Rry+5sh8/NokcXjJMjlkT1s?=
+ =?us-ascii?Q?jF+N14pmWhxQlCl+wzROGE2uPCOYNKMwjEGHTFwCSpcCPBOaPuhKBq4USx9n?=
+ =?us-ascii?Q?VxOTuLMdzpqYVHrwgK3mM7zis6bhPZAX+i6wMTFxJYqoNLR0UdGVrEaXuucY?=
+ =?us-ascii?Q?Fi0ekYgTlaEhGtDBDJp/rfDep0jXx7ea7jCr8Hact3LUHSy2SQ1SmRpl/dqz?=
+ =?us-ascii?Q?GIazWe3iLRF7YGe2XNON2I991PHtCukfKzHdQ6nNhKcPNvXWw8fAP/0rb+I/?=
+ =?us-ascii?Q?AcQwvlRfBIWzfsdnLYfTm4u6Ox0QbRoBaFwZDJsTmtxHtMvwWKJcULboiHRK?=
+ =?us-ascii?Q?tyMySH5eHpCzDqV6Wa4V/xWyBpq3WKyTSxP8Ol9Ys52b74AbD0ysLBJKpVW5?=
+ =?us-ascii?Q?KJwW5Jk5LsyTqHo+LlOFCKXElRdHtthWL6snz8hrHWOWdW0AHkE5v3PDo1Gy?=
+ =?us-ascii?Q?WzkaMJMC3coBJ8+J+i0BOrqQbcWTfIRF8Sh9sigITMFbXsaDAa2YHEmJxEIX?=
+ =?us-ascii?Q?77CElXGmRVccIsgIegcAlYi47xo2cHeaQag012RhxUyAMq5IECTAySqO2bZC?=
+ =?us-ascii?Q?0czahR528Y+t6iSFmuGIKSwmUDEytFnEBweuL9vm1v5CHXVIa7tFEvBENBYp?=
+ =?us-ascii?Q?ETmUbhYQbA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- pn76soWcNtiXrtO5p+4EmOsblwr5vufQpIsE20SyDrgYpYBSPwtZCxZMq8vhR4END8z/g7nnfk7i9jbgqYtTfKnasqygBFIh0xWrPdAll+jvjDeYFThywvshmZ5CSj8zY0zLPI6808S0pOYJXhhUlqqyGE9TXIi49MmpGJVY+VHVAaYykcA04lB8cpnntEY5MjwZIW3/kNq8uMuciPuIhD+eETuScirlOze1cdmU9qQTUPdw+USVKF/0afqhArIbrsIVAxEzowbSSQ5Uhe9e2qLszLisstbCHyvQW7XGUDNk8jHS6qhAvxBE+1z+KMKEX8DbG+F/+GEB/DcEyUi1qA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6118
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB1PEPF00050A00.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	90757ffa-8bc1-4bbe-a9ca-08de85a754b2
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|14060799003|376014|36860700016|35042699022|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	7PTTbRU0He2DlcGq+9dcOCisZcfauYGAFUJMbU67u8Wrldig0p6wJRznaX9NGc42b/p8zDcyk8MLRceMJNZ67mETkC0XKBq9wWeJEQYgdUZaK+JMvxxlXTLfI4GtZ8tLAPWnyx6tkZsEpXVaLDZNon1TXWAut7Sye8PIYHxafrNDy4T7ATzS+SDlwY9k1MGTJx/+YYkusL/fHNKRCjvxPkbJNn/S0kJ01Xbov+wfOStWzY1UOj1bpynFwU6MzLhpZPyF3Tl7fEWtn4w2/sC3zMWOElTHpRdopTNuybF1VCEO8s92nQ4v8gkSXDNnm1AcvMw34yG7iRYT7n7QRPrDYCNiujGcAseQBKXjXPcSiB9Zbmc46i/nVaXO3naHBWmqVoYVU+aAcsbwYFDwFwy00cng7aKK8nuBZGFLMJXVc0uG5hpPu0FnEk/P81l/y1oGs2evqCor8FxtJjhkJvGpDyBKGVxROshYPB3z7P9AKviLD3uES8S/DL/9iMZwdbgduHNAN98UOeYqVJ/X1rXRREjow5DCGnmsc7A0QaXGExfJuMXv6BoVemrmojNuwbJhNiU+13zYWqb7HPLngieQU0qSvER1w+ABpngnb8ZGf2AsdyebndpjxXamA0lm31xOj1+je6yAMouZKwS0GSW1bhvO2kiXxW81P8zUB5PxnGlrzAQGCYc4N1XJSd5kM+56zOLdEXDXuIUOfHan6knhT0xfqCVtZfrPrtF9ZnLvdmPkh8Qkg4FkCX4Txgej2AtKUwI4BWpxB5z+ZFPPROJ+8A==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(14060799003)(376014)(36860700016)(35042699022)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	zrykGztDNNMAOcMYEepjAsV0PwpXKX+jDfH+CLWDacAnq/+TvTjnCDItAPE8FnwUnSZ2v8yLo8gNYFl7ufuyoSCo1N/iZvDKIzZs+DprS01I2WMSKFm8KorMACAjdQ//TwEMyfXNRt4ZV7Oht/FNFPu0yWgeZXgCFc4N03XYHW9N+SjzPSFxZjSCDxxqHelh/6Hhe2BqwhiTOouaciWA0hBJuGbVpntEeT67GE/9o+s31FdLtKMrBrZqXtZk0HcsHUCWrsmc5JvQ6N9dXhHkLSRV9mNwBFJI9W1OaukSNd+CjZY9VxdVMhy3IgebxTn+AtCL9rNeIAEWmwgagYXwolQ055gg6BWhTPoWI1F7kaJnqIIeKpaqTRtSrXp/xshcT0O/7bp54IZhKhrDAJGHO9sSk12gIqagDITXJ9LQHReBNe5VQrcnqeYLCtsIKNnm
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 11:05:51.4158
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53000dd0-9d8c-4198-15cd-08de85a98f47
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2026 11:20:43.2811
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f083b053-fca3-4e84-1812-08de85a77bb4
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF00050A00.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6007
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: o4f48ZnpmQ8LQcaZdKdawWtRtvWU0ZUKblwfxZ7cGNtZkNnJIfyRJQCNgM8wJoYxit0uIhpADNiHTGrLyo8z9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6371
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 11:06:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233513
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 11:20:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233514
 
-DQoNCj4gT24gMTIgTWFyIDIwMjYsIGF0IDA4OjI1LCBTb25nLCBKaWF5aW5nIChDTikgdmlhIGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcgPEppYXlpbmcuU29uZy5DTj13aW5kcml2ZXIuY29tQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0KPiAtTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
-TElDRU5TRTttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMiDQo+ICtMSUNfRklM
-RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT00YmY2NjFjMWUzNzkzZTU1YzhkMTA1MWJj
-NWUwYWUyMeKAnQ0KDQpDYW4geW91IGFkZCBhIExpY2Vuc2UtVXBkYXRlOiB0YWcgZXhwbGFpbmlu
-ZyB3aHkgdGhlIGxpY2Vuc2UgY2hlY2tzdW0gY2hhbmdlZD8NCg0KVGhhbmtzLA0KUm9zcw0KDQo=
+This upgrade should not be taken before wrynose is branched-out.
+We need openssl 3.5.x which is LTS.
+
+Peter
+
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of wangmy via lists.openembedded.org
+Sent: Thursday, March 19, 2026 11:13 AM
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 24/40] openssl: upgrade 3.5.5 -> 3.6.1
+
+From: Wang Mingyu <wangmy@fujitsu.com>
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../openssl/{openssl_3.5.5.bb =3D> openssl_3.6.1.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.5.bb =3D> openssl_3.=
+6.1.bb} (99%)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.5.bb b/meta/reci=
+pes-connectivity/openssl/openssl_3.6.1.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.6.1.bb
+index 7799647415..849bfe0874 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.6.1.bb
+@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk =3D " \
+            file://environment.d-openssl.sh \
+            "
+=20
+-SRC_URI[sha256sum] =3D "b28c91532a8b65a1f983b4c28b7488174e4a01008e29ce8e69=
+bd789f28bc2a89"
++SRC_URI[sha256sum] =3D "b1bfedcd5b289ff22aee87c9d600f515767ebf45f77168cb6d=
+64f231f518a82e"
+=20
+ inherit lib_package multilib_header multilib_script ptest perlnative manpa=
+ges
+ MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
+--=20
+2.43.0
+
 
