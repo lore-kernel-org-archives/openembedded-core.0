@@ -1,223 +1,179 @@
-Return-Path: <thond2009@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 530A8107526D
-	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 07:34:54 +0000 (UTC)
-Received: from lgeamrelo12.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5755.1773905685527497941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 675831075274
+	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 07:52:24 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5899.1773906737374365061
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Mar 2026 00:34:45 -0700
+ Thu, 19 Mar 2026 00:52:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=softfail (domain: gmail.com, ip: 156.147.23.52, mailfrom: thond2009@gmail.com)
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
-	by 156.147.23.52 with ESMTP; 19 Mar 2026 16:34:43 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: thond2009@gmail.com
-Received: from unknown (HELO vsl.LGE.NET) (10.218.140.120)
-	by 156.147.1.121 with ESMTP; 19 Mar 2026 16:34:43 +0900
-X-Original-SENDERIP: 10.218.140.120
-X-Original-MAILFROM: thond2009@gmail.com
-From: thond2009@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: tho3.nguyen@lge.com
-Subject: [scarthgap][PATCH] python3-cryptography: Fix CVE-2026-26007
-Date: Thu, 19 Mar 2026 16:34:33 +0900
-Message-ID: <20260319073433.3237244-1-thond2009@gmail.com>
-X-Mailer: git-send-email 2.48.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Csf8Vw7p;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-482f454be5bso16837195e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 00:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1773906736; x=1774511536; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=AZ2ZnTygYbAkH27cFC6oDor9YRNc2Vq/R9/oegPLjPw=;
+        b=Csf8Vw7pLr3pK4CFn/O/LIGkCrrU9HByAqCHdOhYbqTYwEH92aLZsx0zzLFEEax0mD
+         V1TVE3i1A6XCCHzWElUOYgHuJMe9oUfAr4H36yOB0LlLm5H/gtDIBm9dSeNZXJ+nugu2
+         Ih+CwbEkpFnWJuVztwUvsTdWB+vo8/XK4PwmM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773906736; x=1774511536;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AZ2ZnTygYbAkH27cFC6oDor9YRNc2Vq/R9/oegPLjPw=;
+        b=f9bLZxFBGbecSunT8hPH4xBe3/cyNrQo5R0/I1eYvkbrAjhM/Zk1D/HC1Im/nNzqFr
+         R8FXU//r5JSnhlOzABvkh6Gq4yQ+FwW4+rNDeDtNsDWMaPYW+81pPtc8Z6jaPZq45wAd
+         MA+nbeDHljjYAjB8dEkvWuOCZixMjYS6Kw8oHIPaMey0gC6b7S0HnH+XRteIhfl+RuGX
+         9KDpguyru7ERo9nbpLLuE6G4wrY6zUh2sFVPq9DRxMb5XEVqBoaNJmngKPq0FtENLmMN
+         EnFmZdxS7ql8xBBBX7U8fGKm2zjGntvaldRP5nEMJ/tIPpahiDfMEjYV/Npc32QIkm41
+         2ELg==
+X-Forwarded-Encrypted: i=1; AJvYcCXfazkwATwO7xFgQflySKJv9gGejU2oVX+L0wNqRqTk4pZhtL9uxspmMg04bRFqKvXOn+6rw2ONAcZu/gdJWy4puA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxge5N6rcmzJspFnubvA4rhe9jQvLg0vm76g7YZY4wt/8mfmRVR
+	MNvtdSOYU4vVC6fBseMDCYOr8vSNgWoN5mucmLDu7dwmGydjMdfs6SGmLudgp+QUOo0=
+X-Gm-Gg: ATEYQzxmB0OPdoeH2OUaZ3BSjf670URFcPJG0iMJqYigIooeR49VTwgDrrao+6GZgOk
+	aT3lt10nvcpae9Fev8Wi0xS4xDBsQbEG4gwWrDgl5kGVwuy2lVunTgttGuogrFRDKeNOyMyTAUz
+	I9XHp1cO03kXBWr5HFu2PQjruPtGzkEcAF2fSfy9IntaaRHh9lUR2YK0qytl6CRuktr0PiqXHJ4
+	ohgsHnwQ+QAus/jEznNuAdt7S3kpDrcWA++kXNprV3n2OZI91FCfXcTQDjM6k4i8txP+y7dc4Ia
+	rKMvo4fdt0fqNTGgbQwuQJhP7PCXTAeFu6akVXJGnKuV1sx0o7WrNzdVzYdhS4vQeC0hUOR/bHd
+	wPjJwRtg46RXmur06jXDLqnoDfUjcmOUxwX4FuQXyn5P/wzd9tBWbrtSaPFZ+9PpXFE1T1hlLHd
+	mEy81lYzHxDrC9TKYyK/lHryXbkWSbiqnWsaW91pTSOn2xqZI6HzN01pxI3JET2bHwhs0Lo/X85
+	1lV0znx6XYpGUM=
+X-Received: by 2002:a05:600c:8b10:b0:486:f893:56c6 with SMTP id 5b1f17b1804b1-486f8b46651mr36993295e9.10.1773906735629;
+        Thu, 19 Mar 2026 00:52:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ff93:3918:cd96:9fb9? ([2001:8b0:aba:5f3c:ff93:3918:cd96:9fb9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8c40ccbsm80586375e9.9.2026.03.19.00.52.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 00:52:15 -0700 (PDT)
+Message-ID: <793e23609ccbbd3e139136ee8243d6ed2d116a55.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH RFC 0/2] sbom-cve-check: Download CVE DB using
+ BitBake fetcher
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: benjamin.robin@bootlin.com, openembedded-core@lists.openembedded.org, 
+	ross.burton@arm.com, peter.marko@siemens.com, jpewhacker@gmail.com, 
+	olivier.benjamin@bootlin.com, antonin.godard@bootlin.com, 
+	mathieu.dubois-briand@bootlin.com, thomas.petazzoni@bootlin.com
+Date: Thu, 19 Mar 2026 07:52:13 +0000
+In-Reply-To: <CAApg2=T6f1yQ8qQFF+V3K+0yhpZWscDUqO+pXA2MK0jik3C4Yw@mail.gmail.com>
+References: <20260309-add-sbom-cve-check-p2b-v1-0-09165cddfcf1@bootlin.com>
+	 <64a1484a196d4e9c603ec6dda598c6a8c4b91606.camel@linuxfoundation.org>
+	 <CAApg2=T6f1yQ8qQFF+V3K+0yhpZWscDUqO+pXA2MK0jik3C4Yw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 07:34:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233465
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 07:52:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233466
 
-From: Nguyen Dat Tho <tho3.nguyen@lge.com>
+On Thu, 2026-03-19 at 08:29 +0100, Marta Rybczynska wrote:
+>=20
+>=20
+> On Wed, Mar 18, 2026 at 6:45=E2=80=AFPM Richard Purdie via lists.openembe=
+dded.org <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrot=
+e:
+> > Hi,
+> >=20
+> > On Mon, 2026-03-09 at 12:57 +0100, Benjamin Robin via lists.openembedde=
+d.org wrote:
+> > > This series is an RFC and a follow-up to patch 6/6 ("Add class for
+> > > post-build CVE analysis"), which was previously discussed [1].
+> > > I have prepared two RFC series, this one and another, each exploring
+> > > different approaches to handling the download of CVE databases.
+> > >=20
+> > > I explored using BitBake's internal fetcher instead of direct Git cal=
+ls
+> > > for fetching CVE databases. However, I encountered two major issues:
+> > >=20
+> > > - No proper shallow clone support: I wanted to clone the repository
+> > > =C2=A0 without downloading the entire history (which is very large). =
+While
+> > > =C2=A0 `BB_GIT_SHALLOW` exists, it creates multiple tarballs in the d=
+ownload
+> > > =C2=A0 directory, which is inefficient for updates.
+> > >=20
+> > > =C2=A0 In this series, we are going to do a full clone of the git rep=
+ository,
+> > > =C2=A0 so this point is not going to be fixed.
+> > >=20
+> > > - Performance overhead for CVE databases deployment: The recipes
+> > > =C2=A0 downloading CVE databases must copy them to the sysroot or to =
+the
+> > > =C2=A0 deploy directory. This requires copying the extracted database=
+s
+> > > =C2=A0 multiple times, even with hard links, which is slow due to the
+> > > =C2=A0 combined size (~6 GB, ~672,000 small files).
+> > >=20
+> > > =C2=A0 In this series, we are using a custom deploy task that is goin=
+g to
+> > > =C2=A0 copy the git repository using rsync directly in the final depl=
+oy
+> > > =C2=A0 directory, by-passing all the Bitbake logic.
+> > >=20
+> > > Additionally, there's no built-in way to control the interval between
+> > > CVE database fetches: In this series, we are going to use AUTOREV,
+> > > which imply to query the git repositories for each build, to check if
+> > > there is a new git revision.
+> > >=20
+> > > Moreover, this series ensures that the CVE analysis runs only when
+> > > the original SBOM changes or when the CVE databases are updated.
+> > >=20
+> > > Upon revisiting the class and its associated recipes, I identified
+> > > several areas for improvement, which were fixed in the first commit.
+> > > This series also includes a second commit making the VEX class option=
+al
+> > > rather than mandatory.
+> > >=20
+> > > [1] https://lore.kernel.org/all/20260226-add-sbom-cve-check-v3-0-2e60=
+423f4d35@bootlin.com/
+> >=20
+> > I've just been trying to work out where we're at with this coming up to
+> > release and we need to get this resolved.
+> >=20
+> > I feel quite strongly that we need to use the fetcher for obtaining
+> > this data. "fetching" isn't trivial and is full of
+> > license/auditing/sbom issues. Making any exception to that, even for
+> > cve data tends to become problematic later.
+> >=20
+> > The existing approach was only done as it was a sqlite database and we
+> > didn't have fetcher support for such a thing. If we need to improve the
+> > git fetcher in some way to better support this use case (e.g. shallow
+> > clone update efficiency), that is something we can work on.
+> >=20
+> > As such, I was wondering if you had never versions of these patches?
+> >=20
+> > I'd note that we can't set AUTOREV by default, we'll need to specify a
+> > revision, and document how the user can enable AUTOREV in their config
+> > (maybe even a config fragment?). Whilst it is annoying to do that, it
+> > is a requirement that the system doesn't touch the network outside
+> > mirrors unless configured to.
+>=20
+>=20
+> Fetching the complete git repos has a number of problems. Why not use rel=
+ease
+> tarballs like those in=C2=A0=C2=A0https://github.com/CVEProject/cvelistV5=
+/releases ?
+> Fkie feeds also have them=C2=A0https://github.com/fkie-cad/nvd-json-data-=
+feeds/releases
 
-CVE-2026-26007 is fixed upstream in version 46.0.5.
-Our current version (42.0.5, scarthgap) is still reported as vulnerable
-by NVD.
-Backport the upstream fix to address this CVE.
+FWIW we can shallow clone git repos, it is just isn't optimal in how
+updates are handled which was Benjamin's concern as the shallow clones
+end up more like tarballs.
 
-Upstream commit:
-  https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c
+If we use the bitbake fetcher, it also makes it much easier to actually
+use tarballs directly too, since the fetcher also supports those and it
+just becomes a simple SRC_URI change.
 
-CVE report:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-26007
+Cheers,
 
-Signed-off-by: Nguyen Dat Tho <tho3.nguyen@lge.com>
----
- .../python3-cryptography/CVE-2026-26007.patch | 149 ++++++++++++++++++
- .../python/python3-cryptography_42.0.5.bb     |   1 +
- 2 files changed, 150 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
-
-diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
-new file mode 100644
-index 0000000000..a78d287ccd
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
-@@ -0,0 +1,149 @@
-+From 42c914929b52eb16421a4ef1f7e09c8f9fdab7db Mon Sep 17 00:00:00 2001
-+From: Paul Kehrer <paul.l.kehrer@gmail.com>
-+Date: Wed, 18 Mar 2026 16:01:03 +0900
-+Subject: [PATCH] EC check key on cofactor > 1
-+
-+An attacker could create a malicious public key that reveals portions of
-+your private key when using certain uncommon elliptic curves (binary
-+curves).  This version now includes additional security checks to
-+prevent this attack.  This issue only affects binary elliptic curves,
-+which are rarely used in real-world applications. Credit to **XlabAI
-+Team of Tencent Xuanwu Lab and Atuin Automated Vulnerability Discovery
-+Engine** for reporting the issue.  **CVE-2026-26007**
-+
-+This is a partial backport of upstream commit
-+0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c, to only include what's
-+relevant for CVE-2026-26007.
-+
-+CVE: CVE-2026-26007
-+
-+Origin: backport, https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c
-+Reference: https://salsa.debian.org/python-team/packages/python-cryptography/-/commit/464e7ca3b0b4493d5906d0c3685de71fda770c59
-+
-+Signed-off-by: Nguyen Dat Tho <tho3.nguyen@lge.com>
-+Signed-off-by: Paul Kehrer <paul.l.kehrer@gmail.com>
-+Co-authored-by: Alex Gaynor <alex.gaynor@gmail.com>
-+---
-+Upstream-Status: Backport [Backport from https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c]
-+
-+ src/rust/src/backend/ec.rs         | 39 ++++++++++++++++++++----------
-+ tests/hazmat/primitives/test_ec.py | 37 ++++++++++++++++++++++++++++
-+ 2 files changed, 63 insertions(+), 13 deletions(-)
-+
-+diff --git a/src/rust/src/backend/ec.rs b/src/rust/src/backend/ec.rs
-+index 6a224b49f..27fced086 100644
-+--- a/src/rust/src/backend/ec.rs
-++++ b/src/rust/src/backend/ec.rs
-+@@ -155,12 +155,9 @@ pub(crate) fn public_key_from_pkey(
-+ ) -> CryptographyResult<ECPublicKey> {
-+     let ec = pkey.ec_key()?;
-+     let curve = py_curve_from_curve(py, ec.group())?;
-+-    check_key_infinity(&ec)?;
-+-    Ok(ECPublicKey {
-+-        pkey: pkey.to_owned(),
-+-        curve: curve.into(),
-+-    })
-++    ECPublicKey::new(pkey.to_owned(), curve.into())
-+ }
-++
-+ #[pyo3::prelude::pyfunction]
-+ fn generate_private_key(
-+     py: pyo3::Python<'_>,
-+@@ -215,10 +212,7 @@ fn from_public_bytes(
-+     let ec = openssl::ec::EcKey::from_public_key(&curve, &point)?;
-+     let pkey = openssl::pkey::PKey::from_ec_key(ec)?;
-+ 
-+-    Ok(ECPublicKey {
-+-        pkey,
-+-        curve: py_curve.into(),
-+-    })
-++    ECPublicKey::new(pkey, py_curve.into())
-+ }
-+ 
-+ #[pyo3::prelude::pymethods]
-+@@ -357,6 +351,28 @@ impl ECPrivateKey {
-+     }
-+ }
-+ 
-++impl ECPublicKey {
-++    fn new(
-++        pkey: openssl::pkey::PKey<openssl::pkey::Public>,
-++        curve: pyo3::Py<pyo3::PyAny>,
-++    ) -> CryptographyResult<ECPublicKey> {
-++        let ec = pkey.ec_key()?;
-++        check_key_infinity(&ec)?;
-++        let mut bn_ctx = openssl::bn::BigNumContext::new()?;
-++        let mut cofactor = openssl::bn::BigNum::new()?;
-++        ec.group().cofactor(&mut cofactor, &mut bn_ctx)?;
-++        let one = openssl::bn::BigNum::from_u32(1)?;
-++        if cofactor != one {
-++            ec.check_key().map_err(|_| {
-++                pyo3::exceptions::PyValueError::new_err(
-++                    "Invalid EC key (key out of range, infinity, etc.)",
-++                )
-++            })?;
-++        }
-++
-++        Ok(ECPublicKey { pkey, curve })
-++    }
-++}
-+ #[pyo3::prelude::pymethods]
-+ impl ECPublicKey {
-+     #[getter]
-+@@ -591,10 +607,7 @@ impl EllipticCurvePublicNumbers {
-+ 
-+         let pkey = openssl::pkey::PKey::from_ec_key(public_key)?;
-+ 
-+-        Ok(ECPublicKey {
-+-            pkey,
-+-            curve: self.curve.clone_ref(py),
-+-        })
-++        ECPublicKey::new(pkey, self.curve.clone_ref(py))
-+     }
-+ 
-+     fn __eq__(
-+diff --git a/tests/hazmat/primitives/test_ec.py b/tests/hazmat/primitives/test_ec.py
-+index 334e76dcc..f7f2242f6 100644
-+--- a/tests/hazmat/primitives/test_ec.py
-++++ b/tests/hazmat/primitives/test_ec.py
-+@@ -1340,3 +1340,40 @@ class TestECDH:
-+ 
-+         with pytest.raises(ValueError):
-+             key.exchange(ec.ECDH(), public_key)
-++
-++
-++def test_invalid_sect_public_keys(backend):
-++    _skip_curve_unsupported(backend, ec.SECT571K1())
-++    public_numbers = ec.EllipticCurvePublicNumbers(1, 1, ec.SECT571K1())
-++    with pytest.raises(ValueError):
-++        public_numbers.public_key()
-++
-++    point = binascii.unhexlify(
-++        b"0400000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000010000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000001"
-++    )
-++    with pytest.raises(ValueError):
-++        ec.EllipticCurvePublicKey.from_encoded_point(ec.SECT571K1(), point)
-++
-++    der = binascii.unhexlify(
-++        b"3081a7301006072a8648ce3d020106052b810400260381920004000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000100000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"00001"
-++    )
-++    with pytest.raises(ValueError):
-++        serialization.load_der_public_key(der)
-++
-++    pem = textwrap.dedent("""-----BEGIN PUBLIC KEY-----
-++    MIGnMBAGByqGSM49AgEGBSuBBAAmA4GSAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++    AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=
-++    -----END PUBLIC KEY-----""").encode()
-++    with pytest.raises(ValueError):
-++        serialization.load_pem_public_key(pem)
-diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-index 732f925d92..c4573fa689 100644
---- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-@@ -11,6 +11,7 @@ LDSHARED += "-pthread"
- SRC_URI[sha256sum] = "6fe07eec95dfd477eb9530aef5bead34fec819b3aaf6c5bd6d20565da607bfe1"
- 
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-+            file://CVE-2026-26007.patch \
-             file://check-memfree.py \
-             file://run-ptest \
-            "
+Richard
 
