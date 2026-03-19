@@ -1,109 +1,91 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD17F1075290
-	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 09:57:14 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7581.1773914229016527247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 075571075296
+	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 10:13:55 +0000 (UTC)
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7721.1773915232447876697
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Mar 2026 02:57:09 -0700
+ Thu, 19 Mar 2026 03:13:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=tX0/vYNV;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 56D1C1A2EF4
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 09:57:07 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 22E625FDEB;
-	Thu, 19 Mar 2026 09:57:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D0BEA10450943;
-	Thu, 19 Mar 2026 10:57:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773914226; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=BZwUfJtr4yfHXbbDl8fYkazVOIKyNK98RRJS5uQ8TDk=;
-	b=tX0/vYNVB6Wklr8/Kz2G+QXJ/x/qIuJqiaKFZYOotZDjlXTzXqulPMBxzqHoUSukGvCDsD
-	BU7LPL3QKKoGuL/B9fLXRy3F2VQEjRmMjELRU48eCmpbVIQwNuFazpq0jn9wbOM9irNx/K
-	csFMzIVUiCv49dWGgqSYfxxPCZstws3YfG+sNuNJsfN7xkoPl5HuJqj52QOrcmy6c/5Qjj
-	M6GeaQRhyK/BGCNLttcx09w7GR6OINbVyUkDhB+tugD/2uhkiaLMKiTyw99XbtSZ4IoPvg
-	lKj0oGhA5DJ8OhwUuMbDDdHwaknccbGzwby4CiUTGscwoYENtxvADtvqgojshQ==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: richard.purdie@linuxfoundation.org,
- Marta Rybczynska <rybczynska@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com,
- peter.marko@siemens.com, jpewhacker@gmail.com, olivier.benjamin@bootlin.com,
- antonin.godard@bootlin.com, mathieu.dubois-briand@bootlin.com,
- thomas.petazzoni@bootlin.com
-Subject: 
- Re: [OE-core] [PATCH RFC 0/2] sbom-cve-check: Download CVE DB using BitBake
- fetcher
-Date: Thu, 19 Mar 2026 10:57:03 +0100
-Message-ID: <2053841.taCxCBeP46@brobin-bootlin>
-In-Reply-To: 
- <CAApg2=T6f1yQ8qQFF+V3K+0yhpZWscDUqO+pXA2MK0jik3C4Yw@mail.gmail.com>
-References: 
- <20260309-add-sbom-cve-check-p2b-v1-0-09165cddfcf1@bootlin.com>
- <64a1484a196d4e9c603ec6dda598c6a8c4b91606.camel@linuxfoundation.org>
- <CAApg2=T6f1yQ8qQFF+V3K+0yhpZWscDUqO+pXA2MK0jik3C4Yw@mail.gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=UtyOCF/s;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1773915232; x=1805451232;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Jqa0FR4XyiRz/hkUncfCg+EWyBQoGrDdvB5a5/wzLcA=;
+  b=UtyOCF/sehvFQ+3jTtt18UejxAHEz6SBdZ+xP3HsWezTemXVTK8TXEcT
+   fex+EroBcUP33SJoB/Vn9WsSkqthZoqAbMDL9g0y78O5056YkRT2MIaZu
+   ciAGKQeWVrgPBy5R1Zk+Es1OF7c6/5yO54zUo9tImmU9HncMkZAhucldN
+   0S1vhEwBJspI7xCjq2mjTz11hXEkbSq5YsmXS5pv1/aqVHbAVO16o4nR7
+   tvr83UlCsCIse8NU/jc220IIHlsY7edbos2A/AqfMsGaCsc+7MKmSr5QQ
+   hkJJCifabqRbaisKtkN6Netw3hlAQV35lZK0gduisxmLhlhJwpAAV/xj3
+   A==;
+X-CSE-ConnectionGUID: 6oc9nus3Sp+sdUWr53CLAw==
+X-CSE-MsgGUID: coD++DivS76n419l8s3nMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="234591145"
+X-IronPort-AV: E=Sophos;i="6.23,129,1770562800"; 
+   d="scan'208";a="234591145"
+Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 19:13:50 +0900
+Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id D8E391C00180
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 10:13:50 +0000 (UTC)
+Received: from az2nlsmom3.fujitsu.com (az2nlsmom3.o.css.fujitsu.com [10.150.26.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 87DAAC0009D
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 10:13:50 +0000 (UTC)
+Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.160.5])
+	by az2nlsmom3.fujitsu.com (Postfix) with ESMTP id 9986B101E529;
+	Thu, 19 Mar 2026 10:13:47 +0000 (UTC)
+From: Wang Mingyu < wangmy@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 01/40] at-spi2-core: upgrade 2.58.3 -> 2.60.0
+Date: Thu, 19 Mar 2026 18:12:53 +0800
+Message-ID: <20260319101332.2067-1-wangmy@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 09:57:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233474
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 10:13:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233475
 
-Hello Marta,
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-On Thursday, March 19, 2026 at 8:29=E2=80=AFAM, Marta Rybczynska wrote:
-> Fetching the complete git repos has a number of problems. Why not use
-> release
-> tarballs like those in  https://github.com/CVEProject/cvelistV5/releases ?
-> Fkie feeds also have them
-> https://github.com/fkie-cad/nvd-json-data-feeds/releases
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../atk/{at-spi2-core_2.58.3.bb => at-spi2-core_2.60.0.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.58.3.bb => at-spi2-core_2.60.0.bb} (94%)
 
-sbom-cve-check is not compatible with the tarball release of FKIE. The
-CVE database is not in the same format.
-=46or cvelistV5, the shallow git clone is globally the same speed and same
-size that the release zip file.
-
-Why fetching git repo has problem? I only see advantages. The update is
-quick. We can easily know with which version the analysis was done:
-This is the git version.
-
-> CVE versions of those repositories are good for manual analysis, but a
-> simple
-> check does not need all of that.
-
-I don't understand your point.
-
-> Also, I'm worried about the size explosion with additional databases that
-> will be
-> needed in the 1-2 years time period. I also wouldn't assume all of them
-> will have
-> git mirrors.
-
-The git shallow clone of the git repository is the same size that the
-tarball, which is logical. I don't understand your point.
-
-> For an analysis I think it would be better to integrate sources in a
-> database,
-> but not a relational one (like it was done with sqlite). An object databa=
-se
-> corresponds
-> better to what the data contains.
-
-sbom-cve-check was not designed like that. We did not want to take this
-approach which generates a lot of limitation.
-
-=2D-=20
-Benjamin Robin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.58.3.bb b/meta/recipes-support/atk/at-spi2-core_2.60.0.bb
+similarity index 94%
+rename from meta/recipes-support/atk/at-spi2-core_2.58.3.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.60.0.bb
+index 022d2ff71e..8e3314222c 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.58.3.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.60.0.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ CVE_PRODUCT += "at-spi2-atk"
+ 
+-SRC_URI[archive.sha256sum] = "b0fabea6c9742eda8c9c675f9b8c1d1babba1da82da03ea1103710233717c1b0"
++SRC_URI[archive.sha256sum] = "80e50c1a97d8fd660a3fadb02ca35876df881c266d3d6108fc5b4c113614cb99"
+ 
+ DEPENDS = " \
+ 	dbus \
+-- 
+2.43.0
 
 
