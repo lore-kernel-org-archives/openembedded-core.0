@@ -1,177 +1,115 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C92DF1088E5E
-	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 01:56:20 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2149.1773885376690896976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61E771088E66
+	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 02:40:01 +0000 (UTC)
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2758.1773887998294426343
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Mar 2026 18:56:18 -0700
+ Wed, 18 Mar 2026 19:39:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=iIhi6ySu;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7538356787=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62INVJd93167751
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 01:56:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=+E9CMHu/xor+2br127l9
-	YzXz2VNwu2Rj20659/wK2DM=; b=iIhi6ySu+tCoT8yspqfjSJQtkqnt9MwiXat+
-	2uFImx6sXY6k99cI4Di1GPKMbiqay5LP+Q0SqnrGKo26h8NPy/MQaDo1xff7r3ni
-	cauDYO9WI05QU6TVMWnRn8HWEUH1rxP4r52WpiBSXbrOfH4NbQ0zgdyfzCqjCsJW
-	SyIIv63f1KzpwkdVFvntcy2GgJQydBoeydVOyQ9aYeB+tlylcqT9V48r2TmpBGKi
-	ZGwe0smoRQxpryMx/I3c6NBhkaRjaETORwawrv+BaEqGIX0ICD2N8txyv74+DjvC
-	Q3CL0GgMaxKDBzAI+9fQ1eW8PbM+rsl1ePsgkh1xgXuaY3Ciug==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012001.outbound.protection.outlook.com [52.101.48.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cxm66bntk-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 01:56:15 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nNxICgp9kMZjvaXGIAIdncX7Fk0rylFiWrfrWFKdDXyJThbnUSTT45624NgF1Vy2/uGk8bhvRH1N0M69gGIIffQeFOS4+Axq7x1VO+FaEUdRjgPeIPKxNKo/9Kdwlj0q/zeh/04eyh7XN0e2Jtx/ZC8o3lRmOi1lodTX+oqe3itM/6H4zdew39ZQYf92MCuhMw8wEvjaNNl2YA0s3MKOY7w6GW6K3yMfyljk+/xqPD1r/gTWqIoHIJifXznFSGATp2tMDLxWu8Rlq3A3k5MKMoawi0oFbhh769xOibnO5bgjXydVHKTFk2V/mTZvN7UG0MKGCN+VJk9LfM1zJPXQtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+E9CMHu/xor+2br127l9YzXz2VNwu2Rj20659/wK2DM=;
- b=DxGhYOBQoLDch4h1oHlDdWIEMqjwqxoJrj5ipJXap/ooHEt/UswEJNjDeeBDlyoqyYIGIMVbaK/3JhU9xNNNreOjJRbYkXLxor27obXYTHBGbE2NW/6/Zj0GyqP4JAOUOx5MIF8Hec3ESBu4fo9IN12ipZQwX8LiR3JBlfdB1E+SGnMql5P4Mi4ieYmFBr4QJWPsJrOO30fsK9DNdERnGHUOwZZBSU7htk/48OYuucd5cTcmOGCUiS3Bt/f5x51SKhAKDJ0XPaXAhYnWEjlIHi97orWGlQrsJO4G4CwDHXZWSTTWSOObEruQL+eb+Q+drhWdACdEL4XA9ds8bYVTbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by CH0PR11MB8192.namprd11.prod.outlook.com (2603:10b6:610:191::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Thu, 19 Mar
- 2026 01:56:12 +0000
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::531e:6ef5:812b:48f6]) by DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::531e:6ef5:812b:48f6%5]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
- 01:56:11 +0000
-From: Changqing Li <changqing.li@windriver.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=ElG4FL8M;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1773887996; x=1805423996;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ubeHsJnZIRK4elr+S82XfZr+Iz74uKg9e4e7EYAHM5E=;
+  b=ElG4FL8MP+9WJHaV7hj/birG+MJ9Y3PcIxLfTkrPfqVGd1QnQTycjv7X
+   Yn8vZPHhygMzPW2Nlu92PIAr+wfqsRJ09JepnId4BM9gwM64SQwTAHFxS
+   +Rt4l9FNcerTNrZWZjwGWMBV0rUeVxnmyOVvL0bZQb8x6WjaHV9qAKj82
+   N/b1DjogHXkD2Hmw48AdYKm+xhA9JYQJtktqMgzkKmYepVFBVIVdn+wCl
+   cPHcHK4P7NbJ4QV9HdGfziEdVCopoqo9xH10/bGmjEdO5T7nCLaDiv5fT
+   QSw9bnUnsMipH6pttyZUMRJJAtb+FqoSkxxJoNaqRndK2hKJ7h2yPjwZy
+   w==;
+X-CSE-ConnectionGUID: rtBVMiowRL2ktPhV174HKQ==
+X-CSE-MsgGUID: LXr4BNrUSeWEtt/S+7wccQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="234510197"
+X-IronPort-AV: E=Sophos;i="6.23,128,1770562800"; 
+   d="scan'208";a="234510197"
+Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 11:39:54 +0900
+Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id 804FD1002834
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 02:39:56 +0000 (UTC)
+Received: from az2nlsmom2.o.css.fujitsu.com (az2nlsmom2.o.css.fujitsu.com [10.150.26.200])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 318E01810797
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 02:39:56 +0000 (UTC)
+Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.128.218])
+	by az2nlsmom2.o.css.fujitsu.com (Postfix) with ESMTP id CC6861801931
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 02:39:53 +0000 (UTC)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gstreamer1.0-plugins-bad: add ANY_OF_DISTRO_FEATURES
-Date: Thu, 19 Mar 2026 09:54:31 +0800
-Message-Id: <20260319015431.821325-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0048.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::17) To DS0PR11MB7312.namprd11.prod.outlook.com
- (2603:10b6:8:11f::18)
+Subject: [OE-core][PATCH v3] libpam: upgrade 1.7.1 -> 1.7.2
+Date: Thu, 19 Mar 2026 10:39:47 +0800
+Message-ID: <20260319023947.14118-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|CH0PR11MB8192:EE_
-X-MS-Office365-Filtering-Correlation-Id: bcb838f3-ea63-456f-d384-08de855ab1fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	0xBrZhFVKD32sbkNHWuqc8XqwHlNydht2LJ+fTxF5pGRffTgZJcgAOVuPUK9iudgqa4CJUmFXWWsU9PrOgTF8WMPHXTeqrfZ2O3qnV1/5VEFt3TpCgf5HSfXSOtxkwZGa+F/nfsAthAMvcX/bL5XuEzw+qiau3pfacCdQeFhRMkGAQVypJd4q+2K7Ny5FDJaQHF/1ccx5GO3Ad+dwZfgXXrjrGcQOql3fhRHG6obRS/98vASqTehwAUQuF/3HoxXCf8vJVW/Q+rSiaIUb4UFRypS34QNWzYZ57Cm6AN6rzqIippa/YoggiGEY74ThXtcf4ST+TXMs5+ghwhtsHJp54/pJWIUvJmg9tcX0Cxz71rE20vODFy7H+6DU0mrYukx+j3zshEcGTy48zWz8OXYoJrIyfPeydWVdQJUFOuw2r9F+m7n569N/bHFOSEiBd3XMHK6oHOrRwy9cmmVHKrZ5akDjnQrRdGreat6MXjLufzVd2EUGs2OGCguRMuZawUgPixgAYQ+fYuJ+xAVXTvApbtwSGQ3Rc0YFoFKuIlNcA39oo2TPwPYEVu7cQpldCrRCZpSYfp4QNHMGxEZTWg1PvuYk8JgXtFcXSpnBj6oS2vpqBfmuhPejuONPpiXXLnbH110PBSYCSX7YXkXjEWxCi0SvUOJgF7mOMDuDU0+jf4ieM5ZwVKCTDeWoGiWB55XdOLxvi5lGTr4GvrYzFLtVBLi03EDOoKfl1RiEbDHIpWtVzNRg9FVXNwEIrGxvdfZLV27XNuDB1OmEftg1eknLpkPtASGeXrhI3dYFNMUuuk=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6wdBfv/FBPrZCzsols5yogg5DUzQyeErzIkA1HxIJMzT4ltTJVGtZuAoHpUm?=
- =?us-ascii?Q?RCGx+YgxuztA/W0IKE7K2nL0gphI6T+ZGzMsD6y/pw4HcVE0TSZVirw/LI7s?=
- =?us-ascii?Q?C0DfQaCYrQHitDlGtpN/5KuokFR1W595neXrgKZZcv5tbxVYp2tOGDgzKngq?=
- =?us-ascii?Q?ixxyH5d6158aM0mEFxeuaET2TfJ1fbLtR6Q1flO/UDENuQIMBcJ4AGrXfVdF?=
- =?us-ascii?Q?ABk0t8a8OmOsfu/sai1t3R14IP6jHYENlo+UTFvXifCEhc8b2b4BL99OjFEo?=
- =?us-ascii?Q?EeRq7l+28tSpW2msAKI4kHT6wQHIUmu1t7ObaA3X4KRB4maIRF3GxDGHSWDn?=
- =?us-ascii?Q?PcT/kbGF2lkPkDQlxWi3aPKlwqQ9XjlakrzZCIWOLzz1kPryXfBCxqtfbYHA?=
- =?us-ascii?Q?C0E1+RClkCJ9Pgf1cnaiOJycFy5VBTLZaxsQJKlMgb5emnqbMkbWLLlano2n?=
- =?us-ascii?Q?Ux0vyeElGanW2LtIAaOMwfO5X8nQ7mpw93b7Pwp8mDVxYdSE0XB2l3VUcyMy?=
- =?us-ascii?Q?TbqN8kQsaFHX7J+i1A614Jj9x0XTKTkifK1pYG8ppej8GtZUjk5JPM5FXlaq?=
- =?us-ascii?Q?JtEDH4za86np6j0VYjesv2YqOBtuRXeTToBykHR4VPwFpGeb1aHmiZIIc1or?=
- =?us-ascii?Q?Z67qyeGSoQ3okVtXJ2m/+gwmwYAGnqM6PwR/Y2BfBW41Q/9U5okZSS7B6Li0?=
- =?us-ascii?Q?1CEG3U461yCJ9U4rIttIxe6TFvfhepIQUKkOQl/GIGAC1f/TMsptnc4syxIB?=
- =?us-ascii?Q?t2xq6lh/ET7rYwTeF3Cnfhjjd/kM7p80FAf3qpeQEt1U9vxRS6k3dLqQynau?=
- =?us-ascii?Q?XOUhTUsMbpibt+8yIWfVreSEjpNVmTeEpxJnlWd7LraFvlhscnPM983Su+L5?=
- =?us-ascii?Q?6s/HZZON5lmDWvJo4m7YfuNNO/9XyIP2AkTqFI6G3bMlr3PSG6uu1uzWnI0c?=
- =?us-ascii?Q?kx60B0YKWNTxIxowxvblP9ASOYm64bsgcc/HjYhZxck9rn2eCnhfPAKtsq1A?=
- =?us-ascii?Q?HdBS84VxAnRnC2vt4jSqiN4pdzq7QM1CEP5z6rJZHJUibf8r8ddfLOj/ujO1?=
- =?us-ascii?Q?7ZweOGopuuO5i9aVOhuOjhaJDZZYkqnYBoC+gdUJqe3hX6t1CPOv4D27R3ft?=
- =?us-ascii?Q?4whaNLYMaoBPfemhQCrjUfRNwkcr6PPNmkUJtRCCCQE6zZ9r1JzU/Ghr2/yx?=
- =?us-ascii?Q?g/gcUnxwmLDq1c6s1KV0XSOrDtivwG4BIZU1XFB/woFxBW3bWxm7KNk5+OcG?=
- =?us-ascii?Q?87R5NFeyQ1rSAg1KE68hNK2AJa3fI+s99Ub8MNUvW9eZf3hpNBFi5WDmIt79?=
- =?us-ascii?Q?1cCrXJZMmFdPpnXZ62KFnBdTEUKN0E5LkhXw7PHQZrl6AxoYtDNLW9ZgpO/K?=
- =?us-ascii?Q?E8OVOrEVaf5E0iYExfP/vnRlkFqAmZC6TkWcnqLFFXRNsTQ5KuFaCR2E30l2?=
- =?us-ascii?Q?VUTxiQDf+5rlU0MpdwZfq8NenEduPxYNPN4szcZtc6bmLDXG9q2D/DkA67zv?=
- =?us-ascii?Q?C9pB820K2naDkMHmtB/OIravBn9LLbgBRDAJesasXGCagcoNaf3d7wmpftJs?=
- =?us-ascii?Q?eMcnAlRJgMjQymuzKjlz9zkaIOMMXDO9ZwR/2ia8m4l2MGwlsM5iaznsKR7R?=
- =?us-ascii?Q?3K+iMhsksvtr2fLFCYBKyP7wmAoMCYgRNzOimCdlxjaTH66DvgG2IgPOVeK/?=
- =?us-ascii?Q?SH9SiMkkqhGbTs4QELgaTJTNJlgufB97axB/DjQMuw4VKBNEFkSp/s65g2RC?=
- =?us-ascii?Q?IHmCoUs8Puio1HwqwDpGiSDngvHAJOo=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	TfcQzs/kXKdIBruyQgG2n3P28Dv06mCjCBJN2QZ6LZKpTcWf274jNYZOvCzs6UqFUfddkDnDaC8qCuC14Q30B3KIHRO8uVhjL1VosnVhbkFejdbHp3ViX7xbCDmggBoYGfZQgTIH+pOPU8m67jyeLuidKycZzsN2/rKPj1V+iQ2x5Z33Z3p+jmaqhsCdmpcurA6bWAXyYIvTLOVXOgPxpczM3KZl+qyikf+tAiJ/IlMAa3MoWzOau0BR4zzH5RiodDcRpFkemFvfDu/JxZF9nE/XG3qWDc4YuTH4LHR4LWnsB92WWvAXH0T8OdW39kIkzJGG+29B8RfA0IiwfS9qTQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcb838f3-ea63-456f-d384-08de855ab1fb
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 01:56:11.7270
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pIGBHfTIeLVxqp0k5F2AEfJz5H7rQUTlFRWHo1byLv8Bh1slBUJ5MGPAAXgJD6VFhWdy/qnyaHMCwhqUlHdfXq5GtD/qTvMwgZPQhtuZfW4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB8192
-X-Proofpoint-ORIG-GUID: c8zx1l-F7ZNbxpP2IlsHfP9dDY_Rg0wi
-X-Proofpoint-GUID: c8zx1l-F7ZNbxpP2IlsHfP9dDY_Rg0wi
-X-Authority-Analysis: v=2.4 cv=fLk0HJae c=1 sm=1 tr=0 ts=69bb57bf cx=c_pps
- a=qHyJGWWDR7+eWeZXJqH6eg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
- a=kMG_xlHWQGcNhEGIYbkA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE5MDAxMyBTYWx0ZWRfXx13NdRe+duWT
- ohuLZIkYqq1tbAJRkwaFMVAsIO8ntk1myj4gsA/CBoh/S44pq71ZEVi/RWJDtKcA7riJJWI+wwH
- woQjC80vlV9CYKzflVI6uSdp6AmakFwgJiopie65Ox1x1f1nW1+TtZdhhbVzdjASaU5QKCGWYXi
- j7a8NTONL6bxyN0Znptb8GzfBNDv8hIQu0CGkCl4ULGlnMjzwJ4/y8L9RyFTqY2YVcKVJK4fVKT
- AvAzMEnScf59vb5Qx+lX5wcWX/LsDDO2GQ99r1TDlSuItnrVhyps1t3OxrAQ8L9v2XBJM0v5dza
- bKxfDCL6RJ1buVNl3AumEplUznGnGh1N7LK1jxPf+vV2BjI4gUuntWcNKbIsPjBxdghaKTpmimG
- B+jVbBJmC2wxijDxKjpJwCiwcgGotQWdbSaV5CUsUudS/u3BrrEDYT5U4VxXSufcGmlFSbBrUTI
- 0FgfHy4yEuuHH3WRXKw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-18_02,2026-03-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
- suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603190013
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 01:56:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233455
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 02:40:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233456
 
-When vulkan is enabled in DISTRO_FEATURES without x11 or wayland,
-do_configure will failed with error:
-gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No Windowing system found. vulkansink will not work
+1.Changelog:
+  https://github.com/linux-pam/linux-pam/releases/tag/v1.7.2
 
-set ANY_OF_DISTRO_FEATURES to make gstreamer1.0-plugins-bad build only
-when x11 or wayland is enabled.
+2.Fix do_package QA Issue as default vendordir has been changed
+  Refer to this commit https://github.com/linux-pam/linux-pam/commit/aea30822e2fa6f87faf2541da140f69dfdfee728
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+  ERROR: libpam-1.7.2-r0 do_package: QA Issue: libpam: Files/directories were installed but not shipped in any package:
+  /usr/share/pam
+  /usr/share/pam/environment
+  /usr/share/pam/security
+  /usr/share/pam/security/namespace.conf
+  /usr/share/pam/security/group.conf
+  /usr/share/pam/security/namespace.init
+  /usr/share/pam/security/faillock.conf
+  /usr/share/pam/security/access.conf
+  /usr/share/pam/security/pam_env.conf
+  /usr/share/pam/security/pwhistory.conf
+  /usr/share/pam/security/time.conf
+  /usr/share/pam/security/limits.conf
+
+  Change vendordir to /etc to fix this issue for backward compatibility.
+
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb              | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../recipes-extended/pam/{libpam_1.7.1.bb => libpam_1.7.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/pam/{libpam_1.7.1.bb => libpam_1.7.2.bb} (98%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb
-index 4a9cb37dd8..2cb00f180f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb
-@@ -19,7 +19,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-extended/pam/libpam_1.7.1.bb b/meta/recipes-extended/pam/libpam_1.7.2.bb
+similarity index 98%
+rename from meta/recipes-extended/pam/libpam_1.7.1.bb
+rename to meta/recipes-extended/pam/libpam_1.7.2.bb
+index 470aea80f6..6955a5f2f6 100644
+--- a/meta/recipes-extended/pam/libpam_1.7.1.bb
++++ b/meta/recipes-extended/pam/libpam_1.7.2.bb
+@@ -24,11 +24,11 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
+            file://pam-volatiles.conf \
+            "
  
- DEPENDS += "gstreamer1.0-plugins-base"
+-SRC_URI[sha256sum] = "21dbcec6e01dd578f14789eac9024a18941e6f2702a05cf91b28c232eeb26ab0"
++SRC_URI[sha256sum] = "3d86b6383fb5fd9eb9578d2cd47d92801191f4bf3f9bc61419bfefc8aa1e531a"
  
--inherit gobject-introspection
-+inherit gobject-introspection features_check
-+
-+ANY_OF_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'x11 wayland', '', d)}"
+ DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
  
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
+-EXTRA_OEMESON = "-Ddocs=disabled -Dsecuredir=${base_libdir}/security"
++EXTRA_OEMESON = "-Ddocs=disabled -Dsecuredir=${base_libdir}/security -Dvendordir=${sysconfdir}"
+ 
+ LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
+ 
 -- 
-2.34.1
+2.43.0
 
 
