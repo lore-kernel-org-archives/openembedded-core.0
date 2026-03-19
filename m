@@ -1,177 +1,316 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFF13107527B
-	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 08:54:44 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.18])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6568.1773910478620094402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C008B107527D
+	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 08:59:14 +0000 (UTC)
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6597.1773910751857890668
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Mar 2026 01:54:39 -0700
+ Thu, 19 Mar 2026 01:59:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=S7nJCr4m;
- spf=pass (domain: siemens.com, ip: 52.101.66.18, mailfrom: adrian.freihofer@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=laQns2roIOfnTTKhfMIla0XBywjqn5jaTFHTGIM2xMxZjvjj0HnrE5p19K0TfPiKciHI7jbDbi2DxCyqyTA9eDeXIntYZQtZ/JR5mcqCedSkZ6VOTwbzA9fWwWC3E2aOIQNwEWLxrKK5NZkobO/nD7T/JSQQNRyXGWBu0lMc+3hKgySRpYrxRhJfSt9OZmPhh0pjSwnKJnrNSNzeL94GPdRp9IJRJdEUNXUUXK+Jt6F2s7PkJJIfcJnm5UqEDMRwr9pn71slsgkmo3wjfZmKf6XItZIuX2B8d6C6N1SVdRc8sESTMVkF/zb6SXpl5IFfI5mR2N79be5bafrSl7Wn7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cWsqkh5oJZ+xQo0yWT57ToZMIZqET0PXgWG+tkcfvzM=;
- b=kJBFSFA3/fw7EMoLdnVqLXLWHZupCciXXDxRy83pQoNzhKFE0uaHndyu7DQtEBRv/Ajw+RszBNP5cyOPd7cZuPG0jXOZBEjVsEGzrSMtTIwGPoD8rsFiq87e6lN316NIznD/dHggEWjhPGwiWrKOTTjCCmyldcNFZFRDj9a/3v+PQpPgB/1uHLgdXft2BkDSif01NgS7T0iJ53P81UbHk6vMPjh28tdhp2IKeArSIe0Q4u9ODfR54sUoqE0noUqwl38Z/SnfkuVYSuHeLkTQTHQvwqndc+AFVkvOcBTONw8pB5duMbJXfOxI5K5o+AgQ5u87mGBd1EHjFc+JY8Yf1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cWsqkh5oJZ+xQo0yWT57ToZMIZqET0PXgWG+tkcfvzM=;
- b=S7nJCr4mWkmgXICsFKz2/lXVTmKeoeueMZc7Sf1KMEcxT1Xu/eH4dcg4JULGpjlHzxwP2YRm8nnit5J8NaPzjvJbntp+5CciiFr4CxEWi6e7e5UmF7Wc5V7S39JevxWkWjys6KOUsT7NYW8APXLxv19UV1UoMf8wP0mgwqmbg6knJD9WtiRfsfwYVMrXszHjgJms8wUDo13K4B+x59xJtb2FVm5ybSGsGEh2OhFYYcBWIWUp6zEk5Pt61KmcC7VuTKec0jX0UnDGR+Sn6sJbmuug/KJrzjEa/3Gt80Cpr/dEsS3SkLvgT5b4whG7MiCloShTaXAlrUHn/0L2j7vLpA==
-Received: from AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:47f::8)
- by DU4PR10MB9637.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:644::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
- 2026 08:54:35 +0000
-Received: from AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::d515:f4e4:e935:ee4f]) by AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::d515:f4e4:e935:ee4f%4]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
- 08:54:35 +0000
-From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-To: Francesco Valla <francesco@valla.it>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Francesco Castagnotto <fcastagnotto@linux.com>
-Subject: Re: [PATCH RFC 1/4] bootconfig: add recipe
-Thread-Topic: [PATCH RFC 1/4] bootconfig: add recipe
-Thread-Index: AQHcty9QLMPZExEHIESRAr7JRmZ3H7W1jaUA
-Date: Thu, 19 Mar 2026 08:54:35 +0000
-Message-ID: <4ba9dee07620ce57643a005f6578fbd32efd9e8f.camel@siemens.com>
-References: <20260319-bootconfig-v1-0-a4d467c3f0ba@valla.it>
-	 <20260319-bootconfig-v1-1-a4d467c3f0ba@valla.it>
-In-Reply-To: <20260319-bootconfig-v1-1-a4d467c3f0ba@valla.it>
-Accept-Language: en-US, de-CH
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.56.2 (3.56.2-2.fc42) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5724:EE_|DU4PR10MB9637:EE_
-x-ms-office365-filtering-correlation-id: 636a0dc9-3d6c-47c3-40f9-08de85952518
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|38070700021|22082099003|55112099003|56012099003|18002099003;
-x-microsoft-antispam-message-info: 
- JGudTMGGOVtL8Ct4wKvkZMmwueLvjdMcHqwDZvl1aQw+zWVR1WywhjPlj4xK6UBOdfE/RHHV4j2dufwTA3F1VJIBSnH75s6Dx3WUl2REF+orJHn14UIVDA0dfiw1RLlQrQWcqkWi4X8sMIK67e4Nlx5NUaE99UhYL8aaWVlaDGQVQ0sHB0rbQBcQKsy1Hjniuk1a6ZYTER5v6MsVxIwOACwjZpwhUyLHt8AX00Bd5zGj5IzGUMMav6ucZGEjkasKaLoHxW0CDffSPFbSdLoOkZJxCZtm83XXPSG/4axLEH9kiGLVuxr5PXqGJRDH0YTIP3wZ1NOM41KGFxt53RS7o+DaOMm4krAU+mpMx1oL66wP+vzeSQ+BROH0Q6A5P1bHRxfS6ddUfjpJCKCHEziiXEKj3dIl7BIx0Z95569KicH9zdboNR/nkD9btZMb2oGisvSfs232iw+nNra0Kj3RZXb+kLXcgGTS4qqijxw8FZ3TBkuNMu41y4vztQJJ5kZaJVEsx1gzthkxiETtN3G3kBn2fJbwAF48QzbGzV+In2xXx7UOyO2rSzuLAF3e5uDQP6D1vi+IvMICKjvPPbkOCrlkuSaUS8bZgHQj2gNXHA3pv9Xvam+SFt5c0zJbVt4hGx087EbzcprVEZdzVxWqPXZFKMBcj/5rSCYK3KCtdbIjld9D63phNhUnTku16X92rsIpA4ClKxITJu3Wy0DBti5nR3TkGcDPFm+H9XQ75RJKF3PSS2XvJLD8esmhEopA7KeFzEe9rQlQMVaWYq8YP3qCUzcjjaHzwEmRkE+tHKQ=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021)(22082099003)(55112099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?U1dFcjdYeFVCSnoxUDZRdnNjMHRuZVRKNXJoVFpLYVoyMHgvL09FMHBEMFBT?=
- =?utf-8?B?YmZDQjVUdU03SUdGTlgwUlF3L1l4cy9qZ1pUT01QajhvTk1ub2JpcTVSWUdL?=
- =?utf-8?B?L1RsNjlnN2E1a0krTUd1YmtTcXVZaHBpc2lGd0tPNjJRdGxsUUppcmNaYVhZ?=
- =?utf-8?B?ZEpieFIxYjk0Tmg2WE5xVDk3ZjJaTE5mZE5oajYrTmtMNDh1b1A0UTlVSnVP?=
- =?utf-8?B?MlR3K2RaOFFENTZUWjJickpZUzdpcG1CNldzaUtKeHBDa3pNQ2Urc2NjQXdH?=
- =?utf-8?B?RXZ0ZTNQV3BXMjlaYXR5a1FsejlBdmI5a3FvbEtIakw2Y1lGakhlcVRWZzdy?=
- =?utf-8?B?QmNac3l3WUhVeEtWVGlFN1F4VlBmL3RoUHVrQ3dQcVFHdTBCSEtMWjlEOGRi?=
- =?utf-8?B?c0dQd0tlYi9KWmNMVVdXQlZpSGZEY3B2TkxiZlIrN1NYbU0rTVBGVFM2WGpF?=
- =?utf-8?B?NU9PSnZDQ1NWZEEraUdjOE5XRkNtWXhyVHY4VVFSeFZXSUxyTHYyNTZOYzNK?=
- =?utf-8?B?NUlqVmtaRlFwRVJxRTd0SVMzMk93YU1tOXV5VnVKNWdyOUp1aHArbmJDTEty?=
- =?utf-8?B?WGw3Nk9BNmVOTVArczJuRmNZdFcrS1FXbTJnYkhKTHRzVDhSTDZsN1hoNE55?=
- =?utf-8?B?KzA0NkhRL2Z1ckpqZms1cUwyKzJBQm9HZlpMcnA1cWR1ZmhuQkNpM280ajBy?=
- =?utf-8?B?cEhob1hUTnhPVXhqWlJsT09PNENrelAxN3N4cndtU2hRRkI0bTRNblRnNmRH?=
- =?utf-8?B?UXFINXF2c3B4dEFVdTc1ZkNoSE5LYTJSQndSc3pnNmRFSVRsOWNJbno4c3ph?=
- =?utf-8?B?VXIzc2hJS29jeHViKzByc1doeVFWMUxodUxhcHVaazhqUGRwdHZWVEJPeWlL?=
- =?utf-8?B?VUo3SGtYa0sxTHNGWXdMWklZcUp5ZGJlS2QweG1OQVl5YXBYVkM5WktRaU1m?=
- =?utf-8?B?QWRwb3BTVzRESVl6Y3E0d1BEMm1vQ3hKSERTOWpRRXRjTTRtNG5sNXVJM2hV?=
- =?utf-8?B?Z0hkeU12VS9iWDNPMGNzN3M2NEcvZ3RQejhJTzNPNVhyb1VvUWFBZjBkbHRI?=
- =?utf-8?B?YzdWSXdNdS8xdGRXSnM5eEtVSzk4R1BDd3IycWZZRkt6OGRZUFl1U1d1ZVNr?=
- =?utf-8?B?WkU1VTFTNEhGeXVxbnpqRUJwdkhwaW0xNE9Ec2xoQ0N0TlJYa2h1eG8xMWV4?=
- =?utf-8?B?NlZVVFM2VUNCdm4zbDlvSHlhdHh3VldRSkQzaXpUWEYxUnUySkFQQUZqNStw?=
- =?utf-8?B?RUNOdjlSWFJLa1JFam5CbFliNlF2emxLbiswUW9KcG9seFViait6U2ZISEty?=
- =?utf-8?B?dk5QNElvWjZuckhMMlFKQjg0eHZTV2xhczlXSFQwa0VDUTQ1YWlISVpVVzJw?=
- =?utf-8?B?SWEvWGc4RlRRM0VRQ0JwWkFqTnMrcEVCS3dNOXB0Wm5KSnB2L3dlWlNvWExu?=
- =?utf-8?B?ZS9lNjgxYjRURS93b3dKZHVPUllyQVBWYzd5LzB0VWlUazBVZHdud2N0d3Bh?=
- =?utf-8?B?TXVaT05BUTZ5NnZXRC9SYVdXRkJ1V1RTZEVNRzlRWG5JUWpGVFlhcjhiV0E1?=
- =?utf-8?B?YUVoUHF1SWYwZDlrVmpjZVRmejhuSU8zRGpIa25hODZDcEtCZktsQ0hOQ25t?=
- =?utf-8?B?eUJLdnp0MXd2UUgwOE03Nlc4dVA4TWlyT2hvZWZwNWxWQ0xyOWxBWFlMTzdl?=
- =?utf-8?B?MGhJZGFkOXJQN0Vhek42TjNaKy9OQWUyVkQwVkNmQVhER3VYdm5wb3NOV3FP?=
- =?utf-8?B?N0dCT1dDMUJuTHZCY1ZvcjI4SW9XYzNCT1UwY0VNUEkvNDBuM2U4RzArb3FJ?=
- =?utf-8?B?TVA5RHJIaGR0VytDSkQ4RWFoREhuRURsVFM3ZnhpUTVWUFRwcDlSdUxJbitJ?=
- =?utf-8?B?Z1YyemNTdFNMYmwxMDQrak43dHN5K3h4cnE3VTRkbncydm1OeGQ2L0ZSRkFh?=
- =?utf-8?B?d1lKT2FTZUdYcyttY1B6NEdmbncwaThwaWh1bktaaWdlaGVwVnhLRWVXVnVS?=
- =?utf-8?B?azdoaCtlaWFrTVNCM040cXFTTm1MSGJ6S0NQQjl4dzB2Q1FjRmJwbTcrK3dz?=
- =?utf-8?B?SG5OWGdjWVNsdWVWR3lneG1LdGRlOThzeXJUWFY4akhGZFQrOThPbnk5YnFs?=
- =?utf-8?B?aGhOaUxzbmhUTW5yb0RlV3lUUyswT3g1MndIU1FtbEVmWEszV1MwYkhGekFh?=
- =?utf-8?B?cUF2ZVY3dW54bFU4V0NiVXNhZXN5VVhlanlCVUd3WnJLaTV3NDk2OEg3Sk9O?=
- =?utf-8?B?VTNzMk5EZzIxRGQ5Sm9oM3RUU3BmM085ajRaYmQ3TWxQcFA3VW9uRXdYOGlh?=
- =?utf-8?B?cU1xeWpEUlRMNkNPajBTWTdpUUM3QU5OczF1TkEra3pmTmlRMkFNZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6AF190112E59504382B751466D00D758@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XAVnWrJJ;
+ spf=pass (domain: gmail.com, ip: 74.125.82.53, mailfrom: rybczynska@gmail.com)
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-128d2e3074fso487780c88.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 01:59:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773910751; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RTKMO0xQVQes/Mt3O49RsNNfubbhxkgHmeo41EBNh6h7kHHxBduPM8XN+hhhB8lDV7
+         2CYhzdnG/GxmRelabtxY1mx7A+9WdX8IKE9OWo41u3JfmldINZZVU7+Ahrx0R8UFo+2H
+         4VXN8SvbkFr45h87QSIcAlXUR//NLkyQb2e8wblSKoWR/q6OHOuUMSLTodW8iXFRJfTt
+         BrtowWQ3xYP7aWn9m6VcJx7/779bsF0px1VowDDuAieT366T4rQWdJ+WH6BZygOAbd9r
+         C/cgqUwBpm7FA3t+kNMcvApW9Vm0itiMHiFgV/DaMQahY/3jPpwLfQeaQw4P48ksZT19
+         fg/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=3ubYAjllEBi4W1td3Qskt7qPQo1mNaskf4ouqDdHXU4=;
+        fh=F+nh2zYzudNrvOrh6A1fjaNQepBSkLq90mZ/3+sEMY0=;
+        b=kSd+h2QkQOtrWl8BxeXg/YiIua21FJQCAIUO0nkRYQpYn8lC2GO2iYc7CkYHUUmMYZ
+         /WfkCWUw1W5S+M1W04IFPkV/i62Aoa62i5tf3h03ytlhdpL9x6RnYj3nOBXTMM5mIg01
+         S6hxUGDg9287RoSwY1o1W0oC4JB0ccNTm5d8HcrWkYCA1/6UruLwKmxt0SMXpf0DJLB2
+         320L+NSAioiXvw+f8Ymf5k0Eoep4+DAKh1JxD9NrYv3IDKewj6hppB78XaRuzu4HqU40
+         8okFPmAZ0A0HhBw1AUuWr9YSJO3Mlq62rKxAOtw5LAcHvhtlGICAHSt1Um1KLRNtZryE
+         iKIQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773910751; x=1774515551; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ubYAjllEBi4W1td3Qskt7qPQo1mNaskf4ouqDdHXU4=;
+        b=XAVnWrJJf6Md7PrglsQRloM45xkkm8kiidYNP8N49Y62ivcReooN81Zuch98u9KFGI
+         ny8EYfgXt224sl8wrPgeO+pfS30V+A9R6aCBgcIHNUSiY1CQCo4iGm6F84MMOvtCefee
+         J6MVlANAOUixUCFA35bQotX1py8t2UxLy03WrGqVIN7GrvqzBYEWqVOFyfovtz1bfBPf
+         NHq1Dip9rqDj//gfP34X5Mr7YaoPtsQHM6yxjou56/vkrwF9Rb4v+OpdHr/Ln6niZArd
+         gpGIpa4+JbCnWuAptg3HXiHKjY7A59Qh8qLvF3OM9tCeIigeEIefEjZnZn7pDieiIWHQ
+         VRZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773910751; x=1774515551;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3ubYAjllEBi4W1td3Qskt7qPQo1mNaskf4ouqDdHXU4=;
+        b=J2Ybkbqtarbsr5FgcLtdVvlijUrwwod0nsJuAIDZn0nJLZwl414F04eBejf1x7r6IB
+         /rP7fInjsOdhfRy/JS8IsFukTEK+6PvRtlM1iuwzAbRVkgylc3i9iaS/ciWFC/Ycs/O+
+         +fnV8nuhpaasyRhG7aNk/P0qT3rupR2Y5va0fbWR0NmIoIwDQxiry5289IIfAHvwnFzo
+         6AYRgoFpih0rNIBacgAZxnHrnkCzKE1T65N00SaYubbjkMzsa5Btsv8VKFJLcWBcK0Y5
+         yekwxqNPhmLXACImsktHmUCaZuIXuESygrzyG8SZML2HuZjrP+Eg+ifkN8quNCJ6prv4
+         ir6A==
+X-Gm-Message-State: AOJu0Yx0r70PX/rLGsyrDMfGbGapNYgx0KHXl/eMdt8lTaBrcSuabY1Z
+	lQVfqbQS/H3CI00DPctqvQmASeWbsWT+QWaFqZViQDPF+Azeqq46sTibZIZgmlZ6Lf/RlX3R3Lg
+	nJ+qGozw/Dyf3bYZravIgDpyFjV6t25Y=
+X-Gm-Gg: ATEYQzwtPV7x8LfvaQwY65r5sUidsB19rE2SSWWCXrJnKx1TRztyvWXefWfgi36ok9d
+	qOVC8OaygqyyS4jtlpXSSnh7vKgww966z1FdmjMOHa3aMrho4lm2JcA6gDIQxwGGNKT2OTvyjij
+	0q5M1s8FP1caLrx7v3ly4GZzx4MA9x83KQ7mwjmcIKieI7jqjDk+xEJljchHtiNdmGJVRH63+4a
+	k0EJM92DZUp8QG2Fs07a0AHagPUgwObQT2KsLUPUVMtvjLv9tr3mNUuLg+YaHX93L4FxNmxopCn
+	f5uYVk3TFxlS5Q9nqATISG2kjWuAexukmoGSrv3j
+X-Received: by 2002:a05:7022:7a7:b0:128:d786:8ac8 with SMTP id
+ a92af1059eb24-1299b9d05cdmr3257700c88.0.1773910751037; Thu, 19 Mar 2026
+ 01:59:11 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 636a0dc9-3d6c-47c3-40f9-08de85952518
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2026 08:54:35.1963
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8LkctUMQtOnoZgGsgc0MHpLamiPSlR02TQ9NJulPyJPg50z3slFt7oWkEujhq0048BfcBWoa49YY6iB++SSealrc84tBdGvgFrknfSeSZgs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR10MB9637
+References: <20260309-add-sbom-cve-check-p2b-v1-0-09165cddfcf1@bootlin.com>
+ <64a1484a196d4e9c603ec6dda598c6a8c4b91606.camel@linuxfoundation.org> <8711656.T7Z3S40VBb@brobin-bootlin>
+In-Reply-To: <8711656.T7Z3S40VBb@brobin-bootlin>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 19 Mar 2026 09:58:58 +0100
+X-Gm-Features: AaiRm52-xYqC_wbM9CiaEKE2E68FckWOvWYkw-gOaS7t-xOpOgwwRd6JXSBWORI
+Message-ID: <CAApg2=SHFU13o9EwuAe+NepU1CqEy2zO-xnBYoSmn2YaktXfxQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH RFC 0/2] sbom-cve-check: Download CVE DB using
+ BitBake fetcher
+To: benjamin.robin@bootlin.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, ross.burton@arm.com, 
+	peter.marko@siemens.com, jpewhacker@gmail.com, olivier.benjamin@bootlin.com, 
+	antonin.godard@bootlin.com, mathieu.dubois-briand@bootlin.com, 
+	thomas.petazzoni@bootlin.com
+Content-Type: multipart/alternative; boundary="0000000000002dcc77064d5cc89a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 08:54:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233468
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 08:59:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233469
 
-SGkgRnJhbmNlc28KClRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoZXMuCgpPbiBUaHUsIDIwMjYtMDMt
-MTkgYXQgMDA6MzAgKzAxMDAsIEZyYW5jZXNjbyBWYWxsYSB3cm90ZToKPiBBZGQgYSBuZXcgcmVj
-aXBlIGZvciB0aGUgYm9vdGNvbmZpZyB0b29sLCB3aXRoIHNvdXJjZSBjb21pbmcgZGlyZWN0bHkK
-PiBmcm9tIHRoZSBrZXJuZWwgc2hhcmVkIHdvcmtkaXIuCj4gCj4gU2lnbmVkLW9mZi1ieTogRnJh
-bmNlc2NvIFZhbGxhIDxmcmFuY2VzY29AdmFsbGEuaXQ+Cj4gLS0tCj4gwqBtZXRhL3JlY2lwZXMt
-a2VybmVsL2Jvb3Rjb25maWcvYm9vdGNvbmZpZy5iYiB8IDQ0Cj4gKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKwo+IMKgMSBmaWxlIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKykKPiAKPiBkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9ib290Y29uZmlnL2Jvb3Rjb25maWcuYmIKPiBi
-L21ldGEvcmVjaXBlcy1rZXJuZWwvYm9vdGNvbmZpZy9ib290Y29uZmlnLmJiCj4gbmV3IGZpbGUg
-bW9kZSAxMDA2NDQKPiBpbmRleAo+IDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-MDAwMDAuLjc3ZWU3MGRkMTgzOWVmOTBhMjkyY2Y4MjlmNAo+IGYzYTQzNTNmODVjMjgKPiAtLS0g
-L2Rldi9udWxsCj4gKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9ib290Y29uZmlnL2Jvb3Rjb25m
-aWcuYmIKPiBAQCAtMCwwICsxLDQ0IEBACj4gK1NVTU1BUlkgPSAiQXBwbHksIGRlbGV0ZSBvciBz
-aG93IGJvb3QgY29uZmlnIgo+ICtERVNDUklQVElPTiA9ICJib290Y29uZmlnIGlzIGEgdG9vbCB0
-aGF0IGNhbiBiZSB1c2VkIHRvIGFkZCBhIGJvb3QKPiBjb25maWcgYmxvY2sgXAo+ICthdCB0aGUg
-ZW5kIG9mIGEga2VybmVsIGluaXRyYW1mcywgYXMgd2VsbCBhcyByZW1vdmUgaXQgb3Igc2hvdyBp
-dHMKPiBjb250ZW50LiIKPiArTElDRU5TRSA9ICJHUEwtMi4wLW9ubHkiCj4gKwo+ICtpbmhlcml0
-IGtlcm5lbHNyYyBrZXJuZWwtYXJjaAo+ICsKPiArZG9fcG9wdWxhdGVfbGljW2RlcGVuZHNdICs9
-ICJ2aXJ0dWFsL2tlcm5lbDpkb19zaGFyZWRfd29ya2RpciIKPiArZG9fY29uZmlndXJlW2RlcGVu
-ZHNdICs9ICJ2aXJ0dWFsL2tlcm5lbDpkb19zaGFyZWRfd29ya2RpciIKPiArCj4gK0VYVFJBX09F
-TUFLRSA9ICJcCj4gK8KgwqDCoCAtQyAke1N9L3Rvb2xzL2Jvb3Rjb25maWcgXAo+ICvCoMKgwqAg
-Tz0ke0J9IFwKPiArwqDCoMKgIENST1NTPSR7VEFSR0VUX1BSRUZJWH0gXAo+ICvCoMKgwqAgQ0M9
-IiR7Q0N9ICR7REVCVUdfUFJFRklYX01BUH0gLWZmaWxlLXByZWZpeC0KPiBtYXA9JHtTVEFHSU5H
-X0tFUk5FTF9ESVJ9PSR7S0VSTkVMX1NSQ19QQVRIfSAke0NGTEFHU30iIFwKPiArwqDCoMKgIEhP
-U1RDQz0iJHtCVUlMRF9DQ30gJHtCVUlMRF9DRkxBR1N9IiBcCj4gK8KgwqDCoCBMRD0iJHtMRH0i
-IFwKPiArwqDCoMKgIEFSPSR7QVJ9IFwKPiArwqDCoMKgIEFSQ0g9JHtBUkNIfSBcCj4gK8KgwqDC
-oCBWPTEgXAo+ICvCoMKgwqAgJ0RFU1RESVI9JHtEfScgXAo+ICvCoMKgwqAgJ3ByZWZpeD0ke3By
-ZWZpeH0nIFwKPiArwqDCoMKgICdiaW5kaXI9JHtiaW5kaXJ9JyBcCj4gKyIKPiArCj4gK2RvX2Nv
-bXBpbGUoKSB7Cj4gKwlvZV9ydW5tYWtlICR7Qn0vYm9vdGNvbmZpZwo+ICt9Cj4gKwo+ICtkb19p
-bnN0YWxsKCkgewo+ICsJaW5zdGFsbCAtZCAke0R9JHtiaW5kaXJ9Cj4gKwlvZV9ydW5tYWtlIGlu
-c3RhbGwKPiArfQo+ICsKPiArCj4gK1BBQ0tBR0VfQVJDSCA9ICIke01BQ0hJTkVfQVJDSH0iCgpU
-aGlzIGlzIG5vdCB1bmRlcnN0YW5kYWJsZSB0byBtZS4gRnJvbSB0aGUgZGVzY3JpcHRpb24gSSB3
-b3VsZCBhc3N1bWUgCnRoaXMgdG9vbCBydW5zIG9uIHRoZSBob3N0IG1hY2hpbmUuCgo+ICsKPiAr
-cHl0aG9uIGRvX3BhY2thZ2U6cHJlcGVuZCgpIHsKPiArwqDCoMKgIGQuc2V0VmFyKCdQS0dWJywg
-ZC5nZXRWYXIoIktFUk5FTF9WRVJTSU9OIikuc3BsaXQoIi0iKVswXSkKPiArfQo+ICsKPiArQiA9
-ICIke1dPUktESVJ9LyR7QlBOfS0ke1BWfSIKPiArCj4gK0JCQ0xBU1NFWFRFTkQgPSAibmF0aXZl
-IG5hdGl2ZXNkayIKCklmIHRoZSB0b29sIHJ1bnMgb24gdGhlIGhvc3QgbWFjaGluZSwgc2hvdWxk
-IHRoaXMgbm90IGJlIGEgcHVyZSAtbmF0aXZlCnJlY2lwZSB3aXRob3V0IHRoaXMgbGluZSBlLmcu
-IG5hbWVkIGJvb3Rjb25maWctbmF0aXZlLmJiCgpJcyBib290Y29uZmlnIGEgZ29vZCBuYW1lIGZv
-ciBhIHJlY2lwZT8gT3Igc2hvdWxkIGl0IGJlIGUuZy4gbGludXgtCmJvb3Rjb25maWctbmF0aXZl
-LmJiPwoKClNpZGUgbm90ZTogV2UgbmVlZCB0byBiZSBjYXJlZnVsIG5vdCB0byBjcmVhdGUgYSBk
-ZXBlbmRlbmN5IG9mIHRoZQppbml0cmFtZnMgb24gdGhlIGtlcm5lbCBidWlsZCBkaXJlY3Rvcnku
-IFN1Y2ggYSBkZXBlbmRlbmN5IHdvdWxkCmVzc2VudGlhbGx5IGludmFsaWRhdGUgdGhlIHNzdGF0
-ZS1jYWNoZSBmb3IgdGhlIGtlcm5lbCwgd2hpY2ggd2Ugd2FudAp0byBhdm9pZC4KClJlZ2FyZHMs
-CkFkcmlhbgo=
+--0000000000002dcc77064d5cc89a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Mar 19, 2026 at 9:45=E2=80=AFAM Benjamin Robin via lists.openembedd=
+ed.org
+<benjamin.robin=3Dbootlin.com@lists.openembedded.org> wrote:
+
+> Hello Richard,
+>
+> On Wednesday, March 18, 2026 at 6:45=E2=80=AFPM, Richard Purdie wrote:
+> > I've just been trying to work out where we're at with this coming up to
+> > release and we need to get this resolved.
+> >
+> > I feel quite strongly that we need to use the fetcher for obtaining
+> > this data. "fetching" isn't trivial and is full of
+> > license/auditing/sbom issues. Making any exception to that, even for
+> > cve data tends to become problematic later.
+>
+> I have just a slight implementation "detail" if we are using BitBake
+> fetcher. What is the license that we should use for the sources?
+> How to declare that in the recipes?
+>
+> Because the license of the repositories:
+>  - https://github.com/CVEProject/cvelistV5 : Their is none
+>  - https://github.com/fkie-cad/nvd-json-data-feeds/tree/main/LICENSES
+>    It looks like custom license.
+>
+
+The CVE project repo does not have a licence included, but it is covered by
+https://www.cve.org/legal/termsofuse (the usage part). It is basically MIT.
+
+NVD has the specific,  licence, the one that is in the repo. A warning on
+the
+needed disclosure sentence in all documentation.
+
+>
+> cve-update-db-native.bb is specifying MIT but this is kind of a lie.
+> I have done the same on my recipes for now...
+>
+> > The existing approach was only done as it was a sqlite database and we
+> > didn't have fetcher support for such a thing.
+>
+> The recipes used to download the CVE databases for the cve-check class
+> are downloading tarballs. Yes these recipes are going to create a sqlite
+> database from that. But these recipes implements there own fetcher to
+> simply download a tarball.
+> That is why I thought I could implement my own fetcher, which is way
+> simpler than the update_db_file() in cve-update-db-native.bb which is
+> quite complex.
+>
+
+They implement the fetcher to feed into sqlite. Which was an error to use,
+in my opinion.
+
+
+>
+> > If we need to improve the
+> > git fetcher in some way to better support this use case (e.g. shallow
+> > clone update efficiency), that is something we can work on.
+>
+> Well that was my plan, but for the LTS release this was going to be too
+> short. So in the meantime I preferred to used a custom fetcher which
+> was implemented in the other RFC (or in the v4 of the original series).
+>
+> > As such, I was wondering if you had never versions of these patches?
+>
+> I sent 2 RFCs, one using my own fetcher, and one using the internal
+> fetcher (this series). And I sent a v4 of the original series.
+>
+> > I'd note that we can't set AUTOREV by default, we'll need to specify a
+> > revision, and document how the user can enable AUTOREV in their config
+> > (maybe even a config fragment?). Whilst it is annoying to do that, it
+> > is a requirement that the system doesn't touch the network outside
+> > mirrors unless configured to.
+>
+> If we can't use AUTOREV by default, which I understand, a config fragment
+> is the way to go (I think), with sane default to enable sbom-cve-check.
+> If the user want specific configuration, they can create their own
+> configuration. The config fragment would set:
+>  - IMAGE_CLASSES +=3D "sbom-cve-check"
+>  - SRCREV:pn-sbom-cve-check-update-nvd-native =3D "${AUTOREV}"
+>  - SRCREV:pn-sbom-cve-check-update-cvelist-native =3D "${AUTOREV}"
+>  - SPDX_INCLUDE_VEX =3D "all"
+>  - SPDX_INCLUDE_COMPILED_SOURCES:pn-linux-yocto =3D "1"
+>
+> Also, what do you think about the deployment of the CVE databases
+> done using rsync? Do you have a better idea?
+>
+
+AUTOREV isn't great here because it will re-fetch for each build. So if
+you're
+building multiple images or platforms (in CI or so), you will get
+potentially different
+results. cve-check has a set of variable to handle such use cases. You pin
+to one specific release and do the whole checking with one single common
+version.
+
+Regards,
+Marta
+
+--0000000000002dcc77064d5cc89a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 19,=
+ 2026 at 9:45=E2=80=AFAM Benjamin Robin via <a href=3D"http://lists.openemb=
+edded.org">lists.openembedded.org</a> &lt;benjamin.robin=3D<a href=3D"mailt=
+o:bootlin.com@lists.openembedded.org">bootlin.com@lists.openembedded.org</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hel=
+lo Richard,<br>
+<br>
+On Wednesday, March 18, 2026 at 6:45=E2=80=AFPM, Richard Purdie wrote:<br>
+&gt; I&#39;ve just been trying to work out where we&#39;re at with this com=
+ing up to<br>
+&gt; release and we need to get this resolved.<br>
+&gt; <br>
+&gt; I feel quite strongly that we need to use the fetcher for obtaining<br=
+>
+&gt; this data. &quot;fetching&quot; isn&#39;t trivial and is full of<br>
+&gt; license/auditing/sbom issues. Making any exception to that, even for<b=
+r>
+&gt; cve data tends to become problematic later.<br>
+<br>
+I have just a slight implementation &quot;detail&quot; if we are using BitB=
+ake<br>
+fetcher. What is the license that we should use for the sources?<br>
+How to declare that in the recipes?<br>
+<br>
+Because the license of the repositories:<br>
+=C2=A0- <a href=3D"https://github.com/CVEProject/cvelistV5" rel=3D"noreferr=
+er" target=3D"_blank">https://github.com/CVEProject/cvelistV5</a> : Their i=
+s none<br>
+=C2=A0- <a href=3D"https://github.com/fkie-cad/nvd-json-data-feeds/tree/mai=
+n/LICENSES" rel=3D"noreferrer" target=3D"_blank">https://github.com/fkie-ca=
+d/nvd-json-data-feeds/tree/main/LICENSES</a><br>
+=C2=A0 =C2=A0It looks like custom license.<br></blockquote><div><br></div><=
+div>The CVE project repo does not have a licence included, but it is covere=
+d by</div><div><a href=3D"https://www.cve.org/legal/termsofuse">https://www=
+.cve.org/legal/termsofuse</a> (the usage part). It is basically MIT.</div><=
+div><br></div><div>NVD has the specific,=C2=A0 licence, the one that is in =
+the repo. A warning on the</div><div>needed disclosure sentence in all docu=
+mentation.</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<a href=3D"http://cve-update-db-native.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">cve-update-db-native.bb</a> is specifying MIT but this is kind of a li=
+e.<br>
+I have done the same on my recipes for now...<br>
+<br>
+&gt; The existing approach was only done as it was a sqlite database and we=
+<br>
+&gt; didn&#39;t have fetcher support for such a thing.<br>
+<br>
+The recipes used to download the CVE databases for the cve-check class<br>
+are downloading tarballs. Yes these recipes are going to create a sqlite<br=
+>
+database from that. But these recipes implements there own fetcher to<br>
+simply download a tarball.<br>
+That is why I thought I could implement my own fetcher, which is way<br>
+simpler than the update_db_file() in <a href=3D"http://cve-update-db-native=
+.bb" rel=3D"noreferrer" target=3D"_blank">cve-update-db-native.bb</a> which=
+ is<br>
+quite complex.<br></blockquote><div><br></div><div>They implement the fetch=
+er to feed into sqlite. Which was an error to use,</div><div>in my opinion.=
+</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; If we need to improve the<br>
+&gt; git fetcher in some way to better support this use case (e.g. shallow<=
+br>
+&gt; clone update efficiency), that is something we can work on.<br>
+<br>
+Well that was my plan, but for the LTS release this was going to be too<br>
+short. So in the meantime I preferred to used a custom fetcher which<br>
+was implemented in the other RFC (or in the v4 of the original series).<br>
+<br>
+&gt; As such, I was wondering if you had never versions of these patches?<b=
+r>
+<br>
+I sent 2 RFCs, one using my own fetcher, and one using the internal<br>
+fetcher (this series). And I sent a v4 of the original series.<br>
+<br>
+&gt; I&#39;d note that we can&#39;t set AUTOREV by default, we&#39;ll need =
+to specify a<br>
+&gt; revision, and document how the user can enable AUTOREV in their config=
+<br>
+&gt; (maybe even a config fragment?). Whilst it is annoying to do that, it<=
+br>
+&gt; is a requirement that the system doesn&#39;t touch the network outside=
+<br>
+&gt; mirrors unless configured to.<br>
+<br>
+If we can&#39;t use AUTOREV by default, which I understand, a config fragme=
+nt<br>
+is the way to go (I think), with sane default to enable sbom-cve-check.<br>
+If the user want specific configuration, they can create their own<br>
+configuration. The config fragment would set:<br>
+=C2=A0- IMAGE_CLASSES +=3D &quot;sbom-cve-check&quot;<br>
+=C2=A0- SRCREV:pn-sbom-cve-check-update-nvd-native =3D &quot;${AUTOREV}&quo=
+t;<br>
+=C2=A0- SRCREV:pn-sbom-cve-check-update-cvelist-native =3D &quot;${AUTOREV}=
+&quot;<br>
+=C2=A0- SPDX_INCLUDE_VEX =3D &quot;all&quot;<br>
+=C2=A0- SPDX_INCLUDE_COMPILED_SOURCES:pn-linux-yocto =3D &quot;1&quot;<br>
+<br>
+Also, what do you think about the deployment of the CVE databases<br>
+done using rsync? Do you have a better idea?<br></blockquote><div><br></div=
+>AUTOREV isn&#39;t great here because it will re-fetch for each build. So i=
+f you&#39;re</div><div class=3D"gmail_quote gmail_quote_container">building=
+ multiple images or platforms (in CI or so), you will get potentially diffe=
+rent</div><div class=3D"gmail_quote gmail_quote_container">results. cve-che=
+ck has a set of variable to handle such use cases. You pin</div><div class=
+=3D"gmail_quote gmail_quote_container">to one specific release and do the w=
+hole checking with one single common version.</div><div class=3D"gmail_quot=
+e gmail_quote_container"><br></div><div class=3D"gmail_quote gmail_quote_co=
+ntainer">Regards,</div><div class=3D"gmail_quote gmail_quote_container">Mar=
+ta</div></div>
+
+--0000000000002dcc77064d5cc89a--
 
