@@ -2,128 +2,108 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A88D107526A
-	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 06:57:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C9D6107526C
+	for <webhook@archiver.kernel.org>; Thu, 19 Mar 2026 07:07:14 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5334.1773903442525922143
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5464.1773904031134250259
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Mar 2026 23:57:23 -0700
+ Thu, 19 Mar 2026 00:07:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=b7YLh9u0;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=D4vntdmR;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 3A4B64E42711
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 06:57:20 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 70FB24E42713
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 07:07:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E8F565FDEB;
-	Thu, 19 Mar 2026 06:57:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2C552104506B5;
-	Thu, 19 Mar 2026 07:57:17 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 337225FDEB;
+	Thu, 19 Mar 2026 07:07:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6591E104505E6;
+	Thu, 19 Mar 2026 08:07:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773903439; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1773904028; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=cufaO28CZ8mdvtsLbBMDKPd5N2TrxMfvFWX1xemSY3g=;
-	b=b7YLh9u0MW8sQB99Ekg7o2850IKqdOijcvbswGk7vSqEsJmoUh6B3hx20qN1ikoB2Pyzd0
-	hRehOx8EBXQAYdXq8bKp8vfHdbvXAjgjYVmGVrYq62ZgO9yqSakEpF9kPOYVB1rpC7DTlD
-	IqKuKSRtqkInzi0YOuDp+oayBctpHNpUa7vf20Kn8xwmWMIJacIl7IWrvYFfU5Ma2ILlW/
-	IxQ3SfKYpqpOvhjHRUc9plPGAJniOF/+Vox7cj4aJYtZH5Wp2cpSsb7L+2Han6cO36lsWy
-	R3WOJhGBEGBArjzaLa8BNhMyomiK3r8GUx9M/Vp4ZhGknGvyt2tjf5C/YLmadg==
+	bh=DcyppjhfhLYQVooj0+t0AU5Q5coHXYtDte7NT3HBLX8=;
+	b=D4vntdmRIe0fwFGE8yxmg8fD8+Bda56EzyjsHCLHxXY28VR8Qa3OWgq8RTvzh+eChfJIGd
+	wESpwQ0lyea7YY5zxRhzrGT2pynmkW0ADWYjQm+OSM2OGxHzy+3bIWEMNpwxwa5qidVilk
+	SHjnk1yg/2mL08dFAF59iR/okhauWvBuz/ttD+95PRuCxBZ09S+QvCxXnWYXFJOoCGjF/Q
+	vYaNTa2a3d6vl4YtYLdX71YT2++3bfwdHDSXDO2uZe6jtVZ/MKgpJAgVgZcGHZ1pugkd85
+	3JmjRy+dxv30Gcp44ZjrIQaU5aUIIw1/oX0GfhyllDkZEM9xOVrXhNIuejaKog==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Mar 2026 07:57:16 +0100
-Message-Id: <DH6KACIJTUKF.2I7WOQSMNY39E@bootlin.com>
-Subject: Re: [OE-core][PATCH v3] go: add ptest support
-Cc: <pratik.farkase@ericsson.com>
+Date: Thu, 19 Mar 2026 08:07:06 +0100
+Message-Id: <DH6KHVSGCDH0.DZ1GQQ228GWT@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Pratik Farkase" <pratik.farkase@est.tech>,
- <openembedded-core@lists.openembedded.org>
+To: "Joshua Watt" <jpewhacker@gmail.com>,
+ <openembedded-core@lists.openembedded.org>, "Stefano Tondo"
+ <stondo@gmail.com>
+Subject: Re: [OE-core][PATCH v7 00/12] Add SPDX 3 Recipe Information
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260305110200.17834-1-pratik.farkase@est.tech>
- <20260318140356.7609-1-pratik.farkase@est.tech>
-In-Reply-To: <20260318140356.7609-1-pratik.farkase@est.tech>
+References: <20260310184058.533343-1-JPEWhacker@gmail.com>
+ <20260318134655.953233-1-JPEWhacker@gmail.com>
+ <CAJdd5GZUvWKb37Ys-dNjOShHYb0Gis9wU3Q2WkdA2_m6xoLdhQ@mail.gmail.com>
+In-Reply-To: <CAJdd5GZUvWKb37Ys-dNjOShHYb0Gis9wU3Q2WkdA2_m6xoLdhQ@mail.gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 06:57:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233462
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Mar 2026 07:07:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233463
 
-On Wed Mar 18, 2026 at 3:03 PM CET, Pratik Farkase wrote:
-> Add ptest infrastructure to test the Go standard library.
+On Wed Mar 18, 2026 at 2:49 PM CET, Joshua Watt wrote:
+> Mathieu,
 >
-> - Run 'go test -short std' via run-ptest script
-> - Install source tree and pkg/include headers
-> - Create VERSION file for architecture detection
-> - Exclude multi-arch binary testdata to avoid QA errors
+> Here is my latest SPDX patch set (finally!). I'm sorry for the delay
+> and the mix up with Stefano's patches. I believe that you can now
+> stack Stefanos patches on top of mine and everything should be OK
 >
-> Test results: 237/253 pass (93.7%) on qemux86-64.
+> Thank you,
+> Joshua
 >
-> Known issues:
-> - debug/elf, debug/pe, debug/plan9obj, internal/xcoff: missing binary tes=
-tdata
-> - time: requires embedded timezone data
-> - net/http: requires unstripped go binary
-> - testing, go/types: minor edge cases
->
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> ---
-> Changes in v3:
-> - Move go from PTESTS_FAST to PTESTS_SLOW (~45min runtime)
->   inside ptest-packagelists.inc
->
-> Changes in v2:
-> - Exclude .elf* files to fix QA arch errors on all architectures
-> - Exclude *-x86-64* files to fix additional arch-specific test binaries
-> - Tested on x86-64, x86, aarch64, and arm builds
-> ---
 
-Hi Pratik,
+Thanks!
 
-Thanks for the new version, but we still have some failures:
+I did apply this series, but got some conflicts. I did try to solve
+them, but I might have solved them wrong.
 
-WARNING: core-image-ptest-go-1.0-r0 do_testimage: There were failing ptests=
-.
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/runtime/cases/ptest.py", line 27, in test_ptestrunne=
-r_expectfail
-    self.do_ptestrunner()
-    ~~~~~~~~~~~~~~~~~~~^^
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/runtime/cases/ptest.py", line 121, in do_ptestrunner
-    self.fail(failmsg)
-    ~~~~~~~~~^^^^^^^^^
-AssertionError: ERROR: Processes were killed by the OOM Killer:
-[  132.843492] Out of memory: Killed process 769 (compile) total-vm:1553664=
-kB, anon-rss:256564kB, file-rss:0kB, shmem-rss:128kB, UID:0 pgtables:644kB =
-oom_score_adj:0
+For reference, the result is here:
 
+https://git.yoctoproject.org/poky-ci-archive/log/?h=3Doecore/autobuilder.yo=
+ctoproject.org/valkyrie/a-full-3456
 
-Failed ptests:
-{'go': ['archive/tar',
-        'archive/zip',
-        'bufio',
-        'bytes',
-        'cmp',
-        'compress/bzip2',
-        'compress
-	...
+So with this, I've got a few issues. First an error appearing in various
+builds:
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/3319
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/3294
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1277
+ERROR: buildtools-tarball-1.0-r0 do_create_spdx: Could not find a static SP=
+DX document named static-buildtools-tarball
 
-Thanks,
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/3422
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/36/builds/3405
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/3422
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/3422
+
+And still some selftest failures:
+
+2026-03-18 21:56:34,082 - oe-selftest - INFO - runtime_test.TestExport.test=
+_testexport_sdk (subunit.RemotedTestCase)
+2026-03-18 21:56:34,083 - oe-selftest - INFO -  ... FAIL
+...
+2026-03-18 22:25:15,422 - oe-selftest - INFO - spdx.SPDX30Check.test_downlo=
+ad_location_defensive_handling (subunit.RemotedTestCase)
+2026-03-18 22:25:15,422 - oe-selftest - INFO -  ... FAIL
+...
+2026-03-18 23:06:54,297 - oe-selftest - INFO - spdx.SPDX30Check.test_versio=
+n_extraction_patterns (subunit.RemotedTestCase)
+2026-03-18 23:06:54,297 - oe-selftest - INFO -  ... FAIL
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3462
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3568
+
+I will probably launch a build with this series alone a bit later today,
+to distinguish what comes from this series and what comes from the
+combination.
+
+Thank,
 Mathieu
 
 --=20
