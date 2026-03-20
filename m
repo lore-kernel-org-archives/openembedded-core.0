@@ -2,56 +2,56 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7197510987B9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC8771091914
 	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 16:50:05 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17790.1774025395840007923
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17749.1774025401700724751
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 09:49:56 -0700
+ Fri, 20 Mar 2026 09:50:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BBShmPWw;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486fb14227cso21146835e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 09:49:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gzyEx2iy;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso7752125e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 09:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774025394; x=1774630194; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1774025399; x=1774630199; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LnHu1dogLqpbSXYIDWE5Sv/OgVTOq5twkElAyshUXjc=;
-        b=BBShmPWwtQlxeapoqk1LKMYVx3QeWGXiNvjk8/ZcQ7lOihmqq67+9GCboWXAW3bwS5
-         iJm8fLLG+9M9fOAMFSUswxF5qgANAf1/pC2K4uPeUajV8y80Xpq3LDWSi1/zkJxQo3y/
-         Nf7iOy9C0Yq4gFbhsmzqoYE4EN7EAg6ObpsCPYsEZhegT+BawpVa6RsGpCRz3dfyAmx/
-         zsO4MsEDO6ncf3QWX4pFyZ/7HMPaNmwvt/pxi8eSpolySWTfCOELm2I/DOw+Ic8rl+2P
-         hykUaPSrMRY7Dl+H9udM7F16kf8CNxcuc+XTp1QXM+TV2hT0tRqkS+LXcLe9SxcK6Rgb
-         MhEQ==
+        bh=F2ST2hgit7R7JDdz4yfdMgwx/zS66swVCh9Bow1twfw=;
+        b=gzyEx2iyMAM+63rKtAmCDauoa5u5u4cy2pH/SsibqtSKspC1TGISYRX6db5ikJEe+b
+         +HnLddOtsV8nJn1MvEf5iHGPTgZgKXeV4us4XVlxX/7q6Ofs4lz7mm/OCloqd1dACpEs
+         2PUrIUHQQxtJVgBLbwUDkZvqQRGqH3lv8SNKtODdV9NSqu+o+GIpxD810iM7RCrEMscn
+         8yIiTZelv3VRpzI2HeaIIFcYhpDfwOmqKVAlALxSS9+ZQCaLAhj4iqANyiqiNJ7FnvQE
+         ZYcKnhqyPpYzd2s+B4jtYNOHGhtJ5znxqSi+PSjbHy21jHEh8Wg6FlxoYFA3Xku8Wg9C
+         38hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774025394; x=1774630194;
+        d=1e100.net; s=20251104; t=1774025399; x=1774630199;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LnHu1dogLqpbSXYIDWE5Sv/OgVTOq5twkElAyshUXjc=;
-        b=baXpLvTeaIFmi7zRUukjOM6RMKyG711OGiCFFgyZHNnfMuqYI/lGkS80Jbh2IFhxAA
-         6T2RL6MgVWIAM0N1TblZxu1rgd0Rfbb+DxbwQoMPu6C67mH6KgLmD3OEL2z0j68aAGsg
-         5TZQOkV162U/+btDwkT/n5Qohc5JkddPxqFsl/GU/SHcCYpTNyupCUrKlzr0Exjxnw7m
-         kLauLXk10UAlgC7062NiT5lYS4c0mTwOe3Vq1PwrNyQp1II8NH7L4E92PIAPExWq5XK4
-         0rbGWQdhXRnFok+EqWDy9xu7rubQYOf1FW/4RqUEgF37739k2CCRaiKQVo61fdIO22ik
-         /bkA==
-X-Gm-Message-State: AOJu0Yzj4yTOYRfcbVob61phaWVPHQ8KK446HU8GA0h8F7OWJiowO8ne
-	/hzeX4/PiHsqUuzl6hdN1s01dOB5utrkT8rdG3e1w5bE9WXAXTgFkabqJ6aHtSG2
-X-Gm-Gg: ATEYQzzN125++sYlRj5TYMkRSczzbAYVgKArBLxcYsuychG3xL5KlBzdRFGzepx0gim
-	Y1EobK0ZbJKHHGrjeIIKptSTFHOsq1OxTieHkOgSPcDHX6obZolik4VCGx5rk5VBSm+9TjMkIJ/
-	TlvYO1Yu00JDmpG2sSYlzlBkulYFG7Vjhqu5rtC7Kmzm3BgmAqchtKnMWvoEe7AF2YhBa7u2BDd
-	aOlQji7+MPPAT9dSar5Ze5ZWp3lBEL1dhmNJtEkw3kmZVr0oWbOyWbjL2FZMVVSICUgVBm+R/wV
-	Vk6VFET0cJ6hr9oNv2ZpLzHdU0GgqjM7qYXU9qTtwpMgCHSIR1vpdFFSf+z78IH4v0jDVUs+YCB
-	GuU+DABBQPJjU+TvtMv37wENCodTOAj28Lyl+p22MmAnLZPjCf14gXqXLT0rM8trSYMpyMpvpBV
-	quIydTJFCq34dhiVET552TPWBzmJ8Nq7T6FbY=
-X-Received: by 2002:a05:600c:3b07:b0:485:3aa1:a7f1 with SMTP id 5b1f17b1804b1-486fedab4bdmr56341075e9.7.1774025393692;
-        Fri, 20 Mar 2026 09:49:53 -0700 (PDT)
+        bh=F2ST2hgit7R7JDdz4yfdMgwx/zS66swVCh9Bow1twfw=;
+        b=eKKu0WSQ6FdrhUgIf6VYfYzQbIlcPmATn/P157g7WM5voMGTqFltc6ODWV3wgX6h5T
+         kDYJXsFn212ECbBIY5MVc1BZxHxo1TwXXxxXS08RVk17EefHww+60jxphojEvUXkTszO
+         YtOW3A03raY8yQgP1CqnkbTNMWTJG19vVDWUHlMYNAPBEWyTm18ZgohruEKGLQXrON2w
+         +xGrQi6ezlcCKA4aZU3YstUKAtqN6VcTT2BZk7IoP65TCjhvl/039RzmAQzai7MNF2IW
+         3KCs5J/pTGzA+X2zcHbq1N6FApFkSXdzln3dqghYbDjpGqWEVOL375L4TWCkCotFEF7Q
+         suvA==
+X-Gm-Message-State: AOJu0YxPUD95VcSy4Ym5cokT22yXMfHd+QNPzK4IPhyBoYiGucyzqJGU
+	2f+w3LD2Z3ZRbPOvyRUQO1g7BkhEFwfhjqwhTjDDC8BedR+cJ1n1MrfDXEALytEB
+X-Gm-Gg: ATEYQzzT70zaszKDZm8uQ+XBhlp677HkBqdgG9nYJb09yoDF8SgBBbAsP8UqXol/5CH
+	IY9XbOAVi7JE8A8LRaFpevIrYqn0ilQoPrfzdMOiuVUhdLAJhIHN8SVLXOpgkooEfYFZMWs6Lvb
+	spifoCAzj68t0zCuQbLZmNkvphR97MxIL0f+RZTMuM9qVtBh3YzZDqsOWYko6TwoMC2AkhdICGk
+	cKDYkawF5ANQyUGJFnsJSi9thqEFoPOUOEWo+VBUSSe6JQyhGgrvFdCFZtKVi+72gUtMnhzQPeR
+	VeGoPFyX0yWX8mjzmeP4Bagw2aKX3wmMaRMwdAU/2LM1YVQS7NBZ9MYyp/EMZM+RdnNn0GUxAk4
+	yy3vzxJgePSEZQIDk5Ezt4kWiqwsh7J4xf4bqbEz36S/7YDRbdySajCItYwzm3lC7RY25ydiyun
+	Pt+Oe3T6PFeXrwncImwbDoZ19XSvxiaBlvriw=
+X-Received: by 2002:a05:600c:620c:b0:485:3dfc:569 with SMTP id 5b1f17b1804b1-486fee0fa70mr53296585e9.16.1774025399464;
+        Fri, 20 Mar 2026 09:49:59 -0700 (PDT)
 Received: from fedora ([81.6.40.67])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe6d91fbsm73018905e9.3.2026.03.20.09.49.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe6d91fbsm73018905e9.3.2026.03.20.09.49.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 09:49:53 -0700 (PDT)
+        Fri, 20 Mar 2026 09:49:58 -0700 (PDT)
 From: stondo@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
@@ -59,9 +59,9 @@ Cc: JPEWhacker@gmail.com,
 	stefano.tondo.ext@siemens.com,
 	Peter.Marko@siemens.com,
 	adrian.freihofer@siemens.com
-Subject: [OE-core][PATCH v10 1/7] spdx30: Add configurable file exclusion pattern support
-Date: Fri, 20 Mar 2026 17:49:45 +0100
-Message-ID: <20260320164951.128572-2-stondo@gmail.com>
+Subject: [OE-core][PATCH v10 6/7] cve_check: Escape special characters in CPE 2.3 strings
+Date: Fri, 20 Mar 2026 17:49:50 +0100
+Message-ID: <20260320164951.128572-7-stondo@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260320164951.128572-1-stondo@gmail.com>
 References: <20260312153845.164369-1-stondo@gmail.com>
@@ -72,171 +72,93 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 16:50:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233621
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233626
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Add SPDX_FILE_EXCLUDE_PATTERNS variable that allows filtering files from
-SPDX output by regex matching. The variable accepts a space-separated
-list of Python regular expressions; files whose paths match any pattern
-(via re.search) are excluded.
+CPE 2.3 formatted string binding (cpe:2.3:...) requires
+backslash escaping for special meta-characters per NISTIR 7695.
+Characters like '++' and ':' in product names must be escaped.
 
-When empty (the default), no filtering is applied and all files are
-included, preserving existing behavior.
+The CPE 2.3 specification defines two bindings:
+- URI binding (cpe:/...) uses percent-encoding
+- Formatted string (cpe:2.3:...) uses backslash escaping
 
-This enables users to reduce SBOM size by excluding files that are not
-relevant for compliance (e.g., test files, object files, patches).
+Escape the required meta-characters with backslash:
+- Backslash (\\) -> \\
+- Question mark (?) -> \?
+- Asterisk (*) -> \*
+- Colon (:) -> \:
+- Plus (+) -> \+
 
-Excluded files are tracked in a set returned from add_package_files()
-and passed to get_package_sources_from_debug(), which uses the set for
-precise cross-checking rather than re-evaluating patterns.
+All other characters are kept as-is without encoding.
+
+Example CPE identifiers:
+- cpe:2.3:*:*:crow:1.0\+x:*:*:*:*:*:*:*
+- cpe:2.3:*:*:sdbus-c\+\+:2.2.1:*:*:*:*:*:*:*
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/spdx-common.bbclass |  7 ++++++
- meta/lib/oe/spdx30_tasks.py      | 38 +++++++++++++++++++++++++-------
- 2 files changed, 37 insertions(+), 8 deletions(-)
+ meta/lib/oe/cve_check.py | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 3110230c9e..5cba52eedc 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -54,6 +54,13 @@ SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index ae194f27cf..6555743514 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -205,6 +205,35 @@ def get_patched_cves(d):
+     return patched_cves
  
- SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
  
-+SPDX_FILE_EXCLUDE_PATTERNS ??= ""
-+SPDX_FILE_EXCLUDE_PATTERNS[doc] = "Space-separated list of Python regular \
-+    expressions to exclude files from SPDX output. Files whose paths match \
-+    any pattern (via re.search) will be filtered out. Defaults to empty \
-+    (no filtering). Example: \
-+    SPDX_FILE_EXCLUDE_PATTERNS = '\\.patch$ \\.diff$ /test/ \\.pyc$ \\.o$'"
++def cpe_escape(value):
++    r"""
++    Escape special characters for CPE 2.3 formatted string binding.
 +
- python () {
-     from oe.cve_check import extend_cve_status
-     extend_cve_status(d)
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 99f2892dfb..bc02b319c8 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -13,6 +13,7 @@ import oe.spdx30
- import oe.spdx_common
- import oe.sdk
- import os
-+import re
- 
- from contextlib import contextmanager
- from datetime import datetime, timezone
-@@ -154,13 +155,17 @@ def add_package_files(
-     file_counter = 1
-     if not os.path.exists(topdir):
-         bb.note(f"Skip {topdir}")
--        return spdx_files
-+        return spdx_files, set()
- 
-     check_compiled_sources = d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1"
-     if check_compiled_sources:
-         compiled_sources, types = oe.spdx_common.get_compiled_sources(d)
-         bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
- 
-+    # File exclusion filtering
-+    exclude_patterns = [re.compile(p) for p in (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").split()]
-+    excluded_files = set()
++    CPE 2.3 formatted string binding (cpe:2.3:...) uses backslash escaping
++    for special meta-characters, NOT percent-encoding. Percent-encoding is
++    only used in the URI binding (cpe:/...).
 +
-     for subdir, dirs, files in os.walk(topdir, onerror=walk_error):
-         dirs[:] = [d for d in dirs if d not in ignore_dirs]
-         if subdir == str(topdir):
-@@ -174,6 +179,13 @@ def add_package_files(
-                 continue
- 
-             filename = str(filepath.relative_to(topdir))
++    According to NISTIR 7695, these characters need escaping:
++    - Backslash (\) -> \\
++    - Question mark (?) -> \?
++    - Asterisk (*) -> \*
++    - Colon (:) -> \:
++    - Plus (+) -> \+ (required by some SBOM validators)
++    """
++    if not value:
++        return value
 +
-+            # Apply file exclusion filtering
-+            if exclude_patterns:
-+                if any(p.search(filename) for p in exclude_patterns):
-+                    excluded_files.add(filename)
-+                    continue
++    # Escape special meta-characters for CPE 2.3 formatted string binding
++    # Order matters: escape backslash first to avoid double-escaping
++    result = value.replace('\\', '\\\\')
++    result = result.replace('?', '\\?')
++    result = result.replace('*', '\\*')
++    result = result.replace(':', '\\:')
++    result = result.replace('+', '\\+')
 +
-             file_purposes = get_purposes(filepath)
- 
-             # Check if file is compiled
-@@ -213,12 +225,15 @@ def add_package_files(
- 
-     bb.debug(1, "Added %d files to %s" % (len(spdx_files), objset.doc._id))
- 
--    return spdx_files
-+    return spdx_files, excluded_files
- 
- 
- def get_package_sources_from_debug(
--    d, package, package_files, sources, source_hash_cache
-+    d, package, package_files, sources, source_hash_cache, excluded_files=None
- ):
-+    if excluded_files is None:
-+        excluded_files = set()
++    return result
 +
-     def file_path_match(file_path, pkg_file):
-         if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
-             return True
-@@ -251,6 +266,12 @@ def get_package_sources_from_debug(
-             continue
++
+ def get_cpe_ids(cve_product, version):
+     """
+     Get list of CPE identifiers for the given product and version
+@@ -221,7 +250,14 @@ def get_cpe_ids(cve_product, version):
+         else:
+             vendor = "*"
  
-         if not any(file_path_match(file_path, pkg_file) for pkg_file in package_files):
-+            if file_path.lstrip("/") in excluded_files:
-+                bb.debug(
-+                    1,
-+                    f"Skipping debug source lookup for excluded file {file_path} in {package}",
-+                )
-+                continue
-             bb.fatal(
-                 "No package file found for %s in %s; SPDX found: %s"
-                 % (str(file_path), package, " ".join(p.name for p in package_files))
-@@ -559,7 +580,7 @@ def create_spdx(d):
-         bb.debug(1, "Adding source files to SPDX")
-         oe.spdx_common.get_patched_src(d)
+-        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, product, version)
++        # Encode special characters per CPE 2.3 specification
++        encoded_vendor = cpe_escape(vendor) if vendor != "*" else vendor
++        encoded_product = cpe_escape(product)
++        encoded_version = cpe_escape(version)
++
++        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(
++            encoded_vendor, encoded_product, encoded_version
++        )
+         cpe_ids.append(cpe_id)
  
--        files = add_package_files(
-+        files, _ = add_package_files(
-             d,
-             build_objset,
-             spdx_workdir,
-@@ -775,7 +796,7 @@ def create_spdx(d):
-                 )
- 
-             bb.debug(1, "Adding package files to SPDX for package %s" % pkg_name)
--            package_files = add_package_files(
-+            package_files, excluded_files = add_package_files(
-                 d,
-                 pkg_objset,
-                 pkgdest / package,
-@@ -798,7 +819,8 @@ def create_spdx(d):
- 
-             if include_sources:
-                 debug_sources = get_package_sources_from_debug(
--                    d, package, package_files, dep_sources, source_hash_cache
-+                    d, package, package_files, dep_sources, source_hash_cache,
-+                    excluded_files=excluded_files,
-                 )
-                 debug_source_ids |= set(
-                     oe.sbom30.get_element_link_id(d) for d in debug_sources
-@@ -810,7 +832,7 @@ def create_spdx(d):
- 
-     if include_sources:
-         bb.debug(1, "Adding sysroot files to SPDX")
--        sysroot_files = add_package_files(
-+        sysroot_files, _ = add_package_files(
-             d,
-             build_objset,
-             d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
-@@ -1196,7 +1218,7 @@ def create_image_spdx(d):
-             image_filename = image["filename"]
-             image_path = image_deploy_dir / image_filename
-             if os.path.isdir(image_path):
--                a = add_package_files(
-+                a, _ = add_package_files(
-                         d,
-                         objset,
-                         image_path,
+     return cpe_ids
 -- 
 2.53.0
 
