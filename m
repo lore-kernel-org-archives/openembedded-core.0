@@ -1,128 +1,99 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26976108E1FF
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 09:27:07 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8919.1773998817902235379
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D0EB108B8E7
+	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 10:00:07 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9217.1774000806517601365
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 02:26:58 -0700
+ Fri, 20 Mar 2026 03:00:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Op0vHPiM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439c9bdc1eeso1552327f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 02:26:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=K1gGrcfD;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-89c68b0763aso25890146d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 03:00:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774000805; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SXC6b+BCtEqmIi72uhEceiFnQCG1NQSrUVz/iexb/Z9R14WMxY4n1zGBrSz3OR6MTg
+         bAvppcmJWqBJQpmPoYM6Mn8T7jz1b5mxGyfKB60WvoXFeer7uYDFPW57p3joM7ehF7P7
+         u6MjEB9UZ4wmDoJR0Twx6RFH8qsEDD3zQ/o493YKxIiGBet2z040dcBqRv6gono9iLGe
+         qr1tTr3z5UJ4CeGH2U9JMFtPpBlC3+YxXQyxzglsN7Ds+ZV1o4pgQdc0HKU8C3FXdnQ/
+         AodhxxXdAouD2ygDXG9xS0jILTJQU15QDHO5WmexrJYB5pd9Ykg73q3MQqvsvdbiNqrX
+         rUyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0zq7XA+WnbjDpt4II4lHZdiIUOAgQzd2awTaYr7l/80=;
+        fh=QG0/1kl/iNDCWfShgAIKRpbEE7JIBRGbrVXnRZODZk4=;
+        b=Y1OX6e+FG/MpH9t431Hf2osAkIy5C+cLm++TcLLn6u0w9Z7at68YqZ4C7sSsWNE+Mq
+         CtF8UGBL2/hc8q0XHBEBGP4kN8e98Iqziq8GSt872LVb75WSgN9wc94aY8mXMFcHuwiK
+         UDbFZu5Erahl0grfcG1loi+JiC4WyEEB4iVryL1870eYbI9zX3Mx4qogieZ5WTf00/ff
+         /YVHtfW/8EaDGik3jiFlwmcfm8vLBSeHdxSHCbaHGhmC8HKhXMkuET03WBmJNUhrgw2D
+         F3Dy3SwR/Kkt5zxNp3e9SrQ3FN1lkJSR7N0SOFMx6El4WtvA+XTO6zbjuVeUYjESlQ3t
+         A0gQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773998816; x=1774603616; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IkTTCEGvqtz67PA/XQkMkDiTigp+Dhsw5RIREVRM4Ic=;
-        b=Op0vHPiM0B5C+0U6DmyKBHN5YhuH7j5qF3b8DN8kKvQUAFq6CueMfG+Nfn9PVkLFgK
-         OtW1Hgua+sxgjg/NERc2qInyJU5uOsXv+uLuPWoD5xORN0+UpgPkYCmT77rzDdki8VTu
-         mVTL+K3Kjq6B8i5Rxq5Vl00cqAyCko/zZNvk0=
+        d=gmail.com; s=20230601; t=1774000805; x=1774605605; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0zq7XA+WnbjDpt4II4lHZdiIUOAgQzd2awTaYr7l/80=;
+        b=K1gGrcfDk+uJbUOOtvGodjUtWzcz6uvtUzEgP08rVgYqwsPCf0ac2q5iRBNCGWp+ES
+         i9hxFiE8pZY/eQWN8PhYpRwdfsNzbVQlElTg3djkry4gcD44SWvbtJvQrNRK8m19NtRX
+         yazOCsKgtWTEeOryvi54jgQjVEpgC3ZWrhXJa8r5rG8zbVDag1cH/TzlGkJacdFbtmrT
+         8KyxIKITnBYRLD6vvPm6FqahHav21rnBZic0M2pfuci1Atu08A9BuI5cvCZza387VOaE
+         l4l8nNPRN7hCz4ZZXVdsuMpZp7CMThI56q1YTwQM6+LrHYj7CZtGZ8edOH750nG4bKMa
+         oBpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773998816; x=1774603616;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IkTTCEGvqtz67PA/XQkMkDiTigp+Dhsw5RIREVRM4Ic=;
-        b=f0UIxcDUFkx/pJxpb/UBeNc+kTL3vsoAPczfeSPsqbXecjYSyYFFTfiT+DVLu4RjOD
-         W7FOEKCygnjZAtqHHE4sEcvyAwvRxWGHCVFSKHV3G5+wCO3ohxQgzevCtd6VbuniWOCR
-         jPUHuH1LbEbEAEQ1ivB2em4krbKSx7dRIxV6dI1ZtKllCRr49vHxdKIqhvnIMp8vi44e
-         X8K9T8mt+L/3+vqgs28YMtOno5DEMp9AOyC9uIQgWE5XT5mgrxmhxWzEs+u1s8HVvrNO
-         fJbTML59hibd4gbizeS9ezaUD84A0gxhPCmMXxJl8UPktM9o1yttLI/0sX58YhAPRwJC
-         UKQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWTND5QWqg1jWDD9PCdsrbJJGTfgoOzv1ziJrUzNXZf6w5/fPETDZIxuwpmfkY93aHKdlKYNP0cT1DlZJ4KdNp3gQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzOY1YAlkjyI8KfMD2CH1uvTuu1vUF4oZXDxWz0GoGeFO4f5Dgg
-	IgDyfYewkVT5+AgfIvpHmvZXEdqtkU028hDzS3kvSxqOCGQ4OeJBP+UhEHBo/APYOB4=
-X-Gm-Gg: ATEYQzwnasT+iLW7gX2yJ4Urt+LsjXGyvjRaO1VbF18Pe5heSFuHWJtBj6ajFhE0daw
-	Yn7RCvzBcFudb5ci/PaMPPi+fMCtL8PvMIbQk48eP3AgMJCMlVfOF6zYNcIhQrnl8fUJ6pFZ5x1
-	sawDAPmQ8ZZm0Pu13j8Mxq5FRfVylykCGS8RsTtD/ddS913QxQU92UL9+CxNITWaqA7fSVwJb7W
-	eL+kKPWtozzU0bA4G5tAauZ1GAeRXQY9wvt5nAlJwhy0AnGrjTg+tel7hNQIiz6u0a1VSANstvu
-	oTrhA8ytwPf4JrKyq6DMObJIlVLgPpzam+g2KX1SUcPBKgzp2VJAa7JhGLIG5w11OM5sCMMe1Fe
-	xohBcTSPK11cpylezSiRyqitJsL2cxBZyS1ACs3HLFuYomxrK9f204dAsZJokTy1eT8YeQ/Xt5s
-	N/QCGg7k7UgqGgG2ZmClS9aaAcwUNx2pyMMt2uQmUROaJkITvzlM+NcktJYHq5H6UM9SdW5cdQF
-	rkKn2A+FRNrDcd+
-X-Received: by 2002:a05:6000:24c4:b0:43b:6345:8d7e with SMTP id ffacd0b85a97d-43b6423a236mr4148127f8f.13.1773998816149;
-        Fri, 20 Mar 2026 02:26:56 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:72df:cb96:568c:f7d8? ([2001:8b0:aba:5f3c:72df:cb96:568c:f7d8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64703c7fsm5359021f8f.23.2026.03.20.02.26.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 02:26:55 -0700 (PDT)
-Message-ID: <48f14806accaadc4f980677c47db1ca194bbc5a8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] ltp: fix warning in remove_broken_musl_sources
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: joaomarcos.costa@bootlin.com, Mathieu Dubois-Briand	
- <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com
-Date: Fri, 20 Mar 2026 09:26:54 +0000
-In-Reply-To: <d01181ac-b115-4d87-9902-e7dd5b888341@bootlin.com>
-References: <20260319132904.1308436-1-joaomarcos.costa@bootlin.com>
-	 <DH6XX5V3YO6B.2PRKV55NZP37I@bootlin.com>
-	 <78bcbd97-e691-4381-9312-bae0fe0ebf73@bootlin.com>
-	 <DH6YQYC6H8Z2.2B8KJW0XH6SI@bootlin.com>
-	 <d01181ac-b115-4d87-9902-e7dd5b888341@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        d=1e100.net; s=20251104; t=1774000805; x=1774605605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0zq7XA+WnbjDpt4II4lHZdiIUOAgQzd2awTaYr7l/80=;
+        b=lyomR2N+mVdKJyT1DoiJMWNgL/UkgK2BoY8Y7CvY/YrgemfVswdXT2afnDOHrCm2tG
+         Q0oxaBm0h8NGGdACvcPj6Fr+HKIPRBoH6SydM9wi2+EGjhQbZJ+KrQ3uS0TllAFXUYqH
+         r4OzcxjSdHRBJ4zM43Bj5+jwJWAVPDMp3tV3rJa+tEir4w2rFd2iRASYMXBNMYE96jDF
+         StLglcutVmsGchcUYYOH7+ypSxHyF9TdZeyDCf70HpcZHVANqJ0zM+CK6gWmc4ftHAkl
+         hHd++qfPKw6j+IUU8fxVBcT0PbDk14qF9J6NybnGxdLTTEMrGV3spw1Itfu3Ow1KrbwH
+         6dLA==
+X-Gm-Message-State: AOJu0YzxMIYCvqOP7F2KixyS/sWFeREmHUiLPvGxczZ7wXoRICvzmxhv
+	P+egnNRnHB2iDqO6Yxedvi0d7lG+X9Aqo/q1offOzXjYAAoT/NsHqBhxc9DUP7IPNbGVWf4+mbS
+	Tb1fb+QfgmQ+2ioHKWqvDR9pURtSeLoelPnlp
+X-Gm-Gg: ATEYQzxAMbX7F6WPquToPwQ+sVv1vc2rI5j3D/GKCNjO4Jcpe1fHBW0IJTxhstR5ye7
+	cHJZODTyfKzhtKRXcpqDOdaLgV3nheUHz4wJoE81dnKNlMqWH8iFmNSFehQd/uzGrXKJoG2w/4r
+	vORbH2VsEzGU/ticsNup0imthYAI6ukYlthes8fodfI7xi10fZSXMhGFAlHtbVsn/RBjxENiVf8
+	kAz8sJxuidoS8/JAFnNQNqBayM95d++Fo/30TDQxboKRfA4NE6+e6k9harbTvfqDktnUS7DipXG
+	C7+qLljHPwGdC6pZN1Di4tGWAwtBmJ3oqoaUUxdoRA==
+X-Received: by 2002:a05:6214:470d:b0:89c:8a0f:566a with SMTP id
+ 6a1803df08f44-89c8a0f5ab3mr10057586d6.37.1774000805203; Fri, 20 Mar 2026
+ 03:00:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260319011815.13998-1-liuyd.fnst@fujitsu.com>
+In-Reply-To: <20260319011815.13998-1-liuyd.fnst@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 20 Mar 2026 10:59:53 +0100
+X-Gm-Features: AaiRm53oKMkGUfyVn-5guEAEtV77GXOTBSkdfvNNpJu2KJs1MpgwBwHgRoCjh_0
+Message-ID: <CANNYZj8ihti0bq3qtK2xag9U1TGKGaHyvpdgbTATSzAGc7MgdA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] libsolv: upgrade 0.7.35-> 0.7.36
+To: liuyd.fnst@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 09:27:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233592
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 10:00:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233593
 
-On Fri, 2026-03-20 at 10:16 +0100, Joao Marcos Costa via lists.openembedded=
-.org wrote:
-> Hello,
->=20
-> On 3/19/26 19:17, Mathieu Dubois-Briand wrote:
-> > On Thu Mar 19, 2026 at 6:55 PM CET, Joao Marcos Costa wrote:
-> > > Hello,
-> > >=20
-> > > On 3/19/26 18:38, Mathieu Dubois-Briand wrote:
-> > > > On Thu Mar 19, 2026 at 2:29 PM CET, Joao Marcos Costa via lists.ope=
-nembedded.org wrote:
-> > > > > If this was originally intended to be an actual warning, it was n=
-ot
-> > > > > behaving as such: echo only prints to log.do_patch, so the messag=
-e ends
-> > > > > up hidden there.
-> > > > >=20
-> > > > > Replace 'echo' by bbwarn to display the warning message correctly=
-.
-> > > > >=20
-> > > > > Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.c=
-om>
-> > > > > ---
-> > > >=20
-> (...)>>>
-> > > Yep, it will. Would an INFO/NOTE be acceptable instead?
-> > >=20
-> > > Thanks!
-> >=20
-> > Yes, I believe info or note are acceptable.
-> >=20
-> > Thanks,
-> > Mathieu
->=20
-> I sent a v2 to fix that.
->=20
-> One more thing, though: this same function uses an 'rm -rfv' and the=20
-> "-f" option will not raise an error if the file is not there.
->=20
-> Do you think this should be addressed? I would send this in a different=
-=20
-> patch, of course.
+On Thu, 19 Mar 2026 at 02:27, Yiding Liu (Fujitsu) via
+lists.openembedded.org <liuyd.fnst=fujitsu.com@lists.openembedded.org>
+wrote:
+> 2.Remove 0001-utils-Conside-musl-when-wrapping-qsort_r.patch
+>  as it is not compatible with 0.7.36
 
-Tasks need to be idempotent, we can run then multiple times with the
-same result. I didn't check where this is being called but the -f is
-probably fine.
+A better explanation is to say that the issue was fixed upstream with
+this commit:
+https://github.com/openSUSE/libsolv/commit/2d0718a4f2001c857d9af24398c68d676a98a3ca
 
-Cheers,
-
-Richard
+Alex
 
