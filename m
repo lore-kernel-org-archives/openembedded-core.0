@@ -1,110 +1,113 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF0C10987A3
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 16:14:55 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16941.1774023289653238656
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EB310987A5
+	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 16:44:05 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17646.1774025044703693453
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 09:14:50 -0700
+ Fri, 20 Mar 2026 09:44:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=pklbOWvq;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 927F91A2F03;
-	Fri, 20 Mar 2026 16:14:47 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 67274600E0;
-	Fri, 20 Mar 2026 16:14:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DC4E610450CA3;
-	Fri, 20 Mar 2026 17:14:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774023286; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=g0N4E5ZsGWCpTMxSvy7I2tWzlzTGfOCehd3cZvtC/bA=;
-	b=pklbOWvqjcjh/MWUNxTWtEHBps04UOvR70p/8LjULKppHr7J346dIGwSdmGKo8RPmA0jJ/
-	rym7AXusmWuDnGOB16pRKgDlwyHct3TxJ5ITlho1+qdJM2UBHC8yWln19nzp0AcB5JVJE8
-	iw5Uqfojbi+jPkPTAZql6Cr9kpqYDP0e/xTWw41NWzvptF8ICM0MS91PBUKj/rmhFNMrYq
-	4rj9dOJgA0mDOjj04MEQIkffqP02NsjiUBcYJrtlMwLdMWAvP4ZlSvnwNuRjU/ODEWnq39
-	OKZLKjXQVC8cPln/6HX/VG1foAzojm+yC7ceYx9LETcTnG7c2w6c1rSrVSG0jA==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- richard.purdie@linuxfoundation.org, ross.burton@arm.com,
- peter.marko@siemens.com, jpewhacker@gmail.com, olivier.benjamin@bootlin.com,
- antonin.godard@bootlin.com, mathieu.dubois-briand@bootlin.com,
- thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH v6] sbom-cve-check: Add class for post-build CVE analysis
-Date: Fri, 20 Mar 2026 17:14:44 +0100
-Message-ID: <9699867.rMLUfLXkoz@brobin-bootlin>
-In-Reply-To: 
- <CAApg2=QPoTedChybGx6gC8pQek57mfxd0jrtFZwBmJ5YyJ=ZhQ@mail.gmail.com>
-References: 
- <20260319-add-sbom-cve-check-v6-0-cfc657daa6b7@bootlin.com>
- <20260319-add-sbom-cve-check-v6-1-cfc657daa6b7@bootlin.com>
- <CAApg2=QPoTedChybGx6gC8pQek57mfxd0jrtFZwBmJ5YyJ=ZhQ@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QpHx2QWc;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-829ac8d56c5so1859904b3a.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 09:44:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774025043; x=1774629843; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E4m+clY306uBWg8tlLjv7fUQp/6bpYOLoTuuNdB1XtA=;
+        b=QpHx2QWckBbyFKffc3zOj6l9vdgnQXRt2EdrAz8NGuEf9+TkCavGsx17n7x3R0LNOv
+         O0AVeQ4DpY0yVMehhJ5+OuSKmYNN6YsfI0vmjt63dy+QI0oKtk/vPayevV0yl1AG63op
+         52dmPgGYyK8CqA0v38SVjq42kyYMOmpSH7QVayDAcP3oGp9Um2G14iT+SJQO/MTFg7XY
+         5Jy38hytmRTlJUOLi0X5BamGQGPezgUHGPdjyqBU9vgTyEZ3nROCiwuY8qxnNxiCmGgU
+         +akps2gNI1PduDKdVysAW1ZRFKv4a8/oIzqQjoLufzRiwnveHZ5kCDTSXOIpK+EgTY4K
+         S89w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774025043; x=1774629843;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=E4m+clY306uBWg8tlLjv7fUQp/6bpYOLoTuuNdB1XtA=;
+        b=JdKxbMidKESUQxT1W4Y4Rmp7Tj8eeWkWnsPa+P7elsFN2GW0pNffcMSnzwlraQO3cB
+         R/VTzeu1I3RwsAfIHdMVVt3LuyO9q4jYtxkNKmcRVvKl5P2B8uRbl9brA4o/Nkpvrhfp
+         8zAX7WaLKqY/cT5d0bBUB04fIUsuH+myC6mJvsP1U/8+47giHvxF1bAHxOBfCTaMIFFq
+         GswCQ+0nFO9BvmrWIaHUn9XR5K0RTSI+AuLwKghheu8KJ1GAg7HkVOpThopsUP7QmTye
+         wzV4QqaNncNGdjllw5MxDZM/o9bm7Udh8BfLUo0ceD77pXuE9bmMRFcyczd/2+sNzf2G
+         cg4Q==
+X-Gm-Message-State: AOJu0Yw0EtaneqJ2/eLoaiva33FgirCT5Lc/awxtiggiGMZ6d+bKUQ1F
+	unOohpTekAiqjh7vgA3afqmXUb0zF3ps1KwVk7Z1f159vFNWZUv4DWiOLIblxA==
+X-Gm-Gg: ATEYQzzRwzsDzpLNW7tM0uEZJF0brA9i9Qhvttzrl1Dq2pLy5npKyAPZR15oQBlcjbE
+	CstUDHxBmRE/zS/fsu4CO6RJ8jVz+XyJf+Wsa57OwGasmgQgeKLM58v3Cqv5gdIviKKg83oIF2U
+	3T02W2dbk5SM7BGQtD3BnkQN9qTzrzT/UsJek/J7dEL03bUAbJch7/m++fPGqkhjduTo0uiZCGp
+	DXJFggRPckRQaAcNMaOa6FVFgZ9cetEcArrizXsQCnBnxR02kHVpDO1cnLXFDRkYd1VXKGHxF/U
+	Rwr0FHC94U6c21Qo1MmDQdOt4f/+7O83boFfOI+WB6lO/w0q1JutJ9Dr/1+hDMuKgsVNW3XGhZU
+	Jdq3oItpC4AdCoyQHmIuyQZiu1PDBQPX3HUdyYMnnlPH7OT9bBSwdB+Ei55bj3/fPQoZ8cEiZeA
+	4KdzQv1edQzgM/IJT9mF4KWzE2RPIEropIrUxJBVJCmdV4u2U5rvDpLIeCrI9oxGnce4lAm6oka
+	/LyaDydkoisA1pRa61vVQ==
+X-Received: by 2002:a05:6a00:198d:b0:828:f1d9:22cc with SMTP id d2e1a72fcca58-82a8c234f59mr2982447b3a.20.1774025043477;
+        Fri, 20 Mar 2026 09:44:03 -0700 (PDT)
+Received: from localhost.localdomain (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm2402379b3a.31.2026.03.20.09.44.02
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 20 Mar 2026 09:44:02 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: marta.rybczynska@syslinbit.com
+Subject: [PATCH 1/1] vex: rename rootfs CVE manifest JSON to include .vex. suffix
+Date: Fri, 20 Mar 2026 09:43:52 -0700
+Message-ID: <ac5a6479b1e481c4c5411ea069cf51ea4959e2a6.1774024001.git.tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1774024001.git.tim.orling@konsulko.com>
+References: <cover.1774024001.git.tim.orling@konsulko.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 16:14:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233617
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 16:44:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233619
 
-Hello Marta,
+Rename the rootfs CVE manifest output file and its deploy
+directory symlink from ${IMAGE_NAME}.json to
+${IMAGE_NAME}.vex.json, and from ${IMAGE_LINK_NAME}.json
+to ${IMAGE_LINK_NAME}.vex.json.
 
-On Friday, March 20, 2026 at 4:54=E2=80=AFPM, Marta Rybczynska wrote:
-> > ---
-> >  meta/classes-recipe/sbom-cve-check.bbclass         | 121
-> > +++++++++++++++++++++
-> >  meta/conf/distro/include/maintainers.inc           |   2 +
-> >  meta/conf/fragments/yocto/sbom-cve-check.conf      |  14 +++
-> >  meta/recipes-core/meta/sbom-cve-check-config.inc   |   4 +
-> >  .../meta/sbom-cve-check-update-cvelist-native.bb   |  12 ++
-> >  .../recipes-core/meta/sbom-cve-check-update-db.inc |  28 +++++
-> >  .../meta/sbom-cve-check-update-nvd-native.bb       |  12 ++
-> >  7 files changed, 193 insertions(+)
-> >
-> >
-> Hello,
-> That looks cleaner than the previous version. How long does the intiial
-> build take with
-> this fetcher?
->=20
-> Kind regards,
-> Marta
+This avoids ambiguity in the image deploy directory where
+other rootfs JSON files exist (e.g. SPDX/SBOM output), making
+the VEX origin and purpose explicit in the filename.
 
-I am not sure to understand the question.
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ meta/classes/vex.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-With this fetcher, the duration of the initial clone is a "bit" slower,
-since we are not doing a shallow clone. If the download directory is
-not deleted, the initial fetch is done only once.
-
-The fetch can be realized in parallel with the build of the packages,
-and it really depends of your internet connection and of the build
-machine.
-
-But if I run:
-
-$ bitbake -c cleanall sbom-cve-check-update-cvelist-native \
-   sbom-cve-check-update-nvd-native
-
-=46ollowed by:
-
-$ time bitbake sbom-cve-check-update-cvelist-native \
-   sbom-cve-check-update-nvd-native
-
-The time elapsed is 5m10.211s
-I hope this answer your question.
-
-=2D-=20
-Benjamin Robin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
+diff --git a/meta/classes/vex.bbclass b/meta/classes/vex.bbclass
+index 402d8e0d964..c57b8209c23 100644
+--- a/meta/classes/vex.bbclass
++++ b/meta/classes/vex.bbclass
+@@ -33,7 +33,7 @@ CVE_CHECK_SUMMARY_INDEX_PATH = "${CVE_CHECK_SUMMARY_DIR}/cve-summary-index.txt"
+ 
+ CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
+ CVE_CHECK_RECIPE_FILE_JSON ?= "${CVE_CHECK_DIR}/${PN}_cve.json"
+-CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.json"
++CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.vex.json"
+ 
+ # Skip CVE Check for packages (PN)
+ CVE_CHECK_SKIP_RECIPE ?= ""
+@@ -201,7 +201,7 @@ python vex_write_rootfs_manifest () {
+ 
+     d.setVar("PN", save_pn)
+ 
+-    link_path = os.path.join(deploy_dir, "%s.json" % link_name)
++    link_path = os.path.join(deploy_dir, "%s.vex.json" % link_name)
+     manifest_name = d.getVar("CVE_CHECK_MANIFEST_JSON")
+ 
+     with open(manifest_name, "w") as f:
+-- 
+2.50.1 (Apple Git-155)
 
 
