@@ -2,111 +2,106 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EB310987A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54E0610987B1
 	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 16:44:05 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17646.1774025044703693453
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17644.1774025042246714446
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 09:44:04 -0700
+ Fri, 20 Mar 2026 09:44:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QpHx2QWc;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-829ac8d56c5so1859904b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 09:44:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YLPOW9pY;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-82748257f5fso2247450b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 09:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774025043; x=1774629843; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E4m+clY306uBWg8tlLjv7fUQp/6bpYOLoTuuNdB1XtA=;
-        b=QpHx2QWckBbyFKffc3zOj6l9vdgnQXRt2EdrAz8NGuEf9+TkCavGsx17n7x3R0LNOv
-         O0AVeQ4DpY0yVMehhJ5+OuSKmYNN6YsfI0vmjt63dy+QI0oKtk/vPayevV0yl1AG63op
-         52dmPgGYyK8CqA0v38SVjq42kyYMOmpSH7QVayDAcP3oGp9Um2G14iT+SJQO/MTFg7XY
-         5Jy38hytmRTlJUOLi0X5BamGQGPezgUHGPdjyqBU9vgTyEZ3nROCiwuY8qxnNxiCmGgU
-         +akps2gNI1PduDKdVysAW1ZRFKv4a8/oIzqQjoLufzRiwnveHZ5kCDTSXOIpK+EgTY4K
-         S89w==
+        d=gmail.com; s=20230601; t=1774025041; x=1774629841; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1owLjHKmS+mz9p3AcFB54rTufYMfK9rBXE5sA3dDvy8=;
+        b=YLPOW9pYVIZVILBsYA87rdX4hKvT4Jutfx9cAQ7d4YDo9GAEcS/k8NZsd769Orz6KB
+         GnjP0+M/jwJIS08tFfz0ywMmWVZVsm9a0X+Eg6YqCUsLMzusP7yku4nd4rRLTkAL4mDo
+         UsZD7zbMQx7a6/f2PdcXMdE2iNNY605l6aubzlusLG8lesPNbdUIdtKn/DnKCUUHQrdG
+         FWvAhHTR623tA4men9/FIfnoEsKEcwQjK+dF9zavorS4DoUmWRNGqhZen1D47h0tf2ke
+         R2iOIb8COP+dI4XWU6XZtdCB4ItT7iSciYe/pv4Or6nyIs6U6RCLZ9Bxna9V+2t8tadf
+         jozg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774025043; x=1774629843;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E4m+clY306uBWg8tlLjv7fUQp/6bpYOLoTuuNdB1XtA=;
-        b=JdKxbMidKESUQxT1W4Y4Rmp7Tj8eeWkWnsPa+P7elsFN2GW0pNffcMSnzwlraQO3cB
-         R/VTzeu1I3RwsAfIHdMVVt3LuyO9q4jYtxkNKmcRVvKl5P2B8uRbl9brA4o/Nkpvrhfp
-         8zAX7WaLKqY/cT5d0bBUB04fIUsuH+myC6mJvsP1U/8+47giHvxF1bAHxOBfCTaMIFFq
-         GswCQ+0nFO9BvmrWIaHUn9XR5K0RTSI+AuLwKghheu8KJ1GAg7HkVOpThopsUP7QmTye
-         wzV4QqaNncNGdjllw5MxDZM/o9bm7Udh8BfLUo0ceD77pXuE9bmMRFcyczd/2+sNzf2G
-         cg4Q==
-X-Gm-Message-State: AOJu0Yw0EtaneqJ2/eLoaiva33FgirCT5Lc/awxtiggiGMZ6d+bKUQ1F
-	unOohpTekAiqjh7vgA3afqmXUb0zF3ps1KwVk7Z1f159vFNWZUv4DWiOLIblxA==
-X-Gm-Gg: ATEYQzzRwzsDzpLNW7tM0uEZJF0brA9i9Qhvttzrl1Dq2pLy5npKyAPZR15oQBlcjbE
-	CstUDHxBmRE/zS/fsu4CO6RJ8jVz+XyJf+Wsa57OwGasmgQgeKLM58v3Cqv5gdIviKKg83oIF2U
-	3T02W2dbk5SM7BGQtD3BnkQN9qTzrzT/UsJek/J7dEL03bUAbJch7/m++fPGqkhjduTo0uiZCGp
-	DXJFggRPckRQaAcNMaOa6FVFgZ9cetEcArrizXsQCnBnxR02kHVpDO1cnLXFDRkYd1VXKGHxF/U
-	Rwr0FHC94U6c21Qo1MmDQdOt4f/+7O83boFfOI+WB6lO/w0q1JutJ9Dr/1+hDMuKgsVNW3XGhZU
-	Jdq3oItpC4AdCoyQHmIuyQZiu1PDBQPX3HUdyYMnnlPH7OT9bBSwdB+Ei55bj3/fPQoZ8cEiZeA
-	4KdzQv1edQzgM/IJT9mF4KWzE2RPIEropIrUxJBVJCmdV4u2U5rvDpLIeCrI9oxGnce4lAm6oka
-	/LyaDydkoisA1pRa61vVQ==
-X-Received: by 2002:a05:6a00:198d:b0:828:f1d9:22cc with SMTP id d2e1a72fcca58-82a8c234f59mr2982447b3a.20.1774025043477;
-        Fri, 20 Mar 2026 09:44:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774025041; x=1774629841;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1owLjHKmS+mz9p3AcFB54rTufYMfK9rBXE5sA3dDvy8=;
+        b=WYIO0Lv/b5JNVfwBfOwCsCgK0NWiRPa/dwWt/cTOrnLIyheX9rh6EzisC9gzYTk2eM
+         Slg4XdZDBIYa0z+8fmuBW5gTygGqkVCACCxhvaS65JIvBoqVAkpJIYwk9m2kAx1UH3z3
+         Ss2vSvZMfbApDYePlXoslAbmGTIS/aA40OIUEM/LHO7Qmy4uSZFskaL28Lz2VLDgclIS
+         YdlI5w4P4ZklutdWFOoe5t2KxHmNyRTVs75tU2Tdyzi6psMV11Mt4uhXc4n8GeOaf+D6
+         IAw3/87yA5BNV8n161B3PZm5rzBCz2YAdFA09fhNhGvggUdX7+qfhQlKHN966aS1D6MR
+         5Z/g==
+X-Gm-Message-State: AOJu0YyAyjSty2aUrNfgWkUZ/ETxJ8DkUBW6DS5SEuDMCj3nZgEB6aBc
+	6yapJ12Dc582Xj/jkq/qPRv0ij49D4yztA5Sl8lJjOSVGL1ObdvlYqYUmt8t3A==
+X-Gm-Gg: ATEYQzzcP1p3KSy4UYAxf4sG4JRlUlDHvSB/gpgXGR5Ro5oeX5P6cTYg6dsHyuncVE+
+	vrgH+TEZrQBTTSu4qFNTcU+3Lrj3Yfxm8/4jZ0k/Gh1KKwG9Eakc5Ozx6OfZtI0CabvCCprLTdn
+	I4BRFwNpe8WezcTHTo3m2KHmWr1b0bWrQ7mR9AFDgRt9NX5TVbQBZk+Ky1SNRWdao/WPTK217ZZ
+	G7JzZ/1iPdZmMSdBg/gAg+lajWiirpBY5+MVIG0vrmu1f6VCMdTZLyznyMSd4eBx/F0q1oxJ3Fq
+	my68m+nZh1xwMwTwCfmBBtV/MCwU1q29Jb6Gfr405BGKNeyMz3z4ombGwhkSCOPsZK1hT51uQ9s
+	Ak6wmWQcWivrqPB1biom7H6ROtD/fOmqxI/tbZg3whpwyc41xQudeFFCHKxUUGe56oZSMlphX2m
+	O+eCPEphn0DgnvIxtmRqESgyNVuEbj14wXwFXN4qXB3Y/Q8o5H8EBuXlGVNRMegHzm+Hq0U3nY8
+	dj3dXuzfikzqvsKMntIQg==
+X-Received: by 2002:a05:6a00:bb8d:b0:827:2dff:7116 with SMTP id d2e1a72fcca58-82a8c2ddc09mr2730644b3a.13.1774025040969;
+        Fri, 20 Mar 2026 09:44:00 -0700 (PDT)
 Received: from localhost.localdomain (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm2402379b3a.31.2026.03.20.09.44.02
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm2402379b3a.31.2026.03.20.09.44.00
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 20 Mar 2026 09:44:02 -0700 (PDT)
+        Fri, 20 Mar 2026 09:44:00 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marta.rybczynska@syslinbit.com
-Subject: [PATCH 1/1] vex: rename rootfs CVE manifest JSON to include .vex. suffix
-Date: Fri, 20 Mar 2026 09:43:52 -0700
-Message-ID: <ac5a6479b1e481c4c5411ea069cf51ea4959e2a6.1774024001.git.tim.orling@konsulko.com>
+Subject: [PATCH 0/1] vex: rename rootfs CVE manifest JSON to include .vex. suffix
+Date: Fri, 20 Mar 2026 09:43:51 -0700
+Message-ID: <cover.1774024001.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1774024001.git.tim.orling@konsulko.com>
-References: <cover.1774024001.git.tim.orling@konsulko.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 16:44:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233619
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233618
 
-Rename the rootfs CVE manifest output file and its deploy
-directory symlink from ${IMAGE_NAME}.json to
-${IMAGE_NAME}.vex.json, and from ${IMAGE_LINK_NAME}.json
-to ${IMAGE_LINK_NAME}.vex.json.
+We have other *.rootfs.*.json files, such as .rootfs.spdx.json and
+rootfs.testdata.json, so let us remove any ambiquity about the source and
+purpose of this file generated by vex.bbclass.
 
-This avoids ambiguity in the image deploy directory where
-other rootfs JSON files exist (e.g. SPDX/SBOM output), making
-the VEX origin and purpose explicit in the filename.
+The only other file that defines CVE_CHECK_MANIFEST_JSON is
+meta/classes/cve-check.bbclass (line 54). It uses the same ?=
+weak assignment with a suffix mechanism:
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
+CVE_CHECK_MANIFEST_JSON_SUFFIX ?= "json"
+CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.${CVE_CHECK_MANIFEST_JSON_SUFFIX}"
+
+When both cve-check and vex are inherited, vex.bbclass's ?= will win or
+lose depending on parse order. Since vex.bbclass is intentionally designed
+to supersede cve-check behavior (line 76 in vex.bbclass even checks
+inherits_class("cve-check", d)), this is likely fine by design — but it's
+worth noting that cve-check.bbclass's suffix mechanism is effectively
+bypassed when vex is active.
+
+No tests or documentation currently reference the old .json filename
+pattern, so there are no other files needing updates. The main practical
+impact is on any external automation or scripts (outside of oe-core repo) that
+were consuming ${IMAGE_LINK_NAME}.json as the VEX output — those would need
+to be updated to look for ${IMAGE_LINK_NAME}.vex.json instead.
+
+The documentation for sbom-cve-check tool would need an update:
+https://sbom-cve-check.readthedocs.io/en/latest/user-guide.html#examples-of-invocation
+
+Tim Orling (1):
+  vex: rename rootfs CVE manifest JSON to include .vex. suffix
+
  meta/classes/vex.bbclass | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/vex.bbclass b/meta/classes/vex.bbclass
-index 402d8e0d964..c57b8209c23 100644
---- a/meta/classes/vex.bbclass
-+++ b/meta/classes/vex.bbclass
-@@ -33,7 +33,7 @@ CVE_CHECK_SUMMARY_INDEX_PATH = "${CVE_CHECK_SUMMARY_DIR}/cve-summary-index.txt"
- 
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
- CVE_CHECK_RECIPE_FILE_JSON ?= "${CVE_CHECK_DIR}/${PN}_cve.json"
--CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.json"
-+CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.vex.json"
- 
- # Skip CVE Check for packages (PN)
- CVE_CHECK_SKIP_RECIPE ?= ""
-@@ -201,7 +201,7 @@ python vex_write_rootfs_manifest () {
- 
-     d.setVar("PN", save_pn)
- 
--    link_path = os.path.join(deploy_dir, "%s.json" % link_name)
-+    link_path = os.path.join(deploy_dir, "%s.vex.json" % link_name)
-     manifest_name = d.getVar("CVE_CHECK_MANIFEST_JSON")
- 
-     with open(manifest_name, "w") as f:
 -- 
 2.50.1 (Apple Git-155)
 
