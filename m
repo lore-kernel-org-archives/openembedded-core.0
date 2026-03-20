@@ -2,133 +2,243 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B7B1093186
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 07:56:21 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7529.1773993379153890674
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2971093187
+	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 07:56:31 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7578.1773993381830809207
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 00:56:19 -0700
+ Fri, 20 Mar 2026 00:56:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=RpPKuGKj;
- spf=pass (domain: mvista.com, ip: 209.85.214.174, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2b04b4974abso16105335ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 00:56:19 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=VLBCzKXN;
+ spf=pass (domain: mvista.com, ip: 209.85.216.42, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-35a211df8e3so1217842a91.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 00:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1773993378; x=1774598178; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AxDDNTvtGGFGB36Neyut/IaeqvMSJbfI8Az+EJjV0tA=;
-        b=RpPKuGKjMR0sQDZhfzFoLxqPKvhnD6Kx1PYsH5hBHnpNGvTVjPFNamdkmN4l4YcCP7
-         YNAAsCVTDZuzdJY/ZPTPy6yyAtSV6B2hsT1XO425wx7zxLUD7toZkgMOc4+NOVpRC1u0
-         nZD+BtqM6rJR31aVl0psccFIOTuKzfBwNwhng=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773993378; x=1774598178;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=mvista.com; s=google; t=1773993381; x=1774598181; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AxDDNTvtGGFGB36Neyut/IaeqvMSJbfI8Az+EJjV0tA=;
-        b=KKAOkSwChGCjqg3Yp3RST14r6a+0oj/nSMyY+up/zEaMAkCBp9R9PEiTK6EZaFjU0g
-         14uFT6fI+KcIhiDRUUqjwj6uvyIzVio3YcW5e+10FK0kOYU6hcMML5kvPjXg1KzSYvid
-         dpDwdpBq+Aevlo0dpz8XEeeNglx/2EpaH75Iq1vQ9QsBCURxVWWgVbKT9G+ZOvuBSSmk
-         43pvo86cMbPPToGnQvD3t3LRp1Er5+j6PcTKkEtW6NTaQfpTAG61G74j8SAzV+189ZRV
-         JYGj+bXqczDMP6gbdVBEOte1F8BGuLHLW+8pWY/AwkxC3+AXY89SYpbbwFIP8HOKnv2Z
-         y0pA==
-X-Gm-Message-State: AOJu0YzAunqPOgVf4L0ZZBb8T4kIupER+AEomksdKV5T91mnFE7uIqLe
-	8QIeMc08CTRg31yTFcKgLrx6sNp06s9DeSYHa5GSMmO3m74DOvupkkWlVhM5rCIXOsfXEiLW17Z
-	Di8jIAGc=
-X-Gm-Gg: ATEYQzzn5REd20UEqvQcmdbspPrTXPCA51fREt+2vbR1RiEmUXbUqTQQq8owFTpgIw4
-	TuPXRsLkX2sPHuzZuV2S2Teu/oYZtTH9umF4+Kr3X/sZQubdaRrnAGxlJlAHhfFxxVtsEpbx/AY
-	7r9cmxrmo3qlMxcb6LdBBw/v9MqQgGHNoQGLmSw/9HefmUQuFYZr6WtTyS7YAvXGoRUtS1EK4z5
-	f0wXXF92E1N1MXHra7dZA3Jau4co5fRjrYUd4noswYLrDHVr/vWA/X99uQSV96ggUZwBxnitoh3
-	z8KxANuKZF2uQR58x5d/Nk95jJg25tMYqsmu/9Lq+Zi3O8RT/W7iLbPgPM9XN0jUEa+gIA/1YOQ
-	o+U4fKeDPgCLIpaPOq+9uXyf073s/0Ly4FzxnoeuOTDfUEAqg61KZkAYkx+ExmZKKKjfoX2IGRS
-	H+UtnMd99OAMk1sf3Xqjo0lneht2r+PZduzGIp
-X-Received: by 2002:a17:902:da83:b0:2b0:66bc:2282 with SMTP id d9443c01a7336-2b0826d6bb5mr19549625ad.6.1773993377059;
-        Fri, 20 Mar 2026 00:56:17 -0700 (PDT)
+        bh=7fK47ibW46gnCtyDixxnDeE27OZIxhASjMqjTlDFihc=;
+        b=VLBCzKXN0h2VOfLWl92TCJ1Ti2i9sAGg0se8geH6vrfPJGkOvKR1rgXMHsnHd/IYbK
+         Bjxypnl48hgcNwzcCVaPoZC3CrfBRAuHDsuBdXKxkXZjAVk8qULBKskYB9iwFuZ4/Luj
+         7Pa92DzCno9n5dR6uiN3qbs8cdyt54paG0EBo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773993381; x=1774598181;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7fK47ibW46gnCtyDixxnDeE27OZIxhASjMqjTlDFihc=;
+        b=J9FGzeI0ii0MT/iSvW2OCQ4YXQc5mxNhV9G8UyAkEfvFzdVB3qWZ/QOUIj15iGkRly
+         tBpqGGUceIv8IFURDHyIWuRoEBizNIAJ4e/Kr6gvlIxCPQlBcilDRikGEztCGebMMZGn
+         9am14Jo7ATnwDs8MxQXbB57BEhfAnoYiVWFsxcbrGSms1bJ84/slk7LAuu6HzqH8Wp8j
+         A3M0fWnxWU89AZwzJQSM+D0BKnMKqNZDogtvmD3EJ/5mEbva+ccLlI/1krMNOQW1Jo8e
+         6vbe9p78sI/dwyyFdczRFjpW1OCUml/+nSWgIJnBv3QBG5Yk8YMSzNO+vSv808ISpLBX
+         2KVQ==
+X-Gm-Message-State: AOJu0Yy7Zwel7kH9wJg4trs0LNzxMYFpVXW217HcXSlV6IkiXuMscu15
+	BK1/xXaBuSD7enP5XCAl3wcIvA5RnnUdb73Wah3ixK59pHI/P9C4qkpsQig1HrA1LKl0pTlAd6x
+	DINwHn3s=
+X-Gm-Gg: ATEYQzwrUXffX4DqywFJUzrVzUG0ntyImw/4l+Mh8fFZ6vtv19SB66WMmLdjVrXNxpF
+	qy3+VjB7V6+Nv6elgVB9PuUs91RIaK3hAnnIhbnFTsQKxzfzfDSTYUEkdqkJOIqXkO6hNnfs4ao
+	ByPAKeoKQYoZDB+ZS5VJkZL5arEU5m43scoyoaqCHM9BRAJaJUqVBtrMwF03zhYLwd1MK+UloPP
+	c/1aSBxhcc/eLwOOcX+p27syv4720CCNRmd3MLVvK3BbPET47jy2rBjMAac9Yg0Pycff0nzf6GN
+	PJypIZwffFg2bUfQBQEnPXUfqnCStPDNBi0CYZ99lx07xUSjXl3YTdIpXxHEbrjnCO4lBUln3ck
+	rCsMgksbOREMV6NZoXv1W4wYnuFQhrE3vn8+wjv87SJ/UDkHzJdIMg7aNQgGUoH46NfHoI+WcMZ
+	krrvdxku+BCW1bbCJY2JE8P1YoaPOdB2SLBH/l
+X-Received: by 2002:a17:902:ce08:b0:2ae:8077:b1c7 with SMTP id d9443c01a7336-2b0827b7c6fmr17850885ad.37.1773993380790;
+        Fri, 20 Mar 2026 00:56:20 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:54:2bec:8f5f:34a4:6ab0:7770])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08352ae70sm14770965ad.23.2026.03.20.00.56.15
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08352ae70sm14770965ad.23.2026.03.20.00.56.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 00:56:16 -0700 (PDT)
+        Fri, 20 Mar 2026 00:56:20 -0700 (PDT)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH 1/4] curl: Fix CVE-2025-14524
-Date: Fri, 20 Mar 2026 13:26:01 +0530
-Message-Id: <20260320075604.551251-1-vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 2/4] curl: Fix for CVE-2026-1965
+Date: Fri, 20 Mar 2026 13:26:02 +0530
+Message-Id: <20260320075604.551251-2-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260320075604.551251-1-vanusuri@mvista.com>
+References: <20260320075604.551251-1-vanusuri@mvista.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 07:56:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233584
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 07:56:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233585
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
 import patch from ubuntu to fix
- CVE-2025-14524
+ CVE-2026-1965
 
 Upstream-Status: Backport [import from ubuntu curl_7.81.0-1ubuntu1.23.debian.tar.xz
-Upstream commit https://github.com/curl/curl/commit/1a822275d333dc6da6043497160fd04c8fa48640]
+Upstream commit https://github.com/curl/curl/commit/34fa034d9a390c4bd6 &
+https://github.com/curl/curl/commit/f1a39f221d57354990]
 
-Reference: https://curl.se/docs/CVE-2025-14524.html
+Reference: https://curl.se/docs/CVE-2026-1965.html
+           https://ubuntu.com/security/CVE-2026-1965
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../curl/curl/CVE-2025-14524.patch            | 33 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patch
+ .../curl/curl/CVE-2026-1965-1.patch           | 99 +++++++++++++++++++
+ .../curl/curl/CVE-2026-1965-2.patch           | 30 ++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |  2 +
+ 3 files changed, 131 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-2.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2025-14524.patch b/meta/recipes-support/curl/curl/CVE-2025-14524.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965-1.patch b/meta/recipes-support/curl/curl/CVE-2026-1965-1.patch
 new file mode 100644
-index 0000000000..20f20d8692
+index 0000000000..72bf1bca7f
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2025-14524.patch
-@@ -0,0 +1,33 @@
-+From 1a822275d333dc6da6043497160fd04c8fa48640 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 10 Dec 2025 11:40:47 +0100
-+Subject: [PATCH] curl_sasl: if redirected, require permission to use bearer
++++ b/meta/recipes-support/curl/curl/CVE-2026-1965-1.patch
+@@ -0,0 +1,99 @@
++Backport of:
 +
-+Closes #19933
++From 34fa034d9a390c4bd65e2d05262755ec8646ac12 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 5 Feb 2026 08:34:21 +0100
++Subject: [PATCH] url: fix reuse of connections using HTTP Negotiate
++
++Assume Negotiate means connection-based
++
++Reported-by: Zhicheng Chen
++Closes #20534
 +
 +Upstream-Status: Backport [import from ubuntu curl_7.81.0-1ubuntu1.23.debian.tar.xz
-+Upstream commit https://github.com/curl/curl/commit/1a822275d333dc6da6043497160fd04c8fa48640]
-+CVE: CVE-2025-14524
++Upstream commit https://github.com/curl/curl/commit/34fa034d9a390c4bd6]
++CVE: CVE-2026-1965
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ lib/curl_sasl.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
++ lib/url.c | 87 +++++++++++++++++++++++++++++++++++++++++++++++++++----
++ 1 file changed, 82 insertions(+), 5 deletions(-)
 +
-+diff --git a/lib/curl_sasl.c b/lib/curl_sasl.c
-+index 7e28c92..ed9ca96 100644
-+--- a/lib/curl_sasl.c
-++++ b/lib/curl_sasl.c
-+@@ -531,7 +531,9 @@ CURLcode Curl_sasl_continue(struct SASL *sasl, struct Curl_easy *data,
-+     data->set.str[STRING_SERVICE_NAME] :
-+     sasl->params->service;
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1145,6 +1145,18 @@ ConnectionExists(struct Curl_easy *data,
 + #endif
-+-  const char *oauth_bearer = data->set.str[STRING_BEARER];
-++  const char *oauth_bearer =
-++    (!data->state.this_is_a_follow || data->set.allow_auth_to_other_hosts) ?
-++    data->set.str[STRING_BEARER] : NULL;
-+   struct bufref serverdata;
++ #endif
 + 
-+   Curl_bufref_init(&serverdata);
-+-- 
-+2.25.1
+++#if !defined(CURL_DISABLE_HTTP) && defined(USE_SPNEGO)
+++  bool wantNegohttp =
+++    (data->state.authhost.want & CURLAUTH_NEGOTIATE) &&
+++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
+++#ifndef CURL_DISABLE_PROXY
+++  bool wantProxyNegohttp =
+++    needle->bits.proxy_user_passwd &&
+++    (data->state.authproxy.want & CURLAUTH_NEGOTIATE) &&
+++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
+++#endif
+++#endif
+++
++   *force_reuse = FALSE;
++   *waitpipe = FALSE;
++ 
++@@ -1496,6 +1508,57 @@ ConnectionExists(struct Curl_easy *data,
++           continue;
++         }
++ #endif
+++
+++#ifdef USE_SPNEGO
+++  /* If we are looking for an HTTP+Negotiate connection, check if this is
+++     already authenticating with the right credentials. If not, keep looking
+++     so that we can reuse Negotiate connections if possible. */
+++  if(wantNegohttp) {
+++    if(Curl_timestrcmp(needle->user, check->user) ||
+++       Curl_timestrcmp(needle->passwd, check->passwd))
+++      continue;
+++  }
+++  else if(check->http_negotiate_state != GSS_AUTHNONE) {
+++    /* Connection is using Negotiate auth but we do not want Negotiate */
+++    continue;
+++  }
+++
+++#ifndef CURL_DISABLE_PROXY
+++  /* Same for Proxy Negotiate authentication */
+++  if(wantProxyNegohttp) {
+++    /* Both check->http_proxy.user and check->http_proxy.passwd can be
+++     * NULL */
+++    if(!check->http_proxy.user || !check->http_proxy.passwd)
+++      continue;
+++
+++    if(Curl_timestrcmp(needle->http_proxy.user,
+++                       check->http_proxy.user) ||
+++       Curl_timestrcmp(needle->http_proxy.passwd,
+++                       check->http_proxy.passwd))
+++      continue;
+++  }
+++  else if(check->proxy_negotiate_state != GSS_AUTHNONE) {
+++    /* Proxy connection is using Negotiate auth but we do not want Negotiate */
+++    continue;
+++  }
+++#endif
+++  if(wantNTLMhttp || wantProxyNTLMhttp) {
+++    /* Credentials are already checked, we may use this connection. We MUST
+++     * use a connection where it has already been fully negotiated. If it has
+++     * not, we keep on looking for a better one. */
+++    chosen = check;
+++    if((wantNegohttp &&
+++        (check->http_negotiate_state != GSS_AUTHNONE)) ||
+++       (wantProxyNegohttp &&
+++        (check->proxy_negotiate_state != GSS_AUTHNONE))) {
+++      /* We must use this connection, no other */
+++      *force_reuse = TRUE;
+++      break;
+++    }
+++    continue; /* get another */
+++  }
+++#endif
+++
++         if(canmultiplex) {
++           /* We can multiplex if we want to. Let's continue looking for
++              the optimal connection to use. */
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965-2.patch b/meta/recipes-support/curl/curl/CVE-2026-1965-2.patch
+new file mode 100644
+index 0000000000..25f419eea4
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-1965-2.patch
+@@ -0,0 +1,30 @@
++Backport of:
 +
++From f1a39f221d57354990e3eeeddc3404aede2aff70 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sat, 21 Feb 2026 18:11:41 +0100
++Subject: [PATCH] url: fix copy and paste url_match_auth_nego mistake
++
++Follow-up to 34fa034
++Reported-by: dahmono on github
++Closes #20662
++
++Upstream-Status: Backport [import from ubuntu curl_7.81.0-1ubuntu1.23.debian.tar.xz
++Upstream commit https://github.com/curl/curl/commit/f1a39f221d57354990]
++CVE: CVE-2026-1965
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/url.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1542,7 +1542,7 @@ ConnectionExists(struct Curl_easy *data,
++     continue;
++   }
++ #endif
++-  if(wantNTLMhttp || wantProxyNTLMhttp) {
+++  if(wantNegohttp || wantProxyNegohttp) {
++     /* Credentials are already checked, we may use this connection. We MUST
++      * use a connection where it has already been fully negotiated. If it has
++      * not, we keep on looking for a better one. */
 diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 72bd1a2088..b8fa8b5266 100644
+index b8fa8b5266..0e107f1e75 100644
 --- a/meta/recipes-support/curl/curl_7.82.0.bb
 +++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -70,6 +70,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2025-14017.patch \
+@@ -71,6 +71,8 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
             file://CVE-2025-15079.patch \
             file://CVE-2025-15224.patch \
-+           file://CVE-2025-14524.patch \
+            file://CVE-2025-14524.patch \
++           file://CVE-2026-1965-1.patch \
++           file://CVE-2026-1965-2.patch \
             "
  SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
  
