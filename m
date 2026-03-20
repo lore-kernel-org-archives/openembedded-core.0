@@ -1,183 +1,165 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 858CE1093188
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 07:56:31 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7532.1773993389479774345
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FFF41093190
+	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 08:44:52 +0000 (UTC)
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8152.1773996276810275284
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 00:56:29 -0700
+ Fri, 20 Mar 2026 01:44:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=FMqCjPeA;
- spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2a7a9b8ed69so22070085ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 00:56:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1773993388; x=1774598188; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RjBARhUTUqICFt3IMO89NrIcC1A2ebBKU1U2Qy1mTCg=;
-        b=FMqCjPeApbf4WqrD0B1pEmVozlAyG931CFpgFaHMjJMy6bVIxJIgIvkPZgQbip3uUV
-         Sboo0B789dIbhIilwulkr19UVOYEeantTRsE8oKfYq1IcvcmwN0wyWwllbeeUJUbxRuK
-         hjvIdllCWOdC5HO/4zjHKyAbdpEbg+Z2dvf60=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773993388; x=1774598188;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RjBARhUTUqICFt3IMO89NrIcC1A2ebBKU1U2Qy1mTCg=;
-        b=MibobzzyKju/v85q750kHg21k0TSmamKTlZYBwluqiv0FILHsZK22LoarRBUqie8/r
-         BOTB2FfQrlbjpTuxxK9Mrlu3htRW7aPLOZg40p4oAVAxzMfdO+p7YPfp0yEle+hM4pLA
-         fzPz0Sf4G2WPd1aJ6QJKZgxn6vgrM41r7Jznjo4EZWpGiJGsicSUeSUwV4uoQJrk/lHF
-         kCqyKX2IGqr8huoSj6d/BkbAo3GeDRRQ6DrzdmznpGw4jLcKP0JrBVk6dv0U0FdsOOGQ
-         jrl2B5EE5epHN/Fvv5Q8vebXk4TMj2lc8q+uLETubiu/QMY7MJGCBPGnrrkgJhcXeeUg
-         4drA==
-X-Gm-Message-State: AOJu0YzSOYIWqX410uj0FCbwTxsnTulsskjouC0iQwNuZD0qbAZwy9tG
-	sh8K223aILx8T+EqwUP5FsXavYkUsKMhRoYj9MZ9/wCgM6lOhp/Tyg2INv+DYvq1sARbiG62uGf
-	trBXasno=
-X-Gm-Gg: ATEYQzyPDn/7uTCVDNFuOMnYTfPbSo0WU+lwLflmuw7/X5RDmYpuSVbZRM1p3KIXMYs
-	+jLOz9KJL+AbMn3URA8oc1YM41pkc1osCmVLI9gnvcnmwgko34AvKbwZsKxCLSWu8qsVMLp2IRj
-	UVOxJKM+H1hx90hrCsma7pCR49GBDLHKpknyJpuvd/ODSwMGykIUoUboAeRPBIJsr7jC0LfdBgb
-	0dQGdXOg/boTXN1UoOL4VSxUwKHfMptW66TaIkPI4HaVQRdOzQXGQl71vxc2YNKtf1SnIMI39EK
-	o7gFeZOlb55ecb7yY43fnDWzeUkYp3gAaQLyAp2r/VCf88cuEM/w3fP8ebFj612Kr8fccpzL82u
-	9zKWdzqJ42ZA4hJhcLJk+MA3EGEfuHKpsO5Z/CP5K90rxm584kSJHoscZo0Q41atixqgnSCK6PM
-	/SzsFXFFGoyck/yuA114wIaUOXfgoz63sQtQzQVq/aHp/p/HE=
-X-Received: by 2002:a17:902:f605:b0:2b0:5084:eb1e with SMTP id d9443c01a7336-2b0827d60d6mr19612275ad.42.1773993388430;
-        Fri, 20 Mar 2026 00:56:28 -0700 (PDT)
-Received: from localhost.localdomain ([2406:7400:54:2bec:8f5f:34a4:6ab0:7770])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08352ae70sm14770965ad.23.2026.03.20.00.56.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 00:56:27 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH 4/4] curl: Fix CVE-2026-3784
-Date: Fri, 20 Mar 2026 13:26:04 +0530
-Message-Id: <20260320075604.551251-4-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260320075604.551251-1-vanusuri@mvista.com>
-References: <20260320075604.551251-1-vanusuri@mvista.com>
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=0iWZkeOw;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=f3rpphcR;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.151, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 00086EC0103;
+	Fri, 20 Mar 2026 04:44:35 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Fri, 20 Mar 2026 04:44:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1773996275; x=1774082675; bh=p8Jp3yQZh7
+	4poOUXMG22FrKxhjhLdjTW/FZSrAPugTg=; b=0iWZkeOwahYtAnjfV3dRvfJgr2
+	I3LSCt3C0XmhOWFFsZl3DTGcZFi5Yox8EZwO+T1PFWBkpfv5y4kL/h/fv5AHAOkY
+	Qz0XsF/ovX61vcKp0EAp7tlhZGxjDpxHRB6vHGyFCKPJQUyFoaJKeop8fLe+2lGX
+	aoKrfa5tvioLDs0mvxkruLRmkH8tKtjIKwdoBYV+/9qAKc5Y5FyhI53tuZVk7bU7
+	5L8MruKZ6/n56LW5JsHTE5OOvSNxdFyJgShixh0+eCqCovCw5lgC/4SAJw4goJfG
+	xpp7eVX9xIzeo0dVutGE9FhLcoHB3fSXpJ4W40spf3rvLVeQm/Vibw3l9Xnw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1773996275; x=1774082675; bh=p8Jp3yQZh74poOUXMG22FrKxhjhLdjTW/FZ
+	SrAPugTg=; b=f3rpphcRQFTft7mV4AaeQ6U6TWjE/2aL1FIaMHdUFn0/LGzhE4v
+	OURGfn5hk9i0t/yyiZoR4VEcfUIG67UONgleZgnViPGcKBahOlLCgmRdXSQyPGjp
+	QS9EBzLVeMExhkgIH7+IAJXKrzpiYVBuBJ2LlT2wXSUecPGKHN9o1s0LBKPG1Xrh
+	cWgjZ0UycwzCVnujTjj7zK1mJA7005gN5S8YA8qVfz0JNdmoLUHLWEtbjSClzyoa
+	QxYCUY6vx/DNnxVO6zIStpxOV8N12s6vlEjtBYlP3zR85vdIkGDfusXtkKmPa7Fy
+	Db+uYyKDJ0o78pFc1o+7+EcAbz5MW/e0NUA==
+X-ME-Sender: <xms:8wi9adinDWoZATKuy01tszoBtk8xv3ayPmNoKZUsJziSA09caK_6FA>
+    <xme:8wi9aYAmUFAF3iYtLKmLrbeHpaztsKAU_vnW3ebf1MJUJW-kAjaE4IeNLSL3oYbQ3
+    AGi9UUBQRu3G-0hb18i8r28asUnPUeI41zMLJ4uMY6ZrlVmuj99AvI>
+X-ME-Received: <xmr:8wi9aataAOdrsX_apA9AU_SnYVtins9JFEknyhbRHJmYeBOdD_WcJ66YhsF09TJevLbc3LtFB3ws0mTqE_R_ceJ_4pjrE_LjVj4pWdhCXIWD>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdelgeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
+    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepgeefhfdutefhffevheevkeejhfegffegieektd
+    efkedttefhuddvffeuieeiteffnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
+    ohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepvddpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohephihorghnnhdrtghonhhgrghlsehsmhhilhgvrdhfrh
+    dprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgv
+    nhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:8wi9adaFGrSia9IaHu_03hcFIJdOYUAIRdgNElmX8mQXvsSK9j2lvQ>
+    <xmx:8wi9adW9l2Jfg2og9uwJHPJafP9uWyFJUzElnXDB7ZiZbNVgmyxZ1Q>
+    <xmx:8wi9aR4dHaMAZcgFZsKvdN8QslRtofgrV1ZyVOM-8lkowIGPZIEXnA>
+    <xmx:8wi9aYgMy1Lc7_EjsTNXhqDm-ivjcuiwMzdNzQQeg8m7BUjDw2SaqQ>
+    <xmx:8wi9aY4vzNVOntHIhNkOC1CaGKg21gtBTLDmX9xwNERUswbxSZzNjUTD>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 Mar 2026 04:44:35 -0400 (EDT)
+Message-ID: <e21ff2f9013d561713ae3d17c75f3e5a41ae4b30.camel@pbarker.dev>
+Subject: Re: [OE-core][scarthgap 01/15] inetutils: patch CVE-2026-28372
+From: Paul Barker <paul@pbarker.dev>
+To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
+Date: Fri, 20 Mar 2026 08:44:32 +0000
+In-Reply-To: <ed976c159eab45e6ca1f8e1ba73c5872818e80d2.1773966414.git.yoann.congal@smile.fr>
+References: <cover.1773966414.git.yoann.congal@smile.fr>
+	 <ed976c159eab45e6ca1f8e1ba73c5872818e80d2.1773966414.git.yoann.congal@smile.fr>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
+ DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
+ NrVM0IVDkwKTbL2Nu1P+xns4MIpF9Kj4XN5celYJ9vEJ2n0Bo0nO5T5vg46dihIaDl+24iNIHSsHq
+ YyEdMBfY8kY2RulpaAyFOuaaHdIeDkejVvO5xLSiYLjB5qrRhgH134lJXsuLOsFQ64ybGECuOasnb
+ auevsPBAaroQW0pqVb9FneGrWHxMCLlQHJRqQJRdVa6bsUdp6NWra8/0msPawSrFwGQdfJBTA3aXJ
+ C2CG1JxEgj6QQjEQA49DSjgzdhInbiIK8Vbp/zedM4aVue7qJnwPMTFQM9lYx63b7wLN4Tu8B9YZ0
+ UFdSwMCJuqmYGsYRUYdwM3ArjS0VO6WpU+HBKvzLK5GQfUTSM8KaZ5eA2Uo2ain8SSZb+WptUYKpx
+ F9jbtCPbjpZKzGuX4iHFl9eT75TM9iXJNGAjB5xigkADLwVfPoJ5E53S+KdNVuOWHugyLMPNAQHOw
+ pw5Rey+0zxyzPd4wphutc93UIU5g/029ngAc7DuKCq12jl7fhkjqFlFtYPIc1k7nd+RSezmH/qRes
+ bMErHSX1MBSZQARAQABtB5QYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj6JAlcEEwEIAEECGw
+ EFCwkIBwIGFQoJCAsCBBYCAwECHgECF4ACGQEWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAgU
+ JCxiQFgAKCRB0l1yBt+ZrrLhdD/sH+qTaxCDUg47eW329yJWCDZmO+iuYzNSyHMs1x0DHKNIQQ8zN
+ pA2S/de4jElQuPHjw/IS8B3VmM62Wuq5vHuxNlFv9IMwrwqi6zhCDui8+nCN/AQGGXousJI/SeZjm
+ Y5gS9cqh4vNY+huqEEfdTFXIfTBRkmnvYozSO2uDB3EMuiWgBlw2uLrtmkvPLn/m/GvEouLNox6wv
+ tcJcIbL59a0+3jv/m7pnWoZXOkWmKQnfFWikqjuKCISNU0gzBSL4UOj8gtQ2z+vu7ffi29b6SV5IL
+ m1yzdbkigEn4HL44lz3N+oHZ3wWsRqqeyGSX5fCfx3tGWg6scZQrpsjT5yq+LiffiXVNpjeJ9KzQw
+ 0cbAZ/9uhk1sWBroP+/gMhsWjlbFYXVlRvkNKGPI22eZtOEz4jF6OrOONyOoY3i26niJUyIgdBpca
+ H0hKUSVQ8VnG7qVTNrQk9BbeoSszqRwViN7lfyVtK9b1TCFuGewOETGn0TPvSzruYCtD3CLm7mjuX
+ AMBpIGoRUiCFVmF1hlOgqDyH4F6zRTHhKLpfmNzfQcg+Uo147Q2IHpoh0mJsL4FEZEI8hFyecX1Pq
+ 7HqnvxGD2OhCof1Z6LDxptX0wbgocnYFNxN5S1owcXZUQOFnzYLlLugrcEjlGCm4Gn7k4SiFERSBj
+ UFsQgIhw/7lVVn4o4rQjUGF1bCBCYXJrZXIgPHBhdWxAcGF1bGJhcmtlci5tZS51az6JAlQEEwEIA
+ D4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAw
+ UJCxiQFgAKCRB0l1yBt+ZrrHy+EADNMt+ewz8H7BUKpEMMhpaA1VxyXO5IqlKXS0gElMgHYXl7L7C
+ 0/qLfRH96vwVD33zM+f0Vl9aWWkom/k8s42tLyPvX7D5zTrj3r5muJ+d9dXWGwBFXxXlE9YjSP26K
+ bYfRusmRHbbEPlLPSnrr9KYS2FGVD6ViRNhhVguflgPv2i18+fNBE3YyByfNCiQgO/SgaSdh172Ql
+ tuYE1Chk6FD45tCUv3dI9lO2PlVwrciiVYvIv/jiTDEwZOISOClTE/Ha18pxDJfLhS8QQnLWuBNX6
+ HUkLi78fVmVYbcWIkTuSHjfNoGTMaFijMg9Wl6poFrY++Pl0S40681zEIrwZhW5pKoqXoaElt29Yf
+ OwVo6BIsSOLEqKiWsdP7PJTaJYU1ovnshBcOmuXMgc13AjQ4AhEGqI1TaEJ/E1jEDDyTQFeWgrfew
+ YaWdqpgiDmRMTj/tIGVj9iy7qZQICUUtlfm0QK6w6M7qq0GdO2o+S3uVF6y2AxQo8l9LSHiW9O35I
+ juR37zeqv72puYyOteVYJsJaw999HUmhXc/X/J9FQFw8twxPKDLLu+w8MqDo9bhllzR93Zy/OShuG
+ yGybcX3DKO2R+AQ90tXLbxKmHLtrnG/zyDPhLv/LGD480v5hEoT+IS0u9wPD2vP5q36a5DtzqXA/7
+ t9PCamLoCvZLleg7GY7QbUGF1bCBCYXJrZXIgPHBhdWxAcGJya3IudWs+iQJeBDABCgBIFiEEmLKq
+ wQCsP4K7XVRndJdcgbfma6wFAmlqDRwqHSBwYnJrci51ayBkb21haW4gd2lsbCBiZSBhbGxvd2VkI
+ HRvIGxhcHNlAAoJEHSXXIG35muspk0P/1G08N6zGSdw2p8+8f/1HhaYEb9KdQHT1JmQfZUrIHIpD2
+ ELNb91Z6Pz197d/igGpox1dzYOwE0WolWo44ZHX2yw+p9V+HJAUKRe0SPc1iNLkTzaAZ7oYJ1DnFh
+ aaqZi4VtKKabKeorJjcDvl2apMwT0agRuDklU97n++ZUuXIEo1Z9uRqEvXz0iTSY7wPxwfoVOQsgf
+ dN1cBLd9OpoOtJRdDJzQUYqjNoQi+5M6KRfBxPLZkmYb4uCGlp1H4AV50eC61j84LBg1ItvU2u+Fx
+ X2JB7lHTswubprD2ZsSwp1VziU6pUj3vtslMWKpBGslpLtnaO561dihGyElayMd4VFg7VR/TsglJv
+ A10EDs2DMhoYPfRQWvwlr5+jPP6s9H8KSTCGFvQt438rP/gk0lcEZUJK0iE2/yq5gQfaCNI5FLN7C
+ q8LVr00oS4doXfmFFxMq6z1rs5SXZorWssjG7v5DILnPxLqYloQK/ebM5Ixbzm0Lq/8vWL7sw7yOH
+ JVYCHCApGzKNii6rYyHdi0K8UwvpD++GCWLyvbgP/H3l5FqL63gAN0Rw1CO5r22+SmG7aOmekJH3N
+ ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-zphBxXuVU93mxjFh5pa1"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 07:56:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233587
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 08:44:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233588
 
-From: Vijay Anusuri <vanusuri@mvista.com>
 
-import patch from ubuntu to fix
- CVE-2026-3784
+--=-zphBxXuVU93mxjFh5pa1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Upstream-Status: Backport [import from ubuntu curl_7.81.0-1ubuntu1.23.debian.tar.xz
-Upstream commit https://github.com/curl/curl/commit/5f13a7645e565c5c1a06f3]
+On Fri, 2026-03-20 at 01:28 +0100, Yoann Congal via
+lists.openembedded.org wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> Pick patch according to [1] (equivalent to patch from [2]).
+>=20
+> This CVE is needed if util-linux >=3D 2.40 is used which is not the case
+> in Yocto kirkstone, however it's always possible that users update
+> packages in their layers.
 
-Reference: https://curl.se/docs/CVE-2026-3784.html
-           https://ubuntu.com/security/CVE-2026-3784
+s/kirkstone/scarthgap/
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../curl/curl/CVE-2026-3784.patch             | 74 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3784.patch
+Otherwise, LGTM.
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-3784.patch b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
-new file mode 100644
-index 0000000000..8f3d56bab9
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
-@@ -0,0 +1,74 @@
-+Backport of:
-+
-+From 5f13a7645e565c5c1a06f3ef86e97afb856fb364 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Fri, 6 Mar 2026 14:54:09 +0100
-+Subject: [PATCH] proxy-auth: additional tests
-+
-+Also eliminate the special handling for socks proxy match.
-+
-+Closes #20837
-+
-+Upstream-Status: Backport [import from ubuntu curl_7.81.0-1ubuntu1.23.debian.tar.xz
-+Upstream commit https://github.com/curl/curl/commit/5f13a7645e565c5c1a06f3]
-+CVE: CVE-2026-3784
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ lib/url.c                        | 28 +++++++---------------------
-+ tests/http/test_13_proxy_auth.py | 20 ++++++++++++++++++++
-+ tests/http/testenv/curl.py       | 18 +++++++++++++++---
-+ 3 files changed, 42 insertions(+), 24 deletions(-)
-+
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -930,33 +930,15 @@ proxy_info_matches(const struct proxy_in
-+ {
-+   if((data->proxytype == needle->proxytype) &&
-+      (data->port == needle->port) &&
-+-     Curl_safe_strcasecompare(data->host.name, needle->host.name))
-+-    return TRUE;
-++     curl_strequal(data->host.name, needle->host.name)) {
-+ 
-++    if(Curl_timestrcmp(data->user, needle->user) ||
-++       Curl_timestrcmp(data->passwd, needle->passwd))
-++      return FALSE;
-++    return TRUE;
-++  }
-+   return FALSE;
-+ }
-+-
-+-static bool
-+-socks_proxy_info_matches(const struct proxy_info *data,
-+-                         const struct proxy_info *needle)
-+-{
-+-  if(!proxy_info_matches(data, needle))
-+-    return FALSE;
-+-
-+-  /* the user information is case-sensitive
-+-     or at least it is not defined as case-insensitive
-+-     see https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.1 */
-+-
-+-  /* curl_strequal does a case insentive comparison, so do not use it here! */
-+-  if(Curl_timestrcmp(data->user, needle->user) ||
-+-     Curl_timestrcmp(data->passwd, needle->passwd))
-+-    return FALSE;
-+-  return TRUE;
-+-}
-+-#else
-+-/* disabled, won't get called */
-+-#define proxy_info_matches(x,y) FALSE
-+-#define socks_proxy_info_matches(x,y) FALSE
-+ #endif
-+ 
-+ /* A connection has to have been idle for a shorter time than 'maxage_conn'
-+@@ -1282,8 +1264,8 @@ ConnectionExists(struct Curl_easy *data,
-+         continue;
-+ 
-+       if(needle->bits.socksproxy &&
-+-        !socks_proxy_info_matches(&needle->socks_proxy,
-+-                                  &check->socks_proxy))
-++        !proxy_info_matches(&needle->socks_proxy,
-++                            &check->socks_proxy))
-+         continue;
-+ #endif
-+       if(needle->bits.conn_to_host != check->bits.conn_to_host)
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 8fdd954c7e..c33183e096 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -74,6 +74,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-1965-1.patch \
-            file://CVE-2026-1965-2.patch \
-            file://CVE-2026-3783.patch \
-+           file://CVE-2026-3784.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
- 
--- 
-2.25.1
+Best regards,
 
+--=20
+Paul Barker
+
+
+--=-zphBxXuVU93mxjFh5pa1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCab0I8BEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0birXAP9GxX9wRFMz9mi+uEIA6AthxucH3zFmC8YR
+Ojr3B8kFfwEAkVIa52WGcCLoP9VwN+wqcRDXlzc5GusCQhEXHkdFGQc=
+=tvzP
+-----END PGP SIGNATURE-----
+
+--=-zphBxXuVU93mxjFh5pa1--
 
