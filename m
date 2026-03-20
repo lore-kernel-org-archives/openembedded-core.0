@@ -1,196 +1,143 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E219E1099B40
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 20:58:28 +0000 (UTC)
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23079.1774040305141213203
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BB781099B4B
+	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 22:39:53 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.36])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1456.1774046383279407838
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 13:58:25 -0700
+ Fri, 20 Mar 2026 15:39:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DoRLIEcR;
- spf=pass (domain: gmail.com, ip: 74.125.82.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2b6b0500e06so2688343eec.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 13:58:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774040304; x=1774645104; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ybC8q7X15XhZY665TgpaNzii17wZ5IOGK6V2aFadY1E=;
-        b=DoRLIEcRwQHNNpDPQRIHxNaIYtT/NRJn2jrpre95p76AjZTlEMh8ridv5M/IPPO1Lo
-         YN4Ck2Od5sH4Iqt/PibWIs6UFtKY9kJk6qTnAgWaaakqZWKSXbv2ioBYsKnQNvVZu3St
-         GtC+28MD6jcqU5pVck8yF+P/J+r9uUJmDjqxmvP8UobgoA0itTr+u8sESTy6ze+78RLE
-         DViBh5wcJqUcc/Rhb8ISlfdOXaMFxxQ4ot7NbRl5mbCpGkXIXVI/OQQFhgPU/+/aQAQK
-         PrPfMk+t/EBEy7Oy+6aerW5Kv7+7UuGfc6KkMz577RItw1ivCq37V6hhSL3ohOKcwJK/
-         RI2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774040304; x=1774645104;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ybC8q7X15XhZY665TgpaNzii17wZ5IOGK6V2aFadY1E=;
-        b=ausZ2f4TxrJcGosYv3D26W1bjGULgg3wkJNI2z2oPup14z9Hee7vZMCas0sTohJAau
-         Jl6u4qKsS5LGOIOiNwHrwi0DefN7gYytHY+tfKtV/jRkvenCXukMaMOpfEZrJC6+mPKg
-         qjwBaYknJTXnHIfLzDZtGaJSCl/sXUnVUGA7h9Ex4Vo8+3Hb5ZpK+eUfZAGzvkVGo2Hu
-         /1v1UIzsa68EYspscdnqlANdvS0v+aDe3ebq2l5PUqWUDZrlgrmGFHJQsoZPkWbjLtwW
-         8esZADpkb+FUJZgLMLSEkDUrh/8Gd9b+6DGwJ/GY0IrHqh+rj4NilZ4JbnLuEObVha1Q
-         w5SA==
-X-Gm-Message-State: AOJu0YzVkYYFNcWToOVk7X0hT8uwCf1qhR00dQl3IMYX23QK3Pd/czE5
-	QQxDc2twZJqrQZ6axODzUwBNv/AjQfQC1D3G1soqxmMJ3i7FtW3b24TIWZMCcHgk
-X-Gm-Gg: ATEYQzymYfihIbSJvl3JSwM7woRzqzJaLykPsG0fAzxnsFlTAxsFm5kaED8nr3NfgWc
-	pAapxvyeSqeYYA+ixo6BAnwfgui5V+aKQE/QBp5MxxMySwbUNeXZVFBh3NQWc9MGN+mRxLRKeWw
-	07IPls+DyIakglOqxA0zLGiHbnjGOj7OBfydiUDOiNpcqHQEjkSn5Mhy83S0KosZqkZInGBcROI
-	veLsXTVi+9vkqQu3sQ7V8qlf3Uk+uYSHnO1+g5OEg9KofJrSDO9mBHngdrrmWAeKgnGG6x4AmVd
-	6Bd60zoITztsMW1O52YPXuWyPwXcyrxa1WG64IEbgSlgC5Y1HtxDgAIox4afz3GDdKKfJiJ0ibK
-	Q4lx/ykrljE/9t8Zbnm2zAMiyk6Py3TsPTwSAK6OuiR/POyOnaF+d2LY3/ldZKLfCFR5aanGSDl
-	HQA69HaVlI9vTP6r60abpZX4xyp+b3fzpJnbxkHC1/oTaQwXrPChdKG5b5tHbDrxv3Ogh/aSRQV
-	YJY2Vd0Rggnri+NgyhmIHYNQJmj9YpV+Mqt2+7ViGSRW7ju1iUyGsB0LskI
-X-Received: by 2002:a05:7300:bc84:b0:2ba:7617:eeb1 with SMTP id 5a478bee46e88-2c109626b62mr2037250eec.12.1774040304055;
-        Fri, 20 Mar 2026 13:58:24 -0700 (PDT)
-Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b29c757sm4770270eec.18.2026.03.20.13.58.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 13:58:23 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] musl: Upgrade to 1.2.6
-Date: Fri, 20 Mar 2026 13:58:20 -0700
-Message-ID: <20260320205820.2457796-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=BubRCUn4;
+ spf=pass (domain: axis.com, ip: 40.107.159.36, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Pbb06wgWgVo6oQeBpOIO5j5qzUVBn7N0jxAKCBoBKWLoJnMQ+e+gX2IlW6h+HsAqlNvliQOHGTTpVWDCfhJMNIEwbz/0eUaKLQUozD+dISRPoJQz/MXYnilQLemzbhk7bKDHgn/BaHHUKZZHlaNbXhuvHedSJmrytw3sueQQ6Abeix3SRJQ1IAccg7ApwBWbSM911iCoTUTRbnOw9UgtQjjT57dI32HLNoMBz9gfhc/NKV0z0vh0wKUctSiNw61wO9CUGFIi5q3HBgiZ/9u64UgWGX2yVcZlRQVFUV3xSLPNi8TgS0OSMiGvTdMEfe4MhEdMKbwRyzZyhbkD6THj/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X6YkTu5NzCyzGYSXtVy+McEt65ehrCs72J+FuH9yAJQ=;
+ b=devfIb7kHszpxOEFoz7MWao+wWShtUNwSg8BiFXFahZt+loJD1IXKMMH+JiFcj4nFs7uujb/ACRtlB82kjnFba5lMeNuoSAtTw8SrF4/pF/SxSnIv5atn/KPSR54lDz4J9ZTZkHkyeqH+3kLkjFZHxVWOX5Yq7jo71G2reE0fP6NVSjMJ2m7c1yW8SOiMw85w/M/jDgQj1o+iuqzEfWTzzsDP6DUWAD6qruDNkNQ6Hg2szQrHOqdOr0s5Z/iix5+VxOG44cLCb1vOGNhW5e5pN0J1tNCfJsOmmOMRdhv54p/GdNkf0oQsKIQbSQwbmaSWFatJesErXLwNh1TYasc1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X6YkTu5NzCyzGYSXtVy+McEt65ehrCs72J+FuH9yAJQ=;
+ b=BubRCUn4AUkNIE5qd8s4DZKGSvBE3fhyw1LtWiN1ufhjLNSzqxMfkv7sYQY/sxUbKWctHdOsqYi49DxZP/iMih1SjlRg6qKe7mfPkM96OpLsqB/GcBYNsUNG+LiReyPbcp7FCAK1UG+BwG84+t9kL0M/5XDkHxvJcGHDkBvwoqI=
+Received: from DUZP191CA0058.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4fa::18)
+ by GVXPR02MB10666.eurprd02.prod.outlook.com (2603:10a6:150:151::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.25; Fri, 20 Mar
+ 2026 22:39:36 +0000
+Received: from DB5PEPF00014B8E.eurprd02.prod.outlook.com
+ (2603:10a6:10:4fa:cafe::7b) by DUZP191CA0058.outlook.office365.com
+ (2603:10a6:10:4fa::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.23 via Frontend Transport; Fri,
+ 20 Mar 2026 22:39:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB5PEPF00014B8E.mail.protection.outlook.com (10.167.8.202) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9723.19 via Frontend Transport; Fri, 20 Mar 2026 22:39:36 +0000
+Received: from se-mail10w.axis.com (10.20.40.10) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Fri, 20 Mar
+ 2026 23:39:35 +0100
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Fri, 20 Mar 2026 23:39:35 +0100
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id CD0242788
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 23:39:35 +0100 (CET)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id C9E90120274; Fri, 20 Mar 2026 23:39:35 +0100 (CET)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCHv2 2/2] insane.bbclass: Add a package QA test for invalid PACKAGECONFIGs
+Date: Fri, 20 Mar 2026 23:39:33 +0100
+Message-ID: <20260320223933.1589940-2-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260320223933.1589940-1-pkj@axis.com>
+References: <20260320223933.1589940-1-pkj@axis.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B8E:EE_|GVXPR02MB10666:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1863957b-f54c-4620-e655-08de86d19063
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700016|1800799024|376014|82310400026|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	BUd1jSzljgUhVA01xaFyRPFuantDAy/y3p5dtFp91yx2AhxZAyEk7er0BcUXfPHU5Knb3p/c8KfK6v48dKQ19uyvZk7UnBfjjZLXXhL1dCtIk14jujRuaVfxjNO0cGNOGHpqEio/rzfKHaJIKjctTRsqXQD5YEF0h7sgT3Hh3fs3Bm1P1MxIjRXGLF1L3d1VDQol2eDxuQgY/Ny7UD+lxozFtP6WJWtUz1Pdi9s0MJcJ0+GhXy/WGtMzXDT5iAFsHz7F2y+/c8hNKs9yaRYeMjv4Lm8zqQF7RQ7MqJSgzW+gPjDNxn0VeSvWBlOuvBMWBSCjMzZ+/FVi66yA8muHFzCJ+5fS51Gr9yH3QA7Ata8bt4StNO37wBHAJMf+dgq4EB8jcJr7lH+ZN61+uuC1TzlLmFdVGkmO/P0xsT4cvD1J2B5lYj0kH8BxR4+ilvrEWp8DqohIyS1JFfKHtASDAWGp59OAM8qXiU5Pjrz2BFVVTaOlexaK3MBwZWZmoGuXBjQuI9e1JYlgXT56lMRtkd6EaSL74/NRt05w97paxwm/xaHMTfEoRQByGWTdirkqdwRlAcfC9N0DCXumkyT88ttog9pofJPshlmxSJoq5jH3AJJBVk3l31HwFbu07Q9ZjVhOHrMA7ow7kWoWIDYQvQm810OrDUfKVyOmi6aR6lrxlgXUV7c7Ug507XEzfEWstnQh699KIqcIvtJ3QyC2R6uFaczth5gR0FdDW59CoPYr8X5k01C59tU4P+UIRAhhBGdDwWY1mzEWwd5jjkjWzA==
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(376014)(82310400026)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	3o6IxqaW6o4hwmh/qMCFoepfFiMslwJC2rQigx244xz0gaqsjeW7dZon+1tkXVEyrwLbOJxb8aXJy5evFhcIpsPFrv/zk7M9eA/d52pM2GadxWyUJhbOr6MsoRnsugKQqW2uG6jU2sFZRr/XiDAko2Za7SsA4zT0431inESEL14fHlIUPpZ2hZB9c2bFAjgsKhZgP0hWK47EH1KD/DFCAMWsGYNI5YLFDbF748HZxwOorimwFyKzYjTm7KQl8uLjakez+Ck7OmAY5ZQL+I7tE51ZgyUgl/AsbXKyZ7RbDdMxTw+EwKWLqg2ME1nq+OCTFYjvMlwhtwlUIOK8JcTVad9vjl0hx0s9rBvRTqHyUAYtBQEd5qihZF2jwgRK3jVU86/cY22BIpcRqivJ7AI78dAW2KaqlmzR7MqKS79M6YLvR5soipj27cnzLX9ZopGz
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 22:39:36.1448
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1863957b-f54c-4620-e655-08de86d19063
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B8E.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR02MB10666
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 20:58:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233633
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 22:39:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233634
 
-Drop upstreamed patch for riscv syscall wirings
+Normally, this test is run as part of the do_qa_configure() postfunc to
+the configure task. However, for the rare case that the configure task
+has been deleted (e.g., in packagegroups), then run it as a package QA
+test instead.
 
-brings following changes
-
-* 9fa28ece release 1.2.6
-* 1347154c vdso: add support for GNU hash tables
-* 149d8729 getgr*: validate group member lists from nscd backend
-* 19f9aeaa sys/mman.h: add MADV_COLLAPSE from linux v6.1
-* 56df2e1f sys/mman.h: add MADV_DONTNEED_LOCKED from linux v6.0
-* bb5693fa sys/mman.h: add MADV_POPULATE_(READ|WRITE) from linux v5.14
-* 9355c443 loongarch64: add lsx and lasx regset definition
-* b5146b83 loongarch64: add fpu and simd context to signal.h
-* 38b00812 loongarch64: add new reloc types and NT_LOONGARCH_HW_* into elf.h
-* b37d241d fenv: add missing C dummy functions for loongarch64 soft float
-* 5c901bb3 update syscalls up to linux 6.19
-* 4268281a getifaddr: fix typo ssl to sll
-* 5c26c890 mallocng: prevent stray ';' at top-level
-* 1b76ff07 s390x: shuffle register usage in __tls_get_offset to avoid r0 as address
-
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- ...for-r32-rv64-from-kernel-6.4-through.patch | 70 -------------------
- meta/recipes-core/musl/musl_git.bb            |  5 +-
- 2 files changed, 2 insertions(+), 73 deletions(-)
- delete mode 100644 meta/recipes-core/musl/musl/0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch
 
-diff --git a/meta/recipes-core/musl/musl/0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch b/meta/recipes-core/musl/musl/0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch
-deleted file mode 100644
-index 78ba903ca6..0000000000
---- a/meta/recipes-core/musl/musl/0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From 31dce8e958f5185e7fda653214da12bbc75f244e Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 4 Dec 2024 11:16:43 -0800
--Subject: [PATCH] Update syscalls for r32/rv64 from kernel 6.4 through 6.10
--
--Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2024/12/04/3]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- arch/riscv32/bits/syscall.h.in | 11 +++++++++++
-- arch/riscv64/bits/syscall.h.in | 11 +++++++++++
-- 2 files changed, 22 insertions(+)
--
--diff --git a/arch/riscv32/bits/syscall.h.in b/arch/riscv32/bits/syscall.h.in
--index 9228d840..a54d9ffc 100644
----- a/arch/riscv32/bits/syscall.h.in
--+++ b/arch/riscv32/bits/syscall.h.in
--@@ -216,6 +216,7 @@
-- #define __NR_perf_event_open 241
-- #define __NR_accept4 242
-- #define __NR_arch_specific_syscall 244
--+#define __NR_riscv_hwprobe 258
-- #define __NR_prlimit64 261
-- #define __NR_fanotify_init 262
-- #define __NR_fanotify_mark 263
--@@ -295,6 +296,16 @@
-- #define __NR_cachestat		451
-- #define __NR_fchmodat2		452
-- #define __NR_futex __NR_futex_time64
--+#define __NR_map_shadow_stack 453
--+#define __NR_futex_wake 454
--+#define __NR_futex_wait 455
--+#define __NR_futex_requeue 456
--+#define __NR_statmount 457
--+#define __NR_listmount 458
--+#define __NR_lsm_get_self_attr 459
--+#define __NR_lsm_list_modules 461
--+#define __NR_lsm_set_self_attr 460
--+#define __NR_mseal 462
-- 
-- #define __NR_sysriscv __NR_arch_specific_syscall
-- #define __NR_riscv_flush_icache (__NR_sysriscv + 15)
--diff --git a/arch/riscv64/bits/syscall.h.in b/arch/riscv64/bits/syscall.h.in
--index e362bd0e..6991a89c 100644
----- a/arch/riscv64/bits/syscall.h.in
--+++ b/arch/riscv64/bits/syscall.h.in
--@@ -242,6 +242,7 @@
-- #define __NR_accept4 242
-- #define __NR_recvmmsg 243
-- #define __NR_arch_specific_syscall 244
--+#define __NR_riscv_hwprobe 258
-- #define __NR_wait4 260
-- #define __NR_prlimit64 261
-- #define __NR_fanotify_init 262
--@@ -304,6 +305,16 @@
-- #define __NR_set_mempolicy_home_node	450
-- #define __NR_cachestat		451
-- #define __NR_fchmodat2		452
--+#define __NR_map_shadow_stack 453
--+#define __NR_futex_wake 454
--+#define __NR_futex_wait 455
--+#define __NR_futex_requeue 456
--+#define __NR_statmount 457
--+#define __NR_listmount 458
--+#define __NR_lsm_get_self_attr 459
--+#define __NR_lsm_list_modules 461
--+#define __NR_lsm_set_self_attr 460
--+#define __NR_mseal 462
-- 
-- #define __NR_sysriscv __NR_arch_specific_syscall
-- #define __NR_riscv_flush_icache (__NR_sysriscv + 15)
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 3f5fa37fba..3aec643c40 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,16 +4,15 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "0ccaf0572e9cccda2cced0f7ee659af4c1c6679a"
-+SRCREV = "9fa28ece75d8a2191de7c5bb53bed224c5947417"
- 
--BASEVER = "1.2.5"
-+BASEVER = "1.2.6"
- 
- PV = "${BASEVER}+git"
- 
- SRC_URI = "git://git.musl-libc.org/musl;branch=master \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
--           file://0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch \
-           "
- 
- PROVIDES += "virtual/libc virtual/libiconv virtual/libintl virtual/crypt"
+PATCHv2: New in v2. Replaces the previous solution that instead modified
+packagegroup.bbclass.
+
+ meta/classes-global/insane.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insan=
+e.bbclass
+index 8bbe5bb19a..77d708f367 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -1087,6 +1087,13 @@ def package_qa_check_missing_update_alternatives(pn,=
+ d):
+         if d.getVar('ALTERNATIVE:%s' % pkg) and not bb.data.inherits_class=
+('update-alternatives', d):
+             oe.qa.handle_error("missing-update-alternatives", "%s: recipe =
+defines ALTERNATIVE:%s but doesn't inherit update-alternatives. This might =
+fail during do_rootfs later!" % (pn, pkg), d)
+=20
++QARECIPETEST[invalid-packageconfig] =3D "package_qa_invalid_packageconfig"
++def package_qa_invalid_packageconfig(pn, d):
++    # For almost all recipes, the check for invalid PACKAGECONFIGs will be=
+ run
++    # as part of the do_qa_configure() postfunc to the configure task inst=
+ead.
++    if 'do_configure' not in bb.build.listtasks(d):
++        configure_qa_invalid_packageconfig(pn, d)
++
+ def parse_test_matrix(matrix_name, skip, d):
+         testmatrix =3D d.getVarFlags(matrix_name) or {}
+         g =3D globals()
 
