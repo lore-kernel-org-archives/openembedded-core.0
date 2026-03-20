@@ -1,281 +1,256 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE92F109879E
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 15:37:24 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15912.1774021036918117426
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF06E10987A1
+	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 15:54:34 +0000 (UTC)
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16388.1774022067086279859
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 08:37:17 -0700
+ Fri, 20 Mar 2026 08:54:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=vjyu1BAI;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-483487335c2so16144865e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 08:37:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XvahsNo4;
+ spf=pass (domain: gmail.com, ip: 74.125.82.46, mailfrom: rybczynska@gmail.com)
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1271195d2a7so1076728c88.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 08:54:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774022066; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bwxkQjgjzCsVqfM7DJCkVuUs1gGlwA7Dnm26wJZRS1IU+mx5qBrHhM7QCmrqsx6GSb
+         OepolxKYyGfzZqMbp+JrCXzZjKzS/gIY67cQ2uSwMQCbfW1bg1JJ1xEDSmmhj6XvLfjW
+         21U0MUuTwyTL8B1+/POHCEoeI+OlaKas9+iBn2i+TUYKhs75WCf4qmX+etH54EUwn4g3
+         H/sjaQtMfWj42Y8eszTX+jMwRyLWbiB7/p2W4kZlf0t4ep7E4JWlLMGJuUY5SARv6iRL
+         bcVdq9UdvJ+gSEb8DqWdRax8lupXvgUVRTJceZu3B82IwGI+z9aPVIFBtuzytamXWatm
+         7Y6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=pUQ/lI3Z8X5P/KhxYABoz5Ayp39e4bgYhmcseIbUdp0=;
+        fh=hQYLurPy9ERjJbJ0Ryg0oFKGxO/Le7cRCn5g7QXxjfQ=;
+        b=i6tDeB6J1cPPMnUNDtofs/QKYKqcDGXhnhiZgzhDCTVDlSw/RgurYUys7PFo8BnrjF
+         yjrQ8aXwqfDW0yDRMiqKwFSa3qQ9OGFebTNd8Tl+iy4GElVUDjJXDNn0S0GDxHvzhTTx
+         RxHsoUMSOI6o0m36S67cJdoyDyTkppmMMQzi0xOjrMut+MIaEPbuPOP64lLLjxLR2ntk
+         6f8aHnsSn4gajhx97qAMMghFjmCLURu4OTYdY64AovqyIuDfnnJbpvExj3T2vwu4+EB/
+         YssGqzfeuAQqGK+4nOInhqRMwVRvfCJT5fKzntZTF34wF2rHTsp6g8TtQFKGPaGjmU8i
+         1kKQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774021035; x=1774625835; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lsN/0L+KzKXqBq8U6eHiMTOSccEYPcwpB2+TyRD0QZE=;
-        b=vjyu1BAIpEdjyyppis9krXQThuFTH589w0UY3aYpegG2ivqiSKBK/xHqamR/WJhC9z
-         hObv2iECLJSFO4npjsiOyoHySpF7nY6a0zl8+efcvp6+sMa84B3Bc8LhqqCVJz5IY0aZ
-         byARON3z3c1M5rbPCeWCYfksJoPaEo7jSfdiA=
+        d=gmail.com; s=20230601; t=1774022066; x=1774626866; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pUQ/lI3Z8X5P/KhxYABoz5Ayp39e4bgYhmcseIbUdp0=;
+        b=XvahsNo4DGbD0L7uGCuFhGO0WRVmGpiqKxoMotBkPC+80q2obVQpxEcveBV/rzNJ2d
+         ah5y1v3hElaDHx8RBd7dEOKZe/VHYLH63RIPI3eoeYASZ3Zfjcmt6LYCVDv4nOGsPZa7
+         FuW7cpK3hiU7Jb3kUFgBWJmfr1crETAYtJtiCt/czCrld+TtKbVlk5R3i6lC9dslQsYS
+         3zcIQkgq3drjCvdhszFa5Jkj24GsiZG82FYj3bQ79rqxNecElLPyZHI7MBHsD6wBsn5v
+         0i8T8KyuBAlftNjnxdM1Pt91rnyUgaEEQT/T9iOkgwIcKGPPiI4nwGsjw1p/kpdwLavu
+         caMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774021035; x=1774625835;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lsN/0L+KzKXqBq8U6eHiMTOSccEYPcwpB2+TyRD0QZE=;
-        b=AoE7lkxVvl1jF4OKEqerUTstWbv+S3KehIzJJ2fkLpv8DFnYxhuo6wFiuhxiq9i1An
-         Fgl1z1GhG0E9mvdPAwOB9zSZurfm5KNgIeMqsNdSiWCeeT5z+4GVULFwN59vF2fD96iF
-         lqPCg1slnJeNR6wO3mJ9CAdb/y7u6OBRtFdzkBIPg3z9Nqa3pgJzPm9aq0aXAM96LMc5
-         Qapb20tkqTPECZs8tNuSzw9oDNy5+J1ZLmq1c/IX7Fe6XxczPMVTlcypF1GVhBeUw3cN
-         XK0ReUGd4BFKzv/amGJy407YwdbXkHoSwJQ01qyBeoSAdTBiddm/9S0KpNDbIRfr/8NW
-         TpNg==
-X-Gm-Message-State: AOJu0YwvB4RqwaYThYhrYU24edxVUR9sIWklZnBILLR/4vMkB+2momzm
-	UrIFcy352g2wQjcRfHaJEu7BNJltLgPG8EzNrrkPBo+9HUzL6OVZX45d6DvkQ1Bec4g=
-X-Gm-Gg: ATEYQzyALiZTNOQNi1u3Yt5ynqYniMZ5aXABv445XahOOHA/LbLxj7N7HzmaMkBQFra
-	K02Ta5CxNN3HlEB92qkzJGj1B2PRzzZVBGRl7rs72hvCQmDabDWqZ7Iu9qrbtdQwMYHrAaTVC7k
-	u8jTCo0gI0H01vTskRFeCJLHHmpff3j3FHfP6TjE23zcgDeQRz15JUhxD7EePgq8m05nwrM3Fmc
-	fIic/8Fpl8o6e2wApmcXj0DUjb5a3I7tzdvjzMn/BCum4KNYvvDqM4gp7CvC1IyKzomYkBdF8vi
-	w6pCnFIso2EQccG4bEwOUsH96bWGZh/RBOinjb0ICOq6IitXmkeaNDovdfm/RoD8kqVZz4pn2EL
-	SPCLEY72CDnBAFE5fN2QHqutrcf4iCgPobc1SwRW2/uorbnMekJ+qwP6Re9DBG69oFkBW6nl9Rt
-	zp6LFnS84UyUSTMjKSEr1KCnlAlL/U4jDVDv7MoTm13sOa67kQgskV50A7jrKj19dZQXY+TfuZK
-	+4+3HfVOtEo50E=
-X-Received: by 2002:a05:600c:3d87:b0:480:1e40:3d2 with SMTP id 5b1f17b1804b1-486fee2cfa5mr44882275e9.29.1774021035121;
-        Fri, 20 Mar 2026 08:37:15 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470380asm6809410f8f.24.2026.03.20.08.37.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2026 08:37:14 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Mar 2026 16:37:14 +0100
-Message-Id: <DH7PZ0CXD3QR.Z8FIHNAT3QRJ@smile.fr>
-Subject: Re: [OE-core][kirkstone][PATCH 4/4] curl: Fix CVE-2026-3784
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-To: <vanusuri@mvista.com>, "Fabien Thomas" <fabien.thomas@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260320075604.551251-1-vanusuri@mvista.com>
- <20260320075604.551251-4-vanusuri@mvista.com>
- <DH7OJD1OK560.20DYBG2U7KWUE@smile.fr>
- <CANQUz193viLhzsv9Bw4XQ_zY8LdHFLFp+2yj5xXoTW0aAZt-fA@mail.gmail.com>
-In-Reply-To: <CANQUz193viLhzsv9Bw4XQ_zY8LdHFLFp+2yj5xXoTW0aAZt-fA@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1774022066; x=1774626866;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pUQ/lI3Z8X5P/KhxYABoz5Ayp39e4bgYhmcseIbUdp0=;
+        b=tIihscoS9YraTbAj+Nd0R1ChoQ4h4Y6STL953lJ1EtM02/7TcOPSK8hL3BEwSAuPg5
+         QkAe2kVDr2fjiZpCnOq97RlpsLo/sSyomOknVmbpUnEQvxiKJ5JWNH0LSllU7YN4TBbH
+         oAYHAiwO5a93jPmPF95D2sCKLaVQ5DIgOogFwEIr+kd3bdciT6U6Alouuy9HP4IJ/ARB
+         22zeQZRjaYDaejznTKkBPtvaki09FVgLoezX2BHzUBhr+WWW7y90Rx6CvE2Wc5/uZymH
+         +Qqx74ttCigeOGO9auvEUpyIBMOS37J9r/6ExiRbT7exf3nsnevEcHJz5liNN2r5wJzg
+         qc+w==
+X-Gm-Message-State: AOJu0Yx34GRUquSOAPuw6ISQJH6T0779lW4GXRRLrHk6lmu//xdmYUYb
+	dLcYoNaxixDH4rFXfX0IPV/H9l8lcvTo57XeDJ27AgO59ladd+CLS2vSmbFo9Q4rcwXP7tPCSzv
+	Uc8n4AuBEJNKmj/aRKSvzekD9V+SQa04=
+X-Gm-Gg: ATEYQzwyuuPFki0eAqwNm9yAoVtgnCo+lAl7sEcQjOj3j87KuHpapJKJKoPKCrcbZur
+	70f32O2dpA2TEV8/rZXr/UriGHccMANw1HEsGZyXSYy9GIbjAi47OE28TUBLvP2W5e5FfF9bFmY
+	neFHuGC2eNmExBQq58NRBMfMfX0rZbPU7lKSDcbpORzhqiidqdzhnKAjJf6z5Rb6p9cwcqcv0Tt
+	StPfzIIS9GkP92pfYSt0/OcsponCN95dIewSdw/f8hKZ1qIv9hlTIpiu5imjJaj9ZgI7OpUSPbT
+	SWpviY9NahPRsucbQvpZP4MZwwo+4aoEeXAASahB
+X-Received: by 2002:a05:7022:3d8c:b0:12a:6ab7:3f8a with SMTP id
+ a92af1059eb24-12a726478eemr1913058c88.3.1774022066228; Fri, 20 Mar 2026
+ 08:54:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260319-add-sbom-cve-check-v6-0-cfc657daa6b7@bootlin.com> <20260319-add-sbom-cve-check-v6-1-cfc657daa6b7@bootlin.com>
+In-Reply-To: <20260319-add-sbom-cve-check-v6-1-cfc657daa6b7@bootlin.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Fri, 20 Mar 2026 16:54:14 +0100
+X-Gm-Features: AaiRm50jxxZSrK8a8cmTVNhdwFcbHuRHfAYrwm0GNR-NR8SgIAs3f_Khi2b7gtI
+Message-ID: <CAApg2=QPoTedChybGx6gC8pQek57mfxd0jrtFZwBmJ5YyJ=ZhQ@mail.gmail.com>
+Subject: Re: [PATCH v6] sbom-cve-check: Add class for post-build CVE analysis
+To: Benjamin Robin <benjamin.robin@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org, ross.burton@arm.com, 
+	peter.marko@siemens.com, jpewhacker@gmail.com, olivier.benjamin@bootlin.com, 
+	antonin.godard@bootlin.com, mathieu.dubois-briand@bootlin.com, 
+	thomas.petazzoni@bootlin.com
+Content-Type: multipart/alternative; boundary="00000000000014d1c6064d76b310"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 15:37:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233614
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 15:54:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233615
 
-On Fri Mar 20, 2026 at 4:18 PM CET, Vijay Anusuri via lists.openembedded.or=
-g wrote:
-> Hi Fabien Thomas,
->
-> Thanks for providing the feedback.
->
-> On Fri, Mar 20, 2026 at 7:59=E2=80=AFPM Fabien Thomas <fabien.thomas@smil=
-e.fr>
-> wrote:
->
->> On Fri Mar 20, 2026 at 8:56 AM CET, Vijay Anusuri via
->> lists.openembedded.org wrote:
->> > From: Vijay Anusuri <vanusuri@mvista.com>
->> >
->> > import patch from ubuntu to fix
->> >  CVE-2026-3784
->> >
->> > Upstream-Status: Backport [import from ubuntu
->> curl_7.81.0-1ubuntu1.23.debian.tar.xz
->> > Upstream commit
->> https://github.com/curl/curl/commit/5f13a7645e565c5c1a06f3]
->> >
->> > Reference: https://curl.se/docs/CVE-2026-3784.html
->> >            https://ubuntu.com/security/CVE-2026-3784
->> >
->> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> > ---
->> >  .../curl/curl/CVE-2026-3784.patch             | 74 ++++++++++++++++++=
-+
->> >  meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
->> >  2 files changed, 75 insertions(+)
->> >  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3784.patch
->> >
->> > diff --git a/meta/recipes-support/curl/curl/CVE-2026-3784.patch
->> b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
->> > new file mode 100644
->> > index 0000000000..8f3d56bab9
->> > --- /dev/null
->> > +++ b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
->> > @@ -0,0 +1,74 @@
->> > +Backport of:
->> > +
->> > +From 5f13a7645e565c5c1a06f3ef86e97afb856fb364 Mon Sep 17 00:00:00 200=
-1
->> > +From: Stefan Eissing <stefan@eissing.org>
->> > +Date: Fri, 6 Mar 2026 14:54:09 +0100
->> > +Subject: [PATCH] proxy-auth: additional tests
->> > +
->> > +Also eliminate the special handling for socks proxy match.
->> > +
->> > +Closes #20837
->> > +
->> > +Upstream-Status: Backport [import from ubuntu
->> curl_7.81.0-1ubuntu1.23.debian.tar.xz
->> > +Upstream commit
->> https://github.com/curl/curl/commit/5f13a7645e565c5c1a06f3]
->> > +CVE: CVE-2026-3784
->> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> > +---
->> > + lib/url.c                        | 28 +++++++---------------------
->> > + tests/http/test_13_proxy_auth.py | 20 ++++++++++++++++++++
->> > + tests/http/testenv/curl.py       | 18 +++++++++++++++---
->> > + 3 files changed, 42 insertions(+), 24 deletions(-)
->> > +
->> > +--- a/lib/url.c
->> > ++++ b/lib/url.c
->> > +@@ -930,33 +930,15 @@ proxy_info_matches(const struct proxy_in
->> > + {
->> > +   if((data->proxytype =3D=3D needle->proxytype) &&
->> > +      (data->port =3D=3D needle->port) &&
->> > +-     Curl_safe_strcasecompare(data->host.name, needle->host.name))
->> > +-    return TRUE;
->> > ++     curl_strequal(data->host.name, needle->host.name)) {
->> > +
->> > ++    if(Curl_timestrcmp(data->user, needle->user) ||
->> > ++       Curl_timestrcmp(data->passwd, needle->passwd))
->> > ++      return FALSE;
->> > ++    return TRUE;
->> > ++  }
->> > +   return FALSE;
->> > + }
->> > +-
->> > +-static bool
->> > +-socks_proxy_info_matches(const struct proxy_info *data,
->> > +-                         const struct proxy_info *needle)
->> > +-{
->> > +-  if(!proxy_info_matches(data, needle))
->> > +-    return FALSE;
->> > +-
->> > +-  /* the user information is case-sensitive
->> > +-     or at least it is not defined as case-insensitive
->> > +-     see https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.1
->> */
->> > +-
->> > +-  /* curl_strequal does a case insentive comparison, so do not use i=
-t
->> here! */
->> > +-  if(Curl_timestrcmp(data->user, needle->user) ||
->> > +-     Curl_timestrcmp(data->passwd, needle->passwd))
->> > +-    return FALSE;
->> > +-  return TRUE;
->> > +-}
->> > +-#else
->> > +-/* disabled, won't get called */
->> > +-#define proxy_info_matches(x,y) FALSE
->> > +-#define socks_proxy_info_matches(x,y) FALSE
->> > + #endif
->> > +
->> > + /* A connection has to have been idle for a shorter time than
->> 'maxage_conn'
->> > +@@ -1282,8 +1264,8 @@ ConnectionExists(struct Curl_easy *data,
->> > +         continue;
->> > +
->> > +       if(needle->bits.socksproxy &&
->> > +-        !socks_proxy_info_matches(&needle->socks_proxy,
->> > +-                                  &check->socks_proxy))
->> > ++        !proxy_info_matches(&needle->socks_proxy,
->> > ++                            &check->socks_proxy))
->> > +         continue;
->> > + #endif
->> > +       if(needle->bits.conn_to_host !=3D check->bits.conn_to_host)
->> > diff --git a/meta/recipes-support/curl/curl_7.82.0.bb
->> b/meta/recipes-support/curl/curl_7.82.0.bb
->> > index 8fdd954c7e..c33183e096 100644
->> > --- a/meta/recipes-support/curl/curl_7.82.0.bb
->> > +++ b/meta/recipes-support/curl/curl_7.82.0.bb
->> > @@ -74,6 +74,7 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
->> >             file://CVE-2026-1965-1.patch \
->> >             file://CVE-2026-1965-2.patch \
->> >             file://CVE-2026-3783.patch \
->> > +           file://CVE-2026-3784.patch \
->> >             "
->> >  SRC_URI[sha256sum] =3D
->> "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
->> >
->> Hi Vijay,
->>
->> This my general feedback on the whole curl patch series.
->>
->> I noticed quite big differences between the upstream commits you cited a=
-nd
->> the
->> ones actually provided in this series. If these backports are from Ubunt=
-u
->> or Debian, please include the direct links to those commits as well.
->>
->> --> The previous Ubuntu commit link (
-> https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches?h=3Dubu=
-ntu/jammy-security)
-> is currently not accessible.
->
-> I=E2=80=99ve referenced the tarball version instead:
-> https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/curl/7.81.0-1u=
-buntu1.23/curl_7.81.0-1ubuntu1.23.debian.tar.xz
->
-> Would it be okay if I include this download link in the patch?
+--00000000000014d1c6064d76b310
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-How about:
-> Upstream-Status: Backport [https://github.com/curl/curl/commit/5f13a7645e=
-565c5c1a06f3ef86e97afb856fb364]
-> Backported by Ubuntu team https://launchpad.net/ubuntu/+archive/primary/+=
-sourcefiles/curl/7.81.0-1ubuntu1.23/curl_7.81.0-1ubuntu1.23.debian.tar.xz
-This way, we have traceability from upstream and we know where the patch
-comes from.
+On Thu, Mar 19, 2026 at 4:42=E2=80=AFPM Benjamin Robin <benjamin.robin@boot=
+lin.com>
+wrote:
 
-But beware, Ubuntu might have earlier patches that we do not have.
-I will review differences between this patch and upstream patch.
-So, any needed context will be appreciated.
-
-Thanks!
-
->> Additionally, your backport for CVE-2025-14524 ([PATCH 1/4]) differs
->> from the one by Amaury Couderc, which has already been merged into
->> scarthgap.
->> Maybe it would be simplier to cherry-picked it ?
->>
+> By default, the sbom-cve-check class generates these export files:
+>  - A JSON in `cve-check` format, named `${IMAGE_NAME}.cve-check.json`
+>  - An SPDX 3.0 SBOM, named `${IMAGE_NAME}.cve-check.spdx.json`.
 >
-> --> Version in kirkstone is different from scarthgap. I will try to
-> cherry-pick and send a V2 patch.
+> A user can add or remove export file formats by using the
+> `SBOM_CVE_CHECK_EXPORT_VARS` variable.
 >
->>
->> One last detail regarding formatting: the last four patches include
->> a 'Backport of' prefix in the patch header. While not strictly forbidden=
-,
->> this is unusual and adds unnecessary noise.
->> Could you please remove these headers next time?
->>
+> By default, the CVE databases are downloaded using the following
+> recipes:
+>  - sbom-cve-check-update-cvelist-native.bb
+>  - sbom-cve-check-update-nvd-native.bb
 >
-> --> Sure. I will remove those unusual headers.
+> The database fetch and deploy logic is implemented in
+> sbom-cve-check-update-db.inc. The CVE databases are stored in the
+> download directory (`DL_DIR`) by default. This can be configured by
+> the `SBOM_CVE_CHECK_DATABASES_DIR` variable defined in
+> meta/recipes-core/meta/sbom-cve-check-config.inc.
 >
->>
->> Thanks.
->>
->> Regards,
->> --
->> Fabien Thomas
->> Smile ECS
->>
->>
-> Thanks & Regards,
-> Vijay
+> The CVE git databases are fetched using the Bitbake fetcher. Currently,
+> Bitbake fetcher does not support a shallow clone that can be updated.
+> While `BB_GIT_SHALLOW` exists, it creates multiple tarballs in the
+> download directory, which is inefficient for updates. For now, the git
+> database is fully fetched.
+>
+> The `SRCREV` of the git database is set to a fixed version. A user can
+> override this by specifying any other version, or `AUTOREV` can be
+> specified.
+>
+> To simplify the activation and configuration of sbom-cve-check, a
+> configuration fragment is provided with recommended default values.
+>
+> `sbom-cve-check` is configured to run without requiring network access.
+> If a user needs network access during execution (e.g., to download
+> annotation databases), they can set `SBOM_CVE_CHECK_ALLOW_NETWORK`
+> to "1".
+>
+> The CVE analysis runs only if either the original SBOM changes or the
+> CVE databases are updated. In the two CVE database-fetching recipes, a
+> file in the sysroot is written, containing the Git revision of the
+> fetched CVE database.
+>
+> `sbom-cve-check` is executed with the generated VEX manifest only if
+> enabled and if `SPDX_INCLUDE_VEX` is set to a value other than "all".
+> When `SPDX_INCLUDE_VEX=3Dall`, the SPDX 3.0 file already contains all the
+> necessary information for CVE analysis, making the VEX manifest
+> redundant.
+>
+> Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
+> ---
+>  meta/classes-recipe/sbom-cve-check.bbclass         | 121
+> +++++++++++++++++++++
+>  meta/conf/distro/include/maintainers.inc           |   2 +
+>  meta/conf/fragments/yocto/sbom-cve-check.conf      |  14 +++
+>  meta/recipes-core/meta/sbom-cve-check-config.inc   |   4 +
+>  .../meta/sbom-cve-check-update-cvelist-native.bb   |  12 ++
+>  .../recipes-core/meta/sbom-cve-check-update-db.inc |  28 +++++
+>  .../meta/sbom-cve-check-update-nvd-native.bb       |  12 ++
+>  7 files changed, 193 insertions(+)
+>
+>
+Hello,
+That looks cleaner than the previous version. How long does the intiial
+build take with
+this fetcher?
 
+Kind regards,
+Marta
 
---=20
-Yoann Congal
-Smile ECS
+--00000000000014d1c6064d76b310
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 19,=
+ 2026 at 4:42=E2=80=AFPM Benjamin Robin &lt;<a href=3D"mailto:benjamin.robi=
+n@bootlin.com">benjamin.robin@bootlin.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">By default, the sbom-cve-check cla=
+ss generates these export files:<br>
+=C2=A0- A JSON in `cve-check` format, named `${IMAGE_NAME}.cve-check.json`<=
+br>
+=C2=A0- An SPDX 3.0 SBOM, named `${IMAGE_NAME}.cve-check.spdx.json`.<br>
+<br>
+A user can add or remove export file formats by using the<br>
+`SBOM_CVE_CHECK_EXPORT_VARS` variable.<br>
+<br>
+By default, the CVE databases are downloaded using the following<br>
+recipes:<br>
+=C2=A0- <a href=3D"http://sbom-cve-check-update-cvelist-native.bb" rel=3D"n=
+oreferrer" target=3D"_blank">sbom-cve-check-update-cvelist-native.bb</a><br=
+>
+=C2=A0- <a href=3D"http://sbom-cve-check-update-nvd-native.bb" rel=3D"noref=
+errer" target=3D"_blank">sbom-cve-check-update-nvd-native.bb</a><br>
+<br>
+The database fetch and deploy logic is implemented in<br>
+sbom-cve-check-update-db.inc. The CVE databases are stored in the<br>
+download directory (`DL_DIR`) by default. This can be configured by<br>
+the `SBOM_CVE_CHECK_DATABASES_DIR` variable defined in<br>
+meta/recipes-core/meta/sbom-cve-check-config.inc.<br>
+<br>
+The CVE git databases are fetched using the Bitbake fetcher. Currently,<br>
+Bitbake fetcher does not support a shallow clone that can be updated.<br>
+While `BB_GIT_SHALLOW` exists, it creates multiple tarballs in the<br>
+download directory, which is inefficient for updates. For now, the git<br>
+database is fully fetched.<br>
+<br>
+The `SRCREV` of the git database is set to a fixed version. A user can<br>
+override this by specifying any other version, or `AUTOREV` can be<br>
+specified.<br>
+<br>
+To simplify the activation and configuration of sbom-cve-check, a<br>
+configuration fragment is provided with recommended default values.<br>
+<br>
+`sbom-cve-check` is configured to run without requiring network access.<br>
+If a user needs network access during execution (e.g., to download<br>
+annotation databases), they can set `SBOM_CVE_CHECK_ALLOW_NETWORK`<br>
+to &quot;1&quot;.<br>
+<br>
+The CVE analysis runs only if either the original SBOM changes or the<br>
+CVE databases are updated. In the two CVE database-fetching recipes, a<br>
+file in the sysroot is written, containing the Git revision of the<br>
+fetched CVE database.<br>
+<br>
+`sbom-cve-check` is executed with the generated VEX manifest only if<br>
+enabled and if `SPDX_INCLUDE_VEX` is set to a value other than &quot;all&qu=
+ot;.<br>
+When `SPDX_INCLUDE_VEX=3Dall`, the SPDX 3.0 file already contains all the<b=
+r>
+necessary information for CVE analysis, making the VEX manifest<br>
+redundant.<br>
+<br>
+Signed-off-by: Benjamin Robin &lt;<a href=3D"mailto:benjamin.robin@bootlin.=
+com" target=3D"_blank">benjamin.robin@bootlin.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/sbom-cve-check.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 121 +++++++++++++++++++++<br>
+=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+=C2=A0meta/conf/fragments/yocto/sbom-cve-check.conf=C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 14 +++<br>
+=C2=A0meta/recipes-core/meta/sbom-cve-check-config.inc=C2=A0 =C2=A0|=C2=A0 =
+=C2=A04 +<br>
+=C2=A0.../meta/<a href=3D"http://sbom-cve-check-update-cvelist-native.bb" r=
+el=3D"noreferrer" target=3D"_blank">sbom-cve-check-update-cvelist-native.bb=
+</a>=C2=A0 =C2=A0|=C2=A0 12 ++<br>
+=C2=A0.../recipes-core/meta/sbom-cve-check-update-db.inc |=C2=A0 28 +++++<b=
+r>
+=C2=A0.../meta/<a href=3D"http://sbom-cve-check-update-nvd-native.bb" rel=
+=3D"noreferrer" target=3D"_blank">sbom-cve-check-update-nvd-native.bb</a>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 12 ++<br>
+=C2=A07 files changed, 193 insertions(+)<br><br></blockquote><div><br></div=
+><div>Hello,</div><div>That looks cleaner than the previous version. How lo=
+ng does the intiial build take with</div><div>this fetcher?</div><div><br><=
+/div><div>Kind regards,</div><div>Marta=C2=A0</div></div></div>
+
+--00000000000014d1c6064d76b310--
 
