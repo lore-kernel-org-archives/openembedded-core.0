@@ -1,99 +1,103 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D0EB108B8E7
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 10:00:07 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9217.1774000806517601365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 653D7108B8EB
+	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 10:13:57 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9454.1774001631637367490
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 03:00:06 -0700
+ Fri, 20 Mar 2026 03:13:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=K1gGrcfD;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-89c68b0763aso25890146d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 03:00:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774000805; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SXC6b+BCtEqmIi72uhEceiFnQCG1NQSrUVz/iexb/Z9R14WMxY4n1zGBrSz3OR6MTg
-         bAvppcmJWqBJQpmPoYM6Mn8T7jz1b5mxGyfKB60WvoXFeer7uYDFPW57p3joM7ehF7P7
-         u6MjEB9UZ4wmDoJR0Twx6RFH8qsEDD3zQ/o493YKxIiGBet2z040dcBqRv6gono9iLGe
-         qr1tTr3z5UJ4CeGH2U9JMFtPpBlC3+YxXQyxzglsN7Ds+ZV1o4pgQdc0HKU8C3FXdnQ/
-         AodhxxXdAouD2ygDXG9xS0jILTJQU15QDHO5WmexrJYB5pd9Ykg73q3MQqvsvdbiNqrX
-         rUyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0zq7XA+WnbjDpt4II4lHZdiIUOAgQzd2awTaYr7l/80=;
-        fh=QG0/1kl/iNDCWfShgAIKRpbEE7JIBRGbrVXnRZODZk4=;
-        b=Y1OX6e+FG/MpH9t431Hf2osAkIy5C+cLm++TcLLn6u0w9Z7at68YqZ4C7sSsWNE+Mq
-         CtF8UGBL2/hc8q0XHBEBGP4kN8e98Iqziq8GSt872LVb75WSgN9wc94aY8mXMFcHuwiK
-         UDbFZu5Erahl0grfcG1loi+JiC4WyEEB4iVryL1870eYbI9zX3Mx4qogieZ5WTf00/ff
-         /YVHtfW/8EaDGik3jiFlwmcfm8vLBSeHdxSHCbaHGhmC8HKhXMkuET03WBmJNUhrgw2D
-         F3Dy3SwR/Kkt5zxNp3e9SrQ3FN1lkJSR7N0SOFMx6El4WtvA+XTO6zbjuVeUYjESlQ3t
-         A0gQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=0CFh9IlF;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-486fb112c09so3289695e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 03:13:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774000805; x=1774605605; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0zq7XA+WnbjDpt4II4lHZdiIUOAgQzd2awTaYr7l/80=;
-        b=K1gGrcfDk+uJbUOOtvGodjUtWzcz6uvtUzEgP08rVgYqwsPCf0ac2q5iRBNCGWp+ES
-         i9hxFiE8pZY/eQWN8PhYpRwdfsNzbVQlElTg3djkry4gcD44SWvbtJvQrNRK8m19NtRX
-         yazOCsKgtWTEeOryvi54jgQjVEpgC3ZWrhXJa8r5rG8zbVDag1cH/TzlGkJacdFbtmrT
-         8KyxIKITnBYRLD6vvPm6FqahHav21rnBZic0M2pfuci1Atu08A9BuI5cvCZza387VOaE
-         l4l8nNPRN7hCz4ZZXVdsuMpZp7CMThI56q1YTwQM6+LrHYj7CZtGZ8edOH750nG4bKMa
-         oBpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774000805; x=1774605605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1774001630; x=1774606430; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0zq7XA+WnbjDpt4II4lHZdiIUOAgQzd2awTaYr7l/80=;
-        b=lyomR2N+mVdKJyT1DoiJMWNgL/UkgK2BoY8Y7CvY/YrgemfVswdXT2afnDOHrCm2tG
-         Q0oxaBm0h8NGGdACvcPj6Fr+HKIPRBoH6SydM9wi2+EGjhQbZJ+KrQ3uS0TllAFXUYqH
-         r4OzcxjSdHRBJ4zM43Bj5+jwJWAVPDMp3tV3rJa+tEir4w2rFd2iRASYMXBNMYE96jDF
-         StLglcutVmsGchcUYYOH7+ypSxHyF9TdZeyDCf70HpcZHVANqJ0zM+CK6gWmc4ftHAkl
-         hHd++qfPKw6j+IUU8fxVBcT0PbDk14qF9J6NybnGxdLTTEMrGV3spw1Itfu3Ow1KrbwH
-         6dLA==
-X-Gm-Message-State: AOJu0YzxMIYCvqOP7F2KixyS/sWFeREmHUiLPvGxczZ7wXoRICvzmxhv
-	P+egnNRnHB2iDqO6Yxedvi0d7lG+X9Aqo/q1offOzXjYAAoT/NsHqBhxc9DUP7IPNbGVWf4+mbS
-	Tb1fb+QfgmQ+2ioHKWqvDR9pURtSeLoelPnlp
-X-Gm-Gg: ATEYQzxAMbX7F6WPquToPwQ+sVv1vc2rI5j3D/GKCNjO4Jcpe1fHBW0IJTxhstR5ye7
-	cHJZODTyfKzhtKRXcpqDOdaLgV3nheUHz4wJoE81dnKNlMqWH8iFmNSFehQd/uzGrXKJoG2w/4r
-	vORbH2VsEzGU/ticsNup0imthYAI6ukYlthes8fodfI7xi10fZSXMhGFAlHtbVsn/RBjxENiVf8
-	kAz8sJxuidoS8/JAFnNQNqBayM95d++Fo/30TDQxboKRfA4NE6+e6k9harbTvfqDktnUS7DipXG
-	C7+qLljHPwGdC6pZN1Di4tGWAwtBmJ3oqoaUUxdoRA==
-X-Received: by 2002:a05:6214:470d:b0:89c:8a0f:566a with SMTP id
- 6a1803df08f44-89c8a0f5ab3mr10057586d6.37.1774000805203; Fri, 20 Mar 2026
- 03:00:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260319011815.13998-1-liuyd.fnst@fujitsu.com>
-In-Reply-To: <20260319011815.13998-1-liuyd.fnst@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 20 Mar 2026 10:59:53 +0100
-X-Gm-Features: AaiRm53oKMkGUfyVn-5guEAEtV77GXOTBSkdfvNNpJu2KJs1MpgwBwHgRoCjh_0
-Message-ID: <CANNYZj8ihti0bq3qtK2xag9U1TGKGaHyvpdgbTATSzAGc7MgdA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] libsolv: upgrade 0.7.35-> 0.7.36
-To: liuyd.fnst@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+        bh=X00CXbZ/IfbcWLefSY86WcnvseoJr7XDjrw3gSx/LD8=;
+        b=0CFh9IlFEAzOkOJIEypl4bbc46zENgXfV3I8vFL/z0LSnwiUAACmR9vOLJfLCFLa3M
+         tUdM168YQ84TM1YY6FXfGKwtIm6bUIr9rfxIlk1RtNlUEkUS/+2DgOvoyPYhQkc8Rpak
+         VuKAZuNQseaIr4bxXdRa7l+OpADfpwHWQ5uAk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774001630; x=1774606430;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X00CXbZ/IfbcWLefSY86WcnvseoJr7XDjrw3gSx/LD8=;
+        b=fh+dSqNuC8TKSNz+LrE/IBuS6EQeuLqmOm0H+y2dx+y02vBrCPZ4wc7iWDTjwea5tx
+         foIy0RfREBk8kSnf4HLoYpBCn/kRCkajAggmegMvr7F5FY/FFi7ejBXfF21HVPN5EFse
+         EEd6Eak0iJU9lGkrGAToK6JewK/tuT5h3X6pYDrQ7eAzy2SNX7y5gRWeEQ95f9w4ErRy
+         UmN77BRSIkJtoQ6Q8rSypWdDywj+qMtcEJoKBaHDO+FmuH9kjnOWXd+Gkql7/q/rBR/m
+         tm1oP672mcEvwYC8lzBKCzz/JGn0z+NjkfjTVoq5ITFUpO6UJ+00uvA9mMRVK/lWrfPv
+         ZHaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4YttOjSq/vZiJ9OoXxKUcCqk74WVFM4/jSaM9pxhyezQ32Cme3DgLH3gAeBW2iOGhl+BQiyrZnMfZDjHQBL56Qg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyUaEgNyduTO3K5QUTImEu28cftpz1vuE+3Srxoz2l1cCURI3Fm
+	r9dE3g/BCppk1sjR1kZliFaEsqfGzrAu5yFXHfepUl/BrjbpL7K0PwMEdcF7aosKSgyr0ewiSZ4
+	bCT2o
+X-Gm-Gg: ATEYQzzaHpBsT1BwsT0IEVL8JE4qgAvikvgV3lrCXuMfEu0OPWdn2IrLdafPel1n9/E
+	TZ1WzdPtNxDtEULgfabCvX1/tD7UPdcxR3JiJW7scHw6XXuU15irjGVzhVxxJhQt8FeIg/hAxyQ
+	RURwqrHbVw99Oyn488mzx0VlvZCpBdeqhXkPOPyDnWKRs8pShuk0ROdwVv3q1yPJ4+6bPSah8Em
+	LQucWqDVF+s0IvOzIaokieMgmbVuiR2lLnqZrPYStf0af78GmWglVS9W1YoT/a6ZpqG815Y2//l
+	StRv04H2wMtHBkmQNOgT/edq6RQnSPThDu8xwPoWSsh9qjtijsFlWz7cmlFXx3DUZ9APXNGetS2
+	3aC5XrUk9KKm2D7wh5lyMayD61kvRyP+0IGhZ+WMtwtX7m6YyHVmmnP93v+wnTh3al2qN9kzyu5
+	ErXZitesCERw3XyaSBG7COjAwodNkBF1ZMey3snuBRy2Cg+PESDC+xD5N+ik3IbRdZHXgvMXNnY
+	yZuXDZT2avUcdc=
+X-Received: by 2002:a05:600c:4e4a:b0:486:fdeb:fd96 with SMTP id 5b1f17b1804b1-486fee2dbeamr30297335e9.26.1774001629886;
+        Fri, 20 Mar 2026 03:13:49 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe6d91fbsm50272325e9.3.2026.03.20.03.13.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Mar 2026 03:13:49 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Mar 2026 11:13:49 +0100
+Message-Id: <DH7J3DSWUBXO.32LMINBEK4JC9@smile.fr>
+Subject: Re: [OE-core][scarthgap 01/15] inetutils: patch CVE-2026-28372
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Paul Barker" <paul@pbarker.dev>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <cover.1773966414.git.yoann.congal@smile.fr>
+ <ed976c159eab45e6ca1f8e1ba73c5872818e80d2.1773966414.git.yoann.congal@smile.fr> <e21ff2f9013d561713ae3d17c75f3e5a41ae4b30.camel@pbarker.dev>
+In-Reply-To: <e21ff2f9013d561713ae3d17c75f3e5a41ae4b30.camel@pbarker.dev>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 10:00:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233593
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 10:13:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233594
 
-On Thu, 19 Mar 2026 at 02:27, Yiding Liu (Fujitsu) via
-lists.openembedded.org <liuyd.fnst=fujitsu.com@lists.openembedded.org>
-wrote:
-> 2.Remove 0001-utils-Conside-musl-when-wrapping-qsort_r.patch
->  as it is not compatible with 0.7.36
+On Fri Mar 20, 2026 at 9:44 AM CET, Paul Barker wrote:
+> On Fri, 2026-03-20 at 01:28 +0100, Yoann Congal via
+> lists.openembedded.org wrote:
+>> From: Peter Marko <peter.marko@siemens.com>
+>>=20
+>> Pick patch according to [1] (equivalent to patch from [2]).
+>>=20
+>> This CVE is needed if util-linux >=3D 2.40 is used which is not the case
+>> in Yocto kirkstone, however it's always possible that users update
+>> packages in their layers.
+>
+> s/kirkstone/scarthgap/
 
-A better explanation is to say that the issue was fixed upstream with
-this commit:
-https://github.com/openSUSE/libsolv/commit/2d0718a4f2001c857d9af24398c68d676a98a3ca
+I updated my -nut branch and created a temporary
+"stable/scarthgap-nut-review-2026W12" at its previous position to keep
+the commits around during review.
 
-Alex
+Thanks!
+
+>
+> Otherwise, LGTM.
+>
+> Best regards,
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
