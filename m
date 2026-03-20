@@ -1,110 +1,106 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E511099B2A
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 17:22:17 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15666.1774020400075535418
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F34B51099B2B
+	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 17:23:06 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18574.1774027379229970022
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 08:26:40 -0700
+ Fri, 20 Mar 2026 10:23:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hqtCWqrF;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: ernestvanhoecke@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43b40fb7f95so2107116f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 08:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774020398; x=1774625198; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=N7hS1r0j61GEfzWE1q7mcPBSgBJ9L6u0Nuyj97dD78o=;
-        b=hqtCWqrFG/zfLQL22hG5s5QyAuMp14w/0KRiQlUR5kN6+Iohe6r98eeUU8RimqTike
-         Si338qGTfid3Kt/Yu8CxmvFFqID7851uMv9rScXcWcsIldmljG/mvlaG32k3mlrmdAL5
-         ROhlmpQn2flOI2YezPtdi8Fl6OhHpgwDEVzAI0CdhCSgyEIeGAb1CFdLGKoZzEYk/gdN
-         krrGbYFzXXEQ2yuV/Z8XOqLilBiOjbgYdzVvLAfBkqArkHm8/MUfHwCrtPIb+20dgfWp
-         8fErSq9KgF/xCL/BGmkvygEcuNUNmhfGHvY5K5IEBe4y3PagdYZcYIcDc9bKeYpfNyqb
-         ZQrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774020398; x=1774625198;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N7hS1r0j61GEfzWE1q7mcPBSgBJ9L6u0Nuyj97dD78o=;
-        b=Nj84K++fdt2QZZeCGzZWKWMFlFvbuHgZwgu3wwRwYm5a/YeXvyHmBqmLJPjeK/Anxc
-         cXi1ajJa9jaCYQN+4R+DO947BMzmexZZdhw+zhqTzaENkH02R+rdhupe9CGUBLAKq0Eq
-         xQ0EfQN5NalulwtpKUEyZOUYXt9Je5yokDocBs8AxFR3+RndcOE55+Xgc6wu4YUZgKJY
-         TDh1uqQCgtJOr+ntEn/VN+54fc+iyJNrPyWuMcDKabWb0kFmQSluEqZ4dc4yJGldA0dm
-         zaGciRomWRjQtivBhDiLgr1NagvjJCTH2BGt2yj0IM3+iqg7cBpsZc2i1uhW7Ep3f1A0
-         qX0g==
-X-Gm-Message-State: AOJu0YzP/GZa8B1qtQAGEuvsW7X2Kr3qvcxGGECfry1DdPIhpukTslGw
-	v7rzP1zk9e5c7xbz4vIwrdp8LzjAbJV6l7uIBBRXzKUVidNNxdX9EL3p
-X-Gm-Gg: ATEYQzyhgtMuVWeKiQNEaYWBfWRXOPS1S69JBJtMb8DStN/Apz08KIwTYdCSM131X2L
-	Iavbl7ITpmiLmILe4M+zgDDDuzQZHjlo2VYOjnvBUZFhoqBVls0QeTIPCg3sNpV9DKcFmSP08tR
-	4OA8WJNwENcOmTZhYgf4P2DIKjm8hLwOynh9XW4jzKzjCNTD+1A9WgHcDlPkvS4330d6qj6y0r4
-	FKdSrKRAXFcqJrA7U5fJM5Sec1UaZE58So+ueXauaEep29kYMSp/R17VGvChzOqDFf0nEuxqgPv
-	M3CQNg2YFDZ2+vv8cgFO1vpv3DyVzzcSiD4p3nRxET+lmcaJQPrCxOeJGDorrn90wX3T0Yk1J5o
-	a/rr40iv7iuv8OpM0e8w63Wd8GKhrJEbSRjbc+RLl13bnCJ4FHL1fEcM6M9K1rzcdLOp7exob2T
-	0+0fyaw0Xctiwwqg7b4//uloFj7xOPjtIfLQxn+K+qNojMnEMZ87UpDJ9eO5x1QTxKe6UQfLKEC
-	OmC9Dc+LNSElTn7vVKr6ZAKLmgiPZJy/0nL4wu5
-X-Received: by 2002:a05:600c:45c7:b0:486:fba7:b150 with SMTP id 5b1f17b1804b1-486feddb6d8mr51187005e9.15.1774020398267;
-        Fri, 20 Mar 2026 08:26:38 -0700 (PDT)
-Received: from ernest.hoecke-nb (2a02-1812-1193-400-55ca-2f77-dd7b-9cf7.ip6.access.telenet.be. [2a02:1812:1193:400:55ca:2f77:dd7b:9cf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe879d37sm25998495e9.1.2026.03.20.08.26.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 08:26:37 -0700 (PDT)
-Date: Fri, 20 Mar 2026 16:26:36 +0100
-From: ernestvanhoecke@gmail.com
-To: Quentin Schulz <foss+yocto@0leil.net>
-Cc: openembedded-core@lists.openembedded.org, 
-	Quentin Schulz <quentin.schulz@cherry.de>, Ross Burton <ross.burton@arm.com>
-Subject: Re: [PATCH 7/7] mesa: depend on mesa-tools-native for less expensive libclc dependency
-Message-ID: <yj4junqgkdaddl3upgyn7pzeqvlbr2q4a7zl6llrv2kzlbznlr@62bryfzytptx>
-References: <20260206-mesa-tools-native-v1-0-166935b0e379@cherry.de>
- <20260206-mesa-tools-native-v1-7-166935b0e379@cherry.de>
-MIME-Version: 1.0
-In-Reply-To: <20260206-mesa-tools-native-v1-7-166935b0e379@cherry.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=vQNK8E1M;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 7AF45C5668D
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 17:23:22 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D567C600E0;
+	Fri, 20 Mar 2026 17:22:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4B7EB10450CC1;
+	Fri, 20 Mar 2026 18:22:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1774027376; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=zlZiGWHhCUfnrLEsDPh3XPh6Zfyu9rBBLAD2Gy9ziZs=;
+	b=vQNK8E1MUnlO0hCkIgO4kDGUIpkH8lHb9Vk9mtMX78MBIB7B+pULnAssCuLMYXqDIF4WFq
+	MZNNJwRYWd1Ulj5ibIuJzyJ81hh4SIrI1o/iKiZCchuD4su+GHTLgPYNe130XYzCMpPE+o
+	LRfrIMqN0tQZYNucVjuhLIM3U32IxDsTwp0ClGaeQUcTPwJWpaTpXjgs6i8w2oZuJ59IKi
+	GyuQS3XOsF87AIaNyHuYPlvGUeb3EX2/L4DLL/roWmA9iewjRYzJ+W8VB7CU5o6tZofSZk
+	s2yflcC7/yGosIo1ocpwfjwwcRjIAkCRElcGtlOVzf3M4d3FG/95snYeAsgA4g==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Mar 2026 18:22:54 +0100
+Message-Id: <DH7S7WZ1RF7O.FSB1M0J2ZLLO@bootlin.com>
+Subject: Re: [OE-core][PATCH v9 0/7] SPDX 3.0 SBOM enrichment and compliance
+ improvements
+Cc: <JPEWhacker@gmail.com>, "Stefano Tondo" <stefano.tondo.ext@siemens.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <stondo@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260309132854.128375-1-stondo@gmail.com>
+ <20260312153845.164369-1-stondo@gmail.com>
+In-Reply-To: <20260312153845.164369-1-stondo@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 17:22:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233629
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 17:23:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233630
 
-Hi Quentin,
+On Thu Mar 12, 2026 at 4:38 PM CET, Stefano Tondo via lists.openembedded.or=
+g wrote:
+> From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+>
+> This series enhances SPDX 3.0 SBOM generation with enriched
+> metadata, ecosystem-specific Package URLs, and compliance
+> improvements.
+>
+> Changes since v8 (addressing Joshua Watt's review):
+>
+>   1/7: File exclusion now uses re.compile() for proper regex
+>        matching instead of substring matching. Excluded files
+>        are tracked in a set() returned from add_package_files()
+>        and passed to get_package_sources_from_debug() for
+>        precise cross-checking.
+>
+>   2/7: Unchanged (Reviewed-by added).
+>
+>   3/7: Fixed npm_spdx_name() to use bpn[5:] instead of bpn[4:]
+>        since "node-" is 5 characters.
+>
+>   4/7: Dropped PV fallback for non-Git source versions since
+>        the recipe version does not necessarily match individual
+>        downloaded file versions. Ecosystem PURLs (which include
+>        version) from SPDX_PACKAGE_URLS are still used.
+>
+>   5/7: Renamed recipe-m4/recipe-tar to build-m4/build-tar in
+>        tests to align with upstream rename.
+>
+>   6/7: Unchanged (Reviewed-by added).
+>
+>   7/7: Unchanged (Reviewed-by added).
+>
+> Stefano Tondo (7):
 
-Recently our do_configure task of mesa started failing with the
-following error:
+Hi Stefano,
 
-| Program pco_clc found: NO
-| 
-| ../sources/mesa-26.0.1/src/imagination/pco/uscgen/meson.build:7:17: ERROR: Program 'pco_clc' not found or not executable
-| 
-| A full log can be found at /var/home/vhe/build/tdxref/master-extint/build/tmp/work/aarch64-tdx-linux/mesa/26.0.1/build/meson-logs/meson-log.txt
-| 
-| Last 10 lines of meson-log.txt:
-| int i;
-| 
-| Cached compiler stdout:
-| 
-| Cached compiler stderr:
-| 
-| Compiler for C supports arguments -Werror=pointer-arith: YES (cached)
-| Program pco_clc found: NO
-| 
-| ../sources/mesa-26.0.1/src/imagination/pco/uscgen/meson.build:7:17: ERROR: Program 'pco_clc' not found or not executable
-| 
-| ERROR: meson setup failed
-| WARNING: /var/home/vhe/build/tdxref/master-extint/build/tmp/work/aarch64-tdx-linux/mesa/26.0.1/temp/run.do_configure.144042:173 exit 1 from 'exit 1'
+Joshua series has been merged. I've been trying to rebase this series on
+top of it, but I've got a few failures in
+spdx.SPDX30Check.test_download_location_defensive_handling and
+spdx.SPDX30Check.test_version_extraction_patterns. Either my conflicts
+merges were wrong or a few changes are needed.
 
-Reverting this patch fixes the issue, but it does not seem to be the
-commit that introduced the problem. It only started later, presumably
-something changed in pulling in libclc or a similar issue.
+Can you rebase this series on top of master, make sure the said tests
+pass and resend? I believe this is the last step before we can merge it.
 
-I can bisect it more later but already wanted to ask if you or someone 
-else had any ideas. Thanks!
+Thanks,
+Mathieu
 
-Kind regards,
-Ernest
- 
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
