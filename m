@@ -1,288 +1,289 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D26F1099B58
-	for <webhook@archiver.kernel.org>; Sat, 21 Mar 2026 00:30:14 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3202.1774053007218276740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87DF81099B5A
+	for <webhook@archiver.kernel.org>; Sat, 21 Mar 2026 01:40:44 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4095.1774057243545087190
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 17:30:07 -0700
+ Fri, 20 Mar 2026 18:40:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=C5qVPB4I;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso22082585e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 17:30:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ef5LW0ub;
+ spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79a2ee65171so12007457b3.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 18:40:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774057243; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IoCvKnGz7JIhmP+63Kx/XffhP9SFGirNkg4Dl+xAyVb5j6lDNQnXpUJy3tejLtLj9Z
+         0TmaWcq5sUZOxO66SpwUF7QIvx3RLByL/RAz64zFMhmZolVbczVfKbmCAA62duDMSfIh
+         TyGuwbJpmQEvYWExjbR4hlg+XPsljREXiiR7hFoaYx2foubRl5oXSfZcHTe0i29vZ15v
+         fHbwjwJ67r/gCY+rnIqah6PmTFFPkhFVzcc//AQosTks56g0lDUvE5KZ4hL78KjUgoLQ
+         8EKsj2unEVM91S8rPmF9HksXflEfmD0RGF8Zh89ZHwbu1w9zW8UvVgJ+KXw7ILA6WXjh
+         nMKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=WUjS96wh6evS3ftrQeTf7MSYc757B/JdumbYsqsva8Q=;
+        fh=Ab5QchtAs08eZNSFiBl6MfJNprT6k/vVQ8w3IX57Q1U=;
+        b=BChxLkiGPTI+8HcMTrv3GyLR7mA+UpJOgzt6S8RRan17mT67/njegtlOaJ7ZwOX5vQ
+         Ww32xcOJDAvU6I8OphHCQakaMsofjZRz9LeBhfvymKBKIjUiAUqZcT8ZGbFW1mNxRtPW
+         7wMxaxUPtKKGhHN/01irDq+PhoAuPYCg3W6Atm9UbEIIvwJsOTrI5Hm7csthlPhpA7U9
+         pllv0E8tGKyCxvcnBDG95CD0KvUWcIE1NFBjXNORw+gtoBJ1JjRXDHdK+rZhSTWiyABx
+         vzu/HnM8KC2GfArFtkbtFEtxRfoACqmCpQECHSRcs90VUnqUO3RPEe1QZd72SiNfcGYu
+         SkUw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774053005; x=1774657805; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L9yFem+XRmvfyZCeQNLwFK/+b+oG73PxnN6BsGg18DQ=;
-        b=C5qVPB4IG10xb2jdVyA6PZes5/3azq6kCeIw/kKCVjNu5Au2fhas9pro/MzHg79lLn
-         UWhUKWsKN8oXYWjapII/hGCmnaD4f9a8w4328FjW99mK7HF9JW6UQsqF1wkKPfGb0QT+
-         K3im2SyNSnMeqokon7U9qkx5AultDudY6OR1Y=
+        d=gmail.com; s=20230601; t=1774057243; x=1774662043; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WUjS96wh6evS3ftrQeTf7MSYc757B/JdumbYsqsva8Q=;
+        b=Ef5LW0ub5IKrOM2VY0vMC4MucKir7EGBdqhOBK8zwp7pcctah3DdqL7asmDkBs233k
+         BzomkNwo/8wpf4cZ3LyO9i9RzfJxVTqn/dkTveVdumNhMMqfWdBkFH80OgPwjtu0zXkt
+         5pXwMJ5gXt620z+e/Yj14vNm8RtBXxStrvZPUPksgk7+Uuu0vQqI0+IJW+Wwlcv5hbsX
+         FxiB1xu+xWhgS/gy4cYmr3ch7Sey5D7oQ7OsIhJ4c3BOqqtyB4ZR3ZXNKHL2V4ndPWDi
+         CSj2jPoNKDVoz1b/HCMgmaYf0JVjlk5OVRVaq8Fmt2znr/FJ3GYKSgFGtvSjBzb3N+/T
+         goKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774053005; x=1774657805;
-        h=in-reply-to:references:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L9yFem+XRmvfyZCeQNLwFK/+b+oG73PxnN6BsGg18DQ=;
-        b=sfA1tPxi4KDqaecvthswmpe+df/zq4R9Qk/RYe9u1AJTWwbJjYvcOl8zrn9mQnrGx1
-         9HlRDYnlSvnvRoJo811WeI2voKo5s+5/rc8htXttfyBeq9LVFFXp7dK3RfmDBARIqRwU
-         kO3xGSxyMZh9f1729xW/J9RrvJpauRm0adBpY5JHr0H3F5TT0qVvYN/sTHFlbQU+TweF
-         HYsz8iW4Yi8e7Ev0GmaVO5Xfe0m72FAs9awxm8aGERDEeGeBuQ9Js1RFPf4xBPrvOUs9
-         R4g+N/xue0fMrD9DEgNHSzmMUfDEnm+OlaGSHeNWBHF9UMQco06e+6LhhbuLjLhGBb3O
-         7sZA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1Kw3ibWPM0+E8ovxZivR+eEKBzyELMBrjKe9yZQ4Z5J9SihSxyc+NKCgMKe+jGqHjzZoMxCqPl69n+TFY1/qjxA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwRO+N5evt8LlRXw677xjoE8DoVRlhHxiVXrSHl2iRgojCc8xqm
-	9qfyf5xTvHXsk5nWxvVxH2Yf5bTTgXTpzGvFSbS23T3+UnvCLfUtVjrbr75cmZJqjFc=
-X-Gm-Gg: ATEYQzzL83lMWqkHppK+b5n7IXBl3B66jIYWYsFepklTr7poyMxIZ/14T3nGRh086/O
-	vJRfQWanSmUUiqcvwTyrXh1KQIfiE55QKPC2TZxKNu/0t9ofnG5Gnp6X9g/Exaa5dPDBKs1JLFf
-	uz+PfId57MozYZ1S/RQn/vEy0xaYXYValE3kOdIMe2cQdH3rA3VEB7oi5zlymZZzfU3/avmdhLw
-	a7TdwW+GI71nj41KeDlvJNot7/SsGz+PPc/ZIy9BFbBsoTGZxiK1M+eLTGnKijMEYGP1rnyEJyT
-	/c2+t6DYICXTfDAaUs5EnZPuRCjeQ3ArcMGwMwpKVoou8yFwobspvEbMoFFyByRMUx7UWOsDDne
-	j+xvxSKTYy0YlAtJzSFlSwT8IE5tgHJw8vff0PUE5dWePM2WC0CyqyFDPXk/eaxNhSU6LsxmHKp
-	6xeyqEyp6wZdvo4DtLaahAt+doST0dzUHTe7bxhpBnPHPRDlbR564oZ4ifJOk64hEm7u2EZln0w
-	YOnBdACKXUJg/HhVq/uPVSqNg==
-X-Received: by 2002:a05:600c:1993:b0:487:4cb:2fe4 with SMTP id 5b1f17b1804b1-48704cb2ff4mr2264735e9.33.1774053005451;
-        Fri, 20 Mar 2026 17:30:05 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487031790fdsm37459165e9.3.2026.03.20.17.30.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2026 17:30:05 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Mar 2026 01:30:04 +0100
-Message-Id: <DH81AZACSEQK.3JVCYSLWG2NFM@smile.fr>
-To: <hprajapati@mvista.com>, "Fabien Thomas" <fabien.thomas@smile.fr>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [kirkstone][PATCH] busybox: fix for CVE-2026-26157,
- CVE-2026-26158
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260313131845.56221-1-hprajapati@mvista.com>
- <DH6PK2HKFZEL.OW09CNJ5IJ15@smile.fr>
- <c643bc67-8d9a-4740-9539-ea7b90d93c99@mvista.com>
-In-Reply-To: <c643bc67-8d9a-4740-9539-ea7b90d93c99@mvista.com>
+        d=1e100.net; s=20251104; t=1774057243; x=1774662043;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WUjS96wh6evS3ftrQeTf7MSYc757B/JdumbYsqsva8Q=;
+        b=OR4W9dtEjt/WIx3bPC1rkXgdc19xGX84wX7Yei4euZkxY02msrkdDxlJsUTZZ6PigO
+         xP7DbUFKx0igF+lujyzZ27VbicfXz5QHImde+FGWe3ea8wOOkHVwPTJXRH3iQIAsrVbW
+         181JCm9ICZJLv4ghGNDauHkO8Q0RRkoaODA6GofJySGzJVVPXuLRWfnTidUekJRjJbgL
+         Nl601QnV0STqQupRGFwVx07tAmFsPq4NweybdRRlABKWzYqSdkKdlCO3kLKqS0jwTilU
+         r//aML1Zlh9c9tmeUms46hRUpHv76vsXwzefwh0GD9uDLvZeHmX1Opet06bx4VQEFE7s
+         A7Sg==
+X-Gm-Message-State: AOJu0YwgzOcwSC50Tkrqx+GeMbpC61cYbXbYAoyqbuPnd3LVyZnfJPh8
+	3WY0d66QXArmV7Bw4bNppu/CJy9ksnb+IlA8RefzhVH1R7/foiXMEEvMwIkyL0LfWm03nqvf1L+
+	C7oYuAmZVja6LvMtVkMrkwfzACgrNoZq0asy6CWo=
+X-Gm-Gg: ATEYQzwVO38YFavnyZf2cTO8S68DiChLcWlv+N5hdsnwoFQNhxO18w1+iiSt2y7u8id
+	KYaN+hqEOW9/6JGgDBib2Shabq+jT2B7XqYxTBMu4I8lVsz03gcuFEH4HO037EbaZfzVUsezDdl
+	Fan9JcHtYq6pVVpW0k7c3qhyN2ATd8gGC15kiE8Ap9VB1M9bS3/WplOUSA3ycpstCT6OnvjqYNB
+	FKAiiEojpojJ+ByZ+wzQxMccc10CkmrN/x9MJvedoxX0yB+UQflWJMpKXOoiFSUBJOn/OTjRZAG
+	8bsO9aCUnMtkKnHrLkbB8ORff3fUDrFXNUp+ou6yQopDxMMW/VPXTqjuyxfCy3as57E5JrufaYg
+	L8J5yoQaFLcOcCT2Bt3WFEzDB
+X-Received: by 2002:a05:690c:6e81:b0:79a:3cea:9154 with SMTP id
+ 00721157ae682-79a90aaea10mr57402197b3.13.1774057242487; Fri, 20 Mar 2026
+ 18:40:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260320122732.1630715-1-ross.burton@arm.com> <20260320122732.1630715-5-ross.burton@arm.com>
+In-Reply-To: <20260320122732.1630715-5-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 20 Mar 2026 18:40:16 -0700
+X-Gm-Features: AaiRm513VSNzvgeLROhnEWSbDehRKVZOafPDIiHkwFHCtztSnEOAwcoRpM8ZLhc
+Message-ID: <CAMKF1sorLiSe3ip43iPs1vQrfO1LBr5D7BuvvyfEmH6KKCRF2g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/7] class/pkgconfig: use pkgconf instead of pkgconfig
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000bff09f064d7ee302"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2026 00:30:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233644
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2026 01:40:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233645
 
-On Thu Mar 19, 2026 at 12:40 PM CET, Hitendra Prajapati via lists.openembed=
-ded.org wrote:
-> Hi Team,
+--000000000000bff09f064d7ee302
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+FWIW there are two recipes in meta-oe which are regressing with this
+
+xmlsec1 and protobuf
+
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5941365/raw_inlin=
+e
+
+On Fri, Mar 20, 2026 at 5:27=E2=80=AFAM Ross Burton via lists.openembedded.=
+org
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
+
+> The last meaningful change to freedesktop.org pkgconfig was in 2019, but
+> pkgconf is actively maintained.
 >
-> I'm not able to load the official busybox repo form last week, so I used=
-=20
-> mirror.
-
-Yes, the busybox git host is sadly not reliable :(
-Khem found a mirror that looks trustworthy and up-to-date: https://gogs.lib=
-recmc.org/OWEALS/busybox/
-
-In the hope that the busybox host will recover, let's put
-git.busybox.net in our upstream-status but add a note with this mirror.
-
-> If anyone have access, they may try to fix this or I will look into=20
-> these later.
+> Major distributions such as Fedora (and derivates), Debian (ditto), Arch
+> Linux, Buildroot, and Alpine have all moved to pkgconf already.
 >
-> Regards,
+> There's a subtle behaviour change between pkgconfig and pkgconf, whereas
+> pkgconfig appends the sysroot to PKG_CONFIG_SYSTEM_INCLUDE_PATH pkgconf
+> does not, so we need to sysroot-prefix those variables.
 >
-> Hitendra
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/classes-recipe/pkgconfig.bbclass          | 6 +++---
+>  meta/conf/distro/include/default-providers.inc | 6 +++---
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 >
-> On 19/03/26 4:35 pm, Fabien Thomas wrote:
->> On Fri Mar 13, 2026 at 2:18 PM CET, Hitendra Prajapati via lists.openemb=
-edded.org wrote:
->>> Although the patch was not merged yet, Debian already took it ([1] & [2=
-]).
->>> Since busybox CVE handling is slow, follow Debian decision.
->>>
->>> [1]https://sources.debian.org/src/busybox/1:1.37.0-10.1/debian/patches/=
-0001-tar-strip-unsafe-hardlink-components-GNU-tar-does-th.patch
->>> [2]https://sources.debian.org/src/busybox/1:1.37.0-10.1/debian/patches/=
-0002-tar-only-strip-unsafe-components-from-hardlinks-not-.patch
->>>
->>> Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
->>> ---
->>>   .../CVE-2026-26157-CVE-2026-26158-01.patch    |  35 ++++
->>>   .../CVE-2026-26157-CVE-2026-26158-02.patch    | 197 +++++++++++++++++=
-+
->>>   meta/recipes-core/busybox/busybox_1.35.0.bb   |   2 +
->>>   3 files changed, 234 insertions(+)
->>>   create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-C=
-VE-2026-26158-01.patch
->>>   create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-C=
-VE-2026-26158-02.patch
->>>
->>> diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-=
-26158-01.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-=
-26158-01.patch
->>> new file mode 100644
->>> index 0000000000..306ccad511
->>> --- /dev/null
->>> +++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-0=
-1.patch
->>> @@ -0,0 +1,35 @@
->>> +From 038e0e4d791ea4e8a8da5e06904756142fc6b8dc Mon Sep 17 00:00:00 2001
->>> +From: Radoslav Kolev<radoslav.kolev@suse.com>
->>> +Date: Mon, 16 Feb 2026 11:50:04 +0200
->>> +Subject: tar: only strip unsafe components from hardlinks, not symlink=
-s
->>> +
->>> +commit 3fb6b31c7 introduced a check for unsafe components in
->>> +tar archive hardlinks, but it was being applied to symlinks too
->>> +which broke "Symlinks and hardlinks coexist" tar test.
->>> +
->>> +Signed-off-by: Radoslav Kolev<radoslav.kolev@suse.com>
->>> +Signed-off-by: Denys Vlasenko<vda.linux@googlemail.com>
->>> +
->>> +CVE: CVE-2026-26157, CVE-2026-26158
->>> +Upstream-Status: Backport [https://github.com/mirror/busybox/commit/3f=
-b6b31c716669e12f75a2accd31bb7685b1a1cb]
+> diff --git a/meta/classes-recipe/pkgconfig.bbclass
+> b/meta/classes-recipe/pkgconfig.bbclass
+> index c0d91393b36..4912b9904ba 100644
+> --- a/meta/classes-recipe/pkgconfig.bbclass
+> +++ b/meta/classes-recipe/pkgconfig.bbclass
+> @@ -4,7 +4,7 @@
+>  # SPDX-License-Identifier: MIT
+>  #
+>
+> -DEPENDS:prepend =3D "pkgconfig-native "
+> +DEPENDS:prepend =3D "pkgconf-native "
+>
+>  export PKG_CONFIG_PATH ?=3D ""
+>  export PKG_CONFIG_LIBDIR ?=3D
+> "${STAGING_LIBDIR}/pkgconfig:${STAGING_DATADIR}/pkgconfig"
+> @@ -12,5 +12,5 @@ export PKG_CONFIG_LIBDIR ?=3D
+> "${STAGING_LIBDIR}/pkgconfig:${STAGING_DATADIR}/pkgc
+>  export PKG_CONFIG_SYSROOT_DIR ?=3D "${STAGING_DIR_HOST}"
+>  export PKG_CONFIG_DISABLE_UNINSTALLED ?=3D "yes"
+>
+> -export PKG_CONFIG_SYSTEM_LIBRARY_PATH ?=3D "${base_libdir}:${libdir}"
+> -export PKG_CONFIG_SYSTEM_INCLUDE_PATH ?=3D "${includedir}"
+> +export PKG_CONFIG_SYSTEM_LIBRARY_PATH ?=3D
+> "${STAGING_BASELIBDIR}:${STAGING_LIBDIR}"
+> +export PKG_CONFIG_SYSTEM_INCLUDE_PATH ?=3D "${STAGING_INCDIR}"
+> diff --git a/meta/conf/distro/include/default-providers.inc
+> b/meta/conf/distro/include/default-providers.inc
+> index 5101ad78f88..c0a5d1c75e5 100644
+> --- a/meta/conf/distro/include/default-providers.inc
+> +++ b/meta/conf/distro/include/default-providers.inc
+> @@ -56,9 +56,9 @@ PREFERRED_PROVIDER_getopt ?=3D "util-linux-getopt"
+>  PREFERRED_PROVIDER_openssl ?=3D "openssl"
+>  PREFERRED_PROVIDER_openssl-native ?=3D "openssl-native"
+>  PREFERRED_PROVIDER_nativesdk-openssl ?=3D "nativesdk-openssl"
+> -PREFERRED_PROVIDER_pkgconfig ?=3D "pkgconfig"
+> -PREFERRED_PROVIDER_nativesdk-pkgconfig ?=3D "nativesdk-pkgconfig"
+> -PREFERRED_PROVIDER_pkgconfig-native ?=3D "pkgconfig-native"
+> +PREFERRED_PROVIDER_pkgconfig ?=3D "pkgconf"
+> +PREFERRED_PROVIDER_nativesdk-pkgconfig ?=3D "nativesdk-pkgconf"
+> +PREFERRED_PROVIDER_pkgconfig-native ?=3D "pkgconf-native"
+>  PREFERRED_RPROVIDER_initd-functions ?=3D "initscripts"
+>
+>  PREFERRED_PROVIDER_nativesdk-mesa ?=3D "nativesdk-mesa"
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#233603):
+> https://lists.openembedded.org/g/openembedded-core/message/233603
+> Mute This Topic: https://lists.openembedded.org/mt/118416246/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Maybe something like this?
-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3D3fb=
-6b31c716669e12f75a2accd31bb7685b1a1cb]
-(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/=
-3fb6b31c716669e12f75a2accd31bb7685b1a1cb)=20
+--000000000000bff09f064d7ee302
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->>> +Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
->>> +---
->>> + archival/libarchive/get_header_tar.c | 2 +-
->>> + 1 file changed, 1 insertion(+), 1 deletion(-)
->>> +
->>> +diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchiv=
-e/get_header_tar.c
->>> +index dc0f7e0..a8c2ad8 100644
->>> +--- a/archival/libarchive/get_header_tar.c
->>> ++++ b/archival/libarchive/get_header_tar.c
->>> +@@ -453,7 +453,7 @@ char FAST_FUNC get_header_tar(archive_handle_t *ar=
-chive_handle)
->>> +
->>> + 	/* Everything up to and including last ".." component is stripped */
->>> + 	strip_unsafe_prefix(file_header->name);
->>> +-	if (file_header->link_target) {
->>> ++	if (file_header->link_target && !S_ISLNK(file_header->mode)) {
->>> + 		/* GNU tar 1.34 examples:
->>> + 		 * tar: Removing leading '/' from hard link targets
->>> + 		 * tar: Removing leading '../' from hard link targets
->>> +--
->>> +2.50.1
->>> +
->>> diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-=
-26158-02.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-=
-26158-02.patch
->>> new file mode 100644
->>> index 0000000000..69e6e98c75
->>> --- /dev/null
->>> +++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-0=
-2.patch
->>> @@ -0,0 +1,197 @@
->>> +From 0c20d6b353b058ab910dd3a0211e2b906802b105 Mon Sep 17 00:00:00 2001
->>> +From: Denys Vlasenko<vda.linux@googlemail.com>
->>> +Date: Thu, 29 Jan 2026 11:48:02 +0100
->>> +Subject: tar: strip unsafe hardlink components - GNU tar does the same
->>> +
->>> +Defends against files like these (python reproducer):
->>> +
->>> +import tarfile
->>> +ti =3D tarfile.TarInfo("leak_hosts")
->>> +ti.type =3D tarfile.LNKTYPE
->>> +ti.linkname =3D "/etc/hosts"  # or "../etc/hosts" or ".."
->>> +ti.size =3D 0
->>> +with tarfile.open("/tmp/hardlink.tar", "w") as t:
->>> +	t.addfile(ti)
->>> +
->>> +function                                             old     new   del=
-ta
->>> +skip_unsafe_prefix                                     -     127    +1=
-27
->>> +get_header_tar                                      1752    1754      =
-+2
->>> +.rodata                                           106861  106856      =
--5
->>> +unzip_main                                          2715    2706      =
--9
->>> +strip_unsafe_prefix                                  102      18     -=
-84
->>> +----------------------------------------------------------------------=
---------
->>> +(add/remove: 1/0 grow/shrink: 1/3 up/down: 129/-98)            Total: =
-31 bytes
->>> +
->>> +Signed-off-by: Denys Vlasenko<vda.linux@googlemail.com>
->>> +
->>> +CVE: CVE-2026-26157, CVE-2026-26158
->>> +Upstream-Status: Backport [https://github.com/mirror/busybox/commit/3f=
-b6b31c716669e12f75a2accd31bb7685b1a1cb]
+<div dir=3D"ltr">FWIW there are two recipes in meta-oe which are regressing=
+ with this<div><br></div><div>xmlsec1 and protobuf</div><div><br></div><div=
+><a href=3D"https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/59413=
+65/raw_inline">https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/59=
+41365/raw_inline</a></div></div><br><div class=3D"gmail_quote gmail_quote_c=
+ontainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 20, 2026 at 5:2=
+7=E2=80=AFAM Ross Burton via <a href=3D"http://lists.openembedded.org">list=
+s.openembedded.org</a> &lt;ross.burton=3D<a href=3D"mailto:arm.com@lists.op=
+enembedded.org">arm.com@lists.openembedded.org</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">The last meaningful change to=
+ <a href=3D"http://freedesktop.org" rel=3D"noreferrer" target=3D"_blank">fr=
+eedesktop.org</a> pkgconfig was in 2019, but<br>
+pkgconf is actively maintained.<br>
+<br>
+Major distributions such as Fedora (and derivates), Debian (ditto), Arch<br=
+>
+Linux, Buildroot, and Alpine have all moved to pkgconf already.<br>
+<br>
+There&#39;s a subtle behaviour change between pkgconfig and pkgconf, wherea=
+s<br>
+pkgconfig appends the sysroot to PKG_CONFIG_SYSTEM_INCLUDE_PATH pkgconf<br>
+does not, so we need to sysroot-prefix those variables.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/pkgconfig.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 6 +++---<br>
+=C2=A0meta/conf/distro/include/default-providers.inc | 6 +++---<br>
+=C2=A02 files changed, 6 insertions(+), 6 deletions(-)<br>
+<br>
+diff --git a/meta/classes-recipe/pkgconfig.bbclass b/meta/classes-recipe/pk=
+gconfig.bbclass<br>
+index c0d91393b36..4912b9904ba 100644<br>
+--- a/meta/classes-recipe/pkgconfig.bbclass<br>
++++ b/meta/classes-recipe/pkgconfig.bbclass<br>
+@@ -4,7 +4,7 @@<br>
+=C2=A0# SPDX-License-Identifier: MIT<br>
+=C2=A0#<br>
+<br>
+-DEPENDS:prepend =3D &quot;pkgconfig-native &quot;<br>
++DEPENDS:prepend =3D &quot;pkgconf-native &quot;<br>
+<br>
+=C2=A0export PKG_CONFIG_PATH ?=3D &quot;&quot;<br>
+=C2=A0export PKG_CONFIG_LIBDIR ?=3D &quot;${STAGING_LIBDIR}/pkgconfig:${STA=
+GING_DATADIR}/pkgconfig&quot;<br>
+@@ -12,5 +12,5 @@ export PKG_CONFIG_LIBDIR ?=3D &quot;${STAGING_LIBDIR}/pkg=
+config:${STAGING_DATADIR}/pkgc<br>
+=C2=A0export PKG_CONFIG_SYSROOT_DIR ?=3D &quot;${STAGING_DIR_HOST}&quot;<br=
+>
+=C2=A0export PKG_CONFIG_DISABLE_UNINSTALLED ?=3D &quot;yes&quot;<br>
+<br>
+-export PKG_CONFIG_SYSTEM_LIBRARY_PATH ?=3D &quot;${base_libdir}:${libdir}&=
+quot;<br>
+-export PKG_CONFIG_SYSTEM_INCLUDE_PATH ?=3D &quot;${includedir}&quot;<br>
++export PKG_CONFIG_SYSTEM_LIBRARY_PATH ?=3D &quot;${STAGING_BASELIBDIR}:${S=
+TAGING_LIBDIR}&quot;<br>
++export PKG_CONFIG_SYSTEM_INCLUDE_PATH ?=3D &quot;${STAGING_INCDIR}&quot;<b=
+r>
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/dis=
+tro/include/default-providers.inc<br>
+index 5101ad78f88..c0a5d1c75e5 100644<br>
+--- a/meta/conf/distro/include/default-providers.inc<br>
++++ b/meta/conf/distro/include/default-providers.inc<br>
+@@ -56,9 +56,9 @@ PREFERRED_PROVIDER_getopt ?=3D &quot;util-linux-getopt&qu=
+ot;<br>
+=C2=A0PREFERRED_PROVIDER_openssl ?=3D &quot;openssl&quot;<br>
+=C2=A0PREFERRED_PROVIDER_openssl-native ?=3D &quot;openssl-native&quot;<br>
+=C2=A0PREFERRED_PROVIDER_nativesdk-openssl ?=3D &quot;nativesdk-openssl&quo=
+t;<br>
+-PREFERRED_PROVIDER_pkgconfig ?=3D &quot;pkgconfig&quot;<br>
+-PREFERRED_PROVIDER_nativesdk-pkgconfig ?=3D &quot;nativesdk-pkgconfig&quot=
+;<br>
+-PREFERRED_PROVIDER_pkgconfig-native ?=3D &quot;pkgconfig-native&quot;<br>
++PREFERRED_PROVIDER_pkgconfig ?=3D &quot;pkgconf&quot;<br>
++PREFERRED_PROVIDER_nativesdk-pkgconfig ?=3D &quot;nativesdk-pkgconf&quot;<=
+br>
++PREFERRED_PROVIDER_pkgconfig-native ?=3D &quot;pkgconf-native&quot;<br>
+=C2=A0PREFERRED_RPROVIDER_initd-functions ?=3D &quot;initscripts&quot;<br>
+<br>
+=C2=A0PREFERRED_PROVIDER_nativesdk-mesa ?=3D &quot;nativesdk-mesa&quot;<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#233603): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/233603" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/233603</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118416246/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/118416246/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
-Use the same pattern as above.
-
->>> +Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
->>> +---
->>> [...]
->>> +
->>> diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes=
--core/busybox/busybox_1.35.0.bb
->>> index 0b5ac220f5..bb07502ccc 100644
->>> --- a/meta/recipes-core/busybox/busybox_1.35.0.bb
->>> +++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
->>> @@ -62,6 +62,8 @@ SRC_URI =3D"https://busybox.net/downloads/busybox-${P=
-V}.tar.bz2;name=3Dtarball \=20
->>> file://CVE-2025-46394-01.patch \ file://CVE-2025-46394-02.patch \=20
->>> file://CVE-2025-60876.patch \ +=20
->>> file://CVE-2026-26157-CVE-2026-26158-01.patch \ +=20
->>> file://CVE-2026-26157-CVE-2026-26158-02.patch \ "
->>>   SRC_URI:append:libc-musl =3D" file://musl.cfg "
->>>  =20
->> Hi Hitendra,
->>
->> I'm working with Yoann, helping him to support the maintenance of
->> the stable branches.
->>
->> Thanks for the patch. Indeed, since the Busybox CVE handling is indeed s=
-low,
->> following Debian is acceptable. However, there are a few issues that nee=
-d to
->> be addressed before this can be merged:
->>
->> In the patch metadata (Upstream-Status / Backport):
->> - Source URL: Please use the official upstream repository (git.busybox.n=
-et,
->> which I'm aware is littlebit downish) instead of the GitHub mirror.
->> - Commit Reference: The Debian patches you cited do not actually backpor=
-t
->> the commit 3fb6b31c716669e12f75a2accd31bb7685b1a1cb as claimed in the st=
-atus.
->> Seems that the first one is actually a backport of
->> 599f5dd8fac390c18b79cba4c14c334957605dae, recently merged in busybox mas=
-ter.
->>
->> Please clarify the "Upstream-Status" to reflect exactly
->> what these patches represent.
->>
->> The first patch (01.patch) fails to apply on the current Kirkstone
->> busybox_1.35.0 recipe:
->>
->> ERROR: busybox-1.35.0-r0 do_patch:
->> Applying patch 'CVE-2026-26157-CVE-2026-26158-01.patch'
->> patching file archival/libarchive/get_header_tar.c
->> Hunk #1 FAILED at 453.
->> 1 out of 1 hunk FAILED -- rejects in file archival/libarchive/get_header=
-_tar.c
->>
->> Please ensure the patches are rebased and tested against
->> the kirkstone branch of openembedded-core.
->>
->> Best regards,
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
-
+--000000000000bff09f064d7ee302--
 
