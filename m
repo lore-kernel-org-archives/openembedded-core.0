@@ -1,260 +1,87 @@
-Return-Path: <stondo@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2D111094478
-	for <webhook@archiver.kernel.org>; Sat, 21 Mar 2026 13:18:46 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10734.1774099117073826440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21E6B1094474
+	for <webhook@archiver.kernel.org>; Sat, 21 Mar 2026 13:39:37 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11075.1774100369575810960
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Mar 2026 06:18:37 -0700
+ Sat, 21 Mar 2026 06:39:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hhi0wO4t;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439b9b1900bso1034372f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2026 06:18:36 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=KuF/Xhwx;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso25268365e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2026 06:39:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774099115; x=1774703915; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EJGjlZk+lQ6hqbjoAMdFdAu77PRpfbXHdukv1GxGEv4=;
-        b=hhi0wO4t7ddffw9Tf0ESm0EfwQeMNtISrZLkKgBFztp+gcyjABUa/wC5BHyxIzjKzk
-         3qlgzWtG0cvhGUtTsaqeZqyVLUnQC6cHTdG2F1OIy9+Q6o6aNrnLEQHxHLyYaT4j++bj
-         zPa12LjZ1BgMAV/lFvOvm+NOgA4AkUeqTMEapH/8qHvhqooPdpYaNRobAidw0i5yVegl
-         CWs5OUcw56Za6wgl51UAd4o8leM/UFedBWjM8R1YS6kOPmkiZ4fzKcNO0XXraRVBE6ni
-         jwO2vrwXN42mUrm6aeFHCBpqfyXEEF2tBpLnVH0AuhfMjk0d9g9wcI8YVxRTZEb9Pa3L
-         cQOg==
+        d=smile.fr; s=google; t=1774100368; x=1774705168; darn=lists.openembedded.org;
+        h=from:subject:to:message-id:date:content-transfer-encoding
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yXuNJBDDvnm/44/RUrQKlHt/Rhlumh/nULrg/Jhqfvg=;
+        b=KuF/Xhwx7RILdknC/cy+VgQiJIXEDNqgysdyaI2hf3K7vwlXtMZIlyfppyLl/x9sqe
+         XolVuuKi7QaXrB2rtxV/l8MkR1bR4zmwZtL0Oo3CrNl+pDTIAWRXUa7BuoPhDjd8Aad8
+         +rN2CpDP9a6TElmlYFPJPG1k4s5s9cw5YPsiA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774099115; x=1774703915;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EJGjlZk+lQ6hqbjoAMdFdAu77PRpfbXHdukv1GxGEv4=;
-        b=AMeKZT9EQah9PyrQ9UQaH5CxhlIZenKw736Bw9Acyxw02TqRD8JNI0PFpPK8GY0sqj
-         /CZlHz/uduv7OY4phEQMnh4O7F2ppSYO7b59hiSYfd7edmORzaBgthivfLZfoSVwDqFO
-         FuFcMg95e3yBt49ETQPNods/0msKt6kiJr2FEmr6bwquouIPqq1hCCUqjvaduOhkyyWJ
-         2iQ035msZIumpHH9aszXyWKBFEk/PQjNELFy8sEufh2m5SZWENBSsf6kil2rdoPxKpOs
-         yKG0X93LdmaVao9/5DJdOuOHo17xI+UroKc6vNPLE/Xig3xdSJqcKMYArrgXjtwIEHgY
-         U77g==
-X-Gm-Message-State: AOJu0Yxk5E2Z8lbL487QrUb9ig1SzxWaXlAslp2aFem25k828kF4uf2E
-	rQXJOLTuFxJBEhnBGdf2b9rHGVhwWMzJdJbpAwuYKfKfT7kmczRYAebBKpWy+aQU
-X-Gm-Gg: ATEYQzxPDBlUfL0mHeobkRKiT4luDeneANajpVqmKKyJzwBW7SOaUHeX09xPyQAMDzd
-	ggqkX9CohLyaH2P9ymjLMGcdgGcbbZyWRyfaJH7MOjLOVOOTNjOYSc7Oz25TYKtkA0D/OR/wh+m
-	mupbonqYyipccpzlmoII/OrpGU6nVAVe7YBzWe9OCIXueb8crvwh9zKlOMAVaj6xPxO8ByQfHXk
-	mUqp1oSQZv/qySX2bJ8PynhhXw9T6A7Osj3XKMZsiFU2uyuYRUyJ6SSj1Y7UWBHegYr6raCLNgg
-	cUygHal9q2VLmmVXaRw5z4vPs8x9PGHDtUQCnc7B/Px05P0ih/8yAns5Hg4e/9I600brej7CJjO
-	0D2yad1egDXTbAU5JhSh1mNjCKn8EIqnr8mCIDfiXImFHeU6QIQosEVn0tQldBWCG+THkC8+QiN
-	bbpONg30lHpN+wzy6/12fFrpLcDxJw2wPonqI=
-X-Received: by 2002:a05:6000:2003:b0:43b:5761:f232 with SMTP id ffacd0b85a97d-43b642819d6mr10564851f8f.43.1774099115065;
-        Sat, 21 Mar 2026 06:18:35 -0700 (PDT)
-Received: from fedora ([81.6.40.67])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644bf1c5sm15004285f8f.14.2026.03.21.06.18.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 06:18:34 -0700 (PDT)
-From: stondo@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Ross.Burton@arm.com,
-	jpewhacker@gmail.com,
-	stefano.tondo.ext@siemens.com,
-	Peter.Marko@siemens.com,
-	adrian.freihofer@siemens.com,
-	mathieu.dubois-briand@bootlin.com
-Subject: [OE-core][PATCH v11 4/4] oeqa/selftest: Add tests for source download enrichment
-Date: Sat, 21 Mar 2026 14:18:26 +0100
-Message-ID: <20260321131826.1401671-5-stondo@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260321131826.1401671-1-stondo@gmail.com>
-References: <20260321131826.1401671-1-stondo@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20251104; t=1774100368; x=1774705168;
+        h=from:subject:to:message-id:date:content-transfer-encoding
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yXuNJBDDvnm/44/RUrQKlHt/Rhlumh/nULrg/Jhqfvg=;
+        b=QJ0YNyZmAywAUoBY08zgzWRIg/fQO1YhwE95U70z4nRlh6x2ZkakzSGJdBk+D9qiee
+         EbKyL8xFs5Z/F0zUAZB1TAiEk4JfjKS6J4jP3ZksGjhc8vvgRjCSSw0HP2LeDA+HsL6d
+         Y5vmDV4N+62piwvOYay8mBSP4HSAlodUIy70v+caRxyxcor25kFOWbDdSQrpJeOa+enW
+         kuf+lsphTHebHWnx9luocfiZLo/BLVd4hjAuh7EPErw5r1aDmMPk1GoMjW8oWAJ6Gb6i
+         MEkQo3PFJtGbW8IYWrm85W00c8StCLSBiiwwxFmg8zybf6+wZZ0WNMyP83h05eYP6FxW
+         xVAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWETiwuq72z3kpI4ICeNz3ULXZljakZhJa3zW6gFmPJLXGmLNg+6zJMdYNIBKA0l68ma3y7fvD/p6XhBbvx3lTfAw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxzCvcAcK7hkCOq+k+yqgiOMnxkHwS2N2QfikJsgKoqLTH1+cUb
+	cuw3AZmpv827QrLe2vGNplK2avh9GxIFGLcka45bz+hUSuaQJrcH9cXWcTs3e0aTo49KHoNI2V6
+	zb2YA
+X-Gm-Gg: ATEYQzyMVGvSn3HYBc1z3lgBMd2A/ZsQNUFf1VNnZ6RfH/pBvTft1NvBcvbAlvTPR0m
+	jAWiCtfW0PnkYGnI0twaNkQcaWamJ/UpUI1mVu3owp1OpbFG3NSiFkt+Nkbdw/QT2km3BJlhm/O
+	Zh0UhzVw7eP1LwfB+ggGpa2gNnzFuUmdYYoLhCS559oYbjhP9U9+EJSD7iScNplu834P56cWJaO
+	MGVeUTUdyPmDjFb13oaI5b9GR6R2njRm0IHld5a+Ti7dO/2IXL5XdWh4hfxSalQMyFtj8oC9Caz
+	4LVkfk02J4l9Kp2wEZWHdCTec4SHW87lO26v9pNE8oOG/srQjEMA3RdeucLt/Um4dc3V5tYKEcn
+	l29X5BrJEN/nlQiJd9R4awNmmwXIommT/lEw5vW0KAlIc+o6OVfcNktAOm7/3Bk03pgqtfb8Hjw
+	dk6B8gc32gwrh0JOd3rQbJY4OZg4WbYIuoIs6YZv5Rd/Q+XuDechskmhuv/ZBlYBxnh/Lk7lWYK
+	ygFixVqrRIRcg==
+X-Received: by 2002:a05:600c:c083:b0:485:35d3:ce59 with SMTP id 5b1f17b1804b1-486fedf9be6mr70648075e9.10.1774100367635;
+        Sat, 21 Mar 2026 06:39:27 -0700 (PDT)
+Received: from localhost (2a02-8440-250c-8030-6c94-8350-19c4-1d82.rev.sfr.net. [2a02:8440:250c:8030:6c94:8350:19c4:1d82])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4870504f2e4sm10470155e9.18.2026.03.21.06.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Mar 2026 06:39:26 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Mar 2026 14:39:24 +0100
+Message-Id: <DH8I3C005I7I.EAFAABGT2FJL@smile.fr>
+To: "Yocto ML" <yocto@lists.yoctoproject.org>, "OE-core ML"
+ <openembedded-core@lists.openembedded.org>, "bitbake ML"
+ <bitbake-devel@lists.openembedded.org>
+Subject: End of kirkstone LTS support
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2026 13:18:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233661
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2026 13:39:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233662
 
-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Hello everyone,
 
-Add two new SPDX 3.0 selftest cases:
+As you may have noticed, the end-of-life date of kirkstone (2.0 for
+bitbake) is near.
+The last release of kirkstone will be the 4.0.35 and will be built in
+the week of the 6th of april 2026 for a release on the 22nd (the date
+shifted a bit).
 
-test_download_location_defensive_handling:
-  Verifies SPDX generation succeeds for recipes with tarball sources
-  and that external references are properly structured (ExternalRef
-  locator is a list of strings per SPDX 3.0 spec).
+If you have patches that you want to see merged in this last version,
+please send them before the end of march so we get enough time for
+review and testing.
 
-test_version_extraction_patterns:
-  Verifies that version extraction works correctly and all source
-  packages have proper version strings containing digits.
-
-These tests validate the source download enrichment added in the
-previous commit.
-
-Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
----
- meta/lib/oeqa/selftest/cases/spdx.py | 104 +++++++++++++++++++++------
- 1 file changed, 83 insertions(+), 21 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index af1144c1e5..140d3debba 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -141,29 +141,15 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-     SPDX_CLASS = "create-spdx-3.0"
- 
-     def test_base_files(self):
--        self.check_recipe_spdx(
--            "base-files",
--            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/static/static-base-files.spdx.json",
--            task="create_recipe_spdx",
--        )
-         self.check_recipe_spdx(
-             "base-files",
-             "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/packages/package-base-files.spdx.json",
-         )
- 
--    def test_world_sbom(self):
--        objset = self.check_recipe_spdx(
--            "meta-world-recipe-sbom",
--            "{DEPLOY_DIR_IMAGE}/world-recipe-sbom.spdx.json",
--        )
--
--        # Document should be fully linked
--        self.check_objset_missing_ids(objset)
--
-     def test_gcc_include_source(self):
-         objset = self.check_recipe_spdx(
-             "gcc",
--            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-gcc.spdx.json",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-gcc.spdx.json",
-             extraconf="""\
-                 SPDX_INCLUDE_SOURCES = "1"
-                 """,
-@@ -176,12 +162,12 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-             if software_file.name == filename:
-                 found = True
-                 self.logger.info(
--                    f"The spdxId of {filename} in build-gcc.spdx.json is {software_file.spdxId}"
-+                    f"The spdxId of {filename} in recipe-gcc.spdx.json is {software_file.spdxId}"
-                 )
-                 break
- 
-         self.assertTrue(
--            found, f"Not found source file {filename} in build-gcc.spdx.json\n"
-+            found, f"Not found source file {filename} in recipe-gcc.spdx.json\n"
-         )
- 
-     def test_core_image_minimal(self):
-@@ -319,7 +305,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-         # This will fail with NameError if new_annotation() is called incorrectly
-         objset = self.check_recipe_spdx(
-             "base-files",
--            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/builds/build-base-files.spdx.json",
-+            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/recipes/recipe-base-files.spdx.json",
-             extraconf=textwrap.dedent(
-                 f"""\
-                 ANNOTATION1 = "{ANNOTATION_VAR1}"
-@@ -374,8 +360,8 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
- 
-     def test_kernel_config_spdx(self):
-         kernel_recipe = get_bb_var("PREFERRED_PROVIDER_virtual/kernel")
--        spdx_file = f"build-{kernel_recipe}.spdx.json"
--        spdx_path = f"{{DEPLOY_DIR_SPDX}}/{{SSTATE_PKGARCH}}/builds/{spdx_file}"
-+        spdx_file = f"recipe-{kernel_recipe}.spdx.json"
-+        spdx_path = f"{{DEPLOY_DIR_SPDX}}/{{SSTATE_PKGARCH}}/recipes/{spdx_file}"
- 
-         # Make sure kernel is configured first
-         bitbake(f"-c configure {kernel_recipe}")
-@@ -383,7 +369,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-         objset = self.check_recipe_spdx(
-             kernel_recipe,
-             spdx_path,
--            task="do_create_spdx",
-+            task="do_create_kernel_config_spdx",
-             extraconf="""\
-                 INHERIT += "create-spdx"
-                 SPDX_INCLUDE_KERNEL_CONFIG = "1"
-@@ -428,3 +414,79 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-                 value, ["enabled", "disabled"],
-                 f"Unexpected PACKAGECONFIG value '{value}' for {key}"
-             )
-+
-+    def test_download_location_defensive_handling(self):
-+        """Test that download_location handling is defensive.
-+
-+        Verifies SPDX generation succeeds and external references are
-+        properly structured when download_location retrieval works.
-+        """
-+        objset = self.check_recipe_spdx(
-+            "m4",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-m4.spdx.json",
-+        )
-+
-+        found_external_refs = False
-+        for pkg in objset.foreach_type(oe.spdx30.software_Package):
-+            if pkg.externalRef:
-+                found_external_refs = True
-+                for ref in pkg.externalRef:
-+                    self.assertIsNotNone(ref.externalRefType)
-+                    self.assertIsNotNone(ref.locator)
-+                    self.assertGreater(len(ref.locator), 0, "Locator should have at least one entry")
-+                    for loc in ref.locator:
-+                        self.assertIsInstance(loc, str)
-+                break
-+
-+        self.logger.info(
-+            f"External references {'found' if found_external_refs else 'not found'} "
-+            f"in SPDX output (defensive handling verified)"
-+        )
-+
-+    def test_version_extraction_patterns(self):
-+        """Test that version extraction works for various package formats.
-+
-+        Verifies that Git source downloads carry extracted versions and that
-+        the reported version strings are well-formed.
-+        """
-+        objset = self.check_recipe_spdx(
-+            "opkg-utils",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-opkg-utils.spdx.json",
-+        )
-+
-+        # Collect all packages with versions
-+        packages_with_versions = []
-+        for pkg in objset.foreach_type(oe.spdx30.software_Package):
-+            if pkg.software_packageVersion:
-+                packages_with_versions.append((pkg.name, pkg.software_packageVersion))
-+
-+        self.assertGreater(
-+            len(packages_with_versions), 0,
-+            "Should find packages with extracted versions"
-+        )
-+
-+        for name, version in packages_with_versions:
-+            self.assertRegex(
-+                version,
-+                r"^[0-9a-f]{40}$",
-+                f"Expected Git source version for {name} to be a full SHA-1",
-+            )
-+
-+        self.logger.info(f"Found {len(packages_with_versions)} packages with versions")
-+
-+        # Log some examples for debugging
-+        for name, version in packages_with_versions[:5]:
-+            self.logger.info(f"  {name}: {version}")
-+
-+        # Verify that versions follow expected patterns
-+        for name, version in packages_with_versions:
-+            # Version should not be empty
-+            self.assertIsNotNone(version)
-+            self.assertNotEqual(version, "")
-+
-+            # Version should contain digits
-+            self.assertRegex(
-+                version,
-+                r'\d',
-+                f"Version '{version}' for package '{name}' should contain digits"
-+            )
--- 
-2.53.0
-
+Best regards,
+--=20
+Yoann Congal
+Smile ECS
 
