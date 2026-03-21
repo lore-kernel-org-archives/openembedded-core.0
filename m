@@ -2,144 +2,287 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B5981099B56
-	for <webhook@archiver.kernel.org>; Fri, 20 Mar 2026 23:07:43 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1900.1774048048397779500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D26F1099B58
+	for <webhook@archiver.kernel.org>; Sat, 21 Mar 2026 00:30:14 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3202.1774053007218276740
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2026 16:07:28 -0700
+ Fri, 20 Mar 2026 17:30:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=hGJJRYKu;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43b48ac2727so1857542f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 16:07:28 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=C5qVPB4I;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso22082585e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 17:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774048046; x=1774652846; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6V+OisQvw5Q2WIBuYxO6FTguRr4wpRQoVFXAAZUiWhs=;
-        b=hGJJRYKuE3aKTLRFCUiCbmEjm1bQwvbv4OVc6gXSkq+KwuHLUtg8Pczq8VgohCSwrg
-         PHvdWIM3nYlFCaI0DYtxKBZw/3VswQzoKp6UYU+df5ffecca6c6AXDSoWSmv0Tg39kyd
-         Qx9lqXCTuj5wkoNLUQshRWpb8Udm27lWnHyoE=
+        d=smile.fr; s=google; t=1774053005; x=1774657805; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L9yFem+XRmvfyZCeQNLwFK/+b+oG73PxnN6BsGg18DQ=;
+        b=C5qVPB4IG10xb2jdVyA6PZes5/3azq6kCeIw/kKCVjNu5Au2fhas9pro/MzHg79lLn
+         UWhUKWsKN8oXYWjapII/hGCmnaD4f9a8w4328FjW99mK7HF9JW6UQsqF1wkKPfGb0QT+
+         K3im2SyNSnMeqokon7U9qkx5AultDudY6OR1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774048046; x=1774652846;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6V+OisQvw5Q2WIBuYxO6FTguRr4wpRQoVFXAAZUiWhs=;
-        b=EtAFTwOGmni4JCDo2mZURINwDTPN7Fg5cgUEAuXspRBtTZOHZwscGdIbwfzTyVV7XQ
-         pKVhR6INGJFHEXldAP1J6ZLd+oQX8ErsLgwerMUEpqn/ncEdJM1g4nax0nb33N/INc0x
-         BGBxXxeJjmoumsO9kBVOvQYCt0xD6IUZMKvCYfB4ybFEcNN82jTMtYBJXsnfp9yoJjzB
-         xpe3aOwNdTiCa4f9kyHbmz7tZg+ZTmbUelivLcOANfGcH48CP5pBSRM3ZHXYHPyB5TEu
-         vUfmQPNSZpbI0Krpo139IuhJyiQ3oRCfmfBjdUc4kIB9GfBt0A+vHsN1wKDMSh7SF4tV
-         f2dg==
-X-Gm-Message-State: AOJu0YwTzsEVMz/2VIQijWprzgobS7Vkp6WGgFf36fS3uPw5mPcKYBC8
-	Uei7zAF7jJwpVbya40KXP9AMz3AxGysXS0wSPYZnKp3HUwCyEyV/K9DZBVuqakWtJdu/H+fpidr
-	3zSqq
-X-Gm-Gg: ATEYQzyj7lQoA57qBXHEmgacPx8L9KaGFuYOU53++sf6uU5IubHUlpZxr0TxQdFvUeK
-	D/M6OngamptxNLdxWlOYY87Rw5t2I66k7JXDT/SOCkJaD5SL6mPcLuByXdXMdQK2jjg1rV+JdYE
-	L6+lmFiqqkq131z1Z4Yqpv3TO/tkvKO8d1gTcgSWCYRP/zPa4vU130jwzecCM5TgHIgH4gCPyNs
-	Gzg5DJVeLTqU7G+XfkyiSp3nG8cnWkDTtZaLsnFPUwdKAIuKuJO0odwFv3o+V22NYamT8uzgnEf
-	oEKQ38mcFKqfxD+p/h5vnylxXYYQAr/uJE0siAYzRzyKoa3a2GE//m463tEkzqEnEH/JGh5x8/j
-	E648dN1s2QIg5rYOfFDkNhzEMd0Ci0r2qtVBnzLzrjHOMV2oPsxhgIiVEv2VhJeDQr/h4KT2G1w
-	wblgmrZ5Xgs7Bs+jjZ+FqtBsmjSIzsnCn9qk0dRDa1vtGi9pFX0h0zbz1CJBVkyxaemy41fROkx
-	DHOvnG8nM2pbrJphzJlO9L9HZo=
-X-Received: by 2002:a05:6000:2c0e:b0:43b:3e40:222c with SMTP id ffacd0b85a97d-43b6427d657mr8455299f8f.26.1774048046452;
-        Fri, 20 Mar 2026 16:07:26 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6425eeb4sm9238332f8f.0.2026.03.20.16.07.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 16:07:26 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 1/7] inetutils: Fix CVE-2026-32746
-Date: Sat, 21 Mar 2026 00:07:16 +0100
-Message-ID: <46a29a287dffe7ee624e15b6659235be1c58c5ce.1774047909.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1774047909.git.yoann.congal@smile.fr>
-References: <cover.1774047909.git.yoann.congal@smile.fr>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20251104; t=1774053005; x=1774657805;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L9yFem+XRmvfyZCeQNLwFK/+b+oG73PxnN6BsGg18DQ=;
+        b=sfA1tPxi4KDqaecvthswmpe+df/zq4R9Qk/RYe9u1AJTWwbJjYvcOl8zrn9mQnrGx1
+         9HlRDYnlSvnvRoJo811WeI2voKo5s+5/rc8htXttfyBeq9LVFFXp7dK3RfmDBARIqRwU
+         kO3xGSxyMZh9f1729xW/J9RrvJpauRm0adBpY5JHr0H3F5TT0qVvYN/sTHFlbQU+TweF
+         HYsz8iW4Yi8e7Ev0GmaVO5Xfe0m72FAs9awxm8aGERDEeGeBuQ9Js1RFPf4xBPrvOUs9
+         R4g+N/xue0fMrD9DEgNHSzmMUfDEnm+OlaGSHeNWBHF9UMQco06e+6LhhbuLjLhGBb3O
+         7sZA==
+X-Forwarded-Encrypted: i=1; AJvYcCV1Kw3ibWPM0+E8ovxZivR+eEKBzyELMBrjKe9yZQ4Z5J9SihSxyc+NKCgMKe+jGqHjzZoMxCqPl69n+TFY1/qjxA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwRO+N5evt8LlRXw677xjoE8DoVRlhHxiVXrSHl2iRgojCc8xqm
+	9qfyf5xTvHXsk5nWxvVxH2Yf5bTTgXTpzGvFSbS23T3+UnvCLfUtVjrbr75cmZJqjFc=
+X-Gm-Gg: ATEYQzzL83lMWqkHppK+b5n7IXBl3B66jIYWYsFepklTr7poyMxIZ/14T3nGRh086/O
+	vJRfQWanSmUUiqcvwTyrXh1KQIfiE55QKPC2TZxKNu/0t9ofnG5Gnp6X9g/Exaa5dPDBKs1JLFf
+	uz+PfId57MozYZ1S/RQn/vEy0xaYXYValE3kOdIMe2cQdH3rA3VEB7oi5zlymZZzfU3/avmdhLw
+	a7TdwW+GI71nj41KeDlvJNot7/SsGz+PPc/ZIy9BFbBsoTGZxiK1M+eLTGnKijMEYGP1rnyEJyT
+	/c2+t6DYICXTfDAaUs5EnZPuRCjeQ3ArcMGwMwpKVoou8yFwobspvEbMoFFyByRMUx7UWOsDDne
+	j+xvxSKTYy0YlAtJzSFlSwT8IE5tgHJw8vff0PUE5dWePM2WC0CyqyFDPXk/eaxNhSU6LsxmHKp
+	6xeyqEyp6wZdvo4DtLaahAt+doST0dzUHTe7bxhpBnPHPRDlbR564oZ4ifJOk64hEm7u2EZln0w
+	YOnBdACKXUJg/HhVq/uPVSqNg==
+X-Received: by 2002:a05:600c:1993:b0:487:4cb:2fe4 with SMTP id 5b1f17b1804b1-48704cb2ff4mr2264735e9.33.1774053005451;
+        Fri, 20 Mar 2026 17:30:05 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487031790fdsm37459165e9.3.2026.03.20.17.30.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Mar 2026 17:30:05 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Mar 2026 01:30:04 +0100
+Message-Id: <DH81AZACSEQK.3JVCYSLWG2NFM@smile.fr>
+To: <hprajapati@mvista.com>, "Fabien Thomas" <fabien.thomas@smile.fr>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [kirkstone][PATCH] busybox: fix for CVE-2026-26157,
+ CVE-2026-26158
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260313131845.56221-1-hprajapati@mvista.com>
+ <DH6PK2HKFZEL.OW09CNJ5IJ15@smile.fr>
+ <c643bc67-8d9a-4740-9539-ea7b90d93c99@mvista.com>
+In-Reply-To: <c643bc67-8d9a-4740-9539-ea7b90d93c99@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2026 23:07:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233637
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2026 00:30:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233644
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+On Thu Mar 19, 2026 at 12:40 PM CET, Hitendra Prajapati via lists.openembed=
+ded.org wrote:
+> Hi Team,
+>
+> I'm not able to load the official busybox repo form last week, so I used=
+=20
+> mirror.
 
-Pick patch according to [1]
+Yes, the busybox git host is sadly not reliable :(
+Khem found a mirror that looks trustworthy and up-to-date: https://gogs.lib=
+recmc.org/OWEALS/busybox/
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-32746
-[2] https://lists.gnu.org/archive/html/bug-inetutils/2026-03/msg00031.html
-[3] https://codeberg.org/inetutils/inetutils/pulls/17/files
+In the hope that the busybox host will recover, let's put
+git.busybox.net in our upstream-status but add a note with this mirror.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- .../inetutils/inetutils/CVE-2026-32746.patch  | 40 +++++++++++++++++++
- .../inetutils/inetutils_2.6.bb                |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
+> If anyone have access, they may try to fix this or I will look into=20
+> these later.
+>
+> Regards,
+>
+> Hitendra
+>
+> On 19/03/26 4:35 pm, Fabien Thomas wrote:
+>> On Fri Mar 13, 2026 at 2:18 PM CET, Hitendra Prajapati via lists.openemb=
+edded.org wrote:
+>>> Although the patch was not merged yet, Debian already took it ([1] & [2=
+]).
+>>> Since busybox CVE handling is slow, follow Debian decision.
+>>>
+>>> [1]https://sources.debian.org/src/busybox/1:1.37.0-10.1/debian/patches/=
+0001-tar-strip-unsafe-hardlink-components-GNU-tar-does-th.patch
+>>> [2]https://sources.debian.org/src/busybox/1:1.37.0-10.1/debian/patches/=
+0002-tar-only-strip-unsafe-components-from-hardlinks-not-.patch
+>>>
+>>> Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
+>>> ---
+>>>   .../CVE-2026-26157-CVE-2026-26158-01.patch    |  35 ++++
+>>>   .../CVE-2026-26157-CVE-2026-26158-02.patch    | 197 +++++++++++++++++=
++
+>>>   meta/recipes-core/busybox/busybox_1.35.0.bb   |   2 +
+>>>   3 files changed, 234 insertions(+)
+>>>   create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-C=
+VE-2026-26158-01.patch
+>>>   create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-C=
+VE-2026-26158-02.patch
+>>>
+>>> diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-=
+26158-01.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-=
+26158-01.patch
+>>> new file mode 100644
+>>> index 0000000000..306ccad511
+>>> --- /dev/null
+>>> +++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-0=
+1.patch
+>>> @@ -0,0 +1,35 @@
+>>> +From 038e0e4d791ea4e8a8da5e06904756142fc6b8dc Mon Sep 17 00:00:00 2001
+>>> +From: Radoslav Kolev<radoslav.kolev@suse.com>
+>>> +Date: Mon, 16 Feb 2026 11:50:04 +0200
+>>> +Subject: tar: only strip unsafe components from hardlinks, not symlink=
+s
+>>> +
+>>> +commit 3fb6b31c7 introduced a check for unsafe components in
+>>> +tar archive hardlinks, but it was being applied to symlinks too
+>>> +which broke "Symlinks and hardlinks coexist" tar test.
+>>> +
+>>> +Signed-off-by: Radoslav Kolev<radoslav.kolev@suse.com>
+>>> +Signed-off-by: Denys Vlasenko<vda.linux@googlemail.com>
+>>> +
+>>> +CVE: CVE-2026-26157, CVE-2026-26158
+>>> +Upstream-Status: Backport [https://github.com/mirror/busybox/commit/3f=
+b6b31c716669e12f75a2accd31bb7685b1a1cb]
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
-new file mode 100644
-index 00000000000..dfab82f01f2
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
-@@ -0,0 +1,40 @@
-+From 6864598a29b652a6b69a958f5cd1318aa2b258af Mon Sep 17 00:00:00 2001
-+From: Collin Funk <collin.funk1@gmail.com>
-+Date: Wed, 11 Mar 2026 23:06:46 -0700
-+Subject: [PATCH] telnetd: fix stack buffer overflow processing SLC suboption triplets
-+
-+Previously a client could write past the end of an internal buffer using
-+an SLC suboption with many triplets using function octets greater than
-+18, possibly leading to remote code execution. Reported by Adiel Sol,
-+Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg, Daniel Lubel at DREAM
-+Security Research Team at:
-+<https://lists.gnu.org/r/bug-inetutils/2026-03/msg00031.html>.
-+
-+* telnetd/slc.c (add_slc): Return early if writing the tuple would lead
-+us to writing past the end of the buffer.
-+* NEWS.md: Mention the fix.
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=6864598a29b652a6b69a958f5cd1318aa2b258af]
-+CVE: CVE-2026-32746
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ telnetd/slc.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/telnetd/slc.c b/telnetd/slc.c
-+index be18782..3434829 100644
-+--- a/telnetd/slc.c
-++++ b/telnetd/slc.c
-+@@ -162,6 +162,9 @@ get_slc_defaults (void)
-+ void
-+ add_slc (char func, char flag, cc_t val)
-+ {
-++  /* Do nothing if the entire triplet cannot fit in the buffer.  */
-++  if (slcbuf + sizeof slcbuf - slcptr <= 6)
-++    return;
-+ 
-+   if ((*slcptr++ = (unsigned char) func) == 0xff)
-+     *slcptr++ = 0xff;
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.6.bb b/meta/recipes-connectivity/inetutils/inetutils_2.6.bb
-index 29a40143a28..9892507ad9a 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.6.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.6.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://CVE-2026-24061-01.patch \
-            file://CVE-2026-24061-02.patch \
-            file://CVE-2026-28372.patch \
-+           file://CVE-2026-32746.patch \
-            "
- 
- inherit autotools gettext update-alternatives texinfo
+Maybe something like this?
+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3D3fb=
+6b31c716669e12f75a2accd31bb7685b1a1cb]
+(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/=
+3fb6b31c716669e12f75a2accd31bb7685b1a1cb)=20
+
+>>> +Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
+>>> +---
+>>> + archival/libarchive/get_header_tar.c | 2 +-
+>>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>>> +
+>>> +diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchiv=
+e/get_header_tar.c
+>>> +index dc0f7e0..a8c2ad8 100644
+>>> +--- a/archival/libarchive/get_header_tar.c
+>>> ++++ b/archival/libarchive/get_header_tar.c
+>>> +@@ -453,7 +453,7 @@ char FAST_FUNC get_header_tar(archive_handle_t *ar=
+chive_handle)
+>>> +
+>>> + 	/* Everything up to and including last ".." component is stripped */
+>>> + 	strip_unsafe_prefix(file_header->name);
+>>> +-	if (file_header->link_target) {
+>>> ++	if (file_header->link_target && !S_ISLNK(file_header->mode)) {
+>>> + 		/* GNU tar 1.34 examples:
+>>> + 		 * tar: Removing leading '/' from hard link targets
+>>> + 		 * tar: Removing leading '../' from hard link targets
+>>> +--
+>>> +2.50.1
+>>> +
+>>> diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-=
+26158-02.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-=
+26158-02.patch
+>>> new file mode 100644
+>>> index 0000000000..69e6e98c75
+>>> --- /dev/null
+>>> +++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-0=
+2.patch
+>>> @@ -0,0 +1,197 @@
+>>> +From 0c20d6b353b058ab910dd3a0211e2b906802b105 Mon Sep 17 00:00:00 2001
+>>> +From: Denys Vlasenko<vda.linux@googlemail.com>
+>>> +Date: Thu, 29 Jan 2026 11:48:02 +0100
+>>> +Subject: tar: strip unsafe hardlink components - GNU tar does the same
+>>> +
+>>> +Defends against files like these (python reproducer):
+>>> +
+>>> +import tarfile
+>>> +ti =3D tarfile.TarInfo("leak_hosts")
+>>> +ti.type =3D tarfile.LNKTYPE
+>>> +ti.linkname =3D "/etc/hosts"  # or "../etc/hosts" or ".."
+>>> +ti.size =3D 0
+>>> +with tarfile.open("/tmp/hardlink.tar", "w") as t:
+>>> +	t.addfile(ti)
+>>> +
+>>> +function                                             old     new   del=
+ta
+>>> +skip_unsafe_prefix                                     -     127    +1=
+27
+>>> +get_header_tar                                      1752    1754      =
++2
+>>> +.rodata                                           106861  106856      =
+-5
+>>> +unzip_main                                          2715    2706      =
+-9
+>>> +strip_unsafe_prefix                                  102      18     -=
+84
+>>> +----------------------------------------------------------------------=
+--------
+>>> +(add/remove: 1/0 grow/shrink: 1/3 up/down: 129/-98)            Total: =
+31 bytes
+>>> +
+>>> +Signed-off-by: Denys Vlasenko<vda.linux@googlemail.com>
+>>> +
+>>> +CVE: CVE-2026-26157, CVE-2026-26158
+>>> +Upstream-Status: Backport [https://github.com/mirror/busybox/commit/3f=
+b6b31c716669e12f75a2accd31bb7685b1a1cb]
+
+Use the same pattern as above.
+
+>>> +Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
+>>> +---
+>>> [...]
+>>> +
+>>> diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes=
+-core/busybox/busybox_1.35.0.bb
+>>> index 0b5ac220f5..bb07502ccc 100644
+>>> --- a/meta/recipes-core/busybox/busybox_1.35.0.bb
+>>> +++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
+>>> @@ -62,6 +62,8 @@ SRC_URI =3D"https://busybox.net/downloads/busybox-${P=
+V}.tar.bz2;name=3Dtarball \=20
+>>> file://CVE-2025-46394-01.patch \ file://CVE-2025-46394-02.patch \=20
+>>> file://CVE-2025-60876.patch \ +=20
+>>> file://CVE-2026-26157-CVE-2026-26158-01.patch \ +=20
+>>> file://CVE-2026-26157-CVE-2026-26158-02.patch \ "
+>>>   SRC_URI:append:libc-musl =3D" file://musl.cfg "
+>>>  =20
+>> Hi Hitendra,
+>>
+>> I'm working with Yoann, helping him to support the maintenance of
+>> the stable branches.
+>>
+>> Thanks for the patch. Indeed, since the Busybox CVE handling is indeed s=
+low,
+>> following Debian is acceptable. However, there are a few issues that nee=
+d to
+>> be addressed before this can be merged:
+>>
+>> In the patch metadata (Upstream-Status / Backport):
+>> - Source URL: Please use the official upstream repository (git.busybox.n=
+et,
+>> which I'm aware is littlebit downish) instead of the GitHub mirror.
+>> - Commit Reference: The Debian patches you cited do not actually backpor=
+t
+>> the commit 3fb6b31c716669e12f75a2accd31bb7685b1a1cb as claimed in the st=
+atus.
+>> Seems that the first one is actually a backport of
+>> 599f5dd8fac390c18b79cba4c14c334957605dae, recently merged in busybox mas=
+ter.
+>>
+>> Please clarify the "Upstream-Status" to reflect exactly
+>> what these patches represent.
+>>
+>> The first patch (01.patch) fails to apply on the current Kirkstone
+>> busybox_1.35.0 recipe:
+>>
+>> ERROR: busybox-1.35.0-r0 do_patch:
+>> Applying patch 'CVE-2026-26157-CVE-2026-26158-01.patch'
+>> patching file archival/libarchive/get_header_tar.c
+>> Hunk #1 FAILED at 453.
+>> 1 out of 1 hunk FAILED -- rejects in file archival/libarchive/get_header=
+_tar.c
+>>
+>> Please ensure the patches are rebased and tested against
+>> the kirkstone branch of openembedded-core.
+>>
+>> Best regards,
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
+
 
