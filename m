@@ -1,148 +1,204 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C975BFC72AF
-	for <webhook@archiver.kernel.org>; Sun, 22 Mar 2026 07:12:04 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.26549.1774163522861902255
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27AD5FC72B2
+	for <webhook@archiver.kernel.org>; Sun, 22 Mar 2026 10:07:01 +0000 (UTC)
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28059.1774174011957424109
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Mar 2026 00:12:03 -0700
+ Sun, 22 Mar 2026 03:06:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AcwYg2OK;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-482f454be5bso38960655e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 00:12:02 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Sz3bmiWn;
+ spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774163521; x=1774768321; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=r9Pf4dBlc6Wq7/9mFI3IU3WYmhk/dV62aOc69bOkUQU=;
-        b=AcwYg2OKz7UP0ZLiPmsM/b24kwd99/4Su27buZBZpXbA2irYhFF7ep8oZnBGTpOCaW
-         B0ZsRl9aICGJj8n2ivR2LCLwBJVj8DqWNaPAFmthTl8VATFkibZKVwtV5+VC0faeZNQG
-         E9pF49e5vH7e5FojFNm2wm7sObuNyZNEl7kczNV4yVBdgvxVZlDuZps4eaN4FNf9bWUX
-         SAGWGzVMFo9FA/uFmzUmrR6mdM1Gkog/SY8SsNNolJgJ/h6zv9/hvoVqNUjVtBQncbG3
-         j4MJtLXtG8DigtT+nz4A3ornQH6YSBpasbK636yZW94qJzzucui3lR/7r1sjWQqMNYT6
-         tLpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774163521; x=1774768321;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r9Pf4dBlc6Wq7/9mFI3IU3WYmhk/dV62aOc69bOkUQU=;
-        b=coo5BPzMlYetpp+diAGn+QbEwg9FPADjneYh4oHPUkuMveYY9bEJh1dHgTTTKjJe1S
-         gDHvLgyG/RyOk/ZsUGIqgZlEgayuqJvBGrUceBOffdK714iTOEUExhk1a7hLEoNvmVFX
-         q6Z54CI5ZEWgDJmmCJqz19E+4kaX8IX5pypa0XiXNM63trzVemQIZWd6KrgdQ1ewohFJ
-         xcGMvt2gcJEbUAiYe+NbY8X5TjX0mH3LaZWl3bKvg3GRRDWMmg4dV3PQ22eZu9gmfmDM
-         cZDLL7EnPdlcC9MiJPjnFfL7mLf0iP7gcLALVI7W1mj9mgfjMfskijQdHWymfmUVRWE0
-         /Q6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWZjxajzwPICN0HrbNQJK+PIkhk1X/3E9OtNtFLp+TfE6Oci5z9knq8SeJHu1eDudxhWOC59DsHZPYfuGakrb8wDA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz6wKcLyUU20KLUmTds/yqgtuzAkAyNTzZoJ6+ZpMIHLiADnkvH
-	9Nl77mftD/aM5L5EF3WAx0hl29NTAllhDOyxVp/XmdbHbdGBTlXfV0Dr
-X-Gm-Gg: ATEYQzzqp67k09gCG/dt8oAeBMylZX629QX1ZFL4Nb4ohrr74gCek0B5yJ0boxfIxnq
-	rQ5/AzdBYW2D1sLRq/nT8t/9pPQy7tLxrxHCR5lXfI1aiaPyGpdCo16ZVHo/kH1hchCi6+8pdE2
-	2aggFt4GvWGqSzFvcaRuDs1wpXc+HVF5+vVM9lMfsTHdOLZYJjCJe1eQ8TGpJ/ivQ7KEU6N+BAn
-	ntupnEvsfkyY+BH4YmtDKY4pQXR/pJ1IqDI+TXDgXXeJtsWG1Nb4nKnFZ/JUpgSSJlZZfVIXIzu
-	4fehCjaQqjNbqCtnzQwrLpDZ3Z/G81oTfLVliOZ6o8ClAN/SnI34bUVWogChYclKbD1aebZHqSF
-	vdP2J7TGkVf6z7ocTLIacRyzwvBza0vfSrudz55yoXGNaDIAouHkeCnQy4O5xyuEDz33HpB70w7
-	4G2E49GSbOsyJH5PJLp+VVCazJGNzaLuJzsdEhV4/lS9DQum9OuHwhxHM=
-X-Received: by 2002:a05:600c:1e0d:b0:485:3cef:d6ea with SMTP id 5b1f17b1804b1-486fe8efb0amr134599595e9.13.1774163520811;
-        Sun, 22 Mar 2026 00:12:00 -0700 (PDT)
-Received: from [192.168.2.122] (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486ff1db4aesm68855275e9.7.2026.03.22.00.11.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Mar 2026 00:12:00 -0700 (PDT)
-Message-ID: <c4e5c72f-84eb-419f-ba74-7a091de6848f@gmail.com>
-Date: Sun, 22 Mar 2026 08:11:59 +0100
+  d=cisco.com; i=@cisco.com; l=4626; q=dns/txt;
+  s=iport01; t=1774174012; x=1775383612;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=X0Q1H90G5OlABFLTn9LPrqUG839cqjJahgzoRuRujvs=;
+  b=Sz3bmiWniTh0tdSO28h3O0JVqOvW3KfuBkg5Blz5d7JnJRxpAlKYdER+
+   Su5Qgn9Y00RQBkeDVaFxUp2x4CUtpb1+45CjBKl0a8C9Z0PBOmknuIVno
+   1FmsnG507fah098fBhYH1hkbc9GMXl6y4uHxenZtD27uDf7psmdxbwAPT
+   YpJzQqiizz3pTEuNK4eqReIqZ1MglyINfew0Mvi5m8l8mFM0GMNYuM1Sb
+   vye2UwzxI2LTWf8d7WR7n3OlirJRqPG4R15GEdORuzfaG3bEbfVzGaZzl
+   KdZc8E67Zcg+b9Qr59PQO1KAG6DtgLEKp7vdBcIrMaAS0KGa5snIcYh6h
+   g==;
+X-CSE-ConnectionGUID: dR/dBc8pT0ygQD+eNgYGgg==
+X-CSE-MsgGUID: K01TlEeDROOddlulPwDDXw==
+X-IPAS-Result: =?us-ascii?q?A0DKCQDtvb9p/5T/Ja1aHgEBCxIMggULgkgPcV9CSQOUJ?=
+ =?us-ascii?q?4Ihnh2Bfw8BAQEPRA0EAQGEQY1rAiY1CA4BAgQBAQEBAwIDAQEBAQEBAQEBA?=
+ =?us-ascii?q?QELAQEFAQEBAgEHBYEOE4ZPDYZaATgBGAFZAwECWiMhgwIBgnMCARGwXho3g?=
+ =?us-ascii?q?iyBAYMoAT8CQ0/bJgELFAGBOIU8iBtbGAGEeicbG4FygRWDaIEFgVwCgSeGf?=
+ =?us-ascii?q?QSCIoEOgWEekFRIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWDB?=
+ =?us-ascii?q?g+IbXRtgROEJQMLGA1IESw3FBsEPm4HjR87gjSBDgErgWhEIpMTkj+hDgoog?=
+ =?us-ascii?q?3SMHpU6GjOqawuYe44JllCEaIFqAjiBWXAVgm4BMwlJGQ+OKgMLC4NehRPCQ?=
+ =?us-ascii?q?iM1AgkDMAEHAgcOAoFzkACBfQEB?=
+IronPort-Data: A9a23:GSY1t6uA7QwoR7Fxlg1+mrIOB+fnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKW+COf+MNmPwLtxwad7ioUsE6sXWz981SVRtpS8yHy4XgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFYzdJ5xYuajhKs/nZ8ks21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw9twwDUtFp
+ eQkcCECVzzAisS58Z20Rbw57igjBJGD0II3oHpsy3TdSP0hW52GGvyM7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtHYH49tL/Aan3XfzBVsluJpa0f6GnIxws327/oWDbQUoLbG5sNwxjE9
+ woq+UzaWkgmMPGS5QCi1X6ggvLLpTzXdLINQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2cYLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWna1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:VesMrqH2BO4YAEb0pLqE/ceALOsnbusQ8zAXPidKOH5om6Oj+f
+ xG8M536faWskdzZJhfo7G90cC7KBu2n6KdirN/AV7NZmXbUROTTL2LKeDZslnd8+qUzJ856Z
+ td
+X-Talos-CUID: =?us-ascii?q?9a23=3AotJw12mHjTEyyd4AdK9Y8g9ez9HXOXHni3v6KB+?=
+ =?us-ascii?q?gNT54R4S5ClK295JLnMU7zg=3D=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3ACj9cqg/qWmyCj7ofar/HCamQf+QwupiqJU0hq7I?=
+ =?us-ascii?q?ht8WAKChIJBuxvCviFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,135,1770595200"; 
+   d="scan'208";a="696605649"
+Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
+  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Mar 2026 10:06:51 +0000
+Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id DD05318000252
+	for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 10:06:50 +0000 (GMT)
+Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
+	id 81C53CC12B5; Sun, 22 Mar 2026 03:06:50 -0700 (PDT)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][whinlatter][PATCH 1/3] expat: Fix CVE-2026-32776
+Date: Sun, 22 Mar 2026 03:06:37 -0700
+Message-Id: <20260322100637.665990-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [whinlatter][PATCH 0/4] gn: upgrade to latest revision
-To: Yoann Congal <yoann.congal@smile.fr>,
- openembedded-core@lists.openembedded.org
-References: <20260321073820.1403645-1-zboszor@gmail.com>
- <DH8CJYGCGVWY.CKRVLGTIY6JG@smile.fr>
- <8723b2eb-3931-4aaf-a406-e17fd62fa72e@gmail.com>
- <DH8OLEZRDNFV.3D8WHZTAXNI2F@smile.fr>
-Content-Language: en-US
-Cc: Max Ihlenfeldt <max@igalia.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <DH8OLEZRDNFV.3D8WHZTAXNI2F@smile.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
+X-Outbound-Node: rcdn-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 07:12:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233668
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 10:07:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233669
 
-2026. 03. 21. 19:45 keltezéssel, Yoann Congal írta:
-> On Sat Mar 21, 2026 at 3:02 PM CET, Böszörményi Zoltán wrote:
->> 2026. 03. 21. 10:19 keltezéssel, Yoann Congal írta:
->>> On Sat Mar 21, 2026 at 8:36 AM CET, Zoltan Boszormenyi via lists.openembedded.org wrote:
->>>> The latest revision of gn is needed to build Chromium 145
->>>> for whinlatter. Nothing else.
->>>>
->>>> See https://github.com/OSSystems/meta-browser/pull/963
->>>>
->>>> Please merge these into whinlatter.
->>> Hello,
->>>
->>> Sorry but general upgrades like this are not acceptable for stable.
->> I can keep the gn_git.bbappend in the meta-browser PR.
->>
->> But then it's not better when every layer shipped their version
->> before moving it to core.
->>
->>> Is there a verifiable stability promise from gn upstream that would
->>> somehow make that acceptable? Note that I'm not familiar with it.
->> Chromium updates carry a lot of CVE fixes, too.
->> gn is just a build tool for it and other projects.
-> Yes I understand.
-> But this upgrade has feature changes in it (see below) and those are
-> generaly unacceptable on the risk breaking existing code and our
-> stability promise.
->
-> Your whole series upgrade gn by 43 commits. I saw these ones that are
-> problematic just by reading the commit title:
->   $ git log --oneline 81b24e01531ecf0eff12ec9359a555ec3944ec4e..9d19a7870add65151ff91bcc26252bb7521065cf
-> 7498ca2e Add validation support to gn analyze/desc/path/refs
-> 3c0f5be7 Add pcm files to the deps of phony target
-> bd3356ac Add `validations` dependency type to targets
-> 1d89b984 Add conductor setup files
-> 4e0818fd Add a sha256 hash implementation and use it for string_hash
-> 0eb071f6 Add a `module_name` flag to source_set.
-> bf891ce4 Refactor module name to be dynamic.
-> 8450d601 Optimize vector creation in compile_commands_writer.cc.
-> 6e0b557d Run 'tools/run_formatter.sh'
-> ab6f8b21 Implement `string_hash` function.
+From: Deepak Rathore <deeratho@cisco.com>
 
-At least this one is needed by Chromium 145.
-Its do_configure failed due to missing function.
+Pick the patch [1] as mentioned in [2].
 
-> d92aee22 Support weak_libraries
-> 4619125b Do not add .inputdeps paths to --ninja-outputs-file
-> fb3b73df Make clang modules output -fmodule-file=foo=<pcm>.
-> e7f32021 Add --file_relation to gn refs command
-> 20a6b6d6 Optimize vector initialization and preallocation in desc_builder.cc.
-> a0c5124a Add `reserve` statement when vector size is known beforehand.
-> 092f4f0d Refactor container update by preferring the range insert.
->
-> If you want a shared repo with an upgraded gn for LTS, what do
-> you think about creating a mixin layer?
-> https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#LTS_%E2%80%9CMixin%E2%80%9D_repositories
-> https://git.yoctoproject.org/meta-lts-mixins
->
-> For whinlatter (stable but not a LTS) which have more or less a month of
-> support left, the bbappend in your layer is, IMHO, the realistic
-> solution.
+[1] https://github.com/libexpat/libexpat/commit/5be25657583ea91b09025c858b4785834c20f59c
+[2] https://security-tracker.debian.org/tracker/CVE-2026-32776
 
-meta-browser is not my layer, I just create PRs for it.
-Thanks, anyway.
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 
-cc-ed the maintainer of meta-browser.
-Maybe it would be best to branch off whinlatter and
-cherry-pick new versions and add the gn bbappend there later.
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-32776.patch b/meta/recipes-core/expat/expat/CVE-2026-32776.patch
+new file mode 100644
+index 0000000000..357c41a763
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-32776.patch
+@@ -0,0 +1,90 @@
++From dfc050e8c22c40a709a824573efd8691194c1469 Mon Sep 17 00:00:00 2001
++From: Francesco Bertolaccini <francesco.bertolaccini@trailofbits.com>
++Date: Tue, 3 Mar 2026 16:41:43 +0100
++Subject: [PATCH] Fix NULL function-pointer dereference for empty external
++ parameter entities
++
++When an external parameter entity with empty text is referenced inside
++an entity declaration value, the sub-parser created to handle it receives
++0 bytes of input.  Processing enters entityValueInitProcessor which calls
++storeEntityValue() with the parser's encoding; since no bytes were ever
++processed, encoding detection has not yet occurred and the encoding is
++still the initial probing encoding set up by XmlInitEncoding().  That
++encoding only populates scanners[] (for prolog and content), not
++literalScanners[].  XmlEntityValueTok() calls through
++literalScanners[XML_ENTITY_VALUE_LITERAL] which is NULL, causing a
++SEGV.
++
++Skip the tokenization loop entirely when entityTextPtr >= entityTextEnd,
++and initialize the `next` pointer before the early exit so that callers
++(callStoreEntityValue) receive a valid value through nextPtr.
++
++CVE: CVE-2026-32776
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5be25657583ea91b09025c858b4785834c20f59c]
++
++(cherry picked from commit 5be25657583ea91b09025c858b4785834c20f59c)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ lib/xmlparse.c      |  9 ++++++++-
++ tests/basic_tests.c | 19 +++++++++++++++++++
++ 2 files changed, 27 insertions(+), 1 deletion(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index a187a3a1..10297c9a 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -6780,7 +6780,14 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
++       return XML_ERROR_NO_MEMORY;
++   }
++
++-  const char *next;
+++  const char *next = entityTextPtr;
+++
+++  /* Nothing to tokenize. */
+++  if (entityTextPtr >= entityTextEnd) {
+++    result = XML_ERROR_NONE;
+++    goto endEntityValue;
+++  }
+++
++   for (;;) {
++     next
++         = entityTextPtr; /* XmlEntityValueTok doesn't always set the last arg */
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index 0231e094..8be3492d 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -6213,6 +6213,24 @@ START_TEST(test_varying_buffer_fills) {
++ }
++ END_TEST
++
+++START_TEST(test_empty_ext_param_entity_in_value) {
+++  const char *text = "<!DOCTYPE r SYSTEM \"ext.dtd\"><r/>";
+++  ExtOption options[] = {
+++      {XCS("ext.dtd"), "<!ENTITY % pe SYSTEM \"empty\">"
+++                       "<!ENTITY ge \"%pe;\">"},
+++      {XCS("empty"), ""},
+++      {NULL, NULL},
+++  };
+++
+++  XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+++  XML_SetExternalEntityRefHandler(g_parser, external_entity_optioner);
+++  XML_SetUserData(g_parser, options);
+++  if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
+++      == XML_STATUS_ERROR)
+++    xml_failure(g_parser);
+++}
+++END_TEST
+++
++ void
++ make_basic_test_case(Suite *s) {
++   TCase *tc_basic = tcase_create("basic tests");
++@@ -6458,6 +6476,7 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_empty_element_abort);
++   tcase_add_test__ifdef_xml_dtd(tc_basic,
++                                 test_pool_integrity_with_unfinished_attr);
+++  tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_ext_param_entity_in_value);
++   tcase_add_test__if_xml_ge(tc_basic, test_entity_ref_no_elements);
++   tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_entity);
++   tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_attribute_entity);
++--
++2.51.0
+diff --git a/meta/recipes-core/expat/expat_2.7.4.bb b/meta/recipes-core/expat/expat_2.7.4.bb
+index 95a1ed52c4..a1cbf77ae1 100644
+--- a/meta/recipes-core/expat/expat_2.7.4.bb
++++ b/meta/recipes-core/expat/expat_2.7.4.bb
+@@ -10,6 +10,7 @@ VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://run-ptest \
++           file://CVE-2026-32776.patch \
+            "
+ 
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+-- 
+2.35.6
 
 
