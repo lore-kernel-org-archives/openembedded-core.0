@@ -1,98 +1,343 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F93FC72C4
-	for <webhook@archiver.kernel.org>; Sun, 22 Mar 2026 13:22:12 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30381.1774185729045346920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0325FC72CB
+	for <webhook@archiver.kernel.org>; Sun, 22 Mar 2026 15:13:42 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32197.1774192414256161200
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Mar 2026 06:22:10 -0700
+ Sun, 22 Mar 2026 08:13:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZJO9p/G+;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026032213220549c4919a530002079f-6f67qr@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026032213220549c4919a530002079f
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Zzd8wkb6;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20260322151332eb39513c4700020794-ke_dki@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260322151332eb39513c4700020794
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 22 Mar 2026 14:22:06 +0100
+        Sun, 22 Mar 2026 16:13:32 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=VQec3EpaOqgRPj0IoxiBQihop1ey8oK7xa1T/Z6blfA=;
- b=ZJO9p/G+lugHRjnWz9L3BjFK0gmF7ZiTyK+IUajR8lLkfqfaJmzxYANNU90JEqiS9GM28Y
- Rmh2CMHCZuyAb8ez/JvfNfA9zgpyOUUBfcG0mRRuz1A/h+uVQPlPnGb2jbQcI4sk6VmF6yqq
- SSu6Dcqtte6GH71hGopnshTEmCvjfB016EV3/KieUuobVRRsrc3f6N9DmVaXt1ryZ6yrwnPF
- 4h/BsCcvwTFX5h8N4eoa8GdHIp1i2jr2SfJl3C8HyH9SmAMLd5CwA9gD4CIeX6BuidT58GhR
- bDmd1KFx3O7ycfY2JyavBAqSRlCu9S17KI+qXkmKuMXpSAhey88IJVvA==;
-From: Peter Marko <peter.marko@siemens.com>
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=FvhAlMCBpDiF7rtJh5qgeAyABn1gGaRuBoHk3ix78mw=;
+ b=Zzd8wkb6omnMsHPq172GG2VGe5Lh64lnEkOGwbTPTUgOW/11uNHOOX4W/HYIVMgt6fDZ2z
+ 13SQzGnrMoeJtIOihp2VxsSD/NkQmo50nat1k7x3BiYY7jddQqDcTOjjphcXV/1ayluePUhk
+ H0D5hIAQXU2kt84QJOTax/kX5FHgYyxIXjAC8MIhWzErFUqCnKDas/cgqrETDzHrs//04G3+
+ Rv1I6e/FBTNN01M6Hkw+wJE0oh1FDlvUa0zalnX6C+dTOg12RhNtVXPsO1uNDvsL4yp6Dua0
+ t0fUSR4aorSuICz7nSWzm2wum1rUjX09UQ6W72D1rd2w6P6oTs/37KQQ==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] expat: upgrade 2.7.4 -> 2.7.5
-Date: Sun, 22 Mar 2026 14:22:19 +0100
-Message-Id: <20260322132219.11230-1-peter.marko@siemens.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v2 9/9] oe-selftest: devtool ide-sdk: add clang/LLDB test
+Date: Sun, 22 Mar 2026 16:13:00 +0100
+Message-ID: <20260322151320.661246-10-adrian.freihofer@siemens.com>
+In-Reply-To: <20260322151320.661246-1-adrian.freihofer@siemens.com>
+References: <20260322151320.661246-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 13:22:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233672
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 15:13:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233673
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Release information [1]
+Add test_devtool_ide_sdk_code_cmake_clang to verify the full devtool
+ide-sdk workflow for a cmake recipe built with clang.  Unlike the gcc
+variant the clang recipe uses lldb-server for remote debugging and
+CodeLLDB (vadimcn.vscode-lldb) as the VS Code debug adapter.
 
-Release 2.7.5 Tue March 17 2026
-        Security fixes:
-           #1158  CVE-2026-32776 -- Fix NULL function pointer dereference for
-                    empty external parameter entities; it takes use of both
-                    functions XML_ExternalEntityParserCreate and
-                    XML_SetParamEntityParsing for an application to be
-                    vulnerable.
-     #1161 #1162  CVE-2026-32777 -- Protect from XML_TOK_INSTANCE_START
-                    infinite loop in function entityValueProcessor; it takes
-                    use of both functions XML_ExternalEntityParserCreate and
-                    XML_SetParamEntityParsing for an application to be
-                    vulnerable.
-           #1163  CVE-2026-32778 -- Fix NULL dereference in function setContext
-                    on retry after an earlier ouf-of-memory condition; it takes
-                    use of function XML_ParserCreateNS or XML_ParserCreate_MM
-                    for an application to be vulnerable.
-           #1160  Three more unfixed vulnerabilities left
+The test covers:
+- devtool modify + devtool ide-sdk with ide=code
+- cmake preset compilation and CTest execution (same as the gcc test)
+- extensions.json recommends vadimcn.vscode-lldb
+- launch.json uses "type": "lldb" (CodeLLDB) instead of "type": "cppdbg"
+- End-to-end lldb --batch remote debugging session via lldb-server
+  platform mode running on qemu
 
-        Other changes:
-     #1146 #1147  Autotools: Fix condition for symbol versioning check, in
-                    particular when compiling with slibtool (not libtool)
-           #1156  Address Cppcheck >=2.20.0 warnings
-           #1153  tests: Make test_buffer_can_grow_to_max work for MinGW on
-                    Ubuntu 24.04
-     #1157 #1159  Version info bumped from 12:2:11 (libexpat*.so.1.11.2)
-                    to 12:3:11 (libexpat*.so.1.11.3); see https://verbump.de/
-                    for what these numbers do
+Supporting changes:
+- _write_bb_config: accept optional extra_packages parameter so the
+  clang test can add lldb-server to IMAGE_INSTALL
+- _verify_launch_json_lldb: new helper that validates the CodeLLDB
+  launch.json structure (type, initCommands, program, cwd, preLaunchTask)
+- _lldb_server_debugging_once: new helper that reads the preLaunchTask
+  SSH command from tasks.json, starts lldb-server on the target, and
+  runs lldb --batch to verify a breakpoint at main is hit
+- _verify_service_running: use pgrep with exact regex (^name$) for exact
+  process name matching; without that, pgrep would also match
+  cmake-example-clang (truncated to 'cmake-example-c' in
+  /proc/pid/comm) when checking for cmake-example, returning two PIDs
+  and failing the isdigit() assertion
 
-[1] https://github.com/libexpat/libexpat/blob/R_2_7_5/expat/Changes
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/recipes-core/expat/{expat_2.7.4.bb => expat_2.7.5.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/expat/{expat_2.7.4.bb => expat_2.7.5.bb} (92%)
+ meta/lib/oeqa/selftest/cases/devtool.py | 202 +++++++++++++++++++++++-
+ 1 file changed, 195 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-core/expat/expat_2.7.4.bb b/meta/recipes-core/expat/expat_2.7.5.bb
-similarity index 92%
-rename from meta/recipes-core/expat/expat_2.7.4.bb
-rename to meta/recipes-core/expat/expat_2.7.5.bb
-index 95a1ed52c4..4f2578292d 100644
---- a/meta/recipes-core/expat/expat_2.7.4.bb
-+++ b/meta/recipes-core/expat/expat_2.7.5.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index bccbae912f..c5157a57d0 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2590,13 +2590,11 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         if self.logger.isEnabledFor(logging.DEBUG):
+             self._cmd_logger = self.logger
  
--SRC_URI[sha256sum] = "e6af11b01e32e5ef64906a5cca8809eabc4beb7ff2f9a0e6aabbd42e825135d0"
-+SRC_URI[sha256sum] = "386a423d40580f1e392e8b512b7635cac5083fe0631961e74e036b0a7a830d77"
+-    def _write_bb_config(self, recipe_names):
++    def _write_bb_config(self, recipe_names, extra_packages=None):
+         """Helper to write the bitbake local.conf file"""
+         conf_lines = [
+             'IMAGE_CLASSES += "image-combined-dbg"',
+             'IMAGE_GEN_DEBUGFS = "1"',
+-            'IMAGE_INSTALL:append = " gdbserver %s"' % ' '.join(
+-                [r + '-ptest' for r in recipe_names]),
+             'DISTRO_FEATURES:append = " ptest"',
+             # Static UIDs/GIDs are required so that files installed via
+             # "install -o ${BPN}" in do_install embed the same UID that gets
+@@ -2609,6 +2607,9 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             'USERADD_UID_TABLES += "files/static-passwd"',
+             'USERADD_GID_TABLES += "files/static-group"',
+         ]
++        packages = ([r + '-ptest' for r in recipe_names] if recipe_names else []) + (extra_packages or [])
++        if packages:
++            conf_lines += ['IMAGE_INSTALL:append = " %s"' % ' '.join(packages)]
+         self.write_config("\n".join(conf_lines))
  
- EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
+     def _check_workspace(self):
+@@ -2938,7 +2939,9 @@ class DevtoolIdeSdkTests(DevtoolBase):
  
+     def _verify_service_running(self, qemu, service_name):
+         """Helper to verify a service is running in Qemu"""
+-        status, output = qemu.run("pgrep %s" % service_name)
++        # Use anchored regex (^name$) instead of pgrep -x because the target
++        # may have busybox pgrep which does not support the -x flag.
++        status, output = qemu.run("pgrep '^%s$'" % service_name)
+         self.assertEqual(status, 0, msg="%s service not running: %s" %
+                          (service_name, output))
+         self.assertTrue(output.strip().isdigit(),
+@@ -2959,10 +2962,11 @@ class DevtoolIdeSdkTests(DevtoolBase):
+     def test_devtool_ide_sdk_none_qemu(self):
+         """Start qemu-system and run tests for multiple recipes. ide=none is used."""
+         recipe_names = ["cmake-example", "meson-example"]
++        extra_packages = ["gdbserver"]
+         testimage = "oe-selftest-image"
+ 
+         self._check_workspace()
+-        self._write_bb_config(recipe_names)
++        self._write_bb_config(recipe_names, extra_packages)
+         self._check_runqemu_prerequisites()
+ 
+         # Verify deployment to Qemu (system mode) works
+@@ -3271,7 +3275,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         build_file = "CMakeLists.txt"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name])
++        self._write_bb_config([recipe_name], extra_packages=["gdbserver"])
+ 
+         # Verify deployment to Qemu (system mode) works
+         self._check_runqemu_prerequisites()
+@@ -3299,7 +3303,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         testimage = "oe-selftest-image"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name])
++        self._write_bb_config([recipe_name], extra_packages=["gdbserver"])
+         tempdir = self._devtool_ide_sdk_recipe(
+             recipe_name, build_file, testimage)
+         bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
+@@ -3612,6 +3616,190 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src, output_log=self._cmd_logger)
+         runCmdEnv('meson compile', cwd=tempdir_meson, output_log=self._cmd_logger)
+ 
++    def _verify_launch_json_lldb(self, tempdir):
++        """Verify the launch.json file contains valid CodeLLDB (type: lldb) configurations."""
++        launch_json_path = os.path.join(tempdir, '.vscode', 'launch.json')
++        self.assertTrue(os.path.exists(launch_json_path), "launch.json file should exist")
++
++        with open(launch_json_path) as launch_j:
++            launch_d = json.load(launch_j)
++
++        self.assertIn("configurations", launch_d)
++        configurations = launch_d["configurations"]
++        self.assertGreater(len(configurations), 0,
++                           "Should have at least one debug configuration")
++
++        for config in configurations:
++            config_name = config.get("name", "Unknown")
++            # CodeLLDB configs use "type": "lldb", not "type": "cppdbg"
++            self.assertEqual(config["type"], "lldb",
++                             f"Configuration '{config_name}' should use lldb type (CodeLLDB)")
++            self.assertNotIn("MIMode", config,
++                             f"Configuration '{config_name}' should not have MIMode (CodeLLDB)")
++            self.assertNotIn("miDebuggerPath", config,
++                             f"Configuration '{config_name}' should not have miDebuggerPath")
++            self.assertEqual(config["request"], "launch",
++                             f"Configuration '{config_name}' should be launch type")
++            self.assertEqual(config["cwd"], "/tmp",
++                             f"Configuration '{config_name}' cwd should be /tmp (writable on target)")
++
++            # Verify initCommands contain the platform connect sequence
++            init_commands = config.get("initCommands", [])
++            self.assertTrue(any("platform select remote-linux" in cmd
++                                for cmd in init_commands),
++                            f"Configuration '{config_name}' should select remote-linux platform")
++            self.assertTrue(any("platform connect" in cmd for cmd in init_commands),
++                            f"Configuration '{config_name}' should connect to remote platform")
++
++            # Verify program path points into the image directory
++            program = config.get("program", "")
++            self.assertTrue(program.startswith("/"),
++                            f"Configuration '{config_name}' program should be an absolute path")
++            self.assertIn("/image/", program,
++                          f"Configuration '{config_name}' program should be in image directory")
++
++            # Verify preLaunchTask referencing the lldb-server start task
++            task = config.get("preLaunchTask", "")
++            self.assertTrue(task,
++                            f"Configuration '{config_name}' preLaunchTask should not be empty")
++
++    def _lldb_server_debugging_once(self, tempdir, qemu, recipe_name, magic_string):
++        """Verify lldb-server (platform mode) + lldb batch debugging works end-to-end.
++
++        Reads the preLaunchTask SSH command from tasks.json to start lldb-server
++        on the target, then runs lldb --batch to perform a minimal debugging
++        session and checks that the expected magic string is visible.
++        """
++        sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
++
++        with open(os.path.join(tempdir, '.vscode', 'launch.json')) as f:
++            launch_d = json.load(f)
++        with open(os.path.join(tempdir, '.vscode', 'tasks.json')) as f:
++            tasks_d = json.load(f)
++
++        # Find the first *_once or *_multi config
++        lldb_config = next(
++            (c for c in launch_d["configurations"]
++             if "_once" in c["name"] or "_multi" in c["name"]), None)
++        self.assertIsNotNone(lldb_config, "Should have at least one lldb debug configuration")
++
++        prelaunch_task_name = lldb_config["preLaunchTask"]
++        prelaunch_task = next(
++            (t for t in tasks_d["tasks"] if t["label"] == prelaunch_task_name), None)
++        self.assertIsNotNone(prelaunch_task,
++                             "preLaunchTask '%s' not found in tasks.json" % prelaunch_task_name)
++
++        # Extract the SSH command and start lldb-server on the target
++        task_command = prelaunch_task["command"]
++        task_args = prelaunch_task["args"]
++        self.assertEqual(task_command, "ssh",
++                         "preLaunchTask should use ssh to start lldb-server")
++        ssh_cmd = [task_command] + task_args
++        if ssh_cmd[-1].startswith('"') and ssh_cmd[-1].endswith('"'):
++            ssh_cmd[-1] = ssh_cmd[-1][1:-1]
++
++        # Extract connection details from initCommands
++        init_commands = lldb_config["initCommands"]
++        connect_cmd = next((c for c in init_commands if "platform connect" in c), None)
++        self.assertIsNotNone(connect_cmd, "initCommands should contain a platform connect command")
++
++        # Find lldb binary from lldb-native sysroot
++        lldb_native_sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'lldb-native')
++        lldb_binary = os.path.join(lldb_native_sysroot, 'usr', 'bin', 'lldb')
++        self.assertExists(lldb_binary, "lldb binary should exist in lldb-native sysroot")
++
++        with RunCmdBackground(ssh_cmd, output_log=self._cmd_logger):
++            time.sleep(1)
++
++            # Verify lldb-server is running on the target
++            r = runCmd('ssh %s root@%s ps' % (sshargs, qemu.ip),
++                       output_log=self._cmd_logger)
++            self.assertIn("lldb-server", r.output,
++                          "lldb-server should be running on target")
++
++            # Run lldb --batch: connect to platform, set a breakpoint on main, run
++            program = lldb_config["program"]
++            source_map = lldb_config.get("sourceMap", {})
++
++            pre_run_commands = lldb_config.get("preRunCommands", [])
++
++            lldb_batch = [lldb_binary, "--batch"]
++            for cmd in init_commands:
++                lldb_batch += ["-o", cmd]
++            lldb_batch += ["-o", "target create %s" % program]
++            for k, v in source_map.items():
++                v_resolved = v.replace("${workspaceFolder}", tempdir)
++                lldb_batch += ["-o", "settings set target.source-map %s %s" % (k, v_resolved)]
++            for cmd in pre_run_commands:
++                lldb_batch += ["-o", cmd]
++            lldb_batch += [
++                "-o", "b main",
++                "-o", "run",
++                "-o", "continue",
++                "-o", "exit"
++            ]
++            r = runCmd(lldb_batch, output_log=self._cmd_logger)
++            self.assertEqual(r.status, 0, "lldb batch session failed: %s" % r.output)
++            self.assertIn("stop reason = breakpoint", r.output,
++                          "lldb should have stopped at main breakpoint")
++
++    @OETestTag("runqemu")
++    def test_devtool_ide_sdk_code_cmake_clang(self):
++        """Verify a cmake recipe built with clang works with ide=code (CodeLLDB debugging).
++
++        This test uses the cmake-example-clang recipe which is a cmake-example variant
++        built with clang. It installs a separate binary (cmake-example-clang) so all four
++        recipe variants (cmake/meson x gcc/clang) can be installed in the same image
++        without conflicts. It is configured to use lldb-server for debugging instead of
++        gdbserver. The test flow is similar to test_devtool_ide_sdk_code_cmake but with
++        additional checks related to lldb:
++        - devtool ide-sdk selects lldb-native / lldb-server instead of gdb-cross
++        - launch.json uses "type": "lldb" (CodeLLDB) instead of "type": "cppdbg"
++        - extensions.json recommends vadimcn.vscode-lldb
++        - A basic lldb --batch remote debugging session succeeds against the
++          lldb-server platform running on the Qemu target
++        """
++        recipe_name = "cmake-example-clang"
++        build_file = "CMakeLists.txt"
++        testimage = "oe-selftest-image"
++
++        self._check_workspace()
++        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++
++        self._check_runqemu_prerequisites()
++        bitbake(testimage)
++        with runqemu(testimage, runqemuparams="nographic") as qemu:
++            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
++                recipe_name, testimage, qemu.ip)
++            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
++
++            # Verify the cmake preset still works (build system unchanged)
++            compile_cmd = self._verify_cmake_preset(tempdir)
++
++            # Verify the install && deploy-target task script exists
++            self._verify_install_script_code(tempdir, recipe_name)
++
++            # Verify extensions.json recommends CodeLLDB instead of / alongside cpptools
++            with open(os.path.join(tempdir, '.vscode', 'extensions.json')) as ext_j:
++                ext_d = json.load(ext_j)
++            recommendations = ext_d.get('recommendations', [])
++            self.assertIn('vadimcn.vscode-lldb', recommendations,
++                          'vadimcn.vscode-lldb should be recommended for clang recipes')
++
++            # Verify launch.json uses CodeLLDB format
++            self._verify_launch_json_lldb(tempdir)
++
++            # Verify deployment and lldb batch remote debugging work end-to-end
++            recipe_id, _ = self._get_recipe_ids(recipe_name)
++            install_deploy_cmd = os.path.join(
++                self._workspace_scripts_dir(recipe_name),
++                'install_and_deploy_' + recipe_id)
++            runCmd(install_deploy_cmd, output_log=self._cmd_logger)
++
++            self._lldb_server_debugging_once(tempdir, qemu, recipe_name,
++                                             DevtoolIdeSdkTests.MAGIC_STRING_ORIG)
++
+     def test_devtool_ide_sdk_plugins(self):
+         """Test that devtool ide-sdk can use plugins from other layers."""
+ 
+-- 
+2.53.0
+
 
