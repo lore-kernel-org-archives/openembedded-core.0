@@ -1,101 +1,78 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A79FC72D0
-	for <webhook@archiver.kernel.org>; Sun, 22 Mar 2026 17:26:24 +0000 (UTC)
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34478.1774200382646403512
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A36D58CAD
+	for <webhook@archiver.kernel.org>; Sun, 22 Mar 2026 23:01:49 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5695.1774220506948391674
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Mar 2026 10:26:22 -0700
+ Sun, 22 Mar 2026 16:01:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NpnzCJXB;
- spf=pass (domain: gmail.com, ip: 74.125.82.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-128e4d0cc48so2163513c88.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 10:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774200382; x=1774805182; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xo1+ZOg9bayxtrMi25M+Hf2J3bzD1kPOgHjqvF+xh1U=;
-        b=NpnzCJXB4npDvvA8druDeIZ6X0+n8UAxRF0i7ZcGgSHtFWHniV5uC3DCsVAuL2EVL+
-         N5kmx6hw6FHRfm7+7PHpW2wz2YDYJXKq2fqhOUF/7LPdRIyi4v+uWVYF5+rNCx6rnbX+
-         QZueUE12RHVB4ek+WdUrr1Ok6AuZpmI0xeKXXFDSuMxVogBqq6/ImvJKpmZnrsP+oqsY
-         lB/F/OmMEqaRxxOfLmQk8kEDTTD3b5U3lYG4Ghs/4373cedn83+T9fI1lg39xryeWYLn
-         OF1h1MwyvOsu8ygJCeMv0UhdclT+/oZr0mc8NV3i0dXeN+cmWkWOJE+ckCS1gruWwzMu
-         lyXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774200382; x=1774805182;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xo1+ZOg9bayxtrMi25M+Hf2J3bzD1kPOgHjqvF+xh1U=;
-        b=ZwEEJ9KT/mgDwcCQyJhIqsZCFdfJ0G/vo1/xi+4bZLykCSTfwWoZ72/hyl1JxrzlKM
-         /enj8mxcwxj2oggabCb51DL/Iuag2Xm+XaIzSoWmet7gdAAdhE0RHm0epcwE5NTJ98kS
-         HsCbJTGhM7MDU0AKwm8nmHluwoe+gDgugaTbA2QhRQ7xukLbjspzND1f7XduoCURiZlW
-         hz25EGjHUJio/v09k0fRi/dZYCk3D8iaDVIotD+SGX4bAhNy2GCbD8P6R4XOL2CwHomJ
-         OPwW7Luq3LmPEQXIbpbtuyHpfXSkTFP5FY190aZgm8XKmmP0tRj1sB50xYmYbMo3SS4P
-         E6sg==
-X-Gm-Message-State: AOJu0YwUFdVILpVXQqTeKfdInvcYiBkz9H8UOIliEi/3rKiP/ObC7A2a
-	FQZrMhUaCZKJKMEQ99nxHXxCp2xf046ZcVNNPjNINmnESzpVGCbRTGiDvgum/rtm+9ghKQ==
-X-Gm-Gg: ATEYQzxyoDCdOb9vF3ENrerKycxvht2WiRlhIcnjDnAEHSo0LvAfiYhCocC739pdZSH
-	MsA+tyHf16wnItrikbNfMk4RdIHQLUZ5Go6EGgyH7bBPODEWQaZYNDgz+Aaa87pF10Q/Mi1I33j
-	zZnDnECxHRfCLdpoN/qkHyE/NwHh+9ZlVv6Divlr7qSeTnHzNUpapBu9WZTiFtqGmATtS/XxxQJ
-	WlIuPBz3YprNcKtapTSL3I4Gle5Ceku7gvpcbGWgoGNny9bwJQ+EF0Ns5RB1D4b3U3LqanhcwL+
-	dp9dveWFqvPyP0j5lcyPfADxJnXh6TIEIFD8nj5K1FOSENSHgmy4La9JYufrOt/cyExztj/0g4U
-	fpo9o5NrhwAL+2HqLSC2iknhw5WfiRTr7RxjwqaBs817QV57o1ngEmgpNJeX/r+ptKrWawabq82
-	YibBonrbYcQ77Mec4AiouwIhimS21/72S+byM7I8odWLoBLgJKnuGY34FWlDfaEKjS630t0osCa
-	0TG0jH8OEl0o8jOH4yvGdZCMXnR/u+DBojRcrSoK18NiOg/cGabkHBHW8ft
-X-Received: by 2002:a05:7022:43a4:b0:128:d5bd:3572 with SMTP id a92af1059eb24-12a726f5b50mr4689695c88.31.1774200381663;
-        Sun, 22 Mar 2026 10:26:21 -0700 (PDT)
-Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a736b952asm7716349c88.12.2026.03.22.10.26.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 10:26:21 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=D3qmqTlX;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202603222301437f34de438e00020769-6zdlr0@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202603222301437f34de438e00020769
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 23 Mar 2026 00:01:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=YP+x1pSJvYkMs7W5THd9qPox8lRrfqVLMOHr5D8uBt0=;
+ b=D3qmqTlX/2zZ6iMzhoumirXAK98watExqpZiE1saICGlHqdi2VSgNfNZ6XCF5M4MwBAn1G
+ O7QpSYQKdp+mIIBN0hH1hpdYAFEjDFhTFB1TpljH1X5y+EAia/tsppYFLpT83x0YdECCXROq
+ HNA0ISBvDe5ptEGUezh8ihh/M+qx+zBWytzma3dz4EqLdQYQxQwnZqdaX0EvB+7/G89Gfkry
+ mf5ku7b5jyW/ehy0KvoTOeuHYKo2ThHrxwoqHf3A7wYNTIAdav7f3z1J4wyQP2+MmnqRXI6I
+ mARIRTlTkZyewZhU7WFMEnYbtUsWNWffVQs7z2SZ3az4gTG3jODULM5A==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] classes/cpan: Convert tabs to spaces in pythonic function
-Date: Sun, 22 Mar 2026 10:26:18 -0700
-Message-ID: <20260322172618.2481145-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH 1/4] btrfs-tools: upgrade 6.19 -> 6.19.1
+Date: Mon, 23 Mar 2026 00:01:28 +0100
+Message-Id: <20260322230131.12001-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 17:26:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233683
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 23:01:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233684
 
-Makes is adhere to OE-Core coding conventions
+Release notes [1]:
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+* fix balance filter 'usage' that was incorrectly used for ranged usage
+* core:
+    * fix tree-checker vararg format print
+    * stability fixes
+    * compiler warning fixes
+* other:
+    * CI updates, action version updates, more build targets
+    * cleanups, refactoring
+    * minor documentation updates
+
+[1] https://github.com/kdave/btrfs-progs/releases/tag/v6.19.1
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/classes-recipe/cpan.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../btrfs-tools/{btrfs-tools_6.19.bb => btrfs-tools_6.19.1.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.19.bb => btrfs-tools_6.19.1.bb} (98%)
 
-diff --git a/meta/classes-recipe/cpan.bbclass b/meta/classes-recipe/cpan.bbclass
-index 87ebed124a..dbf44da9d2 100644
---- a/meta/classes-recipe/cpan.bbclass
-+++ b/meta/classes-recipe/cpan.bbclass
-@@ -70,12 +70,12 @@ cpan_do_install () {
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.1.bb
+index 460f70a35a..dee1270fa0 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.1.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v${PV} \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "9ac9a97ee3ebcc71c584a202a31ccd6442c436dc"
++SRCREV = "fa79dbea32d39ac0ae41a88a079013c7ad2a8a58"
  
- # Generate ecosystem-specific Package URL for SPDX
- def cpan_spdx_name(d):
--	bpn = d.getVar('BPN')
--	if bpn.startswith('perl-'):
--		return bpn[5:]
--	elif bpn.startswith('libperl-'):
--		return bpn[8:]
--	return bpn
-+    bpn = d.getVar('BPN')
-+    if bpn.startswith('perl-'):
-+        return bpn[5:]
-+    elif bpn.startswith('libperl-'):
-+        return bpn[8:]
-+    return bpn
- 
- SPDX_PACKAGE_URLS =+ "pkg:cpan/${@cpan_spdx_name(d)}@${PV} "
- 
+ PACKAGECONFIG ??= " \
+     programs \
 
