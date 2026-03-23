@@ -1,118 +1,92 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D722F483F4
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 20:07:48 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4411.1774296462563851899
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C178F483F5
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 20:15:58 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4369.1774296953199403550
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 13:07:44 -0700
+ Mon, 23 Mar 2026 13:15:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=fa1Ym/w3;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026032320074313386d3dca000207a3-9idt2f@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026032320074313386d3dca000207a3
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 23 Mar 2026 21:07:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=8drfzXRXYPYfXskVH6hboknbhxuJY8xl6P57JutUGGA=;
- b=fa1Ym/w3SZ0nqFNCNbqlJBXBUibIMJIM6Og27fi9CBP5zgTUXEuAJ7Bl9PML05fmMcs+XI
- Eow2H7cgDpbCcEnZl67dA0TkfaD0lJWJoC3jVze9smVE4mcj8qhqSWVv9CfYddN37Y8hlhWc
- JoFAiS6IY7Vyqwp+xwEvkZMDzeGMz6Dbxn3DACsIkaoTUtNGT2ZK8OHWwvXqn+D7v3jOIOUX
- 3N4gnzlNWidWJqykK1+M/ZFoeKvHtgVs0jA0cP9D3qDtuhcD+Iz6cfUQpVA/gtGizDTKKQiR
- O/IareZZv0BCKbrKhF2TOyRzWUG/O95Aowb2u12mxtQ7sqHnVOrdN8uQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [meta-oe][PATCH v2 3/3] jsoncpp: upgrade 1.9.6 -> 1.9.7
-Date: Mon, 23 Mar 2026 21:07:15 +0100
-Message-Id: <20260323200715.11652-3-peter.marko@siemens.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jW9VCAqb;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=iQSxKSIp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019d1c56edf2-29b3c310-5df9-4ce2-adb8-74c88d21bf1c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1774296952; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=GiKxggdqneD7uDf0GgB+YLp7iKu5Xb1zIpyTJVucr4w=;
+	b=jW9VCAqbhgj65Qt9voo8H9tb9wmlIUBLjETKgW4QibqwZi5mZSHpLXxTeD1vCuat
+	B0sdC4jtL2QrsQu0fg5TiAaA9ZknoUM2Mij855MmdO5wg1oq9jY2dMWZltHdOBN/W8V
+	BqHCTtM9p+n+GfgfDaszu5zvNQ4UurBFp363DVaA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1774296952;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=GiKxggdqneD7uDf0GgB+YLp7iKu5Xb1zIpyTJVucr4w=;
+	b=iQSxKSIpRDvREHmHW/3qKLt2TtizEa4/0MAy4sOdsZiRERzEbTwDm6Tb4odJ/Orv
+	u+vbZCcnxP+O5TXMBIUL8OD7LzrVM7VMMUzIHOqbEQTvpJtcD/NQboGISi427acTlEh
+	S1hr6U5+wpuyQCH5gSTKwc4clTRrw5jECzmnkFMA=
+From: patchtest@automation.yoctoproject.org
+To: Peter Marko <peter.marko@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [meta-oe][PATCH v2 1/3] lvm2: upgrade 2.03.38 -> 2.03.39
 In-Reply-To: <20260323200715.11652-1-peter.marko@siemens.com>
 References: <20260323200715.11652-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019d1c56edf2-29b3c310-5df9-4ce2-adb8-74c88d21bf1c-000000@us-west-2.amazonses.com>
+Date: Mon, 23 Mar 2026 20:15:52 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.03.23-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 20:07:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233759
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 20:15:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233760
 
-From: Peter Marko <peter.marko@siemens.com>
+--NextPart
+Content-Type: text/plain
 
-Added tag to SRC_URI.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Release information [1]:
-
-1.9.7: Bugfixes, build system cleanups
-What's Changed
-* Fixes PreventInSourceBuilds.cmake to work with add_subdirectory by @morbo84 in #1383
-* json_value.cpp bug in the edges of uint/int by @YaalLek in #1519
-* Release 1.9.6 and move versions to 1.9.7 by @baylesj in #1566
-* Fixed work secure_allocator on old compiers by @TsynkPavel in #1478
-* Fix flag -DJSONCPP_USE_SECURE_MEMORY:BOOL=TRUE by @tfc in #1567
-* fix(build): remove check_required_components for meson build by @chenrui333 in #1570
-* the cgi module was removed from Python3.13 by @a-detiste in #1578
-* Fix name of static library when targeting MinGW. by @mmuetzel in #1579
-* Fix comparison warnings caused by 54fc4e2 by @JensMertelmeyer in #1575
-* Drop pre-C++11 alternatives by @BillyDonahue in #1593
-* feat: support std::string_view in Value API by @evalon32 in #1584
-* Added Value::findType with String key by @SwintonStreet in #1574
-* Set up for Bazel module builds. by @bcsgh in #1597
-* Add a BUILD.bazel file for //example. by @bcsgh in #1602
-* Fix "include what you use" issue by @victorvianna in #1625
-* Make the build configuration under Bazel more correct. by @bcsgh in #1600
-* Add Bazel tests by @bcsgh in #1601
-* Return false in Reader::readValue when stack limit is exceeded by @xuhdev in #1619
-* Remove deprecated/removed clang-tidy key AnalyzeTemporaryDtors (#1614) by @bmagistro in #1615
-* [docs] Consuming JSONCpp via Conan package manager by @uilianries in #1622
-* Cleanup README.md, fix broken link. by @baylesj in #1633
-* Add gcovr.cfg to fix CI coverage merge errors by @baylesj in #1635
-* Remove build directory exclusion from gcovr config by @baylesj in #1640
-* Add test for allowDroppedNullPlaceholders by @baylesj in #1648
-* Prevent test colision when running in parallel via RESOURCE_LOCK by @marty1885 in #1637
-* fixup project version updater by @baylesj in #1649
-* Update README with project status and focus by @baylesj in #1639
-* Adding a cmake option to exclude the jsoncpp files from install. by @nv-jdeligiannis in #1596
-* Change stack depth limit to 256 by @baylesj in #1657
-* Fix uninitialized CMake variable in version.in by @baylesj in #1658
-* Fix CMake deprecation warning for compatibility with CMake < 3.10 by @baylesj in #1659
-* Scope JSON_DLL_BUILD to shared lib target only by @baylesj in #1660
-* Fix number parsing failing under non-C locales by @baylesj in #1662
-* Reject unescaped control characters in JSON strings by @baylesj in #1663
-* Fix MSAN issue in #1626 by @baylesj in #1654
-* Fix string_view ABI mismatch between library and consumers by @baylesj in #1661
-* Revert "Fix number parsing failing under non-C locales" by @baylesj in #1664
-* Fix use-after-free in Reader::parse(std::istream&) by @baylesj in #1665
-* Update bazel config for 9.x by @keith in #1655
-
-[1] https://github.com/open-source-parsers/jsoncpp/releases/tag/1.9.7
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../jsoncpp/{jsoncpp_1.9.6.bb => jsoncpp_1.9.7.bb}            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-oe/recipes-devtools/jsoncpp/{jsoncpp_1.9.6.bb => jsoncpp_1.9.7.bb} (90%)
+Testing patch /home/patchtest/share/mboxes/meta-oe-v2-1-3-lvm2-upgrade-2.03.38---2.03.39.patch
 
-diff --git a/meta-oe/recipes-devtools/jsoncpp/jsoncpp_1.9.6.bb b/meta-oe/recipes-devtools/jsoncpp/jsoncpp_1.9.7.bb
-similarity index 90%
-rename from meta-oe/recipes-devtools/jsoncpp/jsoncpp_1.9.6.bb
-rename to meta-oe/recipes-devtools/jsoncpp/jsoncpp_1.9.7.bb
-index f68ffd2c0f..b70a84304f 100644
---- a/meta-oe/recipes-devtools/jsoncpp/jsoncpp_1.9.6.bb
-+++ b/meta-oe/recipes-devtools/jsoncpp/jsoncpp_1.9.7.bb
-@@ -13,8 +13,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d73c165a0f9e86a1342f32d19ec5926"
- 
- PE = "1"
- 
--SRCREV = "89e2973c754a9c02a49974d839779b151e95afd6"
--SRC_URI = "git://github.com/open-source-parsers/jsoncpp;branch=master;protocol=https"
-+SRCREV = "3455302847cf1e4671f1d8f5fa953fd46a7b1404"
-+SRC_URI = "git://github.com/open-source-parsers/jsoncpp;branch=master;protocol=https;tag=${PV}"
- 
- 
- inherit cmake
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
