@@ -1,153 +1,90 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5E8D58CC8
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 03:11:30 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9376.1774235482450773422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5983D58CD0
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 03:25:20 +0000 (UTC)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9698.1774236312912474912
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Mar 2026 20:11:24 -0700
+ Sun, 22 Mar 2026 20:25:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=L7y0eN8I;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7542962ecc=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62N2e4P33415377;
-	Sun, 22 Mar 2026 20:11:18 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=HRjES0RIU/qgfT/vUl7x
-	U57Z4UK7usFrzhO6BwRWGx4=; b=L7y0eN8I/yHeqp4EXv9gty+OxL1eT6aYNIRj
-	fVgWGK1tVw/XkWZiqLqFBn5P+jHpjoHJEB//LPDCS++VWZ7BqHbNNmXuNQrfprKl
-	IzqjQCbYNTgZwJMiHlFdcMNUTJhxVsnVGxusZ3GmAbQMvTVNFppg7bhwkY1HRGYC
-	BNyHd8YsruVkxd95YvIE7a3VYKgntNn87cBxrwrGVkmsu/rGVI2hjUuFCAUkPd5e
-	CWkJu5+l0yva43qcvyqJdmxEQFKTAkUMuwKjhTvPZ+Q1GgYJrCi+3QYuyPDLLFKn
-	Rd4JVD95cnrAlR1s0DbWp3H4HqXg6uVrbKMdrZeRzafGh38APw==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4d1pky97ed-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 22 Mar 2026 20:11:18 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Sun, 22 Mar 2026 20:11:18 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Sun, 22 Mar 2026 20:11:17 -0700
-From: <jiaying.song.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <Ross.Burton@arm.com>
-Subject: [PATCH v2] python3-pyzstd: Upgrade 0.17.0 -> 0.19.1
-Date: Mon, 23 Mar 2026 11:11:16 +0800
-Message-ID: <20260323031116.2513728-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NUqvIY5G;
+ spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-506aa68065eso36300961cf.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 20:25:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774236312; x=1774841112; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8JrU1mHh6UKPWGlJjrKs+8JnMsFdQSdNZYqX7g7+J0=;
+        b=NUqvIY5G9hg/QIWFtaN09qUwvA9PZqwJQJ7AwwL3owL5S5iQvaX/PKSfl4dTqCy6I8
+         Z18xZOj/0N4B8Vg7Cvw7n6Op8PTiUE60ZXxHIoUapYqBwwUtSGbPRIMVgfx9T9dmaynq
+         8Xa2w0v7kspUvvFWV0QVcHE/wRILSSAHyywryq2IfxJ3a969nJsR/7wN3B3IEI/JEmKD
+         CwcqmshqS8J0/OoygcC2K4FQOEarvKP16IwhL80lEQinbBIsU0pzrefdeQO/MJZp8K64
+         lKlrQapApZvFLO+gkF4gwk7lOj3T5HEk/rcW9jWqOdNi/9gBP1mKDxnUxDRA7ioIswVc
+         8+4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774236312; x=1774841112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l8JrU1mHh6UKPWGlJjrKs+8JnMsFdQSdNZYqX7g7+J0=;
+        b=Fa5cYTIe5YgiqxMS0w6psa5vnmF18hg0BuaWOlcBnete3jvBEcc0ks0vjO2wTJx8g7
+         wYGfnThfKW3N6W3C6TwvUL5u1M94tAZcvaY0Nj7f2s0P+FcUzf1cf3oc7zCcbueo9BpM
+         pJ5+Luk6qZe8LfkIJKVpQ2w4D5GT8YF2SeEUrwCfvD6xdlPrpIx7CC4yXtJI8ZkbSFuh
+         bglobamJPweeH1l9vYSIxZmMx3YU9FKGjkPWQjYZUDbx5sdE1c4yBTND3IjVZpREU/i/
+         jc1bEuXEJEan/VeR8Qd8HYsrzBI2m84Cea7696HkeMNdgSJjG4sEOYkeXHcvxUDciT4K
+         H3Gg==
+X-Gm-Message-State: AOJu0Yy3wE4e2Enr/IF4e7JhbHmFGeCr4oJLsnL7M7iXZuugy8T9W6Ut
+	/B3SiKVtQthfQwVXeUD5dlKE7J+Mq0uWeLwHY/JOK5x/mR0LejdM0AX5
+X-Gm-Gg: ATEYQzxHZVmKGH+IFzioYGL6Kj9HL/IvSFTMpqoqPcDqHxWIO4qXNxS3FKvzuiv3Rw9
+	B6YmDnXWp76ZIcOBrQI8iwGB2aMO2KPgueEStvY97uZnMB4VO+Oy30q4V5+TeZjTqgbRmZItOLf
+	vlGHJM350voR6eEOMXjtswK9CDqH+6dCP25XO2J7qujrumbmMG9D89kj9XzgiV7pKrnU9aLAHh/
+	LV36RceqlgETAclPRcQKJnpcUdJ8X1cP8WcXWFXKdMHy7oa/IkP81wdP9fJIONCQWs493ufR0Bm
+	nLdy6bUhFiVw6sRinUUafT02+BBYWL5YGsUqmGY6dbUvzjUYiY3Q2TdBWMDRgNp1zlvj/1Jxpt7
+	ngkrJQl2M4h/U0GScEJw9twnWkhvtYPmRdyJdRVI/O6Z8dbg+dUnK1zNqc7pSBEj65pCTkX+G4R
+	bnpCKKwG9Ecz6DLUy8DjCQpApHh+17MXqual59/PiuCJUwXPwv8ItIzxiAL2RO78JtY9FTDZRtb
+	PhDSzgfr7oVAS6dEgzKXXHub++OVZDJwqcfRmRh3QzUgrjZMO729lM0SkM=
+X-Received: by 2002:a05:622a:480f:b0:50b:3d9f:384e with SMTP id d75a77b69052e-50b3d9f3a40mr163466541cf.44.1774236311840;
+        Sun, 22 Mar 2026 20:25:11 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b36e34f8bsm89352351cf.15.2026.03.22.20.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Mar 2026 20:25:11 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: yoann.congal@smile.fr
+Cc: openembedded-core@lists.openembedded.org
+Subject: [kirkstone][PATCH 0/2] linux-yocto: -stable updates
+Date: Sun, 22 Mar 2026 23:25:07 -0400
+Message-ID: <20260323032509.1590084-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDAyMiBTYWx0ZWRfX8XNubuB7LYkD
- 2e/nAYnNn39Cnm0+10preVVqR6F5BDK/zJhjehdt0HEgt1xwgmqsXlqCD5+m3d4g/bgJVDUQUHK
- rVuDZn7nro8pDn2MWP6JOySeHRksIvTIMqmGrFofl9aZMR95QDVmWAe1yugXA6Q1Kg45fAQURGT
- 5gvIyYNgYiFDJ74rguYrJZG4h5P7HPqi287bDFn8KPlMcYb2rG6OWq1dBLg+Z1XPwGpKSjscO4R
- DUWpZ9QOazM2qc7QxMzcZZAp8NN9W9CE6CjcbDNAgCLKWoMvnMozhpN/Xdq4RrQikgFRKf4IfhI
- 3xE3xrnyXffawcnmTPslvsJpy+Ao4OlcR1MH2oRiZFOM6O1XclTPj+QcqVjqXVjXD2kDGJIaQUi
- kmQRsCUphQIxMDF7pveWBP6ITGI/7plSxIlcpQgDqA+xVc7B1m7qlhSIcukarzNtFV5K8Dcz2IO
- o6wUd7kwtiNuL6HXxOQ==
-X-Proofpoint-ORIG-GUID: KHsbkhWJGv8thKwhfYF_n3SDvJeUzOg3
-X-Authority-Analysis: v=2.4 cv=Scr6t/Ru c=1 sm=1 tr=0 ts=69c0af56 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=HK-ge7EqtdluswH-FwHe:22 a=nQYV5XC8AAAA:20 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
- a=LBSX2RE2-p1LFtTRt-sA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-GUID: KHsbkhWJGv8thKwhfYF_n3SDvJeUzOg3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-23_01,2026-03-20_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 lowpriorityscore=0 malwarescore=0 phishscore=0 adultscore=0
- suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230022
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 03:11:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233690
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 03:25:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233691
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Changelog:https://github.com/Rogdham/pyzstd/blob/master/CHANGELOG.md
+I saw Yoann's message about the last kirkstone LTS release.
 
-Recipe changes:
-- Remove 0001-Remove-setuptools-version-limit-of-74.patch (no longer needed)
-- Switch from python_setuptools_build_meta to python_hatchling
-- Add python3-hatch-vcs-native to DEPENDS
-- Remove obsolete do_configure:append:arm:toolchain-clang (setup.py no longer exists)
+Here are the -stable updates I have pending for 5.15.
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- ...emove-setuptools-version-limit-of-74.patch | 27 -------------------
- ...std_0.17.0.bb => python3-pyzstd_0.19.1.bb} | 11 +++-----
- 2 files changed, 4 insertions(+), 34 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-version-limit-of-74.patch
- rename meta/recipes-devtools/python/{python3-pyzstd_0.17.0.bb => python3-pyzstd_0.19.1.bb} (53%)
+Bruce
 
-diff --git a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-version-limit-of-74.patch b/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-version-limit-of-74.patch
-deleted file mode 100644
-index f2910322ff..0000000000
---- a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-version-limit-of-74.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 9 Apr 2025 14:38:31 -0700
--Subject: [PATCH] Remove setuptools version limit of '74'
--
--Upstream sticks to 0.74 since setuptools have dropped msvc9compiler
--support beyond that which is needed for python 3.9 on windows. We
--do not have this problem on Linux
--
--Upstream-Status: Inappropriate [OE-specific]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- pyproject.toml | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/pyproject.toml b/pyproject.toml
--index dd885e4..5d4d511 100644
----- a/pyproject.toml
--+++ b/pyproject.toml
--@@ -1,6 +1,6 @@
-- [build-system]
-- # setuptools 64+ support --build-option
-- # setuptools 74+ drops distutils.msvc9compiler required for Python 3.9 under Windows
---requires = ["setuptools>=64,<74"]
--+requires = ["setuptools>=64"]
-- backend-path = ["build_script"]
-- build-backend = "pyzstd_pep517"
-diff --git a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb b/meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-similarity index 53%
-rename from meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-rename to meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-index af7069b6ed..ccf37eacf3 100644
---- a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-+++ b/meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-@@ -9,12 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aedb5a2679cd1552fb61c181ef974b9e"
- 
- PYPI_PACKAGE = "pyzstd"
- 
--SRC_URI += "file://0001-Remove-setuptools-version-limit-of-74.patch"
--SRC_URI[sha256sum] = "d84271f8baa66c419204c1dd115a4dec8b266f8a2921da21b81764fa208c1db6"
-+SRC_URI[sha256sum] = "36723d3c915b3981de9198d0a2c82b2f5fe3eaa36e4d8d586937830a8afc7d72"
- 
--inherit pypi python_setuptools_build_meta ptest-python-pytest
-+inherit pypi python_hatchling ptest-python-pytest
-+
-+DEPENDS += "python3-hatch-vcs-native"
- 
--# clang-16 with -flto segfaults on arm, therefore ignore flto for now
--do_configure:append:arm:toolchain-clang() {
--    sed -i -e "s|'-flto'|''|" ${S}/setup.py
--}
+poky (2):
+  linux-yocto/5.15: update to v5.15.200
+  linux-yocto/5.15: update to v5.15.201
+
+ poky:
+ meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb      | 26 +++++++++++++-------------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
+
 -- 
-2.34.1
-
+2.43.0
 
