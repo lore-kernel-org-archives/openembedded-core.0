@@ -1,103 +1,117 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F086F46111
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 13:35:45 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17548.1774272937276831359
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C35F46115
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 13:51:05 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18023.1774273859732464410
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 06:35:37 -0700
+ Mon, 23 Mar 2026 06:50:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KKx4hR/I;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-899fac9caabso1428546d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 06:35:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774272936; cv=none;
-        d=google.com; s=arc-20240605;
-        b=S+a7Li/kftL6+YEPQuf/KeFn3Xsmd6tmDlZ0b4r8g9misFg/D74rG+jLIDwj81cgJa
-         qynJMHO2Zia3I7aUPoCDocsYMehTyzBMaqxmthJpSG0gYZkSIs/l2I9h1ckchblGL4XI
-         rG3eLFo2we8kglQHYLWeBkEmaazUWIldBYTHCEHtse+biHrO9b9i7p4LMzNDLicC9qw1
-         2yf5MZuuRbFYDPcl48XiVpk4QTkHeSzMlYxaRlxD2Un5iN3OF/IoG7jAEB3TwS53Bb7X
-         74Ud5TVqtGf9h8/nKxQlJdCkzRMsxLWebHZFF10TEJBTbcCvLgl7bJBKmONWLneKkc7A
-         CYkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=YtMmO7LQujfQHKBo/M9t4xfGhG5AohCWzN8wp2o7cDw=;
-        fh=4/VLzmdsB67b5QS3gAGn5SFlubdIP7IZdjQDpgAPwSE=;
-        b=XwXZHYRkWhrRK3QDaYGq6v1o6I8YZpuZrfp6tsY7JUlex6i1JSwRxMrCCUzPquktik
-         U61/iQVfKnazjMDiBzwkRFeOKi5ez624fR+t9oZ41hm8674k4N9OVWM7gqysFXMdmR7I
-         VN/08/j01EneRwZQ9LwdiOS75XQpY2bkOrLISUHs/4+wBq5I09DFbyANzufyeawq8B08
-         ySlMIYLRiBjcJwsGNC2Vy8ekLIXbgw8KRlPafCm4+ex5wPSChy20OV6JHFFMf19RYPrM
-         IdRgI20TJUmO3beXZi0PsJy8khujVkXvYJs5wWVMqEyzjeuHbKQP8B7t0cacfvQ4/hqc
-         1HTA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cgeYHPIc;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5091d71aa11so52291251cf.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 06:50:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774272936; x=1774877736; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YtMmO7LQujfQHKBo/M9t4xfGhG5AohCWzN8wp2o7cDw=;
-        b=KKx4hR/ICiRVTOBn8TWeSdEnwfyEaIitXX7V3090R605OguX1h3TAPV6GD+Y//kuCO
-         gj+Gg6InUd8c9fnO2VDI3nVU4uC7XWIeJJROdBgmxSHWc+32VIBIU37gq/HKJZ8H+Wn/
-         +7ABu4bh1a4ZWRx71t2w1zKXBG7ssbUkYSDfFUu9jHdKjrDyy7glxitVOxJAhXwSxd24
-         uhRji/vjsLw9Pmimil26a13Zd4hswc9q8O85ZRBlbimsS6Uw5zWf302M15mg3GCot6Es
-         RSCvCgtMD9KWfp5DVHKpgvyIKuBxdygVQkH/61QBkVmqJAo4uO7BncCyNEKpPb66OLjI
-         UsRg==
+        d=gmail.com; s=20230601; t=1774273859; x=1774878659; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k6PIZiE+R6OwHZh5B6SNxEs6ZEt7RzDaLshQjXPEUeU=;
+        b=cgeYHPIcekJQ0O5nrzjLZoVbpk2+N1drjyTDbr4z1WytZQ689syq+7m0wxbM181pjV
+         pW/zKT0kzjsEyxDvXIl7LoVXVYL4jWynMRFWEcUfgycZesK5DNLTwh0W2WigRuLmQl5Z
+         Tdkipi8lDbXh2wYz8QDP5iZybSXnjx/65Klki8eOYgf1ekQ395FBfiA9T6HxMZwcwnMK
+         WQE+dzBKHhdT0NgsivQEca8sX+ffBb2LEA5WRr52sXMSeRZMiXd4S6OWS/Bx16QY3Ej8
+         tRDOfwOnxPwt1wL/tPFQDscC7qmZDiukzj2PY1sqmVDbMyX6fGMOLqPapMPAx2kEYoVC
+         DXEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774272936; x=1774877736;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1774273859; x=1774878659;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YtMmO7LQujfQHKBo/M9t4xfGhG5AohCWzN8wp2o7cDw=;
-        b=Y09uMpPEh4cf03dhvOAUEyUnRjVCJv8iPlUJwQkvFXl7sGrssS8gbFIopEFf2QrKoR
-         OrTVYNH+L0RKGUwsMkyT4A44Xywrn+9ahgfAyBstN9lT5REU6OX8JxLhAct7eiGz++lj
-         rZyprwRzEZ/bRoyLFU6UnIv2qMwUpJD1yBoQ+y/IlSpA0vgEEieHz4aRDaGYX5xQKASb
-         XbqxqdhD7W58teDkZpvIZfUhqEL6yNI4Sei1tB6QxDVAt58KSecurtVCY7cZIHhuipBB
-         /9wguNxcjNomDxooUxRHREW5LukrEMkr0PF11ttAuHlB7/rmerlPFH00VgzpDPXDEEDr
-         0qZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9Kzk4yxKuHv7WnUyzU0hj9gEMEyUh7pW9E/ujO2eDm2RuqqONfQmyE71AN5g0AvDnLuRQDS6nV/Be1kXPt/WBHA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw3PWUdZv5fO6LxheIjsxWLFUdfehU4uAS8UJEiV8BGyoxcjPYl
-	Cy5Qs6NCugifmJx81Kld1w+C+SWiQGefoyBzJAVCeQ/9Zp/nsS6k7gFHX42nB7MK7C2/os9IMz7
-	hiPdRSR1RuzUxkt0s41MQaxhILys/stg=
-X-Gm-Gg: ATEYQzzzVCtHaC83moNBGOsJ4DIDSrCSYMyJ6Uc4vfa9jpIwskbZUsSkgmyqjesg9ry
-	SdqxGttfaZwKttVyu/dV2R4punT6VSCIUsh9J7ZjfjLJjp8avf675pTFaRraNnwthZfoK5KZa0D
-	9reXklx/aP7b/hUMOy0BTmqr0nvNilRQF+GbOrwgdHdJqMdUJeQefg/paVBgeAtgp+05rmhIx1G
-	jFyVlQcsn3e9ARhjljKUuCmxas8sTe6ULc+GXyMxOmlcBCYE9kh++HvlSvM97xyUE7EuXRy2HsM
-	bqpzkI6tnArfa6iJA/CrS5FoJQnDUtFj8BwRLkDmiA==
-X-Received: by 2002:a0c:f101:0:b0:89a:90e:3a1b with SMTP id
- 6a1803df08f44-89c859fa7e0mr151446716d6.25.1774272936205; Mon, 23 Mar 2026
- 06:35:36 -0700 (PDT)
+        bh=k6PIZiE+R6OwHZh5B6SNxEs6ZEt7RzDaLshQjXPEUeU=;
+        b=THC3EY6/I5mKqbwARRvqtsnbNr+R2VfKwFXTsu4SLworLiefe5NdQmbclZpS/XEnhS
+         JXsOc96j9/AzRNPNyT2qAE2to6Rz6bp+u5vtufnaQUdfF1c22CcRoH7/o94DRJn4TQjd
+         Yb8pCXfGSw/ikRLbMv2CWFV+LH+H82YBZaZTBYmHuzORFqc4jx+mlvXGdU3vVBcSHQuQ
+         owY/XCc1RU/wrtpsfkV49KoPiDo+njV+/yE1haXFrL0pFIu6WVOrf6bUJCu35jvf1OrL
+         BJcpNvLsQLLYCJ+ZZSAhMX8Ok1Uh23JL3gHTRtgJKgWfDb6HzWMHbdAP1ZtZ4/db5TFM
+         zRFg==
+X-Gm-Message-State: AOJu0YyGDTcvD9vOGIBufWFYZPFn1MERlESP1XzZt0AUoLDieRHiaAE/
+	G8sZkeejEpBfufMqfvjrG8n1DPts5/RlUIjJ1hdr5AI2HLeEvKtuUY7r
+X-Gm-Gg: ATEYQzyzwFfnpqccFjaMq3ebuvp2AxQG9MTm3Ie1XAcK3LMcJqo/6xTSR911EZtdufC
+	bbJ6UVV+KE6VXmN98RRee+RmXc7UwaoahdpMAVyFwKQ+41W9FcToVfIl3ZWQEJmJuEHDDKIaNN5
+	7spXiIer6IE3GLyjVmP8O7Op7ZdmDyxN3/N/TVxNUjV+bqu91GkM/mB+sV/2DhSQXj6ff4xg3wr
+	m1izgSLNaI2t8SXpDhqvQd6ZLFTGuTSoId10sCW7duBeYMV9HMgISQwu54esUOCK65+es0Doyl/
+	NVauDKQq6tcotIiIpk8eTKjmVsC2KdCGohEE1ESravV4Ok8hGDuKVFwKWUCW6o6n7M9IFtHT0L7
+	OFiYknha/hno4GBgyg2khd68QzDFZ1xuRxVjHAvg+ilMQr1t+zicrnZzE5As5e+nUVfvXsenJus
+	e9YnmTA16m2fD3uvPQ4eIGoZNfp8LPKdwFCGPptbCwnSaMz9Qjmhvq1KtkTbZY7W74wYgQSLqM6
+	iTkT6e14T+CDmIfati5hJgIY2iJX1ttECfeh+RjC91Ibw3yQH2XGy9zFE8fRBCJkNSCWw==
+X-Received: by 2002:a05:622a:98a:b0:50b:2fcb:9891 with SMTP id d75a77b69052e-50b36ed66efmr165602281cf.0.1774273858676;
+        Mon, 23 Mar 2026 06:50:58 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b664cddc3sm17232041cf.5.2026.03.23.06.50.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 06:50:58 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/11] linux-yocto: consolidated pull request
+Date: Mon, 23 Mar 2026 09:50:46 -0400
+Message-ID: <20260323135057.1605923-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260312120024.3745232-1-zboszor@gmail.com> <CAMRc=MeFZMGjW-KXngLwq3kjbA9ic4KaOaPjhPd4Be0DMJ+yTg@mail.gmail.com>
-In-Reply-To: <CAMRc=MeFZMGjW-KXngLwq3kjbA9ic4KaOaPjhPd4Be0DMJ+yTg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 23 Mar 2026 14:35:24 +0100
-X-Gm-Features: AQROBzAqmpRSwwtKhgn0S5ktvTYyCi3nM10QM6fe6mN40QGPsfSLiym39jk3TrA
-Message-ID: <CANNYZj-DEfSop2zjDmqh5JjKq805hySTZQ29NSAjoJFskHP34Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] python3: Add a new PACKAGECONFIG knob for
- free threading
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: zboszor@gmail.com, 
-	"Zoltan Boszormenyi via lists.openembedded.org" <zboszor=gmail.com@lists.openembedded.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 13:35:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233718
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 13:51:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233719
 
-On Mon, 23 Mar 2026 at 14:29, Bartosz Golaszewski <brgl@kernel.org> wrote:
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-> ERROR: python3-3.14.3-r0 do_install: oe_multilib_header: Unable to
-> find header python3.14/pyconfig.h.
-> Any hints on what could be wrong? The same config builds fine without the
-> new option. It's just a core-image-minimal on poky with a few python packages
-> from meta-openembedded.
+Hi all,
 
-This is the error? ^^^
+As usual, I'm still working on optimizing my requests across the
+separate repositories. There's a single numbering across both
+repos 0-11, so hopefully b4 is happy with that. I've put them in
+the single series again, as without the yocto-bsp bump to match
+the reference kernel number, we'll get a kver mismatch and a build
+failure
 
-Alex
+Other than that, it is pretty routine stuff.
+
+I've also moved us to v7.0 for the dev kernel. I didn't find any
+6.x assumptions in my testing, but you never know what is lurking
+
+Bruce
+
+openembedded-core (9):
+  linux-yocto/6.18: genericarm64: enable additional qcom drivers
+  linux-yocto/6.18: genericarm64: fix configuration audit
+  linux-yocto/6.18: update to v6.18.16
+  linux-yocto/6.18: update CVE exclusions (6.18.16)
+  linux-yocto/6.18: update to v6.18.18
+  linux-yocto/6.18: update CVE exclusions (6.18.18)
+  linux-yocto-dev: bump to v7.0
+  linux-yocto/6.18: update to v6.18.19
+  linux-yocto/6.18: update CVE exclusions (6.18.19)
+
+meta-yocto (2):
+  yocto-bsps: update to v6.18.18
+  yocto-bsps: update to v6.18.19
+
+ openembedded-core:
+ meta/recipes-kernel/linux/cve-exclusion_6.18.inc   | 124 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |   4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb   |   6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb |   6 +++---
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb      |  24 ++++++++++++------------
+ 5 files changed, 137 insertions(+), 27 deletions(-)
+
+ meta-yocto:
+ meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.43.0
 
