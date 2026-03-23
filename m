@@ -2,56 +2,56 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A60BFF46101
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 13:04:04 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16987.1774271039803083249
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFAA4F4610B
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 13:04:14 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16993.1774271047505210944
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 06:04:00 -0700
+ Mon, 23 Mar 2026 06:04:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NJSRgfqi;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-486fe655187so37214375e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 06:03:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L1db9tKx;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48374014a77so40736225e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 06:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774271037; x=1774875837; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1774271045; x=1774875845; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LePNr52mOEX9tKmVFPBx+wtMgouldDccOhS3+j3bV+E=;
-        b=NJSRgfqiUUEpuFXNYpm+FJH0nncwBZZ9Uh7YwC6fHzp6uxV2HGp4m/p8HpbTxpNkpt
-         2irQ4c2ucN1ZQbZ6J66RgoX2EOQqHrSSCoOwmI0tQwy05dE8T/yenQUF+rpufmIV7mIX
-         1BYD5QqXaVjsROcGN4O6MbUv2Mw79HW4jn61TKYvkAcgf90eGNCY5fUFvHR/Z5YeFbrn
-         Mbf9/nP5tZw3U8TxJMNm5NlWXnvbRR1VIUl8hvLpWw/nmybLavw1+aBtlC1kXO4popcE
-         lzhiwKDS+8CRzO36UVcORDjgmoZwcKSKBm3SCD5X/sy7uf4NRd5v8Tlc8Atl4qSFDG4v
-         uFgg==
+        bh=2jpHzPAfrUAtKeZW5sUXk1YfZNj4NQZIL820RkQVvtY=;
+        b=L1db9tKxahaAjvdxw3Ar+ThZKZKtSdmRnUSX91wrqKd5dTO//dm/kKgznGQRNJ9+dG
+         Vc9tqSliVJbcG3o1eNfq/5genE1z1RvXKzPwYn+BIzh4DvxRj8icoYBtNnxDYIGUNgEk
+         zCUl8vvMy4jH8WcH7ZqzebG/3SjHEpiOysLiKmBm1MY0p2A5Jss39ipaWkCEAzpWsHgi
+         7ZdAbMKrkpvlfxEoIpav/sfFQHN+SgggZKl1Sj5d1PaZxUUedhBBg+mo/xhfWQU2daDT
+         Ks0R+c3PzsUXvM4latidNswFs+l/ugXrvepN9a4wDFKYXhQhGW/1GGlGz6Kyl0GZg9/5
+         J5Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774271037; x=1774875837;
+        d=1e100.net; s=20251104; t=1774271045; x=1774875845;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LePNr52mOEX9tKmVFPBx+wtMgouldDccOhS3+j3bV+E=;
-        b=qYdS/x49K0KigKBR7iD69X+pyWmYpqCo/QzCIdoo13p465XgsJPsEnPwWLBOzjk/YY
-         4EcRc0tAft/sGlXcQvGz480ilIJn3acEbIXPvL1vJWVx6vM+dW5JCnc1VD3SAx8AD3bd
-         emWPkLGQcmAS2K8q77hfxY+Br9pctgekjJSESSP+ps295ZvpafdB96cxAVLMKhFj+EB8
-         5Z1lmYn3yDBhM6VRxmZdz0G+U6YygANkHPSWLTnVV7qe0TESa3+uPpIjFL3izNQjJYT4
-         qx0ZSO/NDOBAFuEq5L346Ticyfft6DsHgLI6xjWHGNYu2dArqkM7txeuIPn/wChhgD6I
-         BTqg==
-X-Gm-Message-State: AOJu0YzTqyEutcMNmxNdTg8j+YYgI6nO6kvtQaY9H10893LAXbv7o4bx
-	ru4XiHCyPuZHL2S5slfXpHHZlsWujdVuFjyDwzIB6ek80iaippX12GPMor8oP+zY
-X-Gm-Gg: ATEYQzyNAardqQv08ep/agw9b45vH6An/8HPhBLPXnGdGyoApJhveZy7N3VO/44kGOi
-	1puGqgSoPe2LJcqyHtHAsnZ7zW1KKYvFm99HJqhDPDgRcSFFPn0qafr02obKtQkPUpG+XvmHdnh
-	M5gAJSaOWZeUteMvkNX5wLMRRXnPN4+NwfNMp1bKAfMlffDLDggZ9pvyIAoUfbyKF8EKn1o9x1/
-	uvACgn2qraOnn7E7kHCZAQ5PTAsDNZYTPpft15gajK5rvCOmZcNlHrJQR1nejGLYkOZb1JdSBlK
-	mYij9AMDHXTMUW/69VDDDpi1BLD1ap+d8ZMwKZNLUAVtyaI16W5z1zZJueXlZpArebEAznyBetR
-	8+B40kgwXjYKygQEG8xxtRdDEaFBm0hnDSleQGQbwnoHLDKJn+hbNO1MtMmiZ+W8WKhKc2xYiCx
-	9loxdgQq2YfAPaKZOBm377vgl5e6f9fu+bscurPw6aRPTNNSbR2sBZ
-X-Received: by 2002:a05:600c:8207:b0:485:3ff1:d5c3 with SMTP id 5b1f17b1804b1-486febb449bmr164779515e9.5.1774271036897;
-        Mon, 23 Mar 2026 06:03:56 -0700 (PDT)
+        bh=2jpHzPAfrUAtKeZW5sUXk1YfZNj4NQZIL820RkQVvtY=;
+        b=oma6Hn9hOJl1yyymCTUoa67CayizBj6aLgTDNsL55hOQFyX15M7jk0lT07miak0H5R
+         Ovnha1OedPCxgTn2RZDuC1Q5A/i9Gb2LnLYOQFjBdp/DB/m2AkvkdVVOPAhRVM9v3w6o
+         SIKzKmqniGK/h8arjV8qxnkuR6GFXYaPWFbIXeimcTe98UsMovBAMyVMjnmfNkeoSCdf
+         1ZP76+ZNIoSTWnQOaro7A1ORKFdKREdS/RMQJz0ifPVSkmfFw+5KuzN6OBeyjJV/49Y7
+         pu4WXps863z27MG7AnyvKkVLMIFTXOwsGha5USKQqx4OM5diSbOS2Cnm20Y+jZfh0AL2
+         AL2g==
+X-Gm-Message-State: AOJu0Yw12qmrFdxY6el9TOkz4fVrLoMegvMFTp5Q5c9KUQygyMGJptBj
+	tP2KDlrqILiHmQhci6/EumIrGU355yUUszdbZMvXxOkeYE2jjvQiciu+M/U8AYEY
+X-Gm-Gg: ATEYQzz3z8AJQsorRiO092+DfFd82d01T95+1eIih9DnXtHp6a8gsI5W5BXaMJCQfhd
+	7Cj/dOKGOrBUocfRop2ZjMGdH2DMD4ydKFkfmNg99N8dlx3jJdZe1kpaml1Vl9mMTwsGFkI+skz
+	I8uzKAsoWV0j8+BXkSeMJlX4omIvQsrqxPsrSpmVlTqcn18qElMwPkuQMDs+KvqfSiw7THD0nqn
+	DxNzbro2iXifNv7nK5hH8yEW2g92rsp4aVAk6drm9MIxXAGHDEQGSDODdUH7ouOEC7ZLA5u3MGk
+	ujTmVJLJMDf2l9+u3u/cVNued7bfb8zZaUOoDTVtojm3sBu1I7MFF6MN+/9+Hton3wmoTvYPMX3
+	zKws5mE3qRfqUXNqxA5c2QgJjkaDv+tGOfPn1GQc2dyC1vD1t+xbeKb+6S8yfmLKd/+9Q69/wAN
+	Xl1GzGF02H/kA0Clg1P24QDTvw/erlZgjmAPRgA1wJ6l5zcZLeQXRB
+X-Received: by 2002:a05:600c:468b:b0:485:3a27:a960 with SMTP id 5b1f17b1804b1-486feb5a4f8mr182481925e9.0.1774271043801;
+        Mon, 23 Mar 2026 06:04:03 -0700 (PDT)
 Received: from fedora ([81.6.40.67])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe7e2665sm324609665e9.6.2026.03.23.06.03.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe7e2665sm324609665e9.6.2026.03.23.06.04.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 06:03:55 -0700 (PDT)
+        Mon, 23 Mar 2026 06:04:01 -0700 (PDT)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -61,58 +61,57 @@ Cc: richard.purdie@linuxfoundation.org,
 	stefano.tondo.ext@siemens.com,
 	Peter.Marko@siemens.com,
 	adrian.freihofer@siemens.com,
-	mathieu.dubois-briand@bootlin.com
-Subject: [OE-core][PATCH v12 0/4] SPDX 3.0 SBOM enrichment and compliance improvements
-Date: Mon, 23 Mar 2026 14:03:46 +0100
-Message-ID: <20260323130350.1177721-1-stefano.tondo.ext@siemens.com>
+	mathieu.dubois-briand@bootlin.com,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [PATCH v12 2/4] spdx30: Add supplier support for image and SDK SBOMs
+Date: Mon, 23 Mar 2026 14:03:48 +0100
+Message-ID: <20260323130350.1177721-3-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260321131826.1401671-1-stondo@gmail.com>
+In-Reply-To: <20260323130350.1177721-1-stefano.tondo.ext@siemens.com>
 References: <20260321131826.1401671-1-stondo@gmail.com>
+ <20260323130350.1177721-1-stefano.tondo.ext@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 13:04:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233713
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 13:04:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233715
 
-This series enhances SPDX 3.0 SBOM generation with enriched
-metadata and compliance-oriented controls for current master.
+Add SPDX_IMAGE_SUPPLIER and SPDX_SDK_SUPPLIER variables that allow
+setting a supplier agent on image and SDK SBOM root elements using
+the suppliedBy property.
 
-Compared with v11, this reroll fixes the follow-up issues reported in
-review while keeping the series content otherwise unchanged.
+These follow the existing SPDX_PACKAGE_SUPPLIER pattern and use the
+standard agent variable system to define supplier information.
 
-Changes since v11:
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/create-spdx-3.0.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-  - Fixed the rebased collect_build_package_inputs() provider lookup to
-    pass direct_deps to collect_package_providers().
-  - Converted the new cpan.bbclass Python helper to 4-space indentation
-    to avoid parser warnings.
-
-Validated with:
-
-  oe-selftest -r \
-    spdx.SPDX30Check.test_packageconfig_spdx \
-    spdx.SPDX30Check.test_download_location_defensive_handling \
-    spdx.SPDX30Check.test_version_extraction_patterns
-
-Stefano Tondo (4):
-  spdx30: Add configurable file exclusion pattern support
-  spdx30: Add supplier support for image and SDK SBOMs
-  spdx30: Enrich source downloads with version and PURL
-  oeqa/selftest: Add tests for source download enrichment
-
- meta/classes-recipe/cargo_common.bbclass |   3 +
- meta/classes-recipe/cpan.bbclass         |  11 +
- meta/classes-recipe/go-mod.bbclass       |   6 +
- meta/classes-recipe/npm.bbclass          |   7 +
- meta/classes-recipe/pypi.bbclass         |   6 +-
- meta/classes/create-spdx-3.0.bbclass     |  17 ++
- meta/classes/spdx-common.bbclass         |   7 +
- meta/lib/oe/spdx30_tasks.py              | 278 +++++++++++++++++------
- meta/lib/oeqa/selftest/cases/spdx.py     | 104 +++++++--
- 9 files changed, 345 insertions(+), 94 deletions(-)
-
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 7515f460c3..9a6606dce6 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -124,6 +124,16 @@ SPDX_ON_BEHALF_OF[doc] = "The base variable name to describe the Agent on who's
+ SPDX_PACKAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
+     is supplying artifacts produced by the build"
+ 
++SPDX_IMAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
++    is supplying the image SBOM. The supplier will be set on all root elements \
++    of the image SBOM using the suppliedBy property. If not set, no supplier \
++    information will be added to the image SBOM."
++
++SPDX_SDK_SUPPLIER[doc] = "The base variable name to describe the Agent who \
++    is supplying the SDK SBOM. The supplier will be set on all root elements \
++    of the SDK SBOM using the suppliedBy property. If not set, no supplier \
++    information will be added to the SDK SBOM."
++
+ SPDX_PACKAGE_VERSION ??= "${PV}"
+ SPDX_PACKAGE_VERSION[doc] = "The version of a package, software_packageVersion \
+     in software_Package"
 -- 
 2.53.0
 
