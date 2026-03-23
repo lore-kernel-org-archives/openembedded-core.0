@@ -2,67 +2,67 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF1A4D58CD9
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 05:31:01 +0000 (UTC)
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11062.1774243851995872620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01114D58CDC
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 05:39:31 +0000 (UTC)
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11174.1774244368578426762
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Mar 2026 22:30:52 -0700
+ Sun, 22 Mar 2026 22:39:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ULPry6KD;
- spf=pass (domain: mvista.com, ip: 74.125.82.178, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2c0e38f3f60so1852696eec.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 22:30:51 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=TsTYiH/H;
+ spf=pass (domain: mvista.com, ip: 74.125.82.50, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-126ea4b77adso3639927c88.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 22:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1774243851; x=1774848651; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1774244368; x=1774849168; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jO6HXUESHRTVavN/u1gEJJVR8o8SlbXWDC58D7QmmM=;
-        b=ULPry6KDQMgDFbO1//stJFTurQOBoWkztXdnrYorIBrXTh0dxOWQUwrIOJ2nZ9RFTB
-         E119aJwalZ3DSO3D/S44vLw2l+nLMzvv9msLdhxBcUEmDWawUypYGjLmgpmAlQHO2btw
-         8U5Du63cKDFlhS/A6hjEo2J13u8l41ezFqTFY=
+        bh=ro3enc3q0+XkM527z+/HJlCCKDU102D0tUyoAJCYc/A=;
+        b=TsTYiH/Hs682OivdtykD5xlze6cFx7RqDPqFVhK4GUmqf0HR7+tmEheOt3ZRdsbGqs
+         3QS78Soayd2+7c9HdRp3LU5BTw6MMVVNvghEjvNKpgRYpWzoAwNXtv33EwH17zIxegYY
+         QLqAmwF2zAlzw+XiKHY7cVSZXnUW0sbjFU+OM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774243851; x=1774848651;
+        d=1e100.net; s=20251104; t=1774244368; x=1774849168;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6jO6HXUESHRTVavN/u1gEJJVR8o8SlbXWDC58D7QmmM=;
-        b=nDjJo6Jvviu7j6+a+BOBPj9cMtSJwtfaSmOUAysky2ZyQrCa4IXba/dMFBtiIQ9FoD
-         aL9Q1CFPFQCA8pWw5ABs8Qm2GRzzFh0Fl/gAQhabY3mIvO/wgUg5HUSqruxpOyklrZ4W
-         On1bFzx1+uVxjJ8dL4P3u1qpQ5doIMY7DLS9/HTlVlGLL9recz1fhR2BMSxjXHrSp0yv
-         h5cpTCVc5LALMGQGoefgbbxgG209KJU1GUXvWoEZlbyDftXH6VnsjDw0efucW2Y6mANO
-         4vN9yhUWw+xQUix5c0eBJHsKrxKfflcZYMbEml7Tf2ETPHOuxgNHUYEIhYfIESkFFo/R
-         DowA==
-X-Gm-Message-State: AOJu0YwS5tglfS5pZ3WuTOfv1e6MLrvF4GTKUfkXwLr6T59UXTSRyJHl
-	YgrZkMOKsBh318RwVRD9jHfuquNQzPN/Ui6zjjjaI0haZmbxk/wzKvxx5KMjguVfUpjVG64YHmL
-	+NNNW
-X-Gm-Gg: ATEYQzyoKnf3kAu39azi3qF7l70ZUH1hCNcE0X0bRwTd0JH2ONCbtxtP0R8PsYPcFZB
-	69MLQbl7AQYmcjeNz/D+YrIlKdp3khKPjrGx+7svq4Y80Q3JF1x7639SbJlgJISCYBYDPYdQfI1
-	7IeCBoZlVthu1KCdHmD8mqYuvLQcd+3kPTJIQJgvi45N6d/oR9rUNpB3r92lWofXgnJQgXfZUUn
-	plmNVfCqIOhxpaYwuMAEtKjrQnbCvOixk3e3Ij1XIq/BiyXy9Bqbj68h8CW1M3bd5v992JwxL2R
-	803dS4YV1hmr/QZTq8k9OhBg+vIrjVsKWbNEalResKDJWGHg4tt9ZPaeN0eEpKnJRPCEqu4Z1wW
-	s0idrF9/L9eEj3Vl/ev24T0RfaUBZL1b7JLOgmxN+8bgSZUaYTy54OPwJayUAPi+kHz33UsfxlA
-	v38sNiBDUwGY5+D2C4X0IJcFKbEwPa4BwFhzSK
-X-Received: by 2002:a05:7301:18ab:b0:2c1:1a55:e4b7 with SMTP id 5a478bee46e88-2c11a55e640mr1796124eec.21.1774243851044;
-        Sun, 22 Mar 2026 22:30:51 -0700 (PDT)
+        bh=ro3enc3q0+XkM527z+/HJlCCKDU102D0tUyoAJCYc/A=;
+        b=BjEyUpsbiiUd+k6idbCWfREdmef0Q6lG59G3Y+dkjvWlMnlKoYJhyMtTrC++W2O51/
+         zghnpieYBL25kzh0ChGBJSsmjh1QWdJ2m7wJankkjShzNavlB58GAkKF1hzuaANxAS0m
+         qrFCZd8hKhYifu6h84JGtELG6lS+fhepb8ZXkDLkP/kuSX+AuiplmwwSpu4qOFugjrix
+         kzLzBssNmokvd6HMNyg7JjmFAt4PwsscP0sOtcx6KLNKGV6AC9paZi5jEFvXEFupSTX5
+         1I/5l8GE8SPLSUacBxoFo8gVbOZOg+UClV77DW7cPUbNP7lPxApf6IJsMI4HzVHFHypM
+         iEqA==
+X-Gm-Message-State: AOJu0YxD1C3Fj17yAQafZiYG9PWePGZCCYr408dOp3tWedhBfkkqV1+Q
+	GH45IH7CHIjZTg1G4fYeT2p1H0bvqqgu7DvXNvZnpmGrrA96jN9anoo502oKiZzutMx0ugftn/V
+	VL0/z
+X-Gm-Gg: ATEYQzx1MrJQgIHGq1EuGfhMJ6/dP3NQ2VXHtNrSIAGJpYa1nYiCymgNaBU381f6w06
+	vD8n2Bpl411iP0YmI1RfcqR+1XPpyh5Yb3DFHWRMDct98aNsASjxAX8iNta90SxSJqZd6GX96vt
+	jjEO4ZfeS27GO1Hu0/tkJDOCuWvkctqcOL7Xw6chiscfpL0Yl3H9i9jMyTxC7GA9/DgvR3F0ClJ
+	EoAiJrD/yZCxWx7nBkZqqPirT9rvsnfMMtiuB/xQOtZopGkaklxxO0hjG3lFASv80U1yVS1fa4k
+	QhJBilGK4ZLV556KFar2Ht35Bhcwh7OqKY/miQvcDMk3ifLnzS6EAjnMmOMfqARsccf16zhikb7
+	3V8okYT/tmtp9FkFhTFPIY2FNvn2Zd+C/ayFsIoR49suoihe7awwkOT4sB5myC0BoBF0iEHKTSG
+	Ooq2abcAWkndUSlEgncIuC2616bTHnn7DkJliCiyQgwd57O2c=
+X-Received: by 2002:a05:7022:ebc7:b0:128:d23d:81a2 with SMTP id a92af1059eb24-12a726dad8bmr5051759c88.29.1774244367617;
+        Sun, 22 Mar 2026 22:39:27 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([103.250.136.179])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c1313bf5fdsm3081465eec.14.2026.03.22.22.30.49
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a733d199asm8380312c88.4.2026.03.22.22.39.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 22:30:50 -0700 (PDT)
+        Sun, 22 Mar 2026 22:39:27 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCHv2] busybox: fix for CVE-2026-26157, CVE-2026-26158
-Date: Mon, 23 Mar 2026 11:00:40 +0530
-Message-ID: <20260323053041.7848-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCHv2] busybox: fix for CVE-2026-26157, CVE-2026-26158
+Date: Mon, 23 Mar 2026 11:09:19 +0530
+Message-ID: <20260323053919.8556-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 05:31:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233696
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 05:39:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233697
 
 Pick up patch from NVD report.
 
@@ -77,14 +77,14 @@ Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
  .../CVE-2026-26157-CVE-2026-26158-01.patch    | 198 ++++++++++++++++++
  .../CVE-2026-26157-CVE-2026-26158-02.patch    |  37 ++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |   2 +
+ meta/recipes-core/busybox/busybox_1.35.0.bb   |   2 +
  3 files changed, 237 insertions(+)
  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
 
 diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
 new file mode 100644
-index 0000000000..cdc2394794
+index 0000000000..47379fc40a
 --- /dev/null
 +++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
 @@ -0,0 +1,198 @@
@@ -119,13 +119,13 @@ index 0000000000..cdc2394794
 +(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/3fb6b31c716669e12f75a2accd31bb7685b1a1cb)
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ archival/libarchive/data_extract_all.c      |  7 +++--
-+ archival/libarchive/get_header_tar.c        | 11 ++++++--
-+ archival/libarchive/unsafe_prefix.c         | 30 +++++++++++++++++----
-+ archival/libarchive/unsafe_symlink_target.c |  1 +
-+ archival/tar.c                              |  2 +-
-+ archival/unzip.c                            |  2 +-
-+ include/bb_archive.h                        |  3 ++-
++ .../archival/libarchive/data_extract_all.c    |  7 ++---
++ .../archival/libarchive/get_header_tar.c      | 11 +++++--
++ .../archival/libarchive/unsafe_prefix.c       | 30 +++++++++++++++----
++ .../libarchive/unsafe_symlink_target.c        |  1 +
++ archival/tar.c                 |  2 +-
++ archival/unzip.c               |  2 +-
++ include/bb_archive.h           |  3 +-
 + 7 files changed, 42 insertions(+), 14 deletions(-)
 +
 +diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchive/data_extract_all.c
@@ -154,10 +154,10 @@ index 0000000000..cdc2394794
 + 		 * For example, consider a .tar created via:
 + 		 *  $ tar cvf bug.tar anything.txt
 +diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/get_header_tar.c
-+index cc6f3f0..1c40ece 100644
++index d26868b..dc0f7e0 100644
 +--- a/archival/libarchive/get_header_tar.c
 ++++ b/archival/libarchive/get_header_tar.c
-+@@ -454,8 +454,15 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
++@@ -452,8 +452,15 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
 + #endif
 + 
 + 	/* Everything up to and including last ".." component is stripped */
@@ -257,10 +257,10 @@ index 0000000000..cdc2394794
 + 	if (header_name[0] == '\0')
 + 		return TRUE;
 +diff --git a/archival/unzip.c b/archival/unzip.c
-+index 691a2d8..5844215 100644
++index fc92ac6..7b29d77 100644
 +--- a/archival/unzip.c
 ++++ b/archival/unzip.c
-+@@ -853,7 +853,7 @@ int unzip_main(int argc, char **argv)
++@@ -842,7 +842,7 @@ int unzip_main(int argc, char **argv)
 + 		unzip_skip(zip.fmt.extra_len);
 + 
 + 		/* Guard against "/abspath", "/../" and similar attacks */
@@ -288,7 +288,7 @@ index 0000000000..cdc2394794
 +
 diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
 new file mode 100644
-index 0000000000..00a276fa4f
+index 0000000000..5670110868
 --- /dev/null
 +++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
 @@ -0,0 +1,37 @@
@@ -314,10 +314,10 @@ index 0000000000..00a276fa4f
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
 +diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/get_header_tar.c
-+index 1c40ece..606d806 100644
++index dc0f7e0..a8c2ad8 100644
 +--- a/archival/libarchive/get_header_tar.c
 ++++ b/archival/libarchive/get_header_tar.c
-+@@ -455,7 +455,7 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
++@@ -453,7 +453,7 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
 + 
 + 	/* Everything up to and including last ".." component is stripped */
 + 	strip_unsafe_prefix(file_header->name);
@@ -329,10 +329,10 @@ index 0000000000..00a276fa4f
 +-- 
 +2.50.1
 +
-diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
-index d870e2ee10..228bfdadd3 100644
---- a/meta/recipes-core/busybox/busybox_1.36.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
+index 0b5ac220f5..bb07502ccc 100644
+--- a/meta/recipes-core/busybox/busybox_1.35.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
 @@ -62,6 +62,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
             file://CVE-2025-46394-01.patch \
             file://CVE-2025-46394-02.patch \
@@ -341,7 +341,7 @@ index d870e2ee10..228bfdadd3 100644
 +           file://CVE-2026-26157-CVE-2026-26158-02.patch \
             "
  SRC_URI:append:libc-musl = " file://musl.cfg "
- # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+ 
 -- 
 2.50.1
 
