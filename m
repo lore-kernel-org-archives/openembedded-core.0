@@ -2,44 +2,41 @@ Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE3A6F483C6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF616F483C8
 	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 16:12:37 +0000 (UTC)
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21523.1774282355384668657
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21385.1774282356224431144
  for <openembedded-core@lists.openembedded.org>;
  Mon, 23 Mar 2026 09:12:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=CIoIY3ag;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=i4X44Sxq;
  spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 47D721A2FA2;
-	Mon, 23 Mar 2026 16:12:33 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 82AC81A2FA3;
+	Mon, 23 Mar 2026 16:12:34 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1D0025FEF6;
-	Mon, 23 Mar 2026 16:12:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4A30610450FE0;
-	Mon, 23 Mar 2026 17:12:30 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 590AC5FEF6;
+	Mon, 23 Mar 2026 16:12:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B88E210451092;
+	Mon, 23 Mar 2026 17:12:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774282352; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=P/690gRgKI9RU0bwjGc5oRBAWevO5MU49gLfOPie228=;
-	b=CIoIY3agyde8l3Ya9NwMuOiZA0mj6sLqFSpfyIXgDKL0rU7qXvIboB7mWIWQHngChLtcTw
-	+K9Y7FFuxOy8HtscJDj5BlsWfFcXF0uS9Al7uuZOLrccjabLrAK/64LeT1gDv+Md9ozCAk
-	MZzCQNDWnbfuKobiz7yRMbypwL1/+ZaSEXTCI+pqDK7q+MGIyQcUTdo5GvcljPhVmMRT2U
-	hUCixnxU7BWgyD6O7LnJZUSMO4cBQI/zb5d8nKD42xwwWakyWNXhIB4Sx0lT/71h3T0qlq
-	UvHu30jmFoxx7kCa+4NBXQC2eISfytcxsrD0+CZ4uefJ/Q6G+UJMHmM/osb68w==
+	t=1774282353; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=NLTQcO+vw8Zj4ce2Ji5/hoYr1iDPjO+pmTXonSvHtjs=;
+	b=i4X44SxqXfRlMcWk6XR8zejcV7iBWgQQh9HJx6xwJjIGGn31+Af08RPOe6U2WGO7ojJudj
+	NaW6uf9Aj7QMLE16RTEp/NG8gesr9jryx5WohqkB+gaLrAZ86CbIiZZta+dbBA+9epa7F8
+	5MFwdoZwnO9tQzANzeSn7GWRwhgYqAuLsJQ+yi0JHDON3J/rTjocCuSGczd+lFwwD0+pdj
+	iH9PwJoHnUHSco4wYEBj5vOIOJmI2fOf0wt6MJsagPs/T8tzd/7rJgOr8c0mWdse+NXKSL
+	nSu3UoohZo3bi9ZT7bvUtnO3ZzX4HAOBhgIAdJEhdvg2dBrGhpN3oK0srX9JJw==
 From: Benjamin Robin <benjamin.robin@bootlin.com>
-Subject: [PATCH v7 0/2] sbom-cve-check: add CVE analysis tool and class
-Date: Mon, 23 Mar 2026 17:12:20 +0100
-Message-Id: <20260323-add-sbom-cve-check-v7-0-870eb8e145ad@bootlin.com>
+Date: Mon, 23 Mar 2026 17:12:21 +0100
+Subject: [PATCH v7 1/2] sbom-cve-check: Add class for post-build CVE
+ analysis
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XPS2rDMBCA4asErauit+Kseo+ShTQa1aKNVawgG
- oLvXjlQ6mJBl//AfMPcScE5YSGnw53MWFNJeWphnw4ERje9IU2hNRFMGCaEpC4EWny+UKhIYUR
- 4p1Eqw5XnygYgbfFzxpi+HujrufWYyjXPt8eNytfpD6d6XOWUUQ7WRB9sZNy/+JyvH2l6hnwhK
- 1jFFtFdRDQEMUYnjtoPjO8RuUVMF5ENEWiYEjKqIPUeUb+I5LyLqIZEhQYUIB7B7RG9RYYuotd
- 3JGcAaOUwhD1i/kdMQyCC0TY4Z7z9iyzL8g36G9IIDwIAAA==
-X-Change-ID: 20260223-add-sbom-cve-check-f34614b147dc
+Message-Id: <20260323-add-sbom-cve-check-v7-1-870eb8e145ad@bootlin.com>
+References: <20260323-add-sbom-cve-check-v7-0-870eb8e145ad@bootlin.com>
+In-Reply-To: <20260323-add-sbom-cve-check-v7-0-870eb8e145ad@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org, rybczynska@gmail.com, 
  ross.burton@arm.com, peter.marko@siemens.com, jpewhacker@gmail.com, 
@@ -48,141 +45,348 @@ Cc: richard.purdie@linuxfoundation.org, rybczynska@gmail.com,
  Benjamin Robin <benjamin.robin@bootlin.com>
 X-Mailer: b4 0.15-dev
 X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 16:12:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233746
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233747
 
-This patch series introduces the `sbom-cve-check` tool and its
-dependencies. The tool requires `python3-spdx-python-model`, which has
-the following build-time dependencies (not required at runtime):
-- `python3-hatch-build-scripts`
-- `python3-shacl2code`
+By default, the sbom-cve-check class generates these export files:
+ - A JSON in `cve-check` format, named `${IMAGE_NAME}.cve-check.json`
+ - An SPDX 3.0 SBOM, named `${IMAGE_NAME}.cve-check.spdx.json`.
 
-Note: This part has already been merged into master.
+A user can add or remove export file formats by using the
+`SBOM_CVE_CHECK_EXPORT_VARS` variable.
 
-Additionally, this series includes a post-build CVE analysis class,
-similar to the existing `cve-check` functionality, which this v7 version
-aims to provide.
+By default, the CVE databases are downloaded using the following
+recipes:
+ - sbom-cve-check-update-cvelist-native.bb
+ - sbom-cve-check-update-nvd-native.bb
 
-This v7 series requires `sbom-cve-check` in version 1.2.0, which is
-provided by the following patch: ("python3-sbom-cve-check: Update to
-release 1.2.0") [4].
+The database fetch and deploy logic is implemented in
+sbom-cve-check-update-db.inc. The CVE databases are deployed in
+`${DEPLOY_DIR}/sbom-cve-check/databases/`. This can be configured
+by the `SBOM_CVE_CHECK_DEPLOY_DB_DIR` variable defined in
+meta/recipes-core/meta/sbom-cve-check-config.inc.
 
-The series is split into two commits:
-- The main part, which provides the `sbom-cve-check` class.
-- A second commit that enables the use of the `sbom-cve-check` internal
-  fetcher.
+The CVE git databases are fetched using the Bitbake fetcher. Currently,
+Bitbake fetcher does not support a shallow clone that can be updated.
+While `BB_GIT_SHALLOW` exists, it creates multiple tarballs in the
+download directory, which is inefficient for updates. For now, the git
+database is fully fetched.
 
-This is split into two commits because we may want to merge only the
-first one if there is too much discussion about the second commit.
+The `SRCREV` of the git database is set to a fixed version. A user can
+override this by specifying any other version, or `AUTOREV` can be
+specified.
 
-For context, `sbom-cve-check` is a lightweight SBOM CVE analysis tool,
-which supports SBOMs in SPDX 2.2 or SPDX 3.0 formats. The tool is
-designed as an efficient replacement for the `cve-check` logic currently
-available in Yocto Project. It fetches data from multiple databases,
-including NVD and the CVE List, and supports various annotation formats,
-such as OpenVEX and the Yocto Project's custom VEX manifest.
+To simplify the activation and configuration of sbom-cve-check, a
+configuration fragment is provided with recommended default values.
 
-For export, `sbom-cve-check` can generate a SPDX 3.0 file, a
-`cve-check`-compatible JSON file, and a summary report that lists all
-vulnerabilities per component, styled similarly to the output of the
-Yocto Project's `cve-check` class.
+`sbom-cve-check` is configured to run without requiring network access.
+The CVE analysis runs only if either the original SBOM changes or the
+CVE databases are updated. In the two CVE database-fetching recipes, a
+file in the sysroot is written, containing the Git revision of the
+fetched CVE database.
 
-For more context on the inclusion of `sbom-cve-check` in OpenEmbedded
-Core, see the discussion [1].
-
-For detailed documentation about `sbom-cve-check`, visit [2].
-
-[1] https://lists.openembedded.org/g/openembedded-core/topic/117638558
-[2] https://sbom-cve-check.readthedocs.io/
-[3] https://lists.openembedded.org/g/openembedded-core/message/231519
-[4] https://lore.kernel.org/r/20260317-update-sbom-cve-check-recipe-v1-1-49b50bf80bf2@bootlin.com
+`sbom-cve-check` is executed with the generated VEX manifest only if
+enabled and if `SPDX_INCLUDE_VEX` is set to a value other than "all".
+When `SPDX_INCLUDE_VEX=3Dall`, the SPDX 3.0 file already contains all the
+necessary information for CVE analysis, making the VEX manifest
+redundant.
 
 Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
 ---
-Changes in v7:
-- Fix commit message, the databases are not longer extracted in DL_DIR.
-- Add bitbake-config-build enable-fragment command in comment.
-- Always use sbom-cve-check for directory name instead of sbom_cve_check.
-- Change extension (suffix) for generated files, it is now:
-  - .sbom-cve-check.spdx.json.
-  - .sbom-cve-check.yocto.json
-- Move recipes to recipes-devtools/sbom-cve-check/
-- No longer install the database .rev file, and use ALLOW_EMPTY:${PN} = "1".
-- Split the usage of sbom-cve-check internal fetcher to a separate commit.
-- Link to v6: https://patch.msgid.link/20260319-add-sbom-cve-check-v6-0-cfc657daa6b7@bootlin.com
-
-Changes in v6:
-- Add missing BB_CONF_FRAGMENT_SUMMARY/BB_CONF_FRAGMENT_DESCRIPTION.
-- Link to v5: https://patch.msgid.link/20260319-add-sbom-cve-check-v5-0-e310cce7399d@bootlin.com
-
-Changes in v5:
-- Use "cve-tou" license for sbom-cve-check-update-nvd-native.bb
-- Use internal Bitbake fetcher to download the git repository.
-- Execute sbom-cve-check with --disable-auto-update flag (require 1.2.0).
-- Add meta/conf/fragments/yocto/sbom-cve-check.conf config fragment.
-- Link to v4: https://patch.msgid.link/20260311-add-sbom-cve-check-v4-0-f4e6c4cee8ca@bootlin.com
-
-Changes in v4:
-- Remove the `nostamp` flag from the `do_sbom_cve_check` task.
-- Remove the unnecessary "recrdeptask" on `do_create_image_sbom_spdx`.
-  The only required dependency is to run after the
-  `do_create_image_sbom_spdx` task of the image recipe.
-- Add the `do_sbom_cve_check_setscene` task.
-- Update the dependency for the two CVE database-fetching recipes: the
-  `do_sbom_cve_check` task now runs after their `do_populate_sysroot`.
-- In the two CVE database-fetching recipes, include a file in the
-  sysroot containing the Git revision of the fetched CVE database. This
-  leverages BitBake's checksum computation for sysroot files to
-  determine if dependent tasks need re-execution.
-- Add missing `HOMEPAGE` links to `sbom-cve-check-update-*-native.bb`.
-- Move the code in `sbom-cve-check-update-db.bbclass` to a simple
-  include file. Other layers that may want to add a new recipe to
-  download another database can still include it using:
-  `require recipes-core/meta/sbom-cve-check-update-db.inc`.
-- Rename configuration variables for clarity.
-- Add `SBOM_CVE_CHECK_DATABASES_DIR` to define the base directory for
-  CVE databases, allowing users to configure an alternate storage
-  location.
-- Improve documentation for all configuration variables.
-- By default, the class now generates a JSON file in the `cve-check`
-  format in addition to the exported SPDX 3.0 output.
-- Link to v3: https://lore.kernel.org/r/20260226-add-sbom-cve-check-v3-0-2e60423f4d35@bootlin.com
-
-Changes in v3:
-- Improve first commit message about sorting maintainers.inc.
-- Add missing maintainers information for sbom-cve-check-update-*-native
-  recipes...
-- Link to v2: https://lore.kernel.org/r/20260225-add-sbom-cve-check-v2-0-eeffa285b901@bootlin.com
-
-Changes in v2:
-- Sort maintainers.inc list in alphabetical order.
-- Add missing maintainers information for new recipes.
-- python3-spdx-python-model depends on native shacl2code and
-  hatch-build-scripts recipes.
-- Link to v1: https://lore.kernel.org/r/20260224-add-sbom-cve-check-v1-0-1c76fbd7f01b@bootlin.com
-
----
-Benjamin Robin (2):
-      sbom-cve-check: Add class for post-build CVE analysis
-      sbom-cve-check: allows to use network and internal fetcher
-
- meta/classes-recipe/sbom-cve-check.bbclass         | 127 +++++++++++++++++++++
+ meta/classes-recipe/sbom-cve-check.bbclass         | 115 +++++++++++++++=
+++++++
  meta/conf/distro/include/maintainers.inc           |   2 +
  meta/conf/fragments/yocto/sbom-cve-check.conf      |  14 +++
- .../sbom-cve-check/sbom-cve-check-config.inc       |  20 ++++
- .../sbom-cve-check-update-cvelist-native.bb        |  12 ++
+ .../sbom-cve-check/sbom-cve-check-config.inc       |   5 +
+ .../sbom-cve-check-update-cvelist-native.bb        |  12 +++
  .../sbom-cve-check/sbom-cve-check-update-db.inc    |  21 ++++
- .../sbom-cve-check-update-nvd-native.bb            |  12 ++
- 7 files changed, 208 insertions(+)
----
-base-commit: 531f87111d83430615f2e20dd41a3dd5fc25c7ab
-change-id: 20260223-add-sbom-cve-check-f34614b147dc
+ .../sbom-cve-check-update-nvd-native.bb            |  12 +++
+ 7 files changed, 181 insertions(+)
 
-Best regards,
---  
-Benjamin Robin <benjamin.robin@bootlin.com>
+diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-re=
+cipe/sbom-cve-check.bbclass
+new file mode 100644
+index 000000000000..536bbe17c020
+--- /dev/null
++++ b/meta/classes-recipe/sbom-cve-check.bbclass
+@@ -0,0 +1,115 @@
++# SPDX-License-Identifier: MIT
++
++# It is recommended to enable this class through the sbom-cve-check frag=
+ment:
++# bitbake-config-build enable-fragment core/yocto/sbom-cve-check
++#
++# Or it is possible to add this line in local.conf:
++# OE_FRAGMENTS +=3D "core/yocto/sbom-cve-check"
++
++require recipes-devtools/sbom-cve-check/sbom-cve-check-config.inc
++
++SBOM_CVE_CHECK_DEPLOYDIR =3D "${WORKDIR}/sbom-cve-check/image-deploy"
++
++SBOM_CVE_CHECK_EXTRA_ARGS[doc] =3D "Allow to specify extra arguments to =
+sbom-cve-check. \
++    For example to add export flags for filtering (e.g., only export vul=
+nerable CVEs). \
++"
++SBOM_CVE_CHECK_EXTRA_ARGS ??=3D ""
++
++SBOM_CVE_CHECK_EXPORT_VARS[doc] =3D "List of variables that declare expo=
+rt files to generate. \
++    Each variable must have a 'type' and an 'ext' flag set. \
++    The 'type' flag contains the value that is passed to the --export-ty=
+pe command flags. \
++    The 'ext' flag contains the filename extension (suffix). The output =
+filename is going \
++    to be ${IMAGE_NAME}${ext} \
++"
++SBOM_CVE_CHECK_EXPORT_VARS ?=3D "SBOM_CVE_CHECK_EXPORT_SPDX3 SBOM_CVE_CH=
+ECK_EXPORT_CVECHECK"
++
++SBOM_CVE_CHECK_EXPORT_SPDX3[doc] =3D "Export configuration to generate a=
+n SPDX3 SBOM file, \
++    with the following name: ${IMAGE_NAME}.sbom-cve-check.spdx.json \
++"
++SBOM_CVE_CHECK_EXPORT_SPDX3[type] ?=3D "spdx3"
++SBOM_CVE_CHECK_EXPORT_SPDX3[ext] ?=3D ".sbom-cve-check.spdx.json"
++
++SBOM_CVE_CHECK_EXPORT_CVECHECK[doc] =3D "Export configuration to generat=
+e a JSON manifest \
++    in the same format as the cve-check class, with the following name: =
+\
++    ${IMAGE_NAME}.sbom-cve-check.json \
++"
++SBOM_CVE_CHECK_EXPORT_CVECHECK[type] ?=3D "yocto-cve-check-manifest"
++SBOM_CVE_CHECK_EXPORT_CVECHECK[ext] ?=3D ".sbom-cve-check.yocto.json"
++
++python do_sbom_cve_check() {
++    """
++    Task: Run sbom-cve-check analysis on SBOM.
++    """
++    import os
++    import bb
++    from oe.cve_check import update_symlinks
++
++    if not bb.data.inherits_class("create-spdx-3.0", d):
++        bb.fatal("Cannot execute sbom-cve-check missing create-spdx-3.0 =
+inherit.")
++
++    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.spdx.=
+json")
++    vex_manifest_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAM=
+E}.json")
++    dl_db_dir =3D d.getVar("SBOM_CVE_CHECK_DEPLOY_DB_DIR")
++    deploy_dir =3D d.getVar("SBOM_CVE_CHECK_DEPLOYDIR")
++    img_link_name =3D d.getVar("IMAGE_LINK_NAME")
++    img_name =3D d.getVar("IMAGE_NAME")
++
++    export_files =3D []
++    for export_var in d.getVar("SBOM_CVE_CHECK_EXPORT_VARS").split():
++        export_ext =3D d.getVarFlag(export_var, "ext")
++        export_path =3D f"{deploy_dir}/{img_name}{export_ext}"
++        export_link =3D f"{deploy_dir}/{img_link_name}{export_ext}"
++        export_type =3D d.getVarFlag(export_var, "type")
++        export_files.append((export_type, export_path, export_link))
++
++    cmd_env =3D os.environ.copy()
++    cmd_env["SBOM_CVE_CHECK_DATABASES_DIR"] =3D dl_db_dir
++
++    cmd_args =3D [
++        d.expand("${STAGING_BINDIR_NATIVE}/sbom-cve-check"),
++        "--sbom-path",
++        sbom_path,
++        "--disable-auto-updates"
++    ]
++
++    # Assume that SPDX_INCLUDE_VEX is set globally to "all", and not onl=
+y for the
++    # image recipe, which is very unlikely. This is not an issue to incl=
+ude the
++    # VEX manifest even if not needed.
++    if bb.data.inherits_class("vex", d) and d.getVar("SPDX_INCLUDE_VEX")=
+ !=3D "all":
++        cmd_args.extend(["--yocto-vex-manifest", vex_manifest_path])
++
++    for export_file in export_files:
++        cmd_args.extend(
++            ["--export-type", export_file[0], "--export-path", export_fi=
+le[1]]
++        )
++
++    cmd_args.extend(d.getVar("SBOM_CVE_CHECK_EXTRA_ARGS").split())
++
++    try:
++        bb.note("Running: {}".format(" ".join(cmd_args)))
++        bb.process.run(cmd_args, env=3Dcmd_env)
++    except bb.process.ExecutionError as e:
++        bb.error(f"sbom-cve-check failed: {e}")
++        return
++
++    for export_file in export_files:
++        bb.note(f"sbom-cve-check exported: {export_file[1]}")
++        update_symlinks(export_file[1], export_file[2])
++}
++
++addtask do_sbom_cve_check after do_create_image_sbom_spdx before do_buil=
+d
++
++SSTATETASKS +=3D "do_sbom_cve_check"
++do_sbom_cve_check[cleandirs] =3D "${SBOM_CVE_CHECK_DEPLOYDIR}"
++do_sbom_cve_check[sstate-inputdirs] =3D "${SBOM_CVE_CHECK_DEPLOYDIR}"
++do_sbom_cve_check[sstate-outputdirs] =3D "${DEPLOY_DIR_IMAGE}"
++do_sbom_cve_check[depends] +=3D " \
++    python3-sbom-cve-check-native:do_populate_sysroot \
++    sbom-cve-check-update-cvelist-native:do_install \
++    sbom-cve-check-update-nvd-native:do_install \
++"
++
++python do_sbom_cve_check_setscene() {
++    sstate_setscene(d)
++}
++addtask do_sbom_cve_check_setscene
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index c7a646a643e6..c8f215188f83 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -789,6 +789,8 @@ RECIPE_MAINTAINER:pn-sassc =3D "Simone Wei=C3=9F <sim=
+one.p.weiss@posteo.com>"
+ RECIPE_MAINTAINER:pn-sato-icon-theme =3D "Richard Purdie <richard.purdie=
+@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-sato-screenshot =3D "Ross Burton <ross.burton@arm.c=
+om>"
+ RECIPE_MAINTAINER:pn-sbc =3D "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-sbom-cve-check-update-cvelist-native =3D "Benjamin =
+Robin <benjamin.robin@bootlin.com>"
++RECIPE_MAINTAINER:pn-sbom-cve-check-update-nvd-native =3D "Benjamin Robi=
+n <benjamin.robin@bootlin.com>"
+ RECIPE_MAINTAINER:pn-scdoc =3D "Alex Kiernan <alex.kiernan@gmail.com>"
+ RECIPE_MAINTAINER:pn-screen =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+ RECIPE_MAINTAINER:pn-seatd =3D "Unassigned <unassigned@yoctoproject.org>=
+"
+diff --git a/meta/conf/fragments/yocto/sbom-cve-check.conf b/meta/conf/fr=
+agments/yocto/sbom-cve-check.conf
+new file mode 100644
+index 000000000000..a3f229acf28a
+--- /dev/null
++++ b/meta/conf/fragments/yocto/sbom-cve-check.conf
+@@ -0,0 +1,14 @@
++BB_CONF_FRAGMENT_SUMMARY =3D "This fragment enables sbom-cve-check with =
+recommended default options"
++BB_CONF_FRAGMENT_DESCRIPTION =3D "Enables sbom-cve-check and applies the=
+ following configurations: \
++ - Adds the sbom-cve-check class to IMAGE_CLASSES. \
++ - Configures CVE database recipes to fetch the latest git revision usin=
+g AUTOREV. \
++ - Ensures generated SBOM includes all CVE annotations. \
++ - Configures the Linux kernel recipe to provide compiled sources, \
++   allowing CVEs to be excluded if the source is not compiled. \
++"
++
++IMAGE_CLASSES:append =3D " sbom-cve-check"
++SRCREV:pn-sbom-cve-check-update-nvd-native =3D "${AUTOREV}"
++SRCREV:pn-sbom-cve-check-update-cvelist-native =3D "${AUTOREV}"
++SPDX_INCLUDE_VEX =3D "all"
++SPDX_INCLUDE_COMPILED_SOURCES:pn-linux-yocto =3D "1"
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-config.i=
+nc b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-config.inc
+new file mode 100644
+index 000000000000..d337cef2355c
+--- /dev/null
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-config.inc
+@@ -0,0 +1,5 @@
++# SPDX-License-Identifier: MIT
++
++SBOM_CVE_CHECK_DEPLOY_DB_DIR ??=3D "${DEPLOY_DIR}/sbom-cve-check/databas=
+es"
++SBOM_CVE_CHECK_DEPLOY_DB_DIR[doc] =3D "Path to the directory where the C=
+VE databases, \
++    fetched by the sbom-cve-check-update-* recipes, are extracted for us=
+e."
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-c=
+velist-native.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-up=
+date-cvelist-native.bb
+new file mode 100644
+index 000000000000..ce204db6c51a
+--- /dev/null
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-=
+native.bb
+@@ -0,0 +1,12 @@
++SUMMARY =3D "Updates the CVE List database"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
+0bcf8506ecda2f7b4f302"
++
++HOMEPAGE =3D "https://github.com/CVEProject/cvelistV5"
++SRC_URI =3D "git://github.com/CVEProject/cvelistV5.git;branch=3Dmain;pro=
+tocol=3Dhttps"
++SBOM_CVE_CHECK_DB_NAME =3D "cvelist"
++
++# 2026-03-19_baseline
++SRCREV =3D "ada54ee3cc8380820aa45e4996910bdc9dcb94e7"
++
++require sbom-cve-check-update-db.inc
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-d=
+b.inc b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
+new file mode 100644
+index 000000000000..5d7a07001c67
+--- /dev/null
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
+@@ -0,0 +1,21 @@
++# SPDX-License-Identifier: MIT
++
++INHIBIT_DEFAULT_DEPS =3D "1"
++EXCLUDE_FROM_WORLD =3D "1"
++
++inherit native
++require sbom-cve-check-config.inc
++
++SBOM_CVE_CHECK_DB_NAME[doc] =3D "Database name, which is the Git reposit=
+ory directory name. \
++    The git repository will be stored in ${SBOM_CVE_CHECK_DEPLOY_DB_DIR)=
+/"
++
++DEPENDS +=3D "rsync-native"
++ALLOW_EMPTY:${PN} =3D "1"
++
++# In the install task, also deploy directly to ${DEPLOY_DIR} using rsync=
+.
++# This is an hack, we are not using do_deploy to prevent multiple unnece=
+ssary copy of the CVE database.
++do_install() {
++    dst=3D"${SBOM_CVE_CHECK_DEPLOY_DB_DIR}/${SBOM_CVE_CHECK_DB_NAME}"
++    mkdir -p "$dst"
++    rsync -aH --delete --link-dest=3D"${S}/" "${S}/" "${dst}/"
++}
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-n=
+vd-native.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update=
+-nvd-native.bb
+new file mode 100644
+index 000000000000..46c86952a164
+--- /dev/null
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-nati=
+ve.bb
+@@ -0,0 +1,12 @@
++SUMMARY =3D "Updates the NVD CVE database"
++LICENSE =3D "cve-tou"
++LIC_FILES_CHKSUM =3D "file://LICENSES/cve-tou.md;md5=3Dbc5bbf146f01e20ec=
+e63d83c8916d8fb"
++
++HOMEPAGE =3D "https://github.com/fkie-cad/nvd-json-data-feeds"
++SRC_URI =3D "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=3D=
+main;protocol=3Dhttps"
++SBOM_CVE_CHECK_DB_NAME =3D "nvd-fkie"
++
++# v2026.03.19-010002
++SRCREV =3D "49f8bbe1b0b0884e16bdc37ab68db997085570a7"
++
++require sbom-cve-check-update-db.inc
+
+--=20
+2.53.0
 
 
