@@ -1,124 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A96D3F46129
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 14:05:06 +0000 (UTC)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18225.1774274697379231644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1982F46127
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 14:13:56 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18363.1774274761414908089
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 07:04:57 -0700
+ Mon, 23 Mar 2026 07:06:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aa6Kjf2g;
- spf=pass (domain: gmail.com, ip: 209.85.222.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-94ac7f22d23so621024241.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 07:04:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774274696; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FgFLshxJ547tS0AjMPooqJy0YLqvGg5kJZ5a4OhtpAV3n4qOUNp+HhKQnvEI4YFKvy
-         44Fmdc58qOVLaP3YttJOWDFK/pZ8x9ci2YXkedwByqPQgQxRR956U+Ec88OVDODH+0j6
-         XXPYJMaaS+9us392e0jF/sIYkeYrsL11zCqyrUjzwRONSgWcFxwyTga2xfhjGRBMohNR
-         mGu1nWzepOx0OydEIZfODvNjmb7aPTWuBrTqKxoSyQYe+a/LqpgLDy99KlDtQtE8HINN
-         cxKzawJHuz3Qm1f5av55SXqherF2hKP5ETYRIpzXj50A7jshDlQR6I9hmRrNDtwzTke7
-         W0zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BEZIo5h2uZp+J1fZLxIcpHQ1KxKkYOlzNL4OAgKnwPk=;
-        fh=SxgNHLrax/cwrFkLzJW9XUvR9y3rd2TQ2sOLDGVC3fs=;
-        b=e8QrlDMMGIWIuSh9N7V1JA47OE6cB+gMh5/SRDSY7WSLX9cH4ywN/xjMaF4fCdFekw
-         dbQLaEAjapnp1oWakrwHJDmjGkE5O5XnSMsbRATgkrV2IHjXTX6GMq8vMHIQbZGm50R7
-         ZjuOSwAvHhzJricnOvOIhXw3wjrEFsxu+WSL9IwHW+0KB5FfMkG5ys15fgosTMhdjIVp
-         9bmyuu01Dhp6dTzlf1ZD5O9GaBausO9iF6/cEkU+IU1zqyYKDg0P4glX37kKZPuNWKQ+
-         bu63Wdn7b8OJcK6Hwxe2pJqfSvRQsIwM4hTpWfur7dV6D8RwE4jzSk6xJ5a4g07QIiM3
-         C5/w==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774274696; x=1774879496; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BEZIo5h2uZp+J1fZLxIcpHQ1KxKkYOlzNL4OAgKnwPk=;
-        b=aa6Kjf2g+bjhurFeLKQhagAEmFji3uo/4Y04ImjnyIWFElbqBua7hvKDNVRRngm3xc
-         nthcf7f8VGyCGDQiWKqpZA9vn1P2OKqDdvPKCqncAYCQdCDP4xFf4e+qsp7SunSB9XbK
-         L6/AlZ27iOfJ6iYbZW6JvoWKSeTKE1Li091cMPaepQceI9G5wrFaYw0MnQQT3S7P2UPq
-         LN5u4ACOzOecGgX1+PjJKi8nJeOI6cMl5pnrWvNJ3AdpoH/TVOIhr0V6yOR6SVcHD2xt
-         7cNF9WcjrJDsrX4QYmMWDbCD0Bim58AWIwsS/bdZ2PdNdnLqE1pMpNShd4nmwqfd0Ybf
-         7+NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774274696; x=1774879496;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BEZIo5h2uZp+J1fZLxIcpHQ1KxKkYOlzNL4OAgKnwPk=;
-        b=DLuGRwmZW6Nbo8jVa+ZT1JS2C3qGatt0NSv6OPYn7ikoFckv/MDY1EhdnWChF9lGF6
-         zgF4mTvxWePZndx6tJhAT7XiBrgyO+OWRNQ5vpdO5Hb12UpjskWFkoSQA9NUTvbVsIOc
-         zL4DremumUmVfBi2DWVsa+Dz7ip/FJZnt9xTGnt54OjybgVAft5BwccPNs+GEZN+/WXV
-         +3m+geN2QqD4A2kLELMOgub2MMJXg/uIwK8qut//KNdOukNWO7VZ8GNrPPJ4vXH2PU6g
-         LndVQruHiH0oDSstCJeDXWQtdrvi106OJJHWXV7nJ1l7QwpXOpbf1yWrJgvzsFpeE5qR
-         NRUw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDUAqcQBRRmA8pO7+/n4hbHWpYVtsooHCVf120EM1DXC+NOM/aEa34/mgUlTMtSll1Xy1VmeDVAcXDzOb2b2pVvA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyiAW1RUO8gLb4Vnaq/YKKVjGiPn2GdsEY9bNYkTdahv+NvrBel
-	SjYLil1Ja61PMeRRG58tUig9/bDYfdl0nsprPvsjBtuT+GJZ8RR9L8t3OgWt8OnhWQbDnP3XmGZ
-	jmwRCAuuYnx1DHJDsVzvRMvepbcaal8w=
-X-Gm-Gg: ATEYQzzZNPtRyDY7H/dTwVkhdF0Kg0juham37ebWWzGqyTYDYDw+tVWPz+pCd5QvB4b
-	9rxlZyFwPJu5lDqWPY/Jz7mNJ7RGpzqnvl8EuHMmoTuO9hZimPH6F33/e1nsa+q9hbo4mUtWgab
-	hjIBhliG7tQ3lA6/XVaQeyguPzY2KWODmFtBScEEdgDcMJcNFIIKOhxhKg4BB82HuU0cq3K094n
-	LUjMP2cegYU9mxsqN45ELSA2Hxkyidzwio+rJOqD+Un6BPbYfGzPzYxXgaBUY0VL6oLIdpGqrYy
-	d72YTr2TRzn0Hgh+0PGFUp8AAHLvTUIX+v43fcFU6A==
-X-Received: by 2002:a05:6102:6892:b0:5f9:39e6:cb04 with SMTP id
- ada2fe7eead31-602aeafde99mr5795255137.9.1774274696235; Mon, 23 Mar 2026
- 07:04:56 -0700 (PDT)
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=XD5B1UfH;
+ spf=pass (domain: kernel.org, ip: 172.234.252.31, mailfrom: brgl@kernel.org)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 7D7BD44442
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 14:06:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D140C2BCB3
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 14:06:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774274760;
+	bh=+eUcWmnui3JoU7wgbJZNi1pvFlj0F2yQ/spvnNfEu9o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XD5B1UfH1ZdL0ij2TBYORnRm/S2NWW7OqRpGydw47F9g3+FAr4jOg9oEber9z+EjC
+	 xS2FyPgn9hnG/2ODwphUk0tzjZN/OJuLz4ZavujST783KSwd1hD4W70HzSSqximoPc
+	 BxJHEQ75qFhMbYlhWpgmMwzQfZo//STPFRXPsipwu7TVPDLgVTS8i8cd/zU/vItxdY
+	 8bf8lV+OipSd/Iz4mDnffiX6Dwm9sKeAcCbY+sbw3rmTYXRLC1JG6Y6HrhLt6qMU8s
+	 xk8+A6wedbIKGpGKOnqu6Jzl3VoCndHfukWaGunlse7X8VvVKsOotUkA6cH2Rwrf6b
+	 zqFOq+hgdXftg==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38a01c80c34so32566511fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 07:06:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXeeAuoqMbVh/PM7gFH/r8VCc1WOYy8YrjvuCooBghi51LZOXbfn9Vo09INUmrfvks9y2vzvq9r6mEk9kmVXHdgrQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzI8dWZDsNgFWEbuy1ylXoL45kwUUYm8fYeNhcO+Snd9XVk2NMA
+	QcTSeiHGGnT1z2pc7a+9WMXIm8cuP6U4NZLmO38+JBC63Awfyy3sosn/0u8zuaqgsBKakNOw+lc
+	kfRypQqGiicHWzNzxVSTcr4TaJST+Uf4Ew/eg5q0mHA==
+X-Received: by 2002:a2e:2e1a:0:b0:38b:f81c:f6f8 with SMTP id
+ 38308e7fff4ca-38bf9770e83mr31678241fa.37.1774274758895; Mon, 23 Mar 2026
+ 07:05:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260312120024.3745232-1-zboszor@gmail.com> <CAMRc=MeFZMGjW-KXngLwq3kjbA9ic4KaOaPjhPd4Be0DMJ+yTg@mail.gmail.com>
- <CANNYZj-DEfSop2zjDmqh5JjKq805hySTZQ29NSAjoJFskHP34Q@mail.gmail.com> <CAMRc=Mfp+OfKzsUGF-JLsmuvRpoH7dqjqn+vJf1S146zZ=tU8Q@mail.gmail.com>
-In-Reply-To: <CAMRc=Mfp+OfKzsUGF-JLsmuvRpoH7dqjqn+vJf1S146zZ=tU8Q@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 23 Mar 2026 15:04:44 +0100
-X-Gm-Features: AQROBzBt4UK6jolQmfyR9_KIIiMMPxKaZZaTEs8g_ETfKbE2WDtYJOwwyf0Sano
-Message-ID: <CANNYZj_kOfbycTx4ZkOVESoRX_euMLJmShuozAeWKBHaA_WWcw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] python3: Add a new PACKAGECONFIG knob for
- free threading
-To: Bartosz Golaszewski <brgl@kernel.org>
+ <CANNYZj-DEfSop2zjDmqh5JjKq805hySTZQ29NSAjoJFskHP34Q@mail.gmail.com>
+ <CAMRc=Mfp+OfKzsUGF-JLsmuvRpoH7dqjqn+vJf1S146zZ=tU8Q@mail.gmail.com> <CANNYZj_kOfbycTx4ZkOVESoRX_euMLJmShuozAeWKBHaA_WWcw@mail.gmail.com>
+In-Reply-To: <CANNYZj_kOfbycTx4ZkOVESoRX_euMLJmShuozAeWKBHaA_WWcw@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 23 Mar 2026 15:05:46 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MdZT=Y4UQem+YLjVZFTO3QdnGdRHRGa=GSiMbtO5WDLSw@mail.gmail.com>
+X-Gm-Features: AaiRm51J0RJc90n4711kxsZfcNFj3_nLpeZ-Tq7AQvxDeMlf3fC2iWehlVQC6iM
+Message-ID: <CAMRc=MdZT=Y4UQem+YLjVZFTO3QdnGdRHRGa=GSiMbtO5WDLSw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] python3: Add a new PACKAGECONFIG knob for free threading
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: zboszor@gmail.com, 
 	"Zoltan Boszormenyi via lists.openembedded.org" <zboszor=gmail.com@lists.openembedded.org>, 
 	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 14:05:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233735
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 14:13:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233736
 
-On Mon, 23 Mar 2026 at 14:48, Bartosz Golaszewski <brgl@kernel.org> wrote:
-> > > ERROR: python3-3.14.3-r0 do_install: oe_multilib_header: Unable to
-> > > find header python3.14/pyconfig.h.
-
-^^^ This.
-
-> > > Any hints on what could be wrong? The same config builds fine without the
-> > > new option. It's just a core-image-minimal on poky with a few python packages
-> > > from meta-openembedded.
-> >
-> > This is the error? ^^^
-> >
+On Mon, Mar 23, 2026 at 3:04=E2=80=AFPM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> As in: pulling in packages from meta-openembedded? Not sure what you
-> mean, this shouldn't have any impact as the offending recipe is python
-> itself.
+> On Mon, 23 Mar 2026 at 14:48, Bartosz Golaszewski <brgl@kernel.org> wrote=
+:
+> > > > ERROR: python3-3.14.3-r0 do_install: oe_multilib_header: Unable to
+> > > > find header python3.14/pyconfig.h.
 >
-> But ok, I disabled meta-openembedded and it fails the same with the
-> only additional package being python3.
+> ^^^ This.
+>
+> > > > Any hints on what could be wrong? The same config builds fine witho=
+ut the
+> > > > new option. It's just a core-image-minimal on poky with a few pytho=
+n packages
+> > > > from meta-openembedded.
+> > >
+> > > This is the error? ^^^
+> > >
+> >
+> > As in: pulling in packages from meta-openembedded? Not sure what you
+> > mean, this shouldn't have any impact as the offending recipe is python
+> > itself.
+> >
+> > But ok, I disabled meta-openembedded and it fails the same with the
+> > only additional package being python3.
+>
+> No. This error:
+>
+> ERROR: python3-3.14.3-r0 do_install: oe_multilib_header: Unable to
+> find header python3.14/pyconfig.h.
+>
 
-No. This error:
+Yes, that seems to be the error though the file is there under
+recipe-sysroot-native.
 
-ERROR: python3-3.14.3-r0 do_install: oe_multilib_header: Unable to
-find header python3.14/pyconfig.h.
-
-
-Alex
-
-
-
-Alex
+Bart
 
