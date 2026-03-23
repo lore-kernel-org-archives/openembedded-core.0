@@ -1,85 +1,92 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61966F46120
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 13:57:56 +0000 (UTC)
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17981.1774273734559386267
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82EC6F46122
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 14:01:26 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18121.1774274484451860037
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 06:48:54 -0700
+ Mon, 23 Mar 2026 07:01:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=jqIDzKFU;
- spf=pass (domain: kernel.org, ip: 172.234.252.31, mailfrom: brgl@kernel.org)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 979BE41B33
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 13:48:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76D5BC4AF0B
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 13:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774273733;
-	bh=zNAbQO+2Rb6IFqUV9sSPo8Nrm7V8YoWPT4pe6TBl0nc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jqIDzKFUYEa4is0vqYUFx7ewU6qEfBub8ZRXvrNbwaU11eBEhYZmgDLNA2tnfugeo
-	 up2ArVbPupBu6E5nYKVgDux7l35LQn2b4upko4HliLqK2wlOuLBderZYteHO6Ajemp
-	 Zn5lXgqJwLMjP5WfnyrJiN8wSU4sDfzT6ufFORHjbwgMZlLO7WifcFDfmhWeygcfY3
-	 mwsroVCDHX1Vrht6cB5Wt7/BjQUzZIR04NJ0YSF9NNNA/2Tj5hPlV5oEmmjXRxVdzE
-	 4m2fdlIkrUKtEc7NrD26jnUj6+NS1+IK/bfiaFf9s7zVJ+rTf2VmNIX8Ok5EaBK3Or
-	 npT9uSR/qRWEA==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38a2e62b893so1320751fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 06:48:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWfESoVYySeqHJm4bFgDEMEQ+HuCEfiCHnrKd27vun0TJp/l597CBgbxZJC5witKzeT4raMlwRrRasIVyTPYYbkSQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyaK7oZ+ZMVCJFYOYl2VLP1udgH+DRdrdm5X9PpEXPiiZvhVdB4
-	LXm7ZmOaYx/PpIhCSmIGxeL3kJ0BiiZh9iynDzh4wH2PFT0bEKjh5rH8C3Guzgub7Q/Qsbbpjq4
-	49Br8i2drr5Jco5TjnynoG5rEgOa1nukUyHOz6VJA3g==
-X-Received: by 2002:a05:651c:3249:b0:38b:f632:e0f8 with SMTP id
- 38308e7fff4ca-38bf94a6b76mr37511041fa.0.1774273732149; Mon, 23 Mar 2026
- 06:48:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260312120024.3745232-1-zboszor@gmail.com> <CAMRc=MeFZMGjW-KXngLwq3kjbA9ic4KaOaPjhPd4Be0DMJ+yTg@mail.gmail.com>
- <CANNYZj-DEfSop2zjDmqh5JjKq805hySTZQ29NSAjoJFskHP34Q@mail.gmail.com>
-In-Reply-To: <CANNYZj-DEfSop2zjDmqh5JjKq805hySTZQ29NSAjoJFskHP34Q@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 23 Mar 2026 14:48:39 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Mfp+OfKzsUGF-JLsmuvRpoH7dqjqn+vJf1S146zZ=tU8Q@mail.gmail.com>
-X-Gm-Features: AaiRm51S38gM2X9s7GZJDWN2n4h0mr8MKbiWGDhgQwwT586Cac3xOoSrhDd9luM
-Message-ID: <CAMRc=Mfp+OfKzsUGF-JLsmuvRpoH7dqjqn+vJf1S146zZ=tU8Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] python3: Add a new PACKAGECONFIG knob for free threading
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: zboszor@gmail.com, 
-	"Zoltan Boszormenyi via lists.openembedded.org" <zboszor=gmail.com@lists.openembedded.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rL02qWOr;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nB/uatIu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d1b0015df-ca4f5398-edcc-48dc-ba96-e2430586701d-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1774274483; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=ZYQjPZsDfk+B7EaX/7UAd6szbK6HfuVZEDxcb2Yd4G4=;
+	b=rL02qWOr9ySsCPS+vvJMilcfKEKIYkCpIt8SCf2h5zqzMDCmwBuKandhkFAe3B5D
+	zraV/HLILJsPyfvwUVlZgBXixsiouQY7pSFx9XXUFcGXJgrL1PkJETICnWY4YCWYB9l
+	Uy1m5wkXrYgyo+siamSDmy9+2o87iIJIAMpFCBY8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1774274483;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=ZYQjPZsDfk+B7EaX/7UAd6szbK6HfuVZEDxcb2Yd4G4=;
+	b=nB/uatIuoubYuplEHjrQR882mzCeVid59/kdLX5j7W74aiFLTAsmRY+OLPKjivt2
+	pzYwu5ALLF0oHRwuq5yjeLYKSjfvg2H1gXVJAMM27wvuESRQ79xylrICs1JNzFrRCLx
+	twjFkYkBOiPE+iBlzShCI0Kdied3kzPjj82KkO+Y=
+From: patchtest@automation.yoctoproject.org
+To: bruce.ashfield@gmail.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [meta-yocto-bsp][PATCH 11/11] yocto-bsps: update to v6.18.19
+In-Reply-To: <20260323135057.1605923-12-bruce.ashfield@gmail.com>
+References: <20260323135057.1605923-12-bruce.ashfield@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019d1b0015df-ca4f5398-edcc-48dc-ba96-e2430586701d-000000@us-west-2.amazonses.com>
+Date: Mon, 23 Mar 2026 14:01:23 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.03.23-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 13:57:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233732
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 14:01:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233734
 
-On Mon, Mar 23, 2026 at 2:35=E2=80=AFPM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Mon, 23 Mar 2026 at 14:29, Bartosz Golaszewski <brgl@kernel.org> wrote=
-:
->
-> > ERROR: python3-3.14.3-r0 do_install: oe_multilib_header: Unable to
-> > find header python3.14/pyconfig.h.
-> > Any hints on what could be wrong? The same config builds fine without t=
-he
-> > new option. It's just a core-image-minimal on poky with a few python pa=
-ckages
-> > from meta-openembedded.
->
-> This is the error? ^^^
->
+--NextPart
+Content-Type: text/plain
 
-As in: pulling in packages from meta-openembedded? Not sure what you
-mean, this shouldn't have any impact as the offending recipe is python
-itself.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-But ok, I disabled meta-openembedded and it fails the same with the
-only additional package being python3.
+---
+Testing patch /home/patchtest/share/mboxes/meta-yocto-bsp-11-11-yocto-bsps-update-to-v6.18.19.patch
 
-Bart
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
