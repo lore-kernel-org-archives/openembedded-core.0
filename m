@@ -1,348 +1,159 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01114D58CDC
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 05:39:31 +0000 (UTC)
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11174.1774244368578426762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3391DD58CDF
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 06:03:03 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11280.1774245778912205004
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Mar 2026 22:39:28 -0700
+ Sun, 22 Mar 2026 23:02:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=TsTYiH/H;
- spf=pass (domain: mvista.com, ip: 74.125.82.50, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-126ea4b77adso3639927c88.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 22:39:28 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=O6SAUrJs;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43b527ac5d0so1135151f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 23:02:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1774244368; x=1774849168; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ro3enc3q0+XkM527z+/HJlCCKDU102D0tUyoAJCYc/A=;
-        b=TsTYiH/Hs682OivdtykD5xlze6cFx7RqDPqFVhK4GUmqf0HR7+tmEheOt3ZRdsbGqs
-         3QS78Soayd2+7c9HdRp3LU5BTw6MMVVNvghEjvNKpgRYpWzoAwNXtv33EwH17zIxegYY
-         QLqAmwF2zAlzw+XiKHY7cVSZXnUW0sbjFU+OM=
+        d=smile.fr; s=google; t=1774245777; x=1774850577; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1m8cGRjNmaJW8pS3BU7d6CWEGjQrvPT7cQjIiA80Y5g=;
+        b=O6SAUrJsMRGJd4lH3qxdXc5pWDpN0MlbPqByEV5twChkdgO1Fw0cEu4ujfrizpCo5s
+         gwcybxtCfwRXU/Si/zY8sEHBPD3Ca8fRCuMeraZpKgvByIIZNUo3nsdIGKzwZz5VsPbd
+         WBJsdVKuzwjVgNt63IksBmS1Z92ltHWqHuJDw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774244368; x=1774849168;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ro3enc3q0+XkM527z+/HJlCCKDU102D0tUyoAJCYc/A=;
-        b=BjEyUpsbiiUd+k6idbCWfREdmef0Q6lG59G3Y+dkjvWlMnlKoYJhyMtTrC++W2O51/
-         zghnpieYBL25kzh0ChGBJSsmjh1QWdJ2m7wJankkjShzNavlB58GAkKF1hzuaANxAS0m
-         qrFCZd8hKhYifu6h84JGtELG6lS+fhepb8ZXkDLkP/kuSX+AuiplmwwSpu4qOFugjrix
-         kzLzBssNmokvd6HMNyg7JjmFAt4PwsscP0sOtcx6KLNKGV6AC9paZi5jEFvXEFupSTX5
-         1I/5l8GE8SPLSUacBxoFo8gVbOZOg+UClV77DW7cPUbNP7lPxApf6IJsMI4HzVHFHypM
-         iEqA==
-X-Gm-Message-State: AOJu0YxD1C3Fj17yAQafZiYG9PWePGZCCYr408dOp3tWedhBfkkqV1+Q
-	GH45IH7CHIjZTg1G4fYeT2p1H0bvqqgu7DvXNvZnpmGrrA96jN9anoo502oKiZzutMx0ugftn/V
-	VL0/z
-X-Gm-Gg: ATEYQzx1MrJQgIHGq1EuGfhMJ6/dP3NQ2VXHtNrSIAGJpYa1nYiCymgNaBU381f6w06
-	vD8n2Bpl411iP0YmI1RfcqR+1XPpyh5Yb3DFHWRMDct98aNsASjxAX8iNta90SxSJqZd6GX96vt
-	jjEO4ZfeS27GO1Hu0/tkJDOCuWvkctqcOL7Xw6chiscfpL0Yl3H9i9jMyTxC7GA9/DgvR3F0ClJ
-	EoAiJrD/yZCxWx7nBkZqqPirT9rvsnfMMtiuB/xQOtZopGkaklxxO0hjG3lFASv80U1yVS1fa4k
-	QhJBilGK4ZLV556KFar2Ht35Bhcwh7OqKY/miQvcDMk3ifLnzS6EAjnMmOMfqARsccf16zhikb7
-	3V8okYT/tmtp9FkFhTFPIY2FNvn2Zd+C/ayFsIoR49suoihe7awwkOT4sB5myC0BoBF0iEHKTSG
-	Ooq2abcAWkndUSlEgncIuC2616bTHnn7DkJliCiyQgwd57O2c=
-X-Received: by 2002:a05:7022:ebc7:b0:128:d23d:81a2 with SMTP id a92af1059eb24-12a726dad8bmr5051759c88.29.1774244367617;
-        Sun, 22 Mar 2026 22:39:27 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([103.250.136.179])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a733d199asm8380312c88.4.2026.03.22.22.39.25
+        d=1e100.net; s=20251104; t=1774245777; x=1774850577;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1m8cGRjNmaJW8pS3BU7d6CWEGjQrvPT7cQjIiA80Y5g=;
+        b=V4yyTytRYRz6DFua6qzlJhTW9pj4BV/D/Aqo0q96brxGNPtvD31LBZzwOSle0qSbTF
+         gJZsZ67lI8mwM/GgbZj7JSy/62nIYYrjContV6sRnEd7jaosQuUU+RkXEk9a01Q3rlBp
+         zV+8N01tK76R3KSM0o7pgMI/Vi4sKP/ZdQjZ0/f8dPvF4zLkGMnQvEHupupwvvRFqT0g
+         AI4Dsrb2Ywvnxi2avXy+wziijPgYUFJQNawtIJfxIg6lISxJwWQG6ShgM5I0g042cwT5
+         0bGYlECZEYhWnhfqgrrdWoDL0GuKzqtjkevnMANIhfIZezXT1YgMly1Ef5Vt9rDECQPq
+         lcpg==
+X-Gm-Message-State: AOJu0YxeZYGYKqP7N0AEtT61FfaE1pYHJ3CVP7YCl/SD8NtTEXptyNJV
+	XsS4L75oQIqJCAeletQa6f10rjfogcwQsVQjo3PcSXz+ECbpk+3eQhI5o+67YzoDSn79NT48U35
+	yrNlB
+X-Gm-Gg: ATEYQzwBeQzhGHStYBlOhdUCsMhcceCDXL/zHARscipavwzzBTSjAKK5tLEmCV4pBSr
+	9C5Q/6z2wlWAoMfsdTI5StsT7GQO+xp2enP6h3Vi9agmh7UKdvC+c0yRlg3GkE5+ohSTRBloAf8
+	hUu0bP8vfXghOtqCPbFcUeMu6t9ovlNbstw2/N2JZ7rggKYw20858AcFrdfL6qCDDepSU/lpfkr
+	uf0FlBsyDkqrts9fchCUhejDLLkdy1i8PotD+By2Xifm7UKIZHv625Rs1we/Wmr9NQMdr4ulGvZ
+	3Gg/Y67k7YJX7M0DV4GiwW7NWfpE2ucu1LRRcQ6rEDP2421G+KaryXvPAZndHjFaCvA4qyJoF/8
+	1ib2ZyxS1dVDx+omfQwgi3xgrzi758e5iTygG7WKeVLjItnzOA/Wow64i2n77+DbmxXP+Qtw6vc
+	+G8scF5uhXHBgaHRvdXAU3XkYI6UVlLYvym7gzs1LpDot4yet2KZtUwtdaFLi1fIPIseIsrXLGf
+	7n+2Alvu041p4u7Gj6jvjO6rP8=
+X-Received: by 2002:a5d:5f55:0:b0:43b:45f5:eec with SMTP id ffacd0b85a97d-43b6423fc34mr17390605f8f.4.1774245776894;
+        Sun, 22 Mar 2026 23:02:56 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b646b0d3dsm25959551f8f.16.2026.03.22.23.02.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 22:39:27 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCHv2] busybox: fix for CVE-2026-26157, CVE-2026-26158
-Date: Mon, 23 Mar 2026 11:09:19 +0530
-Message-ID: <20260323053919.8556-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+        Sun, 22 Mar 2026 23:02:56 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: OE-Core ML <openembedded-core@lists.openembedded.org>,
+	Yocto Security ML <yocto-security@lists.yoctoproject.org>
+Subject: OE-core CVE metrics for master on Sun Mar 22 23:46:56 2026
+Date: Mon, 23 Mar 2026 07:02:13 +0100
+Message-ID: <20260323060213.17514-4-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260323060213.17514-1-yoann.congal@smile.fr>
+References: <20260323060213.17514-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 05:39:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233697
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 06:03:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233700
 
-Pick up patch from NVD report.
+Branch: master
 
-More details :
-[1]: https://nvd.nist.gov/vuln/detail/CVE-2026-26157
-[2]: https://nvd.nist.gov/vuln/detail/CVE-2026-26158
+New this week: 21 CVEs
+CVE-2025-69693 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69693 *
+CVE-2026-23231 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-23231 *
+CVE-2026-2920 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-2920 *
+CVE-2026-2921 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-2921 *
+CVE-2026-2922 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-2922 *
+CVE-2026-2923 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-2923 *
+CVE-2026-3081 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3081 *
+CVE-2026-3082 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3082 *
+CVE-2026-3083 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3083 *
+CVE-2026-3084 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3084 *
+CVE-2026-3085 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3085 *
+CVE-2026-3086 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3086 *
+CVE-2026-32776 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-32776 *
+CVE-2026-32777 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-32777 *
+CVE-2026-32778 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-32778 *
+CVE-2026-3441 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3441 *
+CVE-2026-3442 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3442 *
+CVE-2026-3632 (CVSS3: N/A): libsoup https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3632 *
+CVE-2026-3633 (CVSS3: N/A): libsoup https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3633 *
+CVE-2026-3634 (CVSS3: N/A): libsoup https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3634 *
+CVE-2026-4271 (CVSS3: N/A): libsoup https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-4271 *
 
-Note:
-We use patch from busybox mirror that looks trustworthy https://gogs.librecmc.org/OWEALS/busybox.
+Removed this week: 3 CVEs
+CVE-2026-1965 (CVSS3: N/A): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-1965 *
+CVE-2026-3783 (CVSS3: N/A): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3783 *
+CVE-2026-3805 (CVSS3: N/A): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3805 *
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../CVE-2026-26157-CVE-2026-26158-01.patch    | 198 ++++++++++++++++++
- .../CVE-2026-26157-CVE-2026-26158-02.patch    |  37 ++++
- meta/recipes-core/busybox/busybox_1.35.0.bb   |   2 +
- 3 files changed, 237 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
+Full list:  Found 42 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
+CVE-2025-12801 (CVSS3: N/A): nfs-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-12801 *
+CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
+CVE-2025-59529 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59529 *
+CVE-2025-61662 (CVSS3: N/A): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-61662 *
+CVE-2025-69649 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69649 *
+CVE-2025-69650 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69650 *
+CVE-2025-69651 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69651 *
+CVE-2025-69652 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69652 *
+CVE-2025-69693 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69693 *
+CVE-2026-23231 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-23231 *
+CVE-2026-2920 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-2920 *
+CVE-2026-2921 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-2921 *
+CVE-2026-2922 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-2922 *
+CVE-2026-2923 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-2923 *
+CVE-2026-3081 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3081 *
+CVE-2026-3082 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3082 *
+CVE-2026-3083 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3083 *
+CVE-2026-3084 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3084 *
+CVE-2026-3085 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3085 *
+CVE-2026-3086 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3086 *
+CVE-2026-32776 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-32776 *
+CVE-2026-32777 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-32777 *
+CVE-2026-32778 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-32778 *
+CVE-2026-3441 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3441 *
+CVE-2026-3442 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3442 *
+CVE-2026-3632 (CVSS3: N/A): libsoup https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3632 *
+CVE-2026-3633 (CVSS3: N/A): libsoup https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3633 *
+CVE-2026-3634 (CVSS3: N/A): libsoup https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-3634 *
+CVE-2026-4271 (CVSS3: N/A): libsoup https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-4271 *
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
-new file mode 100644
-index 0000000000..47379fc40a
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
-@@ -0,0 +1,198 @@
-+From 3fb6b31c716669e12f75a2accd31bb7685b1a1cb Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Thu, 29 Jan 2026 11:48:02 +0100
-+Subject: [PATCH] tar: strip unsafe hardlink components - GNU tar does the same
-+
-+Defends against files like these (python reproducer):
-+
-+import tarfile
-+ti = tarfile.TarInfo("leak_hosts")
-+ti.type = tarfile.LNKTYPE
-+ti.linkname = "/etc/hosts"  # or "../etc/hosts" or ".."
-+ti.size = 0
-+with tarfile.open("/tmp/hardlink.tar", "w") as t:
-+	t.addfile(ti)
-+
-+function                                             old     new   delta
-+skip_unsafe_prefix                                     -     127    +127
-+get_header_tar                                      1752    1754      +2
-+.rodata                                           106861  106856      -5
-+unzip_main                                          2715    2706      -9
-+strip_unsafe_prefix                                  102      18     -84
-+------------------------------------------------------------------------------
-+(add/remove: 1/0 grow/shrink: 1/3 up/down: 129/-98)            Total: 31 bytes
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+CVE: CVE-2026-26157, CVE-2026-26158
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3fb6b31c716669e12f75a2accd31bb7685b1a1cb]
-+(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/3fb6b31c716669e12f75a2accd31bb7685b1a1cb)
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ .../archival/libarchive/data_extract_all.c    |  7 ++---
-+ .../archival/libarchive/get_header_tar.c      | 11 +++++--
-+ .../archival/libarchive/unsafe_prefix.c       | 30 +++++++++++++++----
-+ .../libarchive/unsafe_symlink_target.c        |  1 +
-+ archival/tar.c                 |  2 +-
-+ archival/unzip.c               |  2 +-
-+ include/bb_archive.h           |  3 +-
-+ 7 files changed, 42 insertions(+), 14 deletions(-)
-+
-+diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchive/data_extract_all.c
-+index 8a69711..b84b960 100644
-+--- a/archival/libarchive/data_extract_all.c
-++++ b/archival/libarchive/data_extract_all.c
-+@@ -66,8 +66,8 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
-+ 	}
-+ #endif
-+ #if ENABLE_FEATURE_PATH_TRAVERSAL_PROTECTION
-+-	/* Strip leading "/" and up to last "/../" path component */
-+-	dst_name = (char *)strip_unsafe_prefix(dst_name);
-++	/* Skip leading "/" and past last ".." path component */
-++	dst_name = (char *)skip_unsafe_prefix(dst_name);
-+ #endif
-+ // ^^^ This may be a problem if some applets do need to extract absolute names.
-+ // (Probably will need to invent ARCHIVE_ALLOW_UNSAFE_NAME flag).
-+@@ -185,8 +185,7 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
-+ 
-+ 		/* To avoid a directory traversal attack via symlinks,
-+ 		 * do not restore symlinks with ".." components
-+-		 * or symlinks starting with "/", unless a magic
-+-		 * envvar is set.
-++		 * or symlinks starting with "/"
-+ 		 *
-+ 		 * For example, consider a .tar created via:
-+ 		 *  $ tar cvf bug.tar anything.txt
-+diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/get_header_tar.c
-+index d26868b..dc0f7e0 100644
-+--- a/archival/libarchive/get_header_tar.c
-++++ b/archival/libarchive/get_header_tar.c
-+@@ -452,8 +452,15 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
-+ #endif
-+ 
-+ 	/* Everything up to and including last ".." component is stripped */
-+-	overlapping_strcpy(file_header->name, strip_unsafe_prefix(file_header->name));
-+-//TODO: do the same for file_header->link_target?
-++	strip_unsafe_prefix(file_header->name);
-++	if (file_header->link_target) {
-++		/* GNU tar 1.34 examples:
-++		 * tar: Removing leading '/' from hard link targets
-++		 * tar: Removing leading '../' from hard link targets
-++		 * tar: Removing leading 'etc/../' from hard link targets
-++		 */
-++		strip_unsafe_prefix(file_header->link_target);
-++	}
-+ 
-+ 	/* Strip trailing '/' in directories */
-+ 	/* Must be done after mode is set as '/' is used to check if it's a directory */
-+diff --git a/archival/libarchive/unsafe_prefix.c b/archival/libarchive/unsafe_prefix.c
-+index 6670811..89a371a 100644
-+--- a/archival/libarchive/unsafe_prefix.c
-++++ b/archival/libarchive/unsafe_prefix.c
-+@@ -5,11 +5,11 @@
-+ #include "libbb.h"
-+ #include "bb_archive.h"
-+ 
-+-const char* FAST_FUNC strip_unsafe_prefix(const char *str)
-++const char* FAST_FUNC skip_unsafe_prefix(const char *str)
-+ {
-+ 	const char *cp = str;
-+ 	while (1) {
-+-		char *cp2;
-++		const char *cp2;
-+ 		if (*cp == '/') {
-+ 			cp++;
-+ 			continue;
-+@@ -22,10 +22,25 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
-+ 			cp += 3;
-+ 			continue;
-+ 		}
-+-		cp2 = strstr(cp, "/../");
-++		cp2 = cp;
-++ find_dotdot:
-++		cp2 = strstr(cp2, "/..");
-+ 		if (!cp2)
-+-			break;
-+-		cp = cp2 + 4;
-++			break; /* No (more) malicious components */
-++
-++		/* We found "/..something" */
-++		cp2 += 3;
-++		if (*cp2 != '/') {
-++			if (*cp2 == '\0') {
-++				/* Trailing "/..": malicious, return "" */
-++				/* (causes harmless errors trying to create or hardlink a file named "") */
-++				return cp2;
-++			}
-++			/* "/..name" is not malicious, look for next "/.." */
-++			goto find_dotdot;
-++		}
-++		/* Found "/../": malicious, advance past it */
-++		cp = cp2 + 1;
-+ 	}
-+ 	if (cp != str) {
-+ 		static smallint warned = 0;
-+@@ -37,3 +52,8 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
-+ 	}
-+ 	return cp;
-+ }
-++
-++void FAST_FUNC strip_unsafe_prefix(char *str)
-++{
-++	overlapping_strcpy(str, skip_unsafe_prefix(str));
-++}
-+diff --git a/archival/libarchive/unsafe_symlink_target.c b/archival/libarchive/unsafe_symlink_target.c
-+index f8dc803..d764c89 100644
-+--- a/archival/libarchive/unsafe_symlink_target.c
-++++ b/archival/libarchive/unsafe_symlink_target.c
-+@@ -36,6 +36,7 @@ void FAST_FUNC create_links_from_list(llist_t *list)
-+ 				*list->data ? "hard" : "sym",
-+ 				list->data + 1, target
-+ 			);
-++			/* Note: GNU tar 1.34 errors out only _after_ all links are (attempted to be) created */
-+ 		}
-+ 		list = list->link;
-+ 	}
-+diff --git a/archival/tar.c b/archival/tar.c
-+index 9de3759..cf8c2d1 100644
-+--- a/archival/tar.c
-++++ b/archival/tar.c
-+@@ -475,7 +475,7 @@ static int FAST_FUNC writeFileToTarball(struct recursive_state *state,
-+ 	DBG("writeFileToTarball('%s')", fileName);
-+ 
-+ 	/* Strip leading '/' and such (must be before memorizing hardlink's name) */
-+-	header_name = strip_unsafe_prefix(fileName);
-++	header_name = skip_unsafe_prefix(fileName);
-+ 
-+ 	if (header_name[0] == '\0')
-+ 		return TRUE;
-+diff --git a/archival/unzip.c b/archival/unzip.c
-+index fc92ac6..7b29d77 100644
-+--- a/archival/unzip.c
-++++ b/archival/unzip.c
-+@@ -842,7 +842,7 @@ int unzip_main(int argc, char **argv)
-+ 		unzip_skip(zip.fmt.extra_len);
-+ 
-+ 		/* Guard against "/abspath", "/../" and similar attacks */
-+-		overlapping_strcpy(dst_fn, strip_unsafe_prefix(dst_fn));
-++		strip_unsafe_prefix(dst_fn);
-+ 
-+ 		/* Filter zip entries */
-+ 		if (find_list_entry(zreject, dst_fn)
-+diff --git a/include/bb_archive.h b/include/bb_archive.h
-+index e0ef8fc..1dc77f3 100644
-+--- a/include/bb_archive.h
-++++ b/include/bb_archive.h
-+@@ -202,7 +202,8 @@ char get_header_tar_xz(archive_handle_t *archive_handle) FAST_FUNC;
-+ void seek_by_jump(int fd, off_t amount) FAST_FUNC;
-+ void seek_by_read(int fd, off_t amount) FAST_FUNC;
-+ 
-+-const char *strip_unsafe_prefix(const char *str) FAST_FUNC;
-++const char *skip_unsafe_prefix(const char *str) FAST_FUNC;
-++void strip_unsafe_prefix(char *str) FAST_FUNC;
-+ void create_or_remember_link(llist_t **link_placeholders,
-+ 		const char *target,
-+ 		const char *linkname,
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
-new file mode 100644
-index 0000000000..5670110868
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
-@@ -0,0 +1,37 @@
-+From 599f5dd8fac390c18b79cba4c14c334957605dae Mon Sep 17 00:00:00 2001
-+From: Radoslav Kolev <radoslav.kolev@suse.com>
-+Date: Mon, 16 Feb 2026 11:50:04 +0200
-+Subject: [PATCH] tar: only strip unsafe components from hardlinks, not
-+ symlinks
-+
-+commit 3fb6b31c7 introduced a check for unsafe components in
-+tar archive hardlinks, but it was being applied to symlinks too
-+which broke "Symlinks and hardlinks coexist" tar test.
-+
-+Signed-off-by: Radoslav Kolev <radoslav.kolev@suse.com>
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+CVE: CVE-2026-26157, CVE-2026-26158
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=599f5dd8fac390c18b79cba4c14c334957605dae]
-+(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/599f5dd8fac390c18b79cba4c14c334957605dae)
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ archival/libarchive/get_header_tar.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/get_header_tar.c
-+index dc0f7e0..a8c2ad8 100644
-+--- a/archival/libarchive/get_header_tar.c
-++++ b/archival/libarchive/get_header_tar.c
-+@@ -453,7 +453,7 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
-+ 
-+ 	/* Everything up to and including last ".." component is stripped */
-+ 	strip_unsafe_prefix(file_header->name);
-+-	if (file_header->link_target) {
-++	if (file_header->link_target && !S_ISLNK(file_header->mode)) {
-+ 		/* GNU tar 1.34 examples:
-+ 		 * tar: Removing leading '/' from hard link targets
-+ 		 * tar: Removing leading '../' from hard link targets
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
-index 0b5ac220f5..bb07502ccc 100644
---- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
-@@ -62,6 +62,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2025-46394-01.patch \
-            file://CVE-2025-46394-02.patch \
-            file://CVE-2025-60876.patch \
-+           file://CVE-2026-26157-CVE-2026-26158-01.patch \
-+           file://CVE-2026-26157-CVE-2026-26158-02.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
- 
--- 
-2.50.1
+Summary of CVE counts by recipe:
+  linux-yocto: 12
+  gstreamer1.0: 10
+  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 6
+  libsoup: 4
+  expat:expat-native: 3
+  libsndfile1: 2
+  avahi: 1
+  ffmpeg: 1
+  grub:grub-efi:grub-native: 1
+  nfs-utils: 1
+  qemu:qemu-native:qemu-system-native: 1
 
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
