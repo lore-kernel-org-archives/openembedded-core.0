@@ -1,260 +1,208 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C70EED58CC5
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 03:25:20 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9699.1774236314025584308
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17DEED58CBE
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 03:43:01 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9698.1774237371560936443
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Mar 2026 20:25:14 -0700
+ Sun, 22 Mar 2026 20:42:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dGukhgmx;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-50b392f1846so41646431cf.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Mar 2026 20:25:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774236313; x=1774841113; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IUq8hLrlFSHnH1fFjk5gpBuUmvSayZm7BSELpMXr2W0=;
-        b=dGukhgmx7W90JRmk14ByAbaELSO53sjg8uxAnTYKtQhVQvlIGQ6TkOBlXmMGQpnNQm
-         NMymKdZoNLrp+MpowKh95Qi54oNfy+pwAL7H4v8fYzKHhdtf3KcJmsv1mlRCPGiHEHx4
-         D2h/o92OPmsUSkRtaF+nn0DDJ1m2jfj/tS2jNY2eHtr4tsPp+5VfJVZpyM9XBENXYS6z
-         2xcxbV503n87ony3COCy0hjE8OjlphcupQrKoEvxmGLg0wvVqrMV+eRiD1k8z+gKk8zn
-         vsAyLGKvfG3AdIo3lJ6vA53FR2dgU9Ya9jlDjs1rz1rAYTeXXbv3obQzOsIDFE8BJ0Rw
-         FOAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774236313; x=1774841113;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IUq8hLrlFSHnH1fFjk5gpBuUmvSayZm7BSELpMXr2W0=;
-        b=XR8gk5OJNjYk0ssoqAjOjbNG5GPWp3j839tWf+nexuGqPw/o9VXCPSje8RJFKl+ZQj
-         ppc4STfEwcfCH9ItvY6u1cB5+7sNt+J1TIHJa+xI4TGjDHEwqoULtculatt44emK7yAP
-         wUwYxZx8DrOvf6RNMamPdEcqxGDr5VjDralsL0nE/yrr4dJ90JisdN8ohdop29+9Pavo
-         pYj3q5Q0wYLHnD+ZzpKfsvb+Jhcq74rEPKSBSZ2ZPD17Phmjsit5NVauS6akieLi70t5
-         H4k7p0PhPI/4N15eoV4qn5SA71Mf5HC8StVMnnY7vfeBR8kmdbZi4BXxNgHO1fhagpwJ
-         a2Gg==
-X-Gm-Message-State: AOJu0Yzo0CZqBKloS7zHy4hKQWO/QoStCB6SoCaf4uA0U1DnKhIP1ScU
-	d3/omm2ssXdFuSF4cHjYdZzbw7g1ojaZ1mHcIOG/hhKYrYZtX52MN4/mX6Ih5ABr
-X-Gm-Gg: ATEYQzy1B1ZMEW578ajBTdP8Ab2FQqYA8hoqTkt4Uc1a9UBg63HoB5hSI5JaoL50WhB
-	lNCCWNnxfXj3kR3a6d52PRQCopE/YmFpqhKR3fu78RR57toVmGgrDOVtCk6vmLJ8XR6AJc63aId
-	dfHG5UCPo+8d3cmrioFvQbxFDSnTRMKJtvvSI+1/uciz+qRpxO5QidMpwBJ9w81GyWd4L35+Q1J
-	CHt7yQNwYqgR1ldE8A1tPh9mO+z8ToaaSDPRMcWsqV6ADWY3O2EUEfsmp94eeXrQn7lx5iuMc3d
-	+TkUDtEicp/Ji13KYaFH31kpR5j0fqmYts66XWLoQFeRK3VBKQH1gmfM1pKvw3o0nrRW4jNyAaX
-	jhL9r4pdvh+9yLPjAfW8Z8UwCrQ4/J46/mwp/kgh16Nqjo/2g63cUoxwsk5lQUzU9Bgc3WvnqT8
-	oi7RcnKOEPm7SCKyqqScdQC4M6//jFoUXkELxxqY6PPW1odWSk6P6WFEe6637XXz1wkfu9io/ay
-	Dr3kwAfmMDM+9FP51QL4QB+Q6LoujeTfJfFQVWSOPd6zuLQHw1iWmVUaao=
-X-Received: by 2002:a05:622a:5c7:b0:506:6caf:3cab with SMTP id d75a77b69052e-50b37474561mr173441561cf.26.1774236313040;
-        Sun, 22 Mar 2026 20:25:13 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b36e34f8bsm89352351cf.15.2026.03.22.20.25.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 20:25:12 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: yoann.congal@smile.fr
-Cc: openembedded-core@lists.openembedded.org
-Subject: [meta][kirkstone][PATCH 01/02] linux-yocto/5.15: update to v5.15.200
-Date: Sun, 22 Mar 2026 23:25:08 -0400
-Message-ID: <20260323032509.1590084-2-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260323032509.1590084-1-bruce.ashfield@gmail.com>
-References: <20260323032509.1590084-1-bruce.ashfield@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=eOUHsBDv;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1774237371; x=1805773371;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tuOr353QastHWtOObVSkiTL3bIlYwnX+psYjqyHyiD4=;
+  b=eOUHsBDv5ka83cVLyPsZ1X9RDsoi9yLK1G2c8zyyN66yzJlmA47tNdUS
+   QBF4yLGIMACOWus4RqLgbyhDA2bW0xujkNd38rZJzakRP+vyN0eqQg+se
+   ZD0JJZeIIvGMiWAeUXrh67FYYhMFkWOZE9hrX3u7N4BJyTWfeeMHbpzL0
+   V5tmGBn5y5DZzOajdsvbNxA2dycLJqAZNrozyzr/wWWjMNBS21W0hJeMx
+   fc61GrJvBCqQCFjY2prftlGi30MMP2xFyi8dq8Qv52YyiTfu4Ny7e2Ew8
+   Sdul5VVKjct/d45CTCcGKfXEcHvYze+t4/m/JWDDznKCnDQd/mw9ZQNYC
+   A==;
+X-CSE-ConnectionGUID: NCEPs4cBRiKPoPRWYdoidw==
+X-CSE-MsgGUID: KNLWBGVORsmyHUC0ipoH8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="233641383"
+X-IronPort-AV: E=Sophos;i="6.23,136,1770562800"; 
+   d="scan'208";a="233641383"
+Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 12:42:50 +0900
+Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id C383E1C1C71D
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 03:42:49 +0000 (UTC)
+Received: from az2nlsmom2.o.css.fujitsu.com (az2nlsmom2.o.css.fujitsu.com [10.150.26.200])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 74B9F18000D6
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 03:42:49 +0000 (UTC)
+Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.128.28])
+	by az2nlsmom2.o.css.fujitsu.com (Postfix) with ESMTP id D9EED18002FF;
+	Mon, 23 Mar 2026 03:42:46 +0000 (UTC)
+From: Wang Mingyu < wangmy@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] lttng-tools: upgrade 2.14.1 -> 2.15.0
+Date: Mon, 23 Mar 2026 11:42:43 +0800
+Message-ID: <20260323034243.2150-1-wangmy@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 03:25:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233692
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 03:43:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233694
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Updating linux-yocto/5.15 to the latest korg -stable release that comprises
-the following commits:
+disable-tests2.patch
+refresshed for 2.15.0
 
-    e45d5d41c1343 Linux 5.15.200
-    7ca5540ba6239 riscv: Replace function-like macro by static inline function
-    cbae610ca9e27 nvmet-tcp: pass iov_len instead of sg->length to bvec_set_page()
-    6a04dc650cef8 spi: tegra: Fix a memory leak in tegra_slink_probe()
-    c7a02a814dc51 spi: tegra210-quad: Protect curr_xfer clearing in tegra_qspi_non_combined_seq_xfer
-    9fa4262a80f75 spi: tegra210-quad: Protect curr_xfer in tegra_qspi_combined_seq_xfer
-    55dfe2687a496 spi: tegra210-quad: Protect curr_xfer assignment in tegra_qspi_setup_transfer_one
-    eebd79beb268c spi: tegra210-quad: Move curr_xfer read inside spinlock
-    4f9e7de7a6b8f spi: tegra210-quad: Return IRQ_HANDLED when timeout already processed transfer
-    b34289505180a iommu: disable SVA when CONFIG_X86 is set
-    1ecf6dc2676ea Bluetooth: hci_event: call disconnect callback before deleting conn
-    214b85b9b7187 gve: Correct ethtool rx_dropped calculation
-    9d93332397405 gve: Fix stats report corruption on queue count change
-    8aa1b0bc65967 tracing: Fix ftrace event field alignments
-    c3c5cfa3170c0 gfs2: Fix NULL pointer dereference in gfs2_log_flush
-    343fe375a8dd6 hfsplus: fix slab-out-of-bounds read in hfsplus_uni2asc()
-    be6d98766ac95 riscv: uprobes: Add missing fence.i after building the XOL buffer
-    d7ead65126504 ASoC: amd: fix memory leak in acp3x pdm dma ops
-    42afe8ed8ad2d nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu_iovec
-    4c09184f08ce6 nvmet-tcp: don't map pages which can't come from HIGHMEM
-    15e329ce1a957 nvmet-tcp: fix regression in data_digest calculation
-    1a5c3c99efa11 nvmet-tcp: fix memory leak when performing a controller reset
-    367fd132df419 nvmet-tcp: add an helper to free the cmd buffers
-    8c760ba4e36c7 netfilter: nf_tables: fix inverted genmask check in nft_map_catchall_activate()
-    166f29d4af575 hwmon: (occ) Mark occ_init_attribute() as __printf
-    3f531122a5801 tipc: use kfree_sensitive() for session key material
-    5dae6b36a7cb7 macvlan: fix error recovery in macvlan_common_newlink()
-    77611cab5bdff dpaa2-switch: add bounds check for if_id in IRQ handler
-    01fbca1e93ec3 net: liquidio: Fix off-by-one error in VF setup_nic_devices() cleanup
-    d86c58eb005eb net: liquidio: Fix off-by-one error in PF setup_nic_devices() cleanup
-    c81a8515fb8c8 net: liquidio: Initialize netdev pointer before queue setup
-    2fcccca88456b dpaa2-switch: prevent ZERO_SIZE_PTR dereference when num_ifs is zero
-    c01cc6fe06cf2 platform/x86: intel_telemetry: Fix PSS event register mask
-    5bce10f0f9435 platform/x86: toshiba_haps: Fix memory leaks in add/remove routines
-    193f087207ad8 wifi: mac80211: don't increment crypto_tx_tailroom_needed_cnt twice
-    8518f072fc929 scsi: target: iscsi: Fix use-after-free in iscsit_dec_conn_usage_count()
-    fd8b090017330 scsi: target: iscsi: Fix use-after-free in iscsit_dec_session_usage_count()
-    c85c9de39cd5d wifi: cfg80211: Fix bitrate calculation overflow for HE rates
-    15e9607df7925 ASoC: tlv320adcx140: Propagate error codes during probe
-    1525f1068295f ASoC: davinci-evm: Fix reference leak in davinci_evm_probe
-    536238ba39829 wifi: mac80211: collect station statistics earlier when disconnect
-    6e4cc9e399952 ring-buffer: Avoid softlockup in ring_buffer_resize() during memory free
-    16c2ca35257ed HID: Apply quirk HID_QUIRK_ALWAYS_POLL to Edifier QR30 (2d99:a101)
-    04485e691d8ca HID: quirks: Add another Chicony HP 5MP Cameras to hid_ignore_list
-    67e06e8a77c1a netfilter: replace -EEXIST with -EBUSY
-    e9aefab3b7eb4 ALSA: hda/realtek: add HP Laptop 15s-eq1xxx mute LED quirk
-    2d8af4db1f209 HID: playstation: Center initial joystick axes to prevent spurious events
-    d21497331b967 HID: intel-ish-hid: Reset enum_devices_done before enumeration
-    d5cce2ec0e985 HID: multitouch: add MT_QUIRK_STICKY_FINGERS to MT_CLS_VTL
-    a2c68e256fb7a smb/server: call ksmbd_session_rpc_close() on error path in create_smb2_pipe()
-    e5dd6a58a52d5 block,bfq: fix aux stat accumulation destination
-    64240689acff8 net: usb: sr9700: support devices with virtual driver CD
-    cd89a4656c03f wifi: wlcore: ensure skb headroom before skb_push
-    b04c75366a547 wifi: mac80211: ocb: skip rx_no_sta when interface is not joined
-    9a6cdfd7b6aaa binderfs: fix ida_alloc_max() upper bound
-    ba43ac025c431 timers: Fix NULL function pointer race in timer_shutdown_sync()
-    f24f9ea7d69ef Bluetooth: hci_qca: Fix the teardown problem for real
-    e7f1ca8ea41ab timers: Update the documentation to reflect on the new timer_shutdown() API
-    36bdfa51a1ad7 timers: Provide timer_shutdown[_sync]()
-    debbcf812d735 timers: Add shutdown mechanism to the internal functions
-    21ca3ee3f6faa timers: Split [try_to_]del_timer[_sync]() to prepare for shutdown mode
-    a7035e7d720f8 timers: Silently ignore timers with a NULL function
-    e45a52685b335 Documentation: Replace del_timer/del_timer_sync()
-    29d5751350cdf timers: Rename del_timer() to timer_delete()
-    a431c4c27ee05 timers: Replace BUG_ON()s
-    d2736470196f2 timers: Get rid of del_singleshot_timer_sync()
-    9b78a3b948bb6 clocksource/drivers/sp804: Do not use timer namespace for timer_shutdown() function
-    a97b47fed39d9 clocksource/drivers/arm_arch_timer: Do not use timer namespace for timer_shutdown() function
-    b03eb334c42ea ARM: spear: Do not use timer namespace for timer_shutdown() function
-    7bcf91585f3b1 Documentation: Remove bogus claim about del_timer_sync()
-    4abccfb61f422 netfilter: nft_set_pipapo: clamp maximum map bucket size to INT_MAX
-    d6ae339f18099 mm/kfence: randomize the freelist on initialization
-    2284bc168b148 KVM: Don't clobber irqfd routing type when deassigning irqfd
-    a550cc2564cab ARM: 9468/1: fix memset64() on big-endian
-    5928ca551e361 rbd: check for EOD after exclusive lock is ensured to be held
-    446d7283cffa5 platform/x86: intel_telemetry: Fix swapped arrays in PSS output
-    674ebe2d6fe59 x86/kfence: fix booting on 32bit non-PAE systems
+0001-tests-do-not-strip-a-helper-library.patch
+removed since it's not available in 2.15.0
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ ...-tests-do-not-strip-a-helper-library.patch | 24 -------------------
+ .../lttng/lttng-tools/disable-tests2.patch    | 22 ++++++++++-------
+ ...-tools_2.14.1.bb => lttng-tools_2.15.0.bb} | 10 ++++----
+ 3 files changed, 19 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.14.1.bb => lttng-tools_2.15.0.bb} (96%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index e23c8bf88a..526f3c64b7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
+deleted file mode 100644
+index 0547f30c02..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-From a45157a50e14d4bd244a3dd05d79c5703c819550 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 12 Dec 2019 16:52:07 +0100
+-Subject: [PATCH] tests: do not strip a helper library
+-
+-Upstream-Status: Inappropriate [oe-core specific]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- tests/utils/testapp/userspace-probe-elf-binary/Makefile.am | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-index 836f13e..e19a554 100644
+---- a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-+++ b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-@@ -14,7 +14,7 @@ userspace_probe_elf_binary_LDADD = libfoo.la
+- libfoo.strip: libfoo.la
+- 	$(OBJCOPY) --strip-all .libs/libfoo.so
+- 
+--all-local: libfoo.strip
+-+all-local:
+- 	@if [ x"$(srcdir)" != x"$(builddir)" ]; then \
+- 		for script in $(EXTRA_DIST); do \
+- 			cp -f $(srcdir)/$$script $(builddir); \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch b/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
+index 5b9a07fcb8..f93d6cdc4f 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
+@@ -5,24 +5,30 @@ now. Ideally tests.serial would have occasional output when running to show acti
+ Upstream-Status: Inappropriate [workaround for slow tests]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  
--SRCREV_machine ?= "27c8048897d9d7ff1ed6d2643cbc024eb13ae342"
--SRCREV_meta ?= "78eca082b68ad521c3bb9a1f9f0325e044045f18"
-+SRCREV_machine ?= "671f06e26c741b7d55d8afcc30e64f1480cec166"
-+SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
+-Index: lttng-tools-2.14.0/tests/regression/Makefile.am
+-===================================================================
+---- lttng-tools-2.14.0.orig/tests/regression/Makefile.am
+-+++ lttng-tools-2.14.0/tests/regression/Makefile.am
+-@@ -26,7 +26,6 @@ SERIAL_TESTS = tools/base-path/test_ust
++---
++ tests/regression/Makefile.am | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
++index a7cd133..bd82e94 100644
++--- a/tests/regression/Makefile.am
+++++ b/tests/regression/Makefile.am
++@@ -30,7 +30,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
+  	tools/tracefile-limits/test_tracefile_count \
+  	tools/tracefile-limits/test_tracefile_size \
+  	tools/exclusion/test_exclusion \
+ -	tools/snapshots/test_kernel \
+  	tools/snapshots/test_ust_fast \
++ 	tools/snapshots/test_ust_long \
+  	tools/snapshots/test_ust_streaming \
+- 	tools/snapshots/test_kernel_streaming \
+-@@ -47,8 +46,6 @@ SERIAL_TESTS = tools/base-path/test_ust
++@@ -53,7 +52,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
+  	tools/rotation/test_schedule_api \
+  	tools/metadata/test_kernel \
+  	tools/working-directory/test_relayd_working_directory \
+--	tools/clear/test_ust \
+ -	tools/clear/test_kernel \
+  	tools/clear/test_live_hang.py \
+  	tools/tracker/test_event_tracker \
+  	tools/trigger/start-stop/test_start_stop \
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.15.0.bb
+similarity index 96%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.15.0.bb
+index 3a3f2cff2c..e22c5c0492 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.15.0.bb
+@@ -44,7 +44,6 @@ PACKAGECONFIG[kmod] = "--with-kmod, --without-kmod, kmod"
+ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+-           file://0001-tests-do-not-strip-a-helper-library.patch \
+            file://run-ptest \
+            file://lttng-sessiond.service \
+            file://disable-tests.patch \
+@@ -52,7 +51,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://libc++.patch \
+            "
  
--LINUX_VERSION ?= "5.15.199"
-+LINUX_VERSION ?= "5.15.200"
+-SRC_URI[sha256sum] = "0e68eb27923621c4bc127cfce40422d28cf7e473fedf6229ae6c32ba5c5b7c6d"
++SRC_URI[sha256sum] = "4d739116556da71d58275bc7f0a6c0a967c6774b7d90f02c2731a7875debf28a"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index 21233285b5..1eeda2e22c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
+@@ -76,6 +75,7 @@ FILES:${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/*.la"
+ # Python module needs to keep _lttng.so
+ INSANE_SKIP:${PN} = "libexec dev-so"
+ INSANE_SKIP:${PN}-dbg = "libexec"
++INSANE_SKIP:${PN} = "already-stripped"
  
- require recipes-kernel/linux/linux-yocto.inc
+ PRIVATE_LIBS:${PN}-ptest = "libfoo.so"
  
--LINUX_VERSION ?= "5.15.199"
-+LINUX_VERSION ?= "5.15.200"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+@@ -95,7 +95,7 @@ do_install_ptest () {
+         install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
+     done
  
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+-    for f in tests/utils/tap-driver.sh config/test-driver src/common/session.xsd src/common/mi-lttng-4.1.xsd \
++    for f in tests/utils/tap-driver.sh config/test-driver src/common/session.xsd src/common/mi-lttng-4.2.xsd \
+              tests/regression/tests.serial; do
+         install -D "${S}/$f" "${D}${PTEST_PATH}/$f"
+     done
+@@ -140,8 +140,8 @@ do_install_ptest () {
+         done
+     done
  
--SRCREV_machine ?= "7b20eb2129d25bb2a1cb963d30c2f3adb1e144b3"
--SRCREV_meta ?= "78eca082b68ad521c3bb9a1f9f0325e044045f18"
-+SRCREV_machine ?= "0d4112b87ce7dd038dc712ef616c0b6dd333c786"
-+SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
+-    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary
+-    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary
++    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary
++    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary
+     chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libbar.so
+     chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libfoo.so
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index 861af0041a..5f8bfba396 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -14,24 +14,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "0ea8d4a7d24642475c1d1e0d8be44976600eb630"
--SRCREV_machine:qemuarm64 ?= "33aae9ebda82736fc0246e4d2bd7967bb7ef492a"
--SRCREV_machine:qemumips ?= "0d159686c17443503bc7b59f25b5129c8543193d"
--SRCREV_machine:qemuppc ?= "c8e213f83bae4792c1042bdcedd46fa60963c69b"
--SRCREV_machine:qemuriscv64 ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_machine:qemuriscv32 ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_machine:qemux86 ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_machine:qemux86-64 ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_machine:qemumips64 ?= "58c96e47bbd784e078e265426b9276bad2bb7e22"
--SRCREV_machine ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_meta ?= "78eca082b68ad521c3bb9a1f9f0325e044045f18"
-+SRCREV_machine:qemuarm ?= "44b7b6bdfaab20ab51f175aeb0df8c27791cc40d"
-+SRCREV_machine:qemuarm64 ?= "d67ad97cb5d6a51184bd61853e3af7e044c7f1d4"
-+SRCREV_machine:qemumips ?= "94fe5264de5b6ba6a5fab53b3f2283e36033e373"
-+SRCREV_machine:qemuppc ?= "a065262f1076ca606ea8229f84b23c10be2680e7"
-+SRCREV_machine:qemuriscv64 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemuriscv32 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemux86 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemux86-64 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemumips64 ?= "00831bab13b4320ee27e4ddc72b55542bfe75ec8"
-+SRCREV_machine ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "7b232985052fcf6a78bf0f965aa4241c0678c2ba"
-+SRCREV_machine:class-devupstream ?= "e45d5d41c1343aad8c7587a5b15d58e99aff4c8a"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v5.15/base"
- 
-@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.15.199"
-+LINUX_VERSION ?= "5.15.200"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
 -- 
 2.43.0
 
