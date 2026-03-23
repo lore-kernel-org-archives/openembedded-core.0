@@ -2,56 +2,56 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 118D0EC01DF
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 21:07:53 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5648.1774300071756604032
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D18F4613C
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 21:08:03 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5651.1774300073996444874
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 14:07:52 -0700
+ Mon, 23 Mar 2026 14:07:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=UZEO199r;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48700b1ba53so30942215e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 14:07:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=cTmTeGUw;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486fe655187so42323455e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 14:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774300070; x=1774904870; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774300072; x=1774904872; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0c1szvNRo9lFldeYmk8o9OdqLCa+Mjx5/i6grLv/h6s=;
-        b=UZEO199rLg2h9S8BgZbnZSnmCl4t7+qZNfxyydugb5/ajGrY4A+vhTfWVA8oQUKo1l
-         B9IK6giezdhvk4fKVWFrwHe4sB3lDgm7cnrgvGQYKTQ616ef2HiVGNeRWUyycaUM4mP3
-         ydQevuGgrsOeNc39bkk7GoSHyWmx7UY7BotFhAioV0YIYKms7SnkyJBcJ5x3g0Jo9Sz6
-         3QnyQC1fjh6Rj3T1RTQCeODdHVbjhdtt/Msnps17Z59W5RfFzhY0467qU1HjJtyfovkm
-         w0g+US8tA0KZCxM3l74E+P1lSOjvr6bozHGr04EgEDU1cll4XEkO1ciR0FeiinM8Bwrl
-         sudg==
+        bh=jFrTdq6KPRDe3vHhYtrnDo7un5Va8725ATZO+n9qHp8=;
+        b=cTmTeGUwX8B6MdRsGsHP+ID7OSGPeIi4E37Xc4V6s4MkE10SFxs1fodYOoQaYVH6iQ
+         voI39Z4B0Bllmed0jLMq3GzFHnM2TpOVDfS+vcqjQrgIzZHvUiefYvJbaifOO/KE/GAc
+         kCAV29m+0TTe+amkg0PWGD1Fz3knGqqwGspSOudEVPZ0FMf8HB3+UYmRH9estaERJ/zS
+         wwYljkjnIgUeUqi5OtBPVqOJmJPmo5lWcIAIue853M/tVp1uvbZ5Lgk+2JOzhf98NTZe
+         I8i20+5hdbqIEujeMlSOaCvPGDhtdkBndSLDaF3CmiwI/9aaR24csDsflyyy5ruHXAdr
+         k3Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774300070; x=1774904870;
+        d=1e100.net; s=20251104; t=1774300072; x=1774904872;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0c1szvNRo9lFldeYmk8o9OdqLCa+Mjx5/i6grLv/h6s=;
-        b=NyUePqjFJaoMttualoSvt+XiaCox4eAKd4xE6o2+pUBGttN1rgWOT88C2O5az/lacB
-         /tsJExaOQ9n8AM/RHO7XC2+wTPFYcaardM8Uk/LIhqM3EQBa8d8TeQ/bkGyEKxGHbwwo
-         JQKP0aQO553y/NN+HsZ/nQeWwt780UyDcGo61QPgNN7SCKBB53K8b2LVNIWFEMRmYqDw
-         Ev7aSCFNeF5zdehrhNdW1X8OdJ8c/Rd3xj0brbO8hnDOY2YNYhqVLMAGhhjjC0qC7OXA
-         oxymgVCI3mEcl4Kfgpxc0eHtUZ4N2QwmvNDnmV/HON5aG+xDjMjPmOuIwIr+XpXXdLpr
-         Rp0Q==
-X-Gm-Message-State: AOJu0YyKCDj7xhYvI3fDLEruYhcEWnH5Oef+lPL0n84WNWsZFdYzFiXQ
-	kgpCt57pmrFjdViFgXsQViPvFhZjuTa6+b8cK8vffeQKvUMhOnNwHSniHKYHTUUp
-X-Gm-Gg: ATEYQzxaCNalq9T8tE2UPiAbFjsLUeEGPPUmiQR9ULM5H3gh5a7B/3CDxfofPw/TzIi
-	WHj/u4930n/hWM3cTgyNgmsWub4lffJF7uLSGgEkAmx09Vf21WQmg+XtLFh0ZNifLok5a4RqRKM
-	1hrp5gUuS7L5ah4A7Xa1vNM+da6w+rVgDENCJcNJratqNOzl4nY2lhLHnIjYQNrw6StXDyjgREl
-	SbbDNsqzR/zQ7Dj9ekAmcvKLAt73FlP6rM8p8voV2G0/yD6J22nDoibURlmm/K1H6W8DTHbvOH2
-	Ykzuqpw5MYYF1AIzEuhpCwMnkL5wS4kYdsIiEPuFhjj66SooNvGB+ycUOMenlyqhz+oC44PmGH4
-	yIXgq6jnr7USy0tWVTxQjzlqkbmFxuEroawUvrKD3sXLJPKbZVy7MLNxrT9bdaLpok5A7E11NP0
-	WWIWAC0zAroxJm1x4PFWD547TyHDwbZt8SzUd05G/+PjFzlbQmyXNC
-X-Received: by 2002:a05:600c:698e:b0:480:3ad0:93bf with SMTP id 5b1f17b1804b1-486fee1af00mr161320385e9.24.1774300069076;
-        Mon, 23 Mar 2026 14:07:49 -0700 (PDT)
+        bh=jFrTdq6KPRDe3vHhYtrnDo7un5Va8725ATZO+n9qHp8=;
+        b=j/NJz4CNVkYqk7Y2fgoYYMDSo7HqQlTMJYyvUMbLtTtT3ZrZBHviiEj8rgpVnKwIWq
+         voFvYzocI/LH4sVinLxx+MIiKGUE7hV8fxXBlxX4BS2zJ4oIkcvdow6SPGxTk05BdNVN
+         Jeh74q/Ptf76YrE0b7JV7ZqWtAgndE9r5rVu/JaUjjwEmbsj/KyUTwcuM1RqpgoA55a8
+         uf133sxgavFccwdUNP18hO26APaVYgcExYJQtUfMtOibdvXc6G0OszoQeL9TyjrTSaiH
+         /6M6raT/pTx3xOz8V05+Cd1Fr42PYz9nPUaoxv8R9YrEShDP9Dc09DebvrO0+DQquuBg
+         QYag==
+X-Gm-Message-State: AOJu0YzXKT0pqGHcn2C2HyQSWAjDLoBPLapfO1H1lfW8/Vp8lCvIr+0/
+	v7KMhSXFS2BpkflH36oTANPxgoUwXAiQ9n1owNafom0r3R+qANroBaRALrF5BnaD
+X-Gm-Gg: ATEYQzx6NdlNhGPY+0/ouft1F8FKS1nINBfjwwkQkOaypva2Hrdtt6Lr5RcLSr4FAON
+	UfVyerfXhy7oJS2goHComiK/+jGr5yR4dKHO/TeeGeAkDH0G4JCWGNQ76QLmiSL0HZ2da9TEA79
+	ViNxifcTTfONRkMpIldWVJCSkAyRuQ/aD24cmacbvwVmX/7zoVjgdEIop4twGZxkUDXcDm3gRe9
+	UKii1S0u4pJIJZsgMardomxcMf43O86fiMjEQDFi5k7VxX1mmk0Vmy49vbdHPUEqtp4h901YB87
+	XV+umz1b6ij6N5VlvS9jDYI1/qqNa3P868z2/xC6uv6fGf2uT0NaQakBziJsfM9IzJEPMmXWWkG
+	MZo/5dRnBNojBfZZtiuby3Nx2+p430Tr22HUHlC3tqgAIUToOuHODMiQD+VJHfI7mvXaLe7iJC0
+	M5UA7IDCvYQkD1AvbOSS3ZG4FDznNUD2ikJxS+wGUX9jo9XDUljts+
+X-Received: by 2002:a05:600d:8401:b0:483:709e:f238 with SMTP id 5b1f17b1804b1-486fee297demr152148965e9.29.1774300071816;
+        Mon, 23 Mar 2026 14:07:51 -0700 (PDT)
 Received: from fedora ([81.6.40.67])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487113c4eb3sm853495e9.0.2026.03.23.14.07.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487113c4eb3sm853495e9.0.2026.03.23.14.07.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 14:07:48 -0700 (PDT)
+        Mon, 23 Mar 2026 14:07:50 -0700 (PDT)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -62,9 +62,9 @@ Cc: richard.purdie@linuxfoundation.org,
 	peter.marko@siemens.com,
 	adrian.freihofer@siemens.com,
 	mathieu.dubois-briand@bootlin.com
-Subject: [PATCH v13 1/4] spdx30: Add configurable file exclusion pattern support
-Date: Mon, 23 Mar 2026 22:07:42 +0100
-Message-ID: <20260323210745.1337169-2-stefano.tondo.ext@siemens.com>
+Subject: [PATCH v13 3/4] spdx30: Enrich source downloads with version and PURL
+Date: Mon, 23 Mar 2026 22:07:44 +0100
+Message-ID: <20260323210745.1337169-4-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260323210745.1337169-1-stefano.tondo.ext@siemens.com>
 References: <20260323210745.1337169-1-stefano.tondo.ext@siemens.com>
@@ -73,216 +73,460 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 21:07:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233764
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 21:08:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233766
 
-Add SPDX_FILE_EXCLUDE_PATTERNS variable that allows filtering files from
-SPDX output by regex matching. The variable accepts a space-separated
-list of Python regular expressions; files whose paths match any pattern
-(via re.search) are excluded.
+Add version extraction, PURL generation, and external references
+to source download packages in SPDX 3.0 SBOMs:
 
-When empty (the default), no filtering is applied and all files are
-included, preserving existing behavior.
+- Extract version from SRCREV for Git sources (full SHA-1)
+- Generate PURLs for Git sources on github.com by default
+- Support custom mappings via SPDX_GIT_PURL_MAPPINGS variable
+  (format: "domain:purl_type", split(':', 1) for parsing)
+- Use ecosystem PURLs from SPDX_PACKAGE_URLS for non-Git
+- Add VCS external references for Git downloads
+- Add distribution external references for tarball downloads
+- Parse Git URLs using urllib.parse
+- Extract logic into _generate_git_purl() and
+  _enrich_source_package() helpers
 
-This enables users to reduce SBOM size by excluding files that are not
-relevant for compliance (e.g., test files, object files, patches).
+For non-Git sources, version is not set from PV since the recipe
+version does not necessarily reflect the version of individual
+downloaded files. Ecosystem PURLs (which include version) from
+SPDX_PACKAGE_URLS are still used when available.
 
-Excluded files are tracked in a set returned from add_package_files()
-and passed to get_package_sources_from_debug(), which uses the set for
-precise cross-checking rather than re-evaluating patterns.
+The SPDX_GIT_PURL_MAPPINGS variable allows configuring PURL
+generation for self-hosted Git services (e.g., GitLab).
+github.com is always mapped to pkg:github by default.
+
+Add ecosystem-specific SPDX_PACKAGE_URLS to recipe classes:
+- cargo_common.bbclass: pkg:cargo
+- cpan.bbclass: pkg:cpan (with prefix stripping)
+- go-mod.bbclass: pkg:golang
+- npm.bbclass: pkg:npm (with prefix stripping)
+- pypi.bbclass: pkg:pypi (with normalization)
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/spdx-common.bbclass |  7 +++
- meta/lib/oe/spdx30_tasks.py      | 80 +++++++++++++++++++++-----------
- 2 files changed, 60 insertions(+), 27 deletions(-)
+ meta/classes-recipe/cargo_common.bbclass |   3 +
+ meta/classes-recipe/cpan.bbclass         |  11 ++
+ meta/classes-recipe/go-mod.bbclass       |   6 +
+ meta/classes-recipe/npm.bbclass          |   7 +
+ meta/classes-recipe/pypi.bbclass         |   6 +-
+ meta/classes/create-spdx-3.0.bbclass     |   7 +
+ meta/lib/oe/spdx30_tasks.py              | 175 +++++++++++++++++------
+ 7 files changed, 172 insertions(+), 43 deletions(-)
 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 83f05579b6..40701730a6 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -82,6 +82,13 @@ SPDX_MULTILIB_SSTATE_ARCHS[doc] = "The list of sstate architectures to consider
-     when collecting SPDX dependencies. This includes multilib architectures when \
-     multilib is enabled. Defaults to SSTATE_ARCHS."
- 
-+SPDX_FILE_EXCLUDE_PATTERNS ??= ""
-+SPDX_FILE_EXCLUDE_PATTERNS[doc] = "Space-separated list of Python regular \
-+    expressions to exclude files from SPDX output. Files whose paths match \
-+    any pattern (via re.search) will be filtered out. Defaults to empty \
-+    (no filtering). Example: \
-+    SPDX_FILE_EXCLUDE_PATTERNS = '\\.patch$ \\.diff$ /test/ \\.pyc$ \\.o$'"
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index bc44ad7918..0d3edfe4a7 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -240,3 +240,6 @@ EXPORT_FUNCTIONS do_configure
+ # https://github.com/rust-lang/libc/issues/3223
+ # https://github.com/rust-lang/libc/pull/3175
+ INSANE_SKIP:append = " 32bit-time"
 +
- python () {
-     from oe.cve_check import extend_cve_status
-     extend_cve_status(d)
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:cargo/${BPN}@${PV} "
+diff --git a/meta/classes-recipe/cpan.bbclass b/meta/classes-recipe/cpan.bbclass
+index bb76a5b326..dbf44da9d2 100644
+--- a/meta/classes-recipe/cpan.bbclass
++++ b/meta/classes-recipe/cpan.bbclass
+@@ -68,4 +68,15 @@ cpan_do_install () {
+ 	done
+ }
+ 
++# Generate ecosystem-specific Package URL for SPDX
++def cpan_spdx_name(d):
++    bpn = d.getVar('BPN')
++    if bpn.startswith('perl-'):
++        return bpn[5:]
++    elif bpn.startswith('libperl-'):
++        return bpn[8:]
++    return bpn
++
++SPDX_PACKAGE_URLS =+ "pkg:cpan/${@cpan_spdx_name(d)}@${PV} "
++
+ EXPORT_FUNCTIONS do_configure do_compile do_install
+diff --git a/meta/classes-recipe/go-mod.bbclass b/meta/classes-recipe/go-mod.bbclass
+index a15dda8f0e..5b3cb2d8b9 100644
+--- a/meta/classes-recipe/go-mod.bbclass
++++ b/meta/classes-recipe/go-mod.bbclass
+@@ -32,3 +32,9 @@ do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
+ # Make go install unpack the module zip files in the module cache directory
+ # before the license directory is polulated with license files.
+ addtask do_compile before do_populate_lic
++
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:golang/${GO_IMPORT}@${PV} "
++
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:golang/${GO_IMPORT}@${PV} "
+diff --git a/meta/classes-recipe/npm.bbclass b/meta/classes-recipe/npm.bbclass
+index 344e8b4bec..7bb791d543 100644
+--- a/meta/classes-recipe/npm.bbclass
++++ b/meta/classes-recipe/npm.bbclass
+@@ -354,4 +354,11 @@ FILES:${PN} += " \
+     ${nonarch_libdir} \
+ "
+ 
++# Generate ecosystem-specific Package URL for SPDX
++def npm_spdx_name(d):
++    bpn = d.getVar('BPN')
++    return bpn[5:] if bpn.startswith('node-') else bpn
++
++SPDX_PACKAGE_URLS =+ "pkg:npm/${@npm_spdx_name(d)}@${PV} "
++
+ EXPORT_FUNCTIONS do_configure do_compile do_install
+diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.bbclass
+index 9d46c035f6..e2d054af6d 100644
+--- a/meta/classes-recipe/pypi.bbclass
++++ b/meta/classes-recipe/pypi.bbclass
+@@ -43,7 +43,8 @@ SECTION = "devel/python"
+ SRC_URI:prepend = "${PYPI_SRC_URI} "
+ S = "${UNPACKDIR}/${PYPI_PACKAGE}-${PV}"
+ 
+-UPSTREAM_CHECK_PYPI_PACKAGE ?= "${PYPI_PACKAGE}"
++# Replace any '_' characters in the pypi URI with '-'s to follow the PyPi website naming conventions
++UPSTREAM_CHECK_PYPI_PACKAGE ?= "${@pypi_normalize(d)}"
+ 
+ # Use the simple repository API rather than the potentially unstable project URL
+ # More information on the pypi API specification is avaialble here:
+@@ -54,3 +55,6 @@ UPSTREAM_CHECK_URI ?= "https://pypi.org/simple/${@pypi_normalize(d)}/"
+ UPSTREAM_CHECK_REGEX ?= "${UPSTREAM_CHECK_PYPI_PACKAGE}-(?P<pver>(\d+[\.\-_]*)+).(tar\.gz|tgz|zip|tar\.bz2)"
+ 
+ CVE_PRODUCT ?= "python:${PYPI_PACKAGE}"
++
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:pypi/${@pypi_normalize(d)}@${PV} "
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 9a6606dce6..265dc525bc 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -156,6 +156,13 @@ SPDX_RECIPE_SBOM_NAME ?= "${PN}-recipe-sbom"
+ SPDX_RECIPE_SBOM_NAME[doc] = "The name of output recipe SBoM when using \
+     create_recipe_sbom"
+ 
++SPDX_GIT_PURL_MAPPINGS ??= ""
++SPDX_GIT_PURL_MAPPINGS[doc] = "A space separated list of domain:purl_type \
++    mappings to configure PURL generation for Git source downloads. \
++    For example, "gitlab.example.com:pkg:gitlab" maps repositories hosted \
++    on gitlab.example.com to the pkg:gitlab PURL type. \
++    github.com is always mapped to pkg:github by default."
++
+ IMAGE_CLASSES:append = " create-spdx-image-3.0"
+ SDK_CLASSES += "create-spdx-sdk-3.0"
+ 
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 353d783fa2..68ed821a8c 100644
+index 62a00069df..6f0bdba975 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -13,6 +13,7 @@ import oe.spdx30
- import oe.spdx_common
+@@ -14,6 +14,7 @@ import oe.spdx_common
  import oe.sdk
  import os
-+import re
+ import re
++import urllib.parse
  
  from contextlib import contextmanager
  from datetime import datetime, timezone
-@@ -157,17 +158,27 @@ def add_package_files(
-     file_counter = 1
-     if not os.path.exists(topdir):
-         bb.note(f"Skip {topdir}")
--        return spdx_files
-+        return spdx_files, set()
+@@ -384,6 +385,120 @@ def collect_dep_sources(dep_objsets, dest):
+             index_sources_by_hash(e.to, dest)
  
-     check_compiled_sources = d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1"
-     if check_compiled_sources:
-         compiled_sources, types = oe.spdx_common.get_compiled_sources(d)
-         bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
  
-+    exclude_patterns = [
-+        re.compile(pattern)
-+        for pattern in (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").split()
-+    ]
-+    excluded_files = set()
++def _generate_git_purl(d, download_location, srcrev):
++    """Generate a Package URL for a Git source from its download location.
 +
-     for subdir, dirs, files in os.walk(topdir, onerror=walk_error):
--        dirs[:] = [d for d in dirs if d not in ignore_dirs]
-+        dirs[:] = [directory for directory in dirs if directory not in ignore_dirs]
-         if subdir == str(topdir):
--            dirs[:] = [d for d in dirs if d not in ignore_top_level_dirs]
-+            dirs[:] = [
-+                directory
-+                for directory in dirs
-+                if directory not in ignore_top_level_dirs
-+            ]
- 
-         dirs.sort()
-         files.sort()
-@@ -177,14 +188,19 @@ def add_package_files(
-                 continue
- 
-             filename = str(filepath.relative_to(topdir))
++    Parses the Git URL to identify the hosting service and generates the
++    appropriate PURL type. Supports github.com by default and custom
++    mappings via SPDX_GIT_PURL_MAPPINGS.
 +
-+            if exclude_patterns and any(
-+                pattern.search(filename) for pattern in exclude_patterns
-+            ):
-+                excluded_files.add(filename)
-+                continue
++    Returns the PURL string or None if no mapping matches.
++    """
++    if not download_location or not download_location.startswith('git+'):
++        return None
 +
-             file_purposes = get_purposes(filepath)
- 
--            # Check if file is compiled
--            if check_compiled_sources:
--                if not oe.spdx_common.is_compiled_source(
--                    filename, compiled_sources, types
--                ):
--                    continue
-+            if check_compiled_sources and not oe.spdx_common.is_compiled_source(
-+                filename, compiled_sources, types
-+            ):
-+                continue
- 
-             spdx_file = objset.new_file(
-                 get_spdxid(file_counter),
-@@ -218,12 +234,15 @@ def add_package_files(
- 
-     bb.debug(1, "Added %d files to %s" % (len(spdx_files), objset.doc._id))
- 
--    return spdx_files
-+    return spdx_files, excluded_files
- 
- 
- def get_package_sources_from_debug(
--    d, package, package_files, sources, source_hash_cache
-+    d, package, package_files, sources, source_hash_cache, excluded_files=None
- ):
-+    if excluded_files is None:
-+        excluded_files = set()
++    git_url = download_location[4:]  # Remove 'git+' prefix
 +
-     def file_path_match(file_path, pkg_file):
-         if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
-             return True
-@@ -256,6 +275,12 @@ def get_package_sources_from_debug(
++    # Default handler: github.com
++    git_purl_handlers = {
++        'github.com': 'pkg:github',
++    }
++
++    # Custom PURL mappings from SPDX_GIT_PURL_MAPPINGS
++    # Format: "domain1:purl_type1 domain2:purl_type2"
++    custom_mappings = d.getVar('SPDX_GIT_PURL_MAPPINGS')
++    if custom_mappings:
++        for mapping in custom_mappings.split():
++            parts = mapping.split(':', 1)
++            if len(parts) == 2:
++                git_purl_handlers[parts[0]] = parts[1]
++                bb.debug(2, f"Added custom Git PURL mapping: {parts[0]} -> {parts[1]}")
++            else:
++                bb.warn(f"Invalid SPDX_GIT_PURL_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
++
++    try:
++        parsed = urllib.parse.urlparse(git_url)
++    except Exception:
++        return None
++
++    hostname = parsed.hostname
++    if not hostname:
++        return None
++
++    for domain, purl_type in git_purl_handlers.items():
++        if hostname == domain:
++            path = parsed.path.strip('/')
++            path_parts = path.split('/')
++            if len(path_parts) >= 2:
++                owner = path_parts[0]
++                repo = path_parts[1].replace('.git', '')
++                return f"{purl_type}/{owner}/{repo}@{srcrev}"
++            break
++
++    return None
++
++
++def _enrich_source_package(d, dl, fd, file_name, primary_purpose):
++    """Enrich a source download package with version, PURL, and external refs.
++
++    Extracts version from SRCREV for Git sources, generates PURLs for
++    known hosting services, and adds external references for VCS,
++    distribution URLs, and homepage.
++    """
++    version = None
++    purl = None
++
++    if fd.type == "git":
++        # Use full SHA-1 from fd.revision
++        srcrev = getattr(fd, 'revision', None)
++        if srcrev and srcrev not in {'${AUTOREV}', 'AUTOINC', 'INVALID'}:
++            version = srcrev
++
++        # Generate PURL for Git hosting services
++        download_location = getattr(dl, 'software_downloadLocation', None)
++        if version and download_location:
++            purl = _generate_git_purl(d, download_location, version)
++    else:
++        # Use ecosystem PURL from SPDX_PACKAGE_URLS if available
++        package_urls = (d.getVar('SPDX_PACKAGE_URLS') or '').split()
++        for url in package_urls:
++            if not url.startswith('pkg:yocto'):
++                purl = url
++                break
++
++    if version:
++        dl.software_packageVersion = version
++
++    if purl:
++        dl.software_packageUrl = purl
++
++    # Add external references
++    download_location = getattr(dl, 'software_downloadLocation', None)
++    if download_location and isinstance(download_location, str):
++        dl.externalRef = dl.externalRef or []
++
++        if download_location.startswith('git+'):
++            # VCS reference for Git repositories
++            git_url = download_location[4:]
++            if '@' in git_url:
++                git_url = git_url.split('@')[0]
++
++            dl.externalRef.append(
++                oe.spdx30.ExternalRef(
++                    externalRefType=oe.spdx30.ExternalRefType.vcs,
++                    locator=[git_url],
++                )
++            )
++        elif download_location.startswith(('http://', 'https://', 'ftp://')):
++            # Distribution reference for tarball/archive downloads
++            dl.externalRef.append(
++                oe.spdx30.ExternalRef(
++                    externalRefType=oe.spdx30.ExternalRefType.altDownloadLocation,
++                    locator=[download_location],
++                )
++            )
++
++
+ def add_download_files(d, objset):
+     inputs = set()
+ 
+@@ -447,10 +562,14 @@ def add_download_files(d, objset):
+                 )
+             )
+ 
++            _enrich_source_package(d, dl, fd, file_name, primary_purpose)
++
+             if fd.method.supports_checksum(fd):
+                 # TODO Need something better than hard coding this
+                 for checksum_id in ["sha256", "sha1"]:
+-                    expected_checksum = getattr(fd, "%s_expected" % checksum_id, None)
++                    expected_checksum = getattr(
++                        fd, "%s_expected" % checksum_id, None
++                    )
+                     if expected_checksum is None:
+                         continue
+ 
+@@ -506,7 +625,6 @@ def get_is_native(d):
+ 
+ def create_recipe_spdx(d):
+     deploydir = Path(d.getVar("SPDXRECIPEDEPLOY"))
+-    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     pn = d.getVar("PN")
+ 
+     license_data = oe.spdx_common.load_spdx_license_data(d)
+@@ -541,20 +659,6 @@ def create_recipe_spdx(d):
+ 
+     set_purls(recipe, (d.getVar("SPDX_PACKAGE_URLS") or "").split())
+ 
+-    # TODO: This doesn't work before do_unpack because the license text has to
+-    # be available for recipes with NO_GENERIC_LICENSE
+-    # recipe_spdx_license = add_license_expression(
+-    #    d,
+-    #    recipe_objset,
+-    #    d.getVar("LICENSE"),
+-    #    license_data,
+-    # )
+-    # recipe_objset.new_relationship(
+-    #    [recipe],
+-    #    oe.spdx30.RelationshipType.hasDeclaredLicense,
+-    #    [oe.sbom30.get_element_link_id(recipe_spdx_license)],
+-    # )
+-
+     if val := d.getVar("HOMEPAGE"):
+         recipe.software_homePage = val
+ 
+@@ -588,7 +692,6 @@ def create_recipe_spdx(d):
+             sorted(oe.sbom30.get_element_link_id(dep) for dep in dep_recipes),
+         )
+ 
+-    # Add CVEs
+     cve_by_status = {}
+     if include_vex != "none":
+         patched_cves = oe.cve_check.get_patched_cves(d)
+@@ -598,8 +701,6 @@ def create_recipe_spdx(d):
+             description = patched_cve.get("justification", None)
+             resources = patched_cve.get("resource", [])
+ 
+-            # If this CVE is fixed upstream, skip it unless all CVEs are
+-            # specified.
+             if include_vex != "all" and detail in (
+                 "fixed-version",
+                 "cpe-stable-backport",
+@@ -692,7 +793,6 @@ def create_recipe_spdx(d):
+ 
+ 
+ def load_recipe_spdx(d):
+-
+     return oe.sbom30.find_root_obj_in_jsonld(
+         d,
+         "static",
+@@ -717,10 +817,8 @@ def create_spdx(d):
+ 
+     pn = d.getVar("PN")
+     deploydir = Path(d.getVar("SPDXDEPLOY"))
+-    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     spdx_workdir = Path(d.getVar("SPDXWORK"))
+     include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
+-    pkg_arch = d.getVar("SSTATE_PKGARCH")
+     is_native = get_is_native(d)
+ 
+     recipe, recipe_objset = load_recipe_spdx(d)
+@@ -783,7 +881,6 @@ def create_spdx(d):
+     dep_objsets, dep_builds = collect_dep_objsets(
+         d, direct_deps, "builds", "build-", oe.spdx30.build_Build
+     )
+-
+     if dep_builds:
+         build_objset.new_scoped_relationship(
+             [build],
+@@ -919,9 +1016,7 @@ def create_spdx(d):
+ 
+             # Add concluded license relationship if manually set
+             # Only add when license analysis has been explicitly performed
+-            concluded_license_str = d.getVar(
+-                "SPDX_CONCLUDED_LICENSE:%s" % package
+-            ) or d.getVar("SPDX_CONCLUDED_LICENSE")
++            concluded_license_str = d.getVar("SPDX_CONCLUDED_LICENSE:%s" % package) or d.getVar("SPDX_CONCLUDED_LICENSE")
+             if concluded_license_str:
+                 concluded_spdx_license = add_license_expression(
+                     d, build_objset, concluded_license_str, license_data
+@@ -1011,13 +1106,12 @@ def create_spdx(d):
+                 status = "enabled" if feature in enabled else "disabled"
+                 build.build_parameter.append(
+                     oe.spdx30.DictionaryEntry(
+-                        key=f"PACKAGECONFIG:{feature}", value=status
++                        key=f"PACKAGECONFIG:{feature}",
++                        value=status
+                     )
+                 )
+ 
+-            bb.note(
+-                f"Added PACKAGECONFIG entries: {len(enabled)} enabled, {len(disabled)} disabled"
+-            )
++            bb.note(f"Added PACKAGECONFIG entries: {len(enabled)} enabled, {len(disabled)} disabled")
+ 
+     oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "builds", deploydir)
+ 
+@@ -1025,9 +1119,7 @@ def create_spdx(d):
+ def create_package_spdx(d):
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
+-
+     direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
+-
+     providers = oe.spdx_common.collect_package_providers(d, direct_deps)
+     pkg_arch = d.getVar("SSTATE_PKGARCH")
+ 
+@@ -1205,15 +1297,15 @@ def write_bitbake_spdx(d):
+ def collect_build_package_inputs(d, objset, build, packages, files_by_hash=None):
+     import oe.sbom30
+ 
+-    direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
+-
++    direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_package_spdx")
+     providers = oe.spdx_common.collect_package_providers(d, direct_deps)
+ 
+     build_deps = set()
++    missing_providers = set()
+ 
+     for name in sorted(packages.keys()):
+         if name not in providers:
+-            bb.note(f"Unable to find SPDX provider for '{name}'")
++            missing_providers.add(name)
              continue
  
-         if not any(file_path_match(file_path, pkg_file) for pkg_file in package_files):
-+            if file_path.lstrip("/") in excluded_files:
-+                bb.debug(
-+                    1,
-+                    f"Skipping debug source lookup for excluded file {file_path} in {package}",
-+                )
-+                continue
-             bb.fatal(
-                 "No package file found for %s in %s; SPDX found: %s"
-                 % (str(file_path), package, " ".join(p.name for p in package_files))
-@@ -737,7 +762,7 @@ def create_spdx(d):
-         bb.debug(1, "Adding source files to SPDX")
-         oe.spdx_common.get_patched_src(d)
+         pkg_name, pkg_hashfn = providers[name]
+@@ -1232,6 +1324,11 @@ def collect_build_package_inputs(d, objset, build, packages, files_by_hash=None)
+             for h, f in pkg_objset.by_sha256_hash.items():
+                 files_by_hash.setdefault(h, set()).update(f)
  
--        files = add_package_files(
-+        files, _ = add_package_files(
-             d,
-             build_objset,
-             spdx_workdir,
-@@ -909,7 +934,7 @@ def create_spdx(d):
-                 )
++    if missing_providers:
++        bb.fatal(
++            f"Unable to find SPDX provider(s) for: {', '.join(sorted(missing_providers))}"
++        )
++
+     if build_deps:
+         objset.new_scoped_relationship(
+             [build],
+@@ -1390,6 +1487,7 @@ def create_image_spdx(d):
  
-             bb.debug(1, "Adding package files to SPDX for package %s" % pkg_name)
--            package_files = add_package_files(
-+            package_files, excluded_files = add_package_files(
-                 d,
-                 pkg_objset,
-                 pkgdest / package,
-@@ -932,7 +957,8 @@ def create_spdx(d):
+                 set_timestamp_now(d, a, "builtTime")
  
-             if include_sources:
-                 debug_sources = get_package_sources_from_debug(
--                    d, package, package_files, dep_sources, source_hash_cache
-+                    d, package, package_files, dep_sources, source_hash_cache,
-+                    excluded_files=excluded_files,
-                 )
-                 debug_source_ids |= set(
-                     oe.sbom30.get_element_link_id(d) for d in debug_sources
-@@ -944,7 +970,7 @@ def create_spdx(d):
- 
-     if include_sources:
-         bb.debug(1, "Adding sysroot files to SPDX")
--        sysroot_files = add_package_files(
-+        sysroot_files, _ = add_package_files(
-             d,
-             build_objset,
-             d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
-@@ -1326,18 +1352,18 @@ def create_image_spdx(d):
-             image_filename = image["filename"]
-             image_path = image_deploy_dir / image_filename
-             if os.path.isdir(image_path):
--                a = add_package_files(
--                    d,
--                    objset,
--                    image_path,
--                    lambda file_counter: objset.new_spdxid(
--                        "imagefile", str(file_counter)
--                    ),
--                    lambda filepath: [],
--                    license_data=None,
--                    ignore_dirs=[],
--                    ignore_top_level_dirs=[],
--                    archive=None,
-+                a, _ = add_package_files(
-+                        d,
-+                        objset,
-+                        image_path,
-+                        lambda file_counter: objset.new_spdxid(
-+                            "imagefile", str(file_counter)
-+                        ),
-+                        lambda filepath: [],
-+                        license_data=None,
-+                        ignore_dirs=[],
-+                        ignore_top_level_dirs=[],
-+                        archive=None,
-                 )
-                 artifacts.extend(a)
-             else:
++
+         if artifacts:
+             objset.new_scoped_relationship(
+                 [image_build],
+@@ -1583,10 +1681,3 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
+     oe.sbom30.write_jsonld_doc(
+         d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
+     )
+-    sbom_name = d.getVar("SPDX_RECIPE_SBOM_NAME")
+-
+-    recipe, recipe_objset = load_recipe_spdx(d)
+-
+-    objset, sbom = oe.sbom30.create_sbom(d, sbom_name, [recipe], [recipe_objset])
+-
+-    oe.sbom30.write_jsonld_doc(d, objset, deploydir / (sbom_name + ".spdx.json"))
 -- 
 2.53.0
 
