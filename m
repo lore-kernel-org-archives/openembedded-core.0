@@ -1,365 +1,161 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A954FEC01C4
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 10:29:21 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13998.1774261755933185862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96204EC01C5
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 10:29:41 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13956.1774261776384820465
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 03:29:17 -0700
+ Mon, 23 Mar 2026 03:29:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=AzhcMxtb;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id D9D774E427AE;
-	Mon, 23 Mar 2026 10:29:13 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 91FEF5FEF6;
-	Mon, 23 Mar 2026 10:29:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2AE05103720F2;
-	Mon, 23 Mar 2026 11:29:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774261752; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=TlY66sm0r9jy2PsmnukvFQkcQ0XqIKnc2Sy+Py9fIDI=;
-	b=AzhcMxtbmEBWauSaAU009LdfdPRBsz72nqIXczhBn92AMhhcRZMiUIeaZtKWlXPkeZJelY
-	CCyvKN3bme1c4KC9wen4KTVLmIZnnQnJdoZCy82s4dSLbdlIZrtkVogZ+l8tzDATBkJV1y
-	hb7UOGB/wiA/O4muoZ0AhI4+OW3QHuZY0tHZh0iViK4FHxuLMoT3fCP3TC+A2ucheq2eTx
-	wdOTopoRu1ONQ0XtT+JQkTZHzruB1jdu8KL3kzE+BO+JPfrDFznHUaFJv9kU7E20Xezg01
-	VeXpYbawP8TcGzmG686qOAg3maqc9HOMI1Cwhm0OENu34E5IyjKSUzhhte3bYQ==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: openembedded-core@lists.openembedded.org,
- Antonin Godard <antonin.godard@bootlin.com>
-Cc: richard.purdie@linuxfoundation.org, rybczynska@gmail.com,
- ross.burton@arm.com, peter.marko@siemens.com, jpewhacker@gmail.com,
- olivier.benjamin@bootlin.com, mathieu.dubois-briand@bootlin.com,
- thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH v6] sbom-cve-check: Add class for post-build CVE analysis
-Date: Mon, 23 Mar 2026 11:29:09 +0100
-Message-ID: <3066728.e9J7NaK4W3@brobin-bootlin>
-In-Reply-To: <DHA0QE0OIQWS.27293QOT1ZJFK@bootlin.com>
-References: 
- <20260319-add-sbom-cve-check-v6-0-cfc657daa6b7@bootlin.com>
- <20260319-add-sbom-cve-check-v6-1-cfc657daa6b7@bootlin.com>
- <DHA0QE0OIQWS.27293QOT1ZJFK@bootlin.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=S3Wna1LM;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486fd5360d4so41083105e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 03:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774261774; x=1774866574; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MjsjBD+BkNadCrCjD2pwz85Qvk48HzrC2AsmA3DgS7c=;
+        b=S3Wna1LM4aI+RZnFYs0GaKXbOGnBPVpHul1h4l8bs14GLChfv/0YRa/vqBg6X+Bxfr
+         ZTOXa6g0kPvn4/LMR3Cs9sLazJsSIWyxVbNduvbPHjYScztKvHii/u/8Yct7G584h+lv
+         v4S+1S5CAsctAMXQJ79e1N98dZQVGFUa1zENNiR96/6p00byVP7tDWGLfSgXvKOPFD8u
+         A1Q8LbGphApjUexncY6584OuJ2oWJ3weTB0yL6fmnVCqigoRV1yao+z90aipUg5oDas1
+         68J97Mx+cqlWo5EaE1gYJGGIZT+MyeyHm/50jyYx0B4+OTMi9Q5SqsxoBhM/jmexfb11
+         3c7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774261774; x=1774866574;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MjsjBD+BkNadCrCjD2pwz85Qvk48HzrC2AsmA3DgS7c=;
+        b=BBYCaSl/snOjkTZfUDzHIQBg9zqaBV2UqWjx+xDKnaIQdmN2rk9bZ0gOOVuEcQFMjE
+         POR2SrRjvIx6meouoAopvG/180qPn2XsgSLnovEmzOTxJ7CCq0ef5gZuTLt30YtHvGlT
+         p8tCwc0appjQj/55eFz6eP+5PRxFBSNG8ZzyYly62HGgzgr6c6YJEXgeycyE5oogcIAQ
+         9ymn0Dhejwzbb4kMZ3bv+Z75iaX7CEvJiIfMvxeQ720GrDJsUEGwDOHqWnQ6hN8Eek8x
+         v7z9JzO33XHqPMlEUMFllOPKV38i4lR2ZdfWjYNvuxalrKuHCz/E6OssinOeDzQP+8Zl
+         jxOA==
+X-Gm-Message-State: AOJu0YyUeSR0n5q+gDnsZHoGCGEMy295wXt7dOSBeyFYoRB4oo6sY5rR
+	5r66jHvKcgeTl54WIa/yq3DvvyCVDKb+iLYoPs50D28xuSDdiCiq34GUKBQ+Rw==
+X-Gm-Gg: ATEYQzzFxjEk3v6vmYu4yT1ir/slJSPKcA2QJI6fFINi5BIN7uiY665z3TJPyjSj2vr
+	cOfi+E78q+UkFLpiMqDxwdfS3fUvrKsCPL+7gjMp+92QFv0gCvJDixgzoMZgSP/jKUHdMJ1F1QR
+	a2gZCECC03uW0o1YFOXFpvhouuzTGSK+3KG0Pa/ylqP0FQlsP6ar2RjIyC5HxbpI728ERgAMNGP
+	VmxQTqViJ2PkdP05neDGYX2BZtWsWUTwrO2+Q9Kx5v+jLam/PT00/QIqjh59hCsshqCYksMI7ja
+	VWyYejJwya6S7DR2gxQvIHldO16NIDlBtm6ymlsaqf71XpTtP/Trz/37TXU/FtEsMGYR6GchMvd
+	tqU1ChMPj1Kvh9niVTvL7wSx97EOQBNwie1bLNCEkg/G7fqLJ9zZ/rAqPbK/yYJUAhTb6QDT/RX
+	a3MEv2fRN77HQsGNm1hvvP8GxMJHLc8g8QWcXsTBTbVyGe7sfQ9dcd8P1FDgYLylg40A==
+X-Received: by 2002:a05:600c:3b07:b0:485:5ba3:37d8 with SMTP id 5b1f17b1804b1-486fedab1e5mr155660365e9.5.1774261774158;
+        Mon, 23 Mar 2026 03:29:34 -0700 (PDT)
+Received: from [192.168.2.122] (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48705135631sm195066115e9.15.2026.03.23.03.29.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2026 03:29:33 -0700 (PDT)
+Message-ID: <4b6c7947-3009-456c-bf66-5c318dff7eed@gmail.com>
+Date: Mon, 23 Mar 2026 11:29:33 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 2/2] gtk4: Fix a build error in
+ examples/application8
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+References: <20260314142002.925941-1-zboszor@gmail.com>
+ <189CBB0CF0DD1005.1508127@lists.openembedded.org>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <189CBB0CF0DD1005.1508127@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 10:29:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233710
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 10:29:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233711
 
-Hello Antonin,
+2026. 03. 14. 15:20 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
+> Add a backported patch from master to use underscore instead of
+> space in a generated filename. This fixes the build error:
+>
+> | /usr/bin/ld: cannot find examples/application8/exampleapp8.p/meson-generated_.._exampleapp8: No such file or directory
+> | /usr/bin/ld: cannot find resources.c.o: No such file or directory
+>
+> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+> ---
+>   ...-t-use-space-in-meson-generated-file.patch | 34 +++++++++++++++++++
+>   meta/recipes-gnome/gtk+/gtk4_4.20.3.bb        |  2 ++
+>   2 files changed, 36 insertions(+)
+>   create mode 100644 meta/recipes-gnome/gtk+/gtk4/0001-application8-Don-t-use-space-in-meson-generated-file.patch
+>
+> diff --git a/meta/recipes-gnome/gtk+/gtk4/0001-application8-Don-t-use-space-in-meson-generated-file.patch b/meta/recipes-gnome/gtk+/gtk4/0001-application8-Don-t-use-space-in-meson-generated-file.patch
+> new file mode 100644
+> index 0000000000..2a79fc637d
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gtk+/gtk4/0001-application8-Don-t-use-space-in-meson-generated-file.patch
+> @@ -0,0 +1,34 @@
+> +From d26453923a21de0d908af3bf83c69263aaee5705 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?=
+> + <zboszor@gmail.com>
+> +Date: Wed, 11 Mar 2026 07:02:10 +0100
+> +Subject: [PATCH] application8: Don't use space in meson generated filename
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +All other example apps use underscore, examples/application8
+> +has a build error:
+> +
+> +| /usr/bin/ld: cannot find examples/application8/exampleapp8.p/meson-generated_.._exampleapp8: No such file or directory
+> +| /usr/bin/ld: cannot find resources.c.o: No such file or directory
+> +
+> +Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/9627]
+> +---
+> + examples/application8/meson.build | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/examples/application8/meson.build b/examples/application8/meson.build
+> +index f2e1d7cea9..77987d554a 100644
+> +--- a/examples/application8/meson.build
+> ++++ b/examples/application8/meson.build
+> +@@ -1,4 +1,4 @@
+> +-app8_resources = gnome.compile_resources('exampleapp8 resources',
+> ++app8_resources = gnome.compile_resources('exampleapp8_resources',
+> +   'exampleapp.gresource.xml',
+> +   source_dir: meson.current_source_dir())
+> +
+> +--
+> +2.53.0
+> +
+> diff --git a/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb b/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb
+> index ef9a05f7fe..0cca44fb5c 100644
+> --- a/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb
+> +++ b/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb
+> @@ -35,6 +35,8 @@ LIC_FILES_CHKSUM = " \
+>   
+>   SRC_URI[archive.sha256sum] = "2873f2903088a66c71173ea2ed85ffae266a66b972c3a4842bbb2f6f187ec153"
+>   
+> +SRC_URI += "file://0001-application8-Don-t-use-space-in-meson-generated-file.patch"
 
-Thank you for the review.
+Sorry, but this change is not completely correct.
+For target builds, it only works with the latest meson if :append is used instead of +=
 
-On Monday, March 23, 2026 at 9:28=E2=80=AFAM, Antonin Godard wrote:
-> Hi,
->=20
-> Some suggestions and questions I picked while reviewing this patch.
->=20
-> On Thu Mar 19, 2026 at 4:42 PM CET, Benjamin Robin wrote:
-> > By default, the sbom-cve-check class generates these export files:
-> >  - A JSON in `cve-check` format, named `${IMAGE_NAME}.cve-check.json`
-> >  - An SPDX 3.0 SBOM, named `${IMAGE_NAME}.cve-check.spdx.json`.
-> >
-> > A user can add or remove export file formats by using the
-> > `SBOM_CVE_CHECK_EXPORT_VARS` variable.
-> >
-> > By default, the CVE databases are downloaded using the following
-> > recipes:
-> >  - sbom-cve-check-update-cvelist-native.bb
-> >  - sbom-cve-check-update-nvd-native.bb
-> >
-> > The database fetch and deploy logic is implemented in
-> > sbom-cve-check-update-db.inc. The CVE databases are stored in the
-> > download directory (`DL_DIR`) by default. This can be configured by
-> > the `SBOM_CVE_CHECK_DATABASES_DIR` variable defined in
-> > meta/recipes-core/meta/sbom-cve-check-config.inc.
->=20
-> Yet the default definition is:
->=20
-> SBOM_CVE_CHECK_DATABASES_DIR ??=3D "${DEPLOY_DIR}/sbom_cve_check/database=
-s"
->=20
-> Which does not point to the DL_DIR? The commit message seems a bit mislea=
-ding.
+But 4.22.1 contains the same patch out of the box, so upgrading
+to that version would be a better change.
 
-In the v7 this is going to be fixed.
-=20
-> > diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-=
-recipe/sbom-cve-check.bbclass
-> > new file mode 100644
-> > index 000000000000..32f92a0bab29
-> > --- /dev/null
-> > +++ b/meta/classes-recipe/sbom-cve-check.bbclass
-> > @@ -0,0 +1,121 @@
-> > +# SPDX-License-Identifier: MIT
-> > +
-> > +# To enable this class, it is recommended to add this to local.conf
-> > +# OE_FRAGMENTS +=3D "core/yocto/sbom-cve-check"
->=20
-> I'd rather recommend the tool normally used to manage fragments, which mo=
-difies
-> toolcfg.conf, made for this purpose.
->=20
-> ```
-> # It is recommended to enable this class through the sbom-cve-check fragm=
-ent:
-> # bitbake-config-build enable-fragment sbom-cve-check
-> ```
-
-I improved the comment, but I kept the original explanation.
-=46or example this could be useful for writing KAS configuration.
-
-
-> > +
-> > +require recipes-core/meta/sbom-cve-check-config.inc
-> > +
-> > +SBOM_CVE_CHECK_DEPLOYDIR =3D "${WORKDIR}/sbom_cve_check/image-deploy"
->=20
-> Nitpick, but why use underscore for "sbom_cve_check"? Here, and in the ot=
-her
-> places in this patch. Using "sbom-cve-check" everywhere would perhaps be =
-more
-> coherent?
-
-I standardized all directory names, it should be named with dash now.
-
-> > +SBOM_CVE_CHECK_EXTRA_ARGS[doc] =3D "Allow to specify extra arguments t=
-o sbom-cve-check. \
-> > +    For example to add export flags for filtering (e.g., only export v=
-ulnerable CVEs). \
-> > +"
-> > +SBOM_CVE_CHECK_EXTRA_ARGS ??=3D ""
-> > +
-> > +SBOM_CVE_CHECK_EXPORT_VARS[doc] =3D "List of variables that declare ex=
-port files to generate. \
-> > +    Each variable must have a 'type' and an 'ext' flag set. \
-> > +    The 'type' flag contains the value that is passed to the --export-=
-type command flags. \
-> > +    The 'ext' flag contains the filename extension (suffix). The outpu=
-t filename is going \
-> > +    to be ${IMAGE_NAME}${ext} \
-> > +"
-> > +SBOM_CVE_CHECK_EXPORT_VARS ?=3D "SBOM_CVE_CHECK_EXPORT_SPDX3 SBOM_CVE_=
-CHECK_EXPORT_CVECHECK"
-> > +
-> > +SBOM_CVE_CHECK_EXPORT_SPDX3[doc] =3D "Export configuration to generate=
- an SPDX3 SBOM file, \
-> > +    with the following name: ${IMAGE_NAME}.cve-check.spdx.json \
-> > +"
-> > +SBOM_CVE_CHECK_EXPORT_SPDX3[type] ?=3D "spdx3"
-> > +SBOM_CVE_CHECK_EXPORT_SPDX3[ext] ?=3D ".cve-check.spdx.json"
-> > +
-> > +SBOM_CVE_CHECK_EXPORT_CVECHECK[doc] =3D "Export configuration to gener=
-ate a JSON manifest \
-> > +    in the same format as the cve-check class, with the following name=
-: \
-> > +    ${IMAGE_NAME}.cve-check.json \
-> > +"
-> > +SBOM_CVE_CHECK_EXPORT_CVECHECK[type] ?=3D "yocto-cve-check-manifest"
-> > +SBOM_CVE_CHECK_EXPORT_CVECHECK[ext] ?=3D ".cve-check.json"
->=20
-> As I understand it, these represent the different kinds of outputs of
-> sbom-cve-check. Wouldn't these make more sense as:
->=20
-> SBOM_CVE_CHECK_EXPORT_SPDX3[ext] ?=3D ".sbom-cve-check.spdx.json"
-> SBOM_CVE_CHECK_EXPORT_CVECHECK[ext] ?=3D ".sbom-cve-check.yocto.json"
->=20
-> first item indicates that this is an sbom-cve-check generated file,
-> second item denotes the format of the file : either spdx3, or the yocto s=
-pecific
-> one.
-
-Yeah you are write, it is clearer this way, despite the fact that is it
-a bit longer.
-
-> > diff --git a/meta/conf/fragments/yocto/sbom-cve-check.conf b/meta/conf/=
-fragments/yocto/sbom-cve-check.conf
-> > new file mode 100644
-> > index 000000000000..a3f229acf28a
-> > --- /dev/null
-> > +++ b/meta/conf/fragments/yocto/sbom-cve-check.conf
-> > @@ -0,0 +1,14 @@
-> > +BB_CONF_FRAGMENT_SUMMARY =3D "This fragment enables sbom-cve-check wit=
-h recommended default options"
-> > +BB_CONF_FRAGMENT_DESCRIPTION =3D "Enables sbom-cve-check and applies t=
-he following configurations: \
-> > + - Adds the sbom-cve-check class to IMAGE_CLASSES. \
-> > + - Configures CVE database recipes to fetch the latest git revision us=
-ing AUTOREV. \
-> > + - Ensures generated SBOM includes all CVE annotations. \
-> > + - Configures the Linux kernel recipe to provide compiled sources, \
-> > +   allowing CVEs to be excluded if the source is not compiled. \
-> > +"
-> > +
-> > +IMAGE_CLASSES:append =3D " sbom-cve-check"
-> > +SRCREV:pn-sbom-cve-check-update-nvd-native =3D "${AUTOREV}"
-> > +SRCREV:pn-sbom-cve-check-update-cvelist-native =3D "${AUTOREV}"
-> > +SPDX_INCLUDE_VEX =3D "all"
-> > +SPDX_INCLUDE_COMPILED_SOURCES:pn-linux-yocto =3D "1"
->=20
-> Could we also set SBOM_CVE_CHECK_ALLOW_NETWORK to 1 here? Since we already
-> require network with AUTOREV anyway.
-
-The do_sbom_cve_check task does not need network by default.
-It is only needed if the user want to fetch additional databases, for
-example annotation databases.
-
-> > diff --git a/meta/recipes-core/meta/sbom-cve-check-config.inc b/meta/re=
-cipes-core/meta/sbom-cve-check-config.inc
-> > new file mode 100644
-> > index 000000000000..a1a909e22250
-> > --- /dev/null
-> > +++ b/meta/recipes-core/meta/sbom-cve-check-config.inc
->=20
-> This file and others could be in a more appropriate directory, such are
-> recipes-devtools/sbom-cve-check/? I think in a patch review call we said =
-that
-> this directory was wrongly used for the previous cve-check-related recipe=
-s (you
-> weren't in this call IIRC).
-
-This is going to be fixed in the v7 series: The recipes are moved to
-recipes-devtools/sbom-cve-check/.
-
-> > @@ -0,0 +1,4 @@
-> > +# SPDX-License-Identifier: MIT
-> > +
-> > +SBOM_CVE_CHECK_DATABASES_DIR ??=3D "${DEPLOY_DIR}/sbom_cve_check/datab=
-ases"
->=20
-> I think there is already "${DEPLOY_DIR}/cve" used by cve-check and vex, m=
-aybe
-> you could re-use this path as:
->=20
-> SBOM_CVE_CHECK_DATABASES_DIR ??=3D "${DEPLOY_DIR}/cve/sbom_cve_check/data=
-bases"
->=20
-> to avoid creating a new directory in DEPLOY_DIR?
-
-I really think this is a bad idea. The ${DEPLOY_DIR}/cve/ directory contains
-a lot of json file at the root of this directory. I really do not want to
-break existing VEX and/or cve-check tasks.
-
-> > +SBOM_CVE_CHECK_DATABASES_DIR[doc] =3D "Download directory path where t=
-o store the CVE databases"
-> > diff --git a/meta/recipes-core/meta/sbom-cve-check-update-cvelist-nativ=
-e.bb b/meta/recipes-core/meta/sbom-cve-check-update-cvelist-native.bb
-> > new file mode 100644
-> > index 000000000000..ce204db6c51a
-> > --- /dev/null
-> > +++ b/meta/recipes-core/meta/sbom-cve-check-update-cvelist-native.bb
-> > @@ -0,0 +1,12 @@
-> > +SUMMARY =3D "Updates the CVE List database"
-> > +LICENSE =3D "MIT"
-> > +LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade69=
-8e0bcf8506ecda2f7b4f302"
-> > +
-> > +HOMEPAGE =3D "https://github.com/CVEProject/cvelistV5"
-> > +SRC_URI =3D "git://github.com/CVEProject/cvelistV5.git;branch=3Dmain;p=
-rotocol=3Dhttps"
-> > +SBOM_CVE_CHECK_DB_NAME =3D "cvelist"
-> > +
-> > +# 2026-03-19_baseline
-> > +SRCREV =3D "ada54ee3cc8380820aa45e4996910bdc9dcb94e7"
-> > +
-> > +require sbom-cve-check-update-db.inc
-> > diff --git a/meta/recipes-core/meta/sbom-cve-check-update-db.inc b/meta=
-/recipes-core/meta/sbom-cve-check-update-db.inc
-> > new file mode 100644
-> > index 000000000000..5ecb79820247
-> > --- /dev/null
-> > +++ b/meta/recipes-core/meta/sbom-cve-check-update-db.inc
-> > @@ -0,0 +1,28 @@
-> > +# SPDX-License-Identifier: MIT
-> > +
-> > +INHIBIT_DEFAULT_DEPS =3D "1"
-> > +EXCLUDE_FROM_WORLD =3D "1"
-> > +
-> > +inherit native
-> > +require sbom-cve-check-config.inc
-> > +
-> > +SBOM_CVE_CHECK_DB_NAME[doc] =3D "Database name, which is the Git repos=
-itory directory name. \
-> > +    The git repository will be stored in ${SBOM_CVE_CHECK_DATABASES_DI=
-R)/"
-> > +
-> > +DEPENDS +=3D "rsync-native"
-> > +
-> > +# Leverage BitBake's checksum computation for populated sysroot files =
-to determine
-> > +# whether other recipe tasks dependent on this output need to be re-ex=
-ecuted.
-> > +do_compile() {
-> > +    git -C "${S}" rev-parse --verify "HEAD^{object}" > "${WORKDIR}/${S=
-BOM_CVE_CHECK_DB_NAME}.rev"
->=20
-> We're in do_compile(), so you can store the output file in ${B}?
->=20
-> git -C "${S}" rev-parse --verify "HEAD^{object}" > "${B}/${SBOM_CVE_CHECK=
-_DB_NAME}.rev"
-
-This part is going to be removed since it is no longer necessary.
-
-> > +}
-> > +
-> > +# In the install task, also deploy directly to ${DEPLOY_DIR} using rsy=
-nc.
-> > +# This is an hack, we are not using do_deploy to prevent multiple unec=
-essary copy of the CVE database.
-> > +do_install() {
-> > +    install -m 644 -D -t "${D}${datadir}/sbom_cve_check/databases/" "$=
-{WORKDIR}/${SBOM_CVE_CHECK_DB_NAME}.rev"
-> > +
-> > +    dst=3D"${SBOM_CVE_CHECK_DATABASES_DIR}/${SBOM_CVE_CHECK_DB_NAME}"
-> > +    mkdir -p "$dst"
-> > +    rsync -aH --delete --link-dest=3D"${S}/" "${S}/" "${dst}/"
-> > +}
->=20
-> Why do we need this in both ${datadir} and the deploy dir? Isn't
-> sbom-cve-check only using the one in the deploy dir? Was this done to cre=
-ate a
-> package out of these recipes? If we don't really need one we could use
-> ALLOW_EMPTY:${PN} =3D "1" instead?
-
-Indeed, we could do that, and in this case the do_sbom_cve_check task should
-depend on the do_install task. I am going to use ALLOW_EMPTY on this v7
-series.
-
-> > diff --git a/meta/recipes-core/meta/sbom-cve-check-update-nvd-native.bb=
- b/meta/recipes-core/meta/sbom-cve-check-update-nvd-native.bb
-> > new file mode 100644
-> > index 000000000000..46c86952a164
-> > --- /dev/null
-> > +++ b/meta/recipes-core/meta/sbom-cve-check-update-nvd-native.bb
-> > @@ -0,0 +1,12 @@
-> > +SUMMARY =3D "Updates the NVD CVE database"
-> > +LICENSE =3D "cve-tou"
-> > +LIC_FILES_CHKSUM =3D "file://LICENSES/cve-tou.md;md5=3Dbc5bbf146f01e20=
-ece63d83c8916d8fb"
-> > +
-> > +HOMEPAGE =3D "https://github.com/fkie-cad/nvd-json-data-feeds"
-> > +SRC_URI =3D "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=
-=3Dmain;protocol=3Dhttps"
-> > +SBOM_CVE_CHECK_DB_NAME =3D "nvd-fkie"
-> > +
-> > +# v2026.03.19-010002
-> > +SRCREV =3D "49f8bbe1b0b0884e16bdc37ab68db997085570a7"
-> > +
-> > +require sbom-cve-check-update-db.inc
-
-Thanks,
-=2D-=20
-Benjamin Robin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
+> +
+>   S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
+>   
+>   CVE_PRODUCT = "gnome:gtk"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#233086): https://lists.openembedded.org/g/openembedded-core/message/233086
+> Mute This Topic: https://lists.openembedded.org/mt/118314080/3617728
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
