@@ -1,71 +1,74 @@
-Return-Path: <alhe@linux.microsoft.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4725CF483DE
-	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 17:46:19 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1235.1774287970129690505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC26EF483E7
+	for <webhook@archiver.kernel.org>; Mon, 23 Mar 2026 19:29:07 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3503.1774294144414207091
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 10:46:10 -0700
+ Mon, 23 Mar 2026 12:29:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=DrrwB8oF;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
-Received: from alhe-dev-ub.waqitnwczulubdoacjva2kqlvd.phxx.internal.cloudapp.net (unknown [134.33.52.9])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6DCB920B6F01
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 10:46:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6DCB920B6F01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1774287969;
-	bh=l4Yw+UCoAohZUjKpFA/aSGxAMguWE/eQzgb2hHN+680=;
-	h=From:To:Subject:Date:From;
-	b=DrrwB8oF31biWAtWYuqvbuJ89TddGhKfoYNjG8pz/MrXBRltvbnvU2xPcXRglUVVf
-	 ZDYB5IkUd4xztXdoJIanqSey6vf4M10wFF1k4YyR7yGBwVCy2yngLiZbJs85bAxUCj
-	 1bYr69p556DQckuxOhP5yFQWYNXI7w2ujv1GtjUQ=
-From: Alejandro Hernandez <alhe@linux.microsoft.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=GI1Yl5MN;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202603231929013f1a68beab00020728-kokzsr@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202603231929013f1a68beab00020728
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 23 Mar 2026 20:29:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=x85Vn9jcNyq4vYT8S3aH+S58E3JVEeOQxg3VQLg7b6M=;
+ b=GI1Yl5MNbxTv+HPt8eGJvwPY9gMYK03wk94KFRtPNLs+iICSlyO5r9yIhgMWj8ckZ6OY7U
+ 9xx9NcuwZcOdQZQMKIx7YtO8K1v+yFVcOG0QgEXJK9h6QaR53/1BA8ZoiRXkTgPAd5HTzUhq
+ Gxi900tq/jcQh4L52VD6IFLc4qTA83C3Gi0+ToHS9pL0DZ2nnzB2/ivl7t72MHGZ9YAvqaHr
+ FhX9NTCWiK7Dnq4jO6tDc8PCa0QnSrKqGhne+A51yGdVGEAiHcZsXydii69zHc1dXc3Es7x1
+ Wvcv9F0QPjUZZRyMzTPvvG4YeiAw9gI8BFpP4DFJuVGHYXBcyoS+XeSw==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libffi: remove disable-exec-static-tramp from EXTRA_OECONF
-Date: Mon, 23 Mar 2026 17:46:03 +0000
-Message-ID: <20260323174603.3262707-1-alhe@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [kirkstone][PATCH] libtheora: mark CVE-2024-56431 as not vulnerable yet
+Date: Mon, 23 Mar 2026 20:28:53 +0100
+Message-Id: <20260323192853.10515-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 17:46:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233753
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 19:29:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233754
 
-disable-exec-static-tramp is no longer necessary, since such behavior has=
- been
-fixed upstream.
+From: Peter Marko <peter.marko@siemens.com>
 
-Debian/Ubuntu also dropped this flag on version 3.5.2:
-https://changelogs.ubuntu.com/changelogs/pool/main/libf/libffi/libffi_3.5=
-.2-3/changelog
+CVE patch [1] aplies only on main branch which is base for 1.2.x.
+Branch 1.1 has a different initial commit and does not contain
+vulnerable code where the CVE patch applies.
 
-Signed-off-by: Alejandro Hernandez <alhe@linux.microsoft.com>
+Also Debian [2] marked 1.1 as not vulnerable.
+
+[1] https://gitlab.xiph.org/xiph/theora/-/commit/5665f86b8fd8345bb09469990e79221562ac204b
+[2] https://security-tracker.debian.org/tracker/CVE-2024-56431
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+
+Picked from scarthgap commit 07f35d022b88ab4d297d0252f9909e252b7e4cfe
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-support/libffi/libffi_3.5.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb b/meta/recipes-s=
-upport/libffi/libffi_3.5.2.bb
-index f648a33a46..d3aa90d429 100644
---- a/meta/recipes-support/libffi/libffi_3.5.2.bb
-+++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
-@@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-=
-${PV}.tar.gz \
-            "
- SRC_URI[sha256sum] =3D "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a=
-52e335676bac82dc"
-=20
--EXTRA_OECONF +=3D "--disable-builddir --disable-exec-static-tramp"
-+EXTRA_OECONF =3D "--disable-builddir"
- EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
- EXTRA_OEMAKE:class-target =3D "LIBTOOLFLAGS=3D'--tag=3DCC'"
-=20
---=20
-2.43.0
-
+diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb b/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
+index ad0be85559b..7bb08a70162 100644
+--- a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
++++ b/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
+@@ -22,3 +22,5 @@ CVE_PRODUCT = "theora"
+ inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "--disable-examples"
++
++CVE_STATUS[CVE-2024-56431] = "fixed-version:branch 1.1 is not affected, vulnerable code is not present yet"
 
