@@ -2,77 +2,72 @@ Return-Path: <mark.yang@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B97F54ADD
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 23:27:46 +0000 (UTC)
-Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11057.1774394858484657358
- for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 16:27:39 -0700
-Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: mark.yang@lge.com)
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
-	by 156.147.23.53 with ESMTP; 25 Mar 2026 08:27:36 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: mark.yang@lge.com
-Received: from unknown (HELO markyang..) (10.177.127.86)
-	by 156.147.1.151 with ESMTP; 25 Mar 2026 08:27:36 +0900
-X-Original-SENDERIP: 10.177.127.86
-X-Original-MAILFROM: mark.yang@lge.com
-From: mark.yang@lge.com
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C1AFF54AD6
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 23:57:46 +0000 (UTC)
+Subject: Re: [PATCH] llvm: add binutils-plugin PACKAGECONFIG for LLVMgold.so
 To: openembedded-core@lists.openembedded.org
-Cc: "mark.yang" <mark.yang@lge.com>
-Subject: [PATCH] llvm: add binutils-plugin PACKAGECONFIG for LLVMgold.so
-Date: Wed, 25 Mar 2026 08:27:34 +0900
-Message-Id: <20260324232734.2081279-1-mark.yang@lge.com>
-X-Mailer: git-send-email 2.34.1
+From: "mark.yang" <mark.yang@lge.com>
+X-Originating-Location: Nowon-gu, Seoul, KR (27.122.242.71)
+X-Originating-Platform: Windows Chrome 146
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Tue, 24 Mar 2026 16:57:37 -0700
+References: <20260324232734.2081279-1-mark.yang@lge.com>
+In-Reply-To: <20260324232734.2081279-1-mark.yang@lge.com>
+Message-ID: <564384.1774396657215756194@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="it0fdsR5wPq5cZaGogDo"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 23:27:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233834
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 23:57:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233835
 
-From: "mark.yang" <mark.yang@lge.com>
+--it0fdsR5wPq5cZaGogDo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a 'binutils-plugin' PACKAGECONFIG option to selectively build
-LLVMgold.so by passing -DLLVM_BINUTILS_INCDIR and adding binutils
-to DEPENDS only when enabled.
+This patch is an update to following patches.
+https://lists.openembedded.org/g/openembedded-core/topic/117252728 [PATCH] =
+llvm: enable LLVMgold.so build by adding binutils dependency
+https://lists.openembedded.org/g/openembedded-core/topic/patch_v2_llvm_enab=
+le/117274480 [PATCH v2] llvm: enable LLVMgold.so build by adding binutils d=
+ependency
 
-LLVMgold.so is the LLVM LTO plugin for GNU ld BFD.
-When using lld as the linker, this plugin is not needed since lld has
-built-in LTO support. However, for toolchains that rely on BFD
-this plugin is required to enable LTO.
+When build component using clang that utilize lto, and when the LLD linker =
+connot be used (Use bfd), the LLVMgold.so plugin is required in the native =
+sysroot.
+LLVMgold.so plugin is generated when binutils-plugin is enabled.
+libLTO.so.21.1 is generated on the target even if it is not enabled.
 
-binutils-plugin is named after Gentoo's USE flag convention for similar
-functionality.
+The reason they were bundled in to the same package is to distribute them v=
+ia the nativesdk package.
 
-Signed-off-by: mark.yang <mark.yang@lge.com>
----
- meta/recipes-devtools/clang/llvm_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+As Deepesh suggested, I mae it possible to enable this via the binutils-plu=
+gin rather than having it always built into LLVM.
+The name "binutils-plugin" was inspired by gentoo's name convention. https:=
+//packages.gentoo.org/useflags/binutils-plugin
 
-diff --git a/meta/recipes-devtools/clang/llvm_git.bb b/meta/recipes-devtools/clang/llvm_git.bb
-index 96ea383731..e12ac11853 100644
---- a/meta/recipes-devtools/clang/llvm_git.bb
-+++ b/meta/recipes-devtools/clang/llvm_git.bb
-@@ -79,6 +79,7 @@ PACKAGECONFIG[opt-viewer] = "-DLLVM_TOOL_OPT_VIEWER_BUILD=ON,-DLLVM_TOOL_OPT_VIE
-                              python3-pyyaml python3-pygments,"
- PACKAGECONFIG[lto] = "-DLLVM_ENABLE_LTO=Full -DLLVM_BINUTILS_INCDIR=${STAGING_INCDIR},,binutils,"
- PACKAGECONFIG[thin-lto] = "-DLLVM_ENABLE_LTO=Thin -DLLVM_BINUTILS_INCDIR=${STAGING_INCDIR},,binutils,"
-+PACKAGECONFIG[binutils-plugin] = "-DLLVM_BINUTILS_INCDIR=${STAGING_INCDIR},,binutils,"
- 
- # LLVM debug symbols are very large (several gigabytes), reduce the debug level
- # so they're just hundreds of megabytes.
-@@ -126,6 +127,10 @@ llvm_sysroot_preprocess() {
-         install -m 0755 ${S}/llvm/tools/llvm-config/llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/
- }
- 
-+PACKAGES =+ "llvm-linker-tools"
-+
-+FILES:llvm-linker-tools = "${libdir}/LLVMgold* ${libdir}/libLTO.so.*"
-+
- FILES:${PN}-dev += "${libdir}/llvm-config"
- 
- BBCLASSEXTEND = "native nativesdk"
+--it0fdsR5wPq5cZaGogDo
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>This patch is an update to following patches.<br /><a href=3D"https://=
+lists.openembedded.org/g/openembedded-core/topic/117252728">https://lists.o=
+penembedded.org/g/openembedded-core/topic/117252728</a> [PATCH] llvm: enabl=
+e LLVMgold.so build by adding binutils dependency<br /><a href=3D"https://l=
+ists.openembedded.org/g/openembedded-core/topic/patch_v2_llvm_enable/117274=
+480">https://lists.openembedded.org/g/openembedded-core/topic/patch_v2_llvm=
+_enable/117274480</a> [PATCH v2] llvm: enable LLVMgold.so build by adding b=
+inutils dependency<br /><br />When build component using clang that utilize=
+ lto, and when the LLD linker connot be used (Use bfd), the LLVMgold.so plu=
+gin is required in the native sysroot.<br />LLVMgold.so plugin is generated=
+ when binutils-plugin is enabled.<br />libLTO.so.21.1 is generated on the t=
+arget even if it is not enabled.<br /><br />The reason they were bundled in=
+ to the same package is to distribute them via the nativesdk package.<br />=
+<br />As Deepesh suggested, I mae it possible to enable this via the binuti=
+ls-plugin rather than having it always built into LLVM.<br />The name "binu=
+tils-plugin" was inspired by gentoo's name convention. https://packages.gen=
+too.org/useflags/binutils-plugin</div>
+
+--it0fdsR5wPq5cZaGogDo--
 
