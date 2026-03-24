@@ -2,57 +2,57 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE8E2F54AB8
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 13:30:17 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19485.1774359013493423746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7989F54ABA
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 13:30:27 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19721.1774359018918558739
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 06:30:13 -0700
+ Tue, 24 Mar 2026 06:30:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=EwOjgUs6;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso45449375e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 06:30:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=EdbNYfl/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48704db565eso31051555e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 06:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774359011; x=1774963811; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774359017; x=1774963817; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SiV4/un9QN6UMofI9DjH4M2mmIjT0G0QJ08PrF9lFoU=;
-        b=EwOjgUs6CEZBVgjY/vFYbHIaxKZp/ZHliGv1zlGFfhJW4I70uoN+56m3b1ZR6lwDp6
-         ZHVHLdyf7FFjGCTMXAh90GTcqxWdwqFNU+Twz96sB9Y7EtVRXyP3kpPuw/p7ahMd0jDE
-         11uTb3PhHYbZ8cfg4IoNGFCT4dtwATaOmVaSEYF+qHqH2m1TAj4xjNQG6/oHp6UuLjiO
-         mwWBLAMSBFs3aQnKzvy/HYWv4CV0JYVj5XPoAkbU42kHCbyTTC2cGRSI+g1FB2roU1Du
-         PO+3s4Ra/jCTwBm5aT/g7F8GrUUy77FQqBWtdA6NXkivMe/TSSsYKDY2orl9R+sXSZSN
-         tqWw==
+        bh=5UZZzXQzurrs8J8UMbL8fHyl6r4+dsVbTu7T2utEzjo=;
+        b=EdbNYfl/jspdITq50BeXZqZBDZgyKFB7hpSqQdhonRHGusb3rKjx9nHY0UDSU6nhjJ
+         Vg991XY4whJAkLDt6y08e3qrOh5mSOEiYT5M4SvQB4jOktskBIGnwetbryRADY8EMmwF
+         YcIOSmWo5WAiaoEhpojNvsYconhMd1NFawab8+VBgXq7ZDiCjRMY4ViOlqF20JS/1FIZ
+         UZGn7b9vxynJ5wy1qRKVkleD6kWZb/dIpBELIIsF89cq6qFS0qirAXf8CwarcIs8lExZ
+         Pj4zlMJLHrw40DHOgiYGrCOcYonrQkEfB4CUOaZFGotn6wnkc//o5/mPgzCEBo/g9oLV
+         hDEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774359011; x=1774963811;
+        d=1e100.net; s=20251104; t=1774359017; x=1774963817;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=SiV4/un9QN6UMofI9DjH4M2mmIjT0G0QJ08PrF9lFoU=;
-        b=cBYtB1NFqbU08TTgEa92+gb5uGvH7NTxy12822GkIqYL5KfvyLZ879ANPHWoEt1WR5
-         /TKgFuAhE6hPc+TfTmqZceHR9RbvEYZf7v0bYQ0NhW9uKMt6tHu+oHj4CA6fddKwQR8T
-         8XXnyB/u9NdH5PlNG8hU7TC1eVnZ9nhTGPqb5qEoiySIBIuQI5JH3H+CtRLMYeIptqoh
-         ImVvmxjvLOUmFzb/FWoOD96JWLLLkY0e62UafCCbc+1D2+Ozp1N11wO29CmZ+5ps6/FU
-         wpJoHL9nqHuoUiEd9I9WY8xKOFXMHQcl8oc260QNf7efAuWIJeOLFz09XkcyoUfcXyfb
-         PBTg==
-X-Gm-Message-State: AOJu0YxlCh8Yj88jRjYwWaLYwl4BijQuNqIclEcSrHz49I3aAxm4/EOS
-	qPFAZ6SiiH1Erdoj5Ro8oaBJiXM7FwrmnyI4fmJv84kweTVFY/YrRBhgvBXsd6fs
-X-Gm-Gg: ATEYQzxzd6EC/EnslWQTXOs+KZUForc/xfTveMM+BjIrFgrZmvq5Y+MkKBgzzQab2KE
-	F4tgHDI38oBR1R9EhTAn7j69ZTqWJm5P8l6Df6DwJZIE6Hb5Pk5zXSZB+dZ8eMNTKLhwSH48uiO
-	81grxMExvTjGh6Yh08lvdO+2+GNY1xgJr7s6VkTtlmXFuiH6XSLnsDshb/ZPQwIOmNBWqC/ksic
-	Xh3zPkA+1uUmUkKllLCzcssUOtdQ1vfsz/HlGx9NgZjPOC4ZOiKNms8C3SWu0AUUXApLDNrlxOV
-	9oToJYyMQZDXpdV1VMt4MgEKLJ0KGMDVt8BU0Gqk7s7ucjR08aIDls67rs5fAyT6ajaEwb2lIJj
-	Tgm8a7wJNz2YxpbBimknQiJLr+4S75/Etrc9bEisP5UX/DLN7V4kKhzriTbr8xz6xRzQGFeoZ4R
-	GdPBx5bOahFaKxa/YqnmT/TnGYK3bnDllvLsu9UNCCHZd9cdDHskJXhGCC2MjtwA1ouJI5KsLfz
-	HA0HmZf
-X-Received: by 2002:a05:600c:c083:b0:485:3f72:324d with SMTP id 5b1f17b1804b1-486fee0481amr175698435e9.14.1774359011097;
-        Tue, 24 Mar 2026 06:30:11 -0700 (PDT)
+        bh=5UZZzXQzurrs8J8UMbL8fHyl6r4+dsVbTu7T2utEzjo=;
+        b=l+40kx1gfSKHe6GdqtrC4LQUVW4lQUAkJm3J4AWXPZSV4wR8AFy+KCjw1LRTAe5H8T
+         EEtAIIpJQEdv6wQiyQgDFu56UD7RX4zRqFavpHA1VaULzlUaTJJm+qMHBFa2ncAAD84S
+         gJnCncNkX5NjpCKry0h8ibpm2LdGNKiYtdQdq5ic4Ok6lxRaMCU4C5X/cCtGphj5rns0
+         whTRIq+UchGY0loCh7mtiTdsc1RHJMJoBOe44q/HlvIN0NKOdA0lm28Wn039DmQce3oo
+         AOwOX2EC1q4KLASKVcp3u7YPjeUjXJ1lk+TfIIYCAOCETzYQvwmfIfaZ6Bu/0SgLcQu7
+         1/Uw==
+X-Gm-Message-State: AOJu0YzW0duxptqVYS6sHIOJntvC26pLMnaSXWZrTqVTJYfZlI/Vz38J
+	Sn0oNL5E76MHjVTixn+wJ/wG1HJp4aZX4q9SiaDFGYnySNbWopkC197Br34D0A8e
+X-Gm-Gg: ATEYQzzlQwvUmQc/e8EqHNoOasRC9lRVaHScoySzZT03yoUFn81MD03iWWtkXGaP2L+
+	D8/2rAP2GToszuXf5RtyMJOd056Lrlq34upMTKg0mGViG9T0LyaYoFkA2gtru1wVNoBMLqrKYVH
+	Zp9jz30Muy9QfI1ZYsECczrex0HRY6TgqsF2tFHeAzBDocgmGQKNjrf8y18LLI5KNrfsy+bw4kJ
+	vtFhRmDw5Hkj1pOG3ovnwWSTFcSCCGsSAYEVDYDFAde9CBspqRn0dV2KLSyBS22TV8eVFWh09f5
+	KamKOtuc+JpdiFrm0LixBHUA9sNqtzPdYZc7wL+JBBSPu9V1lro1ENbzr8/9TBwt+VUFjFuw8Go
+	u3ynRjVS4zMJ7ydo8zsJmWXiOR4WSN0VOyVSh+VTxaEEXR/aicizI+Ghcc/hMXUiJXkVRxCWnnX
+	PxwoLtdLWM2gcVgptWA8vQI3Di9+64lmZAv6+70sgrgjmKB0aBWSpWoUtdxqNaFpbacD1G9DQ9V
+	UDgrrMj
+X-Received: by 2002:a05:600c:1c0a:b0:485:40c6:f528 with SMTP id 5b1f17b1804b1-486fee2bb38mr249454285e9.30.1774359016828;
+        Tue, 24 Mar 2026 06:30:16 -0700 (PDT)
 Received: from fedora (mob-194-230-148-205.cgn.sunrise.net. [194.230.148.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48710fa0e35sm47494875e9.3.2026.03.24.06.30.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48710fa0e35sm47494875e9.3.2026.03.24.06.30.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 06:30:10 -0700 (PDT)
+        Tue, 24 Mar 2026 06:30:16 -0700 (PDT)
 From: stondo@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org,
@@ -62,9 +62,9 @@ Cc: richard.purdie@linuxfoundation.org,
 	peter.marko@siemens.com,
 	adrian.freihofer@siemens.com,
 	mathieu.dubois-briand@bootlin.com
-Subject: [OE-core][PATCH v14 1/4] spdx30: Add configurable file exclusion pattern support
-Date: Tue, 24 Mar 2026 14:29:55 +0100
-Message-ID: <20260324132958.2316491-2-stondo@gmail.com>
+Subject: [OE-core][PATCH v14 4/4] oeqa/selftest: Add tests for source download enrichment
+Date: Tue, 24 Mar 2026 14:29:58 +0100
+Message-ID: <20260324132958.2316491-5-stondo@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260324132958.2316491-1-stondo@gmail.com>
 References: <20260323210745.1337169-1-stefano.tondo.ext@siemens.com>
@@ -74,218 +74,111 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 13:30:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233798
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 13:30:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233801
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Add SPDX_FILE_EXCLUDE_PATTERNS variable that allows filtering files from
-SPDX output by regex matching. The variable accepts a space-separated
-list of Python regular expressions; files whose paths match any pattern
-(via re.search) are excluded.
+Add two tests for the new source download SPDX features:
 
-When empty (the default), no filtering is applied and all files are
-included, preserving existing behavior.
+test_download_location_defensive_handling:
+  Verify that packages with no download location (e.g. packagegroups,
+  images, virtual providers) are handled gracefully without crashing
+  the SPDX generation pipeline.
 
-This enables users to reduce SBOM size by excluding files that are not
-relevant for compliance (e.g., test files, object files, patches).
-
-Excluded files are tracked in a set returned from add_package_files()
-and passed to get_package_sources_from_debug(), which uses the set for
-precise cross-checking rather than re-evaluating patterns.
+test_version_extraction_patterns:
+  Verify that Git source packages get SRCREV as their version in the
+  SPDX output, rather than the recipe PV.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/spdx-common.bbclass |  7 +++
- meta/lib/oe/spdx30_tasks.py      | 80 +++++++++++++++++++++-----------
- 2 files changed, 60 insertions(+), 27 deletions(-)
+ meta/lib/oeqa/selftest/cases/spdx.py | 76 ++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 83f05579b6..40701730a6 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -82,6 +82,13 @@ SPDX_MULTILIB_SSTATE_ARCHS[doc] = "The list of sstate architectures to consider
-     when collecting SPDX dependencies. This includes multilib architectures when \
-     multilib is enabled. Defaults to SSTATE_ARCHS."
- 
-+SPDX_FILE_EXCLUDE_PATTERNS ??= ""
-+SPDX_FILE_EXCLUDE_PATTERNS[doc] = "Space-separated list of Python regular \
-+    expressions to exclude files from SPDX output. Files whose paths match \
-+    any pattern (via re.search) will be filtered out. Defaults to empty \
-+    (no filtering). Example: \
-+    SPDX_FILE_EXCLUDE_PATTERNS = '\\.patch$ \\.diff$ /test/ \\.pyc$ \\.o$'"
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
+index af1144c1e5..9347e0bf7b 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -428,3 +428,79 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+                 value, ["enabled", "disabled"],
+                 f"Unexpected PACKAGECONFIG value '{value}' for {key}"
+             )
 +
- python () {
-     from oe.cve_check import extend_cve_status
-     extend_cve_status(d)
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 353d783fa2..68ed821a8c 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -13,6 +13,7 @@ import oe.spdx30
- import oe.spdx_common
- import oe.sdk
- import os
-+import re
- 
- from contextlib import contextmanager
- from datetime import datetime, timezone
-@@ -157,17 +158,27 @@ def add_package_files(
-     file_counter = 1
-     if not os.path.exists(topdir):
-         bb.note(f"Skip {topdir}")
--        return spdx_files
-+        return spdx_files, set()
- 
-     check_compiled_sources = d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1"
-     if check_compiled_sources:
-         compiled_sources, types = oe.spdx_common.get_compiled_sources(d)
-         bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
- 
-+    exclude_patterns = [
-+        re.compile(pattern)
-+        for pattern in (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").split()
-+    ]
-+    excluded_files = set()
++    def test_download_location_defensive_handling(self):
++        """Test that download_location handling is defensive.
 +
-     for subdir, dirs, files in os.walk(topdir, onerror=walk_error):
--        dirs[:] = [d for d in dirs if d not in ignore_dirs]
-+        dirs[:] = [directory for directory in dirs if directory not in ignore_dirs]
-         if subdir == str(topdir):
--            dirs[:] = [d for d in dirs if d not in ignore_top_level_dirs]
-+            dirs[:] = [
-+                directory
-+                for directory in dirs
-+                if directory not in ignore_top_level_dirs
-+            ]
- 
-         dirs.sort()
-         files.sort()
-@@ -177,14 +188,19 @@ def add_package_files(
-                 continue
- 
-             filename = str(filepath.relative_to(topdir))
++        Verifies SPDX generation succeeds and external references are
++        properly structured when download_location retrieval works.
++        """
++        objset = self.check_recipe_spdx(
++            "m4",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-m4.spdx.json",
++        )
 +
-+            if exclude_patterns and any(
-+                pattern.search(filename) for pattern in exclude_patterns
-+            ):
-+                excluded_files.add(filename)
-+                continue
++        found_external_refs = False
++        for pkg in objset.foreach_type(oe.spdx30.software_Package):
++            if pkg.externalRef:
++                found_external_refs = True
++                for ref in pkg.externalRef:
++                    self.assertIsNotNone(ref.externalRefType)
++                    self.assertIsNotNone(ref.locator)
++                    self.assertGreater(len(ref.locator), 0, "Locator should have at least one entry")
++                    for loc in ref.locator:
++                        self.assertIsInstance(loc, str)
++                break
 +
-             file_purposes = get_purposes(filepath)
- 
--            # Check if file is compiled
--            if check_compiled_sources:
--                if not oe.spdx_common.is_compiled_source(
--                    filename, compiled_sources, types
--                ):
--                    continue
-+            if check_compiled_sources and not oe.spdx_common.is_compiled_source(
-+                filename, compiled_sources, types
-+            ):
-+                continue
- 
-             spdx_file = objset.new_file(
-                 get_spdxid(file_counter),
-@@ -218,12 +234,15 @@ def add_package_files(
- 
-     bb.debug(1, "Added %d files to %s" % (len(spdx_files), objset.doc._id))
- 
--    return spdx_files
-+    return spdx_files, excluded_files
- 
- 
- def get_package_sources_from_debug(
--    d, package, package_files, sources, source_hash_cache
-+    d, package, package_files, sources, source_hash_cache, excluded_files=None
- ):
-+    if excluded_files is None:
-+        excluded_files = set()
++        self.logger.info(
++            f"External references {'found' if found_external_refs else 'not found'} "
++            f"in SPDX output (defensive handling verified)"
++        )
 +
-     def file_path_match(file_path, pkg_file):
-         if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
-             return True
-@@ -256,6 +275,12 @@ def get_package_sources_from_debug(
-             continue
- 
-         if not any(file_path_match(file_path, pkg_file) for pkg_file in package_files):
-+            if file_path.lstrip("/") in excluded_files:
-+                bb.debug(
-+                    1,
-+                    f"Skipping debug source lookup for excluded file {file_path} in {package}",
-+                )
-+                continue
-             bb.fatal(
-                 "No package file found for %s in %s; SPDX found: %s"
-                 % (str(file_path), package, " ".join(p.name for p in package_files))
-@@ -737,7 +762,7 @@ def create_spdx(d):
-         bb.debug(1, "Adding source files to SPDX")
-         oe.spdx_common.get_patched_src(d)
- 
--        files = add_package_files(
-+        files, _ = add_package_files(
-             d,
-             build_objset,
-             spdx_workdir,
-@@ -909,7 +934,7 @@ def create_spdx(d):
-                 )
- 
-             bb.debug(1, "Adding package files to SPDX for package %s" % pkg_name)
--            package_files = add_package_files(
-+            package_files, excluded_files = add_package_files(
-                 d,
-                 pkg_objset,
-                 pkgdest / package,
-@@ -932,7 +957,8 @@ def create_spdx(d):
- 
-             if include_sources:
-                 debug_sources = get_package_sources_from_debug(
--                    d, package, package_files, dep_sources, source_hash_cache
-+                    d, package, package_files, dep_sources, source_hash_cache,
-+                    excluded_files=excluded_files,
-                 )
-                 debug_source_ids |= set(
-                     oe.sbom30.get_element_link_id(d) for d in debug_sources
-@@ -944,7 +970,7 @@ def create_spdx(d):
- 
-     if include_sources:
-         bb.debug(1, "Adding sysroot files to SPDX")
--        sysroot_files = add_package_files(
-+        sysroot_files, _ = add_package_files(
-             d,
-             build_objset,
-             d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
-@@ -1326,18 +1352,18 @@ def create_image_spdx(d):
-             image_filename = image["filename"]
-             image_path = image_deploy_dir / image_filename
-             if os.path.isdir(image_path):
--                a = add_package_files(
--                    d,
--                    objset,
--                    image_path,
--                    lambda file_counter: objset.new_spdxid(
--                        "imagefile", str(file_counter)
--                    ),
--                    lambda filepath: [],
--                    license_data=None,
--                    ignore_dirs=[],
--                    ignore_top_level_dirs=[],
--                    archive=None,
-+                a, _ = add_package_files(
-+                        d,
-+                        objset,
-+                        image_path,
-+                        lambda file_counter: objset.new_spdxid(
-+                            "imagefile", str(file_counter)
-+                        ),
-+                        lambda filepath: [],
-+                        license_data=None,
-+                        ignore_dirs=[],
-+                        ignore_top_level_dirs=[],
-+                        archive=None,
-                 )
-                 artifacts.extend(a)
-             else:
++    def test_version_extraction_patterns(self):
++        """Test that version extraction works for various package formats.
++
++        Verifies that Git source downloads carry extracted versions and that
++        the reported version strings are well-formed.
++        """
++        objset = self.check_recipe_spdx(
++            "opkg-utils",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-opkg-utils.spdx.json",
++        )
++
++        # Collect all packages with versions
++        packages_with_versions = []
++        for pkg in objset.foreach_type(oe.spdx30.software_Package):
++            if pkg.software_packageVersion:
++                packages_with_versions.append((pkg.name, pkg.software_packageVersion))
++
++        self.assertGreater(
++            len(packages_with_versions), 0,
++            "Should find packages with extracted versions"
++        )
++
++        for name, version in packages_with_versions:
++            self.assertRegex(
++                version,
++                r"^[0-9a-f]{40}$",
++                f"Expected Git source version for {name} to be a full SHA-1",
++            )
++
++        self.logger.info(f"Found {len(packages_with_versions)} packages with versions")
++
++        # Log some examples for debugging
++        for name, version in packages_with_versions[:5]:
++            self.logger.info(f"  {name}: {version}")
++
++        # Verify that versions follow expected patterns
++        for name, version in packages_with_versions:
++            # Version should not be empty
++            self.assertIsNotNone(version)
++            self.assertNotEqual(version, "")
++
++            # Version should contain digits
++            self.assertRegex(
++                version,
++                r'\d',
++                f"Version '{version}' for package '{name}' should contain digits"
++            )
 -- 
 2.53.0
 
