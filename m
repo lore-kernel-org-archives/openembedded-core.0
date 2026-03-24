@@ -1,145 +1,96 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73070FEC0E8
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 17:22:45 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2844.1774372959252731038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 998FEFEC0EB
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 18:00:45 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3789.1774375240674687249
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 10:22:40 -0700
+ Tue, 24 Mar 2026 11:00:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=zuHSm93U;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 14A16C5809B
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 17:23:04 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9A11C601A0;
-	Tue, 24 Mar 2026 17:22:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 490951045059C;
-	Tue, 24 Mar 2026 18:22:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774372956; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=HOLnhGG0Uvs1KCWWXp0dx/wH6yBknjibDosguumu0eY=;
-	b=zuHSm93UipVY4Wl3HMOKi6G7y1ojVFQrK9265M+mffhS95AgZQJSe1/qz3shZAxjV/avl1
-	cehmMx74sQv7LBJPK8Iyv1HbAikUIJPmzamhp5cknnDlb10J6BiHUc/RKNfg44LMevL1E2
-	TjHK7CP/RFvDMJg3S1qFgqWSgF/yg8xKlmP7yXm17xb0LYE24fhhp2r0oE6tv4Xw32Hz+j
-	ktYSYq6S2ys6ZAg+nC8n0ZCe2VGlOfJGWsD3vxC6x4+sRlKNEJnwuWhy3Luo90UKGu3vcu
-	jV65Zi5E0DjJcKANfUF5H3v5YP2lnUzImfbK5Y415et1Df3QEenqwjliMojjRQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Mar 2026 18:22:34 +0100
-Message-Id: <DHB6PUB4HG73.2D0X4F8KV6N7K@bootlin.com>
-To: <adrian.freihofer@siemens.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 9/9] oe-selftest: devtool ide-sdk: add
- clang/LLDB test
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260322151320.661246-1-adrian.freihofer@siemens.com>
- <20260322151320.661246-10-adrian.freihofer@siemens.com>
-In-Reply-To: <20260322151320.661246-10-adrian.freihofer@siemens.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c68/jkPE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-483487335c2so45317935e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 11:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1774375239; x=1774980039; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6I9gTBirD0fW2A6WnhA3FDx2aOITtmuuR6J0yMsizu0=;
+        b=c68/jkPEWoOeJQ7XyAL7z93jPAEyKU6Xd6k5+d+gC6BNB0ar7XvZRSrbWaqzZDp3TI
+         ExSgYFeylkBFdbMAncaIluctZfaR42PUESOAfjCruuJMBkcRqhZgrtAhnZTrTt3YYZbU
+         usPrT1zdLJGv/P3p7iMAi6tDoG7dbMJDTwFvM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774375239; x=1774980039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6I9gTBirD0fW2A6WnhA3FDx2aOITtmuuR6J0yMsizu0=;
+        b=Ly5ecSM5wH7ifpqKY77QhVATEcaoJPHyjv/IdHokClpXraK0rTZL9IHRZc46GGnsFk
+         P+ue741Nwc8FPsjysX4hlhahB3PFhC7GBF/KwVnOybrnluJNQfGYRGJSN/SRmnZa2sL5
+         S2NfnSbncic9uEMDnmzDONwxq3XCJh06GaXUl2sxVoT0l5j7/0B3EPBOPu1qqJq0vcjz
+         l1hX52KC48WO+NKhLHf/ouzym3g7I8KRQdR/oCbPRwhXe9Rdzc5GosM5ovM/thkkvkia
+         6QEqCVqJGFarKwUY+QleaEf85XE+lTuglYJgnutxsSg4dMe5n28GSd6uhOO/zDc+zvI7
+         0QvQ==
+X-Gm-Message-State: AOJu0YzYoWPtOZS28Wm2in7EppUAuYpN/S6pJOTQKyv5e3iufp32a31V
+	XoXT0F4pGN89jvVR5O3lLAgSH6KcgfBBU9aEFQE/3K29xKuUJOAcVa4rDCsk50jmCSz/2FMrskS
+	QkbKA
+X-Gm-Gg: ATEYQzxSvy/JIVbF5GV/XRdpDY3w3/p7OsGE1N4ADzaKdHrwi5lM+n/jzmRRhEpfvxG
+	S757PHrJckyp5RpY7omAqlhwqXPe/8WtkVf2QYJhSQI3L2mQwJhyHjDb1ZbIvYr91SnzfekaLCw
+	kAbQJCj2kb4T+KN9UlFgWLz3Ay3EXM2IZqIZzzIygxi76f6oOf97FXZY0K9JUe4sj0+I6VChvXE
+	e8K7GFuGkEhcl0zj2ExPl2cAWCmxFad4nU2lJLMXgsDRjx2RY+QebRftCb/DzBRG+PuhwTXluiv
+	QP8qy4fSVg1KhbYjlFXVZ8v52VMm/ll1D5v8zjVYIXKtLCJ+OAE55e1FxCBCLJ8emVeoCE+C6iy
+	TYCvdL9bKGYHfYrqxuxKVPdbOKyYl6D5RUmLjZEELl2seXUdz2O4GRwQPI/U7JocakY4VmovRlc
+	6zH2FSD+DqtiBjGB6T3yzdU7yzj+se8byAzcnmKEyzDMibLwhQxlLv
+X-Received: by 2002:a05:600c:1f12:b0:486:f9aa:2b57 with SMTP id 5b1f17b1804b1-48716046df7mr10096345e9.16.1774375238343;
+        Tue, 24 Mar 2026 11:00:38 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a42d:49b6:a690:7df7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48711117377sm23629385e9.36.2026.03.24.11.00.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 11:00:36 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] conf/templates/default/local.conf.sample: Document yocto project sstate mirrors
+Date: Tue, 24 Mar 2026 18:00:34 +0000
+Message-ID: <20260324180034.3456047-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 17:22:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233820
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 18:00:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233821
 
-On Sun Mar 22, 2026 at 4:13 PM CET, Adrian Freihofer via lists.openembedded=
-.org wrote:
-> From: Adrian Freihofer <adrian.freihofer@siemens.com>
->
-> Add test_devtool_ide_sdk_code_cmake_clang to verify the full devtool
-> ide-sdk workflow for a cmake recipe built with clang.  Unlike the gcc
-> variant the clang recipe uses lldb-server for remote debugging and
-> CodeLLDB (vadimcn.vscode-lldb) as the VS Code debug adapter.
->
-> The test covers:
-> - devtool modify + devtool ide-sdk with ide=3Dcode
-> - cmake preset compilation and CTest execution (same as the gcc test)
-> - extensions.json recommends vadimcn.vscode-lldb
-> - launch.json uses "type": "lldb" (CodeLLDB) instead of "type": "cppdbg"
-> - End-to-end lldb --batch remote debugging session via lldb-server
->   platform mode running on qemu
->
-> Supporting changes:
-> - _write_bb_config: accept optional extra_packages parameter so the
->   clang test can add lldb-server to IMAGE_INSTALL
-> - _verify_launch_json_lldb: new helper that validates the CodeLLDB
->   launch.json structure (type, initCommands, program, cwd, preLaunchTask)
-> - _lldb_server_debugging_once: new helper that reads the preLaunchTask
->   SSH command from tasks.json, starts lldb-server on the target, and
->   runs lldb --batch to verify a breakpoint at main is hit
-> - _verify_service_running: use pgrep with exact regex (^name$) for exact
->   process name matching; without that, pgrep would also match
->   cmake-example-clang (truncated to 'cmake-example-c' in
->   /proc/pid/comm) when checking for cmake-example, returning two PIDs
->   and failing the isdigit() assertion
->
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
+Add information about using the Yocto Project sstate mirrors to the local.conf
+template, enabling using the config fragment.
 
-Hi Adrian,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/templates/default/local.conf.sample | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Thanks for your patch.
-
-I believe the added test is failing on the autobuilder:
-
-2026-03-24 13:25:52,674 - oe-selftest - INFO - devtool.DevtoolIdeSdkTests.t=
-est_devtool_ide_sdk_code_cmake_clang (subunit.RemotedTestCase)
-2026-03-24 13:25:52,674 - oe-selftest - INFO -  ... FAIL
-...
-2026-03-24 15:55:22,676 - oe-selftest - INFO - FAIL: devtool.DevtoolIdeSdkT=
-ests.test_devtool_ide_sdk_code_cmake_clang (subunit.RemotedTestCase)
-2026-03-24 15:55:22,676 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2026-03-24 15:55:22,676 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
-bedded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 3864, in test_de=
-vtool_ide_sdk_code_cmake_clang
-    self._lldb_server_debugging_once(tempdir, qemu, recipe_name,
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                                     DevtoolIdeSdkTests.MAGIC_STRING_ORIG)
-                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
-bedded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 3805, in _lldb_s=
-erver_debugging_once
-    r =3D runCmd(lldb_batch, output_log=3Dself._cmd_logger)
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
-bedded-core/meta/lib/oeqa/utils/commands.py", line 214, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
-s" % (command, result.status, exc_output))
-...
-(lldb) b main
-Breakpoint 1: where =3D cmake-example-clang`main + 48 at cpp-example.cpp:19=
-:5, address =3D 0x0000000000001750
-(lldb) run
-/tmp/lldb_server_1234_usr-bin-cmake-example-clang_multi/cmake-example-clang=
-: error while loading shared libraries: libcmake-example-clang-lib.so.1: ca=
-nnot open shared object file: No such file or directory
-Process 335 launched: '/srv/pokybuild/yocto-worker/oe-selftest-armhost/buil=
-d/build-st-2935310/tmp/work/cortexa57-poky-linux/cmake-example-clang/1.0/im=
-age/usr/bin/cmake-example-clang' (aarch64)
-Process 335 exited with status =3D 127 (0x0000007f)
-(lldb) continue
-error: Process must be launched.
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3606
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3389
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/conf/templates/default/local.conf.sample b/meta/conf/templates/default/local.conf.sample
+index fb6ed2c3bf2..6947e8e46da 100644
+--- a/meta/conf/templates/default/local.conf.sample
++++ b/meta/conf/templates/default/local.conf.sample
+@@ -204,6 +204,16 @@ BB_DISKMON_DIRS ??= "\
+ #file://.* https://someserver.tld/share/sstate/PATH;downloadfilename=PATH \
+ #file://.* file:///some/local/dir/sstate/PATH"
+ 
++#
++# Yocto Project SState Mirror
++#
++# The Yocto Project has prebuilt artefacts available for its releases, you can enable
++# by enabling the following config fragment. This will mean the build uses the network to 
++# check for artefacts at the start of builds, which does slow it down initially but it 
++# will then speed up the builds by not having to build things if they are present in the 
++# cache. It assumes you can download something faster than you can build it which will 
++# depend on your network.
++# OE_FRAGMENTS += "core/yocto/sstate-mirror-cdn"
+ 
+ #
+ # Qemu configuration
 
