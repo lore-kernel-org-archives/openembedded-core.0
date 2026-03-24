@@ -2,57 +2,57 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A90FC72D2
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 17:14:55 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2731.1774372491501612998
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A1CF532F6
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 17:14:54 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2649.1774372488944652009
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 10:14:51 -0700
+ Tue, 24 Mar 2026 10:14:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=lubQWkSG;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48538c5956bso916785e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 10:14:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=mnenAzUD;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-486ff3a0fc1so36419655e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 10:14:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774372489; x=1774977289; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774372487; x=1774977287; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DMX+t4F6Amb+GzrS7BV1nHB/fJ4dSMO10/ahoKaS84M=;
-        b=lubQWkSGDzCGOYIjw1YhIzCzGn0ILfcpqmS/0yUhOuof1ypEzuCPpTTcPeZ1+9Vxsi
-         lVsOb6vWv1Jl/qUAXL0cX1bC/8o/j934zfoniEJX1B4zP6SbGRePelZscLbharcc6pnp
-         yfbpHcUiwtvHoLLEoSagonVENzBCXQfgtmPwayE6S6srYoDtkwqNzAyZ+9wN6e2XkdeB
-         TD+fYUnrzoli5mU8lN/nMH8nkvBFSPpMZ8axIJgXLT3LzIBgWEVHX2NqPYGAgZPJjVr7
-         na4pqLjfzK+xslmbW3PEZyyiZ+9zvbDr3ogIV5TEfE7kPiwZITsffpHnijXw97+gR2Fy
-         xR+w==
+        bh=wETWTqGBvIWwo6HMkLI2RYn4pwsI8mimLqFkKyv2x3c=;
+        b=mnenAzUD+9fabt0HCmQKwWZ3VIiia/pAtjFI7bw9V8RQnBo7+lKnVv5TOh5SUk2D2Q
+         rTLA/9sxfeVc9eiH+PU9+A8XqJEOKDFwnZFNCa7K+AAZKo+kik59cRbZBiRp5t2NG0P5
+         konORKsO6fXHjmPnq7ePqrlo0G2G5Sqcp6HxB5FWkHMzZjTPo7p1QZobUHv/lxe3I4nE
+         fpeYO32SWvvUS1GiARChKMyv/Kv2OwukhKtLlrsZwB70PM6VLN4NdwylPTS00+Js81y2
+         bEQ79vMPrE8yMn8oo8gjfJH8Ct8UkBNhvmNgyp8xSNULU7S3dfuf5UEozfgSZ/1C6jbV
+         L3mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774372489; x=1774977289;
+        d=1e100.net; s=20251104; t=1774372487; x=1774977287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DMX+t4F6Amb+GzrS7BV1nHB/fJ4dSMO10/ahoKaS84M=;
-        b=An/tTYJj2paDc1SCpsaF7eZEcLIrtW8A9Ab/unFcg+NloaZt1rNCLhzQfN3ttdfISI
-         zyo7O87/cycFyGGxF8fFvQyxbBxMy0kHzBeIEdLcs0+MRkL1Uboflaq1ntZNXeM6FtSq
-         MzK6IyCheeqEC0of56pH9xmVZJ1iXK8b/SlIEDrhC10f9jgnccbrCuLysJB/3JgokXw9
-         OVe8GgqLXwxJPsHtzqvG+tHlg0JxHEAC0gAfBMh8n9muSkPQcNalt0ZL+aOYHYsd+zQn
-         oreLsWTctMr0HenMVprJZW4VL5HPTltt0SNGlkX/CADOtVkOkkYn9A3Ep5Az1ant1btJ
-         aLsQ==
-X-Gm-Message-State: AOJu0YwGPov+0gxCDqCrJfaMGiHdXk0UjWhBaK8S0XWN8b+8sXJLugS0
-	Wf98QKfaXuPy74GLNLwMzJKF70ugh9VCrTgXB1bzDec54V4cJG1dqQHHfgxq+2Dt
-X-Gm-Gg: ATEYQzzDdoBvMTWDSypgqUC9/TBLvghsV21brvhHIs8LO3po9RoDBSPnBlLhmYy9kSI
-	XlmI3dQbtmimYXpaaZ+fReVIfiH0oj38sgs4w+WCleLkdxAx5pzoolpP42hYq+marmNSOSp2Pc9
-	OjfqPtJ99Un6DJIkDWkCePQybVMLvw4jc1L8M2a2jOC1kBSeipHYDdAiWGyqAbp+7IaMiYW2Hhw
-	mgayw5eWv9GBXw7Mf1akdVioHqHrf1gNH5+EFMw/x7mzrKhxrJr1S0egE7Q6O3CqeyIR8j7fr6j
-	aIJD519tPE4YHZpBV6MjvPqvTEQ4vBgZZky6+9FNgbNQ4iqFtXSLLFEykjkZCTpCiV30UM9KIPT
-	8RZrHtyricSE88troOCD2lu/YC1vxLEDwMrElOWzhOqJ+Whsy6zgVLv/1M5MG1z7mQUcANKSxka
-	QDlbLJGtPCTTMzgNVZVZScFRN6vIpPI3Hc6Jzsf+euTYMCS7m4plTtC0t168vBo9nZ8JGASX9de
-	IgaptrTqNravt/UP47/cOqFkQ==
-X-Received: by 2002:a05:600c:888c:b0:486:faa8:9e4 with SMTP id 5b1f17b1804b1-4871608eb93mr6389665e9.12.1774372489052;
-        Tue, 24 Mar 2026 10:14:49 -0700 (PDT)
+        bh=wETWTqGBvIWwo6HMkLI2RYn4pwsI8mimLqFkKyv2x3c=;
+        b=lb8jyy/gclCpgarqttZtgLI4ZOx2oYRzLrllIXK0DS0oTrEEQjrmw3TKVJoBoZ3fG7
+         dtQOJrU2L6dH+4pD+pOCT+6EFxBulFK4uWE+nujZNeuRpiwDE4KnhXOwPjsRAHGSJzaH
+         RxSO9f9i5dz23Yvj/ut075u0MZltIQBpR91FOSY4omOvhSP8v5MfINthW0bfAD3xtZ05
+         HP5Jb1o1XhGMTdbND1hMPzZipQ6CND7P8qi+NZeimVBYTBFo9nxj10IUHc4Jeb5Aoc7+
+         clLWJD5AAKmoM79Y1MPIS/RuSRRdJbu+Nyjfnk8Zli1qAvFU0z8+LSU2q7HFetRqXP3f
+         0U+A==
+X-Gm-Message-State: AOJu0YzXSupc1MlUdSUNgq5H15IPfZ0FvvDtNFg23lNMjmrwe9++3/Y5
+	loazk0XGI76WHAQZ5ejSIKYQfsa6hXQ10UM1bFDWMYWMEDMbVbunBzV1MbTj7nDq
+X-Gm-Gg: ATEYQzw70wTztowl9ilR2nQDx2cWkNbP4/ukWQELDKvQ0vfTa7ETSPXnAFJPSpGyX28
+	klcFF0WpGMhxWXKnaPjUyPJh6DhpG1TAOgsgWZX17Ot+FdDFBGEjsYKtWxbBw/r2VJnF1dhAzms
+	FEuYGpvbhx0HYW/jclST6oibjXTTgnR9iZ7GHfYAF0fKRWAD54hoF3eGGDdG+tYAkxz0V3pQg0b
+	w1ity88fce+wHhASDIk4zCxAuYIz11V/21Hy/M7dF2nSvk2Ck3Ry/acD8UHtY+82qVPFjD9TTIU
+	knrFKYYrU1akDEWgn2FJF+3uc7CLduvtDtbyzxEviDRkT90BqewwoVtgbHnupKQ16AF6+rILS0X
+	5CQRgT7zQ/OGAcm9iJ6NiSmeBgyIzpkLTmgw40XclmrDi6Qq/vin6a+FZ8TIbgkZvUl9CpDpSyP
+	3JPz3EecST5ICahS3xZGDQ5wPu9eJylr4g+BPDGE2iPkyZg8yrYfThRxOwv/Vijbw3O5+EoW9Rq
+	st+S5MthFnrcDumnK5y+Ir7Rw==
+X-Received: by 2002:a05:600c:1d0e:b0:485:3ec6:e634 with SMTP id 5b1f17b1804b1-48715febda2mr8525915e9.15.1774372486931;
+        Tue, 24 Mar 2026 10:14:46 -0700 (PDT)
 Received: from fedora (mob-194-230-148-205.cgn.sunrise.net. [194.230.148.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487165e8e0csm1089275e9.1.2026.03.24.10.14.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487165e8e0csm1089275e9.1.2026.03.24.10.14.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 10:14:48 -0700 (PDT)
+        Tue, 24 Mar 2026 10:14:46 -0700 (PDT)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -63,9 +63,9 @@ Cc: richard.purdie@linuxfoundation.org,
 	peter.marko@siemens.com,
 	adrian.freihofer@siemens.com,
 	mathieu.dubois-briand@bootlin.com
-Subject: [PATCH v16 4/5] spdx30: Add Git version and PURL to source downloads
-Date: Tue, 24 Mar 2026 18:12:45 +0100
-Message-ID: <20260324171246.686862-5-stefano.tondo.ext@siemens.com>
+Subject: [PATCH v16 3/5] spdx30: Add ecosystem PURLs for recipe classes
+Date: Tue, 24 Mar 2026 18:12:44 +0100
+Message-ID: <20260324171246.686862-4-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260324132958.2316491-1-stondo@gmail.com>
 References: <20260324132958.2316491-1-stondo@gmail.com>
@@ -74,173 +74,102 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 17:14:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233812
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 17:14:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233811
 
-Enrich Git source download packages in the SPDX 3.0 output with:
-- software_packageVersion set to the full SHA-1 commit hash
-- software_packageUrl set to a PURL for known Git hosting services
-- VCS external reference pointing to the repository URL
+Add SPDX_PACKAGE_URLS to recipe classes to generate ecosystem-specific
+Package URLs for SPDX 3.0 SBOMs. This enables proper package
+identification across different packaging ecosystems.
 
-The PURL generation recognizes github.com by default and supports
-additional hosting services via the SPDX_GIT_PURL_MAPPINGS variable
-(format: 'domain:purl_type', e.g. 'gitlab.example.com:pkg:gitlab').
+Classes updated:
+- cargo_common.bbclass: pkg:cargo PURLs for Rust crates
+- cpan.bbclass: pkg:cpan PURLs for Perl modules (with name normalization)
+- go-mod.bbclass: pkg:golang PURLs for Go modules
+- npm.bbclass: pkg:npm PURLs for Node.js packages (with name normalization)
+- pypi.bbclass: pkg:pypi PURLs for Python packages (with name normalization)
 
-Only Git source downloads are enriched. Non-Git downloads are left
-unchanged since their ecosystem PURLs are already set on the recipe
-package by SPDX_PACKAGE_URLS from the previous patch.
+The SPDX_PACKAGE_URLS variable is a space-separated list which
+create-spdx-3.0 already reads via set_purls() to populate
+software_packageUrl and externalIdentifier on recipe packages.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/create-spdx-3.0.bbclass |   7 ++
- meta/lib/oe/spdx30_tasks.py          | 102 +++++++++++++++++++++++++++
- 2 files changed, 109 insertions(+)
+ meta/classes-recipe/cargo_common.bbclass |  3 +++
+ meta/classes-recipe/cpan.bbclass         | 11 +++++++++++
+ meta/classes-recipe/go-mod.bbclass       |  3 +++
+ meta/classes-recipe/npm.bbclass          |  7 +++++++
+ meta/classes-recipe/pypi.bbclass         |  3 +++
+ 5 files changed, 27 insertions(+)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 9a6606dce6..432adb14cd 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -156,6 +156,13 @@ SPDX_RECIPE_SBOM_NAME ?= "${PN}-recipe-sbom"
- SPDX_RECIPE_SBOM_NAME[doc] = "The name of output recipe SBoM when using \
-     create_recipe_sbom"
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index bc44ad7918..0d3edfe4a7 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -240,3 +240,6 @@ EXPORT_FUNCTIONS do_configure
+ # https://github.com/rust-lang/libc/issues/3223
+ # https://github.com/rust-lang/libc/pull/3175
+ INSANE_SKIP:append = " 32bit-time"
++
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:cargo/${BPN}@${PV} "
+diff --git a/meta/classes-recipe/cpan.bbclass b/meta/classes-recipe/cpan.bbclass
+index bb76a5b326..dbf44da9d2 100644
+--- a/meta/classes-recipe/cpan.bbclass
++++ b/meta/classes-recipe/cpan.bbclass
+@@ -68,4 +68,15 @@ cpan_do_install () {
+ 	done
+ }
  
-+SPDX_GIT_PURL_MAPPINGS ??= ""
-+SPDX_GIT_PURL_MAPPINGS[doc] = "A space separated list of domain:purl_type \
-+    mappings to configure PURL generation for Git source downloads. \
-+    For example, 'gitlab.example.com:pkg:gitlab' maps repositories hosted \
-+    on gitlab.example.com to the pkg:gitlab PURL type. \
-+    github.com is always mapped to pkg:github by default."
++# Generate ecosystem-specific Package URL for SPDX
++def cpan_spdx_name(d):
++    bpn = d.getVar('BPN')
++    if bpn.startswith('perl-'):
++        return bpn[5:]
++    elif bpn.startswith('libperl-'):
++        return bpn[8:]
++    return bpn
 +
- IMAGE_CLASSES:append = " create-spdx-image-3.0"
- SDK_CLASSES += "create-spdx-sdk-3.0"
++SPDX_PACKAGE_URLS =+ "pkg:cpan/${@cpan_spdx_name(d)}@${PV} "
++
+ EXPORT_FUNCTIONS do_configure do_compile do_install
+diff --git a/meta/classes-recipe/go-mod.bbclass b/meta/classes-recipe/go-mod.bbclass
+index a15dda8f0e..0f5835f26e 100644
+--- a/meta/classes-recipe/go-mod.bbclass
++++ b/meta/classes-recipe/go-mod.bbclass
+@@ -32,3 +32,6 @@ do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
+ # Make go install unpack the module zip files in the module cache directory
+ # before the license directory is polulated with license files.
+ addtask do_compile before do_populate_lic
++
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:golang/${GO_IMPORT}@${PV} "
+diff --git a/meta/classes-recipe/npm.bbclass b/meta/classes-recipe/npm.bbclass
+index 344e8b4bec..7bb791d543 100644
+--- a/meta/classes-recipe/npm.bbclass
++++ b/meta/classes-recipe/npm.bbclass
+@@ -354,4 +354,11 @@ FILES:${PN} += " \
+     ${nonarch_libdir} \
+ "
  
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 51e10befba..cd9672c18e 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -14,6 +14,7 @@ import oe.spdx_common
- import oe.sdk
- import os
- import re
-+import urllib.parse
++# Generate ecosystem-specific Package URL for SPDX
++def npm_spdx_name(d):
++    bpn = d.getVar('BPN')
++    return bpn[5:] if bpn.startswith('node-') else bpn
++
++SPDX_PACKAGE_URLS =+ "pkg:npm/${@npm_spdx_name(d)}@${PV} "
++
+ EXPORT_FUNCTIONS do_configure do_compile do_install
+diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.bbclass
+index 9d46c035f6..bd21557c60 100644
+--- a/meta/classes-recipe/pypi.bbclass
++++ b/meta/classes-recipe/pypi.bbclass
+@@ -54,3 +54,6 @@ UPSTREAM_CHECK_URI ?= "https://pypi.org/simple/${@pypi_normalize(d)}/"
+ UPSTREAM_CHECK_REGEX ?= "${UPSTREAM_CHECK_PYPI_PACKAGE}-(?P<pver>(\d+[\.\-_]*)+).(tar\.gz|tgz|zip|tar\.bz2)"
  
- from contextlib import contextmanager
- from datetime import datetime, timezone
-@@ -384,6 +385,105 @@ def collect_dep_sources(dep_objsets, dest):
-             index_sources_by_hash(e.to, dest)
- 
- 
+ CVE_PRODUCT ?= "python:${PYPI_PACKAGE}"
 +
-+def _generate_git_purl(d, download_location, srcrev):
-+    """Generate a Package URL for a Git source from its download location.
-+
-+    Parses the Git URL to identify the hosting service and generates the
-+    appropriate PURL type. Supports github.com by default and custom
-+    mappings via SPDX_GIT_PURL_MAPPINGS.
-+
-+    Returns the PURL string or None if no mapping matches.
-+    """
-+    if not download_location or not download_location.startswith('git+'):
-+        return None
-+
-+    git_url = download_location[4:]  # Remove 'git+' prefix
-+
-+    # Default handler: github.com
-+    git_purl_handlers = {
-+        'github.com': 'pkg:github',
-+    }
-+
-+    # Custom PURL mappings from SPDX_GIT_PURL_MAPPINGS
-+    # Format: "domain1:purl_type1 domain2:purl_type2"
-+    custom_mappings = d.getVar('SPDX_GIT_PURL_MAPPINGS')
-+    if custom_mappings:
-+        for mapping in custom_mappings.split():
-+            parts = mapping.split(':', 1)
-+            if len(parts) == 2:
-+                git_purl_handlers[parts[0]] = parts[1]
-+                bb.debug(2, f"Added custom Git PURL mapping: {parts[0]} -> {parts[1]}")
-+            else:
-+                bb.warn(f"Invalid SPDX_GIT_PURL_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
-+
-+    try:
-+        parsed = urllib.parse.urlparse(git_url)
-+    except Exception:
-+        return None
-+
-+    hostname = parsed.hostname
-+    if not hostname:
-+        return None
-+
-+    for domain, purl_type in git_purl_handlers.items():
-+        if hostname == domain:
-+            path = parsed.path.strip('/')
-+            path_parts = path.split('/')
-+            if len(path_parts) >= 2:
-+                owner = path_parts[0]
-+                repo = path_parts[1].replace('.git', '')
-+                return f"{purl_type}/{owner}/{repo}@{srcrev}"
-+            break
-+
-+    return None
-+
-+
-+def _enrich_source_package(d, dl, fd, file_name, primary_purpose):
-+    """Enrich a Git source download package with version, PURL, and external refs.
-+
-+    For Git sources, extracts the full SHA-1 from SRCREV as the version,
-+    generates PURLs for known hosting services, and adds VCS external
-+    references.
-+    """
-+    version = None
-+    purl = None
-+
-+    if fd.type == "git":
-+        # Use full SHA-1 from fd.revision
-+        srcrev = getattr(fd, 'revision', None)
-+        if srcrev and srcrev not in {'${AUTOREV}', 'AUTOINC', 'INVALID'}:
-+            version = srcrev
-+
-+        # Generate PURL for Git hosting services
-+        download_location = getattr(dl, 'software_downloadLocation', None)
-+        if version and download_location:
-+            purl = _generate_git_purl(d, download_location, version)
-+
-+    if version:
-+        dl.software_packageVersion = version
-+
-+    if purl:
-+        dl.software_packageUrl = purl
-+
-+    # Add VCS external reference for Git repositories
-+    download_location = getattr(dl, 'software_downloadLocation', None)
-+    if download_location and isinstance(download_location, str):
-+        if download_location.startswith('git+'):
-+            git_url = download_location[4:]
-+            if '@' in git_url:
-+                git_url = git_url.split('@')[0]
-+
-+            dl.externalRef = dl.externalRef or []
-+            dl.externalRef.append(
-+                oe.spdx30.ExternalRef(
-+                    externalRefType=oe.spdx30.ExternalRefType.vcs,
-+                    locator=[git_url],
-+                )
-+            )
-+
-+
-+
- def add_download_files(d, objset):
-     inputs = set()
- 
-@@ -447,6 +547,8 @@ def add_download_files(d, objset):
-                 )
-             )
- 
-+            _enrich_source_package(d, dl, fd, file_name, primary_purpose)
-+
-             if fd.method.supports_checksum(fd):
-                 # TODO Need something better than hard coding this
-                 for checksum_id in ["sha256", "sha1"]:
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:pypi/${@pypi_normalize(d)}@${PV} "
 -- 
 2.53.0
 
