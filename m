@@ -2,57 +2,57 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 110FBFEC0E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E530FEC0E8
 	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 17:15:25 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2745.1774372515950713567
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2663.1774372518769667251
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 10:15:16 -0700
+ Tue, 24 Mar 2026 10:15:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=mLEJi+ji;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso13989565e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 10:15:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=HdZjTtvu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-486fe655187so53275935e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 10:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774372514; x=1774977314; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774372517; x=1774977317; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0c1szvNRo9lFldeYmk8o9OdqLCa+Mjx5/i6grLv/h6s=;
-        b=mLEJi+jiLHo4G6SUZ0iOx/eju21Y0IXQo8nk2TDa2dFTQ3ayJbdngZ9FnZjIF3J1MW
-         xIcSaFr8AWhVSvczeSbR3IYaJ3GsIcuH0Vm6/2Uc/jdc13TPPg+hAONh9tqrZkuoSI9J
-         reQtYL1U+jMMDj9RaQ9sXdF6NRZhBlyqVYxI7MvU7Z19WI9Dk2wYVNg/AudxFXHN0tG+
-         99vdy1mrKIo3Bmi2c34cU2PEd33g0wAy3CyGzhHrbjhkTJxPutBnJTEulnAGOmdhSXe6
-         YG6T5n94pZus4MXD9LjybujwAvKGV+TGT+E2LHoGJVISaZUrVFkWZ5Kx6/LlinnxuzxP
-         e3RQ==
+        bh=wETWTqGBvIWwo6HMkLI2RYn4pwsI8mimLqFkKyv2x3c=;
+        b=HdZjTtvuzi30CgRP6ovMzOpTjAQ9/fFWrVm3eeCB+AX454IPTUhojRzk8H1JYaJhwU
+         2S3ZoUPqORE60wtiw4lsIV0mikiFg8RS5Y9aHqfWzuoObLMG7ucTPB982F/H06YpWQst
+         Z+mm3LrtKojtCzviS+qOLL4zHK5u4FPY8NPuU2mdEElPmd9np9B5FwdXxv6+0dqcyToQ
+         D7Z6XeeI9xkUyJ6m49bW/7FaPTIphIboyqnzbstSIUSKq0K5a9XzKt+9y6CDrspIIURx
+         Y7ku+5YvcX2+PhX+zprNWWorXFKbOE5qtxXXNbyTCanh23iqB+31QXPps0kMWv5yB1m7
+         q9zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774372514; x=1774977314;
+        d=1e100.net; s=20251104; t=1774372517; x=1774977317;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0c1szvNRo9lFldeYmk8o9OdqLCa+Mjx5/i6grLv/h6s=;
-        b=FeUZkJmTnVMz5DUxofyn8K+EI3hn9A5XCXfbZRZJ66Eo+DmVeEpEHtxqmr2z7rNk3+
-         0worlDBzj9JeVhPa8VJdNIuDePCxJGmE6ZzdqV0KK+l8I0Stmw06SrjIoSRKQ+satJSg
-         6TSQr1OW0/03G/ORzR1oSlSm8Qpj1a2rZHSFJCZSpeonQ0c1rfCt+1bLG1KuYclPwaW4
-         xAHKsnFZb28r7QOzJs9M1clkYB3wUBdr//61FeOa8wY6u2tZPZWOZGv9bzbaYBBREWDn
-         Ob/AElb/vf4VNZ4MghztobJAsqTx7DjlNqlxOqm7nmzAPZHw6QoQlTnyysZtrAjy/+lx
-         04FQ==
-X-Gm-Message-State: AOJu0Yz1D1yAr0sKIaQm9qlhzkAchiLzGpQOCug+OP+Y7OvGrn6UefO0
-	3cQnYTNcwwLKbHk4KkhbR/UurKlBfr74shavcp+dBqRZ8hSa7FWZeXBggYmoUcob
-X-Gm-Gg: ATEYQzzMVcFLWopcLUK65+mnlLHG9RFbBUeHHaVZmuxjhx4p3sxj2hRBLDOwSaHMgy/
-	ZGhEH7AjjrjGpbjpswNswnHll9oW5TTL2wKRjvMozzHACmMSi4HynHmO8wLDTITYuFxT7DNLz+j
-	YDZ/XduN/QL3x6Fk+sFkTwBgiq4AzTOX+Ho81bBYMJ/S4SsYozNaGyB+Qe/pK4W740LrHMq7nDP
-	t5gkhfAqTWuhkBMQ2lgszOFycPrXIOlNy3bqMjNu1zwpmcio1D0PRoiiKdAB/RoDCR9PzIolBSE
-	zC6EN7oGtMqCGMPtSigBXt8vTMl/rXxm/jdxvpNhSTVn/FEzbuckevOeUuNhgzsiiebpUS6yqUv
-	jBUBmQ/p6YTmUwh8i0erVPfVio2l7lWzqPV4fVx3l/SXR+h3MYnaKUgSaDZHLXDoKf1mw51fqKx
-	SrXVCfaqztTDS5Dmie93HTMuIiyWqOYNeUGBr5uvNhSXw5bsp2GtOmcbgKEwVuvMOR7/26R+9lY
-	t6KBHcZAZjgKmDWZftVn3sf1w==
-X-Received: by 2002:a05:600c:1d0e:b0:485:35d3:ce59 with SMTP id 5b1f17b1804b1-48715fef7bbmr8494925e9.10.1774372513671;
-        Tue, 24 Mar 2026 10:15:13 -0700 (PDT)
+        bh=wETWTqGBvIWwo6HMkLI2RYn4pwsI8mimLqFkKyv2x3c=;
+        b=L+ickXYwUKXxhQKixYHUL8XO/poKlnoEyZo1M8XoAImihQnts0w3YFfrO2SMlnJO0R
+         nKjNhWrBNNGordf56ZaMnB/o4VpUf7sqTsjcIK2NNman9KjtQamHKlzRp9qdi8h7MC5i
+         32opVHtIXWn3fGxvCX2v5lxWviSmVwjR5RLpHcYN6cgpTBonep4SDJ8k/wxmz/wBapFd
+         8C9Dygspo4MhKJKyRHHo652fT0lWF68DQ4NCI6JnONnEBvXi+jq3t1VYhqgvYYGIzlxu
+         kH5lzRhgRumPevCGRXOas9F8z5xpUMsITS1kBAL8yZa8x0GMadJ/13xT/1vDFh9dn6AM
+         hsew==
+X-Gm-Message-State: AOJu0YxP053ptOcOABeJIM4OQat1ejzQwFb8vAThcHhSEtcryYyr00cT
+	1McmkAA/hMLjHXDuDZY8QEftYT5His1aF7SntsgKquA7a6p8M2K3+hTrgZqqBCD/
+X-Gm-Gg: ATEYQzxgp3RdmXKFzzv3Vy9SmB9gMzG91MPmklW8sHrrquUTRKt/XpKIRmTrQGLDz2b
+	ZN+tMCKPhKXpLkl/r+Ed0a8oUQeG1BLoGKT+9mpzMh0rL5EpcladyYsxHmPo0cCA5MWvTYq3Ph0
+	fOicbvoKr1x9eWiILi3jXRYpJynv+5kTuqLEqec9e3k4QOIuslkUGPlczfFMfCViYyTPWyt93AU
+	pLjz7lT9paEHYW75dhruKmprVhBKmZrMqBNn7jRCGNX8anrTEU/31nFaXv+DSX0LPxJkeg/dFmn
+	iKe863H/HoDjntcHLNTHpl3ihyPADm5xfm2VTO9/bP+ewc+XYQ5/5daiWxXUokmFCT7hwhWDYUS
+	Aip2oz6ljfI0S/wci9Q+Qw6DWPYEVh2Z1Q0dx/5gTR/h9AXCm/fUD9zlvZun5aiZogP7dtsKPEl
+	b9aq4klPGGALNHKgD22AG7PT7E73CmSyaUD9bohvT9mTR4Sb7qjt44BBdZ7exzDJedYgarAuUlt
+	xLSUYok5+JGdL7CDgh1m6QJmQ==
+X-Received: by 2002:a05:600c:64c9:b0:485:3a03:cee1 with SMTP id 5b1f17b1804b1-487160b8be7mr7526715e9.33.1774372516695;
+        Tue, 24 Mar 2026 10:15:16 -0700 (PDT)
 Received: from fedora (mob-194-230-148-205.cgn.sunrise.net. [194.230.148.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487165bea11sm2168665e9.1.2026.03.24.10.15.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487165bea11sm2168665e9.1.2026.03.24.10.15.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 10:15:13 -0700 (PDT)
+        Tue, 24 Mar 2026 10:15:16 -0700 (PDT)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -63,9 +63,9 @@ Cc: richard.purdie@linuxfoundation.org,
 	peter.marko@siemens.com,
 	adrian.freihofer@siemens.com,
 	mathieu.dubois-briand@bootlin.com
-Subject: [PATCH v16 1/5] spdx30: Add configurable file exclusion pattern support
-Date: Tue, 24 Mar 2026 18:14:58 +0100
-Message-ID: <20260324171502.689012-2-stefano.tondo.ext@siemens.com>
+Subject: [PATCH v16 3/5] spdx30: Add ecosystem PURLs for recipe classes
+Date: Tue, 24 Mar 2026 18:15:00 +0100
+Message-ID: <20260324171502.689012-4-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260324132958.2316491-1-stondo@gmail.com>
 References: <20260324132958.2316491-1-stondo@gmail.com>
@@ -75,215 +75,101 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 17:15:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233815
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233817
 
-Add SPDX_FILE_EXCLUDE_PATTERNS variable that allows filtering files from
-SPDX output by regex matching. The variable accepts a space-separated
-list of Python regular expressions; files whose paths match any pattern
-(via re.search) are excluded.
+Add SPDX_PACKAGE_URLS to recipe classes to generate ecosystem-specific
+Package URLs for SPDX 3.0 SBOMs. This enables proper package
+identification across different packaging ecosystems.
 
-When empty (the default), no filtering is applied and all files are
-included, preserving existing behavior.
+Classes updated:
+- cargo_common.bbclass: pkg:cargo PURLs for Rust crates
+- cpan.bbclass: pkg:cpan PURLs for Perl modules (with name normalization)
+- go-mod.bbclass: pkg:golang PURLs for Go modules
+- npm.bbclass: pkg:npm PURLs for Node.js packages (with name normalization)
+- pypi.bbclass: pkg:pypi PURLs for Python packages (with name normalization)
 
-This enables users to reduce SBOM size by excluding files that are not
-relevant for compliance (e.g., test files, object files, patches).
-
-Excluded files are tracked in a set returned from add_package_files()
-and passed to get_package_sources_from_debug(), which uses the set for
-precise cross-checking rather than re-evaluating patterns.
+The SPDX_PACKAGE_URLS variable is a space-separated list which
+create-spdx-3.0 already reads via set_purls() to populate
+software_packageUrl and externalIdentifier on recipe packages.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/spdx-common.bbclass |  7 +++
- meta/lib/oe/spdx30_tasks.py      | 80 +++++++++++++++++++++-----------
- 2 files changed, 60 insertions(+), 27 deletions(-)
+ meta/classes-recipe/cargo_common.bbclass |  3 +++
+ meta/classes-recipe/cpan.bbclass         | 11 +++++++++++
+ meta/classes-recipe/go-mod.bbclass       |  3 +++
+ meta/classes-recipe/npm.bbclass          |  7 +++++++
+ meta/classes-recipe/pypi.bbclass         |  3 +++
+ 5 files changed, 27 insertions(+)
 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 83f05579b6..40701730a6 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -82,6 +82,13 @@ SPDX_MULTILIB_SSTATE_ARCHS[doc] = "The list of sstate architectures to consider
-     when collecting SPDX dependencies. This includes multilib architectures when \
-     multilib is enabled. Defaults to SSTATE_ARCHS."
- 
-+SPDX_FILE_EXCLUDE_PATTERNS ??= ""
-+SPDX_FILE_EXCLUDE_PATTERNS[doc] = "Space-separated list of Python regular \
-+    expressions to exclude files from SPDX output. Files whose paths match \
-+    any pattern (via re.search) will be filtered out. Defaults to empty \
-+    (no filtering). Example: \
-+    SPDX_FILE_EXCLUDE_PATTERNS = '\\.patch$ \\.diff$ /test/ \\.pyc$ \\.o$'"
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index bc44ad7918..0d3edfe4a7 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -240,3 +240,6 @@ EXPORT_FUNCTIONS do_configure
+ # https://github.com/rust-lang/libc/issues/3223
+ # https://github.com/rust-lang/libc/pull/3175
+ INSANE_SKIP:append = " 32bit-time"
 +
- python () {
-     from oe.cve_check import extend_cve_status
-     extend_cve_status(d)
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 353d783fa2..68ed821a8c 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -13,6 +13,7 @@ import oe.spdx30
- import oe.spdx_common
- import oe.sdk
- import os
-+import re
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:cargo/${BPN}@${PV} "
+diff --git a/meta/classes-recipe/cpan.bbclass b/meta/classes-recipe/cpan.bbclass
+index bb76a5b326..dbf44da9d2 100644
+--- a/meta/classes-recipe/cpan.bbclass
++++ b/meta/classes-recipe/cpan.bbclass
+@@ -68,4 +68,15 @@ cpan_do_install () {
+ 	done
+ }
  
- from contextlib import contextmanager
- from datetime import datetime, timezone
-@@ -157,17 +158,27 @@ def add_package_files(
-     file_counter = 1
-     if not os.path.exists(topdir):
-         bb.note(f"Skip {topdir}")
--        return spdx_files
-+        return spdx_files, set()
- 
-     check_compiled_sources = d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1"
-     if check_compiled_sources:
-         compiled_sources, types = oe.spdx_common.get_compiled_sources(d)
-         bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
- 
-+    exclude_patterns = [
-+        re.compile(pattern)
-+        for pattern in (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").split()
-+    ]
-+    excluded_files = set()
++# Generate ecosystem-specific Package URL for SPDX
++def cpan_spdx_name(d):
++    bpn = d.getVar('BPN')
++    if bpn.startswith('perl-'):
++        return bpn[5:]
++    elif bpn.startswith('libperl-'):
++        return bpn[8:]
++    return bpn
 +
-     for subdir, dirs, files in os.walk(topdir, onerror=walk_error):
--        dirs[:] = [d for d in dirs if d not in ignore_dirs]
-+        dirs[:] = [directory for directory in dirs if directory not in ignore_dirs]
-         if subdir == str(topdir):
--            dirs[:] = [d for d in dirs if d not in ignore_top_level_dirs]
-+            dirs[:] = [
-+                directory
-+                for directory in dirs
-+                if directory not in ignore_top_level_dirs
-+            ]
- 
-         dirs.sort()
-         files.sort()
-@@ -177,14 +188,19 @@ def add_package_files(
-                 continue
- 
-             filename = str(filepath.relative_to(topdir))
++SPDX_PACKAGE_URLS =+ "pkg:cpan/${@cpan_spdx_name(d)}@${PV} "
 +
-+            if exclude_patterns and any(
-+                pattern.search(filename) for pattern in exclude_patterns
-+            ):
-+                excluded_files.add(filename)
-+                continue
+ EXPORT_FUNCTIONS do_configure do_compile do_install
+diff --git a/meta/classes-recipe/go-mod.bbclass b/meta/classes-recipe/go-mod.bbclass
+index a15dda8f0e..0f5835f26e 100644
+--- a/meta/classes-recipe/go-mod.bbclass
++++ b/meta/classes-recipe/go-mod.bbclass
+@@ -32,3 +32,6 @@ do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
+ # Make go install unpack the module zip files in the module cache directory
+ # before the license directory is polulated with license files.
+ addtask do_compile before do_populate_lic
 +
-             file_purposes = get_purposes(filepath)
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:golang/${GO_IMPORT}@${PV} "
+diff --git a/meta/classes-recipe/npm.bbclass b/meta/classes-recipe/npm.bbclass
+index 344e8b4bec..7bb791d543 100644
+--- a/meta/classes-recipe/npm.bbclass
++++ b/meta/classes-recipe/npm.bbclass
+@@ -354,4 +354,11 @@ FILES:${PN} += " \
+     ${nonarch_libdir} \
+ "
  
--            # Check if file is compiled
--            if check_compiled_sources:
--                if not oe.spdx_common.is_compiled_source(
--                    filename, compiled_sources, types
--                ):
--                    continue
-+            if check_compiled_sources and not oe.spdx_common.is_compiled_source(
-+                filename, compiled_sources, types
-+            ):
-+                continue
- 
-             spdx_file = objset.new_file(
-                 get_spdxid(file_counter),
-@@ -218,12 +234,15 @@ def add_package_files(
- 
-     bb.debug(1, "Added %d files to %s" % (len(spdx_files), objset.doc._id))
- 
--    return spdx_files
-+    return spdx_files, excluded_files
- 
- 
- def get_package_sources_from_debug(
--    d, package, package_files, sources, source_hash_cache
-+    d, package, package_files, sources, source_hash_cache, excluded_files=None
- ):
-+    if excluded_files is None:
-+        excluded_files = set()
++# Generate ecosystem-specific Package URL for SPDX
++def npm_spdx_name(d):
++    bpn = d.getVar('BPN')
++    return bpn[5:] if bpn.startswith('node-') else bpn
 +
-     def file_path_match(file_path, pkg_file):
-         if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
-             return True
-@@ -256,6 +275,12 @@ def get_package_sources_from_debug(
-             continue
++SPDX_PACKAGE_URLS =+ "pkg:npm/${@npm_spdx_name(d)}@${PV} "
++
+ EXPORT_FUNCTIONS do_configure do_compile do_install
+diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.bbclass
+index 9d46c035f6..bd21557c60 100644
+--- a/meta/classes-recipe/pypi.bbclass
++++ b/meta/classes-recipe/pypi.bbclass
+@@ -54,3 +54,6 @@ UPSTREAM_CHECK_URI ?= "https://pypi.org/simple/${@pypi_normalize(d)}/"
+ UPSTREAM_CHECK_REGEX ?= "${UPSTREAM_CHECK_PYPI_PACKAGE}-(?P<pver>(\d+[\.\-_]*)+).(tar\.gz|tgz|zip|tar\.bz2)"
  
-         if not any(file_path_match(file_path, pkg_file) for pkg_file in package_files):
-+            if file_path.lstrip("/") in excluded_files:
-+                bb.debug(
-+                    1,
-+                    f"Skipping debug source lookup for excluded file {file_path} in {package}",
-+                )
-+                continue
-             bb.fatal(
-                 "No package file found for %s in %s; SPDX found: %s"
-                 % (str(file_path), package, " ".join(p.name for p in package_files))
-@@ -737,7 +762,7 @@ def create_spdx(d):
-         bb.debug(1, "Adding source files to SPDX")
-         oe.spdx_common.get_patched_src(d)
- 
--        files = add_package_files(
-+        files, _ = add_package_files(
-             d,
-             build_objset,
-             spdx_workdir,
-@@ -909,7 +934,7 @@ def create_spdx(d):
-                 )
- 
-             bb.debug(1, "Adding package files to SPDX for package %s" % pkg_name)
--            package_files = add_package_files(
-+            package_files, excluded_files = add_package_files(
-                 d,
-                 pkg_objset,
-                 pkgdest / package,
-@@ -932,7 +957,8 @@ def create_spdx(d):
- 
-             if include_sources:
-                 debug_sources = get_package_sources_from_debug(
--                    d, package, package_files, dep_sources, source_hash_cache
-+                    d, package, package_files, dep_sources, source_hash_cache,
-+                    excluded_files=excluded_files,
-                 )
-                 debug_source_ids |= set(
-                     oe.sbom30.get_element_link_id(d) for d in debug_sources
-@@ -944,7 +970,7 @@ def create_spdx(d):
- 
-     if include_sources:
-         bb.debug(1, "Adding sysroot files to SPDX")
--        sysroot_files = add_package_files(
-+        sysroot_files, _ = add_package_files(
-             d,
-             build_objset,
-             d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
-@@ -1326,18 +1352,18 @@ def create_image_spdx(d):
-             image_filename = image["filename"]
-             image_path = image_deploy_dir / image_filename
-             if os.path.isdir(image_path):
--                a = add_package_files(
--                    d,
--                    objset,
--                    image_path,
--                    lambda file_counter: objset.new_spdxid(
--                        "imagefile", str(file_counter)
--                    ),
--                    lambda filepath: [],
--                    license_data=None,
--                    ignore_dirs=[],
--                    ignore_top_level_dirs=[],
--                    archive=None,
-+                a, _ = add_package_files(
-+                        d,
-+                        objset,
-+                        image_path,
-+                        lambda file_counter: objset.new_spdxid(
-+                            "imagefile", str(file_counter)
-+                        ),
-+                        lambda filepath: [],
-+                        license_data=None,
-+                        ignore_dirs=[],
-+                        ignore_top_level_dirs=[],
-+                        archive=None,
-                 )
-                 artifacts.extend(a)
-             else:
+ CVE_PRODUCT ?= "python:${PYPI_PACKAGE}"
++
++# Generate ecosystem-specific Package URL for SPDX
++SPDX_PACKAGE_URLS =+ "pkg:pypi/${@pypi_normalize(d)}@${PV} "
 -- 
 2.53.0
 
