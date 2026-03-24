@@ -1,106 +1,175 @@
-Return-Path: <Jinfeng.Wang.CN@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB3DF532CB
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 03:29:54 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12158.1774322993681805034
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C3B3F532D6
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 05:02:55 +0000 (UTC)
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13326.1774328568359693008
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2026 20:29:53 -0700
+ Mon, 23 Mar 2026 22:02:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=qfdGLlUQ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7543d56b91=jinfeng.wang.cn@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62O2kBDu1875388
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 20:29:53 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=vdMPtdH8iIAKVv3w2hG6
-	C9HTkxTpd1DGWUT31ga4DG8=; b=qfdGLlUQDaBKftblgwknuJInJguHo7AW0R8U
-	6FSkuMFWlDAmtYHBlHp0saCXGkWWyF6fipQLzvSov3dK6yHkY9vdPFzZVbIni7ZO
-	wqA6D3XGi0hwtsVCq72Yqipg96sSJHOroUpoGVNwjA6Mjaof1qbTyoDugB7FeZDI
-	TckuwImjtMUKNa0MBJ+hMVQJcf0BhlKvkpILWOtBxCjpCFKo9mr9MHU0XPHQu0sP
-	2+HA4tTpY/nZ0KJOdHuOUw0UMFH4xNimjdoxVZQ/iVnUiLb5Jt6AWddlW4twSgXj
-	l68K86gJxTBCvsDNcaTSZn0cP5kuf7GDeqHD79d7qTKql/C3Zg==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4d1tuctgbs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 20:29:53 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Mon, 23 Mar 2026 20:29:52 -0700
-Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Mon, 23 Mar 2026 20:29:52 -0700
-From: <jinfeng.wang.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] tzdata/tzcode-native: upgrade 2025c -> 2026a
-Date: Tue, 24 Mar 2026 11:29:51 +0800
-Message-ID: <20260324032951.2617270-1-jinfeng.wang.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@mvista.com header.s=google header.b=DVfZF0Al;
+ spf=pass (domain: mvista.com, ip: 74.125.82.172, mailfrom: hprajapati@mvista.com)
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2bdd40d3c61so2863759eec.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2026 22:02:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1774328568; x=1774933368; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XtL9N0JVLAVmbhPZbtqQNwxOxLnV47mdvWylCe/s4uU=;
+        b=DVfZF0AlbQyVEbR8VJ0AOollUM+d3a/k7FfUkwAwHzYaXGX1ZWGXsy9QIZuBm5LxU/
+         k9oIWtU5fuHnimGuGLt/VX1qt1rDYy7ObvEKZqnVnVwMwzzDdvihfwAx8RjBDWTfheMd
+         529nJeOoJ9Qxj8tt8FyR8rsc9BvQ9rIU7BHuk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774328568; x=1774933368;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XtL9N0JVLAVmbhPZbtqQNwxOxLnV47mdvWylCe/s4uU=;
+        b=a1R0JvsLd3txim8Us0nrRW1mmKA9G3D58vZ8qJc8EZVs9v1OAgAXH79WmMoM2MJw50
+         qBxNPXHDMW0KuaZvWdgHkCNP6byQwCXqILvumzMxDVoWo7ZdqH8/KPmY7BzZ+zbG/eHs
+         1bL04Mv6i6cIBvQwseoBgRqiuHHVPeOFJ5vuwPEXlumhefZ6E/8Qx5zNmFuka+FMuYMf
+         T++1+0v1kW0Mc7tCwHINUZ1VeWCZomDSRCTcT3UfwwLvtJ8owI6KZr+USk+7dKguxFmo
+         qpeypudVXzMsLt5IbagZfAX9y++gT2Uj5j4A2wf9oUTfpwajhCPg9KAgnYE3zZHKI36l
+         ioKw==
+X-Gm-Message-State: AOJu0YxNY2tJbgpbfSjweah7vNyeLuv/S9c8lgOjPAxhgWBoC5BIHO29
+	cToThVtsCMomoVm/FmcmpcRN5sp+sREqmjGZR3NiKz4CkJSUzWaaIqOhbNQMpPZjSEdM5LRZJA6
+	XBTvi
+X-Gm-Gg: ATEYQzx5jy5yG2c/ytcvnAJwzOjp9kAJmdr3tyUXKgVt0cp2uFnMBSTEcsl5FmaGETV
+	4CsXZXA6YEVXln/oDGHcu+DqUu0UzNOtDFSxGgGDn6TTw0B+I4JqcsVASAxweg2z/+gF0ndVIN8
+	+5GgKs2lrjNrX0Y1IjkkxJngSeSrIEu/9PIYeXHc1rlcx3yWqBjTHmJhX3JJ6cG10dgSZX40stL
+	b3GQ/8STPXygZssHHCepLwNDPAwpv6kQMQYPnTlbsSU+9ZHhCIqqnooYxuXnsh045i9C/EAUSH4
+	fqflDIEj1Uktah+V0wrXPJ12q3y7EmYB5RY46UQK3TA58WcH5aQ82FSXA10R1vqimKjp9PJsPQB
+	a5d98WslGyF275nX5iaDJvzxshnelDvRluq0kqVy29+eV6/U2L6WZvgw5YZtBVvTwdT5SBwHaYB
+	JqPafUD29lRnw4vU2IJLIZjPCpuUH9SSMEWYmgVLwJ5ZPCw9w=
+X-Received: by 2002:a05:7300:e788:b0:2c0:dea7:a03 with SMTP id 5a478bee46e88-2c1097ab203mr6065381eec.32.1774328567478;
+        Mon, 23 Mar 2026 22:02:47 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([103.250.136.179])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10aefd778sm19200254eec.0.2026.03.23.22.02.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 22:02:47 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] libxml-parser-perl: fix for CVE-2006-10003
+Date: Tue, 24 Mar 2026 10:32:27 +0530
+Message-ID: <20260324050227.41834-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 1oBLx0UrKNbvGfrITKQljpoEkBoYEILP
-X-Proofpoint-ORIG-GUID: 1oBLx0UrKNbvGfrITKQljpoEkBoYEILP
-X-Authority-Analysis: v=2.4 cv=deCNHHXe c=1 sm=1 tr=0 ts=69c20531 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=I0CVDw5ZAAAA:8 a=t7CeM3EgAAAA:8
- a=iZHUemEkkY5Qf-xOW0sA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI0MDAyNiBTYWx0ZWRfX7sCzmdtF6HOj
- Iky1nHqJOwCwFZoH5fU9pqFU0MKWt2kz+VUDgZWQ4AI4Fl8bMfomozP8CjCw+O0CtNyDi443XTc
- Tvxv1NIo0+wBJA+iklQ6noenTp7Mry9+bgdGufOV2xkyzAWlen3UFTaOfETKd7H3DyaHMfC8Gjd
- AWo95+RKGGFz6pmHM+qV6UI2UV4mlrGKLqT3Cpsiq91QOBHsHKYAOAyCyrBkdbJcHvwKOOJS4bQ
- u5h/ihpGN7gGRZYLcgVmRJAJzbCGrzGQ6RRdsD2yk0aMNGBjtx/DH0oc9HuRSUQE/IpPG7vO8iu
- +guz1G9b4CHqPqcR9g9orkbgF0eFWRNbGxRcESe04Pt9U7obTys5DOxvqGO1nlv6Ni7OHdOG3gz
- YqLsworMp0F62hx1CLM9LIT12aIFqlR1Sp2CP+Rf49ph+QnTtFvK1yY2okl0aQ+YZbFVlPpDTME
- SKXb3II290GfaDpVYKQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-24_01,2026-03-23_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 malwarescore=0 spamscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603240026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 03:29:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233772
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 05:02:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233773
 
-From: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+Pick patch from [1].
 
-Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+[1] https://security-tracker.debian.org/tracker/CVE-2006-10003
+
+More details :
+https://nvd.nist.gov/vuln/detail/CVE-2006-10003
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../libxml-parser-perl/CVE-2006-10003.patch   | 73 +++++++++++++++++++
+ .../perl/libxml-parser-perl_2.47.bb           |  1 +
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index b9323432b8..00bb704e36 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+new file mode 100644
+index 0000000000..e9a4b692d2
+--- /dev/null
++++ b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+@@ -0,0 +1,73 @@
++From 08dd37c35ec5e64e26aacb8514437f54708f7fd1 Mon Sep 17 00:00:00 2001
++From: Toddr Bot <toddbot@rinaldo.us>
++Date: Mon, 16 Mar 2026 22:16:11 +0000
++Subject: [PATCH] fix: off-by-one heap buffer overflow in st_serial_stack
++ growth check
++
++When st_serial_stackptr == st_serial_stacksize - 1, the old check
++(stackptr >= stacksize) would not trigger reallocation. The subsequent
++++stackptr then writes at index stacksize, one element past the
++allocated buffer.
++
++Fix by checking stackptr + 1 >= stacksize so the buffer is grown
++before the pre-increment write.
++
++Add a deep nesting test (600 levels) to exercise this code path.
++
++Fixes #39
++
++Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
++
++CVE: CVE-2006-10003
++Upstream-Status: Backport [https://github.com/cpan-authors/XML-Parser/commit/08dd37c35ec5e64e26aacb8514437f54708f7fd1]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ Expat/Expat.xs   |  2 +-
++ t/deep_nesting.t | 22 ++++++++++++++++++++++
++ 2 files changed, 23 insertions(+), 1 deletion(-)
++ create mode 100644 t/deep_nesting.t
++
++diff --git a/Expat/Expat.xs b/Expat/Expat.xs
++index dbad380..f04a0cf 100644
++--- a/Expat/Expat.xs
+++++ b/Expat/Expat.xs
++@@ -499,7 +499,7 @@ startElement(void *userData, const char *name, const char **atts)
++     }
++   }
++ 
++-  if (cbv->st_serial_stackptr >= cbv->st_serial_stacksize) {
+++  if (cbv->st_serial_stackptr + 1 >= cbv->st_serial_stacksize) {
++     unsigned int newsize = cbv->st_serial_stacksize + 512;
++ 
++     Renew(cbv->st_serial_stack, newsize, unsigned int);
++diff --git a/t/deep_nesting.t b/t/deep_nesting.t
++new file mode 100644
++index 0000000..8237b5f
++--- /dev/null
+++++ b/t/deep_nesting.t
++@@ -0,0 +1,22 @@
+++BEGIN { print "1..1\n"; }
+++
+++# Test for deeply nested elements to exercise st_serial_stack reallocation.
+++# This catches off-by-one errors in the stack growth check (GH #39).
+++
+++use XML::Parser;
+++
+++my $depth = 600;
+++
+++my $xml = '';
+++for my $i (1 .. $depth) {
+++    $xml .= "<e$i>";
+++}
+++for my $i (reverse 1 .. $depth) {
+++    $xml .= "</e$i>";
+++}
+++
+++my $p = XML::Parser->new;
+++eval { $p->parse($xml) };
+++
+++print "not " if $@;
+++print "ok 1\n";
++-- 
++2.50.1
++
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
+index 803164f713..6a36b763a8 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
+@@ -8,6 +8,7 @@ DEPENDS += "expat"
  
--PV = "2025c"
-+PV = "2026a"
+ SRC_URI = "${CPAN_MIRROR}/authors/id/T/TO/TODDR/XML-Parser-${PV}.tar.gz \
+            file://0001-Makefile.PL-make-check_lib-cross-friendly.patch \
++           file://CVE-2006-10003.patch \
+            "
  
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
- 
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "697ebe6625444aef5080f58e49d03424bbb52e08bf483d3ddb5acf10cbd15740"
--SRC_URI[tzdata.sha256sum] = "4aa79e4effee53fc4029ffe5f6ebe97937282ebcdf386d5d2da91ce84142f957"
-+SRC_URI[tzcode.sha256sum] = "f80a17a2eddd2b54041f9c98d75b0aa8038b016d7c5de72892a146d9938740e1"
-+SRC_URI[tzdata.sha256sum] = "77b541725937bb53bd92bd484c0b43bec8545e2d3431ee01f04ef8f2203ba2b7"
+ SRC_URI[sha256sum] = "ad4aae643ec784f489b956abe952432871a622d4e2b5c619e8855accbfc4d1d8"
 -- 
-2.34.1
+2.50.1
 
 
