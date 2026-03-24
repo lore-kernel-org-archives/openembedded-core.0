@@ -1,171 +1,138 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A1DFF532F5
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 08:39:50 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15137.1774341588645107447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F2E8F532F5
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 08:45:00 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15178.1774341899661691002
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 01:39:49 -0700
+ Tue, 24 Mar 2026 01:44:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A0yrg3Nq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso41772625e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 01:39:48 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=H8tQdY2S;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=LooKWvuz;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62O3WUs23903942
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 08:44:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=PMSjdM7xCMR7bE3g6SzuyNM7LEycfjMXXyV
+	6zk3sBxQ=; b=H8tQdY2SRVPyxHsk61DQ1r/F99D70TgluYcN/3sNCn7LUkew/CE
+	kPXRkyFSHw4/GWOU9d2Ep79a+2uIOrUI9h4DIraHM+uXsX8mYG/qSWd27hPXulxs
+	VYZhfXm9SSnucf8MakPmP2XhjquHtqvJ2NDLb5npHosrehhWFNuFSz/qeNpc3SSF
+	Fb+V1fLjay6nhsdXxNY/7K/q2qsn7Aco1zKhIxulEpoYRrGj4YOG3hSV+ctMiwfz
+	8wNQJCD+vpQumPYBJexsBUAWZO88CkuuOOQhn+Mf96Fp5BcD6K0JQsi5U3v46FVl
+	mv5aKeUQ9pQgEaNGu9TGOSIyOgvsmllm+pg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d3jt0h1fs-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 08:44:58 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5094741c1c1so67890951cf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 01:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1774341587; x=1774946387; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RaX0azm9rGdr3LhEp1LWQ+Ub74kJKaYoGSup2j+HmJ4=;
-        b=A0yrg3NqaJ1pFE/5WAchQvCpqPi+6dBjbZpdFYxpydpVsJGy1eozMqcEcyDPTdOC3u
-         mTzN50SygTw3uLwJKacWolOfxCZie8brdRHVoxg/mKwWrXqYRyoS67hIhwSM7KxWVB7e
-         A7fbnM/X7FP7XHtUwq2sDXlZ1MjCgNhFSxLf4=
+        d=oss.qualcomm.com; s=google; t=1774341897; x=1774946697; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PMSjdM7xCMR7bE3g6SzuyNM7LEycfjMXXyV6zk3sBxQ=;
+        b=LooKWvuz24daskArhuyx5/At9zJNVXqQRjyu7OH2EHQABVL/ZzVB2jl96G28iuYyY4
+         qzjbrbNr4knEQbvvCqhEZeTUKl6npQ5IYS6RJsdSjv1hpqullzzvPXK0mXZkvbiN2vYR
+         bdk5T9fIjvExmhETL5Fx2d2OwLUZrzSIdEFMw/NO37hc0JtP25raXL5mByOYzdNnz8vg
+         QpBXrYcB224KthsGdfKSg9528WBa1WxqfIFipKnCZRcu84aEiiEsCa89BRXS4fMNxldC
+         0qAIy6LE3aWv7I2WSucuf+K2M8z1GStfJwQZrENmSGMPFWAHBjqHt/FRGwzYr6GaUMdc
+         d2QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774341587; x=1774946387;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RaX0azm9rGdr3LhEp1LWQ+Ub74kJKaYoGSup2j+HmJ4=;
-        b=WVAS7Lh4GM4rPERiQySP9WMqh+ibPQWgeBS+uSB3v1iZnokKcu+w7bfYne7paV9RCL
-         7/nO2us8dyf1Zp6kC6Ys/vyqsTgQiyKnHVMn6RPQ2tOCCEY8eAHQziVmD6C357NoLMeV
-         OPQOkYmAIGJZG8b/IcPmrYrqrIcqpSKMCur2q/7I8or89keJI0XDIq82y4tvH5iR2+Ao
-         wqZH/R+CTmS35ccGUPy1SI9JuEMVG2j0ymcbkQSplOghQ8cArfyG0gkQZT2JJRj7GrDX
-         rLf/q6O5icOD6vj6efiYQzzsbi4zLXZT3ecPZ5UBJog7EtwnkfRDDAm8KIbAhMwJsPvC
-         IiAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0X2t297FP5K6xDevvOTewGgdnDG77SCHmdegO6bLLoPGTnZswVOy4AzGzIx13cpMMbl7OsDrZGHmBFMr//rrV7A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzyj9oEURM1jBwtyvq1qZ5+jndOROa4U2msyjFrArTGh+kve2ST
-	oziImSEAiy6Y/3I8qx0q2um94/rdeD94iDnvI4n/cvUxDeMjc8ytAC3pX9XRyzKlo+s=
-X-Gm-Gg: ATEYQzzIH5nkk1wx5CrchobqQSTxZ5+kZTt+UqwDdrgML8pbocHNRJ7+N3IYHPCF0qv
-	CD7vpkAnZMam3CNmL6mr2UfqDT+mFA9GC2l6KZ0BR4ZEhYRxL8FP9sCN1pXMeH2vcuC+6uZUX1r
-	tchWZZHvM4LVQbOYPoA82ZwtU0RDxx3d2slRAuJjQwLJy3VNDHp6n87epLp7DHAM0VBg6sJK/xC
-	TXWkfR7HOz1qKR7wqckki++yj1GduqC5czTrbl3zGdxmleIsMxnA9T/tQ4RXCacGOMuLB6hcLZM
-	W5UwaICU5VhGoj2rWxF+9ETZz90Ia8pS5envP3PhfXOPsluxLb9Yool+HHzv1vekoqO41Kwdk2D
-	m+kTYt4eyRiIYuU+/KdAGZ2vLD6QRwYzEnvggcBvbOTEGMdw/Fe2h/uI7MVQE56Wb6+RpUhLxTD
-	soTFDeWPB6kQ4FKa4ahsRkNRokWUYUZlpC0bmnhwi3wFyFT7focfCgbpa9nm0sZCVWG6Ev4YnRn
-	/4poN58fRpn+dQO1jF7tf760/g=
-X-Received: by 2002:a05:600c:c167:b0:477:a1a2:d829 with SMTP id 5b1f17b1804b1-486fedc9a52mr194578215e9.13.1774341586857;
-        Tue, 24 Mar 2026 01:39:46 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a42d:49b6:a690:7df7? ([2001:8b0:aba:5f3c:a42d:49b6:a690:7df7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116f173csm41498805e9.2.2026.03.24.01.39.45
+        d=1e100.net; s=20251104; t=1774341897; x=1774946697;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PMSjdM7xCMR7bE3g6SzuyNM7LEycfjMXXyV6zk3sBxQ=;
+        b=nDFsTrPoyQFInOMqPkNU4aksOlGUj6S9Fak5k5cBfYh2S7LHIm5qvKUnEfgaIl23CT
+         8yBZCTFRZ9idwAF3siV3fiz73jLqnTl+mSiExsUdEic7dKOWFGZIlnNqWaIzPiLvUica
+         PiCHJ2HTt3XP568NEeg09PmuRIv6xZHP5m/GhGZKrG+3r+Ku/HTKbrNb5AC7dFQQo2kK
+         wCOMk3hJ6A/yxbFXUKJE8Njpg2GSXdPtRcedfbTdfH+rLWrdioA2QBRUXMINaXS77QXo
+         dpcaHCe3T+jGrbu+EjFpkZjoY1/zb+kYVVio8852l2WNKLg/nNFrLS8stkX2NPeem47g
+         VSsg==
+X-Gm-Message-State: AOJu0Yy5FEBJtmvfzcVsX9vHA6hSV/Z9q/S4+hA25mWONhsPjl2WDEJy
+	rvfGHGRT4DXjsLjTEnR/GhrULY/tndmDKtaVgQJs586LFpwOaKRbFGepXM25IVv+dXx7ikRRORk
+	BtwSx4I7jKdDoe3TEeRn11tGZo7ffclyXjeFQiiOiydJTPli241xh91DyGY6epoKMoeun00en88
+	ILwyi6U1k+Tm5cNdQ=
+X-Gm-Gg: ATEYQzxGBiKnVnO4UGSZc6uflDjHgLP+/y2stivWDS5kUSsvWx6pmoecXn0VphUmu5c
+	LWMCiTW20RW+PwPwaDogEarMslm2muw8hYs2IS9FoW/hNKXZxEeL1yzkEMynLoQY2TOOS/fXmXy
+	aZMiVG8vnk3GbeAgh9r97KahDqCtWIbYAHIOdS/gj174XnGdUkN/2GYA37hWWg9H3xyJwPL4VHp
+	b3vhiIWDo05aN5RDrNyQxLYZdcn/y56u6q09PXkcV++lWxYoJRHs00uKEdJa01R9GEk91UP1e+u
+	LsUDhESOS38I8KnfExGnUJRRL+WRaufIbV4lswDUxPV3PbvwZxivBDJ7x49eEGFJCMQs8qBuL87
+	sQVRtgz6yl2Q9BM/ewJZW5xhxkXIC2naIgC9r40yxPLmszLEvsjugIp7QgB5j/sLuECn53gwFYB
+	pRxxDCQFEgLOVFnEq4q4YZN8v3vTgF8RP3mDU=
+X-Received: by 2002:a05:622a:a98d:20b0:509:5dd4:7192 with SMTP id d75a77b69052e-50b37565d93mr161462691cf.54.1774341897546;
+        Tue, 24 Mar 2026 01:44:57 -0700 (PDT)
+X-Received: by 2002:a05:622a:a98d:20b0:509:5dd4:7192 with SMTP id d75a77b69052e-50b37565d93mr161462531cf.54.1774341896897;
+        Tue, 24 Mar 2026 01:44:56 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2851a113csm3043849e87.23.2026.03.24.01.44.55
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 01:39:46 -0700 (PDT)
-Message-ID: <84209a7f7a29421932c8f5dd95357039e6db8856.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] python3-pyzstd: Upgrade 0.17.0 -> 0.19.1
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jiaying.Song.CN@windriver.com, openembedded-core@lists.openembedded.org,
- 	Ross.Burton@arm.com
-Date: Tue, 24 Mar 2026 08:39:45 +0000
-In-Reply-To: <20260323031116.2513728-1-jiaying.song.cn@windriver.com>
-References: <20260323031116.2513728-1-jiaying.song.cn@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Tue, 24 Mar 2026 01:44:55 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] default-providers: fix GLX / EGL providers
+Date: Tue, 24 Mar 2026 10:44:53 +0200
+Message-ID: <20260324084454.2971108-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: fFBOQkon4-NWHYFp3c8qZABe4fqp8DVA
+X-Authority-Analysis: v=2.4 cv=Nc3rFmD4 c=1 sm=1 tr=0 ts=69c24f0a cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8 a=brjhx8i7JhRHaz1ew48A:9
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: fFBOQkon4-NWHYFp3c8qZABe4fqp8DVA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI0MDA2OCBTYWx0ZWRfX2lUD/cf7OJqI
+ /G0GmgvREKknapX/76jwcV5eBGiSVQ3jTdHSOhe6KkYYMdxJh/50TOyTX4UOc9C2Y5hOF1ChVWg
+ +dhXp4ecVOecwa+hhvaLFKolDSNESlaZGNxCWOEqKSNX49ZnGlkx+64yh+fp/z7GTnwvmtYRx9z
+ wrhod7oXtip3aFSubCjsWf7jrV7C4nkYhf5/P5Xo3bB/4Pxey9MBenhbdBVoTRrAsJI/ZEYp3C4
+ fpfqgOP7RbpTZ6FZDxVQNcsuLeuprOa0JgKZ0h8OwNjDLexDy4y8VU+3KF2kZ3r+4B3YDV1Mycu
+ lCdbDS3yTZADFMIm6TL6YH5h6fjAslW4sf16/mSDsuq14DAD/5XSxwF94ATkPiWY2+DVsz563Ia
+ 0mlhip1L2HdOiauZn9MLh8m+du5v+eTn2hllfDM/Y/GGmUd7xdKmmfO6KAVDdmnRd5KmshDXO8o
+ ZPgMrIIfGLkTa7YBiBg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-24_02,2026-03-23_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 spamscore=0 clxscore=1015 priorityscore=1501
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603240068
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 08:39:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233776
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 08:45:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233777
 
-On Mon, 2026-03-23 at 11:11 +0800, Song, Jiaying (CN) via lists.openembedde=
-d.org wrote:
-> From: Jiaying Song <jiaying.song.cn@windriver.com>
->=20
-> Changelog:https://github.com/Rogdham/pyzstd/blob/master/CHANGELOG.md
->=20
-> Recipe changes:
-> - Remove 0001-Remove-setuptools-version-limit-of-74.patch (no longer need=
-ed)
-> - Switch from python_setuptools_build_meta to python_hatchling
-> - Add python3-hatch-vcs-native to DEPENDS
-> - Remove obsolete do_configure:append:arm:toolchain-clang (setup.py no lo=
-nger exists)
->=20
-> Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-> ---
-> =C2=A0...emove-setuptools-version-limit-of-74.patch | 27 ----------------=
+DEFAULT_RPROVIDER is expected to list runtime package names rather than
+recipes. Fix runtime providers for EGL and GLX ICD virtual packages.
+
+Fixes: c2b4971e79ec ("default-providers: fix GLVND providers to be selected at runtime")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
-> =C2=A0...std_0.17.0.bb =3D> python3-pyzstd_0.19.1.bb} | 11 +++-----
-> =C2=A02 files changed, 4 insertions(+), 34 deletions(-)
-> =C2=A0delete mode 100644 meta/recipes-devtools/python/python3-pyzstd/0001=
--Remove-setuptools-version-limit-of-74.patch
-> =C2=A0rename meta/recipes-devtools/python/{python3-pyzstd_0.17.0.bb =3D> =
-python3-pyzstd_0.19.1.bb} (53%)
->=20
-> diff --git a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setu=
-ptools-version-limit-of-74.patch b/meta/recipes-devtools/python/python3-pyz=
-std/0001-Remove-setuptools-version-limit-of-74.patch
-> deleted file mode 100644
-> index f2910322ff..0000000000
-> --- a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-=
-version-limit-of-74.patch
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -From bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Wed, 9 Apr 2025 14:38:31 -0700
-> -Subject: [PATCH] Remove setuptools version limit of '74'
-> -
-> -Upstream sticks to 0.74 since setuptools have dropped msvc9compiler
-> -support beyond that which is needed for python 3.9 on windows. We
-> -do not have this problem on Linux
-> -
-> -Upstream-Status: Inappropriate [OE-specific]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - pyproject.toml | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/pyproject.toml b/pyproject.toml
-> -index dd885e4..5d4d511 100644
-> ---- a/pyproject.toml
-> -+++ b/pyproject.toml
-> -@@ -1,6 +1,6 @@
-> - [build-system]
-> - # setuptools 64+ support --build-option
-> - # setuptools 74+ drops distutils.msvc9compiler required for Python 3.9 =
-under Windows
-> --requires =3D ["setuptools>=3D64,<74"]
-> -+requires =3D ["setuptools>=3D64"]
-> - backend-path =3D ["build_script"]
-> - build-backend =3D "pyzstd_pep517"
-> diff --git a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb b/meta=
-/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-> similarity index 53%
-> rename from meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-> rename to meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-> index af7069b6ed..ccf37eacf3 100644
-> --- a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-> +++ b/meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-> @@ -9,12 +9,9 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Daedb5a2679cd1=
-552fb61c181ef974b9e"
-> =C2=A0
-> =C2=A0PYPI_PACKAGE =3D "pyzstd"
-> =C2=A0
-> -SRC_URI +=3D "file://0001-Remove-setuptools-version-limit-of-74.patch"
-> -SRC_URI[sha256sum] =3D "d84271f8baa66c419204c1dd115a4dec8b266f8a2921da21=
-b81764fa208c1db6"
-> +SRC_URI[sha256sum] =3D "36723d3c915b3981de9198d0a2c82b2f5fe3eaa36e4d8d58=
-6937830a8afc7d72"
-> =C2=A0
-> -inherit pypi python_setuptools_build_meta ptest-python-pytest
-> +inherit pypi python_hatchling ptest-python-pytest
-> +
-> +DEPENDS +=3D "python3-hatch-vcs-native"
-> =C2=A0
-> -# clang-16 with -flto segfaults on arm, therefore ignore flto for now
-> -do_configure:append:arm:toolchain-clang() {
-> -=C2=A0=C2=A0=C2=A0 sed -i -e "s|'-flto'|''|" ${S}/setup.py
-> -}
+ meta/conf/distro/include/default-providers.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The ptests aren't quite working yet:
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 5101ad78f880..883ea2f8af8c 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -64,6 +64,6 @@ PREFERRED_RPROVIDER_initd-functions ?= "initscripts"
+ PREFERRED_PROVIDER_nativesdk-mesa ?= "nativesdk-mesa"
+ PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?= "nativesdk-libsdl2"
+ 
+-PREFERRED_RPROVIDER_virtual-libegl-icd ?= "mesa"
+-PREFERRED_RPROVIDER_virtual-libglx-icd ?= "mesa"
++PREFERRED_RPROVIDER_virtual-libegl-icd ?= "libegl-mesa"
++PREFERRED_RPROVIDER_virtual-libglx-icd ?= "libglx-mesa"
+ PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?= "rxvt-unicode"
+-- 
+2.47.3
 
-https://valkyrie.yocto.io/pub/non-release/20260324-50/testresults/qemux86-6=
-4-ptest/python3-pyzstd.log
-
-Cheers,
-
-Richard
 
