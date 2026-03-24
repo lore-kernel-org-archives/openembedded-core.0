@@ -1,100 +1,126 @@
-Return-Path: <khalifa@missingno.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 546ACFEC118
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 20:49:37 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7578.1774385369394970320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0850CFEC11B
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 21:37:25 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8546.1774388243939513780
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 13:49:30 -0700
+ Tue, 24 Mar 2026 14:37:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@missingno.tech header.s=google header.b=lp6OiFg0;
- spf=pass (domain: missingno.tech, ip: 209.85.128.48, mailfrom: khalifa@missingno.tech)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486fb112c09so39264195e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 13:49:29 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=qIkxmlV8;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43b7ff8fe92so1089266f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 14:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=missingno.tech; s=google; t=1774385367; x=1774990167; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1774388242; x=1774993042; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RwS+lzI63K/Tv4FN81Cnue5pqWaT7ns/I2JWzU+vdnc=;
-        b=lp6OiFg0N240HOFsc89Te4YVW/B4hVMUZo+j2mSID1/mL/JEfUWAQIIYDY9Gm0sEKv
-         eGiO7iJxwvPqz8EdgtWC6EfZ8QsEH1g+ZF9B93Qs8oP1VdAMsVVDhhIBtWEW9yFbVAAQ
-         Sfcbx1vIiAYgnXaB8pAlF80Ywa05BiQ8tNjWcqfiTyktCumItX9vgNYkClj3UKgdsOV/
-         EvxwxmhlQBpIXRfnKFNRS053OlkRD1k1g9REYoZ5fggRD0tf0yM+sQgcis/oHrwco5Q8
-         kB4OK1AXMDxsgSlDHmhF8mTY0wjV7PME3/5YHz2SnBBJRmXneMa9CYc/6EhAJ3I2k3K8
-         JOkA==
+        bh=odcRmi9tg0oELdP2a8PWtGQiPkU7gNoMu1oiU6dtbjA=;
+        b=qIkxmlV8nNTAI2FG8ThQNyrpyPqsruD745lvuSgqKsGKmrxoKOxkFMS5vrVd0uwDZs
+         ru5rIa6Zln0PjLbdJXyO0NYU4q2pkd9ia6TPB+R4Tcwg3mMVToA3qA0oUlF5d0dAvqcf
+         TEWeKL9wjyEC3LSruA+04NDhn81xfq5Qc2FRg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774385367; x=1774990167;
+        d=1e100.net; s=20251104; t=1774388242; x=1774993042;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RwS+lzI63K/Tv4FN81Cnue5pqWaT7ns/I2JWzU+vdnc=;
-        b=cbZcf0A+S4BDrPDpyOlWt7tR2rBO697hctA8sPe00Us4w1FUQsDJuxjyIFcqF4TvuC
-         Yye5BOBZSge+k7oxOG4sIYIC/qO0i5bo+u/izyiKsgmC0RnycEc+IZ2IEkLhkcx+V2qL
-         JBgmwnunA8BrzZDUgfSKmca5OqIoiGugOdfREfR5+EEtprg9Ti+zK4128isiv8z8512O
-         PZCbFsX9Kc3F8+7gecBCM+VaTqB6Bdl98+Y//9ieebDSmmmlDgzyC/KUTcvjo2IDtpA1
-         IlCa/6GEomOCadPQPkDx5RAkYF0PtFWubmCWhMwUKPTeQ8P2oiSdhKtRPC5E8zgOLgeV
-         HaFg==
-X-Gm-Message-State: AOJu0YzBUJ/L6WNDI0Fd8yYDmyuIDkjZAYX87biD1mIsxUYnJl7EldTm
-	2jltlc7hYfcfsCA70SG3VORkPGmqT70uVHdoM1Okkz85uSD07nwzAJyqnE33t/nwqmWzKBaPrss
-	6ChqK
-X-Gm-Gg: ATEYQzznPFQq56d57jZrHybv5KL2LqQB6qPW8h9XpvHawXd0DguuVRSdqoM+l0mI7XK
-	7+QyHAL94EPCkQqkqLYxRh9mh3fTKLr+uGi/CTpSf+fsYPETwKWVUiA25oCcr4mUibzs6gmp6mp
-	dgxFA+3qzgxaZga4f7S2yMT1bu4sfY6UBJkEBTsxAl6CKPjOX6PIU8gSGdDZZxy+jnPXkoiwQZa
-	jjhnwCdeVEcmH2C8mqioJ72hoFDcEA+pwnzLKhYFG9jwqEaHYOHyIhzrfmBWtzALxOY1zrej3v9
-	OxEcOvuAm7PVMzgLiZjIPCMdZZkqJEqQ/Ncby/uZbn54PH88EfdRI2f+1j4tM/ZGmUqL49uESEi
-	GZGp6z8wx1QuEi9YVKN4beiYX6Cph4cD04TgNoHkjrmEc7hVfJOg/pbEWk/9HLXxKfuPuV1HnQE
-	4KoeRGMWwz7gY8ogWWU6g7zhFbmvXdInuOAmIel16CiomzNvgV
-X-Received: by 2002:a05:600c:1394:b0:486:fe46:b647 with SMTP id 5b1f17b1804b1-48715fd6193mr16725855e9.10.1774385367289;
-        Tue, 24 Mar 2026 13:49:27 -0700 (PDT)
-Received: from carthago.tail425053.ts.net ([2a01:e0a:3cc:6e40:ab6e:d948:b16d:ab9c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48716547649sm9643245e9.0.2026.03.24.13.49.26
+        bh=odcRmi9tg0oELdP2a8PWtGQiPkU7gNoMu1oiU6dtbjA=;
+        b=dtxHs2twavqA497+TeXAgZ0fVypFkZF7eRWLfYOH7hhsv/m6fap4M55/R8xEV8e//o
+         6gFsEgWJd73mTd7HvymQ+J5Zyu9i0skiJhy4bwmYVHA+EI+hVkT+s9U8yFLh1NemLj9C
+         SgCby7MwS72MDcSx6Vwz6N20/6+LYCUD2We0l/mwSsE9r4dQpAw7uKh8JYNkbqqPZ8nq
+         Vrcjz24uEV86KJ225vkGt5YN6KMZp+2PTS7TyvYlTvBr0Cf1Fx8GSCr4iHAQVhkwkiz0
+         gqGbfeSu+emBl06H02IutTroo6p9KDGnuHnjkRyPSKE0idppf7pu196WjaPcCUJBdt5N
+         7o8A==
+X-Gm-Message-State: AOJu0Yz9SpvWlzvce72fPO9otgv5YqaFWoo7jT+s8gIgDLV4LWGd8Hsf
+	RQkcIUG/sURmIALi+ysdHbKbfxsLnCgposalH6pLKFoX4SiLOAPq3iE1Nm6JQgBeLqyuIlDhe+b
+	45PhD
+X-Gm-Gg: ATEYQzzN003/hQlFdYU57bACM/PWvR7bXlZs10HqirpqQLnQopTgGSd0T3Hl9iPOQGk
+	QayKk/aKnlI7IPvrTiuK20Aw4bBum3tXTuu6+P/opl9F41+OHFDmfaF/Im9/Z4aPj3sXUNhPQNK
+	MzMzHDp+TBY+zo+w3Z4jTYAhpEdR78sBSLTfPSK2KzIonGhdSMuX2bRaxtAQyYrz8RbD6TbpKt5
+	OXHeQN3Ykc8rKiJogi390CWtuHqndcFBI+n0ZI38lT7ZRELkaR2o+A7iNIHEUKT0Rfk7PII3xAu
+	6hHYKp1xCRn/JkgPfPhyZLZD5DHYY7rERarE+mnp33k/lLh6qq1IiHt2GX1gKP/wsi1qulPHLQE
+	DbBjNnP5Od/+3jUxKuhPVhQqijOJ6EErgQrvv3m5CCITSNjISMvg8BZvXvlqSV0LO7DWYLT5aJ8
+	/qX6gI0umzI5Oo81AUzghG+lQPzQx0C3YvwbF+kbcf1I88ZBL3NEbiQgg16encL0st8oHtgIJ2T
+	rqV4IYxgBd/y3BE3vTwIkb+tSM=
+X-Received: by 2002:a5d:64e6:0:b0:439:c5c5:4146 with SMTP id ffacd0b85a97d-43b889991bbmr1584400f8f.11.1774388242044;
+        Tue, 24 Mar 2026 14:37:22 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470f902sm43552478f8f.28.2026.03.24.14.37.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 13:49:26 -0700 (PDT)
-From: Khalifa Rouis <khalifa@missingno.tech>
+        Tue, 24 Mar 2026 14:37:21 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Khalifa Rouis <khalifa@missingno.tech>
-Subject: [PATCH] weston-init: fix variable expansion typo in weston-start
-Date: Tue, 24 Mar 2026 21:49:19 +0100
-Message-ID: <20260324204919.787216-1-khalifa@missingno.tech>
-X-Mailer: git-send-email 2.43.0
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [OE-core][whinlatter 0/7] Pull request (cover letter only)
+Date: Tue, 24 Mar 2026 22:36:54 +0100
+Message-ID: <cover.1774362293.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 20:49:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233826
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 21:37:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233827
 
-The variable weston_modules was incorrectly enclosed as {$weston_modules}
-instead of ${weston_modules}.
-This typo prevents proper bash variable expansion when checking for and
-appending Weston module arguments.
+Those are the patches from the last patch review (no change):
+https://lore.kernel.org/openembedded-core/cover.1774047909.git.yoann.congal@smile.fr/
 
-This commit corrects the syntax to ensure the modules are properly
-evaluated.
+Passed a-full on autobuilder with 1 AB-INT failure:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3471
+* meta-arm failed (reported to the meta-arm ML:
+  * AB-INT failure in whinlatter/edk2-firmware do_compile https://lists.yoctoproject.org/g/meta-arm/message/6967
+  * Successfully retried as https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/builds/3303
 
-Fixes: c8aa0222ce2b ("weston: wrapper for weston modules argument")
-Signed-off-by: Khalifa Rouis <khalifa@missingno.tech>
----
- meta/recipes-graphics/wayland/weston-init/weston-start | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit ab57471acad7ce2a037480dc7b301104620f1ebf:
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
-index 3b13a0047a..38aa0c6e27 100755
---- a/meta/recipes-graphics/wayland/weston-init/weston-start
-+++ b/meta/recipes-graphics/wayland/weston-init/weston-start
-@@ -50,7 +50,7 @@ if [ -d "$modules_dir" ]; then
- 
- 		# process module
- 		. $m
--		if [[ x"{$weston_modules}" != "x" ]]; then
-+		if [[ x"${weston_modules}" != "x" ]]; then
- 			add_weston_argument "${weston_modules}"
- 		fi;
- 	done
--- 
-2.43.0
+  build-appliance-image: Update to whinlatter head revisions (2026-03-16 11:05:22 +0000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-next
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-next
+
+for you to fetch changes up to 2d6383491f4246a93e1a49a9fe258d873adf8b76:
+
+  curl: patch CVE-2026-3805 (2026-03-19 08:45:38 +0100)
+
+----------------------------------------------------------------
+
+Krupal Ka Patel (2):
+  python3-setuptools: drop Windows launcher executables on non-mingw
+    builds
+  python3-pip: drop unused Windows distlib launcher templates
+
+Peter Marko (4):
+  curl: patch CVE-2026-1965
+  curl: patch CVE-2026-3783
+  curl: patch CVE-2026-3784
+  curl: patch CVE-2026-3805
+
+Vijay Anusuri (1):
+  inetutils: Fix CVE-2026-32746
+
+ .../inetutils/inetutils/CVE-2026-32746.patch  |  40 +++++
+ .../inetutils/inetutils_2.6.bb                |   1 +
+ .../python/python3-pip_25.2.bb                |   9 +
+ .../python/python3-setuptools_80.9.0.bb       |   9 +
+ ...d-macros-warnings-and-related-tidy-u.patch |  44 +++++
+ .../curl/curl/CVE-2026-1965-01.patch          | 138 +++++++++++++++
+ .../curl/curl/CVE-2026-1965-02.patch          |  29 ++++
+ .../curl/curl/CVE-2026-3783.patch             | 148 ++++++++++++++++
+ .../curl/curl/CVE-2026-3784-02.patch          | 162 ++++++++++++++++++
+ .../curl/curl/CVE-2026-3805.patch             |  67 ++++++++
+ meta/recipes-support/curl/curl_8.17.0.bb      |   6 +
+ 11 files changed, 653 insertions(+)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
+ create mode 100644 meta/recipes-support/curl/curl/0001-build-fix-Wunused-macros-warnings-and-related-tidy-u.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-01.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-02.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3783.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3784-02.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3805.patch
 
 
