@@ -1,109 +1,163 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDEE3E9A75F
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 10:26:15 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16359.1774347971841264676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA11BE9A762
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 10:28:55 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16737.1774348135083024515
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 03:26:12 -0700
+ Tue, 24 Mar 2026 03:28:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JZBNn7K+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43b527ac5d0so1902756f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 03:26:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1774347970; x=1774952770; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1eHD+Dy+1n5ezUt2fe28p1BuVhKURq1GqKlu2R2URsQ=;
-        b=JZBNn7K+11VAif1jCcS+YAtEInQMcOe0gXyPDExzimR3ihluDbYo7itvLvsu/NeXDs
-         scZCoDx9I9xlMIqxPTl1k/Tdu8xnUUp/3kxctq4aOiVP7AfQW2l8x/jCdyYMxtyLtDLr
-         vrgbPLpB0D6jjQq8teC6D/EwCLpCZiN96SAeI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774347970; x=1774952770;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1eHD+Dy+1n5ezUt2fe28p1BuVhKURq1GqKlu2R2URsQ=;
-        b=e7pdsMnvUI7O3QlXqGDyBhjXg+vvhi34zaJ7lgMRJPmvtZMnAJG8+dCjsA2NwmTo1n
-         y/Q6unFbEOfLQXAtdzUSY2UcYFZSajzE9EHr8XgbNhSaVmXc6mXIj2jNZEwy9sg7LKtS
-         twXrR+9eOHKED0+ir/sF4WcZTgsJvZi3LX9hHXa0OvF5EKZ63gQxsgj6yc72U+r46gIW
-         W+D/TuyftIDgWhwcr4x/Uuz0XMIa+LOa/eBiJKQ+qIYLmYP9ZiXzbwQUiQ0fdapoV14/
-         SR4H4k4Bo12j45inTwbdVxwKK76POxiftxeNXIiWlJ+uJBWph4ESK5TocEYsVyxUk3Xl
-         e8iw==
-X-Forwarded-Encrypted: i=1; AJvYcCXyyNo0pN63vDemVo36ekES6siZDD1J38Q6xhpLMd2O2vzztz2Pedh76LBEyevWV7DvXSGZ7vJtx/k8dXbXjuwz5A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy7VHiOSoBdtSm3GtpH9hD6n9nyu7jrkbbgL1vbmjuXK2OlHAAD
-	5Baj5I4Y8TIqfWiXMdlMWq0hvfQs2UiZwIurVi5KgXeXONp8gbiMCD5pTGvs7IsQJK8=
-X-Gm-Gg: ATEYQzxeYqM6ZYyAL2aFq9702ORowv6iP1MPaLW+FTW9VN1Y74S0HpNhFMeKPQBpiMK
-	IW4ZzebevkeeptnA61rQYGh8tSELBLBWdq8NN9s0RxqsEHqxN22nKnoC9lfAkfZbtAc2Skt3zBZ
-	gokAvTm3/7bneAgydKkBtpYRfJGvBuZuwZLB09dfYu+m3TQSZAH46mQKBogvHLCxyO3+5fXOhTe
-	ghXG7zHXdVqojlqKT2Kjp4tnlc0EhPXVX73/+5JxzMOKSIAh1ahVvm6KcHf+MXhCftKQ58ltO9a
-	Dv+8m0fwlHNBXfDuiqUGUe9miGH7Fy12ApcIHdaTF+7tt9Ha7CMaA26KbQWdrpRGIQW02a3gICe
-	4SSqWBmWMtYW+1n0Yc+hP/O6c92O3WZeNpReiY6VZ+hrRmmYziHTAa/55RfpMIoQBUXNeBp7TU6
-	xKkD9slH4cVhvnqke+ktIDvKNA2eXDFqZm5MHp9PQbYmZ6Lw8yvEx/MMRqBVfY1WI0eZaDHVcXJ
-	DTf3xaKZSLcdwr0
-X-Received: by 2002:a05:6000:26d2:b0:43b:3d9d:bf4f with SMTP id ffacd0b85a97d-43b64281adamr24755923f8f.41.1774347970216;
-        Tue, 24 Mar 2026 03:26:10 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a42d:49b6:a690:7df7? ([2001:8b0:aba:5f3c:a42d:49b6:a690:7df7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470c239sm37033250f8f.27.2026.03.24.03.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 03:26:09 -0700 (PDT)
-Message-ID: <408cd407250a349c0ec89c2e695aaeffa4eb0670.camel@linuxfoundation.org>
-Subject: Re: [PATCH v13 4/4] oeqa/selftest: Add tests for source download
- enrichment
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefano Tondo <stondo@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com, jpewhacker@gmail.com,
- stefano.tondo.ext@siemens.com, 	peter.marko@siemens.com,
- adrian.freihofer@siemens.com, 	mathieu.dubois-briand@bootlin.com
-Date: Tue, 24 Mar 2026 10:26:08 +0000
-In-Reply-To: <20260323210745.1337169-5-stefano.tondo.ext@siemens.com>
-References: <20260323210745.1337169-1-stefano.tondo.ext@siemens.com>
-	 <20260323210745.1337169-5-stefano.tondo.ext@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=ibvliUA6;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 8ECAAC58098;
+	Tue, 24 Mar 2026 10:29:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 57FD06011D;
+	Tue, 24 Mar 2026 10:28:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B1A89104511DF;
+	Tue, 24 Mar 2026 11:28:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1774348132; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=JPSuBkFZ16hR/7VneGzqtbehfW1Q3WEsl2UxMW/BKpY=;
+	b=ibvliUA6xf1MDU4dllXlbNzd1VLcw/99WRojrrcHMGojKspUw1CPxqp43Y91edAWS+CTvZ
+	VQotwvEqAQhskTF8ZDMaWbpzbHBYND/+zOWJLbMFMO0Umv+ib2Ga3dGxsXkhpBLJEgQiSO
+	2PZMVStIksDomGsozYR1kzVtQh+gl74NJHJGkpWGNxhI6T3LDBgDVnyXFVxoSPYxgcRu9S
+	8mzdZ3bLLJ9VKY4+Gpgp9MNZvYNILwnWNW/LzrHoJ0Au5+2gl2rZCA2fPn7EOxYVkOH9ZG
+	2OoBc5UZjFOA7AI8EB/cehGD21DJDYAtHPPYQkaRujZaSFvvajGZvjfhDp9GtA==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+Date: Tue, 24 Mar 2026 11:28:37 +0100
+Subject: [PATCH v8 2/2] sbom-cve-check: allows to use network and internal
+ fetcher
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260324-add-sbom-cve-check-v8-2-6c2e84e637ad@bootlin.com>
+References: <20260324-add-sbom-cve-check-v8-0-6c2e84e637ad@bootlin.com>
+In-Reply-To: <20260324-add-sbom-cve-check-v8-0-6c2e84e637ad@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org, rybczynska@gmail.com, 
+ ross.burton@arm.com, peter.marko@siemens.com, jpewhacker@gmail.com, 
+ olivier.benjamin@bootlin.com, antonin.godard@bootlin.com, 
+ mathieu.dubois-briand@bootlin.com, thomas.petazzoni@bootlin.com, 
+ Benjamin Robin <benjamin.robin@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 10:26:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233782
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 10:28:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233785
 
-On Mon, 2026-03-23 at 22:07 +0100, Stefano Tondo wrote:
-> Add comprehensive tests for the new source download SPDX features:
->=20
-> test_download_location_defensive_handling:
-> =C2=A0 Verify that packages with no download location (e.g. packagegroups=
-,
-> =C2=A0 images, virtual providers) are handled gracefully without crashing
-> =C2=A0 the SPDX generation pipeline.
->=20
-> test_version_extraction_patterns:
-> =C2=A0 Verify that Git source packages get SRCREV as their version in the
-> =C2=A0 SPDX output, rather than the recipe PV.
->=20
-> test_packageconfig_spdx:
-> =C2=A0 Verify that PACKAGECONFIG features are correctly recorded in SPDX
-> =C2=A0 build parameters when SPDX_INCLUDE_PACKAGECONFIG is enabled.
->=20
-> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
-> ---
-> =C2=A0meta/lib/oeqa/selftest/cases/spdx.py | 104 +++++++++++++++++++++---=
+For advanced usage of sbom-cve-check, allow users to leverage the
+internal fetcher (e.g., for downloading annotation databases).
+
+Introduce the SBOM_CVE_CHECK_INTERNAL_FETCHER configuration variable
+to control this behavior. When set to 1, the do_sbom_cve_check task
+is granted network access and the task is always run (nostamp = 1).
+
+Additionally, allow overriding the default download location for
+databases fetched by the internal fetcher by introducing the
+SBOM_CVE_CHECK_DATABASES_DIR Yocto variable.
+
+Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
 ---
-> =C2=A01 file changed, 83 insertions(+), 21 deletions(-)
+ meta/classes-recipe/sbom-cve-check.bbclass         | 26 ++++++++++++++++------
+ .../sbom-cve-check/sbom-cve-check-config.inc       | 15 +++++++++++++
+ 2 files changed, 34 insertions(+), 7 deletions(-)
 
-This seems to be breaking some of the existing tests:
+diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-recipe/sbom-cve-check.bbclass
+index 3a23888ed6b4..a5c23142b7df 100644
+--- a/meta/classes-recipe/sbom-cve-check.bbclass
++++ b/meta/classes-recipe/sbom-cve-check.bbclass
+@@ -49,7 +49,6 @@ python do_sbom_cve_check() {
+ 
+     sbom_path = d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.spdx.json")
+     vex_manifest_path = d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.json")
+-    dl_db_dir = d.getVar("SBOM_CVE_CHECK_DEPLOY_DB_DIR")
+     deploy_dir = d.getVar("SBOM_CVE_CHECK_DEPLOYDIR")
+     img_link_name = d.getVar("IMAGE_LINK_NAME")
+     img_name = d.getVar("IMAGE_NAME")
+@@ -62,16 +61,21 @@ python do_sbom_cve_check() {
+         export_type = d.getVarFlag(export_var, "type")
+         export_files.append((export_type, export_path, export_link))
+ 
+-    cmd_env = os.environ.copy()
+-    cmd_env["SBOM_CVE_CHECK_DATABASES_DIR"] = dl_db_dir
+-
+     cmd_args = [
+         d.expand("${STAGING_BINDIR_NATIVE}/sbom-cve-check"),
+         "--sbom-path",
+         sbom_path,
+-        "--disable-auto-updates"
+     ]
+ 
++    cmd_env = os.environ.copy()
++    if int(d.getVar("SBOM_CVE_CHECK_INTERNAL_FETCHER")):
++        db_dir = d.getVar("SBOM_CVE_CHECK_DATABASES_DIR")
++        if db_dir:
++            cmd_env["SBOM_CVE_CHECK_DATABASES_DIR"] = db_dir
++    else:
++        cmd_args.append("--disable-auto-updates")
++        cmd_env["SBOM_CVE_CHECK_DATABASES_DIR"] = d.getVar("SBOM_CVE_CHECK_DEPLOY_DB_DIR")
++
+     # Assume that SPDX_INCLUDE_VEX is set globally to "all", and not only for the
+     # image recipe, which is very unlikely. This is not an issue to include the
+     # VEX manifest even if not needed.
+@@ -97,6 +101,12 @@ python do_sbom_cve_check() {
+         update_symlinks(export_file[1], export_file[2])
+ }
+ 
++python() {
++    if int(d.getVar("SBOM_CVE_CHECK_INTERNAL_FETCHER")):
++        d.setVarFlag("do_sbom_cve_check", "network", "1")
++        d.setVarFlag("do_sbom_cve_check", "nostamp", "1")
++}
++
+ addtask do_sbom_cve_check after do_create_image_sbom_spdx before do_build
+ 
+ SSTATETASKS += "do_sbom_cve_check"
+@@ -105,8 +115,10 @@ do_sbom_cve_check[sstate-inputdirs] = "${SBOM_CVE_CHECK_DEPLOYDIR}"
+ do_sbom_cve_check[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+ do_sbom_cve_check[depends] += " \
+     python3-sbom-cve-check-native:do_populate_sysroot \
+-    sbom-cve-check-update-cvelist-native:do_unpack \
+-    sbom-cve-check-update-nvd-native:do_unpack \
++    ${@oe.utils.conditional('SBOM_CVE_CHECK_INTERNAL_FETCHER','0',' \
++        sbom-cve-check-update-cvelist-native:do_unpack \
++        sbom-cve-check-update-nvd-native:do_unpack \
++    ','',d)} \
+ "
+ 
+ python do_sbom_cve_check_setscene() {
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-config.inc b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-config.inc
+index d337cef2355c..dd8fb5db11a1 100644
+--- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-config.inc
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-config.inc
+@@ -3,3 +3,18 @@
+ SBOM_CVE_CHECK_DEPLOY_DB_DIR ??= "${DEPLOY_DIR}/sbom-cve-check/databases"
+ SBOM_CVE_CHECK_DEPLOY_DB_DIR[doc] = "Path to the directory where the CVE databases, \
+     fetched by the sbom-cve-check-update-* recipes, are extracted for use."
++
++SBOM_CVE_CHECK_DATABASES_DIR ??= ""
++SBOM_CVE_CHECK_DATABASES_DIR[doc] = "Allows to configure the directory where the \
++    CVE databases are extracted for use, if fetched by sbom-cve-check itself. \
++    This variable is only used if SBOM_CVE_CHECK_INTERNAL_FETCHER is set to 1. \
++"
++
++SBOM_CVE_CHECK_INTERNAL_FETCHER ?= "0"
++SBOM_CVE_CHECK_INTERNAL_FETCHER[doc] = "Set to 1 to use sbom-cve-check internal fetcher. \
++    In this case sbom-cve-check task will have access to network, and the downloaded \
++    databases are stored in the default location or in the directory specified by \
++    SBOM_CVE_CHECK_DATABASES_DIR if not empty. \
++    This is useful, if a user needs network access during execution (e.g., to download \
++    annotation databases), they can set `SBOM_CVE_CHECK_ALLOW_NETWORK` to "1". \
++"
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3602
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3385
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3498
+-- 
+2.53.0
 
-Cheers,
-
-Richard
 
