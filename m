@@ -1,122 +1,109 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF2FDE9A75A
-	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 10:12:35 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16517.1774347149998149356
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDEE3E9A75F
+	for <webhook@archiver.kernel.org>; Tue, 24 Mar 2026 10:26:15 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16359.1774347971841264676
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 03:12:31 -0700
+ Tue, 24 Mar 2026 03:26:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=FJGAGTF4;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 5D8334E427BB;
-	Tue, 24 Mar 2026 10:12:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 307096011D;
-	Tue, 24 Mar 2026 10:12:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AB9AF104511B3;
-	Tue, 24 Mar 2026 11:12:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774347146; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=QJ+UjclRMTIP+EEXl9U3/8ON6humDHnEVvl6pp4G9K8=;
-	b=FJGAGTF4VxlJ6yleMazolf7FWD8jmVSkBR0zuP+QT4pkypAyYbl9XLaY7dE6TpummNcWyR
-	w5s+AwDMbTtUvG+Znyn/cKjbUcreFlX0JQ3fQ5zizi/tfScudnP5Z5P4nKqkGNFFfbwYKh
-	SSopJIArbWaaz15lyyxlv/fvdLIn4YLgdr0SOpkxBuSC4gENXuN/FvkW22MIz0dIWT1bsT
-	kPaK8IyWY0HjrjnSswYTXN3WPbNSfHbQQsSoDzRSTlZ6dsxc3q7LKlnZrTczWjUuK6coJc
-	Q5Fk66U5mzy/A+K4ZMKCbDrA8mnRwK2XfbjUjn9IzJjKTfet0VTYEdmjOCANbA==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: openembedded-core@lists.openembedded.org,
- Antonin Godard <antonin.godard@bootlin.com>
-Cc: richard.purdie@linuxfoundation.org, rybczynska@gmail.com,
- ross.burton@arm.com, peter.marko@siemens.com, jpewhacker@gmail.com,
- olivier.benjamin@bootlin.com, mathieu.dubois-briand@bootlin.com,
- thomas.petazzoni@bootlin.com
-Subject: 
- Re: [PATCH v7 1/2] sbom-cve-check: Add class for post-build CVE analysis
-Date: Tue, 24 Mar 2026 11:12:23 +0100
-Message-ID: <3362783.5fSG56mABF@brobin-bootlin>
-In-Reply-To: <DHAWHQYPBPQA.6MRY3SGOMM9Z@bootlin.com>
-References: 
- <20260323-add-sbom-cve-check-v7-0-870eb8e145ad@bootlin.com>
- <20260323-add-sbom-cve-check-v7-1-870eb8e145ad@bootlin.com>
- <DHAWHQYPBPQA.6MRY3SGOMM9Z@bootlin.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JZBNn7K+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43b527ac5d0so1902756f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 03:26:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1774347970; x=1774952770; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1eHD+Dy+1n5ezUt2fe28p1BuVhKURq1GqKlu2R2URsQ=;
+        b=JZBNn7K+11VAif1jCcS+YAtEInQMcOe0gXyPDExzimR3ihluDbYo7itvLvsu/NeXDs
+         scZCoDx9I9xlMIqxPTl1k/Tdu8xnUUp/3kxctq4aOiVP7AfQW2l8x/jCdyYMxtyLtDLr
+         vrgbPLpB0D6jjQq8teC6D/EwCLpCZiN96SAeI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774347970; x=1774952770;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1eHD+Dy+1n5ezUt2fe28p1BuVhKURq1GqKlu2R2URsQ=;
+        b=e7pdsMnvUI7O3QlXqGDyBhjXg+vvhi34zaJ7lgMRJPmvtZMnAJG8+dCjsA2NwmTo1n
+         y/Q6unFbEOfLQXAtdzUSY2UcYFZSajzE9EHr8XgbNhSaVmXc6mXIj2jNZEwy9sg7LKtS
+         twXrR+9eOHKED0+ir/sF4WcZTgsJvZi3LX9hHXa0OvF5EKZ63gQxsgj6yc72U+r46gIW
+         W+D/TuyftIDgWhwcr4x/Uuz0XMIa+LOa/eBiJKQ+qIYLmYP9ZiXzbwQUiQ0fdapoV14/
+         SR4H4k4Bo12j45inTwbdVxwKK76POxiftxeNXIiWlJ+uJBWph4ESK5TocEYsVyxUk3Xl
+         e8iw==
+X-Forwarded-Encrypted: i=1; AJvYcCXyyNo0pN63vDemVo36ekES6siZDD1J38Q6xhpLMd2O2vzztz2Pedh76LBEyevWV7DvXSGZ7vJtx/k8dXbXjuwz5A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy7VHiOSoBdtSm3GtpH9hD6n9nyu7jrkbbgL1vbmjuXK2OlHAAD
+	5Baj5I4Y8TIqfWiXMdlMWq0hvfQs2UiZwIurVi5KgXeXONp8gbiMCD5pTGvs7IsQJK8=
+X-Gm-Gg: ATEYQzxeYqM6ZYyAL2aFq9702ORowv6iP1MPaLW+FTW9VN1Y74S0HpNhFMeKPQBpiMK
+	IW4ZzebevkeeptnA61rQYGh8tSELBLBWdq8NN9s0RxqsEHqxN22nKnoC9lfAkfZbtAc2Skt3zBZ
+	gokAvTm3/7bneAgydKkBtpYRfJGvBuZuwZLB09dfYu+m3TQSZAH46mQKBogvHLCxyO3+5fXOhTe
+	ghXG7zHXdVqojlqKT2Kjp4tnlc0EhPXVX73/+5JxzMOKSIAh1ahVvm6KcHf+MXhCftKQ58ltO9a
+	Dv+8m0fwlHNBXfDuiqUGUe9miGH7Fy12ApcIHdaTF+7tt9Ha7CMaA26KbQWdrpRGIQW02a3gICe
+	4SSqWBmWMtYW+1n0Yc+hP/O6c92O3WZeNpReiY6VZ+hrRmmYziHTAa/55RfpMIoQBUXNeBp7TU6
+	xKkD9slH4cVhvnqke+ktIDvKNA2eXDFqZm5MHp9PQbYmZ6Lw8yvEx/MMRqBVfY1WI0eZaDHVcXJ
+	DTf3xaKZSLcdwr0
+X-Received: by 2002:a05:6000:26d2:b0:43b:3d9d:bf4f with SMTP id ffacd0b85a97d-43b64281adamr24755923f8f.41.1774347970216;
+        Tue, 24 Mar 2026 03:26:10 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a42d:49b6:a690:7df7? ([2001:8b0:aba:5f3c:a42d:49b6:a690:7df7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470c239sm37033250f8f.27.2026.03.24.03.26.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 03:26:09 -0700 (PDT)
+Message-ID: <408cd407250a349c0ec89c2e695aaeffa4eb0670.camel@linuxfoundation.org>
+Subject: Re: [PATCH v13 4/4] oeqa/selftest: Add tests for source download
+ enrichment
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Stefano Tondo <stondo@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: ross.burton@arm.com, jpewhacker@gmail.com,
+ stefano.tondo.ext@siemens.com, 	peter.marko@siemens.com,
+ adrian.freihofer@siemens.com, 	mathieu.dubois-briand@bootlin.com
+Date: Tue, 24 Mar 2026 10:26:08 +0000
+In-Reply-To: <20260323210745.1337169-5-stefano.tondo.ext@siemens.com>
+References: <20260323210745.1337169-1-stefano.tondo.ext@siemens.com>
+	 <20260323210745.1337169-5-stefano.tondo.ext@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 10:12:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233781
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 10:26:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233782
 
-Hi,
-
-On Tuesday, March 24, 2026 at 10:21=E2=80=AFAM, Antonin Godard wrote:
-> Hi,
+On Mon, 2026-03-23 at 22:07 +0100, Stefano Tondo wrote:
+> Add comprehensive tests for the new source download SPDX features:
 >=20
-> Thanks for the new version. I'll suggest a simplification to how the data=
-bases
-> are unpacked, since I understand this is a costly operation.
+> test_download_location_defensive_handling:
+> =C2=A0 Verify that packages with no download location (e.g. packagegroups=
+,
+> =C2=A0 images, virtual providers) are handled gracefully without crashing
+> =C2=A0 the SPDX generation pipeline.
 >=20
-> This gets rid of the do_install() task, and rsync-native dependency. What=
- this
-> does is let the BitBake fetcher handle the unpacking/checkout of the data=
-bases
-> directly in the DEPLOYDIR. This simplifies the recipe and removes one copy
-> operation, I think.
-
-Thank you Antonin for this suggestion, really good idea.
-This is a bit simpler and faster, and should be completely safe.
-
-I am going to send a v8 with these changes after running various tests.
-
-The only thing left to have something way faster (for the initial build)
-would be to have a true support of shallow clone that can be updated.
-But this will be implemented later :)
-
-> diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-d=
-b.inc b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db
-> .inc
-> index 5d7a07001c..6a968e941c 100644
-> --- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
-> +++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
-> @@ -9,13 +9,12 @@ require sbom-cve-check-config.inc
->  SBOM_CVE_CHECK_DB_NAME[doc] =3D "Database name, which is the Git reposit=
-ory directory name. \
->      The git repository will be stored in ${SBOM_CVE_CHECK_DEPLOY_DB_DIR)=
-/"
+> test_version_extraction_patterns:
+> =C2=A0 Verify that Git source packages get SRCREV as their version in the
+> =C2=A0 SPDX output, rather than the recipe PV.
 >=20
-> -DEPENDS +=3D "rsync-native"
-> -ALLOW_EMPTY:${PN} =3D "1"
-> +deltask do_patch
-> +deltask do_configure
-> +deltask do_compile
-> +deltask do_install
-> +deltask do_populate_sysroot
+> test_packageconfig_spdx:
+> =C2=A0 Verify that PACKAGECONFIG features are correctly recorded in SPDX
+> =C2=A0 build parameters when SPDX_INCLUDE_PACKAGECONFIG is enabled.
 >=20
-> -# In the install task, also deploy directly to ${DEPLOY_DIR} using rsync.
-> -# This is an hack, we are not using do_deploy to prevent multiple unnece=
-ssary copy of the CVE database.
-> -do_install() {
-> -    dst=3D"${SBOM_CVE_CHECK_DEPLOY_DB_DIR}/${SBOM_CVE_CHECK_DB_NAME}"
-> -    mkdir -p "$dst"
-> -    rsync -aH --delete --link-dest=3D"${S}/" "${S}/" "${dst}/"
-> -}
-> +UNPACKDIR =3D "${SBOM_CVE_CHECK_DEPLOY_DB_DIR}"
-> +S =3D "${UNPACKDIR}"
-> +BB_GIT_DEFAULT_DESTSUFFIX =3D "${SBOM_CVE_CHECK_DB_NAME}"
+> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+> ---
+> =C2=A0meta/lib/oeqa/selftest/cases/spdx.py | 104 +++++++++++++++++++++---=
+---
+> =C2=A01 file changed, 83 insertions(+), 21 deletions(-)
 
+This seems to be breaking some of the existing tests:
 
-=2D-=20
-Benjamin Robin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3602
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3385
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3498
 
+Cheers,
 
-
+Richard
 
