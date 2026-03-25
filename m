@@ -1,134 +1,107 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60619106B522
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 12:35:03 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21458.1774442095413298801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B79106B525
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 12:39:03 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21182.1774442342573821993
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 05:34:55 -0700
+ Wed, 25 Mar 2026 05:39:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M2MZEX6G;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fba7ce4cso23526515e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 05:34:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Czsyw9Qs;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-899ee87355dso75470516d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 05:39:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774442341; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NTTOkdhTnjjPIx2R6LRcw2KuBgY6+queKG6WzPzXCC8Sw9E+XZLZI2jL1CrLrARkfg
+         O6DL912YImgft5LTsePcc9j7gKKJ3JY/BrLOWg6paqVHd1ITuxjD/oUbb603DdlCN69/
+         7YI7FofZpwXcV3cOYLE8Ob57hjeZHF8pptDLimXDO9jTTPD0iDIJuyfl0yfCTdfX7Acp
+         lnMHLOViOtSmTB5+CKXzo8yGs9UVkcZaUhZB5kUmLeTdpTCnc++DrruAb7khPTrvCs4h
+         g7jyVgf/fQ0t8iU+YzeJA41h4zkHR1UkBbMpn7yMO0W8QFseF3GiqS1On1vWLdkC2NlH
+         3PnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9PQQ+HNIWP91KWdLeF4vH8LANqbz8htBLMhre2JlzGk=;
+        fh=yg9HFI/65n1Nxbxfc79cW9kOSWF6ummo0d6ZzmDjQ68=;
+        b=TKWW6rQVEUxhUAL3bALnDLq3+VOYdiykBAG93pyDoqVk02QKvhC4wnTgBMNoHNrg86
+         E/chRm8Xan+2d0AsUH+SCuLowhF3gOPEjaiEW45br/iSu+08A1K0HlvhiQl6aBa0Pn72
+         fRNdsiaDnvQgL3apPeRKzkSsgZEW4UNg5FxFiBXr2uij2e7J/naqYULRYDZxIRdDr8R6
+         EhAPxWe+tqx7tPrWqFkWURdF62Ms7lvGVWtN3Z9S/eraAxnhGRfsKM1m3IUtzVykDXW+
+         XPQYS3EDwce85Tn7UEqfTMkqbjw04PKEQ3H78ERrorYwmrGmZTE0NjYgajisykmUKfbs
+         StSA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1774442094; x=1775046894; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2McwT3AT9sCAUPIoLrbnH/bdLShNbktlWVd/ICjNJ9k=;
-        b=M2MZEX6GNDujtKVGk2kr36gB1x1I5zeuuTeYDlMB3/Uij2KrZ79vd+bHhZil232XXe
-         gchVgwcVrG+UUGHChqCOSOha+7TmBF98jR6gZhZKGRocp671pGTubHQcRU/qcP2AgPqr
-         W43UWQxSMw7+lUU/GNp/6btbS/HLXm3AHok3k=
+        d=gmail.com; s=20251104; t=1774442341; x=1775047141; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9PQQ+HNIWP91KWdLeF4vH8LANqbz8htBLMhre2JlzGk=;
+        b=Czsyw9Qso6dNBOG9em2/JAU1fo3LrDI743NalNL4CQGwvP9bIvKaRgxp7/X73VOe4G
+         RI//SviQQ2WUJO93cQ5kzKPbpgpFf7mwc8R/u+615a2VrkMH+EfV9EMD9CbaTu450T3L
+         lfHIasChSRo4ntZ6lzoMjLwwQPUF0FvuEKjPDLDGERu8GjzHP7uNDLQvtQhu+Wag+x4Q
+         qNTf4i9bM7IPVzY0hsaOviWAssVsYvvxbbSp9gcK9pzZ1On0IV6N3hWEEdVyGAkGP0Nh
+         pZ60MeXm85X491kxVE/b4Nln//BYccG5xMnlMEQ6BJBBnWYOTteqECm9YE4zOSXLq0tV
+         m5ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774442094; x=1775046894;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2McwT3AT9sCAUPIoLrbnH/bdLShNbktlWVd/ICjNJ9k=;
-        b=ScQeCeN0NWyoSeu6gjZkiA53O9BZCPjNjihtNfRjlEzRESwuCES5S8R0ZalUOYEcdZ
-         iL8DJpVzwzYRisKjlNV7NOCXiMABVZJcAxBKOxEw/7EJ2jkSN2emBUMKVAt+tLg2P7bK
-         VXKTTiNvr3PMcBlmCiOmat6uyzWMcq0p2N87PgMveRzqi7RVccVsjvgZaVPtvDC1GcMj
-         ynHiKi22xUqG7spA2oUiVPMt26vbFSKIWyg8Q0N+rIQbjZk+CqaynPsz1f+D1F6DNix7
-         9oiujrkxlyWtM2zr+QqzLZ9Tg9qH1Bu4GLHx6lYVe6kgT8cJHTAmRTE/fBT8THkVJFuL
-         dc+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW3dJEInbxZTJotlBably9da/2RmEUu7lNYiJ9lIOowcI5SMt+K95MdPFo0u5FM/QLu9o2JPWunB/Ldz4LzROrYig==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyhBKCLxAJdr+p8UzBN1s9CB981kNbwUOxDWBmjmk5cc6972pej
-	42UzUmsLQmj9Aq5yB59yJzMjiw3QR4IatUxDInGm4p0arYaqj4aN26oc/AVz0oRjSE0=
-X-Gm-Gg: ATEYQzzJCCcOMyrMuglY5yUgHghex0kNHoCbMuT8/N2GvP/zp0v1YbyOhInsEReFyf6
-	lVWb28GFnWDkWyEiSeWtT1kXE/s5qsvJ4WJBp775mwejI+Rpl5fOD2U+xWBgUGYYBPuY91RMhk4
-	7cmKQUEu6BSeuXDiFWh7XSfS4FVZ5cmAzSHoVWHTlxl92Atj/NW3sDXUtnj/j5PmtwvSUWGgU6Q
-	YX8Tuz2DtAwOtX31qnZJnGXV5OTX4CguLwT52m5iEcYImZhYlS1J+vETQRfK2/P7rxLCM+kQ7jV
-	vPo+vJRAvGRdpS/Of4T97VD0fwF4CFklmkYBsth3CVx5f12pd3geC/TIAXpFtMiWkZH10q5NGNA
-	MphMFYnh/hQniSxkW+2LqcmGbHggPfLXE9s2FJp0jFMfOtZ062Gj6UzbFW5HaVUlxSh9Wn3ggCC
-	/g2OMpyUcc8CPn6SKwhCJEHnjQ+izlCmNzY7xT0HYAMK22m/1YvuwOrkqrEQBWIGMQW1V8o9BdA
-	hwGto3Mqjpk5th2G1/j0S0EwGo=
-X-Received: by 2002:a05:600c:1548:b0:487:716:2fa9 with SMTP id 5b1f17b1804b1-48715ff7a16mr55007745e9.13.1774442093562;
-        Wed, 25 Mar 2026 05:34:53 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:74e2:2425:51dc:4aed? ([2001:8b0:aba:5f3c:74e2:2425:51dc:4aed])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487172f916asm29586325e9.5.2026.03.25.05.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 05:34:52 -0700 (PDT)
-Message-ID: <9a222b692f97515655dd8dad792246068410d660.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gcc: fix buildpaths QA with LTO
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: patrick@stwcx.xyz, openembedded-core@lists.openembedded.org
-Date: Wed, 25 Mar 2026 12:34:52 +0000
-In-Reply-To: <acPLE7KjSfvxXthX@heinlein>
-References: <20260325113951.1278864-1-patrick@stwcx.xyz>
-	 <acPLE7KjSfvxXthX@heinlein>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        d=1e100.net; s=20251104; t=1774442341; x=1775047141;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9PQQ+HNIWP91KWdLeF4vH8LANqbz8htBLMhre2JlzGk=;
+        b=svTDKoNrpdaMg+8ypTJ87ZIUh8k8IfOH2jXnSDGvtzjvZSb1VgG+hik+0paN2k98OU
+         XzJZNdRcnKkAjgRppXnj5bDCy+9BlyuAlzW2V0Us/ZspYr50QFze/I/kI4atni4zQ0rl
+         pAkc/X5Y/FJ5fHJv9QTJs3FDmYVFsFHDi+LB15Wm17oKfyYNZVTXyTc9zsJLQ/ftBoqT
+         hj/Pmehsw075IaUrjX2ZnYBwYY/fE+yOUYdirRTtrK7y6y36saq0DHi3o8YJ5x0pvoeJ
+         4rrdVN6nXEkeDxedvc5pM+7BtZcB7kxO5ydn+EE1o295hb2qlhwIeKQV28evHIbYs6wI
+         fmzA==
+X-Gm-Message-State: AOJu0Yy7lNnvjuxskwmr9auFl8ympfPgOsleghfpfM+HY7KJg//4G5Ba
+	Mm9Idgiu47KRaBaySf1AIpb8Tdr+9DCclFH5YxIiT/DJN5o3rGGEVsug1x08H+zVUDOkr2dlest
+	OVe4F6OYTMnUAvIKDZEb3pTXGZhJhTmc=
+X-Gm-Gg: ATEYQzwqyzM5rDNj9dqH34mVJ19uJb4/a5DDENeemw43oRXZwMVfX6bWXSCkr8j+PtP
+	D3kGT7YGCv9DLWTDnqGQmZx02RoSTFs6hZq8PkMVeiAH77DT42TEd7wsygvam8HcF1aWkquKO/v
+	Agc6lOVr/ffknD+7/n/qZfc8yK+/eK4XcXswy+oiiEn0V7OmPpL1/vfUIltM2XbmWOQ9fumUe6B
+	1qvd1PUMtPEnUEPq9ArOItVkEQ35A4rJfypfBXwP5BxKp28O0oc3AlDD+5PljLlyaV4QkgrzbHc
+	xffLnkR+IXhsDJgUdVKjE5jyO8DmIe9JCgx3ByUaiQ==
+X-Received: by 2002:ad4:5ece:0:b0:899:ec22:688b with SMTP id
+ 6a1803df08f44-89cc4b04b4dmr50105616d6.57.1774442341492; Wed, 25 Mar 2026
+ 05:39:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260325084021.3915804-1-daniel.turull@ericsson.com> <20260325084021.3915804-2-daniel.turull@ericsson.com>
+In-Reply-To: <20260325084021.3915804-2-daniel.turull@ericsson.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 25 Mar 2026 13:38:50 +0100
+X-Gm-Features: AQROBzB-MHZcVP6a8-naRR3ARxxESeiXIeaAQNoL59Ztf69mfwiSi2W5NBBPvnk
+Message-ID: <CANNYZj_V96gfFBCt-pqpeGz1UPtmjrJLadnG0Xv0p3jbzzmHxQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] oeqa: replace runltp with kirk
+To: daniel.turull@ericsson.com
+Cc: openembedded-core@lists.openembedded.org, pratik.farkase@est.tech, 
+	richard.purdie@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 12:35:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233897
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 12:39:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233898
 
-On Wed, 2026-03-25 at 07:46 -0400, Patrick Williams via lists.openembedded.=
-org wrote:
-> On Wed, Mar 25, 2026 at 07:39:51AM -0400, Patrick Williams wrote:
-> > When LTO is enabled, due to a gcc bug[1], the linker needs the same
-> > flags in DEBUG_PREFIX_MAP as the compiler.=C2=A0 Without this the build=
-paths
-> > QA failure can occur due to unstripped build directory strings in the
-> > DWARF data.
-> >=20
-> > With GCC 15.2 this can be noticed by setting many meson-built packages,
-> > such as systemd, with:
-> >=20
-> > =C2=A0=C2=A0=C2=A0 EXTRA_OEMESON:append:class-target =3D " -Db_lto=3Dtr=
-ue"
-> >=20
-> > Add the DEBUG_PREFIX_MAP to the TARGET_LDFLAGS for gcc.
-> >=20
-> > While the lto.inc enables LTO across the whole image, some packages
-> > either manually enable LTO on their own or downstream recipe
-> > maintainers have explicitly set LTO in specific packages, so it is not
-> > sufficient to set this in lto.inc only.
-> >=20
-> > [1]: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D109805
-> >=20
-> > Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-> > ---
->=20
-> A few other mailing list threads also talk about this problem.
->=20
-> One alternative is to re-add it to the TARGET_LDFLAGS in bitbake.conf by
-> reverting 1797741aad02b8bf429fac4b81e30cdda64b5448 [1], but that seems to
-> have problems for cgo applications which might be resolved by another
-> patch[2].=C2=A0 Adding to lto.inc[3] isn't sufficient for the reasons I
-> mentioned above.
->=20
-> [1]: https://lore.kernel.org/openembedded-core/20260122194959.13457-2-rs@=
-ti.com/#t
-> [2]: https://lore.kernel.org/openembedded-core/20260127170344.2960247-2-r=
-s@ti.com/
-> [3]: https://lore.kernel.org/openembedded-core/20260204052638.284617-1-ch=
-angqing.li@windriver.com/
+On Wed, 25 Mar 2026 at 12:07, Daniel Turull via lists.openembedded.org
+<daniel.turull=ericsson.com@lists.openembedded.org> wrote:
+> -            parser = LtpParser()
+> -            results, sections  = parser.parse(os.path.join(self.ltptest_log_dir, "%s" % stress_group))
+> +            # Copy kirk JSON report from target
+> +            dst = os.path.join(self.ltptest_log_dir, "%s.json" % stress_group)
+> +            remote_src = "/opt/ltp/results/%s.json" % stress_group
+> +            (status, output) = self.target.copyFrom(remote_src, dst, True)
+> +            if status:
+> +                msg = 'File could not be copied. Output: %s' % output
+> +                self.target.logger.warning(msg)
+> +
+> +            parser = LtpKirkParser()
+> +            results, sections  = parser.parse(dst)
 
-We're not seeing the error with OE-Core today in any of our automated
-testing. Reading the above, it implies that we should see some kind of
-failure with some components auto-selecting it? Something therefore
-isn't adding up.
+Why is an extra copying step added?
 
-Whilst there is an open gcc bug report, that bug report is basically
-asking for specific test cases to debug and fix the issue further.
-
-So I think we need more info on where/when things are breaking since
-we're not seeing it out the box.
-
-Cheers,
-
-Richard
-
-
-
-
-
-
+Alex
 
