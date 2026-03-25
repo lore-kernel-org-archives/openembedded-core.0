@@ -1,151 +1,167 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4C9103A9BE
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 11:46:30 +0000 (UTC)
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20573.1774439188912837361
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F128106B503
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 11:52:10 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20663.1774439524517821276
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 04:46:29 -0700
+ Wed, 25 Mar 2026 04:52:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm3 header.b=CAGh52Wc;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=biiTTNSG;
- spf=pass (domain: stwcx.xyz, ip: 202.12.124.145, mailfrom: patrick@stwcx.xyz)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 1B8991D0022A
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 07:46:28 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Wed, 25 Mar 2026 07:46:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1774439187; x=1774525587; bh=OFz/UsRyqs
-	WcvJc+H910Fik6F46ZXPKJ/Po5KGKF/vc=; b=CAGh52WcQd0a6mEIBV3YoIHtXL
-	xdHSrih2Dr7IFGsZCSS8VY7TP5EPTPFrRWXqI+7oaJW/PPJRuzocMd9ZbwiA2+am
-	y2B5uE/ThWTE5e1K/tuz0kZnmE4fVfawxOLW7X8+nfjJ+q6pH8+UD5CTjrMRMMDq
-	3Uod3QNtP9g3WLTG5Lq3SlNvNLX5EGSALfaDE+oUgMJ/ebSR9QZ99QbqhL24txvj
-	XiahCqt0Uqb8bViJLB0PbgOaOgLsR+frCwWaBovhkq93b5NabEdBPZi2MZNzVjBX
-	ZKWTQb3qxUjG8vkJbOHnCmAIt7ypwgUGg+g++Klkpo/L/Tz2xhp6VLJYFjyg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774439187; x=1774525587; bh=OFz/UsRyqsWcvJc+H910Fik6F46ZXPKJ/Po
-	5KGKF/vc=; b=biiTTNSG3BrVjjmkrm5xMfnf84KjKMDL9Rk4a6//mGXUHrinaNU
-	ofJ9dBcv+thaT5A6A61VCMyiOxMFb/lqIcPM2YI/tb59IpMN/e10szu8Z+mdkJWd
-	+/zl1tBfohD55BZdW0zlCyu8XyI0M6KDepbeA1vfDuLENqpy5LpSQRq0sTMDeFVw
-	AQEZWe10BTPS3Dlw2NjryZabD3Y7aAVujHHO0mNQxPHgqMfflw5aviGaDhRla2cF
-	dkBNvc+RuW/SExnQc6isLs2H3h/AjDu2rygI3w0CUndd6LbXzmNWbEtGHYG6u8Kz
-	kp7GY6dY/3CeL5x4sEVbgpJta0Uo1esSVZA==
-X-ME-Sender: <xms:E8vDaZLYVJt18x9p2AR2RiN2rVm3T6GeMyTn5Lb3q6-Xoe5INQrndw>
-    <xme:E8vDacF260ZJXWpj3DVrJ9vrCrhGvX7eHm9BXizBPpubfzOxUK1AER1ELekppvuYx
-    SLzTuSPR2HXdLi8BASOBwVVxTVVhYmr9YUSKIwXaFOyPVzZ1X8g3pU>
-X-ME-Received: <xmr:E8vDaXVhARNs1Hak6Mej4CMaT1h6NBaMfvA9qjWFu-ujt7_W2SmNo7M2fFU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdegfeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvuf
-    fkfhggtggujgesghdtreertddtvdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgr
-    mhhsuceophgrthhrihgtkhesshhtfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepud
-    fhffdvudeigfeuveffgeevhedvffdvfffffeehkedtgedugfehieeitefghfevnecuffho
-    mhgrihhnpehgnhhurdhorhhgpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdig
-    hiiipdhnsggprhgtphhtthhopedupdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
-    hophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggv
-    ugdrohhrgh
-X-ME-Proxy: <xmx:E8vDafgddwubogzgagKBbmt0Lq1nCbVv8OJ4Rm86OqNjm0LLO4OKYw>
-    <xmx:E8vDaQSIaTjfo_f9pFckErBNGpwbtX-JnZhfyKYyaTcDsB3X3CY6_w>
-    <xmx:E8vDaaFufXKL3DzbjJAQWVuAG5Gkda6AXlP5fTdYQyb5Apg0dutVog>
-    <xmx:E8vDaQnKNxoE2x0s4TCEUem1lIx_3c-bYFsPgFCYJ4I7qIFBtKEkxA>
-    <xmx:E8vDaQ5t5BajrlAGa4Cs_Ej2AYdnoIN1UM2UACQi-5OaINejtaqKF1uf>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA for
- <openembedded-core@lists.openembedded.org>; Wed,
- 25 Mar 2026 07:46:27 -0400 (EDT)
-Date: Wed, 25 Mar 2026 07:46:27 -0400
-From: Patrick Williams <patrick@stwcx.xyz>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc: fix buildpaths QA with LTO
-Message-ID: <acPLE7KjSfvxXthX@heinlein>
-References: <20260325113951.1278864-1-patrick@stwcx.xyz>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=Gz0RCCBw;
+ spf=pass (domain: ericsson.com, ip: 40.107.162.66, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YqHZW6Go8G+q4ve04cKgzNEfKVaXCqG33y0n3fj0KK4Cal/mlU0QrvO3XM+PQFtFCXL7Cfi5fyQO+SNulMl+hNnG1TU/JWpPm3mzbFCJiNVRT1v7PP8yVwjth/56qcgc+FcPT8+1SBq+QOTCNTjAzj9+P37JtGlvOuUKwNmAVG5IKtPxIMeACgsQCXU0ykt23LBidDy2azO+8/dFuVXNYZfb2Eq2xEuzCZnwkfPAR19Ds/1XNdOuhVnio0MxYRN4d99vnxYP2g+Aon49Zr6g4vAvE89ETtokQhI1/FOncdM+/7vNp3Fc/4VG22x0klklPTILj48Gl//FCFxBoP6WvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Fav6QYYXfRfOFQ2P9x9Aor+mhyoO19Ypmpbzt8yhic8=;
+ b=Su6iUjw0rXfZ+DwY5pI67tlcPH1ayBXSlj0Og6PxstDUFo520Bf97tPQ53hbYHY1jzHWBUdK16Aau5oHeo23Llom7s1b5fvCvSM/PIeeN9pYS2FfzYE7Ke6+8Rwk+Z3L/AtfJ2H4CigB3MkP6iinHm0O1803e1rXzNmRHHohH/RQpP3vTIoVj67n5zDwyxttkOEBZ2pE96cRSdhGIiT+qLp6/wiCS4KmfA9SuBsGeXYN5jhIXOhBLu1fsJQnwyCzuQaaeuIoJVY+uSQiz4ds9xHmixuIXnnSCK1ozsDyCTemlbXlTU+VXzl0ZQyf596G7fX9YKMn27vmVE5pr4+vxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=est.tech smtp.mailfrom=ericsson.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fav6QYYXfRfOFQ2P9x9Aor+mhyoO19Ypmpbzt8yhic8=;
+ b=Gz0RCCBwbT7mq4QlnXiQ0ZkRgkCQCkJh/YWjLj6ttkz3ysjTwDTsY9bRMV0bQPB11KpDY3qcNvqOQylldeh1J32nV36dEG5XiRK+yaheqaqK4muBmg0MLVHsu2c97Rtx15NcEKiK7YVrnMsMeoLJ82UTbO/73bW7RqadRPGTtENQCZWyhm6fnGImxwI0jQLE3Nkmuyk+d+0O/qxJyZjqQR3LUIRqWnask3mehcCkUrXXDjwv6Ze/+xJ2xH7C6bqcp/zccnC8/NpbWFe4WArSGm76K4oyuHB/BfbOaWH5C7u3UPZSTz3tYRrg/FamcnVfnQjAYPwoYQsbnvQZb8MruQ==
+Received: from DU2PR04CA0332.eurprd04.prod.outlook.com (2603:10a6:10:2b4::20)
+ by AM7PR07MB6532.eurprd07.prod.outlook.com (2603:10a6:20b:1aa::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
+ 2026 11:52:00 +0000
+Received: from DU6PEPF0000A7E3.eurprd02.prod.outlook.com
+ (2603:10a6:10:2b4:cafe::a9) by DU2PR04CA0332.outlook.office365.com
+ (2603:10a6:10:2b4::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend Transport; Wed,
+ 25 Mar 2026 11:51:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DU6PEPF0000A7E3.mail.protection.outlook.com (10.167.8.41) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9723.19 via Frontend Transport; Wed, 25 Mar 2026 11:51:59 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.64) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 25 Mar 2026 12:51:59 +0100
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 2608921CFC5;
+	Wed, 25 Mar 2026 12:51:59 +0100 (CET)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 14025700CF09; Wed, 25 Mar 2026 12:51:59 +0100 (CET)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <pratik.farkase@est.tech>, <richard.purdie@linuxfoundation.org>, "Daniel
+ Turull" <daniel.turull@ericsson.com>
+Subject: [PATCH 1/2] python3-kirk: Add version 4.0.0
+Date: Wed, 25 Mar 2026 12:51:51 +0100
+Message-ID: <20260325115151.3994996-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="/exjHfOK8PS/GBKR"
-Content-Disposition: inline
-In-Reply-To: <20260325113951.1278864-1-patrick@stwcx.xyz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000A7E3:EE_|AM7PR07MB6532:EE_
+X-MS-Office365-Filtering-Correlation-Id: 294bad07-de87-4df8-eaba-08de8a64ec50
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|36860700016|82310400026|1800799024|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	Rqo+5Hk2CU2K4yd7Cm7HhEGIi1vzaUUDZqeZ2ZcIrRkvJzn62d2BFTNgBxWPtqwSbvgqMQP+WesTGt94n/DsQXHZZjucdh/p9+Sh66ZPDrX4IXeSrTXwtUL3hv3QZYRcCLXjRdXf5HEbj5A9SaTBvld4WvUxsz8pyWwQyk6Xhf/yJOVrLuJJ76c1fuySHJXJCeo0iUzmA2fxnk8z61cX6Xc/Dyp9uTJdPcA6TpkrmSmVIh7DX/DBWiY9XhwCjXz4rC7yMy44lCQuBrzVFbm3FnXI3GxC0S1GZ1rjNk+ZUOp8qXVnSpD7xan/GpJpJwmmlKCbCu+Pz4DiOWo5c3ebVSNztoW/ol6Fty9ThVIPhiWvjQTJfhnaVDjV1Eqa3EXnJnuZ22Nr/FJ3R3Qwu8dKYQbcdrSGBtSKZOc9C1oSARbfOgFJdx84tdapcdzsmGarB0qo2HqgPaIm7uXTUSnLMNgp4Kp4wUHoEr+7eSkupjWu++I5/KfM6QG3sooPgiC9Qw6SRVmrbMAvOKuF3AbnBZ/vUMsH6+erPBJ8r3xvwGNKjZprHcFj8S0l+uxrwJY1r51gwszIL8/K9bnCmkCEV6zRsI7jSgb3ELfkyuk5dEv6TKRls14K323jwNNOKC+Xp0K4PZ630OWrNgQJg1RNVxMrx9ouEH3nejRAy8+PMNj2RQpUmG1Y7KelksLvKElGeCsIx8a/1YntDMgoZF9e8fdz3lbHWCavZ5qHa/5aoAqickR3TmQAlMblh/Vp+utv+z/vaKjLMjW/fyogTxfLJQ==
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(36860700016)(82310400026)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	V6cHpQKTACAa9AtyxSOGDIMFwiyjbSwf3Q9moOdn5bSyRJ5bcczoh9UatASTL6tuJuGnfTZIpwY6AfsnbHWbSKW8M8w6kbOLBoKTddVS4t0pMgS7mdxtWym1BRw6mhuwOSKMK2kWK1aQaxgVa0NDWq0KiFTJIvsWqG6V3C+/Oyo3cXIDuXQUUim3PGhCOvPEwkOLkR/L58xJlqHKyrIpba/UEHxe3x+6NVP+O5sUevME1mhXb0lbwAapXuivhQzhW8bej/h0I5sv9S0b1kxNKJOC/AaNm5hSZDFpYk7z1hM9YTuyAxf8yMuYuVhrRgxCwtX82jb+hyUZ+O0qMtnuEj30RniA/zaj6GIBJVGNaQZufb9eBrerFdUW5PKTYc85jq9Z2EzOL9eqdk6okfST9uo8aSrOTX6PVzIvN00SfDUriOtbo1gS8wwKrbupeK8s
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 11:51:59.8481
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 294bad07-de87-4df8-eaba-08de8a64ec50
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000A7E3.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6532
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 11:46:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233890
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 11:52:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233891
 
+From: Daniel Turull <daniel.turull@ericsson.com>
 
---/exjHfOK8PS/GBKR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Kirk application is a fork of runltp-ng and it=E2=80=99s the official LTP
+tests executor.
 
-On Wed, Mar 25, 2026 at 07:39:51AM -0400, Patrick Williams wrote:
-> When LTO is enabled, due to a gcc bug[1], the linker needs the same
-> flags in DEBUG_PREFIX_MAP as the compiler.  Without this the buildpaths
-> QA failure can occur due to unstripped build directory strings in the
-> DWARF data.
->=20
-> With GCC 15.2 this can be noticed by setting many meson-built packages,
-> such as systemd, with:
->=20
->     EXTRA_OEMESON:append:class-target =3D " -Db_lto=3Dtrue"
->=20
-> Add the DEBUG_PREFIX_MAP to the TARGET_LDFLAGS for gcc.
->=20
-> While the lto.inc enables LTO across the whole image, some packages
-> either manually enable LTO on their own or downstream recipe
-> maintainers have explicitly set LTO in specific packages, so it is not
-> sufficient to set this in lto.inc only.
->=20
-> [1]: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D109805
->=20
-> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-> ---
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+---
+ meta/conf/distro/include/maintainers.inc       |  1 +
+ .../python3-kirk/python3-kirk_4.0.0.bb         | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-extended/python3-kirk/python3-kirk_4.0.0.b=
+b
 
-A few other mailing list threads also talk about this problem.
-
-One alternative is to re-add it to the TARGET_LDFLAGS in bitbake.conf by
-reverting 1797741aad02b8bf429fac4b81e30cdda64b5448 [1], but that seems to
-have problems for cgo applications which might be resolved by another
-patch[2].  Adding to lto.inc[3] isn't sufficient for the reasons I
-mentioned above.
-
-[1]: https://lore.kernel.org/openembedded-core/20260122194959.13457-2-rs@ti=
-=2Ecom/#t
-[2]: https://lore.kernel.org/openembedded-core/20260127170344.2960247-2-rs@=
-ti.com/
-[3]: https://lore.kernel.org/openembedded-core/20260204052638.284617-1-chan=
-gqing.li@windriver.com/
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc
+index f9a600ff11..9cd58dbac0 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -665,6 +665,7 @@ RECIPE_MAINTAINER:pn-python3-jinja2 =3D "Richard Purdie=
+ <richard.purdie@linuxfound
+ RECIPE_MAINTAINER:pn-python3-jsonpointer =3D "Bruce Ashfield <bruce.ashfie=
+ld@gmail.com>"
+ RECIPE_MAINTAINER:pn-python3-jsonschema =3D "Bruce Ashfield <bruce.ashfiel=
+d@gmail.com>"
+ RECIPE_MAINTAINER:pn-python3-jsonschema-specifications =3D "Bruce Ashfield=
+ <bruce.ashfield@gmail.com>"
++RECIPE_MAINTAINER:pn-python3-kirk =3D "Daniel Turull <daniel.turull@ericss=
+on.com>"
+ RECIPE_MAINTAINER:pn-python3-libarchive-c =3D "Joshua Watt <JPEWhacker@gma=
+il.com>"
+ RECIPE_MAINTAINER:pn-python3-license-expression =3D "Wang Mingyu <wangmy@f=
+ujitsu.com>"
+ RECIPE_MAINTAINER:pn-python3-lxml =3D "Khem Raj <raj.khem@gmail.com>"
+diff --git a/meta/recipes-extended/python3-kirk/python3-kirk_4.0.0.bb b/met=
+a/recipes-extended/python3-kirk/python3-kirk_4.0.0.bb
+new file mode 100644
+index 0000000000..75edfc2fe4
+--- /dev/null
++++ b/meta/recipes-extended/python3-kirk/python3-kirk_4.0.0.bb
+@@ -0,0 +1,18 @@
++SUMMARY =3D "Linux Test Project tests executor"
++HOMEPAGE =3D "https://github.com/linux-test-project/kirk"
++DESCRIPTION =3D "Kirk application is a fork of runltp-ng and it=E2=80=99s =
+the official \
++LTP tests executor. It provides support for remote testing via Qemu, SSH, =
+\
++LTX, parallel execution and much more."
++SECTION =3D "console/utils"
++LICENSE =3D "GPL-2.0-only"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D39bba7d2cf0ba1036f2a6e2be52fe3f=
+0"
++
++SRC_URI =3D "git://github.com/linux-test-project/kirk;protocol=3Dhttps;bra=
+nch=3Dmaster"
++
++PV =3D "4.0.0"
++SRCREV =3D "32b224021b9c657953f5b2f61ca4744b9b3c5961"
++
++RDEPENDS:${PN} +=3D "python3-asyncio python3-json"
++
++inherit python_setuptools_build_meta
++
 --=20
-Patrick Williams
+2.34.1
 
---/exjHfOK8PS/GBKR
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmnDyxEbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyAAoJEKsDR8wtAMEZ5UEP/it6H+RsfZ6w1Qvjo5V+
-v29WlwuJx0bGGsmZIvh1nssDieN05OT+QtXg7CgnYUWNvno4PKizF2/ZhG2nuADg
-P71Yter8Vx5834HfeA53CGb1CJDO2TPhwp9UveFb7k6UzuPXUUK3pTTJaD0d3WAX
-rDcO8C/4WIc/iP78AjeR3XCQl76HrXx/cOLEFz3/KvPmGnIkMA30TOIlpsXs74gO
-G+ocTQJtQIuo1nxfDBaPDywF5uOeP6sgJFT/QlwdHfZPWef9LIGRNpOCE9kODmE9
-isE0QRp3xYwmbu+4gM/3cB/1pBZLkgahq6ZJ8jhv/m25Bffu+xuR7aWk4P5rG3K/
-vmkXiiDI1YapxOQ6cmFy9FIpJO6cFOPC5A4n2dZnj/1s6dOCFxL5md05jzT3jnLe
-B0Wl8W0adrnNVOqtl3njVdRGpeemwD27a/nE8PDe7WRMKNPOTodoYk0vJJmQcYf7
-9EMZQj2qwNy5q6v2TqqO8Pck33vIMifitM2P3RuOw/iEXCbwyudMTSaXl9iLdTb5
-Lo7XVcuW0CHr+V4fBlWPeLdS6J4xSnbP9t+thW4eWKgxryKy8Vm1NwwrvbKf8UVu
-f3DSxnud+6GVy7kQeQJ3QS0P9Ow9v3AhuAkh/CY3w24Cq/VNEy7v8zWBv1E28Jhg
-izoi46fcLiJdoLM6xOjSoZta
-=9cGj
------END PGP SIGNATURE-----
-
---/exjHfOK8PS/GBKR--
 
