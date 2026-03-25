@@ -2,228 +2,209 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFE42FEA82C
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 07:25:12 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17219.1774423511448695657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C017DFEA82D
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 07:25:22 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16894.1774423515170712715
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 00:25:11 -0700
+ Wed, 25 Mar 2026 00:25:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=RgiCErtD;
- spf=pass (domain: mvista.com, ip: 209.85.214.177, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ab077e3f32so22018855ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 00:25:11 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=VDTBYN9G;
+ spf=pass (domain: mvista.com, ip: 209.85.216.50, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-354bc7c2c46so3093425a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 00:25:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1774423510; x=1775028310; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J7nOpVhqBzDDkTGHSl8uI/UySUItk4U9Bc/Xtm5ovsU=;
-        b=RgiCErtD/xgvvhVeRLsPxktQtF8sWq7DQ3UOVoI9+rcoUsDQQVxWAb2KnEawarPFAm
-         74KS7vrP8+6VY2xtv3MPRey6v0TzzgjjwIFxre2Jk83nh1pdEfZANQ5lEhJIq+JOI6vR
-         nmWhQDhp4H6y/qZxRQ35DwiOgwbd0+ipwhRk4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774423510; x=1775028310;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=mvista.com; s=google; t=1774423514; x=1775028314; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J7nOpVhqBzDDkTGHSl8uI/UySUItk4U9Bc/Xtm5ovsU=;
-        b=kcy5Y99Ttd7jV8SlgBkKyXjOuEqaA4M8gNsjU2NBcJdIfmLP91GSIB5QnNdue/9KPG
-         TN78Pijh7RQUcaVxv2iIz5YmHbuSnggy+tjcDxV/HsyDwgnBhn4jpfL+GcEFVJlTo3hJ
-         Hq8htuK1fCxbHn86+diVuj9F3/CF4IkXgO8RVRSobVOq2YFuNWQJ2tIqMKl1ZST4hxu3
-         K5mBp32D6yC7/dEAwqUL6WikQA+YRYAgzKasbXmx2qvqqm4/oAlgqcBFMi0JNl4ywjEL
-         Gkivube4XTPqcwh6PlVabkbOc4eeIFs/XjGhUlmLHtlHU/N9sovugYCZ31Xh6YQbeLj6
-         fb4g==
-X-Gm-Message-State: AOJu0YwdC3ZSUucAiyvDacYlb4nNRw4YpSQJsteA0kdCIJeP7DKRgtsW
-	oTPIlfMlAWUY+uVvvJ7SKVxNDKrnR+FEb46zqy2TpvxGMdBmGlkJbP8R05hCmayICA7+x1wRJMj
-	Hgm0YMp1ylA==
-X-Gm-Gg: ATEYQzwzHKIxYs7nJh1dBkZ/4acygHK6KvGEdUxabGsqXFPgdNXQUCxQWye3ilLCuAd
-	w7CR8cblbpChWKZPL8WZzfXHssoZ5ncnF1EyeURTZ7XflmAbdZqQ7wf4SGzJjzaV7O0ul3k0MIr
-	KvPdtClrHVUyYb27dbmfM4V5R88BqWgtV/5d91v0ilKkeEMy0EJiQPArKAvw7jYgZUaOrgz/aXv
-	NMARWPxMPJ18VKxVi4O4A0f/g0UG6YId5JJHtxjjvHsGSvTEFKPV2ltR2BHNJdPHzG0ImxomuTN
-	GgjjF2pE/KcqW4iuyjc1NkV6CgStzsL+2/k1a616Z/PgEy+MdWBqDqeKrvf83F3gYj3infHu/Kp
-	5zpm2zku3yEIXDwteop7KDOAHW0hnHkmeELc60diBwtXSZb55MOmr5xrZYpfuDGMS8n2smAgWa7
-	pmMb6Lx9QvrZEbJkV2m0L9XyI4syMlzyHdtO9q
-X-Received: by 2002:a17:902:ef07:b0:2ae:ba5f:3ac3 with SMTP id d9443c01a7336-2b0b09a7468mr28032495ad.2.1774423510347;
-        Wed, 25 Mar 2026 00:25:10 -0700 (PDT)
+        bh=uC895IMZXAXczAWFGNBeA2e7HODXkgOFCMskI8l5ZXQ=;
+        b=VDTBYN9GuIxgEiggg45GZnzDhYAenfyAVGl2xakrq0C+jz79K39dwOIuC7+r/sNnjX
+         jjkS9QJKyMmXRO7vSR6xc13vTIjONl9Aur1dE1IgFmt83d1vhneUdpR6ON+KH3pgirPi
+         wbOJsxdA3Kt9V0W+EBU+yiNDT96hoMXjzrey0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774423514; x=1775028314;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uC895IMZXAXczAWFGNBeA2e7HODXkgOFCMskI8l5ZXQ=;
+        b=EpXOmYjXftwjFj54r2uqQeZxa9B3m2+0oOCkTBTynbJacL0m5mBivQoNoL33ImVauT
+         G6q1t267jmXgXERnZSsKp50MWmWP5QQ3kSx6Rn6mK+KTpE0J5yYq8A+hI8/dtPC3DVin
+         zPjLjrHrwY51An13m7eRUkt2abHG3pw03u1VePXMs7fLUUrKbwrqU3I3IIl4z/kAosUy
+         4AZaNpRdRDpAHhjPRqTNGIDva7i4g5wd88iiIBi1XAnk6y/upHdT7fzRQE98oWTcioTu
+         1SjS+igRt7NLmbA03t4WeXMd+4OruC4WCM9v5sitGh6GjKp/ypBBjBQa8mOqfyFO/BK2
+         v+yA==
+X-Gm-Message-State: AOJu0YzO5edD6s1oadST+fqq4GhWLOie1VFgjcgauFToffaLy/bDfP81
+	8278l/ybkAvH4Or52wa6WWwkOGkVtfP3XGEw6CYo9l4cbJ7RBT6H/EM+CWEH9V10iPCYA4omGNo
+	E4IIUNf3VuA==
+X-Gm-Gg: ATEYQzxb3UxglsGY6GSiv/OfgxUqW86XCDFwDH6kxozontkIg0Z4xWvBhCpIaHOfIMR
+	5Vd5srwsATEBbQodcKYyREKqxPGpmnmmYzwRT+lp8pbm8wTtk/oHBQ2iN4GXQAf6FawyQk8qdNU
+	HxplQpKoS4iV3YCtZxuwLcsKxwHJv+tl/m7BuQzUMfSco63wux/J06iuzSxWrSC1A8YqT49wJMG
+	IzU8QBc+U7RRk6A/p1EC73ebIC5QQvoA96knOVWYIoxdfFF6Pkkglj16SGFiVeQDt0Mt7Xr99Pn
+	+wzVYJKzVpA0HZdDm9Uyk5Wo+eNQk60SXGEPXe/BBKeVHGyAziwX7V9o1qyWXIr3ZVP/iKRCiVL
+	K3N/IEUr3uZCkzXa8AnABgJx+iGoZC06L2uYTGjqnYnJtzyYwrHmP/8B946VX8hsaZGWOMX1Pzx
+	R6VAi3x1/fo8ykr6NTCK+cZZXAjnQEsGJBHOZf
+X-Received: by 2002:a17:903:3807:b0:2ae:aa16:acfb with SMTP id d9443c01a7336-2b0b0a7fa9emr29294945ad.22.1774423513928;
+        Wed, 25 Mar 2026 00:25:13 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:54:2bec:794a:a8bb:bd94:ee98])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0836955dbsm232803035ad.72.2026.03.25.00.25.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0836955dbsm232803035ad.72.2026.03.25.00.25.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 00:25:09 -0700 (PDT)
+        Wed, 25 Mar 2026 00:25:13 -0700 (PDT)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH 1/2] python3-pyopenssl: Fix CVE-2026-27448
-Date: Wed, 25 Mar 2026 12:54:53 +0530
-Message-Id: <20260325072454.91845-1-vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 2/2] python3-pyopenssl: Fix CVE-2026-27459
+Date: Wed, 25 Mar 2026 12:54:54 +0530
+Message-Id: <20260325072454.91845-2-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260325072454.91845-1-vanusuri@mvista.com>
+References: <20260325072454.91845-1-vanusuri@mvista.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 07:25:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233861
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 07:25:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233862
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
 Pick patch mentioned in NVD
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-27448
-[2] https://ubuntu.com/security/CVE-2026-27448
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-27459
+[2] https://ubuntu.com/security/CVE-2026-27459
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../python3-pyopenssl/CVE-2026-27448.patch    | 125 ++++++++++++++++++
- .../python/python3-pyopenssl_22.0.0.bb        |   4 +
- 2 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
+ .../python3-pyopenssl/CVE-2026-27459.patch    | 106 ++++++++++++++++++
+ .../python/python3-pyopenssl_22.0.0.bb        |   1 +
+ 2 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
 new file mode 100644
-index 0000000000..4a06e2c020
+index 0000000000..b5e37a6900
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
-@@ -0,0 +1,125 @@
-+From d41a814759a9fb49584ca8ab3f7295de49a85aa0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+@@ -0,0 +1,106 @@
++From 57f09bb4bb051d3bc2a1abd36e9525313d5cd408 Mon Sep 17 00:00:00 2001
 +From: Alex Gaynor <alex.gaynor@gmail.com>
-+Date: Mon, 16 Feb 2026 21:04:37 -0500
-+Subject: [PATCH] Handle exceptions in set_tlsext_servername_callback callbacks
-+ (#1478)
++Date: Wed, 18 Feb 2026 07:46:15 -0500
++Subject: [PATCH] Fix buffer overflow in DTLS cookie generation callback
++ (#1479)
 +
-+When the servername callback raises an exception, call sys.excepthook
-+with the exception info and return SSL_TLSEXT_ERR_ALERT_FATAL to abort
-+the handshake. Previously, exceptions would propagate uncaught through
-+the CFFI callback boundary.
++The cookie generate callback copied user-returned bytes into a
++fixed-size native buffer without enforcing a maximum length. A
++callback returning more than DTLS1_COOKIE_LENGTH bytes would overflow
++the OpenSSL-provided buffer, corrupting adjacent memory.
 +
-+https://claude.ai/code/session_01P7y1XmWkdtC5UcmZwGDvGi
++Co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
 +
-+Co-authored-by: Claude <noreply@anthropic.com>
-+
-+Upstream-Status: Backport [https://github.com/pyca/pyopenssl/commit/d41a814759a9fb49584ca8ab3f7295de49a85aa0]
-+CVE: CVE-2026-27448
++Upstream-Status: Backport [https://github.com/pyca/pyopenssl/commit/57f09bb4bb051d3bc2a1abd36e9525313d5cd408]
++CVE: CVE-2026-27459
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ CHANGELOG.rst      |  2 ++
-+ src/OpenSSL/SSL.py |  7 ++++++-
-+ tests/test_ssl.py  | 50 ++++++++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 58 insertions(+), 1 deletion(-)
++ CHANGELOG.rst      |  1 +
++ src/OpenSSL/SSL.py |  7 +++++++
++ tests/test_ssl.py  | 38 ++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 46 insertions(+)
 +
 +diff --git a/CHANGELOG.rst b/CHANGELOG.rst
-+index c84b30a..5b6d523 100644
++index 5b6d523..13d8abd 100644
 +--- a/CHANGELOG.rst
 ++++ b/CHANGELOG.rst
-+@@ -20,6 +20,8 @@ Deprecations:
++@@ -20,6 +20,7 @@ Deprecations:
 + Changes:
 + ^^^^^^^^
 + 
-++- ``Context.set_tlsext_servername_callback`` now handles exceptions raised in the callback by calling ``sys.excepthook`` and returning a fatal TLS alert. Previously, exceptions were silently swallowed and the handshake would proceed as if the callback had succeeded.
-++
+++- Properly raise an error if a DTLS cookie callback returned a cookie longer than ``DTLS1_COOKIE_LENGTH`` bytes. Previously this would result in a buffer-overflow.
++ - ``Context.set_tlsext_servername_callback`` now handles exceptions raised in the callback by calling ``sys.excepthook`` and returning a fatal TLS alert. Previously, exceptions were silently swallowed and the handshake would proceed as if the callback had succeeded.
++ 
 + - Expose wrappers for some `DTLS
-+   <https://en.wikipedia.org/wiki/Datagram_Transport_Layer_Security>`_
-+   primitives. `#1026 <https://github.com/pyca/pyopenssl/pull/1026>`_
 +diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py
-+index 12374b7..6ef44d4 100644
++index 6ef44d4..fa1b556 100644
 +--- a/src/OpenSSL/SSL.py
 ++++ b/src/OpenSSL/SSL.py
-+@@ -1,5 +1,6 @@
-+ import os
-+ import socket
-++import sys
-+ from sys import platform
-+ from functools import wraps, partial
-+ from itertools import count, chain
-+@@ -1431,7 +1432,11 @@ class Context(object):
++@@ -556,11 +556,18 @@ class _CookieGenerateCallbackHelper(_CallbackExceptionHelper):
++     def __init__(self, callback):
++         _CallbackExceptionHelper.__init__(self)
 + 
+++        max_cookie_len = getattr(_lib, "DTLS1_COOKIE_LENGTH", 255)
+++
 +         @wraps(callback)
-+         def wrapper(ssl, alert, arg):
-+-            callback(Connection._reverse_mapping[ssl])
-++            try:
-++                callback(Connection._reverse_mapping[ssl])
-++            except Exception:
-++                sys.excepthook(*sys.exc_info())
-++                return _lib.SSL_TLSEXT_ERR_ALERT_FATAL
-+             return 0
-+ 
-+         self._tlsext_servername_callback = _ffi.callback(
++         def wrapper(ssl, out, outlen):
++             try:
++                 conn = Connection._reverse_mapping[ssl]
++                 cookie = callback(conn)
+++                if len(cookie) > max_cookie_len:
+++                    raise ValueError(
+++                        f"Cookie too long (got {len(cookie)} bytes, "
+++                        f"max {max_cookie_len})"
+++                    )
++                 out[0 : len(cookie)] = cookie
++                 outlen[0] = len(cookie)
++                 return 1
 +diff --git a/tests/test_ssl.py b/tests/test_ssl.py
-+index ccc8a38..77e1876 100644
++index 77e1876..fb77b75 100644
 +--- a/tests/test_ssl.py
 ++++ b/tests/test_ssl.py
-+@@ -1884,6 +1884,56 @@ class TestServerNameCallback(object):
-+ 
-+         assert args == [(server, b"foo1.example.com")]
-+ 
-++    def test_servername_callback_exception(
-++        self, monkeypatch: pytest.MonkeyPatch
-++    ) -> None:
-++        """
-++        When the callback passed to `Context.set_tlsext_servername_callback`
-++        raises an exception, ``sys.excepthook`` is called with the exception
-++        and the handshake fails with an ``Error``.
-++        """
-++        exc = TypeError("server name callback failed")
++@@ -4455,3 +4455,41 @@ class TestDTLS(object):
++             assert 0 < c.get_cleartext_mtu() < 500
++         except NotImplementedError:  # OpenSSL 1.1.0 and earlier
++             pass
 ++
-++        def servername(conn: Connection) -> None:
-++            raise exc
+++    def test_cookie_generate_too_long(self) -> None:
+++        s_ctx = Context(DTLS_METHOD)
 ++
-++        excepthook_calls: list[
-++            tuple[type[BaseException], BaseException, object]
-++        ] = []
+++        def generate_cookie(ssl: Connection) -> bytes:
+++            return b"\x00" * 256
 ++
-++        def custom_excepthook(
-++            exc_type: type[BaseException],
-++            exc_value: BaseException,
-++            exc_tb: object,
-++        ) -> None:
-++            excepthook_calls.append((exc_type, exc_value, exc_tb))
+++        def verify_cookie(ssl: Connection, cookie: bytes) -> bool:
+++            return True
 ++
-++        context = Context(SSLv23_METHOD)
-++        context.set_tlsext_servername_callback(servername)
+++        s_ctx.set_cookie_generate_callback(generate_cookie)
+++        s_ctx.set_cookie_verify_callback(verify_cookie)
+++        s_ctx.use_privatekey(load_privatekey(FILETYPE_PEM, server_key_pem))
+++        s_ctx.use_certificate(load_certificate(FILETYPE_PEM, server_cert_pem))
+++        s_ctx.set_options(OP_NO_QUERY_MTU)
+++        s = Connection(s_ctx)
+++        s.set_accept_state()
 ++
-++        # Necessary to actually accept the connection
-++        context.use_privatekey(load_privatekey(FILETYPE_PEM, server_key_pem))
-++        context.use_certificate(
-++            load_certificate(FILETYPE_PEM, server_cert_pem)
-++        )
+++        c_ctx = Context(DTLS_METHOD)
+++        c_ctx.set_options(OP_NO_QUERY_MTU)
+++        c = Connection(c_ctx)
+++        c.set_connect_state()
 ++
-++        # Do a little connection to trigger the logic
-++        server = Connection(context, None)
-++        server.set_accept_state()
+++        c.set_ciphertext_mtu(1500)
+++        s.set_ciphertext_mtu(1500)
 ++
-++        client = Connection(Context(SSLv23_METHOD), None)
-++        client.set_connect_state()
-++        client.set_tlsext_host_name(b"foo1.example.com")
+++        # Client sends ClientHello
+++        try:
+++            c.do_handshake()
+++        except SSL.WantReadError:
+++            pass
+++        chunk = c.bio_read(self.LARGE_BUFFER)
+++        s.bio_write(chunk)
 ++
-++        monkeypatch.setattr(sys, "excepthook", custom_excepthook)
-++        with pytest.raises(Error):
-++            interact_in_memory(server, client)
-++
-++        assert len(excepthook_calls) == 1
-++        assert excepthook_calls[0][0] is TypeError
-++        assert excepthook_calls[0][1] is exc
-++        assert excepthook_calls[0][2] is not None
-++
-+ 
-+ class TestApplicationLayerProtoNegotiation(object):
-+     """
+++        # Server tries DTLSv1_listen, which triggers cookie generation.
+++        # The oversized cookie should raise ValueError.
+++        with pytest.raises(ValueError, match="Cookie too long"):
+++            s.DTLSv1_listen()
 +-- 
 +2.25.1
 +
 diff --git a/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
-index db0e809ef5..13d87939b6 100644
+index 13d87939b6..42de3207b4 100644
 --- a/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
 +++ b/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
-@@ -10,6 +10,10 @@ SRC_URI[sha256sum] = "660b1b1425aac4a1bea1d94168a85d99f0b3144c869dd4390d27629d00
- PYPI_PACKAGE = "pyOpenSSL"
- inherit pypi setuptools3
+@@ -12,6 +12,7 @@ inherit pypi setuptools3
  
-+SRC_URI += " \
-+    file://CVE-2026-27448.patch \
-+"
-+
+ SRC_URI += " \
+     file://CVE-2026-27448.patch \
++    file://CVE-2026-27459.patch \
+ "
+ 
  PACKAGES =+ "${PN}-tests"
- FILES:${PN}-tests = "${libdir}/${PYTHON_DIR}/site-packages/OpenSSL/test"
- 
 -- 
 2.25.1
 
