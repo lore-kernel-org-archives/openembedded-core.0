@@ -1,100 +1,141 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B181106B52B
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 12:52:15 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21448.1774443131312034992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B54A106B52C
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 12:53:35 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21480.1774443211842224469
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 05:52:11 -0700
+ Wed, 25 Mar 2026 05:53:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=AptaonP8;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-506251815a3so54053041cf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 05:52:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774443130; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Hll3SJdz14SiAOm5IgiCYHBBl8uT8B2/lkoz12V1f6gOA1ezkHeQXageJjgJhbrUbY
-         1LjJd7NLHLUL/gHLXFvJxuD3MztfY2EjSCeyAxOeC1YgmoFD6OFXHfbw+mpdKjb+oWYZ
-         jslmZgo1A8b3d529FCf+s52QlSRRLUSZMSxnPCcdfYiC6BtXZiR7oi0AHYH1D/IyC964
-         NA9iVLhfnVtbHipXy+9lV2L7LTsOqsp4sSy4H0e3u+1ty4q3qJM9M0frf7dfdcUruI+W
-         mGhVhPHKG1prFnK4f+6BMGz7d1/QT3q8vG+ciIe/QuCGi7r1xB2gPqnL5c/owGwI6YHM
-         ZhUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=zcRt8IfM0DX15Mm3S8o/l97k1N1XvE2KVBar8azAYVo=;
-        fh=9D+wO4L/BcfMC+L48XUyAJ7uB3WQ1nDhmbVYuLtgJJ8=;
-        b=Bu8C4oiBsawPTf5SjrFjcveos9NTwl+n4lnXPghaOdojPUPEEdH9Mglj3RGEo82bsH
-         kfBsWqsQYMmrpkRI/qKJC/Mzk9/JRJdcPxBEwlzdQbmaSIB3VlMYOyPhqK9IkX37ppVv
-         kOwxqk0p7HRB72h6O8USiC+GVNcw6VESnngNynOkJIFf2s7i3RiPj6wqQnfwupkOVrDj
-         PCOsdaVoPUx7n61mcI4ZY5JPSB22do7x5Y6HzvEBl9X5gYwVDtfCZV4Iqmzam7Yb2/OR
-         I2kMpMNJxiFPhwaPSux5PocCuKyEOikFuB3rY3Gg4Dkf5+W4QrlZ0yrAbq+RMvTn2RrZ
-         LEPA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PB7L6Wrb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-667f8794e97so11120972a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 05:53:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774443130; x=1775047930; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zcRt8IfM0DX15Mm3S8o/l97k1N1XvE2KVBar8azAYVo=;
-        b=AptaonP8tRm92nfCl2kIue1xR1dQUjbR1tQGBXCIkH46eG0elBHv0wUhurtxxz7nRA
-         AY8JNDp7uqSfi5KgCbLE/VFugaaGzmp3nTgZrbERnOREkgd9pq2iLQxUHplqU0klyIlm
-         4s7FyJaM0uHFrAgqpYgtXNyB5rFdmRuUuJJ1v/3eAZtug8GUiBCmjbWoIc6nW+6ZSeoD
-         lUZpoO8MkqGezK3DT4WzO5MJ+sNXMnXdUW4Pk7BWR004RcaV3xk+VDeddk0nzBkO+iaK
-         jM405kYEJmvnjhyXqD7mDkW15GyMcyLFd5pjpS1++shZQmY2yTISr6keItCXZwOPrA0H
-         v/rQ==
+        d=linuxfoundation.org; s=google; t=1774443210; x=1775048010; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+9zR9tNuQPiUvO4kiLKN0qP/unQJYYOAOaQM6n1ag50=;
+        b=PB7L6Wrb/IzFaTuPcdKFW302yc0F/Nszzhyi3o3XMhIgLK+9/DXL3JUvro2XyPnYuw
+         9oBvo5lX0scBWPJQUC1mN5n6WUHz58TaC+H12fju8Ky1mqjnX17ub6DSTMhI8TYfD6IF
+         UKXTqZTOYcvPxNeNLblNNQKvGa+SI3RQgNB4Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774443130; x=1775047930;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zcRt8IfM0DX15Mm3S8o/l97k1N1XvE2KVBar8azAYVo=;
-        b=BSKk51C07iB5rkUotgSsCqnvO4tZluWhsSKDti6eh1ZbbP/FbtJLz98QS8HVqYdULb
-         oRH3SWrg0+fzeb5dOJWHPPFwH9v0W3KNlCIZfr52QhPwQXr/P5LF/AKVjwvPNd+GMMqa
-         9vPi8dOtAOLeqMZ5+ELgq0PoBY0dLul6MrCbBP1/Pwu9qNh9wJlt/z8btsyxCbPALP42
-         IfQQpPkaFBG3Ku2BGMyXapotaW8Ih4BSW5CIfXERdCD/K2fdWYANboCUCy2lSgTOx/Kf
-         GOhiJrZs9iTmCQjpUZ4zGvj4YMnKw3X7HQEM9L0LDqSNrAwOz3yVSjXDZw3fGwlVsj1B
-         1ABA==
-X-Gm-Message-State: AOJu0YwjoDvC0klc54uyHdFV1ni9iZwiJPOonAqGsYXvL6/7/rXV8rtd
-	3Tqq7sCI/R0jfGQu8rjByk1MslUVFuN5kWpsVg1wwzS5A64cJko+JxC0GlbU8lGSf4l3hzaiW7I
-	VBmRxPJlI26hZlewL8u+29UoL0YZc4sfekujO
-X-Gm-Gg: ATEYQzzV7x+g+2LIKRTlS+N6Wpup45g0ZzrppLZB+uUAhasbgDvsUshKzfTUq/8DW8N
-	tZtKCv+dVv3ShGw168H/9v6HZ8rEQj7GoQKxiKm38KzD1IxIJ0KpX4hSq2PsUIMI38zkNc+4zXP
-	ZwsUVc8QIppelLeLMlOM+EkJKttue119v6FaEYz7no0a5H/95qHYhlwDcHwverSBilPss8+J9r7
-	d/EQ286Ae2SWfCJAMbJlCQCcXqlIiAeP7rAol2o3LRaVkk8Vk5obiI+vHZDP2NQr5OiDDO59ple
-	eCCFfURvXoeegXH1SdeypZZITYX+WiqNPwsNCpzVg1BJQ1csNh9r
-X-Received: by 2002:a05:622a:6016:b0:50b:49e5:989b with SMTP id
- d75a77b69052e-50b80d190a8mr33594331cf.22.1774443130142; Wed, 25 Mar 2026
- 05:52:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260325073954.1176537-1-khem.raj@oss.qualcomm.com>
-In-Reply-To: <20260325073954.1176537-1-khem.raj@oss.qualcomm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 25 Mar 2026 13:51:59 +0100
-X-Gm-Features: AQROBzDwRv6BVy2TKxm5q_JTr_-zxM2VR1pnGiVTjRNFu-ntQyVuRPvg6J5-QBQ
-Message-ID: <CANNYZj9AkosvmmNePiALvwVkR2rsthvsGy3ARLTmWxKh=t7OaQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mesa-tools-native: fix do_compile failure
-To: raj.khem@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Changqing Li <changqing.li@windriver.com>
+        d=1e100.net; s=20251104; t=1774443210; x=1775048010;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+9zR9tNuQPiUvO4kiLKN0qP/unQJYYOAOaQM6n1ag50=;
+        b=mweAdcXJOlVdeGwIAomiuzFCijNf53z9oUk1LvNAocZDIhqDD79IHSl/58gvy/rvTd
+         psXo5EuikdwbDtcoh1WoDrUWnE9V7z1d3eCitAe0Dc2xjCwP2AKS9U6pbcdGNO4IXdsI
+         7DrXpQC8lmkEIB92K2YEWQ8sriKaEg5s1ggaZwpH9ejMMbHY2JTaXcfhoid2YTccNMY/
+         gmwqVo6hEoYQHTSU9r9DBxC/wPyzxAIvtwzTFNmQitoE4EbtwLDYdY6f0aUqt9vcXlgk
+         Gx4a/a9dt0FxG/QzDtn1d3azRTqe0IkQvPNaURQpURccwyanlKOfYOoAmSb4qH9t4hIt
+         dL1w==
+X-Gm-Message-State: AOJu0Yzspp8aaedIQLsQ7OhwpKVH8wOIbIUSctr8wbzG8kbTpJUxQMKv
+	MJOi8aorWENLXzCcilc79FtqIOhgL2hDlveAI45LuRpsOoKpdxtnbvvpo1TMOgH7rn8=
+X-Gm-Gg: ATEYQzy0nAsQ7ddbkVSsNtEXxU4YnzPY7L0TChSFZCM1ZCZO6KW3oQfcOMNrD2L7bhi
+	dkiDbCguQM2THR9j1u7xuzNgXEMNkTRqUMUIxUscbtJ/LPUh5oHSCPo23PfmPfdK1ejrkaM2E7g
+	t+R5p+aPcUGz4ddCEXLLueowUQVpLdpT/ZW0uUxpHEh3WArv/uRcGII6lhHVadXpgxeejHRHzBV
+	j8hnbxPKdJdYcK+JrJjkY46sUbKJQ5QpNwLl78GtXHPkVZnvyS89Bu04FkR5ysq/ar0+UXDU3t4
+	vi5qYn7dkOC26xkPm/S8goTgvMdC4PHY5FUm+V9/zueGMdpxm8BvqjNI68tona7fvx0m7zLgJyX
+	V5mLU9l1g1xEKBhU1YYrAXCIiSg+z5JRpZ/j8dphhskIWqJdc9/mVhHwoR+r/0mJmV6lJCZpwAg
+	ZbFahNvTF61IMzQKQjNj7cz8mV64I05ulqhFUsn7NBWCrz/GMjKsd0KntXaCU0/v/csKDgS4oc8
+	oxCW/VeGJai2sFU18bA/ZFV3Mw=
+X-Received: by 2002:a17:906:1708:b0:b98:528b:8462 with SMTP id a640c23a62f3a-b9a65c3b807mr175570566b.55.1774443209968;
+        Wed, 25 Mar 2026 05:53:29 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:74e2:2425:51dc:4aed? ([2001:8b0:aba:5f3c:74e2:2425:51dc:4aed])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9833871003sm795954366b.54.2026.03.25.05.53.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 05:53:29 -0700 (PDT)
+Message-ID: <181c419f20d806fea2a81c2b1ee18774fbdd0b2e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcc: fix buildpaths QA with LTO
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patrick Williams <patrick@stwcx.xyz>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Mar 2026 12:53:28 +0000
+In-Reply-To: <acPYkLXfOoJmv2lm@heinlein>
+References: <20260325113951.1278864-1-patrick@stwcx.xyz>
+	 <acPLE7KjSfvxXthX@heinlein>
+	 <9a222b692f97515655dd8dad792246068410d660.camel@linuxfoundation.org>
+	 <acPYkLXfOoJmv2lm@heinlein>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 12:52:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233902
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 12:53:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233903
 
-On Wed, 25 Mar 2026 at 08:40, Khem Raj via lists.openembedded.org
-<raj.khem=gmail.com@lists.openembedded.org> wrote:
-> Fix do_compile failure:
-> ../sources/mesa-26.0.1/src/panfrost/lib/kmod/pan_kmod.c:7:10: fatal error: xf86drm.h: No such file or directory
+On Wed, 2026-03-25 at 08:44 -0400, Patrick Williams wrote:
+> On Wed, Mar 25, 2026 at 12:34:52PM +0000, Richard Purdie wrote:
+> > > > With GCC 15.2 this can be noticed by setting many meson-built packa=
+ges,
+> > > > such as systemd, with:
+> > > >=20
+> > > > =C2=A0=C2=A0=C2=A0 EXTRA_OEMESON:append:class-target =3D " -Db_lto=
+=3Dtrue"
+> > > >=20
+> ...
+> >=20
+> > We're not seeing the error with OE-Core today in any of our automated
+> > testing. Reading the above, it implies that we should see some kind of
+> > failure with some components auto-selecting it? Something therefore
+> > isn't adding up.
+>=20
+> I tried to give recreate instructions here.=C2=A0 OE-Core doesn't actuall=
+y do
+> this so you won't see it unless you enable it.
+>=20
+> OpenBMC has a large number of meson-built packages which are generally
+> safe to enable LTO on (but in the past I've ran into issues with other
+> packages not building with LTO; now with lto.inc I should revisit this).
+>=20
+> We have a global enable for all meson packages:
+> =C2=A0=C2=A0=C2=A0 https://github.com/openbmc/openbmc/blob/47d900012a93d7=
+9ab536ca172fc01cd89645a0d8/meta-phosphor/conf/distro/include/phosphor-defau=
+lts.inc#L153
+>=20
+> When I upgraded to an OE core that had 1797741aad02b8bf429fac4b81e30cdda6=
+4b5448,
+> almost all of our packages started failing with buildpaths.=C2=A0 I was a=
+ble
+> to track it down to this problem.=C2=A0 systemd and libpam are two that a=
+re
+> OE or meta-openembedded packages that I saw fail this way, so I gave
+> systemd as a clear example.=C2=A0 Like I said, we have a lot of packages =
+in
+> meta-phosphor[1] that we have enabled LTO on and they're all failing
+> with buildpaths QA failures without a change to pass along
+> DEBUG_PREFIX_MAP.
+>=20
+> If it helps, I can upload the objdump content.=C2=A0 There was DWARF data
+> being inserted by the GIMPLE intermediate which wasn't being stripped by
+> the linker that had my build path in it.
+>=20
+> [1]: https://github.com/openbmc/openbmc/tree/master/meta-phosphor
 
-> -DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
-> +DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native libdrm-native"
+My question still stands though - why don't we see this with systemd or
+libpam in OE-Core?
 
-Should this be in PACKAGECONFIG for panfrost?
+You're asserting we need to add this to our default config as the
+output is broken. We don't see those failures anywhere in our testing
+(which definitely includes systemd).
 
-Alex
+Are you passing specific config to systemd or libpam to enable lto?
+
+I believe that if this breaks when you set certain configs, these
+workaround belong with those configs.
+
+Cheers,
+
+Richard
+
+
+
+
 
