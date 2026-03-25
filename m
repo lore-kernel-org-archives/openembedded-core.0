@@ -1,180 +1,124 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E5CFEA83C
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 09:27:08 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18282.1774430824563348275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EF2FEA83C
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 09:31:08 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18652.1774431059619469064
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 02:27:04 -0700
+ Wed, 25 Mar 2026 02:31:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KwSWOTWS;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439b94a19fdso4521838f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 02:27:04 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bRw2tVHK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so46305605e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 02:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774430823; x=1775035623; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1774431058; x=1775035858; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tCgQAR5TOITwX8HHrlAzjpVMorwXE0PSrEkipd1oZBE=;
-        b=KwSWOTWScYCkns0qjGnifgAZyh/bLcxys39o9E03qQ4XQi6l939BNaaZeQEJ/Sm9sG
-         KFQ5BvkfcXbUqeQiKC17CqluxVQjWiuZNiFx31ijgMsGmg7zyXSsJ4+x7aQ4kaUTTUT3
-         iQhx6G2MC70ioCi0THYgzXIx4g/nkQH/iPZYo=
+        bh=3f2BtnaDBxDmV1I5U+L7IX7g6V4I7cu/jg62Nd4rTsQ=;
+        b=bRw2tVHKytvANtSNGKz4rGHWWMT8Lmh78kDemoK78TQZm6LBZvZdGrYvaqD8u8FwYQ
+         J5EE2NlQ1ouKRNjrlhbYKdxwuk2EfjphiIG/wfs03tJx71PYs05x/J/nTii52v//55ss
+         SydONQd/FyPNvZ61PX2g2fPLteiuCgvodbV+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774430823; x=1775035623;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tCgQAR5TOITwX8HHrlAzjpVMorwXE0PSrEkipd1oZBE=;
-        b=jPRpcTTDj2CZtvCAzgIHkYZDj3gKCBLnZ0POfocYZVQMWditLNB9TM22UFcBoGsas1
-         AdwS0c85NKk1ICYDTMIYfiNVQr+vL6D/XDuw4T0jgFq4lT/GKH8YWl2DksmsxLjZxL2r
-         oXWM+I9XCyr0zezX+MmN+A2B7cw+/FMgmW3VRhIUVOlso99cJpvRd1LVlard5Rz/Enp0
-         7+CqP1bIiH7iZRs1RfuN4kGEiCbmIwdYcTKDBRJ7sMYjIjzf+ZsReW9FgJiLrUVCI49d
-         hKqsIQ0srna1zmx8jEohJ4sq3xTLJT/R5FlfgTZdb2cc0EVPv8Z7nv1X+TT8PsHuEd16
-         KxyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3vQB81wCc3B4p5ZHsy/0AkBKQBsaeV4msMcoXeVoJtQM9sN+cNH0s8d/Qwx/2weW41H+0FjGMjhjN5D4pm0/cOQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyZ2LagyAQZDB/rXDMwhjVJMu9D2tAeQhsperlLXDQcH9rRGMrn
-	75Zw0Fm/FAfdjXlMGjO3+3vhYOHlXo6bDGn22pK6lrFgVOlzgd6tfEbSmE2vEFmCjAg=
-X-Gm-Gg: ATEYQzzcwBn3CkvhzvxPY3Wg6/eNuYWl3qtGJsIsw1wYFjOuXIEE19Tq0q880Z4kYie
-	mTVjyLzPQfp6C7As5EzS9vxEbUqgyEM41FJ3RdXgrrnhFLaXyVIz98gXr/RT5vNDmvq5Rmf2Th4
-	myjGcv8TDkQbr1TlnQ+7XxRKrLWKndD9P2yf2R/0Z1H2GZ3E5iKpURr/FcQoWjoe5yUa+xkdouC
-	79PUR2AQSRzhxqfXatoWet0hwXc4vK3HBi9FrLN+NKmC4U+3gPsZ+QbvJE6x00HVZcjYZhk4OPm
-	UFsxmU+dlThQpfuxc7i27znGH9Cxkw194SnAiobByQDKMrt8NWeTpQm53SJLg/Brd96Le/byqSA
-	OqE+KKUSAqZXQu/WavZDgfVt3hNEgnKtgemPxFuMsFJP3BZ7PD8vnWYhvwlZUkoXVYv/bUZ8QlH
-	bbGTooiPvRRf3SI0xMZBtHbUpoeRKLcr7L0sptTjRyQV31Hik8EdR3k0PY8KVB45pt3s1obhDQM
-	rhJdPZAikTaSA==
-X-Received: by 2002:a5d:464b:0:b0:43b:8fa4:1957 with SMTP id ffacd0b85a97d-43b8fa41abbmr428852f8f.15.1774430822793;
-        Wed, 25 Mar 2026 02:27:02 -0700 (PDT)
-Received: from localhost (2a02-8440-250d-6bb6-81dd-d0a0-a5de-9ff8.rev.sfr.net. [2a02:8440:250d:6bb6:81dd:d0a0:a5de:9ff8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64717e97sm47971379f8f.35.2026.03.25.02.27.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 02:27:02 -0700 (PDT)
-Mime-Version: 1.0
+        d=1e100.net; s=20251104; t=1774431058; x=1775035858;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3f2BtnaDBxDmV1I5U+L7IX7g6V4I7cu/jg62Nd4rTsQ=;
+        b=EnwvFlzNT0Z57qpgeC7x7wCbIgc6r6gcpadrNqmVQxv9Hgg5i0L09Z08IWls69fVdD
+         XxnMoWC1q8PEU/YG8CAMCIG/QgXUh9jCYEcIUHf+V4fNrNVZQ4y0A1AzbXi6iiYaGhfv
+         aCzrq4RaqhxsGFgo2JWNfuokrtZ1E2Q2PL44lNGfX5Rv6kHPwPAChJhpJ3rzGKnz6iCk
+         hvSv2rRekM+Z1rLssZwmfrchzGRzZXyCrGpJqvCVecmD5A0JgLq+FCDb5GIyJ+H/gTyf
+         RiAXIwaV1+YXyHFPvOQRXAfH0umIAg5419Nzu1QTWe61QuD+MrP+0gX6Wc1HRmmN3IuI
+         23gw==
+X-Forwarded-Encrypted: i=1; AJvYcCX0nv9YyDKXD1x0IrGLvgoOysilFAengWmmJTwJRL3EN1dIjO9PfGFfUVaRhTIslZfm191ZLsMVGJtM3RoZYAxMbw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyfWUlnkBP6l2tBFd/mf2TOdIJxNhH2tSw8/rt+5y+90xUXfcYz
+	Eyie/WHRQPgpxA8xi7fLelbhM54y24IQgPYDRzmiVSDh88HojRxVKws1vDsXx2DSGe8=
+X-Gm-Gg: ATEYQzxEwYaPozWJvL2qkbaK/yXWWw6LwKUF1XRTqmXMW2d4Yk38GuzpoBpWs9TTbUj
+	FUbAEYjPVaPMQxyc1FT88NeHeLhWWowgtzim2hsFaWYznAIRatvn++vAPyd2HKHZISKrc1Kp9iM
+	fD2J8/pTAmFdUc6iE4Y3zeH+szLQcvbCM1chsV7FyDVAsUx5UFuZ2INBU9FKdyNwe6VkuWEoxeX
+	zUWm7xG/rrmv9m5VC64/hZQZ7KIKc3kpSeTlQP5HBSB2u/5EhQ2+ZqORzxa23UjP2G+uLAKE58Y
+	bxuKgwjzeQYKh/2mq9PK8rgowp2AEzkuxI4DS+56sgvhMxAF+Zz8GjWvLorA4xZtTiYG5s2ObDw
+	ZUB7tITf1tG6L8WnVoJbRfrFykI7c1nOT26wjmKQbQ+Fexbb3q0mukpjcE1bAs6fd5HvJQZfEQN
+	Q2nM/JnCi3zJJAgQsE9lQqvUCj9BwIeHKPpHqK2i823SOPYh8l4kDL02y3YpxNAJhqEV/J38FAm
+	v+s4Ekgml1AawbP
+X-Received: by 2002:a05:600c:1f12:b0:486:fdca:ea8d with SMTP id 5b1f17b1804b1-48716050758mr37823555e9.25.1774431057933;
+        Wed, 25 Mar 2026 02:30:57 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:74e2:2425:51dc:4aed? ([2001:8b0:aba:5f3c:74e2:2425:51dc:4aed])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487166064fasm18231845e9.7.2026.03.25.02.30.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 02:30:57 -0700 (PDT)
+Message-ID: <50afa4d55645c2ea126726c30ff2272bf0a9a499.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/5] clang/llvm: Upgrade to 22.x major release
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Date: Wed, 25 Mar 2026 09:30:56 +0000
+In-Reply-To: <20260324230835.2363568-1-khem.raj@oss.qualcomm.com>
+References: <20260324230835.2363568-1-khem.raj@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Mar 2026 10:27:01 +0100
-Message-Id: <DHBR89UA0L0Y.1VCP8O1ZLSPCE@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH 1/3] tzdata,tzcode-native: Upgrade
- 2025b -> 2025c
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Paul Barker" <paul@pbarker.dev>, "Mathieu Dubois-Briand"
- <mathieu.dubois-briand@bootlin.com>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>, <ankur.tyagi85@gmail.com>
-To: "Vijay Anusuri" <vanusuri@mvista.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260307064540.1257672-1-ankur.tyagi85@gmail.com>
- <CANQUz18HPaT0d=QO6ZcENZUbZbxqODKDXGJUYkzEopGJ0NAK0g@mail.gmail.com>
-In-Reply-To: <CANQUz18HPaT0d=QO6ZcENZUbZbxqODKDXGJUYkzEopGJ0NAK0g@mail.gmail.com>
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 09:27:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233866
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 09:31:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233867
 
-On Wed Mar 25, 2026 at 3:16 AM CET, Vijay Anusuri wrote:
-> Hi Team,
->
-> Any update on this ?
+On Tue, 2026-03-24 at 16:08 -0700, Khem Raj via lists.openembedded.org wrot=
+e:
+> From: Khem Raj <raj.khem@gmail.com>
+>=20
+> Includes support for new Intel (Wildcat Lake, Nova Lake with APX and AVX1=
+0.2)
+> Arm (C1 Nano, Pro, Premium, Ultra) processors. It also features performan=
+ce
+> optimizations for AMD Zen 4 and Zen 5 architectures.
+>=20
+> Integrated Distributed ThinLTO is more mature, with enhancements
+> like cache support for incremental builds and robust handling of temporar=
+y artifacts.
+>=20
+> LLDB added first-class WebAssembly debugging support, including breakpoin=
+ts and variable inspection.
+>=20
+> Support for Google Native Client (NaCl) is dropped in this release.
+>=20
+> Detailed ChangeLog [1]
+>=20
+> [1] https://releases.llvm.org/22.1.0/docs/ReleaseNotes.html
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-Hello Vijay,
+Rust toolchain tests on qemuarm and qrmuarm64 fail:
 
-I took 2/3 and 3/3 in this series and they should merge shortly.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/3401
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/3402
 
-For this tzdata,tzcode-native upgrade, I'm looking into it because the
-changes in tzcode-native are not trivial and should be carefully
-evaluated. My current thinking is that we need to split tzcode-native
-and tzdata but this is not easy because, right now, they each need each
-other to build.
+error: data-layout for target `amdgcn-amd-amdhsa`,=C2=A0
+`e-p:64:64-p1:64:64-p2:32:32-p3:32:32-p4:64:64-p5:32:32-p6:32:32-p7:160:256=
+:256:32-p8:128:128:128:48-p9:192:256:256:32-i64:64-v16:16-v24:32-v32:32-v48=
+:64-v96:128-v192:256-v256:256-v512:512-v1024:1024-v2048:2048-n32:64-S32-A5-=
+G1-ni:7:8:9`,=C2=A0
+differs from LLVM target's `amdgcn-amd-amdhsa` default layout,=C2=A0
+`e-m:e-p:64:64-p1:64:64-p2:32:32-p3:32:32-p4:64:64-p5:32:32-p6:32:32-p7:160=
+:256:256:32-p8:128:128:128:48-p9:192:256:256:32-i64:64-v16:16-v24:32-v32:32=
+-v48:64-v96:128-v192:256-v256:256-v512:512-v1024:1024-v2048:2048-n32:64-S32=
+-A5-G1-ni:7:8:9`
 
-I've started to look at what other distros are doing: For example,
-Debian uses the tzcode vendored in GNU libc[0].
+I think upgrading clang for this release may be a bit too ambitious
+this late in the release?=20
 
-It early for me in my thinking about how to handle this, I'm open to
-ideas/patches!
+musl builds are also failing:
 
-[0]: https://elixir.bootlin.com/glibc/glibc-2.43.9000/source/timezone
-
-Regards,
-
->
-> Thanks & Regards,
-> Vijay
->
-> On Sat, Mar 7, 2026 at 12:15=E2=80=AFPM Ankur Tyagi via lists.openembedde=
-d.org
-> <ankur.tyagi85=3Dgmail.com@lists.openembedded.org> wrote:
->
->> From: Paul Barker <paul@pbarker.dev>
->>
->> This release mostly changes code and commentary. The only changed data
->> are leap second table expiration and pre-1976 time in Baja California.
->>
->> Full release notes:
->>
->> https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/TAGXK=
-YLMAQRZRFTERQ33CEKOW7KRJVAK/
->>
->> Signed-off-by: Paul Barker <paul@pbarker.dev>
->> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> (cherry picked from commit 452334219309793ad74abd6ff390dcb06cab929b)
->> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
->> ---
->>  meta/recipes-extended/timezone/timezone.inc | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-extended/timezone/timezone.inc
->> b/meta/recipes-extended/timezone/timezone.inc
->> index f21bedf4fc..35f22d5a15 100644
->> --- a/meta/recipes-extended/timezone/timezone.inc
->> +++ b/meta/recipes-extended/timezone/timezone.inc
->> @@ -6,7 +6,7 @@ SECTION =3D "base"
->>  LICENSE =3D "PD & BSD-3-Clause"
->>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dc679c9d6b02bc2757b3eaf8f53c4=
-3fba"
->>
->> -PV =3D "2025b"
->> +PV =3D "2025c"
->>
->>  SRC_URI =3D"
->> http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;na=
-me=3Dtzcode;subdir=3Dtz
->> \
->>
->> http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;na=
-me=3Dtzdata;subdir=3Dtz
->> \
->> @@ -16,5 +16,5 @@ S =3D "${WORKDIR}/tz"
->>
->>  UPSTREAM_CHECK_URI =3D "http://www.iana.org/time-zones"
->>
->> -SRC_URI[tzcode.sha256sum] =3D
->> "05f8fedb3525ee70d49c87d3fae78a8a0dbae4fe87aa565c65cda9948ae135ec"
->> -SRC_URI[tzdata.sha256sum] =3D
->> "11810413345fc7805017e27ea9fa4885fd74cd61b2911711ad038f5d28d71474"
->> +SRC_URI[tzcode.sha256sum] =3D
->> "697ebe6625444aef5080f58e49d03424bbb52e08bf483d3ddb5acf10cbd15740"
->> +SRC_URI[tzdata.sha256sum] =3D
->> "4aa79e4effee53fc4029ffe5f6ebe97937282ebcdf386d5d2da91ce84142f957"
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#232604):
->> https://lists.openembedded.org/g/openembedded-core/message/232604
->> Mute This Topic: https://lists.openembedded.org/mt/118185146/7301997
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> vanusuri@mvista.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/3508
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/3475
 
 
---=20
-Yoann Congal
-Smile ECS
+Cheers,
 
+Richard
 
