@@ -1,74 +1,127 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA21FEA83D
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 09:47:28 +0000 (UTC)
-Subject: Re: [PATCH 1/5] clang/llvm: Upgrade to 22.x major release
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E52ED103A9A1
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 10:44:08 +0000 (UTC)
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19579.1774435447631490282
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 25 Mar 2026 03:44:08 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=BClxP2m6;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1774435447; x=1805971447;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YpnJBTxzJVCpLU7WPzuMeMV21xxaz1w4hVLs4/yGMqw=;
+  b=BClxP2m6rj+9N4Pf79FyTB045UeXygoLEtzbhh8kL7+VG81Mr/Ca5YeY
+   UW/9LRju0RtBb4NDUwfamOKGN4SEgGV4Fa/IkiPEACkQSRz8Ox7rbdglV
+   lYYEzxmP2IB4BZD3QKFyKPlyPO2CY9cxwKsUqnozSFDchZHayz4vuKWHF
+   bjK3h48RvvVlemsC4Bi9S+cMIiM7BDKnzNfuoi2KQJd04STLVVyAF+UUP
+   pITCUG+lkl7ecp1JeG1JipegARUKrT2HpSek/ZwIT4VsmqlvY6J6ysHVI
+   yOVsBIdqb5ssZTVg8IVEcNOMmDSHSNUBxpsdmF6DPABZGpSzJPk0QxhtN
+   A==;
+X-CSE-ConnectionGUID: QLCPXsOvRiiQLqf5OdwT2w==
+X-CSE-MsgGUID: 2yM/PvjxRRCxbslMAMkSCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="223228066"
+X-IronPort-AV: E=Sophos;i="6.23,139,1770562800"; 
+   d="scan'208";a="223228066"
+Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 19:44:06 +0900
+Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 079A81C00087
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 10:44:06 +0000 (UTC)
+Received: from az2uksmom4.o.css.fujitsu.com (az2uksmom4.o.css.fujitsu.com [10.151.22.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id A4BEC180717E
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 10:44:05 +0000 (UTC)
+Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.128.28])
+	by az2uksmom4.o.css.fujitsu.com (Postfix) with ESMTP id 2E0024041CC;
+	Wed, 25 Mar 2026 10:44:02 +0000 (UTC)
+From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-From: "Varatharajan, Deepesh" <deepesh.varatharajan@windriver.com>
-X-Originating-Location: Bengaluru, Karnataka, IN (49.204.85.206)
-X-Originating-Platform: Windows Chrome 146
-User-Agent: GROUPS.IO Web Poster
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] harfbuzz: upgrade 12.3.2 -> 13.2.1
+Date: Wed, 25 Mar 2026 18:43:59 +0800
+Message-ID: <20260325104359.1114-1-wangmy@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
-Date: Wed, 25 Mar 2026 02:47:20 -0700
-References: <20260324230835.2363568-1-khem.raj@oss.qualcomm.com> <50afa4d55645c2ea126726c30ff2272bf0a9a499.camel@linuxfoundation.org>
-In-Reply-To: <50afa4d55645c2ea126726c30ff2272bf0a9a499.camel@linuxfoundation.org>
-Message-ID: <564384.1774432040914167813@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="kuSWbYDe12EG1XbXM4qd"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 09:47:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233868
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 10:44:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233869
 
---kuSWbYDe12EG1XbXM4qd
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-On Wed, Mar 25, 2026 at 03:01 PM, Richard Purdie wrote:
+This commit upgrades HarfBuzz to version 13.2.1, addressing
+the need for a newer release with extended capabilities.
 
->=20
-> error: data-layout for target `amdgcn-amd-amdhsa`,
-> `e-p:64:64-p1:64:64-p2:32:32-p3:32:32-p4:64:64-p5:32:32-p6:32:32-p7:160:2=
-56:256:32-p8:128:128:128:48-p9:192:256:256:32-i64:64-v16:16-v24:32-v32:32-v=
-48:64-v96:128-v192:256-v256:256-v512:512-v1024:1024-v2048:2048-n32:64-S32-A=
-5-G1-ni:7:8:9`,
->=20
-> differs from LLVM target's `amdgcn-amd-amdhsa` default layout,
-> `e-m:e-p:64:64-p1:64:64-p2:32:32-p3:32:32-p4:64:64-p5:32:32-p6:32:32-p7:1=
-60:256:256:32-p8:128:128:128:48-p9:192:256:256:32-i64:64-v16:16-v24:32-v32:=
-32-v48:64-v96:128-v192:256-v256:256-v512:512-v1024:1024-v2048:2048-n32:64-S=
-32-A5-G1-ni:7:8:9`
->=20
+Key changes and improvements in this upgrade include:
+* New hb-raster and hb-vector libraries:** HarfBuzz 13.x introduces 'hb-raster'
+  for glyph rasterization and 'hb-vector' for vector output.
+* Optional libpng and zlib dependencies:** The new 'hb-raster' and 'hb-vector'
+  libraries may optionally depend on 'libpng' and 'zlib' for specific functionalities
+* PACKAGECONFIG for libpng and zlib
+* Separate Packaging for hb-raster and hb-vector
 
-I think this commit needs to be backported from upstream to fix this issue
-https://github.com/rust-lang/rust/commit/bf3ac98d6930ba4e258cf33240c2fe7c99=
-d19eae
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../{harfbuzz_12.3.2.bb => harfbuzz_13.2.1.bb}         | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_12.3.2.bb => harfbuzz_13.2.1.bb} (76%)
 
-Regards,
-Deepesh
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_13.2.1.bb
+similarity index 76%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_13.2.1.bb
+index 12bebc4bee..4a3d9df241 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_13.2.1.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "6f6db164359a2da5a84ef826615b448b33e6306067ad829d85d5b0bf936f1bb8"
++SRC_URI[sha256sum] = "6695da3eb7e1be0aa3092fe4d81433a33b47f4519259c759d729e3a9a55c1429"
+ 
+ DEPENDS += "glib-2.0-native"
+ 
+@@ -29,11 +29,13 @@ PACKAGECONFIG ??= "cairo freetype glib icu"
+ PACKAGECONFIG[cairo] = "-Dcairo=enabled,-Dcairo=disabled,cairo"
+ PACKAGECONFIG[chafa] = "-Dchafa=enabled,-Dchafa=disabled,chafa"
+ PACKAGECONFIG[freetype] = "-Dfreetype=enabled,-Dfreetype=disabled,freetype"
++PACKAGECONFIG[libpng] = "-Dpng=enabled,-Dpng=disabled,libpng"
++PACKAGECONFIG[zlib] = "-Dzlib=enabled,-Dzlib=disabled,zlib"
+ PACKAGECONFIG[glib] = "-Dglib=enabled,-Dglib=disabled,glib-2.0"
+ PACKAGECONFIG[graphite] = "-Dgraphite2=enabled,-Dgraphite2=disabled,graphite2"
+ PACKAGECONFIG[icu] = "-Dicu=enabled,-Dicu=disabled,icu"
+ 
+-PACKAGES =+ "${PN}-icu ${PN}-icu-dev ${PN}-subset"
++PACKAGES =+ "${PN}-icu ${PN}-icu-dev ${PN}-subset ${PN}-raster ${PN}-vector"
+ 
+ LEAD_SONAME = "libharfbuzz.so"
+ 
+@@ -48,5 +50,9 @@ FILES:${PN}-icu-dev = "${libdir}/libharfbuzz-icu.so \
+                        ${libdir}/pkgconfig/harfbuzz-icu.pc \
+ "
+ FILES:${PN}-subset = "${libdir}/libharfbuzz-subset.so.*"
++FILES:${PN}-raster = "${libdir}/libharfbuzz-raster.so.*"
++FILES:${PN}-raster-dev = "${libdir}/libharfbuzz-raster.so ${libdir}/pkgconfig/harfbuzz-raster.pc"
++FILES:${PN}-vector = "${libdir}/libharfbuzz-vector.so.*"
++FILES:${PN}-vector-dev = "${libdir}/libharfbuzz-vector.so ${libdir}/pkgconfig/harfbuzz-vector.pc"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.43.0
 
---kuSWbYDe12EG1XbXM4qd
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Wed, Mar 25, 2026 at 03:01 PM, Richard Purdie wrote:</div>
-<div>
-<blockquote>error: data-layout for target `amdgcn-amd-amdhsa`,&nbsp;<br />`=
-e-p:64:64-p1:64:64-p2:32:32-p3:32:32-p4:64:64-p5:32:32-p6:32:32-p7:160:256:=
-256:32-p8:128:128:128:48-p9:192:256:256:32-i64:64-v16:16-v24:32-v32:32-v48:=
-64-v96:128-v192:256-v256:256-v512:512-v1024:1024-v2048:2048-n32:64-S32-A5-G=
-1-ni:7:8:9`,&nbsp;<br />differs from LLVM target's `amdgcn-amd-amdhsa` defa=
-ult layout,&nbsp;<br />`e-m:e-p:64:64-p1:64:64-p2:32:32-p3:32:32-p4:64:64-p=
-5:32:32-p6:32:32-p7:160:256:256:32-p8:128:128:128:48-p9:192:256:256:32-i64:=
-64-v16:16-v24:32-v32:32-v48:64-v96:128-v192:256-v256:256-v512:512-v1024:102=
-4-v2048:2048-n32:64-S32-A5-G1-ni:7:8:9`</blockquote>
-I think this commit needs to be backported from upstream to fix this issue<=
-br /><a href=3D"https://github.com/rust-lang/rust/commit/bf3ac98d6930ba4e25=
-8cf33240c2fe7c99d19eae" target=3D"_blank" rel=3D"noopener">https://github.c=
-om/rust-lang/rust/commit/bf3ac98d6930ba4e258cf33240c2fe7c99d19eae</a><br />=
-<br />Regards,<br />Deepesh</div>
-
---kuSWbYDe12EG1XbXM4qd--
 
