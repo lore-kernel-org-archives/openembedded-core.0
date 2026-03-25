@@ -2,65 +2,64 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3AF103A98D
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 02:19:39 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13718.1774405174304430719
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E2F1103A993
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 02:19:49 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13726.1774405188076245123
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 19:19:34 -0700
+ Tue, 24 Mar 2026 19:19:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=RFmxUESG;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-82a3d3235c9so1714312b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 19:19:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=A5WdpKnC;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-82a67ce6969so1389634b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 19:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774405173; x=1775009973; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774405187; x=1775009987; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=epLbyxajSxQqpN9BM7cOsPmDCQrYWfy/KcngOqijAv4=;
-        b=RFmxUESGURYCG7aB//MCam6vVfhuvdZ8ejQWbUZPfZVYImUDTa+Fqrj1256OGYD/xs
-         nNXNWNOBhXG+uPx6Ya/gqJ3nj29OoLapg7BhpzzzZfIPOl0Id773V6n0nOBJvt5ieAk8
-         Tqw8IY/m+qVMlaLJHuyBzX4BuY8MAvNkJSj5HT7UzVy8X595nJa+ETh9uCIaS31oEpdG
-         0FweOOK31qWD95fKpbZS6OiWza3DIK2aJAzoCR7RWgHkKAKizbHX1bfkX9TooIsvTDFE
-         CsmI4mXlQyn/pkW2Xdt3m2f1kOZ8Yg7wpMaoQEYmRWKjbx+AGDtqjB1pYKVga4AZGQxH
-         yjJw==
+        bh=EIVlfFh56fqMqm2vD+8JES+hSTdrw3XCZfJkF9Nfjdo=;
+        b=A5WdpKnCPFPd5zXjMurhkl3Cd7fScL47LkM02BvSrNqiEJ+8x9nadWLJ0X5kGY7fwS
+         Ql/AR7sGL9ikkdxTzXi2LZc+2EP/MTe+ulckKOgEkcR3uoNnbO6BR4VoTdk0FcPnJnIj
+         YKHMAjvKp4EdyWJ/Lt1TAH9pFaT+ektgTq76+51avehYBcz4fnD1b01MAekCcEbo9O99
+         cZvatLtZ1OgFX7NV5tzbm2Sddtqxr1WxfmXnKqhrAD88i3vEn1vK0H+oYNLMz8RNr5Bw
+         QL3fVo3NrrpgH6Xm98NDkXxa15LkBwNJjNo6TM97SLUAmw+BXQmAiAtjoA7Fmour4Tbn
+         cqhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774405173; x=1775009973;
+        d=1e100.net; s=20251104; t=1774405187; x=1775009987;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=epLbyxajSxQqpN9BM7cOsPmDCQrYWfy/KcngOqijAv4=;
-        b=QBowtthhwqK1IoQ/K6mQ6OOj0vxK3Fyh+cMimzQx3Erd9/wn5E5UcZ/JwOIon2sg4u
-         F/r/20dMqW2exigC3GusLXR2rMQQuOUXw2wN/ncaYNpoiSTGwF9B0MPW0i8VG6ZiD/iH
-         bNJvNeuN8fBiP+6bEi0D/KXlUZgs7JH4YhjAsgaLkO09kt2YIcM1CxCKSXqMGdCYcIjk
-         pqcx0UJtldslrRE/XwR30aLRWtoG5Iq4zzkJGN8nssx7eFH77BRQuXs/Pm26bamCaXGH
-         gAX2NDOuaEmOUPFCcPgapC8OHGkr88CKoX3CvhI47tPFZD5YAa7aGi6P07UoJdSQE9gX
-         TVsQ==
-X-Gm-Message-State: AOJu0YwJTA12ODG3hP/qa32WzdhQzWrJVDpKH9m56vohgiuVOjvpZl8q
-	6iEU6GnpJ5gIJCNbNGrrJR9Qfv4zH7tUSJrYlk1Ew0Ay8nw7xxLtL3pqZxXIfbEH
-X-Gm-Gg: ATEYQzyi8fOKZlHr0AbK4MRhw6e0Ila/dyCbEcSs09GSDx5xQzLiK+wiuRxsNvtEfn7
-	QZwUbg7C9RJoJv0K3VlZl1o5nMnDUqsZhHGk8cfpyrj8YpP8x4gyyHobxhER1yIpHHWNLo/yIqD
-	Yw96DEqp4bBTw7Ewj3xaboDWC8GY0ySzbWRYe+Ql9p4xQYZlIzaAczMxZju7srRsEti3h0vvPiB
-	zTqvWvafHzEEKROTklLhcHgyEWRJNuWZtfMvM7W5cM1MY+venbUG91e6d05cBrY7pL29Ps+AwG+
-	LeQnz6nPIFWhOAO/a8BUbqGRS00Xoi5qvLJSkUTrTUuG/AzrcnviAJO0B7TknIQUgks7MoIf+Yz
-	rpLKK+T7ObcYeGcWMGBv2U9BkzeSilZ0eHXxzNwaNhkPrRqaYJOv5TcxHIvy6CJFCJPpG8p3zu5
-	s+Zr4bTbM+j2SnDAtDyTAf8GoGUrKEanej9GM=
-X-Received: by 2002:a05:6a00:3a2a:b0:82a:7893:e14f with SMTP id d2e1a72fcca58-82c6dfb6793mr1667409b3a.41.1774405173524;
-        Tue, 24 Mar 2026 19:19:33 -0700 (PDT)
+        bh=EIVlfFh56fqMqm2vD+8JES+hSTdrw3XCZfJkF9Nfjdo=;
+        b=jQloNQxDnBh/sQdhZmZMTswgcsLz+1D5cmrzDo/2ZolT/tNa3xirmY3FwhGY2W6xuN
+         eDc19gX+T5OQ6W3y+Tjw+FH3qhNE2sZnM4I10dTKg6q9cba6BmyLcOq8eg2MAmo5GlHY
+         04eOD6s3xhL1Gf1h2Oya3i9NBzVYGPeYZgcHABM77YaDneOmzAbMP5TK9z14j2+6QHdD
+         dx/N80bhC8Qnlq3Un8uCdQp8PUndUyKgYMgcDSkq9J+Z+62flzDJLUnP1ybJ+6B5AnP1
+         poDtIPkRT5/9vtHN9QHiwKoWt/TRNovZGCc/fyyppl/X2TlyWqHfoN4janQVakAXgLRp
+         WUBg==
+X-Gm-Message-State: AOJu0YyAimsicb8IB7pENY29IborAUBAdAqJikKA+DDqk0sUuw2vY7Vp
+	ZgZgo8WxwE6MUMQxNy5ih+9yz5m1m6TmvTMbrT4iKPa/kee9H3ylrRfhfo/Oe6Za
+X-Gm-Gg: ATEYQzxOxedVoVnQb9xAfKKsoAzuesQj8PQHhQTkbtiUkmZpZA2F3SqpwTuMBuVJzVu
+	c+Blngey6z3u615HTejcKQeJ4boKKmTyHRyA+7DggpePxL/3+wtUB4tlb5p1z5WS2GuhIoddWZF
+	Sg8LNymOFZm6lJdqpvPAWKAX5nO/BdBtv20/E85LUAPQEOxhpFhw6qqUfUKbK5wKmSrUUuZ2Gz0
+	E3SGe/x0WJ14xWoeuwcTaScFbRAqjIqFzFCbr8nvJtVULrHrsH9bmzrTytxcunwJcM6v5cgfPkQ
+	PNc9ThbkasVQAi8hotq4FK1lpSXbO+eujUT8H3twEtJdpsjnC2Ge4U3LsXNo16jw2oV7X7Mdxw6
+	cpU2qP/smN8GTmaazn4CugVDmPcAXV2Fy3GOXfPe98jtqnamJTJ1VDCP9By6vi61dWgqCuShlZO
+	8v/OxdqrJHxD834vNPA3aWu6CFJ3d3fqzy9L0=
+X-Received: by 2002:a05:6a00:428e:b0:82c:2480:4e8e with SMTP id d2e1a72fcca58-82c6e0eaeb2mr1680089b3a.59.1774405187366;
+        Tue, 24 Mar 2026 19:19:47 -0700 (PDT)
 Received: from NVAPF55DW0D-IPD.. ([167.103.127.14])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm13581235b3a.31.2026.03.24.19.19.30
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm13581235b3a.31.2026.03.24.19.19.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 19:19:33 -0700 (PDT)
+        Tue, 24 Mar 2026 19:19:47 -0700 (PDT)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+Cc: Khem Raj <raj.khem@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][whinlatter][PATCH 04/12] libxmlb: upgrade 0.3.24 -> 0.3.25
-Date: Wed, 25 Mar 2026 15:18:48 +1300
-Message-ID: <20260325021856.4053666-4-ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 07/12] seatd: Create seat user and package systemd service
+Date: Wed, 25 Mar 2026 15:18:51 +1300
+Message-ID: <20260325021856.4053666-7-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260325021856.4053666-1-ankur.tyagi85@gmail.com>
 References: <20260325021856.4053666-1-ankur.tyagi85@gmail.com>
@@ -69,38 +68,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 02:19:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233842
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 02:19:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233845
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Bugfixes:
- - Correctly decompress heavily compressed zstd streams
+With latest version seatd does not work properly if
+user access permissions are not correctly set, therefore
+create 'seat' group and package the seatd.service file
+and enable it by default with systemd distro feature
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+set logind to systemd when using systemd as default init system
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0421e9b2031fcc56df192da796a4cadef6966b38)
+(cherry picked from commit 26746a02fc94b569f633d581b27a8634cfba38f5)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../libxmlb/{libxmlb_0.3.24.bb => libxmlb_0.3.25.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.24.bb => libxmlb_0.3.25.bb} (93%)
+ meta/recipes-core/seatd/seatd_0.9.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.24.bb b/meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb
-similarity index 93%
-rename from meta/recipes-gnome/libxmlb/libxmlb_0.3.24.bb
-rename to meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb
-index 24eb62c98c..8687436052 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.24.bb
-+++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb
-@@ -8,7 +8,7 @@ SRC_URI = " \
- 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
- 	file://run-ptest \
- "
--SRCREV = "d004cca465e5c5af3ce02c02a15978ff02b510c3"
-+SRCREV = "b31dec072f4428123db3866c18bf32bc5db04d35"
- 
- DEPENDS = "glib-2.0 xz zstd"
- 
+diff --git a/meta/recipes-core/seatd/seatd_0.9.1.bb b/meta/recipes-core/seatd/seatd_0.9.1.bb
+index 3be27dda9d..f9f72c9e82 100644
+--- a/meta/recipes-core/seatd/seatd_0.9.1.bb
++++ b/meta/recipes-core/seatd/seatd_0.9.1.bb
+@@ -34,6 +34,8 @@ PACKAGECONFIG[systemd] = "-Dlibseat-logind=systemd,,systemd"
+ do_install:append() {
+         if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
+                 install -Dm755 ${UNPACKDIR}/init ${D}/${sysconfdir}/init.d/seatd
++        else
++                install -Dm644 ${S}/contrib/systemd/seatd.service ${D}${systemd_unitdir}/system/seatd.service
+         fi
+         install -Dm644 ${S}/contrib/systemd/seatd.service ${D}${systemd_unitdir}/system/seatd.service
+ }
 
