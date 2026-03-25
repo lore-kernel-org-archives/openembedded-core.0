@@ -1,159 +1,117 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F1FF106B527
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 12:44:05 +0000 (UTC)
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21617.1774442642345706435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EDCC106B527
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 12:46:35 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21340.1774442792212432137
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 05:44:02 -0700
+ Wed, 25 Mar 2026 05:46:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm3 header.b=AKu0HRfK;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=Ak4Yf4l+;
- spf=pass (domain: stwcx.xyz, ip: 202.12.124.155, mailfrom: patrick@stwcx.xyz)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 870A97A00B1;
-	Wed, 25 Mar 2026 08:44:01 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 25 Mar 2026 08:44:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1774442641; x=1774529041; bh=6XSzKSilzU
-	uUfjy6m8oYb5CZIN7PKnINREW5V4p6hUE=; b=AKu0HRfK5V30J37MGDFBXGUhYN
-	eikh2JQurQv8z19jA5dxpB2uv1W7xcD75rxlRVtinBz45k3w1BYYz51y553mILPu
-	2bCMk1gTyjtMuiieMGaoEv5xBmRo5h2gw7IUISPzJQPnje9CByEJhNyW817LbJ7u
-	OZSxdRnR7To2/eOV+rhzt0U45/V6s+wlnyb+qVs2Iz3bwoUvVuNDN72l2mftxsSP
-	/LDWrlSpIPbATv5/2eZNClPDMnW0DIURVK87YDhTo5nXo69KldqxdJTfqRdgFNMv
-	V7HrgQPyyM135kZcNOXnERwtayzLJNxdOFOeBvxmNR+ap2Y4VYllv3pZfeMA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774442641; x=1774529041; bh=6XSzKSilzUuUfjy6m8oYb5CZIN7PKnINREW
-	5V4p6hUE=; b=Ak4Yf4l+ZGiCey95Cn/momicu6URX7/m1QksxVLCwspzv4tnMcN
-	THyCHnU3OfK7xBfCkHwoxGIDzRBYXYo/QY2GYdeUhYv7W1xTVtTMfd1WAxxWrA8N
-	0cjb3yivmYFaMITSFmltBT0dn/rj41Bn2bXAtfGIIJOarFWiHpbkdHgOon4fWdSw
-	tVqzO6MT6ESKBhz0/3PwVXLkCP3ioKOCp/AyM7fc/3gZqLLAtcSaARCBdEWyqKB0
-	XRBKMMa06Vxja5Sd7+QAqDdGJB4OH8C6GfsxvJfPztAxNo+jeMPejWksFf2LA0Eo
-	MmWfzfQkjU0dh//ahBuojNnvQdHopZYs/Fg==
-X-ME-Sender: <xms:kdjDabKdvtGdMK6gH8eE0-975jUDH4O5EiygqMKXWrW3RwDYSRifYA>
-    <xme:kdjDaVKwgiQQs73UTYCuCm7ivpyDGpstZzb4ZOigP2VxNGSuP5iAkQ_w_77_SS8Ro
-    WlNYM41cSepGygeeent-zV9qSAdRjvMdT1-OEw3ENew9yxsBaSr4J4>
-X-ME-Received: <xmr:kdjDaRW179FmQVvwYL81xk2gX5ywJSrm26H3bTiIkJnbIPv90B5gVJcEvkw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdeggeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrh
-    hlucfvnfffucdlfeehmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddu
-    necuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghksehsth
-    iftgigrdighiiiqeenucggtffrrghtthgvrhhnpedtkedvffevleetvedufeeiieeigeek
-    hfduueekheetkeffvdeifeehtddtveehleenucffohhmrghinhepghhithhhuhgsrdgtoh
-    hmpdhphhhoshhphhhorhdquggvfhgruhhlthhsrdhinhgtnecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgi
-    ihiidpnhgspghrtghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    rhhitghhrghrugdrphhurhguihgvsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpd
-    hrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghn
-    vghmsggvugguvggurdhorhhg
-X-ME-Proxy: <xmx:kdjDafhA9wwHZ9r2JpT6WUeVeDj0OjvAVrpgD5YJDzM14NRhyb94rA>
-    <xmx:kdjDaU_3C4hqHvH7KxXEo6fGIVFbiFCAWyKU0HAlzl0vW6jf2xoS-w>
-    <xmx:kdjDaRAytckOucOqmHpcBjYKzb54Qzq4yX6Lhr9R24uMIq88D4MnNA>
-    <xmx:kdjDaZJjdY-t93trZNgQX74sYQUX9HF_VDif-unrehWI9EP1GNF2hQ>
-    <xmx:kdjDadPggqlfc7l0e95U41ZBPlUWI_fW-9Y2q8NhICt4U8Pr_VyYP-gq>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Mar 2026 08:44:00 -0400 (EDT)
-Date: Wed, 25 Mar 2026 08:44:00 -0400
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] gcc: fix buildpaths QA with LTO
-Message-ID: <acPYkLXfOoJmv2lm@heinlein>
-References: <20260325113951.1278864-1-patrick@stwcx.xyz>
- <acPLE7KjSfvxXthX@heinlein>
- <9a222b692f97515655dd8dad792246068410d660.camel@linuxfoundation.org>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=CiD+AtEa;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-899a5db525cso17736906d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 05:46:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774442791; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IszsTxTuueDOEEmXm0wTCFabI3SG9mcWu87yvgtDbEdNIG24mWo4dwQC6pqP/DcMiJ
+         mmB2vPd9oVJ3MTdF9s9OM/N1Tj0KP+ZWOKqtAoWXCVbTmM4JROk3rPe+vPfffl4hgKkW
+         cgEMnSKxmI3qcWB/EA9UdVJ2zKKoPGi8ZJGWJPtt3+YNOUSo3UgqaT/R1WoE/Lllg07p
+         tb84OaFUIk3BSP8bx4/Kfu091zM1K4XxiM+3TQoR0DJ5CVKu0i33CkDkMhwF1u+ILJLz
+         P3e85VW3MdVucpQjz70L78Gy4EklwtypqRCj/lYNcaeDrutQYUBwNM2Abq/+ioxZSg2c
+         1rDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=k9LUuCziPsRKlC47YTcv87tiRW+znv78KbrXBfKrGdQ=;
+        fh=3dFdSa06sIBSurIbwyKgVgvfprkdWimgIZOm9DdWiG8=;
+        b=BNgZFgESe1+TVyTZDi9cFbECb38+H83pe6GoIg2U7XzEZ55IL18qWe/tBrogLx8j7B
+         E9wz2PrP2VvnZ3Hcr1yY0a73YgwetHLujihKZiiPBi1QHRPSrrnX0T2WtAHcbkBeIcV7
+         NWJV5K3zZ8ca+ik0MwqsG7zmpT9uZsQJPWk8V1GdaazfwmjSMeZq0jpcSq4CIJwXE+lc
+         WG+E+x4I6cXhjnkOWuU5vKlIoR9UHq/3It42c0Lbtj0sCPURsx4luV/icJAozEz2gXik
+         vP9iTgvofH58VRTJGc9eviUbiqjTSvajGsWVAWzKt7wAs3kaxfM+D8YarEWwSjcqjoRe
+         vQPg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774442791; x=1775047591; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=k9LUuCziPsRKlC47YTcv87tiRW+znv78KbrXBfKrGdQ=;
+        b=CiD+AtEaKvVrYKdQwxcqYZFv/eT58Anr4ck6tPEx72TY77uSmoi2cd2KmGNwtYSaTj
+         4GRVgANKhdHTHyF3/pdcVhp72QgIDeyzgcUtS1aMfyeOE0CC4PgH1CUfO/TWLHq/4evn
+         yUQUAOlvX9JX46by9B8psrobKM/bKHZ7SL8s895ZwTUSkrSRjZ8qWd6eT7hDuYe6ALjQ
+         DKOwU+SSakpaL2JJF3BZzxUTF/VCMvJDI9eiEC7BjpiPHN7LuE432AVAr3rx+BrlSUOr
+         PyxykaCd2N0pzYRbc+8oYLT/lOOIvlVXHmluMkO9j1/YnqmPfdnpkUK2e5YrAcYcoTW5
+         L3RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774442791; x=1775047591;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k9LUuCziPsRKlC47YTcv87tiRW+znv78KbrXBfKrGdQ=;
+        b=I57IDfPDflKkdpq4k++IFAwG+UtLdE8myq21cGETXolMFrGJfo4To4oEIqhINFrl1R
+         0BRLfncYZ0ZIDHGEWD2GEu59QB9M25n8ErvRhq/5CUZNnOcyUL/2t/3c3ZjZCkDF3jJ1
+         MTZp7rgAUpP6AaNhuiASUGC3kISAFiSYaBoGHfT3bubkCPp5Kf7yC9fzsin8yR+m7hfk
+         7QduN+YWnnIYgrvF0nq0QxmbJCL/KhqqFxwpCppl6o7jBh6M75wJ9cXW6RafsiUgosBw
+         GNSYm4EDmJyPKPvlciCq/IFmBm+oe5OFMnNh9SyQ4zbFV2nC0wPiSi6OWpaXjgi0P7mj
+         1kUg==
+X-Gm-Message-State: AOJu0YxnqVfG2wV/XecAmcCAfk6u6jXdCZ0rzwXn11VAUu6XipQszsmn
+	Ujk6eNwmy/SjJvkWPGCVmWPKE+prI8QOcXWskS9Q6gnl8YmrlGa4MwXoiQ55wXvxdAoWOhpz/ui
+	fWGLBwwWIkTBEtwKAyMtsEyhZLmhGJw1ehoX6hbE=
+X-Gm-Gg: ATEYQzz0n99ZA48UhFMKnTjMrX5gcP6zlAbhLos61HSdHRqgqPpG5X8/xVZI15bKOL3
+	xOCGZ+mBqIgkWnzhJwScdIwwyOwCCly2sMkbrn67OxPOptRNxH/JdXZwdukGjEXXFHT4z+tHDwE
+	deDEMN8PPrvCvBn5MbOkvVLtc+Nq7eRCsFLhkGzUyuGtC3RC6gO6oBN6PZslETxQ0NnQyTUqJ00
+	S4jL8SKId/mAYh6yhOdkk07gGCYgLiWJVsl9SIOS5uy+Cyp1ygFmMd8K2ghGyh63jpaQPlSX6Xb
+	egBlBs/dcj8W9ZJY4gvKC2UAZxfTBA4cHnGSvkLV1w==
+X-Received: by 2002:ad4:5965:0:b0:89c:cb0f:a4e7 with SMTP id
+ 6a1803df08f44-89ccb0fb02cmr21617846d6.53.1774442791092; Wed, 25 Mar 2026
+ 05:46:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="YgPK6yQ4X84sozdN"
-Content-Disposition: inline
-In-Reply-To: <9a222b692f97515655dd8dad792246068410d660.camel@linuxfoundation.org>
+References: <20260325022629.2245688-1-hongxu.jia@windriver.com>
+In-Reply-To: <20260325022629.2245688-1-hongxu.jia@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 25 Mar 2026 13:46:20 +0100
+X-Gm-Features: AQROBzDe9Lc9aATGVsFBX_CBL2hy44iof0SXgUVG4BEQ5a0c7F7jaf9-0J7oSxs
+Message-ID: <CANNYZj9i9EFbo79nNPAtzXo03gLeJNC4qW-9Pp9u1UstvQp46g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-numpy: add cpu-optimization option
+To: hongxu.jia@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 12:44:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233899
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 12:46:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233900
 
+On Wed, 25 Mar 2026 at 03:26, hongxu via lists.openembedded.org
+<hongxu.jia=windriver.com@lists.openembedded.org> wrote:
+>
+> Add a cpu-optimization option for disable-optimization [1], disabled by default,
+> otherwise import numpy failed on qemux86-64 with kvm
+> [snip]
+> >>> import numpy as np
+> ...
+> RuntimeError: NumPy was built with baseline optimizations:
+> (X86_V2) but your machine doesn't support:
+> (X86_V2).
+> [snip]
 
---YgPK6yQ4X84sozdN
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This error is odd. The default tune is v3, qemu guest does support
+both v2 and v3, so perhaps you could check why numpy selects v2, and
+claims that machine doesn't support that, and whether we can configure
+it to match?
 
-On Wed, Mar 25, 2026 at 12:34:52PM +0000, Richard Purdie wrote:
-> > > With GCC 15.2 this can be noticed by setting many meson-built package=
-s,
-> > > such as systemd, with:
-> > >=20
-> > > =A0=A0=A0 EXTRA_OEMESON:append:class-target =3D " -Db_lto=3Dtrue"
-> > >=20
-=2E..
->=20
-> We're not seeing the error with OE-Core today in any of our automated
-> testing. Reading the above, it implies that we should see some kind of
-> failure with some components auto-selecting it? Something therefore
-> isn't adding up.
+>  +PACKAGECONFIG[cpu-optimization] = "-Ddisable-optimization=false,-Ddisable-optimization=true"
 
-I tried to give recreate instructions here.  OE-Core doesn't actually do
-this so you won't see it unless you enable it.
+Reading https://numpy.org/doc/stable/reference/simd/build-options.html,
+I do not think setting disable_optimization to true by defailt is
+correct. Currently, numpy will auto-detect the capabilities of target
+machine, and configure itself accordingly. With this change, that auto
+detection is compeltely turned off.
 
-OpenBMC has a large number of meson-built packages which are generally
-safe to enable LTO on (but in the past I've ran into issues with other
-packages not building with LTO; now with lto.inc I should revisit this).
+Please explain the rationale for this change.
 
-We have a global enable for all meson packages:
-    https://github.com/openbmc/openbmc/blob/47d900012a93d79ab536ca172fc01cd=
-89645a0d8/meta-phosphor/conf/distro/include/phosphor-defaults.inc#L153
-
-When I upgraded to an OE core that had 1797741aad02b8bf429fac4b81e30cdda64b=
-5448,
-almost all of our packages started failing with buildpaths.  I was able
-to track it down to this problem.  systemd and libpam are two that are
-OE or meta-openembedded packages that I saw fail this way, so I gave
-systemd as a clear example.  Like I said, we have a lot of packages in
-meta-phosphor[1] that we have enabled LTO on and they're all failing
-with buildpaths QA failures without a change to pass along
-DEBUG_PREFIX_MAP.
-
-If it helps, I can upload the objdump content.  There was DWARF data
-being inserted by the GIMPLE intermediate which wasn't being stripped by
-the linker that had my build path in it.
-
-[1]: https://github.com/openbmc/openbmc/tree/master/meta-phosphor
-
---=20
-Patrick Williams
-
---YgPK6yQ4X84sozdN
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmnD2I4bFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyAAoJEKsDR8wtAMEZq+sP/jl447nCAn+8WkhOIrlx
-q46OQvEnl2GIPhPlsekTpfX89509YBy9HdnFwXpCDNAn7+yc3VURUvWeywYYbzyd
-oFjiRlXfDNM3/oBNe8yji8p5BRfboLVt0VvNDKkzwJiezf22MQFp4CGC99sW4oAZ
-pikDMcEdkp+P922WblJT93Z+PLMDBSukTVfztF77Es+j0NsIzq8cy3i0goE8IWav
-04Y2zztUwSQTkYlFueABsRr60GXscDZ9Rio3jW07JpznOpOZsfi0hAL44aPgynR/
-S1whnZ7+zzIK5QDdK3ETXfEEPJYG1qxtFUYe/gzeJvoUAlBy/h6wWQegKmqznWv+
-yPEECZ9PgAgWjnFpwcAef0WUDnzCmOxV/YKW1bH/xbW+WtXzstkuMTmg/HMYMqaY
-n1t3WQ/zv9GXt4lhAlpKm3q333u/UEe3j6rr1Tu5NCndYdAq0HxWbwpbzFIY/h4A
-YSI7qV8gla0EMV4qs+lf0KQXzI4Xic/Govk7JslVaSYRfHI4xadoIj5pTZPvTb15
-5FPKpiLSFRhuCmPOE4mQ7ZDZY41pGr0DSeZy74+fMAreTJIPjDA4p3zIStwkqD/1
-czOe8IVkyzRbffUIUosFGd9hD04kCudgd2/VVZS8fJwKUlQoA8ariQ0aBZ2f35+B
-JAruDdQF41R8ooH1F5dzdHJj
-=ahs0
------END PGP SIGNATURE-----
-
---YgPK6yQ4X84sozdN--
+Alex
 
