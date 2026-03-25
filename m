@@ -2,92 +2,99 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F071106B529
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 12:48:15 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21706.1774442893906702891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B181106B52B
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 12:52:15 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21448.1774443131312034992
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 05:48:14 -0700
+ Wed, 25 Mar 2026 05:52:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=jhenEp6H;
- spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8cd80f56b27so598602685a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 05:48:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774442893; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=AptaonP8;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-506251815a3so54053041cf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 05:52:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774443130; cv=none;
         d=google.com; s=arc-20240605;
-        b=c8ADwBzAWtAgvDyn1ISm1pK8R8HgYVmQX1DW64EubWZCCNtY7XFBohbxmd9KsT03fB
-         ndacJpzEULvkyE2Unj3qaI5Cs1He+dYzica2hGc7Sec7x8gwEIfRXg6HC/+i+GTLs+GH
-         OKR+p9VBEAbiv6WG7F4NVmWGo1fS2D0Mqp9nlqWDzX7O+6diopQC5ZMsKcdmjOIoirlj
-         a+f5Lm3iZZxoRCuGr5qZuTgnAUJDN+0R8H8wi6IDP5yOIR5aoKj4B1AbQUS32wPo+c7D
-         pRQK8fcheE9wOjFlpXSBdVdKvjNx50YfDcUvNX15yu+3Py10y6gcDrQqv0D8yC/Qag29
-         GCeA==
+        b=Hll3SJdz14SiAOm5IgiCYHBBl8uT8B2/lkoz12V1f6gOA1ezkHeQXageJjgJhbrUbY
+         1LjJd7NLHLUL/gHLXFvJxuD3MztfY2EjSCeyAxOeC1YgmoFD6OFXHfbw+mpdKjb+oWYZ
+         jslmZgo1A8b3d529FCf+s52QlSRRLUSZMSxnPCcdfYiC6BtXZiR7oi0AHYH1D/IyC964
+         NA9iVLhfnVtbHipXy+9lV2L7LTsOqsp4sSy4H0e3u+1ty4q3qJM9M0frf7dfdcUruI+W
+         mGhVhPHKG1prFnK4f+6BMGz7d1/QT3q8vG+ciIe/QuCGi7r1xB2gPqnL5c/owGwI6YHM
+         ZhUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=BILM20A0bP7R7e2ZzixSJRzCpSmzA/Vjg1NkYuT+V0k=;
-        fh=3dFdSa06sIBSurIbwyKgVgvfprkdWimgIZOm9DdWiG8=;
-        b=LnbFuKYj4JP+Thiwcb/XMyZEOMhDfoH7dMIcwMxsmSufSd+q773i8AthaE+0G8gtB3
-         iXm4p38k+EZGJHqONX82+FgGExt4KN9OWy5MvKiiTl0BTSbtN+9nTrwt/byyZkpTb7KX
-         c94Sb62vjiUtWRPTkijQNR634Lz3alj+MLtGRKVASDnLmNUD87c/0xaYQSTMXUzte2VH
-         r8tVXtu6s7955ywbT4xoU+AqJ+aP2IFucw7PbtifnWQ282je2E6RTvlfam7Ii02tPAyA
-         dDETqZR1yH2LCHdNkSp8UhJjzrK2OPaJ/0G9JQFsvbEV3h6a5hYzvPPvPLoTbcAglTuk
-         kbvw==;
+        bh=zcRt8IfM0DX15Mm3S8o/l97k1N1XvE2KVBar8azAYVo=;
+        fh=9D+wO4L/BcfMC+L48XUyAJ7uB3WQ1nDhmbVYuLtgJJ8=;
+        b=Bu8C4oiBsawPTf5SjrFjcveos9NTwl+n4lnXPghaOdojPUPEEdH9Mglj3RGEo82bsH
+         kfBsWqsQYMmrpkRI/qKJC/Mzk9/JRJdcPxBEwlzdQbmaSIB3VlMYOyPhqK9IkX37ppVv
+         kOwxqk0p7HRB72h6O8USiC+GVNcw6VESnngNynOkJIFf2s7i3RiPj6wqQnfwupkOVrDj
+         PCOsdaVoPUx7n61mcI4ZY5JPSB22do7x5Y6HzvEBl9X5gYwVDtfCZV4Iqmzam7Yb2/OR
+         I2kMpMNJxiFPhwaPSux5PocCuKyEOikFuB3rY3Gg4Dkf5+W4QrlZ0yrAbq+RMvTn2RrZ
+         LEPA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774442893; x=1775047693; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774443130; x=1775047930; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BILM20A0bP7R7e2ZzixSJRzCpSmzA/Vjg1NkYuT+V0k=;
-        b=jhenEp6HSb9LarFyCv1YNp1mux2mbU06qkUrXa0yVSJPHsCEnDulWxCwRr1god+Qd3
-         TGbXOriUAHpuTAOdfIWMe54xWaTWSch/d0usLXjwPvhF99WrxpHBkjeUbei8hfpf6lNP
-         /2SnJhxst8fBYQecwLjkT8RBIqcb7s1EBhOylzkyuJqBc/eeQZ5X0K1TqtoGaNQgE/Dn
-         xO7NMZN750tgwEpzdY/nnGLDK62lckWkcTJ7aSuI9noi1Jf9AuwluWATDnpHnYj9sIkL
-         9u4T3w7HBQFoS27FmViOa0uyMkeWWNqEblYLa5Lr3ETeFJFGUFiaSaydomMhpCKpiO2g
-         Kj9g==
+        bh=zcRt8IfM0DX15Mm3S8o/l97k1N1XvE2KVBar8azAYVo=;
+        b=AptaonP8tRm92nfCl2kIue1xR1dQUjbR1tQGBXCIkH46eG0elBHv0wUhurtxxz7nRA
+         AY8JNDp7uqSfi5KgCbLE/VFugaaGzmp3nTgZrbERnOREkgd9pq2iLQxUHplqU0klyIlm
+         4s7FyJaM0uHFrAgqpYgtXNyB5rFdmRuUuJJ1v/3eAZtug8GUiBCmjbWoIc6nW+6ZSeoD
+         lUZpoO8MkqGezK3DT4WzO5MJ+sNXMnXdUW4Pk7BWR004RcaV3xk+VDeddk0nzBkO+iaK
+         jM405kYEJmvnjhyXqD7mDkW15GyMcyLFd5pjpS1++shZQmY2yTISr6keItCXZwOPrA0H
+         v/rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774442893; x=1775047693;
+        d=1e100.net; s=20251104; t=1774443130; x=1775047930;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BILM20A0bP7R7e2ZzixSJRzCpSmzA/Vjg1NkYuT+V0k=;
-        b=Ujqx06jfF4NRqORS4d2Sb2a6UHNmVThZl7dnmrgJIwWeAn6aXGtr9YuMrd/zlK914P
-         Y5sOVtn0HhWhZSMXkKO3eONC1XHUmzk1PWNft9bHiaCE2M7uyeXEc8mqehzqS6ygtIfR
-         aQ6vN2NFr3hIbD98gnjijmHPZzs/q44lFfLcBik2m4IDspcV7UTFld4GJNspoKALKm07
-         loDRFDGata+qacHFReqiT9vzoJlYZSROEcK6+HJz5PbJD8AqO6JxPMeRClKIaAf3g9RI
-         hv0yHKm/h7gE0s/OIgo9U5PP0EkZdMn/LNpOybjBCQAhI6PLelSgdZioOFeoTVy9cLFa
-         dIVQ==
-X-Gm-Message-State: AOJu0Ywq4QTHdnJIvm7aSmLJfHNNMcsY6SbRLthI6BGnIWqnJHfb+dxS
-	QiFsfBhSh1POm7NVPb8HHANJyPQ/mAWMfEmWj+EBO6ObwSW1g/CdZweoevZHuyLkf3c2RKPDNpE
-	HtBoLDwgFohWzjzAbUsf2KohYu4FaLnw=
-X-Gm-Gg: ATEYQzxo4F6QJXV8YMwMCz65JCsgyXVNridW2oxZ9DzxJ1cENCDFHFoU8IZs8NfGH/D
-	EfabYnVzEb6DODAVpstmjo2XhrNZkKq67VA/y9chFXTe/9knvgNgnT9NeS6QrnZnFkqX/yDzxDI
-	0Ok0Yrfr6KjfDuJni5YlDd0iN5vezTIAgwWS9xg9KEStTOvTxXRXTQmkTyUftXeyWX1mvKG14Bc
-	j0dNJk/I1IGcv1pKLsJpJcluItY9EG8SPYv9clyy5KR+PiFxlh5R7QGxaBtDrJvUNIl9hpsx3Xj
-	Q5AtaLQ/Wwq7KLT6VPlL0oGql9z/EFE0nGdGZGLTjxK6lh7IfRlD
-X-Received: by 2002:a05:620a:2986:b0:8cd:7271:65f0 with SMTP id
- af79cd13be357-8d0010eff5dmr428358585a.44.1774442892711; Wed, 25 Mar 2026
- 05:48:12 -0700 (PDT)
+        bh=zcRt8IfM0DX15Mm3S8o/l97k1N1XvE2KVBar8azAYVo=;
+        b=BSKk51C07iB5rkUotgSsCqnvO4tZluWhsSKDti6eh1ZbbP/FbtJLz98QS8HVqYdULb
+         oRH3SWrg0+fzeb5dOJWHPPFwH9v0W3KNlCIZfr52QhPwQXr/P5LF/AKVjwvPNd+GMMqa
+         9vPi8dOtAOLeqMZ5+ELgq0PoBY0dLul6MrCbBP1/Pwu9qNh9wJlt/z8btsyxCbPALP42
+         IfQQpPkaFBG3Ku2BGMyXapotaW8Ih4BSW5CIfXERdCD/K2fdWYANboCUCy2lSgTOx/Kf
+         GOhiJrZs9iTmCQjpUZ4zGvj4YMnKw3X7HQEM9L0LDqSNrAwOz3yVSjXDZw3fGwlVsj1B
+         1ABA==
+X-Gm-Message-State: AOJu0YwjoDvC0klc54uyHdFV1ni9iZwiJPOonAqGsYXvL6/7/rXV8rtd
+	3Tqq7sCI/R0jfGQu8rjByk1MslUVFuN5kWpsVg1wwzS5A64cJko+JxC0GlbU8lGSf4l3hzaiW7I
+	VBmRxPJlI26hZlewL8u+29UoL0YZc4sfekujO
+X-Gm-Gg: ATEYQzzV7x+g+2LIKRTlS+N6Wpup45g0ZzrppLZB+uUAhasbgDvsUshKzfTUq/8DW8N
+	tZtKCv+dVv3ShGw168H/9v6HZ8rEQj7GoQKxiKm38KzD1IxIJ0KpX4hSq2PsUIMI38zkNc+4zXP
+	ZwsUVc8QIppelLeLMlOM+EkJKttue119v6FaEYz7no0a5H/95qHYhlwDcHwverSBilPss8+J9r7
+	d/EQ286Ae2SWfCJAMbJlCQCcXqlIiAeP7rAol2o3LRaVkk8Vk5obiI+vHZDP2NQr5OiDDO59ple
+	eCCFfURvXoeegXH1SdeypZZITYX+WiqNPwsNCpzVg1BJQ1csNh9r
+X-Received: by 2002:a05:622a:6016:b0:50b:49e5:989b with SMTP id
+ d75a77b69052e-50b80d190a8mr33594331cf.22.1774443130142; Wed, 25 Mar 2026
+ 05:52:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <openembedded-core@lists.openembedded.org> <20260325022916.2379819-1-hongxu.jia@windriver.com>
-In-Reply-To: <20260325022916.2379819-1-hongxu.jia@windriver.com>
+References: <20260325073954.1176537-1-khem.raj@oss.qualcomm.com>
+In-Reply-To: <20260325073954.1176537-1-khem.raj@oss.qualcomm.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 25 Mar 2026 13:48:01 +0100
-X-Gm-Features: AQROBzBq6VAkZ4nC6qDXa1QgXtrDRUl6_4nyIibgheQg7OWWDp9c8i6zy06oxi4
-Message-ID: <CANNYZj9GbGP0Rc_SSL-Ux7MBUiQ5_u4fq9__SdaFZ8cVTvaYWQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] python3-numpy: add cpu-optimization option
-To: hongxu.jia@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Mar 2026 13:51:59 +0100
+X-Gm-Features: AQROBzDwRv6BVy2TKxm5q_JTr_-zxM2VR1pnGiVTjRNFu-ntQyVuRPvg6J5-QBQ
+Message-ID: <CANNYZj9AkosvmmNePiALvwVkR2rsthvsGy3ARLTmWxKh=t7OaQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa-tools-native: fix do_compile failure
+To: raj.khem@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Changqing Li <changqing.li@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 12:48:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233901
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 12:52:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233902
 
-> +PACKAGECONFIG[cpu-optimization] = "-Ddisable-optimization=false,-Ddisable-optimization=true"
+On Wed, 25 Mar 2026 at 08:40, Khem Raj via lists.openembedded.org
+<raj.khem=gmail.com@lists.openembedded.org> wrote:
+> Fix do_compile failure:
+> ../sources/mesa-26.0.1/src/panfrost/lib/kmod/pan_kmod.c:7:10: fatal error: xf86drm.h: No such file or directory
 
-Same concerns as v1. I do not think this patch is correct.
+> -DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
+> +DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native libdrm-native"
+
+Should this be in PACKAGECONFIG for panfrost?
 
 Alex
 
