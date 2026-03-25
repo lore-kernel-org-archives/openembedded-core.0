@@ -1,211 +1,96 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C017DFEA82D
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 07:25:22 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16894.1774423515170712715
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03CEAFEA82F
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 07:40:03 +0000 (UTC)
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17370.1774424399900279762
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 00:25:15 -0700
+ Wed, 25 Mar 2026 00:39:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=VDTBYN9G;
- spf=pass (domain: mvista.com, ip: 209.85.216.50, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-354bc7c2c46so3093425a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 00:25:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Go9YtCew;
+ spf=pass (domain: gmail.com, ip: 74.125.82.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2c15849aa2cso1287633eec.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 00:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1774423514; x=1775028314; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uC895IMZXAXczAWFGNBeA2e7HODXkgOFCMskI8l5ZXQ=;
-        b=VDTBYN9GuIxgEiggg45GZnzDhYAenfyAVGl2xakrq0C+jz79K39dwOIuC7+r/sNnjX
-         jjkS9QJKyMmXRO7vSR6xc13vTIjONl9Aur1dE1IgFmt83d1vhneUdpR6ON+KH3pgirPi
-         wbOJsxdA3Kt9V0W+EBU+yiNDT96hoMXjzrey0=
+        d=gmail.com; s=20251104; t=1774424399; x=1775029199; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xl+1jFVG/OPo1MwHeOO3i8lKdr4ltR4W3U2v/pOKjcs=;
+        b=Go9YtCewNbu25/kDHepo3OzU3CtBafsbZZ31c9Kl828OZ9lWbF4q54zhnj2YlUUR8k
+         GnXnVYA3kNyQIMYhuP45eqK9Yle8cT1hWi0n2sd7mVAMhNij07DotaUROrcUmzYkO1oA
+         olx2Yl6FC1GtI+4+QCqsWWu912egSQZ1WpgGimUONg0+qAN7QjxSWDeSSmant3mRpp0g
+         5YQa6H7szC4MMqNgvlvW3oo4a7VoNw2TQbuTrCXkZNtz5jlT1KmYjBIgFfwWTfffR05c
+         4u6SaF5wrs0vPoElwPrQpEfDi1K8yrAX0okEaAhUVVU1IT4PWtoACqKggTWuruglx5NE
+         alXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774423514; x=1775028314;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uC895IMZXAXczAWFGNBeA2e7HODXkgOFCMskI8l5ZXQ=;
-        b=EpXOmYjXftwjFj54r2uqQeZxa9B3m2+0oOCkTBTynbJacL0m5mBivQoNoL33ImVauT
-         G6q1t267jmXgXERnZSsKp50MWmWP5QQ3kSx6Rn6mK+KTpE0J5yYq8A+hI8/dtPC3DVin
-         zPjLjrHrwY51An13m7eRUkt2abHG3pw03u1VePXMs7fLUUrKbwrqU3I3IIl4z/kAosUy
-         4AZaNpRdRDpAHhjPRqTNGIDva7i4g5wd88iiIBi1XAnk6y/upHdT7fzRQE98oWTcioTu
-         1SjS+igRt7NLmbA03t4WeXMd+4OruC4WCM9v5sitGh6GjKp/ypBBjBQa8mOqfyFO/BK2
-         v+yA==
-X-Gm-Message-State: AOJu0YzO5edD6s1oadST+fqq4GhWLOie1VFgjcgauFToffaLy/bDfP81
-	8278l/ybkAvH4Or52wa6WWwkOGkVtfP3XGEw6CYo9l4cbJ7RBT6H/EM+CWEH9V10iPCYA4omGNo
-	E4IIUNf3VuA==
-X-Gm-Gg: ATEYQzxb3UxglsGY6GSiv/OfgxUqW86XCDFwDH6kxozontkIg0Z4xWvBhCpIaHOfIMR
-	5Vd5srwsATEBbQodcKYyREKqxPGpmnmmYzwRT+lp8pbm8wTtk/oHBQ2iN4GXQAf6FawyQk8qdNU
-	HxplQpKoS4iV3YCtZxuwLcsKxwHJv+tl/m7BuQzUMfSco63wux/J06iuzSxWrSC1A8YqT49wJMG
-	IzU8QBc+U7RRk6A/p1EC73ebIC5QQvoA96knOVWYIoxdfFF6Pkkglj16SGFiVeQDt0Mt7Xr99Pn
-	+wzVYJKzVpA0HZdDm9Uyk5Wo+eNQk60SXGEPXe/BBKeVHGyAziwX7V9o1qyWXIr3ZVP/iKRCiVL
-	K3N/IEUr3uZCkzXa8AnABgJx+iGoZC06L2uYTGjqnYnJtzyYwrHmP/8B946VX8hsaZGWOMX1Pzx
-	R6VAi3x1/fo8ykr6NTCK+cZZXAjnQEsGJBHOZf
-X-Received: by 2002:a17:903:3807:b0:2ae:aa16:acfb with SMTP id d9443c01a7336-2b0b0a7fa9emr29294945ad.22.1774423513928;
-        Wed, 25 Mar 2026 00:25:13 -0700 (PDT)
-Received: from localhost.localdomain ([2406:7400:54:2bec:794a:a8bb:bd94:ee98])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0836955dbsm232803035ad.72.2026.03.25.00.25.12
+        d=1e100.net; s=20251104; t=1774424399; x=1775029199;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xl+1jFVG/OPo1MwHeOO3i8lKdr4ltR4W3U2v/pOKjcs=;
+        b=KgCRhJKOHrMqApo0Myfdtl+KnTsy2UeC1AKQ+B1DVFUV+WOvoFPm9MQwSuN4uV2dZF
+         zA13tODHNlZk/azAscCWkGkYArS1eJ9K6XJsGQ+S0ZZUkpDTNqQyhOBfVGeQF3SeiLMA
+         KgTev7nhfqQubemdTEnVJ1q1px7pS28fOuVmuOktHqX4ppQ7uH0M7KHYQFvH0HmoQA7W
+         UEIzikjAlOD7Sau7ol4O55cQxnmQCeTbczpYHkxTBNybKeiBQMKl5bg+RzermeaN0G6C
+         eisXUDpIYyfROsQEOw9t3G5Uc1aG/yz9WKo9IQwgcc8osxMBg9dL4RCUz9z2RhHKzHee
+         R5eQ==
+X-Gm-Message-State: AOJu0Yzn45AdF2Mmt0EJ02LiKZ+qbK2iZFP/+NCvYs4JxnAUBJIaj9Wb
+	CeORttAK14NbGHka6bjpMBrKA6NWOODL4vm3dDiy0iU1SWac82F3zHxo08c4ItZ8gAs=
+X-Gm-Gg: ATEYQzyV4OceiCG12T6ogl93IFmsd9SXN7PIfLs7d01DYFpfTDW5vK9KI1GKzlMVGUt
+	mcMKgFvhTYpAYndkT8VnJYk32SXZZfv/9BDeWpm48RajY5Z/Hw9QZ4dmHkgF/ZmM2sp5zJPBdWX
+	9T17k6IcljLWU21ssG/5nMP0sL920DGlJyaClwcf6ujjN2MHc1aNIu1R6+kPjiLMfZvLDxLCTeQ
+	CTpeJUue2BCcNDPRnhrIgxUjFzsBLYdItxFyVBrLvZgxD427qy+rHRXQzKmVX0dx/o3py9TNem0
+	mgOkKiVNcHnSFq31TknKNOI1TXclJ19XzAm2xwYo07eeaY2O63R2h23/GIRJJAFknQEwjnGRc7h
+	CC0N6o09U+fX5QNvtaXU5FGRZVsHgQSjr09xWZtgPxqqn0XSkv6cm2hnEMQWNpDawwHCqx78xpA
+	QYdpxBU+I6sG+z/Ir6F4ZSKnW+fX/jv2ZHjgNT1FDWhMP1fnxfb/VBT2IUP2wW6OhVl6VO4jmgi
+	8l8cfmvztZWpdlT1V51xvy1+gyuboF7dG+SzhmimneVH81xRnXydqnxW60J
+X-Received: by 2002:a05:7300:3c21:b0:2bd:fe5a:b861 with SMTP id 5a478bee46e88-2c15d18ceb7mr1244517eec.0.1774424398747;
+        Wed, 25 Mar 2026 00:39:58 -0700 (PDT)
+Received: from apollo.localdomain ([208.95.233.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c1536aa870sm4932077eec.2.2026.03.25.00.39.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 00:25:13 -0700 (PDT)
-From: vanusuri@mvista.com
+        Wed, 25 Mar 2026 00:39:58 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH 2/2] python3-pyopenssl: Fix CVE-2026-27459
-Date: Wed, 25 Mar 2026 12:54:54 +0530
-Message-Id: <20260325072454.91845-2-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260325072454.91845-1-vanusuri@mvista.com>
-References: <20260325072454.91845-1-vanusuri@mvista.com>
+Cc: Changqing Li <changqing.li@windriver.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] mesa-tools-native: fix do_compile failure
+Date: Wed, 25 Mar 2026 00:39:54 -0700
+Message-ID: <20260325073954.1176537-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 07:25:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233862
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 07:40:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233863
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Pick patch mentioned in NVD
+Fix do_compile failure:
+../sources/mesa-26.0.1/src/panfrost/lib/kmod/pan_kmod.c:7:10: fatal error: xf86drm.h: No such file or directory
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-27459
-[2] https://ubuntu.com/security/CVE-2026-27459
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../python3-pyopenssl/CVE-2026-27459.patch    | 106 ++++++++++++++++++
- .../python/python3-pyopenssl_22.0.0.bb        |   1 +
- 2 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+ meta/recipes-graphics/mesa/mesa-tools-native.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
-new file mode 100644
-index 0000000000..b5e37a6900
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
-@@ -0,0 +1,106 @@
-+From 57f09bb4bb051d3bc2a1abd36e9525313d5cd408 Mon Sep 17 00:00:00 2001
-+From: Alex Gaynor <alex.gaynor@gmail.com>
-+Date: Wed, 18 Feb 2026 07:46:15 -0500
-+Subject: [PATCH] Fix buffer overflow in DTLS cookie generation callback
-+ (#1479)
-+
-+The cookie generate callback copied user-returned bytes into a
-+fixed-size native buffer without enforcing a maximum length. A
-+callback returning more than DTLS1_COOKIE_LENGTH bytes would overflow
-+the OpenSSL-provided buffer, corrupting adjacent memory.
-+
-+Co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
-+
-+Upstream-Status: Backport [https://github.com/pyca/pyopenssl/commit/57f09bb4bb051d3bc2a1abd36e9525313d5cd408]
-+CVE: CVE-2026-27459
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ CHANGELOG.rst      |  1 +
-+ src/OpenSSL/SSL.py |  7 +++++++
-+ tests/test_ssl.py  | 38 ++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 46 insertions(+)
-+
-+diff --git a/CHANGELOG.rst b/CHANGELOG.rst
-+index 5b6d523..13d8abd 100644
-+--- a/CHANGELOG.rst
-++++ b/CHANGELOG.rst
-+@@ -20,6 +20,7 @@ Deprecations:
-+ Changes:
-+ ^^^^^^^^
-+ 
-++- Properly raise an error if a DTLS cookie callback returned a cookie longer than ``DTLS1_COOKIE_LENGTH`` bytes. Previously this would result in a buffer-overflow.
-+ - ``Context.set_tlsext_servername_callback`` now handles exceptions raised in the callback by calling ``sys.excepthook`` and returning a fatal TLS alert. Previously, exceptions were silently swallowed and the handshake would proceed as if the callback had succeeded.
-+ 
-+ - Expose wrappers for some `DTLS
-+diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py
-+index 6ef44d4..fa1b556 100644
-+--- a/src/OpenSSL/SSL.py
-++++ b/src/OpenSSL/SSL.py
-+@@ -556,11 +556,18 @@ class _CookieGenerateCallbackHelper(_CallbackExceptionHelper):
-+     def __init__(self, callback):
-+         _CallbackExceptionHelper.__init__(self)
-+ 
-++        max_cookie_len = getattr(_lib, "DTLS1_COOKIE_LENGTH", 255)
-++
-+         @wraps(callback)
-+         def wrapper(ssl, out, outlen):
-+             try:
-+                 conn = Connection._reverse_mapping[ssl]
-+                 cookie = callback(conn)
-++                if len(cookie) > max_cookie_len:
-++                    raise ValueError(
-++                        f"Cookie too long (got {len(cookie)} bytes, "
-++                        f"max {max_cookie_len})"
-++                    )
-+                 out[0 : len(cookie)] = cookie
-+                 outlen[0] = len(cookie)
-+                 return 1
-+diff --git a/tests/test_ssl.py b/tests/test_ssl.py
-+index 77e1876..fb77b75 100644
-+--- a/tests/test_ssl.py
-++++ b/tests/test_ssl.py
-+@@ -4455,3 +4455,41 @@ class TestDTLS(object):
-+             assert 0 < c.get_cleartext_mtu() < 500
-+         except NotImplementedError:  # OpenSSL 1.1.0 and earlier
-+             pass
-++
-++    def test_cookie_generate_too_long(self) -> None:
-++        s_ctx = Context(DTLS_METHOD)
-++
-++        def generate_cookie(ssl: Connection) -> bytes:
-++            return b"\x00" * 256
-++
-++        def verify_cookie(ssl: Connection, cookie: bytes) -> bool:
-++            return True
-++
-++        s_ctx.set_cookie_generate_callback(generate_cookie)
-++        s_ctx.set_cookie_verify_callback(verify_cookie)
-++        s_ctx.use_privatekey(load_privatekey(FILETYPE_PEM, server_key_pem))
-++        s_ctx.use_certificate(load_certificate(FILETYPE_PEM, server_cert_pem))
-++        s_ctx.set_options(OP_NO_QUERY_MTU)
-++        s = Connection(s_ctx)
-++        s.set_accept_state()
-++
-++        c_ctx = Context(DTLS_METHOD)
-++        c_ctx.set_options(OP_NO_QUERY_MTU)
-++        c = Connection(c_ctx)
-++        c.set_connect_state()
-++
-++        c.set_ciphertext_mtu(1500)
-++        s.set_ciphertext_mtu(1500)
-++
-++        # Client sends ClientHello
-++        try:
-++            c.do_handshake()
-++        except SSL.WantReadError:
-++            pass
-++        chunk = c.bio_read(self.LARGE_BUFFER)
-++        s.bio_write(chunk)
-++
-++        # Server tries DTLSv1_listen, which triggers cookie generation.
-++        # The oversized cookie should raise ValueError.
-++        with pytest.raises(ValueError, match="Cookie too long"):
-++            s.DTLSv1_listen()
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
-index 13d87939b6..42de3207b4 100644
---- a/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
-@@ -12,6 +12,7 @@ inherit pypi setuptools3
+diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
+index 50d2f5cbb0..743e3391e9 100644
+--- a/meta/recipes-graphics/mesa/mesa-tools-native.bb
++++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
+@@ -11,7 +11,7 @@ PACKAGECONFIG += "gallium-llvm"
+ # to PACKAGECONFIG like in mesa.inc
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
  
- SRC_URI += " \
-     file://CVE-2026-27448.patch \
-+    file://CVE-2026-27459.patch \
- "
+-DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
++DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native libdrm-native"
  
- PACKAGES =+ "${PN}-tests"
--- 
-2.25.1
-
+ EXTRA_OEMESON += " \
+     -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
 
