@@ -1,364 +1,156 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45759106B538
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 13:17:46 +0000 (UTC)
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22358.1774444661751781552
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6844C106B538
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 13:27:06 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22572.1774445224037732678
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 06:17:41 -0700
+ Wed, 25 Mar 2026 06:27:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=HUOyv5BJ;
- spf=pass (domain: gmail.com, ip: 74.125.224.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64e9d72d5f4so2229512d50.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 06:17:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774444661; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LUmo7E8omOwWFQoiEsNxvDVjOM1SttzLgaaK20WCqZGnx2b6GLlmqjPwJKOBge7Wyc
-         fGT8VFVAXLv4hTzJ5xmlXNRoNY0KV1hvSymmy//XHCc+Qet7L1D4ZItFYzh0MOUINSiP
-         op/o/03nd4+tb70Rxsoe+SsuDdmeIhdxGmsHRGVilHdNA6RKUb6iWKqisnYb2xFewyA0
-         i1Y3zIJUI1Qx7vEA/eZmuxYnbxgD8khgp0SVwCD3g+dX5DCVVyRZE4C08fbQf7qvVgHo
-         pdEJDiR2BvhZ8DXB+cldZ0Aai6nqPlsmnOKzmluU6GSYbICIlruYgFSxwYMFyvxlbeZw
-         L2nQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=D1JFSN3XBzRt5l8c/OyXEroiQGbnwYvfAxJ9uC3jWZA=;
-        fh=UM/Gx49N6thVAMMNWfJLfqejhmgNNAYw2CK+Ob0parM=;
-        b=BkC2qxSUSfSV+lJTYAQSCX23caxRfgT/FFB7yWE0VAxNM+fsBYs2kv2KQLlzGDfu+C
-         w7kmAq7yEULDZr8UdTDiB2s9pF76jbsonuRYb11VmrV6ihPq2hJQpXrkqGlVRXbvlU9j
-         oXA+QYbRxn7H7ccpjnGDEVG4/Y9Tt/rnB/Z6plh9CYjXKYK1gQcKW/g+ok13kT/I2hoh
-         9LXSj6lW8UYAPDinGoZJqN/gSaYP4DOTONS9LZHzMobtb43Fwtolmor3cIwenUdjjP1W
-         x0kE32OO6L4Czb+dT1ypRM9ryIIRnD9qj1fOl3yZ+aEA6pg9mT2bYXUMgS7VbtqfFKHr
-         70QQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774444661; x=1775049461; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D1JFSN3XBzRt5l8c/OyXEroiQGbnwYvfAxJ9uC3jWZA=;
-        b=HUOyv5BJf+MEBSkFE66ZP3x6B48Duo9TyBV+4IcxMadKQ3iPFXSzQf8akOrZioAYv9
-         GjTHhXkHZvzbIJ4mWfb5vRZ425ayhpVbX0FFFaHkMNYd0tq79F7vfUYBoeIxujkctLOE
-         GaZRgZXTafNAGO7aBmVsfd6cXgC88u5uIMyWlnkKQsENQfud90LHqsNGCwanboR5N+4Z
-         pSx5k16dgnjRjFw25LLQhJmeNFsAIxdb0zxEywKTcfg486nv+MODSu9uR2buP8D1h97H
-         NPIWLmNLk3uTugSvQ40kH/RIBmDHzd4vtutdskqTtPWpVALGsg5ApjwpvHtJA+QqwTsI
-         Gpkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774444661; x=1775049461;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D1JFSN3XBzRt5l8c/OyXEroiQGbnwYvfAxJ9uC3jWZA=;
-        b=Dtugg9+pLOJlnUkrdtjx1N6rrKpr1e8yQh3DseHB5cLCBQqsRwCF2Cx617st6vVtDS
-         3sPOxGVEZDY6aVzDELar2kDeJKAzpf/jIXIT7IIkRyiYa71RJ0/sZvSEHAi8P/PpHY+P
-         nzS1COgjJIc67d2HrJ/eVYz7EJyAxSVL8DZDK/QuNto8iuQX1w+Ums0dBCbwoJGKS43G
-         kKNozAwQPfMDTohhP7gascai40GmPvODkB2cAhuR4ICsGKiC1AXpPH8ER38xH5SNWt4A
-         YqxZurTfJlwH9RYlA+8ja93yTkp44bM0Pecz2M7S8v8DCFu16B5vxE2wtIWZqLrGeOZE
-         VwXQ==
-X-Gm-Message-State: AOJu0YwLys2fHGKman7xmxnFLhDrVaY8dpiMUSJoCJnwXh13RfqQ3fFi
-	RDVipcx/Urg81xzHGTNRHOG98K7PFxk+1tyccZh625KIzhxe9D84N5Xeyu3RHa3x3bftz8dHyj9
-	azdogMDOht+0D4VNT/D79eferppKJxNY=
-X-Gm-Gg: ATEYQzxGGG9vcT3y63zotO52nozRhhnnZE2Y7z8ACt0ZYolxqc+UGayN/B1H6BHQPOQ
-	PyB5GOy7jwjBXCo0ljl1utcqVbrrQhUJXi2E2eNn0oLz/GKuIDRNxpBlT/mA9eoauhuadp4S7Ls
-	s3tEmaoyS6s5PG51BdxmupggpAZtt29GDKS6IGgckdrHt/syn893xnI5lf3Dh0EzF9zp8Jk/0w1
-	sr0oGpJJTAT5HCFp9itIQFgILPTyQyDlyPAI0sUc3U3pVU2rV96GBCOER5zQXqSkklvrW19Ge36
-	gpqTKxDhA3OWe0uPJMYlNukBJHpCZh3onBMnjwQo
-X-Received: by 2002:a05:690e:13cf:b0:64a:d74f:258c with SMTP id
- 956f58d0204a3-64ee607614cmr3184949d50.5.1774444660736; Wed, 25 Mar 2026
- 06:17:40 -0700 (PDT)
+ dkim=pass header.i=@ericsson.com header.s=selector1 header.b=v3rlyAQA;
+ spf=pass (domain: ericsson.com, ip: 52.101.66.53, mailfrom: daniel.turull@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E9vdJAKmddDRtFG1ZpfAY+NfLK9Cls+CYCDweOAM1p8iYR0PXLG8Fx7akEzgkJ54OK8n/r49t0lA8uQ9PHZqcndOvmIOCZbEjTVXpEEhRbeu7cXkRwt+0bB4hk6wE4CrRYRhj6RIhcLXED0eIhhcW4wLoCd8HBD3nrgi9wKFnSpH4wHfuaeTMHeNQn2NbXiwyMkh8SPj3GG8bnILe/2PkuqEVk+nUQYHbdebqnXdVWkoI5BFwCB9nhT9AaWJE3EIGvTpVM2SgmkP2KJGSokZFgd2UlK5Y0+kl4ZFCduwyB+pqoeJxMrPK1yOLPD6PujLtkf8V6AL98W3AuHtPOe0rQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BVBiQvCY83BNiYvEYgyCallw+wndYBMC3rquPgmjRo0=;
+ b=LR7LVKjLrOh33hmlTysiKI01B3LGlSp86+VZE9Nka0CRZx+DCXomJgPlOV34+lcqjXal1rc+z6GKmEAIsEOiNbMiMQ0pfo861wkD3fbWV1Q8KyJdsWn9F2p8YS8FN9W0Y2BkE1b5xtUb4UD6EofK9Qy04FINlaKXRfZ9bERu8rQ4bekPVjVH4/0mqpsGNwxwcwAviD4NsSeKo5uISMaqIDxPiZCHADzofxcdAHASDiHSp71doVJykNVRgX78KzGSqhizATaC01EmMLP54EN7nXmYWgxfC7zMK8NnuLy0NxRsrXg6mPAwAnw4I5fEJ7OmnatiN5v8jFSymnFCsZgQTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BVBiQvCY83BNiYvEYgyCallw+wndYBMC3rquPgmjRo0=;
+ b=v3rlyAQAWJU6JHo23Tjyj17OUEFhgQta9TQN7UZPV+T64n/LJTTec9jwebQHmcVEXi690BkZAD4hG5pRjF1paogaY7ASSFxKm/a8b7Y6OLFL9SgfQCXkmm8NZKgQfPsZlnh7ledvr9nmzk/vbOQcPmaPuF/81AK1Eba62dboFqiqM2Jj/DvAnwIaEAcj3mW+mn37k3OH9jiQf4dDQ4mZgJ/3ymIagVpoPwpnXTwMnicCr2lsi4EImbXnElYcqrJJ/QOTKGrLgJ6RjCEArkbZqZZGYGHr1Cbw3dfyAU+cO2cuGVpZcxreiOJu6DzU6ofCZEMjW+xGq7vTf4Fw4Krihw==
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
+ by DU0PR07MB8883.eurprd07.prod.outlook.com (2603:10a6:10:31a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
+ 2026 13:26:59 +0000
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7%6]) with mapi id 15.20.9723.030; Wed, 25 Mar 2026
+ 13:26:59 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "pratik.farkase@est.tech"
+	<pratik.farkase@est.tech>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>
+Subject: RE: [OE-core] [PATCH 1/2] python3-kirk: Add version 4.0.0
+Thread-Topic: [OE-core] [PATCH 1/2] python3-kirk: Add version 4.0.0
+Thread-Index: AQHcvFBzXesVo6Ev5k6yFV5vi+0K1rW/Lt+AgAAOcWA=
+Date: Wed, 25 Mar 2026 13:26:59 +0000
+Message-ID: 
+ <PA3PR07MB107217582CEBAD8080A067C1A8A49A@PA3PR07MB10721.eurprd07.prod.outlook.com>
+References: <20260325084021.3915804-1-daniel.turull@ericsson.com>
+ <CANNYZj8MsmLxQwwZCFMoH1Jfre_-UTFVZjP011AiaQk-x-pWQw@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8MsmLxQwwZCFMoH1Jfre_-UTFVZjP011AiaQk-x-pWQw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|DU0PR07MB8883:EE_
+x-ms-office365-filtering-correlation-id: 167b6805-3bcc-4889-6faa-08de8a723165
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|56012099003|7053199007|18002099003|22082099003;
+x-microsoft-antispam-message-info: 
+ RjX/KRchooVWPqzHhDCl6wtLe11q2L/hsdV3rUPkAqg+HFwy9E0lmq/N7jDJUPyINZR73PhTVkcDUmL1YnkVnYbK6eSEfYqHwtz78+zB28r/KsoeNwDpdetqjAG7V9wyTPH6nazXQLJQmYuFvM+PX4FUcfPjQMRDoKCDOZRSQuPoyi7UM+YWRo93cGsupXKbwV1z7UUa+brKf0W38muz4/pPvKrU4L91SAvJCfFl53exRssf9ru6anoJLRPnogH0ChzvNYPbIDybyDWbtExshw4PK/DW4b6A9bO0M02gu1ebcy6aPRDz4X1ca67eRo1JuIk3oBUzfvQux5/sSyxh1S8i9xSHqxlfp+B0VQRiaURqi2xu20yqNthS1ifnDfpykrcAA/SFkAw5FguO+Et+WjvsM7IZnwkCcs9MWgPxs6SRGbshw0xpD08XxBkL4VQPtgSSCs6mvqtdHSrd8Eri2DOoPGeow5WIZOMzrl8xOEaFQ1oz4LzkhEXL0aX6ItVKRMCLRqw4VT1FrmU8KXLmwqtJF2PcQaU8VmhjedclAA3sV/EaKwu/1FXcxSR7YVbEQljCeEoiq4SEfQ9itzk57bfd1i0SrUDj2oh2XRWGCE/+88tjTAnUynwk8TiszHetfUjA2Xs8oUbjsIPP57NO+aWZuHzdDAUbn6Mf2XcZD684AQbqUwhJQFQT6wH0uWEWcpUAEk4ONDj//vZwFoClZYXpNzu5WqbtDBQGpnP+saBPIqC4NIcvTxGV/XKFGEPU
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(56012099003)(7053199007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?MDdzV3VhUG5iTlJiNFhOYmcyYldKN3VkZ2xFakZQczlmbWJmWXBjaWdMNkRW?=
+ =?utf-8?B?VktrWktsdmYrS1JXSzc3SWRuYzZJTEVFNU56V2tLaW1Rd3pYK0U0bHJxMWhR?=
+ =?utf-8?B?bFhlQm94WVlpd2FEd2ovWlNKYWZsVkxGL2lsZ3FBNEZocGowaGQxT2xhOG9E?=
+ =?utf-8?B?VHZVMVFNUko1ZVNJSkFrWWJzL05uRFNBU1M2VWQwZzBIZDk0VHIyMUg1RHJt?=
+ =?utf-8?B?Nm9FbWpjajhDdEI0THB0emtZTlg3cEdjNjJFTlNzdWIvMnZYWXYwVGdvT24y?=
+ =?utf-8?B?UEFWdDV2NjVUYTg3bWZ0N25aakR4RElxaStUSjgxQURYRFluemJ3Tlg1bE5q?=
+ =?utf-8?B?RVB3eS9rRGpnN2JxZU9GWkxoWGd6aTJtOTUxWGRWckFVT0h1STZGVVlmR3hx?=
+ =?utf-8?B?QlEzY0JlSnAyOGdMb1Y5MWV3OXpzQzNBZ2E0NzIzTGl3eXdYNnJ3cXh1Zk9D?=
+ =?utf-8?B?R045M2FOaWgydi83RFNFNHF5bENtZndWLytYTGxUUUdXa1Y3SnJ6U1lKdEV1?=
+ =?utf-8?B?QnRBNGdBTVZpbkNGbHMvNklEaXhqTEpmdjBDam1GRW5rU0M2UEhEU214eGZJ?=
+ =?utf-8?B?ZnlxNFFJTlRsSE1xWGZJZVdDY3lJQUVtcStRR2NpZnVKYStDYUcxa3hSS1JS?=
+ =?utf-8?B?MERPUnROUDFjeGhoVVMwUGt6RUhUekJUZDIxbHMzUUI5Q2g3Q20xWStVOHYr?=
+ =?utf-8?B?VGgwcnFpY212MW41bWIzbmZoVTVqcitUTzZScEJhclp0TWJLZ2pReGpiWGxP?=
+ =?utf-8?B?c0N0eTVObWxwbUZRT2N5ZElzYlgyNVNXbnM0eFJrQmlrZVRSclhnam9QcHgr?=
+ =?utf-8?B?MFhNL2U0V1ZQNkZwRUNRVnJRNFNCLzFYdndrMXpNOG8vZytxSVdLQXBtQmlu?=
+ =?utf-8?B?SjBEVktuRUxkK1ZJcUg0cDB5V1RqdUQxdnNCZjkvYnBNVnFZMERmVmZlUy9I?=
+ =?utf-8?B?TlVPeVZGalV4YiswUVdCQ25WQXdPVC9qaXZQNHdvMGNtSHEvU0drUEwzT2s5?=
+ =?utf-8?B?OEtHZXBYbXZKaUloaFNQS0ViR3RXdHVKb0pud1NKbnUzRkVMRHBXU016RHNR?=
+ =?utf-8?B?S3grOFo1UVFCOUFxVXpYNjlOWm8zNW84cXVPeEZ0YUpLbHJ1Uk04SWFCbzhn?=
+ =?utf-8?B?dUtnU1RwMElHVm8raE1YYmcxS1kxRUowSU9GbTlDNGlqWHFOQnNtVFNuTGs4?=
+ =?utf-8?B?QllzdU9mRzVpajJYSENMUFhrYWpvZUw1cUJSWFlCSUlKRldvY1JVd3ZkVUtE?=
+ =?utf-8?B?NU1WL3U3c1lWeS9KWUxsT25JTStBcVRZNnVIY2VCdTdtTkU1RmFFNUhyYkdi?=
+ =?utf-8?B?bzQ2dEtTZHY5OENHWHcyTnF5bEZUcjh4UTBrcmhXa1pnZTlCWjJzRzNWekV2?=
+ =?utf-8?B?QStQTmFIMG9tNmhMWkZZWU85NGFvaE5VOUw0NFNEZ0duZ3JhMDNnREt0NzI5?=
+ =?utf-8?B?K1d6MEx5WlB6QTNJaHZvdlJ3eXduNFIwSmZneG9LaEVoN1NBbFR2Y2k2aTho?=
+ =?utf-8?B?MVkxTlRmTmE4My9lWHF5L0dZOENzVnlDc09ickdiYmxaaEdHazFIMFE4dWl5?=
+ =?utf-8?B?T1hWM2Zlek9zczdmcHNkbFpBbGFxRVp5Slh6cWlWV1dUcjVCR1RpZTh0NVBY?=
+ =?utf-8?B?MUlsMmRUdW04bjgyb2VOZEtuQ0dKdy90YVJ6d09wU2NNQTBTYnlsT0RqSGYx?=
+ =?utf-8?B?NXZvUmFSOC8rSnFnZW9MTnEyRnUvYU0rL05rU1JKNnAxSGM2cHY4QVc1di85?=
+ =?utf-8?B?azRTV25LcmNXNU5RUWcxVHhFbHVkU2hnUmFXd043Sk9DejR2SVZqRlN0RkhR?=
+ =?utf-8?B?L3dlNURpOFA2cWlQVCtBMmxvdTVxY0tXNy9Ucm55RVpiNSs5Y1BXK0E0SWpG?=
+ =?utf-8?B?QkN1SC9vU09jL2t5aGl6RGlQOFkwZXVGM0hrOUNqdi9PeWlZZmxRKzVZSWdW?=
+ =?utf-8?B?WFB6RldHb2paNHpQTXUyVEFQcWUzUFJWNnhPOEc0c3JXdkkwbS9uVGJPR1kw?=
+ =?utf-8?B?WXNWRVBlcjRSaXpLKzhtV2NzeGlDUzZPQ0p0QzVjc3VCZE5sYStVZUNMZTRk?=
+ =?utf-8?B?WERhSHloOWpIOWVyOGVZd2FwNUJsemIwc3VheGpJUjR5VFB3TkdkdEtEU0Na?=
+ =?utf-8?B?QWY5dXg3RDFZYld2d1lERm4weExaYlZ3VWRjY1hzdHdBa2p5VTJmblp0cVpC?=
+ =?utf-8?B?eWdpN3ErQmM5SklLY1JLa1c4SURvL1dDVXIzV3lLQVNYRnZndzNWaExTbW1K?=
+ =?utf-8?B?aEp5OUxiZzdPcXZ2cXAremJEWldSTGt4SlZUdmxsR3kwSVFqeFlxZ2dsZ0FO?=
+ =?utf-8?B?RUJJSU0raS82S3lDV3RQdW9xVGVId3FrQ1ZvL1E5R3YvOVFZTjVpZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20260325113112.1163632-1-zboszor@gmail.com> <CADkTA4OXFgvu2rsU8XTHQrDMj+6SUj1M5GG+9hzdtK3htHvzqw@mail.gmail.com>
- <5bc1065a-005c-4219-bc69-e191e6be3f78@gmail.com>
-In-Reply-To: <5bc1065a-005c-4219-bc69-e191e6be3f78@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 25 Mar 2026 09:17:27 -0400
-X-Gm-Features: AQROBzB2jpKwZShkA0Oa__NBaUWgM057-6oxvJ1Bdtm0rwcKSY5qS1u8Kkp42Xk
-Message-ID: <CADkTA4MOXYq1xQaGgGnREmgQUTQaEDTskv1aWRyM9zqiXxAuJA@mail.gmail.com>
-Subject: Re: [OE-core] [RFC][PATCH 00/14] Support Python freethreading
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Bartosz Golaszewski <brgl@kernel.org>, Trevor Gamblin <tgamblin@baylibre.com>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000ad4640064dd91794"
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 167b6805-3bcc-4889-6faa-08de8a723165
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Mar 2026 13:26:59.2401
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0/XEKDBaPZoZEI7pmIAvdLhlv/2w0AgMDLF6wROTHjkB2D7+DQ3zrkVBE5+jw7kILo+Zwztu/9u+jTTVt1uQMbBSjjBQDf0WpNpk6UxnUJI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR07MB8883
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 13:17:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233911
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 13:27:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233912
 
---000000000000ad4640064dd91794
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Mar 25, 2026 at 9:13=E2=80=AFAM B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=
-=A1n <zboszor@gmail.com>
-wrote:
-
-> 2026. 03. 25. 14:01 keltez=C3=A9ssel, Bruce Ashfield =C3=ADrta:
-> >
-> >
-> > On Wed, Mar 25, 2026 at 7:31=E2=80=AFAM Zoltan Boszormenyi via
-> lists.openembedded.org
-> > <http://lists.openembedded.org> <zboszor=3D
-> gmail.com@lists.openembedded.org> wrote:
-> >
-> >     This patchset allows turning on Python freethreading by using
-> >     a new DISTRO_FEATURES setting:
-> >
-> >     DISTRO_FEATURES +=3D "python_freethreading"
-> >
-> >     and optionally:
-> >
-> >     DISTRO_FEATURES_NATIVE +=3D "python_freethreading"
-> >
-> >     The change to python3-dir.bbclass is crucial, as all python module
-> >     build helper classes rely on it.
-> >
-> >     I also added native variants of some settings because another
-> >     series against meta-openembedded is needed to complete this one.
-> >     In that, the change to the fontforge recipe relies on the native
-> >     setting for setting BUILD_LDFLAGS.
-> >
-> >
-> > Looking at those other patches in the series, they don't seem to
-> > be conditional on the distro feature.
-> >
-> > Are those changes valid for a build with and without freethreading ?
->
-> Yes!
->
-> The main change is in python3-dir.bbclass, and the recipe tweaks
-> are just adaptations to the fact that only ${PYTHON_DIR} is needed,
-> not ${PYTHON_DIR}${PYTHON_ABI} from that point.
->
-> I was thinking that the introductory mail stressed this enough.
-
-
-Obviously not :)
-
-I didn't get that impression at all from reading the introductory
-message or looking at the patches themselves.
-
-You have the overview knowledge of the feature, why it is
-useful, how it impacts existing recipes, how the migration would
-work, what is the compatibility, etc.
-
-The patch reader doesn't, so that all needs to be clearly
-supplied.
-
-Bruce
-
-
-
->
->
-> FWIW, less than 30 recipes was spelling the latter out in
-> openembedded-core and meta-openembedded combined.
->
-> > That's the type of information, along with the benefits of enabling
-> > this would be information expected in a 0/N introductory patch.
-> >
-> > Cheers,
-> >
-> > Bruce
-> >
-> >
-> >     All of the changes included here were successfully build tested,
-> >     except for the gdb-cross-canadian change. That one failed, but
-> >     it's included for completeness.
-> >
-> >     Quite a few of python modules were build tested for native and
-> >     target builds, including python3-pytorch from my meta-python-ai
-> >     with reduced RDEPENDS because e.g. python3-onnx there failed
-> >     to build with freethreading enabled.
-> >
-> >     All in all, this series at least allows to get things going.
-> >     Though maybe not for Yocto 6.0, as it's quite late.
-> >
-> >     Best regards,
-> >     Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
-> >
-> >     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >     Links: You receive all messages sent to this group.
-> >     View/Reply Online (#233874):
-> >     https://lists.openembedded.org/g/openembedded-core/message/233874
-> >     Mute This Topic: https://lists.openembedded.org/mt/118499141/105081=
-0
-> >     Group Owner: openembedded-core+owner@lists.openembedded.org
-> >     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
-> >     Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub
-> >     [bruce.ashfield@gmail.com]
-> >     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000ad4640064dd91794
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 25, 2026 at 9:13=
-=E2=80=AFAM B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n &lt;<a href=3D"mailto:zb=
-oszor@gmail.com">zboszor@gmail.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">2026. 03. 25. 14:01 keltez=C3=A9ssel, Bru=
-ce Ashfield =C3=ADrta:<br>
-&gt;<br>
-&gt;<br>
-&gt; On Wed, Mar 25, 2026 at 7:31=E2=80=AFAM Zoltan Boszormenyi via <a href=
-=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lis=
-ts.openembedded.org</a> <br>
-&gt; &lt;<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targe=
-t=3D"_blank">http://lists.openembedded.org</a>&gt; &lt;zboszor=3D<a href=3D=
-"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists=
-.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0This patchset allows turning on Python freethreadin=
-g by using<br>
-&gt;=C2=A0 =C2=A0 =C2=A0a new DISTRO_FEATURES setting:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0DISTRO_FEATURES +=3D &quot;python_freethreading&quo=
-t;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0and optionally:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0DISTRO_FEATURES_NATIVE +=3D &quot;python_freethread=
-ing&quot;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0The change to python3-dir.bbclass is crucial, as al=
-l python module<br>
-&gt;=C2=A0 =C2=A0 =C2=A0build helper classes rely on it.<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0I also added native variants of some settings becau=
-se another<br>
-&gt;=C2=A0 =C2=A0 =C2=A0series against meta-openembedded is needed to compl=
-ete this one.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0In that, the change to the fontforge recipe relies =
-on the native<br>
-&gt;=C2=A0 =C2=A0 =C2=A0setting for setting BUILD_LDFLAGS.<br>
-&gt;<br>
-&gt;<br>
-&gt; Looking at those other patches in the series, they don&#39;t seem to<b=
-r>
-&gt; be conditional=C2=A0on the distro feature.<br>
-&gt;<br>
-&gt; Are those changes valid for a build with and without freethreading ?<b=
-r>
-<br>
-Yes!<br>
-<br>
-The main change is in python3-dir.bbclass, and the recipe tweaks<br>
-are just adaptations to the fact that only ${PYTHON_DIR} is needed,<br>
-not ${PYTHON_DIR}${PYTHON_ABI} from that point.<br>
-<br>
-I was thinking that the introductory mail stressed this enough.<span class=
-=3D"gmail_default" style=3D"font-size:small"></span></blockquote><div><br><=
-/div><div><div class=3D"gmail_default" style=3D"font-size:small">Obviously =
-not :)</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
-v><div class=3D"gmail_default" style=3D"font-size:small">I didn&#39;t get t=
-hat impression at all from reading the introductory</div><div class=3D"gmai=
-l_default" style=3D"font-size:small">message or looking at the patches them=
-selves.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">You have the over=
-view knowledge of the feature, why it is</div><div class=3D"gmail_default" =
-style=3D"font-size:small">useful, how it impacts existing recipes, how the =
-migration would</div><div class=3D"gmail_default" style=3D"font-size:small"=
->work, what is the compatibility, etc.=C2=A0</div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
-=3D"font-size:small">The patch reader doesn&#39;t, so that all needs to be =
-clearly</div><div class=3D"gmail_default" style=3D"font-size:small">supplie=
-d.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><d=
-iv class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-FWIW, less than 30 recipes was spelling the latter out in<br>
-openembedded-core and meta-openembedded combined.<br>
-<br>
-&gt; That&#39;s the type of information, along with the benefits of enablin=
-g<br>
-&gt; this would be information expected in a 0/N introductory patch.<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Bruce<br>
-&gt;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0All of the changes included here were successfully =
-build tested,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0except for the gdb-cross-canadian change. That one =
-failed, but<br>
-&gt;=C2=A0 =C2=A0 =C2=A0it&#39;s included for completeness.<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Quite a few of python modules were build tested for=
- native and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0target builds, including python3-pytorch from my me=
-ta-python-ai<br>
-&gt;=C2=A0 =C2=A0 =C2=A0with reduced RDEPENDS because e.g. python3-onnx the=
-re failed<br>
-&gt;=C2=A0 =C2=A0 =C2=A0to build with freethreading enabled.<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0All in all, this series at least allows to get thin=
-gs going.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Though maybe not for Yocto 6.0, as it&#39;s quite l=
-ate.<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Best regards,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Links: You receive all messages sent to this group.=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0View/Reply Online (#233874):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/g/openemb=
-edded-core/message/233874" rel=3D"noreferrer" target=3D"_blank">https://lis=
-ts.openembedded.org/g/openembedded-core/message/233874</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0Mute This Topic: <a href=3D"https://lists.openembed=
-ded.org/mt/118499141/1050810" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.openembedded.org/mt/118499141/1050810</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0Group Owner: <a href=3D"mailto:openembedded-core%2B=
-owner@lists.openembedded.org" target=3D"_blank">openembedded-core+owner@lis=
-ts.openembedded.org</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:openembedded-core%252B=
-owner@lists.openembedded.org" target=3D"_blank">openembedded-core%2Bowner@l=
-ists.openembedded.org</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Unsubscribe: <a href=3D"https://lists.openembedded.=
-org/g/openembedded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https:/=
-/lists.openembedded.org/g/openembedded-core/unsub</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0[<a href=3D"mailto:bruce.ashfield@gmail.com" target=
-=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; -- <br>
-&gt; - Thou shalt not follow the NULL pointer, for chaos and madness await =
-thee at its end<br>
-&gt; - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-&gt;<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000ad4640064dd91794--
+SGksDQoNCkknbGwgdXBkYXRlIHRoZSByZWNpcGUgdG8gdXNlIHB5cGkgaW5zdGVhZC4NCg0KRGFu
+aWVsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxleGFuZGVyIEth
+bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwgMjUgTWFy
+Y2ggMjAyNiAxMzozNQ0KPiBUbzogRGFuaWVsIFR1cnVsbCA8ZGFuaWVsLnR1cnVsbEBlcmljc3Nv
+bi5jb20+DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBw
+cmF0aWsuZmFya2FzZUBlc3QudGVjaDsNCj4gcmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9u
+Lm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzJdIHB5dGhvbjMta2lyazog
+QWRkIHZlcnNpb24gNC4wLjANCj4gDQo+IFtZb3UgZG9uJ3Qgb2Z0ZW4gZ2V0IGVtYWlsIGZyb20g
+YWxleC5rYW5hdmluQGdtYWlsLmNvbS4gTGVhcm4gd2h5IHRoaXMgaXMNCj4gaW1wb3J0YW50IGF0
+IGh0dHBzOi8vYWthLm1zL0xlYXJuQWJvdXRTZW5kZXJJZGVudGlmaWNhdGlvbiBdDQo+IA0KPiBP
+biBXZWQsIDI1IE1hciAyMDI2IGF0IDEzOjEwLCBEYW5pZWwgVHVydWxsIHZpYSBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+IDxkYW5pZWwudHVydWxsPWVyaWNzc29uLmNvbUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnPiB3cm90ZToNCj4gPiArU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2xpbnV4
+LXRlc3QtDQo+IHByb2plY3Qva2lyaztwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyIg0KPiAN
+Cj4gV2UgcHJvYmFibHkgc2hvdWxkIHRha2Uga2lyayBmcm9tIHB5cGkgdmlhIHB5cGkuYmJjbGFz
+cz8NCj4gDQo+IGh0dHBzOi8vZXVyMDIuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20v
+P3VybD1odHRwcyUzQSUyRiUyRnB5cGkub3JnJQ0KPiAyRnByb2plY3QlMkZraXJrJTJGJmRhdGE9
+MDUlN0MwMiU3Q2RhbmllbC50dXJ1bGwlNDBlcmljc3Nvbi5jb20lN0M0OThhDQo+IDg3MjY5NmNj
+NGY4YmUyNmEwOGRlOGE2YWViNTMlN0M5MmU4NGNlYmZiZmQ0N2FiYmU1MjA4MGM2Yjg3OTUzZiU3
+Qw0KPiAwJTdDMCU3QzYzOTEwMDM4ODk3ODcyNjQ4MiU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhl
+eUpGYlhCMGVVMQ0KPiBoY0draU9uUnlkV1VzSWxZaU9pSXdMakF1TURBd01DSXNJbEFpT2lKWGFX
+NHpNaUlzSWtGT0lqb2lUV0ZwYkNJc0lsZFVJag0KPiBveWZRJTNEJTNEJTdDNjAwMDAlN0MlN0Ml
+N0Mmc2RhdGE9bFhzOUN4MFl4aXJDbllzdGdRUkpVSjNqJTJGcll2Z3oNCj4gQzJMa1owT2dUYnNh
+byUzRCZyZXNlcnZlZD0wDQo+IA0KPiBBbGV4DQo=
 
