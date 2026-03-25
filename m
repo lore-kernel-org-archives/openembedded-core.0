@@ -1,181 +1,1653 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D864109C047
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 17:00:50 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27867.1774458047132940579
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CA6109C04A
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 17:16:40 +0000 (UTC)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.28291.1774458998610936589
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 10:00:47 -0700
+ Wed, 25 Mar 2026 10:16:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=Cuf7Ty0i;
- spf=pass (domain: cherry.de, ip: 40.107.130.53, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vF0ke7OSad5NORwaaL2+t89nyPrOj0crnIkMnj31v9qZ0Egp2z4XE9dLLADnT3Iyps22p9RwXdFxO5p3DKp4GNZQ4D1Cgf531lIVolFB6OJ6LgBUd0SJp4dNsvZoGThuffBJeIdfSIrmHE/jjbHFVBAsujfH9U46piqXpmZ33ynJpwoh2EPaaOmxNiwx+x7Sh3MGT2CNtT776YliS38mFnCrzrjkhFt7+fkJ+bXWf5jYat8tTmFifeOXpFSy8J/Ht4AsTlrX6FARGkq0r8BswP1wMzpU8MzkYMOj2reM52PqMAKm2pXb8oqtZmTYQPvkFiCkD5w9MZX7aLbKYcu8QA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UPtO/DxMUwSAIH50/o8eDHRjJwknTKwo4wnJiTW2GFQ=;
- b=XVJyseY9Mjks1WGCiFFPX0b4lL/p5/J9WI0xyAWVG41ugUEpG2wP1Vk1XB/dtpA59vrzU57KQf/KeDVZFCts6vBnpvtl0kzUg1b2dEtZXwvCJoREd0JPtzoVG5jlYEY2GSEfxBPmTHfDa50WwmxrOBt19Tbi+mqRoK3+usC3qCzmeVQHSeGZbpA+++yZm8vqKwrNW2gISpaEYxMtlm7K3Ba7lErtueSsMWQcz+TJu8S8/2pjZhExwEVy3Vf7+CXAQZjnL2FWzrE0DX6v+77WtmwgCZgXkkn5GqLj/mC4T/UIOU28E97cA/ShFk/HJPa7jzGJOdKw5B5DYFcPd9LIaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UPtO/DxMUwSAIH50/o8eDHRjJwknTKwo4wnJiTW2GFQ=;
- b=Cuf7Ty0idxhd6k4KXa5PulEDBpHjtumm7XzvzZeTt9y+zHpO+SomZHj76iExSzjJold89IjOqlPq6gZuQLcljevP0hmGf8xNOsXqEXSnwh6rXbYwdXZuvFv5f6ZZWw3ab6UV3j1ZTxGgRiX0MfRKNDkHzLoiEtQ2IH8K67qbPe4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
- by DUZPR04MB9726.eurprd04.prod.outlook.com (2603:10a6:10:4e3::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
- 2026 17:00:42 +0000
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::6c04:8947:f2f0:5e78]) by GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::6c04:8947:f2f0:5e78%6]) with mapi id 15.20.9723.030; Wed, 25 Mar 2026
- 17:00:42 +0000
-Message-ID: <6864521c-ea84-48ba-ae36-c23ca6f68232@cherry.de>
-Date: Wed, 25 Mar 2026 18:00:41 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mesa-tools-native: Add dependency on libdrm-native for
- panfront tools
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Changqing Li <changqing.li@windriver.com>
-References: <20260325163842.2672762-1-khem.raj@oss.qualcomm.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260325163842.2672762-1-khem.raj@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0502CA0003.eurprd05.prod.outlook.com
- (2603:10a6:803:1::16) To GVXPR04MB12038.eurprd04.prod.outlook.com
- (2603:10a6:150:2be::5)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=H+Ys7AlX;
+ spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-67c20ed3076so86816eaf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 10:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774458997; x=1775063797; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C2qISRNQ+hkh50x49V3ajEBNUP/AAboYn1bbpIGmsoo=;
+        b=H+Ys7AlX/D8zA9Xhp3jr8lCmTfzDlqChiHi/zu3H/J6jdlGwmcZCXtl+1juiT5XfWc
+         wX8yuxp/JQzX8MeUl6C6nsTWzoyvTD8s7LGrV3HQVqJkOs05GmAhh7wxepl9PBt+8Tjk
+         LUf4UP3TsA1rBikIldlVJAcb0zfJjDKP/8xwM7OMy/kFAnDfix0hqypzScMrpnpokFG6
+         j7KYcFE5s1+0EwD5KyuUqIo7dc7ND163RU3VRSnXvQXSKWnUBtl4l5fOWpREWpQXyKBS
+         PAc/0sDlN2h75oVGjgeFlR6BTYOljrLZrOATP1gn61keTcofiN8V2KF1mxhzNrYxtVP1
+         TNwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774458997; x=1775063797;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C2qISRNQ+hkh50x49V3ajEBNUP/AAboYn1bbpIGmsoo=;
+        b=dwTAnnuN2vO+MezR8N5cVMEc6G9ZAmGQU1brKdJheWXZFcnKf/b78aUdbhDGqegkCA
+         /lhWCYhyREawNsmIfLg9xoJaCvna2EgavVkdKbVuPSUTOAgU8ZDp/CwWI+LhYoxQNWJm
+         GAC8ojXe3ODa0+Y/3XIczzLDI4kKsPsz+DTdsyQOmakt794a98bJIvZK1dTBLN//czgM
+         6b8P5o9F5dqBTG8aTb7xA7ceDvBrOKkzsyMuL46Zhf7+cUSbMt4kVi2UmPdfdU53qLWp
+         vohxnpGF9j4Lhm+6wuQHOlq9ONx9dKif9cNB2G6vkK/oLJs8UOVelgpu/7fbCLA/m+HR
+         Fb3Q==
+X-Gm-Message-State: AOJu0YxH2JabBtzXIce71ZfmXK1sKgKbcMfMGPLB7aviDQJyTybgMXWG
+	GqtEcdi16GVYnM9wPsBbdzUlmCoMy2Tics5cdJWpHQzOFYbg2M8pAMezvkIJtQ==
+X-Gm-Gg: ATEYQzyq3se7UukZ0WkhC6tQ5vLMkUokGRbPH9zWp8Pc5BLl2C/hjcFBsNtwU0npI6G
+	YfSKMFpOqHCfTsiyxUNebCCbucNcT4DV7/4hgdnli045Y3l3K1FgRipSJ999BWZjc3znxDpqyzf
+	97quJ6rcuN01q7JoYcyRkgPVweajHPwYYzW+fUNUINDjKBpw/BY/Z13kcQ0HnDbQDxq4lk3bj4i
+	eDgJtntCj29Um0tTb1QwIgTrW9YIKwGrSUAI+gJx37tASXEvZC+li/rFLBrKYYVnDy/swo16nW9
+	innBJOQoLKgmbXMe/rDQ4kdg1Biu/1B3KYeDp+57lYbgA8M9uy+reQXK0m7gdSU98AwrDxyoNdf
+	r2VtZ5ZX96aGC0MJhhKRvSqYTYKN/BbKKs6P48G7mfnpG6XXpdxUZSUOvMZJBNbceE3xpucXunO
+	KGSqNDGMn0oKrAhJwtAp6G
+X-Received: by 2002:a05:6820:22a9:b0:67d:e4e8:5cf4 with SMTP id 006d021491bc7-67dff4157e9mr2360001eaf.17.1774458997039;
+        Wed, 25 Mar 2026 10:16:37 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4200:11c0::7e6c])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41cc775b12dsm134365fac.3.2026.03.25.10.16.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 10:16:36 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] Remove SPDX 2.2 support
+Date: Wed, 25 Mar 2026 11:16:31 -0600
+Message-ID: <20260325171631.1048346-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|DUZPR04MB9726:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17f2d1d6-0b78-48cf-7dfc-08de8a900cab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|18002099003|56012099003|7053199007|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	/qYa/psw1dX5Y+b9IMjA/ewjNPx3F7H1OEVk0iw/Q0qh+C6C1+IwjGye/gF6F/g9hyws4NdPBckKka8yT4V+4X6xwv9f/cC9o9Qcq6crKtbpaXXwScxrIO1AFLO8GYxnnlYlReJ9It8fXm6sqltKG4j77Kd7WOl6we4XehufYUI8rrCHGzl06aNU6NBGdf/T2DYl8ZjNpAC/e1L5Zwuw0WxtWZhXhrPCMC5u3pfwx/ts9s2UngeiNIgTkKSRgs5rQFJRphu1rgV7X+Pg5ayNZvedhXY4o+BVCaD6SbuoS5ge2FIR3Os06B2U6tYKoozNW2Y+CcxcWToEq61Jwx2YjPIrYgp+tFAaZSzh4LnecI0gkgsWmedZHDyTvXL8kPvhWv74gv/yA2Xaqliu+F1Z2SjeWK2dkWDS93mmaVZKR4ojm473fSI2azMmCDPlbdAsg+uRQnYmon+7wIsnk4KxjdYvXfEKnZv6CKDW+yIgEBp4hAr82L20YZWS2aYGYxFWjmB+or6Efx+S+hDsebr0FxXaRjCcRjw+lQ6zPfYd4Zocpoyd5HQQJ35v+G6O7gMURu9IAddEQY3Cez/s6UqrNKY+zi0PBpBH8G1uKLpk32BiPi4yd3zN56Xekk8WZay3YfPYiv0PSMhvUHf6ZY7OGBwou8tG9tCm8JAmuEFyaicqbLrE3ihPjh5mCrv8RH2Qj770wPiLrbZLdoTEMLFXsLU+fV0450f4Edfg43ofszI=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(18002099003)(56012099003)(7053199007)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WGxKQ09GZ3JtQWdmOVJ3OFdsQTNxbDlvM0tiOWZRV2NSVlR5YnFKbElFMEFP?=
- =?utf-8?B?ZUFmdWFRTE9wWGkrUzM1UHllSUFMb2dYUDl6ak9taWpSdHlyS0FpMUhYaXZ3?=
- =?utf-8?B?dVZSSy9POGRLZzhlMGJQRnpMTllGVEJUNFpIWFlKU0dqRTFCR2VvdzF4WWVr?=
- =?utf-8?B?SGhXZ1hROXNGa2JoQ1hEekpDR1Fwak1YVEV5TmduQjFrZURCNDc0cnNFSTg1?=
- =?utf-8?B?VWt0KzgyYW10U0VmTkcwcnNyYy8zeHpiOU1wTHJCWHZqWm5wTUF3S0o5V01Y?=
- =?utf-8?B?bnM4MEVuS2U5TlFoNzY2dnBSZ3NSNzFTWDR5TGxXc2YweUdrVzRNZnNXM254?=
- =?utf-8?B?Zm15bGYreFFxaVB6dUdrUGR3UVF2dXppS2hBRCtOZDJFdFUwYVFNdG1EcExJ?=
- =?utf-8?B?V3cxamFVMkRKMlp5c3VZZDlHUGhrMW5ORE9EeFAxWThteXpwcEt2RS84R3Bi?=
- =?utf-8?B?andvRUdPZGhKVjVUN2dYMlpXbCtGMWlVYWxnS1k5aGVEQUZPK3hCV0U5K2Rz?=
- =?utf-8?B?RUFxakFyMUNWc0kzZHlHc2lsV09UQ1ZiWEZ0NkYxMFNHcU5zYnRMZGgzMXRY?=
- =?utf-8?B?bjJFNVg3Tjk1NE1xN2lrV09VRnNjSXpzVFg1cnY4dTNzaEIvVWtlN3gwWDBu?=
- =?utf-8?B?QzJDbnNLbW1vRnozRFB0Uy8zSExHMG9yRHBHMHZ5am9CY1RPbVR3aTNJZG0z?=
- =?utf-8?B?eG8zenlKM2dYWk0rTmVRMVhiMzA0azlmdWlGa2xYY2tTNzJ1SDhqKzI2Z2tJ?=
- =?utf-8?B?UEtzZ3N5YkszbXcvUDQxdk94OUdjRVhpdzUzbFlNNFVkVnR5KzQyOElwSS9E?=
- =?utf-8?B?bnNha29DSW1nNVV2NzJ6TmZkdUVNejdFc20zRk1XQVI4cEpGOHVZbUZkbUxl?=
- =?utf-8?B?L2gxemJMeUZMQisyRmxNa3FJZXpuSlNIR2p5UG5Ub1hRMHY5cnBqbUs2WGJm?=
- =?utf-8?B?cFhWM3FRN3NmWk5YMEU1R09IV1BXR1MzaUtKdXo4Y1B6NWZ4YVVmTy9iRHEv?=
- =?utf-8?B?TmhZWWlUNU4rcHNSYitOYWs3TFB0TXN3RzZ5c2I1TTAyMUFSRm04cWVnNG9S?=
- =?utf-8?B?eDlVMTVyOTN2MlZkb0svQm9mTHdyQzlzc2lvZUQ1UUxDdng3T0ZBZnRuY25K?=
- =?utf-8?B?MDkwVmkvb1BBblBCVkFTUkFyTk85Y014aTVjM3ROV2RTMkxGQUxvTGFwVjhu?=
- =?utf-8?B?WHREeHdCalR1d0wrbEtGWU8xWkRjaHJjOWRlUm4vOUN2eDB2ODF6UFVWYWpv?=
- =?utf-8?B?ODF4ekZtT1JZZXJZaU81SXpZOWNIRlY5bW5rUlpMSEcxVzR2UXNWK2N5SDJV?=
- =?utf-8?B?K0Rtb1dsbndyL2RtNDBJVzQwbERaZFBjOElDbXR4MS9TSmtZR1ZjMnVEVWtq?=
- =?utf-8?B?RG1reENRNGZHRERtR0gwdnZ0ZGg3elh6QXFjSzNXZ3JjNExkekJEeDBNMFRy?=
- =?utf-8?B?Z0hRNzl2MnhXaUw0d25sNkRoeXlHbS81bDV1VysyWGN2a2Y3Mk5lem00SU85?=
- =?utf-8?B?eHlzczQ5VStzQzNQMFdBQUovSUlQZk42VnREczhzejc1U1lKVG5zbXdlQ2tx?=
- =?utf-8?B?RklFRnZzQmUyUWM2dWtnUnNsTEtJamY1OUhUNUtkb2YwZXNmRTFjelRMRzR3?=
- =?utf-8?B?cC92bGcyUFBvczJCR2E1Y3Flb3hMcXFNWXJ1U0hVMWhmYkVhNjlBR1dlRFdp?=
- =?utf-8?B?YWQ5dUh0SjY1aW5JWE1RVjRXTHJ0ZzFBaFhkSitlV3AwSmtuaXMzRmF1S0ty?=
- =?utf-8?B?VkZsZEJrdzIrUUdNSVVmZFE4SzZmZUk1aDMvSzVoZ0NDZ2dsUHBKakU0VjBJ?=
- =?utf-8?B?K0poaXBDNTZDSHFmZXUzMFl5ZVNQVlNpUENUY1IvSUVDUTBtYXpwS2ZvZllQ?=
- =?utf-8?B?RzZ5bXdhUUE5em5xMFdQMGRVK1prNUdDYlZlUFVmVWVza0pidllqYzlaQVBS?=
- =?utf-8?B?cG9GTWFzSnJKTGpFM08rbUJIc3FydkdUc1NCdDN2VCtYSGZNbkUwQk5XVnNj?=
- =?utf-8?B?WVl2K0JCYU9VTmtnTVVXczFOVko0bG5Kd1MxZzQzNjdWUmJYaUdJeHMzVldS?=
- =?utf-8?B?K1ZXTVFNa2pFK25RdWNWdFAxV09ydUJTSHJlU1dGbDFIRDVhYU1EVGVMbGxn?=
- =?utf-8?B?Nm9ZWHU5bk14SUVmK1oxSnhKKzMvL3ZwMW1QLzhYTGRJeVh2VXh6NzFPZ010?=
- =?utf-8?B?RjZwTVBCL3hHYzlrQytlRlcvM1VDbEZJRmZpMzk4VVFLNFpnUHQvNURlL2pl?=
- =?utf-8?B?QUtSR2NrOXRXT244disxY21PdmFyT1c1L2dNUGtXWHNnWXAwWVFrMENsMUxz?=
- =?utf-8?B?dFRvSmQ2a1oxZlVaU0k5Z1dYZUVCS1ZnZ2RibXlqdFhCNkpBMDlSQT09?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17f2d1d6-0b78-48cf-7dfc-08de8a900cab
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 17:00:42.7027
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ejJcVbhomkqkDy5DEQcjhHqEqCBoQiEm+sy+c3BGrywAsAauitWbGxzacRPueOvPipUqALFhRr43LeRFgjjfWideUHaj6ZIHRohO9DhEtgw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9726
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 17:00:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233929
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 17:16:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233930
 
-Hi Khem,
+Removes SPDX 2.2 support in favor of SPDX 3 support being the only
+option. The SPDX 3 data is far superior to SPDX 2.2 and thus more useful
+for SBoM uses cases.
 
-On 3/25/26 5:38 PM, Khem Raj wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> Fix do_compile failure:
-> ../sources/mesa-26.0.1/src/panfrost/lib/kmod/pan_kmod.c:7:10: fatal error: xf86drm.h: No such file or directory
-> 
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/create-spdx-2.2.bbclass | 990 ---------------------------
+ meta/lib/oe/sbom.py                  | 120 ----
+ meta/lib/oe/spdx.py                  | 357 ----------
+ meta/lib/oeqa/selftest/cases/spdx.py |  63 +-
+ 4 files changed, 1 insertion(+), 1529 deletions(-)
+ delete mode 100644 meta/classes/create-spdx-2.2.bbclass
+ delete mode 100644 meta/lib/oe/sbom.py
+ delete mode 100644 meta/lib/oe/spdx.py
 
-Hold on a second. In v1 you patched mesa-tools-native and I based the 
-whole discussion on that but the error message is actually about target 
-mesa? You also said in v1 you're building mesa-gl so the error message 
-is also not related. The commit title also is wrong now as you're 
-changing mesa.inc.
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+deleted file mode 100644
+index 1c43156559..0000000000
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ /dev/null
+@@ -1,990 +0,0 @@
+-#
+-# Copyright OpenEmbedded Contributors
+-#
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-
+-inherit spdx-common
+-
+-SPDX_VERSION = "2.2"
+-
+-SPDX_ORG ??= "OpenEmbedded ()"
+-SPDX_SUPPLIER ??= "Organization: ${SPDX_ORG}"
+-SPDX_SUPPLIER[doc] = "The SPDX PackageSupplier field for SPDX packages created from \
+-    this recipe. For SPDX documents create using this class during the build, this \
+-    is the contact information for the person or organization who is doing the \
+-    build."
+-
+-SPDX_ARCHIVE_SOURCES ??= "0"
+-SPDX_ARCHIVE_PACKAGED ??= "0"
+-
+-def get_namespace(d, name):
+-    import uuid
+-    namespace_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, d.getVar("SPDX_UUID_NAMESPACE"))
+-    return "%s/%s-%s" % (d.getVar("SPDX_NAMESPACE_PREFIX"), name, str(uuid.uuid5(namespace_uuid, name)))
+-
+-SPDX_PACKAGE_VERSION ??= "${PV}"
+-SPDX_PACKAGE_VERSION[doc] = "The version of a package, versionInfo in recipe, package and image"
+-
+-def create_annotation(d, comment):
+-    from datetime import datetime, timezone
+-
+-    creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+-    annotation = oe.spdx.SPDXAnnotation()
+-    annotation.annotationDate = creation_time
+-    annotation.annotationType = "OTHER"
+-    annotation.annotator = "Tool: %s - %s" % (d.getVar("SPDX_TOOL_NAME"), d.getVar("SPDX_TOOL_VERSION"))
+-    annotation.comment = comment
+-    return annotation
+-
+-def recipe_spdx_is_native(d, recipe):
+-    return any(a.annotationType == "OTHER" and
+-      a.annotator == "Tool: %s - %s" % (d.getVar("SPDX_TOOL_NAME"), d.getVar("SPDX_TOOL_VERSION")) and
+-      a.comment == "isNative" for a in recipe.annotations)
+-
+-def get_json_indent(d):
+-    if d.getVar("SPDX_PRETTY") == "1":
+-        return 2
+-    return None
+-
+-
+-def convert_license_to_spdx(lic, license_data, document, d, existing={}):
+-    from pathlib import Path
+-    import oe.spdx
+-
+-    extracted = {}
+-
+-    def add_extracted_license(ident, name):
+-        nonlocal document
+-
+-        if name in extracted:
+-            return
+-
+-        extracted_info = oe.spdx.SPDXExtractedLicensingInfo()
+-        extracted_info.name = name
+-        extracted_info.licenseId = ident
+-        extracted_info.extractedText = None
+-
+-        if name == "PD":
+-            # Special-case this.
+-            extracted_info.extractedText = "Software released to the public domain"
+-        else:
+-            # Seach for the license in COMMON_LICENSE_DIR and LICENSE_PATH
+-            for directory in [d.getVar('COMMON_LICENSE_DIR')] + (d.getVar('LICENSE_PATH') or '').split():
+-                try:
+-                    with (Path(directory) / name).open(errors="replace") as f:
+-                        extracted_info.extractedText = f.read()
+-                        break
+-                except FileNotFoundError:
+-                    pass
+-            if extracted_info.extractedText is None:
+-                # If it's not SPDX or PD, then NO_GENERIC_LICENSE must be set
+-                entry = d.getVarFlag('NO_GENERIC_LICENSE', name).split(';')
+-                filename = entry[0]
+-                params = {i.split('=')[0]: i.split('=')[1] for i in entry[1:] if '=' in i}
+-                beginline = int(params.get('beginline', 1))
+-                endline = params.get('endline', None)
+-                if endline:
+-                    endline = int(endline)
+-                if filename:
+-                    filename = d.expand("${S}/" + filename)
+-                    with open(filename, errors="replace") as f:
+-                        extracted_info.extractedText = "".join(line for idx, line in enumerate(f, 1) if beginline <= idx and idx <= (endline or idx))
+-                else:
+-                    bb.fatal("Cannot find any text for license %s" % name)
+-
+-        extracted[name] = extracted_info
+-        document.hasExtractedLicensingInfos.append(extracted_info)
+-
+-    def convert(l):
+-        if l == "(" or l == ")":
+-            return l
+-
+-        if l == "&":
+-            return "AND"
+-
+-        if l == "|":
+-            return "OR"
+-
+-        if l == "CLOSED":
+-            return "NONE"
+-
+-        spdx_license = d.getVarFlag("SPDXLICENSEMAP", l) or l
+-        if spdx_license in license_data["licenses"]:
+-            return spdx_license
+-
+-        try:
+-            spdx_license = existing[l]
+-        except KeyError:
+-            spdx_license = "LicenseRef-" + l
+-            add_extracted_license(spdx_license, l)
+-
+-        return spdx_license
+-
+-    lic_split = lic.replace("(", " ( ").replace(")", " ) ").replace("|", " | ").replace("&", " & ").split()
+-
+-    return ' '.join(convert(l) for l in lic_split)
+-
+-def add_package_files(d, doc, spdx_pkg, topdir, get_spdxid, get_types, *, archive=None, ignore_dirs=[], ignore_top_level_dirs=[]):
+-    from pathlib import Path
+-    import oe.spdx
+-    import oe.spdx_common
+-    import hashlib
+-
+-    source_date_epoch = d.getVar("SOURCE_DATE_EPOCH")
+-    if source_date_epoch:
+-        source_date_epoch = int(source_date_epoch)
+-
+-    sha1s = []
+-    spdx_files = []
+-
+-    file_counter = 1
+-
+-    check_compiled_sources = d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1"
+-    if check_compiled_sources:
+-        compiled_sources, types = oe.spdx_common.get_compiled_sources(d)
+-        bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
+-    for subdir, dirs, files in os.walk(topdir):
+-        dirs[:] = [d for d in dirs if d not in ignore_dirs]
+-        if subdir == str(topdir):
+-            dirs[:] = [d for d in dirs if d not in ignore_top_level_dirs]
+-
+-        for file in files:
+-            filepath = Path(subdir) / file
+-            filename = str(filepath.relative_to(topdir))
+-
+-            if not filepath.is_symlink() and filepath.is_file():
+-                # Check if file is compiled
+-                if check_compiled_sources:
+-                     if not oe.spdx_common.is_compiled_source(filename, compiled_sources, types):
+-                          continue
+-                spdx_file = oe.spdx.SPDXFile()
+-                spdx_file.SPDXID = get_spdxid(file_counter)
+-                for t in get_types(filepath):
+-                    spdx_file.fileTypes.append(t)
+-                spdx_file.fileName = filename
+-
+-                if archive is not None:
+-                    with filepath.open("rb") as f:
+-                        info = archive.gettarinfo(fileobj=f)
+-                        info.name = filename
+-                        info.uid = 0
+-                        info.gid = 0
+-                        info.uname = "root"
+-                        info.gname = "root"
+-
+-                        if source_date_epoch is not None and info.mtime > source_date_epoch:
+-                            info.mtime = source_date_epoch
+-
+-                        archive.addfile(info, f)
+-
+-                sha1 = bb.utils.sha1_file(filepath)
+-                sha1s.append(sha1)
+-                spdx_file.checksums.append(oe.spdx.SPDXChecksum(
+-                        algorithm="SHA1",
+-                        checksumValue=sha1,
+-                    ))
+-                spdx_file.checksums.append(oe.spdx.SPDXChecksum(
+-                        algorithm="SHA256",
+-                        checksumValue=bb.utils.sha256_file(filepath),
+-                    ))
+-
+-                if "SOURCE" in spdx_file.fileTypes:
+-                    extracted_lics = oe.spdx_common.extract_licenses(filepath)
+-                    if extracted_lics:
+-                        spdx_file.licenseInfoInFiles = extracted_lics
+-
+-                doc.files.append(spdx_file)
+-                doc.add_relationship(spdx_pkg, "CONTAINS", spdx_file)
+-                spdx_pkg.hasFiles.append(spdx_file.SPDXID)
+-
+-                spdx_files.append(spdx_file)
+-
+-                file_counter += 1
+-
+-    sha1s.sort()
+-    verifier = hashlib.sha1()
+-    for v in sha1s:
+-        verifier.update(v.encode("utf-8"))
+-    spdx_pkg.packageVerificationCode.packageVerificationCodeValue = verifier.hexdigest()
+-
+-    return spdx_files
+-
+-
+-def add_package_sources_from_debug(d, package_doc, spdx_package, package, package_files, sources):
+-    from pathlib import Path
+-    import hashlib
+-    import oe.packagedata
+-    import oe.spdx
+-
+-    debug_search_paths = [
+-        Path(d.getVar('PKGD')),
+-        Path(d.getVar('STAGING_DIR_TARGET')),
+-        Path(d.getVar('STAGING_DIR_NATIVE')),
+-        Path(d.getVar('STAGING_KERNEL_DIR')),
+-    ]
+-
+-    pkg_data = oe.packagedata.read_subpkgdata_extended(package, d)
+-
+-    if pkg_data is None:
+-        return
+-
+-    for file_path, file_data in pkg_data["files_info"].items():
+-        if not "debugsrc" in file_data:
+-            continue
+-
+-        for pkg_file in package_files:
+-            if file_path.lstrip("/") == pkg_file.fileName.lstrip("/"):
+-                break
+-        else:
+-            bb.fatal("No package file found for %s in %s; SPDX found: %s" % (str(file_path), package,
+-                " ".join(p.fileName for p in package_files)))
+-            continue
+-
+-        for debugsrc in file_data["debugsrc"]:
+-            ref_id = "NOASSERTION"
+-            for search in debug_search_paths:
+-                if debugsrc.startswith("/usr/src/kernel"):
+-                    debugsrc_path = search / debugsrc.replace('/usr/src/kernel/', '')
+-                else:
+-                    debugsrc_path = search / debugsrc.lstrip("/")
+-                # We can only hash files below, skip directories, links, etc.
+-                if not os.path.isfile(debugsrc_path):
+-                    continue
+-
+-                file_sha256 = bb.utils.sha256_file(debugsrc_path)
+-
+-                if file_sha256 in sources:
+-                    source_file = sources[file_sha256]
+-
+-                    doc_ref = package_doc.find_external_document_ref(source_file.doc.documentNamespace)
+-                    if doc_ref is None:
+-                        doc_ref = oe.spdx.SPDXExternalDocumentRef()
+-                        doc_ref.externalDocumentId = "DocumentRef-dependency-" + source_file.doc.name
+-                        doc_ref.spdxDocument = source_file.doc.documentNamespace
+-                        doc_ref.checksum.algorithm = "SHA1"
+-                        doc_ref.checksum.checksumValue = source_file.doc_sha1
+-                        package_doc.externalDocumentRefs.append(doc_ref)
+-
+-                    ref_id = "%s:%s" % (doc_ref.externalDocumentId, source_file.file.SPDXID)
+-                else:
+-                    bb.debug(1, "Debug source %s with SHA256 %s not found in any dependency" % (str(debugsrc_path), file_sha256))
+-                break
+-            else:
+-                bb.debug(1, "Debug source %s not found" % debugsrc)
+-
+-            package_doc.add_relationship(pkg_file, "GENERATED_FROM", ref_id, comment=debugsrc)
+-
+-add_package_sources_from_debug[vardepsexclude] += "STAGING_KERNEL_DIR"
+-
+-def collect_dep_recipes(d, doc, spdx_recipe, direct_deps):
+-    import json
+-    from pathlib import Path
+-    import oe.sbom
+-    import oe.spdx
+-    import oe.spdx_common
+-
+-    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+-    package_archs = d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+-    package_archs.reverse()
+-
+-    dep_recipes = []
+-
+-    for dep in direct_deps:
+-        # If this dependency is not calculated in the taskhash skip it.
+-        # Otherwise, it can result in broken links since this task won't
+-        # rebuild and see the new SPDX ID if the dependency changes
+-        if not dep.in_taskhash:
+-            continue
+-
+-        dep_recipe_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, "recipe-" + dep.pn, dep.hashfn)
+-        if not dep_recipe_path:
+-            bb.fatal("Cannot find any SPDX file for recipe %s, %s" % (dep.pn, dep.hashfn))
+-
+-        spdx_dep_doc, spdx_dep_sha1 = oe.sbom.read_doc(dep_recipe_path)
+-
+-        for pkg in spdx_dep_doc.packages:
+-            if pkg.name == dep.pn:
+-                spdx_dep_recipe = pkg
+-                break
+-        else:
+-            continue
+-
+-        dep_recipes.append(oe.sbom.DepRecipe(spdx_dep_doc, spdx_dep_sha1, spdx_dep_recipe))
+-
+-        dep_recipe_ref = oe.spdx.SPDXExternalDocumentRef()
+-        dep_recipe_ref.externalDocumentId = "DocumentRef-dependency-" + spdx_dep_doc.name
+-        dep_recipe_ref.spdxDocument = spdx_dep_doc.documentNamespace
+-        dep_recipe_ref.checksum.algorithm = "SHA1"
+-        dep_recipe_ref.checksum.checksumValue = spdx_dep_sha1
+-
+-        doc.externalDocumentRefs.append(dep_recipe_ref)
+-
+-        doc.add_relationship(
+-            "%s:%s" % (dep_recipe_ref.externalDocumentId, spdx_dep_recipe.SPDXID),
+-            "BUILD_DEPENDENCY_OF",
+-            spdx_recipe
+-        )
+-
+-    return dep_recipes
+-
+-collect_dep_recipes[vardepsexclude] = "SPDX_MULTILIB_SSTATE_ARCHS"
+-
+-def collect_dep_sources(d, dep_recipes):
+-    import oe.sbom
+-
+-    sources = {}
+-    for dep in dep_recipes:
+-        # Don't collect sources from native recipes as they
+-        # match non-native sources also.
+-        if recipe_spdx_is_native(d, dep.recipe):
+-            continue
+-        recipe_files = set(dep.recipe.hasFiles)
+-
+-        for spdx_file in dep.doc.files:
+-            if spdx_file.SPDXID not in recipe_files:
+-                continue
+-
+-            if "SOURCE" in spdx_file.fileTypes:
+-                for checksum in spdx_file.checksums:
+-                    if checksum.algorithm == "SHA256":
+-                        sources[checksum.checksumValue] = oe.sbom.DepSource(dep.doc, dep.doc_sha1, dep.recipe, spdx_file)
+-                        break
+-
+-    return sources
+-
+-def add_download_packages(d, doc, recipe):
+-    import os.path
+-    from bb.fetch2 import decodeurl, CHECKSUM_LIST
+-    import bb.process
+-    import oe.spdx
+-    import oe.sbom
+-
+-    for download_idx, src_uri in enumerate(d.getVar('SRC_URI').split()):
+-        f = bb.fetch2.FetchData(src_uri, d)
+-
+-        package = oe.spdx.SPDXPackage()
+-        package.name = "%s-source-%d" % (d.getVar("PN"), download_idx + 1)
+-        package.SPDXID = oe.sbom.get_download_spdxid(d, download_idx + 1)
+-
+-        if f.type == "file":
+-            continue
+-
+-        if f.method.supports_checksum(f):
+-            for checksum_id in CHECKSUM_LIST:
+-                if checksum_id.upper() not in oe.spdx.SPDXPackage.ALLOWED_CHECKSUMS:
+-                    continue
+-
+-                expected_checksum = getattr(f, "%s_expected" % checksum_id)
+-                if expected_checksum is None:
+-                    continue
+-
+-                c = oe.spdx.SPDXChecksum()
+-                c.algorithm = checksum_id.upper()
+-                c.checksumValue = expected_checksum
+-                package.checksums.append(c)
+-
+-        package.downloadLocation = oe.spdx_common.fetch_data_to_uri(f, f.name)
+-        doc.packages.append(package)
+-        doc.add_relationship(doc, "DESCRIBES", package)
+-        # In the future, we might be able to do more fancy dependencies,
+-        # but this should be sufficient for now
+-        doc.add_relationship(package, "BUILD_DEPENDENCY_OF", recipe)
+-
+-def get_license_list_version(license_data, d):
+-    # Newer versions of the SPDX license list are SemVer ("MAJOR.MINOR.MICRO"),
+-    # but SPDX 2 only uses "MAJOR.MINOR".
+-    return ".".join(license_data["licenseListVersion"].split(".")[:2])
+-
+-
+-# This task is added for compatibility with tasks shared with SPDX 3, but
+-# doesn't do anything
+-do_create_recipe_spdx() {
+-    :
+-}
+-do_create_recipe_spdx[noexec] = "1"
+-addtask do_create_recipe_spdx
+-
+-
+-python do_create_spdx() {
+-    from datetime import datetime, timezone
+-    import oe.sbom
+-    import oe.spdx
+-    import oe.spdx_common
+-    import uuid
+-    from pathlib import Path
+-    from contextlib import contextmanager
+-    import oe.cve_check
+-
+-    license_data = oe.spdx_common.load_spdx_license_data(d)
+-
+-    @contextmanager
+-    def optional_tarfile(name, guard, mode="w"):
+-        import tarfile
+-        import bb.compress.zstd
+-
+-        num_threads = int(d.getVar("BB_NUMBER_THREADS"))
+-
+-        if guard:
+-            name.parent.mkdir(parents=True, exist_ok=True)
+-            with bb.compress.zstd.open(name, mode=mode + "b", num_threads=num_threads) as f:
+-                with tarfile.open(fileobj=f, mode=mode + "|") as tf:
+-                    yield tf
+-        else:
+-            yield None
+-
+-
+-    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+-    spdx_workdir = Path(d.getVar("SPDXWORK"))
+-    include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
+-    archive_sources = d.getVar("SPDX_ARCHIVE_SOURCES") == "1"
+-    archive_packaged = d.getVar("SPDX_ARCHIVE_PACKAGED") == "1"
+-    pkg_arch = d.getVar("SSTATE_PKGARCH")
+-
+-    creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+-
+-    doc = oe.spdx.SPDXDocument()
+-
+-    doc.name = "recipe-" + d.getVar("PN")
+-    doc.documentNamespace = get_namespace(d, doc.name)
+-    doc.creationInfo.created = creation_time
+-    doc.creationInfo.comment = "This document was created by analyzing recipe files during the build."
+-    doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+-    doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+-    doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+-    doc.creationInfo.creators.append("Person: N/A ()")
+-
+-    recipe = oe.spdx.SPDXPackage()
+-    recipe.name = d.getVar("PN")
+-    recipe.versionInfo = d.getVar("SPDX_PACKAGE_VERSION")
+-    recipe.SPDXID = oe.sbom.get_recipe_spdxid(d)
+-    recipe.supplier = d.getVar("SPDX_SUPPLIER")
+-    if bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d):
+-        recipe.annotations.append(create_annotation(d, "isNative"))
+-
+-    homepage = d.getVar("HOMEPAGE")
+-    if homepage:
+-        recipe.homepage = homepage
+-
+-    license = d.getVar("LICENSE")
+-    if license:
+-        recipe.licenseDeclared = convert_license_to_spdx(license, license_data, doc, d)
+-
+-    summary = d.getVar("SUMMARY")
+-    if summary:
+-        recipe.summary = summary
+-
+-    description = d.getVar("DESCRIPTION")
+-    if description:
+-        recipe.description = description
+-
+-    if d.getVar("SPDX_CUSTOM_ANNOTATION_VARS"):
+-        for var in d.getVar('SPDX_CUSTOM_ANNOTATION_VARS').split():
+-            recipe.annotations.append(create_annotation(d, var + "=" + d.getVar(var)))
+-
+-    # Some CVEs may be patched during the build process without incrementing the version number,
+-    # so querying for CVEs based on the CPE id can lead to false positives. To account for this,
+-    # save the CVEs fixed by patches to source information field in the SPDX.
+-    patched_cves = oe.cve_check.get_patched_cves(d)
+-    patched_cves = list(patched_cves)
+-
+-    ignored_cves = d.getVar("CVE_CHECK_IGNORE")
+-    if ignored_cves:
+-        patched_cves.extend(ignored_cves.split())
+-
+-    patched_cves = ' '.join(patched_cves)
+-    if patched_cves:
+-        recipe.sourceInfo = "CVEs fixed: " + patched_cves
+-
+-    cpe_ids = oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"), d.getVar("CVE_VERSION"))
+-    if cpe_ids:
+-        for cpe_id in cpe_ids:
+-            cpe = oe.spdx.SPDXExternalReference()
+-            cpe.referenceCategory = "SECURITY"
+-            cpe.referenceType = "cpe23Type"
+-            cpe.referenceLocator = cpe_id
+-            recipe.externalRefs.append(cpe)
+-
+-    doc.packages.append(recipe)
+-    doc.add_relationship(doc, "DESCRIBES", recipe)
+-
+-    add_download_packages(d, doc, recipe)
+-
+-    if oe.spdx_common.process_sources(d) and include_sources:
+-        recipe_archive = deploy_dir_spdx / "recipes" / (doc.name + ".tar.zst")
+-        with optional_tarfile(recipe_archive, archive_sources) as archive:
+-            oe.spdx_common.get_patched_src(d)
+-
+-            add_package_files(
+-                d,
+-                doc,
+-                recipe,
+-                spdx_workdir,
+-                lambda file_counter: "SPDXRef-SourceFile-%s-%d" % (d.getVar("PN"), file_counter),
+-                lambda filepath: ["SOURCE"],
+-                ignore_dirs=[".git"],
+-                ignore_top_level_dirs=["temp"],
+-                archive=archive,
+-            )
+-
+-            if archive is not None:
+-                recipe.packageFileName = str(recipe_archive.name)
+-
+-    direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
+-    dep_recipes = collect_dep_recipes(d, doc, recipe, direct_deps)
+-
+-    doc_sha1 = oe.sbom.write_doc(d, doc, pkg_arch, "recipes", indent=get_json_indent(d))
+-    dep_recipes.append(oe.sbom.DepRecipe(doc, doc_sha1, recipe))
+-
+-    recipe_ref = oe.spdx.SPDXExternalDocumentRef()
+-    recipe_ref.externalDocumentId = "DocumentRef-recipe-" + recipe.name
+-    recipe_ref.spdxDocument = doc.documentNamespace
+-    recipe_ref.checksum.algorithm = "SHA1"
+-    recipe_ref.checksum.checksumValue = doc_sha1
+-
+-    sources = collect_dep_sources(d, dep_recipes)
+-    found_licenses = {license.name:recipe_ref.externalDocumentId + ":" + license.licenseId for license in doc.hasExtractedLicensingInfos}
+-
+-    if not recipe_spdx_is_native(d, recipe):
+-        bb.build.exec_func("read_subpackage_metadata", d)
+-
+-        pkgdest = Path(d.getVar("PKGDEST"))
+-        for package in d.getVar("PACKAGES").split():
+-            if not oe.packagedata.packaged(package, d):
+-                continue
+-
+-            package_doc = oe.spdx.SPDXDocument()
+-            pkg_name = d.getVar("PKG:%s" % package) or package
+-            package_doc.name = pkg_name
+-            package_doc.documentNamespace = get_namespace(d, package_doc.name)
+-            package_doc.creationInfo.created = creation_time
+-            package_doc.creationInfo.comment = "This document was created by analyzing packages created during the build."
+-            package_doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+-            package_doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+-            package_doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+-            package_doc.creationInfo.creators.append("Person: N/A ()")
+-            package_doc.externalDocumentRefs.append(recipe_ref)
+-
+-            package_license = d.getVar("LICENSE:%s" % package) or d.getVar("LICENSE")
+-
+-            spdx_package = oe.spdx.SPDXPackage()
+-
+-            spdx_package.SPDXID = oe.sbom.get_package_spdxid(pkg_name)
+-            spdx_package.name = pkg_name
+-            spdx_package.versionInfo = d.getVar("SPDX_PACKAGE_VERSION")
+-            spdx_package.licenseDeclared = convert_license_to_spdx(package_license, license_data, package_doc, d, found_licenses)
+-            spdx_package.supplier = d.getVar("SPDX_SUPPLIER")
+-
+-            package_doc.packages.append(spdx_package)
+-
+-            package_doc.add_relationship(spdx_package, "GENERATED_FROM", "%s:%s" % (recipe_ref.externalDocumentId, recipe.SPDXID))
+-            package_doc.add_relationship(package_doc, "DESCRIBES", spdx_package)
+-
+-            package_archive = deploy_dir_spdx / "packages" / (package_doc.name + ".tar.zst")
+-            with optional_tarfile(package_archive, archive_packaged) as archive:
+-                package_files = add_package_files(
+-                    d,
+-                    package_doc,
+-                    spdx_package,
+-                    pkgdest / package,
+-                    lambda file_counter: oe.sbom.get_packaged_file_spdxid(pkg_name, file_counter),
+-                    lambda filepath: ["BINARY"],
+-                    ignore_top_level_dirs=['CONTROL', 'DEBIAN'],
+-                    archive=archive,
+-                )
+-
+-                if archive is not None:
+-                    spdx_package.packageFileName = str(package_archive.name)
+-
+-            add_package_sources_from_debug(d, package_doc, spdx_package, package, package_files, sources)
+-
+-            oe.sbom.write_doc(d, package_doc, pkg_arch, "packages", indent=get_json_indent(d))
+-}
+-do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS"
+-# NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
+-addtask do_create_spdx after do_create_recipe_spdx do_package do_packagedata do_unpack do_patch before do_populate_sdk do_build do_rm_work
+-
+-SSTATETASKS += "do_create_spdx"
+-do_create_spdx[sstate-inputdirs] = "${SPDXDEPLOY}"
+-do_create_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
+-
+-python do_create_spdx_setscene () {
+-    sstate_setscene(d)
+-}
+-addtask do_create_spdx_setscene
+-
+-do_create_spdx[deptask] += "do_create_spdx"
+-do_create_spdx[dirs] = "${SPDXWORK}"
+-do_create_spdx[cleandirs] = "${SPDXDEPLOY} ${SPDXWORK}"
+-do_create_spdx[depends] += " \
+-    ${PATCHDEPENDENCY} \
+-    ${@create_spdx_source_deps(d)} \
+-"
+-
+-python do_create_runtime_spdx() {
+-    from datetime import datetime, timezone
+-    import oe.sbom
+-    import oe.spdx
+-    import oe.spdx_common
+-    import oe.packagedata
+-    from pathlib import Path
+-
+-    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+-    spdx_deploy = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
+-    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d)
+-
+-    creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+-
+-    license_data = oe.spdx_common.load_spdx_license_data(d)
+-
+-    direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
+-
+-    providers = oe.spdx_common.collect_package_providers(d, direct_deps)
+-    pkg_arch = d.getVar("SSTATE_PKGARCH")
+-    package_archs = d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+-    package_archs.reverse()
+-
+-    if not is_native:
+-        bb.build.exec_func("read_subpackage_metadata", d)
+-
+-        dep_package_cache = {}
+-
+-        pkgdest = Path(d.getVar("PKGDEST"))
+-        for package in d.getVar("PACKAGES").split():
+-            localdata = bb.data.createCopy(d)
+-            pkg_name = d.getVar("PKG:%s" % package) or package
+-            localdata.setVar("PKG", pkg_name)
+-            localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + package)
+-
+-            if not oe.packagedata.packaged(package, localdata):
+-                continue
+-
+-            pkg_spdx_path = oe.sbom.doc_path(deploy_dir_spdx, pkg_name, pkg_arch, "packages")
+-
+-            package_doc, package_doc_sha1 = oe.sbom.read_doc(pkg_spdx_path)
+-
+-            for p in package_doc.packages:
+-                if p.name == pkg_name:
+-                    spdx_package = p
+-                    break
+-            else:
+-                bb.fatal("Package '%s' not found in %s" % (pkg_name, pkg_spdx_path))
+-
+-            runtime_doc = oe.spdx.SPDXDocument()
+-            runtime_doc.name = "runtime-" + pkg_name
+-            runtime_doc.documentNamespace = get_namespace(localdata, runtime_doc.name)
+-            runtime_doc.creationInfo.created = creation_time
+-            runtime_doc.creationInfo.comment = "This document was created by analyzing package runtime dependencies."
+-            runtime_doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+-            runtime_doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+-            runtime_doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+-            runtime_doc.creationInfo.creators.append("Person: N/A ()")
+-
+-            package_ref = oe.spdx.SPDXExternalDocumentRef()
+-            package_ref.externalDocumentId = "DocumentRef-package-" + package
+-            package_ref.spdxDocument = package_doc.documentNamespace
+-            package_ref.checksum.algorithm = "SHA1"
+-            package_ref.checksum.checksumValue = package_doc_sha1
+-
+-            runtime_doc.externalDocumentRefs.append(package_ref)
+-
+-            runtime_doc.add_relationship(
+-                runtime_doc.SPDXID,
+-                "AMENDS",
+-                "%s:%s" % (package_ref.externalDocumentId, package_doc.SPDXID)
+-            )
+-
+-            deps = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
+-            seen_deps = set()
+-            for dep, _ in deps.items():
+-                if dep in seen_deps:
+-                    continue
+-
+-                if dep not in providers:
+-                    continue
+-
+-                (dep, dep_hashfn) = providers[dep]
+-
+-                if not oe.packagedata.packaged(dep, localdata):
+-                    continue
+-
+-                dep_pkg_data = oe.packagedata.read_subpkgdata_dict(dep, d)
+-                dep_pkg = dep_pkg_data["PKG"]
+-
+-                if dep in dep_package_cache:
+-                    (dep_spdx_package, dep_package_ref) = dep_package_cache[dep]
+-                else:
+-                    dep_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, dep_pkg, dep_hashfn)
+-                    if not dep_path:
+-                        bb.fatal("No SPDX file found for package %s, %s" % (dep_pkg, dep_hashfn))
+-
+-                    spdx_dep_doc, spdx_dep_sha1 = oe.sbom.read_doc(dep_path)
+-
+-                    for pkg in spdx_dep_doc.packages:
+-                        if pkg.name == dep_pkg:
+-                            dep_spdx_package = pkg
+-                            break
+-                    else:
+-                        bb.fatal("Package '%s' not found in %s" % (dep_pkg, dep_path))
+-
+-                    dep_package_ref = oe.spdx.SPDXExternalDocumentRef()
+-                    dep_package_ref.externalDocumentId = "DocumentRef-runtime-dependency-" + spdx_dep_doc.name
+-                    dep_package_ref.spdxDocument = spdx_dep_doc.documentNamespace
+-                    dep_package_ref.checksum.algorithm = "SHA1"
+-                    dep_package_ref.checksum.checksumValue = spdx_dep_sha1
+-
+-                    dep_package_cache[dep] = (dep_spdx_package, dep_package_ref)
+-
+-                runtime_doc.externalDocumentRefs.append(dep_package_ref)
+-
+-                runtime_doc.add_relationship(
+-                    "%s:%s" % (dep_package_ref.externalDocumentId, dep_spdx_package.SPDXID),
+-                    "RUNTIME_DEPENDENCY_OF",
+-                    "%s:%s" % (package_ref.externalDocumentId, spdx_package.SPDXID)
+-                )
+-                seen_deps.add(dep)
+-
+-            oe.sbom.write_doc(d, runtime_doc, pkg_arch, "runtime", spdx_deploy, indent=get_json_indent(d))
+-}
+-
+-do_create_runtime_spdx[vardepsexclude] += "OVERRIDES SPDX_MULTILIB_SSTATE_ARCHS"
+-
+-addtask do_create_runtime_spdx after do_create_spdx before do_build do_rm_work
+-SSTATETASKS += "do_create_runtime_spdx"
+-do_create_runtime_spdx[sstate-inputdirs] = "${SPDXRUNTIMEDEPLOY}"
+-do_create_runtime_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
+-
+-python do_create_runtime_spdx_setscene () {
+-    sstate_setscene(d)
+-}
+-addtask do_create_runtime_spdx_setscene
+-
+-do_create_runtime_spdx[dirs] = "${SPDXRUNTIMEDEPLOY}"
+-do_create_runtime_spdx[cleandirs] = "${SPDXRUNTIMEDEPLOY}"
+-do_create_runtime_spdx[deptask] = "do_create_spdx"
+-do_create_runtime_spdx[rdeptask] = "do_create_spdx"
+-
+-do_rootfs[recrdeptask] += "do_create_spdx do_create_runtime_spdx"
+-do_rootfs[cleandirs] += "${SPDXIMAGEWORK}"
+-
+-ROOTFS_POSTUNINSTALL_COMMAND =+ "image_combine_spdx"
+-
+-do_populate_sdk[recrdeptask] += "do_create_spdx do_create_runtime_spdx"
+-do_populate_sdk[cleandirs] += "${SPDXSDKWORK}"
+-POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk = " sdk_host_combine_spdx"
+-POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk = " sdk_target_combine_spdx"
+-
+-python image_combine_spdx() {
+-    import os
+-    import oe.sbom
+-    from pathlib import Path
+-    from oe.rootfs import image_list_installed_packages
+-
+-    image_name = d.getVar("IMAGE_NAME")
+-    image_link_name = d.getVar("IMAGE_LINK_NAME")
+-    imgdeploydir = Path(d.getVar("IMGDEPLOYDIR"))
+-    img_spdxid = oe.sbom.get_image_spdxid(image_name)
+-    packages = image_list_installed_packages(d)
+-
+-    combine_spdx(d, image_name, imgdeploydir, img_spdxid, packages, Path(d.getVar("SPDXIMAGEWORK")))
+-
+-    def make_image_link(target_path, suffix):
+-        if image_link_name:
+-            link = imgdeploydir / (image_link_name + suffix)
+-            if link != target_path:
+-                link.symlink_to(os.path.relpath(target_path, link.parent))
+-
+-    spdx_tar_path = imgdeploydir / (image_name + ".spdx.tar.zst")
+-    make_image_link(spdx_tar_path, ".spdx.tar.zst")
+-}
+-
+-python sdk_host_combine_spdx() {
+-    sdk_combine_spdx(d, "host")
+-}
+-
+-python sdk_target_combine_spdx() {
+-    sdk_combine_spdx(d, "target")
+-}
+-
+-def sdk_combine_spdx(d, sdk_type):
+-    import oe.sbom
+-    from pathlib import Path
+-    from oe.sdk import sdk_list_installed_packages
+-
+-    sdk_name = d.getVar("TOOLCHAIN_OUTPUTNAME") + "-" + sdk_type
+-    sdk_deploydir = Path(d.getVar("SDKDEPLOYDIR"))
+-    sdk_spdxid = oe.sbom.get_sdk_spdxid(sdk_name)
+-    sdk_packages = sdk_list_installed_packages(d, sdk_type == "target")
+-    combine_spdx(d, sdk_name, sdk_deploydir, sdk_spdxid, sdk_packages, Path(d.getVar('SPDXSDKWORK')))
+-
+-def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx_workdir):
+-    import os
+-    import oe.spdx
+-    import oe.sbom
+-    import oe.spdx_common
+-    import io
+-    import json
+-    from datetime import timezone, datetime
+-    from pathlib import Path
+-    import tarfile
+-    import bb.compress.zstd
+-
+-    license_data = oe.spdx_common.load_spdx_license_data(d)
+-
+-    direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
+-
+-    providers = oe.spdx_common.collect_package_providers(d, direct_deps)
+-    package_archs = d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+-    package_archs.reverse()
+-
+-    creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+-    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+-    source_date_epoch = d.getVar("SOURCE_DATE_EPOCH")
+-
+-    doc = oe.spdx.SPDXDocument()
+-    doc.name = rootfs_name
+-    doc.documentNamespace = get_namespace(d, doc.name)
+-    doc.creationInfo.created = creation_time
+-    doc.creationInfo.comment = "This document was created by analyzing the source of the Yocto recipe during the build."
+-    doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+-    doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+-    doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+-    doc.creationInfo.creators.append("Person: N/A ()")
+-
+-    image = oe.spdx.SPDXPackage()
+-    image.name = d.getVar("PN")
+-    image.versionInfo = d.getVar("SPDX_PACKAGE_VERSION")
+-    image.SPDXID = rootfs_spdxid
+-    image.supplier = d.getVar("SPDX_SUPPLIER")
+-
+-    doc.packages.append(image)
+-
+-    if packages:
+-        for name in sorted(packages.keys()):
+-            if name not in providers:
+-                bb.note("Unable to find SPDX provider for '%s'" % name)
+-                continue
+-
+-            pkg_name, pkg_hashfn = providers[name]
+-
+-            pkg_spdx_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, pkg_name, pkg_hashfn)
+-            if not pkg_spdx_path:
+-                bb.fatal("No SPDX file found for package %s, %s" % (pkg_name, pkg_hashfn))
+-
+-            pkg_doc, pkg_doc_sha1 = oe.sbom.read_doc(pkg_spdx_path)
+-
+-            for p in pkg_doc.packages:
+-                if p.name == name:
+-                    pkg_ref = oe.spdx.SPDXExternalDocumentRef()
+-                    pkg_ref.externalDocumentId = "DocumentRef-%s" % pkg_doc.name
+-                    pkg_ref.spdxDocument = pkg_doc.documentNamespace
+-                    pkg_ref.checksum.algorithm = "SHA1"
+-                    pkg_ref.checksum.checksumValue = pkg_doc_sha1
+-
+-                    doc.externalDocumentRefs.append(pkg_ref)
+-                    doc.add_relationship(image, "CONTAINS", "%s:%s" % (pkg_ref.externalDocumentId, p.SPDXID))
+-                    break
+-            else:
+-                bb.fatal("Unable to find package with name '%s' in SPDX file %s" % (name, pkg_spdx_path))
+-
+-            runtime_spdx_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, "runtime-" + name, pkg_hashfn)
+-            if not runtime_spdx_path:
+-                bb.fatal("No runtime SPDX document found for %s, %s" % (name, pkg_hashfn))
+-
+-            runtime_doc, runtime_doc_sha1 = oe.sbom.read_doc(runtime_spdx_path)
+-
+-            runtime_ref = oe.spdx.SPDXExternalDocumentRef()
+-            runtime_ref.externalDocumentId = "DocumentRef-%s" % runtime_doc.name
+-            runtime_ref.spdxDocument = runtime_doc.documentNamespace
+-            runtime_ref.checksum.algorithm = "SHA1"
+-            runtime_ref.checksum.checksumValue = runtime_doc_sha1
+-
+-            # "OTHER" isn't ideal here, but I can't find a relationship that makes sense
+-            doc.externalDocumentRefs.append(runtime_ref)
+-            doc.add_relationship(
+-                image,
+-                "OTHER",
+-                "%s:%s" % (runtime_ref.externalDocumentId, runtime_doc.SPDXID),
+-                comment="Runtime dependencies for %s" % name
+-            )
+-    bb.utils.mkdirhier(spdx_workdir)
+-    image_spdx_path = spdx_workdir / (rootfs_name + ".spdx.json")
+-
+-    with image_spdx_path.open("wb") as f:
+-        doc.to_json(f, sort_keys=True, indent=get_json_indent(d))
+-
+-    num_threads = int(d.getVar("BB_NUMBER_THREADS"))
+-
+-    visited_docs = set()
+-
+-    index = {"documents": []}
+-
+-    spdx_tar_path = rootfs_deploydir / (rootfs_name + ".spdx.tar.zst")
+-    with bb.compress.zstd.open(spdx_tar_path, "w", num_threads=num_threads) as f:
+-        with tarfile.open(fileobj=f, mode="w|") as tar:
+-            def collect_spdx_document(path):
+-                nonlocal tar
+-                nonlocal deploy_dir_spdx
+-                nonlocal source_date_epoch
+-                nonlocal index
+-
+-                if path in visited_docs:
+-                    return
+-
+-                visited_docs.add(path)
+-
+-                with path.open("rb") as f:
+-                    doc, sha1 = oe.sbom.read_doc(f)
+-                    f.seek(0)
+-
+-                    if doc.documentNamespace in visited_docs:
+-                        return
+-
+-                    bb.note("Adding SPDX document %s" % path)
+-                    visited_docs.add(doc.documentNamespace)
+-                    info = tar.gettarinfo(fileobj=f)
+-
+-                    info.name = doc.name + ".spdx.json"
+-                    info.uid = 0
+-                    info.gid = 0
+-                    info.uname = "root"
+-                    info.gname = "root"
+-
+-                    if source_date_epoch is not None and info.mtime > int(source_date_epoch):
+-                        info.mtime = int(source_date_epoch)
+-
+-                    tar.addfile(info, f)
+-
+-                    index["documents"].append({
+-                        "filename": info.name,
+-                        "documentNamespace": doc.documentNamespace,
+-                        "sha1": sha1,
+-                    })
+-
+-                for ref in doc.externalDocumentRefs:
+-                    ref_path = oe.sbom.doc_find_by_namespace(deploy_dir_spdx, package_archs, ref.spdxDocument)
+-                    if not ref_path:
+-                        bb.fatal("Cannot find any SPDX file for document %s" % ref.spdxDocument)
+-                    collect_spdx_document(ref_path)
+-
+-            collect_spdx_document(image_spdx_path)
+-
+-            index["documents"].sort(key=lambda x: x["filename"])
+-
+-            index_str = io.BytesIO(json.dumps(
+-                index,
+-                sort_keys=True,
+-                indent=get_json_indent(d),
+-            ).encode("utf-8"))
+-
+-            info = tarfile.TarInfo()
+-            info.name = "index.json"
+-            info.size = len(index_str.getvalue())
+-            info.uid = 0
+-            info.gid = 0
+-            info.uname = "root"
+-            info.gname = "root"
+-
+-            tar.addfile(info, fileobj=index_str)
+-
+-combine_spdx[vardepsexclude] += "BB_NUMBER_THREADS SPDX_MULTILIB_SSTATE_ARCHS"
+diff --git a/meta/lib/oe/sbom.py b/meta/lib/oe/sbom.py
+deleted file mode 100644
+index fd4b6895d8..0000000000
+--- a/meta/lib/oe/sbom.py
++++ /dev/null
+@@ -1,120 +0,0 @@
+-#
+-# Copyright OpenEmbedded Contributors
+-#
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-
+-import collections
+-
+-DepRecipe = collections.namedtuple("DepRecipe", ("doc", "doc_sha1", "recipe"))
+-DepSource = collections.namedtuple("DepSource", ("doc", "doc_sha1", "recipe", "file"))
+-
+-
+-def get_recipe_spdxid(d):
+-    return "SPDXRef-%s-%s" % ("Recipe", d.getVar("PN"))
+-
+-
+-def get_download_spdxid(d, idx):
+-    return "SPDXRef-Download-%s-%d" % (d.getVar("PN"), idx)
+-
+-
+-def get_package_spdxid(pkg):
+-    return "SPDXRef-Package-%s" % pkg
+-
+-
+-def get_source_file_spdxid(d, idx):
+-    return "SPDXRef-SourceFile-%s-%d" % (d.getVar("PN"), idx)
+-
+-
+-def get_packaged_file_spdxid(pkg, idx):
+-    return "SPDXRef-PackagedFile-%s-%d" % (pkg, idx)
+-
+-
+-def get_image_spdxid(img):
+-    return "SPDXRef-Image-%s" % img
+-
+-
+-def get_sdk_spdxid(sdk):
+-    return "SPDXRef-SDK-%s" % sdk
+-
+-
+-def _doc_path_by_namespace(spdx_deploy, arch, doc_namespace):
+-    return spdx_deploy / "by-namespace" / arch / doc_namespace.replace("/", "_")
+-
+-
+-def doc_find_by_namespace(spdx_deploy, search_arches, doc_namespace):
+-    for pkgarch in search_arches:
+-        p = _doc_path_by_namespace(spdx_deploy, pkgarch, doc_namespace)
+-        if os.path.exists(p):
+-            return p
+-    return None
+-
+-
+-def _doc_path_by_hashfn(spdx_deploy, arch, doc_name, hashfn):
+-    return (
+-        spdx_deploy / "by-hash" / arch / hashfn.split()[1] / (doc_name + ".spdx.json")
+-    )
+-
+-
+-def doc_find_by_hashfn(spdx_deploy, search_arches, doc_name, hashfn):
+-    for pkgarch in search_arches:
+-        p = _doc_path_by_hashfn(spdx_deploy, pkgarch, doc_name, hashfn)
+-        if os.path.exists(p):
+-            return p
+-    return None
+-
+-
+-def doc_path(spdx_deploy, doc_name, arch, subdir):
+-    return spdx_deploy / arch / subdir / (doc_name + ".spdx.json")
+-
+-
+-def write_doc(d, spdx_doc, arch, subdir, spdx_deploy=None, indent=None):
+-    from pathlib import Path
+-
+-    if spdx_deploy is None:
+-        spdx_deploy = Path(d.getVar("SPDXDEPLOY"))
+-
+-    dest = doc_path(spdx_deploy, spdx_doc.name, arch, subdir)
+-    dest.parent.mkdir(exist_ok=True, parents=True)
+-    with dest.open("wb") as f:
+-        doc_sha1 = spdx_doc.to_json(f, sort_keys=True, indent=indent)
+-
+-    l = _doc_path_by_namespace(spdx_deploy, arch, spdx_doc.documentNamespace)
+-    l.parent.mkdir(exist_ok=True, parents=True)
+-    l.symlink_to(os.path.relpath(dest, l.parent))
+-
+-    l = _doc_path_by_hashfn(
+-        spdx_deploy, arch, spdx_doc.name, d.getVar("BB_HASHFILENAME")
+-    )
+-    l.parent.mkdir(exist_ok=True, parents=True)
+-    l.symlink_to(os.path.relpath(dest, l.parent))
+-
+-    return doc_sha1
+-
+-
+-def read_doc(fn):
+-    import hashlib
+-    import oe.spdx
+-    import io
+-    import contextlib
+-
+-    @contextlib.contextmanager
+-    def get_file():
+-        if isinstance(fn, io.IOBase):
+-            yield fn
+-        else:
+-            with fn.open("rb") as f:
+-                yield f
+-
+-    with get_file() as f:
+-        sha1 = hashlib.sha1()
+-        while True:
+-            chunk = f.read(4096)
+-            if not chunk:
+-                break
+-            sha1.update(chunk)
+-
+-        f.seek(0)
+-        doc = oe.spdx.SPDXDocument.from_json(f)
+-
+-    return (doc, sha1.hexdigest())
+diff --git a/meta/lib/oe/spdx.py b/meta/lib/oe/spdx.py
+deleted file mode 100644
+index 7aaf2af5ed..0000000000
+--- a/meta/lib/oe/spdx.py
++++ /dev/null
+@@ -1,357 +0,0 @@
+-#
+-# Copyright OpenEmbedded Contributors
+-#
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-
+-#
+-# This library is intended to capture the JSON SPDX specification in a type
+-# safe manner. It is not intended to encode any particular OE specific
+-# behaviors, see the sbom.py for that.
+-#
+-# The documented SPDX spec document doesn't cover the JSON syntax for
+-# particular configuration, which can make it hard to determine what the JSON
+-# syntax should be. I've found it is actually much simpler to read the official
+-# SPDX JSON schema which can be found here: https://github.com/spdx/spdx-spec
+-# in schemas/spdx-schema.json
+-#
+-
+-import hashlib
+-import itertools
+-import json
+-
+-SPDX_VERSION = "2.2"
+-
+-
+-#
+-# The following are the support classes that are used to implement SPDX object
+-#
+-
+-class _Property(object):
+-    """
+-    A generic SPDX object property. The different types will derive from this
+-    class
+-    """
+-
+-    def __init__(self, *, default=None):
+-        self.default = default
+-
+-    def setdefault(self, dest, name):
+-        if self.default is not None:
+-            dest.setdefault(name, self.default)
+-
+-
+-class _String(_Property):
+-    """
+-    A scalar string property for an SPDX object
+-    """
+-
+-    def __init__(self, **kwargs):
+-        super().__init__(**kwargs)
+-
+-    def set_property(self, attrs, name):
+-        def get_helper(obj):
+-            return obj._spdx[name]
+-
+-        def set_helper(obj, value):
+-            obj._spdx[name] = value
+-
+-        def del_helper(obj):
+-            del obj._spdx[name]
+-
+-        attrs[name] = property(get_helper, set_helper, del_helper)
+-
+-    def init(self, source):
+-        return source
+-
+-
+-class _Object(_Property):
+-    """
+-    A scalar SPDX object property of a SPDX object
+-    """
+-
+-    def __init__(self, cls, **kwargs):
+-        super().__init__(**kwargs)
+-        self.cls = cls
+-
+-    def set_property(self, attrs, name):
+-        def get_helper(obj):
+-            if not name in obj._spdx:
+-                obj._spdx[name] = self.cls()
+-            return obj._spdx[name]
+-
+-        def set_helper(obj, value):
+-            obj._spdx[name] = value
+-
+-        def del_helper(obj):
+-            del obj._spdx[name]
+-
+-        attrs[name] = property(get_helper, set_helper)
+-
+-    def init(self, source):
+-        return self.cls(**source)
+-
+-
+-class _ListProperty(_Property):
+-    """
+-    A list of SPDX properties
+-    """
+-
+-    def __init__(self, prop, **kwargs):
+-        super().__init__(**kwargs)
+-        self.prop = prop
+-
+-    def set_property(self, attrs, name):
+-        def get_helper(obj):
+-            if not name in obj._spdx:
+-                obj._spdx[name] = []
+-            return obj._spdx[name]
+-
+-        def set_helper(obj, value):
+-            obj._spdx[name] = list(value)
+-
+-        def del_helper(obj):
+-            del obj._spdx[name]
+-
+-        attrs[name] = property(get_helper, set_helper, del_helper)
+-
+-    def init(self, source):
+-        return [self.prop.init(o) for o in source]
+-
+-
+-class _StringList(_ListProperty):
+-    """
+-    A list of strings as a property for an SPDX object
+-    """
+-
+-    def __init__(self, **kwargs):
+-        super().__init__(_String(), **kwargs)
+-
+-
+-class _ObjectList(_ListProperty):
+-    """
+-    A list of SPDX objects as a property for an SPDX object
+-    """
+-
+-    def __init__(self, cls, **kwargs):
+-        super().__init__(_Object(cls), **kwargs)
+-
+-
+-class MetaSPDXObject(type):
+-    """
+-    A metaclass that allows properties (anything derived from a _Property
+-    class) to be defined for a SPDX object
+-    """
+-    def __new__(mcls, name, bases, attrs):
+-        attrs["_properties"] = {}
+-
+-        for key in attrs.keys():
+-            if isinstance(attrs[key], _Property):
+-                prop = attrs[key]
+-                attrs["_properties"][key] = prop
+-                prop.set_property(attrs, key)
+-
+-        return super().__new__(mcls, name, bases, attrs)
+-
+-
+-class SPDXObject(metaclass=MetaSPDXObject):
+-    """
+-    The base SPDX object; all SPDX spec classes must derive from this class
+-    """
+-    def __init__(self, **d):
+-        self._spdx = {}
+-
+-        for name, prop in self._properties.items():
+-            prop.setdefault(self._spdx, name)
+-            if name in d:
+-                self._spdx[name] = prop.init(d[name])
+-
+-    def serializer(self):
+-        return self._spdx
+-
+-    def __setattr__(self, name, value):
+-        if name in self._properties or name == "_spdx":
+-            super().__setattr__(name, value)
+-            return
+-        raise KeyError("%r is not a valid SPDX property" % name)
+-
+-#
+-# These are the SPDX objects implemented from the spec. The *only* properties
+-# that can be added to these objects are ones directly specified in the SPDX
+-# spec, however you may add helper functions to make operations easier.
+-#
+-# Defaults should *only* be specified if the SPDX spec says there is a certain
+-# required value for a field (e.g. dataLicense), or if the field is mandatory
+-# and has some sane "this field is unknown" (e.g. "NOASSERTION")
+-#
+-
+-class SPDXAnnotation(SPDXObject):
+-    annotationDate = _String()
+-    annotationType = _String()
+-    annotator = _String()
+-    comment = _String()
+-
+-class SPDXChecksum(SPDXObject):
+-    algorithm = _String()
+-    checksumValue = _String()
+-
+-
+-class SPDXRelationship(SPDXObject):
+-    spdxElementId = _String()
+-    relatedSpdxElement = _String()
+-    relationshipType = _String()
+-    comment = _String()
+-    annotations = _ObjectList(SPDXAnnotation)
+-
+-
+-class SPDXExternalReference(SPDXObject):
+-    referenceCategory = _String()
+-    referenceType = _String()
+-    referenceLocator = _String()
+-
+-
+-class SPDXPackageVerificationCode(SPDXObject):
+-    packageVerificationCodeValue = _String()
+-    packageVerificationCodeExcludedFiles = _StringList()
+-
+-
+-class SPDXPackage(SPDXObject):
+-    ALLOWED_CHECKSUMS = [
+-        "SHA1",
+-        "SHA224",
+-        "SHA256",
+-        "SHA384",
+-        "SHA512",
+-        "MD2",
+-        "MD4",
+-        "MD5",
+-        "MD6",
+-    ]
+-
+-    name = _String()
+-    SPDXID = _String()
+-    versionInfo = _String()
+-    downloadLocation = _String(default="NOASSERTION")
+-    supplier = _String(default="NOASSERTION")
+-    homepage = _String()
+-    licenseConcluded = _String(default="NOASSERTION")
+-    licenseDeclared = _String(default="NOASSERTION")
+-    summary = _String()
+-    description = _String()
+-    sourceInfo = _String()
+-    copyrightText = _String(default="NOASSERTION")
+-    licenseInfoFromFiles = _StringList(default=["NOASSERTION"])
+-    externalRefs = _ObjectList(SPDXExternalReference)
+-    packageVerificationCode = _Object(SPDXPackageVerificationCode)
+-    hasFiles = _StringList()
+-    packageFileName = _String()
+-    annotations = _ObjectList(SPDXAnnotation)
+-    checksums = _ObjectList(SPDXChecksum)
+-
+-
+-class SPDXFile(SPDXObject):
+-    SPDXID = _String()
+-    fileName = _String()
+-    licenseConcluded = _String(default="NOASSERTION")
+-    copyrightText = _String(default="NOASSERTION")
+-    licenseInfoInFiles = _StringList(default=["NOASSERTION"])
+-    checksums = _ObjectList(SPDXChecksum)
+-    fileTypes = _StringList()
+-
+-
+-class SPDXCreationInfo(SPDXObject):
+-    created = _String()
+-    licenseListVersion = _String()
+-    comment = _String()
+-    creators = _StringList()
+-
+-
+-class SPDXExternalDocumentRef(SPDXObject):
+-    externalDocumentId = _String()
+-    spdxDocument = _String()
+-    checksum = _Object(SPDXChecksum)
+-
+-
+-class SPDXExtractedLicensingInfo(SPDXObject):
+-    name = _String()
+-    comment = _String()
+-    licenseId = _String()
+-    extractedText = _String()
+-
+-
+-class SPDXDocument(SPDXObject):
+-    spdxVersion = _String(default="SPDX-" + SPDX_VERSION)
+-    dataLicense = _String(default="CC0-1.0")
+-    SPDXID = _String(default="SPDXRef-DOCUMENT")
+-    name = _String()
+-    documentNamespace = _String()
+-    creationInfo = _Object(SPDXCreationInfo)
+-    packages = _ObjectList(SPDXPackage)
+-    files = _ObjectList(SPDXFile)
+-    relationships = _ObjectList(SPDXRelationship)
+-    externalDocumentRefs = _ObjectList(SPDXExternalDocumentRef)
+-    hasExtractedLicensingInfos = _ObjectList(SPDXExtractedLicensingInfo)
+-
+-    def __init__(self, **d):
+-        super().__init__(**d)
+-
+-    def to_json(self, f, *, sort_keys=False, indent=None, separators=None):
+-        class Encoder(json.JSONEncoder):
+-            def default(self, o):
+-                if isinstance(o, SPDXObject):
+-                    return o.serializer()
+-
+-                return super().default(o)
+-
+-        sha1 = hashlib.sha1()
+-        for chunk in Encoder(
+-            sort_keys=sort_keys,
+-            indent=indent,
+-            separators=separators,
+-        ).iterencode(self):
+-            chunk = chunk.encode("utf-8")
+-            f.write(chunk)
+-            sha1.update(chunk)
+-
+-        return sha1.hexdigest()
+-
+-    @classmethod
+-    def from_json(cls, f):
+-        return cls(**json.load(f))
+-
+-    def add_relationship(self, _from, relationship, _to, *, comment=None, annotation=None):
+-        if isinstance(_from, SPDXObject):
+-            from_spdxid = _from.SPDXID
+-        else:
+-            from_spdxid = _from
+-
+-        if isinstance(_to, SPDXObject):
+-            to_spdxid = _to.SPDXID
+-        else:
+-            to_spdxid = _to
+-
+-        r = SPDXRelationship(
+-            spdxElementId=from_spdxid,
+-            relatedSpdxElement=to_spdxid,
+-            relationshipType=relationship,
+-        )
+-
+-        if comment is not None:
+-            r.comment = comment
+-
+-        if annotation is not None:
+-            r.annotations.append(annotation)
+-
+-        self.relationships.append(r)
+-
+-    def find_by_spdxid(self, spdxid):
+-        for o in itertools.chain(self.packages, self.files):
+-            if o.SPDXID == spdxid:
+-                return o
+-        return None
+-
+-    def find_external_document_ref(self, namespace):
+-        for r in self.externalDocumentRefs:
+-            if r.spdxDocument == namespace:
+-                return r
+-        return None
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
+index 83e4890d44..c563fd1011 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -4,74 +4,13 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
+-import json
+-import os
+ import textwrap
+ import hashlib
+-from pathlib import Path
+ from oeqa.selftest.case import OESelftestTestCase
+-from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runCmd
++from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
+ import oe.spdx30
+ 
+ 
+-class SPDX22Check(OESelftestTestCase):
+-    @classmethod
+-    def setUpClass(cls):
+-        super().setUpClass()
+-        bitbake("python3-spdx-tools-native")
+-        bitbake("-c addto_recipe_sysroot python3-spdx-tools-native")
+-
+-    def check_recipe_spdx(self, high_level_dir, spdx_file, target_name):
+-        config = textwrap.dedent(
+-            """\
+-            INHERIT:remove = "create-spdx"
+-            INHERIT += "create-spdx-2.2"
+-            """
+-        )
+-        self.write_config(config)
+-
+-        deploy_dir = get_bb_var("DEPLOY_DIR")
+-        arch_dir = get_bb_var("PACKAGE_ARCH", target_name)
+-        spdx_version = get_bb_var("SPDX_VERSION")
+-        # qemux86-64 creates the directory qemux86_64
+-        # arch_dir = arch_var.replace("-", "_")
+-
+-        full_file_path = os.path.join(
+-            deploy_dir, "spdx", spdx_version, arch_dir, high_level_dir, spdx_file
+-        )
+-
+-        try:
+-            os.remove(full_file_path)
+-        except FileNotFoundError:
+-            pass
+-
+-        bitbake("%s -c create_spdx" % target_name)
+-
+-        def check_spdx_json(filename):
+-            with open(filename) as f:
+-                report = json.load(f)
+-                self.assertNotEqual(report, None)
+-                self.assertNotEqual(report["SPDXID"], None)
+-
+-            python = os.path.join(
+-                get_bb_var("STAGING_BINDIR", "python3-spdx-tools-native"),
+-                "nativepython3",
+-            )
+-            validator = os.path.join(
+-                get_bb_var("STAGING_BINDIR", "python3-spdx-tools-native"), "pyspdxtools"
+-            )
+-            result = runCmd("{} {} -i {}".format(python, validator, filename))
+-
+-        self.assertExists(full_file_path)
+-        result = check_spdx_json(full_file_path)
+-
+-    def test_spdx_base_files(self):
+-        self.check_recipe_spdx("packages", "base-files.spdx.json", "base-files")
+-
+-    def test_spdx_tar(self):
+-        self.check_recipe_spdx("packages", "tar.spdx.json", "tar")
+-
+-
+ class SPDX3CheckBase(object):
+     """
+     Base class for checking SPDX 3 based tests
+-- 
+2.53.0
 
-What's actually going on. How do I reproduce? Also mesa-26.0.1 may be 
-**before** mesa-tools-native was even introduced.
-
-The gallium PACKAGECONFIG should bring this dependency in. If vulkan is 
-selected, libdrm will be a required dependency and it should fail the 
-build if we don't find it and try to build Vulkan panfrost (panvk). I'm 
-suspecting we need to add libdrm to vulkan PACKAGECONFIG but maybe it's 
-not required for *all* drivers (though all vulkan drivers currently in 
-mesa do seem to require it for some shared/static libs so maybe that's 
-fine there).
-
-So we would only be missing this dependency for the panfrost (possibly 
-others) tools. Then, this needs to be put in TOOLS_DEPS like I suggested 
-in v1.
-
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Quentin Schulz <quentin.schulz@cherry.de>
-> ---
->   meta/recipes-graphics/mesa/mesa.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> index a95adfc960..ecd3b3780e 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -111,7 +111,7 @@ PACKAGECONFIG[imagination] = "-Dimagination-srv=true,-Dimagination-srv=false"
->   PACKAGECONFIG[intel] = ""
->   PACKAGECONFIG[lima] = ""
->   PACKAGECONFIG[nouveau] = ""
-> -PACKAGECONFIG[panfrost] = ""
-> +PACKAGECONFIG[panfrost] = ",,libdrm-native"
-
-Also, I'm pretty sure it should be libdrm and not libdrm-native, as 
-what's gonna happen when a user requests building the tools for a target 
-package? It needs to be the same architecture as the one you're building 
-for, hence not forced to native.
-
-Cheers,
-Quentin
 
