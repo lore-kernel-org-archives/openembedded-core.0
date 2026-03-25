@@ -2,65 +2,65 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F621103A997
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 204EE103A995
 	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 02:20:09 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13957.1774405192507008724
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13956.1774405183846312057
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2026 19:19:52 -0700
+ Tue, 24 Mar 2026 19:19:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=QxExRHj+;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8297e0b27e5so2418265b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 19:19:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=WnYUsXTe;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-82a07738118so2491266b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2026 19:19:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774405192; x=1775009992; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774405183; x=1775009983; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LqukR9PJEB6LJ3oCpqZxEkWoWSD7YXfIXZoRKw/Jjes=;
-        b=QxExRHj+e50HlxlMXFD11aIcAfmlMgHDvbfmQ9KT43DIORt26aVQZ3I6s5u4lq1OJm
-         xhC9aooqeL9s64iT8eZc4whT+yMHyF55dNJp9hWSnVzr/0FaCCNGHzxIZsZl4p3VtEyc
-         NWwql3mX0teAulfaZW7ifwPUfL5rHCOhnNIhUSh/GPuq4swC5q/zcGiUnyYCtIQc05T0
-         WUlSd2P1xqQGkQNpwWjjzigkJunQ2z1GBtJvngayx6zaT/5a2OpudQjmIBBhIUGXO0AG
-         6t3eLxn/Uqoh7PsQTXJJNMkxuIEN9RJZ8TfIapS7pqzndQr6ActCvmdEHcjOQ/8TQ9M8
-         K3QA==
+        bh=2Yo+3C/pgvWde+tJqtWsOUudwcsNzMUmcrakpPgLQX4=;
+        b=WnYUsXTek8kWJLnnahCDQT3tPZMd1BGRhHL0sKUrrblFiKG/7gKf46EI3xaTqpiV0+
+         ROtyNII652FBrtYb43iwgFEr6KSPbTALDXM0tvo5BYkuJViy6O+QG4Y5yGcMe6LT4Sqt
+         TPisZGSXij02XaBS7DevBPXBOFTyt/6NinQVhjphb/dliXNCWQgmoLaFIxoe6uDT6wUu
+         PPbjQyox/3UcGsuMBsRMlXP2jw5RM/z5of9hOoqEtnW5FB4NBQgktWtTzoVPeYOFe62Y
+         HtvyLzJV/uRquguSloj6zhAWJK9WB44ZCAQ5SOIJcMaNKJy0Tyz0z/TrXgxf2P7tyrAn
+         e60A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774405192; x=1775009992;
+        d=1e100.net; s=20251104; t=1774405183; x=1775009983;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LqukR9PJEB6LJ3oCpqZxEkWoWSD7YXfIXZoRKw/Jjes=;
-        b=d3clv8T3qnCNz+TzegIYYr4Ez9fsxKtAaKkoFt+TulbUd8ZEyjqZ2GCIULfG+eQpC8
-         1okVrxfv0BBGRN02Hly+bR2CrfJaSBAHd3Nf5Pg+I2IzP3YhxppJ937RJLmLP3MG2QV5
-         dJJtL1/lTHybcI6UbWcoV2sY8VPBmbrwIUJzmThaL8HrjxxOKwA01u2VBYlFoRLTy/pX
-         tsWiY2AowHRFRz60EEElSBUhGcIAY1kB6r+6HeaSm9Emi/7h5lB/SKGwPp8ys9z8tP1G
-         IeuVkkLlgER/CcG/pZ+DlyGLqx78abP5I9uD1VNTswz7zbFcXknW07X9YOo77vJOEA5u
-         Ldxg==
-X-Gm-Message-State: AOJu0Yx2S5xrTbQtIltonC5Cy3AnhI0r/HR0rn47nOEXwl8Neyg+aNCv
-	Mhluizd7naJC0WH7fLf4iUA54k60Sy1sQzF0XTt03VlqzAWSDk3+zrEzgNXGEIOm
-X-Gm-Gg: ATEYQzyPZLxUUpjWH8CGiaYeoDZUlamyTkRrWHsueWF2JXxYySDRu1PXycA1raCKfz2
-	p9MwynU3Gc0pf6OOoAcS5nUW3J0bn4j+clIrIBTZJ0ddVqUZb1dPFtOyJEGQg+wu7bOCR6mr/Sn
-	+fVN0SGMKJmIeaGmS5BDRz1DL+YrgToOLpQDP4NszYzN+Rv83gr/r5e3BjCbbff16cxMpU+OXvQ
-	yFaG2vchz9FYXqK98xa6D/NI3Orf3Ydcq6jrsU/n2r/B+3myRkho7Pmy0eCuRZ3mPeVC11c6NyS
-	8rClmUKlG3z8ievDjW9ZmnTrwB8nybd+ujsN9aL7vbxXYp2oIIXFIjZ/Kc5/Dxc2YJaZ4CILkvO
-	4UhxTI4oiHzTeEh+1JuWTcJfUDWDJeMPAsageIli2d2pvIDYH/xV/B7A0t8muNGMn/wETIGymnr
-	/ViAs2uEqzLdJ66w+tqkbi2KU3JSdX1kLM/EE=
-X-Received: by 2002:a05:6a00:114d:b0:827:2995:3b99 with SMTP id d2e1a72fcca58-82c6e0eadd0mr1637605b3a.31.1774405191743;
-        Tue, 24 Mar 2026 19:19:51 -0700 (PDT)
+        bh=2Yo+3C/pgvWde+tJqtWsOUudwcsNzMUmcrakpPgLQX4=;
+        b=XGAY31PlaT3d0rGf/z5l0aCEmUyRNJKLWbV1SEs4R6gCI15c++fU+/maJRDnqgM3CY
+         rXiQMVqHvh82YSox5wYu4+03AbbKz7xM+0/pAnGaFUyI7k365S4x9tIHvakpwIShIQsG
+         6mUfFuYSavL/kvejpIdFa2hFp1Kb74UfxpIe8rZSVQqvKnHDsHqMsYaGC1aEHBdg25oM
+         2R7oJ47Ue7LKIDgySLWE7pC8L6mEKzP//jzTXf0krS2TQeSRKQgyQezu2pwXdvo+JqlS
+         z7RJ6FoO4Wr8W8vjVXHPLvTwppNUXzA0IeDhLuenJ20/EIU6ZRF5tY+kpGu3198Otj5l
+         Q+1Q==
+X-Gm-Message-State: AOJu0YxAfVFXZCHg/eotgf8N2iyn5r21us+0upahEc3mOnH8Tv4n7Xjp
+	xCTQm2euvVQcGy8zJs99IWkVxGe3M1JcT1fLDAW/Nn3tPNyItijUDujlq9T4hTTs
+X-Gm-Gg: ATEYQzyKcbqI7URIFvjR7orr8dch8PJUwE6YHkSygj2y8NtfPYSwwVsXqtxZ2F9tPZi
+	dBcnT8TToDdD+JBICsN5jhvEcWVUrGKLXxiS4qAvI6v417LXDTajVrlQ28iijtwzO0MVAqV+mTw
+	MAFSeEeDi5nXOvdIU/B2+L8ZXf+uxFmFfwoydW+nB6I84ixKWcJNyKrSHZO3kKbOXst07ThMiT5
+	uVNg64Jk4CS6zpRjVrDfsJzZW4r/XALg3vAzzdA8c6JaBg8aK4/iyoe650U2bkr5L1Zx6LC7nlg
+	BAkRN+qjZ6ma9dDVeIuaR44s51hwlEDJlp9PkVGR5LNk/3wbYhDIp0Y1gUSXbKIhJUXz3/2Shni
+	lAnhmsRSup5q6ILJfixhGIHv4Wk7CQxIUoggcierx+n1hoEKRVAwir56lq4bn5eXFZ1YuN2ohRk
+	tfO9gNtvSv/dfVWIqbLTHfFWtBoe0dFGPBfE8KshfuOIcfcA==
+X-Received: by 2002:a05:6a00:1c81:b0:81f:5238:5560 with SMTP id d2e1a72fcca58-82c6ded3a6bmr1812606b3a.13.1774405183001;
+        Tue, 24 Mar 2026 19:19:43 -0700 (PDT)
 Received: from NVAPF55DW0D-IPD.. ([167.103.127.14])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm13581235b3a.31.2026.03.24.19.19.48
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm13581235b3a.31.2026.03.24.19.19.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 19:19:51 -0700 (PDT)
+        Tue, 24 Mar 2026 19:19:42 -0700 (PDT)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Gyorgy Sarvari <skandigraun@gmail.com>,
+Cc: Paul Barker <paul@pbarker.dev>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][whinlatter][PATCH 08/12] seatd: fix packaging error with systemd DISTRO_FEATURES
-Date: Wed, 25 Mar 2026 15:18:52 +1300
-Message-ID: <20260325021856.4053666-8-ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 06/12] tzdata,tzcode-native: Upgrade 2025b -> 2025c
+Date: Wed, 25 Mar 2026 15:18:50 +1300
+Message-ID: <20260325021856.4053666-6-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260325021856.4053666-1-ankur.tyagi85@gmail.com>
 References: <20260325021856.4053666-1-ankur.tyagi85@gmail.com>
@@ -70,46 +70,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 02:20:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233846
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233844
 
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+From: Paul Barker <paul@pbarker.dev>
 
-The systemd unit file for this recipe is only installed in case
-the target system's init system is systemd. It is achieved by
-inspecting the VIRTUAL-RUNTIME_init_manager variable.
+This release mostly changes code and commentary. The only changed data
+are leap second table expiration and pre-1976 time in Baja California.
 
-However the systemd class was inherited unconditionally. This caused
-a failure in do_package task, in case systemd is present in the
-DISTRO_FEATURES but the system's init manager is sysvinit: in this case
-the systemd unit file is not installed, however systemd.bbclass is
-still trying to register is as a startup service. At this point
-it failed:
+Full release notes:
+  https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/TAGXKYLMAQRZRFTERQ33CEKOW7KRJVAK/
 
-ERROR: seatd-0.9.1-r0 do_package: Didn't find service unit 'seatd.service', specified in SYSTEMD_SERVICE:seatd.
-
-To avoid this, install the systemd unit file unconditionally, regardless
-of the used init system.
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Paul Barker <paul@pbarker.dev>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c7f157ad1207567ef3614ee4f6e755bccf60a3f4)
+(cherry picked from commit 452334219309793ad74abd6ff390dcb06cab929b)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/recipes-core/seatd/seatd_0.9.1.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/seatd/seatd_0.9.1.bb b/meta/recipes-core/seatd/seatd_0.9.1.bb
-index f9f72c9e82..3be27dda9d 100644
---- a/meta/recipes-core/seatd/seatd_0.9.1.bb
-+++ b/meta/recipes-core/seatd/seatd_0.9.1.bb
-@@ -34,8 +34,6 @@ PACKAGECONFIG[systemd] = "-Dlibseat-logind=systemd,,systemd"
- do_install:append() {
-         if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
-                 install -Dm755 ${UNPACKDIR}/init ${D}/${sysconfdir}/init.d/seatd
--        else
--                install -Dm644 ${S}/contrib/systemd/seatd.service ${D}${systemd_unitdir}/system/seatd.service
-         fi
-         install -Dm644 ${S}/contrib/systemd/seatd.service ${D}${systemd_unitdir}/system/seatd.service
- }
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 9a5105ffd7..b9323432b8 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2025b"
++PV = "2025c"
+ 
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "05f8fedb3525ee70d49c87d3fae78a8a0dbae4fe87aa565c65cda9948ae135ec"
+-SRC_URI[tzdata.sha256sum] = "11810413345fc7805017e27ea9fa4885fd74cd61b2911711ad038f5d28d71474"
++SRC_URI[tzcode.sha256sum] = "697ebe6625444aef5080f58e49d03424bbb52e08bf483d3ddb5acf10cbd15740"
++SRC_URI[tzdata.sha256sum] = "4aa79e4effee53fc4029ffe5f6ebe97937282ebcdf386d5d2da91ce84142f957"
 
