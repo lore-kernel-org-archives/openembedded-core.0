@@ -2,65 +2,65 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EAF4103A9AD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47F35103A9BD
 	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 11:32:00 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20284.1774438311337891689
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19968.1774438313940035556
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 04:31:51 -0700
+ Wed, 25 Mar 2026 04:31:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=bcTbRIz1;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486507134e4so28462485e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 04:31:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=P2aUkE2O;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48374014a77so65489675e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 04:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774438309; x=1775043109; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774438312; x=1775043112; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/MCvP8XcaBoA5QZfGrh5/9pURwh22T/ybtF05fVpIT4=;
-        b=bcTbRIz1mBzc346CoNckhqKr03/o+qx+6IftRkPvbyJbsII0AIDL5nQoJXQg8F+AYg
-         7H9VRR/AlkTj0jCDSJfl0jYQ5VMIAygffAw3fvlplikEVBeYmIbxUmB7pFjNd1vHRbOj
-         r6lFiULJ+a+i7c6kauKc1lytBQggmDg6I9YsdpV9VaIaXsqBsCBJ/J5pZ9RFZUi2jkur
-         nmRclme5oq+RqoialyGjFgVdf8Ekseo4/jrpiMRCwD4L0Q73xYAwKXCfFcoju84lsqvy
-         vzZGsBTmOn4UK/y3Ir3W0WcQ7hFrLCnHl9JNesloK3lnsUCQjFuQrCle3HtTqBiJ53NY
-         e3gA==
+        bh=/GhTh4vPU7ZrW3xYMLrsCTP3HsQ4GG3IkI8qG3RR3Qk=;
+        b=P2aUkE2O//aHwxU8CPTT2bizUebEIXBzBECA+CZDiNiPDvUjRQWGJrdehAKJ5YXt7Z
+         OXBFV5vaMHqn4WvGeHuiefctxnJquU4BlhRwOi17MFI5Eiw/rfHJVdWDTHW4Rna8rhi2
+         P9bRR933orzGlqQqLAtEqKqaP9Ko05rKPJvh/48DkNkoIUTV/r2pY+jo2lML9zZ9q8AW
+         oIomHrjn/eF7NJpjNC1lWDBFf3FT7LiXQjrw/jBcZhlx9eR15KMO0aEkwLY++Am6Pnok
+         W2mJMkYP7nzMYCxLl2MdvBvP2dn0KCoYq6gCDzHq6VmtIPz0exKEwCWlQBTrxy76EZOT
+         kmPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774438309; x=1775043109;
+        d=1e100.net; s=20251104; t=1774438312; x=1775043112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/MCvP8XcaBoA5QZfGrh5/9pURwh22T/ybtF05fVpIT4=;
-        b=fah5cZf8Wn1w7tJs0ANPNohJ0IAX7oDmN96kT2fBWHxXYDWERKvsfxIagFWNLLKJ22
-         d2MqREdlzoYzs9oBeg3oGYbItr+43Vus6fEL5kTO1xBUtuGO5hxhF2h3eY/0Rz8qU15v
-         ewYd011L/uG3wCt3WRjSQbpDIfj1dDyRISBY/frETy+J+vkNNyUWlwcEHdq/uoeZ8m2z
-         vGc6PCYif9lTxl4Rnv3ft/D12zHkFx6qWdQRhsQZwWM2dcpJ9FYEcaAYM10MatYZdPTn
-         Hf8sEI+W6dI0MZiKJVI1ytk27FACQpXs8t9WWEQLc2kPkR3psapgLB/5FmCqjc1WLGMW
-         7T0Q==
-X-Gm-Message-State: AOJu0YxCJPakW1zSWLx3yhOKc7wVFtVUg/t7/duNQEYftNUBUN/Q8/AK
-	Zz8z3HYniQBIJlXuq+cet/zm7+nNwiQsu5It++M6YDepueEsgutlA1aEjc+EdA==
-X-Gm-Gg: ATEYQzxybTDgUmbRI9cfG9dRy7g8/N9hB2LzABv0Q18YCv6EyZ9lcoDyWQO/J6tUbc5
-	ZSO/+KuVPpaiuaLndGOnoCP4JgcJc0cDWXUuqvZqoDG+QljlKB4/YKVK5E5xlB9SonmSQrzJ9fm
-	hawsIQsJ6SnHCFWakYJQY9iBPpLCeFZKh8DIvMcoCOkzgXm05jAKUJyaiN5QbR8x6WKp05xtrmN
-	osDwmQz4dyKr82nEYe3GRK2CKi2yCffeAa9owynfdStGmfJk6aCJuApmdnuNv5DRE4u5e26ia45
-	/1067NhuE+ihjjIlSN2ScTg7vhfqvC1CQ1bWI+uYzcJM++v+gb+gJvubMvrD5lyFEqBSI9Vdmxc
-	mhYY+Hme/5rQ3b7nzBtYIC4AaR6348FvelQKgyaGP2aCmMmhECRkPTKVGEWHzcF+6xRsIr3xrsU
-	DPWqNFy6d1w8MXWw==
-X-Received: by 2002:a05:600c:8489:b0:485:304a:58cd with SMTP id 5b1f17b1804b1-48715fc3925mr47286295e9.4.1774438309410;
-        Wed, 25 Mar 2026 04:31:49 -0700 (PDT)
+        bh=/GhTh4vPU7ZrW3xYMLrsCTP3HsQ4GG3IkI8qG3RR3Qk=;
+        b=Xd/x2D7Sa7kVFERAI0g+KxyU0L+wweqYNkdsuwSVQ0bSZZut4EgWRvIBUTQETlVYer
+         9FbxJNRObI43ThXo8y6lhtf/r7k7EYjMaMvy3SD/gHO1UAbDuENWcyY3vEo0QEar9fL4
+         rzokpkxApPXKpOmsNRvBjd/Tl6TT1ZkvRFfZJ4+wCFS1QlYZypblwsBBnV96ddT5OOSv
+         ZUhI+ZGRc35AI55y99pQaqmWQFtMDaj0sxYb2w4ycf1eWWgrIBPdNHtWj5gUPjn0eboW
+         pvrbgFkVQgqZ3QwzF+vqLaeiAsfvcT3xiBwE4SV/giyYCnUMsgAlVAABk2qbXtAqmhad
+         nKBw==
+X-Gm-Message-State: AOJu0Yxax7Q15ZjLdHgKpKqFkCoh+rW8Co2IiK6jVrmiwRNo7I+tMoSz
+	QG9mA8tQhybgmjtkl2yTgjx7YuD39dR73bNFNlY2m4RxjUT4/jXPvn9a/4ghSg==
+X-Gm-Gg: ATEYQzzMqNp2Nw+vPs1byruHyPTHJTMC0amMhGIkMx2q1LbQkId4bpJDWbX7aXQsVLy
+	gylwiRRnbuww1FnhgrotYe1h8SIl96pgpFy/7iMGs7XR1AD5An+gh4eAileyQcIAma0ZBW1zilF
+	SJMrO6fDVKKmlT8KzF15RfHEWRNd4jUfRRu7wcCD1igUk+FoLR1UH+fl0FqdPgCq2e2iLj2Wq99
+	/U3Gkm23oPeSlQLPZPqCEmTXRDlAeyHIpwxDpyjFFxjF4A0HUOGWJV1O5O3WYWC3uyYuyjUfchL
+	TzXZs0uDigAgbz3V5+VOPakzakSmHKa5yEgHsDjCzG7jVHJ7ZkjjZnQ5ONpL2mBaZ1VkeMUSw3l
+	sqLvIrrIb2TzPXkeoLq0DV8osJeXb4ju10dPh3ny3rK6IZa7m3nc2QwbcLYIOPiEQJ9XM5kodlQ
+	hmeLdzE+numDG+zQ==
+X-Received: by 2002:a05:600c:8489:b0:485:ae14:8173 with SMTP id 5b1f17b1804b1-48715fc3532mr45169215e9.1.1774438312019;
+        Wed, 25 Mar 2026 04:31:52 -0700 (PDT)
 Received: from term011.lan (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48711693a08sm170539955e9.2.2026.03.25.04.31.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48711693a08sm170539955e9.2.2026.03.25.04.31.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 04:31:47 -0700 (PDT)
+        Wed, 25 Mar 2026 04:31:51 -0700 (PDT)
 From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Bartosz Golaszewski <brgl@kernel.org>,
 	Trevor Gamblin <tgamblin@baylibre.com>,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [RFC][PATCH 12/14] rpm: Support Python freethreading
-Date: Wed, 25 Mar 2026 12:24:22 +0100
-Message-ID: <20260325113112.1163632-13-zboszor@gmail.com>
+Subject: [RFC][PATCH 14/14] libxcb: Support Python freethreading
+Date: Wed, 25 Mar 2026 12:24:24 +0100
+Message-ID: <20260325113112.1163632-15-zboszor@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260325113112.1163632-1-zboszor@gmail.com>
 References: <20260325113112.1163632-1-zboszor@gmail.com>
@@ -71,74 +71,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 11:32:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233886
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233888
 
-Added a patch to stop using the stable CPython API (of 3.7!)
-as it prevents building rpm against a Python build with
-freethreading enabled.
+Added xcb-proto-native as a new build dependency and
+inherit python3native.
+
+This fixes the build issues when Python freethreading is enabled.
 
 Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- .../files/0001-rpm-Don-t-use-stable-API.patch | 37 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.20.1.bb       |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-rpm-Don-t-use-stable-API.patch
+ meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-rpm-Don-t-use-stable-API.patch b/meta/recipes-devtools/rpm/files/0001-rpm-Don-t-use-stable-API.patch
-new file mode 100644
-index 0000000000..3d82fdab3f
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-rpm-Don-t-use-stable-API.patch
-@@ -0,0 +1,37 @@
-+From 2fb202730b49538bbe6d1439d419c18a89eb4c91 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?=
-+ <zboszor@gmail.com>
-+Date: Wed, 25 Mar 2026 08:20:13 +0100
-+Subject: [PATCH] rpm: Don't use stable API
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+With Python freethreading enabled, these explicit errors are
-+triggered in the Python headers:
-+
-+  #error "The limited API is not currently supported in the free-threaded build"
-+
-+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
-+Upstream-Status: Inappropriate [python freethreading specific]
-+---
-+ python/CMakeLists.txt | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/python/CMakeLists.txt b/python/CMakeLists.txt
-+index acc003ad6..3f21205c8 100644
-+--- a/python/CMakeLists.txt
-++++ b/python/CMakeLists.txt
-+@@ -18,9 +18,6 @@ Python3_add_library(_rpm
-+ 	spec-py.c spec-py.h
-+ )
-+ 
-+-# Select Python stable ABI
-+-target_compile_definitions(_rpm PRIVATE Py_LIMITED_API=0x03070000)
-+-
-+ target_link_libraries(_rpm PRIVATE librpmio librpm librpmbuild librpmsign)
-+ 
-+ install(TARGETS _rpm
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtools/rpm/rpm_4.20.1.bb
-index ba967ec1fa..05be3933e0 100644
---- a/meta/recipes-devtools/rpm/rpm_4.20.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.20.1.bb
-@@ -39,6 +39,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.20.x;protoc
-            file://0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch \
-            file://0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch \
-            file://0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch \
-+           file://0001-rpm-Don-t-use-stable-API.patch \
-            "
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb
+index fcd8aad303..ac2fcd4cc8 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb
+@@ -16,19 +16,17 @@ SRC_URI[sha256sum] = "599ebf9996710fea71622e6e184f3a8ad5b43d0e5fa8c4e407123c88a5
  
- PE = "1"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-DEPENDS = "xcb-proto xorgproto libxau libpthread-stubs libxdmcp"
++DEPENDS = "xcb-proto-native xcb-proto xorgproto libxau libpthread-stubs libxdmcp"
+ 
+ PACKAGES_DYNAMIC = "^${PN}-.*"
+ 
+ FILES:${PN} = "${libdir}/libxcb.so.*"
+ 
+-inherit autotools pkgconfig features_check
++inherit autotools pkgconfig python3native features_check
+ 
+ # The libxau and others requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-export PYTHON = "python3"
+-
+ do_install:append () {
+ 	chown root.root ${D}${datadir}/doc/${BPN}/tutorial -R
+ }
 -- 
 2.53.0
 
