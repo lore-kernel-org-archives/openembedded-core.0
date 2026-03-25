@@ -1,186 +1,153 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12562109C029
-	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 14:45:48 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24434.1774449939635301286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D239109C02E
+	for <webhook@archiver.kernel.org>; Wed, 25 Mar 2026 14:46:58 +0000 (UTC)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24028.1774450016400264058
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 07:45:40 -0700
+ Wed, 25 Mar 2026 07:46:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=h8DD27JU;
- spf=pass (domain: cherry.de, ip: 40.107.159.23, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HqZm2aLctRf11xRE37YoaL73My+kCToLnq0AqXaP2YZY+Q9XXQgLaLyBmCSzTgi1JEp+fhLT8SOJWT3DQGS2ANheG/LDe8XPCZ66i1psWQwrpmV0WgiT6fNYhUxeadZeRNauEpgGujahxM9FK7ULJjCgWGs0169fugdSpxs/xQyiVlY5M/YmIxqjF7blkD4jQ+koEjSQg7TnWzUemWpX4nFxgz4QzuUUYxRGTYTxwmG9XwLbVGRckhHAlqa7oKfjn4SCFJtt6n3xkJPHSFylZc9PvMeTEsTvVf8PR8Rkq8OKX8wWBEoyKvGcZKwrezhJ17F8fpg4j43vqUV9HCF/Kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VcD9gJkEXHZcHa1aYwJbuMWwAsf/hTX+CeTtslkHrOs=;
- b=QzNknXOW1YHu+Gs18AwTjh+590p0ITP9pxxB4O9b9GvHQqIkbQMk2SmGNTFmVqlGWpJqc834Nll0eAupT2QZUtzm7xVvPAUvmR8G+WnKfzMo2LrlzJ+A01df80jBIz11cb5lC+e9SX7U9w/0WIR60kX1S9sK1TdKLwybeR1mKW3rTtBcPzd3s5TmnO1QQ4YVshiDRPatmQ94v/O9wimgnCMU51vQDnsAwe05yJxnceu+BrbJC5gn/z34tO/Vf857e5tehLp1mMzojuQFPypNmyW4R/YvX/OzKynD0Izsrkj6esVf0KLXqVGCuygbRDFHWQ7Z92nhUJC2a3lILBGYWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VcD9gJkEXHZcHa1aYwJbuMWwAsf/hTX+CeTtslkHrOs=;
- b=h8DD27JUsQNldSOuUXYxVgrnOB/pI4swlvv8nd56uZ6v0K1aD8KzV8a4z83Eo8yqvh8LuPw79SEUY2ThvSLtSJzrF8C2zbbvMg93ToVFyoP6XX2d0xvZsAjbiZnHTWsGG88OpmrcS78rbOB/lpT2HaVONbd0GqDMyU1NZfQkm1Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
- by AS4PR04MB9339.eurprd04.prod.outlook.com (2603:10a6:20b:4e7::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
- 2026 14:45:15 +0000
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::6c04:8947:f2f0:5e78]) by GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::6c04:8947:f2f0:5e78%6]) with mapi id 15.20.9723.030; Wed, 25 Mar 2026
- 14:45:15 +0000
-Message-ID: <f4ed8844-38e7-49bb-9363-822af85f5012@cherry.de>
-Date: Wed, 25 Mar 2026 15:45:13 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] mesa-tools-native: fix do_compile failure
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Changqing Li <changqing.li@windriver.com>
-References: <20260325073954.1176537-1-khem.raj@oss.qualcomm.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260325073954.1176537-1-khem.raj@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR07CA0292.eurprd07.prod.outlook.com
- (2603:10a6:800:130::20) To GVXPR04MB12038.eurprd04.prod.outlook.com
- (2603:10a6:150:2be::5)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=dxSeHiDv;
+ spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79a7109f568so53010867b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 07:46:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774450015; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GvkS9kc3Y+ufUxjkp/Be9ccwGDQjDfv0VaPoGK/6HSDXkHikzXKIY++OBGoHFr63EG
+         /jdY3/0fldfGseUBo11zdrOPB/7u/+9m0jb7RjGRQeUa5QpqmkjLbIC8p/x+koei6dZv
+         hI1t2bDJp8ryy97Cn4ObUkv0Pt/I0zAnFk9lwv6IaQdxdCvGQ/KlQ1T7DxwzhdqdiebW
+         uF5A+Vmr/orEiGjozlqzRHMAcwEHdf51IfvGO2LR9KfxUtOIOZHgKU1yMsfKyq5Jco5N
+         CYoEMsZHC9Bc5vdSeU8/cJzUkiuIGXt2dLYbqLZQu5lTXOgg5gTO2OaS6eW+MFELZ/s3
+         Ykyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=daUuC1JpFls4+jqXkRjr5HHiweGpGxZS2JUYRqAOSik=;
+        fh=Z19FJ1t1dQtX/teZcsv0yxsxLHYQGyF7uZDEYV3WQtE=;
+        b=ag/hl1ktCl3VOC9+3cMHrXjSHa+IxYhnK+sIVJmHqBFY5zNDRKlliAUvEwQER2OlNb
+         7tizupzVg6MILswDrLBDMdG8yZt/54vDm7roaHCOQHBRWFAG+pXwDaKSWJ2VnaCIUHfr
+         McKOwXNMjh5isfDdbpYU19daFTgrAZ7OHb0ZFHMS6swhFLtGWJLYF6m1GJAX8vd14gHg
+         3eXIsc7rNS1+pLVZvA2UFSkZB33xMS5W0j/BP23KpOcKSo2a793TzbOf7zbAwleueEb4
+         h0dG9slLK/GsmXCIVCED7Yjkex8QAIODAG3nvM4IIVLE0Szd6WnqvRTFE1P8RAb0Yzvy
+         Gkeg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774450015; x=1775054815; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=daUuC1JpFls4+jqXkRjr5HHiweGpGxZS2JUYRqAOSik=;
+        b=dxSeHiDvuOhn4fYFk/PXNIH/6/ZDmKktD3aKDvYQKIZDeNyOWKwDJRTrrplf9g9Xjb
+         igC7lM3HfrVRzjfG8IJrwiLEedCgc8a9m3EEr+QcvftHKqbOSmOkObfUH7+kGZbsfvlY
+         +abJfCiqBSbxusYy5tvwQrMzEM80xjfDuv2ZNs+9wY/XKJZ4CNIFPPfwQY08HudJQwUO
+         OKDNzwa3DVhoE6TKEy8G7skQZs9sqsl7ROLxsjVUEA8dYTLRephNGbwRWhF4DgPwzCIv
+         mKf05MS6DIMhweYaFmQd7Xmi7042seTAUMlTaNRGcSr+GCqEhZ2DKKY4cNRvN5DHQeX+
+         g/Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774450015; x=1775054815;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=daUuC1JpFls4+jqXkRjr5HHiweGpGxZS2JUYRqAOSik=;
+        b=atSzGRz+E5oH+ZUfBvqmBFEF+KSpRooD5IEOrJxA/XMwkMW/s87YpJKbsALk7+Hbev
+         NeI6lizKABep8mw1Kfd2OyCsoWHcXZYM6pFf6e72KFR7M661KNdYSgNB2Df+1pvpgjs1
+         VcbcUX6MZ9CFSes5xVkU7m68D0Tnbc2VGl22wUNANjqFVCDo/g8fHc/7YteL/7AmrDs7
+         kK+dVpwQ4QLR2SLw3wgy4gFNj46RG1f1eX7/J5fhOwmWW8KBu1hypAegb0lzeVp8vsn7
+         FNs3a/7bP56jfRCNm6wBzo+b/UETK9lMg2VgQ3whaiYPJvihsJFIXvgH07FQaHg1QBJM
+         XBRg==
+X-Gm-Message-State: AOJu0YyXoyC+NEH9hNji0GtW4zrYQ6Iqyekm9Lll/yKMCPGzoEBrTd5q
+	gnmYlkdvgl/f1FBEeh2ubWCdhQSiMbrgoGTA30+lffRYeTECzDmkvC3wxWAG4bzwO5v3guzxmIQ
+	d7jPvKma10p45g4kQtyqvjVnYjyyc3Lc=
+X-Gm-Gg: ATEYQzyKuxmqaVa38Q3ffumvmF2RQoY8WkpmtJjoBKmG0fFUalpzfcdac0/wCjZu+2Q
+	gghTDYmTNwSpqEwOyu8hAavPAuIVIDR9U7L6QMzM7wwWUi2Ai9kqWO3Hi1wnLscS4Ivim3dwnmu
+	Mpi5Zcx3HRp2IosSpkZ5w33c9FP7trgmqox2TUZncfKcNBYWFNrynUAiHM1lcdJ2XXB/tSPf6R0
+	SbjrAeX3exXSAvyNu3V6up4kxGo9kjDHrrUgPCX2A4WN5aSkGgzfpHV6ncJL69xkZSaW64zKqoJ
+	8XUgQnxF5Tka4uFn6KT2EAH4X3vTciAC6Bigd1PtQvUgZ6RBj9luegZ5F7eAbJ7C3rL9TqF8GeH
+	IsVJS6tz0HPYEakf4tgoXN4NYQ92Wvqo0z08=
+X-Received: by 2002:a05:690e:2451:b0:64d:29a4:c933 with SMTP id
+ 956f58d0204a3-64ee614916bmr2846195d50.56.1774450015328; Wed, 25 Mar 2026
+ 07:46:55 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|AS4PR04MB9339:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14fc0348-9e24-4980-9401-08de8a7d202b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|7053199007|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	McNX1YJ76LMyolPT90vrqCWp0bKAhThy1q518dHEr8XbfHut7shibdjuuONtQEW8Ll7XCVIfypN26vSrYm40bmegy8ib16fI3E3uiyQGKEpwIeKwOHAWK7WW1ArqamGQzJ2Lk1HzqE2KCEd12gX4m2EiVSpmT1c1yqKui9zaOCuhPolpIS+TYx2gBXCbES945ec+zd4N1O/gDEJLsUC83GcWu76RbnBRF470G1B2v72ej0po95THbqohupXXzDvRhLlNOvfcolPXdfRUIV1Ba0fxjEO4L+FkM+kfih71MOUX9VKyS/iAxBFQUAkQrSlv1yAnlIdt8J40oZXkDvfMUhV1IphnsA7BfXIT9TPVYcl4KI8H/tpnT7sWSm+A5R7a0VQhntWhRzZCPzAmIxClflAUeI3VBP3Z2AVh+i/i4cF0S+FLFaoMzJ2bwLbvqt433EPozVHBqJZWC8QNDtKDZV+hAd385OeBJe9SpMMRD2GLYf3z9dma1bm2LEpU6Jco5KaDoXtS52V4VYbTdKcutGbxqmVwb1lD/BFaInN5WRksFX2e13ilBbDKSmNPoiWGi8SIC8BfUw/WmzjsBj2HiVsBrVFYBGUVBluG1OOqX/nlPrrAjEdqyKlbfe0DUV8WYDs/0Nsy3rdMauhlEwse0oATMr+eDAwbGC6sC0fJOS5l+zjQ0qk/fLpmbpDZCQrjdrcoK3u5e1wAXaDgGj3eT+Svzf5FsT23XIXak04XNt8=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?RGw1NUhPcGwxekFUTlJyM3ArcjlzZXd2UllQcEo0RytKUmJCM1h1V2NHaE1W?=
- =?utf-8?B?WWhLM0dPMUhUeXJGQ052UTJyTjJwYWdERXFiWTdXa3JGdmdzd3FJcFFra2h0?=
- =?utf-8?B?b2JBUVNrcDJOcmFsaXNabkl6dGNlYSs0ZERiMHJMLzBYaXlRUVBpMXVIU2Jo?=
- =?utf-8?B?eGk2OFk2MDJWNDdWY1grOTREdHZWUHAzNy9QVzF3OVlPcWcvN1lHSVR4ZTlY?=
- =?utf-8?B?YmxqaktkWU4vbHp2SzZqbGNlUUMwN3ZwbHM2QUNyTG5yTFNxSHNkdHpLb2VJ?=
- =?utf-8?B?bXdHU055aVlSMXRjemk4N2xwQlRBeXNMUVdpQVVjcG1sUzVLemxUNCtTRXJD?=
- =?utf-8?B?M1lBQm9EZ2RHcC94M0lLby9aOU5yVXoramJsUUppTllUMm5VcEp3aEtDTWxJ?=
- =?utf-8?B?SjUvUHI1ZDEzSzhYMnkzWnJkZnhwNi9TeHgrZWZKTWtiTUdBL0k5ZC9OR1Jt?=
- =?utf-8?B?ZW1xeHJPK2VUNHU4TGt5d2RGRklpUVhoazBsMHJvS29raFpBOGZrb0Rud2Fx?=
- =?utf-8?B?YWdzb2I0S0tpVTcwUnRDbkNMYjEzM1RLUTBsMTRlSkxJVFBZOG5lSEZFWGFM?=
- =?utf-8?B?NHFoMWZTM1kyUWxkdXFkTFVNeXdUMzZoeVFWZ0pnUzVYTGxNM1cwNWpEa3RF?=
- =?utf-8?B?eDZkV0VqMEVUbjEzZG5FVTFzV0VHemlZVm1NSitxSmphK0RHTGlXRU5hNVo1?=
- =?utf-8?B?M1Z1VEJNM0NhUyt0eUhBYXVpSktOZlhobEFaVXJ4VWNmVjlqU2RaMnFEZTJ2?=
- =?utf-8?B?VmZ6RjdwNnUyUmc5eHB1c2x4enV2OWE0eW9FRHdlOXdZUFU0Qkgza05kdFdW?=
- =?utf-8?B?T29IcjhDeWNRQThIODJzRVlFVTB1Mjg3K2xQVW8vY3pPZHZNU0x3Y3VXbDVo?=
- =?utf-8?B?YUYxeXZpRUp0eERzVmxqYnByZ0NWOGRZWXo5UncyWkdxQmMvazJsN0RqdWVI?=
- =?utf-8?B?bnM3dy9VekJuRjg0cUdMVG9iOExwRUZ5cVFJeUd3a0lOMmlBZFNkWnV5eFkz?=
- =?utf-8?B?VUJlZEUvK0lGQ2NjNXhaZVFUVlFhNGg1NG91enZiR3BVbFR2QTFoRGZyQkRP?=
- =?utf-8?B?ZXIwSW9hemVNMVRXbDROb084NnJ2ZDFuekVaTFlVdW90ZWJSVFczVDRZelNW?=
- =?utf-8?B?UlBOOEI2bFo1NTRYNUtORlIrNkJ0UEM5NGYrY3FFMzNNbTBNZGdFdk5jQmZn?=
- =?utf-8?B?ZXZaek1PeWdOMXVuZFpaMWp6YUNUOUdhUFZjbkdRVDAwM0tXUXM5QlB2SmN2?=
- =?utf-8?B?ejUxd2VmOER2YlBLK24rQ3ZnKzhmMHRudjM2eXhNM2RrOUJwZHdCN3Q3bkts?=
- =?utf-8?B?UU8yanJXZlN3NnZkU1hEbEo2d1gwd3BJWHdSa1BLdE9FNE1OK3QxelNVazRP?=
- =?utf-8?B?eTBOaE9xVUNtMkRkbU1PZ1hnaFdmUG5jTDZBM0lIcEI0UGZDbXp3eDdMRHZw?=
- =?utf-8?B?VG12WWNVbVowV0twcUNRRCtrTFErL3hJekVLZHlETGFvQ0J3V2tvVDRyQml1?=
- =?utf-8?B?T05Zd3BRWloxWGV4WWoxSlB2SW16K3lmSUtVdzk3a0VuTmlPNnRBc0pMMzBF?=
- =?utf-8?B?L2N1aHVmY1g3eDJUaFliaEg5Sm10ZENGbysrRWk0ZVZBRGlubzJkMi9ZNTIw?=
- =?utf-8?B?ZEcyaXBRNHNaZjFvcm9RQWlpaFNubkJvbGhpck1vKy9wMGt0eHh3M2x3L0V0?=
- =?utf-8?B?eWRKQVVBdmU4U3RQZjBpTkJMNkltckh2ZDljMjE5UE1LYlhLOHYzM0VFOWhX?=
- =?utf-8?B?RW1ZZE5YVHRraHZuWTlsbThDQkQ1UVZVeTdwWXIxa1N1TzlkMmRXbk9udU53?=
- =?utf-8?B?aFpjMmN1OGtDS2U4eU9JWGxJSG5Dc0lNV21tQndPRHFVS3ZRRnhFYTVCNWdM?=
- =?utf-8?B?dGkwZTBEMGhzUTBRb0ZkQVdGR0dtMkJFTzl2M2FuaGxjT0tiajZ6NjA1SkJm?=
- =?utf-8?B?RnlwRTVwcFkxNks2em9Ub01hbEhZOGFJRjBST2k1SFZ5aFRmeTBEeHRVc3hx?=
- =?utf-8?B?U1NvRW5SQW1tcy8vd2xmc2FBSW1Wa0cxMFk4K2hTWDFVeVJqdXB2Slc4WWtX?=
- =?utf-8?B?TU5tT3ZSUHM0dXpLWXlmU0tPUjZCd2puci9ta0FTdGJnUnR6S3JSc2xXcitj?=
- =?utf-8?B?bGZIRjFSb1FJbHdUT3BqbU02WGg0S1JuZlpyZDBBeU5RN0VuUmJRWkxtNDll?=
- =?utf-8?B?LzJUMzVRbjAxWllldU9XdXdJUGp1bFpVVkV5TVdCQU1LRUVwYmxXUDdaU0V1?=
- =?utf-8?B?U2lPTlFhdENReDRmUCtGVHQzVGgycDdqWUtMTHRlaEV2QlNXTkVKUnhFaDJo?=
- =?utf-8?B?SWpFZTROMFhZQVdRTkVkeTlVK1l3em56R1JsUittclJpaDAxZkFDUT09?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14fc0348-9e24-4980-9401-08de8a7d202b
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 14:45:15.0132
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0vyx0TElH4OxFHjfzJh/LVcLiHyJ0J7CAVd/QUATV2lAQhJ1EgjyCT4ByCPBWC2TANG2qxY0jAkBhZqa0fDqiuzOc4A+bU75ebfGoFscY/0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9339
+References: <20260325073954.1176537-1-khem.raj@oss.qualcomm.com> <CANNYZj9AkosvmmNePiALvwVkR2rsthvsGy3ARLTmWxKh=t7OaQ@mail.gmail.com>
+In-Reply-To: <CANNYZj9AkosvmmNePiALvwVkR2rsthvsGy3ARLTmWxKh=t7OaQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 Mar 2026 07:46:28 -0700
+X-Gm-Features: AaiRm51K1mLC2jf5PNKxXlvDHTklGzNL7IyJbeZuj-h7zgNiUKJEdIqPa5cP_WE
+Message-ID: <CAMKF1soXSQxLU3eRCejvHH5HORG9xRMxObU+svnAdd10JAs37Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa-tools-native: fix do_compile failure
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Changqing Li <changqing.li@windriver.com>
+Content-Type: multipart/alternative; boundary="000000000000d5df41064dda5685"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 14:45:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233921
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 14:46:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233922
 
-Hi Khem, Changqing,
+--000000000000d5df41064dda5685
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/25/26 8:39 AM, Khem Raj via lists.openembedded.org wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> Fix do_compile failure:
-> ../sources/mesa-26.0.1/src/panfrost/lib/kmod/pan_kmod.c:7:10: fatal error: xf86drm.h: No such file or directory
-> 
+On Wed, Mar 25, 2026 at 5:52=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+wrote:
 
-What's the setup for this failure?
+> On Wed, 25 Mar 2026 at 08:40, Khem Raj via lists.openembedded.org
+> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
+> > Fix do_compile failure:
+> > ../sources/mesa-26.0.1/src/panfrost/lib/kmod/pan_kmod.c:7:10: fatal
+> error: xf86drm.h: No such file or directory
+>
+> > -DEPENDS +=3D "libclc-native spirv-tools-native
+> spirv-llvm-translator-native"
+> > +DEPENDS +=3D "libclc-native spirv-tools-native
+> spirv-llvm-translator-native libdrm-native"
+>
+> Should this be in PACKAGECONFIG for panfrost?
+>
 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   meta/recipes-graphics/mesa/mesa-tools-native.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> index 50d2f5cbb0..743e3391e9 100644
-> --- a/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> +++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> @@ -11,7 +11,7 @@ PACKAGECONFIG += "gallium-llvm"
->   # to PACKAGECONFIG like in mesa.inc
->   PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
->   
-> -DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
-> +DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native libdrm-native"
->   
+I have opengl-only image to build for odroid-c4 which does not have
+panfrost.
 
-libdrm-native is brought in via the wayland PACKAGECONFIG, which is 
-enabled if DISTRO_FEATURES has it, so I'm assuming this issue can be 
-reproduced on non-wayland setups?
 
-Reading the code...
+>
+> Alex
+>
 
-src/panfrost/lib/kmod/meson.build
+--000000000000d5df41064dda5685
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-clearly highlights there's a dependency on libdrm (dep_libdrm), but 
-dep_libdrm (created in meson.build) isn't created as a required 
-dependency, while it probably should since 
-src/panfrost/lib/kmod/panfrost_kmod.c clearly calls functions from 
-xf86drm.h which are only defined in the lib. Maybe something to patch in 
-mesa itself as well, so that it complains it cannot build the tool 
-because of missing libdrm dependency.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 25,=
+ 2026 at 5:52=E2=80=AFAM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanav=
+in@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">On Wed, 25 Mar 2026 at 08:40, Khem Raj =
+via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"=
+_blank">lists.openembedded.org</a><br>
+&lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
+=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; Fix do_compile failure:<br>
+&gt; ../sources/mesa-26.0.1/src/panfrost/lib/kmod/pan_kmod.c:7:10: fatal er=
+ror: xf86drm.h: No such file or directory<br>
+<br>
+&gt; -DEPENDS +=3D &quot;libclc-native spirv-tools-native spirv-llvm-transl=
+ator-native&quot;<br>
+&gt; +DEPENDS +=3D &quot;libclc-native spirv-tools-native spirv-llvm-transl=
+ator-native libdrm-native&quot;<br>
+<br>
+Should this be in PACKAGECONFIG for panfrost?<br></blockquote><div><br></di=
+v><div>I have opengl-only image to build for odroid-c4 which does not have =
+panfrost.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+<br>
+Alex<br>
+</blockquote></div></div>
 
-libdrm is apparently necessary for DRI, GBM and any Vulkan driver (see 
-with_dri2 in meson.build). DRI is true when building Gallium drivers (we 
-have this correct in PACKAGECONFIG[gallium]).
-We would need to check but I'm assuming we're missing the libdrm 
-dependency in PACKAGECONFIG[vulkan] if we're building without gallium in 
-PACKAGECONFIG.
-That still wouldn't fix the missing libdrm dependency for panfrost tool 
-though, for that I'm suggesting we add it to mesa.inc via:
-
-TOOLS_DEPS:append = "${@bb.utils.contains('PACKAGECONFIG', 'panfrost', 
-'libdrm ', '', d)}"
-
-to match what we're doing for the freedreno tool.
-
-Cheers,
-Quentin
+--000000000000d5df41064dda5685--
 
