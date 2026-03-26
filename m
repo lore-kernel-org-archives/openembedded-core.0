@@ -2,68 +2,68 @@ Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BDE710A1E7F
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 11:44:32 +0000 (UTC)
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.45422.1774525467625340594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1077110A1E80
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 11:46:12 +0000 (UTC)
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45454.1774525570518120910
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 04:44:28 -0700
+ Thu, 26 Mar 2026 04:46:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=MTcCUT+Q;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.218.68, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-b980cc0ab21so6955466b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 04:44:27 -0700 (PDT)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=MrOV0Ui+;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.218.66, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-b978f4132c7so10534166b.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 04:46:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1774525466; x=1775130266; darn=lists.openembedded.org;
+        d=amarulasolutions.com; s=google; t=1774525569; x=1775130369; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ufgabvYoQf2JxjQ43fyHhN56IjCHWheDC5jc9K5qbns=;
-        b=MTcCUT+Q8r5g4XODgvKXTo05Kscqq+GYFtRuXhUUadrb5ccgONlou7iR4ZcUtK5GOh
-         EqZqV5mrQTSVxgNvZFs36C11SPwt6NUBT4uGYIZgnp4pzGqiV/J4GAfdAL0X+75BSsN1
-         P16wLAulFpvk+xzU7pzVqi/SG//unkw532GeU=
+        bh=GzjBirZFHZLdWNR0e6g4kOlOAwjQn42IxxrajG0EwfA=;
+        b=MrOV0Ui+eMIq9NvuFAo7gdkudofFoc6jzEnJLTv7NzmjycmcsG4yoD1ikSy7rBeYGc
+         l913P07O0gF7VYVTvncvzfKFTGz+o0/0X1CgW9dmclGkii7/q+HxUxiuZCA6UXhfwnKw
+         MfNiJNg0r7ZXbMK8ecbBhqOXNgv0tuKRo7xcE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774525466; x=1775130266;
+        d=1e100.net; s=20251104; t=1774525569; x=1775130369;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ufgabvYoQf2JxjQ43fyHhN56IjCHWheDC5jc9K5qbns=;
-        b=S2YasZyO7q4ALS7z3SsONFsuQ8U0FWyUzmwmhzDhnlzkWiEOIYibO0j82v5jqrw1uf
-         /uhNG9k0ut9Dxi2MXAdkpNR82TpFCLMF6TfCyZODPAp34RzYrn0mJJdJ3i1bcdD5kSha
-         dDF/UpYIkueMMolmhPOxEFDUN53SdN6BELvA/tzjz9VnxsWTdT2jp0okNqZ/7vHCeQQQ
-         aX96vFZlXgg5cJKYKyO6UObAcEJVnrkFNK8KQ0IGhy2GmiGAPm8EB6vtZG/9w/owqQbm
-         YlAoH/Shl+XXcrFf7Vsewx4HMD7OQXS5fLnC3wATZNWWmrxwAF0PwkxLIdAOsfHQkOoe
-         sNAw==
-X-Gm-Message-State: AOJu0Yx8O9bpL8Jd25uLUqYe7RtS7dcSKnRydisRAGf5FLkgiNa2BL84
-	q6zY9Gjh4mZyBUGxXD6M9CPZtqi9mktCkQut7wB1k00mLyzk833w2igPcLXAU3dX5+JMVbm86qa
-	3eQgGMhmLuA==
-X-Gm-Gg: ATEYQzw5dCAitAe9YGJsOdebXMfN4SKQoVuM1csdSGzBcNoxYkjvpkFIZR1Wn51L6yd
-	30o4aQrn4oMdegPIDfbufsA5gkKfPTw5ZMRHj+X4RdnznnLT6Ea+yDqveXazFlPBhDOvjmAZXvI
-	McHD97CD1ZC5e63XwcvXlukaMFFRQcaCLbyQFzI1ngavIf9l+FOIhjxko2EOSZZ+nsfUxo/gTB6
-	qLiGWkuEos1vNjtfHBml36RH8Lr7dIRi/oIJSqjJ+olqGRLCyPiLD5q+1GMReWnO8+WrhEVdGls
-	kOt+NHr8kJNdvzSmcon9S0kV600G+6sDHFJCwfBHLngpcMR42lF+BiWTTN8IIHOu0k4Le/9i7ek
-	4dVVmGfJ9XYUGnMk1wYQWcwDhkF2MwJpRBBSSvV0aEJtl+5oc++Y0NcCXw5em0CY8ZXpWckQsBr
-	2PUPSuPeHMpZFAypzXtJKdc1otvtbCLZ3lz9MXPlJx7cHpcLzt88AdDSAjRFpvdhBRAw9333uBD
-	yfwoPfckvofm8IzHHqWDbPLZCdhbvh/Dg6Tn6eqEm/bQh2dBLxzrLBbQiFxpH8RLFhksA==
-X-Received: by 2002:a17:906:490f:b0:b9b:151b:8601 with SMTP id a640c23a62f3a-b9b151b9254mr130891966b.5.1774525465725;
-        Thu, 26 Mar 2026 04:44:25 -0700 (PDT)
+        bh=GzjBirZFHZLdWNR0e6g4kOlOAwjQn42IxxrajG0EwfA=;
+        b=oFencSchmDhuZxS4hZGydr/eFo08dYiJ5tX4BxJY6bqqor0yIoY26AA9YFrhKyt4XU
+         VWLh4ZekOhVBQTOdJ77Py6JUOboL+lH7YN7IG2UMnGkMaENhvh86OsIjyaQhlVgQ1dVy
+         NXOXX9wtvzuoo/KuqLPbr/IPnFBA2dEsQvrimIGhSIFGzUL481r+VVesbnib8WdGebgG
+         uxvZLN9bmqeE14N2ngyDPkkGkrAB5WoaVbpfs0Q9Sww/sJURNtjz6IpMB5iVkmrreGb5
+         mXqCqYVNHO26x218qBSQUAbuq9v1fxEKpygGeFphDr+ERn01sjeRoAiwseq7VZLLQrDI
+         srQA==
+X-Gm-Message-State: AOJu0YytjCLFZMO3ZsRE7eFbteKAPcMNSDFEDnU4ULLZzHR6toeo9wrI
+	H6dF08mLZbJ4ZszX2oU5tJqnj6exeE9aCcjCoIEmJaYqaZrOzpPz9sqk5Mi7YqUjs+QBrwny9T7
+	UlFNS/GA4zw==
+X-Gm-Gg: ATEYQzxiVeHbrm0jBxwqbm4lqVnh9/dux8dfKZ/Bkd6bDkpQ6TVH2QJe73N3leB1Z4a
+	Zb9/R9zSh0SXx2PNNoaCHeCXl/TM8IhNKPShdZ+g+5i0G/Sn8aoG0VH+Wbsnr16btteBUwnBWqF
+	Z0IlIPteh1hBsvM+Me5LCtujLFy+4mklpRJj2R59voSHTjDxHGgznBu2sQDkQ8LasIvXfJiZ4rn
+	uhdEYrEO/Ks0R7OmbMX7RlYjKHFoZzIhTaPDDr+R9eCSOAKMVAnRxHzP64vrxtxNCPMeN01zEws
+	It5jrGns1ZsCS7IMB6VIx8grJr4Y+kiz9FV4AbXY0o5wrogo+qDwf1MFb84wQI/jGNocGmbmFaq
+	K2mWpx2Z9uuRZsB0StG2qvFaupM8Yy8r5d/HliryOW9Z+aLuPKh6jp1Lxur+b5GHXklNCg+fxGQ
+	i/xWEgwdLS31e6OxIc+vZgnfNCy7XgKtwU9LpaS1qlX7DIrMYiH74uWUW3jFNPwh9I/6wLZPukd
+	wVo6xxRgCGqRU6hL4mvK7LjnUPxWjaR0alVo1KQWrqgv8xPHwkm7i7kbUzQuX1pLQHSow==
+X-Received: by 2002:a17:907:7212:b0:b9b:1963:2ff2 with SMTP id a640c23a62f3a-b9b196334e2mr153378466b.0.1774525568791;
+        Thu, 26 Mar 2026 04:46:08 -0700 (PDT)
 Received: from adam.amarulasolutions.com (2001-1c00-8183-9900-dfb4-52e9-0b83-429b.cable.dynamic.v6.ziggo.nl. [2001:1c00:8183:9900:dfb4:52e9:b83:429b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b203c10b5sm102840366b.29.2026.03.26.04.44.25
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b2029b0a6sm109108166b.27.2026.03.26.04.46.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 04:44:25 -0700 (PDT)
+        Thu, 26 Mar 2026 04:46:08 -0700 (PDT)
 From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH 1/1] libsolv: add fix for musl segfaults
-Date: Thu, 26 Mar 2026 12:44:23 +0100
-Message-ID: <20260326114423.271000-1-adam.duskett@amarulasolutions.com>
+Subject: [PATCH v2 1/1] libsolv: add fix for musl segfaults
+Date: Thu, 26 Mar 2026 12:46:06 +0100
+Message-ID: <20260326114606.273018-1-adam.duskett@amarulasolutions.com>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 11:44:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233979
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 11:46:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233980
 
 By default, musl has a stack size of 128K, while the compress_buf
 method uses 256KB of stack space, causing a segfault when the
@@ -74,7 +74,8 @@ Pull request: https://github.com/openSUSE/libsolv/pull/612
 Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
  ...0001-compress_buf-fix-musl-segfaults.patch | 44 +++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ .../libsolv/libsolv_0.7.36.bb                 |  1 +
+ 2 files changed, 45 insertions(+)
  create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-compress_buf-fix-musl-segfaults.patch
 
 diff --git a/meta/recipes-extended/libsolv/libsolv/0001-compress_buf-fix-musl-segfaults.patch b/meta/recipes-extended/libsolv/libsolv/0001-compress_buf-fix-musl-segfaults.patch
@@ -127,6 +128,18 @@ index 0000000000..cf87b3c4c6
 +-- 
 +2.53.0
 +
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb b/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
+index f22230599b..852e79c45e 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
+ DEPENDS = "expat zlib zstd"
+ 
+ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https;tag=${PV} \
++           file://0001-compress_buf-fix-musl-segfaults.patch \
+            file://run-ptest \
+ "
+ 
 -- 
 2.53.0
 
