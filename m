@@ -1,371 +1,357 @@
-Return-Path: <rs@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D64B10A3D9E
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 18:35:32 +0000 (UTC)
-Received: from DM5PR21CU001.outbound.protection.outlook.com (DM5PR21CU001.outbound.protection.outlook.com [52.101.62.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55120.1774550128963119230
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45EA910AB803
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 18:47:15 +0000 (UTC)
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.55377.1774550832177520405
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 11:35:29 -0700
+ Thu, 26 Mar 2026 11:47:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=selector1 header.b=PmXqmKk4;
- spf=pass (domain: ti.com, ip: 52.101.62.51, mailfrom: rs@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WEu3Ux7/CO7o+puGkuLc0MtV9NxjpzTbSZxuQajDTA69AH9QijqI9FFGfOLRMIzSLupDwsVoBD8eFigAP/8E9FjEpRFer0XlGEGGbDRTISrE/knQ8JwFBYHrAjks6JoSBYl9HwfbMnwWGuMiY25vXJOM52dPL0twOZPIerk++OU11NNUlfUw/GEVTv90RBj7jgLg+E64PaRbEqJwKsI/buWhra+EE7jCm/26SjdKjVo+zjBGvpcDOzSavAPwvGFCS2oWw1dKa2An2DXp9kDwE4qGnxa9+agK97ZSrbUbOnzCk7eq7CNA7mFSNbk5YOVa9mnWnALM0gIiNhEIRBnegg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1fKtE0jEuXhc62YCcoG6g+TeuU3s7moeD6tUu3QLrug=;
- b=sRqPrSsa9XmbgVXqSc020ouiXU7wz+D92dY/2CCtdbDtyf4djv6ERSlAsDwi8T8nbxXp11wfus3M0cLIUjK0kXPQpgfxeKRB/65J5fBr24aIKSgj5FRh8ScnlA1RKZW5XqVp6AORCE8kXdfjOmeTTr+8osF/hzAuFlxh0SAh5qC0/6g+LHDBUb5LvGDaT/hY6NRl8vjthnlJFu1d1QFAlqnHWUP6ZuuN/3hEjs6QC3RPAMjECoDMSqN7Zc8JR8noWVld92qfHPkv2udnIPDAGRyVq9AjtgsfotTFRbzCqa0JGenXeMzgfb/U3s63uR8ZgFHAmaDpAU5yCOAeFyPZQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1fKtE0jEuXhc62YCcoG6g+TeuU3s7moeD6tUu3QLrug=;
- b=PmXqmKk4gSiSmOslNTUZvc6P08MLnsY37uFlBfoU2iJwrr7qwOt72weu4ksBu3fQSQJatpKexd/TaUd4lGrpsn++gJBQK0UnRKaxm5zkMZbatupczu5dT4eQlDEXAZHU3ZSJbi/eqG8Xj4sLROSMjcPh6cyPLr245I6mcDK99Fg=
-Received: from BYAPR06CA0021.namprd06.prod.outlook.com (2603:10b6:a03:d4::34)
- by SJ0PR10MB4495.namprd10.prod.outlook.com (2603:10b6:a03:2d6::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.22; Thu, 26 Mar
- 2026 18:35:26 +0000
-Received: from SJ5PEPF000001F5.namprd05.prod.outlook.com
- (2603:10b6:a03:d4:cafe::ac) by BYAPR06CA0021.outlook.office365.com
- (2603:10b6:a03:d4::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.32 via Frontend Transport; Thu,
- 26 Mar 2026 18:35:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SJ5PEPF000001F5.mail.protection.outlook.com (10.167.242.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.21 via Frontend Transport; Thu, 26 Mar 2026 18:35:25 +0000
-Received: from DLEE212.ent.ti.com (157.170.170.114) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 26 Mar
- 2026 13:35:20 -0500
-Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 26 Mar
- 2026 13:35:20 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 26 Mar 2026 13:35:20 -0500
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.39])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 62QIZKJp2597547;
-	Thu, 26 Mar 2026 13:35:20 -0500
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=PRJTtJVI;
+ spf=pass (domain: gmail.com, ip: 74.125.224.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64ca4dfdd88so1545187d50.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 11:47:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774550831; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EPpw31cUzw5BgqYIDaCsz6MwRw9cE4WYr2KifE7c/DLLMOqP2/4IC11KvdZJnln7zw
+         PjJGIwnT81hH+ugFBM18eF19Q1djcPNK/TpcOuAP+o5RihI2Ixk1ltM2TxKb9ZJGEfKd
+         S+EUpaYOJABwenndfl80Q9fc7h+Kpts2VdOrLMTdD3jsk1tDYmJL/7IeP5kJKiwsXhSX
+         vSZHg/QwKTEMwZr4wGu6CMuF3sP3c+j1ZCutgGE1sHWZP2kGIx9vQhIoHkmXoXXGF7hE
+         uf1OPc/p5EojjTrmxCXanVPDiCF6gFjWW5O1dfvw4AKTcJ6SYohkwT5zhAXRFRJyiZ8j
+         /2dA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=48/utaxE5cCgMMuOoO8aSl4IHVXw13zQufcutgvlqjM=;
+        fh=TGF7TVa5Eshw5M6K2XLmjdIMKFhrsPaliuC+tv7wzuY=;
+        b=VumxXZaJ7Q+d4/9Yf2jgW4RMeMJIakXRgmZBCcIIAGgAuck920KFyTApvsDkJVms27
+         /9SdPef6XDFFiLTaOJkWtSNWZcp5A/ieJrc/zb4ujdsQLqGH9ZW3vs3aJcmpy3EFJb8h
+         cTKUp9EqNjbAlssg/AWpnRghyoPfNcBunonYPyKVNnxSJvHYxmLwwThCHVK5+uV5mGN4
+         I2GuoTcDCpaY8KgOf5H60L1wRVuvq34bCywTvoJZujxnumhmuavtFBFTQel0/XcftTpP
+         RER1j2y0cvBWlmgwL/csayx4ZL05DzP/xuH10pnZTzyJHU+0NdxYoFANhocx9YGoQ+89
+         AbRA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774550831; x=1775155631; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=48/utaxE5cCgMMuOoO8aSl4IHVXw13zQufcutgvlqjM=;
+        b=PRJTtJVI5BbgDGkRATp4sudpNyA3M8i0K1b7rM3nU/1+l5PNznbA1nkt43wXmB3otg
+         ATG3LLZ4zw/qIY/7vTDqiTeP2LiuARxhUUKDttk0awQ61cApwS6aDEkpRBb5zpeUzvo4
+         kYdL19YaVwxO/FZ5jvkaa1denyFLFp4R2i21ZPXlfX+FBntzCvC7JyLvb8YK30WXmIYJ
+         IGCJVZ6V/2a7w79VTHI6/PECTZw29hEb+NzkYSzqxx7bES5PI8JMOXuaG6Whr5298bi8
+         EhfuX3HeNwuNJxriADa7G3jWFJn+9a1xFQy75/ZOC2B8O0PUYww6DClqYqAhU+5mpxqQ
+         Hk8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774550831; x=1775155631;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=48/utaxE5cCgMMuOoO8aSl4IHVXw13zQufcutgvlqjM=;
+        b=IckkY3gCzP50SWkQ2BeacDUna1LTXp2xDdxPQO/xPiLZCOeVJxYGiavEo8+gZdFR8F
+         0VzZC3M8Bv64zXlDgRzsoWwq+SIOo5GBtTyln7PvFgd5aXcQb+h6vaW1z0qMbjoZjW42
+         cxaqYgBAKq+9GwKYK6MAAEUzTulLyA5B50SvP4988soZ3KcURXVBbaPkhbejdGJxA8cW
+         Z/qDPAyzsdH1Hy4xlmcVViSXsQHq9cwLS8VZEJnqamvB1tDOLwfjcDKkZVJ/88hb4shO
+         viOl+j3fTsqb0JMSbZB9kdQPe/TgktpQDmYtpDqNED/ZzNt25TsaBIXMe30tmzPlbdyx
+         9S/w==
+X-Gm-Message-State: AOJu0YzZh8YASsd330VvAV1EOWfa3Vpr9IdfZbeLE1NuZjynl1F9S7Nb
+	QqGrAf+g8Mkq0IqvrhO75TrChGRE9reqIIFqz3LBS7Jv/zwJIhU2LW9+zQuCpqrQVl1YpNIXt0b
+	ChLJlcLeKuyMKaiziuPEX7jiUedxt+trvh4sWJ4I=
+X-Gm-Gg: ATEYQzzP8JLm/ETqBbUA6okVoRUzgxvOv6yGYN+/i4oVgIC7dJbiO3dKdUzYn/ViNki
+	9irGzjqWHzi2ciQVsRLTr4KcI/6Fi6uq2aJ5G5lZ1y1aCArohhOqI88/X9rsbEAhUkOA/uK/G7p
+	RgtyNUY63hVUv9X4x/4ecaqCPaKf5Gb5+dUks/uhThKWWtdlx0d5riz6YPgPQbNwLFBwlUhAsfk
+	2xcR1EFBwYusvmrkSvjCW+jfJiFuvgLW7+QB0hcwKIIJUe8VBhOBe9BlUJy6WrxtqMnCWyt2rI+
+	CQ+JVnRIrbZVMhMwcZKH4cWWqkIhaCZlISRrulCPYiJlpJ7gv106NHyUZc+2kVnbJ/IpE5TdL1o
+	O3JRiPPmqxhXgxY0vVcMkjS/Q
+X-Received: by 2002:a05:690e:408b:b0:64a:cff3:8f4c with SMTP id
+ 956f58d0204a3-64ee61574d3mr8310051d50.65.1774550831236; Thu, 26 Mar 2026
+ 11:47:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Thu, 26 Mar 2026 13:35:20 -0500
-Message-ID: <DHCXIN4V1F1Q.1RY9TMY14L13Z@ti.com>
-Subject: Re: [oe-core][PATCHv16 0/6] Display manager proposal for x11 and
- wayland
-From: Randolph Sapp <rs@ti.com>
-To: <rs@ti.com>, <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
-	<mathieu.dubois-briand@bootlin.com>, <alex@linutronix.de>,
-	<otavio@ossystems.com.br>, <kexin.hao@windriver.com>, <paul@pbarker.dev>
-CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
-	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <18982E1417FE35B6.1454197@lists.openembedded.org>
- <189D6251D8E3EDE7.1508127@lists.openembedded.org>
-In-Reply-To: <189D6251D8E3EDE7.1508127@lists.openembedded.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F5:EE_|SJ0PR10MB4495:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3ade0b2-8afc-4693-62ae-08de8b6672c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|376014|3613699012|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	EKT3v/cUu/ghdnaWW/1Pcor3/tbIDAZrczVqsHWbkLejCpwkpMV34nsl6lDPTprqopp/fLXnen7BgJDkVIK6VtBAKozxDsi7/8wSlMPJMQ5rBfQvnH5MF2MJX9hXmU+b8CDjkLEtAgjLn+G/7aPomKcrChxlXuljurg7j+GlwoxydrgF7gW0i9NdQpnJ7MmK27oPS3kLeZQatgispUd+FNiOsz1q2flQDINvQ5lNwBRSRtsKzN9EP9RJVF9EofTjoH1ZJWxl6b9zd7t1MCNpArQF2LkM1T45yKMBcr2z2ONh2ImqEOufrNY2YSoaXS2M7X65NzcR3tAzAR56qsRQ3SbdyS9h2SxUAH0AZ7Zrnj5uVEmDhkH7/Z3P+FEp0n6yAkDZo3mYqyiIPcdzemlynEKOfNZtqGxuiRMhR5zCWqUjz/IGEqvsT+x3JKQMIE5KRggf30ytg7+S1niUN+syPkJSqC6SCRriOe+jOoUyzAetE3y8u7e8lhetuQa9DNqUKNvakRX4bdllqycTitd5ItBIMPekloEiqKTuvEEMyFFS3cnMiK6KEtBmKdT9VfphJMr6M0MQXGhxwG00udOmXwAsoFob3bEBp4fMoTGkQeUp1yMEjly/DsKKdZOl3fnmdrSLZAnF/zXJQwMrR2pNKftNLWxRDeqQxdU0OfGtPn8z/eqJCjTILQ7iC16Dgfd9MNUks4sgcW00i3Py44apDc8ji08CDRoUZA95kZXhttARUjN8xe2CvoV7bY+XEqKQgpgBiLwkgK/2N1t5McmTQg==
-X-Forefront-Antispam-Report: 
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(376014)(3613699012)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	nSBHcCIc8aRL7Yjw09ohogUdmiPOWdCAc6SzaJ6XbVgWgVCnyAUyMsdGb+8gN0020InXbWDIKbNm/V7gQisWr8AVWe6RzaJDJD/4zQT+Yyf0uqb6AAhlZAxxgz69MKAgjqy4LbvDvoLgKWQ0VkdYbIUXArRQ+mVNtsYxN46q2WbhOaLRG5zHBtCYBjd2RKPsmhbG5Gk/8los+VwPsnCbO8vf+i4Hj1Ft+CqQZ9oM0gTTN2Z4rBUrGY287Qqr72zTtolPsaQZqJ6AMosazglERb8oJUNYTv/t7IYkBrwBZZbOKgKsCMaGUD5l4Bt930uwqZ8T8y8QOapMPaFGdUiIzz9ws67EM3eILDJOl9NjWoyAP5dJ3zjveIAxz5GmyDIIkw8ezTnrTQgx3MlQVrIKbYYpyL6AJcCOs/KAtzIUdfeHRL0NPP4v2MvNwbQDdBld
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 18:35:25.9950
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3ade0b2-8afc-4693-62ae-08de8b6672c0
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SJ5PEPF000001F5.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4495
+References: <20260326020923.297511-1-khem.raj@oss.qualcomm.com>
+ <DHCPXEPGK489.13NFXVPD5IBMZ@bootlin.com> <CAMKF1sqj0aGPNbo7Wi9mkFv4hzjhy8HZuzZ_uR4Y2FZ=Dp5dEQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqj0aGPNbo7Wi9mkFv4hzjhy8HZuzZ_uR4Y2FZ=Dp5dEQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 26 Mar 2026 11:46:44 -0700
+X-Gm-Features: AQROBzBvlyoy-vxuTbV4HUecZITfgopx81aUmNTYu_oXHJ4Sh0aKpXuTKh-D_jk
+Message-ID: <CAMKF1so=Qv2mJ3TkCKDY4O4XhDEx9=H0gC_SE_tLO1fr7tt7VQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/4] clang/llvm: Upgrade to 22.x major release
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000ee8bf1064df1cf93"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 18:35:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234042
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 18:47:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234043
 
-On Mon Mar 16, 2026 at 12:25 PM CDT, Randolph Sapp via lists.openembedded.o=
-rg wrote:
-> On Fri Feb 27, 2026 at 12:31 PM CST, Randolph Sapp via lists.openembedded=
-.org wrote:
->> From: Randolph Sapp <rs@ti.com>
+--000000000000ee8bf1064df1cf93
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+FWIW I ran the [qemarm|qemuarm64|qemuriscv64]-tc jobs on AB using my latest
+yoe/mut branch and they all passed green.
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/3416
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/1292
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/3414
+
+On Thu, Mar 26, 2026 at 8:18=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
+:
+
+>
+>
+> On Thu, Mar 26, 2026 at 5:38=E2=80=AFAM Mathieu Dubois-Briand <
+> mathieu.dubois-briand@bootlin.com> wrote:
+>
+>> On Thu Mar 26, 2026 at 3:09 AM CET, Khem Raj via lists.openembedded.org
+>> wrote:
+>> > From: Khem Raj <raj.khem@gmail.com>
+>> >
+>> > Includes support for new Intel (Wildcat Lake, Nova Lake with APX and
+>> AVX10.2)
+>> > Arm (C1 Nano, Pro, Premium, Ultra) processors. It also features
+>> performance
+>> > optimizations for AMD Zen 4 and Zen 5 architectures.
+>> >
+>> > Integrated Distributed ThinLTO is more mature, with enhancements
+>> > like cache support for incremental builds and robust handling of
+>> temporary artifacts.
+>> >
+>> > LLDB added first-class WebAssembly debugging support, including
+>> breakpoints and variable inspection.
+>> >
+>> > Support for Google Native Client (NaCl) is dropped in this release.
+>> >
+>> > Detailed ChangeLog [1]
+>> >
+>> > [1] https://releases.llvm.org/22.1.0/docs/ReleaseNotes.html
+>> >
+>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > ---
 >>
->> No functional changes. Just bumping PR to help with automated testing is=
-sues.
+>> Hi Khem,
 >>
->> Information from v15:
->>
->> Alright, now that cgo binary reproducibility has been addressed this sho=
-uld be
->> good to go. One slight change from v13, I replaced the inittab.d entry w=
-ith a
->> rootfs-postcommands function since busybox-init doesn't support it.
->>
->> Information from v13:
->>
->> Hello maintainers, I wanted to wait for the latest tag to get cut before
->> bringing this back up, but here it is. This version addresses most of th=
-e
->> concerns I've seen regarding this series and adds on a little more funct=
-ionality
->> considering we now allow for proper session selection.
->>
->> This led me into a bit of a dive into the desktop-entry-spec [1] and ass=
-ociated
->> validator [2] that I wouldn't mind some opinions on as well if people ar=
-e
->> curious about that.
->>
->> Legacy details follow:
->>
->> We've recently run into some issues with weston-init attempting to start=
- Weston
->> prior to all drm devices being registered. There's not really a good, sc=
-riptable
->> mechanism to listen in to device registration events that works with the
->> existing weston-init package. Well, at least one that doesn't involve po=
-lling
->> files or introducing more dependency on the init system being used.
->>
->> I also see there is also a lot of scripting around starting X11,
->> xserver-nodm-init, that (from my limited review) should experience the s=
-ame
->> issue.
->>
->> I'd like to introduce the following display manager for oe-core, emptty =
-[3].
->> This display manager is, as described upstream, a "Dead simple CLI Displ=
-ay
->> Manager on TTY". It supports both x11 and wayland sessions, with togglab=
-le build
->> parameters to completely remove x11 and pam dependencies. It's licensed =
-MIT,
->> which shouldn't be an issue for any users. (It is written in Go, if you =
-have
->> opinions about that.)
->>
->> With this, both weston-init and the xserver-nodm-init packages can be re=
--tuned
->> to leverage this display manager and simply add a user and emptty config=
- for an
->> autologin session. This can resolve the current behavior across init sys=
-tems
->> without additional scripting, and move some development out of this laye=
-r.
->>
->> This lists myself as a maintainer of emptty as well as xserver-nodm-init=
- and
->> xuser-account since these are currently unassigned and I've reworked the=
-m
->> significantly here.
->>
->> Sorry for the delay on this series. I found a few bugs in emptty that I =
-wanted
->> to address before submitting this officially.
->>
->> [1] https://gitlab.freedesktop.org/xdg/xdg-specs/-/merge_requests/110
->> [2] https://gitlab.freedesktop.org/xdg/desktop-file-utils/-/merge_reques=
-ts/28
->> [3] https://github.com/tvrzna/emptty
->>
->> v2:
->> 	- Address spelling issues in commit messages
->> 	- Attempt to resolve some test related issues with weston
->> 	- Add additional logs to X11 related tests
->> v3:
->> 	- Reset AUTOLOGIN_MAX_RETRY to the default value of 2. When running
->> 	  under QEMU the first auth attempt almost always fails.
->> v4:
->> 	- Add a tmpfile entry for the x11 domain socket directory.
->> 	- Remove some scripts associated with weston-init that were being
->> 	  shipped with weston
->> v5:
->> 	- Move tmpfile data to individual files
->> 	- Add explicit entries for these in the FILES variable
->> v6:
->> 	- Do not attempt to ship a tmpfiles.d entry in libx11
->> v7:
->> 	- Include a backported fix for go/runtime to address segfault issues
->> 	  reported on x86 platforms in previous revisions
->> v8:
->> 	- Sign-off backported patch
->> v9:
->> 	- Resolve merge conflict in maintainers file
->> v10:
->> 	- Remove the ability to run x11 as root in xserver-nodm-init, see
->> 	  https://lists.openembedded.org/g/openembedded-core/topic/115318655#ms=
-g223906
->> 	  for more information
->> 	- Merge xuser-account and xserver-nodm-init as this is now a direct
->> 	  dependency with no other consumers
->> 	- Fix warning about multiple providers for virtual-emptty-conf
->> v11:
->> 	- Bump emptty revision to 0.15.0
->> 	- Add session entries for all the session providers
->> 	- Make autologin default session configurable for xserver-nodm-init
->> v12:
->> 	- Add util-linux-mcookie as a runtime dependency to emptty when x11
->> 	  support is enabled
->> v13:
->> 	- Add nopasswdlogin to the static group definitions list, also register
->> 	  it in the emptty recipe itself since the pam rule provided in that
->> 	  package mentions it
->> 	- Always ship the legacy inittab entry, since it's possible the end use=
-r
->> 	  has some unusual distro configuration with multiple init managers
->> 	  enabled
->> v14:
->> 	- Move from legacy inittab.d entry that only sysvinit supports to
->> 	  modifying the inittab file itself for both sysvinit and busybox init
->> 	  support
->> v15:
->> 	- Remind myself how POSIX shell "return" is supposed to work when not
->> 	  given an explicit value
->> v16:
->> 	- Bump PR to make sure caching isn't generating weird test results afte=
-r
->> 	  changes to source date epoch calculation method
+>> Thanks for the new version. I believe we have two issues linked with
+>> this patch.
 >>
 >>
->> Randolph Sapp (6):
->>   emptty: add version 0.15.0
->>   weston-init: convert to virtual-emptty-conf
->>   weston: remove deprecated weston-start scripts
->>   xserver-nodm-init: convert to virtual-emptty-conf
->>   xuser-account: merge with xserver-nodm-init
->>   xsessions: add unique desktop entries
+>> Firs, an x86 build issue:
 >>
->>  meta-selftest/files/static-group              |   2 +-
->>  .../rootfs-postcommands.bbclass               |  14 +-
->>  .../conf/distro/include/default-providers.inc |   1 +
->>  meta/conf/distro/include/maintainers.inc      |   5 +-
->>  meta/lib/oeqa/runtime/cases/weston.py         |  18 +-
->>  meta/lib/oeqa/runtime/cases/xorg.py           |   8 +
->>  meta/recipes-graphics/emptty/emptty-conf.bb   |  14 +
->>  meta/recipes-graphics/emptty/emptty.inc       |  27 ++
->>  meta/recipes-graphics/emptty/emptty/pamconf   |  10 +
->>  meta/recipes-graphics/emptty/emptty_0.15.0.bb |  55 +++
->>  .../matchbox-session/matchbox-session.desktop |   6 +
->>  .../matchbox-session/matchbox-session_0.1.bb  |  13 +-
->>  .../files/mini-x-session.desktop              |   6 +
->>  .../mini-x-session/mini-x-session_0.1.bb      |  13 +-
->>  meta/recipes-graphics/wayland/weston-init.bb  |  66 +---
->>  .../wayland/weston-init/emptty.conf           |  77 ++++
->>  .../recipes-graphics/wayland/weston-init/init |  54 ---
->>  .../wayland/weston-init/weston-autologin      |  11 -
->>  .../wayland/weston-init/weston-socket.sh      |  20 -
->>  .../wayland/weston-init/weston-start          |  76 ----
->>  .../wayland/weston-init/weston.env            |   0
->>  .../wayland/weston-init/weston.service        |  71 ----
->>  .../wayland/weston-init/weston.socket         |  14 -
->>  .../weston/systemd-notify.weston-start        |   9 -
->>  .../wayland/weston/xwayland.weston-start      |   6 -
->>  .../recipes-graphics/wayland/weston_14.0.2.bb |  10 -
->>  .../x11-common/xserver-nodm-init/X11/Xsession |  38 --
->>  .../X11/Xsession.d/13xdgbasedirs.sh           |  19 -
->>  .../X11/Xsession.d/89xdgautostart.sh          |   7 -
->>  .../X11/Xsession.d/90XWindowManager.sh        |   7 -
->>  .../x11-common/xserver-nodm-init/Xserver      |  25 --
->>  .../xserver-nodm-init/capability.conf         |   2 -
->>  .../xserver-nodm-init/emptty.conf.in          |  77 ++++
->>  .../xserver-nodm-init/gplv2-license.patch     | 355 ------------------
->>  .../xserver-nodm-init}/system-xuser.conf      |   0
->>  .../x11-common/xserver-nodm-init/xserver-nodm |  75 ----
->>  .../xserver-nodm-init/xserver-nodm.conf.in    |   7 -
->>  .../xserver-nodm-init/xserver-nodm.service.in |  13 -
->>  .../x11-common/xserver-nodm-init_3.0.bb       |  73 ++--
->>  .../user-creation/xuser-account_0.1.bb        |  30 --
->>  40 files changed, 358 insertions(+), 976 deletions(-)
->>  create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
->>  create mode 100644 meta/recipes-graphics/emptty/emptty.inc
->>  create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
->>  create mode 100644 meta/recipes-graphics/emptty/emptty_0.15.0.bb
->>  create mode 100644 meta/recipes-graphics/matchbox-session/matchbox-sess=
-ion/matchbox-session.desktop
->>  create mode 100644 meta/recipes-graphics/mini-x-session/files/mini-x-se=
-ssion.desktop
->>  create mode 100644 meta/recipes-graphics/wayland/weston-init/emptty.con=
-f
->>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/init
->>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston-aut=
-ologin
->>  delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-soc=
-ket.sh
->>  delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-sta=
-rt
->>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.env
->>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.ser=
-vice
->>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.soc=
-ket
->>  delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.=
-weston-start
->>  delete mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston=
--start
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X=
-11/Xsession
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X=
-11/Xsession.d/13xdgbasedirs.sh
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X=
-11/Xsession.d/89xdgautostart.sh
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X=
-11/Xsession.d/90XWindowManager.sh
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X=
-server
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/c=
-apability.conf
->>  create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/e=
-mptty.conf.in
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/g=
-plv2-license.patch
->>  rename meta/{recipes-support/user-creation/files =3D> recipes-graphics/=
-x11-common/xserver-nodm-init}/system-xuser.conf (100%)
->>  delete mode 100755 meta/recipes-graphics/x11-common/xserver-nodm-init/x=
-server-nodm
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/x=
-server-nodm.conf.in
->>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/x=
-server-nodm.service.in
->>  delete mode 100644 meta/recipes-support/user-creation/xuser-account_0.1=
-.bb
+>> ERROR: clang-22.1.1-r0 do_compile: Execution of
+>> '/srv/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/x86-=
+64-v3-poky-linux/clang/22.1.1/temp/run.do_compile.91398'
+>> failed with exit code 1
+>> ...
+>> | Run Build Command(s): ninja -v -j 16 all
+>> | ninja: error:
+>> '/srv/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work-shar=
+ed/llvm-project-source-22.1.1-r0/sources/llvm-project-22.1.1.src/clang/tool=
+s/scan-build-py/lib64/libscanbuild/__init__.py',
+>> needed by 'lib64/libscanbuild/__init__.py', missing and no known rule to
+>> make it
+>> |
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/3302
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3478
+>>
+>> Then, a rust selftest issue:
+>>
+>> 2026-03-26 11:11:17,872 - oe-selftest - INFO -
+>> rust.RustSelfTestSystemEmulated.test_rust (subunit.RemotedTestCase)
+>> 2026-03-26 11:11:17,889 - oe-selftest - INFO -  ... FAIL
+>> ...
+>> test [assembly] tests/assembly-llvm/asm/loongarch-type.rs#loongarch32 ..=
+.
+>> FAILED
+>> ...
+>>
+>> failures:
+>>
+>> ---- [assembly] tests/assembly-llvm/asm/loongarch-type.rs#loongarch32
+>> stdout ----
+>> ------FileCheck stdout------------------------------
+>>
+>> ------FileCheck stderr------------------------------
+>> /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-2170811/tmp/work=
+/cortexa57-poky-linux/rust/1.94.0/sources/rustc-1.94.0-src/tests/assembly-l=
+lvm/asm/loongarch-type.rs:31:11:
+>> error: CHECK: expected string not found in input
+>> // CHECK: pcalau12i $t0, %got_pc_hi20(extern_func)
+>>           ^
+>> /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-2170811/tmp/work=
+/cortexa57-poky-linux/rust/1.94.0/sources/rustc-1.94.0-src/build/x86_64-unk=
+nown-linux-gnu/test/assembly-llvm/asm/loongarch-type.loongarch32/loongarch-=
+type.s:9:6:
+>> note: scanning from here
+>>  #APP
+>>      ^
+>> ...
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/3413
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/1289
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/3411
+>>
+>> Can you have a look at the issue?
+>>
+>>
+> there is a failure in rust tests due to a loongarch asm tests, this has
+> been fixed upstream so
+> I have backported it to rust in OE and sent a v3. Thanks
+>
+>
+>> Thanks,
+>> Mathieu
 >>
 >> --
->> 2.53.0
->
-> Hey Paul, have you gotten a chance to review this series yet? I've been t=
-old you
-> may have some comments.
->
-> Randolph
+>> Mathieu Dubois-Briand, Bootlin
+>> Embedded Linux and Kernel engineering
+>> https://bootlin.com
+>>
+>>
 
-Has anyone gotten a chance to review this yet?
+--000000000000ee8bf1064df1cf93
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Randolph
+<div dir=3D"ltr">FWIW I ran the [qemarm|qemuarm64|qemuriscv64]-tc jobs on A=
+B using my latest yoe/mut branch and they all passed green.<div><br></div><=
+div><a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/b=
+uilds/3416">https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/buil=
+ds/3416</a></div><div><a href=3D"https://autobuilder.yoctoproject.org/valky=
+rie/#/builders/58/builds/1292">https://autobuilder.yoctoproject.org/valkyri=
+e/#/builders/58/builds/1292</a></div><div><a href=3D"https://autobuilder.yo=
+ctoproject.org/valkyrie/#/builders/42/builds/3414">https://autobuilder.yoct=
+oproject.org/valkyrie/#/builders/42/builds/3414</a></div></div><br><div cla=
+ss=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_at=
+tr">On Thu, Mar 26, 2026 at 8:18=E2=80=AFAM Khem Raj &lt;<a href=3D"mailto:=
+raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Thu, Mar 26, 2026 at 5:38=E2=80=AFAM Mathieu Dubois-Briand &lt;<a href=
+=3D"mailto:mathieu.dubois-briand@bootlin.com" target=3D"_blank">mathieu.dub=
+ois-briand@bootlin.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">On Thu Mar 26, 2026 at 3:09 AM CET, Khem Raj via <a h=
+ref=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">=
+lists.openembedded.org</a> wrote:<br>
+&gt; From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
+ank">raj.khem@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; Includes support for new Intel (Wildcat Lake, Nova Lake with APX and A=
+VX10.2)<br>
+&gt; Arm (C1 Nano, Pro, Premium, Ultra) processors. It also features perfor=
+mance<br>
+&gt; optimizations for AMD Zen 4 and Zen 5 architectures.<br>
+&gt;<br>
+&gt; Integrated Distributed ThinLTO is more mature, with enhancements<br>
+&gt; like cache support for incremental builds and robust handling of tempo=
+rary artifacts.<br>
+&gt;<br>
+&gt; LLDB added first-class WebAssembly debugging support, including breakp=
+oints and variable inspection.<br>
+&gt;<br>
+&gt; Support for Google Native Client (NaCl) is dropped in this release.<br=
+>
+&gt;<br>
+&gt; Detailed ChangeLog [1]<br>
+&gt;<br>
+&gt; [1] <a href=3D"https://releases.llvm.org/22.1.0/docs/ReleaseNotes.html=
+" rel=3D"noreferrer" target=3D"_blank">https://releases.llvm.org/22.1.0/doc=
+s/ReleaseNotes.html</a><br>
+&gt;<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
+et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Khem,<br>
+<br>
+Thanks for the new version. I believe we have two issues linked with<br>
+this patch.<br>
+<br>
+<br>
+Firs, an x86 build issue:<br>
+<br>
+ERROR: clang-22.1.1-r0 do_compile: Execution of &#39;/srv/pokybuild/yocto-w=
+orker/qemux86-world-alt/build/build/tmp/work/x86-64-v3-poky-linux/clang/22.=
+1.1/temp/run.do_compile.91398&#39; failed with exit code 1<br>
+...<br>
+| Run Build Command(s): ninja -v -j 16 all<br>
+| ninja: error: &#39;/srv/pokybuild/yocto-worker/qemux86-world-alt/build/bu=
+ild/tmp/work-shared/llvm-project-source-22.1.1-r0/sources/llvm-project-22.1=
+.1.src/clang/tools/scan-build-py/lib64/libscanbuild/__init__.py&#39;, neede=
+d by &#39;lib64/libscanbuild/__init__.py&#39;, missing and no known rule to=
+ make it<br>
+|<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/buil=
+ds/3302" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/17/builds/3302</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/buil=
+ds/3478" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/59/builds/3478</a><br>
+<br>
+Then, a rust selftest issue:<br>
+<br>
+2026-03-26 11:11:17,872 - oe-selftest - INFO - rust.RustSelfTestSystemEmula=
+ted.test_rust (subunit.RemotedTestCase)<br>
+2026-03-26 11:11:17,889 - oe-selftest - INFO -=C2=A0 ... FAIL<br>
+...<br>
+test [assembly] tests/assembly-llvm/asm/loongarch-type.rs#loongarch32 ... F=
+AILED<br>
+...<br>
+<br>
+failures:<br>
+<br>
+---- [assembly] tests/assembly-llvm/asm/loongarch-type.rs#loongarch32 stdou=
+t ----<br>
+------FileCheck stdout------------------------------<br>
+<br>
+------FileCheck stderr------------------------------<br>
+/srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-2170811/tmp/work/co=
+rtexa57-poky-linux/rust/1.94.0/sources/rustc-1.94.0-src/tests/assembly-llvm=
+/asm/loongarch-type.rs:31:11: error: CHECK: expected string not found in in=
+put<br>
+// CHECK: pcalau12i $t0, %got_pc_hi20(extern_func)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>
+/srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-2170811/tmp/work/co=
+rtexa57-poky-linux/rust/1.94.0/sources/rustc-1.94.0-src/build/x86_64-unknow=
+n-linux-gnu/test/assembly-llvm/asm/loongarch-type.loongarch32/loongarch-typ=
+e.s:9:6: note: scanning from here<br>
+=C2=A0#APP<br>
+=C2=A0 =C2=A0 =C2=A0^<br>
+...<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/build=
+s/3413" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/valkyrie/#/builders/5/builds/3413</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/buil=
+ds/1289" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/58/builds/1289</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/buil=
+ds/3411" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/42/builds/3411</a><br>
+<br>
+Can you have a look at the issue?<br>
+<br></blockquote><div><br></div><div>there is a failure in rust tests due t=
+o a loongarch asm tests, this has been fixed upstream so</div><div>I have b=
+ackported it to rust in OE and sent a v3. Thanks</div><div>=C2=A0</div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+</blockquote></div></div>
+</blockquote></div>
+
+--000000000000ee8bf1064df1cf93--
 
