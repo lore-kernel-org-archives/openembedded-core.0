@@ -1,266 +1,272 @@
-Return-Path: <joerg.sommer@navimatix.de>
+Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C6F106F314
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 09:43:50 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.105])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43649.1774518226556914031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39F7F106F317
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 10:05:00 +0000 (UTC)
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43939.1774519492865706590
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 02:43:47 -0700
+ Thu, 26 Mar 2026 03:04:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@navimatix.de header.s=selector1 header.b=KwzahFDD;
- spf=pass (domain: navimatix.de, ip: 52.101.69.105, mailfrom: joerg.sommer@navimatix.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gnF3z+JUxTYt4JaRHj4nte0fISAYs2uMyu5lvyyS1RbdeHIRWguZPRp8VivLQtdjzk5IdAN8mLKF1ACgiek5yNX4VAS6Lgoc4xqcUqnfoUKlNNNZSYzVElNOw/dPSGsC5BCgdleQkmwUjj8B2VXDoccsFV7vg+UzuylPjC4hp2u2n5mtEDluLLjh3Znrt2BOPuF8gptiTsydBJRD2DGjbBidpYWWd4YMLtu89iybmKXYqdepQMLQtOlKJzsix+tJN/dkooE5AQWlOjqbMwvwarcLpFIPaGj2PRoj7eClrke746yy9ykKiA6m0vk6R3yKQLe95gULT487+e2yGpr3rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oO/yebHzuVa0+AZz28p7ujkvqtJm/y097HRTDh6wgbg=;
- b=MJM1hflJTFk0BrxLQNSMXFRhTlGPYzMAsjkRJ4vOQP68XwEQLZsEnFjgg1Feo/Atw64fFLCkKqVKJ17ZMXumylTxjmELUlGnEVXTloyjEaXY1HWH04w9cmds5i5q+A5woLwEYSILZM/NenuymyR8+zBR5Ny7Q3BlL5lOflhgjwidJEGkIMkVUyHq7ATZqyLMvyaVJmDrRVwb30jcmqXpjz64gXfeXNzFEqy/ZdFWMeaUOIHxinfKjMYlUnVLE/mjfmV0IGyZ8nBUZoRBIM0vgIU+81R1H2fCBy3bYDdWOE3EuIxt3K9KPxP3KvmjMD7yseUIru5vSUOFFLRHkG/SCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
- dkim=pass header.d=navimatix.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oO/yebHzuVa0+AZz28p7ujkvqtJm/y097HRTDh6wgbg=;
- b=KwzahFDDaTaYgWkKQ9CkzdTjStWg7bAYv2O8VdeoRRK5hmUtm5qerMdlO4SXNLiPuctx87WlIzNbCJiEjsqJXuVF+NOyRpuXADRVTTOHlk+7oW7KYLswo9CTmXJSQxsCNQXsGj7fm3w8qSOToakvndmaWTrmWcWGchu8KC10AHY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=navimatix.de;
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by DB9PR01MB7385.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:1fa::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Thu, 26 Mar
- 2026 09:43:42 +0000
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- ([fe80::d5c3:2dea:3d98:25fd]) by
- GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
- with mapi id 15.20.9723.022; Thu, 26 Mar 2026 09:43:29 +0000
-Date: Thu, 26 Mar 2026 10:43:39 +0100
-From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH] Remove SPDX 2.2 support
-Message-ID: <acT_KkDva9SHEzxc@navimatix.de>
-References: <20260325171631.1048346-1-JPEWhacker@gmail.com>
- <acQ9L4xr3OE8nYqT@navimatix.de>
- <CAJdd5GYyaYytJPp=ruw4bP9yVxHnfFS8C1KG6+GMPQAiswpV=Q@mail.gmail.com>
-Content-Type: multipart/signed; micalg=sha256;
-	protocol="application/pkcs7-signature"; boundary="6km25zvjijkx7sjx"
-Content-Disposition: inline
-In-Reply-To: <CAJdd5GYyaYytJPp=ruw4bP9yVxHnfFS8C1KG6+GMPQAiswpV=Q@mail.gmail.com>
-X-ClientProxiedBy: BE1P281CA0061.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:26::6) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=SMH61FDR;
+ spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: sudumbha@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=6678; q=dns/txt;
+  s=iport01; t=1774519492; x=1775729092;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=w2/VV6ihW8IQY6p8HAhYFYT1BPeJ5Bbryz3ID2NwdyQ=;
+  b=SMH61FDRT0E4QCnluU64M5dFhcgaN2u5Pvj66wTLiG5OEeUGGDwoQszp
+   B7vDwZdy0injGF3B5VVJtsPUSRNiXbAAUP3rQFyEK14i2C6uX+O/Lq0AY
+   lWMTgunPIf8c4t35HXHDiGiwoKr/Y6x5sqpb4zf2b51ed48JDzE0S9btp
+   thqq5oooW97+Kqev9AaMlnwT01h6ZFDb67gH1rgRW14plgHSwEQAQhlSt
+   RtLYmggwt1W7/ThjExWqlUKhjlBeBGOBMRxw3Jifk05QPj/Wbf/PIhg70
+   BQvKjbeTV3cUOe7EcJw1vVY6CehBxvPjYwh7xzuEXPHOS18BrqekT1z1m
+   g==;
+X-CSE-ConnectionGUID: g/yzNQ3aTc2n0lWkopFx3A==
+X-CSE-MsgGUID: 3rboH2NqSr6JfzeGIyj3uQ==
+X-IPAS-Result: =?us-ascii?q?A0AzCQBPBMVp/4v/Ja1aglmCSA9xXkNJA5QngiEDnhqBf?=
+ =?us-ascii?q?w8BAQEPRA0EAQGFBwKNIwImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBB?=
+ =?us-ascii?q?QEBAQIBBwWBDhOGTw2GWgECAQMnCwEYAT0cAwECLysjCBmDAgGCcwMRBrJzg?=
+ =?us-ascii?q?XkzgQGDKAExBQkCAkABT9smAQsUAYE4hTyIG1sYAYR6JxsbgXKBFYNogQWBX?=
+ =?us-ascii?q?AEBAYEmhn0EgiKBDoEST4NXBowdSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdg?=
+ =?us-ascii?q?SM+F4EMGwcFgWAPiG10bYEThBEoAwsYDUgRLDcUGwQ+bgeMSTGBZ00BBScEM?=
+ =?us-ascii?q?C0BByIBAYIDKRELkxxCkXqhDgoog3SMHpU6GjOFW6UQmQaOCZU2MmiEaIFoP?=
+ =?us-ascii?q?IFHCwdwFYMiCRYzGQ+OOINpgX+EQcJOJjICAQEBBgMvAQEHAgcNAwuBaJAAg?=
+ =?us-ascii?q?X0BAQ?=
+IronPort-Data: A9a23:KVBMGajvpNBFeAJyszV+o9oKX161MREKZh0ujC45NGQN5FlHY01je
+ htvWD3VM/eJZ2CjfN1+PYuy8UxT68SDnYVmTQNk/io8QyhjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeEULOZ82QsaDxMsPje8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUXvfdlJ1gV/
+ MATcjZVai+AgPqY0OmSH7wEasQLdKEHPasFsX1miDWcBvE8TNWbGePB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWYQZ/5JEWxI9EglHkbjFFrViVrII84nPYy0p6172F3N/9JYTSG5UMxxvGz
+ o7A1z/jCBY6bvqG8iDb0Hy+i8DujCGgRbtHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFmQHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:UeD1dK0Ppc09U3GEC3UNQwqjBLMkLtp133Aq2lEZdPUzSL39qy
+ nAppomPHPP5Qr5HUtQ+uxoW5PwJE80l6QV3WB5B97LN2PbUSmTXeNfBODZrAEIdReTygck78
+ ddm2wUMqyXMbC85vyKhzWFLw==
+X-Talos-CUID: 9a23:uTx8kmG+Q7j242w0qmJos18GPPl+e0HWlnGIJ3C7Dn5HWOa8HAo=
+X-Talos-MUID: 9a23:Qkos0AiEHuxJAPPu3W5KfcMpb91i5IT0Llk2i8sktduJGg1hOWyAtWHi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,141,1770595200"; 
+   d="scan'208";a="700681156"
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 26 Mar 2026 10:04:51 +0000
+Received: from sjc-ads-7443.cisco.com (sjc-ads-7443.cisco.com [10.30.220.228])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id C02021800036D
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:04:51 +0000 (GMT)
+Received: by sjc-ads-7443.cisco.com (Postfix, from userid 1840713)
+	id 66508CCD9B4; Thu, 26 Mar 2026 03:04:51 -0700 (PDT)
+From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap][PATCH v2 1/3] curl: fix CVE-2026-1965
+Date: Thu, 26 Mar 2026 03:00:00 -0700
+Message-ID: <20260326100000.2619253-2-sudumbha@cisco.com>
+X-Mailer: git-send-email 2.44.4
+In-Reply-To: <20260326044647.2001828-3-sudumbha@cisco.com>
+References: <20260326044647.2001828-3-sudumbha@cisco.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|DB9PR01MB7385:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c3c4ce1-02aa-41d6-6f30-08de8b1c22f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	spnGTu5768u635A29MVtaqcueMzf4GJRN9S5f201M9RwNcEWTbh03lLGXHv4hPXAXMYnO5oukhnsXFacFTX+mndOnPz8uTAW7KyZW9E6EcREzAfxjDVjMdWgOkVD47977oXlNDmphLTVi55yBmBZLKVdEAeZ7690cYQU8HHSIzp0dEoeErFooTitZnrYhMGT5KBJbvIX6No3w8yjDQeLn9OB6vGTLqQHlUox7B9i5E+uw8Z6d6iJPz2nH3wHAI+L8afJb1sF7ITt/p3yBwmhwzYFYQddtUEOO8VNpltaB2WTTdWRkb27sN3v+9RPzMt329fXtkSN9SiytZH5IBZrxO5JE7AN5tPwi5xMSgZqvVSU73KwXMlgQ5V11XKJaRWaHx0t7H+HRCNLfKNCq8GlR4WAGEUquYpD+G4qpuxA+KCDNzZyrt6R/ET3c7mkWyfLzVEeC5WTYOO4zZp58eGoZN4/hRUmF102t9HcOwT0tksirEx7smHBsnWydnk/VoXCzV+0mG7dIqDlb6ji1Iugkwdj8fstQfbQZAOs9XFamGZG8H1CiFM9uuBqiXyCDRrhwpueyLFS1Kn8dNPNhmscCkuG4PY8i9hpA5w6QuP3k1JrVdEaRuEWbBgxl2caT5RIF1JRo0kjeOZWyHT9oQOqMpIGQrkoOwBwQUpIIAig4dVGyGYkJjnjgGzDcZYeUBz/
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?UDl3djJYOUoxVGpGWHlDc2hwWjVwWUZ5T2M1VXo2bG01TXN0N0lLRHdDKzBK?=
- =?utf-8?B?R3hHNGtKblJaOEFpVFhwZUhuUUdpNmhOdndITk1ycXNUcDVRVHVrVGYyZEVh?=
- =?utf-8?B?OEVvMzZtOEw1VUdpOXo4dVZpVERXcmxoL2huby9DMEpzMWVPY3VsU1hIQ3Fn?=
- =?utf-8?B?TEJzdENCdncxaVVJSUF1RDJXNnBwZUxvYXlBVTJtL0F3YnNtVmJsWXdJYWZn?=
- =?utf-8?B?aFhDQlJmZ2lPcmF2Tm1EVlJ0N2l5bytCZUxLRE9HSS9wMTdselk2RUJBOVJN?=
- =?utf-8?B?V29GQk1aZDFoVXhFVzJWbWNaTGpIbDlNKzNwWUlNY2UycWxaRWdZNmJ2SkdX?=
- =?utf-8?B?cWZvdzYycUlYeDBvZlpadnpybWorZmFyTXdYd0k3QXVoYkJUNUtCTTdRNDdR?=
- =?utf-8?B?eDRiOHBXRmZDSU44RDl0Uzh1QkpOc0wwQmpGejV6ZGg3MWxBSklLUFVVMHQ3?=
- =?utf-8?B?NHRtdm55MlZLaFJGMnYxVFZweFNkUDBiUmQ4b0JXblBjK3RwUUxPejFMTXIw?=
- =?utf-8?B?MklvRXppeXlpS0hiSHkxRW1UODNuOWlQQ0NBS0dBSGJhdUIzTjRxZ3l5MlZq?=
- =?utf-8?B?RnNzam5UMGZYRmRpeEtzTjdzTndBRmFZRjZWM2c1bE9KOVh1bVRTYmVoeVJ0?=
- =?utf-8?B?Z0N2R2VabVpORlFFNkxkOERrU1BNUDJNT0c2TEFLU0YxRHpoVTJSbVRBaStW?=
- =?utf-8?B?YWtVVmdOalUrcDM2eFgvUCtqa0dXUTAxSU9nRzhuR0xtbk1ZeDdIa09QQmJU?=
- =?utf-8?B?ZEoyNTdmWlowWWYrcGptWXp1M3NVZmNSN0RGV3hBUEtuWktIVmtMK1hzZHRz?=
- =?utf-8?B?MXdWSXJzSjRaRXN0WklranhMUEl4WFJwMXhjc2c0a1JJMEsyd3VJMUN4YlJy?=
- =?utf-8?B?dU5jb2pBNjFvb2x3M3ZzS1FFL0c0TTVVeFA5UXRqYkpUQkFyMjNraUdrZk5B?=
- =?utf-8?B?RmdTTXpZS0c3SG9kdXkyL3h2SmE2ZXZXKzg0Q1N6TGVtaU9XeHhMYi9jR2dN?=
- =?utf-8?B?WlJpU3ZyRFV0SzR0NHpaSHZMYVdINy9aSU9UU2I3d1E0a2dESHRxMGZycnBB?=
- =?utf-8?B?N0pWK1RVNm9KM2dzUkZxYmF6OVdGYlZZajlLVHhQTS9FYnBoMVhiNStDdjRN?=
- =?utf-8?B?Y0llSDZaZWNKbWlmcmh2RHg2RUgrMU9kTVdZSGVBbmh3b2R3amR4aHgyeVAv?=
- =?utf-8?B?MCtYRWRmdWdqRzhBL3NOSnhabENuSlNRREZIQ2RBRE15TW1EV1c0L2ZsR3lU?=
- =?utf-8?B?V0pVUjUwRHUzZzh6UXI4cXhyNGJEZ0pzU2k2NnVEOFRxSFROTVBJOGZxZ0N6?=
- =?utf-8?B?TldLNzNabjFjaS80U1R3aHg3UlZ6NUsyV3ZCL3FVU0VDbVdmeHRCSXdGYmtY?=
- =?utf-8?B?SGs5aHFqaGF1UWpNRUhUaHFwTTl6MDF3aGZ3ODc4UmdmN3c4TXVhYjdpRVRZ?=
- =?utf-8?B?MEg5ZS8rdnZDblo3VkJiRVFvSU4zUEQ1TWZSTHliYXQwTFZndERpQlFUbzhC?=
- =?utf-8?B?YjVvNlhSTUVKa2I2VnBtWUxYdWhrMDU0bjZHN1B1YVhaTHROU05NaTdsd2hF?=
- =?utf-8?B?WGwvcTdybjVTY3N2QXZPSjRFdXAwWlJib2xRQnh2eEVKN3luVlRtakN1SVdB?=
- =?utf-8?B?eHBOc3A4cHExMXRSMVV2OEFyNzJ2V3o5OHVqNVVmN2VvdkVMOVdYNHFoUlIw?=
- =?utf-8?B?VzFVYllqNG9LWHBDSkcwbkFZWmdtMEUyWitaa3ArVC92ZkpJUXFYU0JsZlk4?=
- =?utf-8?B?SGRGelY0T2lqN1U5di9od2IrMDVnWEN4TGhNZHd3ajliNW5PWlhMU3lMaTZQ?=
- =?utf-8?B?OXRUZ1hYZ2poQ0JSMFc5VjhKNDJMMUpQa2VtR050Q1dXdDBVUjkySWcvam5y?=
- =?utf-8?B?ci9WSVZlQ055QlJXbjYyRTl3bVZaTGRpZ21sRW5vT3hETVdCMHdlUithQW5H?=
- =?utf-8?B?c3BpQWF3ZXdoYzJzbVVjNE41NFRVeExtMC85eDk3SzM1a0tJUzhzOVJDNWhU?=
- =?utf-8?B?d0ZKekkrcFJCY1JpS2ZuNVpCTlhOaHg2ZDNocE0veUpFclhXa2xlRVdWTWEy?=
- =?utf-8?B?aU0rclZwRTFsbEJrK3N5K3VpSkpMalhmM1M2YVQybzIxVWV3NUhFSGMwUmZP?=
- =?utf-8?B?R3NHVlJyOU9FSDZhWFA3WDZkbDFFQ21MMDBxZU8vTVZ3Tm5xR3ZCdVRXNm0x?=
- =?utf-8?B?VlZFYkIwcVZEOWhJVWRsb0J2RTRhcDhZL0ZxcktxRE95K08xYUFqWGlKSWNw?=
- =?utf-8?B?Vi9xRE5pN2JVYWNyOTZ3YmRaeXgraDhXcWE0NFhtNjJUVjgxYmwyNHNaY25l?=
- =?utf-8?B?OGh2Qjl2V3pITGlvOU5CL1hiMmd4VWJrNDNrcTFiOGsrZHhGZjM2SWJQVFI1?=
- =?utf-8?Q?Sk/RQZQflDZhyq3E=3D?=
-X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c3c4ce1-02aa-41d6-6f30-08de8b1c22f3
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 09:43:29.7421
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9XP72j0xNU2IdMhBr+DM0ZXliXoh6t9yApf9p/fhRT16vAfwn0J+qLrrcRaBvf5QOYsUjbhm0JJHeHR6zkzCYE14PyhpDTaIasyM/XJp3YY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR01MB7385
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.30.220.228, sjc-ads-7443.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 09:43:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233959
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:05:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233960
 
---6km25zvjijkx7sjx
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [OE-core][PATCH] Remove SPDX 2.2 support
-MIME-Version: 1.0
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Joshua Watt schrieb am Mi 25. M=C3=A4r, 16:17 (-0600):
-> On Wed, Mar 25, 2026 at 1:56=E2=80=AFPM J=C3=B6rg Sommer <joerg.sommer@na=
-vimatix.de> wrote:
-> >
-> > Joshua Watt via lists.openembedded.org schrieb am Mi 25. M=C3=A4r, 11:1=
-6 (-0600):
-> > > Removes SPDX 2.2 support in favor of SPDX 3 support being the only
-> > > option. The SPDX 3 data is far superior to SPDX 2.2 and thus more use=
-ful
-> > > for SBoM uses cases.
-> >
-> > s/uses/use/
-> >
-> > Could this be delayed until after the release of 6.0, so 6.0 would cont=
-ain
-> > SPDX 2.2 support? For internal tools we still use SPDX 2.2
->=20
-> We already had discussion on the OE arch list:
-> https://lists.openembedded.org/g/openembedded-architecture/topic/proposal=
-_to_drop_spdx_2_2/118281203
-> please feel free to chime in there.
+Applying the fixes from upstream commit [3] and [4] cause merge conflicts
+and require other dependent commits to be backported. Instead, backport
+the Ubuntu-provided patches [1], which fixes the vulnerability as mentioned
+in changelog [2].
 
-Thanks for the link. This helps to argue that our tools must be updated.
+[1] http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
+    debian/patches/CVE-2026-1965-1.patch
+    debian/patches/CVE-2026-1965-2.patch
+[2] https://changelogs.ubuntu.com/changelogs/pool/main/c/curl/curl_8.5.0-2ubuntu10.8/changelog
+[3] https://github.com/curl/curl/commit/34fa034d9a390c4bd65e2d05262755ec8646ac12
+[4] https://github.com/curl/curl/commit/f1a39f221d57354990e3eeeddc3404aede2aff70
 
---=20
-Navimatix GmbH           T: 03641 - 327 99 0
-Tatzendpromenade 2       F: 03641 - 526 306
-07745 Jena               www.navimatix.de
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-1965
+https://curl.se/docs/CVE-2026-1965.html
+https://ubuntu.com/security/CVE-2026-1965
 
-Gesch=C3=A4ftsf=C3=BChrer: Steffen Sp=C3=A4the, Jan Rommeley
-Registergericht: Amtsgericht Jena, HRB 501480
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+---
+Changes from v1 -> v2:
+- Updated with the correct patch series numbering
 
---6km25zvjijkx7sjx
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+ .../curl/curl/CVE-2026-1965_p1.patch          | 98 +++++++++++++++++++
+ .../curl/curl/CVE-2026-1965_p2.patch          | 30 ++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  2 +
+ 3 files changed, 130 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965_p1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965_p2.patch
 
-MIIThAYJKoZIhvcNAQcCoIITdTCCE3ECAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0B
-BwGgghDNMIIFgTCCBGmgAwIBAgIQOXJEOvkit1HX02wQ3TE1lTANBgkqhkiG9w0BAQwFADB7
-MQswCQYDVQQGEwJHQjEbMBkGA1UECAwSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHDAdT
-YWxmb3JkMRowGAYDVQQKDBFDb21vZG8gQ0EgTGltaXRlZDEhMB8GA1UEAwwYQUFBIENlcnRp
-ZmljYXRlIFNlcnZpY2VzMB4XDTE5MDMxMjAwMDAwMFoXDTI4MTIzMTIzNTk1OVowgYgxCzAJ
-BgNVBAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkgQ2l0eTEe
-MBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQDEyVVU0VSVHJ1c3QgUlNB
-IENlcnRpZmljYXRpb24gQXV0aG9yaXR5MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKC
-AgEAgBJlFzYOw9sIs9CsVw127c0n00ytUINh4qogTQktZAnczomfzD2p7PbPwdzx07HWezco
-EStH2jnGvDoZtF+mvX2do2NCtnbyqTsrkfjib9DsFiCQCT7i6HTJGLSR1GJk23+jBvGIGGqQ
-Ijy8/hPwhxR79uQfjtTkUcYRZ0YIUcuGFFQ/vDP+fmyc/xadGL1RjjWmp2bIcmfbIWax1Jt4
-A8BQOujM8Ny8nkz+rwWWNR9XWrf/zvk9tyy29lTdyOcSOk2uTIq3XJq0tyA9yn8iNK5+O2hm
-AUTnAU5GU5szYPeUvlM3kHND8zLDU+/bqv50TmnHa4xgk97Exwzf4TKuzJM7UXiVZ4vuPVb+
-DNBpDxsP8yUmazNt925H+nND5X4OpWaxKXwyhGNVicQNwZNUMBkTrNN9N6frXTpsNVzbQdcS
-2qlJC9/YgIoJk2KOtWbPJYjNhLixP6Q5D9kCnusSTJV882sFqV4Wg8y4Z+LoE53MW4LTTLPt
-W//e5XOsIzstAL81VXQJSdhJWBp/kjbmUZIO8yZ9HE0XvMnsQybQv0FfQKlERPSZ51eHnlAf
-V1SoPv10Yy+xUGUJ5lhCLkMaTLTwJUdZ+gQek9QmRkpQgbLevni3/GcV4clXhB4PY9bpYrrW
-X1Uu6lzGKAgEJTm4Diup8kyXHAc/DVL17e8vgg8CAwEAAaOB8jCB7zAfBgNVHSMEGDAWgBSg
-EQojPpbxB+zirynvgqV/0DCktDAdBgNVHQ4EFgQUU3m/WqorSs9UgOHYm8Cd8rIDZsswDgYD
-VR0PAQH/BAQDAgGGMA8GA1UdEwEB/wQFMAMBAf8wEQYDVR0gBAowCDAGBgRVHSAAMEMGA1Ud
-HwQ8MDowOKA2oDSGMmh0dHA6Ly9jcmwuY29tb2RvY2EuY29tL0FBQUNlcnRpZmljYXRlU2Vy
-dmljZXMuY3JsMDQGCCsGAQUFBwEBBCgwJjAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuY29t
-b2RvY2EuY29tMA0GCSqGSIb3DQEBDAUAA4IBAQAYh1HcdCE9nIrgJ7cz0C7M7PDmy14R3iJv
-m3WOnnL+5Nb+qh+cli3vA0p+rvSNb3I8QzvAP+u431yqqcau8vzY7qN7Q/aGNnwU4M309z/+
-3ri0ivCRlv79Q2R+/czSAaF9ffgZGclCKxO/WIu6pKJmBHaIkU4MiRTOok3JMrO66BQavHHx
-W/BBC5gACiIDEOUMsfnNkjcZ7Tvx5Dq2+UUTJnWvu6rvP3t3O9LEApE9GQDTF1w52z97GA1F
-zZOFli9d31kWTz9RvdVFGD/tSo7oBmF0Ixa1DVBzJ0RHfxBdiSprhTEUxOipakyAvGp4z7h/
-jnZymQyd/teRCBaho1+VMIIGEDCCA/igAwIBAgIQTZQsENQ74JQJxYEtOisGTzANBgkqhkiG
-9w0BAQwFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJzZXkxFDASBgNVBAcT
-C0plcnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNUIE5ldHdvcmsxLjAsBgNVBAMT
-JVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkwHhcNMTgxMTAyMDAwMDAw
-WhcNMzAxMjMxMjM1OTU5WjCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFu
-Y2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4w
-PAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBF
-bWFpbCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMo87ZQKQf/e+Ua56NY7
-5tqSvysQTqoavIK9viYcKSoq0s2cUIE/bZQu85eoZ9X140qOTKl1HyLTJbazGl6nBEibivHb
-SuejQkq6uIgymiqvTcTlxZql19szfBxxo0Nm9l79L9S+TZNTEDygNfcXlkHKRhBhVFHdJDfq
-B6Mfi/Wlda43zYgo92yZOpCWjj2mz4tudN55/yE1+XvFnz5xsOFbme/SoY9WAa39uJORHtbC
-0x7C7aYivToxuIkEQXaumf05Vcf4RgHs+Yd+mwSTManRy6XcCFJE6k/LHt3ndD3sA3If/JBz
-6OX2ZebtQdHnKav7Azf+bAhudg7PkFOTuRMCAwEAAaOCAWQwggFgMB8GA1UdIwQYMBaAFFN5
-v1qqK0rPVIDh2JvAnfKyA2bLMB0GA1UdDgQWBBQJwPL8C9qU21/+K9+omULPyeCtADAOBgNV
-HQ8BAf8EBAMCAYYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHSUEFjAUBggrBgEFBQcDAgYI
-KwYBBQUHAwQwEQYDVR0gBAowCDAGBgRVHSAAMFAGA1UdHwRJMEcwRaBDoEGGP2h0dHA6Ly9j
-cmwudXNlcnRydXN0LmNvbS9VU0VSVHJ1c3RSU0FDZXJ0aWZpY2F0aW9uQXV0aG9yaXR5LmNy
-bDB2BggrBgEFBQcBAQRqMGgwPwYIKwYBBQUHMAKGM2h0dHA6Ly9jcnQudXNlcnRydXN0LmNv
-bS9VU0VSVHJ1c3RSU0FBZGRUcnVzdENBLmNydDAlBggrBgEFBQcwAYYZaHR0cDovL29jc3Au
-dXNlcnRydXN0LmNvbTANBgkqhkiG9w0BAQwFAAOCAgEAQUR1AKs5whX13o6VbTJxaIwA3RfX
-ehwQOJDI47G9FzGR87bjgrShfsbMIYdhqpFuSUKzPM1ZVPgNlT+9istp5UQNRsJiD4KLu+E2
-f102qxxvM3TEoGg65FWM89YN5yFTvSB5PelcLGnCLwRfCX6iLPvGlh9j30lKzcT+mLO1NLGW
-MeK1w+vnKhav2VuQVHwpTf64ZNnXUF8p+5JJpGtkUG/XfdJ5jR3YCq8H0OPZkNoVkDQ5CSSF
-8Co2AOlVEf32VBXglIrHQ3v9AAS0yPo4Xl1FdXqGFe5TcDQSqXh3TbjugGnG+d9yZX3lB8bw
-c/Tn2FlIl7tPbDAL4jNdUNA7jGee+tAnTtlZ6bFz+CsWmCIb6j6lDFqkXVsp+3KyLTZGXq6F
-2nnBtN4t5jO3ZIj2gpIKHAYNBAWLG2Q2fG7Bt2tPC8BLC9WIM90gbMhAmtMGquITn/2fORds
-NmaV3z/sPKuIn8DvdEhmWVfh0fyYeqxGlTw0RfwhBlakdYYrkDmdWC+XszE19GUi8K8plBNK
-cIvyg2omAdebrMIHiAHAOiczxX/aS5ABRVrNUDcjfvp4hYbDOO6qHcfzy/uY0fO5ssebmHQR
-EJJA3PpSgdVnLernF6pthJrGkNDPeUI05svqw1o5A2HcNzLOpklhNwZ+4uWYLcAi14ACHuVv
-JsmzNicwggUwMIIEGKADAgECAhEA/OH3TxzsxiYnBai43hD2fjANBgkqhkiG9w0BAQsFADCB
-ljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMH
-U2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJT
-QSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQTAeFw0yNDA2MDQw
-MDAwMDBaFw0yNjA3MDMyMzU5NTlaMCoxKDAmBgkqhkiG9w0BCQEWGWpvZXJnLnNvbW1lckBu
-YXZpbWF0aXguZGUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDNxFyhl/UuZdUp
-uQiuqZBMSU/pN5SMIj4lkvTlrtp2jl4Q77wbv4vXdXIFWqKd3qtut55G0ptK4nXs1ARrh3AH
-QAYwB0vW+PHVNPLs9yombnTeMgnEv/RQDFkH+DxoKdY5+DRUmcVO/tYl6ExMEBj6oh6b/63w
-hIkC61WRETH3FpRCRbyNBD73OWt0KzxoKzW9xmdqfhNtylLcIFMzuv9C1WAqJ3mLbFHYaW4N
-EMMckPZJWWYzvA2nwCCryerE3J9z4ZbSK0OK6DDRN9gW/H7+/4pHSIhdooGfQEdgLj+Z4ZPh
-vLMF5DncBD8k5DOK8mlDxCKp4GsrLLuBfLQdxilvAgMBAAGjggHiMIIB3jAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQU3lTOaS6cJRsIzzEjdtC4j6GPtWIw
-DgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsG
-AQUFBwMCMFAGA1UdIARJMEcwOgYMKwYBBAGyMQECAQoBMCowKAYIKwYBBQUHAgEWHGh0dHBz
-Oi8vc2VjdGlnby5jb20vU01JTUVDUFMwCQYHZ4EMAQUBAjBaBgNVHR8EUzBRME+gTaBLhklo
-dHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3RpZ29SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFu
-ZFNlY3VyZUVtYWlsQ0EuY3JsMIGKBggrBgEFBQcBAQR+MHwwVQYIKwYBBQUHMAKGSWh0dHA6
-Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2Vj
-dXJlRW1haWxDQS5jcnQwIwYIKwYBBQUHMAGGF2h0dHA6Ly9vY3NwLnNlY3RpZ28uY29tMCQG
-A1UdEQQdMBuBGWpvZXJnLnNvbW1lckBuYXZpbWF0aXguZGUwDQYJKoZIhvcNAQELBQADggEB
-AANadCCx1OE0/PYv8CMHn1qrbn3u9yIQuut1yAVv1daof2ULxyGOm/M+XnSW1h+xcUukaNTB
-qwJx6KTauuWjVL1LRXz9+sNvQfS1KdJF9yfgcCTiIMNjfKap+t/dD275tpVeLbRSWyJaQRhb
-GVjarr8yry1mnaaiJqv1TERaHqjDNpEwU/Ex8XetmkdJK01qCP+ZOEHwRr/pEB/oEKYB08+P
-CfWWWT0YVlwW3FdYpMi70zyynhyE0ZkxBuwh20CulXlafk9nzu1ly9HDU2MG6fnKLirJLOj1
-+9s6RvytgsBtk1dB4lJEMe32RnTa4ABWg2VpdqmG7wjr2BlUCzLzuxUxggJ7MIICdwIBATCB
-rDCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UE
-BxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdv
-IFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAPzh908c
-7MYmJwWouN4Q9n4wDQYJYIZIAWUDBAIBBQCggaAwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
-ATAcBgkqhkiG9w0BCQUxDxcNMjYwMzI2MDk0MzM5WjAvBgkqhkiG9w0BCQQxIgQgj/B/PFpa
-rl37MvZwiLBMx8pE3yq4tHcq62PTl7ro3sgwNQYJKoZIhvcNAQkPMSgwJjALBglghkgBZQME
-ASowCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBAQUABIIBADkvh/tR75ch
-Okc/nohtO4LCeNBciarRrhI1XUmwxk0Gi47Nsyq6Px038yrij8C3DjFsokkYszTLvernGVbn
-VIQi+/2pU4X3qzuOfHYZhZ5/lNaCtX7gYgcwr/6EcLLgGlIA5n5Ry/cdkTzl6iO5N/qqCGgP
-VyXUl1Be/dGoce78REha2lShdZq0A86iVPMIS4PpjHJP2MxdhdmqjPRIb3JoXSJJ8Fq8pXY0
-OcwPdXRTf0Iupbj83YSTHjJu7PW02Z/cdSlLJbblNZQ8aGJPGG+s/QwoHsluxt65eEIjIgB4
-O2lbcJUQ3wjMmulDtUkcgjplfi2yo97jObB2xDez8B4=
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965_p1.patch b/meta/recipes-support/curl/curl/CVE-2026-1965_p1.patch
+new file mode 100644
+index 0000000000..8079b453eb
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-1965_p1.patch
+@@ -0,0 +1,98 @@
++Backport of:
++
++From 34fa034d9a390c4bd65e2d05262755ec8646ac12 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 5 Feb 2026 08:34:21 +0100
++Subject: [PATCH] url: fix reuse of connections using HTTP Negotiate
++
++Assume Negotiate means connection-based
++
++Reported-by: Zhicheng Chen
++Closes #20534
++
++CVE: CVE-2026-1965
++Upstream-Status: Backport [https://github.com/curl/curl/commit/34fa034d9a390c4bd65e2d05262755ec8646ac12]
++
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ lib/url.c | 87 +++++++++++++++++++++++++++++++++++++++++++++++++++----
++ 1 file changed, 82 insertions(+), 5 deletions(-)
++
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -935,6 +935,18 @@ ConnectionExists(struct Curl_easy *data,
++   bool wantProxyNTLMhttp = FALSE;
++ #endif
++ #endif
+++
+++#if !defined(CURL_DISABLE_HTTP) && defined(USE_SPNEGO)
+++  bool wantNegohttp =
+++    (data->state.authhost.want & CURLAUTH_NEGOTIATE) &&
+++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
+++#ifndef CURL_DISABLE_PROXY
+++  bool wantProxyNegohttp =
+++    needle->bits.proxy_user_passwd &&
+++    (data->state.authproxy.want & CURLAUTH_NEGOTIATE) &&
+++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
+++#endif
+++#endif
++   /* plain HTTP with upgrade */
++   bool h2upgrade = (data->state.httpwant == CURL_HTTP_VERSION_2_0) &&
++     (needle->handler->protocol & CURLPROTO_HTTP);
++@@ -1272,6 +1284,56 @@ ConnectionExists(struct Curl_easy *data,
++     }
++ #endif
++
+++#ifdef USE_SPNEGO
+++  /* If we are looking for an HTTP+Negotiate connection, check if this is
+++     already authenticating with the right credentials. If not, keep looking
+++     so that we can reuse Negotiate connections if possible. */
+++  if(wantNegohttp) {
+++    if(Curl_timestrcmp(needle->user, check->user) ||
+++       Curl_timestrcmp(needle->passwd, check->passwd))
+++      continue;
+++  }
+++  else if(check->http_negotiate_state != GSS_AUTHNONE) {
+++    /* Connection is using Negotiate auth but we do not want Negotiate */
+++    continue;
+++  }
+++
+++#ifndef CURL_DISABLE_PROXY
+++  /* Same for Proxy Negotiate authentication */
+++  if(wantProxyNegohttp) {
+++    /* Both check->http_proxy.user and check->http_proxy.passwd can be
+++     * NULL */
+++    if(!check->http_proxy.user || !check->http_proxy.passwd)
+++      continue;
+++
+++    if(Curl_timestrcmp(needle->http_proxy.user,
+++                       check->http_proxy.user) ||
+++       Curl_timestrcmp(needle->http_proxy.passwd,
+++                       check->http_proxy.passwd))
+++      continue;
+++  }
+++  else if(check->proxy_negotiate_state != GSS_AUTHNONE) {
+++    /* Proxy connection is using Negotiate auth but we do not want Negotiate */
+++    continue;
+++  }
+++#endif
+++  if(wantNTLMhttp || wantProxyNTLMhttp) {
+++    /* Credentials are already checked, we may use this connection. We MUST
+++     * use a connection where it has already been fully negotiated. If it has
+++     * not, we keep on looking for a better one. */
+++    chosen = check;
+++    if((wantNegohttp &&
+++        (check->http_negotiate_state != GSS_AUTHNONE)) ||
+++       (wantProxyNegohttp &&
+++        (check->proxy_negotiate_state != GSS_AUTHNONE))) {
+++      /* We must use this connection, no other */
+++      *force_reuse = TRUE;
+++      break;
+++    }
+++    continue; /* get another */
+++  }
+++#endif
+++
++     if(CONN_INUSE(check)) {
++       DEBUGASSERT(canmultiplex);
++       DEBUGASSERT(check->bits.multiplex);
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965_p2.patch b/meta/recipes-support/curl/curl/CVE-2026-1965_p2.patch
+new file mode 100644
+index 0000000000..1fdb658f23
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-1965_p2.patch
+@@ -0,0 +1,30 @@
++Backport of:
++
++From f1a39f221d57354990e3eeeddc3404aede2aff70 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sat, 21 Feb 2026 18:11:41 +0100
++Subject: [PATCH] url: fix copy and paste url_match_auth_nego mistake
++
++Follow-up to 34fa034
++Reported-by: dahmono on github
++Closes #20662
++
++CVE: CVE-2026-1965
++Upstream-Status: Backport [https://github.com/curl/curl/commit/f1a39f221d57354990e3eeeddc3404aede2aff70]
++
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ lib/url.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1317,7 +1317,7 @@ ConnectionExists(struct Curl_easy *data,
++     continue;
++   }
++ #endif
++-  if(wantNTLMhttp || wantProxyNTLMhttp) {
+++  if(wantNegohttp || wantProxyNegohttp) {
++     /* Credentials are already checked, we may use this connection. We MUST
++      * use a connection where it has already been fully negotiated. If it has
++      * not, we keep on looking for a better one. */
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 9e37684b2c..e2f6f8472f 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -32,6 +32,8 @@ SRC_URI = " \
+     file://CVE-2025-14819.patch \
+     file://CVE-2025-15079.patch \
+     file://CVE-2025-15224.patch \
++    file://CVE-2026-1965_p1.patch \
++    file://CVE-2026-1965_p2.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
+-- 
+2.44.4
 
---6km25zvjijkx7sjx--
 
