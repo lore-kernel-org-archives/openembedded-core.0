@@ -2,76 +2,76 @@ Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39F7F106F317
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 10:05:00 +0000 (UTC)
-Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43939.1774519492865706590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C142106F31A
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 10:16:10 +0000 (UTC)
+Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44098.1774520166639519599
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 03:04:53 -0700
+ Thu, 26 Mar 2026 03:16:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=SMH61FDR;
- spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: sudumbha@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=aIW9QH+Q;
+ spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: sudumbha@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6678; q=dns/txt;
-  s=iport01; t=1774519492; x=1775729092;
+  d=cisco.com; i=@cisco.com; l=5878; q=dns/txt;
+  s=iport01; t=1774520166; x=1775729766;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=w2/VV6ihW8IQY6p8HAhYFYT1BPeJ5Bbryz3ID2NwdyQ=;
-  b=SMH61FDRT0E4QCnluU64M5dFhcgaN2u5Pvj66wTLiG5OEeUGGDwoQszp
-   B7vDwZdy0injGF3B5VVJtsPUSRNiXbAAUP3rQFyEK14i2C6uX+O/Lq0AY
-   lWMTgunPIf8c4t35HXHDiGiwoKr/Y6x5sqpb4zf2b51ed48JDzE0S9btp
-   thqq5oooW97+Kqev9AaMlnwT01h6ZFDb67gH1rgRW14plgHSwEQAQhlSt
-   RtLYmggwt1W7/ThjExWqlUKhjlBeBGOBMRxw3Jifk05QPj/Wbf/PIhg70
-   BQvKjbeTV3cUOe7EcJw1vVY6CehBxvPjYwh7xzuEXPHOS18BrqekT1z1m
-   g==;
-X-CSE-ConnectionGUID: g/yzNQ3aTc2n0lWkopFx3A==
-X-CSE-MsgGUID: 3rboH2NqSr6JfzeGIyj3uQ==
-X-IPAS-Result: =?us-ascii?q?A0AzCQBPBMVp/4v/Ja1aglmCSA9xXkNJA5QngiEDnhqBf?=
- =?us-ascii?q?w8BAQEPRA0EAQGFBwKNIwImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBB?=
- =?us-ascii?q?QEBAQIBBwWBDhOGTw2GWgECAQMnCwEYAT0cAwECLysjCBmDAgGCcwMRBrJzg?=
- =?us-ascii?q?XkzgQGDKAExBQkCAkABT9smAQsUAYE4hTyIG1sYAYR6JxsbgXKBFYNogQWBX?=
- =?us-ascii?q?AEBAYEmhn0EgiKBDoEST4NXBowdSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdg?=
- =?us-ascii?q?SM+F4EMGwcFgWAPiG10bYEThBEoAwsYDUgRLDcUGwQ+bgeMSTGBZ00BBScEM?=
- =?us-ascii?q?C0BByIBAYIDKRELkxxCkXqhDgoog3SMHpU6GjOFW6UQmQaOCZU2MmiEaIFoP?=
- =?us-ascii?q?IFHCwdwFYMiCRYzGQ+OOINpgX+EQcJOJjICAQEBBgMvAQEHAgcNAwuBaJAAg?=
- =?us-ascii?q?X0BAQ?=
-IronPort-Data: A9a23:KVBMGajvpNBFeAJyszV+o9oKX161MREKZh0ujC45NGQN5FlHY01je
- htvWD3VM/eJZ2CjfN1+PYuy8UxT68SDnYVmTQNk/io8QyhjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeEULOZ82QsaDxMsPje8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUXvfdlJ1gV/
- MATcjZVai+AgPqY0OmSH7wEasQLdKEHPasFsX1miDWcBvE8TNWbGePB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWYQZ/5JEWxI9EglHkbjFFrViVrII84nPYy0p6172F3N/9JYTSG5UMxxvGz
- o7A1z/jCBY6bvqG8iDb0Hy+i8DujCGgRbtHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFmQHY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:UeD1dK0Ppc09U3GEC3UNQwqjBLMkLtp133Aq2lEZdPUzSL39qy
- nAppomPHPP5Qr5HUtQ+uxoW5PwJE80l6QV3WB5B97LN2PbUSmTXeNfBODZrAEIdReTygck78
- ddm2wUMqyXMbC85vyKhzWFLw==
-X-Talos-CUID: 9a23:uTx8kmG+Q7j242w0qmJos18GPPl+e0HWlnGIJ3C7Dn5HWOa8HAo=
-X-Talos-MUID: 9a23:Qkos0AiEHuxJAPPu3W5KfcMpb91i5IT0Llk2i8sktduJGg1hOWyAtWHi
+  bh=6DS2YmiTqpktkftkwA87b346DIJeOrkmfEHK6p98qV0=;
+  b=aIW9QH+Qh+97E0K9BeemvKsz7dDyJuAWJomGHIMUlcedjPtFSHyZbN7h
+   Qwg7kW158b1ny5N1UwSMeuSQeKPnEeEkWR/VnMhPfstoLatsPPLyJ8hJc
+   Gou16o6bIdlnmWlkpr8S4Km6EW3RM3Dzck787gpED5M6j7wuUJ3i/gcJk
+   P8CKP8OEy5atmrD68palvPFhNbTaYvqi6qcvnC46/is4ZoFdTLih6dv+f
+   ksOZS39IPPknwkJx1jUzCIbFL6AaXpUvJYl1nkrx/lEllzjUWfmb9Z+D8
+   YMLsAiXRa0xqyAkGjDAHhKUjmZ9M+QPOmjW8eGWaSlWqJdomYZmpkkn3w
+   A==;
+X-CSE-ConnectionGUID: 370TOJqXS66eDvf9FUeD4A==
+X-CSE-MsgGUID: H6/wOy7DSMCC3emx+pd9XA==
+X-IPAS-Result: =?us-ascii?q?A0BvAADQBsVp/4v/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
+ =?us-ascii?q?AcBAQsBgkcPcV5DSYxzhzeCIQOeGoF/DwEBAQ9EDQQBAYUHAo0jAiY0CQ4BA?=
+ =?us-ascii?q?gQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBAycLA?=
+ =?us-ascii?q?RgBPRwDAQIXAQEWKyMIGYMCAYJzAxEGsnSBeTOBAYMoATEFCQICQAFP2yYBC?=
+ =?us-ascii?q?xQBgTgBhTuIG1sYAYR6JxsbgXKEB3aBBYFcAQEBAYElIWACBoV0BIIigQ6BY?=
+ =?us-ascii?q?YNXBowdSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EMGwcFgWAPiG10b?=
+ =?us-ascii?q?YEThBEoAwsYDUgRLDcUGwQ+bgeMSTGCNGEkCQEHIgEBggIwCwsekxiQAYIho?=
+ =?us-ascii?q?Q4KKIN0jB6ODYctGjOFW6UQmQaOCYddgRyMb2iEaIFoPIFHCwdwFYMiCRYzG?=
+ =?us-ascii?q?Q+OKg4LgXaBaIF/hEHCRiYyAgkyAQEHAgcNAwuBaJAAAiQCgVUBAQ?=
+IronPort-Data: A9a23:NGxytays20vmCm4kKjJ6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkVWn
+ 2FNWW+EaPaLMWv9fNEgaN62pklX7ZDVmNNhTQptqVhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4iaT/H3Ygf/hWYvaD9MscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJBppZbE/2P9HOj8Q+
+ NAGJmEjUx2v28vjldpXSsE07igiBNPgMIVavjRryivUSK58B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2bMnWjOX9PYH46tPy1imT6eT1RgFmUvqEwpWPUyWSd1ZCzYYqMJIfbGpk9ckCwh
+ jyB4EPoXT0hEfe0kjeA4jG0ir7/tHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBXC4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rCnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:Cm57FqMilnrw7cBcTsCjsMiBIKoaSvp037BN7TEUdfU7SKKlfq
+ yV8cjzkCWE6wr5O0tQ/OxoWpPgfZq0z/cciuMs1PWZLWvbUQCTQ72Kg7GP/9SZIU3DHio379
+ YHT0C4Y+eAamRHsQ==
+X-Talos-CUID: 9a23:q4yHc2HUQXbVoy1AqmI8qxYoPeI8QkaDknr8PUHpJ1tkZOG8HAo=
+X-Talos-MUID: 9a23:ppDOvgv2UtA2aJdIw82npG8lK+B5vIiVLWsmypgDq4qcOX1AEmLI
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.23,141,1770595200"; 
-   d="scan'208";a="700681156"
+   d="scan'208";a="698163974"
 Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 26 Mar 2026 10:04:51 +0000
+  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 26 Mar 2026 10:15:59 +0000
 Received: from sjc-ads-7443.cisco.com (sjc-ads-7443.cisco.com [10.30.220.228])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id C02021800036D
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:04:51 +0000 (GMT)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id DA68B18000204
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:15:58 +0000 (GMT)
 Received: by sjc-ads-7443.cisco.com (Postfix, from userid 1840713)
-	id 66508CCD9B4; Thu, 26 Mar 2026 03:04:51 -0700 (PDT)
+	id 82074CCC16B; Thu, 26 Mar 2026 03:15:58 -0700 (PDT)
 From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH v2 1/3] curl: fix CVE-2026-1965
-Date: Thu, 26 Mar 2026 03:00:00 -0700
-Message-ID: <20260326100000.2619253-2-sudumbha@cisco.com>
+Subject: [OE-core][scarthgap][PATCH v2 2/3] curl: fix CVE-2026-3783
+Date: Thu, 26 Mar 2026 03:14:29 -0700
+Message-ID: <20260326101429.2634961-2-sudumbha@cisco.com>
 X-Mailer: git-send-email 2.44.4
-In-Reply-To: <20260326044647.2001828-3-sudumbha@cisco.com>
-References: <20260326044647.2001828-3-sudumbha@cisco.com>
+In-Reply-To: <564384.1774517543010119221@lists.openembedded.org>
+References: <564384.1774517543010119221@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-SMTP-Client: 10.30.220.228, sjc-ads-7443.cisco.com
@@ -79,190 +79,202 @@ X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:05:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233960
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:16:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233961
 
 From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Applying the fixes from upstream commit [3] and [4] cause merge conflicts
-and require other dependent commits to be backported. Instead, backport
-the Ubuntu-provided patches [1], which fixes the vulnerability as mentioned
-in changelog [2].
+This patch applies the upstream fix [1] as referenced in [2]
+which is mentioned in [3]:
 
-[1] http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
-    debian/patches/CVE-2026-1965-1.patch
-    debian/patches/CVE-2026-1965-2.patch
-[2] https://changelogs.ubuntu.com/changelogs/pool/main/c/curl/curl_8.5.0-2ubuntu10.8/changelog
-[3] https://github.com/curl/curl/commit/34fa034d9a390c4bd65e2d05262755ec8646ac12
-[4] https://github.com/curl/curl/commit/f1a39f221d57354990e3eeeddc3404aede2aff70
-
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-1965
-https://curl.se/docs/CVE-2026-1965.html
-https://ubuntu.com/security/CVE-2026-1965
+[1] https://github.com/curl/curl/commit/e3d7401a32a46516c9e5ee877e613e62ed35bddc
+[2] https://curl.se/docs/CVE-2026-3783.html
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-3783
 
 Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 ---
 Changes from v1 -> v2:
 - Updated with the correct patch series numbering
 
- .../curl/curl/CVE-2026-1965_p1.patch          | 98 +++++++++++++++++++
- .../curl/curl/CVE-2026-1965_p2.patch          | 30 ++++++
- meta/recipes-support/curl/curl_8.7.1.bb       |  2 +
- 3 files changed, 130 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965_p1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965_p2.patch
+ .../curl/curl/CVE-2026-3783.patch             | 159 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+ 2 files changed, 160 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3783.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965_p1.patch b/meta/recipes-support/curl/curl/CVE-2026-1965_p1.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-3783.patch b/meta/recipes-support/curl/curl/CVE-2026-3783.patch
 new file mode 100644
-index 0000000000..8079b453eb
+index 0000000000..02c2d51eb6
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-1965_p1.patch
-@@ -0,0 +1,98 @@
-+Backport of:
-+
-+From 34fa034d9a390c4bd65e2d05262755ec8646ac12 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2026-3783.patch
+@@ -0,0 +1,159 @@
++From 11c36846187d96ef72abc6aeb5784c002cb212fe Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 5 Feb 2026 08:34:21 +0100
-+Subject: [PATCH] url: fix reuse of connections using HTTP Negotiate
++Date: Fri, 6 Mar 2026 23:13:07 +0100
++Subject: [PATCH] http: only send bearer if auth is allowed
 +
-+Assume Negotiate means connection-based
++Verify with test 2006
 +
-+Reported-by: Zhicheng Chen
-+Closes #20534
++Closes #20843
 +
-+CVE: CVE-2026-1965
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/34fa034d9a390c4bd65e2d05262755ec8646ac12]
++CVE: CVE-2026-3783
++Upstream-Status: Backport [https://github.com/curl/curl/commit/e3d7401a32a46516c9e5ee877e613e62ed35bddc]
 +
++Backport Changes:
++- in tests/data/Makefile.inc: added test2006 to TESTCASES, adjusted for
++  this version.
++  The TESTCASES in tests/data/Makefile.am was introduced curl-8_10_0 by
++  this commit;
++  https://github.com/curl/curl/commit/f5b826532f2c564ef240df0ba2f3287d521df711
++
++(cherry picked from commit e3d7401a32a46516c9e5ee877e613e62ed35bddc)
 +Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 +---
-+ lib/url.c | 87 +++++++++++++++++++++++++++++++++++++++++++++++++++----
-+ 1 file changed, 82 insertions(+), 5 deletions(-)
++ lib/http.c              |  1 +
++ tests/data/Makefile.inc |  2 +-
++ tests/data/test2006     | 98 +++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 100 insertions(+), 1 deletion(-)
++ create mode 100644 tests/data/test2006
 +
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -935,6 +935,18 @@ ConnectionExists(struct Curl_easy *data,
-+   bool wantProxyNTLMhttp = FALSE;
-+ #endif
-+ #endif
++diff --git a/lib/http.c b/lib/http.c
++index a764d3c440..3ab6d21b0f 100644
++--- a/lib/http.c
+++++ b/lib/http.c
++@@ -673,6 +673,7 @@ output_auth_headers(struct Curl_easy *data,
++   if(authstatus->picked == CURLAUTH_BEARER) {
++     /* Bearer */
++     if((!proxy && data->set.str[STRING_BEARER] &&
+++       Curl_auth_allowed_to_host(data) &&
++         !Curl_checkheaders(data, STRCONST("Authorization")))) {
++       auth = "Bearer";
++       result = http_output_bearer(data);
++diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
++index 4c2cd52999..9fb92742ee 100644
++--- a/tests/data/Makefile.inc
+++++ b/tests/data/Makefile.inc
++@@ -230,7 +230,7 @@ test1941 test1942 test1943 test1944 test1945 test1946 test1947 test1948 \
++ test1955 test1956 test1957 test1958 test1959 test1960 test1964 \
++ test1970 test1971 test1972 test1973 test1974 test1975 \
++ \
++-test2000 test2001 test2002 test2003 test2004 test2005 \
+++test2000 test2001 test2002 test2003 test2004 test2005 test2006 \
++ \
++                                                                test2023 \
++ test2024 test2025 test2026 test2027 test2028 test2029 test2030 test2031 \
++diff --git a/tests/data/test2006 b/tests/data/test2006
++new file mode 100644
++index 0000000000..200d30a7ce
++--- /dev/null
+++++ b/tests/data/test2006
++@@ -0,0 +1,98 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++netrc
+++HTTP
+++</keywords>
+++</info>
+++# Server-side
+++<reply>
+++<data crlf="headers">
+++HTTP/1.1 301 Follow this you fool
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+++ETag: "21025-dc7-39462498"
+++Accept-Ranges: bytes
+++Content-Length: 6
+++Connection: close
+++Location: http://b.com/%TESTNUMBER0002
 ++
-++#if !defined(CURL_DISABLE_HTTP) && defined(USE_SPNEGO)
-++  bool wantNegohttp =
-++    (data->state.authhost.want & CURLAUTH_NEGOTIATE) &&
-++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
-++#ifndef CURL_DISABLE_PROXY
-++  bool wantProxyNegohttp =
-++    needle->bits.proxy_user_passwd &&
-++    (data->state.authproxy.want & CURLAUTH_NEGOTIATE) &&
-++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
-++#endif
-++#endif
-+   /* plain HTTP with upgrade */
-+   bool h2upgrade = (data->state.httpwant == CURL_HTTP_VERSION_2_0) &&
-+     (needle->handler->protocol & CURLPROTO_HTTP);
-+@@ -1272,6 +1284,56 @@ ConnectionExists(struct Curl_easy *data,
-+     }
-+ #endif
-+
-++#ifdef USE_SPNEGO
-++  /* If we are looking for an HTTP+Negotiate connection, check if this is
-++     already authenticating with the right credentials. If not, keep looking
-++     so that we can reuse Negotiate connections if possible. */
-++  if(wantNegohttp) {
-++    if(Curl_timestrcmp(needle->user, check->user) ||
-++       Curl_timestrcmp(needle->passwd, check->passwd))
-++      continue;
-++  }
-++  else if(check->http_negotiate_state != GSS_AUTHNONE) {
-++    /* Connection is using Negotiate auth but we do not want Negotiate */
-++    continue;
-++  }
+++-foo-
+++</data>
 ++
-++#ifndef CURL_DISABLE_PROXY
-++  /* Same for Proxy Negotiate authentication */
-++  if(wantProxyNegohttp) {
-++    /* Both check->http_proxy.user and check->http_proxy.passwd can be
-++     * NULL */
-++    if(!check->http_proxy.user || !check->http_proxy.passwd)
-++      continue;
+++<data2 crlf="headers">
+++HTTP/1.1 200 OK
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+++ETag: "21025-dc7-39462498"
+++Accept-Ranges: bytes
+++Content-Length: 7
+++Connection: close
 ++
-++    if(Curl_timestrcmp(needle->http_proxy.user,
-++                       check->http_proxy.user) ||
-++       Curl_timestrcmp(needle->http_proxy.passwd,
-++                       check->http_proxy.passwd))
-++      continue;
-++  }
-++  else if(check->proxy_negotiate_state != GSS_AUTHNONE) {
-++    /* Proxy connection is using Negotiate auth but we do not want Negotiate */
-++    continue;
-++  }
-++#endif
-++  if(wantNTLMhttp || wantProxyNTLMhttp) {
-++    /* Credentials are already checked, we may use this connection. We MUST
-++     * use a connection where it has already been fully negotiated. If it has
-++     * not, we keep on looking for a better one. */
-++    chosen = check;
-++    if((wantNegohttp &&
-++        (check->http_negotiate_state != GSS_AUTHNONE)) ||
-++       (wantProxyNegohttp &&
-++        (check->proxy_negotiate_state != GSS_AUTHNONE))) {
-++      /* We must use this connection, no other */
-++      *force_reuse = TRUE;
-++      break;
-++    }
-++    continue; /* get another */
-++  }
-++#endif
+++target
+++</data2>
 ++
-+     if(CONN_INUSE(check)) {
-+       DEBUGASSERT(canmultiplex);
-+       DEBUGASSERT(check->bits.multiplex);
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965_p2.patch b/meta/recipes-support/curl/curl/CVE-2026-1965_p2.patch
-new file mode 100644
-index 0000000000..1fdb658f23
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-1965_p2.patch
-@@ -0,0 +1,30 @@
-+Backport of:
-+
-+From f1a39f221d57354990e3eeeddc3404aede2aff70 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sat, 21 Feb 2026 18:11:41 +0100
-+Subject: [PATCH] url: fix copy and paste url_match_auth_nego mistake
-+
-+Follow-up to 34fa034
-+Reported-by: dahmono on github
-+Closes #20662
-+
-+CVE: CVE-2026-1965
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/f1a39f221d57354990e3eeeddc3404aede2aff70]
-+
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ lib/url.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -1317,7 +1317,7 @@ ConnectionExists(struct Curl_easy *data,
-+     continue;
-+   }
-+ #endif
-+-  if(wantNTLMhttp || wantProxyNTLMhttp) {
-++  if(wantNegohttp || wantProxyNegohttp) {
-+     /* Credentials are already checked, we may use this connection. We MUST
-+      * use a connection where it has already been fully negotiated. If it has
-+      * not, we keep on looking for a better one. */
+++<datacheck crlf="headers">
+++HTTP/1.1 301 Follow this you fool
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+++ETag: "21025-dc7-39462498"
+++Accept-Ranges: bytes
+++Content-Length: 6
+++Connection: close
+++Location: http://b.com/%TESTNUMBER0002
+++
+++HTTP/1.1 200 OK
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+++ETag: "21025-dc7-39462498"
+++Accept-Ranges: bytes
+++Content-Length: 7
+++Connection: close
+++
+++target
+++</datacheck>
+++</reply>
+++
+++# Client-side
+++<client>
+++<server>
+++http
+++</server>
+++<features>
+++proxy
+++</features>
+++<name>
+++.netrc default with redirect plus oauth2-bearer
+++</name>
+++<command>
+++--netrc --netrc-file %LOGDIR/netrc%TESTNUMBER --oauth2-bearer SECRET_TOKEN -L -x http://%HOSTIP:%HTTPPORT/ http://a.com/
+++</command>
+++<file name="%LOGDIR/netrc%TESTNUMBER" >
+++default login testuser password testpass
+++</file>
+++</client>
+++
+++<verify>
+++<protocol crlf="headers">
+++GET http://a.com/ HTTP/1.1
+++Host: a.com
+++Authorization: Bearer SECRET_TOKEN
+++User-Agent: curl/%VERSION
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++GET http://b.com/%TESTNUMBER0002 HTTP/1.1
+++Host: b.com
+++User-Agent: curl/%VERSION
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++</protocol>
+++</verify>
+++</testcase>
++--
++2.44.1
 diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index 9e37684b2c..e2f6f8472f 100644
+index e2f6f8472f..07e532721f 100644
 --- a/meta/recipes-support/curl/curl_8.7.1.bb
 +++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -32,6 +32,8 @@ SRC_URI = " \
-     file://CVE-2025-14819.patch \
-     file://CVE-2025-15079.patch \
+@@ -34,6 +34,7 @@ SRC_URI = " \
      file://CVE-2025-15224.patch \
-+    file://CVE-2026-1965_p1.patch \
-+    file://CVE-2026-1965_p2.patch \
+     file://CVE-2026-1965_p1.patch \
+     file://CVE-2026-1965_p2.patch \
++    file://CVE-2026-3783.patch \
  "
  
  SRC_URI:append:class-nativesdk = " \
