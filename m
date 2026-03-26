@@ -2,82 +2,83 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED38110AB822
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 20:14:59 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.58207.1774556095545402402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99E8210AB822
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 20:16:10 +0000 (UTC)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.57391.1774556164026554986
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 13:14:55 -0700
+ Thu, 26 Mar 2026 13:16:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=FwvyK4r5;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-79853c0f5b9so15612537b3.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 13:14:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774556095; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Y9fxRir6;
+ spf=pass (domain: gmail.com, ip: 209.85.128.172, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-79885f4a8ffso14010397b3.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 13:16:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774556163; cv=none;
         d=google.com; s=arc-20240605;
-        b=Zo5DK/IMI71sqYCOfODPnrn6ecKECP7ssJdCA8TXie/piGrpB15Iw8/ZdLlcqJNDvW
-         bOtzfqu7y6Z5P2q7qpWHyKIJnO73jVCswEnWru+/8tBm+L+T8LdBAcYrgzwU1RWf1Uk/
-         byKZIEyd60VG4W/XM3GFMb7cOHYRu5k1c0Tdxo6QSc8m5C2mEbR7g+AAbPCwtf40/PQK
-         Utvpw05hgXMkHm4omy6XwTH29SVn5PC4ncHowmh7npK5+AOmPJsOHB3/uWm8juLfBQv/
-         iOj9R8tKu5LGvtXzr5SDt3CYrJ/sxu7zDXTLqALHYCj1Iu8Psh7n0+b6NTzo8RuIAGLw
-         w2lA==
+        b=RB/R1H32707Vp7QCVn6qJThZijgDMMmLxRj9NMUzl4scuPe2fqYwGa5xsEko03LQlq
+         6ILAcF41SOjwq+mtnzon2csGWyPIkYEH5oVColbwOdQVr8Qq3RST1DUq8Ibt14Jpc09J
+         i8FHmvXAhljxI7u06ALQUG5js4cdYa3J2/dmbKQ2sa39ecKGr4lAQidskLhLcs8CzdV+
+         3jUMdt4QpMLEWkp/ec6Ne5dKd6JjIHWhtEbwNt85n4E4WPwUEMIDRmsdwcJtlxl8om6N
+         nNQsp7IYiO4FG0Vomvv2/zHBf4opny5LcIQkOcLpFHmbmmHYH0qlrPjUyo8wAOAl6Ou7
+         ncEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=y1X6BO93q3BCRkSHrAgfyysQG4YYGOKZMSkSnSRebdw=;
-        fh=XL+ydw4zRzqZKs8yhWIx30/frJay1bXF2X1wuGsnf7M=;
-        b=DC6ZCTEbXwxJZ5rzjiZz+8M58QdsMyDFO05YNHPwellWAq/c+SMgT7pUA/79VoTCTB
-         bOqJnIiRePG0TBS5yXS6DsGAEfBwgYhfnV4dNxexCoFM/Jh1f8R3OkUx6Y1rogdVcNDx
-         qVBQO2tz+jg3FwNT9r9vqc3gb6XeE+cOt4WrUHVxRYkE7rhf5KDKwAQEx1mN4f4zBK8F
-         4mPZHz2zv+B3aHO/eWe+9SBAiIsFvs6uUYPEHWqDLOojplM4n6OIgHuki/2LVdrjBuSz
-         Nhfitz0iH42bWfsjx72z2GH8doZtxovhOsdY6K4TNxDmzBOhA3iWKH+ublH7aT5zXc0M
-         R62g==;
+        bh=HGzAQ0Ytbp9DMP9qKdST+gwoQBJoq8iQyaGEpDcKzYM=;
+        fh=DXi/jZN+Y0f6AuF67U0rstiU79zA7VkJWDisO6OBcA4=;
+        b=d7b3LYfR808Q1sYskiVyo/GONsGYzB1X+1GYs7Y1Rt6eg8HKSwdyxxixEM0XSkTTUW
+         CmLpcuQF8sCGAA/2obuugliTDVfkCB25mB7Xue2CsbK73YnjlrtgYSr4Kc+l80aeqbLD
+         +0lzvlJwCoGp62O2JjebZNaixWw2wD64a583c9VJw636KyiP1C84gfToeY7Xi6exZeoy
+         X4TJwSmUyedIuVZcSHgJyGflOn6/S6KkMb1pdsv1gy0wbWLw3dJLC0jqjuRehA1WkH6e
+         +/aAZVbyesvxMKvcPtdPtU40BvSCU952APeZoHUhKhT5FbeCacIXblf69vVZgLGBZefD
+         uZoA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774556095; x=1775160895; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774556163; x=1775160963; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=y1X6BO93q3BCRkSHrAgfyysQG4YYGOKZMSkSnSRebdw=;
-        b=FwvyK4r5XhyUSJSZZWLuzG9mSLho3N82wUH/nVkhlES3wObw1OfHOPI2JdGf4phmir
-         Q/Z4Q9WRFtiRXtCQVd6sh/SjoodQ13E5VI1H1orU9gEMzwCAySXAlQ0MWFXwS5y5Fiob
-         20L9D114jjfPDoYUfo68HGvQHXxrIpYPF/uvqUcAiV4Ebif79MFWcpHs+MldV/xJoJWr
-         xWrJzXiBK75Fiep3Q6c8JQEsrK93rMuS/UEMHKhwbI4TANDJoNeaqDm0lkoBkNhpd9P3
-         L6EMVu+4D4TRbOfU0YfuIYjxb2jI1qsnOk66WA42/gMIyrIMGjO54wr3to9xw7VHs0AR
-         C2Jg==
+        bh=HGzAQ0Ytbp9DMP9qKdST+gwoQBJoq8iQyaGEpDcKzYM=;
+        b=Y9fxRir63RUz+zRRjesy6eqzWmQKNWS0Se8JF+x/IXcU9blkwb5IrqJI6Aml7cERwd
+         NLtgbXnPbZ1oWMjESTM8WLwErwOEB2mZ/b4pw0wi8ajLz4tzuM4Bl3nMhw1/ofTtfMYW
+         f7wW02oMahrZd4xrr7aPIbWnJ0O3ujBm++360v4rsc9vJMRqDRi89PsfaQ3BQ2GeCnap
+         P+R3063ACsZl0ybjoKyQKlagvxl/8v6DK+JDb90tZzEbz5t4OFlHftnTgCyxngkBEamK
+         9U+7A+g7nZpfFht8Xbu7gYc/vrhjQrCyejSAdtZDYwO1ML46mk7myOFJ3sLU/2oNfxZV
+         Ts2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774556095; x=1775160895;
+        d=1e100.net; s=20251104; t=1774556163; x=1775160963;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=y1X6BO93q3BCRkSHrAgfyysQG4YYGOKZMSkSnSRebdw=;
-        b=p/WpjzH2tQGGUAwQ6jQSsbXPm8jtpoYL2S1lW5KDHRxQmEjIHmPeOfhGwZ3K3o8PHf
-         JjhOqtAOElGk2X5Iz4L1TU6Y4x5xnT5vY7Ic8qU9a0efEBwozwk60kkGaYWJkQev1s/I
-         MVsNYjV9uvzsSztuKTfFczyim5SzqqO322oObV27aq2cLWs0FxzjJ63QIyxTihJEbw6+
-         oO9H678TB19uuXCTqYwRolfqkoqeaRTgy7bJPG1sQS4oBxZGNPAbNm1YaAP5q5bQn6Ud
-         KgSMDmh7GxLWOcRzldSNZiJ2Xc4gJRb8+6CGD2cgpf0AWgks3+EUKxM+SgS1kyOiBlgW
-         sN/Q==
-X-Gm-Message-State: AOJu0Yx3B08pkrA5RRqMOoZ96R5N+UrYk8iFRFwJBjS9d+SsU6rOXqlT
-	hB2JbpKHz3xlUsdKHMqOBQVsan6WfKYChr5Um+PBYKNWFCzWg7kdTHs5plTI3Tp1HIZmOenWx/e
-	YXJBq+q9I8ygSABZjXqvKVyCKyR5w4bv/mw==
-X-Gm-Gg: ATEYQzxugUfStN7G0ovW0iwz0mawNwUv2TDoDkHhEprw6jFq4tDNuUm8AyqYbyZsSyt
-	sYnsZZoEEHDmbq108NCzixMF+F1CwSAcBi4IVsoiUtzkjAMOTyH3GiFtpPMnJpwscHwoA7wCpoA
-	T2kTTAN81gErD2/aO36W62YcyBs975/AwIKip/2gPNQrvWXtE3/D8BrITppJJr29frc2dUZGbTF
-	fD48ZHHgi3sY96JqvuLhRydGU3r70SMdPvhQhkU4B6SCcJClueSM52Yy6mhsmbNXBh92nO1oMPi
-	af/ND4Nu8f+0e9YsAXo1Ew==
-X-Received: by 2002:a05:690c:6b07:b0:79a:6751:1489 with SMTP id
- 00721157ae682-79acf65f532mr101315147b3.38.1774556094582; Thu, 26 Mar 2026
- 13:14:54 -0700 (PDT)
+        bh=HGzAQ0Ytbp9DMP9qKdST+gwoQBJoq8iQyaGEpDcKzYM=;
+        b=EELrlY9XCZ5jBn5pqQfJHTzz/BJG3N4/noer7XQZD2cWzMpfLu4hGaz5h+k42ZHqbI
+         7eZeWQCsUsi53bzUJZGGPGagZ59FiiIiUzCrZznnHA/1aoKc/JasbcNvuzemTteNX8Sz
+         jnduJqdVmSHPBCCBqZfTyOxmMDhHkglPSrn3lEP8LaSmTlzcSAKuxGkxV9nu37OYDNFI
+         g2WwBn6t1bEgFEpsyu4DFiSLEOf5sVz9bhP3Ir6RRQdbQFO8XU9HqCOGTkFDlZNRr6ml
+         6f8C6YxA1EtGJ18WBFnJrSJFijypDXY2aH/3CNSLomdD5NaEXRqI8z6ScA/iuD1hmrMU
+         /HSw==
+X-Gm-Message-State: AOJu0YxOu2cZSH3O4gbTGtd8pbuwCbFQrE6Uj5P+qHrdk6SKW3fJdfot
+	AJ5lsaK48rtobGfng2pEXL+vi201HAagy3lNweWAJh+Zw3JJdhpFWCeQZWd/yZhqBwjNXNgtc4p
+	nJjwbIpvVyqQYuqtfKnsYm/ZbjuOoun4=
+X-Gm-Gg: ATEYQzxuDiy+Z6CdSfSbO1D5ptWE5nh6zKl6pn+r4OjOCDb8M/5HOYPZjQ0bB1fdaNv
+	NfElOqiWj9B/aPbRG79EE3algyOVVslIFP59j2lFj5f0RF+g/GgBZcAxwkQ8FZzPsGwmsrs6gZb
+	SCoBk2DWc1X8wb15iF6LpPPvZid69pWH/uty1QsfPS76lXYsKFKParC/jt0o9zWlYq8jbfHwfAQ
+	pRW6gBiZfo2MWtaNCHDBDiXMkQWqupf4BMmx9vAa7cQXFDV7mztbPyXKVfqPmZbXgSWWgAW+c+N
+	TEtdx1NiHncbsavSoAwDYQ==
+X-Received: by 2002:a05:690c:c18f:b0:79a:d43a:11f0 with SMTP id
+ 00721157ae682-79ad43a1bafmr64953507b3.5.1774556162937; Thu, 26 Mar 2026
+ 13:16:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260324132958.2316491-1-stondo@gmail.com> <20260324171246.686862-5-stefano.tondo.ext@siemens.com>
-In-Reply-To: <20260324171246.686862-5-stefano.tondo.ext@siemens.com>
+References: <20260324132958.2316491-1-stondo@gmail.com> <20260324171502.689012-6-stefano.tondo.ext@siemens.com>
+In-Reply-To: <20260324171502.689012-6-stefano.tondo.ext@siemens.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 26 Mar 2026 14:14:43 -0600
-X-Gm-Features: AQROBzDX0ZSrNUkmP_dYeHwK1po-IXf9s3mxmN-BkiVKUxbz26YGFtj8W3mHCCA
-Message-ID: <CAJdd5GZMSYMoDZHar=HphcwHvqeG-iHrmiH4OBnBRuYkCcb7Og@mail.gmail.com>
-Subject: Re: [PATCH v16 4/5] spdx30: Add Git version and PURL to source downloads
-To: Stefano Tondo <stondo@gmail.com>
+Date: Thu, 26 Mar 2026 14:15:51 -0600
+X-Gm-Features: AQROBzBgSynlP5kiqoopOenHq25l-Ffd4EyL9mR0jfsDHXq-Ebj9jwAlRLzQ0fo
+Message-ID: <CAJdd5GaArPg_tw8X45TsM=j2TCd4x5q1LDLU6X9vbiJczVg7eg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v16 5/5] oeqa/selftest: Add tests for source
+ download enrichment
+To: stondo@gmail.com
 Cc: openembedded-core@lists.openembedded.org, 
 	richard.purdie@linuxfoundation.org, ross.burton@arm.com, 
 	stefano.tondo.ext@siemens.com, peter.marko@siemens.com, 
@@ -87,24 +88,24 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 20:14:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234050
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 20:16:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234051
 
-On Tue, Mar 24, 2026 at 11:14=E2=80=AFAM Stefano Tondo <stondo@gmail.com> w=
-rote:
+On Tue, Mar 24, 2026 at 11:15=E2=80=AFAM Stefano Tondo via
+lists.openembedded.org <stondo=3Dgmail.com@lists.openembedded.org>
+wrote:
 >
-> Enrich Git source download packages in the SPDX 3.0 output with:
-> - software_packageVersion set to the full SHA-1 commit hash
-> - software_packageUrl set to a PURL for known Git hosting services
-> - VCS external reference pointing to the repository URL
+> Add two new test methods to SPDX30Check:
 >
-> The PURL generation recognizes github.com by default and supports
-> additional hosting services via the SPDX_GIT_PURL_MAPPINGS variable
-> (format: 'domain:purl_type', e.g. 'gitlab.example.com:pkg:gitlab').
+> test_download_location_defensive_handling:
+>   Builds m4 and verifies that SPDX generation succeeds and any
+>   external references present are properly structured with valid
+>   types and locator strings.
 >
-> Only Git source downloads are enriched. Non-Git downloads are left
-> unchanged since their ecosystem PURLs are already set on the recipe
-> package by SPDX_PACKAGE_URLS from the previous patch.
+> test_version_extraction_patterns:
+>   Builds opkg-utils (a Git-based recipe) and verifies that source
+>   download packages carry the full SHA-1 commit hash as their
+>   software_packageVersion.
 >
 
 LGTM, thanks
@@ -113,168 +114,117 @@ Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
 > Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 > ---
->  meta/classes/create-spdx-3.0.bbclass |   7 ++
->  meta/lib/oe/spdx30_tasks.py          | 102 +++++++++++++++++++++++++++
->  2 files changed, 109 insertions(+)
+>  meta/lib/oeqa/selftest/cases/spdx.py | 76 ++++++++++++++++++++++++++++
+>  1 file changed, 76 insertions(+)
 >
-> diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
-pdx-3.0.bbclass
-> index 9a6606dce6..432adb14cd 100644
-> --- a/meta/classes/create-spdx-3.0.bbclass
-> +++ b/meta/classes/create-spdx-3.0.bbclass
-> @@ -156,6 +156,13 @@ SPDX_RECIPE_SBOM_NAME ?=3D "${PN}-recipe-sbom"
->  SPDX_RECIPE_SBOM_NAME[doc] =3D "The name of output recipe SBoM when usin=
-g \
->      create_recipe_sbom"
->
-> +SPDX_GIT_PURL_MAPPINGS ??=3D ""
-> +SPDX_GIT_PURL_MAPPINGS[doc] =3D "A space separated list of domain:purl_t=
-ype \
-> +    mappings to configure PURL generation for Git source downloads. \
-> +    For example, 'gitlab.example.com:pkg:gitlab' maps repositories hoste=
-d \
-> +    on gitlab.example.com to the pkg:gitlab PURL type. \
-> +    github.com is always mapped to pkg:github by default."
+> diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
+t/cases/spdx.py
+> index af1144c1e5..9347e0bf7b 100644
+> --- a/meta/lib/oeqa/selftest/cases/spdx.py
+> +++ b/meta/lib/oeqa/selftest/cases/spdx.py
+> @@ -428,3 +428,79 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase=
+):
+>                  value, ["enabled", "disabled"],
+>                  f"Unexpected PACKAGECONFIG value '{value}' for {key}"
+>              )
 > +
->  IMAGE_CLASSES:append =3D " create-spdx-image-3.0"
->  SDK_CLASSES +=3D "create-spdx-sdk-3.0"
->
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index 51e10befba..cd9672c18e 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -14,6 +14,7 @@ import oe.spdx_common
->  import oe.sdk
->  import os
->  import re
-> +import urllib.parse
->
->  from contextlib import contextmanager
->  from datetime import datetime, timezone
-> @@ -384,6 +385,105 @@ def collect_dep_sources(dep_objsets, dest):
->              index_sources_by_hash(e.to, dest)
->
->
+> +    def test_download_location_defensive_handling(self):
+> +        """Test that download_location handling is defensive.
 > +
-> +def _generate_git_purl(d, download_location, srcrev):
-> +    """Generate a Package URL for a Git source from its download locatio=
-n.
+> +        Verifies SPDX generation succeeds and external references are
+> +        properly structured when download_location retrieval works.
+> +        """
+> +        objset =3D self.check_recipe_spdx(
+> +            "m4",
+> +            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-m4.spdx.jso=
+n",
+> +        )
 > +
-> +    Parses the Git URL to identify the hosting service and generates the
-> +    appropriate PURL type. Supports github.com by default and custom
-> +    mappings via SPDX_GIT_PURL_MAPPINGS.
+> +        found_external_refs =3D False
+> +        for pkg in objset.foreach_type(oe.spdx30.software_Package):
+> +            if pkg.externalRef:
+> +                found_external_refs =3D True
+> +                for ref in pkg.externalRef:
+> +                    self.assertIsNotNone(ref.externalRefType)
+> +                    self.assertIsNotNone(ref.locator)
+> +                    self.assertGreater(len(ref.locator), 0, "Locator sho=
+uld have at least one entry")
+> +                    for loc in ref.locator:
+> +                        self.assertIsInstance(loc, str)
+> +                break
 > +
-> +    Returns the PURL string or None if no mapping matches.
-> +    """
-> +    if not download_location or not download_location.startswith('git+')=
-:
-> +        return None
+> +        self.logger.info(
+> +            f"External references {'found' if found_external_refs else '=
+not found'} "
+> +            f"in SPDX output (defensive handling verified)"
+> +        )
 > +
-> +    git_url =3D download_location[4:]  # Remove 'git+' prefix
+> +    def test_version_extraction_patterns(self):
+> +        """Test that version extraction works for various package format=
+s.
 > +
-> +    # Default handler: github.com
-> +    git_purl_handlers =3D {
-> +        'github.com': 'pkg:github',
-> +    }
+> +        Verifies that Git source downloads carry extracted versions and =
+that
+> +        the reported version strings are well-formed.
+> +        """
+> +        objset =3D self.check_recipe_spdx(
+> +            "opkg-utils",
+> +            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-opkg-utils.=
+spdx.json",
+> +        )
 > +
-> +    # Custom PURL mappings from SPDX_GIT_PURL_MAPPINGS
-> +    # Format: "domain1:purl_type1 domain2:purl_type2"
-> +    custom_mappings =3D d.getVar('SPDX_GIT_PURL_MAPPINGS')
-> +    if custom_mappings:
-> +        for mapping in custom_mappings.split():
-> +            parts =3D mapping.split(':', 1)
-> +            if len(parts) =3D=3D 2:
-> +                git_purl_handlers[parts[0]] =3D parts[1]
-> +                bb.debug(2, f"Added custom Git PURL mapping: {parts[0]} =
--> {parts[1]}")
-> +            else:
-> +                bb.warn(f"Invalid SPDX_GIT_PURL_MAPPINGS entry: {mapping=
-} (expected format: domain:purl_type)")
+> +        # Collect all packages with versions
+> +        packages_with_versions =3D []
+> +        for pkg in objset.foreach_type(oe.spdx30.software_Package):
+> +            if pkg.software_packageVersion:
+> +                packages_with_versions.append((pkg.name, pkg.software_pa=
+ckageVersion))
 > +
-> +    try:
-> +        parsed =3D urllib.parse.urlparse(git_url)
-> +    except Exception:
-> +        return None
+> +        self.assertGreater(
+> +            len(packages_with_versions), 0,
+> +            "Should find packages with extracted versions"
+> +        )
 > +
-> +    hostname =3D parsed.hostname
-> +    if not hostname:
-> +        return None
-> +
-> +    for domain, purl_type in git_purl_handlers.items():
-> +        if hostname =3D=3D domain:
-> +            path =3D parsed.path.strip('/')
-> +            path_parts =3D path.split('/')
-> +            if len(path_parts) >=3D 2:
-> +                owner =3D path_parts[0]
-> +                repo =3D path_parts[1].replace('.git', '')
-> +                return f"{purl_type}/{owner}/{repo}@{srcrev}"
-> +            break
-> +
-> +    return None
-> +
-> +
-> +def _enrich_source_package(d, dl, fd, file_name, primary_purpose):
-> +    """Enrich a Git source download package with version, PURL, and exte=
-rnal refs.
-> +
-> +    For Git sources, extracts the full SHA-1 from SRCREV as the version,
-> +    generates PURLs for known hosting services, and adds VCS external
-> +    references.
-> +    """
-> +    version =3D None
-> +    purl =3D None
-> +
-> +    if fd.type =3D=3D "git":
-> +        # Use full SHA-1 from fd.revision
-> +        srcrev =3D getattr(fd, 'revision', None)
-> +        if srcrev and srcrev not in {'${AUTOREV}', 'AUTOINC', 'INVALID'}=
-:
-> +            version =3D srcrev
-> +
-> +        # Generate PURL for Git hosting services
-> +        download_location =3D getattr(dl, 'software_downloadLocation', N=
-one)
-> +        if version and download_location:
-> +            purl =3D _generate_git_purl(d, download_location, version)
-> +
-> +    if version:
-> +        dl.software_packageVersion =3D version
-> +
-> +    if purl:
-> +        dl.software_packageUrl =3D purl
-> +
-> +    # Add VCS external reference for Git repositories
-> +    download_location =3D getattr(dl, 'software_downloadLocation', None)
-> +    if download_location and isinstance(download_location, str):
-> +        if download_location.startswith('git+'):
-> +            git_url =3D download_location[4:]
-> +            if '@' in git_url:
-> +                git_url =3D git_url.split('@')[0]
-> +
-> +            dl.externalRef =3D dl.externalRef or []
-> +            dl.externalRef.append(
-> +                oe.spdx30.ExternalRef(
-> +                    externalRefType=3Doe.spdx30.ExternalRefType.vcs,
-> +                    locator=3D[git_url],
-> +                )
+> +        for name, version in packages_with_versions:
+> +            self.assertRegex(
+> +                version,
+> +                r"^[0-9a-f]{40}$",
+> +                f"Expected Git source version for {name} to be a full SH=
+A-1",
 > +            )
 > +
+> +        self.logger.info(f"Found {len(packages_with_versions)} packages =
+with versions")
 > +
+> +        # Log some examples for debugging
+> +        for name, version in packages_with_versions[:5]:
+> +            self.logger.info(f"  {name}: {version}")
 > +
->  def add_download_files(d, objset):
->      inputs =3D set()
->
-> @@ -447,6 +547,8 @@ def add_download_files(d, objset):
->                  )
->              )
->
-> +            _enrich_source_package(d, dl, fd, file_name, primary_purpose=
-)
+> +        # Verify that versions follow expected patterns
+> +        for name, version in packages_with_versions:
+> +            # Version should not be empty
+> +            self.assertIsNotNone(version)
+> +            self.assertNotEqual(version, "")
 > +
->              if fd.method.supports_checksum(fd):
->                  # TODO Need something better than hard coding this
->                  for checksum_id in ["sha256", "sha1"]:
+> +            # Version should contain digits
+> +            self.assertRegex(
+> +                version,
+> +                r'\d',
+> +                f"Version '{version}' for package '{name}' should contai=
+n digits"
+> +            )
 > --
 > 2.53.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#233819): https://lists.openembedded.org/g/openembedde=
+d-core/message/233819
+> Mute This Topic: https://lists.openembedded.org/mt/118487364/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
