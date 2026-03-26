@@ -2,56 +2,56 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2739E10A3D9A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A3C610A3D96
 	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 12:51:36 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.47407.1774529495145356047
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.46592.1774529485992434113
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 05:51:35 -0700
+ Thu, 26 Mar 2026 05:51:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=moij9+US;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43b7481f9d3so531298f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 05:51:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=HSimwLex;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-486b9675d36so8870855e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 05:51:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774529493; x=1775134293; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774529484; x=1775134284; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0Cbv9fQLGDphKiMSALdwYMAEi1dQa4usDeFXSTYoZWs=;
-        b=moij9+USpA6ccb6++P/vW+IaUfRiI0f1lUamFdpL4MuQK2z2nUwO97KSWVB/wpRa+c
-         Nc0aAXKnwpzLRc2f10SEurUzmEj9EyBDeBhdT6Psoidy8DXSFAAtTLvHuk/O9tirtKb7
-         MdU9AswL+VZQIwBw6hIJ2wYWPsSfkUjo+nDDwlL7ecT3+nAbEuCYul/c4Cr260Ck7UcS
-         uFfotFQYChXZn15/2/1Q6TJ+cHZ7mzT09+2lFxxRsX7vBwSbl1meNbjiY1yGlziS1DP2
-         INfP68yN+BkJOU2J1VqcBlUS9Ibc2mrpIZJwNVpvQqeijFr3C3A32AlYBAtbX6zwRbH7
-         d/TQ==
+        bh=Y2XCD+evDEDj7+bfxUGa9bK9PncTQN+DcrjsaPrGX6s=;
+        b=HSimwLexfrTqJV6CxHUNz9N//twZAlCRu5GO6wScX0ZHxeyXfCbFhThGnVf8CvY2y2
+         8KmKXc1Rc/WNvdYK5Z2UstuFFpFPWz/iw9uJcSaRhSstw0K22k8+DBpZHiBbvqgw8lxs
+         TNtXYeIWpIS4d+AuHVXbtXaMlupQLYCxSpXsTAcUfY+vkbq3up9ODr8oIh0lxnrz1Uty
+         hlDE/JTMGF4xQbYZLteJTWBoiIgMo6AVdDYm8E604Zv4w5nqHKfkNMuxOhciM9b9hRkR
+         uEcHH0ougeNGj90T8Q4HDoGv01hQxZkM+osHqpaJzlpZ4Spe5K1fQFXfrHbK+K1FpPls
+         dtmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774529493; x=1775134293;
+        d=1e100.net; s=20251104; t=1774529484; x=1775134284;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0Cbv9fQLGDphKiMSALdwYMAEi1dQa4usDeFXSTYoZWs=;
-        b=su+x3gslN1JVrk6sLHkYUDRAAd6i9+3PUJWqu5zWdHUVbPa7xTJC0uE/jNZPDwfyCq
-         WbdsiVcKW9l2K5Dw60ahdc54Nvf1SYNfU1v2NH4GLSeaHeHWKdYZtEobMBTUo4N6DTVY
-         fFdmmcHqh7V6XPOjQbhPB6pnco43moFUh1E5bqAzPfeGt1Vv1JC6SxQBLNK43NvOkVZm
-         mOy/ZmdliTKJQe4P/Wm/jXN0gTJuxkuDqMp3rCqU5maPr8qcUC3XmUqRiQd+XCqld2Ao
-         Q9eHyysWLIt5AjdEwK5p1RdDzet9k+q58upWUEAalmoL90Uj/GtYZiWXPgt1i0XPHPCZ
-         VHxw==
-X-Gm-Message-State: AOJu0YyRYayYRHVRujjsAxUZd/G2roW3+eTGCD0941xCEWJoPRI2onG1
-	MWbLCoPBAIy+7FHKNHrQ+Cm/fykx3dAp/29uCrbukK3BuQQ9bR9sLX4TDBMYpA==
-X-Gm-Gg: ATEYQzzkWdTtJUji3GqId2ItJaUVJQTELIbzNXLr9P4Y+Vmna87qYLYXg7eXzvnW2ZE
-	XVZZvCQoRFqWDK3jw2IDFx7igruwRTMjI8z6M6uSvV2PkVzbA3jpnEZOFSEf7+/JsjN1JzuuKrI
-	ReQt/GNDax807WJIX0Lhps+2OpBIO7W8bpe1Gwp64wbrjG9Vgc2odz41X4vIGoIeLF+cHf7yJzI
-	AMXh4Ek3iky+XcX+Vpn2XXSE7vSsyofssts51YxNRutZEn1b+4zWhTCdQPvPr3FFkGYCd/u8xBX
-	JgVEnqDkhDkB6/UkLl04Xy2g/BUf+GZ/HsI4cifjZvClyQ+OpcwibWF3tWcXwMtmMo8pCfmJAbS
-	cRQhuHcDoxSZQEvCAotRw5eU6DHH/Tz6bU/puAyph4Qs+k61Bw2p76m/RoSOGps+HQkinWdT3g5
-	Jnex5NAxuy0YYLTw==
-X-Received: by 2002:a5d:4145:0:b0:43b:94d0:4d8 with SMTP id ffacd0b85a97d-43b94d00535mr2811225f8f.34.1774529493158;
-        Thu, 26 Mar 2026 05:51:33 -0700 (PDT)
+        bh=Y2XCD+evDEDj7+bfxUGa9bK9PncTQN+DcrjsaPrGX6s=;
+        b=lnU2K99HWr3yskoj666yFPHSCsEzHx33mnmUiSG3HfU6oaHtGaQKgs12tOonWSqJzq
+         ijlTR4/v7626c158iEKJWzUI1ztAubYsKs6oBi0f87JRdc7BZeWRyHIbBzxZOZTqCkeF
+         pXbT5YAiEQPpqS1B3IaMFNvFmw/7nNXJx/BjhaZKs6EVE3eBluUaBXOjd/kdNTSwBXKn
+         QQCPjkv8bXGmwzkNPLO8bu3c/RP1hyrYBVeghwdwBMaoO3NGcGt8zFdFYXGgRcvPFNG1
+         V935T0eQlG+FE1MS0yxfR9rZBqW43+bHIRCRM1nn3MNU2BjTSLaEPlcfTDW781OyPnCR
+         GADA==
+X-Gm-Message-State: AOJu0YzMWgeqrFSpK43JOjn4BlZ977/k2WDH0XUCqAZDKoeSjyYOi2x5
+	AZhMGLOTPZk9+ksLVzU/+6PCfikV9JTrbSdwXqUzUWXBIVEwnMJW6ZcA0LDY4w==
+X-Gm-Gg: ATEYQzyboqWfxJNEf3gzIHXpLirhLE8DAtxF90vbGWIO3UgJfe1QR1ibeQ762OtV5zY
+	VVku7XMZW+aioipprAKPFjMUjsXLIjtEyxkl+/5CAblA8GpxtIC1YlB/GQjcAumdUC1yAxTOIlR
+	5re1LisPKzHbQxNUsUAkLeOl3gWzvRWryOAlLSO4Awi0UsQjJk1bY7XRbTuOD9TScZs8rknTwDz
+	k19NDq9men5ioTw1VY9qeNs2bXNIU2jsebBb7bOCihYDiz9/xHaxqE2ju/fcu+wCJvL41KQqmLk
+	rW/v4+ydcnWGCrq8jr/HyauxyJuKxPmA9P/jsvkmtcypx5A38oYPOX0//8ntNgJnmkjELfh75GM
+	EoVKpTAdgRD9V0yBa2fsLBzNEJO+kg0YWfD83X3KSbjp04AtqaaveLiIANHEhh7MTs5q5wtBMl5
+	lSUkL1dI6h9zN6mg==
+X-Received: by 2002:a05:6000:2c08:b0:439:fd13:5c48 with SMTP id ffacd0b85a97d-43b889f5701mr11682620f8f.31.1774529483950;
+        Thu, 26 Mar 2026 05:51:23 -0700 (PDT)
 Received: from term011.lan (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919cf2d3sm7681326f8f.19.2026.03.26.05.51.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919cf2d3sm7681326f8f.19.2026.03.26.05.51.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 05:51:32 -0700 (PDT)
+        Thu, 26 Mar 2026 05:51:23 -0700 (PDT)
 From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Bartosz Golaszewski <brgl@kernel.org>,
@@ -59,9 +59,9 @@ Cc: Bartosz Golaszewski <brgl@kernel.org>,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	Bruce Ashfield <bruce.ashfield@gmail.com>,
 	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH 13/13] libxcb: inherit python3native
-Date: Thu, 26 Mar 2026 13:42:34 +0100
-Message-ID: <20260326125113.1853869-14-zboszor@gmail.com>
+Subject: [PATCH 06/13] clang: Use PYTHON_MAINVERSION for python module versioning
+Date: Thu, 26 Mar 2026 13:42:27 +0100
+Message-ID: <20260326125113.1853869-7-zboszor@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260326125113.1853869-1-zboszor@gmail.com>
 References: <20260326125113.1853869-1-zboszor@gmail.com>
@@ -72,42 +72,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 12:51:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233998
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233990
 
-Instead of open coding, use python3native and xcb-proto-native
-as an extra build dependency.
+Use the new complete main version setting instead of just
+PYTHON_BASEVERSION that does not include PYTHON_ABI.
 
 Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/clang/clang_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb
-index fcd8aad303..ac2fcd4cc8 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb
-@@ -16,19 +16,17 @@ SRC_URI[sha256sum] = "599ebf9996710fea71622e6e184f3a8ad5b43d0e5fa8c4e407123c88a5
+diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
+index e10c327a2a..d5f8aa777f 100644
+--- a/meta/recipes-devtools/clang/clang_git.bb
++++ b/meta/recipes-devtools/clang/clang_git.bb
+@@ -46,7 +46,7 @@ PACKAGECONFIG[lld] = "-DCLANG_DEFAULT_LINKER=lld,,,"
+ PACKAGECONFIG[lto] = "-DLLVM_ENABLE_LTO=Full -DLLVM_BINUTILS_INCDIR=${STAGING_INCDIR},,binutils,"
+ PACKAGECONFIG[thin-lto] = "-DLLVM_ENABLE_LTO=Thin -DLLVM_BINUTILS_INCDIR=${STAGING_INCDIR},,binutils,"
+ PACKAGECONFIG[unwindlib] = "-DCLANG_DEFAULT_UNWINDLIB=libunwind,-DCLANG_DEFAULT_UNWINDLIB=libgcc,,"
+-PACKAGECONFIG[libclang-python] = "-DCLANG_PYTHON_BINDINGS_VERSIONS=${PYTHON_BASEVERSION},,"
++PACKAGECONFIG[libclang-python] = "-DCLANG_PYTHON_BINDINGS_VERSIONS=${PYTHON_MAINVERSION},,"
  
- BBCLASSEXTEND = "native nativesdk"
+ OECMAKE_SOURCEPATH = "${S}/clang"
  
--DEPENDS = "xcb-proto xorgproto libxau libpthread-stubs libxdmcp"
-+DEPENDS = "xcb-proto-native xcb-proto xorgproto libxau libpthread-stubs libxdmcp"
- 
- PACKAGES_DYNAMIC = "^${PN}-.*"
- 
- FILES:${PN} = "${libdir}/libxcb.so.*"
- 
--inherit autotools pkgconfig features_check
-+inherit autotools pkgconfig python3native features_check
- 
- # The libxau and others requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--export PYTHON = "python3"
--
- do_install:append () {
- 	chown root.root ${D}${datadir}/doc/${BPN}/tutorial -R
- }
 -- 
 2.53.0
 
