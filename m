@@ -1,108 +1,92 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C48A7109C038
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 10:29:30 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.44292.1774520968059154903
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF574109C047
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 10:30:50 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44311.1774521047980469003
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 03:29:28 -0700
+ Thu, 26 Mar 2026 03:30:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=h2awnN5u;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8cd90401034so89340085a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 03:29:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774520967; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lf1eLglkTaCXuTi3fs6bp3EFfcsi+BDTuvtBM2QvDLLLfZbTwFT+LTEMEZTuxYNGrd
-         b1iOAJBlMbzSYZRoHPVw/z+zu5xisZWW2oqjU7mF2T3z/I0IDPMc0tzOj6EFpNdZ1O7L
-         l47QUsEPIo6jdYwl/DdGnhGVrfiaGpRI0h6CW6u5fcep3j1MwxfyHRgGdtKY6HAz3xML
-         GQZOq5bXGxMHHnluUC/OJPFMHe7YmY8xBG38YVGj1KMWBicFi79wGBkZy3wrb+AQxTCl
-         REHj/o7NN8V1QfrdhYnXMqpaJDJgbYyXogTA5CdaWqngK4Xl76h3CwCoqjFiahBif8aP
-         BNwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Qfw5axrLsdEctbYqsXNBQiwJdBNJh4AJ72pVrzIjSKc=;
-        fh=zOep9SqjejgQxaETtgyUygOEBCp1Y/U8P8KeUTDWYZs=;
-        b=SJfPAs75p5/DN9CJ1bv+QXUXtzn4SzUFhU0618z4YjpPK+FVmW7EA++boHzHnbIwDf
-         rfWcQQIOse0vJWCXGBA3AoVdp8PKMKuFtgd7u1CyBXFfMSKMY5uFYi2szB+MG1h31Tj2
-         NuES2zO2HjlFG68uNEEdwblIenlntWbcoJttBd2t9nRYKA9xhjSkKaihC4PajcS1+wWg
-         rBF7ilIikrLngYfWVHqzbkC782P+0NfE5LqBdm4lJ9pw9O4cPubCiFKyHIjKNhiJixuA
-         BATG/RA8QRUXW0uZ1UF2s/KsIPVRoHEMr4eyj30Z7fYgWA3z9g+q7T6KGGKsg030PdBO
-         Gn5g==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774520967; x=1775125767; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qfw5axrLsdEctbYqsXNBQiwJdBNJh4AJ72pVrzIjSKc=;
-        b=h2awnN5ucC52zeEujhahtsHzx8bxMpCzNEvqyJmGJ3ZyBnbiMNpRhMY00u7UUUYRhA
-         bXqecWEKdj4hFxrZxcF1Is+3asTFgARPeF4PBLizyKQCU28zda7mFPRVb9So9Gor+FSc
-         HRMOapa4HWkd+cFgmBG1uVfWrALmsQ1UZX28UlZ0T/Ob9Axjauhl3rTihoJ3dR/XOZJ+
-         +N7w1FCtqLzkG7N/v5luWNreMeffyrglaE+RRGPpb5/Yd6sOvdmkgOhhnHtYJ0nNG+GU
-         k71D23tmPuZ9elO4IOavbFmuaBpnnjTBL/230ZZwMN/CB8z6Fbgq/EZj+k0R1rLYQogr
-         NAew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774520967; x=1775125767;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qfw5axrLsdEctbYqsXNBQiwJdBNJh4AJ72pVrzIjSKc=;
-        b=AucLMzsMhLoSgySwHnYljS/bkEAZNcMEV/ZBUW00PtG6RCfK+z+OS+ukwneQ3pqQDp
-         HYAANqqNp0JeI9QQ/EQEmm+rmvQZCbjxLjL+EgigT5J1e+EiQ/qpUD79uJ+7KD7L9uTJ
-         r/+HAe+V1aiUmk6TBFHc/EUhMnR2EDLXOgKnjUDFpEe5yFxsknGidG04TLPtvAFm6iT3
-         cQb+Q5BVoJPEIPnP4NjuuvmWc+CaJm0jr0Xdj7+N0CoZuz0z/S6ERmuhJpyYx3n94sbj
-         ydN6Lr8Wvp8WlJJfQctLH8VsE11F+8I+UzNwSh7clsuyYTdwREJNwCFALreN9L2AlVEx
-         yOiQ==
-X-Gm-Message-State: AOJu0YykqS5uBx+wvEvN7kCvN4NesBY+hXbJbMY+dSrKvvaPZA+VzoEa
-	KgsR379jclPmdDz0xy6V63U6ESs6vZUmh02GvhR4RSORij34EeGm+7ObN8IJL8KrhD/fDgRYpku
-	AFhBTmqhwNy5PkVd/XRexQUD0lz9itDf4Ykgu
-X-Gm-Gg: ATEYQzwdcStVarn5sJ7I6c5VsWZ/CYtJ/h9fkiblP8oPVh3ZGqzfFwUssUsMF9LJI3A
-	yNIzfdxCkSE8c8CqWBqqIl96vnWdbZEor3aknCWtvGpIxe/JaBxzhLAYhUKPkcdoXVEFz4U2toK
-	PLTTCkFsNb7mXYuv9WCxwNn8B/Zyw/KR4yerLn0kdjVlSb61TDGW2AaqjeFCax4gEDmYMJwm1ey
-	lWMezDIw+5tfBaSZ7/QkLH6JaMTjNwm3mnbxIFEBIWaUT/rVI4SMmUTSULzFNzsm3Sb8fXAhVqY
-	QWZKUV/GawWrE5s0DwdZPgFwVIR49NbqAaI5t8kcEQ==
-X-Received: by 2002:a05:620a:4447:b0:8cf:c1c2:904 with SMTP id
- af79cd13be357-8d000ed6168mr978520685a.15.1774520966931; Thu, 26 Mar 2026
- 03:29:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260325022629.2245688-1-hongxu.jia@windriver.com>
- <CANNYZj9i9EFbo79nNPAtzXo03gLeJNC4qW-9Pp9u1UstvQp46g@mail.gmail.com> <065f08e8-e402-4379-8575-60621d4e6c63@windriver.com>
-In-Reply-To: <065f08e8-e402-4379-8575-60621d4e6c63@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 26 Mar 2026 11:29:15 +0100
-X-Gm-Features: AQROBzDCAaUotOsn_HWhFihl83Pybudt-oPv7DN6gUFqQxMOvEUpQBxoRn_U0Qo
-Message-ID: <CANNYZj__ONSLGoJVDEXqes953gaFYH44SbXTNBHXHWDu3CKWQQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-numpy: add cpu-optimization option
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=01iJ6bZa;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=O43aaz61;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019d29b25820-7c47b118-41c7-4904-b842-6d6eb99f709a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1774521047; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=UqBnS2bHv95Mmqv16y6bVhoEwXzV1Cl/izuZ/5tdu4Y=;
+	b=01iJ6bZaaHRVSJCcS7o6HgwTQdDVNQlCOsBr8DAe2uWn8GDCr8rYIizSEzJWvjhP
+	dTmzq0xqzppg5HPmQ52rBFfJvqZRoHXWU6yPqMpx10GwE98/6CgyaD+o9qsN+mYJbDI
+	B6KIXhbdRvYLWzZZrrqmT14UztrfGlwPMEdjRP2M=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1774521047;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=UqBnS2bHv95Mmqv16y6bVhoEwXzV1Cl/izuZ/5tdu4Y=;
+	b=O43aaz61BekVXpZKctwRo6RjrQnUIfnEt+wGuO2MAJnPj21DjAkdn1jLnVEHM+WY
+	D/C9AUBbuaom9kclZyqPk8c0+SdI+3bfw6+tIfOPU+4MP/dUzAWUEiYm0ecouPPdKVN
+	bxvTX0dLTXzoyOUCB+81zGUAm44SHwfDyaiF7TqA=
+From: patchtest@automation.yoctoproject.org
+To: liezhi.yang@windriver.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [meta-openembedded][PATCH 1/2] gtkmm3/gtkmm4: not set BPN
+In-Reply-To: <20260326102150.1059814-2-liezhi.yang@windriver.com>
+References: <20260326102150.1059814-2-liezhi.yang@windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019d29b25820-7c47b118-41c7-4904-b842-6d6eb99f709a-000000@us-west-2.amazonses.com>
+Date: Thu, 26 Mar 2026 10:30:47 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.03.26-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:29:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233967
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:30:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233968
 
-On Thu, 26 Mar 2026 at 11:19, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> > Reading https://numpy.org/doc/stable/reference/simd/build-options.html,
-> > I do not think setting disable_optimization to true by defailt is
-> > correct. Currently, numpy will auto-detect the capabilities of target
-> > machine, and configure itself accordingly. With this change, that auto
-> > detection is compeltely turned off.
-> >
-> > Please explain the rationale for this change.
->
-> In our case, we use `-cpu kvm64' other than `-cpu Skylake-Client
-> -machine q35,i8042=off'
->
-> QB_CPU_KVM:intel-x86-64 = "-cpu kvm64"
+--NextPart
+Content-Type: text/plain
 
-If that cpu doesn't support v3 (or even v2) features, then you should
-not use the default x86-64 tune (that qemux86-64 is using and passing
-to compilers) to enable them.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Alex
+---
+Testing patch /home/patchtest/share/mboxes/meta-openembedded-1-2-gtkmm3-gtkmm4-not-set-BPN.patch
+
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
