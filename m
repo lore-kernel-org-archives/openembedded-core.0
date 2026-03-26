@@ -2,56 +2,56 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1A3C109C05A
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 15:02:53 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50521.1774537373086604870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D7610A1E9B
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 15:03:03 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50523.1774537380093017929
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 08:02:53 -0700
+ Thu, 26 Mar 2026 08:03:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=V/MuuDOD;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso9786845e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 08:02:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=bEPWqIKH;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43b87970468so1076708f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 08:02:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774537371; x=1775142171; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774537378; x=1775142178; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NQNodSn3OfLagBsb2vofHdFo/Kp5RRqFRni3HPcj5Gs=;
-        b=V/MuuDODuSokPsB14QghOVZXp60T3HpY7kgH4XLuiYw7UPSOPJIQNRCgxioLqGY0Zd
-         is56+W86G9Ac11kQFr4rQvYihvyvoEooXDXyRciVYGXgnwMd8Xk8IVMZxV15QKZ4/+Gv
-         /V7WssDAT3rCJ8mOmtJzTZxr/rfjnlMUNco4sm+6lHfp2QUAq+DVkSHkIbTluW89Azi8
-         vP3ulsMEKguQWBuVPjSCtaaMAFIA08w7Kqu/S1HPoTwyDo17fYWIsPNgNUQ5QxJ1TkeW
-         NLKO2l0AdkK3os0XGNsAAItMvWRetkqkciR+xy9DgD9BNuMgtd0aqXPh8djGQHoNGLE4
-         PLbg==
+        bh=nS5Jp2TMkeD0B5BtQqBCjjDMBiLfnRWqu0BlOfA2Umg=;
+        b=bEPWqIKHGPtmluSO4qMkRTfCUPnrJd250FN6tYiEchj2HbUep5o7M9fa73kewK6sAb
+         oWFykCqgaBTaYaIxP2v0eWJpZTgKcevLGOdC+LI2/lDq3HVv7faGw+JxMTof1s0Vf9+9
+         /JI5RrM/Tna92ykmH1tETOEaiJSd6doVPrAoTtMf5WMabtHJMbd2w6AWDKelqxuJo3cr
+         kHqLSSVAnhUrEw4I7sHoxDbAnikfOS5hDJAoBtjrEUSD42higkHKP770QFvZdr7fTlZE
+         nY+CB7mvQn2z2jXWBLE8mX85ARqNppIwSTK+ZsG/UhvpJHWED2iAP09rEGp4dO9cFGtJ
+         7hxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774537371; x=1775142171;
+        d=1e100.net; s=20251104; t=1774537378; x=1775142178;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=NQNodSn3OfLagBsb2vofHdFo/Kp5RRqFRni3HPcj5Gs=;
-        b=sE5Q3HRRfNrt9A8ALXChjTZ7XMRjQFHRY+bESrThan+rO7jP8nuW3zGuQ6KiXXDazc
-         pMi5H+GYBaK1VFWLoR0kNZHCoF7y//oJvZphJ4d34ZtvfkZE4x5XeqMurGRQXttKwNvZ
-         BKAtm4xdpZdujWNbzXFqnA2R+k+tZb5JFUypJaqIyWtOlD3qvrkHKY17Dklp7DXu0l7a
-         iDQPy9cRBlvrmb8XKR9hkzU30tk7IEkxThMmxxmyZ1Yj6fkBb4bUiITBi9vrWuuxQFj9
-         FWSM60XjNvwnO1b6ZcLdGSpcVHgumAyErW4Url87HNjYEmmwuSynM9yFUdnlUvOcmICq
-         knqA==
-X-Gm-Message-State: AOJu0YySBw2PFomZTaesAvPh20Yd2hm2lrCeWoiRo7qlWz2lpo2CyTr0
-	eJ+MPvh7bwxIy6LShUu5bYynZCYQxau0L5ai4g9r/rZP/hQfu05On1EQVUDG2g==
-X-Gm-Gg: ATEYQzyN4JoPPbXO9pw1auC/1ImOxKtzTSjXn9QOh32w0nGcdUtnJpPTKEEFe7in0N7
-	kzcIDWcQiWGLQi36axR1Uy/HGB06kfPC373KtWVWjW4RH5+8f6gOCOOKICgXOCkrHnwvEt7xexT
-	9GLNnfkWAYZX425IC+ONxR7o7B98SQ//FydvCVctx5K4Rihy14ttBPJwzTn0+deXx7sR1cjQ6xp
-	Z/KiH1TUejc+TSXAT0G+3LxoT+8auub4IlHhtWFZ2y6101H52HlKxcte0/lt+LS8sXgVDeu+BKl
-	eUOPnnHH4hKx94kmHjHeQoBRvneSJ/H2V/XfBJpU5HX0Wn4SOgOHu5fu0dDeKUX8k3y+RGrBkB2
-	mufEvz7i8q0aAbmq4geUfMoS/dqSebFE09/rlE8Lg91ELkInWY3yhafwrQWmZahHmEe7MnakIqF
-	gEFYgEuMEG9eND5s28z++ydMUY
-X-Received: by 2002:a05:600c:c490:b0:485:3ff1:d5ed with SMTP id 5b1f17b1804b1-48715fc7437mr118758395e9.1.1774537370894;
-        Thu, 26 Mar 2026 08:02:50 -0700 (PDT)
+        bh=nS5Jp2TMkeD0B5BtQqBCjjDMBiLfnRWqu0BlOfA2Umg=;
+        b=s0kwXWyBCl4oDc1nqtZfJ033PeWAD0Sbc5s4AaA2H2n2fj4xUoW9FnupUa0zcrci0d
+         TDQ1gezF/6hqS8ZUofJBLLujoUGC7nc3GVVGueQDJSggztZdV3rozFiZfGXOYLg8v8DG
+         Z/qeftFJ6iQzmJokyhADDOaXuh304mN8U3/UkAcQEEZ86W6BMSmf5NaW61woVElYqsJ/
+         /1so0qYGPpYFw3Re3e7xBjKtJ1ytHQ3u8qpMGuDXuuu2WyzkWW5VtAPUxsiqOemFfJqY
+         orpfsXTADbldMhXK6aNrfMCqs+fwL3KoSqTOrJ8nT100YF5bcjDWRfhp3PlWCgdQ7+Cy
+         2kqA==
+X-Gm-Message-State: AOJu0YxImJ4dtEHv3BnWp7kVRsG7vSZns9CWOr8Nx+Hiu2CipF5Ipd/q
+	KVn6Gl4nIyTnQcnh/j6yNcDDokTVadpaIKK/ZtgXVBc/N4bU0X5nt4FoPZfv/g==
+X-Gm-Gg: ATEYQzxQAnZnS8x6/FSZUn5XNBgLgKd2rkE6lWRF9jHu+v/Wg9uehx4mp6bptNXl9EF
+	c/XnftjhwqyRZY0b2Nufltf+75nBmeGPxFYKrr5fYrf2FVktxSB9MIOWTg8JjxfAr23ptrSBD7o
+	j4FM34GFFR/z/mCiri0SUPV706NmDdWw+vd/P89LebYh08mhGOnO/btNXF/UFxUOBFjxhxFDMdI
+	niA2ShL4UtemsfTDRcTYKkQ3cI/A4/CVy7w+5Rtd/Vjcx56D1PbNWWrjmp4lD60fXKfFEPEROpe
+	lgr98GXRL6BEq79JHxOZYPVuGTte85rp4xzZZLBOE5iuc8XRNRnKtwLzV3BcS9vYfWzLwiqwWce
+	U0ROo7PKQ4cS+lCWKV69yL47mbXqH1v/ZhiEF1F0VWtvCHn5ne8iv8CcyJ1UihD2ytmyxiA+riH
+	2LTYhGwTfvBMI6DA==
+X-Received: by 2002:a05:6000:611:b0:43b:63df:1330 with SMTP id ffacd0b85a97d-43b88a3d43bmr12305882f8f.20.1774537377432;
+        Thu, 26 Mar 2026 08:02:57 -0700 (PDT)
 Received: from term011.lan (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e352sm9022321f8f.3.2026.03.26.08.02.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e352sm9022321f8f.3.2026.03.26.08.02.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 08:02:41 -0700 (PDT)
+        Thu, 26 Mar 2026 08:02:56 -0700 (PDT)
 From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>,
@@ -59,9 +59,9 @@ Cc: Khem Raj <raj.khem@gmail.com>,
 	Trevor Gamblin <tgamblin@baylibre.com>,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [RFC][PATCH 1/4] xcb-proto: Support Python free-threading
-Date: Thu, 26 Mar 2026 15:35:51 +0100
-Message-ID: <20260326150225.2083962-2-zboszor@gmail.com>
+Subject: [RFC][PATCH 4/4] python3, python3-dir.bbclass: Support Python free-threading
+Date: Thu, 26 Mar 2026 15:35:54 +0100
+Message-ID: <20260326150225.2083962-5-zboszor@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260326150225.2083962-1-zboszor@gmail.com>
 References: <20260326150225.2083962-1-zboszor@gmail.com>
@@ -71,45 +71,56 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 15:02:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234017
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 15:03:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234019
 
-libxcb won't find xcb-proto when Python free-threading is enabled.
+A new DISTRO_FEATURE[_NATIVE] = "python_freethreading" sets
+PYTHON_ABI[_NATIVE]. This enables PACKAGECONFIG[freethreading] for
+python3 and allows building Python modules.
 
-This is caused by two problems:
-* xcb-proto installs its python module into the ABI-less
-  site-packages directory
-* the pythondir= setting in xcb-proto.pc also points to the
-  ABI-less site-packages directory
-
-Move the installed site-packages directory to the correct
-location if needed, and fix xcb-proto.pc.
+Also added PYTHON_MAINVERSION_NATIVE and PYTHON_DIR_NATIVE in
+an anticipation that they may be different.
 
 Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/classes-recipe/python3-dir.bbclass        | 5 ++++-
+ meta/recipes-devtools/python/python3_3.14.3.bb | 6 +++++-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb
-index 2a78a87e77..e6707fdbf8 100644
---- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb
-@@ -19,6 +19,15 @@ SRC_URI[sha256sum] = "2c1bacd2110f4799f74de6ebb714b94cf6f80fb112316b1219480fd225
+diff --git a/meta/classes-recipe/python3-dir.bbclass b/meta/classes-recipe/python3-dir.bbclass
+index f3ad0a2d91..748ef3ec6e 100644
+--- a/meta/classes-recipe/python3-dir.bbclass
++++ b/meta/classes-recipe/python3-dir.bbclass
+@@ -5,8 +5,11 @@
+ #
  
- inherit autotools pkgconfig python3native
+ PYTHON_BASEVERSION = "3.14"
+-PYTHON_ABI = ""
++PYTHON_ABI = "${@bb.utils.contains('DISTRO_FEATURES', 'python_freethreading', 't', '', d)}"
++PYTHON_ABI_NATIVE = "${@bb.utils.contains('DISTRO_FEATURES_NATIVE', 'python_freethreading', 't', '', d)}"
+ PYTHON_MAINVERSION = "${PYTHON_BASEVERSION}${PYTHON_ABI}"
++PYTHON_MAINVERSION_NATIVE = "${PYTHON_BASEVERSION}${PYTHON_ABI_NATIVE}"
+ PYTHON_DIR = "python${PYTHON_MAINVERSION}"
++PYTHON_DIR_NATIVE = "python${PYTHON_MAINVERSION_NATIVE}"
+ PYTHON_PN = "python3"
+ PYTHON_SITEPACKAGES_DIR = "${libdir}/${PYTHON_DIR}/site-packages"
+diff --git a/meta/recipes-devtools/python/python3_3.14.3.bb b/meta/recipes-devtools/python/python3_3.14.3.bb
+index 12d1223d4c..f62ed5f0e2 100644
+--- a/meta/recipes-devtools/python/python3_3.14.3.bb
++++ b/meta/recipes-devtools/python/python3_3.14.3.bb
+@@ -109,7 +109,11 @@ CACHED_CONFIGUREVARS:append:libc-musl = "\
+ "
  
-+do_install:append () {
-+    # Patch pythondir site-packages
-+    sed -i 's:}/.*/site-packages:}/${PYTHON_DIR}/site-packages:' ${D}${libdir}/pkgconfig/xcb-proto.pc
-+
-+    if [ ! -d ${D}${libdir}/${PYTHON_DIR} ]; then
-+        mv ${D}${libdir}/python${PYTHON_BASEVERSION} ${D}${libdir}/${PYTHON_DIR}
-+    fi
-+}
-+
- PACKAGES += "python-xcbgen"
+ # PGO currently causes builds to not be reproducible so disable by default, see YOCTO #13407
+-PACKAGECONFIG ??= "editline gdbm ${@bb.utils.filter('DISTRO_FEATURES', 'lto', d)}"
++# For freethreading, see the comment below.
++PACKAGECONFIG ??= "editline gdbm \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'lto', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'python_freethreading', 'freethreading', '', d)} \
++"
  
- FILES:${PN} = ""
+ # Some LLVM/CLANG subprojects (e.g. lldb) and many Python modules
+ # do not build when free-threading is enabled. Also, the support
 -- 
 2.53.0
 
