@@ -1,107 +1,118 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3DD10AB80C
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 19:12:17 +0000 (UTC)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55953.1774552330219706596
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E925B10AB810
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 19:47:09 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.57550.1774554428289891048
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 12:12:10 -0700
+ Thu, 26 Mar 2026 12:47:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=HBkrum9X;
- spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7d7e9b97a73so1432905a34.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 12:12:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774552329; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZZKZBfLVUGbSVwjeqdujCAdKc7v55ohR+NG+5dVNDhfxg5TouIMohgcZxvPXZ3EN3G
-         ZepcAdSxEfrVZrX4mjSOAfRsePxOC5c6hDZVzgh2DOJ2SUCu7BUN5n+KSo28OX6CrjJg
-         p7TmlBo8HkaJxbJSaQI1lfoxp3lkaUPOGeh70gm/FPbBPktYlOctZ2rRiF9jEqjwGyo0
-         Qp33RfLHNzWm5wMJ5GaL/wlBMB2wVaGEm9SZCg9G7SDr2PUYgOtj2m+NUKMF0ymG6xY2
-         rAuFQTs3E6N7WWqkvAF+GDH1aSJwYDnXshjB1hmsyeHM/X9BqudIXXorLHVVIaLl3TcL
-         H1Ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IZNum1IZEWPLShjYbEyG36N9uvcfIQpB3ZN+DTuYZDM=;
-        fh=toEqJZwqRVBtWFdjvbnHcK/jgjDz0NeahqiJS/bEzeo=;
-        b=Lnf1rSgyyruXiqwHvt6+Zi47TM2TuWpoWQnF/637X8LSiW+E8PJMh1ONA8poe4WzqI
-         //CEXZZWwc7gAPGHUengBt5eyUwlRyd7El2MMsrv2PL1FwQwrf2OiEhF5POKlhYudMW2
-         gCk1bMmiqpNBUAJCz3YRGfTFV1dA2HKCWiNjdZICQvYptl3ZgSys956YC4Xl0udXEvyj
-         vPZR3BsJGWfmlpXgXstcxjWXUojQGDR3WbN7bLW5rOr00AfKHHdmffxg2lulxhkgL4Rx
-         GucKu3GMVLoiRzX4VKAmvJo4ww1YQzs9SdldgonD4LGDsBdfbQubORYjneFFBkOgEg+5
-         w4hw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774552329; x=1775157129; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IZNum1IZEWPLShjYbEyG36N9uvcfIQpB3ZN+DTuYZDM=;
-        b=HBkrum9XzTwoAk9Oqc6sbQFykZs7V1p0JyqpnIfG/1KKUXLmPDA1pat0dEB4Uxeuzb
-         QvKkqyYmPUqaJ/zPR80apUd8Q/0k9rY/Dd1MgFWDB1q1qx7C8RBlGW0acDbgWSgSrfbF
-         I1aB8loZ/4BHPhnSS5Lx2uUy+OZ1/JEHN4UKMzAHWu6kPCSrMiF9mSSQ5zLMs/iE0te6
-         DOIOLkMrGS4lPuzglBJukYsaRQ7XcnGLBIQVBs3vkQ3pYEYNWQAEckv/hRZiITKSvot3
-         gfbTBt2mjkwf4fEvn40TGL/A2V/HpGrgpWR6Ml0rebQd5egrinXO6t/2TtAzwRRKrmO/
-         tsAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774552329; x=1775157129;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IZNum1IZEWPLShjYbEyG36N9uvcfIQpB3ZN+DTuYZDM=;
-        b=jDt2ct1ttdV06YM8Yvz3C5/RRkysvInHMtp3sePy5BmoZyDFG0Fn/MbtvI3iXH4chA
-         Or7OPoFEmhtX++6EkezO5wz4iDO5ISxy1AUk54ycrpyqH+08tR1o/A6+QCRJLgraR8vu
-         T0EahdrI/kAtnBr9zWefLk6UUURAf4Ts2Np7nV9sy85Azwgg+wSuDSktgVg++WDg1XmH
-         nQ1rOsw+t+sAMXyH8YaKfMzY2SIJgMdKcccPVNuOyEyEOs+M3MIJMU0D8/SNXw+Nr7ul
-         LhuMniIWJ3i8Cm532HMUY3nxhqCc32PquSWdO1a/OFXHVFeYyJqb7SFtPkwrep85DNob
-         hIxA==
-X-Gm-Message-State: AOJu0Ywsx/gHM2jiVuJ4CzSaqtrCd5WgozNvoCNTUfRXu+5KfM7pTc7a
-	tONgk3DEwSarzRsStqSOeQgRDXDjbbemU0LPYq0G85N6AGUXKN2gI8cAc/oK7EZSOVVizzgSfup
-	iPTtg/HJ1BBhVW8FfqDLU8gWWt5Pw4h8=
-X-Gm-Gg: ATEYQzywHxKD0IN8cfl3nP3/T458Hzxg4/w4+6Fsir6SQu37RIrrtHjfYUxIP3z+mm7
-	r2h4dRydAIpw9JEvauhhTkmFfl4fIXXXIb578/2OpLKRxn6w9ErxQvSzLsQk92IMDEF5q5T0MWQ
-	i7aMtJk2ykbhHY0Lso0/wpIWEwHkdnVLsy+cSoIbi9c1mxiX7a1LQDcGrGOEZUxd6wbMIRkenTO
-	mN5oueNRpZbjIkurHUChkt51WNPiAlXYcHNZ8jtObQi4uu937WjyAIw3oDkFqVLL1/glp0FIr49
-	v58oFsdm
-X-Received: by 2002:a05:6820:a288:20b0:67e:154e:c055 with SMTP id
- 006d021491bc7-67e154ec501mr397296eaf.1.1774552329439; Thu, 26 Mar 2026
- 12:12:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260326105453.1799455-1-ankur.tyagi85@gmail.com> <CANNYZj9eMOVW12_nz5h9ri7NbUx=hpEH_ecQkisFX9v4ES-fiQ@mail.gmail.com>
-In-Reply-To: <CANNYZj9eMOVW12_nz5h9ri7NbUx=hpEH_ecQkisFX9v4ES-fiQ@mail.gmail.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Fri, 27 Mar 2026 08:11:57 +1300
-X-Gm-Features: AQROBzDjMZEGxmjpcHn0QxBqvo6XWtzHf3Lpa7OScIVpQFBe7EUX3ExkNFXWpJc
-Message-ID: <CADySD0GR5fdqg5jk2K0hauOTe4q3JcesguiBYATM3XSnSzHZyg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] vte: upgrade 0.82.2 -> 0.84.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=NUezJ1f9;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 5786E1A300F
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 19:47:06 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 23A4E601FA;
+	Thu, 26 Mar 2026 19:47:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A8A7510450D90;
+	Thu, 26 Mar 2026 20:47:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1774554425; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=nrfYXcB3620A1j9ohiOtvgcYNHV+RJTy5Ed4SFLAmYE=;
+	b=NUezJ1f9L7iFnsZTIpx17V0iNvsYMKqgeE3i+GOH+Kq+rU9TChqMJbq3t5R2wRqUftMX0v
+	R5NWYBKveq4Ac34PrTCdy0q25zGDkcaHEcQpFN2x8Olm9Rc3VHwkYJZm2lyV+2/H65X3H7
+	M7tWaRK8wtZ+QYmBa93TRDI9auiCgH/7s1QvD6J0hMyorn9rYfsnTm74ynlbaIwuhy6cZ/
+	GvVjKuQhG+AUt7dwIS8rrN2UAuCK889kMyx/XL1VILQ6wYKapo6K7fC6Mjhff6d+M0D9/k
+	g+E5lnPlljblXnn7lexPubhbccf3+vuZ77iZJ6C0iRULbgKH0l88Z3DEaaDIIg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Mar 2026 20:47:03 +0100
+Message-Id: <DHCZ1JWF0Z8D.20KQY5K4UV33I@bootlin.com>
+Subject: Re: [OE-core] [PATCH v3 1/7] clang/llvm: Upgrade to 22.x major
+ release
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260326151641.3974221-1-khem.raj@oss.qualcomm.com>
+In-Reply-To: <20260326151641.3974221-1-khem.raj@oss.qualcomm.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 19:12:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234045
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 19:47:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234046
 
-On Fri, Mar 27, 2026 at 1:50=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+On Thu Mar 26, 2026 at 4:16 PM CET, Khem Raj via lists.openembedded.org wro=
+te:
+> From: Khem Raj <raj.khem@gmail.com>
 >
-> On Thu, 26 Mar 2026 at 11:55, Ankur Tyagi via lists.openembedded.org
-> <ankur.tyagi85=3Dgmail.com@lists.openembedded.org> wrote:
+> Includes support for new Intel (Wildcat Lake, Nova Lake with APX and AVX1=
+0.2)
+> Arm (C1 Nano, Pro, Premium, Ultra) processors. It also features performan=
+ce
+> optimizations for AMD Zen 4 and Zen 5 architectures.
 >
-> >  SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.p=
-atch \
-> > -            file://0001-support-reproducibility-for-debug-sources.patc=
-h;patchdir=3D./subprojects/simdutf \
+> Integrated Distributed ThinLTO is more mature, with enhancements
+> like cache support for incremental builds and robust handling of temporar=
+y artifacts.
 >
-> The patch file needs to be removed as well.
+> LLDB added first-class WebAssembly debugging support, including breakpoin=
+ts and variable inspection.
+>
+> Support for Google Native Client (NaCl) is dropped in this release.
+>
+> Detailed ChangeLog [1]
+>
+> [1] https://releases.llvm.org/22.1.0/docs/ReleaseNotes.html
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
 
-Thanks, sent v2.
+Hi Khem,
 
->
-> Alex
+Thanks for the new version.
+
+I have to ask you: I'm having issues to apply this patch, and I already
+had issues with the previous one. Are you aware of this?
+
+Applying: clang/llvm: Upgrade to 22.x major release
+error: patch failed: meta/recipes-devtools/clang/clang/0001-Install-lldb-tb=
+lgen.patch:1
+error: meta/recipes-devtools/clang/clang/0001-Install-lldb-tblgen.patch: pa=
+tch does not apply
+error: patch failed: meta/recipes-devtools/clang/clang/0001-clang-Support-b=
+uilding-native-tools-when-cross-compi.patch:1
+error: meta/recipes-devtools/clang/clang/0001-clang-Support-building-native=
+-tools-when-cross-compi.patch: patch does not apply
+error: patch failed: meta/recipes-devtools/clang/clang/0001-libcxxabi-Find-=
+libunwind-headers-when-LIBCXXABI_LIBU.patch:18
+error: meta/recipes-devtools/clang/clang/0001-libcxxabi-Find-libunwind-head=
+ers-when-LIBCXXABI_LIBU.patch: patch does not apply
+error: patch failed: meta/recipes-devtools/clang/clang/0003-compiler-rt-Sim=
+plify-cross-compilation.-Don-t-use-na.patch:21
+error: meta/recipes-devtools/clang/clang/0003-compiler-rt-Simplify-cross-co=
+mpilation.-Don-t-use-na.patch: patch does not apply
+error: patch failed: meta/recipes-devtools/clang/clang/0005-llvm-allow-env-=
+override-of-exe-and-libdir-path.patch:19
+error: meta/recipes-devtools/clang/clang/0005-llvm-allow-env-override-of-ex=
+e-and-libdir-path.patch: patch does not apply
+...
+
+I had to hand apply part of the previous series. For this one I used:
+git cherry-pick -s contrib/yoe/mut~7..contrib/yoe/mut
+I believe this should be correct.
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
