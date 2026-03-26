@@ -1,300 +1,290 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6CE109E557
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 05:41:19 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.41761.1774503673235745442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57C46106F2E3
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 07:50:10 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43032.1774511407250209205
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2026 22:41:13 -0700
+ Thu, 26 Mar 2026 00:50:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Gv+65Y8d;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486fba7ce4cso5431105e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2026 22:41:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=2dDamz0K;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486fb439299so5797845e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 00:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774503672; x=1775108472; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6WVXGEyYgPJvZPzrpV14vmtPK36pwD3q421vudveuNs=;
-        b=Gv+65Y8dr6bH8DzvdRMfIhbIbPELS/5l+PVCuqGbellxYLMCQBBdDFf+0QagA/794O
-         YRDZ4WvZiHzdfVOjI2oI0nM3kzFqpo1KS7m5Ergfo955A9jIFI2f8wyUHWBxCdq5TGUH
-         lr+OCSZB5yRk5w3MRh4V8Q/+qS0h+PsBta5Znm7lGm4eHQpCyVMfTTycB75Jn1Cvoing
-         B4Kg5ybezkdGozkrSATKUuCzI2MTrTtKVgLH89PEHWusdYUl10jRSZ3sEm3Qn6vyotCP
-         W8gPqoxP+FqL7SGde/TPo2EtCdXfpsd9Ar+8gF+1C4dTZrGinTUEwhTS5HRXeJvr3+m8
-         suDw==
+        d=smile.fr; s=google; t=1774511406; x=1775116206; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LlOx45cd77UBVBj+ARoPBaK5KizairlJFXO1w2CFcLE=;
+        b=2dDamz0KLuBFQ3NqkQN9M25MkfUFJ5MfGhNAsA8ALte6yGex/7BXUA+9uj9jeyM3X3
+         PUxyven677O0GGDAMPTrGU//Dv0W0DcvfIFW0QpAbXBjFhKPLw3oTcvXhYIDi3nZAQ++
+         XzxTBB15eAJvl9i4TnsximJGyLJ0BpeXGWZa8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774503672; x=1775108472;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6WVXGEyYgPJvZPzrpV14vmtPK36pwD3q421vudveuNs=;
-        b=GY7Ki9VDG18shgWjIRrEyZGoK35cYmPv8Dc77ydPiwd8cT1pWRa5icE2NU3wH/rvYg
-         Cw87UAk40jk0NtUVPizZCYeKAx0w6tptdXbKYmPpqlIHRDAzuPuDRv+5DWZekrU52e+A
-         N9Sn2etS7F0c6E4x5pgBdS6Si084+aAMOYMHXdcLC6dLz8x3ezE+9RR8X8jP/zYKbXMX
-         giM+tSVdvmhofDSRlNyB8AQ5NQMmzyMdh6D3nEb1jH7hGkRnZTpfLlfXWDApp+itOWSY
-         jSWV00oDDJ0CO3cx4oq3dtqLBr/gu+31JBdh4dJrCfGZhP7j3O1AzOcoMp3BWBoknnmJ
-         MSUA==
-X-Gm-Message-State: AOJu0YzJ1wE4QisXNpkASLmkU1qYkwojXRVXkgR5a3ZlpkrSliefJa71
-	dK7TtAJh7BFPgI8ZwOAtQFteP+GXP2tj+1OVFrb6Bk0FPmHx+weZnsMg
-X-Gm-Gg: ATEYQzzI/eiwZYTKqoafr02O4SD7XckmrhwAeqx95uoyDnEU4uFhR85CZnxUWy28rzd
-	GYeZODgjGThQHXKvZcjDYW6SHnRZz/vBvocoFXYWMtjYk52FAujovHzzqcFJLe40mPCbVrDPTK0
-	kpgafvoWTwOy0GXtD0ZDahgg85nkJSf2ZJulGcAxVk3gk+UGdqnTX0QFIj8N/VZPAs7Knf7ag+r
-	hteb5/tqq8rPgphVadzS10EeaQ+9+bSCQBwzY96HjtzosLgYmwMwhfLcLIKl6qXM8Ykq2De/S+z
-	UqecC7ZQKEwrWOQNq4YJbfFr0/qkbv7B9juB/sTxa7XhBmpmmz1hT8AYv+BMLSr3Iiph4reVrEH
-	lq1Vf099X4JfhODW26nHV+6uSDB1Iq/BDnVniXComeNaXEo4DLn3vcEtdOp/IXm4fhxgIjEXuha
-	ntzXZWDtsTHAzyOjAFUwyhqixbePoLFXk/Ra97WJh79nhGa8TWNQaULOEVWdsw3b2tZA==
-X-Received: by 2002:a05:600c:1715:b0:485:3f30:6250 with SMTP id 5b1f17b1804b1-4871a895b4emr37581925e9.20.1774503671455;
-        Wed, 25 Mar 2026 22:41:11 -0700 (PDT)
-Received: from [192.168.2.122] (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c6b4d0sm8194515e9.3.2026.03.25.22.41.10
+        d=1e100.net; s=20251104; t=1774511406; x=1775116206;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LlOx45cd77UBVBj+ARoPBaK5KizairlJFXO1w2CFcLE=;
+        b=gVUcE5+YV+NexFM845fdnxFzAuQ0WQfbBJb3KkprgoSdeRxQLPPa6WfPVKaGcsNjlS
+         4cdm7XMB8C5poc5WNEVaalQps7IOrpOW66h73epOdbrr7/NempZo5v3LT73Kg64Ct99t
+         eWfdsvGBmG2mi6T7ixHwX4/qwuh03T0UUlyIiBQ+Qxz2dAjKSovKah81sLUP65cbP0DK
+         9N3DsIMu8vOC1QUXqFbztX4GRejkcukAlmtzuzlntz0R9o8ACvofMO1RHVqgeGV2rUMt
+         KkNOEd7qXPDRpgnvyWPha7rZFk+Ch8W7d7dFibNZnhLFFuk0oVk5znXhJbihv0D1WLnA
+         AG3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXzzKb+k4gfa8OwoH5vOI5tVYvP0F456l9S5mPcjQV4xltAsEJqJHAI3hLOW7cvsid/rn7cPtAuL8VCaXu3A3P8Cw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyBsx7qNPQeN96gWysk8lXJaQBO47ih9SbFRBsHhjNag1OD2l06
+	Pd9AmoSF6pdlI9+VJ8XfSLoj+6q17NMJg35lmIhF3E9MkDqOb1HRQA5KhwsxiSG+oWM=
+X-Gm-Gg: ATEYQzzE+TEwqax+4f9FvkPCZLqNmIsAVI4jqANd4vdBejzyHgE85zjt08tOPAAnWP5
+	aLW0BtnusTClYwenA1oM7HMHVZgJxKiXTBDeuilwvNHzCh7eILRAwRG+TemhjyRyJrcsEfPt4Vv
+	CiHloFK6SQyKIGCyJd9wsrZIyYkrH/KivEhE6Dh2Q/gAYHgisrXvWnqMXPVVLGKzEjCKkCnT8GJ
+	fjdc+48esiu4E6rpwdfjinMySmraHEZKIY7sdqtKfk4hChFL7cpU9/0ckq+9zo4+db6QUFLKpZg
+	Lf0jx31sIHDvfwSBNbHNVVsuGaT61s9VKBGyhoLtnrLY6gDqZPXISwXXMKYe8zu8QlzAfic07Hf
+	egEMcxtKK+4Bo9OkuWq3AQ1/I6vhDVZd/unU+sr1Xsx+K0GiuZhJJJbPPdGV1VvBusUuH9EIn02
+	O+bNr/Wh2VNWy8LWXPU6tYsaWcH/3qwk6uPL6lwsrhut/GxwxSBMpLU2oBLS2hL+n82AtB/e+A1
+	2ugEWqjiihoAg==
+X-Received: by 2002:a05:600c:8707:b0:486:f8d6:5dea with SMTP id 5b1f17b1804b1-48716046e04mr104226165e9.19.1774511405472;
+        Thu, 26 Mar 2026 00:50:05 -0700 (PDT)
+Received: from localhost (2a02-8440-2604-524d-4245-6912-4f2b-5145.rev.sfr.net. [2a02:8440:2604:524d:4245:6912:4f2b:5145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722d38a5fsm12364255e9.12.2026.03.26.00.50.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 22:41:10 -0700 (PDT)
-Message-ID: <3bf2c312-1d58-4ef5-acbf-72735ddf9e09@gmail.com>
-Date: Thu, 26 Mar 2026 06:41:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC][PATCH 00/14] Support Python freethreading
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Bartosz Golaszewski <brgl@kernel.org>, Trevor Gamblin
- <tgamblin@baylibre.com>, Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20260325113112.1163632-1-zboszor@gmail.com>
- <CADkTA4OXFgvu2rsU8XTHQrDMj+6SUj1M5GG+9hzdtK3htHvzqw@mail.gmail.com>
- <5bc1065a-005c-4219-bc69-e191e6be3f78@gmail.com>
- <CADkTA4MOXYq1xQaGgGnREmgQUTQaEDTskv1aWRyM9zqiXxAuJA@mail.gmail.com>
- <2646923f-34d6-4cb5-9e9a-ac8ec789c359@gmail.com>
- <CADkTA4P-Zz-uNyth-y1Zjaq0Y3O+Pk8qTM650_2QkL2ZCDEQBQ@mail.gmail.com>
- <18A04D0ADBD32036.57592@lists.openembedded.org>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <18A04D0ADBD32036.57592@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Thu, 26 Mar 2026 00:50:05 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Mar 2026 08:50:04 +0100
+Message-Id: <DHCJSL7RSNAM.1749P0YEYG30D@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH 1/2][PATCH] curl: fix CVE-2026-3783
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <sudumbha@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260326044809.2004530-4-sudumbha@cisco.com>
+In-Reply-To: <20260326044809.2004530-4-sudumbha@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 05:41:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233952
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 07:50:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233953
 
-2026. 03. 26. 6:29 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
-> 2026. 03. 25. 15:17 keltezéssel, Bruce Ashfield írta:
->>
->>
->> On Wed, Mar 25, 2026 at 9:51 AM Böszörményi Zoltán <zboszor@gmail.com> wrote:
->>
->>     2026. 03. 25. 14:17 keltezéssel, Bruce Ashfield írta:
->>     >
->>     >
->>     > On Wed, Mar 25, 2026 at 9:13 AM Böszörményi Zoltán <zboszor@gmail.com> wrote:
->>     >
->>     >     2026. 03. 25. 14:01 keltezéssel, Bruce Ashfield írta:
->>     >     >
->>     >     >
->>     >     > On Wed, Mar 25, 2026 at 7:31 AM Zoltan Boszormenyi via
->>     lists.openembedded.org <http://lists.openembedded.org>
->>     >     <http://lists.openembedded.org>
->>     >     > <http://lists.openembedded.org> <zboszor=gmail.com@lists.openembedded.org>
->>     wrote:
->>     >     >
->>     >     >     This patchset allows turning on Python freethreading by using
->>     >     >     a new DISTRO_FEATURES setting:
->>     >     >
->>     >     >     DISTRO_FEATURES += "python_freethreading"
->>     >     >
->>     >     >     and optionally:
->>     >     >
->>     >     >     DISTRO_FEATURES_NATIVE += "python_freethreading"
->>     >     >
->>     >     >     The change to python3-dir.bbclass is crucial, as all python module
->>     >     >     build helper classes rely on it.
->>     >     >
->>     >     >     I also added native variants of some settings because another
->>     >     >     series against meta-openembedded is needed to complete this one.
->>     >     >     In that, the change to the fontforge recipe relies on the native
->>     >     >     setting for setting BUILD_LDFLAGS.
->>     >     >
->>     >     >
->>     >     > Looking at those other patches in the series, they don't seem to
->>     >     > be conditional on the distro feature.
->>     >     >
->>     >     > Are those changes valid for a build with and without freethreading ?
->>     >
->>     >     Yes!
->>     >
->>     >     The main change is in python3-dir.bbclass, and the recipe tweaks
->>     >     are just adaptations to the fact that only ${PYTHON_DIR} is needed,
->>     >     not ${PYTHON_DIR}${PYTHON_ABI} from that point.
->>     >
->>     >     I was thinking that the introductory mail stressed this enough.
->>     >
->>     >
->>     > Obviously not :)
->>
->>     Obviously. :)
->>
->>     > I didn't get that impression at all from reading the introductory
->>     > message or looking at the patches themselves.
->>     >
->>     > You have the overview knowledge of the feature, why it is
->>     > useful, how it impacts existing recipes, how the migration would
->>     > work, what is the compatibility, etc.
->>
->>     I think the Python 3.14 release notes has enough details.
->>     See also https://www.phoronix.com/news/Python-3.14
->>
->>
->> The information needs to be distilled into your commit, not left
->> to the patch reader to go off and read release notes. That's the
->> point I'm trying to make.
->>
->>
->>
->>     With the two series I sent, only a single recipe is left (cmpi-bindings)
->>     in openembedded-core and meta-openembedded that uses
->>     the PYTHON_ABI setting explicitly.
->>
->>     Migration (of python scripts) should not be a problem.
->>     If it worked with 3.14 as is, it works with freethreading enabled.
->>
->>     Compatibility is poor for a lot of modules, that clearly spell this out
->>     in their pyproject.toml or PKG-INFO:
->>
->>          "Programming Language :: Python :: Free Threading :: 1 - Unstable"
->>
->>     or something not quite production level support.
->>     It's still experimental for 3rd party modules, despite being officially
->>     supported for the interpreter and built-in modules in 3.14.
->>
->>     This is the reason this was an RFC series.
->>
->>     Anyway, the reason I was experimenting with this was that
->>     with heavily threaded python code, an import storm can cause
->>     a crash in 3.12.11 or the manually updated 3.13.12 in Yocto 5.3 in
->>     importlib._bootstrap according to the backtrace.
->>
->>     I would like to see if Python 3.14 (with and without freethreading)
->>     fixes such crashes.
->>
->>
->> Definitely worth putting in the RFC as well, the motivation for
->> the change matters!
->>
->>
->>     > The patch reader doesn't, so that all needs to be clearly
->>     > supplied.
->>
->>     Maybe next time for v2 after I have a complete image
->>     successfully built with freethreading enabled.
->>
+On Thu Mar 26, 2026 at 5:48 AM CET, Sudhir Dumbhare -X (sudumbha - E INFOCH=
+IPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Sudhir Dumbhare <sudumbha@cisco.com>
 >
-> No such luck.
+> This patch applies the upstream fix [1] as referenced in [2]
+> which is mentioned in [3]:
 >
-> lldb in clang won't build because its swig source wants to play games
-> with PyObject->ob_refcnt directly instead of using the proper macros.
-> That struct member does not exist when freethreading is enabled.
-> In fact, the whole struct _object (the PyObject implementation)
-> is different when freethreading is enabled.
+> [1] https://github.com/curl/curl/commit/e3d7401a32a46516c9e5ee877e613e62e=
+d35bddc
+> [2] https://curl.se/docs/CVE-2026-3783.html
+> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-3783
 >
-> The llvm sources, even in the newly released 22.x and main
-> do not have any reference to the Py_GIL_DISABLED macro,
-> so as a whole, it does not support Python freethreading.
->
-> I can revisit this series a few year later when llvm adds the
-> necessary support, which can be backported to older clang
-> versions in my meta-clang-revival.
->
-> This concludes my little experiment.
->
-> That being said, I think the cleanup in the recipes is a good direction.
-> PYTHON_DIR should include PYTHON_ABI in python3-dir.bbclass
-> because build helper classes rely on it. Then PYTHON_DIR must be
-> used consistently in recipes that need it, even if PYTHON_ABI stays empty.
+> Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+> ---
 
-Which means I can re-send the whole series as a cleanup
-or preparation series without the DISTRO_FEATURES enablement
-part in python3-dir.bbclass.
+Hello,
 
-That one can stay RFC as a standalone patch, separate from
-the cleanup series.
+Sending a patch with "[PATCH 1/2]" means this is a first patch of a
+series of 2. I can't find the 2/2. Is it missing or the numbering of
+your 3 recent curl patches was somehow buggy?
 
-I will re-test my build without enabling freethreading
-before I would do that.
+Regards,
 
+>  .../curl/curl/CVE-2026-3783.patch             | 159 ++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+>  2 files changed, 160 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3783.patch
 >
->>
->> Ack'd
->>
->> Bruce
->>
->>
->>     >
->>     > Bruce
->>     >
->>     >
->>     >
->>     >     FWIW, less than 30 recipes was spelling the latter out in
->>     >     openembedded-core and meta-openembedded combined.
->>     >
->>     >     > That's the type of information, along with the benefits of enabling
->>     >     > this would be information expected in a 0/N introductory patch.
->>     >     >
->>     >     > Cheers,
->>     >     >
->>     >     > Bruce
->>     >     >
->>     >     >
->>     >     >     All of the changes included here were successfully build tested,
->>     >     >     except for the gdb-cross-canadian change. That one failed, but
->>     >     >     it's included for completeness.
->>     >     >
->>     >     >     Quite a few of python modules were build tested for native and
->>     >     >     target builds, including python3-pytorch from my meta-python-ai
->>     >     >     with reduced RDEPENDS because e.g. python3-onnx there failed
->>     >     >     to build with freethreading enabled.
->>     >     >
->>     >     >     All in all, this series at least allows to get things going.
->>     >     >     Though maybe not for Yocto 6.0, as it's quite late.
->>     >     >
->>     >     >     Best regards,
->>     >     >     Zoltán Böszörményi
->>     >     >
->>     >     >
->>     >     >
->>     >     >
->>     >     >
->>     >     > --
->>     >     > - Thou shalt not follow the NULL pointer, for chaos and madness await thee
->>     at its end
->>     >     > - "Use the force Harry" - Gandalf, Star Trek II
->>     >     >
->>     >
->>     >
->>     >
->>     > --
->>     > - Thou shalt not follow the NULL pointer, for chaos and madness await thee at its 
->> end
->>     > - "Use the force Harry" - Gandalf, Star Trek II
->>     >
->>
->>
->>
->> -- 
->> - Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
->>
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#233951): https://lists.openembedded.org/g/openembedded-core/message/233951
-> Mute This Topic: https://lists.openembedded.org/mt/118499141/3617728
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-3783.patch b/meta/re=
+cipes-support/curl/curl/CVE-2026-3783.patch
+> new file mode 100644
+> index 0000000000..02c2d51eb6
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-3783.patch
+> @@ -0,0 +1,159 @@
+> +From 11c36846187d96ef72abc6aeb5784c002cb212fe Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Fri, 6 Mar 2026 23:13:07 +0100
+> +Subject: [PATCH] http: only send bearer if auth is allowed
+> +
+> +Verify with test 2006
+> +
+> +Closes #20843
+> +
+> +CVE: CVE-2026-3783
+> +Upstream-Status: Backport [https://github.com/curl/curl/commit/e3d7401a3=
+2a46516c9e5ee877e613e62ed35bddc]
+> +
+> +Backport Changes:
+> +- in tests/data/Makefile.inc: added test2006 to TESTCASES, adjusted for
+> +  this version.
+> +  The TESTCASES in tests/data/Makefile.am was introduced curl-8_10_0 by
+> +  this commit;
+> +  https://github.com/curl/curl/commit/f5b826532f2c564ef240df0ba2f3287d52=
+1df711
+> +
+> +(cherry picked from commit e3d7401a32a46516c9e5ee877e613e62ed35bddc)
+> +Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+> +---
+> + lib/http.c              |  1 +
+> + tests/data/Makefile.inc |  2 +-
+> + tests/data/test2006     | 98 +++++++++++++++++++++++++++++++++++++++++
+> + 3 files changed, 100 insertions(+), 1 deletion(-)
+> + create mode 100644 tests/data/test2006
+> +
+> +diff --git a/lib/http.c b/lib/http.c
+> +index a764d3c440..3ab6d21b0f 100644
+> +--- a/lib/http.c
+> ++++ b/lib/http.c
+> +@@ -673,6 +673,7 @@ output_auth_headers(struct Curl_easy *data,
+> +   if(authstatus->picked =3D=3D CURLAUTH_BEARER) {
+> +     /* Bearer */
+> +     if((!proxy && data->set.str[STRING_BEARER] &&
+> ++       Curl_auth_allowed_to_host(data) &&
+> +         !Curl_checkheaders(data, STRCONST("Authorization")))) {
+> +       auth =3D "Bearer";
+> +       result =3D http_output_bearer(data);
+> +diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
+> +index 4c2cd52999..9fb92742ee 100644
+> +--- a/tests/data/Makefile.inc
+> ++++ b/tests/data/Makefile.inc
+> +@@ -230,7 +230,7 @@ test1941 test1942 test1943 test1944 test1945 test194=
+6 test1947 test1948 \
+> + test1955 test1956 test1957 test1958 test1959 test1960 test1964 \
+> + test1970 test1971 test1972 test1973 test1974 test1975 \
+> + \
+> +-test2000 test2001 test2002 test2003 test2004 test2005 \
+> ++test2000 test2001 test2002 test2003 test2004 test2005 test2006 \
+> + \
+> +                                                                test2023=
+ \
+> + test2024 test2025 test2026 test2027 test2028 test2029 test2030 test2031=
+ \
+> +diff --git a/tests/data/test2006 b/tests/data/test2006
+> +new file mode 100644
+> +index 0000000000..200d30a7ce
+> +--- /dev/null
+> ++++ b/tests/data/test2006
+> +@@ -0,0 +1,98 @@
+> ++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
+> ++<testcase>
+> ++<info>
+> ++<keywords>
+> ++netrc
+> ++HTTP
+> ++</keywords>
+> ++</info>
+> ++# Server-side
+> ++<reply>
+> ++<data crlf=3D"headers">
+> ++HTTP/1.1 301 Follow this you fool
+> ++Date: Tue, 09 Nov 2010 14:49:00 GMT
+> ++Server: test-server/fake
+> ++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+> ++ETag: "21025-dc7-39462498"
+> ++Accept-Ranges: bytes
+> ++Content-Length: 6
+> ++Connection: close
+> ++Location: http://b.com/%TESTNUMBER0002
+> ++
+> ++-foo-
+> ++</data>
+> ++
+> ++<data2 crlf=3D"headers">
+> ++HTTP/1.1 200 OK
+> ++Date: Tue, 09 Nov 2010 14:49:00 GMT
+> ++Server: test-server/fake
+> ++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+> ++ETag: "21025-dc7-39462498"
+> ++Accept-Ranges: bytes
+> ++Content-Length: 7
+> ++Connection: close
+> ++
+> ++target
+> ++</data2>
+> ++
+> ++<datacheck crlf=3D"headers">
+> ++HTTP/1.1 301 Follow this you fool
+> ++Date: Tue, 09 Nov 2010 14:49:00 GMT
+> ++Server: test-server/fake
+> ++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+> ++ETag: "21025-dc7-39462498"
+> ++Accept-Ranges: bytes
+> ++Content-Length: 6
+> ++Connection: close
+> ++Location: http://b.com/%TESTNUMBER0002
+> ++
+> ++HTTP/1.1 200 OK
+> ++Date: Tue, 09 Nov 2010 14:49:00 GMT
+> ++Server: test-server/fake
+> ++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+> ++ETag: "21025-dc7-39462498"
+> ++Accept-Ranges: bytes
+> ++Content-Length: 7
+> ++Connection: close
+> ++
+> ++target
+> ++</datacheck>
+> ++</reply>
+> ++
+> ++# Client-side
+> ++<client>
+> ++<server>
+> ++http
+> ++</server>
+> ++<features>
+> ++proxy
+> ++</features>
+> ++<name>
+> ++.netrc default with redirect plus oauth2-bearer
+> ++</name>
+> ++<command>
+> ++--netrc --netrc-file %LOGDIR/netrc%TESTNUMBER --oauth2-bearer SECRET_TO=
+KEN -L -x http://%HOSTIP:%HTTPPORT/ http://a.com/
+> ++</command>
+> ++<file name=3D"%LOGDIR/netrc%TESTNUMBER" >
+> ++default login testuser password testpass
+> ++</file>
+> ++</client>
+> ++
+> ++<verify>
+> ++<protocol crlf=3D"headers">
+> ++GET http://a.com/ HTTP/1.1
+> ++Host: a.com
+> ++Authorization: Bearer SECRET_TOKEN
+> ++User-Agent: curl/%VERSION
+> ++Accept: */*
+> ++Proxy-Connection: Keep-Alive
+> ++
+> ++GET http://b.com/%TESTNUMBER0002 HTTP/1.1
+> ++Host: b.com
+> ++User-Agent: curl/%VERSION
+> ++Accept: */*
+> ++Proxy-Connection: Keep-Alive
+> ++
+> ++</protocol>
+> ++</verify>
+> ++</testcase>
+> +--
+> +2.44.1
+> diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-suppo=
+rt/curl/curl_8.7.1.bb
+> index e2f6f8472f..07e532721f 100644
+> --- a/meta/recipes-support/curl/curl_8.7.1.bb
+> +++ b/meta/recipes-support/curl/curl_8.7.1.bb
+> @@ -34,6 +34,7 @@ SRC_URI =3D " \
+>      file://CVE-2025-15224.patch \
+>      file://CVE-2026-1965_p1.patch \
+>      file://CVE-2026-1965_p2.patch \
+> +    file://CVE-2026-3783.patch \
+>  "
+> =20
+>  SRC_URI:append:class-nativesdk =3D " \
+
+
+--=20
+Yoann Congal
+Smile ECS
 
 
