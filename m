@@ -1,238 +1,193 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F1710A1E7B
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 11:10:21 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.6])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.44934.1774523414813719217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6B9410A1E7D
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 11:23:41 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.45838.1774524213840308613
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 04:10:15 -0700
+ Thu, 26 Mar 2026 04:23:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=cvUZT1Bg;
- spf=pass (domain: cherry.de, ip: 40.107.159.6, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=PyMQZJym;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7545558680=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62Q5fXUj3033013
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 04:23:33 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=SSnxAYAhsRcloAXRDk8FtyYGlWwysgJGMo2ohYc4aXE=; b=
+	PyMQZJymF6aUlUFpm/j65IoVs1EoFWm/luzIoCJcmdVRb12IPBf2eCA8p0e9++pC
+	nDqJJrWJQZSVJeKDPW1qL9Ylhlh5p5rm7SotsaD44/f4O6VyTtCdRVoj67VjGVVc
+	tMcy05TXNV9Q8b79erCJDW5QKveFepf9heAj2Jjev+DBBBDhGC7CaboGF6qA25h6
+	d5Sn1cn6kA7bLYRcM033TScsAjqO9UI620QuLPhc180ub513uiEwfzXK7qI3LEqh
+	NZl/nUF8NvIztzzz4TZ7bDBPV6owQdljwh2bleO+91SydNIMXDoMoZ16+S6SkMVJ
+	sNTioXZTiV/WuunmZcDbFg==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012026.outbound.protection.outlook.com [40.107.200.26])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4d1pkye8cv-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 26 Mar 2026 04:23:32 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WcL3hm6ytT+pZ2Ougv13cTHm5Q6dhU0SwruYVO5aHI8lKbLhZGdR/qXflohzK2koVLqi80FEF++HBYd1RZVEAl6Uc0by7Vm6LaUTU2NSt2j8OaqFJxjoF0LhrGQMIHGFASBz/257s2iLu98SCprS6ekEkrnD0H2cjwA3pllbUGV0o+tmDb88SOt7scUP1yGlszqi3k9gKCk3UUhh8AOl0d83iU72+juKUj70G6LQIMEY2Qqs5mSAdKI//scZsh3WAWWgftKAFpgfKFMWjgVtrbGRVoGjb7ZYnj4Qii+TURbrnGFT1DfqfeobOdJOD7rDLdxOJMW2hLFrXq7I2dVgMw==
+ b=EWnF7ZTgiWDPZTEXSgjrx/2eHpTIz7g7/rSWgLMU82dMAaxtoK19ugcWyiXtVnEnxkkuXhsETxqyZjmNCtyqhsYAw8tBsxjRkwoUXaVYcj3VouzwlBXAQ/ZSGuxuHhGisajA4SGaMxufzTsgP2Lgjfg8u/fOBc+yrv4BNFL4UceBNioBt7MCedk/4dMYRcINPFAYawuCjgxKDyW1QeLgnp4BGKwF5ZKYTSpKykj9jOtaARiNKtErzdySet1SzTZ1cEa22/dVr5IJskTC6/a45dtZZnOPA2ZTj/5pAsMHHJFdZ6rsQCf0m472IfMOPIfuv8aCv+cH8CRGn1bC3MdWLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5qR6jcFq2r6c2kMUh18yga31Co0/+3cSOdx4dmdm8jk=;
- b=cIqf70UnsHzgTzDCFPC4c8Y4ZxzKdfLV0jA41cmgNItzqvCaTpO5SimsnXoIO9pwKDFetRX3pvW/UiBEH+2VLm3MuNeeSze0SaEXKKaH3D+ARns0eTYTgDppxr61XVTtgyxaZEgVbcZ523nhXhWeDq/Qt7mZ3o3vl9NI0xIV3mZ0yixnfQ0e19vZZxYk66NYgEgQ7AivkO0nmVw75ELy1xCiJDkhZJXNRYWVAPrrmPw50IlMe3TNx1It1h+RrN1iXAMZyt/nTP/OyjsFYFwiqTuRIVtZwfa+w6dz5zj3EJDNqwBB7n/CBaXklN9oJMW5OPwb3rZYuia6mMCSFESzuA==
+ bh=SSnxAYAhsRcloAXRDk8FtyYGlWwysgJGMo2ohYc4aXE=;
+ b=nKPbkHWzJ4dT3dNQVzbA1aLIdSGH6l+Zn2KHc0uy8uyAVd4b9HSDHIRaPifMmYrZN80gCVFHGIXA9/ggMY90udkhE3qm+zqAaXyZMeARgLkCln23rFGVfkV3sR0hveKIrUXp8BpJHeki+ZqJ4XEhc1XQ4kBv5US/jLpj/F7O1svENwgJTzm0sUghV4v2xIqAZmnmrEY7Ljk3PksijODMBmmtHOiVHUKKePHNvIJ0fhC4+Dh8ws2pbasbaQg2sM2h8qj9rH2LIzM9tDD8Jc0WjjjtE89cVtSlMR1jDokMS4DASAFwe8Mji3rVc5WuXW7P/motpIfH9irnTlxxMf2sOA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5qR6jcFq2r6c2kMUh18yga31Co0/+3cSOdx4dmdm8jk=;
- b=cvUZT1BgQYSpvaDHba2uuyxJNfYCXiFacHavlPrOPf/uP3JQOIfD71hBOuiASFNASAToyWkBWKNaoCtKEQSKbA7Ipz8d4SUupgSS06fOf1rtZiUKLW7XwnDXd1cGoY0zjwMD05ooTRPAmf4z2ObP5w+p5/AunE56BJc3PgifsC0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
- by AM0PR04MB7105.eurprd04.prod.outlook.com (2603:10a6:208:19b::17) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
+ by SJ5PPF6E07EBAE7.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::832) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.23; Thu, 26 Mar
- 2026 11:10:08 +0000
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::6c04:8947:f2f0:5e78]) by GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::6c04:8947:f2f0:5e78%6]) with mapi id 15.20.9745.022; Thu, 26 Mar 2026
- 11:10:08 +0000
-Message-ID: <5594e882-42af-48fd-81f5-39df6b800eac@cherry.de>
-Date: Thu, 26 Mar 2026 12:10:07 +0100
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Thu, 26 Mar
+ 2026 11:23:30 +0000
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::c84c:d2c3:1102:cf45]) by PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::c84c:d2c3:1102:cf45%3]) with mapi id 15.20.9769.004; Thu, 26 Mar 2026
+ 11:23:29 +0000
+Message-ID: <0c576271-bca7-4b9d-86a1-ac82449ae011@windriver.com>
+Date: Thu, 26 Mar 2026 19:23:24 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 7/7] mesa: depend on mesa-tools-native for less
- expensive libclc dependency
-To: Ernest Van Hoecke <ernestvanhoecke@gmail.com>,
- Quentin Schulz <foss+yocto@0leil.net>
-CC: openembedded-core@lists.openembedded.org,
- Ross Burton <ross.burton@arm.com>
-References: <20260206-mesa-tools-native-v1-0-166935b0e379@cherry.de>
- <20260206-mesa-tools-native-v1-7-166935b0e379@cherry.de>
- <yj4junqgkdaddl3upgyn7pzeqvlbr2q4a7zl6llrv2kzlbznlr@62bryfzytptx>
- <1a009ba8-4538-4dd5-a61e-5656852f56b0@cherry.de>
+Subject: Re: [OE-core] [PATCH] python3-numpy: add cpu-optimization option
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20260325022629.2245688-1-hongxu.jia@windriver.com>
+ <CANNYZj9i9EFbo79nNPAtzXo03gLeJNC4qW-9Pp9u1UstvQp46g@mail.gmail.com>
+ <065f08e8-e402-4379-8575-60621d4e6c63@windriver.com>
+ <CANNYZj__ONSLGoJVDEXqes953gaFYH44SbXTNBHXHWDu3CKWQQ@mail.gmail.com>
 Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <1a009ba8-4538-4dd5-a61e-5656852f56b0@cherry.de>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <CANNYZj__ONSLGoJVDEXqes953gaFYH44SbXTNBHXHWDu3CKWQQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR4P281CA0398.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cf::16) To GVXPR04MB12038.eurprd04.prod.outlook.com
- (2603:10a6:150:2be::5)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SE2P216CA0140.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2c8::16) To PH7PR11MB7608.namprd11.prod.outlook.com
+ (2603:10b6:510:269::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|AM0PR04MB7105:EE_
-X-MS-Office365-Filtering-Correlation-Id: 40d37607-466f-4e15-d166-08de8b283db3
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|SJ5PPF6E07EBAE7:EE_
+X-MS-Office365-Filtering-Correlation-Id: f944e14b-4684-4d78-35a0-08de8b2a1b12
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|1800799024|18002099003|56012099003|22082099003;
+	BCL:0;ARA:13230040|376014|1800799024|366016|22082099003|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	6Z7CvSEt59F+YLRiN+LqqDCInDs0xe/DcOTXBLPCwYhIUIKJAnTNcYRGNDojW2HYpG1WqID51tf7QxGuiZXuWVtOp76pKgUx3KD7KROasmiTK2Liv0Rpgfhic4NxKXb15q0K/S+RrLG3efg4vN2yb/Q5j2Dp/kAeG0BjZcMkhjROaPM6cF3HebbyCTlgNmj8xUs4lQkCErXvfx4xFhw/0ZmxvEv8cjYN2xHeZYiHte/bpe6lFfNdq0fqsbjoYjmUKztqBs/bA8DfzF6iF7j5oaf2jrzqoKrjqCou9VW6anYFenMw65i9e9pXRq4RTMLPK+FVBz1tRXFf5QYKmTwsLol5Oxc33nOQ8U6HPfae/N5TcMufgSaecm5vgM+IGCpGx5sSjQJKS2o3/aTRtga1BvwwBo1B8wBdKWfOmVr1EZcYZxMdGr0m50TxVNzWMssUZN3kxXtiq3levEXUzHR85ULEJrmXyaMgQB49X3KkvcuhmU9TR3mMaXPWSkpJaHvsul/U5t6V1/7OSdCiNDwdyNQ0OkQORWatlY7ZTqGUDJyrDkzpJrI1bjzgFIcFIMLJnNb7+swrugBWrGUB4ulBGn4YlHSTIBhO0HZ7tma1xwykyFXSQUtQuWFo35qHc/VFMjZbxGqwjKppC8OJ2dVvDrn1lXn6V30eTBUcW3Lg18NnxNRgAd+Ezk4mzSsrELWkLWrebRRGckG6UaKjYX7IBPyPOV0SJHOePhn5gI/PdCE=
+	YnGbnndx6YQwNztxMuQNutYJzlxin+hHHeqa0ADFex7+GZM1Gt6OcVltI0bbo7++adud8OiPiH9l7MDfjAQyiFnnyLSH0YjqdQvEDsyCIVVyjMKWRxarN8oZ5FjXAhCElybxCr5gxt43i9qCGgNIkQ7g4rVqzqOsUbWD/xbEOlaSbuU7h6BMJgTyR1wNYW0JCQgBGy6Xx1g6gjyhKOGYzpvhUDkolT/xfqeHVqItBFa3iAs1/4vbi1zbZP7AoWoFEvOwE+mzH3aKw5jVKWHrvsD3F9tNGY5GGz+3xFXkUON6eVPcUr1HDgcqjOXKn/I/A2DWDAct64LmCqf3zjAuM4qZs31M6aCylEW8PWplGqTAlk0EvPVU9zFc8V4LuI93BZGEZsNws0cP4sEBprra+oW9csOymzd3jJT5IHQdDhwmHJosQEeAS4Pfh+rz01Sb/yfgvGj6+X4BcyaMQVI4eAYm3Xasw8xlf1X1dPvvmRToTEhLOGd/hR7fw1RKDB6OciKWanaYleauPvOfgxlEcaypRNrEoKGi/G3r9fV4bwsYhuAtKeCH5MeLLGZ7D6iXI9b08bRPQhFtx94iuIKcln6oKEnFrRnjTNRZMuRPNTwZL4dxsWslmyPBb+wueg7rcPXpRaFTeN9ksKBgGBjXkVaQOVIym8t/VGYM3roi9173Gj2aOah+pGf+J3RebFMS67psGdOI3rDe4G3GmD7AllnEek47epYuAlFKmF7vEnA=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?v+RRPDeIa0647eJF+ffdEA7BUwf45ENHuGAMlYKgET3AZM2Hva6wpMMo+6RW?=
- =?us-ascii?Q?bnjQnulOSp9fUg2LnL9tM/XnqbDimiBCGrYZudJHKvD/gG1PbwjQ1Z6CzJn/?=
- =?us-ascii?Q?10DN1M2L1jdE1B/SMxazZ3WxUjMlrsFSx2siXGPOlhIik2S9mh/wKxlPcVGv?=
- =?us-ascii?Q?BhO7ASAK7PXNY/RU9+Cpq8lYhFc4aK3q3lk0JPvQjqpG+xi4bpc55hSVSzMS?=
- =?us-ascii?Q?9aKUogmvfqjPPtMjZmjMenU1En8kXMqQUiSUmiDmEINn7Lg0rIYfGXvN37o8?=
- =?us-ascii?Q?TrmwV/6dECh7k0/SHot6x1bysCxmB931CuU/Ns5NFPZSlU9+TmpnDMMGmRzJ?=
- =?us-ascii?Q?JyyE7yD2hEKA2Y8atJVPL/7AKQMJp2bc4e2kpU2bnvSm0MZZRSXfI3WQViiV?=
- =?us-ascii?Q?gelnnmMh4OnS+29jOtbi7zGNqe9MEXyzFyZgFWT8y3bXxd3GLFl5Ultl4ggX?=
- =?us-ascii?Q?x0v4BsT4fTO3Y/BZYz+K1usZaaEnIf1GONiRAs4LR8EA0s8rPlXTnRynUUv2?=
- =?us-ascii?Q?5V1P75toYo+xFgMZUieszDhsRMiTuYpfFzeS0j1wCL/4GF1rnwvjwfZGU3G2?=
- =?us-ascii?Q?aJ3OnZfkPgP0svU+WBSVoHFJhCKGes92ghz9y2Sy0KbMiO25HOkGqb4YkxSv?=
- =?us-ascii?Q?YnhQF13KCi2jPqYa8Kp3g3xK9atYjnHe2T2I3Wr0NzCTvk1ye2ndjhrCUxn1?=
- =?us-ascii?Q?/i7mVZe+RrYizF1f/OXsm/7BNSQ2JC4jkyH1WE4qEdzu8RVTWcOiKDr3ZQST?=
- =?us-ascii?Q?nvjVq3g7JaZJzonpqj2/THLlruqvCLERYgKWOOB1Wm45vQK7/JY4JL0cfPvt?=
- =?us-ascii?Q?kGkZTMZccjPSimOrGl3r6adlMhqkMuxZw/SZm4MqjfLEMYNhbEm5BZxyefle?=
- =?us-ascii?Q?EIUCIDHdwQid+Vwo1s7Y8ihxKOin9APbABYY5WwHOMrfHXN0++McVjGGX9op?=
- =?us-ascii?Q?iR/VAKQvBBYb+SPhV5yoQjApCamVpRBOb9OrxK3pg3j1j+wB7MPxWa+FttxT?=
- =?us-ascii?Q?Ub8xVeOgaFXtd8/2MhGozsh7gjd7qFLGJMjmqNUECNte1EAApIg22CxrPAvw?=
- =?us-ascii?Q?jWaoxQSoPeOORHZmZDgOw54boDyZQXfW9GzhvDKOagto5WhkAlZO2nWeJdkV?=
- =?us-ascii?Q?TQYfeihHjGU+nkPy71Wl5skyxXZpKI76TiY4IiOAHduhV4u+QI1bagfnTzJ1?=
- =?us-ascii?Q?TlI0r2UwgczNMl0nT9iN65J9gNWODWuPNZvPXGIPi4Ivu9JjiK/CVzfpRNKt?=
- =?us-ascii?Q?DCyRiey6+3x/vE0V8PTj1JYovn7FadiarFuev2IGdgnDVGwugre4qTwvRFSv?=
- =?us-ascii?Q?haLCMycGFnSKP0vOCttSKIu06dPAy7LQRfTMJm96a/kvtnUqZHtL36Hp/AU4?=
- =?us-ascii?Q?cEg9XK1yS9Im21rbjyF0WRXBhHdvj/SJ/WZW9L5W1wk2dAiK+hPl7xd+qs06?=
- =?us-ascii?Q?P8xeRSvO301y0UKb7ia3lAN5c2hTPySV3AJfgZLONIaNe+uGwaCQ/lpe326A?=
- =?us-ascii?Q?MCume3Bt7fvBOEpRo4YMYy5EcozbvADdzCKkNWPuUuMcqkrMVPQqVgLM8BSF?=
- =?us-ascii?Q?WmudhWhHACqquoktVUsl5k3unKI9KSOMzkNhn4tKcE970gKBJjqkb2bQM6B5?=
- =?us-ascii?Q?sosjaff82T5Ue316LUB6bXWZQY632jTUm83sgOVqtSQ00urw2nDwL79Me9z/?=
- =?us-ascii?Q?dgpEvk709Nvr0yMJvujlzn2Y89AX1PRtTPMWxPCXFI+vYF26yoPnNlCtAesD?=
- =?us-ascii?Q?U+0KZAjicQ=3D=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40d37607-466f-4e15-d166-08de8b283db3
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
+	=?utf-8?B?M25aOUxSa2hpYUhabkVMUGlpTjFBb1BmK0tVNW9ERTZHUkwxY0pkMVYwOHJP?=
+ =?utf-8?B?SjV6RTFSZ3dVcHdzQkc1Uy9DZ0FTOFJJaFJOWElzdW40ZDcrdVF4L1ZUdnR2?=
+ =?utf-8?B?eWRBeTJXTHY3TXJRTlp5MzBLK2ZyMXlUaSthT25PSEZqQzcrejJrZVd1d0ZH?=
+ =?utf-8?B?MVdFUkxvOXE3SjJITE8xZzIzY3NyRzRjd09aRWVoRVpkM09aWlM0U1BqMmQ1?=
+ =?utf-8?B?UzJ6eWFpZGxVRENmV2JaWkhBN2c4M1RjYlppbFRnUFpsbUZ2Y240WURMK2tz?=
+ =?utf-8?B?blRNNktES0I4R211TWFmOWlUNGNweGx3a2xKS3luWnZMQlExenFKdEtDQVQy?=
+ =?utf-8?B?ZEtXNm56VW8zV203S0oxbUlvejB5eW9ieERvS2tqVGg4d2pwK01QSlBjTDZB?=
+ =?utf-8?B?WExkREQ5MVQrR2dWSzkrek16SFdBU2pyeGt2NFB3NDNwOVZjWE50aUN5RWVO?=
+ =?utf-8?B?TUZOajVkYWYvZTFjV3A4dHgzUjAxTGorYWJOZTRSZjVsNVdrWFF6ZmdrUW5z?=
+ =?utf-8?B?YThsM01RbzM0VDFZQmUyRjB4TzN6R1RLeDdYb3dGZkVNQ1hoQnhvOWxYRVNv?=
+ =?utf-8?B?VUZLWXhkSXBxbnd3cFV4akErc3A1SHU5SGc5bWlqZ3lCSHFkMHFkZmRzUkla?=
+ =?utf-8?B?Tk9KajlwVngvc3hwT0dxNUhJV3JGdGJDZnlJZzVYcjJXT0ovbG9OZWZjaHlK?=
+ =?utf-8?B?KzZuVG1DcFhHNzJlcUx2WkRIaTB0aEl6bnEyVWN5UnU0LzUzZkhHRGdMK0lO?=
+ =?utf-8?B?Nkc0d1ZueDVQSGVBblJVaUduTzVQSnlvbkZ3NFRsMmRsQ1NXSWFkQnlEMmxn?=
+ =?utf-8?B?QUxXSFlkb0xwS3Jrckw4cXBiR0ZlOFJCcTRsemV5U1Z4SHJmSGwvM0paR1k4?=
+ =?utf-8?B?ODUvYVBvZEtGVFBmcERPVTMzM1N6MFlZbmJNY2ZxanhxTElpVDlmV1lNSTJq?=
+ =?utf-8?B?SHZTUVZSZzV4ZGVEQ1ZwZjA1UVhRKzdQZ3JXZW1Wc0dCNlFWMGJ6NDdZRUFD?=
+ =?utf-8?B?VjN4VzNiTXRVNUlOd296WUxoQjJTV2NTYmpSRGMvUTZzZE5tMElOWDErUTR0?=
+ =?utf-8?B?dkJ6K2RxdHdiREhNWDdKYzZPZE0xZlVXamloZFdVWHRQbmxDUUFKWC9kb2lX?=
+ =?utf-8?B?RUFsNXg1d2QwSHJtaWZBdW51NUxvTmpZT1FNZjBzR1M2eThGMHdJaElpVXV5?=
+ =?utf-8?B?c1Y5YWRJSXU3NEJYNExvcWttOVN0YS9MVG9PQmRNbmgwSFVGSmZjL0lIajRV?=
+ =?utf-8?B?SjJJQlBiYURzSy9XU1Q1VGlURnJDMERkZkVWYlFockFwa3JyQk4ya2dYUFZ1?=
+ =?utf-8?B?MEhQTFRHQXdlajdkTHhwa3F0a3NqUHJ0eE5hNllBeXRJelgwUzh3N0ZTSWho?=
+ =?utf-8?B?S1VIYnYwb3RiY25RZXA3RmxpREZzcmpsNCszaFhSRkZxWDVZUHJaZ2FlY3Zp?=
+ =?utf-8?B?SUhaYTJqaklSRlMrck8zN0hOTUk0TFhMYnNyMmxXS3BkdXpGM1FKZWdva0g3?=
+ =?utf-8?B?V1ZGNEh5anY2YmhlT2NMU3VPUVNqQ0piYXZ4OE85QWtwQjFMN1NpbGJzTG9s?=
+ =?utf-8?B?SEZMTmhDUU5adTBBU0NZTXRtWWJxemtOR2xyaE1IemgzN0dVS0J5ZGZHNzBQ?=
+ =?utf-8?B?bE1GdGNxcE5PYmVvbS83dFZaZEZCaUlZY0lEc1BmcEFYaHVLTmNwdTgrWnpu?=
+ =?utf-8?B?VXoydGhPbzBxL0pYWVphQ2ZGeHNSVkNncjVaT25MNzNPa1JRaGg3VHFuakF6?=
+ =?utf-8?B?eXhmZmJRNE4vZHRBRTFFejV0aDVkVDBnc3piWXZXeFdDMUZlUEcyMXk5Vndt?=
+ =?utf-8?B?S3N2MGY1ald0cW9mbS8rWUV4cGVYbC90bFBTM3JxTFFDUnJwNU1sZG5JbWI2?=
+ =?utf-8?B?NDNkbVBuOEkzNFRGWUpncHNkYkpoOXE4Z0tBUDlRTmdZM1hPRGFhcXpSVWNz?=
+ =?utf-8?B?ZHBsajR4Q1FMRlEzczcvNVRYTER0c2daUEl4cEIrMnNlUUhHclZ5Y1BWbzdU?=
+ =?utf-8?B?MXc1QWllVENleHQ3eUF5YmZVYkt2SG5WTTZMV1RGV2FJZ1k4bVlqbzFLV1V2?=
+ =?utf-8?B?QWdnM0F2Zy80Q0xESXFYKzdtN3dPN09jd2lzdnJEQ25SUTVoZC9seGpJWkdu?=
+ =?utf-8?B?SGRoNTdkY1ZjREhlMm82eDlaVDFPVUpjVWNXbHBlaVZFSjZBQVpiZTU2ZXRJ?=
+ =?utf-8?B?OWNwSkpHYnlWUG5kdyt0bmF6YThnY1p6QkZKWmlrWkhGWkxwQnRmZ090QjJw?=
+ =?utf-8?B?UjNRcWtnV2xaR3ZzbG1tZWtFSkQ3OUVoRFhIVGxySG9QckRvNHM4R2hCM2x3?=
+ =?utf-8?B?c0NCSTNjNzZWVkh4enJvZlhnSFlJa2dtZk9XbXhKMEhwL0tGM1l2dz09?=
+X-Exchange-RoutingPolicyChecked: 
+	J7X7IytQhCy81KHX/T/9l9pTkO0BGT0CjkgusOj23v8Y9ZOpAx9sM/jTAqfTB0MwwGmX5qa5IVW3+Ls9ZFaP+T9yr7B0ci3+2W90daKWNhlMYMl2+8mVjigRxMV9HdlC0umn5Z/vlZLZDDMbv89AMWht7g7C/cK1Kl9QsQBqfBbOtPCXNwZQHZH5e0HcX5oYjd4jAAmkApaisy7MUebQHp6+QyRBeTY6zp4QtaO3UzaVjqig3hgCIjM66EZhSGUG5h9Hk9xGkdEDnoWbs4mZip4SQdi+WMMOjpcT4W0lVqdSxgcqaZi0ZVrXzpZkRyQv4kk+a6PG5r/o4U1Sy1mPYQ==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f944e14b-4684-4d78-35a0-08de8b2a1b12
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 11:10:08.6542
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 11:23:29.8258
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KiIPYS8D2YY+wKSTGAw5IwNa1UY9BcR9M1idybhVF/u3ejEk9cqnXSnd34E4BxAt22/1tTgAAr8upPCQkXEV3aOGQUm9/40tTTllsnHdZHA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB7105
+X-MS-Exchange-CrossTenant-UserPrincipalName: PczJTb3snImTUqdDv5nDQeB/I90ONfFqgULEIrLOcBTtGGo0EnQ3g8K5/4sPBuwe9zRIeOB5xJhYM+FTccF5FNGICEM8guv3i6PGLfVaeSM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF6E07EBAE7
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI2MDA3OSBTYWx0ZWRfX+RurSVJbrCTu
+ 1CeaGLiFJvPsLZvNcxrouJA8mTCRx4n14WpbqkHjt5W7pXY99Er9uz9mkZSuA1SIx+ESg9RZMnw
+ dJxF0lOwuV9BDOLCZ/WIo28Gwn3yXvOsWwt4JHV64wqKBQ1y3/aUsPeLZK3rhM7fE0Y95pXvV2c
+ MYFnOiZIsg24iFzAhCML61SICtiHLw/B+H6o3WkcyuKNKE3QXGgpivF3MO9DnMYgH9fNzb+FbWj
+ iHbw6cWYJurVuUlTXkHi+8UqMGb+Jrp5woEO/A+KI6uKTc49tYocbv7xgapmqdYG5u8da9awIZG
+ ZmR/Rp4nrEwSaTUMCAdy1dhh+qSMrPTIZdyxnVMGczrX4BiY1R6BHPPTeM/USt5ysG8ehW+/F/R
+ Do0VitB9Ow9sbu3qDMWDQGnYp/GkMpKqToP9KC4bTNO/vEi5gy0BVkCt360uC4GbvrURAA23mIx
+ mcwMlYtHuZyVcdCmwGg==
+X-Proofpoint-ORIG-GUID: wTyTinN5QHnkPVKMsWb_xlg9govDfsZD
+X-Authority-Analysis: v=2.4 cv=Scr6t/Ru c=1 sm=1 tr=0 ts=69c51735 cx=c_pps
+ a=A3soYu1h9hn2xD7k0nk5XA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22
+ a=hKpBA07XAAAA:8 a=t7CeM3EgAAAA:8 a=4fXvwftEddZOZrIdXjAA:9 a=QEXdDO2ut3YA:10
+ a=e5PuFNF6PdRcDgRFK7o8:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: fSlI_M-BjP9kHdnopbQo6CJ60MSnN3Ff
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-26_02,2026-03-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 malwarescore=0 phishscore=0 adultscore=0
+ suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603260079
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 11:10:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233977
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 11:23:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233978
 
-Hi Ernest,
+On 3/26/26 18:29, Alexander Kanavin wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+> On Thu, 26 Mar 2026 at 11:19, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>>> Reading https://numpy.org/doc/stable/reference/simd/build-options.html,
+>>> I do not think setting disable_optimization to true by defailt is
+>>> correct. Currently, numpy will auto-detect the capabilities of target
+>>> machine, and configure itself accordingly. With this change, that auto
+>>> detection is compeltely turned off.
+>>>
+>>> Please explain the rationale for this change.
+>> In our case, we use `-cpu kvm64' other than `-cpu Skylake-Client
+>> -machine q35,i8042=off'
+>>
+>> QB_CPU_KVM:intel-x86-64 = "-cpu kvm64"
+> If that cpu doesn't support v3 (or even v2) features, then you should
+> not use the default x86-64 tune (that qemux86-64 is using and passing
+> to compilers) to enable them.
 
-On 3/20/26 4:57 PM, Quentin Schulz via lists.openembedded.org wrote:
-> Hi Ernest,
->=20
-> On 3/20/26 4:26 PM, Ernest Van Hoecke wrote:
->> Hi Quentin,
->>
->> Recently our do_configure task of mesa started failing with the
->> following error:
->>
->> | Program pco_clc found: NO
->> |
->> | ../sources/mesa-26.0.1/src/imagination/pco/uscgen/meson.build:7:17:=20
->> ERROR: Program 'pco_clc' not found or not executable
->> |
->> | A full log can be found at /var/home/vhe/build/tdxref/master-extint/=20
->> build/tmp/work/aarch64-tdx-linux/mesa/26.0.1/build/meson-logs/meson-=20
->> log.txt
->> |
->> | Last 10 lines of meson-log.txt:
->> | int i;
->> |
->> | Cached compiler stdout:
->> |
->> | Cached compiler stderr:
->> |
->> | Compiler for C supports arguments -Werror=3Dpointer-arith: YES (cached=
-)
->> | Program pco_clc found: NO
->> |
->> | ../sources/mesa-26.0.1/src/imagination/pco/uscgen/meson.build:7:17:=20
->> ERROR: Program 'pco_clc' not found or not executable
->> |
->> | ERROR: meson setup failed
->> | WARNING: /var/home/vhe/build/tdxref/master-extint/build/tmp/work/=20
->> aarch64-tdx-linux/mesa/26.0.1/temp/run.do_configure.144042:173 exit 1=20
->> from 'exit 1'
->>
->> Reverting this patch fixes the issue, but it does not seem to be the
->> commit that introduced the problem. It only started later, presumably
->> something changed in pulling in libclc or a similar issue.
->>
->> I can bisect it more later but already wanted to ask if you or someone
->> else had any ideas. Thanks!
->>
->=20
-> I suspect you need
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/=20
-> recipes-graphics/mesa/mesa-tools-native.bb
-> index 50d2f5cbb0..0fff6ef1dd 100644
-> --- a/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> +++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> @@ -3,7 +3,7 @@ inherit_defer native
->=20
->  =C2=A0SUMMARY +=3D " (tools only)"
->=20
-> -PACKAGECONFIG =3D "tools asahi panfrost"
-> +PACKAGECONFIG =3D "tools asahi imagination panfrost"
->  =C2=A0# llvm required for libclc
->  =C2=A0PACKAGECONFIG +=3D "gallium-llvm"
->  =C2=A0# Doesn't compile without wayland-scanner if PLATFORMS has wayland=
- in,=20
-> and,
->=20
-> and possibly
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-=20
-> graphics/mesa/mesa.inc
-> index 14dc7b6c51..44d3d17a52 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -137,7 +137,7 @@ VULKAN_DRIVERS .=3D=20
-> "${@bb.utils.contains('PACKAGECONFIG', 'asahi libclc gallium-l
->  =C2=A0VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'broadc=
-om',=20
-> ',broadcom', '', d)}"
->  =C2=A0VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'freedr=
-eno',=20
-> ',freedreno', '', d)}"
->  =C2=A0VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'virtio=
-',=20
-> ',gfxstream', '', d)}"
-> -VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'imagination'=
-,=20
-> ',imagination', '', d)}"
-> +VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'imagination=
-=20
-> libclc', ',imagination', '', d)}"
->  =C2=A0VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'intel =
-libclc=20
-> gallium-llvm', ',intel', '', d)}"
->  =C2=A0VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'intel=
-=20
-> libclc', ',intel_hasvk', '', d)}"
->  =C2=A0VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'panfro=
-st=20
-> libclc', ',panfrost', '', d)}"
->=20
->=20
-> It would help if you could provide the PACKAGECONFIG you're using and=20
-> ideally a minimal reproducer so we can look this up more in depth on our=
-=20
-> side.
->=20
+Sure, already did, thanks for pointing it out, please drop this patch
 
-I've been able to reproduce and provide a patch for it, see=20
-https://lore.kernel.org/openembedded-core/20260326-mesa-libdrm-imagination-=
-v1-2-fe018f03be6a@cherry.de/=20
-can you please confirm this works as expected? I only build tested it. A=20
-Tested-by (provided you have tested it :) ) as an answer to the patch=20
-would be most welcome, thanks!
+//Hongxu
 
-Thanks for the report!
-Quentin
+> Alex
+
+
 
