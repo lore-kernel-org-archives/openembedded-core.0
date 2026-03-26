@@ -2,48 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF574109C047
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D04DE109C05D
 	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 10:30:50 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.44311.1774521047980469003
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.44962.1774521049495473988
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 03:30:48 -0700
+ Thu, 26 Mar 2026 03:30:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=01iJ6bZa;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=O43aaz61;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019d29b25820-7c47b118-41c7-4904-b842-6d6eb99f709a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=01AMhJ85;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lppOH0xe;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019d29b25ca6-7ea58657-a987-415e-ad0c-341692813974-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1774521047; i=@automation.yoctoproject.org;
+	t=1774521048; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=UqBnS2bHv95Mmqv16y6bVhoEwXzV1Cl/izuZ/5tdu4Y=;
-	b=01iJ6bZaaHRVSJCcS7o6HgwTQdDVNQlCOsBr8DAe2uWn8GDCr8rYIizSEzJWvjhP
-	dTmzq0xqzppg5HPmQ52rBFfJvqZRoHXWU6yPqMpx10GwE98/6CgyaD+o9qsN+mYJbDI
-	B6KIXhbdRvYLWzZZrrqmT14UztrfGlwPMEdjRP2M=
+	bh=1YjaKrgPfx1+XkHeHB0RdEpZKdbXYs0AfF1HTi2ZlBo=;
+	b=01AMhJ85wdP8uV0kjAFBkvUbs+rqe/flEZlUKTtAJJEE7N1ZXbXAzrfZwJ5hAlJX
+	otnZpkgvo4ac8umS6aod0AMuU8vSsrD6uJ7UYfMPlMP5ceEho+qJ2CMb2DHh7Tri6xm
+	TWjz+JJu93EZWTRetWBon8STj2+fmStbqxFDmV4g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1774521047;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1774521048;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=UqBnS2bHv95Mmqv16y6bVhoEwXzV1Cl/izuZ/5tdu4Y=;
-	b=O43aaz61BekVXpZKctwRo6RjrQnUIfnEt+wGuO2MAJnPj21DjAkdn1jLnVEHM+WY
-	D/C9AUBbuaom9kclZyqPk8c0+SdI+3bfw6+tIfOPU+4MP/dUzAWUEiYm0ecouPPdKVN
-	bxvTX0dLTXzoyOUCB+81zGUAm44SHwfDyaiF7TqA=
+	bh=1YjaKrgPfx1+XkHeHB0RdEpZKdbXYs0AfF1HTi2ZlBo=;
+	b=lppOH0xeW/qu6Dk43/NQbybr9cDAGZgkE4KuWnOv6UBC4ygixc3YYyThslIWfmEu
+	I1ZyV6FdvfWFFML+ZRruOcqAsftOOJQVBQCMRcNdwbcKKdMs1vpZ8g25vfHooTAnsDW
+	seQ3Mp6j/EjHHTiplIhlILOJhOT3C9cFHEsoQ0Sk=
 From: patchtest@automation.yoctoproject.org
 To: liezhi.yang@windriver.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-openembedded][PATCH 1/2] gtkmm3/gtkmm4: not set BPN
-In-Reply-To: <20260326102150.1059814-2-liezhi.yang@windriver.com>
-References: <20260326102150.1059814-2-liezhi.yang@windriver.com>
+Subject: Patchtest results for [meta-openembedded][PATCH 2/2] gtkmm3/gtkmm4: Set S to fix patch
+ failure after BPN -> GNOMEBN change
+In-Reply-To: <20260326102150.1059814-3-liezhi.yang@windriver.com>
+References: <20260326102150.1059814-3-liezhi.yang@windriver.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d29b25820-7c47b118-41c7-4904-b842-6d6eb99f709a-000000@us-west-2.amazonses.com>
-Date: Thu, 26 Mar 2026 10:30:47 +0000
+Message-ID: <0101019d29b25ca6-7ea58657-a987-415e-ad0c-341692813974-000000@us-west-2.amazonses.com>
+Date: Thu, 26 Mar 2026 10:30:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.03.26-54.240.27.33
+X-SES-Outgoing: 2026.03.26-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 10:30:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233968
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233969
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-openembedded-1-2-gtkmm3-gtkmm4-not-set-BPN.patch
+Testing patch /home/patchtest/share/mboxes/meta-openembedded-2-2-gtkmm3-gtkmm4-Set-S-to-fix-patch-failure-after-BPN---GNOMEBN-change.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
