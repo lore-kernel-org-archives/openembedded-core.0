@@ -2,81 +2,81 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1528610AB81F
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 20:11:40 +0000 (UTC)
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.58144.1774555892014432042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21AA110AB820
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 20:13:00 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.57317.1774555978998160639
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 13:11:32 -0700
+ Thu, 26 Mar 2026 13:12:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=CMLdXzpT;
- spf=pass (domain: gmail.com, ip: 74.125.224.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64937edbc9eso1456979d50.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 13:11:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774555891; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Zjy665yn;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-79a2ee65171so14731737b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 13:12:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774555978; cv=none;
         d=google.com; s=arc-20240605;
-        b=EHZcwKm0w0RCfMszJbNv+qYXldtxkLhStQyPaOHbj/b9FmsfAB1GzGzNqTsb1+IVu9
-         YNdzsUqUij5xRf5DSwJeoopPnlKOg1cqGDbAnBOsIVQkLqxm9gzk/iyISXpHqVW0ryNe
-         Os6BmPvZe42OnnqSqdrofblVnNrKeswa4edgfiCS6TuKlNhQxpvGHJTSZEm5usl0iuLp
-         hiWcUVNQgnKmvsyP09ynccg2Y2O6iZwpO5w4GgbURwailyEJ3sRCHkHJZ15+VjHKjOsk
-         7CXxtQ1U/j73ucZVUFvyOag6vEkiAErJCHCik7AcdyYoJFkzNviHv9TB8oeMhkCIcGv7
-         l/7w==
+        b=Lz1K5u5GdbADVLfgTyyZkczJrtRZ8ehWe+BcfQMebgKymIhWCDbDFPV4ywLCEfN5m7
+         ak3A6S2cg45Jz6Q+7Y0JgoxO14guSkfd5bVY7H9XtCR1s+KhqDvJUa82ZosSSmuHnfKM
+         76tFpaBCcjnotA8mSrnM4zlgNJD+N46JC9ovsyNKGD1fChgi8ZZZw+XIWO1tflAOpU0x
+         75G9NTXm5ZsRzsZZamVod4qWvk9jBVkq27/atgg0DsCDlO4VB7/FNVsuQqjaNQEkxZq7
+         cKOQwdOMu7bBeP37zMceTAIsicAAlIerQLjnBR17HwZvqjipkgFwCpQBbGcDw0lTp14R
+         wzDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=30oOJd806MDi1eoVPVdUANEFWe6Je+CZXElVJNoqhHU=;
+        bh=o7n2ZRuU+HQRBFvKfEd1nrHLvBDT7wLxQnLutqwQJDg=;
         fh=XL+ydw4zRzqZKs8yhWIx30/frJay1bXF2X1wuGsnf7M=;
-        b=PxWKnMft9DuribxzeiK5G6dFu5yng6sTAlV212RuOGxvtG3l7aqD77+MxLYAB9JrR4
-         cOfg7oa8MhRciXGehvQ1ysjdzt4HNJlucIIMQVjSdrZkVlxuSrSdLPRPZV68qkw4a/HM
-         ZNwaGX3fFCaZYl52pwwMsgfPm+gTNg0X7qSbY4p+RILxC6lcGKTRFDV6Me81fQV1kUnz
-         Rztf4rAaG01AGSq4kZ7NzCIsr6CHpssIGk/HYSeYd7SEbaAK+Jpo9vRBTQ8N0ztb0HyI
-         cMJVyzANyNWDnpJxFLQI+E3yGOCxiO73yD5rbSYkkWv4mrLRozTsru/Ph8TXe/utSwPF
-         Qkog==;
+        b=i4qlYRQhd3w1bgrJ5RlDf6yPY5z7aQ5V3XPTUQJxrwOMrhnTDbM6iGSRIr5TffquVJ
+         6J7mkl+ZQ069FCSMD9KLw+OE72F7BkLysz5MtySOhb/uo4mUgkUPXY9y57PkDNyXwYeu
+         zFkGgLdlbAQof9Rd+V4EeUdRnhd1rIV/L+LhkeD/zYuQE7G5wuG/80wXr0tUA4Hkl0Ra
+         w8k89mZtblRP8SBebR3vZk8Ow/cicPtrJ6sITU6aFNCs+R30aXnU+fqf9o4BR0tdMe3b
+         dCa4LCaIy1Xh0UksazsltANAjOCzlJ75w2Jcf65N4i762XvzKIjOv4mspt+wD4H9+VqA
+         EMjw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774555891; x=1775160691; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774555978; x=1775160778; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=30oOJd806MDi1eoVPVdUANEFWe6Je+CZXElVJNoqhHU=;
-        b=CMLdXzpT3JycDnwVsr9ZojqLgSgK16yvkDx9QO/r/5aLQnTXKAs9OAFSJVaf/BNo8m
-         fpFRs7uhzufbK1OLo0Xpm+L5yeyWVGsHab7aTTBgjASxYCsngnXgTh0Q3fg0Z3jqjtY1
-         I9g2niQymZp+iwMx8ytdvPA3mFwB9MqQXv4zGGFrEy4F7/KnqWPr3kTaAZ/SOwBj5Zrl
-         p9svJatSHFyjK3QkafotroWBxLnbbPMms2+iHB2YMsdrIb/eFrm1q581wEpLfjwfWI93
-         5zyEJV3gphvS2Bzps1DIdBmdw3xzm0TX9n5d8p3iQC9RBVRZK2j7n6Jpkekpm45h4Rdg
-         Mi8w==
+        bh=o7n2ZRuU+HQRBFvKfEd1nrHLvBDT7wLxQnLutqwQJDg=;
+        b=Zjy665ynN3J7i37KgtQfgejyWkAQpaZC09VrMG0boGRfiY6a5BqWtLq8oQTyHUyOdh
+         uaH9kRJ986PJF05ewZEn81EXfIy6JHvVLLoY7V/7swTxtvSYDDEIuciM+vO7JQV9S45Y
+         NszemQJfKkqqF8jqF6srlrXfObK75Ub0NOVl7QxDEx0z/uQwW7tMTNwaDQEEj2Nub4Q6
+         QbFtvCV+kxVLmh2dj4p5Zytx8vOzzopu1MYA/A5irzT/2brFjmegmH4OPmfEhhOMVxIC
+         SC4eBpCJBNaV7JLs9HZCU9Z0oproDKFEre6p4K0MHc4bC++LP5WiMR7R2zvcjUffhhzf
+         px8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774555891; x=1775160691;
+        d=1e100.net; s=20251104; t=1774555978; x=1775160778;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=30oOJd806MDi1eoVPVdUANEFWe6Je+CZXElVJNoqhHU=;
-        b=Oqu71TtEzlRjJLUNjeG9f1125ay+/hS/0CMncyb6/mc7EMvW8ii86t+OD/BZCcShwR
-         OUfVQwSP8y2hz2tHUKjRmXrjL7fcFT7LoOrqDyzfb991ouk7Wcs2O8ZPT7SuEYSLE8iv
-         FXwNmaj3ZZwcHOJfBzk184VWemNHBZimUMqYm8wXuQzfjN8BJaddVaFGEaH4qEwppg0f
-         gIAtdx3Xsru0V4c1IjUySYp7Qb5ST1b2GTZ6lyzondcyFUUnY2DW+/OoC9tiFIKD2i7P
-         Qi0ZOHoP/A2AXghEZTAudCNHUrmzMcU1Ux4+BViH+hTLuA+keFu5XqEwjUhWEzPCJ0+Q
-         5seA==
-X-Gm-Message-State: AOJu0YwL3IZ/N55uM6S1b/ACjYibPt5hlx+d6u/6Vdn4G8vpRsqMmN3S
-	y74uqi3W6K8tpniWCDwkxkfgbpQr3cSnHeoiCoeDeX5jPgO2gyP+yzeUiMYnfAWTBk6js8QlA4B
-	lB1WhZ1T0Yce20Ihowrdc7uzv+lHAiQE=
-X-Gm-Gg: ATEYQzxxBRoiF5+bL3QkvHDtGOHgJF8OBAU/lWJCP3Vt6a6TcgdB2H0hT4I4caAx0cg
-	C6j0Jt7kzS4JnRUWA4QwX2vtgDwTnCiyIc0I1bgK+ORczr5OR9ZQ/jswmWbxFqcfNfeYERDXIT+
-	7GloIeWu5Em0kb/xGogQvh12aJoOsrFumTglPgQZOnALPM8YjmTYhjJf1CqK4JnwL9D3aLAHmfL
-	XCumDJ02cuYt5OFAPc+kBJhNEex4t+f1G9q8kys185oQfSm0btx88tZB2Kwmpq2dB3CjU1YoJhl
-	CDgJjgFgp7fd2P9Xnmo3mA==
-X-Received: by 2002:a05:690c:dd6:b0:79a:dedc:59ea with SMTP id
- 00721157ae682-79adedc7344mr65553337b3.42.1774555891007; Thu, 26 Mar 2026
- 13:11:31 -0700 (PDT)
+        bh=o7n2ZRuU+HQRBFvKfEd1nrHLvBDT7wLxQnLutqwQJDg=;
+        b=i2LGXeMEXykJeBICMfPXrkW9pdFfkSJVTh4kA4Lb6AL3ZhRppZlnsyD03lfKXf8fQi
+         ++OvuQS0ICJp85ICjWC4nCbKTt1hKMm5FNM8/zjFRVnmdU6b9RXvylVuCWI38nMwSogE
+         ak2vVN1CCSVJ6VDbJBZVAwuRJHjDDuIZxaDeBNyE4KUoFLm1h5qztRj94bATDLBflPqw
+         M7+K9NIo5dvNqntl05ydd4eOhgrD/wEZzFkbnvkhOmn9NKiVmUW9hxdqjtYqROTdemCQ
+         7A84sj8KAM3EsDRft9BwaHLR025UNhXNcT9HvDuQZ2aLuSLrySbZGqzC7qx8Ee4ZisN9
+         wr4A==
+X-Gm-Message-State: AOJu0YwrsD1QzO8VKU0/Khyn7sUE2VmB7ljrsyflGh7/W+bsz7NFtKvp
+	0KPJxzYaaMCpqNp71IiC0Bxn/Iu5kX7RRnIf4N5rivT9p4xNCHlrlbNQ5VjOjHb0/nWwgtip7Qj
+	xb5EsP6CexbdK02Ct3pO80oq1RQYLHz0=
+X-Gm-Gg: ATEYQzzvHUavgvxcoPjTMPUSmj+e8dDcqLD//8LWGPSgic1LEzplgZiEUZ2MgSpXJI5
+	SoCayaqfLqEgGyq9inOavG3tXVB06MRA3nIlZmwWRdxnCKKJuuYhy5GThMc48UzDxI3MODpuiFN
+	bvX4zSMT2+A54gnFhcX0vGVeqbEmf7EcR958+ZVZDSrclUlRI7Z4aeFEOpBGUEHZ5I8W3s8isK5
+	iAEtxc+zYeZfqOhsTL/JQinlfDy/FF679wyK6OH45WV+OXiDWMzkfuuQgw73BBZGlWKLXxZ2v6s
+	gzXOy1uaTCtk3aU3WVt7fYE9BgUA7/Kq
+X-Received: by 2002:a05:690c:c507:b0:79b:ccb6:a845 with SMTP id
+ 00721157ae682-79bccb6ae3bmr38891927b3.49.1774555977841; Thu, 26 Mar 2026
+ 13:12:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260324132958.2316491-1-stondo@gmail.com> <20260324171502.689012-2-stefano.tondo.ext@siemens.com>
-In-Reply-To: <20260324171502.689012-2-stefano.tondo.ext@siemens.com>
+References: <20260324132958.2316491-1-stondo@gmail.com> <20260324171502.689012-3-stefano.tondo.ext@siemens.com>
+In-Reply-To: <20260324171502.689012-3-stefano.tondo.ext@siemens.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 26 Mar 2026 14:11:19 -0600
-X-Gm-Features: AQROBzAnYJZKimemtIA7f7yZycN7oCYEx088Fo0Of8-g7z1HEmhnT7iqF56tMd0
-Message-ID: <CAJdd5GYq9mObajkL6CNXY8zB+y0q7qgSnGej4Sr+9pyKE4npJA@mail.gmail.com>
-Subject: Re: [PATCH v16 1/5] spdx30: Add configurable file exclusion pattern support
+Date: Thu, 26 Mar 2026 14:12:45 -0600
+X-Gm-Features: AQROBzBTjeey4d4uDDFm9vkgCRov0uFBJAoWPP-lWaENEG8R3-CUnfxgRg1aavw
+Message-ID: <CAJdd5GYd_uMEmkFAOyv+-Z8zYomMwhU9bXXT38BsEwEO1fJ49A@mail.gmail.com>
+Subject: Re: [PATCH v16 2/5] spdx30: Add supplier support for image and SDK SBOMs
 To: Stefano Tondo <stondo@gmail.com>
 Cc: openembedded-core@lists.openembedded.org, 
 	richard.purdie@linuxfoundation.org, ross.burton@arm.com, 
@@ -87,246 +87,102 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 20:11:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234047
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 20:13:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234048
 
 On Tue, Mar 24, 2026 at 11:15=E2=80=AFAM Stefano Tondo <stondo@gmail.com> w=
 rote:
 >
-> Add SPDX_FILE_EXCLUDE_PATTERNS variable that allows filtering files from
-> SPDX output by regex matching. The variable accepts a space-separated
-> list of Python regular expressions; files whose paths match any pattern
-> (via re.search) are excluded.
+> Add SPDX_IMAGE_SUPPLIER and SPDX_SDK_SUPPLIER variables that allow
+> setting a supplier agent on image and SDK SBOM root elements using
+> the suppliedBy property.
 >
-> When empty (the default), no filtering is applied and all files are
-> included, preserving existing behavior.
+> These follow the existing SPDX_PACKAGE_SUPPLIER pattern and use the
+> standard agent variable system to define supplier information.
 >
-> This enables users to reduce SBOM size by excluding files that are not
-> relevant for compliance (e.g., test files, object files, patches).
->
-> Excluded files are tracked in a set returned from add_package_files()
-> and passed to get_package_sources_from_debug(), which uses the set for
-> precise cross-checking rather than re-evaluating patterns.
 
 LGTM, Thanks
 
 Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
->
 > Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 > ---
->  meta/classes/spdx-common.bbclass |  7 +++
->  meta/lib/oe/spdx30_tasks.py      | 80 +++++++++++++++++++++-----------
->  2 files changed, 60 insertions(+), 27 deletions(-)
+>  meta/classes/create-spdx-3.0.bbclass | 10 ++++++++++
+>  meta/lib/oe/spdx30_tasks.py          | 20 ++++++++++++++++++++
+>  2 files changed, 30 insertions(+)
 >
-> diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.=
-bbclass
-> index 83f05579b6..40701730a6 100644
-> --- a/meta/classes/spdx-common.bbclass
-> +++ b/meta/classes/spdx-common.bbclass
-> @@ -82,6 +82,13 @@ SPDX_MULTILIB_SSTATE_ARCHS[doc] =3D "The list of sstat=
-e architectures to consider
->      when collecting SPDX dependencies. This includes multilib architectu=
-res when \
->      multilib is enabled. Defaults to SSTATE_ARCHS."
+> diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
+pdx-3.0.bbclass
+> index 7515f460c3..9a6606dce6 100644
+> --- a/meta/classes/create-spdx-3.0.bbclass
+> +++ b/meta/classes/create-spdx-3.0.bbclass
+> @@ -124,6 +124,16 @@ SPDX_ON_BEHALF_OF[doc] =3D "The base variable name t=
+o describe the Agent on who's
+>  SPDX_PACKAGE_SUPPLIER[doc] =3D "The base variable name to describe the A=
+gent who \
+>      is supplying artifacts produced by the build"
 >
-> +SPDX_FILE_EXCLUDE_PATTERNS ??=3D ""
-> +SPDX_FILE_EXCLUDE_PATTERNS[doc] =3D "Space-separated list of Python regu=
-lar \
-> +    expressions to exclude files from SPDX output. Files whose paths mat=
-ch \
-> +    any pattern (via re.search) will be filtered out. Defaults to empty =
-\
-> +    (no filtering). Example: \
-> +    SPDX_FILE_EXCLUDE_PATTERNS =3D '\\.patch$ \\.diff$ /test/ \\.pyc$ \\=
-.o$'"
+> +SPDX_IMAGE_SUPPLIER[doc] =3D "The base variable name to describe the Age=
+nt who \
+> +    is supplying the image SBOM. The supplier will be set on all root el=
+ements \
+> +    of the image SBOM using the suppliedBy property. If not set, no supp=
+lier \
+> +    information will be added to the image SBOM."
 > +
->  python () {
->      from oe.cve_check import extend_cve_status
->      extend_cve_status(d)
+> +SPDX_SDK_SUPPLIER[doc] =3D "The base variable name to describe the Agent=
+ who \
+> +    is supplying the SDK SBOM. The supplier will be set on all root elem=
+ents \
+> +    of the SDK SBOM using the suppliedBy property. If not set, no suppli=
+er \
+> +    information will be added to the SDK SBOM."
+> +
+>  SPDX_PACKAGE_VERSION ??=3D "${PV}"
+>  SPDX_PACKAGE_VERSION[doc] =3D "The version of a package, software_packag=
+eVersion \
+>      in software_Package"
 > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index 353d783fa2..68ed821a8c 100644
+> index 68ed821a8c..51e10befba 100644
 > --- a/meta/lib/oe/spdx30_tasks.py
 > +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -13,6 +13,7 @@ import oe.spdx30
->  import oe.spdx_common
->  import oe.sdk
->  import os
-> +import re
+> @@ -1449,6 +1449,16 @@ def create_image_sbom_spdx(d):
 >
->  from contextlib import contextmanager
->  from datetime import datetime, timezone
-> @@ -157,17 +158,27 @@ def add_package_files(
->      file_counter =3D 1
->      if not os.path.exists(topdir):
->          bb.note(f"Skip {topdir}")
-> -        return spdx_files
-> +        return spdx_files, set()
+>      objset, sbom =3D oe.sbom30.create_sbom(d, image_name, root_elements)
 >
->      check_compiled_sources =3D d.getVar("SPDX_INCLUDE_COMPILED_SOURCES")=
- =3D=3D "1"
->      if check_compiled_sources:
->          compiled_sources, types =3D oe.spdx_common.get_compiled_sources(=
-d)
->          bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
->
-> +    exclude_patterns =3D [
-> +        re.compile(pattern)
-> +        for pattern in (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").sp=
-lit()
-> +    ]
-> +    excluded_files =3D set()
+> +    # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is defined
+> +    supplier =3D objset.new_agent("SPDX_IMAGE_SUPPLIER", add=3DFalse)
+> +    if supplier is not None:
+> +        supplier_id =3D supplier if isinstance(supplier, str) else suppl=
+ier._id
+> +        if not isinstance(supplier, str):
+> +            objset.add(supplier)
+> +        for elem in sbom.rootElement:
+> +            if hasattr(elem, "suppliedBy"):
+> +                elem.suppliedBy =3D supplier_id
 > +
->      for subdir, dirs, files in os.walk(topdir, onerror=3Dwalk_error):
-> -        dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
-> +        dirs[:] =3D [directory for directory in dirs if directory not in=
- ignore_dirs]
->          if subdir =3D=3D str(topdir):
-> -            dirs[:] =3D [d for d in dirs if d not in ignore_top_level_di=
-rs]
-> +            dirs[:] =3D [
-> +                directory
-> +                for directory in dirs
-> +                if directory not in ignore_top_level_dirs
-> +            ]
+>      oe.sbom30.write_jsonld_doc(d, objset, spdx_path)
 >
->          dirs.sort()
->          files.sort()
-> @@ -177,14 +188,19 @@ def add_package_files(
->                  continue
+>      def make_image_link(target_path, suffix):
+> @@ -1560,6 +1570,16 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_di=
+r, toolchain_outputname):
+>          d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
+>      )
 >
->              filename =3D str(filepath.relative_to(topdir))
+> +    # Set supplier on root elements if SPDX_SDK_SUPPLIER is defined
+> +    supplier =3D objset.new_agent("SPDX_SDK_SUPPLIER", add=3DFalse)
+> +    if supplier is not None:
+> +        supplier_id =3D supplier if isinstance(supplier, str) else suppl=
+ier._id
+> +        if not isinstance(supplier, str):
+> +            objset.add(supplier)
+> +        for elem in sbom.rootElement:
+> +            if hasattr(elem, "suppliedBy"):
+> +                elem.suppliedBy =3D supplier_id
 > +
-> +            if exclude_patterns and any(
-> +                pattern.search(filename) for pattern in exclude_patterns
-> +            ):
-> +                excluded_files.add(filename)
-> +                continue
-> +
->              file_purposes =3D get_purposes(filepath)
->
-> -            # Check if file is compiled
-> -            if check_compiled_sources:
-> -                if not oe.spdx_common.is_compiled_source(
-> -                    filename, compiled_sources, types
-> -                ):
-> -                    continue
-> +            if check_compiled_sources and not oe.spdx_common.is_compiled=
-_source(
-> +                filename, compiled_sources, types
-> +            ):
-> +                continue
->
->              spdx_file =3D objset.new_file(
->                  get_spdxid(file_counter),
-> @@ -218,12 +234,15 @@ def add_package_files(
->
->      bb.debug(1, "Added %d files to %s" % (len(spdx_files), objset.doc._i=
-d))
->
-> -    return spdx_files
-> +    return spdx_files, excluded_files
->
->
->  def get_package_sources_from_debug(
-> -    d, package, package_files, sources, source_hash_cache
-> +    d, package, package_files, sources, source_hash_cache, excluded_file=
-s=3DNone
->  ):
-> +    if excluded_files is None:
-> +        excluded_files =3D set()
-> +
->      def file_path_match(file_path, pkg_file):
->          if file_path.lstrip("/") =3D=3D pkg_file.name.lstrip("/"):
->              return True
-> @@ -256,6 +275,12 @@ def get_package_sources_from_debug(
->              continue
->
->          if not any(file_path_match(file_path, pkg_file) for pkg_file in =
-package_files):
-> +            if file_path.lstrip("/") in excluded_files:
-> +                bb.debug(
-> +                    1,
-> +                    f"Skipping debug source lookup for excluded file {fi=
-le_path} in {package}",
-> +                )
-> +                continue
->              bb.fatal(
->                  "No package file found for %s in %s; SPDX found: %s"
->                  % (str(file_path), package, " ".join(p.name for p in pac=
-kage_files))
-> @@ -737,7 +762,7 @@ def create_spdx(d):
->          bb.debug(1, "Adding source files to SPDX")
->          oe.spdx_common.get_patched_src(d)
->
-> -        files =3D add_package_files(
-> +        files, _ =3D add_package_files(
->              d,
->              build_objset,
->              spdx_workdir,
-> @@ -909,7 +934,7 @@ def create_spdx(d):
->                  )
->
->              bb.debug(1, "Adding package files to SPDX for package %s" % =
-pkg_name)
-> -            package_files =3D add_package_files(
-> +            package_files, excluded_files =3D add_package_files(
->                  d,
->                  pkg_objset,
->                  pkgdest / package,
-> @@ -932,7 +957,8 @@ def create_spdx(d):
->
->              if include_sources:
->                  debug_sources =3D get_package_sources_from_debug(
-> -                    d, package, package_files, dep_sources, source_hash_=
-cache
-> +                    d, package, package_files, dep_sources, source_hash_=
-cache,
-> +                    excluded_files=3Dexcluded_files,
->                  )
->                  debug_source_ids |=3D set(
->                      oe.sbom30.get_element_link_id(d) for d in debug_sour=
-ces
-> @@ -944,7 +970,7 @@ def create_spdx(d):
->
->      if include_sources:
->          bb.debug(1, "Adding sysroot files to SPDX")
-> -        sysroot_files =3D add_package_files(
-> +        sysroot_files, _ =3D add_package_files(
->              d,
->              build_objset,
->              d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
-> @@ -1326,18 +1352,18 @@ def create_image_spdx(d):
->              image_filename =3D image["filename"]
->              image_path =3D image_deploy_dir / image_filename
->              if os.path.isdir(image_path):
-> -                a =3D add_package_files(
-> -                    d,
-> -                    objset,
-> -                    image_path,
-> -                    lambda file_counter: objset.new_spdxid(
-> -                        "imagefile", str(file_counter)
-> -                    ),
-> -                    lambda filepath: [],
-> -                    license_data=3DNone,
-> -                    ignore_dirs=3D[],
-> -                    ignore_top_level_dirs=3D[],
-> -                    archive=3DNone,
-> +                a, _ =3D add_package_files(
-> +                        d,
-> +                        objset,
-> +                        image_path,
-> +                        lambda file_counter: objset.new_spdxid(
-> +                            "imagefile", str(file_counter)
-> +                        ),
-> +                        lambda filepath: [],
-> +                        license_data=3DNone,
-> +                        ignore_dirs=3D[],
-> +                        ignore_top_level_dirs=3D[],
-> +                        archive=3DNone,
->                  )
->                  artifacts.extend(a)
->              else:
+>      oe.sbom30.write_jsonld_doc(
+>          d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
+>      )
 > --
 > 2.53.0
 >
