@@ -1,97 +1,112 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF64B10A3D8B
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 12:50:55 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.46577.1774529447102739608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C656F10A3D94
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 12:51:25 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.46589.1774529481895188048
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 05:50:47 -0700
+ Thu, 26 Mar 2026 05:51:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=bELnaVCH;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-899ee87355dso10987276d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 05:50:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774529446; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LV3y3gmbBu1uKus/cX2UW+ZIme8YTF0+/LtLq9BENpQ7myQkVi3paDxEizpk2T10es
-         C1J4y7SOWt5dG/HGz/hAJGt8d/Z8MmuZhZXOvFfLDrae8GVeIBf/qmvqCeYR7r7JQPjI
-         WCCK1m6QJQRpFXE0lJQUr5bmbx2wPsHzi0Q+4RHgnE3swqEIsY2yq9QCE/xfeN3UG/8o
-         qQsMYXcQyuGMjViCUJEkHpsXSjFCKfLyp6Oxl5XFjAKGqiGQPpIr+BPZx9bsc46/fYSU
-         dPSbg3BF/DmzfLJ0XLUfCsS14EdvUrpnzJ/vFadwDA0jXYFJOGh+yOdE7clHD6ad7TAu
-         ZLSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZvluAPJLq/6HKnh7TZLLRZmIa36XsaWd9wYpo/JqSHs=;
-        fh=Eip4Jn1XwWJma9SY+p290X7lO535Eq/j3krUlYr6gVY=;
-        b=YyKETg3H2Jwphg5/yRzuP+LdRkICyLZlB+F31I/1+hMxTFspTCTjsR/g/p99x4NN1Z
-         P38+qFeC03z5WMkXtM/HkWcOZEIa2rz1QidginUlDT06C0J9PnAUMT0EEYC8f4edn9wJ
-         zeVtn9kAF7dsIRd0ArYPNTu0v2oqXXEArWrof3Ky2oIlTNiyrP6mDV3w8ODcLjn4AlKU
-         vy/afK00+wP1pccOnrcqf4wORB1Af4nRQShKv7JvxtywnO7YEl2PR7BBU51j9+5cvcsN
-         oJQq1UIv0OdT+xDNuZZoBqGo2VPj5iiahlX9LWQrKdeJ0o3q/kIfdrU8GVPwjO80mdzl
-         BkUQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=rCaGPQ0q;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43b87970468so912312f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 05:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774529446; x=1775134246; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZvluAPJLq/6HKnh7TZLLRZmIa36XsaWd9wYpo/JqSHs=;
-        b=bELnaVCHKUWpvL8jd17iVfr9H21c45uPyGTV3OLMAd/6fYnVnBEugmBi5l+7bfW3P3
-         QietlD2y10/XEe8hZ8JyTVCM7umMuUyaxFsnPV1GWeXFmjZ+CRkicE7BTYkqTKU0/aw/
-         w5e/QrLDUI2pURvL1IxJgBpYDeMfL2pmjKZxgCtxUbCu7w3k4hDwORC2w4Jo2zobxxXd
-         KV++NsKQMgqVE2Y4e9uP8Myvt22HTDo3gm0Yh3GY3P64YlFQacEaJ43dnHUNaZCaa1WZ
-         bXDj7JDO+yRhoyhcIkx5LC0tdtGH7l3AxXLXtsFNbQkLBXnWVX3NmCmYt3YlqANah3eC
-         s+KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774529446; x=1775134246;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774529480; x=1775134280; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZvluAPJLq/6HKnh7TZLLRZmIa36XsaWd9wYpo/JqSHs=;
-        b=BfUcPm9CBv+s3EUHirr7VBU5qNhln1lc5MlGD9K+A6My673MaTr/tiDeEdcvhpgDNG
-         8o8DHgBwopJynkznrRx4iwp9MtHYqMw9ImHAB6pSNPu48elwX7B7QzLyx6s+FNLEhPzY
-         JPPoglQ3DFxbojAiAYG51VvMV88WsbUZZKDa9taHw4aObAS61mjdhT54yyaNVK06MsKQ
-         zwH13Zz1rIiqnbRVbk6ABd3vvdByBwOc2QpnJyE8Yd+VgaeryoyiTVr4tfQ7cTZb03dw
-         j4IzjyTLcOb9/ryn5MCSqdpzzrR/LCZy3ZALrv1RZAEeNo5KutQpVdtTemxMhAXln4Si
-         rqZA==
-X-Gm-Message-State: AOJu0YwDBeUPFH7aaCz5+0W2GM8Pj+T1b9FdF8KAL0Q2ckVG6+TJ9cm8
-	LLz33ZZarynPnI1pUFpUmDKTvkYHk+q+F8eov/QIKJBVmpkW4P5TWrWXm31G334ChkZ75D98OBY
-	+ENn3SYOzqgsXfen22sqEop7E3x/nKVMoGY2D
-X-Gm-Gg: ATEYQzzvXBmQ4o3GY3x+ryA3HhyGz2Kx6og1g8ZN2kp1B+CxK5ukEdxtMncegI5DmV7
-	ijcmlO/BzO/JUbwsKQmcqtmWlP+kScD7NSLCFjuGilOe43eok2TH9/E3rh9zXOmDAG8LeEC2hnt
-	gvvJL+iIQ01ber9cw5MMD8IOe4DpGbcUy6AnCnyc+6B6fkPGXgV0J+3aD5e6+5VC7hF2JzCtu/s
-	iKeppC6vO/bZkw8CfrAhQEqmZARnyH2sjyhinC5dKI8tUuEXqMiCbiFzfiUZ5ohe09duznVHFSK
-	frrnLry6tj8wfT96nalfey1yDsf/5XnsXiTdo7nklQ==
-X-Received: by 2002:a05:6214:2e44:b0:89c:8cc8:7c6a with SMTP id
- 6a1803df08f44-89cc49841c3mr104111616d6.5.1774529445985; Thu, 26 Mar 2026
- 05:50:45 -0700 (PDT)
+        bh=KNdmWgA3Os258qwMAO7LTEFXVgP+6nxrxsDlPP2jerw=;
+        b=rCaGPQ0qzaL0SCy9risHPsT6mUyyTqADlQ0HxC6U6uwPoH8mPn9Wozb6T+mw5NMmQh
+         P0DV/r9gZc3/8ZbUX8tBNb+MZWtZsixIbTJ6h8x8E3Dv41hq+o7KmaWoOj6ykWLi250E
+         D+OWtt+2la495cJE035qdMX0TnOuczmTwe8rFQTcteHONMRMVEoc5wzD9jQBXe/aGMP8
+         NvsJOfijXwD3t+TfgqHLk8yq+Jk919BZju2yDTHUCl1MpRRNLLSq1cpIg9YqICEPn+6F
+         u0cTjub91od5F6b2sBkr5kIf/6P6wXNZwMk+17iqG53wWXLcUAjtevo9xpsrhPrddTI5
+         DNoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774529480; x=1775134280;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KNdmWgA3Os258qwMAO7LTEFXVgP+6nxrxsDlPP2jerw=;
+        b=ZuGcHTmE/schbQskMDXOq1POhZJazpmRXX2ZEnaKFleAghQr7o78lkJalS1ZhmmuNw
+         +/bm5WavOige1xjPMeIjhwp9MHycPnCbpWrwfla8JF/CF7Tpe6BoSGR1B8AjXyYm5iWk
+         eiBDc8uxkvICx+O4l5QbWxev6F8g53BVXz1wyhKFlr1WZT3iq6206MtpRr0hvRF7hJx9
+         Aw46HXudH/Yy2VAWAr6vL94+F79MHgitGJI2O+t/YAfm90xKjNtpjqNII0r0ORwP3LZa
+         mkdeQ2wSTryVnmY7p9noPp1aJiDdXV1W4TxmL+MQz1mP2OP9Plez8FHWS9pvA+G8Yqr7
+         qL9Q==
+X-Gm-Message-State: AOJu0YwftTfsBmNf3vBKIFmUnNtPvT7hp3MuU/+jArKWfi2+fbGxfejU
+	/Qh8MTfSulfSPqLf/C7BV66dOzvmoZVw3Q0gS+ASpvzm75qJenD/ahHs7NPSrg==
+X-Gm-Gg: ATEYQzzONzC8sGmiY2WR6YpZ6arrkjf34h8OHVOVB0ZdE06TRW9AEFydKHLTrZpPJkc
+	kMrcIMwMF02eGc3bPQgStXa6XMAn90SWSMTlSvrdVTJd1JgXFT1hfG32CI/ej0RcHSVLSSFQZg6
+	CV6WWl0xHQ1Dxft/s9sN5ii0cKOx3/FFLWvKLOXOvT81RLhDBbHz6cgvaH5Mo6eNA9YBOj8h7Ct
+	QrWb33eigj4RwW37b6OozpGDH0EPIGWuTc9jQgRne3jAEWlIxW9nUKtFaP/pgpHO7OwnBv+AwXO
+	Y2dFY29HEEuhcUeVoZqwotlC+O68+zkOPfbcGutYjeRijEBF3hi1XCREr9Bo0/Bzokm3jB7tpND
+	5IolX7L1ZHA+GgPK4lKiEWen1Mt6oMDYVs2he0xQE3Hm6zAJaJY07FhdW/PGSBFXd4DrvoyuUME
+	E+DzNKYfA74W0YOg==
+X-Received: by 2002:a05:6000:250d:b0:439:abcd:b314 with SMTP id ffacd0b85a97d-43b88a3d3e9mr11546410f8f.18.1774529479687;
+        Thu, 26 Mar 2026 05:51:19 -0700 (PDT)
+Received: from term011.lan (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919cf2d3sm7681326f8f.19.2026.03.26.05.51.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 05:51:18 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH 02/13] python3-dir.bbclass: Move PYTHON_ABI into PYTHON_DIR
+Date: Thu, 26 Mar 2026 13:42:23 +0100
+Message-ID: <20260326125113.1853869-3-zboszor@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260326125113.1853869-1-zboszor@gmail.com>
+References: <20260326125113.1853869-1-zboszor@gmail.com>
 MIME-Version: 1.0
-References: <20260326105453.1799455-1-ankur.tyagi85@gmail.com>
-In-Reply-To: <20260326105453.1799455-1-ankur.tyagi85@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 26 Mar 2026 13:50:35 +0100
-X-Gm-Features: AQROBzDvvJ7lveDP3I1UaHo_vHUzNrmmCcJAMo_aHzPpBE7nYZwFqhOiA535qyI
-Message-ID: <CANNYZj9eMOVW12_nz5h9ri7NbUx=hpEH_ecQkisFX9v4ES-fiQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] vte: upgrade 0.82.2 -> 0.84.0
-To: ankur.tyagi85@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 12:50:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233983
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 12:51:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233986
 
-On Thu, 26 Mar 2026 at 11:55, Ankur Tyagi via lists.openembedded.org
-<ankur.tyagi85=gmail.com@lists.openembedded.org> wrote:
+PYTHON_DIR is now suffixed with PYTHON_ABI.
 
->  SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
-> -            file://0001-support-reproducibility-for-debug-sources.patch;patchdir=./subprojects/simdutf \
+Python build helper classes and the python build modules
+use PYTHON_DIR internally, some of them do not care about
+the ABI flag. So it's important that the destination
+directory is set correctly.
 
-The patch file needs to be removed as well.
+This will also allow fixing recipes that may or may not have
+been using PYTHON_ABI consistently, since it was set to an
+empty string.
 
-Alex
+Also added a new variable called PYTHON_MAINVERSION which
+is a combination of PYTHON_BASEVERSION and PYTHON_ABI.
+
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/classes-recipe/python3-dir.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/python3-dir.bbclass b/meta/classes-recipe/python3-dir.bbclass
+index 3eb0dea9b2..f3ad0a2d91 100644
+--- a/meta/classes-recipe/python3-dir.bbclass
++++ b/meta/classes-recipe/python3-dir.bbclass
+@@ -6,6 +6,7 @@
+ 
+ PYTHON_BASEVERSION = "3.14"
+ PYTHON_ABI = ""
+-PYTHON_DIR = "python${PYTHON_BASEVERSION}"
++PYTHON_MAINVERSION = "${PYTHON_BASEVERSION}${PYTHON_ABI}"
++PYTHON_DIR = "python${PYTHON_MAINVERSION}"
+ PYTHON_PN = "python3"
+ PYTHON_SITEPACKAGES_DIR = "${libdir}/${PYTHON_DIR}/site-packages"
+-- 
+2.53.0
+
 
