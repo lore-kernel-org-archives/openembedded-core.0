@@ -1,230 +1,452 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F8C106F2EA
-	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 07:57:50 +0000 (UTC)
-Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42472.1774511684955004136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 661B5106F2EB
+	for <webhook@archiver.kernel.org>; Thu, 26 Mar 2026 07:59:00 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.42502.1774511939468158706
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2026 00:54:45 -0700
+ Thu, 26 Mar 2026 00:58:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=nZcj+4p4;
- spf=pass (domain: bmwtechworks.in, ip: 52.101.225.43, mailfrom: git-patches@bmwtechworks.in)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qbZYr3ENEzhs1WNNIaN9WSH5FP6QQ6lJLZPi0ZyiXTNeLjjDN4IlAM/ZEeQIUKce6q4kGQR6Cs22JbKw39ze25W8TEgrZyM/S7MqxzDLTxZ3+NJsQHVUOoOQeRvBlLuC4V8UfYcQ9k/IcgzElWau8MvdIdElk6wwbMrIsnw0cKEqz2KWoj1nFYpDQn77pWHt1GC0Y7A9CIWMFlVubDBG140IsLxI4TYJmaFiSCI+PXaEsfjHhafwoPZu4IxdMzpU6XeVvY0qyj43qz5rIGml1NQeuCILHSUGZKsBd5qlBJfoMT12KAqUWWEaFlUwUWcYf2ecFyadCEkr2VfkZ5HI7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d11z/doRooBn/vhUVwd19xj/YtkIasCeV1rxVH87zzQ=;
- b=sfGfZI812lWZqxWpf5yzTuNNIvka9XqSmQz54/aoZ3H6W/5u+xPSu4YGoWtgGN9d7tk7QKFOIDaAsMw0vaT2HMAKmm6ZVM3VJBztvIXVVLprrfJLfWrBnf6uJjLVjMlag4MVio63d1uU0vcnfqNW6Mh7rLD3PsIFcJGdKnAj4QUZVjE55njf1Vks4o/HdC8gTvWUU2p5qD/FCe07gxIOIQ1SqyBW6Ve6dRk0Y5pYH2QuZ8CiCdfDqIbWKJiXOGwHQsjSVwF5gw6zqIBGoO8NeHD6P0pc4UecjgM6NkATFgUc/t+8YtEuXExgXhZCEMF6cUo35RlXjP1W55rctULwxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
- header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d11z/doRooBn/vhUVwd19xj/YtkIasCeV1rxVH87zzQ=;
- b=nZcj+4p4mJfHIpDKmdEtNjAguU30fo3itx976caMlOQwz4tnH2L+U9DKvyfoPOE7JSXfDPvR7mCX0ynGMyuqmBj7f8nMhMvX11nlD3Lcn/WDXjGx85+mrL0xd7nZsmjfEjVAFr3rTgtJnt/Mfuroy6lDY+grLZe9A2BVJdEYYhOoEOt0/J9s6kWedH3aInzeHUtGGnjHhlrrPElKpnP+w4aL/hKVc4tN7IvZs3Gy7r07s2r++fV3mC25r6Lm6L+KDFJq+ATkMZsWVPjwUTikr8Mj4+5lAPdR+bxCIBQYHrwZUHDllhS89Gou5ZBl7YjrD3rdrqMJmifHNnAwqwsX/w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
-Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1be::5)
- by PNXP287MB4084.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:290::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.22; Thu, 26 Mar
- 2026 07:39:16 +0000
-Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
- ([fe80::c9ca:1b54:1c36:f7f2]) by PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
- ([fe80::c9ca:1b54:1c36:f7f2%4]) with mapi id 15.20.9745.022; Thu, 26 Mar 2026
- 07:39:16 +0000
-From: Suresh H A <git-patches@bmwtechworks.in>
+ dkim=pass header.i=@mvista.com header.s=google header.b=Ihhp2ssd;
+ spf=pass (domain: mvista.com, ip: 209.85.216.45, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35a04d6aeb0so629393a91.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 00:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1774511938; x=1775116738; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XU8MauJoJ7nxpTGw3b5GVk67GW+QBReMx39Jpjb1uLI=;
+        b=Ihhp2ssdxXwWYROJjxgbEx5u3dPo4KCnl3FvqHvEo4bSpe9g3FRKetRplv2E9C+D6x
+         2r97djaRhxvJNjHmbQFpNunSed/BGgwyWzShBReYtD0GplQvIlQ7NJsErPJz0YoHM5/Q
+         830YlMrE3VvJkulfNCvesx4N0OM3VMNBN9adQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774511938; x=1775116738;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XU8MauJoJ7nxpTGw3b5GVk67GW+QBReMx39Jpjb1uLI=;
+        b=Rx697w5YHZGlKb/W9QFzktLFiYHIDallzI9HJOfyU0d1ybdRiq4RZPk0RlOyfYWtbo
+         emTfAvG9yWxzDa2xtGwvWFplLmRmzTM6zCnKqB218bEx9R/FOtGgHMgK7wlmcPRQGabn
+         ltMDRihvsQFTSSIk3BiMW0E4zobezcs9ckMeys+X96uBzGyJR5VUIKdo4121Xb7ygVyx
+         Mqe4d3Ua7aDFPl+r1PKNSKZV0OQfczuXRAgKQw64eyrW+Rcurmc04k1XswUCJuvarZax
+         Y+8ro0+A0MDr8CINt7sAChbReITsifaHNpczqkdwb1s1ap4zStoUhi/4D4CjWhYgwgL+
+         n8kw==
+X-Gm-Message-State: AOJu0Yx40MrJtsGSxaUzoC2ljtXl6jQbLzWLW9Po7zWS9d+vpUeo7k75
+	GB0VI//c8uIynL32e7KIPS33nY3nFb8nx+LasQEgs3ViiBsW/QyiZLZ1PBMjumQUUM8OSrD8o6p
+	hAuM67sc=
+X-Gm-Gg: ATEYQzyrNyKzxfCnG7e/a23X0NxdaKbq80YF5OTUdW7a3TLXJ3pOLXWNablPrJJBdzN
+	466JL5ZT0MDILUk48Oz5Do6pmt6u9SpH0R2NK0f5Iwu6AeqownMu3d15+vWpaH52Vt/Qdhu6lhC
+	RmcHNZIh86w+kJQoXWBjG9Mw/EtVgfR1r1Mm3kO9AJFPSdLbT8QMgNfakJhw236bYJyU1D4wE/w
+	gZpblDR5aw9kMmWswHU/IaNpCBmUAgSc7ear/saplulOwLXs7hHEm3jOpQ4rc8XACT7jS46BSnT
+	TWPG91hEoB9kw0yjAPrOReJis28E/zLD6xeerbnM4Rwc+2v/LlKNIaCZDupPuyIp0e810SP9HRi
+	2vWQvl0kL+fkjPus6CiDY0JwdZxUQyUwcmmrE6/mkD4B13dhd+x0MBxBSlA6QqwLjK9P6sNf5MV
+	a2PtxgEzz62UUTg2JvLryaPOZwcOyiPfefb08A
+X-Received: by 2002:a17:90b:4b:b0:359:8293:67f2 with SMTP id 98e67ed59e1d1-35c0dd996b2mr6056519a91.32.1774511937932;
+        Thu, 26 Mar 2026 00:58:57 -0700 (PDT)
+Received: from localhost.localdomain ([2406:7400:54:2bec:7987:be3f:ca17:f7a1])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c1f2dddcesm446735a91.7.2026.03.26.00.58.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 00:58:57 -0700 (PDT)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-CC: sureshha <suresh.ha@bti.bmwgroup.com>,
-	sureshha <suresh.ha@bmwtechworks.in>
-Subject: [OE-core][scarthgap][PATCH] systemd: backport patch to fix journal-file issue
-Date: Thu, 26 Mar 2026 13:08:55 +0530
-Message-ID: <20260326073855.2075702-1-git-patches@bmwtechworks.in>
-X-Mailer: git-send-email 2.34.1
-X-ClientProxiedBy: PN4P287CA0038.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:271::8) To PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:1be::5)
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] libarchive: Fix CVE-2026-4111
+Date: Thu, 26 Mar 2026 13:28:47 +0530
+Message-Id: <20260326075847.312211-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN0P287MB1970:EE_|PNXP287MB4084:EE_
-X-MS-Office365-Filtering-Correlation-Id: 947bff6a-eee7-4cfe-091c-08de8b0ac83f
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|55112099003|38350700014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	v2WxHH170+C4WykcKKyE09uKLXVetvAOjqE5E9wuUyUloInChiSjXITxwRLGHYaRyPOW0u0VjWPMuZA4zyM0n5g/o8cvMO4NAKfnE976gNh4ldTZGcudlC4F2OXffD0vfikfoZrkzcT3Hau7q7BjGYafo+uWyH00EmqzB0DM7KxxFhr3ohB8VdtdyuC0Q8jj08RmrfctvgAdTn91hx+hfLUYfuSrOlO2W+Q+5fReLxVW+bDPSCKvqpqixUO7II2OI7Ej2MuZJRYiL9T6HfdMGQg0qKg9bq5obhCQrCrHJSfDtUBWBoulE6LYN7X9we/tiG0Qwso/XAi38ZQ4uqNu73DAZW4vZgV/8PFWCo3U9c/JTNg54FnaBWi3aIXdBR4L/7z8HcHsLuW9CNPsu9hayY/g7eaM/T2CBOfGA5Zx6sknqhERl3mgLTHr0yh+CBvZZMrHYLlGMnZjpRf9DOSjCCMCmdvaOSAnjjaJEz3NMq4jiXNl13nGl2DjaEb04HJuVHf8Q5Xl5YQdHdoRYb/nIMEXgvgd28SOedmD+1uB6K9PHGNpYuqHHxGFgKwWqzumgyDDDdTiwEaTflxgZZ7sacZSkzYbhrEJ47mvr3nEmLHnCHVkocR24Lowh2cdR2JwslaW/i2tMqjtDkVmNORmDjoNudOcSwaOHeZ5rW9RP6vIaqh/XL7Yapr+2pjegxfmkzi8Arg3DXKwfg2zk8EOnILF8blsSv+B4UFcBmFrPWE=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB1970.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(55112099003)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?OU/cleDWhT6hNIUlDNZF1Onc/51SziTxaR6eFJLCMpqeCsupz1aF9UK0Qcor?=
- =?us-ascii?Q?9H+VKm3gyAAiwpMEwKV7JFQ7cLIW/S7HQzoizlyJ5l2JJvMPvU8kJZtODduS?=
- =?us-ascii?Q?0dbnwIHj2K3DCqAJEYeeeXkzR3We/M7BOzTXVltsLvZ+9PBvIzAjdXdZv6TY?=
- =?us-ascii?Q?d7eEAn0763zYYUPQ90/XqpC6fcYqPEZNoN2c50knvCK7D0+aGbQUsElwpokv?=
- =?us-ascii?Q?bim/N0DzUY/njHzXnxfNiX6nT6yevSYz5KUa+ErH+ooA5OmW3oeeakB7ZHBz?=
- =?us-ascii?Q?qEjZxc+y1L1oN5VuRuZnHSrvSv6oMZDRrGBI+7bUXNNeXeIoXu+zmMEiBcgg?=
- =?us-ascii?Q?xt5RE/crO2CCzV3/Zd3Fw9/l0I3smc+DYnfj3oJN32Ux0F9N8OQjN/rurkm5?=
- =?us-ascii?Q?ZI+LWKIfbRvY0OVF9CloDKAwUZZJKMgvx2bFf8lMawd3MQVbICE53/c5Wk2c?=
- =?us-ascii?Q?jL9qTF8EF64eUtBogD8T/G97Xo25Is47FH8QBGiaSzDsTTt4xR/R3SEGyjMf?=
- =?us-ascii?Q?NDgSgIIOMc+Y5ytwyu7bnNz7jmx+t/2c6klDglyFqmUpT7cGiGyYo9NM9qBo?=
- =?us-ascii?Q?SaacmRebFtbnWJ383xATfvCUpxg56ATQWYVf60+42Xwt0xcG3Ec0zy2CSAAq?=
- =?us-ascii?Q?SaOw0tPE3HF6qKWcCCygHR+D6wXCYMGP5HcpB0NEbe9f7CzaSH83KjM80kTC?=
- =?us-ascii?Q?TVQBDneTWLpwOjuvyrEVa04Lg8v0GruzSLbAjUwsI4XM1k7K07NILuPXbrks?=
- =?us-ascii?Q?YT7bn5hGpX6NrW4pGTE7W9kK/IWdlXV79LG5KYzDKKD56C6G0UsO/Q2k8DyW?=
- =?us-ascii?Q?Ja5l2knCotpyQwGS9NK3DSASthK27edRbPeIvoKAofx2IKcibbFDAuaG1LFM?=
- =?us-ascii?Q?rrSdftJgmXrnz4NVsrnKyyAyY5kfxU0DZ4ENVbHvHIWykC5Rgi3V8jzcVAzE?=
- =?us-ascii?Q?GOR5MkoQjbcFVmUlASIa26kIpT73AMcotPExHfjELvWNzr3t/EXoitVibOvR?=
- =?us-ascii?Q?4f2J4nxzqjwOQm7qKV2ezC8JFceLz8rfnMOgeMlVE0JJbspJ1/qOyte2VXaz?=
- =?us-ascii?Q?sUD79qtjyuhpoSgc+mtZdPDqdBxErGjdsVdhGj6y5IjKDbKTQcgloZq28t3/?=
- =?us-ascii?Q?B9LeWkxo6+ke8ej4qo/gPpcA7LqYOaZtHwK2hexQUZdxGS6tDd6zkGuoWpve?=
- =?us-ascii?Q?iwG9FXnzFo/YyJ2eoAz2L3EOl6Nt56jS9PO7YzEKNTICPE2ELCuzNf99fjXD?=
- =?us-ascii?Q?3mQOSFuY3iR1BEgwHVM8n76i/n2qWLLRmi/NgwPcv2SFbBpJGqniNTIl6Njy?=
- =?us-ascii?Q?MIbiMGdhRTCS9hXmPKSYC+MXEzZYPAe6pE09rCSEzdp+CDDXOuyMsJevASdu?=
- =?us-ascii?Q?Bf1ZxnSqBNzvlc3RlGtt4DyiX6PHKAdKW3adABX1rdljTF0PtdKIX8gNa5OU?=
- =?us-ascii?Q?05wmvTr7IfStVL00cL2dIlvil+Ew6/ki6SWexLMOxhLjrwTGaMj4hSJLa7h+?=
- =?us-ascii?Q?GZLOFOLrutWS9cN5q2P2g7RZrCMZyWZRQpR7NRzR3rxBpOPKX63VqXyle2IK?=
- =?us-ascii?Q?j0hpcdcERnoVSwn4sCU29K8ALgeh204K9le7DuOp4FHBn05ESzTdu6/fghuS?=
- =?us-ascii?Q?o7hxlqnIfSZxOCrCzUKxNI98ejEXG4tf8QzCG3jYK4HSeOypq6K+MatGzKng?=
- =?us-ascii?Q?EUgneASkkSI+/MUxAke+Sj1f68G0VoHQrPxE+JpqWsYckwW3mT7vmelEWuLs?=
- =?us-ascii?Q?6Dboj2Dbqg=3D=3D?=
-X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: 947bff6a-eee7-4cfe-091c-08de8b0ac83f
-X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 07:39:16.1023
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lP0Os35gI7mVz1OZTEjyds9YsxTj1scvKDbW3ecb1G8OG1XX5GsrkMEVmK11D3pG5ZYW/FAe2upj4v1vq7LAA9gyt6DHiGPUn63Z5k2wEPc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNXP287MB4084
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 07:57:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233955
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2026 07:59:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233956
 
-From: sureshha <suresh.ha@bti.bmwgroup.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Backport patch to fix systemd journal-file assertion on removed or corrupte=
-d files
+Pick patch according to [1]
 
-Extracted from systemd MR:
-https://github.com/systemd/systemd/pull/40378
+[1] https://security-tracker.debian.org/tracker/CVE-2026-4111
+[2] https://github.com/libarchive/libarchive/pull/2877
+[3] https://access.redhat.com/errata/RHSA-2026:5080
 
-Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-do-=
-not-trigger-assertion-on-removed-or-.patch
+ .../libarchive/CVE-2026-4111-1.patch          |  32 ++
+ .../libarchive/CVE-2026-4111-2.patch          | 308 ++++++++++++++++++
+ .../libarchive/libarchive_3.6.2.bb            |   2 +
+ 3 files changed, 342 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-tri=
-gger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/002=
-3-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
 new file mode 100644
-index 0000000000..5f5551870a
+index 0000000000..1f065b1364
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-as=
-sertion-on-removed-or-.patch
-@@ -0,0 +1,65 @@
-+From 1350f39db7e72116c3b2423db02da3ddc8e29082 Mon Sep 17 00:00:00 2001
-+From: Yu Watanabe <watanabe.yu+github@gmail.com>
-+Date: Sun, 18 Jan 2026 19:15:31 +0900
-+Subject: [PATCH] journal-file: do not trigger assertion on removed or
-+ corrupted journal file
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+@@ -0,0 +1,32 @@
++From 7273d04803a1e5a482f26d8d0fbaf2b204a72168 Mon Sep 17 00:00:00 2001
++From: Tim Kientzle <kientzle@acm.org>
++Date: Sun, 1 Mar 2026 20:24:56 -0800
++Subject: [PATCH] Reject filters when the block length is nonsensical
 +
-+When a journal file is removed or corrupted, then the value `p`, which is
-+read from Object.data.entry_offset, may be zero.
++Credit: Grzegorz Antoniak @antekone
 +
-+Note, journal_file_move_to_object() checks the passed offset and return
-+-EBADMSG if it is invalid.
-+
-+Fixes the issue reported at
-+https://github.com/systemd/systemd/pull/40372#issuecomment-3762907261.
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/2185c=
-30de333b09f46ef28b743b123f45e774738]
-+
-+Comment: Patch is refreshed as per codebase of v255
-+
-+Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/7273d04803a1e5a482f26d8d0fbaf2b204a72168]
++CVE: CVE-2026-4111
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/libsystemd/sd-journal/journal-file.c | 7 +++----
-+ 1 file changed, 3 insertions(+), 4 deletions(-)
++ libarchive/archive_read_support_format_rar5.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/sd-=
-journal/journal-file.c
-+index 08f3b82..633de5b 100644
-+--- a/src/libsystemd/sd-journal/journal-file.c
-++++ b/src/libsystemd/sd-journal/journal-file.c
-+@@ -3305,7 +3305,9 @@ use_extra:
++diff --git a/libarchive/archive_read_support_format_rar5.c b/libarchive/archive_read_support_format_rar5.c
++index 38979cb..867f0a8 100644
++--- a/libarchive/archive_read_support_format_rar5.c
+++++ b/libarchive/archive_read_support_format_rar5.c
++@@ -2914,7 +2914,9 @@ static int parse_filter(struct archive_read* ar, const uint8_t* p) {
++ 	if(block_length < 4 ||
++ 	    block_length > 0x400000 ||
++ 	    filter_type > FILTER_ARM ||
++-	    !is_valid_filter_block_start(rar, block_start))
+++	    !is_valid_filter_block_start(rar, block_start) ||
+++	    (rar->cstate.window_size > 0 &&
+++	     (ssize_t)block_length > rar->cstate.window_size >> 1))
++ 	{
++ 		archive_set_error(&ar->archive, ARCHIVE_ERRNO_FILE_FORMAT,
++ 		    "Invalid filter encountered");
++-- 
++2.25.1
 +
-+ static int test_object_offset(JournalFile *f, uint64_t p, uint64_t needle=
-) {
-+         assert(f);
-+-        assert(p > 0);
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+new file mode 100644
+index 0000000000..243a03a8e5
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+@@ -0,0 +1,308 @@
++From ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4 Mon Sep 17 00:00:00 2001
++From: Tim Kientzle <kientzle@acm.org>
++Date: Sun, 1 Mar 2026 10:04:01 -0800
++Subject: [PATCH] Infinite loop in Rar5 decompression
++
++Found by: Elhanan Haenel
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4]
++CVE: CVE-2026-4111
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ Makefile.am                                   |   2 +
++ libarchive/test/CMakeLists.txt                |   1 +
++ .../test/test_read_format_rar5_loop_bug.c     |  53 +++++
++ .../test_read_format_rar5_loop_bug.rar.uu     | 189 ++++++++++++++++++
++ 4 files changed, 245 insertions(+)
++ create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.c
++ create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.rar.uu
++
++diff --git a/Makefile.am b/Makefile.am
++index dd1620d..14edb2a 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -507,6 +507,7 @@ libarchive_test_SOURCES= \
++ 	libarchive/test/test_read_format_rar_invalid1.c \
++ 	libarchive/test/test_read_format_rar_overflow.c \
++ 	libarchive/test/test_read_format_rar5.c \
+++	libarchive/test/test_read_format_rar5_loop_bug.c \
++ 	libarchive/test/test_read_format_raw.c \
++ 	libarchive/test/test_read_format_tar.c \
++ 	libarchive/test/test_read_format_tar_concatenated.c \
++@@ -869,6 +870,7 @@ libarchive_test_EXTRA_DIST=\
++ 	libarchive/test/test_read_format_rar5_invalid_dict_reference.rar.uu \
++ 	libarchive/test/test_read_format_rar5_leftshift1.rar.uu \
++ 	libarchive/test/test_read_format_rar5_leftshift2.rar.uu \
+++	libarchive/test/test_read_format_rar5_loop_bug.rar.uu \
++ 	libarchive/test/test_read_format_rar5_multiarchive.part01.rar.uu \
++ 	libarchive/test/test_read_format_rar5_multiarchive.part02.rar.uu \
++ 	libarchive/test/test_read_format_rar5_multiarchive.part03.rar.uu \
++diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLists.txt
++index 05c6fd7..c8f2e90 100644
++--- a/libarchive/test/CMakeLists.txt
+++++ b/libarchive/test/CMakeLists.txt
++@@ -156,6 +156,7 @@ IF(ENABLE_TEST)
++     test_read_format_rar_filter.c
++     test_read_format_rar_overflow.c
++     test_read_format_rar5.c
+++    test_read_format_rar5_loop_bug.c
++     test_read_format_raw.c
++     test_read_format_tar.c
++     test_read_format_tar_concatenated.c
++diff --git a/libarchive/test/test_read_format_rar5_loop_bug.c b/libarchive/test/test_read_format_rar5_loop_bug.c
++new file mode 100644
++index 0000000..77dd78c
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar5_loop_bug.c
++@@ -0,0 +1,53 @@
+++/*-
+++ * Copyright (c) 2026 Tim Kientzle
+++ * All rights reserved.
+++ *
+++ * Redistribution and use in source and binary forms, with or without
+++ * modification, are permitted provided that the following conditions
+++ * are met:
+++ * 1. Redistributions of source code must retain the above copyright
+++ *    notice, this list of conditions and the following disclaimer.
+++ * 2. Redistributions in binary form must reproduce the above copyright
+++ *    notice, this list of conditions and the following disclaimer in the
+++ *    documentation and/or other materials provided with the distribution.
+++ *
+++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
+++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
+++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+++ */
+++#include "test.h"
 ++
-++        if (p <=3D 0)
-++                return -EBADMSG;
+++DEFINE_TEST(test_read_format_rar5_loop_bug)
+++{
+++  const char *reffile = "test_read_format_rar5_loop_bug.rar";
+++  struct archive_entry *ae;
+++  struct archive *a;
+++  const void *buf;
+++  size_t size;
+++  la_int64_t offset;
+++
+++  extract_reference_file(reffile);
+++  assert((a = archive_read_new()) != NULL);
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, reffile, 10240));
+++
+++  // This has just one entry
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_next_header(a, &ae));
+++
+++  // Read blocks until the end of the entry
+++  while (ARCHIVE_OK == archive_read_data_block(a, &buf, &size, &offset)) {
+++  }
+++
+++  assertEqualIntA(a, ARCHIVE_EOF, archive_read_next_header(a, &ae));
+++
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
+++  assertEqualInt(ARCHIVE_OK, archive_free(a));
+++}
++diff --git a/libarchive/test/test_read_format_rar5_loop_bug.rar.uu b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
++new file mode 100644
++index 0000000..3e47004
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
++@@ -0,0 +1,189 @@
+++begin 644 test_read_format_rar5_loop_bug.rar
+++M4F%R(1H'`0#%&C,R`P$``)T-9%L.`@+P0`"`@`P`@`,``6'(WFP@`?\7_U/^
+++M8@!.`B`H````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++5```````````````````Y^;*!`@4`
+++`
+++end
++-- 
++2.25.1
 +
-+         if (p =3D=3D needle)
-+                 return TEST_FOUND;
-+@@ -3341,7 +3343,6 @@ static int test_object_seqnum(JournalFile *f, uint64=
-_t p, uint64_t needle) {
-+         int r;
-+
-+         assert(f);
-+-        assert(p > 0);
-+
-+         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-+         if (r < 0)
-+@@ -3382,7 +3383,6 @@ static int test_object_realtime(JournalFile *f, uint=
-64_t p, uint64_t needle) {
-+         int r;
-+
-+         assert(f);
-+-        assert(p > 0);
-+
-+         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-+         if (r < 0)
-+@@ -3423,7 +3423,6 @@ static int test_object_monotonic(JournalFile *f, uin=
-t64_t p, uint64_t needle) {
-+         int r;
-+
-+         assert(f);
-+-        assert(p > 0);
-+
-+         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-+         if (r < 0)
-+--
-+2.34.1
-diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-cor=
-e/systemd/systemd_255.21.bb
-index 87e186bbfa..504d6cbef6 100644
---- a/meta/recipes-core/systemd/systemd_255.21.bb
-+++ b/meta/recipes-core/systemd/systemd_255.21.bb
-@@ -29,6 +29,7 @@ SRC_URI +=3D " \
-            file://0002-binfmt-Don-t-install-dependency-links-at-install-ti=
-m.patch \
-            file://0003-timedated-Respond-on-org.freedesktop.timedate1.SetN=
-T.patch \
-            file://0008-implment-systemd-sysv-install-for-OE.patch \
-+           file://0023-journal-file-do-not-trigger-assertion-on-removed-or=
--.patch \
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+index e74326b40f..85fe6e5baa 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+@@ -50,6 +50,8 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://0001-Merge-pull-request-2768-from-Commandoss-master.patch \
+            file://CVE-2025-60753-01.patch \
+            file://CVE-2025-60753-02.patch \
++           file://CVE-2026-4111-1.patch \
++           file://CVE-2026-4111-2.patch \
             "
-=20
- # patches needed by musl
---=20
-2.34.1
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+-- 
+2.25.1
 
 
