@@ -2,258 +2,204 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CE3310F287C
-	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 23:23:12 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1507.1774653781634622763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7132710BA434
+	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 23:36:33 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1690.1774654588203972447
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2026 16:23:01 -0700
+ Fri, 27 Mar 2026 16:36:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Sjn1nz0P;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-487035181a7so16507455e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 16:23:01 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=QJcpj5qz;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486fd5360d4so33101695e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 16:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774653780; x=1775258580; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=smile.fr; s=google; t=1774654586; x=1775259386; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3kRsIqvsEACXN2BHrEIMgCqFkJfSDtCSz1a3sBHtgGE=;
-        b=Sjn1nz0P8Tia8MYgCCmGaQHzFo4PkHqbkRqqsBvHUSgnp4SPPn1btzJnbYVLPbuB4c
-         dHat1EPwBHbragQ4e0Hr0IcQjNaGqiEBYQg6iC8U9obp+RSbigoKvhP7U9apA3nfLLQC
-         isPAZ7xgI/CvIu4StGMkKJlNfwHndlQp2W8ZE=
+        bh=YpvE7ApcPl1AHAb2MKIgpvrbfiUzRKGsFWd+Mcbe6ro=;
+        b=QJcpj5qzOsZEFdnoDRkQ+C2oQZHku1jIcFx+MA+Cjv60ah2B79wP7CkovwHpSixYNh
+         YuWx6RHopIEtD9/LgJHBYEm3lGB3I7fwGZZFwUa99ScVCv1YF9wIvwmWU1GOlYb8LLZq
+         KuLURvq1a3LxNJiiwhDl4YyPyP02KMYy6fjQs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774653780; x=1775258580;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1774654586; x=1775259386;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=3kRsIqvsEACXN2BHrEIMgCqFkJfSDtCSz1a3sBHtgGE=;
-        b=F5vkg/aBtBSjs6oMdvoizpcNdMRY9QD+mSylEHSOHAA/JqRqSDebgPF3wJibyKp1lh
-         ulkFfEdGhpF5IMzrnKmne9VOHcutmvJobd4DYu/QQeiIOjRpBUTkByL6NevEZzgfiaDw
-         kfQcdV/63m8L5TKUw0Uhx7acV7E3D2rFN3qjefmpvyirLh7xIQ277Kds/pygZy5Ma52Q
-         QirYxAR597aaKQi2GYl+YVvGZDFHtS8iXCUTklhGSWKt7VG3Y/8pfyY7+/co9luRarqW
-         EjX7wqAWpeR5h1Fm4sakFsQrsTZ4fLUHdA+9GxaLKqWBC3qztwj67tYW3C/kYUGhjAJi
-         RLeg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrYtZG9eifbU3WqzMB1p8GhCpjnV/BHwyU31SnOhyi/syOeBB+itPFFbg9HWJQUEuZ8CNBX2KrUxk57UHR7aIuLA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxfdnG6VHxNn/m+x5TE7zg8HNBdn+hiD5SpqCwEmRNsQdD2VM+5
-	fKyQjMAGmiMwCsFoL7bT7DOLAk2Ul3SPxEgztZF4kZ3CmX1HgL8O7M5PqSfgD6zNrvY=
-X-Gm-Gg: ATEYQzye5b+l0wwxvSmmRKOZh+FAlWojkQEpHGZpPuCGowFh+Ph01+Dvh5RMuXRKkKG
-	K5rG3GvNSY2RbPxolbQRORYjAY1tXa7bB+CDK+rDKOfg8JStg4EfpI/rxPcv/05FIB4YDCjKv2L
-	81nBErCXQokDqWjKCZjVDZUjWbpe62iTam0VMUORLyToFnKQv0cqcl0lPJMjP5CGkOFvHQCd7vA
-	vIujrL71HH/DXcYNTk7MZjILvqDGBZMgDY5zpHLBD8MF1cRVnjZNqWKwbK+O3W711x5W5DB8NH+
-	5+8m2PCmjjNJulYKfx8V+wijaMNzWQ5VVV2xZRNft1vfyh9Eb+CJuK1BFxEFWHBDF1juSR8UZfj
-	rrsWhyX6TiZL0pESSsE/z38mPn6nLPGb+TTpOFyV3wKd5/j4TCgi3RiXC2MpWeO9qk9ah7NbQzv
-	DTsEVn21vCnFMD7pWcU8faG9a9CKRS8ZpHQBh60LjVpJxhklklIcUtaAHun5AL/yfrLbOCNHAKs
-	oDKmsltyRT+2UQ=
-X-Received: by 2002:a05:600c:c178:b0:487:12c:e7e1 with SMTP id 5b1f17b1804b1-48727ef0c19mr70849865e9.11.1774653779830;
-        Fri, 27 Mar 2026 16:22:59 -0700 (PDT)
+        bh=YpvE7ApcPl1AHAb2MKIgpvrbfiUzRKGsFWd+Mcbe6ro=;
+        b=VIrSFIuHiXoVT+kva/dG9J+JuCA2UyR1KX8ELRS3SaGjPBa43Z+DT4ta84ojb5aYvL
+         a7xRKYfgXDMZXiUYnc34NGm8TvZtYIqc55lcZp5F39C4pBZyEcTyL16WujlT3HA6XB1K
+         rFz5OeQr1Ffzgkss2M2OUvAeblbs62YZwRnV/ygaFgLDiGa9j6FZ5Ih1MRtUHs5CF+F6
+         WqrfySQ6llSPQYoVzSF6lVudu4Cu/EYejwbeBdxITpaQ8s9s2TuFqYqUWlNcBiBh7cOU
+         a3T9lzrt7wNsrEEkZmVgTmOtWa3SYeVcNcvH9+fUMBosqxNuYXkLDY+bCNzbfklhqZEB
+         jJvg==
+X-Forwarded-Encrypted: i=1; AJvYcCXi8ABXkSgpzQiB3pt+1qz8nUnPw3+RnO4txJqs4EAYic+TWRnP0wAr1Q0eq5CQ/bO7qUdEH38s6EZQi/sUSyMz5A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzr64LUXNH7QF50PqfHMhjSZBM2yupVLfMtoF8CEcop1C55EjtF
+	zyBE45RtL7JiOOlEY9RjwjcLzfceeva59q/96paAbs0LE5Ov87+2Pr27vyJYZZQwguA=
+X-Gm-Gg: ATEYQzxxo8Zc0nOdTeO3eXJecWGjfV2shWay85XjSr3qc6HIlgrVlu6F2UZk4oQvSeD
+	+RFTYFaECRPR271eZMTDsVS8ZtbuSFUhoxaDsfbcAWQiHrIWB5++KX0H9KPr2KWfLBBH7Qv4jA3
+	0cmqTVzeH5kmqGtL8Nkc1n4wzKx2YEu/grod+rdIXZ0wh9615lzxmWz10PdD+JoBd35vYX50wbv
+	8mtN42MUXbJE2fDuVTx4dllpG3f9RxJZYRXSnhVS9PE06i29xTWnmQmO6RCjhWWX9bGz7VOuUBN
+	jamJC7g6hYG9Sp5q8xjMtCoUacs7jVVPIdVYm5QvMobSgRiwH82MPQ4R8XKTQOoyo980z0Aanz0
+	ig2s9XObHSPUgBKLCn+sQyoQPvx+mHiTZDcdHtZnQcxzic0ws+4d/dwp6M8LL2vwsA1c0c6JN+J
+	3Tpyp7E45m8b6Da30m/4qrx2z9/0FOhyo+D+KQs6ph9o/4YGwJzNkZRGVq/3okyDMpkMSue0oH2
+	jFJPmvl0jma20s=
+X-Received: by 2002:a05:600c:1f13:b0:487:169:9f64 with SMTP id 5b1f17b1804b1-48727d73709mr70816285e9.12.1774654586522;
+        Fri, 27 Mar 2026 16:36:26 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c95041sm112333925e9.6.2026.03.27.16.22.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873061f44csm13910475e9.1.2026.03.27.16.36.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2026 16:22:59 -0700 (PDT)
+        Fri, 27 Mar 2026 16:36:25 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 28 Mar 2026 00:22:59 +0100
-Message-Id: <DHDY9F8XP2QC.1FPKRXZ97INT7@smile.fr>
-Subject: Re: [OE-core][scarthgap][patch 1/2] python3-pyopenssl: Fix
- CVE-2026-27448
+Date: Sat, 28 Mar 2026 00:36:25 +0100
+Message-Id: <DHDYJPLHXWYQ.3J88UZRXHD7MN@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH] systemd: backport patch to fix
+ journal-file issue
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
+Cc: "sureshha" <suresh.ha@bti.bmwgroup.com>, "sureshha"
+ <suresh.ha@bmwtechworks.in>
+To: <git-patches@bmwtechworks.in>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260325072340.112787-1-vanusuri@mvista.com>
-In-Reply-To: <20260325072340.112787-1-vanusuri@mvista.com>
+References: <20260326073855.2075702-1-git-patches@bmwtechworks.in>
+In-Reply-To: <20260326073855.2075702-1-git-patches@bmwtechworks.in>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 23:23:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234111
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 23:36:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234112
 
-On Wed Mar 25, 2026 at 8:23 AM CET, Vijay Anusuri via lists.openembedded.or=
-g wrote:
-> Pick patch mentioned in NVD
+On Thu Mar 26, 2026 at 8:38 AM CET, Suresh H A via lists.openembedded.org w=
+rote:
+> From: sureshha <suresh.ha@bti.bmwgroup.com>
 >
-> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-27448
-> [2] https://ubuntu.com/security/CVE-2026-27448
+> Backport patch to fix systemd journal-file assertion on removed or corrup=
+ted files
 >
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> Extracted from systemd MR:
+> https://github.com/systemd/systemd/pull/40378
+>
+> Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
 > ---
 
 Hello,
 
-As far as I can tell, this CVE also applies to whinlatter. You need to
-send the fix there before I can take it for scarthgap and kirkstone.
+Thanks for the patch. It looks like this is also needed in whinlatter
+and master. You need to send this fix there first, before I can take
+this on scarthgap.
 
-That also applies to the 2/2 patch.
-
-Regards,
-
-
->  .../python3-pyopenssl/CVE-2026-27448.patch    | 124 ++++++++++++++++++
->  .../python/python3-pyopenssl_24.0.0.bb        |   4 +
->  2 files changed, 128 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-20=
-26-27448.patch
+>  ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
+>  2 files changed, 66 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-d=
+o-not-trigger-assertion-on-removed-or-.patch
 >
-> diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-2744=
-8.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.pat=
-ch
+> diff --git a/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-t=
+rigger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/0=
+023-journal-file-do-not-trigger-assertion-on-removed-or-.patch
 > new file mode 100644
-> index 0000000000..87f46b4cb0
+> index 0000000000..5f5551870a
 > --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
-> @@ -0,0 +1,124 @@
-> +From d41a814759a9fb49584ca8ab3f7295de49a85aa0 Mon Sep 17 00:00:00 2001
-> +From: Alex Gaynor <alex.gaynor@gmail.com>
-> +Date: Mon, 16 Feb 2026 21:04:37 -0500
-> +Subject: [PATCH] Handle exceptions in set_tlsext_servername_callback cal=
-lbacks
-> + (#1478)
+> +++ b/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-=
+assertion-on-removed-or-.patch
+> @@ -0,0 +1,65 @@
+> +From 1350f39db7e72116c3b2423db02da3ddc8e29082 Mon Sep 17 00:00:00 2001
+> +From: Yu Watanabe <watanabe.yu+github@gmail.com>
+> +Date: Sun, 18 Jan 2026 19:15:31 +0900
+> +Subject: [PATCH] journal-file: do not trigger assertion on removed or
+> + corrupted journal file
 > +
-> +When the servername callback raises an exception, call sys.excepthook
-> +with the exception info and return SSL_TLSEXT_ERR_ALERT_FATAL to abort
-> +the handshake. Previously, exceptions would propagate uncaught through
-> +the CFFI callback boundary.
+> +When a journal file is removed or corrupted, then the value `p`, which i=
+s
+> +read from Object.data.entry_offset, may be zero.
 > +
-> +https://claude.ai/code/session_01P7y1XmWkdtC5UcmZwGDvGi
+> +Note, journal_file_move_to_object() checks the passed offset and return
+> +-EBADMSG if it is invalid.
 > +
-> +Co-authored-by: Claude <noreply@anthropic.com>
+> +Fixes the issue reported at
+> +https://github.com/systemd/systemd/pull/40372#issuecomment-3762907261.
 > +
-> +Upstream-Status: Backport [https://github.com/pyca/pyopenssl/commit/d41a=
-814759a9fb49584ca8ab3f7295de49a85aa0]
-> +CVE: CVE-2026-27448
-> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/218=
+5c30de333b09f46ef28b743b123f45e774738]
+That URL point to an unmerged commit.
+I think you want this one: https://github.com/systemd/systemd/commit/112cbc=
+37906fb97afe0ad04164262cf62d0af5e9
+
+Thanks!
+
+> +
+> +Comment: Patch is refreshed as per codebase of v255
+> +
+> +Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
 > +---
-> + CHANGELOG.rst      |  1 +
-> + src/OpenSSL/SSL.py |  7 ++++++-
-> + tests/test_ssl.py  | 50 ++++++++++++++++++++++++++++++++++++++++++++++
-> + 3 files changed, 57 insertions(+), 1 deletion(-)
+> + src/libsystemd/sd-journal/journal-file.c | 7 +++----
+> + 1 file changed, 3 insertions(+), 4 deletions(-)
 > +
-> +diff --git a/CHANGELOG.rst b/CHANGELOG.rst
-> +index 6e23770..12e60e4 100644
-> +--- a/CHANGELOG.rst
-> ++++ b/CHANGELOG.rst
-> +@@ -18,6 +18,7 @@ Changes:
-> +=20
-> + - Added ``OpenSSL.SSL.Connection.get_selected_srtp_profile`` to determi=
-ne which SRTP profile was negotiated.
-> +   `#1279 <https://github.com/pyca/pyopenssl/pull/1279>`_.
-> ++- ``Context.set_tlsext_servername_callback`` now handles exceptions rai=
-sed in the callback by calling ``sys.excepthook`` and returning a fatal TLS=
- alert. Previously, exceptions were silently swallowed and the handshake wo=
-uld proceed as if the callback had succeeded.
-> +=20
-> + 23.3.0 (2023-10-25)
-> + -------------------
-> +diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py
-> +index 4db5240..a6263c4 100644
-> +--- a/src/OpenSSL/SSL.py
-> ++++ b/src/OpenSSL/SSL.py
-> +@@ -1,5 +1,6 @@
-> + import os
-> + import socket
-> ++import sys
-> + import typing
-> + from errno import errorcode
-> + from functools import partial, wraps
-> +@@ -1567,7 +1568,11 @@ class Context:
-> +=20
-> +         @wraps(callback)
-> +         def wrapper(ssl, alert, arg):
-> +-            callback(Connection._reverse_mapping[ssl])
-> ++            try:
-> ++                callback(Connection._reverse_mapping[ssl])
-> ++            except Exception:
-> ++                sys.excepthook(*sys.exc_info())
-> ++                return _lib.SSL_TLSEXT_ERR_ALERT_FATAL
-> +             return 0
-> +=20
-> +         self._tlsext_servername_callback =3D _ffi.callback(
-> +diff --git a/tests/test_ssl.py b/tests/test_ssl.py
-> +index ca5bf83..55489b9 100644
-> +--- a/tests/test_ssl.py
-> ++++ b/tests/test_ssl.py
-> +@@ -1855,6 +1855,56 @@ class TestServerNameCallback:
-> +=20
-> +         assert args =3D=3D [(server, b"foo1.example.com")]
-> +=20
-> ++    def test_servername_callback_exception(
-> ++        self, monkeypatch: pytest.MonkeyPatch
-> ++    ) -> None:
-> ++        """
-> ++        When the callback passed to `Context.set_tlsext_servername_call=
-back`
-> ++        raises an exception, ``sys.excepthook`` is called with the exce=
-ption
-> ++        and the handshake fails with an ``Error``.
-> ++        """
-> ++        exc =3D TypeError("server name callback failed")
-> ++
-> ++        def servername(conn: Connection) -> None:
-> ++            raise exc
-> ++
-> ++        excepthook_calls: list[
-> ++            tuple[type[BaseException], BaseException, object]
-> ++        ] =3D []
-> ++
-> ++        def custom_excepthook(
-> ++            exc_type: type[BaseException],
-> ++            exc_value: BaseException,
-> ++            exc_tb: object,
-> ++        ) -> None:
-> ++            excepthook_calls.append((exc_type, exc_value, exc_tb))
-> ++
-> ++        context =3D Context(SSLv23_METHOD)
-> ++        context.set_tlsext_servername_callback(servername)
-> ++
-> ++        # Necessary to actually accept the connection
-> ++        context.use_privatekey(load_privatekey(FILETYPE_PEM, server_key=
-_pem))
-> ++        context.use_certificate(
-> ++            load_certificate(FILETYPE_PEM, server_cert_pem)
-> ++        )
-> ++
-> ++        # Do a little connection to trigger the logic
-> ++        server =3D Connection(context, None)
-> ++        server.set_accept_state()
-> ++
-> ++        client =3D Connection(Context(SSLv23_METHOD), None)
-> ++        client.set_connect_state()
-> ++        client.set_tlsext_host_name(b"foo1.example.com")
-> ++
-> ++        monkeypatch.setattr(sys, "excepthook", custom_excepthook)
-> ++        with pytest.raises(Error):
-> ++            interact_in_memory(server, client)
-> ++
-> ++        assert len(excepthook_calls) =3D=3D 1
-> ++        assert excepthook_calls[0][0] is TypeError
-> ++        assert excepthook_calls[0][1] is exc
-> ++        assert excepthook_calls[0][2] is not None
-> ++
-> +=20
-> + class TestApplicationLayerProtoNegotiation:
-> +     """
-> +--=20
-> +2.43.0
+> +diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/s=
+d-journal/journal-file.c
+> +index 08f3b82..633de5b 100644
+> +--- a/src/libsystemd/sd-journal/journal-file.c
+> ++++ b/src/libsystemd/sd-journal/journal-file.c
+> +@@ -3305,7 +3305,9 @@ use_extra:
 > +
-> diff --git a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb b/m=
-eta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
-> index 116f214bfa..bc0b568a46 100644
-> --- a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
-> +++ b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
-> @@ -10,6 +10,10 @@ SRC_URI[sha256sum] =3D "6aa33039a93fffa4563e655b61d113=
-64d01264be8ccb49906101e02a33
->  PYPI_PACKAGE =3D "pyOpenSSL"
->  inherit pypi setuptools3
+> + static int test_object_offset(JournalFile *f, uint64_t p, uint64_t need=
+le) {
+> +         assert(f);
+> +-        assert(p > 0);
+> ++
+> ++        if (p <=3D 0)
+> ++                return -EBADMSG;
+> +
+> +         if (p =3D=3D needle)
+> +                 return TEST_FOUND;
+> +@@ -3341,7 +3343,6 @@ static int test_object_seqnum(JournalFile *f, uint=
+64_t p, uint64_t needle) {
+> +         int r;
+> +
+> +         assert(f);
+> +-        assert(p > 0);
+> +
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +@@ -3382,7 +3383,6 @@ static int test_object_realtime(JournalFile *f, ui=
+nt64_t p, uint64_t needle) {
+> +         int r;
+> +
+> +         assert(f);
+> +-        assert(p > 0);
+> +
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +@@ -3423,7 +3423,6 @@ static int test_object_monotonic(JournalFile *f, u=
+int64_t p, uint64_t needle) {
+> +         int r;
+> +
+> +         assert(f);
+> +-        assert(p > 0);
+> +
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +--
+> +2.34.1
+> diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-c=
+ore/systemd/systemd_255.21.bb
+> index 87e186bbfa..504d6cbef6 100644
+> --- a/meta/recipes-core/systemd/systemd_255.21.bb
+> +++ b/meta/recipes-core/systemd/systemd_255.21.bb
+> @@ -29,6 +29,7 @@ SRC_URI +=3D " \
+>             file://0002-binfmt-Don-t-install-dependency-links-at-install-=
+tim.patch \
+>             file://0003-timedated-Respond-on-org.freedesktop.timedate1.Se=
+tNT.patch \
+>             file://0008-implment-systemd-sysv-install-for-OE.patch \
+> +           file://0023-journal-file-do-not-trigger-assertion-on-removed-=
+or-.patch \
+>             "
 > =20
-> +SRC_URI +=3D " \
-> +    file://CVE-2026-27448.patch \
-> +"
-> +
->  PACKAGES =3D+ "${PN}-tests"
->  FILES:${PN}-tests =3D "${libdir}/${PYTHON_DIR}/site-packages/OpenSSL/tes=
-t"
-> =20
+>  # patches needed by musl
 
 
 --=20
