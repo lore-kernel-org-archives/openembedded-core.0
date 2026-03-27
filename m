@@ -1,151 +1,122 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <jonas@norrbonn.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A01110BA44B
-	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 08:37:52 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.68507.1774600664715150490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A8C510BA44C
+	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 08:39:32 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.68530.1774600767486404678
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2026 01:37:45 -0700
+ Fri, 27 Mar 2026 01:39:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=K75J0o4B;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id DD1FCC406B4;
-	Fri, 27 Mar 2026 08:38:10 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 386F560230;
-	Fri, 27 Mar 2026 08:37:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9072E10450F15;
-	Fri, 27 Mar 2026 09:37:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774600661; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=uIdxRlS6C6Ek7e9TXsqtfmMTDfR21Axg8+5CLruoDS8=;
-	b=K75J0o4BaCRCBg5lkin5WWWj9F94A4kku3TXGT9mcwonXdkZ0LEk9Npm6rMTPIku+CcSkf
-	xRqMoo1KqDsy1Qc2aC2dAti1VqLFjyHmf699/xq7PMsvJXyxT/19nqPhaLz0L4meJS/+ND
-	qZ6YxLpyrxHRYeXs/Td5booBF6pBUx1vsXJIq79MgKSFz3gG1QlcK0IYgYrrRX08Tr1fBl
-	mFHxLJcc+KED+cRMbO7nfFrcgk7D7+WSpAGfSQKz+oQSnZiWm9N927HVmo2zavRNFb468c
-	vxCLXVC+15rsvXfgvOzhAbH/0m/8THjZ1+6geetmN/2HisO0FOQrUETX764r6g==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 27 Mar 2026 09:37:40 +0100
-Message-Id: <DHDFFKPALHBR.U69UUGIUROAO@bootlin.com>
-Subject: Re: [OE-core] [PATCH v2 01/12] python3: Add warning comment before
- PACKAGECONFIG[freethreading]
-Cc: "Khem Raj" <raj.khem@gmail.com>, "Bartosz Golaszewski"
- <brgl@kernel.org>, "Trevor Gamblin" <tgamblin@baylibre.com>, "Alexander
- Kanavin" <alex.kanavin@gmail.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <zboszor@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <18A06529173E9998.57592@lists.openembedded.org>
- <20260326143020.2083293-1-zboszor@gmail.com>
-In-Reply-To: <20260326143020.2083293-1-zboszor@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@norrbonn-se.20230601.gappssmtp.com header.s=20230601 header.b=AjPpkgHy;
+ spf=pass (domain: norrbonn.se, ip: 209.85.167.46, mailfrom: jonas@norrbonn.se)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a12c19affeso2928601e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 01:39:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=norrbonn-se.20230601.gappssmtp.com; s=20230601; t=1774600765; x=1775205565; darn=lists.openembedded.org;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c7kLIgHzgrRx1Zm1FZ6e2E14/h39d8u8N+NyFU+6nxs=;
+        b=AjPpkgHyYWyAK3zY2UCVBLd9c8BTKOVSvqVQ6sAwOAIMLGTpeYSJIrgzRHzdONSKAc
+         k9AjP4GGe8jK0BjHy1hXAz7KZ84MZtTca1BVuhnHiFPnIstWqR1vjGO8LHVWuHtiDwvv
+         FqZR6CJHpMKX7b2YH34Cuc35hWPbk0ijF9fgBAjki6HiBW88fNcuLSVguIy/I0B6jRA9
+         HsuVvFZPTdxnQ4UtozsnqzQ69iEMjorSUn7BJljqUzxsAvvFEN/LsoYWfcNtgfjRSI5x
+         vt4tKTwysO2YJRb9T48gwi2cN6Vcy3K61e1F5SIfsbS6P+eLE2bbXNUM7sLsS7syIK5F
+         ESaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774600765; x=1775205565;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=c7kLIgHzgrRx1Zm1FZ6e2E14/h39d8u8N+NyFU+6nxs=;
+        b=h/jXDnmoM/1UcWDj6F6QfjihDQGzSAjo7AT0bwpFLeNvFN//cOZhsYfiZGJnVv8sLT
+         mkzaG8ws9NBAWRTdMVGHHGfhoJuCwsk+JNwhxUEFX6pim14A69KbPzQkSxpepFkdTd5M
+         ZsKFsxwG/rwTNtIBPaiiQ6WyJZyZBB+bpmNPri+0PDMLvcSjdVeFPiRgBQTNRd5ZoKaF
+         tfYrWHBdzrrG7SZXxtISEIL+/AeZyPDk5NMGRw65bSI3W4kxRyPIUQNYZvagbzk8Vnq6
+         DNO3wKyGMoQC9TSuJP+4O5WTFZRl0Ou/hgYnyR+1lhsqd9Hk/snhTLbVRxL255kzOzMX
+         Zl3w==
+X-Gm-Message-State: AOJu0YwNNqwDlcRXiqh1Cred+BTY6jVLEPiyqHxdQRv2GDRSAsY9dMnU
+	dPpb+G22pwFXw+bMtiwYgAlCu34L/0Wjd4alN5kVJdFJGlcY0wT6XAo9cSYafrBjQOgmKZLx5nP
+	Vn6hX
+X-Gm-Gg: ATEYQzzubuYlJ38F+PyltegSTc5r3LIJa6s/EJbns3EzPlSiOM8oDfaFJkW6561HBNM
+	Gh+gj9REkI3dhNXym4gJYydiICWt93rZGTfBmh0gujCns0vxF2uUq0RJy2+LfJ6Acbo9mwfY8UC
+	UUlOZRJy0g1mLvrOxj/fYCYCoZqHvqdunOgN+SQaKsVBkx7FAWY1AYT5T6QuTjs4YLzyUhL1L4E
+	ksxWKY6hiQcPqmt7qxalflMpVaiJOJP3lTbCDjsKx24r5ES2NxNHvwT95oJaUxecZyCjl00hM1X
+	/NRR/Yhrh4gj7mJYcyK17g57G9LQ7kDxb5E8PGl/YN1ml02GCa2MD79G53a1rRF/6gp0vwzh4WA
+	WQ/Opbl+GJTApeaHhAxsGXG37y6GKAJveIjuKT7x74Dz03phl/H+QYdUMyFcBHQkC3zqUzW7FWW
+	6drR8sfTY+DEGGK0I+99K4kvELPMxitAk/3IwROH+lhZnd7ltorEnmOgSb
+X-Received: by 2002:ac2:5205:0:b0:5a2:9b43:ba1f with SMTP id 2adb3069b0e04-5a2a5077c31mr1301693e87.12.1774600764423;
+        Fri, 27 Mar 2026 01:39:24 -0700 (PDT)
+Received: from ?IPV6:2001:9b1:ff:8d00:1382:d0f7:70e:137? ([2001:9b1:ff:8d00:1382:d0f7:70e:137])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2a064507asm1210999e87.20.2026.03.27.01.39.23
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Mar 2026 01:39:24 -0700 (PDT)
+Message-ID: <ecc7b30a-e43a-4871-b8eb-f5c37f68adf0@norrbonn.se>
+Date: Fri, 27 Mar 2026 09:39:23 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Jonas Bonn <jonas@norrbonn.se>
+Subject: buildpaths qa failures
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 08:37:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234069
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 08:39:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234070
 
-On Thu Mar 26, 2026 at 3:30 PM CET, Zoltan Boszormenyi via lists.openembedd=
-ed.org wrote:
-> The warning comment is really needed. While Python 3.14 supports
-> free-threading officially, the ecosystem around it does not yet.
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
+Hi,
 
-Hi Zolt=C3=A1n,
+I've been getting a lot of these 'buildpaths' QA errors with wrynose. 
+This one, for example, is straight out of the core repository.
 
-Thanks for your patch. We are seeing two issues on the autobuilder:
+ERROR: which-2.23-r0 do_package_qa: QA Issue: File 
+/usr/bin/.debug/which.which in package which-dbg contains reference to 
+TMPDIR [buildpaths]
+ERROR: which-2.23-r0 do_package_qa: Fatal QA errors were found, failing 
+task.
+ERROR: Logfile of failure stored in: 
+.../build/tmp/work/x86-64-v3-oe-linux/which/2.23/temp/log.do_package_qa.2328176
+ERROR: Task 
+(.../oe-core/meta/recipes-extended/which/which_2.23.bb:do_package_qa) 
+failed with exit code '1'
 
-First, some file is not shipped:
-ERROR: nativesdk-python3-3.14.3-r0 do_package: QA Issue: nativesdk-python3:=
- Files/directories were installed but not shipped in any package:
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/b=
-in/python3.14.real
+At this point, I'm having trouble figuring out what is causing this.  I 
+thought it was related to 'meson' packages at first, but it occurs with 
+others, too; for example, unzip:
 
-Then, some package conflict:
-ERROR: core-image-sato-1.0-r0 do_rootfs: Could not invoke dnf. Command '/sr=
-v/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/genericx86_64-p=
-oky-linux/core-image-sato/1.0/recipe-sysroot-native/usr/bin/dnf -v --rpmver=
-bosity=3Dinfo -y -c /srv/pokybuild/yocto-worker/genericx86-64/build/build/t=
-mp/work/genericx86_64-poky-linux/core-image-sato/1.0/rootfs/etc/dnf/dnf.con=
-f --setopt=3Dreposdir=3D/srv/pokybuild/yocto-worker/genericx86-64/build/bui=
-ld/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0/rootfs/etc/yum.rep=
-os.d --installroot=3D/srv/pokybuild/yocto-worker/genericx86-64/build/build/=
-tmp/work/genericx86_64-poky-linux/core-image-sato/1.0/rootfs --setopt=3Dlog=
-dir=3D/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/generi=
-cx86_64-poky-linux/core-image-sato/1.0/temp --repofrompath=3Doe-repo,/srv/p=
-okybuild/yocto-worker/genericx86-64/build/build/tmp/work/genericx86_64-poky=
--linux/core-image-sato/1.0/oe-rootfs-repo --nogpgcheck install dnf packageg=
-roup-base-extended packagegroup-core-boot packagegroup-core-ssh-dropbear pa=
-ckagegroup-core-x11-base packagegroup-core-x11-sato psplash rpm run-postins=
-ts locale-base-c locale-base-en-us locale-base-en-gb' returned 1:
-DNF version: 4.24.0
-cachedir: /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/ge=
-nericx86_64-poky-linux/core-image-sato/1.0/rootfs/var/cache/dnf
-Added oe-repo repo from /srv/pokybuild/yocto-worker/genericx86-64/build/bui=
-ld/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0/oe-rootfs-repo
-User-Agent: falling back to 'libdnf': could not detect OS or basearch
-repo: using cache for: oe-repo
-oe-repo: using metadata from Thu 26 Mar 2026 09:57:24 PM UTC.
---> Starting dependency resolution
---> Finished dependency resolution
-Error:
- Problem 1: conflicting requests
-  - nothing provides python3-compression needed by dnf-4.24.0-r0.core2_64 f=
-rom oe-repo
-  - nothing provides python3-ctypes needed by dnf-4.24.0-r0.core2_64 from o=
-e-repo
-  - nothing provides python3-email needed by dnf-4.24.0-r0.core2_64 from oe=
--repo
-  - nothing provides python3-json needed by dnf-4.24.0-r0.core2_64 from oe-=
-repo
-  - nothing provides python3-logging needed by dnf-4.24.0-r0.core2_64 from =
-oe-repo
-  - nothing provides python3-shell needed by dnf-4.24.0-r0.core2_64 from oe=
--repo
-  - nothing provides python3-threading needed by dnf-4.24.0-r0.core2_64 fro=
-m oe-repo
-  - nothing provides python3-codecs needed by dnf-4.24.0-r0.core2_64 from o=
-e-repo
-  - nothing provides python3-curses needed by dnf-4.24.0-r0.core2_64 from o=
-e-repo
-  - nothing provides python3-netclient needed by dnf-4.24.0-r0.core2_64 fro=
-m oe-repo
-  - nothing provides python3-sqlite3 needed by dnf-4.24.0-r0.core2_64 from =
-oe-repo
- Problem 2: package packagegroup-core-x11-sato-base-1.0-r0.genericx86_64 fr=
-om oe-repo requires settings-daemon, but none of the providers can be insta=
-lled
-  - package packagegroup-core-x11-sato-1.0-r0.genericx86_64 from oe-repo re=
-quires packagegroup-core-x11-sato-base, but none of the providers can be in=
-stalled
-  - package settings-daemon-0.0.2+git0+df669c6579-r0.core2_64 from oe-repo =
-requires libgconf-2.so.4()(64bit), but none of the providers can be install=
-ed
-  - package settings-daemon-0.0.2+git0+df669c6579-r0.core2_64 from oe-repo =
-requires gconf >=3D 3.2.6, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides python3-xml needed by gconf-3.2.6-r0.core2_64 from oe-=
-repo
-(try to add '--skip-broken' to skip uninstallable packages)
+ERROR: unzip-1_6.0-r0 do_package_qa: QA Issue: File 
+/usr/bin/.debug/funzip in package unzip-dbg contains reference to TMPDIR 
+[buildpaths]
+ERROR: unzip-1_6.0-r0 do_package_qa: QA Issue: File 
+/usr/bin/.debug//unzip.unzip in package unzip-dbg contains reference to 
+TMPDIR [buildpaths]
+ERROR: unzip-1_6.0-r0 do_package_qa: QA Issue: File 
+/usr/bin/.debug/unzipsfx in package unzip-dbg contains reference to 
+TMPDIR [buildpaths]
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3478
+It appears to be mostly with -dbg packages.  'objdump -s' on the files 
+definitely shows a single instance of the local path:
 
-Can you have a look at the issues?
+  0140 53006372 746e2e53 002f686f 6d652f6a  S.crtn.S./home/j
+  0150 6f6e6173 2fxxxxxx xxxxxxxx xxxxxxxx  onas/xxxxxxxxxxx
+  0160 xxxxxxxx xxxxxxxx xxxxxxxx 2f627569  xxxxxxxxxxxx/bui
+  0170 6c642f74 6d702f77 6f726b2f 7838362d  ld/tmp/work/x86-
+  0180 36342d76 332d6f65 2d6c696e 75782f75  64-v3-oe-linux/u
+  0190 6e7a6970 2f362e30 2f736f75 72636573  nzip/6.0/sources
+  01a0 2f756e7a 69703630 003c6172 74696669  /unzip60.<artifi
+
+-ffile-prefix-map is being passed correctly during compilation and the 
+strings around the above culprit have been duly translated.
+
+Is there any guidance to be had as to how to find the cause of this?  Is 
+this an artefact of my configuration and not reproducible by anyone else?
 
 Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Jonas
 
