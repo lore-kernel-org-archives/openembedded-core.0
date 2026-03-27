@@ -2,62 +2,65 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 055BD10AB83D
-	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 14:55:02 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.74408.1774623292123811086
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 294FD10F2844
+	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 15:37:42 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.76256.1774625846731457781
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2026 07:54:52 -0700
+ Fri, 27 Mar 2026 08:37:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z1NuO6+O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48538c5956bso21302095e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 07:54:51 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X+qXbwQj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48700b1ba53so21606615e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 08:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1774623290; x=1775228090; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1774625845; x=1775230645; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x9q01gcYWu0TaxeJWAAhVXKyn/VOy8lykdDME5G8wH4=;
-        b=Z1NuO6+O8Cuv0LJhbQVDnnBKTjLOfXWJFFc3mCUanC+CShbydR0V7A5nzbyCnsTzeZ
-         vB7yv8ILnj7M/ZJF/gYJ/NkLmgcj6irRO7LGmA99IpzPYA5VvqfeRkq0Vh2siTcl/Mxz
-         KWvz/1ivJXOkFYAquWqKopsQ1OHc2CtkB+7bM=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qhfHh4oDkZLpAO86MYctxSdAIl8qKC5KgXpcpwgyq4g=;
+        b=X+qXbwQjJMvqFf3GDwygXUyAUG3ykjpAhwRf309BKBtwxyFo6S+LFZEWL097T6bfKM
+         QBk7kXxfzpeO/zh2cVCzmEU7OK3OljkK4xYn3yTsC+fS3nNvlFQUi+3XvlAKjh0/YkhO
+         OwpUk2IXgGJ2QfV4FpHoD272HnIkTBZaQu5xg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774623290; x=1775228090;
+        d=1e100.net; s=20251104; t=1774625845; x=1775230645;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x9q01gcYWu0TaxeJWAAhVXKyn/VOy8lykdDME5G8wH4=;
-        b=jvLG5E8UoWR2EdoGEaZSvqQu8pFtiNwDTWz+i8Vt477V5UFAMzMgFf7FK+YkEdqc4C
-         8EYX4GmV9LphsB6TiaBBn8pUh11c7FH8IXtz3oDl+B/Pv+ezcXTgdr9ByKtqtYFERRvc
-         v/hhwXBceCVpcUpsY+Jp+jdrnFihbSUPSRS1PK1FIZhyQ7eOsoCLL0hSymn5sTqYG2q4
-         PB3GNiexXf5xf5CR7HKPpMxeoqWglfNIzqNJ30sGnSAeroieDI09G8fFj5OSwpRB/xhY
-         BB9hLEsKRAQlJU+00BCOQWGOo4Do0q9C71HTFOMw0csApDeBPovqajrKDqCyjHT+wTEE
-         iomw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhytGmgxSl90EbGx5DFfX5jHVgucnr7ddo+E6iEO9owYejdTPcJMTf78W/WZi7+icRKIHJp15rJnJ7EIlFttS5QA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzMgUcGh8uikLooFdNnZB2UXXiDVbNsBcPa8FUx1JCKb0APtJUi
-	5KdzdaoebrpywjG6dYsqScUuHuEJb8HmLGCOZ9mzLPEy1fma7WByXcTJEjmtHQ/BoSk=
-X-Gm-Gg: ATEYQzwW0j1qmqEbLyrWW22ANLlXIVqhAZzB8lrWcBj8/arCuPMWiBl+hXb5xf9kIk+
-	HPzEI0UKO9utoubio4HSa5iFtGObzzKc0ohMmeRlhzn245X9kwL0UgQhnxT9n1d1uqDb1yWa5P7
-	XOi3NRGl+Yd1VUxn8klzsnhf5+YmeGATMP6Vh/ukR6nNfnWSfVrsZZc8mbxJdk0VaWw6oeAOLUQ
-	e0C2OQ61QkwIE+gPGWWypQtzMvb7GeSJB4WnHOtgKycLlcwA+/VRpWOBbVQxsRhsTSWKkBwguT1
-	qVrWGMYy+dBqU0A/j5o3WQUo6i5HTk/XtHjQanQbihV3LnDCXJn1hgthQZZLmPST0VBf8AgXFh0
-	T7Mw8fFrkC8T6gBgtmIi5wtiZpINdqbdNRsU6qsF5PjEMItFOeDqUXAArpAFaMc/9iPMAzuYQpC
-	VgNxcnNgOq3rNXE5wuLF2hB0Kye7X2vR2QZk4sGOxeFoxirtphZsruP+73Ma/ZjLqlpTv9nY9J+
-	WvXJPwRmZ85XzXX
-X-Received: by 2002:a05:600d:17:b0:486:faa8:9e4 with SMTP id 5b1f17b1804b1-4872911c031mr30600505e9.12.1774623290373;
-        Fri, 27 Mar 2026 07:54:50 -0700 (PDT)
+        bh=qhfHh4oDkZLpAO86MYctxSdAIl8qKC5KgXpcpwgyq4g=;
+        b=mmbHIEi1fR6aD40dscu8ozQ7ASI8d4CexQYet0b+RIql7zkWdAIIZh1nVZz35TnWJi
+         MeQl0axdjHioELjz0g5V63TUY/4eP2lCxzhuluPrXUvMtLechOXtsyhP+jPqXzAsUtYf
+         jpdU+3Wp27UkK3Pk1KOz2Q1XMPBFKxkZf81KfQsJG0IvLqpBmNFoYzLvcG409wF7W4fR
+         +h78jz4dSYM/rJVxVXnqwD1qWIzeJ8TeuynZW5T0YKejbNqze2MPDdJknfIaogXmxTbo
+         +AEM+6c2hX2seq47UNdriSx6JCpAavsqUzCVvZYL8EccOdr5uwMsAxzRkqO2FfbodF7K
+         DTsw==
+X-Forwarded-Encrypted: i=1; AJvYcCUvyfttiMFNqdhpnRKWl5ic+gOQor5g7exuMH4un2VfKYiMygCd6MUQTHmXPHLOvoI6jS02cMJdpPT+SzAaZ71qBQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwpCrjUDyU1vw6oyZIJeJN61DqFdOyTpPgSj7tdo1AJl6ZBmw3A
+	MfUXgTGn+9eMi/NzHxfQq3lEh8IgRj4UBbmuE1IbOSr1AYp9YdCPNRC1dAgd171Iu+Q=
+X-Gm-Gg: ATEYQzzlLb5/x6F7oSefWcaeslL3GY29Cf0qlq/12/J8lRkSFC9QFFhreCeT0mjxhvx
+	UB8140f1cDY5PFME3efTECI71zCJo7CxnFNnSvFU0SrdudNiBloQJpHtsjeKpptYsHKOTspagG/
+	2fQhfv3w6BBrSaIW3qV5NAr+Vx1S32OIURaYXNQhTIw5SRw0UGIzMelvrb6uvmq2vTv0H1zrtcf
+	VkN3g2et0N5OzlSru9/ITFoXiTT2NKE6DU9xnyn2OLv2d4SliFbHWb+0rS96869TOB8gAXDylk8
+	bRE0scvh3CiMvqlgMzZuqTq9Z2UraxErzcVOd3s2YxkPeRktXpESrxiofzQbVHgqpelz0d4WDZj
+	6eVP5eom0vPkyJZkuDUuvFdXOZ+N8slIRk4VICzItfOMoNHt2Ji9jUEDZ3B8GxgEKzHUn/TDPUE
+	naI2KDwnclv+07r4ECAUXc4yc0rSxG39uUoTR/6Nnmt+XyE/J48VQXHZ5HdONhWUCdnKzJzSOqd
+	JuUMZT9Sho5Bw1EB+rSR2MP+qI=
+X-Received: by 2002:a05:600c:3510:b0:486:ffa3:593 with SMTP id 5b1f17b1804b1-487280abccdmr44197855e9.28.1774625844911;
+        Fri, 27 Mar 2026 08:37:24 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:4d9b:9818:1b9c:6027? ([2001:8b0:aba:5f3c:4d9b:9818:1b9c:6027])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487271718a9sm20162825e9.27.2026.03.27.07.54.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722be47a4sm157691725e9.0.2026.03.27.08.37.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 07:54:49 -0700 (PDT)
-Message-ID: <d3fe353d964e4dfce0bc4c47f104fc8a9fa2a863.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] uki.bbclass: fix UKI_DEVICETREE
+        Fri, 27 Mar 2026 08:37:24 -0700 (PDT)
+Message-ID: <ed22500800950b87d26983346d7b3106c41257db.camel@linuxfoundation.org>
+Subject: Re: [PATCH v2 6/6] oeqa: ltp - add LTP_WORKERS to allow
+ parallelization
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Date: Fri, 27 Mar 2026 14:54:48 +0000
-In-Reply-To: <20260325104830.23519-1-mikko.rapeli@linaro.org>
-References: <20260325104830.23519-1-mikko.rapeli@linaro.org>
+To: daniel.turull@ericsson.com, openembedded-core@lists.openembedded.org
+Cc: bruce.ashfield@gmail.com, alex.kanavin@gmail.com, pratik.farkase@est.tech
+Date: Fri, 27 Mar 2026 15:37:23 +0000
+In-Reply-To: <20260327122758.1851989-6-daniel.turull@ericsson.com>
+References: <20260327122758.1851989-1-daniel.turull@ericsson.com>
+	 <20260327122758.1851989-6-daniel.turull@ericsson.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -65,47 +68,77 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 14:55:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234090
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 15:37:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234091
 
-On Wed, 2026-03-25 at 12:48 +0200, Mikko Rapeli via lists.openembedded.org =
-wrote:
-> UKI_DEVICETREE needs to be empty when KERNEL_DEVICETREE
-> is not set. Fixes genericarm64 uki image builds:
+On Fri, 2026-03-27 at 13:27 +0100, daniel.turull@ericsson.com wrote:
+> From: Daniel Turull <daniel.turull@ericsson.com>
 >=20
-> ERROR: ERROR: cannot find /home/builder/src/core/build/tmp/deploy/images/=
-genericarm64/${KERNEL_DEVICETREE}.
+> Add new configurable variable to execute multiple workers in parallel.
+> kirk adds the option that was not available in runltp.
 >=20
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> Tested in qemux86-64 with configuration:
+>=20
+> IMAGE_CLASSES +=3D "testimage"
+> CORE_IMAGE_EXTRA_INSTALL +=3D "ltp openssh"
+> TEST_SUITES =3D "ping ssh ltp"
+> QB_MEM =3D "32768"
+> QB_CPU_KVM =3D "-cpu host -smp 16"
+> QB_SMP =3D "-smp 16"
+> LTP_WORKERS =3D "16"
+> IMAGE_ROOTFS_EXTRA_SPACE =3D "2097152"
+>=20
+> bitbake core-image-minimal
+> bitbake core-image-minimal -c testimage
+>=20
+> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 > ---
-> =C2=A0meta/classes-recipe/uki.bbclass | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bb=
-class
-> index 326697a06660..a6a88240f798 100644
-> --- a/meta/classes-recipe/uki.bbclass
-> +++ b/meta/classes-recipe/uki.bbclass
-> @@ -80,7 +80,7 @@ UKI_CONFIG_FILE ?=3D "${UNPACKDIR}/uki.conf"
-> =C2=A0UKI_FILENAME ?=3D "uki.efi"
-> =C2=A0UKI_KERNEL_FILENAME ?=3D "${KERNEL_IMAGETYPE}"
-> =C2=A0UKI_CMDLINE ?=3D "rootwait root=3DLABEL=3Droot"
-> -UKI_DEVICETREE ?=3D "${KERNEL_DEVICETREE}"
-> +UKI_DEVICETREE ?=3D "${@ d.getVar('KERNEL_DEVICETREE') or ''}"
-> =C2=A0# secure boot keys and cert, needs sbsign-tools-native (meta-secure=
--core)
-> =C2=A0#UKI_SB_KEY ?=3D ""
-> =C2=A0#UKI_SB_CERT ?=3D ""
+> =C2=A0meta/lib/oeqa/runtime/cases/ltp.py | 4 +++-
+> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
 
-Is there a reason not to do:
+Thanks for looking at this, it is interesting it now has the
+parallelism support. I'll probably hold off this initially just so that
+we can transition successfully but it then makes sense to tweak things.
 
-KERNEL_DEVICETREE ??=3D ""
+I checked yocto-autobuilder-helper's config.json for the config we use
+on the autobuilder and it is:
 
-instead?
+"IMAGE_INSTALL:append =3D ' ltp'",
+"TEST_SUITES =3D 'ping ssh ltp ltp_compliance'",
+"IMAGE_OVERHEAD_FACTOR =3D '1.0'",
+"IMAGE_ROOTFS_EXTRA_SPACE =3D '1324288'",
+"QB_MEM:forcevariable =3D '-m 1024'"
 
-Inline python isn't great...
+so we're running with a lot less memory than you configured but you
+also have a lot more threads!
+
+> diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/c=
+ases/ltp.py
+> index b855e76907..ae6a275110 100644
+> --- a/meta/lib/oeqa/runtime/cases/ltp.py
+> +++ b/meta/lib/oeqa/runtime/cases/ltp.py
+> @@ -68,7 +68,9 @@ class LtpTest(LtpTestBase):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+# LTP appends to log files, so ensure we start with a clean log
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+self.target.deleteFiles("/opt/ltp/results/", "%s.json" % ltp_group)
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cmd =
+=3D 'kirk --run-suite %s --json-report /opt/ltp/results/%s.json -n -d /opt/=
+ltp --exec-timeout 20m' % (ltp_group, ltp_group)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # LTP=
+_WORKERS: number of parallel test workers (default: 1)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 worke=
+rs =3D self.td.get('LTP_WORKERS', '1')
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cmd =
+=3D 'kirk --run-suite %s --json-report /opt/ltp/results/%s.json -n -d /opt/=
+ltp --exec-timeout 20m --workers %s' % (ltp_group, ltp_group, workers)
+
+We probably need to namespace the variable a little more, such as=C2=A0
+OEQA_LTP_WORKERS so that people have a hint on where it is used.
 
 Cheers,
 
 Richard
+
 
