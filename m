@@ -1,95 +1,151 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E46A10D1484
-	for <webhook@archiver.kernel.org>; Sat, 28 Mar 2026 21:15:49 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19219.1774732543171353454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 260F910D1486
+	for <webhook@archiver.kernel.org>; Sat, 28 Mar 2026 21:19:29 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.89])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19072.1774732742711212680
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Mar 2026 14:15:43 -0700
+ Sat, 28 Mar 2026 14:19:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=1qGiCBxr;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AMkJKRSo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019d364d814c-751d58c6-bc7c-4534-b716-0e83c28f38a9-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1774732542; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=EGuZetiOa6e8Yl7tm1rkFIomQzNu/lkCQXj9fLZMYYg=;
-	b=1qGiCBxrmp+i4yp/5IKby1dKdxi2OI4wZwqp/Jh8P4AVBzrv1u/aoGu0+QeS+FOu
-	OmbZI1aeqGe0jtLc3tnb4jtx10KVsbtNlgEmHFEVEra7VvUmQRXOKMMrSWh2HNvr0oP
-	birK3bZ6SIbiF+yJjZ1y6Uyp5VkH+WgFDV3R1EOQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1774732542;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=EGuZetiOa6e8Yl7tm1rkFIomQzNu/lkCQXj9fLZMYYg=;
-	b=AMkJKRSov5tsu/+dy3iCZYuyz6jgG24fo0reOyFpxgwLEuEh//ITKoTp/ApW70xe
-	9gFl7/ndVPoA3jrm2iucoRxjHkwsADs0tmPc0aPqvtf23+5rtTDtSFd7aIwTo7bkXaO
-	/RBC1KuZEPEBgUzHRwdyJnY5vmmqjsK4xH1Z3G+4=
-From: patchtest@automation.yoctoproject.org
-To: =?utf-8?b?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] icu: Workaround buildpaths QA check, if TMPDIR is
- /build/tmp
-In-Reply-To: 
- <6401da269fe72dc465d76c60f7ae5fd6eff27652.1774731856.git.joerg.sommer@navimatix.de>
-References: 
- <6401da269fe72dc465d76c60f7ae5fd6eff27652.1774731856.git.joerg.sommer@navimatix.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d364d814c-751d58c6-bc7c-4534-b716-0e83c28f38a9-000000@us-west-2.amazonses.com>
-Date: Sat, 28 Mar 2026 21:15:42 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.03.28-54.240.27.30
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=hrGLBmIo;
+ spf=pass (domain: navimatix.de, ip: 52.101.65.89, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=u+tjpnZ9JPNm35YiP7I/V+WINqlFnr6+hkwnPVtVbhZSjzY/76dhmoK4l3lYnKUTxgfHbTFtT3Dgv7J72yys1bUKEIn4y4YAoFfXzKNX4WvwMYoBxnynU1j2UTz25qx4OQqkARrKay3NpMPVUUzX6nn7XwDHFBdBtEaiYF+8IdwjRF51MD3MaiBCDKqKGGjcpwn5x7rFySABP0jap4O49WUFNeYc6oye3XlOSH4HcMZmpfbhrJ5nWtJ8ttBQ6qCF43ogLvoGLcU/9rpfLENIGjN3JsymvQuBfrqs0sNAIsB3Q0NdlSK3kul/iPkeMOp7Vhja11Q9aC3Db3xgIM5V9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=awEbZVtxSHSHa4HotigH0+PsGRKfz08isBZgzZqLlwk=;
+ b=xXuo86EaHxHlvvNqJyJMhM2ybKSI2tQq5bfsHrwU0O8JL6Mut2UHpmo6DSaQeL4TkZvQrd073X/WP7G8Qz5nHiD/Cl7VREJ0tkFSWw4KKZrmCswegRVoiE16ESUQtbwKZEtgWwz5ZkXzILmt7HZ/NJhA7PiOxNIB+oEwnrqPCs2SNU3JxCwmp3Ndm+NgDUE0yXvcj35gymx7rsJGHSCvqe/1WAee7CZLJKjmdFDPzF38ionf9WrIjM4JVrJojmjCgnVYl7JHXOC3zIwhxgDrO44upfxTWi4Ka6kVqTeyQGes/vYgswuvPTYZXVgxvP73qQRY3vUK+cYma9I3PWwyZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=awEbZVtxSHSHa4HotigH0+PsGRKfz08isBZgzZqLlwk=;
+ b=hrGLBmIoziQbNHsgk8Sxj8ecl9FebTi08sf+UuoHgGl+jfKtDcqYBs6JdQDluNMBztVOBg0wNk9TD5gtewkZqIAiNbMWPz0U+JV25Yp9+rV0gdL17ulH4bFLbC2/bTmuuI7RjlQH4KMRXjicL9x3P8Ui/MS5paJDOFNRyYaPgE0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by PA4PR01MB9092.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:2ac::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.24; Sat, 28 Mar
+ 2026 21:18:58 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.20.9745.023; Sat, 28 Mar 2026 21:18:58 +0000
+Date: Sat, 28 Mar 2026 22:18:57 +0100
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
+CC: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [PATCH v3] rpcbind: Remove IPv6 listener, if ipv6 not in
+ DISTRO_FEATURES
+Message-ID: <8fd16c27a498c242062a5d9bd4ed38bb27aaa0c3.1774732736.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.53.0
+References: <2f6d1b8f-43e2-4fa4-ba2d-ef3fb77583a3@gmail.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <2f6d1b8f-43e2-4fa4-ba2d-ef3fb77583a3@gmail.com>
+X-ClientProxiedBy: BE0P281CA0017.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:a::27) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|PA4PR01MB9092:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd00ef18-100e-44bd-5184-08de8d0fa037
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	Gjre0SfFOB9iEzXmu1AlhVL2PKfmMSIonfynvaYAlwvTodzVkXKyPhhrtE5nFlPFLN7/4AZz0vuCiubiWuD2/EHCfuA4d9xBUecRYTrwiRzz1FviiTdPtn/pxrFfj9NXcVSViJHglsa6lxFa2fijfaZmpa7TxYlIuPgEJ8dsLQQUcXCk0yJdF++ttlRlrsQk+HxHz7U5UljS5IkESYcHtdl40sijP/MLVm9l/Pq594MpG48zP/WzBbiQvBK1qrmSR5KQIRE0meei7ujpKnj/+6WJNsL8e4Au3QJLPld1BirjdZfvPn4jtvPJnXLHH+PDEnbtIjx6EGnRpXBmoxdUpH21IGX4URE9nGF5R3KZIdhOTuJXI8oGh205JMXfhPdZii8O8DoSKUTysAL/4gOzS5PJz+XGjfqMaXkZwGqppGgYEA4wz5w4Mv6N/nazLc1+i1nnWnLbAepG3+DLq9CNyy0Vofsp/bPjPm71+IrCVTGnZGQIuojW5zaQaHwGE+mcjYDcUYQCXR0+i+/dvv8rKcGB2eiJY1TZXvUSYsWdfuBOrpXfBW6qTuvZGjxKiYxfCDFmI7lVmCFDtozKu1WXfqj2FYRYzIJjSUQ9rztw/fISmLxM5mQiwQ7TUOTBO+D7Q94HEr1XJzE04DMqSxB/ZTV9tfn2rOK4sAJ7XAqSarwECdGhBG5cwDCbkofdCmVb/dYXlIlNCUDLgu/Ceuh8VQTzJnHpLUq43ugz0YlhUDk=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?inEZEy96blo3OycKQaFnWdkmOne6E3yLxC4PobKjaqzeAcDu5Wr0o6VAZGK8?=
+ =?us-ascii?Q?psMKq38tm27KEPjsUnUM/2CVwHMQVGtmlgE1qVL43m401oN3OoLkE/kh2ixU?=
+ =?us-ascii?Q?iou08ce5InimLR6B5++bdjYV/QCe6uW+fegWw1TYK76JSivnUeJtXvRfW4GI?=
+ =?us-ascii?Q?4fNBvGYtgkKcVDl0DAehGIgYFNC39VMpiQafDnn1/fv6vC8HB3sWPRHi9k/n?=
+ =?us-ascii?Q?XDnsjzsy4yczxVU/ziRwEF8OxWtfIWZ2c+2q2OZQ3IBC4WhSHvRif8Iva/49?=
+ =?us-ascii?Q?6+KdX4SNk6XlXQX9Jn7KZkqdrBYNdAcDbisgTby512SSlEUanbA5ZfQezANg?=
+ =?us-ascii?Q?KN67sGZnWSpe3wSqPaP33FF20M4+lPt6uxaZF9IZ4UtA2/Gh1oxu1sFsfhwn?=
+ =?us-ascii?Q?JvvH5GT69Ey/xOAmxKLI9vvSgpMuAlYcD5CmZXaa0TrP0r2gjuxaFD7t8/tO?=
+ =?us-ascii?Q?rx7ML9srtvSicyp/zZQz8l4kt7F4kibDNtSMgEoxFuWJ2KI9O1ZpPx84fEyF?=
+ =?us-ascii?Q?1tMPLyzvlRYbnHdvWmKP1lGU4etke8VbM66cfQB13iTdvXugIVjRGs7eKjlt?=
+ =?us-ascii?Q?pm+hGp1F7sjyP/DyzxSyx+8sBHG5YBUq3oW+iqggixVdfQGRb5S+wYv0IhP+?=
+ =?us-ascii?Q?+MFyAN6T8aajRh9iYG4qsT3x/RbeDImrq03V3e99JkJNLhqCS/DJY3ZtzRoN?=
+ =?us-ascii?Q?PtYd+GuvmmjO5UAvYqMtcofvtNmxkFpIiEgf7+Gy9dBQbCU8frJa8qNYLDmN?=
+ =?us-ascii?Q?OhhN4Eg/dijDUWNg34jezjONTXtT4FdjIC0c4JFlR546TuEjnwaf9+MMvQTr?=
+ =?us-ascii?Q?B7SsNecujR0esmhvUr5nm9TBbNeFMaANo6QCpAXXB2H6srFnJt59n4wXoyWC?=
+ =?us-ascii?Q?WVGcB3PfjXMaRp/1Kr/LfKQT6HLUSrh82H3bAdCiIo7msUgljhNji0kjGumE?=
+ =?us-ascii?Q?42M9hwBB2tSsqyZnnAWyPEM9v8zBJW1Zb/wsNbYCRpDCmi6rk9uV1wSzVrOi?=
+ =?us-ascii?Q?Y0noDCRR6GnwNqlHlJI04gmHf+RuyjijgbmILfYPiVgb3/tpAvfqMglQJGfK?=
+ =?us-ascii?Q?kh8UChBoy3tMgFuhW01YGaY3qkDwi7J/QgQ9FJxwdLJEOYE/llaz1EmpuaXH?=
+ =?us-ascii?Q?6tDElT9YoUDq2hGUbfsyk7E7fgDTEPP+4M6rvtDR55nTvPF6YGnxUT8Kkxm3?=
+ =?us-ascii?Q?RMdpiYIlvYsziDz93oBdiBukt531yQ35p7ka/7fdyNjaZkuHopwcwqAuG1KX?=
+ =?us-ascii?Q?tz58o2xEvefMv9PwF5fX/B2jENucduO37yDpqQnE9W2I/u3cOLiMYW73koA6?=
+ =?us-ascii?Q?qM9A7TPq3R3lDMpQJIZDRgQjLEpcccrEkpihdJRPgS4zvfQwvSrB6d2GWYrd?=
+ =?us-ascii?Q?lo8uyl8PEGPjePt9TdYlb9/op3YSUWTrfsywKnpQmSWOvl3c2viYO1i5uAxD?=
+ =?us-ascii?Q?mHUe9ovLHebRy54T8cCpdvqeztx75wk25RTrnwVwHRjXHlYNYyn7d5IAC51b?=
+ =?us-ascii?Q?gPdzoFOYaeilJd0CfJWanYZu0n2fqa4cv5uaH4y9031TeL2b5Q11r/d3yrs2?=
+ =?us-ascii?Q?kbkszLeHbWDYcqcpes0aSGRbpOnzNuNnFASKXR7ZL/K8IdZdjUM/I0uJP6By?=
+ =?us-ascii?Q?GoM4yhWX/hJ/Gu0CGCAx/6Q7H3SYSYtfQaJNosGI2UkgBP7eSA4h5jWiHV/F?=
+ =?us-ascii?Q?49KlL44osZyC61NXLZ1KZ/FlrPfzPR0e0QWGgl7SjStHjwOgQ/2bt8N4HvZP?=
+ =?us-ascii?Q?vNfqIINAaEsHcUS53BtXK5SRr7bSMFU=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd00ef18-100e-44bd-5184-08de8d0fa037
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2026 21:18:58.6508
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W9PCyA4RVuWm5f2T4gkWMTxaYbxUE23jWf6MaMjodyeA4kPfrMv5PPrS05axSaCir65I2IfgxYyFaR0mPalUnUgHobreNsLYH5s81sumQk0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR01MB9092
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 21:15:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234135
+ <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 21:19:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234136
 
---NextPart
-Content-Type: text/plain
+From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Remove in all systemd socket files all Listen on IPv6 addresses, if IPv6 is
+not available. Otherwise systemd warns about "Binding to IPv6 address not
+available since kernel does not support IPv6."
 
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-icu-Workaround-buildpaths-QA-check-if-TMPDIR-is-build-tmp.patch
+ meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-FAIL: test Upstream-Status presence: Upstream-Status is present only after the patch scissors. It must be placed in the patch header before the scissors line. (test_patch.TestPatch.test_upstream_status_presence_format)
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb b/meta/recipes-=
+extended/rpcbind/rpcbind_1.2.8.bb
+index bcdadf4f10..bd8ba1e88a 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb
+@@ -54,6 +54,11 @@ do_install:append () {
+=20
+ 	install -d ${D}${systemd_system_unitdir}/rpcbind.service.d
+ 	install -m 0644 ${UNPACKDIR}/rpcbind.systemd ${D}${systemd_system_unitdir=
+}/rpcbind.service.d/rpcbind.conf
++
++	if ! ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'true', 'false', d)}
++	then
++		sed -i '/^Listen.*=3D\[.*\]/s/^/# /' ${D}${systemd_system_unitdir}/*.soc=
+ket
++	fi
+ }
+=20
+ FILES:${PN} +=3D "${systemd_system_unitdir}/rpcbind.service.d/rpcbind.conf=
+"
+--=20
+2.53.0
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
