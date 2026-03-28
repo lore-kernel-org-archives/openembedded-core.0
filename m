@@ -1,570 +1,306 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D54A10F3DC8
-	for <webhook@archiver.kernel.org>; Sat, 28 Mar 2026 02:12:04 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3975.1774663915444515805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F4BE10F3DC9
+	for <webhook@archiver.kernel.org>; Sat, 28 Mar 2026 02:39:54 +0000 (UTC)
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4335.1774665589695313187
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2026 19:11:55 -0700
+ Fri, 27 Mar 2026 19:39:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=UDrUjzVq;
- spf=pass (domain: mvista.com, ip: 209.85.208.52, mailfrom: vanusuri@mvista.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-66ad907833dso4693535a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 19:11:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774663914; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=D0SPrNBV;
+ spf=pass (domain: gmail.com, ip: 74.125.224.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64eaf8aa893so2923589d50.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 19:39:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774665589; cv=none;
         d=google.com; s=arc-20240605;
-        b=d3oqE362QpcrEkVb3BBqKZ2/h8d9NOlyKgZqgwMetfq5f0VjAKq6jJIFkheJ3/cLKI
-         GrPIhhXY7oLtxPBZI/R06O8jOPgeSec2au7rqP9HXcGWSCiWhwBSkldNYFnvNm+BV77b
-         +4+nUMzObG7G8a1bFepAD8NzqC5Y68sWPcs3rljnTTuVeoT0Qcx5MQPjuK3qeDGtNruj
-         qVbHKHYslCd6LH0vEbZ4puckjtumLJONnGNCU/kDlu6vhlBRKrhdVZEfuasV74bDsIqi
-         /kA5c2wYDTsnyJdlgz2gS4Tgdqo40ZYff9NOzoNBf63JFqdLPfbsAr/Wf/c8I5R36uDG
-         J2sA==
+        b=gi31pyZehqypI/tkmxcklLbzEApJGD2znU1u8duvUJg5gdYZtCDAEhnEDKf/3ZH1Yl
+         lWrNknbhg9XgwdCRBrjVFiEfx80uO+wqGzxBEF/WOKtJY9Gbm9IaTYbbXyw5m0KOhHdn
+         JxISmc4h23HAa5a3Z2jrIfmUcbTFj46/Kt0uFNBVWTSG0FY06wlmBmAhvYN8634d7itt
+         TmBDXBhud9KcEeCnoZUX7vipfqLaEMfbc4MyOPGA0yjOQd0YLrveeXsFM/QAOSiQka+B
+         Ca0jbmzM6hxyc1yhfQpMCPx22kXv2cBTgaC1oLkmALGkCAhNJ9PYEY9d6BXNri7nSG4z
+         QaGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=aBDDgryd4A9pjRTAm1wRzxtfziATr2w4ImS+GNZ5lMA=;
-        fh=asqV5XwkQ3j1DNjI0AxRPYfk3NtHNhY/iAvm1HVGsgw=;
-        b=Q7qaobLd2Xi3hqr9IkA4ppTZxlJXucg44RQUa/6FHfX0skIkoLpJ54njEq93x8hbr+
-         Ybff+gon6dfIUSGHoSDdvBuQz+33ma/288auyfBh/B9Be8Bq91ZXFkXhp1Gl50sBOZch
-         qH+ndad/W1tnuoFt2vT2Kl6k08GpXEPi3binE2SydXlHqdT8KcIYGgYkUHsIp4t9Bp8C
-         O0sPC+SDpJe8As89333PMpGScRvft0qdsJHeb91o6SRv3L0O40CprkMpaPGWv9NL6K27
-         3BBUvn15BfaykWRnoJCTZtENmUs7p4XLZ2l5gsaFXWtMMyqHSLW2grT8gOPM/O/1iNfn
-         Saww==;
+        bh=3tLWpK9fduDe6lzCQtADDLUxzJOr/dwaGqH+I422BRM=;
+        fh=TGF7TVa5Eshw5M6K2XLmjdIMKFhrsPaliuC+tv7wzuY=;
+        b=av9rONL4TN/r3SVKUjsE8YLNdiKA+Nbnn1tiNLJ74XRJoTvCDWKOeAiu65IU8KEUVr
+         G/Fr/MDYPgoUTHEaYUFMZwsVEvg7G3bVl47wfJuLvbFf1r3WsZEI8ibMQ5Kyq31JOa8y
+         NYPhNhMv8go8A1iidT+nv+1LkJAFM0vtl24LtFLmztiGx4dnOIzHbCiyQGH4hko/+CKd
+         SWUHyKrv8Xutt7w/+RZG/JpW3++4mAszvFCXIIpy4waMm14X0Hofwn9U3otdJ+UAIXgq
+         W1Ia2A/GtzvPkR0buJviFJURpzFLAlk6B8E4bL0QqWjbzoK0glGsvPRJPNQsB/68MsLg
+         lOYA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1774663914; x=1775268714; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1774665589; x=1775270389; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aBDDgryd4A9pjRTAm1wRzxtfziATr2w4ImS+GNZ5lMA=;
-        b=UDrUjzVqnVUOsEfuKAGwFPFiQHioHpZCRnAdFKC5Ng5h5VY8mirNr0wgCXHTD3uVeH
-         Z18jAAEZ9Z21FIlXI6yfE9is5jXk4jIlLg0frjZf8RQxyDSMn0/i+dOCU+Gv/5OVe8QX
-         NO1exzhj0YyS742ILxAOBl5llBDWEczNmnaEg=
+        bh=3tLWpK9fduDe6lzCQtADDLUxzJOr/dwaGqH+I422BRM=;
+        b=D0SPrNBVP1RzYmfV1cjrH0ji9Bkf/gSTL/bz0RKkq4Yv0tj1xbmzg5NhlvCr319MJi
+         qVLRnElV9Vpz552kBq8wZE0dNgUsRGsXqAzPOFcIPiEEdH3wcO5/nEKfePYgZEhP6RjP
+         yko7S4leq2dY749Dm9Cli7Wd/hYIKQ8EzIriABxYNQ01uI0w0Jab4JEgkcVhv4hU+GaM
+         45Z6TLnduMj8wjQ9nD9fymDTInJMDhiSLeN6fxv8OE9qydbLRIM3wDv7j4yweeFZpQDb
+         2A75TkMYUX3J3f2PmIDM8n5KHKA7jn3HQmWIugrbLN4JOTQcxHx27h53+bTw9N65bwGx
+         tQ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774663914; x=1775268714;
+        d=1e100.net; s=20251104; t=1774665589; x=1775270389;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aBDDgryd4A9pjRTAm1wRzxtfziATr2w4ImS+GNZ5lMA=;
-        b=WMQjVuEZK4pQOsAeEyaLp5bLIc+VkwBugtqXCbtwgn7CG/Z0KrjWWCqJdErgt9yEIj
-         QvMljScwViO96GdcET24JyE7NI+E1zyg2KJhcGANm6gCFr8tGnfk+RsdPltdoEQv6hMr
-         DFPVlQLSSF1s1oVFbROyTTu1R9hipCKiR/rhkRPdgdgBvNjsqebcYYrsTNGtiXCj269t
-         ppg6Iejo1DdFuJGClwvjXTGd42dPL60sZP2kEn/nv72zNyJqpei+62zim8VOrL/KiIit
-         KySCY3/07tvVBb4oWQDghL6GD3NYfM5hcEc6TditCwsIuZJ764Ut6uoncoZjguZb1GfP
-         8Dig==
-X-Gm-Message-State: AOJu0YxozwINqxegtiTqQwTSkFUZfUwAIlF2YJFb0CmXLqF7J/NkuAAI
-	6Vxv3bWeBybM90i/7w8XLX6y1H/yYzp1rpTOKbiitGzIiy+QRpk14oFw3DrBVhBU5uUSNyTm60K
-	s0v7CNyp9mC1+e6K5E6HDyKC55V6jlJApsad5Gt8mEA==
-X-Gm-Gg: ATEYQzx8PHevdZ7H4xKocgn+Bh4b8XGLhN2y3R8/hLzlW34nGdv7fIHoxrIt8N8xt7z
-	Pu3OitxeBtG4U1P6VBmKGgZY7xWMcIXjVKzhmIuil29zk+BomIXo6hitENP2hq2FHaQWM8ALLDE
-	kRWk0pRm98qJHAtr0k0GoZO4zU7mOFOF7CBVegLjMFnlR/8z61ITUHGwdPut+nbRUT0vTh0jXY/
-	PYuAoqwry6Z7grAhFn7SnGuQ3Rr3b8fNaAXALJ2AuDSVJQqTksNLqsmrWD2kl9A5F3LysYPA5V4
-	VBVHqM7TFuQcE16q6jA=
-X-Received: by 2002:a05:6402:2554:b0:65f:71ed:7ab9 with SMTP id
- 4fb4d7f45d1cf-66b28b5d311mr2769742a12.22.1774663913465; Fri, 27 Mar 2026
- 19:11:53 -0700 (PDT)
+        bh=3tLWpK9fduDe6lzCQtADDLUxzJOr/dwaGqH+I422BRM=;
+        b=WZIWBBUCM8iYArdkJ48CJuW2f4Y1qLxWu25BfO+82PT1JJ0qXNhbFMblU5tjFMF3PL
+         PKikM+nodc8xQNlxp5UhJMJ2UuZn4gwhlZNaw9YO10cvSAH5eseMSRmfRxgMFx65TAxd
+         C0zRcchsNFpqULLFqDnoMK5QM9na3YA4JvVREeMXRU9O7IL655Wh+BYdQwbu2hql0X7z
+         2spsA5CHCm2W1Xmd7POR7YulKWcMf9UAqXgWvYtIfvQde1qAEHIxOmKonoIwcBPxYMd6
+         ghAyEm+vwb8IASDQ5RYijkm6KwICSGLKtEmCYd55u6iWree7eQpQDyiz/0o7K+ByElsp
+         /HiA==
+X-Gm-Message-State: AOJu0Yz7eITBOF9xUo8CvBzLfqslGr0RIoi/mDqjUpQDrX0gZcJB3fsj
+	coUYR1L/6xspuuzP1yUZ/SWqcO4MwZaZTLmjd3uAO7EGSsyVcU+IHrfHNcj59EhIAn7Bh5kNkqQ
+	J5OcILa9ayvRV9nhRf7sbRqMzR2zJ7AhdBniEAn0=
+X-Gm-Gg: ATEYQzytG5ZDlaDPUxYKMZMsPbVCXVRY7cVQfCjiKwAf0UAGRQyeIlotIao3rkIuYCu
+	terVJhjze3kSl4HoQKMAAOXIIMBCaEdVUq0WBq4idagKPgzQHrgDnX38Z3rbUvugBCMzFZ7x+i8
+	WMmAXa2UzOCkcKrV3g4vsuy3xpKclY9YzTF+kZRR8WkT/HrMHEwZvwdt7zOtzLmyY71omdzB2Xo
+	MAojDGnzcW9TrmjPA2JriC8ZVIrOO+TTgiPWALp3BWz2HIwR4zEKGAYs7NBfgGZ1NmaW79rY/BZ
+	XW+279myJRiRFToE2VyRX5z7RvDj5x2Ikjl3ky8Ics1yrkZcVzvN8c2i/BeU00Z6CraSYXdwUt9
+	Z1NDGjyVtkgdDKRDiVaBJKvcvAendDCUbgXw=
+X-Received: by 2002:a05:690e:43cd:b0:64a:ee12:e7c3 with SMTP id
+ 956f58d0204a3-64ff73bb9d3mr3862795d50.49.1774665588712; Fri, 27 Mar 2026
+ 19:39:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260325072340.112787-1-vanusuri@mvista.com> <DHDY9F8XP2QC.1FPKRXZ97INT7@smile.fr>
-In-Reply-To: <DHDY9F8XP2QC.1FPKRXZ97INT7@smile.fr>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Sat, 28 Mar 2026 07:41:42 +0530
-X-Gm-Features: AQROBzAdo8FOUWwRl70I8-mlyOK2WOkDOJ8Kj-rc2OIx8pxAkqQnkJheo1ENDvI
-Message-ID: <CANQUz18HaAotXzEKD+CaNxfNk+1a7sQzE3E7W51NGMCTjcqTjQ@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][patch 1/2] python3-pyopenssl: Fix CVE-2026-27448
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000287889064e0c24bf"
+References: <20260326151641.3974221-1-khem.raj@oss.qualcomm.com>
+ <DHDI32YKJSSP.MH33L7GOJJ1Q@bootlin.com> <CAMKF1soKLkhMZNSHTzrTcX8qSQYgFz20NgAzjN-ResCgG=Dg1g@mail.gmail.com>
+In-Reply-To: <CAMKF1soKLkhMZNSHTzrTcX8qSQYgFz20NgAzjN-ResCgG=Dg1g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 27 Mar 2026 19:39:21 -0700
+X-Gm-Features: AQROBzDo7x6xU_FISagSI997cxmHTeh_ear0V6DJa3KSnCSBtla63ksnNDaq_QY
+Message-ID: <CAMKF1sorE-KOXvC+n4RtcdU8S6nzcGiE1knTg==8+d3fX0SxSw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/7] clang/llvm: Upgrade to 22.x major release
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000002a95a064e0c88d1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 02:12:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234114
+ <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 02:39:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234115
 
---000000000000287889064e0c24bf
+--00000000000002a95a064e0c88d1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Yoann,
+Hi Mathieu
 
-As kirkstone LTS going to end this month,  I've sent patches for both
-kirkstone and scarthgap first.
+I have pushed another change to address install-but-unpackaged QA warning
+since the last fix. Please pick up the branch again if you have done it
+after my last message.
 
-I will send patches for whinlatter soon.
+qemux86-world is green with this change see
 
-Thanks for reminding me.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3494
 
-Thanks & Regards,
-Vijay
+On Fri, Mar 27, 2026 at 11:00=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrot=
+e:
 
-On Sat, 28 Mar, 2026, 4:53=E2=80=AFam Yoann Congal, <yoann.congal@smile.fr>=
- wrote:
+>
+>
+> On Fri, Mar 27, 2026 at 3:42=E2=80=AFAM Mathieu Dubois-Briand <
+> mathieu.dubois-briand@bootlin.com> wrote:
+>
+>> On Thu Mar 26, 2026 at 4:16 PM CET, Khem Raj via lists.openembedded.org
+>> wrote:
+>> > From: Khem Raj <raj.khem@gmail.com>
+>> >
+>> > Includes support for new Intel (Wildcat Lake, Nova Lake with APX and
+>> AVX10.2)
+>> > Arm (C1 Nano, Pro, Premium, Ultra) processors. It also features
+>> performance
+>> > optimizations for AMD Zen 4 and Zen 5 architectures.
+>> >
+>> > Integrated Distributed ThinLTO is more mature, with enhancements
+>> > like cache support for incremental builds and robust handling of
+>> temporary artifacts.
+>> >
+>> > LLDB added first-class WebAssembly debugging support, including
+>> breakpoints and variable inspection.
+>> >
+>> > Support for Google Native Client (NaCl) is dropped in this release.
+>> >
+>> > Detailed ChangeLog [1]
+>> >
+>> > [1] https://releases.llvm.org/22.1.0/docs/ReleaseNotes.html
+>> >
+>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > ---
+>>
+>> Hi Khem,
+>>
+>> This looks better, but we still have one issue:
+>>
+>> ERROR: clang-22.1.2-r0 do_compile: Execution of
+>> '/srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v=
+3-poky-linux/clang/22.1.2/temp/run.do_compile.573061'
+>> failed with exit code 1
+>> ...
+>> Log data follows:
+>> | DEBUG: Executing shell function do_compile
+>> | NOTE: VERBOSE=3D1 cmake --build
+>> /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3=
+-poky-linux/clang/22.1.2/build
+>> --target all --
+>> | Change Dir:
+>> '/srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v=
+3-poky-linux/clang/22.1.2/build'
+>> |
+>> | Run Build Command(s): ninja -v -j 16 all
+>> | ninja: error:
+>> '/srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work-shared/l=
+lvm-project-source-22.1.2-r0/sources/llvm-project-22.1.2.src/clang/tools/sc=
+an-build-py/lib64/libscanbuild/__init__.py',
+>> needed by 'lib64/libscanbuild/__init__.py', missing and no known rule to
+>> make it
+>> |
+>> | WARNING: exit code 1 from a shell command.
+>> NOTE: recipe clang-22.1.2-r0: task do_compile: Failed
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3485
+>>
+>>
+> This is caught with x86_64 because libdir is lib64 in multilib mode. The
+> issue was in the clangscan patch where it was
+> changing rules to look for sourcefiles also in mulilib libdir. I have
+> fixed it and updated the patchset here in a branch on top of master
+>
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/clan=
+g-22
+>
+> my local builds are seeming ok. I have also started an AB build here, its
+> still running
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3492
+>
+>
+>
+>
+>> Thanks,
+>> Mathieu
+>>
+>> --
+>> Mathieu Dubois-Briand, Bootlin
+>> Embedded Linux and Kernel engineering
+>> https://bootlin.com
+>>
+>>
 
-> On Wed Mar 25, 2026 at 8:23 AM CET, Vijay Anusuri via
-> lists.openembedded.org wrote:
-> > Pick patch mentioned in NVD
-> >
-> > [1] https://nvd.nist.gov/vuln/detail/CVE-2026-27448
-> > [2] https://ubuntu.com/security/CVE-2026-27448
-> >
-> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > ---
->
-> Hello,
->
-> As far as I can tell, this CVE also applies to whinlatter. You need to
-> send the fix there before I can take it for scarthgap and kirkstone.
->
-> That also applies to the 2/2 patch.
->
-> Regards,
->
->
-> >  .../python3-pyopenssl/CVE-2026-27448.patch    | 124 ++++++++++++++++++
-> >  .../python/python3-pyopenssl_24.0.0.bb        |   4 +
-> >  2 files changed, 128 insertions(+)
-> >  create mode 100644
-> meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
-> >
-> > diff --git
-> a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
-> b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
-> > new file mode 100644
-> > index 0000000000..87f46b4cb0
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.pat=
-ch
-> > @@ -0,0 +1,124 @@
-> > +From d41a814759a9fb49584ca8ab3f7295de49a85aa0 Mon Sep 17 00:00:00 2001
-> > +From: Alex Gaynor <alex.gaynor@gmail.com>
-> > +Date: Mon, 16 Feb 2026 21:04:37 -0500
-> > +Subject: [PATCH] Handle exceptions in set_tlsext_servername_callback
-> callbacks
-> > + (#1478)
-> > +
-> > +When the servername callback raises an exception, call sys.excepthook
-> > +with the exception info and return SSL_TLSEXT_ERR_ALERT_FATAL to abort
-> > +the handshake. Previously, exceptions would propagate uncaught through
-> > +the CFFI callback boundary.
-> > +
-> > +https://claude.ai/code/session_01P7y1XmWkdtC5UcmZwGDvGi
-> > +
-> > +Co-authored-by: Claude <noreply@anthropic.com>
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/pyca/pyopenssl/commit/d41a814759a9fb49584ca8ab3f7295de=
-49a85aa0
-> ]
-> > +CVE: CVE-2026-27448
-> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > +---
-> > + CHANGELOG.rst      |  1 +
-> > + src/OpenSSL/SSL.py |  7 ++++++-
-> > + tests/test_ssl.py  | 50 +++++++++++++++++++++++++++++++++++++++++++++=
-+
-> > + 3 files changed, 57 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/CHANGELOG.rst b/CHANGELOG.rst
-> > +index 6e23770..12e60e4 100644
-> > +--- a/CHANGELOG.rst
-> > ++++ b/CHANGELOG.rst
-> > +@@ -18,6 +18,7 @@ Changes:
-> > +
-> > + - Added ``OpenSSL.SSL.Connection.get_selected_srtp_profile`` to
-> determine which SRTP profile was negotiated.
-> > +   `#1279 <https://github.com/pyca/pyopenssl/pull/1279>`_.
-> > ++- ``Context.set_tlsext_servername_callback`` now handles exceptions
-> raised in the callback by calling ``sys.excepthook`` and returning a fata=
-l
-> TLS alert. Previously, exceptions were silently swallowed and the handsha=
-ke
-> would proceed as if the callback had succeeded.
-> > +
-> > + 23.3.0 (2023-10-25)
-> > + -------------------
-> > +diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py
-> > +index 4db5240..a6263c4 100644
-> > +--- a/src/OpenSSL/SSL.py
-> > ++++ b/src/OpenSSL/SSL.py
-> > +@@ -1,5 +1,6 @@
-> > + import os
-> > + import socket
-> > ++import sys
-> > + import typing
-> > + from errno import errorcode
-> > + from functools import partial, wraps
-> > +@@ -1567,7 +1568,11 @@ class Context:
-> > +
-> > +         @wraps(callback)
-> > +         def wrapper(ssl, alert, arg):
-> > +-            callback(Connection._reverse_mapping[ssl])
-> > ++            try:
-> > ++                callback(Connection._reverse_mapping[ssl])
-> > ++            except Exception:
-> > ++                sys.excepthook(*sys.exc_info())
-> > ++                return _lib.SSL_TLSEXT_ERR_ALERT_FATAL
-> > +             return 0
-> > +
-> > +         self._tlsext_servername_callback =3D _ffi.callback(
-> > +diff --git a/tests/test_ssl.py b/tests/test_ssl.py
-> > +index ca5bf83..55489b9 100644
-> > +--- a/tests/test_ssl.py
-> > ++++ b/tests/test_ssl.py
-> > +@@ -1855,6 +1855,56 @@ class TestServerNameCallback:
-> > +
-> > +         assert args =3D=3D [(server, b"foo1.example.com")]
-> > +
-> > ++    def test_servername_callback_exception(
-> > ++        self, monkeypatch: pytest.MonkeyPatch
-> > ++    ) -> None:
-> > ++        """
-> > ++        When the callback passed to
-> `Context.set_tlsext_servername_callback`
-> > ++        raises an exception, ``sys.excepthook`` is called with the
-> exception
-> > ++        and the handshake fails with an ``Error``.
-> > ++        """
-> > ++        exc =3D TypeError("server name callback failed")
-> > ++
-> > ++        def servername(conn: Connection) -> None:
-> > ++            raise exc
-> > ++
-> > ++        excepthook_calls: list[
-> > ++            tuple[type[BaseException], BaseException, object]
-> > ++        ] =3D []
-> > ++
-> > ++        def custom_excepthook(
-> > ++            exc_type: type[BaseException],
-> > ++            exc_value: BaseException,
-> > ++            exc_tb: object,
-> > ++        ) -> None:
-> > ++            excepthook_calls.append((exc_type, exc_value, exc_tb))
-> > ++
-> > ++        context =3D Context(SSLv23_METHOD)
-> > ++        context.set_tlsext_servername_callback(servername)
-> > ++
-> > ++        # Necessary to actually accept the connection
-> > ++        context.use_privatekey(load_privatekey(FILETYPE_PEM,
-> server_key_pem))
-> > ++        context.use_certificate(
-> > ++            load_certificate(FILETYPE_PEM, server_cert_pem)
-> > ++        )
-> > ++
-> > ++        # Do a little connection to trigger the logic
-> > ++        server =3D Connection(context, None)
-> > ++        server.set_accept_state()
-> > ++
-> > ++        client =3D Connection(Context(SSLv23_METHOD), None)
-> > ++        client.set_connect_state()
-> > ++        client.set_tlsext_host_name(b"foo1.example.com")
-> > ++
-> > ++        monkeypatch.setattr(sys, "excepthook", custom_excepthook)
-> > ++        with pytest.raises(Error):
-> > ++            interact_in_memory(server, client)
-> > ++
-> > ++        assert len(excepthook_calls) =3D=3D 1
-> > ++        assert excepthook_calls[0][0] is TypeError
-> > ++        assert excepthook_calls[0][1] is exc
-> > ++        assert excepthook_calls[0][2] is not None
-> > ++
-> > +
-> > + class TestApplicationLayerProtoNegotiation:
-> > +     """
-> > +--
-> > +2.43.0
-> > +
-> > diff --git a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
-> b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
-> > index 116f214bfa..bc0b568a46 100644
-> > --- a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
-> > +++ b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
-> > @@ -10,6 +10,10 @@ SRC_URI[sha256sum] =3D
-> "6aa33039a93fffa4563e655b61d11364d01264be8ccb49906101e02a33
-> >  PYPI_PACKAGE =3D "pyOpenSSL"
-> >  inherit pypi setuptools3
-> >
-> > +SRC_URI +=3D " \
-> > +    file://CVE-2026-27448.patch \
-> > +"
-> > +
-> >  PACKAGES =3D+ "${PN}-tests"
-> >  FILES:${PN}-tests =3D "${libdir}/${PYTHON_DIR}/site-packages/OpenSSL/t=
-est"
-> >
->
->
-> --
-> Yoann Congal
-> Smile ECS
->
->
-
---000000000000287889064e0c24bf
+--00000000000002a95a064e0c88d1
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Hi=C2=A0Yoann,<div dir=3D"auto"><br></div><div dir=3D"aut=
-o">As kirkstone LTS going to end this month,=C2=A0 I&#39;ve sent patches fo=
-r both kirkstone and scarthgap first.</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">I will send patches for whinlatter soon.</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">Thanks for reminding me.</div><div dir=3D"au=
-to"><br></div><div dir=3D"auto">Thanks &amp; Regards,</div><div dir=3D"auto=
-">Vijay=C2=A0</div></div><br><div class=3D"gmail_quote gmail_quote_containe=
-r"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, 28 Mar, 2026, 4:53=E2=80=
-=AFam Yoann Congal, &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.cong=
-al@smile.fr</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed M=
-ar 25, 2026 at 8:23 AM CET, Vijay Anusuri via <a href=3D"http://lists.opene=
-mbedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">lists.openembe=
-dded.org</a> wrote:<br>
-&gt; Pick patch mentioned in NVD<br>
+<div dir=3D"ltr">Hi Mathieu<div><br></div><div>I have pushed another change=
+ to address install-but-unpackaged QA warning since the last fix. Please pi=
+ck up the branch again if you have done it after my last message.</div><div=
+><br></div><div>qemux86-world is green with this change see</div><div><br><=
+/div><div><a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builde=
+rs/59/builds/3494">https://autobuilder.yoctoproject.org/valkyrie/#/builders=
+/59/builds/3494</a></div></div><br><div class=3D"gmail_quote gmail_quote_co=
+ntainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 27, 2026 at 11:0=
+0=E2=80=AFAM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gm=
+ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 27, 2026 at 3:42=
+=E2=80=AFAM Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-bria=
+nd@bootlin.com" target=3D"_blank">mathieu.dubois-briand@bootlin.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu M=
+ar 26, 2026 at 4:16 PM CET, Khem Raj via <a href=3D"http://lists.openembedd=
+ed.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wro=
+te:<br>
+&gt; From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
+ank">raj.khem@gmail.com</a>&gt;<br>
 &gt;<br>
-&gt; [1] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-27448" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/=
-CVE-2026-27448</a><br>
-&gt; [2] <a href=3D"https://ubuntu.com/security/CVE-2026-27448" rel=3D"nore=
-ferrer noreferrer" target=3D"_blank">https://ubuntu.com/security/CVE-2026-2=
-7448</a><br>
+&gt; Includes support for new Intel (Wildcat Lake, Nova Lake with APX and A=
+VX10.2)<br>
+&gt; Arm (C1 Nano, Pro, Premium, Ultra) processors. It also features perfor=
+mance<br>
+&gt; optimizations for AMD Zen 4 and Zen 5 architectures.<br>
 &gt;<br>
-&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
-" target=3D"_blank" rel=3D"noreferrer">vanusuri@mvista.com</a>&gt;<br>
+&gt; Integrated Distributed ThinLTO is more mature, with enhancements<br>
+&gt; like cache support for incremental builds and robust handling of tempo=
+rary artifacts.<br>
+&gt;<br>
+&gt; LLDB added first-class WebAssembly debugging support, including breakp=
+oints and variable inspection.<br>
+&gt;<br>
+&gt; Support for Google Native Client (NaCl) is dropped in this release.<br=
+>
+&gt;<br>
+&gt; Detailed ChangeLog [1]<br>
+&gt;<br>
+&gt; [1] <a href=3D"https://releases.llvm.org/22.1.0/docs/ReleaseNotes.html=
+" rel=3D"noreferrer" target=3D"_blank">https://releases.llvm.org/22.1.0/doc=
+s/ReleaseNotes.html</a><br>
+&gt;<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
+et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
 &gt; ---<br>
 <br>
-Hello,<br>
+Hi Khem,<br>
 <br>
-As far as I can tell, this CVE also applies to whinlatter. You need to<br>
-send the fix there before I can take it for scarthgap and kirkstone.<br>
+This looks better, but we still have one issue:<br>
 <br>
-That also applies to the 2/2 patch.<br>
+ERROR: clang-22.1.2-r0 do_compile: Execution of &#39;/srv/pokybuild/yocto-w=
+orker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/clang/22.1.2/=
+temp/run.do_compile.573061&#39; failed with exit code 1<br>
+...<br>
+Log data follows:<br>
+| DEBUG: Executing shell function do_compile<br>
+| NOTE: VERBOSE=3D1 cmake --build /srv/pokybuild/yocto-worker/qemux86-world=
+/build/build/tmp/work/x86-64-v3-poky-linux/clang/22.1.2/build --target all =
+--<br>
+| Change Dir: &#39;/srv/pokybuild/yocto-worker/qemux86-world/build/build/tm=
+p/work/x86-64-v3-poky-linux/clang/22.1.2/build&#39;<br>
+|<br>
+| Run Build Command(s): ninja -v -j 16 all<br>
+| ninja: error: &#39;/srv/pokybuild/yocto-worker/qemux86-world/build/build/=
+tmp/work-shared/llvm-project-source-22.1.2-r0/sources/llvm-project-22.1.2.s=
+rc/clang/tools/scan-build-py/lib64/libscanbuild/__init__.py&#39;, needed by=
+ &#39;lib64/libscanbuild/__init__.py&#39;, missing and no known rule to mak=
+e it<br>
+|<br>
+| WARNING: exit code 1 from a shell command.<br>
+NOTE: recipe clang-22.1.2-r0: task do_compile: Failed<br>
 <br>
-Regards,<br>
-<br>
-<br>
-&gt;=C2=A0 .../python3-pyopenssl/CVE-2026-27448.patch=C2=A0 =C2=A0 | 124 ++=
-++++++++++++++++<br>
-&gt;=C2=A0 .../python/<a href=3D"http://python3-pyopenssl_24.0.0.bb" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">python3-pyopenssl_24.0.0.bb</a>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +<br>
-&gt;=C2=A0 2 files changed, 128 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/python3-pyopenss=
-l/CVE-2026-27448.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-2=
-7448.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.=
-patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..87f46b4cb0<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.pa=
-tch<br>
-&gt; @@ -0,0 +1,124 @@<br>
-&gt; +From d41a814759a9fb49584ca8ab3f7295de49a85aa0 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Alex Gaynor &lt;<a href=3D"mailto:alex.gaynor@gmail.com" target=
-=3D"_blank" rel=3D"noreferrer">alex.gaynor@gmail.com</a>&gt;<br>
-&gt; +Date: Mon, 16 Feb 2026 21:04:37 -0500<br>
-&gt; +Subject: [PATCH] Handle exceptions in set_tlsext_servername_callback =
-callbacks<br>
-&gt; + (#1478)<br>
-&gt; +<br>
-&gt; +When the servername callback raises an exception, call sys.excepthook=
-<br>
-&gt; +with the exception info and return SSL_TLSEXT_ERR_ALERT_FATAL to abor=
-t<br>
-&gt; +the handshake. Previously, exceptions would propagate uncaught throug=
-h<br>
-&gt; +the CFFI callback boundary.<br>
-&gt; +<br>
-&gt; +<a href=3D"https://claude.ai/code/session_01P7y1XmWkdtC5UcmZwGDvGi" r=
-el=3D"noreferrer noreferrer" target=3D"_blank">https://claude.ai/code/sessi=
-on_01P7y1XmWkdtC5UcmZwGDvGi</a><br>
-&gt; +<br>
-&gt; +Co-authored-by: Claude &lt;<a href=3D"mailto:noreply@anthropic.com" t=
-arget=3D"_blank" rel=3D"noreferrer">noreply@anthropic.com</a>&gt;<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/pyca/pyopens=
-sl/commit/d41a814759a9fb49584ca8ab3f7295de49a85aa0" rel=3D"noreferrer noref=
-errer" target=3D"_blank">https://github.com/pyca/pyopenssl/commit/d41a81475=
-9a9fb49584ca8ab3f7295de49a85aa0</a>]<br>
-&gt; +CVE: CVE-2026-27448<br>
-&gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.co=
-m" target=3D"_blank" rel=3D"noreferrer">vanusuri@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + CHANGELOG.rst=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
-&gt; + src/OpenSSL/SSL.py |=C2=A0 7 ++++++-<br>
-&gt; + tests/test_ssl.py=C2=A0 | 50 +++++++++++++++++++++++++++++++++++++++=
-+++++++<br>
-&gt; + 3 files changed, 57 insertions(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/CHANGELOG.rst b/CHANGELOG.rst<br>
-&gt; +index 6e23770..12e60e4 100644<br>
-&gt; +--- a/CHANGELOG.rst<br>
-&gt; ++++ b/CHANGELOG.rst<br>
-&gt; +@@ -18,6 +18,7 @@ Changes:<br>
-&gt; + <br>
-&gt; + - Added ``OpenSSL.SSL.Connection.get_selected_srtp_profile`` to dete=
-rmine which SRTP profile was negotiated.<br>
-&gt; +=C2=A0 =C2=A0`#1279 &lt;<a href=3D"https://github.com/pyca/pyopenssl/=
-pull/1279" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.c=
-om/pyca/pyopenssl/pull/1279</a>&gt;`_.<br>
-&gt; ++- ``Context.set_tlsext_servername_callback`` now handles exceptions =
-raised in the callback by calling ``sys.excepthook`` and returning a fatal =
-TLS alert. Previously, exceptions were silently swallowed and the handshake=
- would proceed as if the callback had succeeded.<br>
-&gt; + <br>
-&gt; + 23.3.0 (2023-10-25)<br>
-&gt; + -------------------<br>
-&gt; +diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py<br>
-&gt; +index 4db5240..a6263c4 100644<br>
-&gt; +--- a/src/OpenSSL/SSL.py<br>
-&gt; ++++ b/src/OpenSSL/SSL.py<br>
-&gt; +@@ -1,5 +1,6 @@<br>
-&gt; + import os<br>
-&gt; + import socket<br>
-&gt; ++import sys<br>
-&gt; + import typing<br>
-&gt; + from errno import errorcode<br>
-&gt; + from functools import partial, wraps<br>
-&gt; +@@ -1567,7 +1568,11 @@ class Context:<br>
-&gt; + <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@wraps(callback)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0def wrapper(ssl, alert, arg):<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 callback(Connection._rever=
-se_mapping[ssl])<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 callback(Con=
-nection._reverse_mapping[ssl])<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception:<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exceptho=
-ok(*sys.exc_info())<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return _lib.=
-SSL_TLSEXT_ERR_ALERT_FATAL<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0<br>
-&gt; + <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._tlsext_servername_callback =
-=3D _ffi.callback(<br>
-&gt; +diff --git a/tests/test_ssl.py b/tests/test_ssl.py<br>
-&gt; +index ca5bf83..55489b9 100644<br>
-&gt; +--- a/tests/test_ssl.py<br>
-&gt; ++++ b/tests/test_ssl.py<br>
-&gt; +@@ -1855,6 +1855,56 @@ class TestServerNameCallback:<br>
-&gt; + <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert args =3D=3D [(server, b&quot=
-;<a href=3D"http://foo1.example.com" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">foo1.example.com</a>&quot;)]<br>
-&gt; + <br>
-&gt; ++=C2=A0 =C2=A0 def test_servername_callback_exception(<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self, monkeypatch: pytest.MonkeyPatch<br=
->
-&gt; ++=C2=A0 =C2=A0 ) -&gt; None:<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 When the callback passed to `Context.set=
-_tlsext_servername_callback`<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 raises an exception, ``sys.excepthook`` =
-is called with the exception<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 and the handshake fails with an ``Error`=
-`.<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exc =3D TypeError(&quot;server name call=
-back failed&quot;)<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def servername(conn: Connection) -&gt; N=
-one:<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise exc<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 excepthook_calls: list[<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tuple[type[BaseException],=
- BaseException, object]<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ] =3D []<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def custom_excepthook(<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exc_type: type[BaseExcepti=
-on],<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exc_value: BaseException,<=
-br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exc_tb: object,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ) -&gt; None:<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 excepthook_calls.append((e=
-xc_type, exc_value, exc_tb))<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 context =3D Context(SSLv23_METHOD)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 context.set_tlsext_servername_callback(s=
-ervername)<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Necessary to actually accept the conne=
-ction<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 context.use_privatekey(load_privatekey(F=
-ILETYPE_PEM, server_key_pem))<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 context.use_certificate(<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 load_certificate(FILETYPE_=
-PEM, server_cert_pem)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Do a little connection to trigger the =
-logic<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 server =3D Connection(context, None)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 server.set_accept_state()<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 client =3D Connection(Context(SSLv23_MET=
-HOD), None)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 client.set_connect_state()<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 client.set_tlsext_host_name(b&quot;<a hr=
-ef=3D"http://foo1.example.com" rel=3D"noreferrer noreferrer" target=3D"_bla=
-nk">foo1.example.com</a>&quot;)<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 monkeypatch.setattr(sys, &quot;excepthoo=
-k&quot;, custom_excepthook)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 with pytest.raises(Error):<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 interact_in_memory(server,=
- client)<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert len(excepthook_calls) =3D=3D 1<br=
->
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert excepthook_calls[0][0] is TypeErr=
-or<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert excepthook_calls[0][1] is exc<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert excepthook_calls[0][2] is not Non=
-e<br>
-&gt; ++<br>
-&gt; + <br>
-&gt; + class TestApplicationLayerProtoNegotiation:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-&gt; +-- <br>
-&gt; +2.43.0<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-py=
-openssl_24.0.0.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">python3-=
-pyopenssl_24.0.0.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://py=
-thon3-pyopenssl_24.0.0.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">=
-python3-pyopenssl_24.0.0.bb</a><br>
-&gt; index 116f214bfa..bc0b568a46 100644<br>
-&gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3-pyopenssl=
-_24.0.0.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">python3-pyopens=
-sl_24.0.0.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3-pyopenssl=
-_24.0.0.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">python3-pyopens=
-sl_24.0.0.bb</a><br>
-&gt; @@ -10,6 +10,10 @@ SRC_URI[sha256sum] =3D &quot;6aa33039a93fffa4563e65=
-5b61d11364d01264be8ccb49906101e02a33<br>
-&gt;=C2=A0 PYPI_PACKAGE =3D &quot;pyOpenSSL&quot;<br>
-&gt;=C2=A0 inherit pypi setuptools3<br>
-&gt;=C2=A0 <br>
-&gt; +SRC_URI +=3D &quot; \<br>
-&gt; +=C2=A0 =C2=A0 file://CVE-2026-27448.patch \<br>
-&gt; +&quot;<br>
-&gt; +<br>
-&gt;=C2=A0 PACKAGES =3D+ &quot;${PN}-tests&quot;<br>
-&gt;=C2=A0 FILES:${PN}-tests =3D &quot;${libdir}/${PYTHON_DIR}/site-package=
-s/OpenSSL/test&quot;<br>
-&gt;=C2=A0 <br>
-<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/buil=
+ds/3485" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/59/builds/3485</a><br>
+<br></blockquote><div><br></div><div>This is caught with x86_64 because lib=
+dir is lib64 in multilib mode. The issue was in the clangscan patch where i=
+t was</div><div>changing rules to look for sourcefiles also in mulilib=C2=
+=A0libdir. I have fixed it and updated the patchset here in a branch on top=
+ of master</div><div><br></div><div><a href=3D"https://git.openembedded.org=
+/openembedded-core-contrib/log/?h=3Dkraj/clang-22" target=3D"_blank">https:=
+//git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/clang-22</a>=
+</div><div><br></div><div>my local builds are seeming ok. I have also start=
+ed an AB build here, its still running</div><div><br></div><div><a href=3D"=
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3492" ta=
+rget=3D"_blank">https://autobuilder.yoctoproject.org/valkyrie/#/builders/59=
+/builds/3492</a></div><div><br></div><div><br></div><div>=C2=A0</div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">
+Thanks,<br>
+Mathieu<br>
 <br>
 -- <br>
-Yoann Congal<br>
-Smile ECS<br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
 <br>
+</blockquote></div></div>
 </blockquote></div>
 
---000000000000287889064e0c24bf--
+--00000000000002a95a064e0c88d1--
 
