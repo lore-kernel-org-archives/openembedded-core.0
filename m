@@ -2,204 +2,165 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7132710BA434
-	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 23:36:33 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1690.1774654588203972447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 923D310BA434
+	for <webhook@archiver.kernel.org>; Sat, 28 Mar 2026 00:07:33 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2159.1774656445697785959
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2026 16:36:28 -0700
+ Fri, 27 Mar 2026 17:07:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=QJcpj5qz;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486fd5360d4so33101695e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 16:36:27 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=1Fq2T03D;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-482f454be5bso34757215e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 17:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774654586; x=1775259386; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
+        d=smile.fr; s=google; t=1774656444; x=1775261244; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YpvE7ApcPl1AHAb2MKIgpvrbfiUzRKGsFWd+Mcbe6ro=;
-        b=QJcpj5qzOsZEFdnoDRkQ+C2oQZHku1jIcFx+MA+Cjv60ah2B79wP7CkovwHpSixYNh
-         YuWx6RHopIEtD9/LgJHBYEm3lGB3I7fwGZZFwUa99ScVCv1YF9wIvwmWU1GOlYb8LLZq
-         KuLURvq1a3LxNJiiwhDl4YyPyP02KMYy6fjQs=
+        bh=F9xgCiHYTmYFx3SS/X0+Q01rYJkhogY1I3Ce4rLRMNg=;
+        b=1Fq2T03D7MNZRi4pWQVozW0+PiVL+UL+TAjS4mCNLlTBQEj8EaTCCyL80lg3vz3L+3
+         J6b9znY31KX7JdIKNTQVwzhYsinJ0QZ1M1iTMQEL7NO4RwQxbI3sFp6hmM1HcAblrbX4
+         OVOAY9bnZEJo58mmvWAe0ZErdNg6IRNpbQkTM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774654586; x=1775259386;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1774656444; x=1775261244;
+        h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YpvE7ApcPl1AHAb2MKIgpvrbfiUzRKGsFWd+Mcbe6ro=;
-        b=VIrSFIuHiXoVT+kva/dG9J+JuCA2UyR1KX8ELRS3SaGjPBa43Z+DT4ta84ojb5aYvL
-         a7xRKYfgXDMZXiUYnc34NGm8TvZtYIqc55lcZp5F39C4pBZyEcTyL16WujlT3HA6XB1K
-         rFz5OeQr1Ffzgkss2M2OUvAeblbs62YZwRnV/ygaFgLDiGa9j6FZ5Ih1MRtUHs5CF+F6
-         WqrfySQ6llSPQYoVzSF6lVudu4Cu/EYejwbeBdxITpaQ8s9s2TuFqYqUWlNcBiBh7cOU
-         a3T9lzrt7wNsrEEkZmVgTmOtWa3SYeVcNcvH9+fUMBosqxNuYXkLDY+bCNzbfklhqZEB
-         jJvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXi8ABXkSgpzQiB3pt+1qz8nUnPw3+RnO4txJqs4EAYic+TWRnP0wAr1Q0eq5CQ/bO7qUdEH38s6EZQi/sUSyMz5A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzr64LUXNH7QF50PqfHMhjSZBM2yupVLfMtoF8CEcop1C55EjtF
-	zyBE45RtL7JiOOlEY9RjwjcLzfceeva59q/96paAbs0LE5Ov87+2Pr27vyJYZZQwguA=
-X-Gm-Gg: ATEYQzxxo8Zc0nOdTeO3eXJecWGjfV2shWay85XjSr3qc6HIlgrVlu6F2UZk4oQvSeD
-	+RFTYFaECRPR271eZMTDsVS8ZtbuSFUhoxaDsfbcAWQiHrIWB5++KX0H9KPr2KWfLBBH7Qv4jA3
-	0cmqTVzeH5kmqGtL8Nkc1n4wzKx2YEu/grod+rdIXZ0wh9615lzxmWz10PdD+JoBd35vYX50wbv
-	8mtN42MUXbJE2fDuVTx4dllpG3f9RxJZYRXSnhVS9PE06i29xTWnmQmO6RCjhWWX9bGz7VOuUBN
-	jamJC7g6hYG9Sp5q8xjMtCoUacs7jVVPIdVYm5QvMobSgRiwH82MPQ4R8XKTQOoyo980z0Aanz0
-	ig2s9XObHSPUgBKLCn+sQyoQPvx+mHiTZDcdHtZnQcxzic0ws+4d/dwp6M8LL2vwsA1c0c6JN+J
-	3Tpyp7E45m8b6Da30m/4qrx2z9/0FOhyo+D+KQs6ph9o/4YGwJzNkZRGVq/3okyDMpkMSue0oH2
-	jFJPmvl0jma20s=
-X-Received: by 2002:a05:600c:1f13:b0:487:169:9f64 with SMTP id 5b1f17b1804b1-48727d73709mr70816285e9.12.1774654586522;
-        Fri, 27 Mar 2026 16:36:26 -0700 (PDT)
+        bh=F9xgCiHYTmYFx3SS/X0+Q01rYJkhogY1I3Ce4rLRMNg=;
+        b=EpD8iQVh9BGbKU4ZPGb9TaIgfPca7DIj4LlHfNUGeUfhuPBZxE3qQEWyo2UTmKE08f
+         tec4bcESegCK1LqVr0Ia6MB1hKNVit32C0xRewjXtsvDHqGend4O1lZHoUVdfsMKMApK
+         7V0g+8mdSQnFK+mPP4FExbjEIEz6AOXq37tF8cM4+kKqeoVin1PTfilaSNzHbYbhWLce
+         GUNWbjJilXF3pjgT95NPOAwZad1kbKkt3bd1vhunCpjKvuYh5gykIcuqZmQqFUAIhCmK
+         SHHQJOeID1Yy5ejPUGOhcMqc5tjnXzZ/gRZ7TRRhnCKMy1xxhWKNR8LqXC/yL9KJzFYZ
+         sMTw==
+X-Forwarded-Encrypted: i=1; AJvYcCUp8Z2Ydr9f1X4ljvG+KyllFDo2zOtlxP+dKC8HCqbsHcy7+JT5AxBV65gYT+HdVZrLhBbnOhboaaFSMxpyHAMJ+g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxYClC/+gck1YxJFWQTqvk7ir5yL5yIWUs9hWrO6yeTD9YWcCGb
+	dezpNkTXxGuRopWuetJkXL7XhdDGdKZaamcUHKviYMcUxqcZ6T093TijimDe4clOq/0=
+X-Gm-Gg: ATEYQzyngtE3lGAyEubGqmCzzQQtnSptFX09BwEwBR2oxe41g8eBlKqRsxWKrJ1BNZx
+	ohQwcIDn+BHmyM9ObJkXXOKe3RqiAw/Pe6KkOn7J0pB9+yDcrXC+69xFVlZUQoHsc8IhxGBacYC
+	7zKNhLNpSPJT+9g1VAaHkulweblBiB28EvnDmNrrQsxOtgX5t8f7J7WrET8/kVAvMR/WGEn8a24
+	9I0Y97pbYF1Fcva0IMpFztkXdGfjMEIPs+/UrytROHg3AMBvWPc8R0xwuBgSYMzMchNm2qAH+Vp
+	NNY4o/5XcNsL6snv84uyMr3idB75YrZnBrdbQFLA/Hzwo8MZo3DZbhCEefEmsfhjnJb27f2En1i
+	amZKeW8Yww5PbhdSuQCxRaEk5Brb5iZfMrs9W0nd5qLDkmNAsdVe2s24ZXFqMxaJj/fKrB9GT3N
+	v4gRK4q/m1AJrviGlCz/Vv2MgySWTRjRhEIUlX+2BkAtSMB4RvtQQXB5CJ0FN6iolZTx3pokgMq
+	q2zM2GRJkOgWHQ=
+X-Received: by 2002:a05:600c:c172:b0:486:f893:56c6 with SMTP id 5b1f17b1804b1-48729109ac4mr57680925e9.10.1774656443957;
+        Fri, 27 Mar 2026 17:07:23 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873061f44csm13910475e9.1.2026.03.27.16.36.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48725eb5417sm39428345e9.3.2026.03.27.17.07.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2026 16:36:25 -0700 (PDT)
+        Fri, 27 Mar 2026 17:07:22 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 28 Mar 2026 00:36:25 +0100
-Message-Id: <DHDYJPLHXWYQ.3J88UZRXHD7MN@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH] systemd: backport patch to fix
- journal-file issue
+Date: Sat, 28 Mar 2026 01:07:21 +0100
+Message-Id: <DHDZ7EG0XTX2.115YOC91NT8OQ@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH 5/6] elfutils: don't add -Werror to
+ avoid discarded-qualifiers
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "sureshha" <suresh.ha@bti.bmwgroup.com>, "sureshha"
- <suresh.ha@bmwtechworks.in>
-To: <git-patches@bmwtechworks.in>,
- <openembedded-core@lists.openembedded.org>
+To: <martin.jansa@gmail.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260326073855.2075702-1-git-patches@bmwtechworks.in>
-In-Reply-To: <20260326073855.2075702-1-git-patches@bmwtechworks.in>
+References: <20260326181450.1262870-1-martin.jansa@gmail.com>
+ <20260326181450.1262870-5-martin.jansa@gmail.com>
+In-Reply-To: <20260326181450.1262870-5-martin.jansa@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2026 23:36:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234112
+ <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 00:07:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234113
 
-On Thu Mar 26, 2026 at 8:38 AM CET, Suresh H A via lists.openembedded.org w=
-rote:
-> From: sureshha <suresh.ha@bti.bmwgroup.com>
+On Thu Mar 26, 2026 at 7:14 PM CET, Martin Jansa via lists.openembedded.org=
+ wrote:
+> From: Martin Jansa <martin.jansa@gmail.com>
 >
-> Backport patch to fix systemd journal-file assertion on removed or corrup=
-ted files
+> With glibc-2.43 on host elfutils-native fails with:
+> elfutils-0.191/libcpu/riscv_disasm.c:1259:46: error: initialization disca=
+rds =C3=A2=C2=80=C2=98const=C3=A2=C2=80=C2=99 qualifier from pointer target=
+ type [-Werror=3Ddiscarded-qualifiers]
 >
-> Extracted from systemd MR:
-> https://github.com/systemd/systemd/pull/40378
+> elfutils-0.194 in master doesn't have this issue thanks to this patch avo=
+iding -Werror from:
+> https://git.openembedded.org/openembedded-core/commit/?id=3D1d6ac3c811798=
+732e6addc798656bbe104661d77
 >
-> Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 > ---
 
-Hello,
+Hello
 
-Thanks for the patch. It looks like this is also needed in whinlatter
-and master. You need to send this fix there first, before I can take
-this on scarthgap.
-
->  ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
->  meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
->  2 files changed, 66 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-d=
-o-not-trigger-assertion-on-removed-or-.patch
->
-> diff --git a/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-t=
-rigger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/0=
-023-journal-file-do-not-trigger-assertion-on-removed-or-.patch
-> new file mode 100644
-> index 0000000000..5f5551870a
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-=
-assertion-on-removed-or-.patch
-> @@ -0,0 +1,65 @@
-> +From 1350f39db7e72116c3b2423db02da3ddc8e29082 Mon Sep 17 00:00:00 2001
-> +From: Yu Watanabe <watanabe.yu+github@gmail.com>
-> +Date: Sun, 18 Jan 2026 19:15:31 +0900
-> +Subject: [PATCH] journal-file: do not trigger assertion on removed or
-> + corrupted journal file
-> +
-> +When a journal file is removed or corrupted, then the value `p`, which i=
-s
-> +read from Object.data.entry_offset, may be zero.
-> +
-> +Note, journal_file_move_to_object() checks the passed offset and return
-> +-EBADMSG if it is invalid.
-> +
-> +Fixes the issue reported at
-> +https://github.com/systemd/systemd/pull/40372#issuecomment-3762907261.
-> +
-> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/218=
-5c30de333b09f46ef28b743b123f45e774738]
-That URL point to an unmerged commit.
-I think you want this one: https://github.com/systemd/systemd/commit/112cbc=
-37906fb97afe0ad04164262cf62d0af5e9
+Isn't this patch (and 6/6) also needed on whinlatter?
+Can you send what is needed from series to whinlatter please?
 
 Thanks!
 
+>  .../elfutils/elfutils_0.191.bb                |  1 +
+>  ...001-config-eu.am-do-not-force-Werror.patch | 34 +++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+>  create mode 100644 meta/recipes-devtools/elfutils/files/0001-config-eu.a=
+m-do-not-force-Werror.patch
+>
+> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.191.bb b/meta/reci=
+pes-devtools/elfutils/elfutils_0.191.bb
+> index 0fd6d31af1..5156e5c9f6 100644
+> --- a/meta/recipes-devtools/elfutils/elfutils_0.191.bb
+> +++ b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
+> @@ -23,6 +23,7 @@ SRC_URI =3D "https://sourceware.org/elfutils/ftp/${PV}/=
+${BP}.tar.bz2 \
+>             file://0001-tests-Makefile.am-compile-test_nlist-with-standar=
+d-C.patch \
+>             file://0001-debuginfod-Remove-unused-variable.patch \
+>             file://0001-srcfiles-fix-unused-variable-BUFFER_SIZE.patch \
+> +           file://0001-config-eu.am-do-not-force-Werror.patch \
+>             file://CVE-2025-1352.patch \
+>             file://CVE-2025-1365.patch \
+>             file://CVE-2025-1372.patch \
+> diff --git a/meta/recipes-devtools/elfutils/files/0001-config-eu.am-do-no=
+t-force-Werror.patch b/meta/recipes-devtools/elfutils/files/0001-config-eu.=
+am-do-not-force-Werror.patch
+> new file mode 100644
+> index 0000000000..d4e141927f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/elfutils/files/0001-config-eu.am-do-not-force=
+-Werror.patch
+> @@ -0,0 +1,34 @@
+> +From e169c3fc734be1783b3e1a4768dbec05fb64cb4f Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex@linutronix.de>
+> +Date: Fri, 22 Nov 2024 12:50:48 +0100
+> +Subject: [PATCH] config/eu.am: do not force -Werror
 > +
-> +Comment: Patch is refreshed as per codebase of v255
+> +This is undesirable when compiler versions may not be the same
+> +as what upstream is using for their own testing.
 > +
-> +Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
+> +Upstream-Status: Inappropriate [oe-core specific]
+> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > +---
-> + src/libsystemd/sd-journal/journal-file.c | 7 +++----
-> + 1 file changed, 3 insertions(+), 4 deletions(-)
+> + config/eu.am | 2 --
+> + 1 file changed, 2 deletions(-)
 > +
-> +diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/s=
-d-journal/journal-file.c
-> +index 08f3b82..633de5b 100644
-> +--- a/src/libsystemd/sd-journal/journal-file.c
-> ++++ b/src/libsystemd/sd-journal/journal-file.c
-> +@@ -3305,7 +3305,9 @@ use_extra:
-> +
-> + static int test_object_offset(JournalFile *f, uint64_t p, uint64_t need=
-le) {
-> +         assert(f);
-> +-        assert(p > 0);
-> ++
-> ++        if (p <=3D 0)
-> ++                return -EBADMSG;
-> +
-> +         if (p =3D=3D needle)
-> +                 return TEST_FOUND;
-> +@@ -3341,7 +3343,6 @@ static int test_object_seqnum(JournalFile *f, uint=
-64_t p, uint64_t needle) {
-> +         int r;
-> +
-> +         assert(f);
-> +-        assert(p > 0);
-> +
-> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-> +         if (r < 0)
-> +@@ -3382,7 +3383,6 @@ static int test_object_realtime(JournalFile *f, ui=
-nt64_t p, uint64_t needle) {
-> +         int r;
-> +
-> +         assert(f);
-> +-        assert(p > 0);
-> +
-> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-> +         if (r < 0)
-> +@@ -3423,7 +3423,6 @@ static int test_object_monotonic(JournalFile *f, u=
-int64_t p, uint64_t needle) {
-> +         int r;
-> +
-> +         assert(f);
-> +-        assert(p > 0);
-> +
-> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-> +         if (r < 0)
-> +--
-> +2.34.1
-> diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-c=
-ore/systemd/systemd_255.21.bb
-> index 87e186bbfa..504d6cbef6 100644
-> --- a/meta/recipes-core/systemd/systemd_255.21.bb
-> +++ b/meta/recipes-core/systemd/systemd_255.21.bb
-> @@ -29,6 +29,7 @@ SRC_URI +=3D " \
->             file://0002-binfmt-Don-t-install-dependency-links-at-install-=
-tim.patch \
->             file://0003-timedated-Respond-on-org.freedesktop.timedate1.Se=
-tNT.patch \
->             file://0008-implment-systemd-sysv-install-for-OE.patch \
-> +           file://0023-journal-file-do-not-trigger-assertion-on-removed-=
-or-.patch \
->             "
-> =20
->  # patches needed by musl
+> +diff --git a/config/eu.am b/config/eu.am
+> +index 0b7dab5..5e7a03f 100644
+> +--- a/config/eu.am
+> ++++ b/config/eu.am
+> +@@ -99,7 +99,6 @@ AM_CFLAGS =3D -std=3Dgnu99 -Wall -Wshadow -Wformat=3D2=
+ \
+> + 	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+> + 	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+> + 	    $(USE_AFTER_FREE3_WARNING) \
+> +-	    $(if $($(*F)_no_Werror),,-Werror) \
+> + 	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+> + 	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+> + 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNI=
+NG),) \
+> +@@ -109,7 +108,6 @@ AM_CXXFLAGS =3D -std=3Dc++11 -Wall -Wshadow \
+> + 	   $(TRAMPOLINES_WARNING) \
+> + 	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+> + 	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+> +-	   $(if $($(*F)_no_Werror),,-Werror) \
+> + 	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+> + 	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+> + 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNIN=
+G),) \
 
 
 --=20
