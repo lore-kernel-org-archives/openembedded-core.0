@@ -2,49 +2,49 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D2BD10F3DDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA1E10F3DD9
 	for <webhook@archiver.kernel.org>; Sat, 28 Mar 2026 09:49:20 +0000 (UTC)
 Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8248.1774691356769729304
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8246.1774691354667948964
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Mar 2026 02:49:16 -0700
+ Sat, 28 Mar 2026 02:49:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=SNHZg+rH;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=PDmGTHFD;
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=tjI22ZPJ;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=KONttv39;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.146, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 26B1EEC01E2;
-	Sat, 28 Mar 2026 05:49:16 -0400 (EDT)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id E678CEC0227;
+	Sat, 28 Mar 2026 05:49:13 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Sat, 28 Mar 2026 05:49:16 -0400
+  by phl-compute-04.internal (MEProxy); Sat, 28 Mar 2026 05:49:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774691356;
-	 x=1774777756; bh=hGPKx1G+2IZNAskzfnp0Tw3k4FmDuWWjcf70kYok6aQ=; b=
-	SNHZg+rHQ+Y0w3IgxBjvUJR97ch9F/7N45mTdNWGn7PjNE9hX/6pzp86OrhIpLgz
-	z5kkDI4PxvnCU+rWHJkkMYo6J5gn4rvH1G+nb5CqFsKPXhRY3StOaFganOcqNLcW
-	SEkMzpuXwcESqa+cC9MjJEebbvJi/vbtDlfMG4P7Wv5QxE0ySWaVRU2z/Wtx/acS
-	a9Lz7FXaAB8o9Nd9VOflRRx9tOkLjAWjJq8vFT7hpqAfZzKuk61uaMaZolSnYdIW
-	zMmUwdMCHfg7FASa10xVVLyThC5rpcCX3lF69R54gG8OtWqvp8/ks1HoCkyD1C5q
-	lG/lFpNahzPUln1daCKvBw==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774691353;
+	 x=1774777753; bh=/swMbxnWzcCJdWbVT/EyohKAydsvvEoGA0SZnwGXgnc=; b=
+	tjI22ZPJUfe9nYFs3BuKkG3UokBRUviye/ozL0dXrhu0Zqdl5Glz5sxfh4Y7lqll
+	gFi8Qi6US1HyKoTdN8HBh+yrtAV6pMQCT21LUOZVEdvx+mjQXzKHqbf0a7x5pMxe
+	/VHPBDwZkyIOiEUPNUkJCvIWjaWDP2F350iwJVfDk30gKdtd2GCfNc5gtIAKtnI8
+	BOXAQxoWYzPh5fwHNVCvZqlrCvE3fILCmMLoZrGJryYoUgBJ3scno3OdNWjIHPI4
+	4FdwkklDBVBs1xF1gOv62Otu52/TIYNkn0utxaIUHxb6gjP8ekRmfdICVm7OBxGm
+	TrynTh3aZrFj/NxPA9qcPQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774691356; x=
-	1774777756; bh=hGPKx1G+2IZNAskzfnp0Tw3k4FmDuWWjcf70kYok6aQ=; b=P
-	DmGTHFDNsXODak1grN6pv/y9DiA0NAfN5QIUfgJxY7DwYjJksr1YRXxLXAaMNoDP
-	QtFAUOzJwwbq7I28dJtiZJAbvys3I49yA463yNWk2fD7SeBdDJfD7t5vN/wTv/xQ
-	BspUAHIrfSpAMqzMJjrpK3eoSIJ+ir2sl6QtNfU+rw1VL+pGJykbRsnlMVXh79Ov
-	VnTXqHOutQ0oExHFWJ1wH8To/kVwxiHcsSlsb1iMOEEIx9lzSAbl2XKZitmF4eda
-	V9JAJe9nMp+vZ9mG2h/4qPIWylLH22gtl7Z4F9r8raxO9KjmbJW1TgNnBeXcWci0
-	1BSKn7hwmHAHLkNvFhXgA==
-X-ME-Sender: <xms:HKTHaQkAHotTM0eEGqS7ph6t7JrmwP0C6jQXI0PdZ5herKc_AkO-XQ>
-    <xme:HKTHaV25rd69A_pwzJA1ZA65Cto0LoV-0JrULf6au1396neSE7a0q2kIPVmnojwxe
-    D8a4IJhSU3Eb2jI4eW9xsmU7Yj7UxJGOcO5jyl6_dKWrawVZb4SshwO>
-X-ME-Received: <xmr:HKTHacRwhqB_edWIAHxszB6xGxYrOhNj0RxW9PW48cttM2SGKcFP8tHslcDv22P88uo3qktQxxxNmHSqOENRY2wdPJQEqDc>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774691353; x=
+	1774777753; bh=/swMbxnWzcCJdWbVT/EyohKAydsvvEoGA0SZnwGXgnc=; b=K
+	ONttv39TBz0Qx6aIhCDfgFrJqZQ8DJn7cdSG5CAsSypT9HeVZ6I9RfbTS3NaFjOn
+	Cxx51Uj67I6Xj4NUMhDBSqfzsfANhJLk4zMap8kwnDqsbDkQO4ooCeq6Br+20h6g
+	wEna55M4Cdeo9pwNr+C3QwKEg1kFHerOkYBYPqe3sH0znPCmpf9VZ/bqwP0GmkMA
+	7A2e2HrFsRnh7cmuvXEOWtOZ3wAu8ktkvybBHR2M7hk9bhxm53TJXhojFlVjHWB9
+	5uhRIsIjoSyFxurxtO12pNirqX7jC92VG4P8iAoDYF12imQ+727nbtONalCgIYTa
+	VJeAPe0ttFhpywLycQryQ==
+X-ME-Sender: <xms:GaTHaaTFYPJuyCHGp0Me8Reh6Csey6w2wZ-bEnBacVALFnwvEIEJuQ>
+    <xme:GaTHaVweiWjh-r9Byca5-hnQamyE5ZziF7Tz0sIrPj8GypghJzn_MuDU04ZXLEQ8n
+    XdKFivqrLjvY5vale8tXFH393MV028_vVutDti3ngzynfgpUwM9pA>
+X-ME-Received: <xmr:GaTHaVeLwayUsBHiDFnZIZ_p8ebWIHKpqDpNJpciiISygqEuOrmt9P7aPf2R38rBjIr-BFG3-rKpsKyNP3OEejwgD5ucIM4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffedvkeehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkfhgjvfevofesthejre
@@ -55,80 +55,148 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffedvkeehucetufdote
     htthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghulhesphgsrghr
     khgvrhdruggvvhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlih
     hsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:HKTHaXtkGDeKLqniUBcvwN3UOlYrtDzfjWWgbc2TNJZhdtSC_Q6-Gw>
-    <xmx:HKTHaRbI05SdBPPDVGLLJaiRdcLskj6oFzMwt09MAWwzpUbg-Fg3fw>
-    <xmx:HKTHacvgz8l1FSixd2TnZz7ANijJPaDolSsA3Il0UoiAD5KP8YFX0Q>
-    <xmx:HKTHaTHLMdJq-LWt_Wpnp7w69Ih5PRseDkwTG9dvBMocxHb_9wG9Wg>
-    <xmx:HKTHaWLTzUPRWXCEJ2d1p_l9ArCfJ_5vc6VPGVM62TXsdHlAbowFg9aG>
+X-ME-Proxy: <xmx:GaTHaRLHpn-PWfqqtEIRt1J88aEb9izvLmDosLlnuuCbQ_VtJdpPuw>
+    <xmx:GaTHaWFsOzucgx1ATyIAIAxEVhjrLBzywM1xq_qtarFl0ZtiMeunRQ>
+    <xmx:GaTHabo2sED2Luyo6i9NyPlNI5IrNZOo-SmfskpdFRYoesutgcyouw>
+    <xmx:GaTHafQbP3eWvs5TFuaMTM3P2kMtz2qp-p7bJwFZgXfK4OImRmpcUg>
+    <xmx:GaTHaS15TH78LV6315FG6Mkq-8bIKpXzv0JJAVtV20Z-Uq-f0yFz0Oic>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 28 Mar 2026 05:49:15 -0400 (EDT)
+ 28 Mar 2026 05:49:13 -0400 (EDT)
 From: Paul Barker <paul@pbarker.dev>
-Date: Sat, 28 Mar 2026 09:49:02 +0000
-Subject: [PATCH 4/4] lib: oe: Drop backfill support
+Date: Sat, 28 Mar 2026 09:48:59 +0000
+Subject: [PATCH 1/4] oelib: utils: Support filtering default features
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260328-default-features-v1-4-90790864d734@pbarker.dev>
+Message-Id: <20260328-default-features-v1-1-90790864d734@pbarker.dev>
 References: <20260328-default-features-v1-0-90790864d734@pbarker.dev>
 In-Reply-To: <20260328-default-features-v1-0-90790864d734@pbarker.dev>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1809; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=6Vl9G+T6pzGvonZPc8TCRORNyVbDSf1dMyPcnVBdhfA=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWQeXyLB1NbeHD7xtsmvyxw7C64+CBKIko2YeYJ9yS2T7
- TYC9psFOkpZGMS4GGTFFFk293y9/7TXkTcj5JYCzBxWJpAhDFycAjCR982MDCd+y/w/FKh23aGL
- R36LyIqm7heecjpsAr3VU8ImWT1wecbIMM/6+hS+hDS+IwwcBp8j/wXf1XwafH7q+hIG9vgW10s
- SnAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4530; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=9++4ZQ3mBiIAeyV27S+Hjj+A7Su2VdmDxAjOxLUxkA0=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWQeXyKxqz6K4+q5Jx+aTiaf4GrW1r62a6Os8cakkriII
+ xOi989K6ihlYRDjYpAVU2TZ3PP1/tNeR96MkFsKMHNYmUCGMHBxCsBEBEMYGaY+ZNArueScU3Xh
+ h9zFz8fe39lio/u2t+L57Q/2Klks/A2MDLPN2XlELB9N0l/U2b/FfXno72Vf1jdPtBOdlPl52sw
+ zCxgA
 X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
  fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 09:49:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234126
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234123
 
-We have removed DISTRO_FEATURES_BACKFILL and MACHINE_FEATURES_BACKFILL,
-so we no longer need the features_backfill() function.
+The new library function filter_default_features() allows us to support
+opting out of any default features without having to use :remove.
 
 Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- meta/lib/oe/utils.py | 21 ---------------------
- 1 file changed, 21 deletions(-)
+ meta/lib/oe/utils.py                        | 35 +++++++++++++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/oelib/utils.py | 31 ++++++++++++++++++++++++-
+ 2 files changed, 65 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 928b38c64cf9..d5766fdbac2a 100644
+index afcfeda0c6d5..928b38c64cf9 100644
 --- a/meta/lib/oe/utils.py
 +++ b/meta/lib/oe/utils.py
-@@ -137,27 +137,6 @@ def inherits(d, *classes):
-     """Return True if the metadata inherits any of the specified classes"""
-     return any(bb.data.inherits_class(cls, d) for cls in classes)
+@@ -83,6 +83,31 @@ def set_intersect(variable1, variable2, d):
+     val2 = set(d.getVar(variable2).split())
+     return " ".join(val1 & val2)
  
--def features_backfill(var,d):
--    # This construct allows the addition of new features to variable specified
--    # as var
--    # Example for var = "DISTRO_FEATURES"
--    # This construct allows the addition of new features to DISTRO_FEATURES
--    # that if not present would disable existing functionality, without
--    # disturbing distributions that have already set DISTRO_FEATURES.
--    # Distributions wanting to elide a value in DISTRO_FEATURES_BACKFILL should
--    # add the feature to DISTRO_FEATURES_BACKFILL_CONSIDERED
--    features = (d.getVar(var) or "").split()
--    backfill = (d.getVar(var+"_BACKFILL") or "").split()
--    considered = (d.getVar(var+"_BACKFILL_CONSIDERED") or "").split()
--
--    addfeatures = []
--    for feature in backfill:
--        if feature not in features and feature not in considered:
--            addfeatures.append(feature)
--
--    if addfeatures:
--        d.appendVar(var, " " + " ".join(addfeatures))
--
- def filter_default_features(varname, d):
-     # Process default features to exclude features which the user has opted out
-     # of. This should be called from an anonymous Python function and uses
++def set_difference(variable1, variable2, d):
++    """
++    Expand both variables, interpret them as lists of strings, and return the
++    intersection as a flattened string.
++
++    For example:
++    s1 = "a b c"
++    s2 = "b c d"
++    s3 = set_difference(s1, s2)
++    => s3 = "a"
++    """
++    val1 = d.getVar(variable1)
++    if not val1:
++        return ""
++    val2 = d.getVar(variable2)
++    if not val2:
++        return val1
++
++    val1 = set(val1.split())
++    val2 = set(val2.split())
++
++    # Return a sorted string to ensure that the result is consistent between
++    # parser runs.
++    return " ".join(sorted(val1 - val2))
++
+ def prune_suffix(var, suffixes, d):
+     # See if var ends with any of the suffixes listed and
+     # remove it if found
+@@ -133,6 +158,16 @@ def features_backfill(var,d):
+     if addfeatures:
+         d.appendVar(var, " " + " ".join(addfeatures))
+ 
++def filter_default_features(varname, d):
++    # Process default features to exclude features which the user has opted out
++    # of. This should be called from an anonymous Python function and uses
++    # d.setVar() to avoid unnecessarily evaluating this on every data store
++    # update.
++    default_features = set_difference(varname + "_DEFAULT_RAW",
++                                       varname + "_OPTED_OUT",
++                                       d)
++    d.setVar(varname + "_DEFAULT", default_features)
++
+ def all_distro_features(d, features, truevalue="1", falsevalue=""):
+     """
+     Returns truevalue if *all* given features are set in DISTRO_FEATURES,
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/utils.py b/meta/lib/oeqa/selftest/cases/oelib/utils.py
+index 0cb46425a02d..4ba4b14f3742 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/utils.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/utils.py
+@@ -8,7 +8,7 @@ import sys
+ from unittest.case import TestCase
+ from contextlib import contextmanager
+ from io import StringIO
+-from oe.utils import packages_filter_out_system, trim_version, multiprocess_launch
++from oe.utils import packages_filter_out_system, trim_version, multiprocess_launch, filter_default_features
+ 
+ class TestPackagesFilterOutSystem(TestCase):
+     def test_filter(self):
+@@ -102,3 +102,32 @@ class TestMultiprocessLaunch(TestCase):
+         with captured_output() as (out, err):
+             self.assertRaises(bb.BBHandledException, multiprocess_launch, testfunction, ["1", "2", "3", "4", "5", "6"], d, extraargs=(d,))
+         self.assertIn("KeyError: 'Invalid number 2'", out.getvalue())
++
++
++class TestDefaultFeatures(TestCase):
++    def test_filter_default_features(self):
++        try:
++            import bb
++            d = bb.data_smart.DataSmart()
++        except ImportError:
++            self.skipTest("Cannot import bb")
++
++        # Test with nothing opted out
++        d.setVar("DISTRO_FEATURES_DEFAULT_RAW", "alpha beta gamma")
++        filter_default_features("DISTRO_FEATURES", d)
++        self.assertEqual(d.getVar("DISTRO_FEATURES_DEFAULT"), "alpha beta gamma")
++
++        # opt out of a single feature
++        d.setVar("DISTRO_FEATURES_OPTED_OUT", "beta")
++        filter_default_features("DISTRO_FEATURES", d)
++        self.assertEqual(d.getVar("DISTRO_FEATURES_DEFAULT"), "alpha gamma")
++
++        # opt out of everything
++        d.setVar("DISTRO_FEATURES_OPTED_OUT", "gamma alpha beta")
++        filter_default_features("DISTRO_FEATURES", d)
++        self.assertEqual(d.getVar("DISTRO_FEATURES_DEFAULT"), "")
++
++        # opt out of something that isn't in our defaults
++        d.setVar("DISTRO_FEATURES_OPTED_OUT", "omega")
++        filter_default_features("DISTRO_FEATURES", d)
++        self.assertEqual(d.getVar("DISTRO_FEATURES_DEFAULT"), "alpha beta gamma")
 
 -- 
 2.43.0
