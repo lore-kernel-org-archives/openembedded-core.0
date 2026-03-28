@@ -2,203 +2,163 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA1E10F3DD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 987DB10F3DE0
 	for <webhook@archiver.kernel.org>; Sat, 28 Mar 2026 09:49:20 +0000 (UTC)
 Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8246.1774691354667948964
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8245.1774691354346718742
  for <openembedded-core@lists.openembedded.org>;
  Sat, 28 Mar 2026 02:49:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=tjI22ZPJ;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=KONttv39;
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=aeAl/LF6;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=s42z3ieb;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.146, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id E678CEC0227;
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 49712EC0224;
 	Sat, 28 Mar 2026 05:49:13 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Sat, 28 Mar 2026 05:49:13 -0400
+  by phl-compute-01.internal (MEProxy); Sat, 28 Mar 2026 05:49:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774691353;
-	 x=1774777753; bh=/swMbxnWzcCJdWbVT/EyohKAydsvvEoGA0SZnwGXgnc=; b=
-	tjI22ZPJUfe9nYFs3BuKkG3UokBRUviye/ozL0dXrhu0Zqdl5Glz5sxfh4Y7lqll
-	gFi8Qi6US1HyKoTdN8HBh+yrtAV6pMQCT21LUOZVEdvx+mjQXzKHqbf0a7x5pMxe
-	/VHPBDwZkyIOiEUPNUkJCvIWjaWDP2F350iwJVfDk30gKdtd2GCfNc5gtIAKtnI8
-	BOXAQxoWYzPh5fwHNVCvZqlrCvE3fILCmMLoZrGJryYoUgBJ3scno3OdNWjIHPI4
-	4FdwkklDBVBs1xF1gOv62Otu52/TIYNkn0utxaIUHxb6gjP8ekRmfdICVm7OBxGm
-	TrynTh3aZrFj/NxPA9qcPQ==
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1774691353; x=1774777753; bh=Vh
+	BqnJAjphZvg99CizDzK9j/jaB5ITUSSqeLOCBiGVA=; b=aeAl/LF6efZp459bUF
+	ezKkssWFF4onr7c7HrH0ml8Sg2yovD67KLUhZFoPSn8Qcv24hLDO0OFFZ6FQgtuc
+	8J70fbwtnx9GHJGfd2XWQX19JHwO3Fu9pxStVhbfQHNDXS1Jy0Ok9GkvCbUtbm9u
+	ho+OhfSNRqFcPZQvn+CAxARvVjqEoIH6iUzdAG8D+NoA12LXosOqMvfrLnbxJj1m
+	9Hhrxo3SvFbhfoPz9sDF9T1Fx13kgyyXelK2P4lm5rqZ59TuXq2rbJ0MrOYaWKUj
+	CBPfYvAePqX1Czir0baEFvzTPI+VybRjT066H9yPPyUycFk7h1Zaozk7phnYJXga
+	tm1w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774691353; x=
-	1774777753; bh=/swMbxnWzcCJdWbVT/EyohKAydsvvEoGA0SZnwGXgnc=; b=K
-	ONttv39TBz0Qx6aIhCDfgFrJqZQ8DJn7cdSG5CAsSypT9HeVZ6I9RfbTS3NaFjOn
-	Cxx51Uj67I6Xj4NUMhDBSqfzsfANhJLk4zMap8kwnDqsbDkQO4ooCeq6Br+20h6g
-	wEna55M4Cdeo9pwNr+C3QwKEg1kFHerOkYBYPqe3sH0znPCmpf9VZ/bqwP0GmkMA
-	7A2e2HrFsRnh7cmuvXEOWtOZ3wAu8ktkvybBHR2M7hk9bhxm53TJXhojFlVjHWB9
-	5uhRIsIjoSyFxurxtO12pNirqX7jC92VG4P8iAoDYF12imQ+727nbtONalCgIYTa
-	VJeAPe0ttFhpywLycQryQ==
-X-ME-Sender: <xms:GaTHaaTFYPJuyCHGp0Me8Reh6Csey6w2wZ-bEnBacVALFnwvEIEJuQ>
-    <xme:GaTHaVweiWjh-r9Byca5-hnQamyE5ZziF7Tz0sIrPj8GypghJzn_MuDU04ZXLEQ8n
-    XdKFivqrLjvY5vale8tXFH393MV028_vVutDti3ngzynfgpUwM9pA>
-X-ME-Received: <xmr:GaTHaVeLwayUsBHiDFnZIZ_p8ebWIHKpqDpNJpciiISygqEuOrmt9P7aPf2R38rBjIr-BFG3-rKpsKyNP3OEejwgD5ucIM4>
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1774691353; x=1774777753; bh=VhBqnJAjphZvg99CizDzK9j/jaB5
+	ITUSSqeLOCBiGVA=; b=s42z3iebldH4TuB0R80Gdm4HdLMFAOEV6NvNoWwRykfl
+	2XVTIeftBeEUirOz+lqKwCO/dCe1OIld8gc/McY5Tryw0XwRXIAM2wAIlCDYJZYI
+	Zc+QQfAQnjr5oIAsKoZRavq+HRvKMWHmxEBffMJ3LtotCPZzDunzLzxvl+GkX6B2
+	WuVXffBNDKjFbJUvLlw115uWMgElqW8JEhrfhY6U0y3nhPvaReaidGINEmGw68NL
+	slmU8ePmunZUS3uZoAkCVFX2sqNFFyYkn712yN5EHLc6OHfL0V7chYCcJNJLqGNq
+	fHZcEzx883F8+vfbzQVI5tRndpzzGC8a3E45s8clIw==
+X-ME-Sender: <xms:GaTHaY6Cj4ULkWzTkbroyuqF4YgJvzGsEBo_9kvZ1PE-_1K__cOe0g>
+    <xme:GaTHaf7J4SRFq2K53FGuXYxBSbczng2T606FcPZ4_awbI4YBmxkMJmJQkRmP9Ng0V
+    yQj6On5QfM0Eutc257KBMeRfvCqLNbZttqdjWqM1MUsQQI3942phZU>
+X-ME-Received: <xmr:GaTHaVErDj6XtwUruBUo515OQ1ZkKd48OaPK5ZtcJw5BLInhxZ3b24EWcbcGTLE84ThMOS84da4O0fFgwwgGcWAuMt6wEEg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffedvkeehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkfhgjvfevofesthejre
-    dtredtjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgv
-    rhdruggvvheqnecuggftrfgrthhtvghrnheptdffvdffjeevhfelieegudfgieefleefue
-    efffelvdehfeeviedtieeukefhleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtph
-    htthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghulhesphgsrghr
-    khgvrhdruggvvhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlih
-    hsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:GaTHaRLHpn-PWfqqtEIRt1J88aEb9izvLmDosLlnuuCbQ_VtJdpPuw>
-    <xmx:GaTHaWFsOzucgx1ATyIAIAxEVhjrLBzywM1xq_qtarFl0ZtiMeunRQ>
-    <xmx:GaTHabo2sED2Luyo6i9NyPlNI5IrNZOo-SmfskpdFRYoesutgcyouw>
-    <xmx:GaTHafQbP3eWvs5TFuaMTM3P2kMtz2qp-p7bJwFZgXfK4OImRmpcUg>
-    <xmx:GaTHaS15TH78LV6315FG6Mkq-8bIKpXzv0JJAVtV20Z-Uq-f0yFz0Oic>
+    rghilhhouhhtmecufedttdenucenucfjughrpefhufffkfggtgfgvfevofesthejredtre
+    dtjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepieduhedvgfdtgffhffelgfelieehvefgtdelvd
+    fhkedvjeeiteetffdtfeeugfeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpohhp
+    vghnvghmsggvugguvggurdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphht
+    thhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghulhesphgsrghrkh
+    gvrhdruggvvhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhs
+    thhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:GaTHaYSAeXvxUqJqbNDqBaeuaK7EERPHOXP3_BQQZFH-yNT6d3dQ4Q>
+    <xmx:GaTHaevNqJdcY59TcAfq7aTdWcCua1zQo9tWoXTeTZ-J248_Ep_LeQ>
+    <xmx:GaTHaXy6HHiAV1PCp7TcqA1RKwkZcDEUD8Gp8Tg6kZkMfx5d_I0K7A>
+    <xmx:GaTHaY6Bq0FnwcATcUKrYpRfBtdZr60_H8aggnvG0fDQOSzAch9-0Q>
+    <xmx:GaTHabdny83v8jDJn7MeqaQgR0r5ScxmfPZ93znD5vN8eUKz4Xi6wFg9>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 28 Mar 2026 05:49:13 -0400 (EDT)
+ 28 Mar 2026 05:49:12 -0400 (EDT)
 From: Paul Barker <paul@pbarker.dev>
-Date: Sat, 28 Mar 2026 09:48:59 +0000
-Subject: [PATCH 1/4] oelib: utils: Support filtering default features
+Subject: [PATCH 0/4] Support opt-out of any default machine and distro
+ features
+Date: Sat, 28 Mar 2026 09:48:58 +0000
+Message-Id: <20260328-default-features-v1-0-90790864d734@pbarker.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260328-default-features-v1-1-90790864d734@pbarker.dev>
-References: <20260328-default-features-v1-0-90790864d734@pbarker.dev>
-In-Reply-To: <20260328-default-features-v1-0-90790864d734@pbarker.dev>
+X-B4-Tracking: v=1; b=H4sIAAqkx2kC/yXMQQrCMBBG4auUWRtoE6nSq4iLNPmnHZEqmUSE0
+ rsb2+W3eG8lRRIoDc1KCR9ReS0V3amhMPtlgpFYTba1fevs1USwL89sGD6XBDXxwmcHDjz2jmr
+ 2TmD57svb/bCW8YGQ/x/ath+lAV7OdAAAAA==
+X-Change-ID: 20260328-default-features-d7f43efcfb63
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4530; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=9++4ZQ3mBiIAeyV27S+Hjj+A7Su2VdmDxAjOxLUxkA0=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWQeXyKxqz6K4+q5Jx+aTiaf4GrW1r62a6Os8cakkriII
- xOi989K6ihlYRDjYpAVU2TZ3PP1/tNeR96MkFsKMHNYmUCGMHBxCsBEBEMYGaY+ZNArueScU3Xh
- h9zFz8fe39lio/u2t+L57Q/2Klks/A2MDLPN2XlELB9N0l/U2b/FfXno72Vf1jdPtBOdlPl52sw
- zCxgA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3261; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=ow8Es9TCM+mbo9uPF21PZUtVomP26KThwym1tjs7dQo=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWQeXyK+vmHCg+jV965e2xTTEpXebFqece2PQvCZhwqlL
+ 7ODQ7smdJSyMIhxMciKKbJs7vl6/2mvI29GyC0FmDmsTCBDGLg4BWAiN38wMrw6vGqVeUnnwRaR
+ dRyCqf9OK7XdMFa+YKxwfvX3CCUOGTdGhl19/ovOBkSLKSWeTZjN8zd7yuT9WeKpn5dMyCpb38m
+ 7mB0A
 X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
  fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 09:49:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234123
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234122
 
-The new library function filter_default_features() allows us to support
-opting out of any default features without having to use :remove.
+These changes should be applied *after* the corresponding changes are
+applied in meta-yocto [1].
 
-Signed-off-by: Paul Barker <paul@pbarker.dev>
+[1]: https://lore.kernel.org/poky/20260328-default-features-v1-0-549331ccfab0@pbarker.dev/T/
+
+These changes implement the third proposal from my email on "Improving
+DISTRO_FEATURES backfill & opt-out" [2]:
+
+   Merge the current contents of `DISTRO_FEATURES_BACKFILL` into
+   `DISTRO_FEATURES_DEFAULT`. This variable will be filtered to disable
+   any items listed in `DISTRO_FEATURES_OPTOUT` before use, efficiently
+   and without the use of `:remove`. Deprecate
+   `DISTRO_FEATURES_BACKFILL` and `DISTRO_FEATURES_BACKFILL_CONSIDERED`,
+   issuing warnings if either is used.
+
+[2]: https://lists.openembedded.org/g/openembedded-architecture/topic/improving_distro_features/118009864
+
+DISTRO_FEATURES_DEFAULT is now set from DISTRO_FEATURES_DEFAULT_RAW,
+excluding entries listed in DISTRO_FEATURES_OPTED_OUT. _OPTED_OUT was
+chosen over _OPTOUT for improved clarity.
+
+This series doesn't include issuing warnings if DISTRO_FEATURES_BACKFILL
+or DISTRO_FEATURES_BACKFILL_CONSIDERED is set, that can be added as a
+follow up if these changes are accepted.
+
+The change is also carried through to MACHINE_FEATURES to keep things
+consistent.
+
 ---
- meta/lib/oe/utils.py                        | 35 +++++++++++++++++++++++++++++
- meta/lib/oeqa/selftest/cases/oelib/utils.py | 31 ++++++++++++++++++++++++-
- 2 files changed, 65 insertions(+), 1 deletion(-)
+Paul Barker (4):
+      oelib: utils: Support filtering default features
+      meta: Support opting out of any distro features
+      meta: Support opting out of any machine features
+      lib: oe: Drop backfill support
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index afcfeda0c6d5..928b38c64cf9 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -83,6 +83,31 @@ def set_intersect(variable1, variable2, d):
-     val2 = set(d.getVar(variable2).split())
-     return " ".join(val1 & val2)
- 
-+def set_difference(variable1, variable2, d):
-+    """
-+    Expand both variables, interpret them as lists of strings, and return the
-+    intersection as a flattened string.
-+
-+    For example:
-+    s1 = "a b c"
-+    s2 = "b c d"
-+    s3 = set_difference(s1, s2)
-+    => s3 = "a"
-+    """
-+    val1 = d.getVar(variable1)
-+    if not val1:
-+        return ""
-+    val2 = d.getVar(variable2)
-+    if not val2:
-+        return val1
-+
-+    val1 = set(val1.split())
-+    val2 = set(val2.split())
-+
-+    # Return a sorted string to ensure that the result is consistent between
-+    # parser runs.
-+    return " ".join(sorted(val1 - val2))
-+
- def prune_suffix(var, suffixes, d):
-     # See if var ends with any of the suffixes listed and
-     # remove it if found
-@@ -133,6 +158,16 @@ def features_backfill(var,d):
-     if addfeatures:
-         d.appendVar(var, " " + " ".join(addfeatures))
- 
-+def filter_default_features(varname, d):
-+    # Process default features to exclude features which the user has opted out
-+    # of. This should be called from an anonymous Python function and uses
-+    # d.setVar() to avoid unnecessarily evaluating this on every data store
-+    # update.
-+    default_features = set_difference(varname + "_DEFAULT_RAW",
-+                                       varname + "_OPTED_OUT",
-+                                       d)
-+    d.setVar(varname + "_DEFAULT", default_features)
-+
- def all_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
-     Returns truevalue if *all* given features are set in DISTRO_FEATURES,
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/utils.py b/meta/lib/oeqa/selftest/cases/oelib/utils.py
-index 0cb46425a02d..4ba4b14f3742 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/utils.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/utils.py
-@@ -8,7 +8,7 @@ import sys
- from unittest.case import TestCase
- from contextlib import contextmanager
- from io import StringIO
--from oe.utils import packages_filter_out_system, trim_version, multiprocess_launch
-+from oe.utils import packages_filter_out_system, trim_version, multiprocess_launch, filter_default_features
- 
- class TestPackagesFilterOutSystem(TestCase):
-     def test_filter(self):
-@@ -102,3 +102,32 @@ class TestMultiprocessLaunch(TestCase):
-         with captured_output() as (out, err):
-             self.assertRaises(bb.BBHandledException, multiprocess_launch, testfunction, ["1", "2", "3", "4", "5", "6"], d, extraargs=(d,))
-         self.assertIn("KeyError: 'Invalid number 2'", out.getvalue())
-+
-+
-+class TestDefaultFeatures(TestCase):
-+    def test_filter_default_features(self):
-+        try:
-+            import bb
-+            d = bb.data_smart.DataSmart()
-+        except ImportError:
-+            self.skipTest("Cannot import bb")
-+
-+        # Test with nothing opted out
-+        d.setVar("DISTRO_FEATURES_DEFAULT_RAW", "alpha beta gamma")
-+        filter_default_features("DISTRO_FEATURES", d)
-+        self.assertEqual(d.getVar("DISTRO_FEATURES_DEFAULT"), "alpha beta gamma")
-+
-+        # opt out of a single feature
-+        d.setVar("DISTRO_FEATURES_OPTED_OUT", "beta")
-+        filter_default_features("DISTRO_FEATURES", d)
-+        self.assertEqual(d.getVar("DISTRO_FEATURES_DEFAULT"), "alpha gamma")
-+
-+        # opt out of everything
-+        d.setVar("DISTRO_FEATURES_OPTED_OUT", "gamma alpha beta")
-+        filter_default_features("DISTRO_FEATURES", d)
-+        self.assertEqual(d.getVar("DISTRO_FEATURES_DEFAULT"), "")
-+
-+        # opt out of something that isn't in our defaults
-+        d.setVar("DISTRO_FEATURES_OPTED_OUT", "omega")
-+        filter_default_features("DISTRO_FEATURES", d)
-+        self.assertEqual(d.getVar("DISTRO_FEATURES_DEFAULT"), "alpha beta gamma")
+ meta/classes-global/base.bbclass                   |  7 +--
+ meta/classes-recipe/crosssdk.bbclass               |  7 ++-
+ meta/classes-recipe/native.bbclass                 |  7 ++-
+ meta/classes-recipe/nativesdk.bbclass              |  8 ++--
+ meta/conf/bitbake.conf                             |  7 ++-
+ meta/conf/distro/include/default-distrovars.inc    | 15 +++---
+ meta/conf/distro/include/tclibc-musl.inc           |  2 +-
+ meta/conf/distro/include/tclibc-newlib.inc         |  2 +-
+ meta/conf/distro/include/tclibc-picolibc.inc       |  2 +-
+ meta/conf/documentation.conf                       | 14 +++---
+ .../machine/include/loongarch/qemuloongarch.inc    |  3 +-
+ meta/conf/machine/include/mips/arch-mips.inc       |  2 +-
+ meta/conf/machine/include/powerpc/tune-power5.inc  |  2 +-
+ meta/conf/machine/include/powerpc/tune-power6.inc  |  2 +-
+ meta/conf/machine/include/powerpc/tune-power7.inc  |  2 +-
+ .../conf/machine/include/powerpc/tune-ppce5500.inc |  2 +-
+ .../conf/machine/include/powerpc/tune-ppce6500.inc |  2 +-
+ meta/conf/machine/include/qemu.inc                 |  4 +-
+ meta/conf/machine/include/riscv/qemuriscv.inc      |  2 +-
+ meta/conf/machine/include/x86/arch-x86.inc         |  2 +-
+ meta/conf/machine/include/x86/x86-base.inc         |  5 +-
+ meta/conf/machine/qemux86-64.conf                  |  2 +-
+ meta/conf/machine/qemux86.conf                     |  2 +-
+ meta/lib/oe/utils.py                               | 54 ++++++++++++++--------
+ meta/lib/oeqa/selftest/cases/oelib/utils.py        | 31 ++++++++++++-
+ 25 files changed, 118 insertions(+), 70 deletions(-)
+---
+base-commit: b50d6debf7baa555fbfb3521c4f952675bba2d37
+change-id: 20260328-default-features-d7f43efcfb63
 
--- 
-2.43.0
+Best regards,
+--  
+Paul Barker
 
 
