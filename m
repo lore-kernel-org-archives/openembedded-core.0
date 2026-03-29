@@ -2,107 +2,75 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E7C3F3D619
-	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 17:52:48 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33818.1774806762098658044
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB8FF3D61B
+	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 18:00:38 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33938.1774807232794148703
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2026 10:52:43 -0700
+ Sun, 29 Mar 2026 11:00:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=QJnCt5xs;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=wnvs5qfM;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 058821A3076
-	for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 17:52:40 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 32655C58770
+	for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 18:01:00 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BFCB85FD24;
-	Sun, 29 Mar 2026 17:52:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2E7041045019D;
-	Sun, 29 Mar 2026 19:52:36 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 630485FD24;
+	Sun, 29 Mar 2026 18:00:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5AA561045019D;
+	Sun, 29 Mar 2026 20:00:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774806758; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1774807229; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=+ePTogJpntmuhJ9/M5V0P8zUv0IMuSIQkru4szdPN2E=;
-	b=QJnCt5xsUB/Xe2Tyia2B1zg5/VfDI09tBhErF7nMFeIT+QoK2RyvnzPy9L1orKUN/qPH9N
-	Txgo5uxlKYq0ghWic/bTUU7IMujCsbf1DbV5p4TlZTwWVZOKEUZ3WgIQAUm8Z0TIJNRJ/9
-	elODfFaBJ0tThgcQqHVa4kYF+dZsWAvW+MrAuq/zsKEuan5qvYm9/XDptlAJ7Cenz48GyD
-	1yQ8Uy5UnczAZ79ZV0X9MumVLABtudCYGh2lw12H4R6PpWvRX33TPH1K/xq272WJ3s8KQZ
-	RPEc1YkWrEF+Mp2Js9oT9YQRFN6TyGaqrLwSCpXewA2xbauWx0yRC8IUjTiwkA==
+	bh=G1Pc6UsIJvGWod5U8VnmRc2LKhpVtCcFCtEHLY6n1W8=;
+	b=wnvs5qfMX2Hc1vNCNpHHYsw3IcoXYMbWkplW8WUR2T5llg/+yapIVN4e3TrEs/8Zx2RQjt
+	ruHw3kv0zY4RdHAYSGQK9XCZGQ8sEppsY8Efzw5cgS1O4xV3Bt3OFDnKFnKig/oGCqYiNT
+	3ZEAsRA1zmuP114J5K+vfEOjZ6nE2g5ag7vlFgCD6V+wXaleEeM3wN7P5plRtTbOJL3hJZ
+	Xubh+xas9CR0sWVPKQG5tVp4XAQ5cSSpCX3IRlpO3/oQIS/yHEfsMNpoog4Vp6IHkgw7gH
+	HvR0mD2WrZIQewA7q7cdPqJC5P/13ujs4AMeVtQuaHrbSsBk4OBrlwEhOsopVw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 29 Mar 2026 19:52:36 +0200
-Message-Id: <DHFGHK0ZXB9J.3LEH33RUE02U6@bootlin.com>
-Subject: Re: [OE-core] [PATCH v3 09/12] lttng-tools: Stop using PYTHON_ABI
-Cc: "Khem Raj" <raj.khem@gmail.com>, "Bartosz Golaszewski"
- <brgl@kernel.org>, "Trevor Gamblin" <tgamblin@baylibre.com>, "Alexander
- Kanavin" <alex.kanavin@gmail.com>
+Date: Sun, 29 Mar 2026 20:00:28 +0200
+Message-Id: <DHFGNKZCOKBA.37T7RS6DYRX8K@bootlin.com>
+Cc: <openembedded-core@lists.openembedded.org>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: =?utf-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi_Zolt=C3=A1n?= <zboszor@gmail.com>,
- <openembedded-core@lists.openembedded.org>
+To: "Khem Raj" <raj.khem@gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/7] clang/llvm: Upgrade to 22.x major
+ release
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <18A06529173E9998.57592@lists.openembedded.org>
- <20260327083055.12571-1-zboszor@gmail.com>
- <20260327083055.12571-9-zboszor@gmail.com>
- <DHE97CHEV2AH.1F608DBNYS3BA@bootlin.com>
- <cb2aef19-84ee-406d-ae1f-5bbf2ce2f9b9@gmail.com>
-In-Reply-To: <cb2aef19-84ee-406d-ae1f-5bbf2ce2f9b9@gmail.com>
+References: <20260326151641.3974221-1-khem.raj@oss.qualcomm.com>
+ <DHDI32YKJSSP.MH33L7GOJJ1Q@bootlin.com>
+ <CAMKF1soKLkhMZNSHTzrTcX8qSQYgFz20NgAzjN-ResCgG=Dg1g@mail.gmail.com>
+ <CAMKF1sorE-KOXvC+n4RtcdU8S6nzcGiE1knTg==8+d3fX0SxSw@mail.gmail.com>
+In-Reply-To: <CAMKF1sorE-KOXvC+n4RtcdU8S6nzcGiE1knTg==8+d3fX0SxSw@mail.gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 17:52:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234154
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 18:00:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234155
 
-On Sat Mar 28, 2026 at 9:56 AM CET, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n =
-wrote:
-> 2026. 03. 28. 8:57 keltez=C3=A9ssel, Mathieu Dubois-Briand =C3=ADrta:
->> On Fri Mar 27, 2026 at 9:30 AM CET, Zoltan Boszormenyi via lists.openemb=
-edded.org wrote:
->>> PYTHON_DIR now contains PYTHON_ABI, use it.
->>>
->>> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.co=
-m>
->>> ---
->> Hi Zolt=C3=A1n,
->>
->> Thanks for your patch. It looks like lttng-tools build is now failing:
->>
->> ERROR: lttng-tools-2.15.0-r0 do_configure: Execution of '/srv/pokybuild/=
-yocto-worker/genericarm64-alt/build/build/tmp/work/armv8a-poky-linux/lttng-=
-tools/2.15.0/temp/run.do_configure.1174739' failed with exit code 1
->> ...
->> | configure: error: Package requirements (lttng-ust >=3D 2.15 lttng-ust =
-< 2.16) were not met:
->> |
->> | Package dependency requirement 'lttng-ust >=3D 2.15' could not be sati=
-sfied.
->> | Package 'lttng-ust' has version '2.14.0', required version is '>=3D 2.=
-15'
->> |
->> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
->> | installed software in a non-standard prefix.
->> |
->> | Alternatively, you may set the environment variables UST_CFLAGS
->> | and UST_LIBS to avoid the need to call pkg-config.
->> | See the pkg-config man page for more details.
->> | NOTE: The following config.log files may provide further information.
->> | NOTE: /srv/pokybuild/yocto-worker/genericarm64-alt/build/build/tmp/wor=
-k/armv8a-poky-linux/lttng-tools/2.15.0/build/config.log
->> | ERROR: configure failed
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3489
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/3454
->>
->> Can you have a look at the issue?
+On Sat Mar 28, 2026 at 3:39 AM CET, Khem Raj wrote:
+> Hi Mathieu
 >
-> I tested the build with my patches, there was no such issue.
+> I have pushed another change to address install-but-unpackaged QA warning
+> since the last fix. Please pick up the branch again if you have done it
+> after my last message.
 >
-> It's caused by another patch that updated lttng-tools without also updati=
-ng lttng-ust.
+> qemux86-world is green with this change see
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3494
 >
 
-Yes indeed, I confirm this errors does not come from your series.
+Sorry, I believe I was not quick enough to pick your commits and your
+branch moved. Accordimg to your build, it should be commit
+52bd0b095528fb211ff9c2e8911d65509917a2fe, right?
+
+Can you push it in a named branch?
+
+Also, I can take it for testing, but I feel like you still need to post
+the patches here before they are merged.
 
 Thanks,
 Mathieu
