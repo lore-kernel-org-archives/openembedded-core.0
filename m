@@ -2,177 +2,1485 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2378C10D1490
-	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 00:57:40 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22324.1774745853675429147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B24910D1491
+	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 00:58:30 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22335.1774745905694755757
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Mar 2026 17:57:33 -0700
+ Sat, 28 Mar 2026 17:58:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=g3n3kqOs;
- spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7d9e22176a7so1670538a34.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 17:57:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774745853; cv=none;
-        d=google.com; s=arc-20240605;
-        b=am/dMgKGHQMhnxTf09XAzCaz9oOagBqZKxEkGAd3ZP87yb9SmUYvb17FNeuKqu+fWp
-         T3HyUqtiF0/CLPri+ZWr/SYJ6f9DNk95E9SS43BR2QIfou6KLi0PLJe1gIDMkwsnvxVa
-         4J0EhsBm8UGHb/o4qJ0mmVJ+sdQlMclsJ5UyFkgaq6jNexueFQbBD/oq/gUp6LXTw7sx
-         zXpyuGqGvg0LVzKdIIaNpIOiG4fKUy6fCYBueTlOAfnQZeK1o4u3tcqtGgBQWOAKh9sn
-         +W0QKmaL0P7ycPo7uvDKxsboMHnH2qUzgNHF1tjKWNvTRwYIHfWwdQTVhoZvTZhRgPVN
-         /RWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=L8xT612N3bFJv3jXdW/LgLoAdpFSU8WR2EIuD/V6i3U=;
-        fh=TGF7TVa5Eshw5M6K2XLmjdIMKFhrsPaliuC+tv7wzuY=;
-        b=Y1D/Ub2zKX1ILwwgmS1jx/ffYuEXtFU4s5NjuEHAcSUd84fMC5hJQSMPO8QanEEHQY
-         MVVOhF2R2VEaQ+la+/05jjYuurGBeQmgQmw4ened9+UgnIghpXxQnDHbo1hwU5pxHtJn
-         gBp0A5b8nsc6nSrFht267R3LhFBfnCsVKcUdkHIR8hVh18HfrMa58eHjbHT0QTbX6Apa
-         uwZlcVaAbAqqmvoK/knnQaK2WYED/vMGlv6GAWlUZIUlSsMo+WqgQmODQPyPGSFvFgV0
-         cinFMKBEAI7E3BQs3ltFC4uWFkEFJ33/ZCY0S3X2RhooZIrFEbRclcUe5y4GFc7q/lB7
-         iK4A==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=RwIPjRoN;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b07069e2efso20321425ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Mar 2026 17:58:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774745853; x=1775350653; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L8xT612N3bFJv3jXdW/LgLoAdpFSU8WR2EIuD/V6i3U=;
-        b=g3n3kqOs/9+d4ahCig0fOuUZIRRb3bFuPvKDwM5rSlFUSxTXJGL6FHRD1vwa1wXg7L
-         Sdtq2b0UCPJl4ypIEoLjNMb1ELZHwg08zdzkhn2zHRLFiGAPHuV0eHTQZhKlWxHYlpfI
-         NStIypmebKnt+58dNgYogSw5DtgPT5ZGWh0ahqzxR6OBRdTMIui8ljtrLt2hoTmI2AZB
-         Xg+MiGm5o5gXATl1+s0NxD7ke2KSxYB4XLOqRp9vpuyQrgfcvxIdXQPtVCUT+WQPjFPG
-         MLSzF0+BtyZuA3JxucehR2EL3sMeSzaR7BPhLvXYeuOjWbVGpWvAWn6oj1+ffJLAIp/r
-         itCg==
+        d=gmail.com; s=20251104; t=1774745905; x=1775350705; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DDSZGwv8hoP0+x7U7t8ocxy2U9b2r1KyCbSBjX6tTJo=;
+        b=RwIPjRoNTGd30+t2+1ENHfjKJ8WRnrZzjgd4QxWrufl4qOrCSJgjK9yJJMLCsqbBhH
+         k1D01GJUe+PNncb4PUBA4/TXBs8KxBiSgxqOUCQG8CnQbixl77asZfe8lpVrLhTyt7D0
+         ybryJsYSr8TVVg/uM7scQcaUYDofibrTwWp8DMRbVxpH1xE1KEp+9GN3HR7a7LipBfjc
+         8Da4hKxO0HQNPa0dxrgsd5WnXfilt64pk469FcsixPPLZLKLAtUq6iTxIMrmySEpMwYn
+         ZcKCNm2cppekQX6rxKo94DNqzNxy0AgmszzLJv9Y8XMoe8M4pILKrPcTU7oNTqaoylwH
+         s01g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774745853; x=1775350653;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=L8xT612N3bFJv3jXdW/LgLoAdpFSU8WR2EIuD/V6i3U=;
-        b=kY+Yk2OAINRiZIzOOc4jjIZHRlLCYtvWpg8thAGUPE79XlXOlrANDhkybUtwj0rcqE
-         038tnAyFW+dXTgJV1VgiqejQ8aPSh2/Gd5zwP+WlQhX48OBsv1YfOX9LPHHU+G07MbO5
-         CgbVaEd/Bw0Rrfzeq269F49F8MpS1iiPZ3IbBKrP9JL6qfasEsi6B9UFz86nAhPWQxkb
-         4wJ2PUQxEfue/C++p1C07uSoFU1l0Z1wSlqtvNb+rOdnsCfbr0VJZkYMzMvcpx6FF4LK
-         CtHyUldmXBs6UOHBLAJkQMZBLJYZQnX3YKFrI6294fpUvZ0IVgKyKgi5gfqhfym9W8RA
-         G1JQ==
-X-Gm-Message-State: AOJu0Yy3UOdsIrtllGPjgCGFEGzaqftMJ6wNFfT/6T1BCeI19+Zwgzk8
-	+eUkzD/5c9WD4fx8iGhT5OZlchiK2UEr3mVaIXEj1qDf0xvsWIvaK5oYb/3W44BpCVpb0b63gZl
-	WbIyltJ6VbBDhhmP548nc2OJDHAHt5yFxlrIyuYc=
-X-Gm-Gg: ATEYQzx+NS+tjD/1AIGVfTtsBnLrGRqK/bv/jsZ//c7LmLM8xbprqW/J231WDFWl/O8
-	K7JkUpJBfN/q7go/UebkTYGx61+YDWuP2jyDiw4+yeheYqT2LPMqJ42kUGzhrIGQibqg2HUGduF
-	0wv8nij4yrUREZMMkRN/IAdW1JPyFA3j16Fqw77KeQJkAKo1XhNpf0Zs+0Q0zzsVBuX5+PF/8eO
-	AJO7BoS8ZUgROtoUDgND8LHeotWfKgMDL7MUkwHHKPjDM/yw6h8tMesymu4dPW8OafGeJjlGX4h
-	51NzAvQF+q9IFQ7d/W4=
-X-Received: by 2002:a05:6820:98e:b0:67e:2001:1f89 with SMTP id
- 006d021491bc7-67e200128bamr3161154eaf.66.1774745852539; Sat, 28 Mar 2026
- 17:57:32 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774745905; x=1775350705;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DDSZGwv8hoP0+x7U7t8ocxy2U9b2r1KyCbSBjX6tTJo=;
+        b=HomgAzBIYJLjFS6skWMSxqdYiSFhHq6RDGqhPsjB2ZtfkEsgEWJFCEXGaFAGMOCrNX
+         BhLjj0ZmvUSOfIUikh/ymIM/MF3GzrofrDjFmSblzgZyhpG5k24HvbPpLParmfJW5u7O
+         1vVjbyqBkeJkh1YYT08xfFQub3LWGXEWY7fsr3nvkfKPDbmpY+s05YbAYlZHGVW5h7MN
+         ceRMwq7CElZ81bChgE94ehGbbN+7+Ze6s7JC3Iv/f0o6ajDswpU0FF8lSVSmft8QG5AE
+         CO7NoAzvCIgfBJRgUCSifSlxnSalF2+uXmE2MoyzvxACkQ42rCbZcptCd+0o+JNr6Ftn
+         NSAw==
+X-Gm-Message-State: AOJu0YxKsU6EzNGYCtiZzOwhi0zsxZfIwWCpjdKUyHos0fVjxsLmV0Ka
+	O9Hdz0cDV6Cu/TTvMxachj9D3pShGFU2zqjfVpK7JiRkTQY1MIq+w5Z1VrtndJMT
+X-Gm-Gg: ATEYQzyTvleU9v/W5U38WX2o/hE1c69hBefWsRsjxVQnxQhy5XlxBbVimX7iOUxIvPA
+	leOwXjQtyKtIEn4QJQNTyjrFtkSmNWqMz9kjUBT59KOOzTg0P6Zu7JEXypEyTyiNYfy1D2cbaJD
+	myjtlvA2GR54p70X7mQ5Kdi96kbXq9FXdNWjMJK+vMGeckdqGwdT9wXsobT7w3NSW0KYBRldL/W
+	31XEYla1IGr4soe/N4/S5Yyzue/q/Wxr3nBu3cje6qEDIA9TO6f3pTybkkPAaLwXygdoc+0h6yt
+	ZJKteyJvVMj+eaLEUZ1v8yW4O7mDpmlTiAswEdKb6eBgTZzLuXD5g7gglc563YqpmEHNDevnpdd
+	fjoqoLXJxrO92WcI1bafO2JCXiU7k7c0TSQsd9VViOBTuurONh6JmMqS/nLLchcGm92HrNisxoQ
+	fjsSxQlMq0Lk0Fydg7DA9voItQNFFoJqiRF7E=
+X-Received: by 2002:a17:903:3886:b0:2b2:4c92:c389 with SMTP id d9443c01a7336-2b24c92f846mr6981175ad.34.1774745904539;
+        Sat, 28 Mar 2026 17:58:24 -0700 (PDT)
+Received: from NVAPF55DW0D-IPD.. ([167.103.127.14])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2427c6a50sm35902895ad.83.2026.03.28.17.58.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 17:58:24 -0700 (PDT)
+From: ankur.tyagi85@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH v2] vte: upgrade 0.82.2 -> 0.84.0
+Date: Sun, 29 Mar 2026 13:58:04 +1300
+Message-ID: <20260329005804.525216-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260326190427.2198044-1-ankur.tyagi85@gmail.com> <DHDFIRLFWLM2.MENHJ5825HET@bootlin.com>
-In-Reply-To: <DHDFIRLFWLM2.MENHJ5825HET@bootlin.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Sun, 29 Mar 2026 13:57:21 +1300
-X-Gm-Features: AQROBzBy0mKIvYM4wWrhXhFMSN4LEwnZFahz7nVZhwg-kIPSxhmx3ID2z5DZF2k
-Message-ID: <CADySD0G1Wyc0xhqVUFdMQR1FykGoXOJdn0+746idb9uDSE7nRw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] vte: upgrade 0.82.2 -> 0.84.0
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 00:57:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234137
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 00:58:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234138
 
-On Fri, Mar 27, 2026 at 9:41=E2=80=AFPM Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
->
-> On Thu Mar 26, 2026 at 8:04 PM CET, Ankur Tyagi via lists.openembedded.or=
-g wrote:
-> > From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> >
-> > Drop patch which is now merged in simdutf[1] v7.7.1 used by vte[2]
-> >
-> > [1] https://github.com/simdutf/simdutf/commit/c6f8e887ef51bb80dd9781800=
-42b9b9f4f46800f
-> > [1] https://gitlab.gnome.org/GNOME/vte/-/blob/0.84.0/subprojects/simdut=
-f.wrap?ref_type=3Dtags
-> >
-> > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> > ---
->
-> Hi Ankur,
->
-> Thanks for your patch.
->
-> It looks like we have some build issues, at least on ARM64:
->
-> ERROR: vte-0.84.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worke=
-r/genericarm64/build/build/tmp/work/armv8a-poky-linux/vte/0.84.0/temp/run.d=
-o_compile.515741' failed with exit code 1
-> ...
-> | FAILED: [code=3D1] subprojects/simdutf/libsimdutf.a.p/meson-generated_.=
-._simdutf.cpp.o
-> | aarch64-poky-linux-g++ -march=3Darmv8-a+crc -mbranch-protection=3Dstand=
-ard -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-se=
-curity -Werror=3Dformat-security --sysroot=3D/srv/pokybuild/yocto-worker/ge=
-nericarm64/build/build/tmp/work/armv8a-poky-linux/vte/0.84.0/recipe-sysroot=
- -Isubprojects/simdutf/libsimdutf.a.p -Isubprojects/simdutf -I../sources/vt=
-e-0.84.0/subprojects/simdutf -fvisibility=3Dhidden -fdiagnostics-color=3Dal=
-ways -D_GLIBCXX_ASSERTIONS=3D1 -D_FILE_OFFSET_BITS=3D64 -std=3Dgnu++23 -O2 =
--g -fcanon-prefix-map -ffile-prefix-map=3D/srv/pokybuild/yocto-worker/gener=
-icarm64/build/build/tmp/work/armv8a-poky-linux/vte/0.84.0/sources/vte-0.84.=
-0=3D/usr/src/debug/vte/0.84.0 -ffile-prefix-map=3D/srv/pokybuild/yocto-work=
-er/genericarm64/build/build/tmp/work/armv8a-poky-linux/vte/0.84.0/build=3D/=
-usr/src/debug/vte/0.84.0 -ffile-prefix-map=3D/srv/pokybuild/yocto-worker/ge=
-nericarm64/build/build/tmp/work/armv8a-poky-linux/vte/0.84.0/recipe-sysroot=
-=3D -ffile-prefix-map=3D/srv/pokybuild/yocto-worker/genericarm64/build/buil=
-d/tmp/work/armv8a-poky-linux/vte/0.84.0/recipe-sysroot-native=3D -pipe -fvi=
-sibility-inlines-hidden -fPIC -isystem../sources/vte-0.84.0/subprojects/sim=
-dutf/include -Wno-undef -Wno-missing-declarations -MD -MQ subprojects/simdu=
-tf/libsimdutf.a.p/meson-generated_.._simdutf.cpp.o -MF subprojects/simdutf/=
-libsimdutf.a.p/meson-generated_.._simdutf.cpp.o.d -o subprojects/simdutf/li=
-bsimdutf.a.p/meson-generated_.._simdutf.cpp.o -c subprojects/simdutf/simdut=
-f.cpp
-> | subprojects/simdutf/simdutf.cpp:1819:2: error: expected ';' after class=
- definition
-> |  1819 | } // namespace arm64
-> |       |  ^
-> |       |  ;
-> | subprojects/simdutf/simdutf.cpp:11490:52: error: definition of 'bool si=
-mdutf::implementation::supported_by_runtime_system() const' is not in names=
-pace enclosing 'simdutf::implementation' [-fpermissive]
-> | 11490 | bool implementation::supported_by_runtime_system() const {
-> |       |                                                    ^~~~~
-> | subprojects/simdutf/simdutf.cpp:11531:21: error: 'implementation' in na=
-mespace 'simdutf::simdutf::arm64' does not name a type
-> | 11531 | static const arm64::implementation *get_arm64_singleton() {
-> |       |                     ^~~~~~~~~~~~~~
-> ...
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/60/builds/3465
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/3489
->
-> Can you have a look at the issue?
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Hi Mathieu,
+Drop patch which is now merged in simdutf[1] v7.7.1 used by vte[2]
 
-I discussed this issue with upstream
-(https://github.com/simdutf/simdutf/issues/951)
-Sending v2 with the fix.
+Added patch 0001-Add-a-C-API-897.patch as suggested[3] to resolve arm64
+build error
 
-cheers
-Ankur
->
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+[1] https://github.com/simdutf/simdutf/commit/c6f8e887ef51bb80dd978180042b9b9f4f46800f
+[2] https://gitlab.gnome.org/GNOME/vte/-/blob/0.84.0/subprojects/simdutf.wrap?ref_type=tags
+[3] https://github.com/simdutf/simdutf/issues/951#issuecomment-4148745312
+
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+---
+ .../vte/vte/0001-Add-a-C-API-897.patch        | 1308 +++++++++++++++++
+ ...rt-reproducibility-for-debug-sources.patch |   48 -
+ .../vte/{vte_0.82.2.bb => vte_0.84.0.bb}      |    6 +-
+ 3 files changed, 1312 insertions(+), 50 deletions(-)
+ create mode 100644 meta/recipes-support/vte/vte/0001-Add-a-C-API-897.patch
+ delete mode 100644 meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
+ rename meta/recipes-support/vte/{vte_0.82.2.bb => vte_0.84.0.bb} (93%)
+
+diff --git a/meta/recipes-support/vte/vte/0001-Add-a-C-API-897.patch b/meta/recipes-support/vte/vte/0001-Add-a-C-API-897.patch
+new file mode 100644
+index 0000000000..21dde640ee
+--- /dev/null
++++ b/meta/recipes-support/vte/vte/0001-Add-a-C-API-897.patch
+@@ -0,0 +1,1308 @@
++From 9f07589bec31402c36a480a48fa4e29b19d3ea50 Mon Sep 17 00:00:00 2001
++From: Daniel Lemire <daniel@lemire.me>
++Date: Tue, 6 Jan 2026 10:56:04 -0500
++Subject: [PATCH] Add a C API (#897)
++
++* Add a C API
++
++* lint.
++
++* workaround
++
++* tweaks
++
++* fixing the paths
++
++* lint
++
++* lint
++
++* Update README.md
++
++Co-authored-by: Copilot <175728472+Copilot@users.noreply.github.com>
++
++* Update singleheader/amalgamate.py
++
++Co-authored-by: Copilot <175728472+Copilot@users.noreply.github.com>
++
++* hack to make the amalgamation work.
++
++* added new test in pure C
++
++* add c file extension to clang format
++
++* clang format the c files
++
++* return platform independent exit status
++
++* ci: set c23 in latest standard job
++
++* ci: set c standard to 11
++
++* Update rvv-256-gcc-14.yml
++
++* marking the C implementation as experimental. fixing amalgamate.py bug.
++
++* simplifiying
++
++* correction.
++
++* ci: fix two remaining riscv jobs
++
++* ci: add amalgamation demo
++
++this is to prove that the amalgamation as
++described in the README works both for
++C++ and C.
++
++* ci: TEMPORARY try clang 20 riscv job
++
++* fixup! ci: fix two remaining riscv jobs
++
++* Revert "ci: TEMPORARY try clang 20 riscv job"
++
++This reverts commit 032c633d6f642cde227922d992b7eca1afccf6f4.
++
++* removing bad extern c
++
++---------
++
++Co-authored-by: Copilot <175728472+Copilot@users.noreply.github.com>
++Co-authored-by: Paul Dreik <github@pauldreik.se>
++
++Upstream-Status: Backport [https://github.com/simdutf/simdutf/commit/2542805947b0592c3bf65b7ca778b0406fe0b6ee]
++
++Dropped changes to github workflow and test during the backport
++Signed-off-by: Ankur Tyagi <ankur.tyagi@navicogroup.com>
++---
++ .github/workflows/rvv-1024-clang-18.yml |  29 --
++ .github/workflows/rvv-128-clang-17.yml  |  29 --
++ .github/workflows/rvv-256-gcc-14.yml    |  29 --
++ CMakeLists.txt                          |   9 +-
++ include/simdutf_c.h                     | 337 ++++++++++++++
++ scripts/clang_format.sh                 |   2 +-
++ singleheader/README.md                  |  12 +
++ singleheader/amalgamate.py              |  12 +-
++ singleheader/amalgamation_demo.c        |  59 +++
++ src/simdutf.cpp                         |   1 +
++ src/simdutf/arm64/implementation.h      |   2 +-
++ src/simdutf_c.cpp                       | 577 ++++++++++++++++++++++++
++ 12 files changed, 1005 insertions(+), 93 deletions(-)
++ delete mode 100644 .github/workflows/rvv-1024-clang-18.yml
++ delete mode 100644 .github/workflows/rvv-128-clang-17.yml
++ delete mode 100644 .github/workflows/rvv-256-gcc-14.yml
++ create mode 100644 include/simdutf_c.h
++ create mode 100644 singleheader/amalgamation_demo.c
++ create mode 100644 src/simdutf_c.cpp
++
++diff --git a/.github/workflows/rvv-1024-clang-18.yml b/.github/workflows/rvv-1024-clang-18.yml
++deleted file mode 100644
++index 25ef5f09..00000000
++--- a/.github/workflows/rvv-1024-clang-18.yml
+++++ /dev/null
++@@ -1,29 +0,0 @@
++-name: Ubuntu rvv VLEN=1024 (clang 18)
++-
++-on:
++-  push:
++-    branches:
++-      - master
++-  pull_request:
++-    branches:
++-      - master
++-
++-jobs:
++-  build:
++-    runs-on: ubuntu-24.04
++-    steps:
++-    - uses: actions/checkout@v4
++-    - name: Install packages
++-      run: |
++-        sudo apt-get update -q -y
++-        sudo apt-get install -y cmake make g++-riscv64-linux-gnu qemu-user-static clang-18
++-    - name: Build
++-      run: |
++-        CXX=clang++-18 CXXFLAGS="--target=riscv64-linux-gnu -march=rv64gcv_zvbb" \
++-        cmake --toolchain=cmake/toolchains-ci/riscv64-linux-gnu.cmake -DCMAKE_BUILD_TYPE=Release -B build -DSIMDUTF_FAST_TESTS=On
++-        cmake --build build/ -j$(nproc)
++-    - name: Test VLEN=1024
++-      run: |
++-        export QEMU_LD_PREFIX="/usr/riscv64-linux-gnu"
++-        export QEMU_CPU="rv64,v=on,zvbb=on,vlen=1024,rvv_ta_all_1s=on,rvv_ma_all_1s=on"
++-        ctest --timeout 1800 --output-on-failure --test-dir build -j $(nproc)
++diff --git a/.github/workflows/rvv-128-clang-17.yml b/.github/workflows/rvv-128-clang-17.yml
++deleted file mode 100644
++index d0c09022..00000000
++--- a/.github/workflows/rvv-128-clang-17.yml
+++++ /dev/null
++@@ -1,29 +0,0 @@
++-name: Ubuntu rvv VLEN=128 (clang 17)
++-
++-on:
++-  push:
++-    branches:
++-      - master
++-  pull_request:
++-    branches:
++-      - master
++-
++-jobs:
++-  build:
++-    runs-on: ubuntu-24.04
++-    steps:
++-    - uses: actions/checkout@v4
++-    - name: Install packages
++-      run: |
++-        sudo apt-get update -q -y
++-        sudo apt-get install -y cmake make g++-riscv64-linux-gnu qemu-user-static clang-17
++-    - name: Build
++-      run: |
++-        CXX=clang++-17 CXXFLAGS="--target=riscv64-linux-gnu -march=rv64gcv" \
++-        cmake --toolchain=cmake/toolchains-ci/riscv64-linux-gnu.cmake -DCMAKE_BUILD_TYPE=Release -B build -DSIMDUTF_FAST_TESTS=On
++-        cmake --build build/ -j$(nproc)
++-    - name: Test VLEN=128
++-      run: |
++-        export QEMU_LD_PREFIX="/usr/riscv64-linux-gnu"
++-        export QEMU_CPU="rv64,v=on,vlen=128,rvv_ta_all_1s=on,rvv_ma_all_1s=on"
++-        ctest --timeout 1800 --output-on-failure --test-dir build -j $(nproc)
++diff --git a/.github/workflows/rvv-256-gcc-14.yml b/.github/workflows/rvv-256-gcc-14.yml
++deleted file mode 100644
++index 6b6fc9ff..00000000
++--- a/.github/workflows/rvv-256-gcc-14.yml
+++++ /dev/null
++@@ -1,29 +0,0 @@
++-name: Ubuntu rvv VLEN=256 (gcc 14)
++-
++-on:
++-  push:
++-    branches:
++-      - master
++-  pull_request:
++-    branches:
++-      - master
++-
++-jobs:
++-  build:
++-    runs-on: ubuntu-24.04
++-    steps:
++-    - uses: actions/checkout@v4
++-    - name: Install packages
++-      run: |
++-        sudo apt-get update -q -y
++-        sudo apt-get install -y cmake make g++-14-riscv64-linux-gnu qemu-user-static
++-    - name: Build
++-      run: |
++-        CXX=riscv64-linux-gnu-g++-14 CXXFLAGS=-march=rv64gcv \
++-        cmake --toolchain=cmake/toolchains-ci/riscv64-linux-gnu.cmake -DCMAKE_BUILD_TYPE=Release -B build -DSIMDUTF_FAST_TESTS=On
++-        cmake --build build/ -j$(nproc)
++-    - name: Test VLEN=256
++-      run: |
++-        export QEMU_LD_PREFIX="/usr/riscv64-linux-gnu"
++-        export QEMU_CPU="rv64,v=on,zvbb=on,vlen=256,rvv_ta_all_1s=on,rvv_ma_all_1s=on"
++-        ctest --timeout 1800 --output-on-failure --test-dir build -j $(nproc)
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index fb97fb24..ba8b6907 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
++ 
++ project(simdutf
++   DESCRIPTION "Fast Unicode validation, transcoding and processing"
++-  LANGUAGES CXX
+++  LANGUAGES C CXX
++   VERSION 7.7.1
++ )
++ 
++@@ -105,6 +105,13 @@ install(
++     COMPONENT simdutf_Development
++ )
++ 
+++
+++install(
+++    FILES include/simdutf_c.h
+++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+++    COMPONENT simdutf_Development
+++)
+++
++ install(
++     DIRECTORY include/simdutf
++     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++diff --git a/include/simdutf_c.h b/include/simdutf_c.h
++new file mode 100644
++index 00000000..c520fb52
++--- /dev/null
+++++ b/include/simdutf_c.h
++@@ -0,0 +1,337 @@
+++/***
+++ * simdutf_c.h.h - C API for simdutf
+++ * This is currently experimental.
+++ * We are committed to keeping the C API, but there might be mistakes in our
+++ * implementation. Please report any issues you find.
+++ */
+++
+++#ifndef SIMDUTF_C_H
+++#define SIMDUTF_C_H
+++
+++#include <stddef.h>
+++#include <stdbool.h>
+++#include <stdint.h>
+++
+++#ifdef __has_include
+++  #if __has_include(<uchar.h>)
+++    #include <uchar.h>
+++  #else // __has_include(<uchar.h>)
+++    #define char16_t uint16_t
+++    #define char32_t uint32_t
+++  #endif // __has_include(<uchar.h>)
+++#else    // __has_include(<uchar.h>)
+++  #define char16_t uint16_t
+++  #define char32_t uint32_t
+++#endif // __has_include
+++
+++#ifdef __cplusplus
+++extern "C" {
+++#endif
+++
+++/* C-friendly subset of simdutf errors */
+++typedef enum simdutf_error_code {
+++  SIMDUTF_ERROR_SUCCESS = 0,
+++  SIMDUTF_ERROR_HEADER_BITS,
+++  SIMDUTF_ERROR_TOO_SHORT,
+++  SIMDUTF_ERROR_TOO_LONG,
+++  SIMDUTF_ERROR_OVERLONG,
+++  SIMDUTF_ERROR_TOO_LARGE,
+++  SIMDUTF_ERROR_SURROGATE,
+++  SIMDUTF_ERROR_INVALID_BASE64_CHARACTER,
+++  SIMDUTF_ERROR_BASE64_INPUT_REMAINDER,
+++  SIMDUTF_ERROR_BASE64_EXTRA_BITS,
+++  SIMDUTF_ERROR_OUTPUT_BUFFER_TOO_SMALL,
+++  SIMDUTF_ERROR_OTHER
+++} simdutf_error_code;
+++
+++typedef struct simdutf_result {
+++  simdutf_error_code error;
+++  size_t count; /* position of error or number of code units validated */
+++} simdutf_result;
+++
+++typedef enum simdutf_encoding_type {
+++  SIMDUTF_ENCODING_UNSPECIFIED = 0,
+++  SIMDUTF_ENCODING_UTF8 = 1,
+++  SIMDUTF_ENCODING_UTF16_LE = 2,
+++  SIMDUTF_ENCODING_UTF16_BE = 4,
+++  SIMDUTF_ENCODING_UTF32_LE = 8,
+++  SIMDUTF_ENCODING_UTF32_BE = 16
+++} simdutf_encoding_type;
+++
+++/* Validate UTF-8: returns true iff input is valid UTF-8 */
+++bool simdutf_validate_utf8(const char *buf, size_t len);
+++
+++/* Validate UTF-8 with detailed result */
+++simdutf_result simdutf_validate_utf8_with_errors(const char *buf, size_t len);
+++
+++/* Encoding detection */
+++simdutf_encoding_type simdutf_autodetect_encoding(const char *input,
+++                                                  size_t length);
+++int simdutf_detect_encodings(const char *input, size_t length);
+++
+++/* ASCII validation */
+++bool simdutf_validate_ascii(const char *buf, size_t len);
+++simdutf_result simdutf_validate_ascii_with_errors(const char *buf, size_t len);
+++
+++/* UTF-16 ASCII checks */
+++bool simdutf_validate_utf16_as_ascii(const char16_t *buf, size_t len);
+++bool simdutf_validate_utf16be_as_ascii(const char16_t *buf, size_t len);
+++bool simdutf_validate_utf16le_as_ascii(const char16_t *buf, size_t len);
+++
+++/* UTF-16/UTF-8/UTF-32 validation (native/endian-specific) */
+++bool simdutf_validate_utf16(const char16_t *buf, size_t len);
+++bool simdutf_validate_utf16le(const char16_t *buf, size_t len);
+++bool simdutf_validate_utf16be(const char16_t *buf, size_t len);
+++simdutf_result simdutf_validate_utf16_with_errors(const char16_t *buf,
+++                                                  size_t len);
+++simdutf_result simdutf_validate_utf16le_with_errors(const char16_t *buf,
+++                                                    size_t len);
+++simdutf_result simdutf_validate_utf16be_with_errors(const char16_t *buf,
+++                                                    size_t len);
+++
+++bool simdutf_validate_utf32(const char32_t *buf, size_t len);
+++simdutf_result simdutf_validate_utf32_with_errors(const char32_t *buf,
+++                                                  size_t len);
+++
+++/* to_well_formed UTF-16 helpers */
+++void simdutf_to_well_formed_utf16le(const char16_t *input, size_t len,
+++                                    char16_t *output);
+++void simdutf_to_well_formed_utf16be(const char16_t *input, size_t len,
+++                                    char16_t *output);
+++void simdutf_to_well_formed_utf16(const char16_t *input, size_t len,
+++                                  char16_t *output);
+++
+++/* Counting */
+++size_t simdutf_count_utf16(const char16_t *input, size_t length);
+++size_t simdutf_count_utf16le(const char16_t *input, size_t length);
+++size_t simdutf_count_utf16be(const char16_t *input, size_t length);
+++size_t simdutf_count_utf8(const char *input, size_t length);
+++
+++/* Length estimators */
+++size_t simdutf_utf8_length_from_latin1(const char *input, size_t length);
+++size_t simdutf_latin1_length_from_utf8(const char *input, size_t length);
+++size_t simdutf_latin1_length_from_utf16(size_t length);
+++size_t simdutf_latin1_length_from_utf32(size_t length);
+++size_t simdutf_utf16_length_from_utf8(const char *input, size_t length);
+++size_t simdutf_utf32_length_from_utf8(const char *input, size_t length);
+++size_t simdutf_utf8_length_from_utf16(const char16_t *input, size_t length);
+++simdutf_result
+++simdutf_utf8_length_from_utf16_with_replacement(const char16_t *input,
+++                                                size_t length);
+++size_t simdutf_utf8_length_from_utf16le(const char16_t *input, size_t length);
+++size_t simdutf_utf8_length_from_utf16be(const char16_t *input, size_t length);
+++simdutf_result
+++simdutf_utf8_length_from_utf16le_with_replacement(const char16_t *input,
+++                                                  size_t length);
+++simdutf_result
+++simdutf_utf8_length_from_utf16be_with_replacement(const char16_t *input,
+++                                                  size_t length);
+++
+++/* Conversions: latin1 <-> utf8, utf8 <-> utf16/utf32, utf16 <-> utf8, etc. */
+++size_t simdutf_convert_latin1_to_utf8(const char *input, size_t length,
+++                                      char *output);
+++size_t simdutf_convert_latin1_to_utf16le(const char *input, size_t length,
+++                                         char16_t *output);
+++size_t simdutf_convert_latin1_to_utf16be(const char *input, size_t length,
+++                                         char16_t *output);
+++size_t simdutf_convert_latin1_to_utf32(const char *input, size_t length,
+++                                       char32_t *output);
+++
+++size_t simdutf_convert_utf8_to_latin1(const char *input, size_t length,
+++                                      char *output);
+++size_t simdutf_convert_utf8_to_utf16le(const char *input, size_t length,
+++                                       char16_t *output);
+++size_t simdutf_convert_utf8_to_utf16be(const char *input, size_t length,
+++                                       char16_t *output);
+++size_t simdutf_convert_utf8_to_utf16(const char *input, size_t length,
+++                                     char16_t *output);
+++
+++size_t simdutf_convert_utf8_to_utf32(const char *input, size_t length,
+++                                     char32_t *output);
+++simdutf_result simdutf_convert_utf8_to_latin1_with_errors(const char *input,
+++                                                          size_t length,
+++                                                          char *output);
+++simdutf_result simdutf_convert_utf8_to_utf16_with_errors(const char *input,
+++                                                         size_t length,
+++                                                         char16_t *output);
+++simdutf_result simdutf_convert_utf8_to_utf16le_with_errors(const char *input,
+++                                                           size_t length,
+++                                                           char16_t *output);
+++simdutf_result simdutf_convert_utf8_to_utf16be_with_errors(const char *input,
+++                                                           size_t length,
+++                                                           char16_t *output);
+++simdutf_result simdutf_convert_utf8_to_utf32_with_errors(const char *input,
+++                                                         size_t length,
+++                                                         char32_t *output);
+++
+++/* Conversions assuming valid input */
+++size_t simdutf_convert_valid_utf8_to_latin1(const char *input, size_t length,
+++                                            char *output);
+++size_t simdutf_convert_valid_utf8_to_utf16le(const char *input, size_t length,
+++                                             char16_t *output);
+++size_t simdutf_convert_valid_utf8_to_utf16be(const char *input, size_t length,
+++                                             char16_t *output);
+++size_t simdutf_convert_valid_utf8_to_utf32(const char *input, size_t length,
+++                                           char32_t *output);
+++
+++/* UTF-16 -> UTF-8 and related conversions */
+++size_t simdutf_convert_utf16_to_utf8(const char16_t *input, size_t length,
+++                                     char *output);
+++size_t simdutf_convert_utf16le_to_utf8(const char16_t *input, size_t length,
+++                                       char *output);
+++size_t simdutf_convert_utf16be_to_utf8(const char16_t *input, size_t length,
+++                                       char *output);
+++size_t simdutf_convert_utf16_to_utf8_safe(const char16_t *input, size_t length,
+++                                          char *output, size_t utf8_len);
+++size_t simdutf_convert_utf16_to_latin1(const char16_t *input, size_t length,
+++                                       char *output);
+++size_t simdutf_convert_utf16le_to_latin1(const char16_t *input, size_t length,
+++                                         char *output);
+++size_t simdutf_convert_utf16be_to_latin1(const char16_t *input, size_t length,
+++                                         char *output);
+++simdutf_result
+++simdutf_convert_utf16_to_latin1_with_errors(const char16_t *input,
+++                                            size_t length, char *output);
+++simdutf_result
+++simdutf_convert_utf16le_to_latin1_with_errors(const char16_t *input,
+++                                              size_t length, char *output);
+++simdutf_result
+++simdutf_convert_utf16be_to_latin1_with_errors(const char16_t *input,
+++                                              size_t length, char *output);
+++
+++simdutf_result simdutf_convert_utf16_to_utf8_with_errors(const char16_t *input,
+++                                                         size_t length,
+++                                                         char *output);
+++simdutf_result
+++simdutf_convert_utf16le_to_utf8_with_errors(const char16_t *input,
+++                                            size_t length, char *output);
+++simdutf_result
+++simdutf_convert_utf16be_to_utf8_with_errors(const char16_t *input,
+++                                            size_t length, char *output);
+++
+++size_t simdutf_convert_valid_utf16_to_utf8(const char16_t *input, size_t length,
+++                                           char *output);
+++size_t simdutf_convert_valid_utf16_to_latin1(const char16_t *input,
+++                                             size_t length, char *output);
+++size_t simdutf_convert_valid_utf16le_to_latin1(const char16_t *input,
+++                                               size_t length, char *output);
+++size_t simdutf_convert_valid_utf16be_to_latin1(const char16_t *input,
+++                                               size_t length, char *output);
+++
+++size_t simdutf_convert_valid_utf16le_to_utf8(const char16_t *input,
+++                                             size_t length, char *output);
+++size_t simdutf_convert_valid_utf16be_to_utf8(const char16_t *input,
+++                                             size_t length, char *output);
+++
+++/* UTF-16 <-> UTF-32 conversions */
+++size_t simdutf_convert_utf16_to_utf32(const char16_t *input, size_t length,
+++                                      char32_t *output);
+++size_t simdutf_convert_utf16le_to_utf32(const char16_t *input, size_t length,
+++                                        char32_t *output);
+++size_t simdutf_convert_utf16be_to_utf32(const char16_t *input, size_t length,
+++                                        char32_t *output);
+++simdutf_result simdutf_convert_utf16_to_utf32_with_errors(const char16_t *input,
+++                                                          size_t length,
+++                                                          char32_t *output);
+++simdutf_result
+++simdutf_convert_utf16le_to_utf32_with_errors(const char16_t *input,
+++                                             size_t length, char32_t *output);
+++simdutf_result
+++simdutf_convert_utf16be_to_utf32_with_errors(const char16_t *input,
+++                                             size_t length, char32_t *output);
+++
+++/* Valid UTF-16 conversions */
+++size_t simdutf_convert_valid_utf16_to_utf32(const char16_t *input,
+++                                            size_t length, char32_t *output);
+++size_t simdutf_convert_valid_utf16le_to_utf32(const char16_t *input,
+++                                              size_t length, char32_t *output);
+++size_t simdutf_convert_valid_utf16be_to_utf32(const char16_t *input,
+++                                              size_t length, char32_t *output);
+++
+++/* UTF-32 -> ... conversions */
+++size_t simdutf_convert_utf32_to_utf8(const char32_t *input, size_t length,
+++                                     char *output);
+++simdutf_result simdutf_convert_utf32_to_utf8_with_errors(const char32_t *input,
+++                                                         size_t length,
+++                                                         char *output);
+++size_t simdutf_convert_valid_utf32_to_utf8(const char32_t *input, size_t length,
+++                                           char *output);
+++
+++size_t simdutf_convert_utf32_to_utf16(const char32_t *input, size_t length,
+++                                      char16_t *output);
+++size_t simdutf_convert_utf32_to_utf16le(const char32_t *input, size_t length,
+++                                        char16_t *output);
+++size_t simdutf_convert_utf32_to_utf16be(const char32_t *input, size_t length,
+++                                        char16_t *output);
+++simdutf_result
+++simdutf_convert_utf32_to_latin1_with_errors(const char32_t *input,
+++                                            size_t length, char *output);
+++
+++/* --- Find helpers --- */
+++const char *simdutf_find(const char *start, const char *end, char character);
+++const char16_t *simdutf_find_utf16(const char16_t *start, const char16_t *end,
+++                                   char16_t character);
+++
+++/* --- Base64 enums and helpers --- */
+++typedef enum simdutf_base64_options {
+++  SIMDUTF_BASE64_DEFAULT = 0,
+++  SIMDUTF_BASE64_URL = 1,
+++  SIMDUTF_BASE64_DEFAULT_NO_PADDING = 2,
+++  SIMDUTF_BASE64_URL_WITH_PADDING = 3,
+++  SIMDUTF_BASE64_DEFAULT_ACCEPT_GARBAGE = 4,
+++  SIMDUTF_BASE64_URL_ACCEPT_GARBAGE = 5,
+++  SIMDUTF_BASE64_DEFAULT_OR_URL = 8,
+++  SIMDUTF_BASE64_DEFAULT_OR_URL_ACCEPT_GARBAGE = 12
+++} simdutf_base64_options;
+++
+++typedef enum simdutf_last_chunk_handling_options {
+++  SIMDUTF_LAST_CHUNK_LOOSE = 0,
+++  SIMDUTF_LAST_CHUNK_STRICT = 1,
+++  SIMDUTF_LAST_CHUNK_STOP_BEFORE_PARTIAL = 2,
+++  SIMDUTF_LAST_CHUNK_ONLY_FULL_CHUNKS = 3
+++} simdutf_last_chunk_handling_options;
+++
+++/* maximal binary length estimators */
+++size_t simdutf_maximal_binary_length_from_base64(const char *input,
+++                                                 size_t length);
+++size_t simdutf_maximal_binary_length_from_base64_utf16(const char16_t *input,
+++                                                       size_t length);
+++
+++/* base64 decoding/encoding */
+++simdutf_result simdutf_base64_to_binary(
+++    const char *input, size_t length, char *output,
+++    simdutf_base64_options options,
+++    simdutf_last_chunk_handling_options last_chunk_options);
+++simdutf_result simdutf_base64_to_binary_utf16(
+++    const char16_t *input, size_t length, char *output,
+++    simdutf_base64_options options,
+++    simdutf_last_chunk_handling_options last_chunk_options);
+++
+++size_t simdutf_base64_length_from_binary(size_t length,
+++                                         simdutf_base64_options options);
+++size_t simdutf_base64_length_from_binary_with_lines(
+++    size_t length, simdutf_base64_options options, size_t line_length);
+++
+++size_t simdutf_binary_to_base64(const char *input, size_t length, char *output,
+++                                simdutf_base64_options options);
+++size_t simdutf_binary_to_base64_with_lines(const char *input, size_t length,
+++                                           char *output, size_t line_length,
+++                                           simdutf_base64_options options);
+++
+++/* safe decoding that provides an in/out outlen parameter */
+++simdutf_result simdutf_base64_to_binary_safe(
+++    const char *input, size_t length, char *output, size_t *outlen,
+++    simdutf_base64_options options,
+++    simdutf_last_chunk_handling_options last_chunk_options,
+++    bool decode_up_to_bad_char);
+++simdutf_result simdutf_base64_to_binary_safe_utf16(
+++    const char16_t *input, size_t length, char *output, size_t *outlen,
+++    simdutf_base64_options options,
+++    simdutf_last_chunk_handling_options last_chunk_options,
+++    bool decode_up_to_bad_char);
+++
+++#ifdef __cplusplus
+++} /* extern "C" */
+++#endif
+++
+++#endif /* SIMDUTF_C_H */
++diff --git a/scripts/clang_format.sh b/scripts/clang_format.sh
++index 3501707c..d6bfd298 100755
++--- a/scripts/clang_format.sh
+++++ b/scripts/clang_format.sh
++@@ -31,5 +31,5 @@ gitroot="$(git rev-parse --show-toplevel)"
++ cd "$gitroot"
++ 
++ git ls-files -z | \
++-    grep -z -E '(\.cpp|\.h)$' |\
+++    grep -z -E '(\.c|\.cpp|\.h)$' |\
++     xargs --null -P $(nproc) -n1 $cf -i
++diff --git a/singleheader/README.md b/singleheader/README.md
++index e3fab60a..693fe835 100644
++--- a/singleheader/README.md
+++++ b/singleheader/README.md
++@@ -4,4 +4,16 @@ While in the singleheader directory under a linux or macOS system with an instal
++ 
++ ```
++ c++ -o amalgamation_demo amalgamation_demo.cpp -std=c++17 && ./amalgamation_demo
+++```
+++
+++
+++### C Demo
+++
+++You may also build a C executable.
+++
+++```
+++c++ -c simdutf.cpp 
+++cc -c ./amalgamation_demo.c
+++c++ amalgamation_demo.o simdutf.o -o cdemo
+++./cdemo
++ ```
++\ No newline at end of file
++diff --git a/singleheader/amalgamate.py b/singleheader/amalgamate.py
++index 75e0d78c..0b8991d5 100755
++--- a/singleheader/amalgamate.py
+++++ b/singleheader/amalgamate.py
++@@ -282,9 +282,15 @@ def create_files():
++         for cpp in ALLCFILES:
++             doinclude(cpp, f"ERROR {cpp} not found")
++ 
++-    # copy the README and DEMOCPP
+++    # copy the README, DEMO and C API header
+++    print(f"Copying additional files to {outdir}")
+++    # C API header
+++    c_header_path = os.path.join(PROJECTPATH, "include", "simdutf_c.h")
+++    print(f"Creating {outdir}/simdutf_c.h")
+++    shutil.copy2(c_header_path, outdir)
++     if SCRIPTPATH != outdir:
++-        for name in ["amalgamation_demo.cpp", "README.md"]:
+++        for name in ["amalgamation_demo.cpp", "README.md", "amalgamation_demo.c"]:
+++            print(f"Processing {name}")
++             path = os.path.join(SCRIPTPATH, name)
++             print(f"Creating {outdir}/{name}")
++             shutil.copy2(path, outdir)
++@@ -297,7 +303,7 @@ def create_zip():
++     path = os.path.join(outdir, context.zipname)
++     print(f"Creating {path}")
++     with zipfile.ZipFile(path, 'w') as zf:
++-        for name in ["simdutf.cpp", "simdutf.h", "amalgamation_demo.cpp", "README.md"]:
+++        for name in ["simdutf.cpp", "simdutf.h", "amalgamation_demo.cpp", "README.md", "simdutf_c.h", "amalgamation_demo.c"]:
++             source = os.path.join(outdir, name)
++             zf.write(source, name)
++ 
++diff --git a/singleheader/amalgamation_demo.c b/singleheader/amalgamation_demo.c
++new file mode 100644
++index 00000000..51710ef4
++--- /dev/null
+++++ b/singleheader/amalgamation_demo.c
++@@ -0,0 +1,59 @@
+++#include <stdio.h>
+++#include <stdlib.h>
+++#include <string.h>
+++
+++#include "simdutf_c.h"
+++
+++int main(void) {
+++  printf("SIMDUTF C API demo\n");
+++  const char *source = "1234";
+++  /* validate UTF-8 */
+++  if (!simdutf_validate_utf8(source, 4)) {
+++    puts("invalid UTF-8");
+++    return EXIT_FAILURE;
+++  }
+++  puts("valid UTF-8");
+++
+++  /* Convert UTF-8 -> UTF-16LE */
+++  size_t expected_utf16 = simdutf_utf16_length_from_utf8(source, 4);
+++  char16_t *utf16_output =
+++      (char16_t *)malloc(expected_utf16 * sizeof(char16_t));
+++  if (!utf16_output)
+++    return EXIT_FAILURE;
+++  size_t utf16words = simdutf_convert_utf8_to_utf16le(source, 4, utf16_output);
+++  printf("wrote %zu UTF-16LE words.\n", utf16words);
+++
+++  if (!simdutf_validate_utf16le(utf16_output, utf16words)) {
+++    puts("invalid UTF-16LE");
+++    free(utf16_output);
+++    return EXIT_FAILURE;
+++  }
+++  puts("valid UTF-16LE");
+++
+++  /* Convert back UTF-16LE -> UTF-8 */
+++  size_t expected_utf8 =
+++      simdutf_utf8_length_from_utf16le(utf16_output, utf16words);
+++  char *utf8_output = (char *)malloc(expected_utf8 + 1);
+++  if (!utf8_output) {
+++    free(utf16_output);
+++    return EXIT_FAILURE;
+++  }
+++  size_t utf8words =
+++      simdutf_convert_utf16le_to_utf8(utf16_output, utf16words, utf8_output);
+++  utf8_output[utf8words] = '\0';
+++  printf("wrote %zu UTF-8 words.\n", utf8words);
+++  puts(utf8_output);
+++
+++  if (strcmp(utf8_output, source) != 0) {
+++    puts("bad conversion");
+++    free(utf16_output);
+++    free(utf8_output);
+++    return EXIT_FAILURE;
+++  } else {
+++    puts("perfect round trip");
+++  }
+++
+++  free(utf16_output);
+++  free(utf8_output);
+++  return EXIT_SUCCESS;
+++}
++diff --git a/src/simdutf.cpp b/src/simdutf.cpp
++index 49925dc9..52e4ae00 100644
++--- a/src/simdutf.cpp
+++++ b/src/simdutf.cpp
++@@ -153,4 +153,5 @@ SIMDUTF_DISABLE_UNDESIRED_WARNINGS
++   #include "lasx/implementation.cpp"
++ #endif
++ 
+++#include "simdutf_c.cpp"
++ SIMDUTF_POP_DISABLE_WARNINGS
++diff --git a/src/simdutf/arm64/implementation.h b/src/simdutf/arm64/implementation.h
++index ae91895b..61c29634 100644
++--- a/src/simdutf/arm64/implementation.h
+++++ b/src/simdutf/arm64/implementation.h
++@@ -284,8 +284,8 @@ public:
++                    char character) const noexcept;
++   const char16_t *find(const char16_t *start, const char16_t *end,
++                        char16_t character) const noexcept;
++-};
++ #endif // SIMDUTF_FEATURE_BASE64
+++};
++ 
++ } // namespace arm64
++ } // namespace simdutf
++diff --git a/src/simdutf_c.cpp b/src/simdutf_c.cpp
++new file mode 100644
++index 00000000..629a96ca
++--- /dev/null
+++++ b/src/simdutf_c.cpp
++@@ -0,0 +1,577 @@
+++#include "simdutf_c.h"
+++#include "simdutf/implementation.h"
+++
+++static simdutf_result to_c_result(const simdutf::result &r) {
+++  simdutf_result out;
+++  out.error = static_cast<simdutf_error_code>(r.error);
+++  out.count = r.count;
+++  return out;
+++}
+++
+++/* The C wrapper depends on the library features. Only expose the C API
+++   when all relevant feature is enabled. This helps the
+++   single-header generator to omit the C wrapper when features are
+++   disabled. */
+++// clang-format off
+++#if SIMDUTF_FEATURE_UTF8 && SIMDUTF_FEATURE_UTF16 && SIMDUTF_FEATURE_UTF32 && SIMDUTF_FEATURE_LATIN1 && SIMDUTF_FEATURE_ASCII && SIMDUTF_FEATURE_BASE64 && SIMDUTF_FEATURE_DETECT_ENCODING
+++// clang-format on
+++extern "C" {
+++
+++bool simdutf_validate_utf8(const char *buf, size_t len) {
+++  return simdutf::validate_utf8(buf, len);
+++}
+++
+++simdutf_result simdutf_validate_utf8_with_errors(const char *buf, size_t len) {
+++  return to_c_result(simdutf::validate_utf8_with_errors(buf, len));
+++}
+++
+++simdutf_encoding_type simdutf_autodetect_encoding(const char *input,
+++                                                  size_t length) {
+++  return static_cast<simdutf_encoding_type>(
+++      simdutf::autodetect_encoding(input, length));
+++}
+++
+++int simdutf_detect_encodings(const char *input, size_t length) {
+++  return simdutf::detect_encodings(input, length);
+++}
+++
+++bool simdutf_validate_ascii(const char *buf, size_t len) {
+++  return simdutf::validate_ascii(buf, len);
+++}
+++simdutf_result simdutf_validate_ascii_with_errors(const char *buf, size_t len) {
+++  return to_c_result(simdutf::validate_ascii_with_errors(buf, len));
+++}
+++
+++bool simdutf_validate_utf16_as_ascii(const char16_t *buf, size_t len) {
+++  return simdutf::validate_utf16_as_ascii(
+++      reinterpret_cast<const char16_t *>(buf), len);
+++}
+++bool simdutf_validate_utf16be_as_ascii(const char16_t *buf, size_t len) {
+++  return simdutf::validate_utf16be_as_ascii(
+++      reinterpret_cast<const char16_t *>(buf), len);
+++}
+++bool simdutf_validate_utf16le_as_ascii(const char16_t *buf, size_t len) {
+++  return simdutf::validate_utf16le_as_ascii(
+++      reinterpret_cast<const char16_t *>(buf), len);
+++}
+++
+++bool simdutf_validate_utf16(const char16_t *buf, size_t len) {
+++  return simdutf::validate_utf16(reinterpret_cast<const char16_t *>(buf), len);
+++}
+++bool simdutf_validate_utf16le(const char16_t *buf, size_t len) {
+++  return simdutf::validate_utf16le(reinterpret_cast<const char16_t *>(buf),
+++                                   len);
+++}
+++bool simdutf_validate_utf16be(const char16_t *buf, size_t len) {
+++  return simdutf::validate_utf16be(reinterpret_cast<const char16_t *>(buf),
+++                                   len);
+++}
+++simdutf_result simdutf_validate_utf16_with_errors(const char16_t *buf,
+++                                                  size_t len) {
+++  return to_c_result(simdutf::validate_utf16_with_errors(
+++      reinterpret_cast<const char16_t *>(buf), len));
+++}
+++simdutf_result simdutf_validate_utf16le_with_errors(const char16_t *buf,
+++                                                    size_t len) {
+++  return to_c_result(simdutf::validate_utf16le_with_errors(
+++      reinterpret_cast<const char16_t *>(buf), len));
+++}
+++simdutf_result simdutf_validate_utf16be_with_errors(const char16_t *buf,
+++                                                    size_t len) {
+++  return to_c_result(simdutf::validate_utf16be_with_errors(
+++      reinterpret_cast<const char16_t *>(buf), len));
+++}
+++
+++bool simdutf_validate_utf32(const char32_t *buf, size_t len) {
+++  return simdutf::validate_utf32(reinterpret_cast<const char32_t *>(buf), len);
+++}
+++simdutf_result simdutf_validate_utf32_with_errors(const char32_t *buf,
+++                                                  size_t len) {
+++  return to_c_result(simdutf::validate_utf32_with_errors(
+++      reinterpret_cast<const char32_t *>(buf), len));
+++}
+++
+++void simdutf_to_well_formed_utf16le(const char16_t *input, size_t len,
+++                                    char16_t *output) {
+++  simdutf::to_well_formed_utf16le(reinterpret_cast<const char16_t *>(input),
+++                                  len, reinterpret_cast<char16_t *>(output));
+++}
+++void simdutf_to_well_formed_utf16be(const char16_t *input, size_t len,
+++                                    char16_t *output) {
+++  simdutf::to_well_formed_utf16be(reinterpret_cast<const char16_t *>(input),
+++                                  len, reinterpret_cast<char16_t *>(output));
+++}
+++void simdutf_to_well_formed_utf16(const char16_t *input, size_t len,
+++                                  char16_t *output) {
+++  simdutf::to_well_formed_utf16(reinterpret_cast<const char16_t *>(input), len,
+++                                reinterpret_cast<char16_t *>(output));
+++}
+++
+++size_t simdutf_count_utf16(const char16_t *input, size_t length) {
+++  return simdutf::count_utf16(reinterpret_cast<const char16_t *>(input),
+++                              length);
+++}
+++size_t simdutf_count_utf16le(const char16_t *input, size_t length) {
+++  return simdutf::count_utf16le(reinterpret_cast<const char16_t *>(input),
+++                                length);
+++}
+++size_t simdutf_count_utf16be(const char16_t *input, size_t length) {
+++  return simdutf::count_utf16be(reinterpret_cast<const char16_t *>(input),
+++                                length);
+++}
+++size_t simdutf_count_utf8(const char *input, size_t length) {
+++  return simdutf::count_utf8(input, length);
+++}
+++
+++size_t simdutf_utf8_length_from_latin1(const char *input, size_t length) {
+++  return simdutf::utf8_length_from_latin1(input, length);
+++}
+++size_t simdutf_latin1_length_from_utf8(const char *input, size_t length) {
+++  return simdutf::latin1_length_from_utf8(input, length);
+++}
+++size_t simdutf_latin1_length_from_utf16(size_t length) {
+++  return simdutf::latin1_length_from_utf16(length);
+++}
+++size_t simdutf_latin1_length_from_utf32(size_t length) {
+++  return simdutf::latin1_length_from_utf32(length);
+++}
+++size_t simdutf_utf16_length_from_utf8(const char *input, size_t length) {
+++  return simdutf::utf16_length_from_utf8(input, length);
+++}
+++size_t simdutf_utf32_length_from_utf8(const char *input, size_t length) {
+++  return simdutf::utf32_length_from_utf8(input, length);
+++}
+++size_t simdutf_utf8_length_from_utf16(const char16_t *input, size_t length) {
+++  return simdutf::utf8_length_from_utf16(
+++      reinterpret_cast<const char16_t *>(input), length);
+++}
+++simdutf_result
+++simdutf_utf8_length_from_utf16_with_replacement(const char16_t *input,
+++                                                size_t length) {
+++  return to_c_result(simdutf::utf8_length_from_utf16_with_replacement(
+++      reinterpret_cast<const char16_t *>(input), length));
+++}
+++size_t simdutf_utf8_length_from_utf16le(const char16_t *input, size_t length) {
+++  return simdutf::utf8_length_from_utf16le(
+++      reinterpret_cast<const char16_t *>(input), length);
+++}
+++size_t simdutf_utf8_length_from_utf16be(const char16_t *input, size_t length) {
+++  return simdutf::utf8_length_from_utf16be(
+++      reinterpret_cast<const char16_t *>(input), length);
+++}
+++simdutf_result
+++simdutf_utf8_length_from_utf16le_with_replacement(const char16_t *input,
+++                                                  size_t length) {
+++  return to_c_result(simdutf::utf8_length_from_utf16le_with_replacement(
+++      reinterpret_cast<const char16_t *>(input), length));
+++}
+++simdutf_result
+++simdutf_utf8_length_from_utf16be_with_replacement(const char16_t *input,
+++                                                  size_t length) {
+++  return to_c_result(simdutf::utf8_length_from_utf16be_with_replacement(
+++      reinterpret_cast<const char16_t *>(input), length));
+++}
+++
+++/* Conversions: latin1 <-> utf8, utf8 <-> utf16/utf32, utf16 <-> utf8, etc. */
+++size_t simdutf_convert_latin1_to_utf8(const char *input, size_t length,
+++                                      char *output) {
+++  return simdutf::convert_latin1_to_utf8(input, length, output);
+++}
+++size_t simdutf_convert_latin1_to_utf16le(const char *input, size_t length,
+++                                         char16_t *output) {
+++  return simdutf::convert_latin1_to_utf16le(
+++      input, length, reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_latin1_to_utf16be(const char *input, size_t length,
+++                                         char16_t *output) {
+++  return simdutf::convert_latin1_to_utf16be(
+++      input, length, reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_latin1_to_utf32(const char *input, size_t length,
+++                                       char32_t *output) {
+++  return simdutf::convert_latin1_to_utf32(input, length,
+++                                          reinterpret_cast<char32_t *>(output));
+++}
+++
+++size_t simdutf_convert_utf8_to_latin1(const char *input, size_t length,
+++                                      char *output) {
+++  return simdutf::convert_utf8_to_latin1(input, length, output);
+++}
+++size_t simdutf_convert_utf8_to_utf16le(const char *input, size_t length,
+++                                       char16_t *output) {
+++  return simdutf::convert_utf8_to_utf16le(input, length,
+++                                          reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_utf8_to_utf16(const char *input, size_t length,
+++                                     char16_t *output) {
+++  return simdutf::convert_utf8_to_utf16(input, length,
+++                                        reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_utf8_to_utf16be(const char *input, size_t length,
+++                                       char16_t *output) {
+++  return simdutf::convert_utf8_to_utf16be(input, length,
+++                                          reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_utf8_to_utf32(const char *input, size_t length,
+++                                     char32_t *output) {
+++  return simdutf::convert_utf8_to_utf32(input, length,
+++                                        reinterpret_cast<char32_t *>(output));
+++}
+++simdutf_result simdutf_convert_utf8_to_latin1_with_errors(const char *input,
+++                                                          size_t length,
+++                                                          char *output) {
+++  return to_c_result(
+++      simdutf::convert_utf8_to_latin1_with_errors(input, length, output));
+++}
+++simdutf_result simdutf_convert_utf8_to_utf16_with_errors(const char *input,
+++                                                         size_t length,
+++                                                         char16_t *output) {
+++  return to_c_result(simdutf::convert_utf8_to_utf16_with_errors(
+++      input, length, reinterpret_cast<char16_t *>(output)));
+++}
+++simdutf_result simdutf_convert_utf8_to_utf16le_with_errors(const char *input,
+++                                                           size_t length,
+++                                                           char16_t *output) {
+++  return to_c_result(simdutf::convert_utf8_to_utf16le_with_errors(
+++      input, length, reinterpret_cast<char16_t *>(output)));
+++}
+++simdutf_result simdutf_convert_utf8_to_utf16be_with_errors(const char *input,
+++                                                           size_t length,
+++                                                           char16_t *output) {
+++  return to_c_result(simdutf::convert_utf8_to_utf16be_with_errors(
+++      input, length, reinterpret_cast<char16_t *>(output)));
+++}
+++simdutf_result simdutf_convert_utf8_to_utf32_with_errors(const char *input,
+++                                                         size_t length,
+++                                                         char32_t *output) {
+++  return to_c_result(simdutf::convert_utf8_to_utf32_with_errors(
+++      input, length, reinterpret_cast<char32_t *>(output)));
+++}
+++
+++/* Conversions assuming valid input */
+++size_t simdutf_convert_valid_utf8_to_latin1(const char *input, size_t length,
+++                                            char *output) {
+++  return simdutf::convert_valid_utf8_to_latin1(input, length, output);
+++}
+++size_t simdutf_convert_valid_utf8_to_utf16le(const char *input, size_t length,
+++                                             char16_t *output) {
+++  return simdutf::convert_valid_utf8_to_utf16le(
+++      input, length, reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_valid_utf8_to_utf16be(const char *input, size_t length,
+++                                             char16_t *output) {
+++  return simdutf::convert_valid_utf8_to_utf16be(
+++      input, length, reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_valid_utf8_to_utf32(const char *input, size_t length,
+++                                           char32_t *output) {
+++  return simdutf::convert_valid_utf8_to_utf32(
+++      input, length, reinterpret_cast<char32_t *>(output));
+++}
+++
+++/* UTF-16 -> UTF-8 and related conversions */
+++size_t simdutf_convert_utf16_to_utf8(const char16_t *input, size_t length,
+++                                     char *output) {
+++  return simdutf::convert_utf16_to_utf8(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++size_t simdutf_convert_utf16_to_utf8_safe(const char16_t *input, size_t length,
+++                                          char *output, size_t utf8_len) {
+++  return simdutf::convert_utf16_to_utf8_safe(
+++      reinterpret_cast<const char16_t *>(input), length, output, utf8_len);
+++}
+++size_t simdutf_convert_utf16_to_latin1(const char16_t *input, size_t length,
+++                                       char *output) {
+++  return simdutf::convert_utf16_to_latin1(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++size_t simdutf_convert_utf16le_to_latin1(const char16_t *input, size_t length,
+++                                         char *output) {
+++  return simdutf::convert_utf16le_to_latin1(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++size_t simdutf_convert_utf16be_to_latin1(const char16_t *input, size_t length,
+++                                         char *output) {
+++  return simdutf::convert_utf16be_to_latin1(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++simdutf_result
+++simdutf_convert_utf16_to_latin1_with_errors(const char16_t *input,
+++                                            size_t length, char *output) {
+++  return to_c_result(simdutf::convert_utf16_to_latin1_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length, output));
+++}
+++simdutf_result
+++simdutf_convert_utf16le_to_latin1_with_errors(const char16_t *input,
+++                                              size_t length, char *output) {
+++  return to_c_result(simdutf::convert_utf16le_to_latin1_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length, output));
+++}
+++simdutf_result
+++simdutf_convert_utf16be_to_latin1_with_errors(const char16_t *input,
+++                                              size_t length, char *output) {
+++  return to_c_result(simdutf::convert_utf16be_to_latin1_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length, output));
+++}
+++
+++simdutf_result simdutf_convert_utf16_to_utf8_with_errors(const char16_t *input,
+++                                                         size_t length,
+++                                                         char *output) {
+++  return to_c_result(simdutf::convert_utf16_to_utf8_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length, output));
+++}
+++simdutf_result
+++simdutf_convert_utf16le_to_utf8_with_errors(const char16_t *input,
+++                                            size_t length, char *output) {
+++  return to_c_result(simdutf::convert_utf16le_to_utf8_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length, output));
+++}
+++simdutf_result
+++simdutf_convert_utf16be_to_utf8_with_errors(const char16_t *input,
+++                                            size_t length, char *output) {
+++  return to_c_result(simdutf::convert_utf16be_to_utf8_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length, output));
+++}
+++
+++size_t simdutf_convert_utf16le_to_utf8(const char16_t *input, size_t length,
+++                                       char *output) {
+++  return simdutf::convert_utf16le_to_utf8(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++size_t simdutf_convert_utf16be_to_utf8(const char16_t *input, size_t length,
+++                                       char *output) {
+++  return simdutf::convert_utf16be_to_utf8(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++
+++size_t simdutf_convert_valid_utf16_to_utf8(const char16_t *input, size_t length,
+++                                           char *output) {
+++  return simdutf::convert_valid_utf16_to_utf8(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++size_t simdutf_convert_valid_utf16_to_latin1(const char16_t *input,
+++                                             size_t length, char *output) {
+++  return simdutf::convert_valid_utf16_to_latin1(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++size_t simdutf_convert_valid_utf16le_to_latin1(const char16_t *input,
+++                                               size_t length, char *output) {
+++  return simdutf::convert_valid_utf16le_to_latin1(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++size_t simdutf_convert_valid_utf16be_to_latin1(const char16_t *input,
+++                                               size_t length, char *output) {
+++  return simdutf::convert_valid_utf16be_to_latin1(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++
+++size_t simdutf_convert_valid_utf16le_to_utf8(const char16_t *input,
+++                                             size_t length, char *output) {
+++  return simdutf::convert_valid_utf16le_to_utf8(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++size_t simdutf_convert_valid_utf16be_to_utf8(const char16_t *input,
+++                                             size_t length, char *output) {
+++  return simdutf::convert_valid_utf16be_to_utf8(
+++      reinterpret_cast<const char16_t *>(input), length, output);
+++}
+++
+++/* UTF-16 <-> UTF-32 conversions */
+++size_t simdutf_convert_utf16_to_utf32(const char16_t *input, size_t length,
+++                                      char32_t *output) {
+++  return simdutf::convert_utf16_to_utf32(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output));
+++}
+++size_t simdutf_convert_utf16le_to_utf32(const char16_t *input, size_t length,
+++                                        char32_t *output) {
+++  return simdutf::convert_utf16le_to_utf32(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output));
+++}
+++size_t simdutf_convert_utf16be_to_utf32(const char16_t *input, size_t length,
+++                                        char32_t *output) {
+++  return simdutf::convert_utf16be_to_utf32(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output));
+++}
+++simdutf_result simdutf_convert_utf16_to_utf32_with_errors(const char16_t *input,
+++                                                          size_t length,
+++                                                          char32_t *output) {
+++  return to_c_result(simdutf::convert_utf16_to_utf32_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output)));
+++}
+++simdutf_result
+++simdutf_convert_utf16le_to_utf32_with_errors(const char16_t *input,
+++                                             size_t length, char32_t *output) {
+++  return to_c_result(simdutf::convert_utf16le_to_utf32_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output)));
+++}
+++simdutf_result
+++simdutf_convert_utf16be_to_utf32_with_errors(const char16_t *input,
+++                                             size_t length, char32_t *output) {
+++  return to_c_result(simdutf::convert_utf16be_to_utf32_with_errors(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output)));
+++}
+++
+++/* Valid UTF-16 conversions */
+++size_t simdutf_convert_valid_utf16_to_utf32(const char16_t *input,
+++                                            size_t length, char32_t *output) {
+++  return simdutf::convert_valid_utf16_to_utf32(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output));
+++}
+++size_t simdutf_convert_valid_utf16le_to_utf32(const char16_t *input,
+++                                              size_t length, char32_t *output) {
+++  return simdutf::convert_valid_utf16le_to_utf32(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output));
+++}
+++size_t simdutf_convert_valid_utf16be_to_utf32(const char16_t *input,
+++                                              size_t length, char32_t *output) {
+++  return simdutf::convert_valid_utf16be_to_utf32(
+++      reinterpret_cast<const char16_t *>(input), length,
+++      reinterpret_cast<char32_t *>(output));
+++}
+++
+++/* UTF-32 -> ... conversions */
+++size_t simdutf_convert_utf32_to_utf8(const char32_t *input, size_t length,
+++                                     char *output) {
+++  return simdutf::convert_utf32_to_utf8(
+++      reinterpret_cast<const char32_t *>(input), length, output);
+++}
+++simdutf_result simdutf_convert_utf32_to_utf8_with_errors(const char32_t *input,
+++                                                         size_t length,
+++                                                         char *output) {
+++  return to_c_result(simdutf::convert_utf32_to_utf8_with_errors(
+++      reinterpret_cast<const char32_t *>(input), length, output));
+++}
+++size_t simdutf_convert_valid_utf32_to_utf8(const char32_t *input, size_t length,
+++                                           char *output) {
+++  return simdutf::convert_valid_utf32_to_utf8(
+++      reinterpret_cast<const char32_t *>(input), length, output);
+++}
+++
+++size_t simdutf_convert_utf32_to_utf16(const char32_t *input, size_t length,
+++                                      char16_t *output) {
+++  return simdutf::convert_utf32_to_utf16(
+++      reinterpret_cast<const char32_t *>(input), length,
+++      reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_utf32_to_utf16le(const char32_t *input, size_t length,
+++                                        char16_t *output) {
+++  return simdutf::convert_utf32_to_utf16le(
+++      reinterpret_cast<const char32_t *>(input), length,
+++      reinterpret_cast<char16_t *>(output));
+++}
+++size_t simdutf_convert_utf32_to_utf16be(const char32_t *input, size_t length,
+++                                        char16_t *output) {
+++  return simdutf::convert_utf32_to_utf16be(
+++      reinterpret_cast<const char32_t *>(input), length,
+++      reinterpret_cast<char16_t *>(output));
+++}
+++simdutf_result
+++simdutf_convert_utf32_to_latin1_with_errors(const char32_t *input,
+++                                            size_t length, char *output) {
+++  return to_c_result(simdutf::convert_utf32_to_latin1_with_errors(
+++      reinterpret_cast<const char32_t *>(input), length, output));
+++}
+++
+++/* --- find helpers --- */
+++const char *simdutf_find(const char *start, const char *end, char character) {
+++  return simdutf::find(start, end, character);
+++}
+++const char16_t *simdutf_find_utf16(const char16_t *start, const char16_t *end,
+++                                   char16_t character) {
+++  return simdutf::find(start, end, character);
+++}
+++
+++/* --- base64 helpers --- */
+++size_t simdutf_maximal_binary_length_from_base64(const char *input,
+++                                                 size_t length) {
+++  return simdutf::maximal_binary_length_from_base64(input, length);
+++}
+++size_t simdutf_maximal_binary_length_from_base64_utf16(const char16_t *input,
+++                                                       size_t length) {
+++  return simdutf::maximal_binary_length_from_base64(input, length);
+++}
+++
+++simdutf_result simdutf_base64_to_binary(
+++    const char *input, size_t length, char *output,
+++    simdutf_base64_options options,
+++    simdutf_last_chunk_handling_options last_chunk_options) {
+++  return to_c_result(simdutf::base64_to_binary(
+++      input, length, output, static_cast<simdutf::base64_options>(options),
+++      static_cast<simdutf::last_chunk_handling_options>(last_chunk_options)));
+++}
+++simdutf_result simdutf_base64_to_binary_utf16(
+++    const char16_t *input, size_t length, char *output,
+++    simdutf_base64_options options,
+++    simdutf_last_chunk_handling_options last_chunk_options) {
+++  return to_c_result(simdutf::base64_to_binary(
+++      input, length, output, static_cast<simdutf::base64_options>(options),
+++      static_cast<simdutf::last_chunk_handling_options>(last_chunk_options)));
+++}
+++
+++size_t simdutf_base64_length_from_binary(size_t length,
+++                                         simdutf_base64_options options) {
+++  return simdutf::base64_length_from_binary(
+++      length, static_cast<simdutf::base64_options>(options));
+++}
+++size_t simdutf_base64_length_from_binary_with_lines(
+++    size_t length, simdutf_base64_options options, size_t line_length) {
+++  return simdutf::base64_length_from_binary_with_lines(
+++      length, static_cast<simdutf::base64_options>(options), line_length);
+++}
+++
+++size_t simdutf_binary_to_base64(const char *input, size_t length, char *output,
+++                                simdutf_base64_options options) {
+++  return simdutf::binary_to_base64(
+++      input, length, output, static_cast<simdutf::base64_options>(options));
+++}
+++size_t simdutf_binary_to_base64_with_lines(const char *input, size_t length,
+++                                           char *output, size_t line_length,
+++                                           simdutf_base64_options options) {
+++  return simdutf::binary_to_base64_with_lines(
+++      input, length, output, line_length,
+++      static_cast<simdutf::base64_options>(options));
+++}
+++
+++simdutf_result simdutf_base64_to_binary_safe(
+++    const char *input, size_t length, char *output, size_t *outlen,
+++    simdutf_base64_options options,
+++    simdutf_last_chunk_handling_options last_chunk_options,
+++    bool decode_up_to_bad_char) {
+++  size_t local_out = outlen ? *outlen : 0;
+++  simdutf::result r = simdutf::base64_to_binary_safe(
+++      input, length, output, local_out,
+++      static_cast<simdutf::base64_options>(options),
+++      static_cast<simdutf::last_chunk_handling_options>(last_chunk_options),
+++      decode_up_to_bad_char);
+++  if (outlen)
+++    *outlen = local_out;
+++  return to_c_result(r);
+++}
+++simdutf_result simdutf_base64_to_binary_safe_utf16(
+++    const char16_t *input, size_t length, char *output, size_t *outlen,
+++    simdutf_base64_options options,
+++    simdutf_last_chunk_handling_options last_chunk_options,
+++    bool decode_up_to_bad_char) {
+++  size_t local_out = outlen ? *outlen : 0;
+++  simdutf::result r = simdutf::base64_to_binary_safe(
+++      input, length, output, local_out,
+++      static_cast<simdutf::base64_options>(options),
+++      static_cast<simdutf::last_chunk_handling_options>(last_chunk_options),
+++      decode_up_to_bad_char);
+++  if (outlen)
+++    *outlen = local_out;
+++  return to_c_result(r);
+++}
+++
+++} // extern "C"
+++// clang-format off
+++#endif // SIMDUTF_FEATURE_UTF8 && SIMDUTF_FEATURE_UTF16 && SIMDUTF_FEATURE_UTF32 && SIMDUTF_FEATURE_LATIN1 && SIMDUTF_FEATURE_ASCII && SIMDUTF_FEATURE_BASE64 && SIMDUTF_FEATURE_DETECT_ENCODING
+++// clang-format on
+diff --git a/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch b/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
+deleted file mode 100644
+index 20e8f71c0e..0000000000
+--- a/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 0959004adbe46f88d558d2ce61b496c662c196f5 Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Mon, 3 Nov 2025 06:13:11 +0000
+-Subject: [PATCH] support reproducibility for debug sources
+-
+-While option --debug-sources is used, the generated source file contains
+-build path comments which caused the build is not reproducible [1]
+-...subprojects/simdutf/simdutf.h...
+- 1 /* auto-generated on 2025-03-17 16:13:41 -0400. Do not edit! */
+- 2 /* begin file include/simdutf.h */
+- 3 // /build-dir/vte-0.82.1/subprojects/simdutf/include/simdutf.h:1
+- 4 #ifndef SIMDUTF_H
+-...subprojects/simdutf/simdutf.h...
+-
+-After apply this commit, use relative path to instead
+-...subprojects/simdutf/simdutf.h...
+- 1 /* auto-generated on 2025-03-17 16:13:41 -0400. Do not edit! */
+- 2 /* begin file include/simdutf.h */
+- 3 // include/simdutf.h:1
+- 4 #ifndef SIMDUTF_H
+-...subprojects/simdutf/simdutf.h...
+-
+-[1] https://reproducible-builds.org/
+-
+-Upstream-Status: Submitted [https://github.com/simdutf/simdutf/pull/848]
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- singleheader/amalgamate.py | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/singleheader/amalgamate.py b/singleheader/amalgamate.py
+-index 190b2f6..75e0d78 100755
+---- a/singleheader/amalgamate.py
+-+++ b/singleheader/amalgamate.py
+-@@ -385,7 +385,8 @@ def filter_features(file):
+-                 current_features = None
+-             elif enabled:
+-                 if context.args.debug_sources and not prev_line.endswith('\\'):
+--                    yield f"// {file}:{lineno}"
+-+                    RELFILE = os.path.relpath(file, PROJECTPATH)
+-+                    yield f"// {RELFILE}:{lineno}"
+- 
+-                 if line or (not line and prev_line):
+-                     yield line
+--- 
+-2.48.1
+-
+diff --git a/meta/recipes-support/vte/vte_0.82.2.bb b/meta/recipes-support/vte/vte_0.84.0.bb
+similarity index 93%
+rename from meta/recipes-support/vte/vte_0.82.2.bb
+rename to meta/recipes-support/vte/vte_0.84.0.bb
+index d5dced4ce6..4c9d124bdd 100644
+--- a/meta/recipes-support/vte/vte_0.82.2.bb
++++ b/meta/recipes-support/vte/vte_0.84.0.bb
+@@ -18,16 +18,18 @@ GIDOCGEN_MESON_OPTION = "docs"
+ inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection systemd vala
+ 
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
+-            file://0001-support-reproducibility-for-debug-sources.patch;patchdir=./subprojects/simdutf \
++            file://0001-Add-a-C-API-897.patch;patchdir=./subprojects/simdutf \
+ "
+ 
+-SRC_URI[archive.sha256sum] = "e1295aafc4682b3b550f1235dc2679baa0f71570d8ed543c001c1283d530be91"
++SRC_URI[archive.sha256sum] = "0414e31583836aeb7878da25f67c515f7e8879917ecc37c92e26b83e8d8fc3e3"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+ EXTRA_OEMESON += "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=true', '-Dvapi=false', d)}"
+ EXTRA_OEMESON:append = " ${@bb.utils.contains('GI_DATA_ENABLED', 'False', '-Ddocs=false', '', d)}"
+ 
++CXXFLAGS:append = " -fpermissive"
++
+ PACKAGECONFIG ??= " \
+ 	gnutls \
+ 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
 
