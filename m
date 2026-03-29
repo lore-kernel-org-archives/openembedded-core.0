@@ -2,193 +2,196 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF82FC9814
-	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:43:09 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38678.1774824181190673459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD5DFC9815
+	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:43:19 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38681.1774824191574114683
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2026 15:43:01 -0700
+ Sun, 29 Mar 2026 15:43:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=my+LqvUC;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48702d51cd0so45831165e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:43:00 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=mt+RpQ+9;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439c56e822eso4228761f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:43:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774824179; x=1775428979; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=smile.fr; s=google; t=1774824190; x=1775428990; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7htLlhXNfRM2tbHrIjdByzJN6gSllMUYQFRA0OXfifg=;
-        b=my+LqvUCFNx9X+XtHbPjZLVaqDL2ROyivnIjo0rTnucaGlb5IRonqo9T9aBP6mjTjR
-         eqHKtXz2ohyeD1QXnf6RevCs4BSbXRMVGKHmRFZdJuHnkKeJvhpYcpYuzkBEqs9awHqD
-         esFaMT4aTQwvXm6emSwcsj+B2HusY7hImNN8c=
+        bh=5Fy9UBW0zVp1MI+QVcm/hIgPUR49IXZpQ4zPStF+hHU=;
+        b=mt+RpQ+9ujcNXbmr3PbTYGRXNFz2OpVxzEC3K+Uy/OY4VgVP5gHukMh2fAtvWYR3sE
+         Rk7+QQMR309SWVmscABkqJIs8Xr6Asij9zFnsfjbL5+xYQP9PqtGQa+HhwjGudGRRYi2
+         vdVOStD18HDkREtoTK6TfrgKmt6ay8dJh9Ltk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774824179; x=1775428979;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1774824190; x=1775428990;
+        h=in-reply-to:references:from:subject:to:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7htLlhXNfRM2tbHrIjdByzJN6gSllMUYQFRA0OXfifg=;
-        b=hPlGdHl5GP17ttHhnlU3SHyrzReoI0Q7kqp+D2h/WO/1C+YmeqsSFJrxTUEGIAqsZt
-         2pXq6UN1UAfy7/+5uolHRYe9zYsABYi0rg0fBByjbR552bQ+TaWrSX/6iOUFgCs1yX4c
-         kfWmON0EWLObK8OD/D/TsPUuhQZ1LWkfwUQzWhRKynOkMon3CuTYxufsyKh/A+ci6ill
-         eWoGeYXgLZpQ4BqI4dAgZzfOsYRBTP03YQ+9bOeMSPcy2pSL4jxgkz0RPCo3V2rE6eh0
-         i634b0I2YQyzcHj8jqBhJuDDJqSDcWLnLL/rsz1BvRby5ILWxYrqaEeStq5oQh8NkvyF
-         yk+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVTQH0NTGVbU+q9XQJdGbLszWuQzadm26SK6vYWKO7uZJ5us/uWFq1Z8V3Q54GwH+GHgv0LkeYXgTXXDmuKtQo5uA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyS1D+jUXUiw/zxLy6AB166wlkAVhbwHqJ3LqDszZuZZNsm3MPa
-	eDbcfkCtVLoIOc1GA15FWGLF4eBxxWVmATj7CoLqOCm46lQafWSq/VxOhX3vnPZKC9w=
-X-Gm-Gg: ATEYQzzm2BwHJ5EMl7BEnOMzERFU8YnXyijLUMLsAvte6nV9Xf2Sh9nNlRKzzkEYyXx
-	i81mgAxU6q67RlBRexizTzVkPLNW4Dryku7dSRoSkzPelwEpoU3GoInEp2u/joNM9+CylT0nWQE
-	eBn53iWHa2YyyuXZkBE0CYkirVaKHTz9Rg1RraaVYDz8mjQ4xEZDdImb1aEo2XkFbEvwzW/hp8U
-	YBAp6ErKGZLuyV7dzkQ7P3OKmthm2xg0g994UZLJpdGv0jIA5rJupDZNImoOIOBdD0PMkq/L6ou
-	RqJJxQ0GGUEcaUCQn5/4RVBpsfURGUNQWV/4jxbpWwCwcIKoQre/bo5dMgq5yTV/oAPj8G3dNzZ
-	yPs6fsIL02xa/X7NLFuEuwbt3CHNsMWQljB+l7CG8b81Q1R5fXX33wpJA9annZsdOD+yxp0tCr/
-	wQEHr0q7fcR8y+niaNC+xKgR8f1Erd8LoOHTKYCF3eAmm1ju5MQKSAGtulcb4ZHmU6X66Bg3XZ2
-	UVueaol4QAESB0=
-X-Received: by 2002:a05:600c:4685:b0:485:3fa9:358c with SMTP id 5b1f17b1804b1-48727eeac8bmr183376315e9.17.1774824179567;
-        Sun, 29 Mar 2026 15:42:59 -0700 (PDT)
+        bh=5Fy9UBW0zVp1MI+QVcm/hIgPUR49IXZpQ4zPStF+hHU=;
+        b=AqK2x9m+l1iy1xrBBzgJcvRikVkAPVYmOrtHsQhCdjKm0kpiu+mAH4S7a7Tm90Uc7q
+         EzBpCMeKfKgEwRavMCaQuA27yPUKmybMiRRPAeXfFtdF1ocfhxmsANWrYpvpCSepPAfs
+         4cR10BmHGirbp/nsppGWqza6MSqke5TSt3qWAi8A2gF4Jp8skrdx5pTmUb5CiSFnRv9t
+         lfz3j2dISiWPvGpKK2y2+ZintbW6U8pKmcuAaqvXt9XPpRVdaF2nOF+7TGcpNvZqFFZg
+         Jtz90u0lekGmWrQkzs31/Rehc7GQjnOrnamsSSdM86092tH7zUnI3a6Np8iVKqbXdeya
+         o7sw==
+X-Forwarded-Encrypted: i=1; AJvYcCXTAqDweY0Z9WHtHUMErQZrngGsXxAwIgCDyMPFK2s7ZP1J5HuowfvckI/iNPIJ29MR9StmkXcOvogW3mF6IPz2+g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YykKNmKByY02RsjaM+ln0uF2+4dAlVgp6aj/KV5QwYkFFEvtroJ
+	GOKX2drr1U2uab2CybKfbA9CgPNlHCNrsZy4t9Mpb59j+Da6SnjiTBV0NaPlEZpgqK9+DfiErQ0
+	FElyJ0dY=
+X-Gm-Gg: ATEYQzxqqb3P/yWgUVmJf+9KFQT4ytQNGQfB66Xhs1ltyBOqqJ2+8VnYYpnnhTSczSZ
+	m/eKVW4X/LG0y1EkT/pnBxRfHOoiY8jpd6+94mamPE4CHi8k0X+C9NSxNzzGVUADYrCN7pd9f+K
+	zHMl/kKx1Rmz1r5q3+47lIE9O6UjGSKAQLcJDKXXLRzzh0oHzASFsEmq0/Jl1DaqCdvF8Yan1cC
+	3+VD3/1pF49nYR8+5kgWvCT29o4cpOuY6eaNwBxyJHzcR/g5zTN+OPQwyh4d7En+k71dmokI5Ck
+	Ihsp3wvwf8n2bXSArhkUliMLpOhfG4sKi3NcGvgRXOBvcRLnw9mxp0lfeg9653nSlqmxY/RayfK
+	IOxJ32w/H/eONobApXpWgqjtOe9TLU32OQcZR9GCXX3yWvCwoFm1BjbdUXCDdJTRgjzguop7yZu
+	jyuvKfZaTEG+uBI2XlJ1vVFuIZ+BMeZXsVajp7NTST59+0dzKqzREh/HioUYXl0JxTdhNep/XU0
+	bId6Yh1D2oo8tU=
+X-Received: by 2002:a5d:5f88:0:b0:43b:498f:b039 with SMTP id ffacd0b85a97d-43b9ea16d89mr17667455f8f.9.1774824189943;
+        Sun, 29 Mar 2026 15:43:09 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873881c195sm30606415e9.9.2026.03.29.15.42.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21ebef9sm15239033f8f.13.2026.03.29.15.43.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Mar 2026 15:42:59 -0700 (PDT)
+        Sun, 29 Mar 2026 15:43:09 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 30 Mar 2026 00:42:59 +0200
-Message-Id: <DHFMNVW9ZVEV.29R24OVVFJNN4@smile.fr>
-Subject: Re: [OE-core][scarthgap 13/16] systemd: backport patch to fix
- journal-file issue
-From: "Yoann Congal" <yoann.congal@smile.fr>
+Date: Mon, 30 Mar 2026 00:43:09 +0200
+Message-Id: <DHFMO0O3MYD7.3BMNTNGD4GKSS@smile.fr>
 To: "Yoann Congal" <yoann.congal@smile.fr>,
  <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap 14/16] libxml-parser-perl: fix for
+ CVE-2006-10003
+From: "Yoann Congal" <yoann.congal@smile.fr>
 X-Mailer: aerc 0.20.0
 References: <cover.1774823430.git.yoann.congal@smile.fr>
- <5c63919aec50486f218123890585d791c0e45aab.1774823430.git.yoann.congal@smile.fr>
-In-Reply-To: <5c63919aec50486f218123890585d791c0e45aab.1774823430.git.yoann.congal@smile.fr>
+ <3841818496f190e76351efeb38c6427c03977cd8.1774823430.git.yoann.congal@smile.fr>
+In-Reply-To: <3841818496f190e76351efeb38c6427c03977cd8.1774823430.git.yoann.congal@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:43:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234177
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:43:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234178
 
 On Mon Mar 30, 2026 at 12:37 AM CEST, Yoann Congal wrote:
-> From: sureshha <suresh.ha@bti.bmwgroup.com>
+> From: Hitendra Prajapati <hprajapati@mvista.com>
 >
-> Backport patch to fix systemd journal-file assertion on removed or corrup=
-ted files
+> Pick patch from [1].
 >
-> Extracted from systemd MR:
-> https://github.com/systemd/systemd/pull/40378
+> [1] https://security-tracker.debian.org/tracker/CVE-2006-10003
 >
-> Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
+> More details :
+> https://nvd.nist.gov/vuln/detail/CVE-2006-10003
+>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 > ---
 
 I did not wanted to send that patch, please ignore.
 
->  ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
->  meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
->  2 files changed, 66 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-d=
-o-not-trigger-assertion-on-removed-or-.patch
+>  .../libxml-parser-perl/CVE-2006-10003.patch   | 73 +++++++++++++++++++
+>  .../perl/libxml-parser-perl_2.47.bb           |  1 +
+>  2 files changed, 74 insertions(+)
+>  create mode 100644 meta/recipes-devtools/perl/libxml-parser-perl/CVE-200=
+6-10003.patch
 >
-> diff --git a/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-t=
-rigger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/0=
-023-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+> diff --git a/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003=
+.patch b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
 > new file mode 100644
-> index 00000000000..5f5551870ac
+> index 00000000000..e9a4b692d2d
 > --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-=
-assertion-on-removed-or-.patch
-> @@ -0,0 +1,65 @@
-> +From 1350f39db7e72116c3b2423db02da3ddc8e29082 Mon Sep 17 00:00:00 2001
-> +From: Yu Watanabe <watanabe.yu+github@gmail.com>
-> +Date: Sun, 18 Jan 2026 19:15:31 +0900
-> +Subject: [PATCH] journal-file: do not trigger assertion on removed or
-> + corrupted journal file
+> +++ b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+> @@ -0,0 +1,73 @@
+> +From 08dd37c35ec5e64e26aacb8514437f54708f7fd1 Mon Sep 17 00:00:00 2001
+> +From: Toddr Bot <toddbot@rinaldo.us>
+> +Date: Mon, 16 Mar 2026 22:16:11 +0000
+> +Subject: [PATCH] fix: off-by-one heap buffer overflow in st_serial_stack
+> + growth check
 > +
-> +When a journal file is removed or corrupted, then the value `p`, which i=
-s
-> +read from Object.data.entry_offset, may be zero.
+> +When st_serial_stackptr =3D=3D st_serial_stacksize - 1, the old check
+> +(stackptr >=3D stacksize) would not trigger reallocation. The subsequent
+> +++stackptr then writes at index stacksize, one element past the
+> +allocated buffer.
 > +
-> +Note, journal_file_move_to_object() checks the passed offset and return
-> +-EBADMSG if it is invalid.
+> +Fix by checking stackptr + 1 >=3D stacksize so the buffer is grown
+> +before the pre-increment write.
 > +
-> +Fixes the issue reported at
-> +https://github.com/systemd/systemd/pull/40372#issuecomment-3762907261.
+> +Add a deep nesting test (600 levels) to exercise this code path.
 > +
-> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/218=
-5c30de333b09f46ef28b743b123f45e774738]
+> +Fixes #39
 > +
-> +Comment: Patch is refreshed as per codebase of v255
+> +Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 > +
-> +Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
+> +CVE: CVE-2006-10003
+> +Upstream-Status: Backport [https://github.com/cpan-authors/XML-Parser/co=
+mmit/08dd37c35ec5e64e26aacb8514437f54708f7fd1]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 > +---
-> + src/libsystemd/sd-journal/journal-file.c | 7 +++----
-> + 1 file changed, 3 insertions(+), 4 deletions(-)
+> + Expat/Expat.xs   |  2 +-
+> + t/deep_nesting.t | 22 ++++++++++++++++++++++
+> + 2 files changed, 23 insertions(+), 1 deletion(-)
+> + create mode 100644 t/deep_nesting.t
 > +
-> +diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/s=
-d-journal/journal-file.c
-> +index 08f3b82..633de5b 100644
-> +--- a/src/libsystemd/sd-journal/journal-file.c
-> ++++ b/src/libsystemd/sd-journal/journal-file.c
-> +@@ -3305,7 +3305,9 @@ use_extra:
-> +
-> + static int test_object_offset(JournalFile *f, uint64_t p, uint64_t need=
-le) {
-> +         assert(f);
-> +-        assert(p > 0);
+> +diff --git a/Expat/Expat.xs b/Expat/Expat.xs
+> +index dbad380..f04a0cf 100644
+> +--- a/Expat/Expat.xs
+> ++++ b/Expat/Expat.xs
+> +@@ -499,7 +499,7 @@ startElement(void *userData, const char *name, const=
+ char **atts)
+> +     }
+> +   }
+> +=20
+> +-  if (cbv->st_serial_stackptr >=3D cbv->st_serial_stacksize) {
+> ++  if (cbv->st_serial_stackptr + 1 >=3D cbv->st_serial_stacksize) {
+> +     unsigned int newsize =3D cbv->st_serial_stacksize + 512;
+> +=20
+> +     Renew(cbv->st_serial_stack, newsize, unsigned int);
+> +diff --git a/t/deep_nesting.t b/t/deep_nesting.t
+> +new file mode 100644
+> +index 0000000..8237b5f
+> +--- /dev/null
+> ++++ b/t/deep_nesting.t
+> +@@ -0,0 +1,22 @@
+> ++BEGIN { print "1..1\n"; }
 > ++
-> ++        if (p <=3D 0)
-> ++                return -EBADMSG;
+> ++# Test for deeply nested elements to exercise st_serial_stack reallocat=
+ion.
+> ++# This catches off-by-one errors in the stack growth check (GH #39).
+> ++
+> ++use XML::Parser;
+> ++
+> ++my $depth =3D 600;
+> ++
+> ++my $xml =3D '';
+> ++for my $i (1 .. $depth) {
+> ++    $xml .=3D "<e$i>";
+> ++}
+> ++for my $i (reverse 1 .. $depth) {
+> ++    $xml .=3D "</e$i>";
+> ++}
+> ++
+> ++my $p =3D XML::Parser->new;
+> ++eval { $p->parse($xml) };
+> ++
+> ++print "not " if $@;
+> ++print "ok 1\n";
+> +--=20
+> +2.50.1
 > +
-> +         if (p =3D=3D needle)
-> +                 return TEST_FOUND;
-> +@@ -3341,7 +3343,6 @@ static int test_object_seqnum(JournalFile *f, uint=
-64_t p, uint64_t needle) {
-> +         int r;
-> +
-> +         assert(f);
-> +-        assert(p > 0);
-> +
-> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-> +         if (r < 0)
-> +@@ -3382,7 +3383,6 @@ static int test_object_realtime(JournalFile *f, ui=
-nt64_t p, uint64_t needle) {
-> +         int r;
-> +
-> +         assert(f);
-> +-        assert(p > 0);
-> +
-> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-> +         if (r < 0)
-> +@@ -3423,7 +3423,6 @@ static int test_object_monotonic(JournalFile *f, u=
-int64_t p, uint64_t needle) {
-> +         int r;
-> +
-> +         assert(f);
-> +-        assert(p > 0);
-> +
-> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
-> +         if (r < 0)
-> +--
-> +2.34.1
-> diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-c=
-ore/systemd/systemd_255.21.bb
-> index 87e186bbfac..504d6cbef60 100644
-> --- a/meta/recipes-core/systemd/systemd_255.21.bb
-> +++ b/meta/recipes-core/systemd/systemd_255.21.bb
-> @@ -29,6 +29,7 @@ SRC_URI +=3D " \
->             file://0002-binfmt-Don-t-install-dependency-links-at-install-=
-tim.patch \
->             file://0003-timedated-Respond-on-org.freedesktop.timedate1.Se=
-tNT.patch \
->             file://0008-implment-systemd-sysv-install-for-OE.patch \
-> +           file://0023-journal-file-do-not-trigger-assertion-on-removed-=
-or-.patch \
+> diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb b/meta=
+/recipes-devtools/perl/libxml-parser-perl_2.47.bb
+> index 803164f713d..6a36b763a83 100644
+> --- a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
+> +++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
+> @@ -8,6 +8,7 @@ DEPENDS +=3D "expat"
+> =20
+>  SRC_URI =3D "${CPAN_MIRROR}/authors/id/T/TO/TODDR/XML-Parser-${PV}.tar.g=
+z \
+>             file://0001-Makefile.PL-make-check_lib-cross-friendly.patch \
+> +           file://CVE-2006-10003.patch \
 >             "
 > =20
->  # patches needed by musl
+>  SRC_URI[sha256sum] =3D "ad4aae643ec784f489b956abe952432871a622d4e2b5c619=
+e8855accbfc4d1d8"
 
 
 --=20
