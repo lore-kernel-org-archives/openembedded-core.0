@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C912FC9812
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EEBBFC9815
 	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:38:19 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38383.1774823893781486595
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38624.1774823891483680086
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2026 15:38:14 -0700
+ Sun, 29 Mar 2026 15:38:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KwvHSxye;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43cf3ee0fc1so744802f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:38:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=2IRo9TA0;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43b949bf4easo2187360f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:38:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774823892; x=1775428692; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1774823890; x=1775428690; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DSvP/NvN1t3/9H433a5MGzhTzF836fHRYB0mpjq3vhs=;
-        b=KwvHSxye8z1GmLBvbjUwsYcHSUDX43Fy0UVvRbfaupbGf+pKuGFJqrMOW1zeNFh85B
-         4qspu9Y35pss0GJxBDYcqqWxQv6PtiB7S+DeaCuFePPcIzuQMeysFymPEEBRKD2088Z/
-         fvqVgtdJ3MsGPuh1PvU7YhcnlYou01IlTj8Yk=
+        bh=GZ363e0EVIi8MryHmDhiofnldkWTub/QYI8YZsUpARI=;
+        b=2IRo9TA0FMqsdcjpX2OWcPF3GZ6uqjwJtjFNM6n4Mt3NoAKGsyCVtiW+aw9NTQ6tKQ
+         nGQ9JdohHff1T6VaRFktZcimGKjjC+tWKr2Rq8AOMT9XMEzlbzNhSFO6AX8hEHtGAf3i
+         +0bbuKeyu13/3XAm0Lnjnio+PkJL7mQ0XX5tA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774823892; x=1775428692;
+        d=1e100.net; s=20251104; t=1774823890; x=1775428690;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=DSvP/NvN1t3/9H433a5MGzhTzF836fHRYB0mpjq3vhs=;
-        b=lhFaz3cOGlQio7GOKXHGgE7jxbFBAzeWRQDXgDERuFzmiGap1GYtAPSyip9hODT58N
-         bqNUQAZhOl9HFod6u2vKCvVwpvqpaD/ia8fdIHZfReksrxoBMqb5hb4d7eewLVKwpHhP
-         YmtKnWqZBzVr/dTEf6xiQAu1ie3n3Ghp5EPfEHB3Rdsk6iNugVHXhS3xqsx3CZocJzKs
-         0verPkpvY7v2QR3tniH1YcbniGXjbD3ZqFhZ0PMBMANs8GxpN8j9bDLmav/pUiOEWa25
-         OQzwdWsWeTNrBSekjD+ofEv3qaKm3gzdW8Usb/jAsoKJ4GqMil2oX4hzzK0jmbkk8rKn
-         xAhA==
-X-Gm-Message-State: AOJu0YyhCNlF19u/c3eDJnofPZwUHv2dk3LbSfht05KIfGJq84eAd7wX
-	/xYmaRgRyBNO+PqKHhST+sWISPGVh7smTbm4hstAg4CFo+OMwMz/Y2RQiTltMddeIJPMUDvCOBY
-	EkPDa/jo=
-X-Gm-Gg: ATEYQzx1GZLfF92WxTJdTGRINizhmvumDYHphA4Jrlvne2aWYaiWGurAxQWLd/3khTF
-	iyXOigWv66Kby318tmtcw0imEPZDGKPYOAnyPIBZcjF4VBjzoXJJvMEp3WIvs0eUWvT6ZQVkITh
-	sxKIQhLdV1Lodf9G4Vm5cMktn/VbzqnjzI+xpkuENWNjA4QYRwJNXCl5pGqHoGrGbDzYYQsXTrd
-	lBD6YjxPxAui8Aar+OhfbPzWAuUFX2cGQpCcjZ4XNowhFYPR5mQ1es+VLhV/wP6i9apVlKqu0+l
-	uxrkYrBXn7EP0era9Bz14RsFN7I1IsuehVq/pEKEDNUMzN89QJ1i7YnjSUYL+Nv+2IowYTJ02X5
-	iOQeeRNAwcHzJXiAq0vJKUJMjgDJXYPaGxBK6qORz+T2YcgIoBvgRzAOKVZXR6m9AZ/SlZ8MnZ8
-	l+kFKDVzn2/mzMHpoCoFgBmgYeD9TySvUrxqlthlZITqoprUVUjnmWY8J9do4R0gQcRuhlkepLK
-	IR8wkdzl1XzdsLIMXqw9LCCL7w=
-X-Received: by 2002:a5d:5d81:0:b0:43a:4e0:1774 with SMTP id ffacd0b85a97d-43b9eb10f60mr18264485f8f.16.1774823891947;
-        Sun, 29 Mar 2026 15:38:11 -0700 (PDT)
+        bh=GZ363e0EVIi8MryHmDhiofnldkWTub/QYI8YZsUpARI=;
+        b=PiG4PyEulpn7NnHw9VGfvdKuuKCbJsj+Nb/oDjRHW/J3ydL9LFMzGWWHv1YmLAqp/Z
+         FRkLCAR17NgYI663UI3muf8nC2yQckeY3eLWYdZ9041plmTPoEoXO0bO9EcNySyivdKH
+         zIgO+VOZlJoaf3csDpCIOWYcQjjsmmL3DOi3+ouddSd4pcWXKxhsC2Tg2dRJU4oWsxu2
+         rsyZblMZ8rm/QrhGGSSgHYKWxqycVMkdHjaobo9dE7Tbx/XvS0NBhkVqBRePhkCkq6VX
+         F088I6ZQhKdkgKJmLzqU15THg4gXO3BXQeVgT4OyDS6VoB/9o8n5/9SI7Y2SAHuLrFhL
+         AhKg==
+X-Gm-Message-State: AOJu0Yw1XsavM/YMCvvRNPRpkMs1aLmpj8QItoe8WCGMLMQaw/jdP18M
+	Q+UkfrAigeg/ryOt7Un4nQvbRhDk823Z23/upBEEIsCE+J8oADvV97ME6Anunu9I9WjsW/07W7k
+	Vl8e8sao=
+X-Gm-Gg: ATEYQzxFg2LBARr1MIZF+Ui2umEIHbHIukjieEd9APK7m0vRIq29Du6XlBOvXBFT4kR
+	05LlGPI0FlrbMOLXY8J8lO0bk8DuvnuThzE3Llg9s3/exJN88sNMezZuZy1n8XYuotfCwG177pp
+	sFoax089ae6S7LTYLLQgxoMpMUC975PiXh3MbzkpIlxTHF98ZP44Kvh21gIKhFv31crWF/ueaNu
+	qesjHT6HdNeEN6aPJm4gLByGu28j8qwy4jaJdUSDaqq6p7f9aWg86LphgymLRb8ULSeUWiRgQQ3
+	AEnpb2Aubq8Xco3fzJBqQfBBpS6PxkMt1iFwEIRs0p8BXsKkkGt/f6d/wrLJC35ve/ALI3GhS7N
+	AsbKbZP1n6+ihu9ZA1O1KkDmMk1DW/2JNTeFp1DZqXlevREqnGOmxHeTN7z/JsTUWey+/BQbgPb
+	QeuPJUCE0RnWP9sRNHaDdklh9yvxAgGgchDoSAYAFI3BTXBboj9/nvNFj9NPLzLOkMtBMisMpyb
+	f3ksNcSJfLiGIav18vfuG6H/nU=
+X-Received: by 2002:a05:6000:1a89:b0:43b:9b9a:1bc with SMTP id ffacd0b85a97d-43b9ea9ac46mr17817176f8f.5.1774823889647;
+        Sun, 29 Mar 2026 15:38:09 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm13038542f8f.29.2026.03.29.15.38.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm13038542f8f.29.2026.03.29.15.38.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 15:38:11 -0700 (PDT)
+        Sun, 29 Mar 2026 15:38:09 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 14/16] libxml-parser-perl: fix for CVE-2006-10003
-Date: Mon, 30 Mar 2026 00:37:46 +0200
-Message-ID: <3841818496f190e76351efeb38c6427c03977cd8.1774823430.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 11/16] python3-pyopenssl: Fix CVE-2026-27459
+Date: Mon, 30 Mar 2026 00:37:43 +0200
+Message-ID: <e6f3b2e043259650d80fb6f761797c5cf5587eb5.1774823430.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1774823430.git.yoann.congal@smile.fr>
 References: <cover.1774823430.git.yoann.congal@smile.fr>
@@ -66,114 +66,148 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:38:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234172
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234169
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Pick patch from [1].
+Pick patch mentioned in NVD
 
-[1] https://security-tracker.debian.org/tracker/CVE-2006-10003
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-27459
+[2] https://ubuntu.com/security/CVE-2026-27459
 
-More details :
-https://nvd.nist.gov/vuln/detail/CVE-2006-10003
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libxml-parser-perl/CVE-2006-10003.patch   | 73 +++++++++++++++++++
- .../perl/libxml-parser-perl_2.47.bb           |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+ .../python3-pyopenssl/CVE-2026-27459.patch    | 109 ++++++++++++++++++
+ .../python/python3-pyopenssl_24.0.0.bb        |   1 +
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
 new file mode 100644
-index 00000000000..e9a4b692d2d
+index 00000000000..f75540f96e0
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
-@@ -0,0 +1,73 @@
-+From 08dd37c35ec5e64e26aacb8514437f54708f7fd1 Mon Sep 17 00:00:00 2001
-+From: Toddr Bot <toddbot@rinaldo.us>
-+Date: Mon, 16 Mar 2026 22:16:11 +0000
-+Subject: [PATCH] fix: off-by-one heap buffer overflow in st_serial_stack
-+ growth check
++++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+@@ -0,0 +1,109 @@
++From 57f09bb4bb051d3bc2a1abd36e9525313d5cd408 Mon Sep 17 00:00:00 2001
++From: Alex Gaynor <alex.gaynor@gmail.com>
++Date: Wed, 18 Feb 2026 07:46:15 -0500
++Subject: [PATCH] Fix buffer overflow in DTLS cookie generation callback
++ (#1479)
 +
-+When st_serial_stackptr == st_serial_stacksize - 1, the old check
-+(stackptr >= stacksize) would not trigger reallocation. The subsequent
-+++stackptr then writes at index stacksize, one element past the
-+allocated buffer.
++The cookie generate callback copied user-returned bytes into a
++fixed-size native buffer without enforcing a maximum length. A
++callback returning more than DTLS1_COOKIE_LENGTH bytes would overflow
++the OpenSSL-provided buffer, corrupting adjacent memory.
 +
-+Fix by checking stackptr + 1 >= stacksize so the buffer is grown
-+before the pre-increment write.
++Co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
 +
-+Add a deep nesting test (600 levels) to exercise this code path.
-+
-+Fixes #39
-+
-+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
-+
-+CVE: CVE-2006-10003
-+Upstream-Status: Backport [https://github.com/cpan-authors/XML-Parser/commit/08dd37c35ec5e64e26aacb8514437f54708f7fd1]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Backport [https://github.com/pyca/pyopenssl/commit/57f09bb4bb051d3bc2a1abd36e9525313d5cd408]
++CVE: CVE-2026-27459
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ Expat/Expat.xs   |  2 +-
-+ t/deep_nesting.t | 22 ++++++++++++++++++++++
-+ 2 files changed, 23 insertions(+), 1 deletion(-)
-+ create mode 100644 t/deep_nesting.t
++ CHANGELOG.rst      |  1 +
++ src/OpenSSL/SSL.py |  7 +++++++
++ tests/test_ssl.py  | 38 ++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 46 insertions(+)
 +
-+diff --git a/Expat/Expat.xs b/Expat/Expat.xs
-+index dbad380..f04a0cf 100644
-+--- a/Expat/Expat.xs
-++++ b/Expat/Expat.xs
-+@@ -499,7 +499,7 @@ startElement(void *userData, const char *name, const char **atts)
-+     }
-+   }
++diff --git a/CHANGELOG.rst b/CHANGELOG.rst
++index 12e60e4..6041fdc 100644
++--- a/CHANGELOG.rst
+++++ b/CHANGELOG.rst
++@@ -16,6 +16,7 @@ Deprecations:
++ Changes:
++ ^^^^^^^^
 + 
-+-  if (cbv->st_serial_stackptr >= cbv->st_serial_stacksize) {
-++  if (cbv->st_serial_stackptr + 1 >= cbv->st_serial_stacksize) {
-+     unsigned int newsize = cbv->st_serial_stacksize + 512;
+++- Properly raise an error if a DTLS cookie callback returned a cookie longer than ``DTLS1_COOKIE_LENGTH`` bytes. Previously this would result in a buffer-overflow.
++ - Added ``OpenSSL.SSL.Connection.get_selected_srtp_profile`` to determine which SRTP profile was negotiated.
++   `#1279 <https://github.com/pyca/pyopenssl/pull/1279>`_.
++ - ``Context.set_tlsext_servername_callback`` now handles exceptions raised in the callback by calling ``sys.excepthook`` and returning a fatal TLS alert. Previously, exceptions were silently swallowed and the handshake would proceed as if the callback had succeeded.
++diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py
++index a6263c4..2e4da78 100644
++--- a/src/OpenSSL/SSL.py
+++++ b/src/OpenSSL/SSL.py
++@@ -691,11 +691,18 @@ class _CookieGenerateCallbackHelper(_CallbackExceptionHelper):
++     def __init__(self, callback):
++         _CallbackExceptionHelper.__init__(self)
 + 
-+     Renew(cbv->st_serial_stack, newsize, unsigned int);
-+diff --git a/t/deep_nesting.t b/t/deep_nesting.t
-+new file mode 100644
-+index 0000000..8237b5f
-+--- /dev/null
-++++ b/t/deep_nesting.t
-+@@ -0,0 +1,22 @@
-++BEGIN { print "1..1\n"; }
+++        max_cookie_len = getattr(_lib, "DTLS1_COOKIE_LENGTH", 255)
 ++
-++# Test for deeply nested elements to exercise st_serial_stack reallocation.
-++# This catches off-by-one errors in the stack growth check (GH #39).
++         @wraps(callback)
++         def wrapper(ssl, out, outlen):
++             try:
++                 conn = Connection._reverse_mapping[ssl]
++                 cookie = callback(conn)
+++                if len(cookie) > max_cookie_len:
+++                    raise ValueError(
+++                        f"Cookie too long (got {len(cookie)} bytes, "
+++                        f"max {max_cookie_len})"
+++                    )
++                 out[0 : len(cookie)] = cookie
++                 outlen[0] = len(cookie)
++                 return 1
++diff --git a/tests/test_ssl.py b/tests/test_ssl.py
++index 55489b9..683e368 100644
++--- a/tests/test_ssl.py
+++++ b/tests/test_ssl.py
++@@ -4560,6 +4560,44 @@ class TestDTLS:
++     def test_it_works_with_srtp(self):
++         self._test_handshake_and_data(srtp_profile=b"SRTP_AES128_CM_SHA1_80")
++ 
+++    def test_cookie_generate_too_long(self) -> None:
+++        s_ctx = Context(DTLS_METHOD)
 ++
-++use XML::Parser;
+++        def generate_cookie(ssl: Connection) -> bytes:
+++            return b"\x00" * 256
 ++
-++my $depth = 600;
+++        def verify_cookie(ssl: Connection, cookie: bytes) -> bool:
+++            return True
 ++
-++my $xml = '';
-++for my $i (1 .. $depth) {
-++    $xml .= "<e$i>";
-++}
-++for my $i (reverse 1 .. $depth) {
-++    $xml .= "</e$i>";
-++}
+++        s_ctx.set_cookie_generate_callback(generate_cookie)
+++        s_ctx.set_cookie_verify_callback(verify_cookie)
+++        s_ctx.use_privatekey(load_privatekey(FILETYPE_PEM, server_key_pem))
+++        s_ctx.use_certificate(load_certificate(FILETYPE_PEM, server_cert_pem))
+++        s_ctx.set_options(OP_NO_QUERY_MTU)
+++        s = Connection(s_ctx)
+++        s.set_accept_state()
 ++
-++my $p = XML::Parser->new;
-++eval { $p->parse($xml) };
+++        c_ctx = Context(DTLS_METHOD)
+++        c_ctx.set_options(OP_NO_QUERY_MTU)
+++        c = Connection(c_ctx)
+++        c.set_connect_state()
 ++
-++print "not " if $@;
-++print "ok 1\n";
+++        c.set_ciphertext_mtu(1500)
+++        s.set_ciphertext_mtu(1500)
+++
+++        # Client sends ClientHello
+++        try:
+++            c.do_handshake()
+++        except SSL.WantReadError:
+++            pass
+++        chunk = c.bio_read(self.LARGE_BUFFER)
+++        s.bio_write(chunk)
+++
+++        # Server tries DTLSv1_listen, which triggers cookie generation.
+++        # The oversized cookie should raise ValueError.
+++        with pytest.raises(ValueError, match="Cookie too long"):
+++            s.DTLSv1_listen()
+++
++     def test_timeout(self, monkeypatch):
++         c_ctx = Context(DTLS_METHOD)
++         c = Connection(c_ctx)
 +-- 
-+2.50.1
++2.43.0
 +
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-index 803164f713d..6a36b763a83 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-@@ -8,6 +8,7 @@ DEPENDS += "expat"
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
+index bc0b568a46a..94a70aa17d1 100644
+--- a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
+@@ -12,6 +12,7 @@ inherit pypi setuptools3
  
- SRC_URI = "${CPAN_MIRROR}/authors/id/T/TO/TODDR/XML-Parser-${PV}.tar.gz \
-            file://0001-Makefile.PL-make-check_lib-cross-friendly.patch \
-+           file://CVE-2006-10003.patch \
-            "
+ SRC_URI += " \
+     file://CVE-2026-27448.patch \
++    file://CVE-2026-27459.patch \
+ "
  
- SRC_URI[sha256sum] = "ad4aae643ec784f489b956abe952432871a622d4e2b5c619e8855accbfc4d1d8"
+ PACKAGES =+ "${PN}-tests"
 
