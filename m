@@ -2,199 +2,258 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E06BCFF4923
-	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:46:40 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38744.1774824393619180750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6611BFF4927
+	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:46:41 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38493.1774824392420548088
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2026 15:46:33 -0700
+ Sun, 29 Mar 2026 15:46:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=kgujxQjd;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48541edecf9so49044395e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:46:33 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=E5ToF7b5;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4873ce69ba9so2646245e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774824392; x=1775429192; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1774824390; x=1775429190; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0dMej7lmszqTsa6UScljJ48enl+M0n1Z9R80lxhs580=;
-        b=kgujxQjdPH/hxbT1X7UAf4HqQpzaAmKSGRNZPYkC4FWhTJWPqJhyuLjnP7KNwT0qqZ
-         od0Y/or5qsxxdLfGt1vb+WHW/3AioWweLWBMMN6A9OCFitIrocnEwr8pY4A+3prDLryJ
-         mYvF5H3O2Z97L+EufJ/sQybDT2p4KvgjNDPsc=
+        bh=zGzcOZ724c4YbRHNLv7xePGrypATx1aeyDLzcH8kcqo=;
+        b=E5ToF7b5ddJfkrNdLaIiDGXYnKG+KYREvX+YaHLPQpL39SWFJlW/J9z0F/H08u/Osh
+         V5r+Tls6uBR+mC4Po6xYkbHqDb+5x0nP9SyXGNfK1ZD/XxDNH+tF7yw621VXOUl/OPyy
+         w6uL9114Ty4DCrF19pr3j3K4R7wlbw3HNE7iE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774824392; x=1775429192;
+        d=1e100.net; s=20251104; t=1774824390; x=1775429190;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=0dMej7lmszqTsa6UScljJ48enl+M0n1Z9R80lxhs580=;
-        b=pWJ9pAIgHmpfoMIZbeReYkKxxRRSrmGVn+ShJglaP7ALkUTmUUZrTa7rWBly7p7B2a
-         DlWCuMtAfnYXTYuOlwNB207wr5ZyAu/AAViNxr2B9ugr90AsbzQk750MpUwWGifS5xTV
-         dgDkUch+MWUjqkXZtflUAQGc06iBRz9MHBYGnIRiTabFIed3A9bz5GgZTQHI71tUpNmM
-         qTMUvhjt9U1t0ovQhNoTvPNywmpxoFc4TIIqOS12qEUgYEhCWgByQr9J1C679LmvxYZt
-         Xo1KHu3TtveE17hRTCQL2Jg1WnpIbabvht1kLrcNkUKXmxgJm2HNXlc23IVbouPfw2Ig
-         KapA==
-X-Gm-Message-State: AOJu0YyBHLk34PDUMzv0+UqDEla+Na3UuxM+xSFvHJclRlC17cwd1WfA
-	U9IzDG3g1TxcStMZwoY3UudGLTDZceYiwwxohLzIqHbU+N80JDYE0sxdel2ivqSMrP2bsFCAsMl
-	8kbsXoV8=
-X-Gm-Gg: ATEYQzzr8+2gX2Z1kueYJgpWmJ6fE+FHJvnXvsP3GGtpJGR7O0oFuQBmtTUMu7p3DOw
-	W/VvuH3EQpwieoxqMPp4HT+t+P4Ff1ALetsnBz8YDqsQKqI76Um2brD6M29DaaGG4i7p47LJFvT
-	8hLZT23rcTez3UbvL11EsxILHqILXT4H3qYm0dMY/GOCxxHxECzQEmwK7bYj4PY9wDOK9BdYHm6
-	7+KZ2YotfbBcdK/uICptJV3Dbxj7UGmyIez+S66yZHeWBDnot4lmU0gYLoUa/vEZx0ScktMX4UU
-	WSuyuvMlT8hwqxHVdYlzwmOJnfJ7l8RVhqmlwnA9NQctb/ShChUzixsPtB6uIWvR8j+2KIpW1Hw
-	1GVCZWHfsEZhAKzXj6RMCxL8KKRzSpKwTpyqZInJhfzkvrwazIvAI4Efr43FR369tuvjrsknaZc
-	ijqvn27nTVEtCxEFHvXViQKbhSWqNzPbN0ZPytJTHzpD0T7ETbFcsT/f3yK2YL27x1z1fH28NXK
-	1GLOfIuoq4HWK3Ig4EdBYTn0uc=
-X-Received: by 2002:a05:600c:46c4:b0:485:3a03:ceca with SMTP id 5b1f17b1804b1-48727f0e53bmr188831305e9.23.1774824391603;
-        Sun, 29 Mar 2026 15:46:31 -0700 (PDT)
+        bh=zGzcOZ724c4YbRHNLv7xePGrypATx1aeyDLzcH8kcqo=;
+        b=M67bVY6On+S0zqV47u6jVgrf1IiDc2Pirh7gOgdRMi9yHmVoy0k8jhsSuM1KdnHl+4
+         qkAXCRHxQ146ceginzB8VcNKgKU6ynOyXstiYs/lNigGejHwsOxWqLjydHlDhkbNka0y
+         PBed8fM/M9M+/IpcMETaCoOCHlxZWob7hcdm23WL7YwdmVmzPhL48uBnxvCkAtzVs+Tf
+         MVYBrZhPfTSY8VkI9xmL2RrvDaAGEhqDyHxShbU1GmRclpVk3XmP7OFEZrt7ARNAP4Rs
+         kHxpzMa65fjStE6kpWFKtEMe0fuix4/lHv85aJbR53qVlag5YzBm+okcMNGyQB6nJ0eM
+         BTFQ==
+X-Gm-Message-State: AOJu0Yx1SGpRMPMvk+xrIoiazYEdOUqvF+y2J41YYHnii35gCad0DNZf
+	zdFmTiF+MouutryGnAUmwsqGCGoSfzEsAyAujAmUDx7JyebtW9yYDMm9rASeNli5sNtWRoO/KVc
+	UxOvWAaM=
+X-Gm-Gg: ATEYQzw6ZjtYLU26hGaSanrjeWfN/pSoK3Mf5rfcvSCz7qKYM35puFu4JRAhpLISmH9
+	Wf9FvSRwHfUI9r33VFt/Z0vSY9xPRNjuEW/zC8+GkA3j3/u41ZftMm1qm9hgo2+a1lt3m4AehXE
+	7d36cHct8I8eVt0SIAF5iSg6gENTBGqBkfYXhicaPMgr79tmvUkrI4vZYPBduFpAik4n1lt/VIw
+	haAu4ghzB0cb5ux19lB/DhZAEZNS+a6XAWwcu+GudU9yWjgPyEhIj0tKUqE8gauAigdgpWY/5cl
+	NvkF4s1ifLPdEP5n0QwnP+umnETsfuEJsAOvbcG4XQDafFW/LfeR9zPLYcbhuS4hH3CM3XOIBAn
+	8vhPevUfUFdK4onaOdHLO5upPI+Mo4L4WgKJkPc32YzO0QlDPj12RUxbzjv2fbrM+PpQTgAEcvZ
+	9HyjjiGKjSnNCRvhtWXf4OZ2qXn/B2FKoKGjGZsKZjq9HBAYLj4vSN3CkjuunLXlhB8OjfHlpgU
+	0ML+/ZFc2fQwpAFtDaIJ0eethc=
+X-Received: by 2002:a05:600c:4744:b0:485:4278:2558 with SMTP id 5b1f17b1804b1-48727d5a313mr173668365e9.6.1774824390400;
+        Sun, 29 Mar 2026 15:46:30 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873061eeeasm133760375e9.2.2026.03.29.15.46.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873061eeeasm133760375e9.2.2026.03.29.15.46.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 15:46:31 -0700 (PDT)
+        Sun, 29 Mar 2026 15:46:29 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/11] dtc: backport fix for build with glibc-2.43
-Date: Mon, 30 Mar 2026 00:46:11 +0200
-Message-ID: <58ef52e9ee33c76689a57e6c39e91c00c257c43f.1774824253.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 02/11] python3-cryptography: Fix CVE-2026-26007
+Date: Mon, 30 Mar 2026 00:46:09 +0200
+Message-ID: <80637cd1b9e2045e9f19fb8337704007fef67e41.1774824253.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1774824253.git.yoann.congal@smile.fr>
 References: <cover.1774824253.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:46:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234185
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:46:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234183
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Nguyen Dat Tho <tho3.nguyen@lge.com>
 
-glibc-2.43 isn't used in OE builds yet, but this fixes dtc-native:
-https://errors.yoctoproject.org/Errors/Details/903983/
+CVE-2026-26007 is fixed upstream in version 46.0.5.
+Our current version (42.0.5, scarthgap) is still reported as vulnerable
+by NVD.
+Backport the upstream fix to address this CVE.
 
-../sources/dtc-1.7.2/libfdt/fdt_overlay.c: In function ‘overlay_fixup_phandle’:
-../sources/dtc-1.7.2/libfdt/fdt_overlay.c:424:21: error: assignment discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
-  424 |                 sep = memchr(fixup_str, ':', fixup_len);
-      |                     ^
-../sources/dtc-1.7.2/libfdt/fdt_overlay.c:434:21: error: assignment discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
-  434 |                 sep = memchr(name, ':', fixup_len);
-      |                     ^
-cc1: all warnings being treated as errors
+Upstream commit:
+  https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[YC: upstream commit 28552a7b6c94060c7ab3899619ab8afb74124d02]
+CVE report:
+  https://nvd.nist.gov/vuln/detail/CVE-2026-26007
+
+Signed-off-by: Nguyen Dat Tho <tho3.nguyen@lge.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../0001-Fix-discarded-const-qualifiers.patch | 85 +++++++++++++++++++
- meta/recipes-kernel/dtc/dtc_1.7.0.bb          |  1 +
- 2 files changed, 86 insertions(+)
- create mode 100644 meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch
+ .../python3-cryptography/CVE-2026-26007.patch | 149 ++++++++++++++++++
+ .../python/python3-cryptography_42.0.5.bb     |   1 +
+ 2 files changed, 150 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
 
-diff --git a/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch b/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch
+diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
 new file mode 100644
-index 00000000000..c643410ae9b
+index 00000000000..a78d287ccdd
 --- /dev/null
-+++ b/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch
-@@ -0,0 +1,85 @@
-+From 861cb43eb53afff83e28ba0e0f88ffa464ebe8ca Mon Sep 17 00:00:00 2001
-+From: Stephen Gallagher <sgallagh@redhat.com>
-+Date: Tue, 6 Jan 2026 14:19:30 -0500
-+Subject: [PATCH] Fix discarded const qualifiers
++++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
+@@ -0,0 +1,149 @@
++From 42c914929b52eb16421a4ef1f7e09c8f9fdab7db Mon Sep 17 00:00:00 2001
++From: Paul Kehrer <paul.l.kehrer@gmail.com>
++Date: Wed, 18 Mar 2026 16:01:03 +0900
++Subject: [PATCH] EC check key on cofactor > 1
 +
-+It's unsafe to implicitly discard the const qualifier on a pointer. In
-+overlay_fixup_phandle(), this was probably just an oversight, and making
-+the "sep" variable a const char * is sufficient to fix it.
++An attacker could create a malicious public key that reveals portions of
++your private key when using certain uncommon elliptic curves (binary
++curves).  This version now includes additional security checks to
++prevent this attack.  This issue only affects binary elliptic curves,
++which are rarely used in real-world applications. Credit to **XlabAI
++Team of Tencent Xuanwu Lab and Atuin Automated Vulnerability Discovery
++Engine** for reporting the issue.  **CVE-2026-26007**
 +
-+In create_node(), however, the "p" variable is directly modifying the
-+buffer pointed to by "const char* node_name". To fix this, we need to
-+actually make a duplicate of the buffer and operate on that instead.
++This is a partial backport of upstream commit
++0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c, to only include what's
++relevant for CVE-2026-26007.
 +
-+This introduces a malloc()/free()  and an unbounded strdup() into the
-+operation, but fdtput isn't a long-running service and the node_name
-+argument comes directly from argv, so this shouldn't introduce a
-+significant performance impact.
++CVE: CVE-2026-26007
 +
-+Signed-off-by: Stephen Gallagher <sgallagh@redhat.com>
-+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/dtc/dtc.git/commit/libfdt/fdt_overlay.c?h=main&id=9a1c801a1a3c102bf95c5339c9e985b26b823a21]
++Origin: backport, https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c
++Reference: https://salsa.debian.org/python-team/packages/python-cryptography/-/commit/464e7ca3b0b4493d5906d0c3685de71fda770c59
++
++Signed-off-by: Nguyen Dat Tho <tho3.nguyen@lge.com>
++Signed-off-by: Paul Kehrer <paul.l.kehrer@gmail.com>
++Co-authored-by: Alex Gaynor <alex.gaynor@gmail.com>
 +---
-+ fdtput.c             | 8 +++++---
-+ libfdt/fdt_overlay.c | 3 ++-
-+ meson.build          | 3 ++-
-+ 3 files changed, 9 insertions(+), 5 deletions(-)
++Upstream-Status: Backport [Backport from https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c]
 +
-+diff --git a/fdtput.c b/fdtput.c
-+index c2fecf4..8deec7e 100644
-+--- a/fdtput.c
-++++ b/fdtput.c
-+@@ -230,19 +230,21 @@ static int create_paths(char **blob, const char *in_path)
-+ static int create_node(char **blob, const char *node_name)
-+ {
-+ 	int node = 0;
-+-	char *p;
-++	const char *p;
-++	char *path = NULL;
++ src/rust/src/backend/ec.rs         | 39 ++++++++++++++++++++----------
++ tests/hazmat/primitives/test_ec.py | 37 ++++++++++++++++++++++++++++
++ 2 files changed, 63 insertions(+), 13 deletions(-)
++
++diff --git a/src/rust/src/backend/ec.rs b/src/rust/src/backend/ec.rs
++index 6a224b49f..27fced086 100644
++--- a/src/rust/src/backend/ec.rs
+++++ b/src/rust/src/backend/ec.rs
++@@ -155,12 +155,9 @@ pub(crate) fn public_key_from_pkey(
++ ) -> CryptographyResult<ECPublicKey> {
++     let ec = pkey.ec_key()?;
++     let curve = py_curve_from_curve(py, ec.group())?;
++-    check_key_infinity(&ec)?;
++-    Ok(ECPublicKey {
++-        pkey: pkey.to_owned(),
++-        curve: curve.into(),
++-    })
+++    ECPublicKey::new(pkey.to_owned(), curve.into())
++ }
+++
++ #[pyo3::prelude::pyfunction]
++ fn generate_private_key(
++     py: pyo3::Python<'_>,
++@@ -215,10 +212,7 @@ fn from_public_bytes(
++     let ec = openssl::ec::EcKey::from_public_key(&curve, &point)?;
++     let pkey = openssl::pkey::PKey::from_ec_key(ec)?;
 + 
-+ 	p = strrchr(node_name, '/');
-+ 	if (!p) {
-+ 		report_error(node_name, -1, -FDT_ERR_BADPATH);
-+ 		return -1;
-+ 	}
-+-	*p = '\0';
++-    Ok(ECPublicKey {
++-        pkey,
++-        curve: py_curve.into(),
++-    })
+++    ECPublicKey::new(pkey, py_curve.into())
++ }
 + 
-+ 	*blob = realloc_node(*blob, p + 1);
++ #[pyo3::prelude::pymethods]
++@@ -357,6 +351,28 @@ impl ECPrivateKey {
++     }
++ }
 + 
-+ 	if (p > node_name) {
-+-		node = fdt_path_offset(*blob, node_name);
-++		path = xstrndup(node_name, (size_t)(p - node_name));
-++		node = fdt_path_offset(*blob, path);
-++		free(path);
-+ 		if (node < 0) {
-+ 			report_error(node_name, -1, node);
-+ 			return -1;
-+diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
-+index 5c0c398..75b0619 100644
-+--- a/libfdt/fdt_overlay.c
-++++ b/libfdt/fdt_overlay.c
-+@@ -431,7 +431,8 @@ static int overlay_fixup_phandle(void *fdt, void *fdto, int symbols_off,
-+ 		const char *fixup_str = value;
-+ 		uint32_t path_len, name_len;
-+ 		uint32_t fixup_len;
-+-		char *sep, *endptr;
-++		const char *sep;
-++		char *endptr;
-+ 		int poffset, ret;
+++impl ECPublicKey {
+++    fn new(
+++        pkey: openssl::pkey::PKey<openssl::pkey::Public>,
+++        curve: pyo3::Py<pyo3::PyAny>,
+++    ) -> CryptographyResult<ECPublicKey> {
+++        let ec = pkey.ec_key()?;
+++        check_key_infinity(&ec)?;
+++        let mut bn_ctx = openssl::bn::BigNumContext::new()?;
+++        let mut cofactor = openssl::bn::BigNum::new()?;
+++        ec.group().cofactor(&mut cofactor, &mut bn_ctx)?;
+++        let one = openssl::bn::BigNum::from_u32(1)?;
+++        if cofactor != one {
+++            ec.check_key().map_err(|_| {
+++                pyo3::exceptions::PyValueError::new_err(
+++                    "Invalid EC key (key out of range, infinity, etc.)",
+++                )
+++            })?;
+++        }
+++
+++        Ok(ECPublicKey { pkey, curve })
+++    }
+++}
++ #[pyo3::prelude::pymethods]
++ impl ECPublicKey {
++     #[getter]
++@@ -591,10 +607,7 @@ impl EllipticCurvePublicNumbers {
 + 
-+ 		fixup_end = memchr(value, '\0', len);
-+diff --git a/meson.build b/meson.build
-+index 8952e8a..ecb0ae0 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -14,7 +14,8 @@ add_project_arguments(
-+     '-Wstrict-prototypes',
-+     '-Wmissing-prototypes',
-+     '-Wredundant-decls',
-+-    '-Wshadow'
-++    '-Wshadow',
-++    '-Wdiscarded-qualifiers'
-+   ]),
-+   language: 'c'
-+ )
-diff --git a/meta/recipes-kernel/dtc/dtc_1.7.0.bb b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
-index 0702fc16dfa..a2f41197fda 100644
---- a/meta/recipes-kernel/dtc/dtc_1.7.0.bb
-+++ b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
-@@ -12,6 +12,7 @@ SRC_URI = " \
-     git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=main;protocol=https \
-     file://0001-meson.build-bump-version-to-1.7.0.patch \
-     file://0002-meson-allow-building-from-shallow-clones.patch \
-+    file://0001-Fix-discarded-const-qualifiers.patch \
- "
- SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
++         let pkey = openssl::pkey::PKey::from_ec_key(public_key)?;
++ 
++-        Ok(ECPublicKey {
++-            pkey,
++-            curve: self.curve.clone_ref(py),
++-        })
+++        ECPublicKey::new(pkey, self.curve.clone_ref(py))
++     }
++ 
++     fn __eq__(
++diff --git a/tests/hazmat/primitives/test_ec.py b/tests/hazmat/primitives/test_ec.py
++index 334e76dcc..f7f2242f6 100644
++--- a/tests/hazmat/primitives/test_ec.py
+++++ b/tests/hazmat/primitives/test_ec.py
++@@ -1340,3 +1340,40 @@ class TestECDH:
++ 
++         with pytest.raises(ValueError):
++             key.exchange(ec.ECDH(), public_key)
+++
+++
+++def test_invalid_sect_public_keys(backend):
+++    _skip_curve_unsupported(backend, ec.SECT571K1())
+++    public_numbers = ec.EllipticCurvePublicNumbers(1, 1, ec.SECT571K1())
+++    with pytest.raises(ValueError):
+++        public_numbers.public_key()
+++
+++    point = binascii.unhexlify(
+++        b"0400000000000000000000000000000000000000000000000000000000000000000"
+++        b"0000000000000000000000000000000000000000000000000000000000000000000"
+++        b"0000000000010000000000000000000000000000000000000000000000000000000"
+++        b"0000000000000000000000000000000000000000000000000000000000000000000"
+++        b"0000000000000000000001"
+++    )
+++    with pytest.raises(ValueError):
+++        ec.EllipticCurvePublicKey.from_encoded_point(ec.SECT571K1(), point)
+++
+++    der = binascii.unhexlify(
+++        b"3081a7301006072a8648ce3d020106052b810400260381920004000000000000000"
+++        b"0000000000000000000000000000000000000000000000000000000000000000000"
+++        b"0000000000000000000000000000000000000000000000000000000000000100000"
+++        b"0000000000000000000000000000000000000000000000000000000000000000000"
+++        b"0000000000000000000000000000000000000000000000000000000000000000000"
+++        b"00001"
+++    )
+++    with pytest.raises(ValueError):
+++        serialization.load_der_public_key(der)
+++
+++    pem = textwrap.dedent("""-----BEGIN PUBLIC KEY-----
+++    MIGnMBAGByqGSM49AgEGBSuBBAAmA4GSAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+++    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+++    AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+++    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=
+++    -----END PUBLIC KEY-----""").encode()
+++    with pytest.raises(ValueError):
+++        serialization.load_pem_public_key(pem)
+diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
+index 732f925d926..c4573fa6891 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
+@@ -11,6 +11,7 @@ LDSHARED += "-pthread"
+ SRC_URI[sha256sum] = "6fe07eec95dfd477eb9530aef5bead34fec819b3aaf6c5bd6d20565da607bfe1"
  
+ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
++            file://CVE-2026-26007.patch \
+             file://check-memfree.py \
+             file://run-ptest \
+            "
 
