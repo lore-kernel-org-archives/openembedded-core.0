@@ -2,64 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A52CEFC97FA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3FA3FC9802
 	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:38:07 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38375.1774823886598688298
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38617.1774823884915544197
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2026 15:38:06 -0700
+ Sun, 29 Mar 2026 15:38:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3KCL+gSz;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so32148795e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:38:06 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=f0LSmurY;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43cf73bbfbdso536388f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774823885; x=1775428685; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k9l50duf5zEDAhHdXAmfFwGnkBPanJVJv49TAJEdyPQ=;
-        b=3KCL+gSzqHBOQXI5ZB5wZ4faGSJ3w+bjkmuFn3KNIwShBBZvGVwo2TceUoEAClVUUp
-         OGQLBaLgkS5DZqDY6Y93VCYXbWDCbSakm2Sq+ThA7JrIhhH6P7XidWqSbE/uE96j3PGJ
-         PaiRqbKlAh+8mbdyT0fhYAstebbjbIo8iMv3w=
+        d=smile.fr; s=google; t=1774823883; x=1775428683; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=avuIygeQgK1IaJO4269DAu008V2JYbcocehmon3mhdw=;
+        b=f0LSmurY53RDQYAcZarvH+X6BeW+7J8EMHKjee+mOvOMTiWHZgBuP284UwvlMIIe6e
+         LQRT8ev0qBrtiaUtf+mZLcQGhCbxxU8j4kaVZ/jn/QExf1nIutfR1GXsvLRp+HUK7ugb
+         LVL3dyzMmElO5G0ivDcIX/M8BMM7fymBc7PDk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774823885; x=1775428685;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=k9l50duf5zEDAhHdXAmfFwGnkBPanJVJv49TAJEdyPQ=;
-        b=A/8LJwRUnpL9GfkshgtCXT4eaVrViLCP5Dz1MsmPS0GQ5HgDrYaa3mVQYrroSqDK0Q
-         L8jE1qzJUGQN1hP7SwCS/g1k7XPmUZxhDpWAskvhxDwEQ5NKQJH0tgLp4Bs5zfN96TFi
-         se4+g8hTpdI+Oxf00ZJbFg8VXc59QqduLhoW7wYqQZlpznS/NzHas1/25K9Cmcs57Epb
-         YPf0kfrBXicJuKS6ALglrZ17ejmo9tMJPTpnoYsIljzgiktN5+v8zuBuC0OPGFDqSr0k
-         9wKRzdgR9xdYsuPppxAZp5JpY7/BeT24vbZEac4P/U9+QhcTwHITT5RV4ctTqM4MkjT3
-         /l1A==
-X-Gm-Message-State: AOJu0YwWVr9lFEhtBuxa1uR4BKiBxhD3fVi/OQB1hN//h07SSouy4Riz
-	9YVHlrmD1VZKkPrhNGk446euM5Ypk4Psriqy9R8Vh/rpPRdVIZafNJeo2kBEIb0G42UguyW+HAW
-	Wa7QiQoU=
-X-Gm-Gg: ATEYQzytrckX1X43fSReDZfAyzJpJQ1TjHuEqB7FIC3CGplbX18mmG3+cq15/UfIEgs
-	PDk/ecpINhB96wgZyw96Jm1OeLtBtheDGKmEn7Whra79yW8Mkd9AayI2JR6z4ghSOb8B9prcIoW
-	xWA+l+Dkl0Pjzw8T857dIRPWdQrzlA6Iw1XBsdlw2cNSYOMqy1tX0b5IUBCRPdzdTzymiIKxbVL
-	flF7FnTNvJJvgKQD8KmBgXrLL6JG3pJkPiwwJipJh9flQxfTNqASfnCozqmxQoUr5hLa4EEnQLB
-	W/dOIdrav8QbCdh6YXSyW6qb8H4S7EL5tLp4sdzvUvcQZRZtI/NQj+WSFLVMMZPHPoKVN0aLkgZ
-	2fjSI0CQ00cEEinluWSIo/PXSZQ97ijFO/TYmcaDK0Vu/QO7zNkiZhBfZb9A469n88+ZoUHO+68
-	tOgh9x299GAflCG40KAwAPxzVCnzYsR5B0WX7MgJ3ax1NDE33OAe8bEtt4jiLj8XIiS5O9MJlRz
-	1KhOO5hAvUuKL1IgVHpG4hc/zE=
-X-Received: by 2002:a05:600c:3e88:b0:487:1108:48b8 with SMTP id 5b1f17b1804b1-48727ee9897mr159236295e9.2.1774823884702;
-        Sun, 29 Mar 2026 15:38:04 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774823883; x=1775428683;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=avuIygeQgK1IaJO4269DAu008V2JYbcocehmon3mhdw=;
+        b=rci6mRh91rRDlDcm03vgEygCCvP8Fx8Tn/MEnWx88MZhWqE/jKvJiGD8++5Ugb3ZyC
+         14+6yWqlw8F5K7MYuj3ELA8KLvAZESQpUWDFWaZMOTGDVEO9TRIyAkQlMFV2WIcB3izy
+         dgIS+9Ahb8Cdw4GewCL8agIliVnvhk55cUD9M9U8nysXxdcfVYTTUnJwAECS3q8Pv+wT
+         ymNAvr2t4pHNH/vjARZ5UOMv9shcOsGxbK1EVMGm1f9Bq6I1Lunsleu2T8TmdaTI789g
+         9H6vEIYT5ozTeDQMvzw/JQ3oCR4He5RO5/YHKiXb++CN72LIxqCX1QKNf4pSCcei5PSS
+         G7UA==
+X-Gm-Message-State: AOJu0Yz/nkHV+huvogUrrUgk0flqd57IJeM/48liGQPyMW62RfD9UfkT
+	ybUptbXuCyYrMmxAXB2JJF61TZ23BLjB8gKTmvjPe7N8d/kZmFuIBM1dj5DCGZFtYDby0KbUUBn
+	06ehSBnk=
+X-Gm-Gg: ATEYQzxbHzByMItro3Wq92jWyjruERr+yY8ANT9/BR1hP894Y7mdfnmjvHDDN/ji7q/
+	kZtiE2l9l9KmdXK6dL0YQKJ6CtlFxkqQ9dqFe+wkXVQLnQg9YzQl70MMh2NOVe9zQE0ZlQyR8Kd
+	jm0o4Cx1JO8aHGpmUHH5fPnu1tnCqSKKDmpAm7KmrtG0Hg5+ADKaw/sPqXEpuU6snTIvhoGM3TW
+	zib9Sregl6IGt1HDSjQ84S0oyrIAnClHV3pQiT0PsTaOCSqRwgCCmFGylIsh4jPjiYFhWg5MgfP
+	XcwMuM/ZuAc1PffHBh1+U+fk+Ecb1fQEDoF9SgtBl9pjDgFEgX7oSHTwMhUWes7PX7VX8wdkoH6
+	oZ/KlSgrXPsiqshfx16SdEWwwAYYnlJtgLgLWSroypZmHSkUE98jHG9kcbYU8tHvw8ARo/4xo0V
+	6JK6ChJeU/96mTBApgYOpcJn8j5H1pBB7zJFiE3jlJUI/S4EckQyGh+gwsZ8FJuHTfXSKxajyfU
+	M84furUIsQopIQ+WuqVSxQ4q3yGT5fR1fEaPg==
+X-Received: by 2002:a05:6000:2902:b0:43b:45f5:eec with SMTP id ffacd0b85a97d-43b9e9d8c84mr17201296f8f.4.1774823882756;
+        Sun, 29 Mar 2026 15:38:02 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm13038542f8f.29.2026.03.29.15.38.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm13038542f8f.29.2026.03.29.15.38.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 15:38:04 -0700 (PDT)
+        Sun, 29 Mar 2026 15:38:02 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/16] spdx: add option to include only compiled sources
-Date: Mon, 30 Mar 2026 00:37:35 +0200
-Message-ID: <50390bb45db8560bc9d2ee3ad37979924e0046c7.1774823430.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 00/16] Patch review
+Date: Mon, 30 Mar 2026 00:37:32 +0200
+Message-ID: <cover.1774823430.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1774823430.git.yoann.congal@smile.fr>
-References: <cover.1774823430.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,94 +64,122 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:38:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234161
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234158
 
-From: João Marcos Costa (Schneider Electric) <joaomarcos.costa@bootlin.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Tuesday, March 31.
 
-When SPDX_INCLUDE_COMPILED_SOURCES is enabled, only include the
-source code files that are used during compilation.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3546
+Note: This particular build had a gnutls patch that I removed because it needed a small change[0].
+Build (currently running) without the gnutls patch: https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3551
 
-It uses debugsource information generated during do_package.
+[0]: https://lore.kernel.org/openembedded-core/DHFLXG1K82R7.3EOQRZ2H6KW8Q@smile.fr/T/#t
 
-This enables an external tool to use the SPDX information to disregard
-vulnerabilities that are not compiled.
+The following changes since commit 41597b5260fb5ca811d0fb4ae7e65246d61734eb:
 
-As example, when used with the default config with linux-yocto, the spdx size is
-reduced from 156MB to 61MB.
+  Revert "scripts/install-buildtools: Update to 5.0.16" (2026-03-26 09:48:20 +0000)
 
-(From OE-Core rev: c6a2f1fca76fae4c3ea471a0c63d0b453beea968)
-Adapted to existing files for SPDX3.0
+are available in the Git repository at:
 
-Tested with:
-- bitbake world on oe-core
-- oe-selftest --run-tests spdx.SPDX30Check
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
 
-Regarding SPDX2.2, the respective backport was already performed in
-OE-Core rev: a2866934e58fb377a73e87576c8594988a63ad1b
+for you to fetch changes up to e6f3b2e043259650d80fb6f761797c5cf5587eb5:
 
-Signed-off-by: João Marcos Costa (Schneider Electric) <joaomarcos.costa@bootlin.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/classes/spdx-common.bbclass |  3 +++
- meta/lib/oe/spdx30_tasks.py      | 12 ++++++++++++
- 2 files changed, 15 insertions(+)
+  python3-pyopenssl: Fix CVE-2026-27459 (2026-03-30 00:09:38 +0200)
 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 713a7fc651e..ca0416d1c7f 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -26,6 +26,7 @@ SPDX_TOOL_VERSION ??= "1.0"
- SPDXRUNTIMEDEPLOY = "${SPDXDIR}/runtime-deploy"
- 
- SPDX_INCLUDE_SOURCES ??= "0"
-+SPDX_INCLUDE_COMPILED_SOURCES ??= "0"
- 
- SPDX_UUID_NAMESPACE ??= "sbom.openembedded.org"
- SPDX_NAMESPACE_PREFIX ??= "http://spdx.org/spdxdocs"
-@@ -40,6 +41,8 @@ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
- python () {
-     from oe.cve_check import extend_cve_status
-     extend_cve_status(d)
-+    if d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1":
-+        d.setVar("SPDX_INCLUDE_SOURCES", "1")
- }
- 
- def create_spdx_source_deps(d):
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index a8970dcca0f..9c422d17573 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -145,6 +145,8 @@ def add_package_files(
-     ignore_dirs=[],
-     ignore_top_level_dirs=[],
- ):
-+    import oe.spdx
-+
-     source_date_epoch = d.getVar("SOURCE_DATE_EPOCH")
-     if source_date_epoch:
-         source_date_epoch = int(source_date_epoch)
-@@ -156,6 +158,11 @@ def add_package_files(
-         bb.note(f"Skip {topdir}")
-         return spdx_files
- 
-+    check_compiled_sources = d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1"
-+    if check_compiled_sources:
-+        compiled_sources, types = oe.spdx.get_compiled_sources(d)
-+        bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
-+
-     for subdir, dirs, files in os.walk(topdir, onerror=walk_error):
-         dirs[:] = [d for d in dirs if d not in ignore_dirs]
-         if subdir == str(topdir):
-@@ -171,6 +178,11 @@ def add_package_files(
-             filename = str(filepath.relative_to(topdir))
-             file_purposes = get_purposes(filepath)
- 
-+            # Check if file is compiled
-+            if check_compiled_sources:
-+                if not oe.spdx.is_compiled_source(filename, compiled_sources, types):
-+                    continue
-+
-             spdx_file = objset.new_file(
-                 get_spdxid(file_counter),
-                 filename,
+----------------------------------------------------------------
+
+Hitendra Prajapati (2):
+  libxml-parser-perl: fix for CVE-2006-10003
+  busybox: fix for CVE-2026-26157, CVE-2026-26158
+
+João Marcos Costa (Schneider Electric) (1):
+  spdx: add option to include only compiled sources
+
+Martin Jansa (3):
+  dtc: backport fix for build with glibc-2.43
+  elfutils: don't add -Werror to avoid discarded-qualifiers
+  binutils: backport patch to fix build with glibc-2.43 on host
+
+Michael Halstead (2):
+  yocto-uninative: Update to 5.0 for needed patchelf updates
+  yocto-uninative: Update to 5.1 for glibc 2.43
+
+Nguyen Dat Tho (1):
+  python3-cryptography: Fix CVE-2026-26007
+
+Paul Barker (1):
+  tzdata,tzcode-native: Upgrade 2025b -> 2025c
+
+Richard Purdie (1):
+  pseudo: Add fix for glibc 2.43
+
+Sunil Dora (1):
+  rust: Enable dynamic linking with llvm
+
+Vijay Anusuri (3):
+  python3-pyopenssl: Fix CVE-2026-27448
+  python3-pyopenssl: Fix CVE-2026-27459
+  gnutls: Fix CVE-2025-14831
+
+sureshha (1):
+  systemd: backport patch to fix journal-file issue
+
+ meta/classes/spdx-common.bbclass              |   3 +
+ meta/conf/distro/include/yocto-uninative.inc  |  10 +-
+ meta/lib/oe/spdx30_tasks.py                   |  12 +
+ .../CVE-2026-26157-CVE-2026-26158-01.patch    | 198 +++++++
+ .../CVE-2026-26157-CVE-2026-26158-02.patch    |  37 ++
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |   2 +
+ ...not-trigger-assertion-on-removed-or-.patch |  65 +++
+ meta/recipes-core/systemd/systemd_255.21.bb   |   1 +
+ .../binutils/binutils-2.42.inc                |   1 +
+ ...tect-against-standard-library-macros.patch |  31 ++
+ .../elfutils/elfutils_0.191.bb                |   1 +
+ ...001-config-eu.am-do-not-force-Werror.patch |  34 ++
+ .../libxml-parser-perl/CVE-2006-10003.patch   |  73 +++
+ .../perl/libxml-parser-perl_2.47.bb           |   1 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+ .../python3-cryptography/CVE-2026-26007.patch | 149 ++++++
+ .../python/python3-cryptography_42.0.5.bb     |   1 +
+ .../python3-pyopenssl/CVE-2026-27448.patch    | 124 +++++
+ .../python3-pyopenssl/CVE-2026-27459.patch    | 109 ++++
+ .../python/python3-pyopenssl_24.0.0.bb        |   5 +
+ meta/recipes-devtools/rust/rust_1.75.0.bb     |   2 +
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ .../0001-Fix-discarded-const-qualifiers.patch |  85 +++
+ meta/recipes-kernel/dtc/dtc_1.7.0.bb          |   1 +
+ .../gnutls/gnutls/CVE-2025-14831-1.patch      |  61 +++
+ .../gnutls/gnutls/CVE-2025-14831-2.patch      |  30 ++
+ .../gnutls/gnutls/CVE-2025-14831-3.patch      |  45 ++
+ .../gnutls/gnutls/CVE-2025-14831-4.patch      | 200 +++++++
+ .../gnutls/gnutls/CVE-2025-14831-5.patch      | 500 ++++++++++++++++++
+ .../gnutls/gnutls/CVE-2025-14831-6.patch      | 119 +++++
+ .../gnutls/gnutls/CVE-2025-14831-7.patch      | 150 ++++++
+ .../gnutls/gnutls/CVE-2025-14831-8.patch      | 105 ++++
+ .../gnutls/gnutls/CVE-2025-14831-9.patch      | 437 +++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   9 +
+ 34 files changed, 2600 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-config-eu.am-do-not-force-Werror.patch
+ create mode 100644 meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+ create mode 100644 meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-2.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-3.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-4.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-5.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-6.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-7.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-8.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-9.patch
+
 
