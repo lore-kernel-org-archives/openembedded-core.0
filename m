@@ -2,63 +2,63 @@ Return-Path: <charles-antoine.couret@mind.be>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E048AF3D60A
-	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 13:47:56 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29640.1774792070715473687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18683F3D60E
+	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 13:47:57 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29638.1774792068339942115
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2026 06:47:51 -0700
+ Sun, 29 Mar 2026 06:47:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mind.be header.s=google header.b=KqXJSQXO;
- spf=pass (domain: essensium.com, ip: 209.85.221.44, mailfrom: charles-antoine.couret@essensium.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43cfce3a195so116754f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 06:47:50 -0700 (PDT)
+ dkim=pass header.i=@mind.be header.s=google header.b=UICwZD9Z;
+ spf=pass (domain: essensium.com, ip: 209.85.221.53, mailfrom: charles-antoine.couret@essensium.com)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43cfbd17589so313772f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 06:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mind.be; s=google; t=1774792069; x=1775396869; darn=lists.openembedded.org;
+        d=mind.be; s=google; t=1774792067; x=1775396867; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CzQAqf6w0j08d70wxJNSzhxEpwxdWYNbRT0uzfDjNpo=;
-        b=KqXJSQXOOmDBtjzuyN40qZp7SaDK9IG/w72Njk7JbO6HFd/erFmSExgJNxnrOc2yuu
-         hYfsvh06XAbTikMzHkMtw6/lgR59Lu03/VwsKTjzjeAy2CcUNoiq4o4u1rQPvcj0sFCF
-         tx6NHFW3vhueuAoyZFNJFRF90lFqFyI65YudTqb89WDTJ4WVExXvyot3HsCiSx3SmAeN
-         JjZsDK/l0DrLi6DKZsvYlcKk8K04vIPuNc9/aeMqG7Qe8XlpfaA5iVIkeldOK+KxMouV
-         3bg7he5yZLvpfvqWrX9P1SlxxTYZI4LYrZ+PLoI4k9SRrZAm2l3NFDwvvBDxAdUWHQ95
-         X6FQ==
+        bh=qVvJJ+Gj8mlASHbywrVw9gIse80aNj0aD9a7Vi9D8b0=;
+        b=UICwZD9ZlVp5PbQB9jB9PafNk9S1UraI/qwIR3zC18SY2FxCEWjmHKUi51NsrcQGZT
+         dm0HuYVqYkIr5nWJ3j81ZyvjueP67cIdn6TyYyso1MORwBnsDYa2jg2Cgn6tP7VQe1gm
+         6rvP0Go7roiyoolE29BfKAdyw2m73qcQQLLE8W67jzn11ZOLePfNIDH8PlW16meVBA3O
+         8/HZYxPxmoWge/9UvpPi/DIdzzOF6cxoyIokQTmki+t3WXahAMi3rk+heSDqb90TckHo
+         iOHi5Izl1K7wDCvikYuhxSTvDZ72thZ17AN7GIGFwQDsWEzkSu6UP+KZkYIDTpxiYcoF
+         0Xng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774792069; x=1775396869;
+        d=1e100.net; s=20251104; t=1774792067; x=1775396867;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CzQAqf6w0j08d70wxJNSzhxEpwxdWYNbRT0uzfDjNpo=;
-        b=qF2+yBUJi96tFSMV29gupgkxfEaTJB0VJm3nPtsoQjXLSJ2Z7O90PSK9UgMUxOKRLE
-         5gGrZKqGIauyYx3KhDx5ns+SeNPSJtdeqnRvaf0IAUhMyAdJMWlck2V2U+CSuMgbhdYH
-         maTXKw1x+HKYrRPGVZ7c0TZfaB2vS6h5MfL6voFKO5ejXNvT3C71CwpYk3BPpNF+dkhB
-         O4gpMCb/rV7DnS765mn/ckrofAjKZQ9163pMlt9lkQ42L8ZqKqWAlDsMnUHd2UFxADAk
-         JfxK8Z44LBiYQNqn+TJLchaPat9OPH9nrPb3AMGxjGXG6ZLfXGrueQlM5oRhzNdSLrw3
-         f4jg==
-X-Gm-Message-State: AOJu0YxE/JeFuv+5HF6LI553/loV2abWmy1dp7pcnf+L7lQTLIttDQwX
-	az0xhFoZTPumbMhdwXfPzxDiHCOCVdqI6VCCwCIwcasr9csXPIPFj/rLyMeWKBV2YEfu9YofXDo
-	+k9z1
-X-Gm-Gg: ATEYQzxYFkWcbfKYUDC8b9sTxOle06/MmBtQihCHXXCbQyHx6CTM9rAJcE7oB9b7Q45
-	vdp24obyCEnoyTgSnQIhhW1+z772kBuMlzl3oTSXzauIl764+mhdeESVtsGluabN2CDGsP+FC6d
-	tX4db92oTjmJJVxPKvVQUgmexmpDro/GygdFuqz+8zRwtWSbL/M4BG3f3cIyvMFofccahXzLTTM
-	GoMzmeqRPSc+HQFDjzEODSkIga8yrKEZFXHCBcQrCkTwm6HVpVnyAGn85DkQ6F6zx1rtTv8QZAi
-	Yr1VqG0rSByh1YnCD1fg5JOMXd25IUIvXjkZQlQRWRJZAZItQIQszOmrJYSXbYgms/ED+apFaPp
-	9QlWj6xZyV0EfpnLMKaVRGpALyooJKPboG5pupjDUeyZIYE8q4EVHPmBABFkW/u+Nibr9vPE5EX
-	IfTBCdN8jURD2ks3vAKvmExsY5DytH7eyTjNnsIe3Y2dbMYK1xWQf9Cg==
-X-Received: by 2002:a5d:5d13:0:b0:43c:fd18:a30e with SMTP id ffacd0b85a97d-43cfd18a82fmr2407517f8f.35.1774792068985;
-        Sun, 29 Mar 2026 06:47:48 -0700 (PDT)
+        bh=qVvJJ+Gj8mlASHbywrVw9gIse80aNj0aD9a7Vi9D8b0=;
+        b=RQkN0amGJCdYqDWlQSOJE7i18iI3fiTM199jkPR3K2goYjJ8EhG/8W+5LoZk9Wah9k
+         WHnM+TOiC3VtJK0cy3ijBMwPX/raQV9dGLfDssKkbj+Ke7nw/K1FOYFG0DkZCVkcGAPo
+         GsHio7YQ8aJWVgzeAGsszaU1DTqHjPyEmVR41YWTFQxq33/MFz+snnMqPMCkcNYKEj+o
+         ockJf5q+OLyS480Fs0iMiNGQOIIUIgCYUGyxgniDZBg0oWyynVP2ZvpsC0PXSaH351WT
+         XnLtj0rGL/FnIqTDI37T0TupIhUxeUPQec+Tr4j/XySt4hxY6xk+WhRsYo3tAHXdNyxb
+         BxfQ==
+X-Gm-Message-State: AOJu0YxbxEVwr+sQxkimc/TDBI22GSNHYBARs4GM4YiCtS7anQF3Vnbs
+	DBl7hgvdko9ECih0HTsgxmUztA8mJA9Cy8WhfEIf6SO5z4UPLE5YdwVhPUMd7DnGgaRmEn9Rpy5
+	AYQaQ
+X-Gm-Gg: ATEYQzw+8iU3UihFqD6Z6GzO5Hcc8mOr6taHijL46EYybPyt/Mq8TwW8lsmd02fpG6r
+	YEnjzG1/pka2DfVpxbcxeIl7W+4SjbGb57UNQq/7W4m5y/Yryu6wXjQN2UKqFzHfJ7mxkpCvne7
+	qBriONm4vVlMHIi3zHerQjpIGKkFgRG5i9XAIIUG4KkDCICa7Igp0MRoA2HI/zGCEqtQmzyrAxw
+	UuVNDdSQpZG5KUyf7G/zjb4RsFLm8Qw1ArkxWvVBB7qYP90Oj0a0AKXVoukyGqnSZgXcVgsGkUu
+	vW6bQD8dgviYmj4UWckrHkf+mQeZ206m3RUJt+7Bs3GS+8OZr1PX4fwAd0gl61LC0+zyGRyjb2G
+	C+5S6qwi7oU9tEk/T7lkVKJPJDePsav9mm0uczJ5BOFYEIZU5LN/ZxR/d116yKUajovh2h93aJK
+	Ugs9YQ/dXwZw+vaDmTsPOuwvmaR4Uhicmuh2cQxXJWWmo=
+X-Received: by 2002:a05:6000:4203:b0:439:cb9f:d635 with SMTP id ffacd0b85a97d-43b9ea771a7mr15221725f8f.46.1774792066545;
+        Sun, 29 Mar 2026 06:47:46 -0700 (PDT)
 Received: from Jimmy.fritz.box ([2a02:578:85c6:1101:1ab9:445:1169:11e3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e9e18sm11162908f8f.9.2026.03.29.06.47.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e9e18sm11162908f8f.9.2026.03.29.06.47.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 06:47:48 -0700 (PDT)
+        Sun, 29 Mar 2026 06:47:46 -0700 (PDT)
 From: charles-antoine.couret@mind.be
 To: openembedded-core@lists.openembedded.org
 Cc: Charles-Antoine Couret <charles-antoine.couret@mind.be>
-Subject: [PATCH 5/5 v4] image: add check_image_max_size as post function to check file size against IMAGE_FILE_MAXSIZE
-Date: Sun, 29 Mar 2026 15:47:15 +0200
-Message-ID: <20260329134716.3185469-6-charles-antoine.couret@mind.be>
+Subject: [PATCH 3/5 v4] image_types: use IMAGE_FILE_MAXSIZE variable for btrfs image types
+Date: Sun, 29 Mar 2026 15:47:13 +0200
+Message-ID: <20260329134716.3185469-4-charles-antoine.couret@mind.be>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260329134716.3185469-1-charles-antoine.couret@mind.be>
 References: <20260329134716.3185469-1-charles-antoine.couret@mind.be>
@@ -67,134 +67,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 13:47:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234148
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 13:47:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234146
 
 From: Charles-Antoine Couret <charles-antoine.couret@mind.be>
 
-Trigger an error if the final size is above IMAGE_FILE_MAXSIZE value. Which is relevant if the
-partition size is fixed and the user wants to be sure that the image can be entirely installed
-into its partition.
+If defined, this variable value overrides the size of btrfs partition file created by mkfs.
+Otherwise previous logic based on ROOTFS_SIZE variable is used.
 
-If the variable is not set, no error is trigger. It works for all filesystems.
+It should be set when the final file size would not be above a specific value due to fixed
+partitionning for example.
 
 Signed-off-by: Charles-Antoine Couret <charles-antoine.couret@mind.be>
 ---
- meta/classes-recipe/image.bbclass             | 29 ++++++++++
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 53 +++++++++++++++++++
- 2 files changed, 82 insertions(+)
+ meta/classes-recipe/image_types.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
-index 53f1a9dc45..e0c66f0a31 100644
---- a/meta/classes-recipe/image.bbclass
-+++ b/meta/classes-recipe/image.bbclass
-@@ -524,6 +524,7 @@ python () {
-         d.setVarFlag(task, 'imagetype', t)
- 
-         d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size')
-+        d.prependVarFlag(task, 'postfuncs', 'check_image_max_size ')
-         d.prependVarFlag(task, 'postfuncs', 'create_symlinks ')
-         d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
-         d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
-@@ -626,6 +627,34 @@ python create_symlinks() {
-             bb.note("Skipping symlink, source does not exist: %s -> %s" % (dst, src))
- }
- 
-+#
-+# Check if image size is lighter than maximum size
-+#
-+python check_image_max_size() {
-+    def get_max_image_size(d, fs):
-+        max_size = d.getVar("IMAGE_FILE_MAXSIZE:%s" % fs)
-+        if max_size is not None:
-+            return int(max_size)
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index bcb0c75b9f..125fd64313 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -118,6 +118,12 @@ IMAGE_CMD:ext4 = "oe_mkext234fs ext4 ${@get_max_image_size(d, 'ext4')} ${EXTRA_I
+ MIN_BTRFS_SIZE ?= "16384"
+ IMAGE_CMD:btrfs () {
+ 	size=${ROOTFS_SIZE}
++	image_file_maxsize=${@get_max_image_size(d, "btrfs")}
 +
-+        return None
++	if [ ${image_file_maxsize} -ne 0 ]; then
++		size=${image_file_maxsize}
++	fi
 +
-+    deploy_dir = d.getVar('IMGDEPLOYDIR')
-+    img_name = d.getVar('IMAGE_NAME')
-+    taskname = d.getVar("BB_CURRENTTASK")
-+    subimages = (d.getVarFlag("do_" + taskname, 'subimages', False) or "").split()
-+
-+    for type in subimages:
-+        file_name = os.path.join(deploy_dir, img_name + "." + type)
-+
-+        if os.path.exists(file_name):
-+            file_size = os.stat(file_name).st_size / 1024
-+            max_size = get_max_image_size(d, type)
-+            if max_size is not None:
-+                if file_size > max_size:
-+                    bb.fatal("The image %s size %d(K) exceeds IMAGE_FILE_MAXSIZE: %d(K)" % \
-+                   (file_name, file_size, max_size))
-+}
-+
- python write_image_output_manifest() {
-     import json
-     from pathlib import Path
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 87c3da228a..b956cfd32a 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -234,6 +234,59 @@ UBINIZE_ARGS_mtd_4_256 ?= "-m 4096 -p 256KiB"
-                 self.assertTrue(os.path.exists(image_path),
-                                 "%s image %s doesn't exist" % (itype, image_path))
- 
-+    def test_image_maxsize_success(self):
-+        """
-+        Summary:     Check if the image built is below maximum size if set
-+        Expected:    image is built, size below the limit and no error are reported
-+        Product:     oe-core
-+        Author:      Charles-Antoine Couret <charles-antoine.couret@mind.be>
-+        """
-+        image = 'core-image-minimal'
-+
-+        config = """
-+IMAGE_FSTYPES += "ext4"
-+IMAGE_FILE_MAXSIZE:ext4 = "300000"
-+"""
-+        self.write_config(config)
-+
-+        res = bitbake(image)
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], image)
-+
-+        link_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'], "%s.%s" % (bb_vars['IMAGE_LINK_NAME'], "ext4"))
-+        image_path = os.path.realpath(link_path)
-+        # check if result image is in deploy directory
-+        self.assertTrue(os.path.exists(link_path),
-+                        "%s image %s does not exist" % ("ext4", link_path))
-+        # check if result image size is below than maximum value
-+        self.assertTrue(os.stat(image_path).st_size / 1024 <= 300000)
-+        # No error during execution
-+        self.assertEqual(res.status, 0)
-+
-+    def test_image_maxsize_failure(self):
-+        """
-+        Summary:     Check if the image built with size above limit is triggering error
-+        Expected:    the image size is above limit and triggers error
-+        Product:     oe-core
-+        Author:      Charles-Antoine Couret <charles-antoine.couret@mind.be>
-+        """
-+        image = 'core-image-minimal'
-+
-+        config = """
-+IMAGE_FSTYPES += "ext4"
-+IMAGE_FILE_MAXSIZE:ext4 = "1000"
-+"""
-+        self.write_config(config)
-+
-+        res = bitbake(image, ignore_status=True)
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], image)
-+
-+        link_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'], "%s.%s" % (bb_vars['IMAGE_LINK_NAME'], "ext4"))
-+        # check if result image is not generated
-+        self.assertFalse(os.path.exists(link_path),
-+                        "%s image %s exists" % ("ext4", link_path))
-+        # Error triggered during execution
-+        self.assertNotEqual(res.status, 0)
-+
-     def test_useradd_static(self):
-         config = """
- USERADDEXTENSION = "useradd-staticids"
+ 	if [ ${size} -lt ${MIN_BTRFS_SIZE} ] ; then
+ 		size=${MIN_BTRFS_SIZE}
+ 		bbwarn "Rootfs size is too small for BTRFS. Filesystem will be extended to ${size}K"
 -- 
 2.53.0
 
