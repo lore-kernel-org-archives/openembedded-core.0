@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BF91FC9804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFD6FC980C
 	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:38:19 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38621.1774823889138958394
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38627.1774823895417113650
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2026 15:38:09 -0700
+ Sun, 29 Mar 2026 15:38:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=sPVziziz;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4873ce69ba9so2619405e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:38:08 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ZLCxsB3W;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43b9144790dso2053424f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:38:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774823887; x=1775428687; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1774823893; x=1775428693; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SNnr8zCuK9rJCkrulyG7Tv1QtQHZbFJT4AbUSi4SIIA=;
-        b=sPVzizizCpPKWLQ9QEKAshCOgYYiDkUUAd5HCNqhfuOyVvfsUvnnLrZVTWE2A9XOBx
-         Gjy/QtSRJu7jSIVu/cNBiCg10cUf4plSkzOWMs4Fop37aTy6WjkTDCWKhVwmpSziM/sJ
-         LVUwPWu0dxZ8cWzruWoOpDiPF91QjBne+af5A=
+        bh=jPELm9+qfceZTCeb7cLui9XU5WzyxjQ+Dkj8uJbr3XU=;
+        b=ZLCxsB3WgfIwXIJoEavw+dpJRIRNRZaoLGrW7LiiRya9L4tbqBLpKmPVD3A8jBaY+p
+         IBHLf9AAP8zpLaWIAK03YEtbmLdPVfonaRR+1l4veJzEy0LmGK4ZN5EppbRkpsbALO+q
+         N0yMkm6ObVTwsP476rQELM576FmarWGXBzLUM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774823887; x=1775428687;
+        d=1e100.net; s=20251104; t=1774823893; x=1775428693;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=SNnr8zCuK9rJCkrulyG7Tv1QtQHZbFJT4AbUSi4SIIA=;
-        b=nFe8P06Uvn55mTlkMi/PBHUuf/5xTGESeE6nzEBh1ZzrWjSnLcuglCEqJ5YXUz2vuO
-         TawEd58eHSJILjA/VP90tT05Co2SdEOp/fRj0Uc5aXn4Yo+il+oOrkpKAMJOlfQDWCwM
-         FI03K7Iw/xrfZpV9Ihn/2b0apiuu7Bwgyn/mf0+OHGVVr42ccEkjp/TsjIoxVLDlbQVt
-         1j+rFS2PAdUCt2gyOiJaHDfUBqrWYAiCKTxOHGfipbZpB2eI+tnlJsWhiWIrGJTYEQ3b
-         dlSAU0U7qYxoHs6EudH2afR72C6ijTGl6hMKQAfuSPNpcD02rCcpFvz6vKATkBksXMQo
-         9z8g==
-X-Gm-Message-State: AOJu0YyGtDD91P1xAATsuAB6WZo3KsoEvxwZTNXhrRxgD6/sQCML/blA
-	JIm8LvOAMIAUPpjmUY7i25RRTQdTlgKumJ2Q/mKCZ6CmhjEtlse5SMqjrjuox8jdXJQzRrpJyt2
-	COK6e2kA=
-X-Gm-Gg: ATEYQzzw5tLkeGBF74b92z770uI5PxGrM3foXXyBHRlSjolBIrxfQ4czvMjjqB81URO
-	yzZTOCSgme9XAw+hxYs4VbekG5agP+66U8co7lcDDfwp345yZaW4+jacHfgLkljO48U//rF64qz
-	+2Lzm9gZ8e1otIpPzt/rhSbtIaj7eC/2mp5kufJcGasM0D0v647JQWj6tVgGnlkWDuTiy4S7Tgv
-	dMWFu7S1cEk4cQIq+e6SjuM3ZGdmLA7sZYHYLk+USMPHptZLgbi28C6/fTiHBkAGvf1RipmM7CE
-	paBAuW5uZG4hP1vUE7e2D+MPvpT8pE9RVUkQiU3mAsKPB/MMgBk8wkb3fb+DowWd8kNpzh2EiTG
-	EoneErgqr+2fe6mk2/ngrzya0ML9krRR7smvKRoRgcXAwl/y83dVdKTJO0fwPrksh/J3AhqMTPy
-	t6s87Jg88+DrUFiMPME0eGo98veWH0KEdHLTa4yDa86AEx2KuXvomPCR5NyqgbfAXleE5GlLgxp
-	DAaQ84qPzcTI7ZoXXAzxLJot9U=
-X-Received: by 2002:a05:6000:1acd:b0:43d:dd:8cae with SMTP id ffacd0b85a97d-43d00dd92c1mr841648f8f.22.1774823887209;
-        Sun, 29 Mar 2026 15:38:07 -0700 (PDT)
+        bh=jPELm9+qfceZTCeb7cLui9XU5WzyxjQ+Dkj8uJbr3XU=;
+        b=ZF4xvr52FBN0snq43OLLkhG1z+LaS5NHRjkwaHtFZN4d49lgfT1RuUZOxW6vQrhkJ9
+         FYAPn8PZUcDYRK296KPYcA46T/o9YKVLSSKiCZsAE3Yn/J8K94u7800ERo2D6C7vEbQs
+         uOuL+mIR4oom1+z0LbDshnFgr2cLdofhwv46hhirsot2dCHv3pzul2GcQsSjp+rNnL2w
+         vi7kmpk5lgM2lkKQEw/0iMOKKBPeF3Tmr7E+pxBowT2SLDT700zLg7WUTMLC6CnUmPHF
+         DzoDKLUyuXXPfCObDIzbVH4KFcOOMeT52TgU4BA5q1x7mDjPkyrx2DijRYJCxQsV5gej
+         s7gg==
+X-Gm-Message-State: AOJu0YxLlVCArchH3lRD0xo43r/0dqeQRQP8q9DQYGYEdbHdN3iLFzQo
+	JMyoD9R1SpjN/8BNoZP+NQrdmawnUDvcypjOrLk4dF2U0O7K14YUg+lx78TZwsrLdf4l1pbjJdn
+	4Y1Rv5Bg=
+X-Gm-Gg: ATEYQzxgsMWVXFhXi7bOTyRY41TQMutXMp92NaWJG2kUycE/jH12x+8rxtA1KjPX4y5
+	6+/f6zG+J5iXAQx9HK1RdxZL7fib3C/x+t8HjtZ8Grsc0FiRt9pYyBeDZ3zDONXxeOv/1d/tLE0
+	OUmgNOAezIq+C8X0Y1kFbT6fl80ITszOwlx4hxmtJho02l6KIQbVJl9+v16NbMBDpo80BiRw2e0
+	u+T3NE7dAn2ovd3aj4LOQ129n80llPsic5NLUDKKcs2ZgXc25aA1x1flhZb7wIHtBl2nY5OrmxA
+	J5G3mtjSykQAH9PsOrpstfdcE5ZNidw89C3djlmRdi60BSA0yGU6s6bim5fDnIfYrpEOWvdGyBo
+	nCZ/s1y0r52VxqvW3vyk3OKev3yH1iMvorqt+vMd93Acwlcrvuio3qfXkONQbBKEsBr4l3BENQ1
+	NKHHDT94zHWbvMQcpB0e3QLchMBRnQrWwYG1EjYJNdmDYT9TSY2F8Lbuku+3GBEq78d2TVyg+w2
+	+rHja6pHGYC/kClJgbLWdAkCJQ=
+X-Received: by 2002:a05:6000:604:b0:43b:4592:f91b with SMTP id ffacd0b85a97d-43b9e98162bmr17515375f8f.5.1774823893517;
+        Sun, 29 Mar 2026 15:38:13 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm13038542f8f.29.2026.03.29.15.38.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm13038542f8f.29.2026.03.29.15.38.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 15:38:06 -0700 (PDT)
+        Sun, 29 Mar 2026 15:38:13 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/16] yocto-uninative: Update to 5.1 for glibc 2.43
-Date: Mon, 30 Mar 2026 00:37:39 +0200
-Message-ID: <d5bc8ec69bf469385db60ff13110a4cfa2dcc67b.1774823430.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 16/16] rust: Enable dynamic linking with llvm
+Date: Mon, 30 Mar 2026 00:37:48 +0200
+Message-ID: <cb0608195e2c2893b4915f4d0f62679afbc1f2b5.1774823430.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1774823430.git.yoann.congal@smile.fr>
 References: <cover.1774823430.git.yoann.congal@smile.fr>
@@ -66,37 +66,53 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:38:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234165
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234174
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Sunil Dora <sunilkumar.dora@windriver.com>
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Fixes [Yocto #16058]
+
+A segmentation fault occurs in rustc (e.g. in
+llvm::X86ReadAdvanceTable) when reusing sstate artifacts built with
+different host toolchain versions.
+
+Issue sequence:
+1. llvm-native is built with a newer toolchain
+   (e.g. GCC 15/Binutils 2.45).
+2. rust-native is later built with an older linker.
+   (e.g. GCC 12/Binutils 2.40).
+3. The older linker statically links parts of llvm-native into
+   librustc_driver.
+4. The resulting binary crashes at runtime inside the statically
+   linked LLVM code.
+
+The corruption happens at link time when mixing static native objects
+produced by different toolchain generations.
+
+Enable dynamic LLVM linking (link-shared = true) for rust-native so rustc
+links against libLLVM.so instead of static archives, avoiding host linker
+incompatibilities when reusing sstate artifacts.
+
+Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+Suggested-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c1fb515f2a88fa0a0e95529afc07a99db001af0e)
-[YC: fix duplicated line in commit message]
+(cherry picked from commit 74ba238ff1ba1e9b612aece1989b828f3a8f8770)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/rust/rust_1.75.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index e9dc6c86408..d97c96f631f 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,10 +6,10 @@
- # to the distro running on the build machine.
- #
+diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
+index b9348bf0507..f037bb33715 100644
+--- a/meta/recipes-devtools/rust/rust_1.75.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
+@@ -128,6 +128,8 @@ python do_configure() {
  
--UNINATIVE_MAXGLIBCVERSION = "2.42"
--UNINATIVE_VERSION = "5.0"
-+UNINATIVE_MAXGLIBCVERSION = "2.43"
-+UNINATIVE_VERSION = "5.1"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "a25f2174d0cefcb22af005e9bc72ac01ae83b011c5b6d6d5bf00dac979877f76"
--UNINATIVE_CHECKSUM[i686] ?= "959cc2539b692f9b9862825c7324a0fe4d061fca742f6c259f67f581c59af956"
--UNINATIVE_CHECKSUM[x86_64] ?= "96045e8b1e242c8a849426a8506c7043f354b39f2bc0035192780e8205e23e9d"
-+UNINATIVE_CHECKSUM[aarch64] ?= "4166237a9dabd222dcb9627a9435dffd756764fabf76ed7ef2e93dc2964567ad"
-+UNINATIVE_CHECKSUM[i686] ?= "761502cc9aef4d54d0c6fe9418beb9fdd2c6220da6f2b04128c89f47902ab9ae"
-+UNINATIVE_CHECKSUM[x86_64] ?= "2b63a078c26535e0786e87f81ae69509df30f4dce40693004c527bd5e4ab2b85"
+     # [llvm]
+     config.add_section("llvm")
++    if d.getVar('PN') == "rust-native":
++        config.set("llvm", "link-shared", e(True))
+     config.set("llvm", "static-libstdcpp", e(False))
+     if "llvm" in (d.getVar('TC_CXX_RUNTIME') or ""):
+         config.set("llvm", "use-libcxx", e(True))
 
