@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFD6FC980C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A753FC9814
 	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:38:19 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38627.1774823895417113650
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38625.1774823893269265769
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2026 15:38:15 -0700
+ Sun, 29 Mar 2026 15:38:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ZLCxsB3W;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43b9144790dso2053424f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:38:15 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=FKMSnz6Z;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439c56e822eso4226964f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:38:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774823893; x=1775428693; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1774823891; x=1775428691; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jPELm9+qfceZTCeb7cLui9XU5WzyxjQ+Dkj8uJbr3XU=;
-        b=ZLCxsB3WgfIwXIJoEavw+dpJRIRNRZaoLGrW7LiiRya9L4tbqBLpKmPVD3A8jBaY+p
-         IBHLf9AAP8zpLaWIAK03YEtbmLdPVfonaRR+1l4veJzEy0LmGK4ZN5EppbRkpsbALO+q
-         N0yMkm6ObVTwsP476rQELM576FmarWGXBzLUM=
+        bh=D4ZyTCSo7Fp4GsJZT1B18oMoyKG3O3t8R4ztEVjHDGI=;
+        b=FKMSnz6ZYO+kMUbsr2ZnOAB1iCwkSjPuSx7b7kzth4S0xHAnk9YWmdoaY/npRzzRMZ
+         T64zr37R6/1b8mWd6qBj+INUCufi4yW8QGT9PwUtbyxHxebdNRSLsbkVWId/h6V7FWrn
+         YzQPI4zcXxDtMZR+0bdpXaOsR3458ZRTonpuo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774823893; x=1775428693;
+        d=1e100.net; s=20251104; t=1774823891; x=1775428691;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=jPELm9+qfceZTCeb7cLui9XU5WzyxjQ+Dkj8uJbr3XU=;
-        b=ZF4xvr52FBN0snq43OLLkhG1z+LaS5NHRjkwaHtFZN4d49lgfT1RuUZOxW6vQrhkJ9
-         FYAPn8PZUcDYRK296KPYcA46T/o9YKVLSSKiCZsAE3Yn/J8K94u7800ERo2D6C7vEbQs
-         uOuL+mIR4oom1+z0LbDshnFgr2cLdofhwv46hhirsot2dCHv3pzul2GcQsSjp+rNnL2w
-         vi7kmpk5lgM2lkKQEw/0iMOKKBPeF3Tmr7E+pxBowT2SLDT700zLg7WUTMLC6CnUmPHF
-         DzoDKLUyuXXPfCObDIzbVH4KFcOOMeT52TgU4BA5q1x7mDjPkyrx2DijRYJCxQsV5gej
-         s7gg==
-X-Gm-Message-State: AOJu0YxLlVCArchH3lRD0xo43r/0dqeQRQP8q9DQYGYEdbHdN3iLFzQo
-	JMyoD9R1SpjN/8BNoZP+NQrdmawnUDvcypjOrLk4dF2U0O7K14YUg+lx78TZwsrLdf4l1pbjJdn
-	4Y1Rv5Bg=
-X-Gm-Gg: ATEYQzxgsMWVXFhXi7bOTyRY41TQMutXMp92NaWJG2kUycE/jH12x+8rxtA1KjPX4y5
-	6+/f6zG+J5iXAQx9HK1RdxZL7fib3C/x+t8HjtZ8Grsc0FiRt9pYyBeDZ3zDONXxeOv/1d/tLE0
-	OUmgNOAezIq+C8X0Y1kFbT6fl80ITszOwlx4hxmtJho02l6KIQbVJl9+v16NbMBDpo80BiRw2e0
-	u+T3NE7dAn2ovd3aj4LOQ129n80llPsic5NLUDKKcs2ZgXc25aA1x1flhZb7wIHtBl2nY5OrmxA
-	J5G3mtjSykQAH9PsOrpstfdcE5ZNidw89C3djlmRdi60BSA0yGU6s6bim5fDnIfYrpEOWvdGyBo
-	nCZ/s1y0r52VxqvW3vyk3OKev3yH1iMvorqt+vMd93Acwlcrvuio3qfXkONQbBKEsBr4l3BENQ1
-	NKHHDT94zHWbvMQcpB0e3QLchMBRnQrWwYG1EjYJNdmDYT9TSY2F8Lbuku+3GBEq78d2TVyg+w2
-	+rHja6pHGYC/kClJgbLWdAkCJQ=
-X-Received: by 2002:a05:6000:604:b0:43b:4592:f91b with SMTP id ffacd0b85a97d-43b9e98162bmr17515375f8f.5.1774823893517;
-        Sun, 29 Mar 2026 15:38:13 -0700 (PDT)
+        bh=D4ZyTCSo7Fp4GsJZT1B18oMoyKG3O3t8R4ztEVjHDGI=;
+        b=bvmvS+1+w56kXMgdyAy64lKrgt5RMDecKRUXR8OuHPwS7OtHrJV5+gHcsC+mjXxq4I
+         wBWvRls1lkZwDXA7hxkO8DbKjwwFGrDUZEuUAid55hvcxPyd4AD1cZCPYAnaNCi/AFcR
+         aj1odC8cNgyfW7for/4YsnvdFb0o/Y2BL7n56wsMRii/sa4eES9rlFFk9MFSGY08FPqr
+         Zv/k4qzMvrGLNHdXwq/3UeENNetLLDEA5BJMN6SlW4WfKT6qtXko8N/NifuNwSE4bUda
+         xWgtssI8NE+XZe5Fbs0yQc67A+rilfFP9+tV7hltMGQvv/i3WPGN3T+AA4CBSTcwBQ0C
+         I16g==
+X-Gm-Message-State: AOJu0YwPqpAEN1KlEY9qwyX3kJYyibZBx3OI4q5WcYawJFi7AbhUoCKA
+	+V9r6fEz7xm02DsM6tUpNImNRl9gcdSSN/t80lwkKvyTCWKbay4M8JfSfvamlA8BuGqhrXKi1NA
+	BVw+XHAA=
+X-Gm-Gg: ATEYQzx/yKI5+OFSqK0ADpp6SHc+3gwW477CYg/Ya51fErff7bx65io7AquRAZbfiSh
+	GA70EyXIDsz7x6IKYXcTUip34b6A9AQTapp9b3n6uEng3A1tkTd3v+yVz1MfCYaMg9uEkLDzGn6
+	mcrv6kLu6ZxNeyuf4cj0NY66IY5gOoLX9bqwVB2Ae6n2FzcBb03iEYChwXv8FHIWOFSxdDXJrjU
+	uVoXiGkzuf4Vi2jCxoOnfeZJp41A7DIXjnx3i+2vYD6cmZiXpZWFHckbPS8LYS10yfH4GEXw6Z2
+	9yJbbmmoLMNMbcZSSqQ5QXy2QhQEVUXAYTrdOS3dHpzuB3/xQptx1LA9Z7/ymnodbx65vLDf+qZ
+	67Yqbc+D86rkJeSjQlOhCt7B+x1+uoQmGIdq3w3+j/Dw/2Sfpywu5f4AieC7JUJ30cGtdMn/7Ej
+	ChfDpghKhXW7IKhLSA/sowGtR2scjb//aZBuLLoZMA1aU9y0BU7kcWDRStnt4NLqCcY4WUkvAb6
+	j83VnUGRUgmdH+YerRRRS8k4m0=
+X-Received: by 2002:a05:6000:2210:b0:439:c2b6:d5d8 with SMTP id ffacd0b85a97d-43b9eaaeae8mr17224900f8f.36.1774823891285;
+        Sun, 29 Mar 2026 15:38:11 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm13038542f8f.29.2026.03.29.15.38.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm13038542f8f.29.2026.03.29.15.38.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 15:38:13 -0700 (PDT)
+        Sun, 29 Mar 2026 15:38:10 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/16] rust: Enable dynamic linking with llvm
-Date: Mon, 30 Mar 2026 00:37:48 +0200
-Message-ID: <cb0608195e2c2893b4915f4d0f62679afbc1f2b5.1774823430.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 13/16] systemd: backport patch to fix journal-file issue
+Date: Mon, 30 Mar 2026 00:37:45 +0200
+Message-ID: <5c63919aec50486f218123890585d791c0e45aab.1774823430.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1774823430.git.yoann.congal@smile.fr>
 References: <cover.1774823430.git.yoann.congal@smile.fr>
@@ -66,53 +66,104 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:38:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234174
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234171
 
-From: Sunil Dora <sunilkumar.dora@windriver.com>
+From: sureshha <suresh.ha@bti.bmwgroup.com>
 
-Fixes [Yocto #16058]
+Backport patch to fix systemd journal-file assertion on removed or corrupted files
 
-A segmentation fault occurs in rustc (e.g. in
-llvm::X86ReadAdvanceTable) when reusing sstate artifacts built with
-different host toolchain versions.
+Extracted from systemd MR:
+https://github.com/systemd/systemd/pull/40378
 
-Issue sequence:
-1. llvm-native is built with a newer toolchain
-   (e.g. GCC 15/Binutils 2.45).
-2. rust-native is later built with an older linker.
-   (e.g. GCC 12/Binutils 2.40).
-3. The older linker statically links parts of llvm-native into
-   librustc_driver.
-4. The resulting binary crashes at runtime inside the statically
-   linked LLVM code.
-
-The corruption happens at link time when mixing static native objects
-produced by different toolchain generations.
-
-Enable dynamic LLVM linking (link-shared = true) for rust-native so rustc
-links against libLLVM.so instead of static archives, avoiding host linker
-incompatibilities when reusing sstate artifacts.
-
-Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-Suggested-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74ba238ff1ba1e9b612aece1989b828f3a8f8770)
+Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/rust/rust_1.75.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-assertion-on-removed-or-.patch
 
-diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
-index b9348bf0507..f037bb33715 100644
---- a/meta/recipes-devtools/rust/rust_1.75.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
-@@ -128,6 +128,8 @@ python do_configure() {
+diff --git a/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+new file mode 100644
+index 00000000000..5f5551870ac
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+@@ -0,0 +1,65 @@
++From 1350f39db7e72116c3b2423db02da3ddc8e29082 Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Sun, 18 Jan 2026 19:15:31 +0900
++Subject: [PATCH] journal-file: do not trigger assertion on removed or
++ corrupted journal file
++
++When a journal file is removed or corrupted, then the value `p`, which is
++read from Object.data.entry_offset, may be zero.
++
++Note, journal_file_move_to_object() checks the passed offset and return
++-EBADMSG if it is invalid.
++
++Fixes the issue reported at
++https://github.com/systemd/systemd/pull/40372#issuecomment-3762907261.
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/2185c30de333b09f46ef28b743b123f45e774738]
++
++Comment: Patch is refreshed as per codebase of v255
++
++Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
++---
++ src/libsystemd/sd-journal/journal-file.c | 7 +++----
++ 1 file changed, 3 insertions(+), 4 deletions(-)
++
++diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/sd-journal/journal-file.c
++index 08f3b82..633de5b 100644
++--- a/src/libsystemd/sd-journal/journal-file.c
+++++ b/src/libsystemd/sd-journal/journal-file.c
++@@ -3305,7 +3305,9 @@ use_extra:
++
++ static int test_object_offset(JournalFile *f, uint64_t p, uint64_t needle) {
++         assert(f);
++-        assert(p > 0);
+++
+++        if (p <= 0)
+++                return -EBADMSG;
++
++         if (p == needle)
++                 return TEST_FOUND;
++@@ -3341,7 +3343,6 @@ static int test_object_seqnum(JournalFile *f, uint64_t p, uint64_t needle) {
++         int r;
++
++         assert(f);
++-        assert(p > 0);
++
++         r = journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
++         if (r < 0)
++@@ -3382,7 +3383,6 @@ static int test_object_realtime(JournalFile *f, uint64_t p, uint64_t needle) {
++         int r;
++
++         assert(f);
++-        assert(p > 0);
++
++         r = journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
++         if (r < 0)
++@@ -3423,7 +3423,6 @@ static int test_object_monotonic(JournalFile *f, uint64_t p, uint64_t needle) {
++         int r;
++
++         assert(f);
++-        assert(p > 0);
++
++         r = journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
++         if (r < 0)
++--
++2.34.1
+diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-core/systemd/systemd_255.21.bb
+index 87e186bbfac..504d6cbef60 100644
+--- a/meta/recipes-core/systemd/systemd_255.21.bb
++++ b/meta/recipes-core/systemd/systemd_255.21.bb
+@@ -29,6 +29,7 @@ SRC_URI += " \
+            file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-timedated-Respond-on-org.freedesktop.timedate1.SetNT.patch \
+            file://0008-implment-systemd-sysv-install-for-OE.patch \
++           file://0023-journal-file-do-not-trigger-assertion-on-removed-or-.patch \
+            "
  
-     # [llvm]
-     config.add_section("llvm")
-+    if d.getVar('PN') == "rust-native":
-+        config.set("llvm", "link-shared", e(True))
-     config.set("llvm", "static-libstdcpp", e(False))
-     if "llvm" in (d.getVar('TC_CXX_RUNTIME') or ""):
-         config.set("llvm", "use-libcxx", e(True))
+ # patches needed by musl
 
