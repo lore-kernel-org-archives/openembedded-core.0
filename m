@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37038FF4925
-	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:46:41 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38743.1774824392969133131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E06BCFF4923
+	for <webhook@archiver.kernel.org>; Sun, 29 Mar 2026 22:46:40 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38744.1774824393619180750
  for <openembedded-core@lists.openembedded.org>;
  Sun, 29 Mar 2026 15:46:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3OJ0aV8p;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48557c8ad47so29222485e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:46:32 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=kgujxQjd;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48541edecf9so49044395e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 15:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774824391; x=1775429191; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1774824392; x=1775429192; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k9l50duf5zEDAhHdXAmfFwGnkBPanJVJv49TAJEdyPQ=;
-        b=3OJ0aV8p3PZyo1FBpX7kb+3dS9hFKFZhwBABEp65cfbbAzo1rphCyXCc0SRwSxvpVA
-         8q5a12nHGaJKzytfhJYLQ95GhAIdom++RgqeNj/Md7F/xwCOEKacuxKRAHQgzS63GgfL
-         NldMGDnbO4aaerHxM1aPjeBfup6m7eUfNSTzQ=
+        bh=0dMej7lmszqTsa6UScljJ48enl+M0n1Z9R80lxhs580=;
+        b=kgujxQjdPH/hxbT1X7UAf4HqQpzaAmKSGRNZPYkC4FWhTJWPqJhyuLjnP7KNwT0qqZ
+         od0Y/or5qsxxdLfGt1vb+WHW/3AioWweLWBMMN6A9OCFitIrocnEwr8pY4A+3prDLryJ
+         mYvF5H3O2Z97L+EufJ/sQybDT2p4KvgjNDPsc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774824391; x=1775429191;
+        d=1e100.net; s=20251104; t=1774824392; x=1775429192;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=k9l50duf5zEDAhHdXAmfFwGnkBPanJVJv49TAJEdyPQ=;
-        b=rUAGKS9r6QcLbHN180jXxTr2UDTrzqpREN3IMotcghyytvRsbR4Xkh19jAZUVbuEki
-         mpZu4WI+9w5KMDN8i7UzjGbfVmp7rsXIwb8N4Lfvs+eDwMa6qGzXI/vx4P/tlTA+eqKn
-         S2PDwhZjxw10iP0NkmQo0BmSagwLINGSTlOn31KYpC9tWAMDAdw5xSv31JzN7qB9Fc6C
-         2BRpE9OgJMUSF+0eovhU+t0RV6bbd3NE4ezUSunLOGyPVnMktgSXu5pWnS3l+EmMjBD+
-         hGVrQs2zg9j7whk8FQeIBjGn9tycruVEv1DF1BX1PjAUzUL+sAIv5jBBpqe23ag92Zvn
-         zNzg==
-X-Gm-Message-State: AOJu0YzJoSBqTB5Lbbx+NTjUjyDsrxwe82zBJLwOvt7oWQm3FxMiJMuF
-	wsThh02bpPGilgV0b9gzd5ro++gSJr/zysWyv3JqQYFqHrsuDABUAzZ4s+Jd/JMB3MpiRzDufGk
-	ThCE/esc=
-X-Gm-Gg: ATEYQzzUrMfIyeXpC+73YCGV66/pUmDlnGcvBrjiK3S3HEw+jMxpfnkO41BQCpFUlnI
-	sLrprOByCDOLefyqTwunIuUuWrCC4YlRvYAtYbfOCdQpBQs8Mm+shfbKbDKdTY0Wz2sKM05ZsoU
-	5GLKsvWldffKLP26IWyBEGhF7U/Thl7qlO8GpjI1q444i1X4Jk9KVeJo4DrF4XVB02vhXRk+RIp
-	SIOhpDPrcNTMYu7LS7fcCTKbym/JXI8aEvq/Z8HS/F6MJoIg2wwlJuKDtPOkz96WmgkGPaT8MVt
-	fkNmr6SHBBJii+BQSmJcdjK7jFKGL5wARPDLAlSJs7FyOe2BKW57YN39JbEvKaLHr/kB7uP3YD6
-	2rkxZ+CyZD4W3WgtbjiadYLhimXqTlt63fwxRTytqQ3l9Iqi1cg374kA01rVBgwdnEjixphBi0C
-	Jo6oi0X9KRu45e8wm5mZL0BNCURuqmWVZTMuQ6fmRmHLe4d7kR/YHpjyDMB8fMuAeka0dAepTsI
-	8OWwebqxSxWVivAOGTHfjMxrH8=
-X-Received: by 2002:a05:600c:3d87:b0:487:1114:d42f with SMTP id 5b1f17b1804b1-48727d59da0mr175629875e9.1.1774824391034;
+        bh=0dMej7lmszqTsa6UScljJ48enl+M0n1Z9R80lxhs580=;
+        b=pWJ9pAIgHmpfoMIZbeReYkKxxRRSrmGVn+ShJglaP7ALkUTmUUZrTa7rWBly7p7B2a
+         DlWCuMtAfnYXTYuOlwNB207wr5ZyAu/AAViNxr2B9ugr90AsbzQk750MpUwWGifS5xTV
+         dgDkUch+MWUjqkXZtflUAQGc06iBRz9MHBYGnIRiTabFIed3A9bz5GgZTQHI71tUpNmM
+         qTMUvhjt9U1t0ovQhNoTvPNywmpxoFc4TIIqOS12qEUgYEhCWgByQr9J1C679LmvxYZt
+         Xo1KHu3TtveE17hRTCQL2Jg1WnpIbabvht1kLrcNkUKXmxgJm2HNXlc23IVbouPfw2Ig
+         KapA==
+X-Gm-Message-State: AOJu0YyBHLk34PDUMzv0+UqDEla+Na3UuxM+xSFvHJclRlC17cwd1WfA
+	U9IzDG3g1TxcStMZwoY3UudGLTDZceYiwwxohLzIqHbU+N80JDYE0sxdel2ivqSMrP2bsFCAsMl
+	8kbsXoV8=
+X-Gm-Gg: ATEYQzzr8+2gX2Z1kueYJgpWmJ6fE+FHJvnXvsP3GGtpJGR7O0oFuQBmtTUMu7p3DOw
+	W/VvuH3EQpwieoxqMPp4HT+t+P4Ff1ALetsnBz8YDqsQKqI76Um2brD6M29DaaGG4i7p47LJFvT
+	8hLZT23rcTez3UbvL11EsxILHqILXT4H3qYm0dMY/GOCxxHxECzQEmwK7bYj4PY9wDOK9BdYHm6
+	7+KZ2YotfbBcdK/uICptJV3Dbxj7UGmyIez+S66yZHeWBDnot4lmU0gYLoUa/vEZx0ScktMX4UU
+	WSuyuvMlT8hwqxHVdYlzwmOJnfJ7l8RVhqmlwnA9NQctb/ShChUzixsPtB6uIWvR8j+2KIpW1Hw
+	1GVCZWHfsEZhAKzXj6RMCxL8KKRzSpKwTpyqZInJhfzkvrwazIvAI4Efr43FR369tuvjrsknaZc
+	ijqvn27nTVEtCxEFHvXViQKbhSWqNzPbN0ZPytJTHzpD0T7ETbFcsT/f3yK2YL27x1z1fH28NXK
+	1GLOfIuoq4HWK3Ig4EdBYTn0uc=
+X-Received: by 2002:a05:600c:46c4:b0:485:3a03:ceca with SMTP id 5b1f17b1804b1-48727f0e53bmr188831305e9.23.1774824391603;
         Sun, 29 Mar 2026 15:46:31 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873061eeeasm133760375e9.2.2026.03.29.15.46.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873061eeeasm133760375e9.2.2026.03.29.15.46.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 15:46:30 -0700 (PDT)
+        Sun, 29 Mar 2026 15:46:31 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/11] spdx: add option to include only compiled sources
-Date: Mon, 30 Mar 2026 00:46:10 +0200
-Message-ID: <50390bb45db8560bc9d2ee3ad37979924e0046c7.1774824253.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 04/11] dtc: backport fix for build with glibc-2.43
+Date: Mon, 30 Mar 2026 00:46:11 +0200
+Message-ID: <58ef52e9ee33c76689a57e6c39e91c00c257c43f.1774824253.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1774824253.git.yoann.congal@smile.fr>
 References: <cover.1774824253.git.yoann.congal@smile.fr>
@@ -66,95 +66,135 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:46:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234184
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Mar 2026 22:46:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234185
 
-From: João Marcos Costa (Schneider Electric) <joaomarcos.costa@bootlin.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-When SPDX_INCLUDE_COMPILED_SOURCES is enabled, only include the
-source code files that are used during compilation.
+glibc-2.43 isn't used in OE builds yet, but this fixes dtc-native:
+https://errors.yoctoproject.org/Errors/Details/903983/
 
-It uses debugsource information generated during do_package.
+../sources/dtc-1.7.2/libfdt/fdt_overlay.c: In function ‘overlay_fixup_phandle’:
+../sources/dtc-1.7.2/libfdt/fdt_overlay.c:424:21: error: assignment discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+  424 |                 sep = memchr(fixup_str, ':', fixup_len);
+      |                     ^
+../sources/dtc-1.7.2/libfdt/fdt_overlay.c:434:21: error: assignment discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+  434 |                 sep = memchr(name, ':', fixup_len);
+      |                     ^
+cc1: all warnings being treated as errors
 
-This enables an external tool to use the SPDX information to disregard
-vulnerabilities that are not compiled.
-
-As example, when used with the default config with linux-yocto, the spdx size is
-reduced from 156MB to 61MB.
-
-(From OE-Core rev: c6a2f1fca76fae4c3ea471a0c63d0b453beea968)
-Adapted to existing files for SPDX3.0
-
-Tested with:
-- bitbake world on oe-core
-- oe-selftest --run-tests spdx.SPDX30Check
-
-Regarding SPDX2.2, the respective backport was already performed in
-OE-Core rev: a2866934e58fb377a73e87576c8594988a63ad1b
-
-Signed-off-by: João Marcos Costa (Schneider Electric) <joaomarcos.costa@bootlin.com>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[YC: upstream commit 28552a7b6c94060c7ab3899619ab8afb74124d02]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes/spdx-common.bbclass |  3 +++
- meta/lib/oe/spdx30_tasks.py      | 12 ++++++++++++
- 2 files changed, 15 insertions(+)
+ .../0001-Fix-discarded-const-qualifiers.patch | 85 +++++++++++++++++++
+ meta/recipes-kernel/dtc/dtc_1.7.0.bb          |  1 +
+ 2 files changed, 86 insertions(+)
+ create mode 100644 meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch
 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 713a7fc651e..ca0416d1c7f 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -26,6 +26,7 @@ SPDX_TOOL_VERSION ??= "1.0"
- SPDXRUNTIMEDEPLOY = "${SPDXDIR}/runtime-deploy"
- 
- SPDX_INCLUDE_SOURCES ??= "0"
-+SPDX_INCLUDE_COMPILED_SOURCES ??= "0"
- 
- SPDX_UUID_NAMESPACE ??= "sbom.openembedded.org"
- SPDX_NAMESPACE_PREFIX ??= "http://spdx.org/spdxdocs"
-@@ -40,6 +41,8 @@ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
- python () {
-     from oe.cve_check import extend_cve_status
-     extend_cve_status(d)
-+    if d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1":
-+        d.setVar("SPDX_INCLUDE_SOURCES", "1")
- }
- 
- def create_spdx_source_deps(d):
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index a8970dcca0f..9c422d17573 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -145,6 +145,8 @@ def add_package_files(
-     ignore_dirs=[],
-     ignore_top_level_dirs=[],
- ):
-+    import oe.spdx
+diff --git a/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch b/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch
+new file mode 100644
+index 00000000000..c643410ae9b
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.patch
+@@ -0,0 +1,85 @@
++From 861cb43eb53afff83e28ba0e0f88ffa464ebe8ca Mon Sep 17 00:00:00 2001
++From: Stephen Gallagher <sgallagh@redhat.com>
++Date: Tue, 6 Jan 2026 14:19:30 -0500
++Subject: [PATCH] Fix discarded const qualifiers
 +
-     source_date_epoch = d.getVar("SOURCE_DATE_EPOCH")
-     if source_date_epoch:
-         source_date_epoch = int(source_date_epoch)
-@@ -156,6 +158,11 @@ def add_package_files(
-         bb.note(f"Skip {topdir}")
-         return spdx_files
- 
-+    check_compiled_sources = d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1"
-+    if check_compiled_sources:
-+        compiled_sources, types = oe.spdx.get_compiled_sources(d)
-+        bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
++It's unsafe to implicitly discard the const qualifier on a pointer. In
++overlay_fixup_phandle(), this was probably just an oversight, and making
++the "sep" variable a const char * is sufficient to fix it.
 +
-     for subdir, dirs, files in os.walk(topdir, onerror=walk_error):
-         dirs[:] = [d for d in dirs if d not in ignore_dirs]
-         if subdir == str(topdir):
-@@ -171,6 +178,11 @@ def add_package_files(
-             filename = str(filepath.relative_to(topdir))
-             file_purposes = get_purposes(filepath)
- 
-+            # Check if file is compiled
-+            if check_compiled_sources:
-+                if not oe.spdx.is_compiled_source(filename, compiled_sources, types):
-+                    continue
++In create_node(), however, the "p" variable is directly modifying the
++buffer pointed to by "const char* node_name". To fix this, we need to
++actually make a duplicate of the buffer and operate on that instead.
 +
-             spdx_file = objset.new_file(
-                 get_spdxid(file_counter),
-                 filename,
++This introduces a malloc()/free()  and an unbounded strdup() into the
++operation, but fdtput isn't a long-running service and the node_name
++argument comes directly from argv, so this shouldn't introduce a
++significant performance impact.
++
++Signed-off-by: Stephen Gallagher <sgallagh@redhat.com>
++Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/dtc/dtc.git/commit/libfdt/fdt_overlay.c?h=main&id=9a1c801a1a3c102bf95c5339c9e985b26b823a21]
++---
++ fdtput.c             | 8 +++++---
++ libfdt/fdt_overlay.c | 3 ++-
++ meson.build          | 3 ++-
++ 3 files changed, 9 insertions(+), 5 deletions(-)
++
++diff --git a/fdtput.c b/fdtput.c
++index c2fecf4..8deec7e 100644
++--- a/fdtput.c
+++++ b/fdtput.c
++@@ -230,19 +230,21 @@ static int create_paths(char **blob, const char *in_path)
++ static int create_node(char **blob, const char *node_name)
++ {
++ 	int node = 0;
++-	char *p;
+++	const char *p;
+++	char *path = NULL;
++ 
++ 	p = strrchr(node_name, '/');
++ 	if (!p) {
++ 		report_error(node_name, -1, -FDT_ERR_BADPATH);
++ 		return -1;
++ 	}
++-	*p = '\0';
++ 
++ 	*blob = realloc_node(*blob, p + 1);
++ 
++ 	if (p > node_name) {
++-		node = fdt_path_offset(*blob, node_name);
+++		path = xstrndup(node_name, (size_t)(p - node_name));
+++		node = fdt_path_offset(*blob, path);
+++		free(path);
++ 		if (node < 0) {
++ 			report_error(node_name, -1, node);
++ 			return -1;
++diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
++index 5c0c398..75b0619 100644
++--- a/libfdt/fdt_overlay.c
+++++ b/libfdt/fdt_overlay.c
++@@ -431,7 +431,8 @@ static int overlay_fixup_phandle(void *fdt, void *fdto, int symbols_off,
++ 		const char *fixup_str = value;
++ 		uint32_t path_len, name_len;
++ 		uint32_t fixup_len;
++-		char *sep, *endptr;
+++		const char *sep;
+++		char *endptr;
++ 		int poffset, ret;
++ 
++ 		fixup_end = memchr(value, '\0', len);
++diff --git a/meson.build b/meson.build
++index 8952e8a..ecb0ae0 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -14,7 +14,8 @@ add_project_arguments(
++     '-Wstrict-prototypes',
++     '-Wmissing-prototypes',
++     '-Wredundant-decls',
++-    '-Wshadow'
+++    '-Wshadow',
+++    '-Wdiscarded-qualifiers'
++   ]),
++   language: 'c'
++ )
+diff --git a/meta/recipes-kernel/dtc/dtc_1.7.0.bb b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
+index 0702fc16dfa..a2f41197fda 100644
+--- a/meta/recipes-kernel/dtc/dtc_1.7.0.bb
++++ b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = " \
+     git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=main;protocol=https \
+     file://0001-meson.build-bump-version-to-1.7.0.patch \
+     file://0002-meson-allow-building-from-shallow-clones.patch \
++    file://0001-Fix-discarded-const-qualifiers.patch \
+ "
+ SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
+ 
 
