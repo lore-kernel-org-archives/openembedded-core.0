@@ -2,63 +2,64 @@ Return-Path: <adongare@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB4C1061B18
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 18:21:20 +0000 (UTC)
-Subject: Re: [scarthgap] [PATCH V2 1/2] vim: Fix CVE-2026-25749
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A441061B1B
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 18:29:00 +0000 (UTC)
+Subject: Re: [Whinlatter] [PATCH V3] vim: Fix CVE-2026-26269
 To: openembedded-core@lists.openembedded.org
 From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
 X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
 X-Originating-Platform: Windows Edge 146
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Mon, 30 Mar 2026 11:21:14 -0700
-References: <131089.1773220389419496773@lists.openembedded.org> <20260311094528.2744479-1-adongare@cisco.com> <DH75VU1XGMU1.177LB3T02RJF1@smile.fr>
-In-Reply-To: <DH75VU1XGMU1.177LB3T02RJF1@smile.fr>
-Message-ID: <173697.1774894874030687760@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="r6DOxLF98GLGoX4zyQkf"
+Date: Mon, 30 Mar 2026 11:28:54 -0700
+References: <411950.1773664515124824221@lists.openembedded.org> <20260316140013.66070-1-adongare@cisco.com> <DH75XB5A5FUG.3BGTXG13U5RQ5@smile.fr>
+In-Reply-To: <DH75XB5A5FUG.3BGTXG13U5RQ5@smile.fr>
+Message-ID: <725242.1774895334350588732@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="h6Z7PSpEpTKK9GylejxH"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 18:21:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234254
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 18:29:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234255
 
---r6DOxLF98GLGoX4zyQkf
+--h6Z7PSpEpTKK9GylejxH
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Yoann,
 
-Thank you for reviewing the patch. I have double-checked the formatting aga=
-inst the upstream repository.
+Thanks again for the review. Similar to the previous patch, I have verified=
+ the code and confirmed that the format matches the upstream repository exa=
+ctly.
 
-The context lines starting with tabs rather than a single space exactly mat=
-ch the original upstream source code indentation in src/tag.c for that spec=
-ific block. I kept the formatting identical to the upstream commit to ensur=
-e consistency and avoid introducing any unintended whitespace or indentatio=
-n issues.
+The context lines starting with tabs in this patch reflect the original ind=
+entation used in the upstream src/netbeans.c source file for that specific =
+block. I kept the tabs identical to the upstream commit to prevent any whit=
+espace mismatch or indentation errors when applying the patch.
 
-Please let me know if you would still prefer me to modify it!
+Please let me know if you would still prefer me to convert these to spaces!
 
 Thanks, Anil
 
---r6DOxLF98GLGoX4zyQkf
+--h6Z7PSpEpTKK9GylejxH
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div>
 <p data-path-to-node=3D"2,0">Hi Yoann,</p>
-<p data-path-to-node=3D"2,1">Thank you for reviewing the patch. I have doub=
-le-checked the formatting against the upstream repository.</p>
-<p data-path-to-node=3D"2,1">The context lines starting with tabs rather th=
-an a single space exactly match the original upstream source code indentati=
-on in <code data-path-to-node=3D"2,2" data-index-in-node=3D"127">src/tag.c<=
-/code> for that specific block. I kept the formatting identical to the upst=
-ream commit to ensure consistency and avoid introducing any unintended whit=
-espace or indentation issues.</p>
+<p data-path-to-node=3D"2,1">Thanks again for the review. Similar to the pr=
+evious patch, I have verified the code and confirmed that the format matche=
+s the upstream repository exactly.</p>
+<p data-path-to-node=3D"2,2">The context lines starting with tabs in this p=
+atch reflect the original indentation used in the upstream <code data-path-=
+to-node=3D"2,2" data-index-in-node=3D"105">src/netbeans.c</code> source fil=
+e for that specific block. I kept the tabs identical to the upstream commit=
+ to prevent any whitespace mismatch or indentation errors when applying the=
+ patch.</p>
 <p data-path-to-node=3D"2,3">Please let me know if you would still prefer m=
-e to modify it!</p>
+e to convert these to spaces!</p>
 <p data-path-to-node=3D"2,4">Thanks, Anil</p>
 </div>
 
---r6DOxLF98GLGoX4zyQkf--
+--h6Z7PSpEpTKK9GylejxH--
 
