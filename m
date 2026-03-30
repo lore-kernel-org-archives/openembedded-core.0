@@ -1,140 +1,114 @@
-Return-Path: <thomas.perrot@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D90CFB3CF5
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 10:05:39 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.47822.1774865130271150111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 950E4FB3CFA
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 10:18:59 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.47952.1774865937286794805
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2026 03:05:31 -0700
+ Mon, 30 Mar 2026 03:18:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=GIoVgOL+;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: thomas.perrot@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 54E47C580AD
-	for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:05:58 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4E63B5FFA8
-	for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:05:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 84D91104507FB;
-	Mon, 30 Mar 2026 12:05:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774865127; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references:autocrypt;
-	bh=uLDd48cbTUJKRWf+e7+m/IplUu/wJoIcxZRi7+AELsg=;
-	b=GIoVgOL+UZrORceRQov1fklLpeV76zYQkyL6fq2JwjLzCDNkRk+43dfG2s0r4Lc9nuWE+4
-	266GzLaaEzzFY8t7gPtrrV1zl/rApgAzeSaeInTGY/S4gR88ryEYsnDNJAUTKWAPU/L/dJ
-	kZTGCEzgGUeu4yegKx2I02oJG+kOjvA6CquVGQjfBBwNDX17HeUMIeNJX/ywoORVJLMMez
-	IJm5pldjzL8PI2mrF9SjJJlNIMKnrdDFU9/2OBrZRlwX5y/S5NX718cJ4bpxpRgB7lkf8R
-	5Kmp6m0JAvjLihg7znqCblwHTCKjFVImKv0kjz9KGGLqGk+UcILUJrdQxmaq6Q==
-Message-ID: <53d1c372f60ebae17cd0bda50df842f6716b4e69.camel@bootlin.com>
-Subject: Re: [OE-core][PATCH] lto: disable sqlite3 to fix buildpaths QA
- failure
-From: Thomas Perrot <thomas.perrot@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.perrot@bootlin.com, thomas.petazzoni@bootlin.com
-Date: Mon, 30 Mar 2026 12:05:26 +0200
-In-Reply-To: <20260328153413.279179-1-thomas.perrot@bootlin.com>
-References: <20260328153413.279179-1-thomas.perrot@bootlin.com>
-Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
- keydata=mQGNBF+/ZOUBDAC2DghCjZvmgYcve02OG7dGZ7Iy58uEwne3LB7w7nRwdAxKw7ZaiVqwY
- O+yNGVi+GVx7oA6Wn4pv46z+QDRLQiq6OseuXhkSGCg7U/yBCUq12B/GRGO1Qt2Qi1mJJT1s+1qZ5
- Gxv6Nypz9qKVn94GM2bR1hXBga0t87vBpebThOHmX5d/0dqIcVxRCM7onNb0dDyRoVgLS5rBhQzrL
- CMrJaCy39xZUy0J1SOlH4Mgk6EhJIPYY4wlzikGX6urg+Tc9EjGd78ry0e0p5U5qgjFR5QGJDy1Gn
- U3CfwbT9sowdCASDbQDUoltlv2iWJCLa0xl97KVchCa0pr7HKbFA3J5SLKqFYUBCkFL+5WudYlz2n
- XxiUgyviMQxyK+ij66kEi6/2zFDAecd43pHV7790ptqZBC3Jc67Emj7Vo3ShX6RXPPxxbeCTOF2uk
- I45aJ9XcVFH/MFE96NjXj8uahnIsiTPyuCUoJu8tj7TSQyue874qJqVQvqlFyt2aZYJZ8ruq8AEQE
- AAbQpVGhvbWFzIFBlcnJvdCA8dGhvbWFzLnBlcnJvdEBib290bGluLmNvbT6JAc4EEwEIADgCGwMF
- CwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSHQHfGpqMKIwOoEiGfwAsFcf4K7QUCX79mdwAKCRCfw
- AsFcf4K7fhbC/wP0kSl6id2E/K3+UdXk6CLMVRbCFLCREzQs5WFpQ6l/I0WGOamhrOgegdszheiVF
- orlUP8d37XSpFAqydhKGaN78V5Dps0Wmwm4lIlS4MtQXJtSLUHXDJLIZLW0pw8tiPLKsd1o/yDkXE
- dnpsjJTRG6SdDSHnyOB2/gh4p+yTaLytFdARk/r4/P26+L+FiH0fFl+RnBt19LPklfKgeDc7GwIif
- ja+nIWpp3W23DAUuI6xduEut25Q89yu7Ci8CliLfAiLy9bIGjBQWU2Y+1/j/7KuPj6VbBsZWLTZY0
- hUmpJSTnWAqc9SMsNxo7NSQuddgviz5e2tqucaRqxP02FGzNa8U4NAKdWaXrlHG5Dglj9XH0DK+SH
- +c96qqFewYD8VPQ6XAGxQcXbrtJmiMor1R2DfziispLRvJcfYs8xqabbCtoS3ouXB9XRi8hn7A2kh
- ME1ryS+Oh63JshXHnw6bmjCpVd/p+fGLIGU6A47pJOpviKR4jEO84pl2ejtDZ3Tc=
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-e4BDPi08ldsToLSiL8wB"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IJONzyym;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-482f454be5bso49847535e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 03:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1774865935; x=1775470735; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1052cDy1UoHO6YtBJriT0MGQJk0GZkGn4n4zR6rRCGc=;
+        b=IJONzyymvvL1u5wWuHVUxpMWD/o2RY9TFlDo64E0FU7+v1tXiFTUolSY7jA2V9+uJE
+         FbBcXhebzjNDmPKOYdTG9JdrLdZDgb9EK7bEZ6K4ayAQaLSF4Iias/1IwkGgMsZFaYQh
+         xRPIId1V2z11+Q7Qbb7HLzJGYEUQVgdwuadAs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774865935; x=1775470735;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1052cDy1UoHO6YtBJriT0MGQJk0GZkGn4n4zR6rRCGc=;
+        b=H+I/5UyozBz1njvpebrxf9anxCesqhMbQ02yHdgMHT0MphqBQgkGlZudHjqc8XAwEF
+         UrbN9fvW4+0Q4XzekzVzNek173CtXi9pE0eW8E5R1aPAaqmFkU75rJaBPC0lOixQ8ksn
+         +pTz+QkZg9m187sjoZEbecKd3UmazWovaQXBrZ2bB4QiFRYbhVqQmBu8WVaFB5T1i1So
+         jH5epY15EGr7AzyjKc/z5k1LvHLJsHrjFh4NV4lqh2QHn71a54wm4ZQ4HYvPaXb26Gkz
+         uNXMzRyz4bY98B4DsTnDErSnbYDD+UGfr/JOa8JI5MzeN8ZvNGFLS7MTRd1wyI5O7qB1
+         6JgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUiYBDPRY0sN7Km4YepqGXBjgUd63h7rC0RquCtQ4KiQoMr6pTd8i9NPj0NvU/w8N5narO3UCjXR1YoOdENSnN3wA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwKmflV7JSblxfaVt7DLkNinroeA/20b/ugiEcNXqbWSGjhw9YC
+	H9M7IGvqBp6SdXya+YAnCWkwMC9Q+zugeSYWE203kxjPG4UQOMri1UV8ZCnYDcn7OGI=
+X-Gm-Gg: ATEYQzxWmT+nnWqW/hVF8cVX16wP0s0zGJgk1THXEiUFuZZlZLHVuKTfl0+ztfwM8EF
+	LJA1J/ywxKN4/rSYxJT+q7TWBWZqD46eorgf9vOkNmyHOw016KMz0pgMcqA6k0y5T+WL+6lFWya
+	vM7KL3gC4mZZJFB1KHdjaC2WoPKl1T3R5J9UZlMkM+JEZbw4L3sYbjt6H7J/F0t/QjgFph359GT
+	r+QYvHlszia7MigwYUlDlGBsN2SMx39FOXBiRHbteXeSmhQq4vxfDPk9A4MRw/rf2Ff1yR5HDGL
+	QOQUiHTeIEwaI1jeqSnXX5Zw2CBXoQZ6bv1C+HJk2OLxeG+PgYNAzMYIArZA7oerZKMTKwZh75V
+	VcJEfXz3mszBJNHh4LR5aJowE/cL5p0YSm0NDrFSOzaMrEv49z4/e0GiG1XJ2hN/fK5EAMyR9Fp
+	6fYnM8G2K1YDnsUwcA21FqCYvISpZwZfIU6y3OnveEQtAr/W1geu2RLxT+kI6jhbZ5KOQZwReCc
+	Ji0Zv/p0+d++PSR
+X-Received: by 2002:a05:600c:8107:b0:487:12c:e7ea with SMTP id 5b1f17b1804b1-487290c2402mr150040305e9.5.1774865935488;
+        Mon, 30 Mar 2026 03:18:55 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:49bb:fc1a:471d:cb37? ([2001:8b0:aba:5f3c:49bb:fc1a:471d:cb37])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48727c0cdf6sm214148815e9.2.2026.03.30.03.18.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 03:18:54 -0700 (PDT)
+Message-ID: <2e2f88fe044c6b3dc868652c01f647d58abf1a33.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] lto.inc: add DEBUG_PREFIX_MAP back to
+ TARGET_LDFLAGS
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Thomas Perrot <thomas.perrot@bootlin.com>, joerg.sommer@navimatix.de, 
+	openembedded-core@lists.openembedded.org
+Cc: changqing.li@windriver.com, rs@ti.com, ricardo.salveti@oss.qualcomm.com,
+ 	raj.khem@gmail.com, antonin.godard@bootlin.com
+Date: Mon, 30 Mar 2026 11:18:54 +0100
+In-Reply-To: <0110332424c01404402aa58286399958e1449110.camel@bootlin.com>
+References: <20260204052638.284617-1-changqing.li@windriver.com>
+		 <acg3xGOKkL769U3e@navimatix.de>
+	 <0110332424c01404402aa58286399958e1449110.camel@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:05:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234221
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:18:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234222
 
-
---=-e4BDPi08ldsToLSiL8wB
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-This workaround isn't needed until the following patch has been
-applied:
-https://lore.kernel.org/all/20260204052638.284617-1-changqing.li@windriver.=
-com/
-
-Thanks, Changqing Li.
-
-Kind regards,
-Thomas Perrot
-
-On Sat, 2026-03-28 at 16:34 +0100, thomas.perrot@bootlin.com wrote:
-> From: Thomas Perrot <thomas.perrot@bootlin.com>
+On Mon, 2026-03-30 at 11:59 +0200, Thomas Perrot wrote:
+> =C2=A0=C2=A0 1. Hello,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
+> On Sat, 2026-03-28 at 21:26 +0100, J=C3=B6rg Sommer via
+> lists.openembedded.org wrote:
+> > Changqing Li via lists.openembedded.org schrieb am Mi 04. Feb,
+> > 13:26
+> > (+0800):
+> > > From: Changqing Li <changqing.li@windriver.com>
+> > >=20
+> > > DEBUG_PREFIX_MAP is appended to TARGET_LDFLAGS in commit [1] for
+> > > fixing
+> > > reproducible issue when LTO is enabled. It is removed in comit
+> > > [2]
+> > > since
+> > > this commit causes cgo binary not reproducible. But actually, we
+> > > still
+> > > need this DEBUG_PREFIX_MAP in LDFLAGS when LTO enabled. So, only
+> > > appened
+> > > it when LTO is enabled. Refer [3] for the history, with this
+> > > patch,
+> > > patch [4] is also needed for cgo + lto enabled.
+> >=20
+> > Gentle ping. This patch is missing, otherwise QA check buildpaths
+> > matches in
+> > nearly all packages.
 >=20
-> With LTO enabled, GCC performs a link-time recompilation pass where
-> DW_AT_comp_dir is set to the build directory. The -ffile-prefix-map
-> flags from DEBUG_PREFIX_MAP are not applied to this attribute during
-> LTO recompilation, leaving a raw TMPDIR path in the split debug
-> symbols of libsqlite3.so.
->=20
-> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
-> ---
-> =C2=A0meta/conf/distro/include/lto.inc | 2 ++
-> =C2=A01 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/conf/distro/include/lto.inc
-> b/meta/conf/distro/include/lto.inc
-> index 8752249685a4..b4f823681af0 100644
-> --- a/meta/conf/distro/include/lto.inc
-> +++ b/meta/conf/distro/include/lto.inc
-> @@ -21,6 +21,8 @@ LTO:pn-libbsd =3D ""
-> =C2=A0LTO:pn-perf =3D ""
-> =C2=A0# webkit is not linking properly with LTO, disable until next time
-> =C2=A0LTO:pn-webkitgtk =3D ""
-> +# LTO link-time recompilation leaves TMPDIR in DW_AT_comp_dir of
-> debug symbols
-> +LTO:pn-sqlite3 =3D ""
-> =C2=A0LTO:pn-xserver-xorg =3D ""
-> =C2=A0LTO:pn-grub =3D ""
-> =C2=A0LTO:pn-grub-efi =3D ""
+> I confirm this patch is required to fix QA check build paths for a
+> few packages.=20
 
---=20
-Thomas Perrot, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Can someone please work out a smaller reproducer to provide to upstream
+gcc/binutils so we can try and get the underlying bug fixed?
 
---=-e4BDPi08ldsToLSiL8wB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Thanks,
 
------BEGIN PGP SIGNATURE-----
+Richard
 
-iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmnKSuYACgkQn8ALBXH+
-Cu2ycQv/Q92r6aTbYXyrr1PSzMYnTR1/S4mrJ/Mi0eWJJtIlHz1AHOOFjCCFgQji
-eFRrqMbuJMi3/kqUNl0IC9gh+vJw2DXXKWzfNUZpKODBGdayADNSBTrF3kMKSJfN
-yCA2d9tt+ize1ejs4ogDZt5I2kK1rXiRLCZakR6mqfxb7kSvm4YJaDHZqfvnm0xQ
-N8b7uAk+d5jtDlqyKJzKESaUKuvL3Rh0MrIih9EftMJ97SZBhpqnYHr9qqhBursu
-3+sPuP/Oh3VTzuDEf/2lPXsQLnF7CeGdvHNe3qdsrUE5Vcqk+YEzQPxo0n3q6m5V
-jmXo5xm6nOEiVASszplFDSRWwaeOWOTFl08GVlggriazxd+0Vlf0VcWa9N7G8Tws
-yOfrazulYpNslgTianxJ4IHLhol7zoykAUdkS7E2EVP6Wvjrnl1nFLLGyzIt/Qq2
-r56r+M9NPALc7QuIr5w6ZJfWBDeXFqW7KLubLTh9HWdFy7KIVAjNhpKU4ZVynpTh
-Onn4wi20
-=bL3X
------END PGP SIGNATURE-----
-
---=-e4BDPi08ldsToLSiL8wB--
 
