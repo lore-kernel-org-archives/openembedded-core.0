@@ -1,101 +1,228 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BDAEFB3D18
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 10:50:20 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.48129.1774867817416910441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36C16FB3D1B
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 10:58:42 +0000 (UTC)
+Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.48178.1774867014764857320
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2026 03:50:17 -0700
+ Mon, 30 Mar 2026 03:36:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QufFYd+l;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so634693f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 03:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1774867816; x=1775472616; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=sjeaTYQMpJUV9tmG/Q2vfpSdN1cy92/0YeHBrkqJIXc=;
-        b=QufFYd+lwCPEo4zwSIkGApyzAz9gg5+fFifR03nM3KnBYTaiTz2fcvssKB7Z6h0sLJ
-         nayaLW9qmoEh1bXOj8MCYGydCXY3cAUvfZXO2M+Ord+VIXEnhqIk9sOu7/RgLt8Rr7SY
-         BEhw1WCGcmoRUBnI+46wJC8YRozYG/l9TDWSc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774867816; x=1775472616;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sjeaTYQMpJUV9tmG/Q2vfpSdN1cy92/0YeHBrkqJIXc=;
-        b=iTjtO8QUKUt3CA6KDo+96bvvjJIDyIsUVykY6PwEN8umc12lHY3tZqZlZ7t4GL9WBq
-         XvYgSktr3yYsr14NVcCJ5OZKdYSsIZtrLj4Uc5a3EZXLvTNWk0v9mk3qkISSOWivVIz7
-         JGPsgkT5zNAt2tJ1f0Wbt7RpzHCi4H6RaIdp+yEL+wyUGbvNyrusEYJrGcsJi+gyC4JO
-         2Uv31dVcvaHZ8FPHIKv1/fH4hkB73LE426MQ+hPRThwNUYkB7K1pfKqqaOP/wiyMTpN7
-         5JodL/iM05oSJkZv8RHGzMIKqcb+9ZF7mAurJGIHQcFUruaT7KhADzBhysbjaPGieBJR
-         Z03A==
-X-Forwarded-Encrypted: i=1; AJvYcCXys7K1HHld+Gem5Xhe22WtoT1kRqx7WbtPVPpM1YBnR4Pp/V7hMwUWAw5k26HiQxL8uggmmhF/+zk1h27LraE82Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw4rrkmq6M4yd/y5wJf7nZnDKqAPMd4ZxHZTwlLycGRzTsNCBWW
-	NyUnMnRD0/5zyTtTojPcA6BB8d2/BKn2YGAWlXNNlffCBTbQXioVB37owMMH2oX3dlE=
-X-Gm-Gg: ATEYQzxWyy2y0LftQOza7PcvO0Qd5AcjwVlBvLG3/cpTq0otJa4QFXHGoOVIWIyleTG
-	8B8mULH8JnD2VZNf/0DZPyQqlCD+W8jVjn0ifcMXjuB2zmR2GRyA6ak+zrqnHYbLosATXBe5b1w
-	B5HFDDmKRaOjadCjJhlhIJYdIXytEZSlM9uU0wumblMeFhU1waFRmDq9Dl+3yQrve1thH9UwlQO
-	m9pPNOAPhw/3LMtTW27GMj+2yljQSdvaS+mPeCnBEpddDKiIY8uU513i1ewJROa6Q6hMzwx/D3s
-	+Prvh/+DWXVgQY2TEdPGkEckgSGv8CSH8YVEAvJQCruaKNNsrfzT82NwMF05rAl3YbU1ZHDZgUu
-	5xNnArtYe2KK4zrtWLjUwXyJeO+TqW9kXXL71i9AXDyJeTMT4NNYM+DO9q1Z/N2qnligKQGC/ks
-	bKpJOXrzfaAP5Z4M1OwkF6749x3z3kJ9ofdi60L25KsDjNm7mfqY5QxyVNg66PPzJHIF3L3ztpa
-	ERAMaB9WjA24vuA
-X-Received: by 2002:a05:6000:612:b0:43d:60d:944b with SMTP id ffacd0b85a97d-43d060d9570mr772315f8f.37.1774867815703;
-        Mon, 30 Mar 2026 03:50:15 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:49bb:fc1a:471d:cb37? ([2001:8b0:aba:5f3c:49bb:fc1a:471d:cb37])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21f173dsm20812964f8f.15.2026.03.30.03.50.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 03:50:15 -0700 (PDT)
-Message-ID: <d1c47a43e10b398376ff27a65dd1be14313a5c94.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] lto.inc: add DEBUG_PREFIX_MAP back to
- TARGET_LDFLAGS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?J=F6rg?= Sommer <joerg.sommer@navimatix.de>
-Cc: Thomas Perrot <thomas.perrot@bootlin.com>, 
-	openembedded-core@lists.openembedded.org, changqing.li@windriver.com,
- rs@ti.com, 	ricardo.salveti@oss.qualcomm.com, raj.khem@gmail.com,
- antonin.godard@bootlin.com
-Date: Mon, 30 Mar 2026 11:50:14 +0100
-In-Reply-To: <acpOozTnDECIDOVg@navimatix.de>
-References: <20260204052638.284617-1-changqing.li@windriver.com>
-	 <acg3xGOKkL769U3e@navimatix.de>
-	 <0110332424c01404402aa58286399958e1449110.camel@bootlin.com>
-	 <2e2f88fe044c6b3dc868652c01f647d58abf1a33.camel@linuxfoundation.org>
-	 <acpOozTnDECIDOVg@navimatix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=TCg+YVe1;
+ spf=pass (domain: bmwtechworks.in, ip: 52.101.225.50, mailfrom: git-patches@bmwtechworks.in)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xtuFNnROjsy/H8CdSfBRi4zcmnBszICb3jFc7qdFmYaVXCd/Wxq5CJh/42Y45Up3kNLCqNbyrEXvNGnpag1iGP7XgVJyeITDPIMVyZCQNKjpFvKprhDkF92t5nqUQMMCk2A/YdS0Ka51f3CMD6Ze8ygzpk9INIgnO1R6UuaCyKFTCWPj8IOihtnfi+CVVQ2h6HDThcvT/kk7vXZafqvYPzBlEskoFtC+yJEzcrMeTLPsfwzKS830fQWWXD45ZST6jggLVDK+BDfw8hVcjOxKjJEUVmFew2Rq/7oDzQTJKRMEc8VNPX6pXXznCIfnZpJY9NQDw8moudx0rDch8lef4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8G9uDI3UiGeqcWYsxcFRcrKu+coknh365GzTO4eE7ZU=;
+ b=zAHmVRemK+XSjKJVg0Any9adgnuIr5Ny/8t6C3j9iA5jGDXX1mrlwHa4yYic7hsbFk+9L3xlCVIx9bLnuPrutycV0Dh4ErIiLhnUWMGLIJTNoA24O8FHQmErV8rYT3yWbC10dJXd/6lakJc8pCI5aOnn68LmCWasmwBq78B2jq5qpq5GtPBEvz5Qh67pOt29nNyllymSo6+ORLhlERNyPHCcRnlAeEN9wZUkOmQuLrgdYtBKAZtubEh3SoGJBmESud/HIlkgZyLymzBO3c1Ktjlbi5+3ntiTYBNHFPiv0XtRHrU2h99InPxLVeMy7eBQYmQ1+w3qLlNl3jIDxPuD8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
+ header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8G9uDI3UiGeqcWYsxcFRcrKu+coknh365GzTO4eE7ZU=;
+ b=TCg+YVe1HT4SpEK516MO7cAcZDb5U8vi7B8ahC90IVcmtlNlJH3i0O3IUkYAHLwM4w6PzNAG25eQaUjRGMMRO/0dBAh1lZoKlQLfCSHzkb0rMF7hPsvDBDx156qpJcoLZ3Qb9SPgZIvXpyXCd3krM3m2m1LfTdcPDHW9qeT39L1Y93AVcl66Pz6a3Qd1q/BUkIdCwPpvzp6kRSSp+mORLbDspw4XTj++Pt3gBvIdof7kjlZgfZZbz1P+fgyce/szHScA3LLxDbr/pfQWDHqR2Bm00vCFLV85VdQkep3JjunOkl+lIFT7zYmfA9wjHz2EXMSJTuMT02OBC4Su2rkLpA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
+Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1be::5)
+ by PN4P287MB4618.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:2de::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
+ 2026 10:22:17 +0000
+Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
+ ([fe80::c9ca:1b54:1c36:f7f2]) by PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
+ ([fe80::c9ca:1b54:1c36:f7f2%5]) with mapi id 15.20.9745.027; Mon, 30 Mar 2026
+ 10:22:17 +0000
+From: Suresh H A <git-patches@bmwtechworks.in>
+To: openembedded-core@lists.openembedded.org
+CC: sureshha <suresh.ha@bmwtechworks.in>
+Subject: [OE-core][whinlatter][PATCH] systemd: backport patch to fix journal-file issue
+Date: Mon, 30 Mar 2026 15:51:54 +0530
+Message-ID: <20260330102154.991029-1-git-patches@bmwtechworks.in>
+X-Mailer: git-send-email 2.34.1
+X-ClientProxiedBy: ME0PR01CA0036.ausprd01.prod.outlook.com
+ (2603:10c6:220:210::28) To PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:1be::5)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN0P287MB1970:EE_|PN4P287MB4618:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6bca1b7-0a73-49b8-5663-08de8e4637f5
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|55112099003|38350700014|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	IiAaLmrz6/7lZF4U5SogHSubSukmh2X/IllBevUwqz9rTUnijoyJ/ECZeXo7zDnVnAHfwIk1Z3+P/X8FKGb4euKr9hQOkZoUJ+QsM21B/FZlXFJESRil+nLP7Si+qslohOjSKccj+tGlkbAOvmVTOKNiJNDo1khF1IcDZXq9+WwbaVvTZb0WxhY0cgO8hgjlN9Fbnwd7jj8/lBqzXzdTdClB+3cg0JsvpjCH222LtGUXns4kWwhJOvxy32aiuEBobKquXB+lUt5NbFlyLbOhPWv8d9I0cluAP4yoe7Ljf4UpxtsV3l8dn7vj50OBad/88X1kUZEUY/TXfEFa+N4xn88dcyIQKxWXilHUGYD/aUkhnft9Of9lLqK/oNafzJ4DerqpZlA+fCS/CfQLHPuva8ZheucCBIwhIMzs5UDqHZaN90qd/b06zwWxA0wvWhatT/T7O517MEEuI89dSwLBdKcDi3315gd21TdXg5GDGnME969frJhJxGBf39KVkXDnQHa12iFpGCapxEbcrOUTX+n1qGlrsRr7fUBqsNBRkr5bqC/tJt5XeDKEK9urnOeIr7eK48FSD0it7QBkZjzXZxIfHqZmKVN6GMSV4u5iEmvCoVKINYtl4lA5/QttkB5s879NqwqkZozTU/roCbYSOWgJIQyEvUlyfhwnTysbq29VJG7F5zD8YHiIoO2cWjEn6T2QI4jU9eyCsLRMFrLImHjH2zqmGJQXgQlhZRjAAEl58t2nZabR8onj5CkZeBygACTxKVLz+ijN4GCvq8+ynam6k0XYWM2d+zWazuqeCIQ=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB1970.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(55112099003)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?6bhwWTfrekpiLoOy8UcEbPXsaNu0H8j6tZ4+fvfcFFek4fuxOCr4JSQ2rO5x?=
+ =?us-ascii?Q?RPeKuar253x5NsD/HfdG3bLn9BqnS4W5YCnSr64XXzz6yEFo1yjM5H6GemtP?=
+ =?us-ascii?Q?PZERvZXHctWg3R2xFS7vzHw5u/EAxYlGz3NLVe1hRqLp3TgnOtPHy3je+bWc?=
+ =?us-ascii?Q?wSSle49C5yQ84PcgqKw1biKVs/kfGyzINEMec/mRSFI2zAUzvS1YPRGRaCI5?=
+ =?us-ascii?Q?GAFXohGV4BK53lHBnf+0ahzgqt08+eU3m1uiaJfenIV1XyG5uHzeaQR/Gzxz?=
+ =?us-ascii?Q?mfCQPU9OKw5bMDocCTwkc3wyIusBEilHTZb6gWa5EzEZO4nPBHpiGnyndz8G?=
+ =?us-ascii?Q?JFMBCPLkK4RGQDs8eNSsLwJCDTKTdq4fHOolmtqx9QM/XNtEyAzgNFgZ5W4v?=
+ =?us-ascii?Q?QVHuv/71VAdvRwJhYGfmjvdCmowx1/oY4VhpaDhkSAjmEeXz2ob4R3YKiewA?=
+ =?us-ascii?Q?shWWYVHXKKv1nC4bvKQJ7mPP+hM4KuR4J5iLvRriF9HKwn8UQX1Qg214rehD?=
+ =?us-ascii?Q?9LegjrK6iFZHbzNiIHw5SVSfbX2x43zbhbOosbE55eJRfmTc/+kTJzfxcn50?=
+ =?us-ascii?Q?XmWgXPyFSfREVIFqmFNJGfWXpZEGpZXSq4VQUcKIwQ/pfCJ79vyoGpy1FhoF?=
+ =?us-ascii?Q?psq7l+1buuK4GcHZAtNJlGDNOuxQcZ96M1rr8fZY/dS7TR6Q+v/I7WrtcNmT?=
+ =?us-ascii?Q?NuDOSwWzZIpTN4pGhUHJW11Bfck2SNOnrPjJemNu8MMQLRppQPcRzCmaS2Vy?=
+ =?us-ascii?Q?3thBWJ2otYb+eGpCSsDOYKqgEi6hq/7G8StdMdcOXmDSuHfRWWr3OoH9YOL1?=
+ =?us-ascii?Q?p3VhNrsRXohk1N4vB0wLsIIneoUvr+M+YDJCgbY15zwQK5sDFBR8fnpJWdf8?=
+ =?us-ascii?Q?cKPDxnGiLd100AWjlcrmMyhfUBC8WHaC11rAgpVIquIZII6rqcT2Qz12HtyE?=
+ =?us-ascii?Q?xuqJFhH+gVtLgDD1MYa4vI5AMNy4CCusrG7hlr/lm3Bwdn9GrrTIJ8FP5vwL?=
+ =?us-ascii?Q?c6xw9yLmJvsIbWWxFAONAR1c80JM75IIopnNeMqSPTzhG4rTeGO5mwZEy/15?=
+ =?us-ascii?Q?+B7PIkyxXDyNlkh9Lw/rxjjFZTTkZJo9989KX2ubWNQ933CDh/2SGX552035?=
+ =?us-ascii?Q?u6CUI3ESkpK+f9peWfLkZfkNeAlO0qnC74tvGR3NbY5S9ZUjVKb+GHbbp1CX?=
+ =?us-ascii?Q?uW4ividqrrbMOL8YrPQt35Gm1bABDMgxUTOGcgRy5UfbAPRKBsXQ2iHVzRlU?=
+ =?us-ascii?Q?/D8puofHzFhAggdQTEgsDxox7OBTttSTgGx6i3+1f/TnE47gbLb8ttqjWn6k?=
+ =?us-ascii?Q?yAvVN9Hxo1vPZN3bvgHAWMALgHnme8m0gnOFvMDEqvPJ/bMYy0IKpXLyV2UB?=
+ =?us-ascii?Q?jrH1SStR2KEiYUNDnhtgjYaApYfVsWs+6A9ebzSqUQnrX1GMEsE01ZvyYUgG?=
+ =?us-ascii?Q?9BFs+CXppfV3sSxoDjFTc60XjSt5TUoPyl3VZQ9Fn24FkXaTWK8Sf9jpf9KW?=
+ =?us-ascii?Q?gTkLOaiqY9O1IOGS2tXyiEaMnrgcRaMyRZTndeyBBTPeywQ2s3gQdJRJIUrM?=
+ =?us-ascii?Q?RoOgwqfbD8ukDad/AV+Xb4I0l+YdFNqonaW7muWT7qo9AE8KBSPjihvOJ4yL?=
+ =?us-ascii?Q?WeACp4YU5NGkXcU8tPIqSgj0hDJmqfpI81ywjngWQZlrX62F0bRRoSFVcXB9?=
+ =?us-ascii?Q?q9FElRyggLCkiu8mwAl44kp0awk4zn+9mfCzL4rjWz8TgH+VU6PBreykTTkk?=
+ =?us-ascii?Q?riQ2CuwpJuQMTQ08m2HmPDOLDs24zI8=3D?=
+X-OriginatorOrg: bmwtechworks.in
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6bca1b7-0a73-49b8-5663-08de8e4637f5
+X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 10:22:17.2900
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1pLtSguDScZWcxnuaIWB0CPjw4DwZUyYiYVcT7/LXaOTgjeZeUiuXAzd2MbLZzyma2pnwSZbuNub1dFA85wN7QpK6zpKRcTOTLMGpX4AFuo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN4P287MB4618
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:50:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234225
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:58:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234226
 
-On Mon, 2026-03-30 at 12:23 +0200, J=C3=B6rg Sommer wrote:
-> Richard Purdie schrieb am Mo 30. M=C3=A4r, 11:18 (+0100):
-> > On Mon, 2026-03-30 at 11:59 +0200, Thomas Perrot wrote:
-> > > On Sat, 2026-03-28 at 21:26 +0100, J=C3=B6rg Sommer via
-> > > lists.openembedded.org wrote:
-> > > > Changqing Li via lists.openembedded.org schrieb am Mi 04. Feb,
-> > >=20
-> > > I confirm this patch is required to fix QA check build paths for a
-> > > few packages.=20
-> >=20
-> > Can someone please work out a smaller reproducer to provide to upstream
-> > gcc/binutils so we can try and get the underlying bug fixed?
->=20
-> I've send some simple test cases in
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D124581
+From: sureshha <suresh.ha@bmwtechworks.in>
 
-Thanks, I've tried to raise awareness in the other bug.
+Backport patch to fix systemd journal-file assertion on removed or corrupte=
+d files
 
-Cheers,
+Extracted from systemd MR:
+https://github.com/systemd/systemd/pull/40378
 
-Richard
+Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
+---
+ ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_257.8.bb    |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0027-journal-file-do-=
+not-trigger-assertion-on-removed-or-.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0027-journal-file-do-not-tri=
+gger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/002=
+7-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+new file mode 100644
+index 0000000000..e1bb556271
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0027-journal-file-do-not-trigger-as=
+sertion-on-removed-or-.patch
+@@ -0,0 +1,65 @@
++From 1350f39db7e72116c3b2423db02da3ddc8e29082 Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Sun, 18 Jan 2026 19:15:31 +0900
++Subject: [PATCH] journal-file: do not trigger assertion on removed or
++ corrupted journal file
++
++When a journal file is removed or corrupted, then the value `p`, which is
++read from Object.data.entry_offset, may be zero.
++
++Note, journal_file_move_to_object() checks the passed offset and return
++-EBADMSG if it is invalid.
++
++Fixes the issue reported at
++https://github.com/systemd/systemd/pull/40372#issuecomment-3762907261.
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/112cb=
+c37906fb97afe0ad04164262cf62d0af5e9]
++
++Comment: Patch is refreshed as per codebase of v257
++
++Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
++---
++ src/libsystemd/sd-journal/journal-file.c | 7 +++----
++ 1 file changed, 3 insertions(+), 4 deletions(-)
++
++diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/sd-=
+journal/journal-file.c
++index 08f3b82..633de5b 100644
++--- a/src/libsystemd/sd-journal/journal-file.c
+++++ b/src/libsystemd/sd-journal/journal-file.c
++@@ -3305,7 +3305,9 @@ use_extra:
++
++ static int test_object_offset(JournalFile *f, uint64_t p, uint64_t needle=
+) {
++         assert(f);
++-        assert(p > 0);
+++
+++        if (p <=3D 0)
+++                return -EBADMSG;
++
++         if (p =3D=3D needle)
++                 return TEST_FOUND;
++@@ -3341,7 +3343,6 @@ static int test_object_seqnum(JournalFile *f, uint64=
+_t p, uint64_t needle) {
++         int r;
++
++         assert(f);
++-        assert(p > 0);
++
++         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
++         if (r < 0)
++@@ -3382,7 +3383,6 @@ static int test_object_realtime(JournalFile *f, uint=
+64_t p, uint64_t needle) {
++         int r;
++
++         assert(f);
++-        assert(p > 0);
++
++         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
++         if (r < 0)
++@@ -3423,7 +3423,6 @@ static int test_object_monotonic(JournalFile *f, uin=
+t64_t p, uint64_t needle) {
++         int r;
++
++         assert(f);
++-        assert(p > 0);
++
++         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
++         if (r < 0)
++--
++2.34.1
+diff --git a/meta/recipes-core/systemd/systemd_257.8.bb b/meta/recipes-core=
+/systemd/systemd_257.8.bb
+index 549eb7fb29..a53959f816 100644
+--- a/meta/recipes-core/systemd/systemd_257.8.bb
++++ b/meta/recipes-core/systemd/systemd_257.8.bb
+@@ -29,6 +29,7 @@ SRC_URI +=3D " \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
+m.patch \
+            file://0002-implment-systemd-sysv-install-for-OE.patch \
+            file://0001-Do-not-create-var-log-README.patch \
++           file://0027-journal-file-do-not-trigger-assertion-on-removed-or=
+-.patch \
+            "
+=20
+ # patches needed by musl
+--=20
+2.34.1
+
 
