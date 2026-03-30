@@ -1,253 +1,225 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD07A1061B14
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 16:21:42 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.55534.1774887694684950620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE8F71061B15
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 16:23:02 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.27])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.55561.1774887773904707916
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2026 09:21:34 -0700
+ Mon, 30 Mar 2026 09:22:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 62UGLTgD3416249;
-	Mon, 30 Mar 2026 11:21:30 -0500
-Received: from [192.168.2.236] ([192.168.2.236])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 62UGLSh8012327;
-	Mon, 30 Mar 2026 11:21:28 -0500
-Message-ID: <761a6394-36bf-4900-ac23-2253c3d63b01@kernel.crashing.org>
-Date: Mon, 30 Mar 2026 11:21:28 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 0/5 v4] image_types: use IMAGE_FILE_MAXSIZE
- variable to create fixed partition size
-To: JPEWhacker@gmail.com, charles-antoine.couret@mind.be
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        openembedded-core@lists.openembedded.org
-References: <20260329134716.3185469-1-charles-antoine.couret@mind.be>
- <2cae9e645c767894e77f718113f4f4d689f9121e.camel@linuxfoundation.org>
- <8619f67e-d274-4d99-9290-ad36ba61c054@mind.be>
- <CAJdd5GbTvj==_77VaLLNkU69Ti06tw2-8X5jLmzEESZNN6D_Xg@mail.gmail.com>
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=pg1Cv6CE;
+ spf=pass (domain: axis.com, ip: 52.101.66.27, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JfmWqCvFAbS3Qa9xjrUclfwLJxrwY34B0jld53T8HW4zn70WqjlFo1XVtgVBKhrShxMRZqr1qXnXT7RWjTqERzAvhboIMATluRMDsXD80n4CoAgC5UeSv9FhdZ79YvElxRnW2aXj3rIqwhhacPUHaoLHGPcIFm1TQywVgxPHo9cMRxYwvxzvXLBjrGEtP68fBaDDFopc6QbBGqt6LIB2x5wz2whLOnSDmpmHav90x8Zw8zfo4XvM65AnCbfnpPU7GCVGTK0ZMX1ABUUjXXF04QJok4hkmyFxEs6VfQ74N/Ww3VK2YpyCVmbh1RQe3ce0nV0KMuuoncrGJMCr4FMcMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LOMVKGgHevP1Lg4TR9T+KkkUkiNLpZoZeNV+T7UaW8U=;
+ b=txKL3f5g+rm16oHhCqb5z4OTZX0iRJ0ckvJM2Zpi1U3xaO2TJGo+RTOjI945MZsPTmH5Bj16a9WdsUT3HsI8kuIZaTE8yQ5/lQXzwlGqh0Zn6qwBzR8T/g5X2yiihiAMqN8TRldU3e5VlFPuHsJCyB5sOhU++2IjABWFQsx5C3HIwKyJ3KpJH8R1vfNvUeotXNOwJWM6KKBJO0sskODChZtZ6Uyqxd0zewuwMErA8glCB+GqYN0Itqff/IKV+3jHyU00/pqLdfbJ5uC6l1K0P0VW/RYuILaoJvV+D3f6eJH14srAGlmw0C5HBtboAMYWJ4N28CUEwmWwFFUMtCLjgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LOMVKGgHevP1Lg4TR9T+KkkUkiNLpZoZeNV+T7UaW8U=;
+ b=pg1Cv6CE4pbma6uwMpGvvukKYSFbLQ33GrbDWXzbJ1ZENBBQXzClem6PysDciIfqkzz5HNtsqzJgGpJPWGAUHibveFWClrmU6MyUq4Q1wnfAXewfnANooslqgZ6yegQuC8lFlPE1rC6tSA3tdi3chSENafiMv6DrL/SnK5AxZLE=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by OSKPR02MB11435.eurprd02.prod.outlook.com (2603:10a6:e10:98::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
+ 2026 16:22:49 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9745.027; Mon, 30 Mar 2026
+ 16:22:49 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
+Thread-Topic: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
+Thread-Index: AQHcq8JrmSM+ut1aa0usJT8b8JwZN7XHabnQ
+Date: Mon, 30 Mar 2026 16:22:49 +0000
+Message-ID: 
+ <DB5PR02MB10213FE000AAE2E4B66AD8618EF52A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20260304103203.1649-1-wangmy@fujitsu.com>
+ <20260304103203.1649-10-wangmy@fujitsu.com>
+In-Reply-To: <20260304103203.1649-10-wangmy@fujitsu.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CAJdd5GbTvj==_77VaLLNkU69Ti06tw2-8X5jLmzEESZNN6D_Xg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|OSKPR02MB11435:EE_
+x-ms-office365-filtering-correlation-id: 45d99d64-1a15-484f-65c6-08de8e7895bd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|38070700021|22082099003|18002099003|56012099003;
+x-microsoft-antispam-message-info: 
+ IhdHNfmXvTFrPZEpxQalpghQPVPeYG1VuK44PuCzxoyV2MUnRsKpdqS7xtwgm0XxxmX5P43+ryFhQ47fxgsNAk+83JebX3PB1W0FZ5r7k/lIyleQ3oGv3dN1ExQ/etZmvqNoB8Thu/y/JbIYGCulVhqOgbHboCAstqIW6xVut/z1/3PSJgHp8p68W6UGtYca4E0TaTK0jyUtrmGBxSvpnIkvkySu0+c7Eju9eEzZgjxe5fMBUFCc/BB0UifhB0hkAyIZrj1U0jMsMArz0keX5JyUeyNY2/HoEG86beENmgogqCBgsWrLf2jcT/XmILsS+Nr2oGfTzw75+J/Fm2vSJVQod6PxpupBtrALjg4rJPye4zp7K4T8uafqTV5UgjhLAefEvZp2gjl2RPB12MuMKYs7YvjNweLr2uhjxHMRlJJoftkgBUku0MAPfTwHopUDoADdZNqUndXwIhsTbXIUcqBsF1WnLoecx4PNY3dz3N6kRHAHBVXa++P47oNPvsJ8osIRnF3wcdy1rDS/MwA76TfwEazoNQpe6Lv6RsCxxLlTxbPQfCClRk+P5le8y5+v/0Xuz9wvuKFlzZi9p0WdBDVSnqgG9Rn3SHnb+m5SMNPpibUDbIRk5+jd4rdamaRgyAdx4nV+U/6z5MPitdTKSBD+FKoqB0KTO9QZJK0U5zqNs4epFNcmKKdUtM5qJDoeOAazbpXEruE90CbyWewhwzPjmryw/TEItSMqPdHjRsg=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?/PPzfyJA/H9yQ9/TVdov+XSfkeit1M6HE2c33sq18ZY9WxzKsF/w6xjjWQf4?=
+ =?us-ascii?Q?Cy0k1tGldg+cQR3jFyR5lCOOjc9wXoexm1nEUn1kzKIVBJBxBgXbI0dQhTAU?=
+ =?us-ascii?Q?suwWtRZX+otwW9c/dYKJGkqqpmCBQD9pKRG80pILVbDxPYPyETy9C0MUDiof?=
+ =?us-ascii?Q?yC3EuEP/cZITio2RVTaLR53yioqE9P9us+tKU/s+5vJV1nFagSKnPr/Yypvw?=
+ =?us-ascii?Q?QPdPuZh087L6VwUrJseFxwEV+9Blb9cAG4UflV8WzzR3Hjrrxc0sMs4shYcW?=
+ =?us-ascii?Q?JujedyNsnQxx3z+WkecrpE7MlTn9CrnMw9jEnKvFq6rPqeNU/Sq6VAYL7PWZ?=
+ =?us-ascii?Q?EQAFUS/2iwtFImJ23hZ7y4N+/T95mmETKyw0BRGej/UXTwcJtI42brG2RbbX?=
+ =?us-ascii?Q?x9FDhShVe/pTQteehdqIb2EWseWMCBI2sBE7vS96oi7LNh0ry9mp9GuwnYa8?=
+ =?us-ascii?Q?NqmAfFpjFf3yWa1cVtc1khcpnD3NpkOripvV/tz0XmfBxogguk0Ky33/ZBZO?=
+ =?us-ascii?Q?6XMb/TmqRcfDJps2QbcucfXbTZwqsfI1lUaQ0CfUSQoeJ+/qpusqBEDLl+wB?=
+ =?us-ascii?Q?O7q9rD7amMsqQ/8OOVjCMiQwwC1h51yOBVedsD4Ehsmetq0Cc1lMGJ70qnvU?=
+ =?us-ascii?Q?+F3uQNitSO84s9SCzV9oGLleaAPGjnSNGfgf1kdJ6KPPEWLg1EJQb6XpMdYG?=
+ =?us-ascii?Q?jRpGEz9oXdAb/BNnMShHWRxGvLjjine2hktl9iI4FmxBsWGaikvtretBeynV?=
+ =?us-ascii?Q?6d/h2Ez2yYm/RZHsoX2GXCf9bKd9E8NMkEWWIQqLz3/rTBlenfpxUnkzy8ga?=
+ =?us-ascii?Q?BSFIhXtiiMBM1yPYZwd+2lfd9aTzoy5WkRTOkNLWX0fR46fEmhC7UU7LMMUs?=
+ =?us-ascii?Q?mfNAzkPgXzxkVBxCouXFv3UmZG1Z3c9VC+BIHF1IBPoIUhklxlwNDhJb0fhv?=
+ =?us-ascii?Q?Nz22Fej/A8MpmHAAeYaA02VHxP5af1olaVq0cCbW+pS0TVCtnkyaEAAALC7J?=
+ =?us-ascii?Q?2progABDQUJAa83JVYrOgN/3uXV71ooCU1DsRPiqg/CWU2/IAsc00/TrsYDv?=
+ =?us-ascii?Q?yZo//S0tR31bTk3JOhPuV2z4X+tWojbGRagrLC9iutqWR6+b0x6FnLTcUh/V?=
+ =?us-ascii?Q?1F900iM+QzZhc5k/SkY9vm/9InMqfCxSpT1Ab8U1vK7qdMVuBB2MpQcbUL6y?=
+ =?us-ascii?Q?hMKSH6acm0ijrMUVcWWmnKyW13KmcC5fhyNenJj2CCu3DP0q/gw3qUTk5zzn?=
+ =?us-ascii?Q?wpeAOj7dgD1I93jBbCxDDTyejlggkA7iRxs5N9Riiev6TpDOiy/HhSrtIYsp?=
+ =?us-ascii?Q?tff/ICkAo+gcXe+LS/pFDdv0FDiXXdF8jhlH+woCgB6fXHLeAemFtwilTBQx?=
+ =?us-ascii?Q?YfnyQyJFTKBwT48UfwPF2mxSU4EUEuk1J7jBUPCmBg5vVx5YDWxULAh0X7W1?=
+ =?us-ascii?Q?GcAP7o+a1Uv+OuGO5KV3aDPT+LGgexEtk22dcMSciUmorVsfAy/kHdFEXq22?=
+ =?us-ascii?Q?P6GEAQW1n4SyfwSvPXJ8NBLOCEYkOq12AHy1gqKw4i1z7nevXv1S6//o9yfr?=
+ =?us-ascii?Q?mM56djVkG8nL0m6Mp41SAXgEJfbaza4eNyDEeDAYblWnLsNsFyOEUFL6YjLt?=
+ =?us-ascii?Q?i0PDKMMuYuG4yeduS3nZpj2TtBEXvTlrJXWYXwLzAFC1pu7A8AepFBAv3JQv?=
+ =?us-ascii?Q?E4z74nsb6uNHM+23GM1Pg+HbfU8=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 62UGLTgD3416249
+MIME-Version: 1.0
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45d99d64-1a15-484f-65c6-08de8e7895bd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Mar 2026 16:22:49.2600
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dNy5Vl37FjtGY7NG8qVvZ3uHQ6zwW2Z7hPXYwdiHWUJiww6B41Q3atH1/AAXLfPL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSKPR02MB11435
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 16:21:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234251
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 16:23:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234252
 
+What is the status of these patches, which upgrade the GStreamer recipes=20
+to version 1.28.0?
 
+I do not see them on neither master-next nor mathieu/master-next in=20
+the openembedded-core-contrib repository.
 
-On 3/30/26 11:01 AM, Joshua Watt via lists.openembedded.org wrote:
-> On Sun, Mar 29, 2026 at 11:12=E2=80=AFAM Charles-Antoine Couret via
-> lists.openembedded.org
-> <charles-antoine.couret=3Dmind.be@lists.openembedded.org> wrote:
->>
->> Le 29/03/26 =C3=A0 18:15, Richard Purdie a =C3=A9crit :
->>> For context, these previous versions were in 2023. I think the genera=
-l
->>> concern is we already have a lot of rootfs size related variables and
->>> adding more of them complicates the user interface. It isn't clear
->>> which ones "win" when multiple conflicting settings are made.
->>>
->>> In this case the max size "wins" above any of the others.
->>
->> IMHO this makes sense because it's more specific and related to the re=
-al
->> filesystem size.
->>
->> But indeed if you want to change the design behind, I'm open to it.
->>
->>> It does
->>> appear that it isn't just a max size but a fixed size in that it will
->>> pad the filesystems to this size? That makes the name a bit
->>> confusing/misleading and was one of the concerns last time.
->>
->> In fact I realize that I've not read your previous answer last time, t=
-oo
->> focus on the CI error. Sorry, my mistake. That's why I've not taken th=
-is
->> into account for my recent changes.
->>
->> Yes, this variable is doing both (fixed + max size of the filesystem),
->> due to how filesystem tools are working. Maybe by having a more
->> "intrusive" change, we can improve it.
->>
->>
->> What I can suggest is:
->>
->> * IMAGE_ROOTFS_MAXSIZE would be used against filesystem sizes, and not
->> against precomputed rootfs sizes as done today, it's likely not really
->> relevant to keep current behavior as it. I don't know if we would be
->> able to customize the value per filesystem type as done in my proposal
->> or if a global setting is good enough.
->>
->> * if IMAGE_ROOTFS_EXTRA_SPACE is set to 0 and IMAGE_OVERHEAD_FACTOR se=
-t
->> to 1.0, don't provide size parameter to mkfs to create a dynamic and
->> minimal filesystem, to avoid the need to always provide manually extra
->> margin just for filesystem overhead
->>
->> * Then introduce a new variable like IMAGE_ROOTFS_FIXED_SIZE which can
->> be provided (if set) to mkfs tool to have a fixed partition size
->> whatever are the other settings related to rootfs size. If unset (by
->> default), previous logic can be used instead.
+//Peter
+
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of wangmy via lists.openembedded.org
+> Sent: den 4 mars 2026 11:32
+> To: openembedded-core@lists.openembedded.org
+> Cc: Wang Mingyu <wangmy@fujitsu.com>
+> Subject: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
 >=20
+> From: Wang Mingyu <wangmy@fujitsu.com>
 >=20
-> Perhaps a better option would be some sort of
-> "IMAGE_ROOTFS_ALLOW_GROW" variable that controls if an image can
-> actually grow beyond the IMAGE_ROOTFS_SIZE + overhead amount? The
-> current code basically takes the max of IMAGE_ROOTFS_SIZE & the actual
-> install size to determine the size, but this variable could supress
-> that to make it only look at IMAGE_ROOTFS_SIZE. It could also set
-> IMAGE_ROOTFS_MAXSIZE to the sum for additional checks?
-
-This makes more sense to me.
-
-Looking at the existing variables:
-
-
-IMAGE_ROOTFS_SIZE - Defines the size in Kbytes for the generated image.
-
-Really this is the minimum size, computed with actual filesystem needs.
-
-
-IMAGE_OVERHEAD_FACTOR - Defines a multiplier that the build system applie=
-s to=20
-the initial image size for cases when the multiplier times the returned d=
-isk=20
-usage value for the image is greater than the sum of IMAGE_ROOTFS_SIZE an=
-d=20
-IMAGE_ROOTFS_EXTRA_SPACE.
-
-
-IMAGE_ROOTFS_EXTRA_SPACE - Defines additional free disk space created in =
-the=20
-image in Kbytes. By default, this variable is set to '0'.
-
-
-IMAGE_ROOTFS_MAXSIZE - (not in the documentation.conf but...) This value =
-is a QA=20
-check to ensure that the filesystem does not exceed a specific size after=
-=20
-factoring in filesystem size, extra space and overhead factor.
-
-(this should be added to the docs!)
-
-
-Adding an additional boolean of "IMAGE_ROOTFS_ALLOW_GROW" would then allo=
-w those=20
-variables to be used "as-is" without the automatic growing.  (I would ass=
-ume=20
-existing behavior means ALLOW_GROW =3D 1 by default.)
-
-As far as I can tell, in this patch set that would mean:
-
-IMAGE_ROOTFS_ALLOW_GROW =3D "0"
-
-IMAGE_ROOTFS_SIZE =3D _the_ size of filesystem you want
-IMAGE_ROOTFS_EXTRA_SPACE =3D "0"
-IMAGE_OVERHEAD_FACTOR =3D "1"
-
-Then a patch similar to:
-
-def get_rootfs_size(d):
-     import subprocess, oe.utils
-
-     rootfs_alignment =3D int(d.getVar('IMAGE_ROOTFS_ALIGNMENT'))
-     overhead_factor =3D float(d.getVar('IMAGE_OVERHEAD_FACTOR'))
-     rootfs_req_size =3D int(d.getVar('IMAGE_ROOTFS_SIZE'))
-     rootfs_extra_space =3D eval(d.getVar('IMAGE_ROOTFS_EXTRA_SPACE'))
-     rootfs_maxsize =3D d.getVar('IMAGE_ROOTFS_MAXSIZE')
-     rootfs_allow_grow =3D d.getVar('IMAGE_ROOTFS_ALLOW_GROW') or "1"
-     ...
-
-     size_kb =3D oe.utils.directory_size(d.getVar("IMAGE_ROOTFS")) / 1024
-
-     if rootfs_allow_grow:
-         base_size =3D size_kb * overhead_factor
-         bb.debug(1, '%f =3D %d * %f' % (base_size, size_kb, overhead_fac=
-tor))
-         base_size2 =3D max(base_size, rootfs_req_size) + rootfs_extra_sp=
-ace
-         bb.debug(1, '%f =3D max(%f, %d)[%f] + %d' % (base_size2, base_si=
-ze,
-                  rootfs_req_size, max(base_size, rootfs_req_size),
-                  rootfs_extra_space))
-     else:
-         base_size2 =3D rootfs_req_size + rootfs_extra_space
-
-     ...
-
-(Maybe allow_grow is a bad name for the boolean, since effectively we wan=
-t to=20
-affirmatively tell the system to ignore the actual files in the filesyste=
-m..  So=20
-perhaps reversing the boolean to:
-
-IMAGE_ROOTFS_USE_FILE_SIZES  (not sure I like this name any better)
-
-but the overall change is MUCH smaller and easier to fit in and QA with t=
-he=20
-existing code (as well as document).
-
-> I think this would fit into the current model of how these size
-> variables work without needing to introduce a completely new variable
-> that does different math?
+> 0002-tests-add-support-for-install-the-tests.patch
+> refreshed for 1.28.0
 >=20
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  ...2-tests-add-support-for-install-the-tests.patch | 14 +++++++-------
+>  ...treamer1.0_1.26.9.bb =3D> gstreamer1.0_1.28.0.bb} |  2 +-
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.9.bb =3D> gs=
+treamer1.0_1.28.0.bb} (97%)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-ad=
+d-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/g=
+streamer1.0/0002-tests-add-support-for-install-the-tests.patch
+> index ccfc869813..720a6f0c97 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-suppo=
+rt-for-install-the-tests.patch
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-suppo=
+rt-for-install-the-tests.patch
+> @@ -1,4 +1,4 @@
+> -From c33063360791e178de138304e29ab2264582d917 Mon Sep 17 00:00:00 2001
+> +From 92e7d4090fa458bf02d3418cd01c960982821e92 Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sun, 11 Apr 2021 19:48:13 +0100
+>  Subject: [PATCH] tests: add support for install the tests
+> @@ -12,17 +12,17 @@ Upstream-Status: Submitted [https://gitlab.freedeskto=
+p.org/gstreamer/gstreamer/-
+>  Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+>  ---
+>   meson.build                  |  4 ++++
+> - meson_options.txt            |  1 +
+> + meson.options                |  1 +
+>   tests/check/meson.build      | 22 +++++++++++++++++++++-
+>   tests/check/template.test.in |  3 +++
+>   4 files changed, 29 insertions(+), 1 deletion(-)
+>   create mode 100644 tests/check/template.test.in
+>=20
+>  diff --git a/meson.build b/meson.build
+> -index 0a77e90..cadfaeb 100644
+> +index 8adc055..b5c9e5b 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+> -@@ -664,6 +664,10 @@ if bashcomp_dep.found()
+> +@@ -667,6 +667,10 @@ if bashcomp_dep.found()
+>     endif
+>   endif
+>=20
+> @@ -33,10 +33,10 @@ index 0a77e90..cadfaeb 100644
+>   plugins_install_dir =3D join_paths(get_option('libdir'), 'gstreamer-1.0=
+')
+>=20
+>   pkgconfig =3D import('pkgconfig')
+> -diff --git a/meson_options.txt b/meson_options.txt
+> +diff --git a/meson.options b/meson.options
+>  index 39255cf..78af552 100644
+> ---- a/meson_options.txt
+> -+++ b/meson_options.txt
+> +--- a/meson.options
+> ++++ b/meson.options
+>  @@ -16,6 +16,7 @@ option('poisoning', type : 'boolean', value : false, d=
+escription : 'Enable poiso
+>   option('memory-alignment', type: 'combo',
+>          choices : ['1', '2', '4', '8', '16', '32', '64', '128', '256', '=
+512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb b/m=
+eta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+> similarity index 97%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+> index c66f614629..63633fea05 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+> @@ -22,7 +22,7 @@ SRC_URI =3D
+> "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+>             file://0003-tests-use-a-dictionaries-for-environment.patch \
+>             file://0004-tests-add-helper-script-to-run-the-installed_test=
+s.patch \
+>             "
+> -SRC_URI[sha256sum] =3D "8ee8772e468102ebe86d414d8c4c7440dd91d9f3e9396952=
+ff23aecde80670c8"
+> +SRC_URI[sha256sum] =3D "6c8676bc39a2b41084fd4b21d2c37985c69ac979c03ce595=
+75db945a3a623afd"
+>=20
+>  PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests',=
+ '', d)} \
+>                     check \
+> --
+> 2.43.0
 
-I agree, avoid additional math, just having a variable to determine if we=
- do the=20
-'max' logic or not makes more sense to me and would be a smaller patch se=
-t.
-
---Mark
-
->>
->>
->> I'm not an expert of all filesystems so maybe this suggestion can
->> introduce problems. I don't see potential regressions for current user=
-s
->> as well.
->>
->> What do you think? Another ideas?
->>
->>
->> Thank you for your feedback.
->>
->> Regards,
->>
->> --
->>
->> Charles-Antoine Couret
->>
->> Embedded Software Developer
->>
->> +32 488 27 56 40
->> Website <https://mind.be> =E2=80=A2 LinkedIn
->> <https://www.linkedin.com/company/mind_essensium/> =E2=80=A2 Newslette=
-r
->> <http://eepurl.com/h-gy7v>
->>
->> <https://mind.be> logo
->>
->>
->>
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#234250): https://lists.openembedded.org/g/openembe=
-dded-core/message/234250
->> Mute This Topic: https://lists.openembedded.org/mt/118563509/3616948
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[mark.hatle@kernel.crashing.org]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
 
