@@ -2,44 +2,41 @@ Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80324FB3CF5
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 10:00:09 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.47746.1774864801704160465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D90CFB3CF5
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 10:05:39 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.47822.1774865130271150111
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2026 03:00:03 -0700
+ Mon, 30 Mar 2026 03:05:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=DZ8iSnA9;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: thomas.perrot@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=GIoVgOL+;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: thomas.perrot@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B7A344E42870;
-	Mon, 30 Mar 2026 09:59:59 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 54E47C580AD
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:05:58 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8D1815FFA8;
-	Mon, 30 Mar 2026 09:59:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DFFA310450D8B;
-	Mon, 30 Mar 2026 11:59:53 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4E63B5FFA8
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:05:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 84D91104507FB;
+	Mon, 30 Mar 2026 12:05:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774864798; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1774865127; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 in-reply-to:references:autocrypt;
-	bh=N918ZJ7eks/rqSahzc1cfez4Rky6HztpwX74f/AKbPQ=;
-	b=DZ8iSnA9a84VnNBENpzo8CBemY6UqvlIXpVI8qf3Tt8If2j2CL/7goVqkDsZHT2vPDIc1U
-	9cgTKqHst84JO6VBUuNSzSdijCk/GBjCydXb4QiWKGd9yFs8U3TFOi4Xojn+2uJnj2MW/J
-	/Btp/7IYtgCMWc4adgW3Xv8nALiAjRw89tcOTxuo4GIQF7R6zGxlq66SeXNMd8YDJJFBY2
-	AnGBc7n0OpQiEHIXF6h88xvEULpnAKR9UVtF3Hlnf74lwpdjQ8CEsJYKHJ/0a9elUCdJ5D
-	4AE8Mr64vY50D5qfqK1uMQfU5l8+YNxuozhV1CCNYuvv1/XXJYDYHMprTJYbSA==
-Message-ID: <0110332424c01404402aa58286399958e1449110.camel@bootlin.com>
-Subject: Re: [OE-core] [PATCH] lto.inc: add DEBUG_PREFIX_MAP back to
- TARGET_LDFLAGS
+	bh=uLDd48cbTUJKRWf+e7+m/IplUu/wJoIcxZRi7+AELsg=;
+	b=GIoVgOL+UZrORceRQov1fklLpeV76zYQkyL6fq2JwjLzCDNkRk+43dfG2s0r4Lc9nuWE+4
+	266GzLaaEzzFY8t7gPtrrV1zl/rApgAzeSaeInTGY/S4gR88ryEYsnDNJAUTKWAPU/L/dJ
+	kZTGCEzgGUeu4yegKx2I02oJG+kOjvA6CquVGQjfBBwNDX17HeUMIeNJX/ywoORVJLMMez
+	IJm5pldjzL8PI2mrF9SjJJlNIMKnrdDFU9/2OBrZRlwX5y/S5NX718cJ4bpxpRgB7lkf8R
+	5Kmp6m0JAvjLihg7znqCblwHTCKjFVImKv0kjz9KGGLqGk+UcILUJrdQxmaq6Q==
+Message-ID: <53d1c372f60ebae17cd0bda50df842f6716b4e69.camel@bootlin.com>
+Subject: Re: [OE-core][PATCH] lto: disable sqlite3 to fix buildpaths QA
+ failure
 From: Thomas Perrot <thomas.perrot@bootlin.com>
-To: joerg.sommer@navimatix.de, openembedded-core@lists.openembedded.org
-Cc: thomas.perrot@bootlin.com, changqing.li@windriver.com, rs@ti.com, 
-	ricardo.salveti@oss.qualcomm.com, raj.khem@gmail.com,
- antonin.godard@bootlin.com, 	richard.purdie@linuxfoundation.org
-Date: Mon, 30 Mar 2026 11:59:51 +0200
-In-Reply-To: <acg3xGOKkL769U3e@navimatix.de>
-References: <20260204052638.284617-1-changqing.li@windriver.com>
-	 <acg3xGOKkL769U3e@navimatix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: thomas.perrot@bootlin.com, thomas.petazzoni@bootlin.com
+Date: Mon, 30 Mar 2026 12:05:26 +0200
+In-Reply-To: <20260328153413.279179-1-thomas.perrot@bootlin.com>
+References: <20260328153413.279179-1-thomas.perrot@bootlin.com>
 Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
  keydata=mQGNBF+/ZOUBDAC2DghCjZvmgYcve02OG7dGZ7Iy58uEwne3LB7w7nRwdAxKw7ZaiVqwY
  O+yNGVi+GVx7oA6Wn4pv46z+QDRLQiq6OseuXhkSGCg7U/yBCUq12B/GRGO1Qt2Qi1mJJT1s+1qZ5
@@ -58,98 +55,86 @@ Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
  +c96qqFewYD8VPQ6XAGxQcXbrtJmiMor1R2DfziispLRvJcfYs8xqabbCtoS3ouXB9XRi8hn7A2kh
  ME1ryS+Oh63JshXHnw6bmjCpVd/p+fGLIGU6A47pJOpviKR4jEO84pl2ejtDZ3Tc=
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-zhRrWZH6P85mqeyG81vi"
+	protocol="application/pgp-signature"; boundary="=-e4BDPi08ldsToLSiL8wB"
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:00:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234220
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:05:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234221
 
 
---=-zhRrWZH6P85mqeyG81vi
+--=-e4BDPi08ldsToLSiL8wB
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-   1. Hello,
-     =20
-On Sat, 2026-03-28 at 21:26 +0100, J=C3=B6rg Sommer via
-lists.openembedded.org wrote:
-> Changqing Li via lists.openembedded.org schrieb am Mi 04. Feb, 13:26
-> (+0800):
-> > From: Changqing Li <changqing.li@windriver.com>
-> >=20
-> > DEBUG_PREFIX_MAP is appended to TARGET_LDFLAGS in commit [1] for
-> > fixing
-> > reproducible issue when LTO is enabled. It is removed in comit [2]
-> > since
-> > this commit causes cgo binary not reproducible. But actually, we
-> > still
-> > need this DEBUG_PREFIX_MAP in LDFLAGS when LTO enabled. So, only
-> > appened
-> > it when LTO is enabled. Refer [3] for the history, with this patch,
-> > patch [4] is also needed for cgo + lto enabled.
->=20
-> Gentle ping. This patch is missing, otherwise QA check buildpaths
-> matches in
-> nearly all packages.
+Hello,
 
-I confirm this patch is required to fix QA check build paths for a few
-packages.=20
+This workaround isn't needed until the following patch has been
+applied:
+https://lore.kernel.org/all/20260204052638.284617-1-changqing.li@windriver.=
+com/
+
+Thanks, Changqing Li.
+
 Kind regards,
 Thomas Perrot
 
+On Sat, 2026-03-28 at 16:34 +0100, thomas.perrot@bootlin.com wrote:
+> From: Thomas Perrot <thomas.perrot@bootlin.com>
 >=20
-> But this still leaves some packages with buildpaths, because there's
-> a bug
-> in gcc that it does not apply -ffile-prefix-map:
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D124581
+> With LTO enabled, GCC performs a link-time recompilation pass where
+> DW_AT_comp_dir is set to the build directory. The -ffile-prefix-map
+> flags from DEBUG_PREFIX_MAP are not applied to this attribute during
+> LTO recompilation, leaving a raw TMPDIR path in the split debug
+> symbols of libsqlite3.so.
 >=20
-> > diff --git a/meta/conf/distro/include/lto.inc
-> > b/meta/conf/distro/include/lto.inc
-> > index 227f0c5c2a..cef92901e3 100644
-> > --- a/meta/conf/distro/include/lto.inc
-> > +++ b/meta/conf/distro/include/lto.inc
-> > @@ -49,5 +49,6 @@ LTO:toolchain-clang =3D
-> > "${@bb.utils.contains('DISTRO_FEATURES', 'thin-lto', '-flt
-> > =C2=A0
-> > =C2=A0SELECTED_OPTIMIZATION:append =3D
-> > "${@bb.utils.contains('DISTRO_FEATURES', 'lto', ' ${LTO}', '', d)}"
-> > =C2=A0TARGET_LDFLAGS:append:class-target =3D
-> > "${@bb.utils.contains('DISTRO_FEATURES', 'lto', ' ${LTO}', '', d)}"
-> > +TARGET_LDFLAGS:append:class-target =3D
-> > "${@bb.utils.contains('DISTRO_FEATURES', 'lto', '
-> > ${DEBUG_PREFIX_MAP}', '', d)}"
+> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> ---
+> =C2=A0meta/conf/distro/include/lto.inc | 2 ++
+> =C2=A01 file changed, 2 insertions(+)
 >=20
-> Possibly, I would join these lines.
->=20
->=20
-> Best regards J=C3=B6rg
+> diff --git a/meta/conf/distro/include/lto.inc
+> b/meta/conf/distro/include/lto.inc
+> index 8752249685a4..b4f823681af0 100644
+> --- a/meta/conf/distro/include/lto.inc
+> +++ b/meta/conf/distro/include/lto.inc
+> @@ -21,6 +21,8 @@ LTO:pn-libbsd =3D ""
+> =C2=A0LTO:pn-perf =3D ""
+> =C2=A0# webkit is not linking properly with LTO, disable until next time
+> =C2=A0LTO:pn-webkitgtk =3D ""
+> +# LTO link-time recompilation leaves TMPDIR in DW_AT_comp_dir of
+> debug symbols
+> +LTO:pn-sqlite3 =3D ""
+> =C2=A0LTO:pn-xserver-xorg =3D ""
+> =C2=A0LTO:pn-grub =3D ""
+> =C2=A0LTO:pn-grub-efi =3D ""
 
 --=20
-Thomas Perrot, Bootlin Embedded Linux and kernel engineering
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
 https://bootlin.com
 
---=-zhRrWZH6P85mqeyG81vi
+--=-e4BDPi08ldsToLSiL8wB
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmnKSZcACgkQn8ALBXH+
-Cu1YcQv6ArS+Fd3E9dfUEpYKduAgBz5RcgGmClk/CQOuh+u8I/XsYDG3N2tqxgVQ
-izfFzMAf8/6/4GJIKc2dOln71m0fgqa6yVF+761/O+hAziMA/mWcIwErfNYv9YHf
-1UCmclXKe9c/8GQyfkT0n4fJQQZ0NhNy0fRGypa5+aEdLr0Exst++6bSRRMztCoj
-ls8ttsOPFAA/M1g2egR/d2g8dy6sO0/O2SXskqcw1didKHWnLVhLzaS12REOVX0K
-KwHUXVCwH6V4kVxq0OLQMlkeDc6w8L6t1nxJNicQLd1H9p4s4BlVgIQAEhN8RcFb
-mbJSY0NljG8EAYsbvUn39d9eawfntvcFrIAT5187uaMc2YhSGpCADMVszcWBx8zW
-1oVISsgUjfOyPRkx1EwzTO1nXbYtgbHyZzyVel2ODQbXI69PrWi93T5pdhZB+Y7y
-GeL2fBAZwriHZ+N1tlNgUgBG1w3ZYezkYSucZh5uZwA0GG2as1Ld0HwkbNUXzJGv
-0az+JDtL
-=JkMQ
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmnKSuYACgkQn8ALBXH+
+Cu2ycQv/Q92r6aTbYXyrr1PSzMYnTR1/S4mrJ/Mi0eWJJtIlHz1AHOOFjCCFgQji
+eFRrqMbuJMi3/kqUNl0IC9gh+vJw2DXXKWzfNUZpKODBGdayADNSBTrF3kMKSJfN
+yCA2d9tt+ize1ejs4ogDZt5I2kK1rXiRLCZakR6mqfxb7kSvm4YJaDHZqfvnm0xQ
+N8b7uAk+d5jtDlqyKJzKESaUKuvL3Rh0MrIih9EftMJ97SZBhpqnYHr9qqhBursu
+3+sPuP/Oh3VTzuDEf/2lPXsQLnF7CeGdvHNe3qdsrUE5Vcqk+YEzQPxo0n3q6m5V
+jmXo5xm6nOEiVASszplFDSRWwaeOWOTFl08GVlggriazxd+0Vlf0VcWa9N7G8Tws
+yOfrazulYpNslgTianxJ4IHLhol7zoykAUdkS7E2EVP6Wvjrnl1nFLLGyzIt/Qq2
+r56r+M9NPALc7QuIr5w6ZJfWBDeXFqW7KLubLTh9HWdFy7KIVAjNhpKU4ZVynpTh
+Onn4wi20
+=bL3X
 -----END PGP SIGNATURE-----
 
---=-zhRrWZH6P85mqeyG81vi--
+--=-e4BDPi08ldsToLSiL8wB--
 
