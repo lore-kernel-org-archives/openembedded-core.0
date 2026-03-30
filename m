@@ -2,32 +2,32 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C66C10D14B2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6F710D14B3
 	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 13:28:37 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.51290.1774877316503534024
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.51289.1774877316172397801
  for <openembedded-core@lists.openembedded.org>;
  Mon, 30 Mar 2026 06:28:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=JV4PJ0P8;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=Yj6qd7D5;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35DA13580
-	for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 06:28:30 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9DAFB3562
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 06:28:29 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BEB193F7D8
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 32C3F3F7D8
 	for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 06:28:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774877316; bh=e2aeHszUknUzkVfYZWj+nD0VtqnGTXaiM5sQW4Cm3Tk=;
+	t=1774877315; bh=74TD6YN1FtFP+HqwemVIkt8TxRNVa9xChZyCAyw9uag=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=JV4PJ0P8AS6kNgb39EXRHuezk/SPb+3nbmjZRzsBTtRtVo4NZzI9ADIvDajNPURxW
-	 qn0cPk8ThY6GVxyODDU7WnFslqMvCvj+3apTpcxRYl3CLYafA4j6ttSOe9rEH5LEo3
-	 IQS6cA1CaWG7m5VLgYbt6SYV7Z7wQfu+2YA5Aejs=
+	b=Yj6qd7D524+O5TdVVoY2COeHRERlQfnBPi09M918zKM4i751Zxn33XwhJXPmaf8zA
+	 9zSxaGsS5KrUO3HhIJVabou4k5VOyACJphOvNn9HBUTPhVI5+Ub5UwZ817igZ/ZlTm
+	 B+QOcl+vQL1sP3T1r3/u1HbJ/cY0M6LcEoxhsfqA=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] recipes: remove redundant autoreconf excludes
-Date: Mon, 30 Mar 2026 14:28:25 +0100
-Message-ID: <20260330132825.1784802-4-ross.burton@arm.com>
+Subject: [PATCH 3/4] autoconf: upgrade to 2.73
+Date: Mon, 30 Mar 2026 14:28:24 +0100
+Message-ID: <20260330132825.1784802-3-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260330132825.1784802-1-ross.burton@arm.com>
 References: <20260330132825.1784802-1-ross.burton@arm.com>
@@ -37,279 +37,298 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 13:28:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234236
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234235
 
-With autoconf 2.73 autoreconf is better at not forcibly running aclocal
-or autoheader if the relevant files are not managed by those tools.
+man-host-perl.patch and autoreconf-exclude.patch are now upstream.
 
-This means we can remove a number of explicit excludes as they are no
-longer needed.
+Remove a hunk from autotest-automake-result-format.patch that has no
+purpose.
+
+License-Update: postal address changed.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb   | 1 -
- meta/recipes-connectivity/openssh/openssh_10.2p1.bb   | 2 --
- meta/recipes-connectivity/socat/socat_1.8.1.1.bb      | 2 --
- meta/recipes-core/readline/readline.inc               | 3 ---
- meta/recipes-devtools/diffstat/diffstat_1.68.bb       | 2 --
- meta/recipes-devtools/expect/expect_5.45.4.bb         | 2 --
- meta/recipes-devtools/help2man/help2man_1.49.3.bb     | 4 ----
- meta/recipes-devtools/quilt/quilt.inc                 | 2 --
- meta/recipes-devtools/ruby/ruby_4.0.1.bb              | 2 --
- meta/recipes-devtools/subversion/subversion_1.14.5.bb | 2 --
- meta/recipes-devtools/tcltk/tcl_9.0.3.bb              | 1 -
- meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb           | 1 -
- meta/recipes-extended/bash/bash.inc                   | 1 -
- meta/recipes-extended/cups/cups.inc                   | 2 --
- meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc       | 3 ---
- meta/recipes-support/nettle/nettle_3.10.2.bb          | 2 --
- 16 files changed, 32 deletions(-)
+ .../autoconf/autoreconf-exclude.patch         | 121 ------------------
+ .../autotest-automake-result-format.patch     |  15 ---
+ .../autoconf/autoconf/man-host-perl.patch     |  31 -----
+ .../{autoconf_2.72.bb =3D> autoconf_2.73.bb}    |  19 +--
+ 4 files changed, 7 insertions(+), 179 deletions(-)
+ delete mode 100644 meta/recipes-devtools/autoconf/autoconf/autoreconf-ex=
+clude.patch
+ delete mode 100644 meta/recipes-devtools/autoconf/autoconf/man-host-perl=
+.patch
+ rename meta/recipes-devtools/autoconf/{autoconf_2.72.bb =3D> autoconf_2.=
+73.bb} (81%)
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb b/meta/r=
-ecipes-connectivity/libpcap/libpcap_1.10.6.bb
-index 1b10001035b..9b259396f06 100644
---- a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
-+++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
-@@ -25,7 +25,6 @@ EXTRA_OECONF =3D " \
-                  --without-dag \
-                  --without-dpdk \
-                  "
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
-=20
- PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth'=
-, 'bluez5', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.2p1.bb b/meta/r=
-ecipes-connectivity/openssh/openssh_10.2p1.bb
-index 929c9e4b9fb..96cb09acc0e 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
-@@ -66,8 +66,6 @@ PACKAGECONFIG[hostkey-rsa] =3D ""
- PACKAGECONFIG[hostkey-ecdsa] =3D ""
- PACKAGECONFIG[hostkey-ed25519] =3D ""
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
+diff --git a/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.p=
+atch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch
+deleted file mode 100644
+index 28141962008..00000000000
+--- a/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch
++++ /dev/null
+@@ -1,121 +0,0 @@
+-From 1a50157aa11da48921200a0d8d4308863716eab0 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Thu, 12 Mar 2020 17:25:23 +0000
+-Subject: [PATCH] autoreconf-exclude.patch
 -
- # login path is hardcoded in sshd
- EXTRA_OECONF =3D "'LOGIN_PROGRAM=3D${base_bindir}/login' \
-                 ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--with-p=
-am', '--without-pam', d)} \
-diff --git a/meta/recipes-connectivity/socat/socat_1.8.1.1.bb b/meta/reci=
-pes-connectivity/socat/socat_1.8.1.1.bb
-index f6f2a3304b9..e662c79a754 100644
---- a/meta/recipes-connectivity/socat/socat_1.8.1.1.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.8.1.1.bb
-@@ -17,8 +17,6 @@ SRC_URI[sha256sum] =3D "5ebc636b7f427053f98806696521653=
-a614c7e06464910353cbf54e232
-=20
- inherit autotools
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Dautoheader"
+-Upstream-Status: Inappropriate [oe specific]
 -
- EXTRA_OECONF +=3D "ac_cv_have_z_modifier=3Dyes \
-                  ac_cv_header_bsd_libutil_h=3Dno \
-                  sc_cv_termios_ispeed=3Dno \
-diff --git a/meta/recipes-core/readline/readline.inc b/meta/recipes-core/=
-readline/readline.inc
-index 06630dc455c..8b07ecbcce7 100644
---- a/meta/recipes-core/readline/readline.inc
-+++ b/meta/recipes-core/readline/readline.inc
-@@ -17,9 +17,6 @@ SRC_URI +=3D "file://inputrc"
-=20
- inherit autotools texinfo
-=20
--# Ensure we don't delete the shipped aclocal.m4 or config.h.in
--EXTRA_AUTORECONF +=3D "--exclude=3Dautoheader,aclocal"
+----
+- bin/autoreconf.in | 26 ++++++++++++++++++++++++++
+- 1 file changed, 26 insertions(+)
 -
- EXTRA_OECONF +=3D "bash_cv_termcap_lib=3Dncurses --with-shared-termcap-l=
-ibrary"
-=20
- LEAD_SONAME =3D "libreadline.so"
-diff --git a/meta/recipes-devtools/diffstat/diffstat_1.68.bb b/meta/recip=
-es-devtools/diffstat/diffstat_1.68.bb
-index 4bc18158378..ce1ba79c2d1 100644
---- a/meta/recipes-devtools/diffstat/diffstat_1.68.bb
-+++ b/meta/recipes-devtools/diffstat/diffstat_1.68.bb
-@@ -17,8 +17,6 @@ SRC_URI[sha256sum] =3D "89f9294a8ac74fcef6f1b9ac408f43e=
-bedf8d208e3efe0b99b4acc16dc
-=20
- inherit autotools gettext ptest
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
+-diff --git a/bin/autoreconf.in b/bin/autoreconf.in
+-index 98ebab6..937f758 100644
+---- a/bin/autoreconf.in
+-+++ b/bin/autoreconf.in
+-@@ -83,6 +83,7 @@ Operation modes:
+-   -i, --install            copy missing standard auxiliary files
+-       --no-recursive       don't rebuild sub-packages
+-   -s, --symlink            with -i, install symbolic links instead of c=
+opies
+-+  -x, --exclude=3DSTEPS      steps we should not run
+-   -m, --make               when applicable, re-run ./configure && make
+-   -W, --warnings=3DCATEGORY  report the warnings falling in CATEGORY
+-                            (comma-separated list accepted)
+-@@ -141,6 +142,10 @@ my $run_make =3D 0;
+- # Recurse into subpackages
+- my $recursive =3D 1;
+-=20
+-+# Steps to exclude
+-+my @exclude;
+-+my @ex;
+-+
+- ## ---------- ##
+- ## Routines.  ##
+- ## ---------- ##
+-@@ -161,6 +166,7 @@ sub parse_args ()
+- 	  'B|prepend-include=3Ds'	 =3D> \@prepend_include,
+- 	  'i|install'            =3D> \$install,
+- 	  's|symlink'            =3D> \$symlink,
+-+  	  'x|exclude=3Ds'          =3D> \@exclude,
+- 	  'm|make'               =3D> \$run_make,
+- 	  'recursive!'           =3D> \$recursive);
+-=20
+-@@ -170,6 +176,8 @@ sub parse_args ()
+-   parse_WARNINGS;
+-   parse_warnings @warning;
+-=20
+-+  @exclude =3D map { split /,/ } @exclude;
+-+
+-   # Even if the user specified a configure.ac, trim to get the
+-   # directory, and look for configure.ac again.  Because (i) the code
+-   # is simpler, and (ii) we are still able to diagnose simultaneous
+-@@ -493,8 +501,11 @@ sub autoreconf_current_directory ($)
+-     }
+-   else
+-     {
+-+      @ex =3D grep (/^autopoint$/, @exclude);
+-+      if ($#ex =3D=3D -1) {
+-       xsystem_hint ("autopoint is needed because this package uses Gett=
+ext",
+-                     $autopoint);
+-+      }
+-     }
+-=20
+-=20
+-@@ -691,9 +702,12 @@ sub autoreconf_current_directory ($)
+- 	{
+- 	  $libtoolize .=3D " --ltdl";
+- 	}
+-+      @ex =3D grep (/^libtoolize$/, @exclude);
+-+      if ($#ex =3D=3D -1) {
+-       xsystem_hint ("libtoolize is needed because this package uses Lib=
+tool",
+- 		    $libtoolize);
+-       $rerun_aclocal =3D 1;
+-+      }
+-     }
+-   else
+-     {
+-@@ -730,8 +744,11 @@ sub autoreconf_current_directory ($)
+-     }
+-   elsif ($install)
+-     {
+-+      @ex =3D grep (/^gtkdocize$/, @exclude);
+-+      if ($#ex =3D=3D -1) {
+-       xsystem_hint ("gtkdocize is needed because this package uses Gtkd=
+oc",
+- 		    $gtkdocize);
+-+      }
+-     }
+-   else
+-     {
+-@@ -769,7 +786,10 @@ sub autoreconf_current_directory ($)
+-   # latter runs the former, and (ii) autoconf is stricter than
+-   # autoheader.  So all in all, autoconf should give better error
+-   # messages.
+-+  @ex =3D grep (/^autoconf$/, @exclude);
+-+  if ($#ex =3D=3D -1) {
+-   xsystem ($autoconf);
+-+  }
+-=20
+-=20
+-   # -------------------- #
+-@@ -790,7 +810,10 @@ sub autoreconf_current_directory ($)
+-     }
+-   else
+-     {
+-+      @ex =3D grep (/^autoheader$/, @exclude);
+-+      if ($#ex =3D=3D -1) {
+-       xsystem ($autoheader);
+-+      }
+-     }
+-=20
+-=20
+-@@ -807,7 +830,10 @@ sub autoreconf_current_directory ($)
+-       # We should always run automake, and let it decide whether it sha=
+ll
+-       # update the file or not.  In fact, the effect of '$force' is alr=
+eady
+-       # included in '$automake' via '--no-force'.
+-+      @ex =3D grep (/^automake$/, @exclude);
+-+      if ($#ex =3D=3D -1) {
+-       xsystem ($automake);
+-+      }
+-     }
+-=20
+-   # ---------------------------------------------------- #
+diff --git a/meta/recipes-devtools/autoconf/autoconf/autotest-automake-re=
+sult-format.patch b/meta/recipes-devtools/autoconf/autoconf/autotest-auto=
+make-result-format.patch
+index 38725574bac..d88e16b52fb 100644
+--- a/meta/recipes-devtools/autoconf/autoconf/autotest-automake-result-fo=
+rmat.patch
++++ b/meta/recipes-devtools/autoconf/autoconf/autotest-automake-result-fo=
+rmat.patch
+@@ -34,21 +34,6 @@ index bf18866..8097523 100644
+      [[0-9] | [0-9][0-9] | [0-9][0-9][0-9] | [0-9][0-9][0-9][0-9]])
+  	at_fn_validate_ranges at_option
+  	AS_VAR_APPEND([at_groups], ["$at_option$as_nl"])
+-@@ -728,10 +735,10 @@ m4_divert_push([HELP_MODES])dnl
+- cat <<_ATEOF || at_write_fail=3D1
+-=20
+- Operation modes:
+--  -h, --help     print the help message, then exit
+--  -V, --version  print version number, then exit
+--  -c, --clean    remove all the files this test suite might create and =
+exit
+--  -l, --list     describes all the tests, or the selected TESTS
+-+  -h, --help      print the help message, then exit
+-+  -V, --version   print version number, then exit
+-+  -c, --clean     remove all the files this test suite might create and=
+ exit
+-+  -l, --list      describes all the tests, or the selected TESTS
+- _ATEOF
+- m4_divert_pop([HELP_MODES])dnl
+- m4_wrap([m4_divert_push([HELP_TUNING_BEGIN])dnl
+ @@ -757,6 +764,7 @@ Execution tuning:
+    -d, --debug    inhibit clean up and top-level logging
+  [                 default for debugging scripts]
+diff --git a/meta/recipes-devtools/autoconf/autoconf/man-host-perl.patch =
+b/meta/recipes-devtools/autoconf/autoconf/man-host-perl.patch
+deleted file mode 100644
+index 0f49583a641..00000000000
+--- a/meta/recipes-devtools/autoconf/autoconf/man-host-perl.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 1c033f2a23941c46d88b9ac279f87bf2c6e99499 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Wed, 15 Jul 2020 16:03:21 +0100
+-Subject: [PATCH] Don't use the target perl when regenerating the man pag=
+es.
 -
- LDFLAGS +=3D "${TOOLCHAIN_OPTIONS}"
-=20
- do_install_ptest() {
-diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes=
--devtools/expect/expect_5.45.4.bb
-index 48b5b0d934b..f24dd3b7c81 100644
---- a/meta/recipes-devtools/expect/expect_5.45.4.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-@@ -39,8 +39,6 @@ UPSTREAM_CHECK_REGEX =3D "/Expect/(?P<pver>(\d+[\.\-_]*=
-)+)/"
-=20
- S =3D "${UNPACKDIR}/${BPN}${PV}"
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
+-Upstream-Status: Inappropriate
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
 -
- CFLAGS +=3D "-std=3Dgnu17"
-=20
- do_install:append() {
-diff --git a/meta/recipes-devtools/help2man/help2man_1.49.3.bb b/meta/rec=
-ipes-devtools/help2man/help2man_1.49.3.bb
-index 75931a511f5..1ba8d6090a1 100644
---- a/meta/recipes-devtools/help2man/help2man_1.49.3.bb
-+++ b/meta/recipes-devtools/help2man/help2man_1.49.3.bb
-@@ -10,10 +10,6 @@ SRC_URI[sha256sum] =3D "4d7e4fdef2eca6afe07a2682151cea=
-78781e0a4e8f9622142d9f70c083
-=20
- inherit autotools
-=20
--# This is a hand-maintained aclocal.m4 but our autotools class currently=
- deletes
--# aclocal.m4.
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
+----
+- man/local.mk | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
 -
- EXTRA_OECONF =3D "--disable-nls"
+-diff --git a/man/local.mk b/man/local.mk
+-index 775c131..ba94753 100644
+---- a/man/local.mk
+-+++ b/man/local.mk
+-@@ -77,13 +77,12 @@ SUFFIXES +=3D .w .1
+- 	@echo "Updating man page $@"
+- 	$(MKDIR_P) $(@D)
+- 	PATH=3D"$(top_srcdir)/man$(PATH_SEPARATOR)$$PATH"; \
+--	PERL=3D"$(PERL)"; \
+- 	PACKAGE_NAME=3D"$(PACKAGE_NAME)"; \
+- 	VERSION=3D"$(VERSION)"; \
+- 	RELEASE_YEAR=3D"$(RELEASE_YEAR)"; \
+- 	top_srcdir=3D"$(top_srcdir)"; \
+- 	channeldefs_pm=3D"$(channeldefs_pm)"; \
+--	export PATH PERL PACKAGE_NAME VERSION RELEASE_YEAR; \
+-+	export PATH PACKAGE_NAME VERSION RELEASE_YEAR; \
+- 	export top_srcdir channeldefs_pm; \
+- 	$(HELP2MAN) \
+- 	    --include=3D$(srcdir)/$*.x \
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.72.bb b/meta/recip=
+es-devtools/autoconf/autoconf_2.73.bb
+similarity index 81%
+rename from meta/recipes-devtools/autoconf/autoconf_2.72.bb
+rename to meta/recipes-devtools/autoconf/autoconf_2.73.bb
+index b599f270c79..2dd8fb27721 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.72.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.73.bb
+@@ -8,27 +8,22 @@ SECTION =3D "devel"
+ DEPENDS =3D "m4-native autoconf-native automake-native gnu-config-native=
+ help2man-native"
+ DEPENDS:remove:class-native =3D "autoconf-native automake-native help2ma=
+n-native"
 =20
- do_install:append () {
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtool=
-s/quilt/quilt.inc
-index 59d13237e2f..387e132b602 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -28,8 +28,6 @@ CLEANBROKEN =3D "1"
- EXTRA_OECONF =3D "--with-perl=3D'${USRBINPATH}/env perl' --with-patch=3D=
-patch --without-sendmail"
- EXTRA_OECONF:append:class-native =3D " --disable-nls"
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dcc3f3a7596cb558bbd9eb7fbaa3ef=
+16c \
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D570a9b3749dd0463a1778803b12a6=
+dce \
+ 		    file://COPYINGv3;md5=3D1ebbd3e34237af26da5dc08a4e440464"
 =20
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
+ SRC_URI =3D " \
+            ${GNU_MIRROR}/autoconf/${BP}.tar.gz \
+            file://program_prefix.patch \
+-           file://autoreconf-exclude.patch \
+            file://remove-usr-local-lib-from-m4.patch \
+            file://preferbash.patch \
+            file://autotest-automake-result-format.patch \
+-           file://man-host-perl.patch \
+ "
+ SRC_URI:append:class-native =3D " file://no-man.patch"
+=20
+-SRC_URI[sha256sum] =3D "afb181a76e1ee72832f6581c0eddf8df032b83e2e0239ef7=
+9ebedc4467d92d6e"
++SRC_URI[sha256sum] =3D "259ddfa3bddc799cfb81489cc0f17dfdf1bd6d1505dda53c=
+0f45ff60d6a4f9a7"
+=20
+-# Remove this when upgrading past 2.72, as package managers sort 2.72e (=
+the
+-# fifth release candidate) after 2.72.
+-PKGV =3D "2.72e+really${PV}"
 -
- CACHED_CONFIGUREVARS +=3D "ac_cv_path_BASH=3D/bin/bash ac_cv_path_COLUMN=
-=3Dcolumn"
-=20
- # Make sure we don't have "-w" in shebang lines: it breaks using
-diff --git a/meta/recipes-devtools/ruby/ruby_4.0.1.bb b/meta/recipes-devt=
-ools/ruby/ruby_4.0.1.bb
-index e51d0d3e9cf..93df86333ea 100644
---- a/meta/recipes-devtools/ruby/ruby_4.0.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_4.0.1.bb
-@@ -34,8 +34,6 @@ UPSTREAM_CHECK_URI =3D "https://www.ruby-lang.org/en/do=
-wnloads/"
-=20
- inherit autotools ptest pkgconfig
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
--
- # This snippet lets compiled extensions which rely on external libraries=
-,
- # such as zlib, compile properly.  If we don't do this, then when extmk.=
-rb
- # runs, it uses the native libraries instead of the target libraries, an=
-d so
-diff --git a/meta/recipes-devtools/subversion/subversion_1.14.5.bb b/meta=
-/recipes-devtools/subversion/subversion_1.14.5.bb
-index 47e2b6c6932..13bec4ad595 100644
---- a/meta/recipes-devtools/subversion/subversion_1.14.5.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.14.5.bb
-@@ -42,8 +42,6 @@ EXTRA_OEMAKE +=3D "pkgconfig_dir=3D${libdir}/pkgconfig"
- CPPFLAGS +=3D "-P"
- BUILD_CPPFLAGS +=3D "-P"
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
--
- do_configure:prepend () {
-     # autogen.sh manually puts things in the right place, and libtoolize=
- doesn't
-     # work as they don't use aclocal
-diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.3.bb b/meta/recipes-devt=
-ools/tcltk/tcl_9.0.3.bb
-index 18de3a333a2..ce8598fee6d 100644
---- a/meta/recipes-devtools/tcltk/tcl_9.0.3.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_9.0.3.bb
-@@ -34,7 +34,6 @@ VER =3D "${PV}"
- inherit autotools ptest binconfig
-=20
- AUTOTOOLS_SCRIPT_PATH =3D "${S}/unix"
--EXTRA_AUTORECONF =3D "--exclude=3Daclocal"
-=20
- EXTRA_OECONF =3D "--disable-rpath --enable-man-suffix=3Dtcl9 --disable-z=
-ipfs"
-=20
-diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb b/meta/recipes-d=
-evtools/tcltk8/tcl8_8.6.17.bb
-index 968cd6778e8..1b08fda5fa6 100644
---- a/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-+++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-@@ -38,7 +38,6 @@ VER =3D "${PV}"
- inherit autotools ptest binconfig
-=20
- AUTOTOOLS_SCRIPT_PATH =3D "${S}/unix"
--EXTRA_AUTORECONF =3D "--exclude=3Daclocal"
-=20
- EXTRA_OECONF =3D "--enable-threads --disable-rpath --enable-man-suffix=3D=
-tcl8"
-=20
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/=
-bash/bash.inc
-index 634209c9115..858088cc772 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -7,7 +7,6 @@ DEPENDS =3D "ncurses bison-native virtual/libiconv"
-=20
- inherit autotools gettext texinfo update-alternatives ptest
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Dautoheader,aclocal"
- EXTRA_OECONF =3D "--enable-job-control --without-bash-malloc bash_cv_wex=
-itstatus_offset=3D8"
-=20
- # If NON_INTERACTIVE_LOGIN_SHELLS is defined, all login shells read the
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/=
-cups/cups.inc
-index 24ebcc4aae5..2724ce72fba 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -63,8 +63,6 @@ EXTRA_OECONF =3D " \
-                DSOFLAGS=3D'${LDFLAGS}' \
-                "
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Dautoheader"
--
- do_install () {
- 	oe_runmake "BUILDROOT=3D${D}" install
-=20
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recip=
-es-sato/rxvt-unicode/rxvt-unicode.inc
-index 5a1b44a71c3..f8c0d8ab838 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-@@ -36,9 +36,6 @@ EXTRA_OECONF =3D "--enable-xim \
- PACKAGECONFIG ??=3D ""
- PACKAGECONFIG[startup] =3D "--enable-startup-notification,--disable-star=
-tup-notification,startup-notification,"
-=20
--# Ensure we don't delete the shipped aclocal.m4
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
--
- do_compile:prepend () {
- 	echo '#define UTMP_FILE "${localstatedir}/run/utmp"' >> config.h
- 	echo '#define WTMP_FILE "${localstatedir}/log/wtmp"' >> config.h
-diff --git a/meta/recipes-support/nettle/nettle_3.10.2.bb b/meta/recipes-=
-support/nettle/nettle_3.10.2.bb
-index e651f68cb94..7b7be5f5941 100644
---- a/meta/recipes-support/nettle/nettle_3.10.2.bb
-+++ b/meta/recipes-support/nettle/nettle_3.10.2.bb
-@@ -26,8 +26,6 @@ UPSTREAM_CHECK_REGEX =3D "nettle-(?P<pver>\d+(\.\d+)+)\=
-.tar"
-=20
- inherit autotools ptest multilib_header lib_package
-=20
--EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
--
- EXTRA_OECONF =3D "--disable-openssl"
-=20
- EXTRA_OECONF:append:armv7a =3D "${@bb.utils.contains("TUNE_FEATURES","ne=
-on",""," --disable-arm-neon --disable-fat",d)}"
+-RDEPENDS:${PN} =3D "m4 gnu-config \
++RDEPENDS:${PN} =3D "m4 \
++		  gnu-config \
+ 		  perl \
+ 		  perl-module-bytes \
+ 		  perl-module-carp \
+@@ -45,13 +40,13 @@ RDEPENDS:${PN} =3D "m4 gnu-config \
+ 		  perl-module-file-spec \
+ 		  perl-module-file-spec-unix \
+ 		  perl-module-file-stat \
+-                  perl-module-file-temp \
++		  perl-module-file-temp \
+ 		  perl-module-getopt-long \
+ 		  perl-module-io-file \
+-                  perl-module-list-util \
++		  perl-module-list-util \
+ 		  perl-module-overloading \
+ 		  perl-module-posix \
+-                  perl-module-scalar-util \
++		  perl-module-scalar-util \
+ 		  perl-module-symbol \
+ 		  perl-module-thread-queue \
+ 		  perl-module-threads \
 --=20
 2.43.0
 
