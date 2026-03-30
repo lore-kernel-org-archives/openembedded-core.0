@@ -2,114 +2,114 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2196B10D149E
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 11:00:02 +0000 (UTC)
-Received: from MA0PR01CU009.outbound.protection.outlook.com (MA0PR01CU009.outbound.protection.outlook.com [52.101.227.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.48273.1774868364322742618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB42410D14A1
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 11:13:13 +0000 (UTC)
+Received: from MA0PR01CU012.outbound.protection.outlook.com (MA0PR01CU012.outbound.protection.outlook.com [40.107.57.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.48575.1774868725874851644
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2026 03:59:24 -0700
+ Mon, 30 Mar 2026 04:05:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=jiioLVrN;
- spf=pass (domain: bmwtechworks.in, ip: 52.101.227.65, mailfrom: git-patches@bmwtechworks.in)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=UEAxmDRz;
+ spf=pass (domain: bmwtechworks.in, ip: 40.107.57.43, mailfrom: git-patches@bmwtechworks.in)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GbBRRtpA/7UHs0g+UKAmo5orNGq0Zwbdm1ZcR92KQ4c1ten1ACM2a4Jji3NvANKRflZKOStjphU8VHxdGSeJsaodKP+Fw9YnctpPvK/YSu1OK6Y0Xu6buHlXvZMdQw1pRJisRQeBzT+Z0plGIWwthEj8T7xhziZtL0w9R2dQ26RfvfxbjCiAtQoW28AZSBBQgpzMHD5J7otn2d6zSJWLXE5xMv/4iQImj2Me/CA46S7QvLhhxCFB994SyjTcOxb6dwZdbbvlio2u4Mza/cDhOq3KsAYjcC1F9gj064yu8dPXeoSkSE4ZqhscaY9YvN4R6jJhNH7KZ4DLFKh8vrGsSA==
+ b=TmV4y1eUgnkh84aas3PaQLVOTAstGb6QmhDwS/7U4ltVM3LHoCoS1lMvictxaN1LRif539j9AZiRgk9R1M/zz3SoY/fdDDJMOAgSlpbubxXG0xyW04FKrfiKJpXdJVK5cVa0vVFmmGBAsSRyR8Pkv18xsTxIJ3iGGYOOL7Sdy4L1jf0ZeustT7ohKtwUuxApuw+LVKVykcnWx3jFaNCyvO5ng/ywoK6+bCp6TnPnpFwV5mhGCdiOiNDqGWRM9QWx9fp9BcvN2fPcQ5KInWH6wG+FQ5x8RjCIiFAHrv6VcWIVPN4R1u4KDQE6n9ffEljpCnxm0NR5StOpywml968pWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fWT7D/C/XGMSgmIea+IkFsV8TDMXj/C7VCrQUYhmvtE=;
- b=tEI3kvUyyQad2yXA8kI/tEB6CLSukU5CSmjP6tIiTeXmDc/LNBbD1sAh4NkOjSgRw5X6h6y6SQmTjWQU2NEi3JRYHHFFh1LoDNkuJ/wI9+I4BWRvBACg2osA47GK9St9mFLGW1eTWDePO0vkgi4ac/ogDOOHhWkRCZ7BQEiQlmfFCCVRk+ljc70Tj9MXdAx7876LTOnG69daV524LwDtMEu8J6Ly2VYTAVyLsRW1nhTEOHZ92wYX1mKVrJ0dhCYoXsDRmM4jAr8IbQmMSB2chmSK4Ngytj+nj8/H9vkyxLfxwfLeWepigsnBohqCGO0EE7Ce2QJT4QZCkzdc8evpug==
+ bh=Ba8qOJw5fBaqHYY/S7eIAsDb6qXNE0LExJvFREUb01o=;
+ b=ezFokzU+5JRwQgU/ZIQ+sR6iSzo9KbP2sKGfJhH7QYHBSbmh8j6LtnActTPkIGBrT3zEWJSHlUs182hST+WCtnvhxuHqJgaZ6vLvW+hbokT0UqUNwGXmpJpWBB09b7mW5D4waBzcuR3DqYbsk6xnoRk5MdA1hKQN7cxj++NQF/xzXlSehOGWbYB0xV+tlaKWwxay8QAfEQQ0AbTQ34Zajya3JkQr1ijeJy3zfGiaDnKCDeIiusdRzINtX7s1uopmBDrRjYB7pdwlAzLT8OPRS+FAy2gmsia2U/UVeZpNLqEvCQnaloe2sa8bzTeIm4jzORot9QuatYMxB/JIcC7p7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
  header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fWT7D/C/XGMSgmIea+IkFsV8TDMXj/C7VCrQUYhmvtE=;
- b=jiioLVrNNZiIH0dB9sIVTw0GI1/0xLGp7xdBqjbxvKhMc42cP8dojtDdqXrbsvG65iwDnNZUOInmfqHGWZodT78Q7Qd7YD+uLY0N8xvB/uElnwCeQBNdmDD7POlbv9LKJtiqr0gUtJsJStbS3v1dJgfNoobVlYneLoEwfrw+M7VIdSTmQIC9AqHv30lOJtWRjER1DEcbUiBZ+eW96GA02L+mF77HX8XZJo2yb+pF+GigRNBNIYYsmYFyvvGKLlJuYMLjeLK+6aQqrLH9D6sE9IOl2mHBmSh7Pm8J/mjRW0AIcNoLlku2b8Azn1+ao0L3dc9kT3O9UkBcAqathlt66g==
+ bh=Ba8qOJw5fBaqHYY/S7eIAsDb6qXNE0LExJvFREUb01o=;
+ b=UEAxmDRzPdoYtc92XU7Tj8iiyf20N7aB1Fy9rYnfkGKy7ItVmQacIP5qrHDK2m7NDDVSyaTG0XlOPp4AyZdx7P8ne74Cc+tNfr0yrU1BKaWcDwXtrUwsJsXUK3iZXECuo///F0JMPwa0MJoN4r/OtJGZkmraTvmu5MGqn5Ig8q3skL2aZgT7bHh6ajpQV5xcf2PNbZ+27fspPpy3mkLY2AZdJiYPBH2q+TEy/V7EwzBbOVUBESr9gVwRSlsFbZTaudcUpjQULN/+IS8/ObZvf48dkMidj+0d6rz4IW5KkvZI4FXrc2PjSKuMQs0h+wxutnXAIOz2z6PphZrIp7ag3A==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
 Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1be::5)
- by PN2P287MB1788.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1aa::13) with
+ by MA5P287MB4061.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:165::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
- 2026 10:59:17 +0000
+ 2026 11:05:20 +0000
 Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
  ([fe80::c9ca:1b54:1c36:f7f2]) by PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
  ([fe80::c9ca:1b54:1c36:f7f2%5]) with mapi id 15.20.9745.027; Mon, 30 Mar 2026
- 10:59:17 +0000
+ 11:05:20 +0000
 From: Suresh H A <git-patches@bmwtechworks.in>
 To: openembedded-core@lists.openembedded.org
 CC: sureshha <suresh.ha@bmwtechworks.in>
-Subject: [OE-core][kirkstone][PATCH v2] systemd: backport patch to fix journal-file issue
-Date: Mon, 30 Mar 2026 16:28:33 +0530
-Message-ID: <20260330105833.1009499-1-git-patches@bmwtechworks.in>
+Subject: [OE-core][scarthgap][PATCH v2] systemd: backport patch to fix journal-file issue
+Date: Mon, 30 Mar 2026 16:35:08 +0530
+Message-ID: <20260330110508.1013370-1-git-patches@bmwtechworks.in>
 X-Mailer: git-send-email 2.34.1
-X-ClientProxiedBy: PN2PR01CA0240.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:eb::17) To PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PN4P287CA0082.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:26b::12) To PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
  (2603:1096:c01:1be::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN0P287MB1970:EE_|PN2P287MB1788:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1aae519a-7f69-4164-6b25-08de8e4b637f
+X-MS-TrafficTypeDiagnostic: PN0P287MB1970:EE_|MA5P287MB4061:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74e30258-f410-4cb6-ebc6-08de8e4c3b70
 X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014|18002099003|56012099003|55112099003;
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|56012099003|18002099003|38350700014|55112099003;
 X-Microsoft-Antispam-Message-Info: 
-	HaKUJv2+kkpVxQ4UcrZx8Tk8DfShU8+lS+AfkMt6tg8OXzhwTTaqOVv+OqOTM4pP3FvXNeDCHMILOO3rdKsiDDQDro8LmnRb1ne0fkkUNosCmRoi9nJ/9fP1kI1eBAGLucci83l1ygZFAbIawHYkQF0Ys/NPSWlWFZUus5e1P6Kx1dzPqx2dxfFWOAjEtIUaPqVDow/pnyrhp0Dzql3d+MwV59EV4FzBD+exZzZP/41BnbG8Ek3fV64pdG3p6vSfvWD95beCEhCF6TQ+s2sBKhdBVGLAhuYpVm8iAYLEzJS4j6/+ficJTmbrWat5aoaHbR95ZaypJ6YRY+3K6kQ6FxhJrKzcMBAW3zTZ4yQiwTqp5EemZGnfoZJTlkswi7mlJ7JHX3/Pbsrjgf8bQL1K5Kvg0STb5JgXlrQbdb2tVnI11nXFipU598vfU98O5SvXvsvJp9wz2RYeyYenD//n/DZvsjqLy5Qx6A0yFMV5If87UL6lvPZBcKCF3r1pK5pmp6cFSFpTJALeN1hIKY2sWLXCg2i5e8FCTNYnc04wT4BSEwmePPFKnU26ztBwkUoZos5ANLyEuEt0R28QI6j1+FzuSJDaQW4I8gIjsQZwe5HLd3/BYMcjEDTuOB4vMmRG7mcBsu/le3a2J++oR+CztSTCcZ2Hh9TjA/7agRhE9t5hr5/SMiOx9Ib8lEnBwqC2d6t88bC8EBO9wDdKcavKratx7fvafm0Za924lKUCYi12R4hHiCLwQolg42W9JbpCDi0Z4EgImkKVemaiWfi7EecL0CkQCJj3Sto5t8rjUj0=
+	AKJb1LfkXxQXLQi7FAPouv1enu7hYAttB6u9xvPjiYOtysqVezxfHrg6kAw9clGv8gkXWiWAnLePbWdFqQKy5Dnej41P3D2gUXYRxygOF4mzZfxGDlyGdTlNjgriayCx5CO4p/krKdToAzt3PQ7xPpPRvdd43txLmGn6RoDFXWyh1Yx2sIb+9ybUUBvOUvcn+U78lSvnK96234uBYNA5g+ka1YgWchigC3J45airM05rsg8CQesYeqJKiLrkVq7VXgvxMZb7ylpRAT4GiSl/BtWBRxHr4Q9/IbtFk1rWgjkd4oxU6eRFiU/YhsubUN0jyJ17lR6ymuz/9H1GxgKj5eE+/Xj2eUV8Au21dxPPBgwj3V6r+nKRhOpCtqGcbR+YW+NL/f1GSM9uXeueXp2BSItzmbxUnIwlPRE8PqaZbfDBdQxLlPk60zIiePbL8aeETlO/RMdE+ZkbuLnBl7Pr+IsvabBCkkHRykZvWRCHRXUi4faZlNeH7wUonAbUgl4zYlbuq2IukcujKuUMCOOdZ9Duhx1eNL05F85fOsHdQZYT/A73N3jt/j6adXNfgnKk+PQhWmUeyrUmOwmxuthPV3X9/0gcxvu40+KYYVUTvYWe19qtmieAXAuOtNClAFxkf/cY5+H7jNg0yHoSze2Ptu0QBcTyAad+ABuF8t6pTyFcHfCmsLioFOxqVyD+i/ucXqH16P31pmKEVqwtimAcCPtRFRO/dSw5B1yhbqoHS+Ng/APd8Ry+Saz1jCB3dWxqEfHjWt1B595cijudFeEFKzxpVLOt/hv1oZRM9yfWEBE=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB1970.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014)(18002099003)(56012099003)(55112099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB1970.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(56012099003)(18002099003)(38350700014)(55112099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Qc0KsvG/FAi93YXjBDqiohMTFyCf8gezQaUof2fK6d/qBJ2n7v9l8Erv/a0k?=
- =?us-ascii?Q?d7ey6564IKdxBrb176FfYPoM28viDhzcb3OHii6tBJMXnmr1qfBWqrWZzoAo?=
- =?us-ascii?Q?sSrZYz3T6m8ZzqWzGYDrKO2MdZRMiSNqqVDmZSIUmHcDvSr8YMgZnPk9uFdR?=
- =?us-ascii?Q?Jq4EBQG50nPloJ2QuytHfaJ3W00TGW4UkySnL+zkkIoFkfJNZfpkBY2FjRyY?=
- =?us-ascii?Q?GePCMuYy5waCDQPfrnfrWDJVHpHHjZdqVzHY4qT8SRY+5CPiBEtxPfWX4vYX?=
- =?us-ascii?Q?EeiSqJlcPPgEMWYrTrET9Hlsii36CjiU/ODG4LA1HRpu0lFgPIuCISuzy/vG?=
- =?us-ascii?Q?UfZNgm+6kcRvKhMqBXNXnwILGD9Xg+yeQJHQKeM9tYe7TFmOqz4w1NxXCXRF?=
- =?us-ascii?Q?nbn6lxVs4iN5zno9lRX5yUta5lSqXxCykH60und6eqHToZBUqFu9QLylxH1B?=
- =?us-ascii?Q?vB07CIY3XYg+JeEUi6ZrbJNckCORYjpF0wCkOAqP3OQ57x2EC21/l7ccsbnx?=
- =?us-ascii?Q?pQ4m1bVuItgcsZDPbq7Hf852u3sxFXstIBSlfzu3dGbcj/LHO1BkEWNxYAbx?=
- =?us-ascii?Q?dO8g71Vr91nWjdUguFfS6nyBn9ngs+cCbR/bNHlJB71AbZlY8WK2Fg11cMMr?=
- =?us-ascii?Q?GZhejwwcdU42VEmYsoI+dZkG4nW5NBbwmHCH8YXXajxxL4F6zdV5eaySflbG?=
- =?us-ascii?Q?u04De8O5ta3vx6j3YWQGU5qDIvdDkK8/59RzOLfbpdhvDpkDnYWNs81ZOP6C?=
- =?us-ascii?Q?7KDW7VOnzdgDzg8GO9QD+odGALNf418m/hhnZrhaLA8KFQNP/vg45MMIrRnS?=
- =?us-ascii?Q?hxJHUeMmmX3kBTBzi8GDAbueN9qF8tYxS76djrIeDW+Fq06Q8kbdlIrwHcwL?=
- =?us-ascii?Q?SbV83s2tkRTL3MH4FRjm+BE5ZM3WAcOxGrx7N74eBBikf+VnwlJF/nE9ZmxF?=
- =?us-ascii?Q?e9KlSAFdTl2IunnIalyKqpBq6Jf0rCO7ijZed6mWSgn0OWrmGXgiEEqa2Xru?=
- =?us-ascii?Q?cuYJa4hz5BoixhFHKvGhrm28D33U0RIRO+RagobzZZN0+LZx+VvnuzRK1BUM?=
- =?us-ascii?Q?PaTpfLy4y1TkiW+iciZPVlhsFAR0x38er1Z2DybN1AN2nv5wDjShaLkNBmv9?=
- =?us-ascii?Q?pNWqfW5IT4axHbFh/xP5eWPEABZwN9rfKVifbueLoGRcYUFux3UoL8JRCF+V?=
- =?us-ascii?Q?vIFWYMtqxpY4SCmHC5DQr3FwQN87pCeweOBcs5k+x9NWquGFXlxGOrHU9ZH6?=
- =?us-ascii?Q?17yTemRFYfyBW5AbIrB9ksx9Hgk5okzFcJtbfTm1qGNLSXxl+IUe+k76MNgU?=
- =?us-ascii?Q?Ta4saFYLk4I1eSTD+QE5GZY0cKOPSbryf+avkj7b/sSnTSIIX788h9UzoT+i?=
- =?us-ascii?Q?c/YYjkGR+AvFcI/c43nkencMbyqeEo5PRaaulWkUr9ZPoSciLQjFKnRG0i9T?=
- =?us-ascii?Q?nhN2vVJuTu3w9vEZOel2hX7wuR0THmK1QsXyOaM1ghqh/ai3dOAwSk0MFfJ5?=
- =?us-ascii?Q?qOQaVk22TAadr26VXFki98852mhIzvna5yk/iYfVLiUldrJrOSGCirQDemvT?=
- =?us-ascii?Q?fCywEqopK/2kegm4MjUUvDUbvazs4MIwLyTCN/xVCZCdWo4WyNoiP4ShR4uN?=
- =?us-ascii?Q?i9GsqdmqBfh8KonSjIMjwUXFANxVAx/bqWJ8QDw01e17iTuLe4qIEenj2ZsP?=
- =?us-ascii?Q?9zJQmFmnC5fwfG43kJxaLTErHfmvPoi0BJCcZgB5yRMpyYFWIif4q0hgdQDx?=
- =?us-ascii?Q?0X2uKLDy0O8K34ellSPZDcH1aRoI2w4=3D?=
+	=?us-ascii?Q?uFVdwhXn/qClpjtA6PtHQDbf0EDq3JMXY+LgGmpE8KXXhpLwwzM2mOWghh4o?=
+ =?us-ascii?Q?0lkyFftrKzGv9pOVLFMCbQji7CUBaZX0vduD5Br1xkNpcZfo5igp8e8qbVTt?=
+ =?us-ascii?Q?4KJgMZXxPHvB6oWS0CIX5yKrHxn7kZnW/czxOM4YEd1qbm2RjV7fwg2kZBzI?=
+ =?us-ascii?Q?39ep/Nwdb7ysAyHkysZb95R+FENwHruKDU2nMVhJRxNviAle8D+oLs4HTk2g?=
+ =?us-ascii?Q?YMSnGOMI1M7bAnNFmsqJLTgdRIr12X4/d5aXwg7n9w1CbJfd1FMGYB9gHA6j?=
+ =?us-ascii?Q?rDJdxgFTtqFrxZHqXYFp8rxoL/kk2OssO16+DZRh812+UeBu71fW4cl/Lsmp?=
+ =?us-ascii?Q?2b+bHBn+rAOj9KNRdx0/C6qvZIKlSr5bHYBs7wyTvsONiyP83XC14Wk6sHi7?=
+ =?us-ascii?Q?MVBYAO9QNGTulvKgUdaGFHwzqT9nEchZX6aqjEE7uHKQqSbVAskH/U2ujfAM?=
+ =?us-ascii?Q?6jvLF5mTuh96Ty6JNKH/jiA+6M/XlHAJaXX4H1J/vGDrr9ghnaIwHe9N0KZR?=
+ =?us-ascii?Q?70VaO1UACzWhgUYQubRBNvIn94AhbclJvId9oJ312Xm97kUI0iEKM6yaWBfe?=
+ =?us-ascii?Q?ZUK2pvJaEoK1uKWJyUb/YrkdrFNNOaNoReHxNml/+Ih84lpkncx2as/3lnoy?=
+ =?us-ascii?Q?LLzf0c9tiVI4JuP2W6DXTmHznVt42r2cWcxBZcg1RHDQyvefZ6R6qYa1Qrm3?=
+ =?us-ascii?Q?XFpCrYKJf0XM6hd2ZDbyldqa9jPnuPN7a+6qbDFuFyppIKskxoChY6X0l8cr?=
+ =?us-ascii?Q?SDoE95JDe02X+UnpHIhzkah+LfTfGv5vYtZ7Xy/K5wrIS8fWkV9lIdu3ghza?=
+ =?us-ascii?Q?TQJ2TGiCO3HdRtFND8HZpYUfc3xG5SZ1kMpesRvBlCLOZKdTY/68jmK4bk/m?=
+ =?us-ascii?Q?pAe5Y5EAhoQUOR9WTuERc9ATxJ8a9Mu6umQeJimgkXIit4DC/hPB5RdlK0Qf?=
+ =?us-ascii?Q?2JkeWS9mTEiC0kluJAWunBAH5SA86KluqXg9F67U7tuYmhKCJwjTgtXko3bA?=
+ =?us-ascii?Q?rg+5IXQrKgqJ4lbiL9MYH1m6vyes9rlAql37Z3/6zIoVzbLzVXv4HjRI5rXh?=
+ =?us-ascii?Q?NMjyNbKtmb226KVzI4kFKoTlkrMmzSqm46jOzwYCcvmwTF3dSndOewrhcl7F?=
+ =?us-ascii?Q?jZx1Au5RrzSOOXpXRrwyNeXrzCwUdBaMn5aRE8EvtKSv/S6u7RS3eYt5v+l0?=
+ =?us-ascii?Q?QbgFEOGiNA1XSX8N6r2gkHEuW1fvtUQVZB2nMsytAz7LhUcF8Zf9X8o2MN7m?=
+ =?us-ascii?Q?8kpuz68PlEBH+qCom/fGIFomxoOupxivd09SPFZKm/CJTZQTcq5uAoJLg6Ux?=
+ =?us-ascii?Q?p6xrjs3yoIcHonmxlePpCBD+7g/LTJLumd+MMhJuxNSrg2kiYqsAuGFc0AQK?=
+ =?us-ascii?Q?Yx0EkfT/EAYs1n8tge2rvWnKmOmEaOOgg4XBwrgJbQVxzC9rjNXQ7M90CYj5?=
+ =?us-ascii?Q?lRFdG+IkvT6QOWP0ZnKooWbqQesTXAjYxnuSdXsJR8wRxREcxg9FZ7Qccary?=
+ =?us-ascii?Q?1j8/nAHKMl7IbDAwNf5pztON9XjRbWkT5cHGtWQVY7hpVv184oOHtiJLGyf9?=
+ =?us-ascii?Q?BEwpBCEcsM2s0Rg99sDifLOHd9O6D67/H46oYKsm6JCVufi9NiNK6urT/wYb?=
+ =?us-ascii?Q?invNnpPij/LPQUvZrWCuG0+3QF3/2T2PZ/JsqvZENDCWAkWYCi0mlmwlxrFx?=
+ =?us-ascii?Q?ek60qD7d2lM0+iHRMR3edSq/Ap64nDnP1SjZ4L+ZB6o8RvTPzfujcpccTd5s?=
+ =?us-ascii?Q?xA8EDrlxk3UqTKC+a+fTrBzTasqkKEU=3D?=
 X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1aae519a-7f69-4164-6b25-08de8e4b637f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74e30258-f410-4cb6-ebc6-08de8e4c3b70
 X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 10:59:17.7601
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 11:05:20.0258
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uQLN/3uWleeM0VUiYiJEKmovht6esOS/cKd9jtL90bOmuKPNqKR03DFaXKkPa2hcF08/ltNjTgtKtkZi6JtrdC/gg4IQLsfFUk+GskLlwa8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB1788
+X-MS-Exchange-CrossTenant-UserPrincipalName: sHj+xzIcBnNJZ/obGPP3q4O2WVmzIA7Uo0LkJBhXBuJ9axkvVOqWFGqA1/jRPrPXi/ZqBDd5fKDl0CbN/qqxaPXSTStXMFA7ttUvWskulTQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB4061
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 11:00:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234227
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 11:13:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234228
 
 From: sureshha <suresh.ha@bmwtechworks.in>
 
@@ -122,18 +122,18 @@ https://github.com/systemd/systemd/pull/40378
 Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
 ---
  ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_250.14.bb   |  1 +
+ meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
  2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0029-journal-file-do-=
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-do-=
 not-trigger-assertion-on-removed-or-.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0029-journal-file-do-not-tri=
+diff --git a/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-tri=
 gger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/002=
-9-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+3-journal-file-do-not-trigger-assertion-on-removed-or-.patch
 new file mode 100644
-index 0000000000..c0b62aa112
+index 0000000000..ad8f31261e
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0029-journal-file-do-not-trigger-as=
++++ b/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-as=
 sertion-on-removed-or-.patch
 @@ -0,0 +1,65 @@
 +From 1350f39db7e72116c3b2423db02da3ddc8e29082 Mon Sep 17 00:00:00 2001
@@ -154,7 +154,7 @@ sertion-on-removed-or-.patch
 +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/112cb=
 c37906fb97afe0ad04164262cf62d0af5e9]
 +
-+Comment: Patch is refreshed as per codebase of v250
++Comment: Patch is refreshed as per codebase of v255
 +
 +Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
 +---
@@ -163,13 +163,13 @@ c37906fb97afe0ad04164262cf62d0af5e9]
 +
 +diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/sd-=
 journal/journal-file.c
-+index bac258ca42..7b6b7eea2e 100644
++index 08f3b82..633de5b 100644
 +--- a/src/libsystemd/sd-journal/journal-file.c
 ++++ b/src/libsystemd/sd-journal/journal-file.c
-+@@ -2602,7 +2602,9 @@ found:
++@@ -3305,7 +3305,9 @@ use_extra:
 +
-+ _pure_ static int test_object_offset(JournalFile *f, uint64_t p, uint64_t=
- needle) {
++ static int test_object_offset(JournalFile *f, uint64_t p, uint64_t needle=
+) {
 +         assert(f);
 +-        assert(p > 0);
 ++
@@ -178,7 +178,7 @@ journal/journal-file.c
 +
 +         if (p =3D=3D needle)
 +                 return TEST_FOUND;
-+@@ -2618,7 +2620,6 @@ static int test_object_seqnum(JournalFile *f, uint64=
++@@ -3341,7 +3343,6 @@ static int test_object_seqnum(JournalFile *f, uint64=
 _t p, uint64_t needle) {
 +         int r;
 +
@@ -187,7 +187,7 @@ _t p, uint64_t needle) {
 +
 +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
 +         if (r < 0)
-+@@ -2658,7 +2659,6 @@ static int test_object_realtime(JournalFile *f, uint=
++@@ -3382,7 +3383,6 @@ static int test_object_realtime(JournalFile *f, uint=
 64_t p, uint64_t needle) {
 +         int r;
 +
@@ -196,7 +196,7 @@ _t p, uint64_t needle) {
 +
 +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
 +         if (r < 0)
-+@@ -2698,7 +2698,6 @@ static int test_object_monotonic(JournalFile *f, uin=
++@@ -3423,7 +3423,6 @@ static int test_object_monotonic(JournalFile *f, uin=
 t64_t p, uint64_t needle) {
 +         int r;
 +
@@ -207,17 +207,19 @@ t64_t p, uint64_t needle) {
 +         if (r < 0)
 +--
 +2.34.1
-diff --git a/meta/recipes-core/systemd/systemd_250.14.bb b/meta/recipes-cor=
-e/systemd/systemd_250.14.bb
-index 087c0035eb..8b4b83a247 100644
---- a/meta/recipes-core/systemd/systemd_250.14.bb
-+++ b/meta/recipes-core/systemd/systemd_250.14.bb
-@@ -35,6 +35,7 @@ SRC_URI +=3D "file://touchscreen.rules \
-            file://CVE-2025-4598-0002.patch \
-            file://CVE-2025-4598-0003.patch \
-            file://CVE-2025-4598-0004.patch \
-+          file://0029-journal-file-do-not-trigger-assertion-on-removed-or-=
-.patch \
+diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-cor=
+e/systemd/systemd_255.21.bb
+index 87e186bbfa..504d6cbef6 100644
+--- a/meta/recipes-core/systemd/systemd_255.21.bb
++++ b/meta/recipes-core/systemd/systemd_255.21.bb
+@@ -29,6 +29,7 @@ SRC_URI +=3D " \
+            file://0002-binfmt-Don-t-install-dependency-links-at-install-ti=
+m.patch \
+            file://0003-timedated-Respond-on-org.freedesktop.timedate1.SetN=
+T.patch \
+            file://0008-implment-systemd-sysv-install-for-OE.patch \
++           file://0023-journal-file-do-not-trigger-assertion-on-removed-or=
+-.patch \
             "
 =20
  # patches needed by musl
