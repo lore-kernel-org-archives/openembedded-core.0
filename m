@@ -1,125 +1,193 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 811B11061B12
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 15:29:22 +0000 (UTC)
-Received: from BYAPR05CU005.outbound.protection.outlook.com (BYAPR05CU005.outbound.protection.outlook.com [52.101.85.15])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.54154.1774884560010329342
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A39EC1061B13
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 16:02:12 +0000 (UTC)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.55024.1774886529159442541
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2026 08:29:20 -0700
+ Mon, 30 Mar 2026 09:02:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=CXWNLk9L;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 52.101.85.15, mailfrom: sandeep.gundlupet-raju@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Eec3F3vY/GEgAlYran4PLwOokHQVsW0lLgnMz2siUvZaUU+t6FBdMmLdiYS8wJ+62+WexPFboc0Hsh9U8WVLw9Lts/pqkSp3NdhAjnMem4LfoYrrH9V8YQzGU19PnfGQstDriWN7m7J7UIK4gkr4Hqa1BlYM6OzxdT+Bi9EdqTL3RYuiwI7yRKcX0Yddw/4bgyPwSzeArpiQRc0bvrBVBF1Ex37QBydOEFA2+D7wW1cgwZyiYmOsPT/Yf2lc462OdMF1E34pt+Qd0jDHgyH5uItWOr5KE1TGIUAeehonxKXr9Xxenqu02AxyA20KbOeaDG+duOArkLuIs3A8ipWj0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JFwMS4SB/9lI8XydN1GCKreipzh9WjzABJSc+qaS88c=;
- b=ZDmZSDoafllmHgz6WoUiywnj7Lzwrg31BiQiL9WGfpZHiHB6HmAgyTudxVh05GOtV6wXrcVvLHoBZTR9dmDyzpw8BReSXVfbA//M8veHT0se49iS3LK53iolPYJLs+SMjfspg3ywcJvvzHl7Uko+rYu0ec14mhElKF/a33dyW/BshjzFs26TL+OyGNWqcfN3djbjtp7y1XQhXwKqJLCrUdU4QBNrEb3zd35imqLljt+QkpsWbc46sM+nXB/8Ow7c8cIUe9SlyuBPPGdpAXJoDIPB0X2mKewNqOcovRDujl9dda9huBlf+HmbNTylUK37QjdhiiQude56r7zpvYykFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JFwMS4SB/9lI8XydN1GCKreipzh9WjzABJSc+qaS88c=;
- b=CXWNLk9LlCKuPgTjkSwgIvySpne4TvwuUuwEVlDOeQCXOt2IIc3PRQ0gp4mKo4aGxTnQ+0ZtV9IVwTg640OjbutXX2EyMmxYAsHMj8u5EQRLoPnXooxmZ7VEqZL+/KFrSDLPbSzBXGZUJO3bRC6V7xtUry1EA1Rns81P9cwOytU=
-Received: from SA0PR11CA0091.namprd11.prod.outlook.com (2603:10b6:806:d1::6)
- by IA0PR12MB8087.namprd12.prod.outlook.com (2603:10b6:208:401::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Mon, 30 Mar
- 2026 15:29:15 +0000
-Received: from SN1PEPF000397B2.namprd05.prod.outlook.com
- (2603:10b6:806:d1:cafe::fa) by SA0PR11CA0091.outlook.office365.com
- (2603:10b6:806:d1::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.28 via Frontend Transport; Mon,
- 30 Mar 2026 15:28:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF000397B2.mail.protection.outlook.com (10.167.248.56) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.21 via Frontend Transport; Mon, 30 Mar 2026 15:29:15 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 30 Mar
- 2026 10:29:14 -0500
-Received: from xcosswyocto01.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Mon, 30 Mar 2026 10:29:14 -0500
-From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][master][PATCH] u-boot: Fix indentation in do_deploy SPL binary block
-Date: Mon, 30 Mar 2026 09:29:14 -0600
-Message-ID: <20260330152914.4155774-1-sandeep.gundlupet-raju@amd.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=HaVTUAom;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: jpewhacker@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8d0288d24f6so307168385a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 09:02:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774886528; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XHrQktKyk9DsE+f2D0nBkacVLcZ1MazD4o6h9wpDJtUE6Kfn1l2XmQB/HQ9962u41f
+         lb/JJxaS5hbPuS4I3iHQi3U06q5Z9favfUIagx9yKYdneRVldiJYpdiy4qYNh/hS36dx
+         a9SEIAEPiam2ssS5Euk0zQ8gOajc0t7K5mzqnsjUzXfOBPXE3+vtb/RExEDw81psjaPJ
+         dyDAAHUFW97DoASeSPvk1DZDTrGywQ4wYqYFLN4YKST53tgjVd3+jXXKwvxu7Lam2JDU
+         K/NaQPYOF80OPmt28CJ8fFSznejX+ShKkRQr9gBUzj6gAsM/99LFsNyGe7AoXsTHHZit
+         LvaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ce1tw3SaUjLtM9qCbKMth6+0J8hWk5Ux3YOWxw1+ECk=;
+        fh=5ntFf6gZPcB4Q6L3Bht6xwlFTGPHia3QxxE2O+oHhI4=;
+        b=IMFP3xIcFmwrt4dBTLZ/zBuCQJRTZeBkSjhmKoXrQMsvt6DObjlD02yOqDru7kcc4r
+         U6IXM/nEt+OdTybkHpZJPfY+9ZKG3VqnwwjqTyNkIPYoUOcT1CYLfGRc5X95aiXfy+NM
+         vtjE+q4h0dCHpr57gQxl77ZowqPxCbk4cRkNaY79kLpZYQp+V2iQ9b6MElpedu1UxVfO
+         bXv6mvOx2NSu/uPtFYEmzoMDVjA5uQgwM+VUgkVxGcUau87WhjpWuNoXKhbxKLS93gRb
+         R11AvnyDgsiLqPDQvmwG4m6363KaZSk5D/rCaQhB2v2AyNX/IoM29+hyynjF+S6CvyqO
+         23yA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774886528; x=1775491328; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ce1tw3SaUjLtM9qCbKMth6+0J8hWk5Ux3YOWxw1+ECk=;
+        b=HaVTUAomPkywBBbOfd6YtVHOa0plmdu1jacVGSmGOVi32ElqV0Y5djvroqwbhQ/kqv
+         SdHnzRdCKtKbnNmBazfFaNKKvfgjVHleD5sWRp0xdcyNcJvH2BrXwgLRpbIO4hTIMaUN
+         eRivsg0qJH27m98VqKMYvY0rUst3Wyqs3Nc59ML/k4ED+dgbnNlPPPx7+jGgs6aa7ISi
+         C9YCn/5v8noxVaay5TzrbfdHX2PGa9Jn2g9dIN24qj5ZKODjubcZQcQS6QQtJUrqA1jb
+         KDtxbmUF9R5k52Z5O0nIO6ugvj637FRcg1KfqKzr/tOGMz8Q24pGw7iswNGA80ecG4cH
+         3HWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774886528; x=1775491328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ce1tw3SaUjLtM9qCbKMth6+0J8hWk5Ux3YOWxw1+ECk=;
+        b=SogqM7iwbcy+5cK3zeIFRrls00MBcqTHWo4Lrs/TrNTvC+OmUdQUzkVcwtf/K/DYV4
+         2boIGm/QZ52OXtZkegw/aACnhZZirU3iJgXz+3aUpUN+EQBM3MwIW7LJ7h/UWQ4AI8RB
+         XkiE5f7HPzAN52SU1GKxb7X+VHsmsVMumjnkCwr+VM/nAal+I9rNp7oC7yNZGw+b+Nae
+         XsDFTgADTFS3Fmlvtxho93qeAoC5HNV14Dnr+UsFHljonqbW+J5NbZ5rnk2dQuLxUc4Z
+         yMbpu5KwNa/FMC2XFvQH8nlyj20xiYMRhh/byrZgLbChBF8VVc3eE2XXoBKzbys3SF3/
+         NSGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUneP76sJKFHYlNDI5me/XMIUyG6j2Jy6wzt7l0hxOfZE+uwMoW+Xyi/om7KdIEdf0OlPU9w6cTnnKvYvTzGEYNIA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yza00pLpV7eAgtZnLulIG99W7U2L3oFAWjzPWQ1LzRtGdaBD2MX
+	IUMBLgeSyQd1LGTLZ2GNED/IE2uxFC5QIbv7sk0o+raBDL6aYpsZFCBwp9nKrHCgT13WbfQ7ve/
+	/IR3Xj4YA5QJNV6cqTIVj/FgcgEFgOAc=
+X-Gm-Gg: ATEYQzx9NDbz9U62vnKCA9mvgmWPU7eu9WUk/TdT8s9yw6CQtDZiI9yRRUxOt+wgaTF
+	82KUQdhg4jKL8XxRjR3y5PtNDKXB5tVGbGrC1Shytf71CW2Ek356OtNRbjv+yUYOBvnE7VHT5tr
+	v1O13RrW7w6UEoYKhtnagQ5eSqD3jGB4NVfgccUytUhXPJXeykc9z3Jvhd652W1zLRAaDYyHt3H
+	rQ9MFUvlrFnquNIOebXahY1xU1SEf0iJeL3j5knqASgQI2pAwtMMqMx1eqwq3rjf4X5/VBcb5kW
+	94RzDctIoZm55+/sgxbz3Q==
+X-Received: by 2002:a05:690c:698a:b0:79e:b3aa:b329 with SMTP id
+ 00721157ae682-7a0a2d5ef75mr997017b3.26.1774886526317; Mon, 30 Mar 2026
+ 09:02:06 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260329134716.3185469-1-charles-antoine.couret@mind.be>
+ <2cae9e645c767894e77f718113f4f4d689f9121e.camel@linuxfoundation.org> <8619f67e-d274-4d99-9290-ad36ba61c054@mind.be>
+In-Reply-To: <8619f67e-d274-4d99-9290-ad36ba61c054@mind.be>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 30 Mar 2026 10:01:55 -0600
+X-Gm-Features: AQROBzBQKxycrka2CG3XiElMDyAlJd7Q_p9Q1-R-RAhcp7MRUIqQdGV2I8LHV9I
+Message-ID: <CAJdd5GbTvj==_77VaLLNkU69Ti06tw2-8X5jLmzEESZNN6D_Xg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/5 v4] image_types: use IMAGE_FILE_MAXSIZE
+ variable to create fixed partition size
+To: charles-antoine.couret@mind.be
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397B2:EE_|IA0PR12MB8087:EE_
-X-MS-Office365-Filtering-Correlation-Id: c9ccca33-303c-42da-3a58-08de8e7119f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|82310400026|376014|1800799024|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	A3KmUBF4bZvUH+qb2J3PwW52jbObinkAwNeYOB9ZG7r821iw+OkeEZ01MJ7PM1SyHenJBVsgYsdLqUBfLTi750ZqV/ZWMGfxHA2H4yUc4NZQAocFuZHnwf5ScEAmQ8JcZDO5CnVgjEKUX8LLGRVztlQGrY5sYVrxRzgnnL3jbKYPhnM7Bro8PCqwCDJqg1bCSN1AEjGoq0hAVfhoDJSm3a+pYBfxbwWhF1gnF9pci0brrhVxwjXS4kP9GUfa0NmwqGwtJAq02pNFqUiVZOlNHl5UxxZmaSFJTzP7ozZjjboPEptcGgdubaS3jBU5EoauYdnbqcR2jaqsRgUbiV855ZUb59uN6jc1yiP/Crq2yl+GcBQygOElEy/pR1QuRi0rfIbVWkmA9DyRx9KbWM4INQRRUW2u/+o6UO6T+MNFUPSI1d2OAEjdN9CCkaWl8eEBRtHVF3wGpW4P3/iIqUe1NH+2TEvGDJQ9gmI/JLqivxXVhEMIarslgl4joLDrONc5FuHw7xQXLmqCF/dKq3VOAacl6twPKY0LpwR7Ms/12sQX4XOC5Kbkp79RqgVYuS8JeBFy88JV11ffI7U8ofFYqF+F0pAtd5f8wt0DVxmEcimcqdBR+9YCYxRNnZMF0IhrsadsWVT+LeOuvQT1NTdYJLPzgyxIwc5cVZhg1aBWsu5WXGBt7HKUIFZD37nuOYoqFNH0mqfbIhRdeDunXNUdrMrpb9LW4+pEvx5Xcln4E78/9qY/G04Z//aYbiLVB+/HPUklxnQC2Ko54QrtSu7Ixw==
-X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	B4pJl6vZpG8XZp+OVmfEamuh2oPwZkJa7GKIr7A4L8tUf99btYdTlUyxGj9YNQweeVtaBbLqr23FkAspU+/Agr3LDI2XAie0BLpNMp0SlxatViqFzlezOYpd3HAvY9NTKAGhhfM2SIblZvdwHKLugdUAi3fETMEBYlfs3EU4HWuu/juguADRtbWaR6pY+SRqxUBUin/rsDK63a1UE7Oo1fC5s+g4uA/grFSuZ8Liv2NJuQFeanAJT+z275fXAdQa/nlZBZfcBmSWeTgyrJIZnr77tV9Ffc0zHsemzMISvkPZjnwus7REI8lRpvI/JyQG1Qbs9WuQESQdMP0LbOV6ScwRjQFBMyg6lQ/yzPRSh/f9wnzv+pk0q2H95kpJbQY532GkaOo3ZcsKuJGyH0261NbdzGOJ5ax1BIziaEuHvH7Vte4hioT8ZfsktY9XTod0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 15:29:15.0924
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9ccca33-303c-42da-3a58-08de8e7119f8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SN1PEPF000397B2.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 15:29:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234249
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 16:02:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234250
 
-Normalize leading whitespace on the 'if [ -n "${SPL_BINARY}" ]' and
-matching 'then' lines in do_deploy to be consistent with the surrounding
-code. Spaces-only change, no logic change.
+On Sun, Mar 29, 2026 at 11:12=E2=80=AFAM Charles-Antoine Couret via
+lists.openembedded.org
+<charles-antoine.couret=3Dmind.be@lists.openembedded.org> wrote:
+>
+> Le 29/03/26 =C3=A0 18:15, Richard Purdie a =C3=A9crit :
+> > For context, these previous versions were in 2023. I think the general
+> > concern is we already have a lot of rootfs size related variables and
+> > adding more of them complicates the user interface. It isn't clear
+> > which ones "win" when multiple conflicting settings are made.
+> >
+> > In this case the max size "wins" above any of the others.
+>
+> IMHO this makes sense because it's more specific and related to the real
+> filesystem size.
+>
+> But indeed if you want to change the design behind, I'm open to it.
+>
+> > It does
+> > appear that it isn't just a max size but a fixed size in that it will
+> > pad the filesystems to this size? That makes the name a bit
+> > confusing/misleading and was one of the concerns last time.
+>
+> In fact I realize that I've not read your previous answer last time, too
+> focus on the CI error. Sorry, my mistake. That's why I've not taken this
+> into account for my recent changes.
+>
+> Yes, this variable is doing both (fixed + max size of the filesystem),
+> due to how filesystem tools are working. Maybe by having a more
+> "intrusive" change, we can improve it.
+>
+>
+> What I can suggest is:
+>
+> * IMAGE_ROOTFS_MAXSIZE would be used against filesystem sizes, and not
+> against precomputed rootfs sizes as done today, it's likely not really
+> relevant to keep current behavior as it. I don't know if we would be
+> able to customize the value per filesystem type as done in my proposal
+> or if a global setting is good enough.
+>
+> * if IMAGE_ROOTFS_EXTRA_SPACE is set to 0 and IMAGE_OVERHEAD_FACTOR set
+> to 1.0, don't provide size parameter to mkfs to create a dynamic and
+> minimal filesystem, to avoid the need to always provide manually extra
+> margin just for filesystem overhead
+>
+> * Then introduce a new variable like IMAGE_ROOTFS_FIXED_SIZE which can
+> be provided (if set) to mkfs tool to have a fixed partition size
+> whatever are the other settings related to rootfs size. If unset (by
+> default), previous logic can be used instead.
 
-Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u=
--boot.inc
-index 01137cb495..a75948dfc3 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -337,8 +337,8 @@ do_deploy () {
-         fi
-     fi
-=20
--     if [ -n "${SPL_BINARY}" ]
--     then
-+    if [ -n "${SPL_BINARY}" ]
-+    then
-         if [ -n "${UBOOT_CONFIG}" ]
-         then
-             for config in ${UBOOT_MACHINE}; do
---=20
-2.34.1
+Perhaps a better option would be some sort of
+"IMAGE_ROOTFS_ALLOW_GROW" variable that controls if an image can
+actually grow beyond the IMAGE_ROOTFS_SIZE + overhead amount? The
+current code basically takes the max of IMAGE_ROOTFS_SIZE & the actual
+install size to determine the size, but this variable could supress
+that to make it only look at IMAGE_ROOTFS_SIZE. It could also set
+IMAGE_ROOTFS_MAXSIZE to the sum for additional checks?
 
+I think this would fit into the current model of how these size
+variables work without needing to introduce a completely new variable
+that does different math?
+
+
+>
+>
+> I'm not an expert of all filesystems so maybe this suggestion can
+> introduce problems. I don't see potential regressions for current users
+> as well.
+>
+> What do you think? Another ideas?
+>
+>
+> Thank you for your feedback.
+>
+> Regards,
+>
+> --
+>
+> Charles-Antoine Couret
+>
+> Embedded Software Developer
+>
+> +32 488 27 56 40
+> Website <https://mind.be> =E2=80=A2 LinkedIn
+> <https://www.linkedin.com/company/mind_essensium/> =E2=80=A2 Newsletter
+> <http://eepurl.com/h-gy7v>
+>
+> <https://mind.be> logo
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#234153): https://lists.openembedded.org/g/openembedde=
+d-core/message/234153
+> Mute This Topic: https://lists.openembedded.org/mt/118563509/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
