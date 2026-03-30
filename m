@@ -1,225 +1,191 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE8F71061B15
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 16:23:02 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.55561.1774887773904707916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 906371061B15
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 17:14:10 +0000 (UTC)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.672.1774890845570376688
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2026 09:22:54 -0700
+ Mon, 30 Mar 2026 10:14:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=pg1Cv6CE;
- spf=pass (domain: axis.com, ip: 52.101.66.27, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JfmWqCvFAbS3Qa9xjrUclfwLJxrwY34B0jld53T8HW4zn70WqjlFo1XVtgVBKhrShxMRZqr1qXnXT7RWjTqERzAvhboIMATluRMDsXD80n4CoAgC5UeSv9FhdZ79YvElxRnW2aXj3rIqwhhacPUHaoLHGPcIFm1TQywVgxPHo9cMRxYwvxzvXLBjrGEtP68fBaDDFopc6QbBGqt6LIB2x5wz2whLOnSDmpmHav90x8Zw8zfo4XvM65AnCbfnpPU7GCVGTK0ZMX1ABUUjXXF04QJok4hkmyFxEs6VfQ74N/Ww3VK2YpyCVmbh1RQe3ce0nV0KMuuoncrGJMCr4FMcMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LOMVKGgHevP1Lg4TR9T+KkkUkiNLpZoZeNV+T7UaW8U=;
- b=txKL3f5g+rm16oHhCqb5z4OTZX0iRJ0ckvJM2Zpi1U3xaO2TJGo+RTOjI945MZsPTmH5Bj16a9WdsUT3HsI8kuIZaTE8yQ5/lQXzwlGqh0Zn6qwBzR8T/g5X2yiihiAMqN8TRldU3e5VlFPuHsJCyB5sOhU++2IjABWFQsx5C3HIwKyJ3KpJH8R1vfNvUeotXNOwJWM6KKBJO0sskODChZtZ6Uyqxd0zewuwMErA8glCB+GqYN0Itqff/IKV+3jHyU00/pqLdfbJ5uC6l1K0P0VW/RYuILaoJvV+D3f6eJH14srAGlmw0C5HBtboAMYWJ4N28CUEwmWwFFUMtCLjgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LOMVKGgHevP1Lg4TR9T+KkkUkiNLpZoZeNV+T7UaW8U=;
- b=pg1Cv6CE4pbma6uwMpGvvukKYSFbLQ33GrbDWXzbJ1ZENBBQXzClem6PysDciIfqkzz5HNtsqzJgGpJPWGAUHibveFWClrmU6MyUq4Q1wnfAXewfnANooslqgZ6yegQuC8lFlPE1rC6tSA3tdi3chSENafiMv6DrL/SnK5AxZLE=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by OSKPR02MB11435.eurprd02.prod.outlook.com (2603:10a6:e10:98::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
- 2026 16:22:49 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9745.027; Mon, 30 Mar 2026
- 16:22:49 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
-Thread-Topic: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
-Thread-Index: AQHcq8JrmSM+ut1aa0usJT8b8JwZN7XHabnQ
-Date: Mon, 30 Mar 2026 16:22:49 +0000
-Message-ID: 
- <DB5PR02MB10213FE000AAE2E4B66AD8618EF52A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20260304103203.1649-1-wangmy@fujitsu.com>
- <20260304103203.1649-10-wangmy@fujitsu.com>
-In-Reply-To: <20260304103203.1649-10-wangmy@fujitsu.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|OSKPR02MB11435:EE_
-x-ms-office365-filtering-correlation-id: 45d99d64-1a15-484f-65c6-08de8e7895bd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700021|22082099003|18002099003|56012099003;
-x-microsoft-antispam-message-info: 
- IhdHNfmXvTFrPZEpxQalpghQPVPeYG1VuK44PuCzxoyV2MUnRsKpdqS7xtwgm0XxxmX5P43+ryFhQ47fxgsNAk+83JebX3PB1W0FZ5r7k/lIyleQ3oGv3dN1ExQ/etZmvqNoB8Thu/y/JbIYGCulVhqOgbHboCAstqIW6xVut/z1/3PSJgHp8p68W6UGtYca4E0TaTK0jyUtrmGBxSvpnIkvkySu0+c7Eju9eEzZgjxe5fMBUFCc/BB0UifhB0hkAyIZrj1U0jMsMArz0keX5JyUeyNY2/HoEG86beENmgogqCBgsWrLf2jcT/XmILsS+Nr2oGfTzw75+J/Fm2vSJVQod6PxpupBtrALjg4rJPye4zp7K4T8uafqTV5UgjhLAefEvZp2gjl2RPB12MuMKYs7YvjNweLr2uhjxHMRlJJoftkgBUku0MAPfTwHopUDoADdZNqUndXwIhsTbXIUcqBsF1WnLoecx4PNY3dz3N6kRHAHBVXa++P47oNPvsJ8osIRnF3wcdy1rDS/MwA76TfwEazoNQpe6Lv6RsCxxLlTxbPQfCClRk+P5le8y5+v/0Xuz9wvuKFlzZi9p0WdBDVSnqgG9Rn3SHnb+m5SMNPpibUDbIRk5+jd4rdamaRgyAdx4nV+U/6z5MPitdTKSBD+FKoqB0KTO9QZJK0U5zqNs4epFNcmKKdUtM5qJDoeOAazbpXEruE90CbyWewhwzPjmryw/TEItSMqPdHjRsg=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?/PPzfyJA/H9yQ9/TVdov+XSfkeit1M6HE2c33sq18ZY9WxzKsF/w6xjjWQf4?=
- =?us-ascii?Q?Cy0k1tGldg+cQR3jFyR5lCOOjc9wXoexm1nEUn1kzKIVBJBxBgXbI0dQhTAU?=
- =?us-ascii?Q?suwWtRZX+otwW9c/dYKJGkqqpmCBQD9pKRG80pILVbDxPYPyETy9C0MUDiof?=
- =?us-ascii?Q?yC3EuEP/cZITio2RVTaLR53yioqE9P9us+tKU/s+5vJV1nFagSKnPr/Yypvw?=
- =?us-ascii?Q?QPdPuZh087L6VwUrJseFxwEV+9Blb9cAG4UflV8WzzR3Hjrrxc0sMs4shYcW?=
- =?us-ascii?Q?JujedyNsnQxx3z+WkecrpE7MlTn9CrnMw9jEnKvFq6rPqeNU/Sq6VAYL7PWZ?=
- =?us-ascii?Q?EQAFUS/2iwtFImJ23hZ7y4N+/T95mmETKyw0BRGej/UXTwcJtI42brG2RbbX?=
- =?us-ascii?Q?x9FDhShVe/pTQteehdqIb2EWseWMCBI2sBE7vS96oi7LNh0ry9mp9GuwnYa8?=
- =?us-ascii?Q?NqmAfFpjFf3yWa1cVtc1khcpnD3NpkOripvV/tz0XmfBxogguk0Ky33/ZBZO?=
- =?us-ascii?Q?6XMb/TmqRcfDJps2QbcucfXbTZwqsfI1lUaQ0CfUSQoeJ+/qpusqBEDLl+wB?=
- =?us-ascii?Q?O7q9rD7amMsqQ/8OOVjCMiQwwC1h51yOBVedsD4Ehsmetq0Cc1lMGJ70qnvU?=
- =?us-ascii?Q?+F3uQNitSO84s9SCzV9oGLleaAPGjnSNGfgf1kdJ6KPPEWLg1EJQb6XpMdYG?=
- =?us-ascii?Q?jRpGEz9oXdAb/BNnMShHWRxGvLjjine2hktl9iI4FmxBsWGaikvtretBeynV?=
- =?us-ascii?Q?6d/h2Ez2yYm/RZHsoX2GXCf9bKd9E8NMkEWWIQqLz3/rTBlenfpxUnkzy8ga?=
- =?us-ascii?Q?BSFIhXtiiMBM1yPYZwd+2lfd9aTzoy5WkRTOkNLWX0fR46fEmhC7UU7LMMUs?=
- =?us-ascii?Q?mfNAzkPgXzxkVBxCouXFv3UmZG1Z3c9VC+BIHF1IBPoIUhklxlwNDhJb0fhv?=
- =?us-ascii?Q?Nz22Fej/A8MpmHAAeYaA02VHxP5af1olaVq0cCbW+pS0TVCtnkyaEAAALC7J?=
- =?us-ascii?Q?2progABDQUJAa83JVYrOgN/3uXV71ooCU1DsRPiqg/CWU2/IAsc00/TrsYDv?=
- =?us-ascii?Q?yZo//S0tR31bTk3JOhPuV2z4X+tWojbGRagrLC9iutqWR6+b0x6FnLTcUh/V?=
- =?us-ascii?Q?1F900iM+QzZhc5k/SkY9vm/9InMqfCxSpT1Ab8U1vK7qdMVuBB2MpQcbUL6y?=
- =?us-ascii?Q?hMKSH6acm0ijrMUVcWWmnKyW13KmcC5fhyNenJj2CCu3DP0q/gw3qUTk5zzn?=
- =?us-ascii?Q?wpeAOj7dgD1I93jBbCxDDTyejlggkA7iRxs5N9Riiev6TpDOiy/HhSrtIYsp?=
- =?us-ascii?Q?tff/ICkAo+gcXe+LS/pFDdv0FDiXXdF8jhlH+woCgB6fXHLeAemFtwilTBQx?=
- =?us-ascii?Q?YfnyQyJFTKBwT48UfwPF2mxSU4EUEuk1J7jBUPCmBg5vVx5YDWxULAh0X7W1?=
- =?us-ascii?Q?GcAP7o+a1Uv+OuGO5KV3aDPT+LGgexEtk22dcMSciUmorVsfAy/kHdFEXq22?=
- =?us-ascii?Q?P6GEAQW1n4SyfwSvPXJ8NBLOCEYkOq12AHy1gqKw4i1z7nevXv1S6//o9yfr?=
- =?us-ascii?Q?mM56djVkG8nL0m6Mp41SAXgEJfbaza4eNyDEeDAYblWnLsNsFyOEUFL6YjLt?=
- =?us-ascii?Q?i0PDKMMuYuG4yeduS3nZpj2TtBEXvTlrJXWYXwLzAFC1pu7A8AepFBAv3JQv?=
- =?us-ascii?Q?E4z74nsb6uNHM+23GM1Pg+HbfU8=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=DmkvEW8N;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.210.52, mailfrom: jdmason@kudzu.us)
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7d7fdb922a5so4026058a34.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 10:14:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774890845; cv=none;
+        d=google.com; s=arc-20240605;
+        b=O+1MKpuj8EmHkydc8RBsxd7XGCUW33dI5bednLyCowX2tXHh3RxogRtifgYkkMQ2cC
+         53OuFOO0ma39QRZ84KbJh4IekhRafxgezlINkVElbi++2NEQCPrQMG1akTarvqq3pA3n
+         Nn1y97VHUHlch9Gcj+gRp+WdUeZ6TfAxuHYTR7vCm9kTGVY1oeMVCE+lew8+l806SYvL
+         bsGrBQwFqeq0cLHwrMMq6HDGKYVq0mc8XQkvkGsHE9xXCC22Q3E5cbDIT2pPIPrOaI4D
+         zB3SLY1uoPey0wuwriQs8nztVRnXO7tjo4QoCwDtb+gMLlOwvBmMBqmmWjamr09Jz9F7
+         90Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=q+hgXtJNrSpzahJ/RsxWgTA6GefrnoyaMVKokBQNvBE=;
+        fh=O7h24sj98/Pg9W6kzuYuSegd5ek9V1CBybqqoHacNMY=;
+        b=MeP3xD7ogu5p+5RQnkXSxwj+IXz+lplsituFShcr5+qBVnnpSmyLCQDBuDWRKzyXDZ
+         /FZz/zWKosRHioBf2hwQAa1IbJHXSByDwdEXbpFf8yjbTPyuOztzb7fp+vEXb3Afte1S
+         vQ5ZpeNf4OsUBBdxCg9wSFao0etDBPdsutg5dnIAuhupUJ4G2QWKH5/mOTDreAe3VCG/
+         H3tgLF5ZvPeMN6KIjmBkeWNtAeoHU8kFjUmlIRlQLNfdLklkiu3QiWhEU+ASUqm8+LCM
+         5QfjxSIQD+dq0cxmLb3jIRszAbouR643N6VHQ2jQbqyITJhKeIPwiF4u8aIkwmdnCuqn
+         O1gw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1774890845; x=1775495645; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q+hgXtJNrSpzahJ/RsxWgTA6GefrnoyaMVKokBQNvBE=;
+        b=DmkvEW8NLmgwneMhyYGqr9yRckVPAT1ClChyeTu3Y5d13HypZ42qhmw5My6i/CsWE1
+         n8Z1WU6k8uIzVQhIGeDNP/2YX4vfniTTjRKVn6BBp+0rfynpcOycxOvETIlE4V+yVUHF
+         mv6Wq4j/6Za4C/RXzM+Tav2CWKR8y+qWwg7iCebMuF07rTnFNKPcS7RWPLD9gAd7l6td
+         PtODCn4k/JFV2x8ftdQJ/w4eKGRtCrLxJTdAPmdgPm2+xW45vy+uUaV5+bsgC2ubOr2j
+         QYKNCV5qodcB2rls6X3upuN4ehlsjAxj+CouQsQuRnAO23jsVY56WwLVrGVISiHWjvBp
+         zjLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774890845; x=1775495645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=q+hgXtJNrSpzahJ/RsxWgTA6GefrnoyaMVKokBQNvBE=;
+        b=kAgTc1VF9MqbrNDkUVAiqnyRB0OsWIYeegWjFT51vLpR/rg7+CQ3nC9hN/Kc2FDQKS
+         9ZjitjAjOWqVkAZ9Yeo7ymO5uQeNEReVGo7mDI2V5IUjDQGK6o5+U3uLVKFVjLBxXa3m
+         n0aXBUQjQ6Fe+nVo2WNLSJNR0qFcQ/oZ2hWxG+kC9qEbEYQis2xJf/evL6e6GNDsuKmf
+         edzbM6mljCh6RsI6ir70l8BBpaYtrLzksw69OEfcZnu/Duvp26JklfnICYSiBMw8Wkfy
+         zGIvoToPUqLLiWiZ8nrrtLaia7emlpG1rEHaN0XphQNJ4xsfFnz49GQSKcIyemQr8/87
+         KD5Q==
+X-Gm-Message-State: AOJu0YzTzbPMqIsRc13KblWDseMzhhSPd3mE47C25dinmSfFKh91yZ0m
+	xEERfEbODxPfedzLSKexV/i5vbKm0TjOkoaPsIpHxIqVMO1SOAsfy0i70SWhlefIiu5cfhiAOPR
+	0tOF6Yj1rE95TesYflGtBsTv9PqG8E7vV5g8aK56W
+X-Gm-Gg: ATEYQzzELDJkn0LxuF3kp4/EwdLeMj/IzXU3862FigXqcfIXp8BEuQAt6YXF3i3WfMS
+	qqAOVqzbdcaAPFwc7nDRkxPcKo+UtrVk6v69BLqGU93rbDYEEgOVa7WUVXF/dihCjtt18N/E7sz
+	cvdgDOnIKgjV+kNcf0p/Q35SoW4a+hRJKQC1SR056TMjdPw1GdCvOOu970g8dp86z2IVvAkUbxu
+	AzoCD9aGmODr3xMxAnaTn47Zk+EfhxYVGqjYvoM1ZUCLGGbE5UqDaqbJBRr7oEggw+GHOa9kgSi
+	W5DXMT7ctlV24fnZhA==
+X-Received: by 2002:a05:6830:700c:b0:7d7:fb11:b669 with SMTP id
+ 46e09a7af769-7d9fad9a98bmr7190174a34.1.1774890844710; Mon, 30 Mar 2026
+ 10:14:04 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45d99d64-1a15-484f-65c6-08de8e7895bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Mar 2026 16:22:49.2600
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dNy5Vl37FjtGY7NG8qVvZ3uHQ6zwW2Z7hPXYwdiHWUJiww6B41Q3atH1/AAXLfPL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSKPR02MB11435
+References: <20260330103502.168286-1-mikko.rapeli@linaro.org>
+In-Reply-To: <20260330103502.168286-1-mikko.rapeli@linaro.org>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Mon, 30 Mar 2026 13:13:53 -0400
+X-Gm-Features: AQROBzCwTFdgJ2thrpOK1wWVMJH7TPvuow_pP48yeM6X6r-2Q0h_juw9X9OZ-9w
+Message-ID: <CAPoiz9xp6XsExQ6cbj_nurxgrRgsihCB56wrZAx_XZsYKwKbMw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] uki.bbclass: fix UKI_DEVICETREE usage
+To: mikko.rapeli@linaro.org
+Cc: openembedded-core@lists.openembedded.org, Jon Mason <jon.mason@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 16:23:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234252
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 17:14:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234253
 
-What is the status of these patches, which upgrade the GStreamer recipes=20
-to version 1.28.0?
+On Mon, Mar 30, 2026 at 6:35=E2=80=AFAM Mikko Rapeli via
+lists.openembedded.org
+<mikko.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
+>
+> Set KERNEL_DEVICETREE to empty string with weakest assignment
+> if machine does not set this. This changes UKI_DEVICETREE
+> to an empty string by default and fixes genericarm64 uki image builds:
+>
+> ERROR: ERROR: cannot find /home/builder/src/core/build/tmp/deploy/images/=
+genericarm64/${KERNEL_DEVICETREE}.
+>
+> Also remove UKI_DEVICETREE setting in wic and uki oeqa selftests since th=
+e
+> class now handles it correctly.
+>
+> Tested-by: Jon Mason <jon.mason@arm.com>
 
-I do not see them on neither master-next nor mathieu/master-next in=20
-the openembedded-core-contrib repository.
+Sanity tested this patch on top of the master branch with the meta-arm
+qemuarm64-secureboot and uefi-secureboot (and testimage), and
+everything was happy.  I did not test the selftest to verify that part
+works.
 
-//Peter
+Thanks,
+Jon
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of wangmy via lists.openembedded.org
-> Sent: den 4 mars 2026 11:32
-> To: openembedded-core@lists.openembedded.org
-> Cc: Wang Mingyu <wangmy@fujitsu.com>
-> Subject: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
->=20
-> From: Wang Mingyu <wangmy@fujitsu.com>
->=20
-> 0002-tests-add-support-for-install-the-tests.patch
-> refreshed for 1.28.0
->=20
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 > ---
->  ...2-tests-add-support-for-install-the-tests.patch | 14 +++++++-------
->  ...treamer1.0_1.26.9.bb =3D> gstreamer1.0_1.28.0.bb} |  2 +-
->  2 files changed, 8 insertions(+), 8 deletions(-)
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.9.bb =3D> gs=
-treamer1.0_1.28.0.bb} (97%)
->=20
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-ad=
-d-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/g=
-streamer1.0/0002-tests-add-support-for-install-the-tests.patch
-> index ccfc869813..720a6f0c97 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-suppo=
-rt-for-install-the-tests.patch
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-suppo=
-rt-for-install-the-tests.patch
-> @@ -1,4 +1,4 @@
-> -From c33063360791e178de138304e29ab2264582d917 Mon Sep 17 00:00:00 2001
-> +From 92e7d4090fa458bf02d3418cd01c960982821e92 Mon Sep 17 00:00:00 2001
->  From: Jose Quaresma <quaresma.jose@gmail.com>
->  Date: Sun, 11 Apr 2021 19:48:13 +0100
->  Subject: [PATCH] tests: add support for install the tests
-> @@ -12,17 +12,17 @@ Upstream-Status: Submitted [https://gitlab.freedeskto=
-p.org/gstreamer/gstreamer/-
->  Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
->  ---
->   meson.build                  |  4 ++++
-> - meson_options.txt            |  1 +
-> + meson.options                |  1 +
->   tests/check/meson.build      | 22 +++++++++++++++++++++-
->   tests/check/template.test.in |  3 +++
->   4 files changed, 29 insertions(+), 1 deletion(-)
->   create mode 100644 tests/check/template.test.in
->=20
->  diff --git a/meson.build b/meson.build
-> -index 0a77e90..cadfaeb 100644
-> +index 8adc055..b5c9e5b 100644
->  --- a/meson.build
->  +++ b/meson.build
-> -@@ -664,6 +664,10 @@ if bashcomp_dep.found()
-> +@@ -667,6 +667,10 @@ if bashcomp_dep.found()
->     endif
->   endif
->=20
-> @@ -33,10 +33,10 @@ index 0a77e90..cadfaeb 100644
->   plugins_install_dir =3D join_paths(get_option('libdir'), 'gstreamer-1.0=
-')
->=20
->   pkgconfig =3D import('pkgconfig')
-> -diff --git a/meson_options.txt b/meson_options.txt
-> +diff --git a/meson.options b/meson.options
->  index 39255cf..78af552 100644
-> ---- a/meson_options.txt
-> -+++ b/meson_options.txt
-> +--- a/meson.options
-> ++++ b/meson.options
->  @@ -16,6 +16,7 @@ option('poisoning', type : 'boolean', value : false, d=
-escription : 'Enable poiso
->   option('memory-alignment', type: 'combo',
->          choices : ['1', '2', '4', '8', '16', '32', '64', '128', '256', '=
-512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb b/m=
-eta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
-> similarity index 97%
-> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
-> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
-> index c66f614629..63633fea05 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
-> @@ -22,7 +22,7 @@ SRC_URI =3D
-> "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
->             file://0003-tests-use-a-dictionaries-for-environment.patch \
->             file://0004-tests-add-helper-script-to-run-the-installed_test=
-s.patch \
->             "
-> -SRC_URI[sha256sum] =3D "8ee8772e468102ebe86d414d8c4c7440dd91d9f3e9396952=
-ff23aecde80670c8"
-> +SRC_URI[sha256sum] =3D "6c8676bc39a2b41084fd4b21d2c37985c69ac979c03ce595=
-75db945a3a623afd"
->=20
->  PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests',=
- '', d)} \
->                     check \
+>  meta/classes-recipe/uki.bbclass     | 1 +
+>  meta/lib/oeqa/selftest/cases/uki.py | 3 ---
+>  meta/lib/oeqa/selftest/cases/wic.py | 4 ----
+>  3 files changed, 1 insertion(+), 7 deletions(-)
+>
+> v2: weakly set KERNEL_DEVICETREE to empty as suggested by Richard,
+>     remove setting of UKI_DEVICETREE in uki and wic selftests as
+>     suggested by Jon
+>
+> v1: https://lists.openembedded.org/g/openembedded-core/message/233870
+>
+> diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bb=
+class
+> index 326697a06660..938f0f80614b 100644
+> --- a/meta/classes-recipe/uki.bbclass
+> +++ b/meta/classes-recipe/uki.bbclass
+> @@ -80,6 +80,7 @@ UKI_CONFIG_FILE ?=3D "${UNPACKDIR}/uki.conf"
+>  UKI_FILENAME ?=3D "uki.efi"
+>  UKI_KERNEL_FILENAME ?=3D "${KERNEL_IMAGETYPE}"
+>  UKI_CMDLINE ?=3D "rootwait root=3DLABEL=3Droot"
+> +KERNEL_DEVICETREE ??=3D ""
+>  UKI_DEVICETREE ?=3D "${KERNEL_DEVICETREE}"
+>  # secure boot keys and cert, needs sbsign-tools-native (meta-secure-core=
+)
+>  #UKI_SB_KEY ?=3D ""
+> diff --git a/meta/lib/oeqa/selftest/cases/uki.py b/meta/lib/oeqa/selftest=
+/cases/uki.py
+> index 4265a40e9e11..fc31fb767a64 100644
+> --- a/meta/lib/oeqa/selftest/cases/uki.py
+> +++ b/meta/lib/oeqa/selftest/cases/uki.py
+> @@ -47,9 +47,6 @@ QB_DEFAULT_KERNEL =3D "none"
+>  # boot command line provided via uki, not via bootloader
+>  UKI_CMDLINE =3D "rootwait root=3DLABEL=3Droot console=3D${KERNEL_CONSOLE=
+}"
+>
+> -# qemu provides the devicetree at boot, do not embed a dtb in the uki fo=
+r selftests
+> -UKI_DEVICETREE =3D ""
+> -
+>  # disable kvm, breaks boot
+>  QEMU_USE_KVM =3D ""
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
+/cases/wic.py
+> index 644247684576..3b61c3295e0d 100644
+> --- a/meta/lib/oeqa/selftest/cases/wic.py
+> +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> @@ -1580,10 +1580,6 @@ QB_DEFAULT_KERNEL =3D "none"
+>
+>  # boot command line provided via uki, not via bootloader
+>  UKI_CMDLINE =3D "rootwait root=3DLABEL=3Droot console=3D${KERNEL_CONSOLE=
+}"
+> -
+> -# qemu provides the devicetree at boot, do not embed a dtb in the uki fo=
+r selftests
+> -UKI_DEVICETREE =3D ""
+> -
+>  """
+>          self.append_config(config)
+>          bitbake('core-image-base ovmf')
 > --
-> 2.43.0
-
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#234224): https://lists.openembedded.org/g/openembedde=
+d-core/message/234224
+> Mute This Topic: https://lists.openembedded.org/mt/118576361/3616920
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jd=
+mason@kudzu.us]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
