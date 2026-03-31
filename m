@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9568CFF60D8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1BFFF60DE
 	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 06:57:33 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14329.1774940249292553667
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14607.1774940252157215989
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2026 23:57:29 -0700
+ Mon, 30 Mar 2026 23:57:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=H8vKYOJy;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48541edecf9so64542965e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 23:57:29 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ZyfPcEto;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso53904145e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2026 23:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774940247; x=1775545047; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1774940250; x=1775545050; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=X1N6tQ4HehJqWtoMI/L/REbT6mb2hLsImePjVku3M5M=;
-        b=H8vKYOJyjWSp2xC35tzQI292Pj3QdUAVkOMqUfYEFKeJTI70WPO7hYLIfCg/Ayixwr
-         vBOYk1KVgsgHey7RuJo/f8Xo4ftnY4dh5uaJUh2/rcGJygWdBVjv2Zmo6m3x4yaQw+xA
-         og9l2Ho/4FJnOPMgtSx8EZm9fD/T8a086BQB8=
+        bh=GZ363e0EVIi8MryHmDhiofnldkWTub/QYI8YZsUpARI=;
+        b=ZyfPcEtoy706dCkP8QAWzFT8JIPQQq+bXtYkCYYGMW3blOb+4S7kfTWP/DnPk3pPlw
+         K6svJrsblzCx+bSC04kdquF3vIdrnPkKa1aRHAkeGKyF2P10pWOHWvXpgDUhLpKhncNj
+         dbktKeKgiEolRjmPSv3jaEyV1Cr0yfBDEtioA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774940247; x=1775545047;
+        d=1e100.net; s=20251104; t=1774940250; x=1775545050;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=X1N6tQ4HehJqWtoMI/L/REbT6mb2hLsImePjVku3M5M=;
-        b=fN/X94w9liyFXANhu6/4BgQoC/hPcs8mk9VnOUVI9TRDTbbuQ8GHYB6JBPby2xg8dr
-         AqjJbzRqBA15GUzb0TCR7GCo8oSkVuzYsYP8CoZJ6eMxoT0YeOBmXRBLH/4sAd1C4Ez9
-         uEcC0GUN3uErrgQcD/92SEIk2wK9xXScyR21aqVSswCbjM4qiJb1T0SDU16SLev6TLl6
-         i5+YuoJPVnVbzfHelzonoBpHv6KF5OI/ABakVQ9rbpkS6jbildJC8Od6kK0Gj22G0Kka
-         +pog2Y8bI9RJpsUBzMiLpBA+PliwkoOix0NJ/OPqCehbzBGaCgEOibR/7EIwZiiBYGgD
-         /jug==
-X-Gm-Message-State: AOJu0YwO3Du1q0tS+DE/Wuk5Jw//2AKQDNpQgR4ZgdUmM5xfwmf79Oj0
-	G+VnlHnoh6ZVfF5n/9wEatkXMhvsIHqB0MGpWXSlxXyQNAmaQXx4L5Xz+BBlOLiZp94xeIxBHmC
-	frn+vQKs=
-X-Gm-Gg: ATEYQzxxvRSQY0e4Dsf26LM+PdcxmMKeTs4jxW3xVqk+Ek1o8jNtiwXgLQyLzLmpWAx
-	/hckyGkQ8nCBR/dfeetCc1Xyu5cezdNpf9Pl2anAYwi9hTjEbgqLWX4V+2Lh6Ng/ohILnCNfOCT
-	Ej8JK4GUvCi4lme2RLP5fP69CkkV+rI1ghOd7DxKfrJklxUtG9YssieLQ9FG+m1/rKXNuQTpLDu
-	lm1fLpEetccdnjLn1pGHx9wBDe5d4mExUANLSiVVU1Fnw2hdM3FVbUpW9nKEdaHbtejTEIFNCT0
-	O+zZvT1+8egEi0ZTpIdvRtflMPpBe/RldzJaH4S6342L1tOUOaNSOhI60ZmgdF1+SdacN24aRhF
-	lMUTZRXQOQ76iUH8rl44yzDS5J3luRVRIy3p1f1lr4YfmLMQwBKqVZZRXBuL8JwsKIvMmD2jRhl
-	u9bCH8azynKtm/SOxorBYMVvxaDbkOrdBMsfPEM5z8YBGgHt1UyMIxDuCCnHADjWMcfUFj1mMAi
-	jZx2NmNR5RMZyhY0aYLQXpeMPI=
-X-Received: by 2002:a05:600c:8b86:b0:485:3f58:d9f with SMTP id 5b1f17b1804b1-48727f405fbmr257713835e9.30.1774940247235;
-        Mon, 30 Mar 2026 23:57:27 -0700 (PDT)
+        bh=GZ363e0EVIi8MryHmDhiofnldkWTub/QYI8YZsUpARI=;
+        b=rXJkWjmC0P9MpfB6olHUCBEuvqQid+xT813QYNKKjmLWcwa9ioojDxBtqhz5drEcro
+         vUONRb+2xd+zc3BQ59daqYqotfKqC2gKLKKrV5It7RxtZ7zz/Fm++uKS+Rfef3ycj6bD
+         p7/EVxaaKmj5Nso13H4TCtIzKS63uEz5wVaqlCT24ZVLDOKgfpgssPGXiqNS89fy2h4Y
+         5C+i8aI1Ob2h5KoHnLWiWNhUG+Aa1qcya6Ed1wXH+3xxy9B8sWd/2Df0vAAQyzB3XcLE
+         n/b6kywSmwVc5mvgHQytgKdSIGYUyaRBfHHT4CrwkO1U9xA4Sfl88b/keJuMIftSJ46U
+         eWZw==
+X-Gm-Message-State: AOJu0Yyzguk/yRXnehUIukFF9j1L8fJ5E9yfg2YYJF6DzLltRROoswnC
+	Jz7ixTSBOorqWufwB/bR0nk4DWCdalDjRDmzuIeT9pyKkjs21uf709Dzqcfdt7apYb44CwnAhwG
+	PgpZzQuo=
+X-Gm-Gg: ATEYQzw3NWTMZ3fEix6TAwuFhMgbk+So8MP93uDJme7gVn6qLDasBKSyzRLleAEeOcU
+	yA6+UwswqxFSqaduuIXzur+0D8a6bBAulw/SATIddj15V/5mCVl9VaVmPzSXHKS2fq3XzxvDmlO
+	QZens2Pd8v2Xp5hUIrnrnWETj9oAaoHngnyogZSiKrtqUoI57U92RmpjyqWsmPuZEQc/Z6hKGxV
+	reqT6Kp0mRR5GTS50TShtnRVdeQoFyd1sIwaSgUxya+P/M5J+kKTGUD5cVfIUpcUKnmW9Ssx8o6
+	+JXMHdLgr8UzYaACCdCBwCJh/KGDCCzCArlhmlryJNAnao+sVTGblNMR/Hn3rpHA/WOoINKffi1
+	BsXaJSwlwR+AT3DYwOmSTUROoJ6gESZ/34CxwVe1ms8VRqINvxalq/0Y+O8+Qh5wOrJsEjQKQdW
+	bb/t3QBt5lnnzALqUoKyYt3S+i7UF2rXU8xn+gwfZ8mPk123PozCz0JdeeWOTRbzP5YwfYQzaha
+	+azfeo0DkrX1dgKDNHp8E9UMec=
+X-Received: by 2002:a05:600c:4744:b0:487:1c2:6a56 with SMTP id 5b1f17b1804b1-48727d5e97cmr258449935e9.3.1774940250179;
+        Mon, 30 Mar 2026 23:57:30 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887c8a546esm11016455e9.5.2026.03.30.23.57.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887c8a546esm11016455e9.5.2026.03.30.23.57.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 23:57:26 -0700 (PDT)
+        Mon, 30 Mar 2026 23:57:29 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap v2 2/6] python3-cryptography: Fix CVE-2026-26007
-Date: Tue, 31 Mar 2026 08:56:59 +0200
-Message-ID: <a363958725430237160b0a83a6a6acbe8380fba3.1774939987.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap v2 5/6] python3-pyopenssl: Fix CVE-2026-27459
+Date: Tue, 31 Mar 2026 08:57:02 +0200
+Message-ID: <94c6f16933b9ff4c4a2ea46be1e3fc5f2979a49d.1774939987.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1774939987.git.yoann.congal@smile.fr>
 References: <cover.1774939987.git.yoann.congal@smile.fr>
@@ -66,194 +66,148 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 06:57:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234264
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234267
 
-From: Nguyen Dat Tho <tho3.nguyen@lge.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-CVE-2026-26007 is fixed upstream in version 46.0.5.
-Our current version (42.0.5, scarthgap) is still reported as vulnerable
-by NVD.
-Backport the upstream fix to address this CVE.
+Pick patch mentioned in NVD
 
-Upstream commit:
-  https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-27459
+[2] https://ubuntu.com/security/CVE-2026-27459
 
-CVE report:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-26007
-
-Signed-off-by: Nguyen Dat Tho <tho3.nguyen@lge.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../python3-cryptography/CVE-2026-26007.patch | 149 ++++++++++++++++++
- .../python/python3-cryptography_42.0.5.bb     |   1 +
- 2 files changed, 150 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
+ .../python3-pyopenssl/CVE-2026-27459.patch    | 109 ++++++++++++++++++
+ .../python/python3-pyopenssl_24.0.0.bb        |   1 +
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
 new file mode 100644
-index 00000000000..fb76bbfca38
+index 00000000000..f75540f96e0
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-26007.patch
-@@ -0,0 +1,149 @@
-+From 42c914929b52eb16421a4ef1f7e09c8f9fdab7db Mon Sep 17 00:00:00 2001
-+From: Paul Kehrer <paul.l.kehrer@gmail.com>
-+Date: Wed, 18 Mar 2026 16:01:03 +0900
-+Subject: [PATCH] EC check key on cofactor > 1
++++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+@@ -0,0 +1,109 @@
++From 57f09bb4bb051d3bc2a1abd36e9525313d5cd408 Mon Sep 17 00:00:00 2001
++From: Alex Gaynor <alex.gaynor@gmail.com>
++Date: Wed, 18 Feb 2026 07:46:15 -0500
++Subject: [PATCH] Fix buffer overflow in DTLS cookie generation callback
++ (#1479)
 +
-+An attacker could create a malicious public key that reveals portions of
-+your private key when using certain uncommon elliptic curves (binary
-+curves).  This version now includes additional security checks to
-+prevent this attack.  This issue only affects binary elliptic curves,
-+which are rarely used in real-world applications. Credit to **XlabAI
-+Team of Tencent Xuanwu Lab and Atuin Automated Vulnerability Discovery
-+Engine** for reporting the issue.  **CVE-2026-26007**
++The cookie generate callback copied user-returned bytes into a
++fixed-size native buffer without enforcing a maximum length. A
++callback returning more than DTLS1_COOKIE_LENGTH bytes would overflow
++the OpenSSL-provided buffer, corrupting adjacent memory.
 +
-+This is a partial backport of upstream commit
-+0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c, to only include what's
-+relevant for CVE-2026-26007.
++Co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
 +
-+CVE: CVE-2026-26007
-+
-+Origin: backport, https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c
-+Reference: https://salsa.debian.org/python-team/packages/python-cryptography/-/commit/464e7ca3b0b4493d5906d0c3685de71fda770c59
-+
-+Signed-off-by: Nguyen Dat Tho <tho3.nguyen@lge.com>
-+Signed-off-by: Paul Kehrer <paul.l.kehrer@gmail.com>
-+Co-authored-by: Alex Gaynor <alex.gaynor@gmail.com>
-+
-+Upstream-Status: Backport [Backport from https://github.com/pyca/cryptography/commit/0eebb9dbb6343d9bc1d91e5a2482ed4e054a6d8c]
++Upstream-Status: Backport [https://github.com/pyca/pyopenssl/commit/57f09bb4bb051d3bc2a1abd36e9525313d5cd408]
++CVE: CVE-2026-27459
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/rust/src/backend/ec.rs         | 39 ++++++++++++++++++++----------
-+ tests/hazmat/primitives/test_ec.py | 37 ++++++++++++++++++++++++++++
-+ 2 files changed, 63 insertions(+), 13 deletions(-)
++ CHANGELOG.rst      |  1 +
++ src/OpenSSL/SSL.py |  7 +++++++
++ tests/test_ssl.py  | 38 ++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 46 insertions(+)
 +
-+diff --git a/src/rust/src/backend/ec.rs b/src/rust/src/backend/ec.rs
-+index 6a224b49f..27fced086 100644
-+--- a/src/rust/src/backend/ec.rs
-++++ b/src/rust/src/backend/ec.rs
-+@@ -155,12 +155,9 @@ pub(crate) fn public_key_from_pkey(
-+ ) -> CryptographyResult<ECPublicKey> {
-+     let ec = pkey.ec_key()?;
-+     let curve = py_curve_from_curve(py, ec.group())?;
-+-    check_key_infinity(&ec)?;
-+-    Ok(ECPublicKey {
-+-        pkey: pkey.to_owned(),
-+-        curve: curve.into(),
-+-    })
-++    ECPublicKey::new(pkey.to_owned(), curve.into())
-+ }
-++
-+ #[pyo3::prelude::pyfunction]
-+ fn generate_private_key(
-+     py: pyo3::Python<'_>,
-+@@ -215,10 +212,7 @@ fn from_public_bytes(
-+     let ec = openssl::ec::EcKey::from_public_key(&curve, &point)?;
-+     let pkey = openssl::pkey::PKey::from_ec_key(ec)?;
++diff --git a/CHANGELOG.rst b/CHANGELOG.rst
++index 12e60e4..6041fdc 100644
++--- a/CHANGELOG.rst
+++++ b/CHANGELOG.rst
++@@ -16,6 +16,7 @@ Deprecations:
++ Changes:
++ ^^^^^^^^
 + 
-+-    Ok(ECPublicKey {
-+-        pkey,
-+-        curve: py_curve.into(),
-+-    })
-++    ECPublicKey::new(pkey, py_curve.into())
-+ }
+++- Properly raise an error if a DTLS cookie callback returned a cookie longer than ``DTLS1_COOKIE_LENGTH`` bytes. Previously this would result in a buffer-overflow.
++ - Added ``OpenSSL.SSL.Connection.get_selected_srtp_profile`` to determine which SRTP profile was negotiated.
++   `#1279 <https://github.com/pyca/pyopenssl/pull/1279>`_.
++ - ``Context.set_tlsext_servername_callback`` now handles exceptions raised in the callback by calling ``sys.excepthook`` and returning a fatal TLS alert. Previously, exceptions were silently swallowed and the handshake would proceed as if the callback had succeeded.
++diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py
++index a6263c4..2e4da78 100644
++--- a/src/OpenSSL/SSL.py
+++++ b/src/OpenSSL/SSL.py
++@@ -691,11 +691,18 @@ class _CookieGenerateCallbackHelper(_CallbackExceptionHelper):
++     def __init__(self, callback):
++         _CallbackExceptionHelper.__init__(self)
 + 
-+ #[pyo3::prelude::pymethods]
-+@@ -357,6 +351,28 @@ impl ECPrivateKey {
-+     }
-+ }
+++        max_cookie_len = getattr(_lib, "DTLS1_COOKIE_LENGTH", 255)
+++
++         @wraps(callback)
++         def wrapper(ssl, out, outlen):
++             try:
++                 conn = Connection._reverse_mapping[ssl]
++                 cookie = callback(conn)
+++                if len(cookie) > max_cookie_len:
+++                    raise ValueError(
+++                        f"Cookie too long (got {len(cookie)} bytes, "
+++                        f"max {max_cookie_len})"
+++                    )
++                 out[0 : len(cookie)] = cookie
++                 outlen[0] = len(cookie)
++                 return 1
++diff --git a/tests/test_ssl.py b/tests/test_ssl.py
++index 55489b9..683e368 100644
++--- a/tests/test_ssl.py
+++++ b/tests/test_ssl.py
++@@ -4560,6 +4560,44 @@ class TestDTLS:
++     def test_it_works_with_srtp(self):
++         self._test_handshake_and_data(srtp_profile=b"SRTP_AES128_CM_SHA1_80")
 + 
-++impl ECPublicKey {
-++    fn new(
-++        pkey: openssl::pkey::PKey<openssl::pkey::Public>,
-++        curve: pyo3::Py<pyo3::PyAny>,
-++    ) -> CryptographyResult<ECPublicKey> {
-++        let ec = pkey.ec_key()?;
-++        check_key_infinity(&ec)?;
-++        let mut bn_ctx = openssl::bn::BigNumContext::new()?;
-++        let mut cofactor = openssl::bn::BigNum::new()?;
-++        ec.group().cofactor(&mut cofactor, &mut bn_ctx)?;
-++        let one = openssl::bn::BigNum::from_u32(1)?;
-++        if cofactor != one {
-++            ec.check_key().map_err(|_| {
-++                pyo3::exceptions::PyValueError::new_err(
-++                    "Invalid EC key (key out of range, infinity, etc.)",
-++                )
-++            })?;
-++        }
+++    def test_cookie_generate_too_long(self) -> None:
+++        s_ctx = Context(DTLS_METHOD)
 ++
-++        Ok(ECPublicKey { pkey, curve })
-++    }
-++}
-+ #[pyo3::prelude::pymethods]
-+ impl ECPublicKey {
-+     #[getter]
-+@@ -591,10 +607,7 @@ impl EllipticCurvePublicNumbers {
-+ 
-+         let pkey = openssl::pkey::PKey::from_ec_key(public_key)?;
-+ 
-+-        Ok(ECPublicKey {
-+-            pkey,
-+-            curve: self.curve.clone_ref(py),
-+-        })
-++        ECPublicKey::new(pkey, self.curve.clone_ref(py))
-+     }
-+ 
-+     fn __eq__(
-+diff --git a/tests/hazmat/primitives/test_ec.py b/tests/hazmat/primitives/test_ec.py
-+index 334e76dcc..f7f2242f6 100644
-+--- a/tests/hazmat/primitives/test_ec.py
-++++ b/tests/hazmat/primitives/test_ec.py
-+@@ -1340,3 +1340,40 @@ class TestECDH:
-+ 
-+         with pytest.raises(ValueError):
-+             key.exchange(ec.ECDH(), public_key)
+++        def generate_cookie(ssl: Connection) -> bytes:
+++            return b"\x00" * 256
 ++
+++        def verify_cookie(ssl: Connection, cookie: bytes) -> bool:
+++            return True
 ++
-++def test_invalid_sect_public_keys(backend):
-++    _skip_curve_unsupported(backend, ec.SECT571K1())
-++    public_numbers = ec.EllipticCurvePublicNumbers(1, 1, ec.SECT571K1())
-++    with pytest.raises(ValueError):
-++        public_numbers.public_key()
+++        s_ctx.set_cookie_generate_callback(generate_cookie)
+++        s_ctx.set_cookie_verify_callback(verify_cookie)
+++        s_ctx.use_privatekey(load_privatekey(FILETYPE_PEM, server_key_pem))
+++        s_ctx.use_certificate(load_certificate(FILETYPE_PEM, server_cert_pem))
+++        s_ctx.set_options(OP_NO_QUERY_MTU)
+++        s = Connection(s_ctx)
+++        s.set_accept_state()
 ++
-++    point = binascii.unhexlify(
-++        b"0400000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000010000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000001"
-++    )
-++    with pytest.raises(ValueError):
-++        ec.EllipticCurvePublicKey.from_encoded_point(ec.SECT571K1(), point)
+++        c_ctx = Context(DTLS_METHOD)
+++        c_ctx.set_options(OP_NO_QUERY_MTU)
+++        c = Connection(c_ctx)
+++        c.set_connect_state()
 ++
-++    der = binascii.unhexlify(
-++        b"3081a7301006072a8648ce3d020106052b810400260381920004000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000100000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"0000000000000000000000000000000000000000000000000000000000000000000"
-++        b"00001"
-++    )
-++    with pytest.raises(ValueError):
-++        serialization.load_der_public_key(der)
+++        c.set_ciphertext_mtu(1500)
+++        s.set_ciphertext_mtu(1500)
 ++
-++    pem = textwrap.dedent("""-----BEGIN PUBLIC KEY-----
-++    MIGnMBAGByqGSM49AgEGBSuBBAAmA4GSAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++    AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=
-++    -----END PUBLIC KEY-----""").encode()
-++    with pytest.raises(ValueError):
-++        serialization.load_pem_public_key(pem)
-diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-index 732f925d926..c4573fa6891 100644
---- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-@@ -11,6 +11,7 @@ LDSHARED += "-pthread"
- SRC_URI[sha256sum] = "6fe07eec95dfd477eb9530aef5bead34fec819b3aaf6c5bd6d20565da607bfe1"
+++        # Client sends ClientHello
+++        try:
+++            c.do_handshake()
+++        except SSL.WantReadError:
+++            pass
+++        chunk = c.bio_read(self.LARGE_BUFFER)
+++        s.bio_write(chunk)
+++
+++        # Server tries DTLSv1_listen, which triggers cookie generation.
+++        # The oversized cookie should raise ValueError.
+++        with pytest.raises(ValueError, match="Cookie too long"):
+++            s.DTLSv1_listen()
+++
++     def test_timeout(self, monkeypatch):
++         c_ctx = Context(DTLS_METHOD)
++         c = Connection(c_ctx)
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
+index bc0b568a46a..94a70aa17d1 100644
+--- a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
+@@ -12,6 +12,7 @@ inherit pypi setuptools3
  
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-+            file://CVE-2026-26007.patch \
-             file://check-memfree.py \
-             file://run-ptest \
-            "
+ SRC_URI += " \
+     file://CVE-2026-27448.patch \
++    file://CVE-2026-27459.patch \
+ "
+ 
+ PACKAGES =+ "${PN}-tests"
 
