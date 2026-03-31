@@ -1,165 +1,391 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84012109B48D
-	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 15:20:43 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22802.1774970440120644976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B7D109B48E
+	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 15:30:44 +0000 (UTC)
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23053.1774971041818678336
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2026 08:20:40 -0700
+ Tue, 31 Mar 2026 08:30:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=pO720SHv;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=pO720SHv;
- spf=pass (domain: arm.com, ip: 52.101.65.42, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=tFu2TpPLOT4Z7su6nU3wo/duLgni6yFu3Pg9Yv+hZGsTHYBwAng94vdM74t6Bs8l6tIw5IXdUhaMT1QEyV1sEkzLL/lS4g7OYj7HnrUshpq491WGhXD6Wyx3f1W0/JxpcqE0uymvr9esTo9Y6pYEjQicqPH3lyEDCkC4Pz8HOFtZz+uYPNmod/8cQuRNIpTK0dJRZDA4G6YC9ZG78eySP2SUmN/c0cjhAl/zDVRiCZnzJh9f9I9sAUPYdzjWUG5zGuMwj3mShwU/bLh08YSMIz4ofl8eD3j7LD2D3lE4f4+oeeCmZtWH2in/dlrYSnw7zEz4FcRVAZUB6grnPkqTmA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TLDoteXBYii1swG0Lh0hsscwAWF9VRlotkVSHJBPje0=;
- b=I3X5nNDXh4jsEBXlPcGARIUahRg8cmuDSEAlsWRaohYzU3xVdU7H0+9tuIteny1shi2NcmoiXMiZmIqwnsQQg+Jh2cbu5TNIkCOKPTNyPPQ5KkAqphlFjAuLJUPvXfUM04lx2xUhOFhl14E80VLGKSFCohH+cCV9iZWK/zhm/gdPCrHvzNCMcVuz/hzElbpaQWo3WD3w7jWAS/nk6gxSxHYtM7FmSdTXaao7786tMobhP/ZKBkMOI2l95OQZdN3SnFr3F3yzQYUvlF2oG3XDEzpQRUWo04RlDKa1fhQyWVKVwPzwQjRr5c1JMNa8U/Ie8ZzZJTPRlXSIRarSfAZUkw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TLDoteXBYii1swG0Lh0hsscwAWF9VRlotkVSHJBPje0=;
- b=pO720SHvJK4fkDQZOgEChAPe0yTpZnaFOh0UqlESM79WhSqIiRONatQ9F9RJWq1fiv9JMFL8ENzvmEpQWPjnGXB7wzwkDCNlsxc0rBQhFaJXbKFmKTlcBhyS7R3brSaol4vhS5rlqsy8JFC9PvUOCmp5tksubQq+6yU8/IE3NGE=
-Received: from AS9PR0301CA0022.eurprd03.prod.outlook.com
- (2603:10a6:20b:468::18) by DBAPR08MB5607.eurprd08.prod.outlook.com
- (2603:10a6:10:1ae::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Tue, 31 Mar
- 2026 15:20:36 +0000
-Received: from AMS0EPF000001AC.eurprd05.prod.outlook.com
- (2603:10a6:20b:468:cafe::b2) by AS9PR0301CA0022.outlook.office365.com
- (2603:10a6:20b:468::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.27 via Frontend Transport; Tue,
- 31 Mar 2026 15:20:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF000001AC.mail.protection.outlook.com (10.167.16.152) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.21
- via Frontend Transport; Tue, 31 Mar 2026 15:20:35 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W2+0dZbV7m8ZhZzaqcqKssbLTcEc/IJy0gnmJUJyKL2dOTWu0zIATfn7DuxrwVQOuAXsrBwuz29HttOk1iFitwEhJSYCVOcp7fwycEDYKlF7RodZBsUFm+KOaRz/qb3AFNw0/9j/LW/tEo94fqoJVGWt1YrM2FHvDTvt9PjjBqP/PRkx1fH3M7mHbNWAP5fIzR48IY9xoIGgsBJ3gqMMwJQK0HuAlAbJBh9GDXzuy0hAKXLHJoqcpeh7h8jmWFfTpH869mG1Rf4xoNSAY+YD72rIfUJLdRbhqHuQoc6HMNG/BybPnFn0mJIbriIT+Uj5R9XWCo1leAixH2/tzMySIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TLDoteXBYii1swG0Lh0hsscwAWF9VRlotkVSHJBPje0=;
- b=eO/417qEfhC/P24AlYPIF0KvITS8UO6E/Rn2VhJEhVb/KLr39marz5pZ42wfNuCIpG05G9lPqcZixaHq/BbCec20dVW+5PfXmlkAhMo7r8FtISdCeG1XafKf79Y4SCCQruL+FjpZK4Htx8+wLaF5vSEKFSsQ6eFlwtz9e5a7Pmm4vNqhW83kf05XflRn7ZqYorP1MfGZzSnV/p4Tck/o8t8S1LnMGwHfrtFaJOjeBsvxK08psVsjtgeM3t7mWsqBxnC5SxPIB7e2NCHhDY/zxZxI8vugG+27JaBJnXYDGkVGiCISfz662eiQdlaCv79Y3MvIIWQz9Gqi+Ko7htk5rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TLDoteXBYii1swG0Lh0hsscwAWF9VRlotkVSHJBPje0=;
- b=pO720SHvJK4fkDQZOgEChAPe0yTpZnaFOh0UqlESM79WhSqIiRONatQ9F9RJWq1fiv9JMFL8ENzvmEpQWPjnGXB7wzwkDCNlsxc0rBQhFaJXbKFmKTlcBhyS7R3brSaol4vhS5rlqsy8JFC9PvUOCmp5tksubQq+6yU8/IE3NGE=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB4PR08MB9288.eurprd08.prod.outlook.com (2603:10a6:10:3f4::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
- 2026 15:19:32 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9745.027; Tue, 31 Mar 2026
- 15:19:32 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Marta Rybczynska <rybczynska@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/3] classes/vex: remove
-Thread-Topic: [OE-core] [PATCH 1/3] classes/vex: remove
-Thread-Index: AQHcwRHDMM2buOT4+UKIWvUT2idtcbXItzgAgAAF+oCAAAKUgIAAAZcA
-Date: Tue, 31 Mar 2026 15:19:32 +0000
-Message-ID: <9563B43A-F1E4-4023-A84E-F6C16B6D1733@arm.com>
-References: <20260331132430.781647-1-ross.burton@arm.com>
- <CAApg2=Rnrr_ZijiZ4cxKvkwmeCOssHXVfNHi2hZAywuhNe+F-Q@mail.gmail.com>
- <38C0C321-1456-4C35-9AA1-8B4CB8BEF6B1@arm.com>
- <CAApg2=TtBWXYMy=2Lh8UYia_Td+ibPBCwh57By5STzPhdfbH-Q@mail.gmail.com>
-In-Reply-To: 
- <CAApg2=TtBWXYMy=2Lh8UYia_Td+ibPBCwh57By5STzPhdfbH-Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.4)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB4PR08MB9288:EE_|AMS0EPF000001AC:EE_|DBAPR08MB5607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34657dcc-acd1-4f62-e863-08de8f390eeb
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|56012099003|18002099003|22082099003|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- du/boyqNDt7GeV8zZlmb6C0yNkjM+sZVABN5VZcFS7pQFyWjLmPYpbciGYbGHzdxb2rBeEugMX7zV5bj6YKGDRRR8r7HhLEKXWCJkWW4muBsJ6hLr1dKEPWV5KcGciJ/5agxjDeFa8GywUl+dwvN4iiyN8JYO0zQJd0zHagYjq3RhoFbT3+ZDDx28Ec/Y8fYFhHYgaGM8QuZA/Hvbz1XkhBaCUX741X6fSvdYdRYCmXUwgZoAgMjud+JV+KZlynHQ35MSQxvh/BFWdGoYiFMUaGRLv9ZmQv+/aP2ceamf816oq9jdGdeiw76PEuuSnecA8W3jyPulbQm6X3lVKmOOHONta3k2nkp1jmRkn3Wx8fTtHyEDDPcIed3nLHSu6elBDdYwh3ZE/cllJ69iFPBZALU18dywvqqXn+5IpBX/PGAcbS7IU53BYZ45jE8iFyDTl4gv8iG3TZV1bwGRrRCbLgQC9OXiV5NCytDi8VaoVgb246VMrz13DvNzFli4J40gxszFyyK4LANCp5bJs4zuspgGEPfO2IzM6wact3M8oWCeH7BcJIBRQcM93ZIea+zE+/HNIyx4WU3xGggWcbD0HTg466/rFcGywS9q1mc8A+Equjv0rc17HXZxGr3CGVu30Hys0lJfEOJ92I91rgzvZzou0jqrVbi0s4Se5Z4OC1pf91BAf8iJ/NZattwM1+wdYgzHEUh99/UyM0sk6I3NpP8Rhj0TO2cCWaHkbG4i4RwRQC9SM3O3XZQ1Zba+1AZe6Jr+PquEXG4xdh5RKQG0ytNKRwyjqRJ4/9MrRFbjUM=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(56012099003)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AAC90992725F0D4EA3B0731F390A071B@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=s+v44J29;
+ spf=pass (domain: gmail.com, ip: 74.125.82.54, mailfrom: rybczynska@gmail.com)
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-126ea4b77adso8283790c88.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 08:30:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774971041; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eLSqpa0DUQDqNjPWZWy00aYzhXBTCLswOnfXdBSTqo0H2rvO/GenyxRFDz6x9EcALz
+         hDUbtbEMc1KuBNBwP0KbZRIU0O7NuK+z9MIanZbAad7bs1EEM+ekmbqpVhgZzcIeaNUd
+         ikDkXuZWf6bdqwRY9EU4ovdMLzqdki6BcPySmSwWunb8Tz0AKY8sfg3YR5kG4V9+Tzts
+         Md25brGruabV2UKadmOJNvZiCLkDCvQy5BPDP1TCwdowPSErUPkTpOUuJIB0b9pUxDkD
+         sO1UssodWlKPjzfDFjIVnpzxSSvhrzhoKkIM89DpTK6CpsMiTaGYm3OYchVpZdolZjMp
+         9VKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=hzb/zeyL8j4DfrA0FZjGJRHBVhDH+eAPNfT4r86I/S0=;
+        fh=S7/sK8EQ1mFd1pq+JI6LVEdFR++R0x4bWvYdNlc53wc=;
+        b=OSDqGHAXpTcXQIhjvrXX/zUFI3XJME6vm9juhJPTMsW1NrHQQLe+17gX8FZnuMCdpy
+         yg1d/YGLVvTmeC+kTj+gCF1ACXXvH0jZkLS39xQHhGo26vXt13twUr2NIo9rzkF0QnbB
+         A+uXKDgSpFcgMJ2fAvPMCGGZ100ONB7KmhHRIjcS+duJMCoI64dufnYSdkti3hIpke44
+         DfwJAhudxWu8vT3XTV6TczGG909Cfa0XjC46dd9TAqAmPfbBRSf1RCnxbpbt5jW0fFbc
+         bZy3Yb6ABSFOGSC8q+FQuxJImxaOHUC3zmmy5CmzvjzLjggYKw7wAd6EHBW4Hejp+dkP
+         2UOQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774971041; x=1775575841; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hzb/zeyL8j4DfrA0FZjGJRHBVhDH+eAPNfT4r86I/S0=;
+        b=s+v44J29DSrFRLf0R2l+CsqW/sbGyzHYO0wPyWGUfzFgmddJ9kFOnqNsVOYrk0HhI4
+         x3RQ/sgGOtOs9C72ZgQkVnx9k08dZnvwU9OLH+/jlqUkHXZQNFTXNkFOt4uJg8ool/aH
+         24cOvrT6zcTWEbgFAA3kQDnH20wZKQ7J+l+9F+31ymrq53BxT2EFlGE+khkDEohRoVXJ
+         65FsHutkbwoJm5tGd1C9dNT+45KSiVUnWQB4Fhcmo2YGgT51d+ymIzu+ba8KYe1veqxx
+         19BXmA7o65h0Sr/y2go/yVq3v9E0ldrsUZi8ayEdA6J04Kxsgc5dQb2h0LxJXrqCYw9q
+         QW9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774971041; x=1775575841;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hzb/zeyL8j4DfrA0FZjGJRHBVhDH+eAPNfT4r86I/S0=;
+        b=p8ryVnOTTCpOu+4XE32Jnj7r7GuFvGCb+PX/AONnoipATp0L6ncQNW4d9SQV5dubLO
+         Oh7gJ8nyRh5MIgM4g4eDm91l7nrzdCaR1cvOB0K/Qy1PJJonN/gDyFvsG2Hd0bY169y2
+         mEm7x/OL/F8XnzMIF3j6raKZiPgzuQ2RQlW40Djfn8dvV1TmUELjPBcU8cqssCJ9d4k+
+         +oKU/jShOwP0x1KowMyeIgp/t4fy8QNviZYJltlFtJhjrfYLAuSQdDEdignvtgyfT3/e
+         7lS7oBsyrsPPDrNpZ8ft6VUJgIkuTt7JmtNkNlMSg8JSfY2nz1xzL4ffyHct48ryfFab
+         68SQ==
+X-Gm-Message-State: AOJu0YybO2EImWX0SUQHR2S1m6akdiIv3wtW+QAA6pqLKO8sOsu92RWm
+	KR7+UgJ8hQC3FooRA2H0XRLj+ew55M8p8666M1ZO04Ek2yC/EM4zERteFFUo/lEj0MbDGB4gwGc
+	dadIbLtZH9/mZr0bVm2cFthe4lSJ9JWYEx6BqJHY=
+X-Gm-Gg: ATEYQzzpTupKoYaAQIzVPnuhgSKT/pvxTELbUii9SY/E/n0MOSqA1PxmHWKuA/7Th9U
+	ZGlDlBhoviv5CePZKyLtGg82YOH/pC+jJIO+8IUOeCrmXSbV3QvURZqtZtPzH21+uS9Fh2PeVE8
+	j+miq83ZumvuoIEccAFppG9Nh3l6XpsxDzFX8V8x0To/9vtc4a2d+C87/pQfX9UdY7lVKhccUKd
+	Ao/SjxLU/blXhx2w9QiSk9+TZNl6+VerzjN/DV1ElK7GEZooeLcudTMsu9Wmf+e6RSLlm/PqVkM
+	uCQJlXPbj4UyJiUTI/wQmQwMceHSaoJGnO9uLyy4
+X-Received: by 2002:a05:7022:220a:b0:12a:7181:2f1a with SMTP id
+ a92af1059eb24-12ab2857e49mr8686097c88.5.1774971040505; Tue, 31 Mar 2026
+ 08:30:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- tyF4qftHSdUEz4l7phRBL+6MyUwQDH4bA6e/2FdjOEvNKX+NUfDEIn8Ac+aAXhdR9xj1x6djgB/3QObvq11e0WC2RpBOcoekGZWYCk0PeO+Z5t6/bP9oOBjuEMsaVOdqv1y5/1HhcTlW7M2AcvzbaX9PKWQ0LLEL+SDisVm5ENo54+AnyPIvtO2+N3cyL7PAwd+UITgRH4bAgXdIt/WO4nlxk+Ra3SDB/F61cT6hqWMDkLuQpo4D9eRBaBUgjsjNHN4/Z4ZBaCSYittN+j57RGvREwwKXemO6gzdKYmh6g8VDZtAUzLMORO+zjXIdNjQ62CRfSX1i3h0X3Pqd2m1/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB9288
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF000001AC.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	d86553d0-a15b-4fb4-0764-08de8f38e94e
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|376014|14060799003|35042699022|82310400026|1800799024|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	z+XSubQYzT9o/1AUUvhNKu/xR8Y6E3ndDSZ/i2RH99jmtOnZHdSQOpXvqh1fimQqdVelAIz6N3rb4rEyBJAUY7sLzl1HgSjo5839BozdqJ+/5B5HUpYvQNaubuiamywDTV95PsLLzE0YQ0D4eYWMNjm27mJrIpJv8fdbGHmOSCFJzNaqh7wT/bQLO8YpwQ2egS7fTPlhirbFmKNQubcSrlKQgNh7umSt8ps2rPHG1BEhrmeLK5mz3xF36ueSgMfQEtbZl6+KoAnCQZxBpiSJsVPDRIbLZDeAOUHWDPE5JUVVwGaXrN4eYYfiLHbAk1OMeLMg86lZhOHpUdfM/FBZ3c5Ood7Emgpw3p597iCxPcYQSI45CZoB2hYYqZxK2XheM+9dIvflKr0DOeODb3Fa2yAhNiiUOeCy0rDU+wlBCLmwCwF7hnJZj3r37QhDGQ8ARrrvzvbhBkyFmS2hlftJxGRK+BeouV7Nf4EVtwO+n3SQ2Ze4a/qWD+gToZZVxbeyCszR154vlkQjRehqG3D12XddbI4HFrQ1nc5Zx4K4372bmWaTo1LHbsfPXTZLQxlYqm2o9+juOom1PonMrmn7zShrGXKQgLAnp7xaKZwArFTKa/npKZWgHyhkzUl/+opqApmu7GswAtazGBwpfvWV2cz7RIxHShXtHXjSXeez34jBjq+2PNkONK9l2iH4h3f/j85vgI9Yp/YHutkWVoHva7uY7TAdjedrFHmDyA1m3HvXImuCm7jdTY+edksQK+V9iRDXkvsZXTDl6Tdl3mVHlw==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(14060799003)(35042699022)(82310400026)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	yoH/AtL7YFn4Mh9DnSL7pQtoy3h0DhoF36qlo9+S1ezLY1bGGIGXFjO2bsVsY0wUTer0ofJIvLQuQ2v3OvGtaDipfc6uOncALC+MTW/Q8R6RWk5xTCyo8nKwXlWGZGLksMWo1bfwPqWBXQ5Qc5VrMCpu6Slgkxok/v6emn/WkwHXQF0C+8bfwP/y8VgGHFDn5vfNBjaSiCnf1QCk6Fp5A6BKsv4snd1eI9UW9N1qUbRYT8x4gZEsY1f/fJ5vFFjAaSHa8gmCoQMbR2W/J5ECgWN59Fs22BJ/931jT1r0hEGQvCrwJ57uMJKv/Sj9XJgsnmJtUtXBfPWKX1XuJcSpXI3YH9R5BZQVytfihMWHoy5LZT/0noJhdqkrSIu14Nfz8tAd9GbNBRY/hGP1FckQEKDKh8fi7I50mS//RrYRN5wu3Cq9myVSOpd9eLPo7Jm9
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 15:20:35.8985
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34657dcc-acd1-4f62-e863-08de8f390eeb
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001AC.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5607
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 31 Mar 2026 17:30:27 +0200
+X-Gm-Features: AQROBzCEltjODwAKeehF5dFh7HOeY80c53FmewJVu_1IUhYgCzwo4qQMOHpojg0
+Message-ID: <CAApg2=RgxG+NY7sLTBMNEhPmX-O5dNC+AHmSSUQCDREgV6VToQ@mail.gmail.com>
+Subject: Runqemu error on core-image-minimal
+To: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000005b2585064e53a69a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 15:20:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234301
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 15:30:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234302
 
-T24gMzEgTWFyIDIwMjYsIGF0IDE2OjEzLCBNYXJ0YSBSeWJjenluc2thIDxyeWJjenluc2thQGdt
-YWlsLmNvbT4gd3JvdGU6DQo+IE9uIFR1ZSwgTWFyIDMxLCAyMDI2IGF0IDU6MDXigK9QTSBSb3Nz
-IEJ1cnRvbiA8Um9zcy5CdXJ0b25AYXJtLmNvbT4gd3JvdGU6DQo+IE9uIDMxIE1hciAyMDI2LCBh
-dCAxNTo0MywgTWFydGEgUnliY3p5bnNrYSB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8cnli
-Y3p5bnNrYT1nbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+ID4gRm9y
-IHRoZSByZWNvcmQsIEkgZG8gbm90IGFncmVlIHdpdGggdGhpcyByZW1vdmFsLiBTUERYMyBoYXMg
-c3RpbGwgbm90IHJlYWNoZWQgbWF0dXJlIHVzYWdlIG91dHNpZGUgb2YgdGhlIExGIGVjb3N5c3Rl
-bS4NCj4gDQo+IElzIHRoZXJlIGFuIGVjb3N5c3RlbSBvZiB0b29saW5nIHRoYXQgdXNlcyB0aGUg
-WW9jdG8tc3BlY2lmaWMgSlNPTiBmb3JtYXQgdGhhdCB2ZXguYmJjbGFzcyBnZW5lcmF0ZXM/DQo+
-IA0KPiBZZXMgdGhlcmUgYXJlIHRvb2xzIHRoYXQgc3VwcG9ydCBZUCBjdmUtY2hlY2sgSlNPTiBm
-b3JtYXQgYXMgaW5wdXQgYW5kLCBieSBleHRlbnNpb24sIHRoZXkgY2FuIHVzZSB0aGUgdmV4LmJi
-Y2xhc3MgdG9vLg0KPiANCj4gTm90IHN1cmUgaG93IG1hbnkgb2YgdGhlbSB3YW50IHRvIG1hbmlm
-ZXN0LCB0aGlzIGlzIHVzdWFsbHkgaW50ZXJuYWwgdG9vbGluZy4NCg0KSU1ITywgaWYgdGhlc2Ug
-dXNlcnMgZG9u4oCZdCB3YW50IHRvIG1vdmUgdG8gU1BEWCwgdGhlbiB0aGV5IGNhbiBjb3B5IHRo
-ZSB2ZXguYmJjbGFzcyBmcm9tIGN1cnJlbnQgbWFzdGVyIGludG8gdGhlaXIgZGlzdHJvLg0KDQpS
-b3Nz
+--0000000000005b2585064e53a69a
+Content-Type: text/plain; charset="UTF-8"
+
+Hello all,
+As mentioned on the call today, I have an issue in a configuration with
+bitbake-setup, oe-core-master fragments and runqemu:
+
+$ runqemu qemux86-64
+runqemu - INFO - Running MACHINE=qemux86-64 bitbake -e  ...
+runqemu - WARNING - Couldn't run 'MACHINE=qemux86-64 bitbake -e  ' to
+gather environment information, maybe the target wasn't an image name, will
+retry with virtual/kernel as a target:
+ERROR: A builtin fragment 'machine/qemux86-64' is used while MACHINE has
+already got an assignment.
+Please either disable the fragment or remove the value assignment.
+To disable the fragment, use 'bitbake-config-build disable-fragment
+machine/qemux86-64'.
+ERROR: Unable to parse
+/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-master/layers/bitbake/lib/bb/__init__.py
+Traceback (most recent call last):
+ File
+"/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-master/layers/bitbake/lib/bb/__init__.py",
+line 262, in fatal
+   raise BBHandledException()
+bb.BBHandledException
+
+
+Traceback (most recent call last):
+ File
+"/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu",
+line 1726, in run_bitbake_env
+   return subprocess.check_output(cmd, shell=True).decode('utf-8')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
+   return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File "/usr/lib/python3.12/subprocess.py", line 571, in run
+   raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command 'MACHINE=qemux86-64 bitbake -e  '
+returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+ File
+"/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu",
+line 1792, in main
+   config.check_args()
+ File
+"/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu",
+line 620, in check_args
+   self.check_arg_machine(unknown_arg)
+ File
+"/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu",
+line 493, in check_arg_machine
+   self.bitbake_e = self.run_bitbake_env(arg)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+ File
+"/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu",
+line 1735, in run_bitbake_env
+   return subprocess.check_output(cmd, shell=True).decode('utf-8')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
+   return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File "/usr/lib/python3.12/subprocess.py", line 571, in run
+   raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command 'MACHINE=qemux86-64 bitbake -e
+ virtual/kernel' returned non-zero exit status 1.
+runqemu - INFO - Cleaning up
+runqemu - INFO - Host uptime: 17047514.08
+
+Anyone has seen something like that?
+
+Build commands (bitbake hash  7cf11787ee7942a00ba7e8fa2c590a2563070c38)
+mkdir my-first-bitbake-setup-project
+cd my-first-bitbake-setup-project/
+git clone https://git.openembedded.org/bitbake
+./bitbake/bin/bitbake-setup init
+.
+/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-master/build/init-build-env
+bitbake-config-build list-fragments
+bitbake-config-build enable-fragment core/yocto/sstate-mirror-cdn
+bitbake-config-build enable-fragment
+core/yocto/root-login-with-empty-password
+bitbake core-image-minimal
+
+Kind regards,
+Marta
+
+--0000000000005b2585064e53a69a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello all,</div><div>As mentioned on the call today, =
+I have an issue in a configuration=C2=A0with bitbake-setup, oe-core-master =
+fragments and runqemu:</div><div><br></div><div>
+<span style=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);backg=
+round-color:rgb(255,255,255)">$ runqemu qemux86-64</span><span style=3D"col=
+or:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">runqemu - INFO - Running MACHINE=3Dqemux86-64 bitbake -e =C2=A0...</span=
+><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">runqemu - WARNING - Couldn&#39;t run &#39;MACHINE=3Dqemux86-64 bitbake -=
+e =C2=A0&#39; to gather environment information, maybe the target wasn&#39;=
+t an image name, will retry with virtual/kernel as a target:</span><span st=
+yle=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">ERROR: A builtin fragment &#39;machine/qemux86-64&#39; is used while MAC=
+HINE has already got an assignment.</span><span style=3D"color:rgb(0,0,0);b=
+ackground-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">Please either disable the fragment or remove the value assignment.</span=
+><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">To disable the fragment, use &#39;bitbake-config-build disable-fragment =
+machine/qemux86-64&#39;.</span><span style=3D"color:rgb(0,0,0);background-c=
+olor:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">ERROR: Unable to parse /home/ubuntu/my-first-bitbake-setup-project/bitba=
+ke-builds/oe-nodistro-master/layers/bitbake/lib/bb/__init__.py</span><span =
+style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">Traceback (most recent call last):</span><span style=3D"color:rgb(0,0,0)=
+;background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/home/ubuntu/my-first-bitbake-setup-project/bitbake-bu=
+ilds/oe-nodistro-master/layers/bitbake/lib/bb/__init__.py&quot;, line 262, =
+in fatal</span><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255=
+,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0raise BBHandledException()</span><span style=3D"color=
+:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">bb.BBHandledException</span><span style=3D"color:rgb(0,0,0);background-c=
+olor:rgb(255,255,255)">
+</span><br>
+<br>
+<br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">Trac=
+eback (most recent call last):</span><span style=3D"color:rgb(0,0,0);backgr=
+ound-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/home/ubuntu/my-first-bitbake-setup-project/bitbake-bu=
+ilds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu&quot;, lin=
+e 1726, in run_bitbake_env</span><span style=3D"color:rgb(0,0,0);background=
+-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0return subprocess.check_output(cmd, shell=3DTrue).dec=
+ode(&#39;utf-8&#39;)</span><span style=3D"color:rgb(0,0,0);background-color=
+:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span><span style=3D"color:rgb(0,0,0);backgro=
+und-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/usr/lib/python3.12/subprocess.py&quot;, line 466, in =
+check_output</span><span style=3D"color:rgb(0,0,0);background-color:rgb(255=
+,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeo=
+ut, check=3DTrue,</span><span style=3D"color:rgb(0,0,0);background-color:rg=
+b(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span><span style=3D"color:r=
+gb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/usr/lib/python3.12/subprocess.py&quot;, line 571, in =
+run</span><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)=
+">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0raise CalledProcessError(retcode, process.args,</span=
+><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">subprocess.CalledProcessError: Command &#39;MACHINE=3Dqemux86-64 bitbake=
+ -e =C2=A0&#39; returned non-zero exit status 1.</span><span style=3D"color=
+:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br>
+<br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">Duri=
+ng handling of the above exception, another exception occurred:</span><span=
+ style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br>
+<br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">Trac=
+eback (most recent call last):</span><span style=3D"color:rgb(0,0,0);backgr=
+ound-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/home/ubuntu/my-first-bitbake-setup-project/bitbake-bu=
+ilds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu&quot;, lin=
+e 1792, in main</span><span style=3D"color:rgb(0,0,0);background-color:rgb(=
+255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0config.check_args()</span><span style=3D"color:rgb(0,=
+0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/home/ubuntu/my-first-bitbake-setup-project/bitbake-bu=
+ilds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu&quot;, lin=
+e 620, in check_args</span><span style=3D"color:rgb(0,0,0);background-color=
+:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0self.check_arg_machine(unknown_arg)</span><span style=
+=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/home/ubuntu/my-first-bitbake-setup-project/bitbake-bu=
+ilds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu&quot;, lin=
+e 493, in check_arg_machine</span><span style=3D"color:rgb(0,0,0);backgroun=
+d-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0self.bitbake_e =3D self.run_bitbake_env(arg)</span><s=
+pan style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0^^^^^^^^^^^^^^^^^^^^^^^^=
+^</span><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/home/ubuntu/my-first-bitbake-setup-project/bitbake-bu=
+ilds/oe-nodistro-master/layers/openembedded-core/scripts/runqemu&quot;, lin=
+e 1735, in run_bitbake_env</span><span style=3D"color:rgb(0,0,0);background=
+-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0return subprocess.check_output(cmd, shell=3DTrue).dec=
+ode(&#39;utf-8&#39;)</span><span style=3D"color:rgb(0,0,0);background-color=
+:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span><span style=3D"color:rgb(0,0,0);backgro=
+und-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/usr/lib/python3.12/subprocess.py&quot;, line 466, in =
+check_output</span><span style=3D"color:rgb(0,0,0);background-color:rgb(255=
+,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeo=
+ut, check=3DTrue,</span><span style=3D"color:rgb(0,0,0);background-color:rg=
+b(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span><span style=3D"color:r=
+gb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0File &quot;/usr/lib/python3.12/subprocess.py&quot;, line 571, in =
+run</span><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)=
+">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)"> =C2=A0=C2=A0=C2=A0raise CalledProcessError(retcode, process.args,</span=
+><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">subprocess.CalledProcessError: Command &#39;MACHINE=3Dqemux86-64 bitbake=
+ -e =C2=A0virtual/kernel&#39; returned non-zero exit status 1.</span><span =
+style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">runqemu - INFO - Cleaning up</span><span style=3D"color:rgb(0,0,0);backg=
+round-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">runqemu - INFO - Host uptime: 17047514.08</span><span style=3D"color:rgb=
+(0,0,0);background-color:rgb(255,255,255)"></span><br></span></div><div><br=
+><span style=3D"font-family:monospace"></span></div><div><span style=3D"fon=
+t-family:monospace">Anyone has seen something like that?</span></div><div><=
+br></div><div>Build commands (bitbake hash=C2=A0
+
+
+
+
+
+
+<span style=3D"font-family:monospace"><span style=3D"color:rgb(178,104,24);=
+background-color:rgb(255,255,255)">7cf11787ee7942a00ba7e8fa2c590a2563070c38=
+</span>)</span>
+</div><div>
+
+
+
+
+
+
+<span style=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);backg=
+round-color:rgb(255,255,255)">mkdir my-first-bitbake-setup-project</span><s=
+pan style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">cd my-first-bitbake-setup-project/</span><span style=3D"color:rgb(0,0,0)=
+;background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">git clone <a href=3D"https://git.openembedded.org/bitbake">https://git.o=
+penembedded.org/bitbake</a></span><span style=3D"color:rgb(0,0,0);backgroun=
+d-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">./bitbake/bin/bitbake-setup init</span><span style=3D"color:rgb(0,0,0);b=
+ackground-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">. /home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro=
+-master/build/init-build-env</span><span style=3D"color:rgb(0,0,0);backgrou=
+nd-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">bitbake-config-build list-fragments</span><span style=3D"color:rgb(0,0,0=
+);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">bitbake-config-build enable-fragment core/yocto/sstate-mirror-cdn</span>=
+<span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">bitbake-config-build enable-fragment core/yocto/root-login-with-empty-pa=
+ssword</span><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,2=
+55)">
+</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
+)">bitbake core-image-minimal</span><br><span style=3D"color:rgb(0,0,0);bac=
+kground-color:rgb(255,255,255)"></span></span></div><div><br></div><div>Kin=
+d regards,</div><div>Marta</div></div>
+
+--0000000000005b2585064e53a69a--
 
