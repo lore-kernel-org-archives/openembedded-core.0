@@ -2,49 +2,49 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F33A10F92F1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A12F510F92F6
 	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 19:29:41 +0000 (UTC)
 Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2264.1774985376841127806
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2263.1774985375484554059
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2026 12:29:37 -0700
+ Tue, 31 Mar 2026 12:29:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=wZJ3jCwi;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=fAyg97e2;
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=Sa1k0tQf;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=HcJ5UNEm;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 36F8E14001B4;
-	Tue, 31 Mar 2026 15:29:36 -0400 (EDT)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id B078014001A3;
+	Tue, 31 Mar 2026 15:29:34 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Tue, 31 Mar 2026 15:29:36 -0400
+  by phl-compute-04.internal (MEProxy); Tue, 31 Mar 2026 15:29:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774985376;
-	 x=1775071776; bh=W76iQTFcC3bADt7G7zR1bZBGs7uGD2LQkMrAPvnZLqc=; b=
-	wZJ3jCwiVBj1BtEJuhNWaYzTxHCMpVE7MFqbo3xFJ+rzwerVFPFhYbLObnuFE8n4
-	oQZFeWjSHf5gB5+LUohRCoGUaYhHtGnu/I7mJ7RDegG40CVtgcs1UyddxRJHkOJ/
-	aLRh6KCwjwApjCHafCJao7sWrPGRoYgiqa52xjM0LalMCKB5CSB4qgbNe850d3qP
-	CxRkpfNMFNjtiTo1g7XSDfjzCiUWtywWHFnUjrdS0k5/wjeJwflaP0Lj2bCHuugC
-	2Bq3HGs7Mk3U0rtNXeC14En6cmOOmJQHRODcx+pUD9sU8GMJGS1Hduxyarb0kx/G
-	1ShUleq6txj7P6dd+zA0bg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774985374;
+	 x=1775071774; bh=/HKL8t1k83mDVwTSkl13zzaXszwiAQSEVk6AMitvqpk=; b=
+	Sa1k0tQfEZHs3P6iBJU9V+8onnmSF3wtvwQxEF2g5ms/zVxng+rzFvPMMjHHMIKE
+	kC5OCESdBriinkB/+USreNwiob1UN39BCaeoxSaN9hwqnwpxkfat0b6A5eA/mlP1
+	lfd1tyyINbfn26CSFs44JILxIyEZTciMBgMKlI3Tv4IzGreGLYskQu7+ELNecOqb
+	VFCnRZWF4s9d/3W/w3wV83WybmX2O3b74IopKMargUMXD1Dxusjy8wo/+9ewBqHH
+	d9BJHHlN47t68qKmj/lCHof1obxqqDdz3igNb3WnKGfdthovcqCoRbcl/UC62JQf
+	ClrJhysfKTBJR8UFr+/NDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1774985376; x=
-	1775071776; bh=W76iQTFcC3bADt7G7zR1bZBGs7uGD2LQkMrAPvnZLqc=; b=f
-	Ayg97e2S5WpU7faQYbWLlAQC2ZLRMmpURFrWLdHdw6WQ4ienRNI1WsdysKO0RA2B
-	r0CCOy24aMNApabUTukaZ1ylkATwyT0yNpCrk+59n5m1MF3UW6cBerLMqSDdKGpP
-	wxvF1mu2yZz7fvdPhLI6ampm9FapvW4w8B0GcE3EilJbmTf2HhPvUIRJq5KdE2n2
-	ZQVOwE0exZrT5QtEqtYJcv8nqWCy+WrvwNXBxsPIEGpnqFKN1gIt5gn72uzK6eV3
-	GpcBOsk3BNEW1gem+kL5o6HSSFP4Mjn1NBIbqT/VR5BE5A3aAKyK1WdQMADZF1tM
-	Q8ErL4snsWISg/uCer1SA==
-X-ME-Sender: <xms:oCDMaXk7mxJcqnX4iCLKP3mE9TVam7f-wsdGGUQ--CGX48wphIKd3A>
-    <xme:oCDMaQ2opv28CgJX3PaKzbWfV4XymIKVzw3vnhHyhfvyojZE7rDfBkHUX0Nj-EBA-
-    5PLhtmxVyvPssxbzgPkKcujtUv-0kJ-hKl4GLT8cz7TrHw6GSNzkw>
-X-ME-Received: <xmr:oCDMabQxNiE0LrovBlRruYmhsQhdIB-lt7QOr5S-xcTGOqFiL7-KPCXfgved0_0KavT6vNae4KTzY9N3DyHioW9SiUgqqIk>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1774985374; x=
+	1775071774; bh=/HKL8t1k83mDVwTSkl13zzaXszwiAQSEVk6AMitvqpk=; b=H
+	cJ5UNEm/0DKhS/MI4NN7bMCW2Fm2xjj0mO58k7xbvyFKd2XJVjeAuEFNQNOmgQAz
+	TrsU6yQ63JS+9X2RWF5RHIVgwVPs4haprzE7tPpBss7H4NC0DOr4EzjSgZ5suMzQ
+	XDu6vKMyQOJyeTKuVGfEQZWpXYgJ+JJNUlzLBOAa3JZsyHJ6f9m7DwOp5+5FWXdi
+	xQE/WX7eSQ2ZlPVSeunm2ZTeu65eFU6NhvBNyCAddnfPbE2e6Gd0+CYMoIUIopUi
+	BjJxIVgh1TLpiv8q4/5qeNNEwvvroDXzUbTSiYLWXlae/GURgZoNReHusOMFIaTz
+	PnroSHm5s7akq9C1OCLdA==
+X-ME-Sender: <xms:niDMadmuwSWL8GGC0o9ZzPyjAhccqFt4PQbAF59w_z1xDJet66ZgJg>
+    <xme:niDMae0HLk1sSWFViqR3Cy_qFH309iB0EMdjPPNVACBet22dqThM2xvXk1Oz2sFeR
+    4dMKbDPLXT9scJUGwxcOjmYaESuYvJY3j2LVkVUFSAHjjQTqnQgjSY>
+X-ME-Received: <xmr:niDMaRREfUBP6d1WcEFGKyN0kAkIY112NP0M8k0N_kBpeI7lh3scpHRTlDBwl3HW4s3MEd0rnGMSX25wV4cLopvzfqI7tOc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
     lhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtre
@@ -55,206 +55,154 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdegucetufdoteggod
     hopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehophgvnhgvmhgsvgguuggv
     ugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtth
     hopehprghulhesphgsrghrkhgvrhdruggvvh
-X-ME-Proxy: <xmx:oCDMaasqhebL3ogJnTVja6yHw1M1R6DDx85hLz7bx11nYUmfKaq26w>
-    <xmx:oCDMaYZKc1SA9DuIa05Ji407c_MiVcWoP1NP7qt_1yyMNpARm08biQ>
-    <xmx:oCDMaXsKKw_tgR7BW2eA1pJik3rDUm6rMrhKHB84L_y5DwVWFaEn5A>
-    <xmx:oCDMaSGrtk8o6yufL6M97AOLdY_WZV8giSj2MxMAf4uhTkQtCjWrIg>
-    <xmx:oCDMadJND2vbpqCRLv9hYcANbbuT6q1Fbr_JOKCiel0bvlAspxlSQpMB>
+X-ME-Proxy: <xmx:niDMaYs9ykKWjgniW6ldn7ilVA9iwyNQmp-ShIsQApBTU9j5GIm-Lg>
+    <xmx:niDMaeaTUVNzLkKe_ka43hypZwTLS69M5bJYJuwMlUFYeVmWegRjDQ>
+    <xmx:niDMaVuIPC4gKh2V_DLkZoajRHpi0aWjGqTLk3_gT9qBEhoCBCGLdQ>
+    <xmx:niDMaYGDwIuVZh6Fe-W4UQpIGi3ZNMFwfyOa86t4zfNKuhAjjScIgg>
+    <xmx:niDMaTLHreS7_Ch_d5kCEDB_D63MIxIoN7xXB6uhuAN4jb6MxwaSPzvR>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 31 Mar 2026 15:29:35 -0400 (EDT)
+ 31 Mar 2026 15:29:34 -0400 (EDT)
 From: Paul Barker <paul@pbarker.dev>
-Date: Tue, 31 Mar 2026 20:29:32 +0100
-Subject: [PATCH v2 3/4] meta: Support opting out of any machine features
+Date: Tue, 31 Mar 2026 20:29:30 +0100
+Subject: [PATCH v2 1/4] oelib: utils: Support filtering default features
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260331-default-features-v2-3-f73b43d8bd57@pbarker.dev>
+Message-Id: <20260331-default-features-v2-1-f73b43d8bd57@pbarker.dev>
 References: <20260331-default-features-v2-0-f73b43d8bd57@pbarker.dev>
 In-Reply-To: <20260331-default-features-v2-0-f73b43d8bd57@pbarker.dev>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10791; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=aGr2fFA7Upwtlj1eozysmfZrTpF7gOQQms+hAOo9KKM=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWSeUZgTz+Hd2Cx9423S1kKTm3rRWqvmdTvffrlnY4ODo
- maXp+GHjlIWBjEuBlkxRZbNPV/vP+115M0IuaUAM4eVCWQIAxenAEzk30uG/44PldkVvta998qQ
- 7+PZtmflPTvGH/eXry0/wP/mZ773iVWMDPeyXjvzb09lf3llU0TjRvO+a5xZF77pHl+kk/9qx7I
- UDXYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4795; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=4FK2+vqdM8oCbtzdnVKrDULf+KwDtTZHj8SHHJCIZtY=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWSeUZizzi5/cekdHVvll9+PHJtS762t7Drx3YUK1/+rj
+ nhN01kl2lHKwiDGxSArpsiyuefr/ae9jrwZIbcUYOawMoEMYeDiFICJ7FNiZFhj8+n+tDnretK5
+ xDKsH9YsXdDXePBn3tTZJ3qPukw5GXSS4X9xst68mExJl8AtJwtvhV4pXtn7MYT3cE/l3AhHlsW
+ yX7kA
 X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
  fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 19:29:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234310
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234308
 
-Add default values to MACHINE_FEATURES using the new
-filter_default_features() function.
-
-This change obsoletes the variables MACHINE_FEATURES_BACKFILL and
-MACHINE_FEATURES_BACKFILL_CONSIDERED. Instead, all defaults are added
-via MACHINE_FEATURES_DEFAULTS and users can opt out of any of these
-using MACHINE_FEATURES_OPTED_OUT. Hopefully the variable naming here is
-easier for people to understand and remember.
-
-Migration notes:
-
-- MACHINE_FEATURES will now get the default features added
-  automatically. You will need to review these and add any features you
-  do not want to use to MACHINE_FEATURES_OPTED_OUT.
-
-- If you previously set MACHINE_FEATURES_BACKFILL_CONSIDERED, use the new
-  variable MACHINE_FEATURES_OPTED_OUT instead.
-
-- If you previously modified MACHINE_FEATURES_BACKFILL, don't do that.
+The new library function filter_default_features() allows us to support
+opting out of any default features without having to use :remove.
 
 Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- meta/classes-global/base.bbclass                    | 4 +---
- meta/classes-recipe/nativesdk.bbclass               | 1 -
- meta/conf/bitbake.conf                              | 2 +-
- meta/conf/documentation.conf                        | 4 ++--
- meta/conf/machine/include/mips/arch-mips.inc        | 2 +-
- meta/conf/machine/include/powerpc/tune-power5.inc   | 2 +-
- meta/conf/machine/include/powerpc/tune-power6.inc   | 2 +-
- meta/conf/machine/include/powerpc/tune-power7.inc   | 2 +-
- meta/conf/machine/include/powerpc/tune-ppce5500.inc | 2 +-
- meta/conf/machine/include/powerpc/tune-ppce6500.inc | 2 +-
- meta/conf/machine/include/x86/arch-x86.inc          | 2 +-
- 11 files changed, 11 insertions(+), 14 deletions(-)
+ meta/lib/oe/utils.py                        | 34 ++++++++++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/oelib/utils.py | 38 ++++++++++++++++++++++++++++-
+ 2 files changed, 71 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index 0a4cfd594c72..76fd0ac046a9 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -457,9 +457,7 @@ python () {
-     # Filter default features to allow users to opt out of features they don't
-     # want.
-     oe.utils.filter_default_features("DISTRO_FEATURES", d)
--
--    # Handle backfilling
--    oe.utils.features_backfill("MACHINE_FEATURES", d)
-+    oe.utils.filter_default_features("MACHINE_FEATURES", d)
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index afcfeda0c6d5..52f2f1bd55e0 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -83,6 +83,31 @@ def set_intersect(variable1, variable2, d):
+     val2 = set(d.getVar(variable2).split())
+     return " ".join(val1 & val2)
  
-     # To add a recipe to the skip list , set:
-     #   SKIP_RECIPE[pn] = "message"
-diff --git a/meta/classes-recipe/nativesdk.bbclass b/meta/classes-recipe/nativesdk.bbclass
-index f663067f3a25..316649708781 100644
---- a/meta/classes-recipe/nativesdk.bbclass
-+++ b/meta/classes-recipe/nativesdk.bbclass
-@@ -17,7 +17,6 @@ CLASSOVERRIDE = "class-nativesdk"
- MACHINEOVERRIDES = ""
++def set_difference(variable1, variable2, d):
++    """
++    Expand both variables, interpret them as lists of strings, and return the
++    intersection as a flattened string.
++
++    For example:
++    s1 = "a b c"
++    s2 = "b c d"
++    s3 = set_difference(s1, s2)
++    => s3 = "a"
++    """
++    val1 = d.getVar(variable1)
++    if not val1:
++        return ""
++    val2 = d.getVar(variable2)
++    if not val2:
++        return val1
++
++    val1 = set(val1.split())
++    val2 = set(val2.split())
++
++    # Return a sorted string to ensure that the result is consistent between
++    # parser runs.
++    return " ".join(sorted(val1 - val2))
++
+ def prune_suffix(var, suffixes, d):
+     # See if var ends with any of the suffixes listed and
+     # remove it if found
+@@ -133,6 +158,15 @@ def features_backfill(var,d):
+     if addfeatures:
+         d.appendVar(var, " " + " ".join(addfeatures))
  
- MACHINE_FEATURES = "${SDK_MACHINE_FEATURES}"
--MACHINE_FEATURES_BACKFILL = ""
++def filter_default_features(varname, d):
++    # Process default features to exclude features which the user has opted out
++    # of. The result is appended to the target variable (e.g. DISTRO_FEATURES
++    # or MACHINE_FEATURES).
++    default_features = set_difference(varname + "_DEFAULTS",
++                                      varname + "_OPTED_OUT",
++                                      d)
++    d.appendVar(varname, " " + default_features)
++
+ def all_distro_features(d, features, truevalue="1", falsevalue=""):
+     """
+     Returns truevalue if *all* given features are set in DISTRO_FEATURES,
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/utils.py b/meta/lib/oeqa/selftest/cases/oelib/utils.py
+index 0cb46425a02d..f886b00e18ab 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/utils.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/utils.py
+@@ -8,7 +8,7 @@ import sys
+ from unittest.case import TestCase
+ from contextlib import contextmanager
+ from io import StringIO
+-from oe.utils import packages_filter_out_system, trim_version, multiprocess_launch
++from oe.utils import packages_filter_out_system, trim_version, multiprocess_launch, filter_default_features
  
- MULTILIBS = ""
- 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f851e2adc9f7..84450386d984 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -912,7 +912,7 @@ DISTRO_FEATURES_NATIVESDK:mingw32 = "x11 ipv6"
- DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opencl opengl wayland"
- DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opencl opengl wayland"
- 
--MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
-+MACHINE_FEATURES_DEFAULTS = "rtc qemu-usermode"
- 
- COMBINED_FEATURES = "${@oe.utils.set_intersect('DISTRO_FEATURES', 'MACHINE_FEATURES', d)}"
- COMBINED_FEATURES[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES"
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 5c93d0e47970..3c2088754188 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -277,8 +277,8 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS[doc] = "A list of recommended machine-specif
- MACHINE_EXTRA_RDEPENDS[doc] = "A list of machine-specific packages to install as part of the image being built that are not essential for the machine to boot. However, the build process for more fully-featured images depends on the packages being present."
- MACHINE_EXTRA_RRECOMMENDS[doc] = "A list of machine-specific packages to install as part of the image being built that are not essential for booting the machine. The image being built has no build dependencies on the packages in this list."
- MACHINE_FEATURES[doc] = "Specifies the list of hardware features the MACHINE supports."
--MACHINE_FEATURES_BACKFILL[doc] = "Features to be added to MACHINE_FEATURES if not also present in MACHINE_FEATURES_BACKFILL_CONSIDERED. This variable is set in the meta/conf/bitbake.conf file and is not intended to be user-configurable."
--MACHINE_FEATURES_BACKFILL_CONSIDERED[doc] = "Features from MACHINE_FEATURES_BACKFILL that should not be backfilled (i.e. added to MACHINE_FEATURES) during the build."
-+MACHINE_FEATURES_DEFAULTS[doc] = "The default set of machine features, prior to any filtering. Usually you should leave this alone and modify MACHINE_FEATURES and/or MACHINE_FEATURES_OPTED_OUT."
-+MACHINE_FEATURES_OPTED_OUT[doc] = "The set of default machine features to disable. Prefer opting out of features using this variable instead of using MACHINE_FEATURES:remove."
- MACHINEOVERRIDES[doc] = "Lists overrides specific to the current machine. By default, this list includes the value of MACHINE."
- MAINTAINER[doc] = "The email address of the distribution maintainer."
- MIRRORS[doc] = "Specifies additional paths from which the OpenEmbedded build system gets source code."
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index baadc61d652c..fff2ff639279 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -21,7 +21,7 @@ ABIEXTENSION .= "${@bb.utils.filter('TUNE_FEATURES', 'n32', d)}"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'n32', ' -mabi=n32', '', d)}"
- 
- # user mode qemu doesn't support mips64 n32: "Invalid ELF image for this architecture"
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = " ${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
- 
- TUNEVALID[n64] = "MIPS64 n64 ABI"
- TUNECONFLICTS[n64] = "o32 n32"
-diff --git a/meta/conf/machine/include/powerpc/tune-power5.inc b/meta/conf/machine/include/powerpc/tune-power5.inc
-index e70e4012176c..452897d2d43d 100644
---- a/meta/conf/machine/include/powerpc/tune-power5.inc
-+++ b/meta/conf/machine/include/powerpc/tune-power5.inc
-@@ -21,4 +21,4 @@ GLIBC_EXTRA_OECONF:powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'power5',
- GLIBC_EXTRA_OECONF:powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'power5', '--with-cpu=power5', '', d)}"
- 
- # QEMU usermode fails with invalid instruction error
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'power5', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'power5', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/tune-power6.inc b/meta/conf/machine/include/powerpc/tune-power6.inc
-index eaf89515cad7..da8831058094 100644
---- a/meta/conf/machine/include/powerpc/tune-power6.inc
-+++ b/meta/conf/machine/include/powerpc/tune-power6.inc
-@@ -21,4 +21,4 @@ GLIBC_EXTRA_OECONF:powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'power6',
- GLIBC_EXTRA_OECONF:powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'power6', '--with-cpu=power6', '', d)}"
- 
- # QEMU usermode fails with invalid instruction error
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'power6', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'power6', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/tune-power7.inc b/meta/conf/machine/include/powerpc/tune-power7.inc
-index 4531ddd85f48..47887c553f97 100644
---- a/meta/conf/machine/include/powerpc/tune-power7.inc
-+++ b/meta/conf/machine/include/powerpc/tune-power7.inc
-@@ -21,4 +21,4 @@ GLIBC_EXTRA_OECONF:powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'power7',
- GLIBC_EXTRA_OECONF:powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'power7', '--with-cpu=power7', '', d)}"
- 
- # QEMU usermode fails with invalid instruction error
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'power7', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'power7', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/tune-ppce5500.inc b/meta/conf/machine/include/powerpc/tune-ppce5500.inc
-index 446b344c3d25..63e745b4a29c 100644
---- a/meta/conf/machine/include/powerpc/tune-ppce5500.inc
-+++ b/meta/conf/machine/include/powerpc/tune-ppce5500.inc
-@@ -19,4 +19,4 @@ PACKAGE_EXTRA_ARCHS:tune-ppc64e5500 = "${PACKAGE_EXTRA_ARCHS:tune-powerpc64} ppc
- QEMU_EXTRAOPTIONS:tune-ppc64e5500 = " -cpu e500mc"
- 
- # QEMU usermode fails with invalid instruction error (YOCTO: #10304)
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'e5500', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'e5500', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/tune-ppce6500.inc b/meta/conf/machine/include/powerpc/tune-ppce6500.inc
-index 4444705b2d6d..77de2f9982bc 100644
---- a/meta/conf/machine/include/powerpc/tune-ppce6500.inc
-+++ b/meta/conf/machine/include/powerpc/tune-ppce6500.inc
-@@ -19,4 +19,4 @@ PACKAGE_EXTRA_ARCHS:tune-ppc64e6500 = "${PACKAGE_EXTRA_ARCHS:tune-powerpc64} ppc
- QEMU_EXTRAOPTIONS:tune-ppc64e6500 = " -cpu e500mc"
- 
- # QEMU usermode fails with invalid instruction error (YOCTO: #10304)
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'e6500', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'e6500', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/x86/arch-x86.inc b/meta/conf/machine/include/x86/arch-x86.inc
-index 28742e794d63..95b5fe52114c 100644
---- a/meta/conf/machine/include/x86/arch-x86.inc
-+++ b/meta/conf/machine/include/x86/arch-x86.inc
-@@ -25,7 +25,7 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mx32', ' -mx32', '', d)}"
- TUNE_LDARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-m elf32_x86_64', '', d)}"
- TUNE_ASARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-x32', '', d)}"
- # user mode qemu doesn't support x32
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = " ${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'qemu-usermode', '', d)}"
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'x86-x32:', '', d)}"
- 
- # ELF64 ABI
+ class TestPackagesFilterOutSystem(TestCase):
+     def test_filter(self):
+@@ -102,3 +102,39 @@ class TestMultiprocessLaunch(TestCase):
+         with captured_output() as (out, err):
+             self.assertRaises(bb.BBHandledException, multiprocess_launch, testfunction, ["1", "2", "3", "4", "5", "6"], d, extraargs=(d,))
+         self.assertIn("KeyError: 'Invalid number 2'", out.getvalue())
++
++
++class TestDefaultFeatures(TestCase):
++    def test_filter_default_features(self):
++        try:
++            import bb
++            d = bb.data_smart.DataSmart()
++        except ImportError:
++            self.skipTest("Cannot import bb")
++
++        # Test with nothing opted out
++        d.setVar("DISTRO_FEATURES", "")
++        d.setVar("DISTRO_FEATURES_DEFAULTS", "alpha beta gamma")
++        filter_default_features("DISTRO_FEATURES", d)
++        self.assertEqual(d.getVar("DISTRO_FEATURES"), "alpha beta gamma")
++
++        # opt out of a single feature
++        d.setVar("DISTRO_FEATURES", "")
++        d.setVar("DISTRO_FEATURES_DEFAULTS", "alpha beta gamma")
++        d.setVar("DISTRO_FEATURES_OPTED_OUT", "beta")
++        filter_default_features("DISTRO_FEATURES", d)
++        self.assertEqual(d.getVar("DISTRO_FEATURES"), "alpha gamma")
++
++        # opt out of everything
++        d.setVar("DISTRO_FEATURES", "")
++        d.setVar("DISTRO_FEATURES_DEFAULTS", "alpha beta gamma")
++        d.setVar("DISTRO_FEATURES_OPTED_OUT", "gamma alpha beta")
++        filter_default_features("DISTRO_FEATURES", d)
++        self.assertEqual(d.getVar("DISTRO_FEATURES"), "")
++
++        # opt out of something that isn't in our defaults
++        d.setVar("DISTRO_FEATURES", "")
++        d.setVar("DISTRO_FEATURES_DEFAULTS", "alpha beta gamma")
++        d.setVar("DISTRO_FEATURES_OPTED_OUT", "omega")
++        filter_default_features("DISTRO_FEATURES", d)
++        self.assertEqual(d.getVar("DISTRO_FEATURES"), "alpha beta gamma")
 
 -- 
 2.43.0
