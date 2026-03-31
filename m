@@ -1,197 +1,257 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D03AB10F92F2
-	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 19:35:21 +0000 (UTC)
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2373.1774985712902173464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC91710F92F8
+	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 19:46:21 +0000 (UTC)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2703.1774986375240671897
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2026 12:35:13 -0700
+ Tue, 31 Mar 2026 12:46:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=n4x8aV+u;
- spf=pass (domain: gmail.com, ip: 209.85.161.48, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-67f921159c0so217384eaf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 12:35:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774985712; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BIVj3KwV;
+ spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-793fdbb8d3aso30473777b3.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 12:46:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774986374; cv=none;
         d=google.com; s=arc-20240605;
-        b=XmKIIJGP2r4Y845PfipbLaI9cKa7TDiJpds7rRzrclH5x2Jy00FjPEHKYioIe9UQ1k
-         4ShuoST15yjO25I3NeZsW94QcwI2vEa1/IcQP5jNbR2yo9wmaQquztAQpYXj3yTm+6mQ
-         PDPYzHCBSw61RqkEObPykYFf52k6CfZeBNXI+gx6qfEhdZ4ZeGIMGj74K2nAGntKsJy2
-         NPmeHUkHD+N/vOkAB47nL7CDBrfoJv5hoN5cNgMWujHfqNVLAsW56f/yc5nNp7UOcy07
-         9UZ4Cw5ill6KrDbPGjvZHpa0kYHgQJqhGfdx4gju3d3UZVNgKzrAQpDiDNdsdqys7sFr
-         YPOg==
+        b=QI6ORikT3Aa6BWiRvGd9YjcCoWxYBBySbNxdwKt+OjsqWFZj/9Rvg2aBEBBFDxyH9m
+         UoSBXPaOv8n5+jk6gQ9XBR7Eh7LYz6VSKKV7HbfvP4+IgQTJ7z8w7XyhjbDWYkVCrrMf
+         4z/pCasFZ/RmFxy+q8wIEf4CdEdh+VB4TougEr+PGg3OyViZVsHiJFhyMxDUeNwmGtsT
+         aYznNIXsvD5vtT5sNsnrAGXILxnhVcVUb7J+/8v43vR9DUz8br8G+c9e9Xt93eJqTORE
+         5ddj5fVKRlo0oKxR9glKNyACk15S5x1ow9l9SNj9Uc6TnvwBlYX70RPXsp1pymoTgijP
+         RGXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gqDU686MG0xfiVHVVUeFjimLxIW8MV0ZIfciswGsyVY=;
-        fh=PaMvUCPcy4ANzS+qPkaiLf6E9s11gkAeh6A8J5hl1x4=;
-        b=Twc1x8BjQagmgT5c81exFqlRAVLw0U44j9F7k/m4GkWotk534xwD3BfFAvW+qDpnu7
-         KyB3uHYlcq5Q9bkljiIwbEhOQRC/e7GMTXylE11Pjeo/ez6u1ML03Hwgkh3+76LmzuLW
-         qAyegsud07yz2cwZmxS51PH7CjE2+Vt/d26INaZaG75GSBUn86rr8ewtn8u7xMNXINCS
-         HQXhbZO63NEC3KmeBveU7IXc0Xv9g1NKjvOJV5T/ovRYlSmzg5Qrew8pUwUDXXq8YOcI
-         h1+M/jQiBBpLGN5ttgWIcg/tl1700OmXmuAsswljtggnAkVoVvEWmHG9wJLtycQt+GrY
-         SGsA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=tgnBpU4b8HPKxU6GGYVjUUbq+DCgB7mfoGZgHBxPvco=;
+        fh=60kcjWZkpuAziHmtoF1o4lW48dDpNGI9yFkZvsGNMyI=;
+        b=ODBCrybxfBV31Fz+RlWI13iQhS3ur+rzjzLK8p2IcreOCKyViOzLvVWEno1MwjGraU
+         mRUpQ/dq9FJNHmHwFgZoEMLxB2kdYF7KUTE6XgIdKgGA/QDblL3MKqon40Bd68bEnT+9
+         kax3N/dwJbJVbdjo9BsVs5E/XlgBI/zt9PRMhJoalkMz12WxOSQpg/Zsp76Didez6tB6
+         5Fp0gfJPxuyfaJYnml3aykjD+KzBDijeA65bJMgH+RRgtdBMPyii2ipvKI1TQPVF+BWr
+         +ygl9IFAMB3kgz/pII7w7VlDveu4RYxQW688c1+agk2Qojv9VbJquU52CV7gUP1PRFDw
+         kh7Q==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774985712; x=1775590512; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gqDU686MG0xfiVHVVUeFjimLxIW8MV0ZIfciswGsyVY=;
-        b=n4x8aV+uJrrz7sZ9RsSV6SzqNZpHXS67nVvPfUY+lqKYyXGsYsDo1183RVmjIEYTf6
-         Gosb2qracuuKXXlwDwaIXy4mkPXPFbTbTnlqeVaxJh17CecdEq0iSgdpGP83Gfjf+/8B
-         vFHC1jh/vhCT3dII61gjGBUznPZLQFcuB2dJTbb/okhpZOUh3WLrqR0LKETo3KAiz8Qy
-         PFprbymoyPFf5TnMadXpGnItYfUgzgXlTF9X7BKZaHWhE/odgRAmMDQU8AI8P9rEXkTy
-         cGuEiODgLiBCRxbPOChuxiBTKlcg51iwU7JieRJ9dIO8+li/p7I6F2tty88a2mXMwK1o
-         dM6A==
+        d=gmail.com; s=20251104; t=1774986374; x=1775591174; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tgnBpU4b8HPKxU6GGYVjUUbq+DCgB7mfoGZgHBxPvco=;
+        b=BIVj3KwVky/FfEue5Ixp0LzAU9+Ufqj82t77fWT0nnb5o2lYaWRUvnNpfcYq6cUbJ3
+         KeQYNIltE4lQe8vNwLA+jY//lxwHfniJ8uja3kfD/8pnCB/b9o8+lzPFovHFCxbjs4QO
+         UiwM9E4mk91JWfFBZRUv8ubc5zu4bu6kviKQ0NSPR2uB3djCjtbt7vEYP4rttwJnfzm3
+         mctSHs4Fuj0+ujcY5RtiRVmExuOAnHrBsKMS+zsDYI8Gxo/lkw1zf6X6EOba6F/H01Vq
+         NwQeB+EZRpcUZGbA8dLEVUwf7LEDtbcqqAu0tpBq46rxoWVIqVwO3xG63behnj9gmC/T
+         7Tww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774985712; x=1775590512;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gqDU686MG0xfiVHVVUeFjimLxIW8MV0ZIfciswGsyVY=;
-        b=rcnuznTF5e9cSP4uZiRK87V7Lb23Hyds1o1MWyQWRc0518kZpy5fh+dLks9zuXgl/e
-         DAno+DYn+Yq5H2B0g3KyIGZ8mj+GZAcZkUc+xxD0uDPFYYs34v+a1PQAdqoqOXihoCoo
-         pa/JK7eow/WALAxnk9l6EZF6cWikd/8YYxI/iY8XtUOdS0vS6w7hyNOvL3EKLoaU9pHe
-         4+PWa/1V4qJxXOHHgF9OMCLC+ay7XixliGwz61Ij8EfvlfCDh00ChAPo+7jap3P7YsKr
-         Z2S7YPohRT3fo/36p1/sm+n5jyCLSi3vKN5LOsNrYWJuo6yIaTjweLjV7uvvhSJIka5Q
-         2srg==
-X-Gm-Message-State: AOJu0Ywhs1RFuYtatQNWjTx3nsXPN2EIWMwgqSU/e8kR0w/AJSioiKLm
-	CjV8BNOV4jnOJyQQxgvG66rs6FI0OWE5Sm1w3A4+35GxK7KqmfN1pIYyjEcKhja/ft5q8I+OMUw
-	E52SqYkkOSRK+/pCFMOId1DZzT0XBXac=
-X-Gm-Gg: ATEYQzw7vK8OGuMDQJNFVkwp549mQvmzo0BZyFwNC2sSGogNLIcghA20NIWuXquaYIn
-	PojSWDXxbXzHvVJi9akPCWdDoBGcyjQZWMP6E2YWKZuhBEA0KecdSP0HJAWZwa88MRIMXlPgUIk
-	MvPUFE1USwZjqwjtrrDX0zaRI+PtoT7MkZjMMBYbGk5T07WZhO3pJIN0y9beOY/dRC6q+wjoPxM
-	ovraica6WsaPw8SaglPmuQAwmiZ7iwKATAgjYhvkYUI+zo/voyIzencTXhescW7dHEL8EkqSZuu
-	L9jjE+wv
-X-Received: by 2002:a05:6820:1744:b0:67c:2fe3:7edf with SMTP id
- 006d021491bc7-67fabcf888cmr287828eaf.52.1774985712034; Tue, 31 Mar 2026
- 12:35:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774986374; x=1775591174;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tgnBpU4b8HPKxU6GGYVjUUbq+DCgB7mfoGZgHBxPvco=;
+        b=b47GALy68hLsQaI+/2SedGb6trbAiH1CuW7l2ZB/zm6ylht8IB54iBdx5fy19NnkT3
+         ElgHsngdTiJlNuxhLEfeaEGrLje+no/DIhV56SW8G2lU4uD4N3WT5eDJWQM1gWzSyyqu
+         R/BpjIAUcbJggHmjizhlV1B9F3V2sovNuLlZNBbhRe1GGXc5dkFQvV2Kk914lkyHBxVc
+         nCKaVWNWzIUetbFkhVH3yf0lPVJWBQ/iae/HQMpGefxb3X8U3bwoLTFf9h3nqh5xlClH
+         O5SIRmEBf3S2ba0pc0gENPQ+57HsMtewgUxNaZlrJ1jKpzP8uOX0mf3Rq4dY22ulGu58
+         r6TA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWydVxuaoS0GPt3w7Ircvrc7PT+jKddxqOyP8I70DqKbAHm033CbdPa7YvOfzsSCDqxIUYAzuRtBi4va9DvC1hhw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyAao39Hqve6z0URlPpwA3QMGe9+f4tzkPZndQrK5ahSO6LgJw0
+	MGULHanvSQhnSwhHtobQ8CbfAok27ih0MkDRFgpnhYY6OHcX3C5M48lgccIrW+h2hfmJ7fYhgXo
+	+g3pZKSXodfQ7YX29JRI5xQZ+NZF0ZGvQZg==
+X-Gm-Gg: ATEYQzxXwkJNwVJWO5LgK2dYkEygRY0gLLeZwjP2iFPN6MTGSH2gBtIcTe7/QQAskGF
+	aPeLek8NFFoURElJEY/cL5F3BkdspHfQJ6Fz7gm3DER3XzHr2SKbng5zrdQLOOvh7vDIsEO3jvE
+	AZsXckHXjboMcr3VznhtqtAEvP6/66SPL+Fk6sQEEldhXylRnwNnSH9Af+hTkKVBiCwTYg+kECR
+	kdvxWtPFcC1AxCRfW2Pn2/Js9PO/ku831HRonL+QpPS5bRm13H959d/Z8YF61c2mVdA11pTgQE0
+	ydXi4kpuM/lvdN6QTbh/8kE2v/LW4phQjoRisfKjaq0T182+fquJJkdf/pT79hBCF2Zm27g5csq
+	kuTd26xB7IiX8nso0avD8yaTqQwo=
+X-Received: by 2002:a05:690c:6f11:b0:79a:c40d:b734 with SMTP id
+ 00721157ae682-7a212636809mr8550717b3.48.1774986374234; Tue, 31 Mar 2026
+ 12:46:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAApg2=RgxG+NY7sLTBMNEhPmX-O5dNC+AHmSSUQCDREgV6VToQ@mail.gmail.com>
-In-Reply-To: <CAApg2=RgxG+NY7sLTBMNEhPmX-O5dNC+AHmSSUQCDREgV6VToQ@mail.gmail.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Wed, 1 Apr 2026 08:34:59 +1300
-X-Gm-Features: AQROBzA2UWqBDViHoa5eyOwFD9MzRxTpecF1gtH2KkmLuxC9cWSm_5DfSLZQBnE
-Message-ID: <CADySD0HH=KMgU7kXKXeNEOG38ZtVZjjb3mZ5dLpQw9XewfuV+w@mail.gmail.com>
-Subject: Re: [OE-core] Runqemu error on core-image-minimal
-To: rybczynska@gmail.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20260331081246.73406-1-thomas.perrot@bootlin.com> <acvqE8lCFwxJesUk@navimatix.de>
+In-Reply-To: <acvqE8lCFwxJesUk@navimatix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 31 Mar 2026 12:45:47 -0700
+X-Gm-Features: AQROBzD8UiSObuGS_0tZADFnFcdJnNycm-kY8I2b8nCH5Q3P8UXKLQOTqRPEdsE
+Message-ID: <CAMKF1so2416tJiJrPw8KQeJCXY-S=SQsGiJMjGE2d6T86NJznQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] lto: disable for expect and add DEBUG_PREFIX_MAP
+ to ldflags
+To: joerg.sommer@navimatix.de
+Cc: thomas.perrot@bootlin.com, openembedded-core@lists.openembedded.org, 
+	thomas.petazzoni@bootlin.com
+Content-Type: multipart/alternative; boundary="000000000000514640064e573808"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 19:35:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234312
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 19:46:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234313
 
-On Wed, Apr 1, 2026 at 4:30=E2=80=AFAM Marta Rybczynska via
-lists.openembedded.org <rybczynska=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> Hello all,
-> As mentioned on the call today, I have an issue in a configuration with b=
-itbake-setup, oe-core-master fragments and runqemu:
->
-> $ runqemu qemux86-64
-> runqemu - INFO - Running MACHINE=3Dqemux86-64 bitbake -e  ...
-> runqemu - WARNING - Couldn't run 'MACHINE=3Dqemux86-64 bitbake -e  ' to g=
-ather environment information, maybe the target wasn't an image name, will =
-retry with virtual/kernel as a target:
-> ERROR: A builtin fragment 'machine/qemux86-64' is used while MACHINE has =
-already got an assignment.
-> Please either disable the fragment or remove the value assignment.
+--000000000000514640064e573808
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-drop "qemux86-64" argument, it is not needed since the machine config
-fragment is set.
-"runqemu core-image-minimal" should succeed.
+On Tue, Mar 31, 2026 at 8:40=E2=80=AFAM J=C3=B6rg Sommer via lists.openembe=
+dded.org
+<joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
 
-cheers
-Ankur
+> Thomas Perrot via lists.openembedded.org schrieb am Di 31. M=C3=A4r, 10:1=
+2
+> (+0200):
+> > From: Thomas Perrot <thomas.perrot@bootlin.com>
+> >
+> > Disable LTO for the expect package and append DEBUG_PREFIX_MAP to
+> > TARGET_LDFLAGS when LTO is enabled, ensuring debug info remapping
+> > is applied consistently alongside LTO flags.
+> >
+> > Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> > ---
+> >  meta/conf/distro/include/lto.inc | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/conf/distro/include/lto.inc
+> b/meta/conf/distro/include/lto.inc
+> > index 8752249685a4..c66dfc5a8074 100644
+> > --- a/meta/conf/distro/include/lto.inc
+> > +++ b/meta/conf/distro/include/lto.inc
+> > @@ -4,6 +4,7 @@
+> >  #
+> >
+> >  # Disable LTO for following packages
+> > +LTO:pn-expect =3D ""
+>
+> I suspect this is due to the gcc bug not because LTO is unsuitable for
+> expect. Might it be a good idea to move all excludes due to the gcc bug i=
+n
+> its own block? This would make it easier to revert them when the bug gets
+> resolved.
+>
+>
+I also wonder if the issue is gcc specific and works with TOOLCHAIN =3D
+"clang"
 
-> To disable the fragment, use 'bitbake-config-build disable-fragment machi=
-ne/qemux86-64'.
-> ERROR: Unable to parse /home/ubuntu/my-first-bitbake-setup-project/bitbak=
-e-builds/oe-nodistro-master/layers/bitbake/lib/bb/__init__.py
-> Traceback (most recent call last):
->  File "/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodi=
-stro-master/layers/bitbake/lib/bb/__init__.py", line 262, in fatal
->    raise BBHandledException()
-> bb.BBHandledException
+
+> >  LTO:pn-glibc =3D ""
+> >  LTO:pn-gcc-runtime =3D ""
+> >  LTO:pn-libgcc-initial =3D ""
+> > --
+> > 2.53.0
+> >
 >
+> >
+> >
+> >
 >
-> Traceback (most recent call last):
->  File "/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodi=
-stro-master/layers/openembedded-core/scripts/runqemu", line 1726, in run_bi=
-tbake_env
->    return subprocess.check_output(cmd, shell=3DTrue).decode('utf-8')
->           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
->    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, check=3DTrue,
->           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  File "/usr/lib/python3.12/subprocess.py", line 571, in run
->    raise CalledProcessError(retcode, process.args,
-> subprocess.CalledProcessError: Command 'MACHINE=3Dqemux86-64 bitbake -e  =
-' returned non-zero exit status 1.
+> --
+> Navimatix GmbH           T: 03641 - 327 99 0
+> Tatzendpromenade 2       F: 03641 - 526 306
+> 07745 Jena               www.navimatix.de
 >
-> During handling of the above exception, another exception occurred:
->
-> Traceback (most recent call last):
->  File "/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodi=
-stro-master/layers/openembedded-core/scripts/runqemu", line 1792, in main
->    config.check_args()
->  File "/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodi=
-stro-master/layers/openembedded-core/scripts/runqemu", line 620, in check_a=
-rgs
->    self.check_arg_machine(unknown_arg)
->  File "/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodi=
-stro-master/layers/openembedded-core/scripts/runqemu", line 493, in check_a=
-rg_machine
->    self.bitbake_e =3D self.run_bitbake_env(arg)
->                     ^^^^^^^^^^^^^^^^^^^^^^^^^
->  File "/home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodi=
-stro-master/layers/openembedded-core/scripts/runqemu", line 1735, in run_bi=
-tbake_env
->    return subprocess.check_output(cmd, shell=3DTrue).decode('utf-8')
->           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
->    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, check=3DTrue,
->           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  File "/usr/lib/python3.12/subprocess.py", line 571, in run
->    raise CalledProcessError(retcode, process.args,
-> subprocess.CalledProcessError: Command 'MACHINE=3Dqemux86-64 bitbake -e  =
-virtual/kernel' returned non-zero exit status 1.
-> runqemu - INFO - Cleaning up
-> runqemu - INFO - Host uptime: 17047514.08
->
-> Anyone has seen something like that?
->
-> Build commands (bitbake hash  7cf11787ee7942a00ba7e8fa2c590a2563070c38)
-> mkdir my-first-bitbake-setup-project
-> cd my-first-bitbake-setup-project/
-> git clone https://git.openembedded.org/bitbake
-> ./bitbake/bin/bitbake-setup init
-> . /home/ubuntu/my-first-bitbake-setup-project/bitbake-builds/oe-nodistro-=
-master/build/init-build-env
-> bitbake-config-build list-fragments
-> bitbake-config-build enable-fragment core/yocto/sstate-mirror-cdn
-> bitbake-config-build enable-fragment core/yocto/root-login-with-empty-pas=
-sword
-> bitbake core-image-minimal
->
-> Kind regards,
-> Marta
+> Gesch=C3=A4ftsf=C3=BChrer: Steffen Sp=C3=A4the, Jan Rommeley
+> Registergericht: Amtsgericht Jena, HRB 501480
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#234302): https://lists.openembedded.org/g/openembedde=
-d-core/message/234302
-> Mute This Topic: https://lists.openembedded.org/mt/118598283/3619737
+> View/Reply Online (#234304):
+> https://lists.openembedded.org/g/openembedded-core/message/234304
+> Mute This Topic: https://lists.openembedded.org/mt/118593189/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
-kur.tyagi85@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
+>
+
+--000000000000514640064e573808
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 31,=
+ 2026 at 8:40=E2=80=AFAM J=C3=B6rg Sommer via <a href=3D"http://lists.opene=
+mbedded.org">lists.openembedded.org</a> &lt;joerg.sommer=3D<a href=3D"mailt=
+o:navimatix.de@lists.openembedded.org">navimatix.de@lists.openembedded.org<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">T=
+homas Perrot via <a href=3D"http://lists.openembedded.org" rel=3D"noreferre=
+r" target=3D"_blank">lists.openembedded.org</a> schrieb am Di 31. M=C3=A4r,=
+ 10:12 (+0200):<br>
+&gt; From: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@bootlin.com" t=
+arget=3D"_blank">thomas.perrot@bootlin.com</a>&gt;<br>
+&gt; <br>
+&gt; Disable LTO for the expect package and append DEBUG_PREFIX_MAP to<br>
+&gt; TARGET_LDFLAGS when LTO is enabled, ensuring debug info remapping<br>
+&gt; is applied consistently alongside LTO flags.<br>
+&gt; <br>
+&gt; Signed-off-by: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@bootl=
+in.com" target=3D"_blank">thomas.perrot@bootlin.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/distro/include/lto.inc | 1 +<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/conf/distro/include/lto.inc b/meta/conf/distro/inclu=
+de/lto.inc<br>
+&gt; index 8752249685a4..c66dfc5a8074 100644<br>
+&gt; --- a/meta/conf/distro/include/lto.inc<br>
+&gt; +++ b/meta/conf/distro/include/lto.inc<br>
+&gt; @@ -4,6 +4,7 @@<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 # Disable LTO for following packages<br>
+&gt; +LTO:pn-expect =3D &quot;&quot;<br>
+<br>
+I suspect this is due to the gcc bug not because LTO is unsuitable for<br>
+expect. Might it be a good idea to move all excludes due to the gcc bug in<=
+br>
+its own block? This would make it easier to revert them when the bug gets<b=
+r>
+resolved.<br>
+<br></blockquote><div><br></div><div>I also wonder if the issue is gcc spec=
+ific and works with TOOLCHAIN =3D &quot;clang&quot;</div><div>=C2=A0</div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+&gt;=C2=A0 LTO:pn-glibc =3D &quot;&quot;<br>
+&gt;=C2=A0 LTO:pn-gcc-runtime =3D &quot;&quot;<br>
+&gt;=C2=A0 LTO:pn-libgcc-initial =3D &quot;&quot;<br>
+&gt; -- <br>
+&gt; 2.53.0<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+-- <br>
+Navimatix GmbH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0T: 03641 - 327 99 0<=
+br>
+Tatzendpromenade 2=C2=A0 =C2=A0 =C2=A0 =C2=A0F: 03641 - 526 306<br>
+07745 Jena=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D=
+"http://www.navimatix.de" rel=3D"noreferrer" target=3D"_blank">www.navimati=
+x.de</a><br>
+<br>
+Gesch=C3=A4ftsf=C3=BChrer: Steffen Sp=C3=A4the, Jan Rommeley<br>
+Registergericht: Amtsgericht Jena, HRB 501480<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#234304): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/234304" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/234304</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118593189/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/118593189/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000514640064e573808--
 
