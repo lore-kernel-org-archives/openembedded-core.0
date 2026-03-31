@@ -1,107 +1,147 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD41109B474
-	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 14:12:32 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21043.1774966348838766926
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A714D109B473
+	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 14:17:12 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21151.1774966630508969741
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2026 07:12:29 -0700
+ Tue, 31 Mar 2026 07:17:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XFhWAqKO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d01d6b50cso1628991f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 07:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1774966347; x=1775571147; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eyfX2JxXN7EKJJfubhAcPCoI1iV/SNKnL+74aTY7T7Q=;
-        b=XFhWAqKOSVjC3T6J+2IAkkCCWcioIhfGwvHjHK810mgSkGB4B0IFyqxhFnG48U04al
-         Y/MoRT7+lUL7y1qjNk74Z1TSYqZ9WPRlQ6oOPrktIaE/UeKqVyS3HzIa2V5cNEfgofuK
-         n36PSpCilTNQIrdbbUXVvmE6nETx8s74IAbUA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774966347; x=1775571147;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eyfX2JxXN7EKJJfubhAcPCoI1iV/SNKnL+74aTY7T7Q=;
-        b=NuCgcj8COocQ+KWQMuSRcPCfjc4kPZcCSqhqzzhFUOgkiW6KppLj339LTwiWC/GV8b
-         Vl5CaQC6bc2vVJ+pQ8CJaW/JHtpNLdBXlz5tmtCNCf7/Re5mDaSD1jy1qItV6dJ1W4QV
-         jFj4xpuL534ZeHlO5FxkWdrgPF1iM8iKrLCat4HEu/e9IWHSa4XEK/QTQdtMapWLp1Fk
-         E+7fZwuisl4yMTI4zFUoTerIPPSE4We8xXRi4RJqWMeLheUvurXecyALknY9CAf5k3cC
-         z+XuIS870/jJmAUH5cAQp+BFQclDpsRshYOIhJXI6ZMJEIwaAzeHO+z+bQtE6KkHvKds
-         SMIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWb/OjvGHz9tYwc+3x1T02F7sABqZgtTyta8N0Lso+NJKNJQarSy7OFLBkCUUPNMBtIRuP3lraf+7HSOBYRpN10Bg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx1h2UOcqsgBY1xn03lacg8KbhOAjJ+mP2iS49Kv0bBy5Bnz8hw
-	dElre5AzCS0stiR99cQGNrLUI7RwwTlPjjFPGFPdEtxH05y6W5MLjoOTPFqEzWLzmmI=
-X-Gm-Gg: ATEYQzwsFWDxcTTopB7QVY9k1pRd0Bf31dPP4HXK+gEa135DXuygRxrPGP4hT4XbxUC
-	oEXFa2BGdrXb4TiIBp1eZMp8BBcX4/Y8AXQxhCRECCj8EEDfn/h8ID8EXf5zddR+i4D1ZD3emh4
-	4QKVSoQDkuVaoaWpbIon8spr+5MoqeVTg7ax9EEpVuGqpK6NHH6TfcKalHPMgDUdFuMR9pBt7i1
-	1jmkjp/z/qh6i88RtDFM+flBnoIMpUnuauECo8SWfhCqUq2s6ydJBRJf3NlRlKjF/kNqcoGimr3
-	uW4NHC2Pepj2uxCUd5Uo767p8/NQhVM1GoQWiZkbzjK7npYR2L4lzTdVdDhlWlr2RExWcrQ9mkE
-	Y3PepHO9lIHV4xyTRPmRV1VUahNiTik3obudmjYFtOf8MoG/S8QIrZpTwebkNn7JXd97zPt+cNn
-	VN202eMn5skftRkrFafX6rDCN6eQGtTVNUNIBOLzL64nKiL7MY4r7iRCdysdpIzddrCozSTqi7E
-	A+tCvwDg1SLN4Q5
-X-Received: by 2002:a05:6000:144f:b0:43c:ff58:35d3 with SMTP id ffacd0b85a97d-43cff583775mr14367982f8f.17.1774966346920;
-        Tue, 31 Mar 2026 07:12:26 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e29c:9e31:f797:402b? ([2001:8b0:aba:5f3c:e29c:9e31:f797:402b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2580194sm25672104f8f.37.2026.03.31.07.12.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 07:12:25 -0700 (PDT)
-Message-ID: <56e03e1e7a5a7a51fe34ad6b099ff7a7f1afd587.camel@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=GgJQpPwn;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: thomas.perrot@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 67EE54E42878
+	for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 14:17:08 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3EEDE6029D;
+	Tue, 31 Mar 2026 14:17:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DDB63104502A1;
+	Tue, 31 Mar 2026 16:17:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1774966627; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references:autocrypt;
+	bh=iZjgIDmgzdlVKzh6U+2pYdiEz5Mb0gKbKHT1WNOh3UI=;
+	b=GgJQpPwnEPFahzjSz2olvGTYYqB9j2iUBgEjZa4b1f3R9Pbz9dXea35aiVY352/TImC69X
+	Kz0w200VYzheFPpmb4rBakGTGefStxWLVe/zvP0HZgE4EOPRzh7q9ocGQryHqa+X64dMjw
+	cNa4DdFg4hIoWIQ6IM0c9PdPjDE1WREI+u3oc1/Mcn93qiGk/eZYY2k+NXjtL4RiNoRnzk
+	cJnKrqL2lbn8MbDQGTjvqdL/WsOYwxad6j5LgjcN5WLwNZovIafc2Zl4LqkeoU1Tx7JOjU
+	r4xC7iZBTiTRLQYeBWH1urhIVhQRh5QyQW8iS9DOY26wzcxl7SrsyyboipkwUQ==
+Message-ID: <507009eed57ab19b4bed647b17f9d7bfa00e1edc.camel@bootlin.com>
 Subject: Re: [OE-core][PATCH] lto: disable for expect and add
  DEBUG_PREFIX_MAP to ldflags
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: thomas.perrot@bootlin.com, openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com
-Date: Tue, 31 Mar 2026 15:12:25 +0100
-In-Reply-To: <20260331081246.73406-1-thomas.perrot@bootlin.com>
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Cc: thomas.perrot@bootlin.com, thomas.petazzoni@bootlin.com
+Date: Tue, 31 Mar 2026 16:17:05 +0200
+In-Reply-To: <56e03e1e7a5a7a51fe34ad6b099ff7a7f1afd587.camel@linuxfoundation.org>
 References: <20260331081246.73406-1-thomas.perrot@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+	 <56e03e1e7a5a7a51fe34ad6b099ff7a7f1afd587.camel@linuxfoundation.org>
+Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
+ keydata=mQGNBF+/ZOUBDAC2DghCjZvmgYcve02OG7dGZ7Iy58uEwne3LB7w7nRwdAxKw7ZaiVqwY
+ O+yNGVi+GVx7oA6Wn4pv46z+QDRLQiq6OseuXhkSGCg7U/yBCUq12B/GRGO1Qt2Qi1mJJT1s+1qZ5
+ Gxv6Nypz9qKVn94GM2bR1hXBga0t87vBpebThOHmX5d/0dqIcVxRCM7onNb0dDyRoVgLS5rBhQzrL
+ CMrJaCy39xZUy0J1SOlH4Mgk6EhJIPYY4wlzikGX6urg+Tc9EjGd78ry0e0p5U5qgjFR5QGJDy1Gn
+ U3CfwbT9sowdCASDbQDUoltlv2iWJCLa0xl97KVchCa0pr7HKbFA3J5SLKqFYUBCkFL+5WudYlz2n
+ XxiUgyviMQxyK+ij66kEi6/2zFDAecd43pHV7790ptqZBC3Jc67Emj7Vo3ShX6RXPPxxbeCTOF2uk
+ I45aJ9XcVFH/MFE96NjXj8uahnIsiTPyuCUoJu8tj7TSQyue874qJqVQvqlFyt2aZYJZ8ruq8AEQE
+ AAbQpVGhvbWFzIFBlcnJvdCA8dGhvbWFzLnBlcnJvdEBib290bGluLmNvbT6JAc4EEwEIADgCGwMF
+ CwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSHQHfGpqMKIwOoEiGfwAsFcf4K7QUCX79mdwAKCRCfw
+ AsFcf4K7fhbC/wP0kSl6id2E/K3+UdXk6CLMVRbCFLCREzQs5WFpQ6l/I0WGOamhrOgegdszheiVF
+ orlUP8d37XSpFAqydhKGaN78V5Dps0Wmwm4lIlS4MtQXJtSLUHXDJLIZLW0pw8tiPLKsd1o/yDkXE
+ dnpsjJTRG6SdDSHnyOB2/gh4p+yTaLytFdARk/r4/P26+L+FiH0fFl+RnBt19LPklfKgeDc7GwIif
+ ja+nIWpp3W23DAUuI6xduEut25Q89yu7Ci8CliLfAiLy9bIGjBQWU2Y+1/j/7KuPj6VbBsZWLTZY0
+ hUmpJSTnWAqc9SMsNxo7NSQuddgviz5e2tqucaRqxP02FGzNa8U4NAKdWaXrlHG5Dglj9XH0DK+SH
+ +c96qqFewYD8VPQ6XAGxQcXbrtJmiMor1R2DfziispLRvJcfYs8xqabbCtoS3ouXB9XRi8hn7A2kh
+ ME1ryS+Oh63JshXHnw6bmjCpVd/p+fGLIGU6A47pJOpviKR4jEO84pl2ejtDZ3Tc=
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-hD6nSVHbOICBdIfPv6U5"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 14:12:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234289
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 14:17:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234290
 
-On Tue, 2026-03-31 at 10:12 +0200, Thomas Perrot via
-lists.openembedded.org wrote:
-> From: Thomas Perrot <thomas.perrot@bootlin.com>
+
+--=-hD6nSVHbOICBdIfPv6U5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello Richard,
+
+On Tue, 2026-03-31 at 15:12 +0100, Richard Purdie wrote:
+> On Tue, 2026-03-31 at 10:12 +0200, Thomas Perrot via
+> lists.openembedded.org wrote:
+> > From: Thomas Perrot <thomas.perrot@bootlin.com>
+> >=20
+> > Disable LTO for the expect package and append DEBUG_PREFIX_MAP to
+> > TARGET_LDFLAGS when LTO is enabled, ensuring debug info remapping
+> > is applied consistently alongside LTO flags.
+> >=20
+> > Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> > ---
+> > =C2=A0meta/conf/distro/include/lto.inc | 1 +
+> > =C2=A01 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/meta/conf/distro/include/lto.inc
+> > b/meta/conf/distro/include/lto.inc
+> > index 8752249685a4..c66dfc5a8074 100644
+> > --- a/meta/conf/distro/include/lto.inc
+> > +++ b/meta/conf/distro/include/lto.inc
+> > @@ -4,6 +4,7 @@
+> > =C2=A0#
+> > =C2=A0
+> > =C2=A0# Disable LTO for following packages
+> > +LTO:pn-expect =3D ""
+> > =C2=A0LTO:pn-glibc =3D ""
+> > =C2=A0LTO:pn-gcc-runtime =3D ""
+> > =C2=A0LTO:pn-libgcc-initial =3D ""
+> >=20
 >=20
-> Disable LTO for the expect package and append DEBUG_PREFIX_MAP to
-> TARGET_LDFLAGS when LTO is enabled, ensuring debug info remapping
-> is applied consistently alongside LTO flags.
->=20
-> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
-> ---
-> =C2=A0meta/conf/distro/include/lto.inc | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/conf/distro/include/lto.inc
-> b/meta/conf/distro/include/lto.inc
-> index 8752249685a4..c66dfc5a8074 100644
-> --- a/meta/conf/distro/include/lto.inc
-> +++ b/meta/conf/distro/include/lto.inc
-> @@ -4,6 +4,7 @@
-> =C2=A0#
-> =C2=A0
-> =C2=A0# Disable LTO for following packages
-> +LTO:pn-expect =3D ""
-> =C2=A0LTO:pn-glibc =3D ""
-> =C2=A0LTO:pn-gcc-runtime =3D ""
-> =C2=A0LTO:pn-libgcc-initial =3D ""
+> Is the commit message still correct for this? it doesn't add
+> DEBUG_PREFIX_MAP?
 >=20
 
-Is the commit message still correct for this? it doesn't add
-DEBUG_PREFIX_MAP?
+Sorry, I forgot to update the commit message when I modified the
+commit.
 
-Cheers,
+I will submit a v2 with the correct commit message.
 
-Richard
+Kind regards,
+Thomas Perrot
+
+> Cheers,
+>=20
+> Richard
+
+--=20
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--=-hD6nSVHbOICBdIfPv6U5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmnL12EACgkQn8ALBXH+
+Cu1eLQwAj5AU1UakR4A1DHvUk1YBtgiw8LXNA48OMn6AZBcJi4oFyWXiIAToPQjd
+zGIDnGlY3y7lZc9S39PEaDMtpFA+OHIa9Sxe7t1dAM13Dzs1ogpYJx3wVTeEXR/g
+Qp8ERMtL6yVpTIrOfpqqqztqO0oOXEZtRjIpZ7600CucDO8OshAwHuSG4P+5vBVv
+snZu+l3YMumrVfFOGJygWNMb/L8JDoPOYP8RaQsy0lUJKL68l8FAOUzZQU64YpJs
+c/lrx273dmwCplH8Wa1sGSqjcPsrfapWBp1oNBlH4fZnBLKjmT3rCLTuvYnCF6VU
+tzYCY7koV6FljoA9/bQHU4o/t6ir7ynR52LeyJBQv+2TOQ3HxAy7t2ufbyaLc1pe
+lqiCT43BdIwKrcR2yO5Dx7HBsvKM+ZPqK55IjQTD+dBpEfTT34h7qZj20xp/bty2
+j4v9jXjlxB9ru7lo+VUp3zd5UReuJrrV8jCczogaqpmYfnfS07Acd9k/4PDn7b2n
+tovzYaOZ
+=JXPT
+-----END PGP SIGNATURE-----
+
+--=-hD6nSVHbOICBdIfPv6U5--
 
