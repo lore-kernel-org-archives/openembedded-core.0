@@ -1,210 +1,157 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <ricardo.salveti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8936010F9306
-	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 22:05:44 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2857.1774994735376060755
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDBA10F9307
+	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 22:36:19 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.435.1774996571255163930
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2026 15:05:35 -0700
+ Tue, 31 Mar 2026 15:36:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=mUNUX9NN;
- spf=pass (domain: siemens.com, ip: 52.101.66.49, mailfrom: adrian.freihofer@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IKgBBY7Nsh0wGrG5rxTkGyRrw0NDna98smynHQBznA3jGsvXLHPzKLzmmzrdg/2T/dESFGGzc1lImTELiXt9J3SCL8gg/Fh4UtJZvLx+USUiHCPSS4Z3cnZmAr6DjOvQbTB2bsnQcVhnpEUWLjNc9j4ZApz5SKLerVZBZjRxqbqzs7nAh1IhPxeWQKKVq3sqPw30LB+mX82ZCnAVCOBKkT2VVKwdtaeIAV7TtJ33Uy/FARa8wlRuw0zMOETMwFhedoTs68jSgx1SXcadjJ0WVRIQ1j07n7mDHwJOyMQLn4En+EeHWQBVpcvZRSajAr/kflptQArnV0TkCZyP+RWDyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mZePAVe+XqGPh8HV7F22RLftRVBvQ5HYcsN+WVKRwWI=;
- b=gF/VU6zh7L9gSS58kOBvwjlZDLFtQIJ+PxcEwsTk/BZXSBleoLeo7qnLJbRmK6fMR6+99qGaH3RASLKOhhqVRfh9xVJjaNi/h+uoPe+v/U61oOBLHVTmbb9sdolEAZDaT9HvO5LtD4uqHp04Dc+PK4oDv0yJQh25zsvd9iTnBQ1ksEjECGa1MJGlTNov1CfWDFkDpHtAwrPEneE4KrxXzYHYlEyizQZsQUnrG6mPAegb2AjU+FGrxOInvOm5S/UE5Gmp9OP+02G5FSkp4J2k2P+QKuwvWERmm4hthENJfG0NQkUeYvjT4tGCvoC779B1tvBmpqPno8yb1aJCt99oVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mZePAVe+XqGPh8HV7F22RLftRVBvQ5HYcsN+WVKRwWI=;
- b=mUNUX9NNsZTO7OX0NtHUiSyEmXhQs3eWFzQifOZbLUJyupTefPmYwPIQWNL8t6lGSfecD6bBiik2QJIHCi6LkSex5bCSjyD7aJHU2XL81VUOzwPfRzmqqk+atDXC8YwDSFxTH65oAefn5zvJlpvNaHQLnzE2D7ojeAPVN/1CijOD3rIES7ZNE5pDyiufLkOazh3npbKpSwdDWynRlc6Y/BLDJP1KPsadNt0VcpczZt+t0eifEdXOnQ48F4jxvurii7LtPthoJdKOy0PgpSypEmR5H8i80Rd3jeZgdjfOdqykCTgGABij4kh96emEoUoSEq9pjgMUm34j9D1L4T3mtA==
-Received: from AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:47f::8)
- by AMBPR10MB9375.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:6a1::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Tue, 31 Mar
- 2026 22:05:32 +0000
-Received: from AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::d515:f4e4:e935:ee4f]) by AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::d515:f4e4:e935:ee4f%4]) with mapi id 15.20.9769.014; Tue, 31 Mar 2026
- 22:05:32 +0000
-From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-To: "stondo@gmail.com" <stondo@gmail.com>, "Tondo, Stefano"
-	<stefano.tondo.ext@siemens.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "ross.burton@arm.com"
-	<ross.burton@arm.com>, Joshua Watt <jpewhacker@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, "marta.rybczynska@syslinbit.com"
-	<marta.rybczynska@syslinbit.com>, "benjamin.robin@bootlin.com"
-	<benjamin.robin@bootlin.com>, "Marko, Peter" <Peter.Marko@siemens.com>,
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
-Subject: Re: [RFC PATCH 0/2] spdx30: Add OpenVEX standalone document
- generation
-Thread-Topic: [RFC PATCH 0/2] spdx30: Add OpenVEX standalone document
- generation
-Thread-Index: AQHcwRl/zTKOOMHWOU2EjFR+QiyMH7XIsb0AgAALSACAAHXCgA==
-Date: Tue, 31 Mar 2026 22:05:31 +0000
-Message-ID: <e37fc3654ebe48350a6f35a51792ac1be5d4c307.camel@siemens.com>
-References: <20260331141956.608976-1-stondo@gmail.com>
-	 <dc8346baa9db2434b2296c22550e40ac7389201e.camel@linuxfoundation.org>
-	 <CAJdd5GazcRuxPSdgXEb170f+E5uA2oP=C2eKLqCNnLC8Y_fB6g@mail.gmail.com>
-In-Reply-To: 
- <CAJdd5GazcRuxPSdgXEb170f+E5uA2oP=C2eKLqCNnLC8Y_fB6g@mail.gmail.com>
-Accept-Language: en-US, de-CH
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.56.2 (3.56.2-2.fc42) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5724:EE_|AMBPR10MB9375:EE_
-x-ms-office365-filtering-correlation-id: e4bdd794-ba5f-4996-7d68-08de8f71a079
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|55112099003|38070700021|18002099003|22082099003|56012099003;
-x-microsoft-antispam-message-info: 
- SHtY4RqgtjZ32OHs6dv6+PydRyfFYmJeSjbUqw8ZDFac+jZJCITvisrkz7aHydyG3i6CJ3k3EBgdf0m8/G77yW1ReuUWs3DdeXSK6JGhwQTKwFGNMKjE0kZZXNeHB1OPekjMJMhWQHpBPps0Wb0rZ4H+xlWn7msvM+Dq3GoLuEaVSZpKjDCb6dupWlIneIZElhGzon5aGV92JAxrhYAORkXQw7YVVxCi8FRUdkkUy+oYDaP9FFzJBFvahy/vkke8Vw1+pMo8SHak1cq1QVQ+ZE8+w6TZvOForoibS8ZyRaPQGfTGfyl0S1uzmUox75drZrPZmUygYVw6TsVfB1oJ9ISbcbkJWwMChxrDD6RytbKDse5YNHmPbXi04OiFvGs1R7EwtCDN76srRWQbBvvHgqu6ivTia1lvNprxMXhGmFLquyfch+hvVGBP7Ivkb/reKrL1B1wyLama4bgckzdUpM1hpirqZwuLTUhtjYIoDnP8IQxpUrIRdi72pBI2NzJh2WssfiCQ8CpebKzGMtLsBUizzcydpm5BOiY63tRTpmxvIrjFVeKjm7szdYm8Vq+IpOE0TqD/Nt8yDnA3zf93JZzvc27IiD0V1XnHLUA3t4pV+2rYdjwGKwwvVEMbGE4a7Yh2yICwFmQ38MbtGTXJd35P61mvFFW0DNh7hVLpbVG3Q5CKYfXvPIMwXZwUXDwVldYy9m+IuTlS6uEriMjIvbw3aymqvv8BVI03Ucy5cMiyBKYdXYymIf49NhxXacXCqMG8iFgxW6in2SKhU4TdbO6NFiAeUoXbLVinXbvt62o=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(55112099003)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?NEsvU1JEQXRHTGZENmtDUzFxcWlqMm03QnB5U0RtZGdSUnJxS2V3REtVcDN0?=
- =?utf-8?B?b053aDhzYUpwTHRSVzJUa3VwcFJnSHRuUDFTOFN2Q0hCajJNSHRuNWlEcWhk?=
- =?utf-8?B?bXFZWk1nNlRVb2dpdENFMHgyYVRFd2djSVJvVlVPcmZ2VENDZmxrNzNBWFBK?=
- =?utf-8?B?NDBKd3l4WmRubXg1bHpBR3oxTjk0dlVaOUhOWVpVNGZhRjE1Z2FJR0dZcWNs?=
- =?utf-8?B?bWZuUkI5NDNDdnpUblVCSnRaVHFlbGlGQlpWeTY4TDJtd2VHREQ2d1ZrM3kz?=
- =?utf-8?B?NUU3Sk5CWVNvOTB3S0RqWnY0M2s1d1pnZjJiN3F2RXc2bm9mb1NtNHNKVGFH?=
- =?utf-8?B?Z0h5TFRyNVVyODBXQnptYVBoSGJDdUpUSVkxaHhKMDBoeUV3NHBZeWVKN1BU?=
- =?utf-8?B?MmxFenR1dG44S2kwVG1qdm9oSnhvam84SUJpZkVtMGEzZlpaMjJJUGpJQ0tD?=
- =?utf-8?B?WmVRL0E2YmJJTGdVMFVycnVucGtWTHhWRHpqRm5kQzAvY1dYTkk2ZUhxY0dy?=
- =?utf-8?B?cFVyaVpPVytQNGhIaFl0c1lkRlRHNXhNajFpcjRyYnBOT0syUDN1Z3pWd2o1?=
- =?utf-8?B?cW1FQS94WG92TUJMWFAwQnRhSEFSWmxNSHN5UHVqeGxWdlZpeFZMZjVnOGRs?=
- =?utf-8?B?Z3A0MUJBQWZ4R1BkcmtWZVV0WlFRZ3c5Mmw5SUVyQy82OWUxelQ1V1d2SDM1?=
- =?utf-8?B?K3BkZVdzL1pnQ0pBbHVXakhFZFMyUGRSSnFpZUVaU1hWb1h6aWNPMmFkTi8y?=
- =?utf-8?B?ckdGZ21YQmN4UFF4QjJzSjZOWDEyc3ZSVzFzMUExbXVZa1BHbFBFZjE3TjlX?=
- =?utf-8?B?Z21nNFRhSzZCR3lwUG41MmdFaHpQZWRsRDFISzRsT0Fab01abkU5eWVCNFYv?=
- =?utf-8?B?SE5rU2J2TFlTdWpFK1VQNTlIbVNXbXRxc3JlTURZRVVtbnBJbGNZNnRSQjRE?=
- =?utf-8?B?N3hWb2d1SXFiTVg2QTBxWEtDZk1CVnpYL0tLb3FiR084Zk9veTdtU0xvUGlD?=
- =?utf-8?B?bHZXdEt4MXdnZGNaTEx1dkUyUG9lYUwrRFBwM3E5U2dQWHF4M21KMU8rbEQr?=
- =?utf-8?B?UmZVNithL1lGdlFIRHQ2RkpLbG1uWVZ4VS90NUJJUW85MlFUZ00vQmwwN2tw?=
- =?utf-8?B?RDQxV0M3bzBhUTJTUTJWanFSNStTS0MxOU5mUENTM0RYaTlkb1JxY29MSjlu?=
- =?utf-8?B?UVdkTHc3eUQzblNib0JNbGRlU2d0UFh1TllXSHlOK0d2Ri9LT1VJZDRpaUhw?=
- =?utf-8?B?OC9RSm44Rk5BK004V3ZiTVV2V2RwZW9JYXBXQkJkcWRjQ0FwekFIUjAzTVRu?=
- =?utf-8?B?VDUyZk9DK0EwRzJVOXpmMXQyanhmdURsUE5weDhiL1NKUnFHUThQdW1yQUNI?=
- =?utf-8?B?U3FTU3E1bTJ5NldMc2Z1MUgva1h1WG8xYmJQMjRzSEFVQ0xObEJYOVlDSy80?=
- =?utf-8?B?VmxTNDlPeDN5WS9UMEs0YUE1OHp5YTJRckdxbFF2b2hkQ3YyWlJ3QTZQWXpM?=
- =?utf-8?B?QTd5MWM0YjhZYkpTYkIxZjhpYU5yLzhTUlAyNTZrVjVFYnRJa3NiVWNNWnVK?=
- =?utf-8?B?NHEzdDlsQWdWcGEzdEFlVHduWHZqc3JTR2w5Nk9PZ2FWTHJrS3FUa1hBdjg3?=
- =?utf-8?B?V1ZvSkRVemU2dUtBcjYwNW9SZ0RRUmFpTXRCRW03Y1dYWTd0Q2xVRkJMaXNQ?=
- =?utf-8?B?RUZ4NExiTzBJcGZLWDh4eHpZai8zeDdzckJaZzZCSmRYNE4vM1FYMzhzUWRa?=
- =?utf-8?B?eXhqVCswc0ExaHBPeUd6ZEdZSFdXb0ZDM29KaFFJY05BQ0UyaGhzS21uVFVn?=
- =?utf-8?B?NU9nSnpxYXVLZjJBRnd0RTVLL1FJU0h4eld6NkRPcnhFK2Z5T3lpd0sySk1Q?=
- =?utf-8?B?YWh4c2UySVdrK2VRTGUzVXhIajRNQlRNckhWYTN1OEkraG5LU0NiTWJXcUgw?=
- =?utf-8?B?YS8yUkZqeGpGdmZTcUxaQ0Jhb2VGOGk1ZHdaK0JGLzVkTDZFNTZUa0RONC9h?=
- =?utf-8?B?SjYwSk80WCtwY3Fnd0ZFZlNxQ3diNlZGTUppTk9zYmNBSWh3NllRYjMrTGhF?=
- =?utf-8?B?dk44L2dSR1NDbzk0SThoODZtWEZqMlh5RnlrZjd6UHFydzlGcVdpWDFMU2JS?=
- =?utf-8?B?SXNudHBqOUd4cE9JanBVOVJQRkJuK0gyeWVPb2o5TTR1VUVMQWNJU2VUdm1h?=
- =?utf-8?B?dnI3K1hwT3NFRDVrdXB3Z0Y5MWQ0MjhqZWk2Uy9GcUhSeXQrVVVqSUtEUThs?=
- =?utf-8?B?Nm9md0U3VWNlSDZCbHhPQSs0Y3htMTNaYlBoUFNQSnc3a1lWbUt0MUxFT0Mw?=
- =?utf-8?B?bGxZQzdDUjNzWHhEdytwblFaSWM4dGRkZGhQZWNYMXRFbWZmQ1pjQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <797703D6A9555444954C112E6CB067B5@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=gpeMRR40;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=eer9fglK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62VGdLbO3882892
+	for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 22:36:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=D4obLuCUEftFDKWTQ26+KY
+	3yX/oUwutN11Gyp6gztbo=; b=gpeMRR40EgubN4KPDM2hyUZ5xYGwCXJJ6ZXWiM
+	SQAzw5RZRSB/5UM3ZKZBU1XWfgbf1mDQ2s3CmQquRMTGMOuvHFhdsJ2zfc9M04up
+	ks8IUNryDV2UNAZ0p9mBc66pybNOimLl9S9SnmQRWhO69asuaqfVWpcUZjNOSyjj
+	rYvtasMqR4CnA6GIaaExd8Y12S30VgppUrLwg3zqIY1QwPk5/odmwpUEZJJp8L51
+	DEKafQU8K2b02+MJbPvmSv74W4s3nNsXmC1xF9oYgmBtg1u42qIsyugyCzN9mj7q
+	iq08yW0DWnI+yKGecdw4K1SC7Np2BgGYEW2T0bgA3JJdWeCQ==
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d89utby5u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 22:36:10 +0000 (GMT)
+Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-56cfaba5062so4487373e0c.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 15:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774996569; x=1775601369; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D4obLuCUEftFDKWTQ26+KY3yX/oUwutN11Gyp6gztbo=;
+        b=eer9fglK8WnpXV7s985g1CjH8cOeVvDsA6DE+ls5hDWdob1UPfS2/khSpih7rXRRWM
+         E2l4igIl+eJngvF+K5IuAu5dXwukfiEGzS7R+WKhPn/V61JszN9jFhqPpGNg5tG8uZv1
+         3uwpqgzriWZClBIs6Dm+WMLN37N82YKceBsqa11qK7ulE6dOWVRA6g7ij+jv2sIKlvnf
+         33F1WcLPSNJ4uKTwCbFRNIyW8FLzY9ihN/FE+xKvzSiqZ3lZeMMT5Fbjizsm4LkBK8HZ
+         ldZzrYCrj2tqjJHkFywbcBpCn1dauYTe4mc7lwiq2uUwPaxKmJnVrMcsKnql/o24J7Y4
+         nvtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774996569; x=1775601369;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D4obLuCUEftFDKWTQ26+KY3yX/oUwutN11Gyp6gztbo=;
+        b=N6JjYsqPUDdSdiJ+hMoV9MHUXqxIJL3jDIvE9ufW4mhhslE6pwSdQgp27Geemk8IKS
+         ioZ/LnUELjVWApK/NoLCm842PsDOtTv3cNKFGvKibEHmkEaB7ygX6VZcI0MQ02E5FA0U
+         H0OWnn7Jqh5UJd/4k0EAL0dBmY6LQwM/6cs/OWrhIdZ8TycgSk5/wAVkudQchegnzrtz
+         sQpMH2/jrCwJAD0S+Hec7v6sMpfrxWsfP6hPx8WThB9GJb/hGFXoA8wLKWM/U4s7GyNd
+         DcfAQfVgebQ3NFuaKsjKNElgsQxLKUoV0dkCiY09R5N6GgiM3vFkEjXxol74tKf2pj1R
+         4FRA==
+X-Gm-Message-State: AOJu0YwsP2iJCKz4mZLYL6NpOWuCjYffQA3xrAQyz09zi3Yp5QzL3ZV1
+	sQNzKlsrqPuaH4aAT7/jPslpK8U3fT9BkG9N/RvUdX/ZlRmZ1mJJzSTq6CnN6jqb4D84BrdeKbj
+	PE46mdz+8NO57j9Wxim+Ki+PsqqSc/ruvYC9/AZRtcXnIe1pzrrgtc98h84Tz13FQjtw6+3/dC7
+	AlMtrYNJqTR+8EGMU=
+X-Gm-Gg: ATEYQzyK9ja4bzJMyJeM4OKuKph1Od54xFSDdu5u5c7p+M405DttdJDUWTyfWmsAppQ
+	IhdHaKkldI3TshUMcrAmwCqHAx6k+vi2a03JjAJCk3hInPqQDxY6GGqC96e/z3uT/bDDFDIFKls
+	mMFVlJ+//3GhO/wxQQBmtD90xC4/9ncQ83lG97y5Yuy3sdHCfCoBUCyEQFhy3JjTHoBD56RpLoJ
+	+Xne6p/iWBX0NXm3epZKty8kfc5+AVxwIWwWCAA/VzN/2Otzqp08gfZcNuVPHN/FkKpM7P0IPLP
+	m5jUZx7veueTzBhe2x0yK5baH1c5XoKrtkWMtn7P7lVLICMh3rxEgm+V27yUlfomzb9lUV0r4YE
+	avnEHpV+uTPpiBEViMF/rlCdyAWDqXw==
+X-Received: by 2002:a05:6122:2212:b0:56b:7cf0:cf67 with SMTP id 71dfb90a1353d-56d8a96d7e3mr763813e0c.15.1774996569203;
+        Tue, 31 Mar 2026 15:36:09 -0700 (PDT)
+X-Received: by 2002:a05:6122:2212:b0:56b:7cf0:cf67 with SMTP id 71dfb90a1353d-56d8a96d7e3mr763803e0c.15.1774996568652;
+        Tue, 31 Mar 2026 15:36:08 -0700 (PDT)
+Received: from evatuf ([187.65.214.56])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d88e0ac0bsm1974381e0c.12.2026.03.31.15.36.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 15:36:07 -0700 (PDT)
+From: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] busybox: enable mkfs.vfat via config fragment
+Date: Tue, 31 Mar 2026 19:36:02 -0300
+Message-ID: <20260331223602.2935829-1-ricardo.salveti@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4bdd794-ba5f-4996-7d68-08de8f71a079
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2026 22:05:31.9550
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zawDA4/SwvmCyWXOIRvYZ3R4WRVNh+bx9mXUGx4f48gpAJn14/49hlEG3pptSagVZ2Nwj+w2UKwbVo2JzXXBQcCvse3dvgFYZyoThRYdGnY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR10MB9375
+Content-Type: text/plain; charset=UTF-8
+X-Proofpoint-ORIG-GUID: 1i72yXDnlEo510UID92bjrvFCBEuvUqI
+X-Authority-Analysis: v=2.4 cv=C5LkCAP+ c=1 sm=1 tr=0 ts=69cc4c5a cx=c_pps
+ a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=5XGjxTY8yYkUmB1D1iF5Cg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=J0Tn2xNtAAAA:8 a=EUspDBNiAAAA:8 a=dD4pVHFDu7WxAmAtIUUA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=tNoRWFLymzeba-QzToBc:22 a=9ZcRxastL33iXWX1AWsW:22
+X-Proofpoint-GUID: 1i72yXDnlEo510UID92bjrvFCBEuvUqI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMxMDIxOSBTYWx0ZWRfX18n7v9xP+3Tf
+ QnmyVO+ebdxLArEsfc0sIaDo4CdLYkMq20iG/SW4KGhIjxJrisg++zdkLoZuozni0qUEdvS7uDo
+ xumEhfXg/JP5iYIDW8OL+j6oMZ74fWqBMuVw7MBHmXYnq4Ud7Cv4XkPXy5LOa1fAsJWboGyT0CH
+ WY+WwAUKdei3RvIIAdnHy9l2dbLuPXm99r8FAjWyqzTSuL8sxtHWvebPEIfPPEEvVtugXLs2XaR
+ Jf18Ss8FVK3tduXWPKvGfBtB+s8XkjJJmtDFtqoULWYMv80OtIh6Kaab0WbN8V1eURwy8RPaR48
+ XcXE917NT16RWnWrGp1ref1VHbiQ4cBJiYx2+q2umarCDhDz+HJuwIIkS4LJIRNJwyijaI5Mei+
+ x3bO4iPmK/XskmwrMoUe8bsqlbQ5VqrOO2EBN2gStPH5F74W3oNIJAkr5b5M3yh98TSCaEHWZiT
+ RgA5N0NKa0rmfekNL/w==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-31_05,2026-03-31_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603310219
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 62VGdLbO3882892
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 22:05:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234318
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 22:36:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234319
 
-T24gVHVlLCAyMDI2LTAzLTMxIGF0IDA5OjA0IC0wNjAwLCBKb3NodWEgV2F0dCB3cm90ZToKPiBP
-biBUdWUsIE1hciAzMSwgMjAyNiBhdCA4OjIz4oCvQU0gUmljaGFyZCBQdXJkaWUKPiA8cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj4gPiAKPiA+IE9uIFR1ZSwgMjAy
-Ni0wMy0zMSBhdCAxNjoxOSArMDIwMCwgc3RvbmRvQGdtYWlsLmNvbcKgd3JvdGU6Cj4gPiA+IEJh
-Y2sgYXQgdGhlIGVuZCBvZiBEZWNlbWJlciAyMDI1LCBJIGhhZCBhIGNvbnZlcnNhdGlvbiB3aXRo
-Cj4gPiA+IEFkcmlhbgo+ID4gPiByZWdhcmRpbmcgT3BlblZFWC4gRm9sbG93aW5nIG15IFNQRFgg
-My4wIGVuaGFuY2VtZW50IHNlcmllcyB0aGF0Cj4gPiA+IHdhcwo+ID4gPiBtZXJnZWQgcmVjZW50
-bHkgWzFdLCBJIHdvdWxkIGxpa2UgdG8gcHJvcG9zZSBhZGRpbmcgT3BlblZFWCBbMl0KPiA+ID4g
-c3RhbmRhbG9uZSBkb2N1bWVudCBnZW5lcmF0aW9uIHRvIHRoZSBTUERYIDMuMCB3b3JrZmxvdy4K
-PiA+ID4gCj4gPiA+IAo+ID4gPiBDb250ZXh0OiBjdXJyZW50IFZFWCBsYW5kc2NhcGUgaW4gb2Ut
-Y29yZQo+ID4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4g
-PiAKPiA+ID4gWW9jdG8gY3VycmVudGx5IGhhcyB0aHJlZSBWRVgtcmVsYXRlZCBtZWNoYW5pc21z
-Ogo+ID4gPiAKPiA+ID4gMS4gU1BEWCBlbWJlZGRlZCBWRVggKEpvc2h1YSdzIHJlY2lwZS1sZXZl
-bCBhcmNoaXRlY3R1cmUgaW4KPiA+ID4gwqDCoCBjcmVhdGUtc3BkeC0zLjApOiBWRVggYXNzZXNz
-bWVudCByZWxhdGlvbnNoaXBzIGVtYmVkZGVkIGluc2lkZQo+ID4gPiBTUERYCj4gPiA+IMKgwqAg
-My4wIGRvY3VtZW50cywgY29udHJvbGxlZCBieSBTUERYX0lOQ0xVREVfVkVYLiBUaGlzIGlzIHRo
-ZQo+ID4gPiByaWNoZXN0Cj4gPiA+IMKgwqAgVkVYIGRhdGEgc291cmNlLCBub3cgYXQgcmVjaXBl
-IGxldmVsIGFmdGVyIHRoZSBwYWNrYWdlIFZFWAo+ID4gPiDCoMKgIHJlbW92YWwgWzNdLgo+ID4g
-PiAKPiA+ID4gMi4gdmV4LmJiY2xhc3MgKE1hcnRhIFJ5YmN6eW5za2EpOiBBIHN0YW5kYWxvbmUg
-ZG9fZ2VuZXJhdGVfdmV4Cj4gPiA+IHRhc2sKPiA+ID4gwqDCoCB0aGF0IHByb2R1Y2VzIHBlci1y
-ZWNpcGUgSlNPTiBmaWxlcyBhbmQgYSByb290ZnMgbWFuaWZlc3QgaW4gYQo+ID4gPiBjdXN0b20K
-PiA+ID4gwqDCoCBZb2N0byBKU09OIGZvcm1hdC4gVXNlZCBmb3IgQ1ZFIHJlcG9ydGluZyBhbmQg
-Y29uc3VtZWQgYnkKPiA+ID4gZXh0ZXJuYWwKPiA+ID4gwqDCoCBhbmFseXNpcyB0b29scy4KPiA+
-ID4gCj4gPiA+IDMuIHNib20tY3ZlLWNoZWNrIChCZW5qYW1pbiBSb2JpbiwgdW5kZXIgcmV2aWV3
-IFs0XSk6IFBvc3QtYnVpbGQKPiA+ID4gQ1ZFCj4gPiA+IMKgwqAgYW5hbHlzaXMgdXNpbmcgYW4g
-ZXh0ZXJuYWwgdG9vbCB0aGF0IHJlYWRzIFNQRFggU0JPTXMgKwo+ID4gPiB2ZXguYmJjbGFzcwo+
-ID4gPiDCoMKgIG1hbmlmZXN0cywgdGhlbiByZS1leHBvcnRzIGVucmljaGVkIFNQRFggMyBkYXRh
-Lgo+ID4gPiAKPiA+ID4gV2hhdCBpcyBjdXJyZW50bHkgbWlzc2luZyBpcyBvdXRwdXQgaW4gdGhl
-IE9wZW5WRVggZm9ybWF0Cj4gPiA+IChvcGVudmV4LmRldiksCj4gPiA+IHdoaWNoIGlzIGEgbGln
-aHR3ZWlnaHQsIGludGVyb3BlcmFibGUgSlNPTiBmb3JtYXQgYWRvcHRlZCBieSBhbgo+ID4gPiBp
-bmNyZWFzaW5nIG51bWJlciBvZiB2dWxuZXJhYmlsaXR5IG1hbmFnZW1lbnQgdG9vbHMuCj4gPiAK
-PiA+IHZleC5iYmNsYXNzIGlzIGFib3V0IHRvIGJlIHJlbW92ZWQsIHdoaWNoIHNpbXBsaWZpZXMg
-dGhpbmdzIGEgYml0Lgo+ID4gCj4gPiBJcyB0aGVyZSBhbnkgcmVhc29uIHdlIGNhbid0IGhhdmUg
-YW4gZXh0ZXJuYWwgc2NyaXB0IHdoaWNoIGV4dHJhY3RzCj4gPiB0aGUKPiA+IHZleCBkYXRhIGZy
-b20gdGhlIHNwZHg/Cj4gPiAKPiA+IE15IHBlcnNvbmFsIHZpZXcgaXMgdGhhdCBpdCBtaWdodCBi
-ZXR0ZXIgdG8gc3VwcG9ydCB2YXJpb3VzCj4gPiBjb252ZXJzaW9uL2V4dHJhY3Rpb24gdG9vbHMg
-cmF0aGVyIHRoYW4gdHJ5aW5nIHRvIG91dHB1dCBhbGwgdGhlCj4gPiBmb3JtYXRzIHNvbWVvbmUg
-bWlnaHQgd2FudCBkaXJlY3RseS4uLgo+IAo+IEFncmVlZC4gSSBhbHJlYWR5IHByb3RvdHlwZWQg
-dGhpcyBoZXJlOgo+IGh0dHBzOi8vZ2l0aHViLmNvbS9KUEVXZGV2L3NwZHgzdG9vcGVudmV4Cj4g
-wqBmZWVsIGZyZWUgdG8gdXNlIGl0IGFzIGEKPiByZWZlcmVuY2UgZm9yIGhvdyB0byBkbyB0aGUg
-Y29udmVyc2lvbiBmcm9tIFNQRFggMyAtPiBPcGVuVkVYCj4gCgpJIGFncmVlIHRoYXQgZ2VuZXJh
-dGluZyB0aGUgU0JPTSBhbmQgdGhlbiBwcm9jZXNzaW5nIGl0IHdpdGgKaW5kZXBlbmRlbnQsIHNw
-ZWNpYWxpemVkIHRvb2xzIGlzIHRoZSByaWdodCBhcHByb2FjaCDigJQgYW5kIEkgYmVsaWV2ZQp0
-aGF0IHdhcyBhbHNvIHdoYXQgSSBwcm9wb3NlZCwgYmFzZWQgb24gUm9zcydzIHBvc3QgaW4gdGhh
-dCBlYXJsaWVyCmRpc2N1c3Npb24uCgpUYWtpbmcgdGhpcyBmdXJ0aGVyLCB0aG91Z2gsIHJhaXNl
-cyBhbiBpbnRlcmVzdGluZyBxdWVzdGlvbjogaG93IGNvdWxkCkNWRXMgZGlzY292ZXJlZCBhZnRl
-ciB0aGUgU0JPTS9WRVggd2FzIGJ1aWx0IHdpdGggQml0YmFrZSBiZSBoYW5kbGVkIGluCmEgbW9y
-ZSBhdXRvbWF0ZWQgd2F5PwoKQSB0b29sIHdpdGggYWNjZXNzIHRvIHRoZSBsYXRlc3QgQ1ZFIGRh
-dGFiYXNlLCBhbiBYTCBTQk9NLCBhbmQgdGhlCmNvcnJlc3BvbmRpbmcgc291cmNlIGFuZCBkZWJ1
-ZyBwYWNrYWdlcyBjb3VsZCBsaWtlbHkgbWFyayBtYW55IENWRXMgYXMKbm90X2FmZmVjdGVkIGF1
-dG9tYXRpY2FsbHkg4oCUIGZvciBpbnN0YW5jZSwgYmVjYXVzZSBjZXJ0YWluIHNvdXJjZSBmaWxl
-cwphcmUgbm90IGNvbXBpbGVkLCBvciBhIHJlbGV2YW50ICNpZmRlZiBpcyBkaXNhYmxlZC4KCldv
-dWxkIGl0IG1ha2Ugc2Vuc2UgdG8gZXh0ZW5kIHNib20tY3ZlLWNoZWNrIHRvIHN1cHBvcnQgZXhw
-b3J0aW5nIGFuCk9wZW5WRVggZG9jdW1lbnQgY292ZXJpbmcgYWxsIENWRXMgYXQgdGhlIHRpbWUg
-b2YgZXhlY3V0aW9uPyBTdWNoIGEKdG9vbCB3b3VsZCBuZWVkIHRvOgoKICogRG93bmxvYWQgdGhl
-IENWRSBkYXRhYmFzZQogKiBFeHRyYWN0IHN0YXRpYyBDVkUgc3RhdHVzIGluZm9ybWF0aW9uIGZy
-b20gdGhlIFNQRFggZG9jdW1lbnQKICogQXR0ZW1wdCB0byBhdXRvbWF0aWNhbGx5IGV2YWx1YXRl
-IHRoZSBzdGF0dXMgb2YgQ1ZFcyBmb3VuZCBpbiB0aGUKICAgZGF0YWJhc2UgYnV0IG5vdCBtZW50
-aW9uZWQgaW4gdGhlIHN0YXRpYyBTUERYCgpUaGlzIGVzc2VudGlhbGx5IGRlc2NyaWJlcyBtZXJn
-aW5nIEpvc2h1YSdzIHRvb2wgd2l0aCBCZW5qYW1pbidzIHNib20tCmN2ZS1jaGVjayBpbnRvIGEg
-dW5pZmllZCB0b29sIHRoYXQgY2FuIGluZ2VzdCBTUERYIGRhdGEsIE5JU1QKaW5mb3JtYXRpb24s
-IHNvdXJjZSBmaWxlcywgYW5kIG1vcmUg4oCUIGFuZCBwcm9kdWNlIHZhcmlvdXMgb3V0cHV0cyBz
-dWNoCmFzIENWRSBjaGVjayBncmFwaHMsIHN1bW1hcnkgdGFibGVzLCBhbmQgVkVYIGRvY3VtZW50
-cyBpbiBtdWx0aXBsZQp2YXJpYW50cy4KCkl0J3MgYWxzbyB3b3J0aCBhc2tpbmcgaG93IFlvY3Rv
-LXNwZWNpZmljIHN1Y2ggYSB0b29sIHdvdWxkIGFjdHVhbGx5Cm5lZWQgdG8gYmUuIEl0IGNvdWxk
-IHBvdGVudGlhbGx5IGJlIGdlbmVyaWMgZW5vdWdoIHRvIHN1cHBvcnQgdmFyaW91cwpMaW51eCBk
-aXN0cmlidXRpb25zIOKAlCB3aGljaCBsZWFkcyB0byB0aGUgcXVlc3Rpb246IGRvZXMgc29tZXRo
-aW5nIGxpa2UKdGhpcyBhbHJlYWR5IGV4aXN0PwoKUmVnYXJkcywKQWRyaWFuCgo+IAo+ID4gCj4g
-PiBDaGVlcnMsCj4gPiAKPiA+IFJpY2hhcmQKPiA+IAo=
+Enable busybox=E2=80=99s mkfs.vfat (mkdosfs) implementation using a dedic=
+ated
+mkdosfs.cfg config fragment.
+
+While dosfstools provides mkfs.vfat and is available through
+update-alternatives, it is licensed under GPLv3. Busybox also includes a
+lightweight mkfs.vfat implementation that is suitable for minimal images
+and systems relying primarily on busybox utilities.
+
+Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+---
+ meta/recipes-core/busybox/busybox/mkdosfs.cfg | 2 ++
+ meta/recipes-core/busybox/busybox_1.37.0.bb   | 1 +
+ 2 files changed, 3 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/mkdosfs.cfg
+
+diff --git a/meta/recipes-core/busybox/busybox/mkdosfs.cfg b/meta/recipes=
+-core/busybox/busybox/mkdosfs.cfg
+new file mode 100644
+index 0000000000..29307b20fc
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/mkdosfs.cfg
+@@ -0,0 +1,2 @@
++CONFIG_MKDOSFS=3Dy
++CONFIG_MKFS_VFAT=3Dy
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-c=
+ore/busybox/busybox_1.37.0.bb
+index 2a38372339..fbb0edb0fb 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -27,6 +27,7 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${PV=
+}.tar.bz2;name=3Dtarball \
+            file://recognize_connmand.patch \
+            file://busybox-cross-menuconfig.patch \
+            file://mount-via-label.cfg \
++           file://mkdosfs.cfg \
+            file://sha1sum.cfg \
+            file://sha256sum.cfg \
+            file://getopts.cfg \
+--=20
+2.53.0
+
 
