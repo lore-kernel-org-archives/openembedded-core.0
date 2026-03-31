@@ -1,96 +1,74 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D826FF60DE
-	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 07:56:14 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15199.1774943770323563003
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C09FF60E1
+	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 08:13:04 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15360.1774944778939092476
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2026 00:56:11 -0700
+ Tue, 31 Mar 2026 01:13:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=eJFLq37g;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=ZIlz3GhZ;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: thomas.perrot@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 57772C5994C;
-	Tue, 31 Mar 2026 07:56:38 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 27AAF1A30AB
+	for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 08:12:57 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DF7676029D;
-	Tue, 31 Mar 2026 07:56:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7A727104507B3;
-	Tue, 31 Mar 2026 09:56:06 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EDDBA6029D
+	for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 08:12:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3FB2F10450EF5;
+	Tue, 31 Mar 2026 10:12:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774943767; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=A4HlLecqt/8N48OKriGmvzFfAdUIqWFdULtnDwyCCz0=;
-	b=eJFLq37g9EKsFlFthMDf1wxMbndpWMKOJonkDDZTv6teM34Tm5p2wErxsWrhCi5rhS1e3p
-	hrO2/02DvMXnP4NJ2p+tWZbq+WrzUz+moZYrCSRQvV/kdhtzgX6gG3anXt76EEvizk0do6
-	CgKuwikIroBXgIg7XKw+JfTAGAJd/Pk6eCFIMXRduGNW3IhAaXiJeHFKndsYUT4k9J/TGM
-	uMyVdvs7hn6a/vpZhNGSuufzfTksmlvtfl0GxMYW0EV/t61dY6XlRx6Gq/G//eTJmA/HB6
-	RxVwBmnfKpsdm16/qGpxvDQGonZ8Ylkbw1NeXEDA5REnGtAFO8M2A4lrig74ew==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 31 Mar 2026 09:56:04 +0200
-Message-Id: <DHGT1WW8V5AK.Z5TAGIFLEW4F@bootlin.com>
-Subject: Re: [OE-core] [PATCH v7 1/6] signing-keys.bb: Fix DISTRO_CODENAME
- truncation
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <adam.duskett@amarulasolutions.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260330095849.119621-1-adam.duskett@amarulasolutions.com>
-In-Reply-To: <20260330095849.119621-1-adam.duskett@amarulasolutions.com>
+	t=1774944776; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=WNUZXI/LiQuDyu3hwk4KM1yv8dLyrN0p7ixnAojsh7w=;
+	b=ZIlz3GhZKVCc2lUO8NG9OQUENyIp8rDzxltAP/W9otRLydcZZcwax/d/KHDSoCcdBZ5F/U
+	abP8AJhTcaNjVsvrY2lME0JKftDEq//hAb6YtFaLgM3EGvdNTghr2wpzFiVk0b/jtfbUqb
+	b+GWPGMAoIhsMZja+cFq3dA/Es9wcayZ2kzvof1Vcpu1WJPFzodzLAkCiodz0anmBFhdVu
+	hySvmnhW0GEyzEqJG1yKap0INejXlHMIris8q/lDDrqLr9m8a3NXc73BMFV58L2dRFv5pR
+	pZbEYBT8T4V5in7xPXxaqCQfN7ffqR1ZwXrQ4r/4FuLIIHQ6SwarZY3WWTg8Zw==
+From: thomas.perrot@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com,
+	Thomas Perrot <thomas.perrot@bootlin.com>
+Subject: [OE-core][PATCH] lto: disable for expect and add DEBUG_PREFIX_MAP to ldflags
+Date: Tue, 31 Mar 2026 10:12:46 +0200
+Message-ID: <20260331081246.73406-1-thomas.perrot@bootlin.com>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
 X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 07:56:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234269
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 08:13:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234270
 
-On Mon Mar 30, 2026 at 11:58 AM CEST, Adam Duskett via lists.openembedded.o=
-rg wrote:
-> If DISTRO_CODENAME is not set in the environment, bash quietly
-> drops the string resulting in a key such as PACKAGEFEED-GPG-KEY-defaultse=
-tup-
->
-> However, when python calls self.d.getVar('DISTRO_CODENAME'), the resultin=
-g
-> string is 'None', leading to a configuration file pointing to a key such
-> as PACKAGEFEED-GPG-KEY-defaultsetup-None
->
-> Add a default value in signing-keys.bb to set DISTRO_CODENAME to None if
-> DISTRO_CODENAME is not set.
->
-> Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-> ---
+From: Thomas Perrot <thomas.perrot@bootlin.com>
 
-Hi Adam,
+Disable LTO for the expect package and append DEBUG_PREFIX_MAP to
+TARGET_LDFLAGS when LTO is enabled, ensuring debug info remapping
+is applied consistently alongside LTO flags.
 
-Thanks for your patch.
+Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+---
+ meta/conf/distro/include/lto.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-It looks like we get some new warning with this patch:
-
-WARNING: core-image-minimal-1.0-r0 do_rootfs: [log_check] core-image-minima=
-l: found 1 warning message in the logfile:
-[log_check] Warning: skipped OpenPGP checks for 39 packages from repository=
-: oe-repo
-
-It appears in most builds on the autobuilder:
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/3461
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/78/builds/3521
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/3342
-...
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
+diff --git a/meta/conf/distro/include/lto.inc b/meta/conf/distro/include/=
+lto.inc
+index 8752249685a4..c66dfc5a8074 100644
+--- a/meta/conf/distro/include/lto.inc
++++ b/meta/conf/distro/include/lto.inc
+@@ -4,6 +4,7 @@
+ #
+=20
+ # Disable LTO for following packages
++LTO:pn-expect =3D ""
+ LTO:pn-glibc =3D ""
+ LTO:pn-gcc-runtime =3D ""
+ LTO:pn-libgcc-initial =3D ""
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.53.0
 
 
