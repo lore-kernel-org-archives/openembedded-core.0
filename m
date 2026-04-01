@@ -2,50 +2,50 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0CF109B497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5AD107638D
 	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 17:42:15 +0000 (UTC)
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19355.1775065327297490016
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19112.1775065326298922804
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 10:42:07 -0700
+ Wed, 01 Apr 2026 10:42:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=ahfwtHe3;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=BSUMRcx1;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.146, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id B30A11D00055;
-	Wed,  1 Apr 2026 13:42:06 -0400 (EDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=M7wnHvrO;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=K2uzVoKk;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id A56537A0063;
+	Wed,  1 Apr 2026 13:42:05 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 01 Apr 2026 13:42:06 -0400
+  by phl-compute-01.internal (MEProxy); Wed, 01 Apr 2026 13:42:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1775065326;
-	 x=1775151726; bh=Nnzoyq1XCC9NCNw3DrbaEGZUSMPkQoC9uBJB5zjshow=; b=
-	ahfwtHe3nlATIpy0EVXVfWsUzqNduYNNnWww/blMW6KJo5jiUlU9N/9Kj69g+yY8
-	TIqcuG7oygdaXX3N5RiMFoTL5v235BhdHdT86WU3BLejfU3kJkhvHiofabX+zJ3Q
-	lepBN0Fiz5u01irSO66FYIyD3yczPwL5jOtNPC3H8INaVJZ7umoCT8RBVXApxyyz
-	nNoF6Q6spQsDskOCO3BsdLGtEozOQ4D2m9FHDthes1oKkAR06rc9rSuIKPnn9TRv
-	jwfOaBAHeG7wsEpvTfnSHcQoixJKnwqY//x0L170aXgHimS9Z1Kkp1kF9y+7pwAX
-	x4w3UST0QvulN+x3moIvqw==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1775065325;
+	 x=1775151725; bh=+ynOB2kAuGrvKp3v3c+3D6IotLsna9Nj3+7qmuu6ym8=; b=
+	M7wnHvrOF0wliumBXFdigW7Qq0yCmnr12m6mnQfl/5iyxunh43tXNQXKy1Hhd+7I
+	qK8I+2plCWDimRHqyE74TelSqOpxq936qgDNDbMHorAYpHUrLH88Oa2NuwbOAIFN
+	ViI75HsYlRv1uMd/EAGcLfxJXeMJYAgBkgaRKIg3V8P4pMxqmevKJccE2jj26Hxp
+	Ta2WF+5iupEorHHCwxlnUPp6U9vkCzbuPBWc1OGhF849BTNgDi4iqEcn/pKAzIIw
+	52YZidNy4RJdT3n11drBK9/fVLt46DqOD/t8FjwBmQJGCkWDHjjLMTjKcqzpGdFW
+	Hg1pQqJY6WncoGWVm3pj9A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775065326; x=
-	1775151726; bh=Nnzoyq1XCC9NCNw3DrbaEGZUSMPkQoC9uBJB5zjshow=; b=B
-	SUMRcx1nYAo98PcLhzDI24Y1nRI7OaAsyB9fi0MMfJTLviDqlZnyMX9Znjl+DWbC
-	9tBUGoIDsbhe4RnYdS6jCIcjHFCmLoLkuENc2AqP4zrtUtS67QwNzgWY29110633
-	ujP9IIZ2xEER8HOkpoBZC3s/kkKTkkYYfo3XuIM3A2M85glN8cqURHKBkYKubQRh
-	HZTNyv2XwH3ZdubFzhgZbeiXz1yb2kKR48KDsgJkHrRcg+rNAfnEDG0fMubX+WB1
-	lg2htRwfpwl80WOEn/0p0eq3XzPdSf6Yr50afOrm39J3k57+8XOvYcgDMen1okcr
-	a6M3d3L0tWlCTfGBzY8Fg==
-X-ME-Sender: <xms:7ljNaVlmil_hLcSKmU3tElNxlZoC16y8eS5b-yhcz7jfXjQHRwnZGw>
-    <xme:7ljNaW0pgWZWvP0CQXklTjIBBbWP4BUXXUr8odQWK9tj57tV1PFtKP_lTiDmarCLX
-    3KNdGWps3UmrDheXouPAFobwImCELN7AtPNuxkHk_JarfpmVcC-ag>
-X-ME-Received: <xmr:7ljNaZSH-5rEi1Sl0thYwBLqKsSLnrgLngt0u296gP9bHgG7Qcn_k_3YR52zdtV_PcbnwvHUlYMnlPWMXMVV2s934piCz4k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefjeehucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775065325; x=
+	1775151725; bh=+ynOB2kAuGrvKp3v3c+3D6IotLsna9Nj3+7qmuu6ym8=; b=K
+	2uzVoKkYudduG/lWAap1x74xUnWNTOkWHnuPoZefBquCHoP7VHEXFTTD7WTN3a0a
+	Ydt45V53F24ZkZdDws7pFgLQ85JeOUzFBzA9zS+HCtJunHcjRltdyPVooUVVDn4/
+	pkWVaubRlDLi15c5PB/mddFe23F/YdvEUCSYyZwzBjwqsTavc2OOHYvK3yxP6a7y
+	pRepw2hAI3CrZNtJko0+keR+VkZh0kJKll6zwzP+kFy8PG+dvf/ikFg4OoM9cBMH
+	3DyYMmtl+9r5tqCDtsqT0NA8aCC70vP40wAObrysgOJUgJPkM2Iub8mMgpEsyx+S
+	dCgHOSLgG1RbrCkph+8Ww==
+X-ME-Sender: <xms:7VjNaUiLVrqYMLVUOkR3TzXiXd0O43c16JTFYqtY7dGDpuu0L-zPaw>
+    <xme:7VjNaTCd78YHChct19Nx8NzmY7cRRUlNSr7esuPkfu90ASqygCdbUyzSsh1weoOs_
+    dDhYSfjW8fGwzvD4GqilUSMLkWR1mshwhA8iqk4l4A_MFThS0SUgoA>
+X-ME-Received: <xmr:7VjNaZsDyLeGx42RJNAd-yKEPuXH1m5Kd99YGsFDy1ncJyXurCg-COccf0D5BoSUXMsjHT_3xArPdBdNGRPZdkDH8yTITnk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefjeegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
     lhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtre
     dtjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
@@ -55,206 +55,261 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefjeehucetufdoteggod
     hopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghulhesphgsrghrkhgv
     rhdruggvvhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsth
     hsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:7ljNaQv7MXXaw-asHidP8w11DNAuQG7JgzsI9kBbastR9C7_ekwZYw>
-    <xmx:7ljNaWZDvq92YzeH0Rvkxy4Fp9x55BMiAZTFaNcixM6sChLKIhjCOA>
-    <xmx:7ljNadtBMPig4rsgzZyXLTGBz1Nk1KjwTNsax852Tl7TXkzVCnkP-g>
-    <xmx:7ljNaQF_L4NkTZQvvGuqfIl0n5kQZi_hM7r71E-h7DtUCe0ChexZ0g>
-    <xmx:7ljNabI2qG4mfn2kFYcBOc3SITnQab2VAlLQLRfd7YBPJut2ms0t_YJ7>
+X-ME-Proxy: <xmx:7VjNaQYUJdjDfbAZr5YuDZLesCsvQgHNxlg8hAeitdCsmDea6SOVpA>
+    <xmx:7VjNaUVoFesyOpeNw4Um9eNJ376pqY6BAPS5rf9Sgz56P4zQcCXsSg>
+    <xmx:7VjNac5O_-YXOremvwwsNuYUtH8r0iIGTH45_i784bnQgKIgCipHjw>
+    <xmx:7VjNaXhU_uCGRul5O91TUrLAlZRG6dt01PHDWjTebc4DwygfMYnT4Q>
+    <xmx:7VjNaRE35jwcOOuCfA4-UezDM4RApSnoxoF_1RTe2lLi5shpZrWeRiSw>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Apr 2026 13:42:05 -0400 (EDT)
+ 1 Apr 2026 13:42:04 -0400 (EDT)
 From: Paul Barker <paul@pbarker.dev>
-Date: Wed, 01 Apr 2026 18:41:58 +0100
-Subject: [PATCH v3 3/4] meta: Support opting out of any machine features
+Date: Wed, 01 Apr 2026 18:41:57 +0100
+Subject: [PATCH v3 2/4] meta: Support opting out of any distro features
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260401-default-features-v3-3-8f4b40401ab7@pbarker.dev>
+Message-Id: <20260401-default-features-v3-2-8f4b40401ab7@pbarker.dev>
 References: <20260401-default-features-v3-0-8f4b40401ab7@pbarker.dev>
 In-Reply-To: <20260401-default-features-v3-0-8f4b40401ab7@pbarker.dev>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10791; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=6sUUnNHHZrOVzmm69lMQAsWi5iTlKQ8FK33Yc1Hy9P8=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWSejXh1S+oj077KGRe37HUu3nFHc2KaQM3jJVFxm3dIH
- NWa0sKyvaOUhUGMi0FWTJFlc8/X+097HXkzQm4pwMxhZQIZwsDFKQATyY1n+KdixqJ86zhzlFJf
- yFELtts7l0ikq634vWpOneFeEz7lbzsZGY6s/321lIv9gvSsJzdWbucUvPxI+FXutzaV5LiiAu9
- z+xkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11646; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=MtcvX7vtFl6YAwjWXIzIWKg7gj7KJI0M/bwwnST7VS8=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWSejXj1cM5u6RwbzXmdf6N6cutfWVxTmHZClGflbP0Hh
+ tc31x3y7ihlYRDjYpAVU2TZ3PP1/tNeR96MkFsKMHNYmUCGMHBxCsBE/rxm+J8kzKSYmeqxONk6
+ YeqLS30fBDYd+y/7pixI43Ty8XVtrVWMDFOucQnxRjfHBp14dO9MsdavydvjZT3sVZMmV1x7/93
+ 9Lw8A
 X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
  fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 17:42:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234453
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234452
 
-Add default values to MACHINE_FEATURES using the new
+Add default values to DISTRO_FEATURES using the new
 filter_default_features() function.
 
-This change obsoletes the variables MACHINE_FEATURES_BACKFILL and
-MACHINE_FEATURES_BACKFILL_CONSIDERED. Instead, all defaults are added
-via MACHINE_FEATURES_DEFAULTS and users can opt out of any of these
-using MACHINE_FEATURES_OPTED_OUT. Hopefully the variable naming here is
-easier for people to understand and remember.
+This change obsoletes the variables DISTRO_FEATURES_BACKFILL and
+DISTRO_FEATURES_BACKFILL_CONSIDERED. Instead, all defaults are added via
+DISTRO_FEATURES_DEFAULTS and users can opt out of any of these using
+DISTRO_FEATURES_OPTED_OUT. Hopefully the variable naming here is easier
+for people to understand and remember.
 
 Migration notes:
 
-- MACHINE_FEATURES will now get the default features added
+- If you have previously assigned DISTRO_FEATURES without using
+  DISTRO_FEATURES_DEFAULT, you will now get the default features added
   automatically. You will need to review these and add any features you
-  do not want to use to MACHINE_FEATURES_OPTED_OUT.
+  do not want to use to DISTRO_FEATURES_OPTED_OUT.
 
-- If you previously set MACHINE_FEATURES_BACKFILL_CONSIDERED, use the new
-  variable MACHINE_FEATURES_OPTED_OUT instead.
+- DISTRO_FEATURES_DEFAULT is now unused, the new variable name is
+  slighlty different to ensure that it is not accidentally used if a
+  layer hasn't been modified to adapt to the new naming.
 
-- If you previously modified MACHINE_FEATURES_BACKFILL, don't do that.
+- If you previously set DISTRO_FEATURES_BACKFILL_CONSIDERED, use the new
+  variable DISTRO_FEATURES_OPTED_OUT instead.
+
+- If you previously modified DISTRO_FEATURES_BACKFILL, don't do that.
 
 Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- meta/classes-global/base.bbclass                    | 4 +---
- meta/classes-recipe/nativesdk.bbclass               | 1 -
- meta/conf/bitbake.conf                              | 2 +-
- meta/conf/documentation.conf                        | 4 ++--
- meta/conf/machine/include/mips/arch-mips.inc        | 2 +-
- meta/conf/machine/include/powerpc/tune-power5.inc   | 2 +-
- meta/conf/machine/include/powerpc/tune-power6.inc   | 2 +-
- meta/conf/machine/include/powerpc/tune-power7.inc   | 2 +-
- meta/conf/machine/include/powerpc/tune-ppce5500.inc | 2 +-
- meta/conf/machine/include/powerpc/tune-ppce6500.inc | 2 +-
- meta/conf/machine/include/x86/arch-x86.inc          | 2 +-
- 11 files changed, 11 insertions(+), 14 deletions(-)
+ meta/classes-global/base.bbclass                |  5 ++++-
+ meta/classes-recipe/crosssdk.bbclass            |  8 ++++----
+ meta/classes-recipe/native.bbclass              |  8 ++++----
+ meta/classes-recipe/nativesdk.bbclass           |  8 ++++----
+ meta/conf/bitbake.conf                          |  1 -
+ meta/conf/distro/include/default-distrovars.inc | 15 +++++++++------
+ meta/conf/distro/include/tclibc-musl.inc        |  2 +-
+ meta/conf/distro/include/tclibc-newlib.inc      |  2 +-
+ meta/conf/distro/include/tclibc-picolibc.inc    |  2 +-
+ meta/conf/documentation.conf                    |  4 ++--
+ 10 files changed, 30 insertions(+), 25 deletions(-)
 
 diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index 0a4cfd594c72..76fd0ac046a9 100644
+index 22b427a5211b..0a4cfd594c72 100644
 --- a/meta/classes-global/base.bbclass
 +++ b/meta/classes-global/base.bbclass
-@@ -457,9 +457,7 @@ python () {
-     # Filter default features to allow users to opt out of features they don't
-     # want.
-     oe.utils.filter_default_features("DISTRO_FEATURES", d)
--
--    # Handle backfilling
--    oe.utils.features_backfill("MACHINE_FEATURES", d)
-+    oe.utils.filter_default_features("MACHINE_FEATURES", d)
+@@ -454,8 +454,11 @@ def set_packagetriplet(d):
+ python () {
+     import string, re
+ 
++    # Filter default features to allow users to opt out of features they don't
++    # want.
++    oe.utils.filter_default_features("DISTRO_FEATURES", d)
++
+     # Handle backfilling
+-    oe.utils.features_backfill("DISTRO_FEATURES", d)
+     oe.utils.features_backfill("MACHINE_FEATURES", d)
  
      # To add a recipe to the skip list , set:
-     #   SKIP_RECIPE[pn] = "message"
+diff --git a/meta/classes-recipe/crosssdk.bbclass b/meta/classes-recipe/crosssdk.bbclass
+index a2853e6a9201..dac18b39edb2 100644
+--- a/meta/classes-recipe/crosssdk.bbclass
++++ b/meta/classes-recipe/crosssdk.bbclass
+@@ -16,13 +16,13 @@ PACKAGE_ARCH = "${SDK_ARCH}"
+ python () {
+     # set TUNE_PKGARCH to SDK_ARCH
+     d.setVar('TUNE_PKGARCH', d.getVar('SDK_ARCH'))
+-    # Set features here to prevent appends and distro features backfill
+-    # from modifying nativesdk distro features
++    # Set features here to prevent DISTRO_FEATURES modifications from affecting
++    # crosssdk distro features
+     features = set(d.getVar("DISTRO_FEATURES_NATIVESDK").split())
+-    oe.utils.features_backfill("DISTRO_FEATURES", d)
++    oe.utils.filter_default_features("DISTRO_FEATURES", d)
+     filtered = set(bb.utils.filter("DISTRO_FEATURES", d.getVar("DISTRO_FEATURES_FILTER_NATIVESDK"), d).split())
+     d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
+-    d.setVar("DISTRO_FEATURES_BACKFILL", "")
++    d.setVar("DISTRO_FEATURES_DEFAULTS", "")
+ }
+ 
+ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
+diff --git a/meta/classes-recipe/native.bbclass b/meta/classes-recipe/native.bbclass
+index 5aa9c8e4145e..9f4ca170f762 100644
+--- a/meta/classes-recipe/native.bbclass
++++ b/meta/classes-recipe/native.bbclass
+@@ -126,13 +126,13 @@ python native_virtclass_handler () {
+         return
+     bpn = d.getVar("BPN")
+ 
+-    # Set features here to prevent appends and distro features backfill
+-    # from modifying native distro features
++    # Set features here to prevent DISTRO_FEATURES modifications from affecting
++    # native distro features
+     features = set(d.getVar("DISTRO_FEATURES_NATIVE").split())
+-    oe.utils.features_backfill("DISTRO_FEATURES", d)
++    oe.utils.filter_default_features("DISTRO_FEATURES", d)
+     filtered = set(bb.utils.filter("DISTRO_FEATURES", d.getVar("DISTRO_FEATURES_FILTER_NATIVE"), d).split())
+     d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
+-    d.setVar("DISTRO_FEATURES_BACKFILL", "")
++    d.setVar("DISTRO_FEATURES_DEFAULTS", "")
+ 
+     classextend = d.getVar('BBCLASSEXTEND') or ""
+     if "native" not in classextend:
 diff --git a/meta/classes-recipe/nativesdk.bbclass b/meta/classes-recipe/nativesdk.bbclass
-index a4801c48b2de..80f716fc3c34 100644
+index 5adb7515bf14..a4801c48b2de 100644
 --- a/meta/classes-recipe/nativesdk.bbclass
 +++ b/meta/classes-recipe/nativesdk.bbclass
-@@ -17,7 +17,6 @@ CLASSOVERRIDE = "class-nativesdk"
- MACHINEOVERRIDES = ""
+@@ -78,13 +78,13 @@ python nativesdk_virtclass_handler () {
+     if not (pn.endswith("-nativesdk") or pn.startswith("nativesdk-")):
+         return
  
- MACHINE_FEATURES = "${SDK_MACHINE_FEATURES}"
--MACHINE_FEATURES_BACKFILL = ""
+-    # Set features here to prevent appends and distro features backfill
+-    # from modifying nativesdk distro features
++    # Set features here to prevent DISTRO_FEATURES modifications from affecting
++    # nativesdk distro features
+     features = set(d.getVar("DISTRO_FEATURES_NATIVESDK").split())
+-    oe.utils.features_backfill("DISTRO_FEATURES", d)
++    oe.utils.filter_default_features("DISTRO_FEATURES", d)
+     filtered = set(bb.utils.filter("DISTRO_FEATURES", d.getVar("DISTRO_FEATURES_FILTER_NATIVESDK"), d).split())
+     d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
+-    d.setVar("DISTRO_FEATURES_BACKFILL", "")
++    d.setVar("DISTRO_FEATURES_DEFAULTS", "")
  
- MULTILIBS = ""
- 
+     e.data.setVar("MLPREFIX", "nativesdk-")
+     e.data.setVar("PN", "nativesdk-" + e.data.getVar("PN").replace("-nativesdk", "").replace("nativesdk-", ""))
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f851e2adc9f7..84450386d984 100644
+index 6b3443695a04..f851e2adc9f7 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -912,7 +912,7 @@ DISTRO_FEATURES_NATIVESDK:mingw32 = "x11 ipv6"
+@@ -912,7 +912,6 @@ DISTRO_FEATURES_NATIVESDK:mingw32 = "x11 ipv6"
  DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opencl opengl wayland"
  DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opencl opengl wayland"
  
--MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
-+MACHINE_FEATURES_DEFAULTS = "rtc qemu-usermode"
+-DISTRO_FEATURES_BACKFILL = "pulseaudio gobject-introspection-data ldconfig opengl ptest multiarch wayland vulkan"
+ MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
  
  COMBINED_FEATURES = "${@oe.utils.set_intersect('DISTRO_FEATURES', 'MACHINE_FEATURES', d)}"
- COMBINED_FEATURES[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES"
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 7adcdfad4ff4..daa4d2a74dda 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -14,19 +14,22 @@ LOCALE_UTF8_IS_DEFAULT ?= "1"
+ LOCALE_UTF8_IS_DEFAULT:class-nativesdk = "0"
+ 
+ # seccomp is not yet ported to rv32
+-DISTRO_FEATURES_DEFAULT:remove:riscv32 = "seccomp"
++DISTRO_FEATURES_OPTED_OUT:append:riscv32 = "seccomp"
+ 
+ # seccomp is not yet ported to ARC
+-DISTRO_FEATURES_DEFAULT:remove:arc = "seccomp"
++DISTRO_FEATURES_OPTED_OUT:append:arc = "seccomp"
+ 
+ # seccomp is not yet ported to microblaze
+-DISTRO_FEATURES_DEFAULT:remove:microblaze = "seccomp"
++DISTRO_FEATURES_OPTED_OUT:append:microblaze = "seccomp"
+ 
+ # seccomp is not yet ported to loongarch64
+-DISTRO_FEATURES_DEFAULT:remove:loongarch64 = "seccomp"
++DISTRO_FEATURES_OPTED_OUT:append:loongarch64 = "seccomp"
+ 
+-DISTRO_FEATURES_DEFAULT ?= "acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
+-DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
++DISTRO_FEATURES_DEFAULTS ?= " \
++    acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget usbhost \
++    wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp pulseaudio \
++    gobject-introspection-data ldconfig opengl ptest multiarch wayland vulkan \
++    "
+ IMAGE_FEATURES ?= ""
+ 
+ COMMERCIAL_AUDIO_PLUGINS ?= ""
+diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distro/include/tclibc-musl.inc
+index 98d7a801ac84..a61a6ced0dd2 100644
+--- a/meta/conf/distro/include/tclibc-musl.inc
++++ b/meta/conf/distro/include/tclibc-musl.inc
+@@ -14,7 +14,7 @@ PREFERRED_PROVIDER_virtual/libc-locale ?= "musl-locales"
+ PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-glibc"
+ PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
+ 
+-DISTRO_FEATURES_BACKFILL_CONSIDERED += "ldconfig"
++DISTRO_FEATURES_OPTED_OUT += "ldconfig"
+ 
+ #USE_NLS ?= "no"
+ 
+diff --git a/meta/conf/distro/include/tclibc-newlib.inc b/meta/conf/distro/include/tclibc-newlib.inc
+index 34318b24549c..fff9b9f066fb 100644
+--- a/meta/conf/distro/include/tclibc-newlib.inc
++++ b/meta/conf/distro/include/tclibc-newlib.inc
+@@ -11,7 +11,7 @@ PREFERRED_PROVIDER_virtual/libintl ?= "newlib"
+ PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-glibc"
+ PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
+ 
+-DISTRO_FEATURES_BACKFILL_CONSIDERED += "ldconfig"
++DISTRO_FEATURES_OPTED_OUT += "ldconfig"
+ 
+ #USE_NLS ?= "no"
+ 
+diff --git a/meta/conf/distro/include/tclibc-picolibc.inc b/meta/conf/distro/include/tclibc-picolibc.inc
+index 2cd26cfd7dcd..6134b0d97d6a 100644
+--- a/meta/conf/distro/include/tclibc-picolibc.inc
++++ b/meta/conf/distro/include/tclibc-picolibc.inc
+@@ -11,7 +11,7 @@ PREFERRED_PROVIDER_virtual/libintl ?= "picolibc"
+ PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-glibc"
+ PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
+ 
+-DISTRO_FEATURES_BACKFILL_CONSIDERED += "ldconfig"
++DISTRO_FEATURES_OPTED_OUT += "ldconfig"
+ 
+ IMAGE_LINGUAS = ""
+ 
 diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 5c93d0e47970..3c2088754188 100644
+index 1853676fa060..5c93d0e47970 100644
 --- a/meta/conf/documentation.conf
 +++ b/meta/conf/documentation.conf
-@@ -277,8 +277,8 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS[doc] = "A list of recommended machine-specif
- MACHINE_EXTRA_RDEPENDS[doc] = "A list of machine-specific packages to install as part of the image being built that are not essential for the machine to boot. However, the build process for more fully-featured images depends on the packages being present."
- MACHINE_EXTRA_RRECOMMENDS[doc] = "A list of machine-specific packages to install as part of the image being built that are not essential for booting the machine. The image being built has no build dependencies on the packages in this list."
- MACHINE_FEATURES[doc] = "Specifies the list of hardware features the MACHINE supports."
--MACHINE_FEATURES_BACKFILL[doc] = "Features to be added to MACHINE_FEATURES if not also present in MACHINE_FEATURES_BACKFILL_CONSIDERED. This variable is set in the meta/conf/bitbake.conf file and is not intended to be user-configurable."
--MACHINE_FEATURES_BACKFILL_CONSIDERED[doc] = "Features from MACHINE_FEATURES_BACKFILL that should not be backfilled (i.e. added to MACHINE_FEATURES) during the build."
-+MACHINE_FEATURES_DEFAULTS[doc] = "The default set of machine features, prior to any filtering. Usually you should leave this alone and modify MACHINE_FEATURES and/or MACHINE_FEATURES_OPTED_OUT."
-+MACHINE_FEATURES_OPTED_OUT[doc] = "The set of default machine features to disable. Prefer opting out of features using this variable instead of using MACHINE_FEATURES:remove."
- MACHINEOVERRIDES[doc] = "Lists overrides specific to the current machine. By default, this list includes the value of MACHINE."
- MAINTAINER[doc] = "The email address of the distribution maintainer."
- MIRRORS[doc] = "Specifies additional paths from which the OpenEmbedded build system gets source code."
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index baadc61d652c..fff2ff639279 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -21,7 +21,7 @@ ABIEXTENSION .= "${@bb.utils.filter('TUNE_FEATURES', 'n32', d)}"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'n32', ' -mabi=n32', '', d)}"
- 
- # user mode qemu doesn't support mips64 n32: "Invalid ELF image for this architecture"
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = " ${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
- 
- TUNEVALID[n64] = "MIPS64 n64 ABI"
- TUNECONFLICTS[n64] = "o32 n32"
-diff --git a/meta/conf/machine/include/powerpc/tune-power5.inc b/meta/conf/machine/include/powerpc/tune-power5.inc
-index e70e4012176c..452897d2d43d 100644
---- a/meta/conf/machine/include/powerpc/tune-power5.inc
-+++ b/meta/conf/machine/include/powerpc/tune-power5.inc
-@@ -21,4 +21,4 @@ GLIBC_EXTRA_OECONF:powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'power5',
- GLIBC_EXTRA_OECONF:powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'power5', '--with-cpu=power5', '', d)}"
- 
- # QEMU usermode fails with invalid instruction error
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'power5', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'power5', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/tune-power6.inc b/meta/conf/machine/include/powerpc/tune-power6.inc
-index eaf89515cad7..da8831058094 100644
---- a/meta/conf/machine/include/powerpc/tune-power6.inc
-+++ b/meta/conf/machine/include/powerpc/tune-power6.inc
-@@ -21,4 +21,4 @@ GLIBC_EXTRA_OECONF:powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'power6',
- GLIBC_EXTRA_OECONF:powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'power6', '--with-cpu=power6', '', d)}"
- 
- # QEMU usermode fails with invalid instruction error
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'power6', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'power6', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/tune-power7.inc b/meta/conf/machine/include/powerpc/tune-power7.inc
-index 4531ddd85f48..47887c553f97 100644
---- a/meta/conf/machine/include/powerpc/tune-power7.inc
-+++ b/meta/conf/machine/include/powerpc/tune-power7.inc
-@@ -21,4 +21,4 @@ GLIBC_EXTRA_OECONF:powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'power7',
- GLIBC_EXTRA_OECONF:powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'power7', '--with-cpu=power7', '', d)}"
- 
- # QEMU usermode fails with invalid instruction error
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'power7', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'power7', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/tune-ppce5500.inc b/meta/conf/machine/include/powerpc/tune-ppce5500.inc
-index 446b344c3d25..63e745b4a29c 100644
---- a/meta/conf/machine/include/powerpc/tune-ppce5500.inc
-+++ b/meta/conf/machine/include/powerpc/tune-ppce5500.inc
-@@ -19,4 +19,4 @@ PACKAGE_EXTRA_ARCHS:tune-ppc64e5500 = "${PACKAGE_EXTRA_ARCHS:tune-powerpc64} ppc
- QEMU_EXTRAOPTIONS:tune-ppc64e5500 = " -cpu e500mc"
- 
- # QEMU usermode fails with invalid instruction error (YOCTO: #10304)
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'e5500', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'e5500', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/tune-ppce6500.inc b/meta/conf/machine/include/powerpc/tune-ppce6500.inc
-index 4444705b2d6d..77de2f9982bc 100644
---- a/meta/conf/machine/include/powerpc/tune-ppce6500.inc
-+++ b/meta/conf/machine/include/powerpc/tune-ppce6500.inc
-@@ -19,4 +19,4 @@ PACKAGE_EXTRA_ARCHS:tune-ppc64e6500 = "${PACKAGE_EXTRA_ARCHS:tune-powerpc64} ppc
- QEMU_EXTRAOPTIONS:tune-ppc64e6500 = " -cpu e500mc"
- 
- # QEMU usermode fails with invalid instruction error (YOCTO: #10304)
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'e6500', ' qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'e6500', 'qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/x86/arch-x86.inc b/meta/conf/machine/include/x86/arch-x86.inc
-index 28742e794d63..95b5fe52114c 100644
---- a/meta/conf/machine/include/x86/arch-x86.inc
-+++ b/meta/conf/machine/include/x86/arch-x86.inc
-@@ -25,7 +25,7 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mx32', ' -mx32', '', d)}"
- TUNE_LDARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-m elf32_x86_64', '', d)}"
- TUNE_ASARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-x32', '', d)}"
- # user mode qemu doesn't support x32
--MACHINE_FEATURES_BACKFILL_CONSIDERED:append = " ${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'qemu-usermode', '', d)}"
-+MACHINE_FEATURES_OPTED_OUT += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'qemu-usermode', '', d)}"
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'x86-x32:', '', d)}"
- 
- # ELF64 ABI
+@@ -141,8 +141,8 @@ DISTRO[doc] = "The short name of the distribution. If the variable is blank, met
+ DISTRO_EXTRA_RDEPENDS[doc] = "Specifies a list of distro-specific packages to add to all images. The variable only applies to the images that include packagegroup-base."
+ DISTRO_EXTRA_RRECOMMENDS[doc] = "Specifies a list of distro-specific packages to add to all images if the packages exist. The list of packages are automatically installed but you can remove them."
+ DISTRO_FEATURES[doc] = "The features enabled for the distribution."
+-DISTRO_FEATURES_BACKFILL[doc] = "Features to be added to DISTRO_FEATURES if not also present in DISTRO_FEATURES_BACKFILL_CONSIDERED. This variable is set in the meta/conf/bitbake.conf file and it is not intended to be user-configurable."
+-DISTRO_FEATURES_BACKFILL_CONSIDERED[doc] = "Features from DISTRO_FEATURES_BACKFILL that should not be backfilled (i.e. added to DISTRO_FEATURES) during the build."
++DISTRO_FEATURES_DEFAULTS[doc] = "The default set of distribution features, prior to any filtering. Usually you should leave this alone and modify DISTRO_FEATURES and/or DISTRO_FEATURES_OPTED_OUT."
++DISTRO_FEATURES_OPTED_OUT[doc] = "The set of default distribtion features to disable. Prefer opting out of features using this variable instead of using DISTRO_FEATURES:remove."
+ DISTRO_NAME[doc] = "The long name of the distribution."
+ DISTRO_PN_ALIAS[doc] = "Alias names used for the recipe in various Linux distributions."
+ DISTRO_VERSION[doc] = "The version of the distribution."
 
 -- 
 2.43.0
