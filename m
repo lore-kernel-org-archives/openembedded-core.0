@@ -1,242 +1,215 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E5FD3515E
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 08:37:03 +0000 (UTC)
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8248.1775032620903862552
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B4AD35167
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 09:58:19 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9520.1775037495361616868
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 01:37:00 -0700
+ Wed, 01 Apr 2026 02:58:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=YSyAEIkd;
- spf=pass (domain: gmail.com, ip: 74.125.82.43, mailfrom: rybczynska@gmail.com)
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12776bebe9fso3157683c88.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 01:37:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775032620; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OH04gk3PkHpNdAbGHDA80rtnsOYLHuRkG2G7tJ/FgCzD3hZBAjOB6DtTFaeAZwlSDo
-         tcHmZUQZ13VXKOiW4vTtHrkAfGE/ReXn4b5mN/UfcgyvkD4/NPC5sFtIxfUxlTokijw7
-         gHQX64ZkwtilJy7KsP5YSP54afIyxukJP8IwNldCS84pAYQy2Oox/y4b1+GNO/h7OsUL
-         1WlqO3OZ21mSMEnHcl5yxwOGSZx00Y3GrEGDtBbYFaoGtaQ2AlG1HzGW2NC+ptWSgMk3
-         ZNaurX7xqtDgM8KnXbrljCLaI2YXNS7sVnRNw49/WS1Jc+D++80GpMT74UJtx6hW/XHl
-         F/nA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=tGuU6FtdYedBlqmfqQ4qwd7W8Ah4AUF1X9G8cJb8e0g=;
-        fh=dro7sZJtEULj09cNebRx10PrDA+PQMFe3InRd7oV0I0=;
-        b=Yor8tvy2f6l2IvEm8H1u9UExvi4Zz+YxAPM3cyIYZJJof0Y8scabpB2VmFBnUhWSyv
-         yauoIY0FLeHMqP8VubQ4V6uP83ncm68nO5KnsvEQmTMNv7O+7IB9jrLgfGnnL3W7sSuM
-         Y0aVju8H2d2a90fyzY7v3lm3e82x3t6Fi6bWIDsgN6xdyiSURMUjH+FMSwWO3vDxNh83
-         H0mCnvB9n6meb5hxxB11LngpuMOa6KdOoovGxu2siOv0f1B7y4ZNSR2bNuPyr24GP7TC
-         WW9xbJ1hq6IqUldbgL1S0fje+OpwiLArumOjXRXpfETZlPEAdkHRkwgycfqAR6yH8Tfg
-         Cm/A==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775032620; x=1775637420; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tGuU6FtdYedBlqmfqQ4qwd7W8Ah4AUF1X9G8cJb8e0g=;
-        b=YSyAEIkd6GNxllcU9R8UEM7ls84+eEgRh+g8CiO5+jY9oCSbZ2GO9OmAiCeEP+7dtt
-         yckSKlep7kWG9AEu4PfMgVlp8wHNFkjwPahW/pUX2L8cvQxMYH7e1Jy6aAfZ/QLnio1G
-         Q+pDz+n4nfcJNikgaVU8pShYDQhDIqmC1ABt4FD2gV7Z1KBPAXKrNvJHsjAb9yEjy7u1
-         /IgQ9wiaa49g6d1EDvjgF1aoHvEOsLarUuBPhi9ehojYKMXyKMndA+uicj3rIcrmxg1z
-         d7AQ9p31ooBejgzfVEVaV2SUw40JanTYuYS7KMq/e1OQ3qOf9Z04+ulH3kChtfZoAAHC
-         u+cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775032620; x=1775637420;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tGuU6FtdYedBlqmfqQ4qwd7W8Ah4AUF1X9G8cJb8e0g=;
-        b=hT5iItqEIpgZQzZIy6yYo+O33oHZOjvuFjXav8oE9l3XbOF/FKuaSe+YK5vS+Pk8cq
-         3bsnAUJ2jaOZinXcSYiPPafdT1VgCEFxq23s+T+OZ83bUE0V6VAFCuDYXy6QCOyYExls
-         Ow6CuaVqZhAKH8km1JvnlD4THufBQL8rp2dWidjK71rzu59OFrYxBj5/SePLF6qIS/ML
-         vKEg/k1tn1W+I7mTWJMeqvcvpTG/wdcxoiZ2unaNVRlA0Gar1VmFeJc5525hZufuKDxx
-         JsDqBhOrDadaOcGGJj+qHmFaewVSVS35asJFHKnc9wACLt/MbV1DXOlhVqzmkMmyo3lV
-         eLSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUwulgQFDofWSkk0SF+RcBl9JxnpHJPT8a+J2zxYy1bGQGhQ+Cibu9CFGcCIaGscjeY+f9c/JPQKUYdxwiajHyHZw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzXufxDfAgfQMW2xD088T2n542rLVHhVcqbknnIOK5L7UTYb2Fd
-	AwshVJRkL28GpKGCqzPLFljE3Ug1t0XPs22heN5LfC7RwrihxaOgrrp++uISQ1PGvnqH6hh1Tg7
-	VKCmSzs5EwhmrR0V1eSjxvOulMzFOPMY=
-X-Gm-Gg: ATEYQzw2627JFVoP89e+CKPqTEmLbDK7UmEvp9nfzgCU6xmSl+IRNKDD1OtfgHK5xiY
-	KcMydnlwUO5Un0elZRYfRETQGz6amJsYDA0OatglZi2IH201lzt0yKuy88J4ehsZLo9gTsHb+sa
-	02JrRG8+MlCwblIDYZYk8G2PmKJaq1kguXHuVc3fwcmzcJpTEYU1ZjZUe40ew9yVWpZ1O6zDFlP
-	mc0NPK7XrUx0dSQItzkH30dEE9W6A1aimkwknIplM6L/UggqHBkKl9xLF2yYqSOGdG1Epu/J5si
-	Ue/liv+lR/Ff8zlaHxV5+v6uwPka9m8aQuhCXtDDhUrkoj9pUn8=
-X-Received: by 2002:a05:701b:271a:b0:12a:b932:81d2 with SMTP id
- a92af1059eb24-12be64ed397mr1023571c88.21.1775032620009; Wed, 01 Apr 2026
- 01:37:00 -0700 (PDT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=DMmnlrJs;
+ spf=pass (domain: siemens.com, ip: 52.101.66.46, mailfrom: adrian.freihofer@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iwRgjqty+mxaBosZ1ndNKHk/LGs1hewFPSqfYqFDcWIQ5VyiCceElw6NJaD4Kpyp8mDQju5jwtl80vfl71siCxDB+KQoa1TNtqExsKpB7U3Dbo8mrIua4OYtjSaeiWRHUQF+zS0H4TlXszQm+WsWLO8ylCjYRu3W/sP3w3h7Lgd9SOJZE1jaDBmc0+REeZi89aREHjNQAywGFlxwxK0/QUVsDN6dmfW5ft1NKxGLPbkX4My90ayLsO19AjJL3PYhEig+zXOY1cQaOa0AChAc/8ZxXudOQFITG/bQcnc8DpkXjXfZV/VqtrzjN94p92ySqBJYdLOMp3r7gys39KerdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r9I2/Kp2qBxsgCd1wssl5n8YhPTsqZ/HOaGpnHXtimo=;
+ b=uinYgJFvpUSv7TZHCpzTNMdJ8bhHyBqF78QX7jNlOlooVub1MgcchCYln2G1kxzJADLF+TzrPCZDTJOWsiFbCC7LK5mIYseQ2PlF7YUknwU/w+gVB6nbVdLDu/UzUKOMOLneNUILdJQVZJ67rOLpNYZx/E9BAX802HNRPFEiMFwKjC5LpCdnf1dYVUaJo/v7ASYIIxYGpJHAnPUFcYPV8Ya3ziXDsJDvdS+eOEJ9HOkTGypF7nttz+IqIXLasECb8PA1fjwg5MKT6vPaMO935DQ24apBOIgafa9tB7c4CZg46ftuW231m5DrROnDXsCQlSaZKMCEoai2Ala3SkbQ9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r9I2/Kp2qBxsgCd1wssl5n8YhPTsqZ/HOaGpnHXtimo=;
+ b=DMmnlrJsgvvkhX/qOWfXy8LLN3gdpxrIJKTRnfXWlfiG+sa5goCklhFowwh/JaCRyRrZMYASeMLiQTtdad23g0cRtHX6WwxzX19pzzzRt5s1UkEKHTK25FlXs8XY6hBeSnar8H7dzfQmkxe5fBEOOBMr58dBatszFvjbw4fFcmPa8gYqNu94P1xHcGDHHyiBcwMFuvGAM8ZJ2ocF9kCY6Y3DMd1I2EMrcYkr2hMxQ7YQ9r1Idvbqpmh/iMc5gUxK2DyBVaDneEHN3DpLxZN6oAyndUKCAAuYXB02jj/yOeqOUTYQ/xw8bk560UfxQwDLGoTX32oCK3wclAQnxtliiQ==
+Received: from AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:47f::8)
+ by PAWPR10MB7245.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:2e4::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
+ 2026 09:58:11 +0000
+Received: from AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::d515:f4e4:e935:ee4f]) by AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::d515:f4e4:e935:ee4f%4]) with mapi id 15.20.9769.014; Wed, 1 Apr 2026
+ 09:58:11 +0000
+From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
+To: Benjamin Robin <benjamin.robin@bootlin.com>, "stondo@gmail.com"
+	<stondo@gmail.com>, "Tondo, Stefano" <stefano.tondo.ext@siemens.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "ross.burton@arm.com"
+	<ross.burton@arm.com>, Joshua Watt <jpewhacker@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, "marta.rybczynska@syslinbit.com"
+	<marta.rybczynska@syslinbit.com>, "Marko, Peter" <Peter.Marko@siemens.com>,
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+Subject: Re: [RFC PATCH 0/2] spdx30: Add OpenVEX standalone document
+ generation
+Thread-Topic: [RFC PATCH 0/2] spdx30: Add OpenVEX standalone document
+ generation
+Thread-Index: AQHcwRl/zTKOOMHWOU2EjFR+QiyMH7XIsb0AgAALSACAAHXCgIAAoVkAgAAlxAA=
+Date: Wed, 1 Apr 2026 09:58:10 +0000
+Message-ID: <37522fb2c1dcceab49ab917cd0c1f880e5f23618.camel@siemens.com>
+References: <20260331141956.608976-1-stondo@gmail.com>
+	 <CAJdd5GazcRuxPSdgXEb170f+E5uA2oP=C2eKLqCNnLC8Y_fB6g@mail.gmail.com>
+	 <e37fc3654ebe48350a6f35a51792ac1be5d4c307.camel@siemens.com>
+	 <9600909.CDJkKcVGEf@brobin-bootlin>
+In-Reply-To: <9600909.CDJkKcVGEf@brobin-bootlin>
+Accept-Language: en-US, de-CH
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5724:EE_|PAWPR10MB7245:EE_
+x-ms-office365-filtering-correlation-id: 8bde8d8d-5f95-4728-5676-08de8fd52ef0
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|38070700021|56012099003|18002099003|22082099003|55112099003;
+x-microsoft-antispam-message-info: 
+ heKD4h4c7FeiZPYFLzUWOvo5U3MJNl4yd+2K5FkpokzIB9x1C0QJC2kT25aoC8RHiAySU6LPSqPzzdfmiALkfjf7bqpkAr0yU4fdTaIdL8ZxFHhFpXWx0fx5bzcH1b+7RNHTLnpYsHytdJxtYjxQ90yCzNeVU87ess/JCm+fqE1bCkQqH4oSPEtxtIytvT2vCW6f5xtqsr7aXVQuEwWAqTascGnOfbeHHKQXQ9m3BOwGw6SzZK6rVyyBm+cCXNW7SYehmOX+R2zv+bVRv6iJEwLgY+uTrGliXDOTyBM4zjj2xBzVEt6fYgluPgxodNRmrgz/jQxCL6B/NbFkE+J73nxrC83J5G4hnTsOQ+eg5SXC2UN1zSBZtb75X0U0fkwER3feg+oK3wxLTctxnNRBf3YRzuw+zquHoUjBp8V5y4pu5oe3D2v5w+LKv8+mtlbRMjBN8q86ty30PvbHunUM1B635NggQyPFbtffLvLgUa7Iid0c394k+bnp0jqUcgZAzWaLnWl20XQNo6Qlu8UOV1DGjaJ8mSft8JndQf3hbrEo4ECx0RQk6rJK9DPFeRuxVjWlY5egBEiDQrX9i+RChjgrRGMLcS1dU4kUyqaRmmwWZYK2OEsBO4nbs/gKimYv/LlTFbok/wmQUjJ97ok+4f3LBKZYiEaMMDZLhUtD9me1aNUTpqm9Th7U2sWVpAMjy6BW5W4+UQnDwA7ZX3dyKHfz6upRhsFH0thSUEG3lOlfb1nTYg/r4z2f0Uq7q8Me4BPCSiGXkrn9NxystrJC1nQz7Kv7z910+ShYa+RO2Qs=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021)(56012099003)(18002099003)(22082099003)(55112099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?OVJ0TzZ0RkNkM3ZzR05TeElKUk1kaWNTbitrVWVXQWxDVE1mekphcEQvbEcv?=
+ =?utf-8?B?RnpDaGY5aXdyRlBTMnFRSlZBblJaV1lrT3czYnFMWGdqVWtKRHZqNk91dGJY?=
+ =?utf-8?B?WnIzRGIwUm9LOG8xYkdPQXFVdHVkYnAyN3B6ZUEvMndXWGFhczY0SFhVYUho?=
+ =?utf-8?B?L1U0VmJiR0pQWkpSekNYaEJJUSsxNUVjTzhBVEpjUUFDVzNIWTcyTzFNY0pZ?=
+ =?utf-8?B?OHF1aUptNkVDL244ZUdFZXpIQXY0TTRZcnhIT1ZFYTcySTMwbXZycVlIaVFs?=
+ =?utf-8?B?L3J1THdVWXBtbmVTcXVNbkRLN3dIdENoRC9MbkZaVktLb28zUFI1bjV3ZGs0?=
+ =?utf-8?B?Sk4zSFFSd1ovWGwvOExRZXMyRmxaZyswMFI2ZkdtUUpXbnpDZDh6VnFsWVhD?=
+ =?utf-8?B?WmdxRUFjTGsxRzh1L1J6WjRHREFMWlJLK3l1VXFpd0ZrMDk4OHB5bTNpNUZv?=
+ =?utf-8?B?aElpL1ltclp2TG5jT1VDbVF1TGFsb1BEQWxqMWZQN0drVEd0ODVsSThLVTho?=
+ =?utf-8?B?Vm9VcGU5dEt2YmVTRWFSRnZxU0oyWDlxMWVpcjhXOFFDTTRFRVhFeEV6WGxx?=
+ =?utf-8?B?ZlJoK2l0UnYwSjhiSjRlQkludWNRTHM2L3ZIS3FZckhET0JQVHllRUIwRDRQ?=
+ =?utf-8?B?dXFiaENLUHpxM0taVVJwZFMxdHVYR2graXhtQjh5UzVpN2ZNVlhVcDQya3Bi?=
+ =?utf-8?B?UVptc1Z3a1NHMUxvdGttSEFWZEVTYy9SSnlzQ0I3V3dGbjhKZW9pRTZVOHh2?=
+ =?utf-8?B?UTJiN3NzaUhEZ1Qyb21heGZBOWRiV1FhQkl5Q3BCVWFJd3ZWbFhzVERPdGE5?=
+ =?utf-8?B?YXozWk1yVnpoRngzL1pCMm9FZURBK2liUzQvNmtXc0VMSnpiL0FUNlFldTdV?=
+ =?utf-8?B?S1ZwY3hWWWszVTFCSi81a0k0NWpweFZ0QWUyMTBoTXEyZTFYck9QcW4yZkRo?=
+ =?utf-8?B?a3NUNFAxVGZtVG14VWlpd0J1SlRHekI4RUE5eWNpNzNFYXJEYzhWaGk3UUMw?=
+ =?utf-8?B?bGN6OUFpQjRNMHMvL2tiOUpXOU00cnMrUnFpU2k5QUo2cDBqL29zQmEvN0pO?=
+ =?utf-8?B?ZVJJRnNYTHE0ekxVamVia1lyU3hLNG9zYVg1aUIyV3VoTkdyQTJIWkltOVRB?=
+ =?utf-8?B?VXR4d0RqUFJoYmVEWk9SL0RnaSs1MUNtamRkWHo3dGc4YzN2TG04RkhGTjd6?=
+ =?utf-8?B?Q0NPdFlvS1NiV0V2b2RQR3FtNzBqb2RDbjliY25Pa29kY202UVkrTGVqNHZI?=
+ =?utf-8?B?QWF0UVg5R1pmbDRmRlQwVUw5SjVFeHRZc0VGTjFuMWtka3hSNlI5UVI5OEJi?=
+ =?utf-8?B?bVlIYlArR21XdSt6NmdkeDhxYkZjb1MyTTQvTVJxKzBVM1pMcUFubTRieGZh?=
+ =?utf-8?B?UlphS1NSRnk5dkp6MDdmcXo0VVRLcEN5RnNQUHRSRWo5ZVRZQ0htNm1PRW9K?=
+ =?utf-8?B?dTEvOXg4Qmp1SEg4Tkl0dVhCS0doKy9rU3MxRXFiUFg5djZQdy9qWkpjUTF6?=
+ =?utf-8?B?MlNnSCs1MEhLODd2NnR0dEluOVBEOGowOTVhMWRXeUVNRDVnYnNza3JyNW9J?=
+ =?utf-8?B?MmVIVUdOSExxbWRmYUNUWW02NHh5c0YzZ1o5Q2JybXUzbzIzcUVSUk9iVHBH?=
+ =?utf-8?B?dG9OTTFreTN6aTFRSitFQm13OFE1WG5lL2V4S0RoR1EvcW1DVThMdzNwenBq?=
+ =?utf-8?B?OTIvV3ljU1FrRDkyNXc3MHV0d0JHNTc5NldtaTVSdUU5eG9IZWdRZURzRGtW?=
+ =?utf-8?B?Wk1LNG1lbC9hSENMWnpqQ2Q4SHFIdEhZaHhjQUsrUVh5ZzdGSjZjK2pZYitn?=
+ =?utf-8?B?RHk5YkRlQzU2cDJUZ0l6aTFYMThocUJHdTlDd3FkMFR5bXpteWVkOFQzUU5k?=
+ =?utf-8?B?aE53ay92czBuWHRJQlIxNTJnYmdySjVieFdIK3h6elhmWVdKUjh6anhHeWlQ?=
+ =?utf-8?B?bzR5Rm80SW9MSGQ1cnpjWnNvNDlNSk1ISTgyTlQwc2lnN3dGSmhJNWxLdUJF?=
+ =?utf-8?B?TGNkbWVsMk5OaTJMTllucDhhcGVlWXcwOG5GMnd4RlpsNkxJbW1OOG9pbWtj?=
+ =?utf-8?B?K2pUQ2VtTjlmMml0UXFWSlhkVUYyN1hDOWxnWUpJdEozMlR1Uk1Db2RHMGF2?=
+ =?utf-8?B?UktKZ1Y3ZDEzdnVMVTcvNzZmUmlvSXQ4VG9aVjhaalVQaHFJaUNoWTRTK3VF?=
+ =?utf-8?B?R1BSVVBjZG5jZThQbUg3MmZYc0JwUFFxRWYyK3NQTldPSFA1UGpVNzM5TktV?=
+ =?utf-8?B?MlNCRjRwT3ZUeS93YXRjZ01IL1NVYlVTaWcrTGxzOXNLdm1EQTF0T1NzRXFZ?=
+ =?utf-8?B?T3ZUSk9qWitxQkYycUFaVnZlWmdvVEx5WTFzblNnSndoVnB5ZHRodz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6A0B2A24F2858242B924B1F0E8EA071B@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CAApg2=RgxG+NY7sLTBMNEhPmX-O5dNC+AHmSSUQCDREgV6VToQ@mail.gmail.com>
- <CADySD0HH=KMgU7kXKXeNEOG38ZtVZjjb3mZ5dLpQw9XewfuV+w@mail.gmail.com>
- <CAApg2=SPPo68XtvWioHO_T1=5EQiNABnntGJhM59hDkWhm6N9A@mail.gmail.com> <df72394376fdd01fe7d3298c4d3995f00705fc16.camel@linuxfoundation.org>
-In-Reply-To: <df72394376fdd01fe7d3298c4d3995f00705fc16.camel@linuxfoundation.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 1 Apr 2026 10:36:46 +0200
-X-Gm-Features: AQROBzCr_-mkTtw0ld3KNQPnJgQm3WfaGddFy-iNBBmWOM4ZgbhCYpiS5A6xxmQ
-Message-ID: <CAApg2=QRwSxM_HvE8hvzfp-DY1wfCZSr2rXKEjt-zFm9GOCJxQ@mail.gmail.com>
-Subject: Re: [OE-core] Runqemu error on core-image-minimal
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c7cd24064e61fc31"
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5724.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bde8d8d-5f95-4728-5676-08de8fd52ef0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2026 09:58:10.7324
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5eU+0CLGarNodL2hm1caEhU7+rU08exXJZAw+jzQfBBFIS0uXNKzBwfkvXXu25X491dPYnCmMjl5K5wPRfCVJfqh8lxjc2vjQVz/v1/GXJ0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7245
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 08:37:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234333
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 09:58:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234334
 
---000000000000c7cd24064e61fc31
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Apr 1, 2026 at 9:49=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Wed, 2026-04-01 at 08:04 +0200, Marta Rybczynska via
-> lists.openembedded.org wrote:
-> > On Tue, Mar 31, 2026 at 9:35=E2=80=AFPM Ankur Tyagi <ankur.tyagi85@gmai=
-l.com>
-> wrote:
-> > > On Wed, Apr 1, 2026 at 4:30=E2=80=AFAM Marta Rybczynska via
-> > > lists.openembedded.org <rybczynska=3Dgmail.com@lists.openembedded.org=
->
-> > > wrote:
-> > > >
-> > > > Hello all,
-> > > > As mentioned on the call today, I have an issue in a configuration
-> with bitbake-setup, oe-core-master fragments and runqemu:
-> > > >
-> > > > $ runqemu qemux86-64
-> > > > runqemu - INFO - Running MACHINE=3Dqemux86-64 bitbake -e  ...
-> > > > runqemu - WARNING - Couldn't run 'MACHINE=3Dqemux86-64 bitbake -e  =
-'
-> to gather environment information, maybe the target wasn't an image name,
-> will retry with virtual/kernel as a target:
-> > > > ERROR: A builtin fragment 'machine/qemux86-64' is used while MACHIN=
-E
-> has already got an assignment.
-> > > > Please either disable the fragment or remove the value assignment.
-> > >
-> > > drop "qemux86-64" argument, it is not needed since the machine config
-> > > fragment is set.
-> > > "runqemu core-image-minimal" should succeed.
-> >
-> > Hello Ankur,
-> > This leads us to another problem (also happens if I remove the fragment=
-):
-> >
-> > $ runqemu
-> >
-> > runqemu - INFO - Running bitbake -e  ...
-> > runqemu - ERROR - .zst images are only supported with snapshot mode. Yo=
-u
-> can either use the "snapshot" option or use an uncompressed image.
-> > runqemu - INFO - Cleaning up
-> > runqemu - INFO - Host uptime: 17100244.13
->
-> Try "runqemu snapshot" :)
->
-> We should find a way to fix the MACHINE=3D issue. We did briefly remove
-> the support for using bitbake -e entirely but it was requested we put
-> that back.
->
-> The snapshot message was added recently to cleanly support compressed
-> images (also relatively new) but obviously the new user interface to it
-> could use some improvement.
->
->
-Ok... with 'snapshot' it works (I tried it yesterday and it didn't -
-probably a manipulation issue).
-
-I note then that we have a MACHINE=3D issue and the docs are out of sync
-https://docs.yoctoproject.org/dev/brief-yoctoprojectqs/index.html#building-=
-your-image
-
-I can submit a docs fix (there are more things not up to date) when this is
-solved: is this option necessary now or it will be hidden in runqemu?
-
-Regards,
-Marta
-
---000000000000c7cd24064e61fc31
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 1, =
-2026 at 9:49=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie=
-@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 2026-04-01 =
-at 08:04 +0200, Marta Rybczynska via <a href=3D"http://lists.openembedded.o=
-rg" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<=
-br>
-&gt; On Tue, Mar 31, 2026 at 9:35=E2=80=AFPM Ankur Tyagi &lt;<a href=3D"mai=
-lto:ankur.tyagi85@gmail.com" target=3D"_blank">ankur.tyagi85@gmail.com</a>&=
-gt; wrote:<br>
-&gt; &gt; On Wed, Apr 1, 2026 at 4:30=E2=80=AFAM Marta Rybczynska via<br>
-&gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targ=
-et=3D"_blank">lists.openembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto=
-:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openem=
-bedded.org</a>&gt;<br>
-&gt; &gt; wrote:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Hello all,<br>
-&gt; &gt; &gt; As mentioned on the call today, I have an issue in a configu=
-ration with bitbake-setup, oe-core-master fragments and runqemu:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; $ runqemu qemux86-64<br>
-&gt; &gt; &gt; runqemu - INFO - Running MACHINE=3Dqemux86-64 bitbake -e=C2=
-=A0 ...<br>
-&gt; &gt; &gt; runqemu - WARNING - Couldn&#39;t run &#39;MACHINE=3Dqemux86-=
-64 bitbake -e=C2=A0 &#39; to gather environment information, maybe the targ=
-et wasn&#39;t an image name, will retry with virtual/kernel as a target:<br=
->
-&gt; &gt; &gt; ERROR: A builtin fragment &#39;machine/qemux86-64&#39; is us=
-ed while MACHINE has already got an assignment.<br>
-&gt; &gt; &gt; Please either disable the fragment or remove the value assig=
-nment.<br>
-&gt; &gt; <br>
-&gt; &gt; drop &quot;qemux86-64&quot; argument, it is not needed since the =
-machine config<br>
-&gt; &gt; fragment is set.<br>
-&gt; &gt; &quot;runqemu core-image-minimal&quot; should succeed.<br>
-&gt; <br>
-&gt; Hello Ankur,<br>
-&gt; This leads us to another problem (also happens if I remove the fragmen=
-t):<br>
-&gt; <br>
-&gt; $ runqemu<br>
-&gt; <br>
-&gt; runqemu - INFO - Running bitbake -e =C2=A0...<br>
-&gt; runqemu - ERROR - .zst images are only supported with snapshot mode. Y=
-ou can either use the &quot;snapshot&quot; option or use an uncompressed im=
-age.<br>
-&gt; runqemu - INFO - Cleaning up<br>
-&gt; runqemu - INFO - Host uptime: 17100244.13<br>
-<br>
-Try &quot;runqemu snapshot&quot; :)<br>
-<br>
-We should find a way to fix the MACHINE=3D issue. We did briefly remove<br>
-the support for using bitbake -e entirely but it was requested we put<br>
-that back.<br>
-<br>
-The snapshot message was added recently to cleanly support compressed<br>
-images (also relatively new) but obviously the new user interface to it<br>
-could use some improvement.<br><br></blockquote><div><br></div><div>Ok... w=
-ith &#39;snapshot&#39; it works (I tried it yesterday and it didn&#39;t - p=
-robably a manipulation issue).</div><div><br></div><div>I note then that we=
- have a MACHINE=3D issue and the docs are out of sync=C2=A0<a href=3D"https=
-://docs.yoctoproject.org/dev/brief-yoctoprojectqs/index.html#building-your-=
-image">https://docs.yoctoproject.org/dev/brief-yoctoprojectqs/index.html#bu=
-ilding-your-image</a></div><div><br></div><div>I can submit a docs fix (the=
-re are more things not up to date) when this is solved: is this option nece=
-ssary now or it will be hidden in runqemu?</div><div><br></div><div>Regards=
-,</div><div>Marta=C2=A0</div></div></div>
-
---000000000000c7cd24064e61fc31--
+T24gV2VkLCAyMDI2LTA0LTAxIGF0IDA5OjQzICswMjAwLCBCZW5qYW1pbiBSb2JpbiB3cm90ZToK
+PiBbWW91IGRvbid0IG9mdGVuIGdldCBlbWFpbCBmcm9tIGJlbmphbWluLnJvYmluQGJvb3RsaW4u
+Y29tLiBMZWFybiB3aHkKPiB0aGlzIGlzIGltcG9ydGFudCBhdCBodHRwczovL2FrYS5tcy9MZWFy
+bkFib3V0U2VuZGVySWRlbnRpZmljYXRpb27CoF0KPiAKPiBIZWxsbywKPiAKPiBPbiBXZWRuZXNk
+YXksIEFwcmlsIDEsIDIwMjYgYXQgMTI6MDXigK9BTSwgRnJlaWhvZmVyLCBBZHJpYW4gd3JvdGU6
+Cj4gPiBJIGFncmVlIHRoYXQgZ2VuZXJhdGluZyB0aGUgU0JPTSBhbmQgdGhlbiBwcm9jZXNzaW5n
+IGl0IHdpdGgKPiA+IGluZGVwZW5kZW50LCBzcGVjaWFsaXplZCB0b29scyBpcyB0aGUgcmlnaHQg
+YXBwcm9hY2gg4oCUIGFuZCBJCj4gPiBiZWxpZXZlCj4gPiB0aGF0IHdhcyBhbHNvIHdoYXQgSSBw
+cm9wb3NlZCwgYmFzZWQgb24gUm9zcydzIHBvc3QgaW4gdGhhdCBlYXJsaWVyCj4gPiBkaXNjdXNz
+aW9uLgo+ID4gCj4gPiBUYWtpbmcgdGhpcyBmdXJ0aGVyLCB0aG91Z2gsIHJhaXNlcyBhbiBpbnRl
+cmVzdGluZyBxdWVzdGlvbjogaG93Cj4gPiBjb3VsZAo+ID4gQ1ZFcyBkaXNjb3ZlcmVkIGFmdGVy
+IHRoZSBTQk9NL1ZFWCB3YXMgYnVpbHQgd2l0aCBCaXRiYWtlIGJlCj4gPiBoYW5kbGVkIGluCj4g
+PiBhIG1vcmUgYXV0b21hdGVkIHdheT8KPiAKPiBJ4oCZbSBub3Qgc3VyZSBJIGZ1bGx5IHVuZGVy
+c3RhbmQgdGhlIHF1ZXN0aW9uLiBUaGlzIGlzIGV4YWN0bHkgdGhlCj4gcHVycG9zZQo+IG9mIGBz
+Ym9tLWN2ZS1jaGVja2AuIEl0IGNhbiBiZSBleGVjdXRlZCBhdXRvbWF0aWNhbGx5IGZyb20gWW9j
+dG8KPiBwb3N0LWJ1aWxkLCBvciBhdCBhbnkgdGltZSBsYXRlciBvdXRzaWRlIG9mIFlvY3RvLgoK
+SSB3YXMgbm90IGF3YXJlIHRoYXQgc2JvbS1jdmUtY2hlY2sgY2FuIGV4cG9ydCB0aGUgQ1ZFIHN0
+YXR1cyBhcwpPcGVuVkVYLiBJZiBzbywgdGhpcyBxdWVzdGlvbiBpcyBvYnNvbGV0ZSBhbmQgc2Jv
+bS1jdmUtY2hlY2sgYWxyZWFkeQpkb2VzIHdoYXQgSSdtIHByb3Bvc2luZy4gOi0pCgo+IAo+ID4g
+QSB0b29sIHdpdGggYWNjZXNzIHRvIHRoZSBsYXRlc3QgQ1ZFIGRhdGFiYXNlLCBhbiBYTCBTQk9N
+LCBhbmQgdGhlCj4gPiBjb3JyZXNwb25kaW5nIHNvdXJjZSBhbmQgZGVidWcgcGFja2FnZXMgY291
+bGQgbGlrZWx5IG1hcmsgbWFueSBDVkVzCj4gPiBhcwo+ID4gbm90X2FmZmVjdGVkIGF1dG9tYXRp
+Y2FsbHkg4oCUIGZvciBpbnN0YW5jZSwgYmVjYXVzZSBjZXJ0YWluIHNvdXJjZQo+ID4gZmlsZXMK
+PiA+IGFyZSBub3QgY29tcGlsZWQsIG9yIGEgcmVsZXZhbnQgI2lmZGVmIGlzIGRpc2FibGVkLgo+
+IAo+IGBzYm9tLWN2ZS1jaGVja2AgaXMgZGVzaWduZWQgdG8gZG8gcHJlY2lzZWx5IHRoaXMsIG9y
+IGF0IGxlYXN0IHRoYXQKPiBpcwo+IHRoZSBnb2FsLiBIb3dldmVyLCBzdXBwb3J0aW5nIGAjaWZk
+ZWZgIGlzIG5vdCBwbGFubmVkIGluIHRoZSBzaG9ydAo+IHRlcm07Cj4gZmlsdGVyaW5nIGlzIGN1
+cnJlbnRseSBkb25lIGJ5IGZpbGVuYW1lLgo+IFVuZm9ydHVuYXRlbHksIG5vdCBtYW55IENWRSBl
+bnRyaWVzIGNvbnRhaW4gdGhlIGluZm9ybWF0aW9uIG5lZWRlZCB0bwo+IGF1dG9tYXRpY2FsbHkg
+bWFyayB0aGVtIGFzIG5vdCBhZmZlY3RlZC4gT25seSB0aGUga2VybmVsIHR5cGljYWxseQo+IGhh
+cwo+IHRoaXMgaW5mb3JtYXRpb24gcHJvcGVybHkgZmlsbGVkIGluLgoKVGhhdCBzb3VuZHMgYWxy
+ZWFkeSB2ZXJ5IGdvb2QuIFRoZSBrZXJuZWwgaXMgYnkgZmFyIHRoZSBtb3N0IHJlbGV2YW50CnBh
+cnQgd2hpY2ggc2hvdWxkIGJlIHN1cHBvcnRlZCBieSB0aGlzIGZlYXR1cmUuCkxldCdzIGhvcGUg
+dGhhdCBvdGhlciBwcm9qZWN0cyBzdGFydCBhZGRpbmcgdGhlIHNvdXJjZSBsaW5lcyB0byB0aGVp
+cgpDVkVzIGluIHRoZSBmdXR1cmUuIFRoZW4gaXQgd2lsbCBiZWNvbWUgZXZlbiBtb3JlIHZhbHVh
+YmxlLgoKPiAKPiA+IFdvdWxkIGl0IG1ha2Ugc2Vuc2UgdG8gZXh0ZW5kIHNib20tY3ZlLWNoZWNr
+IHRvIHN1cHBvcnQgZXhwb3J0aW5nCj4gPiBhbgo+ID4gT3BlblZFWCBkb2N1bWVudCBjb3Zlcmlu
+ZyBhbGwgQ1ZFcyBhdCB0aGUgdGltZSBvZiBleGVjdXRpb24/IFN1Y2ggYQo+ID4gdG9vbCB3b3Vs
+ZCBuZWVkIHRvOgo+ID4gCj4gPiDCoCogRG93bmxvYWQgdGhlIENWRSBkYXRhYmFzZQo+ID4gwqAq
+IEV4dHJhY3Qgc3RhdGljIENWRSBzdGF0dXMgaW5mb3JtYXRpb24gZnJvbSB0aGUgU1BEWCBkb2N1
+bWVudAo+ID4gwqAqIEF0dGVtcHQgdG8gYXV0b21hdGljYWxseSBldmFsdWF0ZSB0aGUgc3RhdHVz
+IG9mIENWRXMgZm91bmQgaW4KPiA+IHRoZQo+ID4gwqDCoCBkYXRhYmFzZSBidXQgbm90IG1lbnRp
+b25lZCBpbiB0aGUgc3RhdGljIFNQRFgKPiAKPiBJ4oCZbSBub3Qgc3VyZSBJIGZvbGxvdyB3aGF0
+IHlvdSBtZWFuLCB0aGlzIGlzIGV4YWN0bHkgd2hhdAo+IGBzYm9tLWN2ZS1jaGVja2AgaXMgYWxy
+ZWFkeSB0cnlpbmcgdG8gZG8uIEl0IGNhbiBnZW5lcmF0ZSBPcGVuVkVYCj4gZmlsZXMuCj4gUGVy
+aGFwcyBub3QgZXZlcnl0aGluZyBpcyBwZXJmZWN0IHlldCAoZmFyIGZyb20gaXQpLCBhbmQgc29t
+ZSBwYXJ0cwo+IG1heQo+IHN0aWxsIG5lZWQgaW1wcm92ZW1lbnQuCgpIYXZpbmcgYW4gaW5pdGlh
+bCB2ZXJzaW9uIHdoaWNoIGRlZmluZXMgdGhpcyBuZXcgYXJjaGl0ZWN0dXJlIHdvdWxkCmFscmVh
+ZHkgYmUgYSB2ZXJ5IGJpZyBzdGVwISBUaGFuayB5b3UgZm9yIGRyaXZpbmcgdGhpcy4KCj4gCj4g
+PiBUaGlzIGVzc2VudGlhbGx5IGRlc2NyaWJlcyBtZXJnaW5nIEpvc2h1YSdzIHRvb2wgd2l0aCBC
+ZW5qYW1pbidzCj4gPiBzYm9tLQo+ID4gY3ZlLWNoZWNrIGludG8gYSB1bmlmaWVkIHRvb2wgdGhh
+dCBjYW4gaW5nZXN0IFNQRFggZGF0YSwgTklTVAo+ID4gaW5mb3JtYXRpb24sIHNvdXJjZSBmaWxl
+cywgYW5kIG1vcmUg4oCUIGFuZCBwcm9kdWNlIHZhcmlvdXMgb3V0cHV0cwo+ID4gc3VjaAo+ID4g
+YXMgQ1ZFIGNoZWNrIGdyYXBocywgc3VtbWFyeSB0YWJsZXMsIGFuZCBWRVggZG9jdW1lbnRzIGlu
+IG11bHRpcGxlCj4gPiB2YXJpYW50cy4KPiAKPiBgc2JvbS1jdmUtY2hlY2tgIGNhbiBnZW5lcmF0
+ZSBtdWx0aXBsZSBleHBvcnQgZm9ybWF0cyBhbmQgY2FuIGJlCj4gZXh0ZW5kZWQKPiB0byBzdXBw
+b3J0IGFkZGl0aW9uYWwgZm9ybWF0cy4KClRoYXQgbGVhZHMgdGhlbiB0byB0aGUgcXVlc3Rpb24g
+YWJvdXQgdGhlIHB1cnBvc2Ugb2YgdGhlIHRvb2wgZnJvbQpKb3NodWEuIElmIEkgdW5kZXJzdGFu
+ZCBjb3JyZWN0bHkgaXQgZG9lcyBzb21ldGhpbmcgbGlrZSBlLmcuCiAgc2JvbS1jdmUtY2hlY2sg
+LS1kby1ub3QtdXNlLWN2ZS1kYi1qdXN0LWZpbHRlci1zYm9tCmNvdWxkIGRvLCByaWdodD8gVGhl
+IGNvZGUgdXNlZCBmb3IgdGhhdCB3b3VsZCBwcm9iYWJseSBhbHJlYWR5IGJlIGluCnRoZSBzYm9t
+LWN2ZS1jaGVjayBhbmQgcHJvYmFibHkgaGF2ZSA5OSUgb3ZlcmxhcCB3aXRoIHRoZSBjb2RlIGZy
+b20KSm9zaHVhJ3MgdG9vbC4KCkknbSBqdXN0IGd1ZXNzaW5nIGFuZCB0cnlpbmcgdG8gdW5kZXJz
+dGFuZCB3aGVyZSB3ZSBjb3VsZCBoZWxwLgoKVGhhbmsgeW91LApBZHJpYW4KCj4gCj4gPiBJdCdz
+IGFsc28gd29ydGggYXNraW5nIGhvdyBZb2N0by1zcGVjaWZpYyBzdWNoIGEgdG9vbCB3b3VsZAo+
+ID4gYWN0dWFsbHkKPiA+IG5lZWQgdG8gYmUuIEl0IGNvdWxkIHBvdGVudGlhbGx5IGJlIGdlbmVy
+aWMgZW5vdWdoIHRvIHN1cHBvcnQKPiA+IHZhcmlvdXMKPiA+IExpbnV4IGRpc3RyaWJ1dGlvbnMg
+4oCUIHdoaWNoIGxlYWRzIHRvIHRoZSBxdWVzdGlvbjogZG9lcyBzb21ldGhpbmcKPiA+IGxpa2UK
+PiA+IHRoaXMgYWxyZWFkeSBleGlzdD8KPiAKPiBUaGUgZ29hbCBvZiBgc2JvbS1jdmUtY2hlY2tg
+IGlzIG5vdCB0byBiZSB0aWVkIHRvIFlvY3RvLiBBcyBsb25nIGFzCj4geW91Cj4gY2FuIHByb3Zp
+ZGUgYW4gU0JPTSBpbiBhIHN1cHBvcnRlZCBmb3JtYXQsIGBzYm9tLWN2ZS1jaGVja2Agc2hvdWxk
+Cj4gd29yay4KPiBUaGF0IHNhaWQsIHRoZXJlIGlzIHN0aWxsIGEgbG90IG9mIGRldmVsb3BtZW50
+IG5lZWRlZCB0byBmdWxseQo+IGFjaGlldmUKPiB0aGlzIGdvYWwuCj4gCj4gPiAKPiA+IFJlZ2Fy
+ZHMsCj4gPiBBZHJpYW4KPiAKPiBCZXN0IHJlZ2FyZHMsCj4gLS0KPiBCZW5qYW1pbiBSb2Jpbiwg
+Qm9vdGxpbgo+IEVtYmVkZGVkIExpbnV4IGFuZCBLZXJuZWwgZW5naW5lZXJpbmcKPiAK
 
