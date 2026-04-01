@@ -2,566 +2,878 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC8610FCAF1
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:08 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14661.1775054167823860954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FA1010FCADC
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:07 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14747.1775054159117239022
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 07:36:07 -0700
+ Wed, 01 Apr 2026 07:36:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=1xgY7diE;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PBTqwFXY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d49791d0d-35d31dfb-3ff5-46f5-9c0b-9423346fb58c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WTRorje0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Ce34QExu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019d49790643-6e38d809-33e9-4708-a9d1-93b95593630b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775054167;
+	t=1775054161;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=F4q1zlb84fK+QAzbIpUBBaEn8qBpa8qRD+0lR85Mmkw=;
-	b=1xgY7diE8N+8WmJNe0QI+zwnd2jND315qBn1Nb02pJbWoN7PM/s91V6Y1rmA/Xhs
-	IxU8mP0XpX+oLvZ+tpEhbyk6fZoCfz6v/exvnt/2zr+yaBKgTeoQgDHEcxVAIsNM8j6
-	FoGuZwJHoKaTGB/uDoMhMSFDF63nCQJm8s68Kb04=
+	bh=7lPEj2fCvPGOTFd8hzpEW7zWuiHFb4uCloGN5IjWKBs=;
+	b=WTRorje0MqCFwh0X6Zk9+Y4V1AaySSqjPYJkiXvNzhfgvGiH4rw/C8+6YhOZBykD
+	e8jPlFcc+zLkWhnVf+OOkjHAxdhrvAPlW665ymXULwwKZm5exmVtl5GBrbRisGhTdhk
+	2Bg5tIBQpssQlr6fI0VA7xH+XcIv5/YSyZ0y+FjA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054167;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054161;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=F4q1zlb84fK+QAzbIpUBBaEn8qBpa8qRD+0lR85Mmkw=;
-	b=PBTqwFXYd41rhg1UojfejsrYyFgASXD/wQpTi7Q0TE4IDnvyxhfR33oP+773IRPm
-	WWQc/zSpG2jsuI5CMG0wVES+PYOdMxrJjfHMv3YKIKQEqFDaenEvNtDPhAIIGri5R/q
-	nuJyA76gfZOJUsb1QeP52W3dRXJWyD3bQ4UGOBxk=
-Content-Type: multipart/mixed; boundary="===============6977039201982848132=="
+	bh=7lPEj2fCvPGOTFd8hzpEW7zWuiHFb4uCloGN5IjWKBs=;
+	b=Ce34QExuh8VakC38w++eANGUPoIYm/741+/ci0maAH2KjtJWjkJRQlqFCDfbzd7y
+	L54vnmp5XeGymRENmoxWiS/fcmvxciew3od0d0jMftPMtSnthiFeAFcpMF1byG3IqDf
+	YnlE6/SWamZEK/0WRVSw1IApDOrRdT+OqWM5LHIM=
+Content-Type: multipart/mixed; boundary="===============7749727324197330266=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ruby: upgrading to 4.0.2 SUCCEEDED
-Message-ID: <0101019d49791d0d-35d31dfb-3ff5-46f5-9c0b-9423346fb58c-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Apr 2026 14:36:07 +0000
+Subject: [AUH] python3-hypothesis: upgrading to 6.151.10 SUCCEEDED
+Message-ID: <0101019d49790643-6e38d809-33e9-4708-a9d1-93b95593630b-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Apr 2026 14:36:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.193
+X-SES-Outgoing: 2026.04.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234398
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234378
 
---===============6977039201982848132==
-Content-Type: text/plain; charset="utf-8"
+--===============7749727324197330266==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpydWJ5KiB0byAqNC4wLjIqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLXJ1YnktdXBncmFkZS00LjAuMS00LjAuMi5wYXRj
-aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
-emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
-dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
-c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
-LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
-YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
-dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
-VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
-IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
-ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
-IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
-ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
-bSBkYWY3NmFlNjAxMjdiNGI4NTBiZGJmNTQ3Y2QwNmZjOTk0MWFmNjFhIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
-dGU6IFdlZCwgMSBBcHIgMjAyNiAxMTowMDoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1Ynk6
-IHVwZ3JhZGUgNC4wLjEgLT4gNC4wLjIKCi0tLQogLi4uLzAwMDEtRG9uLXQtc2F2ZS10aGUtb3Jp
-Z2luYWwtbmFtZS1hbmQtdGltZXN0YW1wLnBhdGNoICAgfCA1ICstLS0tCiAuLi4vMDAwMS1leHRt
-ay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaCB8IDYgKysrLS0t
-CiAuLi4tdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5w
-YXRjaCB8IDQgKystLQogLi4uL3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9m
-LWxpYnJ1YnkucGF0Y2ggICAgfCA2ICsrKy0tLQogLi4uL3J1YnkvMDAwMy1yZG9jLWJ1aWxkLXJl
-cHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoICAgfCA1ICstLS0tCiAuLi5iLW1rbWYucmIt
-c29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaCB8IDYgKysrLS0t
-CiAuLi5NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5w
-YXRjaCB8IDYgKysrLS0tCiAuLi4vcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1
-Y2libGUucGF0Y2ggICAgICAgICB8IDUgKy0tLS0KIC4uLjAwMDctU2tpcC10ZXN0X3JtX3Jfbm9f
-cGVybWlzc2lvbnMtdGVzdC11bmRlci1yb290LnBhdGNoIHwgNCArKy0tCiBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcnVieS97cnVieV80LjAuMS5iYiA9PiBydWJ5XzQuMC4yLmJifSB8IDIgKy0KIDEw
-IGZpbGVzIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDI5IGRlbGV0aW9ucygtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzQuMC4xLmJiID0+IHJ1YnlfNC4wLjIu
-YmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8w
-MDAxLURvbi10LXNhdmUtdGhlLW9yaWdpbmFsLW5hbWUtYW5kLXRpbWVzdGFtcC5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1Eb24tdC1zYXZlLXRoZS1vcmlnaW5h
-bC1uYW1lLWFuZC10aW1lc3RhbXAucGF0Y2gKaW5kZXggMGYyNGQyZWEwYi4uMjVlMWZlMDc3MiAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLURvbi10LXNh
-dmUtdGhlLW9yaWdpbmFsLW5hbWUtYW5kLXRpbWVzdGFtcC5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtRG9uLXQtc2F2ZS10aGUtb3JpZ2luYWwtbmFtZS1h
-bmQtdGltZXN0YW1wLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyY2VkYWQ2YjJiZWI5MDhh
-OGZiODBkYTBlNDVlNTA1NWRjYTY1ZTk5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBl
-MTc0NDJhYTZjNTBmMmFiY2Q1OWNkNjYyNDhlNjVkYTkzMTgxMzNmIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQogRnJvbTogQ2hhbmdxaW5nIExpIDxjaGFuZ3FpbmcubGlAd2luZHJpdmVyLmNvbT4K
-IERhdGU6IEZyaSwgMjcgRmViIDIwMjYgMTY6NTk6MjQgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0g
-RG9uJ3Qgc2F2ZSB0aGUgb3JpZ2luYWwgbmFtZSBhbmQgdGltZXN0YW1wCkBAIC0yOCw2ICsyOCwz
-IEBAIGluZGV4IDg3NGMzZWYuLmViOTlhNzAgMTAwNzU1CiAgZGVmIENvbXByZXNzb3JzLmZvcih0
-eXBlKQogICAgZXh0ID0gRmlsZS5leHRuYW1lKHR5cGUpCiAgICBpZiBjb21wcmVzcyA9IGZldGNo
-KGV4dCwgbmlsKQotLS0gCi0yLjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5h
-bC1nZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1r
-LWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCmluZGV4IGRjMzNm
-YTlkODAuLjM2N2I5ZWIwMzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtZXh0bWstZml4
-LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0Y2gKQEAgLTEsNCArMSw0IEBA
-Ci1Gcm9tIDJkMTk4MDZlMWQyMjFkZjk0MDBiMjViZDY3ZjNlMGI3YTIxYmI3MDIgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCitGcm9tIGQxMWIxNWJlMDY3NzlmMDRlYjQ4NjBkN2Q4MjM0ZDRkMTBj
-OTc3MjYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9P1VURi04P3E/QW5kcj1DMz1B
-OT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogRGF0ZTogTW9uLCAzMCBTZXAg
-MjAxOSAxNjo1NzowMSArMDEwMAogU3ViamVjdDogW1BBVENIXSBleHRtazogZml4IGNyb3NzLWNv
-bXBpbGF0aW9uIG9mIGV4dGVybmFsIGdlbXMKQEAgLTE2LDEwICsxNiwxMCBAQCBTaWduZWQtb2Zm
-LWJ5OiBBbmRyw6kgRHJhc3ppayA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvZXh0L2V4
-dG1rLnJiIGIvZXh0L2V4dG1rLnJiCi1pbmRleCAxZDE2NTQ1Li5hZDk3MWVhIDEwMDc1NQoraW5k
-ZXggOGY4NDdmNC4uYzhhOGQ5ZiAxMDA3NTUKIC0tLSBhL2V4dC9leHRtay5yYgogKysrIGIvZXh0
-L2V4dG1rLnJiCi1AQCAtNDM0LDggKzQzNCw4IEBAIGVsc2UKK0BAIC00MjcsOCArNDI3LDggQEAg
-ZWxzZQogIGVuZAogICRydWJ5ID0gWyRydWJ5XQogICRydWJ5IDw8ICItSSckKHRvcGRpciknIgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLXZtX2R1bXAu
-Yy1EZWZpbmUtUkVHX1MxLWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5k
-LVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaAppbmRleCA0ZjgxZDBhMTlkLi45YWM0ZTkxYWZm
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVt
-cC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaAorKysgYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdf
-UzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-YTVjMjc4MjZlNzU2MWVhZmNiOGRhYjA2MWUwNzM0OTIzMjQ1N2YxMCBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gYjVmMzRlZTRmZTNmNGU2ZmIyYzk0YzAzYzU0YjY2Y2FiODBiYjc3MSBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
-b20+CiBEYXRlOiBUdWUsIDI1IEphbiAyMDIyIDIwOjI5OjE0IC0wODAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIHZtX2R1bXAuYzogRGVmaW5lIFJFR19TMSBhbmQgUkVHX1MyIGZvciBtdXNsL3Jpc2N2CkBA
-IC0xNCw3ICsxNCw3IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
-b20+CiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvdm1f
-ZHVtcC5jIGIvdm1fZHVtcC5jCi1pbmRleCA5OTMzOWZkLi44YzViYjAzIDEwMDY0NAoraW5kZXgg
-ZTJiNDgwNC4uMGI3ZDg2OCAxMDA2NDQKIC0tLSBhL3ZtX2R1bXAuYwogKysrIGIvdm1fZHVtcC5j
-CiBAQCAtNDAsNiArNDAsMTEgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10
-aGUtbGluay1vZi1saWJydWJ5LnBhdGNoCmluZGV4IDhlZjBjOTAzZTguLjM2YjBlYTY1YWMgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxB
-R1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMzk0OWIzZmYwMWM2NDJiNmI5YWRhOWIxMmRkMzA4
-M2NjOTMwNTQ0YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTRhNWIxYTkwY2ZiMDcy
-ZTExNTVhNGU0NTA0OWY1MjI5YzU0ZDM1NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IENocmlzdG9waGVyIExhcnNvbiA8Y2hyaXNfbGFyc29uQG1lbnRvci5jb20+CiBEYXRlOiBUaHUs
-IDUgTWF5IDIwMTYgMTA6NTk6MDcgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gT2JleSBMREZMQUdT
-IGZvciB0aGUgbGluayBvZiBsaWJydWJ5CkBAIC0xMCwxMCArMTAsMTAgQEAgVXBzdHJlYW0tU3Rh
-dHVzOiBQZW5kaW5nCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiAKIGRpZmYgLS1naXQgYS90ZW1wbGF0ZS9NYWtlZmlsZS5pbiBiL3RlbXBsYXRlL01ha2Vm
-aWxlLmluCi1pbmRleCA2Yjk3Mjc5Li5hNDliNTNkIDEwMDY0NAoraW5kZXggNDQzYzM5NC4uNWY3
-MDZkYiAxMDA2NDQKIC0tLSBhL3RlbXBsYXRlL01ha2VmaWxlLmluCiArKysgYi90ZW1wbGF0ZS9N
-YWtlZmlsZS5pbgotQEAgLTEyMCw3ICsxMjAsNyBAQCBFTkFCTEVfU0hBUkVEID0gQEVOQUJMRV9T
-SEFSRURACitAQCAtMTI5LDcgKzEyOSw3IEBAIEVOQUJMRV9TSEFSRUQgPSBARU5BQkxFX1NIQVJF
-REAKICBMRFNIQVJFRCA9IEBMSUJSVUJZX0xEU0hBUkVEQAogIERMRFNIQVJFRCA9IEBETERTSEFS
-RURACiAgWERMREZMQUdTID0gQERMREZMQUdTQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRp
-b24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWls
-ZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlvbi5wYXRjaAppbmRleCBiZjU3Zjk3ZDdlLi44OWI1
-OWJmYzc4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMt
-cmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlvbi5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9j
-dW1lbnRhdGlvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDJjZDIwNDcwNDQ4Njc2ZDk3
-ZDc3YzJlNjc4OWVjY2U0M2YwZTIxYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMDVj
-YjVmZDBmMTk1OTA4NzkwMTQyMzVlMjdlZDNiNjE0MjQxYTkxZiBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IENocmlzdGlhbiBIb2ZzdGFlZHRsZXIgPHplaGFAZGViaWFuLm9yZz4KIERh
-dGU6IFR1ZSwgMTAgT2N0IDIwMTcgMTU6MDQ6MzQgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gcmRv
-YzogYnVpbGQgcmVwcm9kdWNpYmxlIGRvY3VtZW50YXRpb24KQEAgLTM4LDYgKzM4LDMgQEAgaW5k
-ZXggMDY1Y2FhNC4uY2ZhMWYzMyAxMDA2NDQKICAgICAgICAgICAgZ3oub3JpZ19uYW1lID0gZGVz
-dC5iYXNlbmFtZS50b19zCiAgICAgICAgICAgIGd6LndyaXRlIGRhdGEKICAgICAgICAgICAgZ3ou
-Y2xvc2UKLS0tIAotMi4zNC4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVzLWluLWdl
-bmVyYXRlZC1NLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxp
-Yi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2gK
-aW5kZXggNWNhMTgyMzEzYi4uNDkzZTBiNTZkZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmls
-ZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1Ynkv
-cnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJh
-dGVkLU0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDkzMjQ4OWI2N2NlOWNkZjU1OTBhMTc5
-MjdlYTQwZDllYTY2MjM2NjggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDgyOGEwZDVk
-OWU5NTljMTgwYTk0MTUyMzI3ODBkOTljZjRhMGYxZWQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBSZWluZXIgSGVycm1hbm4gPHJlaW5lckByZWluZXItaC5kZT4KIERhdGU6IFR1ZSwg
-MTAgT2N0IDIwMTcgMTU6MDY6MTMgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gbGliL21rbWYucmI6
-IHNvcnQgbGlzdCBvZiBvYmplY3QgZmlsZXMgaW4gZ2VuZXJhdGVkIE1ha2VmaWxlCkBAIC0xNywx
-MCArMTcsMTAgQEAgU2lnbmVkLW9mZi1ieTogUmVpbmVyIEhlcnJtYW5uIDxyZWluZXJAcmVpbmVy
-LWguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAK
-IGRpZmYgLS1naXQgYS9saWIvbWttZi5yYiBiL2xpYi9ta21mLnJiCi1pbmRleCA5OWYzNzY0Li42
-MjM3N2I2IDEwMDY0NAoraW5kZXggMzhhNWExNS4uZWFkN2YwYyAxMDA2NDQKIC0tLSBhL2xpYi9t
-a21mLnJiCiArKysgYi9saWIvbWttZi5yYgotQEAgLTI0ODAsNyArMjQ4MCw3IEBAIExPQ0FMX0xJ
-QlMgPSAjeyRMT0NBTF9MSUJTfQorQEAgLTI0OTMsNyArMjQ5Myw3IEBAIExPQ0FMX0xJQlMgPSAj
-eyRMT0NBTF9MSUJTfQogIExJQlMgPSAjeyRMSUJSVUJZQVJHfSAjeyRsaWJzfSAjeyRMSUJTfQog
-IE9SSUdfU1JDUyA9ICN7b3JpZ19zcmNzLmNvbGxlY3QoJkZpbGUubWV0aG9kKDpiYXNlbmFtZSkp
-LmpvaW4oJyAnKX0KICBTUkNTID0gJChPUklHX1NSQ1MpICN7KHNyY3MgLSBvcmlnX3NyY3MpLmNv
-bGxlY3QoJkZpbGUubWV0aG9kKDpiYXNlbmFtZSkpLmpvaW4oJyAnKX0KZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNp
-YmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmct
-Nzg0MjI1LXRvby5wYXRjaAppbmRleCBmZDdkMzM0MGYzLi40OGYwYzhmYjk2IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJv
-ZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4NDIyNS10b28ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdl
-LWZpeGluZy03ODQyMjUtdG9vLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0MTAzMzE1Nzc0
-ODFmMzMxMDc0NDA1ZTk2MjljYThkYjUzMDNhYWE4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSBhZGNlYjRlMmFkZTE0ZTc0NzBiOGI1ZGFkNjAyNTg3ZDQyMWU5ZTBhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogTHVjYXMgS2FuYXNoaXJvIDxrYW5hc2hpcm9AZGViaWFuLm9y
-Zz4KIERhdGU6IEZyaSwgMSBOb3YgMjAxOSAxNToyNToxNyAtMDMwMAogU3ViamVjdDogW1BBVENI
-XSBNYWtlIGdlbXNwZWNzIHJlcHJvZHVjaWJsZQpAQCAtMTIsMTAgKzEyLDEwIEBAIFVwc3RyZWFt
-LVN0YXR1czogQmFja3BvcnQgW2RlYmlhbl0KICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25z
-KCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvcnVieWdlbXMvc3BlY2lmaWNh
-dGlvbi5yYiBiL2xpYi9ydWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJiCi1pbmRleCAwYjkwNWE3Li5h
-MTAyZTNjIDEwMDY0NAoraW5kZXggNTAzZjBhNC4uNWQzM2IwOSAxMDA2NDQKIC0tLSBhL2xpYi9y
-dWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJiCiArKysgYi9saWIvcnVieWdlbXMvc3BlY2lmaWNhdGlv
-bi5yYgotQEAgLTE3MDksNyArMTcwOSw5IEBAIGNsYXNzIEdlbTo6U3BlY2lmaWNhdGlvbiA8IEdl
-bTo6QmFzaWNTcGVjaWZpY2F0aW9uCitAQCAtMTcwNSw3ICsxNzA1LDkgQEAgY2xhc3MgR2VtOjpT
-cGVjaWZpY2F0aW9uIDwgR2VtOjpCYXNpY1NwZWNpZmljYXRpb24KICAgICAgICAgICAgICAgICAg
-cmFpc2UoR2VtOjpJbnZhbGlkU3BlY2lmaWNhdGlvbkV4Y2VwdGlvbiwKICAgICAgICAgICAgICAg
-ICAgICAgICAgImludmFsaWQgZGF0ZSBmb3JtYXQgaW4gc3BlY2lmaWNhdGlvbjogI3tkYXRlLmlu
-c3BlY3R9IikKICAgICAgICAgICAgICAgIGVuZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9k
-dWNpYmxlLnBhdGNoCmluZGV4IGFhYzJiYzE1MDIuLmVmMDdiYWVkNGMgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNi1NYWtlLWdlbXNwZWNzLXJlcHJvZHVj
-aWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFr
-ZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDRkMjVl
-OWNlMGIyNzk1MDA5ZGQwNjZkNzk1OWNmNTFjNDI5MmEzNDMgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCitGcm9tIDAxZjQ2YTg3ZDk5ODAyOWRiYjg0Y2IzOGNiYzA5ZTliZWM0N2QyZjYgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0BkZWJp
-YW4ub3JnPgogRGF0ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIE1ha2UgZ2Vtc3BlY3MgcmVwcm9kdWNpYmxlCkBAIC03OCw2ICs3OCwzIEBAIGluZGV4
-IGNhYmM5MTYuLmY5NTgxYjggMTAwNjQ0CiAgICBzcGVjLmF1dGhvcnMgICAgICAgPSBbIkFraW5v
-cmkgTVVTSEEiLCAiSGFqaW11IFVNRU1PVE8iXQogICAgc3BlYy5lbWFpbCAgICAgICAgID0gWyJr
-bnVAaWRhZW1vbnMub3JnIiwgInVtZUBtYWhvcm9iYS5vcmciXQogIAotLS0gCi0yLjM0LjEKLQpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA3LVNraXAtdGVz
-dF9ybV9yX25vX3Blcm1pc3Npb25zLXRlc3QtdW5kZXItcm9vdC5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1Ta2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10
-ZXN0LXVuZGVyLXJvb3QucGF0Y2gKaW5kZXggNzgwYjU5MDkyZi4uNDNhNWJhNmUzYyAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA3LVNraXAtdGVzdF9ybV9y
-X25vX3Blcm1pc3Npb25zLXRlc3QtdW5kZXItcm9vdC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDctU2tpcC10ZXN0X3JtX3Jfbm9fcGVybWlzc2lvbnMtdGVz
-dC11bmRlci1yb290LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlYjVhNWRiNzRkMjlmZDYz
-NjllOTg3MWJhMWJiMjU0YWEwZjIyZjQyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBh
-ZmVhOGQwNjAwMTY2ZWU4NTMyNGUwZTNmNTc2YjcyNWExNWNmZDg5IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQogRnJvbTogSmlheWluZyBTb25nIDxqaWF5aW5nLnNvbmcuY25Ad2luZHJpdmVyLmNv
-bT4KIERhdGU6IE1vbiwgNyBKdWwgMjAyNSAxNTowNTo1NyArMDgwMAogU3ViamVjdDogW1BBVENI
-XSBTa2lwIHRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucyB0ZXN0IHVuZGVyIHJvb3QKQEAgLTEzLDcg
-KzEzLDcgQEAgU2lnbmVkLW9mZi1ieTogSmlheWluZyBTb25nIDxqaWF5aW5nLnNvbmcuY25Ad2lu
-ZHJpdmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
-cygtKQogCiBkaWZmIC0tZ2l0IGEvdGVzdC9maWxldXRpbHMvdGVzdF9maWxldXRpbHMucmIgYi90
-ZXN0L2ZpbGV1dGlscy90ZXN0X2ZpbGV1dGlscy5yYgotaW5kZXggZDIwOTZhMC4uODBlMzM2OCAx
-MDA2NDQKK2luZGV4IDkyMzA4ZDkuLjVkYjc0ZjQgMTAwNjQ0CiAtLS0gYS90ZXN0L2ZpbGV1dGls
-cy90ZXN0X2ZpbGV1dGlscy5yYgogKysrIGIvdGVzdC9maWxldXRpbHMvdGVzdF9maWxldXRpbHMu
-cmIKIEBAIC03NjgsOCArNzY4LDggQEAgY2xhc3MgVGVzdEZpbGVVdGlscyA8IFRlc3Q6OlVuaXQ6
-OlRlc3RDYXNlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzQu
-MC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV80LjAuMi5iYgpzaW1pbGFy
-aXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5
-XzQuMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzQuMC4y
-LmJiCmluZGV4IGU1MWQwZDNlOWMuLjUyNDBiYmU3NDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9ydWJ5L3J1YnlfNC4wLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3J1YnkvcnVieV80LjAuMi5iYgpAQCAtNTAsNyArNTAsNyBAQCBkb19jb25maWd1cmU6cHJlcGVu
-ZCgpIHsKIAogREVQRU5EUzphcHBlbmQ6bGliYy1tdXNsID0gIiBsaWJ1Y29udGV4dCIKIAotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjM5MjRiZTJkMDVkYjMwZjRlMzVmODU5YmYwMjhiZTg1ZjRiN2Rk
-MDE3MTQxNDJmZDgyM2U0YWY1ZGUyZmFmOWQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTE1MDJi
-MjZiNTBiNjhkZjQ5NjMzMzZjYTQxZTM2OGNkZTkyYzkyOGZhZjkxNjU0ZGU0YzRjMTc5MWY4MmFh
-YyIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiIKIFBBQ0tBR0VDT05GSUcgKz0gIiR7QGJiLnV0aWxz
-LmZpbHRlcignRElTVFJPX0ZFQVRVUkVTJywgJ2lwdjYnLCBkKX0iCi0tIAoyLjQ3LjEKCg==
+Hello,
 
---===============6977039201982848132==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.151.10* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.151.9-6.151.10.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 89a490e12694c41ccb45b249969861e05b917766 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 1 Apr 2026 09:20:40 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.151.9 -> 6.151.10
+
+---
+ ...on3-hypothesis_6.151.9.bb => python3-hypothesis_6.151.10.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.151.9.bb => python3-hypothesis_6.151.10.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.151.9.bb b/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.151.9.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb
+index 157e4a2ee0..968e03de9e 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.151.9.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "2f284428dda6c3c48c580de0e18470ff9c7f5ef628a647ee8002f38c3f9097ca"
++SRC_URI[sha256sum] = "6c9565af8b4aa3a080b508f66ce9c2a77dd613c7e9073e27fc7e4ef9f45f8a27"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.47.1
+
+
+--===============7749727324197330266==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: FILELIST: added "/usr/lib/ruby/ptest/test/prism/fixtures/and_or_with_suffix.txt /usr/lib/ruby/ptest/test/prism/fixtures/case_in_in.txt"
-packages/x86-64-v3-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.3/exe -> /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe, directory renamed /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.0/bin -> /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.1/bin, directory renamed /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.0 -> /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.1, directory renamed /usr/lib/ruby/gems/4.0.0/gems/syntax_suggest-2.0.2/exe -> /usr/lib/ruby/gems/4.0.0/gems/syntax_suggest-2.0.3/exe, directory renamed /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.0/lib -> /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.1/lib, removed "/usr/lib/ruby/gems/4.0.0/specifications/default/prism-1.8.0.gemspec /usr/lib/ruby/gems/4.0.0/specifications/pstore-0.2.0.gemspec /usr/lib/libruby.so.4.0.1 /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.3.gemspec /usr/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.2.gemspec /usr/lib/ruby/gems/4.0.0/specifications/default/syntax_s
- uggest-2.0.2.gemspec /usr/lib/ruby/gems/4.0.0/cache/pstore-0.2.0.gem", added "/usr/lib/ruby/gems/4.0.0/specifications/default/prism-1.8.1.gemspec /usr/lib/ruby/gems/4.0.0/specifications/pstore-0.2.1.gemspec /usr/lib/ruby/gems/4.0.0/cache/pstore-0.2.1.gem /usr/lib/ruby/gems/4.0.0/specifications/default/syntax_suggest-2.0.3.gemspec /usr/lib/libruby.so.4.0.2 /usr/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.3.gemspec /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.6.gemspec"
-Changes to packages/x86-64-v3-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.4.0 changed symlink target from libruby.so.4.0.1 to libruby.so.4.0.2
-  /usr/lib/libruby.so changed symlink target from libruby.so.4.0.1 to libruby.so.4.0.2
-  /usr/lib/libruby.so.4.0.1 moved to /usr/lib/libruby.so.4.0.2
-  /usr/lib/ruby/gems/4.0.0/cache/pstore-0.2.0.gem moved to /usr/lib/ruby/gems/4.0.0/cache/pstore-0.2.1.gem
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.3 moved to /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6
-  /usr/lib/ruby/gems/4.0.0/gems/prism-1.8.0 moved to /usr/lib/ruby/gems/4.0.0/gems/prism-1.8.1
-  /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.0 moved to /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.1
-  /usr/lib/ruby/gems/4.0.0/gems/syntax_suggest-2.0.2 moved to /usr/lib/ruby/gems/4.0.0/gems/syntax_suggest-2.0.3
-  /usr/lib/ruby/gems/4.0.0/gems/zlib-3.2.2 moved to /usr/lib/ruby/gems/4.0.0/gems/zlib-3.2.3
-  /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.3.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.6.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/default/prism-1.8.0.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/default/prism-1.8.1.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/default/syntax_suggest-2.0.2.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/default/syntax_suggest-2.0.3.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.2.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.3.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/pstore-0.2.0.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/pstore-0.2.1.gemspec
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/licenses/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/WHEEL was removed
 
---===============6977039201982848132==
+--===============7749727324197330266==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1970 targets, 64 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-87d49d07e41a283100872b9406520a94f8afa31b"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:87d49d07e41a283100872b9406520a94f8afa31b"
+meta-yocto-bsp       
+meta-poky            = "master:ac300baea7314ea3c80f2330b2a993f729f32150"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 553 Local 523 Mirrors 0 Missed 30 Current 312 (94% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 314 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_package_qa_setscene)
+NOTE: Running setscene task 324 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_package_qa_setscene)
+NOTE: Running setscene task 338 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 340 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 341 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 350 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 354 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 358 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 365 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_qa_setscene)
+NOTE: Running setscene task 376 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 379 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 386 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_package_qa_setscene)
+NOTE: Running setscene task 396 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 401 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 407 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 420 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_package_write_rpm_setscene)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_populate_lic_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 421 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_package_write_ipk_setscene)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 423 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_package_write_rpm_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 432 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_packagedata_setscene)
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 438 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 446 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 447 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_create_spdx_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-3.14.3-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe python3-3.14.3-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 466 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 468 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_packagedata_setscene)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 470 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_create_spdx_setscene)
+NOTE: recipe python3-3.14.3-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 492 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 493 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 494 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygments_2.19.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 495 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 496 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-colorama_0.4.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 497 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 498 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_package_setscene)
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pluggy-1.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-iniconfig-2.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-colorama-0.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-packaging-26.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pygments-2.19.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_create_spdx_setscene: Started
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/python3-attrs/25.4.0/temp/log.do_packagedata_setscene.929275
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.3-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-colorama-0.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-pygments-2.19.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-iniconfig-2.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pluggy-1.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-packaging-26.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 499 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 500 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 501 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 506 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 511 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_package_setscene)
+NOTE: Running setscene task 512 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 516 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 519 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 527 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 532 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.46.bb:do_packagedata_setscene)
+NOTE: Running setscene task 536 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 538 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 547 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe binutils-2.46-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running task 820 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_recipe_qa)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 549 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 551 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 554 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.19.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 559 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 561 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_recipe_qa: Started
+NOTE: recipe python3-3.14.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 580 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 588 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe binutils-2.46-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 595 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_packagedata_setscene)
+NOTE: Running setscene task 597 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 613 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_setscene: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_setscene: Started
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 616 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running task 1060 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 633 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 634 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 636 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 638 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: Running setscene task 639 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 642 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 647 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1147 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_fetch)
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1160 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1164 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmicrohttpd-1.0.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1215 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_create_recipe_spdx)
+NOTE: Running task 1223 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_create_recipe_spdx)
+NOTE: Running task 1227 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_create_recipe_spdx)
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libarchive-3.8.6-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 652 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_fetch: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1228 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_unpack)
+NOTE: Running setscene task 653 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 654 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_create_recipe_spdx: Started
+NOTE: Running setscene task 655 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_packagedata_setscene)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libmicrohttpd-1.0.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 665 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.19.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 666 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.47.bb:do_packagedata_setscene)
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running setscene task 667 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 670 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.12.bb:do_packagedata_setscene)
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: recipe libarchive-3.8.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 681 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_unpack: Started
+NOTE: Running task 1260 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe file-5.47-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-3.14.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe curl-8.19.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 687 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_unpack: Succeeded
+NOTE: Running task 1273 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_patch)
+NOTE: recipe python3-3.14.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe libgcrypt-1.12.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 688 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1275 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe file-5.47-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_patch: Started
+NOTE: Running setscene task 690 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.16.bb:do_packagedata_setscene)
+NOTE: recipe curl-8.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: Running task 1287 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_fetch)
+NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcrypt-1.12.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 698 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_packagedata_setscene)
+NOTE: Running setscene task 700 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.59.bb:do_packagedata_setscene)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_patch: Succeeded
+NOTE: Running task 1293 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1296 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_fetch)
+NOTE: Running setscene task 705 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe gnutls-3.8.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 710 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running setscene task 711 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 714 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 717 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_packagedata_setscene)
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_fetch: Started
+NOTE: Running task 1307 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1308 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_unpack)
+NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Started
+NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgpg-error-1.59-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_fetch: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 724 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 725 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 726 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_unpack: Started
+NOTE: recipe python3-3.14.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 727 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 728 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.5.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 729 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 730 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running setscene task 732 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 733 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 734 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 735 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 736 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_packagedata_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 737 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 738 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.59-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 739 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 741 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 742 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 743 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 747 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 748 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 749 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 753 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 755 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 763 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_packagedata_setscene)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 771 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 773 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 776 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 785 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 788 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 790 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 792 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 795 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 796 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 799 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 800 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.14.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 802 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 805 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
+NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 807 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_recipe_qa_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1369 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_unpack)
+NOTE: Running task 1370 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: Running task 1371 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_patch)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 815 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.5.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 818 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 821 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 823 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.5.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_patch: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_unpack: Started
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_unpack: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1418 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_patch)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1425 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_check_backend)
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_patch: Started
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_check_backend: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_check_backend: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 826 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_patch: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1442 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 829 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 830 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 836 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 837 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 839 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 841 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 843 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 844 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 845 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 846 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 848 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 852 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 854 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 857 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 858 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 861 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 863 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 865 of 865 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1797 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1812 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1924 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 2081 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2082 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: Running task 2083 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_configure)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2084 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_configure)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_configure: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_configure: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_configure: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 2085 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_configure_ptest_base)
+NOTE: Running task 2086 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_compile)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 2087 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_configure_ptest_base)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2088 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_compile)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Running task 2089 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_compile)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 27a1287f03f8699e6a83b8e7203f6b85f617ccd1b7f11fa183cd486905f39fba
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 7cfe3abaa62a1a38b6fd62d5c2f588c48aa65f2e8404784ef197fee2018f4ec9 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '27b93baa452386ec7bcaeb35706a7aeca68a6b915e75eaa142434b99c1ca2c50', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '7cfe3abaa62a1a38b6fd62d5c2f588c48aa65f2e8404784ef197fee2018f4ec9'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed 27b93baa452386ec7bcaeb35706a7aeca68a6b915e75eaa142434b99c1ca2c50 -> 7cfe3abaa62a1a38b6fd62d5c2f588c48aa65f2e8404784ef197fee2018f4ec9 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_compile: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_compile: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 2102 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_install)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_install: Started
+NOTE: Running task 2103 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_compile_ptest_base)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2104 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_install)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_install: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_install: Succeeded
+NOTE: Running task 2107 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_populate_sysroot)
+NOTE: Running task 2108 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_package_write_ipk)
+NOTE: Running task 2109 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_package_write_deb)
+NOTE: Running task 2110 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_package_write_rpm)
+NOTE: Running task 2111 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_package_qa)
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_write_deb: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_compile: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_qa: Started
+NOTE: Running task 2112 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_compile_ptest_base)
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2113 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_install)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_install: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2114 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_install_ptest_base)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_install: Started
+NOTE: Running task 2115 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_create_spdx)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_package_qa unihash changed to 2c2f6d9c0026124cd48b1154e1ea13ac57fa4223849d44e052537a39e658907e
+NOTE: recipe python3-attrs-25.4.0-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_write_ipk: Succeeded
+NOTE: Running task 2117 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_packagedata)
+NOTE: Running task 2118 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_populate_sysroot)
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_write_deb: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_packagedata: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2119 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_create_spdx)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_install: Succeeded
+NOTE: Running task 2120 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_install_ptest_base)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_create_spdx: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2121 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_package)
+NOTE: Running task 2122 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_populate_sysroot)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package: Succeeded
+NOTE: Running task 2123 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_packagedata: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_packagedata: Succeeded
+NOTE: Running task 2124 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_create_spdx)
+NOTE: Running task 2125 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_package_write_ipk)
+NOTE: Running task 2126 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_package_write_deb)
+NOTE: Running task 2127 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_package_write_rpm)
+NOTE: Running task 2128 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_package_qa)
+NOTE: Running task 2129 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_package_write_ipk)
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_create_spdx: Started
+NOTE: Running task 2130 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_package_write_deb)
+NOTE: Running task 2131 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_package_write_rpm)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_write_deb: Started
+NOTE: Running task 2132 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_package_qa)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_qa: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package_write_deb: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package_qa: Started
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2133 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_create_package_spdx)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_write_deb: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_create_package_spdx: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_package_qa unihash changed to bf6c705d8f86220b54f0936ccb3bda47afe3c3688109f4b79d00e7c373b4467c
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_create_package_spdx: Succeeded
+NOTE: recipe python3-hypothesis-6.151.10-r0: task do_package_write_deb: Succeeded
+NOTE: Running noexec task 2134 of 2134 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.151.10.bb:do_build)
+NOTE: Tasks Summary: Attempted 2134 tasks of which 2069 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-attrs-src went backwards which would break package feeds (from 0:26.1.0-r0 to 0:25.4.0-r0) [version-going-backwards]
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-attrs-dbg went backwards which would break package feeds (from 0:26.1.0-r0 to 0:25.4.0-r0) [version-going-backwards]
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-attrs-ptest went backwards which would break package feeds (from 0:26.1.0-r0 to 0:25.4.0-r0) [version-going-backwards]
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-attrs-staticdev went backwards which would break package feeds (from 0:26.1.0-r0 to 0:25.4.0-r0) [version-going-backwards]
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-attrs-dev went backwards which would break package feeds (from 0:26.1.0-r0 to 0:25.4.0-r0) [version-going-backwards]
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-attrs-doc went backwards which would break package feeds (from 0:26.1.0-r0 to 0:25.4.0-r0) [version-going-backwards]
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-attrs-locale went backwards which would break package feeds (from 0:26.1.0-r0 to 0:25.4.0-r0) [version-going-backwards]
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-attrs went backwards which would break package feeds (from 0:26.1.0-r0 to 0:25.4.0-r0) [version-going-backwards]
+ERROR: python3-attrs-25.4.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============7749727324197330266==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/ruby: SRC_URI changed from "http://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.1.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch file://0001-Don-t-save-the-original-name-and-timestamp.patch" to "http://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.2.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-genera
- ted-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch file://0001-Don-t-save-the-original-name-and-timestamp.patch"
-packages/x86-64-v3-poky-linux/ruby: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PKGSIZE changed from 17949280 to 17952568 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: FILELIST: removed "/usr/lib/.debug/libruby.so.4.0.1", added "/usr/lib/.debug/libruby.so.4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: PKGSIZE changed from 1614682 to 1614853 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-doc: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-doc: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-locale: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-locale: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PKGSIZE changed from 10238626 to 10251813 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: FILELIST: added "/usr/lib/ruby/ptest/test/prism/fixtures/case_in_in.txt /usr/lib/ruby/ptest/test/prism/fixtures/and_or_with_suffix.txt"
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-ri-docs: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-ri-docs: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PKGSIZE changed from 40704685 to 40710188 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-src: FILELIST: directory renamed /usr/src/debug/ruby/4.0.1/include/ruby/internal/intern -> /usr/src/debug/ruby/4.0.2/include/ruby/internal/intern, directory renamed /usr/src/debug/ruby/4.0.1/ext/etc -> /usr/src/debug/ruby/4.0.2/ext/etc, directory renamed /usr/src/debug/ruby/4.0.1/prism/templates/ext/prism -> /usr/src/debug/ruby/4.0.2/prism/templates/ext/prism, directory renamed /usr/src/debug/ruby/4.0.1/ext/json/fbuffer -> /usr/src/debug/ruby/4.0.2/ext/json/fbuffer, directory renamed /usr/src/debug/ruby/4.0.1/missing -> /usr/src/debug/ruby/4.0.2/missing, directory renamed /usr/src/debug/ruby/4.0.1/ext/strscan -> /usr/src/debug/ruby/4.0.2/ext/strscan, directory renamed /usr/src/debug/ruby/4.0.1/include/ruby/io -> /usr/src/debug/ruby/4.0.2/include/ruby/io, directory renamed /usr/src/debug/ruby/4.0.1/ccan/list -> /usr/src/debug/ruby/4.0.2/ccan/list, directory renamed /usr/src/debug/ruby/4.0.1/internal -> /usr/src/debug/ruby/4.0.2/internal, directo
- ry renamed /usr/src/debug/ruby/4.0.1/enc/jis -> /usr/src/debug/ruby/4.0.2/enc/jis, directory renamed /usr/src/debug/ruby/4.0.1/ext/coverage -> /usr/src/debug/ruby/4.0.2/ext/coverage, directory renamed /usr/src/debug/ruby/4.0.1/ext/digest/bubblebabble -> /usr/src/debug/ruby/4.0.2/ext/digest/bubblebabble, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/rbs-3.10.0/include/rbs/util -> /usr/src/debug/ruby/4.0.2/.bundle/gems/rbs-3.10.0/include/rbs/util, directory renamed /usr/src/debug/ruby/4.0.1/ext/json/simd -> /usr/src/debug/ruby/4.0.2/ext/json/simd, directory renamed /usr/src/debug/ruby/4.0.1/gc/default -> /usr/src/debug/ruby/4.0.2/gc/default, directory renamed /usr/src/debug/ruby/4.0.1/ext/pty -> /usr/src/debug/ruby/4.0.2/ext/pty, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/nkf-0.2.0/ext/nkf -> /usr/src/debug/ruby/4.0.2/.bundle/gems/nkf-0.2.0/ext/nkf, directory renamed /usr/src/debug/ruby/4.0.1/ext/monitor -> /usr/src/debug/ruby/4.0.2/ext/monitor, directory rena
- med /usr/src/debug/ruby/4.0.1/ext/cgi/escape -> /usr/src/debug/ruby/4.0.2/ext/erb/escape, directory renamed /usr/src/debug/ruby/4.0.1/enc -> /usr/src/debug/ruby/4.0.2/enc, directory renamed /usr/src/debug/ruby/4.0.1/ext/digest/md5 -> /usr/src/debug/ruby/4.0.2/ext/digest/md5, directory renamed /usr/src/debug/ruby/4.0.1/include/ruby/internal -> /usr/src/debug/ruby/4.0.2/include/ruby/internal, directory renamed /usr/src/debug/ruby/4.0.1/ext/rbconfig/sizeof -> /usr/src/debug/ruby/4.0.2/ext/rbconfig/sizeof, directory renamed /usr/src/debug/ruby/4.0.1/include/ruby/fiber -> /usr/src/debug/ruby/4.0.2/include/ruby/fiber, directory renamed /usr/src/debug/ruby/4.0.1/coroutine/amd64 -> /usr/src/debug/ruby/4.0.2/coroutine/amd64, directory renamed /usr/src/debug/ruby/4.0.1/ext/continuation -> /usr/src/debug/ruby/4.0.2/ext/continuation, directory renamed /usr/src/debug/ruby/4.0.1/ext/date -> /usr/src/debug/ruby/4.0.2/ext/date, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/rbs-3.10.0/src
-  -> /usr/src/debug/ruby/4.0.2/.bundle/gems/rbs-3.10.0/src, directory renamed /usr/src/debug/ruby/4.0.1/ext -> /usr/src/debug/ruby/4.0.2/ext, directory renamed /usr/src/debug/ruby/4.0.1/ext/io/nonblock -> /usr/src/debug/ruby/4.0.2/ext/io/nonblock, directory renamed /usr/src/debug/ruby/4.0.1/ext/digest/sha2 -> /usr/src/debug/ruby/4.0.2/ext/digest/sha2, directory renamed /usr/src/debug/ruby/4.0.1/ext/digest/sha1 -> /usr/src/debug/ruby/4.0.2/ext/digest/sha1, directory renamed /usr/src/debug/ruby/4.0.1/ext/erb/escape -> /usr/src/debug/ruby/4.0.2/ext/cgi/escape, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/rbs-3.10.0/include/rbs -> /usr/src/debug/ruby/4.0.2/.bundle/gems/rbs-3.10.0/include/rbs, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/racc-1.8.1/ext/racc/cparse -> /usr/src/debug/ruby/4.0.2/.bundle/gems/racc-1.8.1/ext/racc/cparse, directory renamed /usr/src/debug/ruby/4.0.1/include/ruby/internal/core -> /usr/src/debug/ruby/4.0.2/include/ruby/internal/core, direct
- ory renamed /usr/src/debug/ruby/4.0.1/prism/util -> /usr/src/debug/ruby/4.0.2/prism/util, directory renamed /usr/src/debug/ruby/4.0.1/include/ruby/internal/intern/select -> /usr/src/debug/ruby/4.0.2/include/ruby/internal/intern/select, directory renamed /usr/src/debug/ruby/4.0.1/include/ruby/internal/arithmetic -> /usr/src/debug/ruby/4.0.2/include/ruby/internal/arithmetic, directory renamed /usr/src/debug/ruby/4.0.1/defs -> /usr/src/debug/ruby/4.0.2/defs, directory renamed /usr/src/debug/ruby/4.0.1/ext/ripper -> /usr/src/debug/ruby/4.0.2/ext/ripper, directory renamed /usr/src/debug/ruby/4.0.1/tool/ruby_vm/views -> /usr/src/debug/ruby/4.0.2/tool/ruby_vm/views, directory renamed /usr/src/debug/ruby/4.0.1/ext/io/wait -> /usr/src/debug/ruby/4.0.2/ext/io/wait, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/rbs-3.10.0/ext/rbs_extension -> /usr/src/debug/ruby/4.0.2/.bundle/gems/rbs-3.10.0/ext/rbs_extension, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/nkf-0.2.0/ext/nk
- f/nkf-utf8 -> /usr/src/debug/ruby/4.0.2/.bundle/gems/nkf-0.2.0/ext/nkf/nkf-utf8, directory renamed /usr/src/debug/ruby/4.0.1/prism/templates/src -> /usr/src/debug/ruby/4.0.2/prism/templates/src, directory renamed /usr/src/debug/ruby/4.0.1/ext/objspace -> /usr/src/debug/ruby/4.0.2/ext/objspace, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/debug-1.11.1/ext/debug -> /usr/src/debug/ruby/4.0.2/.bundle/gems/debug-1.11.1/ext/debug, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/fiddle-1.1.8/ext/fiddle -> /usr/src/debug/ruby/4.0.2/.bundle/gems/fiddle-1.1.8/ext/fiddle, directory renamed /usr/src/debug/ruby/4.0.1/ext/psych -> /usr/src/debug/ruby/4.0.2/ext/psych, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/bigdecimal-4.0.1/ext/bigdecimal -> /usr/src/debug/ruby/4.0.2/.bundle/gems/bigdecimal-4.0.1/ext/bigdecimal, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/syslog-0.3.0/ext/syslog -> /usr/src/debug/ruby/4.0.2/.bundle/gems/syslog-0.3.0/ext/syslog, di
- rectory renamed /usr/src/debug/ruby/4.0.1/ext/digest/rmd160 -> /usr/src/debug/ruby/4.0.2/ext/digest/rmd160, directory renamed /usr/src/debug/ruby/4.0.1/ext/digest -> /usr/src/debug/ruby/4.0.2/ext/digest, directory renamed /usr/src/debug/ruby/4.0.1/ext/socket -> /usr/src/debug/ruby/4.0.2/ext/socket, directory renamed /usr/src/debug/ruby/4.0.1/ext/io/console -> /usr/src/debug/ruby/4.0.2/ext/io/console, directory renamed /usr/src/debug/ruby/4.0.1/include/ruby -> /usr/src/debug/ruby/4.0.2/include/ruby, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/bigdecimal-4.0.1/ext/bigdecimal/missing -> /usr/src/debug/ruby/4.0.2/.bundle/gems/bigdecimal-4.0.1/ext/bigdecimal/missing, directory renamed /usr/src/debug/ruby/4.0.1/ext/json/generator -> /usr/src/debug/ruby/4.0.2/ext/json/generator, directory renamed /usr/src/debug/ruby/4.0.1/gc -> /usr/src/debug/ruby/4.0.2/gc, directory renamed /usr/src/debug/ruby/4.0.1/ext/openssl -> /usr/src/debug/ruby/4.0.2/ext/openssl, directory renamed /usr/
- src/debug/ruby/4.0.1/include/ruby/internal/encoding -> /usr/src/debug/ruby/4.0.2/include/ruby/internal/encoding, directory renamed /usr/src/debug/ruby/4.0.1/.bundle/gems/rbs-3.10.0/src/util -> /usr/src/debug/ruby/4.0.2/.bundle/gems/rbs-3.10.0/src/util, directory renamed /usr/src/debug/ruby/4.0.1/prism -> /usr/src/debug/ruby/4.0.2/prism, directory renamed /usr/src/debug/ruby/4.0.1/ext/stringio -> /usr/src/debug/ruby/4.0.2/ext/stringio, directory renamed /usr/src/debug/ruby/4.0.1/enc/trans -> /usr/src/debug/ruby/4.0.2/enc/trans, directory renamed /usr/src/debug/ruby/4.0.1/ext/json/parser -> /usr/src/debug/ruby/4.0.2/ext/json/parser, directory renamed /usr/src/debug/ruby/4.0.1/enc/unicode/17.0.0 -> /usr/src/debug/ruby/4.0.2/enc/unicode/17.0.0, directory renamed /usr/src/debug/ruby/4.0.1/ext/fcntl -> /usr/src/debug/ruby/4.0.2/ext/fcntl, directory renamed /usr/src/debug/ruby/4.0.1/ext/zlib -> /usr/src/debug/ruby/4.0.2/ext/zlib, directory renamed /usr/src/debug/ruby/4.0.1/ext/json/vendor 
- -> /usr/src/debug/ruby/4.0.2/ext/json/vendor, directory renamed /usr/src/debug/ruby/4.0.1 -> /usr/src/debug/ruby/4.0.2
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby-staticdev: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-staticdev: PV changed from "4.0.1" to "4.0.2"
-packages/x86-64-v3-poky-linux/ruby/ruby: PKGV changed from 4.0.1 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby: PKGSIZE changed from 35486237 to 35496038 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/4.0.0/gems/syntax_suggest-2.0.2/exe -> /usr/lib/ruby/gems/4.0.0/gems/syntax_suggest-2.0.3/exe, directory renamed /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.0 -> /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.1, directory renamed /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.0/bin -> /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.1/bin, directory renamed /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.3/exe -> /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe, directory renamed /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.0/lib -> /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.1/lib, removed "/usr/lib/ruby/gems/4.0.0/specifications/default/syntax_suggest-2.0.2.gemspec /usr/lib/libruby.so.4.0.1 /usr/lib/ruby/gems/4.0.0/cache/pstore-0.2.0.gem /usr/lib/ruby/gems/4.0.0/specifications/pstore-0.2.0.gemspec /usr/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.2.gemspec /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.3.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/default/prism-1.8.0.gemspec", added "/usr/lib/libruby.so.4.0.2 /usr/lib/ruby/gems/4.0.0/specifications/default/syntax_suggest-2.0.3.gemspec /usr/lib/ruby/gems/4.0.0/cache/pstore-0.2.1.gem /usr/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.3.gemspec /usr/lib/ruby/gems/4.0.0/specifications/pstore-0.2.1.gemspec /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.6.gemspec /usr/lib/ruby/gems/4.0.0/specifications/default/prism-1.8.1.gemspec"
-packages/x86-64-v3-poky-linux/ruby/ruby: PV changed from "4.0.1" to "4.0.2"
-Changes to packages/x86-64-v3-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.4.0 changed symlink target from libruby.so.4.0.1 to libruby.so.4.0.2
-  /usr/lib/libruby.so changed symlink target from libruby.so.4.0.1 to libruby.so.4.0.2
-  /usr/lib/libruby.so.4.0.1 moved to /usr/lib/libruby.so.4.0.2
-  /usr/lib/ruby/gems/4.0.0/cache/pstore-0.2.0.gem moved to /usr/lib/ruby/gems/4.0.0/cache/pstore-0.2.1.gem
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.3 moved to /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6
-  /usr/lib/ruby/gems/4.0.0/gems/prism-1.8.0 moved to /usr/lib/ruby/gems/4.0.0/gems/prism-1.8.1
-  /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.0 moved to /usr/lib/ruby/gems/4.0.0/gems/pstore-0.2.1
-  /usr/lib/ruby/gems/4.0.0/gems/syntax_suggest-2.0.2 moved to /usr/lib/ruby/gems/4.0.0/gems/syntax_suggest-2.0.3
-  /usr/lib/ruby/gems/4.0.0/gems/zlib-3.2.2 moved to /usr/lib/ruby/gems/4.0.0/gems/zlib-3.2.3
-  /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.3.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.6.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/default/prism-1.8.0.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/default/prism-1.8.1.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/default/syntax_suggest-2.0.2.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/default/syntax_suggest-2.0.3.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.2.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.3.gemspec
-  /usr/lib/ruby/gems/4.0.0/specifications/pstore-0.2.0.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/pstore-0.2.1.gemspec
+packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.151.9.tar.gz;downloadfilename=hypothesis-6.151.9.tar.gz file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.151.10.tar.gz;downloadfilename=hypothesis-6.151.10.tar.gz file://test_binary_search.py file://test_rle.py"
+packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.151.9" to "6.151.10"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3834994 to 3836436 (+0%)
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.151.9 [default] to 6.151.10 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.10.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/licenses/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.151.9.dist-info/WHEEL was removed
 
---===============6977039201982848132==
+--===============7749727324197330266==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ruby-upgrade-4.0.1-4.0.2.patch"
+ filename="0001-python3-hypothesis-upgrade-6.151.9-6.151.10.patch"
 
-RnJvbSBkYWY3NmFlNjAxMjdiNGI4NTBiZGJmNTQ3Y2QwNmZjOTk0MWFmNjFhIE1vbiBTZXAgMTcg
+RnJvbSA4OWE0OTBlMTI2OTRjNDFjY2I0NWIyNDk5Njk4NjFlMDViOTE3NzY2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMTowMDoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1
-Ynk6IHVwZ3JhZGUgNC4wLjEgLT4gNC4wLjIKCi0tLQogLi4uLzAwMDEtRG9uLXQtc2F2ZS10aGUt
-b3JpZ2luYWwtbmFtZS1hbmQtdGltZXN0YW1wLnBhdGNoICAgfCA1ICstLS0tCiAuLi4vMDAwMS1l
-eHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaCB8IDYgKysr
-LS0tCiAuLi4tdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNj
-di5wYXRjaCB8IDQgKystLQogLi4uL3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5r
-LW9mLWxpYnJ1YnkucGF0Y2ggICAgfCA2ICsrKy0tLQogLi4uL3J1YnkvMDAwMy1yZG9jLWJ1aWxk
-LXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoICAgfCA1ICstLS0tCiAuLi5iLW1rbWYu
-cmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaCB8IDYgKysr
-LS0tCiAuLi5NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRv
-by5wYXRjaCB8IDYgKysrLS0tCiAuLi4vcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXBy
-b2R1Y2libGUucGF0Y2ggICAgICAgICB8IDUgKy0tLS0KIC4uLjAwMDctU2tpcC10ZXN0X3JtX3Jf
-bm9fcGVybWlzc2lvbnMtdGVzdC11bmRlci1yb290LnBhdGNoIHwgNCArKy0tCiBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS97cnVieV80LjAuMS5iYiA9PiBydWJ5XzQuMC4yLmJifSB8IDIgKy0K
-IDEwIGZpbGVzIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDI5IGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzQuMC4xLmJiID0+IHJ1YnlfNC4w
-LjIuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVi
-eS8wMDAxLURvbi10LXNhdmUtdGhlLW9yaWdpbmFsLW5hbWUtYW5kLXRpbWVzdGFtcC5wYXRjaCBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1Eb24tdC1zYXZlLXRoZS1vcmln
-aW5hbC1uYW1lLWFuZC10aW1lc3RhbXAucGF0Y2gKaW5kZXggMGYyNGQyZWEwYi4uMjVlMWZlMDc3
-MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLURvbi10
-LXNhdmUtdGhlLW9yaWdpbmFsLW5hbWUtYW5kLXRpbWVzdGFtcC5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtRG9uLXQtc2F2ZS10aGUtb3JpZ2luYWwtbmFt
-ZS1hbmQtdGltZXN0YW1wLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyY2VkYWQ2YjJiZWI5
-MDhhOGZiODBkYTBlNDVlNTA1NWRjYTY1ZTk5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSBlMTc0NDJhYTZjNTBmMmFiY2Q1OWNkNjYyNDhlNjVkYTkzMTgxMzNmIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogQ2hhbmdxaW5nIExpIDxjaGFuZ3FpbmcubGlAd2luZHJpdmVyLmNv
-bT4KIERhdGU6IEZyaSwgMjcgRmViIDIwMjYgMTY6NTk6MjQgKzA4MDAKIFN1YmplY3Q6IFtQQVRD
-SF0gRG9uJ3Qgc2F2ZSB0aGUgb3JpZ2luYWwgbmFtZSBhbmQgdGltZXN0YW1wCkBAIC0yOCw2ICsy
-OCwzIEBAIGluZGV4IDg3NGMzZWYuLmViOTlhNzAgMTAwNzU1CiAgZGVmIENvbXByZXNzb3JzLmZv
-cih0eXBlKQogICAgZXh0ID0gRmlsZS5leHRuYW1lKHR5cGUpCiAgICBpZiBjb21wcmVzcyA9IGZl
-dGNoKGV4dCwgbmlsKQotLS0gCi0yLjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRl
-cm5hbC1nZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4
-dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCmluZGV4IGRj
-MzNmYTlkODAuLjM2N2I5ZWIwMzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vt
-cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtZXh0bWst
-Zml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0Y2gKQEAgLTEsNCArMSw0
-IEBACi1Gcm9tIDJkMTk4MDZlMWQyMjFkZjk0MDBiMjViZDY3ZjNlMGI3YTIxYmI3MDIgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGQxMWIxNWJlMDY3NzlmMDRlYjQ4NjBkN2Q4MjM0ZDRk
-MTBjOTc3MjYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9P1VURi04P3E/QW5kcj1D
-Mz1BOT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogRGF0ZTogTW9uLCAzMCBT
-ZXAgMjAxOSAxNjo1NzowMSArMDEwMAogU3ViamVjdDogW1BBVENIXSBleHRtazogZml4IGNyb3Nz
-LWNvbXBpbGF0aW9uIG9mIGV4dGVybmFsIGdlbXMKQEAgLTE2LDEwICsxNiwxMCBAQCBTaWduZWQt
-b2ZmLWJ5OiBBbmRyw6kgRHJhc3ppayA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvZXh0
-L2V4dG1rLnJiIGIvZXh0L2V4dG1rLnJiCi1pbmRleCAxZDE2NTQ1Li5hZDk3MWVhIDEwMDc1NQor
-aW5kZXggOGY4NDdmNC4uYzhhOGQ5ZiAxMDA3NTUKIC0tLSBhL2V4dC9leHRtay5yYgogKysrIGIv
-ZXh0L2V4dG1rLnJiCi1AQCAtNDM0LDggKzQzNCw4IEBAIGVsc2UKK0BAIC00MjcsOCArNDI3LDgg
-QEAgZWxzZQogIGVuZAogICRydWJ5ID0gWyRydWJ5XQogICRydWJ5IDw8ICItSSckKHRvcGRpcikn
-IgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLXZtX2R1
-bXAuYy1EZWZpbmUtUkVHX1MxLWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEt
-YW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaAppbmRleCA0ZjgxZDBhMTlkLi45YWM0ZTkx
-YWZmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1f
-ZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaAorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1S
-RUdfUzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gYTVjMjc4MjZlNzU2MWVhZmNiOGRhYjA2MWUwNzM0OTIzMjQ1N2YxMCBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gYjVmMzRlZTRmZTNmNGU2ZmIyYzk0YzAzYzU0YjY2Y2FiODBiYjc3
-MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
-bC5jb20+CiBEYXRlOiBUdWUsIDI1IEphbiAyMDIyIDIwOjI5OjE0IC0wODAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIHZtX2R1bXAuYzogRGVmaW5lIFJFR19TMSBhbmQgUkVHX1MyIGZvciBtdXNsL3Jpc2N2
-CkBAIC0xNCw3ICsxNCw3IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
-bC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEv
-dm1fZHVtcC5jIGIvdm1fZHVtcC5jCi1pbmRleCA5OTMzOWZkLi44YzViYjAzIDEwMDY0NAoraW5k
-ZXggZTJiNDgwNC4uMGI3ZDg2OCAxMDA2NDQKIC0tLSBhL3ZtX2R1bXAuYwogKysrIGIvdm1fZHVt
-cC5jCiBAQCAtNDAsNiArNDAsMTEgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZv
-ci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoCmluZGV4IDhlZjBjOTAzZTguLjM2YjBlYTY1YWMg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxE
-RkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVi
-eS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMzk0OWIzZmYwMWM2NDJiNmI5YWRhOWIxMmRk
-MzA4M2NjOTMwNTQ0YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTRhNWIxYTkwY2Zi
-MDcyZTExNTVhNGU0NTA0OWY1MjI5YzU0ZDM1NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IENocmlzdG9waGVyIExhcnNvbiA8Y2hyaXNfbGFyc29uQG1lbnRvci5jb20+CiBEYXRlOiBU
-aHUsIDUgTWF5IDIwMTYgMTA6NTk6MDcgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gT2JleSBMREZM
-QUdTIGZvciB0aGUgbGluayBvZiBsaWJydWJ5CkBAIC0xMCwxMCArMTAsMTAgQEAgVXBzdHJlYW0t
-U3RhdHVzOiBQZW5kaW5nCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
-aW9uKC0pCiAKIGRpZmYgLS1naXQgYS90ZW1wbGF0ZS9NYWtlZmlsZS5pbiBiL3RlbXBsYXRlL01h
-a2VmaWxlLmluCi1pbmRleCA2Yjk3Mjc5Li5hNDliNTNkIDEwMDY0NAoraW5kZXggNDQzYzM5NC4u
-NWY3MDZkYiAxMDA2NDQKIC0tLSBhL3RlbXBsYXRlL01ha2VmaWxlLmluCiArKysgYi90ZW1wbGF0
-ZS9NYWtlZmlsZS5pbgotQEAgLTEyMCw3ICsxMjAsNyBAQCBFTkFCTEVfU0hBUkVEID0gQEVOQUJM
-RV9TSEFSRURACitAQCAtMTI5LDcgKzEyOSw3IEBAIEVOQUJMRV9TSEFSRUQgPSBARU5BQkxFX1NI
-QVJFREAKICBMRFNIQVJFRCA9IEBMSUJSVUJZX0xEU0hBUkVEQAogIERMRFNIQVJFRCA9IEBETERT
-SEFSRURACiAgWERMREZMQUdTID0gQERMREZMQUdTQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50
-YXRpb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1i
-dWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlvbi5wYXRjaAppbmRleCBiZjU3Zjk3ZDdlLi44
-OWI1OWJmYzc4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAw
-MDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlvbi5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUt
-ZG9jdW1lbnRhdGlvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDJjZDIwNDcwNDQ4Njc2
-ZDk3ZDc3YzJlNjc4OWVjY2U0M2YwZTIxYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
-MDVjYjVmZDBmMTk1OTA4NzkwMTQyMzVlMjdlZDNiNjE0MjQxYTkxZiBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKIEZyb206IENocmlzdGlhbiBIb2ZzdGFlZHRsZXIgPHplaGFAZGViaWFuLm9yZz4K
-IERhdGU6IFR1ZSwgMTAgT2N0IDIwMTcgMTU6MDQ6MzQgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0g
-cmRvYzogYnVpbGQgcmVwcm9kdWNpYmxlIGRvY3VtZW50YXRpb24KQEAgLTM4LDYgKzM4LDMgQEAg
-aW5kZXggMDY1Y2FhNC4uY2ZhMWYzMyAxMDA2NDQKICAgICAgICAgICAgZ3oub3JpZ19uYW1lID0g
-ZGVzdC5iYXNlbmFtZS50b19zCiAgICAgICAgICAgIGd6LndyaXRlIGRhdGEKICAgICAgICAgICAg
-Z3ouY2xvc2UKLS0tIAotMi4zNC4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVzLWlu
-LWdlbmVyYXRlZC1NLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0
-LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0
-Y2gKaW5kZXggNWNhMTgyMzEzYi4uNDkzZTBiNTZkZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3Qt
-ZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1
-YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2Vu
-ZXJhdGVkLU0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDkzMjQ4OWI2N2NlOWNkZjU1OTBh
-MTc5MjdlYTQwZDllYTY2MjM2NjggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDgyOGEw
-ZDVkOWU5NTljMTgwYTk0MTUyMzI3ODBkOTljZjRhMGYxZWQgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCiBGcm9tOiBSZWluZXIgSGVycm1hbm4gPHJlaW5lckByZWluZXItaC5kZT4KIERhdGU6IFR1
-ZSwgMTAgT2N0IDIwMTcgMTU6MDY6MTMgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gbGliL21rbWYu
-cmI6IHNvcnQgbGlzdCBvZiBvYmplY3QgZmlsZXMgaW4gZ2VuZXJhdGVkIE1ha2VmaWxlCkBAIC0x
-NywxMCArMTcsMTAgQEAgU2lnbmVkLW9mZi1ieTogUmVpbmVyIEhlcnJtYW5uIDxyZWluZXJAcmVp
-bmVyLWguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiAKIGRpZmYgLS1naXQgYS9saWIvbWttZi5yYiBiL2xpYi9ta21mLnJiCi1pbmRleCA5OWYzNzY0
-Li42MjM3N2I2IDEwMDY0NAoraW5kZXggMzhhNWExNS4uZWFkN2YwYyAxMDA2NDQKIC0tLSBhL2xp
-Yi9ta21mLnJiCiArKysgYi9saWIvbWttZi5yYgotQEAgLTI0ODAsNyArMjQ4MCw3IEBAIExPQ0FM
-X0xJQlMgPSAjeyRMT0NBTF9MSUJTfQorQEAgLTI0OTMsNyArMjQ5Myw3IEBAIExPQ0FMX0xJQlMg
-PSAjeyRMT0NBTF9MSUJTfQogIExJQlMgPSAjeyRMSUJSVUJZQVJHfSAjeyRsaWJzfSAjeyRMSUJT
-fQogIE9SSUdfU1JDUyA9ICN7b3JpZ19zcmNzLmNvbGxlY3QoJkZpbGUubWV0aG9kKDpiYXNlbmFt
-ZSkpLmpvaW4oJyAnKX0KICBTUkNTID0gJChPUklHX1NSQ1MpICN7KHNyY3MgLSBvcmlnX3NyY3Mp
-LmNvbGxlY3QoJkZpbGUubWV0aG9kKDpiYXNlbmFtZSkpLmpvaW4oJyAnKX0KZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9k
-dWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhp
-bmctNzg0MjI1LXRvby5wYXRjaAppbmRleCBmZDdkMzM0MGYzLi40OGYwYzhmYjk2IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJl
-cHJvZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4NDIyNS10b28ucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hh
-bmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0MTAzMzE1
-Nzc0ODFmMzMxMDc0NDA1ZTk2MjljYThkYjUzMDNhYWE4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSBhZGNlYjRlMmFkZTE0ZTc0NzBiOGI1ZGFkNjAyNTg3ZDQyMWU5ZTBhIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTHVjYXMgS2FuYXNoaXJvIDxrYW5hc2hpcm9AZGViaWFu
-Lm9yZz4KIERhdGU6IEZyaSwgMSBOb3YgMjAxOSAxNToyNToxNyAtMDMwMAogU3ViamVjdDogW1BB
-VENIXSBNYWtlIGdlbXNwZWNzIHJlcHJvZHVjaWJsZQpAQCAtMTIsMTAgKzEyLDEwIEBAIFVwc3Ry
-ZWFtLVN0YXR1czogQmFja3BvcnQgW2RlYmlhbl0KICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRp
-b25zKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvcnVieWdlbXMvc3BlY2lm
-aWNhdGlvbi5yYiBiL2xpYi9ydWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJiCi1pbmRleCAwYjkwNWE3
-Li5hMTAyZTNjIDEwMDY0NAoraW5kZXggNTAzZjBhNC4uNWQzM2IwOSAxMDA2NDQKIC0tLSBhL2xp
-Yi9ydWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJiCiArKysgYi9saWIvcnVieWdlbXMvc3BlY2lmaWNh
-dGlvbi5yYgotQEAgLTE3MDksNyArMTcwOSw5IEBAIGNsYXNzIEdlbTo6U3BlY2lmaWNhdGlvbiA8
-IEdlbTo6QmFzaWNTcGVjaWZpY2F0aW9uCitAQCAtMTcwNSw3ICsxNzA1LDkgQEAgY2xhc3MgR2Vt
-OjpTcGVjaWZpY2F0aW9uIDwgR2VtOjpCYXNpY1NwZWNpZmljYXRpb24KICAgICAgICAgICAgICAg
-ICAgcmFpc2UoR2VtOjpJbnZhbGlkU3BlY2lmaWNhdGlvbkV4Y2VwdGlvbiwKICAgICAgICAgICAg
-ICAgICAgICAgICAgImludmFsaWQgZGF0ZSBmb3JtYXQgaW4gc3BlY2lmaWNhdGlvbjogI3tkYXRl
-Lmluc3BlY3R9IikKICAgICAgICAgICAgICAgIGVuZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNo
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVw
-cm9kdWNpYmxlLnBhdGNoCmluZGV4IGFhYzJiYzE1MDIuLmVmMDdiYWVkNGMgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNi1NYWtlLWdlbXNwZWNzLXJlcHJv
-ZHVjaWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYt
-TWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDRk
-MjVlOWNlMGIyNzk1MDA5ZGQwNjZkNzk1OWNmNTFjNDI5MmEzNDMgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tIDAxZjQ2YTg3ZDk5ODAyOWRiYjg0Y2IzOGNiYzA5ZTliZWM0N2QyZjYgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0Bk
-ZWJpYW4ub3JnPgogRGF0ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0
-OiBbUEFUQ0hdIE1ha2UgZ2Vtc3BlY3MgcmVwcm9kdWNpYmxlCkBAIC03OCw2ICs3OCwzIEBAIGlu
-ZGV4IGNhYmM5MTYuLmY5NTgxYjggMTAwNjQ0CiAgICBzcGVjLmF1dGhvcnMgICAgICAgPSBbIkFr
-aW5vcmkgTVVTSEEiLCAiSGFqaW11IFVNRU1PVE8iXQogICAgc3BlYy5lbWFpbCAgICAgICAgID0g
-WyJrbnVAaWRhZW1vbnMub3JnIiwgInVtZUBtYWhvcm9iYS5vcmciXQogIAotLS0gCi0yLjM0LjEK
-LQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA3LVNraXAt
-dGVzdF9ybV9yX25vX3Blcm1pc3Npb25zLXRlc3QtdW5kZXItcm9vdC5wYXRjaCBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1Ta2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9u
-cy10ZXN0LXVuZGVyLXJvb3QucGF0Y2gKaW5kZXggNzgwYjU5MDkyZi4uNDNhNWJhNmUzYyAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA3LVNraXAtdGVzdF9y
-bV9yX25vX3Blcm1pc3Npb25zLXRlc3QtdW5kZXItcm9vdC5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDctU2tpcC10ZXN0X3JtX3Jfbm9fcGVybWlzc2lvbnMt
-dGVzdC11bmRlci1yb290LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlYjVhNWRiNzRkMjlm
-ZDYzNjllOTg3MWJhMWJiMjU0YWEwZjIyZjQyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSBhZmVhOGQwNjAwMTY2ZWU4NTMyNGUwZTNmNTc2YjcyNWExNWNmZDg5IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogSmlheWluZyBTb25nIDxqaWF5aW5nLnNvbmcuY25Ad2luZHJpdmVy
-LmNvbT4KIERhdGU6IE1vbiwgNyBKdWwgMjAyNSAxNTowNTo1NyArMDgwMAogU3ViamVjdDogW1BB
-VENIXSBTa2lwIHRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucyB0ZXN0IHVuZGVyIHJvb3QKQEAgLTEz
-LDcgKzEzLDcgQEAgU2lnbmVkLW9mZi1ieTogSmlheWluZyBTb25nIDxqaWF5aW5nLnNvbmcuY25A
-d2luZHJpdmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0
-aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvdGVzdC9maWxldXRpbHMvdGVzdF9maWxldXRpbHMucmIg
-Yi90ZXN0L2ZpbGV1dGlscy90ZXN0X2ZpbGV1dGlscy5yYgotaW5kZXggZDIwOTZhMC4uODBlMzM2
-OCAxMDA2NDQKK2luZGV4IDkyMzA4ZDkuLjVkYjc0ZjQgMTAwNjQ0CiAtLS0gYS90ZXN0L2ZpbGV1
-dGlscy90ZXN0X2ZpbGV1dGlscy5yYgogKysrIGIvdGVzdC9maWxldXRpbHMvdGVzdF9maWxldXRp
-bHMucmIKIEBAIC03NjgsOCArNzY4LDggQEAgY2xhc3MgVGVzdEZpbGVVdGlscyA8IFRlc3Q6OlVu
-aXQ6OlRlc3RDYXNlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5
-XzQuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV80LjAuMi5iYgpzaW1p
-bGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9y
-dWJ5XzQuMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzQu
-MC4yLmJiCmluZGV4IGU1MWQwZDNlOWMuLjUyNDBiYmU3NDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfNC4wLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3J1YnkvcnVieV80LjAuMi5iYgpAQCAtNTAsNyArNTAsNyBAQCBkb19jb25maWd1cmU6cHJl
-cGVuZCgpIHsKIAogREVQRU5EUzphcHBlbmQ6bGliYy1tdXNsID0gIiBsaWJ1Y29udGV4dCIKIAot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjM5MjRiZTJkMDVkYjMwZjRlMzVmODU5YmYwMjhiZTg1ZjRi
-N2RkMDE3MTQxNDJmZDgyM2U0YWY1ZGUyZmFmOWQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTE1
-MDJiMjZiNTBiNjhkZjQ5NjMzMzZjYTQxZTM2OGNkZTkyYzkyOGZhZjkxNjU0ZGU0YzRjMTc5MWY4
-MmFhYyIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiIKIFBBQ0tBR0VDT05GSUcgKz0gIiR7QGJiLnV0
-aWxzLmZpbHRlcignRElTVFJPX0ZFQVRVUkVTJywgJ2lwdjYnLCBkKX0iCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAwOToyMDo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtaHlwb3RoZXNpczogdXBncmFkZSA2LjE1MS45IC0+IDYuMTUxLjEwCgotLS0KIC4uLm9u
+My1oeXBvdGhlc2lzXzYuMTUxLjkuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTUxLjEwLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
+LjE1MS45LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE1MS4xMC5iYn0gKDkxJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182
+LjE1MS45LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVz
+aXNfNi4xNTEuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTEuOS5iYgpyZW5hbWUg
+dG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTEu
+MTAuYmIKaW5kZXggMTU3ZTRhMmVlMC4uOTY4ZTAzZGU5ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTEuOS5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE1MS4xMC5i
+YgpAQCAtMTMsNyArMTMsNyBAQCBTUkNfVVJJICs9ICIgXAogICAgIGZpbGU6Ly90ZXN0X3JsZS5w
+eSBcCiAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMmYyODQ0MjhkZGE2YzNjNDhjNTgw
+ZGUwZTE4NDcwZmY5YzdmNWVmNjI4YTY0N2VlODAwMmYzOGMzZjkwOTdjYSIKK1NSQ19VUklbc2hh
+MjU2c3VtXSA9ICI2Yzk1NjVhZjhiNGFhM2EwODBiNTA4ZjY2Y2U5YzJhNzdkZDYxM2M3ZTkwNzNl
+MjdmYzdlNGVmOWY0NWY4YTI3IgogCiBSREVQRU5EUzoke1BOfSArPSAiIFwKICAgICBweXRob24z
+LWF0dHJzIFwKLS0gCjIuNDcuMQoK
 
---===============6977039201982848132==--
+--===============7749727324197330266==--
 
