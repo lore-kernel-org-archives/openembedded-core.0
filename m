@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A6210F6FD1
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:23 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14738.1775054152306804574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 212F510F6FC2
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:22 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14666.1775054170143172757
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 07:36:14 -0700
+ Wed, 01 Apr 2026 07:36:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=cfc+wcGb;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=pnIsTz4S;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019d49793946-29fb9c9c-7e9d-416c-81ae-cb569babad4d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=LAXNcHki;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=R2qPPKdS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019d497923ac-fc222e1c-7ae4-4dba-9e74-2a1cd26ccdc5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775054174;
+	t=1775054169;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BjO2U772llkES+OFkcUdcKydI6mUsIeAIOm/fwP20mk=;
-	b=cfc+wcGbI9Qn2wjJNdCwAnQi/4ps0fdH/jClC8MSyjzGZNpxppiIKMXcL+hfbIBD
-	Sr+Adf098BSSgRmxHgVdkv5Mp4QX2i864pXJNN5e/TeOXPiL4Km8bmTSL0LhnEEMof7
-	S5opRI8bkHofNSvryRzh2YjTD1RAs9LrBBSb9tW4=
+	bh=cez2226cmscjQ3+Z+xQdDjpLedZ6Nq3hxItp8qX4Vxg=;
+	b=LAXNcHkiqO5UNh7rVvEWgmM5LqrwXQwRZAFSX7qDo6daePKI/VXglcJRy1+6UouY
+	Us7R8dnog4xVf0jUZYu3D/26Em8f4Y6yBiNW/X7O6dTqfrJP0Z8oJbx3JcDCoGm3YXy
+	mW4PtjLY02drLRa1eJj3ZR/OGzTrxqy8BgsdVov4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054174;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054169;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BjO2U772llkES+OFkcUdcKydI6mUsIeAIOm/fwP20mk=;
-	b=pnIsTz4SHQ2LgSS2J6r+s6lrt1tlG1I5Ng6mjtBQ6Ug5w7Snxx4PLXBDoEz301li
-	dz6sVJugD614pTkgAdNvGEc7s1AzNLObaNkChF+QJ8hSXqFyoySC1Q9Lvi5qead+IYM
-	7uI+OJ5NehowETO/C0fN/cXlipXkbVzVgcEUidaA=
-Content-Type: multipart/mixed; boundary="===============2421676646055846628=="
+	bh=cez2226cmscjQ3+Z+xQdDjpLedZ6Nq3hxItp8qX4Vxg=;
+	b=R2qPPKdSqxxqRhCCNi5IlWwy17yZy0fJRqizGN/NJWJvJ0zblSF3Rg0sCIICFa3j
+	0dpxJdnsshLC7UHajH+B/cAS3L/GNzWd1b+oP6VeTK34Iot74cbbvHhLQrAV41oyEGe
+	N9+StdUGcsnZ2W/BIzc0h1lohC+Am1qQZDiDAd5w=
+Content-Type: multipart/mixed; boundary="===============2469153455219478155=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] gstreamer1.0-python: upgrading to 1.28.1 FAILED
-Message-ID: <0101019d49793946-29fb9c9c-7e9d-416c-81ae-cb569babad4d-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Apr 2026 14:36:14 +0000
+To: Liu Yiding <liuyd.fnst@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] blueprint-compiler: upgrading to 0.20.4 SUCCEEDED
+Message-ID: <0101019d497923ac-fc222e1c-7ae4-4dba-9e74-2a1cd26ccdc5-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Apr 2026 14:36:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.33
+X-SES-Outgoing: 2026.04.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234428
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234406
 
---===============2421676646055846628==
+--===============2469153455219478155==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.28.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *blueprint-compiler* to *0.20.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.26.9-1.28.1.patch
+    - apply the patch: git am 0001-blueprint-compiler-upgrade-0.20.0-0.20.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,214 +72,735 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1a300fe8277710ed679ca98219952d9c0d4b6adf Mon Sep 17 00:00:00 2001
+From 32c53630e35a04bc37a26cf2d52fcdabc918c529 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Apr 2026 13:53:23 +0000
-Subject: [PATCH] gstreamer1.0-python: upgrade 1.26.9 -> 1.28.1
+Date: Wed, 1 Apr 2026 11:52:31 +0000
+Subject: [PATCH] blueprint-compiler: upgrade 0.20.0 -> 0.20.4
 
 ---
- ...reamer1.0-python_1.26.9.bb => gstreamer1.0-python_1.28.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.26.9.bb => gstreamer1.0-python_1.28.1.bb} (91%)
+ ...eprint-compiler_0.20.0.bb => blueprint-compiler_0.20.4.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/blueprint-compiler/{blueprint-compiler_0.20.0.bb => blueprint-compiler_0.20.4.bb} (83%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb
-index 57ddf0bbba..843f4fb820 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+diff --git a/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.0.bb b/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb
+similarity index 83%
+rename from meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.0.bb
+rename to meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb
+index d3ef747629..bf357872c3 100644
+--- a/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.0.bb
++++ b/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb
+@@ -3,8 +3,8 @@ HOMEPAGE = "https://gitlab.gnome.org/GNOME/blueprint-compiler"
+ LICENSE = "LGPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3000208d539ec061b899bce1d9ce9404"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "21a51d35fd973af1186795d3d9d696f321584aeb09ab4d176b59f26e842b8849"
-+SRC_URI[sha256sum] = "d47cea95adb95ba10443ed7812c7c5fa0807aef43b98cd1c6d8fb9f9a86f7085"
+-SRC_URI = "git://gitlab.gnome.org/GNOME/blueprint-compiler;protocol=https;branch=main;tag=v${PV}"
+-SRCREV = "aa5298cc1677cf855bd61f9671607362bd203f4f"
++SRC_URI = "git://gitlab.gnome.org/GNOME/blueprint-compiler;protocol=https;branch=blueprint-0-20;tag=v${PV}"
++SRCREV = "31b62c24a72c1670d2d93dcdf2d130f1ae12778e"
  
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ inherit meson pkgconfig python3targetconfig
+ 
 -- 
 2.47.1
 
 
---===============2421676646055846628==
+--===============2469153455219478155==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-python-upgrade-1.26.9-1.28.1.patch"
+ filename="0001-blueprint-compiler-upgrade-0.20.0-0.20.4.patch"
 
-RnJvbSAxYTMwMGZlODI3NzcxMGVkNjc5Y2E5ODIxOTk1MmQ5YzBkNGI2YWRmIE1vbiBTZXAgMTcg
+RnJvbSAzMmM1MzYzMGUzNWEwNGJjMzdhMjZjZjJkNTJmY2RhYmM5MThjNTI5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMzo1MzoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1weXRob246IHVwZ3JhZGUgMS4yNi45IC0+IDEuMjguMQoKLS0tCiAuLi5yZWFt
-ZXIxLjAtcHl0aG9uXzEuMjYuOS5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjguMS5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1weXRo
-b25fMS4yNi45LmJiID0+IGdzdHJlYW1lcjEuMC1weXRob25fMS4yOC4xLmJifSAoOTElKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
-cHl0aG9uXzEuMjYuOS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
-ZWFtZXIxLjAtcHl0aG9uXzEuMjguMS5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8x
-LjI2LjkuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
-ZWFtZXIxLjAtcHl0aG9uXzEuMjguMS5iYgppbmRleCA1N2RkZjBiYmJhLi44NDNmNGZiODIwIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
-LXB5dGhvbl8xLjI2LjkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
-L2dzdHJlYW1lcjEuMC1weXRob25fMS4yOC4xLmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNFID0g
-IkxHUEwtMi4xLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
-ZDU9YzM0ZGVhZTRlMzk1Y2EwN2U3MjVhYjAwNzZhNWY3NDAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6
-Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy8ke1BOUkVBTH0vJHtQTlJFQUx9LSR7UFZ9
-LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyMWE1MWQzNWZkOTczYWYxMTg2Nzk1ZDNk
-OWQ2OTZmMzIxNTg0YWViMDlhYjRkMTc2YjU5ZjI2ZTg0MmI4ODQ5IgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImQ0N2NlYTk1YWRiOTViYTEwNDQzZWQ3ODEyYzdjNWZhMDgwN2FlZjQzYjk4Y2QxYzZk
-OGZiOWY5YTg2ZjcwODUiCiAKIERFUEVORFMgPSAiZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1w
-bHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3QgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkIgog
-UkRFUEVORFM6JHtQTn0gKz0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNl
-IHB5dGhvbjMtcHlnb2JqZWN0IgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMTo1MjozMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJs
+dWVwcmludC1jb21waWxlcjogdXBncmFkZSAwLjIwLjAgLT4gMC4yMC40CgotLS0KIC4uLmVwcmlu
+dC1jb21waWxlcl8wLjIwLjAuYmIgPT4gYmx1ZXByaW50LWNvbXBpbGVyXzAuMjAuNC5iYn0gfCA0
+ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWdub21lL2JsdWVwcmludC1jb21waWxlci97Ymx1ZXByaW50LWNv
+bXBpbGVyXzAuMjAuMC5iYiA9PiBibHVlcHJpbnQtY29tcGlsZXJfMC4yMC40LmJifSAoODMlKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9ibHVlcHJpbnQtY29tcGlsZXIvYmx1ZXBy
+aW50LWNvbXBpbGVyXzAuMjAuMC5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9ibHVlcHJpbnQtY29t
+cGlsZXIvYmx1ZXByaW50LWNvbXBpbGVyXzAuMjAuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDgzJQpy
+ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvYmx1ZXByaW50LWNvbXBpbGVyL2JsdWVwcmlu
+dC1jb21waWxlcl8wLjIwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9ibHVlcHJp
+bnQtY29tcGlsZXIvYmx1ZXByaW50LWNvbXBpbGVyXzAuMjAuNC5iYgppbmRleCBkM2VmNzQ3NjI5
+Li5iZjM1Nzg3MmMzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvYmx1ZXByaW50LWNv
+bXBpbGVyL2JsdWVwcmludC1jb21waWxlcl8wLjIwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdu
+b21lL2JsdWVwcmludC1jb21waWxlci9ibHVlcHJpbnQtY29tcGlsZXJfMC4yMC40LmJiCkBAIC0z
+LDggKzMsOCBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvYmx1
+ZXByaW50LWNvbXBpbGVyIgogTElDRU5TRSA9ICJMR1BMLTMuMC1vbmx5IgogTElDX0ZJTEVTX0NI
+S1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MzAwMDIwOGQ1MzllYzA2MWI4OTliY2UxZDljZTk0
+MDQiCiAKLVNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9ibHVlcHJpbnQt
+Y29tcGlsZXI7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW47dGFnPXYke1BWfSIKLVNSQ1JFViA9
+ICJhYTUyOThjYzE2NzdjZjg1NWJkNjFmOTY3MTYwNzM2MmJkMjAzZjRmIgorU1JDX1VSSSA9ICJn
+aXQ6Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL2JsdWVwcmludC1jb21waWxlcjtwcm90b2NvbD1o
+dHRwczticmFuY2g9Ymx1ZXByaW50LTAtMjA7dGFnPXYke1BWfSIKK1NSQ1JFViA9ICIzMWI2MmMy
+NGE3MmMxNjcwZDJkOTNkY2RmMmQxMzBmMWFlMTI3NzhlIgogCiBpbmhlcml0IG1lc29uIHBrZ2Nv
+bmZpZyBweXRob24zdGFyZ2V0Y29uZmlnCiAKLS0gCjIuNDcuMQoK
 
---===============2421676646055846628==
+--===============2469153455219478155==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1970 targets, 42 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1970 targets, 64 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.16.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-26631bd74adb48114836f0b28ba64979cd745c75"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:26631bd74adb48114836f0b28ba64979cd745c75"
+DISTRO_VERSION       = "5.3.99+snapshot-1fbaf812d465067d3644e0040385a79237f0580c"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:1fbaf812d465067d3644e0040385a79237f0580c"
 meta-yocto-bsp       
 meta-poky            = "master:ac300baea7314ea3c80f2330b2a993f729f32150"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 512 Local 498 Mirrors 0 Missed 14 Current 1184 (97% match, 99% complete)
+Sstate summary: Wanted 449 Local 427 Mirrors 0 Missed 22 Current 273 (95% match, 96% complete)
 done.
+Removing 5 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
+NOTE: Running setscene task 305 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 340 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 352 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_recipe_qa_setscene)
+NOTE: Running task 512 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_write_config)
+NOTE: Running task 513 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_write_config)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_populate_lic_setscene: Started
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_write_config: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_write_config: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_write_config: Succeeded
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_write_config: Succeeded
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 529 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_recipe_qa)
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 531 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_fetch)
+NOTE: Running setscene task 361 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 362 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 363 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 364 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_create_spdx_setscene)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_fetch: Started
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe cairo-1.18.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_fetch: Succeeded
+NOTE: Running task 532 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_unpack)
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe cairo-1.18.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 365 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 369 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_create_spdx_setscene)
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 383 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_packagedata_setscene)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_unpack: Started
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 385 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 386 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_unpack: Succeeded
+NOTE: Running task 534 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_patch)
+NOTE: recipe cairo-1.18.4-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe cairo-1.18.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe cairo-1.18.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 535 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_fetch)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_patch: Started
+NOTE: recipe cairo-1.18.4-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-pycairo-1.29.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 402 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 404 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe cairo-1.18.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 409 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 410 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 411 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 412 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 413 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_packagedata_setscene)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_fetch: Started
+NOTE: recipe cairo-1.18.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_patch: Succeeded
+NOTE: Running setscene task 414 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 416 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 417 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 418 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 419 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 420 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_recipe_qa_setscene)
+NOTE: Running task 542 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe fontconfig-2.17.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.17.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe cairo-1.18.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 425 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_create_spdx_setscene)
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 428 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libxext-1_1.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 434 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_packagedata_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cairo-1.18.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fontconfig-2.17.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 437 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_packagedata_setscene)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_fetch: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 439 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
+NOTE: Running task 546 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_unpack)
+NOTE: Running setscene task 440 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 442 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_recipe_qa_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 444 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_recipe_qa_setscene)
+NOTE: recipe fontconfig-2.17.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 446 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 447 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.14.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_unpack: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe pixman-1_0.46.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe freetype-2.14.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.17.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_deploy_source_date_epoch unihash changed to 4465ae577dcc644e96d05adacf4ed0cc91fc24d47f62c7b7f46a5d3ec7dabdca
+NOTE: recipe python3-3.14.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 456 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 462 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 466 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 471 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe freetype-2.14.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 481 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.55.bb:do_packagedata_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fontconfig-2.17.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 482 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 483 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 485 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_recipe_qa_setscene)
+NOTE: recipe freetype-2.14.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 486 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.55.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 488 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpng-1.6.55-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpng-1.6.55-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe freetype-2.14.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-3.14.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 491 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 508 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.55-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 511 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 512 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_packagedata_setscene)
+NOTE: Running setscene task 513 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 514 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 516 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 517 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libx11-1_1.8.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe freetype-2.14.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 519 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 520 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 521 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 522 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 524 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpng-1.6.55-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 526 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 527 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.41.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.41.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 529 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 531 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.55.bb:do_recipe_qa_setscene)
+NOTE: recipe glib-2.0-1_2.88.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 532 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 533 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpcre2-10.47-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 539 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 540 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 543 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 545 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 547 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_populate_sysroot_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 548 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 551 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 554 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_packagedata_setscene)
+NOTE: recipe libpng-1.6.55-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 556 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 558 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-arm-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_unpack: Succeeded
+NOTE: recipe libpng-1.6.55-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
+NOTE: Running task 841 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_patch)
+NOTE: recipe libpcre2-10.47-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 560 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 561 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 562 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.14.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-arm-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running task 916 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_create_recipe_spdx)
+NOTE: Running task 917 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_create_recipe_spdx)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_patch: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 578 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 582 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_recipe_qa_setscene)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_patch: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 938 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libpcre2-10.47-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 584 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2025.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 586 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_recipe_qa_setscene)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libpcre2-10.47-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.14.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 588 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 589 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 590 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: Running setscene task 591 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 592 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 593 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 594 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 595 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 596 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 598 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running setscene task 599 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 600 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-2.41.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 602 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2025.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 603 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 604 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running setscene task 606 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 607 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 608 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 609 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 610 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 613 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 615 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 616 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 619 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 620 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_packagedata_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 621 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.1.bb:do_packagedata_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 623 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 624 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe bash-completion-2.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 626 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_packagedata_setscene)
+NOTE: recipe libcap-ng-0.9.1-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/xz/5.8.2/temp/log.do_packagedata_setscene.2335287
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 628 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.41.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 629 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 630 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 637 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 639 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 640 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_package_setscene)
+NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.9.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 642 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 646 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 651 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 653 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 655 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 656 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 659 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 660 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 662 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 663 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 666 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.9.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 671 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-ng-0.9.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bash-completion-2.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.5.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpam-1.7.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_package_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 672 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 674 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 675 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 680 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 682 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 683 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 685 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 686 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 688 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 690 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 692 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 693 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 694 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 695 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 697 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 701 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 703 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 706 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 710 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 711 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 713 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-cross-arm-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-arm-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 715 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 716 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.46.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 720 of 722 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-arm-2.46-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-arm-2.46-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 3496 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_recipe_qa)
-NOTE: Running task 3681 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_write_config)
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_recipe_qa: Started
-NOTE: Running task 3928 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_create_recipe_spdx)
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_create_recipe_spdx: Started
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_recipe_qa unihash changed to 492495a6dbdb8191405429702221ce9c2fec8a493ed4e8eb4f0860c3f3da8b8e
-NOTE: Setscene tasks completed
-NOTE: Running task 3945 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_fetch)
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_fetch: Succeeded
-NOTE: Running task 3946 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_unpack)
-NOTE: Running task 3947 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_unpack: Succeeded
-NOTE: Running task 3948 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_patch)
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_patch: Succeeded
-NOTE: Running task 3949 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3950 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_populate_lic)
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_deploy_source_date_epoch unihash changed to 29e4258f744af70833ae2c765797b5b3d7eb43807602f8e469aa6e49599880f1
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_populate_lic: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3951 of 3963 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/
- build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb:do_populate_sysroo
- t', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'llvm', 'cmake-native', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-pycairo', 'python3-pygobject', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gobject-introspection', 'libgudev', 'librsvg', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 
- 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'libvorbis', 'sbc', 'libwebp', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libical', 'libmicrohttpd', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconf-nati
- ve', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dtests=disabled -Dplugin=enabled -Dlibpython-dir=/usr/lib ...
-| The Meson build system
-| Version: 1.10.2
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/sources/gst-python-1.28.1
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/build
-| Build type: cross build
-| Project name: gst-python
-| Project version: 1.28.1
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/recipe-sysroot ld.bfd 2.46
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/recipe-sysroot-native/usr/bin/pkg-config) 2.5.1
-| Dependency gstreamer-1.0 found: NO. Found 1.26.9 but need: '>= 1.28.0'
-| Found CMake: NO
-| Run-time dependency gstreamer-1.0 found: NO
-| 
-| ../sources/gst-python-1.28.1/meson.build:19:10: ERROR: Dependency lookup for gstreamer-1.0 with method 'pkgconfig' failed: Invalid version, need 'gstreamer-1.0' ['>= 1.28.0'] found '1.26.9'.
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/build/meson-logs/meson-log.txt
-| 
-| Last 10 lines of meson-log.txt:
-| Dependency gstreamer-1.0 found: NO. Found 1.26.9 but need: '>= 1.28.0'
-| Dependency lookup for gstreamer-1.0 with method 'pkgconfig' failed: Invalid version, need 'gstreamer-1.0' ['>= 1.28.0'] found '1.26.9'.
-| CMake binary for host machine is not cached
-| CMake binary missing from cross or native file, or env var undefined.
-| Default target is not allowed for cross use
-| Found CMake: NO
-| Dependency lookup for gstreamer-1.0 with method 'cmake' failed: CMake binary for machine host machine not found. Giving up.
-| Run-time dependency gstreamer-1.0 found: NO
-| 
-| ../sources/gst-python-1.28.1/meson.build:19:10: ERROR: Dependency lookup for gstreamer-1.0 with method 'pkgconfig' failed: Invalid version, need 'gstreamer-1.0' ['>= 1.28.0'] found '1.26.9'.
-| 
-| ERROR: meson setup failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/temp/run.do_configure.3263584:184 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/temp/run.do_configure.3263584, line 184
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/temp/run.do_configure.3263584, line 165
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/temp/run.do_configure.3263584, line 152
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/temp/run.do_configure.3263584, line 197
-NOTE: recipe gstreamer1.0-python-1.28.1-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3951 tasks of which 3941 didn't need to be rerun and 1 failed.
+NOTE: Running task 1590 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_packagedata)
+NOTE: Running task 1659 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1662 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xz-5.8.2-r0: task do_packagedata: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xz-5.8.2-r0: task do_packagedata: Succeeded
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1703 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_configure)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_configure: Started
+NOTE: Running task 1704 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_configure)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_configure: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_configure: Succeeded
+NOTE: Running task 1705 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_compile)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_compile: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_compile: Succeeded
+NOTE: Running task 1706 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_install)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_install: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_configure: Succeeded
+NOTE: Running task 1707 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_compile)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_compile: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_install: Succeeded
+NOTE: Running task 1708 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_package)
+NOTE: Running task 1709 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_populate_sysroot)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_populate_sysroot: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_package: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_compile: Succeeded
+NOTE: Running task 1710 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_install)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_install: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_package: Succeeded
+NOTE: Running task 1711 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_packagedata)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_packagedata: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_install: Succeeded
+NOTE: Running task 1712 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_package)
+NOTE: Running task 1713 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_populate_sysroot)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_package: Started
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1714 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_create_spdx)
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_create_spdx: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe blueprint-compiler-0.20.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_package: Succeeded
+NOTE: Running task 1715 of 1726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_packagedata)
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_packagedata: Started
+NOTE: recipe python3-pygobject-3.56.1-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 1715 tasks of which 1686 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401135307.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401115205.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401135307.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401115205.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/temp/log.do_configure.3263584
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-python-1.28.1-r0 do_configure: meson setup failed
-ERROR: gstreamer1.0-python-1.28.1-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/temp/run.do_configure.3263584' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.1/temp/log.do_configure.3263584
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.1.bb:do_configure) failed with exit code '1'
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_packagedata
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/python3-pygobject/3.56.1/temp/log.do_packagedata.2338738
+Summary: There were 42 ERROR messages, returning a non-zero exit code.
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-src went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-dbg went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package liblzma went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-ptest went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-staticdev went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-dev went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-doc went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-ca went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-cs went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-da went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-de went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-eo went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-es went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-fi went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-fr went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-hr went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-hu went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-it went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-ka went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-ko went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-nl went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-pl went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-pt went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-pt-br went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-ro went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-sr went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-sv went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-tr went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-uk went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-vi went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-zh-cn went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz-locale-zh-tw went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: QA Issue: Package version for package xz went backwards which would break package feeds (from 0:5.8.3-r0 to 0:5.8.2-r0) [version-going-backwards]
+ERROR: xz-5.8.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: python3-pygobject-3.56.1-r0 do_packagedata: QA Issue: Package version for package python3-pygobject-src went backwards which would break package feeds (from 0:3.56.2-r0 to 0:3.56.1-r0) [version-going-backwards]
+ERROR: python3-pygobject-3.56.1-r0 do_packagedata: QA Issue: Package version for package python3-pygobject-dbg went backwards which would break package feeds (from 0:3.56.2-r0 to 0:3.56.1-r0) [version-going-backwards]
+ERROR: python3-pygobject-3.56.1-r0 do_packagedata: QA Issue: Package version for package python3-pygobject-staticdev went backwards which would break package feeds (from 0:3.56.2-r0 to 0:3.56.1-r0) [version-going-backwards]
+ERROR: python3-pygobject-3.56.1-r0 do_packagedata: QA Issue: Package version for package python3-pygobject-dev went backwards which would break package feeds (from 0:3.56.2-r0 to 0:3.56.1-r0) [version-going-backwards]
+ERROR: python3-pygobject-3.56.1-r0 do_packagedata: QA Issue: Package version for package python3-pygobject-doc went backwards which would break package feeds (from 0:3.56.2-r0 to 0:3.56.1-r0) [version-going-backwards]
+ERROR: python3-pygobject-3.56.1-r0 do_packagedata: QA Issue: Package version for package python3-pygobject-locale went backwards which would break package feeds (from 0:3.56.2-r0 to 0:3.56.1-r0) [version-going-backwards]
+ERROR: python3-pygobject-3.56.1-r0 do_packagedata: QA Issue: Package version for package python3-pygobject went backwards which would break package feeds (from 0:3.56.2-r0 to 0:3.56.1-r0) [version-going-backwards]
+ERROR: python3-pygobject-3.56.1-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/python3-pygobject/3.56.1/temp/log.do_packagedata.2338738
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb:do_packagedata) failed with exit code '1'
 
---===============2421676646055846628==--
+--===============2469153455219478155==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-dbg: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-dbg: PV changed from "0.20.0" to "0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-dev: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-dev: PV changed from "0.20.0" to "0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-doc: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-doc: PV changed from "0.20.0" to "0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-locale: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-locale: PV changed from "0.20.0" to "0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-python: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-python: PKGSIZE changed from 1208617 to 1216511 (+1%)
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-python: PV changed from "0.20.0" to "0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-src: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-src: PV changed from "0.20.0" to "0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-staticdev: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler-staticdev: PV changed from "0.20.0" to "0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler/blueprint-compiler: PV changed from "0.20.0" to "0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler: PKGV changed from 0.20.0 [default] to 0.20.4 [default]
+packages/x86-64-v3-poky-linux/blueprint-compiler: SRC_URI changed from "git://gitlab.gnome.org/GNOME/blueprint-compiler;protocol=https;branch=main;tag=v0.20.0" to "git://gitlab.gnome.org/GNOME/blueprint-compiler;protocol=https;branch=blueprint-0-20;tag=v0.20.4"
+packages/x86-64-v3-poky-linux/blueprint-compiler: PV changed from "0.20.0" to "0.20.4"
+
+--===============2469153455219478155==--
 
