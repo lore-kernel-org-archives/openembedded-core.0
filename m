@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2857510FCADE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DDC10FCAE2
 	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:07 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14656.1775054163475985309
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14744.1775054158882956932
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 07:36:05 -0700
+ Wed, 01 Apr 2026 07:36:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=tjhrDgY4;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nf23glEf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d497914aa-5c08cc88-7cd9-4468-8e8b-55bef48dfd50-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gLz5JDYN;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zIrQHFNZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019d49790770-0d6fe93b-49a7-454f-a2a1-3b4ccea14dbe-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775054165;
+	t=1775054161;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ndJJE/8l220gyyiv0rHdJOkYJ7opoSRlfsedb49Yfgg=;
-	b=tjhrDgY4uDGOA+yaw4mlbye0YzIXykzfSxWg+9pvRUPjOUvLbXR/r4iVEgvG3ziT
-	si6HBrnwwIC/Jb69u3xYA5n4Q4CpU2FlsWNpgPDCuJ1seOlXBELydXI8K5vyZNVcEr7
-	UOyd0XYIfDfLQdgo5IVVr3CupFuMBLzjqkzeCkEo=
+	bh=6Vdq0bbXr7RW0HOhXamToauLWxAVoqu6Hf1a1KeWJM8=;
+	b=gLz5JDYNKirlYNMuNCeznmAIdPFyWDxEhQt1vOuWeIXB/PoZTwAlla6yrs0jRdc5
+	N2vJotPtezR9+nbyH/DuleV/eH8z1UnuC7W5565FjxHlij9c+xIFScRL8aASVSphh1W
+	9MYGsh3gfDxn3lxNf7wBIriSOefHzzzaJImuySFA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054165;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054161;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ndJJE/8l220gyyiv0rHdJOkYJ7opoSRlfsedb49Yfgg=;
-	b=nf23glEfqQclcrrDrlQbQnIDkmmmQcxgKCXaKxCioFjQV9DBR1JR9DHx6FKhOPSD
-	/tlrmn/nQdHe3LRLfUeq162wFC7vGIHzAUmfXaKchrtz+tOCEBJgzW/wswd/0MebgOr
-	CRG0CNbD2OEOkV5LZVrEzBKpsra8hsakhcmhx7KI=
-Content-Type: multipart/mixed; boundary="===============8458856912388246227=="
+	bh=6Vdq0bbXr7RW0HOhXamToauLWxAVoqu6Hf1a1KeWJM8=;
+	b=zIrQHFNZwykOKOAbOQ/5makNTdRIsl4oC6Vw+nnyPChR6nCf76sfXf2WB/rqfSij
+	41DDCmxPkAlT6CChXBsKrJUV0GOTCAad69YChzLeAK54uuaqF7Z3uGKVBU7FacInSzB
+	zxgtC0Tly+nbHy95pA2UmIwNR2kwSGHoqEtRslcw=
+Content-Type: multipart/mixed; boundary="===============0241465854793236843=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Benjamin Robin <benjamin.robin@bootlin.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-shacl2code: upgrading to 1.0.0 SUCCEEDED
-Message-ID: <0101019d497914aa-5c08cc88-7cd9-4468-8e8b-55bef48dfd50-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Apr 2026 14:36:05 +0000
+Subject: [AUH] python3-poetry-core: upgrading to 2.3.2 SUCCEEDED
+Message-ID: <0101019d49790770-0d6fe93b-49a7-454f-a2a1-3b4ccea14dbe-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Apr 2026 14:36:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.193
+X-SES-Outgoing: 2026.04.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234391
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234379
 
---===============8458856912388246227==
+--===============0241465854793236843==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-shacl2code* to *1.0.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-poetry-core* to *2.3.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-shacl2code-upgrade-0.0.24-1.0.0.patch
+    - apply the patch: git am 0001-python3-poetry-core-upgrade-2.3.1-2.3.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,140 +72,108 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b04a08cec88e3191fd46543a25bbe5259d2a1ed8 Mon Sep 17 00:00:00 2001
+From 4fc3ab693a0a971a863c8326d523650b15a3a7c2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Apr 2026 10:34:39 +0000
-Subject: [PATCH] python3-shacl2code: upgrade 0.0.24 -> 1.0.0
+Date: Wed, 1 Apr 2026 10:09:56 +0000
+Subject: [PATCH] python3-poetry-core: upgrade 2.3.1 -> 2.3.2
 
 ---
- ...python3-shacl2code_0.0.24.bb => python3-shacl2code_1.0.0.bb} | 2 +-
+ ...ython3-poetry-core_2.3.1.bb => python3-poetry-core_2.3.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-shacl2code_0.0.24.bb => python3-shacl2code_1.0.0.bb} (81%)
+ rename meta/recipes-devtools/python/{python3-poetry-core_2.3.1.bb => python3-poetry-core_2.3.2.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-shacl2code_0.0.24.bb b/meta/recipes-devtools/python/python3-shacl2code_1.0.0.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-shacl2code_0.0.24.bb
-rename to meta/recipes-devtools/python/python3-shacl2code_1.0.0.bb
-index 93ed9a2530..49416b3a04 100644
---- a/meta/recipes-devtools/python/python3-shacl2code_0.0.24.bb
-+++ b/meta/recipes-devtools/python/python3-shacl2code_1.0.0.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=0582f358628f299f29c23bf5fb2f73c9"
+diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb b/meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
+similarity index 93%
+rename from meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb
+rename to meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
+index 705e08d98b..0f55368d13 100644
+--- a/meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb
++++ b/meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
+@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "\
+     file://src/poetry/core/_vendor/tomli/LICENSE;md5=aaaaf0879d17df0110d1aa8c8c9f46f5 \
+ "
  
- PYPI_PACKAGE = "shacl2code"
--SRC_URI[sha256sum] = "d8b511054ca564b4514b9186ece7f5eb8048cfc5daa6625def1a3adba13c4f66"
-+SRC_URI[sha256sum] = "1f9d5cb786bf98d3a7de92218fe5e546143d6aa2aa134098200b06022629d005"
+-SRC_URI[sha256sum] = "96f791d5d7d4e040f3983d76779425cf9532690e2756a24fd5ca0f86af19ef82"
++SRC_URI[sha256sum] = "20cb71be27b774628da9f384effd9183dfceb53bcef84063248a8672aa47031f"
  
- inherit pypi python_hatchling
+ inherit python_poetry_core pypi
  
 -- 
 2.47.1
 
 
---===============8458856912388246227==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-shacl2code-upgrade-0.0.24-1.0.0.patch"
-
-RnJvbSBiMDRhMDhjZWM4OGUzMTkxZmQ0NjU0M2EyNWJiZTUyNTlkMmExZWQ4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMDozNDozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtc2hhY2wyY29kZTogdXBncmFkZSAwLjAuMjQgLT4gMS4wLjAKCi0tLQogLi4ucHl0aG9u
-My1zaGFjbDJjb2RlXzAuMC4yNC5iYiA9PiBweXRob24zLXNoYWNsMmNvZGVfMS4wLjAuYmJ9IHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1zaGFjbDJjb2RlXzAuMC4y
-NC5iYiA9PiBweXRob24zLXNoYWNsMmNvZGVfMS4wLjAuYmJ9ICg4MSUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNoYWNsMmNvZGVfMC4wLjI0LmJi
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNoYWNsMmNvZGVfMS4wLjAu
-YmIKc2ltaWxhcml0eSBpbmRleCA4MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXNoYWNsMmNvZGVfMC4wLjI0LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2hhY2wyY29kZV8xLjAuMC5iYgppbmRleCA5M2Vk
-OWEyNTMwLi40OTQxNmIzYTA0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtc2hhY2wyY29kZV8wLjAuMjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXNoYWNsMmNvZGVfMS4wLjAuYmIKQEAgLTUsNyArNSw3IEBAIExJ
-Q0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MDU4
-MmYzNTg2MjhmMjk5ZjI5YzIzYmY1ZmIyZjczYzkiCiAKIFBZUElfUEFDS0FHRSA9ICJzaGFjbDJj
-b2RlIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImQ4YjUxMTA1NGNhNTY0YjQ1MTRiOTE4NmVjZTdm
-NWViODA0OGNmYzVkYWE2NjI1ZGVmMWEzYWRiYTEzYzRmNjYiCitTUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiMWY5ZDVjYjc4NmJmOThkM2E3ZGU5MjIxOGZlNWU1NDYxNDNkNmFhMmFhMTM0MDk4MjAwYjA2
-MDIyNjI5ZDAwNSIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9oYXRjaGxpbmcKIAotLSAKMi40Ny4x
-Cgo=
-
---===============8458856912388246227==
+--===============0241465854793236843==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: FILELIST: directory renamed /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info -> /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/licenses -> /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/licenses, removed "/usr/lib/python3.14/site-packages/shacl2code/lang/templates/python.j2", added "/usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/cmd.py.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/__main__.py.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/model.py.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/__init__.py.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/stub.pyi.j2"
-Changes to packages/x86-64-v3-poky-linux/python3-shacl2code (sysroot):
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/cmd.py.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/__init__.py.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/__main__.py.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/model.py.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/stub.pyi.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/entry_points.txt was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/WHEEL was removed
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python.j2 was removed
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-poetry-core (sysroot):
+  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
+Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
+  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
 
---===============8458856912388246227==
+--===============0241465854793236843==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-poetry-core-upgrade-2.3.1-2.3.2.patch"
+
+RnJvbSA0ZmMzYWI2OTNhMGE5NzFhODYzYzgzMjZkNTIzNjUwYjE1YTNhN2MyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMDowOTo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcG9ldHJ5LWNvcmU6IHVwZ3JhZGUgMi4zLjEgLT4gMi4zLjIKCi0tLQogLi4ueXRob24z
+LXBvZXRyeS1jb3JlXzIuMy4xLmJiID0+IHB5dGhvbjMtcG9ldHJ5LWNvcmVfMi4zLjIuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wb2V0cnktY29yZV8yLjMu
+MS5iYiA9PiBweXRob24zLXBvZXRyeS1jb3JlXzIuMy4yLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjMuMS5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjMu
+Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4zLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjMuMi5iYgppbmRleCA3
+MDVlMDhkOThiLi4wZjU1MzY4ZDEzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4zLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXBvZXRyeS1jb3JlXzIuMy4yLmJiCkBAIC0xNSw3ICsxNSw3
+IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiXAogICAgIGZpbGU6Ly9zcmMvcG9ldHJ5L2NvcmUvX3Zl
+bmRvci90b21saS9MSUNFTlNFO21kNT1hYWFhZjA4NzlkMTdkZjAxMTBkMWFhOGM4YzlmNDZmNSBc
+CiAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5NmY3OTFkNWQ3ZDRlMDQwZjM5ODNkNzY3Nzk0
+MjVjZjk1MzI2OTBlMjc1NmEyNGZkNWNhMGY4NmFmMTllZjgyIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjIwY2I3MWJlMjdiNzc0NjI4ZGE5ZjM4NGVmZmQ5MTgzZGZjZWI1M2JjZWY4NDA2MzI0OGE4
+NjcyYWE0NzAzMWYiCiAKIGluaGVyaXQgcHl0aG9uX3BvZXRyeV9jb3JlIHB5cGkKIAotLSAKMi40
+Ny4xCgo=
+
+--===============0241465854793236843==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-shacl2code: PV changed from "0.0.24" to "1.0.0"
-packages/x86-64-v3-poky-linux/python3-shacl2code: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/shacl2code/shacl2code-0.0.24.tar.gz;downloadfilename=shacl2code-0.0.24.tar.gz" to "https://files.pythonhosted.org/packages/source/s/shacl2code/shacl2code-1.0.0.tar.gz;downloadfilename=shacl2code-1.0.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-shacl2code: PKGV changed from 0.0.24 [default] to 1.0.0 [default]
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-dbg: PV changed from "0.0.24" to "1.0.0"
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-dbg: PKGV changed from 0.0.24 [default] to 1.0.0 [default]
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-dev: PV changed from "0.0.24" to "1.0.0"
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-dev: PKGV changed from 0.0.24 [default] to 1.0.0 [default]
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-doc: PV changed from "0.0.24" to "1.0.0"
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-doc: PKGV changed from 0.0.24 [default] to 1.0.0 [default]
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-locale: PV changed from "0.0.24" to "1.0.0"
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-locale: PKGV changed from 0.0.24 [default] to 1.0.0 [default]
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-src: PV changed from "0.0.24" to "1.0.0"
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-src: PKGV changed from 0.0.24 [default] to 1.0.0 [default]
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-staticdev: PV changed from "0.0.24" to "1.0.0"
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-staticdev: PKGV changed from 0.0.24 [default] to 1.0.0 [default]
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: PV changed from "0.0.24" to "1.0.0"
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: PKGV changed from 0.0.24 [default] to 1.0.0 [default]
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: FILELIST: directory renamed /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/licenses -> /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info -> /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info, removed "/usr/lib/python3.14/site-packages/shacl2code/lang/templates/python.j2", added "/usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/__init__.py.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/model.py.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/__main__.py.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/cmd.py.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/stub.pyi.j2"
-packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: PKGSIZE changed from 1546856 to 1594868 (+3%)
-Changes to packages/x86-64-v3-poky-linux/python3-shacl2code (sysroot):
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/shacl2code-1.0.0.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/cmd.py.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/__init__.py.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/__main__.py.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/model.py.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python/stub.pyi.j2 was added
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/entry_points.txt was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/shacl2code-0.0.24.dist-info/WHEEL was removed
-  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/python.j2 was removed
+packages/x86-64-v3-poky-linux/python3-poetry-core: PV changed from "2.3.1" to "2.3.2"
+packages/x86-64-v3-poky-linux/python3-poetry-core: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.3.1.tar.gz;downloadfilename=poetry_core-2.3.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.3.2.tar.gz;downloadfilename=poetry_core-2.3.2.tar.gz"
+packages/x86-64-v3-poky-linux/python3-poetry-core: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PV changed from "2.3.1" to "2.3.2"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dev: PV changed from "2.3.1" to "2.3.2"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dev: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-doc: PV changed from "2.3.1" to "2.3.2"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-doc: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-locale: PV changed from "2.3.1" to "2.3.2"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-locale: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-src: PV changed from "2.3.1" to "2.3.2"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-src: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PV changed from "2.3.1" to "2.3.2"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PV changed from "2.3.1" to "2.3.2"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PKGSIZE changed from 2788311 to 2789869 (+0%)
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-poetry-core (sysroot):
+  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
+Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
+  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
 
---===============8458856912388246227==--
+--===============0241465854793236843==--
 
