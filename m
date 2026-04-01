@@ -1,92 +1,141 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B064E1076372
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 06:30:52 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6854.1775025049899123595
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39DB7D3514F
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 07:43:13 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7661.1775029387190820767
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2026 23:30:49 -0700
+ Wed, 01 Apr 2026 00:43:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=V2sMctBe;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SfOuogH+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d47bccd24-6d31af4e-6bdc-4ed3-a078-d5b1772d8bbe-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775025049; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=oZEfB9+PHjxq51kvPiL2wZgHn4FXcl569V7lhy27X40=;
-	b=V2sMctBevNxeM0PzrljAPuiUoAHrCZ5Qd2plIlKX0emxJiryhb0AIHT9oMbFluDE
-	o0IjCWKaakdNv0EGbshll9avX2b4wW4PqxoUsi0fZCmWDdW+Wwjcr+KzMtjEHIHdUXQ
-	KHMVyRLOvGo/jZh40ZW0C0KRfiN1Dc4dNFVxCNuU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775025049;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=oZEfB9+PHjxq51kvPiL2wZgHn4FXcl569V7lhy27X40=;
-	b=SfOuogH+wsCt/XzpD6neGBQOTYG5q907gl2gdLxPp3pquFrLpFcpeGz9VyFU7ff0
-	WeA98jH++McbDL2YS2dx1Q8Py7REofX9OEmQlWzGOa5RPb1tANSXTMJSxLGh+OW1Qwf
-	fVJi0+oiSD6wuQRzVky1+prmiDUTNbITD3/uEwa8=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] libtirpc: fix bindresvport build with clang-22/C23
-In-Reply-To: <20260401061229.2588515-1-khem.raj@oss.qualcomm.com>
-References: <20260401061229.2588515-1-khem.raj@oss.qualcomm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d47bccd24-6d31af4e-6bdc-4ed3-a078-d5b1772d8bbe-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Apr 2026 06:30:48 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.193
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=j1HIdVxL;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 08A864E42893
+	for <openembedded-core@lists.openembedded.org>; Wed,  1 Apr 2026 07:43:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B9625602BF;
+	Wed,  1 Apr 2026 07:43:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1966410450257;
+	Wed,  1 Apr 2026 09:43:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1775029383; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=543SE/GtJ9od1L4mdmzS7Xu5ntNH++5ZgDuBPOQX780=;
+	b=j1HIdVxLOFOvgxGjvi7OjCEEDMB5NdXNpq5e4VusDFY4HyyVWvPs2rt0/2NsMu478rc3PB
+	PhXV61C4auCyjUhwhXHNkdFYi17dgFnfRFnuAdk+7UFXto7YHcmQVPBhvpLnICRWgd5bx8
+	RoSkwGK89yp6L2zsE62aYtocUXrOHFBw4IZNBEJ49BFIzDean412fci0wuDYwG5DTrE/k7
+	OUnMs6ezfYb1aIrc+qAgyhsUsibIYWkERazc9oPANn3yTQnUVP/8adoT7tFheBFvTdUTGU
+	DVDlHVgcF+R+HGz52hUT04yVPNeZKcoPceVM71et6DXL+LjHA+gQ27oAHFg2/w==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+To: "stondo@gmail.com" <stondo@gmail.com>,
+ "Tondo, Stefano" <stefano.tondo.ext@siemens.com>,
+ "Freihofer, Adrian" <adrian.freihofer@siemens.com>
+Cc: 
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ "ross.burton@arm.com" <ross.burton@arm.com>,
+ Joshua Watt <jpewhacker@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ "marta.rybczynska@syslinbit.com" <marta.rybczynska@syslinbit.com>,
+ "Marko, Peter" <Peter.Marko@siemens.com>,
+ "mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+Subject: 
+ Re: [RFC PATCH 0/2] spdx30: Add OpenVEX standalone document generation
+Date: Wed, 01 Apr 2026 09:43:00 +0200
+Message-ID: <9600909.CDJkKcVGEf@brobin-bootlin>
+In-Reply-To: <e37fc3654ebe48350a6f35a51792ac1be5d4c307.camel@siemens.com>
+References: 
+ <20260331141956.608976-1-stondo@gmail.com>
+ <CAJdd5GazcRuxPSdgXEb170f+E5uA2oP=C2eKLqCNnLC8Y_fB6g@mail.gmail.com>
+ <e37fc3654ebe48350a6f35a51792ac1be5d4c307.camel@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 06:30:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234328
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 07:43:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234329
 
---NextPart
-Content-Type: text/plain
+Hello,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Wednesday, April 1, 2026 at 12:05=E2=80=AFAM, Freihofer, Adrian wrote:
+> I agree that generating the SBOM and then processing it with
+> independent, specialized tools is the right approach =E2=80=94 and I beli=
+eve
+> that was also what I proposed, based on Ross's post in that earlier
+> discussion.
+>=20
+> Taking this further, though, raises an interesting question: how could
+> CVEs discovered after the SBOM/VEX was built with Bitbake be handled in
+> a more automated way?
 
----
-Testing patch /home/patchtest/share/mboxes/libtirpc-fix-bindresvport-build-with-clang-22-C23.patch
+I=E2=80=99m not sure I fully understand the question. This is exactly the p=
+urpose
+of `sbom-cve-check`. It can be executed automatically from Yocto
+post-build, or at any time later outside of Yocto.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+> A tool with access to the latest CVE database, an XL SBOM, and the
+> corresponding source and debug packages could likely mark many CVEs as
+> not_affected automatically =E2=80=94 for instance, because certain source=
+ files
+> are not compiled, or a relevant #ifdef is disabled.
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+`sbom-cve-check` is designed to do precisely this, or at least that is
+the goal. However, supporting `#ifdef` is not planned in the short term;
+filtering is currently done by filename.
+Unfortunately, not many CVE entries contain the information needed to
+automatically mark them as not affected. Only the kernel typically has
+this information properly filled in.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+> Would it make sense to extend sbom-cve-check to support exporting an
+> OpenVEX document covering all CVEs at the time of execution? Such a
+> tool would need to:
+>=20
+>  * Download the CVE database
+>  * Extract static CVE status information from the SPDX document
+>  * Attempt to automatically evaluate the status of CVEs found in the
+>    database but not mentioned in the static SPDX
 
----
+I=E2=80=99m not sure I follow what you mean, this is exactly what
+`sbom-cve-check` is already trying to do. It can generate OpenVEX files.
+Perhaps not everything is perfect yet (far from it), and some parts may
+still need improvement.
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+> This essentially describes merging Joshua's tool with Benjamin's sbom-
+> cve-check into a unified tool that can ingest SPDX data, NIST
+> information, source files, and more =E2=80=94 and produce various outputs=
+ such
+> as CVE check graphs, summary tables, and VEX documents in multiple
+> variants.
 
---NextPart
+`sbom-cve-check` can generate multiple export formats and can be extended
+to support additional formats.
+
+> It's also worth asking how Yocto-specific such a tool would actually
+> need to be. It could potentially be generic enough to support various
+> Linux distributions =E2=80=94 which leads to the question: does something=
+ like
+> this already exist?
+
+The goal of `sbom-cve-check` is not to be tied to Yocto. As long as you
+can provide an SBOM in a supported format, `sbom-cve-check` should work.
+That said, there is still a lot of development needed to fully achieve
+this goal.
+
+>=20
+> Regards,
+> Adrian
+
+Best regards,
+=2D-=20
+Benjamin Robin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
---NextPart--
+
 
