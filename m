@@ -1,224 +1,212 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 852B510F6FC2
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 15:00:23 +0000 (UTC)
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15289.1775055615299289067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3A0810F6FCB
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 15:05:03 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15543.1775055899344100575
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 08:00:15 -0700
+ Wed, 01 Apr 2026 08:04:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=j5/ETz30;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=jy/X9BRY;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.151, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 68EB21D0021F;
-	Wed,  1 Apr 2026 11:00:14 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 01 Apr 2026 11:00:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1775055613; x=1775142013; bh=LCj6FALpgF
-	Y6uFXPXp7WfySdqv111anNyAk/e7TAs7w=; b=j5/ETz30sQqucw5YvGoIJ30QJo
-	RUQyENp1zMx+uliuq84GQ7XUub7BvEHsYbFfyhikFsKb6x1JCVnAw8RxibEYnHen
-	E0tTlCy7IOcHK3FYeXB3gy7dwfVxIfFPdQ2UDuLl8gBvB1pZTZVgJ7oOl54c8FUX
-	1kmIOW8ASeKArQ9ZwFCD6rAaHRvsFBr2h/1IfY1KvcA1oQv0aZ2GdffHO0xPMyNz
-	sMxdiVk/XOoE+1UQyC5oKQKeL0j8XA2D5cJ6xFa6H6lzShpaiz5kuePI3w+biVjk
-	Sk0ofGIc0x33TD95zjySKscr/32mLZJzzIm19HKkzBmOXjaiKWFZKYy8/y5w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1775055613; x=1775142013; bh=LCj6FALpgFY6uFXPXp7WfySdqv111anNyAk
-	/e7TAs7w=; b=jy/X9BRYUKocFcfSjElVEckIT+lEucGbPj/uC5fwu4xaXkpvY7K
-	NlpoEFPm104HHd1z22bPb0Yy8uIixU0Aup51kUWS3lfCFyCByEcUBrzb0+sJyY64
-	pXLJLMuHoWbvbbnnXCm31IsO2Svmy9HkW6OyEQ1ufrvO2SUhB34fw4nMM4yMlO0Z
-	8Wv9zzYW/5YrJ0E8ACiWyRYAW6krOji/bnsHcl4sI3JN5ftHMKgytUTz8MrIc6bG
-	p9CJnpXrnLLrIwWuqtL5JHXepVcrddCfX9SkDvENZ182pAw1SHRAF2H2E8hWUdUP
-	6jkuNsyAPi2d5pszqpt7Y+kayaBR5J7uwfA==
-X-ME-Sender: <xms:_TLNacqXOq0MwUZZotnqQNAymj7U5lx5pkrTwL9fHK30FmDKOfkwAA>
-    <xme:_TLNaYq8HVko2_ImpA-QjkPpp7qtk6b1YJcm8KGikIRtdEDWCHG4d58ET3PZh1GvH
-    d317DTh7chHffgl4D6Uwqz2GidCmCwfv1mhRsq0CCHXbTEZxxsRfg>
-X-ME-Received: <xmr:_TLNae04jlgUgSsxa2B5VigQdlAOn73FvS20c6zSHQZc-hTAX3I965sgWmt2t4w4THE8D6-ysY3GuEqUs7W8IzGIdiesmowiFWzAU-c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefgedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegoufhush
-    hpvggtthffohhmrghinhculdegledmnecujfgurhepkffuhffvffgjfhgtfgggsehgtder
-    redtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvg
-    hrrdguvghvqeenucggtffrrghtthgvrhhnpeffueehudeigfehjefhhfehledugeduiedt
-    keehieejfeffheehfedtteehuddtffenucffohhmrghinhepshhouhhrtggvfhhorhhgvg
-    drnhgvthdphihotghtohhprhhojhgvtghtrdhorhhgnecuvehluhhsthgvrhfuihiivgep
-    tdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpd
-    hnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrght
-    hhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhrtghpth
-    htohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggv
-    ugguvggurdhorhhg
-X-ME-Proxy: <xmx:_TLNafBzCaTnnUz-JLFeL8bHBkhhcf2zjGpgOaIzpVVYKF1CJ2VgJA>
-    <xmx:_TLNaed6NkHaBXorZsdCy5sRuvRnxEZO8b7Pp7UzO3fu3Xh9tD1XKA>
-    <xmx:_TLNacjJKfOsvFGqE5zaDCsGHFA612OTiWkROPgRFbRhLL7JBKQaog>
-    <xmx:_TLNaepMCWS_Spefj9dCZJr20nfsZdfrqHZPEQ1lcaSV9Nz1EftwkQ>
-    <xmx:_TLNabNC_0zx_tNJHj_6eV5rMB8Li0RoAYSXcjSttAkzWFol0kOeZuhO>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Apr 2026 11:00:12 -0400 (EDT)
-Message-ID: <bce752cba2de4c73f578c9e4cc82c64b1f5cd4e0.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v2 2/4] meta: Support opting out of any distro
- features
-From: Paul Barker <paul@pbarker.dev>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 01 Apr 2026 16:00:07 +0100
-In-Reply-To: <DHHW9Z7VY9QK.21JDBWP884LXH@bootlin.com>
-References: <20260331-default-features-v2-0-f73b43d8bd57@pbarker.dev>
-	 <20260331-default-features-v2-2-f73b43d8bd57@pbarker.dev>
-	 <DHHW9Z7VY9QK.21JDBWP884LXH@bootlin.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
- DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
- NrVM0IVDkwKTbL2Nu1P+xns4MIpF9Kj4XN5celYJ9vEJ2n0Bo0nO5T5vg46dihIaDl+24iNIHSsHq
- YyEdMBfY8kY2RulpaAyFOuaaHdIeDkejVvO5xLSiYLjB5qrRhgH134lJXsuLOsFQ64ybGECuOasnb
- auevsPBAaroQW0pqVb9FneGrWHxMCLlQHJRqQJRdVa6bsUdp6NWra8/0msPawSrFwGQdfJBTA3aXJ
- C2CG1JxEgj6QQjEQA49DSjgzdhInbiIK8Vbp/zedM4aVue7qJnwPMTFQM9lYx63b7wLN4Tu8B9YZ0
- UFdSwMCJuqmYGsYRUYdwM3ArjS0VO6WpU+HBKvzLK5GQfUTSM8KaZ5eA2Uo2ain8SSZb+WptUYKpx
- F9jbtCPbjpZKzGuX4iHFl9eT75TM9iXJNGAjB5xigkADLwVfPoJ5E53S+KdNVuOWHugyLMPNAQHOw
- pw5Rey+0zxyzPd4wphutc93UIU5g/029ngAc7DuKCq12jl7fhkjqFlFtYPIc1k7nd+RSezmH/qRes
- bMErHSX1MBSZQARAQABtB5QYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj6JAlcEEwEIAEECGw
- EFCwkIBwIGFQoJCAsCBBYCAwECHgECF4ACGQEWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAgU
- JCxiQFgAKCRB0l1yBt+ZrrLhdD/sH+qTaxCDUg47eW329yJWCDZmO+iuYzNSyHMs1x0DHKNIQQ8zN
- pA2S/de4jElQuPHjw/IS8B3VmM62Wuq5vHuxNlFv9IMwrwqi6zhCDui8+nCN/AQGGXousJI/SeZjm
- Y5gS9cqh4vNY+huqEEfdTFXIfTBRkmnvYozSO2uDB3EMuiWgBlw2uLrtmkvPLn/m/GvEouLNox6wv
- tcJcIbL59a0+3jv/m7pnWoZXOkWmKQnfFWikqjuKCISNU0gzBSL4UOj8gtQ2z+vu7ffi29b6SV5IL
- m1yzdbkigEn4HL44lz3N+oHZ3wWsRqqeyGSX5fCfx3tGWg6scZQrpsjT5yq+LiffiXVNpjeJ9KzQw
- 0cbAZ/9uhk1sWBroP+/gMhsWjlbFYXVlRvkNKGPI22eZtOEz4jF6OrOONyOoY3i26niJUyIgdBpca
- H0hKUSVQ8VnG7qVTNrQk9BbeoSszqRwViN7lfyVtK9b1TCFuGewOETGn0TPvSzruYCtD3CLm7mjuX
- AMBpIGoRUiCFVmF1hlOgqDyH4F6zRTHhKLpfmNzfQcg+Uo147Q2IHpoh0mJsL4FEZEI8hFyecX1Pq
- 7HqnvxGD2OhCof1Z6LDxptX0wbgocnYFNxN5S1owcXZUQOFnzYLlLugrcEjlGCm4Gn7k4SiFERSBj
- UFsQgIhw/7lVVn4o4rQjUGF1bCBCYXJrZXIgPHBhdWxAcGF1bGJhcmtlci5tZS51az6JAlQEEwEIA
- D4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAw
- UJCxiQFgAKCRB0l1yBt+ZrrHy+EADNMt+ewz8H7BUKpEMMhpaA1VxyXO5IqlKXS0gElMgHYXl7L7C
- 0/qLfRH96vwVD33zM+f0Vl9aWWkom/k8s42tLyPvX7D5zTrj3r5muJ+d9dXWGwBFXxXlE9YjSP26K
- bYfRusmRHbbEPlLPSnrr9KYS2FGVD6ViRNhhVguflgPv2i18+fNBE3YyByfNCiQgO/SgaSdh172Ql
- tuYE1Chk6FD45tCUv3dI9lO2PlVwrciiVYvIv/jiTDEwZOISOClTE/Ha18pxDJfLhS8QQnLWuBNX6
- HUkLi78fVmVYbcWIkTuSHjfNoGTMaFijMg9Wl6poFrY++Pl0S40681zEIrwZhW5pKoqXoaElt29Yf
- OwVo6BIsSOLEqKiWsdP7PJTaJYU1ovnshBcOmuXMgc13AjQ4AhEGqI1TaEJ/E1jEDDyTQFeWgrfew
- YaWdqpgiDmRMTj/tIGVj9iy7qZQICUUtlfm0QK6w6M7qq0GdO2o+S3uVF6y2AxQo8l9LSHiW9O35I
- juR37zeqv72puYyOteVYJsJaw999HUmhXc/X/J9FQFw8twxPKDLLu+w8MqDo9bhllzR93Zy/OShuG
- yGybcX3DKO2R+AQ90tXLbxKmHLtrnG/zyDPhLv/LGD480v5hEoT+IS0u9wPD2vP5q36a5DtzqXA/7
- t9PCamLoCvZLleg7GY7QbUGF1bCBCYXJrZXIgPHBhdWxAcGJya3IudWs+iQJeBDABCgBIFiEEmLKq
- wQCsP4K7XVRndJdcgbfma6wFAmlqDRwqHSBwYnJrci51ayBkb21haW4gd2lsbCBiZSBhbGxvd2VkI
- HRvIGxhcHNlAAoJEHSXXIG35muspk0P/1G08N6zGSdw2p8+8f/1HhaYEb9KdQHT1JmQfZUrIHIpD2
- ELNb91Z6Pz197d/igGpox1dzYOwE0WolWo44ZHX2yw+p9V+HJAUKRe0SPc1iNLkTzaAZ7oYJ1DnFh
- aaqZi4VtKKabKeorJjcDvl2apMwT0agRuDklU97n++ZUuXIEo1Z9uRqEvXz0iTSY7wPxwfoVOQsgf
- dN1cBLd9OpoOtJRdDJzQUYqjNoQi+5M6KRfBxPLZkmYb4uCGlp1H4AV50eC61j84LBg1ItvU2u+Fx
- X2JB7lHTswubprD2ZsSwp1VziU6pUj3vtslMWKpBGslpLtnaO561dihGyElayMd4VFg7VR/TsglJv
- A10EDs2DMhoYPfRQWvwlr5+jPP6s9H8KSTCGFvQt438rP/gk0lcEZUJK0iE2/yq5gQfaCNI5FLN7C
- q8LVr00oS4doXfmFFxMq6z1rs5SXZorWssjG7v5DILnPxLqYloQK/ebM5Ixbzm0Lq/8vWL7sw7yOH
- JVYCHCApGzKNii6rYyHdi0K8UwvpD++GCWLyvbgP/H3l5FqL63gAN0Rw1CO5r22+SmG7aOmekJH3N
- ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-qDTTHP8ri21ZUN79vPlI"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=i29drYwl;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488895ad947so3501755e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 08:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1775055898; x=1775660698; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hhTwDk8y9sCUaZMK+prUv0l8r0UEz/jzHOTy0L3y8Us=;
+        b=i29drYwlsXE9/gR8TdDw1fwm5uMK+oHZYKXNBrfMog2kKqv23Y/EsR3JbB7WM8efwJ
+         AhDGr4nSLZMzMfUC0ehaKiACq54Xb6pmGOUSgOzUG56twr5Hg4QbdFjgx8wK2LSd+quF
+         JxPRWAPziawzjq6tbxTDiyTJXQFXxHDHfM6KQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775055898; x=1775660698;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hhTwDk8y9sCUaZMK+prUv0l8r0UEz/jzHOTy0L3y8Us=;
+        b=p0f0rcGdXsjY+SOa+XNKySavlQbj4h2cNrWGTtf6OlgJV7EvVeZcoo9sPoATdkbM8f
+         fE+Wb45/O6Njr4duViux/Qe77I7HgtF45waYg2UVz4AU6BAMCYZHu0Gzv1Pzq2SP6VCc
+         KJlV8ZHrbL8twBSVD30FcY6e9MhPQD3e5ceDu5iSstfhv0ON6jRLwlfQljiucb/P31ng
+         sq12KoigROd0o8efGhE2//8Xg1oMA8CK55KcgFvdqkBdXdem3n0TCvdedGzSc06VkaAN
+         ekq2UEi2kOIBkNoiGsnLPAcfYVO5kIWyOACh+ylLDTxPRDM19cZxNAmKt1MCKbj7R7aM
+         XvuA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNz/fd3i9vlVH17gQP+Hzn6qDeeFUnnnnxayENzlTkyLY9Lx/pFKG+okpEvazDjA3MN3rrso4SyvSBknzFwsAgtA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw7dKZC1ZYYdc65hoVMX01G2MS4Gh0OSuO6/SW2rYZGK6OvhY/Q
+	4/6wCH7iVQ4LznPuIEx113DQbiwT2XcWjNJg5tTeA8w2NDkXBAzYQt1Isfh+mqx9cYU=
+X-Gm-Gg: ATEYQzxaO9C7LG0OYcg5YUtHy2VFG14tVAp0cPDN1D6j1bcHYVB0KhDIxIGwERt4yc2
+	W9BcRmWHshlQnrarQV48E/wlym66q9/D/ZtQcV1Om54JY1e3FWk1j81B6BpVG5lCPJZ8ztUZI8p
+	qN26n0Tc83jrs4/WAbHlFUkdnmyw9wXOX9Z+bJumznosVx6OLHor4cdE6VuTTKgP9mRc1tzDZFt
+	7Hpjns6Fh+8hJzkBQXzxH23Cd4Y7qvx0U/owLSOKYj2/RpqETdnDcgWEHRkfcYFwQQ0FZG59KXF
+	eXQR+qQhvZ0OEOQt0asYKw7C79qbLPlzlthDpU+lWgG20eVdKLFoTFROKuMTk70fjNva+zzqwGz
+	iShCXf6BI5KDpyJoC8yvlwp2OIbeGU7f7B9mPbVsdQ1fXHbt8SsNEpbim8QQkdxL/dHmjgjqtUA
+	knKrlumkzdCbY5jpkulyYzHExRDxN+n1dH6pcL9XUSjp1GD+k8LPT79hTYoDKDhguzzKe+XLSz0
+	nmnGM4i2AU=
+X-Received: by 2002:a05:600c:890c:b0:488:7f49:eae5 with SMTP id 5b1f17b1804b1-488835903c7mr51340345e9.16.1775055897647;
+        Wed, 01 Apr 2026 08:04:57 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a705f99sm3471965e9.11.2026.04.01.08.04.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Apr 2026 08:04:57 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 01 Apr 2026 17:04:55 +0200
+Message-Id: <DHHWST45DJTG.1EJZEHOO8HO56@smile.fr>
+Subject: Re: [OE-core][whinlatter][PATCH 11/12] e2fsprogs: upgrade 1.47.3 ->
+ 1.47.4
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Wang Mingyu" <wangmy@fujitsu.com>, "Mathieu Dubois-Briand"
+ <mathieu.dubois-briand@bootlin.com>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+To: <ankur.tyagi85@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260325021856.4053666-1-ankur.tyagi85@gmail.com>
+ <20260325021856.4053666-11-ankur.tyagi85@gmail.com>
+In-Reply-To: <20260325021856.4053666-11-ankur.tyagi85@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 15:00:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234442
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 15:05:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234443
 
+On Wed Mar 25, 2026 at 3:18 AM CET, Ankur Tyagi via lists.openembedded.org =
+wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> 0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch
+> removed since it's inclued in 1.47.4
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit b14266b4c27e7e3f37a1057ab694c6b21b66b83a)
+>
+> Release Notes:
+> https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/tree/doc/RelNotes/v1=
+.47.4.txt?h=3Dv1.47.4
+>
+> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
---=-qDTTHP8ri21ZUN79vPlI
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Wed, 2026-04-01 at 16:40 +0200, Mathieu Dubois-Briand wrote:
-> On Tue Mar 31, 2026 at 9:29 PM CEST, Paul Barker wrote:
-> > Add default values to DISTRO_FEATURES using the new
-> > filter_default_features() function.
-> >=20
-> > This change obsoletes the variables DISTRO_FEATURES_BACKFILL and
-> > DISTRO_FEATURES_BACKFILL_CONSIDERED. Instead, all defaults are added vi=
-a
-> > DISTRO_FEATURES_DEFAULTS and users can opt out of any of these using
-> > DISTRO_FEATURES_OPTED_OUT. Hopefully the variable naming here is easier
-> > for people to understand and remember.
-> >=20
-> > Migration notes:
-> >=20
-> > - If you have previously assigned DISTRO_FEATURES without using
-> >   DISTRO_FEATURES_DEFAULT, you will now get the default features added
-> >   automatically. You will need to review these and add any features you
-> >   do not want to use to DISTRO_FEATURES_OPTED_OUT.
-> >=20
-> > - DISTRO_FEATURES_DEFAULT is now unused, the new variable name is
-> >   slighlty different to ensure that it is not accidentally used if a
-> >   layer hasn't been modified to adapt to the new naming.
-> >=20
-> > - If you previously set DISTRO_FEATURES_BACKFILL_CONSIDERED, use the ne=
-w
-> >   variable DISTRO_FEATURES_OPTED_OUT instead.
-> >=20
-> > - If you previously modified DISTRO_FEATURES_BACKFILL, don't do that.
-> >=20
-> > Signed-off-by: Paul Barker <paul@pbarker.dev>
-> > ---
+I'm sorry but this upgrade contains feature change and, because of that
+is not eligible for stable merge:
+> E2fsprogs 1.47.4 (March 6, 2025)
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
 >=20
-> Hi Paul,
+> Updates/Fixes since v1.47.3:
 >=20
-> I believe this is failing in some cases:
+> UI and Features
+> ---------------
 >=20
-> ERROR: libtasn1-4.21.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-=
-worker/qemux86-world-alt/build/build/tmp/work/x86-64-v3-poky-linux/libtasn1=
-/4.21.0/temp/run.do_compile.3668072' failed with exit code 1
-> ...
-> > gtkdoc-mkhtml 2>&1 --help | grep  >/dev/null "\--path"; \
-> > if test "$?" =3D "0"; then \
-> >   mkhtml_options=3D"$mkhtml_options --path=3D\"/srv/pokybuild/yocto-wor=
-ker/qemux86-world-alt/build/build/tmp/work/x86-64-v3-poky-linux/libtasn1/4.=
-21.0/build/../sources/libtasn1-4.21.0/doc/reference\""; \
-> > fi; \
-> > cd html && gtkdoc-mkhtml $mkhtml_options  libtasn1 ../libtasn1-docs.xml
-> > warning: failed to load external entity "http://docbook.sourceforge.net=
-/release/xsl/current/html/chunk.xsl"
-> > compilation error: file /srv/pokybuild/yocto-worker/qemux86-world-alt/b=
-uild/build/tmp/work/x86-64-v3-poky-linux/libtasn1/4.21.0/recipe-sysroot-nat=
-ive/usr/share/gtk-doc/data/gtk-doc.xsl line 11 element import
-> > xsl:import : unable to load http://docbook.sourceforge.net/release/xsl/=
-current/html/chunk.xsl
+> [...]
 >=20
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/3345
+> Add mke2fs extended option in root_selinux to set a SELinux security
+> context label for the root directory.
 >=20
-> Can you have a look at the issue?
+> Enable mke2fs to support multiple -E options in the command line.
 
-Hi Mathieu,
+Regards,
 
-Thanks for the heads up.
+> ---
+>  ...inode.c-Fix-for-file-larger-than-2GB.patch | 40 -------------------
+>  ...2fsprogs_1.47.3.bb =3D> e2fsprogs_1.47.4.bb} |  3 +-
+>  2 files changed, 1 insertion(+), 42 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-c=
+reate_inode.c-Fix-for-file-larger-than-2GB.patch
+>  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.3.bb =3D> e2fspro=
+gs_1.47.4.bb} (97%)
+>
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_i=
+node.c-Fix-for-file-larger-than-2GB.patch b/meta/recipes-devtools/e2fsprogs=
+/e2fsprogs/0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch
+> deleted file mode 100644
+> index 1c578022fb..0000000000
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-=
+Fix-for-file-larger-than-2GB.patch
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -From 6359e0ec8ef249d202dbb8583a6e430f20c5b1a0 Mon Sep 17 00:00:00 2001
+> -From: Robert Yang <liezhi.yang@windriver.com>
+> -Date: Sun, 30 Nov 2025 21:47:50 +0800
+> -Subject: [PATCH] misc/create_inode.c: Fix for file larger than 2GB
+> -
+> -Fixed:
+> -$ dd if=3D/dev/zero of=3D../image.ext4 bs=3D1M count=3D4k
+> -$ dd if=3D/dev/random of=3D../rootfs/largefile bs=3D1M count=3D3k
+> -$ ./misc/mke2fs -t ext4 -d ../rootfs/ ../image.ext4
+> -__populate_fs: Ext2 file too big while writing file "largefile"
+> -mke2fs: Ext2 file too big while populating file system
+> -
+> -This was because the offset is overflow, use __u64 to fix the problem.
+> -
+> -Another code which uses ext2_off_t is copy_fs_verity_data(), but it only=
+ copies
+> -the metadata, so it should be enough large for it, just leave it there.
+> -
+> -Upstream-Status: Submitted [https://github.com/tytso/e2fsprogs/pull/258]
+> -
+> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ----
+> - misc/create_inode.c | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/misc/create_inode.c b/misc/create_inode.c
+> -index 624efc03..14273534 100644
+> ---- a/misc/create_inode.c
+> -+++ b/misc/create_inode.c
+> -@@ -414,7 +414,7 @@ static ssize_t my_pread(int fd, void *buf, size_t co=
+unt, off_t offset)
+> - }
+> - #endif /* !defined HAVE_PREAD64 && !defined HAVE_PREAD */
+> -=20
+> --static errcode_t write_all(ext2_file_t e2_file, ext2_off_t off, const c=
+har *buf, unsigned int n_bytes) {
+> -+static errcode_t write_all(ext2_file_t e2_file, __u64 off, const char *=
+buf, unsigned int n_bytes) {
+> - 	errcode_t err =3D ext2fs_file_llseek(e2_file, off, EXT2_SEEK_SET, NULL=
+);
+> - 	if (err)
+> - 		return err;
+> ---=20
+> -2.34.1
+> -
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb
+> similarity index 97%
+> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb
+> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb
+> index 40658399d9..90f8f37b8e 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb
+> @@ -4,14 +4,13 @@ SRC_URI +=3D "file://remove.ldconfig.call.patch \
+>             file://run-ptest \
+>             file://ptest.patch \
+>             file://mkdir_p.patch \
+> -           file://0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.=
+patch \
+>             "
+>  SRC_URI:append:class-native =3D " \
+>             file://e2fsprogs-fix-missing-check-for-permission-denied.patc=
+h \
+>             file://quiet-debugfs.patch \
+>             "
+> =20
+> -SRCREV =3D "da631e117dcf8797bfda0f48bdaa05ac0fbcf7af"
+> +SRCREV =3D "ece89fac4603e400155b7bbf6326284f8511bca9"
+>  UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+> =20
+>  EXTRA_OECONF +=3D "--libdir=3D${base_libdir} --sbindir=3D${base_sbindir}=
+ \
 
-I saw some issues in an oe-selftest run after sending the patches, I
-have a fix for that. I'll run a qemux86-world-alt build to confirm I've
-also fixed the errors you saw.
-
-Best regards,
 
 --=20
-Paul Barker
+Yoann Congal
+Smile ECS
 
-
-
---=-qDTTHP8ri21ZUN79vPlI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCac0y9xEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0biCwAQCXZET0oN1t1vOtl7tzZ0WkL7cyViE8kIpZ
-nku9bAzyAgD+LqSMo17xKeNU8yKGAkRG1fkg7Xl+l2epZKEAl71ELQE=
-=F5io
------END PGP SIGNATURE-----
-
---=-qDTTHP8ri21ZUN79vPlI--
 
