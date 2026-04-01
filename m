@@ -1,159 +1,147 @@
-Return-Path: <naftaly.ralamboarivony@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D5DF107637D
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 13:46:00 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13602.1775051151614721238
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FDF4107637D
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 13:54:20 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13658.1775051654870390689
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 06:45:51 -0700
+ Wed, 01 Apr 2026 06:54:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Ormh5Eps;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: naftaly.ralamboarivony@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43d0deb7ad5so1614217f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 06:45:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775051150; x=1775655950; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dO3aftoLWTrbD9DcHccffKt4CJxGA/juM1W5MFbuL2w=;
-        b=Ormh5Epsf2Glj+lbzUEiaSnNWKx08p4tKGEixWDWhJNloVUb7XrYuIIhcxxfz0MeKf
-         nq7uvjkMi0dNe+8qhsR68k9QCfGT4C98cALTbTqTD0v7mCVbDoU/db24phUoLMW6Nv9G
-         UpO4qVaxfAuqRCQ3rnaIro1qggFpkJBD8nxPo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775051150; x=1775655950;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dO3aftoLWTrbD9DcHccffKt4CJxGA/juM1W5MFbuL2w=;
-        b=E2EK2NH3gH3OfZYTCXhgxvKzPFuW7Y/WTB3vc1BD5kq45yOzolRNFWiqA8Sx0FDhXB
-         bVObaM3l1tpfjlhgNfsDu/BU4rU7ixOmYTOgJ/rCHdOQj3dvV/ncSaAxL6ca9eNOD01t
-         UdLWWWm/o9lPrZmVz0PDa963BUyKxysmoS10WtkYNJdS4fSaBjjUUlvNYKXSO7x/8Xyl
-         1GsuylRh+ng5GaEhfbHnF199vElmjjqGW19rj6gVAlptFZOKlf8I60oYPJ/i1YpaihJv
-         99DvTAsO4ykWc9OHLbuzn5tsnJRyOZ5qYZWCVIh1qU1AAlALDKlU1AGIYIsqitOJx5To
-         TLGQ==
-X-Gm-Message-State: AOJu0YzR0Hd82eEL7sfWZhGMAp1BMfzlQg5FTNBkLJfQb8ICknk+cuOb
-	j7iY96V8/17bdszgTuMYr+U8ywyHAHhcJyHWBzfqerfEC9gGEIEa0w1sqLybzqwvLc304kvlHjB
-	M1VtmVVc=
-X-Gm-Gg: ATEYQzwZ+msehdFmtqx5AQTCwBG/reHFXnkz8vitUTo0JGdTJuv2V63cojQZe3p9Mj9
-	0f0HFX/qEGdkRHwDC/utTlGsrwOmmzI5vOy+ZWPNK+ikj6uH/m1c4PkFfNfKpE0lkaDe1AbYtfK
-	6ve/T2c8XcJocIymdcxPQO7M49sq2VD9ZKn2imnqAOhsNEHf3SCvh0TJrUqpyokF9r7PCb63vuu
-	FsqKGziDJupqUBRfi6VuSQll6Q7IWSqyy42JwWXZyXgBnp6HK22RCnhulcDUw8f8XAf/A/b1+Ea
-	vEz4c9MsPS6oTVuy8UWHNe3igXWcBareAVQGvGFWTJ4Fz9LFmYgKIZsTfXVP6aG025S1V6E6d5W
-	SLRFXrnye0i6vNyLKelPBAAiwFq5oouuzunFB9qK+O9PxruN1cCAVqgf+z29pP7QT1nuTbE5bHp
-	yBF8xEgMELh4yfsIqfx+e2l0OP0m8uTvn4YpNtpo7kf2gVSdcS2NbKcPOCtZ/MjMjINYuTeJFQM
-	5QgcZJ9Yft+GJHsFMB9vd2HBhieUAiwL9WvE4nAp/B8Wg==
-X-Received: by 2002:a05:6000:2303:b0:439:beb9:5a96 with SMTP id ffacd0b85a97d-43d150e8ba7mr7043603f8f.31.1775051149713;
-        Wed, 01 Apr 2026 06:45:49 -0700 (PDT)
-Received: from P-ASN-DERVAUX.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e1fe0b0sm84653f8f.0.2026.04.01.06.45.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 06:45:49 -0700 (PDT)
-From: naftaly.ralamboarivony@smile.fr
-To: openembedded-core@lists.openembedded.org
-Cc: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
-Subject: [OE-core][PATCH v2 2/2] patchtest/selftest: Update selftest to handle non-zero exit code
-Date: Wed,  1 Apr 2026 15:45:33 +0200
-Message-Id: <20260401134533.322260-2-naftaly.ralamboarivony@smile.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260401134533.322260-1-naftaly.ralamboarivony@smile.fr>
-References: <20260401134533.322260-1-naftaly.ralamboarivony@smile.fr>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=N3UQR1s1;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id AC2534E4288D
+	for <openembedded-core@lists.openembedded.org>; Wed,  1 Apr 2026 13:54:12 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 623F0602BF;
+	Wed,  1 Apr 2026 13:54:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1D7C010450A06;
+	Wed,  1 Apr 2026 15:54:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1775051651; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=++/JyTDRTWK726/511+N1miKJTHA0fQ9RTRxl6euuMg=;
+	b=N3UQR1s1X1K8vaex3Qxq09UDUzxxEfG6it8cojKfqEcjZsZjJOl4Z2ffHIrXA5derIxFUa
+	2zMq9eOf3T1e948lVk2I34CXBEwoMCePTlVL/GQiGFkreHwRDVOXVmdUIBuq7hn/qEshwX
+	1FkEHqcVWSsb9yPhPWxgIJgW0Lgi75uEdk/FDblQIn+S3r8zg3tuhNbG7OMF1HeAzwJfyY
+	aU5CUt5tI5TEpE53/qpAXYSiZQ6CLz/bManUnob7rja+b1aZ8yc89CCoM13p1wB4ny1eSR
+	9pdM6ngcgoBOqdneQGqIO/xTlJecQ5gW5ICPjg43uFKdrGMn9Ls+FEKBHneThQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 01 Apr 2026 15:54:10 +0200
+Message-Id: <DHHVAMTM0ULQ.3QO0VGCFBKNL4@bootlin.com>
+Subject: Re: [OE-core] [PATCH v7 5/6] dnf: Upgrade to 5.4.0.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <adam.duskett@amarulasolutions.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260330095849.119621-1-adam.duskett@amarulasolutions.com>
+ <20260330095849.119621-5-adam.duskett@amarulasolutions.com>
+In-Reply-To: <20260330095849.119621-5-adam.duskett@amarulasolutions.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 13:46:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234349
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 13:54:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234350
 
-From: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
+On Mon Mar 30, 2026 at 11:58 AM CEST, Adam Duskett via lists.openembedded.o=
+rg wrote:
+> Completely rewritten in C++, there are several changes needed
+> to facilitate moving from DNF4 to DNF5. Below are some significant
+> items to note:
+>
+>     - The "-v/--verbose" cli option is removed. As such, remove the argum=
+ent
+>     everywhere it was called.[1]
+>
+>     - the rpmverbosity cli option is replaced with --setopt=3Drpmverbosit=
+y
+>
+>     - Change gpgcheck to pkg_gpgcheck as this is what the documentation
+>     recommends.[2]
+>
+>     - --nogpgcheck is now --no-gpgchecks
+>
+>     - --setopt=3Dprotect_running_kernel=3DFalse has to be set or else eve=
+ry dnf
+>     transaction complains that /boot/vmlinuz-${kernel_version} does not
+>     exist in /var/log/dnf5.log. There is an open issue on github[3] to en=
+able
+>     the currently not-yet implemented `autocheck_running_kernel option`, =
+but
+>     it has been open for quite some time and the protect_running_kernel
+>     option supresses the message.
+>
+>     - Move --skip-broken to after the install argument as the global
+>       --skip-broken argument is removed.
+>
+>     - /var/cache/dnf is replaced with /var/cache/libdnf5
+>
+>     - Add `features +=3D 'PACKAGECONFIG:append:pn-rpm =3D " sequoia"\n'`
+>           `features +=3D 'PACKAGECONFIG:append:pn-librepo =3D " sequoia"\=
+n'`
+>       to test_testimage_dnf as librepo currently does not work
+>       with gpgme.
+>
+> While DNF5 has many config options, unfortunately, the majority
+> of them depends on sdbus-c++, which is not included in OE-core.
+> However, the package is included in meta-openembedded, so it's
+> best to include the PACKAGECONFIG options in the recipe and
+> leave them off by default.
+>
+> 1: https://github.com/rpm-software-management/dnf5/issues/464
+> 2: https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html
+> 3: https://github.com/rpm-software-management/dnf5/issues/1255
+> Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
+> ---
 
-Use subprocess.run() instead of subprocess.check_output(),
-supbrocess.run() return CompletedProcess instance who provide:
-    - returncode
-    - stdout and stderr with stderr=subprocess.STDOUT argument
+Hi Adam,
 
-Update callers of test() to capture the return code returned by patchtest along
-with the command output.
+Thanks for the new version.
 
-Include the command return code in analyze_result() and use it to validate test
-for XPASS, XFAIL and XSKIP.
+I'm sorry, but we have some selftest failures now. :(
 
-This allows selftest to take the command exit status into account when
-analyzing results.
+The test_incremental_image_generation one was bisected to this commit,
+but I believe other failures have a similar source.
 
-Signed-off-by: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
----
-changes in v2:
-    - Removed the --error-on-failure option; if a test fails, a non-zero value is returned.
-    - Updated selftest to align with the new patchtest behavior when a test fails
----
- meta/lib/patchtest/selftest/selftest | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+2026-04-01 09:45:42,563 - oe-selftest - INFO - imagefeatures.ImageFeatures.=
+test_mandb (subunit.RemotedTestCase)
+2026-04-01 09:45:42,569 - oe-selftest - INFO -  ... FAIL
+...
+2026-04-01 09:46:07,826 - oe-selftest - INFO - buildoptions.ImageOptionsTes=
+ts.test_incremental_image_generation (subunit.RemotedTestCase)
+2026-04-01 09:46:07,827 - oe-selftest - INFO -  ... FAIL
+...
+2026-04-01 10:00:20,138 - oe-selftest - INFO - oelib.utils.TestDefaultFeatu=
+res.test_filter_default_features (subunit.RemotedTestCase)
+2026-04-01 10:00:20,139 - oe-selftest - INFO -  ... FAIL
+...
+2026-04-01 10:04:17,834 - oe-selftest - INFO - runtime_test.Postinst.test_f=
+ailing_postinst (subunit.RemotedTestCase)
+2026-04-01 10:04:17,834 - oe-selftest - INFO -  ... FAIL
+...
+2026-04-01 10:30:17,066 - oe-selftest - INFO - runtime_test.TestImage.test_=
+testimage_install (subunit.RemotedTestCase)
+2026-04-01 10:30:17,066 - oe-selftest - INFO -  ... FAIL
 
-diff --git a/meta/lib/patchtest/selftest/selftest b/meta/lib/patchtest/selftest/selftest
-index 43cccf4c85..26d1b61227 100755
---- a/meta/lib/patchtest/selftest/selftest
-+++ b/meta/lib/patchtest/selftest/selftest
-@@ -51,20 +51,20 @@ def get_patches(patchesdir):
-             })
-     return patch_list
- 
--def analyze_result(results, patch, counts):
-+def analyze_result(results, patch, counts, return_code):
-     testid   = patch["testid"]
-     expected_result = str(patch["expected"])
-     for resultline in results.splitlines():
-         if testid in resultline:
-             result, _ = resultline.split(':', 1)
- 
--            if expected_result.upper() == "FAIL" and result.upper() == "FAIL":
-+            if expected_result.upper() == "FAIL" and result.upper() == "FAIL" and return_code != 0:
-                     counts["xfail"] = counts["xfail"] + 1
-                     print("XFAIL: %s (file: %s)" % (testid.strip("."), os.path.basename(patch["patch"])))
--            elif expected_result.upper() == "PASS" and result.upper() == "PASS":
-+            elif expected_result.upper() == "PASS" and result.upper() == "PASS" and return_code == 0:
-                     counts["xpass"] = counts["xpass"] + 1
-                     print("XPASS: %s (file: %s)" % (testid.strip("."), os.path.basename(patch["patch"])))
--            elif expected_result.upper() == "SKIP" and result.upper() == "SKIP":
-+            elif expected_result.upper() == "SKIP" and result.upper() == "SKIP" and return_code == 0:
-                     counts["xskip"] = counts["xskip"] + 1
-                     print("XSKIP: %s (file: %s)" % (testid.strip("."), os.path.basename(patch["patch"])))
-             else:
-@@ -135,17 +135,17 @@ def test(root, patch):
-     patchpath = os.path.abspath(os.path.join(root, patch))
-     
-     cmd     = 'patchtest --base-commit HEAD --repodir %s --testdir %s/tests --patch %s' % (repodir, topdir, patchpath)
--    results = subprocess.check_output(cmd, stderr=subprocess.STDOUT, universal_newlines=True, shell=True)
-+    results = subprocess.run(cmd, capture_output=True, universal_newlines=True, shell=True)
- 
--    return results
-+    return results.returncode, results.stdout
- 
- def test_head_attached(patches, counts, branch):
- 
-     git_attach_head(branch)
-     git_state_before = get_git_state()
-     for patch_info in patches:
--        results = test(patch_info["root"], patch_info["patch"])
--        counts = analyze_result(results, patch_info, counts)
-+        return_code, results = test(patch_info["root"], patch_info["patch"])
-+        counts = analyze_result(results, patch_info, counts, return_code)
-     git_state_after = get_git_state()
-     assert is_git_state_same(git_state_before, git_state_after), "Repository state changed after attached HEAD test."
-     return counts
-@@ -155,9 +155,9 @@ def test_head_detached(patches, counts):
-     git_st_detach_before = git_detach_head()
-     patch_info = patches[0]
-     testid   = patch_info["testid"]
--    results = test(patch_info["root"], patch_info["patch"])
-+    return_code, results = test(patch_info["root"], patch_info["patch"])
-     git_st_detach_after = get_git_state()
--    counts = analyze_result(results, patch_info, counts)
-+    counts = analyze_result(results, patch_info, counts, return_code)
-     if not is_git_state_same(git_st_detach_before, git_st_detach_after):
-         print(" Test '%s' failed with git in detach HEAD mode: state changed after test" % testid.strip("."))
-         counts["error"] = counts["error"] + 1
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3456
+Some other builds are still in progress but already show the same
+errors:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3567
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3666
+
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
