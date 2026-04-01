@@ -1,136 +1,271 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <adongare@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A489F107639C
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 17:42:15 +0000 (UTC)
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19113.1775065328239007965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E064C10FCAC6
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 18:16:24 +0000 (UTC)
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19989.1775067384100696336
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 10:42:08 -0700
+ Wed, 01 Apr 2026 11:16:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=miq5FKmR;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=mo5KRtlz;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id AF9BF7A0065;
-	Wed,  1 Apr 2026 13:42:07 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 01 Apr 2026 13:42:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1775065327;
-	 x=1775151727; bh=SmmBT7DmdoLRIggdYy2VjYXmiTdeyzeuNg0YmHvHIF4=; b=
-	miq5FKmRPsSiacy79sDBPrkbQ1jPZ4gVxVlzlWi7aQyVzvCvJIYgUKqGFKzLgr+v
-	/T3E7BzmAZOeLa1O30wlCvOos029CKFJX8tDGLI0K73H5onTz4Gf3hc4fW/GKBri
-	daAHlTqAd+CF+5/fbhFnAiLXfhk/TLk0vA9fmO6aaVyXnIhT549O9tD+daIp5aZe
-	ijlsXYbaYbLKIcGJkIwoWMYA9JNeUGwZM6P5eiJkGaw/FUVoR7wTxMRRIQnsog3n
-	68+Lx1vOIuHi2sd4aJ2oHhJye99cNRWxztPoxtXzvsOH6uHo1Bve3vmEQ81QhFWD
-	uc5nsU8kiBkMgbrKn+YioQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775065327; x=
-	1775151727; bh=SmmBT7DmdoLRIggdYy2VjYXmiTdeyzeuNg0YmHvHIF4=; b=m
-	o5KRtlzxezgb8r9RM8V5fy4VUQ84Pfy0D83wl62zyR4wQICFIFGJPUcuH12y2atf
-	GSXZMEidbzaIw/ejH7KEZ9jFF496CCIUteJC3+vjzj34jIVagb0pWHBKW5xrqcM+
-	vaP6rgJeCjBcOrUm4Rh9is43juY7ZylPBFab8D3g4MMoRK7yvUde7Gn/gXgkn6x9
-	5903mx9AhkpqPMc+HD6kL/jnKk3vqclCWXRgRz/DmhoUnQ3rfF5qESIxiz6grFCv
-	OHrzcmQdoQqJgEt3TJ+Kgii7vnr8o3Ze709f0RWqbUSgdh7gDgvFg59mUeUx8428
-	c9jChv0GvJYy+4JlKUKzQ==
-X-ME-Sender: <xms:71jNacZMOoXVCPUERl7IOw1RXHeIvBJDvsrzSOvXEDcSTKJrZ8niPA>
-    <xme:71jNadYz6G2b82yUi8ageYVmHCl0iITJhpVE7it_G--rh_tjskKmJ-UN9cJmNVo7R
-    4XwpY3dDBUIRuVKBNsV0363Oi7QZxuz-ZJfPFMeWKLFmDW7e3xsqFI>
-X-ME-Received: <xmr:71jNaUlMAfzHfLih8nRcDLHMtJIivhOhsrXKHLUdcbyxxpUxyxhVe7N4AGcQRsiLiePKgqqrM537LtZQbwVfuYjlYUhI-HY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefjeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtre
-    dtjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnheptdffvdffjeevhfelieegudfgieefleefueefff
-    elvdehfeeviedtieeukefhleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtth
-    hopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghulhesphgsrghrkhgv
-    rhdruggvvhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsth
-    hsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:71jNaRxaPUAC5oC8S6EILRlgF5ZEgLoNtWpT4cghlkmL1I4T1Uas4g>
-    <xmx:71jNaaMDq7z3dC5hkqzfCCtDZSMsDs0KCaOijBWB48fEH_Kd13OwGw>
-    <xmx:71jNadTp8EveVlRMHmf52NbQN0wn5kVl3OkjMbD51-n50tbUdg8PnQ>
-    <xmx:71jNaQa6rAozrDcayGYKnViw1RfX-R4venlSe3rkoYWYWxaDQfbLwA>
-    <xmx:71jNaW_ZcovNaD2ZBthS2rGFxd6E3NHBzSpE8odNI7yTbZqSljh8RLfj>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Apr 2026 13:42:06 -0400 (EDT)
-From: Paul Barker <paul@pbarker.dev>
-Date: Wed, 01 Apr 2026 18:41:59 +0100
-Subject: [PATCH v3 4/4] lib: oe: Drop backfill support
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260401-default-features-v3-4-8f4b40401ab7@pbarker.dev>
-References: <20260401-default-features-v3-0-8f4b40401ab7@pbarker.dev>
-In-Reply-To: <20260401-default-features-v3-0-8f4b40401ab7@pbarker.dev>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Ccd4sitf;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: adongare@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=6697; q=dns/txt;
+  s=iport01; t=1775067384; x=1776276984;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=fCZg35NuNo3rMZE/dYpAxCZqqXaqPI6QWRxtCyqRaT8=;
+  b=Ccd4sitfvtEOLW/iPy+dkdW5ElArQultG3DKYaS9Vc0g7RtrpTrQgaeG
+   80EVZEX9kpmQRg4SQWO3MzhBBqahV9CNQcq/WpfqxAypE+j1QDCiqHLcY
+   E9RA6le6aZ8Ohp5pdf/MW/bRKGxq+NVmEtvNKK7GWSpfOUV6/GNEpUNqb
+   czdVR7Ynsxf8FWRcxmtSPYkiD80hUU50FzKu9iw97RLPN4cRZm+OmAPxr
+   F0c3awY4xnAOPEecIxWLyo3TAWUg0fovQEZtNqpNaZ5UmdQdrHK88YGIg
+   tx18RLJZYFv7Y0V7MQOOAuw19v/Z3D2XPjSPVODLPHBMEcjWyLPSUtDwl
+   Q==;
+X-CSE-ConnectionGUID: arKOaCVdSkKNNbckv4DYbw==
+X-CSE-MsgGUID: 2sqWRD+LQ4qAKG0xqm9Rlg==
+X-IPAS-Result: =?us-ascii?q?A0B/AACuX81p/5H/Ja1aHQEBAQEJARIBBQUBgXwIAQsBg?=
+ =?us-ascii?q?kcPcV5DSQOMcIlYA54aFIFrDwEBAQ9EDQQBAYUHAo0lAiY0CQ4BAgQBAQEBA?=
+ =?us-ascii?q?wIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBAycLAUYQHAMBA?=
+ =?us-ascii?q?i8rIwgZG4JnAYJzAxG0c4F5M4EBg2gCQ0/bJgELFAGBOAGFPYgcWxgBhHonG?=
+ =?us-ascii?q?xuBcoEVg2iBBYFcAQGBIhYQhlwEgiJ6FIFhHoJBBoJNiV1IgR4DWSwBVRMNC?=
+ =?us-ascii?q?gsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBS4dcdG2BE4N+TgMLGA1IESw3FBsEP?=
+ =?us-ascii?q?m4Hi3ApgjY9PhMBK10oDAooAmcGCymSVydCkXqhDgoog3SMHpU6GjOFW6UQC?=
+ =?us-ascii?q?5h7izaCU5VoaIRogWg8gUcLB3AVgyIJSRkPjioOC4NegX/CGiYyCwMwAQcCB?=
+ =?us-ascii?q?w4CgXOQAYF8AQE?=
+IronPort-Data: A9a23:46Z496lJxjLFm/ewzAI/h+no5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJLWGqCPvrcZTPxKNxzOdvj9UNUsJDQxoQ2SwRorXg8QVtH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+Za31GONgWYubDpIs/vb8nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FYQC2cF+Kl9Cz
+ v87DhYHZROd286Hyq3uH4GAhux7RCXqFJkUtnclyXTSCuwrBMiTBa7L/tRfmjw3g6iiH96HO
+ JFfMmUpNkmdJUQTZz/7C7pm9AusrnDzdDtXoUiYjaE2+GPUigd21dABNfKKIoHVG50OxR7wS
+ mTupX/gPSs2d/imlSOs0V30lvbKzBn/V9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cHnhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:HbNelKiE4sjp9/Hkg7yLao7EnXBQXt0ji2hC6mlwRA09TyVXra
+ +TdZMgpHjJYVkqOU3I9ersBEDEewK/yXcX2/h0AV7BZmnbUQKTRekIh7cKgQeQfhEWndQy6U
+ 4PScRD4aXLfDtHZQKQ2njALz7mq+P3lpyVuQ==
+X-Talos-CUID: 9a23:uRrSNm3b5uMami4JzWbxwLxfE9oGVXT28nvrIGyeL2xiS6PJZW6a5/Yx
+X-Talos-MUID: 9a23:GP0fpgipVtAWfI48ip1PecMpbtxx3J6CS2Q0zYwvmObcJTV1ag2Zg2Hi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,153,1770595200"; 
+   d="scan'208";a="705760330"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 01 Apr 2026 18:16:23 +0000
+Received: from sjc-ads-10055.cisco.com (sjc-ads-10055.cisco.com [10.30.210.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 1AF22180001C6;
+	Wed,  1 Apr 2026 18:16:23 +0000 (GMT)
+Received: by sjc-ads-10055.cisco.com (Postfix, from userid 1870532)
+	id 98E59CC12A6; Wed,  1 Apr 2026 11:16:22 -0700 (PDT)
+From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1812; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=ylLyWOd0C+7hs6uF8No3/byg1Ys4kapYu56+bjuIOvU=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWSejXj1Zsoy/odNb+/ck+qMtw48PfvpXa34tx3n+g3fi
- 5Vp+d971VHKwiDGxSArpsiyuefr/ae9jrwZIbcUYOawMoEMYeDiFICJJCgzMnS93/C9akaWhplr
- gfSVqSu2qwYFNU3cvuigklbb5i9Mc1cwMjzXvcw+65ZssItCxkafHONL2rJO15ovp4gn/Ij+uFd
- Bgw8A
-X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
- fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
+Cc: xe-linux-external@cisco.com, to@cisco.com,
+	Anil Dongare <adongare@cisco.com>
+Subject: [OE-core] [Whinlatter] [PATCH v3 2/2] vim: Fix CVE-2026-26269
+Date: Wed,  1 Apr 2026 11:15:48 -0700
+Message-ID: <20260401181604.3148278-2-adongare@cisco.com>
+X-Mailer: git-send-email 2.44.1
+In-Reply-To: <20260401181604.3148278-1-adongare@cisco.com>
+References: <20260401181604.3148278-1-adongare@cisco.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.30.210.59, sjc-ads-10055.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 17:42:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234454
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 18:16:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234456
 
-We have removed DISTRO_FEATURES_BACKFILL and MACHINE_FEATURES_BACKFILL,
-so we no longer need the features_backfill() function.
+From: Anil Dongare <adongare@cisco.com>
 
-Signed-off-by: Paul Barker <paul@pbarker.dev>
+Pick patch from [1] also mentioned in [2]
+[1] https://github.com/vim/vim/commit/c5f312aad8e4179e437f81ad39a860cd0ef11970
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-26269
+
+Signed-off-by: Anil Dongare <adongare@cisco.com>
 ---
- meta/lib/oe/utils.py | 21 ---------------------
- 1 file changed, 21 deletions(-)
+ .../vim/files/CVE-2026-26269.patch            | 150 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   1 +
+ 2 files changed, 151 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-26269.patch
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 52f2f1bd55e0..5c722d230842 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -137,27 +137,6 @@ def inherits(d, *classes):
-     """Return True if the metadata inherits any of the specified classes"""
-     return any(bb.data.inherits_class(cls, d) for cls in classes)
+diff --git a/meta/recipes-support/vim/files/CVE-2026-26269.patch b/meta/recipes-support/vim/files/CVE-2026-26269.patch
+new file mode 100644
+index 0000000000..1f9a72bca1
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-26269.patch
+@@ -0,0 +1,150 @@
++From 3cc246980b800454dda0603af410c77a8c1926e0 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Fri, 13 Feb 2026 10:27:12 +0100
++Subject: [PATCH] patch 9.1.2148: [security]: Buffer overflow in netbeans
++ interface
++
++Problem:  [security]: Buffer overflow in netbeans special_keys() handling
++Solution: Limit writing to max KEYBUFLEN bytes to prevent writing out of
++          bounds.
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-9w5c-hwr9-hc68
++
++CVE: CVE-2026-26269
++Upstream-Status: Backport [https://github.com/vim/vim/commit/c5f312aad8e4179e437f81ad39a860cd0ef11970]
++
++Backport Changes:
++- Excluded changes to src/version.c from this backport. This file only tracks
++  upstream version increments. We are applying a security fix, not a version
++  upgrade. These changes were skipped to maintain current package versioning
++  and avoid merge conflicts.
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++(cherry picked from commit c5f312aad8e4179e437f81ad39a860cd0ef11970)
++Signed-off-by: Anil Dongare <adongare@cisco.com>
++---
++ runtime/doc/version9.txt      |  5 +++
++ src/netbeans.c                |  2 +-
++ src/testdir/test_netbeans.py  |  4 ++-
++ src/testdir/test_netbeans.vim | 57 +++++++++++++++++++++++++++++++++++
++ 4 files changed, 66 insertions(+), 2 deletions(-)
++
++diff --git a/runtime/doc/version9.txt b/runtime/doc/version9.txt
++index b82071757..b32400f17 100644
++--- a/runtime/doc/version9.txt
+++++ b/runtime/doc/version9.txt
++@@ -41899,4 +41899,9 @@ features, but does not include runtime file changes (syntax, indent, ftplugin,
++ documentation, etc.)
++ 
++ 
+++Patch 9.1.2148
+++Problem:  [security]: Buffer overflow in netbeans special_keys() handling
+++Solution: Limit writing to max KEYBUFLEN bytes to prevent writing out of
+++          bounds.
+++
++  vim:tw=78:ts=8:noet:ft=help:norl:fdm=manual:nofoldenable
++diff --git a/src/netbeans.c b/src/netbeans.c
++index 4f5378512..8a341a20b 100644
++--- a/src/netbeans.c
+++++ b/src/netbeans.c
++@@ -2302,7 +2302,7 @@ special_keys(char_u *args)
++ 	if ((sep = strchr(tok, '-')) != NULL)
++ 	{
++ 	    *sep = NUL;
++-	    while (*tok)
+++	    while (*tok && i + 2 < KEYBUFLEN)
++ 	    {
++ 		switch (*tok)
++ 		{
++diff --git a/src/testdir/test_netbeans.py b/src/testdir/test_netbeans.py
++index 0d6b09680..585886fb4 100644
++--- a/src/testdir/test_netbeans.py
+++++ b/src/testdir/test_netbeans.py
++@@ -112,7 +112,9 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
++                   'startAtomic_Test' : '0:startAtomic!94\n',
++                   'endAtomic_Test' : '0:endAtomic!95\n',
++                   'AnnoScale_Test' : "".join(['2:defineAnnoType!60 ' + str(i) + ' "s' + str(i) + '" "x" "=>" blue none\n' for i in range(2, 26)]),
++-                  'detach_Test' : '2:close!96\n1:close!97\nDETACH\n'
+++                  'detach_Test' : '2:close!96\n1:close!97\nDETACH\n',
+++                  'specialKeys_overflow_Test' : '0:specialKeys!200 "' + 'A'*80 + '-X"\n'
+++
++                 }
++                 # execute the specified test
++                 if cmd not in testmap:
++diff --git a/src/testdir/test_netbeans.vim b/src/testdir/test_netbeans.vim
++index d3d5e8baf..d1be5066e 100644
++--- a/src/testdir/test_netbeans.vim
+++++ b/src/testdir/test_netbeans.vim
++@@ -958,6 +958,58 @@ func Nb_bwipe_buffer(port)
++   sleep 10m
++ endfunc
++ 
+++func Nb_specialKeys_overflow(port)
+++  call delete("Xnetbeans")
+++  call writefile([], "Xnetbeans")
+++
+++  " Last line number in the Xnetbeans file. Used to verify the result of the
+++  " communication with the netbeans server
+++  let g:last = 0
+++
+++  " Establish the connection with the netbeans server
+++  exe 'nbstart :localhost:' .. a:port .. ':bunny'
+++  call WaitFor('len(ReadXnetbeans()) > (g:last + 2)')
+++  let l = ReadXnetbeans()
+++  call assert_equal(['AUTH bunny',
+++        \ '0:version=0 "2.5"',
+++        \ '0:startupDone=0'], l[-3:])
+++  let g:last += 3
+++
+++  " Open the command buffer to communicate with the server
+++  split Xcmdbuf
+++  let cmdbufnr = bufnr()
+++  call WaitFor('len(ReadXnetbeans()) > (g:last + 2)')
+++  let l = ReadXnetbeans()
+++  call assert_equal('0:fileOpened=0 "Xcmdbuf" T F',
+++        \ substitute(l[-3], '".*/', '"', ''))
+++  call assert_equal('send: 1:putBufferNumber!15 "Xcmdbuf"',
+++        \ substitute(l[-2], '".*/', '"', ''))
+++  call assert_equal('1:startDocumentListen!16', l[-1])
+++  let g:last += 3
+++
+++  " Keep the command buffer loaded for communication
+++  hide
+++
+++  sleep 1m
+++
+++  " Open the command buffer to communicate with the server
+++  split Xcmdbuf
+++  let cmdbufnr = bufnr()
+++  call appendbufline(cmdbufnr, '$', 'specialKeys_overflow_Test')
+++  call WaitFor('len(ReadXnetbeans()) >= (g:last + 6)')
+++  call WaitForAssert({-> assert_match('send: 0:specialKeys!200 "A\{80}-X"',
+++        \ ReadXnetbeans()[-1])})
+++
+++  " Verify that specialKeys test, still works after the previous junk
+++  call appendbufline(cmdbufnr, '$', 'specialKeys_Test')
+++  call WaitFor('len(ReadXnetbeans()) >= (g:last + 1)')
+++  call WaitForAssert({-> assert_match('^send: 0:specialKeys!91 "F12 F13 C-F13"$',
+++        \ ReadXnetbeans()[-1])})
+++  let g:last += 1
+++
+++  sleep 10m
+++endfunc
+++
++ " This test used to reference a buffer after it was freed leading to an ASAN
++ " error.
++ func Test_nb_bwipe_buffer()
++@@ -967,4 +1019,9 @@ func Test_nb_bwipe_buffer()
++   nbclose
++ endfunc
++ 
+++" Verify that the specialKeys argument does not overflow
+++func Test_nb_specialKeys_overflow()
+++  call s:run_server('Nb_specialKeys_overflow')
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.43.7
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 044117a57f..792a46faf7 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
+            file://CVE-2026-25749.patch \
++           file://CVE-2026-26269.patch \
+            "
  
--def features_backfill(var,d):
--    # This construct allows the addition of new features to variable specified
--    # as var
--    # Example for var = "DISTRO_FEATURES"
--    # This construct allows the addition of new features to DISTRO_FEATURES
--    # that if not present would disable existing functionality, without
--    # disturbing distributions that have already set DISTRO_FEATURES.
--    # Distributions wanting to elide a value in DISTRO_FEATURES_BACKFILL should
--    # add the feature to DISTRO_FEATURES_BACKFILL_CONSIDERED
--    features = (d.getVar(var) or "").split()
--    backfill = (d.getVar(var+"_BACKFILL") or "").split()
--    considered = (d.getVar(var+"_BACKFILL_CONSIDERED") or "").split()
--
--    addfeatures = []
--    for feature in backfill:
--        if feature not in features and feature not in considered:
--            addfeatures.append(feature)
--
--    if addfeatures:
--        d.appendVar(var, " " + " ".join(addfeatures))
--
- def filter_default_features(varname, d):
-     # Process default features to exclude features which the user has opted out
-     # of. The result is appended to the target variable (e.g. DISTRO_FEATURES
-
+ PV .= ".1683"
 -- 
-2.43.0
+2.44.1
 
 
