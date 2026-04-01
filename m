@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6768C10F6FB8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6BE710F6FBF
 	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:21 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14768.1775054172329459064
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14646.1775054155978407030
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 07:36:12 -0700
+ Wed, 01 Apr 2026 07:36:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=k1YNjiUQ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=LUUd2d1K;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019d49792c82-c70b3418-7976-43e3-90d5-7563f9f3e863-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rHwZL8yl;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=wIiNvvpD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019d497934ad-99adc061-26ae-44a5-8e79-7fd9a5870a63-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775054171;
+	t=1775054173;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nRevZ+az/NHmODQtzyKIoXRvEoMgrowCdWwsLxUghV4=;
-	b=k1YNjiUQmd/f+ErPbXtsIJs6YsqeeSYOzembJGGotcdDbBJbmroBVxwsuil8wcYP
-	hV+TRoFzEqHj1QT4g+GoiGgy+krw9ZCv9RylcUOwLcLJNB3+FO9BhGKmLBa8O6J+71X
-	ElNdEppPpuYm14fzOHHyHzdDLA078lDY4fxWHH+k=
+	bh=YiOj6z7Yy2F98+wmQCpRXybExg/Qm24HzN7pmH04Bs4=;
+	b=rHwZL8yl3yJvb/TVXXOGhfIV/V8AxCB1nbWLmA26wZExzNItYgaiOWICtu+Syq/L
+	QvIAEipiUQ7DlmNOUAkGD0UxJqNwseHoRlTaax2c0X862oT5dCYZPztlVI9FuidEyQn
+	a0ui9QJf8P2I2SpKCDDfdE+nHyurbFPgeG1snjEY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054171;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054173;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nRevZ+az/NHmODQtzyKIoXRvEoMgrowCdWwsLxUghV4=;
-	b=LUUd2d1Kg9PyXQcDbHwhFmOuh+HzSrV288yc8/trtGTfDRQniuUXDhC8g7XZQtzn
-	30p0IXxJR+twmNyEM1O4TAKtWxNvtPwIgjgCOKzmdhIIrg0A+GcXLAuO3Xnva+IPZl1
-	7w2IjRu6cj16oaDUEZHigxM3WGwExsyRKF//sINA=
-Content-Type: multipart/mixed; boundary="===============0366239514981790231=="
+	bh=YiOj6z7Yy2F98+wmQCpRXybExg/Qm24HzN7pmH04Bs4=;
+	b=wIiNvvpDbA1ozptG9a7AojdIZII7Hq0ogEt8xYGjowet4SFh+aNgHyE2Pk+Ij3Ur
+	VsmHsuO9o4v/fVGpgeoUr51pht4kSPrzcnMLaTA6kcUKKB9tAwQgkRIlW02XWAumAo/
+	NrCE0TBg1Xn/IKJ1S8djbk/jxyeZZeyXJdbB1wC4=
+Content-Type: multipart/mixed; boundary="===============5041981279803458801=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] igt-gpu-tools: upgrading to 2.4 FAILED
-Message-ID: <0101019d49792c82-c70b3418-7976-43e3-90d5-7563f9f3e863-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Apr 2026 14:36:11 +0000
+Subject: [AUH] virglrenderer: upgrading to 1.3.0 FAILED
+Message-ID: <0101019d497934ad-99adc061-26ae-44a5-8e79-7fd9a5870a63-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Apr 2026 14:36:13 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.23
+X-SES-Outgoing: 2026.04.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234417
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234420
 
---===============0366239514981790231==
+--===============5041981279803458801==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *igt-gpu-tools* to *2.4* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *virglrenderer* to *1.3.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-igt-gpu-tools-upgrade-2.3-2.4.patch
+    - apply the patch: git am 0001-virglrenderer-upgrade-1.2.0-1.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,132 +78,237 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e9302ed03352877955d4912240899f0880a803e1 Mon Sep 17 00:00:00 2001
+From 0a4bb5b79c3c96e52874cd9563e6d314611de03f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Apr 2026 13:06:46 +0000
-Subject: [PATCH] igt-gpu-tools: upgrade 2.3 -> 2.4
+Date: Wed, 1 Apr 2026 13:27:50 +0000
+Subject: [PATCH] virglrenderer: upgrade 1.2.0 -> 1.3.0
 
 ---
- ...-meson.build-do-not-hardcode-the-build-directory-.patch | 7 +++----
- .../{igt-gpu-tools_2.3.bb => igt-gpu-tools_2.4.bb}         | 2 +-
- 2 files changed, 4 insertions(+), 5 deletions(-)
- rename meta/recipes-graphics/igt-gpu-tools/{igt-gpu-tools_2.3.bb => igt-gpu-tools_2.4.bb} (97%)
+ ...once_flag-ONCE_FLAG_INIT-when-presen.patch | 57 -------------------
+ ...uild-use-python3-directly-for-python.patch |  8 +--
+ ...nderer_1.2.0.bb => virglrenderer_1.3.0.bb} |  3 +-
+ 3 files changed, 5 insertions(+), 63 deletions(-)
+ delete mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
+ rename meta/recipes-graphics/virglrenderer/{virglrenderer_1.2.0.bb => virglrenderer_1.3.0.bb} (90%)
 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
-index 7ff8aa22a9..f873d6f670 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
-@@ -1,4 +1,4 @@
--From 27fd94beadfc29ea4ad82f660dbdb2540d0b6b97 Mon Sep 17 00:00:00 2001
-+From efd5609e250adbae1d272dd236b7a41c89cd5c35 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 18 Dec 2025 15:45:11 +0100
- Subject: [PATCH] lib/meson.build: do not hardcode the build directory into the
-@@ -25,7 +25,6 @@ and them IGT_IMGDIR is used thusly in lib/igt_core.h:
- #define igt_fopen_data(filename) \
-         __igt_fopen_data(IGT_SRCDIR, IGT_DATADIR, IGT_IMGDIR, filename)
- 
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
+deleted file mode 100644
+index b077bf2033..0000000000
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From c076c52a323584d6d00ca7079072cbc0dd88cb43 Mon Sep 17 00:00:00 2001
+-From: Dave Airlie <airlied@redhat.com>
+-Date: Fri, 7 Nov 2025 13:14:56 +1000
+-Subject: [PATCH] c11/threads: fix build on c23
 -
- Upstream-Status: Inappropriate [hack patching in a bogus dir; issue reported at https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/190]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
- ---
-@@ -33,10 +32,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-C23/glibc is now including once_init in stdlib.h
+-
+-https://patchwork.sourceware.org/project/glibc/patch/78061085-f04a-0c45-107b-5a8a15521083@redhat.com/#213088
+-
+-Just fix up our use of it.
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1567]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/mesa/compat/c11/threads_posix.h | 8 ++++++--
+- 1 file changed, 6 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/mesa/compat/c11/threads_posix.h b/src/mesa/compat/c11/threads_posix.h
+-index 45cb6075..071faf79 100644
+---- a/src/mesa/compat/c11/threads_posix.h
+-+++ b/src/mesa/compat/c11/threads_posix.h
+-@@ -51,7 +51,9 @@ Configuration macro:
+- #include <pthread.h>
+- 
+- /*---------------------------- macros ----------------------------*/
+-+#ifndef __once_flag_defined
+- #define ONCE_FLAG_INIT PTHREAD_ONCE_INIT
+-+#endif
+- #ifdef INIT_ONCE_STATIC_INIT
+- #define TSS_DTOR_ITERATIONS PTHREAD_DESTRUCTOR_ITERATIONS
+- #else
+-@@ -66,8 +68,9 @@ typedef pthread_cond_t  cnd_t;
+- typedef pthread_t       thrd_t;
+- typedef pthread_key_t   tss_t;
+- typedef pthread_mutex_t mtx_t;
+-+#ifndef __once_flag_defined
+- typedef pthread_once_t  once_flag;
+--
+-+#endif
+- 
+- /*
+- Implementation limits:
+-@@ -90,12 +93,13 @@ impl_thrd_routine(void *p)
+- 
+- /*--------------- 7.25.2 Initialization functions ---------------*/
+- // 7.25.2.1
+-+#ifndef __once_flag_defined
+- static inline void
+- call_once(once_flag *flag, void (*func)(void))
+- {
+-     pthread_once(flag, func);
+- }
+--
+-+#endif
+- 
+- /*------------- 7.25.3 Condition variable functions -------------*/
+- // 7.25.3.1
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
+index 6f0ba3ebab..d6a97b5f07 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
+@@ -1,4 +1,4 @@
+-From 51c8a5a568b2cd1dfcb53ed3b49a0f8899be7be4 Mon Sep 17 00:00:00 2001
++From 3f343eb3302d03932bec29f2d7c3362702b25a65 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 6 Jan 2020 12:44:42 +0100
+ Subject: [PATCH] meson.build: use 'python3' directly for python
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/lib/meson.build b/lib/meson.build
--index d0487fb3c..f6452e970 100644
-+index 5c4829345..d28c95d99 100644
- --- a/lib/meson.build
- +++ b/lib/meson.build
--@@ -292,7 +292,7 @@ foreach f: lib_sources
-+@@ -301,7 +301,7 @@ foreach f: lib_sources
-  	    '-DIGT_DATADIR="@0@"'.format(join_paths(prefix, datadir)),
-  	    '-DIGT_SRCDIR="@0@"'.format(srcdir),
-  	    '-DIGT_LOG_DOMAIN="@0@"'.format(f.split('.')[0]),
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb
-similarity index 97%
-rename from meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb
-rename to meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb
-index c92d10c617..536e7a2652 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT"
+ diff --git a/meson.build b/meson.build
+-index 193ba32b..c01cae65 100644
++index 69c1bb82..08b1f266 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -77,7 +77,7 @@ flags = [
+@@ -23,5 +23,5 @@ index 193ba32b..c01cae65 100644
+ -prog_python = import('python').find_installation('python3')
+ +prog_python = 'python3'
+  
+- not_found = dependency('', required: false)
+- gbm_dep = not_found
++ with_host_windows = host_machine.system() == 'windows'
++ with_host_darwin = host_machine.system() == 'darwin'
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.2.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb
+similarity index 90%
+rename from meta/recipes-graphics/virglrenderer/virglrenderer_1.2.0.bb
+rename to meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb
+index df8473dad2..8fcdddcc4b 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.2.0.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb
+@@ -9,10 +9,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
  
- inherit meson pkgconfig
+ DEPENDS = "libdrm libepoxy python3-pyyaml-native virtual/egl virtual/libgbm"
+-SRCREV = "500b41d5c8638f9b80dd558f4044f3301c7457a4"
++SRCREV = "ca50e008863837e094747a69974dde3ae148aeaa"
+ SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https;tag=${PV} \
+            file://0001-meson.build-use-python3-directly-for-python.patch \
+-           file://0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch \
+            "
  
--SRCREV = "2d7ec9a36c550c48af4bdd6e748f6753369ab8ff"
-+SRCREV = "e6b603e4984e4ce30fe1cc2705734d0f130e0550"
- 
- SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
-            file://0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch \
+ inherit meson pkgconfig features_check
 -- 
 2.47.1
 
 
---===============0366239514981790231==
+--===============5041981279803458801==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-igt-gpu-tools-upgrade-2.3-2.4.patch"
+ filename="0001-virglrenderer-upgrade-1.2.0-1.3.0.patch"
 
-RnJvbSBlOTMwMmVkMDMzNTI4Nzc5NTVkNDkxMjI0MDg5OWYwODgwYTgwM2UxIE1vbiBTZXAgMTcg
+RnJvbSAwYTRiYjViNzljM2M5NmU1Mjg3NGNkOTU2M2U2ZDMxNDYxMWRlMDNmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMzowNjo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGln
-dC1ncHUtdG9vbHM6IHVwZ3JhZGUgMi4zIC0+IDIuNAoKLS0tCiAuLi4tbWVzb24uYnVpbGQtZG8t
-bm90LWhhcmRjb2RlLXRoZS1idWlsZC1kaXJlY3RvcnktLnBhdGNoIHwgNyArKystLS0tCiAuLi4v
-e2lndC1ncHUtdG9vbHNfMi4zLmJiID0+IGlndC1ncHUtdG9vbHNfMi40LmJifSAgICAgICAgIHwg
-MiArLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2lndC1ncHUtdG9vbHMve2lndC1ncHUtdG9vbHNf
-Mi4zLmJiID0+IGlndC1ncHUtdG9vbHNfMi40LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHMvMDAwMS1saWItbWVz
-b24uYnVpbGQtZG8tbm90LWhhcmRjb2RlLXRoZS1idWlsZC1kaXJlY3RvcnktLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL2lndC1ncHUtdG9vbHMvaWd0LWdwdS10b29scy8wMDAxLWxpYi1t
-ZXNvbi5idWlsZC1kby1ub3QtaGFyZGNvZGUtdGhlLWJ1aWxkLWRpcmVjdG9yeS0ucGF0Y2gKaW5k
-ZXggN2ZmOGFhMjJhOS4uZjg3M2Q2ZjY3MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL2lndC1ncHUtdG9vbHMvaWd0LWdwdS10b29scy8wMDAxLWxpYi1tZXNvbi5idWlsZC1kby1u
-b3QtaGFyZGNvZGUtdGhlLWJ1aWxkLWRpcmVjdG9yeS0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2lndC1ncHUtdG9vbHMvaWd0LWdwdS10b29scy8wMDAxLWxpYi1tZXNvbi5idWls
-ZC1kby1ub3QtaGFyZGNvZGUtdGhlLWJ1aWxkLWRpcmVjdG9yeS0ucGF0Y2gKQEAgLTEsNCArMSw0
-IEBACi1Gcm9tIDI3ZmQ5NGJlYWRmYzI5ZWE0YWQ4MmY2NjBkYmRiMjU0MGQwYjZiOTcgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGVmZDU2MDllMjUwYWRiYWUxZDI3MmRkMjM2YjdhNDFj
-ODljZDVjMzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZp
-biA8YWxleEBsaW51dHJvbml4LmRlPgogRGF0ZTogVGh1LCAxOCBEZWMgMjAyNSAxNTo0NToxMSAr
-MDEwMAogU3ViamVjdDogW1BBVENIXSBsaWIvbWVzb24uYnVpbGQ6IGRvIG5vdCBoYXJkY29kZSB0
-aGUgYnVpbGQgZGlyZWN0b3J5IGludG8gdGhlCkBAIC0yNSw3ICsyNSw2IEBAIGFuZCB0aGVtIElH
-VF9JTUdESVIgaXMgdXNlZCB0aHVzbHkgaW4gbGliL2lndF9jb3JlLmg6CiAjZGVmaW5lIGlndF9m
-b3Blbl9kYXRhKGZpbGVuYW1lKSBcCiAgICAgICAgIF9faWd0X2ZvcGVuX2RhdGEoSUdUX1NSQ0RJ
-UiwgSUdUX0RBVEFESVIsIElHVF9JTUdESVIsIGZpbGVuYW1lKQogCi0KIFVwc3RyZWFtLVN0YXR1
-czogSW5hcHByb3ByaWF0ZSBbaGFjayBwYXRjaGluZyBpbiBhIGJvZ3VzIGRpcjsgaXNzdWUgcmVw
-b3J0ZWQgYXQgaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS9pZ3QtZ3B1LXRvb2xz
-Ly0vaXNzdWVzLzE5MF0KIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxp
-bnV0cm9uaXguZGU+CiAtLS0KQEAgLTMzLDEwICszMiwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4
-YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvbGliL21lc29uLmJ1aWxk
-IGIvbGliL21lc29uLmJ1aWxkCi1pbmRleCBkMDQ4N2ZiM2MuLmY2NDUyZTk3MCAxMDA2NDQKK2lu
-ZGV4IDVjNDgyOTM0NS4uZDI4Yzk1ZDk5IDEwMDY0NAogLS0tIGEvbGliL21lc29uLmJ1aWxkCiAr
-KysgYi9saWIvbWVzb24uYnVpbGQKLUBAIC0yOTIsNyArMjkyLDcgQEAgZm9yZWFjaCBmOiBsaWJf
-c291cmNlcworQEAgLTMwMSw3ICszMDEsNyBAQCBmb3JlYWNoIGY6IGxpYl9zb3VyY2VzCiAgCSAg
-ICAnLURJR1RfREFUQURJUj0iQDBAIicuZm9ybWF0KGpvaW5fcGF0aHMocHJlZml4LCBkYXRhZGly
-KSksCiAgCSAgICAnLURJR1RfU1JDRElSPSJAMEAiJy5mb3JtYXQoc3JjZGlyKSwKICAJICAgICct
-RElHVF9MT0dfRE9NQUlOPSJAMEAiJy5mb3JtYXQoZi5zcGxpdCgnLicpWzBdKSwKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHNfMi4z
-LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2lndC1ncHUtdG9vbHMvaWd0LWdwdS10b29sc18y
-LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL2lndC1ncHUtdG9vbHMvaWd0LWdwdS10b29sc18yLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHNfMi40LmJiCmluZGV4IGM5
-MmQxMGM2MTcuLjUzNmU3YTI2NTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9p
-Z3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHNfMi4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHNfMi40LmJiCkBAIC05LDcgKzksNyBAQCBM
-SUNFTlNFID0gIk1JVCIKIAogaW5oZXJpdCBtZXNvbiBwa2djb25maWcKIAotU1JDUkVWID0gIjJk
-N2VjOWEzNmM1NTBjNDhhZjRiZGQ2ZTc0OGY2NzUzMzY5YWI4ZmYiCitTUkNSRVYgPSAiZTZiNjAz
-ZTQ5ODRlNGNlMzBmZTFjYzI3MDU3MzRkMGYxMzBlMDU1MCIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9n
-aXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS9pZ3QtZ3B1LXRvb2xzLmdpdDtwcm90b2NvbD1odHRw
-czticmFuY2g9bWFzdGVyO3RhZz12JHtQVn0gXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1saWIt
-bWVzb24uYnVpbGQtZG8tbm90LWhhcmRjb2RlLXRoZS1idWlsZC1kaXJlY3RvcnktLnBhdGNoIFwK
-LS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMzoyNzo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZp
+cmdscmVuZGVyZXI6IHVwZ3JhZGUgMS4yLjAgLT4gMS4zLjAKCi0tLQogLi4ub25jZV9mbGFnLU9O
+Q0VfRkxBR19JTklULXdoZW4tcHJlc2VuLnBhdGNoIHwgNTcgLS0tLS0tLS0tLS0tLS0tLS0tLQog
+Li4udWlsZC11c2UtcHl0aG9uMy1kaXJlY3RseS1mb3ItcHl0aG9uLnBhdGNoIHwgIDggKy0tCiAu
+Li5uZGVyZXJfMS4yLjAuYmIgPT4gdmlyZ2xyZW5kZXJlcl8xLjMuMC5iYn0gfCAgMyArLQogMyBm
+aWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDYzIGRlbGV0aW9ucygtKQogZGVsZXRlIG1v
+ZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVy
+ZXIvMDAwMS1jMTEtdXNlLWdsaWJjLXMtb25jZV9mbGFnLU9OQ0VfRkxBR19JTklULXdoZW4tcHJl
+c2VuLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3ZpcmdscmVuZGVyZXIve3Zp
+cmdscmVuZGVyZXJfMS4yLjAuYmIgPT4gdmlyZ2xyZW5kZXJlcl8xLjMuMC5iYn0gKDkwJSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRl
+cmVyLzAwMDEtYzExLXVzZS1nbGliYy1zLW9uY2VfZmxhZy1PTkNFX0ZMQUdfSU5JVC13aGVuLXBy
+ZXNlbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVu
+ZGVyZXIvMDAwMS1jMTEtdXNlLWdsaWJjLXMtb25jZV9mbGFnLU9OQ0VfRkxBR19JTklULXdoZW4t
+cHJlc2VuLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBiMDc3YmYyMDMzLi4w
+MDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3Zpcmds
+cmVuZGVyZXIvMDAwMS1jMTEtdXNlLWdsaWJjLXMtb25jZV9mbGFnLU9OQ0VfRkxBR19JTklULXdo
+ZW4tcHJlc2VuLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsNTcgKzAsMCBAQAotRnJvbSBjMDc2
+YzUyYTMyMzU4NGQ2ZDAwY2E3MDc5MDcyY2JjMGRkODhjYjQzIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQotRnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KLURhdGU6IEZyaSwg
+NyBOb3YgMjAyNSAxMzoxNDo1NiArMTAwMAotU3ViamVjdDogW1BBVENIXSBjMTEvdGhyZWFkczog
+Zml4IGJ1aWxkIG9uIGMyMwotCi1DMjMvZ2xpYmMgaXMgbm93IGluY2x1ZGluZyBvbmNlX2luaXQg
+aW4gc3RkbGliLmgKLQotaHR0cHM6Ly9wYXRjaHdvcmsuc291cmNld2FyZS5vcmcvcHJvamVjdC9n
+bGliYy9wYXRjaC83ODA2MTA4NS1mMDRhLTBjNDUtMTA3Yi01YThhMTU1MjEwODNAcmVkaGF0LmNv
+bS8jMjEzMDg4Ci0KLUp1c3QgZml4IHVwIG91ciB1c2Ugb2YgaXQuCi0KLVVwc3RyZWFtLVN0YXR1
+czogU3VibWl0dGVkIFtodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvdmlyZ2wvdmlyZ2xy
+ZW5kZXJlci8tL21lcmdlX3JlcXVlc3RzLzE1NjddCi1TaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8
+cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gc3JjL21lc2EvY29tcGF0L2MxMS90aHJlYWRzX3Bv
+c2l4LmggfCA4ICsrKysrKy0tCi0gMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkKLQotZGlmZiAtLWdpdCBhL3NyYy9tZXNhL2NvbXBhdC9jMTEvdGhyZWFkc19w
+b3NpeC5oIGIvc3JjL21lc2EvY29tcGF0L2MxMS90aHJlYWRzX3Bvc2l4LmgKLWluZGV4IDQ1Y2I2
+MDc1Li4wNzFmYWY3OSAxMDA2NDQKLS0tLSBhL3NyYy9tZXNhL2NvbXBhdC9jMTEvdGhyZWFkc19w
+b3NpeC5oCi0rKysgYi9zcmMvbWVzYS9jb21wYXQvYzExL3RocmVhZHNfcG9zaXguaAotQEAgLTUx
+LDcgKzUxLDkgQEAgQ29uZmlndXJhdGlvbiBtYWNybzoKLSAjaW5jbHVkZSA8cHRocmVhZC5oPgot
+IAotIC8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBtYWNyb3MgLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLSovCi0rI2lmbmRlZiBfX29uY2VfZmxhZ19kZWZpbmVkCi0gI2RlZmluZSBP
+TkNFX0ZMQUdfSU5JVCBQVEhSRUFEX09OQ0VfSU5JVAotKyNlbmRpZgotICNpZmRlZiBJTklUX09O
+Q0VfU1RBVElDX0lOSVQKLSAjZGVmaW5lIFRTU19EVE9SX0lURVJBVElPTlMgUFRIUkVBRF9ERVNU
+UlVDVE9SX0lURVJBVElPTlMKLSAjZWxzZQotQEAgLTY2LDggKzY4LDkgQEAgdHlwZWRlZiBwdGhy
+ZWFkX2NvbmRfdCAgY25kX3Q7Ci0gdHlwZWRlZiBwdGhyZWFkX3QgICAgICAgdGhyZF90OwotIHR5
+cGVkZWYgcHRocmVhZF9rZXlfdCAgIHRzc190OwotIHR5cGVkZWYgcHRocmVhZF9tdXRleF90IG10
+eF90OwotKyNpZm5kZWYgX19vbmNlX2ZsYWdfZGVmaW5lZAotIHR5cGVkZWYgcHRocmVhZF9vbmNl
+X3QgIG9uY2VfZmxhZzsKLS0KLSsjZW5kaWYKLSAKLSAvKgotIEltcGxlbWVudGF0aW9uIGxpbWl0
+czoKLUBAIC05MCwxMiArOTMsMTMgQEAgaW1wbF90aHJkX3JvdXRpbmUodm9pZCAqcCkKLSAKLSAv
+Ki0tLS0tLS0tLS0tLS0tLSA3LjI1LjIgSW5pdGlhbGl6YXRpb24gZnVuY3Rpb25zIC0tLS0tLS0t
+LS0tLS0tLSovCi0gLy8gNy4yNS4yLjEKLSsjaWZuZGVmIF9fb25jZV9mbGFnX2RlZmluZWQKLSBz
+dGF0aWMgaW5saW5lIHZvaWQKLSBjYWxsX29uY2Uob25jZV9mbGFnICpmbGFnLCB2b2lkICgqZnVu
+Yykodm9pZCkpCi0gewotICAgICBwdGhyZWFkX29uY2UoZmxhZywgZnVuYyk7Ci0gfQotLQotKyNl
+bmRpZgotIAotIC8qLS0tLS0tLS0tLS0tLSA3LjI1LjMgQ29uZGl0aW9uIHZhcmlhYmxlIGZ1bmN0
+aW9ucyAtLS0tLS0tLS0tLS0tKi8KLSAvLyA3LjI1LjMuMQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3ZpcmdscmVuZGVyZXIvdmlyZ2xyZW5kZXJlci8wMDAxLW1lc29uLmJ1aWxk
+LXVzZS1weXRob24zLWRpcmVjdGx5LWZvci1weXRob24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVyLzAwMDEtbWVzb24uYnVpbGQtdXNlLXB5
+dGhvbjMtZGlyZWN0bHktZm9yLXB5dGhvbi5wYXRjaAppbmRleCA2ZjBiYTNlYmFiLi5kNmE5N2I1
+ZjA3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92aXJn
+bHJlbmRlcmVyLzAwMDEtbWVzb24uYnVpbGQtdXNlLXB5dGhvbjMtZGlyZWN0bHktZm9yLXB5dGhv
+bi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJl
+bmRlcmVyLzAwMDEtbWVzb24uYnVpbGQtdXNlLXB5dGhvbjMtZGlyZWN0bHktZm9yLXB5dGhvbi5w
+YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNTFjOGE1YTU2OGIyY2QxZGZjYjUzZWQzYjQ5YTBm
+ODg5OWJlN2JlNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gM2YzNDNlYjMzMDJkMDM5
+MzJiZWMyOWYyZDdjMzM2MjcwMmIyNWE2NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
+IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogTW9uLCA2
+IEphbiAyMDIwIDEyOjQ0OjQyICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uLmJ1aWxkOiB1
+c2UgJ3B5dGhvbjMnIGRpcmVjdGx5IGZvciBweXRob24KQEAgLTEzLDcgKzEzLDcgQEAgU2lnbmVk
+LW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQg
+YS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCAxOTNiYTMyYi4uYzAxY2FlNjUgMTAw
+NjQ0CitpbmRleCA2OWMxYmI4Mi4uMDhiMWYyNjYgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAog
+KysrIGIvbWVzb24uYnVpbGQKIEBAIC03Nyw3ICs3Nyw3IEBAIGZsYWdzID0gWwpAQCAtMjMsNSAr
+MjMsNSBAQCBpbmRleCAxOTNiYTMyYi4uYzAxY2FlNjUgMTAwNjQ0CiAtcHJvZ19weXRob24gPSBp
+bXBvcnQoJ3B5dGhvbicpLmZpbmRfaW5zdGFsbGF0aW9uKCdweXRob24zJykKICtwcm9nX3B5dGhv
+biA9ICdweXRob24zJwogIAotIG5vdF9mb3VuZCA9IGRlcGVuZGVuY3koJycsIHJlcXVpcmVkOiBm
+YWxzZSkKLSBnYm1fZGVwID0gbm90X2ZvdW5kCisgd2l0aF9ob3N0X3dpbmRvd3MgPSBob3N0X21h
+Y2hpbmUuc3lzdGVtKCkgPT0gJ3dpbmRvd3MnCisgd2l0aF9ob3N0X2RhcndpbiA9IGhvc3RfbWFj
+aGluZS5zeXN0ZW0oKSA9PSAnZGFyd2luJwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3ZpcmdscmVuZGVyZXIvdmlyZ2xyZW5kZXJlcl8xLjIuMC5iYiBiL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVyZXJfMS4zLjAuYmIKc2ltaWxhcml0eSBp
+bmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3ZpcmdscmVuZGVyZXIv
+dmlyZ2xyZW5kZXJlcl8xLjIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Zp
+cmdscmVuZGVyZXIvdmlyZ2xyZW5kZXJlcl8xLjMuMC5iYgppbmRleCBkZjg0NzNkYWQyLi44ZmNk
+ZGRjYzRiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92
+aXJnbHJlbmRlcmVyXzEuMi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJl
+bmRlcmVyL3ZpcmdscmVuZGVyZXJfMS4zLjAuYmIKQEAgLTksMTAgKzksOSBAQCBMSUNFTlNFID0g
+Ik1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWM4MWMwOGVlZWZk
+OTQxOGZjYThmODgzMDlhNzZkYjEwIgogCiBERVBFTkRTID0gImxpYmRybSBsaWJlcG94eSBweXRo
+b24zLXB5eWFtbC1uYXRpdmUgdmlydHVhbC9lZ2wgdmlydHVhbC9saWJnYm0iCi1TUkNSRVYgPSAi
+NTAwYjQxZDVjODYzOGY5YjgwZGQ1NThmNDA0NGYzMzAxYzc0NTdhNCIKK1NSQ1JFViA9ICJjYTUw
+ZTAwODg2MzgzN2UwOTQ3NDdhNjk5NzRkZGUzYWUxNDhhZWFhIgogU1JDX1VSSSA9ICJnaXQ6Ly9n
+aXRsYWIuZnJlZWRlc2t0b3Aub3JnL3ZpcmdsL3ZpcmdscmVuZGVyZXIuZ2l0O2JyYW5jaD1tYWlu
+O3Byb3RvY29sPWh0dHBzO3RhZz0ke1BWfSBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLW1lc29u
+LmJ1aWxkLXVzZS1weXRob24zLWRpcmVjdGx5LWZvci1weXRob24ucGF0Y2ggXAotICAgICAgICAg
+ICBmaWxlOi8vMDAwMS1jMTEtdXNlLWdsaWJjLXMtb25jZV9mbGFnLU9OQ0VfRkxBR19JTklULXdo
+ZW4tcHJlc2VuLnBhdGNoIFwKICAgICAgICAgICAgIgogCiBpbmhlcml0IG1lc29uIHBrZ2NvbmZp
+ZyBmZWF0dXJlc19jaGVjawotLSAKMi40Ny4xCgo=
 
---===============0366239514981790231==
+--===============5041981279803458801==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -226,177 +331,108 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-1d24e94d86384d8b1dd68d20ebd1680f132bae11"
+DISTRO_VERSION       = "5.3.99+snapshot-776bc972f227498a3b0b4e074e01a1553a05fb36"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:1d24e94d86384d8b1dd68d20ebd1680f132bae11"
+meta                 = "tmp-auh-upgrades:776bc972f227498a3b0b4e074e01a1553a05fb36"
 meta-yocto-bsp       
 meta-poky            = "master:ac300baea7314ea3c80f2330b2a993f729f32150"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 312 Local 298 Mirrors 0 Missed 14 Current 752 (95% match, 98% complete)
+Sstate summary: Wanted 352 Local 339 Mirrors 0 Missed 13 Current 728 (96% match, 98% complete)
 done.
 NOTE: Executing Tasks
 NOTE: Setscene tasks completed
-NOTE: Running task 2164 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_recipe_qa)
-NOTE: Running task 2322 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_write_config)
-NOTE: Running task 2469 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_create_recipe_spdx)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_recipe_qa: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_write_config: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_create_recipe_spdx: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_write_config: Succeeded
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2484 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_fetch)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_fetch: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2485 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_unpack)
-NOTE: Running task 2486 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_unpack: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2487 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_patch)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_patch: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_patch: Succeeded
-NOTE: Running task 2488 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2489 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_populate_lic)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_populate_lic: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_populate_lic: Succeeded
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2490 of 2502 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_configure)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_configure: Started
+NOTE: Running task 2337 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_recipe_qa)
+NOTE: Running task 2426 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_write_config)
+NOTE: Running task 2518 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_create_recipe_spdx)
+NOTE: recipe virglrenderer-1.3.0-r0: task do_recipe_qa: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_write_config: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_write_config: Succeeded
+NOTE: recipe virglrenderer-1.3.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe virglrenderer-1.3.0-r0: task do_recipe_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_recipe_qa unihash changed to fe2a315a9c03ab93814e3d41605afcdc856d489cee6295e6c74b8f2e92018cd9
+NOTE: Setscene tasks completed
+NOTE: Running task 2531 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_fetch)
+NOTE: recipe virglrenderer-1.3.0-r0: task do_fetch: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2532 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_unpack)
+NOTE: Running task 2533 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe virglrenderer-1.3.0-r0: task do_unpack: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe virglrenderer-1.3.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2534 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_patch)
+NOTE: recipe virglrenderer-1.3.0-r0: task do_patch: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_patch: Succeeded
+NOTE: Running task 2535 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2536 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_populate_lic)
+NOTE: recipe virglrenderer-1.3.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_populate_lic: Started
+NOTE: recipe virglrenderer-1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_deploy_source_date_epoch unihash changed to ec1a57952e7b840670daea61e8cca77de046578bdb609a8ac7978ac2f489c7e7
+NOTE: Setscene tasks completed
+NOTE: Running task 2537 of 2549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_configure)
+NOTE: recipe virglrenderer-1.3.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe virglrenderer-1.3.0-r0: task do_configure: Started
 Log data follows:
 | DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd_259.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/
- openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/procps/procps_4.0.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.131.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_populate_
- sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunwind/libunwind_1.8.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/bison/bison_3.8.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb:do_populate_s
- ysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_populate_sysroot']
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.131.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/laye
+ rs/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.341.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/
+ layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.3.bb:do_populate_sysroot']
 | NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'base-files', 'base-passwd', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'systemd', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'procps', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'wayland-protocols', 'wayland', 'libpciaccess', 'libpthread-stubs', 'libx11', 'libxau', 'libxcb', 'libxdmcp', 'libxext', 'libxkbcommon', 'libxrender', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'libpng', 'acl', 'attr', 'bash-completion', 'curl', 'gdbm', 'gmp', 'gnutls', 
- 'libtasn1', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libmicrohttpd', 'libpcre2', 'libseccomp', 'libunistring', 'libunwind', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'bison-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconf-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glibc', 'libxcrypt', 'libxml2', 'zlib', 'binutils-cross-x86_64', 'llvm', 'cmake-native', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libtool-native', 'm4-native', 'opkg-utils', 'qemu-native', 'quilt-native', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'texinfo-dummy-native', 'xz', 'zstd', 'libdrm', 'libepoxy', 'mesa', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libpciaccess', 'libpthread-stubs', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxrandr', 'libxrender', 'libxshmfence', 'libxxf86vm', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'acl', 'attr', 'curl', 'gmp', 'gnutls', 'libtasn1', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libmicrohttpd', 'libseccomp', 'libunistring', 'nettle', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native'
+ , 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconf-native', 'pseudo-native', 'python3-build-native', 'python3-cython-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-pyyaml-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'libyaml-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
 | DEBUG: Python function extend_recipe_sysroot finished
 | DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddocs=disabled -Drunner=enabled -Dsrcdir=/usr/src/debug/igt-gpu-tools/2.4/git/ -Dversion_hash=2.4 -Dchamelium=disabled...
+| NOTE: Executing meson -Dminigbm_allocation=false -Drender-server=false -Dtests=false -Dvideo=false -Dvenus=true -Dvenus-validate=false...
 | The Meson build system
 | Version: 1.10.2
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/sources/igt-gpu-tools-2.4
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/build
+| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/sources/virglrenderer-1.3.0
+| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/build
 | Build type: cross build
-| Project name: igt-gpu-tools
-| Project version: 2.4
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/recipe-sysroot ld.bfd 2.46
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Compiler for C supports arguments -Wbad-function-cast: YES
-| Compiler for C supports arguments -Wdeclaration-after-statement: YES
-| Compiler for C supports arguments -Wformat=2: YES
-| Compiler for C supports arguments -Wimplicit-fallthrough=0: YES
-| Compiler for C supports arguments -Wlogical-op: YES
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wmissing-format-attribute: YES
-| Compiler for C supports arguments -Wmissing-noreturn: YES
-| Compiler for C supports arguments -Wmissing-prototypes: YES
-| Compiler for C supports arguments -Wnested-externs: YES
-| Compiler for C supports arguments -Wold-style-definition: YES
-| Compiler for C supports arguments -Wpointer-arith: YES
-| Compiler for C supports arguments -Wredundant-decls: YES
-| Compiler for C supports arguments -Wshadow: YES
-| Compiler for C supports arguments -Wstrict-prototypes: YES
-| Compiler for C supports arguments -Wuninitialized: YES
-| Compiler for C supports arguments -Wunused: YES
-| Compiler for C supports arguments -Wno-clobbered: YES
-| Compiler for C supports arguments -Wno-maybe-uninitialized: YES
-| Compiler for C supports arguments -Wno-missing-field-initializers: YES
-| Compiler for C supports arguments -Wno-pointer-arith: YES
-| Compiler for C supports arguments -Wno-address-of-packed-member: YES
-| Compiler for C supports arguments -Wno-sign-compare: YES
-| Compiler for C supports arguments -Wno-type-limits: YES
-| Compiler for C supports arguments -Wno-unused-parameter: YES
-| Compiler for C supports arguments -Wno-unused-result: YES
-| Compiler for C supports arguments -Werror=address: YES
-| Compiler for C supports arguments -Werror=array-bounds: YES
-| Compiler for C supports arguments -Werror=dangling-pointer: YES
-| Compiler for C supports arguments -Werror=implicit: YES
-| Compiler for C supports arguments -Werror=init-self: YES
-| Compiler for C supports arguments -Werror=int-conversion: YES
-| Compiler for C supports arguments -Werror=int-to-pointer-cast: YES
-| Compiler for C supports arguments -Werror=main: YES
-| Compiler for C supports arguments -Werror=missing-braces: YES
-| Compiler for C supports arguments -Werror=nonnull: YES
-| Compiler for C supports arguments -Werror=pointer-to-int-cast: YES
-| Compiler for C supports arguments -Werror=return-type: YES
-| Compiler for C supports arguments -Werror=sequence-point: YES
-| Compiler for C supports arguments -Werror=trigraphs: YES
-| Compiler for C supports arguments -Werror=write-strings: YES
-| Compiler for C supports arguments -fno-builtin-malloc: YES
-| Compiler for C supports arguments -fno-builtin-calloc: YES
-| Compiler for C supports arguments -D_LARGEFILE64_SOURCE=1: YES
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/recipe-sysroot-native/usr/bin/pkg-config) 2.5.1
-| Run-time dependency libdrm found: YES 2.4.131
-| Run-time dependency libdrm_intel found: YES 2.4.131
-| Run-time dependency libdrm_nouveau found: YES 2.4.131
-| Run-time dependency libdrm_amdgpu found: YES 2.4.131
-| Run-time dependency pciaccess found: YES 0.19
-| Run-time dependency libkmod found: YES 34.2
-| Found CMake: NO
-| Run-time dependency libprocps found: NO (tried pkgconfig and cmake)
-| Run-time dependency libproc2 found: YES 4.0.6-dirty
-| Run-time dependency libunwind found: YES 1.8.3
-| Run-time dependency libdw found: YES 0.194
-| Run-time dependency pixman-1 found: YES 0.46.4
-| Run-time dependency valgrind found: NO (tried pkgconfig)
-| Run-time dependency cairo found: YES 1.18.4
-| Run-time dependency libpci found: NO (tried pkgconfig)
 | 
-| ../sources/igt-gpu-tools-2.4/meson.build:165:9: ERROR: Dependency "libpci" not found, tried pkgconfig
+| ../sources/virglrenderer-1.3.0/meson.build:24:0: ERROR: Unknown option: "render-server".
 | 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/build/meson-logs/meson-log.txt
+| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/build/meson-logs/meson-log.txt
 | 
 | Last 10 lines of meson-log.txt:
-| Package libpci was not found in the pkg-config search path.
-| Perhaps you should add the directory containing `libpci.pc'
-| to the PKG_CONFIG_PATH environment variable
-| Package 'libpci' not found
-| -----------
-| CMake binary for host machine is cached as not found
-| Dependency lookup for libpci with method 'cmake' failed: CMake binary for machine host machine not found. Giving up.
-| Run-time dependency libpci found: NO (tried pkgconfig)
+| Main binary: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/recipe-sysroot-native/usr/bin/nativepython3
+| Build Options: -Dminigbm_allocation=false -Drender-server=false -Dtests=false -Dvideo=false -Dvenus=true -Dvenus-validate=false -Dprefix=/usr -Dbindir=/usr/bin -Ddatadir=/usr/share -Dincludedir=/usr/include -Dinfodir=/usr/share/info -Dlibdir=/usr/lib -Dlibexecdir=/usr/libexec -Dlocalstatedir=/var -Dmandir=/usr/share/man -Dsbindir=/usr/sbin -Dsharedstatedir=/com -Dsysconfdir=/etc -Dbuildtype=plain -Dwrap_mode=nodownload --cross-file=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/meson.cross --native-file=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/meson.native
+| Python system: Linux
+| The Meson build system
+| Version: 1.10.2
+| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/sources/virglrenderer-1.3.0
+| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/build
+| Build type: cross build
 | 
-| ../sources/igt-gpu-tools-2.4/meson.build:165:9: ERROR: Dependency "libpci" not found, tried pkgconfig
+| ../sources/virglrenderer-1.3.0/meson.build:24:0: ERROR: Unknown option: "render-server".
 | 
 | ERROR: meson setup failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.3101725:170 exit 1 from 'exit 1'
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/temp/run.do_configure.3194825:170 exit 1 from 'exit 1'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.3101725, line 170
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.3101725, line 159
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.3101725, line 146
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.3101725, line 183
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2490 tasks of which 2480 didn't need to be rerun and 1 failed.
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/temp/run.do_configure.3194825, line 170
+| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/temp/run.do_configure.3194825, line 159
+| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/temp/run.do_configure.3194825, line 146
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/temp/run.do_configure.3194825, line 183
+NOTE: recipe virglrenderer-1.3.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2537 tasks of which 2527 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401130630.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401132735.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401130630.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401132735.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/log.do_configure.3101725
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/temp/log.do_configure.3194825
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: igt-gpu-tools-2.4-r0 do_configure: meson setup failed
-ERROR: igt-gpu-tools-2.4-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.3101725' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/log.do_configure.3101725
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_configure) failed with exit code '1'
+ERROR: virglrenderer-1.3.0-r0 do_configure: meson setup failed
+ERROR: virglrenderer-1.3.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/temp/run.do_configure.3194825' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/virglrenderer/1.3.0/temp/log.do_configure.3194825
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_1.3.0.bb:do_configure) failed with exit code '1'
 
---===============0366239514981790231==--
+--===============5041981279803458801==--
 
