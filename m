@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DDC10FCAE2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 837E110FCAE4
 	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:07 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14744.1775054158882956932
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14755.1775054162312399014
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Apr 2026 07:36:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gLz5JDYN;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zIrQHFNZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019d49790770-0d6fe93b-49a7-454f-a2a1-3b4ccea14dbe-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lAmbAIbL;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=3SSsPLhi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019d49790580-0a65c1af-a29b-41e4-9f53-d1c6e43ff442-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1775054161;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6Vdq0bbXr7RW0HOhXamToauLWxAVoqu6Hf1a1KeWJM8=;
-	b=gLz5JDYNKirlYNMuNCeznmAIdPFyWDxEhQt1vOuWeIXB/PoZTwAlla6yrs0jRdc5
-	N2vJotPtezR9+nbyH/DuleV/eH8z1UnuC7W5565FjxHlij9c+xIFScRL8aASVSphh1W
-	9MYGsh3gfDxn3lxNf7wBIriSOefHzzzaJImuySFA=
+	bh=MhK2vLkvHMcVuWYUXxPxQ6gOd3j+1QoI8wRDdfUtrT0=;
+	b=lAmbAIbL7b5pY+ZjVSeslodWcdVzAqq0IWrVpNcWe4PWQScVulW3dFbWw/BGlLOx
+	ozcO36R+zxfmi5/7FvLBiIZSb0UZZICru/AnHKfBXOcwhsGjwMlRK37cZFNjPqXLh83
+	kvFFBFBnAROx2N458EsBLn/k8TifI/sRzw/JVM8A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054161;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6Vdq0bbXr7RW0HOhXamToauLWxAVoqu6Hf1a1KeWJM8=;
-	b=zIrQHFNZwykOKOAbOQ/5makNTdRIsl4oC6Vw+nnyPChR6nCf76sfXf2WB/rqfSij
-	41DDCmxPkAlT6CChXBsKrJUV0GOTCAad69YChzLeAK54uuaqF7Z3uGKVBU7FacInSzB
-	zxgtC0Tly+nbHy95pA2UmIwNR2kwSGHoqEtRslcw=
-Content-Type: multipart/mixed; boundary="===============0241465854793236843=="
+	bh=MhK2vLkvHMcVuWYUXxPxQ6gOd3j+1QoI8wRDdfUtrT0=;
+	b=3SSsPLhiFS2FMXImss4rxqq9274NeyOask9AoTcvKfu1yuQVTVIYR53UfOeq9sj8
+	yVArf/4Q3l4/pwo1ArHbCEpV7U1KoUYFMU+2U4mpUJCfycbOcJkeDMTlzlhXmKDtTYe
+	Y9NLc8thZuKBybhiGpR0cJQX8e9Sm3CExWmEI+VQ=
+Content-Type: multipart/mixed; boundary="===============1767815130522094718=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-poetry-core: upgrading to 2.3.2 SUCCEEDED
-Message-ID: <0101019d49790770-0d6fe93b-49a7-454f-a2a1-3b4ccea14dbe-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-jsonpointer: upgrading to 3.1.1 SUCCEEDED
+Message-ID: <0101019d49790580-0a65c1af-a29b-41e4-9f53-d1c6e43ff442-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Apr 2026 14:36:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.33
+X-SES-Outgoing: 2026.04.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234379
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234380
 
---===============0241465854793236843==
+--===============1767815130522094718==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-poetry-core* to *2.3.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-jsonpointer* to *3.1.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-poetry-core-upgrade-2.3.1-2.3.2.patch
+    - apply the patch: git am 0001-python3-jsonpointer-upgrade-3.0.0-3.1.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,108 +72,107 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4fc3ab693a0a971a863c8326d523650b15a3a7c2 Mon Sep 17 00:00:00 2001
+From c4644496a87ab340891b18c76394572481cd971e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Apr 2026 10:09:56 +0000
-Subject: [PATCH] python3-poetry-core: upgrade 2.3.1 -> 2.3.2
+Date: Wed, 1 Apr 2026 09:26:29 +0000
+Subject: [PATCH] python3-jsonpointer: upgrade 3.0.0 -> 3.1.1
 
 ---
- ...ython3-poetry-core_2.3.1.bb => python3-poetry-core_2.3.2.bb} | 2 +-
+ ...ython3-jsonpointer_3.0.0.bb => python3-jsonpointer_3.1.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-poetry-core_2.3.1.bb => python3-poetry-core_2.3.2.bb} (93%)
+ rename meta/recipes-devtools/python/{python3-jsonpointer_3.0.0.bb => python3-jsonpointer_3.1.1.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb b/meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb
-rename to meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
-index 705e08d98b..0f55368d13 100644
---- a/meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb
-+++ b/meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "\
-     file://src/poetry/core/_vendor/tomli/LICENSE;md5=aaaaf0879d17df0110d1aa8c8c9f46f5 \
- "
+diff --git a/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb b/meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
+rename to meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb
+index 0a23dc3100..ddc8e256a4 100644
+--- a/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
++++ b/meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=32b15c843b7a329130f4e266a281ebb3"
  
--SRC_URI[sha256sum] = "96f791d5d7d4e040f3983d76779425cf9532690e2756a24fd5ca0f86af19ef82"
-+SRC_URI[sha256sum] = "20cb71be27b774628da9f384effd9183dfceb53bcef84063248a8672aa47031f"
+ inherit pypi ptest setuptools3
  
- inherit python_poetry_core pypi
+-SRC_URI[sha256sum] = "2b2d729f2091522d61c3b31f82e11870f60b68f43fbc705cb76bf4b832af59ef"
++SRC_URI[sha256sum] = "0b801c7db33a904024f6004d526dcc53bbb8a4a0f4e32bfd10beadf60adf1900"
  
+ SRC_URI += " \
+ 	file://run-ptest \
 -- 
 2.47.1
 
 
---===============0241465854793236843==
+--===============1767815130522094718==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-poetry-core (sysroot):
-  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
-Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
-  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.0.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.0.0.dist-info -> /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-jsonpointer (sysroot):
+  /usr/lib/python3.14/site-packages/jsonpointer-3.0.0.dist-info moved to /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info
 
---===============0241465854793236843==
+--===============1767815130522094718==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-poetry-core-upgrade-2.3.1-2.3.2.patch"
+ filename="0001-python3-jsonpointer-upgrade-3.0.0-3.1.1.patch"
 
-RnJvbSA0ZmMzYWI2OTNhMGE5NzFhODYzYzgzMjZkNTIzNjUwYjE1YTNhN2MyIE1vbiBTZXAgMTcg
+RnJvbSBjNDY0NDQ5NmE4N2FiMzQwODkxYjE4Yzc2Mzk0NTcyNDgxY2Q5NzFlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMDowOTo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcG9ldHJ5LWNvcmU6IHVwZ3JhZGUgMi4zLjEgLT4gMi4zLjIKCi0tLQogLi4ueXRob24z
-LXBvZXRyeS1jb3JlXzIuMy4xLmJiID0+IHB5dGhvbjMtcG9ldHJ5LWNvcmVfMi4zLjIuYmJ9IHwg
+CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAwOToyNjoyOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtanNvbnBvaW50ZXI6IHVwZ3JhZGUgMy4wLjAgLT4gMy4xLjEKCi0tLQogLi4ueXRob24z
+LWpzb25wb2ludGVyXzMuMC4wLmJiID0+IHB5dGhvbjMtanNvbnBvaW50ZXJfMy4xLjEuYmJ9IHwg
 MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wb2V0cnktY29yZV8yLjMu
-MS5iYiA9PiBweXRob24zLXBvZXRyeS1jb3JlXzIuMy4yLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjMuMS5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjMu
-Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4zLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjMuMi5iYgppbmRleCA3
-MDVlMDhkOThiLi4wZjU1MzY4ZDEzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4zLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXBvZXRyeS1jb3JlXzIuMy4yLmJiCkBAIC0xNSw3ICsxNSw3
-IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiXAogICAgIGZpbGU6Ly9zcmMvcG9ldHJ5L2NvcmUvX3Zl
-bmRvci90b21saS9MSUNFTlNFO21kNT1hYWFhZjA4NzlkMTdkZjAxMTBkMWFhOGM4YzlmNDZmNSBc
-CiAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5NmY3OTFkNWQ3ZDRlMDQwZjM5ODNkNzY3Nzk0
-MjVjZjk1MzI2OTBlMjc1NmEyNGZkNWNhMGY4NmFmMTllZjgyIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjIwY2I3MWJlMjdiNzc0NjI4ZGE5ZjM4NGVmZmQ5MTgzZGZjZWI1M2JjZWY4NDA2MzI0OGE4
-NjcyYWE0NzAzMWYiCiAKIGluaGVyaXQgcHl0aG9uX3BvZXRyeV9jb3JlIHB5cGkKIAotLSAKMi40
-Ny4xCgo=
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1qc29ucG9pbnRlcl8zLjAu
+MC5iYiA9PiBweXRob24zLWpzb25wb2ludGVyXzMuMS4xLmJifSAoODUlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29ucG9pbnRlcl8zLjAuMC5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29ucG9pbnRlcl8zLjEu
+MS5iYgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtanNvbnBvaW50ZXJfMy4wLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29ucG9pbnRlcl8zLjEuMS5iYgppbmRleCAw
+YTIzZGMzMTAwLi5kZGM4ZTI1NmE0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtanNvbnBvaW50ZXJfMy4wLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25wb2ludGVyXzMuMS4xLmJiCkBAIC01LDcgKzUsNyBA
+QCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9MzJiMTVjODQzYjdh
+MzI5MTMwZjRlMjY2YTI4MWViYjMiCiAKIGluaGVyaXQgcHlwaSBwdGVzdCBzZXR1cHRvb2xzMwog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMmIyZDcyOWYyMDkxNTIyZDYxYzNiMzFmODJlMTE4NzBm
+NjBiNjhmNDNmYmM3MDVjYjc2YmY0YjgzMmFmNTllZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIw
+YjgwMWM3ZGIzM2E5MDQwMjRmNjAwNGQ1MjZkY2M1M2JiYjhhNGEwZjRlMzJiZmQxMGJlYWRmNjBh
+ZGYxOTAwIgogCiBTUkNfVVJJICs9ICIgXAogCWZpbGU6Ly9ydW4tcHRlc3QgXAotLSAKMi40Ny4x
+Cgo=
 
---===============0241465854793236843==
+--===============1767815130522094718==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-poetry-core: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.3.1.tar.gz;downloadfilename=poetry_core-2.3.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.3.2.tar.gz;downloadfilename=poetry_core-2.3.2.tar.gz"
-packages/x86-64-v3-poky-linux/python3-poetry-core: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dev: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dev: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-doc: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-doc: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-locale: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-locale: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-src: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-src: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PKGSIZE changed from 2788311 to 2789869 (+0%)
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-poetry-core (sysroot):
-  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
-Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
-  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
+packages/x86-64-v3-poky-linux/python3-jsonpointer: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-3.0.0.tar.gz;downloadfilename=jsonpointer-3.0.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-3.1.1.tar.gz;downloadfilename=jsonpointer-3.1.1.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-jsonpointer: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGSIZE changed from 13171 to 12837 (-3%)
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PV changed from "3.0.0" to "3.1.1"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGV changed from 3.0.0 [default] to 3.1.1 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.0.0.dist-info -> /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.0.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGSIZE changed from 29746 to 29602 (-0%)
+Changes to packages/x86-64-v3-poky-linux/python3-jsonpointer (sysroot):
+  /usr/lib/python3.14/site-packages/jsonpointer-3.0.0.dist-info moved to /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info
 
---===============0241465854793236843==--
+--===============1767815130522094718==--
 
