@@ -1,116 +1,126 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D32A10F6FAD
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:40:33 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14889.1775054424599274553
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 659DA10F6FBF
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:59:03 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15249.1775055538115685616
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 07:40:25 -0700
+ Wed, 01 Apr 2026 07:58:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=l8n1kyU8;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 6BD314E42897;
-	Wed,  1 Apr 2026 14:40:22 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3A2A0602BF;
-	Wed,  1 Apr 2026 14:40:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D5FE9104505DF;
-	Wed,  1 Apr 2026 16:40:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775054421; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=WfdfGH7/9tx36xuMu57SvOms1azvWXf647bKD5c/J9Y=;
-	b=l8n1kyU8+TSlejltvpkbRtRYWxpZiZwUsXpdpd6LHnW/QjqinmLqIbYFPYalE0TGKuSRad
-	HcBX/rO3BWifkPPUhrm05zmxXfGxDcVNlAgcielBRUoFEw8tuq/V2lbpwFHImlcodvjZa1
-	3gXLSsF4aBJ5vzQ2pk+T9Wnad7z9A3svYVMrggC6tXogS/bT0XFN8otQEdD8yEtzpXik/9
-	KWiQwZIDLWJ8UgJUEtJoNE9Hn+c1g4V6ojRJSnYLc14QcDYwknNtD4HgJAWWwfVstbW5/0
-	7uz9h2X6SKnYkClhLHGN0eybUp7ucB07xmZSCh+Ob5HgxsdSr/BBOpNwSNjm+A==
+ dkim=pass header.i=@smile.fr header.s=google header.b=eXPILmIs;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4887ca8e529so8501835e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 07:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1775055536; x=1775660336; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MQ/zsdcq7r3lcLFUWiVulKw0vFdDmRhy/24yv0Y9hq0=;
+        b=eXPILmIsxICJfdzr3wRHwSEL6LMKUOjTHnPyppsBqBXzHZ3CyjR4hDv1Jffjc0h2tR
+         CqLPKjccNPvbbI9B/eGuax8VF62arMPRAfKpb0wCU5kpoo/MWgTmMxSzgALr3cPV4Gkg
+         zb+x5a2sAPAja5WS6msMbbBUPgY9dcvow6i0M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775055536; x=1775660336;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MQ/zsdcq7r3lcLFUWiVulKw0vFdDmRhy/24yv0Y9hq0=;
+        b=tV3tFI12unCumbYEUSayg3cib4JW2FGScJkcPqxR1CWbluWWOn/+9YLIoo51ti6TVq
+         bvVfBGyt9pq/BxBKFkctalVYCGI7O7WxAmCltZfyY4Tbx8Z2O8YLj9Zxjysa5Ih4nt/G
+         znAbvOOOixtCdgAxwvSSkQH1/doTboj+9JpCEB+TieU7iat9kuv9zoNX3o/XuSP5CRpj
+         /roUwxiqpgQzME9NQgKAPX/A5WWJPRRgURjy5cDuWnAKax8DRz7iC7A9TzfeGqvWhFBK
+         YQmiylnJwQkzlWkOTGnLFQwrhexNHZCgR5EaMqdogtGbR2wkeoATCQ4LdscG70eMgUxF
+         BWLA==
+X-Forwarded-Encrypted: i=1; AJvYcCWX7g00+OWHRSGk5ndmcKpDLpOdCtjXyFZkW19rYdZCvIA+jznYUa3Bp6cnQBbr0Ie6oWJXNUDewcXb7zLbbP75vQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx2sETThcnNcuESYdI7wSeL263q7UnT1rNYi3qKotD+7+qrdLaJ
+	O7O4zOXNbEAJouDozTJXPKJTBAToKHzApZ63VeL6zA3FcUXnj9Xc5MMYJD8Wg7b/a/U=
+X-Gm-Gg: ATEYQzzKugUgKc7NoQfe48SanjDa+6UQMwKdKD+HH8RNwhM92ZNO/xPVQ5EThX/J8T3
+	7DcGNQBYnTye8grnZB3uYUfoLlZ66Q7cK7L40SIIv1nAj0k/VaODazDQG3bMdCCP6m//MusRn3H
+	NGJBctAGshPTTMcuLGKyC+amJuL8n4L1rwDqRbDFv9iACbjn2xhDMzRby04mu5Xw2gORs8bUIWW
+	GWIJheIFzQl3K81PFsW8Zyk7opY5u54Tr49Ir3ER4aajdkhIie6ydQs/BRqLrE/ZcDFVMDao1PD
+	vk8oBOEQ+jlX5Cs8r6KfhL3VYzhoKSYmFekNlVTmN0paPniBr077sfvTEGvq+jYfRFhfDBota3y
+	6cVRu8Ut8Hxz+eYtYZut4IP+uCCgBHfJVBQYIU8b/fylGW8yd9j0NjP/nKUMd+JgDoZ0HfzcQsI
+	Ld/Idr/ey+pct4AvrfRd8xpIkeOIaJkNShkWM7k1FIZHmON7MZHgkh3iAAeZVV3BsYzanfD9wOL
+	lFU5LRUvx0=
+X-Received: by 2002:a05:600c:1d0e:b0:486:faa8:9e4 with SMTP id 5b1f17b1804b1-488835bc1acmr62788235e9.12.1775055536391;
+        Wed, 01 Apr 2026 07:58:56 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887aecf6e6sm45305055e9.13.2026.04.01.07.58.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Apr 2026 07:58:56 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 01 Apr 2026 16:40:20 +0200
-Message-Id: <DHHW9Z7VY9QK.21JDBWP884LXH@bootlin.com>
-Subject: Re: [OE-core] [PATCH v2 2/4] meta: Support opting out of any distro
- features
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Paul Barker" <paul@pbarker.dev>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260331-default-features-v2-0-f73b43d8bd57@pbarker.dev>
- <20260331-default-features-v2-2-f73b43d8bd57@pbarker.dev>
-In-Reply-To: <20260331-default-features-v2-2-f73b43d8bd57@pbarker.dev>
-X-Last-TLS-Session-Version: TLSv1.3
+Date: Wed, 01 Apr 2026 16:58:55 +0200
+Message-Id: <DHHWO7MO7KHD.1VQQRFF9Z3TC0@smile.fr>
+Subject: Re: [OE-core][whinlatter][PATCH 07/12] seatd: Create seat user and
+ package systemd service
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Khem Raj" <raj.khem@gmail.com>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+To: <ankur.tyagi85@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260325021856.4053666-1-ankur.tyagi85@gmail.com>
+ <20260325021856.4053666-7-ankur.tyagi85@gmail.com>
+In-Reply-To: <20260325021856.4053666-7-ankur.tyagi85@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:40:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234440
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:59:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234441
 
-On Tue Mar 31, 2026 at 9:29 PM CEST, Paul Barker wrote:
-> Add default values to DISTRO_FEATURES using the new
-> filter_default_features() function.
+On Wed Mar 25, 2026 at 3:18 AM CET, Ankur Tyagi via lists.openembedded.org =
+wrote:
+> From: Khem Raj <raj.khem@gmail.com>
 >
-> This change obsoletes the variables DISTRO_FEATURES_BACKFILL and
-> DISTRO_FEATURES_BACKFILL_CONSIDERED. Instead, all defaults are added via
-> DISTRO_FEATURES_DEFAULTS and users can opt out of any of these using
-> DISTRO_FEATURES_OPTED_OUT. Hopefully the variable naming here is easier
-> for people to understand and remember.
+> With latest version seatd does not work properly if
+> user access permissions are not correctly set, therefore
+> create 'seat' group and package the seatd.service file
+> and enable it by default with systemd distro feature
 >
-> Migration notes:
+> set logind to systemd when using systemd as default init system
 >
-> - If you have previously assigned DISTRO_FEATURES without using
->   DISTRO_FEATURES_DEFAULT, you will now get the default features added
->   automatically. You will need to review these and add any features you
->   do not want to use to DISTRO_FEATURES_OPTED_OUT.
->
-> - DISTRO_FEATURES_DEFAULT is now unused, the new variable name is
->   slighlty different to ensure that it is not accidentally used if a
->   layer hasn't been modified to adapt to the new naming.
->
-> - If you previously set DISTRO_FEATURES_BACKFILL_CONSIDERED, use the new
->   variable DISTRO_FEATURES_OPTED_OUT instead.
->
-> - If you previously modified DISTRO_FEATURES_BACKFILL, don't do that.
->
-> Signed-off-by: Paul Barker <paul@pbarker.dev>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 26746a02fc94b569f633d581b27a8634cfba38f5)
+> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 > ---
+>  meta/recipes-core/seatd/seatd_0.9.1.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-core/seatd/seatd_0.9.1.bb b/meta/recipes-core/s=
+eatd/seatd_0.9.1.bb
+> index 3be27dda9d..f9f72c9e82 100644
+> --- a/meta/recipes-core/seatd/seatd_0.9.1.bb
+> +++ b/meta/recipes-core/seatd/seatd_0.9.1.bb
+> @@ -34,6 +34,8 @@ PACKAGECONFIG[systemd] =3D "-Dlibseat-logind=3Dsystemd,=
+,systemd"
+>  do_install:append() {
+>          if [ "${VIRTUAL-RUNTIME_init_manager}" !=3D "systemd" ]; then
+>                  install -Dm755 ${UNPACKDIR}/init ${D}/${sysconfdir}/init=
+.d/seatd
+> +        else
+> +                install -Dm644 ${S}/contrib/systemd/seatd.service ${D}${=
+systemd_unitdir}/system/seatd.service
 
-Hi Paul,
+Hello,
 
-I believe this is failing in some cases:
+The patch content does not match the description anymore (no added seat
+user). Can you update it?
 
-ERROR: libtasn1-4.21.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-wo=
-rker/qemux86-world-alt/build/build/tmp/work/x86-64-v3-poky-linux/libtasn1/4=
-.21.0/temp/run.do_compile.3668072' failed with exit code 1
-...
-| gtkdoc-mkhtml 2>&1 --help | grep  >/dev/null "\--path"; \
-| if test "$?" =3D "0"; then \
-|   mkhtml_options=3D"$mkhtml_options --path=3D\"/srv/pokybuild/yocto-worke=
-r/qemux86-world-alt/build/build/tmp/work/x86-64-v3-poky-linux/libtasn1/4.21=
-.0/build/../sources/libtasn1-4.21.0/doc/reference\""; \
-| fi; \
-| cd html && gtkdoc-mkhtml $mkhtml_options  libtasn1 ../libtasn1-docs.xml
-| warning: failed to load external entity "http://docbook.sourceforge.net/r=
-elease/xsl/current/html/chunk.xsl"
-| compilation error: file /srv/pokybuild/yocto-worker/qemux86-world-alt/bui=
-ld/build/tmp/work/x86-64-v3-poky-linux/libtasn1/4.21.0/recipe-sysroot-nativ=
-e/usr/share/gtk-doc/data/gtk-doc.xsl line 11 element import
-| xsl:import : unable to load http://docbook.sourceforge.net/release/xsl/cu=
-rrent/html/chunk.xsl
+Thanks!
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/3345
+>          fi
+>          install -Dm644 ${S}/contrib/systemd/seatd.service ${D}${systemd_=
+unitdir}/system/seatd.service
+>  }
 
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
 
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yoann Congal
+Smile ECS
 
 
