@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CBB310F6FAA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E663E10F6FAF
 	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:20 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14652.1775054159478626325
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14750.1775054160002813458
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Apr 2026 07:36:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IYQ9rIM5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4V0dDfC9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d497938ad-b55e1416-8a33-4b74-87b0-b9e47ff34847-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Q6kOaHVH;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rlVBNVvA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019d497936c5-de878870-d05a-40e9-9c93-52b0b506a454-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1775054174;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ngJWONPOzbr7GSbLTXNWcVCYA6k8gjRHt2WCc0xhpLY=;
-	b=IYQ9rIM59XXpmeNoX2/X1J3NyvAhcj+veZtRV7POJw5hlv9ZSt0JPrOv6sQeh4ly
-	8NrWBwiUbxUbJjY+9TnNn9rO2D4NxMx552z3TIGsOyHEFbpBqWM4+3+BNcEAWM8NTvS
-	D6qnMiKoKSE3PlpQQXebNx7++mksV4N5QV0dKnnU=
+	bh=bp4LeNr+v/Bh0Q++YWAyV1olulHH70Oa5QFd79I9FZM=;
+	b=Q6kOaHVHRjzK3GMXYMpk7/SgRK285QBy/gdLP0jBvoGcgdmbKjvB2MCbX6r7BYUA
+	SgM17v3uhQNxp9pbHFCmZLBPfAKILjbjNkv2ptgiI9wJA4a7sVO0at2AYCBhkQ8eli+
+	228N6bQ5fLQQeVeORA1QFkBt2dSHuTufWM+OU4xc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054174;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ngJWONPOzbr7GSbLTXNWcVCYA6k8gjRHt2WCc0xhpLY=;
-	b=4V0dDfC9qzJxqVuIY96eDkCOrZHMdbfdzxThwk5UI2GBJT7bwFyCp6xXSWmp/Ocw
-	1HsKOqwcHwUE3/OE0KqIXtUekCewRlYL1+2/9FgmbQv1MH5NtttD3+kl9eofzUPe+fK
-	Dr97X0UMx01+vTFthRQCYjndfzD642/VclZ7uzok=
-Content-Type: multipart/mixed; boundary="===============2957273353720346658=="
+	bh=bp4LeNr+v/Bh0Q++YWAyV1olulHH70Oa5QFd79I9FZM=;
+	b=rlVBNVvA/ZiqDfA2fN9/fA5TBqnJcZ70UczOM5PD4jHou9yU1Lnjml/uqABSinhO
+	LsL6EJwC3MqWF+7sKvDB5A3BSV2tSLm5mxYULer+GJfnzQzwZBQZEajU9hn0/35pLH3
+	ZUskiChFnlqQtOhlq4uhqQnStWaKlTXN/+ETAsrY=
+Content-Type: multipart/mixed; boundary="===============4594626235598110308=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] gst-examples: upgrading to 1.28.1 FAILED
-Message-ID: <0101019d497938ad-b55e1416-8a33-4b74-87b0-b9e47ff34847-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Apr 2026 14:36:14 +0000
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] wayland: upgrading to 1.25.0 FAILED
+Message-ID: <0101019d497936c5-de878870-d05a-40e9-9c93-52b0b506a454-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Apr 2026 14:36:13 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.193
+X-SES-Outgoing: 2026.04.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234425
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234422
 
---===============2957273353720346658==
+--===============4594626235598110308==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,15 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gst-examples* to *1.28.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *wayland* to *1.25.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe gst-examples failed.
+Running 'devtool upgrade' for recipe wayland failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1970 targets, 42 skipped, 0 masked, 0 errors.
+Loaded 1970 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -71,72 +70,63 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-002e42954ead4adffe055ae7e0192eff8d1f9e6f"
+DISTRO_VERSION       = "5.3.99+snapshot-1d47465dbdd565b15bfd7a410eeb9b505fbbf68b"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:002e42954ead4adffe055ae7e0192eff8d1f9e6f"
+meta                 = "tmp-auh-upgrades:1d47465dbdd565b15bfd7a410eeb9b505fbbf68b"
 meta-yocto-bsp       
 meta-poky            = "master:ac300baea7314ea3c80f2330b2a993f729f32150"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 6 Local 6 Mirrors 0 Missed 0 Current 24 (100% match, 100% complete)
+Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 952 .bb files complete (0 cached, 952 parsed). 1971 targets, 42 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-1d47465dbdd565b15bfd7a410eeb9b505fbbf68b"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:1d47465dbdd565b15bfd7a410eeb9b505fbbf68b"
+meta-yocto-bsp       
+meta-poky            = "master:ac300baea7314ea3c80f2330b2a993f729f32150"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 8 Local 7 Mirrors 0 Missed 1 Current 20 (87% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto dcb37e20147e3b59344bab1e1cbb57e908cc6b92
-WARNING: Command 'git rebase dcb37e20147e3b59344bab1e1cbb57e908cc6b92' failed:
-Auto-merging girs/GES-1.0.gir
-Auto-merging girs/Gst-1.0.gir
-Auto-merging girs/GstPbutils-1.0.gir
+INFO: Fetching https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.25.0/downloads/wayland-1.25.0.tar.xz...
+INFO: Rebasing devtool onto 86c3bff23397a5875ac157602996d83ca0049173
+WARNING: Command 'git rebase 86c3bff23397a5875ac157602996d83ca0049173' failed:
 Auto-merging meson.build
 CONFLICT (content): Merge conflict in meson.build
-Auto-merging subprojects/gst-devtools/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-devtools/meson.build
-Auto-merging subprojects/gst-docs/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-docs/meson.build
-Auto-merging subprojects/gst-editing-services/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-editing-services/meson.build
-Auto-merging subprojects/gst-examples/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-examples/meson.build
-Auto-merging subprojects/gst-integration-testsuites/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-integration-testsuites/meson.build
-Auto-merging subprojects/gst-libav/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-libav/meson.build
-Auto-merging subprojects/gst-plugins-bad/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-plugins-bad/meson.build
-Auto-merging subprojects/gst-plugins-base/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-plugins-base/meson.build
-Auto-merging subprojects/gst-plugins-good/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-plugins-good/meson.build
-Auto-merging subprojects/gst-plugins-rs.wrap
-CONFLICT (content): Merge conflict in subprojects/gst-plugins-rs.wrap
-Auto-merging subprojects/gst-plugins-ugly/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-plugins-ugly/meson.build
-Auto-merging subprojects/gst-python/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-python/meson.build
-Auto-merging subprojects/gst-rtsp-server/meson.build
-CONFLICT (content): Merge conflict in subprojects/gst-rtsp-server/meson.build
-Auto-merging subprojects/gstreamer-sharp/ges/generated/gst-editing-services-api.xml
-CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/ges/generated/gst-editing-services-api.xml
-Auto-merging subprojects/gstreamer-sharp/meson.build
-CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/meson.build
-Auto-merging subprojects/gstreamer-sharp/sources/generated/Gst.PbUtils/Constants.cs
-CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/sources/generated/Gst.PbUtils/Constants.cs
-Auto-merging subprojects/gstreamer-sharp/sources/generated/Gst/Constants.cs
-CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/sources/generated/Gst/Constants.cs
-Auto-merging subprojects/gstreamer-sharp/sources/generated/gstreamer-sharp-api.xml
-CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/sources/generated/gstreamer-sharp-api.xml
-CONFLICT (modify/delete): subprojects/gstreamer-vaapi/meson.build deleted in HEAD and modified in 50a1f31c47 (Back to development after 1.26.0).  Version 50a1f31c47 (Back to development after 1.26.0) of subprojects/gstreamer-vaapi/meson.build left in tree.
-Auto-merging subprojects/gstreamer/meson.build
-CONFLICT (content): Merge conflict in subprojects/gstreamer/meson.build
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/gst-examples
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/gst-examples/gst-examples_1.28.1.bb
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/wayland
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/wayland/wayland_1.25.0.bb
 
 
 
@@ -145,5 +135,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2957273353720346658==--
+--===============4594626235598110308==--
 
