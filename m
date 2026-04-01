@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 689BC10FCAD0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5BAE10FCAD4
 	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:06 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14749.1775054159972482975
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14658.1775054165136336163
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 07:36:04 -0700
+ Wed, 01 Apr 2026 07:36:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Y0IAuHp/;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2tvNwf3W;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019d49791019-4b5ce33b-c492-4d21-80c9-9747499caded-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yaxqgHx3;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DaEpNZpg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d4979120f-51069dc8-a8a1-4b51-8058-f154c21c5afa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1775054164;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LrKEPjooJ6s0tD4lvp0e5dgIhVPCdJYibPCjiwBoIc4=;
-	b=Y0IAuHp/SI005b0gFA2cDTbFmWG0dyoi72+hfQz4UkzUvrxqN/fteCt6w77p3SHF
-	+HMVqNHZAXhuXq5bYJoJGkJSZuCTrkThFRK7zh2H1gaYmhsrdCwHS1hLqWVjuy0xPHi
-	wAj/M+jqNkQX2K09rCorKFRO37yTdKPlyitAM1Sg=
+	bh=Q52u3KI7mBgrLuYCt/aTP621XRqOPoQXR3l/J4T9Ch4=;
+	b=yaxqgHx3/CsuVkJ9x6XNZiNZgRSoUyh88B6Bjqd6v1MV+Qmqxxav5bSD8cTWSG0i
+	KSBDrQ9TrOgI0sqmeg42y6a2ww3MDWCkpZ+eT06H9AFB79R5tThWsTVMF3+rPWufIGx
+	Dv0tW4ogDk7dQBDbtHTilvSq3u3DtwECTGQ09bF4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054164;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LrKEPjooJ6s0tD4lvp0e5dgIhVPCdJYibPCjiwBoIc4=;
-	b=2tvNwf3Web8kj1AaZWYZ8cfvu2V+u87hPJUmt1JJoQ7u6dCr4HG7V6X0HsPXqX9O
-	+HhDVhbvGD+56qMlKX8LNN61TDXee4tjdd8NiaAsb2iW9hzkylthv5A90hL4NkLtxmO
-	U15ZG2dcaySS+1s0FcQ3FUzXhfdbYr3ZuTSiqLG4=
-Content-Type: multipart/mixed; boundary="===============5694676310777072269=="
+	bh=Q52u3KI7mBgrLuYCt/aTP621XRqOPoQXR3l/J4T9Ch4=;
+	b=DaEpNZpgpnyDI7kr8QYSLJvKXviBgVzHYEMkdna1N+/qZ37qZqFHPl0RE2nseEyr
+	60FVZe1wSL5UF8Wr/DQZxPE8bctcfyfF+CYDwmZDmxk65fIXpoCrkwY2V0VcOoAohmp
+	DNZc78VJ8aZVnLpALmOsfZ/NKDVro6Edl1h+TOTY=
+Content-Type: multipart/mixed; boundary="===============1331481478891268892=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pygments: upgrading to 2.20.0 SUCCEEDED
-Message-ID: <0101019d49791019-4b5ce33b-c492-4d21-80c9-9747499caded-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pygobject: upgrading to 3.56.2 SUCCEEDED
+Message-ID: <0101019d4979120f-51069dc8-a8a1-4b51-8058-f154c21c5afa-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Apr 2026 14:36:04 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.45
+X-SES-Outgoing: 2026.04.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234386
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234387
 
---===============5694676310777072269==
+--===============1331481478891268892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pygments* to *2.20.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pygobject* to *3.56.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pygments-upgrade-2.19.2-2.20.0.patch
+    - apply the patch: git am 0001-python3-pygobject-upgrade-3.56.1-3.56.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,107 +72,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 140a5c22251cf063aacd09640dcbb54b0f6d164a Mon Sep 17 00:00:00 2001
+From 791fd178f8a89dca7ba646ec47766d1ce961f48f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Apr 2026 10:16:00 +0000
-Subject: [PATCH] python3-pygments: upgrade 2.19.2 -> 2.20.0
+Date: Wed, 1 Apr 2026 10:20:27 +0000
+Subject: [PATCH] python3-pygobject: upgrade 3.56.1 -> 3.56.2
 
 ---
- .../{python3-pygments_2.19.2.bb => python3-pygments_2.20.0.bb}  | 2 +-
+ ...{python3-pygobject_3.56.1.bb => python3-pygobject_3.56.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pygments_2.19.2.bb => python3-pygments_2.20.0.bb} (80%)
+ rename meta/recipes-devtools/python/{python3-pygobject_3.56.1.bb => python3-pygobject_3.56.2.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygments_2.19.2.bb b/meta/recipes-devtools/python/python3-pygments_2.20.0.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-pygments_2.19.2.bb
-rename to meta/recipes-devtools/python/python3-pygments_2.20.0.bb
-index a1f73b441d..abe6205292 100644
---- a/meta/recipes-devtools/python/python3-pygments_2.19.2.bb
-+++ b/meta/recipes-devtools/python/python3-pygments_2.20.0.bb
-@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592"
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.56.2.bb
+similarity index 93%
+rename from meta/recipes-devtools/python/python3-pygobject_3.56.1.bb
+rename to meta/recipes-devtools/python/python3-pygobject_3.56.2.bb
+index c17df1a9d1..24a58adee6 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.56.2.bb
+@@ -19,7 +19,7 @@ DEPENDS += "python3 glib-2.0"
+ GNOME_COMPRESS_TYPE = "gz"
+ GNOMEBN = "pygobject"
  
- inherit python_hatchling
--SRC_URI[sha256sum] = "636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887"
-+SRC_URI[sha256sum] = "6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f"
+-SRC_URI[archive.sha256sum] = "2ec1cc8c55c7ffeebb97e58a9bba7aa1e74611f1173628084685446804a8881a"
++SRC_URI[archive.sha256sum] = "b816098969544081de9eecedb94ad6ac59c77e4d571fe7051f18bebcec074313"
  
- inherit pypi
+ S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
  
 -- 
 2.47.1
 
 
---===============5694676310777072269==
+--===============1331481478891268892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pygments-2.19.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/pygments-2.20.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pygments-2.19.2.dist-info -> /usr/lib/python3.14/site-packages/pygments-2.20.0.dist-info, added "/usr/lib/python3.14/site-packages/pygments/lexers/__pycache__/rell.cpython-314.pyc /usr/lib/python3.14/site-packages/pygments/lexers/rell.py"
-Changes to packages/x86-64-v3-poky-linux/python3-pygments (sysroot):
-  /usr/lib/python3.14/site-packages/pygments-2.19.2.dist-info moved to /usr/lib/python3.14/site-packages/pygments-2.20.0.dist-info
-  /usr/lib/python3.14/site-packages/pygments/lexers/__pycache__/rell.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/pygments/lexers/rell.py was added
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: FILELIST: directory renamed /usr/lib/python3.14/site-packages/PyGObject-3.56.1.dist-info -> /usr/lib/python3.14/site-packages/PyGObject-3.56.2.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pygobject (sysroot):
+  /usr/lib/python3.14/site-packages/PyGObject-3.56.1.dist-info moved to /usr/lib/python3.14/site-packages/PyGObject-3.56.2.dist-info
 
---===============5694676310777072269==
+--===============1331481478891268892==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pygments-upgrade-2.19.2-2.20.0.patch"
+ filename="0001-python3-pygobject-upgrade-3.56.1-3.56.2.patch"
 
-RnJvbSAxNDBhNWMyMjI1MWNmMDYzYWFjZDA5NjQwZGNiYjU0YjBmNmQxNjRhIE1vbiBTZXAgMTcg
+RnJvbSA3OTFmZDE3OGY4YTg5ZGNhN2JhNjQ2ZWM0Nzc2NmQxY2U5NjFmNDhmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMDoxNjowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHlnbWVudHM6IHVwZ3JhZGUgMi4xOS4yIC0+IDIuMjAuMAoKLS0tCiAuLi4ve3B5dGhv
-bjMtcHlnbWVudHNfMi4xOS4yLmJiID0+IHB5dGhvbjMtcHlnbWVudHNfMi4yMC4wLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5Z21lbnRzXzIuMTkuMi5i
-YiA9PiBweXRob24zLXB5Z21lbnRzXzIuMjAuMC5iYn0gKDgwJSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlnbWVudHNfMi4xOS4yLmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Z21lbnRzXzIuMjAuMC5iYgpzaW1p
-bGFyaXR5IGluZGV4IDgwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtcHlnbWVudHNfMi4xOS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcHlnbWVudHNfMi4yMC4wLmJiCmluZGV4IGExZjczYjQ0MWQuLmFi
-ZTYyMDUyOTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1weWdtZW50c18yLjE5LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXB5Z21lbnRzXzIuMjAuMC5iYgpAQCAtNSw3ICs1LDcgQEAgTElDRU5TRSA9ICJCU0Qt
-Mi1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0zNmExM2M5
-MDUxNGUyODk5ZjFlYmE3ZjQxYzNlZTU5MiIKIAogaW5oZXJpdCBweXRob25faGF0Y2hsaW5nCi1T
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiNjM2Y2IyNDc3Y2VjN2Y4OTUyNTM2OTcwYmM1MzNiYzQzNzQz
-NTQyZjcwMzkyYWUwMjYzNzQ2MDBhZGQ1Yjg4NyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2NzU3
-Y2QwMzc2ODA1M2ZmOTlmMzAzOWMxYTM2ZDZjMGFhMGIyNjM0MzhmY2FiMTc1MjBiMzBhMzAzYTgy
-YjVmIgogCiBpbmhlcml0IHB5cGkKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMSBBcHIgMjAyNiAxMDoyMDoyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHlnb2JqZWN0OiB1cGdyYWRlIDMuNTYuMSAtPiAzLjU2LjIKCi0tLQogLi4ue3B5dGhv
+bjMtcHlnb2JqZWN0XzMuNTYuMS5iYiA9PiBweXRob24zLXB5Z29iamVjdF8zLjU2LjIuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1weWdvYmplY3RfMy41Ni4x
+LmJiID0+IHB5dGhvbjMtcHlnb2JqZWN0XzMuNTYuMi5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTYuMS5iYiBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWdvYmplY3RfMy41Ni4yLmJi
+CnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1weWdvYmplY3RfMy41Ni4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTYuMi5iYgppbmRleCBjMTdkZjFh
+OWQxLi4yNGE1OGFkZWU2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtcHlnb2JqZWN0XzMuNTYuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTYuMi5iYgpAQCAtMTksNyArMTksNyBAQCBERVBF
+TkRTICs9ICJweXRob24zIGdsaWItMi4wIgogR05PTUVfQ09NUFJFU1NfVFlQRSA9ICJneiIKIEdO
+T01FQk4gPSAicHlnb2JqZWN0IgogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICIyZWMx
+Y2M4YzU1YzdmZmVlYmI5N2U1OGE5YmJhN2FhMWU3NDYxMWYxMTczNjI4MDg0Njg1NDQ2ODA0YTg4
+ODFhIgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYjgxNjA5ODk2OTU0NDA4MWRlOWVl
+Y2VkYjk0YWQ2YWM1OWM3N2U0ZDU3MWZlNzA1MWYxOGJlYmNlYzA3NDMxMyIKIAogUyA9ICIke1VO
+UEFDS0RJUn0vJHtHTk9NRUJOfS0ke1BWfSIKIAotLSAKMi40Ny4xCgo=
 
---===============5694676310777072269==
+--===============1331481478891268892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pygments: PV changed from "2.19.2" to "2.20.0"
-packages/x86-64-v3-poky-linux/python3-pygments: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pygments/pygments-2.19.2.tar.gz;downloadfilename=pygments-2.19.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pygments/pygments-2.20.0.tar.gz;downloadfilename=pygments-2.20.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pygments: PKGV changed from 2.19.2 [default] to 2.20.0 [default]
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-dbg: PV changed from "2.19.2" to "2.20.0"
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-dbg: PKGV changed from 2.19.2 [default] to 2.20.0 [default]
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-dev: PV changed from "2.19.2" to "2.20.0"
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-dev: PKGV changed from 2.19.2 [default] to 2.20.0 [default]
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-doc: PV changed from "2.19.2" to "2.20.0"
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-doc: PKGV changed from 2.19.2 [default] to 2.20.0 [default]
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-locale: PV changed from "2.19.2" to "2.20.0"
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-locale: PKGV changed from 2.19.2 [default] to 2.20.0 [default]
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-src: PV changed from "2.19.2" to "2.20.0"
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-src: PKGV changed from 2.19.2 [default] to 2.20.0 [default]
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-staticdev: PV changed from "2.19.2" to "2.20.0"
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments-staticdev: PKGV changed from 2.19.2 [default] to 2.20.0 [default]
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments: PKGSIZE changed from 8779185 to 8828521 (+1%)
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments: PV changed from "2.19.2" to "2.20.0"
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pygments-2.19.2.dist-info -> /usr/lib/python3.14/site-packages/pygments-2.20.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/pygments-2.19.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/pygments-2.20.0.dist-info/licenses, added "/usr/lib/python3.14/site-packages/pygments/lexers/rell.py /usr/lib/python3.14/site-packages/pygments/lexers/__pycache__/rell.cpython-314.pyc"
-packages/x86-64-v3-poky-linux/python3-pygments/python3-pygments: PKGV changed from 2.19.2 [default] to 2.20.0 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-pygments (sysroot):
-  /usr/lib/python3.14/site-packages/pygments-2.19.2.dist-info moved to /usr/lib/python3.14/site-packages/pygments-2.20.0.dist-info
-  /usr/lib/python3.14/site-packages/pygments/lexers/__pycache__/rell.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/pygments/lexers/rell.py was added
+packages/x86-64-v3-poky-linux/python3-pygobject: SRC_URI changed from "https://download.gnome.org/sources//pygobject/3.56/pygobject-3.56.1.tar.gz;name=archive" to "https://download.gnome.org/sources//pygobject/3.56/pygobject-3.56.2.tar.gz;name=archive"
+packages/x86-64-v3-poky-linux/python3-pygobject: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGSIZE changed from 1493512 to 1499728 (+0%)
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-doc: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-doc: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-locale: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-locale: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: FILELIST: directory renamed /usr/src/debug/python3-pygobject/3.56.1/gi -> /usr/src/debug/python3-pygobject/3.56.2/gi
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PKGSIZE changed from 872743 to 873724 (+0%)
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-staticdev: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-staticdev: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: FILELIST: directory renamed /usr/lib/python3.14/site-packages/PyGObject-3.56.1.dist-info -> /usr/lib/python3.14/site-packages/PyGObject-3.56.2.dist-info
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PV changed from "3.56.1" to "3.56.2"
+Changes to packages/x86-64-v3-poky-linux/python3-pygobject (sysroot):
+  /usr/lib/python3.14/site-packages/PyGObject-3.56.1.dist-info moved to /usr/lib/python3.14/site-packages/PyGObject-3.56.2.dist-info
 
---===============5694676310777072269==--
+--===============1331481478891268892==--
 
