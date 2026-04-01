@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C027110F6FAD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CBB310F6FAA
 	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:20 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14743.1775054158428791199
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14652.1775054159478626325
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 07:36:12 -0700
+ Wed, 01 Apr 2026 07:36:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=a2FEsSeH;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zSgxApkM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d49792f32-584776ec-f062-4fbb-a322-b6749a377fde-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IYQ9rIM5;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4V0dDfC9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d497938ad-b55e1416-8a33-4b74-87b0-b9e47ff34847-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775054172;
+	t=1775054174;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=L5SxiEIykw+VEfmNSzlVWq3nOuPihJpjJaImwLwgvUA=;
-	b=a2FEsSeHuZe2rsu+yePMzv47jdUqeWH5alaqWWkoGZMKC1mUUO80BUS6zcW933eM
-	W6tpTzFmpBzcfLVjC/COYVsKZ4f4x+j5P6ok/pq+89dsECNczi/3KASCDjhVE9eDIKg
-	RR+R3AGaUkpKW+Dybc6uAazy/LJN7aQB3s8ykVRk=
+	bh=ngJWONPOzbr7GSbLTXNWcVCYA6k8gjRHt2WCc0xhpLY=;
+	b=IYQ9rIM59XXpmeNoX2/X1J3NyvAhcj+veZtRV7POJw5hlv9ZSt0JPrOv6sQeh4ly
+	8NrWBwiUbxUbJjY+9TnNn9rO2D4NxMx552z3TIGsOyHEFbpBqWM4+3+BNcEAWM8NTvS
+	D6qnMiKoKSE3PlpQQXebNx7++mksV4N5QV0dKnnU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054172;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054174;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=L5SxiEIykw+VEfmNSzlVWq3nOuPihJpjJaImwLwgvUA=;
-	b=zSgxApkMmFd6C1tkxe6FKJBAPsRZ97E5ndRQruli9fGFAeMGitbfkyn4dTZ+KLM6
-	AM+fqB/ldttpRNNJMx9K94YHIod4XnPWuTBpSbmhdtNNdwJnC9atmYwUzfhzYhvASCv
-	9L0nl+DlJzK78yxOaz66uKP9QXW7C70RkpNBwFcM=
-Content-Type: multipart/mixed; boundary="===============7540464361086943605=="
+	bh=ngJWONPOzbr7GSbLTXNWcVCYA6k8gjRHt2WCc0xhpLY=;
+	b=4V0dDfC9qzJxqVuIY96eDkCOrZHMdbfdzxThwk5UI2GBJT7bwFyCp6xXSWmp/Ocw
+	1HsKOqwcHwUE3/OE0KqIXtUekCewRlYL1+2/9FgmbQv1MH5NtttD3+kl9eofzUPe+fK
+	Dr97X0UMx01+vTFthRQCYjndfzD642/VclZ7uzok=
+Content-Type: multipart/mixed; boundary="===============2957273353720346658=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] piglit: upgrading to 83c1871bc5936e4a759fa18d43226b122b4cef51
- FAILED
-Message-ID: <0101019d49792f32-584776ec-f062-4fbb-a322-b6749a377fde-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Apr 2026 14:36:11 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] gst-examples: upgrading to 1.28.1 FAILED
+Message-ID: <0101019d497938ad-b55e1416-8a33-4b74-87b0-b9e47ff34847-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Apr 2026 14:36:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.191
+X-SES-Outgoing: 2026.04.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234415
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234425
 
---===============7540464361086943605==
+--===============2957273353720346658==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *piglit* to *83c1871bc5936e4a759fa18d43226b122b4cef51* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *gst-examples* to *1.28.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe piglit failed.
+Running 'devtool upgrade' for recipe gst-examples failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
@@ -72,9 +71,9 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-3f582bee4649d514bf760da354409436c9b4fbde"
+DISTRO_VERSION       = "5.3.99+snapshot-002e42954ead4adffe055ae7e0192eff8d1f9e6f"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:3f582bee4649d514bf760da354409436c9b4fbde"
+meta                 = "tmp-auh-upgrades:002e42954ead4adffe055ae7e0192eff8d1f9e6f"
 meta-yocto-bsp       
 meta-poky            = "master:ac300baea7314ea3c80f2330b2a993f729f32150"
 workspace            = "<unknown>:<unknown>"
@@ -88,14 +87,56 @@ NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 83c1871bc5936e4a759fa18d43226b122b4cef51
-WARNING: Command 'git rebase 83c1871bc5936e4a759fa18d43226b122b4cef51' failed:
-Auto-merging tests/util/piglit-test-pattern.cpp
-CONFLICT (content): Merge conflict in tests/util/piglit-test-pattern.cpp
+INFO: Rebasing devtool onto dcb37e20147e3b59344bab1e1cbb57e908cc6b92
+WARNING: Command 'git rebase dcb37e20147e3b59344bab1e1cbb57e908cc6b92' failed:
+Auto-merging girs/GES-1.0.gir
+Auto-merging girs/Gst-1.0.gir
+Auto-merging girs/GstPbutils-1.0.gir
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
+Auto-merging subprojects/gst-devtools/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-devtools/meson.build
+Auto-merging subprojects/gst-docs/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-docs/meson.build
+Auto-merging subprojects/gst-editing-services/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-editing-services/meson.build
+Auto-merging subprojects/gst-examples/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-examples/meson.build
+Auto-merging subprojects/gst-integration-testsuites/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-integration-testsuites/meson.build
+Auto-merging subprojects/gst-libav/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-libav/meson.build
+Auto-merging subprojects/gst-plugins-bad/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-plugins-bad/meson.build
+Auto-merging subprojects/gst-plugins-base/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-plugins-base/meson.build
+Auto-merging subprojects/gst-plugins-good/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-plugins-good/meson.build
+Auto-merging subprojects/gst-plugins-rs.wrap
+CONFLICT (content): Merge conflict in subprojects/gst-plugins-rs.wrap
+Auto-merging subprojects/gst-plugins-ugly/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-plugins-ugly/meson.build
+Auto-merging subprojects/gst-python/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-python/meson.build
+Auto-merging subprojects/gst-rtsp-server/meson.build
+CONFLICT (content): Merge conflict in subprojects/gst-rtsp-server/meson.build
+Auto-merging subprojects/gstreamer-sharp/ges/generated/gst-editing-services-api.xml
+CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/ges/generated/gst-editing-services-api.xml
+Auto-merging subprojects/gstreamer-sharp/meson.build
+CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/meson.build
+Auto-merging subprojects/gstreamer-sharp/sources/generated/Gst.PbUtils/Constants.cs
+CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/sources/generated/Gst.PbUtils/Constants.cs
+Auto-merging subprojects/gstreamer-sharp/sources/generated/Gst/Constants.cs
+CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/sources/generated/Gst/Constants.cs
+Auto-merging subprojects/gstreamer-sharp/sources/generated/gstreamer-sharp-api.xml
+CONFLICT (content): Merge conflict in subprojects/gstreamer-sharp/sources/generated/gstreamer-sharp-api.xml
+CONFLICT (modify/delete): subprojects/gstreamer-vaapi/meson.build deleted in HEAD and modified in 50a1f31c47 (Back to development after 1.26.0).  Version 50a1f31c47 (Back to development after 1.26.0) of subprojects/gstreamer-vaapi/meson.build left in tree.
+Auto-merging subprojects/gstreamer/meson.build
+CONFLICT (content): Merge conflict in subprojects/gstreamer/meson.build
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/piglit
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/piglit/piglit_git.bb
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/gst-examples
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/gst-examples/gst-examples_1.28.1.bb
 
 
 
@@ -104,5 +145,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7540464361086943605==--
+--===============2957273353720346658==--
 
