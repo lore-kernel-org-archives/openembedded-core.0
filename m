@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4392B1076389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 808741076393
 	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 14:36:19 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14644.1775054155743588537
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14738.1775054152306804574
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 07:36:17 -0700
+ Wed, 01 Apr 2026 07:36:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ETaBTga2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=p1qKHifW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019d4979427e-750a460b-827e-4d64-a0c4-c97b585630b3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TExcLLm7;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VCBr57zX;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019d49794030-da4b66ba-83ee-405d-b8e6-2866b4ba1015-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775054177;
+	t=1775054176;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=0HI9XeWCw1TSR/ih3GLqSdpw8TcC0P+b1m5tqWfnhPw=;
-	b=ETaBTga2envtsobdHYS1wmUBvT4pAUN5jfDcJU+d6aCeGiLx0MQLxLSSvYU4ja9y
-	LFfR2x3PNXIal6sbeoibL4DHzbM86IZj8kJSFJmfvdbPwpSu7an4kyZdiNturpeGKhO
-	l6TgCTCQPAKpZUfjbnyhNUWcM8nygCW3e8UjWGtg=
+	bh=TI5MLVS0z6z/8Z5OLCzClxi3JHpJPXQpPem8fpH2r88=;
+	b=TExcLLm7fRM0gHrDkbZkQvglTba2SHmlYwh7JlJ9+95rt9DvqRfVJWRvDEEu57r+
+	e5JtqiC9rFCy7/CL8j5/3Scn15gFgrXX/Y2+It1jh79umqK2XHCYxusUvz2zCIihMej
+	WXNuNuZcuB5iirKf68hRleV/26MCvQeew7Q148H0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775054176;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=0HI9XeWCw1TSR/ih3GLqSdpw8TcC0P+b1m5tqWfnhPw=;
-	b=p1qKHifW2rRNFfZMs3jkIymhOkTenrUQpmSPISg0ITwncNKLyrSP/GHtr/ywAn1h
-	wGSRBfK7BS3FcE7x50mrwZqQJWXmPXFy+X8PBff/Ou49RHOLcMYxWFPN5f59hHDtLZ6
-	8YvcaJXpQfxz3KURbyb48i9Jdct0fQChMFelvNjQ=
-Content-Type: multipart/mixed; boundary="===============1771832439504473426=="
+	bh=TI5MLVS0z6z/8Z5OLCzClxi3JHpJPXQpPem8fpH2r88=;
+	b=VCBr57zXTacgYvmiPdvPNsP/On4pyXK0evGsAdx+sJV1EgO3DVFcqiZXKm4CicI3
+	FgAM25OlGnWd7VYKS74EBZ/pqQQszTMWygQfIeCvDHd+qOn/Cdok//lIYXfe4e7c+jI
+	JnItHgGiA/G9qom9FRz9bFNTZAUka50brvoaKn+E=
+Content-Type: multipart/mixed; boundary="===============4400103853039095920=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] vte: upgrading to 0.84.0 FAILED
-Message-ID: <0101019d4979427e-750a460b-827e-4d64-a0c4-c97b585630b3-000000@us-west-2.amazonses.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libmpc: upgrading to 1.4.0 FAILED
+Message-ID: <0101019d49794030-da4b66ba-83ee-405d-b8e6-2866b4ba1015-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Apr 2026 14:36:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.01-54.240.27.192
+X-SES-Outgoing: 2026.04.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 14:36:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234437
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234435
 
---===============1771832439504473426==
+--===============4400103853039095920==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *vte* to *0.84.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *libmpc* to *1.4.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade vte -V 0.84.0
+The following devtool command failed:  upgrade libmpc -V 1.4.0
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 951 .bb files complete (0 cached, 951 parsed). 1970 targets, 42 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -71,18 +72,18 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-8569fe570af2d06d1f82e4ce9e6a4724c165c59a"
+DISTRO_VERSION       = "5.3.99+snapshot-b0ac9461f36fdc87ff0f8b43102cb3d99dce9788"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:8569fe570af2d06d1f82e4ce9e6a4724c165c59a"
+meta                 = "tmp-auh-upgrades:b0ac9461f36fdc87ff0f8b43102cb3d99dce9788"
 meta-yocto-bsp       
 meta-poky            = "master:ac300baea7314ea3c80f2330b2a993f729f32150"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
+Sstate summary: Wanted 6 Local 6 Mirrors 0 Missed 0 Current 24 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 Loading cache...done.
@@ -99,30 +100,34 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-8569fe570af2d06d1f82e4ce9e6a4724c165c59a"
+DISTRO_VERSION       = "5.3.99+snapshot-b0ac9461f36fdc87ff0f8b43102cb3d99dce9788"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:8569fe570af2d06d1f82e4ce9e6a4724c165c59a"
+meta                 = "tmp-auh-upgrades:b0ac9461f36fdc87ff0f8b43102cb3d99dce9788"
 meta-yocto-bsp       
 meta-poky            = "master:ac300baea7314ea3c80f2330b2a993f729f32150"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 8 Local 7 Mirrors 0 Missed 1 Current 20 (87% match, 96% complete)
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+WARNING: Failed to fetch URL https://ftpmirror.gnu.org/gnu/mpc/mpc-1.4.0.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401141637.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260401141637.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//vte/0.84/vte-0.84.0.tar.xz;name=archive...
-ERROR: Execution of 'git checkout devtool-patched -b devtool' failed with exit code 128:
-fatal: 'subprojects/fast_float/.git' not recognized as a git repository
-
+INFO: Fetching https://ftpmirror.gnu.org/gnu/mpc/mpc-1.4.0.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-wijwqufb/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-wijwqufb/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-wijwqufb/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-wijwqufb/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/au
+ h/build/build/tmp/work/recipetool-wijwqufb/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-wijwqufb/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/mpc-1.4.0.tar.gz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://ftpmirror.gnu.org/gnu/mpc/mpc-1.4.0.tar.gz' --progress=dot --verbose failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://ftpmirror.gnu.org/gnu/mpc/mpc-1.4.0.tar.gz')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-wijwqufb/work/temp/log.do_fetch.3502742
+ERROR: Failed to fetch URL https://ftpmirror.gnu.org/gnu/mpc/mpc-1.4.0.tar.gz
 
 
 Please review the attached files for further information and build/update failures.
@@ -130,5 +135,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1771832439504473426==--
+--===============4400103853039095920==--
 
