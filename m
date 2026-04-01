@@ -1,190 +1,128 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93ED21076372
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 06:04:32 +0000 (UTC)
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6562.1775023466752189969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A03EA1076374
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 06:12:42 +0000 (UTC)
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6663.1775023952935530992
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2026 23:04:26 -0700
+ Tue, 31 Mar 2026 23:12:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=FrHGY0Oc;
- spf=pass (domain: gmail.com, ip: 74.125.82.50, mailfrom: rybczynska@gmail.com)
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12732165d1eso8997442c88.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 23:04:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775023466; cv=none;
-        d=google.com; s=arc-20240605;
-        b=V2fL4Z0bS/tK/R5J6oHV0q0BrmjJhn2S+SKYBOSEoMNxaM090nUeb2dY39bG6kKMry
-         gJY39rVNqjKVlcYY10l+hULNj3bLvZ5JDW+kANvFrUirVLlS512unK0Ec/XlLBzoloI9
-         zKD+PzqAqCBzDfEKfFCv0GLwRNTgExT9gvlDWQxXTprU+7B5FfcjVFZG3pe/SoZsysoa
-         YLfWN/PAewBpBckcUsvWAizd41eUJPuLDnp0TYQ+Mp1ewkQcBEsUMKc2zRUk2a9gvS2N
-         +3azJtq4J6nXgRlBECV6arwDpi1eGw33RKr7eP8gfyajvsYJ1tfOlBmlOjj39gqBIQf7
-         g9HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yVJxe185iONxxmDlmwF1ZyS3JAPN520Y6UFBFHr3Lkc=;
-        fh=Utm14mXslVDnX4NTdNt+0V7CKunwjzuHRlByHI7cmUA=;
-        b=QvjpAGck7Q9OFJFTrSQUY3lyZK9eCVdp7QfI2LzMTUkYWAscV+kZ0C8YvU3Ks+fcWD
-         JJ/H9Ek/TzQVt27lJX334uOmBjO0Vx47c6PGIvD30t8gJsilGEV27WIVcmYKbHbPZ/iC
-         X8OD1QbvdoUCZE4jGc64iAwTOKlg1I5z9iskqwIKouoebN6NrenlELf1zswK3sR42K14
-         dLiLkAqqhAyYgbYc589d4bgaUF5WRU8Z69xKws9loU2GaTLA+zpe4/ny7EbkyUpPMT5S
-         URvD1JcgS8Joun0u2Ggjo0DT9v/zoNsUPhCpc+bsbmrfMq9VfiwP3RUEbxEXTBwn9utt
-         75dg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=GxK7P4Us;
+ spf=pass (domain: gmail.com, ip: 74.125.82.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2c66eafc1easo5150185eec.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2026 23:12:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775023466; x=1775628266; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yVJxe185iONxxmDlmwF1ZyS3JAPN520Y6UFBFHr3Lkc=;
-        b=FrHGY0OcJineYuBfIkGk2LdvMUavXvJbyVq8qPUesY4RP0wgJZL4nuv/9da3HReOdc
-         HSd7MsqcuqwOLoRyONzdUw6HS8bGUUAsAQXCcOCTB82m2NMzhedcfJq6roxrY1V5V+tw
-         lwCzJ7QppiyZdP1qZJBdenBIsZVjPSLSJAB+0/1QexZtAUkkVt6awsy41CdZDUJYSKOQ
-         Nyv85GzZ6Jl7OljelgEe6WZB1/BbJdQK0CYmPPYovG3wL0sE/ruMeHB9qIf0JZn/4Lwc
-         4Xwhwlvz0WECqgR1t5YqjYhWfNEkPLit17hj2W7D6ZDL95tboLmGtgVZPq8i1ZQAh2w4
-         FkFg==
+        d=gmail.com; s=20251104; t=1775023952; x=1775628752; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3MPVajDjOSSgkaIRL944UT2VW96LETFncpQUOiAuqqY=;
+        b=GxK7P4UsD0XA9QhYt+XtOLeCUvfFi2mDmzi42BiL+73w4+RlUtlLycuy78RNmbWxpN
+         KdAstbGP+pEnaXGkqWY9n+a9v7eA1ZTMnmS4gbJxWTi7ZO1eV7JBmGuIwitbDH+sqHFH
+         mx1jaeZkmuEj3LS2iwXZWD8jFfJ/eaIwXRueD2LtKXAgcbiWm8j7jXVH5VaMRTcvo1Q1
+         /Pa5g7TIMKPXjkUYdfGV/R/iNR+zl8YAgSXNBWOuQzw7/avt3u2uGV/go7vCMut6xsMY
+         fU9qrZEDjRry1oLN/y4e8mFzTZhCYMZurhdarQfhJoXd6VeOEwafprXNfMrJXaciISdp
+         RBkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775023466; x=1775628266;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1775023952; x=1775628752;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yVJxe185iONxxmDlmwF1ZyS3JAPN520Y6UFBFHr3Lkc=;
-        b=bN8LS8R3HMjlgYbFKY09r9/NsNe9VeOVdC+vdIGa9mi22jc3xgrHNpfXPNBxEKPM12
-         PLKReKv0j4Zz6bxm5DjAau/uxObkUa7CNXrZpRuWtmE8YrZ02ACYtIflfvJiZjgpguq6
-         g/E3yrmLyRseA+Bvt4xKgLq1tctjiL5QKJqEHPL774YkqZuJE/OKniPFavhC2l4sYdiD
-         yLIX33E5QgMRG4rAbu83aKto+r0rptwyNR0UFAuCRauJaOLzHiW7tiJC2jkph9BTurBd
-         b7oTkpzNk/ysbc1Nt4MbEXTE7jzmF4e+FHXh0rcPI02+C70cnu12OpGd70tWwpbc+aFg
-         cUwg==
-X-Gm-Message-State: AOJu0YwmuvyykM3tvJmuU0krV7qAsZwfUcAYiVjULztTSlpY3I7MAxMs
-	1nWg7s+DamcafXYsKNZUZ1QyZ+FQdrPImgjNtESpbE6j9SoZlbIMwluBe6skOPcJ7ioAbXzAX7I
-	GSl4dpJWS32QjA6kJX8Su+mFHL5Ij6aw=
-X-Gm-Gg: ATEYQzx7Ix0eSGK19WTZK+OOy99gx829oFINW2fByuB7yeQugd1Z4hEnG23/rroxPCF
-	sZxCyBNwinTrzZX9bp2Zn9rBqhUrp/glptJKQVmOgaEvStHxncvp58bgV7ndbiKzEgP4j8TkmrP
-	g30D58cAg3jf6S0J+ZbRax5EPLjKy0V8NqHtS5XcEBXoM2XRw/kKfa6s5cwxMyI9Pz1dQ8V2bLm
-	m+wCMXT+Y8tIFRzscwZ1pf9gNFt5tIYKSrew0WUI7j9CZsk0BNDkb5yA8IQMM+opUpB5BOjgAMo
-	cQUJMFxapnSsJ2kt1NBXpYLJCviqnrnLzngWIMTg
-X-Received: by 2002:a05:7022:b88:b0:128:d375:f1cc with SMTP id
- a92af1059eb24-12be649c746mr1365662c88.12.1775023466030; Tue, 31 Mar 2026
- 23:04:26 -0700 (PDT)
+        bh=3MPVajDjOSSgkaIRL944UT2VW96LETFncpQUOiAuqqY=;
+        b=FzThgD8osZf6hR78tnwirwyHLP2NljROXfzc0yaGJmJn7MHvAqFSmRyBYjfaIhnR7o
+         m6PHm0SBrWPuoY4r84xuQBVc8zJCOxTOx2JhM4P98k62/acL2ShrRu4kQYhbjXo9THRX
+         LvQYx4Q8xKSjAiWfGOCFQClf40U9DWlOwEqe5kpa5P0YjOIVsGgEVFQr+kfWp2reyd5N
+         F7Z183WKk5SYJkjuxO8oSZzQhzsBy8C5kquvEDk81Ht7iECwgEIm2+0Et0FWjKLp9Mjd
+         nJH4sQ4t2E57tfCPq6JQm5m+r0sAOJrmqjuEtoX4gIAZC54ISqbQMoimdA/NKEjtCoKq
+         F4ug==
+X-Gm-Message-State: AOJu0YxnBMPyMYoVx/fgfv6DSLbOWQCCbYoB41FmTlu9FUX8iuN+9doR
+	fHTF/VFG23hSESHOXwg7gj+bDIICr7af21f+ozN9bTLdXNiq0an9rlWFWmKCZ4v8
+X-Gm-Gg: ATEYQzxZBivd46aTMaL8gMr3LF1L0XIbX7MxZgdU2Uadw1aTe/csGYvCUXIcsGk6K+g
+	d7plNgm6PDxloftyaW6On9vwblj6Zia889osBmeds4idy26h7y9onU2NDcjyYtt4rrYKd7VF8yt
+	CehXgmDiSym12THX/DFz5PeBi6bd4vDryE4hr2v+q5busWjrmUqcOJqY+6z5z5vdCUI1SySh27v
+	mVSMciWa9nPOsCom/j9b/tc16tCxjJ3ljf4NXDmYtKjUQdNbHTnIH24wIjvTBX/i2rZpe9HmM/v
+	eyLkOklceojk4PZ9UAnlOutZRdRJI1Zv10HhH8pdQYPpqrt4RbVOHb34L03qrsdpOxUejaff8B2
+	1JRX4EbCHLkjwHdknP+F2Zcn7VNwGgGTXRbVZiMALwf5Qj1Iq18HlFVmhdrjn27dUZjlrqLSNTP
+	jyfQKT5FyK6Smuc9c5/3Gf62tbKYoCRtSr46OPiUDrIcMgAKjTxSwPxKGCL/usooYFOp+6u5Msq
+	DYfRmGh64YXBj2N9Y6Cnn5wsrBevoCk+i9uUev2OsGoUHwZ0oFHrQBROrUv4sUh+8HQo6c=
+X-Received: by 2002:a05:7301:1e84:b0:2c5:3b87:2ff0 with SMTP id 5a478bee46e88-2c930e6c555mr1333220eec.12.1775023951912;
+        Tue, 31 Mar 2026 23:12:31 -0700 (PDT)
+Received: from apollo.localdomain ([208.95.233.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c68b272esm11782391eec.15.2026.03.31.23.12.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 23:12:31 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] libtirpc: fix bindresvport build with clang-22/C23
+Date: Tue, 31 Mar 2026 23:12:29 -0700
+Message-ID: <20260401061229.2588515-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-References: <CAApg2=RgxG+NY7sLTBMNEhPmX-O5dNC+AHmSSUQCDREgV6VToQ@mail.gmail.com>
- <CADySD0HH=KMgU7kXKXeNEOG38ZtVZjjb3mZ5dLpQw9XewfuV+w@mail.gmail.com>
-In-Reply-To: <CADySD0HH=KMgU7kXKXeNEOG38ZtVZjjb3mZ5dLpQw9XewfuV+w@mail.gmail.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 1 Apr 2026 08:04:14 +0200
-X-Gm-Features: AQROBzBogGjIbew3Ea9WhoQjkzH_7MUNwQqSwQsNyHMYLSQcXNXtCXTRCv3UtP8
-Message-ID: <CAApg2=SPPo68XtvWioHO_T1=5EQiNABnntGJhM59hDkWhm6N9A@mail.gmail.com>
-Subject: Re: [OE-core] Runqemu error on core-image-minimal
-To: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002928e2064e5fdb2c"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 06:04:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234326
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 06:12:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234327
 
---0000000000002928e2064e5fdb2c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+---
+ ...bindresvport-build-with-clang-22-C23.patch | 32 +++++++++++++++++++
+ .../libtirpc/libtirpc_1.3.7.bb                |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch
 
-On Tue, Mar 31, 2026 at 9:35=E2=80=AFPM Ankur Tyagi <ankur.tyagi85@gmail.co=
-m> wrote:
-
-> On Wed, Apr 1, 2026 at 4:30=E2=80=AFAM Marta Rybczynska via
-> lists.openembedded.org <rybczynska=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > Hello all,
-> > As mentioned on the call today, I have an issue in a configuration with
-> bitbake-setup, oe-core-master fragments and runqemu:
-> >
-> > $ runqemu qemux86-64
-> > runqemu - INFO - Running MACHINE=3Dqemux86-64 bitbake -e  ...
-> > runqemu - WARNING - Couldn't run 'MACHINE=3Dqemux86-64 bitbake -e  ' to
-> gather environment information, maybe the target wasn't an image name, wi=
-ll
-> retry with virtual/kernel as a target:
-> > ERROR: A builtin fragment 'machine/qemux86-64' is used while MACHINE ha=
-s
-> already got an assignment.
-> > Please either disable the fragment or remove the value assignment.
->
-> drop "qemux86-64" argument, it is not needed since the machine config
-> fragment is set.
-> "runqemu core-image-minimal" should succeed.
->
->
-
-Hello Ankur,
-This leads us to another problem (also happens if I remove the fragment):
-
-$ runqemu
-runqemu - INFO - Running bitbake -e  ...
-runqemu - ERROR - .zst images are only supported with snapshot mode. You
-can either use the "snapshot" option or use an uncompressed image.
-runqemu - INFO - Cleaning up
-runqemu - INFO - Host uptime: 17100244.13
-
-Kind regards,
-Marta
-
---0000000000002928e2064e5fdb2c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 31,=
- 2026 at 9:35=E2=80=AFPM Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gm=
-ail.com">ankur.tyagi85@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On Wed, Apr 1, 2026 at 4:30=E2=80=AFAM Mar=
-ta Rybczynska via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto:gmail.com=
-@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.org=
-</a>&gt;<br>
-wrote:<br>
-&gt;<br>
-&gt; Hello all,<br>
-&gt; As mentioned on the call today, I have an issue in a configuration wit=
-h bitbake-setup, oe-core-master fragments and runqemu:<br>
-&gt;<br>
-&gt; $ runqemu qemux86-64<br>
-&gt; runqemu - INFO - Running MACHINE=3Dqemux86-64 bitbake -e=C2=A0 ...<br>
-&gt; runqemu - WARNING - Couldn&#39;t run &#39;MACHINE=3Dqemux86-64 bitbake=
- -e=C2=A0 &#39; to gather environment information, maybe the target wasn&#3=
-9;t an image name, will retry with virtual/kernel as a target:<br>
-&gt; ERROR: A builtin fragment &#39;machine/qemux86-64&#39; is used while M=
-ACHINE has already got an assignment.<br>
-&gt; Please either disable the fragment or remove the value assignment.<br>
-<br>
-drop &quot;qemux86-64&quot; argument, it is not needed since the machine co=
-nfig<br>
-fragment is set.<br>
-&quot;runqemu core-image-minimal&quot; should succeed.<br>
-<br></blockquote><div><br></div><div><br></div><div>Hello Ankur,</div><div>=
-This leads us to another problem (also happens if I remove the fragment):</=
-div><div><br></div><div><span style=3D"font-family:monospace"><span style=
-=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">$ runqemu</span><sp=
-an style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">
-</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
-)">runqemu - INFO - Running bitbake -e =C2=A0...</span><span style=3D"color=
-:rgb(0,0,0);background-color:rgb(255,255,255)">
-</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
-)">runqemu - ERROR - .zst images are only supported with snapshot mode. You=
- can either use the &quot;snapshot&quot; option or use an uncompressed imag=
-e.</span><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)"=
->
-</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
-)">runqemu - INFO - Cleaning up</span><span style=3D"color:rgb(0,0,0);backg=
-round-color:rgb(255,255,255)">
-</span><br><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255=
-)">runqemu - INFO - Host uptime: 17100244.13</span><br><span style=3D"color=
-:rgb(0,0,0);background-color:rgb(255,255,255)"></span><br></span></div><div=
->Kind regards,</div><div>Marta</div><br></div></div>
-
---0000000000002928e2064e5fdb2c--
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch
+new file mode 100644
+index 0000000000..4e5844e18e
+--- /dev/null
++++ b/meta/recipes-extended/libtirpc/libtirpc/0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch
+@@ -0,0 +1,32 @@
++From 0ae4371ee63e25a48777a83c0601c85c5747cbac Mon Sep 17 00:00:00 2001
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Tue, 31 Mar 2026 23:07:09 -0700
++Subject: [PATCH] libtirpc: fix bindresvport build with clang-22/C23
++
++bindresvport() is defined using old K&R-style syntax, which breaks when
++building libtirpc with clang-22 in gnu23 mode.
++
++Convert it to a prototype-style definition. This is a no-op change
++intended only to restore compatibility with modern C compilers.
++
++Upstream-Status: Submitted [https://lore.kernel.org/linux-nfs/20260401060943.2578248-1-khem.raj@oss.qualcomm.com/T/#u]
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
++---
++ src/bindresvport.c | 4 +---
++ 1 file changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/src/bindresvport.c b/src/bindresvport.c
++index 7b2056d..eea6589 100644
++--- a/src/bindresvport.c
+++++ b/src/bindresvport.c
++@@ -57,9 +57,7 @@ extern pthread_mutex_t port_lock;
++  * Bind a socket to a privileged IP port
++  */
++ int
++-bindresvport(sd, sin)
++-        int sd;
++-        struct sockaddr_in *sin;
+++bindresvport(int sd, struct sockaddr_in *sin)
++ {
++         return bindresvport_sa(sd, (struct sockaddr *)sin);
++ }
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.7.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.7.bb
+index edc75a8366..cef541e3d0 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_1.3.7.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.7.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
+ PROVIDES = "virtual/librpc"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
++           file://0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch \
+           "
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
 
