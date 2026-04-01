@@ -1,118 +1,124 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71293D3515A
-	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 08:30:43 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8173.1775032239744280886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E5FD3515E
+	for <webhook@archiver.kernel.org>; Wed,  1 Apr 2026 08:37:03 +0000 (UTC)
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8248.1775032620903862552
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 01:30:39 -0700
+ Wed, 01 Apr 2026 01:37:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=PfP4d9Et;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-41c5a81d4b1so445218fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 01:30:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775032239; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=YSyAEIkd;
+ spf=pass (domain: gmail.com, ip: 74.125.82.43, mailfrom: rybczynska@gmail.com)
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12776bebe9fso3157683c88.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 01:37:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775032620; cv=none;
         d=google.com; s=arc-20240605;
-        b=MmtfCZm/AAU5DWV2S/RPtRK5lGVG/GM1LQHNA+wtJJ3WCz56dj3HOpg3CFCgW+/Ah0
-         b14XdQn8y4eLUeiORIvXtIzLbcbAzKHlkfBsUSd0ltWhoM+PDEHqBkwr3eiJYlTtTuzV
-         RPPs92zHYmsdwyuOzxE8gzfPZB1car7Gqb1hP6D1/FZxaNnIgHO889fDBaaVxPoGh1K3
-         pu1tvny0C2kEa/GpVeXpyjtoTYx16mYx869Y45XxDfE6mgF61EGsDVOKka7JRo7FN0+I
-         4Uk6cP4fSYqpb1V8uGfpc4mVdTB3jZiCxgl/ubYC8E4dGdDmbFdoycqT5Z+QGJfcrQ91
-         kx+A==
+        b=OH04gk3PkHpNdAbGHDA80rtnsOYLHuRkG2G7tJ/FgCzD3hZBAjOB6DtTFaeAZwlSDo
+         tcHmZUQZ13VXKOiW4vTtHrkAfGE/ReXn4b5mN/UfcgyvkD4/NPC5sFtIxfUxlTokijw7
+         gHQX64ZkwtilJy7KsP5YSP54afIyxukJP8IwNldCS84pAYQy2Oox/y4b1+GNO/h7OsUL
+         1WlqO3OZ21mSMEnHcl5yxwOGSZx00Y3GrEGDtBbYFaoGtaQ2AlG1HzGW2NC+ptWSgMk3
+         ZNaurX7xqtDgM8KnXbrljCLaI2YXNS7sVnRNw49/WS1Jc+D++80GpMT74UJtx6hW/XHl
+         F/nA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=joDcO6UcXpV2qE4zTG2Pe/L6o9RKng/P0jcpiNiY+Lw=;
-        fh=lEwXzcRC3XeFemkHkWhnXNLhAdcwZw4QZejA9SYiknk=;
-        b=V9GjDMwiGwbftMNXPMqbuU5KrABpoRfFhJLqmngBUuB3piroeKBQNJ4ae3Mj7epvv3
-         I3eOsgufPcprdMvy9fT4pW1nsc40ghbqH79e0GKjcqddXdG9ajOu205uJEJgKDTotzBr
-         CGZA899S87AVHfLZZ711U1BqUP9MR/tRUjQQcV8SyNhi3+qnV53vyMWK0KGgmG4gz6wT
-         9bRv3zYCbVPpOYie9RuNRAahgTt+4QNlFJ+TFhFY1Q06htkhKvb4xx7YLhLCgCnugnZu
-         dGadVqyw857bOR/5fi8Xo5rDCauHIZ+nHsvwGQ5d8h+4pskpVi4eYEScg7Eb0jSP2QWi
-         4KwQ==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=tGuU6FtdYedBlqmfqQ4qwd7W8Ah4AUF1X9G8cJb8e0g=;
+        fh=dro7sZJtEULj09cNebRx10PrDA+PQMFe3InRd7oV0I0=;
+        b=Yor8tvy2f6l2IvEm8H1u9UExvi4Zz+YxAPM3cyIYZJJof0Y8scabpB2VmFBnUhWSyv
+         yauoIY0FLeHMqP8VubQ4V6uP83ncm68nO5KnsvEQmTMNv7O+7IB9jrLgfGnnL3W7sSuM
+         Y0aVju8H2d2a90fyzY7v3lm3e82x3t6Fi6bWIDsgN6xdyiSURMUjH+FMSwWO3vDxNh83
+         H0mCnvB9n6meb5hxxB11LngpuMOa6KdOoovGxu2siOv0f1B7y4ZNSR2bNuPyr24GP7TC
+         WW9xbJ1hq6IqUldbgL1S0fje+OpwiLArumOjXRXpfETZlPEAdkHRkwgycfqAR6yH8Tfg
+         Cm/A==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775032239; x=1775637039; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=joDcO6UcXpV2qE4zTG2Pe/L6o9RKng/P0jcpiNiY+Lw=;
-        b=PfP4d9EtKEV6ICLqlQgwcy64YGZiI4TlDecw0ErvKabiSj21v+A/E91FuRNtMl3No3
-         HkSc+05MKDZ+F1e7mGhm5qOY4TYqWB8qitws2a9wo+rn/n8nELkturmGyRIsmzfiOoTx
-         kOzB2X1ZmXxfNcm5++eNYwGlPknkOym5XM+7wkhIRpqVIwNfcewLEXLwogq5nU4ekKyG
-         /0boA+QdxLTfCm4WCYtm4nvEkTIcbyHP7juf/uDHbaZjpQPo/Vi26TTYJdwxeKcRCszC
-         lHHjKPNoYD4NCoGL7780CbTJKr4heDHHVnp74Z6RegvPr3/zGRQ5w7Lf73eMzX8D8xig
-         FW/A==
+        d=gmail.com; s=20251104; t=1775032620; x=1775637420; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tGuU6FtdYedBlqmfqQ4qwd7W8Ah4AUF1X9G8cJb8e0g=;
+        b=YSyAEIkd6GNxllcU9R8UEM7ls84+eEgRh+g8CiO5+jY9oCSbZ2GO9OmAiCeEP+7dtt
+         yckSKlep7kWG9AEu4PfMgVlp8wHNFkjwPahW/pUX2L8cvQxMYH7e1Jy6aAfZ/QLnio1G
+         Q+pDz+n4nfcJNikgaVU8pShYDQhDIqmC1ABt4FD2gV7Z1KBPAXKrNvJHsjAb9yEjy7u1
+         /IgQ9wiaa49g6d1EDvjgF1aoHvEOsLarUuBPhi9ehojYKMXyKMndA+uicj3rIcrmxg1z
+         d7AQ9p31ooBejgzfVEVaV2SUw40JanTYuYS7KMq/e1OQ3qOf9Z04+ulH3kChtfZoAAHC
+         u+cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775032239; x=1775637039;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=joDcO6UcXpV2qE4zTG2Pe/L6o9RKng/P0jcpiNiY+Lw=;
-        b=b/Mgx4BMr+VHwIPRcaQT6jghgK4fkI7D+OofGEDKpElDV9s6ywjd+q3iXRqyK5pA8X
-         zPwj0cCt53OowfUQyJhZrqeXcyfJOzOYWZhYxRV75RK7ue0fpP6vxxXjzlGqVnwUDYCS
-         mnAkvirWpM6rI/2/HDlBXCnWQGQQLklfk8WaTJVT5+LMNkyOGaakEb6AnwigiOiID3Dg
-         VSBTbYmtn3UhjcTRhuo6oiaDAr5yOdEdttpy7fz1MSmXhPhYuukgiXJYXJPoBIV0xz1f
-         ezr1t1l0kUbDPnKSvMDYsK5LCyNCwykY9lZRNEiDXZhEbDD32Hl4kv5g6ghEza285Ilx
-         /JLg==
-X-Forwarded-Encrypted: i=1; AJvYcCX0flJNlDJwEIAgMebXiGzwUIlhRCkFKK1ScgRb2qzlDCDqDsk3kuzNsA9/LkWU0LaqSILfiZD1v1HkDIEWVLAnUg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YylYsFyK2y0E/59LpLq72vcjizdV1PTeLKbyBqCEftdjmXIglxf
-	Xa412/T0/PhLlipxuPQbfZmsT3K1rovssTrTV4ej7Cj0FWOTWbeiy5gw4FgK7MJG+2LkmZiFkxa
-	98qbxSzm553qV10sV5bWCM6eYAfnToO4=
-X-Gm-Gg: ATEYQzzo5mJpovq8Ugdpd0NUEqbj9UkysK3yMDdfHPCpkDDvWR7gUPm+y1dlhWa57xr
-	jzvn+nB/CpiLTGI2nTSnqOJs1ipcYdA86nEQM2DpxWsmQC1ISopxodeGEVOrqT1yQtYDI+pVuCo
-	LCIMivNJEBsddRfwzF+Okr85+uk59LefFLFgHSDrL803Rmrm5doxgvPkR8gZt82G8y9yehdfGnJ
-	AUseCiAitMRGg43MuWjGB284QEPxchR9ZInR61+PS2TwGrQhbT4bW415zIqVZDIZhAAxLwA8zYR
-	2kHWZ1JD
-X-Received: by 2002:a05:6871:780f:b0:417:6f:9679 with SMTP id
- 586e51a60fabf-422a54b6cd9mr3892064fac.19.1775032238910; Wed, 01 Apr 2026
- 01:30:38 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775032620; x=1775637420;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tGuU6FtdYedBlqmfqQ4qwd7W8Ah4AUF1X9G8cJb8e0g=;
+        b=hT5iItqEIpgZQzZIy6yYo+O33oHZOjvuFjXav8oE9l3XbOF/FKuaSe+YK5vS+Pk8cq
+         3bsnAUJ2jaOZinXcSYiPPafdT1VgCEFxq23s+T+OZ83bUE0V6VAFCuDYXy6QCOyYExls
+         Ow6CuaVqZhAKH8km1JvnlD4THufBQL8rp2dWidjK71rzu59OFrYxBj5/SePLF6qIS/ML
+         vKEg/k1tn1W+I7mTWJMeqvcvpTG/wdcxoiZ2unaNVRlA0Gar1VmFeJc5525hZufuKDxx
+         JsDqBhOrDadaOcGGJj+qHmFaewVSVS35asJFHKnc9wACLt/MbV1DXOlhVqzmkMmyo3lV
+         eLSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUwulgQFDofWSkk0SF+RcBl9JxnpHJPT8a+J2zxYy1bGQGhQ+Cibu9CFGcCIaGscjeY+f9c/JPQKUYdxwiajHyHZw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzXufxDfAgfQMW2xD088T2n542rLVHhVcqbknnIOK5L7UTYb2Fd
+	AwshVJRkL28GpKGCqzPLFljE3Ug1t0XPs22heN5LfC7RwrihxaOgrrp++uISQ1PGvnqH6hh1Tg7
+	VKCmSzs5EwhmrR0V1eSjxvOulMzFOPMY=
+X-Gm-Gg: ATEYQzw2627JFVoP89e+CKPqTEmLbDK7UmEvp9nfzgCU6xmSl+IRNKDD1OtfgHK5xiY
+	KcMydnlwUO5Un0elZRYfRETQGz6amJsYDA0OatglZi2IH201lzt0yKuy88J4ehsZLo9gTsHb+sa
+	02JrRG8+MlCwblIDYZYk8G2PmKJaq1kguXHuVc3fwcmzcJpTEYU1ZjZUe40ew9yVWpZ1O6zDFlP
+	mc0NPK7XrUx0dSQItzkH30dEE9W6A1aimkwknIplM6L/UggqHBkKl9xLF2yYqSOGdG1Epu/J5si
+	Ue/liv+lR/Ff8zlaHxV5+v6uwPka9m8aQuhCXtDDhUrkoj9pUn8=
+X-Received: by 2002:a05:701b:271a:b0:12a:b932:81d2 with SMTP id
+ a92af1059eb24-12be64ed397mr1023571c88.21.1775032620009; Wed, 01 Apr 2026
+ 01:37:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAApg2=RgxG+NY7sLTBMNEhPmX-O5dNC+AHmSSUQCDREgV6VToQ@mail.gmail.com>
  <CADySD0HH=KMgU7kXKXeNEOG38ZtVZjjb3mZ5dLpQw9XewfuV+w@mail.gmail.com>
  <CAApg2=SPPo68XtvWioHO_T1=5EQiNABnntGJhM59hDkWhm6N9A@mail.gmail.com> <df72394376fdd01fe7d3298c4d3995f00705fc16.camel@linuxfoundation.org>
 In-Reply-To: <df72394376fdd01fe7d3298c4d3995f00705fc16.camel@linuxfoundation.org>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Wed, 1 Apr 2026 21:30:26 +1300
-X-Gm-Features: AQROBzAslam3t7g4q9uRQYZ8IKAUtznV0MmcKN0JPG8j1HjHvulxrfUiXUXXGPc
-Message-ID: <CADySD0H+BrKnYc9ZG3QbkKv-mbj9Ow4ZB0VpUYURHRuhRfSwuQ@mail.gmail.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Wed, 1 Apr 2026 10:36:46 +0200
+X-Gm-Features: AQROBzCr_-mkTtw0ld3KNQPnJgQm3WfaGddFy-iNBBmWOM4ZgbhCYpiS5A6xxmQ
+Message-ID: <CAApg2=QRwSxM_HvE8hvzfp-DY1wfCZSr2rXKEjt-zFm9GOCJxQ@mail.gmail.com>
 Subject: Re: [OE-core] Runqemu error on core-image-minimal
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: rybczynska@gmail.com, OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c7cd24064e61fc31"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 08:30:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234332
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 08:37:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234333
 
-On Wed, Apr 1, 2026 at 8:49=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2026-04-01 at 08:04 +0200, Marta Rybczynska via lists.openembedde=
-d.org wrote:
+--000000000000c7cd24064e61fc31
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Apr 1, 2026 at 9:49=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Wed, 2026-04-01 at 08:04 +0200, Marta Rybczynska via
+> lists.openembedded.org wrote:
 > > On Tue, Mar 31, 2026 at 9:35=E2=80=AFPM Ankur Tyagi <ankur.tyagi85@gmai=
-l.com> wrote:
+l.com>
+> wrote:
 > > > On Wed, Apr 1, 2026 at 4:30=E2=80=AFAM Marta Rybczynska via
 > > > lists.openembedded.org <rybczynska=3Dgmail.com@lists.openembedded.org=
 >
 > > > wrote:
 > > > >
 > > > > Hello all,
-> > > > As mentioned on the call today, I have an issue in a configuration =
-with bitbake-setup, oe-core-master fragments and runqemu:
+> > > > As mentioned on the call today, I have an issue in a configuration
+> with bitbake-setup, oe-core-master fragments and runqemu:
 > > > >
 > > > > $ runqemu qemux86-64
 > > > > runqemu - INFO - Running MACHINE=3Dqemux86-64 bitbake -e  ...
 > > > > runqemu - WARNING - Couldn't run 'MACHINE=3Dqemux86-64 bitbake -e  =
-' to gather environment information, maybe the target wasn't an image name,=
- will retry with virtual/kernel as a target:
+'
+> to gather environment information, maybe the target wasn't an image name,
+> will retry with virtual/kernel as a target:
 > > > > ERROR: A builtin fragment 'machine/qemux86-64' is used while MACHIN=
-E has already got an assignment.
+E
+> has already got an assignment.
 > > > > Please either disable the fragment or remove the value assignment.
 > > >
 > > > drop "qemux86-64" argument, it is not needed since the machine config
@@ -127,7 +133,8 @@ E has already got an assignment.
 > >
 > > runqemu - INFO - Running bitbake -e  ...
 > > runqemu - ERROR - .zst images are only supported with snapshot mode. Yo=
-u can either use the "snapshot" option or use an uncompressed image.
+u
+> can either use the "snapshot" option or use an uncompressed image.
 > > runqemu - INFO - Cleaning up
 > > runqemu - INFO - Host uptime: 17100244.13
 >
@@ -141,22 +148,95 @@ u can either use the "snapshot" option or use an uncompressed image.
 > images (also relatively new) but obviously the new user interface to it
 > could use some improvement.
 >
-
-You may also want to enable fragment
-"core/yocto/root-login-with-empty-password".
-
-And if you want the guest machine console redirected to your current
-terminal, then append "serial" to runqemu arguments.
-
-So your final command will look like -> runqemu core-image-minimal
-snapshot serial
-
-Hope that helps.
-
-cheers
-Ankur
-
-> Cheers,
 >
-> Richard
+Ok... with 'snapshot' it works (I tried it yesterday and it didn't -
+probably a manipulation issue).
+
+I note then that we have a MACHINE=3D issue and the docs are out of sync
+https://docs.yoctoproject.org/dev/brief-yoctoprojectqs/index.html#building-=
+your-image
+
+I can submit a docs fix (there are more things not up to date) when this is
+solved: is this option necessary now or it will be hidden in runqemu?
+
+Regards,
+Marta
+
+--000000000000c7cd24064e61fc31
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 1, =
+2026 at 9:49=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie=
+@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 2026-04-01 =
+at 08:04 +0200, Marta Rybczynska via <a href=3D"http://lists.openembedded.o=
+rg" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<=
+br>
+&gt; On Tue, Mar 31, 2026 at 9:35=E2=80=AFPM Ankur Tyagi &lt;<a href=3D"mai=
+lto:ankur.tyagi85@gmail.com" target=3D"_blank">ankur.tyagi85@gmail.com</a>&=
+gt; wrote:<br>
+&gt; &gt; On Wed, Apr 1, 2026 at 4:30=E2=80=AFAM Marta Rybczynska via<br>
+&gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targ=
+et=3D"_blank">lists.openembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto=
+:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openem=
+bedded.org</a>&gt;<br>
+&gt; &gt; wrote:<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Hello all,<br>
+&gt; &gt; &gt; As mentioned on the call today, I have an issue in a configu=
+ration with bitbake-setup, oe-core-master fragments and runqemu:<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; $ runqemu qemux86-64<br>
+&gt; &gt; &gt; runqemu - INFO - Running MACHINE=3Dqemux86-64 bitbake -e=C2=
+=A0 ...<br>
+&gt; &gt; &gt; runqemu - WARNING - Couldn&#39;t run &#39;MACHINE=3Dqemux86-=
+64 bitbake -e=C2=A0 &#39; to gather environment information, maybe the targ=
+et wasn&#39;t an image name, will retry with virtual/kernel as a target:<br=
+>
+&gt; &gt; &gt; ERROR: A builtin fragment &#39;machine/qemux86-64&#39; is us=
+ed while MACHINE has already got an assignment.<br>
+&gt; &gt; &gt; Please either disable the fragment or remove the value assig=
+nment.<br>
+&gt; &gt; <br>
+&gt; &gt; drop &quot;qemux86-64&quot; argument, it is not needed since the =
+machine config<br>
+&gt; &gt; fragment is set.<br>
+&gt; &gt; &quot;runqemu core-image-minimal&quot; should succeed.<br>
+&gt; <br>
+&gt; Hello Ankur,<br>
+&gt; This leads us to another problem (also happens if I remove the fragmen=
+t):<br>
+&gt; <br>
+&gt; $ runqemu<br>
+&gt; <br>
+&gt; runqemu - INFO - Running bitbake -e =C2=A0...<br>
+&gt; runqemu - ERROR - .zst images are only supported with snapshot mode. Y=
+ou can either use the &quot;snapshot&quot; option or use an uncompressed im=
+age.<br>
+&gt; runqemu - INFO - Cleaning up<br>
+&gt; runqemu - INFO - Host uptime: 17100244.13<br>
+<br>
+Try &quot;runqemu snapshot&quot; :)<br>
+<br>
+We should find a way to fix the MACHINE=3D issue. We did briefly remove<br>
+the support for using bitbake -e entirely but it was requested we put<br>
+that back.<br>
+<br>
+The snapshot message was added recently to cleanly support compressed<br>
+images (also relatively new) but obviously the new user interface to it<br>
+could use some improvement.<br><br></blockquote><div><br></div><div>Ok... w=
+ith &#39;snapshot&#39; it works (I tried it yesterday and it didn&#39;t - p=
+robably a manipulation issue).</div><div><br></div><div>I note then that we=
+ have a MACHINE=3D issue and the docs are out of sync=C2=A0<a href=3D"https=
+://docs.yoctoproject.org/dev/brief-yoctoprojectqs/index.html#building-your-=
+image">https://docs.yoctoproject.org/dev/brief-yoctoprojectqs/index.html#bu=
+ilding-your-image</a></div><div><br></div><div>I can submit a docs fix (the=
+re are more things not up to date) when this is solved: is this option nece=
+ssary now or it will be hidden in runqemu?</div><div><br></div><div>Regards=
+,</div><div>Marta=C2=A0</div></div></div>
+
+--000000000000c7cd24064e61fc31--
 
