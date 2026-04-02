@@ -2,298 +2,194 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F46CC6B03
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 06:55:06 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10124.1775112897419741037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57DAECC6B03
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 06:56:36 +0000 (UTC)
+Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10210.1775112986441326969
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 23:54:57 -0700
+ Wed, 01 Apr 2026 23:56:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=YT4h//dW;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=XZ24nm3l;
+ spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7607; q=dns/txt;
-  s=iport01; t=1775112897; x=1776322497;
+  d=cisco.com; i=@cisco.com; l=4046; q=dns/txt;
+  s=iport01; t=1775112986; x=1776322586;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=ulIIAAsIi6IuVR5KsbeccuQR7CHi0eXltz0pqhyq9a8=;
-  b=YT4h//dWV6/9o+vyVlRMbCUjqwZiKcpCweSNGPon6wbGUXO9WGFhlZUo
-   LRe4oegXirpOxZeQN227CY/YgV/MdKOaLMa1y4hAVEkr+7cbYsLVUN68B
-   HR8obWUY0DZTC6pqZkEV084EjdH7n2XJSNDHNMlz6nSpFJswBrBljD0T1
-   MzRXl+Cvdm+aUSKu3xNgdt+vQLHcsv4JR6elhP955Blw8ZZtV0YjHduvb
-   enuGtOZB5d4Bx8NQoNI0DbJFHJfJ99AWTX5cepUSq4Gl02JrCz7NE7+dT
-   ptGduccy7AYzVL8gAwjB+J7w2LCqLGsfeJ1r0DqlI8/2iCAvXJuduVlKP
-   Q==;
-X-CSE-ConnectionGUID: uKsWWpDTTzSpU/Sa2/tZuQ==
-X-CSE-MsgGUID: Sap+Wf6wSiSGLCBXYlWlaw==
-X-IPAS-Result: =?us-ascii?q?A0CbAgA5Ec5p/4v/Ja1aglmCV3FfQkmUKoIhA4tkkjYUg?=
- =?us-ascii?q?WsPAQEBD0QNBAEBhQcCjScCJjQJDgECBAEBAQEDAgMBAQEBAQEBAQEBAQsBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhloBAgEDJwsBVhwDAQIvIAsjCBmDAgGCOgM2AgERt?=
- =?us-ascii?q?BmBeTOBAYNoAkNP2EcNglIBBQYUAYE4hT6CeYUjWxgBhHonGxuBcoJQgi2BB?=
- =?us-ascii?q?YEaQgEDGIEeDoZeBIIigQ6BYY8ZSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdg?=
- =?us-ascii?q?SM+F4EMGwcFgUuHXHRtgRODflcDCxgNSBEsNxQbBD5uB4tzKYFEUg4SAXoTF?=
- =?us-ascii?q?BiCZhGSdJAUgiGgHXEKKIN0jB6ONIEKhXwaM4QETZNIklILmHuOCYQJkW0jN?=
- =?us-ascii?q?4RogWg8gUcLB3AVgyJSGQ+OKg4LhV2DFL8UIzUCCTMBBwIHDgKBc5ABgXwBA?=
- =?us-ascii?q?Q?=
-IronPort-Data: A9a23:A+uUYaCwgE7tmBVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApGsghmBRz
- moeUTvTbK6Camr8eYgjPYiy8kJV78OHzIJlOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jWGthh
- fuo+5eBYAP9gWYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE3tZ1M34uEbEk6N1vPCZ1/
- KZfNAIQV0XW7w626OrTpuhEnM8vKozveYgYoHwllWufBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGE+BPjDS0Un1lM/BJ8zhu60hn7XeDxDo1XTrq0yi4TW5FMpjuK8aYWKKrRmQ+1ul17bm
- WyY4F/4OT4+H/av+D669nuz07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/KOpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOT9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:UB0z8qOgu1VlZcBcTsCjsMiBIKoaSvp037BN7TEUdfU7SKKlfq
- yV8cjzkCWE6wr5O0tQ/OxoRpPgfZq0z/cciuMs1PWZLWvbUQCTQ72Kg7GP/9SZIU3DHio379
- YHT0C4Y+eAamRHsQ==
-X-Talos-CUID: 9a23:8ho/eG1LYHu3jJq8Lsu+2LxfB+M+TULF4EvsMXSgNCFSQefSVW2NwfYx
-X-Talos-MUID: =?us-ascii?q?9a23=3AyDVJMA/0PFJ/EacwHyi+lYmQf/xh++eRBh4SqpQ?=
- =?us-ascii?q?9lO2vHxxBPwiZhSviFw=3D=3D?=
+  bh=SdI1y2Q3qXkQWyNsNXAhvMhVsAAW11QosdlnEMCaJQY=;
+  b=XZ24nm3lvqAfdwf/8QJGoZ/bMaQL70LrgeedDuFdBE36uSMd9iXhUsSi
+   6ol7/1OF4qdz17Q6fdpu/UuN1WOItZS2vJtJbI6dotk+mtpJx2HiIXabt
+   ojhDSqHu5rrYcmitdLb2jp2W1bjqzXk9l1ygHK0kAn0o8jiJbROzIMd7L
+   nt8lb+W9DeH7pVI7yXMfg3XEyizgTgjPmYEAH+1m9DYCf4p+paqvdrliq
+   Py719wXpokLI89NOnbScpRUNHeN/+KGeHk9NRAhDm/9RXdD33lfYZz9xI
+   YUNeJD0mXCZs3DtyG72zmiAK5Ohd3x9FEjuOkWgGUFn0LNtfGc9KVQHr+
+   w==;
+X-CSE-ConnectionGUID: FuZkFi1zR+OC1hocQI1EJQ==
+X-CSE-MsgGUID: bguy/fBKS0Ccy5ZwejNRnw==
+X-IPAS-Result: =?us-ascii?q?A0CaAgA/Es5p/4z/Ja1aglmCV3FfQkmUKoIki2SSNoF/D?=
+ =?us-ascii?q?wEBAQ9EDQQBAYUHAo0nAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDYZaAQIBAycLAVYcAwECLyALIwgZgwIBgjoDNgIBEbQYg?=
+ =?us-ascii?q?XkzgQGDaAJDT9hHDYJSAQUGFAGBOIU+gnmFI1sYAYR6JxsbgXKCUIItgQWBG?=
+ =?us-ascii?q?kIBAxiBHoZsBIIigQ6BYY8ZSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F?=
+ =?us-ascii?q?4EMGwcFgUuHXHRtgRODflcDCxgNSBEsNxQbBD5uB4tzKYI2exMspX+CIaAdc?=
+ =?us-ascii?q?Qoog3SMHo8+hXwaM4QElBWSUguYe44JhAmSR4RogWg8gUcLB3AVgyJSGQ+OO?=
+ =?us-ascii?q?IVogxS/FCM1AgkzAQcCBw4CgXOQAYF8AQE?=
+IronPort-Data: A9a23:/G5njaM2Ce2xaP7vrR31lsFynXyQoLVcMsEvi/4bfWQNrUor0GABz
+ TAXUTuCO/yJYzP1fYxxbIripkMEvpPRyIQwG3M5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+ ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WVjlV
+ e/a+ZWFZgf5g2Qsawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
+ 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj69tzPkIYPNQKwKVQKjhO8
+ vchCWkgTCnW0opawJrjIgVtrt4oIM+uOMYUvWttiGmCS/0nWpvEBa7N4Le03h9p2ZsIRqmYP
+ ZdEL2MzNHwsYDUXUrsTIJ4zkf2hmnn4WzZZs1mS46Ew5gA/ySQuiOS2bYOJIILiqcN9lEmFt
+ yXI1UfCWjoRJYGt1jeH1Eiqmbqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
+ AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MuECSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXMEhpxKp/8QeuOBBUo
+IronPort-HdrOrdr: A9a23:SjJtjqhGtFCY/GShm6Tl5CGEf3BQXtsji2hC6mlwRA09TyX+rb
+ HLoB1173HJYVoqNU3I3OrwW5VoIkmskKKdn7NxAV7KZmCP0wGVxcNZnOnfKlbbdBEWmNQw6U
+ 4ZSchD4BmaNykdsS48izPIdOod/A==
+X-Talos-CUID: 9a23:DFTMcm/0dVunNqKzM+yVv2AJKMMLcyTP9jT3CBa4Dm1QaeS4a2bFrQ==
+X-Talos-MUID: =?us-ascii?q?9a23=3AuGVz3A47f15Zy9rNr3rlM1FDxoxi7Lm/T04nsq5?=
+ =?us-ascii?q?ekMKVaB5vNjW7tjKoF9o=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.23,155,1770595200"; 
-   d="scan'208";a="706291778"
-Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Apr 2026 06:54:56 +0000
+   d="scan'208";a="704351426"
+Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
+  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Apr 2026 06:56:23 +0000
 Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 5DACD180007DC
-	for <openembedded-core@lists.openembedded.org>; Thu,  2 Apr 2026 06:54:56 +0000 (GMT)
+	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 539AD180005B6
+	for <openembedded-core@lists.openembedded.org>; Thu,  2 Apr 2026 06:56:22 +0000 (GMT)
 Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
-	id 0A313CC12B5; Wed,  1 Apr 2026 23:54:56 -0700 (PDT)
+	id F3E04CC12B5; Wed,  1 Apr 2026 23:56:21 -0700 (PDT)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter][PATCH v3 1/4] binutils: Fix CVE-2025-69648
-Date: Wed,  1 Apr 2026 23:54:33 -0700
-Message-Id: <20260402065433.3782851-1-deeratho@cisco.com>
+Subject: [OE-core][whinlatter][PATCH v4 2/4] binutils: Fix CVE-2025-69644 CVE-2025-69647
+Date: Wed,  1 Apr 2026 23:55:57 -0700
+Message-Id: <20260402065557.3783451-1-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260401100022.1173083-1-deeratho@cisco.com>
-References: <20260401100022.1173083-1-deeratho@cisco.com>
+In-Reply-To: <20260313062532.3247430-1-deeratho@cisco.com>
+References: <20260313062532.3247430-1-deeratho@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
-X-Outbound-Node: rcdn-l-core-02.cisco.com
+X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 06:55:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234490
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 06:56:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234491
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-Pick the patch [1] as mentioned in [2].
+Pick the patch [1] as mentioned in [2] and [3].
 
-[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=598704a00cbac5e85c2bedd363357b5bf6fcee33
-[2] https://nvd.nist.gov/vuln/detail/CVE-2025-69648
+[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=455446bbdc8675f34808187de2bbad4682016ff7
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-69644
+[3] https://nvd.nist.gov/vuln/detail/CVE-2025-69647
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
-index 16a63cabc5..b6d7b3d60f 100644
+index b6d7b3d60f..48579b3602 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.45.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
-@@ -46,4 +46,5 @@ SRC_URI = "\
-      file://0018-CVE-2025-11494.patch \
+@@ -47,4 +47,5 @@ SRC_URI = "\
       file://0019-CVE-2025-11839.patch \
       file://0020-CVE-2025-11840.patch \
-+     file://CVE-2025-69648.patch \
+      file://CVE-2025-69648.patch \
++     file://CVE-2025-69644_CVE-2025-69647.patch \
  "
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69644_CVE-2025-69647.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69644_CVE-2025-69647.patch
 new file mode 100644
-index 0000000000..ce0e764762
+index 0000000000..78c3899af9
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
-@@ -0,0 +1,189 @@
-+From 7df481dd76c05c89782721e9df5468be829c356b Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69644_CVE-2025-69647.patch
+@@ -0,0 +1,85 @@
++From 46efc6c469c85aefd6321150e702081823ca815c Mon Sep 17 00:00:00 2001
 +From: Alan Modra <amodra@gmail.com>
-+Date: Sat, 22 Nov 2025 09:22:10 +1030
-+Subject: [PATCH] PR 33638, debug_rnglists output
++Date: Sat, 22 Nov 2025 09:52:18 +1030
++Subject: [PATCH] PR 33639 .debug_loclists output
 +
-+The fuzzed testcase in this PR continuously outputs an error about
-+the debug_rnglists header.  Fixed by taking notice of the error and
-+stopping output.  The patch also limits the length in all cases, not
-+just when a relocation is present, and limits the offset entry count
-+read from the header.  I removed the warning and the test for relocs
-+because the code can't work reliably with unresolved relocs in the
-+length field.
++The fuzzed testcase in this PR prints an almost endless table of
++offsets, due to a bogus offset count.  Limit that count, and the total
++length too.
 +
-+	PR 33638
-+	* dwarf.c (display_debug_rnglists_list): Return bool.  Rename
-+	"inital_length" to plain "length".  Verify length is large
-+	enough to read header.  Limit length to rest of section.
-+	Similarly limit offset_entry_count.
-+	(display_debug_ranges): Check display_debug_rnglists_unit_header
-+	return status.  Stop output on error.
++	PR 33639
++	* dwarf.c (display_loclists_unit_header): Return error on
++	length too small to read header.  Limit length to section
++	size.  Limit offset count similarly.
 +
-+CVE: CVE-2025-69648
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=598704a00cbac5e85c2bedd363357b5bf6fcee33]
++CVE: CVE-2025-69644 CVE-2025-69647
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=455446bbdc8675f34808187de2bbad4682016ff7]
 +
-+(cherry picked from commit 598704a00cbac5e85c2bedd363357b5bf6fcee33)
++(cherry picked from commit 455446bbdc8675f34808187de2bbad4682016ff7)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ binutils/dwarf.c | 67 ++++++++++++++++++++++++------------------------
-+ 1 file changed, 34 insertions(+), 33 deletions(-)
++ binutils/dwarf.c | 20 ++++++++++++++------
++ 1 file changed, 14 insertions(+), 6 deletions(-)
 +
 +diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-+index f4bcb677761..b4fb56351ec 100644
++index b4fb56351ec..2462e6540a7 100644
 +--- a/binutils/dwarf.c
 ++++ b/binutils/dwarf.c
-+@@ -8282,7 +8282,7 @@ display_debug_rnglists_list (unsigned char * start,
-+   return start;
-+ }
++@@ -7257,8 +7257,6 @@ display_loclists_unit_header (struct dwarf_section *  section,
++   bool is_64bit;
++   uint32_t i;
 + 
-+-static int
-++static bool
-+ display_debug_rnglists_unit_header (struct dwarf_section *  section,
-+ 				    uint64_t *              unit_offset,
-+ 				    unsigned char *         poffset_size)
-+@@ -8290,7 +8290,8 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
-+   uint64_t        start_offset = *unit_offset;
-+   unsigned char * p = section->start + start_offset;
-+   unsigned char * finish = section->start + section->size;
-+-  uint64_t        initial_length;
-++  unsigned char * hdr;
-++  uint64_t        length;
-+   unsigned char   segment_selector_size;
-+   unsigned int    offset_entry_count;
-+   unsigned int    i;
-+@@ -8299,66 +8300,59 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
-+   unsigned char   offset_size;
-+ 
-+   /* Get and check the length of the block.  */
-+-  SAFE_BYTE_GET_AND_INC (initial_length, p, 4, finish);
-++  SAFE_BYTE_GET_AND_INC (length, p, 4, finish);
-+ 
-+-  if (initial_length == 0xffffffff)
-++  if (length == 0xffffffff)
++-  printf (_("Table at Offset %#" PRIx64 "\n"), header_offset);
++-
++   SAFE_BYTE_GET_AND_INC (length, start, 4, end);
++   if (length == 0xffffffff)
 +     {
-+       /* This section is 64-bit DWARF 3.  */
-+-      SAFE_BYTE_GET_AND_INC (initial_length, p, 8, finish);
-++      SAFE_BYTE_GET_AND_INC (length, p, 8, finish);
-+       *poffset_size = offset_size = 8;
++@@ -7267,6 +7265,11 @@ display_loclists_unit_header (struct dwarf_section *  section,
 +     }
 +   else
-+     *poffset_size = offset_size = 4;
-+ 
-+-  if (initial_length > (size_t) (finish - p))
-+-    {
-+-      /* If the length field has a relocation against it, then we should
-+-	 not complain if it is inaccurate (and probably negative).
-+-	 It is copied from .debug_line handling code.  */
-+-      if (reloc_at (section, (p - section->start) - offset_size))
-+-	initial_length = finish - p;
-+-      else
-+-	{
-+-	  warn (_("The length field (%#" PRIx64
-+-		  ") in the debug_rnglists header is wrong"
-+-		  " - the section is too small\n"),
-+-		initial_length);
-+-	  return 0;
-+-	}
-+-    }
-+-
-+-  /* Report the next unit offset to the caller.  */
-+-  *unit_offset = (p - section->start) + initial_length;
++     is_64bit = false;
 ++  if (length < 8)
-++    return false;
+++    return (uint64_t) -1;
+++
+++  printf (_("Table at Offset %#" PRIx64 "\n"), header_offset);
+++  header_offset = start - section->start;
 + 
-+   /* Get the other fields in the header.  */
-++  hdr = p;
-+   SAFE_BYTE_GET_AND_INC (version, p, 2, finish);
-+   SAFE_BYTE_GET_AND_INC (address_size, p, 1, finish);
-+   SAFE_BYTE_GET_AND_INC (segment_selector_size, p, 1, finish);
-+   SAFE_BYTE_GET_AND_INC (offset_entry_count, p, 4, finish);
-+ 
-+   printf (_(" Table at Offset: %#" PRIx64 ":\n"), start_offset);
-+-  printf (_("  Length:          %#" PRIx64 "\n"), initial_length);
-++  printf (_("  Length:          %#" PRIx64 "\n"), length);
-+   printf (_("  DWARF version:   %u\n"), version);
-+   printf (_("  Address size:    %u\n"), address_size);
++   SAFE_BYTE_GET_AND_INC (version, start, 2, end);
++   SAFE_BYTE_GET_AND_INC (address_size, start, 1, end);
++@@ -7279,15 +7282,21 @@ display_loclists_unit_header (struct dwarf_section *  section,
 +   printf (_("  Segment size:    %u\n"), segment_selector_size);
-+   printf (_("  Offset entries:  %u\n"), offset_entry_count);
++   printf (_("  Offset entries:  %u\n"), *offset_count);
 + 
-++  if (length > (size_t) (finish - hdr))
-++    length = finish - hdr;
+++  if (length > section->size - header_offset)
+++    length = section->size - header_offset;
 ++
-++  /* Report the next unit offset to the caller.  */
-++  *unit_offset = (hdr - section->start) + length;
-++
-+   /* Check the fields.  */
 +   if (segment_selector_size != 0)
 +     {
-+       warn (_("The %s section contains "
++       warn (_("The %s section contains an "
 + 	      "unsupported segment selector size: %d.\n"),
 + 	    section->name, segment_selector_size);
-+-      return 0;
-++      return false;
++-      return (uint64_t)-1;
+++      return (uint64_t) -1;
 +     }
 + 
-+   if (version < 5)
++-  if ( *offset_count)
+++  uint64_t max_off_count = length >> (is_64bit ? 3 : 2);
+++  if (*offset_count > max_off_count)
+++    *offset_count = max_off_count;
+++  if (*offset_count)
 +     {
-+       warn (_("Only DWARF version 5+ debug_rnglists info "
-+ 	      "is currently supported.\n"));
-+-      return 0;
-++      return false;
-+     }
++       printf (_("\n   Offset Entries starting at %#tx:\n"),
++ 	      start - section->start);
++@@ -7304,8 +7313,7 @@ display_loclists_unit_header (struct dwarf_section *  section,
++   putchar ('\n');
++   *loclists_start = start;
 + 
-++  uint64_t max_off_count = (length - 8) / offset_size;
-++  if (offset_entry_count > max_off_count)
-++    offset_entry_count = max_off_count;
-+   if (offset_entry_count != 0)
-+     {
-+       printf (_("\n   Offsets starting at %#tx:\n"), p - section->start);
-+@@ -8372,7 +8366,7 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
-+ 	}
-+     }
-+ 
-+-  return 1;
-++  return true;
++-  /* The length field doesn't include the length field itself.  */
++-  return header_offset + length + (is_64bit ? 12 : 4);
+++  return header_offset + length;
 + }
 + 
-+ static bool
-+@@ -8404,6 +8398,7 @@ display_debug_ranges (struct dwarf_section *section,
-+   uint64_t last_offset = 0;
-+   uint64_t next_rnglists_cu_offset = 0;
-+   unsigned char offset_size;
-++  bool ok_header = true;
-+ 
-+   if (bytes == 0)
-+     {
-+@@ -8493,8 +8488,12 @@ display_debug_ranges (struct dwarf_section *section,
-+       /* If we've moved on to the next compile unit in the rnglists section - dump the unit header(s).  */
-+       if (is_rnglists && next_rnglists_cu_offset < offset)
-+ 	{
-+-	  while (next_rnglists_cu_offset < offset)
-+-	    display_debug_rnglists_unit_header (section, &next_rnglists_cu_offset, &offset_size);
-++	  while (ok_header && next_rnglists_cu_offset < offset)
-++	    ok_header = display_debug_rnglists_unit_header (section,
-++							    &next_rnglists_cu_offset,
-++							    &offset_size);
-++	  if (!ok_header)
-++	    break;
-+ 	  printf (_("    Offset   Begin    End\n"));
-+ 	}
-+ 
-+@@ -8548,10 +8547,12 @@ display_debug_ranges (struct dwarf_section *section,
-+     }
-+ 
-+   /* Display trailing empty (or unreferenced) compile units, if any.  */
-+-  if (is_rnglists)
-++  if (is_rnglists && ok_header)
-+     while (next_rnglists_cu_offset < section->size)
-+-      display_debug_rnglists_unit_header (section, &next_rnglists_cu_offset, &offset_size);
-+-
-++      if (!display_debug_rnglists_unit_header (section,
-++					       &next_rnglists_cu_offset,
-++					       &offset_size))
-++	break;
-+   putchar ('\n');
-+ 
-+   free (range_entries);
++ static int
 +-- 
 +2.35.6
 +
