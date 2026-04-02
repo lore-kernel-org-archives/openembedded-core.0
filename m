@@ -1,157 +1,92 @@
-Return-Path: <pahaditechie@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA23CD3941E
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 13:06:04 +0000 (UTC)
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15197.1775135157001569592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E98ACD39420
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 13:15:44 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15417.1775135743712849824
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 06:05:57 -0700
+ Thu, 02 Apr 2026 06:15:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: ashissh7@cisco.com)
-X-CSE-ConnectionGUID: 3OVz/vAiQ561yLRgXfWDmQ==
-X-CSE-MsgGUID: cFpbHtPCSoOsUK5afotH9Q==
-X-IPAS-Result: =?us-ascii?q?A0BpAwB2ac5p/4v/Ja1agjQQGgKCUXFeQ0mUdmlsgxWIY?=
- =?us-ascii?q?oJkj0KCDgEBAQ89FAQBAT8CBIN8jW8CJjQJDgECBAEBAQEDAgMBAQEBAQEBA?=
- =?us-ascii?q?QEBAQEKAQEFAQEBAgEHBYEOE4ZPDUkBDAGGAwEtCwEYARAdJgYDAQJPAgkjI?=
- =?us-ascii?q?YMCAYI5AQM2AxEGsmsaN4F5FgUCFoEBgygBgVOxXgoZKA1xgWEBCxQBgTiEe?=
- =?us-ascii?q?CkdQQGCN4UjWxgBhHonG32BEIJQgi2CH0ICgSeGfQSDHBSBYR6CGgaMKggHH?=
- =?us-ascii?q?xIIARwGCgJIFRIDBAMEBAECCxMJAwMCDgIIAwIIBhkBPxIEEwoDCgsHBR8KA?=
- =?us-ascii?q?gwUCigiEisKAzUSDxsVAQgGAgIEBAIEDAIJAgIFBwIRAwQBAQgCAi0DAQMZC?=
- =?us-ascii?q?AkIAgsFERgMCwcxAxAJAx8XGggBRQgGFgEaBwUGCzgVBQwRAQECRwIGBAMDA?=
- =?us-ascii?q?woHBwQDAQcDAwwCAhACBAQCEgMDBAMQAwECKQMDBwgDAgcEFgoZBAUCAS4DB?=
- =?us-ascii?q?QcCBAEHAQMDBwMCDAICEQUEBgIBAwwDBAMFBQstEQcTCgYEBwUCAgIUBgISE?=
- =?us-ascii?q?gMDBAQCAQICAjoEDhoOBAgHAwcBGAUCAwIFAQMBBwcSAgoIAw4BHQICBAIJA?=
- =?us-ascii?q?QEKDgICBgICAQMIGAMEHwQDAwcCAgwJAwQNAhIKEhsDDgMNDwIEAwwKMBAEA?=
- =?us-ascii?q?gcQAgkIBgoYAgICBgIDAwMFCQECAQEBAQEBAQIHAwMDAgMDBgMPCgMFBwYDB?=
- =?us-ascii?q?AYBBAQDAwYDAwUFAQMDBQUFBwIDBgMGBwcECAMHCwEBAQEBAwICCQEDCAMMC?=
- =?us-ascii?q?QQDBQMVDwMLCQgHDAE8DAcKKAQ2ARQUBwQlGWcHB4tJKII2gQQKASuBfUCTa?=
- =?us-ascii?q?YJojxKgHXFogz6MHo8+hXwaM6prmQaOCYQJkkeEaDaBMjyBWTMaI4EBgjYJS?=
- =?us-ascii?q?RkPji4Vg17GQCYyAjwBBwIHDgKBc4kxhk+BfQEB?=
-IronPort-Data: A9a23:QUkavqzEh3F8VJZByMZ6t+drxyrEfRIJ4+MujC+fZmUNrF6WrkVSy
- 2VLWjjQMvrfNGH9eNklPN7g/R9QusLRzoRmTFBk/1hgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCKa/lHxYuaJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 4iaT/H3Ygf/hWYoajhMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE88jmSH
- rurIBmRpws1zj91Yj+Xuu+Tnn4iHtY+CTOzZk9+AMBOtPTtShsaic7XPNJEAateZq7gc9pZk
- L2hvrToIesl0zGldOk1C3Fl/y9C0aJuo5j5Mz+hmM2qkhOfYl/WzMVgM20zBNhNkgp3KTkmG
- f0wMjsBaFWHwumx2r/+ErMqjcU4J86tN4Qa0p1i5WiGVrB9HtaZHviMvIQJtNszrpgm8fL2b
- tEZaCF0bEvoaBxUMVBRA5U79AutrialL2cB8wzE+8Lb5UDY4hR78KTVG+HSXce3ZphckEGEh
- jP/qjGR7hYycYb3JSC+2mqlhubDnD/2U4ITGZW38/drhBuYwWl7IBoOWF22pPO0hkKzV5dUL
- FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YbLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:VcPa2Kx79/68GJXJqNfXKrPwJ71zdoMgy1knxilNoNJuHfBw8P
- re+cjzuiWUtN98YhwdcLO7Scu9qA3nlaKdiLN5VdzJYOCMggWVxe9ZgbcKuweQeBEXMoVmpM
- Bdm28UMqyVMWRH
-X-Talos-CUID: =?us-ascii?q?9a23=3AUKybZ2nfBv1N8I79UokkyaiZhKPXOSb68mWXPWa?=
- =?us-ascii?q?5MDs3Eayxc1Cg9pxIlvM7zg=3D=3D?=
-X-Talos-MUID: 9a23:Zlqk1AY7iJtekeBTvBH0jhF+DOxT5IO1NWNQmJsBp+nVDHkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,155,1770595200"; 
-   d="scan'208";a="724213696"
-Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Apr 2026 13:05:56 +0000
-Received: from sjc-ads-21720.cisco.com (sjc-ads-21720.cisco.com [10.128.165.208])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id DF37518000356;
-	Thu,  2 Apr 2026 13:05:55 +0000 (GMT)
-Received: by sjc-ads-21720.cisco.com (Postfix, from userid 1869324)
-	id 8DAA0CC1288; Thu,  2 Apr 2026 06:05:55 -0700 (PDT)
-From: Ashish Sharma <pahaditechie@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <pahaditechie@gmail.com>,
-	ashissh7@cisco.com
-Subject: [OE-core][whinlatter][PATCH] nghttp2: upgrade 1.66.0 -> 1.68.1
-Date: Thu,  2 Apr 2026 06:05:54 -0700
-Message-Id: <20260402130554.3466031-1-pahaditechie@gmail.com>
-X-Mailer: git-send-email 2.35.6
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.128.165.208, sjc-ads-21720.cisco.com
-X-Outbound-Node: rcdn-l-core-02.cisco.com
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=uhrpF28c;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=etyHq/F0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019d4e55dc29-a4c029d1-9af3-4909-9833-ae45270997b5-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1775135743; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=7pE3lbFIbNBZXQFZNLVk6UHrXP1Q5xXxaskAi7tQ4Qg=;
+	b=uhrpF28cba/FpPJKNcOZm/9fOASCEdzCD+/lJjwtQ5z8ZOlnVWFeDVpk53Gh2YiV
+	HWdQIhKhsLubGcSzQUeyMYaDyOkupN0ld6/eOOgYPjG5uD9lwT6FIpuzNOdIjcmlKdi
+	j9F29xIFqMYnaIeFavFpESZOBrsdTq/UChFZYCAw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775135743;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=7pE3lbFIbNBZXQFZNLVk6UHrXP1Q5xXxaskAi7tQ4Qg=;
+	b=etyHq/F0S9PiA3vKN4QeqDVMtd2s270rUZMCbEARW1FkcyZIIfUyPWMjRGpuwswx
+	YaeSaX/neKoAYAuBod9DHYyLnWEVS/ZrECJgQEc6xro5x630yGLdYYw8z0e210aQyhi
+	WkyuN1Vye3GxBCNTHQ5GhPuTaSOP3ef6noyGkqBc=
+From: patchtest@automation.yoctoproject.org
+To: Ashish Sharma <pahaditechie@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][whinlatter][PATCH] nghttp2: upgrade 1.66.0 -> 1.68.1
+In-Reply-To: <20260402130554.3466031-1-pahaditechie@gmail.com>
+References: <20260402130554.3466031-1-pahaditechie@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019d4e55dc29-a4c029d1-9af3-4909-9833-ae45270997b5-000000@us-west-2.amazonses.com>
+Date: Thu, 2 Apr 2026 13:15:43 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.04.02-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 13:06:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234521
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 13:15:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234522
 
-Upgrade nghttp2 to 1.68.1 which includes fixes from upstream,
-including the fix for CVE-2026-27135.
+--NextPart
+Content-Type: text/plain
 
-CVE-2026-27135: Assertion failure in
-nghttp2_session_terminate_session()
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Release:
-https://github.com/nghttp2/nghttp2/releases/tag/v1.68.1
-
-CC: ashissh7@cisco.com
-Signed-off-by: Ashish Sharma <pahaditechie@gmail.com>
 ---
- ...xt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch | 28 +++++++++++++++++++
- .../{nghttp2_1.66.0.bb => nghttp2_1.68.1.bb}  |  8 ++++--
- 2 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
- rename meta/recipes-support/nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.68.1.bb} (62%)
+Testing patch /home/patchtest/share/mboxes/whinlatter-nghttp2-upgrade-1.66.0---1.68.1.patch
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch b/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
-new file mode 100644
-index 0000000000..f7cc4fe539
---- /dev/null
-+++ b/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
-@@ -0,0 +1,28 @@
-+From eb5812d018eb96284aa6ef82569d0b6b75bcd020 Mon Sep 17 00:00:00 2001
-+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-+Date: Sun, 9 Nov 2025 12:45:25 +1300
-+Subject: [PATCH] lib/CMakeLists.txt: Fix NGHTTP2_CONFIG_INSTALL_DIR path
-+
-+Remove hard coded path to fix installation on 64-bit arch.
-+
-+Upstream-Status: Submitted [https://github.com/nghttp2/nghttp2/pull/2551]
-+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-+---
-+ lib/CMakeLists.txt | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
-+index 98e3dbe7..3b6a4400 100644
-+--- a/lib/CMakeLists.txt
-++++ b/lib/CMakeLists.txt
-+@@ -51,7 +51,7 @@ set(NGHTTP2_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
-+ set(NGHTTP2_VERSION_CONFIG "${NGHTTP2_GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
-+ set(NGHTTP2_PROJECT_CONFIG "${NGHTTP2_GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
-+ set(NGHTTP2_TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
-+-set(NGHTTP2_CONFIG_INSTALL_DIR "lib/cmake/${PROJECT_NAME}")
-++set(NGHTTP2_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
-+ set(NGHTTP2_NAMESPACE "${PROJECT_NAME}::")
-+ set(NGHTTP2_VERSION ${PROJECT_VERSION})
-+
-+--
-+2.43.0
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
-similarity index 62%
-rename from meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
-rename to meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
-index 49d6d7e632..71d5eef8d6 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
-@@ -4,8 +4,12 @@ SECTION = "libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
- 
--SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
--SRC_URI[sha256sum] = "00ba1bdf0ba2c74b2a4fe6c8b1069dc9d82f82608af24442d430df97c6f9e631"
-+SRC_URI = "\
-+    ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
-+    file://0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch \
-+"
-+
-+SRC_URI[sha256sum] = "6abd7ab0a7f1580d5914457cb3c85eb80455657ee5119206edbd7f848c14f0b2"
- 
- inherit cmake manpages python3native github-releases
- 
--- 
-2.35.6
+FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
