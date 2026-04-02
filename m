@@ -1,102 +1,139 @@
-Return-Path: <pavel@loebl.cz>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB8FCD3940E
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 10:22:41 +0000 (UTC)
-Received: from mxb.seznam.cz (mxb.seznam.cz [77.75.78.89])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12494.1775125352706649608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 109C3D39411
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 10:44:42 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12911.1775126680090161377
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 03:22:33 -0700
+ Thu, 02 Apr 2026 03:44:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@emailprofi.seznam.cz header.s=szn1 header.b=brxhp+6W;
- spf=none, err=permanent DNS error (domain: loebl.cz, ip: 77.75.78.89, mailfrom: pavel@loebl.cz)
-Received: from email.seznam.cz
-	by smtpc-mxb-798b96f97c-6m97p
-	(smtpc-mxb-798b96f97c-6m97p [2a02:598:64:8a00::1000:916])
-	id 4e3e563755acdbe34adbefb5;
-	Thu, 02 Apr 2026 12:22:28 +0200 (CEST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cToXbTKI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-486ff201041so6808405e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 03:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=emailprofi.seznam.cz; s=szn1; t=1775125348;
-	bh=LTpWG6XrTtUSKJlGO1IzFeYDlFNl4SrKYa3V1vcP9YU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	b=brxhp+6WWjK/hWu30Jgq4Ag2UouuOW46wf25g1jELiN716Gj2O+Klj/s5lJJiyt+X
-	 XfaEc4kM3kSSyJrg6AP+qdinFclVjpOuL/yQTsb9skTKtBuOd5MqAiOshS2AYHUhgu
-	 ue/aMDvk5eYjkiahe29Q7hJ8mIlEgwVMud29w0kEHXmC5FKCw5iSDPsuW7K1nVTRPC
-	 UVL+psIWV6RSZqQex5FwjWTJwIn8L912zyTObrrwMBiHs86nKvTxrOmhkleVihuNKq
-	 Mpairkh6lF6RdJFWEG2F77uFWfEANeYXhbB6TqiVSiLEqyAsn+3IPKkLaJj357BPzU
-	 RiV/IfQlex7hA==
-Received: from localhost ([2a03:a900:1020:47::f71])
-	by smtpd-relay-789d8dfb5c-gs6tr (szn-email-smtpd/2.0.71) with ESMTPA
-	id 542f5ef8-7f2e-4fc3-b480-9073562d1b7a;
-	Thu, 02 Apr 2026 12:22:24 +0200
-Date: Thu, 2 Apr 2026 12:22:15 +0200
-From: Pavel =?utf-8?B?TMO2Ymw=?= <pavel@loebl.cz>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Michelle Lin <michelle.linto91@gmail.com>
-Subject: Re: [PATCH] uki.bbclass: fix ukify arguments assembly
-Message-ID: <ac4-MU8f_cm-3Hv9@alena.lan>
-References: <20260402073331.2436504-1-pavel@loebl.cz>
- <ac4gK-MO4ZadNHHf@nuoska>
+        d=linuxfoundation.org; s=google; t=1775126678; x=1775731478; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=71qRV1qSTmCZLTNfURY+FcoG0J0RoCpluwBEpJnf30k=;
+        b=cToXbTKIgth+k30t1fbutI5nWvBIaARwphwcL2GDXUuUVA8yc/Nix4KGYRg/YAbEuJ
+         1uRIME7H3xFBOezGaaRfgpGT3P5mGkESuRmL8KbfjHQ04jzIzHex+zHsV3ExXrOEcjVi
+         /0B3U2nZ52yXVuEXdo/esix/+8fnmC2jptPFE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775126678; x=1775731478;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=71qRV1qSTmCZLTNfURY+FcoG0J0RoCpluwBEpJnf30k=;
+        b=YNcNPcP1FUPWoQjZxEEbGrVOyTZV7M3Hcbts2ns9mEy0TTunknlMMexUvDg8gHeree
+         5S1JIfYtx0aox1A/KecW99NNUtZTq4q/gbEtNsukjHKZ6Z6pSlsNYilB5IjPArn6Bm18
+         ErHR6l9yfWZ414Yu5lBhzsiVFGj/4QP6MPv+5f2U4TAEGXttN+eXsxqoA0k0y5/LaERg
+         nkuAVUAWMMJHYFRgbxMaMdjd9EXEncpdjqpLJeyVI0NS5x/EPFJ7fD7Ym9EIMzaupJiH
+         yi9Dzb/ImsdxglpOxgoq3AEuOotGRyaBdyd02DE7AUHh0XWsWwKrC7Ch72x7XJQZrtky
+         p2Pg==
+X-Gm-Message-State: AOJu0YxiiQC7YroV4PSNgtIftVSsTP8RgmOozbhfBoI7ZY0WJ0OHtOXC
+	cZggBoNQqC4yvgnrDISLyef1sdznW0TtA5/QshlTNy6hOFwbuIWeRR1H2g9ClWBUPG+Wnn8Ow/8
+	NNL0z
+X-Gm-Gg: ATEYQzxm+9ix+xEH9PxvGyPpU9ThxuvcgU1HRxIaMnpH8Itd6o6pfRWRxsyDNBKSn+L
+	0SkpWvPk4X52HcnOWWBz09LBpDMmbQLj7/IN+oSHfmRvyvk2dbr8y3xx/sQHNN4LlbI3+OxX5Rj
+	b4E5tqF1vMNIkEGZIPAbJ9/RHJYujwUy5AvXH2rDRjjTQCMsgsvUe6hYlqrw14IRv9stwaeK0k/
+	W8T02cpbn+UZlGHzViZnnYlXm+94dVl/DpT0UDtJmeEu2SnhBlcWgbP/rBrGyRKyk8PaVv+apl7
+	gwiuAKpF2a9NxD1gq7L0xOpsqPB78e1x/xq0mBRlG1FYgBMCYxtXdtdla8PXtiDVi34gHJcHMAl
+	jQ3vFhx4SeCIJxgXSXO/yj5lukFqSVcDqltWIZtZfBsE9giZzmp8zske9SbDiYaO9SQPikoWqg/
+	g/52goBLktsrbe/EQY+aPiKqmnluf0fFDGX3Emi7PiyjnXnRGMBAh+
+X-Received: by 2002:a05:600c:c83:b0:485:2fc5:3a5 with SMTP id 5b1f17b1804b1-4888b7ab5efmr39493715e9.26.1775126677934;
+        Thu, 02 Apr 2026 03:44:37 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a695:b092:8c54:d70f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887eb5aff3sm259750855e9.15.2026.04.02.03.44.36
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 03:44:37 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/3] conf/packagegroups: Drop usbhost/usbgadget from DISTRO_FEATURES to MACHINE_FEATURES
+Date: Thu,  2 Apr 2026 11:44:34 +0100
+Message-ID: <20260402104434.3525234-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260402104434.3525234-1-richard.purdie@linuxfoundation.org>
+References: <20260402104434.3525234-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ac4gK-MO4ZadNHHf@nuoska>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 10:22:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234512
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 10:44:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234515
 
-On Thu, Apr 02, 2026 at 10:52:11AM +0300, Mikko Rapeli wrote:
-> Hi,
-> 
-> On Thu, Apr 02, 2026 at 09:33:15AM +0200, Pavel L�bl wrote:
-> > Missing space before --uname ukify option mangles the command line
-> > string when KERNEL_VERSION is set.
-> 
-> Thanks, this is a clear bug.
-> 
-> meta/lib/oeqa/selftest/cases/uki.py could be improved to cover this.
-> I would be interested to know if the kernel version autodetection
-> does not work since that is preferred by ukify.py and this KERNEL_VERSION
-> handling in uki.bbclass could be removed.
-It works for me now. I just ran into this bug while trying different class
-variables. In the end I had build misconfigured in other places (missing efi
-machine feature and possible some other stuff).
+Whilst the intention was good, nobody really needs to exclude usbhost/usbgadget from a distro
+level any more, it is sufficient to have it as a machine feature which configuraitons
+could disable.
 
-Regards,
-Pavel
+At the distro level it just confuses people and looks very dated, so
+drop it to a machine feature only.
 
-> 
-> Reviewed-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> 
-> Cheers,
-> 
-> -Mikko
-> 
-> > Signed-off-by: Pavel L�bl <pavel@loebl.cz>
-> > ---
-> >  meta/classes-recipe/uki.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
-> > index 326697a06660..a89e92b77869 100644
-> > --- a/meta/classes-recipe/uki.bbclass
-> > +++ b/meta/classes-recipe/uki.bbclass
-> > @@ -140,7 +140,7 @@ python do_uki() {
-> >          # not always needed, ukify can detect version from kernel binary
-> >          kernel_version = d.getVar('KERNEL_VERSION')
-> >          if kernel_version:
-> > -            ukify_cmd += "--uname %s" % (kernel_version)
-> > +            ukify_cmd += " --uname %s" % (kernel_version)
-> >      else:
-> >          bb.fatal("ERROR - UKI_KERNEL_FILENAME not set")
-> >  
-> > -- 
-> > 2.53.0
-> > 
+Instead, for distro level control you could simply now do:
+
+MACHINE_FEATURES:remove = "usbgadget usbhost"
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/distro/include/default-distrovars.inc      | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-base.bb | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 468028587dd..4bfe2469e28 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -26,7 +26,7 @@ DISTRO_FEATURES_OPTED_OUT:append:microblaze = "seccomp"
+ DISTRO_FEATURES_OPTED_OUT:append:loongarch64 = "seccomp"
+ 
+ DISTRO_FEATURES_DEFAULTS ?= " \
+-    acl alsa bluetooth debuginfod ext2 ipv4 ipv6 usbgadget usbhost \
++    acl alsa bluetooth debuginfod ext2 ipv4 ipv6 \
+     wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp pulseaudio \
+     gobject-introspection-data ldconfig opengl ptest multiarch wayland vulkan \
+     "
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index 5bd73ca17a4..65f75b4404b 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -51,14 +51,14 @@ RDEPENDS:packagegroup-base = "\
+     ${@bb.utils.contains('MACHINE_FEATURES', 'keyboard', 'packagegroup-base-keyboard', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'phone', 'packagegroup-base-phone', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'pcmcia', 'packagegroup-base-pcmcia', '',d)} \
++    ${@bb.utils.contains('MACHINE_FEATURES', 'usbgadget', 'packagegroup-base-usbgadget', '',d)} \
++    ${@bb.utils.contains('MACHINE_FEATURES', 'usbhost', 'packagegroup-base-usbhost', '',d)} \
+ 
+     \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'packagegroup-base-alsa', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'ext2', 'packagegroup-base-ext2', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'vfat', 'packagegroup-base-vfat', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'pci', 'packagegroup-base-pci', '',d)} \
+-    ${@bb.utils.contains('COMBINED_FEATURES', 'usbgadget', 'packagegroup-base-usbgadget', '',d)} \
+-    ${@bb.utils.contains('COMBINED_FEATURES', 'usbhost', 'packagegroup-base-usbhost', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'bluetooth', 'packagegroup-base-bluetooth', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'wifi', 'packagegroup-base-wifi', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', '3g', 'packagegroup-base-3g', '',d)} \
+@@ -199,7 +199,7 @@ RRECOMMENDS:packagegroup-base-bluetooth = "\
+     kernel-module-hidp \
+     kernel-module-hci-uart \
+     kernel-module-sco \
+-    ${@bb.utils.contains('COMBINED_FEATURES', 'usbhost', 'kernel-module-hci-usb', '',d)} \
++    ${@bb.utils.contains('MACHINE_FEATURES', 'usbhost', 'kernel-module-hci-usb', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'pcmcia', 'kernel-module-bluetooth3c-cs', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'pcmcia', 'kernel-module-bluecard-cs', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'pcmcia', 'kernel-module-bluetoothuart-cs', '',d)} \
+@@ -265,7 +265,7 @@ RDEPENDS:packagegroup-base-wifi = "\
+ "
+ 
+ RRECOMMENDS:packagegroup-base-wifi = "\
+-    ${@bb.utils.contains('COMBINED_FEATURES', 'usbhost', 'kernel-module-zd1211rw', '',d)} \
++    ${@bb.utils.contains('MACHINE_FEATURES', 'usbhost', 'kernel-module-zd1211rw', '',d)} \
+     kernel-module-ieee80211-crypt \
+     kernel-module-ieee80211-crypt-ccmp \
+     kernel-module-ieee80211-crypt-tkip \
 
