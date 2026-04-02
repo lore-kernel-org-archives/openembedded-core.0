@@ -2,114 +2,109 @@ Return-Path: <adam.blank.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9778BD6AAE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7135DD6AAE2
 	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 15:39:46 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18705.1775144385086051852
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18704.1775144384103535202
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 08:39:45 -0700
+ Thu, 02 Apr 2026 08:39:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=TJbjyMCj;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: adam.blank.g@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b97f9587e6eso143383766b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 08:39:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Jvn+k6Hu;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: adam.blank.g@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b932fe2e1a7so124377966b.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 08:39:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775144383; x=1775749183; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1775144382; x=1775749182; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZKxP2KBhTBqkiLG3TfJAsJYbYU/58IJeFcBRDTeXn4I=;
-        b=TJbjyMCj/JSAZtbWxpLsBDamg+kjKIgV0sX789gvAt4qT4kvkCy5f1UUo8QseG/L43
-         PYhrWh0jIVk+yCCJ2I/t+tMcAvGbuBjbimaZ4T9KNLI+83FROM0kPBSAH7mq3yoEXKjC
-         ggrENfgJh+wiNiqIGjrBs3T7suW+rLUkcn1eIqeCDycPSVsDMkjSMp5cO8G87vyck5HJ
-         hTuwpbIK8gQe+REjyidKqOmzpdlggrKe/DkAtrMegJCLSICy+ubAReb3vUvzSFNvTlpO
-         g+5QFoV6SpTec5OI8urK+iYlkIEewOjKgBteAMAbfy7x3s+NogyEDwzYW8LAIi/GczM9
-         oAQA==
+        bh=CLQ26SROjLaf+bU0PGYWx8zrwQBHbdW8/rebvKGWllU=;
+        b=Jvn+k6HujZ1qCB8hE7dzkX2bz9AAtoaZRUj+I68xG1ErQ2VSE/O4Oq1HdRKVD+8DvB
+         Ud2ym6rxk5n+vR6XxP1Ybpf26A3+Wd9ZEROQvkufI7IvZYIkg4xie/GugtPWL8tv8Qoc
+         pTI0k9n+K63EO4mYZGRj+0rHZ+g1jBJX41n/NFN/TtMFpg7EHBOsIbMzBheBnCVqU9/B
+         ZPN2/nRIW6vCxy9j2rG7+cvjvc58GcECCaR5sXhj+AuV/Kz5QdMsM4j04DGOz3mofGnG
+         wWsPx8fLv1xgw8nQWr4kqdbKqox9IUode8n/U62+r4uT7w0HYDiWAxglfyUFcz2Ewnfd
+         Mcew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775144383; x=1775749183;
+        d=1e100.net; s=20251104; t=1775144382; x=1775749182;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ZKxP2KBhTBqkiLG3TfJAsJYbYU/58IJeFcBRDTeXn4I=;
-        b=OvJ/MxqVjUhC0zFXmRNRr/AKk2mQUCvNncN1FMJKkew/wZOOxH99axxsE0dtZES/2X
-         Uo6wQCSbH5sD3I4GS+m5j/wdvXoEtE9Oy0L9Q6PTglPYGY6aNRUDgcBpLh3rE6CHiq+j
-         kRPcSJK/tXO3csskyMyBpB+C4AZg6dmXEiH2cCbwvzPv3JoNOg7HHhdVYDvWfQOZvd8U
-         Ur+tQZTTm8Tt4E3MoRKDDoHds2kyrgwAKR2Vlg8OBrQG0YxdUXsaqtL8YSSn1uriqj5q
-         3nQSe7sLHlMx1XL05ht6adJyEIZHAcsMig9YR3XiUpu72Vpmw0Bru0eP6j9Dj30yS6jS
-         +GFA==
-X-Gm-Message-State: AOJu0Yy3ltILOSalffIClkH0NMJYRW8Yx+ajqLZ3yI/5xie+jflsY27b
-	WiGAGpu5dBSSX9CQRJxSxLZFgmKlZV4EQqXlEyfUTg84iRhKbqYJRNBZ
-X-Gm-Gg: ATEYQzw18beSGYLOIw/HcMqrPEf1HU1bb9IlVc83n7QMQA8ybwZDRS74e+Jihw7Na5i
-	MTFLJR7Y4Xza0+KDHXAinLtG1xqxlMshcU3uzb+SpbBO1fQFxMJ98mWOovavg1mw6RBJ3NtffRz
-	lbM1K5T82ylnVN77srNvwZoenhQEixx2Z+VlOaDAbAdgNF7WykpKVlzcQdVicJUtgY4qI2IgZiC
-	X7hZIGpwlX2xcWnoEWQXlgAH7MNtpb3OHFpIE/5J7vB5fv0F6P/rVpFkkC+a42TFeQF5Fpa8u55
-	sAJenZbK3gLafmfpdchl/v3MkPkaT8HmsvKRp9u5/PL0Go9b7i+sr16a6FoRPmz30yOVBcICM0n
-	qokZy9N622R9WyumidHM9g2xNJRG4e6NLDUTsfYAIAOjv92GA8vj3rflgAgEpJnwLfkHopSnvZ8
-	gWvEfWA1meVAtoeazKGDmxoIociIDQQg==
-X-Received: by 2002:a17:906:5994:b0:b96:e0b1:ccf4 with SMTP id a640c23a62f3a-b9c3f1b6eeemr154317266b.47.1775144383263;
-        Thu, 02 Apr 2026 08:39:43 -0700 (PDT)
-Received: from [127.0.1.1] ([2a02:a312:c8a8:7a00:fb7f:9298:379f:1206])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c3cff130fsm101831066b.47.2026.04.02.08.39.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=CLQ26SROjLaf+bU0PGYWx8zrwQBHbdW8/rebvKGWllU=;
+        b=YH852SVaBVgxzkrUMgXb8BES1SavQQV4hVuO5B9V3Bldd4UiLAAkZ59dZq5RfoRA/J
+         sQ6S0AWWEZYBWBtSFc+r/G9eTZ6+1oNnR74qLWoE5H3WYkxxSvqj/n9/dg+3ehSvFjtH
+         cVqyLPrAcJbgRZ9GV88xm+jWAdYz6TwzM3VjVo6iTqCdv+NmWYrfNID615t6EAr2zB9F
+         KdZWpilaIvGlIuErLwWnOz+hko9fh6Gt1vCIFI0TK2wXqtL9926cYzpMNYnwg0c8h3eN
+         77jeS2/k19nKGmFKxrCPyKUpEQ1PWQnVmTQF4lx2HaQtf7eiWZYkta8iE/WcLMIzFn6i
+         jx2Q==
+X-Gm-Message-State: AOJu0YwV/agjeA5cdl3UJW5GZq0uh04QVfufASMg3nZTBWZrSCXw+66b
+	jrph7/qiEwTYOOjwT9vt5XwZhrisf8SSakxvsjfNaEe/aq1ElmDG24xD
+X-Gm-Gg: ATEYQzwF5+WRy170zPxOP7pho6p3uDghn47Qb3RotbQJLZ35gKdyrUJKtmKE4+ugG1d
+	dpWfd38fBU4Y7TK3SvZnNWhfjZPYIJ0PzuYqM2ns6rnmya0ep91N3LuyYyFy9KD2+7RyzBPQxbJ
+	1Ola2gxxoaJF2A4JEi61asZiK7/au0FaniDkOCGDiR1BqHQ1um+XiFrJD82v7BxaHChvYaW7w6k
+	+Ggw5l0snR6pSAAFQ9E3cgg5J/uBxBwZi08MC9rzWIRRZ/LuwiZfdQX+RU6/pOChyNogMXRVmHn
+	/RgKSpv0GG3eNdCAsC5BXkkT5VP0xdBUDvrdzzVyZ/PLEDzhVgfzzrzBvCaovpVqDDUTGPwXkxa
+	VZSyA8MvecpwGRBULaG+hoOaJI00eN3Bzvhym43Lnr0GPb7gaO8GsoQoqXIj51KIakTqo5mYsfs
+	h3P+VD37L9TaSs1Rh35oFgRj445auZrg==
+X-Received: by 2002:a17:907:c1a:b0:b97:ca81:e89a with SMTP id a640c23a62f3a-b9c133af529mr498051166b.0.1775144382375;
         Thu, 02 Apr 2026 08:39:42 -0700 (PDT)
+Received: from [127.0.1.1] ([2a02:a312:c8a8:7a00:fb7f:9298:379f:1206])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c3cff130fsm101831066b.47.2026.04.02.08.39.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 08:39:41 -0700 (PDT)
 From: Adam Blank <adam.blank.g@gmail.com>
-Date: Thu, 02 Apr 2026 17:39:39 +0200
-Subject: [PATCH v2 3/4] sstate: remove dead code and unify path operations
+Date: Thu, 02 Apr 2026 17:39:38 +0200
+Subject: [PATCH v2 2/4] package_pkgdata: fix typo to stop calling undefined
+ function
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260402-dead_code_and_unification-v2-3-259169372299@gmail.com>
+Message-Id: <20260402-dead_code_and_unification-v2-2-259169372299@gmail.com>
 References: <20260402-dead_code_and_unification-v2-0-259169372299@gmail.com>
 In-Reply-To: <20260402-dead_code_and_unification-v2-0-259169372299@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Blank <adam.blank.g@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775144377; l=1577;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775144377; l=1107;
  i=adam.blank.g@gmail.com; s=20251027; h=from:subject:message-id;
- bh=QDDz4JNlsbni79G3POf5sQE/siQUpXvaQnlyDYCk81A=;
- b=l7VjHv9gRz+PWrW74G/IX9si1grGHHjcoktuiHsw1e+yy+xR6bq9J6fz/oP8UcKb1ZC69TOTS
- +KxVl3BeWryBhjlT2FT2F+q5oKa3I7KHnRHEF1ExUnF62dRRhIQP3nh
+ bh=EyVWYhsHSZD3ytYYrXxoSq08+MtFI2MZq9cO+ifvjzc=;
+ b=F+P+MZli6iv5S29WEK7Y2zmpDVp2/XVDANZFPXEMnhlMoL+m70noD8M+kjAVOrhFPnRHZSgr6
+ t3XE1ib0ykeDcJNhiP4j9upwYJwcdkzoM9tPMNwVo37qFiWwnbh8yxr
 X-Developer-Key: i=adam.blank.g@gmail.com; a=ed25519;
  pk=5t8u8IPKPL1CUykIX2JYa+1iHdXRdN5MqI7ik/fbvEM=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 15:39:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234542
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234541
 
-Most substring replacement operations performed on
-'dirs' and 'plaindirs' are implemented in the same
-pattern, except two. Unify the implementation.
+The function is named 'package_populate_pkgdata_dir' but the
+call was to 'staging_package_populate_pkgdata_dir'.
 
 Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
 ---
- meta/classes-global/sstate.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/classes-global/package_pkgdata.bbclass | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 88449d19c7..6d5ff265c5 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -333,9 +333,9 @@ def sstate_install(ss, d):
-     for plain in ss['plaindirs']:
-         workdir = d.getVar('WORKDIR')
-         sharedworkdir = os.path.join(d.getVar('TMPDIR'), "work-shared")
--        src = sstateinst + "/" + plain.replace(workdir, '')
-+        src = plain.replace(workdir, sstateinst)
-         if sharedworkdir in plain:
--            src = sstateinst + "/" + plain.replace(sharedworkdir, '')
-+            src = plain.replace(sharedworkdir, sstateinst)
-         dest = plain
-         bb.utils.mkdirhier(src)
-         prepdir(dest)
-@@ -639,7 +639,6 @@ def sstate_package(ss, d):
-     for state in ss['dirs']:
-         if not os.path.exists(state[1]):
-             continue
--        srcbase = state[0].rstrip("/").rsplit('/', 1)[0]
-         # Find and error for absolute symlinks. We could attempt to relocate but its not
-         # clear where the symlink is relative to in this context. We could add that markup
-         # to sstate tasks but there aren't many of these so better just avoid them entirely.
+diff --git a/meta/classes-global/package_pkgdata.bbclass b/meta/classes-global/package_pkgdata.bbclass
+index f653bd9240..5312ca873c 100644
+--- a/meta/classes-global/package_pkgdata.bbclass
++++ b/meta/classes-global/package_pkgdata.bbclass
+@@ -47,7 +47,7 @@ python package_prepare_pkgdata() {
+     # Detect bitbake -b usage
+     nodeps = d.getVar("BB_LIMITEDDEPS") or False
+     if nodeps:
+-        staging_package_populate_pkgdata_dir(pkgdatadir, d)
++        package_populate_pkgdata_dir(pkgdatadir, d)
+         return
+ 
+     start = None
+@@ -169,5 +169,3 @@ python package_prepare_pkgdata() {
+ }
+ package_prepare_pkgdata[cleandirs] = "${WORKDIR_PKGDATA}"
+ package_prepare_pkgdata[vardepsexclude] += "MACHINE_ARCH PACKAGE_EXTRA_ARCHS SDK_ARCH BUILD_ARCH SDK_OS BB_TASKDEPDATA SSTATETASKS"
+-
+-
 
 -- 
 2.43.0
