@@ -1,93 +1,108 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <adam.blank.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF481D3943C
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 15:01:05 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17809.1775142056198438830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3879CCC6B3F
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 15:39:46 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18705.1775144382765851105
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 08:00:56 -0700
+ Thu, 02 Apr 2026 08:39:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lPtaPbyL;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FxlaZJ76;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d4eb62db5-8cb50f01-6468-4665-a911-c0f3856679b4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775142055; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=l6rZR6QVrkT95k1+E+DkDYREsN/eBCHfermXkO+szXI=;
-	b=lPtaPbyLPuJJCL1ErqGPzMfpcNfRkMlDgyUIRpERhVjBQm7yLiMYurF6sab/iE1/
-	qSKg619QDI8dbRi0fZuVPCH9vq97c1HcjAcafBLJ/w6utw+eAMgQd628ZKwglFg1See
-	pLipaIKoncaCCkSOGPvDU9jFafo0vR/d3E6BAubo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775142055;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=l6rZR6QVrkT95k1+E+DkDYREsN/eBCHfermXkO+szXI=;
-	b=FxlaZJ76ovH7xmBTlCfukhyEKmdLNrR8/eOg+GnJFOdRWhAfmND2YiB0bmWLaSZA
-	ao/u3hkgM2I20G/1G44AB6wEp7DQOosxa90IUVcZuqZ1C04cuNqpz832Iq5KP5DTfpn
-	JTHjP6EnBYvjliBUzHyPjVZUGbEyWU3oFDELBJ/M=
-From: patchtest@automation.yoctoproject.org
-To: Adam Blank <adam.blank.g@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 4/4] package: update the comment block explaining
- 'emit_pkgdata'
-In-Reply-To: <20260402-dead_code_and_unification-v1-4-5a3906b6340d@gmail.com>
-References: <20260402-dead_code_and_unification-v1-4-5a3906b6340d@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d4eb62db5-8cb50f01-6468-4665-a911-c0f3856679b4-000000@us-west-2.amazonses.com>
-Date: Thu, 2 Apr 2026 15:00:55 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.02-54.240.27.191
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=VOjuDWqV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: adam.blank.g@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-66ba9dfe83bso1450861a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 08:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775144381; x=1775749181; darn=lists.openembedded.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JhIhiQvP31gUmQEjfTlAwNlzol2iO4Drs9pQaOxg4t8=;
+        b=VOjuDWqVoZsOsAmbgIJYzRyx+dduB59Se9yptm+U1OGdyGmuDmOS0wiX7GmaKkVM77
+         tTWJApWW9ifmGUhA1CYkzSVDNCJMPcAvkttYUtake/EVO4fHHT+JeKDxIaiUvvRrwrWk
+         i3Nv2Er/Bvq1/jB6XcPPM5964UZu0gJchtLjWpymOfeSBFXD51EGJJkjM+KTeKpp8b/o
+         5Vj8aiDMufokbC/HkYBEoeFnBgdrxsADTqNhC9+Of2urYjhJDXDl+Tmcj+xf5aLEW/lV
+         tHoOCBNjg7ZFtAldQ0wbgpmfpRviFObYRg6buCFzZhZBI6aY+NzQxSOV+SjQ0uikt7ro
+         X46w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775144381; x=1775749181;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JhIhiQvP31gUmQEjfTlAwNlzol2iO4Drs9pQaOxg4t8=;
+        b=rwzqTSsZLNl17XpWhOpwYWjj+w5x95KQ0vCKoHgTsnO8H0j0IHlGpRF8GhtE3Od+sN
+         rxfzryG9Ma9dyzJSsyKSmsuslf6SwEsIwjDPeF3nDWoWz6y3g4fM5q60sLn905i+Rs/U
+         qgwCQLXYd/cRavYOzfeiYaT9o/jIPIFMHIYLlgXIa1bVKvqK4+4XH6lW4e4F1fjkDk48
+         jSENWRc4a7PwU7VyQcrR/On7fAH10aQjS4WpQGShtmC+KPn2/ShHgTBvflCQ49cRnme3
+         rN+pc++5FZihsMFFR6wOcqD3vC83viCMIsU9YCEAZevfsDpQvyMoGn0zHK2rV+KS7UiS
+         n1Yg==
+X-Gm-Message-State: AOJu0Yw23WPOyiALdfSRFmlWM0oSvAtrUMz47iOLtpf+wbPlWcqZcX4+
+	dn6ty9SZNsaSCLWIsKnRrcoAObNRz7mIFzNGiU1W+eCXppEpaYu9g+c4
+X-Gm-Gg: ATEYQzxOvDW+REamt4YbdgevmSqZFcoFxrBC4wcmT4zm1jjwa0b1Qd4h1CPVetBPCBn
+	AtQUbGaJsgc7arbiCONHN65/aoGetm69eSjk2LjKmz/Xe7nLG7X6hLqDaMQJpV63lO4wuJ6pT7I
+	LZUK2Sapym7qexLylKLZpAbcglXYIkNBNEI8hHPwLwj+9FNvEcwz+Q2CuyGyQXZqUmtggi4+rP0
+	EY2CaADuk6pAo8ijc8LUj4Qce3JXb2vBucW03IoslEvzsfmUYoCyLbowUYYkiUL6xveseH7hF2a
+	GpgcsuYIMitFGMAf7t1JHlZsF6ULC7mn6OKktibs6pingizC5Jrvf+r76QxMTGwMOQdt8U2XMBQ
+	ZowFSu3yqwQvbBAMerNFe3A0LIWlFZ5Qo5O436VT+sdulc6KcHzQSD0ZmE90YWAKGK0w2Qadkn/
+	O6PlG3QcSZ4rGnRRmWh4HaPp6XWs407GtQY35lUR6R
+X-Received: by 2002:a17:907:c922:b0:b9c:3ba2:2dbd with SMTP id a640c23a62f3a-b9c3ba2335cmr181698766b.53.1775144380611;
+        Thu, 02 Apr 2026 08:39:40 -0700 (PDT)
+Received: from [127.0.1.1] ([2a02:a312:c8a8:7a00:fb7f:9298:379f:1206])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c3cff130fsm101831066b.47.2026.04.02.08.39.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 08:39:40 -0700 (PDT)
+From: Adam Blank <adam.blank.g@gmail.com>
+Subject: [PATCH v2 0/4] Slight code cleanup - remove dead code, fix typos,
+ unify patterns
+Date: Thu, 02 Apr 2026 17:39:36 +0200
+Message-Id: <20260402-dead_code_and_unification-v2-0-259169372299@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALiNzmkC/42NWwqDMBBFtyLz3ZQkPqj96j6KSMyMOlCTklhpk
+ ey9qSvo57lwzt0hUmCKcC12CLRxZO8y6FMBdjZuIsGYGbTUjaykFkgGe+uReuOwfzke2Zo1WwL
+ 1UCps20utasj+M9DI76N97zLPHFcfPsfVpn7rP9VNCSlqU7ayGZqyknibFsOPs/ULdCmlL8lkT
+ eDCAAAA
+To: openembedded-core@lists.openembedded.org
+Cc: Adam Blank <adam.blank.g@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775144377; l=970;
+ i=adam.blank.g@gmail.com; s=20251027; h=from:subject:message-id;
+ bh=Gba0/pFqgiNtKULrR8zJAnGPazfnMCc79tmke97Ehfk=;
+ b=XQMmyyVSc+sXVy6hh2umSr4qGEe4oUoSiaMIh20TXPC22Xts7NFLm32vJpjRn6Z4p40HIPPUc
+ uPkUcSRpBVsDomufTkXhYahsHtDf4apPvaq8OjdBsgr5sb+2JR7it06
+X-Developer-Key: i=adam.blank.g@gmail.com; a=ed25519;
+ pk=5t8u8IPKPL1CUykIX2JYa+1iHdXRdN5MqI7ik/fbvEM=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 15:01:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234538
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 15:39:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234539
 
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
+---
+Changes in v2:
+- add commit message bodies following patchtest failures
+- Link to v1: https://lore.kernel.org/r/20260402-dead_code_and_unification-v1-0-5a3906b6340d@gmail.com
 
 ---
-Testing patch /home/patchtest/share/mboxes/4-4-package-update-the-comment-block-explaining-emit_pkgdata.patch
+Adam Blank (4):
+      lib/packagedata.py: slight improvement to code readability
+      package_pkgdata: fix typo to stop calling undefined function
+      sstate: remove dead code and unify path operations
+      package: update the comment block explaining 'emit_pkgdata'
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
+ meta/classes-global/package.bbclass         | 3 +--
+ meta/classes-global/package_pkgdata.bbclass | 4 +---
+ meta/classes-global/sstate.bbclass          | 5 ++---
+ meta/lib/oe/packagedata.py                  | 3 +--
+ 4 files changed, 5 insertions(+), 10 deletions(-)
 ---
+base-commit: c56990178b31b893fbf695eaf6b67de501e9d2e9
+change-id: 20260402-dead_code_and_unification-d2b31d998515
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Best regards,
+-- 
+Adam Blank <adam.blank.g@gmail.com>
 
---NextPart
-
-
---NextPart--
 
