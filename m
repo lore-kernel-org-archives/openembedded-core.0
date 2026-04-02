@@ -1,157 +1,167 @@
-Return-Path: <pahaditechie@gmail.com>
+Return-Path: <mohammad.rafi.shaik@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D72E5D6AAE7
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 15:46:06 +0000 (UTC)
-Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18852.1775144758172872830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8281BD6AAED
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 16:22:00 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.312.1775146913210432828
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 08:45:58 -0700
+ Thu, 02 Apr 2026 09:21:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: ashissh7@cisco.com)
-X-CSE-ConnectionGUID: 3J2I07lCT3SDSGs0sKFvWg==
-X-CSE-MsgGUID: AneetypSS9KbVuKIDAdkdA==
-X-IPAS-Result: =?us-ascii?q?A0AoBAB+js5p/5H/Ja1aglkCglVxXkNJlHZpbIMViGKCZ?=
- =?us-ascii?q?I9Cgg4BAQEPPRQEAQE/AgSDfI1vAiY1CA4BAgQBAQEBAwIDAQEBAQEBAQEBA?=
- =?us-ascii?q?QELAQEFAQEBAgEHBYEOE4ZPDUkBDAGGAwEtCwEYARAdJgYDAQJPAgkjIYMCA?=
- =?us-ascii?q?YI5AQM2AxEGs2IaN4F5FgUCFoEBgygBgVPXfAoZKA1xgWEBCxQBgTiEeCkdQ?=
- =?us-ascii?q?QGCN4UjWxgBhHonG32BEIJQgi2CH0ICgSeGfQSDHBSBYR6CGgaMKggHHxIIA?=
- =?us-ascii?q?RwGCgJIFRIDBAMEBAECCxMJAwMCDgIIAwIIBhkBPxIEEwoDCgsHBR8KAgwUC?=
- =?us-ascii?q?igiEisKAzUSDxsVAQgGAgIEBAIEDAIJAgIFBwIRAwQBAQgCAi0DAQMZCAkIA?=
- =?us-ascii?q?gsFERgMCwcxAxAJAx8XGggBRQgGFgEaBwUGCzgVBQwRAQECRwIGBAMDAwoHB?=
- =?us-ascii?q?wQDAQcDAwwCAhACBAQCEgMDBAMQAwECKQMDBwgDAgcEFgoZBAUCAS4DBQcCB?=
- =?us-ascii?q?AEHAQMDBwMCDAICEQUEBgIBAwwDBAMFBQstEQcTCgYEBwUCAgIUBgISEgMDB?=
- =?us-ascii?q?AQCAQICAjoEDhoOBAgHAwcBGAUCAwIFAQMBBwcSAgoIAw4BHQICBAIJAQEKD?=
- =?us-ascii?q?gICBgICAQMIGAMEHwQDAwcCAgwJAwQNAhIKEhsDDgMNDwIEAwwKMBAEAgcQA?=
- =?us-ascii?q?gkIBgoYAgICBgIDAwMFCQECAQEBAQEBAQIHAwMDAgMDBgMPCgMFBwYDBAYBB?=
- =?us-ascii?q?AQDAwYDAwUFAQMDBQUFBwIDBgMGBwcECAMHCwEBAQEBAwICCQEDCAMMCQQDB?=
- =?us-ascii?q?QMVDwMLCQgHDAE8DAcKKAQ2ARQUBwQlGWcHB4tJKII2gQ4BK4F9LxGTaYJoj?=
- =?us-ascii?q?xKgHXFogz6MHo8+hXwaM6prmQaOCYQJkkeEaDaBMwE6gVkzGiOBAYI2CUkZD?=
- =?us-ascii?q?44uFYNexFImMgI8AQcCBw4CgXOJMYZPgX0BAQ?=
-IronPort-Data: A9a23:2lEd465P4WOMh/HspNst3wxRtFHGchMFZxGqfqrLsTDasY5as4F+v
- mUWDW+Fa6vcMWb3fNklYN/n909T6p6GmtRmSlZrrHo8Zn8b8sCt6fZ1gavT04J+CuWZESqLO
- u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
- 5Wo+KUzBHf/g2Qqaj5MsfrZwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
- +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eZq9C274oBUpyr
- sc0Ex8WNgugqfyJz+fuIgVsrpxLwMjDJogTvDRkiDreF/tjGcCFSKTR7tge1zA17ixMNa+BP
- IxCNnw1MUmGOkESUrsUIMpWcOOAj2L/ciZDqA29rqss6G+Vxwt0uFToGIWNJYbVGZoKwy50o
- Erv+Wn0HgACD+fO6jC771GNqsbDni/SDdd6+LqQs6QCbEeo7nQaCBQaVEe2qvm4h2axXtteL
- wof/S9Gha8q+UqmS9PwUxG1rDuPuQQRc95RCPEhrgaVx6zZ5gyUCmQJQnhGctNOiSMtbSYh2
- lnMm5biAiZi9eXFD3mc7byT6zi1PED5MFM/WMPNdiNdi/GLnW35pkmnogpLeEJtsuDIJA==
-IronPort-HdrOrdr: A9a23:BSkZZ6xMuFmSVCwzEpchKrPwJ71zdoMgy1knxilNoNJuHfBw8P
- re+cjzuiWUtN98YhwdcLO7Scu9qA3nlaKdiLN5VdzJYOCMggWVxe9ZgbcKuweQeBEXMoVmpM
- Bdm28UMqyVMWRH
-X-Talos-CUID: =?us-ascii?q?9a23=3ARa86K2iiSYy19jN7OQticpj3tTJuKV+H7S+PJ2S?=
- =?us-ascii?q?EUl1Fc5KOEUSz1r1bnJ87?=
-X-Talos-MUID: 9a23:eZPM9gp1ssiUgM2teIkezxhkOcp08ryVMxEum6sbmOioHCBzNx7I2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,156,1770595200"; 
-   d="scan'208";a="707274775"
-Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
-  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Apr 2026 15:45:57 +0000
-Received: from sjc-ads-21720.cisco.com (sjc-ads-21720.cisco.com [10.128.165.208])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 1CE3F18000596;
-	Thu,  2 Apr 2026 15:45:57 +0000 (GMT)
-Received: by sjc-ads-21720.cisco.com (Postfix, from userid 1869324)
-	id B9CD7CC1288; Thu,  2 Apr 2026 08:45:56 -0700 (PDT)
-From: Ashish Sharma <pahaditechie@gmail.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=YlHeNJWC;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=XymZN+5i;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: mohammad.rafi.shaik@oss.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 632G4VrL1380694
+	for <openembedded-core@lists.openembedded.org>; Thu, 2 Apr 2026 16:21:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=JV2LDmWzwEBWkaZ9rdmoeFyuypjLOJUZchQ
+	EOFs2ZRI=; b=YlHeNJWCMqJuPu+mnhd2B0efsepqnpKHIbgWX/lCmp2WFplXA6o
+	nAslMY0b12bLdske9H2tJJDaesTU43E0YfNMit9AYkrkErOoW2hT1v1kt/0e6/5q
+	Fa3glfhqRA7HuYfHXN+NDGugk+jaHiY3d/OolcQMkNnkGv+fOctEI/7FW8U+lK0q
+	Xtmhbx0TWMCbGBR7wH6S384L+LurHaG2c1P1HOh5ZWvfC/TGDaYIdGKVF+YTM5ku
+	+bcXatkuMJqNfag0i7nwlXVhPLM1CFg3fEDpIJpe/3Na6rFJb3d9HbV2mxTbx9IS
+	WmpAQtPqVf2OzLpBPsjJSqFzSyTIFgwHjZQ==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9myh9w1f-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 16:21:52 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-354c0234c1fso1062103a91.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 09:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1775146912; x=1775751712; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JV2LDmWzwEBWkaZ9rdmoeFyuypjLOJUZchQEOFs2ZRI=;
+        b=XymZN+5i4CKRpzTt9AkVCjxt1JOHXaczxZB2hiZNeZFecf4rcoL1fMiIGdIuj/JbeY
+         20dS0KOgiMIV5gNYmDrAgikE3fiM5s9UtDhzw0E/7EKmCjIonRKGMtcKIuGZrJYQRsQw
+         kn8GVsBWLCRbvJqoqDWaYRt1WPbmAhLayj4e1Odnl21saR3d1FE0bzC0V0Mjq9pskt75
+         6Xi4OTn2VW6DUMbQdYpuDCUjed+ew9hwyq5SoaJFAi9tAb1++9qKCH7SR5YnXJj/maUF
+         U7Kslrm8LNwhQHIPggf6uJQ8Va9qD4cYlV+EpP0/k64p9ToIj8RdB1/mLn9CYcKlbmMb
+         kO4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775146912; x=1775751712;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JV2LDmWzwEBWkaZ9rdmoeFyuypjLOJUZchQEOFs2ZRI=;
+        b=sH0aD5dzMEDMlxouRyaGDdqSJBbaaWiJyEf1KcwuGuas4zUPNGyu5l1Z1YUThpYC8S
+         +AC/AmGTmAuVXLFAUMWLd1YNTTagirajSJAKCp5xcIrm6dGPgyZWSrE5g6r4Pd6d6+NQ
+         +JwYd0St+OCWSLoBG1JF5l9EY4/T7+tFyfQBEo4e2GzMxxSgSmGe6IEpGpUu9eHoyxMC
+         KGgzON2inRCJ6r5YdgQfQNc+HwrBP3xkpElSDUPIwhIbYHy/mwjfu22yulTATh2B/xFL
+         BOZtWxD6PsrcJCzqx2EyXowkbiUAEwl6V10lG5mSHU4rpORbdbEvfMJfmFnu6kaUiAhd
+         61hQ==
+X-Gm-Message-State: AOJu0YykUx3Ki+fuV1h/CVgbgHq2wbMGiJXeLxe+f05DxnTEBp3vOSn9
+	hxAGi79xiT0NeyoXdz+zDRiDH6TpeRj8vcrhQDTpPeatvliO5hzQ60ocIwgxuKHOcinKQen3YVp
+	7hO9h85yVNHpLjKEMQV618OQq8jhsNu5T9C3gBvJix42TDG6UEXHZnF34LxS+F5Kb4xqr05WTaZ
+	uUv+wEsW5ZK96A0MU=
+X-Gm-Gg: AeBDievZpjYRLXBJCzLmh1yRlIRv84JQ+uvfpFuXMYQyRtHhuuy1T51Nd6ix9IgDiYc
+	O7vdXTftZQ39UwEw7a18BHcDAW/8tzr+7SXVOSsyrzAQHxEnub8KTN3VTdiEKyfgVdFAMZMnxi1
+	ZuLYVX8/0G6vxpwhs/S6PenqbrRhpY/Qsz2QjtJxcf7Wy3bqxwdnVWdUPCAEuOLLtSiSCsjLyzp
+	FRv0PlpNiF912J1/q9WNuE74kFv3P/ZLAHR5fUIU+rNCp3+nrDi2P+PBIRk7XOihRc5PVyMBips
+	220++0SscpS9Ja1tJlTHxOd4G4e/qe8Ebnumxq27m4LlpRoa6nQQcHiNEioacpPIGf3RUKx+xlp
+	t3vlY6yUtn3wJELw5Aq7NP4Wug9qb1Jt0i0w+ZrP51hLHCMtSCIyLIxBEtQ==
+X-Received: by 2002:a17:90b:1f81:b0:35d:9f7c:141c with SMTP id 98e67ed59e1d1-35dc706b509mr8113402a91.27.1775146911583;
+        Thu, 02 Apr 2026 09:21:51 -0700 (PDT)
+X-Received: by 2002:a17:90b:1f81:b0:35d:9f7c:141c with SMTP id 98e67ed59e1d1-35dc706b509mr8113363a91.27.1775146910959;
+        Thu, 02 Apr 2026 09:21:50 -0700 (PDT)
+Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dba5d9529sm3065434a91.3.2026.04.02.09.21.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 09:21:50 -0700 (PDT)
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <pahaditechie@gmail.com>,
-	ashissh7@cisco.com
-Subject: [OE-core][whinlatter][PATCH v3] nghttp2: upgrade 1.66.0 -> 1.68.1
-Date: Thu,  2 Apr 2026 08:45:56 -0700
-Message-Id: <20260402154556.3688170-1-pahaditechie@gmail.com>
-X-Mailer: git-send-email 2.35.6
+Cc: sbojja@qti.qualcomm.com, Tejas Kanfade <tkanfade@qti.qualcomm.com>
+Subject: [OE-core] [PATCH v1] pulseaudio: split pactl into a dedicated client subpackage
+Date: Thu,  2 Apr 2026 21:51:09 +0530
+Message-Id: <20260402162109.3523797-1-mohammad.rafi.shaik@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.128.165.208, sjc-ads-21720.cisco.com
-X-Outbound-Node: rcdn-l-core-08.cisco.com
+X-Proofpoint-GUID: gNp8vVAajbaiTTIeu8WMOTBgJrW8zNU6
+X-Proofpoint-ORIG-GUID: gNp8vVAajbaiTTIeu8WMOTBgJrW8zNU6
+X-Authority-Analysis: v=2.4 cv=JII2csKb c=1 sm=1 tr=0 ts=69ce97a0 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
+ a=e2ehYq9yfwDmQqE590EA:9 a=+jEqtf1s3R9VXZ0wqowq2kgwd+I=:19
+ a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDE0NCBTYWx0ZWRfX4VbYFi2Hdhb7
+ Ca/+n6x9EY3KvY13aJH31CemxqWBKOYOY2Wr5NcXx2+MQ3C99LwHYOpIxc+KimQGnkWykPW8ub0
+ Xa6shNs/ye1x2DVzjCRhR4PG4cdYqePNOBnaWsSq8znOhl+3nGNO0dyHozigvk51A6lk8HkoitA
+ 63fNyKBWrELRnBlte8tzbDDJgulOtUeyfy8j+lCwlIq35AbGa+4zqp3fsUUKOycSqhKS1SzflHL
+ 6Z68amAtMYMeoah70hBJfj4gt/rQnCZnqrw6Cqqtc2iiC555eUvkASmS1acjxyAc+5e2Gi+Jf1g
+ 1JGJE//71vgDAyPBr3pFOmEdgRXoUMll0zhpYFKaVn/Kb/I0M123fwnJc7Cm6XPfv+Gmf+4po74
+ rDEBm0Tak2IMBGQka5eGupbar7d0D64myO4xskPGbLED1PXcAnT6kT4bXMOa3C4tuiiSjNjTL5o
+ lC5OYC/DKd0b/H9GjuA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-02_02,2026-04-02_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 clxscore=1015 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2604020144
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 15:46:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234544
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 16:22:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234545
 
-Upgrade nghttp2 to 1.68.1 which includes upstream security fixes and improvements since 1.66.0.
+From: Tejas Kanfade <tkanfade@qti.qualcomm.com>
 
-Changelog:
-https://github.com/nghttp2/nghttp2/releases/tag/v1.67.0
-https://github.com/nghttp2/nghttp2/releases/tag/v1.67.1
-https://github.com/nghttp2/nghttp2/releases/tag/v1.68.0
-https://github.com/nghttp2/nghttp2/releases/tag/v1.68.1
+pactl is a client-side control utility and is required on
+PipeWire-based systems for audio control. pactl was packaged
+as part of pulseaudio-server, making it difficult to use
+without also installing and enabling the pulseaudio daemon,
+which can conflict with pipewire.
 
-CC: <ashissh7@cisco.com>
+Move the pactl binary into a standalone pulseaudio-pactl subpackage
+so it can be installed without pulling in the pulseaudio server.
 
-Signed-off-by: Ashish Sharma <pahaditechie@gmail.com>
+Signed-off-by: Tejas Kanfade <tkanfade@qti.qualcomm.com>
+Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 ---
- ...xt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch | 28 +++++++++++++++++++
- .../{nghttp2_1.66.0.bb => nghttp2_1.68.1.bb}  |  8 ++++--
- 2 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
- rename meta/recipes-support/nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.68.1.bb} (62%)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch b/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
-new file mode 100644
-index 0000000000..f7cc4fe539
---- /dev/null
-+++ b/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
-@@ -0,0 +1,28 @@
-+From eb5812d018eb96284aa6ef82569d0b6b75bcd020 Mon Sep 17 00:00:00 2001
-+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-+Date: Sun, 9 Nov 2025 12:45:25 +1300
-+Subject: [PATCH] lib/CMakeLists.txt: Fix NGHTTP2_CONFIG_INSTALL_DIR path
-+
-+Remove hard coded path to fix installation on 64-bit arch.
-+
-+Upstream-Status: Submitted [https://github.com/nghttp2/nghttp2/pull/2551]
-+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-+---
-+ lib/CMakeLists.txt | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
-+index 98e3dbe7..3b6a4400 100644
-+--- a/lib/CMakeLists.txt
-++++ b/lib/CMakeLists.txt
-+@@ -51,7 +51,7 @@ set(NGHTTP2_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
-+ set(NGHTTP2_VERSION_CONFIG "${NGHTTP2_GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
-+ set(NGHTTP2_PROJECT_CONFIG "${NGHTTP2_GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
-+ set(NGHTTP2_TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
-+-set(NGHTTP2_CONFIG_INSTALL_DIR "lib/cmake/${PROJECT_NAME}")
-++set(NGHTTP2_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
-+ set(NGHTTP2_NAMESPACE "${PROJECT_NAME}::")
-+ set(NGHTTP2_VERSION ${PROJECT_VERSION})
-+
-+--
-+2.43.0
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
-similarity index 62%
-rename from meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
-rename to meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
-index 49d6d7e632..71d5eef8d6 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
-@@ -4,8 +4,12 @@ SECTION = "libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index b9dc8e236f..fe1da6a82b 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -166,6 +166,7 @@ PACKAGES =+ "\
+              libpulse-simple \
+              libpulsecommon \
+              libpulsecore \
++             ${PN}-pactl \
+              ${PN}-pa-info \
+              ${PN}-server \
+              ${PN}-misc \
+@@ -194,8 +195,9 @@ FILES:libpulse-mainloop-glib = "${libdir}/libpulse-mainloop-glib.so.*"
  
--SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
--SRC_URI[sha256sum] = "00ba1bdf0ba2c74b2a4fe6c8b1069dc9d82f82608af24442d430df97c6f9e631"
-+SRC_URI = "\
-+    ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
-+    file://0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch \
-+"
+ FILES:${PN}-dev += "${datadir}/vala"
+ FILES:${PN}-bin += "${sysconfdir}/default/volatiles/04_pulse"
++FILES:${PN}-pactl = "${bindir}/pactl"
+ FILES:${PN}-pa-info = "${bindir}/pa-info"
+-FILES:${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
++FILES:${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
+ FILES:${PN}-server += "${datadir}/dbus-1/system.d/pulseaudio-system.conf"
+ 
+ #SYSTEMD_PACKAGES = "${PN}-server"
+@@ -227,6 +229,9 @@ python populate_packages:prepend() {
+     do_split_packages(d, plugindir, r'^lib(.*)\.so$', '${PN}-lib-%s', 'PulseAudio library for %s', extra_depends='', prepend=True)
+ }
+ 
++# pactl is a client tool; it requires libpulse and a PulseAudio-compatible server
++RDEPENDS:${PN}-pactl = "libpulse"
 +
-+SRC_URI[sha256sum] = "6abd7ab0a7f1580d5914457cb3c85eb80455657ee5119206edbd7f848c14f0b2"
- 
- inherit cmake manpages python3native github-releases
- 
+ # pa-info is a bash script that collects information about the audio setup.
+ # It's primarily useful for attaching an information dump when reporting bugs.
+ RDEPENDS:${PN}-pa-info = "\
 -- 
-2.35.6
+2.34.1
 
 
