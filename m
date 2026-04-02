@@ -1,134 +1,142 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1140DD39423
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 13:41:55 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15925.1775137312108884406
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DF2D39427
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 13:48:45 +0000 (UTC)
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16122.1775137721227135607
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 06:41:52 -0700
+ Thu, 02 Apr 2026 06:48:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=WnyXIdW/;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A1BA2C43
-	for <openembedded-core@lists.openembedded.org>; Thu,  2 Apr 2026 06:41:45 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0845D3F641
-	for <openembedded-core@lists.openembedded.org>; Thu,  2 Apr 2026 06:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1775137311; bh=p3f4z/EiZuzmoGQ20bq51ER23lIzmVnxhfX00x0U5ww=;
-	h=From:To:Subject:Date:From;
-	b=WnyXIdW/B05FlPVPx9l9WBqEc5piHx3N71+Y1POdUP7TQFjPKSNLZ9IXUXIy8ICyj
-	 0OaPCiM8EXc3EUIPVFDKSHe071aN47eclAdfkau7Rb6Fq13Nziv1361tBfuks+gLFM
-	 0SR663Ro2YsRje15GuXq5AWFvfSZbR72lctr1vfI=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] ghostscript: do out-of-tree builds
-Date: Thu,  2 Apr 2026 14:41:42 +0100
-Message-ID: <20260402134143.1045721-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.47.1
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=mtmVZwYU;
+ spf=pass (domain: gmail.com, ip: 74.125.224.45, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-6501725d888so713278d50.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 06:48:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775137720; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jzCiByUyRhh+mi5HpYOyuR555AvunnEXOKrQ7YhINW3k2x9rqWgNu6R3NbAg0ncN4p
+         50fuJCy8TOgICCl0I8ip0vVfCRg+Ftm16gqtbhwoDZyjCcsRuiLlKQmYdmJt4KqSoYDP
+         zfeFVwDLOBgwHD8p2Wb2ud9Tp9Oyw0cutV0mXMbFYkTOQ+EbPCHfNCljCOoDbKuK21W8
+         Xj4tvchOZyfr1IfgTwsud1GSRyP1mMioYIQ5yR6FL/CE/p7FtIaYVWLCobu/zaNDh1JT
+         teqZ8kulNdTp4BeZrOfaZWLGQwJkJ1hQPe6+pMQoomzeaCBOElFhTcmVayhMyoa67jNw
+         lVtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=97ru2qftTqdkvNtggNdQ3twXDYDhtr1JraA1PCCay64=;
+        fh=JVyzXYvlC6+f/TP9NdsSxuPI1wC6N+F2me8v8yce8dQ=;
+        b=EygCYznkdzjL0wC9AXTtfJR4WgiJ5bBW57ri45jJczl3HXi/qusjaLco8F3DlFfGqz
+         p7v/uCjkoTvUdH1WLc5a+6TQB+Zg6gwJUGSAP+2UhN7NCPaByMs072ZKni9ZRZUqpLAg
+         YZuRZciSWP7bJkMlzp2hqwNXFKirhdHjzbzMyInUVzJBbbOlX+sSevRgG5xmbUSNUjrq
+         nlc1EaYm+ENyLsjKkwtU/yweKJeXdG/ce6EcQgvp2vtu4RMsku4Ny4V1snrtCdimUN9x
+         TGn3cibM4jR9/vgGByPv93Ir/kic4jrz1kbhMCWwfd9wqZlcY0TS3mOigf8Im9OQ4tsv
+         7dhQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775137720; x=1775742520; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=97ru2qftTqdkvNtggNdQ3twXDYDhtr1JraA1PCCay64=;
+        b=mtmVZwYUaZJ86uFRPu6QWOxgO11WlX6Zu1JNE0ExG336L2YFEzFGYXVIiXlnjIbEW6
+         SYcyOR3OrgSZasXXGom2OCn/f/aF7Cu0e4bqxKB40N6MhUNvPaxDP0W95E+j/qLoyezp
+         cQmDe83FWyjaVQffLLVCQDCi8cbwkoBckeA+/odQMFksMoCzCG0VH7uBkLA99fVTjCtV
+         2TcptnLHNe/6J3lg9PeKZ2dkL+cHzL2aY+KXE8CkGpPxTRv2SjueuElRlcUkbklKtNrQ
+         Txwu71hFYNDGSSGBRxmTPAiyUIKFzcGC0Ghbn7BfY2bF3/uSVEfu72kFm0ln4jZERtRH
+         hozg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775137720; x=1775742520;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=97ru2qftTqdkvNtggNdQ3twXDYDhtr1JraA1PCCay64=;
+        b=OggjWIvU0xwpYMrv16Q9ajO695tDk9fx00Lh6A13eibUWSuaIWcfQh7BUb4PlMYqWI
+         NGZOrOUcyAKuaJPcmJnPEBE2OGTtyUUlsRigscGkbCOhAGC5zB6B+okm7uFqVVVo/+tc
+         1l/+F6jWXIA2rc6wWGc9Lm32pZ9pXH9I/wvGkoJgfynjxumYw/30BbfwjF3kGHiio5VC
+         Xh58q5IgKINnG/OuY1DQbjySVIFs4eUn2imN+1jl4vm1wQ2jzDLK2xw3+2HxtQ4ocQtw
+         u7DkA/5ZBu/0NWqqziVCsyeO+ijwPNT8sh3c2WkNmiy+TcpDgToSzMl+jheZr0/K3K6h
+         Uv4A==
+X-Gm-Message-State: AOJu0Yx1ef0bj3B6nCrwYknD20XGZC/0wJ8iXAKS9s5SsxFvOWJjCoPd
+	f2/JrUt3KVRYtpRLNrHtVclrYsl/rRseMsGVmwXZ3Ac9U6Lj5AfFhqb39TEzMeFwuAtBCviumn3
+	o3izLWgfd9Q2vqtrj2FWmuLHBrj/MZrw=
+X-Gm-Gg: AeBDieuNPKSZ9/728OmFOGm9M6HnIL6eKJMndP/HbJpNC2wzbDCgM62wcwZNsxZ/kTX
+	prqyfH8YSYYYUOhLNYvRdJWvs30OVdSwaswUZsXPrnNElWUjeDCHB+724HewKE8t/NpRKm5OK5K
+	txVch+s6t2/MEGr0ogjnG66uJK04+ats783bR7tNV94SiRK65pbkNhZS+y3Xqpy3LYr1zEUqSL5
+	L3hBCcrBQPOvzILCP42O3ZsCdKqyIMv7IVpWR1zDXyWSnuMjq1tmIExnel7gG0YuPr1E3n7gWJ8
+	dDlp0UVY7s8tmfCGbjHg0w==
+X-Received: by 2002:a05:690e:11cc:b0:650:3bbc:555f with SMTP id
+ 956f58d0204a3-6503bbc6137mr3102829d50.2.1775137720334; Thu, 02 Apr 2026
+ 06:48:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260402093444.675082-1-joaomarcos.costa@bootlin.com>
+In-Reply-To: <20260402093444.675082-1-joaomarcos.costa@bootlin.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 2 Apr 2026 07:48:28 -0600
+X-Gm-Features: AQROBzCD2rv3jOvF3p9orBwJClsRQG_tH4nkZ4w8gsu51uhvile19GiLdBW1zzc
+Message-ID: <CAJdd5GYHOAQPv+P4O5FNfyrQvsbGj8MpTA7n2NBw6yy+i_mo-w@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] spdx30_tasks: fix condition in create_spdx
+To: joaomarcos.costa@bootlin.com
+Cc: openembedded-core@lists.openembedded.org, thomas.petazzoni@bootlin.com, 
+	benjamin.robin@bootlin.com, steve@sakoman.com, 
+	mathieu.dubois-briand@bootlin.com, pascal.eberhard@se.com, 
+	yoann.congal@smile.fr
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 13:41:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234524
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 13:48:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234526
 
-Upstream said that out-of-tree builds were meant to work, so I found the
-few instances where path assumptions were incorrect and enabled it.
+On Thu, Apr 2, 2026 at 3:35=E2=80=AFAM Joao Marcos Costa via
+lists.openembedded.org
+<joaomarcos.costa=3Dbootlin.com@lists.openembedded.org> wrote:
+>
+> From: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.costa@bootl=
+in.com>
+>
+> Considering that *detail* is an actual variable, not a string, remove the
+> quotes to make the 'in' statement coherent.
+>
+> Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
+sta@bootlin.com>
 
-This gives us more reliable builds as we can always throw away the build
-tree when reconfiguring.
+LGTM thanks.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../ghostscript/ghostscript/out-of-tree.patch | 39 +++++++++++++++++++
- .../ghostscript/ghostscript_10.06.0.bb        |  4 +-
- 2 files changed, 41 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/out-of-=
-tree.patch
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/out-of-tree.pa=
-tch b/meta/recipes-extended/ghostscript/ghostscript/out-of-tree.patch
-new file mode 100644
-index 00000000000..202c9d6c7c9
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/out-of-tree.patch
-@@ -0,0 +1,39 @@
-+Fix the build to do out-of-tree properly.
-+
-+The patches are in progress but are being submitted upstream.
-+
-+Upstream-Status: Submitted [https://bugs.ghostscript.com/show_bug.cgi?id=
-=3D709289]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff -rU3 a/configure.ac b/configure.ac
-+--- a/configure.ac	2025-09-09 10:36:39.000000000 +0100
-++++ b/configure.ac	2026-03-31 15:35:08.988262612 +0100
-+@@ -400,7 +400,7 @@
-+           *)
-+             ARCH_CONF_HEADER=3D
-+             if test x"$host" !=3D x"$build"; then
-+-              ARCH_CONF_HEADER=3D"\$(GLSRCDIR)/../$ARCH_AUTOCONF_HEADER=
-"
-++              ARCH_CONF_HEADER=3D"./$ARCH_AUTOCONF_HEADER"
-+             else
-+               ARCH_CONF_HEADER=3D
-+             fi
-+@@ -869,8 +869,8 @@
-+ AC_SUBST(RECURSIVE_MUTEXATTR)
-+=20
-+ dnl Tesseract/Leptonica detection
-+-TESSERACTDIR=3Dtesseract
-+-LEPTONICADIR=3Dleptonica
-++TESSERACTDIR=3D$srcdir/tesseract
-++LEPTONICADIR=3D$srcdir/leptonica
-+ OCR_VERSION=3D0
-+ OCR_SHARED=3D0
-+ LEPTONICAINCLUDE=3D
-+@@ -886,7 +886,7 @@
-+=20
-+ if test x$with_tesseract !=3D xno; then
-+   AC_MSG_CHECKING([for local Tesseract library source])
-+-  if test -d $srcdir/tesseract && test -d $srcdir/leptonica; then
-++  if test -d $TESSERACTDIR && test -d $LEPTONICADIR; then
-+     AC_MSG_RESULT([yes])
-+=20
-+     if test x$with_tesseract !=3D xno; then
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb b/m=
-eta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
-index b0951d79f5f..951cbc19565 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
-@@ -25,6 +25,7 @@ SRC_URI =3D "https://github.com/ArtifexSoftware/ghostpd=
-l-downloads/releases/downlo
-            file://ghostscript-9.16-Werror-return-type.patch \
-            file://avoid-host-contamination.patch \
-            file://0001-Fix-32-bit-build.patch \
-+           file://out-of-tree.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "5bd6da34794928cc7e616f288e32bd0be7f9a5ca2d3c206a=
-0af2c19a4e3a318f"
-@@ -48,8 +49,7 @@ EXTRA_OECONF:append:armv7ve =3D "${@bb.utils.contains('=
-TUNE_FEATURES','neon','','
-=20
- TARGET_CFLAGS +=3D "-std=3Dgnu17 -Wno-error=3Ddeclaration-after-statemen=
-t -fPIC"
-=20
--# Uses autoconf but not automake, can't do out-of-tree
--inherit autotools-brokensep pkgconfig
-+inherit autotools pkgconfig
-=20
- # Prune the source tree of libraries that we're using our packaging of, =
-so that
- # ghostscript can't link to them. Can't prune zlib as that's needed for =
-the
---=20
-2.47.1
-
+> ---
+>  meta/lib/oe/spdx30_tasks.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index a8970dcca0..e7bb930b59 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -523,7 +523,7 @@ def create_spdx(d):
+>              # specified.
+>              if (
+>                  include_vex !=3D "all"
+> -                and "detail" in ("fixed-version", "cpe-stable-backport")
+> +                and detail in ("fixed-version", "cpe-stable-backport")
+>              ):
+>                  bb.debug(1, "Skipping %s since it is already fixed upstr=
+eam" % cve_id)
+>                  continue
+> --
+> 2.47.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#234510): https://lists.openembedded.org/g/openembedde=
+d-core/message/234510
+> Mute This Topic: https://lists.openembedded.org/mt/118630503/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
