@@ -1,232 +1,303 @@
-Return-Path: <Hemanth.KumarMD@windriver.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B79FCC6B00
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 06:47:46 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10046.1775112461942813317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F46CC6B03
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 06:55:06 +0000 (UTC)
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10124.1775112897419741037
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2026 23:47:42 -0700
+ Wed, 01 Apr 2026 23:54:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Iodq49i1;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=855281fcfd=hemanth.kumarmd@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6326PhFe3916485
-	for <openembedded-core@lists.openembedded.org>; Wed, 1 Apr 2026 23:47:41 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=Lv+7gnuM/
-	sDtzZ8z04el65nbvUHfSIgAzF27GqIj4dk=; b=Iodq49i1M3csApzrCradDCf3Q
-	nrGgNk2rs7RGzynrLPlV5qsvVGKFs1t3pCMOZqLeCM0yfPHFftYq7gQhR3Y0GUv5
-	bE4sTirjw9Gqw4HhtrirFwOGQvKKxb4MPSwE1nRoqSs6Lz6U+oRzJ/VMNcr8g3ZW
-	QH1aAlW1thgDeFiwdlD0ThhiPSChJ5fd+56tOQ/n1zALwZnuvIGe2ImwJorOhms0
-	R4pxrr/8Iz+t23AEeGrNF4GLraN0xHlYt/MMfR7LD71UciBanAuxAettyvFLYtwc
-	kjCCKlFvtXN0sgcu0Ja2hFK33k6lpz5nbr5m6Ss1N/nX863x3yzRRI16cMAgg==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012004.outbound.protection.outlook.com [52.101.48.4])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4d6a8vf4p3-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2026 23:47:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VvDq+aGyS9I4dxXoTWJGPKszWXqfbZGVjFg28X0eUBFNJadyiVmwhhH10K69OS8LCuOazRAh2A4lBihalPgqYuGpIU4GFrLJqFa3hFBsfs4qYj7t+8VoKiR2832OlRtDECFC9lVQ7xfsc1a8dCt3XTZfgf4ndOrO4H6sS3H4ixkB9HxbwZ+4EAhICPb6oZUUqm0i57MoJUs7pkar/q0QWQ2qx6h5hAV3vAGvl48/Q8X0bVHdq2qWPW2M0PcueApJyALO4/mR4jeMPs5DZELOYrsLEjQlNXTN/Cjw4vQhTtDLVVACCmUCqDId/ccVFn/shPMYJsyZB9XMliG05Y7hsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lv+7gnuM/sDtzZ8z04el65nbvUHfSIgAzF27GqIj4dk=;
- b=U9I3bMvaW3Rf7UW0qreT+byUP8xj0QXINuXibJLsIByjlasXd7KE8xzTTC6rMutULCD7lNgjhXnzxhf/QFj7rO3AJDia61jRN0GNEODS9WFA0zWTIMjwwJJf7a1b2fPS/byvaAb7bOPlLMAGlJOZTT77a19VFM7psjxIpz12Jret8ZVKt/JJ1XqxLm8cnBCxgB3YpFXtU1GvbamoE2gtgvajMeWKL0PjcgQmcVawsrAQHbCcvmmp5TXom3yZI79f25W/5x4vijjBxwaZsrBGrLxF3Kz80o3hvxctG4YpipTj/Vs+FaMVatVIMvJiR1OpmlQEyCClx9yc9TG+oRO32w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
- IA3PR11MB8939.namprd11.prod.outlook.com (2603:10b6:208:580::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.15; Thu, 2 Apr 2026 06:47:37 +0000
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe%3]) with mapi id 15.20.9769.016; Thu, 2 Apr 2026
- 06:47:37 +0000
-From: Hemanth.KumarMD@windriver.com
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=YT4h//dW;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=7607; q=dns/txt;
+  s=iport01; t=1775112897; x=1776322497;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=ulIIAAsIi6IuVR5KsbeccuQR7CHi0eXltz0pqhyq9a8=;
+  b=YT4h//dWV6/9o+vyVlRMbCUjqwZiKcpCweSNGPon6wbGUXO9WGFhlZUo
+   LRe4oegXirpOxZeQN227CY/YgV/MdKOaLMa1y4hAVEkr+7cbYsLVUN68B
+   HR8obWUY0DZTC6pqZkEV084EjdH7n2XJSNDHNMlz6nSpFJswBrBljD0T1
+   MzRXl+Cvdm+aUSKu3xNgdt+vQLHcsv4JR6elhP955Blw8ZZtV0YjHduvb
+   enuGtOZB5d4Bx8NQoNI0DbJFHJfJ99AWTX5cepUSq4Gl02JrCz7NE7+dT
+   ptGduccy7AYzVL8gAwjB+J7w2LCqLGsfeJ1r0DqlI8/2iCAvXJuduVlKP
+   Q==;
+X-CSE-ConnectionGUID: uKsWWpDTTzSpU/Sa2/tZuQ==
+X-CSE-MsgGUID: Sap+Wf6wSiSGLCBXYlWlaw==
+X-IPAS-Result: =?us-ascii?q?A0CbAgA5Ec5p/4v/Ja1aglmCV3FfQkmUKoIhA4tkkjYUg?=
+ =?us-ascii?q?WsPAQEBD0QNBAEBhQcCjScCJjQJDgECBAEBAQEDAgMBAQEBAQEBAQEBAQsBA?=
+ =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhloBAgEDJwsBVhwDAQIvIAsjCBmDAgGCOgM2AgERt?=
+ =?us-ascii?q?BmBeTOBAYNoAkNP2EcNglIBBQYUAYE4hT6CeYUjWxgBhHonGxuBcoJQgi2BB?=
+ =?us-ascii?q?YEaQgEDGIEeDoZeBIIigQ6BYY8ZSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdg?=
+ =?us-ascii?q?SM+F4EMGwcFgUuHXHRtgRODflcDCxgNSBEsNxQbBD5uB4tzKYFEUg4SAXoTF?=
+ =?us-ascii?q?BiCZhGSdJAUgiGgHXEKKIN0jB6ONIEKhXwaM4QETZNIklILmHuOCYQJkW0jN?=
+ =?us-ascii?q?4RogWg8gUcLB3AVgyJSGQ+OKg4LhV2DFL8UIzUCCTMBBwIHDgKBc5ABgXwBA?=
+ =?us-ascii?q?Q?=
+IronPort-Data: A9a23:A+uUYaCwgE7tmBVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApGsghmBRz
+ moeUTvTbK6Camr8eYgjPYiy8kJV78OHzIJlOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jWGthh
+ fuo+5eBYAP9gWYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE3tZ1M34uEbEk6N1vPCZ1/
+ KZfNAIQV0XW7w626OrTpuhEnM8vKozveYgYoHwllWufBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGE+BPjDS0Un1lM/BJ8zhu60hn7XeDxDo1XTrq0yi4TW5FMpjuK8aYWKKrRmQ+1ul17bm
+ WyY4F/4OT4+H/av+D669nuz07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/KOpQ2YHWMDCDVGbbTKqfMLeNDj7
+ XfR9/uBONClmOT9pa61nltMkQ6PBA==
+IronPort-HdrOrdr: A9a23:UB0z8qOgu1VlZcBcTsCjsMiBIKoaSvp037BN7TEUdfU7SKKlfq
+ yV8cjzkCWE6wr5O0tQ/OxoRpPgfZq0z/cciuMs1PWZLWvbUQCTQ72Kg7GP/9SZIU3DHio379
+ YHT0C4Y+eAamRHsQ==
+X-Talos-CUID: 9a23:8ho/eG1LYHu3jJq8Lsu+2LxfB+M+TULF4EvsMXSgNCFSQefSVW2NwfYx
+X-Talos-MUID: =?us-ascii?q?9a23=3AyDVJMA/0PFJ/EacwHyi+lYmQf/xh++eRBh4SqpQ?=
+ =?us-ascii?q?9lO2vHxxBPwiZhSviFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,155,1770595200"; 
+   d="scan'208";a="706291778"
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Apr 2026 06:54:56 +0000
+Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 5DACD180007DC
+	for <openembedded-core@lists.openembedded.org>; Thu,  2 Apr 2026 06:54:56 +0000 (GMT)
+Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
+	id 0A313CC12B5; Wed,  1 Apr 2026 23:54:56 -0700 (PDT)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Hemanth.kumarMD@windriver.com
-Subject: [scarthgap][PATCH] unfs3: Fix race issue causing a glibc test hang
-Date: Wed,  1 Apr 2026 23:44:43 -0700
-Message-ID: <20260402064443.1506368-1-Hemanth.KumarMD@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0206.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a5::13) To DM6PR11MB4564.namprd11.prod.outlook.com
- (2603:10b6:5:2a0::7)
+Subject: [OE-core][whinlatter][PATCH v3 1/4] binutils: Fix CVE-2025-69648
+Date: Wed,  1 Apr 2026 23:54:33 -0700
+Message-Id: <20260402065433.3782851-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260401100022.1173083-1-deeratho@cisco.com>
+References: <20260401100022.1173083-1-deeratho@cisco.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|IA3PR11MB8939:EE_
-X-MS-Office365-Filtering-Correlation-Id: 05d9d03b-d7bd-471c-fab3-08de9083ba2d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	3kcHjkt1agxu5FvICtDoWFFBxzyjFd88l0yObpmnEclRdZNznJZsL18B4FxxJUw4WkbX4jUm3s6Nc3dsolmV+h6eLHkSU+gPUqSBfAMCLjzi49wugct3kOyvS7bEwZHuZX3JlPl8oW1vVMyZU9036Yn5Cvir1tYRrw/4GC/vU5EDHyNO9qOIpdj8XcFGDNGyvn0ufCfoOfnQnJrzuf2HDVpXvRnaZ7gCPTWkCP8/pU9gM7mwoDiA2rVm6NGWeS6zlgHTU82ivPtuQUmJkoyrtKnp9wXILCogJ/ZXJF0SCVzlkWWnY0sp2Ivcqv2wweWc2v311t6MsNfns55m0HJHCX90h1s7Tpp+gqeAYDhtqdbkk3p81l4JkaCBW2VVqN65KC4Xk+Yd0CfJAxePtAafdtBeHo/iiKhgry+MTvrBWDd9OaWbZx0I2Ahj1wtoeOe2tp+8XiOwNNOLK+rhToND770gEBsmAkwbfRcGNdnrSqIQMwu7O5izXOnXwT1jdklrDgmr1/sik1iZWsS0JSaJLveHxPnkHIlcvqB2u2P20S2AnBoOegqxwO51ZMXXE1SLrsvxph7L8cCgpqrFTyYjIFNJnTsm1LTZrTEaqoSniN9DtafY8Z5eI0zo+RsQaBDCLRICci2bJh72iVUN8yQhGMgsU49yF7d6iGpJDaIy4eubCTHsYQ8fNWlns7E6q6ggXunlcODHTbkJoWD4YWsRah4aOwTpdr2tbhkZ+qJM+Kxfb5VfW0WXLYobcOuNmwNwwJ/AWQLfqBmSfv4a3kQa1ma0XLGG/0WD+R2rTuJC0vw=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?7Pta5PHvFfSCIBkXRw/HWqWgYzgvlOFlHV05OE/+vQFZS7W0IIN7nkwly+Gg?=
- =?us-ascii?Q?OpFcoLHC1dKgS4HE1FwzdaSIJeKtzcCuRl7xJ82Coc+/ziXdBYoWcuxH0TeX?=
- =?us-ascii?Q?EBAKNLys1r7mGDt8vl7uPlVw7h/Bs1u5FdHHxGsHyJfkvq4gnNyzpW8fMNum?=
- =?us-ascii?Q?vTUFISpnPA5LVzHy//BNYBSaRekj22CQv2bv+YpH4Cjy9DX4B6E44wNQVDEV?=
- =?us-ascii?Q?/F3j6yu1bU2gklYvBdvQZdL2qnN7Nbnre5KPUcLrx33W/g7n7YgnWlMyrD8O?=
- =?us-ascii?Q?Ty5eoJH93ntAwfJ1Z56TRtOi//SRY016csx7Ig5wzCW6FETKeRdTR6t+epO6?=
- =?us-ascii?Q?O29YfCKJWKkTyG0EzTQek56h6IQrdTAUDhOe9rPXlisG2MlaMe2YXKT6O50h?=
- =?us-ascii?Q?6+La2fukV7v4U9uzMV2+rlitiow8kpWxETsm2G2NsQGj/dQFnS5I+jAc6n/q?=
- =?us-ascii?Q?jZXpQYv6CR8cy+Aay2MdqFZ3SC6pgV2mPaHWecNK/k7Mw8NGyP8fSNMEJuBI?=
- =?us-ascii?Q?2Be7bqnZTZSwRMq90YZQ8BgPU5UUxnzFJsObEu49s9l/ga/Hl+sPNxguD0Ty?=
- =?us-ascii?Q?YFOekmZD58RixXH1QzqymCEA5ZtVcAjWZrkyhZQv+jPLzugT1Tr1MF6ysYmE?=
- =?us-ascii?Q?5DUD6hklg4nQUKpi7oJ8mKvSQpKVz2Bq3h4ACSNrIp7l9yFBCpa9CfQRKpYu?=
- =?us-ascii?Q?B1ovk1vcSqhh/WVyVA0Gj3unkKLLBRTsThX3UKn7dJtbtCnwUFurk0oPUATP?=
- =?us-ascii?Q?yo+iJ1YuXLG7OJMP7QkDb/ThRnXF0oWDuzovwJ8QZBMAzCbz9Pqk0EagNmnH?=
- =?us-ascii?Q?YEDhCwgyKAQ4vxv2fZzz+2xIRq5+/DOPugNsgv640fM1tFiIB92tQ4u7MkB8?=
- =?us-ascii?Q?lnLy4D1ZlFjswAU+twb9jS9MXfiNAjW1rl/gWe/TLyJ/sisp2E2i2dGoGvzZ?=
- =?us-ascii?Q?iC847QihW3JPNfelA1MmK1RNkMzzXrw4BEhrbrN63udgTXjssuriZOE/V6FF?=
- =?us-ascii?Q?LIX++vWYz4bQYW9HGOXaBe6DALRKt4ddr/Hy1DeOgLkhV/rSvp5wA9KdEfuD?=
- =?us-ascii?Q?DhGyPCoHt3iwpVcOBcxLtbygq09IVjRGAszTQem6JrlRHEts9tbnGN2HTPwP?=
- =?us-ascii?Q?TLnrNDC9kaRKnaKaQfJrrEW+JqaAcQ1RmDG1SS67BMxyy1HANVBzWbp6QoGx?=
- =?us-ascii?Q?vE0W3blxW9c6EEqLFAkDLnbzkQmduFF5ku2nfHAwaogIdZ7Bdc25fS+pg8Ca?=
- =?us-ascii?Q?Ci+gehhsKiHXmagiWBoUcCJcyXR+OT/9Sn0Lx20pvZrR+OMVBf81CgiNljcx?=
- =?us-ascii?Q?moGDtQ4+NzzsEVCSiEJtvX4KkplWhzRXpHSyytmLywARbhFrxePQ7NspTK/O?=
- =?us-ascii?Q?DWl+FytYSRaiF7Dje+d0pT7U086ExVEtXm+0xBFhYhgNwQnMUG2/0Shfh7fn?=
- =?us-ascii?Q?pe5rG1v9su/vIHDAaw/g8j8hQCMXhFrr0a7nSYPZKS8ogKge3KHGUPc+YU+Q?=
- =?us-ascii?Q?/DLldSh/H5/IT+l+BktNQSZWPo5z/ZVuK3+Lk1pAkFMFrUV7qsx6iYgKd89B?=
- =?us-ascii?Q?nzW28ZZF34DL+ZM61eVNkBSVbROre1UybEmPKwz7jbQ83Uy9fnJZ2naoROBv?=
- =?us-ascii?Q?sV9xTuXr5MFM8jy6hCgIMtVfeDDyipYc+i77bDCQtPi9xrrZOSnFGa+pWXzV?=
- =?us-ascii?Q?fJmsjQTd3Cml1mc1CN/FhhJD2m5/FWJURMJVwQDWXCzsekeVrZ9i4tjWo90K?=
- =?us-ascii?Q?qvQK2y5Dueww5aH5SUpCjExtnmVZ6cQ=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	EQlnGXseqD7pUChXX369Ey1MtEArseCsIXdbEU/1Wv05akh05VUW7J8rpk0xpfdPBQ1DSj6RArNT4pzQGqK/yKo7sciRMjLfvSVGX/ibw6+fXtKPx/HcMyukna3GM4y4tMEyekB2luWiNh9SLKx9UsGnixIwPThVzigB37NizEnBk3wP2ooF5nw1NS4MUxGpYUr7h3Q9TsfmPu23uYuIyOdOMpU1GDkr6RzDCTN0yIBGfLTXGsNYB4rSZjB8SuyF+ookQH2NFAy4v3lq0a76gcV2bQbhs89M22pOv+A65L5IUmGGpPSgHau6NDWHJnbeuvf/YCsdUU26NIpIz3PHKQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05d9d03b-d7bd-471c-fab3-08de9083ba2d
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2026 06:47:37.5277
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IepZ8NhlgUqiUuuEKAaLLmYjQUzxyoT1kZthRzrvqajRLDT5t/PXAofoG8ROvejppLyirugLWzfTHclWX7zW3LL7qH4Rty8Rqayze5tidbA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB8939
-X-Proofpoint-GUID: mVcuru3_ykNVyBxcmifKndXxMivySaWD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDA1OCBTYWx0ZWRfXyMu9J2wGhAHz
- tMe9W/LGKDg0ccVTseztqk/1niFmAGz2k2b1+wmEEGO9IcNAFHMHWjKwM+2pUL4iRO1RCuQ9ob9
- TpjlDx4mPEHDDT6+TCGvR1OYc5Trjubj0V0MpBSmsx0LJbGvYJAKWlzS+ISqLuWZp21xk+0p7Q9
- z+lPSwHdQ1zrRYJh1+6i1Su10J/X32YGFLJ3AioMBqSidZTLmNKBRJzGFpXu9Ol9XApuRXQryMy
- KoK+24nWGj96refZqkxOxoQtvqoivZsl+YH8pBz5I+f4euUxW+ijwp78DueP7KYehwltEH6lrXj
- Xm+JdbzKqKE2izuL5XFcZf3PDGU62o8g64p4jyQEOMxx50Ez7oQQU0oj5sNjpSG7lUcF2uqbBcB
- AcrHfId07L5eua9zAJV0+yS/3F2aecJ5/G7WIbtNDmWyI3XZzUqUNJWfzh6+snSdPB7mCxLLvoR
- kM0cG2RoU0NTOE0deYQ==
-X-Proofpoint-ORIG-GUID: mVcuru3_ykNVyBxcmifKndXxMivySaWD
-X-Authority-Analysis: v=2.4 cv=ZKHaWH7b c=1 sm=1 tr=0 ts=69ce110d cx=c_pps
- a=2pTyoxkMaluYXS6DGsynPQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
- a=ag1SF4gXAAAA:8 a=NEAV23lmAAAA:8 a=oNTXYZ8t8MtPCu0ktUMA:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-02_01,2026-04-01_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 adultscore=0 clxscore=1015 impostorscore=0
- malwarescore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020058
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 06:47:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234489
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 06:55:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234490
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+From: Deepak Rathore <deeratho@cisco.com>
 
-When running glibc tests under user mode NFS, tst-syslog was causing a hang. The
-hang was traced to unfsd exitting with a buffer overflow being detected.
+Pick the patch [1] as mentioned in [2].
 
-This was traced down to mksocket() where we'd see:
+[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=598704a00cbac5e85c2bedd363357b5bf6fcee33
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-69648
 
-socket path '/media/build/poky/build/build-st-2118464/tmp/work/x86-64-v3-poky-linux/glibc-testsuite/2.42+git/build-x86_64-poky-linux/testroot.root/dev/log' is too long at 141 vs 108
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 
-There is a length check in mknod_args() but obj may not be setup at this point by
-cat_name() since the functions can be executed out of order according to C.
-
-To avoid this, make the order explict. This means the length is checked and we
-avoid the buffer overflow. This will likely cause the glibc test to fail however
-it won't hang, which is a win.
-
-[YOCTO #16113]
-
-(From OE-Core rev: e51d5e19cb1ba1d5ad7442064b64821d178bc9ca)
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
----
- .../unfs3/unfs3/fixrace.patch                 | 35 +++++++++++++++++++
- meta/recipes-devtools/unfs3/unfs3_git.bb      |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/unfs3/unfs3/fixrace.patch
-
-diff --git a/meta/recipes-devtools/unfs3/unfs3/fixrace.patch b/meta/recipes-devtools/unfs3/unfs3/fixrace.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
+index 16a63cabc5..b6d7b3d60f 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.45.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
+@@ -46,4 +46,5 @@ SRC_URI = "\
+      file://0018-CVE-2025-11494.patch \
+      file://0019-CVE-2025-11839.patch \
+      file://0020-CVE-2025-11840.patch \
++     file://CVE-2025-69648.patch \
+ "
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
 new file mode 100644
-index 0000000000..2a659f5bc6
+index 0000000000..ce0e764762
 --- /dev/null
-+++ b/meta/recipes-devtools/unfs3/unfs3/fixrace.patch
-@@ -0,0 +1,35 @@
-+When running glibc tests under user mode NFS, tst-syslog was causing a hang. The
-+hang was traced to unfsd exitting with a buffer overflow being detected.
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
+@@ -0,0 +1,189 @@
++From 7df481dd76c05c89782721e9df5468be829c356b Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sat, 22 Nov 2025 09:22:10 +1030
++Subject: [PATCH] PR 33638, debug_rnglists output
 +
-+This was traced down to mksocket() where we'd see:
++The fuzzed testcase in this PR continuously outputs an error about
++the debug_rnglists header.  Fixed by taking notice of the error and
++stopping output.  The patch also limits the length in all cases, not
++just when a relocation is present, and limits the offset entry count
++read from the header.  I removed the warning and the test for relocs
++because the code can't work reliably with unresolved relocs in the
++length field.
 +
-+socket path '/media/build/poky/build/build-st-2118464/tmp/work/x86-64-v3-poky-linux/glibc-testsuite/2.42+git/build-x86_64-poky-linux/testroot.root/dev/log' is too long at 141 vs 108
++	PR 33638
++	* dwarf.c (display_debug_rnglists_list): Return bool.  Rename
++	"inital_length" to plain "length".  Verify length is large
++	enough to read header.  Limit length to rest of section.
++	Similarly limit offset_entry_count.
++	(display_debug_ranges): Check display_debug_rnglists_unit_header
++	return status.  Stop output on error.
 +
-+There is a length check in mknod_args() but obj may not be setup at this point by
-+cat_name() since the functions can be executed out of order according to C.
++CVE: CVE-2025-69648
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=598704a00cbac5e85c2bedd363357b5bf6fcee33]
 +
-+To avoid this, make the order explict. This means the length is checked and we
-+avoid the buffer overflow. This will likely cause the glibc test to fail however
-+it won't hang, which is a win.
++(cherry picked from commit 598704a00cbac5e85c2bedd363357b5bf6fcee33)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ binutils/dwarf.c | 67 ++++++++++++++++++++++++------------------------
++ 1 file changed, 34 insertions(+), 33 deletions(-)
 +
-+Upstream-Status: Pending
-+
-+diff --git a/nfs.c b/nfs.c
-+index 3e92f87..784089a 100644
-+--- a/nfs.c
-++++ b/nfs.c
-+@@ -776,9 +776,11 @@ MKNOD3res *nfsproc3_mknod_3_svc(MKNOD3args * argp, struct svc_req * rqstp)
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index f4bcb677761..b4fb56351ec 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -8282,7 +8282,7 @@ display_debug_rnglists_list (unsigned char * start,
++   return start;
++ }
 + 
-+     PREP(path, argp->where.dir);
-+     pre = get_pre_cached();
-+-    result.status =
-+-	join3(cat_name(path, argp->where.name, obj),
-+-	      mknod_args(argp->what, obj, &new_mode, &dev), exports_rw());
-++    result.status = cat_name(path, argp->where.name, obj);
-++    if (result.status == NFS3_OK)
-++        result.status = mknod_args(argp->what, obj, &new_mode, &dev);
-++    if (result.status == NFS3_OK)
-++        result.status = exports_rw();
++-static int
+++static bool
++ display_debug_rnglists_unit_header (struct dwarf_section *  section,
++ 				    uint64_t *              unit_offset,
++ 				    unsigned char *         poffset_size)
++@@ -8290,7 +8290,8 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
++   uint64_t        start_offset = *unit_offset;
++   unsigned char * p = section->start + start_offset;
++   unsigned char * finish = section->start + section->size;
++-  uint64_t        initial_length;
+++  unsigned char * hdr;
+++  uint64_t        length;
++   unsigned char   segment_selector_size;
++   unsigned int    offset_entry_count;
++   unsigned int    i;
++@@ -8299,66 +8300,59 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
++   unsigned char   offset_size;
 + 
-+     cluster_create(obj, rqstp, &result.status);
++   /* Get and check the length of the block.  */
++-  SAFE_BYTE_GET_AND_INC (initial_length, p, 4, finish);
+++  SAFE_BYTE_GET_AND_INC (length, p, 4, finish);
 + 
-diff --git a/meta/recipes-devtools/unfs3/unfs3_git.bb b/meta/recipes-devtools/unfs3/unfs3_git.bb
-index c5b7898b3c..50d5cd272f 100644
---- a/meta/recipes-devtools/unfs3/unfs3_git.bb
-+++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
-@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/unfs3/unfs3.git;protocol=https;branch=master \
-            file://0001-locate.c-Include-attr.h.patch \
-            file://0001-fix-building-on-macOS.patch \
-            file://0001-attr-fix-utime-for-symlink.patch \
-+           file://fixrace.patch \
-            "
- SRCREV = "c8f2d2cd4529955419bad0e163f88d47ff176b8d"
- UPSTREAM_CHECK_GITTAGREGEX = "unfs3\-(?P<pver>\d+(\.\d+)+)"
++-  if (initial_length == 0xffffffff)
+++  if (length == 0xffffffff)
++     {
++       /* This section is 64-bit DWARF 3.  */
++-      SAFE_BYTE_GET_AND_INC (initial_length, p, 8, finish);
+++      SAFE_BYTE_GET_AND_INC (length, p, 8, finish);
++       *poffset_size = offset_size = 8;
++     }
++   else
++     *poffset_size = offset_size = 4;
++ 
++-  if (initial_length > (size_t) (finish - p))
++-    {
++-      /* If the length field has a relocation against it, then we should
++-	 not complain if it is inaccurate (and probably negative).
++-	 It is copied from .debug_line handling code.  */
++-      if (reloc_at (section, (p - section->start) - offset_size))
++-	initial_length = finish - p;
++-      else
++-	{
++-	  warn (_("The length field (%#" PRIx64
++-		  ") in the debug_rnglists header is wrong"
++-		  " - the section is too small\n"),
++-		initial_length);
++-	  return 0;
++-	}
++-    }
++-
++-  /* Report the next unit offset to the caller.  */
++-  *unit_offset = (p - section->start) + initial_length;
+++  if (length < 8)
+++    return false;
++ 
++   /* Get the other fields in the header.  */
+++  hdr = p;
++   SAFE_BYTE_GET_AND_INC (version, p, 2, finish);
++   SAFE_BYTE_GET_AND_INC (address_size, p, 1, finish);
++   SAFE_BYTE_GET_AND_INC (segment_selector_size, p, 1, finish);
++   SAFE_BYTE_GET_AND_INC (offset_entry_count, p, 4, finish);
++ 
++   printf (_(" Table at Offset: %#" PRIx64 ":\n"), start_offset);
++-  printf (_("  Length:          %#" PRIx64 "\n"), initial_length);
+++  printf (_("  Length:          %#" PRIx64 "\n"), length);
++   printf (_("  DWARF version:   %u\n"), version);
++   printf (_("  Address size:    %u\n"), address_size);
++   printf (_("  Segment size:    %u\n"), segment_selector_size);
++   printf (_("  Offset entries:  %u\n"), offset_entry_count);
++ 
+++  if (length > (size_t) (finish - hdr))
+++    length = finish - hdr;
+++
+++  /* Report the next unit offset to the caller.  */
+++  *unit_offset = (hdr - section->start) + length;
+++
++   /* Check the fields.  */
++   if (segment_selector_size != 0)
++     {
++       warn (_("The %s section contains "
++ 	      "unsupported segment selector size: %d.\n"),
++ 	    section->name, segment_selector_size);
++-      return 0;
+++      return false;
++     }
++ 
++   if (version < 5)
++     {
++       warn (_("Only DWARF version 5+ debug_rnglists info "
++ 	      "is currently supported.\n"));
++-      return 0;
+++      return false;
++     }
++ 
+++  uint64_t max_off_count = (length - 8) / offset_size;
+++  if (offset_entry_count > max_off_count)
+++    offset_entry_count = max_off_count;
++   if (offset_entry_count != 0)
++     {
++       printf (_("\n   Offsets starting at %#tx:\n"), p - section->start);
++@@ -8372,7 +8366,7 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
++ 	}
++     }
++ 
++-  return 1;
+++  return true;
++ }
++ 
++ static bool
++@@ -8404,6 +8398,7 @@ display_debug_ranges (struct dwarf_section *section,
++   uint64_t last_offset = 0;
++   uint64_t next_rnglists_cu_offset = 0;
++   unsigned char offset_size;
+++  bool ok_header = true;
++ 
++   if (bytes == 0)
++     {
++@@ -8493,8 +8488,12 @@ display_debug_ranges (struct dwarf_section *section,
++       /* If we've moved on to the next compile unit in the rnglists section - dump the unit header(s).  */
++       if (is_rnglists && next_rnglists_cu_offset < offset)
++ 	{
++-	  while (next_rnglists_cu_offset < offset)
++-	    display_debug_rnglists_unit_header (section, &next_rnglists_cu_offset, &offset_size);
+++	  while (ok_header && next_rnglists_cu_offset < offset)
+++	    ok_header = display_debug_rnglists_unit_header (section,
+++							    &next_rnglists_cu_offset,
+++							    &offset_size);
+++	  if (!ok_header)
+++	    break;
++ 	  printf (_("    Offset   Begin    End\n"));
++ 	}
++ 
++@@ -8548,10 +8547,12 @@ display_debug_ranges (struct dwarf_section *section,
++     }
++ 
++   /* Display trailing empty (or unreferenced) compile units, if any.  */
++-  if (is_rnglists)
+++  if (is_rnglists && ok_header)
++     while (next_rnglists_cu_offset < section->size)
++-      display_debug_rnglists_unit_header (section, &next_rnglists_cu_offset, &offset_size);
++-
+++      if (!display_debug_rnglists_unit_header (section,
+++					       &next_rnglists_cu_offset,
+++					       &offset_size))
+++	break;
++   putchar ('\n');
++ 
++   free (range_entries);
++-- 
++2.35.6
++
 -- 
-2.49.0
+2.35.6
 
 
