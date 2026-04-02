@@ -1,92 +1,90 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C24DD3943C
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 14:45:55 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17461.1775141145902218219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7CBD3943D
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 14:53:45 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17634.1775141618910804278
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 07:45:46 -0700
+ Thu, 02 Apr 2026 07:53:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=qOh1X5S5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tfenLef/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019d4ea849fe-cac5449d-c6ff-44c3-91f4-ba5793129093-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775141145; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=osUMw+Vhqofa6qqaxD9fpVW4LHLch4jzcBSR4jOJ0W4=;
-	b=qOh1X5S5tSnZMoppVFtWQJO+7Uymdn0l9BtFCPUVtuWrGqhkS6foVvpPlyRtV2f0
-	3ofWsWBRIwzHopDFl7qsJGeldkSxdCAPfdmuZMFwlUcI+ngjP3udZ++UUwowIssmCCv
-	ZsLJODJoJAMvukP3/tBLeoWWbySfjS6xRt4lGucI=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775141145;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=osUMw+Vhqofa6qqaxD9fpVW4LHLch4jzcBSR4jOJ0W4=;
-	b=tfenLef/0sA2kHhMzoOmoyOwAJK0KFKm1dybv35xj5UTaTHo71bhrjmPEUSzmvLp
-	ySdd2wUIdW6amE/JgStoux+pOFQENwOyDw7S3nvH8jgHVR430z7IZH4M+PqEneT2tPY
-	r5anq5Sf4EDZJnmsbfEfD1CU/tC8eewakZXGyWko=
-From: patchtest@automation.yoctoproject.org
-To: Ashish Sharma <pahaditechie@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][whinlatter][PATCH v2] nghttp2: upgrade 1.66.0 -> 1.68.1
-In-Reply-To: <20260402143918.3596776-1-pahaditechie@gmail.com>
-References: <20260402143918.3596776-1-pahaditechie@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d4ea849fe-cac5449d-c6ff-44c3-91f4-ba5793129093-000000@us-west-2.amazonses.com>
-Date: Thu, 2 Apr 2026 14:45:45 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.02-54.240.27.45
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Et+JYAn2;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C580C1A3101
+	for <openembedded-core@lists.openembedded.org>; Thu,  2 Apr 2026 14:53:36 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9C0355FDEB;
+	Thu,  2 Apr 2026 14:53:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AAF3A1045026F;
+	Thu,  2 Apr 2026 16:53:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1775141616; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=bdSWgi0/wG7BtbZC/RX2wzgEVlTEjZERMlfzwz4J/1U=;
+	b=Et+JYAn2YThssi3Le8eBg0cSfIjxkHHpOYii3Ks0sdRpg0gbr4K8BaegEmijhBXVnuA3H2
+	qUmm3dqrMzRklRzoCb73BVyRbzGm071YQUKgJaXe2zgOfuVjnGCzhAZ7uSOhl2j5m0RP/I
+	t4QKV2zvW6cYhxok4VKDa2/KSxGZI5y/0RvS0eC7kCGmquRFVVoSXpMQhuFeYJ2hykR31M
+	zG5FQvEXXZMh1xKihjI74tIuNK5QLhdJfGX6u9Ods1woqmGmJ+nkMnB0yOoCTUaF8vzMGD
+	patDwM0CCGVDJ/PG79466uTJgLjsIPV0ypq5KeTAz3Cx4YUjFk5qaoQm7FHYXg==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+To: Daniel Turull <daniel.turull@ericsson.com>,
+ Ross Burton <Ross.Burton@arm.com>
+Cc: "rybczynska@gmail.com" <rybczynska@gmail.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/3] classes/vex: remove
+Date: Thu, 02 Apr 2026 16:53:33 +0200
+Message-ID: <3204609.CbtlEUcBR6@brobin-bootlin>
+In-Reply-To: <B7466D11-14E9-49CF-9203-24A6B4D47DB6@arm.com>
+References: 
+ <20260331132430.781647-1-ross.burton@arm.com>
+ <PA3PR07MB10721439AB9FDE89335C33B3E8A50A@PA3PR07MB10721.eurprd07.prod.outlook.com>
+ <B7466D11-14E9-49CF-9203-24A6B4D47DB6@arm.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 14:45:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234530
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 14:53:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234531
 
---NextPart
-Content-Type: text/plain
+Hello,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Thursday, April 2, 2026 at 4:42=E2=80=AFPM, Ross Burton wrote:
+> On 1 Apr 2026, at 13:29, Daniel Turull <daniel.turull@ericsson.com> wrote:
+> >  The kernel scripts to check CVEs uses the vex output as input.
+> > https://git.openembedded.org/openembedded-core/tree/scripts/contrib/imp=
+rove_kernel_cve_report.py
+>=20
+> I believe this functionality is also superceded by sbom-cve-check, as the=
+ recommended configuration fragment sets SPDX_INCLUDE_COMPILED_SOURCES:pn-l=
+inux-yocto =3D =E2=80=9C1=E2=80=9D.
+>=20
+> Would you be able to verify this, we might be able to deprecate/remove th=
+is script too in master.
+>=20
+> Ross
 
----
-Testing patch /home/patchtest/share/mboxes/whinlatter-v2-nghttp2-upgrade-1.66.0---1.68.1.patch
+Currently, sbom-cve-check does not fully handle Linux kernel CVEs correctly.
+Special processing is required when the information originates from the
+kernel CNA, as many kernel CVEs are incorrectly marked as vulnerable.
 
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
+Additionally, sbom-cve-check does not yet provide an assessment as detailed
+as improve_kernel_cve_report.py.
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+The first limitation is planned to be addressed in the very near future
+(within this month). And for the second point, I hope I can address it
+at the same time.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+=2D-=20
+Benjamin Robin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
---NextPart--
+
 
