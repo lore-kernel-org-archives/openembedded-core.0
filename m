@@ -1,154 +1,157 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pahaditechie@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DDC2D3941C
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 12:05:04 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14079.1775131497931381810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA23CD3941E
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 13:06:04 +0000 (UTC)
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15197.1775135157001569592
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 05:04:58 -0700
+ Thu, 02 Apr 2026 06:05:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UZeF0wi5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-486b96760easo8653275e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 05:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775131496; x=1775736296; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zKkTxoLrAXVkta3kkn/KG4wPMXJ5VIhQScxTAkvhsQE=;
-        b=UZeF0wi5kYcwqfUPp7nrUVIUl//Nr6xTFNMV5SjKRu+XSaJOczvq3Wn+Wca3+4glHk
-         m45j96z9c3GZMh5mzFUDKmMODoXFMjWk/pJP1eeJxSyWX/PLnTRZ+Y9B4MfNnCwP++L3
-         8EDNW2onIik5thLNYM9/y/CBViwZv+nKTEuXU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775131496; x=1775736296;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zKkTxoLrAXVkta3kkn/KG4wPMXJ5VIhQScxTAkvhsQE=;
-        b=KEjrEU9wBsINpORsC7bgq87BgzkTBuxNmBRsJigGohKMhwkjW/aLKgspeAcntzADOC
-         qwidUh06Z9qO6eZ3kcUjmU04qUPAzZSNw27UsbDTMuSMsdagsHyr3Y8yzj5yuBiSVAIv
-         ru3TxGHi6+2HA1+Us5XzoBxwyHA5X4V14ODHSiRMpfL9MjKPoTMyO4fVjbpSsimbPBCP
-         Dw07//ZXEio9u+9k+Wz+EHeWj21cRQungmj5SujLzTFuVej+QJpxTT/WFsslNRS3tEtN
-         Gpd5TjAM6hFKlPAcxcNQ72NjbcnBqOF7LzFSD/dYsKxOPZS9L0lhEgcRxw7KrL/3fRbv
-         JlRA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtZZ+7+pxqbtjwFbYfmg6H+aeOtsT+XnPmKjsOjfbvKJ+dypFwKtU7BcRc1/c7cy7T6lO+yValMmldkagy1g3m+g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YylE+OuMX1XBy5taQmQNk/Z6sdc8bUpBZunZbAkYSO0VVCw+MDF
-	39ZtsfESccNJufuOzKXwOWoZYHfVu911/tnU0JnAzU7ZqUlI3zkwLxdGZjfR51wss4h3IMfaz8P
-	gMd5v
-X-Gm-Gg: ATEYQzzIuWyRbjznrxDJyO3iuBPZbK1YSZW+0MRfde+LooTpdi36D1IpfJFAjcRgi3n
-	z6wfBs3LLvBAYdpIP8IkYYQuJ+bcJvsShzsOek20Jl3aGDBZOBGbbwIWMx6bm1pfVV32x/hGt/p
-	3jHxUDt3KUGCaQ4sFk/+kTGb3pGqmr8Lls7lhlDQoloZUEqXp9d/KSYx/3pRqKtJbvH4aPuW1XK
-	YS46+Z34yNO4mt+SYV1uRaCT2nXlq5bjWuUWeJFHdJCbWId1XtIf7svyDMnSn4n7pf666jWXuw4
-	54xcEFdLe1YtgwC8n9e16gVIlIYmIEkC3rV8dFacA3svBmlqXDhide3k65hNbixOn1SG5Nld+Lm
-	5YzirFXHSZkVNwrchaVEtdmoEUCpiiBSGWb93ilVhAAdP3uPzBdHXJWaY0KDcJq2uCt/Viaq0vq
-	fwUA92p60BfL7n/S0f86bUjzXwBGNlcD3D9c5eArCgFTJQXYp6FFXq1fE8HdyOJDvI3XRl9YVWy
-	tlnyspF+qAmjtf/
-X-Received: by 2002:a05:600c:46d3:b0:487:1114:d42f with SMTP id 5b1f17b1804b1-4888355e812mr126297775e9.1.1775131496059;
-        Thu, 02 Apr 2026 05:04:56 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a695:b092:8c54:d70f? ([2001:8b0:aba:5f3c:a695:b092:8c54:d70f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e56fesm7648090f8f.27.2026.04.02.05.04.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 05:04:55 -0700 (PDT)
-Message-ID: <f1593f079522f02b1cb45822eb519a860c015fd7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v8 1/7] signing-keys.bb: Fix DISTRO_CODENAME
- truncation
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: adam.duskett@amarulasolutions.com, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 02 Apr 2026 13:04:54 +0100
-In-Reply-To: <18A28874DB6AAD6A.664470@lists.openembedded.org>
-References: <20260331095714.1285106-1-adam.duskett@amarulasolutions.com>
-	 <18A28874DB6AAD6A.664470@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=none (message not signed); spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: ashissh7@cisco.com)
+X-CSE-ConnectionGUID: 3OVz/vAiQ561yLRgXfWDmQ==
+X-CSE-MsgGUID: cFpbHtPCSoOsUK5afotH9Q==
+X-IPAS-Result: =?us-ascii?q?A0BpAwB2ac5p/4v/Ja1agjQQGgKCUXFeQ0mUdmlsgxWIY?=
+ =?us-ascii?q?oJkj0KCDgEBAQ89FAQBAT8CBIN8jW8CJjQJDgECBAEBAQEDAgMBAQEBAQEBA?=
+ =?us-ascii?q?QEBAQEKAQEFAQEBAgEHBYEOE4ZPDUkBDAGGAwEtCwEYARAdJgYDAQJPAgkjI?=
+ =?us-ascii?q?YMCAYI5AQM2AxEGsmsaN4F5FgUCFoEBgygBgVOxXgoZKA1xgWEBCxQBgTiEe?=
+ =?us-ascii?q?CkdQQGCN4UjWxgBhHonG32BEIJQgi2CH0ICgSeGfQSDHBSBYR6CGgaMKggHH?=
+ =?us-ascii?q?xIIARwGCgJIFRIDBAMEBAECCxMJAwMCDgIIAwIIBhkBPxIEEwoDCgsHBR8KA?=
+ =?us-ascii?q?gwUCigiEisKAzUSDxsVAQgGAgIEBAIEDAIJAgIFBwIRAwQBAQgCAi0DAQMZC?=
+ =?us-ascii?q?AkIAgsFERgMCwcxAxAJAx8XGggBRQgGFgEaBwUGCzgVBQwRAQECRwIGBAMDA?=
+ =?us-ascii?q?woHBwQDAQcDAwwCAhACBAQCEgMDBAMQAwECKQMDBwgDAgcEFgoZBAUCAS4DB?=
+ =?us-ascii?q?QcCBAEHAQMDBwMCDAICEQUEBgIBAwwDBAMFBQstEQcTCgYEBwUCAgIUBgISE?=
+ =?us-ascii?q?gMDBAQCAQICAjoEDhoOBAgHAwcBGAUCAwIFAQMBBwcSAgoIAw4BHQICBAIJA?=
+ =?us-ascii?q?QEKDgICBgICAQMIGAMEHwQDAwcCAgwJAwQNAhIKEhsDDgMNDwIEAwwKMBAEA?=
+ =?us-ascii?q?gcQAgkIBgoYAgICBgIDAwMFCQECAQEBAQEBAQIHAwMDAgMDBgMPCgMFBwYDB?=
+ =?us-ascii?q?AYBBAQDAwYDAwUFAQMDBQUFBwIDBgMGBwcECAMHCwEBAQEBAwICCQEDCAMMC?=
+ =?us-ascii?q?QQDBQMVDwMLCQgHDAE8DAcKKAQ2ARQUBwQlGWcHB4tJKII2gQQKASuBfUCTa?=
+ =?us-ascii?q?YJojxKgHXFogz6MHo8+hXwaM6prmQaOCYQJkkeEaDaBMjyBWTMaI4EBgjYJS?=
+ =?us-ascii?q?RkPji4Vg17GQCYyAjwBBwIHDgKBc4kxhk+BfQEB?=
+IronPort-Data: A9a23:QUkavqzEh3F8VJZByMZ6t+drxyrEfRIJ4+MujC+fZmUNrF6WrkVSy
+ 2VLWjjQMvrfNGH9eNklPN7g/R9QusLRzoRmTFBk/1hgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lHxYuaJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4iaT/H3Ygf/hWYoajhMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE88jmSH
+ rurIBmRpws1zj91Yj+Xuu+Tnn4iHtY+CTOzZk9+AMBOtPTtShsaic7XPNJEAateZq7gc9pZk
+ L2hvrToIesl0zGldOk1C3Fl/y9C0aJuo5j5Mz+hmM2qkhOfYl/WzMVgM20zBNhNkgp3KTkmG
+ f0wMjsBaFWHwumx2r/+ErMqjcU4J86tN4Qa0p1i5WiGVrB9HtaZHviMvIQJtNszrpgm8fL2b
+ tEZaCF0bEvoaBxUMVBRA5U79AutrialL2cB8wzE+8Lb5UDY4hR78KTVG+HSXce3ZphckEGEh
+ jP/qjGR7hYycYb3JSC+2mqlhubDnD/2U4ITGZW38/drhBuYwWl7IBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YbLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:VcPa2Kx79/68GJXJqNfXKrPwJ71zdoMgy1knxilNoNJuHfBw8P
+ re+cjzuiWUtN98YhwdcLO7Scu9qA3nlaKdiLN5VdzJYOCMggWVxe9ZgbcKuweQeBEXMoVmpM
+ Bdm28UMqyVMWRH
+X-Talos-CUID: =?us-ascii?q?9a23=3AUKybZ2nfBv1N8I79UokkyaiZhKPXOSb68mWXPWa?=
+ =?us-ascii?q?5MDs3Eayxc1Cg9pxIlvM7zg=3D=3D?=
+X-Talos-MUID: 9a23:Zlqk1AY7iJtekeBTvBH0jhF+DOxT5IO1NWNQmJsBp+nVDHkl
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,155,1770595200"; 
+   d="scan'208";a="724213696"
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Apr 2026 13:05:56 +0000
+Received: from sjc-ads-21720.cisco.com (sjc-ads-21720.cisco.com [10.128.165.208])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id DF37518000356;
+	Thu,  2 Apr 2026 13:05:55 +0000 (GMT)
+Received: by sjc-ads-21720.cisco.com (Postfix, from userid 1869324)
+	id 8DAA0CC1288; Thu,  2 Apr 2026 06:05:55 -0700 (PDT)
+From: Ashish Sharma <pahaditechie@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ashish Sharma <pahaditechie@gmail.com>,
+	ashissh7@cisco.com
+Subject: [OE-core][whinlatter][PATCH] nghttp2: upgrade 1.66.0 -> 1.68.1
+Date: Thu,  2 Apr 2026 06:05:54 -0700
+Message-Id: <20260402130554.3466031-1-pahaditechie@gmail.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.128.165.208, sjc-ads-21720.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 12:05:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234520
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 13:06:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234521
 
-On Thu, 2026-04-02 at 13:00 +0100, Richard Purdie via lists.openembedded.or=
-g wrote:
-> On Tue, 2026-03-31 at 11:57 +0200, Adam Duskett via lists.openembedded.or=
-g wrote:
-> > If DISTRO_CODENAME is not set in the environment, bash quietly
-> > drops the string resulting in a key such as PACKAGEFEED-GPG-KEY-default=
-setup-
-> >=20
-> > However, when python calls self.d.getVar('DISTRO_CODENAME'), the result=
-ing
-> > string is 'None', leading to a configuration file pointing to a key suc=
-h
-> > as PACKAGEFEED-GPG-KEY-defaultsetup-None
-> >=20
-> > Add a default value in signing-keys.bb to set DISTRO_CODENAME to None i=
-f
-> > DISTRO_CODENAME is not set.
-> >=20
-> > Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-> > ---
-> > =C2=A0meta/recipes-core/meta/signing-keys.bb | 5 +++++
-> > =C2=A01 file changed, 5 insertions(+)
-> >=20
-> > diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core=
-/meta/signing-keys.bb
-> > index 94f4032911..c7713ed4a6 100644
-> > --- a/meta/recipes-core/meta/signing-keys.bb
-> > +++ b/meta/recipes-core/meta/signing-keys.bb
-> > @@ -45,6 +45,10 @@ addtask get_public_keys before do_install
-> > =C2=A0do_get_public_keys[depends] +=3D "gnupg-native:do_populate_sysroo=
-t"
-> > =C2=A0
-> > =C2=A0do_install () {
-> > +=C2=A0=C2=A0=C2=A0 # Python evalutes an empty DISTRO_CODENAME to "None=
-" which would cause mismatched files
-> > +=C2=A0=C2=A0=C2=A0 # as the update config file would show GPG-KEY-${DI=
-STRO}-None but the filename is
-> > +=C2=A0=C2=A0=C2=A0 # installed as GPG-KEY-${DISTRO}-
-> > +=C2=A0=C2=A0=C2=A0 DISTRO_CODENAME=3D"${DISTRO_CODENAME:-None}"
-> > =C2=A0=C2=A0=C2=A0=C2=A0 if [ -f "${B}/rpm-key" ]; then
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -D -m 0644 "${=
-B}/rpm-key" "${D}${sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-${DISTRO}-${DISTRO_C=
-ODENAME}"
-> > =C2=A0=C2=A0=C2=A0=C2=A0 fi
-> > @@ -57,6 +61,7 @@ do_install () {
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0do_deploy () {
-> > +=C2=A0=C2=A0=C2=A0 DISTRO_CODENAME=3D"${DISTRO_CODENAME:-None}"
-> > =C2=A0=C2=A0=C2=A0=C2=A0 if [ -f "${B}/rpm-key" ]; then
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -D -m 0644 "${=
-B}/rpm-key" "${DEPLOYDIR}/RPM-GPG-KEY-${DISTRO}-${DISTRO_CODENAME}"
-> > =C2=A0=C2=A0=C2=A0=C2=A0 fi
->=20
-> I have a feeling it may be safer just to put something like:
->=20
-> DISTRO_CODENAME ??=3D "nodistro"
->=20
-> into the recipe to handle this?
->=20
-> My only concern is where else this is being referenced from and whether
-> that would have the right scope? Most other usage sites have special
-> usage.
->=20
-> Whether there should be a higher level default, I'm not sure and that
-> is a bigger discussion but this would hopefully avoid the immediate
-> issue?
+Upgrade nghttp2 to 1.68.1 which includes fixes from upstream,
+including the fix for CVE-2026-27135.
 
-As soon as I sent it, I realised the other reference in
-meta/lib/oe/package_manager/rpm/__init__.py. Perhaps we should do the
-above but also change that code to say:
+CVE-2026-27135: Assertion failure in
+nghttp2_session_terminate_session()
 
-self.d.getVar('DISTRO_CODENAME') or "nodistro"
+Release:
+https://github.com/nghttp2/nghttp2/releases/tag/v1.68.1
 
-?
+CC: ashissh7@cisco.com
+Signed-off-by: Ashish Sharma <pahaditechie@gmail.com>
+---
+ ...xt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch | 28 +++++++++++++++++++
+ .../{nghttp2_1.66.0.bb => nghttp2_1.68.1.bb}  |  8 ++++--
+ 2 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
+ rename meta/recipes-support/nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.68.1.bb} (62%)
 
-Cheers,
+diff --git a/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch b/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
+new file mode 100644
+index 0000000000..f7cc4fe539
+--- /dev/null
++++ b/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
+@@ -0,0 +1,28 @@
++From eb5812d018eb96284aa6ef82569d0b6b75bcd020 Mon Sep 17 00:00:00 2001
++From: Ankur Tyagi <ankur.tyagi85@gmail.com>
++Date: Sun, 9 Nov 2025 12:45:25 +1300
++Subject: [PATCH] lib/CMakeLists.txt: Fix NGHTTP2_CONFIG_INSTALL_DIR path
++
++Remove hard coded path to fix installation on 64-bit arch.
++
++Upstream-Status: Submitted [https://github.com/nghttp2/nghttp2/pull/2551]
++Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
++---
++ lib/CMakeLists.txt | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
++index 98e3dbe7..3b6a4400 100644
++--- a/lib/CMakeLists.txt
+++++ b/lib/CMakeLists.txt
++@@ -51,7 +51,7 @@ set(NGHTTP2_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
++ set(NGHTTP2_VERSION_CONFIG "${NGHTTP2_GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
++ set(NGHTTP2_PROJECT_CONFIG "${NGHTTP2_GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
++ set(NGHTTP2_TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
++-set(NGHTTP2_CONFIG_INSTALL_DIR "lib/cmake/${PROJECT_NAME}")
+++set(NGHTTP2_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
++ set(NGHTTP2_NAMESPACE "${PROJECT_NAME}::")
++ set(NGHTTP2_VERSION ${PROJECT_VERSION})
++
++--
++2.43.0
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
+similarity index 62%
+rename from meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
+index 49d6d7e632..71d5eef8d6 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
+@@ -4,8 +4,12 @@ SECTION = "libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
+ 
+-SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "00ba1bdf0ba2c74b2a4fe6c8b1069dc9d82f82608af24442d430df97c6f9e631"
++SRC_URI = "\
++    ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
++    file://0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch \
++"
++
++SRC_URI[sha256sum] = "6abd7ab0a7f1580d5914457cb3c85eb80455657ee5119206edbd7f848c14f0b2"
+ 
+ inherit cmake manpages python3native github-releases
+ 
+-- 
+2.35.6
 
-Richard
 
