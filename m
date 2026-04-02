@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09D80CC6B06
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 15:00:56 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17808.1775142055254943216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF481D3943C
+	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 15:01:05 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17809.1775142056198438830
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 08:00:55 -0700
+ Thu, 02 Apr 2026 08:00:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=h9HJpXaI;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=vp7tb69o;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d4eb62a4a-b69b1951-dd04-498e-ba1d-4deba8dd72b9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lPtaPbyL;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FxlaZJ76;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d4eb62db5-8cb50f01-6468-4665-a911-c0f3856679b4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775142054; i=@automation.yoctoproject.org;
+	t=1775142055; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=YhfKPtdoNpwuHZtfSeqDiliPbe5oNxuckIFvXXdbC7o=;
-	b=h9HJpXaIoh87Glq6sNjnkJDoPH5Cx0OfHWEM56TyvbFp26TzrDOa7Y4EPrMyJium
-	ZK0dNZXy/P8hsNM1cbLt+YCUT7AKXqGPZtqoC6Con+7IYHYApeiMJuAGp+kWGdV0hAL
-	8KRD3hfStiYDFotsJrXDNLkYElIkeq8KLXktTXCM=
+	bh=l6rZR6QVrkT95k1+E+DkDYREsN/eBCHfermXkO+szXI=;
+	b=lPtaPbyLPuJJCL1ErqGPzMfpcNfRkMlDgyUIRpERhVjBQm7yLiMYurF6sab/iE1/
+	qSKg619QDI8dbRi0fZuVPCH9vq97c1HcjAcafBLJ/w6utw+eAMgQd628ZKwglFg1See
+	pLipaIKoncaCCkSOGPvDU9jFafo0vR/d3E6BAubo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775142054;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775142055;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=YhfKPtdoNpwuHZtfSeqDiliPbe5oNxuckIFvXXdbC7o=;
-	b=vp7tb69oPPH6j2QXi/4VEc6duN2xZnJMNm45jDEexrT6d/KGXhXCiNaZBzqyevF9
-	1t1oh1pD/Ph32jMMO9Mx9MOY4w+rOIlgMw4uubB8r2mDsio/fq9lH3/tjOHeKKWo+nI
-	Uyc3SYOZbhCrY7A7t5VZG8EAaqkKgwPe2Vy8N9m0=
+	bh=l6rZR6QVrkT95k1+E+DkDYREsN/eBCHfermXkO+szXI=;
+	b=FxlaZJ76ovH7xmBTlCfukhyEKmdLNrR8/eOg+GnJFOdRWhAfmND2YiB0bmWLaSZA
+	ao/u3hkgM2I20G/1G44AB6wEp7DQOosxa90IUVcZuqZ1C04cuNqpz832Iq5KP5DTfpn
+	JTHjP6EnBYvjliBUzHyPjVZUGbEyWU3oFDELBJ/M=
 From: patchtest@automation.yoctoproject.org
 To: Adam Blank <adam.blank.g@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/4] package_pkgdata: fix typo to stop calling undefined
- function
-In-Reply-To: <20260402-dead_code_and_unification-v1-2-5a3906b6340d@gmail.com>
-References: <20260402-dead_code_and_unification-v1-2-5a3906b6340d@gmail.com>
+Subject: Patchtest results for [PATCH 4/4] package: update the comment block explaining
+ 'emit_pkgdata'
+In-Reply-To: <20260402-dead_code_and_unification-v1-4-5a3906b6340d@gmail.com>
+References: <20260402-dead_code_and_unification-v1-4-5a3906b6340d@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d4eb62a4a-b69b1951-dd04-498e-ba1d-4deba8dd72b9-000000@us-west-2.amazonses.com>
-Date: Thu, 2 Apr 2026 15:00:54 +0000
+Message-ID: <0101019d4eb62db5-8cb50f01-6468-4665-a911-c0f3856679b4-000000@us-west-2.amazonses.com>
+Date: Thu, 2 Apr 2026 15:00:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.02-54.240.27.193
+X-SES-Outgoing: 2026.04.02-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 15:00:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234537
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 15:01:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234538
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/2-4-package_pkgdata-fix-typo-to-stop-calling-undefined-function.patch
+Testing patch /home/patchtest/share/mboxes/4-4-package-update-the-comment-block-explaining-emit_pkgdata.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
