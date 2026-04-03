@@ -1,277 +1,208 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <michael.opdenacker@rootcommit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F2A2E7E35E
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 09:41:28 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8389.1775209280890880491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5436FE7E360
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 09:46:58 +0000 (UTC)
+Received: from bee.birch.relay.mailchannels.net (bee.birch.relay.mailchannels.net [23.83.209.14])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8458.1775209613378599076
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 02:41:22 -0700
+ Fri, 03 Apr 2026 02:46:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=ZgjNd6iJ;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E77F01A3129
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Apr 2026 09:41:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B18A6603C1;
-	Fri,  3 Apr 2026 09:41:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 51AB410451A8C;
-	Fri,  3 Apr 2026 11:41:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775209278; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=1jbYtAgny00GO9mFSxtq0ScjGYDDqdwf0w1mBvB/I1w=;
-	b=ZgjNd6iJq4FMF6qWNRcnYsHaNh76OdoCEMxzzF8hGiOT+bDYpbkO6oLMwB7uUhxcnsGNxB
-	rDAiWK532zZceN+w/PVW/Zjdrn8sXdvYkzj4KAqjS6VkTe2H/EEnaUQQrgFSjhxH5N5PLZ
-	LQmk2+bF7qJ8oAVjgpS5RBzLdYMzQYLv1UGb8XmPMCScck0EOBXWO7HuCSVXsEQ/lgbYAl
-	bUehg8q/NCB82rvw/wepc8qSbRwXaekiM2ZA/8TsJI8VLnFE4Gdez5K8D02faniKxWprEz
-	6p2asKS0xmtUIJ43I0jsS8IUdF7mu0WcS6lhYQvXTG3iH1PNE/PXkvLidS1DkQ==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	benjamin.robin@bootlin.com,
-	steve@sakoman.com,
-	mathieu.dubois-briand@bootlin.com,
-	pascal.eberhard@se.com,
-	yoann.congal@smile.fr,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-Subject: [scarthgap][PATCH 1/2] linux/generate-cve-exclusions: backport script from master branch
-Date: Fri,  3 Apr 2026 11:41:05 +0200
-Message-ID: <20260403094106.819783-1-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.47.0
+ dkim=pass header.i=@rootcommit.com header.s=hostingermail-a header.b=rkG6roqI;
+ spf=pass (domain: rootcommit.com, ip: 23.83.209.14, mailfrom: michael.opdenacker@rootcommit.com)
+X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 901CC760B73
+	for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 09:46:52 +0000 (UTC)
+Received: from fr-int-smtpout17.hostinger.io (100-123-15-51.trex-nlb.outbound.svc.cluster.local [100.123.15.51])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id E01567627D7
+	for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 09:46:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
+	t=1775209612;
+	b=gXdqzSHKYMD3b0RyL6JCmM6LWj7mqGwt6xACne+180lA7ff9Q+68NWHdkwE4WADV46+/9W
+	A/p8jHYCTktNIVB/Y166xvVdWT1e9YFWFUZLkWMsEJc+CXPdOXz+6Ye/DtF+8aV61S0ct3
+	vFkCkhZlf8cPLUwIqDoqScvSRl2kYd3FYVzMjzzAbmUMiyeMZwDZZk2OEx2Dj7LeMJ0F75
+	+WwI7EZoi413ZygbNFNHcUYP/XgYVHzL9Zdrf6dPb9ewQke77xqa5JcNjSlJfyPHN1H6tm
+	Um483OcgalpEuRhbPOMtvA724Ml2xmbD5Xb8/G8kmabmJ3hUNd9pHOtF5EY8mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1775209612;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=CBT7WpkpTMAc4QhwqKJKuSV/aMYy1Agk9D2CFXeW1uc=;
+	b=xFjccCAhpzcvSylq7CrUNVM9pBLMkCC12U3WeO+IVyelopCcPHmZc+xd1iVgYMhDHzOcuL
+	t7jWs1VdnvIt7BnVi+V3RI+ingNG3uqtJpgAvp703aGQixuOyNsRERpJz7jEM3Wbi2BPug
+	q50sCVxJpvOWnRqblBjNKjKhDfPLqCev2ILUWs2JlnCeUy1USQ5QPFBKUOigjaSOdVQKrB
+	pWSfgNEzleyaq3QuyrXy4/83QvuZl+ob4/iOYsgYLrWh+7tGCoCwUCXJVi9EyTEzkRn23/
+	HO0Z/H9Ugx5ZWTXSOanTIfh7hCwkrqNcwd1oKZGgy1f9/CnkE7buCPNz1AqveA==
+ARC-Authentication-Results: i=1;
+	rspamd-7d86dcc447-2krgd;
+	auth=pass smtp.auth=hostingeremail
+ smtp.mailfrom=michael.opdenacker@rootcommit.com
+X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: 
+ hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Spot-Inform: 2b621eeb631fe314_1775209612427_3183549780
+X-MC-Loop-Signature: 1775209612427:4131552149
+X-MC-Ingress-Time: 1775209612426
+Received: from fr-int-smtpout17.hostinger.io (fr-int-smtpout17.hostinger.io
+ [148.222.54.37])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.123.15.51 (trex/7.1.5);
+	Fri, 03 Apr 2026 09:46:52 +0000
+Received: from [IPV6:2001:861:4450:d360:9414:2cdc:f6b4:b35d] (unknown [IPv6:2001:861:4450:d360:9414:2cdc:f6b4:b35d])
+	(Authenticated sender: michael.opdenacker@rootcommit.com)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4fnDQL0Ymzz1xxw;
+	Fri,  3 Apr 2026 09:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
+	s=hostingermail-a; t=1775209610;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CBT7WpkpTMAc4QhwqKJKuSV/aMYy1Agk9D2CFXeW1uc=;
+	b=rkG6roqIF9qpf93APD8fxXc0Ctz2TeLYnOcP8VF9fMw1oqoSoRQQgUlfYUfIwDRtmMJoUF
+	wIi933+SyAMu0yeZWaxCG4swG7ZOVRG21hPvqZ7u3nHIjDLraICojvTAndfvcvpveLw5Ll
+	Z5SQ/L6Te5qB3AoVcodqpOpl9OgMcdEPOZI6VtgwPmSTZzi2AFQZ4cq6OIG2hSBCv84gdA
+	mFFVU1XpOY+sVbOCD7/iTSmHhUp0AnoA28IGa2osuSsYX0PIemshfT9M+163YkarcQCcpc
+	vzC7fnfQAJFtAn97gc5xXo7FvIbzU09X0IgGc8w8/GXg1oHqZoCy4MCrK8AQEw==
+Message-ID: <36b63c79-2640-4fa7-9c82-d96ca77582ee@rootcommit.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Cc: michael.opdenacker@rootcommit.com
+Subject: Re: [PATCH] initramfs-framework: init: fix kernel cmdline parsing
+To: openembedded-core@lists.openembedded.org
+References: <20260326173432.3286250-1-michael.opdenacker@rootcommit.com>
+Content-Language: en-US
+From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+In-Reply-To: <20260326173432.3286250-1-michael.opdenacker@rootcommit.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri,  3 Apr 2026 09:46:49 +0000 (UTC)
+X-CM-Envelope: MS4xfLoyWYoRlyXiG+Mj+EI5zjdDM0dPQNRlilZwTH23rhceULWLQ7O4YYejOirwfGYan2uUpdUB3Qy04VvwujGExQXldp+oXUwV+5ojVMSwqCd5Cq61DN4F aPOtpC9Wtq/Jy8rrO3AWTx0HvUMqChSGVtXuaGFsIyfgcTnuXPZam14D2DIlLkiCEfXZTHwotec0i0JBqrSNMXf8HbNUpO0HGXX4drdInDrg2O18yQ9J0ZQL H3GPK09ShsbQmwZnMOJWha6ALmShNNkcl4/fxDV6SY9rzt5SwNhsvdPH6boyBK9QnBE/PG4PT3NFY7b9XZDS1lEtxWAQRtdHmMInLRYYn7nYmo1RB2lFMdLf s9E67DPzalk8eHM2S0yZdLFmSoR2j27Ig5ZXs7VOZp+X/A6vcvI=
+X-CM-Analysis: v=2.4 cv=GMJaEfNK c=1 sm=1 tr=0 ts=69cf8c8a a=s27xH1gK8AVWpcxtsJ646g==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=d70CFdQeAAAA:8 a=XX-f_xd35yGD9FjD57kA:9 a=QEXdDO2ut3YA:10 a=NcxpMcIZDGm-g932nG_k:22
+X-AuthUser: michael.opdenacker@rootcommit.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 09:41:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234575
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 09:46:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234577
 
-From: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.costa@bootl=
-in.com>
+Greetings
 
-The current version of this script in Scarthgap is outdated, since it
-still uses data from linux_kernel_cves. This repository was archived in
-2024.
+On 3/26/26 6:34 PM, michael.opdenacker@rootcommit.com wrote:
+> From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+>
+> Fix several issues with double quotes in kernel command line
+>
+> - Kernel options like 'opt="value"' were breaking the parser,
+>    causing the whole reminder of the command line to be ignored.
+>    The code only supported 'opt="word1 word2..."
+>
+> - Setting variables without removing quotes in the value
+>
+> - Setting variables to values with spaces without enclosing
+>    the value with quotes. This caused execution errors evaluating
+>    expressions like:
+>    bootparam_opt=word1 word2
+>
+> The first fix is particularly needed for people using the kernel
+> "bootconfig" configuration parameters to add options to the kernel
+> command line:
+>
+> CONFIG_BOOT_CONFIG=y
+> CONFIG_BOOT_CONFIG_EMBED=y
+> CONFIG_BOOT_CONFIG_EMBED_FILE="additional-bootargs.bootconfig"
+>
+> This mechanism systematically adds quotes around options
+> with values, for example:
+> init="/sbin/preinit"
+>
+> Without the fix, the wrong init program can be started from the
+> initramfs and debug messages are ignored when "debug" is
+> present after "init" in the kernel command line.
+>
+> For readability and performance sake, also use shell variable operators
+> instead of "sed" to remove leading and trailing quotes.
+>
+> Tested both on host and target machines.
+> With the below kernel command line:
+> rootwait init="/sbin/preinit" debug root=/dev/mmcblk0p2 console=ttymxc0 dyndbg="file drivers/usb/core/hub.c +pltf" quiet
+>
+> The following variables are set:
+> bootparam_rootwait="true"
+> bootparam_init="/sbin/preinit"
+> bootparam_root="/dev/mmcblk0p2"
+> bootparam_debug="true"
+> bootparam_console="ttymxc0"
+> bootparam_dyndbg="file drivers/usb/core/hub.c +pltf"
+> bootparam_quiet="true"
+>
+> Signed-off-by: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+> ---
+>   .../initrdscripts/initramfs-framework/init    | 24 +++++++++++++++----
+>   1 file changed, 19 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
+> index 51db083e2e..67590ad765 100755
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework/init
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+> @@ -94,9 +94,11 @@ fi
+>   # populate bootparam environment
+>   for p in `cat /proc/cmdline`; do
+>   	if [ -n "$quoted" ]; then
+> -		value="$value $p"
+> -		if [ "`echo $p | sed -e 's/\"$//'`" != "$p" ]; then
+> -			eval "bootparam_${quoted}=${value}"
+> +		p_rstripped=${p%\"}
+> +		value="$value $p_rstripped"
+> +		if [ "$p_rstripped" != "$p" ]; then
+> +			# End of a opt="word1 word2..." parameter
+> +			eval "bootparam_${quoted}=\"${value}\""
+>   			unset quoted
+>   		fi
+>   		continue
+> @@ -105,11 +107,23 @@ for p in `cat /proc/cmdline`; do
+>   	opt=`echo $p | cut -d'=' -f1`
+>   	opt=`echo $opt | sed -e 'y/.-/__/'`
+>   	if [ "`echo $p | cut -d'=' -f1`" = "$p" ]; then
+> +		# opt parameter
+>   		eval "bootparam_${opt}=true"
+>   	else
+> -		value="`echo $p | cut -d'=' -f2-`"
+> -		if [ "`echo $value | sed -e 's/^\"//'`" != "$value" ]; then
+> +		value="`echo $p | cut -d'=' -f2-`"	# Option value
+> +		value_lstripped=${value#\"}
+> +		value_rstripped=${value%\"}
+> +
+> +		if [ "$value_lstripped" != "$value" ] && [ "$value_rstripped" != "$value" ]; then
+> +			# opt="value" parameter
+> +			eval "bootparam_${opt}=${value_lstripped%\"}"
+> +			continue
+> +		fi
+> +
+> +		if [ "$value_lstripped" != "$value" ]; then
+> +			# Start of a opt="word1 word2..." parameter
+>   			quoted=${opt}
+> +			value=${value_lstripped}
+>   			continue
+>   		fi
+>   		eval "bootparam_${opt}=\"${value}\""
 
-To avoid any risks of conflicts, and/or a patch series longer than it
-needs to be, I copied the generate-cve-exclusions.py script from
-oe-core's master branch (rev. "e954a94b5b528b2430e8da331107d7d58287f89b")=
- as-is.
 
-Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
-sta@bootlin.com>
----
- .../linux/generate-cve-exclusions.py          | 122 +++++++++++++-----
- 1 file changed, 90 insertions(+), 32 deletions(-)
+Any objections to merging this fix?
+Cheers
+Michael.
 
-diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/=
-recipes-kernel/linux/generate-cve-exclusions.py
-index aa9195aab4..5139b11055 100755
---- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
-+++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-@@ -1,7 +1,7 @@
- #! /usr/bin/env python3
-=20
- # Generate granular CVE status metadata for a specific version of the ke=
-rnel
--# using data from linuxkernelcves.com.
-+# using json data from cvelistV5 or vulns repository
- #
- # SPDX-License-Identifier: GPL-2.0-only
-=20
-@@ -9,7 +9,9 @@ import argparse
- import datetime
- import json
- import pathlib
--import re
-+import os
-+import glob
-+import subprocess
-=20
- from packaging.version import Version
-=20
-@@ -25,26 +27,82 @@ def parse_version(s):
-         return Version(s)
-     return None
-=20
-+def get_fixed_versions(cve_info, base_version):
-+    '''
-+    Get fixed versionss
-+    '''
-+    first_affected =3D None
-+    fixed =3D None
-+    fixed_backport =3D None
-+    next_version =3D Version(str(base_version) + ".5000")
-+    for affected in cve_info["containers"]["cna"]["affected"]:
-+        # In case the CVE info is not complete, it might not have defaul=
-t status and therefore
-+        # we don't know the status of this CVE.
-+        if not "defaultStatus" in affected:
-+            return first_affected, fixed, fixed_backport
-+        if affected["defaultStatus"] =3D=3D "affected":
-+            for version in affected["versions"]:
-+                v =3D Version(version["version"])
-+                if v =3D=3D Version('0'):
-+                    #Skiping non-affected
-+                    continue
-+                if version["status"] =3D=3D "unaffected" and first_affec=
-ted and v < first_affected:
-+                    first_affected =3D Version(f"{v.major}.{v.minor}")
-+                if version["status"] =3D=3D "affected" and not first_aff=
-ected:
-+                    first_affected =3D v
-+                elif (version["status"] =3D=3D "unaffected" and
-+                    version['versionType'] =3D=3D "original_commit_for_f=
-ix"):
-+                    fixed =3D v
-+                elif base_version < v and v < next_version:
-+                    fixed_backport =3D v
-+        elif affected["defaultStatus"] =3D=3D "unaffected":
-+            # Only specific versions are affected. We care only about ou=
-r base version
-+            if "versions" not in affected:
-+                continue
-+            for version in affected["versions"]:
-+                if "versionType" not in version:
-+                    continue
-+                if version["versionType"] =3D=3D "git":
-+                    continue
-+                v =3D Version(version["version"])
-+                # in case it is not in our base version
-+                less_than =3D Version(version["lessThan"])
-+
-+                if not first_affected:
-+                    first_affected =3D v
-+                fixed =3D less_than
-+                if base_version < v and v < next_version:
-+                    fixed_backport =3D less_than
-+
-+    return first_affected, fixed, fixed_backport
-+
-+def is_linux_cve(cve_info):
-+    '''Return true is the CVE belongs to Linux'''
-+    if not "affected" in cve_info["containers"]["cna"]:
-+        return False
-+    for affected in cve_info["containers"]["cna"]["affected"]:
-+        if not "product" in affected:
-+            return False
-+        if affected["product"] =3D=3D "Linux" and affected["vendor"] =3D=
-=3D "Linux":
-+            return True
-+    return False
-=20
- def main(argp=3DNone):
-     parser =3D argparse.ArgumentParser()
--    parser.add_argument("datadir", type=3Dpathlib.Path, help=3D"Path to =
-a clone of https://github.com/nluedtke/linux_kernel_cves")
-+    parser.add_argument("datadir", type=3Dpathlib.Path, help=3D"Path to =
-a clone of https://github.com/CVEProject/cvelistV5 or https://git.kernel.=
-org/pub/scm/linux/security/vulns.git")
-     parser.add_argument("version", type=3DVersion, help=3D"Kernel versio=
-n number to generate data for, such as 6.1.38")
-=20
-     args =3D parser.parse_args(argp)
--    datadir =3D args.datadir
-+    datadir =3D args.datadir.resolve()
-     version =3D args.version
--    base_version =3D f"{version.major}.{version.minor}"
-+    base_version =3D Version(f"{version.major}.{version.minor}")
-=20
--    with open(datadir / "data" / "kernel_cves.json", "r") as f:
--        cve_data =3D json.load(f)
--
--    with open(datadir / "data" / "stream_fixes.json", "r") as f:
--        stream_data =3D json.load(f)
-+    data_version =3D subprocess.check_output(("git", "describe", "--tags=
-", "--always", "HEAD"), cwd=3Ddatadir, text=3DTrue)
-=20
-     print(f"""
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at {datetime.datetime.now(datetime.timezone.utc)} for versio=
-n {version}
-+# Generated at {datetime.datetime.now(datetime.timezone.utc)} for kernel=
- version {version}
-+# From {datadir.name} {data_version}
-=20
- python check_kernel_cve_status_version() {{
-     this_version =3D "{version}"
-@@ -55,17 +113,23 @@ python check_kernel_cve_status_version() {{
- do_cve_check[prefuncs] +=3D "check_kernel_cve_status_version"
- """)
-=20
--    for cve, data in cve_data.items():
--        if "affected_versions" not in data:
--            print(f"# Skipping {cve}, no affected_versions")
--            print()
--            continue
-+    # Loop though all CVES and check if they are kernel related, newer t=
-han 2015
-+    pattern =3D os.path.join(datadir, '**', "CVE-20*.json")
-=20
--        affected =3D data["affected_versions"]
--        first_affected, fixed =3D re.search(r"(.+) to (.+)", affected).g=
-roups()
--        first_affected =3D parse_version(first_affected)
--        fixed =3D parse_version(fixed)
-+    files =3D glob.glob(pattern, recursive=3DTrue)
-+    for cve_file in sorted(files):
-+        # Get CVE Id
-+        cve =3D cve_file[cve_file.rfind("/")+1:cve_file.rfind(".json")]
-+        # We process from 2015 data, old request are not properly format=
-ed
-+        year =3D cve.split("-")[1]
-+        if int(year) < 2015:
-+            continue
-+        with open(cve_file, 'r', encoding=3D'utf-8') as json_file:
-+            cve_info =3D json.load(json_file)
-=20
-+        if not is_linux_cve(cve_info):
-+            continue
-+        first_affected, fixed, backport_ver =3D get_fixed_versions(cve_i=
-nfo, base_version)
-         if not fixed:
-             print(f"# {cve} has no known resolution")
-         elif first_affected and version < first_affected:
-@@ -75,19 +139,13 @@ do_cve_check[prefuncs] +=3D "check_kernel_cve_status=
-_version"
-                 f'CVE_STATUS[{cve}] =3D "fixed-version: Fixed from versi=
-on {fixed}"'
-             )
-         else:
--            if cve in stream_data:
--                backport_data =3D stream_data[cve]
--                if base_version in backport_data:
--                    backport_ver =3D Version(backport_data[base_version]=
-["fixed_version"])
--                    if backport_ver <=3D version:
--                        print(
--                            f'CVE_STATUS[{cve}] =3D "cpe-stable-backport=
-: Backported in {backport_ver}"'
--                        )
--                    else:
--                        # TODO print a note that the kernel needs bumpin=
-g
--                        print(f"# {cve} needs backporting (fixed from {b=
-ackport_ver})")
-+            if backport_ver:
-+                if backport_ver <=3D version:
-+                    print(
-+                        f'CVE_STATUS[{cve}] =3D "cpe-stable-backport: Ba=
-ckported in {backport_ver}"'
-+                    )
-                 else:
--                    print(f"# {cve} needs backporting (fixed from {fixed=
-})")
-+                    print(f"# {cve} may need backporting (fixed from {ba=
-ckport_ver})")
-             else:
-                 print(f"# {cve} needs backporting (fixed from {fixed})")
-=20
---=20
-2.47.0
+-- 
+Root Commit
+Embedded Linux Training and Consulting
+https://rootcommit.com
 
 
