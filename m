@@ -1,101 +1,154 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA11CC6B3E
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 08:18:31 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7169.1775204305586558525
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71325D116F2
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 08:19:11 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7277.1775204349567670706
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 01:18:26 -0700
+ Fri, 03 Apr 2026 01:19:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=zFq2gmpk;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=bJPaWfX4;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id A81251A3125
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Apr 2026 08:18:23 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 1525FC59F5E
+	for <openembedded-core@lists.openembedded.org>; Fri,  3 Apr 2026 08:19:39 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 77DED603C1
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Apr 2026 08:18:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C2CE010450F5D;
-	Fri,  3 Apr 2026 10:18:22 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3F0F4603C1;
+	Fri,  3 Apr 2026 08:19:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 67AD31045013D;
+	Fri,  3 Apr 2026 10:19:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775204303; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=Nus/hAIJJef5AV9Y56TMIYLU020gqWxLkkxRePrvb1A=;
-	b=zFq2gmpkElgHo8/umZBu532fxSswDUInVKABPJ2j3+UEUIPgoct/o4PO7gVvmR40mPIcGI
-	hZ+xkFb+/xwMgiw7qe7NOTxRA2ipHaybLVJm734CYSv4FhXWvnDXN8KYo23X7FHuctJmsd
-	wJL0zbZxS9KSqXMaLzZXG41Gjyb07mkjRJEEb2jO00GzBKzrvR2DJGubaIVYRoMfhFVzNX
-	Fn2WSh3vsBxCu84cZFz0mn5G+wqDSIzkEeA5N3oVzQROk2aBBbx6zohRtWNlfJUCSX+DYU
-	VDClSEG0RttkSio2SZRxI0SwuxtMbYind0L8KyDXolYIlAlM1TOUaEoaAoNrBA==
-From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Fri, 03 Apr 2026 10:18:00 +0200
-Subject: [PATCH] ptest-packagelists.inc: add missing whitespace for :append
+	t=1775204346; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=jUUfTVPjqB66ywVik94/ISzAoCPtfLaCdcVq/zVe4WE=;
+	b=bJPaWfX4vCvutX4a9Kl7lWL28jWUO8lizuadv9V2YRBwOuHSliF7C3iPuCwkOh1Q+FJfbZ
+	KyG7pLUbB1q4cPybqMPwI+6/8RHV00WbJbgiYSISNFYOH1j0uehLt2pY6RwufQhAfAPxRa
+	6ZsffHfe9WxhL7cykL4Q+Bubxrg/SdUVDfJe+dSp+T55sEanMuomOj/fkmDfy1+nht1/KE
+	eeFEDNRQRUBEo4Efo2Y7z6wru1xNVwbqd4DM0bO92ICdrZbdjZ8cSusQM+zZgtdVZAykFF
+	O9PnPMfTba4z/eQNKYIrkuhZBzo2Qy+a1h+wBpAM5+6yVugazCjWPaKC/WotgA==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+To: openembedded-core@lists.openembedded.org,
+ Ross Burton <ross.burton@arm.com>
+Subject: Re: [RFC PATCH 1/3] sbom-cve-check: refactor do_sbom_cve_check
+Date: Fri, 03 Apr 2026 10:19:05 +0200
+Message-ID: <40351709.10thIPus4b@brobin-bootlin>
+In-Reply-To: <20260402162510.1945892-1-ross.burton@arm.com>
+References: <20260402162510.1945892-1-ross.burton@arm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260403-fix-whitespace-append-v1-1-b04e4e78087f@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMywqDMBCF4VeRWTsQL4j1VcRFEo91ukhDxl5Af
- Hdju/zgnH8nRRIoDcVOCW9ReYaMqizIrzbcwTJnU23qzrSm4UW+/Fllg0brwTZGhJk7197Q99X
- iG0f5GxPy8Ncdp7/15R7w2xWj4zgBOrv+DnkAAAA=
-X-Change-ID: 20260403-fix-whitespace-append-6b49e881fc3b
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Antonin Godard <antonin.godard@bootlin.com>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1619;
- i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=kBx+gK01Y0Qqpr1ujR9+dKvvtX+625Myi311MUtO9Zg=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBpz3fOq5OJ2STrITVdsmsmcJardG787BXebRyk0
- aOKsuhIIACJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCac93zgAKCRDRgEFAKaOo
- NjLKD/9eHEZ7JAp0VLAYVRr75aWMD0fJkbTxKKlu53nSrTBxP07HF1LWR92GDeS1P2x9vlk0KAS
- ji/fAQB8n4QfWB2IhRxRArc496NLM0/yGzeoNT7R1ZsOFrGCjIJDdyt6o9Sab0vzNJYTtEnpO7d
- VbTti9gKTYnbz2gXg2FJ7d/vomEq/aC1lLrROXwunhGd2I4ErhUxEjJVaDNnun0IZXEVjD6XJ+q
- iz94yhxn86B1V4PF2g4jpeFCnQ05lHUMf3RN/QdYOpvDH1eeJC2IYxlCvLbN4sd+1T8SRi4ty+E
- MYJ7j2pX4CDBpaBLshtoE+1E6UYI1/tZdv4o62II7wvjyDXHbbTsXZgWmtP4Jz5Z8xcBHddEThw
- fbyh6y2U6WBELnOAQ2Q/3MTO8HBVjx4jsN1aCRe6J1t8XJCgK844mHJLm6eE5kdCOe4O7KOnuZZ
- k8ujFYl165o2sKVlPORXdnKKeQXafWpy/9uiba/h177DfqcW2loxlGiegFiQYhgteO4M55+zndp
- XZe4Y2yKwFs4iwI4zm1h2lL5sRTD0Ap5EhQX2AJEYrHSlk2pgnBm9GQhQ5UCa02w+DQfzQb8GuY
- zLxslKVp5KFw45uFj7QATv+S9OvDKUSTpz2RvXqoC4MxgjXu5e/yxxx40EIRwjW+Gn2dID+7zve
- /U9hV9CPtZtnoSA==
-X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
- fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 08:18:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234562
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 08:19:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234563
 
-Noticed while reviewing the log, let's fix those before they create
-unexpected problems in the future.
+Hello Ross,
 
-Fixes: 388cd4770e04 ("ptest-packagelists: Exclude ptests from musl which are known to fail")
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
----
- meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I have seen that you have made various previous improvement to the
+sbom-cve-check class. Thank you!
+Don't hesitate to always add me in CC. Sometime I am quite busy, and I
+may miss the exchange in the mailing list.
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 31fd5ae7ce6..11a894accf2 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -160,11 +160,11 @@ PTESTS_PROBLEMS:append:riscv64 = " tcl tcl8 python3-cffi strace lttng-tools pyth
- # These tests don't yet pass for musl qemuarm64
- PTESTS_SLOW:remove:libc-musl:qemuarm64 = "strace perl gnutls glib-2.0"
- PTESTS_FAST:remove:libc-musl:qemuarm64 = "libarchive"
--PTESTS_PROBLEMS:append:libc-musl:qemuarm64 = "strace perl gnutls glib-2.0 libarchive"
-+PTESTS_PROBLEMS:append:libc-musl:qemuarm64 = " strace perl gnutls glib-2.0 libarchive"
- # These tests don't yet pass for musl qemux86-64
- PTESTS_SLOW:remove:libc-musl:qemux86-64 = "perl gnutls"
- PTESTS_FAST:remove:libc-musl:qemux86-64 = "libarchive"
--PTESTS_PROBLEMS:append:libc-musl:qemux86-64 = "perl gnutls libarchive"
-+PTESTS_PROBLEMS:append:libc-musl:qemux86-64 = " perl gnutls libarchive"
- 
- #    ruby \ # Timeout
- #    rt-tests \ # Needs to be checked whether it runs at all
+=46or this RFC, I am overall OK with it. There are few thing that needs
+to be fixed/improved.
 
----
-base-commit: c56990178b31b893fbf695eaf6b67de501e9d2e9
-change-id: 20260403-fix-whitespace-append-6b49e881fc3b
+On Thursday, April 2, 2026 at 6:25=E2=80=AFPM, Ross Burton wrote:
+> Extract the bulk of the logic to a separate function, so the task just
+> has to pass a few variables.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/classes-recipe/sbom-cve-check.bbclass | 29 +++++++++++++---------
+>  1 file changed, 17 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-re=
+cipe/sbom-cve-check.bbclass
+> index 4abc427c58..fef6f0c2aa 100644
+> --- a/meta/classes-recipe/sbom-cve-check.bbclass
+> +++ b/meta/classes-recipe/sbom-cve-check.bbclass
+> @@ -43,28 +43,24 @@ SBOM_CVE_CHECK_EXPORT_SUMMARY[doc] =3D "Export config=
+uration to generate a human-r
+>  SBOM_CVE_CHECK_EXPORT_SUMMARY[type] ?=3D "summary"
+>  SBOM_CVE_CHECK_EXPORT_SUMMARY[ext] ?=3D ".cve.txt"
+> =20
+> -python do_sbom_cve_check() {
+> -    """
+> -    Task: Run sbom-cve-check analysis on SBOM.
+> -    """
+> +
+> +def run_sbom_cve_check(d, recipe_name, link_name=3DNone):
+
+Maybe rename the parameters to: export_base_name and export_link_name?
+Another parameter is needed (I guess), the path to the SPDX3 SBOM that needs
+to be analyzed.
+
+>      import os
+>      import bb
+> -    from oe.cve_check import update_symlinks
+
+Do you know why you did remove this import?
+It is not necessary? Who import it globally (it this is the case)?
+
+> =20
+>      if not bb.data.inherits_class("create-spdx-3.0", d):
+> -        bb.fatal("Cannot execute sbom-cve-check missing create-spdx-3.0 =
+inherit.")
+> +        bb.fatal("Cannot execute sbom-cve-check: missing create-spdx-3.0=
+ inherit.")
+> =20
+> -    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.spdx.=
+json")
+> +    image_deploy_dir =3D d.getVar("DEPLOY_DIR_IMAGE")
+> +    sbom_path =3D d.expand(f"{image_deploy_dir}/{recipe_name}.spdx.json")
+>      dl_db_dir =3D d.getVar("SBOM_CVE_CHECK_DEPLOY_DB_DIR")
+> -    deploy_dir =3D d.getVar("SBOM_CVE_CHECK_DEPLOYDIR")
+> -    img_link_name =3D d.getVar("IMAGE_LINK_NAME")
+> -    img_name =3D d.getVar("IMAGE_NAME")
+> +    out_deploy_dir =3D d.getVar("SBOM_CVE_CHECK_DEPLOYDIR")
+> =20
+>      export_files =3D []
+>      for export_var in d.getVar("SBOM_CVE_CHECK_EXPORT_VARS").split():
+>          export_ext =3D d.getVarFlag(export_var, "ext")
+> -        export_path =3D f"{deploy_dir}/{img_name}{export_ext}"
+> -        export_link =3D f"{deploy_dir}/{img_link_name}{export_ext}"
+> +        export_path =3D f"{out_deploy_dir}/{recipe_name}{export_ext}"
+> +        export_link =3D f"{out_deploy_dir}/{link_name}{export_ext}" if l=
+ink_name else None
+>          export_type =3D d.getVarFlag(export_var, "type")
+>          export_files.append((export_type, export_path, export_link))
+> =20
+> @@ -96,6 +92,15 @@ python do_sbom_cve_check() {
+>          bb.note(f"sbom-cve-check exported: {export_file}")
+>          if export_link:
+>              update_symlinks(export_file, export_link)
+> +
+> +
+> +python do_sbom_cve_check() {
+> +    """
+> +    Task: Run sbom-cve-check analysis on SBOM.
+> +    """
+> +    image_name =3D d.getVar("IMAGE_NAME")
+> +    link_name =3D d.getVar("IMAGE_LINK_NAME")
+> +    run_sbom_cve_check(d, image_name, link_name, sbom_path)
+
+Here you pass the path to the SBOM, which is (I think) a good idea,
+but the variable sbom_path is not declared here.
+
+>  }
+> =20
+>  addtask do_sbom_cve_check after do_create_image_sbom_spdx before do_build
+>=20
+
+
+=2D-=20
+Benjamin Robin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
 
 
