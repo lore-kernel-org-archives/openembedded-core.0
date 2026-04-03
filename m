@@ -1,231 +1,185 @@
-Return-Path: <adongare@cisco.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6BED730B0
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 07:15:21 +0000 (UTC)
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6546.1775200515031848424
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34770D730B5
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 07:37:31 +0000 (UTC)
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6887.1775201841142597030
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 00:15:15 -0700
+ Fri, 03 Apr 2026 00:37:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=eF5WNBP7;
- spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: adongare@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4610; q=dns/txt;
-  s=iport01; t=1775200515; x=1776410115;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=QZ8a+2U2h+aOF5sqEMgKrCV95v+CwN4TAEYG9miMXok=;
-  b=eF5WNBP7iV+hVDNvgJ3LrWlptDpR/7hAbeVvTb3kR4zhBFZn8gzEN9CY
-   hNMHQDDA4uDIT31FSL8SQI8jKgBZ7Q7t2GjhpYuobBZlQDTSyKL72SxcZ
-   vckkvc77ge6Lqs73yz/zF6LDGDTKqIHAdrN3FOBy5rlYrFVajShAAVkPF
-   KBpJXgP7aNP7foGAfUn2SYO0KVcIYklb7JjeIMhu13kzod2BvXd/CM8gh
-   FOccSVvOSdczNW3QSt6FQE0DO/vQU8O2fRMAee1MilR5TdRCIVv5ax+t8
-   jAd+S++sTOHVNSm7dFgQRJtKDnGnl+plCCqAlPp1Dq6g4qCW9BEajcFai
-   A==;
-X-CSE-ConnectionGUID: twBr2qcnRQGMBPpFRcNsbA==
-X-CSE-MsgGUID: zUVAkBu+TkmLwubLd9FLfA==
-X-IPAS-Result: =?us-ascii?q?A0BNAgCjaM9p/4v/Ja1agjQQGoJTcV5DSZVfbItnkjaBf?=
- =?us-ascii?q?w8BAQEPRA0EAQGEQUaNLAImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBAQoBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhloBAgEqCwEYAS0sAwECTwsjIYMCAYI6AzYDEbF8G?=
- =?us-ascii?q?jeBeTOBAYMoAT8CQ0+yKQ2CUgELFAGBOIU+gnmFI1sYAYR6JxsbgXKEfYEFg?=
- =?us-ascii?q?RpCAQGBJ4Z9BIIigQ6BYR6CGgaCTYlnSIEeA1ksAVUTDQoLBwWBZgM1EioVb?=
- =?us-ascii?q?jIdgSM+F4EMGwcFgUuHGnRtgRODfF8DCxgNSBEsNxQbBD5uB4tNKII2gQQKA?=
- =?us-ascii?q?SuCOgOTAJJjoB1xCiiDdIwejz6FfBozqmsLmHuOCYQJkWpdhGiBaDyBRwsHc?=
- =?us-ascii?q?BWDIglJGQ+OLgoLg16Bf8RBJjICCTIBAQcCBw0DC4FokAACJgeBTgEB?=
-IronPort-Data: A9a23:kDbZCKrUHHlkt8DZNYAa6+cptiReBmJfZBIvgKrLsJaIsI4StFCzt
- garIBmGP6vYZTb9c91ybNuw908DsJaEytE1GQI/rCw3HnwT9+PIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOWn9T8ghf/gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgTNNwJcaDpOtfrf8Eg35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86rIGaRpz6xE78FU7tJo56jGqE4aue60Tum1hK6b5Ofbi1q/UTe5EqU2M00Mi+7gx3R9zx4J
- U4kWZaYEW/FNYWU8AgRvoUx/yxWZcV7FLH7zXeXrdO51RffeH3W+tpLJnkuE7cT3P19KDQbn
- RAYAGhlghGrnem6xve/D+JrnMlmdJOtN4IEsXYmxjbcZRokacmcGOORupkCgWp235sfdRrdT
- 5JxhT5HZRjHZRJGIFo/A5Mll+DujX76G9FdgA3P+ftpvTmIkWSd1pD/DeT8efaXBvlWm2KHu
- 2ji8zXXJh8zYYn3JT2ttyjEavX0tSTjVYQfEbe1+vJnjBiYwXYeIBkXTkeg5/6hh0izXthSJ
- 0AZ9mwpt6dayaCwZsP2Uxv9pDuPuQQRHoIKVeY78wqKjKHT5m51G1Q5c9KIU/R+3OdeeNDg/
- gXX9z81LVSDaIGodE8=
-IronPort-HdrOrdr: A9a23:0JU00Kkpf8CrTEi8a2O7vtY37VbpDfIn3DAbv31ZSRFFG/FwWf
- rAoB19726QtN9/YhAdcLy7VZVoIkmsl6Kdg7NwAV7KZmCP0wGVxepZg7cKrQeNJ8SHzJ8/6U
- +lGJIOb+EZyjNB/KLH3DU=
-X-Talos-CUID: 9a23:t6kXK2wZu6Vu1oE4+RFvBgUIBeo/KGTWyk3pDGqSMX5HcrazUlW5rfY=
-X-Talos-MUID: 9a23:dEORrgWkGDmw2/rq/C3RuhhhHtor36erLF8Qm7EK6uegOwUlbg==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,157,1770595200"; 
-   d="scan'208";a="724966935"
-Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 03 Apr 2026 07:15:11 +0000
-Received: from sjc-ads-10055.cisco.com (sjc-ads-10055.cisco.com [10.30.210.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 2AF17180007CF;
-	Fri,  3 Apr 2026 07:15:11 +0000 (GMT)
-Received: by sjc-ads-10055.cisco.com (Postfix, from userid 1870532)
-	id C710CCC12A6; Fri,  3 Apr 2026 00:15:10 -0700 (PDT)
-From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com, to@cisco.com,
-	Anil Dongare <adongare@cisco.com>
-Subject: [OE-core] [Scarthgap] [PATCH] nghttp2: Fix CVE-2026-27135
-Date: Fri,  3 Apr 2026 00:14:56 -0700
-Message-ID: <20260403071505.1406413-1-adongare@cisco.com>
-X-Mailer: git-send-email 2.44.1
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=qg1b/s+P;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=U3VcmeqJ;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.157, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 4A98C7A013C;
+	Fri,  3 Apr 2026 03:37:20 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Fri, 03 Apr 2026 03:37:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1775201839; x=1775288239; bh=Xo
+	szKGq69vgl+7TFxRPr4rRhdUFd7lfjTwHT56ieLsY=; b=qg1b/s+PybXlV1uSDX
+	w4uGZ7yKZEjwTMalgAc05uMR9bg3YL42tgoVrUmeja6Oba86DJXGO0rtTi/UqjcC
+	TnNDi2FCTAP2jH2fVBwi6RsM84MTstQjkyWzbsZIQPdGjIhbrlYsoD7vSDaFU3cz
+	oi6n01mBwIBa+ti7LthHOxiTNlL0/rCL63MMpjT0vdWnYAtoJZeojHD6g6QiQWl9
+	nM1zYaasP7E/LsSdo3jBLTO1iN2BaL1lcsyyEZGqAbUJoQuVSeHHisrLuKxj92I3
+	wUKX6D0EJTIjbm/SwPXqfsFDV9xxC1u8kAqa7gGaEULqfzasdynNXFXKVXKDSLgF
+	5wVw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1775201839; x=1775288239; bh=XoszKGq69vgl+7TFxRPr4rRhdUFd
+	7lfjTwHT56ieLsY=; b=U3VcmeqJVuPGF5UDRGZzT4Vbq+J0zgEHTL4MP0nytp3M
+	VX295uQODxWkRBOQVaAWUFqc/DHXtmeefycWniC0hc/kstY+ntHGpLdJitV2g4o5
+	6CtAe1nf3Drnn6NDCzqFuVG804hnfKDrPq+exT8Q0RhShT/mYlozqpFBvnHdvITn
+	LeJKLwm9S9/U3SETc7cmECCklr9LwYtYLSv9baquxUH2T/eG+PYhyXqZVHz8uIO9
+	+5Q8Gb7gqx+Zy9n7vISLaLNhZhC8MdjrdrQP40zNmS4c7avsJS8Nesdu0clow8f5
+	doaGOfBHiDyhhHu4sRG0prFofsLEvaszf07S/nHwjg==
+X-ME-Sender: <xms:L27PabjxdmrcA8y80PNnVD_bk7RKS_dYH7qGXoveyOYNSkD0zjIhLw>
+    <xme:L27PaeDaA3BtaPKaJfEG6FPieLE1AYh2jz7sVNEUGXnCA4x1M1LpGrBPU9Azv7vdU
+    b-trV1LOI2Cx6WCkQ9YXOYLI4QaQSl91JdyN0F64U_FK1rPNmgIr5o>
+X-ME-Received: <xmr:L27PaYtnEmNE8OyYN-lqMvBNGS0FXA-5FJPGBSmfZ9CbkdicgvIn5MN2CPRLJdFSp20dHjSfFZdVRsbdknl2SKVQg5QFa0o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekfeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkvfevofesthejredtredtje
+    enucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggv
+    vheqnecuggftrfgrthhtvghrnhephfetuefgveevvedvveegfffgffethedvjeeflefhle
+    fhtddvjedvffegtdeludfhnecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhr
+    ghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprg
+    hulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepvddpmhhouggvpehsmhht
+    phhouhhtpdhrtghpthhtohepphgruhhlsehpsggrrhhkvghrrdguvghvpdhrtghpthhtoh
+    epohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvuggu
+    vggurdhorhhg
+X-ME-Proxy: <xmx:L27PaTZB2915WZXFBvo_sUP1asfK6R7gQZbdOFfsbQ-ECA-21WWAsA>
+    <xmx:L27PabXFf05S10sQpaddcctimqiBXS86ZPM_jicIzr9ltBdAfz2t0w>
+    <xmx:L27PaX63ew6YPA4D7ytabCUFJGRJSdblx3CUCFOjBUSQ07wYpEvD8A>
+    <xmx:L27PaWgHRZkwxlkcPUmk3-fQptjHW3-Uv-KvqPyU0omNi6lQy2OpmA>
+    <xmx:L27PaYEMfIVx8BKZESzQLquiXFenzKC3aKOgOyT0ajNv2hl8GS0rY8dZ>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Apr 2026 03:37:19 -0400 (EDT)
+From: Paul Barker <paul@pbarker.dev>
+Date: Fri, 03 Apr 2026 08:37:15 +0100
+Subject: [PATCH] checklayer: Fix current_tune tracking
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.30.210.59, sjc-ads-10055.cisco.com
-X-Outbound-Node: rcdn-l-core-02.cisco.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260403-checklayer-3-v1-1-2620496920cf@pbarker.dev>
+X-B4-Tracking: v=1; b=H4sIACpuz2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDEwNj3eSM1OTsnMTK1CJdY90kyyQLyxRTw6SU1FQloJaCotS0zAqwcdG
+ xEH5xaVJWanIJyAyl2loANQFPMXAAAAA=
+X-Change-ID: 20260403-checklayer-3-b9b89d51bdee
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4050; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=XkjoSmWIBxt38AG3Hq7rWWhFSGgxB6WwIrdRG9i5h9c=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWSez9Pz5ZFwe7P68MTcv6FrSp6lPFm8rOCtiLy7Sur1b
+ +rft3350lHKwiDGxSArpsiyuefr/ae9jrwZIbcUYOawMoEMYeDiFICJNO1m+B+nfzf/X3FH5MNj
+ F3iYe5rfetuxpuk85Lv06Z7kUhbrpa0M/3PzWJzlJrtoneDsumYcvyj0uW9zBYf7GqF9BbE12lP
+ mMgAA
+X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
+ fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 07:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234558
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 07:37:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234559
 
-From: Anil Dongare <adongare@cisco.com>
+Previous attempts to fix get_signatures() (see fixes tags below) were
+misguided.
 
-Pick patch from [1] also mentioned in [2]
-[1] https://github.com/nghttp2/nghttp2/commit/5c7df8fa815ac1004d9ecb9d1f7595c4d37f46e1
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-27135
+SIGGEN_UNIHASHMAP was added by commit 11373def3171
+("sstatesig/populate_sdk_ext: Improve unihash cache handling"), and
+exists to map taskhashes to unihashes for use by other code.
+Importantly, entries in the list are duplicates of entries in
+SIGGEN_LOCKEDSIGS_t-* lists but are not split by tune here.
 
-Signed-off-by: Anil Dongare <adongare@cisco.com>
+The code in get_signatures() was not updated to handle SIGGEN_UNIHASHMAP
+and so was accidentally treating these as additional signatures to check
+for conflicts. However, current_tune was stuck at the value of the last
+SIGGEN_LOCKEDSIGS_t-* assignment seen, typically x86-64 due to sorting.
+So, we got nonsensical errors like the following (split for
+readability):
+
+    AssertionError: The machines have conflicting signatures for some shared tasks:
+       x86-64 busybox:do_recipe_qa: 5638e2062f09663bf2536a5f91e8788511aa6c31eac8e173dae1aee49e895945 (beaglebone-yocto, genericarm64, genericx86)
+       != ae5900e39ac275822744f241eefc7f0e707e43e03fd3107d82b5190e4a4e6da9 (genericx86-64)
+
+The error only occurred with a hash equivalence server running, since
+without one SIGGEN_UNIHASHMAP is empty. It was also non-deterministic -
+a task only appears in the unihash map after the hashequiv server has
+recorded a mapping for it, which may not happen on the first build after
+a metadata change.
+
+After this change, the locked-sigs.inc parser in yocto-check-layer is
+still somewhat fragile and we need to be careful with future changes
+that modify the locked sigs output. However, we can at least track which
+variable we are looking at now :)
+
+Fixes: 225923f3bfec ("checklayer: Really fix regex in get_signatures")
+Fixes: a2f7052cf832 ("checklayer: Fix regex in get_signatures")
+Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- .../nghttp2/nghttp2/CVE-2026-27135.patch      | 110 ++++++++++++++++++
- .../recipes-support/nghttp2/nghttp2_1.61.0.bb |   4 +-
- 2 files changed, 113 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/nghttp2/nghttp2/CVE-2026-27135.patch
+Tested on the autobuilder:
+  https://autobuilder.yoctoproject.org/valkyrie/#/builders/27/builds/3565
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2/CVE-2026-27135.patch b/meta/recipes-support/nghttp2/nghttp2/CVE-2026-27135.patch
-new file mode 100644
-index 0000000000..c4977cded0
---- /dev/null
-+++ b/meta/recipes-support/nghttp2/nghttp2/CVE-2026-27135.patch
-@@ -0,0 +1,110 @@
-+From f9812d447b14435de77751077ef48214ebf252ec Mon Sep 17 00:00:00 2001
-+From: Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-+Date: Wed, 18 Feb 2026 18:04:30 +0900
-+Subject: [PATCH] Fix missing iframe->state validations to avoid assertion
-+ failure
-+
-+CVE: CVE-2026-27135
-+Upstream-Status: Backport [https://github.com/nghttp2/nghttp2/commit/5c7df8fa815ac1004d9ecb9d1f7595c4d37f46e1]
-+
-+(cherry picked from commit 5c7df8fa815ac1004d9ecb9d1f7595c4d37f46e1)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
-+---
-+ lib/nghttp2_session.c | 32 ++++++++++++++++++++++++++++++++
-+ 1 file changed, 32 insertions(+)
-+
-+diff --git a/lib/nghttp2_session.c b/lib/nghttp2_session.c
-+index 004a4dff..54312588 100644
-+--- a/lib/nghttp2_session.c
-++++ b/lib/nghttp2_session.c
-+@@ -6079,6 +6079,10 @@ nghttp2_ssize nghttp2_session_mem_recv2(nghttp2_session *session,
-+           return rv;
-+         }
-+ 
-++        if (iframe->state == NGHTTP2_IB_IGN_ALL) {
-++          return (nghttp2_ssize)inlen;
-++        }
-++
-+         on_begin_frame_called = 1;
-+ 
-+         rv = session_process_headers_frame(session);
-+@@ -6445,6 +6449,9 @@ nghttp2_ssize nghttp2_session_mem_recv2(nghttp2_session *session,
-+           if (nghttp2_is_fatal(rv)) {
-+             return rv;
-+           }
-++          if (iframe->state == NGHTTP2_IB_IGN_ALL) {
-++            return (nghttp2_ssize)inlen;
-++          }
-+         }
-+       }
-+ 
-+@@ -6701,6 +6708,10 @@ nghttp2_ssize nghttp2_session_mem_recv2(nghttp2_session *session,
-+           return rv;
-+         }
-+ 
-++        if (iframe->state == NGHTTP2_IB_IGN_ALL) {
-++          return (nghttp2_ssize)inlen;
-++        }
-++
-+         session_inbound_frame_reset(session);
-+ 
-+         break;
-+@@ -7004,6 +7015,10 @@ nghttp2_ssize nghttp2_session_mem_recv2(nghttp2_session *session,
-+         if (nghttp2_is_fatal(rv)) {
-+           return rv;
-+         }
-++
-++        if (iframe->state == NGHTTP2_IB_IGN_ALL) {
-++          return (nghttp2_ssize)inlen;
-++        }
-+       } else {
-+         iframe->state = NGHTTP2_IB_IGN_HEADER_BLOCK;
-+       }
-+@@ -7169,6 +7184,11 @@ nghttp2_ssize nghttp2_session_mem_recv2(nghttp2_session *session,
-+             rv = session->callbacks.on_data_chunk_recv_callback(
-+                 session, iframe->frame.hd.flags, iframe->frame.hd.stream_id,
-+                 in - readlen, (size_t)data_readlen, session->user_data);
-++
-++            if (iframe->state == NGHTTP2_IB_IGN_ALL) {
-++              return (nghttp2_ssize)inlen;
-++            }
-++
-+             if (rv == NGHTTP2_ERR_PAUSE) {
-+               return (nghttp2_ssize)(in - first);
-+             }
-+@@ -7256,6 +7276,10 @@ nghttp2_ssize nghttp2_session_mem_recv2(nghttp2_session *session,
-+           return rv;
-+         }
-+ 
-++        if (iframe->state == NGHTTP2_IB_IGN_ALL) {
-++          return (nghttp2_ssize)inlen;
-++        }
-++
-+         if (rv != 0) {
-+           busy = 1;
-+ 
-+@@ -7274,6 +7298,10 @@ nghttp2_ssize nghttp2_session_mem_recv2(nghttp2_session *session,
-+         return rv;
-+       }
-+ 
-++      if (iframe->state == NGHTTP2_IB_IGN_ALL) {
-++        return (nghttp2_ssize)inlen;
-++      }
-++
-+       session_inbound_frame_reset(session);
-+ 
-+       break;
-+@@ -7302,6 +7330,10 @@ nghttp2_ssize nghttp2_session_mem_recv2(nghttp2_session *session,
-+         return rv;
-+       }
-+ 
-++      if (iframe->state == NGHTTP2_IB_IGN_ALL) {
-++        return (nghttp2_ssize)inlen;
-++      }
-++
-+       session_inbound_frame_reset(session);
-+ 
-+       break;
-+-- 
-+2.43.7
-+
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.61.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.61.0.bb
-index ad85576dcb..ebba15db28 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.61.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.61.0.bb
-@@ -4,7 +4,9 @@ SECTION = "libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
+Also confirmed ability to detect signature conflicts by adding
+`echo ${MACHINE}` to do_compile in an allarch recipe:
+  https://autobuilder.yoctoproject.org/valkyrie/#/builders/27/builds/3568
+---
+ scripts/lib/checklayer/__init__.py | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+index f9ba44d08d88..274dc7578fda 100644
+--- a/scripts/lib/checklayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -324,15 +324,27 @@ def get_signatures(builddir, failsafe=False, machine=None, extravars=None):
+         else:
+             raise
  
--SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
-+SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
-+           file://CVE-2026-27135.patch \
-+           "
- SRC_URI[sha256sum] = "c0e660175b9dc429f11d25b9507a834fb752eea9135ab420bb7cb7e9dbcc9654"
- 
- inherit cmake manpages python3native github-releases
--- 
-2.44.1
+-    sig_regex = re.compile(r"^(?P<task>[^:]*:[^:]*)(:(?P<taskhash>[^:]*))?:(?P<hash>.*) .$")
+-    tune_regex = re.compile(r"(^|\s)SIGGEN_LOCKEDSIGS_t-(?P<tune>\S*)\s*=\s*")
++    sig_regex = re.compile(r"^(?P<task>[^:]*:[^:]*):(?P<hash>[^:]*) .$")
++    assignment_regex = re.compile(r"^\s*(?P<var>\S+)\s*\+?=")
++    lockedsigs_regex = re.compile(r"^SIGGEN_LOCKEDSIGS_t-(?P<tune>\S*)$")
+     current_tune = None
+     with open(sigs_file, 'r') as f:
+         for line in f.readlines():
+             line = line.strip()
+-            t = tune_regex.search(line)
+-            if t:
+-                current_tune = t.group('tune')
++            assignment = assignment_regex.search(line)
++            if assignment:
++                lockedsigs = lockedsigs_regex.search(assignment.group('var'))
++                if lockedsigs:
++                    # This variable contains signatures we want to compare
++                    current_tune = lockedsigs.group('tune')
++                else:
++                    # This variable isn't relevant for us
++                    current_tune = None
++                continue
++
++            if not current_tune:
++                continue
++
+             s = sig_regex.match(line)
+             if s:
+                 exclude = False
+
+---
+base-commit: e954a94b5b528b2430e8da331107d7d58287f89b
+change-id: 20260403-checklayer-3-b9b89d51bdee
+
+Best regards,
+--  
+Paul Barker
 
 
