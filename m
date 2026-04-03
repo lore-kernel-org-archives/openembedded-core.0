@@ -1,99 +1,93 @@
-Return-Path: <yanis.binard@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 386F2E85367
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 13:32:22 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11795.1775223136123979450
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A026E85381
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 16:47:53 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.89.1775234867254675070
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 06:32:16 -0700
+ Fri, 03 Apr 2026 09:47:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=JHZ7kydd;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yanis.binard@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486507134e4so27387285e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 06:32:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775223134; x=1775827934; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XzvfwzzQj2tuDYuciLvzN5BQANQGzT48X4OGUuM7+Yw=;
-        b=JHZ7kyddCA1dOWaiojTkw6mHArVwGkBRO5UrchQbHiFxf8Sga4XevSR9MmmYNUFSph
-         1IXSwuUPRFuoPNODC9H+dw3KrY6QUnXn/SiIiRGhsoSAr+i6FHc40s8IxqIPYlZZJlJP
-         q5syfRKvrLYzwmqV5HAxM/K8vJBve/k32MWfI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775223134; x=1775827934;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XzvfwzzQj2tuDYuciLvzN5BQANQGzT48X4OGUuM7+Yw=;
-        b=in3WHVBx6jRqHZxu5tm/kKKurJWc+CICxGgQ2tvyiMcyK3EsLE2u5esW0e8BoN3pAc
-         W1uHu/XvuXU8ZfCpgUuiKko/my4E9H/Nmc5yEECWJ9UqL4u1wWTfaSFmR4dxOL6F8vq4
-         1J9bHPZZYikLn6qLMo+WW2aECcRbGjIzRTCCZoF8EftC7w7828lY4mVHKAqVjauNvyfs
-         o9BxZ9xe24VTG43fu0+F8CxjmYEWm4Z+6hnq8B2DzVEQRaQ58hiGN7E9BbtwgFNpMLLi
-         Q4yrQn1dc2FOURs9HtJWwyHtVYoLw7WPQ0W9sGKlpOazS65Wy7lu/bQpOQexygeN6g6r
-         YT4A==
-X-Gm-Message-State: AOJu0YylBkutZC9HypbyzjXagSq4nege/o2tIsyrAH91JKp4KhPxkyQN
-	Zbu7aVbAeQY8MhgJpf+p6R6M7qD0r+0bFxEAINAnMh7gzPbGnDtujDgaP2JEJeM7n2ajFmiM6k+
-	bHWnI6ek=
-X-Gm-Gg: ATEYQzwPDfwE+W5G2gDPAHA6SOWWzdbtU7Y0qt2dIvWRoFRbdsCvssk1aIbmxER4aih
-	I0Kq9BRsnFbTVAJLHYxSDuOLAePmYi1P9j2LzNW5fQTjGrBpBsvGU/JkEQ+LpEEJbwebvIboxSH
-	8VuBRK09IrrxYt+A3sv5A/MaiS+WaM7dq1e/PRGrM3ToPJmYMCctZkX13se+l1C/reWDl+nDkYv
-	NCCsqNFlERbXpHn3SyAKJR31xYEFXNjIGZENKPdxQOsR+43Hmv3sgoLK1M+klQuiqJd8dfeKGdr
-	BlWgZhgcWc21Yr5qYlYEdYys/RUECekBASVVevDXw9PZ2c0VpxqOv6IGhOzZLEyLkPmDtFuRnls
-	dlwemM2GXACuhLUr57mQU51mITJXzgz4a8lVijiErOdTbIkoBNLCQsejUW99s5ruoTsXXdO+wid
-	pMV0niwzDZCcYy6G5gS+I/+lL1GoPtVuH3R76ptbOQb8m9ezxsHkfQvmIdY0z3lYw1zbduWH0se
-	WjN0OCxpC9Mb+nO2D9mW+RWuD6eQ70l1w==
-X-Received: by 2002:a05:600c:c056:b0:488:8b99:54a1 with SMTP id 5b1f17b1804b1-488998f14d5mr33523555e9.28.1775223134004;
-        Fri, 03 Apr 2026 06:32:14 -0700 (PDT)
-Received: from P-ASN-MAGENTA.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899e8e897sm19986095e9.26.2026.04.03.06.32.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 06:32:13 -0700 (PDT)
-From: yanis.binard@smile.fr
-To: openembedded-core@lists.openembedded.org
-Cc: Yanis BINARD <yanis.binard@smile.fr>
-Subject: [PATCH] barebox: upgrade v2026.03.0 -> v2026.03.1
-Date: Fri,  3 Apr 2026 15:30:58 +0200
-Message-ID: <20260403133057.68413-2-yanis.binard@smile.fr>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=icl7WyTi;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 25CF74E428CD
+	for <openembedded-core@lists.openembedded.org>; Fri,  3 Apr 2026 16:47:45 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id DE339603C1;
+	Fri,  3 Apr 2026 16:47:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A75A410450104;
+	Fri,  3 Apr 2026 18:47:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1775234864; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=bnhVMLvo/pUmdrmt/65pc5YUewxPpo0u0qO1/4Ar1bA=;
+	b=icl7WyTiM+XxKvY8aCWanvBGwNS4l7HLqqb9welbmIRdbJbLgaZktPDOMsPpA1Na+FJo0c
+	n6e3tjIcFgqiF0SXtWR2rvswpo1O0d0pq9/aAtl+pGBaPbpfeURRuQvpvf2StL7Z9WHGum
+	Q5zxCxU1MJG0yLrvJ7njxiEEtdICoFaLZ06wglrDBatdYrw0eBrnGkb8jLa99+A6zw5E+E
+	JiaTsbwTjE8hzg8wuuUKJ6BKOU/TCyGz5IHiiYGakOwcy7WopoLqBPvQLyLABSLN/Bnl0r
+	5RmN0rOHPDhjxHrZ6b6pXJhYtw9cT7KiI8ouWFLHeSI4YwdCMOQYPeeUudigpg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 03 Apr 2026 18:47:42 +0200
+Message-Id: <DHJO8L8EC2Z9.1N02J4E6QUEGC@bootlin.com>
+To: "Paul Barker" <paul@pbarker.dev>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] sanity: Require tar 1.35 or later on
+ rhel9-alike distros
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260403-rhel9-tar-v1-1-b9c7fb64bbd9@pbarker.dev>
+In-Reply-To: <20260403-rhel9-tar-v1-1-b9c7fb64bbd9@pbarker.dev>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 13:32:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234589
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 16:47:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234590
 
-From: Yanis BINARD <yanis.binard@smile.fr>
+On Fri Apr 3, 2026 at 1:54 PM CEST, Paul Barker wrote:
+> tar 1.34 (and possibly earlier versions) is unable to extract tarballs
+> containing read-only files with xattrs. This was fixed upstream, but
+> it's unlikely at this point that the fix will be backported to RHEL9
+> related distros (CentOS Stream 9, AlmaLinux 9, Rocky Linux 9). The issue
+> affects these distros specifically because they have selinux enabled by
+> default and this uses xattrs.
+>
+> The specific failure we've seen is with the /usr/lib/udev/hwdb.bin file
+> installed by the systemd recipe - this file is chmod 0444. This leads to
+> the following error, typically during do_image_wic (shortened and split
+> to make it readable):
+>
+>     subprocess.CalledProcessError: Command
+>     'tar --xattrs --xattrs-include=3D'*' -cf - -S -C .../tmp/work/qemux86=
+_64-poky-linux/core-image-minimal/1.0/rootfs -p . |
+>     tar --xattrs --xattrs-include=3D'*' -xf - -C .../tmp/work/qemux86_64-=
+poky-linux/core-image-minimal/1.0/tmp-wic/rootfs2'
+>     returned non-zero exit status 2.
+>
+> That error message is likely to confuse users, and the fix is not
+> obvious. So, error out if tar 1.34 or earlier is present on affected
+> distros and recommend upgrading or using the buildtools tarball.
+>
+> Signed-off-by: Paul Barker <paul@pbarker.dev>
 
-CVE-2026-33243 has been fixed in v2026.03.0[0] but introduced
-a regression. v2026.03.1 contains a single commit to fix it[1].
+Hi Paul,
 
-Changelog : https://github.com/barebox/barebox/compare/v2026.03.0...v2026.03.1
-* FIT: handle hashed-nodes property not being in hashed nodes order
+So now, this is failing on several workers. Aren't we using buildtools
+on rocky9 / stream9?
 
-Release: https://github.com/barebox/barebox/releases/tag/v2026.03.1
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/3369
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3536
 
-[0]: https://github.com/barebox/barebox/commit/55f25be5223b662c6888d9d7ef07d28e0348d7db
-[1]: https://lore.kernel.org/barebox/abljJRMecNdejSD0@pengutronix.de/
+Thanks,
+Mathieu
 
-Signed-off-by: Yanis BINARD <yanis.binard@smile.fr>
----
- meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
-index 17cfc25692..9f615a82d4 100644
---- a/meta/recipes-bsp/barebox/barebox-common.inc
-+++ b/meta/recipes-bsp/barebox/barebox-common.inc
-@@ -3,6 +3,6 @@ SECTION = "bootloaders"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
- 
--PV = "2026.03.0"
-+PV = "2026.03.1"
- SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "760f22ff34ca00539d29826cce07d83210e41ebb51266616c6969b855c099bc2"
-+SRC_URI[sha256sum] = "9e4b23720016bb934dc5ea36d4c33886a8a295445d290b99993d0b32caab6469"
 
