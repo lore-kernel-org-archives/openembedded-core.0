@@ -2,184 +2,217 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34770D730B5
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 07:37:31 +0000 (UTC)
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6887.1775201841142597030
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A08D730B7
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 07:47:31 +0000 (UTC)
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6981.1775202443653510068
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 00:37:21 -0700
+ Fri, 03 Apr 2026 00:47:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=qg1b/s+P;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=U3VcmeqJ;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.157, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 4A98C7A013C;
-	Fri,  3 Apr 2026 03:37:20 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Fri, 03 Apr 2026 03:37:20 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=GHVdMvqr;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=jnJtTZ5U;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.146, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id D49611D001C1;
+	Fri,  3 Apr 2026 03:47:22 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 03 Apr 2026 03:47:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1775201839; x=1775288239; bh=Xo
-	szKGq69vgl+7TFxRPr4rRhdUFd7lfjTwHT56ieLsY=; b=qg1b/s+PybXlV1uSDX
-	w4uGZ7yKZEjwTMalgAc05uMR9bg3YL42tgoVrUmeja6Oba86DJXGO0rtTi/UqjcC
-	TnNDi2FCTAP2jH2fVBwi6RsM84MTstQjkyWzbsZIQPdGjIhbrlYsoD7vSDaFU3cz
-	oi6n01mBwIBa+ti7LthHOxiTNlL0/rCL63MMpjT0vdWnYAtoJZeojHD6g6QiQWl9
-	nM1zYaasP7E/LsSdo3jBLTO1iN2BaL1lcsyyEZGqAbUJoQuVSeHHisrLuKxj92I3
-	wUKX6D0EJTIjbm/SwPXqfsFDV9xxC1u8kAqa7gGaEULqfzasdynNXFXKVXKDSLgF
-	5wVw==
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1775202442; x=1775288842; bh=bZ5BlFxYOI
+	7oyjyjmGXho+eIWBfvEn3NCfWuGK/MntI=; b=GHVdMvqrXGkM2alS1+JXIeTIYI
+	PZPH/vhEh0aGFYSMD29bWXF9YlSV+qkJF+SvHKDcB9wJ1fpsU7FmgT5M1vpIDUxy
+	YdbtGWQ9ChbKOtFGtu8MmerBkvRd9Jcdy22t3Dv5I2IlG4r9FnsmFz1SICVRcKqU
+	vwpVLMYtYwD7oC5rkLcRFlrQU11oSISRCXRmXVpqyWQ746RBmU3YxlelBONsJPk3
+	5fIrbqbdSJOOQvqYKxuz8z5VszDBC0zPW+hPs0MZBtbNFxvIe2jw4wn+ipfOBhQ9
+	rhxX83aT/OKOi1xy6DbCU00zcIgLvHl0PLQJjWol6q1funojoAT0jj5gAgVw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1775201839; x=1775288239; bh=XoszKGq69vgl+7TFxRPr4rRhdUFd
-	7lfjTwHT56ieLsY=; b=U3VcmeqJVuPGF5UDRGZzT4Vbq+J0zgEHTL4MP0nytp3M
-	VX295uQODxWkRBOQVaAWUFqc/DHXtmeefycWniC0hc/kstY+ntHGpLdJitV2g4o5
-	6CtAe1nf3Drnn6NDCzqFuVG804hnfKDrPq+exT8Q0RhShT/mYlozqpFBvnHdvITn
-	LeJKLwm9S9/U3SETc7cmECCklr9LwYtYLSv9baquxUH2T/eG+PYhyXqZVHz8uIO9
-	+5Q8Gb7gqx+Zy9n7vISLaLNhZhC8MdjrdrQP40zNmS4c7avsJS8Nesdu0clow8f5
-	doaGOfBHiDyhhHu4sRG0prFofsLEvaszf07S/nHwjg==
-X-ME-Sender: <xms:L27PabjxdmrcA8y80PNnVD_bk7RKS_dYH7qGXoveyOYNSkD0zjIhLw>
-    <xme:L27PaeDaA3BtaPKaJfEG6FPieLE1AYh2jz7sVNEUGXnCA4x1M1LpGrBPU9Azv7vdU
-    b-trV1LOI2Cx6WCkQ9YXOYLI4QaQSl91JdyN0F64U_FK1rPNmgIr5o>
-X-ME-Received: <xmr:L27PaYtnEmNE8OyYN-lqMvBNGS0FXA-5FJPGBSmfZ9CbkdicgvIn5MN2CPRLJdFSp20dHjSfFZdVRsbdknl2SKVQg5QFa0o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekfeehucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1775202442; x=1775288842; bh=bZ5BlFxYOI7oyjyjmGXho+eIWBfvEn3NCfW
+	uGK/MntI=; b=jnJtTZ5Ux78a9XK7X6HNgguGw+jW4hE5BSZ7hEjsv7a5hehfovv
+	GOQ2loa375m9+nhevTDySjP422gIe8FcjONOj757hDdKL5nUZsaCq09KZUiEpoG+
+	0YctrYAd9S4k7m+32y4isDj36t+QF9tf1SQoGWitxFaB1zqWIZ5cRxT46dsThbSv
+	ILHCpB+ikXe3oL4wA0A9Ps5X1A9ydSNjuK5HkVg9X4Dq5H5j23QAGU3wmYq2w42e
+	CmxtRQMqTCnYO/gfI/5eYV4C9sMecyYKtGxlct6OSHFZqac6ulWTrzbN6HwjO2FU
+	BLxVwJ/t0xE/ecypih/t5PmB++z+Ac12G8w==
+X-ME-Sender: <xms:inDPaUnbBuAx6FyrI6RcYeDRcOU7z5jXVy9RHya9_dxhXXGGKNlSPg>
+    <xme:inDPaa20aWSmtA_vqymrN9JSeLfUnlso24x9KIlj1q3iOVuzCcAk-jPUde4MnWJTS
+    zzzMSSMQowj6f7f4wtjWu5-oXoSFZp1w41hqbdCAuRjXnGOmInxpRPN>
+X-ME-Received: <xmr:inDPaXppu7zogVBNLz1kEXYUZJcWqywKAxQdCJAspGSbzG52fRQA1vIufU6b-1O_qdyOxNvVV3oDWepNTWIg4aTpOTtykTf4RB0C5XI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekfeejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkvfevofesthejredtredtje
-    enucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggv
-    vheqnecuggftrfgrthhtvghrnhephfetuefgveevvedvveegfffgffethedvjeeflefhle
-    fhtddvjedvffegtdeludfhnecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhr
-    ghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprg
-    hulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepvddpmhhouggvpehsmhht
-    phhouhhtpdhrtghpthhtohepphgruhhlsehpsggrrhhkvghrrdguvghvpdhrtghpthhtoh
-    epohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvuggu
-    vggurdhorhhg
-X-ME-Proxy: <xmx:L27PaTZB2915WZXFBvo_sUP1asfK6R7gQZbdOFfsbQ-ECA-21WWAsA>
-    <xmx:L27PabXFf05S10sQpaddcctimqiBXS86ZPM_jicIzr9ltBdAfz2t0w>
-    <xmx:L27PaX63ew6YPA4D7ytabCUFJGRJSdblx3CUCFOjBUSQ07wYpEvD8A>
-    <xmx:L27PaWgHRZkwxlkcPUmk3-fQptjHW3-Uv-KvqPyU0omNi6lQy2OpmA>
-    <xmx:L27PaYEMfIVx8BKZESzQLquiXFenzKC3aKOgOyT0ajNv2hl8GS0rY8dZ>
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghr
+    khgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhephe
+    evgfegveekvddtgfevheekuefgtedvgeejvdekkeffhfduveevleekgefhvefhnecuffho
+    mhgrihhnpehurghpihdqghhrohhuphdrohhrghdpfihkshdrihhnpdihohgtthhophhroh
+    hjvggtthdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepgedpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtohepphgrvhgvlheslhhovggslhdrtgiipdhr
+    tghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvg
+    hmsggvugguvggurdhorhhgpdhrtghpthhtohepmhhitghhvghllhgvrdhlihhnthholedu
+    sehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhhikhhkohdrrhgrphgvlhhisehlihhnrg
+    hrohdrohhrgh
+X-ME-Proxy: <xmx:inDPafeSJ57eZi3ajKdkLidzECS-yKF3TaAH37lEhMrpKSY17QDV2w>
+    <xmx:inDPaeqy2D-9MoSE3GwQHAszOrH-4QYJ1C0-tcoJzI72xWJE9GdsCA>
+    <xmx:inDPaYG3UAqfXY90iu5so-oa4aBI6yrCaedk65CV0Gs5WLvOghHnog>
+    <xmx:inDPaWsbE3qhW-u3SeO_jSMAvnwjrigrJLryq7xOxa9k8AomW33P6g>
+    <xmx:inDPaRD7XvDLzZLaXORNRCm9T5zdY0wfyGyMUnvwG7Rpb4KtUjUuG0EF>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Apr 2026 03:37:19 -0400 (EDT)
+ 3 Apr 2026 03:47:21 -0400 (EDT)
+Message-ID: <96d932f72af422a6509ac9e6e92a979b75f2f5e7.camel@pbarker.dev>
+Subject: Re: [OE-core] [RFC PATCH] uki.bbclass: add multi-profile UKI support
 From: Paul Barker <paul@pbarker.dev>
-Date: Fri, 03 Apr 2026 08:37:15 +0100
-Subject: [PATCH] checklayer: Fix current_tune tracking
+To: Pavel =?ISO-8859-1?Q?L=F6bl?= <pavel@loebl.cz>, 
+	openembedded-core@lists.openembedded.org
+Cc: Michelle Lin <michelle.linto91@gmail.com>, Mikko Rapeli
+	 <mikko.rapeli@linaro.org>
+Date: Fri, 03 Apr 2026 08:47:17 +0100
+In-Reply-To: <20260402202616.3177283-1-pavel@loebl.cz>
+References: <20260402202616.3177283-1-pavel@loebl.cz>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-AYUk6osDFWCo3W8eTPd1"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260403-checklayer-3-v1-1-2620496920cf@pbarker.dev>
-X-B4-Tracking: v=1; b=H4sIACpuz2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDEwNj3eSM1OTsnMTK1CJdY90kyyQLyxRTw6SU1FQloJaCotS0zAqwcdG
- xEH5xaVJWanIJyAyl2loANQFPMXAAAAA=
-X-Change-ID: 20260403-checklayer-3-b9b89d51bdee
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4050; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=XkjoSmWIBxt38AG3Hq7rWWhFSGgxB6WwIrdRG9i5h9c=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWSez9Pz5ZFwe7P68MTcv6FrSp6lPFm8rOCtiLy7Sur1b
- +rft3350lHKwiDGxSArpsiyuefr/ae9jrwZIbcUYOawMoEMYeDiFICJNO1m+B+nfzf/X3FH5MNj
- F3iYe5rfetuxpuk85Lv06Z7kUhbrpa0M/3PzWJzlJrtoneDsumYcvyj0uW9zBYf7GqF9BbE12lP
- mMgAA
-X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
- fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 07:37:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234559
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 07:47:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234560
 
-Previous attempts to fix get_signatures() (see fixes tags below) were
-misguided.
 
-SIGGEN_UNIHASHMAP was added by commit 11373def3171
-("sstatesig/populate_sdk_ext: Improve unihash cache handling"), and
-exists to map taskhashes to unihashes for use by other code.
-Importantly, entries in the list are duplicates of entries in
-SIGGEN_LOCKEDSIGS_t-* lists but are not split by tune here.
+--=-AYUk6osDFWCo3W8eTPd1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The code in get_signatures() was not updated to handle SIGGEN_UNIHASHMAP
-and so was accidentally treating these as additional signatures to check
-for conflicts. However, current_tune was stuck at the value of the last
-SIGGEN_LOCKEDSIGS_t-* assignment seen, typically x86-64 due to sorting.
-So, we got nonsensical errors like the following (split for
-readability):
+On Thu, 2026-04-02 at 22:25 +0200, Pavel L=C3=B6bl wrote:
+> Allow generating multi-profile UKI [1]. This is quite usefull for
+> dual slot A/B deploymets with secureboot active.
+>=20
+> Currently only .cmdline sections are supported. But can be easily
+> extended with others.
+>=20
+> [1] https://uapi-group.org/specifications/specs/unified_kernel_image/#mul=
+ti-profile-ukis
+>=20
+> Signed-off-by: Pavel L=C3=B6bl <pavel@loebl.cz>
+> ---
+>  meta/classes-recipe/uki.bbclass | 48 +++++++++++++++++++++++++++++----
+>  1 file changed, 43 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bb=
+class
+> index d16f3c95561e..c2d21304c793 100644
+> --- a/meta/classes-recipe/uki.bbclass
+> +++ b/meta/classes-recipe/uki.bbclass
+> @@ -59,6 +59,17 @@
+>  #   - see efi-uki-bootdisk.wks.in how to create ESP partition which host=
+s systemd-boot,
+>  #     config file(s) for systemd-boot and the UKI binaries.
+>  #
+> +#   - to generate multi-profile UKI (currently only supports .cmdline se=
+ction)
+> +#
+> +#     UKI_PROFILE[0] =3D "TITLE=3DRecovery boot"
+> +#     UKI_PROFILE_CMDLINE[0] =3D "rootwait recovery"
+> +#
+> +#     UKI_PROFILE[1] =3D "TITLE=3DBoot from slot A"
+> +#     UKI_PROFILE_CMDLINE[1] =3D "rootwait root=3DLABEL=3Droot_a"
+> +#
+> +#     UKI_PROFILE[2] =3D "TITLE=3DBoot from slot B"
+> +#     UKI_PROFILE_CMDLINE[2] =3D "rootwait root=3DLABEL=3Droot_b"
+> +#
 
-    AssertionError: The machines have conflicting signatures for some shared tasks:
-       x86-64 busybox:do_recipe_qa: 5638e2062f09663bf2536a5f91e8788511aa6c31eac8e173dae1aee49e895945 (beaglebone-yocto, genericarm64, genericx86)
-       != ae5900e39ac275822744f241eefc7f0e707e43e03fd3107d82b5190e4a4e6da9 (genericx86-64)
+Hi Pavel, thanks for the RFC.
 
-The error only occurred with a hash equivalence server running, since
-without one SIGGEN_UNIHASHMAP is empty. It was also non-deterministic -
-a task only appears in the unihash map after the hashequiv server has
-recorded a mapping for it, which may not happen on the first build after
-a metadata change.
+To make things easier to debug and to follow existing conventions, I'd
+suggest:
 
-After this change, the locked-sigs.inc parser in yocto-check-layer is
-still somewhat fragile and we need to be careful with future changes
-that modify the locked sigs output. However, we can at least track which
-variable we are looking at now :)
+    UKI_PROFILES =3D "slot_a slot_b recovery"
 
-Fixes: 225923f3bfec ("checklayer: Really fix regex in get_signatures")
-Fixes: a2f7052cf832 ("checklayer: Fix regex in get_signatures")
-Signed-off-by: Paul Barker <paul@pbarker.dev>
----
-Tested on the autobuilder:
-  https://autobuilder.yoctoproject.org/valkyrie/#/builders/27/builds/3565
+    UKI_PROFILES[recovery] =3D "TITLE=3DRecovery boot"
+    UKI_PROFILE_CMDLINE[recovery] =3D "rootwait recovery"
 
-Also confirmed ability to detect signature conflicts by adding
-`echo ${MACHINE}` to do_compile in an allarch recipe:
-  https://autobuilder.yoctoproject.org/valkyrie/#/builders/27/builds/3568
----
- scripts/lib/checklayer/__init__.py | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+    UKI_PROFILES[slot_a] =3D "TITLE=3DBoot from slot A"
+    UKI_PROFILE_CMDLINE[slot_a] =3D "rootwait root=3DLABEL=3Droot_a"
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index f9ba44d08d88..274dc7578fda 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -324,15 +324,27 @@ def get_signatures(builddir, failsafe=False, machine=None, extravars=None):
-         else:
-             raise
- 
--    sig_regex = re.compile(r"^(?P<task>[^:]*:[^:]*)(:(?P<taskhash>[^:]*))?:(?P<hash>.*) .$")
--    tune_regex = re.compile(r"(^|\s)SIGGEN_LOCKEDSIGS_t-(?P<tune>\S*)\s*=\s*")
-+    sig_regex = re.compile(r"^(?P<task>[^:]*:[^:]*):(?P<hash>[^:]*) .$")
-+    assignment_regex = re.compile(r"^\s*(?P<var>\S+)\s*\+?=")
-+    lockedsigs_regex = re.compile(r"^SIGGEN_LOCKEDSIGS_t-(?P<tune>\S*)$")
-     current_tune = None
-     with open(sigs_file, 'r') as f:
-         for line in f.readlines():
-             line = line.strip()
--            t = tune_regex.search(line)
--            if t:
--                current_tune = t.group('tune')
-+            assignment = assignment_regex.search(line)
-+            if assignment:
-+                lockedsigs = lockedsigs_regex.search(assignment.group('var'))
-+                if lockedsigs:
-+                    # This variable contains signatures we want to compare
-+                    current_tune = lockedsigs.group('tune')
-+                else:
-+                    # This variable isn't relevant for us
-+                    current_tune = None
-+                continue
-+
-+            if not current_tune:
-+                continue
-+
-             s = sig_regex.match(line)
-             if s:
-                 exclude = False
+    UKI_PROFILES[slot_b] =3D "TITLE=3DBoot from slot B"
+    UKI_PROFILE_CMDLINE[slot_b] =3D "rootwait root=3DLABEL=3Droot_b"
 
----
-base-commit: e954a94b5b528b2430e8da331107d7d58287f89b
-change-id: 20260403-checklayer-3-b9b89d51bdee
+See the uboot-config class [1] for an example of this pattern.
+
+[1]: https://docs.yoctoproject.org/ref-manual/classes.html#uboot-config
+
+If typical usage will always have `TITLE=3D...` for each UKI profile, you
+could also use a UKI_PROFILE_TITLE[profile] variable to make things
+clearer.
 
 Best regards,
---  
+
+--=20
 Paul Barker
 
+
+--=-AYUk6osDFWCo3W8eTPd1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCac9whhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0boXfAP0YIfxoELuKOMdNa7kIMS1TyuRqZVnTa92u
+JE6Tu3XlQAEA0ZYe/m1r0+PGFtyPOmlVNPcBC5r5BlBXEmlYQgUz3gw=
+=PHWr
+-----END PGP SIGNATURE-----
+
+--=-AYUk6osDFWCo3W8eTPd1--
 
