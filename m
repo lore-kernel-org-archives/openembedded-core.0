@@ -1,126 +1,123 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E80EE7E34E
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 08:54:02 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7816.1775206439317144935
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5066E7E358
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 09:15:17 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7998.1775207714976978176
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 01:53:59 -0700
+ Fri, 03 Apr 2026 02:15:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ITaVg74C;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-482f454be5bso29777945e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 01:53:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=U0+dz0o6;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a12cd0bd79so2047344e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 02:15:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775207713; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ORe0mQjdD0FoVGq9nozQENWiERYLkyioH40edlmQlQikZYM1PLA5Dkn/n9KIKseqjg
+         mag74NMLn2i895f7i2nfsDFLqIjeptMY9mr4tbSfZMgLAejm4irVXkPdKwGxByKQWdW1
+         gINqvzCt1tXv3KDihqOmCKIKFuVyFZ2C338hU60ps6UPMBqjWIa52tXxkuVfMnP85OBc
+         jslsofEfp1SwMH7ZbK3hdGg6SlPJNMN3oaYx4yUyb2z+Xns7UDzT4NxM0xKFWnPnU1Rg
+         vf4nnPVIdY11wdO7fxlBQKGq9q6ECnVT2lSXmZ6dDTeTNyMb/3XnbTLcxlJofTyIWVC8
+         aJhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=CEL45YET/TWKNKnxAi7cpRSFhEBF8fKkU8tfhU6yazg=;
+        fh=qaX2b92Ts57s+meShbZR8MqAOncI107BQAfdp6tG2Lo=;
+        b=FhGkflrKzhtHBx9T61pMFREy42e/H4ZblBtWrL/qusfnTd2MukheTjU5tQMmdLlEPP
+         tnKOQWpiNj+NHcbggEMTjU+7z+q8xCWKuJY+lDtK/DhnSbiqA/pIAmgEej4y/8rAvhPS
+         wgmK4PgB20QAQKf2ME61jFB/hvUqHiUQmRgSSedY1iIZegAlkjjH94iF5wzHqqbZSbiM
+         kll023vn4IE3ejUQ/kw/jKDgx2YM1YvDwwkO8k4whEw76gKlnK4Qz5sIarr6aa/gZWj8
+         9cPwKx+D41Y75XsIj63TcWq4W8qe6j3ieGchCWupljv0H231hNc0KW15gpuZsW1W9pu0
+         6iIQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775206437; x=1775811237; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775207713; x=1775812513; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xtAIOmDlvuBpmZiWoy3T8WW8F5lDu1gHue5DVhtl67o=;
-        b=ITaVg74CG1UiSc7d2LyCSU+ldoMfyr5GdC7nC5NU9j1LLZAv7IatscGH9VqGE5T3zQ
-         OE4VNj6EQpNuYDWzr4LI8DHq5Blti+PN+EH33hm3CRYNpZ+c3ANqykmMDD0LLS80iNJu
-         ARKy7i7rqJFzKFp/Rq2tnY1mGJN0JwZT5uVD4=
+        bh=CEL45YET/TWKNKnxAi7cpRSFhEBF8fKkU8tfhU6yazg=;
+        b=U0+dz0o6vtA/q6BegQ+gmdmjiYUQnw78MDxOUgsewVczkYRYuzw1OCH0SsdS/Pi0MJ
+         yEaAnSIEzSI0SVV0qcmOMOJYadrUrxtj0bXeLTzuaXfDOBc8PV44Bri2180KboN5WpQ+
+         bAN8BM/wyt57Lo5s9AVQMMwrwxIpdaucph/pUtAfP+fBm78evs9pJvIjllZlyZGULzlJ
+         AIqoJqTniEaEar1kBto1e+1IDPL83rDXs9lH3t52r+jk/1pqKFzEApDlI4Qw8B0QWTEd
+         u06eTO9z8NjVf+03TPk5b7pGxDqVxrECmO2v3fBq8N9Pg5FFfH3nVO35+z+kIzBDtwiw
+         Nu8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775206437; x=1775811237;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xtAIOmDlvuBpmZiWoy3T8WW8F5lDu1gHue5DVhtl67o=;
-        b=K/0f3aKIZkCG7oiFKoGlwpnPCJeTImABodDurZ+ogir4mWfvW4cJZrM5quL8V3340Q
-         aroyA28kNqmqTK0PyW4e47DlEAjU38PxfaIrb96DAZmmDYoD8oH5itr4bSN2NbrEfmBK
-         96maqo2oG5PEq9UHQ0q4IozsXTxjNEWg8NMJjbw8uATvx4+RtkGjDYkTmWUyj20yhqOp
-         +0XCX/X9FSXroMfe7Qg1fjd4Bv5JgGgjIXzpd6/tHwa4S5rOhlLmRjb++tA/LLxEFhWw
-         J/TUfVcjHG5+wg/lxWRwlyzckBcNcHcuUiSeiQN6/PNwdfWrLGPYe/b8WrLppYHwktjt
-         vWBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlISGRweUpUH9HSZd+yXVJnqpmMjWqwKdXnr9M3iT7/6hzx+8/P+bSqmxZLhCy45QY2+UD1l/vpF/j8551nIaWAQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxYE+hmcC9ogJgdd9Vxu/G0TkAc2Mg5FAi5Il8xij9BbJPRuJEy
-	8phN4Hqi37y9SyZ0vQBpdfjVFkhEAdLloVyB4o+lfytXdKXMqI2np+Jakfj7wyBe6MeVphdAE2N
-	15FWo
-X-Gm-Gg: ATEYQzxZBuYeUK/qQinyyKx8mxcrdP0FA7tNqXA9S0koW/VlmFqGdxKRMk1pr3TcYDv
-	Fji5vsSFA4ozR+e1LQAmYp4GeEAVKdEkjFWuAhCVMV9O2vpz+Vk1N25lIcR0S0bXsuK+wFnHcd4
-	pZXjQZ6nuaYU13r/dH/Ha8n3pXjmMGRF7o7Vl9slL7ayK8Hbco5/Bf9QARrf6iyI5TNpFfpJiQ4
-	QTpcjFTjFGO8T+yuo7EjhXpbL8sMrEdMhsnl2UzfM4w9SMMWoSbJ2sLC/Frr2JOjL1V7ecMU57i
-	YqhthHdg7RZqhOaeCT9t7eohsy1YoCfueryu9Dt3ZT8kMNixsjIYaSD7I3PlqszXaBRgIsMIFcu
-	NDFfnekQPLu5S/c6275Yg/Xfu3bWx2FS2zXZUiI5ttBjWXmMOmJXEi44Ra4dhhtwvnWomoWm3ON
-	GjJ+IjMXu7TzN57Zbnt/eDFUyg8aWjrM34x1rYGdfTgHvF70QHjF/YpQP7xgb2kQtBukEfqnu5N
-	AkIUCgkpkHgkw==
-X-Received: by 2002:a05:600c:1549:b0:485:3e00:944a with SMTP id 5b1f17b1804b1-4889949bd38mr33536715e9.9.1775206437071;
-        Fri, 03 Apr 2026 01:53:57 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d1f2:4cb0:580:188d? ([2001:8b0:aba:5f3c:d1f2:4cb0:580:188d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a705ebdsm144737565e9.10.2026.04.03.01.53.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 01:53:56 -0700 (PDT)
-Message-ID: <5464d1df292f2c566c753df2f3d43daeda7d0be8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] autoconf: Raise line length limit for sed/awk
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Date: Fri, 03 Apr 2026 09:53:55 +0100
-In-Reply-To: <20260403024300.1195438-1-khem.raj@oss.qualcomm.com>
-References: <20260403024300.1195438-1-khem.raj@oss.qualcomm.com>
+        d=1e100.net; s=20251104; t=1775207713; x=1775812513;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CEL45YET/TWKNKnxAi7cpRSFhEBF8fKkU8tfhU6yazg=;
+        b=E6haRkaC9eMZY2ltgPK7yLoOH1pQFUENdTq04kfLLpfVLINkY2V0x+FUWK17xSJhuA
+         A1t0valx+MXgqMhYHKw/4n+MIMabqG0LNhQVueMThkU6JRLupZm5GUbrZYOgAlQjikcx
+         5bYryFYQGYvH8Qjb3BYbz75zt97lrMR6cFxKJfpfIPmUQu2smgl7GjOMaCRk9ykE+s65
+         WSAhqgS2h1ysCKHOA/3+DAHbgpgP0GfV0DWfcDxIKf5c1hel+2Wy2qUaHqx4bYyVkKto
+         muEc2ixLA3O1Bb4kmL1Bgoortshva7udTbvwpwYg53hRmthkEZreUeULmQsUSIyJVN6u
+         PvHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXD+uTAiiIVFD/cwVQIPYfZ5YGe2R5P+XqYbPhgkSsRDIKOqVbKBqg0DcK+bPux9Ogea8btEbLuUCAnvvwE5i8pGQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzB5+/Aijt96s0ad3HHNIFueVAclwN9BCvUQXg301zgG3EnG0OH
+	xj8r7Uf+uPFHqY8vOh1xxZNPFP8z7RQ6vetpnkUsr2l90zjwyYalwS8Ax7DHxi0JFlAbwxFtO0y
+	uMXmBlwODVwEyoyF8Fjybsi1HAmSatOM=
+X-Gm-Gg: AeBDieuvPzyf55nhrBNezE2RPSo9lp0F4dY0OnYbuWagQAmlRO941kPgmgj/j1NI935
+	ayxjYsxm7glwskAa8ZOyj6/urdvfv9xUMN5JlFB1j2zWKiuFXHxQC4pH7f5lrd+eBqOwdV3MypF
+	l9J+qTBxEBdNjD6F3YKNc5yXYUbHcvu+YPCc6S6IzByjNUFFp4Ole43P8HaTP4aDy2M6HH5bSrn
+	f8ZtT+BXYN0jD1iOQT9kRH4tORJSxOByb2XMFb9ibhyRrioEARtXPrpMFgmgW0hXSs4O80lLq0R
+	Xv1yr2PPKA==
+X-Received: by 2002:a05:6512:3b1f:b0:5a2:b43d:ac47 with SMTP id
+ 2adb3069b0e04-5a33754efb5mr721227e87.5.1775207712558; Fri, 03 Apr 2026
+ 02:15:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <DHJDUJSPA7LG.3IKCP2QUJBMRL@smile.fr>
+In-Reply-To: <DHJDUJSPA7LG.3IKCP2QUJBMRL@smile.fr>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 3 Apr 2026 11:14:57 +0200
+X-Gm-Features: AQROBzC66UuUmUGAr3LMp1zSKBkkoYp-2PN_PUFvQbh0f6HoHfsig70YdyhRgDY
+Message-ID: <CA+chaQdp8E_HMyo6Qx6C+PuRrLbrqgbFdQF_WdbZS1ONncxb3w@mail.gmail.com>
+Subject: Re: [bitbake-devel] End of whinlatter stable support
+To: yoann.congal@smile.fr
+Cc: Yocto ML <yocto@lists.yoctoproject.org>, 
+	OE-core ML <openembedded-core@lists.openembedded.org>, 
+	bitbake ML <bitbake-devel@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 08:54:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234573
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 09:15:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234574
 
-On Thu, 2026-04-02 at 19:43 -0700, Khem Raj via lists.openembedded.org wrot=
-e:
-> From: Khem Raj <raj.khem@gmail.com>
->=20
-> Latest autoconf is splitting long cmd lines in config.status
-> it generates using sed/awk to have compatibility with
-> platform like HPUX,Solaris,AIX which is understandable given
-> autotools try to achieve wider portability, however, this does
-> mean that in OE builds we might get these newlines added in
-> places dividing commands including buildpaths in them and the
-> methods deployed to scrub them from output artifacts will fail
-> since the string is now on two lines resulting in build QA to
-> pass but the strings do sneak in affecting reproducibility
-> one such example is e2tools recipe in meta-filesystems and there
-> perhaps are more
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> =C2=A0...-command-limit-to-prevent-line-wrapp.patch | 41 ++++++++++++++++=
-+++
-> =C2=A0.../autoconf/autoconf_2.72.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A02 files changed, 42 insertions(+)
-> =C2=A0create mode 100644 meta/recipes-devtools/autoconf/autoconf/0001-Inc=
-rease-awk-sed-command-limit-to-prevent-line-wrapp.patch
->=20
-> diff --git a/meta/recipes-devtools/autoconf/autoconf/0001-Increase-awk-se=
-d-command-limit-to-prevent-line-wrapp.patch b/meta/recipes-devtools/autocon=
-f/autoconf/0001-Increase-awk-sed-command-limit-to-prevent-line-wrapp.patch
-> new file mode 100644
-> index 0000000000..0713af6d7d
-> --- /dev/null
-> +++ b/meta/recipes-devtools/autoconf/autoconf/0001-Increase-awk-sed-comma=
-nd-limit-to-prevent-line-wrapp.patch
-> @@ -0,0 +1,41 @@
-> +From 139f757a6244d3b1e07f7fddc6d07d9c17f45313 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Tue, 25 Nov 2025 21:03:38 -0800
-> +Subject: [PATCH] Increase awk/sed command limit to prevent line wrapping
-> +
-> +Autoconf 2.70+ wraps long variable assignments in config.status
-> +using backslash-newline continuations. This breaks when LDFLAGS
-> +or other variables contain special characters.
-> +
-> +Increase _AC_SED_CMD_LIMIT from 99 and _AC_AWK_LITERAL_LIMIT
-> +from 148 to 4000 to prevent wrapping.
+On Fri, Apr 3, 2026 at 10:46=E2=80=AFAM Yoann Congal via
+lists.openembedded.org <yoann.congal=3Dsmile.fr@lists.openembedded.org>
+wrote:
+>
+> Hello everyone,
+>
+> As you may have noticed, the end-of-life date of whinlatter (2.16 for
+> bitbake) is near.
+> The last release of whinlatter will be the 5.3.4 and will be built in
+> the week of the 20th of april 2026 for a release the week of the 6th of m=
+ay.
+>
+> If you have patches that you want to see merged in this last version,
+> please send them before the 10th (next week) so we get enough time for
+> review and testing.
 
-The commit message explains why this is needed but the patch needs to
-as well (buildpaths being linewrapped and then not being correctly
-updated as they're over multiple lines).
+I would like to see my glibc-2.43 compatibility changes I've sent last
+week merged.
+
+I've tested it on 26.04 in docker, if it doesn't show any issue on
+other hosts used by AB, then what's the harm of merging them to
+whinlatter and scarthgap?
+
+Even after whinlatter gets EOL someone might use latest ubuntu release
+on host and then try to compare his wrynose build (where 26.04 works
+fine) with whinlatter build (which fails immediately without these
+changes). I often use EOL OE releases when trying to "bisect" what
+changed in upstream layers e.g. between scarthgap and wrynose.
 
 Cheers,
-
-Richard
 
