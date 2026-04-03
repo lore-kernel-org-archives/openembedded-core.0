@@ -2,181 +2,158 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B275CE88D71
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 22:30:24 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6486.1775255416775181455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF4A6E88D72
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 22:53:34 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6689.1775256812328395571
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 15:30:17 -0700
+ Fri, 03 Apr 2026 15:53:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=esIL8mh9;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488a29e6110so1987905e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 15:30:16 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=B9GMIn/P;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so29837575e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 15:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775255415; x=1775860215; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775256811; x=1775861611; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tP21YTskPmkjyFYzVMwDopisDIhfqNSeRG60S/2F9Vs=;
-        b=esIL8mh9Sh64JBl8SgNGuEw66zf8j9AudHYRTXlHRZCOU43HebH0LGDKuEDUUXlydm
-         W83T6mBSfhOKpYVFSThKOsFopQSV4WHcEDgJ5XdZK4kxkwiJjrejofvW53R247DiMsVR
-         fRQVhKsQVGznyUorkR9cJQpruT6H1dN6v7HCY=
+        bh=YL/NOFzFgdSSRkmnuLmtD8L5G6brLUg/fZ+1UXvhczc=;
+        b=B9GMIn/P+/0Koc4zJujuEUrDqweHEThznFLd0jjmxF5ADVG9mhU3Hz0CZJDPXDnFZy
+         Cp8fhg2V3Sz+NcL9PhMU0SJqtGKeK8lBObrjAsSIpa7fxP3Yrw5kwde1WhoIhvb5Vu+f
+         h31QuKxGeCQCEHkeRn30K2CX2O+OCvVcDZph4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775255415; x=1775860215;
+        d=1e100.net; s=20251104; t=1775256811; x=1775861611;
         h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=tP21YTskPmkjyFYzVMwDopisDIhfqNSeRG60S/2F9Vs=;
-        b=N7jQDxsbn1aWjOgCLfgH//WanK4o7DBFK8mUNLZhXS3tWyH0GpldL349qBoJe/y1dL
-         mmsUcWop51sVfjsZjRbsq8N9tYVwMxIjWsWrfB88Ess2xV9jo+gOGmNaY19VPSytO/J+
-         /3tVtWKLRskVt7CFKQ9n8OvNel6wWh4Ib4NctOFwTzNl/nk49Xz41D+IV4YWjn/cRIF7
-         2bvsxUoMzAlNOEUMu/GUxTCFqLxP/EPZ7ofQIEc4i8FF3eMGh0677VonnQj32Q0l+k0R
-         STiAss4D2lEtQLNF5c5ag3m2YktiFxaoBXwK3le9yqxZT6KTng4eXhY8qL7c23t+dn/9
-         a9QQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3QHmfTMBF5l9D8FbS5110S/o6WRGntPzluXIAQ2DFyizFY8mOmUaa34GUn6TZL1EWJkDx8wIJEW1fs+7ykLKD+Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxaLH6O27yr2T9R8SvQLsZZ8yfUVgGvRdGreMB1yZKT+EElluTc
-	Spq8bjMZqBlyCNdupA63wPrjyqBBIdvW39OyqA5Zr+FHL3IFl9ZB7s39AWlioorW7rEhhCaESzR
-	sFlwcjKg=
-X-Gm-Gg: ATEYQzynl7i7zURxfzRdGCktDOn7lMZSvNC/uJKqXMJdGL8ZH7s1ttrzRV7+fQtbu3i
-	hh0s+M5fq5J5CuPAW491a6q2f1idGEwhmtWGyNXbah1qjrHEu0AyaFQezKx/fhPvWBuCQUAi6Sa
-	6qv0NcWluvidFAIgj1eV9TBHQvFjW9dqLrVr2y5V2ikCcsRCbLG2BMuNvt82hUfrmTJtvFgGBd8
-	QjAXzAs66kdcFBoCMODXIC1KDeXEAyJk1wDDX8AEv6/tqusLvVp+Zi581PoFmXv4gSpi62h89Sl
-	lG0wb0KgolruqIHFy7NjAkI8q3aAY6irUAb6pTj0AKNRLBeSjjildVdseHVaaO3Vp8VAjjU0AtH
-	0mMN++I8MdPjQls33UXJYqhUE3zeEBMfdTH1f2pedannkYmedQWJHjGiW6zk1cJg2old7jehVjQ
-	z1bvJuYyTAriSL8+PLsODF8XCf+F0hfk61/vvuPn/0Mfab5O6votyb55VTBs51hksiGJrSoOsLk
-	jD94Tg+toTZco8=
-X-Received: by 2002:a05:600c:a598:b0:485:3a27:a961 with SMTP id 5b1f17b1804b1-48899e946dfmr38994445e9.0.1775255414974;
-        Fri, 03 Apr 2026 15:30:14 -0700 (PDT)
+        bh=YL/NOFzFgdSSRkmnuLmtD8L5G6brLUg/fZ+1UXvhczc=;
+        b=GzEkSWRedZ0XsaUtjeOJGSm7USrYrXyPktp5vfFt4GvG6kERQN7MHb/5L60Bz7j6hc
+         bDd/IV0mq43Joc+X2JJIo1CROnLwKhKDeDezO/mhf2p4l6pH4Lp88+XGW++aCaOniAvQ
+         mbKBRV4QaLSTbJbHHSg1mQLJobob/LYHDkfIKIMpKo74lBxSZH17K9qWpiu1NIiYBw14
+         zECck+Io7tPn5ki08JzAEerV9T/zoy+tb/ytVJVK1GIgy5LpdmtkqpAhbPGglP29rB4W
+         eyHRHjINoPrGUUtCOcq6WFRyDilgdow/1mQJgI2T2zbdRmt51kkWUE9/uHpADjw3n2i+
+         s/Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCUz4/HO6Z7gpE5xnZegDA+lrC0J2Yegh6y0D01SYHz0hqetmYUIGYgvkqNHbGuLYn7s/Qw1s0bvQfzn8WglifPjdw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw87tnAJ+kHR7bk6gi+Noh+vhxHoSpDdA6dWaG9OZ9m3ahuN4f0
+	pFHw4XPGeCVv/xPtsVI6eOZ0X2GxxZVHAIzSAVPD7Fk+uQ1CCqIOsJlBXjgjRNxD2vY=
+X-Gm-Gg: ATEYQzwJcKpX6orfg9BixxIuwyFRMarW2j0KllwwXR/iIrgxDs8xy+yqd/ZvBdsvbk2
+	33Uz6/Pcfz2DEbuOTYzezQPF4VnUWJ2s+SXWnMPnRYJmdiLhcNNWfeetwgySyS/dMo5KY4NOh5A
+	Kz+v1kl8bXiMfMDqIKiV/FEc6h5ht3MCm0bOZ+LMjj0q0rgqJFZ86gdwMuNaGZEGaUs8y4CXxdg
+	wQkizsh8Tkk5Qm11emwvxd6Jq3+yFXy22mxZ9RUIcpCijpXZNo9J1su0V+v/Q86d+gFD9eoo+Vu
+	SBwWDJdAh2TYqExU8UBXxvRLoCsUr+vIhiR6cU+lOzSkWCrc1mMwf57PFdAx4W7xnzPQjny9e/y
+	8mcpAl28OcS5PN2XPIyC27bP+chd457gj+JPuEeTBWqZDbzzNt+vNqqBtgvfcY2KFta0I96lBiC
+	CBSw+Lp+hpmqmFW1KaWOaH49j8uuFzn/igQyng1jRCxdRgE1GvNC5rfDGEe7iwvNSGCGUYpbN2+
+	JnrvX30vm5WTx4=
+X-Received: by 2002:a05:600c:3105:b0:485:7f02:afd5 with SMTP id 5b1f17b1804b1-4889975f7ccmr66414155e9.13.1775256810660;
+        Fri, 03 Apr 2026 15:53:30 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899ecce11sm27561465e9.35.2026.04.03.15.30.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e80a616sm498614325e9.2.2026.04.03.15.53.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2026 15:30:14 -0700 (PDT)
+        Fri, 03 Apr 2026 15:53:30 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 04 Apr 2026 00:30:14 +0200
-Message-Id: <DHJVIUMTOGZ1.2CMOBAOOGBVUA@smile.fr>
-Subject: Re: [OE-core] [kirkstone][PATCH] vim: Fix CVE-2026-33412
+Date: Sat, 04 Apr 2026 00:53:29 +0200
+Message-Id: <DHJW0NQHT38D.XY6Q9OTN12FY@smile.fr>
+Subject: Re: [OE-core][kirkstone][PATCH] sqlite3: Fix CVE-2025-70873
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
+To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260402035801.53200-1-hprajapati@mvista.com>
-In-Reply-To: <20260402035801.53200-1-hprajapati@mvista.com>
+References: <20260402071559.292708-1-vanusuri@mvista.com>
+In-Reply-To: <20260402071559.292708-1-vanusuri@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 22:30:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234605
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 22:53:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234606
 
-On Thu Apr 2, 2026 at 5:58 AM CEST, Hitendra Prajapati via lists.openembedd=
-ed.org wrote:
-> Pick patch from [1] also mentioned in NVD report with [2]
-> [1] https://github.com/vim/vim/commit/645ed6597d1ea896c712cd7ddbb6edee795=
-77e9a
-> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-33412
+On Thu Apr 2, 2026 at 9:15 AM CEST, Vijay Anusuri via lists.openembedded.or=
+g wrote:
+> From: Vijay Anusuri <vanusuri@mvista.com>
 >
-> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> Pick patch as per [1]
+>
+> [1] https://sqlite.org/src/info/3d459f1fb1bd1b5e
+> [2] https://sqlite.org/forum/forumpost/761eac3c82
+> [3] https://gist.github.com/cnwangjihe/f496393f30f5ecec5b18c8f5ab072054
+>
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 > ---
 
 Hello,
 
-As far as I can tell, this CVE applies to whinlatter and master.
-Since this is the end of kirkstone soon, I'll take it into the reviews
-series but can only merge it if there is a patch sent for this CVE in
-those branches.
+As far as I can tell, this CVE applies to master. Since this is the end
+of kirkstone soon, I'll take it into the reviews series but can only
+merge it if there is a patch sent for this CVE in those branches.
 
 Regards,
 
->  .../vim/files/CVE-2026-33412.patch            | 61 +++++++++++++++++++
->  meta/recipes-support/vim/vim.inc              |  1 +
->  2 files changed, 62 insertions(+)
->  create mode 100644 meta/recipes-support/vim/files/CVE-2026-33412.patch
+>  .../sqlite/files/CVE-2025-70873.patch         | 33 +++++++++++++++++++
+>  meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  1 +
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-70873.patc=
+h
 >
-> diff --git a/meta/recipes-support/vim/files/CVE-2026-33412.patch b/meta/r=
-ecipes-support/vim/files/CVE-2026-33412.patch
+> diff --git a/meta/recipes-support/sqlite/files/CVE-2025-70873.patch b/met=
+a/recipes-support/sqlite/files/CVE-2025-70873.patch
 > new file mode 100644
-> index 0000000000..62daa308b5
+> index 0000000000..86004c0b74
 > --- /dev/null
-> +++ b/meta/recipes-support/vim/files/CVE-2026-33412.patch
-> @@ -0,0 +1,61 @@
-> +From 645ed6597d1ea896c712cd7ddbb6edee79577e9a Mon Sep 17 00:00:00 2001
-> +From: pyllyukko <pyllyukko@maimed.org>
-> +Date: Thu, 19 Mar 2026 19:58:05 +0000
-> +Subject: [PATCH] patch 9.2.0202: [security]: command injection via newli=
-ne in
-> + glob()
+> +++ b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> @@ -0,0 +1,33 @@
+> +From 5a05c59d4d75c03f23d5fb70feac9f789954bf8a Mon Sep 17 00:00:00 2001
+> +From: drh <>
+> +Date: Sat, 6 Dec 2025 20:41:24 +0000
+> +Subject: [PATCH] In the zipfile extension, only return as many bytes as
+> + Inflate actually generated.  [forum:/forumpost/761eac3c82|Forum post
+> + 761eac3c82]. Adjust ./configure so that it builds zipfile into testfixt=
+ure if
+> + ZLIB is available, so that tests get run on unix platforms.
 > +
-> +Problem:  The glob() function on Unix-like systems does not escape
-> +          newline characters when expanding wildcards. A maliciously
-> +          crafted string containing '\n' can be used as a command
-> +          separator to execute arbitrary shell commands via
-> +          mch_expand_wildcards(). This depends on the user's 'shell'
-> +          setting.
-> +Solution: Add the newline character ('\n') to the SHELL_SPECIAL
-> +          definition to ensure it is properly escaped before being
-> +          passed to the shell (pyllyukko).
+> +FossilOrigin-Name: 3d459f1fb1bd1b5e723629c463ab392af7b206ece3388bda216c6=
+a4c26160909
 > +
-> +closes: #19746
-> +
-> +Github Advisory:
-> +https://github.com/vim/vim/security/advisories/GHSA-w5jw-f54h-x46c
-> +
-> +Signed-off-by: pyllyukko <pyllyukko@maimed.org>
-> +Signed-off-by: Christian Brabandt <cb@256bit.org>
-> +
-> +CVE: CVE-2026-33412
-> +Upstream-Status: Backport [https://github.com/vim/vim/commit/645ed6597d1=
-ea896c712cd7ddbb6edee79577e9a]
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/5a05c=
+59d4d75c03f23d5fb70feac9f789954bf8a]
+> +CVE: CVE-2025-70873
+> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 > +---
-> + src/os_unix.c | 2 +-
-> + src/version.c | 2 ++
-> + 2 files changed, 3 insertions(+), 1 deletion(-)
+> + shell.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
 > +
-> +diff --git a/src/os_unix.c b/src/os_unix.c
-> +index cf195e62e1..d767956b1a 100644
-> +--- a/src/os_unix.c
-> ++++ b/src/os_unix.c
-> +@@ -7106,7 +7106,7 @@ mch_expandpath(
-> + # define SEEK_END 2
-> + #endif
-> +=20
-> +-#define SHELL_SPECIAL (char_u *)"\t \"&'$;<>()\\|"
-> ++# define SHELL_SPECIAL (char_u *)"\t \"&'$;<>()\\|\n"
-> +=20
-> +     int
-> + mch_expand_wildcards(
-> +diff --git a/src/version.c b/src/version.c
-> +index 4f3912aedd..712a3e637c 100644
-> +--- a/src/version.c
-> ++++ b/src/version.c
-> +@@ -724,6 +724,8 @@ static char *(features[]) =3D
-> +=20
-> + static int included_patches[] =3D
-> + {   /* Add new patch number below this line */
-> ++/**/
-> ++    1684,
-> + /**/
-> +     1683,
-> + /**/
+> +diff --git a/shell.c b/shell.c
+> +index fa45d40..3c4902c 100644
+> +--- a/shell.c
+> ++++ b/shell.c
+> +@@ -7668,7 +7668,7 @@ static void zipfileInflate(
+> +       if( err!=3DZ_STREAM_END ){
+> +         zipfileCtxErrorMsg(pCtx, "inflate() failed (%d)", err);
+> +       }else{
+> +-        sqlite3_result_blob(pCtx, aRes, nOut, zipfileFree);
+> ++        sqlite3_result_blob(pCtx, aRes, (int)str.total_out, zipfileFree=
+);
+> +         aRes =3D 0;
+> +       }
+> +     }
 > +--=20
-> +2.50.1
+> +2.25.1
 > +
-> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
-vim.inc
-> index 289f31be70..fc9b4db055 100644
-> --- a/meta/recipes-support/vim/vim.inc
-> +++ b/meta/recipes-support/vim/vim.inc
-> @@ -16,6 +16,7 @@ SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmast=
-er;protocol=3Dhttps \
->             file://disable_acl_header_check.patch \
->             file://0001-src-Makefile-improve-reproducibility.patch \
->             file://no-path-adjust.patch \
-> +           file://CVE-2026-33412.patch \
+> diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes=
+-support/sqlite/sqlite3_3.38.5.bb
+> index acdd80022e..9e10caa399 100644
+> --- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> +++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> @@ -10,6 +10,7 @@ SRC_URI =3D "http://www.sqlite.org/2022/sqlite-autoconf=
+-${SQLITE_PV}.tar.gz \
+>             file://CVE-2023-7104.patch \
+>             file://CVE-2025-29088.patch \
+>             file://CVE-2025-6965.patch \
+> +           file://CVE-2025-70873.patch \
 >             "
+>  SRC_URI[sha256sum] =3D "5af07de982ba658fd91a03170c945f99c971f6955bc79df3=
+266544373e39869c"
 > =20
->  PV .=3D ".1683"
 
 
 --=20
