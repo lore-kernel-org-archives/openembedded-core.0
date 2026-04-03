@@ -1,134 +1,99 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <yanis.binard@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F93E8536E
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 13:29:32 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11582.1775222966781998790
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 386F2E85367
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 13:32:22 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11795.1775223136123979450
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 06:29:26 -0700
+ Fri, 03 Apr 2026 06:32:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=WRAQngVe;
- spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2b2589c26e3so16409515ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 06:29:26 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=JHZ7kydd;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yanis.binard@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486507134e4so27387285e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 06:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1775222965; x=1775827765; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775223134; x=1775827934; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LpUNeDXv8KA44pQLJu+hs2DXj4Lh2qHUS9TFhPOuCVI=;
-        b=WRAQngVeUJpMuw/v2rVEYCwTZ9HMy3v/RMjutpVWWR2s2aC3KMYC5rUc6raAllwJ4f
-         uwHA79JENk9btaJHhAKL1p7/oYB61cAVOZHS3/DFJqSn90QDrCbb58/MHhnf7dJeq4qO
-         0+hnS8hxDp6L8643VX2p577A1JxvRhk44TnA8=
+        bh=XzvfwzzQj2tuDYuciLvzN5BQANQGzT48X4OGUuM7+Yw=;
+        b=JHZ7kyddCA1dOWaiojTkw6mHArVwGkBRO5UrchQbHiFxf8Sga4XevSR9MmmYNUFSph
+         1IXSwuUPRFuoPNODC9H+dw3KrY6QUnXn/SiIiRGhsoSAr+i6FHc40s8IxqIPYlZZJlJP
+         q5syfRKvrLYzwmqV5HAxM/K8vJBve/k32MWfI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775222965; x=1775827765;
+        d=1e100.net; s=20251104; t=1775223134; x=1775827934;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LpUNeDXv8KA44pQLJu+hs2DXj4Lh2qHUS9TFhPOuCVI=;
-        b=iLgnj/TCcnRkkKTnYoU1DE8U9vlpmpRSOmmfW2Ck4I30PxptlTUhHXv8M/2FF2iCgk
-         r8WjzOJ8LQsm+JoZQc4N0i7sT73SaR1kjyVyB1flHA7lDiymHFuWkrvCNotaXowMDUY1
-         jen96DUM5K1gUdzLI6UFycCbvhOIvFy9XL6Nq57jTXc2toWUJPqclAoApSqcaK2UfLQj
-         Pe0vTETOUg4HCa9g7iyzmaw/kbYyZhTm1xa/dUJsZR205s8rGmxHuA/osWm8jUPju3cl
-         STBQSHAwpBkkQVvlrW1sQYUcFpgM7MnHLWca3RiGqdLjlcTDQNe96JyDI2kzplZ3t9FJ
-         LFsg==
-X-Gm-Message-State: AOJu0YwFww+JJKZ+ZZN1zqdazmz5VNh0ekTa+oEzLANnGPQDK+2Ke+OH
-	BVLEsm9bgJUU+SpwjbdXRNLijeg6RiRNGIXP39zDvXOZly8Nb+1cxtfDPclg5ko4JcDbdgA2dGg
-	vsgdQn8I=
-X-Gm-Gg: AeBDieuw516oS5gRfTr1mVJwRKB+aV1nA8iZB+MsYSCgjWDcypihheYQTs29qYdg70v
-	jFAJqV0GdgFpW+Sr9jgBBsMh4GtVpbRcPQS7ZoMQUWuhxOiwCYVrVoMjWlp06DLmvWaSv5/mI0X
-	0ReTOn8k/db3xFx2ycy08LmCG1XSnPu82Zw00eZ5QN7wFExaynQrgepLDnaI9ejbCNmC36bk7pR
-	S8hrJhmp38wqJRGN06m4Aje9OHHabqZIzOSY3+cokiv9Zeu1wFfZ8qMTzOn+3ac0wc32S8iF3SM
-	u2qiIchWRNTodNbBswp36FdmKqGCzcOdMVZnzBBON/Y4zkAv2SgWGXtkRND2kqL3XkRXTB42sbt
-	ylA7BZ/qbPXuyZsgggb+OcXuBXjdIl6aZlReI5ju1E6+12KpS38c+eq2hoxy/KjIZDac5RB1Tgk
-	5pxESbFbuyofyICL+q4WrTAbbgoUHBPMGJRvdkK+w=
-X-Received: by 2002:a17:903:3586:b0:2b0:b325:748a with SMTP id d9443c01a7336-2b281705e9fmr33951365ad.22.1775222965549;
-        Fri, 03 Apr 2026 06:29:25 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([2401:4900:1f29:1ab6:efbb:f067:e189:bf59])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27472d280sm62113845ad.17.2026.04.03.06.29.23
+        bh=XzvfwzzQj2tuDYuciLvzN5BQANQGzT48X4OGUuM7+Yw=;
+        b=in3WHVBx6jRqHZxu5tm/kKKurJWc+CICxGgQ2tvyiMcyK3EsLE2u5esW0e8BoN3pAc
+         W1uHu/XvuXU8ZfCpgUuiKko/my4E9H/Nmc5yEECWJ9UqL4u1wWTfaSFmR4dxOL6F8vq4
+         1J9bHPZZYikLn6qLMo+WW2aECcRbGjIzRTCCZoF8EftC7w7828lY4mVHKAqVjauNvyfs
+         o9BxZ9xe24VTG43fu0+F8CxjmYEWm4Z+6hnq8B2DzVEQRaQ58hiGN7E9BbtwgFNpMLLi
+         Q4yrQn1dc2FOURs9HtJWwyHtVYoLw7WPQ0W9sGKlpOazS65Wy7lu/bQpOQexygeN6g6r
+         YT4A==
+X-Gm-Message-State: AOJu0YylBkutZC9HypbyzjXagSq4nege/o2tIsyrAH91JKp4KhPxkyQN
+	Zbu7aVbAeQY8MhgJpf+p6R6M7qD0r+0bFxEAINAnMh7gzPbGnDtujDgaP2JEJeM7n2ajFmiM6k+
+	bHWnI6ek=
+X-Gm-Gg: ATEYQzwPDfwE+W5G2gDPAHA6SOWWzdbtU7Y0qt2dIvWRoFRbdsCvssk1aIbmxER4aih
+	I0Kq9BRsnFbTVAJLHYxSDuOLAePmYi1P9j2LzNW5fQTjGrBpBsvGU/JkEQ+LpEEJbwebvIboxSH
+	8VuBRK09IrrxYt+A3sv5A/MaiS+WaM7dq1e/PRGrM3ToPJmYMCctZkX13se+l1C/reWDl+nDkYv
+	NCCsqNFlERbXpHn3SyAKJR31xYEFXNjIGZENKPdxQOsR+43Hmv3sgoLK1M+klQuiqJd8dfeKGdr
+	BlWgZhgcWc21Yr5qYlYEdYys/RUECekBASVVevDXw9PZ2c0VpxqOv6IGhOzZLEyLkPmDtFuRnls
+	dlwemM2GXACuhLUr57mQU51mITJXzgz4a8lVijiErOdTbIkoBNLCQsejUW99s5ruoTsXXdO+wid
+	pMV0niwzDZCcYy6G5gS+I/+lL1GoPtVuH3R76ptbOQb8m9ezxsHkfQvmIdY0z3lYw1zbduWH0se
+	WjN0OCxpC9Mb+nO2D9mW+RWuD6eQ70l1w==
+X-Received: by 2002:a05:600c:c056:b0:488:8b99:54a1 with SMTP id 5b1f17b1804b1-488998f14d5mr33523555e9.28.1775223134004;
+        Fri, 03 Apr 2026 06:32:14 -0700 (PDT)
+Received: from P-ASN-MAGENTA.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899e8e897sm19986095e9.26.2026.04.03.06.32.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 06:29:24 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+        Fri, 03 Apr 2026 06:32:13 -0700 (PDT)
+From: yanis.binard@smile.fr
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][whinlatter][patch] sqlite3: Fix CVE-2025-70873
-Date: Fri,  3 Apr 2026 18:59:15 +0530
-Message-ID: <20260403132915.316468-1-vanusuri@mvista.com>
+Cc: Yanis BINARD <yanis.binard@smile.fr>
+Subject: [PATCH] barebox: upgrade v2026.03.0 -> v2026.03.1
+Date: Fri,  3 Apr 2026 15:30:58 +0200
+Message-ID: <20260403133057.68413-2-yanis.binard@smile.fr>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 13:29:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234588
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 13:32:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234589
 
-Pick patch as per [1]
+From: Yanis BINARD <yanis.binard@smile.fr>
 
-[1] https://sqlite.org/src/info/3d459f1fb1bd1b5e
-[2] https://sqlite.org/forum/forumpost/761eac3c82
-[3] https://gist.github.com/cnwangjihe/f496393f30f5ecec5b18c8f5ab072054
+CVE-2026-33243 has been fixed in v2026.03.0[0] but introduced
+a regression. v2026.03.1 contains a single commit to fix it[1].
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Changelog : https://github.com/barebox/barebox/compare/v2026.03.0...v2026.03.1
+* FIT: handle hashed-nodes property not being in hashed nodes order
+
+Release: https://github.com/barebox/barebox/releases/tag/v2026.03.1
+
+[0]: https://github.com/barebox/barebox/commit/55f25be5223b662c6888d9d7ef07d28e0348d7db
+[1]: https://lore.kernel.org/barebox/abljJRMecNdejSD0@pengutronix.de/
+
+Signed-off-by: Yanis BINARD <yanis.binard@smile.fr>
 ---
- .../sqlite/files/CVE-2025-70873.patch         | 33 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.48.0.bb |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+ meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2025-70873.patch b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
-new file mode 100644
-index 0000000000..5c8c429a15
---- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
-@@ -0,0 +1,33 @@
-+From 5a05c59d4d75c03f23d5fb70feac9f789954bf8a Mon Sep 17 00:00:00 2001
-+From: drh <>
-+Date: Sat, 6 Dec 2025 20:41:24 +0000
-+Subject: [PATCH] In the zipfile extension, only return as many bytes as
-+ Inflate actually generated.  [forum:/forumpost/761eac3c82|Forum post
-+ 761eac3c82]. Adjust ./configure so that it builds zipfile into testfixture if
-+ ZLIB is available, so that tests get run on unix platforms.
-+
-+FossilOrigin-Name: 3d459f1fb1bd1b5e723629c463ab392af7b206ece3388bda216c6a4c26160909
-+
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/5a05c59d4d75c03f23d5fb70feac9f789954bf8a]
-+CVE: CVE-2025-70873
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ shell.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/shell.c b/shell.c
-+index ca26f8a..a3f7898 100644
-+--- a/shell.c
-++++ b/shell.c
-+@@ -11141,7 +11141,7 @@ static void zipfileInflate(
-+       if( err!=Z_STREAM_END ){
-+         zipfileCtxErrorMsg(pCtx, "inflate() failed (%d)", err);
-+       }else{
-+-        sqlite3_result_blob(pCtx, aRes, nOut, zipfileFree);
-++        sqlite3_result_blob(pCtx, aRes, (int)str.total_out, zipfileFree);
-+         aRes = 0;
-+       }
-+     }
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-index c9ff062255..df261bdbf8 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2025-3277.patch \
-            file://CVE-2025-6965.patch \
-+           file://CVE-2025-70873.patch \
- "
- SRC_URI[sha256sum] = "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
+diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
+index 17cfc25692..9f615a82d4 100644
+--- a/meta/recipes-bsp/barebox/barebox-common.inc
++++ b/meta/recipes-bsp/barebox/barebox-common.inc
+@@ -3,6 +3,6 @@ SECTION = "bootloaders"
  
--- 
-2.43.0
-
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+ 
+-PV = "2026.03.0"
++PV = "2026.03.1"
+ SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "760f22ff34ca00539d29826cce07d83210e41ebb51266616c6969b855c099bc2"
++SRC_URI[sha256sum] = "9e4b23720016bb934dc5ea36d4c33886a8a295445d290b99993d0b32caab6469"
 
