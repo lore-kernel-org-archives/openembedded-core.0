@@ -1,127 +1,200 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7514BE85385
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 17:08:04 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.470.1775236080650030825
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA7AE85390
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 18:36:15 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2207.1775241367545642186
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 10:08:01 -0700
+ Fri, 03 Apr 2026 11:36:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=C9HgZscV;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-486b96760easo24142755e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 10:08:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=CeQ/b7aS;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: twoerner@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8a5800772f3so19234606d6.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 11:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775236079; x=1775840879; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775241366; x=1775846166; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5y5PqVvaaDcFO0VkxqlIGf4Q8rrozwvn5+Ha8okmdk4=;
-        b=C9HgZscVkUe+F+AmqZ+9NJNuAt9lPCtfztoFUCkQgNXWnt93occdYSJts7q+mGumhr
-         ESC2PI1SgO+Fb7YPlNqmjy9+UfjCYhIMYtMK9IubsyUL+WmgIkTVqGyfn9aFEi4/77Xw
-         vZF++ADBCgFWvaRpQdYgeAqPMATWHQFz+OU2E=
+        bh=HfJabcS/HFAP2VeSgw36Kd+/AEJaCmCszYpeR15FKeo=;
+        b=CeQ/b7aS6gzljojLwgyxeB1VoM2KLCLWzgKRQKmLJQKa4Sgs59HHIzbSqNP7MFhyF4
+         B7LK2XY1IA7rDYL3pgHi+l77sCseLHzDRgE+jqyVB8aftcs/6reYoC38bTdfNcnz6aeX
+         uftTTxWLkAOGsUzCogkNc7JugjmlW8DU8Uw5UDpdMbMn/zh4QRZ/iIDqxkqtSz7z/O+S
+         tIjTQehlcN64OR5NX5lWtf2mw8El5XJJByfBjttJO5jOeLuVIZCDdQFGm/7Q8CxmqOBg
+         A5ta0sBBjrUSzYqoPc598DR/UoCxpEfQhywnoVvK2VsUafu6y74mdIMDKFx6JwSPIzcU
+         zIIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775236079; x=1775840879;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5y5PqVvaaDcFO0VkxqlIGf4Q8rrozwvn5+Ha8okmdk4=;
-        b=hhQY75bsihy6ypFIvI0XQUerLTf7cawr8T6aU/N2VURM3o8Jw0ljX7ptXCrWWt1ARU
-         D4D4P70pJAOIl/ciNTrTy6rXcx5Q/8mLpyCuT+UGzs7GlAVGbXYhu9JdqoC1T0jtpXhg
-         E41KDouAqTytfJAUDzGsyB+aeljHBGvQx1xUpWwEIjiN5JyuQRu9tDdW2WLcIRYe0c/z
-         xNZD60EsaXuUX24HOfaIsZEb41y/IEZ0VHE5VtenJAMTzgoBqECwyIIzZLIyszM8UHfm
-         4XXVdSQOByHao4UprKGZd3UFqb622FYBVtjYL9nTHL185VuyVkc+54/kWu6OFi4JysVf
-         81VA==
-X-Forwarded-Encrypted: i=1; AJvYcCXucWkdvKhC1esB9XiAx+1Lk8P+1BZrkuMB6GI1aPCTyZIHnmMvZ09fl8nxelDMFSf+22nyMthExyGaEhTYsa1XPw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyJNwGD2RkGDOrrgJi1VlyJtrC0PPk97rEIRAbvKah/sKK64zoV
-	Wh8mtKKKhHcYPiSTHtckiTqgbL/xPHx10uFDenv9W4/MNlmG/gSH6LW/9GZsLXM7kgQ=
-X-Gm-Gg: ATEYQzxfc/zHj9EqkN7DnQCU3egaf3/+p1s3UC6CpHpnjhPWTkgQxr2LuEitQh71gsq
-	s6RMZrtY+BhOWVXoBcFxB1ZKuqKH+LULJ+yVZdA5TFYwN2ZQgoK6RqaZZSVuEaZKn6PTBFCmrxn
-	wh4j6sjI8vnn7rSa2DkFZ2TjIBdCuUIO+7dCHUaHlU0/Pr6zfqZWMCJaWBcXlGlPU7tQJp5AKa9
-	bAbBGDVKieisbWxiPJ/GoImzjBB2kBBuCRoNvJQpMYKYtFIEJrT2zLwtSw8gukXVrRur5fvTerR
-	8QECygMGiMkR597eoFwgGsAK0qTPiCa40o1A80HPH/8m5N5F6YweKnAmTE1Y9d70NJ2Qtzgdi6q
-	xAY2mAI63NdKtNC3N04nV13vvEw4pt58/o2AQoCho8AXNUvNXy03mkhWnvQK5bladFDvxVgeNTG
-	HX/7buhSTQOIjHl4CRJ7mKlOTkBhrfrJ6K7OP2rxpe4Jkic+NjYpFCJYa2yWA+B44kTw++FUIPO
-	boU1ZiiBrOWl/I5
-X-Received: by 2002:a05:600c:1d86:b0:485:4388:3492 with SMTP id 5b1f17b1804b1-4889970d844mr62059645e9.11.1775236078983;
-        Fri, 03 Apr 2026 10:07:58 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00dac7300510953f30.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:dac7:3005:1095:3f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4889f6843dfsm40477315e9.12.2026.04.03.10.07.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2026 10:07:58 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Apr 2026 19:07:58 +0200
-Message-Id: <DHJOO3S7NQMS.D0NB9IPZPFV0@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <mathieu.dubois-briand@bootlin.com>, "Paul Barker" <paul@pbarker.dev>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] sanity: Require tar 1.35 or later on
- rhel9-alike distros
-X-Mailer: aerc 0.20.0
-References: <20260403-rhel9-tar-v1-1-b9c7fb64bbd9@pbarker.dev>
- <DHJO8L8EC2Z9.1N02J4E6QUEGC@bootlin.com>
-In-Reply-To: <DHJO8L8EC2Z9.1N02J4E6QUEGC@bootlin.com>
+        d=1e100.net; s=20251104; t=1775241366; x=1775846166;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HfJabcS/HFAP2VeSgw36Kd+/AEJaCmCszYpeR15FKeo=;
+        b=lyufi7nN6jGBW7eJy3pf+qxPxvXKO5/27NV/jy5k+aVJP+BbLSSjN8jR+ppSGOkLap
+         dBaPiYXthqcg3xnedHxX5nl/oSityN5i5mDXjDH9a+cKE1r/R8dG6UdwfcZx6ftpCC8L
+         zeg2V87sRLUtRKzGqTM3RoErd9w+tIPfzy9QkX/0PCHlMeZX2P9MSarUc9rcDvurAk9q
+         ntfZZq6RkzQLxOGQl+091vyXi4w6NqxYvJKUiMfaOWaXdXSY4Y4H5cDGjbn9m+nCVidZ
+         uUzLcEeY/35ZqiRY2BUzyVp19JSmgOb+uueYCYhz6Nt+nKvzWz/MbzZAtwDYTEhaTsL/
+         qZTw==
+X-Gm-Message-State: AOJu0YzXYMCtYICOFcZLX3PomrVFeKZJq5NuwmfFyo+IlDMrFsxlq+pW
+	A2Pgy031+puRY9bvfehDbif2zePq+wjWe0N3kQq2pk4LtUyTSQyb36ALWJHi7w==
+X-Gm-Gg: AeBDiesIbBSPH4DEunNTxPBen9iqzZtAamyyJdb74zzG5amFgnlzdAHEvQtXUulf+Ee
+	n447SmQRwSJbzKVcNJOwyoJ5hIRkYvWrnbmBOgsRW4/4ZVmmV5xmuldMwVsf8XdOzv2GI8SQERR
+	6g/byPoMaCMQxL+enMT7gYpnFtPL+PpOTnixT1pwe4tGM18oq/vRNE8qVPaUoxfImN+LyUAAsqo
+	gNn3oPEUDPHfbLR3QpLn5HRZXzm9wnClRYN6VFaySvGYo05c6kn/vM8reuSLV/9WZUueOL1FfL4
+	9240Dx4OfojdTXn+p7vG0LSPmL9UAepxTOGHe/167JSgavfVbYD1QMBqySDQQ6twkowWAuotbBD
+	eLskh+XF7Et/dmxRGrH/2wCXCQqmwifX2AKY7LHm0ZF9NvNo2yHkQr/VmmagimPs4vjjSXnKhGY
+	SMEs57UZUEYVB89SUULqDWu207pDmRSCiTDHj4QHH6/ZgZbL0gxTkQIDnFgkUwvxuXiw==
+X-Received: by 2002:a05:6214:8093:b0:8a5:bd5b:e5f with SMTP id 6a1803df08f44-8a705879a6cmr65218526d6.51.1775241365891;
+        Fri, 03 Apr 2026 11:36:05 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8a593ee25c9sm64627916d6.22.2026.04.03.11.36.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 11:36:04 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Mark Hatle <mark.hatle@kernel.crashing.org>
+Subject: [PATCH v9 1/5] wic: add recipe
+Date: Fri,  3 Apr 2026 14:35:37 -0400
+Message-ID: <20260403183541.2631883-2-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260403183541.2631883-1-twoerner@gmail.com>
+References: <20260403183541.2631883-1-twoerner@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 17:08:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234591
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 18:36:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234593
 
-On Fri Apr 3, 2026 at 6:47 PM CEST, Mathieu Dubois-Briand via lists.openemb=
-edded.org wrote:
-> On Fri Apr 3, 2026 at 1:54 PM CEST, Paul Barker wrote:
->> tar 1.34 (and possibly earlier versions) is unable to extract tarballs
->> containing read-only files with xattrs. This was fixed upstream, but
->> it's unlikely at this point that the fix will be backported to RHEL9
->> related distros (CentOS Stream 9, AlmaLinux 9, Rocky Linux 9). The issue
->> affects these distros specifically because they have selinux enabled by
->> default and this uses xattrs.
->>
->> The specific failure we've seen is with the /usr/lib/udev/hwdb.bin file
->> installed by the systemd recipe - this file is chmod 0444. This leads to
->> the following error, typically during do_image_wic (shortened and split
->> to make it readable):
->>
->>     subprocess.CalledProcessError: Command
->>     'tar --xattrs --xattrs-include=3D'*' -cf - -S -C .../tmp/work/qemux8=
-6_64-poky-linux/core-image-minimal/1.0/rootfs -p . |
->>     tar --xattrs --xattrs-include=3D'*' -xf - -C .../tmp/work/qemux86_64=
--poky-linux/core-image-minimal/1.0/tmp-wic/rootfs2'
->>     returned non-zero exit status 2.
->>
->> That error message is likely to confuse users, and the fix is not
->> obvious. So, error out if tar 1.34 or earlier is present on affected
->> distros and recommend upgrading or using the buildtools tarball.
->>
->> Signed-off-by: Paul Barker <paul@pbarker.dev>
->
-> Hi Paul,
->
-> So now, this is failing on several workers. Aren't we using buildtools
-> on rocky9 / stream9?
-You're thinking of "[PATCH yocto-autobuilder-helper] config.json: Use build=
-tools on RHEL9 derivatives"
-https://lore.kernel.org/yocto-patches/20260331-rhel9-v1-1-e5c2cf815386@pbar=
-ker.dev/T/#u
-... not merged, yet.
+Add a recipe for the external wic utility from
+https://git.yoctoproject.org/wic. Add wic to the list of native
+wic-tools, and make it a dependency of the image bbclass for wic images.
 
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/3369
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3536
+Add myself as maintainer for this new recipe, as well as the wic-tools
+recipe (which did not have a maintainer).
 
+NOTE: this patch is in preparation for removing wic from oe-core
+      the wic oe-selftests work fine with this patch being added now
 
+Reviewed-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Reviewed-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+changes in v9:
+- updated SRCREV as required (the standalone wic repository has
+  different commits)
+- updated commit message to indicate the change of maintainership
 
->
-> Thanks,
-> Mathieu
+changes in v8:
+- (skipped, the patch to add sector-size cmdline arg was upstreamed)
 
+changes in v7:
+- bump SRCREV to include a work-around for wic.Wic2.test_expand_mbr_image
+- changelog:
+        exec_cmd(): allow multiple success codes
 
---=20
-Yoann Congal
-Smile ECS
+changes in v6:
+- the SRCREV was updated since any changes/revisions before the removal
+  need to be reflected in the repository
+
+changes in v5:
+- rebase with master
+- split patchset back out into smaller patches
+- do not add TOPDIR and WIC_SECTOR_SIZE to image_types_wic.bbclass if a
+  user wants them, they can add them to WICVARS in their config
+
+changes in v4:
+- (skipped)
+
+changes in v3:
+- squashed into one large patch
+
+changes in v2:
+- add wic as a native dependency of the image_types_wic.bbclass
+---
+ meta/classes-recipe/image_types_wic.bbclass |  4 ++--
+ meta/conf/distro/include/maintainers.inc    |  3 ++-
+ meta/recipes-core/meta/wic-tools.bb         |  1 +
+ meta/recipes-support/wic/wic_0.3.0.bb       | 18 ++++++++++++++++++
+ 4 files changed, 23 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-support/wic/wic_0.3.0.bb
+
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+index aea61d67e3ed..f613c59b2cbc 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -111,14 +111,14 @@ do_image_wic[cleandirs] = "${WORKDIR}/build-wic"
+ USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
+ WKS_FILE_CHECKSUM = "${@wks_checksums(d.getVar('WKS_FILES').split(), d.getVar('WKS_SEARCH_PATH')) if '${USING_WIC}' else ''}"
+ do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+-do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
++do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('wic', 'parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
+ 
+ # We ensure all artfacts are deployed (e.g virtual/bootloader)
+ do_image_wic[recrdeptask] += "do_deploy"
+ do_image_wic[deptask] += "do_image_complete"
+ 
+ WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+-WKS_FILE_DEPENDS_DEFAULT += "bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
++WKS_FILE_DEPENDS_DEFAULT += "wic-native bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+ # Unified kernel images need objcopy
+ WKS_FILE_DEPENDS_DEFAULT += "virtual/cross-binutils"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 1bd43211e23d..567cd98580d0 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -892,7 +892,8 @@ RECIPE_MAINTAINER:pn-weston = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-weston-init = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-which = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-wic-tools = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-wic = "Trevor Woerner <twoerner@gmail.com>"
++RECIPE_MAINTAINER:pn-wic-tools = "Trevor Woerner <twoerner@gmail.com>"
+ RECIPE_MAINTAINER:pn-wireless-regdb = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-wpa-supplicant = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-wpebackend-fdo = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index fa983ed5f12c..45fb873dd6bd 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -3,6 +3,7 @@ SUMMARY = "A meta recipe to build native tools used by wic."
+ LICENSE = "MIT"
+ 
+ DEPENDS = "\
++           wic-native \
+            parted-native gptfdisk-native dosfstools-native \
+            mtools-native bmaptool-native grub-native cdrtools-native \
+            btrfs-tools-native squashfs-tools-native pseudo-native \
+diff --git a/meta/recipes-support/wic/wic_0.3.0.bb b/meta/recipes-support/wic/wic_0.3.0.bb
+new file mode 100644
+index 000000000000..b98408702300
+--- /dev/null
++++ b/meta/recipes-support/wic/wic_0.3.0.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "OpenEmbedded Image Creator (wic) standalone CLI"
++HOMEPAGE = "https://git.yoctoproject.org/wic"
++LICENSE = "GPL-2.0-only"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=4ee23c52855c222cba72583d301d2338"
++
++SRC_URI = "git://git.yoctoproject.org/wic.git;branch=master;protocol=https"
++SRCREV = "79e2b06a1f9c97decdaf44f0806dbf3cc1e86bf9"
++
++inherit python_hatchling
++
++RDEPENDS:${PN} += " \
++    python3-core \
++    python3-json \
++    python3-logging \
++    python3-misc \
++    "
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.51.0
 
 
