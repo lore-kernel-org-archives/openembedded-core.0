@@ -1,113 +1,166 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17ECBE88D63
-	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 21:13:14 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5149.1775250783700395386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 250A5E88D68
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 21:30:44 +0000 (UTC)
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5465.1775251842396954433
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2026 14:13:04 -0700
+ Fri, 03 Apr 2026 14:30:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V0HZjKBd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43cf73bbfbdso1421424f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 14:13:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=lPT+encR;
+ spf=pass (domain: gmail.com, ip: 74.125.82.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2cbdd9852aaso1602986eec.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 14:30:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775250782; x=1775855582; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eY8EHcf0C4m+nkJKSVu73Dm13jiC4BVKRIQXGeehshM=;
-        b=V0HZjKBdvz0i5/dQWYX1k+EqggTrVF0vjiBX/2MjLy+tDaetJXEU6UzhGpA0Kv3OAk
-         m/p3FIafb2nJM38/sGfoUjSD+xyh02P0MUOeHxJfC/vqDHCehkHuGQYEbfEDwJfAu0iz
-         ghwSsTFyZrzEq6Xi8KDhdT8zmi9fAeRNrgQg4=
+        d=gmail.com; s=20251104; t=1775251841; x=1775856641; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xcOFnjRr2CaWAooOel+0+WnlBUpBGR74vG1ug4xn+lU=;
+        b=lPT+encRoUwctqBuWFx+MqjbdF0s7AZSEtDAwUJFy5pYnxvocpmSpiNDKNKyCBIEHZ
+         9jiHxZ3aC/W5JRb1qgd6FRNTvLpcSlmDYfdwtJqnxViRBq0GO/gbNwRaQPuA7Hf4tHnr
+         YldMRSN1HedOl/dH9rDF0c8VLK4pxrODNBw/OaZfjh94MTUEn3o1Kd1qWF5XDO0gANMz
+         mY97ygnlWAmBtgHq8z2Vsh9px2DLF4qt34VYWMl432AmkL3K/OCSCcjkoyYRKkX3Jwyv
+         LbKf96OLGTYOCJnsaEv6AsUag5mk6uJQjQ8UwJK1tiwVjs2TGLRyKBZ1tAo1AGaC/IAz
+         yMJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775250782; x=1775855582;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eY8EHcf0C4m+nkJKSVu73Dm13jiC4BVKRIQXGeehshM=;
-        b=U/RSAKOMMjcGEhy5wmzl+lV2BwxL4x4N5sukwHiltw2THSgbeFM/oEik47RBJOphXh
-         F5ya5Gsctd4bkKcRNPHzyHMeg7Q+Pi6E+cqWmag2VoyrERFob8jnVh1rnrYxLo8egrv0
-         eIZW2h67ElAtqEu23O4g+9NaGh+X7FhKeT8S5g3snaqguRZjWzM80CGDsK5ix5c3MnQ/
-         jckpsp7zSPsoqUPf9ngQbZTm3l+F30JzUU7gD3zM2ChUR0J38hi7EXjGMavrE3yygEy8
-         XbzUd52C+Gu2mfjxMuoTCjnXhvGQzFuhJhzp9NpWot9agvRaaqxYFmUqaTz8kOMaYt5j
-         X50Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVm9kfSskhMpvKcwtgmZ/3Ho+9C4mIFXtJv5wglq3RLu5emASuFCqmyk6Hl8cAg++vB0rMegjkmzdvzv6IJHDOdNg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw9IIy+QMILKvbmE61+zajV84c6sEsOrDQ3PO8Q/xPwmtevkjHm
-	IN81PiFkXFVgZcasrS4fRHUduzpFbl0b34hJpawBDucUNDimJAajjiMuyCTbkS7FXdo=
-X-Gm-Gg: AeBDieui46ZFySTM92/CJrn3WXpBLMDbr+6/zCiM21DwcIjtuddU9SML8nUO1JvRZnn
-	nz6UfkoE4YBopcE9hqmDjeZ6pbGCVcj56r5Tn1kFHVHAtBIZeh0zuIm0pWDiGDFqHpocxyokgEa
-	/ljFeNnbvYX0dxH69pyYLQbk2hJ7dT7jJOo1xD4qoFI/IUDVyWKKs5LgWiw+mEOPvCu3l5+xdDl
-	y2dG082zWpVn1FtstGw/ukAKAyp68ufYajuSqFaJD9P2nDtH9YlK12o+JukFo9tvBM0YYt25BUO
-	z+sr2YsM3v1za3yZawpoRrgV/VCZu0jFG9ltI4Plo7ZLUaT5BqZZJEkILRyP3bskHolUdHGQpqi
-	9SQSJ0UyL9OA2wdASSjCUHOLbbf3ZL8GDuFryKU+MdP0r/GUM5xqCqcIKFOlPykKe+t8KZlVujL
-	wVpwpTBw8VDz475QmOuu4MiA22ojI84H+QGgqDKNMSF0QjnrMc9YE51ay0znjMF0Bid98qbkZLx
-	1GNYG5P+Mq/fFim
-X-Received: by 2002:a5d:64c3:0:b0:43c:f336:7ab5 with SMTP id ffacd0b85a97d-43d292cca1amr6500447f8f.22.1775250781976;
-        Fri, 03 Apr 2026 14:13:01 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3136:96a7:2030:b47a? ([2001:8b0:aba:5f3c:3136:96a7:2030:b47a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4f52easm20277514f8f.36.2026.04.03.14.13.01
+        d=1e100.net; s=20251104; t=1775251841; x=1775856641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xcOFnjRr2CaWAooOel+0+WnlBUpBGR74vG1ug4xn+lU=;
+        b=jTE9c1GgS4R8LnmCBgEMCnCJ7wp3bHoAQ51sLtxZ1Xv8Klw0UkK1MmMe+ZebafTNXi
+         dAz1jfgb9J6y68TqbAAk/fSgjr7STP+3Ivllp8nMZuKeWltoAVtaTHVrrE+YSHRoX/VB
+         Svb66MXQvJB8i7I0HHCnpsNYec/t5C2RXlMht26rl9NomFDb3XiZN1lbWtDOqANuOO3k
+         defF4mlDDiPY176JJE1Xxh5L8U7ucGzrmRIyhMr2RekIY4f82z5C6O6dOCpNnn8wkGCL
+         T78hOWFTChb6P0pbApkzdaLjHrHARU6GpFtdg7y4CpXpoeDaB3k9JTIJ8ngzfh+sRZee
+         nwAA==
+X-Gm-Message-State: AOJu0YwhKo9FLJrSqjCRiRnmhixQZtsqHLse4N6wh9bQlFrYA3tPc9g/
+	kVAtW87BY4/lpvPS2aBWlmdG9qiX0o2N1OarbB6wWOz+Zqn4iFxQ5kj8i+sWvGr1
+X-Gm-Gg: AeBDieue3r6xp7xn2kQbFuDcSoriy1737Irjt33xo45GTHLCkBEYULZnRho3SdCs4fS
+	wloGEPSJmtsFiM/gFHYbRSLoUBao/V6HOKE3nKOlxiXxeEQNGsu7/rGHXQuDjdn+/oATEs61MEn
+	TdH5dGeEjHS3NfrZBNh9fpqN8YR0vxSe50zbko7+OeTwoXXsr3rHUdIZqdECdvm+ZKs21Rtpl/v
+	Pa+DLiURmgC0OmPm92NDM6ndXgiBUKiVppOg++hm/qZKtT7jt4VLD65gVHaiJrxX6R7yzh8HtT6
+	qJ2H7q3rK+xTS/pXdKXxdnI52t4gBFdK5zU/w84kBitoRx9FulIaypAFGaGOf1AFufFe2q+bIj7
+	8FS42j/ag3vJ3f7xey015Mi8C7XEQcyCv5+Y3iZ+S8v6HD3m0+bF6LBOvotNcwSeAaDcNThNTTf
+	8Q0hCI/YwQx1PVvII6dV+mZaHoQtLN379PTwvBh36KKPb07lPUbfNy7ycHhqR+ulZxMSP+LXwd5
+	d9boXnQoEjBnQVecKpOAEUx3yydUmDfzUXWkqp5zXJtgorCIl86/7XHIRVN
+X-Received: by 2002:a05:7300:e619:b0:2c8:8e74:4eca with SMTP id 5a478bee46e88-2cbfbf794f7mr2328108eec.19.1775251841364;
+        Fri, 03 Apr 2026 14:30:41 -0700 (PDT)
+Received: from apollo.localdomain ([208.95.233.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca7c20b2b1sm6524016eec.18.2026.04.03.14.30.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 14:13:01 -0700 (PDT)
-Message-ID: <59476a47af44f95f70e14869226d336e90c009a4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v9 4/5] wic: move canned *wks files
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: twoerner@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Mark Hatle
-	 <mark.hatle@kernel.crashing.org>
-Date: Fri, 03 Apr 2026 22:13:00 +0100
-In-Reply-To: <20260403183541.2631883-5-twoerner@gmail.com>
-References: <20260403183541.2631883-1-twoerner@gmail.com>
-	 <20260403183541.2631883-5-twoerner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Fri, 03 Apr 2026 14:30:40 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] autoconf: Raise line length limit for sed/awk
+Date: Fri,  3 Apr 2026 14:30:38 -0700
+Message-ID: <20260403213038.3278233-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 21:13:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234599
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 21:30:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234600
 
-On Fri, 2026-04-03 at 14:35 -0400, Trevor Woerner via lists.openembedded.or=
-g wrote:
-> When "wic create ..." is invoked with a bare *wks name (i.e. without the
-> `.wks` extension), wic calls engine.py:find_canned_images() to find the
-> fully qualified *wks file. This function searches every directory formed =
-by:
-> =C2=A0=C2=A0=C2=A0 - permutating all BBLAYERS with `/wic`
-> =C2=A0=C2=A0=C2=A0 - permutating all BBLAYERS with `/scripts/lib/wic/cann=
-ed-wks`
-> =C2=A0=C2=A0=C2=A0 - checking `<scripts_path>/lib/wic/canned-wks`
-> Where `<scripts_path>` is the directory containing the wic program.
+From: Khem Raj <raj.khem@gmail.com>
 
-It doesn't. I just looked at the code and it uses BBPATH. That can be
-similar to BBLAYERS but it is different and the commit messages really
-should refer to BBPATH.
+Latest autoconf is splitting long cmd lines in config.status
+it generates using sed/awk to have compatibility with
+platform like HPUX,Solaris,AIX which is understandable given
+autotools try to achieve wider portability, however, this does
+mean that in OE builds we might get these newlines added in
+places dividing commands including buildpaths in them and the
+methods deployed to scrub them from output artifacts will fail
+since the string is now on two lines resulting in build QA to
+pass but the strings do sneak in affecting reproducibility
+one such example is e2tools recipe in meta-filesystems and there
+perhaps are more
 
-> When wic is part of oe-core, the last search path succeeds in finding
-> the canned *wks files in `<topdir>/scripts/lib/wic/canned-wks` (since
-> the wic program is found in oe-core's `<topdir>/scripts` directory, and
-> `<topdir>/scripts` is not a BBLAYER).
->=20
-> However, once wic is removed from oe-core, this algorithm will not find
-> these bare *wks files in any of the above-mentioned search paths since
-> the oe-core layer will no longer be the home of the wic program, and the
-> canned *wks files are not located in any directory relative to BBLAYERS.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Improve patch commit message so we don't forget the reason to do it
 
-I'm a bit confused by this reasoning. Are you saying that wic will no
-longer search BBPATH (or WKS_SEARCH_PATH)?
+ ...-command-limit-to-prevent-line-wrapp.patch | 47 +++++++++++++++++++
+ .../autoconf/autoconf_2.73.bb                 |  3 +-
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/autoconf/autoconf/0001-Increase-awk-sed-command-limit-to-prevent-line-wrapp.patch
 
-> Since these *wks files are specific to oe-core's meta layer, they should
-> stay with this layer. Therefore move the *wks files so they exist in one
-> of the locations searched relative to oe-core/meta's BBLAYERS.
+diff --git a/meta/recipes-devtools/autoconf/autoconf/0001-Increase-awk-sed-command-limit-to-prevent-line-wrapp.patch b/meta/recipes-devtools/autoconf/autoconf/0001-Increase-awk-sed-command-limit-to-prevent-line-wrapp.patch
+new file mode 100644
+index 0000000000..4caeb7e39e
+--- /dev/null
++++ b/meta/recipes-devtools/autoconf/autoconf/0001-Increase-awk-sed-command-limit-to-prevent-line-wrapp.patch
+@@ -0,0 +1,47 @@
++From 139f757a6244d3b1e07f7fddc6d07d9c17f45313 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 25 Nov 2025 21:03:38 -0800
++Subject: [PATCH] Increase awk/sed command limit to prevent line wrapping
++
++Autoconf 2.70+ wraps long variable assignments in config.status
++using backslash-newline continuations. This breaks when LDFLAGS
++or other variables contain special characters.
++
++In OE, buildpaths will be part of flags such as LDFLAGS or CFLAGS
++and they might end up being linewrapped now. OE recipes do have
++mechanisms to scrub the absolute paths for achieving reproducibility
++which fails when linwrapping happens as the strings get divided and
++the checks for scrubbing become ineffective.
++
++Increase _AC_SED_CMD_LIMIT from 99 and _AC_AWK_LITERAL_LIMIT
++from 148 to 4000 to prevent wrapping.
++
++Upstream-Status: Inappropriate [OE-Specific]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/autoconf/status.m4 | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/lib/autoconf/status.m4 b/lib/autoconf/status.m4
++index 2bfaf32..be444b2 100644
++--- a/lib/autoconf/status.m4
+++++ b/lib/autoconf/status.m4
++@@ -297,7 +297,7 @@ AC_DEFUN([AC_CONFIG_FILES], [_AC_CONFIG_FOOS([FILES], $@)])
++ # Some seds have small command number limits, like on Digital OSF/1 and HP-UX.
++ m4_define([_AC_SED_CMD_LIMIT],
++ dnl One cannot portably go further than 99 commands because of HP-UX.
++-[99])
+++[4000])
++
++
++ # _AC_AWK_LITERAL_LIMIT
++@@ -307,7 +307,7 @@ dnl One cannot portably go further than 99 commands because of HP-UX.
++ #
++ # Some awk's have small limits, such as Solaris and AIX awk.
++ m4_define([_AC_AWK_LITERAL_LIMIT],
++-[148])
+++[4000])
++
++
++ # _AC_OUTPUT_FILES_PREPARE
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.73.bb b/meta/recipes-devtools/autoconf/autoconf_2.73.bb
+index 2dd8fb2772..227fd043cc 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.73.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.73.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "A GNU tool that produce shell scripts to automatically configure software"
+-DESCRIPTION = "Autoconf is an extensible package of M4 macros that produce shell scripts to automatically \
++DESCRIPTION = "Autoconf is an extensible package of M4 macros that produce shell scripts to automatically \
+ configure software source code packages. Autoconf creates a configuration script for a package from a template \
+ file that lists the operating system features that the package can use, in the form of M4 macro calls."
+ LICENSE = "GPL-3.0-or-later"
+@@ -17,6 +17,7 @@ SRC_URI = " \
+            file://remove-usr-local-lib-from-m4.patch \
+            file://preferbash.patch \
+            file://autotest-automake-result-format.patch \
++           file://0001-Increase-awk-sed-command-limit-to-prevent-line-wrapp.patch \
+ "
+ SRC_URI:append:class-native = " file://no-man.patch"
 
-I don't understand why these need to move given WKS_SEARCH_PATH remains
-unchanged, unless wic is going to ignore WKS_SEARCH_PATH going forward?
-
-Cheers,
-
-Richard
 
