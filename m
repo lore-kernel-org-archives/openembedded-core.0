@@ -1,151 +1,228 @@
-Return-Path: <pavel@loebl.cz>
+Return-Path: <xiao.zhang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 173EBD6AB0A
-	for <webhook@archiver.kernel.org>; Thu,  2 Apr 2026 20:30:32 +0000 (UTC)
-Received: from mxb.seznam.cz (mxb.seznam.cz [77.75.76.89])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5707.1775161828691095516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB11CC6B1D
+	for <webhook@archiver.kernel.org>; Fri,  3 Apr 2026 00:51:08 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2090.1775177459697419547
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2026 13:30:29 -0700
+ Thu, 02 Apr 2026 17:51:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@emailprofi.seznam.cz header.s=szn1 header.b=Ywm24qUb;
- spf=none, err=permanent DNS error (domain: loebl.cz, ip: 77.75.76.89, mailfrom: pavel@loebl.cz)
-Received: from email.seznam.cz
-	by smtpc-mxb-798b96f97c-dtvjf
-	(smtpc-mxb-798b96f97c-dtvjf [2a02:598:128:8a00::1000:904])
-	id 25461d683ed490bc21a3a4ea;
-	Thu, 02 Apr 2026 22:30:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=emailprofi.seznam.cz; s=szn1; t=1775161824;
-	bh=5VG4iWkKhcvixp1JHqeU5ICkdYJRaD0tmiOEaByWVrs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	b=Ywm24qUbDuwIdd7JC0qTF+yRMoGMYwKFjRPrKjOVDgZkRfna42bUTPq0AYPshlGEe
-	 Yk+1QtWQiZ/mzSBI2Ipso9JVz9hzKG1zf0OiY8WHWvjNzQjL1n6zYqChsyV/tHZaf/
-	 TksQN3WaAp5BH7EGjYWiNAwCOoF1qp1QnsmRvwAcJXI79yi3YAIAYhwFhxxigcpWmi
-	 sITPK10UrkyWkm4gEzSCzWru0eg1qKLxSz9rOdX9L+0zf4ytaKMgRioQj8ePYclnDj
-	 bwX81VFsBV5bZJaQc8mvpPsP+aOLv2hncJaQ5j3J2Zs5wK5P8xFFG1C8rKvNDkfJsA
-	 mjkrrJl8tI5uw==
-Received: from localhost ([2a03:a900:1020:47::f71])
-	by smtpd-relay-789d8dfb5c-5qc6d (szn-email-smtpd/2.0.71) with ESMTPA
-	id f6439073-b3d2-4a62-9a9b-d5d74d8131a3;
-	Thu, 02 Apr 2026 22:30:05 +0200
-From: =?UTF-8?q?Pavel=20L=C3=B6bl?= <pavel@loebl.cz>
-To: openembedded-core@lists.openembedded.org
-Cc: Michelle Lin <michelle.linto91@gmail.com>,
-	Mikko Rapeli <mikko.rapeli@linaro.org>,
-	=?UTF-8?q?Pavel=20L=C3=B6bl?= <pavel@loebl.cz>
-Subject: [RFC PATCH] uki.bbclass: add multi-profile UKI support
-Date: Thu,  2 Apr 2026 22:25:29 +0200
-Message-ID: <20260402202616.3177283-1-pavel@loebl.cz>
-X-Mailer: git-send-email 2.53.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=GazXmnRD;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=855370a557=xiao.zhang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6330Qd3E3003867
+	for <openembedded-core@lists.openembedded.org>; Fri, 3 Apr 2026 00:50:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=lc8qb/HNnn+FUs77Ppqt3m1OGx8+YrpuokC/7B8vNCc=; b=GazXmnRDN0z4
+	kyGSu3iHfo3+nJXo48L9PFjZR/oyjvBVMcsDa6ZnekGJGV8AXHtyi+AUAuTFR8TT
+	3NunCDKG+5jOGnzy9d63H+eVoAx5U6xQwnjzxO2NaqK2vaXqhHTB9smbyU54/5jD
+	90RSp1mO8DIpJsm9F/of7qdmUkcGp4dP986VsbNG/UIVPbgD4SwOGUZI+kuXWjW7
+	vkwn8Wa6CVj0qhZ5fZcN0PMzWW0FHZ0JzhQmRU/t2G95EiNeVJ9GuhO2sCr8di0q
+	NT6T/r+GRnyLrO5YRqFl6iI47aCwUAL51K0Zc/OVHmQW+YYzAYbl0zHmXHtexOY1
+	uwy1poITCw==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013028.outbound.protection.outlook.com [40.93.201.28])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4d65y4gr1d-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 03 Apr 2026 00:50:58 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bq7YKyQi7RWcb5MzMylQZxWrU6FFgBFPXaSQ4EOuQk4ml25WAUr12O/VnOAdD7pDbSb3D4v1PXmCxw2xbnQX7spE5QOaiwXAEIqRbHgTOFMJbTuECWRELMojBn0qD46NYpC36W8VjIof1R7RYpSRwfN0ryLbyyu8kWaGdwVA7sKRN2Zo4vRoQQjzhYLxGhbHIBMSVObRHsVi7bYnTjGtYyJppybeCaSvj0DUlOn3u97Z4vfyyWcSWAO46OvBRhGHqR3c+58es9PESG2K9wrK0EoqyIzO0kT417GwZ5JpevwzkpmRjH+qumyTkNEF1ml01ALm8hgCh7h7Dcihqrmclw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lc8qb/HNnn+FUs77Ppqt3m1OGx8+YrpuokC/7B8vNCc=;
+ b=JJUrgufb2UnbbunfQ4/ETHQ6eIAeurZod4KGsHEodOcVQ0+jeN1vO9tqgMBglmK3VsX/Dvh9ckfyKsTWF7xeSRbky2c3M7nMfV5kJ64trNKN31ugOltNjNnyc3a0+HmQwyyQCHfq/WNE9bg6/QVrKqYSHpMld7aUNMO5QpVx2C7s/qwttVyb0B8vndZ/mGwGGUCu+XbYaxeXeU6kCJXKWioRRczTR18J4XMyvKvaPtRu8hgtb1yrw2XIXg5MLu18tbp9jJBK22pMdHQCr0xijParI8jebEZpv6vMerHxvwmTG/riAxGT7W3786rEz6ThUiiXww1Q964X+jHjWafU3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS7PR11MB6080.namprd11.prod.outlook.com (2603:10b6:8:84::8) by
+ DM3PPF0644BB20C.namprd11.prod.outlook.com (2603:10b6:f:fc00::f06) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Fri, 3 Apr
+ 2026 00:50:55 +0000
+Received: from DS7PR11MB6080.namprd11.prod.outlook.com
+ ([fe80::675d:2fe5:276a:f11d]) by DS7PR11MB6080.namprd11.prod.outlook.com
+ ([fe80::675d:2fe5:276a:f11d%5]) with mapi id 15.20.9769.016; Fri, 3 Apr 2026
+ 00:50:55 +0000
+Message-ID: <8752287e-1327-456b-9beb-b52674853bff@windriver.com>
+Date: Fri, 3 Apr 2026 08:50:42 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [oe-core][PATCH] iptables: Use update alternatives for "ebtables"
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        openembedded-core@lists.openembedded.org
+References: <20260402134959.2559444-1-xiao.zhang@windriver.com>
+ <DHIUPHZ23X2B.3QKIWJ5KM2Y92@bootlin.com>
+Content-Language: en-US
+From: "Zhang, Xiao" <xiao.zhang@windriver.com>
+In-Reply-To: <DHIUPHZ23X2B.3QKIWJ5KM2Y92@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: TY4P301CA0085.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:37a::15) To DS7PR11MB6080.namprd11.prod.outlook.com
+ (2603:10b6:8:84::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB6080:EE_|DM3PPF0644BB20C:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52b2b1f3-4787-4388-78e3-08de911b0ffe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 
+	vsK2lkUeeLiwZ6MQ2M6H8kcOQkeU11tJKY2vr0ClCKcc1lbBl+x3yePHTcK7HibgKUB6WA7JovMdDnJpo0mzdn+Kpc7UtPv7nGaitlZeqiQ0DAeoC6uCDzL/Jg1qSA2m+u80GFmsuAR5QMvNaEebzwHmHMWBYhljw9XHXwUbizT14rHo17GqvZt3RlazCtN990fWIB5Ey0CKEiPeE/ZMgrmvcFCZAoOZxhgNIJDEfaEUpx00Glo1I7rugQrJuB5ycyiqWNL8fW0RNj+7aDECPXYEdbgEgDlhbeiyYBuRe2ED4CrUYPA0/0gc8ZD98prbzVpLTygkPk6hNk+iHHG6MjUbnlyobzkvsz9exXp0TCx0InYBAukmtaiQEMZMj2KT5DVWl1d0dGOz4xf9FootTq8QlDpyWS3yJ4kzXzhOOVS9VsD1WB5xZFEjqxPfxonUyzSAwv/sB81JcAwb8SKx+jek04dfD5Lkgeox3ip2cFYjyiAtZK2PjQ8JjBN3cYHKdhhNk3l4Nj2tpH463qoA9zpnuWZAtTiyW6BymxwdZ53BxfnkzjWop5HfyF4VsLay79v9PF5ylQJBpnZkIQb+x/RM2e+VeiyaXonkmZ/DMDAQrdRkMcZy114UZeQwazSuvzTGuvqihl7i8265DjHSTMAieE6TjqUXlb9XFaY1CFDzLpDL5FsZ63OGAXY2Pzjo
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6080.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?MzY3L3pCNFJuaU85bmtXdUM5YW5hQ2hIZ3QyL1hiRzJTWnhRZUF4TThOaHNi?=
+ =?utf-8?B?bS93anhXU1RqdXM2M3lZd0dJbk14ZEFYVlBpSzNNZjl0elFTSVJjbjdmc0RY?=
+ =?utf-8?B?U3FGSS9iTkt0VjBJYm0vSXpDalNhY2wyT09ZZks1Z0tNVWkxeVZST0NKdzRr?=
+ =?utf-8?B?NHJ3U0dvcUhXY0xnWDI5cU1ReVZhbVlGZE1VUmVIS0wzdUFzYTVFSW1Wb2Zx?=
+ =?utf-8?B?ZlV0Wko1OFp6Q0xXOEdqNFJPUE0wZGxKSU56SnpYc1hpQldnZnpWYkh2a2Fr?=
+ =?utf-8?B?emFiNVRTVkJzMEJwZnFEY05iOTU5Q2dOVG9uYUlmUGVmVExuN01OYkhld2d0?=
+ =?utf-8?B?bEtFWHN0OFZOZWJQREM3YTlUNWV4UHNIOHRUS2lrUElrSHZpUzVVajZXZGE2?=
+ =?utf-8?B?dU5Dak16b2srdXJiRmhHK0xpUDlXTEg5dUZFaElIdzcvak9lNE5hVE4xMDFk?=
+ =?utf-8?B?bEE3VFYzelVUQVRhaEtqMlhCVGIzQkJYd1ViL1pHZ2djRmRpeXNBSHFzMUpL?=
+ =?utf-8?B?YUkvQXhJYi9WaGFmclZhMmp6TFJkR1ZKdVlTdEk2TkJ5c3cvWlVsQ1dYMU94?=
+ =?utf-8?B?MzNPOUN6ZG93R1JXekRRQmd2M1pkKzU0ZWQ4dlN5MUJGWXp6VTJTaE16cUY5?=
+ =?utf-8?B?VDl4Ulc1dmlKSjloQ2NUQTZUL2pSQmJnL2lOZmhlZWt6MUlaRXlsS1VNRlRs?=
+ =?utf-8?B?MXVrZUZsZ3Rxd1VhM0kyU0VsQ0dVcTN2NlhFeExmZkFWb1M4S1ptYnB2UWpX?=
+ =?utf-8?B?SUNpa0RiUy9sVy84eFkvRGhMNUdrZm82eUozcHdVMURmYnJtL2YyUHF5TWpY?=
+ =?utf-8?B?d2tHQk9aTWRiM1UrcC9BeTZZL2JBa2VsMkRjOXBuNnArS29VcC9CbHR3bGVz?=
+ =?utf-8?B?dzlvMVJsM2xiSW9iTjBBZFVMUUVpSnV5aU00azRWdFRnN0VWV3pFZ0V6MXZ0?=
+ =?utf-8?B?SmdYeXRLaU9qWEJzQ0VIL1BQVk5XWXRCZEZDV2VNOFp0ZW8zZHBEQmFFMDgy?=
+ =?utf-8?B?M1YvcEFlYklBenpZd1FrTFh6bzEwTWNVT1hrenJNWEZEUWJRN0ZqNEJ3NkFR?=
+ =?utf-8?B?Y3RYK3V3UFNtLzdtemUyaEFGOEZSeUNsbmRnYkpjUXFFekxjajBRbktBOUt6?=
+ =?utf-8?B?SXAyemtZRS82NlJJOThUeEpMT2ExUGxxT2pWMlJmWUpYRUxGNmxaSWRkTVE1?=
+ =?utf-8?B?c0dFRU5KR3R2MnorVVpUUmdQdERrVk9mRHB1RE9JSTZzN2FRaFIycnVPcno2?=
+ =?utf-8?B?emZRdVZpQStxUUZvV2VTSXhlakJYS2VPVXY2cG9jMFAxeEsrN2NRMExZNWtG?=
+ =?utf-8?B?MENoUXlNRU9IbXlleTloSnc0dTNSN1UrdEZ2bEZPTE5LdkhWUENTYnM1WHBU?=
+ =?utf-8?B?Skc4dFljakFUQVI5Wk5IeXJVMllXZ1pmMmhPUUh0Uy9mMDdjNUVkZm56SWVG?=
+ =?utf-8?B?bVFqeGQ3SUJSMkhlTU43Z3BURzdqMmwvbWowanhJOHJqWldpdXdWNktvZjVh?=
+ =?utf-8?B?V1BoYXA5ZzhsU1AvRVp4RFJCMis4RjNSOFQ4MW9sVm5ua2pFOW5oVkc0RkJ3?=
+ =?utf-8?B?SDV1cmV5UDNrcGZJc3YyQytFWWVnUDBVOWlYOVVERnJQcTljTjVQRmJzYkpN?=
+ =?utf-8?B?TVFtZHplNndVZ3VUSi9xVUYyU3RnWUw0aWRRS2hEaUxvMUc1b1NHUjBlWVFK?=
+ =?utf-8?B?ME1RbnRDYS9MRUVUZVo5c2Y4eFQvQ3pGaTJkZEhuTS9nMWExUHJWaDU0YWYw?=
+ =?utf-8?B?TThnaE1Ib1oybjNvakJMYU9vanorSHlvTXRaT1ZuM1N1RDJVWDhZYjNvNzQr?=
+ =?utf-8?B?ZWdETDFtc1YxZGZadGRCZkdycmdtL3FJRVQ4cW5EM3BnbisxK1loampPNnNT?=
+ =?utf-8?B?ZDdPNldsTHZYTUZwM09JdmZBS2NoVnYzL0N2NHNJYW1xdUczVzcxQVJ3U3ht?=
+ =?utf-8?B?NEJIU2k2RXV4ZUJvYXhRNkNtS1o5dXI0NVFsMk1MWk1LUmVPNEt3UGRleGY3?=
+ =?utf-8?B?SFQ5WUthcTNNKzkxcUxLQ20wcUhoRkIzcXRYQ1lqMGp5T052TGwxOW13SERH?=
+ =?utf-8?B?VDNqL0xobE1BQ1g5ek41c0JEcDJiZUhMRzMwTUZVMUpubVVBZEFZMHdCenNj?=
+ =?utf-8?B?ZllibjNiRlhOQUpBRkUvTEhGTHpwOStCZUlKcnJXd05EeCs2aTg5RzRhclBT?=
+ =?utf-8?B?YXUycWFKaUF4L3lKaXZMeXhyeXFPamJubDdqemF5NU5hREVkRzd4ZklwM0N3?=
+ =?utf-8?B?b3h0aEhhaG1zd0hMTjVuVHdDVWZiWURyMHVzekwwbkFiTURMUXo5SmF5ZldV?=
+ =?utf-8?B?cVR1SEthR0tCZkRXY1p1eTRxUkxqUEllUlFyTWk1TjJEczlkVzNvUkkrQnZz?=
+ =?utf-8?Q?QYcNVdlwNYXgMr2o=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	aOV6qJFh/1MiL7RUrn9aut6MXE7jWe0c4cIBiv2O7k6Af4fkbkTWeNcwlAys6xktxYPDZJg3Zmklgl0acbPL26224RmwEgYDMM9UL1lIyYtgekASY8lz9gIP9LjcuxmE0qEoFhH1sl5knn1bc5NryWy/nVSF5FtKwbtn0RwQ3CHBu/4gnojRXdgJzTVSZ3A/XpvXX81EGyac159uKS0mzyLUo+OfhO+oflFxxuq6/N6utGD23H56Boem6Ao/UtqhnVJIzc6qyoKNuORes9dZqRbnTmpfnrRSc48SEiH2T2VuOQMn6ykndtGKYI0kILhh+Z5xkPjYUj5FeIPQBbvzAg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52b2b1f3-4787-4388-78e3-08de911b0ffe
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6080.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 00:50:55.3911
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4fxR2qskgttHW2aB1haMwXC+GKSvzqki0DExOGy1i0GrbnPtKjZ4sCZRBIzTZuTX5oocVS6eW3FUXXslR2o1YUDzWEwyo5uF6jHNnv9hlh0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF0644BB20C
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=QaZrf8bv c=1 sm=1 tr=0 ts=69cf0ef2 cx=c_pps
+ a=6NHOJSrb2DrgGhcKreW8mw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
+ a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=_3ePMINjFawIIbp2OVoA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAzMDAwNCBTYWx0ZWRfX3lFWYEdqtQHD
+ +9J5k26HVRJscCkAC/xTA2gILkuHsefqdgFNe7OkhLy3ToHgXImjYiFkV76UE3k7bkWwqDE1f97
+ ZfUw1+lAaD2mybJqkmH3Zo/HY8ip5RWwO+WgeYBRQvLp1kH91vJZSn2mnw038g7yYVdNRWUTrmh
+ krQa/JrPcN9bkYIw/IIfS/Mw5sBLZKYZ19oZPoeahEM/9zL3I6DDpBsJ65dI2zOJ6X4L0sy5zAA
+ 23GrKoVTkN40s7YJRH1KiDM0yEGLGT4Bs3XQ95tQv25du1i3XGxgeTPkN/2np/TBD2NIgx7DpUg
+ lnuk8j0NEJeLVRf2hT+mT9vb/54k2fxaSvZsEiSKtECtmz9aHZdg5p2LVT/2GD5T3sXC3OpvAxV
+ 2B9HQRXj+X/5OZN5j34sETrp0jeNA065rBMHAZpzMlvmBclU5DYgBI2OFlp3SWEPr65ns4L89PB
+ +LvLfPXt9nhnmS5ZzgA==
+X-Proofpoint-GUID: W4NCVbHQdgPWDoKdEKWJUjtnEmtqdJW2
+X-Proofpoint-ORIG-GUID: FpoyDrBVVJqRSz-6IFziM_b5oqBQ5L9P
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-02_04,2026-04-02_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 adultscore=0 suspectscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604030004
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6330Qd3E3003867
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2026 20:30:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234551
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2026 00:51:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234552
 
-Allow generating multi-profile UKI [1]. This is quite usefull for
-dual slot A/B deploymets with secureboot active.
 
-Currently only .cmdline sections are supported. But can be easily
-extended with others.
+On 4/3/2026 1:39 AM, Mathieu Dubois-Briand wrote:
+> On Thu Apr 2, 2026 at 3:49 PM CEST, ZhangXiao via lists.openembedded.or=
+g wrote:
+>> The ebtables utility can be provided by both ebtables and iptables
+>> packages. Set higher priority for the version provided by iptables
+>> to prefer it.
+>>
+>> Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+>> ---
+> Hi Zhang,
+>
+> Thanks for your patch.
+>
+> We can see this warning on the autobuilder:
+>
+> WARNING: iptables-1.8.13-r0 do_package: iptables: alternative target (/=
+usr/sbin/ebtables or /usr/sbin/ebtables.iptables) does not exist, skippin=
+g...
+> ...
+> WARNING: iptables-1.8.13-r0 do_package: iptables: NOT adding alternativ=
+e provide /usr/sbin/ebtables: /usr/sbin/ebtables.iptables does not exist
+> WARNING: iptables-1.8.13-r0 do_package: iptables: alt_link =3D=3D alt_t=
+arget: /usr/sbin/ebtables =3D=3D /usr/sbin/ebtables
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/3484
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/3548
+>
+> Can you have a look at the issue?
 
-[1] https://uapi-group.org/specifications/specs/unified_kernel_image/#multi-profile-ukis
+iptables will not always build out ebtables, "--enable-nftables" will=20
+make it.
 
-Signed-off-by: Pavel Löbl <pavel@loebl.cz>
----
- meta/classes-recipe/uki.bbclass | 48 +++++++++++++++++++++++++++++----
- 1 file changed, 43 insertions(+), 5 deletions(-)
+... iptables_1.8.13.bb...
 
-diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
-index d16f3c95561e..c2d21304c793 100644
---- a/meta/classes-recipe/uki.bbclass
-+++ b/meta/classes-recipe/uki.bbclass
-@@ -59,6 +59,17 @@
- #   - see efi-uki-bootdisk.wks.in how to create ESP partition which hosts systemd-boot,
- #     config file(s) for systemd-boot and the UKI binaries.
- #
-+#   - to generate multi-profile UKI (currently only supports .cmdline section)
-+#
-+#     UKI_PROFILE[0] = "TITLE=Recovery boot"
-+#     UKI_PROFILE_CMDLINE[0] = "rootwait recovery"
-+#
-+#     UKI_PROFILE[1] = "TITLE=Boot from slot A"
-+#     UKI_PROFILE_CMDLINE[1] = "rootwait root=LABEL=root_a"
-+#
-+#     UKI_PROFILE[2] = "TITLE=Boot from slot B"
-+#     UKI_PROFILE_CMDLINE[2] = "rootwait root=LABEL=root_b"
-+#
- 
- DEPENDS += "\
-     os-release \
-@@ -109,21 +120,46 @@ python do_uki() {
-     import glob
-     import bb.process
- 
--    # base ukify command, can be extended if needed
--    ukify_cmd = d.getVar('UKIFY_CMD')
-+    def generate_profiles(ukify_cmd):
-+        join_profiles = ""
-+        profile_num = 0
-+        while (profile := d.getVarFlag("UKI_PROFILE", str(profile_num))):
-+            ukify_cmd += " --profile='%s'" % (profile)
-+
-+            cmdline = d.getVarFlag("UKI_PROFILE_CMDLINE", str(profile_num))
-+            if cmdline:
-+                ukify_cmd += " --cmdline='%s'" % (cmdline)
-+
-+            profile_file = "%s/uki-profile%s.efi" % (d.getVar('DEPLOY_DIR_IMAGE') , profile_num)
-+            ukify_cmd += " --output=%s" % (profile_file)
-+            join_profiles += " --join-profile=%s" % (profile_file)
-+
-+            bb.debug(2, "uki: running command: %s" % (ukify_cmd))
-+            out, err = bb.process.run(ukify_cmd, shell=True)
-+            bb.debug(2, "%s\n%s" % (out, err))
-+
-+            profile_num += 1
-+
-+        return join_profiles
-+
- 
-     deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
- 
-+    # base ukify command, can be extended if needed
-+    ukify_common_cmd = d.getVar('UKIFY_CMD')
-+
-     # architecture
-     target_arch = d.getVar('EFI_ARCH')
-     if target_arch:
--        ukify_cmd += " --efi-arch %s" % (target_arch)
-+        ukify_common_cmd += " --efi-arch %s" % (target_arch)
- 
--    # systemd stubs
-+    # systemd stubs, required even for UKI profile generation
-     stub = "%s/linux%s.efi.stub" % (d.getVar('DEPLOY_DIR_IMAGE'), target_arch)
-     if not os.path.exists(stub):
-         bb.fatal(f"ERROR: cannot find {stub}.")
--    ukify_cmd += " --stub %s" % (stub)
-+    ukify_common_cmd += " --stub %s" % (stub)
-+
-+    ukify_cmd = ukify_common_cmd
- 
-     # initrd
-     uki_fstype = d.getVar("INITRAMFS_FSTYPES").split()[0]
-@@ -185,6 +221,8 @@ python do_uki() {
-     if cert:
-         ukify_cmd += " --secureboot-certificate='%s'" % (cert)
- 
-+    ukify_cmd += generate_profiles(ukify_common_cmd)
-+
-     # custom output UKI filename
-     output = " --output=%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('UKI_FILENAME'))
-     ukify_cmd += " %s" % (output)
--- 
-2.53.0
+ =C2=A036 # libnftnl recipe is in meta-networking layer(previously known =
+as=20
+libnftables)
+ =C2=A037 PACKAGECONFIG[libnftnl] =3D=20
+"--enable-nftables,--disable-nftables,libnftnl"
+...
 
+
+Add two lines below into local.conf to reproduce this conflict:
+
+... conf/local.conf ...
+
+IMAGE_INSTALL:append =3D " iptables ebtables"
+
+PACKAGECONFIG:append:pn-iptables =3D " libnftnl"
+
+...
+
+
+Thanks
+
+Xiao
+
+> Thanks,
+> Mathieu
+>
 
