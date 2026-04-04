@@ -2,205 +2,144 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB63FE63FF9
-	for <webhook@archiver.kernel.org>; Sat,  4 Apr 2026 20:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4BE7E63FF8
+	for <webhook@archiver.kernel.org>; Sat,  4 Apr 2026 20:57:39 +0000 (UTC)
 Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23852.1775335086741009230
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24336.1775336252662784179
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Apr 2026 13:38:06 -0700
+ Sat, 04 Apr 2026 13:57:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=R+4h/QVr;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=QEiwY3Mz;
  spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8d65f4073bfso64900285a.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 13:38:06 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8cfc40e4158so323770685a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 13:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775335086; x=1775939886; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pQcdW5E3yYb8/2tiHuAAntiRUyY2fbBaGfnflbG3gek=;
-        b=R+4h/QVrEIy0ppEflRVU70MD89CxB5jPLE4pdMgqwDsi+bH0DXYVCYw2KdTNEq1i2f
-         +UkMFSPWsFrgiQNh5Af/ElPzoUX5+edetxh+p4ZyP52WiGDD+Euq/R540wSsmIweXyZB
-         jlpSZSOYDZcVDACkBLp8MFTh1TA7JmN6j461yEUbi8vaX7F24MoRpV8wWbMnEu1W3T2C
-         bjIyySUxyFMrpkrd19hjKz/2IJG9MLBCRxxnpLkdzZIqs1u63eB9O1a/nAcoXdm4Vs9K
-         4fXc5sFldrGgza18l43AHBy13k9nuvzz9ockx9+Xt5SQ3BMauWifLpuknbXcUeiweoeQ
-         ToAw==
+        d=gmail.com; s=20251104; t=1775336252; x=1775941052; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ctWLUSmEeXwP/7G3uRtqYwKm7PtPc7vt7dLjj6F6q4=;
+        b=QEiwY3MzQZogH38Qa4JKnADNs15LM8yTB+YkndknP1LfYqYzLkt+S+aYGj1OaTeJbP
+         1m+FWwQM4cDkLPMv8wNR6XPiaLsFe1tTbft0zNkEbNzzDf4Bqwh6MaUPUTjAtiqEceiw
+         m2bcrboRLO1yaLss7V3E8l9M056woP2iasYDW/W00VpQ5c3I+CTjMkHQ+QVTzkNsbeky
+         riHqRWDgNCchxXWf6pwk6PTKzUvumHPs9R8T6tnjBWHwI8s4MCC75WFTi7nmxXvU0OoI
+         CbB6EzNdsqEqwbMqWXt1eITqDgKD8ZdRG/iYAU70xw1+2eNVa3yahJ5H44sJ4utdJg4H
+         9P8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775335086; x=1775939886;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pQcdW5E3yYb8/2tiHuAAntiRUyY2fbBaGfnflbG3gek=;
-        b=nOjN1CqB1F+6aCMWgEp651PChCswH3O5qdZcYC0cWYimF8Cj9Uk70sh465CyuuucG/
-         Vs9+wpBJ66q+8YZg/0d6AcXm9mw8bBJjceT2Xlt+D/78M3f/xXdae9dGUjtYtgjaA/kn
-         M3qDI+DCRNV34c/vspS7aOB0+ppJn7qO2nINFo662JeTYJEk6KFWujeHyNqbrePBxd1k
-         54RYE+B71tdhStVy1+dFGpuDO3s02K6kUhUrWkq4+3LwgOkmgn18nVKFcQ164swrYlc0
-         qTKhrFbUfF/rzF0jg0FG8fLmhrsj2VkwocpZ/SQPUOEODV5y/Wg5DV0Ww0u4xWCiDUv5
-         oVEQ==
-X-Gm-Message-State: AOJu0YzPssYQgmLI7kGuCBopas/neBiiprTrHkoQF259SFVaW+JXXPty
-	Obvga0e49urt7LKecSuBDoqivyg6qjA/PX29mCKez4Ve3ZtfSQqzTWoT
-X-Gm-Gg: AeBDieu/Mb04sA3MKQ2SQqB5WDrqW/2JZc0F2MrbzHCPdJ05Yg/vxSWmdCgO/9Qqyzc
-	I7qBbwcG8IdsqU76B1Wz8fc6ScvAkUJZyL+0chxJYLQmA8jaU/PIOvRoSY6NgjZW/XSrN34hhK5
-	Vpzs3UtR6PreAQGYAlDXGkv442O60lAmcj0gUuBqdNhAEF0m9zMr6UFdiRqYJ4Gv0pqAvnIav1T
-	HhzJVwJsGfAGlcBLYgtdp90iZb9oVOaOopFji4bAOh31uD5hBJykllvcc1UDPf0/b3LXyw/IpQV
-	G4xE8zUSe0XZgoVZZ8sz3+4wGVy6Zsn/oEw+bYsKbfN1NnCfCMYJxBrp9aqH2m9Hh6LzBuaxSsp
-	U3XLBlGYLQ61z7WSdML2A1wRG9TTHQ2ziP50oalcV91sSRmbzhFBdwi32uIdb4pAAsrBNHjgrd4
-	iVo43o8dbcvCZeg1AK86YWHC5wFeVU27QL/XfV7WH2JtF4GD9ZW5DLBrnWLWznCLIdROBK89mzl
-	WwL
-X-Received: by 2002:a05:620a:298f:b0:8cf:d9a8:561b with SMTP id af79cd13be357-8d4151e5623mr1079835185a.0.1775335085683;
-        Sat, 04 Apr 2026 13:38:05 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775336252; x=1775941052;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5ctWLUSmEeXwP/7G3uRtqYwKm7PtPc7vt7dLjj6F6q4=;
+        b=fjV7ZBRQ795l8byn116jgDUe92H0HrOWasMYOhE8Nh72UpkiacldQgwuXsRTsImq4z
+         nLySgv1+5zbK06vqgS460U0g2qmV6vPB7r9opWE+WBK9HHcUV6K1liDp0fsNZidTjCcS
+         7h/4+FYMTLeXYDPl6COcn6XN/bpI4Bd/YkDD7Z+RLhVRajVm8Yz1/rjP5viLF6bpal85
+         b1i1c8VJBn94tTItpJemw4rCzazMUes8LtjIcQmAKBmSKa0ejsG9eArgeWxu0zjzoePe
+         z6FOZomVEJZhkWxIY+4Ci/LKG1jC4P4hHhSd3RQNbxXt1/ms3sft/zRNIQsPBFT7aJfs
+         yrbA==
+X-Gm-Message-State: AOJu0YwTHpxUzLv1PV2RESmpkGzwNorABPq6d47r41Cx6KP/3De/V6I7
+	UoXBTUAV6j5WXWcV/Vp6MTfs0re/vd0WTGk7NIGFkqXtH4mrLw8yTvQV
+X-Gm-Gg: AeBDievCF1ddty7XcqalAL62nPZ+xcrLH83VOE9mbLqY9lSr1FEpvaDCRnuuhdxD8jF
+	l0aK+jkLmPP6buaOvaAjntPXdN2OyU4ExdWQdO6Mk2ZObQO9dB+Hlqnp1BvEjXn2LraYrZXE5+J
+	EUzlQJXnFp77MHoqBthL6PeuBxu4YkrrQsJPLU7fbUWPaEDTc01o/eu9vMUa07syqcF42myZx2u
+	v3Yw2zzwDnJQ/oDIvLXpumOM4zHr4eWE/2LWJrt3jUtSzH1p0vTIbPapEdiNfvu711oMQqZ8W1h
+	PekXZqlr7Wm890+Ny8wSogptCUTm6IcC46K3KhpUSWJUzIAUVU1WAiktlLhGq7F40+Rm0bErwLC
+	3D0dgwEP+5h4Nc4KzxM+colkJrL/ntXmNWYBHUUWJRzfBTRHxbEusRWzoidv1OKJXI6uaJIsscp
+	JiHs/2SdGeVuy1kLloI3NncO9cWeynonLjeX9wSeSNMZkDZXlzJ0E4JSx4FCKtS36vTg==
+X-Received: by 2002:a05:620a:4802:b0:8ca:a950:238f with SMTP id af79cd13be357-8d41bbdb2a8mr1054248485a.10.1775336251462;
+        Sat, 04 Apr 2026 13:57:31 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d5ce92c4d3sm173824585a.44.2026.04.04.13.38.04
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d2a864b516sm753606885a.37.2026.04.04.13.57.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Apr 2026 13:38:04 -0700 (PDT)
-Date: Sat, 4 Apr 2026 16:38:02 -0400
+        Sat, 04 Apr 2026 13:57:30 -0700 (PDT)
+Date: Sat, 4 Apr 2026 16:57:29 -0400
 From: Trevor Woerner <twoerner@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Mark Hatle <mark.hatle@kernel.crashing.org>
-Subject: Re: [OE-core] [PATCH v9 4/5] wic: move canned *wks files
-Message-ID: <adF2qsDHX3SzWqzy@localhost.localdomain>
-References: <20260403183541.2631883-1-twoerner@gmail.com>
- <20260403183541.2631883-5-twoerner@gmail.com>
- <59476a47af44f95f70e14869226d336e90c009a4.camel@linuxfoundation.org>
- <adA94CgwRzIvBl1R@localhost.localdomain>
- <c15be3d11d7381e0be75e56340dc985628ba513a.camel@linuxfoundation.org>
- <adEyY7c8FLpJPNkc@localhost.localdomain>
- <f366155401c254d33792e00d0f6b60b81ed34d8b.camel@linuxfoundation.org>
+To: zizuzacker@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] qemuarm/qemuarm64: add WKS_FILE for wic image
+ creation
+Message-ID: <adF7OR6UByOf3jlJ@localhost.localdomain>
+References: <20260404012859.2463603-1-zizuzacker@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f366155401c254d33792e00d0f6b60b81ed34d8b.camel@linuxfoundation.org>
+In-Reply-To: <20260404012859.2463603-1-zizuzacker@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 20:38:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234620
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 20:57:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234621
 
-On Sat 2026-04-04 @ 07:36:05 PM, Richard Purdie wrote:
-> On Sat, 2026-04-04 at 11:46 -0400, Trevor Woerner wrote:
-> > On Sat 2026-04-04 @ 08:27:13 AM, Richard Purdie wrote:
-> > > On Fri, 2026-04-03 at 18:23 -0400, Trevor Woerner wrote:
-> > > > On Fri 2026-04-03 @ 10:13:00 PM, Richard Purdie wrote:
-> > > > > On Fri, 2026-04-03 at 14:35 -0400, Trevor Woerner via lists.openembedded.org wrote:
-> > > > > > When "wic create ..." is invoked with a bare *wks name (i.e. without the
-> > > > > > `.wks` extension), wic calls engine.py:find_canned_images() to find the
-> > > > > > fully qualified *wks file. This function searches every directory formed by:
-> > > > > >     - permutating all BBLAYERS with `/wic`
-> > > > > >     - permutating all BBLAYERS with `/scripts/lib/wic/canned-wks`
-> > > > > >     - checking `<scripts_path>/lib/wic/canned-wks`
-> > > > > > Where `<scripts_path>` is the directory containing the wic program.
-> > > > > 
-> > > > > It doesn't. I just looked at the code and it uses BBPATH. That can be
-> > > > > similar to BBLAYERS but it is different and the commit messages really
-> > > > > should refer to BBPATH.
-> > > > 
-> > > > In the oe-selftest wic tests, most of the "wic create ..." commands
-> > > > are called with bare *wks files (i.e. *wks files without the `.wks`
-> > > > extension). When this happens, as "wic create..." is called, it starts
-> > > > by running the code found here:
-> > > > 
-> > > > 	https://git.openembedded.org/openembedded-core/tree/scripts/wic#n206
-> > > > 
-> > > > which calls:
-> > > > 
-> > > > 	https://git.openembedded.org/openembedded-core/tree/scripts/lib/wic/engine.py#n46
-> > > > 
-> > > > which follows the algorithm that I have described above.
-> > > > 
-> > > > So for the oe-selftests to pass I wanted to move them.
-> > > 
-> > > You are right, it is using BBLAYERS. This is very confusing since the
-> > > wks files are using BBPATH, which is similar but subtly different. 
-> > > 
-> > > Is there any reason it can't use BBPATH to match?
-> > > 
-> > > I agree the files need to move but I'd like them to end up in
-> > > meta/files/wic, not meta/wic. Whilst it complicates the migration a
-> > > little, I think it would be best to move them once and get them into
-> > > the right place.
-> > > 
-> > > The questions are then firstly, how to do that simply, then secondly,
-> > > how to clean up the rest of this (and when to do that).
-> > > 
-> > > Adding files/wic into the search path is trivial. Deprecating the
-> > > existing search paths with appropriate warnings is a bit trickier and
-> > > there is the question of when we should do that, before or after the
-> > > current release. "after" would seem more obvious, but it will mean two
-> > > different behaviours before and after release and with a standalone
-> > > tool, this does become harder.
-> > 
-> > I'm only guessing here, but it looks like someone wrote "wic create" to
-> > run two different ways: with the wks file specified with or without the
-> > ".wks" extension.
-> > 
-> > If ".wks" is not given (e.g. "wic create directdisk-gpt ...", which is
-> > what occurs in the oe-selftest tests, i.e. when wic is run independently
-> > without being part of a bitbake build) then wic invokes its own search
-> > algorithm to try to find the wks file using BBLAYERS and script_dir. In
-> > this case the wks file is specified without the ".wks" and no path
-> > information is given on the cmdline. It is up to wic to find the actual
-> > wks file itself.
-> > 
-> > If the ".wks" is included (which is what happens when wic is called as
-> > part of a bitbake build and therefore the image_types_wic.bbclass is
-> > used) then the class adds the ".wks" at the end, and also gives wic the
-> > path to the wks file which it finds using WKS_SEARCH_PATH which is based
-> > on BBPATH and COREBASE.
-> > 
-> > Assuming the persona of someone who wants to use this new, independent
-> > wic tool, and who knows nothing about The Yocto Project or bitbake, I
-> > think having wic look in "magical" places for the wks file would be hard
-> > to understand and surprising. As an independent tool I think the user
-> > should provide the path to the actual wks file (with the ".wks"
-> > extension) and if that file can't be found as specified on the cmdline,
-> > wic should simply fail with an error.
-> > 
-> > As part of making wic an independent tool, I think wic's code to search
-> > for a wks file if the ".wks" is not provided should be removed. This
-> > means that, as part of the transition, I would have to modify each "wic
-> > create" test in oe-core's oe-selftests. I'm fine with that. That could
-> > be done cleanly if I write a little function to find the wks file in
-> > the wic.py oe-selftest itself using the same logic as is used in the
-> > image_types_wic.bbclass.
-> > 
-> > To summarize: in my opinion, wic shouldn't have search logic. From wic's
-> > point of view the wks file should be specified on the cmdline in a way
-> > that wic will find the file the user wants to use (or not find it).
-> > The oe-selftests should be updated to use the same search logic from
-> > the image_types_wic.bbclass so that when it invokes "wic create" it is
-> > providing wic with the path to a wks file that has a ".wks" extension
-> > (which is how bitbake invokes wic) instead of specifying a bare wks file
-> > and hoping wic will find it.
-> > 
-> > I'm happy to add "files/wic" as another location for
-> > image_types_wic.bbclass to search for wks files.
-> 
-> I guess the first question is are we going to take this for wrynose or
-> not? I'm not particularly happy with the files a top level wic
-> directory, I think it needs to be meta/files/wic. To make that work, we
-> need to tweak the search paths in wic and in image_types_wic.bbclass.
-> If we can resolve that issue, we're probably good to move forward with
-> merging.
-> 
-> I agree that the search path logic should be tidied up. Whether you can
-> provide a search path to wic or whether that has to be done in metadata
-> is an open question. I do see your perspective, equally, if you are
-> using wic within OE, having some search knowledge may be ok. I would
-> want to see it basically using files/wic from BBPATH  with everything
-> else removed. There is a question of how you warn users about old
-> paths. This piece is too late for the release though.
-> 
-> So I'd propose we add files/wic to the search path, move the files
-> there and that lets us at least get some of the changes into the
-> release?
+On Sat 2026-04-04 @ 08:28:59 AM, Zk47T via lists.openembedded.org wrote:
+> Some of the oe-selftest test cases require generating a wic file, but
+> the qemuarm and qemuarm64 machines didn't have one defined, which
+> caused tests to fail when attempting to build WIC images.
 
-Sounds perfect, thanks!
+Which tests are failing due to lack of wks files? All of the
+oe-selftests in wic.py are passing for me.
 
-> Cheers,
+Some oe-selftests generate wks files on the fly, and others use
+pre-existing wks files; both scenarios work fine, and one doesn't depend
+on the other. I don't understand how adding a wks file is related to
+tests which generate their own wks files.
+
+> This creates a default qemuarm.wks providing a single 5GB ext4 root
+> partition and assigns it via the WKS_FILE variable in both the
+> qemuarm.conf and qemuarm64.conf machine configurations.
+> [YOCTO #14963]
 > 
-> Richard
+> Signed-off-by: Zk47T <zizuzacker@gmail.com>
+> ---
+>  meta/conf/machine/qemuarm.conf         | 2 ++
+>  meta/conf/machine/qemuarm64.conf       | 2 ++
+>  scripts/lib/wic/canned-wks/qemuarm.wks | 3 +++
+>  3 files changed, 7 insertions(+)
+>  create mode 100644 scripts/lib/wic/canned-wks/qemuarm.wks
 > 
+> diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+> index 943ce7c16a..685483c545 100644
+> --- a/meta/conf/machine/qemuarm.conf
+> +++ b/meta/conf/machine/qemuarm.conf
+> @@ -29,3 +29,5 @@ QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device v
+>  QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
+>  
+>  KMACHINE:qemuarm = "qemuarma15"
+> +
+> +WKS_FILE ?= "qemuarm.wks"
+> diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+> index a096d964db..14b9f838e2 100644
+> --- a/meta/conf/machine/qemuarm64.conf
+> +++ b/meta/conf/machine/qemuarm64.conf
+> @@ -28,3 +28,5 @@ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio
+>  # Virtio serial console
+>  QB_SERIAL_OPT = "-device virtio-serial-pci -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+>  QB_TCPSERIAL_OPT = "-device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
+> +
+> +WKS_FILE ?= "qemuarm.wks"
+> diff --git a/scripts/lib/wic/canned-wks/qemuarm.wks b/scripts/lib/wic/canned-wks/qemuarm.wks
+> new file mode 100644
+> index 0000000000..01d9fbf10b
+> --- /dev/null
+> +++ b/scripts/lib/wic/canned-wks/qemuarm.wks
+> @@ -0,0 +1,3 @@
+> +# short-description: Create qcow2 image for ARM QEMU machines
+
+Whether or not a qcow2 image is created is not something over which the
+wks file has control.
+
+> +
+> +part / --source rootfs --fstype=ext4 --label root --align 4096 --size 5G
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#234619): https://lists.openembedded.org/g/openembedded-core/message/234619
+> Mute This Topic: https://lists.openembedded.org/mt/118668207/900817
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [twoerner@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
