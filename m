@@ -1,162 +1,343 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 009BDE88D88
-	for <webhook@archiver.kernel.org>; Sat,  4 Apr 2026 07:27:21 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12518.1775287638084727474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 148A1E88D8B
+	for <webhook@archiver.kernel.org>; Sat,  4 Apr 2026 07:41:52 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12373.1775288509824039557
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Apr 2026 00:27:18 -0700
+ Sat, 04 Apr 2026 00:41:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Evf9Tt7O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48374014a77so31839965e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 00:27:17 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=AdwmcriR;
+ spf=pass (domain: mvista.com, ip: 209.85.208.44, mailfrom: vanusuri@mvista.com)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-65c4152313fso3397552a12.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 00:41:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775288508; cv=none;
+        d=google.com; s=arc-20240605;
+        b=i8LPuaB6Qskg9tbfJiqWgcFC2ilQFVLv1Ixuy/DXCpYCT/anKCpdzX20Ud87PNj9k3
+         9rkaOjjhB6GTErgJgokOt92DC6Bvndm6zdgUohKJpwdcUSM5nL1zc1BE5xqIpmmXLGw5
+         gW941e2ELby5zPaQCHV7/HzLf9677qcxar8IeRusE4KS8VQVgUi1KCBSKdnDNndpXsJK
+         jrBribS5hloCbkRhzm1SzV8/QbZ+WQStJE4+SaNFJUlwwWV4xpnVGgDZNbK3Y1i3JayY
+         eMDjuaywL0DqreRAGdcUGUQ5nQxWirV3MTy4uX2eN6LZy4yEpE9SD8JPnamUctk1Epam
+         KfLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=eboMH2QpBhqPZrvGYWdk40IWiKrVv7a0w+ps/5ovNH4=;
+        fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
+        b=BRsFcjC49ZPyUlizPyhC36u+Z8rVfFLJxmaZXWiFrOBR7NT/MfU4q3z2ddeqhsMX+A
+         9mf9Hv3WpN8QPXWiKxz4UK6RwCdGKpDJhZvffARn73X4aMnFAJ1Irx4S/Er3dNvrGsD/
+         4KlaRY81m/aZtj0ui+fM1llxrPkkCfK9Nb11WX7gyBnA++p6pvAFMRmOooot1hPcM3Jw
+         imQwm6FGOX2dL/U48U476gwM/MHmRF5igypFU0C/3BTprTA4gJ+SAmvWWmjJBG9cNVE8
+         Z4Qhzp6gTb8S6j8j5MDsHJHGsc7pDapSGffVCV1NChl8s/wtqw95fCIZQKjxJAeOzF2z
+         H72A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775287636; x=1775892436; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=tgyb1vQCughdgEKemoKUzepK5YhDPRu0Uw5tDrM2AYA=;
-        b=Evf9Tt7OdvpZLq/XUtLudRFgTwo/RBh6KuXAt7G0bz97QVWkDqrUKc867YYcFHMYYH
-         gp2bizFzXtXuS21JKsiIHo9/+Ir0W3+vhNuQT91rDxFeD3Kr2cUIdrbAbP3/rjFOcEd9
-         EB8vBlSrFbu3NXNqDNCdNMVwYP8zzmCn/K3Sc=
+        d=mvista.com; s=google; t=1775288508; x=1775893308; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eboMH2QpBhqPZrvGYWdk40IWiKrVv7a0w+ps/5ovNH4=;
+        b=AdwmcriR57BihF+b/gTanpBCgXSSP3FVYOfFA6b8nkzdqFs4NrB8byzE3hss7AlaXU
+         QIG3wn31qy+5ZgyaW7bcgfCg0ogz0HewSYxGTRGT9g4Rcsj4+Icqqj7jUz2MM6WJ5m6S
+         L/4QaHeZFtMpDZ+Y5s3KekMM22AoWadXshkNk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775287636; x=1775892436;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tgyb1vQCughdgEKemoKUzepK5YhDPRu0Uw5tDrM2AYA=;
-        b=CrLW+/6uE2MIhApynQNHQ468I3RGM3ZK1z+y7GFOxh+4Z2JzIST1GA2UVOnA3g29rh
-         dc/3R3yMeMnDS/8J+3H6vMq38nv60Tg7NTy/8nOojNbnEvnxSpIz41TwIUYMJgro8tXx
-         cZG4zbcxmBk659SPR+NSqqGJXvF6vd0c8UachlNaBNR7Mty15IG3l8wxp2BrWon7h2GM
-         sMysOQTeuCE4CHMBXWUecOs/934hgaCMLj1VsSEiJMbM+E1H7asnOp7j3HGB5549r22+
-         AnX1pNPJnRNWn+FvGcHA4+W8nokTd3/0oa1xu6ZsU/05QW/49u+E7sPiuFs5+zJ+javM
-         rA/Q==
-X-Gm-Message-State: AOJu0YxWHAE1QN60gDJ9tlC3ViEwAWTSjgl68ddq2FmgBU+Lbok73735
-	+PA5MdUQ7Rc7yslHURDtNs17h7qX7uF3+EVqQMRCkXch4fz4v2Kts9efTJkmO9r55cM=
-X-Gm-Gg: AeBDieuRk1g8NNHtxYShVDEdy0JCCkzN3KelqhWDwXZBhbAYa81YYySFlusT2hqYc9D
-	j57EzPfLWh6PB/qk2OYG/igPpSzMbAAnE0HHpR8Q7mwGZLqvH9otaJvMWL8eqBna5yvCZmYVJod
-	+W0kDkHD+4uuE7cHRWN4rFKjFIF/mW2O9PMeYhutdDpqRZITBIfqAx3yEZj1VQUyc7jnoe7OXNP
-	HD92gL3y1961nMSm7fkA69/chlTVzHxFAuAJn/hq3sX/fOC29Bm43sm+640ZNXw4EgHbGKtyHLZ
-	UIsq2XqpyRBx+D5BeQQyA6zCapJBmF7A52HQN5B+6Pra08QkYsgFMyqx0geQ1rljWUvc+opcWBA
-	RnTYTIaNFfdLd2ssp9ktqBwHFUVkePYpe2ONs7QWvXhApS5UJrVQGeuoSzjq6QY7cghzrui2bCe
-	SiCdIX24mHVPfFgrIJPyz73fnIJT/QNV/jduWDmaDUfEzVxCHAtNc1DDl4xqWWvJ+09v81sjieA
-	CR6iXQ4uD/gVoeoS7lcOhfTOBY=
-X-Received: by 2002:a05:600c:c8f:b0:485:3cf3:1010 with SMTP id 5b1f17b1804b1-488996d23femr78088895e9.2.1775287636409;
-        Sat, 04 Apr 2026 00:27:16 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3181:d9a0:79d5:affd? ([2001:8b0:aba:5f3c:3181:d9a0:79d5:affd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a567bfasm409136585e9.0.2026.04.04.00.27.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Apr 2026 00:27:14 -0700 (PDT)
-Message-ID: <c15be3d11d7381e0be75e56340dc985628ba513a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v9 4/5] wic: move canned *wks files
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Bruce Ashfield
-	 <bruce.ashfield@gmail.com>, Mark Hatle <mark.hatle@kernel.crashing.org>
-Date: Sat, 04 Apr 2026 08:27:13 +0100
-In-Reply-To: <adA94CgwRzIvBl1R@localhost.localdomain>
-References: <20260403183541.2631883-1-twoerner@gmail.com>
-	 <20260403183541.2631883-5-twoerner@gmail.com>
-	 <59476a47af44f95f70e14869226d336e90c009a4.camel@linuxfoundation.org>
-	 <adA94CgwRzIvBl1R@localhost.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        d=1e100.net; s=20251104; t=1775288508; x=1775893308;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eboMH2QpBhqPZrvGYWdk40IWiKrVv7a0w+ps/5ovNH4=;
+        b=jRAkcVaDXMgO1rtLD68FVOz3v3QRgQS9PrLS1u16QdmOwXbfnsuW/f9KFPvqyiqSOl
+         Dkf5WSHqc73mVSDCA8FqCJJpZ6vfO2qzk3QqTkWPFhoEWMbPF21f5xwq3TbgjwAbcYex
+         PYW0NZJtlDl0SlR/6OTomazPWDQkOWC5JpnCrz65Ki9+byF+/4VNVlkLSW/cHCDuIucE
+         SSkJS0jZRSbb3X6RE1lowQ8yVhirke++gWbc+vdZTtgpOtifmvBahkVoD9T4bcarFyU8
+         GiF1AoosZE5hyFDaLoVcmTllzy9TFnva4L/vFyJdB/xi3HgTOj9JfWnNne+8mPQa80gg
+         CA9Q==
+X-Gm-Message-State: AOJu0Yw4Igb8GYFURFKBNV86fpPuox1jK20jeIQL5+11y+Lnq3DJV2EY
+	AgcjIQNHNMKb5SGHy4HpNOLSREpCMu8aD61JzTMBV8IWy7E2ufFSVDPLpfo8HmITQIsR8osIa2Z
+	FaPixpSUjfAc3uVz0LlnHmnVXHdqJ6W/RF8ZqB/Xf6g==
+X-Gm-Gg: AeBDietkJwnGegN0nD6v4knSOgkO3VIDUPnIRKzi888qIkrXb5KkEGNrd1c5jpp+isB
+	6UzeTtND6K3C3iqdO+9g/P9VluTOXDVOFzGQIckgkzkThh1WyrtTcIWpGDohIVGQ/BKrL+PynC8
+	IyjQhH80vOz6NiZLj+LbzBEvsXrcT+s25U3w06BN4bXWJymOWRxhg1QS0O4/dfvp7fDn/GOXGXa
+	y/veiUEfRTV1/XQv5Jm5/pfuPK+3mWTfElu+NdblPbzGZtOhoPw+GKDp5KwDfnkbidSFUlgml2y
+	kLLvyvfRJGI5e/N/yDBMtCEjYPfVamKEaISpXVrgxnfq+KGcL0XS
+X-Received: by 2002:a17:907:c002:b0:b9b:6869:bab0 with SMTP id
+ a640c23a62f3a-b9c672f45b8mr322323666b.2.1775288507239; Sat, 04 Apr 2026
+ 00:41:47 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260402071559.292708-1-vanusuri@mvista.com> <DHJW0NQHT38D.XY6Q9OTN12FY@smile.fr>
+In-Reply-To: <DHJW0NQHT38D.XY6Q9OTN12FY@smile.fr>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Sat, 4 Apr 2026 13:11:35 +0530
+X-Gm-Features: AQROBzDJ4uQButZtj_aGThaJgtxSMaOyIK9yvvB5Od3K59CcHkiSbJ3NiYWt338
+Message-ID: <CANQUz183e_N3p7n1pSr4sXUP0QAHpytUZ=-akObn1HV3PXttqQ@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] sqlite3: Fix CVE-2025-70873
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000d91c77064e9d9007"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 07:27:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234608
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 07:41:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234609
 
-On Fri, 2026-04-03 at 18:23 -0400, Trevor Woerner wrote:
-> On Fri 2026-04-03 @ 10:13:00 PM, Richard Purdie wrote:
-> > On Fri, 2026-04-03 at 14:35 -0400, Trevor Woerner via lists.openembedde=
-d.org wrote:
-> > > When "wic create ..." is invoked with a bare *wks name (i.e. without =
-the
-> > > `.wks` extension), wic calls engine.py:find_canned_images() to find t=
-he
-> > > fully qualified *wks file. This function searches every directory for=
-med by:
-> > > =C2=A0=C2=A0=C2=A0 - permutating all BBLAYERS with `/wic`
-> > > =C2=A0=C2=A0=C2=A0 - permutating all BBLAYERS with `/scripts/lib/wic/=
-canned-wks`
-> > > =C2=A0=C2=A0=C2=A0 - checking `<scripts_path>/lib/wic/canned-wks`
-> > > Where `<scripts_path>` is the directory containing the wic program.
-> >=20
-> > It doesn't. I just looked at the code and it uses BBPATH. That can be
-> > similar to BBLAYERS but it is different and the commit messages really
-> > should refer to BBPATH.
->=20
-> In the oe-selftest wic tests, most of the "wic create ..." commands
-> are called with bare *wks files (i.e. *wks files without the `.wks`
-> extension). When this happens, as "wic create..." is called, it starts
-> by running the code found here:
->=20
-> 	https://git.openembedded.org/openembedded-core/tree/scripts/wic#n206
->=20
-> which calls:
->=20
-> 	https://git.openembedded.org/openembedded-core/tree/scripts/lib/wic/engi=
-ne.py#n46
->=20
-> which follows the algorithm that I have described above.
->=20
-> So for the oe-selftests to pass I wanted to move them.
+--000000000000d91c77064e9d9007
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-You are right, it is using BBLAYERS. This is very confusing since the
-wks files are using BBPATH, which is similar but subtly different.=20
+Hi Yoann,
 
-Is there any reason it can't use BBPATH to match?
+The fixes for this CVE are already included in SQLite version 3.51.3 on the
+master branch.
 
-I agree the files need to move but I'd like them to end up in
-meta/files/wic, not meta/wic. Whilst it complicates the migration a
-little, I think it would be best to move them once and get them into
-the right place.
+I=E2=80=99ve already submitted backport patches for the whinlatter and scar=
+thgap
+branches. Please let me know if anything further is needed.
 
-The questions are then firstly, how to do that simply, then secondly,
-how to clean up the rest of this (and when to do that).
+Thanks & Regards,
 
-Adding files/wic into the search path is trivial. Deprecating the
-existing search paths with appropriate warnings is a bit trickier and
-there is the question of when we should do that, before or after the
-current release. "after" would seem more obvious, but it will mean two
-different behaviours before and after release and with a standalone
-tool, this does become harder.
-
-> > I don't understand why these need to move given WKS_SEARCH_PATH remains
-> > unchanged, unless wic is going to ignore WKS_SEARCH_PATH going forward?
->=20
-> As an independent tool, these *wks files are rather oe-core-specific,
-> so I thought they should stay with the oe-core/meta layer, the same way
-> that, say, raspberry pi-specific *wks files stay in the raspberry pi
-> layer.
->=20
-> My first thought was to remove them from the standalone wic repository
-> altogether, but then decided I could keep them as examples.
->=20
-> I thought it would be dangerous to leave them in the wic source
-> tree where the above algorithm could find them. If I leave them in
-> src/wic/canned-wks, someone uses the tool and creates a *wks file with a
-> similar name to one of the canned-wks files, but they have a typo and
-> the canned one gets used instead of theirs...
->=20
-> ...maybe I'm overthinking it?
-
-It is definitely dangerous to leave them in the search paths so I agree
-with that. The files do belong in OE-Core too. It is still a little
-dangerous having files lying around which have the same names as the
-ones in core since this kind of duplication still can confuse people
-when they edit the wrong file. We have bigger issues I guess but some
-renaming of the examples might help.
-
-Cheers,
-
-Richard
+Vijay
 
 
+On Sat, Apr 4, 2026 at 4:23=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
+ wrote:
+
+> On Thu Apr 2, 2026 at 9:15 AM CEST, Vijay Anusuri via
+> lists.openembedded.org wrote:
+> > From: Vijay Anusuri <vanusuri@mvista.com>
+> >
+> > Pick patch as per [1]
+> >
+> > [1] https://sqlite.org/src/info/3d459f1fb1bd1b5e
+> > [2] https://sqlite.org/forum/forumpost/761eac3c82
+> > [3] https://gist.github.com/cnwangjihe/f496393f30f5ecec5b18c8f5ab072054
+> >
+> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> > ---
+>
+> Hello,
+>
+> As far as I can tell, this CVE applies to master. Since this is the end
+> of kirkstone soon, I'll take it into the reviews series but can only
+> merge it if there is a patch sent for this CVE in those branches.
+>
+> Regards,
+>
+> >  .../sqlite/files/CVE-2025-70873.patch         | 33 +++++++++++++++++++
+> >  meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  1 +
+> >  2 files changed, 34 insertions(+)
+> >  create mode 100644
+> meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> >
+> > diff --git a/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> > new file mode 100644
+> > index 0000000000..86004c0b74
+> > --- /dev/null
+> > +++ b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> > @@ -0,0 +1,33 @@
+> > +From 5a05c59d4d75c03f23d5fb70feac9f789954bf8a Mon Sep 17 00:00:00 2001
+> > +From: drh <>
+> > +Date: Sat, 6 Dec 2025 20:41:24 +0000
+> > +Subject: [PATCH] In the zipfile extension, only return as many bytes a=
+s
+> > + Inflate actually generated.  [forum:/forumpost/761eac3c82|Forum post
+> > + 761eac3c82]. Adjust ./configure so that it builds zipfile into
+> testfixture if
+> > + ZLIB is available, so that tests get run on unix platforms.
+> > +
+> > +FossilOrigin-Name:
+> 3d459f1fb1bd1b5e723629c463ab392af7b206ece3388bda216c6a4c26160909
+> > +
+> > +Upstream-Status: Backport [
+> https://github.com/sqlite/sqlite/commit/5a05c59d4d75c03f23d5fb70feac9f789=
+954bf8a
+> ]
+> > +CVE: CVE-2025-70873
+> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> > +---
+> > + shell.c | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/shell.c b/shell.c
+> > +index fa45d40..3c4902c 100644
+> > +--- a/shell.c
+> > ++++ b/shell.c
+> > +@@ -7668,7 +7668,7 @@ static void zipfileInflate(
+> > +       if( err!=3DZ_STREAM_END ){
+> > +         zipfileCtxErrorMsg(pCtx, "inflate() failed (%d)", err);
+> > +       }else{
+> > +-        sqlite3_result_blob(pCtx, aRes, nOut, zipfileFree);
+> > ++        sqlite3_result_blob(pCtx, aRes, (int)str.total_out,
+> zipfileFree);
+> > +         aRes =3D 0;
+> > +       }
+> > +     }
+> > +--
+> > +2.25.1
+> > +
+> > diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> > index acdd80022e..9e10caa399 100644
+> > --- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> > +++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> > @@ -10,6 +10,7 @@ SRC_URI =3D "
+> http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+> >             file://CVE-2023-7104.patch \
+> >             file://CVE-2025-29088.patch \
+> >             file://CVE-2025-6965.patch \
+> > +           file://CVE-2025-70873.patch \
+> >             "
+> >  SRC_URI[sha256sum] =3D
+> "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+> >
+>
+>
+> --
+> Yoann Congal
+> Smile ECS
+>
+>
+
+--000000000000d91c77064e9d9007
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p class=3D"gmail-isSelectedEnd"><span>Hi Yoann,</span></p=
+><p class=3D"gmail-isSelectedEnd"><span>The fixes for this CVE are already =
+included in SQLite version 3.51.3 on the master branch.</span></p><p><span>=
+I=E2=80=99ve already submitted backport patches for the whinlatter and scar=
+thgap branches. Please let me know if anything further is needed.<br><br></=
+span></p><p><span>Thanks &amp; Regards,<br></span></p><p><span>Vijay</span>=
+</p><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Sat, Apr 4, 2026 at 4:23=E2=80=AFAM Yoann Congal &lt;<a href=3D"=
+mailto:yoann.congal@smile.fr" target=3D"_blank">yoann.congal@smile.fr</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu=
+ Apr 2, 2026 at 9:15 AM CEST, Vijay Anusuri via <a href=3D"http://lists.ope=
+nembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org<=
+/a> wrote:<br>
+&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=
+=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;<br>
+&gt; Pick patch as per [1]<br>
+&gt;<br>
+&gt; [1] <a href=3D"https://sqlite.org/src/info/3d459f1fb1bd1b5e" rel=3D"no=
+referrer" target=3D"_blank">https://sqlite.org/src/info/3d459f1fb1bd1b5e</a=
+><br>
+&gt; [2] <a href=3D"https://sqlite.org/forum/forumpost/761eac3c82" rel=3D"n=
+oreferrer" target=3D"_blank">https://sqlite.org/forum/forumpost/761eac3c82<=
+/a><br>
+&gt; [3] <a href=3D"https://gist.github.com/cnwangjihe/f496393f30f5ecec5b18=
+c8f5ab072054" rel=3D"noreferrer" target=3D"_blank">https://gist.github.com/=
+cnwangjihe/f496393f30f5ecec5b18c8f5ab072054</a><br>
+&gt;<br>
+&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
+" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hello,<br>
+<br>
+As far as I can tell, this CVE applies to master. Since this is the end<br>
+of kirkstone soon, I&#39;ll take it into the reviews series but can only<br=
+>
+merge it if there is a patch sent for this CVE in those branches.<br>
+<br>
+Regards,<br>
+<br>
+&gt;=C2=A0 .../sqlite/files/CVE-2025-70873.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 33 +++++++++++++++++++<br>
+&gt;=C2=A0 meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.38.5.bb"=
+ rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a> |=C2=A0 1 +<br>
+&gt;=C2=A0 2 files changed, 34 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-70=
+873.patch<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-support/sqlite/files/CVE-2025-70873.patch b/=
+meta/recipes-support/sqlite/files/CVE-2025-70873.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..86004c0b74<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch<br>
+&gt; @@ -0,0 +1,33 @@<br>
+&gt; +From 5a05c59d4d75c03f23d5fb70feac9f789954bf8a Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: drh &lt;&gt;<br>
+&gt; +Date: Sat, 6 Dec 2025 20:41:24 +0000<br>
+&gt; +Subject: [PATCH] In the zipfile extension, only return as many bytes =
+as<br>
+&gt; + Inflate actually generated.=C2=A0 [forum:/forumpost/761eac3c82|Forum=
+ post<br>
+&gt; + 761eac3c82]. Adjust ./configure so that it builds zipfile into testf=
+ixture if<br>
+&gt; + ZLIB is available, so that tests get run on unix platforms.<br>
+&gt; +<br>
+&gt; +FossilOrigin-Name: 3d459f1fb1bd1b5e723629c463ab392af7b206ece3388bda21=
+6c6a4c26160909<br>
+&gt; +<br>
+&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/sqlite/sqlit=
+e/commit/5a05c59d4d75c03f23d5fb70feac9f789954bf8a" rel=3D"noreferrer" targe=
+t=3D"_blank">https://github.com/sqlite/sqlite/commit/5a05c59d4d75c03f23d5fb=
+70feac9f789954bf8a</a>]<br>
+&gt; +CVE: CVE-2025-70873<br>
+&gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.co=
+m" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt; +---<br>
+&gt; + shell.c | 2 +-<br>
+&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; +<br>
+&gt; +diff --git a/shell.c b/shell.c<br>
+&gt; +index fa45d40..3c4902c 100644<br>
+&gt; +--- a/shell.c<br>
+&gt; ++++ b/shell.c<br>
+&gt; +@@ -7668,7 +7668,7 @@ static void zipfileInflate(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if( err!=3DZ_STREAM_END ){<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0zipfileCtxErrorMsg(pCtx, &quot;infl=
+ate() failed (%d)&quot;, err);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}else{<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sqlite3_result_blob(pCtx, aRes, nOut, zi=
+pfileFree);<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sqlite3_result_blob(pCtx, aRes, (int)str=
+.total_out, zipfileFree);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aRes =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-- <br>
+&gt; +2.25.1<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.3=
+8.5.bb" rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a> b/meta/r=
+ecipes-support/sqlite/<a href=3D"http://sqlite3_3.38.5.bb" rel=3D"noreferre=
+r" target=3D"_blank">sqlite3_3.38.5.bb</a><br>
+&gt; index acdd80022e..9e10caa399 100644<br>
+&gt; --- a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.38.5.bb"=
+ rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a><br>
+&gt; +++ b/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.38.5.bb"=
+ rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a><br>
+&gt; @@ -10,6 +10,7 @@ SRC_URI =3D &quot;<a href=3D"http://www.sqlite.org/2=
+022/sqlite-autoconf-$%7BSQLITE_PV%7D.tar.gz" rel=3D"noreferrer" target=3D"_=
+blank">http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz</a> \=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-7104.pa=
+tch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-29088.p=
+atch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-6965.pa=
+tch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-70873.patch =
+\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;5af07de982ba658fd91a03170c945f99c97=
+1f6955bc79df3266544373e39869c&quot;<br>
+&gt;=C2=A0 <br>
+<br>
+<br>
+-- <br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</blockquote></div>
+
+--000000000000d91c77064e9d9007--
 
