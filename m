@@ -1,246 +1,240 @@
-Return-Path: <adam.blank.g@gmail.com>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE16E63FEC
-	for <webhook@archiver.kernel.org>; Sat,  4 Apr 2026 17:14:58 +0000 (UTC)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20406.1775322897117231731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1990BE63FED
+	for <webhook@archiver.kernel.org>; Sat,  4 Apr 2026 18:19:39 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21780.1775326775087830088
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Apr 2026 10:14:57 -0700
+ Sat, 04 Apr 2026 11:19:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=fFXgLk8b;
- spf=pass (domain: gmail.com, ip: 209.85.210.54, mailfrom: adam.blank.g@gmail.com)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7d91f82d819so2655131a34.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 10:14:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775322896; cv=none;
-        d=google.com; s=arc-20240605;
-        b=func7jRsuSaZS0WWIcFm3OG1bxRTruztveTxxRh0Tvsvowm43LAANHZCE7y8J5P5im
-         NwRhFeVkKS1pv4iuUPyDdIRkLxW+UDzD4t2MlpVqxylkxCu3WO1enkrYl4fBCann5RVN
-         beTiRcQAAjWmJK+mdM5gEXn3dBYBP26lc5dKeNVucrnC8aTQ1mXYh3t3ZGFYvfYN6vhY
-         xUbk2+E/oZu6Q6DPiQ9nq3Ilo9VnT7sTJM3CJdGddZ/BoQu4O3dmyYOHwXaj4Qom4at3
-         vM4zFKp2AzXNx0H8afEJMuoqb89ZPu4q0/RoRzUVYlq1hqwLzS/74En1zWQUVg9zKr/T
-         ngHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Aq2jLiPthw7Br8F++T3/I3ymttqhCRQXDiZr/1zszwU=;
-        fh=TGF7TVa5Eshw5M6K2XLmjdIMKFhrsPaliuC+tv7wzuY=;
-        b=Ytl+gSV2ZS5qAYmqGVJdrE4h294MQ4vKt0ZhZUV56UO1dQT5V3mdyMx4eQKY1DYxyp
-         1BK4ThsEW+UsDFV0MU1xTKc970PX8POe0wsfnmcRJ+xXFLKgxe5fsA1sUsXpuUQCuFIe
-         9cfsUG6IZEyVHYNxSzk+/OTrvEGR0c0o2Sw8G/Si5nkOsBEsVZ+o1jNXs5cVWmpFij/k
-         tecrIUI2jid51o9i9fsLDwP7PgW0J8Zo8jsjldwAIYM/hZZooz3Fwp2VG5taUenZbfrL
-         ciuV16yxDLKWfqLHGUpCXXWe5/UHxowx8IEJ2fcynBZCALse57Ef+s1Yn6sV7U/n52It
-         DdHg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=n2o5PJM4;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: twoerner@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8a3342d301aso34723596d6.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 11:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775322896; x=1775927696; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Aq2jLiPthw7Br8F++T3/I3ymttqhCRQXDiZr/1zszwU=;
-        b=fFXgLk8b0mnW+3BwZIDhi6Nbr4Wi0NPdKm5a2WDr1N38+fzf8+YJqcbe5gRQBioEIt
-         dzel6byS4Peb55G0PTG5pI+xOqSTzW/L2rpt4FBxU6bBh+3Ty/RPzPBODlI9Dx6jfqq+
-         ZsHLtIYkAVgBQjES3rZcwqENVGjtJEp93NiFoJaY+Ww7qGHgoJy4gFMz2dgf4RlS+T1A
-         rwjaRWbRmhmXWUL4v5Rfj9G06rl9CeCDruSQUiuWXU1lzsb3tzUTBs3jawe4Q476HO2k
-         N5R4QiZtqtyUpkXbihogY/OpSB7AZV3oQflseGGKmFicu/TTeNAmmRxyyNUs7RzxRDGJ
-         mrPg==
+        d=gmail.com; s=20251104; t=1775326774; x=1775931574; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vqAscvjmQggmSfC62zYE+uSh1DbNFKm1xENrnxezz1o=;
+        b=n2o5PJM4AVnPX+Ll7kcmN0YibzH1Cx9uEbDkYlWcPdLR5Fj/LvGKw2MHbcYmGfD99f
+         GvZULWnBviv49JnC3gED2m3MgdH4l7Eufarenj+pfG58VK9tSkrWZkTonj49QKK7y7tf
+         40vCfa5OGBoj6Tlw420lUr4Hd0F5HJ2JO+dh8r4LrN0TXlr/vvhz2ou4++YG5tDLw4rH
+         sDIUc89uBu4TnohvHAWSL0iYDTsc6BcDPB9y7TOXmSQAmn7UWX8WDv+zu5IGWn6CjIRv
+         zyU0lCgT3IyWa3u9AJgjujLAY5KhqOGxrK2yeNl8pPGbxkglmzFi0lf4JUEW2P/B/rTc
+         J1Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775322896; x=1775927696;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Aq2jLiPthw7Br8F++T3/I3ymttqhCRQXDiZr/1zszwU=;
-        b=IUzgNYkpe4xj7/nIckl0RNg8ZWOHZES3PpAhJYMeuLDlWGGJnJabWxngTEsnsWvl4t
-         riuT13irTCKg+CAqCihYk4xgL+ad3/SzhzTFb4G3L+o4XeEbuAgJt+R/OEeUQDMtP1Vp
-         FYs3P36z1+faEjmkcUUXKSnW9NovUBgHVDc+zpYzH3EXiB0XfNXpJo6rrgxmlX/H0Prs
-         LmpaoXHdTEULYix8spy3KMGDOWyjulrZWoiG3NtnlPCHYN9j2Vicn2FmtDiofD3GLltb
-         YVjFmmuxTtKj9/MMQBSgUgxSusNlVKlE0Y4RrAo5rKpkN0jm399BAh98Sq7Ialgo65jQ
-         hJnA==
-X-Gm-Message-State: AOJu0YxfQRYk5R8y+UCvZYXLy3xnk3qf8r9gqkaHNjJ0AHsRiyYmW2ep
-	stwQnMVNkevL377wbGDT2JOFEKJuSmj/dBaPAvznz2XfBboVUzgRMFyp6Y6aX15zaTs6Hoa1yky
-	j7qN+PQl3GJ6q/zUE+uDYIbQR7DXhlWE=
-X-Gm-Gg: AeBDiesIy5xqjQj3dONLt7ovHS9LlSGrI6xYe8WTcgKUXvRvMOPatlqAVvauBSJi7Ig
-	xvBQcZbAZ+v6/CHyehIwxW1PHBn5iKNahpWfGjivaxF1n+9VMW8rQWrQhSCnmui4yy29P7tr8wW
-	eaRvC451+sYs8+bt1Ac+DyhaRGF0OxgSE1pyeujDccRlYBJNDcygTXgZwq9seqxiA+2C9VSiYEx
-	UUF0kkS0de6atieaEOKWhO16c8FEhLqH4ZTHNT/sLsg0dfRtAwp6VIiFWdsI4SmrW5+vdp+eo38
-	MJzXBxXJA779KJhS
-X-Received: by 2002:a05:6830:81eb:b0:7d7:d0a3:ed00 with SMTP id
- 46e09a7af769-7dbb73c555amr4202614a34.9.1775322896174; Sat, 04 Apr 2026
- 10:14:56 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775326774; x=1775931574;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vqAscvjmQggmSfC62zYE+uSh1DbNFKm1xENrnxezz1o=;
+        b=TTRd89tbSEGZ2FV0hx7IXwFTiwNXNeuSCwmYfwtl83PB0tKMd6KjzDAQEu7nCymjl2
+         1B+FmV9ZUbXFi6mW2BsS/bFuBT2dTZd9CHcpiLsg0n7zvNPT9oda6LKiSwOxxgPB+bQo
+         292J/pG0lHLvOYplDSOxvazRTJODwJaQrN5pi2Vkbr/c68R1gETWBKuvLJqleJVpOlu3
+         o4NL8SKlNUB5A+TeND4RMv/tLPKtlL2Borcvg4BtR4thTxUUBEMu4nReoPGKVkz0GyB2
+         sH2nG6Vz8RzNnvTKImSwBS9kum9TSbaFfREUaktnMfJLV2hl4rlsOj4HBmxlkaxkXzLb
+         tdbQ==
+X-Gm-Message-State: AOJu0Yz3/rP1z20SIhhcs9YGMJp7eyBEIMKQzgEAaZD2yLxKRFNdY+IR
+	AoL+8TGmXAG+7kw9ihTQcBu/3hkg3pjILsXoB7fSry8z0PGb2tbyt7nM
+X-Gm-Gg: AeBDiev1u1nuhY7b2MQ92GZlJ+TH4mQFTfxabqzsO1C5EAMn8RcTK7/Gy3rwGCOrsiF
+	bw3pxzKZc6g7if7OFd2b2hckReio/XEMoWZCgqEF7xQjyBY1ez6kIspLU0mBq9nlr6gkwqJiwYZ
+	RikDjHH6xbJ1VGtz8RuHQL4I/myTgC0GHmQgVCc2g0ZrEjoydZU04qOy86Oc0XfPKbker77IGee
+	rzd1p/72koHL+XgTEa5J9fhdr9uhKuIRR3UA3nwCeipxhwnYRYCJwNWbQx18u/2ziDczVGQi9Sy
+	8wm9wimMGfgIT/8rcm62hlsVQW7tDXOchnihhzbFB5A19O7ZSgWp+Ngz/gW0lZOVbsPvYfT434n
+	312WSb/bQG0BgcZpzEPRMBZVD6nYSzrLz1335LyFNibYty6F5hCB1M+AH11AXaBff2rh9fhzxVI
+	J7ySt5afx3hcktJWFs1klGYQWNX1ca+JOWCVX7ZYWoWcASTOys+GPnxsSc3e7JpgULKA==
+X-Received: by 2002:a05:6214:5e06:b0:8a1:6529:5ac2 with SMTP id 6a1803df08f44-8a7025b51ebmr101820006d6.13.1775326773721;
+        Sat, 04 Apr 2026 11:19:33 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8a5974ddccdsm78855056d6.41.2026.04.04.11.19.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Apr 2026 11:19:32 -0700 (PDT)
+Date: Sat, 4 Apr 2026 14:19:30 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Mark Hatle <mark.hatle@kernel.crashing.org>
+Subject: Re: [OE-core] [PATCH v9 4/5] wic: move canned *wks files
+Message-ID: <adFWMmXJzzTo0CSj@localhost.localdomain>
+References: <20260403183541.2631883-1-twoerner@gmail.com>
+ <20260403183541.2631883-5-twoerner@gmail.com>
+ <59476a47af44f95f70e14869226d336e90c009a4.camel@linuxfoundation.org>
+ <adA94CgwRzIvBl1R@localhost.localdomain>
+ <c15be3d11d7381e0be75e56340dc985628ba513a.camel@linuxfoundation.org>
+ <adEyY7c8FLpJPNkc@localhost.localdomain>
 MIME-Version: 1.0
-References: <20260402-dead_code_and_unification-v2-0-259169372299@gmail.com>
- <20260402-dead_code_and_unification-v2-2-259169372299@gmail.com>
- <DHJD0XSTONE6.2ZXL04SBPR664@bootlin.com> <CAFAffzx7EdXXEudpQGCgSA-1M7aDDwMuRLW+Dta5urcmVx_yWg@mail.gmail.com>
- <DHJHIMYYUTH6.16YUU1V7MJZY@bootlin.com>
-In-Reply-To: <DHJHIMYYUTH6.16YUU1V7MJZY@bootlin.com>
-From: Adam Blank <adam.blank.g@gmail.com>
-Date: Sat, 4 Apr 2026 19:14:42 +0200
-X-Gm-Features: AQROBzC2gkAEsiO7FfMJfsQ61XrZDUn01pbEBqZ4Zbn_cBT56jVFF5YsCLUK8hI
-Message-ID: <CAFAffzzW9r43AE5hKbXihkXqZTWeO=sQGctTkmL4Eg+U9X31AA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/4] package_pkgdata: fix typo to stop
- calling undefined function
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000969218064ea59200"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <adEyY7c8FLpJPNkc@localhost.localdomain>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 17:14:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234616
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 18:19:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234617
 
---000000000000969218064ea59200
-Content-Type: text/plain; charset="UTF-8"
+On Sat 2026-04-04 @ 11:46:43 AM, Trevor Woerner wrote:
+> On Sat 2026-04-04 @ 08:27:13 AM, Richard Purdie wrote:
+> > On Fri, 2026-04-03 at 18:23 -0400, Trevor Woerner wrote:
+> > > On Fri 2026-04-03 @ 10:13:00 PM, Richard Purdie wrote:
+> > > > On Fri, 2026-04-03 at 14:35 -0400, Trevor Woerner via lists.openembedded.org wrote:
+> > > > > When "wic create ..." is invoked with a bare *wks name (i.e. without the
+> > > > > `.wks` extension), wic calls engine.py:find_canned_images() to find the
+> > > > > fully qualified *wks file. This function searches every directory formed by:
+> > > > >     - permutating all BBLAYERS with `/wic`
+> > > > >     - permutating all BBLAYERS with `/scripts/lib/wic/canned-wks`
+> > > > >     - checking `<scripts_path>/lib/wic/canned-wks`
+> > > > > Where `<scripts_path>` is the directory containing the wic program.
+> > > > 
+> > > > It doesn't. I just looked at the code and it uses BBPATH. That can be
+> > > > similar to BBLAYERS but it is different and the commit messages really
+> > > > should refer to BBPATH.
+> > > 
+> > > In the oe-selftest wic tests, most of the "wic create ..." commands
+> > > are called with bare *wks files (i.e. *wks files without the `.wks`
+> > > extension). When this happens, as "wic create..." is called, it starts
+> > > by running the code found here:
+> > > 
+> > > 	https://git.openembedded.org/openembedded-core/tree/scripts/wic#n206
+> > > 
+> > > which calls:
+> > > 
+> > > 	https://git.openembedded.org/openembedded-core/tree/scripts/lib/wic/engine.py#n46
+> > > 
+> > > which follows the algorithm that I have described above.
+> > > 
+> > > So for the oe-selftests to pass I wanted to move them.
+> > 
+> > You are right, it is using BBLAYERS. This is very confusing since the
+> > wks files are using BBPATH, which is similar but subtly different. 
+> > 
+> > Is there any reason it can't use BBPATH to match?
+> > 
+> > I agree the files need to move but I'd like them to end up in
+> > meta/files/wic, not meta/wic. Whilst it complicates the migration a
+> > little, I think it would be best to move them once and get them into
+> > the right place.
+> > 
+> > The questions are then firstly, how to do that simply, then secondly,
+> > how to clean up the rest of this (and when to do that).
+> > 
+> > Adding files/wic into the search path is trivial. Deprecating the
+> > existing search paths with appropriate warnings is a bit trickier and
+> > there is the question of when we should do that, before or after the
+> > current release. "after" would seem more obvious, but it will mean two
+> > different behaviours before and after release and with a standalone
+> > tool, this does become harder.
+> 
+> I'm only guessing here, but it looks like someone wrote "wic create" to
+> run two different ways: with the wks file specified with or without the
+> ".wks" extension.
+> 
+> If ".wks" is not given (e.g. "wic create directdisk-gpt ...", which is
+> what occurs in the oe-selftest tests, i.e. when wic is run independently
+> without being part of a bitbake build) then wic invokes its own search
+> algorithm to try to find the wks file using BBLAYERS and script_dir. In
+> this case the wks file is specified without the ".wks" and no path
+> information is given on the cmdline. It is up to wic to find the actual
+> wks file itself.
+> 
+> If the ".wks" is included (which is what happens when wic is called as
+> part of a bitbake build and therefore the image_types_wic.bbclass is
+> used) then the class adds the ".wks" at the end, and also gives wic the
+> path to the wks file which it finds using WKS_SEARCH_PATH which is based
+> on BBPATH and COREBASE.
+> 
+> Assuming the persona of someone who wants to use this new, independent
+> wic tool, and who knows nothing about The Yocto Project or bitbake, I
+> think having wic look in "magical" places for the wks file would be hard
+> to understand and surprising. As an independent tool I think the user
+> should provide the path to the actual wks file (with the ".wks"
+> extension) and if that file can't be found as specified on the cmdline,
+> wic should simply fail with an error.
+> 
+> As part of making wic an independent tool, I think wic's code to search
+> for a wks file if the ".wks" is not provided should be removed. This
+> means that, as part of the transition, I would have to modify each "wic
+> create" test in oe-core's oe-selftests. I'm fine with that. That could
+> be done cleanly if I write a little function to find the wks file in
+> the wic.py oe-selftest itself using the same logic as is used in the
+> image_types_wic.bbclass.
+> 
+> To summarize: in my opinion, wic shouldn't have search logic. From wic's
+> point of view the wks file should be specified on the cmdline in a way
+> that wic will find the file the user wants to use (or not find it).
+> The oe-selftests should be updated to use the same search logic from
+> the image_types_wic.bbclass so that when it invokes "wic create" it is
+> providing wic with the path to a wks file that has a ".wks" extension
+> (which is how bitbake invokes wic) instead of specifying a bare wks file
+> and hoping wic will find it.
 
-On Fri, 3 Apr 2026 at 13:31, Mathieu Dubois-Briand <
-mathieu.dubois-briand@bootlin.com> wrote:
+Looking at the code, it's a little deeper than that. wic also has a "wic
+list" subcommand to "list available canned images and source plugins"
+and it uses the same search logic (using BBLAYERS) to find "canned
+images". The existing wic documentation, help text, and code refers to
+these bare wks names as "images" or "canned images". If you specify a
+bare wks to "wic create" and it can't find the wks file, the error
+message says (in part): "No image named %s found..." (instead of "No wks
+named %s found...".
 
-> On Fri Apr 3, 2026 at 12:32 PM CEST, Adam Blank wrote:
-> > Hmmm, can't see any connection between those tests and this particular
-> > patch...
-> > The thing is, that since the patch fixes a call to an undefined function,
-> > there could not have been a test covering this case in the first place
-> ;-)
-> > In addition, the function call takes place only in the 'bitbake -b'
-> case...
-> >
-> > Where can it be found, which other changes took place in those builds?
-> >
-> > On Fri, 3 Apr 2026 at 10:00, Mathieu Dubois-Briand <
-> > mathieu.dubois-briand@bootlin.com> wrote:
-> >
->
-> The tested branch can be found here:
->
-> https://git.yoctoproject.org/poky-ci-archive/log/?h=oecore/autobuilder.yoctoproject.org/valkyrie/a-full-3579
->
-> But I confirm git bisect points to this commit, and the error is gone
-> after a revert. You can easily reproduce the issue on your side:
-> oe-selftest -r sstatetests.SStateHashSameSigs2.test_sstate_allarch_samesigs
->
->
-I've run this test with my change cherry-picked onto the master, and have
-got some inconclusive, partially random results... Here's what I did:
-- the test started FAILING (as in the autobuilder)
-- I replaced the corrected function invocation with an exception throw and
-nothing changed (this proves, that this branch does not take part in this
-test)
-- I limited the packages built during the test to only some of the ones
-failing - the test started PASSING
-- I started restoring the original package list, and finally restored its
-original state - the test kept PASSING
-- I restored the original state of the workspace - master + my commit (the
-exact same configuration that I started with) and the test kept PASSING
-- I rerun the test a few times, each time in a new, fresh build, and after
-about 3 FAILING runs it suddenly PASSED 2 times, before it started FAILING
-again - all the time in the same state of the workspace
+Maybe I'm not understanding the history here, or maybe there's some
+use-case I don't understand (or has long since stopped working) but what
+"wic create" needs here is a wks file, not an image name, and conflating
+the two seems very odd.
 
-I did confirm, that the signatures differed indeed in the failing runs. I
-chased it for a while, looked here and there (e.g. found it suspicious that
-native, nativesdk, cross-canadian, etc. clear
-out do_packagedata[stamp-extra-info] and allarch does not) but I cannot
-even dream of the type of free time I'd need to familiarise myself
-sufficiently with BitBake's hashing machinery.
+If it were up to me I'd clean the whole thing up. "wic create" needs a
+wks file to guide it, not an image name that wic is going to use to find
+a <image>.wks file using its own search logic.
 
-I think the way to go now is to file a bug - what do you think?
+I already have two patches to do this: one to add the bbclass search
+logic to the oe-selftest wic tests, and a second one to remove wic's
+image search logic from wic itself.
 
-Thanks,
-Adam
+The first one is fairly easy to add and justify (I think).
 
+The second one might be harder. Maybe there is some strange use-case
+where we want wic to handle "wic create <bare-wks>" where <bare-wks> is
+thought of as an image name? Removing wic's bare-wks search logic also
+removes the "wic list images" subcommand since the only point of that
+subcommand is to invoke its search logic and find "images" (which are
+actually wks files).
 
-
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
-
---000000000000969218064ea59200
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div cl=
-ass=3D"gmail_default" style=3D"font-size:small">On Fri, 3 Apr 2026 at 13:31=
-, Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@bootlin=
-.com" target=3D"_blank">mathieu.dubois-briand@bootlin.com</a>&gt; wrote:</d=
-iv></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Fri Apr 3, 2026 at 12:32 PM CEST, Adam Blank wrote:<br>
-&gt; Hmmm, can&#39;t see any connection between those tests and this partic=
-ular<br>
-&gt; patch...<br>
-&gt; The thing is, that since the patch fixes a call to an undefined functi=
-on,<br>
-&gt; there could not have been a test covering this case in the first place=
- ;-)<br>
-&gt; In addition, the function call takes place only in the &#39;bitbake -b=
-&#39; case...<br>
-&gt;<br>
-&gt; Where can it be found, which other changes took place in those builds?=
-<br>
-&gt;<br>
-&gt; On Fri, 3 Apr 2026 at 10:00, Mathieu Dubois-Briand &lt;<br>
-&gt; <a href=3D"mailto:mathieu.dubois-briand@bootlin.com" target=3D"_blank"=
->mathieu.dubois-briand@bootlin.com</a>&gt; wrote:<br>
-&gt;<br>
-<br>
-The tested branch can be found here:<br>
-<a href=3D"https://git.yoctoproject.org/poky-ci-archive/log/?h=3Doecore/aut=
-obuilder.yoctoproject.org/valkyrie/a-full-3579" rel=3D"noreferrer" target=
-=3D"_blank">https://git.yoctoproject.org/poky-ci-archive/log/?h=3Doecore/au=
-tobuilder.yoctoproject.org/valkyrie/a-full-3579</a><br>
-<br>
-But I confirm git bisect points to this commit, and the error is gone<br>
-after a revert. You can easily reproduce the issue on your side:<br>
-oe-selftest -r sstatetests.SStateHashSameSigs2.test_sstate_allarch_samesigs=
-<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">I&#39;ve run this test with my change cherry-picked onto t=
-he master, and have got some inconclusive, partially random results... Here=
-&#39;s what I did:</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">- the test started FAILING (as in the autobuilder)</div><div class=3D"g=
-mail_default" style=3D"font-size:small">- I replaced the corrected function=
- invocation with an exception throw and nothing changed (this proves, that =
-this branch does not take part in this test)</div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">- I limited the packages built during the tes=
-t to only some of the ones failing - the test started PASSING</div></div><d=
-iv class=3D"gmail_default" style=3D"font-size:small">- I started restoring =
-the original package list, and finally restored its original state - the te=
-st kept PASSING</div><div class=3D"gmail_default" style=3D"font-size:small"=
->- I restored the original state of the workspace - master=C2=A0+ my commit=
- (the exact same configuration that I started with) and the test kept PASSI=
-NG</div><div class=3D"gmail_default" style=3D"font-size:small">- I rerun th=
-e test a few times, each time in a new, fresh build, and after about 3 FAIL=
-ING runs it suddenly PASSED 2 times, before it started FAILING again - all =
-the time in the same state of the workspace</div><div><br></div><div><div c=
-lass=3D"gmail_default" style=3D"font-size:small">I did confirm, that the si=
-gnatures differed indeed in the failing runs. I chased it for a while, look=
-ed here and there (e.g. found it suspicious that native, nativesdk, cross-c=
-anadian, etc. clear out=C2=A0do_packagedata[stamp-extra-info] and allarch d=
-oes not) but I cannot even dream of the type of free time I&#39;d need to f=
-amiliarise myself sufficiently with BitBake&#39;s hashing machinery.</div><=
-br></div><div><div class=3D"gmail_default" style=3D"font-size:small">I thin=
-k the way to go now is to file a bug - what do you think?</div><br></div><d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">Thanks,</div><div=
- class=3D"gmail_default" style=3D"font-size:small">Adam</div><br></div><div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Thanks,<br>
-Mathieu<br>
-<br>
--- <br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-<br>
-</blockquote></div></div>
-</div>
-</div>
-
---000000000000969218064ea59200--
+> I'm happy to add "files/wic" as another location for
+> image_types_wic.bbclass to search for wks files.
+> 
+> > > > I don't understand why these need to move given WKS_SEARCH_PATH remains
+> > > > unchanged, unless wic is going to ignore WKS_SEARCH_PATH going forward?
+> > > 
+> > > As an independent tool, these *wks files are rather oe-core-specific,
+> > > so I thought they should stay with the oe-core/meta layer, the same way
+> > > that, say, raspberry pi-specific *wks files stay in the raspberry pi
+> > > layer.
+> > > 
+> > > My first thought was to remove them from the standalone wic repository
+> > > altogether, but then decided I could keep them as examples.
+> > > 
+> > > I thought it would be dangerous to leave them in the wic source
+> > > tree where the above algorithm could find them. If I leave them in
+> > > src/wic/canned-wks, someone uses the tool and creates a *wks file with a
+> > > similar name to one of the canned-wks files, but they have a typo and
+> > > the canned one gets used instead of theirs...
+> > > 
+> > > ...maybe I'm overthinking it?
+> > 
+> > It is definitely dangerous to leave them in the search paths so I agree
+> > with that. The files do belong in OE-Core too. It is still a little
+> > dangerous having files lying around which have the same names as the
+> > ones in core since this kind of duplication still can confuse people
+> > when they edit the wrong file. We have bigger issues I guess but some
+> > renaming of the examples might help.
+> > 
+> > Cheers,
+> > 
+> > Richard
+> > 
+> > 
 
