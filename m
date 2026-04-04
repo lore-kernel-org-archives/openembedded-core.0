@@ -2,541 +2,255 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E9F4E88D8E
-	for <webhook@archiver.kernel.org>; Sat,  4 Apr 2026 08:16:52 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12640.1775290605093609549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0BEE88D94
+	for <webhook@archiver.kernel.org>; Sat,  4 Apr 2026 08:43:32 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12883.1775292206404045276
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Apr 2026 01:16:45 -0700
+ Sat, 04 Apr 2026 01:43:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=hrDTgqeA;
- spf=pass (domain: mvista.com, ip: 209.85.208.46, mailfrom: vanusuri@mvista.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-66c304dbfd2so1122258a12.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 01:16:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775290603; cv=none;
+ dkim=pass header.i=@mvista.com header.s=google header.b=OCQBlSrg;
+ spf=pass (domain: mvista.com, ip: 209.85.208.42, mailfrom: vanusuri@mvista.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-66bb4d4fcb4so4596591a12.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 01:43:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775292205; cv=none;
         d=google.com; s=arc-20240605;
-        b=IeCXymKLN/ErktYRvxJ6gtjjrIWZNBCKkYoAiJ12A6o3Kt+mvFJQ43c8bXzwbZU++x
-         pMgSGJhvaW3NaixuyDisPs4YiQ3iL7vNm5NX2vgyLt8Zs8+L9mUaLIr8M6pedppdSEKa
-         NiOVh5N+imZbamayIc7aDipj0F8U6y256r7/RH2/KefTpOQCkAGCun0r98XV/t1q2uW6
-         1ixqUjjPPCg292MUXLJvNhGnb2KX4QIW9d8BoR0d+NmkgYYuKRereg/eHoCAES4UDFjH
-         yr2lcPjyoGsd458Bkd5xDoHrjoim2ArxZsTV9JFllOqGhuKNq9IMUhgSB5I4gCdd7xCf
-         ig2w==
+        b=Ebr45m2GqG1WTu16fF7/GthDfCUpEWLx0Y7Aix2o3C5awPXhb3bAfoas9znEMCNTAh
+         Iqo6yjqG0JZvIUoHoNXDgBGBV3Dm/1Th+SDKdYba7vIcGMPi+wD57ShxLOjXqhikcvkl
+         W8dr0ufEOTuEDdV4JhsMN/Gw9QYxJ37rcYJMvV4/nlG/awcgIkyDCuMrz8v84FFsfA31
+         lm2wk1k1XVEsR7CTPjDyRfuol377QFmCwnQp5TNQWNzjt06tJyIT6X9DKyVizouvJRTh
+         oBfR4Q/tJiHomkSbsf47DplefeUD7d8uVyAlaqbD+Xgjh2W2DsET1q45dnk0F8H7pyKK
+         inkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=hFd5m+AXokr3SVlBkDfJ6ink9/jTwZ+LyqvNC+kinMs=;
+        bh=YW/ixu3J+l+DkF9Zoh9sqmepkLtTs2yQrFDIPK0b+2Q=;
         fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
-        b=jKkkzUcU1IG4/6CO4TZgvL8cAPtdEzYq1/r9G5XOphtDIUEYl8gzQypnhLwHkWV/QQ
-         LsEjmDv93t3vHxN5AVgQ+8ImWioE4V6Z0HztJSNlpBZtZdjRLCJSRvMVT4BZJAV/l+lJ
-         36SZej7PdWJbEpyqWNpCh8dELeoNoHRAqrNR3DYb+sRFaytn8yMbhcrEXj+7V73aL3yK
-         H/SaCHihMpGkzU4ucOyKYcR0/3k0ENZ70ANxZd3vgM3t+yAnyaN4/61K/y496GSE1Gl+
-         uWtZNQ/5lniTIP9R4VPbw8GSdiE1lbqGM9l0O0tUx5QmRBpukCAWBkegNME5hnI2fx3d
-         RcYw==;
+        b=jdmNNYsFw6h1NuVaMveyzY+VhQTV2IrfMPLFNHM9OZh5twkd9PmNcV0BCqvaZIvM5M
+         IhZoqnU0YzY0Wyqyi9iqviA82iX4ECT0HgNC8Ei4C4q2n2fMMmNtFVBrPze95BpgiMH7
+         Q6x12Er7z6YGZXVFAE5YGRqPSReI7ak3cInNIe6IOdjTQ4NIeMCBTzdrgfWz4qSnLy5z
+         JKHEz9tYzLdioas4GjHyvMZoKhJiQP5RnBxvgjo7YLzHSTCJDFu0LmtTHwEMMAkOwrP1
+         zyQRBdNoFG8vU9EVHm4ykayNxfIJg7ljyqYkNoe0UAGky30NDOkcSMCa1DRjwq0WAHoF
+         xnDw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1775290603; x=1775895403; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1775292205; x=1775897005; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hFd5m+AXokr3SVlBkDfJ6ink9/jTwZ+LyqvNC+kinMs=;
-        b=hrDTgqeA/h8tFImV+JrvQS7VupAXIjHfeO6xXGZtR38rdfvrZggZ1S7FFPMXTfWyat
-         fFqYxYTUsrkmFdy0lx82+NtNZKkYC0ivPCs/GDaztLVdL+O8Sd7rmyaYxHqppJVpXspf
-         xPXJd9UCEnY/z18ck0DvlaTodLpLR9n/H751Y=
+        bh=YW/ixu3J+l+DkF9Zoh9sqmepkLtTs2yQrFDIPK0b+2Q=;
+        b=OCQBlSrgyFvHI3cOoNUsfgkyvhhT310R4TE7HzrIe6Q+664++aiwQvrfdZNbtOySrR
+         EdfUBQXHHpnQEGEYz8aJ4tWrz2PSEjL3VlphRF1mYQUjYKjfr6KyEwXJyf0t73LzR52T
+         vvw+L82cJgOoF/5k2ki8btL+9zP4L8zxRtopE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775290603; x=1775895403;
+        d=1e100.net; s=20251104; t=1775292205; x=1775897005;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hFd5m+AXokr3SVlBkDfJ6ink9/jTwZ+LyqvNC+kinMs=;
-        b=i9TyGIAidlBe45tA3ISJzgzs5PFXUiQmuN1C20iQSLWlomhIQz6LQum7hEnGP2ECEt
-         o8VgeIlZcKlmzmD4G5Juoc5ahnKFrZ2V6OIj1Fd+cqYvPGLWaBfjs5Ppnp21BJsCi86E
-         58ho9yGGEIAc73FneyHSeZLVUcDWsh2SjcZvE1MZB9IvqxwpkAP8kpQoYxyCOcYiZlSZ
-         92kFS52zsHcPZO3DpfInGjJ4jSHHezOQ8p/AfY2wEaeYnXJD9ZcZR9x+x9mUQxpxwzzs
-         ZF5gsfC2afeRRcHCWtWhFFt5ISSPlAlzysfyhDWkTou5ABFC4HRmMVq32afJRn9onI/s
-         sLdQ==
-X-Gm-Message-State: AOJu0Yy0kKU5mWqA4LJj/ZGjmCU4arKxUBNOLupncLFicvm4JOhUiCZU
-	fbPpSPXBLhMYiw6K75xSZtbO1qOrb7DpkzUtuTnn4i2M/VuwsfZKzhJ6fLgvves54shyGsScDVn
-	dKycKSGWCMnV7a8+bP01SzX7Dc5zWxYBY99CrDI9i9wCDYt82lBzsxLCVHg==
-X-Gm-Gg: AeBDiesRDLXFv55r8Tp/toVdtKiuRcfrjAdq2tmMmg+ezA+iDUjXQbrEPX2tNyA7B1k
-	2kmpPf14XHx1r2lzIaenkB13vWvqZ34D/vwZzXVKvSrTy63eYezz14KyNe6vFxqdU9GQusk5aBV
-	JXvoxf++FaCKUhhL+2+1a83sNFXxMUweMWHO1Y/Vu/QvoE3Mf3lycsHY6AQdGgyl/RY5deKS45K
-	u2L7A2KPk3C6uwQao4GFgDV7yYl9QPqoubL4D7Z9qamGCWNnam11+/MmNFf8BSwlMFiZMSZWoov
-	SMm67nKxB9qounDvxVhaBGfuN5WrCD277MV9yt56Cw==
-X-Received: by 2002:a05:6402:2c3:b0:66e:a5c2:6d02 with SMTP id
- 4fb4d7f45d1cf-66ea5c272a2mr70984a12.17.1775290602979; Sat, 04 Apr 2026
- 01:16:42 -0700 (PDT)
+        bh=YW/ixu3J+l+DkF9Zoh9sqmepkLtTs2yQrFDIPK0b+2Q=;
+        b=OzTb/ErBpe/oUIFPQfw+VOpBYm/CxUU5wrQvlMKE1Kwsr2KzEbKyVdghXNyxs9rQ6L
+         yljSOV11jiTwayR7AI0jwsUydAkIHNIPE1v1y9Aw0362JLUbxLp8AOBQyqHc9f0/QqcL
+         3cSCuDMOK6qdNFPEUOJ3gjSyJtWpMdNfZVfoSulwbyRF0+3mruwsQe12diW7QGzROMCz
+         dNRv+sHP1SdXuCos8eXhJ6Q0voHXn+j8bBBQdyxP3xSTr9gWS73rm9AeMJbdOu0P+sc5
+         iOtg/NB8UQcTbPFbBwOvMaTc4faYHk2VCWBnWmUI8mzjmO3spCZP1EMRUSxbg+pGWV4B
+         0nbw==
+X-Gm-Message-State: AOJu0YyX8lsjRSEt+D09UGmwCZskCEs4nqNSHtLwfQ5YDHvGHSAUBeBH
+	TWfpdlZ0VR11UTyYoeSP3WidoyJu831qDntOSBSqiTv7eIZOGvSsrQx38W/MeP9rQz1ZRd44jwq
+	sRXrHjVWRz7AqgdkyvqoMjYD9K1EEP0L6m51OmiRfVw==
+X-Gm-Gg: AeBDiesz4kY1YjLONZ8GgME+DR2g0qw3lzz5FQ9bfhgD9o5Dr7KrjZVwV4z4seqn9ld
+	PALF+a53IMfhHh+Zgbl7BjVGOK8N8koxpo4YmEvuvTqbda/SsRLlbShisrGrFJP+1TXKJhAqL+N
+	FFwmDI2vs/UqpGC/2rEwE7IIb0MBl5jH6HZE0k2ykGvvPztT4truNKIPIYMk/S09ze6FvK64vyc
+	AUmd3+dgjPvlVIYyjd+adCxZGFYpCN77wE9oUSbU42SNnlvNGjB4YBDBsaAbavv5GvcEs7ajQLG
+	zohcfxlAzNR+c7fbvuHnIciItiBgUs3asmjH8BmugATPBOmKMcwE
+X-Received: by 2002:a05:6402:3052:10b0:66e:5664:1e23 with SMTP id
+ 4fb4d7f45d1cf-66e56642218mr1580473a12.7.1775292204476; Sat, 04 Apr 2026
+ 01:43:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260326075847.312211-1-vanusuri@mvista.com> <DHJV1CGLXDFY.1T23NFX2R5HE8@smile.fr>
-In-Reply-To: <DHJV1CGLXDFY.1T23NFX2R5HE8@smile.fr>
+References: <20260402071559.292708-1-vanusuri@mvista.com> <DHJW0NQHT38D.XY6Q9OTN12FY@smile.fr>
+ <CANQUz183e_N3p7n1pSr4sXUP0QAHpytUZ=-akObn1HV3PXttqQ@mail.gmail.com> <DHK7STMY8355.1F4WMJQ94QI3C@smile.fr>
+In-Reply-To: <DHK7STMY8355.1F4WMJQ94QI3C@smile.fr>
 From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Sat, 4 Apr 2026 13:46:31 +0530
-X-Gm-Features: AQROBzAQWMSyB3hrZR3C3eqmS_OTfalUP-YtuQGDF_TZPwHRUtsVBH7c1QotXZo
-Message-ID: <CANQUz1_zvRNo3ydbnLHQX50Zp=BrSTugD3qJHR8D7yGPjP7GRg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] libarchive: Fix CVE-2026-4111
+Date: Sat, 4 Apr 2026 14:13:12 +0530
+X-Gm-Features: AQROBzB9k0PSwglGsG0FZWQ3HIp0p0A06zl1iNfyk3vF16wNwV7h6VJ1wHc7kZc
+Message-ID: <CANQUz1913UWT4A8TQnN0jknyrSagoN6gg8jyxi52dkbsqHSy2g@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] sqlite3: Fix CVE-2025-70873
 To: Yoann Congal <yoann.congal@smile.fr>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c3994f064e9e0d5b"
+Content-Type: multipart/alternative; boundary="000000000000387d30064e9e6d94"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 08:16:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234611
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Apr 2026 08:43:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234612
 
---000000000000c3994f064e9e0d5b
+--000000000000387d30064e9e6d94
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Yoann,
 
-This CVE fix already included in libarchive version 3.8.6 on the master
-branch.
+Thanks for checking.
 
-https://github.com/libarchive/libarchive/releases/tag/v3.8.6 .
+From what I could verify, the issue affects SQLite versions with the
+zipfile extension up to 3.51.1. The upstream fix appears to originate from
+commit https://sqlite.org/src/info/3d459f1fb1bd1b5e (as referenced in the
+SQLite tracker and forum discussion).
 
-I will cherry-pick libarchive-3.8.6 from master and submit the patch to
-Whinlatter branch.
+https://gist.github.com/cnwangjihe/f496393f30f5ecec5b18c8f5ab072054
+
+https://sqlite.org/forum/forumpost/761eac3c82
+
+In the 3.51.3 tag, the fix seems to be included as part of a larger
+upstream commit
+(https://github.com/sqlite/sqlite/commit/15cd6704863f7c68818b2d607191ab6944=
+d39f98),
+which bundles multiple changes together rather than isolating the CVE fix
+in a single minimal patch. That likely explains why it=E2=80=99s not immedi=
+ately
+obvious when looking for a one-to-one commit reference.
+
+So while there isn=E2=80=99t a standalone CVE-specific commit in 3.51.3, th=
+e fix is
+incorporated there as part of that broader change set.
 
 Thanks & Regards,
+
 Vijay
 
-On Sat, Apr 4, 2026 at 3:37=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
+
+
+
+On Sat, Apr 4, 2026 at 1:37=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr>=
  wrote:
 
-> On Thu Mar 26, 2026 at 8:58 AM CET, Vijay Anusuri via
-> lists.openembedded.org wrote:
-> > From: Vijay Anusuri <vanusuri@mvista.com>
+> On Sat Apr 4, 2026 at 9:41 AM CEST, Vijay Anusuri wrote:
+> > Hi Yoann,
 > >
-> > Pick patch according to [1]
-> >
-> > [1] https://security-tracker.debian.org/tracker/CVE-2026-4111
-> > [2] https://github.com/libarchive/libarchive/pull/2877
-> > [3] https://access.redhat.com/errata/RHSA-2026:5080
-> >
-> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > ---
+> > The fixes for this CVE are already included in SQLite version 3.51.3 on
+> the
+> > master branch.
 >
-> Hello,
->
-> As far as I can tell, this CVE applies to whinlatter and master.
-> Since this is the end of kirkstone soon, I'll take it into the reviews
-> series but can only merge it if there is a patch sent for this CVE in
-> those branches.
+> Can you tell me what commit does fix this CVE on the 3.51.3 tag? I don't
+> see it.
 >
 > Regards,
 >
-> >  .../libarchive/CVE-2026-4111-1.patch          |  32 ++
-> >  .../libarchive/CVE-2026-4111-2.patch          | 308 ++++++++++++++++++
-> >  .../libarchive/libarchive_3.6.2.bb            |   2 +
-> >  3 files changed, 342 insertions(+)
-> >  create mode 100644
-> meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
-> >  create mode 100644
-> meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+> > I=E2=80=99ve already submitted backport patches for the whinlatter and =
+scarthgap
+> > branches. Please let me know if anything further is needed.
 > >
-> > diff --git
-> a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
-> b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
-> > new file mode 100644
-> > index 0000000000..1f065b1364
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
-> > @@ -0,0 +1,32 @@
-> > +From 7273d04803a1e5a482f26d8d0fbaf2b204a72168 Mon Sep 17 00:00:00 2001
-> > +From: Tim Kientzle <kientzle@acm.org>
-> > +Date: Sun, 1 Mar 2026 20:24:56 -0800
-> > +Subject: [PATCH] Reject filters when the block length is nonsensical
-> > +
-> > +Credit: Grzegorz Antoniak @antekone
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/libarchive/libarchive/commit/7273d04803a1e5a482f26d8d0=
-fbaf2b204a72168
-> ]
-> > +CVE: CVE-2026-4111
-> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > +---
-> > + libarchive/archive_read_support_format_rar5.c | 4 +++-
-> > + 1 file changed, 3 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/libarchive/archive_read_support_format_rar5.c
-> b/libarchive/archive_read_support_format_rar5.c
-> > +index 38979cb..867f0a8 100644
-> > +--- a/libarchive/archive_read_support_format_rar5.c
-> > ++++ b/libarchive/archive_read_support_format_rar5.c
-> > +@@ -2914,7 +2914,9 @@ static int parse_filter(struct archive_read* ar,
-> const uint8_t* p) {
-> > +     if(block_length < 4 ||
-> > +         block_length > 0x400000 ||
-> > +         filter_type > FILTER_ARM ||
-> > +-        !is_valid_filter_block_start(rar, block_start))
-> > ++        !is_valid_filter_block_start(rar, block_start) ||
-> > ++        (rar->cstate.window_size > 0 &&
-> > ++         (ssize_t)block_length > rar->cstate.window_size >> 1))
-> > +     {
-> > +             archive_set_error(&ar->archive, ARCHIVE_ERRNO_FILE_FORMAT=
-,
-> > +                 "Invalid filter encountered");
-> > +--
-> > +2.25.1
-> > +
-> > diff --git
-> a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
-> b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
-> > new file mode 100644
-> > index 0000000000..243a03a8e5
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
-> > @@ -0,0 +1,308 @@
-> > +From ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4 Mon Sep 17 00:00:00 2001
-> > +From: Tim Kientzle <kientzle@acm.org>
-> > +Date: Sun, 1 Mar 2026 10:04:01 -0800
-> > +Subject: [PATCH] Infinite loop in Rar5 decompression
-> > +
-> > +Found by: Elhanan Haenel
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/libarchive/libarchive/commit/ef53e2023d75a205cf7cbddb5=
-d01c4cc592e9ce4
-> ]
-> > +CVE: CVE-2026-4111
-> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > +---
-> > + Makefile.am                                   |   2 +
-> > + libarchive/test/CMakeLists.txt                |   1 +
-> > + .../test/test_read_format_rar5_loop_bug.c     |  53 +++++
-> > + .../test_read_format_rar5_loop_bug.rar.uu     | 189 +++++++++++++++++=
-+
-> > + 4 files changed, 245 insertions(+)
-> > + create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.c
-> > + create mode 100644
-> libarchive/test/test_read_format_rar5_loop_bug.rar.uu
-> > +
-> > +diff --git a/Makefile.am b/Makefile.am
-> > +index dd1620d..14edb2a 100644
-> > +--- a/Makefile.am
-> > ++++ b/Makefile.am
-> > +@@ -507,6 +507,7 @@ libarchive_test_SOURCES=3D \
-> > +     libarchive/test/test_read_format_rar_invalid1.c \
-> > +     libarchive/test/test_read_format_rar_overflow.c \
-> > +     libarchive/test/test_read_format_rar5.c \
-> > ++    libarchive/test/test_read_format_rar5_loop_bug.c \
-> > +     libarchive/test/test_read_format_raw.c \
-> > +     libarchive/test/test_read_format_tar.c \
-> > +     libarchive/test/test_read_format_tar_concatenated.c \
-> > +@@ -869,6 +870,7 @@ libarchive_test_EXTRA_DIST=3D\
-> > +
->  libarchive/test/test_read_format_rar5_invalid_dict_reference.rar.uu \
-> > +     libarchive/test/test_read_format_rar5_leftshift1.rar.uu \
-> > +     libarchive/test/test_read_format_rar5_leftshift2.rar.uu \
-> > ++    libarchive/test/test_read_format_rar5_loop_bug.rar.uu \
-> > +     libarchive/test/test_read_format_rar5_multiarchive.part01.rar.uu =
-\
-> > +     libarchive/test/test_read_format_rar5_multiarchive.part02.rar.uu =
-\
-> > +     libarchive/test/test_read_format_rar5_multiarchive.part03.rar.uu =
-\
-> > +diff --git a/libarchive/test/CMakeLists.txt
-> b/libarchive/test/CMakeLists.txt
-> > +index 05c6fd7..c8f2e90 100644
-> > +--- a/libarchive/test/CMakeLists.txt
-> > ++++ b/libarchive/test/CMakeLists.txt
-> > +@@ -156,6 +156,7 @@ IF(ENABLE_TEST)
-> > +     test_read_format_rar_filter.c
-> > +     test_read_format_rar_overflow.c
-> > +     test_read_format_rar5.c
-> > ++    test_read_format_rar5_loop_bug.c
-> > +     test_read_format_raw.c
-> > +     test_read_format_tar.c
-> > +     test_read_format_tar_concatenated.c
-> > +diff --git a/libarchive/test/test_read_format_rar5_loop_bug.c
-> b/libarchive/test/test_read_format_rar5_loop_bug.c
-> > +new file mode 100644
-> > +index 0000000..77dd78c
-> > +--- /dev/null
-> > ++++ b/libarchive/test/test_read_format_rar5_loop_bug.c
-> > +@@ -0,0 +1,53 @@
-> > ++/*-
-> > ++ * Copyright (c) 2026 Tim Kientzle
-> > ++ * All rights reserved.
-> > ++ *
-> > ++ * Redistribution and use in source and binary forms, with or without
-> > ++ * modification, are permitted provided that the following conditions
-> > ++ * are met:
-> > ++ * 1. Redistributions of source code must retain the above copyright
-> > ++ *    notice, this list of conditions and the following disclaimer.
-> > ++ * 2. Redistributions in binary form must reproduce the above copyrig=
-ht
-> > ++ *    notice, this list of conditions and the following disclaimer in
-> the
-> > ++ *    documentation and/or other materials provided with the
-> distribution.
-> > ++ *
-> > ++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY
-> EXPRESS OR
-> > ++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-> WARRANTIES
-> > ++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-> DISCLAIMED.
-> > ++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT=
-,
-> > ++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-> (INCLUDING, BUT
-> > ++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
-> OF USE,
-> > ++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-> ANY
-> > ++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TOR=
-T
-> > ++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
-> USE OF
-> > ++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-> > ++ */
-> > ++#include "test.h"
-> > ++
-> > ++DEFINE_TEST(test_read_format_rar5_loop_bug)
-> > ++{
-> > ++  const char *reffile =3D "test_read_format_rar5_loop_bug.rar";
-> > ++  struct archive_entry *ae;
-> > ++  struct archive *a;
-> > ++  const void *buf;
-> > ++  size_t size;
-> > ++  la_int64_t offset;
-> > ++
-> > ++  extract_reference_file(reffile);
-> > ++  assert((a =3D archive_read_new()) !=3D NULL);
-> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
-> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
-> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a,
-> reffile, 10240));
-> > ++
-> > ++  // This has just one entry
-> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_next_header(a, &ae));
-> > ++
-> > ++  // Read blocks until the end of the entry
-> > ++  while (ARCHIVE_OK =3D=3D archive_read_data_block(a, &buf, &size,
-> &offset)) {
-> > ++  }
-> > ++
-> > ++  assertEqualIntA(a, ARCHIVE_EOF, archive_read_next_header(a, &ae));
-> > ++
-> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
-> > ++  assertEqualInt(ARCHIVE_OK, archive_free(a));
-> > ++}
-> > +diff --git a/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
-> b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
-> > +new file mode 100644
-> > +index 0000000..3e47004
-> > +--- /dev/null
-> > ++++ b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
-> > +@@ -0,0 +1,189 @@
-> > ++begin 644 test_read_format_rar5_loop_bug.rar
-> > ++M4F%R(1H'`0#%&C,R`P$``)T-9%L.`@+P0`"`@`P`@`,``6'(WFP@`?\7_U/^
-> > ++M8@!.`B`H````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++M````````````````````````````````````````````````````````````
-> > ++5```````````````````Y^;*!`@4`
-> > ++`
-> > ++end
-> > +--
-> > +2.25.1
-> > +
-> > diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-> b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-> > index e74326b40f..85fe6e5baa 100644
-> > --- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-> > +++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-> > @@ -50,6 +50,8 @@ SRC_URI =3D "
-> http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+> > Thanks & Regards,
 > >
->  file://0001-Merge-pull-request-2768-from-Commandoss-master.patch \
-> >             file://CVE-2025-60753-01.patch \
-> >             file://CVE-2025-60753-02.patch \
-> > +           file://CVE-2026-4111-1.patch \
-> > +           file://CVE-2026-4111-2.patch \
-> >             "
-> >  UPSTREAM_CHECK_URI =3D "http://libarchive.org/"
+> > Vijay
 > >
+> >
+> > On Sat, Apr 4, 2026 at 4:23=E2=80=AFAM Yoann Congal <yoann.congal@smile=
+.fr>
+> wrote:
+> >
+> >> On Thu Apr 2, 2026 at 9:15 AM CEST, Vijay Anusuri via
+> >> lists.openembedded.org wrote:
+> >> > From: Vijay Anusuri <vanusuri@mvista.com>
+> >> >
+> >> > Pick patch as per [1]
+> >> >
+> >> > [1] https://sqlite.org/src/info/3d459f1fb1bd1b5e
+> >> > [2] https://sqlite.org/forum/forumpost/761eac3c82
+> >> > [3]
+> https://gist.github.com/cnwangjihe/f496393f30f5ecec5b18c8f5ab072054
+> >> >
+> >> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> >> > ---
+> >>
+> >> Hello,
+> >>
+> >> As far as I can tell, this CVE applies to master. Since this is the en=
+d
+> >> of kirkstone soon, I'll take it into the reviews series but can only
+> >> merge it if there is a patch sent for this CVE in those branches.
+> >>
+> >> Regards,
+> >>
+> >> >  .../sqlite/files/CVE-2025-70873.patch         | 33
+> +++++++++++++++++++
+> >> >  meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  1 +
+> >> >  2 files changed, 34 insertions(+)
+> >> >  create mode 100644
+> >> meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> >> >
+> >> > diff --git a/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> >> b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> >> > new file mode 100644
+> >> > index 0000000000..86004c0b74
+> >> > --- /dev/null
+> >> > +++ b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch
+> >> > @@ -0,0 +1,33 @@
+> >> > +From 5a05c59d4d75c03f23d5fb70feac9f789954bf8a Mon Sep 17 00:00:00
+> 2001
+> >> > +From: drh <>
+> >> > +Date: Sat, 6 Dec 2025 20:41:24 +0000
+> >> > +Subject: [PATCH] In the zipfile extension, only return as many byte=
+s
+> as
+> >> > + Inflate actually generated.  [forum:/forumpost/761eac3c82|Forum po=
+st
+> >> > + 761eac3c82]. Adjust ./configure so that it builds zipfile into
+> >> testfixture if
+> >> > + ZLIB is available, so that tests get run on unix platforms.
+> >> > +
+> >> > +FossilOrigin-Name:
+> >> 3d459f1fb1bd1b5e723629c463ab392af7b206ece3388bda216c6a4c26160909
+> >> > +
+> >> > +Upstream-Status: Backport [
+> >>
+> https://github.com/sqlite/sqlite/commit/5a05c59d4d75c03f23d5fb70feac9f789=
+954bf8a
+> >> ]
+> >> > +CVE: CVE-2025-70873
+> >> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> >> > +---
+> >> > + shell.c | 2 +-
+> >> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> >> > +
+> >> > +diff --git a/shell.c b/shell.c
+> >> > +index fa45d40..3c4902c 100644
+> >> > +--- a/shell.c
+> >> > ++++ b/shell.c
+> >> > +@@ -7668,7 +7668,7 @@ static void zipfileInflate(
+> >> > +       if( err!=3DZ_STREAM_END ){
+> >> > +         zipfileCtxErrorMsg(pCtx, "inflate() failed (%d)", err);
+> >> > +       }else{
+> >> > +-        sqlite3_result_blob(pCtx, aRes, nOut, zipfileFree);
+> >> > ++        sqlite3_result_blob(pCtx, aRes, (int)str.total_out,
+> >> zipfileFree);
+> >> > +         aRes =3D 0;
+> >> > +       }
+> >> > +     }
+> >> > +--
+> >> > +2.25.1
+> >> > +
+> >> > diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> >> b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> >> > index acdd80022e..9e10caa399 100644
+> >> > --- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> >> > +++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> >> > @@ -10,6 +10,7 @@ SRC_URI =3D "
+> >> http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+> >> >             file://CVE-2023-7104.patch \
+> >> >             file://CVE-2025-29088.patch \
+> >> >             file://CVE-2025-6965.patch \
+> >> > +           file://CVE-2025-70873.patch \
+> >> >             "
+> >> >  SRC_URI[sha256sum] =3D
+> >> "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+> >> >
+> >>
+> >>
+> >> --
+> >> Yoann Congal
+> >> Smile ECS
+> >>
+> >>
 >
 >
 > --
@@ -545,515 +259,195 @@ T
 >
 >
 
---000000000000c3994f064e9e0d5b
+--000000000000387d30064e9e6d94
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div><div><div>Hi Yoann,<br><br></div>This CVE fix al=
-ready included in libarchive version 3.8.6 on the master branch.<br><br><a =
-href=3D"https://github.com/libarchive/libarchive/releases/tag/v3.8.6">https=
-://github.com/libarchive/libarchive/releases/tag/v3.8.6</a> .<br><br></div>=
-I will cherry-pick libarchive-3.8.6 from master and submit the patch to Whi=
-nlatter branch.<br><br></div>Thanks &amp; Regards,<br></div>Vijay</div><br>=
-<div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Sat, Apr 4, 2026 at 3:37=E2=80=AFAM Yoann Congal &lt;<a href=
-=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu Mar 26, 2026 =
-at 8:58 AM CET, Vijay Anusuri via <a href=3D"http://lists.openembedded.org"=
- rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=
-=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+<div dir=3D"ltr"><p><span>Hi Yoann,</span></p><p><span>Thanks for checking.=
+</span></p><p><span>From what I could verify, the issue affects SQLite vers=
+ions with the zipfile extension up to 3.51.1. The upstream fix appears to o=
+riginate from commit </span><a href=3D"https://sqlite.org/src/info/3d459f1f=
+b1bd1b5e">https://sqlite.org/src/info/3d459f1fb1bd1b5e</a> <span>(as refere=
+nced in the SQLite tracker and forum discussion).<br><br></span><a href=3D"=
+https://gist.github.com/cnwangjihe/f496393f30f5ecec5b18c8f5ab072054">https:=
+//gist.github.com/cnwangjihe/f496393f30f5ecec5b18c8f5ab072054</a></p><p><a =
+href=3D"https://sqlite.org/forum/forumpost/761eac3c82">https://sqlite.org/f=
+orum/forumpost/761eac3c82</a></p><p><span>In the 3.51.3 tag, the fix seems =
+to be included as part of a larger upstream commit (</span><a href=3D"https=
+://github.com/sqlite/sqlite/commit/">https://github.com/sqlite/sqlite/commi=
+t/</a><span>15cd6704863f7c68818b2d607191ab6944d39f98), which bundles multip=
+le changes together rather than isolating the CVE fix in a single minimal p=
+atch. That likely explains why it=E2=80=99s not immediately obvious when lo=
+oking for a one-to-one commit reference.</span></p><p><span>So while there =
+isn=E2=80=99t a standalone CVE-specific commit in 3.51.3, the fix is incorp=
+orated there as part of that broader change set.<br><br></span></p><p><span=
+>Thanks &amp; Regards,<br></span></p><p><span>Vijay</span></p><p><br></p><b=
+r></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Sat, Apr 4, 2026 at 1:37=E2=80=AFPM Yoann Congal=
+ &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Sat A=
+pr 4, 2026 at 9:41 AM CEST, Vijay Anusuri wrote:<br>
+&gt; Hi Yoann,<br>
 &gt;<br>
-&gt; Pick patch according to [1]<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-41=
-11" rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.or=
-g/tracker/CVE-2026-4111</a><br>
-&gt; [2] <a href=3D"https://github.com/libarchive/libarchive/pull/2877" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/libarchive/libarchive/=
-pull/2877</a><br>
-&gt; [3] <a href=3D"https://access.redhat.com/errata/RHSA-2026:5080" rel=3D=
-"noreferrer" target=3D"_blank">https://access.redhat.com/errata/RHSA-2026:5=
-080</a><br>
-&gt;<br>
-&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
-" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; ---<br>
+&gt; The fixes for this CVE are already included in SQLite version 3.51.3 o=
+n the<br>
+&gt; master branch.<br>
 <br>
-Hello,<br>
-<br>
-As far as I can tell, this CVE applies to whinlatter and master.<br>
-Since this is the end of kirkstone soon, I&#39;ll take it into the reviews<=
-br>
-series but can only merge it if there is a patch sent for this CVE in<br>
-those branches.<br>
+Can you tell me what commit does fix this CVE on the 3.51.3 tag? I don&#39;=
+t see it.<br>
 <br>
 Regards,<br>
 <br>
-&gt;=C2=A0 .../libarchive/CVE-2026-4111-1.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 32 ++<br>
-&gt;=C2=A0 .../libarchive/CVE-2026-4111-2.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 308 ++++++++++++++++++<br>
-&gt;=C2=A0 .../libarchive/<a href=3D"http://libarchive_3.6.2.bb" rel=3D"nor=
-eferrer" target=3D"_blank">libarchive_3.6.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
-&gt;=C2=A0 3 files changed, 342 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-extended/libarchive/libarchive/C=
-VE-2026-4111-1.patch<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-extended/libarchive/libarchive/C=
-VE-2026-4111-2.patch<br>
+&gt; I=E2=80=99ve already submitted backport patches for the whinlatter and=
+ scarthgap<br>
+&gt; branches. Please let me know if anything further is needed.<br>
 &gt;<br>
-&gt; diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111=
--1.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patc=
-h<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..1f065b1364<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patc=
-h<br>
-&gt; @@ -0,0 +1,32 @@<br>
-&gt; +From 7273d04803a1e5a482f26d8d0fbaf2b204a72168 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Tim Kientzle &lt;<a href=3D"mailto:kientzle@acm.org" target=3D"=
-_blank">kientzle@acm.org</a>&gt;<br>
-&gt; +Date: Sun, 1 Mar 2026 20:24:56 -0800<br>
-&gt; +Subject: [PATCH] Reject filters when the block length is nonsensical<=
+&gt; Thanks &amp; Regards,<br>
+&gt;<br>
+&gt; Vijay<br>
+&gt;<br>
+&gt;<br>
+&gt; On Sat, Apr 4, 2026 at 4:23=E2=80=AFAM Yoann Congal &lt;<a href=3D"mai=
+lto:yoann.congal@smile.fr" target=3D"_blank">yoann.congal@smile.fr</a>&gt; =
+wrote:<br>
+&gt;<br>
+&gt;&gt; On Thu Apr 2, 2026 at 9:15 AM CEST, Vijay Anusuri via<br>
+&gt;&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targe=
+t=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt;&gt; &gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
+" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Pick patch as per [1]<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; [1] <a href=3D"https://sqlite.org/src/info/3d459f1fb1bd1b5e" =
+rel=3D"noreferrer" target=3D"_blank">https://sqlite.org/src/info/3d459f1fb1=
+bd1b5e</a><br>
+&gt;&gt; &gt; [2] <a href=3D"https://sqlite.org/forum/forumpost/761eac3c82"=
+ rel=3D"noreferrer" target=3D"_blank">https://sqlite.org/forum/forumpost/76=
+1eac3c82</a><br>
+&gt;&gt; &gt; [3] <a href=3D"https://gist.github.com/cnwangjihe/f496393f30f=
+5ecec5b18c8f5ab072054" rel=3D"noreferrer" target=3D"_blank">https://gist.gi=
+thub.com/cnwangjihe/f496393f30f5ecec5b18c8f5ab072054</a><br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@m=
+vista.com" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;&gt; &gt; ---<br>
+&gt;&gt;<br>
+&gt;&gt; Hello,<br>
+&gt;&gt;<br>
+&gt;&gt; As far as I can tell, this CVE applies to master. Since this is th=
+e end<br>
+&gt;&gt; of kirkstone soon, I&#39;ll take it into the reviews series but ca=
+n only<br>
+&gt;&gt; merge it if there is a patch sent for this CVE in those branches.<=
 br>
-&gt; +<br>
-&gt; +Credit: Grzegorz Antoniak @antekone<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/libarchive/l=
-ibarchive/commit/7273d04803a1e5a482f26d8d0fbaf2b204a72168" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/libarchive/libarchive/commit/7273d0=
-4803a1e5a482f26d8d0fbaf2b204a72168</a>]<br>
-&gt; +CVE: CVE-2026-4111<br>
-&gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.co=
-m" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + libarchive/archive_read_support_format_rar5.c | 4 +++-<br>
-&gt; + 1 file changed, 3 insertions(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/libarchive/archive_read_support_format_rar5.c b/libarchi=
-ve/archive_read_support_format_rar5.c<br>
-&gt; +index 38979cb..867f0a8 100644<br>
-&gt; +--- a/libarchive/archive_read_support_format_rar5.c<br>
-&gt; ++++ b/libarchive/archive_read_support_format_rar5.c<br>
-&gt; +@@ -2914,7 +2914,9 @@ static int parse_filter(struct archive_read* ar=
-, const uint8_t* p) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if(block_length &lt; 4 ||<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0block_length &gt; 0x400000 ||<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0filter_type &gt; FILTER_ARM ||<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 !is_valid_filter_block_start(rar, block_=
-start))<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 !is_valid_filter_block_start(rar, block_=
-start) ||<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (rar-&gt;cstate.window_size &gt; 0 &amp;=
-&amp;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(ssize_t)block_length &gt; rar-&gt=
-;cstate.window_size &gt;&gt; 1))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0archive_set_error(&am=
-p;ar-&gt;archive, ARCHIVE_ERRNO_FILE_FORMAT,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;I=
-nvalid filter encountered&quot;);<br>
-&gt; +-- <br>
-&gt; +2.25.1<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111=
--2.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patc=
-h<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..243a03a8e5<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patc=
-h<br>
-&gt; @@ -0,0 +1,308 @@<br>
-&gt; +From ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Tim Kientzle &lt;<a href=3D"mailto:kientzle@acm.org" target=3D"=
-_blank">kientzle@acm.org</a>&gt;<br>
-&gt; +Date: Sun, 1 Mar 2026 10:04:01 -0800<br>
-&gt; +Subject: [PATCH] Infinite loop in Rar5 decompression<br>
-&gt; +<br>
-&gt; +Found by: Elhanan Haenel<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/libarchive/l=
-ibarchive/commit/ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/libarchive/libarchive/commit/ef53e2=
-023d75a205cf7cbddb5d01c4cc592e9ce4</a>]<br>
-&gt; +CVE: CVE-2026-4111<br>
-&gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.co=
-m" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + Makefile.am=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 =C2=A02 +<br>
-&gt; + libarchive/test/CMakeLists.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-&gt; + .../test/test_read_format_rar5_loop_bug.c=C2=A0 =C2=A0 =C2=A0|=C2=A0=
- 53 +++++<br>
-&gt; + .../test_read_format_rar5_loop_bug.rar.uu=C2=A0 =C2=A0 =C2=A0| 189 +=
-+++++++++++++++++<br>
-&gt; + 4 files changed, 245 insertions(+)<br>
-&gt; + create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.c<=
+&gt;&gt;<br>
+&gt;&gt; Regards,<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;=C2=A0 .../sqlite/files/CVE-2025-70873.patch=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 33 +++++++++++++++++++<br>
+&gt;&gt; &gt;=C2=A0 meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3=
+.38.5.bb" rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a> |=C2=
+=A0 1 +<br>
+&gt;&gt; &gt;=C2=A0 2 files changed, 34 insertions(+)<br>
+&gt;&gt; &gt;=C2=A0 create mode 100644<br>
+&gt;&gt; meta/recipes-support/sqlite/files/CVE-2025-70873.patch<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/meta/recipes-support/sqlite/files/CVE-2025-70873=
+.patch<br>
+&gt;&gt; b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch<br>
+&gt;&gt; &gt; new file mode 100644<br>
+&gt;&gt; &gt; index 0000000000..86004c0b74<br>
+&gt;&gt; &gt; --- /dev/null<br>
+&gt;&gt; &gt; +++ b/meta/recipes-support/sqlite/files/CVE-2025-70873.patch<=
 br>
-&gt; + create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.ra=
-r.uu<br>
-&gt; +<br>
-&gt; +diff --git a/Makefile.am b/Makefile.am<br>
-&gt; +index dd1620d..14edb2a 100644<br>
-&gt; +--- a/Makefile.am<br>
-&gt; ++++ b/Makefile.am<br>
-&gt; +@@ -507,6 +507,7 @@ libarchive_test_SOURCES=3D \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar_invalid1.c \=
+&gt;&gt; &gt; @@ -0,0 +1,33 @@<br>
+&gt;&gt; &gt; +From 5a05c59d4d75c03f23d5fb70feac9f789954bf8a Mon Sep 17 00:=
+00:00 2001<br>
+&gt;&gt; &gt; +From: drh &lt;&gt;<br>
+&gt;&gt; &gt; +Date: Sat, 6 Dec 2025 20:41:24 +0000<br>
+&gt;&gt; &gt; +Subject: [PATCH] In the zipfile extension, only return as ma=
+ny bytes as<br>
+&gt;&gt; &gt; + Inflate actually generated.=C2=A0 [forum:/forumpost/761eac3=
+c82|Forum post<br>
+&gt;&gt; &gt; + 761eac3c82]. Adjust ./configure so that it builds zipfile i=
+nto<br>
+&gt;&gt; testfixture if<br>
+&gt;&gt; &gt; + ZLIB is available, so that tests get run on unix platforms.=
 <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar_overflow.c \=
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +FossilOrigin-Name:<br>
+&gt;&gt; 3d459f1fb1bd1b5e723629c463ab392af7b206ece3388bda216c6a4c26160909<b=
+r>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +Upstream-Status: Backport [<br>
+&gt;&gt; <a href=3D"https://github.com/sqlite/sqlite/commit/5a05c59d4d75c03=
+f23d5fb70feac9f789954bf8a" rel=3D"noreferrer" target=3D"_blank">https://git=
+hub.com/sqlite/sqlite/commit/5a05c59d4d75c03f23d5fb70feac9f789954bf8a</a><b=
+r>
+&gt;&gt; ]<br>
+&gt;&gt; &gt; +CVE: CVE-2025-70873<br>
+&gt;&gt; &gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@=
+mvista.com" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;&gt; &gt; +---<br>
+&gt;&gt; &gt; + shell.c | 2 +-<br>
+&gt;&gt; &gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +diff --git a/shell.c b/shell.c<br>
+&gt;&gt; &gt; +index fa45d40..3c4902c 100644<br>
+&gt;&gt; &gt; +--- a/shell.c<br>
+&gt;&gt; &gt; ++++ b/shell.c<br>
+&gt;&gt; &gt; +@@ -7668,7 +7668,7 @@ static void zipfileInflate(<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if( err!=3DZ_STREAM_END ){<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0zipfileCtxErrorMsg(pCtx, &=
+quot;inflate() failed (%d)&quot;, err);<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}else{<br>
+&gt;&gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sqlite3_result_blob(pCtx, aRes,=
+ nOut, zipfileFree);<br>
+&gt;&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sqlite3_result_blob(pCtx, aRes,=
+ (int)str.total_out,<br>
+&gt;&gt; zipfileFree);<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aRes =3D 0;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; &gt; +--<br>
+&gt;&gt; &gt; +2.25.1<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; diff --git a/meta/recipes-support/sqlite/<a href=3D"http://sq=
+lite3_3.38.5.bb" rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a>=
 <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar5.c \<br>
-&gt; ++=C2=A0 =C2=A0 libarchive/test/test_read_format_rar5_loop_bug.c \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_raw.c \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_tar.c \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_tar_concatenated=
-.c \<br>
-&gt; +@@ -869,6 +870,7 @@ libarchive_test_EXTRA_DIST=3D\<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar5_invalid_dic=
-t_reference.rar.uu \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar5_leftshift1.=
-rar.uu \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar5_leftshift2.=
-rar.uu \<br>
-&gt; ++=C2=A0 =C2=A0 libarchive/test/test_read_format_rar5_loop_bug.rar.uu =
-\<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar5_multiarchiv=
-e.part01.rar.uu \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar5_multiarchiv=
-e.part02.rar.uu \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0libarchive/test/test_read_format_rar5_multiarchiv=
-e.part03.rar.uu \<br>
-&gt; +diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLi=
-sts.txt<br>
-&gt; +index 05c6fd7..c8f2e90 100644<br>
-&gt; +--- a/libarchive/test/CMakeLists.txt<br>
-&gt; ++++ b/libarchive/test/CMakeLists.txt<br>
-&gt; +@@ -156,6 +156,7 @@ IF(ENABLE_TEST)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0test_read_format_rar_filter.c<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0test_read_format_rar_overflow.c<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0test_read_format_rar5.c<br>
-&gt; ++=C2=A0 =C2=A0 test_read_format_rar5_loop_bug.c<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0test_read_format_raw.c<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0test_read_format_tar.c<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0test_read_format_tar_concatenated.c<br>
-&gt; +diff --git a/libarchive/test/test_read_format_rar5_loop_bug.c b/libar=
-chive/test/test_read_format_rar5_loop_bug.c<br>
-&gt; +new file mode 100644<br>
-&gt; +index 0000000..77dd78c<br>
-&gt; +--- /dev/null<br>
-&gt; ++++ b/libarchive/test/test_read_format_rar5_loop_bug.c<br>
-&gt; +@@ -0,0 +1,53 @@<br>
-&gt; ++/*-<br>
-&gt; ++ * Copyright (c) 2026 Tim Kientzle<br>
-&gt; ++ * All rights reserved.<br>
-&gt; ++ *<br>
-&gt; ++ * Redistribution and use in source and binary forms, with or withou=
-t<br>
-&gt; ++ * modification, are permitted provided that the following condition=
-s<br>
-&gt; ++ * are met:<br>
-&gt; ++ * 1. Redistributions of source code must retain the above copyright=
-<br>
-&gt; ++ *=C2=A0 =C2=A0 notice, this list of conditions and the following di=
-sclaimer.<br>
-&gt; ++ * 2. Redistributions in binary form must reproduce the above copyri=
-ght<br>
-&gt; ++ *=C2=A0 =C2=A0 notice, this list of conditions and the following di=
-sclaimer in the<br>
-&gt; ++ *=C2=A0 =C2=A0 documentation and/or other materials provided with t=
-he distribution.<br>
-&gt; ++ *<br>
-&gt; ++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS&#39;&#39; AND =
-ANY EXPRESS OR<br>
-&gt; ++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WA=
-RRANTIES<br>
-&gt; ++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCL=
-AIMED.<br>
-&gt; ++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIREC=
-T,<br>
-&gt; ++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDI=
-NG, BUT<br>
-&gt; ++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS=
- OF USE,<br>
-&gt; ++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON=
- ANY<br>
-&gt; ++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TO=
-RT<br>
-&gt; ++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE=
- USE OF<br>
-&gt; ++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.=
-<br>
-&gt; ++ */<br>
-&gt; ++#include &quot;test.h&quot;<br>
-&gt; ++<br>
-&gt; ++DEFINE_TEST(test_read_format_rar5_loop_bug)<br>
-&gt; ++{<br>
-&gt; ++=C2=A0 const char *reffile =3D &quot;test_read_format_rar5_loop_bug.=
-rar&quot;;<br>
-&gt; ++=C2=A0 struct archive_entry *ae;<br>
-&gt; ++=C2=A0 struct archive *a;<br>
-&gt; ++=C2=A0 const void *buf;<br>
-&gt; ++=C2=A0 size_t size;<br>
-&gt; ++=C2=A0 la_int64_t offset;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 extract_reference_file(reffile);<br>
-&gt; ++=C2=A0 assert((a =3D archive_read_new()) !=3D NULL);<br>
-&gt; ++=C2=A0 assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_al=
-l(a));<br>
-&gt; ++=C2=A0 assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_al=
-l(a));<br>
-&gt; ++=C2=A0 assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, =
-reffile, 10240));<br>
-&gt; ++<br>
-&gt; ++=C2=A0 // This has just one entry<br>
-&gt; ++=C2=A0 assertEqualIntA(a, ARCHIVE_OK, archive_read_next_header(a, &a=
-mp;ae));<br>
-&gt; ++<br>
-&gt; ++=C2=A0 // Read blocks until the end of the entry<br>
-&gt; ++=C2=A0 while (ARCHIVE_OK =3D=3D archive_read_data_block(a, &amp;buf,=
- &amp;size, &amp;offset)) {<br>
-&gt; ++=C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 assertEqualIntA(a, ARCHIVE_EOF, archive_read_next_header(a, &=
-amp;ae));<br>
-&gt; ++<br>
-&gt; ++=C2=A0 assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));<br>
-&gt; ++=C2=A0 assertEqualInt(ARCHIVE_OK, archive_free(a));<br>
-&gt; ++}<br>
-&gt; +diff --git a/libarchive/test/test_read_format_rar5_loop_bug.rar.uu b/=
-libarchive/test/test_read_format_rar5_loop_bug.rar.uu<br>
-&gt; +new file mode 100644<br>
-&gt; +index 0000000..3e47004<br>
-&gt; +--- /dev/null<br>
-&gt; ++++ b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu<br>
-&gt; +@@ -0,0 +1,189 @@<br>
-&gt; ++begin 644 test_read_format_rar5_loop_bug.rar<br>
-&gt; ++M4F%R(1H&#39;`0#%&amp;C,R`P$``)T-9%L.`@+P0`&quot;`@`P`@`,``6&#39;(WF=
-P@`?\7_U/^<br>
-&gt; ++M8@!.`B`H````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++M````````````````````````````````````````````````````````````<br>
-&gt; ++5```````````````````Y^;*!`@4`<br>
-&gt; ++`<br>
-&gt; ++end<br>
-&gt; +-- <br>
-&gt; +2.25.1<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-extended/libarchive/<a href=3D"http://libarc=
-hive_3.6.2.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.6.2.bb</a>=
- b/meta/recipes-extended/libarchive/<a href=3D"http://libarchive_3.6.2.bb" =
-rel=3D"noreferrer" target=3D"_blank">libarchive_3.6.2.bb</a><br>
-&gt; index e74326b40f..85fe6e5baa 100644<br>
-&gt; --- a/meta/recipes-extended/libarchive/<a href=3D"http://libarchive_3.=
-6.2.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.6.2.bb</a><br>
-&gt; +++ b/meta/recipes-extended/libarchive/<a href=3D"http://libarchive_3.=
-6.2.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.6.2.bb</a><br>
-&gt; @@ -50,6 +50,8 @@ SRC_URI =3D &quot;<a href=3D"http://libarchive.org/d=
-ownloads/libarchive-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">=
-http://libarchive.org/downloads/libarchive-${PV}.tar.gz</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Merge-pull-=
-request-2768-from-Commandoss-master.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-60753-0=
-1.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-60753-0=
-2.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2026-4111-1.patch=
- \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2026-4111-2.patch=
- \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;=C2=A0 UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://libarchive.org/" =
-rel=3D"noreferrer" target=3D"_blank">http://libarchive.org/</a>&quot;<br>
-&gt;=C2=A0 <br>
+&gt;&gt; b/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.38.5.bb"=
+ rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a><br>
+&gt;&gt; &gt; index acdd80022e..9e10caa399 100644<br>
+&gt;&gt; &gt; --- a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3=
+.38.5.bb" rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a><br>
+&gt;&gt; &gt; +++ b/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3=
+.38.5.bb" rel=3D"noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a><br>
+&gt;&gt; &gt; @@ -10,6 +10,7 @@ SRC_URI =3D &quot;<br>
+&gt;&gt; <a href=3D"http://www.sqlite.org/2022/sqlite-autoconf-$%7BSQLITE_P=
+V%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://www.sqlite.org/202=
+2/sqlite-autoconf-${SQLITE_PV}.tar.gz</a> \<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-202=
+3-7104.patch \<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-202=
+5-29088.patch \<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-202=
+5-6965.patch \<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-708=
+73.patch \<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;&gt; &gt;=C2=A0 SRC_URI[sha256sum] =3D<br>
+&gt;&gt; &quot;5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39=
+869c&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; Yoann Congal<br>
+&gt;&gt; Smile ECS<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
 <br>
 <br>
 -- <br>
@@ -1062,5 +456,5 @@ Smile ECS<br>
 <br>
 </blockquote></div>
 
---000000000000c3994f064e9e0d5b--
+--000000000000387d30064e9e6d94--
 
