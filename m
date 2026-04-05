@@ -1,197 +1,558 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43F09E9D80A
-	for <webhook@archiver.kernel.org>; Sun,  5 Apr 2026 15:22:29 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36726.1775402545502907066
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD12E9D823
+	for <webhook@archiver.kernel.org>; Sun,  5 Apr 2026 21:54:14 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43496.1775426048091347501
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Apr 2026 08:22:25 -0700
+ Sun, 05 Apr 2026 14:54:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ky8GghOO;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: twoerner@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-89cd8596724so39932816d6.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 08:22:25 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=3aQGRjJd;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so6620665e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 14:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775402544; x=1776007344; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dLQw3p9QUdQ+rpuYkoU3FP+FUCYrvKMncYy6TVTix2w=;
-        b=Ky8GghOOF1BbnbVKZXKOWLQ7qQPqa8JFv8+kSOMi4cA8uZg5iyy08n29thillxU9lm
-         mBwolVXEe8AfvzEJDhpupruMG45aeTZN53jFPZVTAdVTQFRO13lSWl+9rdvgQmNhYz7b
-         5FO+vATvs7UPQEtgv795Z7QczvptY4IpG5Ehq07tGei2fD1WfIpXqMTZHxcjIKe0hiYf
-         F6s/wqvrWcjxMLBJ0gZXNGva9hXsTY50Ywti5J5Qli55qbx/DRc5X1Mrl+ueXsNWVzdr
-         gDf570gzOAn2SOoMQuoF9+Lkg7+k650AzFmZ1RXzaNrtw83xvIVVGU885QEzzRvR+B0J
-         KWtA==
+        d=smile.fr; s=google; t=1775426046; x=1776030846; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CbSR2i99FMSFdsrOkPqc8CnS85Hdg28DTbt3Ds/xx8U=;
+        b=3aQGRjJdDBkV6nVNZqXW08tHWNWnburCYVvDIoGy/IfponUUjLPWw/v7GOgVPTjylj
+         4KLrM/Hi1AOnqZG5kS05FR3IZFrxs9PFMy0LMRBDs0VFHp9Zi3s8BPKZwBc5W0c1quFk
+         3g+5PiWNLdB5PeFNn4grRWOMHsRvot9UgZJt0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775402544; x=1776007344;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dLQw3p9QUdQ+rpuYkoU3FP+FUCYrvKMncYy6TVTix2w=;
-        b=LWGDvIy50pNGy+nmw6FZYHrJ83XhK8VRXKNbyEyK8TkudE3YQoKM2ERutszqH+pRHm
-         0MXN8uo3uYEwi8y6MdM4DAW8T1Zd9/rUg8K2re/wpsuAclZyCW8KJTZSR4EEXMnb44wK
-         7Mv6QLUXU4HNbnHWvrT36VqXtDFcxBpfKvA5l7UUNU7YibdAh8hrbmf8gbBND6zg7dpa
-         YhSQ/3wtN4BNWFb5v/tSgs3VWq9d2iXRisD0nSe+LLHeqArFjCWiPwWqQ2ia5YNej05H
-         oNkGGtG4mPHqJkH870yiXsgu68MEkTbjXgPpvOWr/+nooFlPf+Ms27ClNcAh/9G3T6fX
-         LExQ==
-X-Gm-Message-State: AOJu0YymKqn85VoFknlsaApb1Qt/5PT0WZ8wYUth/IZrPdfugxKFIVWP
-	kAWadSTl/GMR0ZxKjzR+X05BDtyZZlwfYQ4ubOqbLSQKqU/XmzxVVjj6
-X-Gm-Gg: AeBDiesPcZL0SUcQbQs+I/zcQjv14VZ4XViBA7u9Eg7i4GIkvP3tQCybQk7KqIgmN1c
-	L/jd1QPo7qcy1OOb/ec1LIFSAfPdRIDq7ew09gOOK99DT8TwAA3RsH0k+MkpzXVnm4oETKdF5p5
-	kaNPYwTKlL6485erLQsYrK6EUWVc8VKJfmSuQNp9V4XIPzBjfurbv/CjGFif33XVIoF+Ca1gL+A
-	jlOxu6dPhU/BPQlaYRYjNP6wzr5fQmXr8oJP+VgstYfbeAK6E4OCmwoEAQTZLYkqHwQ8Nq0gZVz
-	qPwYiPV7k+9vFfwS/USwamdDNN9EFFBCRP5CS879Nf7tQoelJ5AMW/Wwu1fS1yAVomjiXge3nay
-	oMEsu8tz8b1ddmJ/gtEgmO8Y1lg7XPtdJ/9zOl08U3sXqDYrMknSwRVv3z9jvcLrIkwzqYW/f7R
-	lkHoHB3FkdFRL4Uk/dd6TY2Fon9Bz7YrFy+9jybkXNBgB6LV5X1SxHRKoSIa+JnexMVg==
-X-Received: by 2002:a05:6214:c6a:b0:89c:5289:4be6 with SMTP id 6a1803df08f44-8a7027a7dcbmr148555536d6.13.1775402544441;
-        Sun, 05 Apr 2026 08:22:24 -0700 (PDT)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8a5933321e3sm119604906d6.7.2026.04.05.08.22.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 08:22:23 -0700 (PDT)
-Date: Sun, 5 Apr 2026 11:22:22 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Mark Hatle <mark.hatle@kernel.crashing.org>
-Subject: Re: [OE-core] [PATCH v9 4/5] wic: move canned *wks files
-Message-ID: <adJ-LhNDjPfXx95p@localhost.localdomain>
-References: <20260403183541.2631883-5-twoerner@gmail.com>
- <59476a47af44f95f70e14869226d336e90c009a4.camel@linuxfoundation.org>
- <adA94CgwRzIvBl1R@localhost.localdomain>
- <c15be3d11d7381e0be75e56340dc985628ba513a.camel@linuxfoundation.org>
- <adEyY7c8FLpJPNkc@localhost.localdomain>
- <f366155401c254d33792e00d0f6b60b81ed34d8b.camel@linuxfoundation.org>
- <adF2qsDHX3SzWqzy@localhost.localdomain>
- <889c5788a6c49ddf77b22859b7d82014c75ecb98.camel@linuxfoundation.org>
- <adJPst82O73CdC9P@localhost.localdomain>
- <93d79b4fb9c40165dedc93dc988d55c26e54ab7a.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <93d79b4fb9c40165dedc93dc988d55c26e54ab7a.camel@linuxfoundation.org>
+        d=1e100.net; s=20251104; t=1775426046; x=1776030846;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CbSR2i99FMSFdsrOkPqc8CnS85Hdg28DTbt3Ds/xx8U=;
+        b=LGr5h6Y3hOh3/B4xdxjtq3Nb34bU4ocbEybxCd/N2axpRbJ6+uhivo0zahWcbSiLVa
+         JQoScfrRn6lX1UjjrS2+dcYsa5GSnarfg4G9qjIs1hbEz3EpvAuhjUsrgwpbODFiptRj
+         kggKTHItwe59jAyTqTWAcLdEDnd0OF96o/IfjQQviegNHmNF64KtEQ+iP3rLmXMNWEcn
+         3raIcbHEH81wCel7j1vjkBMP7+mS/xlACKFnORSRhcWnxvMCdjFRvGCpeE42r6jVDnot
+         kL9Ry34d/jL3CErIRckd7RWP/WCS5DSY2u/z5eqg6aFuraRYfEpR4i9a+QAOIJrZ4Rms
+         QmQQ==
+X-Gm-Message-State: AOJu0YxJgvEACXC/k7N3gxIhfWKdDmLzmHPQa1kxluWOD8l+Pg+ZXk9S
+	a5Iy1nidgSX7AZqpJyum4FJ7PYIBCuZL4DIOY/d+773rNOA0o0UWL3MOmFoPytRkpnc=
+X-Gm-Gg: AeBDietpXM//p1FdA1KTep3kEfFjsFbNjmn1alxb0o4IfzqGbk9yLprWeOi9aDtPbGL
+	DtNLbgC/2rySuZbgOrgBCBKVD3SWq7g5uw6OrF3rPqueGTT+9L7oibITaubLbzD/dB+Du00JCXw
+	tsaGqn01VAg78sVBdFOo/tT6/qufD0p9aBRRZLbzlSLuM7mD4AsM+F+VlTXPd+ZOra8kLLsZfsz
+	Le7rl4Bu7a7TbjDnmvSRXkjieqHoSVqLrSusVtm8NbQoLu0EREWX/GwIHJ3Fez1fV+wsUYaVYt6
+	PDs0+ri59725m0ovx5Htqq8pXKEYS8DmnfAySfzHo0muQYISKFv7TPq1TEmgEKyXWD0kUFm40le
+	fHkwT8PJVWqNtmtYtyE7lZBArvBFkJ6lJ/ZM24tCUh96jJjrlE362U/kAvNWJ3TAqiL6o+d5wgq
+	vhGDczKkPeAlyjv3e9kXBTOndn7Kbo8nv36PQKT6OyNJtg2SKQvdqpBO0mfJ+lNBfppA6YBMhAx
+	2rdzomkETQ3okM=
+X-Received: by 2002:a05:600c:4593:b0:485:3e19:9e01 with SMTP id 5b1f17b1804b1-488997e22d9mr164293115e9.28.1775426046071;
+        Sun, 05 Apr 2026 14:54:06 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2c637asm33658287f8f.14.2026.04.05.14.54.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Apr 2026 14:54:05 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 05 Apr 2026 23:54:04 +0200
+Message-Id: <DHLK09AZHP31.17W5UUEWWUBPN@smile.fr>
+Cc: <openembedded-core@lists.openembedded.org>
+To: "Vijay Anusuri" <vanusuri@mvista.com>
+Subject: Re: [OE-core][kirkstone][PATCH] libarchive: Fix CVE-2026-4111
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260326075847.312211-1-vanusuri@mvista.com>
+ <DHJV1CGLXDFY.1T23NFX2R5HE8@smile.fr>
+ <CANQUz1_zvRNo3ydbnLHQX50Zp=BrSTugD3qJHR8D7yGPjP7GRg@mail.gmail.com>
+In-Reply-To: <CANQUz1_zvRNo3ydbnLHQX50Zp=BrSTugD3qJHR8D7yGPjP7GRg@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 15:22:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234635
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 21:54:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234636
 
-On Sun 2026-04-05 @ 03:16:26 PM, Richard Purdie wrote:
-> On Sun, 2026-04-05 at 08:04 -0400, Trevor Woerner wrote:
-> > On Sun 2026-04-05 @ 10:17:40 AM, Richard Purdie wrote:
-> > > On Sat, 2026-04-04 at 16:38 -0400, Trevor Woerner wrote:
-> > > > On Sat 2026-04-04 @ 07:36:05 PM, Richard Purdie wrote:
-> > > > > On Sat, 2026-04-04 at 11:46 -0400, Trevor Woerner wrote:
-> > > > > > On Sat 2026-04-04 @ 08:27:13 AM, Richard Purdie wrote:
-> > > > > > 
-> > > > > > I'm only guessing here, but it looks like someone wrote "wic create" to
-> > > > > > run two different ways: with the wks file specified with or without the
-> > > > > > ".wks" extension.
-> > > > > > 
-> > > > > > If ".wks" is not given (e.g. "wic create directdisk-gpt ...", which is
-> > > > > > what occurs in the oe-selftest tests, i.e. when wic is run independently
-> > > > > > without being part of a bitbake build) then wic invokes its own search
-> > > > > > algorithm to try to find the wks file using BBLAYERS and script_dir. In
-> > > > > > this case the wks file is specified without the ".wks" and no path
-> > > > > > information is given on the cmdline. It is up to wic to find the actual
-> > > > > > wks file itself.
-> > > > > > 
-> > > > > > If the ".wks" is included (which is what happens when wic is called as
-> > > > > > part of a bitbake build and therefore the image_types_wic.bbclass is
-> > > > > > used) then the class adds the ".wks" at the end, and also gives wic the
-> > > > > > path to the wks file which it finds using WKS_SEARCH_PATH which is based
-> > > > > > on BBPATH and COREBASE.
-> > > > > > 
-> > > > > > Assuming the persona of someone who wants to use this new, independent
-> > > > > > wic tool, and who knows nothing about The Yocto Project or bitbake, I
-> > > > > > think having wic look in "magical" places for the wks file would be hard
-> > > > > > to understand and surprising. As an independent tool I think the user
-> > > > > > should provide the path to the actual wks file (with the ".wks"
-> > > > > > extension) and if that file can't be found as specified on the cmdline,
-> > > > > > wic should simply fail with an error.
-> > > > > > 
-> > > > > > As part of making wic an independent tool, I think wic's code to search
-> > > > > > for a wks file if the ".wks" is not provided should be removed. This
-> > > > > > means that, as part of the transition, I would have to modify each "wic
-> > > > > > create" test in oe-core's oe-selftests. I'm fine with that. That could
-> > > > > > be done cleanly if I write a little function to find the wks file in
-> > > > > > the wic.py oe-selftest itself using the same logic as is used in the
-> > > > > > image_types_wic.bbclass.
-> > > > > > 
-> > > > > > To summarize: in my opinion, wic shouldn't have search logic. From wic's
-> > > > > > point of view the wks file should be specified on the cmdline in a way
-> > > > > > that wic will find the file the user wants to use (or not find it).
-> > > > > > The oe-selftests should be updated to use the same search logic from
-> > > > > > the image_types_wic.bbclass so that when it invokes "wic create" it is
-> > > > > > providing wic with the path to a wks file that has a ".wks" extension
-> > > > > > (which is how bitbake invokes wic) instead of specifying a bare wks file
-> > > > > > and hoping wic will find it.
-> > > > > > 
-> > > > > > I'm happy to add "files/wic" as another location for
-> > > > > > image_types_wic.bbclass to search for wks files.
-> > > > > 
-> > > > > I guess the first question is are we going to take this for wrynose or
-> > > > > not? I'm not particularly happy with the files a top level wic
-> > > > > directory, I think it needs to be meta/files/wic. To make that work, we
-> > > > > need to tweak the search paths in wic and in image_types_wic.bbclass.
-> > > > > If we can resolve that issue, we're probably good to move forward with
-> > > > > merging.
-> > > > > 
-> > > > > I agree that the search path logic should be tidied up. Whether you can
-> > > > > provide a search path to wic or whether that has to be done in metadata
-> > > > > is an open question. I do see your perspective, equally, if you are
-> > > > > using wic within OE, having some search knowledge may be ok. I would
-> > > > > want to see it basically using files/wic from BBPATH  with everything
-> > > > > else removed. There is a question of how you warn users about old
-> > > > > paths. This piece is too late for the release though.
-> > > > > 
-> > > > > So I'd propose we add files/wic to the search path, move the files
-> > > > > there and that lets us at least get some of the changes into the
-> > > > > release?
-> > > > 
-> > > > Sounds perfect, thanks!
-> > > 
-> > > Since we're running out of time and I really don't want to have to
-> > > think about this too much more/again, I've:
-> > > 
-> > > * written a patch to add files/wic as a search path in wic
-> > > * written a patch to add files/wic as a search path in the class
-> > > * dropped wic and the canned-wks paths in wic
-> > > * dropped wic and the canned-wks paths in the class
-> > > * converted wic to use BBPATH instead of BBLAYERS
-> > > * added a sanity test to detect the old paths and error
-> > > * pushed a contrib/rpurdie branch into the wic repo with the patches
-> > > 
-> > > This is going to mean people have to update layers to use "files/wic"
-> > > but we can clearly tell people they need to do it. If we went with
-> > > either of the other locations and changed BBLAYERS -> BBPATH, there
-> > > could be corner cases we miss in the detection.
-> > > 
-> > > Autobuilder testing shows this will break a few layers but it is a
-> > > clear error which people can easily fix.
-> > > 
-> > > How does that look to people?
-> > 
-> > Sounds great to me!
-> > 
-> > Presumably we will move the contrib/rpurdie branch to master in
-> > git.yoctoproject.org/wic and the SRC_URI of the wic recipe in oe-core
-> > will need a tweak before making it official?
-> 
-> I pushed onto a contrib branch so we can make a decision on this.
-> Assuming we go ahead, we'd merge the patches to master, the update the
-> recipe accordingly.
+On Sat Apr 4, 2026 at 10:16 AM CEST, Vijay Anusuri wrote:
+> Hi Yoann,
+>
+> This CVE fix already included in libarchive version 3.8.6 on the master
+> branch.
+>
+> https://github.com/libarchive/libarchive/releases/tag/v3.8.6 .
 
-I've looked at your patches in oe-core master-next as well as in the wic
-repository contrib/rpurdie and they all look fine to me. This is a nice
-update for wic.
+That's right, as https://github.com/libarchive/libarchive/commit/ec19fcbd20=
+b18bd3b0fdcf2b3fb97789cd1bf575.
+So, master is already sorted.
 
-> Cheers,
-> 
-> Richard
+
+> I will cherry-pick libarchive-3.8.6 from master and submit the patch to
+> Whinlatter branch.
+
+Yes, please.
+
+Thanks!
+
+> Thanks & Regards,
+> Vijay
+>
+> On Sat, Apr 4, 2026 at 3:37=E2=80=AFAM Yoann Congal <yoann.congal@smile.f=
+r> wrote:
+>
+>> On Thu Mar 26, 2026 at 8:58 AM CET, Vijay Anusuri via
+>> lists.openembedded.org wrote:
+>> > From: Vijay Anusuri <vanusuri@mvista.com>
+>> >
+>> > Pick patch according to [1]
+>> >
+>> > [1] https://security-tracker.debian.org/tracker/CVE-2026-4111
+>> > [2] https://github.com/libarchive/libarchive/pull/2877
+>> > [3] https://access.redhat.com/errata/RHSA-2026:5080
+>> >
+>> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+>> > ---
+>>
+>> Hello,
+>>
+>> As far as I can tell, this CVE applies to whinlatter and master.
+>> Since this is the end of kirkstone soon, I'll take it into the reviews
+>> series but can only merge it if there is a patch sent for this CVE in
+>> those branches.
+>>
+>> Regards,
+>>
+>> >  .../libarchive/CVE-2026-4111-1.patch          |  32 ++
+>> >  .../libarchive/CVE-2026-4111-2.patch          | 308 +++++++++++++++++=
++
+>> >  .../libarchive/libarchive_3.6.2.bb            |   2 +
+>> >  3 files changed, 342 insertions(+)
+>> >  create mode 100644
+>> meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+>> >  create mode 100644
+>> meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+>> >
+>> > diff --git
+>> a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+>> b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+>> > new file mode 100644
+>> > index 0000000000..1f065b1364
+>> > --- /dev/null
+>> > +++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patc=
+h
+>> > @@ -0,0 +1,32 @@
+>> > +From 7273d04803a1e5a482f26d8d0fbaf2b204a72168 Mon Sep 17 00:00:00 200=
+1
+>> > +From: Tim Kientzle <kientzle@acm.org>
+>> > +Date: Sun, 1 Mar 2026 20:24:56 -0800
+>> > +Subject: [PATCH] Reject filters when the block length is nonsensical
+>> > +
+>> > +Credit: Grzegorz Antoniak @antekone
+>> > +
+>> > +Upstream-Status: Backport [
+>> https://github.com/libarchive/libarchive/commit/7273d04803a1e5a482f26d8d=
+0fbaf2b204a72168
+>> ]
+>> > +CVE: CVE-2026-4111
+>> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+>> > +---
+>> > + libarchive/archive_read_support_format_rar5.c | 4 +++-
+>> > + 1 file changed, 3 insertions(+), 1 deletion(-)
+>> > +
+>> > +diff --git a/libarchive/archive_read_support_format_rar5.c
+>> b/libarchive/archive_read_support_format_rar5.c
+>> > +index 38979cb..867f0a8 100644
+>> > +--- a/libarchive/archive_read_support_format_rar5.c
+>> > ++++ b/libarchive/archive_read_support_format_rar5.c
+>> > +@@ -2914,7 +2914,9 @@ static int parse_filter(struct archive_read* ar=
+,
+>> const uint8_t* p) {
+>> > +     if(block_length < 4 ||
+>> > +         block_length > 0x400000 ||
+>> > +         filter_type > FILTER_ARM ||
+>> > +-        !is_valid_filter_block_start(rar, block_start))
+>> > ++        !is_valid_filter_block_start(rar, block_start) ||
+>> > ++        (rar->cstate.window_size > 0 &&
+>> > ++         (ssize_t)block_length > rar->cstate.window_size >> 1))
+>> > +     {
+>> > +             archive_set_error(&ar->archive, ARCHIVE_ERRNO_FILE_FORMA=
+T,
+>> > +                 "Invalid filter encountered");
+>> > +--
+>> > +2.25.1
+>> > +
+>> > diff --git
+>> a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+>> b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+>> > new file mode 100644
+>> > index 0000000000..243a03a8e5
+>> > --- /dev/null
+>> > +++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patc=
+h
+>> > @@ -0,0 +1,308 @@
+>> > +From ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4 Mon Sep 17 00:00:00 200=
+1
+>> > +From: Tim Kientzle <kientzle@acm.org>
+>> > +Date: Sun, 1 Mar 2026 10:04:01 -0800
+>> > +Subject: [PATCH] Infinite loop in Rar5 decompression
+>> > +
+>> > +Found by: Elhanan Haenel
+>> > +
+>> > +Upstream-Status: Backport [
+>> https://github.com/libarchive/libarchive/commit/ef53e2023d75a205cf7cbddb=
+5d01c4cc592e9ce4
+>> ]
+>> > +CVE: CVE-2026-4111
+>> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+>> > +---
+>> > + Makefile.am                                   |   2 +
+>> > + libarchive/test/CMakeLists.txt                |   1 +
+>> > + .../test/test_read_format_rar5_loop_bug.c     |  53 +++++
+>> > + .../test_read_format_rar5_loop_bug.rar.uu     | 189 ++++++++++++++++=
+++
+>> > + 4 files changed, 245 insertions(+)
+>> > + create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.c
+>> > + create mode 100644
+>> libarchive/test/test_read_format_rar5_loop_bug.rar.uu
+>> > +
+>> > +diff --git a/Makefile.am b/Makefile.am
+>> > +index dd1620d..14edb2a 100644
+>> > +--- a/Makefile.am
+>> > ++++ b/Makefile.am
+>> > +@@ -507,6 +507,7 @@ libarchive_test_SOURCES=3D \
+>> > +     libarchive/test/test_read_format_rar_invalid1.c \
+>> > +     libarchive/test/test_read_format_rar_overflow.c \
+>> > +     libarchive/test/test_read_format_rar5.c \
+>> > ++    libarchive/test/test_read_format_rar5_loop_bug.c \
+>> > +     libarchive/test/test_read_format_raw.c \
+>> > +     libarchive/test/test_read_format_tar.c \
+>> > +     libarchive/test/test_read_format_tar_concatenated.c \
+>> > +@@ -869,6 +870,7 @@ libarchive_test_EXTRA_DIST=3D\
+>> > +
+>>  libarchive/test/test_read_format_rar5_invalid_dict_reference.rar.uu \
+>> > +     libarchive/test/test_read_format_rar5_leftshift1.rar.uu \
+>> > +     libarchive/test/test_read_format_rar5_leftshift2.rar.uu \
+>> > ++    libarchive/test/test_read_format_rar5_loop_bug.rar.uu \
+>> > +     libarchive/test/test_read_format_rar5_multiarchive.part01.rar.uu=
+ \
+>> > +     libarchive/test/test_read_format_rar5_multiarchive.part02.rar.uu=
+ \
+>> > +     libarchive/test/test_read_format_rar5_multiarchive.part03.rar.uu=
+ \
+>> > +diff --git a/libarchive/test/CMakeLists.txt
+>> b/libarchive/test/CMakeLists.txt
+>> > +index 05c6fd7..c8f2e90 100644
+>> > +--- a/libarchive/test/CMakeLists.txt
+>> > ++++ b/libarchive/test/CMakeLists.txt
+>> > +@@ -156,6 +156,7 @@ IF(ENABLE_TEST)
+>> > +     test_read_format_rar_filter.c
+>> > +     test_read_format_rar_overflow.c
+>> > +     test_read_format_rar5.c
+>> > ++    test_read_format_rar5_loop_bug.c
+>> > +     test_read_format_raw.c
+>> > +     test_read_format_tar.c
+>> > +     test_read_format_tar_concatenated.c
+>> > +diff --git a/libarchive/test/test_read_format_rar5_loop_bug.c
+>> b/libarchive/test/test_read_format_rar5_loop_bug.c
+>> > +new file mode 100644
+>> > +index 0000000..77dd78c
+>> > +--- /dev/null
+>> > ++++ b/libarchive/test/test_read_format_rar5_loop_bug.c
+>> > +@@ -0,0 +1,53 @@
+>> > ++/*-
+>> > ++ * Copyright (c) 2026 Tim Kientzle
+>> > ++ * All rights reserved.
+>> > ++ *
+>> > ++ * Redistribution and use in source and binary forms, with or withou=
+t
+>> > ++ * modification, are permitted provided that the following condition=
+s
+>> > ++ * are met:
+>> > ++ * 1. Redistributions of source code must retain the above copyright
+>> > ++ *    notice, this list of conditions and the following disclaimer.
+>> > ++ * 2. Redistributions in binary form must reproduce the above copyri=
+ght
+>> > ++ *    notice, this list of conditions and the following disclaimer i=
+n
+>> the
+>> > ++ *    documentation and/or other materials provided with the
+>> distribution.
+>> > ++ *
+>> > ++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY
+>> EXPRESS OR
+>> > ++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+>> WARRANTIES
+>> > ++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+>> DISCLAIMED.
+>> > ++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIREC=
+T,
+>> > ++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+>> (INCLUDING, BUT
+>> > ++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+>> OF USE,
+>> > ++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+>> ANY
+>> > ++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TO=
+RT
+>> > ++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+>> USE OF
+>> > ++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+>> > ++ */
+>> > ++#include "test.h"
+>> > ++
+>> > ++DEFINE_TEST(test_read_format_rar5_loop_bug)
+>> > ++{
+>> > ++  const char *reffile =3D "test_read_format_rar5_loop_bug.rar";
+>> > ++  struct archive_entry *ae;
+>> > ++  struct archive *a;
+>> > ++  const void *buf;
+>> > ++  size_t size;
+>> > ++  la_int64_t offset;
+>> > ++
+>> > ++  extract_reference_file(reffile);
+>> > ++  assert((a =3D archive_read_new()) !=3D NULL);
+>> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a))=
+;
+>> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a))=
+;
+>> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a,
+>> reffile, 10240));
+>> > ++
+>> > ++  // This has just one entry
+>> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_next_header(a, &ae));
+>> > ++
+>> > ++  // Read blocks until the end of the entry
+>> > ++  while (ARCHIVE_OK =3D=3D archive_read_data_block(a, &buf, &size,
+>> &offset)) {
+>> > ++  }
+>> > ++
+>> > ++  assertEqualIntA(a, ARCHIVE_EOF, archive_read_next_header(a, &ae));
+>> > ++
+>> > ++  assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
+>> > ++  assertEqualInt(ARCHIVE_OK, archive_free(a));
+>> > ++}
+>> > +diff --git a/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
+>> b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
+>> > +new file mode 100644
+>> > +index 0000000..3e47004
+>> > +--- /dev/null
+>> > ++++ b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
+>> > +@@ -0,0 +1,189 @@
+>> > ++begin 644 test_read_format_rar5_loop_bug.rar
+>> > ++M4F%R(1H'`0#%&C,R`P$``)T-9%L.`@+P0`"`@`P`@`,``6'(WFP@`?\7_U/^
+>> > ++M8@!.`B`H````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++M````````````````````````````````````````````````````````````
+>> > ++5```````````````````Y^;*!`@4`
+>> > ++`
+>> > ++end
+>> > +--
+>> > +2.25.1
+>> > +
+>> > diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+>> b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+>> > index e74326b40f..85fe6e5baa 100644
+>> > --- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+>> > +++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+>> > @@ -50,6 +50,8 @@ SRC_URI =3D "
+>> http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+>> >
+>>  file://0001-Merge-pull-request-2768-from-Commandoss-master.patch \
+>> >             file://CVE-2025-60753-01.patch \
+>> >             file://CVE-2025-60753-02.patch \
+>> > +           file://CVE-2026-4111-1.patch \
+>> > +           file://CVE-2026-4111-2.patch \
+>> >             "
+>> >  UPSTREAM_CHECK_URI =3D "http://libarchive.org/"
+>> >
+>>
+>>
+>> --
+>> Yoann Congal
+>> Smile ECS
+>>
+>>
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
