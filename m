@@ -2,67 +2,72 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA610F5512C
-	for <webhook@archiver.kernel.org>; Sun,  5 Apr 2026 14:15:28 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35809.1775398519995741639
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B02A6F55123
+	for <webhook@archiver.kernel.org>; Sun,  5 Apr 2026 14:16:38 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.35821.1775398590206795382
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Apr 2026 07:15:20 -0700
+ Sun, 05 Apr 2026 07:16:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YosluOfg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43ba1f3fa7eso3409703f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 07:15:19 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RKdC5RKI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.218.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9c11eba219so352580566b.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 07:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775398518; x=1776003318; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1775398588; x=1776003388; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o0qOXJ/i+OpVPrytdG1+wyy/hTuTgu3LxaX6oqwfzQ0=;
-        b=YosluOfgqvdduL4pBuf+/OAu2sb55LR7Te4h338U94vYTx1xo3j/L33OOAe/JrVrxn
-         nsOtxeMF2O8KKFLjsYQ8awhFwFHnIMlJk4RHHokqamAg47TGIKdfBfHEzpJ8pOJqNXJZ
-         CjVk3CSb3SZl35cSszufc2WwRlexBsM4JHxG8=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sVGa6lTU6Ka3KumDDijAwZi6GBXzBJmg5WsB5QeuQ+E=;
+        b=RKdC5RKIp7WVn4NvvgFFNKPKcm+gf0VuSNhHZ4I2TkRPuAq3o4kvciA19gn6lHVsVO
+         TCBnpy/Bcwq5zDWvO0oNDmvyc0bRa57jcxdK0/9ZsbV2qEbJqbwkSSsVQXqpZDcsh7z0
+         vztGhe2ztRnCZwaaKa/BrooIcSidLlKT2O5rw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775398518; x=1776003318;
+        d=1e100.net; s=20251104; t=1775398588; x=1776003388;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o0qOXJ/i+OpVPrytdG1+wyy/hTuTgu3LxaX6oqwfzQ0=;
-        b=DIWQ4Sw7k0vRSEAt3GMNVZr6cD1jHQNOZaaYeWUopA3bFRe2eL/AVa7t5CzWrB3KZl
-         cbpMaeiz6HUe2K0Pp5Xz3FaW69bCzwMiUk+0lCHWhUfa2khgsTrDHbWy62RG5EuS04Pn
-         kl7HcpGWmHrLDDl9es2G9M6OMiU4hR6cNDnI0ou7xNEI2uynemEQUw/UumEsO/WDc2Ks
-         kYSsNVRLIL6E1+Sk43BDdSgltvLh2p5LUK6ApeP1zZ798bOVdWm9MQ6jk4NutBnJjQlj
-         /dQeBFRihJRfn8tIa6dxPrINSrQlq5gGCrGFd2nrX1yFasGUCr8XCbB/3P8fF7f6GClQ
-         q3Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCV8DumcZUNCvH2zQw295uVmdQBpn7OAXsp9ebka7bmljzh1uSCftw/rsZ+biTzhnui9QSj96UlaXbg8q8WL/Bx1zw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyRBZJq5TvS2K10hchhUUK4XZx1zD+Q5xYI+AAMD61Bw+Sl1FFe
-	lMUWxcKml8KYu6RvHQ+4izqUaqMSgfuWZgtbg7l4zVCU7hlOKI17yqceYjnSItyhaNY=
-X-Gm-Gg: AeBDieuXth/kRgfyGyrcB/aUy+QY8jFwhToYcO2u5nn+WoVWxuwRGyxQbhu3o5mGmIh
-	7YtE4i2PUyqYxVLItK4DDkPUEfFtvsBRvZaVyBZY721ik2wa3Q9BhwyjMA8M/ki2W7JHUUrgeqd
-	rzVhVPkVIxcmbO17JykMWOSh088oym9bcqOwToIZGI/y11vaNpeMoAgdOWkbiZCS+Au3FLOrlHE
-	qDSI/9uc2gGzsLd9AtLWwCxoAA2/uIkhu6u4zbi0DDS8uZdkRIPK0q7pegADv0ypjQOJxMjRm5m
-	hbQCGJ6DGhq86xoN0AfOzwba6A/i+1hvzslzrDGNeAL7nux9Xnh0YhDwRK0a9WZCiuxAZJrMTCZ
-	nSsW3S4WwADcRRaatOv2jeaNCCZtIXnD7jnMXf04vxOkPcQtMBWXchP7RxcF79d8smyYPZ24VTo
-	AomsIDqSzs2W51OuvZRpKyqdYGGHZuD8dc7TYlf5VhTX+ipDXmWpfClX/RiN4dNaJIfYDfIVZ+f
-	Onm6P3znUA1po6u
-X-Received: by 2002:a05:6000:401f:b0:43d:2be:e4e with SMTP id ffacd0b85a97d-43d292ff520mr14484282f8f.46.1775398518283;
-        Sun, 05 Apr 2026 07:15:18 -0700 (PDT)
+        bh=sVGa6lTU6Ka3KumDDijAwZi6GBXzBJmg5WsB5QeuQ+E=;
+        b=Vf8eedQcAtfKyCn34Sr6SBa0RdAk+0IbJSf34qeLqGyKFgjo67wrnV0Avk14nai0L6
+         WLUoA8tgn3n40EwiNv3jjGKmzG0SdASzUD0L2ycqlvg4CcLWZ5P5QFHEM1cRXLjsODEq
+         W4FSGmRxtlkckSFzSEmjjFNa4o2fwBPj93UaeVOpaLekYRzIJFrvK62NF8i/xYyBUSYA
+         cU26y/fwRSZT8F14KrTVt1xitFrqXOeNE+oi5UcXKO6WhMycHsIHLdZVD/+rFtSiq0sV
+         8LUTgkqibjN/c1qo2xTjhAQGkQ82VwMAN1t18K/+mY/nsq68zgct2/0AqUQdejHGMth8
+         wYLg==
+X-Gm-Message-State: AOJu0Yzsbi05vEFj597ln+UlGQspVTvQPfh8JhCXP+gtXJNS+hnmvjJL
+	wV9k0LeZ+aj4nHf0EbmLF8JPwPZ7FHnEoh/6x6kwzRJJRIaBWUJT6iG/RQeFSUQHsJc=
+X-Gm-Gg: AeBDies+jM8Ox2zLohNXAJjyi6M1x7kV3+L18PvdMTwdXFLwcpIPcAECeT0FHwqDoqV
+	AGGXWKmW1B8Jj++PUIE4/QE4JuU5FZKgdBEExMa7p4rAvq8DwkoN1fk9ujEQysJToZq5m98Q6Ro
+	tzkRx+acvpGDA5b5HAXI+qHCYIYqE5eJDGoldWJnTt4PpO49dxF4afkDv/oPlBdYhnf7AcgAYbI
+	9k0rUVfPA3qzzN0hPOoPoRmvxGlWCClipuiYDx74bO90DoRn5OHHyt4nRZlzStViCl0xTGiACF7
+	EnIk5HOHETRrG1XjTVGCUzbny3XDHqxbpgsI18E2LN9aZbhoIVLFx1uu9QULU0Qwvfe7ZaLfMI2
+	FSwrAT2i8Z3vZOeVLrNWEthY1ztRF1yYNjFngl5oMp7+e6JVjezT702gufYrw3bXNsfcAKF2oLW
+	NjbAnbF1VeDjr7IhwRImjvBFa06cV0oh83Qr04X7GY/DFE/wiH3KWfKTZZcapQngeyeEqHD2Qq/
+	JSV3ePbPjhN8VLQ
+X-Received: by 2002:a17:906:478e:b0:b9c:69df:4d99 with SMTP id a640c23a62f3a-b9c69df604emr440033966b.46.1775398588426;
+        Sun, 05 Apr 2026 07:16:28 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:5e42:a555:17a8:9bbc? ([2001:8b0:aba:5f3c:5e42:a555:17a8:9bbc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2c60a2sm31738394f8f.10.2026.04.05.07.15.17
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c3d028995sm389733166b.57.2026.04.05.07.16.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 07:15:17 -0700 (PDT)
-Message-ID: <339980bedad128b61c91bc252d8d185dfd47ea22.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] sanity: Require tar 1.35 or later on
- rhel9-alike distros
+        Sun, 05 Apr 2026 07:16:27 -0700 (PDT)
+Message-ID: <93d79b4fb9c40165dedc93dc988d55c26e54ab7a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v9 4/5] wic: move canned *wks files
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mathieu.dubois-briand@bootlin.com, yoann.congal@smile.fr, Paul Barker
-	 <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
-Date: Sun, 05 Apr 2026 15:15:16 +0100
-In-Reply-To: <DHK4ZL7W9BQT.3D1Y5HJNCKPCE@bootlin.com>
-References: <20260403-rhel9-tar-v1-1-b9c7fb64bbd9@pbarker.dev>
-	 <DHJO8L8EC2Z9.1N02J4E6QUEGC@bootlin.com>
-	 <DHJOO3S7NQMS.D0NB9IPZPFV0@smile.fr>
-	 <DHK4ZL7W9BQT.3D1Y5HJNCKPCE@bootlin.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Bruce Ashfield
+	 <bruce.ashfield@gmail.com>, Mark Hatle <mark.hatle@kernel.crashing.org>
+Date: Sun, 05 Apr 2026 15:16:26 +0100
+In-Reply-To: <adJPst82O73CdC9P@localhost.localdomain>
+References: <20260403183541.2631883-1-twoerner@gmail.com>
+	 <20260403183541.2631883-5-twoerner@gmail.com>
+	 <59476a47af44f95f70e14869226d336e90c009a4.camel@linuxfoundation.org>
+	 <adA94CgwRzIvBl1R@localhost.localdomain>
+	 <c15be3d11d7381e0be75e56340dc985628ba513a.camel@linuxfoundation.org>
+	 <adEyY7c8FLpJPNkc@localhost.localdomain>
+	 <f366155401c254d33792e00d0f6b60b81ed34d8b.camel@linuxfoundation.org>
+	 <adF2qsDHX3SzWqzy@localhost.localdomain>
+	 <889c5788a6c49ddf77b22859b7d82014c75ecb98.camel@linuxfoundation.org>
+	 <adJPst82O73CdC9P@localhost.localdomain>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -70,65 +75,151 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 14:15:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234629
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 14:16:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234630
 
-On Sat, 2026-04-04 at 07:55 +0200, Mathieu Dubois-Briand via lists.openembe=
-dded.org wrote:
-> On Fri Apr 3, 2026 at 7:07 PM CEST, Yoann Congal via lists.openembedded.o=
-rg wrote:
-> > On Fri Apr 3, 2026 at 6:47 PM CEST, Mathieu Dubois-Briand via lists.ope=
-nembedded.org wrote:
-> > > On Fri Apr 3, 2026 at 1:54 PM CEST, Paul Barker wrote:
-> > > > tar 1.34 (and possibly earlier versions) is unable to extract tarba=
-lls
-> > > > containing read-only files with xattrs. This was fixed upstream, bu=
-t
-> > > > it's unlikely at this point that the fix will be backported to RHEL=
-9
-> > > > related distros (CentOS Stream 9, AlmaLinux 9, Rocky Linux 9). The =
-issue
-> > > > affects these distros specifically because they have selinux enable=
-d by
-> > > > default and this uses xattrs.
+On Sun, 2026-04-05 at 08:04 -0400, Trevor Woerner wrote:
+> On Sun 2026-04-05 @ 10:17:40 AM, Richard Purdie wrote:
+> > On Sat, 2026-04-04 at 16:38 -0400, Trevor Woerner wrote:
+> > > On Sat 2026-04-04 @ 07:36:05 PM, Richard Purdie wrote:
+> > > > On Sat, 2026-04-04 at 11:46 -0400, Trevor Woerner wrote:
+> > > > > On Sat 2026-04-04 @ 08:27:13 AM, Richard Purdie wrote:
+> > > > >=20
+> > > > > I'm only guessing here, but it looks like someone wrote "wic crea=
+te" to
+> > > > > run two different ways: with the wks file specified with or witho=
+ut the
+> > > > > ".wks" extension.
+> > > > >=20
+> > > > > If ".wks" is not given (e.g. "wic create directdisk-gpt ...", whi=
+ch is
+> > > > > what occurs in the oe-selftest tests, i.e. when wic is run indepe=
+ndently
+> > > > > without being part of a bitbake build) then wic invokes its own s=
+earch
+> > > > > algorithm to try to find the wks file using BBLAYERS and script_d=
+ir. In
+> > > > > this case the wks file is specified without the ".wks" and no pat=
+h
+> > > > > information is given on the cmdline. It is up to wic to find the =
+actual
+> > > > > wks file itself.
+> > > > >=20
+> > > > > If the ".wks" is included (which is what happens when wic is call=
+ed as
+> > > > > part of a bitbake build and therefore the image_types_wic.bbclass=
+ is
+> > > > > used) then the class adds the ".wks" at the end, and also gives w=
+ic the
+> > > > > path to the wks file which it finds using WKS_SEARCH_PATH which i=
+s based
+> > > > > on BBPATH and COREBASE.
+> > > > >=20
+> > > > > Assuming the persona of someone who wants to use this new, indepe=
+ndent
+> > > > > wic tool, and who knows nothing about The Yocto Project or bitbak=
+e, I
+> > > > > think having wic look in "magical" places for the wks file would =
+be hard
+> > > > > to understand and surprising. As an independent tool I think the =
+user
+> > > > > should provide the path to the actual wks file (with the ".wks"
+> > > > > extension) and if that file can't be found as specified on the cm=
+dline,
+> > > > > wic should simply fail with an error.
+> > > > >=20
+> > > > > As part of making wic an independent tool, I think wic's code to =
+search
+> > > > > for a wks file if the ".wks" is not provided should be removed. T=
+his
+> > > > > means that, as part of the transition, I would have to modify eac=
+h "wic
+> > > > > create" test in oe-core's oe-selftests. I'm fine with that. That =
+could
+> > > > > be done cleanly if I write a little function to find the wks file=
+ in
+> > > > > the wic.py oe-selftest itself using the same logic as is used in =
+the
+> > > > > image_types_wic.bbclass.
+> > > > >=20
+> > > > > To summarize: in my opinion, wic shouldn't have search logic. Fro=
+m wic's
+> > > > > point of view the wks file should be specified on the cmdline in =
+a way
+> > > > > that wic will find the file the user wants to use (or not find it=
+).
+> > > > > The oe-selftests should be updated to use the same search logic f=
+rom
+> > > > > the image_types_wic.bbclass so that when it invokes "wic create" =
+it is
+> > > > > providing wic with the path to a wks file that has a ".wks" exten=
+sion
+> > > > > (which is how bitbake invokes wic) instead of specifying a bare w=
+ks file
+> > > > > and hoping wic will find it.
+> > > > >=20
+> > > > > I'm happy to add "files/wic" as another location for
+> > > > > image_types_wic.bbclass to search for wks files.
 > > > >=20
-> > > > The specific failure we've seen is with the /usr/lib/udev/hwdb.bin =
-file
-> > > > installed by the systemd recipe - this file is chmod 0444. This lea=
-ds to
-> > > > the following error, typically during do_image_wic (shortened and s=
-plit
-> > > > to make it readable):
+> > > > I guess the first question is are we going to take this for wrynose=
+ or
+> > > > not? I'm not particularly happy with the files a top level wic
+> > > > directory, I think it needs to be meta/files/wic. To make that work=
+, we
+> > > > need to tweak the search paths in wic and in image_types_wic.bbclas=
+s.
+> > > > If we can resolve that issue, we're probably good to move forward w=
+ith
+> > > > merging.
 > > > >=20
-> > > > =C2=A0=C2=A0=C2=A0 subprocess.CalledProcessError: Command
-> > > > =C2=A0=C2=A0=C2=A0 'tar --xattrs --xattrs-include=3D'*' -cf - -S -C=
- .../tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/rootfs -p . |
-> > > > =C2=A0=C2=A0=C2=A0 tar --xattrs --xattrs-include=3D'*' -xf - -C ...=
-/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/tmp-wic/rootfs2'
-> > > > =C2=A0=C2=A0=C2=A0 returned non-zero exit status 2.
-> > > >=20
-> > > > That error message is likely to confuse users, and the fix is not
-> > > > obvious. So, error out if tar 1.34 or earlier is present on affecte=
+> > > > I agree that the search path logic should be tidied up. Whether you=
+ can
+> > > > provide a search path to wic or whether that has to be done in meta=
+data
+> > > > is an open question. I do see your perspective, equally, if you are
+> > > > using wic within OE, having some search knowledge may be ok. I woul=
 d
-> > > > distros and recommend upgrading or using the buildtools tarball.
+> > > > want to see it basically using files/wic from BBPATH=C2=A0 with eve=
+rything
+> > > > else removed. There is a question of how you warn users about old
+> > > > paths. This piece is too late for the release though.
 > > > >=20
-> > > > Signed-off-by: Paul Barker <paul@pbarker.dev>
+> > > > So I'd propose we add files/wic to the search path, move the files
+> > > > there and that lets us at least get some of the changes into the
+> > > > release?
 > > >=20
-> > > Hi Paul,
-> > >=20
-> > > So now, this is failing on several workers. Aren't we using buildtool=
-s
-> > > on rocky9 / stream9?
-> > You're thinking of "[PATCH yocto-autobuilder-helper] config.json: Use b=
-uildtools on RHEL9 derivatives"
-> > https://lore.kernel.org/yocto-patches/20260331-rhel9-v1-1-e5c2cf815386@=
-pbarker.dev/T/#u
-> > ... not merged, yet.
+> > > Sounds perfect, thanks!
 > >=20
+> > Since we're running out of time and I really don't want to have to
+> > think about this too much more/again, I've:
+> >=20
+> > * written a patch to add files/wic as a search path in wic
+> > * written a patch to add files/wic as a search path in the class
+> > * dropped wic and the canned-wks paths in wic
+> > * dropped wic and the canned-wks paths in the class
+> > * converted wic to use BBPATH instead of BBLAYERS
+> > * added a sanity test to detect the old paths and error
+> > * pushed a contrib/rpurdie branch into the wic repo with the patches
+> >=20
+> > This is going to mean people have to update layers to use "files/wic"
+> > but we can clearly tell people they need to do it. If we went with
+> > either of the other locations and changed BBLAYERS -> BBPATH, there
+> > could be corner cases we miss in the detection.
+> >=20
+> > Autobuilder testing shows this will break a few layers but it is a
+> > clear error which people can easily fix.
+> >=20
+> > How does that look to people?
 >=20
-> Thanks! For some reason I thought it was merged.
+> Sounds great to me!
+>=20
+> Presumably we will move the contrib/rpurdie branch to master in
+> git.yoctoproject.org/wic and the SRC_URI of the wic recipe in oe-core
+> will need a tweak before making it official?
 
-Since we've now proven the sanity test works, I've merged the helper patch.
+I pushed onto a contrib branch so we can make a decision on this.
+Assuming we go ahead, we'd merge the patches to master, the update the
+recipe accordingly.
 
 Cheers,
 
