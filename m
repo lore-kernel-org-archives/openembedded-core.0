@@ -1,116 +1,164 @@
-Return-Path: <yash.gupta@oss.qualcomm.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1A83F3D5E1
-	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 06:23:28 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.49510.1775456603717710090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 068FEF3D5E3
+	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 06:27:39 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.49606.1775456858331312505
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Apr 2026 23:23:23 -0700
+ Sun, 05 Apr 2026 23:27:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Kbjmht/+;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: ygupt@qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6366DCOV2258188
-	for <openembedded-core@lists.openembedded.org>; Mon, 6 Apr 2026 06:23:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=h9WK+y2AU1xAZvq/D9ki7LmwsJIEUvWVu15
-	JQN1U4CA=; b=Kbjmht/+jtVj5s/TDWpJQa4EULrVmAhkOOXOzcwzEsCbwjM4BIS
-	STy/oBsBKoQVVVKYOK0lzNG6hW9BrECH1PBuZ8GzHB1bAXoW49eEB8Tj1dV7BngN
-	NrNLx/nO7bIK0oong/MWQTf8aeoz51p5gosFjdKrZvxn3ohtsft66cgDuk3yq2Iw
-	6qRyqMRkqSfEbNgttA+LLyoIhHfFfWyr13qFOFVOrIck5XffuSX0IQVfuy5HHKuX
-	DcUP0n/7zpIHHsrfhHcX86XHcshaHwPIJaJ2If4J8kq+4+bFJvpNl/w0rdd7X1u0
-	0Yfb/5S7EzqbNhBsYm8y58CDuEyhvovfRbQ==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dauthby7r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:23:22 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 6366NJXw014688;
-	Mon, 6 Apr 2026 06:23:19 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4db4jesf5j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:23:19 +0000 (GMT)
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 6366NJ43014683
-	for <openembedded-core@lists.openembedded.org>; Mon, 6 Apr 2026 06:23:19 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-ygupt-hyd.qualcomm.com [10.213.99.200])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 6366NJeB014682
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Apr 2026 06:23:19 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4729751)
-	id 14D235E1; Mon,  6 Apr 2026 11:53:19 +0530 (+0530)
-From: Yash Gupta <yash.gupta@oss.qualcomm.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=KUCXBMRH;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488aa77a06eso15916015e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 23:27:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1775456856; x=1776061656; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BP2dmZ8/tCvcPVYoWBz+GfrxwcZDBTHysfpT3H3eCm0=;
+        b=KUCXBMRH3hdk4gBZtyCRLltXYay/LOaWb8f8lQ3Tys42qEaykcnttvM6c+aOcAht43
+         niL7XjtKUmTIfL1DzNrVqzEgZ1NCi8JF2wY1bcb6INJ+1AhTtf+uSU84AVLXwIF5B0xb
+         /jJdcLljDyYBbZoTMBAtJ9sXNiyp3GL1tlh1M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775456856; x=1776061656;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BP2dmZ8/tCvcPVYoWBz+GfrxwcZDBTHysfpT3H3eCm0=;
+        b=gIfwzbB5DoWzYlHPnZhcN1bqkfLJtDHKxX+9pVjtCqQNL7OGpZjUAiLSk4iSz0PzVZ
+         P+PgMvl7+/vDqtwDGm2v+w4MHoU2XH32QqxvFWi2HWETmcFZvSG8GXMAeWx+v5NznXiS
+         Iu5ag8/ijayid/Y41qoA9MNIdya18FOSwteRQ6N4+yg8hKf0yUZVMc9uHLyuK458STdE
+         Sqsl78fOuikEJUq1Oj9o80Bg5kgYeDvWgKdHvo1X/31dU85ECbzA8r6Kq3FFdFzOgACt
+         JXtIeL1BjeCv5iBHbtGSJmySz12Hv9kCFd60//5+sHK5/A1TCD3Ueab4dxEdgDPkXbSt
+         MR2g==
+X-Gm-Message-State: AOJu0YwgArgVLMVIj6Sa1N8drfYTqBkU45lPkWPwPozQF2dMBA9aqwDQ
+	C9jzOCg2PMb5Mv4VMUMwRs6DLOiJQ75AQAnogzwAso+80+UJKSc/iNnFLJ8gQSAchXzytpDSgOq
+	5F2iH0rY=
+X-Gm-Gg: AeBDieuwI2cbe07QEk6T0sLVTbk0bZjDqlkJ5OHfxxGRpUmG0umStF+bfESZrpNJgPP
+	yfqtyoYYFJCXL0ZVYPy3qFaQg8WDo8gUySZ6t6+MWZtGwt0Q9RxMYyr3g1VFIXC/rn87Bked0NY
+	FJVD1L8jUuS0wjuSZO/pgaFIDQOqjD2gv3St/x3RzBcoTPSYw3R2+0YTspP2IgGPtmpco2H+548
+	e1GvcYHnMlrumG1CnQlAMbkKat3Mq3D2beJW4skdk2yvTOaLqvX3xwO2EvxSA2OPDg7jdOoTwuu
+	wYp7paba/Ec8MrOIYgY6QYbCztgP0RbzaqQC82IfHKBwUn+pgb3adJyvyr9bi3uzg7aIHnf7zGE
+	WAnX07KotntnnSQEa858+8c7LB/ARqJxnObRBvBqAsHe7j0yJ+UYyYCQhvUZxc6Xpohnn+K3Uoq
+	QYCh2XOqgD0mOJ+PnpTsUWumkeGfRMm9Pah+JJVYrxjauD0HoxcSgzGNA9MTV3n6JI+ZNMR4r/1
+	wYzGUseoG7Sgs6SRUp9RQDjNf79xoL3x4JqVw==
+X-Received: by 2002:a05:600c:15d2:b0:488:a14d:3d81 with SMTP id 5b1f17b1804b1-488a14d3ef0mr68325915e9.2.1775456856272;
+        Sun, 05 Apr 2026 23:27:36 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899eab0f7sm84273785e9.29.2026.04.05.23.27.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Apr 2026 23:27:35 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Yash Gupta <yash.gupta@oss.qualcomm.com>
-Subject: [PATCH] weston-init: add repaint-window=10 to [core] config
-Date: Mon,  6 Apr 2026 11:53:19 +0530
-Message-Id: <20260406062319.264138-1-yash.gupta@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][kirkstone 12/18] vim: Fix CVE-2026-33412
+Date: Mon,  6 Apr 2026 08:26:41 +0200
+Message-ID: <50d4357e4c38f90aaf64092dc5a2b7bb7c515f21.1775435063.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1775435063.git.yoann.congal@smile.fr>
+References: <cover.1775435063.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA2MDA1OSBTYWx0ZWRfX+vDZFJB92l8H
- 3/69oWZbPjobwemRUr94j9vPjKuYXtha7jMAMeT7mqqg00Zea2E0ksTOjRRxKYJ+XKGoceiDuwa
- Q58kYOyfgCyw8mEdxiPVAg/Z8vqp7o9dF1cLRCZS27pd4GjUThvsaShdkB0smOYTvIVa2ecEUi1
- fvo5ZeJna6ZuCSTkG1KI8ihFsIZerX/swbaJ4CLU/DwimWi6qkcKWkKMD7cu92vw38mSTKC/Ec6
- d/3iAGwXH6Z8UFCiMF8729sFQ1bdMVVxdGdFQ3PEyVy2eESNovfC6MAvt3wLz48YDG7bZpEoPbe
- bRRtr3lQIWHWq2XTfQGYl7UVFMjvGTp0hf4AIfkHb3s57Ja5CAOBdnkasuZxgcx7D/ZclPZvssz
- R29b9YpHiJvV7fSr63ycgczJ/c7kmKaHbHptC4NqYLct/j1yPAY5XI0qCqQM6VqoD9/EUdeuMYl
- epVzJASw0EWpLTkH8Sg==
-X-Proofpoint-GUID: YcxFEH3Dos2cYHzMzZci1jkYmTYLfu1O
-X-Authority-Analysis: v=2.4 cv=MIptWcZl c=1 sm=1 tr=0 ts=69d3515b cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8 a=2SeqjlqqyTdYJxvbCdsA:9
-X-Proofpoint-ORIG-GUID: YcxFEH3Dos2cYHzMzZci1jkYmTYLfu1O
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-06_01,2026-04-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 impostorscore=0 phishscore=0 bulkscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2604060059
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:23:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234645
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:27:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234658
 
-Weston's default repaint-window is 7ms. At 60 fps the vsync interval is
-~16ms. Under load (multi-surface composition or 4K fullscreen
-weston-simple-egl), the compositor cannot complete repaints within this
-window, causing up to 50% FPS drops.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Changing repaint-window to 10ms gives the compositor sufficient time to
-complete repaints before vblank while retaining a 6ms buffer acquisition
-window, improving frame delivery consistency without introducing additional
-frame latency.
+Pick patch from [1] also mentioned in NVD report with [2]
+[1] https://github.com/vim/vim/commit/645ed6597d1ea896c712cd7ddbb6edee79577e9a
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-33412
 
-Signed-off-by: Yash Gupta <yash.gupta@oss.qualcomm.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-graphics/wayland/weston-init/weston.ini | 1 +
- 1 file changed, 1 insertion(+)
+ .../vim/files/CVE-2026-33412.patch            | 61 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-33412.patch
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
-index 0ec70c3ef3..c2f9d19c01 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.ini
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-@@ -5,6 +5,7 @@
- #shell=desktop-shell.so
- #gbm-format=xrgb2101010
- require-input=false
-+repaint-window=10
+diff --git a/meta/recipes-support/vim/files/CVE-2026-33412.patch b/meta/recipes-support/vim/files/CVE-2026-33412.patch
+new file mode 100644
+index 00000000000..62daa308b58
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-33412.patch
+@@ -0,0 +1,61 @@
++From 645ed6597d1ea896c712cd7ddbb6edee79577e9a Mon Sep 17 00:00:00 2001
++From: pyllyukko <pyllyukko@maimed.org>
++Date: Thu, 19 Mar 2026 19:58:05 +0000
++Subject: [PATCH] patch 9.2.0202: [security]: command injection via newline in
++ glob()
++
++Problem:  The glob() function on Unix-like systems does not escape
++          newline characters when expanding wildcards. A maliciously
++          crafted string containing '\n' can be used as a command
++          separator to execute arbitrary shell commands via
++          mch_expand_wildcards(). This depends on the user's 'shell'
++          setting.
++Solution: Add the newline character ('\n') to the SHELL_SPECIAL
++          definition to ensure it is properly escaped before being
++          passed to the shell (pyllyukko).
++
++closes: #19746
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-w5jw-f54h-x46c
++
++Signed-off-by: pyllyukko <pyllyukko@maimed.org>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++CVE: CVE-2026-33412
++Upstream-Status: Backport [https://github.com/vim/vim/commit/645ed6597d1ea896c712cd7ddbb6edee79577e9a]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/os_unix.c | 2 +-
++ src/version.c | 2 ++
++ 2 files changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/src/os_unix.c b/src/os_unix.c
++index cf195e62e1..d767956b1a 100644
++--- a/src/os_unix.c
+++++ b/src/os_unix.c
++@@ -7106,7 +7106,7 @@ mch_expandpath(
++ # define SEEK_END 2
++ #endif
++ 
++-#define SHELL_SPECIAL (char_u *)"\t \"&'$;<>()\\|"
+++# define SHELL_SPECIAL (char_u *)"\t \"&'$;<>()\\|\n"
++ 
++     int
++ mch_expand_wildcards(
++diff --git a/src/version.c b/src/version.c
++index 4f3912aedd..712a3e637c 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -724,6 +724,8 @@ static char *(features[]) =
++ 
++ static int included_patches[] =
++ {   /* Add new patch number below this line */
+++/**/
+++    1684,
++ /**/
++     1683,
++ /**/
++-- 
++2.50.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 289f31be707..fc9b4db055a 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://disable_acl_header_check.patch \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
++           file://CVE-2026-33412.patch \
+            "
  
- #[shell]
- #background-image=/usr/share/backgrounds/gnome/Aqua.jpg
--- 
-2.34.1
-
+ PV .= ".1683"
 
