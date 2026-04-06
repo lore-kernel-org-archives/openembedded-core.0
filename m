@@ -1,1084 +1,479 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE54E9D836
-	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 13:46:47 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55267.1775483198992188807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4729BF46C40
+	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 14:10:47 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.55787.1775484642174881452
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2026 06:46:39 -0700
+ Mon, 06 Apr 2026 07:10:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=j+Rne62c;
- spf=pass (domain: mvista.com, ip: 209.85.215.171, mailfrom: vanusuri@mvista.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c736261ee8dso1175739a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:46:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=jUgKxUNX;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-66dd1b5bb6aso6472817a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 07:10:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775484640; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YM/ryXc+gsfHek3sjZnPmgzu+SpqPSATDxxs3tDTHxtrw5ogqfdwXfhhhlnijGKxhZ
+         tI6X62hkn1Nnw57vYb1yBA3qKrUfBluiql5/IendbhGPazILZ4QiYq5F/959DIkKZvOB
+         HPcZ+Y5PzyUwxM2lSRSXix2idGwB13+Ree9hvW76NyTne1+bFCZ/lFmPE67y/BrzA2Uo
+         I+RZDPirTEGi1mpN0iuFdLAT/vtZ5uE+kS3hI0m4tsorVIpEqvlS6eSE/FCfpzjhRsTf
+         6n8Fx6fVnOwOiH/Jg/BnuOvVNUdiDrSyk27TVhDc8Ro2jbhplvEk25HWwW5tItW89r/O
+         LSPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ovDJYE6PG4DiaoZ9R3oy5BbN5IQ+ciBpxVTJzo5N+b4=;
+        fh=6APFImPlY6ddmiAG7HmJzMkGhUQBh5M3QpbKucGsvDo=;
+        b=NSvpSv/E/ynKoxPtmi91ruG0qGei2sotjoNJ7dw+3Ll4ZWK4lbPrhoxcM8Jrjx0nbR
+         hl3wRA82wPD872R0BnWxXv+/MrmZHBhC7WFA4KxhYdFCAdSrv1TYdc2gEvebpN0C+96P
+         2mmNcEKDsihYgI2SpZ30A4yxYJLuAPZ0zrYMXL3yrGzi4RZoRc0fo8hSqy/VUVo2+lPB
+         dfr26RdEOqSj0m+tHbKRCy1BjNdk++6YAFIVzMl0IwD/qHlwZUHanxO9CyhiAoP/w69z
+         c02A2i8GAwgWVLjI+VaFjk+qedMFo3SO1XDTqTFgQMiq2dCE1L832b1BjhuwQ+JCGfBE
+         0rlA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1775483198; x=1776087998; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ma45ucJA4/5zZgO49mYEKk9Dd1Zf4y6uvJy3IOqhTKA=;
-        b=j+Rne62c45LDb+0S41Wu0fySFSuatNy0Uwx/1bc77kEu6qIB+RFYRB+6L4pOoJAQbx
-         9uzndc8Quy1NG5H3CCaxfeJ8hu94wyaGLRiaaCnXoeQnCG5KlC8/V36hyqkHBCkPmUCb
-         6b9gNJf/PPju2D966o4HkIrXVMlACJAm0PvPI=
+        d=gmail.com; s=20251104; t=1775484640; x=1776089440; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ovDJYE6PG4DiaoZ9R3oy5BbN5IQ+ciBpxVTJzo5N+b4=;
+        b=jUgKxUNXiQf+QAfZGO/HsQq6L1edVjCktFWew6rSc3hfzWFjQLNYsDu43rOHAoTJBC
+         ezOTZHfdLAt+GYc5Qru1K2vgNzfgJ/DrdlM0vtTXTZd9F5zmqO0CbTMFPpmWCoOYh1GV
+         x3wu/gv7vXUdsMzhxdS01VEZSww1JlQjd7aAj04uBpSn9uuDZZThbmRpeW+opycsGMDH
+         RdyiMrRwHe3YafMSle9qXfwh2gw1J32KygfzzZ6KEmofDHS02ya/4r/XN4Lwp+lCHoY3
+         fi+GAKr3n2ZmvHqjF751wNJzvaLukoB/2poS7x4M7HmThxPhyBwZenQhycZqsL4mBBBE
+         CwhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775483198; x=1776087998;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1775484640; x=1776089440;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ma45ucJA4/5zZgO49mYEKk9Dd1Zf4y6uvJy3IOqhTKA=;
-        b=nlXHVW7mi2M0j/bQJ319a9dNbBd433rdTMtR7K6wQVGKDXAzB9h5eZ+yLNv8jBionq
-         yszkBClBthrEQZ+Y7Tboj7KAM5V1D83maJ9KewSG9+soeSM5Dn4v1wAqTdnwK8G4+0Xv
-         m1ojr9ZYqS2fHiEI8ewn+MBsBThSo1afB7yAKl4luHPP6as8iVTAMIGotZInUnI4pT4Q
-         mrCzwKoGrY9gNrYXLq4BC6EHWBszzcY25vwm02fqRsL+e6KrDQr9vxYVfrrc/bla+9i6
-         ZsYYIQGIsZRoBCSgpIK1MbDzW9jO5Jo4V5wsfNXQ6EAlyz3Yl0j0yabC68TDUE5MC67V
-         SfHg==
-X-Gm-Message-State: AOJu0YwwTDWMwI5fSRLOOPUigCsrTcP75KgMtYO/LhxQn9wXq9VozIvz
-	YDdiNK887AbDJGllEL0yghcpNmcSIOiiqKAgrOPIVRv2EUWtLimhPP7TH2SoFigQran7LVpyReG
-	yJroj1Tc=
-X-Gm-Gg: AeBDiev78ZtWQtLG3xgzsRv6syqRJunsg2ChIEewrHZyqeIKtHhPUdb9IjWrSBmYPmw
-	Ohxe5Oa6RiuptJjVaRC1TYxeE78Kn33qdtWIhFkLMFFpn7XWDEe5JL10+k0blj4jV1GSMxWuJcY
-	2C/+f3iAVpXp7GogBZDpcHSuzUbw+ZKUqfpPCz2NThpO5WicCedZS9bJGeBTuQ/zNWgHyGSIpfK
-	zIGhiA2DFIlawHsHXlP+BtLOrLR1fMIKCN7QnFmJOw4kDWNCFf8pCF5nHFrQciETYItBAhx4/LC
-	bA++Ok+6e4QmkIy3NVc1hGTbOFllQcXwUIHYkrZu2zP3N4Tqmn6ukAmnI/CBH326DOP28ptuWOZ
-	vTIc1Uxh7HyTV8yS2QpdgobllaQvbcywpRVoWP0yVUw5eEe2saM571eq8G8lCaJo8VatotW1QbR
-	lnwiBEvdUASwlyGF6JzaFbq0Mg0HDMXNr3bZtwmvc=
-X-Received: by 2002:a05:6300:2109:b0:398:7ed3:a005 with SMTP id adf61e73a8af0-39f2f0860c8mr11962881637.29.1775483197283;
-        Mon, 06 Apr 2026 06:46:37 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:1f28:2171:4eab:3a55:a2c0:6447])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c76c6492097sm12539857a12.10.2026.04.06.06.46.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 06:46:36 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] python3: upgrade 3.10.19 -> 3.10.20
-Date: Mon,  6 Apr 2026 19:16:27 +0530
-Message-Id: <20260406134627.542578-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=ovDJYE6PG4DiaoZ9R3oy5BbN5IQ+ciBpxVTJzo5N+b4=;
+        b=C4EWGX2Yfwd8Dmj88Z+mt9aF2FyxJxz4aWUDnfl3lCRhy9bYjqeUoYysmv1ELE0PfM
+         uljNtUgBs+duabsEfoxySNRSD+AbZxc1EEG91eD9LOpORSNv6yG3zm0aQt1kpehXDG1X
+         9sCqZ0EpFXDua2QolNtUdjUGr5rLto6pHvCqb9PuzslXvK8sniVlxG5y01PopIHpb12Q
+         Xm1gHLM/FJfDNDEhljNSI6Wr9Nr5ZwxH83RI55YDDZx7evg5CyzqmCNDwNqfZpLEC6fY
+         YdC7YA6gRPT8wDm4D6yf4drwTNVUyixzKjo6T19Sbv9KpS6L8tWf7P2uYgvFaJcSgUjr
+         7pvw==
+X-Forwarded-Encrypted: i=1; AJvYcCWXPwNCrQOWuArRneLdkuFcXCmHkkjzQNDN6+v5CAwRnGr2A1qSbF4tTddlFRgNqGpQC3UzxMNedt8Efu4AbF7Mcg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxo2mQ/w56vH0HIwkWdthomaNEHfQOdkIahn/M0BwOQcWFPSIUN
+	W97HO529CkPpU8nc2XOCYIQxXUOeKxa16oMzMQMpIGPWkpQ8Qrnl8dUNlEo4ADpjpTfwAXPMWgB
+	rUP02UPp7vpeSTMoJ6iGfsZbWSFt/qqo=
+X-Gm-Gg: AeBDiesA9x+Vq1zyTfFTE4FYwSRSf43DGlF1aVA+sYhrsxB6X6+QfKfGT3EMUknAjOU
+	xxwK6yIUNjgd9JNGR5vOdgI3p6d+YAAOMMqKVP4sHuQU/wXE1nWPDoD1ZucYBT5IMEYicGd0rsS
+	EL4aiDQDZxAiVTWzLqvT7mzH7WYlucoZw8LxiiUtVvlFoncwLV1rrG04GqdtVNkmngbQalqSAr2
+	0v78UNSRC38dfTENJ89plqZ8vW1AY4LL/Z9R99aLawYtomFk7OzNKDTFhWvDicHajNRhcBAX46m
+	/16Uf1iQbKvdOaFNtsw=
+X-Received: by 2002:a17:907:3f1b:b0:b9c:bb29:7ce9 with SMTP id
+ a640c23a62f3a-b9cbb298b40mr222958666b.50.1775484639907; Mon, 06 Apr 2026
+ 07:10:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260304103203.1649-1-wangmy@fujitsu.com> <20260304103203.1649-10-wangmy@fujitsu.com>
+ <18A1AB06FB4E2AAD.263554@lists.openembedded.org> <DB5PR02MB102138C0C905B135CABFD77B5EF5DA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB102138C0C905B135CABFD77B5EF5DA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Mon, 6 Apr 2026 15:10:28 +0100
+X-Gm-Features: AQROBzAJjpjO5P6G22DgZjvuj0uH8HiyaL9M1hEBJAOdxz-3O2gcUU__Nty1zlg
+Message-ID: <CANPvuRkT4CTkbwbOJthRtMZMbfsZtNQDHCtFCtAkLsWKaV2SVQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
+To: peter.kjellerstedt@axis.com
+Cc: "wangmy@fujitsu.com" <wangmy@fujitsu.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="00000000000044140e064ecb3b81"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 13:46:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234682
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 14:10:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234683
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+--00000000000044140e064ecb3b81
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Drop upstreamed patches.
+Peter Kjellerstedt via lists.openembedded.org <peter.kjellerstedt=3D
+axis.com@lists.openembedded.org> escreveu (segunda, 6/04/2026 =C3=A0(s) 14:=
+09):
 
-Release information:
-* https://www.python.org/downloads/release/python-31020/
-* The release you're looking at is Python 3.10.20, a security bugfix release for the legacy 3.10 series.
+> *ping*
+>
+> //Peter
+>
+>
++1
 
-Handles CVE-2024-6923 CVE-2025-6075 CVE-2025-12084 CVE-2025-13836 CVE-2025-13837
-CVE-2025-15282 CVE-2025-59375 CVE-2026-0865 CVE-2026-24515 CVE-2026-25210
+Given that gstreamer is a reference package on the multimedia front, I
+believe it would be generally appreciated by the community to include
+1.28.x in the next LTS.
+The 1.26.x was released a year ago.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../python/python3/CVE-2025-12084.patch       | 171 --------
- .../python/python3/CVE-2025-13836.patch       | 163 --------
- .../python/python3/CVE-2025-13837.patch       | 162 --------
- .../python/python3/CVE-2025-15282.patch       |  68 ----
- .../python/python3/CVE-2025-6075.patch        | 364 ------------------
- ...{python3_3.10.19.bb => python3_3.10.20.bb} |   7 +-
- 6 files changed, 1 insertion(+), 934 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-12084.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13836.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13837.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-15282.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-6075.patch
- rename meta/recipes-devtools/python/{python3_3.10.19.bb => python3_3.10.20.bb} (98%)
+Jose
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-12084.patch b/meta/recipes-devtools/python/python3/CVE-2025-12084.patch
-deleted file mode 100644
-index 0c9bb435ed..0000000000
---- a/meta/recipes-devtools/python/python3/CVE-2025-12084.patch
-+++ /dev/null
-@@ -1,171 +0,0 @@
--From c97e87593063d84a2bd9fe7068b30eb44de23dc0 Mon Sep 17 00:00:00 2001
--From: "Miss Islington (bot)"
-- <31488909+miss-islington@users.noreply.github.com>
--Date: Sun, 25 Jan 2026 18:10:49 +0100
--Subject: [PATCH] [3.10] gh-142145: Remove quadratic behavior in node ID cache
-- clearing (GH-142146) (#142213)
--
--* gh-142145: Remove quadratic behavior in node ID cache clearing (GH-142146)
--
--* Remove quadratic behavior in node ID cache clearing
--
--Co-authored-by: Jacob Walls <38668450+jacobtylerwalls@users.noreply.github.com>
--
--* Add news fragment
--
--CVE: CVE-2025-12084
--Upstream-Status: Backport [https://github.com/python/cpython/commit/c97e87593063d84a2bd9fe7068b30eb44de23dc0]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----------
--(cherry picked from commit 08d8e18ad81cd45bc4a27d6da478b51ea49486e4)
--
--Co-authored-by: Seth Michael Larson <seth@python.org>
--Co-authored-by: Jacob Walls <38668450+jacobtylerwalls@users.noreply.github.com>
--
--* [3.14] gh-142754: Ensure that Element & Attr instances have the ownerDocument attribute (GH-142794) (#142818)
--
--gh-142754: Ensure that Element & Attr instances have the ownerDocument attribute (GH-142794)
--(cherry picked from commit 1cc7551b3f9f71efbc88d96dce90f82de98b2454)
--
--Co-authored-by: Petr Viktorin <encukou@gmail.com>
--Co-authored-by: Hugo van Kemenade <1324225+hugovk@users.noreply.github.com>
--
--* gh-142145: relax the no-longer-quadratic test timing (GH-143030)
--
--* gh-142145: relax the no-longer-quadratic test timing
--
--* require cpu resource
--(cherry picked from commit 8d2d7bb2e754f8649a68ce4116271a4932f76907)
--
--Co-authored-by: Gregory P. Smith <68491+gpshead@users.noreply.github.com>
--
--* merge NEWS entries into one
--
-----------
--
--Co-authored-by: Seth Michael Larson <seth@python.org>
--Co-authored-by: Jacob Walls <38668450+jacobtylerwalls@users.noreply.github.com>
--Co-authored-by: Petr Viktorin <encukou@gmail.com>
--Co-authored-by: Hugo van Kemenade <1324225+hugovk@users.noreply.github.com>
--Co-authored-by: Gregory P. Smith <68491+gpshead@users.noreply.github.com>
--Co-authored-by: Gregory P. Smith <greg@krypto.org>
-----
-- Lib/test/test_minidom.py                      | 33 ++++++++++++++++++-
-- Lib/xml/dom/minidom.py                        | 11 ++-----
-- ...-12-01-09-36-45.gh-issue-142145.tcAUhg.rst |  6 ++++
-- 3 files changed, 41 insertions(+), 9 deletions(-)
-- create mode 100644 Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
--
--diff --git a/Lib/test/test_minidom.py b/Lib/test/test_minidom.py
--index ef38c36210..c68bd990f7 100644
----- a/Lib/test/test_minidom.py
--+++ b/Lib/test/test_minidom.py
--@@ -2,6 +2,7 @@
-- 
-- import copy
-- import pickle
--+import time
-- import io
-- from test import support
-- import unittest
--@@ -9,7 +10,7 @@ import unittest
-- import pyexpat
-- import xml.dom.minidom
-- 
---from xml.dom.minidom import parse, Attr, Node, Document, parseString
--+from xml.dom.minidom import parse, Attr, Node, Document, Element, parseString
-- from xml.dom.minidom import getDOMImplementation
-- from xml.parsers.expat import ExpatError
-- 
--@@ -177,6 +178,36 @@ class MinidomTest(unittest.TestCase):
--         self.confirm(dom.documentElement.childNodes[-1].data == "Hello")
--         dom.unlink()
-- 
--+    @support.requires_resource('cpu')
--+    def testAppendChildNoQuadraticComplexity(self):
--+        impl = getDOMImplementation()
--+
--+        newdoc = impl.createDocument(None, "some_tag", None)
--+        top_element = newdoc.documentElement
--+        children = [newdoc.createElement(f"child-{i}") for i in range(1, 2 ** 15 + 1)]
--+        element = top_element
--+
--+        start = time.monotonic()
--+        for child in children:
--+            element.appendChild(child)
--+            element = child
--+        end = time.monotonic()
--+
--+        # This example used to take at least 30 seconds.
--+        # Conservative assertion due to the wide variety of systems and
--+        # build configs timing based tests wind up run under.
--+        # A --with-address-sanitizer --with-pydebug build on a rpi5 still
--+        # completes this loop in <0.5 seconds.
--+        self.assertLess(end - start, 4)
--+
--+    def testSetAttributeNodeWithoutOwnerDocument(self):
--+        # regression test for gh-142754
--+        elem = Element("test")
--+        attr = Attr("id")
--+        attr.value = "test-id"
--+        elem.setAttributeNode(attr)
--+        self.assertEqual(elem.getAttribute("id"), "test-id")
--+
--     def testAppendChildFragment(self):
--         dom, orig, c1, c2, c3, frag = self._create_fragment_test_nodes()
--         dom.documentElement.appendChild(frag)
--diff --git a/Lib/xml/dom/minidom.py b/Lib/xml/dom/minidom.py
--index ef8a159833..cada981f39 100644
----- a/Lib/xml/dom/minidom.py
--+++ b/Lib/xml/dom/minidom.py
--@@ -292,13 +292,6 @@ def _append_child(self, node):
--     childNodes.append(node)
--     node.parentNode = self
-- 
---def _in_document(node):
---    # return True iff node is part of a document tree
---    while node is not None:
---        if node.nodeType == Node.DOCUMENT_NODE:
---            return True
---        node = node.parentNode
---    return False
-- 
-- def _write_data(writer, data):
--     "Writes datachars to writer."
--@@ -355,6 +348,7 @@ class Attr(Node):
--     def __init__(self, qName, namespaceURI=EMPTY_NAMESPACE, localName=None,
--                  prefix=None):
--         self.ownerElement = None
--+        self.ownerDocument = None
--         self._name = qName
--         self.namespaceURI = namespaceURI
--         self._prefix = prefix
--@@ -680,6 +674,7 @@ class Element(Node):
-- 
--     def __init__(self, tagName, namespaceURI=EMPTY_NAMESPACE, prefix=None,
--                  localName=None):
--+        self.ownerDocument = None
--         self.parentNode = None
--         self.tagName = self.nodeName = tagName
--         self.prefix = prefix
--@@ -1539,7 +1534,7 @@ def _clear_id_cache(node):
--     if node.nodeType == Node.DOCUMENT_NODE:
--         node._id_cache.clear()
--         node._id_search_stack = None
---    elif _in_document(node):
--+    elif node.ownerDocument:
--         node.ownerDocument._id_cache.clear()
--         node.ownerDocument._id_search_stack= None
-- 
--diff --git a/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst b/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
--new file mode 100644
--index 0000000000..05c7df35d1
----- /dev/null
--+++ b/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
--@@ -0,0 +1,6 @@
--+Remove quadratic behavior in ``xml.minidom`` node ID cache clearing.  In order
--+to do this without breaking existing users, we also add the *ownerDocument*
--+attribute to :mod:`xml.dom.minidom` elements and attributes created by directly
--+instantiating the ``Element`` or ``Attr`` class. Note that this way of creating
--+nodes is not supported; creator functions like
--+:py:meth:`xml.dom.Document.documentElement` should be used instead.
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13836.patch b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
-deleted file mode 100644
-index c4387b6019..0000000000
---- a/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
-+++ /dev/null
-@@ -1,163 +0,0 @@
--From 289f29b0fe38baf2d7cb5854f4bb573cc34a6a15 Mon Sep 17 00:00:00 2001
--From: "Miss Islington (bot)"
-- <31488909+miss-islington@users.noreply.github.com>
--Date: Fri, 5 Dec 2025 16:21:57 +0100
--Subject: [PATCH] [3.13] gh-119451: Fix a potential denial of service in
-- http.client (GH-119454) (#142139)
--
--gh-119451: Fix a potential denial of service in http.client (GH-119454)
--
--Reading the whole body of the HTTP response could cause OOM if
--the Content-Length value is too large even if the server does not send
--a large amount of data. Now the HTTP client reads large data by chunks,
--therefore the amount of consumed memory is proportional to the amount
--of sent data.
--(cherry picked from commit 5a4c4a033a4a54481be6870aa1896fad732555b5)
--
--CVE: CVE-2025-13836
--Upstream-Status: Backport [https://github.com/python/cpython/commit/289f29b0fe38baf2d7cb5854f4bb573cc34a6a15]
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-----
-- Lib/http/client.py                            | 28 ++++++--
-- Lib/test/test_httplib.py                      | 66 +++++++++++++++++++
-- ...-05-23-11-47-48.gh-issue-119451.qkJe9-.rst |  5 ++
-- 3 files changed, 95 insertions(+), 4 deletions(-)
-- create mode 100644 Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
--
--diff --git a/Lib/http/client.py b/Lib/http/client.py
--index d1b7b10..c8ab5b7 100644
----- a/Lib/http/client.py
--+++ b/Lib/http/client.py
--@@ -111,6 +111,11 @@ responses = {v: v.phrase for v in http.HTTPStatus.__members__.values()}
-- _MAXLINE = 65536
-- _MAXHEADERS = 100
-- 
--+# Data larger than this will be read in chunks, to prevent extreme
--+# overallocation.
--+_MIN_READ_BUF_SIZE = 1 << 20
--+
--+
-- # Header name/value ABNF (http://tools.ietf.org/html/rfc7230#section-3.2)
-- #
-- # VCHAR          = %x21-7E
--@@ -628,10 +633,25 @@ class HTTPResponse(io.BufferedIOBase):
--         reading. If the bytes are truly not available (due to EOF), then the
--         IncompleteRead exception can be used to detect the problem.
--         """
---        data = self.fp.read(amt)
---        if len(data) < amt:
---            raise IncompleteRead(data, amt-len(data))
---        return data
--+        cursize = min(amt, _MIN_READ_BUF_SIZE)
--+        data = self.fp.read(cursize)
--+        if len(data) >= amt:
--+            return data
--+        if len(data) < cursize:
--+            raise IncompleteRead(data, amt - len(data))
--+
--+        data = io.BytesIO(data)
--+        data.seek(0, 2)
--+        while True:
--+            # This is a geometric increase in read size (never more than
--+            # doubling out the current length of data per loop iteration).
--+            delta = min(cursize, amt - cursize)
--+            data.write(self.fp.read(delta))
--+            if data.tell() >= amt:
--+                return data.getvalue()
--+            cursize += delta
--+            if data.tell() < cursize:
--+                raise IncompleteRead(data.getvalue(), amt - data.tell())
-- 
--     def _safe_readinto(self, b):
--         """Same as _safe_read, but for reading into a buffer."""
--diff --git a/Lib/test/test_httplib.py b/Lib/test/test_httplib.py
--index 77152cf..89ec5f6 100644
----- a/Lib/test/test_httplib.py
--+++ b/Lib/test/test_httplib.py
--@@ -1226,6 +1226,72 @@ class BasicTest(TestCase):
--         thread.join()
--         self.assertEqual(result, b"proxied data\n")
-- 
--+    def test_large_content_length(self):
--+        serv = socket.create_server((HOST, 0))
--+        self.addCleanup(serv.close)
--+
--+        def run_server():
--+            [conn, address] = serv.accept()
--+            with conn:
--+                while conn.recv(1024):
--+                    conn.sendall(
--+                        b"HTTP/1.1 200 Ok\r\n"
--+                        b"Content-Length: %d\r\n"
--+                        b"\r\n" % size)
--+                    conn.sendall(b'A' * (size//3))
--+                    conn.sendall(b'B' * (size - size//3))
--+
--+        thread = threading.Thread(target=run_server)
--+        thread.start()
--+        self.addCleanup(thread.join, 1.0)
--+
--+        conn = client.HTTPConnection(*serv.getsockname())
--+        try:
--+            for w in range(15, 27):
--+                size = 1 << w
--+                conn.request("GET", "/")
--+                with conn.getresponse() as response:
--+                    self.assertEqual(len(response.read()), size)
--+        finally:
--+            conn.close()
--+            thread.join(1.0)
--+
--+    def test_large_content_length_truncated(self):
--+        serv = socket.create_server((HOST, 0))
--+        self.addCleanup(serv.close)
--+
--+        def run_server():
--+            while True:
--+                [conn, address] = serv.accept()
--+                with conn:
--+                    conn.recv(1024)
--+                    if not size:
--+                        break
--+                    conn.sendall(
--+                        b"HTTP/1.1 200 Ok\r\n"
--+                        b"Content-Length: %d\r\n"
--+                        b"\r\n"
--+                        b"Text" % size)
--+
--+        thread = threading.Thread(target=run_server)
--+        thread.start()
--+        self.addCleanup(thread.join, 1.0)
--+
--+        conn = client.HTTPConnection(*serv.getsockname())
--+        try:
--+            for w in range(18, 65):
--+                size = 1 << w
--+                conn.request("GET", "/")
--+                with conn.getresponse() as response:
--+                    self.assertRaises(client.IncompleteRead, response.read)
--+                conn.close()
--+        finally:
--+            conn.close()
--+            size = 0
--+            conn.request("GET", "/")
--+            conn.close()
--+            thread.join(1.0)
--+
--     def test_putrequest_override_domain_validation(self):
--         """
--         It should be possible to override the default validation
--diff --git a/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
--new file mode 100644
--index 0000000..6d6f25c
----- /dev/null
--+++ b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
--@@ -0,0 +1,5 @@
--+Fix a potential memory denial of service in the :mod:`http.client` module.
--+When connecting to a malicious server, it could cause
--+an arbitrary amount of memory to be allocated.
--+This could have led to symptoms including a :exc:`MemoryError`, swapping, out
--+of memory (OOM) killed processes or containers, or even system crashes.
---- 
--2.50.1
--
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13837.patch b/meta/recipes-devtools/python/python3/CVE-2025-13837.patch
-deleted file mode 100644
-index 36bf75792b..0000000000
---- a/meta/recipes-devtools/python/python3/CVE-2025-13837.patch
-+++ /dev/null
-@@ -1,162 +0,0 @@
--From 5a8b19677d818fb41ee55f310233772e15aa1a2b Mon Sep 17 00:00:00 2001
--From: Serhiy Storchaka <storchaka@gmail.com>
--Date: Mon, 22 Dec 2025 15:49:44 +0200
--Subject: [PATCH] [3.12] gh-119342: Fix a potential denial of service in
-- plistlib (GH-119343) (#142149)
--
--Reading a specially prepared small Plist file could cause OOM because file's
--read(n) preallocates a bytes object for reading the specified amount of
--data. Now plistlib reads large data by chunks, therefore the upper limit of
--consumed memory is proportional to the size of the input file.
--(cherry picked from commit 694922cf40aa3a28f898b5f5ee08b71b4922df70)
--
--CVE: CVE-2025-13837
--Upstream-Status: Backport [https://github.com/python/cpython/commit/5a8b19677d818fb41ee55f310233772e15aa1a2b]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- Lib/plistlib.py                               | 31 ++++++++++------
-- Lib/test/test_plistlib.py                     | 37 +++++++++++++++++--
-- ...-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst |  5 +++
-- 3 files changed, 59 insertions(+), 14 deletions(-)
-- create mode 100644 Misc/NEWS.d/next/Security/2024-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst
--
--diff --git a/Lib/plistlib.py b/Lib/plistlib.py
--index 3292c30d5f..c5554ea1f7 100644
----- a/Lib/plistlib.py
--+++ b/Lib/plistlib.py
--@@ -73,6 +73,9 @@ from xml.parsers.expat import ParserCreate
-- PlistFormat = enum.Enum('PlistFormat', 'FMT_XML FMT_BINARY', module=__name__)
-- globals().update(PlistFormat.__members__)
-- 
--+# Data larger than this will be read in chunks, to prevent extreme
--+# overallocation.
--+_MIN_READ_BUF_SIZE = 1 << 20
-- 
-- class UID:
--     def __init__(self, data):
--@@ -499,12 +502,24 @@ class _BinaryPlistParser:
-- 
--         return tokenL
-- 
--+    def _read(self, size):
--+        cursize = min(size, _MIN_READ_BUF_SIZE)
--+        data = self._fp.read(cursize)
--+        while True:
--+            if len(data) != cursize:
--+                raise InvalidFileException
--+            if cursize == size:
--+                return data
--+            delta = min(cursize, size - cursize)
--+            data += self._fp.read(delta)
--+            cursize += delta
--+
--     def _read_ints(self, n, size):
---        data = self._fp.read(size * n)
--+        data = self._read(size * n)
--         if size in _BINARY_FORMAT:
--             return struct.unpack(f'>{n}{_BINARY_FORMAT[size]}', data)
--         else:
---            if not size or len(data) != size * n:
--+            if not size:
--                 raise InvalidFileException()
--             return tuple(int.from_bytes(data[i: i + size], 'big')
--                          for i in range(0, size * n, size))
--@@ -561,22 +576,16 @@ class _BinaryPlistParser:
-- 
--         elif tokenH == 0x40:  # data
--             s = self._get_size(tokenL)
---            result = self._fp.read(s)
---            if len(result) != s:
---                raise InvalidFileException()
--+            result = self._read(s)
-- 
--         elif tokenH == 0x50:  # ascii string
--             s = self._get_size(tokenL)
---            data = self._fp.read(s)
---            if len(data) != s:
---                raise InvalidFileException()
--+            data = self._read(s)
--             result = data.decode('ascii')
-- 
--         elif tokenH == 0x60:  # unicode string
--             s = self._get_size(tokenL) * 2
---            data = self._fp.read(s)
---            if len(data) != s:
---                raise InvalidFileException()
--+            data = self._read(s)
--             result = data.decode('utf-16be')
-- 
--         elif tokenH == 0x80:  # UID
--diff --git a/Lib/test/test_plistlib.py b/Lib/test/test_plistlib.py
--index fa46050658..229a5a242e 100644
----- a/Lib/test/test_plistlib.py
--+++ b/Lib/test/test_plistlib.py
--@@ -838,8 +838,7 @@ class TestPlistlib(unittest.TestCase):
-- 
-- class TestBinaryPlistlib(unittest.TestCase):
-- 
---    @staticmethod
---    def decode(*objects, offset_size=1, ref_size=1):
--+    def build(self, *objects, offset_size=1, ref_size=1):
--         data = [b'bplist00']
--         offset = 8
--         offsets = []
--@@ -851,7 +850,11 @@ class TestBinaryPlistlib(unittest.TestCase):
--                            len(objects), 0, offset)
--         data.extend(offsets)
--         data.append(tail)
---        return plistlib.loads(b''.join(data), fmt=plistlib.FMT_BINARY)
--+        return b''.join(data)
--+
--+    def decode(self, *objects, offset_size=1, ref_size=1):
--+        data = self.build(*objects, offset_size=offset_size, ref_size=ref_size)
--+        return plistlib.loads(data, fmt=plistlib.FMT_BINARY)
-- 
--     def test_nonstandard_refs_size(self):
--         # Issue #21538: Refs and offsets are 24-bit integers
--@@ -959,6 +962,34 @@ class TestBinaryPlistlib(unittest.TestCase):
--                 with self.assertRaises(plistlib.InvalidFileException):
--                     plistlib.loads(b'bplist00' + data, fmt=plistlib.FMT_BINARY)
-- 
--+    def test_truncated_large_data(self):
--+        self.addCleanup(os_helper.unlink, os_helper.TESTFN)
--+        def check(data):
--+            with open(os_helper.TESTFN, 'wb') as f:
--+                f.write(data)
--+            # buffered file
--+            with open(os_helper.TESTFN, 'rb') as f:
--+                with self.assertRaises(plistlib.InvalidFileException):
--+                    plistlib.load(f, fmt=plistlib.FMT_BINARY)
--+            # unbuffered file
--+            with open(os_helper.TESTFN, 'rb', buffering=0) as f:
--+                with self.assertRaises(plistlib.InvalidFileException):
--+                    plistlib.load(f, fmt=plistlib.FMT_BINARY)
--+        for w in range(20, 64):
--+            s = 1 << w
--+            # data
--+            check(self.build(b'\x4f\x13' + s.to_bytes(8, 'big')))
--+            # ascii string
--+            check(self.build(b'\x5f\x13' + s.to_bytes(8, 'big')))
--+            # unicode string
--+            check(self.build(b'\x6f\x13' + s.to_bytes(8, 'big')))
--+            # array
--+            check(self.build(b'\xaf\x13' + s.to_bytes(8, 'big')))
--+            # dict
--+            check(self.build(b'\xdf\x13' + s.to_bytes(8, 'big')))
--+            # number of objects
--+            check(b'bplist00' + struct.pack('>6xBBQQQ', 1, 1, s, 0, 8))
--+
-- 
-- class TestKeyedArchive(unittest.TestCase):
--     def test_keyed_archive_data(self):
--diff --git a/Misc/NEWS.d/next/Security/2024-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst b/Misc/NEWS.d/next/Security/2024-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst
--new file mode 100644
--index 0000000000..04fd8faca4
----- /dev/null
--+++ b/Misc/NEWS.d/next/Security/2024-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst
--@@ -0,0 +1,5 @@
--+Fix a potential memory denial of service in the :mod:`plistlib` module.
--+When reading a Plist file received from untrusted source, it could cause
--+an arbitrary amount of memory to be allocated.
--+This could have led to symptoms including a :exc:`MemoryError`, swapping, out
--+of memory (OOM) killed processes or containers, or even system crashes.
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-15282.patch b/meta/recipes-devtools/python/python3/CVE-2025-15282.patch
-deleted file mode 100644
-index 80ef2fcde8..0000000000
---- a/meta/recipes-devtools/python/python3/CVE-2025-15282.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From 34d76b00dabde81a793bd06dd8ecb057838c4b38 Mon Sep 17 00:00:00 2001
--From: Seth Michael Larson <seth@python.org>
--Date: Sun, 25 Jan 2026 11:05:15 -0600
--Subject: [PATCH] [3.10] gh-143925: Reject control characters in data: URL
-- mediatypes (#144115)
--
--(cherry picked from commit f25509e78e8be6ea73c811ac2b8c928c28841b9f)
--(cherry picked from commit 2c9c746077d8119b5bcf5142316992e464594946)
--
--Upstream-Status: Backport [https://github.com/python/cpython/commit/34d76b00dabde81a793bd06dd8ecb057838c4b38]
--CVE: CVE-2025-15282
--Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-----
-- Lib/test/test_urllib.py                                   | 8 ++++++++
-- Lib/urllib/request.py                                     | 5 +++++
-- .../2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst        | 1 +
-- 3 files changed, 14 insertions(+)
-- create mode 100644 Misc/NEWS.d/next/Security/2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst
--
--diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
--index 82f1d9dc2e7bb3..b08fc8f2b19463 100644
----- a/Lib/test/test_urllib.py
--+++ b/Lib/test/test_urllib.py
--@@ -11,6 +11,7 @@
-- from test import support
-- from test.support import os_helper
-- from test.support import warnings_helper
--+from test.support import control_characters_c0
-- import os
-- try:
--     import ssl
--@@ -683,6 +684,13 @@ def test_invalid_base64_data(self):
--         # missing padding character
--         self.assertRaises(ValueError,urllib.request.urlopen,'data:;base64,Cg=')
-- 
--+    def test_invalid_mediatype(self):
--+        for c0 in control_characters_c0():
--+            self.assertRaises(ValueError,urllib.request.urlopen,
--+                              f'data:text/html;{c0},data')
--+        for c0 in control_characters_c0():
--+            self.assertRaises(ValueError,urllib.request.urlopen,
--+                              f'data:text/html{c0};base64,ZGF0YQ==')
-- 
-- class urlretrieve_FileTests(unittest.TestCase):
--     """Test urllib.urlretrieve() on local files"""
--diff --git a/Lib/urllib/request.py b/Lib/urllib/request.py
--index 6edde1f73189b1..c378a86a70cbeb 100644
----- a/Lib/urllib/request.py
--+++ b/Lib/urllib/request.py
--@@ -1654,6 +1654,11 @@ def data_open(self, req):
--         scheme, data = url.split(":",1)
--         mediatype, data = data.split(",",1)
-- 
--+        # Disallow control characters within mediatype.
--+        if re.search(r"[\x00-\x1F\x7F]", mediatype):
--+            raise ValueError(
--+                "Control characters not allowed in data: mediatype")
--+
--         # even base64 encoded data URLs might be quoted so unquote in any case:
--         data = unquote_to_bytes(data)
--         if mediatype.endswith(";base64"):
--diff --git a/Misc/NEWS.d/next/Security/2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst b/Misc/NEWS.d/next/Security/2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst
--new file mode 100644
--index 00000000000000..46109dfbef3ee7
----- /dev/null
--+++ b/Misc/NEWS.d/next/Security/2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst
--@@ -0,0 +1 @@
--+Reject control characters in ``data:`` URL media types.
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-6075.patch b/meta/recipes-devtools/python/python3/CVE-2025-6075.patch
-deleted file mode 100644
-index eab5a882a0..0000000000
---- a/meta/recipes-devtools/python/python3/CVE-2025-6075.patch
-+++ /dev/null
-@@ -1,364 +0,0 @@
--From 892747b4cf0f95ba8beb51c0d0658bfaa381ebca Mon Sep 17 00:00:00 2001
--From: Łukasz Langa <lukasz@langa.pl>
--Date: Fri, 31 Oct 2025 17:51:32 +0100
--Subject: [PATCH] gh-136065: Fix quadratic complexity in os.path.expandvars()
-- (GH-134952) (GH-140851)
--
--(cherry picked from commit f029e8db626ddc6e3a3beea4eff511a71aaceb5c)
--
--Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
--
--CVE: CVE-2025-6075
--
--Upstream-Status: Backport [https://github.com/python/cpython/commit/892747b4cf0f95ba8beb51c0d0658bfaa381ebca]
--
--Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
-----
-- Lib/ntpath.py                                 | 126 ++++++------------
-- Lib/posixpath.py                              |  43 +++---
-- Lib/test/test_genericpath.py                  |  14 ++
-- Lib/test/test_ntpath.py                       |  20 ++-
-- ...-05-30-22-33-27.gh-issue-136065.bu337o.rst |   1 +
-- 5 files changed, 93 insertions(+), 111 deletions(-)
-- create mode 100644 Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
--
--diff --git a/Lib/ntpath.py b/Lib/ntpath.py
--index 9b0cca4..bd2b4e2 100644
----- a/Lib/ntpath.py
--+++ b/Lib/ntpath.py
--@@ -374,17 +374,23 @@ def expanduser(path):
-- # XXX With COMMAND.COM you can use any characters in a variable name,
-- # XXX except '^|<>='.
--
--+_varpattern = r"'[^']*'?|%(%|[^%]*%?)|\$(\$|[-\w]+|\{[^}]*\}?)"
--+_varsub = None
--+_varsubb = None
--+
-- def expandvars(path):
--     """Expand shell variables of the forms $var, ${var} and %var%.
--
--     Unknown variables are left unchanged."""
--     path = os.fspath(path)
--+    global _varsub, _varsubb
--     if isinstance(path, bytes):
--         if b'$' not in path and b'%' not in path:
--             return path
---        import string
---        varchars = bytes(string.ascii_letters + string.digits + '_-', 'ascii')
---        quote = b'\''
--+        if not _varsubb:
--+            import re
--+            _varsubb = re.compile(_varpattern.encode(), re.ASCII).sub
--+        sub = _varsubb
--         percent = b'%'
--         brace = b'{'
--         rbrace = b'}'
--@@ -393,94 +399,44 @@ def expandvars(path):
--     else:
--         if '$' not in path and '%' not in path:
--             return path
---        import string
---        varchars = string.ascii_letters + string.digits + '_-'
---        quote = '\''
--+        if not _varsub:
--+            import re
--+            _varsub = re.compile(_varpattern, re.ASCII).sub
--+        sub = _varsub
--         percent = '%'
--         brace = '{'
--         rbrace = '}'
--         dollar = '$'
--         environ = os.environ
---    res = path[:0]
---    index = 0
---    pathlen = len(path)
---    while index < pathlen:
---        c = path[index:index+1]
---        if c == quote:   # no expansion within single quotes
---            path = path[index + 1:]
---            pathlen = len(path)
---            try:
---                index = path.index(c)
---                res += c + path[:index + 1]
---            except ValueError:
---                res += c + path
---                index = pathlen - 1
---        elif c == percent:  # variable or '%'
---            if path[index + 1:index + 2] == percent:
---                res += c
---                index += 1
---            else:
---                path = path[index+1:]
---                pathlen = len(path)
---                try:
---                    index = path.index(percent)
---                except ValueError:
---                    res += percent + path
---                    index = pathlen - 1
---                else:
---                    var = path[:index]
---                    try:
---                        if environ is None:
---                            value = os.fsencode(os.environ[os.fsdecode(var)])
---                        else:
---                            value = environ[var]
---                    except KeyError:
---                        value = percent + var + percent
---                    res += value
---        elif c == dollar:  # variable or '$$'
---            if path[index + 1:index + 2] == dollar:
---                res += c
---                index += 1
---            elif path[index + 1:index + 2] == brace:
---                path = path[index+2:]
---                pathlen = len(path)
---                try:
---                    index = path.index(rbrace)
---                except ValueError:
---                    res += dollar + brace + path
---                    index = pathlen - 1
---                else:
---                    var = path[:index]
---                    try:
---                        if environ is None:
---                            value = os.fsencode(os.environ[os.fsdecode(var)])
---                        else:
---                            value = environ[var]
---                    except KeyError:
---                        value = dollar + brace + var + rbrace
---                    res += value
---            else:
---                var = path[:0]
---                index += 1
---                c = path[index:index + 1]
---                while c and c in varchars:
---                    var += c
---                    index += 1
---                    c = path[index:index + 1]
---                try:
---                    if environ is None:
---                        value = os.fsencode(os.environ[os.fsdecode(var)])
---                    else:
---                        value = environ[var]
---                except KeyError:
---                    value = dollar + var
---                res += value
---                if c:
---                    index -= 1
--+
--+    def repl(m):
--+        lastindex = m.lastindex
--+        if lastindex is None:
--+            return m[0]
--+        name = m[lastindex]
--+        if lastindex == 1:
--+            if name == percent:
--+                return name
--+            if not name.endswith(percent):
--+                return m[0]
--+            name = name[:-1]
--         else:
---            res += c
---        index += 1
---    return res
--+            if name == dollar:
--+                return name
--+            if name.startswith(brace):
--+                if not name.endswith(rbrace):
--+                    return m[0]
--+                name = name[1:-1]
--+
--+        try:
--+            if environ is None:
--+                return os.fsencode(os.environ[os.fsdecode(name)])
--+            else:
--+                return environ[name]
--+        except KeyError:
--+            return m[0]
--+
--+    return sub(repl, path)
--
--
-- # Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A\B.
--diff --git a/Lib/posixpath.py b/Lib/posixpath.py
--index b8dd563..75020ee 100644
----- a/Lib/posixpath.py
--+++ b/Lib/posixpath.py
--@@ -279,42 +279,41 @@ def expanduser(path):
-- # This expands the forms $variable and ${variable} only.
-- # Non-existent variables are left unchanged.
--
---_varprog = None
---_varprogb = None
--+_varpattern = r'\$(\w+|\{[^}]*\}?)'
--+_varsub = None
--+_varsubb = None
--
-- def expandvars(path):
--     """Expand shell variables of form $var and ${var}.  Unknown variables
--     are left unchanged."""
--     path = os.fspath(path)
---    global _varprog, _varprogb
--+    global _varsub, _varsubb
--     if isinstance(path, bytes):
--         if b'$' not in path:
--             return path
---        if not _varprogb:
--+        if not _varsubb:
--             import re
---            _varprogb = re.compile(br'\$(\w+|\{[^}]*\})', re.ASCII)
---        search = _varprogb.search
--+            _varsubb = re.compile(_varpattern.encode(), re.ASCII).sub
--+        sub = _varsubb
--         start = b'{'
--         end = b'}'
--         environ = getattr(os, 'environb', None)
--     else:
--         if '$' not in path:
--             return path
---        if not _varprog:
--+        if not _varsub:
--             import re
---            _varprog = re.compile(r'\$(\w+|\{[^}]*\})', re.ASCII)
---        search = _varprog.search
--+            _varsub = re.compile(_varpattern, re.ASCII).sub
--+        sub = _varsub
--         start = '{'
--         end = '}'
--         environ = os.environ
---    i = 0
---    while True:
---        m = search(path, i)
---        if not m:
---            break
---        i, j = m.span(0)
---        name = m.group(1)
---        if name.startswith(start) and name.endswith(end):
--+
--+    def repl(m):
--+        name = m[1]
--+        if name.startswith(start):
--+            if not name.endswith(end):
--+                return m[0]
--             name = name[1:-1]
--         try:
--             if environ is None:
--@@ -322,13 +321,11 @@ def expandvars(path):
--             else:
--                 value = environ[name]
--         except KeyError:
---            i = j
--+            return m[0]
--         else:
---            tail = path[j:]
---            path = path[:i] + value
---            i = len(path)
---            path += tail
---    return path
--+            return value
--+
--+    return sub(repl, path)
--
--
-- # Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A/B.
--diff --git a/Lib/test/test_genericpath.py b/Lib/test/test_genericpath.py
--index 1ff7f75..b0a1326 100644
----- a/Lib/test/test_genericpath.py
--+++ b/Lib/test/test_genericpath.py
--@@ -7,6 +7,7 @@ import os
-- import sys
-- import unittest
-- import warnings
--+from test import support
-- from test.support import os_helper
-- from test.support import warnings_helper
-- from test.support.script_helper import assert_python_ok
--@@ -430,6 +431,19 @@ class CommonTest(GenericTest):
--                   os.fsencode('$bar%s bar' % nonascii))
--             check(b'$spam}bar', os.fsencode('%s}bar' % nonascii))
--
--+    @support.requires_resource('cpu')
--+    def test_expandvars_large(self):
--+        expandvars = self.pathmodule.expandvars
--+        with os_helper.EnvironmentVarGuard() as env:
--+            env.clear()
--+            env["A"] = "B"
--+            n = 100_000
--+            self.assertEqual(expandvars('$A'*n), 'B'*n)
--+            self.assertEqual(expandvars('${A}'*n), 'B'*n)
--+            self.assertEqual(expandvars('$A!'*n), 'B!'*n)
--+            self.assertEqual(expandvars('${A}A'*n), 'BA'*n)
--+            self.assertEqual(expandvars('${'*10*n), '${'*10*n)
--+
--     def test_abspath(self):
--         self.assertIn("foo", self.pathmodule.abspath("foo"))
--         with warnings.catch_warnings():
--diff --git a/Lib/test/test_ntpath.py b/Lib/test/test_ntpath.py
--index f790f77..161e57d 100644
----- a/Lib/test/test_ntpath.py
--+++ b/Lib/test/test_ntpath.py
--@@ -5,8 +5,8 @@ import sys
-- import unittest
-- import warnings
-- from ntpath import ALLOW_MISSING
--+from test import support
-- from test.support import os_helper
---from test.support import TestFailed
-- from test.support.os_helper import FakePath
-- from test import test_genericpath
-- from tempfile import TemporaryFile
--@@ -56,7 +56,7 @@ def tester(fn, wantResult):
--     fn = fn.replace("\\", "\\\\")
--     gotResult = eval(fn)
--     if wantResult != gotResult and _norm(wantResult) != _norm(gotResult):
---        raise TestFailed("%s should return: %s but returned: %s" \
--+        raise support.TestFailed("%s should return: %s but returned: %s" \
--               %(str(fn), str(wantResult), str(gotResult)))
--
--     # then with bytes
--@@ -72,7 +72,7 @@ def tester(fn, wantResult):
--         warnings.simplefilter("ignore", DeprecationWarning)
--         gotResult = eval(fn)
--     if _norm(wantResult) != _norm(gotResult):
---        raise TestFailed("%s should return: %s but returned: %s" \
--+        raise support.TestFailed("%s should return: %s but returned: %s" \
--               %(str(fn), str(wantResult), repr(gotResult)))
--
--
--@@ -689,6 +689,19 @@ class TestNtpath(NtpathTestCase):
--             check('%spam%bar', '%sbar' % nonascii)
--             check('%{}%bar'.format(nonascii), 'ham%sbar' % nonascii)
--
--+    @support.requires_resource('cpu')
--+    def test_expandvars_large(self):
--+        expandvars = ntpath.expandvars
--+        with os_helper.EnvironmentVarGuard() as env:
--+            env.clear()
--+            env["A"] = "B"
--+            n = 100_000
--+            self.assertEqual(expandvars('%A%'*n), 'B'*n)
--+            self.assertEqual(expandvars('%A%A'*n), 'BA'*n)
--+            self.assertEqual(expandvars("''"*n + '%%'), "''"*n + '%')
--+            self.assertEqual(expandvars("%%"*n), "%"*n)
--+            self.assertEqual(expandvars("$$"*n), "$"*n)
--+
--     def test_expanduser(self):
--         tester('ntpath.expanduser("test")', 'test')
--
--@@ -923,6 +936,7 @@ class TestNtpath(NtpathTestCase):
--             self.assertIsInstance(b_final_path, bytes)
--             self.assertGreater(len(b_final_path), 0)
--
--+
-- class NtCommonTest(test_genericpath.CommonTest, unittest.TestCase):
--     pathmodule = ntpath
--     attributes = ['relpath']
--diff --git a/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst b/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
--new file mode 100644
--index 0000000..1d152bb
----- /dev/null
--+++ b/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
--@@ -0,0 +1 @@
--+Fix quadratic complexity in :func:`os.path.expandvars`.
----
--2.40.0
-diff --git a/meta/recipes-devtools/python/python3_3.10.19.bb b/meta/recipes-devtools/python/python3_3.10.20.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.10.19.bb
-rename to meta/recipes-devtools/python/python3_3.10.20.bb
-index e2a0ae9fe7..88a57971b9 100644
---- a/meta/recipes-devtools/python/python3_3.10.19.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.20.bb
-@@ -37,11 +37,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-test_storlines-skip-due-to-load-variability.patch \
-            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
--           file://CVE-2025-6075.patch \
--           file://CVE-2025-13836.patch \
--           file://CVE-2025-13837.patch \
--           file://CVE-2025-12084.patch \
--           file://CVE-2025-15282.patch \
-            "
- 
- SRC_URI:append:class-native = " \
-@@ -50,7 +45,7 @@ SRC_URI:append:class-native = " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] = "c8f4a596572201d81dd7df91f70e177e19a70f1d489968b54b5fbbf29a97c076"
-+SRC_URI[sha256sum] = "de6517421601e39a9a3bc3e1bc4c7b2f239297423ee05e282598c83ec0647505"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
--- 
-2.25.1
 
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt via
+> > lists.openembedded.org
+> > Sent: den 30 mars 2026 18:23
+> > To: wangmy@fujitsu.com; openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 ->
+> > 1.28.0
+> >
+> > What is the status of these patches, which upgrade the GStreamer recipe=
+s
+> > to version 1.28.0?
+> >
+> > I do not see them on neither master-next nor mathieu/master-next in
+> > the openembedded-core-contrib repository.
+> >
+> > //Peter
+> >
+> > > -----Original Message-----
+> > > From: openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> On Behalf Of wangmy via
+> lists.openembedded.org
+> > > Sent: den 4 mars 2026 11:32
+> > > To: openembedded-core@lists.openembedded.org
+> > > Cc: Wang Mingyu <wangmy@fujitsu.com>
+> > > Subject: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28=
+.0
+> > >
+> > > From: Wang Mingyu <wangmy@fujitsu.com>
+> > >
+> > > 0002-tests-add-support-for-install-the-tests.patch
+> > > refreshed for 1.28.0
+> > >
+> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> > > ---
+> > >  ...2-tests-add-support-for-install-the-tests.patch | 14 +++++++-----=
+--
+> > >  ...treamer1.0_1.26.9.bb =3D> gstreamer1.0_1.28.0.bb} |  2 +-
+> > >  2 files changed, 8 insertions(+), 8 deletions(-)
+> > >  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.9.bb =3D=
+>
+> gstreamer1.0_1.28.0.bb} (97%)
+> > >
+> > > diff --git
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-f=
+or-install-the-tests.patch
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-f=
+or-install-the-tests.patch
+> > > index ccfc869813..720a6f0c97 100644
+> > > ---
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-f=
+or-install-the-tests.patch
+> > > +++
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-f=
+or-install-the-tests.patch
+> > > @@ -1,4 +1,4 @@
+> > > -From c33063360791e178de138304e29ab2264582d917 Mon Sep 17 00:00:00 20=
+01
+> > > +From 92e7d4090fa458bf02d3418cd01c960982821e92 Mon Sep 17 00:00:00 20=
+01
+> > >  From: Jose Quaresma <quaresma.jose@gmail.com>
+> > >  Date: Sun, 11 Apr 2021 19:48:13 +0100
+> > >  Subject: [PATCH] tests: add support for install the tests
+> > > @@ -12,17 +12,17 @@ Upstream-Status: Submitted [
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-
+> > >  Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > >  ---
+> > >   meson.build                  |  4 ++++
+> > > - meson_options.txt            |  1 +
+> > > + meson.options                |  1 +
+> > >   tests/check/meson.build      | 22 +++++++++++++++++++++-
+> > >   tests/check/template.test.in |  3 +++
+> > >   4 files changed, 29 insertions(+), 1 deletion(-)
+> > >   create mode 100644 tests/check/template.test.in
+> > >
+> > >  diff --git a/meson.build b/meson.build
+> > > -index 0a77e90..cadfaeb 100644
+> > > +index 8adc055..b5c9e5b 100644
+> > >  --- a/meson.build
+> > >  +++ b/meson.build
+> > > -@@ -664,6 +664,10 @@ if bashcomp_dep.found()
+> > > +@@ -667,6 +667,10 @@ if bashcomp_dep.found()
+> > >     endif
+> > >   endif
+> > >
+> > > @@ -33,10 +33,10 @@ index 0a77e90..cadfaeb 100644
+> > >   plugins_install_dir =3D join_paths(get_option('libdir'),
+> 'gstreamer-1.0')
+> > >
+> > >   pkgconfig =3D import('pkgconfig')
+> > > -diff --git a/meson_options.txt b/meson_options.txt
+> > > +diff --git a/meson.options b/meson.options
+> > >  index 39255cf..78af552 100644
+> > > ---- a/meson_options.txt
+> > > -+++ b/meson_options.txt
+> > > +--- a/meson.options
+> > > ++++ b/meson.options
+> > >  @@ -16,6 +16,7 @@ option('poisoning', type : 'boolean', value :
+> false, description : 'Enable poiso
+> > >   option('memory-alignment', type: 'combo',
+> > >          choices : ['1', '2', '4', '8', '16', '32', '64', '128',
+> '256', '512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
+> > > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+> > > similarity index 97%
+> > > rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
+> > > rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+> > > index c66f614629..63633fea05 100644
+> > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
+> > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+> > > @@ -22,7 +22,7 @@ SRC_URI =3D
+> > > "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.=
+x
+> > >             file://0003-tests-use-a-dictionaries-for-environment.patc=
+h
+> \
+> > >
+>  file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
+> > >             "
+> > > -SRC_URI[sha256sum] =3D
+> "8ee8772e468102ebe86d414d8c4c7440dd91d9f3e9396952ff23aecde80670c8"
+> > > +SRC_URI[sha256sum] =3D
+> "6c8676bc39a2b41084fd4b21d2c37985c69ac979c03ce59575db945a3a623afd"
+> > >
+> > >  PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1',
+> 'tests', '', d)} \
+> > >                     check \
+> > > --
+> > > 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#234678):
+> https://lists.openembedded.org/g/openembedded-core/message/234678
+> Mute This Topic: https://lists.openembedded.org/mt/118129968/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--00000000000044140e064ecb3b81
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><br></div><div><div class=3D"gmail_quote gmail_quote_=
+container"><div dir=3D"ltr" class=3D"gmail_attr">Peter Kjellerstedt via <a =
+href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;peter=
+.kjellerstedt=3D<a href=3D"mailto:axis.com@lists.openembedded.org">axis.com=
+@lists.openembedded.org</a>&gt; escreveu (segunda, 6/04/2026 =C3=A0(s) 14:0=
+9):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">*ping*<br>
+<br>
+//Peter<br>
+<br></blockquote><div><br></div><div>+1<br></div><div><br></div><div>Given =
+that gstreamer is a reference package on the multimedia front, I believe it=
+ would be generally appreciated by the community to include 1.28.x in the n=
+ext LTS.</div>The 1.26.x was released a year ago.<div><br></div><div>Jose<b=
+r><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=
+=3D"gmail_attr">=C2=A0</div></div></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
+-<br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a>&gt; On Behalf Of Peter Kjellerstedt via<br>
+&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.openembedded.org</a><br>
+&gt; Sent: den 30 mars 2026 18:23<br>
+&gt; To: <a href=3D"mailto:wangmy@fujitsu.com" target=3D"_blank">wangmy@fuj=
+itsu.com</a>; <a href=3D"mailto:openembedded-core@lists.openembedded.org" t=
+arget=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Subject: Re: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -&gt=
+;<br>
+&gt; 1.28.0<br>
+&gt; <br>
+&gt; What is the status of these patches, which upgrade the GStreamer recip=
+es<br>
+&gt; to version 1.28.0?<br>
+&gt; <br>
+&gt; I do not see them on neither master-next nor mathieu/master-next in<br=
+>
+&gt; the openembedded-core-contrib repository.<br>
+&gt; <br>
+&gt; //Peter<br>
+&gt; <br>
+&gt; &gt; -----Original Message-----<br>
+&gt; &gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org"=
+ target=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=
+=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">open=
+embedded-core@lists.openembedded.org</a>&gt; On Behalf Of wangmy via <a hre=
+f=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">li=
+sts.openembedded.org</a><br>
+&gt; &gt; Sent: den 4 mars 2026 11:32<br>
+&gt; &gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" t=
+arget=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; &gt; Cc: Wang Mingyu &lt;<a href=3D"mailto:wangmy@fujitsu.com" target=
+=3D"_blank">wangmy@fujitsu.com</a>&gt;<br>
+&gt; &gt; Subject: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -&g=
+t; 1.28.0<br>
+&gt; &gt;<br>
+&gt; &gt; From: Wang Mingyu &lt;<a href=3D"mailto:wangmy@fujitsu.com" targe=
+t=3D"_blank">wangmy@fujitsu.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; 0002-tests-add-support-for-install-the-tests.patch<br>
+&gt; &gt; refreshed for 1.28.0<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@fujitsu.c=
+om" target=3D"_blank">wangmy@fujitsu.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 ...2-tests-add-support-for-install-the-tests.patch | 14 +++=
+++++-------<br>
+&gt; &gt;=C2=A0 ...<a href=3D"http://treamer1.0_1.26.9.bb" rel=3D"noreferre=
+r" target=3D"_blank">treamer1.0_1.26.9.bb</a> =3D&gt; <a href=3D"http://gst=
+reamer1.0_1.28.0.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28=
+.0.bb</a>} |=C2=A0 2 +-<br>
+&gt; &gt;=C2=A0 2 files changed, 8 insertions(+), 8 deletions(-)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-multimedia/gstreamer/{<a href=3D"http:/=
+/gstreamer1.0_1.26.9.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_=
+1.26.9.bb</a> =3D&gt; <a href=3D"http://gstreamer1.0_1.28.0.bb" rel=3D"nore=
+ferrer" target=3D"_blank">gstreamer1.0_1.28.0.bb</a>} (97%)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-=
+tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gst=
+reamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch<br>
+&gt; &gt; index ccfc869813..720a6f0c97 100644<br>
+&gt; &gt; --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-a=
+dd-support-for-install-the-tests.patch<br>
+&gt; &gt; +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-a=
+dd-support-for-install-the-tests.patch<br>
+&gt; &gt; @@ -1,4 +1,4 @@<br>
+&gt; &gt; -From c33063360791e178de138304e29ab2264582d917 Mon Sep 17 00:00:0=
+0 2001<br>
+&gt; &gt; +From 92e7d4090fa458bf02d3418cd01c960982821e92 Mon Sep 17 00:00:0=
+0 2001<br>
+&gt; &gt;=C2=A0 From: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gma=
+il.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt; &gt;=C2=A0 Date: Sun, 11 Apr 2021 19:48:13 +0100<br>
+&gt; &gt;=C2=A0 Subject: [PATCH] tests: add support for install the tests<b=
+r>
+&gt; &gt; @@ -12,17 +12,17 @@ Upstream-Status: Submitted [<a href=3D"https:=
+//gitlab.freedesktop.org/gstreamer/gstreamer/-" rel=3D"noreferrer" target=
+=3D"_blank">https://gitlab.freedesktop.org/gstreamer/gstreamer/-</a><br>
+&gt; &gt;=C2=A0 Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma=
+.jose@gmail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt; &gt;=C2=A0 ---<br>
+&gt; &gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++++<br>
+&gt; &gt; - meson_options.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 1 +<br>
+&gt; &gt; + meson.options=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 1 +<br>
+&gt; &gt;=C2=A0 =C2=A0tests/check/meson.build=C2=A0 =C2=A0 =C2=A0 | 22 ++++=
++++++++++++++++++-<br>
+&gt; &gt;=C2=A0 =C2=A0tests/check/<a href=3D"http://template.test.in" rel=
+=3D"noreferrer" target=3D"_blank">template.test.in</a> |=C2=A0 3 +++<br>
+&gt; &gt;=C2=A0 =C2=A04 files changed, 29 insertions(+), 1 deletion(-)<br>
+&gt; &gt;=C2=A0 =C2=A0create mode 100644 tests/check/<a href=3D"http://temp=
+late.test.in" rel=3D"noreferrer" target=3D"_blank">template.test.in</a><br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 diff --git a/meson.build b/meson.build<br>
+&gt; &gt; -index 0a77e90..cadfaeb 100644<br>
+&gt; &gt; +index 8adc055..b5c9e5b 100644<br>
+&gt; &gt;=C2=A0 --- a/meson.build<br>
+&gt; &gt;=C2=A0 +++ b/meson.build<br>
+&gt; &gt; -@@ -664,6 +664,10 @@ if bashcomp_dep.found()<br>
+&gt; &gt; +@@ -667,6 +667,10 @@ if bashcomp_dep.found()<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0endif<br>
+&gt; &gt;=C2=A0 =C2=A0endif<br>
+&gt; &gt;<br>
+&gt; &gt; @@ -33,10 +33,10 @@ index 0a77e90..cadfaeb 100644<br>
+&gt; &gt;=C2=A0 =C2=A0plugins_install_dir =3D join_paths(get_option(&#39;li=
+bdir&#39;), &#39;gstreamer-1.0&#39;)<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0pkgconfig =3D import(&#39;pkgconfig&#39;)<br>
+&gt; &gt; -diff --git a/meson_options.txt b/meson_options.txt<br>
+&gt; &gt; +diff --git a/meson.options b/meson.options<br>
+&gt; &gt;=C2=A0 index 39255cf..78af552 100644<br>
+&gt; &gt; ---- a/meson_options.txt<br>
+&gt; &gt; -+++ b/meson_options.txt<br>
+&gt; &gt; +--- a/meson.options<br>
+&gt; &gt; ++++ b/meson.options<br>
+&gt; &gt;=C2=A0 @@ -16,6 +16,7 @@ option(&#39;poisoning&#39;, type : &#39;b=
+oolean&#39;, value : false, description : &#39;Enable poiso<br>
+&gt; &gt;=C2=A0 =C2=A0option(&#39;memory-alignment&#39;, type: &#39;combo&#=
+39;,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 choices : [&#39;1&#39;, &#39;2&=
+#39;, &#39;4&#39;, &#39;8&#39;, &#39;16&#39;, &#39;32&#39;, &#39;64&#39;, &=
+#39;128&#39;, &#39;256&#39;, &#39;512&#39;, &#39;1024&#39;, &#39;2048&#39;,=
+ &#39;4096&#39;, &#39;8192&#39;, &#39;malloc&#39;, &#39;pagesize&#39;],<br>
+&gt; &gt; diff --git a/meta/recipes-multimedia/gstreamer/<a href=3D"http://=
+gstreamer1.0_1.26.9.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1=
+.26.9.bb</a> b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreame=
+r1.0_1.28.0.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.0.bb=
+</a><br>
+&gt; &gt; similarity index 97%<br>
+&gt; &gt; rename from meta/recipes-multimedia/gstreamer/<a href=3D"http://g=
+streamer1.0_1.26.9.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.=
+26.9.bb</a><br>
+&gt; &gt; rename to meta/recipes-multimedia/gstreamer/<a href=3D"http://gst=
+reamer1.0_1.28.0.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28=
+.0.bb</a><br>
+&gt; &gt; index c66f614629..63633fea05 100644<br>
+&gt; &gt; --- a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstream=
+er1.0_1.26.9.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.26.9.b=
+b</a><br>
+&gt; &gt; +++ b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstream=
+er1.0_1.28.0.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.0.b=
+b</a><br>
+&gt; &gt; @@ -22,7 +22,7 @@ SRC_URI =3D<br>
+&gt; &gt; &quot;<a href=3D"https://gstreamer.freedesktop.org/src/gstreamer/=
+gstreamer-$%7BPV%7D.tar.x" rel=3D"noreferrer" target=3D"_blank">https://gst=
+reamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x</a><br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-tests-=
+use-a-dictionaries-for-environment.patch \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0004-tests-=
+add-helper-script-to-run-the-installed_tests.patch \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt; &gt; -SRC_URI[sha256sum] =3D &quot;8ee8772e468102ebe86d414d8c4c7440dd9=
+1d9f3e9396952ff23aecde80670c8&quot;<br>
+&gt; &gt; +SRC_URI[sha256sum] =3D &quot;6c8676bc39a2b41084fd4b21d2c37985c69=
+ac979c03ce59575db945a3a623afd&quot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 PACKAGECONFIG ??=3D &quot;${@bb.utils.contains(&#39;PTEST_E=
+NABLED&#39;, &#39;1&#39;, &#39;tests&#39;, &#39;&#39;, d)} \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0check \<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.43.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#234678): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/234678" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/234678</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118129968/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/118129968/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
+div></div></div></div>
+
+--00000000000044140e064ecb3b81--
 
