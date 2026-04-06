@@ -1,178 +1,264 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <pahaditechie@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61790EF4EAA
-	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 06:27:51 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.49608.1775456861062086700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82308EF4EA4
+	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 06:33:01 +0000 (UTC)
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.49616.1775457172623637190
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Apr 2026 23:27:41 -0700
+ Sun, 05 Apr 2026 23:32:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SODdkyGE;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488a29e6110so15833295e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 23:27:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775456859; x=1776061659; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ImvltFtUT4cB6LZ4Yhh3fO4WvYNXpQvW2K3n+YAiVQk=;
-        b=SODdkyGEAgnvcA4BWFmlUQFpKiBrxvw3uNpqesmXLjooqRycCejk1qBwlzZYIcbgnn
-         0MPri0Toy0EjC4IhCA207SUZJzNcoDryCleDx7Jt9uTt9SjjV+tyHq2MFJ6Bxdtk5IQD
-         ZUqUKOldsW97+Sqnh1IG8tE5n9xjESwqXxGas=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775456859; x=1776061659;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ImvltFtUT4cB6LZ4Yhh3fO4WvYNXpQvW2K3n+YAiVQk=;
-        b=ZO6ZB7JPCIo1YZFITy80h7BqiGFEIcA4kbDwzB4MKX6Cv9ZrsCTzygSxyu05BtW73g
-         tMHlurcbvB5OlVC3yRpHIpY3r5a4OQ+EhGV1sRkpvubFCRXpKCPSx7U1QQGgCOmrZLZh
-         70SjfKvHIq6xQ+tzSYis3dVuptMRF3EaDdEF1cgfNAtKUlLbfI5vamPNRVvPg3bIa2TA
-         gmfyVde4nJ7bGjHnyGkqBg9jwbUXqVDLJYsSFPvSjVYa1rXia4/Mww1tvxAD9SgVaxvx
-         7PrXkq2PXIDnqG8WzN4LIQKfttgnnNZbzk4Hf2aQjBv3LJf7CpwyygwfUivWxa02gqMF
-         tLIQ==
-X-Gm-Message-State: AOJu0YyGZC6xZHLYgelIGDYFI0h11eRJkp39PAFud3GLJZhmQzMlgljf
-	JAkLQ0DJ69ZNoLIxDJqXUMczLV2ZjAGPisDhMF3kzXyAO7MWYDnFwKPimlbk7wH3D/cJmTR7HLE
-	aYW+SkKw=
-X-Gm-Gg: AeBDietOOUHBmeWMR7xN50PnAcMBxNZgCRvCx5xcAJwnQear0mZNOGXB2zcKi9ADYB2
-	q3XFXTn38LP3xurq0tUcPICki9wmfHrq5TK+6n0QFF4JNlevs4uM94ZRIQ3eUykn9uNfT3ZCqzo
-	q0W+wA3tdVCRfb6+FN5Z3C9ZlBEwO/UIY5/YY0BaYeOpUcyFvltCyCR4PYw7N5s3R6BsJZG/eC9
-	ZXGKrZktmQmKqjOsjA8l6z6TxyoF06R7NoU1chNQ3MfiSyIr2CGVUVimOya3FG3grK0zpIhy47w
-	66/+Mtr4BxIUjNrFFKMLKR72cC8yOJE8hGQmKJHC0YbFeCQY6NV0SE6J2gyVECXT8rrflz426UR
-	sGeiGoUJKCLl7NiMegle119e9edgq029faLVLyWeAjSz0JAJKKrNfYuoz/u9mQWOsm3B6CHVZey
-	h2pPZ9vmzb/l3jMDixgf5OB5hAkDfQbQmL9VGaHUBg0YK/10KldHkrJyL1cTE/FFH2GsyLGazv9
-	UDM6/164r+c6a78sxnmfCUHL/GtfjmhbN2Xxw==
-X-Received: by 2002:a05:600c:3f0a:b0:487:2439:b7c8 with SMTP id 5b1f17b1804b1-488996a206dmr182387605e9.1.1775456859164;
-        Sun, 05 Apr 2026 23:27:39 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899eab0f7sm84273785e9.29.2026.04.05.23.27.38
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 23:27:38 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
+ dkim=none (message not signed); spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: ashissh7@cisco.com)
+X-CSE-ConnectionGUID: wuKT+rG6Tyas3mt3ubElBg==
+X-CSE-MsgGUID: NOEpi5mRTRyK0csAVRL7Yg==
+X-IPAS-Result: =?us-ascii?q?A0BiBQART9Np/4//Ja1agjQQHIJRcV5DSZZLgxWIYpQ0A?=
+ =?us-ascii?q?QEBD0QNBAEBPwKEAI1yAiY4EwECBAEBAQEDAgMBAQEBAQEBAQEBAQEKAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDUkBDAGGAwEtCwEYARAdJgYDAQJPAgkjIYMCAYI5AQM2A?=
+ =?us-ascii?q?xG0I4F5FgUCFoEBgygBgVOxXgoZKA1xgWEBCxQBgTiEeCkdQQGCN4UjWxgBh?=
+ =?us-ascii?q?HonG32BEIEVg2iBBYEaQgKIJASDHBSBYR6FQYEXh2cIBx8SCAEcBgoCSBUSA?=
+ =?us-ascii?q?wQDBAQBAgsTCQMDAg4CCAMCCAYZAT8SBBMKAwoLBwUfCgIMFAooIhIrCgM1E?=
+ =?us-ascii?q?g8bFQEIBgICBAQCBAwCCQICBQcCEQMEAQEIAgItAwEDGQgJCAILBREYDAsHM?=
+ =?us-ascii?q?QMQCQMfFxoIAUUIBhYBGgcFBgs4FQUMEQEBAkcCCAcEAwEHAwMMAgIQAgQEA?=
+ =?us-ascii?q?gMRAwMEAxADAQIpAwMHCAMCBwQWChkEBQIBLgMFBwIEAQcBAwMHAwIMAgIRB?=
+ =?us-ascii?q?QQGAgEDDAMEAwUFCy0RBxMKBgQHBQICAhQGAhISAwMEBAIBAgICOgQOGg4EC?=
+ =?us-ascii?q?AcDBwEYBQIDAgUBAwEHBxICCggDDgEdAgIEAgkBAQoOAgIGAgIBAwgYAwQfB?=
+ =?us-ascii?q?AMDBwICDAkDBA0CEgoSGwMOAw0PAgQDDAowEAQCBxACCQgGChgCAgIGAgMDA?=
+ =?us-ascii?q?wQJAQIBAQEBAQEBAgcDAwMCAwYDDwoDBQcGAwQGAQQEAwMGAwMFBQEDAwUFB?=
+ =?us-ascii?q?QcCAwYDBgcHBAgDBwsBAQEBAQMCAgkBAwgDDAkEAwUDJA8DCwkIBwwBPAwHC?=
+ =?us-ascii?q?igENgEUFAcEJRlnBweLQieCLwcxShMBBQ4YgSBoDDoQkwYHgyOPEp5KgVNxa?=
+ =?us-ascii?q?IM+jB6PPoV8GjOEBJQVklILmHuOCYQJkVkFaYRoNoFJJYFZMxojgQGCNglJG?=
+ =?us-ascii?q?Q+OOINpxkAmMgIJMgEBBwIHDQMLgWiJMYhMAQE?=
+IronPort-Data: A9a23:QM9draIfs1t19tZLFE+RjZQlxSXFcZb7ZxGr2PjKsXjdYENShTMFx
+ zAXXGzUP//ba2r2f9ElaYuy8hlVuceGz4VlGwEd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZpCCea+kfzWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnW0
+ T/Oi5eHYgH9h2Yqajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKmWDNrfnL
+ wpr5OjRElLxp3/BOPv8+lrIWhFirorpAOS7oiE+t55OLfR1jndaPq4TbJLwYKrM4tmDt4gZJ
+ N5l7fRcReq1V0HBsLx1bvVWL81xFbJb24OEO1fhjd2a1BbDbyDxydhqJk5jaOX0+s4vaY1P3
+ eYTJDZIalWIgPi7herlDOJtnc8kasLsOevzuFk5kmqfVqlgG82eBfyWvre03x9o7ixKNf/FZ
+ 8sCcjowRB/BeBZIfFwQDfrSmc/33CejLWUG8A79SawfxU/+1A0s1YLRCsv2IteRbPtvuhmpq
+ TeTl4j+KlRAXDCF8hKd+3Kliu7TkCj7WY86G7ix9/osi1qWrkQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cEHhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:j4+4sK3iW3wXDXZf+QtFtQqjBIQkLtp133Aq2lEZdPWaSKOlfq
+ eV7ZEmPHDP6Qr5NEtMpTniAtjjfZq/z/5ICOAqVN/INjUO01HHEGgN1+ffKkXbak7D398Y87
+ t8eK5jD9C1J117gcHmpDScKb8bsb26GGTCv5a585+rJjsaDJ1d0w==
+X-Talos-CUID: =?us-ascii?q?9a23=3ANwXVYmtMEXAc1f04/mTC15mJ6Is6b17hj23/fXO?=
+ =?us-ascii?q?pAH0yTaHOVFW9/Ilrxp8=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AcXzUVw7x9u3u07V2n5KDqjeExoxOxIm2CR0Iq6k?=
+ =?us-ascii?q?8qurcPjdZBQ250wW4F9o=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,163,1770595200"; 
+   d="scan'208";a="726460604"
+Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
+  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Apr 2026 06:32:51 +0000
+Received: from sjc-ads-21720.cisco.com (sjc-ads-21720.cisco.com [10.128.165.208])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 7185718000244;
+	Mon,  6 Apr 2026 06:32:51 +0000 (GMT)
+Received: by sjc-ads-21720.cisco.com (Postfix, from userid 1869324)
+	id 1E204CC1288; Sun,  5 Apr 2026 23:32:51 -0700 (PDT)
+From: Ashish Sharma <pahaditechie@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 17/18] curl: patch CVE-2026-3784
-Date: Mon,  6 Apr 2026 08:26:46 +0200
-Message-ID: <c9fcf20e03d48840535384f5151a591edba26770.1775435063.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1775435063.git.yoann.congal@smile.fr>
-References: <cover.1775435063.git.yoann.congal@smile.fr>
+Cc: ashissh7@cisco.com,
+	Ashish Sharma <pahaditechie@gmail.com>
+Subject: [OE-core][scarthgap][PATCH] libpng: Fix CVE-2026-33416
+Date: Sun,  5 Apr 2026 23:32:49 -0700
+Message-ID: <20260406063250.3479054-1-pahaditechie@gmail.com>
+X-Mailer: git-send-email 2.44.4
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-21720.cisco.com [10.128.165.208];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.128.165.208, sjc-ads-21720.cisco.com
+X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:27:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234663
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:33:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234665
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Backports upstream fix for use-after-free vulnerability in
+png_set_tRNS() where png_ptr->trans_alpha was aliased to
+info_ptr->trans_alpha. If png_free_data() freed the info_ptr buffer,
+png_ptr held a dangling pointer causing UAF in png_do_expand_palette().
 
-pick patch from ubuntu per [1]
+Fix gives png_struct its own independent allocation, decoupling
+the two lifetimes.
 
-[1] https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/curl/7.81.0-1ubuntu1.23/curl_7.81.0-1ubuntu1.23.debian.tar.xz
-[2] https://ubuntu.com/security/CVE-2026-3784
-[3] https://curl.se/docs/CVE-2026-3784.html
+CVE: CVE-2026-33416
+CVSS: 7.5 (HIGH)
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Ashish Sharma <pahaditechie@gmail.com>
 ---
- .../curl/curl/CVE-2026-3784.patch             | 73 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3784.patch
+ .../libpng/files/CVE-2026-33416.patch         | 143 ++++++++++++++++++
+ .../libpng/libpng_1.6.42.bb                   |   1 +
+ 2 files changed, 144 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-3784.patch b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416.patch
 new file mode 100644
-index 00000000000..95784e47637
+index 0000000000..c563d977e3
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
-@@ -0,0 +1,73 @@
-+From 5f13a7645e565c5c1a06f3ef86e97afb856fb364 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Fri, 6 Mar 2026 14:54:09 +0100
-+Subject: [PATCH] proxy-auth: additional tests
++++ b/meta/recipes-multimedia/libpng/files/CVE-2026-33416.patch
+@@ -0,0 +1,143 @@
++From 7c1c160358b839bd177d1134acede9891e256027 Mon Sep 17 00:00:00 2001
++From: Oblivionsage <cookieandcream560@gmail.com>
++Date: Sun, 15 Mar 2026 10:35:29 +0100
++Subject: [PATCH] fix: Resolve use-after-free on `png_ptr->trans_alpha`
 +
-+Also eliminate the special handling for socks proxy match.
++The function `png_set_tRNS` sets `png_ptr->trans_alpha` to point at
++`info_ptr->trans_alpha` directly, so both structs share the same heap
++buffer. If the application calls `png_free_data(PNG_FREE_TRNS)`, or if
++`png_set_tRNS` is called a second time, the buffer is freed through
++`info_ptr` while `png_ptr` still holds a dangling reference. Any
++subsequent row read that hits the function `png_do_expand_palette` will
++dereference freed memory.
 +
-+Closes #20837
++The fix gives `png_struct` its own allocation instead of aliasing the
++`info_ptr` pointer. This was already flagged with a TODO in
++`png_handle_tRNS` ("horrible side effect ... Fix this.") but it was
++never addressed.
 +
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/5f13a7645e565c5c1a06f3]
-+Backported by Ubuntu team https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/curl/7.81.0-1ubuntu1.23/curl_7.81.0-1ubuntu1.23.debian.tar.xz
++Verified with AddressSanitizer. All 34 existing tests pass without
++regressions.
 +
-+CVE: CVE-2026-3784
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++CVE: CVE-2026-33416
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/23019269764e35ed8458e517f1897bd3c54820eb]
++
++Reviewed-by: Cosmin Truta <ctruta@gmail.com>
++Signed-off-by: Cosmin Truta <ctruta@gmail.com>
++(cherry picked from commit 23019269764e35ed8458e517f1897bd3c54820eb)
++Signed-off-by: Ashish Sharma <pahaditechie@gmail.com>
 +---
-+ lib/url.c                        | 28 +++++++---------------------
-+ tests/http/test_13_proxy_auth.py | 20 ++++++++++++++++++++
-+ tests/http/testenv/curl.py       | 18 +++++++++++++++---
-+ 3 files changed, 42 insertions(+), 24 deletions(-)
++ pngread.c  | 11 +++++------
++ pngrutil.c |  4 ----
++ pngset.c   | 31 +++++++++++++++++++------------
++ pngwrite.c |  6 ++++++
++ 4 files changed, 30 insertions(+), 22 deletions(-)
 +
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -930,33 +930,15 @@ proxy_info_matches(const struct proxy_in
-+ {
-+   if((data->proxytype == needle->proxytype) &&
-+      (data->port == needle->port) &&
-+-     Curl_safe_strcasecompare(data->host.name, needle->host.name))
-+-    return TRUE;
-++     curl_strequal(data->host.name, needle->host.name)) {
++diff --git a/pngread.c b/pngread.c
++index 008a41856..b8a64a6e7 100644
++--- a/pngread.c
+++++ b/pngread.c
++@@ -968,12 +968,11 @@ png_read_destroy(png_structrp png_ptr)
 + 
-++    if(Curl_timestrcmp(data->user, needle->user) ||
-++       Curl_timestrcmp(data->passwd, needle->passwd))
-++      return FALSE;
-++    return TRUE;
-++  }
-+   return FALSE;
++ #if defined(PNG_tRNS_SUPPORTED) || \
++     defined(PNG_READ_EXPAND_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
++-   if ((png_ptr->free_me & PNG_FREE_TRNS) != 0)
++-   {
++-      png_free(png_ptr, png_ptr->trans_alpha);
++-      png_ptr->trans_alpha = NULL;
++-   }
++-   png_ptr->free_me &= ~PNG_FREE_TRNS;
+++   /* png_ptr->trans_alpha is always independently allocated (not aliased
+++    * with info_ptr->trans_alpha), so free it unconditionally.
+++    */
+++   png_free(png_ptr, png_ptr->trans_alpha);
+++   png_ptr->trans_alpha = NULL;
++ #endif
++ 
++    inflateEnd(&png_ptr->zstream);
++diff --git a/pngrutil.c b/pngrutil.c
++index d31dc21da..2128b2a66 100644
++--- a/pngrutil.c
+++++ b/pngrutil.c
++@@ -1905,10 +1905,6 @@ png_handle_tRNS(png_structrp png_ptr, png_inforp info_ptr, png_uint_32 length)
++       return;
++    }
++ 
++-   /* TODO: this is a horrible side effect in the palette case because the
++-    * png_struct ends up with a pointer to the tRNS buffer owned by the
++-    * png_info.  Fix this.
++-    */
++    png_set_tRNS(png_ptr, info_ptr, readbuf, png_ptr->num_trans,
++        &(png_ptr->trans_color));
 + }
++diff --git a/pngset.c b/pngset.c
++index eb1c8c7a3..3ae16f4e1 100644
++--- a/pngset.c
+++++ b/pngset.c
++@@ -990,28 +990,35 @@ png_set_tRNS(png_structrp png_ptr, png_inforp info_ptr,
++ 
++    if (trans_alpha != NULL)
++    {
++-       /* It may not actually be necessary to set png_ptr->trans_alpha here;
++-        * we do it for backward compatibility with the way the png_handle_tRNS
++-        * function used to do the allocation.
++-        *
++-        * 1.6.0: The above statement is incorrect; png_handle_tRNS effectively
++-        * relies on png_set_tRNS storing the information in png_struct
++-        * (otherwise it won't be there for the code in pngrtran.c).
++-        */
 +-
-+-static bool
-+-socks_proxy_info_matches(const struct proxy_info *data,
-+-                         const struct proxy_info *needle)
-+-{
-+-  if(!proxy_info_matches(data, needle))
-+-    return FALSE;
++        png_free_data(png_ptr, info_ptr, PNG_FREE_TRNS, 0);
++ 
++        if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
++        {
++-         /* Changed from num_trans to PNG_MAX_PALETTE_LENGTH in version 1.2.1 */
+++          /* Allocate info_ptr's copy of the transparency data. */
++           info_ptr->trans_alpha = png_voidcast(png_bytep,
++               png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
++           memcpy(info_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
 +-
-+-  /* the user information is case-sensitive
-+-     or at least it is not defined as case-insensitive
-+-     see https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.1 */
-+-
-+-  /* curl_strequal does a case insentive comparison, so do not use it here! */
-+-  if(Curl_timestrcmp(data->user, needle->user) ||
-+-     Curl_timestrcmp(data->passwd, needle->passwd))
-+-    return FALSE;
-+-  return TRUE;
-+-}
-+-#else
-+-/* disabled, won't get called */
-+-#define proxy_info_matches(x,y) FALSE
-+-#define socks_proxy_info_matches(x,y) FALSE
++           info_ptr->free_me |= PNG_FREE_TRNS;
++           info_ptr->valid |= PNG_INFO_tRNS;
+++
+++          /* Allocate an independent copy for png_struct, so that the
+++           * lifetime of png_ptr->trans_alpha is decoupled from the
+++           * lifetime of info_ptr->trans_alpha.  Previously these two
+++           * pointers were aliased, which caused a use-after-free if
+++           * png_free_data freed info_ptr->trans_alpha while
+++           * png_ptr->trans_alpha was still in use by the row transform
+++           * functions (e.g. png_do_expand_palette).
+++           */
+++          png_free(png_ptr, png_ptr->trans_alpha);
+++          png_ptr->trans_alpha = png_voidcast(png_bytep,
+++              png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
+++          memcpy(png_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
+++       }
+++       else
+++       {
+++          png_free(png_ptr, png_ptr->trans_alpha);
+++          png_ptr->trans_alpha = NULL;
++        }
++-       png_ptr->trans_alpha = info_ptr->trans_alpha;
++    }
++ 
++    if (trans_color != NULL)
++diff --git a/pngwrite.c b/pngwrite.c
++index 77e412f43..e4e2973f8 100644
++--- a/pngwrite.c
+++++ b/pngwrite.c
++@@ -977,6 +977,12 @@ png_write_destroy(png_structrp png_ptr)
++    png_ptr->chunk_list = NULL;
 + #endif
 + 
-+ /* A connection has to have been idle for a shorter time than 'maxage_conn'
-+@@ -1282,8 +1264,8 @@ ConnectionExists(struct Curl_easy *data,
-+         continue;
-+ 
-+       if(needle->bits.socksproxy &&
-+-        !socks_proxy_info_matches(&needle->socks_proxy,
-+-                                  &check->socks_proxy))
-++        !proxy_info_matches(&needle->socks_proxy,
-++                            &check->socks_proxy))
-+         continue;
-+ #endif
-+       if(needle->bits.conn_to_host != check->bits.conn_to_host)
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index f50af1d4722..a2ee5736810 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -75,6 +75,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-1965-2.patch \
-            file://CVE-2026-3783-pre1.patch \
-            file://CVE-2026-3783.patch \
-+           file://CVE-2026-3784.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+++#if defined(PNG_tRNS_SUPPORTED)
+++   /* Free the independent copy of trans_alpha owned by png_struct. */
+++   png_free(png_ptr, png_ptr->trans_alpha);
+++   png_ptr->trans_alpha = NULL;
+++#endif
+++
++    /* The error handling and memory handling information is left intact at this
++     * point: the jmp_buf may still have to be freed.  See png_destroy_png_struct
++     * for how this happens.
++-- 
++2.44.4
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+index 7471315fdd..4d8be5d843 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+@@ -24,6 +24,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz
+            file://CVE-2026-22695.patch \
+            file://CVE-2026-22801.patch \
+            file://CVE-2026-25646.patch \
++           file://CVE-2026-33416.patch \
+ "
  
+ SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
+-- 
+2.44.4
+
 
