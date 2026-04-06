@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 217B9FF4936
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E93EF4EA8
 	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 06:27:39 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.49554.1775456858120644051
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.49604.1775456855995552355
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Apr 2026 23:27:38 -0700
+ Sun, 05 Apr 2026 23:27:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=UOpLqWhU;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488971db0fdso25248165e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 23:27:37 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=DJCwg5Yn;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso29740385e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2026 23:27:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775456856; x=1776061656; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775456854; x=1776061654; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ugHqcjdN6zoBas+QQwnv65Xz4W7IIwZMWDc6pFdOi90=;
-        b=UOpLqWhU9PFfR2NWp5YqXL/eN3IxzYFxDV3bZKeJYxSzK/BAXfmRZXYW9vRb0F4I8V
-         cMjBrY2ydQZ3dkT3jkeT6a/j6nTDj0lHvMKYjkPaBrvxQf92iyNC3ubwOaeb2pus6xE3
-         dPAlwe4Rv+kUnDC5+bPb3hoK9+GB5DOodAl7Q=
+        bh=CFDYq1hymxGGa8wpDCm2EwDUSrGltlTF2uYzOu0R92k=;
+        b=DJCwg5YnCM0vTi0hXi1aN/pKl86+la5h1y4+6jiCGO8elyzbovmDKs/bs6+Y17+aaz
+         S/uDebhLYnUpKhgUWOxFX5uwkGTXPDA/r95Foi6CrsKtiaZuQ94OY+6BlF3yQLXh7grO
+         mHw3hCxKLCsIUDFIAvGzn5/5LqSW4W3QvTOZw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775456856; x=1776061656;
+        d=1e100.net; s=20251104; t=1775456854; x=1776061654;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ugHqcjdN6zoBas+QQwnv65Xz4W7IIwZMWDc6pFdOi90=;
-        b=iv5noPLs98DEnLMCdz3he4JjlYMlV7AJ9ZsJTiQo/K3gTt4eYMoDuGIbpK1SR/xgSn
-         6qvhfKMdrihQl+ktDCRFELLGViQMT1FHo+ldpBPDgyzLYfHw0TFX46i7MAVgzKCYCOxI
-         FNxaWT2HdCTZ9ZU3zycHUBy1lLvT+ybAd3X5RV07S0Tkb/JEgCQ7axpERWQKU/hrqFA1
-         AK7nFcyYlBUZjuKUe86qWDlGNR4ZTRJf6tBvUw9tn/l479mxhAOySTdd9cjEW6gKq0wQ
-         wuIX1thF8EkCHJaxhNUU2S4duNjAZYoYyznZ5+8eX8rFuDpC3pCAvGTAt9rjqeFz82+Q
-         bIow==
-X-Gm-Message-State: AOJu0YxT78It/FtjE5/MMxMEPt9PfK46xobjltfKDow8IRdRUwlBCT6F
-	DXQ11dqbJxhcA7i6HOis9sQmzbimKflnqaJUpu62QGDGig0uQmOGW9qerNBSq6KO6PjxzEiCBHV
-	59mb3YqE=
-X-Gm-Gg: AeBDieuzyWDGDlC0hfEio7TLQZQ66oTi8Pucwqmp0jFzHb2W63OyDePvCxqA2L0uWnq
-	VyX3a3twqX/AiVD1BvOEO9uZCO+eO1HBqB3MPf151qv+8QZvnBZ3U8Texk4KwP1zpfad2nsepFA
-	LuYs/TzDhM+iqSElGQpUtl+ef8GmCq+EylD12JPraT6Ih3tMBPZ6WqjRrSSJROQ28RZmh7ceqs4
-	PdJZ08JTSfiCOjEuT3gXvTAXtsTWTRbKpoNWOBsq599eGnpB7P/B/94y4bhCC6hJ/5VfqWHrWgE
-	a+ndT/4uyG+2pWlWi7GSKLTfbT9b4EyezsGZCF0L6sXsIK2nnBEiXwAS+tLIMvoCc1gpliaitSz
-	O+Ks6G0X68/fUZ8sE4X9K3601b3JxfeDL0qKMnO5WMcPXK3pP80IYcYF8qqFRH3J4ufCgUr5Gu8
-	7H0ritbzme7IbZlZWm+gvCshgM7a4Hs6p5Tbo7enYb0y1B+0rNBTVcl6r/FKJG5Hnf1H4yJOiYB
-	eOtybFe8WqqJM4Sa7BI5KZ+hN4=
-X-Received: by 2002:a05:600c:8b34:b0:487:1fb4:7e1 with SMTP id 5b1f17b1804b1-488997d530fmr170622705e9.22.1775456855677;
-        Sun, 05 Apr 2026 23:27:35 -0700 (PDT)
+        bh=CFDYq1hymxGGa8wpDCm2EwDUSrGltlTF2uYzOu0R92k=;
+        b=L/f6QybNJ/zkJ8NW3sprvS7bm2nl1qkwLFSxZPfcwYcbwk6iwDwCoXUzLJm6LJQFFm
+         uRGR+Lg3hw/ZMWLp82WJZ9sIqaIjdzc8anDfKhVcNq1p9h1Ux0DzaE0nVWqoOHcWviP5
+         zAGyy/TGXYy5YaPdKdVw7ZklvMnFbbEM4uY/C0QaLi+vznGyzRyDsg4FSvxNUITqXZ12
+         iHFWbKyUBf3C8Yk4j7BwlJxD+4XolGXOfqHOlCd3OXEc2T4Fx0IN0qkfYr3SLdgkQeH2
+         IBgFV/cdG2jq6h48fbHTTsYawxyD/cEH9NrG2DbOriYrgLdaRJuCezmgbcITmz0IvFBJ
+         SRPQ==
+X-Gm-Message-State: AOJu0Yx0+aZLD9JHbkNqyFCphA8q3i3u4+0/lqrrzinHLhES4lVhxchH
+	A+fT8MTDFB3zdeQYLd1fuWHlXkFpC2a+1spssTersEkgktA27JMQ84v090Y6ZYHEJZPlh5YJ40X
+	8lrzv/kE=
+X-Gm-Gg: AeBDiet/48E2lo1WfKCAF2Lpsjh8pRLggoaZTKuaPdRcJOETbztwYM3ux9UNOuucohP
+	2WA/owPvZJxm7vl1EE9AP+JP2DyR6AHz6QDiGVIOdZwo2YAdPY/Ui7fsBk8Y//rehHx9VOcOxjI
+	uRmrD/hV+duFSNumneTmzrRP6poHDGT3FmIna6hzKyShHKuvAx1r2NesQxM4QUAdU1VakiomxuE
+	LobfgCn9sGXQkQQU3mF1QslDk62No6zhm/oEZqKScHVbmJ+6fSqc27rjUGPOjVPom9N2fiPDego
+	MK1sDaKspVTIR88pJADrerE6on/dcvKhLspWIaksU2oeUTMlGahJ7fdwgRCb4pb4mLdcseF1FWN
+	UkUQ23QFTAWTg42dhlnZeCRGI614tcl0JdPDZ/utzxUR0X/1JwHKXzsb2PA/1RqaaoQpno13fW+
+	BJySmPaNHu7ko54J/3h6DdYFGy4D8VWrIz+gvk9trbmPW38fpcBNjq19o9qNkeMroml7g+Bpofc
+	Y6O+4+6hvWVyDwDK6UoOJswaXE=
+X-Received: by 2002:a05:600c:3b1e:b0:485:3abe:ab86 with SMTP id 5b1f17b1804b1-488996cd897mr158955455e9.4.1775456854083;
+        Sun, 05 Apr 2026 23:27:34 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899eab0f7sm84273785e9.29.2026.04.05.23.27.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899eab0f7sm84273785e9.29.2026.04.05.23.27.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 23:27:35 -0700 (PDT)
+        Sun, 05 Apr 2026 23:27:33 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/18] libarchive: Fix CVE-2026-4111
-Date: Mon,  6 Apr 2026 08:26:40 +0200
-Message-ID: <936b97d2655394865d134620f95e4de389cd8f95.1775435063.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 08/18] python3: Fix CVE-2025-15282
+Date: Mon,  6 Apr 2026 08:26:37 +0200
+Message-ID: <c19d97a63c2b9b145a0370a961cbfef90b450010.1775435063.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1775435063.git.yoann.congal@smile.fr>
 References: <cover.1775435063.git.yoann.congal@smile.fr>
@@ -66,389 +66,107 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:27:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234657
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234654
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Pick patch according to [1]
+Pick patch from 3.10 branch
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-4111
-[2] https://github.com/libarchive/libarchive/pull/2877
-[3] https://access.redhat.com/errata/RHSA-2026:5080
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-15282
+[2] https://security-tracker.debian.org/tracker/CVE-2025-15282
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libarchive/CVE-2026-4111-1.patch          |  32 ++
- .../libarchive/CVE-2026-4111-2.patch          | 308 ++++++++++++++++++
- .../libarchive/libarchive_3.6.2.bb            |   2 +
- 3 files changed, 342 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+ .../python/python3/CVE-2025-15282.patch       | 68 +++++++++++++++++++
+ .../python/python3_3.10.19.bb                 |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-15282.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-15282.patch b/meta/recipes-devtools/python/python3/CVE-2025-15282.patch
 new file mode 100644
-index 00000000000..1f065b13648
+index 00000000000..80ef2fcde8b
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
-@@ -0,0 +1,32 @@
-+From 7273d04803a1e5a482f26d8d0fbaf2b204a72168 Mon Sep 17 00:00:00 2001
-+From: Tim Kientzle <kientzle@acm.org>
-+Date: Sun, 1 Mar 2026 20:24:56 -0800
-+Subject: [PATCH] Reject filters when the block length is nonsensical
++++ b/meta/recipes-devtools/python/python3/CVE-2025-15282.patch
+@@ -0,0 +1,68 @@
++From 34d76b00dabde81a793bd06dd8ecb057838c4b38 Mon Sep 17 00:00:00 2001
++From: Seth Michael Larson <seth@python.org>
++Date: Sun, 25 Jan 2026 11:05:15 -0600
++Subject: [PATCH] [3.10] gh-143925: Reject control characters in data: URL
++ mediatypes (#144115)
 +
-+Credit: Grzegorz Antoniak @antekone
++(cherry picked from commit f25509e78e8be6ea73c811ac2b8c928c28841b9f)
++(cherry picked from commit 2c9c746077d8119b5bcf5142316992e464594946)
 +
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/7273d04803a1e5a482f26d8d0fbaf2b204a72168]
-+CVE: CVE-2026-4111
++Upstream-Status: Backport [https://github.com/python/cpython/commit/34d76b00dabde81a793bd06dd8ecb057838c4b38]
++CVE: CVE-2025-15282
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libarchive/archive_read_support_format_rar5.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
++ Lib/test/test_urllib.py                                   | 8 ++++++++
++ Lib/urllib/request.py                                     | 5 +++++
++ .../2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst        | 1 +
++ 3 files changed, 14 insertions(+)
++ create mode 100644 Misc/NEWS.d/next/Security/2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst
 +
-+diff --git a/libarchive/archive_read_support_format_rar5.c b/libarchive/archive_read_support_format_rar5.c
-+index 38979cb..867f0a8 100644
-+--- a/libarchive/archive_read_support_format_rar5.c
-++++ b/libarchive/archive_read_support_format_rar5.c
-+@@ -2914,7 +2914,9 @@ static int parse_filter(struct archive_read* ar, const uint8_t* p) {
-+ 	if(block_length < 4 ||
-+ 	    block_length > 0x400000 ||
-+ 	    filter_type > FILTER_ARM ||
-+-	    !is_valid_filter_block_start(rar, block_start))
-++	    !is_valid_filter_block_start(rar, block_start) ||
-++	    (rar->cstate.window_size > 0 &&
-++	     (ssize_t)block_length > rar->cstate.window_size >> 1))
-+ 	{
-+ 		archive_set_error(&ar->archive, ARCHIVE_ERRNO_FILE_FORMAT,
-+ 		    "Invalid filter encountered");
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
-new file mode 100644
-index 00000000000..243a03a8e5d
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
-@@ -0,0 +1,308 @@
-+From ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4 Mon Sep 17 00:00:00 2001
-+From: Tim Kientzle <kientzle@acm.org>
-+Date: Sun, 1 Mar 2026 10:04:01 -0800
-+Subject: [PATCH] Infinite loop in Rar5 decompression
-+
-+Found by: Elhanan Haenel
-+
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4]
-+CVE: CVE-2026-4111
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ Makefile.am                                   |   2 +
-+ libarchive/test/CMakeLists.txt                |   1 +
-+ .../test/test_read_format_rar5_loop_bug.c     |  53 +++++
-+ .../test_read_format_rar5_loop_bug.rar.uu     | 189 ++++++++++++++++++
-+ 4 files changed, 245 insertions(+)
-+ create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.c
-+ create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.rar.uu
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index dd1620d..14edb2a 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -507,6 +507,7 @@ libarchive_test_SOURCES= \
-+ 	libarchive/test/test_read_format_rar_invalid1.c \
-+ 	libarchive/test/test_read_format_rar_overflow.c \
-+ 	libarchive/test/test_read_format_rar5.c \
-++	libarchive/test/test_read_format_rar5_loop_bug.c \
-+ 	libarchive/test/test_read_format_raw.c \
-+ 	libarchive/test/test_read_format_tar.c \
-+ 	libarchive/test/test_read_format_tar_concatenated.c \
-+@@ -869,6 +870,7 @@ libarchive_test_EXTRA_DIST=\
-+ 	libarchive/test/test_read_format_rar5_invalid_dict_reference.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_leftshift1.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_leftshift2.rar.uu \
-++	libarchive/test/test_read_format_rar5_loop_bug.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_multiarchive.part01.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_multiarchive.part02.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_multiarchive.part03.rar.uu \
-+diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLists.txt
-+index 05c6fd7..c8f2e90 100644
-+--- a/libarchive/test/CMakeLists.txt
-++++ b/libarchive/test/CMakeLists.txt
-+@@ -156,6 +156,7 @@ IF(ENABLE_TEST)
-+     test_read_format_rar_filter.c
-+     test_read_format_rar_overflow.c
-+     test_read_format_rar5.c
-++    test_read_format_rar5_loop_bug.c
-+     test_read_format_raw.c
-+     test_read_format_tar.c
-+     test_read_format_tar_concatenated.c
-+diff --git a/libarchive/test/test_read_format_rar5_loop_bug.c b/libarchive/test/test_read_format_rar5_loop_bug.c
++diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
++index 82f1d9dc2e7bb3..b08fc8f2b19463 100644
++--- a/Lib/test/test_urllib.py
+++++ b/Lib/test/test_urllib.py
++@@ -11,6 +11,7 @@
++ from test import support
++ from test.support import os_helper
++ from test.support import warnings_helper
+++from test.support import control_characters_c0
++ import os
++ try:
++     import ssl
++@@ -683,6 +684,13 @@ def test_invalid_base64_data(self):
++         # missing padding character
++         self.assertRaises(ValueError,urllib.request.urlopen,'data:;base64,Cg=')
++ 
+++    def test_invalid_mediatype(self):
+++        for c0 in control_characters_c0():
+++            self.assertRaises(ValueError,urllib.request.urlopen,
+++                              f'data:text/html;{c0},data')
+++        for c0 in control_characters_c0():
+++            self.assertRaises(ValueError,urllib.request.urlopen,
+++                              f'data:text/html{c0};base64,ZGF0YQ==')
++ 
++ class urlretrieve_FileTests(unittest.TestCase):
++     """Test urllib.urlretrieve() on local files"""
++diff --git a/Lib/urllib/request.py b/Lib/urllib/request.py
++index 6edde1f73189b1..c378a86a70cbeb 100644
++--- a/Lib/urllib/request.py
+++++ b/Lib/urllib/request.py
++@@ -1654,6 +1654,11 @@ def data_open(self, req):
++         scheme, data = url.split(":",1)
++         mediatype, data = data.split(",",1)
++ 
+++        # Disallow control characters within mediatype.
+++        if re.search(r"[\x00-\x1F\x7F]", mediatype):
+++            raise ValueError(
+++                "Control characters not allowed in data: mediatype")
+++
++         # even base64 encoded data URLs might be quoted so unquote in any case:
++         data = unquote_to_bytes(data)
++         if mediatype.endswith(";base64"):
++diff --git a/Misc/NEWS.d/next/Security/2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst b/Misc/NEWS.d/next/Security/2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst
 +new file mode 100644
-+index 0000000..77dd78c
++index 00000000000000..46109dfbef3ee7
 +--- /dev/null
-++++ b/libarchive/test/test_read_format_rar5_loop_bug.c
-+@@ -0,0 +1,53 @@
-++/*-
-++ * Copyright (c) 2026 Tim Kientzle
-++ * All rights reserved.
-++ *
-++ * Redistribution and use in source and binary forms, with or without
-++ * modification, are permitted provided that the following conditions
-++ * are met:
-++ * 1. Redistributions of source code must retain the above copyright
-++ *    notice, this list of conditions and the following disclaimer.
-++ * 2. Redistributions in binary form must reproduce the above copyright
-++ *    notice, this list of conditions and the following disclaimer in the
-++ *    documentation and/or other materials provided with the distribution.
-++ *
-++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
-++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
-++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-++ */
-++#include "test.h"
-++
-++DEFINE_TEST(test_read_format_rar5_loop_bug)
-++{
-++  const char *reffile = "test_read_format_rar5_loop_bug.rar";
-++  struct archive_entry *ae;
-++  struct archive *a;
-++  const void *buf;
-++  size_t size;
-++  la_int64_t offset;
-++
-++  extract_reference_file(reffile);
-++  assert((a = archive_read_new()) != NULL);
-++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
-++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
-++  assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, reffile, 10240));
-++
-++  // This has just one entry
-++  assertEqualIntA(a, ARCHIVE_OK, archive_read_next_header(a, &ae));
-++
-++  // Read blocks until the end of the entry
-++  while (ARCHIVE_OK == archive_read_data_block(a, &buf, &size, &offset)) {
-++  }
-++
-++  assertEqualIntA(a, ARCHIVE_EOF, archive_read_next_header(a, &ae));
-++
-++  assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
-++  assertEqualInt(ARCHIVE_OK, archive_free(a));
-++}
-+diff --git a/libarchive/test/test_read_format_rar5_loop_bug.rar.uu b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
-+new file mode 100644
-+index 0000000..3e47004
-+--- /dev/null
-++++ b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
-+@@ -0,0 +1,189 @@
-++begin 644 test_read_format_rar5_loop_bug.rar
-++M4F%R(1H'`0#%&C,R`P$``)T-9%L.`@+P0`"`@`P`@`,``6'(WFP@`?\7_U/^
-++M8@!.`B`H````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++5```````````````````Y^;*!`@4`
-++`
-++end
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-index e74326b40fd..85fe6e5baa2 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-@@ -50,6 +50,8 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://0001-Merge-pull-request-2768-from-Commandoss-master.patch \
-            file://CVE-2025-60753-01.patch \
-            file://CVE-2025-60753-02.patch \
-+           file://CVE-2026-4111-1.patch \
-+           file://CVE-2026-4111-2.patch \
+++++ b/Misc/NEWS.d/next/Security/2026-01-16-11-51-19.gh-issue-143925.mrtcHW.rst
++@@ -0,0 +1 @@
+++Reject control characters in ``data:`` URL media types.
+diff --git a/meta/recipes-devtools/python/python3_3.10.19.bb b/meta/recipes-devtools/python/python3_3.10.19.bb
+index fbb2f80886b..e2a0ae9fe77 100644
+--- a/meta/recipes-devtools/python/python3_3.10.19.bb
++++ b/meta/recipes-devtools/python/python3_3.10.19.bb
+@@ -41,6 +41,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://CVE-2025-13836.patch \
+            file://CVE-2025-13837.patch \
+            file://CVE-2025-12084.patch \
++           file://CVE-2025-15282.patch \
             "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
+ SRC_URI:append:class-native = " \
 
