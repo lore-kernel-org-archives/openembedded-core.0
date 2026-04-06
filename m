@@ -1,211 +1,188 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E80B5EF4ECF
-	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 11:44:55 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.53180.1775475893552021383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F36E9EF4ED3
+	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 11:59:45 +0000 (UTC)
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.53391.1775476781053138380
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2026 04:44:53 -0700
+ Mon, 06 Apr 2026 04:59:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=T89CABGL;
- spf=pass (domain: mvista.com, ip: 209.85.208.45, mailfrom: vanusuri@mvista.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-66e6d9610d8so3003070a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 04:44:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775475892; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NljujbvKXQIiMbwIHNVT4e0OwdGfbVbP3ErKReJjYjhhBSaWR7tdIuKgItyoe9fakT
-         XjzZG4bEz+jcQchdOQo/fMonq9ejGNRcJBRODCgBrcx0KUn/cXdBxMAIj/kp4WeBlyQr
-         BhlEp6lkrmoRMpPO4S6HhZRHiJriP2p6mK2t08oj/sO8ZxM3NokVKxsKdxacfe9E9TP0
-         F6dc4+GdMZJeCrAHLuZ8+rB0lChrOoOCkOQPIfIvvKgHlBBWfVIk6yZMIzBc6u/C8m1x
-         pr33TvrbycoLqPYCWiadr8o8R0Q3SDesmbHLcVpZ5r83jGC0fI0Tpk7TjOa4YdGYlxmi
-         DPtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=sehqNK1rrXPZ6qeFr2aUflu9yI7IsCOKnelgRJBhKDY=;
-        fh=Jrj1d8HaAYiMv7gmAPIBI0wt/PuN9yPqoLbsTghdTNg=;
-        b=C0/hJaY62Asjd+5MG8TDv3wVrASD6gbdTD6GwgFO5Q7eLXGPQiyAhieOpdSqTAWZw0
-         T7l4RQtgZEIIbbsyg8BHFHo+yeDlT6KxlCkuMhrUw4U2dqMt4xx+FL6OWQG4NfmO/Zum
-         OZqFOOqK904H3LK8txLa8AAKytlSLiJlg72L7HBUyqljEkDlRIpZ4fHSLT7WcCJ6SPuS
-         PEfnuWh6CbboGAqHsY0zwZ8a9BgoeizVnf7Z56Th0/CfzVPlSQgfBs2KdC2o2PZP7EHh
-         nXkNBg+nAgvv43etaYcF7a7/j9m0s5cv0t0zReJhiQ+H9mbL8APE/WNjOO3T+YQ7Buq8
-         7wKw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1775475892; x=1776080692; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sehqNK1rrXPZ6qeFr2aUflu9yI7IsCOKnelgRJBhKDY=;
-        b=T89CABGLQ5EQ+2qMVRDH5/5muZgrn2AeY0+bZMbWXYy96vorHOWmbk/bc8OXYAmYBr
-         NbKWZMe3V2buqfpCjwJV9j1kroVbmY0WrJlJXbKlbON4I9h4yIogHc/mCXzTJOsmWZMe
-         M5nSq2ptiBfuRHOws60+b/jwo16PUqAZh4rK4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775475892; x=1776080692;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sehqNK1rrXPZ6qeFr2aUflu9yI7IsCOKnelgRJBhKDY=;
-        b=bbZ8E0mHVkM4Yv524VqM5PJUt5/wac0Nodlk1r6x8Qkd9ZFDbMoUMOENawHOvsoQrP
-         gZ4T2DxPsv1v+yErVebChcpr2fIyHCvtlkso87txVAcUDCjzUelloMgyKpir/ceLiZFj
-         4gcN1KOzLyjcyZimmjw8Q5JbTC8HhEOKZynL+uXf2N8TMlngZVILcTyxw5XvsizHeyyx
-         YHBcEQNZuvH2pPOii9w244PAmrbEBlwrDy5jakFxP/hxHdupzSkSKcJqoVgEq6Tx7HI6
-         7dXAAkE7+hqbMuaV1BhPoycmhSm/l3wn5B0idqkpcTR0+fGkhj18TA8vgA8chGTohWrR
-         yHVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/01+k1gwA1PnLo57FW4vTtLoJ5w92NcPFafO6t0txldRiVYSNZWWDBsxmxyfU68hHV9yZaPerawJ2o9C5eYfWBw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyCXE2+/9IFLT6zkbkfEQXZg34eD6LkK452J33MevUhiedRO/co
-	c+23U5HDfPpqz1OI9456jqrrQy6y736DfV61k7i8HIrORMLL0pUdfJMqYpQHV9cbZJ3/h9jOWEW
-	MAmyRkLyCj0SswVm8JfGtHo3ogU0utCyOl1v41wV7iQ==
-X-Gm-Gg: AeBDietjMZ1CSGscAnBYNbmJlIQCt4u33KHBv5idD4BlHJyORnjjRWpF/tShxDEKFu3
-	yhlP1tsELzRFQ8Y9JcyhS/z5zN5xv03wPAu0UYExhFzpEEYnw0mT5AGi6RjPyPkqwJmXLd2AMst
-	0vh+28h76HV/JJeXL0J/Ki8VEOYiRH7sNYVMWmJxFp2jiKWTzNEQ5jPzD9jbcJz9AG24frJVM9q
-	OLbCfVxzCodk/5adtTl2ngKbwAj03SU1cesWZ2u3/YyypARym+c8eNpKM0PBIht/VyPtiFDkDzA
-	HomfJ5/b+bIh58JS1G+CNmIY9jKiMi2tCfh4+3A6qA==
-X-Received: by 2002:a05:6402:5190:b0:66e:e024:1a08 with SMTP id
- 4fb4d7f45d1cf-66ee0241bc6mr1624646a12.24.1775475891737; Mon, 06 Apr 2026
- 04:44:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1775435063.git.yoann.congal@smile.fr> <c19d97a63c2b9b145a0370a961cbfef90b450010.1775435063.git.yoann.congal@smile.fr>
- <053f62bc5f48a7ef16d955982e64adecf35714be.camel@pbarker.dev>
-In-Reply-To: <053f62bc5f48a7ef16d955982e64adecf35714be.camel@pbarker.dev>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Mon, 6 Apr 2026 17:14:40 +0530
-X-Gm-Features: AQROBzBbhwCrbHxym_tHC3t_mWpr6fYlCOnvl4vxuZNng-d14egLX_kpoOQ2GcQ
-Message-ID: <CANQUz191KfwSFA_n3MP=Xt7KC6ddAvvKkJGKOwCmMBPtUi_5TA@mail.gmail.com>
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=ytMEaFL1;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=r8kPLd07;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.156, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 34F687A01A4;
+	Mon,  6 Apr 2026 07:59:40 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 06 Apr 2026 07:59:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1775476779; x=1775563179; bh=DpF8a5O5Xq
+	7V72r7q9CLj9iu+zQA3KS01lNLD6a1I6c=; b=ytMEaFL1HSJKTuG1z9hsNYavxU
+	yeVcOUa2Bov1DbDCF/MoXGD4Cpl6278UIPL3EXMJmCocuuHZZgk0KPeW6KF7f5VI
+	c/r51IkrRC3L7ATMMGkPmfmZ75U+545PhaE1oA5Tp5ojTaCIkkclXo3SG5qRsudu
+	pf/j6DBseoZOZ52tMoLmaloZEHmMdyWQvoO8fW3kviyASCijBovNZibsNz+y1i3Q
+	RiWb+p+Z7H8ei9Su8WYdUrXkMlGr6DxoyAi6BjRs5yE82F9GGL+49nryXJhHwAQf
+	n2h7V4gJluto6GnyN0E3VMop3OftHhORJNCTVTUJESVmZxdxKlFclknawyOw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1775476779; x=1775563179; bh=DpF8a5O5Xq7V72r7q9CLj9iu+zQA3KS01lN
+	LD6a1I6c=; b=r8kPLd07SWnD6Kog/A8mylNSbLFFdMoSD7K9e3ziAeSsLcdw47o
+	7bK/zcink3IhZbsYkgATxcg2LfwoyMs6oz3fS+A/QFFwFxom9nN2/WP+CdzuW63z
+	e7EBO+Ipyumq6GUk7Lbxb9siwpExFkX7T3YvHt2m/11oYcYaUxth0Yv0X0w+VJSP
+	lVWF1cqJAmgT+7rpVwKQuWCNNik0UOKK30W6O+m2waY4fuxBPGb0iHl9AX6ZBxfX
+	k1xpSK7P7AcrdRmcgqpzF5nvsCBVRwOvBCmoI78Mne6O/ADa1IPwfbBD2HTOsxH2
+	UVAndHFrdEvtu9oR79hkEbGtJ4HlK0SKrLg==
+X-ME-Sender: <xms:K6DTaUBIUDXC4a7CxT7nOi4EQo31coarOMvw0EjzR4WJRypyGmSY1A>
+    <xme:K6DTad866qDhkWzWtJ83DQCKOfiDbzKpY2y5u72GCTRKEiCrrgJjzMFiOpCeTny7F
+    uOYLo2P_orlIDU6jWRDgCtHk_0mGo1v7dDDHAtK3KTu0_4BTeIiM8g>
+X-ME-Received: <xmr:K6DTaU9zsdD5JF4KBlUhqsElO07LTtEUxBE8A2oydZLeT2bmFI8lkJp_ENzkzJye6zgWL7K9GpZ_wHF275029oDEAkWDtS6VNZNiml0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddujeeihecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecufghrlhcuvffnffculddqiedmnecujfgurhepkffuhffvve
+    ffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehp
+    rghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhepvdefvdejkeelje
+    evjeekieejveegieejueeuudehteetheejueeuffdvkeelueeinecuffhomhgrihhnpeho
+    phgvnhgvmhgsvgguuggvugdrohhrghdpnhhishhtrdhgohhvpdguvggsihgrnhdrohhrgh
+    dpphihthhhohhnrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
+    rghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhope
+    efpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehvrghnuhhsuhhrihesmhhvihhs
+    thgrrdgtohhmpdhrtghpthhtohephihorghnnhdrtghonhhgrghlsehsmhhilhgvrdhfrh
+    dprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgv
+    nhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:K6DTaUeWxQDpTMxz55lS-cROJdCmBeE3cHB747UFkTdvDVc_GGJF9Q>
+    <xmx:K6DTadFB-l5MyNFXyj7PT_Fv4BTPIltCBcJyXD6VnjETWPsTrCwrfg>
+    <xmx:K6DTaSdN7TxzztnkPesfuI8i84mO0NbFDmM-mE4o_vneMCLQEzazYg>
+    <xmx:K6DTaXHtIYS7BPuEVNhbYw60I3sHsDQdw-x9P4UJSXbbQ5N1dd6NJQ>
+    <xmx:K6DTaZMsPa1Zu3sgV1TD-MGDo5V4-xy-jeYBTEpRj_WrU8Dm9GSBSPzf>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Apr 2026 07:59:39 -0400 (EDT)
+Message-ID: <990e40208f0077bfac5c062421012e5c83b56eca.camel@pbarker.dev>
 Subject: Re: [OE-core][kirkstone 08/18] python3: Fix CVE-2025-15282
-To: paul@pbarker.dev
+From: Paul Barker <paul@pbarker.dev>
+To: vanusuri@mvista.com
 Cc: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d5a304064ec9313b"
+Date: Mon, 06 Apr 2026 12:59:36 +0100
+In-Reply-To: <CANQUz191KfwSFA_n3MP=Xt7KC6ddAvvKkJGKOwCmMBPtUi_5TA@mail.gmail.com>
+References: <cover.1775435063.git.yoann.congal@smile.fr>
+	 <c19d97a63c2b9b145a0370a961cbfef90b450010.1775435063.git.yoann.congal@smile.fr>
+	 <053f62bc5f48a7ef16d955982e64adecf35714be.camel@pbarker.dev>
+	 <CANQUz191KfwSFA_n3MP=Xt7KC6ddAvvKkJGKOwCmMBPtUi_5TA@mail.gmail.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-mz9IUZG+5hlVya1+Cunu"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 11:44:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234673
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 11:59:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234674
 
---000000000000d5a304064ec9313b
+
+--=-mz9IUZG+5hlVya1+Cunu
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 6, 2026 at 2:39=E2=80=AFPM Paul Barker via lists.openembedded.o=
-rg <paul=3D
-pbarker.dev@lists.openembedded.org> wrote:
+On Mon, 2026-04-06 at 17:14 +0530, Vijay Anusuri via
+lists.openembedded.org wrote:
+> On Mon, Apr 6, 2026 at 2:39=E2=80=AFPM Paul Barker via lists.openembedded=
+.org <paul=3D
+> pbarker.dev@lists.openembedded.org> wrote:
+>=20
+> > On Mon, 2026-04-06 at 08:26 +0200, Yoann Congal via
+> > lists.openembedded.org wrote:
+> > > From: Vijay Anusuri <vanusuri@mvista.com>
+> > >=20
+> > > Pick patch from 3.10 branch
+> > >=20
+> > > [1] https://nvd.nist.gov/vuln/detail/CVE-2025-15282
+> > > [2] https://security-tracker.debian.org/tracker/CVE-2025-15282
+> > >=20
+> > > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> > > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> >=20
+> > The fix for this issue (referred to as gh-143925 upstream) looks to be
+> > part of Python 3.10.20 [1]. Should we take a final Python stable update
+> > instead of this patch?
+> >=20
+> > [1]: https://www.python.org/downloads/release/python-31020/
+> >=20
+> >=20
+> --> Along with this CVE, Python 3.10.20 includes multiple security bug
+> fixes. I think it's good to go with Python stable update to 3.10.20 .
 
-> On Mon, 2026-04-06 at 08:26 +0200, Yoann Congal via
-> lists.openembedded.org wrote:
-> > From: Vijay Anusuri <vanusuri@mvista.com>
-> >
-> > Pick patch from 3.10 branch
-> >
-> > [1] https://nvd.nist.gov/vuln/detail/CVE-2025-15282
-> > [2] https://security-tracker.debian.org/tracker/CVE-2025-15282
-> >
-> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
->
-> The fix for this issue (referred to as gh-143925 upstream) looks to be
-> part of Python 3.10.20 [1]. Should we take a final Python stable update
-> instead of this patch?
->
-> [1]: https://www.python.org/downloads/release/python-31020/
->
->
---> Along with this CVE, Python 3.10.20 includes multiple security bug
-fixes. I think it's good to go with Python stable update to 3.10.20 .
+Hi Vijay,
 
-> Best regards,
->
-> --
-> Paul Barker
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#234671):
-> https://lists.openembedded.org/g/openembedded-core/message/234671
-> Mute This Topic: https://lists.openembedded.org/mt/118686707/7301997
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> vanusuri@mvista.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-> Hi Yoann,
->
-> Can i send upgrade patch on top of this commit ?
->
-> Thanks & Regards,
-> Vijay
+Are you able to send a patch to update to Python 3.10.20 on kirkstone?
 
---000000000000d5a304064ec9313b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Best regards,
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 6, =
-2026 at 2:39=E2=80=AFPM Paul Barker via <a href=3D"http://lists.openembedde=
-d.org">lists.openembedded.org</a> &lt;paul=3D<a href=3D"mailto:pbarker.dev@=
-lists.openembedded.org">pbarker.dev@lists.openembedded.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, 2026-04-0=
-6 at 08:26 +0200, Yoann Congal via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> wrote:<br>
-&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=
-=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; <br>
-&gt; Pick patch from 3.10 branch<br>
-&gt; <br>
-&gt; [1] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2025-15282" rel=3D=
-"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2025-15=
-282</a><br>
-&gt; [2] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2025-15=
-282" rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.o=
-rg/tracker/CVE-2025-15282</a><br>
-&gt; <br>
-&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
-" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.f=
-r" target=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
-<br>
-The fix for this issue (referred to as gh-143925 upstream) looks to be<br>
-part of Python 3.10.20 [1]. Should we take a final Python stable update<br>
-instead of this patch?<br>
-<br>
-[1]: <a href=3D"https://www.python.org/downloads/release/python-31020/" rel=
-=3D"noreferrer" target=3D"_blank">https://www.python.org/downloads/release/=
-python-31020/</a><br>
-<br></blockquote><div><br></div><div>--&gt; Along with this CVE, Python 3.1=
-0.20 includes multiple security bug fixes. I think it&#39;s good to go with=
- Python stable update to 3.10.20 . <br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex"><div><div><div><div>
-Best regards,<br>
-<br>
--- <br>
-Paul Barker<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#234671): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/234671" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/234671</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118686707/730=
-1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/118686707/7301997</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
-t=3D"_blank">vanusuri@mvista.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br><br></div>Hi Yoann,<br><br></div>Can i send upgrade patch on top of thi=
-s commit ?<br><br></div>Thanks &amp; Regards,<br></div>Vijay</blockquote></=
-div></div>
+--=20
+Paul Barker
 
---000000000000d5a304064ec9313b--
+
+--=-mz9IUZG+5hlVya1+Cunu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCadOgKBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bsFgAQC3/zLNxZ4AF98AnX0ge6TY0Li05AkOdoxQ
+sUAhBPP1dwEAqESDq1IN/NdasllZfKpWGlukj1va5XONLWW80tSNBQc=
+=tqW8
+-----END PGP SIGNATURE-----
+
+--=-mz9IUZG+5hlVya1+Cunu--
 
