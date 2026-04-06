@@ -1,242 +1,246 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 114BAE64016
-	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 13:09:27 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.69])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.54550.1775480957516104530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F11BDE9D830
+	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 13:21:46 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.54737.1775481704448655003
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2026 06:09:18 -0700
+ Mon, 06 Apr 2026 06:21:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=BPhmvP65;
- spf=pass (domain: axis.com, ip: 40.107.162.69, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y9pH5yQ8V0tUNHa/1gXdL/VW6bdiIwVGoSpZa9GB2BoBXxBvWXFri/xF69FTRCLvaEt+BQ0YVdlcnBi5JmoGR4sr+brx+vYlSVmLKraQZWwd/asYyMY6Nt/bh6aJbdZWyyNgkkKEN7da7AFrClQD1pxcqoWa5XoTT0j4uKvkJXN0lYWIKP+3wBAUjnJBx+pnBdLdryglMLpCuDd6A6crgjl1m5rbPhY5pLW4aGVfB1XKg09AYz5szdXUTe7NI77BaesCLFSaXrF2295ozOT/pKhnPOyCrLMe0XQqnxzmVVIAzpPUrlhfr7rnQPYcZsDYJMSkFJrDrMLArR/TssI/6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZwcWd3DXWa7IQGkDYw4EfwiLd98ubFAzz7y6ChibSao=;
- b=h3CucqtTZ6vj6Yc5xFkFGg//kDu5IwXud5aNd0P71AlGbJL4Z10a20tG3AjmkuP5NTVwBxvBW7Y3Ral3H2jP6hFmWEk3mHgRg/nLeLW5LN9wxR3+7p7M3U52KgVARxBNeHSr8heXxbzHQcRg62ycNj7TAnLRehFW2c4TmVyQEpyUAi2Bp9ZkSnLRa+j41PtHw9OyuoPmLHZPo07/titrQjdKTYzYYnIcu0/kDxpYe0lbKIKV20Z144qJL91wwDLeVtP0UCifRo647MtuVpmW8yLzefefD5xbVk/GuddATthEyDSvSvupTMx7Dz3yNrdgf/a7ouMmqwSucgrLui1pMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZwcWd3DXWa7IQGkDYw4EfwiLd98ubFAzz7y6ChibSao=;
- b=BPhmvP658UWilXj8ss5VvGGF0oy5z/m6ALZRX2BY/1gxAlDirKf5BF1DWVu6tPRWwEZjouDJfBEAqr+zmQsBpPVSZwgrlrx+bx5I4pWeUVHkEpxnlmxgvfztnf26PFBtznI0S1g7x9f063FTXQCBb5U5MXzuxopz+rUkfOD6Qss=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by PA4PR02MB7985.eurprd02.prod.outlook.com (2603:10a6:102:2a0::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Mon, 6 Apr
- 2026 13:09:13 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9769.016; Mon, 6 Apr 2026
- 13:09:12 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: RE: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
-Thread-Topic: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
-Thread-Index: AQHcq8JrmSM+ut1aa0usJT8b8JwZN7XHabnQgArLDNA=
-Date: Mon, 6 Apr 2026 13:09:12 +0000
-Message-ID: 
- <DB5PR02MB102138C0C905B135CABFD77B5EF5DA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20260304103203.1649-1-wangmy@fujitsu.com>
- <20260304103203.1649-10-wangmy@fujitsu.com>
- <18A1AB06FB4E2AAD.263554@lists.openembedded.org>
-In-Reply-To: <18A1AB06FB4E2AAD.263554@lists.openembedded.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PA4PR02MB7985:EE_
-x-ms-office365-filtering-correlation-id: 86bd02e1-54ab-43e1-b789-08de93ddb28a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|38070700021|22082099003|18002099003|56012099003;
-x-microsoft-antispam-message-info: 
- IubVx+3D3/E/PucBKDkW13CPR8ys8lsukXOr3sYHzZkzPHCWNjH86PX7Ic7le7zDMdaw1hOCTY6jxxadjDQO9SxcZWkAzbrWAa5nXuSugwHuTlYdxsLZq2OsjS/xfnhOexOSeuxYBLghyovO54ssnArgtgGiOrlyHd1OmHuGFneZTD4kSU1skw7usLmoan4Ba9u5WXAwDNO0Whieg7+nppz7mW8w6WxfI8EKEnwr6LVl1wEjCUSpEl5gfqWNMS6rAHnCjm0C+CftsV2Wx4mtHJ0TvUOdrfhBgTiyulsJGkflcUAgL9KCu+a5VeZjb31cACbyFgNE4EC3I2HGUtqRiN1PCPSawjyv77gWiDd15qfHSBcUhmCYPLh7wEUAT6JGlmsyVPJ6HBvcn73v33JalrLCX9XySzALH5uiYiRC+3877hT/O4fYoP/BK/C8fxxNCpc5tFcvQwGtaEVZG1YJyZdi4jqEL4HKvISpPz2wG0fUpo1vdTAp0MT0DMdFVcRfndMJ+WQb1yGttDaUtIZr5y+PUN+Ey3Hv/Jwg1YTj+FKtHApR9jWs0xf29YRiDppIGlbsNdXAk8NsPaAPOwXyCdftbZ6hssLoBv5UrOzZfJrp3p8jtsynxPylE9ptnh1BB24x9GjET2tcvJqkfXvSbSssEK5p2VrxCnZq0YvC4l4pCyIF8COPdCYOg3AjDgEHFBLSfJLnD8BhZJXMySHlt4ETPj3e7wGVl4pLmUjSmAU=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?GP/uLz2DITMmo60YCjliWaYGya1G6XuJMKVgVsDZT2gz6d0Eo1sYV9ajwN/2?=
- =?us-ascii?Q?bLV5yFz/QdRz/pWPPgjfehsz6rDePHD41a2W0enAmOLtij6k/nAg4DUt/nTL?=
- =?us-ascii?Q?JBx2QgfgYZU/NFtoRR2nR6W4+oDqIAcd3vQzIrq1ZjKQc+IR4BknbNKhT1IN?=
- =?us-ascii?Q?EzvYM60ZsmCc4NNJhOd2hbgR9q+pQ1rwNiK+t0nU0QRQClTcPVIc2p1MAkrC?=
- =?us-ascii?Q?yQOrfIgBL2RduuishYMNRI/TfNqzcsDGzCau3RM8AMuBt9WDowcA28rNdPeh?=
- =?us-ascii?Q?2YQG8CzF7Od8fdvGhQmazPkw6Rmbq0GPIbGRTQGynXZJPy3Y81bPUtjQDL7U?=
- =?us-ascii?Q?g1ubGackST68vnr42npyQa+/ZFQ/yQo68SKzDjxKMPOT894i6BwKsS3VSrnx?=
- =?us-ascii?Q?+5ZjC5cD1Thr78tm6FpJc12LIw0rbZ+YFX8LSOZflYCL5pny3ZYk6sY2nvpT?=
- =?us-ascii?Q?Q8FVzuCB1KWJE1lmFUljb6gtmDN7eOz6NJMPyL+JznPKUAWI1zm0+0+B1CiV?=
- =?us-ascii?Q?4qr858GDRw+R/FWXsi5Pqnk3RbdF5fFVWSUqMX46IKSQSPLK84qZK1/gdoFl?=
- =?us-ascii?Q?dkerNGvMqCbbHYC3UWVPstXv2Up+WXRD16qsB6Gc6ucbb995juhTvC2H4R30?=
- =?us-ascii?Q?FHx92+SLDst0rv6lZQXjBVx6in8hudELwCvzaYCwig8580DZS/5fLpqre4rs?=
- =?us-ascii?Q?Wvhbs5rP0gc/urdzh4IqMTdIzcTTRtYfIpYGSCMhZZ8FoEaW7Kn9KwJjoJHr?=
- =?us-ascii?Q?vK7d6mxJFB7GGDi7Po4mcaEJJz4x/pnK3mM9rL9Ec51HxmHD6lrHUZ9dUF42?=
- =?us-ascii?Q?j8/d+HZqgzaFk9G7LcQqhLUB6BCHplB6b4ah+VGL3YWD6MdvrV2sMA/Pt0AU?=
- =?us-ascii?Q?E81kBRU2nTbPRnaq7rNEf14MnqCuWgTHBpkZpkDgxHYHQYaONFzvBnPim3t3?=
- =?us-ascii?Q?Njma2kBPwVghbAiSoaJYniLvAPWLZXgF8g2fm7l4vI1Wa80nc/9rIvhnMNkK?=
- =?us-ascii?Q?ncbGrMXUMBfMH6suCFJQD+r7c4HxsBD4HMpxLr+1e1Nq8F0sNomdpaTX93YH?=
- =?us-ascii?Q?KRw63KEiCnkowEu5tVi1RGv8WZGMaRxQaMAE+kOtJfRT5392jU0vXz7dxlxd?=
- =?us-ascii?Q?1Wyx+deLAZuXwi8bS5aur/lTIWTa25SWopjMosJFLDQ2yYjuwQZc19o8Ca0E?=
- =?us-ascii?Q?hecYwZw88MzdUsiMwk1ooXz8A0YEKQy3fp9rFxoRxCTIDg93dz+LmXAZkoVJ?=
- =?us-ascii?Q?W/ul0DtXVFcHjIVmvB7oZdrfHhzFw6CyFsVM8w1al1jgEhEP2fy5F9rGN1D3?=
- =?us-ascii?Q?vfHHn0ZD3D8R/ZFP5kTyOtwmOzJDyQDPmndR4+7zxR8bMwizSAKBOhnHGZZf?=
- =?us-ascii?Q?cN8rbvbi0YaAP0zwkzrSMI/vmoxbhh9+q2X7CDaMgs20C4vgx1Md15u64R6W?=
- =?us-ascii?Q?v6j4W9ay1D+vQyn5lv/cbA5jpDOGxt4yTRcgVPWT8cm54RqO/n/Eq/mYwXvK?=
- =?us-ascii?Q?5Hp+sSp/Nn0myXDWF8A86J3pk93Q4UUp2fIow3LNRvMaRVOxfsBEjKz7Nq9m?=
- =?us-ascii?Q?rOnJ7VZLfovBdI2nfzQJogSk1cD6UDjeGBrkLtyT4UVWwgsNOMKQonontwIC?=
- =?us-ascii?Q?zdED8Yjcw7o3XkekRVHNVpmUiIxTpY4KxyqvgIKUzYceRTEuGTgBJnUDJZ9S?=
- =?us-ascii?Q?1EdhIAjNof2N9dDMz9Q7NwUIB68=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@mvista.com header.s=google header.b=CoiykY6U;
+ spf=pass (domain: mvista.com, ip: 209.85.216.50, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-35c206f0481so3780771a91.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 06:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1775481703; x=1776086503; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bnkNKIoHGVvqy4PbXX78NKdkhVtU7F3WIy47iJXNI9I=;
+        b=CoiykY6UKrkR/kY0iFDvHgC+VDu/Rxfxyhfqz8i/mj6PUleJZ0NIPEOs9oX2T6wFBY
+         xbo1cIaTgJxFf+Uw1CetLOOlWL5kbiyb8Nck9UC1gY/EM/X2Q0qnJkl8yV0sx4evqx4Q
+         UPW0AMcTCLS1wnrUmHhyrR4kMcSDEYHUlEjjw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775481703; x=1776086503;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bnkNKIoHGVvqy4PbXX78NKdkhVtU7F3WIy47iJXNI9I=;
+        b=RjrX1cwltsJKPZXLhnanMF5Ps7sx1/oBIV2ojvgadA997tdti0d97iOtM/lwl5XcKx
+         h1/5JWRdJCHgQ+hTKylw44q8BmdylCsC3w8OE07jubQndk9fSTh615CSNy0e/nbBzNyf
+         tJpp0iLwKeZyQqd+0DKDm3ZI/29O2BrC6Wmr0BHNCaqz4lhJ0RG1TPX8IyIHMmwuIopw
+         vkMWjJuTzF834xDtmGYOVgKL51lxyUeLKbnj5IyyqwUes5J24S1ryJUQujk1fBnmhR49
+         3sJMZfB//2rOMCmJaAqy+wrkItuskfOR4v08n9GVg9PuL6PdC7cYkEO6cpJwdXeeYkgS
+         1pSQ==
+X-Gm-Message-State: AOJu0YxUUlHVgwwqYlbtpkAd4XwNnYHIs/bnE7IfA/kdKCcO1Nm/K3Bh
+	PQGyCM1MLDYYG5av/smlYVyEykU809EcQhgPoL3sCXLRgcv6gLEofj3QzmnHMhAgk92ei/BF/2W
+	7yShJQ4o=
+X-Gm-Gg: AeBDieu8P+vgAg/O0Nk0LLyG9zmJe8Hry1VMejLdNA1/Tx8jR5yntdPkTBsSNa2UiU+
+	lU7Eoe3ea2cm+nnuApvPEnLKT3XGH0Q5P4o/019Onub1lwrXhNVqR4oD8qjq2oa8tWT+kgGQ/ep
+	BVP9XkcLB0dEMnCUm7gLMu1DxiqP037J7Vx4RiOzyFvHkTCIubMOQq1UwHftQ00bPsCBRMVrf5a
+	svEuc6zfwa1yy9/HphXDl3DVIx13zlVaWhOxk/PygMSo1ivXYBwMpeFdG1gGTmGKaNnC3dCjkyb
+	quWtxLBgPT/aFfCDKWuKhIWnVd+rTXV5Gqx9BajAfRrrKcDSAoNXlcpT7Ww6IdydTqln3kRyUFi
+	AoIkvnMUitA3lrfzU3MDdsRuitEgZLo2w5dRrihPsFnOOabIghZaG7mmD/EaCIvQK4ymDmSxcGs
+	YKGFA01aly89F6ZP/2dTDPhn1KaOXQQrP+NCF/poE=
+X-Received: by 2002:a17:90b:2885:b0:35d:974d:8f7 with SMTP id 98e67ed59e1d1-35de679c8ecmr11213151a91.1.1775481703313;
+        Mon, 06 Apr 2026 06:21:43 -0700 (PDT)
+Received: from MVIN00352.mvista.com ([2401:4900:1f28:2171:fb10:85f3:b262:eebf])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dd35f50e9sm13848829a91.6.2026.04.06.06.21.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2026 06:21:42 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][patch 1/3] curl: patch CVE-2026-1965
+Date: Mon,  6 Apr 2026 18:51:27 +0530
+Message-ID: <20260406132129.440817-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86bd02e1-54ab-43e1-b789-08de93ddb28a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Apr 2026 13:09:12.5181
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: f6nl8waS16gWpucySEW8tVSS3oG+Lh0+6Bua1ZZRiah36xuxE9WN69rQJ9hCd/g8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB7985
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 13:09:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234678
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 13:21:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234679
 
-*ping*
+pick patches from ubuntu per [1]
 
-//Peter
+[1] http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
+[2] https://ubuntu.com/security/CVE-2026-1965
+[3] https://curl.se/docs/CVE-2026-1965.html
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt via
-> lists.openembedded.org
-> Sent: den 30 mars 2026 18:23
-> To: wangmy@fujitsu.com; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 ->
-> 1.28.0
->=20
-> What is the status of these patches, which upgrade the GStreamer recipes
-> to version 1.28.0?
->=20
-> I do not see them on neither master-next nor mathieu/master-next in
-> the openembedded-core-contrib repository.
->=20
-> //Peter
->=20
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
-.openembedded.org> On Behalf Of wangmy via lists.openembedded.org
-> > Sent: den 4 mars 2026 11:32
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Wang Mingyu <wangmy@fujitsu.com>
-> > Subject: [OE-core] [PATCH 10/10] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
-> >
-> > From: Wang Mingyu <wangmy@fujitsu.com>
-> >
-> > 0002-tests-add-support-for-install-the-tests.patch
-> > refreshed for 1.28.0
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> >  ...2-tests-add-support-for-install-the-tests.patch | 14 +++++++-------
-> >  ...treamer1.0_1.26.9.bb =3D> gstreamer1.0_1.28.0.bb} |  2 +-
-> >  2 files changed, 8 insertions(+), 8 deletions(-)
-> >  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.9.bb =3D> =
-gstreamer1.0_1.28.0.bb} (97%)
-> >
-> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-=
-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer=
-/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-> > index ccfc869813..720a6f0c97 100644
-> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-sup=
-port-for-install-the-tests.patch
-> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-sup=
-port-for-install-the-tests.patch
-> > @@ -1,4 +1,4 @@
-> > -From c33063360791e178de138304e29ab2264582d917 Mon Sep 17 00:00:00 2001
-> > +From 92e7d4090fa458bf02d3418cd01c960982821e92 Mon Sep 17 00:00:00 2001
-> >  From: Jose Quaresma <quaresma.jose@gmail.com>
-> >  Date: Sun, 11 Apr 2021 19:48:13 +0100
-> >  Subject: [PATCH] tests: add support for install the tests
-> > @@ -12,17 +12,17 @@ Upstream-Status: Submitted [https://gitlab.freedesk=
-top.org/gstreamer/gstreamer/-
-> >  Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> >  ---
-> >   meson.build                  |  4 ++++
-> > - meson_options.txt            |  1 +
-> > + meson.options                |  1 +
-> >   tests/check/meson.build      | 22 +++++++++++++++++++++-
-> >   tests/check/template.test.in |  3 +++
-> >   4 files changed, 29 insertions(+), 1 deletion(-)
-> >   create mode 100644 tests/check/template.test.in
-> >
-> >  diff --git a/meson.build b/meson.build
-> > -index 0a77e90..cadfaeb 100644
-> > +index 8adc055..b5c9e5b 100644
-> >  --- a/meson.build
-> >  +++ b/meson.build
-> > -@@ -664,6 +664,10 @@ if bashcomp_dep.found()
-> > +@@ -667,6 +667,10 @@ if bashcomp_dep.found()
-> >     endif
-> >   endif
-> >
-> > @@ -33,10 +33,10 @@ index 0a77e90..cadfaeb 100644
-> >   plugins_install_dir =3D join_paths(get_option('libdir'), 'gstreamer-1=
-.0')
-> >
-> >   pkgconfig =3D import('pkgconfig')
-> > -diff --git a/meson_options.txt b/meson_options.txt
-> > +diff --git a/meson.options b/meson.options
-> >  index 39255cf..78af552 100644
-> > ---- a/meson_options.txt
-> > -+++ b/meson_options.txt
-> > +--- a/meson.options
-> > ++++ b/meson.options
-> >  @@ -16,6 +16,7 @@ option('poisoning', type : 'boolean', value : false,=
- description : 'Enable poiso
-> >   option('memory-alignment', type: 'combo',
-> >          choices : ['1', '2', '4', '8', '16', '32', '64', '128', '256',=
- '512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
-> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb b=
-/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
-> > similarity index 97%
-> > rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
-> > rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
-> > index c66f614629..63633fea05 100644
-> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
-> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
-> > @@ -22,7 +22,7 @@ SRC_URI =3D
-> > "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-> >             file://0003-tests-use-a-dictionaries-for-environment.patch =
-\
-> >             file://0004-tests-add-helper-script-to-run-the-installed_te=
-sts.patch \
-> >             "
-> > -SRC_URI[sha256sum] =3D "8ee8772e468102ebe86d414d8c4c7440dd91d9f3e93969=
-52ff23aecde80670c8"
-> > +SRC_URI[sha256sum] =3D "6c8676bc39a2b41084fd4b21d2c37985c69ac979c03ce5=
-9575db945a3a623afd"
-> >
-> >  PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests=
-', '', d)} \
-> >                     check \
-> > --
-> > 2.43.0
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../curl/curl/CVE-2026-1965-1.patch           | 102 ++++++++++++++++++
+ .../curl/curl/CVE-2026-1965-2.patch           |  34 ++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   2 +
+ 3 files changed, 138 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-2.patch
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965-1.patch b/meta/recipes-support/curl/curl/CVE-2026-1965-1.patch
+new file mode 100644
+index 0000000000..acc8bfe044
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-1965-1.patch
+@@ -0,0 +1,102 @@
++From 34fa034d9a390c4bd65e2d05262755ec8646ac12 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 5 Feb 2026 08:34:21 +0100
++Subject: [PATCH] url: fix reuse of connections using HTTP Negotiate
++
++Assume Negotiate means connection-based
++
++Reported-by: Zhicheng Chen
++Closes #20534
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/34fa034d9a390c4bd6]
++Backported by Ubuntu team http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
++
++CVE: CVE-2026-1965
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/url.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 62 insertions(+)
++
++diff --git a/lib/url.c b/lib/url.c
++index 1439c9e..792c422 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -936,6 +936,18 @@ ConnectionExists(struct Curl_easy *data,
++ #else
++   bool wantProxyNTLMhttp = FALSE;
++ #endif
+++#endif
+++
+++#if !defined(CURL_DISABLE_HTTP) && defined(USE_SPNEGO)
+++  bool wantNegohttp =
+++    (data->state.authhost.want & CURLAUTH_NEGOTIATE) &&
+++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
+++#ifndef CURL_DISABLE_PROXY
+++  bool wantProxyNegohttp =
+++    needle->bits.proxy_user_passwd &&
+++    (data->state.authproxy.want & CURLAUTH_NEGOTIATE) &&
+++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
+++#endif
++ #endif
++   /* plain HTTP with upgrade */
++   bool h2upgrade = (data->state.httpwant == CURL_HTTP_VERSION_2_0) &&
++@@ -1274,6 +1286,56 @@ ConnectionExists(struct Curl_easy *data,
++     }
++ #endif
++ 
+++#ifdef USE_SPNEGO
+++  /* If we are looking for an HTTP+Negotiate connection, check if this is
+++     already authenticating with the right credentials. If not, keep looking
+++     so that we can reuse Negotiate connections if possible. */
+++  if(wantNegohttp) {
+++    if(Curl_timestrcmp(needle->user, check->user) ||
+++       Curl_timestrcmp(needle->passwd, check->passwd))
+++      continue;
+++  }
+++  else if(check->http_negotiate_state != GSS_AUTHNONE) {
+++    /* Connection is using Negotiate auth but we do not want Negotiate */
+++    continue;
+++  }
+++
+++#ifndef CURL_DISABLE_PROXY
+++  /* Same for Proxy Negotiate authentication */
+++  if(wantProxyNegohttp) {
+++    /* Both check->http_proxy.user and check->http_proxy.passwd can be
+++     * NULL */
+++    if(!check->http_proxy.user || !check->http_proxy.passwd)
+++      continue;
+++
+++    if(Curl_timestrcmp(needle->http_proxy.user,
+++		       check->http_proxy.user) ||
+++       Curl_timestrcmp(needle->http_proxy.passwd,
+++	               check->http_proxy.passwd))
+++      continue;
+++  }
+++  else if(check->proxy_negotiate_state != GSS_AUTHNONE) {
+++    /* Proxy connection is using Negotiate auth but we do not want Negotiate */
+++    continue;
+++  }
+++#endif
+++  if(wantNTLMhttp || wantProxyNTLMhttp) {
+++    /* Credentials are already checked, we may use this connection. We MUST
+++     * use a connection where it has already been fully negotiated. If it has
+++     * not, we keep on looking for a better one. */
+++    chosen = check;
+++    if((wantNegohttp &&
+++	(check->http_negotiate_state != GSS_AUTHNONE)) ||
+++       (wantProxyNegohttp &&
+++	(check->proxy_negotiate_state != GSS_AUTHNONE))) {
+++      /* We must use this connection, no other */
+++      *force_reuse = TRUE;
+++      break;
+++    }
+++    continue; /* get another */
+++  }
+++#endif
+++
++     if(CONN_INUSE(check)) {
++       DEBUGASSERT(canmultiplex);
++       DEBUGASSERT(check->bits.multiplex);
++-- 
++2.43.0
++
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965-2.patch b/meta/recipes-support/curl/curl/CVE-2026-1965-2.patch
+new file mode 100644
+index 0000000000..07dbf4e973
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-1965-2.patch
+@@ -0,0 +1,34 @@
++From f1a39f221d57354990e3eeeddc3404aede2aff70 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sat, 21 Feb 2026 18:11:41 +0100
++Subject: [PATCH] url: fix copy and paste url_match_auth_nego mistake
++
++Follow-up to 34fa034
++Reported-by: dahmono on github
++Closes #20662
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/f1a39f221d57354990]
++Backported by Ubuntu team http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
++
++CVE: CVE-2026-1965
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/url.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/url.c b/lib/url.c
++index 792c422..22ed0be 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1319,7 +1319,7 @@ ConnectionExists(struct Curl_easy *data,
++     continue;
++   }
++ #endif
++-  if(wantNTLMhttp || wantProxyNTLMhttp) {
+++  if(wantNegohttp || wantProxyNegohttp) {
++     /* Credentials are already checked, we may use this connection. We MUST
++      * use a connection where it has already been fully negotiated. If it has
++      * not, we keep on looking for a better one. */
++-- 
++2.43.0
++
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 9e37684b2c..0b4c93ec66 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -32,6 +32,8 @@ SRC_URI = " \
+     file://CVE-2025-14819.patch \
+     file://CVE-2025-15079.patch \
+     file://CVE-2025-15224.patch \
++    file://CVE-2026-1965-1.patch \
++    file://CVE-2026-1965-2.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
+-- 
+2.43.0
 
 
