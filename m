@@ -1,200 +1,195 @@
-Return-Path: <pahaditechie@gmail.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF9B7EF4EBE
-	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 07:36:21 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50217.1775460980761413549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD5DEF4EA4
+	for <webhook@archiver.kernel.org>; Mon,  6 Apr 2026 08:28:12 +0000 (UTC)
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50865.1775464088398335175
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2026 00:36:20 -0700
+ Mon, 06 Apr 2026 01:28:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: ashissh7@cisco.com)
-X-CSE-ConnectionGUID: jULSTOa2T0KIjVut83nKTQ==
-X-CSE-MsgGUID: qbHvG46PQaOSMc7kUvJzqQ==
-X-IPAS-Result: =?us-ascii?q?A0BsAwD/YdNp/5D/Ja1aHgEBCxIMggULAoJVcV5DSZZLg?=
- =?us-ascii?q?RaBf4hikiaCDgEBAQ9EDQQBAT8ChACNcgImNAkOAQIEAQEBAQMCAwEBAQEBA?=
- =?us-ascii?q?QEBAQEBCwEBBQEBAQIBBwWBDhOGTw1JAQwBhgMBLQsBGAEQEA0mBgMBAk8CC?=
- =?us-ascii?q?SMhgwIBgjkBAzYDEbYSgXkWBQIWgQGDKAGBU9d8ChkoDXGBYQELFAGBOIR4K?=
- =?us-ascii?q?R1BAYI3hSNbGAGEeicbfYEQgRWCcnaBBYEaQgIDiCEEgxwUgWEehmuHMAgHH?=
- =?us-ascii?q?xIIARwGCgJIFRIDBAMEBAECCxMJAwMCDgIIAwIIBhkBPxIEEwoDCgsHBR8KA?=
- =?us-ascii?q?gwUCigiEisKAzUSDxsVAQgGAgIEBAIEDAIJAgIFBwIRAwQBAQgCAi0DAQMZC?=
- =?us-ascii?q?AkIAgsFERgMCwcxAxAJAx8XGggBRQgGFgEaBwUGCzgVBQwRAQECRwIUAgQEA?=
- =?us-ascii?q?hIDAwQDEAMBAikDAwcIAwIHBBYKGQQFAgEuAwUHAgQBBwEDAwcDAgwCAhEFB?=
- =?us-ascii?q?AYCAQMMAwQDBQULLREHEwoGBAcFAgICFAYCEBIDAwQEAgECAgI6BA4aDgQIB?=
- =?us-ascii?q?wMHARgFAgMCBQEDAQcHEgIKCAMOAR0CAgQCCQEBCg4CAgYCAgEDCBgDBB8EA?=
- =?us-ascii?q?wMHAgIMCQMEDQISChIbAw4DDQ8CBAMMCjAQBAIHEAIJCAYKGAICAgYCAwMDB?=
- =?us-ascii?q?AkBAgEBAQEBAQECBwMDAwIDBgMXAwUHBgMEBgEEBAMDBgMDBQUBAwMFBQUHA?=
- =?us-ascii?q?gMGAwYHBwQIAwcLAQEBAQEDAgIJAQMIAwwJBAMFAyQPAwsJCAcMATwMBwooB?=
- =?us-ascii?q?DYBFBQHBCUZZwcHiyEngjQCgQ4BExcBIFuBCkOTI4MjjHGCIaAdcWiDPowej?=
- =?us-ascii?q?z6FfBozqmsLmHuOCYQJkSsCMWmEaDaBMjyBWTMaI1AxgjYJSRkPjjiDaYUTw?=
- =?us-ascii?q?QAmMgsyAQEHAgcNAwuBaIkxh2xgAQE?=
-IronPort-Data: A9a23:2iMsLa8n7MjQ1QgIzGHHDrUD6X+TJUtcMsCJ2f8bNWPcYEJGY0x3x
- jQWUTjTOfveZWLye4sla423oxgCvsTQmt9nT1RqpSFEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4mpyyHjEAX9gWAsbjpKs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2k0AKkjxsF+W10W1
- t0aFi0RPkuFpN6PlefTpulE3qzPLeHxN48Z/3UlxjbDALN+HtbIQr7B4plT2zJYasJmRKmFI
- ZFGL2AyMVKZP0En1lQ/UPrSmM+hnXn+aCZY93qepLE85C7YywkZPL3Fb4KFKoLaFJUE9qqej
- nvM33rWXk8iDdW48h+OrXGRmM3dhBquDer+E5X9rJaGmma73mUTAREXSVawofi0okG7UtNbb
- UcT/0IGqrA/8kGuRNTxUxC05XWDpBM0X9tLD/Z87xmAzKfR6QuVCmUICDlbZ7QbWNQeXzcm0
- BqN2tjuHzEq6OLTQnOG/bDSpjS3UcQIEVI/ieY/ZVNty7HeTEsb13ojkv4L/HaJs+DI
-IronPort-HdrOrdr: A9a23:9cs4C6rOxtu+UShAvLPw2hkaV5odeYIsimQD101hICG9vPb2qy
- nIpoV/6faaslcssR0b9OxoW5PwI080l6QU3WB5B97LN2PbUQCTQr2Kg7GP/9SZIVycysdtkY
- F9bqN5FNr8SXJ+jcr8/U2ENuxI+qjizEht7t2uqUuEimpRGsZd0zs=
-X-Talos-CUID: 9a23:QyqtGWOSWNZG7O5DWhRDz3IzE5oZKl78zknNPx/jD0VVcejA
-X-Talos-MUID: 9a23:5K72eQv1t3GYKk6zac2nnTtCKug0vZyXAWc2tJ5ZuPSaFz5pAmLI
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,163,1770595200"; 
-   d="scan'208";a="708868989"
-Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Apr 2026 07:36:19 +0000
-Received: from sjc-ads-21720.cisco.com (sjc-ads-21720.cisco.com [10.128.165.208])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id AD2E318000207;
-	Mon,  6 Apr 2026 07:36:19 +0000 (GMT)
-Received: by sjc-ads-21720.cisco.com (Postfix, from userid 1869324)
-	id 5AA26CC1288; Mon,  6 Apr 2026 00:36:19 -0700 (PDT)
-From: Ashish Sharma <pahaditechie@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: ashissh7@cisco.com,
-	Ashish Sharma <pahaditechie@gmail.com>
-Subject: [OE-core][scarthgap][PATCH] openssh: Fix CVE-2026-35414
-Date: Mon,  6 Apr 2026 00:36:18 -0700
-Message-ID: <20260406073618.3629883-1-pahaditechie@gmail.com>
-X-Mailer: git-send-email 2.44.4
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=pxQRL+Lk;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=Anh/MyC+;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.145, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id 994981D000BF;
+	Mon,  6 Apr 2026 04:28:07 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Mon, 06 Apr 2026 04:28:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1775464087; x=1775550487; bh=tBf185i32W
+	3n0FK9jsBhjGK2vRkNWpz1qicgVvV9q3Y=; b=pxQRL+Lkz9jHvzln+Zf3aMncJ6
+	09NXcsTDU1uRQYmznwjtjirUJogACHSNMlsZKDTO7axR/ZGq0pFteHCUDfg/od0/
+	iu03jYX4siE8NMcDVQ7tul3dbeLAdj27wx+jUQ4mcdOrP/ll8Av135EaomwhvG2B
+	MRH3SbeXoE3Z0Q+CwDHlVAXz4jMp4pIr9XxwQOpNk71gPkKaarNXDnktgKUZz23F
+	sMJcgX0g6+VzGeZZdFrwvbxJIgK/LgjHH3aq3I5kygIdbHb9wyULBPTRRwrneIvX
+	0j+leV5qBTnsM+3FTrCH1UezBoYICr8oUkntDi+wiwuA6lRT04742I/l+F2w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1775464087; x=1775550487; bh=tBf185i32W3n0FK9jsBhjGK2vRkNWpz1qic
+	gVvV9q3Y=; b=Anh/MyC++8UkoYJXTv71m8BQPZsep6uP992k9ZeSoSqgu0tGFS3
+	gqROo0dPLqcx7+rpqUu1nTuhADCEBmQ8qcEfIxWUsKL2SriDBFQTGsLuylm2DO8u
+	GSOEYrE5HqLIBTWJcB+qKhjwVegMsyIc0F8F+/hDxMslcBjAJMuwRvB6z4fg4I2u
+	Wfo9+VDtl88f7luv7QoBvRz6foxdGcIxw5r2lzoGhNdRP8cZnO31xzixtL6JqQM+
+	jXx5AWvYK1XR5nvGXpRPzRc4aPflN/XyUe+PvjtAD9xhdl7zZKa1bduAYV3FXI9p
+	nQzXp2qCEm9irbv+29QWdQCOE1TBswNVSBA==
+X-ME-Sender: <xms:lm7TacDIWdtQ13ARnobLXQxLRqYI9jV_ypoqeH6yKRQYZnMxQK8Nwg>
+    <xme:lm7TaV_xaFKynDzem82oYmnbGeO7Cbzfo1DPexDrhH3YXvpdNWquWgK4Vi9zsWQdZ
+    gG145gKYEqpMGJFclSg26H9QUcpMYN5xNpoCYKvRuSzixZgQ7zDBw>
+X-ME-Received: <xmr:lm7Tac8nnHmpCg78RIdgSNRwZ-EzHP9zq1SSPrqRJXLY-M9kqxCIOACDYejze_2GwsO6rTG0wnqSQF2n25rmWiHMcG5xSV_ugJ_FDTmLWRs7>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddujedvvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecufghrlhcuvffnffculddquddtmdenucfjughrpefkuffhvf
+    evffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceo
+    phgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpeefhfffffeutd
+    evteekteekveegiefhieejleehuedvtddtfefhjeetgeetieffueenucffohhmrghinhep
+    ohhpvghnvghmsggvugguvggurdhorhhgpdhnihhsthdrghhovhdpgeeirdgsvghsthenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhes
+    phgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouh
+    htpdhrtghpthhtohephhgrrhhishhhrdhsrgguihhnvghnihesfihinhgurhhivhgvrhdr
+    tghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrd
+    hophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehsuhhnuggvvghprdhkohhk
+    khhonhgurgesfihinhgurhhivhgvrhdrtghomh
+X-ME-Proxy: <xmx:lm7Tacdw3zB-qtRkNV7N5P9fR7p1QUooPzd3b6l5n8qCKqvuAHGWSQ>
+    <xmx:lm7TaVFKS4Lf5YagEyVFY9KBV6o9-fTTpEyOBHrleE7s40z_YIWggQ>
+    <xmx:lm7TaafrEOrd1JwzflnZrrHILuosxCG9bwtngBNhG7rDbn9O1zhCgw>
+    <xmx:lm7TafFps1omGFTrZawbn1CkLWLphRJ0HsZHtZCLQ4HgdDECNVLC9g>
+    <xmx:l27TaQvq4c83OQogGd2FBvlPdMfioDVPpnHOAwYnt9fvhYBKz-UBMZWd>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Apr 2026 04:28:06 -0400 (EDT)
+Message-ID: <aff85443515795d097949cedbf07bd2ed40d7372.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH] binutils: Set status for CVE-2025-69646 &
+ CVE-2025-69649
+From: Paul Barker <paul@pbarker.dev>
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+Date: Mon, 06 Apr 2026 09:28:00 +0100
+In-Reply-To: <20260406070506.3779367-1-Harish.Sadineni@windriver.com>
+References: <20260406070506.3779367-1-Harish.Sadineni@windriver.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-3fm3+T6DuUg08NHQ/WQI"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-21720.cisco.com [10.128.165.208];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.128.165.208, sjc-ads-21720.cisco.com
-X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 07:36:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234669
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2026 08:28:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234670
 
-The match_principals_option() function in auth2-pubkeyfile.c used
-match_list() (which performs glob-based, comma-separated matching)
-instead of exact string comparison. When a certificate principal
-name contains a comma, match_list() splits it into multiple patterns,
-allowing an attacker to craft a principal name that gains unauthorized
-access.
 
-Fix by replacing match_list() with a strsep+strcmp loop for exact
-principal matching.
+--=-3fm3+T6DuUg08NHQ/WQI
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Backport of commit fd1c7e131f331942d20f42f31e79912d570081fa from
-openssh-portable 10.3p1.
+On Mon, 2026-04-06 at 00:05 -0700, Sadineni, Harish via
+lists.openembedded.org wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>=20
+> Set CVE_STATUS for CVE-2025-69646 and CVE-2025-69649, as both CVES are al=
+ready resolved
+> in the latest binutils 2.46 version upgrade.
+>=20
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils-2.46.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.46.inc b/meta/reci=
+pes-devtools/binutils/binutils-2.46.inc
+> index ff10050dd9..dc8b6be03e 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.46.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.46.inc
+> @@ -34,3 +34,6 @@ SRC_URI =3D "\
+>       file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.pa=
+tch \
+>       file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.pa=
+tch \
+>  "
+> +
+> +CVE_STATUS[CVE-2025-69646] =3D "fixed-version: Fixed from version 2.46"
 
-CVE: CVE-2026-35414
-Signed-off-by: Ashish Sharma <pahaditechie@gmail.com>
----
- .../openssh/openssh/CVE-2026-35414.patch      | 78 +++++++++++++++++++
- .../openssh/openssh_9.6p1.bb                  |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-35414.patch
+Hi Harish,
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-35414.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35414.patch
-new file mode 100644
-index 0000000000..dbc0968a3f
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35414.patch
-@@ -0,0 +1,78 @@
-+From fd1c7e131f331942d20f42f31e79912d570081fa Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Thu, 02 Apr 2026 07:48:13 +0000
-+Subject: [PATCH] upstream: Fix matching of authorized_keys principals
-+ option against certificate principals containing commas
-+
-+When matching an authorized_keys principals="" option against a list
-+of principals in a certificate, an incorrect algorithm (match_list)
-+was used that could allow inappropriate matching in cases where a
-+principal name in the certificate contains a comma character.
-+
-+Exploitation requires an authorized_keys principals="" option listing
-+more than one principal AND a CA that will issue a certificate encoding
-+more than one of those principal names separated by a comma. Typical
-+CAs strongly constrain which principal names they will place in a
-+certificate. This condition only applies to user-trusted CA keys in
-+authorized_keys; the main certificate authentication path
-+(TrustedUserCAKeys/AuthorizedPrincipalsFile) is not affected.
-+
-+Reported by Vladimir Tokarev.
-+
-+OpenBSD-Commit-ID: c790e2687c35989ae34a00e709be935c55b16a86
-+
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/fd1c7e131f331942d20f42f31e79912d570081fa]
-+CVE: CVE-2026-35414
-+Signed-off-by: Ashish Sharma <pahaditechie@gmail.com>
-+---
-+ auth2-pubkeyfile.c | 26 +++++++++++++++-----------
-+ 1 file changed, 15 insertions(+), 11 deletions(-)
-+
-+diff --git a/auth2-pubkeyfile.c b/auth2-pubkeyfile.c
-+index 896ea19..e729cc5 100644
-+--- a/auth2-pubkeyfile.c
-++++ b/auth2-pubkeyfile.c
-+@@ -50,6 +50,7 @@
-+ #include "authfile.h"
-+ #include "match.h"
-+ #include "ssherr.h"
-++#include "xmalloc.h"
-+ 
-+ int
-+ auth_authorise_keyopts(struct passwd *pw, struct sshauthopt *opts,
-+@@ -146,20 +147,23 @@ auth_authorise_keyopts(struct passwd *pw, struct sshauthopt *opts,
-+ static int
-+ match_principals_option(const char *principal_list, struct sshkey_cert *cert)
-+ {
-+-	char *result;
-++	char *list, *olist, *entry;
-+ 	u_int i;
-+ 
-+-	/* XXX percent_expand() sequences for authorized_principals? */
-+-
-+-	for (i = 0; i < cert->nprincipals; i++) {
-+-		if ((result = match_list(cert->principals[i],
-+-		    principal_list, NULL)) != NULL) {
-+-			debug3("matched principal from key options \"%.100s\"",
-+-			    result);
-+-			free(result);
-+-			return 1;
-++	olist = list = xstrdup(principal_list);
-++	for (;;) {
-++		if ((entry = strsep(&list, ",")) == NULL || *entry == '\0')
-++			break;
-++		for (i = 0; i < cert->nprincipals; i++) {
-++			if (strcmp(entry, cert->principals[i]) == 0) {
-++				debug3("matched principal from key i"
-++				    "options \"%.100s\"", entry);
-++				free(olist);
-++				return 1;
-++			}
-+ 		}
-+ 	}
-++	free(olist);
-+ 	return 0;
-+ }
-+ 
-+-- 
-+2.25.1
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index 1cdd888ccb..4d0b9afca0 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2025-32728.patch \
-            file://CVE-2025-61985.patch \
-            file://CVE-2025-61984.patch \
-+           file://CVE-2026-35414.patch \
-            "
- SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
- 
--- 
-2.44.4
+According to https://nvd.nist.gov/vuln/detail/CVE-2025-69646, the CPE
+for CVE-2025-69646 is "cpe:2.3:a:gnu:binutils:2.44:*:*:*:*:*:*:*", so it
+should already be seen as fixed in 2.46. Which tool is reporting this as
+an unresolved CVE?
 
+> +CVE_STATUS[CVE-2025-69649] =3D "fixed-version: Fixed from version 2.46"
+
+According to https://nvd.nist.gov/vuln/detail/CVE-2025-69649, the CPE
+for this one is "cpe:2.3:a:gnu:binutils:*:*:*:*:*:*:*:*". Please include
+some info/links in the commit message to confirm that this was fixed for
+v2.46.
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+--=-3fm3+T6DuUg08NHQ/WQI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCadNukBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bkAbAP9jv4/65nn/LG9xJImWbAWrGNCLGVI9sXFl
+tehCy2b3NQEAgYoVXwavxR1hk7imYl/hIib+rmmH0eBAc4n8L8tsBQ8=
+=/pVr
+-----END PGP SIGNATURE-----
+
+--=-3fm3+T6DuUg08NHQ/WQI--
 
