@@ -1,150 +1,512 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C45FF5126
-	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 16:25:36 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.85679.1775579128877893649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 584DCFF5130
+	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 18:14:27 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.88053.1775585659701019014
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 09:25:29 -0700
+ Tue, 07 Apr 2026 11:14:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=keTnbhrN;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=keTnbhrN;
- spf=pass (domain: arm.com, ip: 52.101.70.56, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=rDrfko+kMmLScLyV6ep1WFX3omXeGLOzcHT+UPJZS9VmJsnz3aGskMr5+GFGdHAxYfojTtTx6YkPQ0/ArC0uo0lqtoqKiIljT4ufwd02hrz7o3ykRLtOXHlpuwqc5FpmR06JUpdS6NelzWdPa+EOumCPa3qy8PB6I7ab4H03adXag7ODyjTN9QZcl9VeBr0BonKYj/TX4DHDl2huhKqPq3Pji4ZVwNznx3peraf82yY0C9iniaIo3STPV/qvY5SvhY+p7HXDJemhSUTzmPFUpPB03jxKipxrzLNt1Iq9X9IOmsRpa1zRUo5zp8SP/lrBpo5KFoxGvE88AfIesZGluQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V8DPDJdGHY+75l29NdqTouPXxkNrITlOTQ0VdBs2o9A=;
- b=CsuqjeTWV9fj7dNsj/SW3yeTouRwd6p3pDFT6DpxGiWasf3o4rry1tR2MAIEchh3BU1aZ0hpKfJkT2hb4p5mOoKHBRAMx3RikwSaSXu+Se4bx5gfurrtKzrQ9M+rHTpku7rp6+7PqU1eJeKaDNj5m9j2Y6xOJzOgvBEke+0E1sCi+XLza1digdQtM65d98KbTebNRYel63ZJQlqARo1wp4j1md5JM+xHb+ojWIFVi+6hKROnIHdqlOLcovSPx+ywB1Vu3W1nm/gjoIaV4MGFkmncvGfW4yit60XSxzN41RRosohT/lyBTPqgWGwP1b8M8D7324xVc0RwHOk8HycdXg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=navimatix.de smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V8DPDJdGHY+75l29NdqTouPXxkNrITlOTQ0VdBs2o9A=;
- b=keTnbhrNcXB0lWwfS5nyFBESbOzGmWuZRu5h1qhscqCkBvMYipF3ustA647wbHz3NuzIIPzHI0AvvsdAnmUAJHNZgB5wwOgJ0Q+k+aQLEj/MjKTWdxuvDpR1XA9l0TiKRF+DRIdoXScVRGR3sPCkgThFoGwGWCzOMfZAtXNWE80=
-Received: from DU7P194CA0023.EURP194.PROD.OUTLOOK.COM (2603:10a6:10:553::14)
- by AM9PR08MB6020.eurprd08.prod.outlook.com (2603:10a6:20b:2d6::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Tue, 7 Apr
- 2026 16:25:23 +0000
-Received: from DU2PEPF00028D05.eurprd03.prod.outlook.com
- (2603:10a6:10:553:cafe::98) by DU7P194CA0023.outlook.office365.com
- (2603:10a6:10:553::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.32 via Frontend Transport; Tue,
- 7 Apr 2026 16:25:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU2PEPF00028D05.mail.protection.outlook.com (10.167.242.165) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.17
- via Frontend Transport; Tue, 7 Apr 2026 16:25:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Cs/O0YINaabcKpohEwfAugWR8KKYlXuraGC/XT+ISC7hvpurIw3ETIY89yF6wN5ojpIHsCp7OlP+9748eRHBVnNYYOpj0AADZM7bpaceoyUSkTT738OKspP+xAx4kAJpJ8VoGxNr5O89K6leuo0mQbh4fZ96wb5Vn974dQ5tUwTSxyXXBMVi/59EOp9snrqaaVLCaG/KkvPcYYJ5j+5W27uuRVMriBOVU9ZqapVYOieShX2jngUzPZ1e9BXISGz2O5QeERjZWs0KvxbX+GvcpqQAYLwjW8EnBEqjEPFAHVWPuxV+nbnFc+6KjO/keVXkh5zLeBvECq/q5bL3lt5V5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V8DPDJdGHY+75l29NdqTouPXxkNrITlOTQ0VdBs2o9A=;
- b=f7oncqWoGx78haIEFojq0wDDMzVZh8Hp6UX1mf/vZ4Ex0BV0KOloVu2zicjHvwyOuEd66DvEYKc3rlsWo7GcSosJeMkVdsVcBHtky9f1FftZGCQUJYn8yyjcgXoveGWsttVbSnFHLguS24A4KkHUzJAab8qTlAw08bmqBu9nxglGeAhCLKTuTaoJt/0CDF0fEenESMR367Lwh2+SxiO5xXrTZN2N2qrIxNOtXYbsa0cfS1oLhOB2/AO6yy//JEYYwXhdPLuH0xgw3XE774wibN42goAkYzzYo680IkOhwhwUu4Bl9pkGmS2Z58ArwRPUULeXYEaevL3kRcEau7FOww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V8DPDJdGHY+75l29NdqTouPXxkNrITlOTQ0VdBs2o9A=;
- b=keTnbhrNcXB0lWwfS5nyFBESbOzGmWuZRu5h1qhscqCkBvMYipF3ustA647wbHz3NuzIIPzHI0AvvsdAnmUAJHNZgB5wwOgJ0Q+k+aQLEj/MjKTWdxuvDpR1XA9l0TiKRF+DRIdoXScVRGR3sPCkgThFoGwGWCzOMfZAtXNWE80=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS8PR08MB9813.eurprd08.prod.outlook.com (2603:10a6:20b:616::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Tue, 7 Apr
- 2026 16:24:20 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9769.016; Tue, 7 Apr 2026
- 16:24:20 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: =?utf-8?B?SsO2cmcgU29tbWVy?= <joerg.sommer@navimatix.de>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] busybox: fix DISTRO_FEATURES detection
-Thread-Topic: [OE-core] [PATCH] busybox: fix DISTRO_FEATURES detection
-Thread-Index: AQHcxqkaoIQr9ey14kuKW2GZFnVMEbXTyCWAgAAAdYA=
-Date: Tue, 7 Apr 2026 16:24:20 +0000
-Message-ID: <3869A7F3-4170-448D-B599-A1057E68F5F3@arm.com>
-References: <20260407161030.1196116-1-ross.burton@arm.com>
- <adUu2aZMnLWP8bKu@navimatix.de>
-In-Reply-To: <adUu2aZMnLWP8bKu@navimatix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS8PR08MB9813:EE_|DU2PEPF00028D05:EE_|AM9PR08MB6020:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a98099c-387a-4a96-df69-08de94c24464
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|1800799024|376014|38070700021|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info-Original: 
- DLqPOmo+usPSDTQ+ShrjlWpapEJZswnI97KRwr0QqaAhX0gCUNDmwH4DThlbMBzvC+QFs48BwYXqo69Sluuw4XpoIfP7bJDqkHTUqW8vuBQd61DGDxDcXQ0JOM5hIwZ/eR00jU2NxnMIhgf6KQnPP2vPIokBj6Vr7JwIMkgUBvgN09ZqNUX0NOvA278hj9ulzO2ZiN738Xr63uwmKYbKFc2HK0WTbbdUDAx/L5X/1dOCVuS+mQoPqF+M9dB5A/SbrUSgeBDPBMF+YlWSvVTLni2/OzIzvfxbb/2iEblwYwBzlGxISvjuUE7F4Pqqx5wDkHabMiGvPe3B1lHTllcpmZyfI+7aijXhzRYSxsNaLt179whR3SZi4JTJPAYOREBvGaJhmxa+FmKOmt67ZwnjhYLwos+5Ymjn3AaAckORH+7UMPK0n3f5KKVCNM97mug2uXXYIngsArTizIfufgTsBvW/4hDUMB7WuJLQb8Zn9Z4lsE1mfFoVI0JV35g1wEs8s4lhh5AlRl0ZNZpvQKrxOiLC7ncRPdyBwoqrfRdLftz4YZ3E96tQOoVYnCeXt8bcQmDVdrNEwGY9P3hWnhWrg/OQnNiSvKk4kA80wzgV5Mc7W0DWYO8mxjp1ap53Hjn+3Uk867Y+l6iIwkHNWZfDi9ouQP/ID0HLsIX9LbBlaFuI4iqrD9txrRZpS5ui8pJuo37L5NL72Vic2Ak9+nKSe11eeBsrV1Sy2NRMott/5Xu1tF7FsG34PSaIGnAenAyC/7AvxvtPR9bDu69QkZpEtaclqVZ3jeTkSgufj4mESV0=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DBDB52D64EC2C141AF21659ABA9C60AD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@mvista.com header.s=google header.b=EdtIt5zi;
+ spf=pass (domain: mvista.com, ip: 209.85.208.54, mailfrom: vanusuri@mvista.com)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65c0891f4e9so5051441a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 11:14:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775585658; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AoS6ImIiTuHobrz2hsYvKjRsrgtneF2l7+AIofA7RCnyqrmeMPYfdYQI4GnK8ES6lk
+         wYMCexLDbkoku/D4xcswkYcWDlQJRCZK1TVBYPieG3OoZ/bN0yRFllWyTzuLyjOyqDur
+         SRiZbnP8H2FtXUwffhWUnvw6Mqv1pKuzMMXkoEqWOeobHr7JxBclMGPlnY1v4/lKel3k
+         6NFZKdHd1yL7jctUkmZSm6/cN7/3HBfUlbB0hF/pTLnNeBiw3Qe40vY29/VR6u2bmObO
+         1KpisZ1xFKQ5R7nor9e5XZdnUQMeyGXDSPcE49iuSPEBWR4kr4JKdUFwPzsf3UZ97r5o
+         GAuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Enhpfz3cUclV7PuRaW+SROANbmOcV9MMOtuKRaq5wUE=;
+        fh=asqV5XwkQ3j1DNjI0AxRPYfk3NtHNhY/iAvm1HVGsgw=;
+        b=aAP1xbkIvGybfpgn/xvxkrlhlx+OVrfClvr/t4rk0i2cB2Z5S8ETBfICi8ZAsYa6y7
+         LzzCisL7ao2IRb+byhvKr6ixbr2BXZNpNHDItHaO7D2pzP3onL0rns7fW2fFIdxc4TZH
+         5gFAEQ6YdNnpDzhjSMuYg4kUAwJmEPAo49VTY2Uz0RZDgM8Mtm6cQVKRwiiz9rUEvrWi
+         M9uIZ+A4UbVSNqRs3m778jwlMP3UIE7nEUrILEcTSDCSl6scIHZwBEzwJ4L3nSK+2940
+         ymvTQ/DFW5cX9Lo7dxojBaOXRCPxCxqIZwurfBUrVd4tNwI/JnQcM+Q06y72jpyQJn+O
+         A8dg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1775585658; x=1776190458; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Enhpfz3cUclV7PuRaW+SROANbmOcV9MMOtuKRaq5wUE=;
+        b=EdtIt5ziqgBPq6m6T0zItrp/tvQJOiaad5hJUg2OLbvNQdqo/r7U5ZE8qZGRlBRyY/
+         TZs90w/cxex9f4h8FDZ8YRXvsVvorBuxOOPxubnlFuAljMJUy5hwiniFsDRXgBeBWESh
+         aau2rfgexguQqkgBOTB/qhyknDYRUmN8kf4wc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775585658; x=1776190458;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Enhpfz3cUclV7PuRaW+SROANbmOcV9MMOtuKRaq5wUE=;
+        b=eQL+6PhBj+oWW4nbXOI3q95V+5Swo9m6rR6oz9H8pRQnYLuFNmOMyZpjILu1X8CRKN
+         GNFc6BD63YvMNY5J+C4vWjDpK7vgyQK8rsvKQbXG7MeyhgMdBVdDJVcWlo15h4C2R2sz
+         4I5fVBEUbpgRN8/kGQH4mWYuzmwX+u2BhFZAk6ry5rp38nb/pT02+AmQ0C3ZOw87COrO
+         vx2gm28UHe2QLStHot9gFEJVii7cDrSDqsWymlsFMeKc6BoWev+sJlrJlKvlyUmIyS9r
+         76MQ4l4//wcKM/+OF2bEOf6+yQseuADmuPuEF74OC9Wcl87/AU3HEuwS/EO1C+dxT8RX
+         8nqQ==
+X-Gm-Message-State: AOJu0YxNM2eMzR8HIRkRjYfKtCROMWGQCJ62laI+7yZnsbu/Sd4q/T9s
+	DaVtppdj/f6ycjxJ7FUwS3ssnL/xnvPkkFNXzS0hjH6uWCctg3rw1uBRII+shufNT8HsEYVCaaQ
+	Sok3eK4Qj20eO9T7ls5F7UQtzkoef7bKQl0B7X8GW2w==
+X-Gm-Gg: AeBDievZjNya7j4jyGnY4ZQt+YbuLNMaI8JQT6FKDd2C6JNRf4xoGCxI/z0R37+hbfB
+	Ybp059p9mki2DkX2jsjYGnxuzg0jmn6rkoePi70g5VyWszGX++Kes0C4b5gT9DDJdH8dJIr1Djr
+	9qbndMb29yZeYtVQiTyFsGegEFBpZMyy5TcmAkzDQ6MY9oBnaPnvIfx75YYKPSGIK31I+wovnpW
+	rtfEpEpU+TVB0CRHX5FbZ1TnwiV49shkdqifB0efOkB+/Ssp5Mgcyv9zYEzvXKcsril/uCyAz/j
+	fWVMh6wu6YUdphixXLoGZ+JCykRUiB1AC2dLP5oT
+X-Received: by 2002:a05:6402:2349:b0:66e:6f10:82e0 with SMTP id
+ 4fb4d7f45d1cf-66e6f108339mr6249768a12.7.1775585657795; Tue, 07 Apr 2026
+ 11:14:17 -0700 (PDT)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- hCJXbB6/Emodmu/yqqsLQ6h0pjV4Z09neBRxIyYSgKHBSoAPdp9E1iUVz2g4zbV8xQTnd4XpafwJ/veuBz1aBftHv331TThV2S/wWTSsuvZl62jm+etC3MltZJwekiSlwLxjHkwjVRWb8D/JjMr8kMAX6N0ARya4qYPvUzRQUi7GtBTnCTK6WHJ8bvqXlvR79HloallXle2YhXsIrGa6OErcWRV/6sKoOGwGFpqV5cVKnmqjdjZiisEn8k2LaA0x1gPW8GBtgwu9COlofsY9i5B/MoD7qGGzsPRt0DZ0o79Q7bbcBMJmogvBu12V1dFgWwhwXCEzawYRFQrYLT007w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9813
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU2PEPF00028D05.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	1f3e8a2a-2fb2-4597-4321-08de94c21f28
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|35042699022|376014|36860700016|82310400026|14060799003|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	6eKFUGkcYXwuBb3rtRAxNhdneKMkIiTZYjo9npVXbBpF5hbflp8GKg2pp7Hjfo8haNVa6mKkQOh5aBth9k1lZOvvt7hi122vUEK00ZhTqvY9ASrAhASTD+8QJlJfdatxqpP6p65kNT3a3tWD5FWZmN2v2eiVHrLDCmk8JMFg3qvmBlPbzn6FLqOvAszyc4kRRGh7FvXH8ub1wPSthendg1cnXYkKT1FenBBm6AtkO9urOFX6bcbhsusF0jcvtXuIC/qsOHKWxhP2Wv+ZbK7FvtHxbI6lVi4Wx6vu0gsdT4/3mHSeiFLQpa7+IMSHq3qRjbLON1zHbZFgMkw12TmhJihg0q2e+nLhj0Pbk/YneRx3l1IHNl62wjBjcY6QwPYQHIqLwQFd3NHdMRy5XB+IWb7j9Fyeo7CkWR7HtoPx9k4MLuj8QG4s6Ah9cV8iS34FWDpdbuNHo8rx3MiNQaMba6gW9siC1XTnF0JDUAPuB5SZxi3uBLMGwxQTXHUOHlV28odlHQWu9QOaMuvtqjnWt+xTl5uXCosrGhZaTbneI4njsVeJ7Has4vv1C+GmVHpe7vzgKZBsrydBEP0RElbtwiLIqNe9GCq9Z9o5Bc5QTdj8ljbgY9/pXONCRxtMuSKfErv5IkjfMo8uAlKts4JH+lm9pcVvAjDXlk01HpYIi8vNx/c6vm82lavKP3VUVtwaskESXHhTmY1O3RsOqgZEsV9Ijnv/3SmksNwVnlqo+6z3YxmrPvblRFBa3m6MNVIgFCjZKqcnyACctbPQshOHxg==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(35042699022)(376014)(36860700016)(82310400026)(14060799003)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	UygjFy7u8T1ApWdjwSpliO+HdjIhwpC3UgBjf52ABBwMdlo/YwJ0AeO0dXOlZ81ydwoF/nDmr33IfTmIr6VcH+epXiPE3AQyQ/OlwGYxIIj23cW0cP20NNbSeXl2rHF+xlzoIHswydUU1moNoib0SJXZ6ccGFsmKx3KVWuqmFRQFHHnGGoyPiyCf3OvZYyqW9I/cVjBGTrgND6HSWrG0C2MzDN7DHr7j3POGCS8O5m+/eeTDbRx8IPchsdk6IJkWereElGayvPnO+sgichNXUtcevgtdMUxF0yrBc/JE6a0KpVxen7ou0SXruHF7ask3S2sQbG8GHdBYWC4t1RTF6VhHmRZlFdeJs6klFyro5d+xGmPizqRi7hBBpb7ktfXppToapHbaHIYF/MNf7H0/NiBHF8ZU7CM3HwyLGU9RxMuLOBlTRZKZZcfqAdImIEOU
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 16:25:22.4761
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a98099c-387a-4a96-df69-08de94c24464
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D05.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6020
+References: <cover.1775578386.git.yoann.congal@smile.fr>
+In-Reply-To: <cover.1775578386.git.yoann.congal@smile.fr>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Tue, 7 Apr 2026 23:44:05 +0530
+X-Gm-Features: AQROBzCh-vOUcjmOcSvvZRm8EQDNIl5uHYgyNV4XWGkAISpQO3o5tHQ7Yd0qPQM
+Message-ID: <CANQUz18ce-pbkn8-N6AorS8a5w5B8FJAtt9_dFXKnCUMSncvMQ@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone v3 00/19] Patch review
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000066c30f064ee2c0fa"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 16:25:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234775
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 18:14:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234776
 
-T24gNyBBcHIgMjAyNiwgYXQgMTc6MjIsIErDtnJnIFNvbW1lciA8am9lcmcuc29tbWVyQG5hdmlt
-YXRpeC5kZT4gd3JvdGU6DQo+IA0KPiBzL25vdC8hLw0KDQpUaGFua3MhICBNeSBicmFpbiBpcyB2
-ZXJ5IHNsb3cgYXQgY29udGV4dC1zd2l0Y2hpbmcgYmV0d2VlbiBweXRob24gYW5kIHNoZWxsLCBh
-cHBhcmVudGx5LiB2MiBzZW50Lg0KDQpSb3Nz
+--00000000000066c30f064ee2c0fa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Yoann,
+
+
+
+On Tue, 7 Apr, 2026, 9:46=E2=80=AFpm Yoann Congal via lists.openembedded.or=
+g,
+<yoann.congal=3Dsmile.fr@lists.openembedded.org> wrote:
+
+> Please review this set of changes for kirkstone and have comments back by
+> end of day Wednesday, April 8.
+>
+> Please note:
+> - This will be the last review cycle for kirkstone.
+> - If you expect a patch to get merged and it is not in this series ping
+>   me as soon as possible.
+> - Some patches look OK to me and are included here but will only be
+>   merged if some patches are sent/fixed in more recent branches:
+>   - Pending an equivalent patch sent for scarthgap:
+>     - ncurses: fix for CVE-2025-69720
+>   - Pending an equivalent patch sent for whinlatter:
+>     - libarchive: Fix CVE-2026-4111
+>
+> --> Libarchive 3.8.6 upgrade patch submitted for whinlatter. This upgrade
+> fixes CVE-2026-4111 .
+>
+
+Passed a-full on autobuilder:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3612
+>
+> v2->v3:
+> - Added ncurses:=C2=B7fix=C2=B7for=C2=B7CVE-2025-69720 to the series
+>
+> v1->v2:
+> - replaced "python3: Fix CVE-2025-15282" with
+>   "python3: upgrade 3.10.19 -> 3.10.20"
+> - Those patches are not held anymore since equivalent patches have been
+>   sent to more recent branches:
+>     - curl: patch CVE-2026-3784
+>     - curl: patch CVE-2026-3783
+>     - curl: patch CVE-2026-1965
+>     - vim: Fix CVE-2026-33412
+>
+> The following changes since commit
+> c4194cadb1180da37514c55cd97827eb0269c8e2:
+>
+>   build-appliance-image: Update to kirkstone head revision (2026-03-20
+> 09:58:53 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.openembedded.org/openembedded-core-contrib
+> stable/kirkstone-nut
+>
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/ki=
+rkstone-nut
+>
+> for you to fetch changes up to 94df79c304f692b0108155e04905180cdf92b2cd:
+>
+>   scripts/install-buildtools: Update to 4.0.34 (2026-04-07 09:14:47 +0200=
+)
+>
+> ----------------------------------------------------------------
+>
+> Bruce Ashfield (2):
+>   linux-yocto/5.15: update to v5.15.200
+>   linux-yocto/5.15: update to v5.15.201
+>
+> Fabien Thomas (1):
+>   README.OE-Core: update contributor links and add kirkstone prefix
+>
+> Hitendra Prajapati (2):
+>   vim: Fix CVE-2026-33412
+>   ncurses: fix for CVE-2025-69720
+>
+> Jinfeng Wang (1):
+>   tzdata/tzcode-native: upgrade 2025c -> 2026a
+>
+> Paul Barker (1):
+>   create-pull-request: Keep commit hash to be pulled in cover email
+>
+> Peter Marko (1):
+>   libtheora: mark CVE-2024-56431 as not vulnerable yet
+>
+> Vijay Anusuri (10):
+>   tzdata,tzcode-native: Upgrade 2025b -> 2025c
+>   python3: upgrade 3.10.19 -> 3.10.20
+>   python3-pyopenssl: Fix CVE-2026-27448
+>   python3-pyopenssl: Fix CVE-2026-27459
+>   libarchive: Fix CVE-2026-4111
+>   sqlite3: Fix CVE-2025-70873
+>   curl: patch CVE-2025-14524
+>   curl: patch CVE-2026-1965
+>   curl: patch CVE-2026-3783
+>   curl: patch CVE-2026-3784
+>
+> Yoann Congal (1):
+>   scripts/install-buildtools: Update to 4.0.34
+>
+>  README.OE-Core.md                             |  10 +-
+>  .../ncurses/files/CVE-2025-69720.patch        |  42 ++
+>  .../ncurses/ncurses_6.3+20220423.bb           |   1 +
+>  .../python3-pyopenssl/CVE-2026-27448.patch    | 125 ++++++
+>  .../python3-pyopenssl/CVE-2026-27459.patch    | 106 +++++
+>  .../python/python3-pyopenssl_22.0.0.bb        |   5 +
+>  .../python/python3/CVE-2025-12084.patch       | 171 --------
+>  .../python/python3/CVE-2025-13836.patch       | 163 --------
+>  .../python/python3/CVE-2025-13837.patch       | 162 --------
+>  .../python/python3/CVE-2025-6075.patch        | 364 ------------------
+>  ...{python3_3.10.19.bb =3D> python3_3.10.20.bb} |   6 +-
+>  .../libarchive/CVE-2026-4111-1.patch          |  32 ++
+>  .../libarchive/CVE-2026-4111-2.patch          | 308 +++++++++++++++
+>  .../libarchive/libarchive_3.6.2.bb            |   2 +
+>  meta/recipes-extended/timezone/timezone.inc   |   6 +-
+>  .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+>  .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
+>  .../libtheora/libtheora_1.1.1.bb              |   3 +
+>  .../curl/curl/CVE-2025-14524.patch            |  42 ++
+>  .../curl/curl/CVE-2026-1965-1.patch           |  98 +++++
+>  .../curl/curl/CVE-2026-1965-2.patch           |  29 ++
+>  .../curl/curl/CVE-2026-3783-pre1.patch        |  66 ++++
+>  .../curl/curl/CVE-2026-3783.patch             | 157 ++++++++
+>  .../curl/curl/CVE-2026-3784.patch             |  73 ++++
+>  meta/recipes-support/curl/curl_7.82.0.bb      |   6 +
+>  .../sqlite/files/CVE-2025-70873.patch         |  33 ++
+>  meta/recipes-support/sqlite/sqlite3_3.38.5.bb |   1 +
+>  .../vim/files/CVE-2026-33412.patch            |  61 +++
+>  meta/recipes-support/vim/vim.inc              |   1 +
+>  scripts/create-pull-request                   |   2 +-
+>  scripts/install-buildtools                    |   4 +-
+>  32 files changed, 1224 insertions(+), 893 deletions(-)
+>  create mode 100644 meta/recipes-core/ncurses/files/CVE-2025-69720.patch
+>  create mode 100644
+> meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27448.patch
+>  create mode 100644
+> meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+>  delete mode 100644
+> meta/recipes-devtools/python/python3/CVE-2025-12084.patch
+>  delete mode 100644
+> meta/recipes-devtools/python/python3/CVE-2025-13836.patch
+>  delete mode 100644
+> meta/recipes-devtools/python/python3/CVE-2025-13837.patch
+>  delete mode 100644
+> meta/recipes-devtools/python/python3/CVE-2025-6075.patch
+>  rename meta/recipes-devtools/python/{python3_3.10.19.bb =3D>
+> python3_3.10.20.bb} (98%)
+>  create mode 100644
+> meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+>  create mode 100644
+> meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-1.patch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-2.patch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3783-pre1.pat=
+ch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3783.patch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3784.patch
+>  create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-70873.patc=
+h
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-33412.patch
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#234753):
+> https://lists.openembedded.org/g/openembedded-core/message/234753
+> Mute This Topic: https://lists.openembedded.org/mt/118710539/7301997
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> vanusuri@mvista.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000066c30f064ee2c0fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hi Yoann,<div dir=3D"auto"><br></div><br><br><div class=
+=3D"gmail_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">On Tue,=
+ 7 Apr, 2026, 9:46=E2=80=AFpm Yoann Congal via <a href=3D"http://lists.open=
+embedded.org" target=3D"_blank" rel=3D"noreferrer">lists.openembedded.org</=
+a>, &lt;yoann.congal=3D<a href=3D"mailto:smile.fr@lists.openembedded.org" t=
+arget=3D"_blank" rel=3D"noreferrer">smile.fr@lists.openembedded.org</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">Please review this set of c=
+hanges for kirkstone and have comments back by<br>
+end of day Wednesday, April 8.<br>
+<br>
+Please note:<br>
+- This will be the last review cycle for kirkstone.<br>
+- If you expect a patch to get merged and it is not in this series ping<br>
+=C2=A0 me as soon as possible.<br>
+- Some patches look OK to me and are included here but will only be<br>
+=C2=A0 merged if some patches are sent/fixed in more recent branches:<br>
+=C2=A0 - Pending an equivalent patch sent for scarthgap:<br>
+=C2=A0 =C2=A0 - ncurses: fix for CVE-2025-69720<br>
+=C2=A0 - Pending an equivalent patch sent for whinlatter:<br>
+=C2=A0 =C2=A0 - libarchive: Fix CVE-2026-4111<br>
+<br>--&gt; Libarchive 3.8.6 upgrade patch submitted for whinlatter. This up=
+grade fixes CVE-2026-4111 .<br></blockquote></div><div dir=3D"auto"><br></d=
+iv><div class=3D"gmail_quote" dir=3D"auto"><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Passed a-full on autobuilder:<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/buil=
+ds/3612" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https:/=
+/autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3612</a><br>
+<br>
+v2-&gt;v3:<br>
+- Added ncurses:=C2=B7fix=C2=B7for=C2=B7CVE-2025-69720 to the series<br>
+<br>
+v1-&gt;v2:<br>
+- replaced &quot;python3: Fix CVE-2025-15282&quot; with<br>
+=C2=A0 &quot;python3: upgrade 3.10.19 -&gt; 3.10.20&quot;<br>
+- Those patches are not held anymore since equivalent patches have been<br>
+=C2=A0 sent to more recent branches:<br>
+=C2=A0 =C2=A0 - curl: patch CVE-2026-3784<br>
+=C2=A0 =C2=A0 - curl: patch CVE-2026-3783<br>
+=C2=A0 =C2=A0 - curl: patch CVE-2026-1965<br>
+=C2=A0 =C2=A0 - vim: Fix CVE-2026-33412<br>
+<br>
+The following changes since commit c4194cadb1180da37514c55cd97827eb0269c8e2=
+:<br>
+<br>
+=C2=A0 build-appliance-image: Update to kirkstone head revision (2026-03-20=
+ 09:58:53 +0000)<br>
+<br>
+are available in the Git repository at:<br>
+<br>
+=C2=A0 <a href=3D"https://git.openembedded.org/openembedded-core-contrib" r=
+el=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://git.opene=
+mbedded.org/openembedded-core-contrib</a> stable/kirkstone-nut<br>
+=C2=A0 <a href=3D"https://git.openembedded.org/openembedded-core-contrib/lo=
+g/?h=3Dstable/kirkstone-nut" rel=3D"noreferrer noreferrer noreferrer" targe=
+t=3D"_blank">https://git.openembedded.org/openembedded-core-contrib/log/?h=
+=3Dstable/kirkstone-nut</a><br>
+<br>
+for you to fetch changes up to 94df79c304f692b0108155e04905180cdf92b2cd:<br=
+>
+<br>
+=C2=A0 scripts/install-buildtools: Update to 4.0.34 (2026-04-07 09:14:47 +0=
+200)<br>
+<br>
+----------------------------------------------------------------<br>
+<br>
+Bruce Ashfield (2):<br>
+=C2=A0 linux-yocto/5.15: update to v5.15.200<br>
+=C2=A0 linux-yocto/5.15: update to v5.15.201<br>
+<br>
+Fabien Thomas (1):<br>
+=C2=A0 README.OE-Core: update contributor links and add kirkstone prefix<br=
+>
+<br>
+Hitendra Prajapati (2):<br>
+=C2=A0 vim: Fix CVE-2026-33412<br>
+=C2=A0 ncurses: fix for CVE-2025-69720<br>
+<br>
+Jinfeng Wang (1):<br>
+=C2=A0 tzdata/tzcode-native: upgrade 2025c -&gt; 2026a<br>
+<br>
+Paul Barker (1):<br>
+=C2=A0 create-pull-request: Keep commit hash to be pulled in cover email<br=
+>
+<br>
+Peter Marko (1):<br>
+=C2=A0 libtheora: mark CVE-2024-56431 as not vulnerable yet<br>
+<br>
+Vijay Anusuri (10):<br>
+=C2=A0 tzdata,tzcode-native: Upgrade 2025b -&gt; 2025c<br>
+=C2=A0 python3: upgrade 3.10.19 -&gt; 3.10.20<br>
+=C2=A0 python3-pyopenssl: Fix CVE-2026-27448<br>
+=C2=A0 python3-pyopenssl: Fix CVE-2026-27459<br>
+=C2=A0 libarchive: Fix CVE-2026-4111<br>
+=C2=A0 sqlite3: Fix CVE-2025-70873<br>
+=C2=A0 curl: patch CVE-2025-14524<br>
+=C2=A0 curl: patch CVE-2026-1965<br>
+=C2=A0 curl: patch CVE-2026-3783<br>
+=C2=A0 curl: patch CVE-2026-3784<br>
+<br>
+Yoann Congal (1):<br>
+=C2=A0 scripts/install-buildtools: Update to 4.0.34<br>
+<br>
+=C2=A0<a href=3D"http://README.OE-Core.md" rel=3D"noreferrer noreferrer nor=
+eferrer" target=3D"_blank">README.OE-Core.md</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 10 +-<br>
+=C2=A0.../ncurses/files/CVE-2025-69720.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 42 ++<br>
+=C2=A0.../ncurses/ncurses_6.3+<a href=3D"http://20220423.bb" rel=3D"norefer=
+rer noreferrer noreferrer" target=3D"_blank">20220423.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+=C2=A0.../python3-pyopenssl/CVE-2026-27448.patch=C2=A0 =C2=A0 | 125 ++++++<=
+br>
+=C2=A0.../python3-pyopenssl/CVE-2026-27459.patch=C2=A0 =C2=A0 | 106 +++++<b=
+r>
+=C2=A0.../python/<a href=3D"http://python3-pyopenssl_22.0.0.bb" rel=3D"nore=
+ferrer noreferrer noreferrer" target=3D"_blank">python3-pyopenssl_22.0.0.bb=
+</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A05 +<br>
+=C2=A0.../python/python3/CVE-2025-12084.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=
+71 --------<br>
+=C2=A0.../python/python3/CVE-2025-13836.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=
+63 --------<br>
+=C2=A0.../python/python3/CVE-2025-13837.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=
+62 --------<br>
+=C2=A0.../python/python3/CVE-2025-6075.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3=
+64 ------------------<br>
+=C2=A0...{<a href=3D"http://python3_3.10.19.bb" rel=3D"noreferrer noreferre=
+r noreferrer" target=3D"_blank">python3_3.10.19.bb</a> =3D&gt; <a href=3D"h=
+ttp://python3_3.10.20.bb" rel=3D"noreferrer noreferrer noreferrer" target=
+=3D"_blank">python3_3.10.20.bb</a>} |=C2=A0 =C2=A06 +-<br>
+=C2=A0.../libarchive/CVE-2026-4111-1.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 32 ++<br>
+=C2=A0.../libarchive/CVE-2026-4111-2.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 308 +++++++++++++++<br>
+=C2=A0.../libarchive/<a href=3D"http://libarchive_3.6.2.bb" rel=3D"noreferr=
+er noreferrer noreferrer" target=3D"_blank">libarchive_3.6.2.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
+=C2=A0meta/recipes-extended/timezone/timezone.inc=C2=A0 =C2=A0|=C2=A0 =C2=
+=A06 +-<br>
+=C2=A0.../linux/<a href=3D"http://linux-yocto-rt_5.15.bb" rel=3D"noreferrer=
+ noreferrer noreferrer" target=3D"_blank">linux-yocto-rt_5.15.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +-<br>
+=C2=A0.../linux/<a href=3D"http://linux-yocto-tiny_5.15.bb" rel=3D"noreferr=
+er noreferrer noreferrer" target=3D"_blank">linux-yocto-tiny_5.15.bb</a>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +-<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=
+=3D"noreferrer noreferrer noreferrer" target=3D"_blank">linux-yocto_5.15.bb=
+</a> |=C2=A0 26 +-<br>
+=C2=A0.../libtheora/<a href=3D"http://libtheora_1.1.1.bb" rel=3D"noreferrer=
+ noreferrer noreferrer" target=3D"_blank">libtheora_1.1.1.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +<br>
+=C2=A0.../curl/curl/CVE-2025-14524.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 42 ++<br>
+=C2=A0.../curl/curl/CVE-2026-1965-1.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 98 +++++<br>
+=C2=A0.../curl/curl/CVE-2026-1965-2.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 29 ++<br>
+=C2=A0.../curl/curl/CVE-2026-3783-pre1.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 66 ++++<br>
+=C2=A0.../curl/curl/CVE-2026-3783.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 157 ++++++++<br>
+=C2=A0.../curl/curl/CVE-2026-3784.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 73 ++++<br>
+=C2=A0meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.bb" rel=3D"no=
+referrer noreferrer noreferrer" target=3D"_blank">curl_7.82.0.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A06 +<br>
+=C2=A0.../sqlite/files/CVE-2025-70873.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 33 ++<br>
+=C2=A0meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.38.5.bb" rel=
+=3D"noreferrer noreferrer noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</=
+a> |=C2=A0 =C2=A01 +<br>
+=C2=A0.../vim/files/CVE-2026-33412.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 61 +++<br>
+=C2=A0meta/recipes-support/vim/vim.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0scripts/create-pull-request=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+=C2=A0scripts/install-buildtools=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+=C2=A032 files changed, 1224 insertions(+), 893 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-core/ncurses/files/CVE-2025-69720.pat=
+ch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE=
+-2026-27448.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE=
+-2026-27459.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-1208=
+4.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-1383=
+6.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-1383=
+7.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-6075=
+.patch<br>
+=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3_3.10.1=
+9.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">python3_3.=
+10.19.bb</a> =3D&gt; <a href=3D"http://python3_3.10.20.bb" rel=3D"noreferre=
+r noreferrer noreferrer" target=3D"_blank">python3_3.10.20.bb</a>} (98%)<br=
+>
+=C2=A0create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-20=
+26-4111-1.patch<br>
+=C2=A0create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-20=
+26-4111-2.patch<br>
+=C2=A0create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patc=
+h<br>
+=C2=A0create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-1.pat=
+ch<br>
+=C2=A0create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-2.pat=
+ch<br>
+=C2=A0create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3783-pre1.=
+patch<br>
+=C2=A0create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3783.patch=
+<br>
+=C2=A0create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3784.patch=
+<br>
+=C2=A0create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-70873.p=
+atch<br>
+=C2=A0create mode 100644 meta/recipes-support/vim/files/CVE-2026-33412.patc=
+h<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#234753): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/234753" rel=3D"noreferrer noreferrer noreferrer" ta=
+rget=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/=
+234753</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118710539/730=
+1997" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://li=
+sts.openembedded.org/mt/118710539/7301997</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" rel=3D"noreferrer noreferrer" target=3D"_blank">openembedded-core+own=
+er@lists.openembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://l=
+ists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:vanu=
+suri@mvista.com" rel=3D"noreferrer noreferrer" target=3D"_blank">vanusuri@m=
+vista.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000066c30f064ee2c0fa--
 
