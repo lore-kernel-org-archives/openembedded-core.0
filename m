@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3593FFEEF45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12D68FEEF42
 	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 13:31:50 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.81294.1775568705264320557
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.81432.1775568704388115546
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 06:31:45 -0700
+ Tue, 07 Apr 2026 06:31:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=F36zI0jR;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=f72gOdH2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019d682453a4-1384597b-0104-48f2-828b-14c99943f065-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RTO1rQXJ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4Iwu+RzI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d6824505d-8e443dc6-f48e-4ac3-a174-d84ad3912b9e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775568704; i=@automation.yoctoproject.org;
+	t=1775568703; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=AhWGtz8gwKzvZmo8QDmn+lKrBB4m5Y994yGNFkdlPDE=;
-	b=F36zI0jRT78VLsL2kzw0GbRv9LF3FjPzIdGWBXkRC5+kV58qP4Ce7GefcEQDd26Y
-	4v6OxK7Eiqpf6HrSg12GU2hBdHGEW5IeUOo6kd8KHExPrXUL3qDLEgEiNkpWpaRfdZP
-	UyWTC/EwdDOfY+EgpHdZDiamdyhHgsmWbMR+XRok=
+	bh=hXeAW+LYWZjfweCMVaQNoiM2Q/lywQAkdkdMafdcW6E=;
+	b=RTO1rQXJRfv06w80snNQQeB4pafdb196/h6uJCCsSo8g7iBu/FykLI/aF3BOQ/uP
+	8N6s62lguHIi/pcfit1kn9I2uLDBGre02TZW/sKpjvdTSD5ZPzXJJP29RaKZ7CCK+LJ
+	ls/cwVUTWmumMkWLO0BncfWc3oJepoNPMtKZOEOw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775568704;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775568703;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=AhWGtz8gwKzvZmo8QDmn+lKrBB4m5Y994yGNFkdlPDE=;
-	b=f72gOdH206ZCAlqHKQJ9ccLZ0lYkCRuQhbC0EgWRMQUAWXTXyvZhnz37DPzYrrdf
-	8xXgKX/JtWuYsd8KI7sqgWc82ThBq4p9X0LRIKtFrs4YEUQIQydxKFBWknNPUP+WE5e
-	yZKIlmW8P5M31+Uq0G67lmdMhd90LvFX49zcnsdI=
+	bh=hXeAW+LYWZjfweCMVaQNoiM2Q/lywQAkdkdMafdcW6E=;
+	b=4Iwu+RzICRH28ZiUkoFwkjyiJjej3ylWqiswuX8UJbOsY/O3Q5EuMSj3nZWobPPY
+	LQhWWYh9c0LRSRJwGsbAltM0+fly9znnnoz19C2ulsZCDa6RVWONz1Q5SET7mfQh8M6
+	vAFR8Ejaik5Q2jGvByD0jAgkTpNZZ8e5soWMI5b8=
 From: patchtest@automation.yoctoproject.org
 To: =?utf-8?b?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [whinlatter][PATCH 2/2] gcc: Backport a patch to fix build with GLIBC
- 2.43 on the host
-In-Reply-To: <20260407131555.838073-2-zboszor@gmail.com>
-References: <20260407131555.838073-2-zboszor@gmail.com>
+Subject: Patchtest results for [whinlatter][PATCH 1/2] binutils: Fix build with GLIBC 2.43 on the
+ host
+In-Reply-To: <20260407131555.838073-1-zboszor@gmail.com>
+References: <20260407131555.838073-1-zboszor@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d682453a4-1384597b-0104-48f2-828b-14c99943f065-000000@us-west-2.amazonses.com>
-Date: Tue, 7 Apr 2026 13:31:44 +0000
+Message-ID: <0101019d6824505d-8e443dc6-f48e-4ac3-a174-d84ad3912b9e-000000@us-west-2.amazonses.com>
+Date: Tue, 7 Apr 2026 13:31:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.07-54.240.27.30
+X-SES-Outgoing: 2026.04.07-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 13:31:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234735
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234734
 
 --NextPart
 Content-Type: text/plain
@@ -54,9 +54,9 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/whinlatter-2-2-gcc-Backport-a-patch-to-fix-build-with-GLIBC-2.43-on-the-host.patch
+Testing patch /home/patchtest/share/mboxes/whinlatter-1-2-binutils-Fix-build-with-GLIBC-2.43-on-the-host.patch
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-libcody-Make-it-buildable-by-C-11-to-C-26.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-gprofng-protect-against-standard-library-macros.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
 PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
