@@ -1,199 +1,178 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EFF6EDB7DB
-	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 08:54:58 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.76639.1775552091854827553
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E8FFEDB7E2
+	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 09:51:52 +0000 (UTC)
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.77609.1775555508119586991
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 01:54:52 -0700
+ Tue, 07 Apr 2026 02:51:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=kJgrxMMW;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so28706425e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 01:54:51 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=YBrPCzI4;
+ spf=pass (domain: mvista.com, ip: 74.125.82.54, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12732e6a123so88743c88.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 02:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775552090; x=1776156890; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mjbwqx7/1uG/hIGWzMm76EzADaF+3l1SbUhNNhxzxO0=;
-        b=kJgrxMMWR6IvTQR+9XwDhvXoGFb69tk4jeqpx1ognMqutLGVEWW/2v3q+mja6tD+NR
-         yQR+EA4lLoLx2XJbE3cetf/iEC3Bxb+jBrG2zldLANtjB64dDqPbUQf4k5e2+fPJTzxi
-         1VZkV1gdWXqzpJDJ9qKDZAs3ROIWCooT99fO9Yry7b26EzfzxO2QANTy/jkHuNJUAIZu
-         3CVT9M0rnSCGJ9R+lKwi0HPrzaGfKF6rq4MYFkA0jQXNMqBK0RWYMh/A1hvLN3hALkWM
-         BH1ewb0InJknQVBVv3Sg0Yj2q4ku4q31OzJocGuzmk6Jsjd8feEyy1JX8iCvF92/KNGZ
-         rSDw==
+        d=mvista.com; s=google; t=1775555507; x=1776160307; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ETaYJ30k2D4A97F+CKEtSBN4VHbIIWhxAQLmTEkMQuE=;
+        b=YBrPCzI4wfmtc9PgAkYHdMJk+xm3SuQJj4U9nEEWxaY6rImyycZoGMnwfYQ3ZWZMTL
+         eN3aep7/kiCsdIBqZF64CO2+jLsEZkOklJryb7MH0onKJK3jgjqvd+XB0KWfp+/G9qcp
+         SVoMPuRIZxvVO08rUXN3/mCpvFN1vnmnupd4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775552090; x=1776156890;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Mjbwqx7/1uG/hIGWzMm76EzADaF+3l1SbUhNNhxzxO0=;
-        b=L9IL/R2R+EeBxi7pFJo9MZn4DBjOgn4c6LsF8G1HdE525ZNLV1J3ErHvEtofnDeOCF
-         xK/eI8Q/Q7DlBsnf5CV42qjMhJ3qXrAQT4uBVpHS8/MIlmmi2KBGajaWtKWwAyJDpAYB
-         OPxsPBTzqQEOxFUzQQlmZY0JcBTa3IToIAIy+qSpSgOfqwLyrDlb/gepZVp+yqq+VorV
-         SbYIo7Yfgztw2kWgLHyDpvJE7yOAfCSg4XnEg7fnugPb7yPkaZeq3a1irOdtLR/QVZNH
-         trJEfkBQkC5XOCUWdnt0c9o0U6oyNMacKqUYSfdx5vej2DHKAVn8YfSsIRoitA7TSZs4
-         FKGQ==
-X-Gm-Message-State: AOJu0Yw2QxlwPzUro+EBIxx7XkwGdHekIxlIr6siZhzawdezuVhxna4T
-	wcnPYGedWqklNx2DzZdbV0I3X1QbPzvqC81MO+LZV6hmpTFPKIxEfDCg
-X-Gm-Gg: AeBDiettsT0e+Lgv5VuUoCz73Tjz6VRfgGldpInjMuppNkF/T5jYtnTsyKNf3GeruuT
-	8UR/XY3HkOS2o1NDOF4KqxEdY3HtXpyLYtd5mV8erXKKwwwDbJsMXEwuf6zDL8K27KDwpzjKuft
-	8+Ro/dv+eToOBynT/jojNmJUAYhikREO1uP01/YZP69HDL2DBtZOhCq4Y/oAMaWJOJGjnSJqIqw
-	mO0rrjQuAuGGk9YQR8dcjUOZDdmkBeGcp4eqsl+wBsfnjDfeLBfmiyIQSVVW4rx28yhM+gis4Y/
-	6se3Gj6F00yD2ISMaTN15TLRNuuMOupnsjAQ3OHZ+BKO1oyFUDji3xeBj5utt/xqADlNJeRHwyS
-	o3TvTVGWdsbkU/Rr6/LgI5FYo0aNMIe0fZ1KfFkDEj7DFRb/R44bzaSVqHddFQvWgq4DxW9BQDp
-	+NHqFgyNaX/k6up3p4x0Hi8wMH+m0csa/25G6aiNMS5rzB+g8clmGYrw==
-X-Received: by 2002:a05:600c:1381:b0:487:1108:48af with SMTP id 5b1f17b1804b1-488996a351bmr226183325e9.4.1775552089751;
-        Tue, 07 Apr 2026 01:54:49 -0700 (PDT)
-Received: from [192.168.2.122] (95C81E23.dsl.pool.telekom.hu. [149.200.30.35])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488bf0a0071sm10882005e9.6.2026.04.07.01.54.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2026 01:54:49 -0700 (PDT)
-Message-ID: <db7598b8-ced1-41a8-9986-43fbf2f3056a@gmail.com>
-Date: Tue, 7 Apr 2026 10:54:47 +0200
+        d=1e100.net; s=20251104; t=1775555507; x=1776160307;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ETaYJ30k2D4A97F+CKEtSBN4VHbIIWhxAQLmTEkMQuE=;
+        b=kyRjwHj8lzJb8+1iaOXx8CcOEiP2TSGw2SF4+sZzzxwWDHABwE98DZYtOfpvBDb0rr
+         pFq+acmjeqdPIpfm82f95K0p7D3y8Sg/qyaBPx30Xe7lo+fEYV6uRpPOl+sIaACiHrGb
+         rzm02U3JxMapXxGsluPzPFhM069bnKDTbN9RoZ8c80OE2QGgzLTxUhbSlv3nrs43+qPA
+         HyLFbljO+mtPQY/GJhU8o1uSkxDMlN2nVzGyVW+ea7wMJca6MFsMGAIfo453l8wllhxQ
+         5AL7r0qP3l+0s66XpxlyabSKgbL2yoFeVOghfZd4g8/3Di0akpw65v0w2kL02eA6+Vy1
+         M0EA==
+X-Gm-Message-State: AOJu0Yz2ipBA8ZuUTZZmZesEP12ZHMF9vS2+7RaQNicNuAAAmq0LWxWu
+	GmVutwfrixGVxRBnQqC8AJYRGVEzblfBBP6cK+8usRqcb8ULXVslAFq6pFQEB+VzRT3CGCMZvM5
+	ParbcVqI=
+X-Gm-Gg: AeBDievMOtIQYjjOe1WSgzpm6fOqiHNX0VvOQbWLlPbNjH93SVlAUUPSl8lndMobiG0
+	oRlAK7tfeZ/VDklliumSZ7/cQd+sXXaRpXW/BV9sPZiAeF7gOvNRAwG737pO6mvauoSX3KcE0Q1
+	KMHg9w/RvCE7UzvnfOyabaoldsWQiyp/wGpJjqTk13lu1MZdIDesdXIEgDlX5T2cvAByyss1xOB
+	lHsngZsMLvR3gQlwo0AvXqEELUSBvwcjyrpcgVJZKQS/jjoL9ggirqs0pZcw70pU6xwYa34QfQj
+	QgjUHEf5Y5i2Y8ckXaEhH/0Ta8/3MY7h4sxqar5MOhsWpqe9YlNGFJMqiIWl5Rl+vyO2tuuW8SR
+	OciWBW5xUJeEMabivARPw91q2dOgTOv2Of68/QUpJEwFykaZjeKGu8cq51ZyFfZQql3tTuQGxWr
+	+OpVIj9/LyrmFPo75GmOedFvXsEUADoNmEz7VB
+X-Received: by 2002:a05:7022:fe04:b0:128:d24a:a5c1 with SMTP id a92af1059eb24-12bfb75f067mr8779492c88.28.1775555507222;
+        Tue, 07 Apr 2026 02:51:47 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([152.59.5.113])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bedd4e4e3sm13178393c88.1.2026.04.07.02.51.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 02:51:46 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] vim: Fix CVE-2026-28418
+Date: Tue,  7 Apr 2026 15:19:37 +0530
+Message-ID: <20260407094937.58526-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 3/7] pseudo: fix for build with glibc-2.43
-To: martin.jansa@gmail.com, Hemanth.KumarMD@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com,
- Randy.MacLeod@windriver.com
-References: <20260308150834.2508331-1-Hemanth.KumarMD@windriver.com>
- <20260308150834.2508331-3-Hemanth.KumarMD@windriver.com>
- <CA+chaQcneoNBogdCZmZB3LCE-cVErs2-4NoNtYUGgK+REEBxLg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CA+chaQcneoNBogdCZmZB3LCE-cVErs2-4NoNtYUGgK+REEBxLg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 08:54:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234724
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:51:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234725
 
-Hi,
+Pick patch from [1] also mentioned in [2]
 
-something is still wrong with pseudo on Fedora 44 (beta) after this change.
-Besides GLIBC 2.43, GCC 16 is on Fedora 44.
+[1] https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28418
 
-Packaging fails for every file and directory shipped by the recipe with:
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../vim/files/CVE-2026-28418.patch            | 78 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28418.patch
 
-Cannot open: Function not implemented
-
-or
-
-Cannot mkdir: Function not implemented
-
-2026. 03. 08. 17:37 keltezéssel, Martin Jansa via lists.openembedded.org írta:
-> Hi,
->
-> this is already merged in the repo and there is SRCREV bump which
-> includes that change from Richard in master-next.
->
-> Regards,
->
-> On Sun, Mar 8, 2026 at 4:09 PM Hemanth Kumar M D via
-> lists.openembedded.org
-> <Hemanth.KumarMD=windriver.com@lists.openembedded.org> wrote:
->> From: Martin Jansa <martin.jansa@gmail.com>
->>
->> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
->> ---
->>   ...01-openat2-use-const-struct-open_how.patch | 54 +++++++++++++++++++
->>   meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
->>   2 files changed, 55 insertions(+)
->>   create mode 100644 meta/recipes-devtools/pseudo/files/0001-openat2-use-const-struct-open_how.patch
->>
->> diff --git a/meta/recipes-devtools/pseudo/files/0001-openat2-use-const-struct-open_how.patch b/meta/recipes-devtools/pseudo/files/0001-openat2-use-const-struct-open_how.patch
->> new file mode 100644
->> index 0000000000..eda2593bdf
->> --- /dev/null
->> +++ b/meta/recipes-devtools/pseudo/files/0001-openat2-use-const-struct-open_how.patch
->> @@ -0,0 +1,54 @@
->> +From d17159194e94b5150600c333a5e2ad46fda6291e Mon Sep 17 00:00:00 2001
->> +From: Martin Jansa <martin.jansa@gmail.com>
->> +Date: Thu, 5 Mar 2026 17:53:34 +0100
->> +Subject: [PATCH] openat2: use const struct open_how
->> +MIME-Version: 1.0
->> +Content-Type: text/plain; charset=UTF-8
->> +Content-Transfer-Encoding: 8bit
->> +
->> +To match
->> +https://sourceware.org/cgit/glibc/commit/?id=0f0a5cd338998f4b603f52f3ce2163df0db7b814
->> +
->> +Otherwise it fails to build with glibc-2.43:
->> +
->> +In file included from pseudo_wrappers.c:300:
->> +pseudo_wrapfuncs.c: At top level:
->> +pseudo_wrapfuncs.c:11537:1: error: conflicting types for ‘openat2’; have ‘int(int,  const char *, struct open_how *, size_t)’ {aka ‘int(int,  const char *, struct open_how *, long unsigned int)’}
->> +11537 | openat2(int dirfd, const char *path, struct open_how *how, size_t size) {
->> +      | ^~~~~~~
->> +In file included from /usr/include/bits/fcntl-linux.h:492,
->> +                 from /usr/include/bits/fcntl.h:61,
->> +                 from /usr/include/fcntl.h:35,
->> +                 from pseudo_wrappers.c:23:
->> +/usr/include/bits/fcntl-linux-fortify.h:36:1: note: previous definition of ‘openat2’ with type ‘int(int,  const char *, const struct open_how *, long unsigned int)’
->> +   36 | openat2 (int __dfd, const char *__filename, const struct open_how *__how,
->> +      | ^~~~~~~
->> +make: *** [Makefile:162: pseudo_wrappers.o] Error 1
->> +
->> +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
->> +Upstream-Status: Pending
->> +---
->> + ports/linux/openat2/guts/openat2.c | 2 +-
->> + ports/linux/openat2/wrapfuncs.in   | 2 +-
->> + 2 files changed, 2 insertions(+), 2 deletions(-)
->> +
->> +diff --git a/ports/linux/openat2/guts/openat2.c b/ports/linux/openat2/guts/openat2.c
->> +index da01b31..366fb95 100644
->> +--- a/ports/linux/openat2/guts/openat2.c
->> ++++ b/ports/linux/openat2/guts/openat2.c
->> +@@ -4,7 +4,7 @@
->> +  *
->> +  * SPDX-License-Identifier: LGPL-2.1-only
->> +  *
->> +- * int openat2(int dirfd, const char *path, struct open_how *how, size_t size)
->> ++ * int openat2(int dirfd, const char *path, const struct open_how *how, size_t size)
->> +  *    int rc = -1;
->> +  */
->> +
->> +diff --git a/ports/linux/openat2/wrapfuncs.in b/ports/linux/openat2/wrapfuncs.in
->> +index 96ae8a7..2f1e716 100644
->> +--- a/ports/linux/openat2/wrapfuncs.in
->> ++++ b/ports/linux/openat2/wrapfuncs.in
->> +@@ -1 +1 @@
->> +-int openat2(int dirfd, const char *path, struct open_how *how, size_t size);
->> ++int openat2(int dirfd, const char *path, const struct open_how *how, size_t size);
->> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
->> index a26a205a16..b34525055d 100644
->> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
->> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
->> @@ -1,6 +1,7 @@
->>   require pseudo.inc
->>
->>   SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
->> +           file://0001-openat2-use-const-struct-open_how.patch \
->>              file://fallback-passwd \
->>              file://fallback-group \
->>              "
->> --
->> 2.49.0
->>
->>
->>
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#232665): https://lists.openembedded.org/g/openembedded-core/message/232665
->> Mute This Topic: https://lists.openembedded.org/mt/118204632/3617728
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
+diff --git a/meta/recipes-support/vim/files/CVE-2026-28418.patch b/meta/recipes-support/vim/files/CVE-2026-28418.patch
+new file mode 100644
+index 0000000000..3a80ba77f7
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-28418.patch
+@@ -0,0 +1,78 @@
++From f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Mon, 23 Feb 2026 18:30:11 +0000
++Subject: [PATCH] patch 9.2.0074: [security]: Crash with overlong emacs tag
++ file
++
++Problem:  Crash with overlong emacs tag file, because of an OOB buffer
++          read (ehdgks0627, un3xploitable)
++Solution: Check for end of buffer and return early.
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-h4mf-vg97-hj8j
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++CVE: CVE-2026-28418
++Upstream-Status: Backport [https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/tag.c                    |  3 +++
++ src/testdir/test_taglist.vim | 15 +++++++++++++++
++ src/version.c                |  2 ++
++ 3 files changed, 20 insertions(+)
++
++diff --git a/src/tag.c b/src/tag.c
++index a32bbb2459..45af67f20d 100644
++--- a/src/tag.c
+++++ b/src/tag.c
++@@ -1902,6 +1902,9 @@ emacs_tags_new_filename(findtags_state_T *st)
++ 
++     for (p = st->ebuf; *p && *p != ','; p++)
++ 	;
+++    // invalid
+++    if (*p == NUL)
+++	return;
++     *p = NUL;
++ 
++     // check for an included tags file.
++diff --git a/src/testdir/test_taglist.vim b/src/testdir/test_taglist.vim
++index 5a946042be..506e64f7ae 100644
++--- a/src/testdir/test_taglist.vim
+++++ b/src/testdir/test_taglist.vim
++@@ -301,4 +301,19 @@ func Test_tag_complete_with_overlong_line()
++   set tags&
++ endfunc
++ 
+++" This used to crash Vim
+++func Test_evil_emacs_tagfile()
+++  CheckFeature emacs_tags
+++  let longline = repeat('a', 515)
+++  call writefile([
+++	\ "\x0c",
+++	\ longline
+++	\ ], 'Xtags', 'D')
+++  set tags=Xtags
+++
+++  call assert_fails(':tag a', 'E426:')
+++
+++  set tags&
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/version.c b/src/version.c
++index 712a3e637c..7d265ab641 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -724,6 +724,8 @@ static char *(features[]) =
++ 
++ static int included_patches[] =
++ {   /* Add new patch number below this line */
+++/**/
+++    1685,
++ /**/
++     1684,
++ /**/
++-- 
++2.50.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 2f222c5295..713e277936 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-33412.patch \
+            file://CVE-2026-25749.patch \
+            file://CVE-2026-26269.patch \
++           file://CVE-2026-28418.patch \
+            "
+ 
+ PV .= ".1683"
+-- 
+2.50.1
 
 
