@@ -1,217 +1,190 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B23EDB7D8
-	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 07:13:57 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.75677.1775546025229079441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58681EDB7CC
+	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 07:40:08 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.19])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.75951.1775547598043976039
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 00:13:45 -0700
+ Tue, 07 Apr 2026 00:39:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=lOF7tYu1;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48896199cbaso40723245e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 00:13:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775546023; x=1776150823; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+yR9Dh3QlptEbmJEZasIQsqijuqDXfBH6Jm1XCMvk/I=;
-        b=lOF7tYu1i37UpX2w+XJiOpdtP1e9IzvzRkIOsgmSqyXivKkRD8ry3x45HTdIdW6EsD
-         7AHHAUh9b/ZCuyJ1M7klRBrjf1MIcC9T//kBtoLoGiC6Tr+7Q8wYCbRlLYQGGy68zn5B
-         pMwYf5TGzPOgK9Xm9FT/HrLrxs8SaOt7FWvoY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775546023; x=1776150823;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+yR9Dh3QlptEbmJEZasIQsqijuqDXfBH6Jm1XCMvk/I=;
-        b=TJ16Et17hDHuIYsMsKwr0Cwb7rnI6IHnvWj8Lu847Ryt97LFETqkUrcUl9ccZYqRPd
-         Yp+6WSahyEM7ssVy+a0g6mns/nUFRRp2g33RJHwwW4JQNceeIqKK16f7Qc4Z5QC0Prif
-         EEPWMaKIL9yksF5+3g18z2Q2lqv3XcFTDxoE2ew2rOAlsRihSnfl1NuT7tANJRYjqco7
-         Fa2EGonNg21uYoDHajE8c+jiI2/1nEi9Tl4dWKINfjq0DU8OezZSVuVakOqpDzlGgiqT
-         58djOmLb2LDBMRrWTujP2QJhNeB+nrYnPB1eV52sGBydnoV2K1AAGYsYfdVH6OuTiWvY
-         6hZg==
-X-Gm-Message-State: AOJu0YyLPHYTD1my+h9pL6j99ana6ISx74/x2DvrRgsnQTPP/IRHHy14
-	PvNY/S2OKI7ARNijm8tLTDfkqKoZ8SXCtiLc1qhh4WdtZc47Wd8QOTPgeYPfwTIH+5s2aPh5OaL
-	poIlZPwA=
-X-Gm-Gg: AeBDiesjcbqOzCWdQfCEGfF4HDIdcd+WA1kerd71mYlrHxN9mk+wMByxx3EO7F6pwpT
-	ERDtwsah4WpiEyx5VE2x3vETT5Hj0cba0bAGnLG42uwDXDNgdyLZgicMSkDYxEbs1X+8J+vS9WH
-	esTIw6Kb7C8ohhcpey/EvycJu+DCrKZMyclNESTYpn8Mpb4StSlu+nvloNdrhztWmM+T484z7K4
-	Rf3YVqqNwANAwj0oeY9eN3lyyalaP8r60iGTNthLIUFkoDn+sDthc6JG1TOxQoagn3COrEkLdVH
-	AGk3gKTnjF4n6aylL8oBX/1wzvUsm/npuU1XiNczYdVacRPN1L4GpsuowibKPYiV5L7OYtkSvAq
-	uSt3Qo30r4teKZKIY8If1Tj+k6xbuTK11JxHfa5RlkQb7MeCjbJQKOFIe+OcK5LlZ+VDp0P95PV
-	sbBU3htowpn5YVFwlacSrzwaVnSpt9HEwFv1wleCuBJN9xrt8ZG3xlqKBNQs4UrDdOtUxelWCaH
-	0pn+YuCCmN8MPNSHGqVlBMRi9Q=
-X-Received: by 2002:a05:600c:8592:b0:485:5981:1423 with SMTP id 5b1f17b1804b1-488996b04e7mr145537665e9.3.1775546023222;
-        Tue, 07 Apr 2026 00:13:43 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899d0fc00sm156364925e9.4.2026.04.07.00.13.42
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 00:13:42 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone v2 02/18] linux-yocto/5.15: update to v5.15.201
-Date: Tue,  7 Apr 2026 09:13:10 +0200
-Message-ID: <65c5b6d33aa81de3e85452a1c1e4395e49addcca.1775545489.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1775545489.git.yoann.congal@smile.fr>
-References: <cover.1775545489.git.yoann.congal@smile.fr>
+ dkim=pass header.i=@ericsson.com header.s=selector1 header.b=BwIOu6+I;
+ spf=pass (domain: ericsson.com, ip: 52.101.84.19, mailfrom: daniel.turull@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aDeBo3C8NBY40NiDlkIi7A5J+2WiOUkud6x5NdsUOodsTgJYPeEKxEPlUG5ZYNo34jBmCAuIZq2bWAG5ZVIkTZR1uZL5apM78uy+vpePwYQFcW5wneM8ObHjmp6BIoh7qPfKQxbPy2lpq14YVBcjpVslLp4C8H7VnWSvmS7X9Lx6D0fRAnIwRq5rFeMsgacn1keY9W5vR+Rp9k/cy/PKAcJzxO+LTZA+OvrOMszh6wogUFwkpCIBceLa4DwCz/DzSkJzbZ8+tFccqE5oAu2b0NCzoos8vp05QRdY4pUqIqwEraBQDP6e3k5sK0SIgfdCYCK3G6ASdhEywxtPAm9yZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a/VjKBwX784gzyCTGQH8yyfKP4H+BOyl4nIuz5tnTIE=;
+ b=LnmmB7i6dv12mI9le4+K32WJXcj3NRm/Q01cjRgJgXXBcgJKOHo/8sQmG0bJi6ECruKmK9wK7VJtXTFdcstXg6GEWrpq3pmzakPkhEoO2bXzyy0WY/mjrPVaU0nS7vNFRuPZISeMjPdKvlrtdASc4VsFUb+r0bgttbodPiqlCDcfNLYgbtMVd/lWH/SPpG4WofJ8VcrLa2gtHeMu/O75lsyosnXOn7rK8mWKcuO8bfSa1G6C7hCYkqyoE+RcyEtC/Oq/qQldgjL+BZjGIq9zQKCREHFp7f6MRi/NX2y2KIqUueufZbN1N0U7dLYCdzXfBGsCjFFT9X1N+S0gL0VRog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a/VjKBwX784gzyCTGQH8yyfKP4H+BOyl4nIuz5tnTIE=;
+ b=BwIOu6+Ib3jKGfY47+MzkzsyAx0jPwiIScxNRmiYg/NNC70jxwn09W74Rv6zHQIuRDwC8e2gDP+ege6gGmpHUI0mnHorr1cPWJojLj7OQk5+MUNAU5xS4BNFR3DAY9T7Bd+hmPwP2DOdl7fw/mIlws+AI0t2jY/JmiuULW4fFAZ8Myt4ak1IWh0CvXsJP42ZHjjrb42p9HoiL2HHxbJmXFP0+zQVlAUgQA2TFxMF/fCkXdTlr0cvxMwLrqB34lRWdGNjgAG2vz8ODAutPw6kQ5pm8NmKwOvAGBzZoT72k4YHMbVo4//TkKWtEC4gDWbZxX4OIW+5U3boYdqXQlIzBw==
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
+ by DU2PR07MB8271.eurprd07.prod.outlook.com (2603:10a6:10:278::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Tue, 7 Apr
+ 2026 07:39:53 +0000
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7%7]) with mapi id 15.20.9769.016; Tue, 7 Apr 2026
+ 07:39:50 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: Benjamin Robin <benjamin.robin@bootlin.com>, Ross Burton
+	<Ross.Burton@arm.com>
+CC: "rybczynska@gmail.com" <rybczynska@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 1/3] classes/vex: remove
+Thread-Topic: [OE-core] [PATCH 1/3] classes/vex: remove
+Thread-Index: AQHcwRG7K/hFKNmmh0+wUe8B+l4FVrXItzgAgAFskXCAAbfcgIAAAyuAgAdhXrA=
+Date: Tue, 7 Apr 2026 07:39:50 +0000
+Message-ID: 
+ <PA3PR07MB107213FD3F157CA716E4A8CDE8A5AA@PA3PR07MB10721.eurprd07.prod.outlook.com>
+References: <20260331132430.781647-1-ross.burton@arm.com>
+ <PA3PR07MB10721439AB9FDE89335C33B3E8A50A@PA3PR07MB10721.eurprd07.prod.outlook.com>
+ <B7466D11-14E9-49CF-9203-24A6B4D47DB6@arm.com>
+ <3204609.CbtlEUcBR6@brobin-bootlin>
+In-Reply-To: <3204609.CbtlEUcBR6@brobin-bootlin>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|DU2PR07MB8271:EE_
+x-ms-office365-filtering-correlation-id: 203741d3-1e64-4758-1cfa-08de9478d9db
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|18002099003|56012099003|22082099003;
+x-microsoft-antispam-message-info: 
+ oJ5RxXTgz4j1mutFTAXaw+Ss0UVBjoxEHXD2IVWXccSOFiMukOTyEEx1s2qhjueUe5oV3lZ7+OwjNP9rRlzRUSYIeZVZNdJtwQfTQGLXjyciBZyx1DVH0GyjG9UbzNsashkQMkIGd7gKx6Q9RAGSz2xo3Cj8uCA5Q9AkYrOi/YqBQ66YP77Rwstb/GCu8iAA6jrATx/89tVq1viYzzkguErrgO/jOP5UizfRdFrNOmF5SUVomLxJvf4CEWbSzAuuJyog7Rmwc3jx5tPQPOFZYD41nVT5k0NyvKS5kBHDd+N+E4TYOsTOqTVsCUhcdg565jtkzaJgQW/SE/ciy4BNxRsmRqJ2ltosndGYyw5mY6IiYXacJJdQfQy6SuqXmEjT4fl0j6ZkSf6HuE6acrqBms47kr+x22x7nEUUnMEFZv/pL8VMWg5M/W7r1/CuY4+5reHmGAihb/WMJWhMY+8ji5Ub6jshIqFAZq4jNGTeWUQAlO8W2zK5pyN75pjnM+Aar9ohOsh3OD5Pg4/pgeMqIFIGOgZSV71di+56S7bFUqI66behaxj96bQa+6/uYSApwqciRXZnG7zMXNUoePfTIB7keJ+LBtBZCS3p1LfGgT86wigrm2cUcS02PZizuxUq+2PjpjvR6sP3dBRIaWDunlFU8zPON+bLisuFMRe+lIrLFBiAWGRCkYBFS5YLDR0E9hlzguCdvWzZQ8KLP0ZuL4Poxz1SFSwKg0TSi+3dsaIwiH9+67zt7vWk/VyR8Y0YxsoWJZqGUU8Bb26jbfKUf5DQQ5IRRcgkrz1nNXhvuZY=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?YVFRSlhDYmV2aW1OZUlMRDhKOVpUM2ptT3UyYnZ6MlhVYUlidVNpclM0Vk51?=
+ =?utf-8?B?R2N4STZFcldZbnplWlBDTEVLZzlaL3p3N1h5c0JmLzY3cEMydVE3TXc2NUpZ?=
+ =?utf-8?B?MTByaW9rVGhvcUJRTnJ5V3NZYlJOVEpmMnhwZHk0MlpZMWJvVkVyMkZHLzgy?=
+ =?utf-8?B?Vmo4OW9iRVBQUHhGTTJZVitKUHBNUkpocGphMHRkNkY2TzlwVktRbWxaUWlt?=
+ =?utf-8?B?VVNoRDlqcmRhc3NJa3hWNGN1dW9odjFURU9jMTBIRTFtUmJ6MHo3TGV3S2dM?=
+ =?utf-8?B?aUF0ajd1MUhnSDNRSjYyVXp3K1dUVmoxZ1VzanltREpPUzZwVjd1TVRqL1NW?=
+ =?utf-8?B?MENZa3R3MWgvSmNlNVRyOVl1bUtrcy92TXExdy9wMGo4bnhuWGtKL0RTNlRG?=
+ =?utf-8?B?bEJqSEhLWHRXWEpqYVdwV3dqZ1FpejRFV092VTV5WU9tdlVsRk4xT1pBSklz?=
+ =?utf-8?B?bjM3dVh6U0pwaFZxZWdkT2kwL2g1VzJ2dU80MXQ4TW4rQ3dBYjd6d3hSelQw?=
+ =?utf-8?B?cWhQWk5BS1l6ejZTMytLb1hmVk0raVd4Wkk4NVNveTA1eThFY2NkT1ZLK3lN?=
+ =?utf-8?B?eEhCcU1PVGNWV0dHTWl2TURKTmhPWVhNNFBETnM0M0o1NzJ0RmNkOW5wN0Mr?=
+ =?utf-8?B?NThseU1peFM2dFcvU1pMRG1WV1EySXdqQ0I0OExSSlhCdW9LbjRZSWNXZ3F5?=
+ =?utf-8?B?YWNkVkxPL3dqRXVHeVFYMHNHU2NuNW01d3EvMmttZ096Zm5ZSngxQmcvcFJx?=
+ =?utf-8?B?VzhUNCt6TFN6cWNoTHF1MTZKOUVvYlMvckhFWTlOT0JQcHpMd0FhdXpmckd3?=
+ =?utf-8?B?LytlekhtMk80a3pPd2RvYmVYdDdoZzZmTmlaU016SGVTQlNWaG1iV2xjeitR?=
+ =?utf-8?B?b1RHY09xakoyN09KREVnQ2s3NGhHZ0pZL2pod0hLT1cyRTU3eUhGR3o2Tksv?=
+ =?utf-8?B?bzNHQ1RxcHhmUXJ2VkVmcGdvN1kyWllPQms0TEkvbUVvRk1lVWozbk5KeVAr?=
+ =?utf-8?B?cEs2WmgwL3BuNzRLUGd3T2VoK2g0azRlVFg0UDJIVGJVOCt3OTVSY0lsTGpR?=
+ =?utf-8?B?UDZOczFJdEF6bXRHSXVxYmxuMGVYakFjTnpvTzllS0pQa3ZMdTlEZXdidnRh?=
+ =?utf-8?B?eFliWktDTWp5OEJGQ0c2WkFESVM2TnVXZEN0N3pzRUh5eHo1V2wrZjZmRjB6?=
+ =?utf-8?B?N3JwYW12WlhDa2FJN2d3RlBBLzI0OHFBUmhvOEVVZER3WFNoWGpON2MvSUFa?=
+ =?utf-8?B?MDZkZVdtODJWZ3lLcWIxZHJCazE3UlRwTDhnRFZKSHR3eDlhUUozOXZUdGhs?=
+ =?utf-8?B?czRsWEV1REhxNGtTTUdJMlpzN2ZrSFBmdlludWkrcmhHY2hzK0RGUnNNc0pE?=
+ =?utf-8?B?ZldtOFlnOUJFUkpXNXFzV255YTBrSkFGMG9OUzFnNGNoZkx2TXhaMGdkVXRy?=
+ =?utf-8?B?UDRlZXZ1ZTJrQy9CbEJYc0JCNWc2Rk1XcFVOOVFQVnplWmgwWFptRVdVY1ZH?=
+ =?utf-8?B?dDMvNktPbXp0bllSeG5mTGJQWGF1NG9Ea1krbWQzaDN2WTh0U3FkN2hPWVpz?=
+ =?utf-8?B?SHZRL0xQKzJtdXcwdFVia2M2eldOUlNIUGdDUWtrK3RJTGJqQm5mU1RrZzZE?=
+ =?utf-8?B?U3dBOFN1Rm1KRXhFbS9Xa1BrRk1ibCs4R09mb2t4cGFBZ0FycWRXc0xydFdJ?=
+ =?utf-8?B?T21ORUdCQUpaNGhjelhnK1h5dDlWMERPb1RIR3hNZm95OWMvQTZlanRzK2sw?=
+ =?utf-8?B?d3psSC9zbFNWdHdMMGlyb0pIWncyek15cHBqRlQrSDA2cXZjckV1c1RIWjB3?=
+ =?utf-8?B?a2dCOHQ0ZnRpV1ZIZjVtNmNjekd3UEhSdlpRZGVjdlZXSC82ek85eUkzcDF3?=
+ =?utf-8?B?cGRYU3lZTUpIc25HRGxrcWhPYSsrUXQ5dkdLMmUxVVByblpJeEtKYm5Ga2Fm?=
+ =?utf-8?B?Y3dTaGZ3KzJQMFYxNmtEUU9SMWNCS0xzRU9sN1BGUFFucSsvL04wUGZXbGh3?=
+ =?utf-8?B?eUNjTDFxNHdtbnY3blo5MmpDdDFYRmdiK1phL1N6VDdQVjVob3ozZTVHbm55?=
+ =?utf-8?B?QThobUxCS29KZStYV295MFhRM0FiQWlNWm8xU3B2aUxZU2g3d01sdG9jcHo5?=
+ =?utf-8?B?L3JDdDBITm9uV0N3aXNsQ1dLcVI2RXI3MGhWTlRhaHdrcFB5N0FjRVZBVnht?=
+ =?utf-8?B?engwV0pHYlBzNjdYY0M5N2JjQzRYVWUrVkpwa3BRQWpIRFYrMWpOc2tTVGF4?=
+ =?utf-8?B?eW1STzNaaUF6UWlkODJKZzcwbG5LTzRqUmhyZWNoUy9KY3ZQTk1KbEZvUnFz?=
+ =?utf-8?B?b1ZpOXdENXMwV3lBbUxEQ1BnVW42R3RucnovSHVkTk5SelJQYzZVUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 203741d3-1e64-4758-1cfa-08de9478d9db
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2026 07:39:50.4242
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AqUqJ11WqOZLswiWXmZvHmnZJDtaP8nWw2VImS9MnOOr7Z8AY7uiWXlO0NVjC9c5ewm378oKlfFdpqBDaKN2DwJhEsQicqXhmO7SebJ3PCo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR07MB8271
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 07:13:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234706
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 07:40:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234723
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-Updating linux-yocto/5.15 to the latest korg -stable release that comprises
-the following commits:
-
-    3330a8d33e08 Linux 5.15.201
-    cfd5eadd051a USB: serial: option: add Telit FN920C04 RNDIS compositions
-    438a405fbad6 f2fs: fix out-of-bounds access in sysfs attribute read/write
-    2f67ff1e15a8 f2fs: fix to avoid UAF in f2fs_write_end_io()
-    6167af934f95 fbdev: smscufx: properly copy ioctl memory to kernelspace
-    52916878db2b fbdev: rivafb: fix divide error in nv3_arb()
-    fa9fb38f5fe9 PCI: endpoint: Avoid creating sub-groups asynchronously
-    7036aff5a5e8 PCI: endpoint: Remove unused field in struct pci_epf_group
-    8055827352b7 PCI: endpoint: Automatically create a function specific attributes group
-    b74408de1f22 scsi: qla2xxx: Free sp in error path to fix system crash
-    794563147038 scsi: qla2xxx: Reduce fabric scan duplicate code
-    23507a811081 scsi: qla2xxx: Remove dead code (GNN ID)
-    da9939b1ed8b scsi: qla2xxx: Use named initializers for port_[d]state_str
-    f2bbb4db0e4a scsi: qla2xxx: Fix bsg_done() causing double free
-    c71dfb7833db bus: fsl-mc: fix use-after-free in driver_override_show()
-    38770e103e4e bus: fsl-mc: Replace snprintf and sprintf with sysfs_emit in sysfs show functions
-    6dd2645cf080 smb: server: fix leak of active_num_conn in ksmbd_tcp_new_connection()
-    dc5f09466448 crypto: virtio - Remove duplicated virtqueue_kick in virtio_crypto_skcipher_crypt_req
-    338d40bab283 mptcp: fix race in mptcp_pm_nl_flush_addrs_doit()
-    ec7b6a042414 selftests: mptcp: pm: ensure unknown flags are ignored
-    51df5513cca6 net: dsa: free routing table on probe failure
-    4a6e4c56721a smb: client: set correct id, uid and cruid for multiuser automounts
-    b0bb67385480 btrfs: fix racy bitfield write in btrfs_clear_space_info_full()
-    cfdb22762f90 Revert "wireguard: device: enable threaded NAPI"
-    20c83788eafe gpiolib: acpi: Fix gpio count with string references
-    612ffe1f4f04 ASoC: fsl_xcvr: fix missing lock in fsl_xcvr_mode_put()
-    ff96318c22fa platform/x86: panasonic-laptop: Fix sysfs group leak in error path
-    af673209d43b platform/x86: classmate-laptop: Add missing NULL pointer checks
-    72f97ee4950d drm/tegra: hdmi: sor: Fix error: variable ‘j’ set but not used
-    f2521ab1f63a romfs: check sb_set_blocksize() return value
-    f14e997a372a gpio: sprd: Change sprd_gpio lock to raw_spin_lock
-    1fe2603fb171 ALSA: hda/realtek: Fix headset mic for TongFang X6AR55xU
-    86588916e188 gpio: omap: do not register driver in probe()
-    7e0b2cdbe660 scsi: qla2xxx: Query FW again before proceeding with login
-    891f9969a29e scsi: qla2xxx: Delay module unload while fabric scan in progress
-    a46f81c1e627 scsi: qla2xxx: Validate sp before freeing associated memory
-    ba18e5f22f26 nilfs2: Fix potential block overflow that cause system hang
-    8ee8ccfd60bf crypto: virtio - Add spinlock protection with virtqueue notification
-    31aff96a41ae crypto: omap - Allocate OMAP_CRYPTO_FORCE_COPY scatterlists correctly
-    a60b17cedb44 crypto: octeontx - Fix length check to avoid truncation in ucode_load_store
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- .../linux/linux-yocto-rt_5.15.bb              |  4 ++--
- .../linux/linux-yocto-tiny_5.15.bb            |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 24 +++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index 526f3c64b7d..ea763ce9aa1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "671f06e26c741b7d55d8afcc30e64f1480cec166"
-+SRCREV_machine ?= "46e4e1200a4fa889438a2cc62151bb7f1057421a"
- SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.15.200"
-+LINUX_VERSION ?= "5.15.201"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index 1eeda2e22ca..56853f481fa 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.15.200"
-+LINUX_VERSION ?= "5.15.201"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -14,7 +14,7 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "0d4112b87ce7dd038dc712ef616c0b6dd333c786"
-+SRCREV_machine ?= "5ae014d6b48449ae38584cc174ef362f6582a8fc"
- SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index 5f8bfba396e..176d17e5736 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -14,16 +14,16 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "44b7b6bdfaab20ab51f175aeb0df8c27791cc40d"
--SRCREV_machine:qemuarm64 ?= "d67ad97cb5d6a51184bd61853e3af7e044c7f1d4"
--SRCREV_machine:qemumips ?= "94fe5264de5b6ba6a5fab53b3f2283e36033e373"
--SRCREV_machine:qemuppc ?= "a065262f1076ca606ea8229f84b23c10be2680e7"
--SRCREV_machine:qemuriscv64 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
--SRCREV_machine:qemuriscv32 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
--SRCREV_machine:qemux86 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
--SRCREV_machine:qemux86-64 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
--SRCREV_machine:qemumips64 ?= "00831bab13b4320ee27e4ddc72b55542bfe75ec8"
--SRCREV_machine ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemuarm ?= "9750e854c9e92d55a2cb042c5ce72e712b24217d"
-+SRCREV_machine:qemuarm64 ?= "8634ca1dd87be9b55bd383dc8636b73b82a28051"
-+SRCREV_machine:qemumips ?= "54eca1788efd507120c9dc08681a6a31038513a1"
-+SRCREV_machine:qemuppc ?= "3a3a4ecdcebb4d3deaa8b5c4ec3e167d5f31305c"
-+SRCREV_machine:qemuriscv64 ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
-+SRCREV_machine:qemuriscv32 ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
-+SRCREV_machine:qemux86 ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
-+SRCREV_machine:qemux86-64 ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
-+SRCREV_machine:qemumips64 ?= "e643e82fef4b4352b8f6ddf802181526edc806ca"
-+SRCREV_machine ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
- SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
-@@ -31,7 +31,7 @@ SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "e45d5d41c1343aad8c7587a5b15d58e99aff4c8a"
-+SRCREV_machine:class-devupstream ?= "3330a8d33e086f76608bb4e80a3dc569d04a8814"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v5.15/base"
- 
-@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.15.200"
-+LINUX_VERSION ?= "5.15.201"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+SGksDQpXaGlsZSB0aGUgdmV4IG91dHB1dCBpcyBvcHRpb25hbCB0byBpbXByb3ZlIHRoZSBxdWFs
+aXR5IGlzIG5vdCBhIGJsb2NrZXIgdG8gdXNlIGltcHJvdmVfa2VybmVsX2N2ZV9yZXBvcnQucHku
+IEJ1dCBCZW5qYW1pbiBhbHNvIHNheXMgdGhhdCBpdCBpcyBzdGlsbCBub3QgaW50ZWdyYXRlZCB3
+aXRoIHRoZSBzYm9tLWN2ZS1jaGVjay4NCg0KSSBjb3VsZCBhbHNvIGFkZCB0aGUgZnVuY3Rpb25h
+bGl0eSB0byByZWFkIGZyb20gdGhlIHNwZHgzIHNib20gYnV0IGl0IHdvbid0IG1ha2UgaXQgZm9y
+IHRoZSBuZXh0IHJlbGVhc2UuDQoNCkkgdGhpbmsgaXMgYSBiaXQgdG9vIGxhdGUgaW4gdGhlIGN5
+Y2xlIHRvIGtlZXAgcmVtb3ZpbmcgZnVuY3Rpb25hbGl0eS4gSSBjYW4ga2VlcCB0aGUgdmV4LmJi
+Y2xhc3Mgb24gb3VyIG1ldGEtbGF5ZXJzIGJ1dCB0aGlzIHdpbGwgcmVkdWNlIHRoZSBjb2xsYWJv
+cmF0aXZlIHdvcmsgYXJvdW5kIGl0Lg0KDQpCZXN0IHJlZ2FyZHMsDQpEYW5pZWwNCg0KPiAtLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCZW5qYW1pbiBSb2JpbiA8YmVuamFtaW4u
+cm9iaW5AYm9vdGxpbi5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCAyIEFwcmlsIDIwMjYgMTY6NTQN
+Cj4gVG86IERhbmllbCBUdXJ1bGwgPGRhbmllbC50dXJ1bGxAZXJpY3Nzb24uY29tPjsgUm9zcyBC
+dXJ0b24NCj4gPFJvc3MuQnVydG9uQGFybS5jb20+DQo+IENjOiByeWJjenluc2thQGdtYWlsLmNv
+bTsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBS
+ZTogW09FLWNvcmVdIFtQQVRDSCAxLzNdIGNsYXNzZXMvdmV4OiByZW1vdmUNCj4gDQo+IFtZb3Ug
+ZG9uJ3Qgb2Z0ZW4gZ2V0IGVtYWlsIGZyb20gYmVuamFtaW4ucm9iaW5AYm9vdGxpbi5jb20uIExl
+YXJuIHdoeSB0aGlzDQo+IGlzIGltcG9ydGFudCBhdCBodHRwczovL2FrYS5tcy9MZWFybkFib3V0
+U2VuZGVySWRlbnRpZmljYXRpb24gXQ0KPiANCj4gSGVsbG8sDQo+IA0KPiBPbiBUaHVyc2RheSwg
+QXByaWwgMiwgMjAyNiBhdCA0OjQy4oCvUE0sIFJvc3MgQnVydG9uIHdyb3RlOg0KPiA+IE9uIDEg
+QXByIDIwMjYsIGF0IDEzOjI5LCBEYW5pZWwgVHVydWxsIDxkYW5pZWwudHVydWxsQGVyaWNzc29u
+LmNvbT4gd3JvdGU6DQo+ID4gPiAgVGhlIGtlcm5lbCBzY3JpcHRzIHRvIGNoZWNrIENWRXMgdXNl
+cyB0aGUgdmV4IG91dHB1dCBhcyBpbnB1dC4NCj4gPiA+IGh0dHBzOi8vZXVyMDIuc2FmZWxpbmtz
+LnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmdpDQo+ID4gPiB0Lm9w
+ZW5lbWJlZGRlZC5vcmclMkZvcGVuZW1iZWRkZWQtDQo+IGNvcmUlMkZ0cmVlJTJGc2NyaXB0cyUy
+RmNvbnRyaWIlMkYNCj4gPiA+DQo+IGltcHJvdmVfa2VybmVsX2N2ZV9yZXBvcnQucHkmZGF0YT0w
+NSU3QzAyJTdDZGFuaWVsLnR1cnVsbCU0MGVyaWNzc29uDQo+ID4gPg0KPiAuY29tJTdDNjBjZTg5
+Y2RiODAxNDgzNjcwYzQwOGRlOTBjNzllZDglN0M5MmU4NGNlYmZiZmQ0N2FiYmU1MjA4DQo+IDBj
+NmINCj4gPiA+DQo+IDg3OTUzZiU3QzAlN0MwJTdDNjM5MTA3Mzg0MjAxMjQ1MTEyJTdDVW5rbm93
+biU3Q1RXRnBiR1pzYjNkDQo+IDhleUpGYlhCMA0KPiA+ID4NCj4gZVUxaGNHa2lPblJ5ZFdVc0ls
+WWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6TWlJc0lrRk9Jam9pVFdGcGINCj4gQ0lzDQo+
+ID4gPg0KPiBJbGRVSWpveWZRJTNEJTNEJTdDMCU3QyU3QyU3QyZzZGF0YT1ERVBKOWsxWjZTQSUy
+QmhnbXZJdTBWTzBiDQo+IFdiUVhtVHUNCj4gPiA+IExJc1o3UEJKJTJGME80OCUzRCZyZXNlcnZl
+ZD0wDQo+ID4NCj4gPiBJIGJlbGlldmUgdGhpcyBmdW5jdGlvbmFsaXR5IGlzIGFsc28gc3VwZXJj
+ZWRlZCBieSBzYm9tLWN2ZS1jaGVjaywgYXMgdGhlDQo+IHJlY29tbWVuZGVkIGNvbmZpZ3VyYXRp
+b24gZnJhZ21lbnQgc2V0cw0KPiBTUERYX0lOQ0xVREVfQ09NUElMRURfU09VUkNFUzpwbi1saW51
+eC15b2N0byA9IOKAnDHigJ0uDQo+ID4NCj4gPiBXb3VsZCB5b3UgYmUgYWJsZSB0byB2ZXJpZnkg
+dGhpcywgd2UgbWlnaHQgYmUgYWJsZSB0byBkZXByZWNhdGUvcmVtb3ZlIHRoaXMNCj4gc2NyaXB0
+IHRvbyBpbiBtYXN0ZXIuDQo+ID4NCj4gPiBSb3NzDQo+IA0KPiBDdXJyZW50bHksIHNib20tY3Zl
+LWNoZWNrIGRvZXMgbm90IGZ1bGx5IGhhbmRsZSBMaW51eCBrZXJuZWwgQ1ZFcyBjb3JyZWN0bHku
+DQo+IFNwZWNpYWwgcHJvY2Vzc2luZyBpcyByZXF1aXJlZCB3aGVuIHRoZSBpbmZvcm1hdGlvbiBv
+cmlnaW5hdGVzIGZyb20gdGhlDQo+IGtlcm5lbCBDTkEsIGFzIG1hbnkga2VybmVsIENWRXMgYXJl
+IGluY29ycmVjdGx5IG1hcmtlZCBhcyB2dWxuZXJhYmxlLg0KPiANCj4gQWRkaXRpb25hbGx5LCBz
+Ym9tLWN2ZS1jaGVjayBkb2VzIG5vdCB5ZXQgcHJvdmlkZSBhbiBhc3Nlc3NtZW50IGFzIGRldGFp
+bGVkDQo+IGFzIGltcHJvdmVfa2VybmVsX2N2ZV9yZXBvcnQucHkuDQo+IA0KPiBUaGUgZmlyc3Qg
+bGltaXRhdGlvbiBpcyBwbGFubmVkIHRvIGJlIGFkZHJlc3NlZCBpbiB0aGUgdmVyeSBuZWFyIGZ1
+dHVyZSAod2l0aGluDQo+IHRoaXMgbW9udGgpLiBBbmQgZm9yIHRoZSBzZWNvbmQgcG9pbnQsIEkg
+aG9wZSBJIGNhbiBhZGRyZXNzIGl0IGF0IHRoZSBzYW1lDQo+IHRpbWUuDQo+IA0KPiAtLQ0KPiBC
+ZW5qYW1pbiBSb2JpbiwgQm9vdGxpbg0KPiBFbWJlZGRlZCBMaW51eCBhbmQgS2VybmVsIGVuZ2lu
+ZWVyaW5nDQo+IGh0dHBzOi8vZXVyMDIuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20v
+P3VybD1odHRwcyUzQSUyRiUyRmJvb3RsaW4NCj4gLmNvbSUyRiZkYXRhPTA1JTdDMDIlN0NkYW5p
+ZWwudHVydWxsJTQwZXJpY3Nzb24uY29tJTdDNjBjZTg5Y2RiODANCj4gMTQ4MzY3MGM0MDhkZTkw
+Yzc5ZWQ4JTdDOTJlODRjZWJmYmZkNDdhYmJlNTIwODBjNmI4Nzk1M2YlN0MwJTdDDQo+IDAlN0M2
+MzkxMDczODQyMDEyNzE1MTMlN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKRmJYQjBlVTFoYw0K
+PiBHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6TWlJc0lrRk9Jam9p
+VFdGcGJDSXNJbGRVDQo+IElqb3lmUSUzRCUzRCU3QzAlN0MlN0MlN0Mmc2RhdGE9emprdnljblpt
+SXliY1VYNE01d0ZxU0hDWFF3ZQ0KPiBDWVAzSTdBRmY0UVBLVzAlM0QmcmVzZXJ2ZWQ9MA0KPiAN
+Cj4gDQoNCg==
 
