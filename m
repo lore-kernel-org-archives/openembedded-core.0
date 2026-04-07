@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 150BCFF5123
-	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 16:16:25 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.85462.1775578577007689128
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1678BFF5117
+	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 16:16:35 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.85476.1775578591435330751
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 09:16:17 -0700
+ Tue, 07 Apr 2026 09:16:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=FsRIGb80;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488c21c636dso3668645e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:16:16 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=PMW4uKhz;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso417975e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775578575; x=1776183375; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775578590; x=1776183390; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1ym6+A4JCVPCh2T4oIKQtV7Mrbzbqe03UJK+amU/8q8=;
-        b=FsRIGb804+UNh9r759YWGC5fCemaw8/h9e8uahg2WLGRST4/BEaUWsvICNRq4srltw
-         IkRkuJS6CvTrqFHWLErLWxV0vmvDsnOnvcPRqXLyVKDth3SP7I7ommyOqlhsFJ4j4kCx
-         4PsznqQo9wuvHxjTVJlZZJ0ViJTgvVeYbgXTE=
+        bh=E7WGJo+r4HFWOocOezDDbAgVUcH9E73x0W7UiWaboFc=;
+        b=PMW4uKhzYL7xOwcRxYAkHU+VfOq2I+eAhKhK6ROdaGhkouMVfUDNRkOf0LXLFX+lZG
+         +n1+67b5LtYNa6ysRVgNd1mxYYFJV5LGqMotY5l6YrN7DZ3m4+cZxLpAd4136UWxmGaK
+         YyU69IDNuYvuwSAeprAhOnKRg8QM2Fy8nv12Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775578575; x=1776183375;
+        d=1e100.net; s=20251104; t=1775578590; x=1776183390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=1ym6+A4JCVPCh2T4oIKQtV7Mrbzbqe03UJK+amU/8q8=;
-        b=AUxggWskXwUjykrtl756m/5tP+hL9MRz8X2+UOtOUAJzl1khpDHMfqU6mW7TYmyjTI
-         WGFEJbSFZrpxp1Y5D3nOpZwzVg+R9tgR0OP4L1t18YujURJA13nWtC5UUqkHrn3CScQj
-         6oK4+f+OFXWG5qMB1e6vLYJ+y2j1smSi9hhUt1y4HI7zZRJxc+4RsbDTUAtGZDLYq4+P
-         6rYtxxvAkltivE97S34UxRnzrbWRuDeRxA9gQnX6Z9cG3XIuNSgTRzbL4SexCYhaIa+B
-         AUB4TnR8QSga4zMBE/JvBSzig2ulNpWO9Zv0Onsz/GEzUXAQX5QUZ25TENiOyUbRIe1X
-         QI1g==
-X-Gm-Message-State: AOJu0YxMUjiNviMxqB/AwKjyj6e7EUHaoNHKA+U9LyQS4JjR5zeQSVIN
-	KJz1QHRadvMk4DX+2Ge5elVMnm38VHBwAyzkNPqTJ6JUeT+z+BB1YUX2HmpQxdjwvMh8cNujL1y
-	UPFFo0nU=
-X-Gm-Gg: AeBDievaXrwoVcj744tCdl18kvl0o9lGKxysrudNgRfjPe/ga9CGPKNFdx5CdwDQWbX
-	9i+s5PsSU9d1kR85wr1py26IH8S0Hw7C4/bX0KiQlWe1irodq31i58mHKS+zdrIz2GlnjacSm0S
-	E9dA+e6wshOKVXhSl9BeGVUwVp1vfe+ZWKd+XrSDZfGeeOk9cY348aKYUJGlk7YUOp7p7FKlzKm
-	FNENiufTkHbFEYdVuCYz3dt2znKZFwqJfNkuJmM9HruOmuB+xJU89pxfc1JDaXk/yNt+Gzqp99a
-	71jW0Ngv/n3QijIcxM9TpUHVFdbahIlTq2DwrVOMFiOJBoL1Q+0hgVRVcP230CbvUl5yWyxMR8G
-	KZOz308DdQ6COyMzxrm99HLJ49aLIPVsaODRdbXixG3rYoUKTb4v5EqJ66yHgaYhuGEi5xiYr9O
-	jIpfP46j5xIZJU44DQgi2jLXqR6dY+cXJaEmGd9fo0C4CD9UgA9AqypJL5DTK4hRbT0RQbLNyW3
-	JD2tNd3d0sHMKrBioMnBlWcV8Qu
-X-Received: by 2002:a05:600d:1b:b0:488:b8bc:6a32 with SMTP id 5b1f17b1804b1-488b8bc6cc9mr62341925e9.23.1775578574932;
-        Tue, 07 Apr 2026 09:16:14 -0700 (PDT)
+        bh=E7WGJo+r4HFWOocOezDDbAgVUcH9E73x0W7UiWaboFc=;
+        b=ddkRjde8x2+3XH47WV6vaEsIFAzf0oxY8TVYOgSPD6qKKNL/mzx592w5QAf5LJRLvb
+         pnyCV2DYi8qs6jYXf4buYCce9QVdIrtX0UmLI6dV9KkPw6o7twWwGmDXIalhCTCS+mgi
+         Z4Eno5S4VQpp+RPvtIfpOpDqXLFb3DOyIEtom1StSrq8V0qLElaPdaQwem3hyHqTm3Yp
+         KvS0QojmA85ZcMqXkwbgTjNu0ZX+hl0TMhi3yYt+47FguqpPfV4dXuL5rYhSOdBOOJGu
+         8gpQGzRSvABEGouJ7T7HKd0LDYP0yCqkEdE3IHgYFUpj/kkxEZQaNOzj6fNKgP4S7UKE
+         O+cQ==
+X-Gm-Message-State: AOJu0YwqU/CMoGFELimFthYEB0vBMbbsrvvw5rGPJhYYHeuaCizE4P/6
+	zgy6tW/4AQv2Cdi7Ls/RAhh0r7HZa+3ApBAdWcnjynnPs+q3q8+FyqkCT1r+REqALQKoROYhrwm
+	oibrMbmc=
+X-Gm-Gg: AeBDies+gfV3C8LGGWy5oU8Up/5qQhhZztqiZI7bjOonYpLpq+ayjYadQLX9+dwughv
+	m5l+Kng208UJQMRJl38fVILltSjxavz6YUE3wLds1xBPgYCEZKDnQC6NMkHSlbFrRGuhUOjKuZQ
+	dk+4bKjYSYDRRstGAS4/KmiiqFH7uUzOqnm6R/1saT3cZHqUSRL4J/Ya+wjunAJ6UgyHgVHma6O
+	HIlVMbhrXk3Sl33NnCgamxxrjFUeahkV5nTlH6Gv2k8ILeawoltScYqUKxqPzUxORdzl9wxhmLa
+	c/laag3VhepeDB+MCZXRL7Yom9NFSwCkFCeaD1xWikcN1DArIiuAIZcp8wliiG8Eiob9w7c5OlH
+	xDEGGPVr5nv52cIGwG8sh9vg0NR1ncei3aN6Q7wdzwwTqgzV9JWtGvB0+UJkO2ktwMqabN5g/eX
+	uWSUIrmW37ZM12t5wETciL7M5vHjrzuzX2aNqcyqI/DfnydyKdXvNYx9gEB1xiS0M0H7jbAbb+z
+	+EKxfLACKfdweMny5oTwqKrYeuN
+X-Received: by 2002:a05:600c:5289:b0:487:22ad:403e with SMTP id 5b1f17b1804b1-488994b34b4mr259901845e9.14.1775578589597;
+        Tue, 07 Apr 2026 09:16:29 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa003bbe8013556e3516.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:3bbe:8013:556e:3516])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c4b57febsm1195665e9.4.2026.04.07.09.16.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c4b57febsm1195665e9.4.2026.04.07.09.16.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 09:16:14 -0700 (PDT)
+        Tue, 07 Apr 2026 09:16:29 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone v3 01/19] linux-yocto/5.15: update to v5.15.200
-Date: Tue,  7 Apr 2026 18:15:38 +0200
-Message-ID: <0ebdf9563aa64a1b9d8c6ae6fbd701de8178fa8b.1775578386.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone v3 19/19] scripts/install-buildtools: Update to 4.0.34
+Date: Tue,  7 Apr 2026 18:15:56 +0200
+Message-ID: <94df79c304f692b0108155e04905180cdf92b2cd.1775578386.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1775578386.git.yoann.congal@smile.fr>
 References: <cover.1775578386.git.yoann.congal@smile.fr>
@@ -65,193 +65,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 16:16:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234754
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 16:16:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234772
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Updating linux-yocto/5.15 to the latest korg -stable release that comprises
-the following commits:
+Update to the 4.0.34 release of the 4.0 series for buildtools
 
-    e45d5d41c1343 Linux 5.15.200
-    7ca5540ba6239 riscv: Replace function-like macro by static inline function
-    cbae610ca9e27 nvmet-tcp: pass iov_len instead of sg->length to bvec_set_page()
-    6a04dc650cef8 spi: tegra: Fix a memory leak in tegra_slink_probe()
-    c7a02a814dc51 spi: tegra210-quad: Protect curr_xfer clearing in tegra_qspi_non_combined_seq_xfer
-    9fa4262a80f75 spi: tegra210-quad: Protect curr_xfer in tegra_qspi_combined_seq_xfer
-    55dfe2687a496 spi: tegra210-quad: Protect curr_xfer assignment in tegra_qspi_setup_transfer_one
-    eebd79beb268c spi: tegra210-quad: Move curr_xfer read inside spinlock
-    4f9e7de7a6b8f spi: tegra210-quad: Return IRQ_HANDLED when timeout already processed transfer
-    b34289505180a iommu: disable SVA when CONFIG_X86 is set
-    1ecf6dc2676ea Bluetooth: hci_event: call disconnect callback before deleting conn
-    214b85b9b7187 gve: Correct ethtool rx_dropped calculation
-    9d93332397405 gve: Fix stats report corruption on queue count change
-    8aa1b0bc65967 tracing: Fix ftrace event field alignments
-    c3c5cfa3170c0 gfs2: Fix NULL pointer dereference in gfs2_log_flush
-    343fe375a8dd6 hfsplus: fix slab-out-of-bounds read in hfsplus_uni2asc()
-    be6d98766ac95 riscv: uprobes: Add missing fence.i after building the XOL buffer
-    d7ead65126504 ASoC: amd: fix memory leak in acp3x pdm dma ops
-    42afe8ed8ad2d nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu_iovec
-    4c09184f08ce6 nvmet-tcp: don't map pages which can't come from HIGHMEM
-    15e329ce1a957 nvmet-tcp: fix regression in data_digest calculation
-    1a5c3c99efa11 nvmet-tcp: fix memory leak when performing a controller reset
-    367fd132df419 nvmet-tcp: add an helper to free the cmd buffers
-    8c760ba4e36c7 netfilter: nf_tables: fix inverted genmask check in nft_map_catchall_activate()
-    166f29d4af575 hwmon: (occ) Mark occ_init_attribute() as __printf
-    3f531122a5801 tipc: use kfree_sensitive() for session key material
-    5dae6b36a7cb7 macvlan: fix error recovery in macvlan_common_newlink()
-    77611cab5bdff dpaa2-switch: add bounds check for if_id in IRQ handler
-    01fbca1e93ec3 net: liquidio: Fix off-by-one error in VF setup_nic_devices() cleanup
-    d86c58eb005eb net: liquidio: Fix off-by-one error in PF setup_nic_devices() cleanup
-    c81a8515fb8c8 net: liquidio: Initialize netdev pointer before queue setup
-    2fcccca88456b dpaa2-switch: prevent ZERO_SIZE_PTR dereference when num_ifs is zero
-    c01cc6fe06cf2 platform/x86: intel_telemetry: Fix PSS event register mask
-    5bce10f0f9435 platform/x86: toshiba_haps: Fix memory leaks in add/remove routines
-    193f087207ad8 wifi: mac80211: don't increment crypto_tx_tailroom_needed_cnt twice
-    8518f072fc929 scsi: target: iscsi: Fix use-after-free in iscsit_dec_conn_usage_count()
-    fd8b090017330 scsi: target: iscsi: Fix use-after-free in iscsit_dec_session_usage_count()
-    c85c9de39cd5d wifi: cfg80211: Fix bitrate calculation overflow for HE rates
-    15e9607df7925 ASoC: tlv320adcx140: Propagate error codes during probe
-    1525f1068295f ASoC: davinci-evm: Fix reference leak in davinci_evm_probe
-    536238ba39829 wifi: mac80211: collect station statistics earlier when disconnect
-    6e4cc9e399952 ring-buffer: Avoid softlockup in ring_buffer_resize() during memory free
-    16c2ca35257ed HID: Apply quirk HID_QUIRK_ALWAYS_POLL to Edifier QR30 (2d99:a101)
-    04485e691d8ca HID: quirks: Add another Chicony HP 5MP Cameras to hid_ignore_list
-    67e06e8a77c1a netfilter: replace -EEXIST with -EBUSY
-    e9aefab3b7eb4 ALSA: hda/realtek: add HP Laptop 15s-eq1xxx mute LED quirk
-    2d8af4db1f209 HID: playstation: Center initial joystick axes to prevent spurious events
-    d21497331b967 HID: intel-ish-hid: Reset enum_devices_done before enumeration
-    d5cce2ec0e985 HID: multitouch: add MT_QUIRK_STICKY_FINGERS to MT_CLS_VTL
-    a2c68e256fb7a smb/server: call ksmbd_session_rpc_close() on error path in create_smb2_pipe()
-    e5dd6a58a52d5 block,bfq: fix aux stat accumulation destination
-    64240689acff8 net: usb: sr9700: support devices with virtual driver CD
-    cd89a4656c03f wifi: wlcore: ensure skb headroom before skb_push
-    b04c75366a547 wifi: mac80211: ocb: skip rx_no_sta when interface is not joined
-    9a6cdfd7b6aaa binderfs: fix ida_alloc_max() upper bound
-    ba43ac025c431 timers: Fix NULL function pointer race in timer_shutdown_sync()
-    f24f9ea7d69ef Bluetooth: hci_qca: Fix the teardown problem for real
-    e7f1ca8ea41ab timers: Update the documentation to reflect on the new timer_shutdown() API
-    36bdfa51a1ad7 timers: Provide timer_shutdown[_sync]()
-    debbcf812d735 timers: Add shutdown mechanism to the internal functions
-    21ca3ee3f6faa timers: Split [try_to_]del_timer[_sync]() to prepare for shutdown mode
-    a7035e7d720f8 timers: Silently ignore timers with a NULL function
-    e45a52685b335 Documentation: Replace del_timer/del_timer_sync()
-    29d5751350cdf timers: Rename del_timer() to timer_delete()
-    a431c4c27ee05 timers: Replace BUG_ON()s
-    d2736470196f2 timers: Get rid of del_singleshot_timer_sync()
-    9b78a3b948bb6 clocksource/drivers/sp804: Do not use timer namespace for timer_shutdown() function
-    a97b47fed39d9 clocksource/drivers/arm_arch_timer: Do not use timer namespace for timer_shutdown() function
-    b03eb334c42ea ARM: spear: Do not use timer namespace for timer_shutdown() function
-    7bcf91585f3b1 Documentation: Remove bogus claim about del_timer_sync()
-    4abccfb61f422 netfilter: nft_set_pipapo: clamp maximum map bucket size to INT_MAX
-    d6ae339f18099 mm/kfence: randomize the freelist on initialization
-    2284bc168b148 KVM: Don't clobber irqfd routing type when deassigning irqfd
-    a550cc2564cab ARM: 9468/1: fix memset64() on big-endian
-    5928ca551e361 rbd: check for EOD after exclusive lock is ensured to be held
-    446d7283cffa5 platform/x86: intel_telemetry: Fix swapped arrays in PSS output
-    674ebe2d6fe59 x86/kfence: fix booting on 32bit non-PAE systems
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ scripts/install-buildtools | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index e23c8bf88ab..526f3c64b7d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 6a1762c14b3..8754f2d773e 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
  
--SRCREV_machine ?= "27c8048897d9d7ff1ed6d2643cbc024eb13ae342"
--SRCREV_meta ?= "78eca082b68ad521c3bb9a1f9f0325e044045f18"
-+SRCREV_machine ?= "671f06e26c741b7d55d8afcc30e64f1480cec166"
-+SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-4.0.33'
+-DEFAULT_INSTALLER_VERSION = '4.0.33'
++DEFAULT_RELEASE = 'yocto-4.0.34'
++DEFAULT_INSTALLER_VERSION = '4.0.34'
+ DEFAULT_BUILDDATE = '202110XX'
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.15.199"
-+LINUX_VERSION ?= "5.15.200"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index 21233285b57..1eeda2e22ca 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.15.199"
-+LINUX_VERSION ?= "5.15.200"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "7b20eb2129d25bb2a1cb963d30c2f3adb1e144b3"
--SRCREV_meta ?= "78eca082b68ad521c3bb9a1f9f0325e044045f18"
-+SRCREV_machine ?= "0d4112b87ce7dd038dc712ef616c0b6dd333c786"
-+SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index 861af0041af..5f8bfba396e 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -14,24 +14,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "0ea8d4a7d24642475c1d1e0d8be44976600eb630"
--SRCREV_machine:qemuarm64 ?= "33aae9ebda82736fc0246e4d2bd7967bb7ef492a"
--SRCREV_machine:qemumips ?= "0d159686c17443503bc7b59f25b5129c8543193d"
--SRCREV_machine:qemuppc ?= "c8e213f83bae4792c1042bdcedd46fa60963c69b"
--SRCREV_machine:qemuriscv64 ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_machine:qemuriscv32 ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_machine:qemux86 ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_machine:qemux86-64 ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_machine:qemumips64 ?= "58c96e47bbd784e078e265426b9276bad2bb7e22"
--SRCREV_machine ?= "e7bbf58a0f6828ffb92109eb423eb3d1327f091a"
--SRCREV_meta ?= "78eca082b68ad521c3bb9a1f9f0325e044045f18"
-+SRCREV_machine:qemuarm ?= "44b7b6bdfaab20ab51f175aeb0df8c27791cc40d"
-+SRCREV_machine:qemuarm64 ?= "d67ad97cb5d6a51184bd61853e3af7e044c7f1d4"
-+SRCREV_machine:qemumips ?= "94fe5264de5b6ba6a5fab53b3f2283e36033e373"
-+SRCREV_machine:qemuppc ?= "a065262f1076ca606ea8229f84b23c10be2680e7"
-+SRCREV_machine:qemuriscv64 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemuriscv32 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemux86 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemux86-64 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_machine:qemumips64 ?= "00831bab13b4320ee27e4ddc72b55542bfe75ec8"
-+SRCREV_machine ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
-+SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "7b232985052fcf6a78bf0f965aa4241c0678c2ba"
-+SRCREV_machine:class-devupstream ?= "e45d5d41c1343aad8c7587a5b15d58e99aff4c8a"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v5.15/base"
- 
-@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.15.199"
-+LINUX_VERSION ?= "5.15.200"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+ # Python version sanity check
 
