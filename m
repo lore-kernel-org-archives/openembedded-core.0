@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24706FF511B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B7EFF5125
 	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 16:16:35 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.85472.1775578585359401859
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.85284.1775578589824163701
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 09:16:25 -0700
+ Tue, 07 Apr 2026 09:16:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ITBG1VXB;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso43978035e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:16:25 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=FZ/YAYlS;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488a29e6110so33956275e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775578583; x=1776183383; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775578588; x=1776183388; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DS4DHbc7Jf3zRsV2JHtkpVskXSIoVHL+z+JE3NrXy+4=;
-        b=ITBG1VXBBhGASmu5Rpzev1RTp/cCCH1GaSX4nar2Ik7jul2hVoDkjyfkLXJunITLVU
-         aV9swLdSAcMI+NUu49phXCZkBMBTSiAa3dVXW108n3HjMwTaH4W6eAQgi17cFrxMhXKF
-         Xb8EBbaeEwC1BCyEvnEYZOl3krrZMqKaT+R1E=
+        bh=ImvltFtUT4cB6LZ4Yhh3fO4WvYNXpQvW2K3n+YAiVQk=;
+        b=FZ/YAYlS8zHyoHzbbVtH/C7qNEyOlwP/tBJ692kmMRm4KcYaf8bfPoIRkUKoqSZAoU
+         +k2QPnZ9fVbpqoPm3runbFI5NdC68cto5LH5e7BGvOCuuUqGo/ijcPj5n2hIIBqdS/3l
+         GDBErz/yFvzhbpKDX4dMD2AquPBx00AQHc3/c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775578583; x=1776183383;
+        d=1e100.net; s=20251104; t=1775578588; x=1776183388;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=DS4DHbc7Jf3zRsV2JHtkpVskXSIoVHL+z+JE3NrXy+4=;
-        b=Y22Y0f5ZuR2kgfVJtv/tfzB8s/R1SxFycNeDaI7cEyA09sJPfyB9ezgw8j+F8x/57L
-         ZfULwXXh0S1if7FEt6zTkwMQnFzH4o4yUmSc5zfw8E00H4DWw0iOq6kQ9zaKW75sQGUh
-         ZpSsgLBN9p4sPdgct72KUP0Cb+hXN4i0M3hPTbanthqDeBHFUPH7q6BAMWxvyCM0ggA9
-         mKZG8dmALP2HTc+suyENypgYOMtXkG2q2iKGB4M5TSJfP6f4wUoPHI4fYvRxv2UwfyhB
-         XP+9UTlDtqxwwK7+BqYhrgMYzVMFVlGZjXG4IvCKD0gpttLLYomirlg17weoB8QbZOzL
-         D8Sw==
-X-Gm-Message-State: AOJu0YxqnU1qp6D5Mq+T8PNfHNA8OAVVAguTDNz67KMW01a317xzdSH0
-	n+wyOaUn0O1ImzvO3X7OiKXKVssH4BKxNAaWlm6mdbtCabYE5bze8FWT3eDD68/kf9grEQ9Hr1A
-	pF4gsIlE=
-X-Gm-Gg: AeBDieswwhPDUJ8MilrIFrfVFdTCjnEm0CJ6PotYEo7a0IiOOluFRPDYzmT9TBAZNwH
-	VQWkqQxL+F5WqxzptqVBw0YRdAsDLlFaLKf7rIkoJjaSQ77h+nt21rso6mdpTiNMOh0eSf+JvGb
-	ocUhWH4kXxiNHzvJ+AfEf0O2qSmIiTbOzDnC/DlKE8kMepPZeR9eGFAoM22SjWHHsPv/Ivbsa2O
-	XIle7SEU8AoVtkpl9CU8cOOjKZf8bQplWJBSl2dJP+ANHhVEB7B2Uc4ciEC3E68XoPjMYKa7WpV
-	MezwAv5+op6duPT6KzqTEms4lYIZMFgk7Eiti13Tt63iUHb072yV/d0hDF6EMIpJvJfVQZFlhAL
-	idAxu9+5THWrtxPhQCy6e8P6VlUjK4jrSq7O0qtC7zNzaIAy3PDHkqzg8hhBWNyAB57S695g66r
-	HXl1GGB+vnOhfLakwxqGZeC3Byxryt/H4iQsfshmPtIfPFHsni8PtKXGKGvP9cMOsQ6DOFxBBDF
-	sfPCxo4oarGKd2vDvyJ9latzTK2
-X-Received: by 2002:a05:600c:a4a:b0:488:904b:f31 with SMTP id 5b1f17b1804b1-488997a44e2mr256501525e9.22.1775578582763;
-        Tue, 07 Apr 2026 09:16:22 -0700 (PDT)
+        bh=ImvltFtUT4cB6LZ4Yhh3fO4WvYNXpQvW2K3n+YAiVQk=;
+        b=Ld8DmOBEt4OtTyuLOXcS7IGLjWhPi//4Hjnw5pcjDQ3SQnwt8XZb751yCmWnklA2Rv
+         f3zJ2g9mj+ivRnkSbt9bTYhxsiYeeAUSopGHoCOoKl9alMpuxZEESD+F72QgG2PS7DMN
+         f7VZwx7XejnntdooIBeR32ZSzmMou0hA51Y4+m/1QQx++SyRG2+HrkgRnPCWqjyl2qZY
+         L5Ki8o4Yt+5ZM4MP0a3vHuGPKQAZLwh1pGo/QMXMt0ROSKOwmkHIn59khCDxhYbnRZgK
+         aXpAoHg5DutARC6okpPeBq0admSRAf4HnMJ/Su6bMccJm0hsJwhYYqSVc4nw8MOLx3sb
+         E9Hg==
+X-Gm-Message-State: AOJu0YyHO9XT3IhuCBQ7zvJHR5zTWMwpEaNVpf4cVL+C1795Up/tjIV3
+	snfOZtbQn/5W/xuY5Eh8co3Ar8uTZc7zi67ID3MKDuW76gnue1ja+F3rK68j43e9F6KmCAC6Dgm
+	5yi4+iYU=
+X-Gm-Gg: AeBDieuV5ZKOutVFoagOej+CgbqUD3UdSMq9vmbsNbjCpRnzMq84kCS578hX9XbXKs9
+	8oOczb6lJtSs92ew91CjxYM49qhZhXACThR3luGjnfNjkrlVMmhVvniLhlAJei/2s6wbrT19fKX
+	JMG3Uu9gVGrXJ09G/0HoB/uH4m/HTT3w/nyV2Z466Mwp2oYlYgfUfewSt8hUX83t018DBWaT8o0
+	2ruDXo9fc7wdvhG2STEWwgfRaBtUecz6AlQK+URQef50zORpW5zv2anVACex5MktKtsiB47IXNl
+	Y8wX8TCPh4o5Y2gXVI7caG1wvqVGoKcH8htQZEAWUgBNLogOh+ZByH+mDfKg3v7p5iHs33Sin3H
+	r5xZ8ulCSwr6FMUaGKfPHv5Q+Or/c7j8iEzh1tZNwbHOYfAmTuznkAi2ZVFvw0yItyKTi9WUg8P
+	nGNX3pBYdNOvkn5J4Nj2H1TfbF4CW+gzyjCOZ5XH0OytozCehY3U8lxaLGM+mIT1SHuHLJCKM1c
+	E7akdWIXsoqbrhSGbasoq1vCCsM
+X-Received: by 2002:a05:600c:6305:b0:480:690e:f14a with SMTP id 5b1f17b1804b1-4889978c561mr241491345e9.14.1775578587959;
+        Tue, 07 Apr 2026 09:16:27 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa003bbe8013556e3516.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:3bbe:8013:556e:3516])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c4b57febsm1195665e9.4.2026.04.07.09.16.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c4b57febsm1195665e9.4.2026.04.07.09.16.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 09:16:22 -0700 (PDT)
+        Tue, 07 Apr 2026 09:16:27 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone v3 10/19] python3-pyopenssl: Fix CVE-2026-27459
-Date: Tue,  7 Apr 2026 18:15:47 +0200
-Message-ID: <b46b806b2ef773d7061923e7bab9184fb758a6b4.1775578386.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone v3 17/19] curl: patch CVE-2026-3784
+Date: Tue,  7 Apr 2026 18:15:54 +0200
+Message-ID: <659a32145680054823581ddcf6412410247df108.1775578386.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1775578386.git.yoann.congal@smile.fr>
 References: <cover.1775578386.git.yoann.congal@smile.fr>
@@ -66,145 +66,113 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 16:16:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234763
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234770
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Pick patch mentioned in NVD
+pick patch from ubuntu per [1]
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-27459
-[2] https://ubuntu.com/security/CVE-2026-27459
+[1] https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/curl/7.81.0-1ubuntu1.23/curl_7.81.0-1ubuntu1.23.debian.tar.xz
+[2] https://ubuntu.com/security/CVE-2026-3784
+[3] https://curl.se/docs/CVE-2026-3784.html
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../python3-pyopenssl/CVE-2026-27459.patch    | 106 ++++++++++++++++++
- .../python/python3-pyopenssl_22.0.0.bb        |   1 +
- 2 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+ .../curl/curl/CVE-2026-3784.patch             | 73 +++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3784.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-3784.patch b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
 new file mode 100644
-index 00000000000..b5e37a6900d
+index 00000000000..95784e47637
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
-@@ -0,0 +1,106 @@
-+From 57f09bb4bb051d3bc2a1abd36e9525313d5cd408 Mon Sep 17 00:00:00 2001
-+From: Alex Gaynor <alex.gaynor@gmail.com>
-+Date: Wed, 18 Feb 2026 07:46:15 -0500
-+Subject: [PATCH] Fix buffer overflow in DTLS cookie generation callback
-+ (#1479)
++++ b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
+@@ -0,0 +1,73 @@
++From 5f13a7645e565c5c1a06f3ef86e97afb856fb364 Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Fri, 6 Mar 2026 14:54:09 +0100
++Subject: [PATCH] proxy-auth: additional tests
 +
-+The cookie generate callback copied user-returned bytes into a
-+fixed-size native buffer without enforcing a maximum length. A
-+callback returning more than DTLS1_COOKIE_LENGTH bytes would overflow
-+the OpenSSL-provided buffer, corrupting adjacent memory.
++Also eliminate the special handling for socks proxy match.
 +
-+Co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
++Closes #20837
 +
-+Upstream-Status: Backport [https://github.com/pyca/pyopenssl/commit/57f09bb4bb051d3bc2a1abd36e9525313d5cd408]
-+CVE: CVE-2026-27459
++Upstream-Status: Backport [https://github.com/curl/curl/commit/5f13a7645e565c5c1a06f3]
++Backported by Ubuntu team https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/curl/7.81.0-1ubuntu1.23/curl_7.81.0-1ubuntu1.23.debian.tar.xz
++
++CVE: CVE-2026-3784
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ CHANGELOG.rst      |  1 +
-+ src/OpenSSL/SSL.py |  7 +++++++
-+ tests/test_ssl.py  | 38 ++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 46 insertions(+)
++ lib/url.c                        | 28 +++++++---------------------
++ tests/http/test_13_proxy_auth.py | 20 ++++++++++++++++++++
++ tests/http/testenv/curl.py       | 18 +++++++++++++++---
++ 3 files changed, 42 insertions(+), 24 deletions(-)
 +
-+diff --git a/CHANGELOG.rst b/CHANGELOG.rst
-+index 5b6d523..13d8abd 100644
-+--- a/CHANGELOG.rst
-++++ b/CHANGELOG.rst
-+@@ -20,6 +20,7 @@ Deprecations:
-+ Changes:
-+ ^^^^^^^^
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -930,33 +930,15 @@ proxy_info_matches(const struct proxy_in
++ {
++   if((data->proxytype == needle->proxytype) &&
++      (data->port == needle->port) &&
++-     Curl_safe_strcasecompare(data->host.name, needle->host.name))
++-    return TRUE;
+++     curl_strequal(data->host.name, needle->host.name)) {
 + 
-++- Properly raise an error if a DTLS cookie callback returned a cookie longer than ``DTLS1_COOKIE_LENGTH`` bytes. Previously this would result in a buffer-overflow.
-+ - ``Context.set_tlsext_servername_callback`` now handles exceptions raised in the callback by calling ``sys.excepthook`` and returning a fatal TLS alert. Previously, exceptions were silently swallowed and the handshake would proceed as if the callback had succeeded.
+++    if(Curl_timestrcmp(data->user, needle->user) ||
+++       Curl_timestrcmp(data->passwd, needle->passwd))
+++      return FALSE;
+++    return TRUE;
+++  }
++   return FALSE;
++ }
++-
++-static bool
++-socks_proxy_info_matches(const struct proxy_info *data,
++-                         const struct proxy_info *needle)
++-{
++-  if(!proxy_info_matches(data, needle))
++-    return FALSE;
++-
++-  /* the user information is case-sensitive
++-     or at least it is not defined as case-insensitive
++-     see https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.1 */
++-
++-  /* curl_strequal does a case insentive comparison, so do not use it here! */
++-  if(Curl_timestrcmp(data->user, needle->user) ||
++-     Curl_timestrcmp(data->passwd, needle->passwd))
++-    return FALSE;
++-  return TRUE;
++-}
++-#else
++-/* disabled, won't get called */
++-#define proxy_info_matches(x,y) FALSE
++-#define socks_proxy_info_matches(x,y) FALSE
++ #endif
 + 
-+ - Expose wrappers for some `DTLS
-+diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py
-+index 6ef44d4..fa1b556 100644
-+--- a/src/OpenSSL/SSL.py
-++++ b/src/OpenSSL/SSL.py
-+@@ -556,11 +556,18 @@ class _CookieGenerateCallbackHelper(_CallbackExceptionHelper):
-+     def __init__(self, callback):
-+         _CallbackExceptionHelper.__init__(self)
++ /* A connection has to have been idle for a shorter time than 'maxage_conn'
++@@ -1282,8 +1264,8 @@ ConnectionExists(struct Curl_easy *data,
++         continue;
 + 
-++        max_cookie_len = getattr(_lib, "DTLS1_COOKIE_LENGTH", 255)
-++
-+         @wraps(callback)
-+         def wrapper(ssl, out, outlen):
-+             try:
-+                 conn = Connection._reverse_mapping[ssl]
-+                 cookie = callback(conn)
-++                if len(cookie) > max_cookie_len:
-++                    raise ValueError(
-++                        f"Cookie too long (got {len(cookie)} bytes, "
-++                        f"max {max_cookie_len})"
-++                    )
-+                 out[0 : len(cookie)] = cookie
-+                 outlen[0] = len(cookie)
-+                 return 1
-+diff --git a/tests/test_ssl.py b/tests/test_ssl.py
-+index 77e1876..fb77b75 100644
-+--- a/tests/test_ssl.py
-++++ b/tests/test_ssl.py
-+@@ -4455,3 +4455,41 @@ class TestDTLS(object):
-+             assert 0 < c.get_cleartext_mtu() < 500
-+         except NotImplementedError:  # OpenSSL 1.1.0 and earlier
-+             pass
-++
-++    def test_cookie_generate_too_long(self) -> None:
-++        s_ctx = Context(DTLS_METHOD)
-++
-++        def generate_cookie(ssl: Connection) -> bytes:
-++            return b"\x00" * 256
-++
-++        def verify_cookie(ssl: Connection, cookie: bytes) -> bool:
-++            return True
-++
-++        s_ctx.set_cookie_generate_callback(generate_cookie)
-++        s_ctx.set_cookie_verify_callback(verify_cookie)
-++        s_ctx.use_privatekey(load_privatekey(FILETYPE_PEM, server_key_pem))
-++        s_ctx.use_certificate(load_certificate(FILETYPE_PEM, server_cert_pem))
-++        s_ctx.set_options(OP_NO_QUERY_MTU)
-++        s = Connection(s_ctx)
-++        s.set_accept_state()
-++
-++        c_ctx = Context(DTLS_METHOD)
-++        c_ctx.set_options(OP_NO_QUERY_MTU)
-++        c = Connection(c_ctx)
-++        c.set_connect_state()
-++
-++        c.set_ciphertext_mtu(1500)
-++        s.set_ciphertext_mtu(1500)
-++
-++        # Client sends ClientHello
-++        try:
-++            c.do_handshake()
-++        except SSL.WantReadError:
-++            pass
-++        chunk = c.bio_read(self.LARGE_BUFFER)
-++        s.bio_write(chunk)
-++
-++        # Server tries DTLSv1_listen, which triggers cookie generation.
-++        # The oversized cookie should raise ValueError.
-++        with pytest.raises(ValueError, match="Cookie too long"):
-++            s.DTLSv1_listen()
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
-index 13d87939b62..42de3207b46 100644
---- a/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
-@@ -12,6 +12,7 @@ inherit pypi setuptools3
++       if(needle->bits.socksproxy &&
++-        !socks_proxy_info_matches(&needle->socks_proxy,
++-                                  &check->socks_proxy))
+++        !proxy_info_matches(&needle->socks_proxy,
+++                            &check->socks_proxy))
++         continue;
++ #endif
++       if(needle->bits.conn_to_host != check->bits.conn_to_host)
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index f50af1d4722..a2ee5736810 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -75,6 +75,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-1965-2.patch \
+            file://CVE-2026-3783-pre1.patch \
+            file://CVE-2026-3783.patch \
++           file://CVE-2026-3784.patch \
+            "
+ SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
  
- SRC_URI += " \
-     file://CVE-2026-27448.patch \
-+    file://CVE-2026-27459.patch \
- "
- 
- PACKAGES =+ "${PN}-tests"
 
