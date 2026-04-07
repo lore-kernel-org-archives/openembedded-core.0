@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1678BFF5117
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24706FF511B
 	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 16:16:35 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.85476.1775578591435330751
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.85472.1775578585359401859
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 09:16:31 -0700
+ Tue, 07 Apr 2026 09:16:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PMW4uKhz;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso417975e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:16:31 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ITBG1VXB;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso43978035e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:16:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775578590; x=1776183390; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775578583; x=1776183383; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E7WGJo+r4HFWOocOezDDbAgVUcH9E73x0W7UiWaboFc=;
-        b=PMW4uKhzYL7xOwcRxYAkHU+VfOq2I+eAhKhK6ROdaGhkouMVfUDNRkOf0LXLFX+lZG
-         +n1+67b5LtYNa6ysRVgNd1mxYYFJV5LGqMotY5l6YrN7DZ3m4+cZxLpAd4136UWxmGaK
-         YyU69IDNuYvuwSAeprAhOnKRg8QM2Fy8nv12Q=
+        bh=DS4DHbc7Jf3zRsV2JHtkpVskXSIoVHL+z+JE3NrXy+4=;
+        b=ITBG1VXBBhGASmu5Rpzev1RTp/cCCH1GaSX4nar2Ik7jul2hVoDkjyfkLXJunITLVU
+         aV9swLdSAcMI+NUu49phXCZkBMBTSiAa3dVXW108n3HjMwTaH4W6eAQgi17cFrxMhXKF
+         Xb8EBbaeEwC1BCyEvnEYZOl3krrZMqKaT+R1E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775578590; x=1776183390;
+        d=1e100.net; s=20251104; t=1775578583; x=1776183383;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=E7WGJo+r4HFWOocOezDDbAgVUcH9E73x0W7UiWaboFc=;
-        b=ddkRjde8x2+3XH47WV6vaEsIFAzf0oxY8TVYOgSPD6qKKNL/mzx592w5QAf5LJRLvb
-         pnyCV2DYi8qs6jYXf4buYCce9QVdIrtX0UmLI6dV9KkPw6o7twWwGmDXIalhCTCS+mgi
-         Z4Eno5S4VQpp+RPvtIfpOpDqXLFb3DOyIEtom1StSrq8V0qLElaPdaQwem3hyHqTm3Yp
-         KvS0QojmA85ZcMqXkwbgTjNu0ZX+hl0TMhi3yYt+47FguqpPfV4dXuL5rYhSOdBOOJGu
-         8gpQGzRSvABEGouJ7T7HKd0LDYP0yCqkEdE3IHgYFUpj/kkxEZQaNOzj6fNKgP4S7UKE
-         O+cQ==
-X-Gm-Message-State: AOJu0YwqU/CMoGFELimFthYEB0vBMbbsrvvw5rGPJhYYHeuaCizE4P/6
-	zgy6tW/4AQv2Cdi7Ls/RAhh0r7HZa+3ApBAdWcnjynnPs+q3q8+FyqkCT1r+REqALQKoROYhrwm
-	oibrMbmc=
-X-Gm-Gg: AeBDies+gfV3C8LGGWy5oU8Up/5qQhhZztqiZI7bjOonYpLpq+ayjYadQLX9+dwughv
-	m5l+Kng208UJQMRJl38fVILltSjxavz6YUE3wLds1xBPgYCEZKDnQC6NMkHSlbFrRGuhUOjKuZQ
-	dk+4bKjYSYDRRstGAS4/KmiiqFH7uUzOqnm6R/1saT3cZHqUSRL4J/Ya+wjunAJ6UgyHgVHma6O
-	HIlVMbhrXk3Sl33NnCgamxxrjFUeahkV5nTlH6Gv2k8ILeawoltScYqUKxqPzUxORdzl9wxhmLa
-	c/laag3VhepeDB+MCZXRL7Yom9NFSwCkFCeaD1xWikcN1DArIiuAIZcp8wliiG8Eiob9w7c5OlH
-	xDEGGPVr5nv52cIGwG8sh9vg0NR1ncei3aN6Q7wdzwwTqgzV9JWtGvB0+UJkO2ktwMqabN5g/eX
-	uWSUIrmW37ZM12t5wETciL7M5vHjrzuzX2aNqcyqI/DfnydyKdXvNYx9gEB1xiS0M0H7jbAbb+z
-	+EKxfLACKfdweMny5oTwqKrYeuN
-X-Received: by 2002:a05:600c:5289:b0:487:22ad:403e with SMTP id 5b1f17b1804b1-488994b34b4mr259901845e9.14.1775578589597;
-        Tue, 07 Apr 2026 09:16:29 -0700 (PDT)
+        bh=DS4DHbc7Jf3zRsV2JHtkpVskXSIoVHL+z+JE3NrXy+4=;
+        b=Y22Y0f5ZuR2kgfVJtv/tfzB8s/R1SxFycNeDaI7cEyA09sJPfyB9ezgw8j+F8x/57L
+         ZfULwXXh0S1if7FEt6zTkwMQnFzH4o4yUmSc5zfw8E00H4DWw0iOq6kQ9zaKW75sQGUh
+         ZpSsgLBN9p4sPdgct72KUP0Cb+hXN4i0M3hPTbanthqDeBHFUPH7q6BAMWxvyCM0ggA9
+         mKZG8dmALP2HTc+suyENypgYOMtXkG2q2iKGB4M5TSJfP6f4wUoPHI4fYvRxv2UwfyhB
+         XP+9UTlDtqxwwK7+BqYhrgMYzVMFVlGZjXG4IvCKD0gpttLLYomirlg17weoB8QbZOzL
+         D8Sw==
+X-Gm-Message-State: AOJu0YxqnU1qp6D5Mq+T8PNfHNA8OAVVAguTDNz67KMW01a317xzdSH0
+	n+wyOaUn0O1ImzvO3X7OiKXKVssH4BKxNAaWlm6mdbtCabYE5bze8FWT3eDD68/kf9grEQ9Hr1A
+	pF4gsIlE=
+X-Gm-Gg: AeBDieswwhPDUJ8MilrIFrfVFdTCjnEm0CJ6PotYEo7a0IiOOluFRPDYzmT9TBAZNwH
+	VQWkqQxL+F5WqxzptqVBw0YRdAsDLlFaLKf7rIkoJjaSQ77h+nt21rso6mdpTiNMOh0eSf+JvGb
+	ocUhWH4kXxiNHzvJ+AfEf0O2qSmIiTbOzDnC/DlKE8kMepPZeR9eGFAoM22SjWHHsPv/Ivbsa2O
+	XIle7SEU8AoVtkpl9CU8cOOjKZf8bQplWJBSl2dJP+ANHhVEB7B2Uc4ciEC3E68XoPjMYKa7WpV
+	MezwAv5+op6duPT6KzqTEms4lYIZMFgk7Eiti13Tt63iUHb072yV/d0hDF6EMIpJvJfVQZFlhAL
+	idAxu9+5THWrtxPhQCy6e8P6VlUjK4jrSq7O0qtC7zNzaIAy3PDHkqzg8hhBWNyAB57S695g66r
+	HXl1GGB+vnOhfLakwxqGZeC3Byxryt/H4iQsfshmPtIfPFHsni8PtKXGKGvP9cMOsQ6DOFxBBDF
+	sfPCxo4oarGKd2vDvyJ9latzTK2
+X-Received: by 2002:a05:600c:a4a:b0:488:904b:f31 with SMTP id 5b1f17b1804b1-488997a44e2mr256501525e9.22.1775578582763;
+        Tue, 07 Apr 2026 09:16:22 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa003bbe8013556e3516.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:3bbe:8013:556e:3516])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c4b57febsm1195665e9.4.2026.04.07.09.16.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c4b57febsm1195665e9.4.2026.04.07.09.16.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 09:16:29 -0700 (PDT)
+        Tue, 07 Apr 2026 09:16:22 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone v3 19/19] scripts/install-buildtools: Update to 4.0.34
-Date: Tue,  7 Apr 2026 18:15:56 +0200
-Message-ID: <94df79c304f692b0108155e04905180cdf92b2cd.1775578386.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone v3 10/19] python3-pyopenssl: Fix CVE-2026-27459
+Date: Tue,  7 Apr 2026 18:15:47 +0200
+Message-ID: <b46b806b2ef773d7061923e7bab9184fb758a6b4.1775578386.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1775578386.git.yoann.congal@smile.fr>
 References: <cover.1775578386.git.yoann.congal@smile.fr>
@@ -66,30 +66,145 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 16:16:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234772
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234763
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Update to the 4.0.34 release of the 4.0 series for buildtools
+Pick patch mentioned in NVD
 
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-27459
+[2] https://ubuntu.com/security/CVE-2026-27459
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../python3-pyopenssl/CVE-2026-27459.patch    | 106 ++++++++++++++++++
+ .../python/python3-pyopenssl_22.0.0.bb        |   1 +
+ 2 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 6a1762c14b3..8754f2d773e 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+new file mode 100644
+index 00000000000..b5e37a6900d
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pyopenssl/CVE-2026-27459.patch
+@@ -0,0 +1,106 @@
++From 57f09bb4bb051d3bc2a1abd36e9525313d5cd408 Mon Sep 17 00:00:00 2001
++From: Alex Gaynor <alex.gaynor@gmail.com>
++Date: Wed, 18 Feb 2026 07:46:15 -0500
++Subject: [PATCH] Fix buffer overflow in DTLS cookie generation callback
++ (#1479)
++
++The cookie generate callback copied user-returned bytes into a
++fixed-size native buffer without enforcing a maximum length. A
++callback returning more than DTLS1_COOKIE_LENGTH bytes would overflow
++the OpenSSL-provided buffer, corrupting adjacent memory.
++
++Co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
++
++Upstream-Status: Backport [https://github.com/pyca/pyopenssl/commit/57f09bb4bb051d3bc2a1abd36e9525313d5cd408]
++CVE: CVE-2026-27459
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ CHANGELOG.rst      |  1 +
++ src/OpenSSL/SSL.py |  7 +++++++
++ tests/test_ssl.py  | 38 ++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 46 insertions(+)
++
++diff --git a/CHANGELOG.rst b/CHANGELOG.rst
++index 5b6d523..13d8abd 100644
++--- a/CHANGELOG.rst
+++++ b/CHANGELOG.rst
++@@ -20,6 +20,7 @@ Deprecations:
++ Changes:
++ ^^^^^^^^
++ 
+++- Properly raise an error if a DTLS cookie callback returned a cookie longer than ``DTLS1_COOKIE_LENGTH`` bytes. Previously this would result in a buffer-overflow.
++ - ``Context.set_tlsext_servername_callback`` now handles exceptions raised in the callback by calling ``sys.excepthook`` and returning a fatal TLS alert. Previously, exceptions were silently swallowed and the handshake would proceed as if the callback had succeeded.
++ 
++ - Expose wrappers for some `DTLS
++diff --git a/src/OpenSSL/SSL.py b/src/OpenSSL/SSL.py
++index 6ef44d4..fa1b556 100644
++--- a/src/OpenSSL/SSL.py
+++++ b/src/OpenSSL/SSL.py
++@@ -556,11 +556,18 @@ class _CookieGenerateCallbackHelper(_CallbackExceptionHelper):
++     def __init__(self, callback):
++         _CallbackExceptionHelper.__init__(self)
++ 
+++        max_cookie_len = getattr(_lib, "DTLS1_COOKIE_LENGTH", 255)
+++
++         @wraps(callback)
++         def wrapper(ssl, out, outlen):
++             try:
++                 conn = Connection._reverse_mapping[ssl]
++                 cookie = callback(conn)
+++                if len(cookie) > max_cookie_len:
+++                    raise ValueError(
+++                        f"Cookie too long (got {len(cookie)} bytes, "
+++                        f"max {max_cookie_len})"
+++                    )
++                 out[0 : len(cookie)] = cookie
++                 outlen[0] = len(cookie)
++                 return 1
++diff --git a/tests/test_ssl.py b/tests/test_ssl.py
++index 77e1876..fb77b75 100644
++--- a/tests/test_ssl.py
+++++ b/tests/test_ssl.py
++@@ -4455,3 +4455,41 @@ class TestDTLS(object):
++             assert 0 < c.get_cleartext_mtu() < 500
++         except NotImplementedError:  # OpenSSL 1.1.0 and earlier
++             pass
+++
+++    def test_cookie_generate_too_long(self) -> None:
+++        s_ctx = Context(DTLS_METHOD)
+++
+++        def generate_cookie(ssl: Connection) -> bytes:
+++            return b"\x00" * 256
+++
+++        def verify_cookie(ssl: Connection, cookie: bytes) -> bool:
+++            return True
+++
+++        s_ctx.set_cookie_generate_callback(generate_cookie)
+++        s_ctx.set_cookie_verify_callback(verify_cookie)
+++        s_ctx.use_privatekey(load_privatekey(FILETYPE_PEM, server_key_pem))
+++        s_ctx.use_certificate(load_certificate(FILETYPE_PEM, server_cert_pem))
+++        s_ctx.set_options(OP_NO_QUERY_MTU)
+++        s = Connection(s_ctx)
+++        s.set_accept_state()
+++
+++        c_ctx = Context(DTLS_METHOD)
+++        c_ctx.set_options(OP_NO_QUERY_MTU)
+++        c = Connection(c_ctx)
+++        c.set_connect_state()
+++
+++        c.set_ciphertext_mtu(1500)
+++        s.set_ciphertext_mtu(1500)
+++
+++        # Client sends ClientHello
+++        try:
+++            c.do_handshake()
+++        except SSL.WantReadError:
+++            pass
+++        chunk = c.bio_read(self.LARGE_BUFFER)
+++        s.bio_write(chunk)
+++
+++        # Server tries DTLSv1_listen, which triggers cookie generation.
+++        # The oversized cookie should raise ValueError.
+++        with pytest.raises(ValueError, match="Cookie too long"):
+++            s.DTLSv1_listen()
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
+index 13d87939b62..42de3207b46 100644
+--- a/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pyopenssl_22.0.0.bb
+@@ -12,6 +12,7 @@ inherit pypi setuptools3
  
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-4.0.33'
--DEFAULT_INSTALLER_VERSION = '4.0.33'
-+DEFAULT_RELEASE = 'yocto-4.0.34'
-+DEFAULT_INSTALLER_VERSION = '4.0.34'
- DEFAULT_BUILDDATE = '202110XX'
+ SRC_URI += " \
+     file://CVE-2026-27448.patch \
++    file://CVE-2026-27459.patch \
+ "
  
- # Python version sanity check
+ PACKAGES =+ "${PN}-tests"
 
