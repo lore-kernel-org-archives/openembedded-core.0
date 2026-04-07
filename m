@@ -2,109 +2,216 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77927FF511B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B91DFF5117
 	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 16:16:24 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.85467.1775578581328818371
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.85463.1775578577557875002
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 09:16:21 -0700
+ Tue, 07 Apr 2026 09:16:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=y5Q5bEzA;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso32177605e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:16:21 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=cuWreHU/;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so36567645e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 09:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775578579; x=1776183379; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775578576; x=1776183376; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WBTX+qTNavn6kWq18ryoO1tzu8j0c9iwV7PD4ZfpRZY=;
-        b=y5Q5bEzAR9AyU4l0ivgp1B/NWrkuruC+aTMP+PtE8fj1wkrZcaYr+FgJz1TrqDRlMG
-         +oZuipL94Pq4XZuXA1LhrnuQYOdtd0OrNGJmmkvM9uZmVqB3+8v48cG474L6rGfGPczb
-         /vwzjnJTUnAviyy5gohcCrA1e9gjQc5PUfcnc=
+        bh=+yR9Dh3QlptEbmJEZasIQsqijuqDXfBH6Jm1XCMvk/I=;
+        b=cuWreHU/w0kdgFgKQus4c17PvFlKJusEtOtKfnQZZaUyGj9xb7x84NZGfV5+cr8kv9
+         9tT/lWVOIViv5yfshtHaOgvce1EkUjIoTO/buA9CDz/ssoEWBiKXPlOVlL1dDs1Oegzm
+         dFZgzbzobtwLDBgSd747neoZv9QzDCq9oq8aY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775578579; x=1776183379;
+        d=1e100.net; s=20251104; t=1775578576; x=1776183376;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=WBTX+qTNavn6kWq18ryoO1tzu8j0c9iwV7PD4ZfpRZY=;
-        b=IkkxoyGUow4jwHFaxrNdafPry3drIaP+HOzZaVf1vB7lEJMVxz+Knk1InyKS4GjUV0
-         Y8janOTNf6c6uiGGjHslF8ZqrL3JQ0zKxnlxNKXgWJhOSbKelfKDYl7NRSz9C/wz+WeM
-         atjoNgmddlLwRI/yZPaMPWoq+WnlU/27Js9xUw3/kZvfYPm0Nc7vmo8XYZ9jlpV+sUvR
-         qMqS4O09mVvW0JQvFDoAaBYOCaxc5BN0O4oUmoLhtAPVGkXe3Csd3erSskzX1kX8Rb+4
-         dbJb8bkyWfQuFYcmpiKO7qudDU3pHdCFiowvqYDWZ4hGLn3+/rrLUD3FwZcic+tHLRt7
-         aRAw==
-X-Gm-Message-State: AOJu0Yxbqpv4ayvMV9O/VOEYGLiZ6KSdqiB48A4KHn+VuqmJMsF+A7mi
-	ae5sSEOHZ0uob8upLu7RLEP81dF2yiiOV72dJuUSUIvlf475vmLx2sjUjbA6AFP+S1/d1IUS3W8
-	ZBwuy9WQ=
-X-Gm-Gg: AeBDiev7V1AXLlSP2zKEKpnhI7pZvJeenpgHLgjQq/Ub78TJ5qoCdBOmsVdBvvDvrOQ
-	ZGKQDP/pCM0Cq0Hmgxnl7AB89krz5RXx/RvHYpVvKp6aaLI1bc+5pp0/RUaL7Q0iafZaGPDnUiv
-	w8TvvfabEyzD5DIFgHYZFyGvkNXiuHrYby2D9xz7I4D5WGK2qbQ9nyrwp7xVcNHr+XygdyTZgGK
-	sHPRgJ2Rx7mnfaBqLmHUZ8KzGQCYWix6QuWqJOXdzng15pRwvUJGlUNP8KBXNioqb4rP2CF86IB
-	RO4Rl4mzSGdiHz7h1aNGnWuslNTWhrTSpMFgBn7GJIO/EijVeGOnB/vjMrwCu8kosDAc6kBN5Ex
-	6TDvbvJ1en7aYIoNgjUHBqqmofzgtTqW5EAEmY3dV4vQjtc2pn41/CF864qAQJm/Q4jiYFKNIq1
-	aQFx7TOvekmoPINF97Eauh3oVyPGq3ernTFqfpEXeB8PYSLBk7VIO+rUxjbX/Cu5gpeANEiCr2V
-	c7EjRc4oINxJXblIkBCY8IrKiTpLUV/gOFpFJ0=
-X-Received: by 2002:a05:600c:1381:b0:487:1108:48af with SMTP id 5b1f17b1804b1-488996a351bmr251687875e9.4.1775578579405;
-        Tue, 07 Apr 2026 09:16:19 -0700 (PDT)
+        bh=+yR9Dh3QlptEbmJEZasIQsqijuqDXfBH6Jm1XCMvk/I=;
+        b=cidVEm0gW5bn7W+sF0s+/lPJEjBFRgINR6UfbNvsFRYA76liQEEeB3lD1GWLD24vqh
+         FVgVPxwJa+NTha/4hrrneHHWL3B9uGDkeCZ43kkKRpIcb2nI8r77oBWJfloIZzDUlvx+
+         Po/mAW+SKnWzcr+2UpIc9ARnllrXzZdI4tLOpvF/ZoW4e0/CvGb0qv2H+eSKED4sC1e0
+         /Oa5DpDFfHx1Z79ELZJekky0hcdsMfD4Oxj0x1wdDfosdVdUwlkXrMge4PgEuw8uyuMQ
+         /TAiYC6dD5XA0NrFzvcnGg4/0sEJMSotwRJlg5vgL2pQU3DJeSwz9FhPQfXUHTj6JYhk
+         1X0Q==
+X-Gm-Message-State: AOJu0Yzw2+BSyUPpd++1gx6fo9hRCVbyv7366HHpxVtFRlZboo21tQNJ
+	wt4ORXSWbfj4Hg7Mx0yWqzhnYPsNPOewrRMzF5LEtK5apTwtXyCimhVKbRJhdRoAGfJrXeoOR6O
+	mBmnOFBA=
+X-Gm-Gg: AeBDiet3sB1pfZ+0fTZk4oF8JKGQcIjfRyUuIa5V9a2qYQ6LCYHqc/oKp6JtU4WU6hM
+	1y6W+b7Alt9XkxUN+ctShF2DBSouBHNJnulthMBups6GbPJudYLoajTJ4T7FIzzveofn/jvmt8E
+	jm+V1Re3g63mMJ2Mv2jjVyGiTuyaQ3WEBAsjJotWfsPTmMZBDWY2ADeT+2dq/4TnYW4c22sxAyB
+	GHJI0a9kI6K6FWlVc4ui4h1HjDFR3x+SsktUpnZcXFB6UEL3+nJ9O6F7ZwyicQhT3WUuQ34M6Ok
+	O8dpQ3qmSjdSBIQsovUM4EHifc8YSdkaNb7iolgEiICrWbjuBzlmSGDDlIr948pkiSPgxUTFXRE
+	UCaXQMqYH3BaI2us7NpdfQXQziKy7UV5b4eYZMok80/PjtUq5LoZKGY6Hwi1tzDkn5CoUDOIB4m
+	/q3QYqymQERxzgyibtknK8wVJPtiPBIy2U8fq2N1n4IJC5YTRz2wCt0jBDzUb8ixEnaXF75KIca
+	TKnsGCcYg7ZbUlr7YBwNPamj9xWs0VRtc5+2Yo=
+X-Received: by 2002:a05:600c:a47:b0:485:4eaf:eb53 with SMTP id 5b1f17b1804b1-48899781357mr267702845e9.19.1775578575624;
+        Tue, 07 Apr 2026 09:16:15 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa003bbe8013556e3516.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:3bbe:8013:556e:3516])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c4b57febsm1195665e9.4.2026.04.07.09.16.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c4b57febsm1195665e9.4.2026.04.07.09.16.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 09:16:18 -0700 (PDT)
+        Tue, 07 Apr 2026 09:16:15 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone v3 06/19] tzdata,tzcode-native: Upgrade 2025b -> 2025c
-Date: Tue,  7 Apr 2026 18:15:43 +0200
-Message-ID: <d40198e70a3b548e5dc7b95dee4fd4b9cb0358bb.1775578386.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone v3 02/19] linux-yocto/5.15: update to v5.15.201
+Date: Tue,  7 Apr 2026 18:15:39 +0200
+Message-ID: <65c5b6d33aa81de3e85452a1c1e4395e49addcca.1775578386.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1775578386.git.yoann.congal@smile.fr>
 References: <cover.1775578386.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 16:16:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234759
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234755
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-This release mostly changes code and commentary. The only changed data
-are leap second table expiration and pre-1976 time in Baja California.
+Updating linux-yocto/5.15 to the latest korg -stable release that comprises
+the following commits:
 
-Full release notes:
-  https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/TAGXKYLMAQRZRFTERQ33CEKOW7KRJVAK/
+    3330a8d33e08 Linux 5.15.201
+    cfd5eadd051a USB: serial: option: add Telit FN920C04 RNDIS compositions
+    438a405fbad6 f2fs: fix out-of-bounds access in sysfs attribute read/write
+    2f67ff1e15a8 f2fs: fix to avoid UAF in f2fs_write_end_io()
+    6167af934f95 fbdev: smscufx: properly copy ioctl memory to kernelspace
+    52916878db2b fbdev: rivafb: fix divide error in nv3_arb()
+    fa9fb38f5fe9 PCI: endpoint: Avoid creating sub-groups asynchronously
+    7036aff5a5e8 PCI: endpoint: Remove unused field in struct pci_epf_group
+    8055827352b7 PCI: endpoint: Automatically create a function specific attributes group
+    b74408de1f22 scsi: qla2xxx: Free sp in error path to fix system crash
+    794563147038 scsi: qla2xxx: Reduce fabric scan duplicate code
+    23507a811081 scsi: qla2xxx: Remove dead code (GNN ID)
+    da9939b1ed8b scsi: qla2xxx: Use named initializers for port_[d]state_str
+    f2bbb4db0e4a scsi: qla2xxx: Fix bsg_done() causing double free
+    c71dfb7833db bus: fsl-mc: fix use-after-free in driver_override_show()
+    38770e103e4e bus: fsl-mc: Replace snprintf and sprintf with sysfs_emit in sysfs show functions
+    6dd2645cf080 smb: server: fix leak of active_num_conn in ksmbd_tcp_new_connection()
+    dc5f09466448 crypto: virtio - Remove duplicated virtqueue_kick in virtio_crypto_skcipher_crypt_req
+    338d40bab283 mptcp: fix race in mptcp_pm_nl_flush_addrs_doit()
+    ec7b6a042414 selftests: mptcp: pm: ensure unknown flags are ignored
+    51df5513cca6 net: dsa: free routing table on probe failure
+    4a6e4c56721a smb: client: set correct id, uid and cruid for multiuser automounts
+    b0bb67385480 btrfs: fix racy bitfield write in btrfs_clear_space_info_full()
+    cfdb22762f90 Revert "wireguard: device: enable threaded NAPI"
+    20c83788eafe gpiolib: acpi: Fix gpio count with string references
+    612ffe1f4f04 ASoC: fsl_xcvr: fix missing lock in fsl_xcvr_mode_put()
+    ff96318c22fa platform/x86: panasonic-laptop: Fix sysfs group leak in error path
+    af673209d43b platform/x86: classmate-laptop: Add missing NULL pointer checks
+    72f97ee4950d drm/tegra: hdmi: sor: Fix error: variable ‘j’ set but not used
+    f2521ab1f63a romfs: check sb_set_blocksize() return value
+    f14e997a372a gpio: sprd: Change sprd_gpio lock to raw_spin_lock
+    1fe2603fb171 ALSA: hda/realtek: Fix headset mic for TongFang X6AR55xU
+    86588916e188 gpio: omap: do not register driver in probe()
+    7e0b2cdbe660 scsi: qla2xxx: Query FW again before proceeding with login
+    891f9969a29e scsi: qla2xxx: Delay module unload while fabric scan in progress
+    a46f81c1e627 scsi: qla2xxx: Validate sp before freeing associated memory
+    ba18e5f22f26 nilfs2: Fix potential block overflow that cause system hang
+    8ee8ccfd60bf crypto: virtio - Add spinlock protection with virtqueue notification
+    31aff96a41ae crypto: omap - Allocate OMAP_CRYPTO_FORCE_COPY scatterlists correctly
+    a60b17cedb44 crypto: octeontx - Fix length check to avoid truncation in ucode_load_store
 
-Signed-off-by: Paul Barker <paul@pbarker.dev>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 452334219309793ad74abd6ff390dcb06cab929b)
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../linux/linux-yocto-rt_5.15.bb              |  4 ++--
+ .../linux/linux-yocto-tiny_5.15.bb            |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 24 +++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index bb81d77ccc5..1c08d4b1023 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index 526f3c64b7d..ea763ce9aa1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
--PV = "2025b"
-+PV = "2025c"
+-SRCREV_machine ?= "671f06e26c741b7d55d8afcc30e64f1480cec166"
++SRCREV_machine ?= "46e4e1200a4fa889438a2cc62151bb7f1057421a"
+ SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
  
- SRC_URI =" https://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            https://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
  
- UPSTREAM_CHECK_URI = "https://www.iana.org/time-zones"
+-LINUX_VERSION ?= "5.15.200"
++LINUX_VERSION ?= "5.15.201"
  
--SRC_URI[tzcode.sha256sum] = "05f8fedb3525ee70d49c87d3fae78a8a0dbae4fe87aa565c65cda9948ae135ec"
--SRC_URI[tzdata.sha256sum] = "11810413345fc7805017e27ea9fa4885fd74cd61b2911711ad038f5d28d71474"
-+SRC_URI[tzcode.sha256sum] = "697ebe6625444aef5080f58e49d03424bbb52e08bf483d3ddb5acf10cbd15740"
-+SRC_URI[tzdata.sha256sum] = "4aa79e4effee53fc4029ffe5f6ebe97937282ebcdf386d5d2da91ce84142f957"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index 1eeda2e22ca..56853f481fa 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.15.200"
++LINUX_VERSION ?= "5.15.201"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -14,7 +14,7 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "0d4112b87ce7dd038dc712ef616c0b6dd333c786"
++SRCREV_machine ?= "5ae014d6b48449ae38584cc174ef362f6582a8fc"
+ SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 5f8bfba396e..176d17e5736 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -14,16 +14,16 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.15/standard/base"
+ KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "44b7b6bdfaab20ab51f175aeb0df8c27791cc40d"
+-SRCREV_machine:qemuarm64 ?= "d67ad97cb5d6a51184bd61853e3af7e044c7f1d4"
+-SRCREV_machine:qemumips ?= "94fe5264de5b6ba6a5fab53b3f2283e36033e373"
+-SRCREV_machine:qemuppc ?= "a065262f1076ca606ea8229f84b23c10be2680e7"
+-SRCREV_machine:qemuriscv64 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
+-SRCREV_machine:qemuriscv32 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
+-SRCREV_machine:qemux86 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
+-SRCREV_machine:qemux86-64 ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
+-SRCREV_machine:qemumips64 ?= "00831bab13b4320ee27e4ddc72b55542bfe75ec8"
+-SRCREV_machine ?= "af4baa923d4f04a259e3199e9e63d9415bdf3e3a"
++SRCREV_machine:qemuarm ?= "9750e854c9e92d55a2cb042c5ce72e712b24217d"
++SRCREV_machine:qemuarm64 ?= "8634ca1dd87be9b55bd383dc8636b73b82a28051"
++SRCREV_machine:qemumips ?= "54eca1788efd507120c9dc08681a6a31038513a1"
++SRCREV_machine:qemuppc ?= "3a3a4ecdcebb4d3deaa8b5c4ec3e167d5f31305c"
++SRCREV_machine:qemuriscv64 ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
++SRCREV_machine:qemuriscv32 ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
++SRCREV_machine:qemux86 ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
++SRCREV_machine:qemux86-64 ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
++SRCREV_machine:qemumips64 ?= "e643e82fef4b4352b8f6ddf802181526edc806ca"
++SRCREV_machine ?= "b5ccd2e275c9b68e5dc564b6febeaae8dda42bc5"
+ SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+@@ -31,7 +31,7 @@ SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "e45d5d41c1343aad8c7587a5b15d58e99aff4c8a"
++SRCREV_machine:class-devupstream ?= "3330a8d33e086f76608bb4e80a3dc569d04a8814"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v5.15/base"
+ 
+@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "5.15.200"
++LINUX_VERSION ?= "5.15.201"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 
