@@ -1,131 +1,268 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5D5FEEF50
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F552FEEF4E
 	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 14:08:40 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.82107.1775570918660652624
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.82105.1775570913809108178
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 07:08:39 -0700
+ Tue, 07 Apr 2026 07:08:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=B1WHlHQ3;
- spf=pass (domain: ericsson.com, ip: 52.101.65.54, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LR9JD4FgoLYW19E4nYW7IK1jcsrwhsM9Oz+E/puF39rE2EM9dTPp2G+maVeLX85RhND1JE+UFarYxmQwaQCs+dVIwbERJyJlszClcFca6udEKcnSIy54RJ+q9EuJwKL6xpRjTxzmBF0mmnPHb+s/HQyhWoaxDzoQ3GHz91F9oCh2AU2xYgTCG7SIw79cAo+eeDQFCRBYpGq/1edLSGDz2/0ctfFOyJgedUOAg8c5eLmKKdjTnnxc5s3OVOE/XlsGjfIIEcRRMjj9ry4ulh9pPbsY6y69JabfYQEZDN1zneIWFy5Yp6vptZRHRACV0AddAEDVb7DPeym9DZBtlxGRow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Li+jmHf21le8bStdfC24lLfl2eTJ17QqLkzY0OlhfYY=;
- b=givBLY+TWR4cwnrHUSo9KYz/Ky9OBnBgA1KKGs2XPRD9Oudi8ZUStBopAZS/48bpnoB27GBbrciR7e+QqzxRT1CuFWlKJJybEk9MzcX+e/X3XreibfOyK+dchc4qefmS40/C5GC4Ee4J7bkdQ54pqwgHD+grUB8/K7E2GjQcYhl3MoywbwpfVldN69WxJyc2X+si847W+TJpsMLEAYN5b8Qu0T9SmZMP967A/t7ezB1fibRXFElGjOnYyYsDvq/yIJfFmSgxYiVP6jfLxIkLdJS5Cx6en3T5SHis/QNJTDE2N0cd1/e7HODwxiaJh+y3/YpmQttKryrRmD1+1oUSdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Li+jmHf21le8bStdfC24lLfl2eTJ17QqLkzY0OlhfYY=;
- b=B1WHlHQ33rpS1dskYfYh6f+DDat9q9ImbvUhI+0IU4QLRipp7FmDQHocDhXgQmgiw2A7G1oWhdh/hzLKvDLD+44WvQiaoJib76nSh9aH+SIkfLHlMa9pp8/EiO8YVVvLWbiyDRL0vEJgm5EndcHbWjmUP1RVDyPsX4pDZq0MgGZzSgbS8p/2bM/htWce44kV8/NabDfAu7bcWhrF0hW5LYtWZ2HQ+CDOjF8CRDZsed6OyBNMUg/DrRLDhpmyubXd3iGdD/JC31nU3Ax+ymiNJ5j+ulDSXqnzhZ8BgPo8tWHI34nCWimaXIuIvlg0NmephMfiBT8zMG9/+nyxEdzMBA==
-Received: from DUZPR01CA0076.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46a::7) by AM8PR07MB7506.eurprd07.prod.outlook.com
- (2603:10a6:20b:243::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Tue, 7 Apr
- 2026 14:08:34 +0000
-Received: from DU2PEPF00028D04.eurprd03.prod.outlook.com
- (2603:10a6:10:46a:cafe::6c) by DUZPR01CA0076.outlook.office365.com
- (2603:10a6:10:46a::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.32 via Frontend Transport; Tue,
- 7 Apr 2026 14:08:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- DU2PEPF00028D04.mail.protection.outlook.com (10.167.242.164) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.21 via Frontend Transport; Tue, 7 Apr 2026 14:08:34 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.64) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 7 Apr 2026 16:08:34 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id DDDA14020B41;
-	Tue,  7 Apr 2026 16:08:33 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id C7FF9700CF09; Tue,  7 Apr 2026 16:08:33 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH] python3-kirk: upgrade 4.0.0 -> 4.1.0
-Date: Tue, 7 Apr 2026 16:08:24 +0200
-Message-ID: <20260407140824.3805778-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.49.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=DG8s8kDA;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a2c9c5ff87so5300084e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 07:08:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775570912; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ej+QJ+BnS1mVpe7Yqtn/QPS8BDNWQ9xocyUgkR2MrD8IsHh5jL7y2GsV3YHk9qFiUJ
+         Yolm9P7r6/Xeq62xIrGNqgGA+IlkxgUg0hsRbYgZITZLSuJCGHQjExn4FvEXeUErPa7w
+         JA2R2Six9YG9LhnFHHuUmKrHN0otR38obRVkyIi99KpAi41AhL4Z4TJC397r0OacnPfg
+         pb/EyNBsyK+P8qjV5hctbminsEWT4LMYcMUJjZDgA465o6B/bryzqCh8T4Mskene/BAD
+         AOxzleg7DPWOdwLi2bSNuUPD4bG/0fEhNK8mwCkmd0XuObzPX4r61wrkuNsj/PqPwN0h
+         hodw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yQIScb8+R+NlfjtFW47cQ1wppEijGJ1u7C39kPmpgCg=;
+        fh=eloAb1AYyJr+haIf6vSKENwaav3NPT7KVECbzIbanW8=;
+        b=LBC8DGJYSSlwgXadDr4vYvTkninMipw2vLNxM80L4WcYEANfI7bSbOfOoZ9GbSKkwR
+         n6yHjhcA2Ap9fxiLBL3q8p4DomIpLWIgllg7pAFrOxt4EOrYCLa9fbJebwgVmNMdWqBX
+         y9ARGE+CQ+DRE5/68xdB83r3FBI0s0kxXv8xsL2My6sRt58zOeIK9xJAvT9QPkmarFk5
+         ZRKSkgc2OCyZM6OiPKYBgFrHboewVjY8dpOv0SNODeSA3EwOFKzZbIashWIGr2R6tfdu
+         1O81vCSnqd0nuRoIQ7rA9j5NnSO8mp2YzmMxyZYGgCCuURUFVljFVoYex6w5sLXAvBZ2
+         JiLQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775570912; x=1776175712; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yQIScb8+R+NlfjtFW47cQ1wppEijGJ1u7C39kPmpgCg=;
+        b=DG8s8kDA+iHErwvskIKkkb001eKlLeeiKQo19ow6Imm22ACMH2mAQGmgqyyrOYxs1x
+         iuWfIK4MGbsxFAIziQGHZjtcRdo81XHJ8dpG2Oy2GL49fslBU1LU7PcbO5ts85/za69O
+         FS/JPewFYhN0J9ns49YjYAlHNuQW+yUIlHzNiWBccn0f9wkGr7+OSP7Wn5FGpnQDVy7O
+         r5mqmCZN22YmLrTmcdvl9MlOJeR+FNQJo+jMXUB/WkxYV8jRqnw8jqknGcGnP6fsRZDU
+         rxga9V7iDTQRRU6m3Rud/di9/0P4luU7kq+cbluXR3sW0nzkw9P6LIJ5BloEINB+CkVZ
+         u4Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775570912; x=1776175712;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yQIScb8+R+NlfjtFW47cQ1wppEijGJ1u7C39kPmpgCg=;
+        b=QE93DOdEk7OER0cOFHcgyv7UdS5TdYbwl5vFT/8E+8ckXqt2H8tKVY1xtDivMYEZKS
+         QjrtVP+NH01xzELrQxiDpoOS9edA2UuJNjxANPUEVQzu6SDzYHOTtaYmj3agu6DKlDix
+         4bTB5k+hJobc2Ptb9j4Kcv6cLrGrBmN3hBLXGLfnSgCtlW1HK1gMIVBVZeI1B9hOSmJy
+         xMJ2e8HwRs2h5pTsIBmhTCyvqqHcJhVJvFOHW5LzHStPLvQNh+wxMUVuPKyIGo3kDCq/
+         h0U8hI+hMs4oypvQ1fmTXs4SpFLCToeqLsaw+fRuHmsKg8fHMODTSgtJyc3ctogCzQM5
+         3m5A==
+X-Forwarded-Encrypted: i=1; AJvYcCV5G2tlBaNg8P3/ArrplEehDLxNqrr65Hik8JMDU74cwALNSTwtHU9EZ7rqYleKNOQPhyscxB5Ms0Yug1bBwKDTdw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyibh3t7Klfwwc7b600b7RXWNoGeMMwtLkWnMeeEf3nW9im6ZVN
+	4KVO0k3QUpCp6i4UBiWr/ealQHyWEMoLeTmibs3n8A8PCl2rmKfYHRW3pYUZv2QCFIvo9dJuMW/
+	lGgZeuTJ8eXYetF52ZP0JqM0bhB8es3M=
+X-Gm-Gg: AeBDietsdum5LZYQmtq0xhcFibQWmYAvi6IWWnPqAQmHKye+dm6np0eBughklNIEtPA
+	XB49JyqMPZyKq25977glfVhcIDiStYgdvDbKbOb6D8FfNoooFERcOOnoVM8C37cEuQ31DJ/q2gk
+	3670XzvFs44THEUTWFXIRtpRZ6EwUNobPqaKGdBf6Afd4DzLYfvJRPr9p0qUtNg9GusxLRMGcsX
+	C8Et4jD9B45P5Gq0r11rI1GWxpTYWMueN4nF78nwZmmF9xITmWiXpmktKwF3CIUwk8bHse+mcVT
+	vbeO0aHYGA==
+X-Received: by 2002:a05:6512:6d2:b0:5a1:3e69:b186 with SMTP id
+ 2adb3069b0e04-5a337560300mr5673353e87.19.1775570911511; Tue, 07 Apr 2026
+ 07:08:31 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260308150834.2508331-1-Hemanth.KumarMD@windriver.com>
+ <20260308150834.2508331-3-Hemanth.KumarMD@windriver.com> <CA+chaQcneoNBogdCZmZB3LCE-cVErs2-4NoNtYUGgK+REEBxLg@mail.gmail.com>
+ <18A40738790ACBCC.657799@lists.openembedded.org> <e38f41d9-4af6-4389-90a7-0c2ae6b47330@gmail.com>
+In-Reply-To: <e38f41d9-4af6-4389-90a7-0c2ae6b47330@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 7 Apr 2026 16:08:18 +0200
+X-Gm-Features: AQROBzAyH_u-i0TXznb7X2pzDJ69K11LnaqY7744N7WzVMRFw-NL7ZYd-hh6BYk
+Message-ID: <CA+chaQdDkMUDBO8G=cku8SVe=Ow+Hgt606mZO863rCaNaznDrA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 3/7] pseudo: fix for build with glibc-2.43
+To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Cc: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org, 
+	Sundeep.Kokkonda@windriver.com, Randy.MacLeod@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D04:EE_|AM8PR07MB7506:EE_
-X-MS-Office365-Filtering-Correlation-Id: a75c0b3d-2543-4fdb-3c34-08de94af27f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|376014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	GFd2sg8bea8V7dhPsk8ajHaKSRSRv1W/FOHgHs2JNAfLp8oQrzN1N63+ZlfS1UMDOBSXS1YNHq/IfNuI1Gah3ahhAdhuAnw5jxNX8nLQUPA6boRI+vuyMJYFMC7i39nyYw9X1pfExD7Y0qw0xlPwWyfdi8qOl9n8oxm19bHqZKifCwWem9aSMSeA0og6MnKH+63TyFVOUaRSSwa0OuWeZdp968POCF9JZQZ+AzC1YkrBQydV0N1tnlK8t/szjk+DSNedNwf7+kkJLHKG+WLdR3m+2vOXsd/PD+Ael4Gx/KTOUOxfeVvVT5joh7CH4n7n/ifjpU4c7K4uKh0jtneEqk9MIzIjcxtshOBneOWxkAU74X61UnySu4ytDZEUx5EaVMbKyeb1H8DAzMCq1yPR4BaWHur2fsRLcKeMTSmWKoTA+FoW1/KSjhFNuOiMh0aoo2iFwrKHwplgMZb7tUc8JsP/vV/OnA5qwCrmEbOp3X5jYY6fMfhdr0LsevbWNC/qfRQRIrhMhNK+U0m0lPmtZ8DRza0EWiCNf6D6Jd/OziW/WnESqUaBMOMhwKMU9qKINXoKNGmn1fJSec5Qlpns2txb3ATaaML9yfIdrMtr+yVDyrywHw6aUk+TJLnUjuphinJjd3bf/jh58BSIFjLc1pFBl1eTe/szDvu5VYNrRT5N3xt90jJ41m1xLfWyFnzsR21ZQry48TbD7wmUh1tcSQanBzxoKX3mtehslfDOhPgupYjtB9rXZp9W/wBQvWqYV1a4d8Boi4xUiL9MmPPiSQ==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(376014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	bZ0QsjpyvayIzOZrvoAnjIvrCS6wuNZckbeqDoI00r/lHje5V/QOPw4P/KYaKc3MLzJFjzSbljRTRKCSbt6h7qf3/ShCTRw4wnjLH+voJuDUWEn68H+gIn5dp7e3F0LJHeBbDGCm4Tp3P46D7EHXLPoVrd7FHHdp9DfcU62wV5HGOrI5fqQgy3TrkAwy+Jg2CHiSk5jHQhM83Hde3/elR84+bLrosR2WJyKexj0FEaKj3sGw9arACt4mn8e5H5Ycl52McSdmvpvZtnSb6mnw1+70McGKR0JhjVYUKnLoJVOJwevmU4P66jyVsELP6vRBFGfskvrkIcRMYyKjXrPktRVMniZPv0UidpTuELwWP99Jr3gUDco0CbIRwTLxHC2EiJm0E52oFqWmZrZ88mVK3yPKVZOI2x1+fYOXQDl2THbBp738KQLDjOqe389Q1aIu
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 14:08:34.2640
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a75c0b3d-2543-4fdb-3c34-08de94af27f0
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D04.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR07MB7506
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 14:08:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234741
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234740
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+For me this works with both ubuntu-26.04 and gentoo both with
+glibc-2.43. I'm able to build images with scarthgap, whinlatter with
+ubuntu (gentoo probably works as well, just haven't tried) and wrynose
+with both ubuntu and gentoo.
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- .../{python3-kirk_4.0.0.bb =3D> python3-kirk_4.1.0.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/python3-kirk/{python3-kirk_4.0.0.bb =3D> pyth=
-on3-kirk_4.1.0.bb} (85%)
-
-diff --git a/meta/recipes-extended/python3-kirk/python3-kirk_4.0.0.bb b/met=
-a/recipes-extended/python3-kirk/python3-kirk_4.1.0.bb
-similarity index 85%
-rename from meta/recipes-extended/python3-kirk/python3-kirk_4.0.0.bb
-rename to meta/recipes-extended/python3-kirk/python3-kirk_4.1.0.bb
-index af53d2edf3..3027d98de0 100644
---- a/meta/recipes-extended/python3-kirk/python3-kirk_4.0.0.bb
-+++ b/meta/recipes-extended/python3-kirk/python3-kirk_4.1.0.bb
-@@ -7,7 +7,7 @@ SECTION =3D "console/utils"
- LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D39bba7d2cf0ba1036f2a6e2be52fe3f=
-0"
-=20
--SRC_URI[sha256sum] =3D "4606f46dfdb7be1e1c2de8d8f040037459a9de8a07fa1123ce=
-e4b68c7f7cb764"
-+SRC_URI[sha256sum] =3D "dc4dc4fa8994b14565a3d4f31bb79d6d27102ecbbd4feaef4e=
-bc1e10e9cbace3"
-=20
- inherit pypi python_setuptools_build_meta
-=20
+On Tue, Apr 7, 2026 at 1:39=E2=80=AFPM B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=
+=A1n <zboszor@gmail.com> wrote:
+>
+> 2026. 04. 07. 10:54 keltez=C3=A9ssel, Zoltan Boszormenyi via lists.openem=
+bedded.org =C3=ADrta:
+> > Hi,
+> >
+> > something is still wrong with pseudo on Fedora 44 (beta) after this cha=
+nge.
+> > Besides GLIBC 2.43, GCC 16 is on Fedora 44.
+> >
+> > Packaging fails for every file and directory shipped by the recipe with=
+:
+> >
+> > Cannot open: Function not implemented
+> >
+> > or
+> >
+> > Cannot mkdir: Function not implemented
+>
+> It's not GCC. I forced to build pseudo-native with GCC 15 and packaging
+> linux-libc-headers and others still failed with the same problem.
+>
+> GLIBC is glibc-2.43-2.fc44.x86_64, which uses commit
+> 48f5a05a7a1eeb9e0567ab429f654648f831307f from
+> the release/2.43/master branch. It's a post-2.43 commit.
+>
+> > 2026. 03. 08. 17:37 keltez=C3=A9ssel, Martin Jansa via lists.openembedd=
+ed.org =C3=ADrta:
+> >> Hi,
+> >>
+> >> this is already merged in the repo and there is SRCREV bump which
+> >> includes that change from Richard in master-next.
+> >>
+> >> Regards,
+> >>
+> >> On Sun, Mar 8, 2026 at 4:09=E2=80=AFPM Hemanth Kumar M D via
+> >> lists.openembedded.org
+> >> <Hemanth.KumarMD=3Dwindriver.com@lists.openembedded.org> wrote:
+> >>> From: Martin Jansa <martin.jansa@gmail.com>
+> >>>
+> >>> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> >>> ---
+> >>>   ...01-openat2-use-const-struct-open_how.patch | 54 ++++++++++++++++=
++++
+> >>>   meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+> >>>   2 files changed, 55 insertions(+)
+> >>>   create mode 100644
+> >>> meta/recipes-devtools/pseudo/files/0001-openat2-use-const-struct-open=
+_how.patch
+> >>>
+> >>> diff --git
+> >>> a/meta/recipes-devtools/pseudo/files/0001-openat2-use-const-struct-op=
+en_how.patch
+> >>> b/meta/recipes-devtools/pseudo/files/0001-openat2-use-const-struct-op=
+en_how.patch
+> >>> new file mode 100644
+> >>> index 0000000000..eda2593bdf
+> >>> --- /dev/null
+> >>> +++ b/meta/recipes-devtools/pseudo/files/0001-openat2-use-const-struc=
+t-open_how.patch
+> >>> @@ -0,0 +1,54 @@
+> >>> +From d17159194e94b5150600c333a5e2ad46fda6291e Mon Sep 17 00:00:00 20=
+01
+> >>> +From: Martin Jansa <martin.jansa@gmail.com>
+> >>> +Date: Thu, 5 Mar 2026 17:53:34 +0100
+> >>> +Subject: [PATCH] openat2: use const struct open_how
+> >>> +MIME-Version: 1.0
+> >>> +Content-Type: text/plain; charset=3DUTF-8
+> >>> +Content-Transfer-Encoding: 8bit
+> >>> +
+> >>> +To match
+> >>> +https://sourceware.org/cgit/glibc/commit/?id=3D0f0a5cd338998f4b603f5=
+2f3ce2163df0db7b814
+> >>> +
+> >>> +Otherwise it fails to build with glibc-2.43:
+> >>> +
+> >>> +In file included from pseudo_wrappers.c:300:
+> >>> +pseudo_wrapfuncs.c: At top level:
+> >>> +pseudo_wrapfuncs.c:11537:1: error: conflicting types for =E2=80=98op=
+enat2=E2=80=99; have =E2=80=98int(int,
+> >>> const char *, struct open_how *, size_t)=E2=80=99 {aka =E2=80=98int(i=
+nt,  const char *, struct
+> >>> open_how *, long unsigned int)=E2=80=99}
+> >>> +11537 | openat2(int dirfd, const char *path, struct open_how *how, s=
+ize_t size) {
+> >>> +      | ^~~~~~~
+> >>> +In file included from /usr/include/bits/fcntl-linux.h:492,
+> >>> +                 from /usr/include/bits/fcntl.h:61,
+> >>> +                 from /usr/include/fcntl.h:35,
+> >>> +                 from pseudo_wrappers.c:23:
+> >>> +/usr/include/bits/fcntl-linux-fortify.h:36:1: note: previous definit=
+ion of =E2=80=98openat2=E2=80=99
+> >>> with type =E2=80=98int(int,  const char *, const struct open_how *, l=
+ong unsigned int)=E2=80=99
+> >>> +   36 | openat2 (int __dfd, const char *__filename, const struct ope=
+n_how *__how,
+> >>> +      | ^~~~~~~
+> >>> +make: *** [Makefile:162: pseudo_wrappers.o] Error 1
+> >>> +
+> >>> +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> >>> +Upstream-Status: Pending
+> >>> +---
+> >>> + ports/linux/openat2/guts/openat2.c | 2 +-
+> >>> + ports/linux/openat2/wrapfuncs.in   | 2 +-
+> >>> + 2 files changed, 2 insertions(+), 2 deletions(-)
+> >>> +
+> >>> +diff --git a/ports/linux/openat2/guts/openat2.c b/ports/linux/openat=
+2/guts/openat2.c
+> >>> +index da01b31..366fb95 100644
+> >>> +--- a/ports/linux/openat2/guts/openat2.c
+> >>> ++++ b/ports/linux/openat2/guts/openat2.c
+> >>> +@@ -4,7 +4,7 @@
+> >>> +  *
+> >>> +  * SPDX-License-Identifier: LGPL-2.1-only
+> >>> +  *
+> >>> +- * int openat2(int dirfd, const char *path, struct open_how *how, s=
+ize_t size)
+> >>> ++ * int openat2(int dirfd, const char *path, const struct open_how *=
+how, size_t size)
+> >>> +  *    int rc =3D -1;
+> >>> +  */
+> >>> +
+> >>> +diff --git a/ports/linux/openat2/wrapfuncs.in b/ports/linux/openat2/=
+wrapfuncs.in
+> >>> +index 96ae8a7..2f1e716 100644
+> >>> +--- a/ports/linux/openat2/wrapfuncs.in
+> >>> ++++ b/ports/linux/openat2/wrapfuncs.in
+> >>> +@@ -1 +1 @@
+> >>> +-int openat2(int dirfd, const char *path, struct open_how *how, size=
+_t size);
+> >>> ++int openat2(int dirfd, const char *path, const struct open_how *how=
+, size_t size);
+> >>> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb
+> >>> b/meta/recipes-devtools/pseudo/pseudo_git.bb
+> >>> index a26a205a16..b34525055d 100644
+> >>> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
+> >>> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+> >>> @@ -1,6 +1,7 @@
+> >>>   require pseudo.inc
+> >>>
+> >>>   SRC_URI =3D "git://git.yoctoproject.org/pseudo;branch=3Dmaster;prot=
+ocol=3Dhttps \
+> >>> + file://0001-openat2-use-const-struct-open_how.patch \
+> >>>              file://fallback-passwd \
+> >>>              file://fallback-group \
+> >>>              "
+> >>> --
+> >>> 2.49.0
+> >>>
+> >>>
+> >>>
+> >>>
+> >>>
+> >>>
+> >>>
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#234724): https://lists.openembedded.org/g/openembed=
+ded-core/message/234724
+> > Mute This Topic: https://lists.openembedded.org/mt/118204632/3617728
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+zboszor@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
 
