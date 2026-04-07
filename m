@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C116CEDB7C8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE20EDB7C5
 	for <webhook@archiver.kernel.org>; Tue,  7 Apr 2026 07:13:56 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.75684.1775546033516870632
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.75568.1775546032204924042
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 00:13:53 -0700
+ Tue, 07 Apr 2026 00:13:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Fn9k8+IZ;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-482f454be5bso59009085e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 00:13:53 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=xCOSKhJq;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4887fd35e60so29522905e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 00:13:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775546031; x=1776150831; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775546030; x=1776150830; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DnPfSxuNmlH81fbdPnvc6ltVJQ+styhsyLQRmmXMXrU=;
-        b=Fn9k8+IZ2/tOHO5J0mi0gyjQ+1PT1Ph58Z2+0VzbKNFMe0SPzY8ZbIm+BlU8MPuZLB
-         KjCSCr+2KA5rdmFlFUvBHPdWn4N3XthOtmd8br5k/RtKvO51TXxQngHcDRtQOITpMom0
-         1244xCp36np5RsqLknUItSCXvxLxHiEE3rjyU=
+        bh=ugHqcjdN6zoBas+QQwnv65Xz4W7IIwZMWDc6pFdOi90=;
+        b=xCOSKhJqqwJdBH831MfjgG+ccCEyvYxhB0VoduoqD6aNatfR+Jyz51GmAzv86f3A9O
+         EejARpxB/7/o0j0nVBlYDyvf4mDjqycch4JAEu9HvyW4G4B8WRJe+iBz3TirfLeWQBp6
+         T6/cDG0zQZoAjUDGmV0he3+Qe0NobbqRbsaE4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775546031; x=1776150831;
+        d=1e100.net; s=20251104; t=1775546030; x=1776150830;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=DnPfSxuNmlH81fbdPnvc6ltVJQ+styhsyLQRmmXMXrU=;
-        b=lZ2AeK7eNhb4slY8/g6CEbQFOyqlKabN24GB8rqKyYZwo2owoksybli1g+g0d3IdmE
-         muMSKLAuxEy1ETMUaESH47y4jMAMQSoj09410Xzo2695IUvfAubtxYstGosbE19wILiD
-         3vAd5IOobzuhZyUfpGGw3epyjDY6r/OFRMTrJ/EGKxE5eJ1X1P19cf5UOPAR42nAt7y6
-         974S+iR9pnfdIpAIRlDO2bN9PLpkyrAfPsjNFjT/cG+1hZsnMns24K1IMeT8EJm58wPf
-         eEBXpbZCI54XQ8Jb2zqan2q/o5lDiiewGkvFl9gCo19Y5RvYUsppjeEjqMAJcB5ehVjr
-         LUag==
-X-Gm-Message-State: AOJu0Yww6Gx7FtvDpAvU2WtEMn/+QeO+GHD4h5kTfznguCSapebL/nKw
-	CdzD3+ubY5q2TV3vbrdj9fXojM+s7fw2i5978M/r2a1m1cxvi+TnJBggUm0zNiAje+Nado12BAL
-	JDae2s0o=
-X-Gm-Gg: AeBDietQBIg4xf5Qh6iX6PEPMtQbBDZRWwqVr9eatUjzuL2DHRAYXDtXwyx9MtpEbpu
-	KvXoF5w/iwjKL2t/fVmTotR83katX0R5OyipDoe7VoRg9fbiikWDuoOMwGn5gnH1J4JE6sHPIG4
-	5Fq8Jy8M875b4DkAG02ZgMD/9WsqJLvuPw7JQeUxz9pI+mjInyh2cbt9VjGmMIiKASmYEgNCrwC
-	t55j/qqgronGHPppm2/se0DLBLDojslchj68dDGLKXH//FEOCX9uWc16Whx30c6XW1aZ0NR0ghr
-	hjAd0CxdgN+gRlj3OLkno8kzU5kTzgWwJ8vx9ly8CFAw59qctY9aSDnpbRNuZYzhxq374w9jLxe
-	RxOKjfsaY91rjButT1BgzKbIBaATf43ZzZNbpqZyYS4aXf3R74CtDe/V0olYoiAdPzDz/2netzK
-	8uYM+sjgKEOktQNT6MuK8iq0ksvwhb23IilqNazN4Dw06YzgtMnGJiOuax0+lPun1TvHegoQTyK
-	VWVXQSHFU/X3JmLf13LR6bUB+KkwqgQpVMF/w==
-X-Received: by 2002:a05:600c:45cf:b0:477:9890:9ab8 with SMTP id 5b1f17b1804b1-4889945f8c3mr185236135e9.3.1775546031449;
-        Tue, 07 Apr 2026 00:13:51 -0700 (PDT)
+        bh=ugHqcjdN6zoBas+QQwnv65Xz4W7IIwZMWDc6pFdOi90=;
+        b=UHwhqh2Caz8Il4UO+xaOm1nABeNhTE/dY7CBIDk7floB1gwYaK6rJSXBrz+VJtqGjS
+         B+1ov7b2rUB/HCKOyAwExs9jCrTYj/qpYOlK+iVIMGnOdVjwfdGXerLcBnSg2HeHQ6DH
+         r1RcHLJnazpQaYUHqEKrRmzv2Q0EpYgc2l69gz+PZgKZ0zb+3VNLfD45X93jpQfHuIrO
+         BBU4ftVun2Dnx/PSAy/bAcs/6avZM9Xyg0RQ3CIkUHwc2kOmkdi6HZjJsjkeTXth17mW
+         yGTCxm3o4ecW+5sI7E1r33oPNhFdXDQLgyFim8wbLg/UbBCoV0lELLjEs3ZQgQaTWEJu
+         A5iA==
+X-Gm-Message-State: AOJu0Yw5GuCaoZvcIxw77gvUkIz/BE/fkcR+zLGqP2lkh2mbcBmv93Rt
+	7h6flOhpxk1bz7JDnnItoq92QBDe77RPdvR54thCFDMCVnnANck9LjZs6sCYoUBBNKqVDD0PIvK
+	YBP1Ub5k=
+X-Gm-Gg: AeBDieswpgYEC50+gQ8YKcRt4hr6ikKukH+9IbRZ9hBVXzzBfcu52hT740hXxJe5asr
+	8IrfHqPo7VD8rhyRHFORVlLCgsW+2FXV0tzqaHBrcKNWOKsgmeYxC3zUnyExvaOze0Dwup3xClt
+	NXeYWjXipPlbsdzJW4Iu0Rc4uUqyoVRP6W697duE+6hO+GzA7Nbplftq8qHF8u/1eqYxwzmjs3l
+	WjKOXIuqQxHvI6BmrF/jGdS6YByDcqzR1KVCaw0o0ZspiCppOz4vpC5G4+asBNB6FOejWs5lxWp
+	vdwHRrX+HctAylpeaorxF42CRDgO7ITBRI6oEMzUDKMjHn/SaywKRFJwhrVGL8gc9G5gDfZkCoP
+	OZ2zQQ4gb61GC7H4dj4DkEgSmbkudYvslWts+cv7AX0BYTcIoYbObujgdT21NjsXTul6++dQOUk
+	AvVu9JCsGyRBE1GxMMjvoUPLmiOz98uO4XIhKpmKOTTfn9bsJqouDZlViZPcIfwRFwJMCX33pDI
+	39V/cBOIZrJLsR5HoyCgQveQMtV4MjgdKx/3w==
+X-Received: by 2002:a05:600c:5292:b0:485:9a50:338d with SMTP id 5b1f17b1804b1-488996cd79dmr238359685e9.3.1775546029619;
+        Tue, 07 Apr 2026 00:13:49 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899d0fc00sm156364925e9.4.2026.04.07.00.13.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899d0fc00sm156364925e9.4.2026.04.07.00.13.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 00:13:50 -0700 (PDT)
+        Tue, 07 Apr 2026 00:13:48 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone v2 14/18] curl: patch CVE-2025-14524
-Date: Tue,  7 Apr 2026 09:13:22 +0200
-Message-ID: <69b98b1f2bd0717b0ab7adcb5d8aa9b84ae2f48b.1775545489.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone v2 11/18] libarchive: Fix CVE-2026-4111
+Date: Tue,  7 Apr 2026 09:13:19 +0200
+Message-ID: <9af05e2d56ed355c02722a24ee66b2b0d4097cb9.1775545489.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1775545489.git.yoann.congal@smile.fr>
 References: <cover.1775545489.git.yoann.congal@smile.fr>
@@ -66,84 +66,389 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 07:13:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234718
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234715
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Pick commit per [1].
+Pick patch according to [1]
 
-[1] https://curl.se/docs/CVE-2025-14524.html
-[2] https://security-tracker.debian.org/tracker/CVE-2025-14524
+[1] https://security-tracker.debian.org/tracker/CVE-2026-4111
+[2] https://github.com/libarchive/libarchive/pull/2877
+[3] https://access.redhat.com/errata/RHSA-2026:5080
 
-Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-Signed-off-by: Paul Barker <paul@pbarker.dev>
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-[YC: cherry-picked from scarthgap commit 951113a6e8185969444b5e28292f23434dba1f6c]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2025-14524.patch            | 42 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patch
+ .../libarchive/CVE-2026-4111-1.patch          |  32 ++
+ .../libarchive/CVE-2026-4111-2.patch          | 308 ++++++++++++++++++
+ .../libarchive/libarchive_3.6.2.bb            |   2 +
+ 3 files changed, 342 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2025-14524.patch b/meta/recipes-support/curl/curl/CVE-2025-14524.patch
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
 new file mode 100644
-index 00000000000..0ab77ade9d5
+index 00000000000..1f065b13648
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2025-14524.patch
-@@ -0,0 +1,42 @@
-+From b3e2318ff3cbe4a9babe5b6875916a429bd584be Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 10 Dec 2025 11:40:47 +0100
-+Subject: [PATCH] curl_sasl: if redirected, require permission to use bearer
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-1.patch
+@@ -0,0 +1,32 @@
++From 7273d04803a1e5a482f26d8d0fbaf2b204a72168 Mon Sep 17 00:00:00 2001
++From: Tim Kientzle <kientzle@acm.org>
++Date: Sun, 1 Mar 2026 20:24:56 -0800
++Subject: [PATCH] Reject filters when the block length is nonsensical
 +
-+Closes #19933
++Credit: Grzegorz Antoniak @antekone
 +
-+CVE: CVE-2025-14524
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/1a822275d333dc6da6043497160fd04c8fa48640]
-+
-+Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-+
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/7273d04803a1e5a482f26d8d0fbaf2b204a72168]
++CVE: CVE-2026-4111
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ lib/curl_sasl.c | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
++ libarchive/archive_read_support_format_rar5.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/lib/curl_sasl.c b/lib/curl_sasl.c
-+index 7e28c92..f0b0341 100644
-+--- a/lib/curl_sasl.c
-++++ b/lib/curl_sasl.c
-+@@ -345,7 +345,9 @@ CURLcode Curl_sasl_start(struct SASL *sasl, struct Curl_easy *data,
-+     data->set.str[STRING_SERVICE_NAME] :
-+     sasl->params->service;
-+ #endif
-+-  const char *oauth_bearer = data->set.str[STRING_BEARER];
-++  const char *oauth_bearer =
-++    (!data->state.this_is_a_follow || data->set.allow_auth_to_other_hosts) ?
-++    data->set.str[STRING_BEARER] : NULL;
-+   struct bufref nullmsg;
-+ 
-+   Curl_bufref_init(&nullmsg);
-+@@ -531,7 +533,9 @@ CURLcode Curl_sasl_continue(struct SASL *sasl, struct Curl_easy *data,
-+     data->set.str[STRING_SERVICE_NAME] :
-+     sasl->params->service;
-+ #endif
-+-  const char *oauth_bearer = data->set.str[STRING_BEARER];
-++  const char *oauth_bearer =
-++    (!data->state.this_is_a_follow || data->set.allow_auth_to_other_hosts) ?
-++    data->set.str[STRING_BEARER] : NULL;
-+   struct bufref serverdata;
-+ 
-+   Curl_bufref_init(&serverdata);
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 72bd1a20881..b8fa8b5266a 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -70,6 +70,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2025-14017.patch \
-            file://CVE-2025-15079.patch \
-            file://CVE-2025-15224.patch \
-+           file://CVE-2025-14524.patch \
++diff --git a/libarchive/archive_read_support_format_rar5.c b/libarchive/archive_read_support_format_rar5.c
++index 38979cb..867f0a8 100644
++--- a/libarchive/archive_read_support_format_rar5.c
+++++ b/libarchive/archive_read_support_format_rar5.c
++@@ -2914,7 +2914,9 @@ static int parse_filter(struct archive_read* ar, const uint8_t* p) {
++ 	if(block_length < 4 ||
++ 	    block_length > 0x400000 ||
++ 	    filter_type > FILTER_ARM ||
++-	    !is_valid_filter_block_start(rar, block_start))
+++	    !is_valid_filter_block_start(rar, block_start) ||
+++	    (rar->cstate.window_size > 0 &&
+++	     (ssize_t)block_length > rar->cstate.window_size >> 1))
++ 	{
++ 		archive_set_error(&ar->archive, ARCHIVE_ERRNO_FILE_FORMAT,
++ 		    "Invalid filter encountered");
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+new file mode 100644
+index 00000000000..243a03a8e5d
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4111-2.patch
+@@ -0,0 +1,308 @@
++From ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4 Mon Sep 17 00:00:00 2001
++From: Tim Kientzle <kientzle@acm.org>
++Date: Sun, 1 Mar 2026 10:04:01 -0800
++Subject: [PATCH] Infinite loop in Rar5 decompression
++
++Found by: Elhanan Haenel
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/ef53e2023d75a205cf7cbddb5d01c4cc592e9ce4]
++CVE: CVE-2026-4111
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ Makefile.am                                   |   2 +
++ libarchive/test/CMakeLists.txt                |   1 +
++ .../test/test_read_format_rar5_loop_bug.c     |  53 +++++
++ .../test_read_format_rar5_loop_bug.rar.uu     | 189 ++++++++++++++++++
++ 4 files changed, 245 insertions(+)
++ create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.c
++ create mode 100644 libarchive/test/test_read_format_rar5_loop_bug.rar.uu
++
++diff --git a/Makefile.am b/Makefile.am
++index dd1620d..14edb2a 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -507,6 +507,7 @@ libarchive_test_SOURCES= \
++ 	libarchive/test/test_read_format_rar_invalid1.c \
++ 	libarchive/test/test_read_format_rar_overflow.c \
++ 	libarchive/test/test_read_format_rar5.c \
+++	libarchive/test/test_read_format_rar5_loop_bug.c \
++ 	libarchive/test/test_read_format_raw.c \
++ 	libarchive/test/test_read_format_tar.c \
++ 	libarchive/test/test_read_format_tar_concatenated.c \
++@@ -869,6 +870,7 @@ libarchive_test_EXTRA_DIST=\
++ 	libarchive/test/test_read_format_rar5_invalid_dict_reference.rar.uu \
++ 	libarchive/test/test_read_format_rar5_leftshift1.rar.uu \
++ 	libarchive/test/test_read_format_rar5_leftshift2.rar.uu \
+++	libarchive/test/test_read_format_rar5_loop_bug.rar.uu \
++ 	libarchive/test/test_read_format_rar5_multiarchive.part01.rar.uu \
++ 	libarchive/test/test_read_format_rar5_multiarchive.part02.rar.uu \
++ 	libarchive/test/test_read_format_rar5_multiarchive.part03.rar.uu \
++diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLists.txt
++index 05c6fd7..c8f2e90 100644
++--- a/libarchive/test/CMakeLists.txt
+++++ b/libarchive/test/CMakeLists.txt
++@@ -156,6 +156,7 @@ IF(ENABLE_TEST)
++     test_read_format_rar_filter.c
++     test_read_format_rar_overflow.c
++     test_read_format_rar5.c
+++    test_read_format_rar5_loop_bug.c
++     test_read_format_raw.c
++     test_read_format_tar.c
++     test_read_format_tar_concatenated.c
++diff --git a/libarchive/test/test_read_format_rar5_loop_bug.c b/libarchive/test/test_read_format_rar5_loop_bug.c
++new file mode 100644
++index 0000000..77dd78c
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar5_loop_bug.c
++@@ -0,0 +1,53 @@
+++/*-
+++ * Copyright (c) 2026 Tim Kientzle
+++ * All rights reserved.
+++ *
+++ * Redistribution and use in source and binary forms, with or without
+++ * modification, are permitted provided that the following conditions
+++ * are met:
+++ * 1. Redistributions of source code must retain the above copyright
+++ *    notice, this list of conditions and the following disclaimer.
+++ * 2. Redistributions in binary form must reproduce the above copyright
+++ *    notice, this list of conditions and the following disclaimer in the
+++ *    documentation and/or other materials provided with the distribution.
+++ *
+++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
+++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
+++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+++ */
+++#include "test.h"
+++
+++DEFINE_TEST(test_read_format_rar5_loop_bug)
+++{
+++  const char *reffile = "test_read_format_rar5_loop_bug.rar";
+++  struct archive_entry *ae;
+++  struct archive *a;
+++  const void *buf;
+++  size_t size;
+++  la_int64_t offset;
+++
+++  extract_reference_file(reffile);
+++  assert((a = archive_read_new()) != NULL);
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, reffile, 10240));
+++
+++  // This has just one entry
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_next_header(a, &ae));
+++
+++  // Read blocks until the end of the entry
+++  while (ARCHIVE_OK == archive_read_data_block(a, &buf, &size, &offset)) {
+++  }
+++
+++  assertEqualIntA(a, ARCHIVE_EOF, archive_read_next_header(a, &ae));
+++
+++  assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
+++  assertEqualInt(ARCHIVE_OK, archive_free(a));
+++}
++diff --git a/libarchive/test/test_read_format_rar5_loop_bug.rar.uu b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
++new file mode 100644
++index 0000000..3e47004
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar5_loop_bug.rar.uu
++@@ -0,0 +1,189 @@
+++begin 644 test_read_format_rar5_loop_bug.rar
+++M4F%R(1H'`0#%&C,R`P$``)T-9%L.`@+P0`"`@`P`@`,``6'(WFP@`?\7_U/^
+++M8@!.`B`H````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++5```````````````````Y^;*!`@4`
+++`
+++end
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+index e74326b40fd..85fe6e5baa2 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+@@ -50,6 +50,8 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://0001-Merge-pull-request-2768-from-Commandoss-master.patch \
+            file://CVE-2025-60753-01.patch \
+            file://CVE-2025-60753-02.patch \
++           file://CVE-2026-4111-1.patch \
++           file://CVE-2026-4111-2.patch \
             "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
 
