@@ -2,150 +2,158 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 275C11073C9F
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 11:31:36 +0000 (UTC)
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.104297.1775647890896714647
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A5A1073C9F
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 11:31:46 +0000 (UTC)
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.104060.1775647904161829858
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 04:31:30 -0700
+ Wed, 08 Apr 2026 04:31:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=keTDkNhR;
- spf=pass (domain: mvista.com, ip: 74.125.82.46, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1271195d2a7so3099921c88.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 04:31:30 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Hh6UHuqo;
+ spf=pass (domain: mvista.com, ip: 74.125.82.49, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-12732165d1eso8476892c88.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 04:31:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1775647890; x=1776252690; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1775647903; x=1776252703; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ETaYJ30k2D4A97F+CKEtSBN4VHbIIWhxAQLmTEkMQuE=;
-        b=keTDkNhR9r85BRK2EbgUWxVSFK4h05AvfIy1tv5t6NLLD/3aLqdrA+CPu+x7vIA9nO
-         RPp4rvctF4w8dh8cp0wZ++fW/YEfhXr27L4LpgOMS+Enj87L1c/EhDdWFpuu6twlNQPJ
-         2jZuhEL8AdhXhFEpUipv7QAImfAn71ctfNQLw=
+        bh=tW4UXHSa6dtYgsGbp/yBbAdyndBqZuM1F1GSifI7GFc=;
+        b=Hh6UHuqoghEHWfk7pPYWE4RUbFkHgYM+1cAokU4RCrkU5qDYW1xZhZTPClikfEUl5u
+         6KXTVjZB9Q1/xckQ19KqdsAXU7X7DEOeFHoWmHj8ij4YARKQ+cc0tsL4YEANnGWK0/R2
+         T2kaIGHYut6l+VexL8S9OMQoZ3IlW/iFi9Jew=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775647890; x=1776252690;
+        d=1e100.net; s=20251104; t=1775647903; x=1776252703;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ETaYJ30k2D4A97F+CKEtSBN4VHbIIWhxAQLmTEkMQuE=;
-        b=N+64CYYIIC0lzFTI8rrwemeSzpwoK/8Oe17rreUrTaovD3pVq0t3OW4h364kc7mZZ6
-         0kQ0LW5y6D8o/V7In3RnUm1BUTY0+iJGDJhPhJQr0HVLb9C3x/DrX1z55gZy5KbmgejF
-         pzU4Arif1lNRKFihSMkphETVbCnY6jICu3MKeiDepsNTIMK3KXoWNdognLMbQ2GTnv8/
-         +NK07IyJX6hSrZjrA0LKm5o9UEB9rGpuEa4hiM37iptAPQb2Rmu6mszrm3S81kdVmmKJ
-         cbg6zGqqiWuaLohbCCKnyrxEbuObOjOjOfFiIva3dJ9l9hnsoa4DQuRhI/sCoyAbVU8Q
-         HRLQ==
-X-Gm-Message-State: AOJu0YzCz3MrBV4C2DcX56SyVp92sNL11CR4Yj4NYFrkuSWX4qj1rc4Y
-	sMLUqyh/bw1s2nJMklW/mLYF2wk92BfAAMXuH9l5cMyTjADJVkigO6XfwU6gn7eVehq2XF4V0S5
-	03R7KnsE=
-X-Gm-Gg: AeBDiesrFf0ruAlNuroTtbZF/zYUkqYkuKmtTB9V8A+0P7OtjNUuDwgOSEEdie81FsW
-	mWbU/7h9LQaGbrRt+qZwUe2ab5SFQnV/RzwW1QKNbKb1TQFOjJ/cRLnWxdqdQ3tWow5XEf5oET/
-	l/S4J4Zmd1uurfr3Q04P8Ux/uI8jksg2Lc1rZJP+womNaLP07LiwWxaVkOWIktcv9HaMGCUii04
-	O5kogZTzdkEmk2LMkjMI7fkJPJFcG3cyLTVbY2gBPEn+JK8SQV82kCNlsZtRsJVSQUolSZYQeTD
-	X06MO3BOa/0lqdXXUaUZFOQgFEwEZbpcFrci43vnGzbgFMxW3uH+6O3Euz2SG4CmBt9lYL5PQdC
-	3B7w/6dluiBLai4dqjko/tRoQSuKUFHytZCRNEATcZ//1ZlWraXiz7vDYN46Y2qkemW0efNJNdg
-	HhGJ3/zQEVrX3BWGRbZXENSAS+tcVB39/HUV8=
-X-Received: by 2002:a05:7022:e09:b0:12a:6902:ddc6 with SMTP id a92af1059eb24-12bfb63ac8cmr9983537c88.0.1775647887209;
-        Wed, 08 Apr 2026 04:31:27 -0700 (PDT)
+        bh=tW4UXHSa6dtYgsGbp/yBbAdyndBqZuM1F1GSifI7GFc=;
+        b=PrLm6ke/SVXvEqDqGXmtRN92Q1H/9X4TQTXhHsxGBFPEWRQ7RrL64OSnhXd1FDyB0m
+         obnqyY2NeDzzkkt8zLA+8pwRiwRAOrALP5dZKW0aQ+Of3judO6+YD2O8vZ0H2brybFRU
+         67It7LY9ONJBR+1N+eIMDQGvBnUpQ7ty+FyQ9npqwi+azv4LKqa9SajiEclyYxFbgvef
+         2+wVVMDXdAf0OefKssAmBH05Uy/HpPP5hI5yfe1gvV9lbbqnsEjo6X4+YjI5zflNhdko
+         1ekYfaz2G1vV7dTvrUtcFuqoG4cH1agImaAgjJlYpu8m6rg0QXfAe/+oXa7fA0A8mIBH
+         sBEg==
+X-Gm-Message-State: AOJu0YysZp2DRoetcJ2Vcw8d2h+r9pV4RSDw7kWAqGyWjSuMqPZFnJse
+	gqMX5kfWCDbKJpI8HjUucgmdEqd4jjB7zW9gAaTjcXneirZMVP5YsFpxNOYmCMDXyyFu0Mo/cys
+	svSWHCj0=
+X-Gm-Gg: AeBDievueHRohWbJD9Jrl7BNqy77/HlTlJpaBPKFjkJ0jzLGbryTF4pPmX79sI7y5SI
+	yKhW7NKan3eiNHSe3JTo542nKB7oIpfmLkpjiarvFSOwuAA5LJHu4qv5in20Gj6Z8C/zECkQIUl
+	DUj7VAohOOTrEw/bRTz0APniyxs4vHyVJaufcfWZL00J5Ei+SKQjbUhw3KPxHkx322VIB8/s/Rs
+	eRiShzh8CAPQYLNi4XuckYR51SLUy83mihpBnNKU0DODeIbJFu3VgZKAvDlpPiKCVlQG37bYmzN
+	Xx4Jgmn9imop3JsnF7krFKyvES0+e0pvyVmBXVlPphyPqWGOPlSSt1B5q6oy1JXoL+s4AOI1tU/
+	L/rDbyFlAaLoW7UWGEIJmlCb5KBiLB9fqbChSlET7SD/LVflSwsA0+vaB3Kmq7q6zba1pemXeg/
+	KzRyXEyc69L5xg48NKUzLUhprTIOD0O95m4IM=
+X-Received: by 2002:a05:7022:112:b0:128:ceac:6da6 with SMTP id a92af1059eb24-12bfb7602e8mr10822009c88.30.1775647903274;
+        Wed, 08 Apr 2026 04:31:43 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([43.249.234.209])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2cb7ec57f9dsm18120829eec.11.2026.04.08.04.31.24
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d2cb09d6a6sm3053221eec.16.2026.04.08.04.31.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 04:31:26 -0700 (PDT)
+        Wed, 08 Apr 2026 04:31:42 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] vim: Fix CVE-2026-28418
-Date: Wed,  8 Apr 2026 17:01:19 +0530
-Message-ID: <20260408113119.1030462-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] vim: Fix CVE-2026-28419
+Date: Wed,  8 Apr 2026 17:01:35 +0530
+Message-ID: <20260408113135.1030525-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 11:31:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234833
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 11:31:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234834
 
 Pick patch from [1] also mentioned in [2]
 
-[1] https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28418
+[1] https://github.com/vim/vim/commit/9b7dfa2948c9e1e5e32a5812812d580c7879f4a0
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28419
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../vim/files/CVE-2026-28418.patch            | 78 +++++++++++++++++++
+ .../vim/files/CVE-2026-28419.patch            | 86 +++++++++++++++++++
  meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28418.patch
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28419.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-28418.patch b/meta/recipes-support/vim/files/CVE-2026-28418.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-28419.patch b/meta/recipes-support/vim/files/CVE-2026-28419.patch
 new file mode 100644
-index 0000000000..3a80ba77f7
+index 0000000000..91100a7e91
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-28418.patch
-@@ -0,0 +1,78 @@
-+From f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-28419.patch
+@@ -0,0 +1,86 @@
++From 9b7dfa2948c9e1e5e32a5812812d580c7879f4a0 Mon Sep 17 00:00:00 2001
 +From: Christian Brabandt <cb@256bit.org>
-+Date: Mon, 23 Feb 2026 18:30:11 +0000
-+Subject: [PATCH] patch 9.2.0074: [security]: Crash with overlong emacs tag
++Date: Mon, 23 Feb 2026 19:35:25 +0000
++Subject: [PATCH] patch 9.2.0075: [security]: Buffer underflow with emacs tag
 + file
 +
-+Problem:  Crash with overlong emacs tag file, because of an OOB buffer
-+          read (ehdgks0627, un3xploitable)
-+Solution: Check for end of buffer and return early.
++Problem:  When parsing a malformed Emacs-style tags file, a 1-byte
++          heap-buffer-underflow read occurs if the 0x7f delimiter
++          appears at the very beginning of a line. This happens
++          because the code attempts to scan backward for a tag
++          name from the delimiter without checking if space exists.
++          (ehdgks0627, un3xploitable)
++Solution: Add a check to ensure the delimiter (p_7f) is not at the
++          start of the buffer (lbuf) before attempting to isolate
++          the tag name.
 +
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-h4mf-vg97-hj8j
++GitHub Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-xcc8-r6c5-hvwv
 +
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+CVE: CVE-2026-28418
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d]
++
++CVE: CVE-2026-28419
++Upstream-Status: Backport [https://github.com/vim/vim/commit/9b7dfa2948c9e1e5e32a5812812d580c7879f4a0]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
 + src/tag.c                    |  3 +++
-+ src/testdir/test_taglist.vim | 15 +++++++++++++++
++ src/testdir/test_taglist.vim | 16 ++++++++++++++++
 + src/version.c                |  2 ++
-+ 3 files changed, 20 insertions(+)
++ 3 files changed, 21 insertions(+)
 +
 +diff --git a/src/tag.c b/src/tag.c
-+index a32bbb2459..45af67f20d 100644
++index 45af67f20d..d3a73997bb 100644
 +--- a/src/tag.c
 ++++ b/src/tag.c
-+@@ -1902,6 +1902,9 @@ emacs_tags_new_filename(findtags_state_T *st)
-+ 
-+     for (p = st->ebuf; *p && *p != ','; p++)
-+ 	;
-++    // invalid
-++    if (*p == NUL)
-++	return;
-+     *p = NUL;
-+ 
-+     // check for an included tags file.
++@@ -2023,6 +2023,9 @@ etag_fail:
++     }
++     else			    // second format: isolate tagname
++     {
+++	if (p_7f == lbuf)
+++	    goto etag_fail;
+++
++ 	// find end of tagname
++ 	for (p = p_7f - 1; !vim_iswordc(*p); --p)
++ 	    if (p == lbuf)
 +diff --git a/src/testdir/test_taglist.vim b/src/testdir/test_taglist.vim
-+index 5a946042be..506e64f7ae 100644
++index 506e64f7ae..42ecc4b76e 100644
 +--- a/src/testdir/test_taglist.vim
 ++++ b/src/testdir/test_taglist.vim
-+@@ -301,4 +301,19 @@ func Test_tag_complete_with_overlong_line()
++@@ -316,4 +316,20 @@ func Test_evil_emacs_tagfile()
 +   set tags&
 + endfunc
 + 
-++" This used to crash Vim
-++func Test_evil_emacs_tagfile()
+++" This used to crash Vim due to a heap-buffer-underflow
+++func Test_emacs_tagfile_underflow()
 ++  CheckFeature emacs_tags
-++  let longline = repeat('a', 515)
-++  call writefile([
-++	\ "\x0c",
-++	\ longline
-++	\ ], 'Xtags', 'D')
+++  " The sequence from the crash artifact:
+++  let lines = [
+++    \ "\x0c\xff\xffT\x19\x8a",
+++    \ "\x19\x19\x0dtags\x19\x19\x19\x00\xff\xff\xff",
+++    \ "\x7f3\x0c"
+++    \ ]
+++  call writefile(lines, 'Xtags', 'D')
 ++  set tags=Xtags
-++
-++  call assert_fails(':tag a', 'E426:')
+++  call assert_fails(':tag a', 'E431:')
 ++
 ++  set tags&
 ++endfunc
 ++
 + " vim: shiftwidth=2 sts=2 expandtab
 +diff --git a/src/version.c b/src/version.c
-+index 712a3e637c..7d265ab641 100644
++index 7d265ab641..4f47ec2688 100644
 +--- a/src/version.c
 ++++ b/src/version.c
 +@@ -724,6 +724,8 @@ static char *(features[]) =
@@ -153,22 +161,22 @@ index 0000000000..3a80ba77f7
 + static int included_patches[] =
 + {   /* Add new patch number below this line */
 ++/**/
-++    1685,
+++    1686,
 + /**/
-+     1684,
++     1685,
 + /**/
 +-- 
 +2.50.1
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 2f222c5295..713e277936 100644
+index 713e277936..b74c4a49c1 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-33412.patch \
+@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
             file://CVE-2026-25749.patch \
             file://CVE-2026-26269.patch \
-+           file://CVE-2026-28418.patch \
+            file://CVE-2026-28418.patch \
++           file://CVE-2026-28419.patch \
             "
  
  PV .= ".1683"
