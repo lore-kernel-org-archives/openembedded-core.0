@@ -1,149 +1,203 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B60FFD5F75
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 06:41:22 +0000 (UTC)
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.100482.1775630475788491724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20731FD5F87
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 06:46:32 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.100332.1775630786977228285
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2026 23:41:15 -0700
+ Tue, 07 Apr 2026 23:46:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ePSfYsNi;
- spf=pass (domain: mvista.com, ip: 74.125.82.47, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12732165d1eso8175185c88.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 23:41:15 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RbUSUHc2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43b8e8e7432so4704481f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2026 23:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1775630475; x=1776235275; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oz5h+1wDERXIqqt7XFtH1pG1yVWMDy5poZ61r8g22Gs=;
-        b=ePSfYsNikF0BzTz/zmniKXGO1VVq9MB1WuR8ayjSx/9Te3sn/qWyM+lVH/AN+jPXDi
-         6+5AAgarVTRaK5uy+FP0VbSUaqv4wWEKvfd2Ol3+Q6aZxswXFhabuh6DiZ9ZLtwWFqXG
-         eLKOGbOAKZGUKCbNWgkFJAjypGOoEQmzuBjO8=
+        d=linuxfoundation.org; s=google; t=1775630785; x=1776235585; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R0GsLTcrFzKvogfWNuwkZNvLjSFEKjEbnhoBNL0AIAY=;
+        b=RbUSUHc2RY6Uz8jobA/bgBkJZY02QC8DVkVLhHpG73suArMQ6cKFBnN4VU461rpm4Q
+         +dcsC+6Eqf6TQe4E99JHoxw5mjEhTQ9Tn4NjmA5dny0G0H+EYyC26l/wZQ5LjkMYOJD6
+         CjEjuVEJfGdxQJeJUrRckzfNtcrpYbH7YTBXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775630475; x=1776235275;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Oz5h+1wDERXIqqt7XFtH1pG1yVWMDy5poZ61r8g22Gs=;
-        b=dfBstoEo3m4qyxgGPUXWSzj+VOyjBr/FHaS3ffSL6ymOoyNQgbccPDgSS/LtaPIFiE
-         w2u3QVZyTY6iXLKZ3oMevV3dEd9oNv4MEGemx4w3ewzHeXjGfh9yffHQjnkBMYCqUcjx
-         ZL0lIN+5vXR+EsboTvJFwGXPVxeWg7qqInZ9CKRjwUhHPaOoGu8QH7BV8+4Q2MjguGty
-         EjCTXctG+4bENeMBtDXv7oAkJlvWRkks5S7ZbwykUOlVOWYqtcX79H8wz2kkZdMgMg0k
-         A1os6mMaAbzxAiT3nkCD2Xl2PoTU/QNniA0tgdLQ2dH7N185U7L3gIH5yg0ipmSF2NWj
-         Ei6w==
-X-Gm-Message-State: AOJu0Yz3kuzTip7vCLSUYLfYfzbtA8WN41g3B/i+ogjsF3zocNx530e2
-	oNo1SwesDKFxBEbMJVQeSEryq5+HO0Nl8npSx7HB0Dp2Flr6ua4mcBIMyKYKNGvszbcSFiQJqkH
-	g3v5Oxwg=
-X-Gm-Gg: AeBDietUGNtQPUuRk0nHlzSr+9HO/eSif6mNXxWpkocsKXDiyY8/jTu2KXdvdsqovxu
-	6D7FC2hJVOMN+p1L1Rugz7sNADmJxnvTsqnLob4jvx4SJHes+72wIh4OrdQFixzoZhrLSdJof4q
-	rU60Ry17G/mfTFQAiJchMIhqT9V3DXDQ3VAS0lOmTGK2OwMPh+8Vsfa3gBODaDf70M3KL4tK8ot
-	rc5KGywwSZJjqUrRcAeoEPfPcQ8TwmXyNHYmu9k/53unf6BeYNdazZj31VCy6q2Gs2MpZBq1HEv
-	iE7wyo+XMmFgMd6OzpbnCpAq/AvMl3ya3EHwfmLFQl8keudtBciSlAjtK95bo16hUWou50iOQyV
-	ltnUyAWelf44bYbdOScaXL+h2pJo2o6lH2JjYw/V1e4Z8dpnTkK2W57uctGbv2bvh9G5mFhFwwl
-	W7XFkikXfPICaUWQtSPHj4cN151rkikQL7ykY=
-X-Received: by 2002:a05:7022:4a4:b0:119:e56b:98b9 with SMTP id a92af1059eb24-12bfb767886mr9533575c88.32.1775630474845;
-        Tue, 07 Apr 2026 23:41:14 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([43.249.234.209])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bed93f861sm23799021c88.0.2026.04.07.23.41.06
+        d=1e100.net; s=20251104; t=1775630785; x=1776235585;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R0GsLTcrFzKvogfWNuwkZNvLjSFEKjEbnhoBNL0AIAY=;
+        b=RnALqZzqfuziL5YycF9ZXtVi+PDvLQdchvYagRcqpkXiIM2GFjtG48UUBTsMZIfF/b
+         bra0XphvqSvMoQJ5dMpYjl41YxJfGwT5oUKCUtyGxqCHA7+sG3NXsay+sPchE0Ghp/d4
+         z3+5Vchka7w8ckEhxZ004iDReoSDMYe7goIPZy1DnHzNlGX57Lh6Qlqq+Yo1Bf7raHpp
+         9Bb65rS8EBOwwoocnqE/ankkGvIUO51AeGJAHI14gdGWbkRezYYSZpknCMpv/Xdaqb41
+         xdEH7u91+6BUMveU3fS2jPVINa9EM5WrVYjcRB+ec2RNVTLfQ0YDvpCIaWYBr47LPiJQ
+         H9Zg==
+X-Gm-Message-State: AOJu0YzWaHUR4s/Nn0EnyqhoPz5OBEDyHwYsrzuMCeddZWh0Raio38Xp
+	5R1BRYReAmGsGY78qXBjkQXSgOZHbdV66jrLEYv0bOivgTT/gjK9eUQFPpKpLYJjMAF+aL6nhq0
+	mDDk6aVE=
+X-Gm-Gg: AeBDieu+Oy6Cc01w4JCiHvWuYfdc09jBqufyPh0lJyLHZRVXAu5QD92t3XJl16l+NNp
+	yX992v/Sv6y1mWC35OjGLzF/OdYBlSZaDTKPqMlYb3acJUuel8RORqyINYZPKS++9f7qIzGHLbJ
+	cJ32F0CFZyQmx7RQHMjclNSynXa+a0rxNXgxD1p6zkVOrLvMf0DmfqEbQxmYnTb+g8YhBPrwgK0
+	cC7aZC2drA1L3UGU5RfYe2+TA5kqtVF94lJQ1UrWTkg3EvYLxFisSKpNnk6M3FM70mCs3sS4gpe
+	m471g/Lho1yEWax+hnXLYVf/jRf90Dlo14Z0hgEwIHsNcrmkiaVkvy89rX6owRzBXpb1/EnQBen
+	P/d1EDe07S4PBDYHIUeVXisKBG2khVVGx5djPHrXMRb0qiDJw4mnB7goQuxMsfU2zbXcEHPUcOS
+	OcqkI8mlwTnUpYC+Kjc8LZBHDmbgPNrhGmpF9ejroRYWFo00NEKCKT
+X-Received: by 2002:a05:6000:40dd:b0:43d:71b:204b with SMTP id ffacd0b85a97d-43d292ebf2fmr30916452f8f.39.1775630784646;
+        Tue, 07 Apr 2026 23:46:24 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a70:3593:db41:cfe4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e6224sm56583822f8f.25.2026.04.07.23.46.23
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 23:41:14 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Tue, 07 Apr 2026 23:46:24 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] ncurses: fix for CVE-2025-69720
-Date: Wed,  8 Apr 2026 12:10:47 +0530
-Message-ID: <20260408064047.331300-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+Subject: [PATCH] selftest/scripts: Update old git protocol references
+Date: Wed,  8 Apr 2026 07:46:23 +0100
+Message-ID: <20260408064623.1343858-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 06:41:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234811
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 06:46:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234812
 
-Pick relevant part of snapshot commit 20251213, see [1].
+git protocol accesses to our infrastructure are currently struggling and this
+has highlighted a number of places we're making those obsolete access forms.
 
-That has:
-add a limit-check in infocmp -i option (report/example by Yixuan Cao).
+Update them to use https instead of the git protocol since it is preferred
+and more reliable.
 
-[1] https://invisible-island.net/ncurses/NEWS.html#index-t20251213
-
-References:
-1. https://github.com/Cao-Wuhui/CVE-2025-69720
-2. https://nvd.nist.gov/vuln/detail/CVE-2025-69720
-3. https://access.redhat.com/errata/RHSA-2026:5913
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../ncurses/files/CVE-2025-69720.patch        | 42 +++++++++++++++++++
- meta/recipes-core/ncurses/ncurses_6.4.bb      |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2025-69720.patch
+ meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb | 2 +-
+ .../recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded  | 2 +-
+ meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb | 2 +-
+ .../recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded  | 2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py                         | 2 +-
+ meta/lib/oeqa/selftest/cases/externalsrc.py                     | 2 +-
+ meta/lib/oeqa/selftest/cases/gitarchivetests.py                 | 2 +-
+ meta/lib/oeqa/selftest/cases/sstatetests.py                     | 2 +-
+ scripts/yocto_testresults_query.py                              | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/ncurses/files/CVE-2025-69720.patch b/meta/recipes-core/ncurses/files/CVE-2025-69720.patch
-new file mode 100644
-index 0000000000..8ab6953c85
---- /dev/null
-+++ b/meta/recipes-core/ncurses/files/CVE-2025-69720.patch
-@@ -0,0 +1,42 @@
-+From 6f6db0e8fd14e40096a0ee6f8bdf32dedbd3fc9e Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Mon, 6 Apr 2026 18:08:09 +0530
-+Subject: [PATCH] add limit-check in infocmp
-+
-+origin : https://invisible-island.net/archives/ncurses/6.5/ncurses-6.5-20251213.patch.gz
-+Refer: https://github.com/Cao-Wuhui/CVE-2025-69720
-+patch by : Thomas E. Dickey <dickey@invisible-island.net>
-+
-+CVE: CVE-2025-69720
-+Upstream-Status: Backport [https://github.com/ThomasDickey/ncurses-snapshots/commit/6f6db0e8fd14e40096a0ee6f8bdf32dedbd3fc9e]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ progs/infocmp.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/progs/infocmp.c b/progs/infocmp.c
-+index 171d794d..2fc1f035 100644
-+--- a/progs/infocmp.c
-++++ b/progs/infocmp.c
-+@@ -816,7 +816,7 @@ lookup_params(const assoc * table, char *dst, char *src)
-+ static void
-+ analyze_string(const char *name, const char *cap, TERMTYPE2 *tp)
-+ {
-+-    char buf2[MAX_TERMINFO_LENGTH];
-++    char buf2[MAX_TERMINFO_LENGTH + 1];
-+     const char *sp;
-+     const assoc *ap;
-+     int tp_lines = tp->Numbers[2];
-+@@ -846,7 +846,8 @@ analyze_string(const char *name, const char *cap, TERMTYPE2 *tp)
-+ 	    if (VALID_STRING(cp) &&
-+ 		cp[0] != '\0' &&
-+ 		cp != cap) {
-+-		len = strlen(cp);
-++		if ((len = strlen(cp)) > MAX_TERMINFO_LENGTH)
-++		    len = MAX_TERMINFO_LENGTH;
-+ 		_nc_STRNCPY(buf2, sp, len);
-+ 		buf2[len] = '\0';
-+ 
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-core/ncurses/ncurses_6.4.bb b/meta/recipes-core/ncurses/ncurses_6.4.bb
-index d3b4106118..ac30a1a3c1 100644
---- a/meta/recipes-core/ncurses/ncurses_6.4.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.4.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://CVE-2023-50495.patch \
-            file://CVE-2023-45918.patch \
-            file://CVE-2025-6141.patch \
-+           file://CVE-2025-69720.patch \
-            "
- # commit id corresponds to the revision in package version
- SRCREV = "1003914e200fd622a27237abca155ce6bf2e6030"
--- 
-2.50.1
-
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
+index 66d66e95e29..fdc85243787 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
+@@ -11,7 +11,7 @@ SRCREV = "1a3e1343761b30750bed70e0fd688f6d3c7b3717"
+ PV = "0.1+git"
+ PR = "r2"
+ 
+-SRC_URI = "git://git.yoctoproject.org/dbus-wait;branch=master"
++SRC_URI = "git://git.yoctoproject.org/dbus-wait;branch=master;protocol=https"
+ UPSTREAM_CHECK_COMMITS = "1"
+ RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+ 
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
+index d3256ef5df8..07f7c50c775 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
+@@ -10,7 +10,7 @@ DEPENDS = "dbus"
+ SRCREV = "6cc6077a36fe2648a5f993fe7c16c9632f946517"
+ PV = "0.1+git"
+ 
+-SRC_URI = "git://git.yoctoproject.org/dbus-wait;branch=master"
++SRC_URI = "git://git.yoctoproject.org/dbus-wait;branch=master;protocol=https"
+ UPSTREAM_CHECK_COMMITS = "1"
+ RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+ 
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb
+index 7e8b001a287..036a80e855f 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb
+@@ -10,7 +10,7 @@ SRCREV = "132fea6e4dee56b61bcf5721c94e8b2445c6a017"
+ PV = "0.1+git"
+ PR = "r2"
+ 
+-SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test;branch=master"
++SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test;branch=master;protocol=https"
+ UPSTREAM_CHECK_COMMITS = "1"
+ RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+ 
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded
+index 938c46b0163..a138f19071a 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded
+@@ -9,7 +9,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ SRCREV = "a2885dd7d25380d23627e7544b7bbb55014b16ee"
+ PV = "0.1+git"
+ 
+-SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test;branch=master"
++SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test;branch=master;protocol=https"
+ UPSTREAM_CHECK_COMMITS = "1"
+ RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 5f25c4803b3..847b2f30d9c 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -587,7 +587,7 @@ class DevtoolAddTests(DevtoolBase):
+     def test_devtool_add_fetch_git(self):
+         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir)
+-        url = 'gitsm://git.yoctoproject.org/mraa'
++        url = 'gitsm://git.yoctoproject.org/mraa;protocol=https'
+         url_branch = '%s;branch=master' % url
+         checkrev = 'ae127b19a50aa54255e4330ccfdd9a5d058e581d'
+         testrecipe = 'mraa'
+diff --git a/meta/lib/oeqa/selftest/cases/externalsrc.py b/meta/lib/oeqa/selftest/cases/externalsrc.py
+index 1d800dc82ca..c127d254e36 100644
+--- a/meta/lib/oeqa/selftest/cases/externalsrc.py
++++ b/meta/lib/oeqa/selftest/cases/externalsrc.py
+@@ -17,7 +17,7 @@ class ExternalSrc(OESelftestTestCase):
+     #     so we check only that a recipe with externalsrc can be parsed
+     def test_externalsrc_srctree_hash_files(self):
+         test_recipe = "git-submodule-test"
+-        git_url = "git://git.yoctoproject.org/git-submodule-test"
++        git_url = "https://git.yoctoproject.org/git-submodule-test"
+         externalsrc_dir = tempfile.TemporaryDirectory(prefix="externalsrc").name
+ 
+         self.write_config(
+diff --git a/meta/lib/oeqa/selftest/cases/gitarchivetests.py b/meta/lib/oeqa/selftest/cases/gitarchivetests.py
+index dcf0eb3be56..454f4bd4683 100644
+--- a/meta/lib/oeqa/selftest/cases/gitarchivetests.py
++++ b/meta/lib/oeqa/selftest/cases/gitarchivetests.py
+@@ -105,7 +105,7 @@ class GitArchiveTests(OESelftestTestCase):
+         delete_fake_repository(path)
+ 
+     def test_get_tags_without_valid_remote(self):
+-        url = 'git://git.yoctoproject.org/poky'
++        url = 'https://git.yoctoproject.org/poky'
+         path, git_obj = create_fake_repository(False, None, False)
+ 
+         tags = ga.get_tags(git_obj, self.log, pattern="yocto-*", url=url)
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 44dd674a325..687640a4016 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -221,7 +221,7 @@ class SStateTests(SStateBase):
+         # Use dbus-wait as a local git repo we can add a commit between two builds in
+         pn = 'dbus-wait'
+         srcrev = '6cc6077a36fe2648a5f993fe7c16c9632f946517'
+-        url = 'git://git.yoctoproject.org/dbus-wait'
++        url = 'https://git.yoctoproject.org/dbus-wait'
+         result = runCmd('git clone %s noname' % url, cwd=tempdir)
+         srcdir = os.path.join(tempdir, 'noname')
+         result = runCmd('git reset --hard %s' % srcrev, cwd=srcdir)
+diff --git a/scripts/yocto_testresults_query.py b/scripts/yocto_testresults_query.py
+index 521ead8473a..08bd8cbff17 100755
+--- a/scripts/yocto_testresults_query.py
++++ b/scripts/yocto_testresults_query.py
+@@ -21,7 +21,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
+ poky_path = os.path.abspath(os.path.join(script_path, ".."))
+ resulttool = os.path.abspath(os.path.join(script_path, "resulttool"))
+ logger = scriptutils.logger_create(sys.argv[0])
+-testresults_default_url="git://git.yoctoproject.org/yocto-testresults"
++testresults_default_url="https://git.yoctoproject.org/yocto-testresults"
+ 
+ def create_workdir():
+     workdir = tempfile.mkdtemp(prefix='yocto-testresults-query.')
 
