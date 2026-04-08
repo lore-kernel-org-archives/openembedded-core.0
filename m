@@ -2,88 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BD91073C86
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:44:23 +0000 (UTC)
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.102331.1775641458537127788
- for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 02:44:18 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28161073C89
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:54:33 +0000 (UTC)
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.102693.1775642072987280108
+ for <Openembedded-core@lists.openembedded.org>;
+ Wed, 08 Apr 2026 02:54:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=KntNk0JY;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=X+aMj43d;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.148, mailfrom: paul@pbarker.dev)
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=DwFqnW65;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=eAB/zHTw;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.159, mailfrom: paul@pbarker.dev)
 Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 9C3A9EC0461;
-	Wed,  8 Apr 2026 05:44:17 -0400 (EDT)
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0DF761400190;
+	Wed,  8 Apr 2026 05:54:32 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 08 Apr 2026 05:44:17 -0400
+  by phl-compute-05.internal (MEProxy); Wed, 08 Apr 2026 05:54:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1775641457; x=1775727857; bh=Xp06nghJ+r
-	RD39gVnPEHaBm2fsO7RVmDnZQ6xjpUYSM=; b=KntNk0JYbcKS2ZKKHl/jNAKWvg
-	TsKNbnwKV4zwY4Kz6+X1R9uNQ8K98PVbzKd3+mnxmajUXna2HFufluuL5pMaZGHM
-	LTFp/3vfsON5HUsOknz/iQsiFMRFX/SelWxdmtyJqK9EI/H2kOkQak4ZTF35uKEs
-	zaLFFBMf/IafcLW+8qCvw/fXbEc43Of/LRxuO+DkcEveYhKXNS2vE1t3Yxh0n63g
-	L4Nm6vHoF6tiJUfjnJ1Tal77mUCawG5Sd6Gf7Z/TPyrN74oxbrXaD/hhLHRmGXhD
-	VZdTk/pzWqWQ3km7zN7RT89F7u3G5lEwtt0EI65cKnRVwec7Ohrp/VInQyHA==
+	:subject:to:to; s=fm3; t=1775642072; x=1775728472; bh=jtn8dpsYuD
+	l0f8znk6iAdbRUO38rgB1NEDGlS+stGkY=; b=DwFqnW65yzJUmSRSyoHuPkJemv
+	OKtyz/PF6YocLw22SbpJbZZJSSRDokoLURhgUjwax2TsPmjQd16YI4FPoP5fFCnb
+	j7WruLdsug4QBdip9QLHyYd9uRh20tabtRUJdRSp388/5hS6IOdb2hiiNXeIJV8C
+	dqPzpqgckhttea41u8HtjLOXgLes9JJ5llyqbtMU0zTZv5BkSLwViMI40JcZwQxm
+	YBr4jgAtwq6g3zb+3nPFjRGRK7v2kW0q7tnOnQXnYao2EDP3ssSDOUcPoERNGFOQ
+	HlG1Iih94Xg3Bqh7RiuWDGrugXZd9iXYSIa5eEZKWqqCL1JykQE1CczSbSOg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1775641457; x=1775727857; bh=Xp06nghJ+rRD39gVnPEHaBm2fsO7RVmDnZQ
-	6xjpUYSM=; b=X+aMj43d9bhLl9e/Y4hTeI/12JeMNbjXXycfLHnDR7kI3c/oMdi
-	zkAgsaHLWYd42Oz9cXfvjLThHsHd//AUbyAUh8RtXiBqJTo1jDj0KCDCfEUE3m+J
-	YrNi1TW2sKr9jvrelM2rrTAwOksqpkJDE92OwH6iELs6B0uo66efMZvFze06FzTS
-	qyuRy2zZSoO0UHqvxHBV9MJtkmHducWXyfZ/lafnFw35rZyZS9xxXwp9PHNNAVp1
-	odZK0fJvUQzBsXNGPf8Q6RPpwsqSaIo20umL0rcTij6s3a+wQCOEERUs43hg6y3L
-	mUwjPjgbD0hv17yFLPY1HWRg+OVY+CbF2JA==
-X-ME-Sender: <xms:cSPWaSZU2LXic_Xj9xyXXKtL2x8qovAXgvm4KNn60HVJ6HsV5E-1VQ>
-    <xme:cSPWaZE5L0ctFjgKhrRjlknhBf6TAD0MlnMogeSIv7yZb55SB9SUjElBRlxM8XQP9
-    0VYVUqtnYld-W3_XibdJYEPbjIq4TAjqiV0od1vPdbUCfkhKbaZRv4>
-X-ME-Received: <xmr:cSPWaWwjQ9XQyrRffFvWksOOKym4j6h9K6lFFf-Y1YlBj8DpDlYY8y6igRV0GKRXDjLtZRdLWMxIdrVzKeb5Pkw2Q8Lx0UBG3LN-3Uw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvfedvgecutefuodetggdotefrod
+	1775642072; x=1775728472; bh=jtn8dpsYuDl0f8znk6iAdbRUO38rgB1NEDG
+	lS+stGkY=; b=eAB/zHTw342kqyQFiMp8Uv6a/uQ2uGBeUci424n2BjWzCcUqPaV
+	G8VWvUNC2XksaBHAxDdoOUVXuS6eX/PviQ8OeXlxOnDtPVXk5J7B06mHJ+tAWxon
+	9u3gov+0eB6Nx8yEzVZDjrNiC6V+HD+fkj6hhqnu3nzMou5a+Y2W+jInyOx0UmQr
+	V4GES9M7uTaEcToKQqS7FfMP3b0Uhpn7ZB90hemniauA9akSB0a92Ip5SoXRZ0xW
+	DWJUabmeYFMgvCVYpm4v6qC2LO8GpF+ghVZzYyNZnnc+gebXr4S+Rko16oq29xvB
+	DrAoJ1zqE4xM/BpZXyniTkPfJqvICuFqC5w==
+X-ME-Sender: <xms:1yXWaYvzKRsR347NR3uBCZn_36PXNzIkVw9raL7L2_AvI7jRJtbHqw>
+    <xme:1yXWabczYyhAVEhvrnZv4cdECSY5T4tsw6sQvxQqPl4kfhJPnLl-VAk8cfAO-nVjV
+    n4ozDK3wkxTAFX-GgJNv7G7spYbvakQnCjW2Xhy-58-Z6_aPwArvQ>
+X-ME-Received: <xmr:1yXWaRZlsOUeUOvMDUJqoOQg1rtdSII4XW5kKUuPog9Cr2nw9e29gl76W2g690Jq63ARN95d9JZiNdtwkzaM4QqoXqhU8heDdInGoQ4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvfedviecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkuffhvfevffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegr
-    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
-    ettdfglefhheduveeuveeiledutdeuvdefteeiudeikeefjeeuudehhfdvtedvudenucff
-    ohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhfvgguohhrrghprhhojhgvtg
-    htrdhorhhgpdhrvgguhhgrthdrtghomhdpghhnuhdrohhrghdphihotghtohhprhhojhgv
-    tghtrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeeipdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopeiisghoshiiohhrsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtohepmhgrrhhtihhnrdhjrghnshgrsehgmhgrihhlrdgtohhmpdhrtghpthht
-    ohephhgvmhgrnhhthhdrkhhumhgrrhhmugesfihinhgurhhivhgvrhdrtghomhdprhgtph
-    htthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgs
-    vgguuggvugdrohhrghdprhgtphhtthhopehsuhhnuggvvghprdhkohhkkhhonhgurgesfi
-    hinhgurhhivhgvrhdrtghomhdprhgtphhtthhopehrrghnugihrdhmrggtlhgvohguseif
-    ihhnughrihhvvghrrdgtohhm
-X-ME-Proxy: <xmx:cSPWabmM5lKNRlUWGIQbD85jSYoL2iZFltqw3Ruk2aUqbwfdAnnV1w>
-    <xmx:cSPWafnvmf0snHIbGS9mz6TYGKQTg8T9588UevZxO_9ffbczD6lBRg>
-    <xmx:cSPWadwB4f5OvT8nJwWL5MpLCAYcM4SBGmhkRMwxtV9qRsMOraHlXQ>
-    <xmx:cSPWaUrpUTp3vgyvsDYGVdxPJjBQk8hFqB6-v-naup6DsNar8JrZug>
-    <xmx:cSPWaagvZR9YQc4wz0vQqOaRGPe9mbxB03X4IdtQmljz6GpCPPotoopA>
+    ihhlohhuthemuceftddtnecunecujfgurhepkffuhffvffgjfhgtfgggsehgtderredtre
+    ejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdgu
+    vghvqeenucggtffrrghtthgvrhhnpeeiffejgeejkeegjedujeejffdvjeelhedvleette
+    duuedugfevgfdtjefgjeduveenucffohhmrghinhepohhpvghnvghmsggvugguvggurdho
+    rhhgpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthht
+    ohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephhhjvghnvghmrghrkhesgh
+    hmrghilhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehl
+    ihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:1yXWaWUXD7OjTXv2DTBQ8mRE1I9ENT40a7471TF2gFJRKxRt6W2cXg>
+    <xmx:1yXWabgxVN0e3HFnjBX_4CRoZGPhg3DaBE5X11xjB_0l_0Is0YvEKg>
+    <xmx:1yXWacVmvOTqPFgGqVHtYPPcft75BcWVqPvExXU6blasXTUMoCbiew>
+    <xmx:1yXWaaNyvRfxs3hgmHaLweDdPI_dKV_glFOeEQpel8B30vszn9_3ow>
+    <xmx:2CXWaV8ub_v-oqzoocHkBDbs67LTaqSwH3wdqV3InVBQod_HqptETsTX>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Apr 2026 05:44:16 -0400 (EDT)
-Message-ID: <1b979680925d535d3cd344a8b736b8f862d52498.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v2 3/7] pseudo: fix for build with glibc-2.43
+ 8 Apr 2026 05:54:31 -0400 (EDT)
+Message-ID: <c654ad89e15b45c555b7388d75db910a7f05fa46.camel@pbarker.dev>
+Subject: Re: [OE-core] [scarthgap] git tags not present in upstream repo
 From: Paul Barker <paul@pbarker.dev>
-To: zboszor@gmail.com, Martin Jansa <martin.jansa@gmail.com>
-Cc: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org,
-  Sundeep.Kokkonda@windriver.com, Randy.MacLeod@windriver.com
-Date: Wed, 08 Apr 2026 10:44:13 +0100
-In-Reply-To: <ed118dea-62cd-4d29-9ee1-336367a2aae5@gmail.com>
-References: <20260308150834.2508331-1-Hemanth.KumarMD@windriver.com>
-	 <20260308150834.2508331-3-Hemanth.KumarMD@windriver.com>
-	 <CA+chaQcneoNBogdCZmZB3LCE-cVErs2-4NoNtYUGgK+REEBxLg@mail.gmail.com>
-	 <18A40738790ACBCC.657799@lists.openembedded.org>
-	 <e38f41d9-4af6-4389-90a7-0c2ae6b47330@gmail.com>
-	 <CA+chaQdDkMUDBO8G=cku8SVe=Ow+Hgt606mZO863rCaNaznDrA@mail.gmail.com>
-	 <18A41C5827F22307.777565@lists.openembedded.org>
-	 <ed118dea-62cd-4d29-9ee1-336367a2aae5@gmail.com>
+To: hjenemark@gmail.com, Openembedded-core@lists.openembedded.org
+Date: Wed, 08 Apr 2026 10:54:28 +0100
+In-Reply-To: <CAFx0Op0o1LkXfe253sQHJTULuYn1=Tw-BzZqfxSOPx7UNUf_Sw@mail.gmail.com>
+References: 
+	<CAFx0Op0o1LkXfe253sQHJTULuYn1=Tw-BzZqfxSOPx7UNUf_Sw@mail.gmail.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -129,98 +115,65 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-3somts6iQurXxjdR/bOq"
+	protocol="application/pgp-signature"; boundary="=-FvWxBYVmM7QGy2jq1W1n"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:44:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234824
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:54:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234825
 
 
---=-3somts6iQurXxjdR/bOq
+--=-FvWxBYVmM7QGy2jq1W1n
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-04-07 at 17:38 +0200, Zoltan Boszormenyi via
+On Wed, 2026-04-08 at 11:20 +0200, Hans-Jacob Enemark via
 lists.openembedded.org wrote:
-> 2026. 04. 07. 17:21 keltez=C3=A9ssel, Zoltan Boszormenyi via lists.openem=
-bedded.org =C3=ADrta:
-> > The issue turns out to be with GNU tar, specifically this build:
-> > https://koji.fedoraproject.org/koji/buildinfo?buildID=3D2924033
-> >=20
-> > Manually downgrading to the previous build fixed the packaging problem:
-> > https://koji.fedoraproject.org/koji/buildinfo?buildID=3D2917292
-> >=20
-> > I reported it here:
-> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2455965
+> Hi
+> In the process of updating a fork of oe-core, I have noticed that series =
+of
+> tags are present in the fork that I'm managing and not in the upstream re=
+po
+> at git.openembedded.org/openembedded-core
 >=20
-> According to the changelog of the current GNU tar 1.35-8.fc44 build,
-> it contains backports from what will be the official 1.36 version.
-> With that release, whenever it will be out, other distros would fail, too=
-.
+> The latest tags I have that are pointing to the same commit are:
+> yocto-5.0.11, 2024-04.11-scarthgap, 2024-04.11.
 >=20
-> Note this from the Fedora package changelog:
+> I don't see the last two tags on the upstream repo.
 >=20
-> - Backport upstream changes to jailify extraction directory
->  =C2=A0 Includes related gnulib changes to add openat2
->  =C2=A0 Fixes CVE-2025-45582 (fedora#2380007)
+> Did you make a cleanup of tags at some point during the last six months o=
+r
+> do I have to find other mirrors to sync my fork to?
 >=20
-> which seems to be this commit:
-> https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=3D75b03fdff4891=
-6bd0654677ed21379bdb0db016d
->=20
-> commit 75b03fdff48916bd0654677ed21379bdb0db016d
-> Author: Paul Eggert <eggert@cs.ucla.edu>
-> Date:=C2=A0 =C2=A0Thu Nov 13 13:44:10 2025 -0800
->=20
->  =C2=A0 =C2=A0 Use openat2 to jailify the extraction directory
->=20
->  =C2=A0 =C2=A0 This addresses CVE-2025-45582.
->  =C2=A0 =C2=A0 * gnulib.modules: Add openat2.
->  =C2=A0 =C2=A0 * src/misc.c (open_subdir): New static function.
->  =C2=A0 =C2=A0 (fdbase_opendir): Use it.
->  =C2=A0 =C2=A0 * src/tar.c (open_searchdir_how): New var, replacing and
->  =C2=A0 =C2=A0 augmenting open_searchdir_flags.=C2=A0 All uses changed.
->  =C2=A0 =C2=A0 * tests/extrac31.at: New file.
->  =C2=A0 =C2=A0 * tests/Makefile (TESTSUITE_AT), tests/testuite.at: Add it=
-.
->=20
-> I guess it will really need fixes in pseudo to overcome this.
+> Thanks in advance for the answer.
 
-Hi Zoltan,
+Hi Hans-Jacob,
 
-The issue is that our intercept function for openat2 is a stub [1], it
-returns -ENOSYS. This works on other distros as the gnulib
-implementation of openat2 in userspace can be used as a fallback. If tar
-in F44 doesn't have any fallback for when openat2 isn't implemented that
-that won't work.
+We've cleaned up obsolete duplicate tags recently to fix regression report
+issues and make things less confusing for users [1].
 
-So it looks like we will need to complete openat2 handling in pseudo. We
-have an issue for that in bugzilla [2], I'll update it.
+[1]: https://lore.kernel.org/yocto/CADfgfoZ2-_Vypjx4mDypmh=3DHace4+gm5_4S-a=
+N=3DZad6O_CKw9A@mail.gmail.com/
 
-[1]: https://git.yoctoproject.org/pseudo/tree/ports/linux/openat2/guts/open=
-at2.c
-[2]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16126
-
-Thanks,
+Best regards,
 
 --=20
 Paul Barker
 
 
---=-3somts6iQurXxjdR/bOq
+--=-FvWxBYVmM7QGy2jq1W1n
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCadYjbREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bkR0APkBbSOreRiTSPvw5r1M9EiUi5yrqYgQX6bo
-uFkG/YnFHQEAsQKhI5B3RvYfSjDTj5ERIwLGE2QwF0CaYm/E9GSuCA4=
-=vAFm
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCadYl1BEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bgMoAQDhHmZqIqMD1lqTBOeMIECDvXerkeR7sXtu
+foX01QEkNAEA2WGo6K0E9HJhH2/SWOuodSl+na8j0MkOZ5iIrzojYgg=
+=DGIQ
 -----END PGP SIGNATURE-----
 
---=-3somts6iQurXxjdR/bOq--
+--=-FvWxBYVmM7QGy2jq1W1n--
 
