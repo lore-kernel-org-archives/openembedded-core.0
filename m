@@ -1,179 +1,434 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B28161073C89
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:54:33 +0000 (UTC)
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.102693.1775642072987280108
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 02:54:33 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D891073C8A
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 10:02:43 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.102519.1775642554489650190
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 08 Apr 2026 03:02:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=DwFqnW65;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=eAB/zHTw;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0DF761400190;
-	Wed,  8 Apr 2026 05:54:32 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 08 Apr 2026 05:54:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1775642072; x=1775728472; bh=jtn8dpsYuD
-	l0f8znk6iAdbRUO38rgB1NEDGlS+stGkY=; b=DwFqnW65yzJUmSRSyoHuPkJemv
-	OKtyz/PF6YocLw22SbpJbZZJSSRDokoLURhgUjwax2TsPmjQd16YI4FPoP5fFCnb
-	j7WruLdsug4QBdip9QLHyYd9uRh20tabtRUJdRSp388/5hS6IOdb2hiiNXeIJV8C
-	dqPzpqgckhttea41u8HtjLOXgLes9JJ5llyqbtMU0zTZv5BkSLwViMI40JcZwQxm
-	YBr4jgAtwq6g3zb+3nPFjRGRK7v2kW0q7tnOnQXnYao2EDP3ssSDOUcPoERNGFOQ
-	HlG1Iih94Xg3Bqh7RiuWDGrugXZd9iXYSIa5eEZKWqqCL1JykQE1CczSbSOg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1775642072; x=1775728472; bh=jtn8dpsYuDl0f8znk6iAdbRUO38rgB1NEDG
-	lS+stGkY=; b=eAB/zHTw342kqyQFiMp8Uv6a/uQ2uGBeUci424n2BjWzCcUqPaV
-	G8VWvUNC2XksaBHAxDdoOUVXuS6eX/PviQ8OeXlxOnDtPVXk5J7B06mHJ+tAWxon
-	9u3gov+0eB6Nx8yEzVZDjrNiC6V+HD+fkj6hhqnu3nzMou5a+Y2W+jInyOx0UmQr
-	V4GES9M7uTaEcToKQqS7FfMP3b0Uhpn7ZB90hemniauA9akSB0a92Ip5SoXRZ0xW
-	DWJUabmeYFMgvCVYpm4v6qC2LO8GpF+ghVZzYyNZnnc+gebXr4S+Rko16oq29xvB
-	DrAoJ1zqE4xM/BpZXyniTkPfJqvICuFqC5w==
-X-ME-Sender: <xms:1yXWaYvzKRsR347NR3uBCZn_36PXNzIkVw9raL7L2_AvI7jRJtbHqw>
-    <xme:1yXWabczYyhAVEhvrnZv4cdECSY5T4tsw6sQvxQqPl4kfhJPnLl-VAk8cfAO-nVjV
-    n4ozDK3wkxTAFX-GgJNv7G7spYbvakQnCjW2Xhy-58-Z6_aPwArvQ>
-X-ME-Received: <xmr:1yXWaRZlsOUeUOvMDUJqoOQg1rtdSII4XW5kKUuPog9Cr2nw9e29gl76W2g690Jq63ARN95d9JZiNdtwkzaM4QqoXqhU8heDdInGoQ4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvfedviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepkffuhffvffgjfhgtfgggsehgtderredtre
-    ejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdgu
-    vghvqeenucggtffrrghtthgvrhhnpeeiffejgeejkeegjedujeejffdvjeelhedvleette
-    duuedugfevgfdtjefgjeduveenucffohhmrghinhepohhpvghnvghmsggvugguvggurdho
-    rhhgpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthht
-    ohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephhhjvghnvghmrghrkhesgh
-    hmrghilhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehl
-    ihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:1yXWaWUXD7OjTXv2DTBQ8mRE1I9ENT40a7471TF2gFJRKxRt6W2cXg>
-    <xmx:1yXWabgxVN0e3HFnjBX_4CRoZGPhg3DaBE5X11xjB_0l_0Is0YvEKg>
-    <xmx:1yXWacVmvOTqPFgGqVHtYPPcft75BcWVqPvExXU6blasXTUMoCbiew>
-    <xmx:1yXWaaNyvRfxs3hgmHaLweDdPI_dKV_glFOeEQpel8B30vszn9_3ow>
-    <xmx:2CXWaV8ub_v-oqzoocHkBDbs67LTaqSwH3wdqV3InVBQod_HqptETsTX>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Apr 2026 05:54:31 -0400 (EDT)
-Message-ID: <c654ad89e15b45c555b7388d75db910a7f05fa46.camel@pbarker.dev>
-Subject: Re: [OE-core] [scarthgap] git tags not present in upstream repo
-From: Paul Barker <paul@pbarker.dev>
-To: hjenemark@gmail.com, Openembedded-core@lists.openembedded.org
-Date: Wed, 08 Apr 2026 10:54:28 +0100
-In-Reply-To: <CAFx0Op0o1LkXfe253sQHJTULuYn1=Tw-BzZqfxSOPx7UNUf_Sw@mail.gmail.com>
-References: 
-	<CAFx0Op0o1LkXfe253sQHJTULuYn1=Tw-BzZqfxSOPx7UNUf_Sw@mail.gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-FvWxBYVmM7QGy2jq1W1n"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BGacy6Cv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38e0ef48ac0so22537491fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 03:02:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775642553; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AFjrW/Zbi9s1R628fbIPyhjN4hqEOYnCPHlenYN8JBXFwQ6pzHXDTTe2X7lMgFIsOa
+         96AzggqmpD5vWesYOpRJ3YVC3cN/Tq2QHY48GWrTNUC0ZqkQ7AAx/tBD5dXWSmsRAHTz
+         ZHc1HnlNWq4j1fCrjFKxm/5E1zEvgLomjq+dm3O2kVqSyBX1QmunWWrtLMbv3Njzq2gI
+         fkq4hWCdD9dCGmYxna/jk30IDXVakZiybtVpi6yLEP05+AwgLK8KcUp6Wt2lqO8jHVMu
+         ZiAlTw7TkLGVKlRHP3Irwwt0yf10Dzc7TFzWBV982vuU0Gd6Hw+MFHaaJC9CElwa/kYi
+         czHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Gqru4AIpuYTp2hAK1yR/JX6jLd6wF+DJmGQlIOkwJQU=;
+        fh=OwEGsuUTqZbR3bu1Dsw0Gs2ZTr4+cbCmfklWGCyCgU0=;
+        b=DMUBCCkkz11kvKbSOG0+MrfbzzQPPzq4WJqvOzLvTen0KJTgAS46ctsJEj6uuySGqF
+         2GXg0ahzXfjUYgG4HGFVaLCODPTQpoT718Mg+lVbMQ2Orm1hQ8gLLCy6xcmpTlv1upYP
+         dn1hFro+lh8BcDfnUxLO6eYbf1cPspqayejLc26JEymGVDmZZ0Q+wXoz73CanUzdka92
+         dr85gAqJ0erRNGtOXaTyIZ7/i4WQt0lEHviruh+WgUxEbtOHi0d2Qfr6lCq9U0l1Q9eU
+         IEQXn6r4BaYbv+nqGTVRmKtTMIzz3NtNRfpa68iHPE5wrzRGlrac8sghCYM8n8iFkd9z
+         Uxng==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775642553; x=1776247353; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gqru4AIpuYTp2hAK1yR/JX6jLd6wF+DJmGQlIOkwJQU=;
+        b=BGacy6Cv130FaIEHq9OizBq2DJHnLpEgt44qvSJ7vaDuoi2fa0nx29sH3rF5Y+n7s2
+         zgBdisPwqUkfANvxWo9vHkOAfYwSez4hmqi9YOxhVtPCQwkMLpcjDinDfsYo3svNeVeK
+         lPMic3b6YExkW+7ehnJFxL0kiwr176QvK7gKpGZRpDXkm2ES3HWBsQZs2NWSccadDYBE
+         XvWSUvOngSxg8Bkve5Bp7SV6Ubw9kXlC6jykV9kHBsTDFJEGjncFc4EzAMMeQX7XvWIn
+         4MBpDCdNcwt2Be4CUDIS3AAX1CyCAMxIXC2k+DwUzjAMAzazjj/xUCbxiAP8hTE6RzCU
+         gI1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775642553; x=1776247353;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Gqru4AIpuYTp2hAK1yR/JX6jLd6wF+DJmGQlIOkwJQU=;
+        b=HwXY454cED3r582+WltzTq6CPqLEkS0hiRUA5CDiLUmmdOk4T1ZZ0DaJ7XPcgwqGZw
+         No6+pV0NrBYmWSsfpbEuHOB0UTWE3BeHWnGbc7GlSAlBoyOI1nruXbMa8iZaqHZyBHLt
+         R5F8KwD4n7+dWtBDj05tabX1bMzWDqCGyCADjmaCnAT59G7bbKxw44Y+fRTtyL8eYxHX
+         o+WeSbmbB0KdeWsP8f7l3RbudILQwcSbvj/WBiq3hryoVNNtEZx2CZPJueIFMQZrPtre
+         Vg+grNhkNPZr7Q15sDSA48jcfqE5gqlZ8JXfdXZaVCH1MZ48sbQqTwQKYkY+tu27QFhK
+         rBBQ==
+X-Gm-Message-State: AOJu0Yyrp19wZodxiQU8dBxbwUzWj+5yXvoUPB9RVzROo+Wo4gpHYfGT
+	WQArAbCDO6JxVd8lPkHd7BNb/0pr2/Fw16Yykrj9RJObnrKZyXu5dr0Om09DAL/itDNlCBvqd7G
+	aVa0faWfzYUViq/WsnUAMoo9z3Or0ppg=
+X-Gm-Gg: AeBDiet+QEgRvuXRqRhULtjWMn76ITQr4KHUkACl2FJhgqrxmsDX2B4fW9MsmeNIFm6
+	CJzbfEO5yZhAiWyxQL5XcMtlJm/jlczjJGBrgJfvDi8rZhNCtdSKMNxzxUaYSbuKnPIZuBh/HEp
+	e4J+FmRRGUJfQrWLCHoWouceBh6orc0FuSRnyqgUZC5MsmJVAP8r29V9T/m5zyhRTgB+IETWyjd
+	Shr2RDURMdIinFCc2ITdzVyDreUckPNTpyfOlTYSwKKbXlA7/5Cy7iGY8F6KJrOFeIfIeGxSuwd
+	gFtiKM5ekA==
+X-Received: by 2002:a05:6512:108e:b0:5a2:7845:edf0 with SMTP id
+ 2adb3069b0e04-5a3375530abmr5924343e87.9.1775642552063; Wed, 08 Apr 2026
+ 03:02:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260407133521.840916-1-zboszor@gmail.com> <20260407133521.840916-2-zboszor@gmail.com>
+In-Reply-To: <20260407133521.840916-2-zboszor@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 8 Apr 2026 12:02:19 +0200
+X-Gm-Features: AQROBzDVYCs6nHzGcIEqvt7LAVaqKFyIwf_1a9UCgZeO4G107WogGisqwIZmcUs
+Message-ID: <CA+chaQcJYjL+XkAtL=+Hr25cYV8kUOfT5-gWyxYRCYr6rA0LVg@mail.gmail.com>
+Subject: Re: [whinlatter][PATCH v2 2/2] gcc: Backport a patch to fix build
+ with GLIBC 2.43 on the host
+To: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:54:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234825
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 10:02:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234826
 
+I think this isn't caused by glibc-2.43, but gcc-16 on host, you should bac=
+kport
+https://git.openembedded.org/openembedded-core/commit/?id=3D9eabea38f0c17d4=
+1d97284d63a25e45da3c9bbcc
+from master (so it's clear it's the same commit).
 
---=-FvWxBYVmM7QGy2jq1W1n
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ubuntu-26.04 has glibc-2.43 but uses gcc-15 by default, that's why I
+haven't seen this one in whinlatter nor scarthgap builds with it yet.
 
-On Wed, 2026-04-08 at 11:20 +0200, Hans-Jacob Enemark via
-lists.openembedded.org wrote:
-> Hi
-> In the process of updating a fork of oe-core, I have noticed that series =
-of
-> tags are present in the fork that I'm managing and not in the upstream re=
-po
-> at git.openembedded.org/openembedded-core
->=20
-> The latest tags I have that are pointing to the same commit are:
-> yocto-5.0.11, 2024-04.11-scarthgap, 2024-04.11.
->=20
-> I don't see the last two tags on the upstream repo.
->=20
-> Did you make a cleanup of tags at some point during the last six months o=
-r
-> do I have to find other mirrors to sync my fork to?
->=20
-> Thanks in advance for the answer.
+Not sure why I cannot reproduce the binutils one in whinlatter, I've
+just rebuilt both binutils-native as well as target binutils without
+an issue, probably because of:
+meta/recipes-devtools/binutils/binutils_2.45.bb:EXTRA_OECONF:append:toolcha=
+in-clang
+=3D " --disable-gprofng"
+but that is also in scarthgap (and bitbake-getvar confirmed it in both
+builds). Was it with target binutils or binutils-native?
 
-Hi Hans-Jacob,
-
-We've cleaned up obsolete duplicate tags recently to fix regression report
-issues and make things less confusing for users [1].
-
-[1]: https://lore.kernel.org/yocto/CADfgfoZ2-_Vypjx4mDypmh=3DHace4+gm5_4S-a=
-N=3DZad6O_CKw9A@mail.gmail.com/
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-FvWxBYVmM7QGy2jq1W1n
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCadYl1BEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bgMoAQDhHmZqIqMD1lqTBOeMIECDvXerkeR7sXtu
-foX01QEkNAEA2WGo6K0E9HJhH2/SWOuodSl+na8j0MkOZ5iIrzojYgg=
-=DGIQ
------END PGP SIGNATURE-----
-
---=-FvWxBYVmM7QGy2jq1W1n--
+On Tue, Apr 7, 2026 at 3:35=E2=80=AFPM Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9n=
+yi <zboszor@gmail.com> wrote:
+>
+> Added a patch to fix gcc-cross-<arch> built against GLIBC 2.43
+> on Fedora 44.
+>
+> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-15.2.inc        |   1 +
+>  ...dy-Make-it-buildable-by-C-11-to-C-26.patch | 262 ++++++++++++++++++
+>  2 files changed, 263 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0001-libcody-Make-it-bu=
+ildable-by-C-11-to-C-26.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-15.2.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-15.2.inc
+> index d178b25487..aef22f8347 100644
+> --- a/meta/recipes-devtools/gcc/gcc-15.2.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-15.2.inc
+> @@ -73,6 +73,7 @@ SRC_URI =3D "${BASEURI} \
+>             file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=
+ \
+>             file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
+>            file://0026-fix-pr90579-testcases.patch \
+> +          file://0001-libcody-Make-it-buildable-by-C-11-to-C-26.patch \
+>  "
+>
+>  UNPACKDIR =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/sources"
+> diff --git a/meta/recipes-devtools/gcc/gcc/0001-libcody-Make-it-buildable=
+-by-C-11-to-C-26.patch b/meta/recipes-devtools/gcc/gcc/0001-libcody-Make-it=
+-buildable-by-C-11-to-C-26.patch
+> new file mode 100644
+> index 0000000000..676f1500e7
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0001-libcody-Make-it-buildable-by-C-1=
+1-to-C-26.patch
+> @@ -0,0 +1,262 @@
+> +From 1f0224e8ddb3d3d0bf4c7a11769b193a4df5cc37 Mon Sep 17 00:00:00 2001
+> +From: Jakub Jelinek <jakub@redhat.com>
+> +Date: Fri, 21 Nov 2025 16:25:58 +0100
+> +Subject: [PATCH] libcody: Make it buildable by C++11 to C++26
+> +
+> +The following builds with -std=3Dc++11 and c++14 and c++17 and c++20 and=
+ c++23
+> +and c++26.
+> +
+> +I see the u8 string literals are mixed e.g. with strerror, so in
+> +-fexec-charset=3DIBM1047 there will still be garbage, so am not 100% sur=
+e if
+> +the u8 literals everywhere are worth it either.
+> +
+> +2025-11-21  Jakub Jelinek  <jakub@redhat.com>
+> +
+> +       * cody.hh (S2C): For __cpp_char8_t >=3D 201811 use char8_t instea=
+d of
+> +       char in argument type.
+> +       (MessageBuffer::Space): Revert 2025-11-15 change.
+> +       (MessageBuffer::Append): For __cpp_char8_t >=3D 201811 add overlo=
+ad
+> +       with char8_t const * type of first argument.
+> +       (Packet::Packet): Similarly for first argument.
+> +       * client.cc (CommunicationError, Client::ProcessResponse,
+> +       Client::Connect, ConnectResponse, PathnameResponse, OKResponse,
+> +       IncludeTranslateResponse): Cast u8 string literals to (const char=
+ *)
+> +       where needed.
+> +       * server.cc (Server::ProcessRequests, ConnectRequest): Likewise.
+> +
+> +(cherry picked from commit 07a767c7a50d1daae8ef7d4aba73fe53ad40c0b7)
+> +
+> +Signed-off-by: Jakub Jelinek <jakub@redhat.com>
+> +Upstream-Status: Backport
+> +---
+> + libcody/client.cc | 36 +++++++++++++++++++-----------------
+> + libcody/cody.hh   | 22 ++++++++++++++++++++++
+> + libcody/server.cc | 28 ++++++++++++++--------------
+> + 3 files changed, 55 insertions(+), 31 deletions(-)
+> +
+> +diff --git a/libcody/client.cc b/libcody/client.cc
+> +index ae69d190cb7..147fecdbe50 100644
+> +--- a/libcody/client.cc
+> ++++ b/libcody/client.cc
+> +@@ -97,7 +97,7 @@ int Client::CommunicateWithServer ()
+> +
+> + static Packet CommunicationError (int err)
+> + {
+> +-  std::string e {u8"communication error:"};
+> ++  std::string e {(const char *) u8"communication error:"};
+> +   e.append (strerror (err));
+> +
+> +   return Packet (Client::PC_ERROR, std::move (e));
+> +@@ -110,33 +110,34 @@ Packet Client::ProcessResponse (std::vector<std::s=
+tring> &words,
+> +     {
+> +       if (e =3D=3D EINVAL)
+> +       {
+> +-        std::string msg (u8"malformed string '");
+> ++        std::string msg ((const char *) u8"malformed string '");
+> +         msg.append (words[0]);
+> +-        msg.append (u8"'");
+> ++        msg.append ((const char *) u8"'");
+> +         return Packet (Client::PC_ERROR, std::move (msg));
+> +       }
+> +       else
+> +-      return Packet (Client::PC_ERROR, u8"missing response");
+> ++      return Packet (Client::PC_ERROR, (const char *) u8"missing respon=
+se");
+> +     }
+> +
+> +   Assert (!words.empty ());
+> +-  if (words[0] =3D=3D u8"ERROR")
+> ++  if (words[0] =3D=3D (const char *) u8"ERROR")
+> +     return Packet (Client::PC_ERROR,
+> +-                 words.size () =3D=3D 2 ? words[1]: u8"malformed error =
+response");
+> ++                 words.size () =3D=3D 2 ? words[1]
+> ++                 : (const char *) u8"malformed error response");
+> +
+> +   if (isLast && !read.IsAtEnd ())
+> +     return Packet (Client::PC_ERROR,
+> +-                 std::string (u8"unexpected extra response"));
+> ++                 std::string ((const char *) u8"unexpected extra respon=
+se"));
+> +
+> +   Assert (code < Detail::RC_HWM);
+> +   Packet result (responseTable[code] (words));
+> +   result.SetRequest (code);
+> +   if (result.GetCode () =3D=3D Client::PC_ERROR && result.GetString ().=
+empty ())
+> +     {
+> +-      std::string msg {u8"malformed response '"};
+> ++      std::string msg {(const char *) u8"malformed response '"};
+> +
+> +       read.LexedLine (msg);
+> +-      msg.append (u8"'");
+> ++      msg.append ((const char *) u8"'");
+> +       result.GetString () =3D std::move (msg);
+> +     }
+> +   else if (result.GetCode () =3D=3D Client::PC_CONNECT)
+> +@@ -199,7 +200,7 @@ Packet Client::Connect (char const *agent, char cons=
+t *ident,
+> +                         size_t alen, size_t ilen)
+> + {
+> +   write.BeginLine ();
+> +-  write.AppendWord (u8"HELLO");
+> ++  write.AppendWord ((const char *) u8"HELLO");
+> +   write.AppendInteger (Version);
+> +   write.AppendWord (agent, true, alen);
+> +   write.AppendWord (ident, true, ilen);
+> +@@ -211,7 +212,8 @@ Packet Client::Connect (char const *agent, char cons=
+t *ident,
+> + // HELLO $version $agent [$flags]
+> + Packet ConnectResponse (std::vector<std::string> &words)
+> + {
+> +-  if (words[0] =3D=3D u8"HELLO" && (words.size () =3D=3D 3 || words.siz=
+e () =3D=3D 4))
+> ++  if (words[0] =3D=3D (const char *) u8"HELLO"
+> ++      && (words.size () =3D=3D 3 || words.size () =3D=3D 4))
+> +     {
+> +       char *eptr;
+> +       unsigned long val =3D strtoul (words[1].c_str (), &eptr, 10);
+> +@@ -247,7 +249,7 @@ Packet Client::ModuleRepo ()
+> + // PATHNAME $dir | ERROR
+> + Packet PathnameResponse (std::vector<std::string> &words)
+> + {
+> +-  if (words[0] =3D=3D u8"PATHNAME" && words.size () =3D=3D 2)
+> ++  if (words[0] =3D=3D (const char *) u8"PATHNAME" && words.size () =3D=
+=3D 2)
+> +     return Packet (Client::PC_PATHNAME, std::move (words[1]));
+> +
+> +   return Packet (Client::PC_ERROR, u8"");
+> +@@ -256,7 +258,7 @@ Packet PathnameResponse (std::vector<std::string> &w=
+ords)
+> + // OK or ERROR
+> + Packet OKResponse (std::vector<std::string> &words)
+> + {
+> +-  if (words[0] =3D=3D u8"OK")
+> ++  if (words[0] =3D=3D (const char *) u8"OK")
+> +     return Packet (Client::PC_OK);
+> +   else
+> +     return Packet (Client::PC_ERROR,
+> +@@ -319,11 +321,11 @@ Packet Client::IncludeTranslate (char const *inclu=
+de, Flags flags, size_t ilen)
+> + // PATHNAME $cmifile
+> + Packet IncludeTranslateResponse (std::vector<std::string> &words)
+> + {
+> +-  if (words[0] =3D=3D u8"BOOL" && words.size () =3D=3D 2)
+> ++  if (words[0] =3D=3D (const char *) u8"BOOL" && words.size () =3D=3D 2=
+)
+> +     {
+> +-      if (words[1] =3D=3D u8"FALSE")
+> +-      return Packet (Client::PC_BOOL, 0);
+> +-      else if (words[1] =3D=3D u8"TRUE")
+> ++      if (words[1] =3D=3D (const char *) u8"FALSE")
+> ++      return Packet (Client::PC_BOOL);
+> ++      else if (words[1] =3D=3D (const char *) u8"TRUE")
+> +       return Packet (Client::PC_BOOL, 1);
+> +       else
+> +       return Packet (Client::PC_ERROR, u8"");
+> +diff --git a/libcody/cody.hh b/libcody/cody.hh
+> +index 789ce9e70b7..93bce93aa94 100644
+> +--- a/libcody/cody.hh
+> ++++ b/libcody/cody.hh
+> +@@ -47,12 +47,21 @@ namespace Detail  {
+> +
+> + // C++11 doesn't have utf8 character literals :(
+> +
+> ++#if __cpp_char8_t >=3D 201811
+> ++template<unsigned I>
+> ++constexpr char S2C (char8_t const (&s)[I])
+> ++{
+> ++  static_assert (I =3D=3D 2, "only single octet strings may be converte=
+d");
+> ++  return s[0];
+> ++}
+> ++#else
+> + template<unsigned I>
+> + constexpr char S2C (char const (&s)[I])
+> + {
+> +   static_assert (I =3D=3D 2, "only single octet strings may be converte=
+d");
+> +   return s[0];
+> + }
+> ++#endif
+> +
+> + /// Internal buffering class.  Used to concatenate outgoing messages
+> + /// and Lex incoming ones.
+> +@@ -123,6 +132,13 @@ public:
+> +       Space ();
+> +     Append (str, maybe_quote, len);
+> +   }
+> ++#if __cpp_char8_t >=3D 201811
+> ++  void AppendWord (char8_t const *str, bool maybe_quote =3D false,
+> ++                 size_t len =3D ~size_t (0))
+> ++  {
+> ++    AppendWord ((const char *) str, maybe_quote, len);
+> ++  }
+> ++#endif
+> +   /// Add a word as with AppendWord
+> +   /// @param str the string to append
+> +   /// @param maybe_quote string might need quoting, as for Append
+> +@@ -264,6 +280,12 @@ public:
+> +     : string (s), cat (STRING), code (c)
+> +   {
+> +   }
+> ++#if __cpp_char8_t >=3D 201811
+> ++  Packet (unsigned c, const char8_t *s)
+> ++    : string ((const char *) s), cat (STRING), code (c)
+> ++  {
+> ++  }
+> ++#endif
+> +   Packet (unsigned c, std::vector<std::string> &&v)
+> +     : vector (std::move (v)), cat (VECTOR), code (c)
+> +   {
+> +diff --git a/libcody/server.cc b/libcody/server.cc
+> +index e2fa069bb93..c18469fae84 100644
+> +--- a/libcody/server.cc
+> ++++ b/libcody/server.cc
+> +@@ -36,12 +36,12 @@ static RequestPair
+> +   const requestTable[Detail::RC_HWM] =3D
+> +   {
+> +     // Same order as enum RequestCode
+> +-    RequestPair {u8"HELLO", nullptr},
+> +-    RequestPair {u8"MODULE-REPO", ModuleRepoRequest},
+> +-    RequestPair {u8"MODULE-EXPORT", ModuleExportRequest},
+> +-    RequestPair {u8"MODULE-IMPORT", ModuleImportRequest},
+> +-    RequestPair {u8"MODULE-COMPILED", ModuleCompiledRequest},
+> +-    RequestPair {u8"INCLUDE-TRANSLATE", IncludeTranslateRequest},
+> ++    RequestPair {(const char *) u8"HELLO", nullptr},
+> ++    RequestPair {(const char *) u8"MODULE-REPO", ModuleRepoRequest},
+> ++    RequestPair {(const char *) u8"MODULE-EXPORT", ModuleExportRequest}=
+,
+> ++    RequestPair {(const char *) u8"MODULE-IMPORT", ModuleImportRequest}=
+,
+> ++    RequestPair {(const char *) u8"MODULE-COMPILED", ModuleCompiledRequ=
+est},
+> ++    RequestPair {(const char *) u8"INCLUDE-TRANSLATE", IncludeTranslate=
+Request},
+> +   };
+> + }
+> +
+> +@@ -135,21 +135,21 @@ void Server::ProcessRequests (void)
+> +         std::string msg;
+> +
+> +         if (err > 0)
+> +-          msg =3D u8"error processing '";
+> ++          msg =3D (const char *) u8"error processing '";
+> +         else if (ix >=3D Detail::RC_HWM)
+> +-          msg =3D u8"unrecognized '";
+> ++          msg =3D (const char *) u8"unrecognized '";
+> +         else if (IsConnected () && ix =3D=3D Detail::RC_CONNECT)
+> +-          msg =3D u8"already connected '";
+> ++          msg =3D (const char *) u8"already connected '";
+> +         else if (!IsConnected () && ix !=3D Detail::RC_CONNECT)
+> +-          msg =3D u8"not connected '";
+> ++          msg =3D (const char *) u8"not connected '";
+> +         else
+> +-          msg =3D u8"malformed '";
+> ++          msg =3D (const char *) u8"malformed '";
+> +
+> +         read.LexedLine (msg);
+> +-        msg.append (u8"'");
+> ++        msg.append ((const char *) u8"'");
+> +         if (err > 0)
+> +           {
+> +-            msg.append (u8" ");
+> ++            msg.append ((const char *) u8" ");
+> +             msg.append (strerror (err));
+> +           }
+> +         resolver->ErrorResponse (this, std::move (msg));
+> +@@ -176,7 +176,7 @@ Resolver *ConnectRequest (Server *s, Resolver *r,
+> +     return nullptr;
+> +
+> +   if (words.size () =3D=3D 3)
+> +-    words.emplace_back (u8"");
+> ++    words.emplace_back ((const char *) u8"");
+> +   unsigned version =3D ParseUnsigned (words[1]);
+> +   if (version =3D=3D ~0u)
+> +     return nullptr;
+> +--
+> +2.53.0
+> +
+> --
+> 2.53.0
+>
 
