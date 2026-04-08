@@ -2,245 +2,173 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 058CA1073C9D
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 11:29:26 +0000 (UTC)
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.104028.1775647758378893057
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 275C11073C9F
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 11:31:36 +0000 (UTC)
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.104297.1775647890896714647
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 04:29:18 -0700
+ Wed, 08 Apr 2026 04:31:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=CZvxquWW;
- spf=pass (domain: mvista.com, ip: 74.125.82.175, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so15187042eec.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 04:29:18 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=keTDkNhR;
+ spf=pass (domain: mvista.com, ip: 74.125.82.46, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1271195d2a7so3099921c88.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 04:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1775647758; x=1776252558; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1775647890; x=1776252690; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C3PsNvJJCoaxOsFBIAxStu+7T9lcwAJpJX4ANY8uQ20=;
-        b=CZvxquWWB8vocWVjlEcBQt76mdO+vjbiAtiYj4y0p/j6OYTpe8LoIx6oj+pUpoXCLX
-         2oHJRphes1VzI521gX8Se3GuyPvO7GBjKJeBonQFlvbyXQ1LorI4k7rMMrSwY8N/kJ4I
-         tmuFR8yJrr9XxhoMkJ9T3ush2WlMs32xyDetQ=
+        bh=ETaYJ30k2D4A97F+CKEtSBN4VHbIIWhxAQLmTEkMQuE=;
+        b=keTDkNhR9r85BRK2EbgUWxVSFK4h05AvfIy1tv5t6NLLD/3aLqdrA+CPu+x7vIA9nO
+         RPp4rvctF4w8dh8cp0wZ++fW/YEfhXr27L4LpgOMS+Enj87L1c/EhDdWFpuu6twlNQPJ
+         2jZuhEL8AdhXhFEpUipv7QAImfAn71ctfNQLw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775647758; x=1776252558;
+        d=1e100.net; s=20251104; t=1775647890; x=1776252690;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C3PsNvJJCoaxOsFBIAxStu+7T9lcwAJpJX4ANY8uQ20=;
-        b=paSYTqUF0nBcQsdAydvig3bO/Jt0GeZcZZDCtdsPXyXxFP2F8E+ZHCB0NFnd2d4pog
-         tb0aPa5zoEzW3RGPJvehmWyTR1YLq3o/wmB/JewkEBnOHr52AoX7myXR1WdL9SMHpVLl
-         WP+tHDFWwjNlQRE1T4pLP/QxW8TNXNOude5qRpR1oI5+hzEhdZ1yHFpKFToITBLUIMi2
-         sD6YkNrGfK9mtqCVKb6RDMIrrgeh1wScEGQZoDmtpn268K0qxB/4vQpIDUyg85oqjLVX
-         obtuMN4b/VqytEk17QDWjcHG/R+EGesgx1rHjoJLMMgRSJnIqIlcwtkAR7PaiCcVvfpv
-         Jiig==
-X-Gm-Message-State: AOJu0YxbL+qNpPEQIFvWLhFhEoHBNpSgadqlS36YCMnKmIyv2A8fBf4m
-	eo5oqgqXnTSxpn4hYTq5cJNN136Q2SfVXWYTCmni8iCCkZKPWfKdvdvuhXSM5o+aVWu4ODCEHKZ
-	/DwA5xfY=
-X-Gm-Gg: AeBDieua4mdgRcDchB3OI59ZX9JJj6BCIKaAn8v54bHTuYzwJ/uTlLu1qSLgIgAmb8J
-	8Ur/RUHqLwxgzcUtgVeyPQMuY3Fen7W+3XtWryHZWPwYWEELFIehN60OINTGhba64D7foawKoOX
-	+jlda7fs8Ff8WfEWjwbeA931GkE7imArOLcx7o6zALMZovHlrsu0I6gwvCyuC/7UcFcQypmkl5x
-	UkwpLz83dPvgXknzftEFfB2Cz9vqT+9z5U0qy4H8mr0U94aOZqCnfY0PtKdXkj8rkmkgIRRh7q5
-	zEop+ZXhbE6tnEk5/LuB0pReS9r7lAsWsp2nRq2gYsTUrw/04no70hr+8YnbW7Y6sC4jHj7T7CN
-	uK626xYnYGZaglKXMXAi0Pe+2h1MusHLmrfTs94ioMrBAae0x3a1W99dONHEcOetR7slUQXa+Oi
-	bcrh4xQnqD4x+17LSeBogYmENjX4Tmcb+VWwNfcx509U5FRg==
-X-Received: by 2002:a05:7301:168a:b0:2c0:d1ad:cd2e with SMTP id 5a478bee46e88-2cbfa5bfa4emr11532079eec.11.1775647757324;
-        Wed, 08 Apr 2026 04:29:17 -0700 (PDT)
+        bh=ETaYJ30k2D4A97F+CKEtSBN4VHbIIWhxAQLmTEkMQuE=;
+        b=N+64CYYIIC0lzFTI8rrwemeSzpwoK/8Oe17rreUrTaovD3pVq0t3OW4h364kc7mZZ6
+         0kQ0LW5y6D8o/V7In3RnUm1BUTY0+iJGDJhPhJQr0HVLb9C3x/DrX1z55gZy5KbmgejF
+         pzU4Arif1lNRKFihSMkphETVbCnY6jICu3MKeiDepsNTIMK3KXoWNdognLMbQ2GTnv8/
+         +NK07IyJX6hSrZjrA0LKm5o9UEB9rGpuEa4hiM37iptAPQb2Rmu6mszrm3S81kdVmmKJ
+         cbg6zGqqiWuaLohbCCKnyrxEbuObOjOjOfFiIva3dJ9l9hnsoa4DQuRhI/sCoyAbVU8Q
+         HRLQ==
+X-Gm-Message-State: AOJu0YzCz3MrBV4C2DcX56SyVp92sNL11CR4Yj4NYFrkuSWX4qj1rc4Y
+	sMLUqyh/bw1s2nJMklW/mLYF2wk92BfAAMXuH9l5cMyTjADJVkigO6XfwU6gn7eVehq2XF4V0S5
+	03R7KnsE=
+X-Gm-Gg: AeBDiesrFf0ruAlNuroTtbZF/zYUkqYkuKmtTB9V8A+0P7OtjNUuDwgOSEEdie81FsW
+	mWbU/7h9LQaGbrRt+qZwUe2ab5SFQnV/RzwW1QKNbKb1TQFOjJ/cRLnWxdqdQ3tWow5XEf5oET/
+	l/S4J4Zmd1uurfr3Q04P8Ux/uI8jksg2Lc1rZJP+womNaLP07LiwWxaVkOWIktcv9HaMGCUii04
+	O5kogZTzdkEmk2LMkjMI7fkJPJFcG3cyLTVbY2gBPEn+JK8SQV82kCNlsZtRsJVSQUolSZYQeTD
+	X06MO3BOa/0lqdXXUaUZFOQgFEwEZbpcFrci43vnGzbgFMxW3uH+6O3Euz2SG4CmBt9lYL5PQdC
+	3B7w/6dluiBLai4dqjko/tRoQSuKUFHytZCRNEATcZ//1ZlWraXiz7vDYN46Y2qkemW0efNJNdg
+	HhGJ3/zQEVrX3BWGRbZXENSAS+tcVB39/HUV8=
+X-Received: by 2002:a05:7022:e09:b0:12a:6902:ddc6 with SMTP id a92af1059eb24-12bfb63ac8cmr9983537c88.0.1775647887209;
+        Wed, 08 Apr 2026 04:31:27 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([43.249.234.209])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca760b0518sm21140382eec.0.2026.04.08.04.29.14
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2cb7ec57f9dsm18120829eec.11.2026.04.08.04.31.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 04:29:17 -0700 (PDT)
+        Wed, 08 Apr 2026 04:31:26 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] vim: Fix CVE-2026-26269
-Date: Wed,  8 Apr 2026 16:58:44 +0530
-Message-ID: <20260408112844.1029876-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] vim: Fix CVE-2026-28418
+Date: Wed,  8 Apr 2026 17:01:19 +0530
+Message-ID: <20260408113119.1030462-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 11:29:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234832
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 11:31:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234833
 
 Pick patch from [1] also mentioned in [2]
 
-[1] https://github.com/vim/vim/commit/c5f312aad8e4179e437f81ad39a860cd0ef11970
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-26269
+[1] https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28418
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../vim/files/CVE-2026-26269.patch            | 150 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 151 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-26269.patch
+ .../vim/files/CVE-2026-28418.patch            | 78 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28418.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-26269.patch b/meta/recipes-support/vim/files/CVE-2026-26269.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-28418.patch b/meta/recipes-support/vim/files/CVE-2026-28418.patch
 new file mode 100644
-index 0000000000..1f9a72bca1
+index 0000000000..3a80ba77f7
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-26269.patch
-@@ -0,0 +1,150 @@
-+From 3cc246980b800454dda0603af410c77a8c1926e0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-28418.patch
+@@ -0,0 +1,78 @@
++From f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d Mon Sep 17 00:00:00 2001
 +From: Christian Brabandt <cb@256bit.org>
-+Date: Fri, 13 Feb 2026 10:27:12 +0100
-+Subject: [PATCH] patch 9.1.2148: [security]: Buffer overflow in netbeans
-+ interface
++Date: Mon, 23 Feb 2026 18:30:11 +0000
++Subject: [PATCH] patch 9.2.0074: [security]: Crash with overlong emacs tag
++ file
 +
-+Problem:  [security]: Buffer overflow in netbeans special_keys() handling
-+Solution: Limit writing to max KEYBUFLEN bytes to prevent writing out of
-+          bounds.
++Problem:  Crash with overlong emacs tag file, because of an OOB buffer
++          read (ehdgks0627, un3xploitable)
++Solution: Check for end of buffer and return early.
 +
 +Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-9w5c-hwr9-hc68
-+
-+CVE: CVE-2026-26269
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c5f312aad8e4179e437f81ad39a860cd0ef11970]
-+
-+Backport Changes:
-+- Excluded changes to src/version.c from this backport. This file only tracks
-+  upstream version increments. We are applying a security fix, not a version
-+  upgrade. These changes were skipped to maintain current package versioning
-+  and avoid merge conflicts.
++https://github.com/vim/vim/security/advisories/GHSA-h4mf-vg97-hj8j
 +
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
-+(cherry picked from commit c5f312aad8e4179e437f81ad39a860cd0ef11970)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
-+---
-+ runtime/doc/version9.txt      |  5 +++
-+ src/netbeans.c                |  2 +-
-+ src/testdir/test_netbeans.py  |  4 ++-
-+ src/testdir/test_netbeans.vim | 57 +++++++++++++++++++++++++++++++++++
-+ 4 files changed, 66 insertions(+), 2 deletions(-)
 +
-+diff --git a/runtime/doc/version9.txt b/runtime/doc/version9.txt
-+index b82071757..b32400f17 100644
-+--- a/runtime/doc/version9.txt
-++++ b/runtime/doc/version9.txt
-+@@ -41899,4 +41899,9 @@ features, but does not include runtime file changes (syntax, indent, ftplugin,
-+ documentation, etc.)
++CVE: CVE-2026-28418
++Upstream-Status: Backport [https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/tag.c                    |  3 +++
++ src/testdir/test_taglist.vim | 15 +++++++++++++++
++ src/version.c                |  2 ++
++ 3 files changed, 20 insertions(+)
++
++diff --git a/src/tag.c b/src/tag.c
++index a32bbb2459..45af67f20d 100644
++--- a/src/tag.c
+++++ b/src/tag.c
++@@ -1902,6 +1902,9 @@ emacs_tags_new_filename(findtags_state_T *st)
 + 
++     for (p = st->ebuf; *p && *p != ','; p++)
++ 	;
+++    // invalid
+++    if (*p == NUL)
+++	return;
++     *p = NUL;
 + 
-++Patch 9.1.2148
-++Problem:  [security]: Buffer overflow in netbeans special_keys() handling
-++Solution: Limit writing to max KEYBUFLEN bytes to prevent writing out of
-++          bounds.
-++
-+  vim:tw=78:ts=8:noet:ft=help:norl:fdm=manual:nofoldenable
-+diff --git a/src/netbeans.c b/src/netbeans.c
-+index 4f5378512..8a341a20b 100644
-+--- a/src/netbeans.c
-++++ b/src/netbeans.c
-+@@ -2302,7 +2302,7 @@ special_keys(char_u *args)
-+ 	if ((sep = strchr(tok, '-')) != NULL)
-+ 	{
-+ 	    *sep = NUL;
-+-	    while (*tok)
-++	    while (*tok && i + 2 < KEYBUFLEN)
-+ 	    {
-+ 		switch (*tok)
-+ 		{
-+diff --git a/src/testdir/test_netbeans.py b/src/testdir/test_netbeans.py
-+index 0d6b09680..585886fb4 100644
-+--- a/src/testdir/test_netbeans.py
-++++ b/src/testdir/test_netbeans.py
-+@@ -112,7 +112,9 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
-+                   'startAtomic_Test' : '0:startAtomic!94\n',
-+                   'endAtomic_Test' : '0:endAtomic!95\n',
-+                   'AnnoScale_Test' : "".join(['2:defineAnnoType!60 ' + str(i) + ' "s' + str(i) + '" "x" "=>" blue none\n' for i in range(2, 26)]),
-+-                  'detach_Test' : '2:close!96\n1:close!97\nDETACH\n'
-++                  'detach_Test' : '2:close!96\n1:close!97\nDETACH\n',
-++                  'specialKeys_overflow_Test' : '0:specialKeys!200 "' + 'A'*80 + '-X"\n'
-++
-+                 }
-+                 # execute the specified test
-+                 if cmd not in testmap:
-+diff --git a/src/testdir/test_netbeans.vim b/src/testdir/test_netbeans.vim
-+index d3d5e8baf..d1be5066e 100644
-+--- a/src/testdir/test_netbeans.vim
-++++ b/src/testdir/test_netbeans.vim
-+@@ -958,6 +958,58 @@ func Nb_bwipe_buffer(port)
-+   sleep 10m
++     // check for an included tags file.
++diff --git a/src/testdir/test_taglist.vim b/src/testdir/test_taglist.vim
++index 5a946042be..506e64f7ae 100644
++--- a/src/testdir/test_taglist.vim
+++++ b/src/testdir/test_taglist.vim
++@@ -301,4 +301,19 @@ func Test_tag_complete_with_overlong_line()
++   set tags&
 + endfunc
 + 
-++func Nb_specialKeys_overflow(port)
-++  call delete("Xnetbeans")
-++  call writefile([], "Xnetbeans")
+++" This used to crash Vim
+++func Test_evil_emacs_tagfile()
+++  CheckFeature emacs_tags
+++  let longline = repeat('a', 515)
+++  call writefile([
+++	\ "\x0c",
+++	\ longline
+++	\ ], 'Xtags', 'D')
+++  set tags=Xtags
 ++
-++  " Last line number in the Xnetbeans file. Used to verify the result of the
-++  " communication with the netbeans server
-++  let g:last = 0
+++  call assert_fails(':tag a', 'E426:')
 ++
-++  " Establish the connection with the netbeans server
-++  exe 'nbstart :localhost:' .. a:port .. ':bunny'
-++  call WaitFor('len(ReadXnetbeans()) > (g:last + 2)')
-++  let l = ReadXnetbeans()
-++  call assert_equal(['AUTH bunny',
-++        \ '0:version=0 "2.5"',
-++        \ '0:startupDone=0'], l[-3:])
-++  let g:last += 3
-++
-++  " Open the command buffer to communicate with the server
-++  split Xcmdbuf
-++  let cmdbufnr = bufnr()
-++  call WaitFor('len(ReadXnetbeans()) > (g:last + 2)')
-++  let l = ReadXnetbeans()
-++  call assert_equal('0:fileOpened=0 "Xcmdbuf" T F',
-++        \ substitute(l[-3], '".*/', '"', ''))
-++  call assert_equal('send: 1:putBufferNumber!15 "Xcmdbuf"',
-++        \ substitute(l[-2], '".*/', '"', ''))
-++  call assert_equal('1:startDocumentListen!16', l[-1])
-++  let g:last += 3
-++
-++  " Keep the command buffer loaded for communication
-++  hide
-++
-++  sleep 1m
-++
-++  " Open the command buffer to communicate with the server
-++  split Xcmdbuf
-++  let cmdbufnr = bufnr()
-++  call appendbufline(cmdbufnr, '$', 'specialKeys_overflow_Test')
-++  call WaitFor('len(ReadXnetbeans()) >= (g:last + 6)')
-++  call WaitForAssert({-> assert_match('send: 0:specialKeys!200 "A\{80}-X"',
-++        \ ReadXnetbeans()[-1])})
-++
-++  " Verify that specialKeys test, still works after the previous junk
-++  call appendbufline(cmdbufnr, '$', 'specialKeys_Test')
-++  call WaitFor('len(ReadXnetbeans()) >= (g:last + 1)')
-++  call WaitForAssert({-> assert_match('^send: 0:specialKeys!91 "F12 F13 C-F13"$',
-++        \ ReadXnetbeans()[-1])})
-++  let g:last += 1
-++
-++  sleep 10m
-++endfunc
-++
-+ " This test used to reference a buffer after it was freed leading to an ASAN
-+ " error.
-+ func Test_nb_bwipe_buffer()
-+@@ -967,4 +1019,9 @@ func Test_nb_bwipe_buffer()
-+   nbclose
-+ endfunc
-+ 
-++" Verify that the specialKeys argument does not overflow
-++func Test_nb_specialKeys_overflow()
-++  call s:run_server('Nb_specialKeys_overflow')
+++  set tags&
 ++endfunc
 ++
 + " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/version.c b/src/version.c
++index 712a3e637c..7d265ab641 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -724,6 +724,8 @@ static char *(features[]) =
++ 
++ static int included_patches[] =
++ {   /* Add new patch number below this line */
+++/**/
+++    1685,
++ /**/
++     1684,
++ /**/
 +-- 
-+2.43.7
++2.50.1
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index fa63689ef1..2f222c5295 100644
+index 2f222c5295..713e277936 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
+@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
             file://CVE-2026-33412.patch \
             file://CVE-2026-25749.patch \
-+           file://CVE-2026-26269.patch \
+            file://CVE-2026-26269.patch \
++           file://CVE-2026-28418.patch \
             "
  
  PV .= ".1683"
