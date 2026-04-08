@@ -1,238 +1,237 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B64C105D995
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:30:51 +0000 (UTC)
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.102184.1775640649150776840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1E441073C85
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:44:03 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.57])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.102326.1775641442687079669
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 02:30:49 -0700
+ Wed, 08 Apr 2026 02:44:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=GRlvYAuG;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=Dje044n9;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.148, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 37745EC0407;
-	Wed,  8 Apr 2026 05:30:48 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Wed, 08 Apr 2026 05:30:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1775640648; x=1775727048; bh=alkz32fNuC
-	8qFPr+Yftt8aqvge3/22QQDBwWHUbX8ME=; b=GRlvYAuG0b2vpxZDvQ58iD2EUm
-	PIDkFPgaM3pVgtPfla3Zzxhdici/n35tY0SAXgtOiURGuXu9ScqYBrr1LFEhRUPS
-	400US8hUyHxG222+MmxeaLZYJHCUY61yIEfMS814iep8K1Qh4DV0pWbslilIm2Er
-	r58qOM/5U3uEARs2RsjSZwE6NtMB46Oi3XWJwJ+mjncASOTU+LFYBPZ5VT73lc+h
-	E5PCTYGod6Ofg3/iI3C0dBdi96clca014BrNg0OimXhQSlycdwX9t2zocoT/XqO8
-	zFlDhFB2PTDHP06ZlqY92VVgoQGmrJyDY1/bOmvQpQdydAoQ2rCxq3PWm4sw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1775640648; x=1775727048; bh=alkz32fNuC8qFPr+Yftt8aqvge3/22QQDBw
-	WHUbX8ME=; b=Dje044n9xAegg0HfHqn3DeQbJo1vqt1sBtoPVkrRUvkC4CvLCAY
-	ydXxGirFF5WausgO0pYUuEd3M0/L2RDT86UZJqnVM3U2hg7vX1AghxYwkyhDZqbU
-	ViQPCEr+GN1/kWg/v8MHvwJHM+Z60mU+RNmbChDJxNg9OWasPERMkXHS4p8pojtM
-	GluoWnFsC65KEfs1LaNzf/eenDRw0p4/UdGO9B2X1Yp1iuVrZOLRcvcy7eQcEoqA
-	mhzO50cX/V1BYD+rHSDmMSu15mGyvu6Q43Gs8sqMQd0Rtib7d8yVJrPsPHqH4Dy5
-	n88AaN4KMN9SiH/rpnOW/jNgd/vy1Ai8+hA==
-X-ME-Sender: <xms:RyDWabxC1QBmxpXxsafH1aV-Qx9-21M9zTUlhro0FQVsT1T8T2cigg>
-    <xme:RyDWaatJ5DPsRUzg4BhdjgbmmgNB4zzntaSu02-hGaD-AO9JUmT7CJjUHS8BxTB2D
-    IwIw5B9sD9AGIBsXcp5mnfzQ463QHU8NciTQKOOupGC5EDvsRyxwSk>
-X-ME-Received: <xmr:RyDWaSsIhZrqYc66G8lC47d8BaoQcSgV2UhTqlVA1FNB-1ItkY2jftE_A5ZaWNZisUryrXHAJZxkEeRm0Vth8Dz8JFYGGQZxZ6RC4_k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvfedvvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecufghrlhcuvffnffculddqiedmnecujfgurhepkffuhffvve
-    ffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehp
-    rghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhepjeekgeevkeeiue
-    ehkeehleejgefgtdevheffvedtteeuffdvudfhheegteehtdeunecuffhomhgrihhnpeho
-    phgvnhgvmhgsvgguuggvugdrohhrghdpnhhishhtrdhgohhvnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdgu
-    vghvpdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
-    hhrghrihhshhdrshgrughinhgvnhhiseifihhnughrihhvvghrrdgtohhmpdhrtghpthht
-    ohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvug
-    guvggurdhorhhgpdhrtghpthhtohepshhunhguvggvphdrkhhokhhkohhnuggrseifihhn
-    ughrihhvvghrrdgtohhm
-X-ME-Proxy: <xmx:SCDWafOfaQqagewoaChKQc7M-LlFYV9JrtwOqUqQxT-a0ifUHBm5Yw>
-    <xmx:SCDWaQ3oEu0-3RyXiNivsUh03xnt07YC82jhqj4Dcwwe3h6LQR1tJw>
-    <xmx:SCDWabP8FSon_iPnbtt4OUlxSHkca-1gOFYlESAC3PNrDxio0Uu1xg>
-    <xmx:SCDWaQ10PElGTOZOYmoPbXm0vx0KaEEwLwz7phCeowz6HpcNLxTrww>
-    <xmx:SCDWaddV9nULiv9k5MsBy3kCqLzANMBToEUXXjV16HvN0nbFtPyjNIXm>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Apr 2026 05:30:47 -0400 (EDT)
-Message-ID: <f893c9bfd5410258400cd75d076fcb9be66a4714.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH] binutils: Set status for CVE-2025-69646 &
- CVE-2025-69649
-From: Paul Barker <paul@pbarker.dev>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Wed, 08 Apr 2026 10:30:44 +0100
-In-Reply-To: <9b85db42-8a0a-41a9-b31f-7da1ba0f5e0d@windriver.com>
-References: <20260406070506.3779367-1-Harish.Sadineni@windriver.com>
-	 <aff85443515795d097949cedbf07bd2ed40d7372.camel@pbarker.dev>
-	 <9b85db42-8a0a-41a9-b31f-7da1ba0f5e0d@windriver.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-r4hhACCkh74X9NJKQ17b"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=n6zsKBVb;
+ spf=pass (domain: siemens.com, ip: 40.107.162.57, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=S77XGOi/gT063hg4uGaktYZwGGFZ3yzBcQa6U3Pz5aq40a4eGN2MkZW/kJfCzTiZUg+3Jl4cOpmcHODD7yA9qne9jDMpc12jCsYRvmE8MTeCRehYrKrLKNhCPm4+pOBNScGCaDyRWLGHcnYrfny1zyYwlBI1wsA9LcrysKeNe1cW4Zl/pniZgExfd9d8ofZ0psjM1MWkBYeiwuZYszR7yqttJbMuNbtx1OpMeXN1Mytm9XZWet+AlekW7HbUKOPnpZ5KqcEYE7ZfINtRCNl5oP6/iVHWriDnsrH060efyyO8wAgNX3IIwQzDOnqm70gthayIYKj7oDCRdweqgnDjBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RC2hBQxD3k+Rb3whzrioaAOqImmBNLmd0/61Iv9pcro=;
+ b=cucXfCghuxjHG5KEnnATmqmB18Z6+tQfoA/1/8s0ZOrlXIQ9mhGGOtZOCogjrzR6BI+aPNlTRdlnEjMsivpb8JeNZRU/he9v+XC0s0BNZVZtLt+q+cKZqbiFCclc7bv/E5fr3i8Lf4p3SBoCrhnqtmidekHS7hSAsADeUa/rV5h+/PQGr6uWef7jSWLQYhBCLUm9DqcgUkC0RHgH/ceWaDn/jqna9qZj+CDIuHeweizAEaFG+OwbkmSw5qnD4kvB2LlQV98mRMhaWRMMqOd80nomNkQqp+R+8JzCX5cTUdReXZrwC7LmlpXM4/x21GxdvpOZYPM5pztqbxp1LhIRMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RC2hBQxD3k+Rb3whzrioaAOqImmBNLmd0/61Iv9pcro=;
+ b=n6zsKBVbfC206x944MaowbW/0og9/YZBlt+st9jt4/fgc987794p9yXyjIntzOwXoM3+hKhuWYdmBba9fchkMGrDQTSmvi5fCzmyDrSfVj45wtoiyzmlJDKu9HYKhGgyZmdon4c+dfrFbNUKVPB0IyvgBOXMlPybv1WP8HVWibN9sD3wO34ufTOX1CP8pRe9+e2MPBup2FUHca182LjRUCnPQpdJriB7Rgo5fXrZ95eT/nmCJka5DxLVIQh9/I/kzc9YmyI6xIhuUrbDFxRxic+J7kPulw+j7n0u+v8u+PjjcaE3sz3QBXFC47wt2gG93FCusYXKHPtTWFiO2EZxWA==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DB3PR10MB6787.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:437::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 8 Apr
+ 2026 09:43:57 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7%6]) with mapi id 15.20.9769.014; Wed, 8 Apr 2026
+ 09:43:57 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "Hemanth.KumarMD@windriver.com" <Hemanth.KumarMD@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "Sundeep.Kokkonda@windriver.com" <Sundeep.Kokkonda@windriver.com>
+Subject: RE: [OE-core] [PATCH] glibc: stable 2.43 branch updates
+Thread-Topic: [OE-core] [PATCH] glibc: stable 2.43 branch updates
+Thread-Index: AQHcxziI8xa8a4SUIESX7s31dwtSGrXU6HaA
+Date: Wed, 8 Apr 2026 09:43:57 +0000
+Message-ID: 
+ <AS1PR10MB569768761FDC2B42687AA6ABFD5BA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260408091626.3423299-1-Hemanth.KumarMD@windriver.com>
+In-Reply-To: <20260408091626.3423299-1-Hemanth.KumarMD@windriver.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=d720fcaa-a73a-47cf-8da6-d275b21d79d2;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-04-08T09:38:27Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB3PR10MB6787:EE_
+x-ms-office365-filtering-correlation-id: 269edf40-83f0-48e2-9aa7-08de95535aca
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|55112099003|38070700021|22082099003|56012099003|18002099003;
+x-microsoft-antispam-message-info: 
+ b9U0Q+lqWSCiTVxOz+dAHtZaPTG+OVJS3JM9bZYITEaR8rPLqyh3X8KEoO08t4LhtQZLKHzYmBpnJ6EU0wIusUV/l7DX6hON2v/GouaHBywQXc5y2cE4eb1liXXAHtuDq7rudMzB3zpIZP8E321x4nB4fc0dYGYevdtB/NxcUpEY51a5im71qTf9trd8vi/+l1aqWrmCq+iSA0AqUJmcXgsSCHlxe1wMyAFyCmN8NSvWb96YpGbtF7fVwl0qjvkiTdwclgRMrtEEt1IYSqBaArJuNW54IWNCqznYFDLWSy8pRvK+VDmMgHaAZE0c25blQUQ4uvISrP1KOLF7xOWLQWdAZUXuEGC4JK7BUwppvc0HEREkiAb96ePCnL00e0vceBP45ql4HLMpdtPV0baS2J1SvnhRFdOan70VKbjubdNVbYxMQ1iymErrN4FMOGIP8OrNY05Xf9AR1azWpJgtw3HIctzEP5X6NsykAhtJiIjL3tc2zhFcbsZsoJ63EX6LBC29e21dEJ14GAHOT5TzyZmMHdC7kA60jtGn73a4GLxdK1+T8PP8artmeHOlyAcOtCbJ2nYhoKTzyg+FV2FL8cUhg/FKuSuvQ4zglJiaDFtcWA1xvCUVYQHMf6MfCsC6LpseJLGRSeq7v6PY3y5Xb5BKnbk51wortlzlDvEjBUYOnn4WOa8ix31qZwkgz2KCho49+AqWSMLiEBHrvt9L2voOl2Iqe8pGzxGnPFuGoai8PJjR+z6HQGgNE5spq3VcZQXJG1n2p6UOi5C2wWnIgFBJvlRKis83UmfhnwzFleU=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(55112099003)(38070700021)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?eMCHb+HvNseXRWZu40GwAnWt46FGgSu4ZK/t8+4QXnEmp0Jlg49Us30CGf2R?=
+ =?us-ascii?Q?FCzjUCPuxVSznUFRrAXWQK4YDouZsDyTq7eEi/0Ij10PUJ8ksV6SLTlPawb/?=
+ =?us-ascii?Q?T12YS4ETv86zuPXKX3a+5f702chE6kjP58mkzpkeXH0p3mNy2CTtY2lgowqs?=
+ =?us-ascii?Q?Ae9kxy3fAG+1Zn0iEsnzjqAc6t+/9bRKl5QPRqOSakpGAI2c4KfD0hAZJfm3?=
+ =?us-ascii?Q?f/nAiGhSeEz6rZw7SM3vDPWKKNbqJ5VdSIJ+2oZc9an4E1F10ZoxrRlM2Awe?=
+ =?us-ascii?Q?hnFPQNjrBQd+ZZiRDaM/TmfkPTHgCX4zex79KrfrZRAHA6MJ04OPxWTpLv5F?=
+ =?us-ascii?Q?rdA9H4+vdDvrNERzF4BbSqYAYOMR9Z7OVPRAKUU0oynNsZCHm5jLhKs7yuTS?=
+ =?us-ascii?Q?JCERmsFxDKEacuBMm4BA1RNWZqrDTEAwmJjTgDPe1T/5bNLR+w3RxrrUR4Ll?=
+ =?us-ascii?Q?AxDlppIXbJfDuWE9vLYbXoZCVt0YS+msrMnyUW/6WBsRbc+R6uaTpXR91uEo?=
+ =?us-ascii?Q?lyf9wGmpRCZlb3uxDSRnpV5BXWKefMODQauakc8cNB9hJEkMQ0dx8dyRRbZo?=
+ =?us-ascii?Q?Y65mLGLcH+m+ZPWv2sY57HVUR1TY63fvrpJ9b1h/mbJVCZE4kSVSW6fKOP5w?=
+ =?us-ascii?Q?ajQWvXSY5VZgNmmcy1qht7TCVD+LeoiRKcmDAUdFcIr2nVV2yOlCneciFn1T?=
+ =?us-ascii?Q?WJ6EGZXBV2lkxE3JksPNiKPq/pTCiCmebwgTLzf4eAKH379SeePDZ6GJFCc+?=
+ =?us-ascii?Q?UXzqcVRMGcVb7t2T0wcLPzBnuUN+3VVXzsE+I3+wd77ikOK856nztnk9kkOc?=
+ =?us-ascii?Q?A4Ogm07BY/9qTWcTwBTravv/ik3YubCcparpTRKVGZZaPTSSZfOzD8+f81vJ?=
+ =?us-ascii?Q?t7ALohD5Xo5aqlRdeKq8CDyiWq4CcBVNCaHkvyGtyuoRRKlK49nlBIokkIQE?=
+ =?us-ascii?Q?9oU09fl9Ywq4luSgIg0dF5IL+BU4DT9cVvDMOXYo8DZSws4q6a4nUPBkGuaS?=
+ =?us-ascii?Q?ANFmD8P3cb78ZGsfV+uFF5GyOA3AU0VYy0qWbAS6ytCWYp82iCjMipGo/Pui?=
+ =?us-ascii?Q?wXT56OmJ2AsToSu9rbVxOZ8xEAJVMnUWAl5eQVDhqc2B0wV63RdzrcyLf4Qq?=
+ =?us-ascii?Q?y4rg2PeEhaMERSXmzHeDuNrB+9VPS9ZbPuBNdinVnHCoVZiircT/ucBynmEl?=
+ =?us-ascii?Q?1apnvJGcWOIij6T04p1euqk4LSf5ttEg0UaXZzcPnyPg974VO2xJiEp9Ofsm?=
+ =?us-ascii?Q?bcAkGTkQMz4gb0JXIpDZMya6e0CnEYir+DE2/0/14r6tjJlnNaVCPqPlX42R?=
+ =?us-ascii?Q?cZxF83u7bkGFRnbTRS4MGZNK1m9qb0ayoe1u/9leD4AYy8NR3Yauo5TFUEZi?=
+ =?us-ascii?Q?XWHp++E5JOfV5NHiP/nG/6/4iIKPWL72/ZI9DlMitCdt0k3FOdhUaG+qBLI/?=
+ =?us-ascii?Q?eEeAnkzGH0r9uNOYZx3Np8L4Cf5RLJzl+CZM4o8RGGNYHXEzfUHIttwE08xU?=
+ =?us-ascii?Q?TGEv/Ize4V5I9I6Q8mlGU0rvBkghLAKHVNSz2ffnTi0ocbrs2XAutS2NLO1w?=
+ =?us-ascii?Q?V/IdaS5pU4Mpq4VKNB/cx5QoD0qiTWXv5uqceokRb3yrBvQmKF2Et+yoSX4P?=
+ =?us-ascii?Q?edh4G2pCqK0AGSHzi1JDtkzORsCrH4midVmOu1uvDyfhM9oCPYj9FAIcqgXG?=
+ =?us-ascii?Q?+xh6QWZkSLgI1RJ3KOXW6HSxCpu2sVJWGokEaS7tScJU0CTwHkomQVgiMS6v?=
+ =?us-ascii?Q?tBC7TjbRng=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 269edf40-83f0-48e2-9aa7-08de95535aca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2026 09:43:57.0923
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: w8rvtr8YLNEjqjCy99LLystudCeW6+p+UnkWSJTs9gRIuWD/r2/o9hiOeB7a+erVz2bXrwD4umwf7rAowYPdvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR10MB6787
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:30:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234822
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:44:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234823
 
+Please set status for fixed CVEs via CVE_STATUS_STABLE_BACKPORTS, otherwise=
+ they will be still present in CVE reports.
+Peter
 
---=-r4hhACCkh74X9NJKQ17b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Hemanth Kumar M D via lists.openembedded.org
+Sent: Wednesday, April 8, 2026 11:16 AM
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com; Hemanth.KumarMD@windriver.com
+Subject: [OE-core] [PATCH] glibc: stable 2.43 branch updates
 
-On Mon, 2026-04-06 at 15:26 +0530, Sadineni, Harish via
-lists.openembedded.org wrote:
-> On 4/6/2026 1:58 PM, Paul Barker wrote:
-> > On Mon, 2026-04-06 at 00:05 -0700, Sadineni, Harish via
-> > lists.openembedded.org wrote:
-> > > From: Harish Sadineni <Harish.Sadineni@windriver.com>
-> > >=20
-> > > Set CVE_STATUS for CVE-2025-69646 and CVE-2025-69649, as both CVES ar=
-e already resolved
-> > > in the latest binutils 2.46 version upgrade.
-> > >=20
-> > > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> > > ---
-> > >   meta/recipes-devtools/binutils/binutils-2.46.inc | 3 +++
-> > >   1 file changed, 3 insertions(+)
-> > >=20
-> > > diff --git a/meta/recipes-devtools/binutils/binutils-2.46.inc b/meta/=
-recipes-devtools/binutils/binutils-2.46.inc
-> > > index ff10050dd9..dc8b6be03e 100644
-> > > --- a/meta/recipes-devtools/binutils/binutils-2.46.inc
-> > > +++ b/meta/recipes-devtools/binutils/binutils-2.46.inc
-> > > @@ -34,3 +34,6 @@ SRC_URI =3D "\
-> > >        file://0013-Define-alignof-using-_Alignof-when-using-C11-or-ne=
-we.patch \
-> > >        file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_of=
-il.patch \
-> > >   "
-> > > +
-> > > +CVE_STATUS[CVE-2025-69646] =3D "fixed-version: Fixed from version 2.=
-46"
-> > Hi Harish,
-> >=20
-> > According to https://nvd.nist.gov/vuln/detail/CVE-2025-69646, the CPE
-> > for CVE-2025-69646 is "cpe:2.3:a:gnu:binutils:2.44:*:*:*:*:*:*:*", so i=
-t
-> > should already be seen as fixed in 2.46. Which tool is reporting this a=
-s
-> > an unresolved CVE?
-> git branch -a --contains 598704a00cbac5e85c2bedd363357b5bf6fcee33
-> * master
->  =C2=A0 remotes/origin/HEAD -> origin/master
->  =C2=A0 remotes/origin/binutils-2_46-branch
->  =C2=A0 remotes/origin/master
->=20
->=20
-> The above git info (and bugzilla) shows that the commit id got=20
-> merged/fixed in 2.46 branch. And so it documented as fixed from 2.46.
-> And, it is not shown by any tool as unresolved but we see CVE's status=
+From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+
+$ git log --oneline 856c426a753450b8c6861a5b994a564f4fc16d4b..ce1013a197eb4=
+a3b8ff2b07e0672f4d0b976ce7c
+
+ce1013a197 tests: fix tst-rseq with Linux 7.0
+60cabd0464 riscv: Resolve calls to memcpy using memcpy-generic in early sta=
+rtup
+02ffd413cf elf: Use dl-symbol-redir-ifunc.h instead _dl_strlen
+2695314378 elf: parse /proc/self/maps as the last resort to find the gap fo=
+r tst-link-map-contiguous-ldso
+dd9945c0ba resolv: Check hostname for validity (CVE-2026-4438)
+5c6fca0c62 resolv: Count records correctly (CVE-2026-4437)
+2be6cf2e75 posix: Run tst-wordexp-reuse-mem test
+305ce0b588 aarch64: Tests for locking GCS
+2ee41ba6ec aarch64: Lock GCS status at startup
+fa4a40c7d4 tests: aarch64: fix makefile dependencies for dlopen tests for B=
+TI
+9898ea58b5 malloc: Avoid accessing /sys/kernel/mm files
+c3ceb93dc4 Add BZ 33904 entry to NEWS
+911bd469f8 debug: Fix build with --enable-fortify-source=3D1 (BZ 33904)
+48f5a05a7a nss: Missing checks in __nss_configure_lookup, __nss_database_ge=
+t (bug 28940)
+d6cb7ce0e9 Linux: In getlogin_r, use utmp fallback only for specific errors
+140c760d71 nss: Introduce dedicated struct nss_database_for_fork type
+
+Testing Results:
++--------------+--------+--------+------+
+| Result       | Before | After  | Diff |
++--------------+--------+--------+------+
+| PASS         | 6770   | 6774   | +4   |
+| XPASS        | 4      | 4      |  0   |
+| FAIL         | 29     | 28     | -1   |
+| XFAIL        | 16     | 16     |  0   |
+| UNSUPPORTED  | 489    | 490    | +1   |
++--------------+--------+--------+------+
+
+Changes in testcases:
++------------------------------------------------------+--------+----------=
+---+
+| Testcase                                             | Before | After    =
+   |
++------------------------------------------------------+--------+----------=
+---+
+| elf/tst-tls20                                        | FAIL   | PASS     =
+   |
+| posix/tst-wordexp-reuse-mem                          | N/A    | PASS     =
+   |
+| resolv/tst-resolv-invalid-ptr                        | N/A    | PASS     =
+   |
+| resolv/tst-resolv-dns-section                        | N/A    | PASS     =
+   |
+| nss/tst-nss-malloc-failure-getlogin_r                | N/A    | UNSUPPORT=
+ED |
++------------------------------------------------------+--------+----------=
+---+
+
+Justification:
+
+commit - 2be6cf2e75 posix: Run tst-wordexp-reuse-mem test
+Fixes Makefile dependency to ensure the testcase is executed.
+Passing new testcase:
++PASS: posix/tst-wordexp-reuse-mem
+
+commit - dd9945c0ba resolv: Check hostname for validity (CVE-2026-4438)
+Adds validation for hostname parsing and introduces a regression test.
+Passing new testcase:
++PASS: resolv/tst-resolv-invalid-ptr
+
+commit - 5c6fca0c62 resolv: Count records correctly (CVE-2026-4437)
+Fixes DNS answer section parsing and adds a regression test.
+Passing new testcase:
++PASS: resolv/tst-resolv-dns-section
+
+commit - 48f5a05a7a nss: Missing checks in __nss_configure_lookup, __nss_da=
+tabase_get (bug 28940)
+Fixes null pointer dereference and improves NSS handling.
+Added testcase:
+UNSUPPORTED: nss/tst-nss-malloc-failure-getlogin_r
+
+Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/=
+glibc/glibc-version.inc
+index 89be8fcb88..015e7943c5 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?=3D "release/2.43/master"
+ PV =3D "2.43+git"
+-SRCREV_glibc ?=3D "856c426a753450b8c6861a5b994a564f4fc16d4b"
++SRCREV_glibc ?=3D "ce1013a197eb4a3b8ff2b07e0672f4d0b976ce7c"
+ SRCREV_localedef ?=3D "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
 =20
-> is well documented and maintained in kernel-recipes
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-kernel/l=
-inux/cve-exclusion.inc
-> So, We thought of maintaining the CVE's status for toolchain components=
-=20
-> from now.
-
-Hi Harish,
-
-The entries in cve-exclusion.inc cover cases where the CPE is not set
-correctly by NVD. For example, the last entry is for CVE-2023-6535 which
-was fixed in Linux 6.8 but NVD still have the CPE as
-"cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*", indicating that all
-versions of the kernel contain this issue. So we need to set CVE_STATUS
-ourselves for this one.
-
-If the data published by NVD is correct then we do not need our own
-CVE_STATUS entry.
-
-> > > +CVE_STATUS[CVE-2025-69649] =3D "fixed-version: Fixed from version 2.=
-46"
-> > According to https://nvd.nist.gov/vuln/detail/CVE-2025-69649, the CPE
-> > for this one is "cpe:2.3:a:gnu:binutils:*:*:*:*:*:*:*:*". Please includ=
-e
-> > some info/links in the commit message to confirm that this was fixed fo=
-r
-> > v2.46.
-> Ok,=C2=A0 I will add the commit reference in commit message while sending=
- v2.
-
-We do need this CVE_STATUS entry as the data published by NVD is
-incomplete. Please send a v2.
-
-Best regards,
-
+ GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
 --=20
-Paul Barker
+2.49.0
 
-
---=-r4hhACCkh74X9NJKQ17b
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCadYgRBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bkFBAP9EI3kzsdKrp1QJYhfXR77PjMuMvMSR5iSI
-dH2duD3FhwEAqzNyq23KoyUI75sEqfjPzCq0Zag041m7x82yL9x73gc=
-=9rP/
------END PGP SIGNATURE-----
-
---=-r4hhACCkh74X9NJKQ17b--
 
