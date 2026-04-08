@@ -1,234 +1,238 @@
-Return-Path: <Hemanth.KumarMD@windriver.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80AF9FD5F9A
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:17:21 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.102308.1775639835995176046
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E5AAFD5F9E
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:18:01 +0000 (UTC)
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.102313.1775639874757825405
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 02:17:16 -0700
+ Wed, 08 Apr 2026 02:17:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Uxhk3Fpi;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8558433a42=hemanth.kumarmd@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6385loCH3549081
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 Apr 2026 09:17:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=oytNppXFm
-	Z4poq09+AFoFjtDeFzcG9lZzNLy3L7AIsk=; b=Uxhk3Fpi+R8SiZw1ZTrojko/J
-	slFjeS5nZAkP+8oojcr8YfkZkJA/vFzWhqePGEfmF35Ql/8mDit+DthCYq/EdY5U
-	0LH/uVnfIb0uouYW3Gq22itfqQR4u6mVAx6o1nT07wWB6FkK+r8ul4mpkJRyrfYA
-	PayDvStOzGFfwxzHoUj+v7t1EcD8H7nVpy+k2F2NsDMFcyO3zNuWjCicE0Aq3mz+
-	OO0+qsgLSM14z9x4FOa5ULt0e6JKmnbEmcv6HC1+QAtlZu5L88FPudJn/iAlVLvM
-	aNOQDOOV9h3okxfLrl4R6OVsEIdvnpRqmloPGIR9OUzXhcCJIeizqpY7tysBQ==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012033.outbound.protection.outlook.com [52.101.53.33])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dcmrya9ay-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:17:14 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cQ4y+yFmOLm70hqnRqhEfL+3yS7bHNaPm+2dRdcw9wmgCZja85I83WpezfvSNIxLMlzcjFuqcxy/6g0NomQNEf8FDGmY7w3XLOj++SKy9RS1MFL6qBA73zkEN+EtCKmzlyN/4FmU3zJwco9IV8OgMOdWoInMH9CqZKj5G1XSnbLYJqUybxl+yloNpB+gsXgRkwS9T4bwnqElouSJlJ85z+0hS8Oo1cpJM3q7NCserAxsuf9TFtilQEytBHDzrRLqaWUbQ+MhoIi3a8yhB77+Ir1JKIeIfhZlGjN5rt12AVNNxOQ7hk5B59VC3Pz7z4qD/GTeFlmjin4P7h5gmORfNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oytNppXFmZ4poq09+AFoFjtDeFzcG9lZzNLy3L7AIsk=;
- b=Ob4H6GnhtzJaR0BjSNxukDNXQPJlOChs7bEP/Sf/YQIDbgYtsUN+wDwQ1RZDynZCsTMrOPlbGeel0XbLUnXz7Z9RGAAsjqgmzBv5GGoZE4yPiWFILn7sIIsXt+EeO3N8AnRVzfn5JAcZ5lJLwXjkjbS96bA0SEQYL0mdGaqdj/mM5BJjmZo2WjCV2mOpn1txJ6LHoUaR0RzPfiXMWpZgwaXweb5ffTJMwSz1KhkmGjsuJSU/CZ7wM/xZXLrvDo4Svk7Fp+TqIKnj0EiXviXhmvrQzviRbTGnrkW/voKveL2BcqaJKMYUvMKhqoymdwbZHo4rBzGuTOd4q0jNkiY5qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
- DM6PR11MB4609.namprd11.prod.outlook.com (2603:10b6:5:28f::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17; Wed, 8 Apr 2026 09:17:12 +0000
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe%3]) with mapi id 15.20.9769.017; Wed, 8 Apr 2026
- 09:17:12 +0000
-From: Hemanth.KumarMD@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Hemanth.KumarMD@windriver.com
-Subject: [PATCH] glibc: stable 2.43 branch updates
-Date: Wed,  8 Apr 2026 02:16:26 -0700
-Message-ID: <20260408091626.3423299-1-Hemanth.KumarMD@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0103.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::18) To DM6PR11MB4564.namprd11.prod.outlook.com
- (2603:10b6:5:2a0::7)
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=lQHvjwLl;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=iFzEibHR;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.159, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DD4D0140008F;
+	Wed,  8 Apr 2026 05:17:53 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Wed, 08 Apr 2026 05:17:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1775639873; x=1775726273; bh=t4UMziXJlS
+	LRHO4aIKKG4HBCyVY06QOmQOPXq5GDN5Q=; b=lQHvjwLlnPusdANGHusghYlLPQ
+	Pzr3vAdGmJgGd2vxK60SwHwgGks4R78ZqaDJslNq9MoiZ7d8FBFOjBbqd32jFPwc
+	HmBiP6ut93KC132cFZepJP029ooxCcquDNdNVvQynvAcj5ud4vH4apDvW2hMCwIs
+	toaJ3sHaNVYTW4GM7zEv51/q80EE6vtFjDysyFD1q2qDoEUCn69b7TCN8dVIi77R
+	TSPcnV1v3/cpWq/DVTLphcmV9WGXX2JnTCK4m/9/dhOfJe5beaixRMQh36nbjSd2
+	PXFi5vv9EyQU2Tyx6aTTvK+DVkkchklH8/ot06mKZXCGdQxJBGd0R0uImyEg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1775639873; x=1775726273; bh=t4UMziXJlSLRHO4aIKKG4HBCyVY06QOmQOP
+	Xq5GDN5Q=; b=iFzEibHRCr89xnsE7w9NLNlHYAu6L3vRhqHJ+DDNhU3huGlVzo7
+	hhGsZguGml+D62eEOhhEPdTuKBbjgITqiL5D7cDUJmvSzCfz8lT98rqG0DJCnnm2
+	2vstO6VCV4hFQJPXxBWGcIBIpi+n+tNOrxVL/65GKgi0OYgTkf3Qb/Il7udJh/Xw
+	p3s6DKNSGoi08BrHPFh2fd8PmPVet3BDfzDYgl2MLCv7ZPMKYPX3nT8MBKLUtzmt
+	OnSW4T1k9LgNURHwEOzDqjBOFzflXYx03lO7+4J173iajL9mquww/EvtIAH0GpKU
+	mYM92ftgnrJdRccRTGRE/aX7052UDMMOHGg==
+X-ME-Sender: <xms:QR3WaWNj0moJogLYW9swKIisXX4ZenrPERmh97wioRW5awxGxd90nQ>
+    <xme:QR3Wab8DUl1e_-PJe1OaCZ0ytH_mSm9K9SBkM7I6t1ion-97w3osCI92Qy22ERYOY
+    AcAT0CnFujTJFYTEX3mUO6Wye5mjCSdK_1Nu9U19RygyOdBwXFSHA>
+X-ME-Received: <xmr:QR3WaSRAR-8hkMhAPE7STWWH4LHjZXK0OJO9ulVyRjTr3oXn8YBZPFRB17iyAMkpwsDJL5H1Ez4bIjslr9vcKDzC4_O5izHdjzYiLDs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvfedulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkuffhvfevffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegr
+    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
+    etfeetueelhfevveevvddtveegtefgfeekveduueduteeifeekheffueeljeefvdenucff
+    ohhmrghinhepuhgrphhiqdhgrhhouhhprdhorhhgpdifkhhsrdhinhenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgv
+    rhdruggvvhdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpth
+    htohepphgrvhgvlheslhhovggslhdrtgiipdhrtghpthhtohepohhpvghnvghmsggvuggu
+    vgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpth
+    htohepmhhitghhvghllhgvrdhlihhnthholedusehgmhgrihhlrdgtohhmpdhrtghpthht
+    ohepmhhikhhkohdrrhgrphgvlhhisehlihhnrghrohdrohhrgh
+X-ME-Proxy: <xmx:QR3WaVm1RhchL8qPvnPZThcxyZ61514MlBQFu_nAzhvXMvJFarIvyg>
+    <xmx:QR3WaaRiVnloS0qoY1yhRAvmRLg9tNTYsRh9S2wAzP7Qtp_PvQIg3w>
+    <xmx:QR3WabOlLbxCuG-fgUmoaiScSgObJFYsjFFVurhG3PQfn-IeELm0iQ>
+    <xmx:QR3WabVyPaW6rBqqxpnDvAKiTHXPXM24FRV2VnRlPuZTGR4XhFcWag>
+    <xmx:QR3WaTpElPDy_J3hrGgDH5dfwp9UkGPQ6C0m28ejEmKIcG2-VR285lb8>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Apr 2026 05:17:52 -0400 (EDT)
+Message-ID: <17687058c3431639fc23a772f4c9c959a2707964.camel@pbarker.dev>
+Subject: Re: [OE-core] [RFC PATCH] uki.bbclass: add multi-profile UKI support
+From: Paul Barker <paul@pbarker.dev>
+To: Pavel =?ISO-8859-1?Q?L=F6bl?= <pavel@loebl.cz>
+Cc: openembedded-core@lists.openembedded.org, Michelle Lin
+	 <michelle.linto91@gmail.com>, Mikko Rapeli <mikko.rapeli@linaro.org>
+Date: Wed, 08 Apr 2026 10:17:49 +0100
+In-Reply-To: <ac9y4JKHSQEMsNo8@alena.lan>
+References: <20260402202616.3177283-1-pavel@loebl.cz>
+	 <96d932f72af422a6509ac9e6e92a979b75f2f5e7.camel@pbarker.dev>
+	 <ac9y4JKHSQEMsNo8@alena.lan>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-CbcADEB0oYWpqiFx7lkx"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|DM6PR11MB4609:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5973c18-674f-4715-0a77-08de954f9e43
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	0zb/sXuPSFx/15UBJII/9l0U8l11hs6fV0ePvx/p/kdG3LkJwaajBHsloRYIGgKdCGgsc2TE2+EcuA+ewthL6rIt9QKckntjMFI1QKbcSRJcm80a5lsB7gqDfw4mrWW0h2Is0h+yAGt3Pf/WSB8iayQb3HMP4OS2djciljviJAV8ZOULPRz9PNHWab6QgidZAFflW6jIHLQoySWjcPALSc/OSxumAqJoRG4lUL9KqQMGf7qlFlQOV1bqC3sWzpguflSAZpvW1L2r2z0X9gQPw8R26rO4LarC76nz+mq62YEFIzXLfp8NHQufR4TKA5LLEYFyUwCEZy1mGbNQrIQWMnGRARWz7iP1lXZdeARo+fG9aApKF2UxElqnoHnNcl9og9gNeOCL3xABG1foxFUAQkLnlnPd+T197afmaH4U5yfiWExBZti6PkGdfM2I4McS3mN2pgSQQo82klpNEW0m70vD94nZEP5ey5LzcjSWURi5Pflds5r0hapTCP02eVmGLmpQgVoxncGnKCFt2rfJvMbazghrOvxrVsjoqbOEM6iFiJg0/IaMLV8sJqEXALMhC8F0wdOyoYuYmLCbPDKLZRGWX1uJOGWgFPFlvRJw5viXt/2sbto2nULJvxESkqlFoFLQVTDmEzOvZrbNar0jkbZO2bOt0jvosgGKabZIZXg21HkjoA4rSZQyMulzfy/rXnfVXCEPhdVdai+tFxMDa3j0J1wWUKk2vIjIF/iHONt7xQuCaZgh6psX4SK5wcl2w05z86Q38EKSSrdbAOU7yaTyS9ENXYHXe1THRKF37GQ=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?4DfXImFUCDjnRqbVRNKgA7WpEct+tSW3rvV1SFZcIy682G8cNM51SWluhIEJ?=
- =?us-ascii?Q?5mnZzGC9afViE1WR7fht9QHLb9/Zj1TVqQm01U1Im518UyiieLfVpgF+XUok?=
- =?us-ascii?Q?keQyrFT+/fDrrhvk6Q/XH6G42s+5SJ9Pe4JVODbkiZYcUt0NaFxVDHMD3VxW?=
- =?us-ascii?Q?TLTiHeVMOT2YVAlOmJYck99ZPO2nY2UYGcjG6xytF4Ym9hQ16hDmCjwm4gyI?=
- =?us-ascii?Q?GxABdFHJO7I8gjDV1+UTQkBXMGYyVtBPIQG6ZctM3ZYIMC7RlSHXE4ubwJjE?=
- =?us-ascii?Q?7ssJOUY+Nef69waeXBKo5kfTiU2//xZHAPWgYuaxffb2THiT7c2frHikngj/?=
- =?us-ascii?Q?1hFLpoFOiXfkrZef5wualyYGjhS7p7u24VQXMQAoU8zjK9PGw85v3hUu7hAl?=
- =?us-ascii?Q?4/LXoEeVArqJmzXYASDf+4auTnpIDP91VwPWuJ1GNTjJ8aOh1BQTlD84+BDy?=
- =?us-ascii?Q?Et7niGd75znSYubNboRQDO+YYRgZPZIOrnfnty/gqYCr4pwKNnaUK1w1QjJb?=
- =?us-ascii?Q?XIE2ECssHecLVw44WjP4VOblpKDE/7D34/dF3Zwo8xk1XN3ZcD4ZuDjAFsAM?=
- =?us-ascii?Q?wqQ+xfVZl5h6h+1BkLDDK/BwJ9c6pEFYT+erF7ECnQWPZJUaY/aYaX5JVB+w?=
- =?us-ascii?Q?kYeCG71AfaeQqj2A76OrQ+HrXApParIGl6oMv1y37emonmTLSyn4a10ZoBU+?=
- =?us-ascii?Q?pzCC3YfIS4bamC76NCg5aEDcOCMhVMy+llI41DZmnvTHxRkwZIV0uUv+C+2m?=
- =?us-ascii?Q?/a9q6/8X5L+yFINPBJn8N0jjiC5UKfQOHwxqu2D5WxHQUBm2bOG4CMuRDmq2?=
- =?us-ascii?Q?QjTDHvzvABwjdniLy9ToogoUfJQYFfZPvifLP+5j3wn5tAUeeZZlmpLa+/ok?=
- =?us-ascii?Q?Raq2tg6Cv5/xdGBfGEUGjamIzJbt/CNvMV8AhwiFq1O20nloqQlR2n73Kf+e?=
- =?us-ascii?Q?NXjs0nHPWjsiGgt7Tf9C0l6Cj4T4owhoNxOLgQECtwNpK/u4gMFhPWVoPpjr?=
- =?us-ascii?Q?7fCQjJ/esFCiPj0b1FGQ8JLBmShXl0sRzdN9eApId+7uE9y5+yZPcCEUZ2MS?=
- =?us-ascii?Q?oUhxzWqiUvSxkQOlrQ6ScWXg5x1brFS78ayWLzI995XkmnTXwUXKLIjRyi3j?=
- =?us-ascii?Q?ehb1pFSzVjpStlW/XAQqZUUZl/cBUrkjKZq4kTChVEqkL3VbovLIxSXgI6ua?=
- =?us-ascii?Q?kX8OeqRqgGywuyDEv0JLv3G/to+FjEK6axLSj6xoxReM7KzmVFdAJZTNiFzZ?=
- =?us-ascii?Q?/eeRpPWaRsyetNFL78Cxer+R68pl1m/0WAOX+ZFFKz2QWhfvsEcxmw9q85Z1?=
- =?us-ascii?Q?RBNMpLEisMX6AFHeHwSF8ZVAw2iy3NrFVW8o5koMZQhNdS/5hWfhIAS3N6FE?=
- =?us-ascii?Q?lJ6cXmEm7G17NN4XSkLYf7x8ccYOkPbp2dmRZQMIRsk9flymVHXVGy08D1rm?=
- =?us-ascii?Q?N4wvNwdd9qLrlOK1JTXDIa9nccljFZvK+TrUOgSQTYfjn1DAC4EC3nZz85em?=
- =?us-ascii?Q?j1bCY9vVRghO7ZdVXBB7p4AGOX5CAsExqxbdGrKgtgLNoyaDYk7trOeN32f0?=
- =?us-ascii?Q?mErOpUHJYfHlNQf/bvXkJaPqmDSNVQa+B56OjburJpNAMcvAkTpybg66Vs2b?=
- =?us-ascii?Q?JndtdISbqB+tz1EvD5wlcUrdSwcEIZlP5ryBYbtMZTa1Fh+AUt2cHK4QqoTq?=
- =?us-ascii?Q?myq7HcKIOM/mZ/d3PGkj3BqAsYCXhrQrtIYCuLPeZnGcd78DWWPONmc6dq2D?=
- =?us-ascii?Q?qgMzXvTpIvljg7VCdsfPkB7NYPAX4qI=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	LMLyBEYTKAbueRbkpikvycqN0HunZCHIHcCmrNBnz1qbpks0woRzRh7CjT9mGTH87EUSfz6VN8lTqqe+ivFbBh8rayTzR08ANmDSAGhUeK+5qoAgDk1qN7oxcf1n7tAiTgPKt1eip8eRVPe/RfT1W1gnI59D4ActSbT0EoiXa6eiDzxFfdIhIsAdXi06NxuA95hQlKgEvSeic5gaq6G6cDcczgMZeHB+p5uLq/j+1P8s1W/Br/H2sGhdS+z38UEInyhCufHuKn3QUb6+eOB4sMAAmTBYuuJRySByCOD75KaUOEY3/4tm+wtHxc2PYTGaaJB6QYUvFwGQXgPAXxIFZA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5973c18-674f-4715-0a77-08de954f9e43
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 09:17:12.4364
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vv27UZj3pqc5hKJcPHtm/8xeozHc+8/km+ekvGTDr9UJN/O4Pm/X17KHE3J1DI3C+kUFU03hWbsmCGaeUaa6/cNgPOEB7iDwHyjVnQVf+lE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4609
-X-Authority-Analysis: v=2.4 cv=QoduG1yd c=1 sm=1 tr=0 ts=69d61d1a cx=c_pps
- a=CgODY3tvNtn0KPtxrBvszw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
- a=CCpqsmhAAAAA:8 a=VcIyrTtR81g1xV8FCIkA:9 a=FdTzh2GWekK77mhwV6Dw:22
- a=ul9cdbp4aOFLsgKbc677:22
-X-Proofpoint-GUID: saqbqSZ2d-NeJOww-mA3Xx6NHBjHhW40
-X-Proofpoint-ORIG-GUID: saqbqSZ2d-NeJOww-mA3Xx6NHBjHhW40
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDA4NCBTYWx0ZWRfX165t096dy1sa
- giR0lgKN1Gbh+QC0CNijbCgYfKUXXutXWyVfP0Q1eOT9iy9DSQZFKsYN1oQaUcLLRkM1Lt3967t
- Go7Hac2cg7Cf94B266o+HMctDr3CHAI00MSL2QgdDKUP3wjqKlJazlWewWmP2gQQSbitM5ymopM
- 2dals2nqVN7FNkn/RRleeAfpgJsJywr26QQsAx/NH2ueNFOq/MalJ6bC6NUoHBxzs/Azpo8SwtP
- WNftqf9eK6R+HGuSy3nv2S5+s2WuVMn4K8SvT4fuNADumpnQq0p6lAiUz/W2xRMdjFb3smU0gVN
- IQdFC3Row1TWId43WRptnOSzLid/WQ43EYkNmWDZWr93tcMp8OCaDoFyGaB6hj+okM8pNaTHTB+
- +VVQs8lsTFchraM3U21iVk09LbhTUxNWyGrBw0XumFuR80oIlhYGAwSk5vSfSJqr5gTQ/wrtyuA
- 9apv/UMnnYP1DHYE/5Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-08_03,2026-04-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 impostorscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 phishscore=0 suspectscore=0 lowpriorityscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604010000
- definitions=main-2604080084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:17:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234818
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:18:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234819
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 
-$ git log --oneline 856c426a753450b8c6861a5b994a564f4fc16d4b..ce1013a197eb4a3b8ff2b07e0672f4d0b976ce7c
+--=-CbcADEB0oYWpqiFx7lkx
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ce1013a197 tests: fix tst-rseq with Linux 7.0
-60cabd0464 riscv: Resolve calls to memcpy using memcpy-generic in early startup
-02ffd413cf elf: Use dl-symbol-redir-ifunc.h instead _dl_strlen
-2695314378 elf: parse /proc/self/maps as the last resort to find the gap for tst-link-map-contiguous-ldso
-dd9945c0ba resolv: Check hostname for validity (CVE-2026-4438)
-5c6fca0c62 resolv: Count records correctly (CVE-2026-4437)
-2be6cf2e75 posix: Run tst-wordexp-reuse-mem test
-305ce0b588 aarch64: Tests for locking GCS
-2ee41ba6ec aarch64: Lock GCS status at startup
-fa4a40c7d4 tests: aarch64: fix makefile dependencies for dlopen tests for BTI
-9898ea58b5 malloc: Avoid accessing /sys/kernel/mm files
-c3ceb93dc4 Add BZ 33904 entry to NEWS
-911bd469f8 debug: Fix build with --enable-fortify-source=1 (BZ 33904)
-48f5a05a7a nss: Missing checks in __nss_configure_lookup, __nss_database_get (bug 28940)
-d6cb7ce0e9 Linux: In getlogin_r, use utmp fallback only for specific errors
-140c760d71 nss: Introduce dedicated struct nss_database_for_fork type
+On Fri, 2026-04-03 at 10:38 +0200, Pavel L=C3=B6bl wrote:
+> On Fri, Apr 03, 2026 at 08:47:17AM +0100, Paul Barker wrote:
+> > On Thu, 2026-04-02 at 22:25 +0200, Pavel L=C3=B6bl wrote:
+> > > Allow generating multi-profile UKI [1]. This is quite usefull for
+> > > dual slot A/B deploymets with secureboot active.
+> > >=20
+> > > Currently only .cmdline sections are supported. But can be easily
+> > > extended with others.
+> > >=20
+> > > [1] https://uapi-group.org/specifications/specs/unified_kernel_image/=
+#multi-profile-ukis
+> > >=20
+> > > Signed-off-by: Pavel L=C3=B6bl <pavel@loebl.cz>
+> > > ---
+> > >  meta/classes-recipe/uki.bbclass | 48 +++++++++++++++++++++++++++++--=
+--
+> > >  1 file changed, 43 insertions(+), 5 deletions(-)
+> > >=20
+> > > diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uk=
+i.bbclass
+> > > index d16f3c95561e..c2d21304c793 100644
+> > > --- a/meta/classes-recipe/uki.bbclass
+> > > +++ b/meta/classes-recipe/uki.bbclass
+> > > @@ -59,6 +59,17 @@
+> > >  #   - see efi-uki-bootdisk.wks.in how to create ESP partition which =
+hosts systemd-boot,
+> > >  #     config file(s) for systemd-boot and the UKI binaries.
+> > >  #
+> > > +#   - to generate multi-profile UKI (currently only supports .cmdlin=
+e section)
+> > > +#
+> > > +#     UKI_PROFILE[0] =3D "TITLE=3DRecovery boot"
+> > > +#     UKI_PROFILE_CMDLINE[0] =3D "rootwait recovery"
+> > > +#
+> > > +#     UKI_PROFILE[1] =3D "TITLE=3DBoot from slot A"
+> > > +#     UKI_PROFILE_CMDLINE[1] =3D "rootwait root=3DLABEL=3Droot_a"
+> > > +#
+> > > +#     UKI_PROFILE[2] =3D "TITLE=3DBoot from slot B"
+> > > +#     UKI_PROFILE_CMDLINE[2] =3D "rootwait root=3DLABEL=3Droot_b"
+> > > +#
+> >=20
+> > Hi Pavel, thanks for the RFC.
+> >=20
+> > To make things easier to debug and to follow existing conventions, I'd
+> > suggest:
+> >=20
+> >     UKI_PROFILES =3D "slot_a slot_b recovery"
+> >=20
+> >     UKI_PROFILES[recovery] =3D "TITLE=3DRecovery boot"
+> >     UKI_PROFILE_CMDLINE[recovery] =3D "rootwait recovery"
+> >=20
+> >     UKI_PROFILES[slot_a] =3D "TITLE=3DBoot from slot A"
+> >     UKI_PROFILE_CMDLINE[slot_a] =3D "rootwait root=3DLABEL=3Droot_a"
+> >=20
+> >     UKI_PROFILES[slot_b] =3D "TITLE=3DBoot from slot B"
+> >     UKI_PROFILE_CMDLINE[slot_b] =3D "rootwait root=3DLABEL=3Droot_b"
+> >=20
+> Hi Paul,
+>=20
+> the idea was to use the same indexes as firmware will be passing to
+> stub. As multi-profile UKI only supports numerical ones (actually
+> it's just the order in which they appear in PE32 binary).
+>=20
+> In your example user would have to pass @0 from firmware to select
+> slot_a, @1 for slot_b and @2 for recovery.
+>=20
+> I have no issues with that, just wanted to make that clear.
 
-Testing Results:
-+--------------+--------+--------+------+
-| Result       | Before | After  | Diff |
-+--------------+--------+--------+------+
-| PASS         | 6770   | 6774   | +4   |
-| XPASS        | 4      | 4      |  0   |
-| FAIL         | 29     | 28     | -1   |
-| XFAIL        | 16     | 16     |  0   |
-| UNSUPPORTED  | 489    | 490    | +1   |
-+--------------+--------+--------+------+
+Ah, this makes sense. I agree that keeping the same indexes as used
+during boot is the right design. We want to avoid trying to figure out
+how many indexes to expect by looping until we see an error though. So,
+perhaps:
 
-Changes in testcases:
-+------------------------------------------------------+--------+-------------+
-| Testcase                                             | Before | After       |
-+------------------------------------------------------+--------+-------------+
-| elf/tst-tls20                                        | FAIL   | PASS        |
-| posix/tst-wordexp-reuse-mem                          | N/A    | PASS        |
-| resolv/tst-resolv-invalid-ptr                        | N/A    | PASS        |
-| resolv/tst-resolv-dns-section                        | N/A    | PASS        |
-| nss/tst-nss-malloc-failure-getlogin_r                | N/A    | UNSUPPORTED |
-+------------------------------------------------------+--------+-------------+
+    UKI_NUM_PROFILES =3D "3"
+    UKI_PROFILE[0] =3D ...
+    UKI_PROFILE_CMDLINE[0] =3D ...
+    ...
+    UKI_PROFILE[2] =3D ...
+    UKI_PROFILE_CMDLINE[2] =3D ...
 
-Justification:
+How does that look?
 
-commit - 2be6cf2e75 posix: Run tst-wordexp-reuse-mem test
-Fixes Makefile dependency to ensure the testcase is executed.
-Passing new testcase:
-+PASS: posix/tst-wordexp-reuse-mem
+Thanks,
 
-commit - dd9945c0ba resolv: Check hostname for validity (CVE-2026-4438)
-Adds validation for hostname parsing and introduces a regression test.
-Passing new testcase:
-+PASS: resolv/tst-resolv-invalid-ptr
+--=20
+Paul Barker
 
-commit - 5c6fca0c62 resolv: Count records correctly (CVE-2026-4437)
-Fixes DNS answer section parsing and adds a regression test.
-Passing new testcase:
-+PASS: resolv/tst-resolv-dns-section
 
-commit - 48f5a05a7a nss: Missing checks in __nss_configure_lookup, __nss_database_get (bug 28940)
-Fixes null pointer dereference and improves NSS handling.
-Added testcase:
-UNSUPPORTED: nss/tst-nss-malloc-failure-getlogin_r
+--=-CbcADEB0oYWpqiFx7lkx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 89be8fcb88..015e7943c5 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.43/master"
- PV = "2.43+git"
--SRCREV_glibc ?= "856c426a753450b8c6861a5b994a564f4fc16d4b"
-+SRCREV_glibc ?= "ce1013a197eb4a3b8ff2b07e0672f4d0b976ce7c"
- SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
--- 
-2.49.0
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCadYdPREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bv9PAP94zKbo/60/T6sNMVYJVh2VIOHLlwPEBix9
+J45VX/VAUgD/RXEMkTUlcqCsLll7H5xV1tyrxoITvosGsNDYgqYj/gY=
+=6aLA
+-----END PGP SIGNATURE-----
 
+--=-CbcADEB0oYWpqiFx7lkx--
 
