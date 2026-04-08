@@ -2,90 +2,109 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 368BD10FC44B
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 21:45:17 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.117926.1775684716120511194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3867310FC44B
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 21:47:47 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.117978.1775684858566953213
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 14:45:16 -0700
+ Wed, 08 Apr 2026 14:47:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ehwPqvNy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso2180735e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 14:45:15 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EOdAiIgR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43d17bb1c65so93663f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 14:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775684714; x=1776289514; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vu63C4/cOvK2kafco9rS4JYepZPQjiOZ9Gc8P4xX21M=;
-        b=ehwPqvNyOWmNVl1z0UpFWEqkLdyKoPYVatO/xxxvjCaweChfap5ynIJsxF3CVc5dsa
-         q5wkf89U3Y5bdGakkAihwsya+PZ1NYepqsQj+aLFV1CK8bbEENoFEBekk9rQ43rgu7uj
-         YiGFhbTQwHyd+xxvn9fkV2LZibvlwt/EcqlvE=
+        d=linuxfoundation.org; s=google; t=1775684857; x=1776289657; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N0Ys7LE8uoQsMtMA0tmfcmODsYjtjJukczpJQgrEuaE=;
+        b=EOdAiIgRlO5tKArTi0HG1tBfUZqT7soBTl2zvQdGvLZvpdxTVtpBXrdm3d3rLU7UQN
+         /yXk5JO+2HCiSk1N95EsvRKSeJ+r09Yl8oGz5zbFz1gyvlhm4guNehUOxbRO1sdD7CUC
+         dv+1+tE/DDjbaftcMHq+LpMAurBREUSsjX9Mc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775684714; x=1776289514;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vu63C4/cOvK2kafco9rS4JYepZPQjiOZ9Gc8P4xX21M=;
-        b=T7BD++jix9St+OlMvAccKxOp51rbHAYBziRi4oZxwb8Bp3XSCs8Vfg1EdwNnQ6PVbn
-         HMigICyXhamHWZKmOuU39WggOQo5Q4G7CIoy6mJG0lyLhU/KVTZSyw3WJw6QATCucV46
-         06uFg/o/W7OSvQDTdeAIsF2PNS0qiq3Ev4M5F5ByT0TUpSY2k2nm6xkzAn+hNMTk5sR1
-         BS583A4yonZLZEsJ3v8c0R8Q5pH8U2Z8AgmKp4QB4Mwm7LIUv6doPiy3+QVzVQxdUrQK
-         GrcyXpDTVsR7mcmEBP63VQVJo2YZGWYceUxYN//nxgaJncGAgRBoN8rz6mUmSkEUgdLi
-         ie3w==
-X-Gm-Message-State: AOJu0YwZXp0G4KbyEhXxeW64mCbK0Vbiqd8BxCB3s9G6HzSVkhVBWZbl
-	hAt3E/qns/shtXXUy9imdpaNsAOx8Z5I6tGE8E+7y9axAg2pAmJkdYFG6tVCNgTH9rkoD4lj8Ae
-	k+12MvBI=
-X-Gm-Gg: AeBDievW3MhrgWi0g3HcmJiQkdL14lA2v3luy+z9jd9dOTeMXCmVyza4aCLLQyDEaq+
-	fkLP609m5GEgL3aPOA0Z4xpyESclql3tAZsIDZrr4zBjCs9vCyfYbfERWjJfZ+083HAXAhNM66b
-	8pvTciQ9Buuc9YWshIp0Qs2z01nCXXFLUy0X2EFdzKg8i5nMysazweYP5DixavzsM6G1ArLYjyt
-	YOwrQl9xcx8XE+kwJ596QrrDVVv2dN23UXKAMUiJWW80Ri1Fy6EHBbhtl/BLcvg9kgF5QnLjMNK
-	bzR2tDNTr4T+YHyXcYanLwaZU3nEnjtwVSBpmsASisu4kbnLvHKNOpVt8SycudJVQv7NIuuuOh/
-	nnxNMZX5cxgweuSnpJmOtXkFifO+FxBdABBthsEdt/cnC/UFE4fVOlSRjmAZitVajjDnMFHS1wt
-	JtNCnwPPC6iPGUT9d+1qfq4GibAFgcqoCX+YXgBi/vQ7O1LSh0bHw=
-X-Received: by 2002:a05:600c:1d21:b0:488:c6e9:1e0c with SMTP id 5b1f17b1804b1-488cd5282demr13350865e9.5.1775684713953;
-        Wed, 08 Apr 2026 14:45:13 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:530:d4f8:22df:8c0d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488cd19ea6fsm20415035e9.2.2026.04.08.14.45.13
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1775684857; x=1776289657;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N0Ys7LE8uoQsMtMA0tmfcmODsYjtjJukczpJQgrEuaE=;
+        b=GP5OOUehC9imSU7Ic8lyf/WitWPEQgaXOZWtVZWUzkTXpC6dCZW95ILDmEUdsEYvtJ
+         4m4e9kjiGJPvJyTKnsXIEDg7zpRzSoMkbl9pvBexRypuXMTY8lXcwx6Hh6kqCTcrfdK2
+         u0Ax1dJVM5GVKZseqLHB/esFN78z8i6syy/3UL3bdS2llirz0OEA6ArV+odvyKYIf33X
+         W/4aUjRjggCHjnFHD8zE7fGY8hegRSWOxVAbqmb6C0d7vS71E9l1zMHuqB2kdHKGv3Jg
+         g6cTrU+Abf+nyH/LDAfpvUyE4BZnffEy/l5S+fbRpsnKU5Zwf9R9ReP0695++mOu0UaQ
+         aazA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKBrXTolWG/fRnzQkJSayw0gDp2dlZ0YBhPzN6q8IJxdyNkOl/tupEyzuQrZX/KKkNEEpFnEnnZYBaj2H1UrMDZg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxzY93gfY96qNXkR/DsciyJ2V9Nw5PrQ7KtzrOFEuXX5UvsHMLq
+	sOi6VjjTC76QnDHlR7qRXLJJDVhrReDGAxyGJ7sPPPBDoyeGtk5op4e+v4tGWF669BiX8DEqpck
+	crPlFrr8=
+X-Gm-Gg: AeBDieseMORddFHwP4Xu2OqDNr75Knz1T7obrG7r8dzlB635ByBRWelCcA7loK3E3HD
+	BOB4fQJGLkVzm/4ue4ZJ+UnvjN+5xaXdBbt6y9rDcGN4h081PUxe5htsqqQo/+VIYv3iX6aKQ0M
+	6bySETbaT55jDesWR8d+qFdyUXmDirZOBijMde5q6umnxK/zaLe0tFktPly29ojF0UWlS8O6PIt
+	HJapDwUFk3jUt9JMpToWeyHkpMaL2q0QQ1gxO3QTF1WU59QiA6jVJDUMxzHSD5a8qnl6NQWBFhM
+	zDGlvsawKqBNO07sBc7+UT0yiym1pm/6TunpLJsv6ME9ioZXb5rpMfU/1dkyLKcSfIbK+zzOou6
+	7HugiyDtd/PWRwp9/YFDXZbrR5JDS5tGWNMf3i4NDV8ucTOY5gMTYA65b3z8l0vt4HuIB7F9Apj
+	lfvivTXRCyISIcT1ZyOZ95GQDIYw0BIesQ4iXpyYyuM0c32aCwDUNClKY7tdGO8VOwgjPCzeLOP
+	3LoF3L2RVkLbA==
+X-Received: by 2002:a05:6000:40d9:b0:43b:a21e:9c19 with SMTP id ffacd0b85a97d-43d292e285dmr33352993f8f.38.1775684856674;
+        Wed, 08 Apr 2026 14:47:36 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:530:d4f8:22df:8c0d? ([2001:8b0:aba:5f3c:530:d4f8:22df:8c0d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a7223sm57685578f8f.5.2026.04.08.14.47.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 14:45:13 -0700 (PDT)
+        Wed, 08 Apr 2026 14:47:36 -0700 (PDT)
+Message-ID: <1acc463784821951790b0a3cf3ee23a6b02aaa68.camel@linuxfoundation.org>
+Subject: Re: [OE-core] why would ASSUME_PROVIDED recipes be built anyway?
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] recipetool: Recognise https://git. as git urls
-Date: Wed,  8 Apr 2026 22:45:12 +0100
-Message-ID: <20260408214512.2072618-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+To: rpjday@crashcourse.ca, OE Core mailing list
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 08 Apr 2026 22:47:35 +0100
+In-Reply-To: <daa91ca5-ef8c-bb83-7079-3d03ace27a8a@crashcourse.ca>
+References: <daa91ca5-ef8c-bb83-7079-3d03ace27a8a@crashcourse.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 21:45:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234865
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 21:47:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234866
 
-If a url has git. in it, assume it is likely to be a git cloneable url
-and should be treated as such.
+On Wed, 2026-04-08 at 06:33 -0700, Robert P. J. Day via lists.openembedded.=
+org wrote:
+>=20
+> =C2=A0 puzzled by something i just noticed ... the documentation for
+> "ASSUME_PROVIDED":"
+>=20
+> https://docs.yoctoproject.org/ref-manual/variables.html#term-ASSUME_PROVI=
+DED
+>=20
+> clearly suggests that these represent recipes that would not be built
+> as they are already on the host, the example given there is
+> "git-native".
+>=20
+> =C2=A0 however, in a walnascar-based build i just built, native recipes
+> that were listed in ASSUME_PROVIDED were built anyway, even though
+> they are clearly on my Debian 13 host, "git-native" among them. in
+> fact, a number of recipes i checked appear to all have been built from
+> scratch, despite being listed in ASSUME_PROVIDED.
+>=20
+> =C2=A0 as a test, if i then tried to "cleanall" such a recipe, i got the
+> perfectly reasonable:
+>=20
+>=20
+> $ bitbake -c cleanall git-native
+> ... snip ...
+> WARNING: Explicit target "git-native" is in ASSUME_PROVIDED, ignoring
+>=20
+>=20
+> is there some reason that something listed in ASSUME_PROVIDED will be
+> fetched and built anyway? is it a version thing?
 
-This allows us to switch from https://git.yoctoproject.org/git/XXX urls to
-the preferred https://git.yoctoproject.org/XXX form.
+Some of the recipes have a PROVIDES for XXX-replacement-native and you
+can build/depend on that.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/lib/recipetool/create.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index ef0ba974a99..adafaba47e5 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -368,7 +368,7 @@ def supports_srcrev(uri):
- def reformat_git_uri(uri):
-     '''Convert any http[s]://....git URI into git://...;protocol=http[s]'''
-     checkuri = uri.split(';', 1)[0]
--    if checkuri.endswith('.git') or '/git/' in checkuri or re.match('https?://git(hub|lab).com/[^/]+/[^/]+/?$', checkuri):
-+    if checkuri.endswith('.git') or '/git/' in checkuri or re.match('https?://git(hub|lab).com/[^/]+/[^/]+/?$', checkuri) or re.match(r'https?://git\..*', checkuri):
-         # Appends scheme if the scheme is missing
-         if not '://' in uri:
-             uri = 'git://' + uri
+Richard
 
