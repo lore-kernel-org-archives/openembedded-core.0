@@ -1,71 +1,219 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 077B710FC446
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 21:34:57 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.117718.1775684091401396468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3765310FC448
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 21:43:07 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.117873.1775684578240101422
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 14:34:51 -0700
+ Wed, 08 Apr 2026 14:42:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=hr00tiai;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=am3XGo4dNr1enmacP4LHcNd9kKpP2f1T06/SlJOdjlY=; b=hr00tiaiizpk5zZ2Fd6hGcoX3s
-	gAEX+WYI7y5puUKzQzf3efssZMslojQhlw70PMc8Qx8BO1LSzKqmHyCEoy0cSuwNyL12rKKg2kTOa
-	HBe8U6rrmrLe9xxL0s50+MeFkzl1KwWRce2Ncp9GD0kXA1C/u2p4gGJmp2drPLe+rhXDnTRuvzZnX
-	FvjedVEtnFUrDFgtItP001BbxSnbHF8GnpyTgntipjdoj2wKzrGJoawFnQD2ARq0Si0x0ZXF4AX9Z
-	fjCfBP3yR6ZxJUc5TpH4AMChlzJnu1kwuaa3M5wQzartM4BLOAm4g7vnHAd2o+lY5s+MbRCwIPHka
-	ei8CyFiQ==;
-Received: from pool-174-115-41-146.cpe.net.cable.rogers.com ([174.115.41.146]:37668 helo=rday)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.1)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1wAaXw-00000003LnM-0tMu
-	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Apr 2026 17:34:49 -0400
-Date: Wed, 8 Apr 2026 17:36:07 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: does KERNEL_MODULE_AUTOLOAD work?
-Message-ID: <f97ef6fb-ed8e-e8bc-3912-32999b0b08c4@crashcourse.ca>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Y4ZYIxvW;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20260408214255fb250c6024000207ab-xs7bpu@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260408214255fb250c6024000207ab
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 08 Apr 2026 23:42:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=DwH3ipPMojMgPyxbWPo8AHZnzlWO7eqjKbuX/AObtq0=;
+ b=Y4ZYIxvWPnoHOwU8NixT52M/+Q5ARik7ofYMgiIZdI1i9acfNbrTB9EFtWe4/MGMk7scIl
+ DTNvdEG/9KxnHLN8NNlMIqIc/sQCzlgQHEEhm5268N051D0q6oONxUdedtAdR4n18koTUDPu
+ Q84kdxt1kFBlQQB1T9mIrih3zbQxcVS7mchh2XomW5etreB6BITGor+6/A7JdUN2ViCKTPEg
+ eImmnhXDfZps/3yv7ShRpucJQtYpW+pQi6EatIKZAwK9I4kBo1BiPeJCQVjg1dM5PgcRXXvZ
+ eGEyFYeFK8bH+7LxcUtlQpcc+XYU7WgJbUkbL7em591Y86xmzOzXGAnw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] go: upgrade 1.26.1 -> 1.26.2
+Date: Wed,  8 Apr 2026 23:42:04 +0200
+Message-ID: <20260408214204.640515-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 21:34:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234861
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 21:43:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234862
 
+From: Peter Marko <peter.marko@siemens.com>
 
-  currently have a walnascar build and i've verified that
-KERNEL_MODULE_AUTOLOAD contains:
+Upgrade to latest 1.26.x release [1]:
 
-  KERNEL_MODULE_AUTOLOAD="      8733bu     rpmsg_tty "
+$ git --no-pager log --oneline go1.26.1..go1.26.2
+9c8bf0e72a (tag: go1.26.2) [release-branch.go1.26] go1.26.2
+096f21b1c5 [release-branch.go1.26] cmd/go: disallow cgo trust boundary bypass
+7cafb4140d [release-branch.go1.26] crypto/tls: prevent deadlock when client sends multiple key update messages
+a34b5e4d55 [release-branch.go1.26] archive/tar: limit the number of old GNU sparse format entries
+c4b4bd7b3a [release-branch.go1.26] cmd/compile: fix loopbce overflow check logic
+3a4577a268 [release-branch.go1.26] cmd/compile: fix mem access overlap detection
+ceb4da6626 [release-branch.go1.26] crypto/x509: fix wildcard constraint map case sensitivity
+babb1c32c2 [release-branch.go1.26] html/template: properly track JS template literal brace depth across contexts
+b6176f459a [release-branch.go1.26] internal/syscall/unix: properly support AT_SYMLINK_NOFOLLOW on Linux
+917949cc1d [release-branch.go1.26] net/url: permit colons in the host subcomponent of non-http/https URLs
+7b4ed1d7d9 [release-branch.go1.26] crypto/x509: fix signature checking limit
+8028a51430 [release-branch.go1.26] crypto/x509: hoist policy pruning out of loop
+4ef278779f [release-branch.go1.26] runtime/race: apply LLVM zero-initialization fix
+608303dd6e [release-branch.go1.26] cmd/link: skip special symbols for label symbol generation
+e27183eff8 [release-branch.go1.26] cmd/compile: fix internal compiler error: bad write barrier type
+98d4c11d8f [release-branch.go1.26] cmd/compile: treat all zero-sized values as SSA-able
+cce667a91e [release-branch.go1.26] cmd/compile: handle zero-sized values more generally
+3206e141fb [release-branch.go1.26] net/url: reattach package doc comment
+82b95c14ec [release-branch.go1.26] cmd/compile: ternary rewrite of rewrite should skip, not panic
+f14d3a8e91 [release-branch.go1.26] cmd/compile: skip race detector test failure for unsupported VMA
+68f42c591d [release-branch.go1.26] cmd/compile: gate instrumentEnterExit on NoRaceFunc check
+9fe1db7e7e [release-branch.go1.26] runtime: fix value of ENOSYS on mips from 38 to 89
+08edcb8d3f [release-branch.go1.26] test/fixedbugs: remove issue46234 test timeout
+895fbaecf5 [release-branch.go1.26] doc: remove template use in godebug.md
+26548d4981 [release-branch.go1.26] cmd/fix: pull in CL 755980
+12bf7d8cd2 [release-branch.go1.26] builtin: incorporate all feedback into doc string for new
+943235a5e5 [release-branch.go1.26] builtin: update new function comment
+1a44be4cec [release-branch.go1.26] internal/poll: move rsan to heap on windows
+3bf3014fe7 [release-branch.go1.26] test/convert5: skip mipsle
+e29f35511d [release-branch.go1.26] cmd/go/internal/cache: update trim timestamp before trimming
+2b01132c9f [release-branch.go1.26] runtime/poll: fix race condition in Window's SendFile
+ba8c3d07a7 [release-branch.go1.26] net/http: restore accidentally removed package doc
+99df9bdb2a [release-branch.go1.26] net: correctly handle non-nil empty cmsg buffer on windows
+ace2cf6652 [release-branch.go1.26] cmd/compile/internal/typecheck: simplify tcSliceHeader
+1368bc269e [release-branch.go1.26] cmd/compile: fix bloop test
+840d86c060 [release-branch.go1.26] runtime: fix printfloat, printcomplex buffer sizes
 
-when i do the build, but those modules are definitely not loaded after
-boot. i can definitely manually load with:
+Fixes CVE-2026-32282, CVE-2026-32289, CVE-2026-33810, CVE-2026-27144,
+      CVE-2026-27143, CVE-2026-32288, CVE-2026-32283, CVE-2026-27140,
+      CVE-2026-32280 and CVE-2026-32281.
 
-  # modprobe 8733bu
+Release information: [2]
 
-but is there any reason it's not already loaded? i've tried this
-several times and it seems like KERNEL_MODULE_AUTOLOAD has no effect.
+[1] https://github.com/golang/go/compare/go1.26.1...go1.26.2
+[2] https://groups.google.com/g/golang-announce/c/0uYbvbPZRWU
 
-rday
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-devtools/go/{go-1.26.1.inc => go-1.26.2.inc} | 2 +-
+ ...binary-native_1.26.1.bb => go-binary-native_1.26.2.bb} | 6 +++---
+ ...oss-canadian_1.26.1.bb => go-cross-canadian_1.26.2.bb} | 0
+ .../go/{go-cross_1.26.1.bb => go-cross_1.26.2.bb}         | 0
+ .../go/{go-crosssdk_1.26.1.bb => go-crosssdk_1.26.2.bb}   | 0
+ .../go/{go-runtime_1.26.1.bb => go-runtime_1.26.2.bb}     | 0
+ ...go-make-content-based-hash-generation-less-pedan.patch | 8 ++++----
+ .../go/0006-cmd-go-make-GOROOT-precious-by-default.patch  | 2 +-
+ meta/recipes-devtools/go/{go_1.26.1.bb => go_1.26.2.bb}   | 0
+ 9 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.26.1.inc => go-1.26.2.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.26.1.bb => go-binary-native_1.26.2.bb} (79%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.26.1.bb => go-cross-canadian_1.26.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.26.1.bb => go-cross_1.26.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.26.1.bb => go-crosssdk_1.26.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.26.1.bb => go-runtime_1.26.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.26.1.bb => go_1.26.2.bb} (100%)
+
+diff --git a/meta/recipes-devtools/go/go-1.26.1.inc b/meta/recipes-devtools/go/go-1.26.2.inc
+similarity index 91%
+rename from meta/recipes-devtools/go/go-1.26.1.inc
+rename to meta/recipes-devtools/go/go-1.26.2.inc
+index 2e3464ec3b..8bb10bc89f 100644
+--- a/meta/recipes-devtools/go/go-1.26.1.inc
++++ b/meta/recipes-devtools/go/go-1.26.2.inc
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
+ "
+-SRC_URI[main.sha256sum] = "3172293d04b209dc1144698e7ba13f0477f6ba8c5ffd0be66c20fdbc9785dfbb"
++SRC_URI[main.sha256sum] = "2e91ebb6947a96e9436fb2b3926a8802efe63a6d375dffec4f82aa9dbd6fd43b"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.1.bb b/meta/recipes-devtools/go/go-binary-native_1.26.2.bb
+similarity index 79%
+rename from meta/recipes-devtools/go/go-binary-native_1.26.1.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.26.2.bb
+index 0e054add70..380174f3cb 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.26.1.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.26.2.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a"
+-SRC_URI[go_linux_arm64.sha256sum] = "a290581cfe4fe28ddd737dde3095f3dbeb7f2e4065cab4eae44dfc53b760c2f7"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "f56eed002998f5f51fa07fd4ed0c5de5e02d51cec7a4007f771c7576620d9d45"
++SRC_URI[go_linux_amd64.sha256sum] = "990e6b4bbba816dc3ee129eaeaf4b42f17c2800b88a2166c265ac1a200262282"
++SRC_URI[go_linux_arm64.sha256sum] = "c958a1fe1b361391db163a485e21f5f228142d6f8b584f6bef89b26f66dc5b23"
++SRC_URI[go_linux_ppc64le.sha256sum] = "62b7645dd2404052535617c59e91cf03c7aa28e332dbaddbe4c0d7de7bcc6736"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.1.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.26.1.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.26.2.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.26.1.bb b/meta/recipes-devtools/go/go-cross_1.26.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.26.1.bb
+rename to meta/recipes-devtools/go/go-cross_1.26.2.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.1.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.26.1.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.26.2.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.26.1.bb b/meta/recipes-devtools/go/go-runtime_1.26.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.26.1.bb
+rename to meta/recipes-devtools/go/go-runtime_1.26.2.bb
+diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+index af4243e625..077bebe743 100644
+--- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
++++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+@@ -109,7 +109,7 @@ index 7b073165d5..1f618be0bb 100644
+  	}
+  
+  	// Configuration specific to compiler toolchain.
+-@@ -2807,8 +2809,25 @@ func envList(key, def string) []string {
++@@ -2804,8 +2806,25 @@ func envList(key, def string) []string {
+  	return args
+  }
+  
+@@ -136,7 +136,7 @@ index 7b073165d5..1f618be0bb 100644
+  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
+  		return
+  	}
+-@@ -2824,6 +2843,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
++@@ -2821,6 +2840,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
+  	if ldflags, err = buildFlags("LDFLAGS", DefaultCFlags, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
+  		return
+  	}
+@@ -150,7 +150,7 @@ index 7b073165d5..1f618be0bb 100644
+  
+  	return
+  }
+-@@ -2912,7 +2938,7 @@ func (b *Builder) runCgo(ctx context.Context, a *Action) error {
++@@ -2909,7 +2935,7 @@ func (b *Builder) runCgo(ctx context.Context, a *Action) error {
+  	cgoExe := base.Tool("cgo")
+  	cgofiles = mkAbsFiles(p.Dir, cgofiles)
+  
+@@ -159,7 +159,7 @@ index 7b073165d5..1f618be0bb 100644
+  	if err != nil {
+  		return err
+  	}
+-@@ -3461,7 +3487,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
++@@ -3462,7 +3488,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
+  	p := a.Package
+  	sh := b.Shell(a)
+  
+diff --git a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+index e2a0cd65b3..9aebc2f0dc 100644
+--- a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
++++ b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+@@ -94,7 +94,7 @@ index 1f618be0bb..651fa64582 100644
+  	if err := sh.Mkdir(buildAction.Objdir); err != nil {
+  		return nil, err
+  	}
+-@@ -1891,6 +1908,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
++@@ -1888,6 +1905,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
+  		return err
+  	}
+  
+diff --git a/meta/recipes-devtools/go/go_1.26.1.bb b/meta/recipes-devtools/go/go_1.26.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.26.1.bb
+rename to meta/recipes-devtools/go/go_1.26.2.bb
 
