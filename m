@@ -1,200 +1,158 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FFB5FD5F8E
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 07:14:32 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.100977.1775632467608677401
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C382FD5F85
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 07:22:32 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.8])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.100586.1775631960214858897
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 00:14:28 -0700
+ Wed, 08 Apr 2026 00:06:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dzUbCOoZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488c2690057so11612055e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 00:14:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775632465; x=1776237265; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V7bt/4PUeB4e1XHqjH2IGB/YMUJUA5QUg85no+/ekns=;
-        b=dzUbCOoZ4S4FjBZjASNtJoYVkFbbiPYVdAPk58wTbqKTR8/cTE/4qf0OO9Zkf867Ie
-         0K8xqWSac4W1ykfdz/s6bAt2Sdtz1KSOAJArFUoDlKp3G/jY9qrtdSGCb47ZmiiMEPFE
-         DzF0QfUfOIJgMF5wk9HCXrrw/dQqpkZx5ME8I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775632465; x=1776237265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V7bt/4PUeB4e1XHqjH2IGB/YMUJUA5QUg85no+/ekns=;
-        b=HTIrf43W8xz/b6JhDAmrJtDTDCS5RMhfdXDa7iapt3UqQ6mdisaAOppChwoUK4gF2R
-         Zam9T3kTH7ALMMHDuD4UU19WTY+tsRVt5xuMcqaktdGKuwxxgJvH/Lcg/2x9/AQu94pj
-         W1N/wgQknOVYYTRf2KqMQ0KyrMbaZGct0BCCgYITB/A+9OaCBMOdWRKeDUIUrqmDlRme
-         dh6+W6xWVXWUn/Jglx1QZ9xGog59j4eI/1C0TZ1Fg2q8WlQitxBipg64FsZYu0HJB1Ci
-         4oxc88k0uTlY8jPxfr2oV3W3GOvu4UF6s/kWXgaXEpPmC2ZdARhXM2nGARdaepNqoOl+
-         qixw==
-X-Gm-Message-State: AOJu0YzLVmFUPYBd8DL2E2Vxnee/TGgYwoQX0Zfz3aQ4p9VWJX1uETkj
-	d0LMY0tQH4cPglS1s5cZVYF1HnpAcB9EK/ktwW24XKEclP4tdrskLim/ehVuTkFxyBSB5eLPQeT
-	Y+EQE8f8=
-X-Gm-Gg: AeBDievFQY+H6Stre5JK0CnzFrS+mpRrhnvgCLGaLNUEdKtL0gSHzsl++bE7ciU603z
-	KaVp71/76iPLmhXt495JKGSwzms0rpYaJ0/b2F6Z+Pkrq1wZJGaWaDWUH0gwLXdNz8ClewXoBNX
-	BZjQ7EscP+8q20X1Vdr/R8zp1WEEjnBUC5WwdmOMreimA2Xf/odT1ebVNdIhyi0/4+greiK5C4T
-	8Q79jNgboKbeA/x/FbwReIZ4YY60b1JhlDWVxw7jjMLOU49bQPZosvSK6xe+cI57OuPVwFpo92f
-	1asnJRQXZYkmEt1VvDr0D42ZZ3gA3AEIHXQPqZCGGzIWuXtQJEkGLT28Q1ZHBPXBVia51xremsb
-	yLpRgZUsWbqjUHVDRJGRyFuDxjU+oh+TSiPrXzbRHAqnKS3aDAXZCBpljs81ilnneYhabMCPp/d
-	hHGKL/PR04yWn5p0/N9KZxEmnl68qjspgN5BoLW3G5P2+T0D9AHcNU
-X-Received: by 2002:a05:600c:1d1d:b0:488:7ebd:78 with SMTP id 5b1f17b1804b1-4889977cbb7mr273317745e9.14.1775632465284;
-        Wed, 08 Apr 2026 00:14:25 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a70:3593:db41:cfe4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488b6ff70bcsm320903725e9.14.2026.04.08.00.14.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 00:14:24 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa: Drop /git/ from our urls
-Date: Wed,  8 Apr 2026 08:14:23 +0100
-Message-ID: <20260408071423.1387872-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@mt.com header.s=selector2 header.b=xi7XJzk2;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: mt.com, ip: 52.101.83.8, mailfrom: wojciech.dubowik@mt.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HucyanC9jCwq65QHnsVZAnw/BXuGOuyIB9p7DpiSOkd2uNIApQ35pt6m4mQaLvfCl2zBQwxrhQXEnCbHvhbj3NPCkt0cBOM1V/A+r/QL9RsT98fTV6mmpRVTZ05pXFIuNzpht4r2sJftQVQW5wIzj1/PJ/APnorh0FgsZWgEEd0Me7h/AN/jTJL4KfcUJHYH7emLPKhb6/wEoH4V26YSUZ8tRcymS3cw6kwoxFm0L4oXnQlzI9/+K1TvdUkwWkZK3DezfWHDw1xqHRK04mLNW1SgzauzrE0qrbqvq10F1+XZhmcMINNUapQejjZ7ZrLUfxeCf/FFaSRhSFB3tRQ5/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zvNv38047MuMT1OoHbm3W8uzdHJA+SdBgZ4ZKn7JVKY=;
+ b=ipdiqD/ct2k8AnzVbzhxNNpQobOO+FKtWH+7mxTKIhPyOhEW32QPVMXnes8VgBzCx4DPcC9EqTljEoCsKNNrbHTbhiszOxU5zStHNT/s/fS5IV6vHoSxDi2EwqUcAhdf0YAhHqSuG2vbKIsJOOmum0k5A2m2VRxUFL/t1cqQtt5e6Z3walW2x9Q6lIpEDCMWk3n0/HfJhYxIc5SFKtapEj680L7llIyKCC4mHORqYmw08cTHQEAzccAWCT6umRvd+cTDtT3X2B/Atf7tWfTGRXv/f1Ytyzvjt6oonFgXdc4Or6J3ccH4fNt0NfmcG/G7DTMFU7LaWNYclQkI0qQPjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zvNv38047MuMT1OoHbm3W8uzdHJA+SdBgZ4ZKn7JVKY=;
+ b=xi7XJzk2DAPBJzk0WdONozqi6iEUqs6xJLKjY5O5XytwouHfOayh8A0D1kj9x2Imsvwv0+wLdT6aCKJe0hDZ+E+8nwSOxaUTZ5jsq+0bo6fX2c0NsGvKS6xPlKlgW7O4VsKHxFd/Y+UT3oppFiIUhnYB53gK0xfBiSUeDE7W6PArYbCD5EnRGo2CO/5AAeM/fLQsWVV3EE6821vuY5Ax0zNTJMSs1cnJ3Yeei4ZOi9Wh3iUlU6LW1SeSeGM0DOFdupS11Zg1W66XbwzMtCI6ix0H8+3DMCBIuF5PnWYq7Ibo2mm8mnhOa0fu8vLZkFfcNouq4ZnvEzQA4EfvYdjHAw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from DB9PR03MB7180.eurprd03.prod.outlook.com (2603:10a6:10:22d::13)
+ by DB9PR03MB7179.eurprd03.prod.outlook.com (2603:10a6:10:224::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 8 Apr
+ 2026 06:50:52 +0000
+Received: from DB9PR03MB7180.eurprd03.prod.outlook.com
+ ([fe80::6fd2:12a9:4423:8ddc]) by DB9PR03MB7180.eurprd03.prod.outlook.com
+ ([fe80::6fd2:12a9:4423:8ddc%6]) with mapi id 15.20.9769.016; Wed, 8 Apr 2026
+ 06:50:52 +0000
+Date: Wed, 8 Apr 2026 08:50:41 +0200
+From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+To: Franz Schnyder <fra.schnyder@gmail.com>
+CC: openembedded-core@lists.openembedded.org, u-boot@lists.denx.de,
+	simon.glass@canonical.com, Francesco Dolcini <francesco@dolcini.it>
+Subject: Re: - Host GnuTLS now needs pkcs11 support
+Message-ID: <adX6wVUWvNrzYfuV@mt.com>
+References: <f5ov7deig7xaovxmtx3nhewki6mudgebahghknhxodlfa3lrdh@ary63d3fodkz>
+In-Reply-To: <f5ov7deig7xaovxmtx3nhewki6mudgebahghknhxodlfa3lrdh@ary63d3fodkz>
+X-ClientProxiedBy: ZR0P278CA0055.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:21::6) To DB9PR03MB7180.eurprd03.prod.outlook.com
+ (2603:10a6:10:22d::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR03MB7180:EE_|DB9PR03MB7179:EE_
+X-MS-Office365-Filtering-Correlation-Id: f419e073-0854-4fe8-6275-08de953b2cef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|52116014|19092799006|366016|1800799024|56012099003|18002099003|22082099003|38350700014;
+X-Microsoft-Antispam-Message-Info: GEKq2mzvLtC8tBimtFj4KJk4QbrcMl0cXQJk8l0B31tebHBagWik0eIRBbwX1G+0a6yi1Nu6VfCmAI8vo8eyrCMjKtwAHO+irs+hRozX80cbMmOnBLz5I5UrCoe6llcjL08Zz/oRRyYbFO1pTKkr4ZyilBg8BHiAZAT8n0pegxy2kyuYCVVFff1eG5NasBh8tePpq6l0mpH1XOoGUX75PtXc7QYT0Jv3/OpQJ92NYu3mu7qXfkqbnI2NMBoONWUOvDMUAABMKCATQviIvycYcWDPEfoZl5fpXk92F/sH9/OruIXl+qaWw3zLaiBcONIbsTDOAxJ/DZl6KVKeJLV8MyThqDPjwimy9GnmXXnU3skCeGlQ1+LvSecArxNLDeRYdvOSGJAH9a5RbE6KpZMRyoDBt/yGXd+RIWdveYS4WF7q+ruUggcZbge7YWk2hEPTws+8rwUc9RxPgWgnCtt13hdHcLr2BBplvsOs8psHDiNkwQffTMPsXmRdcrbwEW4FS7UAfRj5Zel82i7Xke8EcBXPzLxe0pdBsNPnP0SEhJ6FKRIPZepSaeLSECIBujNa5mxNxXhmWlcdy5gGCHP7e4TXeoD5GXKy0o/v0YiI2ZN1MdEG14ilcWq4JLjx8QLDlGO7QY2ExrFcAIRazqVLrXIGeaIVaPqMf68gmwi/jUUhx5+wN8ecjg6J4tlJbMFvjETTMSfYfzOI6x5wTeWvc/m9pt38z7tHZUdKXeih/SXgPYoUCjTwYwqJUcpBoyO+RpeWdUG+SdZOszqbmrXPEpkMAbPL3Z7jzXF44VLtmT4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7180.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(19092799006)(366016)(1800799024)(56012099003)(18002099003)(22082099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?W1iyOekNRQLyJp7foRufgwwAkcdXmWBA4n+gF4MdAXooUcKx67RMsp6Ngr?=
+ =?iso-8859-1?Q?tZQ7cwtlwL3/1XLuUj4Gwu09CrO3ON1AuSHyL94qZgfxFW1Isk1szIFtu0?=
+ =?iso-8859-1?Q?Xixtj6aKPECfL1PFWvIEbCVYHAzzA6uaz+mE7KeiJpIr73pejn3JZjKYqm?=
+ =?iso-8859-1?Q?+SONEIeQzh0ruD8mrHB7PhzKz2GRYCKIGS0pcU6zeFxR0nNOAsXuwhPj/J?=
+ =?iso-8859-1?Q?+HJRILYGd8vF3ptK3GXQSZJAtYDXY5iLoYRCaPhU3nL99zfzm/u7ff53lT?=
+ =?iso-8859-1?Q?qXoR6YlQjYXKkLwyjr3xLig6/67nyh5ZLGEDQ6XvCcnPe/Fdwrr5xZ4Hnf?=
+ =?iso-8859-1?Q?8OBj8Lg4lSPRMVq6pNcuzWs1dFYLsA1DVw9NPxCScyaDWJVHkwbF5yWF2y?=
+ =?iso-8859-1?Q?hJ5MO5wyAR5//vX3VPPr/q29Nk6e6ok+nlxFc1dne82DTxPoSI72hPRvxk?=
+ =?iso-8859-1?Q?ZDfr2nU4G8eLQKY9XQt44GaWoVzn1kImrjXiIUml8iFq0IsNQHHHuCB31K?=
+ =?iso-8859-1?Q?6aT3WN5r6zLLX5gtIE5RD5kAG/lHVuAcMADKwB0DF1tD7umX0xSIrtFFsQ?=
+ =?iso-8859-1?Q?O5seOA6F6Zs5Kya3A4xasGF/ei36YA3E9BlXqSMJ4bRB9o1mcda7uptQ2b?=
+ =?iso-8859-1?Q?ZKdDMW3G41bJTo8x0xx47m1RFzaYU0mM08seSg99uP96i1AVHnhkomyTaC?=
+ =?iso-8859-1?Q?EW+9JhwFWcMjt65YeHBT1kAkU4UG57Wlgnr+TIJAj+ozVvkxsDuuuhfQcI?=
+ =?iso-8859-1?Q?ARYdJuWnNw/rpvSNiGhzVzJruVulehpGAGe5diZ0N7hmbhdzGd7Ou1HvA1?=
+ =?iso-8859-1?Q?zPFJiVn0vELZ+snR3SVoq1IPVoZtmtM4aKfqPIX7hfMjoQcyc4swpbUk+I?=
+ =?iso-8859-1?Q?ydj5cT9beQZMW91had5nfBzKAExmtS4X18mrPQNyh1JzR+esOC/uX7Q+BM?=
+ =?iso-8859-1?Q?rWCr//2H38JWqPe1Wfc3BkDIoQLGYU88wSxj1K2C7gPldK5On/1ZVCqOjC?=
+ =?iso-8859-1?Q?+iGnuxlZmeLz9+Wh2zZV9Q1NUo6cdJ3tJzzZo4v8JH43yf7hgmMWFwrpiV?=
+ =?iso-8859-1?Q?603oem1YdWUsaGdHbcFgNFYmDJFI5KfNHhogBjSVA52u7mSnn5oEvHuGu8?=
+ =?iso-8859-1?Q?eSt7NZNBsm7jjo9iZG7qrE04dlwcmg2pldvcdX7km2wNLoom9U3pTlz1KH?=
+ =?iso-8859-1?Q?JzMcbNpfdqwlcOSITRhjn7rLLuEAwJPqZGc5Gkw6wZ19ywAAuqdi2+Fx8z?=
+ =?iso-8859-1?Q?/leZ3W1qUGKu/w5rBJQjutFl4d3XpZJNNGNqOFjyn0LVBnyQO+pHAPFboq?=
+ =?iso-8859-1?Q?Ua7lBHJwlGZ7LVFPFDtPS7AxmTfLxCo8dUl0V3a7v5vdr55Ptw3sHiqPBC?=
+ =?iso-8859-1?Q?bH8mSIV80Q+baTv+36lnGIR6TL8+f0uklRROXPPLt0ue3rfKOVYl4QEm09?=
+ =?iso-8859-1?Q?yp6bZJzwHqM5XPFcUOMs7hZWgB4io0R23iOfvObOdbJ+vnZEt3YsW0NQfw?=
+ =?iso-8859-1?Q?XGmhXA6IgKy7hr1xL9akyqsEni8CNyf0iQLQjB+SuIdZeY43gb3Vdj1Zyf?=
+ =?iso-8859-1?Q?uMqwryTvcfIujdQo1RQGzTClBnLFwSRy6toTVsm79RZowP3/ULDiY6uWYM?=
+ =?iso-8859-1?Q?etzBN0Ih/muZfeLUf2JGEcAkCQOBYiw4Q3lIQDSDj02TvACikdXwfBZGeg?=
+ =?iso-8859-1?Q?1HudWdzbjZ+gFod8io+WZEfF3Kkwk7VhdEmRypH6JRurlYASxhGoOk75/h?=
+ =?iso-8859-1?Q?sZ72C+OSxB1h1mLjBf+KEVthR33iGC84HfFFFGUEW9kQ8eAnKeAUgZNEk/?=
+ =?iso-8859-1?Q?xRUjfxsGCw=3D=3D?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f419e073-0854-4fe8-6275-08de953b2cef
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7180.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 06:50:52.4594
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 73rXUULnDqoKmSldRyzFEyhe/bCMlJ1SBo08g1b0qj+KbopnV/HUQUJgUjJFOBugaD9qMqf6dfCjuWAH4n/krg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB7179
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 07:14:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234814
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 07:22:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234815
 
-Using /git/ in our urls is rather old school and not the preferred format now.
-Update the urls to the preferred form even if the other ones still work.
+On Tue, Apr 07, 2026 at 06:15:13PM +0200, Franz Schnyder wrote:
+Hello Franz,
+> Hello Wojciech,
+>=20
+> with commit 0c716a157be ("tools: mkeficapsule: Add support for pkcs11"),
+> mkeficapsule now references to pkcs11 related symbols.
+>=20
+> This breaks our OE builds because it causes link failures for=20
+> configurations that build mkeficapsule when the host gnutls is=20
+> built without pkcs11 support:
+> ```
+> undefined reference to `gnutls_pkcs11_obj_list_import_url4'
+> undefined reference to `gnutls_x509_crt_import_pkcs11'
+> undefined reference to `gnutls_pkcs11_init'
+> undefined reference to `gnutls_pkcs11_add_provider'
+> undefined reference to `gnutls_pkcs11_deinit'
+> ```
+> On the OE side, enabling support in gnutls via p11-kit fixes the failures=
+.
+> However, I wonder what the cleanest solution would be. Should this new=20
+> host requirement for pkcs11 be handled in the U-Boot OE recipe,=A0 or is
+> there a better way to approach this correctly?
+>=20
+> Any ideas?
+I could add disable compile flag in mkeficapsule if there are no objections=
+. Sth
+like this in pkcs11 places:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta-selftest/recipes-test/gitrepotest/gitrepotest.bb       | 2 +-
- .../recipes-test/gitunpackoffline/gitunpackoffline.inc      | 4 ++--
- meta/lib/oeqa/manual/toaster-managed-mode.json              | 6 +++---
- meta/lib/oeqa/sdkext/cases/devtool.py                       | 4 ++--
- meta/lib/oeqa/selftest/cases/devtool.py                     | 4 ++--
- meta/lib/oeqa/selftest/cases/recipetool.py                  | 2 +-
- 6 files changed, 11 insertions(+), 11 deletions(-)
++#ifndef DISABLE_PKCS11
+                ret =3D gnutls_privkey_import_pkcs11_url(pkey, ctx->key_fil=
+e);
+[...]
++#else
++               fprintf(stdout, "Pkcs11 support is disabled\n");
++               return -1;
++#endif
 
-diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
-index 756c01cb099..f535554cbbe 100644
---- a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
-+++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
-@@ -7,7 +7,7 @@ INHIBIT_DEFAULT_DEPS = "1"
- 
- PATCHTOOL = "git"
- 
--SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https \
-+SRC_URI = "git://git.yoctoproject.org/matchbox-panel-2;branch=master;protocol=https \
-            file://0001-testpatch.patch \
-           "
- 
-diff --git a/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.inc b/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.inc
-index 59b383800cd..f828f3bac6b 100644
---- a/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.inc
-+++ b/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.inc
-@@ -1,5 +1,5 @@
- SUMMARY = "Test recipe for fetching git submodules"
--HOMEPAGE = "https://git.yoctoproject.org/git/matchbox-panel-2"
-+HOMEPAGE = "https://git.yoctoproject.org/matchbox-panel-2"
- LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
-@@ -8,7 +8,7 @@ INHIBIT_DEFAULT_DEPS = "1"
- TAGVALUE = "2.10"
- 
- # Deliberately have a tag which has to be resolved but ensure do_unpack doesn't access the network again.
--SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https"
-+SRC_URI = "git://git.yoctoproject.org/matchbox-panel-2;branch=master;protocol=https"
- SRC_URI:append:gitunpack-enable-recipe = ";tag=${TAGVALUE}"
- SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
- SRCREV:gitunpack-enable-recipe = ""
-diff --git a/meta/lib/oeqa/manual/toaster-managed-mode.json b/meta/lib/oeqa/manual/toaster-managed-mode.json
-index 1a71985c3c1..d1d500864e5 100644
---- a/meta/lib/oeqa/manual/toaster-managed-mode.json
-+++ b/meta/lib/oeqa/manual/toaster-managed-mode.json
-@@ -2176,7 +2176,7 @@
-       ],
-       "execution": {
-         "1": {
--          "action": "Clone the poky environment     git clone http://git.yoctoproject.org/git/poky",
-+          "action": "Clone the poky environment     git clone http://git.yoctoproject.org/poky",
-           "expected_results": ""
-         },
-         "2": {
-@@ -2458,7 +2458,7 @@
-       ],
-       "execution": {
-         "1": {
--          "action": "Clone the poky environment     git clone http://git.yoctoproject.org/git/poky",
-+          "action": "Clone the poky environment     git clone http://git.yoctoproject.org/poky",
-           "expected_results": ""
-         },
-         "2": {
-@@ -2496,7 +2496,7 @@
-       ],
-       "execution": {
-         "1": {
--          "action": "Clone the poky environment     git clone http://git.yoctoproject.org/git/poky\n",
-+          "action": "Clone the poky environment     git clone http://git.yoctoproject.org/poky\n",
-           "expected_results": ""
-         },
-         "2": {
-diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py b/meta/lib/oeqa/sdkext/cases/devtool.py
-index d0746e68eba..a28d5b020c5 100644
---- a/meta/lib/oeqa/sdkext/cases/devtool.py
-+++ b/meta/lib/oeqa/sdkext/cases/devtool.py
-@@ -71,14 +71,14 @@ class DevtoolTest(OESDKExtTestCase):
-     def test_extend_autotools_recipe_creation(self):
-         recipe = "test-dbus-wait"
-         self._run('devtool sdk-install dbus')
--        self._run('devtool add %s https://git.yoctoproject.org/git/dbus-wait' % (recipe) )
-+        self._run('devtool add %s https://git.yoctoproject.org/dbus-wait' % (recipe) )
-         try:
-             self._run('devtool build %s' % recipe)
-         finally:
-             self._run('devtool reset %s' % recipe)
- 
-     def test_devtool_kernelmodule(self):
--        docfile = 'https://git.yoctoproject.org/git/kernel-module-hello-world'
-+        docfile = 'https://git.yoctoproject.org/kernel-module-hello-world'
-         recipe = 'kernel-module-hello-world'
-         self._run('devtool add %s %s' % (recipe, docfile) )
-         try:
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 847b2f30d9c..535229c04e1 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -436,7 +436,7 @@ class DevtoolAddTests(DevtoolBase):
-         pn = 'dbus-wait'
-         srcrev = '6cc6077a36fe2648a5f993fe7c16c9632f946517'
-         # We choose an https:// git URL here to check rewriting the URL works
--        url = 'https://git.yoctoproject.org/git/dbus-wait'
-+        url = 'https://git.yoctoproject.org/dbus-wait'
-         # Force fetching to "noname" subdir so we verify we're picking up the name from autoconf
-         # instead of the directory name
-         result = runCmd('git clone %s noname' % url, cwd=tempdir)
-@@ -463,7 +463,7 @@ class DevtoolAddTests(DevtoolBase):
-         checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263'
-         checkvars['S'] = None
-         checkvars['PV'] = '0.1+git'
--        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/dbus-wait;protocol=https;branch=master'
-+        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/dbus-wait;protocol=https;branch=master'
-         checkvars['SRCREV'] = srcrev
-         checkvars['DEPENDS'] = set(['dbus'])
-         self._test_recipe_contents(recipefile, checkvars, [])
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index e23055ded18..03697826839 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -783,7 +783,7 @@ class RecipetoolCreateTests(RecipetoolBase):
-         self._test_recipe_contents(recipefile, checkvars, [])
- 
-     def test_recipetool_create_git_http(self):
--        self._test_recipetool_create_git('http://git.yoctoproject.org/git/matchbox-keyboard')
-+        self._test_recipetool_create_git('http://git.yoctoproject.org/matchbox-keyboard')
- 
-     def test_recipetool_create_git_srcuri_master(self):
-         self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;branch=master;protocol=https')
+This way OE or possibly openwrt don't need to patch.
+
+Regards,
+Wojtek
+
+>=20
+> Kind regards
+>=20
+> Franz
 
