@@ -1,237 +1,226 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1E441073C85
-	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:44:03 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.57])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.102326.1775641442687079669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BD91073C86
+	for <webhook@archiver.kernel.org>; Wed,  8 Apr 2026 09:44:23 +0000 (UTC)
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.102331.1775641458537127788
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 02:44:03 -0700
+ Wed, 08 Apr 2026 02:44:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=n6zsKBVb;
- spf=pass (domain: siemens.com, ip: 40.107.162.57, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S77XGOi/gT063hg4uGaktYZwGGFZ3yzBcQa6U3Pz5aq40a4eGN2MkZW/kJfCzTiZUg+3Jl4cOpmcHODD7yA9qne9jDMpc12jCsYRvmE8MTeCRehYrKrLKNhCPm4+pOBNScGCaDyRWLGHcnYrfny1zyYwlBI1wsA9LcrysKeNe1cW4Zl/pniZgExfd9d8ofZ0psjM1MWkBYeiwuZYszR7yqttJbMuNbtx1OpMeXN1Mytm9XZWet+AlekW7HbUKOPnpZ5KqcEYE7ZfINtRCNl5oP6/iVHWriDnsrH060efyyO8wAgNX3IIwQzDOnqm70gthayIYKj7oDCRdweqgnDjBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RC2hBQxD3k+Rb3whzrioaAOqImmBNLmd0/61Iv9pcro=;
- b=cucXfCghuxjHG5KEnnATmqmB18Z6+tQfoA/1/8s0ZOrlXIQ9mhGGOtZOCogjrzR6BI+aPNlTRdlnEjMsivpb8JeNZRU/he9v+XC0s0BNZVZtLt+q+cKZqbiFCclc7bv/E5fr3i8Lf4p3SBoCrhnqtmidekHS7hSAsADeUa/rV5h+/PQGr6uWef7jSWLQYhBCLUm9DqcgUkC0RHgH/ceWaDn/jqna9qZj+CDIuHeweizAEaFG+OwbkmSw5qnD4kvB2LlQV98mRMhaWRMMqOd80nomNkQqp+R+8JzCX5cTUdReXZrwC7LmlpXM4/x21GxdvpOZYPM5pztqbxp1LhIRMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RC2hBQxD3k+Rb3whzrioaAOqImmBNLmd0/61Iv9pcro=;
- b=n6zsKBVbfC206x944MaowbW/0og9/YZBlt+st9jt4/fgc987794p9yXyjIntzOwXoM3+hKhuWYdmBba9fchkMGrDQTSmvi5fCzmyDrSfVj45wtoiyzmlJDKu9HYKhGgyZmdon4c+dfrFbNUKVPB0IyvgBOXMlPybv1WP8HVWibN9sD3wO34ufTOX1CP8pRe9+e2MPBup2FUHca182LjRUCnPQpdJriB7Rgo5fXrZ95eT/nmCJka5DxLVIQh9/I/kzc9YmyI6xIhuUrbDFxRxic+J7kPulw+j7n0u+v8u+PjjcaE3sz3QBXFC47wt2gG93FCusYXKHPtTWFiO2EZxWA==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DB3PR10MB6787.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:437::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 8 Apr
- 2026 09:43:57 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7%6]) with mapi id 15.20.9769.014; Wed, 8 Apr 2026
- 09:43:57 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "Hemanth.KumarMD@windriver.com" <Hemanth.KumarMD@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Sundeep.Kokkonda@windriver.com" <Sundeep.Kokkonda@windriver.com>
-Subject: RE: [OE-core] [PATCH] glibc: stable 2.43 branch updates
-Thread-Topic: [OE-core] [PATCH] glibc: stable 2.43 branch updates
-Thread-Index: AQHcxziI8xa8a4SUIESX7s31dwtSGrXU6HaA
-Date: Wed, 8 Apr 2026 09:43:57 +0000
-Message-ID: 
- <AS1PR10MB569768761FDC2B42687AA6ABFD5BA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260408091626.3423299-1-Hemanth.KumarMD@windriver.com>
-In-Reply-To: <20260408091626.3423299-1-Hemanth.KumarMD@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=d720fcaa-a73a-47cf-8da6-d275b21d79d2;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-04-08T09:38:27Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB3PR10MB6787:EE_
-x-ms-office365-filtering-correlation-id: 269edf40-83f0-48e2-9aa7-08de95535aca
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|1800799024|55112099003|38070700021|22082099003|56012099003|18002099003;
-x-microsoft-antispam-message-info: 
- b9U0Q+lqWSCiTVxOz+dAHtZaPTG+OVJS3JM9bZYITEaR8rPLqyh3X8KEoO08t4LhtQZLKHzYmBpnJ6EU0wIusUV/l7DX6hON2v/GouaHBywQXc5y2cE4eb1liXXAHtuDq7rudMzB3zpIZP8E321x4nB4fc0dYGYevdtB/NxcUpEY51a5im71qTf9trd8vi/+l1aqWrmCq+iSA0AqUJmcXgsSCHlxe1wMyAFyCmN8NSvWb96YpGbtF7fVwl0qjvkiTdwclgRMrtEEt1IYSqBaArJuNW54IWNCqznYFDLWSy8pRvK+VDmMgHaAZE0c25blQUQ4uvISrP1KOLF7xOWLQWdAZUXuEGC4JK7BUwppvc0HEREkiAb96ePCnL00e0vceBP45ql4HLMpdtPV0baS2J1SvnhRFdOan70VKbjubdNVbYxMQ1iymErrN4FMOGIP8OrNY05Xf9AR1azWpJgtw3HIctzEP5X6NsykAhtJiIjL3tc2zhFcbsZsoJ63EX6LBC29e21dEJ14GAHOT5TzyZmMHdC7kA60jtGn73a4GLxdK1+T8PP8artmeHOlyAcOtCbJ2nYhoKTzyg+FV2FL8cUhg/FKuSuvQ4zglJiaDFtcWA1xvCUVYQHMf6MfCsC6LpseJLGRSeq7v6PY3y5Xb5BKnbk51wortlzlDvEjBUYOnn4WOa8ix31qZwkgz2KCho49+AqWSMLiEBHrvt9L2voOl2Iqe8pGzxGnPFuGoai8PJjR+z6HQGgNE5spq3VcZQXJG1n2p6UOi5C2wWnIgFBJvlRKis83UmfhnwzFleU=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(55112099003)(38070700021)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?eMCHb+HvNseXRWZu40GwAnWt46FGgSu4ZK/t8+4QXnEmp0Jlg49Us30CGf2R?=
- =?us-ascii?Q?FCzjUCPuxVSznUFRrAXWQK4YDouZsDyTq7eEi/0Ij10PUJ8ksV6SLTlPawb/?=
- =?us-ascii?Q?T12YS4ETv86zuPXKX3a+5f702chE6kjP58mkzpkeXH0p3mNy2CTtY2lgowqs?=
- =?us-ascii?Q?Ae9kxy3fAG+1Zn0iEsnzjqAc6t+/9bRKl5QPRqOSakpGAI2c4KfD0hAZJfm3?=
- =?us-ascii?Q?f/nAiGhSeEz6rZw7SM3vDPWKKNbqJ5VdSIJ+2oZc9an4E1F10ZoxrRlM2Awe?=
- =?us-ascii?Q?hnFPQNjrBQd+ZZiRDaM/TmfkPTHgCX4zex79KrfrZRAHA6MJ04OPxWTpLv5F?=
- =?us-ascii?Q?rdA9H4+vdDvrNERzF4BbSqYAYOMR9Z7OVPRAKUU0oynNsZCHm5jLhKs7yuTS?=
- =?us-ascii?Q?JCERmsFxDKEacuBMm4BA1RNWZqrDTEAwmJjTgDPe1T/5bNLR+w3RxrrUR4Ll?=
- =?us-ascii?Q?AxDlppIXbJfDuWE9vLYbXoZCVt0YS+msrMnyUW/6WBsRbc+R6uaTpXR91uEo?=
- =?us-ascii?Q?lyf9wGmpRCZlb3uxDSRnpV5BXWKefMODQauakc8cNB9hJEkMQ0dx8dyRRbZo?=
- =?us-ascii?Q?Y65mLGLcH+m+ZPWv2sY57HVUR1TY63fvrpJ9b1h/mbJVCZE4kSVSW6fKOP5w?=
- =?us-ascii?Q?ajQWvXSY5VZgNmmcy1qht7TCVD+LeoiRKcmDAUdFcIr2nVV2yOlCneciFn1T?=
- =?us-ascii?Q?WJ6EGZXBV2lkxE3JksPNiKPq/pTCiCmebwgTLzf4eAKH379SeePDZ6GJFCc+?=
- =?us-ascii?Q?UXzqcVRMGcVb7t2T0wcLPzBnuUN+3VVXzsE+I3+wd77ikOK856nztnk9kkOc?=
- =?us-ascii?Q?A4Ogm07BY/9qTWcTwBTravv/ik3YubCcparpTRKVGZZaPTSSZfOzD8+f81vJ?=
- =?us-ascii?Q?t7ALohD5Xo5aqlRdeKq8CDyiWq4CcBVNCaHkvyGtyuoRRKlK49nlBIokkIQE?=
- =?us-ascii?Q?9oU09fl9Ywq4luSgIg0dF5IL+BU4DT9cVvDMOXYo8DZSws4q6a4nUPBkGuaS?=
- =?us-ascii?Q?ANFmD8P3cb78ZGsfV+uFF5GyOA3AU0VYy0qWbAS6ytCWYp82iCjMipGo/Pui?=
- =?us-ascii?Q?wXT56OmJ2AsToSu9rbVxOZ8xEAJVMnUWAl5eQVDhqc2B0wV63RdzrcyLf4Qq?=
- =?us-ascii?Q?y4rg2PeEhaMERSXmzHeDuNrB+9VPS9ZbPuBNdinVnHCoVZiircT/ucBynmEl?=
- =?us-ascii?Q?1apnvJGcWOIij6T04p1euqk4LSf5ttEg0UaXZzcPnyPg974VO2xJiEp9Ofsm?=
- =?us-ascii?Q?bcAkGTkQMz4gb0JXIpDZMya6e0CnEYir+DE2/0/14r6tjJlnNaVCPqPlX42R?=
- =?us-ascii?Q?cZxF83u7bkGFRnbTRS4MGZNK1m9qb0ayoe1u/9leD4AYy8NR3Yauo5TFUEZi?=
- =?us-ascii?Q?XWHp++E5JOfV5NHiP/nG/6/4iIKPWL72/ZI9DlMitCdt0k3FOdhUaG+qBLI/?=
- =?us-ascii?Q?eEeAnkzGH0r9uNOYZx3Np8L4Cf5RLJzl+CZM4o8RGGNYHXEzfUHIttwE08xU?=
- =?us-ascii?Q?TGEv/Ize4V5I9I6Q8mlGU0rvBkghLAKHVNSz2ffnTi0ocbrs2XAutS2NLO1w?=
- =?us-ascii?Q?V/IdaS5pU4Mpq4VKNB/cx5QoD0qiTWXv5uqceokRb3yrBvQmKF2Et+yoSX4P?=
- =?us-ascii?Q?edh4G2pCqK0AGSHzi1JDtkzORsCrH4midVmOu1uvDyfhM9oCPYj9FAIcqgXG?=
- =?us-ascii?Q?+xh6QWZkSLgI1RJ3KOXW6HSxCpu2sVJWGokEaS7tScJU0CTwHkomQVgiMS6v?=
- =?us-ascii?Q?tBC7TjbRng=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=KntNk0JY;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=X+aMj43d;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.148, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9C3A9EC0461;
+	Wed,  8 Apr 2026 05:44:17 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Wed, 08 Apr 2026 05:44:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1775641457; x=1775727857; bh=Xp06nghJ+r
+	RD39gVnPEHaBm2fsO7RVmDnZQ6xjpUYSM=; b=KntNk0JYbcKS2ZKKHl/jNAKWvg
+	TsKNbnwKV4zwY4Kz6+X1R9uNQ8K98PVbzKd3+mnxmajUXna2HFufluuL5pMaZGHM
+	LTFp/3vfsON5HUsOknz/iQsiFMRFX/SelWxdmtyJqK9EI/H2kOkQak4ZTF35uKEs
+	zaLFFBMf/IafcLW+8qCvw/fXbEc43Of/LRxuO+DkcEveYhKXNS2vE1t3Yxh0n63g
+	L4Nm6vHoF6tiJUfjnJ1Tal77mUCawG5Sd6Gf7Z/TPyrN74oxbrXaD/hhLHRmGXhD
+	VZdTk/pzWqWQ3km7zN7RT89F7u3G5lEwtt0EI65cKnRVwec7Ohrp/VInQyHA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1775641457; x=1775727857; bh=Xp06nghJ+rRD39gVnPEHaBm2fsO7RVmDnZQ
+	6xjpUYSM=; b=X+aMj43d9bhLl9e/Y4hTeI/12JeMNbjXXycfLHnDR7kI3c/oMdi
+	zkAgsaHLWYd42Oz9cXfvjLThHsHd//AUbyAUh8RtXiBqJTo1jDj0KCDCfEUE3m+J
+	YrNi1TW2sKr9jvrelM2rrTAwOksqpkJDE92OwH6iELs6B0uo66efMZvFze06FzTS
+	qyuRy2zZSoO0UHqvxHBV9MJtkmHducWXyfZ/lafnFw35rZyZS9xxXwp9PHNNAVp1
+	odZK0fJvUQzBsXNGPf8Q6RPpwsqSaIo20umL0rcTij6s3a+wQCOEERUs43hg6y3L
+	mUwjPjgbD0hv17yFLPY1HWRg+OVY+CbF2JA==
+X-ME-Sender: <xms:cSPWaSZU2LXic_Xj9xyXXKtL2x8qovAXgvm4KNn60HVJ6HsV5E-1VQ>
+    <xme:cSPWaZE5L0ctFjgKhrRjlknhBf6TAD0MlnMogeSIv7yZb55SB9SUjElBRlxM8XQP9
+    0VYVUqtnYld-W3_XibdJYEPbjIq4TAjqiV0od1vPdbUCfkhKbaZRv4>
+X-ME-Received: <xmr:cSPWaWwjQ9XQyrRffFvWksOOKym4j6h9K6lFFf-Y1YlBj8DpDlYY8y6igRV0GKRXDjLtZRdLWMxIdrVzKeb5Pkw2Q8Lx0UBG3LN-3Uw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvfedvgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkuffhvfevffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegr
+    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
+    ettdfglefhheduveeuveeiledutdeuvdefteeiudeikeefjeeuudehhfdvtedvudenucff
+    ohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhfvgguohhrrghprhhojhgvtg
+    htrdhorhhgpdhrvgguhhgrthdrtghomhdpghhnuhdrohhrghdphihotghtohhprhhojhgv
+    tghtrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeeipdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopeiisghoshiiohhrsehgmhgrihhlrdgtohhmpd
+    hrtghpthhtohepmhgrrhhtihhnrdhjrghnshgrsehgmhgrihhlrdgtohhmpdhrtghpthht
+    ohephhgvmhgrnhhthhdrkhhumhgrrhhmugesfihinhgurhhivhgvrhdrtghomhdprhgtph
+    htthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgs
+    vgguuggvugdrohhrghdprhgtphhtthhopehsuhhnuggvvghprdhkohhkkhhonhgurgesfi
+    hinhgurhhivhgvrhdrtghomhdprhgtphhtthhopehrrghnugihrdhmrggtlhgvohguseif
+    ihhnughrihhvvghrrdgtohhm
+X-ME-Proxy: <xmx:cSPWabmM5lKNRlUWGIQbD85jSYoL2iZFltqw3Ruk2aUqbwfdAnnV1w>
+    <xmx:cSPWafnvmf0snHIbGS9mz6TYGKQTg8T9588UevZxO_9ffbczD6lBRg>
+    <xmx:cSPWadwB4f5OvT8nJwWL5MpLCAYcM4SBGmhkRMwxtV9qRsMOraHlXQ>
+    <xmx:cSPWaUrpUTp3vgyvsDYGVdxPJjBQk8hFqB6-v-naup6DsNar8JrZug>
+    <xmx:cSPWaagvZR9YQc4wz0vQqOaRGPe9mbxB03X4IdtQmljz6GpCPPotoopA>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Apr 2026 05:44:16 -0400 (EDT)
+Message-ID: <1b979680925d535d3cd344a8b736b8f862d52498.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v2 3/7] pseudo: fix for build with glibc-2.43
+From: Paul Barker <paul@pbarker.dev>
+To: zboszor@gmail.com, Martin Jansa <martin.jansa@gmail.com>
+Cc: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org,
+  Sundeep.Kokkonda@windriver.com, Randy.MacLeod@windriver.com
+Date: Wed, 08 Apr 2026 10:44:13 +0100
+In-Reply-To: <ed118dea-62cd-4d29-9ee1-336367a2aae5@gmail.com>
+References: <20260308150834.2508331-1-Hemanth.KumarMD@windriver.com>
+	 <20260308150834.2508331-3-Hemanth.KumarMD@windriver.com>
+	 <CA+chaQcneoNBogdCZmZB3LCE-cVErs2-4NoNtYUGgK+REEBxLg@mail.gmail.com>
+	 <18A40738790ACBCC.657799@lists.openembedded.org>
+	 <e38f41d9-4af6-4389-90a7-0c2ae6b47330@gmail.com>
+	 <CA+chaQdDkMUDBO8G=cku8SVe=Ow+Hgt606mZO863rCaNaznDrA@mail.gmail.com>
+	 <18A41C5827F22307.777565@lists.openembedded.org>
+	 <ed118dea-62cd-4d29-9ee1-336367a2aae5@gmail.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-3somts6iQurXxjdR/bOq"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 269edf40-83f0-48e2-9aa7-08de95535aca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2026 09:43:57.0923
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: w8rvtr8YLNEjqjCy99LLystudCeW6+p+UnkWSJTs9gRIuWD/r2/o9hiOeB7a+erVz2bXrwD4umwf7rAowYPdvQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR10MB6787
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:44:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234823
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 09:44:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234824
 
-Please set status for fixed CVEs via CVE_STATUS_STABLE_BACKPORTS, otherwise=
- they will be still present in CVE reports.
-Peter
 
------Original Message-----
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> On Behalf Of Hemanth Kumar M D via lists.openembedded.org
-Sent: Wednesday, April 8, 2026 11:16 AM
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com; Hemanth.KumarMD@windriver.com
-Subject: [OE-core] [PATCH] glibc: stable 2.43 branch updates
+--=-3somts6iQurXxjdR/bOq
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+On Tue, 2026-04-07 at 17:38 +0200, Zoltan Boszormenyi via
+lists.openembedded.org wrote:
+> 2026. 04. 07. 17:21 keltez=C3=A9ssel, Zoltan Boszormenyi via lists.openem=
+bedded.org =C3=ADrta:
+> > The issue turns out to be with GNU tar, specifically this build:
+> > https://koji.fedoraproject.org/koji/buildinfo?buildID=3D2924033
+> >=20
+> > Manually downgrading to the previous build fixed the packaging problem:
+> > https://koji.fedoraproject.org/koji/buildinfo?buildID=3D2917292
+> >=20
+> > I reported it here:
+> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2455965
+>=20
+> According to the changelog of the current GNU tar 1.35-8.fc44 build,
+> it contains backports from what will be the official 1.36 version.
+> With that release, whenever it will be out, other distros would fail, too=
+.
+>=20
+> Note this from the Fedora package changelog:
+>=20
+> - Backport upstream changes to jailify extraction directory
+>  =C2=A0 Includes related gnulib changes to add openat2
+>  =C2=A0 Fixes CVE-2025-45582 (fedora#2380007)
+>=20
+> which seems to be this commit:
+> https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=3D75b03fdff4891=
+6bd0654677ed21379bdb0db016d
+>=20
+> commit 75b03fdff48916bd0654677ed21379bdb0db016d
+> Author: Paul Eggert <eggert@cs.ucla.edu>
+> Date:=C2=A0 =C2=A0Thu Nov 13 13:44:10 2025 -0800
+>=20
+>  =C2=A0 =C2=A0 Use openat2 to jailify the extraction directory
+>=20
+>  =C2=A0 =C2=A0 This addresses CVE-2025-45582.
+>  =C2=A0 =C2=A0 * gnulib.modules: Add openat2.
+>  =C2=A0 =C2=A0 * src/misc.c (open_subdir): New static function.
+>  =C2=A0 =C2=A0 (fdbase_opendir): Use it.
+>  =C2=A0 =C2=A0 * src/tar.c (open_searchdir_how): New var, replacing and
+>  =C2=A0 =C2=A0 augmenting open_searchdir_flags.=C2=A0 All uses changed.
+>  =C2=A0 =C2=A0 * tests/extrac31.at: New file.
+>  =C2=A0 =C2=A0 * tests/Makefile (TESTSUITE_AT), tests/testuite.at: Add it=
+.
+>=20
+> I guess it will really need fixes in pseudo to overcome this.
 
-$ git log --oneline 856c426a753450b8c6861a5b994a564f4fc16d4b..ce1013a197eb4=
-a3b8ff2b07e0672f4d0b976ce7c
+Hi Zoltan,
 
-ce1013a197 tests: fix tst-rseq with Linux 7.0
-60cabd0464 riscv: Resolve calls to memcpy using memcpy-generic in early sta=
-rtup
-02ffd413cf elf: Use dl-symbol-redir-ifunc.h instead _dl_strlen
-2695314378 elf: parse /proc/self/maps as the last resort to find the gap fo=
-r tst-link-map-contiguous-ldso
-dd9945c0ba resolv: Check hostname for validity (CVE-2026-4438)
-5c6fca0c62 resolv: Count records correctly (CVE-2026-4437)
-2be6cf2e75 posix: Run tst-wordexp-reuse-mem test
-305ce0b588 aarch64: Tests for locking GCS
-2ee41ba6ec aarch64: Lock GCS status at startup
-fa4a40c7d4 tests: aarch64: fix makefile dependencies for dlopen tests for B=
-TI
-9898ea58b5 malloc: Avoid accessing /sys/kernel/mm files
-c3ceb93dc4 Add BZ 33904 entry to NEWS
-911bd469f8 debug: Fix build with --enable-fortify-source=3D1 (BZ 33904)
-48f5a05a7a nss: Missing checks in __nss_configure_lookup, __nss_database_ge=
-t (bug 28940)
-d6cb7ce0e9 Linux: In getlogin_r, use utmp fallback only for specific errors
-140c760d71 nss: Introduce dedicated struct nss_database_for_fork type
+The issue is that our intercept function for openat2 is a stub [1], it
+returns -ENOSYS. This works on other distros as the gnulib
+implementation of openat2 in userspace can be used as a fallback. If tar
+in F44 doesn't have any fallback for when openat2 isn't implemented that
+that won't work.
 
-Testing Results:
-+--------------+--------+--------+------+
-| Result       | Before | After  | Diff |
-+--------------+--------+--------+------+
-| PASS         | 6770   | 6774   | +4   |
-| XPASS        | 4      | 4      |  0   |
-| FAIL         | 29     | 28     | -1   |
-| XFAIL        | 16     | 16     |  0   |
-| UNSUPPORTED  | 489    | 490    | +1   |
-+--------------+--------+--------+------+
+So it looks like we will need to complete openat2 handling in pseudo. We
+have an issue for that in bugzilla [2], I'll update it.
 
-Changes in testcases:
-+------------------------------------------------------+--------+----------=
----+
-| Testcase                                             | Before | After    =
-   |
-+------------------------------------------------------+--------+----------=
----+
-| elf/tst-tls20                                        | FAIL   | PASS     =
-   |
-| posix/tst-wordexp-reuse-mem                          | N/A    | PASS     =
-   |
-| resolv/tst-resolv-invalid-ptr                        | N/A    | PASS     =
-   |
-| resolv/tst-resolv-dns-section                        | N/A    | PASS     =
-   |
-| nss/tst-nss-malloc-failure-getlogin_r                | N/A    | UNSUPPORT=
-ED |
-+------------------------------------------------------+--------+----------=
----+
+[1]: https://git.yoctoproject.org/pseudo/tree/ports/linux/openat2/guts/open=
+at2.c
+[2]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16126
 
-Justification:
+Thanks,
 
-commit - 2be6cf2e75 posix: Run tst-wordexp-reuse-mem test
-Fixes Makefile dependency to ensure the testcase is executed.
-Passing new testcase:
-+PASS: posix/tst-wordexp-reuse-mem
-
-commit - dd9945c0ba resolv: Check hostname for validity (CVE-2026-4438)
-Adds validation for hostname parsing and introduces a regression test.
-Passing new testcase:
-+PASS: resolv/tst-resolv-invalid-ptr
-
-commit - 5c6fca0c62 resolv: Count records correctly (CVE-2026-4437)
-Fixes DNS answer section parsing and adds a regression test.
-Passing new testcase:
-+PASS: resolv/tst-resolv-dns-section
-
-commit - 48f5a05a7a nss: Missing checks in __nss_configure_lookup, __nss_da=
-tabase_get (bug 28940)
-Fixes null pointer dereference and improves NSS handling.
-Added testcase:
-UNSUPPORTED: nss/tst-nss-malloc-failure-getlogin_r
-
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/=
-glibc/glibc-version.inc
-index 89be8fcb88..015e7943c5 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?=3D "release/2.43/master"
- PV =3D "2.43+git"
--SRCREV_glibc ?=3D "856c426a753450b8c6861a5b994a564f4fc16d4b"
-+SRCREV_glibc ?=3D "ce1013a197eb4a3b8ff2b07e0672f4d0b976ce7c"
- SRCREV_localedef ?=3D "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
-=20
- GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
 --=20
-2.49.0
+Paul Barker
 
+
+--=-3somts6iQurXxjdR/bOq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCadYjbREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bkR0APkBbSOreRiTSPvw5r1M9EiUi5yrqYgQX6bo
+uFkG/YnFHQEAsQKhI5B3RvYfSjDTj5ERIwLGE2QwF0CaYm/E9GSuCA4=
+=vAFm
+-----END PGP SIGNATURE-----
+
+--=-3somts6iQurXxjdR/bOq--
 
