@@ -1,169 +1,204 @@
-Return-Path: <rs@ti.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABDD0F364B1
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 18:43:59 +0000 (UTC)
-Received: from BN1PR04CU002.outbound.protection.outlook.com (BN1PR04CU002.outbound.protection.outlook.com [52.101.56.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.139874.1775760235973450634
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEA5F364B3
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 19:17:29 +0000 (UTC)
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.140331.1775762240888421220
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 11:43:56 -0700
+ Thu, 09 Apr 2026 12:17:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=selector1 header.b=MET87FNp;
- spf=pass (domain: ti.com, ip: 52.101.56.41, mailfrom: rs@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pD0DXVW0A+HXWk/cx7BinB/Vnbi78rUE5jlv6WgIZ4D0hpLhOEapiG/8gnU3kjAhnsM7NT+6U1Po7EBn/SrqWjVBL1v6zpVwIeev1o0TL7Rw9t/mmXEo/aX7yiV9/EKJV5pb5TSj8qpS0gp6BrbIuLkgk9Le7Avb+lFCsCY87kSo/0SD9q2QNcpgrmhS3cXGh0FP/VHOx48EG+yCpUhsx3Zzk4jWPXOBHOUOhyZ6D010NN6f0/uTD8qV+Na8hnBPJcNGsLKD8w+KloYpDdhFdhROvL0lwYEuuOCaL6S6GeaHWhVjJrFTbl6L0GKN/wsDoh1O+v84U+KVm8EuumUZEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PMKApxt6Za+MpA8pebcOMeJcWMexMYZdbgeZaDvNHng=;
- b=toQDLsBVwK+zlmrW97normBOe3iiFNMgxYaAbcOoPdfEzeX3TSFTQEwq5LlxyvVrYQSNrxjzua0Qv46Y/MB7OJN33C5xrnlvYqCflYCbmJTbDwX1T33eizPJwJH5pKug/GVSD7UVPHO4QknwUYp1z5e0lBnJaNQncoodpqQ9iAuRqyO6SnnO4sJp15zrZdHlZjOX1PcOWDspYL1WPhfF04bM5Zeqh6D42Ks3YNet+y0qYi36zKWQnfWNdfyuJGG1TyrBKIclSpd7e/G+9IAtrdQeBv8FvxpD0hZIs4xRjqukpEZXzeWK5N8NIJXhPbeT3fMA6dCROh6e9YkwWFyaBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PMKApxt6Za+MpA8pebcOMeJcWMexMYZdbgeZaDvNHng=;
- b=MET87FNpsWpnjz6ONBkQB8JnCS9wovWnsv+ot8ziGNVzCOfAA6MJR1PDhF2b/3rh0KZDFBml799AqcqB51jhJnHNW/smWe5ACQQ4CoWC37ND/S+mIeNavdGw3TfI9pztQhGP1GCHD7Ne/ugajnDrkGgOz13DRkOTxahSQjwb2Ds=
-Received: from SN7PR04CA0229.namprd04.prod.outlook.com (2603:10b6:806:127::24)
- by CY5PR10MB6141.namprd10.prod.outlook.com (2603:10b6:930:37::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.42; Thu, 9 Apr
- 2026 18:43:51 +0000
-Received: from SN1PEPF0002636E.namprd02.prod.outlook.com
- (2603:10b6:806:127:cafe::92) by SN7PR04CA0229.outlook.office365.com
- (2603:10b6:806:127::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.42 via Frontend Transport; Thu,
- 9 Apr 2026 18:43:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- SN1PEPF0002636E.mail.protection.outlook.com (10.167.241.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Thu, 9 Apr 2026 18:43:50 +0000
-Received: from DFLE213.ent.ti.com (10.64.6.71) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Apr
- 2026 13:43:50 -0500
-Received: from DFLE204.ent.ti.com (10.64.6.62) by DFLE213.ent.ti.com
- (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Apr
- 2026 13:43:50 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE204.ent.ti.com
- (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 9 Apr 2026 13:43:50 -0500
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.39])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 639IhoK23069073;
-	Thu, 9 Apr 2026 13:43:50 -0500
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=NoF7XNSw;
+ spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-483487335c2so13573505e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 12:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1775762239; x=1776367039; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jCnnrxykJQZYa3Lp1iwr1DrwEnjxjkV3j9iK2uVaOa4=;
+        b=NoF7XNSwEjt8ClPnspZIrKMp9sfzPp+cT1503icL402zVtYWy86rr1Bno3iQk8AnSj
+         3gEPzzi45wzT/wivL2D28lUfWDoER/nN88nKQ3XLT5tXuQEWsUKxeF9jIKzfVxCJbkIJ
+         0tlxK8NIDTqQF2rjimKd54VZSzz+/kxGl++Pg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775762239; x=1776367039;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jCnnrxykJQZYa3Lp1iwr1DrwEnjxjkV3j9iK2uVaOa4=;
+        b=BL8Nx4eiPjEtS7KJ9fMEllj+tojfGq/ScUcrFDZxI/jnuxRYxs2+oT5A9LJMVodW0W
+         /OAczSCd4jbXiDf5vzMLbhA0hBYmZbuHg0cEL1mHohjOA1nQb9061tfct17LPGlI5/M+
+         nb5ZqtPuiVb5r0FnCfhQIYutjs5JU8a/IkurssE87icmiUbTouA2WAI2ldkxZHICVWMQ
+         XGuI5JRqZ72Xx70lPOGBH4XZiG2RRCp92i65jPx9OcLpOnB+qen66yTnv4XvpwfYoyMk
+         5e4WyVu/AqGcEV4W6g94cmCUPz6bJjF6HbedDw4e9murHTA+E8erOq80tfodkwNd3Miq
+         1d/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWcSvzFUVcLa1AhjWDO3i0ZI5z5hGUcrthXbRymrUd8p1Uu6f249FvEYomtAaAgovibzTXsZW3sjT+plO9IgMaHUQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy1W3enhRWLMuOD11Tl6DhXivG86FZz2JdQvuZ30kVfgqJND7mU
+	f17KYRAbNsxe9AQLqYwhHBBtYmTqMF1aBG4gbXUm+HNmHQCf3Rj5WMGuP86/h+ZrP3o=
+X-Gm-Gg: AeBDieuU4eiUrbeNhERSDvwv+6IlbuMSlkDqnIKrU12gATw0r8tsdo9JPHU0FTlWVSA
+	WInMudRhvL0Rbjsezjc3hLKn2nuG9U9TnC7Rull92z8RgVefxu5JkDOP3omQsuI76+xys7X+GI1
+	ruQpo0n0F44C4okvKSh6upU52yH/TpZJRsmgi/7XPCURvnGKgK2vipfVFZ73T1mRpQGtMeDnN4t
+	ZplN0zWFTn/QT5WOfO5oJdti6bArypNmEqwT4sMsJEe94uRIrIdDBh5gdqZtSNGqjtIhBeA/q+9
+	uwJF7AEYXlmz3FETdBPfA1MWVVPY4mQnwQvBl699RQC7jo50CnVRALzCeuFlO7GuBl4eDpXL2uq
+	LS3h2vY5L90atyC+ZhGZqo5EmbnpMHdzHilkMapXmD5AUTp36sAILhyghPaJI/XhzqmZxLZRDvZ
+	HMLxG+BdAs1pUD65QJIqPDzmLJjFi/atRfP+YptGsBhyJvwR+8CVl2AHya1Y4/hClpWqq7mkDm/
+	cwAkFJuRTPLhEb+udZ4PHpiAA==
+X-Received: by 2002:a05:600c:8b16:b0:488:a916:14a8 with SMTP id 5b1f17b1804b1-488d67e3773mr945325e9.10.1775762239004;
+        Thu, 09 Apr 2026 12:17:19 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e468c5sm1141175f8f.20.2026.04.09.12.17.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Apr 2026 12:17:17 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Thu, 9 Apr 2026 13:43:50 -0500
-Message-ID: <DHOUGRY2C4M8.TNYH9AOQ1UCA@ti.com>
-CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"ross.burton@arm.com" <ross.burton@arm.com>,
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core][PATCH] systemd: fix unmerged-bin tainted message
-From: Randolph Sapp <rs@ti.com>
-To: <rs@ti.com>, Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"joerg.sommer@navimatix.de" <joerg.sommer@navimatix.de>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260408195024.1874335-2-rs@ti.com>
- <adcqUntpjuEXPLyw@navimatix.de>
- <DB5PR02MB10213895DC73E4599A411B050EF582@DB5PR02MB10213.eurprd02.prod.outlook.com> <18A4C3228BFBCFA6.777565@lists.openembedded.org>
-In-Reply-To: <18A4C3228BFBCFA6.777565@lists.openembedded.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636E:EE_|CY5PR10MB6141:EE_
-X-MS-Office365-Filtering-Correlation-Id: 084b06ad-822c-43b3-a70e-08de9667f170
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|36860700016|82310400026|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	iCtQHQZR8iaBY1zOpWN718fDDK0LAZKiHyeO7sAN8WKFFKJREduMm4xO2KsSl9hq9EcwsFVw784Ug4uK0MXXkEISICpiNm+AHL6YZ+BXrKr8IbyBawQYfEU9R+Dldk8Mj6mBpXZO5amwDP77HdeRzWR/hM7JNoZV76ts+0ErY94jk9LXpX7CnC8/hpi4jgpxLLzXhkWhJOEGoOjiD3/WHeurAjhTW8vwJc0bkF6x1HxGyU2ksW0kAmWDpk1RwBdzrlFUpPnt1rPk39aFsXP72y9MzMCVpOqZWY31GtOHqzKv/lMThKCT/rs5co9ZPcOeIWTpLJE6T/5CMO7s+/gIOHVKfqQCAxdhV0vKY7KXvXNN/l6iDQvEL4eSEND3atpq4u55P0lBfzR8jjgW4JUP+lyYw90NfMj7hMuFvWBgm7+uVeIY9ZVCdcF8E+5BlpAe5gNgSe2GXGmtCGQ7dmgNAmpl7sImEqloz5tsXvX6nIhoGMLTzpIrDuG5q6lTLRkuJcciDkTx8YYMTW9IVOGNcq6xNaMga3Xmccl37JfHtZYvluc23PEX18VY+t77emgTN0z11vx2SkMO8qCJtI29hXE5H9kgvYQ9AT72VHgx3JmKpBIMaZIafaqpg091+IvWiVUg6KC2kKXThjcKcvROYdk3qSwJIpTMUzb+t3wpFYGVMIUODpf833lliEVh3nETuk5hCghlf1+QnxwC5CDPT7CtmMFKB99tQVaKWZIw8+G/3zENq0fjfQM9Us53Fxb6o5Hg4IfCoi5bKG0q1DgWJQ==
-X-Forefront-Antispam-Report: 
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700016)(82310400026)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	P1etpemE50P+OyGwEupKKcO9wePFlQ6PxWt56JP4KMdN8rV3VDAzWWXlRb+bO5f2CI/fCNGOmlSrCXUGnSam/ywPpGdfcbSOzC72+HmWlsF7KhpN9knhyJ0Qgqudup+JuLCiR87phNvAEYWLDAtfrcmQgVDD9esPuKxbvOoGFHJapbWu/onCeTa762w5kYBzJ3v5Ao6+aini8WHbEM3dSZrgyvGA04TM8PWfW6+qFeAcDX+0JqiJxZ83SCN5jrv5vNpg0upOlALaBPcmr6Fi1dGF2Wx+/NNJ6h+55RQw4U0c+Um5UA7gK16EgKn6tbtsT0Tfzs19lD6gRW+5ZsBFnXf/QVgAHgqFoZon8+AmQLCHtE/gsKlfX98I7f3jYxl1t6R8n4tKNdBKEKjPvVb8azOcmu2G2sqfSARAwKtUTxdRNOzMHvoIGChhKqW+9tAR
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 18:43:50.8992
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 084b06ad-822c-43b3-a70e-08de9667f170
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SN1PEPF0002636E.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6141
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 09 Apr 2026 21:17:16 +0200
+Message-Id: <DHOV6DD1DEG9.2REH24GS0QYC3@smile.fr>
+Subject: Re: [OE-core] [whinlatter][PATCH 1/9] dtc: backport fix for build
+ with glibc-2.43
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>, "Richard
+ Purdie" <richard.purdie@linuxfoundation.org>
+To: <martin.jansa@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260409152839.2894434-1-martin.jansa@gmail.com>
+In-Reply-To: <20260409152839.2894434-1-martin.jansa@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 18:43:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234941
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 19:17:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234942
 
-On Thu Apr 9, 2026 at 1:18 PM CDT, Randolph Sapp via lists.openembedded.org=
+On Thu Apr 9, 2026 at 5:28 PM CEST, Martin Jansa via lists.openembedded.org=
  wrote:
-> On Thu Apr 9, 2026 at 2:49 AM CDT, Peter Kjellerstedt wrote:
->>> -----Original Message-----
->>> From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
-.openembedded.org> On Behalf Of J=C3=B6rg Sommer via lists.openembedded.org
->>> Sent: den 9 april 2026 06:31
->>> To: rs@ti.com
->>> Cc: richard.purdie@linuxfoundation.org; ross.burton@arm.com; mathieu.du=
-bois-briand@bootlin.com; openembedded-core@lists.openembedded.org
->>> Subject: Re: [oe-core][PATCH] systemd: fix unmerged-bin tainted message
->>>=20
->>> Randolph Sapp via lists.openembedded.org schrieb am Mi 08. Apr, 14:50 (=
--0500):
->>> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->>> > index 84450386d9..29301534d2 100644
->>> > --- a/meta/conf/bitbake.conf
->>> > +++ b/meta/conf/bitbake.conf
->>> > @@ -22,7 +22,7 @@ root_prefix =3D "${@bb.utils.contains('DISTRO_FEATU=
-RES', 'usrmerge', '${exec_prefi
->>> >
->>> >  # Base paths
->>> >  export base_bindir =3D "${root_prefix}/bin"
->>> > -export base_sbindir =3D "${root_prefix}/sbin"
->>> > +export base_sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'us=
-rmerge', '${root_prefix}/bin', '${root_prefix}/sbin', d)}"
->>>=20
->>> Maybe:
->>>=20
->>> export base_sbindir =3D "${root_prefix}/${@bb.utils.contains('DISTRO_FE=
-ATURES', 'usrmerge', 'bin', 'sbin', d)}"
->>>=20
->>> or
->>>=20
->>> export base_sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrme=
-rge', '${base_bindir}', '${root_prefix}/sbin', d)}"
->>
->> This one. For the unlikely case that someone modifies base_bindir.
->>
+> From: Martin Jansa <martin.jansa@gmail.com>
 >
-> Fair enough. Any other comments about Richards proposal to remove the usr=
-merge
-> distro feature and merge that into the systemd distro feature?
+> glibc-2.43 isn't used in OE builds yet, but this fixes dtc-native:
+> https://errors.yoctoproject.org/Errors/Details/903983/
 >
-> I personally think that a non-systemd environment could still benefit fro=
-m
-> mimicking a filesystem structure most distros currently ship, but that's =
-just
-> me.
+> ../sources/dtc-1.7.2/libfdt/fdt_overlay.c: In function =E2=80=98overlay_f=
+ixup_phandle=E2=80=99:
+> ../sources/dtc-1.7.2/libfdt/fdt_overlay.c:424:21: error: assignment disca=
+rds =E2=80=98const=E2=80=99 qualifier from pointer target type [-Werror=3Dd=
+iscarded-qualifiers]
+>   424 |                 sep =3D memchr(fixup_str, ':', fixup_len);
+>       |                     ^
+> ../sources/dtc-1.7.2/libfdt/fdt_overlay.c:434:21: error: assignment disca=
+rds =E2=80=98const=E2=80=99 qualifier from pointer target type [-Werror=3Dd=
+iscarded-qualifiers]
+>   434 |                 sep =3D memchr(name, ':', fixup_len);
+>       |                     ^
+> cc1: all warnings being treated as errors
+>
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
 
-Also suppose I should apply this to all sbin related variables in this file=
- to
-keep everything consistent between the SDKs and the actual rootfs images.
+Hello,
+
+I've started a whinlatter bringup build on the new Ubuntu 26.04 worker
+with this series applied:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/96/builds/23
+
+It got 2 errors (Other errors are most likely consequences of these ones):
+
+ERROR: shadow-native-4.18.0-r0 do_configure: configure failed:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/96/builds/23/step=
+s/12/logs/stdio line 6269:
+| checking for crypt in -lcrypt... no
+| configure: error: crypt() not found
+| NOTE: The following config.log files may provide further information.
+| NOTE: /srv/pokybuild/yocto-worker/bringup/build/build/tmp/work/x86_64-lin=
+ux/shadow-native/4.18.0/build/config.log
+| ERROR: configure failed
+| WARNING: exit code 1 from a shell command.
+NOTE: recipe shadow-native-4.18.0-r0: task do_configure: Failed
+
+ERROR: virglrenderer-native-1.1.1-r0 do_compile: Execution of '/srv/pokybui=
+ld/yocto-worker/bringup/build/build/tmp/work/x86_64-linux/virglrenderer-nat=
+ive/1.1.1/temp/run.do_compile.2048675' failed with exit code 1
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/96/builds/23/step=
+s/12/logs/stdio line 29545:
+| [4/57] gcc -Isrc/mesa/libmesa.a.p -Isrc/mesa -I../sources/virglrenderer-1=
+.1.1/src/mesa -I../sources/virglrenderer-1.1.1/src/mesa/compat -I../sources=
+/virglrenderer-1.1.1/src/mesa/pipe -I../sources/virglrenderer-1.1.1/src/mes=
+a/util -fdiagnostics-color=3Dalways -DNDEBUG -D_FILE_OFFSET_BITS=3D64 -Wall=
+ -Winvalid-pch -Wextra -Wpedantic -std=3Dgnu11 -Werror=3Denum-int-mismatch =
+-Werror=3Dimplicit-function-declaration -Werror=3Dmissing-prototypes -Werro=
+r=3Dpedantic -Wmissing-prototypes -Werror=3Dincompatible-pointer-types -Wer=
+ror=3Dint-to-pointer-cast -Werror=3Dswitch -Wno-overlength-strings -Wno-mis=
+sing-field-initializers -Werror=3Dformat -fvisibility=3Dhidden -fno-strict-=
+aliasing -imacros /srv/pokybuild/yocto-worker/bringup/build/build/tmp/work/=
+x86_64-linux/virglrenderer-native/1.1.1/build/config.h -DHAVE_CONFIG_H=3D1 =
+-isystem/srv/pokybuild/yocto-worker/bringup/build/build/tmp/work/x86_64-lin=
+ux/virglrenderer-native/1.1.1/recipe-sysroot-native/usr/include -O2 -pipe -=
+fPIC -pthread -MD -MQ src/mesa/libmesa.a.p/util_u_math.c.o -MF src/mesa/lib=
+mesa.a.p/util_u_math.c.o.d -o src/mesa/libmesa.a.p/util_u_math.c.o -c ../so=
+urces/virglrenderer-1.1.1/src/mesa/util/u_math.c
+| FAILED: [code=3D1] src/mesa/libmesa.a.p/util_u_math.c.o
+| gcc -Isrc/mesa/libmesa.a.p -Isrc/mesa -I../sources/virglrenderer-1.1.1/sr=
+c/mesa -I../sources/virglrenderer-1.1.1/src/mesa/compat -I../sources/virglr=
+enderer-1.1.1/src/mesa/pipe -I../sources/virglrenderer-1.1.1/src/mesa/util =
+-fdiagnostics-color=3Dalways -DNDEBUG -D_FILE_OFFSET_BITS=3D64 -Wall -Winva=
+lid-pch -Wextra -Wpedantic -std=3Dgnu11 -Werror=3Denum-int-mismatch -Werror=
+=3Dimplicit-function-declaration -Werror=3Dmissing-prototypes -Werror=3Dped=
+antic -Wmissing-prototypes -Werror=3Dincompatible-pointer-types -Werror=3Di=
+nt-to-pointer-cast -Werror=3Dswitch -Wno-overlength-strings -Wno-missing-fi=
+eld-initializers -Werror=3Dformat -fvisibility=3Dhidden -fno-strict-aliasin=
+g -imacros /srv/pokybuild/yocto-worker/bringup/build/build/tmp/work/x86_64-=
+linux/virglrenderer-native/1.1.1/build/config.h -DHAVE_CONFIG_H=3D1 -isyste=
+m/srv/pokybuild/yocto-worker/bringup/build/build/tmp/work/x86_64-linux/virg=
+lrenderer-native/1.1.1/recipe-sysroot-native/usr/include -O2 -pipe -fPIC -p=
+thread -MD -MQ src/mesa/libmesa.a.p/util_u_math.c.o -MF src/mesa/libmesa.a.=
+p/util_u_math.c.o.d -o src/mesa/libmesa.a.p/util_u_math.c.o -c ../sources/v=
+irglrenderer-1.1.1/src/mesa/util/u_math.c
+| In file included from ../sources/virglrenderer-1.1.1/src/mesa/compat/c11/=
+threads.h:64,
+|                  from ../sources/virglrenderer-1.1.1/src/mesa/util/u_thre=
+ad.h:35,
+|                  from ../sources/virglrenderer-1.1.1/src/mesa/util/u_cpu_=
+detect.h:40,
+|                  from ../sources/virglrenderer-1.1.1/src/mesa/util/u_math=
+.c:32:
+| ../sources/virglrenderer-1.1.1/src/mesa/compat/c11/threads_posix.h:54:9: =
+warning: =E2=80=98ONCE_FLAG_INIT=E2=80=99 redefined
+|    54 | #define ONCE_FLAG_INIT PTHREAD_ONCE_INIT
+|       |         ^~~~~~~~~~~~~~
+| In file included from /usr/include/stdlib.h:1191,
+|                  from ../sources/virglrenderer-1.1.1/src/mesa/compat/c11/=
+threads_posix.h:29:
+| /usr/include/x86_64-linux-gnu/bits/types/once_flag.h:25:9: note: this is =
+the location of the previous definition
+|    25 | #define ONCE_FLAG_INIT __ONCE_FLAG_INIT
+|       |         ^~~~~~~~~~~~~~
+| ../sources/virglrenderer-1.1.1/src/mesa/compat/c11/threads_posix.h:69:25:=
+ error: conflicting types for =E2=80=98once_flag=E2=80=99; have =E2=80=98pt=
+hread_once_t=E2=80=99 {aka =E2=80=98int=E2=80=99}
+|    69 | typedef pthread_once_t  once_flag;
+|       |                         ^~~~~~~~~
+| /usr/include/x86_64-linux-gnu/bits/types/once_flag.h:24:21: note: previou=
+s declaration of =E2=80=98once_flag=E2=80=99 with type =E2=80=98once_flag=
+=E2=80=99
+|    24 | typedef __once_flag once_flag;
+|       |                     ^~~~~~~~~
+| ../sources/virglrenderer-1.1.1/src/mesa/compat/c11/threads_posix.h:94:1: =
+error: conflicting types for =E2=80=98call_once=E2=80=99; have =E2=80=98voi=
+d(int *, void (*)(void))=E2=80=99
+|    94 | call_once(once_flag *flag, void (*func)(void))
+|       | ^~~~~~~~~
+| /usr/include/stdlib.h:1195:13: note: previous declaration of =E2=80=98cal=
+l_once=E2=80=99 with type =E2=80=98void(once_flag *, void (*)(void))=E2=80=
+=99
+|  1195 | extern void call_once (once_flag *__flag, void (*__func)(void));
+|       |             ^~~~~~~~~
+
+Regards,
+
+--=20
+Yoann Congal
+Smile ECS
+
 
