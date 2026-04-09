@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D741E98FD2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34747F31E5A
 	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 16:00:08 +0000 (UTC)
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.136112.1775750398142677647
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.136113.1775750399175827060
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 08:59:58 -0700
+ Thu, 09 Apr 2026 08:59:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=yvA94Ecr;
- spf=pass (domain: smile.fr, ip: 209.85.221.65, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so1016158f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 08:59:57 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=q6bK+9iW;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-482f454be5bso11529615e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 08:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775750396; x=1776355196; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775750397; x=1776355197; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hh1S4I66m4GVSBIIy1BtX/Md276XqDavCSzcnFAEIKc=;
-        b=yvA94EcrhXL/TjsJa32wazX0ltHJ4V7A0PG5aUbVasWy/hHN+EpGTk/GfIAMCVpFmp
-         l8Wh1ZVrZQNXcpCtx/sQSa3/rVPaKrCF71CFj7E1aC5U64SyxM0cXDKDAALQzc1D8Paq
-         Gy7SU7hKzaNVKy/1tHnWu6NNFut7gbPRjgzuw=
+        bh=tKZ9G/NdOtagwAPvJOKTWSQfsxyhuSqzb1tWjjrrk6I=;
+        b=q6bK+9iWtSdx5AEvoLm6fm5BWXs58kE6eLAO+A3XCQzf+eTdalu3OUbjzGpV/Vo7UE
+         +0gBe6yoSQqA2mwE/jguzYAWJWMWDOLmyT47Zmj/4P8wo1XF5HrtFKmkZop9kBVGdIRG
+         Zkwl/fDKW++WQnzi5jSNo1d9JULqdjqM/KGM4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775750396; x=1776355196;
+        d=1e100.net; s=20251104; t=1775750397; x=1776355197;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hh1S4I66m4GVSBIIy1BtX/Md276XqDavCSzcnFAEIKc=;
-        b=VadUJ7k09ftqhQ3z8IPyldZoUEz2JzfBTOswa018dZYS81y7+ZQ5lqPOsT0r+6NPgN
-         M6GrdpdeokiblCNA0z1zE8Iil0fp3ievJxzH3ukMG9dxaxGOIMLP7FOcjY8bC0McHCeZ
-         vcCDnJpJikcfFA00YXwa7peaFiOFrDfr0kLDNvoFzPE7LVdY8moHO5XnA2iSjTYLG5Kv
-         hVBLKfBA2tywOZYyBL7I+YPYhtnL0ykxpjJC0PY6g48bto18Wgd25Gghlku0FI7djMHY
-         qezZhH+DwJEMkp65ZuXy5nFgpefG07zl1UYJHKFVo0cRXloP6owdOuFfToUQ9IDYNqUE
-         iWxw==
-X-Gm-Message-State: AOJu0Yzi2Aa1sO0c/MyrO9VmNylGa+SOWj1+B8orb+5CEwHHTlHos9nX
-	SEqaJr63dB5lSu2FAGX5ktwa3gaB5X65rTYSEWezOceEDFxx54gACaJmV09I1v91KjCc5sVoCol
-	4nWQPSWNz0tqR
-X-Gm-Gg: AeBDievIWr/wd7XTiuLlQiUykBAKxBNq51XS4DK0VsujHFRVfExDB4aC1KhhJeI3lPy
-	8xZYUfGv1EdNrHqRIuyw0qO1GplJEXbGO2B6Qanwfcx8yV4rM0VcDB8maimm5xPhXjCbg79bWk6
-	wKNKbQaZG8eWdlEVX6+VmJ7ufCK+4a9IYL7eOYvsCa37YXV3/Ytd/0dsk8QevKGDbyVEqyIoyVl
-	b3I2J+gAJUZcuttpu/ucvr6K0ADeYAM7UzOSYup1qPbaEl09BPnCk7oJEPWr1hPPkzvZKvv+MGB
-	zSvhaDmzuK3U24qmP2xnHIlQvbBDTWwN3vjoWaVpnsZ2AVNE6Zn2esVqoy/xUr9JiI9TJeRlPFb
-	WaGJCU6HmFC2bm0R2duASoYjBZ7XOxf+q9WyW0liiTt3R9liqppBW6RNmxAn3CILRTeqk4qxPDO
-	Ul/eZ0NFAyfa9C1TxTWxRmRdpjNUG1G4SV2pp296G3LyfqOLplhxw6CcuLWgzlp/yG/RMyVC55z
-	IYmcAPDKdZ4pbK/kRFTBZXlxa2q
-X-Received: by 2002:a05:6000:2c05:b0:43c:4810:dc4a with SMTP id ffacd0b85a97d-43d5a17cfafmr5909529f8f.38.1775750395887;
-        Thu, 09 Apr 2026 08:59:55 -0700 (PDT)
+        bh=tKZ9G/NdOtagwAPvJOKTWSQfsxyhuSqzb1tWjjrrk6I=;
+        b=ZaK22JrXUi6CiOcB9xSyIEISgUb5VAcYwGhwDv0uL1cowCOUonLq6Q4U31kLbephfV
+         EuD16Bqn+oVEMVmBOPf/42VT6YO2VW73HSd3BYBV3tuGyBErSt2sTJDzzfMicRdfLpBA
+         Y18J8D25ASr0+iYNOjJngE1qzhiA4WF2m0+YKekZCgvG/zoyfSg10N94Y1zi3g23A0BL
+         YYq9PWPT+kTPRKeNq4xBqjuJLNch/jxkZoDaWvyiithtzXxlFAc3LTB77Ljm/W4Mbxc5
+         3HqBl6VtrQBJdBLJ15skBCjcCx8vIA0MOvEbJWJ228Cs3SAtiTqfsfVQay2pMfBNUnni
+         aZ0w==
+X-Gm-Message-State: AOJu0Ywox6v7A3FfzMEW5KhKtWYgCCi9P9u2YKwFSwo5MYSKeTr9I0tH
+	P56OiXcRrW8yTvWgRyqnFzOAa851xz9ozfROAiHxcOIG8wybP6jn52+cKOkXvdyxEuvSu41bJ9n
+	PSteILFhLHy1Q
+X-Gm-Gg: AeBDiesYQE4GD54kca2wh763U8+vdOz9SN1rhexl7K/K/PdiCTdBnCUvdBcNaL7/S6E
+	t41yAJYgs+UjkRsqbTVm9yYjButOICNrpbKq1jZUIZxk3PkJhvkmf1eSlitnvQREqli2sexf1te
+	27vZzXRlyzBkJ6G369k/nCFWUdaRquOXCScS00SByAhV9TtIhyb2wbCHIT8ciQKyxgibNhXXqDO
+	0KTIivUsoXKDbF1kXH3qfkeu/qBq857F024d6OvjuFCC5fKq56HrApgi1O/4dZHShZ0u3HdQGhw
+	SJNEgQw2HbirObfI5+QKU5KZrEQyef/cp0Gk8AZXs7Ix0I4D8yK2deJuvaMNn+evuxUuocOAToX
+	7/QKJZAg4Jy5bgU0Y4CqeY6mq0rgI1DaqqwZ8Twy5muSghLXa/FihKd9kuIKRemxqjCi+L8U6qr
+	xXwwvdWL+tv1Z6B9X1NUxSF1uYKR4FX6CL5c1UoAFpdFK7nPeWlqkZCKdS5q2fo78aaywo+QHY3
+	vImfSclCafdlarTFZ8R8q3KRL6R
+X-Received: by 2002:a05:6000:22c9:b0:43d:1de8:80b1 with SMTP id ffacd0b85a97d-43d595bbe83mr6204653f8f.21.1775750397105;
+        Thu, 09 Apr 2026 08:59:57 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa003cc57ca6ff0f11d4.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:3cc5:7ca6:ff0f:11d4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a6f13sm69149364f8f.3.2026.04.09.08.59.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a6f13sm69149364f8f.3.2026.04.09.08.59.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 08:59:55 -0700 (PDT)
+        Thu, 09 Apr 2026 08:59:56 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: OE-core ML <openembedded-core@lists.openembedded.org>
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [kirkstone][PATCH 2/5] oeqa/manual: Default to https git protocol for YP/OE repos
-Date: Thu,  9 Apr 2026 17:59:32 +0200
-Message-ID: <20260409155935.2245789-2-yoann.congal@smile.fr>
+Cc: Yoann Congal <yoann.congal@smile.fr>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone][PATCH 4/5] recipetool: Recognise https://git. as git urls
+Date: Thu,  9 Apr 2026 17:59:34 +0200
+Message-ID: <20260409155935.2245789-4-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409155935.2245789-1-yoann.congal@smile.fr>
 References: <20260409155935.2245789-1-yoann.congal@smile.fr>
@@ -66,59 +67,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 16:00:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234928
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234930
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Following up on commit 139102a73d41 ("recipes: Default to https git protocol where possible"),
-> The recommendation from server maintainers is that the https protocol
-> is both faster and more reliable than the dedicated git protocol at this point.
-> Switch to it where possible.
+If a url has git. in it, assume it is likely to be a git cloneable url
+and should be treated as such.
 
+This allows us to switch from https://git.yoctoproject.org/git/XXX urls to
+the preferred https://git.yoctoproject.org/XXX form.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit cedc9209e3bae0da8d61423b16c74c49a132aa63)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oeqa/manual/crops.json                  | 2 +-
- meta/lib/oeqa/manual/eclipse-plugin.json         | 2 +-
- meta/lib/oeqa/manual/toaster-unmanaged-mode.json | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ scripts/lib/recipetool/create.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/manual/crops.json b/meta/lib/oeqa/manual/crops.json
-index 5cfa6538432..cf6d19e6bf3 100644
---- a/meta/lib/oeqa/manual/crops.json
-+++ b/meta/lib/oeqa/manual/crops.json
-@@ -276,7 +276,7 @@
-                     "expected_results": "this should output the directory of the devtool script and it should be within the sdk workdir you are working in.  \n\n"
-                 },
-                 "5": {
--                    "action": " 4a) git clone git://git.openembedded.org/meta-openembedded in  layers/build  directory   \n \n4b) Add meta-openembedded/meta-oe in bblayer.conf as mentioned below: ${SDKBASEMETAPATH}/layers/build/meta-openembedded/meta-oe \\   \n\n4c) devtool add \"npm://registry.npmjs.org;name=npm;version=2.2.0\"   \n\n",
-+                    "action": " 4a) git clone https://git.openembedded.org/meta-openembedded in  layers/build  directory   \n \n4b) Add meta-openembedded/meta-oe in bblayer.conf as mentioned below: ${SDKBASEMETAPATH}/layers/build/meta-openembedded/meta-oe \\   \n\n4c) devtool add \"npm://registry.npmjs.org;name=npm;version=2.2.0\"   \n\n",
-                     "expected_results": " This should automatically create the recipe npm.bb under /recipes/npm/npm.bb  \n\n"
-                 },
-                 "6": {
-diff --git a/meta/lib/oeqa/manual/eclipse-plugin.json b/meta/lib/oeqa/manual/eclipse-plugin.json
-index 6c110d0656e..6f655a2ba90 100644
---- a/meta/lib/oeqa/manual/eclipse-plugin.json
-+++ b/meta/lib/oeqa/manual/eclipse-plugin.json
-@@ -246,7 +246,7 @@
-             ],
-             "execution": {
-                 "1": {
--                    "action": "Clone eclipse-poky source.   \n    \n    - git clone git://git.yoctoproject.org/eclipse-poky  \n\n",
-+                    "action": "Clone eclipse-poky source.   \n    \n    - git clone https://git.yoctoproject.org/eclipse-poky  \n\n",
-                     "expected_results": "Eclipse plugin is successfully installed  \n\nDocumentation is there. For example if you have release yocto-2.0.1 you will found on   https://downloads.yoctoproject.org/releases/yocto/yocto-2.0.1/eclipse-plugin/mars/  archive with documentation like org.yocto.doc-development-$date.zip  \n  \n"
-                 },
-                 "2": {
-diff --git a/meta/lib/oeqa/manual/toaster-unmanaged-mode.json b/meta/lib/oeqa/manual/toaster-unmanaged-mode.json
-index 29d11a87d5b..3d1dba447b3 100644
---- a/meta/lib/oeqa/manual/toaster-unmanaged-mode.json
-+++ b/meta/lib/oeqa/manual/toaster-unmanaged-mode.json
-@@ -10,7 +10,7 @@
-       ],
-       "execution": {
-         "1": {
--          "action": "Set up yocto project and toaster test environment. \ncd ${installdir} \ngit clone git://git.yoctoproject.org/poky  \n\n",
-+          "action": "Set up yocto project and toaster test environment. \ncd ${installdir} \ngit clone https://git.yoctoproject.org/poky  \n\n",
-           "expected_results": "NA \n\n"
-         },
-         "2": {
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 7b4c501456b..c4b99619f5e 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -366,7 +366,7 @@ def supports_srcrev(uri):
+ def reformat_git_uri(uri):
+     '''Convert any http[s]://....git URI into git://...;protocol=http[s]'''
+     checkuri = uri.split(';', 1)[0]
+-    if checkuri.endswith('.git') or '/git/' in checkuri or re.match('https?://git(hub|lab).com/[^/]+/[^/]+/?$', checkuri):
++    if checkuri.endswith('.git') or '/git/' in checkuri or re.match('https?://git(hub|lab).com/[^/]+/[^/]+/?$', checkuri) or re.match(r'https?://git\..*', checkuri):
+         # Appends scheme if the scheme is missing
+         if not '://' in uri:
+             uri = 'git://' + uri
 
