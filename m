@@ -1,96 +1,189 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Jinfeng.Wang.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76AC2E98FB0
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 05:56:29 +0000 (UTC)
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.125820.1775714182395097530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9388E98FBA
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 06:16:49 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.126440.1775715408258954999
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2026 22:56:22 -0700
+ Wed, 08 Apr 2026 23:16:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=R16MRzO0;
- spf=pass (domain: gmail.com, ip: 74.125.82.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12c25b90264so2397343c88.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 22:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775714181; x=1776318981; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5o5yRno5rSiMHUC3lCWkfS1EA7OrUGySJ0srgM2vCls=;
-        b=R16MRzO0gyE6Z566YJ0FOy77rW8JXu3BDfvNY7LVpivX1IEZyE6I7E1R4CHI9P4eFW
-         vgxcsqpfqJf6kjQJENYmbaKFyegDdTUaSa3z2evSb2YVSpbZodrwyhKiS8vW4PsFM/ex
-         NrQwEwQXK7BwyCGYgN7fgKDHXyXx1tvEaob3FCwaqfEodcmDqK0DyANqm7lXyhvC1ySl
-         XjR6X3YzsjQi3q/ntXBpPitG7D3hh2OlipGz7esvMp4x+Id6tx9AJ5j7BKIDFIa24kMO
-         8SwcuCUdX2kny5ZsX+7gfLA0Rr2Tys6nzGPnvHNlAl7Mnip4e0U2pqH8I6q05YL7gmyS
-         3MMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775714181; x=1776318981;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5o5yRno5rSiMHUC3lCWkfS1EA7OrUGySJ0srgM2vCls=;
-        b=R12Vyr28D452DblS1J7FNEJmBhhHfldFtsEWdMS3HSx0se9L6CoPonKSDwb0OS/Eul
-         RZrXYWch6ZP5DTMSFD62HNPc8OFm2LCJo1W2orRgYXB1H9IXlpKpFJFLKMmyecJHSXK1
-         V2Sq9kNwrHQnUNHlCdtAQeaceB5s08+TlBe0hGinc8aNexeBecIYf4ECkEmWoEbQuj5C
-         fHWzMNzA4Bp31aLMsKYLbwX/40ddp5L1tLwU9jGZ1jwYo8YcWT0FaZNQHR70Re/mDQXD
-         axqT2zjLFdzIK9bp8Mv7O4NkDnbWUgpbfiQ+xZhFz8xmJ5/h30x/9L0pcRyMHyJ1zmnJ
-         4gRw==
-X-Gm-Message-State: AOJu0YwIjALXEny7qdfrQ6eOtBXfqp39CZeonIbptgQ/lFqk7/hXxt3A
-	k4psbmjaDgE/pNB8wf08t2VaaXWnHH761mvctEHqxN+pjHhdwhZA8nU/TaFowA==
-X-Gm-Gg: AeBDiet+okXpi+JZ2eAlElvSSCYwJvR0FdSrgpuWB9qrBHiWeAtS7K/DHO/ytZQ6tT+
-	JaVK/b4Q935OCRx0m+4RhCFYSrZta7fUaelkkrPOkYkGWhLNA91vzxLx6wuj0RitG9dmAVSOlZk
-	6CZJE4NZhqhupk+nK0uLpny1NRhXGQpg9P3PC2N1asiCQ7GV7qsFWbw4RQsxs5+4ZMsqcFMdyXl
-	4VYdumKg7EK9BHGIEBZyk0lJ/omFeHMGgMDKhxDz7DDo0NO8NIBwW0yDanndtRN7bAW8kAwplhZ
-	MtT38xnMWqI3MY6qfkiUJ27L3pWtTBBqwrILr+nYYwLbFCcRK70nr4KUJ9Xm0Upvk96yFz84Xan
-	k+GLUEAX14jrnM8XY8yAHdOVm9nIXs8ua54mMqQEmVJcqMDVv8s0u6srVE4NZ2QYY4Hce9t3hPf
-	XtyXPgik4Sl6CE4w/axLdmJQr3OlE5e8SLYZuu33Hn2ncKDeEYhvkXbBeITs3JlANZgazTPiry+
-	UDtUT6DlM/KWvTJcTwcAu5VY6yHb9Bg3y6xTKheOfT7jDnWuoMo465xNFJDJ3PEgrq0N4M=
-X-Received: by 2002:a05:7022:23a4:b0:12a:7165:7405 with SMTP id a92af1059eb24-12bfb6ec47cmr13618447c88.8.1775714181361;
-        Wed, 08 Apr 2026 22:56:21 -0700 (PDT)
-Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bede54ba8sm28032586c88.10.2026.04.08.22.56.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 22:56:20 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] flex: Keep it at C17 with clang
-Date: Wed,  8 Apr 2026 22:56:17 -0700
-Message-ID: <20260409055617.917253-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=bH3lWIpM;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8559144404=jinfeng.wang.cn@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6395Qvjx270432
+	for <openembedded-core@lists.openembedded.org>; Wed, 8 Apr 2026 23:16:48 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=2xiLcYmcdey8clHftoXd9YZl9RVU+3Aug35YUZINwtM=; b=bH3lWIpMBGC6
+	lZgJge04WiZmr0QWCW//AZ5hApYptms58P4nhPYFUfF2/XOpnorA4ySVR2RGBodo
+	pd8kSHs28EVn0mGEJ2c+Il30EY9v5niUESPY8AsKH6o8WduO8F1mLp+R8VlGXOfe
+	IxJmcNPV8awnpBjuzTWbBqAX3A5YgbTN7bWSk6lxvNWbYM07YIYGN/oWTaUtoe2R
+	T5a1ZLTEVfAZ+rxy3DKH8uNC0qNxY3S/SR1NJNhR9vTag0vKo3/HPSof+PLWImHS
+	xQ0Dkz9apjoIweRb4LUqF6+8kv46dEaivh1ALuP2Ye6aDPTcK89K4ItR2teGY7Ba
+	K58PdMQ/YA==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dcmryknh1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2026 23:16:47 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 8 Apr 2026 23:16:46 -0700
+Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 8 Apr 2026 23:16:46 -0700
+From: <jinfeng.wang.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [scarthgap][PATCH 06/12] python3-wheel: fix CVE-2026-24049
+Date: Thu, 9 Apr 2026 14:16:33 +0800
+Message-ID: <20260409061639.1688205-7-jinfeng.wang.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260409061639.1688205-1-jinfeng.wang.cn@windriver.com>
+References: <20260409061639.1688205-1-jinfeng.wang.cn@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: NerBlszp8iprbvkB0Krc-owhw8Th-f7L
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDA1NCBTYWx0ZWRfX0LHq/9fh5ypH
+ E0vYZiE4sFgk5+tpYnYuOmcIjMmTlwh/vn+xxTs284GaR5mV7kSTdxafnY8z66yzN+H46OGz9uD
+ 2GHtrAulzzTuJtB6oszW9aIG+uIxmE0RsF1QnZu+ocsqS0WOzNEZ7XyV6CEn2xQunF5ouSQWd4t
+ hXwPd24nCHd0m/Xy6jssJqDtblnHLCDE+aQ4m5tzgWzVT32tHUxqgKda/ccJzVU1oUyOnQ88Vt7
+ sC9QhutZCok6ykgu5ch3rabIhUD3euGHzstkQ1y8sFyip+RTfU3M87sDs/BE7lIUQv/Hf3MAPnr
+ ZQFvI9t0z14F7Zm8iaSAdhtY9l0vWiAoJxJfx4h+ufof/FDIEdAtC0WlBYvoU3eVbfAvGEinEWS
+ bWZjNbVQ2fb10Y4BIIuw0Gf8iul2EAamlol5P3cEmhuL7Ll/lwyEfQzq4FqXAVrIcztnnRrvwCM
+ tX960OsOSXvqy9YYsHA==
+X-Proofpoint-GUID: NerBlszp8iprbvkB0Krc-owhw8Th-f7L
+X-Authority-Analysis: v=2.4 cv=Wcg8rUhX c=1 sm=1 tr=0 ts=69d7444f cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
+ a=Eo5z8NStIMYwHTwZncMA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-09_01,2026-04-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604010000
+ definitions=main-2604090054
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 05:56:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234875
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 06:16:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234882
 
-autoconf 2.73 enforces C23 and adds -std=gnu23 but it leaks it into
-CC_FOR_BUILD as well, which bites on systems with GCC < 14 where this
-option does not exist.
+From: Guocai He <guocai.he.cn@windriver.com>
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Backport patch to fix CVE-2026-24049 per reference [1] [2].
+
+[1] https://security-tracker.debian.org/tracker/CVE-2026-24049
+[2] https://github.com/pypa/wheel/commit/7a7d2de96b
+
+Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
+Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
 ---
- meta/recipes-devtools/flex/flex_2.6.4.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../python/python3-wheel/CVE-2026-24049.patch | 73 +++++++++++++++++++
+ .../python/python3-wheel_0.42.0.bb            |  2 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-wheel/CVE-2026-24049.patch
 
-diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
-index fa8c0fb6fd..0507d4e300 100644
---- a/meta/recipes-devtools/flex/flex_2.6.4.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-@@ -36,6 +36,11 @@ inherit autotools gettext texinfo ptest github-releases
- M4 = "${bindir}/m4"
- M4:class-native = "${STAGING_BINDIR_NATIVE}/m4"
- EXTRA_OECONF += "ac_cv_path_M4=${M4} ac_cv_func_reallocarray=no"
-+# Don't let autoconf smarts to detect C standard, flex code does not need C23
-+# which is what it will enforce see
-+# https://savannah.gnu.org/support/index.php?111401
-+CACHED_CONFIGUREVARS:append:toolchain-clang = " CFLAGS='${CFLAGS} -std=gnu17'"
+diff --git a/meta/recipes-devtools/python/python3-wheel/CVE-2026-24049.patch b/meta/recipes-devtools/python/python3-wheel/CVE-2026-24049.patch
+new file mode 100644
+index 0000000000..89a848c100
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-wheel/CVE-2026-24049.patch
+@@ -0,0 +1,73 @@
++From 363aef740d670c37d76b6fd86e2a28886de23f45 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Alex=20Gr=C3=B6nholm?= <alex.gronholm@nextday.fi>
++Date: Thu, 22 Jan 2026 01:41:14 +0200
++Subject: [PATCH] Fixed security issue around wheel unpack (#675)
 +
- EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
++A maliciously crafted wheel could cause the permissions of a file outside the unpack tree to be altered.
++
++Fixes CVE-2026-24049.
++
++CVE: CVE-2026-24049
++
++In test case, the API "run_command" is not defined and use "unpack" directly.
++ 
++Upstream-Status: Backport [https://github.com/pypa/wheel/commit/7a7d2de96b]
++
++Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
++---
++ src/wheel/cli/unpack.py  |  4 ++--
++ tests/cli/test_unpack.py | 22 ++++++++++++++++++++++
++ 2 files changed, 24 insertions(+), 2 deletions(-)
++
++diff --git a/src/wheel/cli/unpack.py b/src/wheel/cli/unpack.py
++index d48840e..83dc742 100644
++--- a/src/wheel/cli/unpack.py
+++++ b/src/wheel/cli/unpack.py
++@@ -19,12 +19,12 @@ def unpack(path: str, dest: str = ".") -> None:
++         destination = Path(dest) / namever
++         print(f"Unpacking to: {destination}...", end="", flush=True)
++         for zinfo in wf.filelist:
++-            wf.extract(zinfo, destination)
+++            target_path = Path(wf.extract(zinfo, destination))
++ 
++             # Set permissions to the same values as they were set in the archive
++             # We have to do this manually due to
++             # https://github.com/python/cpython/issues/59999
++             permissions = zinfo.external_attr >> 16 & 0o777
++-            destination.joinpath(zinfo.filename).chmod(permissions)
+++            target_path.chmod(permissions)
++ 
++     print("OK")
++diff --git a/tests/cli/test_unpack.py b/tests/cli/test_unpack.py
++index ae584af..96d1391 100644
++--- a/tests/cli/test_unpack.py
+++++ b/tests/cli/test_unpack.py
++@@ -34,3 +34,25 @@ def test_unpack_executable_bit(tmp_path):
++     unpack(str(wheel_path), str(tmp_path))
++     assert not script_path.is_dir()
++     assert stat.S_IMODE(script_path.stat().st_mode) == 0o755
+++
+++@pytest.mark.skipif(
+++    platform.system() == "Windows", reason="Windows does not support chmod()"
+++)
+++def test_chmod_outside_unpack_tree(tmp_path_factory: TempPathFactory) -> None:
+++    wheel_path = tmp_path_factory.mktemp("build") / "test-1.0-py3-none-any.whl"
+++    with WheelFile(wheel_path, "w") as wf:
+++        wf.writestr(
+++            "test-1.0.dist-info/METADATA",
+++            "Metadata-Version: 2.4\nName: test\nVersion: 1.0\n",
+++        )
+++        wf.writestr("../../system-file", b"malicious data")
+++
+++    extract_root_path = tmp_path_factory.mktemp("extract")
+++    system_file = extract_root_path / "system-file"
+++    extract_path = extract_root_path / "subdir"
+++    system_file.write_bytes(b"important data")
+++    system_file.chmod(0o755)
+++    unpack(str(wheel_path), str(extract_path))
+++
+++    assert system_file.read_bytes() == b"important data"
+++    assert stat.S_IMODE(system_file.stat().st_mode) == 0o755
++--
++2.34.1
++
+diff --git a/meta/recipes-devtools/python/python3-wheel_0.42.0.bb b/meta/recipes-devtools/python/python3-wheel_0.42.0.bb
+index 807888e6c0..934f258a93 100644
+--- a/meta/recipes-devtools/python/python3-wheel_0.42.0.bb
++++ b/meta/recipes-devtools/python/python3-wheel_0.42.0.bb
+@@ -8,6 +8,8 @@ SRC_URI[sha256sum] = "c45be39f7882c9d34243236f2d63cbd58039e360f85d0913425fbd7cee
  
- EXTRA_OEMAKE += "${@bb.utils.contains('PTEST_ENABLED', '1', 'FLEX=${STAGING_BINDIR_NATIVE}/flex', '', d)}"
+ inherit python_flit_core pypi
+ 
++SRC_URI += "file://CVE-2026-24049.patch"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ # This used to use the bootstrap install which didn't compile. Until we bump the
+-- 
+2.34.1
+
 
