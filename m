@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EC65E98FCD
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 09:29:49 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.14])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.128075.1775726988125628048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5098EE98FC2
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 09:29:59 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.11])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.128077.1775726989038259259
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 02:29:48 -0700
+ Thu, 09 Apr 2026 02:29:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=eNxgCPtY;
- spf=pass (domain: ericsson.com, ip: 52.101.70.14, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=ZPYm6KxT;
+ spf=pass (domain: ericsson.com, ip: 52.101.65.11, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kgBzMhbeyEme/7PEJhbTdSOjNMHWUNRYrOwHKUrRuJa7JXGyC50StqAZ/N5Tocu0Yu1eoh8jjaxC5ej+pY0zOAk1oZx7xpetU5AbWkjm/WOGSN/FPCS9+3ZTnjA7nKYXeWXNW/3tdpZ1+GXI2L5fECEp9vQSMyA22oL0E7uTQ60kB7oDIFsDOn3jui7GOfHiAHOp2HfSP9qdd5xhiLdWHiCNprWnFAAkizLLc74VE4iQfFC5TPy9vVQBvmsDwrNcu7X/Y48nI85k6D6nkBvthValzR0v1rw1jfljnNfqXl68rLYgktq2forJ9JYp3OWuVJC5Qng0sm8fag5x1DH6Hw==
+ b=fp+m5XvjR9esxYQz+MGjAj3m+cscVpQ6Qg2g8HfXYir180scNk36xfCTX+nMFfpGOqM7zTjMfsy3Haf+KJ3u/Ct4SVO2EWUuqpnBz0a45CW09mzuKYqkBs14H8vf+xSKO+bw2g/x+TuQ52EIx51/ewuGdNR4Q/UO+A/GWMnDyJDH43gOafTQkv77XrbllSQ71QJ/9aWaEem1KkOJulviWxRn90swMn8mKAlrMtHh4mIgltCxCARdqx/kxwZNF2SL9/kgqebN0JppCVsnvcn2hXMxumroYvpWD+NUEHKZyorTIx0BbO1WW/hOWDkWDErG1BGsmWz+0u3Lz6Hvwx/Obg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sRXOo9j4U+3voLQXIDHdwqmMwyC/5/xPVKGGZz+YZvM=;
- b=e7ThPTVKC5v6ooupdJCMsa47OBxcAMady/2tB7fUG8hr4ITyiGs97E3J7ZmjstDmevBXyIcyxUg2mNImqyMDQvnLPG7ycw+SsbNMD3GYpmL5i6xzA/3+i3n7P6SdRWUzhr/uNhMg6/OBbkWCy30uOStaCotmX7fUtGfCz0Mst5FKfp9P/5muv2f2YbGkXzQREuTTxSuVJW+AYb96uJHNuj1O8FywMF2fHnM4hjoGldpUnzT0vZEBAYOLPeogU/hf/WldeY+Wdy3OBSxiTHEcBw+dgWrA51jctVpt1g9icpb34UOoSYR1+uklyUBgYYJTkezQhFhcY+AlxVSkiYWQcQ==
+ bh=cjUnBfYo8UBssVdm362ZNEi+9SB25PI1zYHWS1beE6c=;
+ b=XDcsIXSIAlRi7/+XCMI21oXMnBwkd2rW4bbCSh6xW8c36Ms6xUwjHO32ccVq2V5ip/NxJlRMBTKFJiIqi2vq4OHbGUIpzhPsCuexD7+e5bB+vTMuW1Qlm6oZO17lf52jEu6GjMS+1L4UKdhNZg14J8yJAYd41bIMNo+7jMuokC17ZoH14axhopQjni+m0QYbxRdnuQ7+XKcsjugnXl/+czhbqFVpTk6zgy33lh6XinGMkYHMjn051IL67Yvq1w1gbFlrCaxUIBi2hTDfy/Uqu2ZPwWP6pg08C3UkRZgJxyLRKxG8wQtMCTxYoOYIQ4Ng9kTP7c7814hdql1BkzTM7w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -26,17 +26,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sRXOo9j4U+3voLQXIDHdwqmMwyC/5/xPVKGGZz+YZvM=;
- b=eNxgCPtY96F1Pz6hSEU0bR1RY2EsiqgOlA+dJwPlKvUkcRq1XXyjHnAhuYyYKL67VhYDzPC5DIkJfVXzs/QnPM3nxM5VPI0CfZSaZfbmGiNiZSh2GVR+mUXt9clSX/2qqRwX8ZkikJpRnIXphsBrLPfs/4Cdfo7SE7TgY8pC+zOhQLiUk9b2CS2jlrJjNjgkSMl0cEbHz0EUoBiGRzgGWNaYlW2b5HEHqPgrYY3DGRRSsF+ZmpzZhAVSx00KanNLiMendySozFI31Uhs1XIc1rtIK/oX+6jbYjctyYT4jicpL95wVQG+GQYwZmGh++9XjodgW9ywoYi+scyVHnqJ9Q==
-Received: from DUZPR01CA0305.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b7::26) by PR3PR07MB8212.eurprd07.prod.outlook.com
- (2603:10a6:102:177::9) with Microsoft SMTP Server (version=TLS1_2,
+ bh=cjUnBfYo8UBssVdm362ZNEi+9SB25PI1zYHWS1beE6c=;
+ b=ZPYm6KxT6KN6qzE2X8FlvMN3BJz/elUG2kbR7jFBQSjpZQQKJbIT/X6fWWhHVolmsv1HrHrS+Y+aYkIvcXJfb2IDCi4FKTZZWXqoTf0SJLa0B/wG7CLrw4do8DaqiLWW6n/J0eDdDGVhE7IBttI4Yal6sPiD7FCDb39NHPqDdPE6aaPSKYfSgnn5zoWlIwhdOZ1OozRAkyKCw1aLbU34yOVqRd64nvRjPjqLorYdYhtZHaobgBPbPxbcTMkTPNMJ+9hBCz2CDRDfUzXTJwb7CSbGKwoisCdmdriI4Yn/As2BMpzQQgChqxOODjYLIM+glCNc7+R434iYBaMsxnkRdg==
+Received: from DU2PR04CA0353.eurprd04.prod.outlook.com (2603:10a6:10:2b4::13)
+ by DB9PR07MB10994.eurprd07.prod.outlook.com (2603:10a6:10:5fe::15) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Thu, 9 Apr
  2026 09:29:42 +0000
-Received: from DB1PEPF000509E9.eurprd03.prod.outlook.com
- (2603:10a6:10:4b7:cafe::62) by DUZPR01CA0305.outlook.office365.com
- (2603:10a6:10:4b7::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.41 via Frontend Transport; Thu,
+Received: from DB5PEPF00014B9F.eurprd02.prod.outlook.com
+ (2603:10a6:10:2b4:cafe::41) by DU2PR04CA0353.outlook.office365.com
+ (2603:10a6:10:2b4::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.42 via Frontend Transport; Thu,
  9 Apr 2026 09:29:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
@@ -45,142 +45,161 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB1PEPF000509E9.mail.protection.outlook.com (10.167.242.59) with Microsoft
+ DB5PEPF00014B9F.mail.protection.outlook.com (10.167.8.169) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.9769.17 via Frontend Transport; Thu, 9 Apr 2026 09:29:41 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
+Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.2562.29; Thu, 9 Apr 2026 11:29:41 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id E2D174020B70;
-	Thu,  9 Apr 2026 11:29:40 +0200 (CEST)
+	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 1AB754020675;
+	Thu,  9 Apr 2026 11:29:41 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id CC3A7700CF09; Thu,  9 Apr 2026 11:29:40 +0200 (CEST)
+	id EF21D700DF4A; Thu,  9 Apr 2026 11:29:40 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [scarthgap][PATCH 0/9] scarthgap updates
-Date: Thu, 9 Apr 2026 11:29:27 +0200
-Message-ID: <20260409092936.1740143-1-daniel.turull@ericsson.com>
+Subject: [scarthgap][PATCH 9/9] numactl: upgrade 2.0.18 -> 2.0.19
+Date: Thu, 9 Apr 2026 11:29:36 +0200
+Message-ID: <20260409092936.1740143-10-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260409092936.1740143-1-daniel.turull@ericsson.com>
+References: <20260409092936.1740143-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509E9:EE_|PR3PR07MB8212:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60f0619e-7948-42d7-c640-08de961a874b
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B9F:EE_|DB9PR07MB10994:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3ffa2aa-ca6c-46a9-53d6-08de961a876f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|376014|36860700016|1800799024|56012099003|18002099003;
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|376014|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info: 
-	SPYWDbRXaIe3irhP+jjOUPyTc7MyQm7O87v/dWy8HPZZOfLSCGErcXHPWPRzah2wyyn59pyln6kYG3yqlq6/ue4JzzKOZ6Zj/4hO0yu/YVf3fVMry0KBJsWPJ0FYmgyqDZrBo5qTKfjBSba9xYTkDMoMhbWuH8NG4BAZB1ETkQoPUnSDZn7u3aLNAOjzEg1HZLbWO7gg6OFExD9V9G+66lxSr8fGKcoIEuH32eUYaClYyWy4lIc95UgYUdv157v+H937Q9fRVyroYPQw9eywJ5rxp44voEes4esk44CJ6XPLyCTzkiT+BV8pzwhVFGSAE8bTJw8vYmlq2vexLCh32h0FL6SJ+7MgCUJ6Q2K/fOpfzYUHHeaQqEFqyj2LYPs5hoAqlVlE0K7IjLR3xZEcVHUxfPUX98Kc7zALlKUkeyR+g+AtK4vsd247y8FEuO4IlFvADGzIjQU6HaQbDTlUo+yiuX+LaDF3EgkjNSROu5EIJpnyEi3X84RR6GanJ3kpfcvPdLXwA4BCoW960EDG1BWGC7M0/TzhWrdKObmS+HFIzVo+v4BA+3cl7vl2FyllO3daC0/4d1JWnhU0SZPaKE3RXbpfsASSBajanuFnrESYrgOcGkoS+ASAxb9RNSVicLMZFsAy072AMI5Qiqh2cK9JgYIIuZ19ZFcJzn35GgyNIHKA31Gd0RhfPR4Qb7H4XS9lYnunXfMyRtR9xwca9nkYO4lIs+k812wJsHZYpHERE5Zp/fnTNDyqQP72jFrON0vQgOmY8UDEWIZfv0xyJA==
+	ON8lNa+F0GDy2yELroeuZHjm1oq7+R7Ahroq/+PyZQOSCjctjenThpGwfOh64dILE0sMsndBQWXNkHvHgvzS797/xUfQkcT0mw6mcVeGalIA01gAHZXRs/36xgsWw3KxbBUt/oZ1GftBU9+jgfEdXDx/IHEAlfkFa0YjQTRzJFkzGtBC6hTAqcqQnkjLoCz3TNYW+Lo6x4upUIqSlGGScEhIki1NuWV2zGDhmQBEqKyqVjwwPzghpxSqz6hE5VzIfHXNn3NSkNKE5oyLrL0X8rUg1bsHoOVng/DnXRTtC04oIWqX0N4N0F4exdqYHKBT5ejemK6a0TlDy761j0cd1ZAxF29NKgJTHdJU9ov/MHvqhIsdYIHapFhPlg9cHRvslMnVfbuYVOvkHkrx2wMvT/BTpnRe0CtvuI4tXAXtwtbY7AmuypO5DnzL2aEh5HzZU8ATXxoIZmLpAlCk08J0wq+q0o/oSirn8I9ZqDwQBY+IDuWEcMHl05TYveMXBNaFhPbrhmfpGb/b9PRLft3R4WD0cYegK/7ldXJhVCyF3rNjuaEo72GWv8DX2kb6OBndtRHQtEHRDRuyO0KKMQy/Zvewqs3QfrOqch9Qzsijrly3nXU/IRAK42+28SJUI+rpAQqsafqILLvFNtLSz8JmhYrshkOPAbnrhn+uUO3I8Z0aKVm7KqA4kXazIsx2apu0NsgjTdzpRiCQx+UeTIt92lgWA9rXQWrx37PlxnBlfglSd3FgQXpYFCpih3bIlTfD0aPj0M4L1vsaw/O99wc0mw==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	LnaIXyb5uS1d4dXpSPQTWmij5ZpYf2AaLRPTuDvpkXWI5FnrbKOKvk9KWNW9kOiMr2zTS9/YgLbX0wOXHpZEeQR3/zUxiJP2gZlJd/N+ile2b8jhbKcljC5vyvtW0BqZ16fMOPYa7Yy+4814J7L+/3hn7kQLZKvH+GoIbaG3g6sPxznPnt7Eo6XKqKfOHlZS2cArU08T5DgHT40SuFbSwahlKKEgDpb6hUkpQAICEGIISUZl1Ee/a4+E67UHzLVu8cvMFiK8698bgpEOlHaFdB9R0F/7pVO4O5y2FU/rYdPoVdB5HL1j0Z7paVYX9eKZXXV02in6m64OJGfG7qM7dzJzPKRrh6Zs8Z8sG+kXfhjKx4takw/Cm1gSozxE2X1lu/V42XL/cxJZL+6aeEfZMw0QGuq0VfEKPTIGZkwntk0AoMSmq7awyKBLfXx+h3gn
+	KBtYvbPT/5RvPRQgcNpOsPWjpCTG4pyaGwA0lAeYxdxHtU32NhyjnAfKdzw39gUib86g0JK8oiT9gWYo0myUT+28E4ggTlZTOf/Ka1rXqgrNjce6efdCayfArdrTF5w4/6MDLy/qv63XufxZ5jgUSdzPGF5E0ttBpfb/eo/kYOEQsHLUaM9xLXFSJj23L/qk984aGFYdSB2oVEDDh7tquDu6k+xdvIPFcnjSBoxnVLgM/V5WMmdM6/UyMuAwqoEffCbGsafuaCly9tkapboWE3yF5rDa0ZizPUQbHRkN2mAm32bZ2Eizxr9b0P09EpvZVw5XCLJvATctHnzOreDrRWG584snSFrHWqmXm4XnzAMr5SzKnrWOQWfDe5NAJv2L4cTIk+sxFU9ainyz5zHcloATnKNy540uD8HrZkdJISZgDc0xc1qDJN+Gm709AT1m
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 09:29:41.5574
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 09:29:41.7882
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60f0619e-7948-42d7-c640-08de961a874b
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3ffa2aa-ca6c-46a9-53d6-08de961a876f
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509E9.eurprd03.prod.outlook.com
+	DB5PEPF00014B9F.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR07MB8212
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB10994
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 09:29:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234901
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 09:29:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234904
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-This series is a subset of the recipes updated with AUH.
+Changelog for numactl: 2.0.18 -> 2.0.19
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-I have reviewed the patches, build and ptest them.
+3bc85e3 Regenerate configure for new version
+ce049c0 Increase version number to 2.0.19
+5f77ffa Set version number back again
+9d767e8 Replace fgrep with grep -F to fix warning
+3361a63 more unitialized variables
+3a281e1 Fix unitialized variables
+0ab9c7a Make numa_available respect EPERM
+6c14bd5 Save and restore errno when probing for SET_PREFERRED_MANY
+f9deba0 libnuma: fix nodemask allocation size for get_mempolicy
+81c9a37 Update numactl.c
+8c454ec numastat: eliminate hard-coded tables
+87342c3 Don't fail build when set_mempolicy_home_node syscall is unknown
+4bfdcc6 numactl: Add documentation for weighted interleave
+ece7e22 numactl: Fix RESOURCE_LEAK in show()
+119eb59 numademo: Fix the using of the uninitialized value
+b67fb88 Add -w and --weighted-interleave for weighted interleave mode
+a7552a1 Fix fallback for set_mempolicy_home_node syscall
 
-The patches has been generated with the updated AUH
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+---
+ .../numactl/numactl/0001-define-run-test-target.patch        | 3 +--
+ .../numactl/numactl/Fix-the-test-output-format.patch         | 5 ++---
+ meta/recipes-support/numactl/numactl_git.bb                  | 4 ++--
+ 3 files changed, 5 insertions(+), 7 deletions(-)
 
-See [AUH] PATCH 0/6] Make upgrade-helper compatible with scarthgap and mast=
-er in
-yocto-patches
-
-The series applied on top of contrib/scarthgap-nut
-
-Daniel
-
-Daniel Turull (9):
-  base-passwd: upgrade 3.6.3 -> 3.6.8
-  gnupg: upgrade 2.4.8 -> 2.4.9
-  python3-requests: upgrade 2.32.4 -> 2.32.5
-  bash: upgrade 5.2.21 -> 5.2.37
-  sudo: upgrade 1.9.17p1 -> 1.9.17p2
-  lttng-ust: upgrade 2.13.8 -> 2.13.10
-  libatomic-ops: upgrade 7.8.2 -> 7.8.4
-  liburcu: upgrade 0.14.0 -> 0.14.2
-  numactl: upgrade 2.0.18 -> 2.0.19
-
- .../0001-Add-a-shutdown-group.patch           |   6 +-
- .../0001-base-passwd-Add-the-sgx-group.patch  |   4 +-
- ...nstead-of-bin-bash-for-the-root-user.patch |   4 +-
- ...t-since-we-do-not-have-an-etc-shadow.patch |   4 +-
- ...nput-group-for-the-dev-input-devices.patch |   4 +-
- .../base-passwd/0005-Add-kvm-group.patch      |   6 +-
- .../base-passwd/0007-Add-wheel-group.patch    |  18 +-
- ...e-passwd_3.6.3.bb =3D> base-passwd_3.6.8.bb} |   2 +-
- ...s_2.32.4.bb =3D> python3-requests_2.32.5.bb} |   2 +-
- ...T-handler-while-waiting-for-a-child-.patch |  21 +--
- .../bash/bash/0001-fix-c99.patch              |  20 +--
- .../bash/bash/build-tests.patch               |   7 +-
- .../bash/bash/fix-filesubst-errexit.patch     |   7 +-
- .../bash/bash/fix-run-builtins.patch          |   9 +-
- .../bash/bash/mkbuiltins_have_stringize.patch |  18 +-
- .../bash/bash/test-output.patch               |  11 +-
- .../bash/bash/use_aclocal.patch               |   5 +-
- .../bash/{bash_5.2.21.bb =3D> bash_5.2.37.bb}   |   2 +-
- ...o.conf.in-fix-conflict-with-multilib.patch |   2 +-
- .../{sudo_1.9.17p1.bb =3D> sudo_1.9.17p2.bb}    |   2 +-
- ...es-when-rpath-is-stripped-from-in-bu.patch | 161 ------------------
- ...-common-link-with-liburcu-explicitly.patch |   3 +-
- ...Makefile.am-Add-install-lib-to-setup.patch |   3 +-
- ...tng-ust_2.13.8.bb =3D> lttng-ust_2.13.10.bb} |   3 +-
- ...erride-init-is-not-needed-with-gcc-9.patch |   7 +-
- ...-a-custom-value-for-the-location-of-.patch |   5 +-
- ...use-pkgconfig-instead-of-npth-config.patch |   3 +-
- ...h-fix-find-version-for-beta-checking.patch |   3 +-
- .../gnupg/gnupg/CVE-2025-68973.patch          | 108 ------------
- .../gnupg/gnupg/relocate.patch                |  19 +--
- .../gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}  |   4 +-
- ...ic-ops_7.8.2.bb =3D> libatomic-ops_7.8.4.bb} |   2 +-
- .../{liburcu_0.14.0.bb =3D> liburcu_0.14.2.bb}  |   2 +-
- .../numactl/0001-define-run-test-target.patch |   3 +-
- .../numactl/Fix-the-test-output-format.patch  |   5 +-
- meta/recipes-support/numactl/numactl_git.bb   |   4 +-
- 36 files changed, 99 insertions(+), 390 deletions(-)
- rename meta/recipes-core/base-passwd/{base-passwd_3.6.3.bb =3D> base-passw=
-d_3.6.8.bb} (98%)
- rename meta/recipes-devtools/python/{python3-requests_2.32.4.bb =3D> pytho=
-n3-requests_2.32.5.bb} (91%)
- rename meta/recipes-extended/bash/{bash_5.2.21.bb =3D> bash_5.2.37.bb} (92=
-%)
- rename meta/recipes-extended/sudo/{sudo_1.9.17p1.bb =3D> sudo_1.9.17p2.bb}=
- (96%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/0001-Fix-Build-exam=
-ples-when-rpath-is-stripped-from-in-bu.patch
- rename meta/recipes-kernel/lttng/{lttng-ust_2.13.8.bb =3D> lttng-ust_2.13.=
-10.bb} (92%)
- delete mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
- rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb} (96=
-%)
- rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.8.2.bb =3D> lib=
-atomic-ops_7.8.4.bb} (89%)
- rename meta/recipes-support/liburcu/{liburcu_0.14.0.bb =3D> liburcu_0.14.2=
-.bb} (91%)
-
+diff --git a/meta/recipes-support/numactl/numactl/0001-define-run-test-targ=
+et.patch b/meta/recipes-support/numactl/numactl/0001-define-run-test-target=
+.patch
+index 68b3e2491f..26026d5dba 100644
+--- a/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patc=
+h
++++ b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patc=
+h
+@@ -1,4 +1,4 @@
+-From a5e1fa272f294e739d6caaf629968478796ca53a Mon Sep 17 00:00:00 2001
++From 90bcc37f12dbf7917b5edca24683a08d483d7bfe Mon Sep 17 00:00:00 2001
+ From: Roy Li <rongqing.li@windriver.com>
+ Date: Mon, 19 Oct 2020 14:42:11 -0700
+ Subject: [PATCH] rename test target as run-test
+@@ -11,7 +11,6 @@ not suitable for cross-compile environment, so rename it =
+as run-test.
+ and define test target to compile the test files.
+=20
+ Signed-off-by: Roy Li <rongqing.li@windriver.com>
+-
+ ---
+  Makefile.am | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-support/numactl/numactl/Fix-the-test-output-forma=
+t.patch b/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.p=
+atch
+index 8345f71d72..ad90528669 100644
+--- a/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
++++ b/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
+@@ -1,4 +1,4 @@
+-From 29f811d9d381f2ab54b3c8cef77334e32970ef09 Mon Sep 17 00:00:00 2001
++From 0ac2863bc3d7e576ef948ec729e13b8db68b7e36 Mon Sep 17 00:00:00 2001
+ From: Li xin <lixin.fnst@cn.fujitsu.com>
+ Date: Tue, 21 Jul 2015 02:01:22 +0900
+ Subject: [PATCH] Fix the test output format
+@@ -8,14 +8,13 @@ Upstream-Status: Pending
+ Signed-off-by: Roy Li <rongqing.li@windriver.com>
+ Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+ Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+-
+ ---
+  test/regress  |  6 +++---
+  test/regress2 | 11 +++++------
+  2 files changed, 8 insertions(+), 9 deletions(-)
+=20
+ diff --git a/test/regress b/test/regress
+-index f06b22f..2fdfacb 100755
++index 1da7784..b0f06ea 100755
+ --- a/test/regress
+ +++ b/test/regress
+ @@ -78,6 +78,7 @@ probe_hardware()
+diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-sup=
+port/numactl/numactl_git.bb
+index bd16df91ec..172e6e964a 100644
+--- a/meta/recipes-support/numactl/numactl_git.bb
++++ b/meta/recipes-support/numactl/numactl_git.bb
+@@ -10,8 +10,8 @@ inherit autotools-brokensep ptest
+=20
+ LIC_FILES_CHKSUM =3D "file://README.md;beginline=3D19;endline=3D32;md5=3D9=
+f34c3af4ed6f3f5df0da5f3c0835a43"
+=20
+-SRCREV =3D "3871b1c42fc71bceadafd745d2eff5dddfc2d67e"
+-PV =3D "2.0.18"
++SRCREV =3D "3bc85e37d5a30da6790cb7e8bb488bb8f679170f"
++PV =3D "2.0.19"
+=20
+ SRC_URI =3D "git://github.com/numactl/numactl;branch=3Dmaster;protocol=3Dh=
+ttps \
+            file://Fix-the-test-output-format.patch \
 
