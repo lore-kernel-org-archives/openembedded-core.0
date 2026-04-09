@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D78F364B6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 041EFF364B8
 	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 20:30:52 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.141897.1775766648515941569
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.141896.1775766647680783291
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 13:30:48 -0700
+ Thu, 09 Apr 2026 13:30:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=deB+uVKJ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XQZdqVvR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d73f0b3a8-918733fc-2aa2-44c7-bd28-549f826aaac6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vnuEkNJY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=BfMlhirR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019d73f0b064-0b66f458-ac04-490d-a267-1e44fe084812-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1775766647; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Gz9k/8rQyB22HvMaMIHsAGe02ZOyGFIrYbg/lXc3eu4=;
-	b=deB+uVKJ4MTfcgrP5WcZGkWg4rt5oj9RRQx/NBJuoxGjUNHBIIo6cWpeS3moSYtl
-	vUVFMw01vU8YHZaKFFwRNDMFtwvWZ7P03vI083nhHQhfyGzEYEEjI4NsTDErnFT7uXs
-	XsD4VaUhItsrs6ZSg4CBsXS+L5s7WzS+uy6WAShY=
+	bh=pyIVnJ0FB34lVHbxJZN5E5Hwc7FyTNDAfoJ64dzWHtk=;
+	b=vnuEkNJYsJeADsmsuMkAE0L1r3jtLGQHPgo5y5wsjwwl6eUhAXnv96ronGezZMAp
+	fcb5Mr+NocTX9PDTguYuZmQ0tMxRDoDJfWdhNbUz/EHUbhhBtKZUx6WLESqatQFoS6R
+	muRU674oFS/eDPcjnwng1vw8seL897t9p9a1X628=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775766647;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Gz9k/8rQyB22HvMaMIHsAGe02ZOyGFIrYbg/lXc3eu4=;
-	b=XQZdqVvRRSB7SDSAmw6qFU9SjMpP6dtWrPL9L9KUntDKPN1Yfnh9qi4I47hRfjga
-	Foljw5yXZaqZ1bIleTOpltEXLbRaKmvQD2HPwmIK5FogM6UrwNJi/W7GRPpAgFMABQT
-	BzPhdwErJ9fW3Vl1it4I3AZOCEM89D6TbClMdpks=
+	bh=pyIVnJ0FB34lVHbxJZN5E5Hwc7FyTNDAfoJ64dzWHtk=;
+	b=BfMlhirREnNDYC8yuPgsDOAiO3asJWi7iUVZaYhjYXx1JKlLiRa4SFJTAvWZDI/R
+	8ITE21RIp1QOz6EW2fwSd09b6S1Aan7W6V9xCf5fvFXrFzmfAnNW7S6PFwOoWJwuy/m
+	oXkf6JrQySNXt415g0bg+8A+vqmwNwdw0Q7H4kKQ=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] libgcc: Bump PR/HASHEQUIV_HASH_VERSION after
- reproducibility issues
-In-Reply-To: <20260409201651.3485286-1-richard.purdie@linuxfoundation.org>
-References: <20260409201651.3485286-1-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH] libgcc: Bump PR/HASHEQUIV_HASH_VERSION after reproducibility
+ issues
+In-Reply-To: <20260409201610.3478433-1-richard.purdie@linuxfoundation.org>
+References: <20260409201610.3478433-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d73f0b3a8-918733fc-2aa2-44c7-bd28-549f826aaac6-000000@us-west-2.amazonses.com>
-Date: Thu, 9 Apr 2026 20:30:47 +0000
+Message-ID: <0101019d73f0b064-0b66f458-ac04-490d-a267-1e44fe084812-000000@us-west-2.amazonses.com>
+Date: Thu, 9 Apr 2026 20:30:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.09-54.240.27.191
+X-SES-Outgoing: 2026.04.09-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 20:30:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234947
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 20:30:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234946
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/v2-libgcc-Bump-PR-HASHEQUIV_HASH_VERSION-after-reproducibility-issues.patch
+Testing patch /home/patchtest/share/mboxes/libgcc-Bump-PR-HASHEQUIV_HASH_VERSION-after-reproducibility-issues.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
