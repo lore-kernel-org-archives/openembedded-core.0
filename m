@@ -1,125 +1,105 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E28FF364C3
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 21:54:15 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.143684.1775771654742356670
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88929F364C4
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 22:03:05 +0000 (UTC)
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.143926.1775772175717408849
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 14:54:15 -0700
+ Thu, 09 Apr 2026 15:02:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iJrZcWKN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488b0046078so14413745e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 14:54:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=prKTHcIJ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-48374014a77so18820055e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 15:02:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775771653; x=1776376453; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VmDtVHqH3yVFfXX03IWTcpR2LUn+rBo6OiYmt0dqhtQ=;
-        b=iJrZcWKNcq83lkKRKWb0Fcvfm33Sjr3NQMuE7vhsPfj6KGQg8BhRXFNNAEGAi7ASjd
-         /dPvwqcrhJhB6zlk5YDKYh9aNn6DmHpDz2PXxWfsGCi5GE8U8XRH6voKJ6exg2iZhMGU
-         OvJXu2ebFAe3WH+8MYy8MkvN/McM2S9EzTiHA=
+        d=smile.fr; s=google; t=1775772174; x=1776376974; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h/Ye+f7BthEpP1oFiu0AFeFEWTFcP9JcHcob84EL8Go=;
+        b=prKTHcIJG7Va2UbMNizxhay9CUYmTvtvGexHDlzKbMzXnsP5atTH3WV2Ls1tvFz2JA
+         N2ICtC6qeAYHXf8Xs+w2mrwAcG1I6kwReVgHPiJLKlKXwPPmHbzwHRTW1FfGUzWIxLU+
+         yYu3K9B4CyRrZZ5XycB8mtDZJa+gBQozMivJc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775771653; x=1776376453;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VmDtVHqH3yVFfXX03IWTcpR2LUn+rBo6OiYmt0dqhtQ=;
-        b=m0kQACpaNzzJo/L2AP531ropcI5WGlD/Xr7wO8o3fjMyNlIDdZ/yJfAE9ErLEFU7eW
-         mTNS7I8KRDbr3SnSBZzylcEdf8UKLAbSAhJFmFtTuC2XnobPjL8n3cydsdlmQDMpc/OI
-         GA/0DEu2itdbxzYIFXQ8ZUIHEe7jgXvKxo0/cBt27WamC//U0ivt9x1fVGKf3OZFVcaI
-         49NPl6hyTcHyUHBx5HF774QMteuji0Ao51D1tdUaOypIN5Uz10p9Ixe7gK8gR7qPALDD
-         o91p2LX3QDIxNhXiXiFRX4KQJ+zBdcvjdjtUb9r+y2zff8uxYNhSY1e47oNxPiRnKJYB
-         LHMw==
-X-Gm-Message-State: AOJu0YwJBujvB1pZiv3peJ6pgj4nFTAtpbXX1i67AzXxDpLyO0rx2crU
-	Y/uusNC5yHLuo2kPG4uxMrKg1opMn3El6v3WAmmjibbmAPQlGT+s7x+EFrKWO71HbozsyzjSDpO
-	DQMgM3O8=
-X-Gm-Gg: AeBDievtLCEC83zdv/L7BGmp5eiJkmS781ERdjvE8sEYcUvHP0vVad3Xp+O050r+V0L
-	upjDwDRUgw3HJRs9hb5jGwnFDs+Spml4ka1CdbrWq9O+5XZ29ZoFLQIj+B2xt2QXSitPlcpbw2q
-	Jny0TtDTcFpI5Z6z6k+zuN2VY9bUiz57MQzIodwQ1wX1eMw4WQzWk1ieK6UoCz8qwVN2xj3uCnd
-	D1jdFXW6j9m1a5PM2owzyDbLDpErI6pb/RUmkmbdf1uRS3kFWZtL9jFkkd33oXSSpwbIsZLWWcz
-	0QX+I03MBuedZWT+fNrvrHbLwyad/t4IzC1XjTqaCM0nTf2b8T19lncyLudqvmf/pzLXUh1GxKy
-	ffAHOPm5YPaeFS1uW1TvFjYlYufP8QEHpaMVA7tvM8cma8xK+tDXfINJdycc32QT9QxA3TaOl4P
-	CFkeJztoJa5cqaI8nKGr/i1eR282TPclUrPeeUQ6gKhPDCWJ/uT9A0sOfc8xwYA17iIeHVwMV58
-	RI1VRMWLN66SNTK
-X-Received: by 2002:a05:600c:8209:b0:488:9ed3:148f with SMTP id 5b1f17b1804b1-488d684ba0emr5014535e9.21.1775771652676;
-        Thu, 09 Apr 2026 14:54:12 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c642:6c74:9bb7:e65d? ([2001:8b0:aba:5f3c:c642:6c74:9bb7:e65d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5888a97sm24879815e9.2.2026.04.09.14.54.11
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1775772174; x=1776376974;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h/Ye+f7BthEpP1oFiu0AFeFEWTFcP9JcHcob84EL8Go=;
+        b=gqyo4So7gvXuOD+UxvWX28FqTmY72CpBCDkkH+XMiBpEP/X54qQ+O/JhQeiDczPiWx
+         wS9XskKMsDFqxQwGMNAvWC4CSdjo7fMBKR/pUPqOdMiue4OP0A38LhcWiB+b2C7ZIMzB
+         zFKAdv2T3OfC+/JZrHJIe+zfoISyPuNR87LYSrxxLNOQCDJhLwV1feyn7Ni1eesQop4b
+         tRTUHFayIrr6NWEar1+SxHYIG3OCxT4MMgSIVP7uba7AMrjuB4bnsWyVmaDVdeCvMrBO
+         AmuqQ5pVQsbG468k5mDx6M6wo5LFeQ511o8d3jSSdNPo3+yuZkvJFeoIjZeRjNZlt2yc
+         XZFQ==
+X-Gm-Message-State: AOJu0Yyb/tW6F/LVGtmh1oEKsaXHtZkcYzVHrFGBVaiQ2u9xGf6pgQVR
+	nqvjXqMpWFegSNb/1DorWaleQPMQpu9dFqqIH/SCgQmMRLioL0HwJMOzl2IFp5tXcq0EbWWDbJ1
+	b/UU7IwAVX9Rg
+X-Gm-Gg: AeBDietyViLz/tik82DezDoisDHpLQlx1S+bIhLCfCiSxUar86f4MmovJaxy+PpMLk/
+	yZVImu4AqUFGa77g1XtgxYZeWTuAz15zr3Jg3msiTij5lDnq8v4JKVvujQLSmtVx+X2KBr7xvUW
+	WTsI2l6TjflsruPT5bIHCvu4cmZtIdVcKJaDuL3M8Oji+akWQlsZ7qMn2VBnaLcZV6izZ6pppv7
+	PNfX9DXTcM+zLF78qVj3w8rD+KGIbmi/sN91PmI4opRCa3vPT+PUMD1S8v8XXy8Hw7eAHHbSrCL
+	MxbFzQ+yQ5ExnDK0xcWE0mfwNWF4xEoPjgYQ12cNAMb8Vbrk0kVjsIyQ+bLjV+FHRYxBZaqfXeK
+	3QovniLQKU6AJW4JdFEkY7cuIU1a4PjilUvpJeagnaFizsgx1CDLVQKfscURIC3JKDckxRgG9Yz
+	SYRhytuGeBBu6N24no9GAKGaqoFlYCbb3PW2YTAM6QvsAWgGbLi4n8mTQEG300CLjrN7vkdhBvR
+	tXyP43PXWO+5rc24szJgU6l5HU=
+X-Received: by 2002:a05:600c:1391:b0:486:fe23:1707 with SMTP id 5b1f17b1804b1-488d687116amr6244195e9.20.1775772173611;
+        Thu, 09 Apr 2026 15:02:53 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d592d606sm20730545e9.9.2026.04.09.15.02.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 14:54:12 -0700 (PDT)
-Message-ID: <c54c4aa98d2e22d8e40abe24c74897cb8296d291.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] oeqa/reproducibility: Work around subunit
- protocol limitations/bugs
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 09 Apr 2026 15:02:52 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 09 Apr 2026 22:54:11 +0100
-In-Reply-To: <18A4CA9DFD58F4F1.777565@lists.openembedded.org>
-References: <18A4CA9DFD58F4F1.777565@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+Cc: Yoann Congal <yoann.congal@smile.fr>,
+	Ross Burton <ross.burton@arm.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone][PATCH] tcl: skip http11 tests
+Date: Fri, 10 Apr 2026 00:02:32 +0200
+Message-ID: <20260409220232.2424825-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 21:54:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234951
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 22:03:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234952
 
-On Thu, 2026-04-09 at 21:35 +0100, Richard Purdie via lists.openembedded.or=
-g wrote:
-> We've seen reproducibility failures with:
->=20
-> =C2=A0 File "/usr/lib/python3/dist-packages/subunit/chunked.py", line 108=
-, in _read_length
-> =C2=A0=C2=A0=C2=A0 raise ValueError("chunk header invalid: %r" % count_st=
-r)
-> ValueError: chunk header invalid: b'\n'
->=20
-> which leads to:
->=20
-> 2026-04-09 01:18:20,886 - oe-selftest - INFO - ERROR: broken-runner
->=20
-> and UNKNOWN status for builds queued in that runner.
->=20
-> This appears to be when reproducibility builds fail with:
->=20
-> Traceback (most recent call last):
-> =C2=A0 File "/srv/pokybuild/yocto-worker/bringup-fast/build/layers/openem=
-bedded-core/meta/lib/oeqa/selftest/cases/reproducible.py", line 407, in tes=
-t_reproducible_builds
-> =C2=A0=C2=A0=C2=A0 self.fail('\n'.join(fails))
-> =C2=A0=C2=A0=C2=A0 ~~~~~~~~~^^^^^^^^^^^^^^^^^^
-> =C2=A0 File "/usr/lib/python3.14/unittest/case.py", line 750, in fail
-> =C2=A0=C2=A0=C2=A0 raise self.failureException(msg)
->=20
-> which is possibly from bad placement of '\n' in the byte stream. It doesn=
-'t
-> 100% reproduce since the placement is critical but from the subunit code,=
- it
-> does use <int>\n as a header in the protocol.
->=20
-> I've wondered if the presence of "\n" in the traceback code is part of th=
-e issue
-> so remove "\n" from the traceback by writing the python code differently =
-just in
-> case it helps.
->=20
-> Ideally we'd report the issue and fix subunit but I was unable to work ou=
-t the
-> exact sequence to reproduce and any fix would take time to propogate anyw=
-ay.
+From: Ross Burton <ross.burton@arm.com>
 
-There are other better ideas about what is going on here to cause this
-and this patch won't help. The issue is thankfully rare so we can drop
-this for now until we come up with something better. We can open a bug
-to track the issue.
+These tests are either unstable under load, or just unstable.
 
-Cheers,
+A ticket has been filed upstream[1] but for now disable them.
 
-Richard
+[ YOCTO #15467 ]
+
+[1] https://core.tcl-lang.org/tcl/tktview/3764f4e81f1483ab554c6d60f8483887bde28221
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8f1538518fd3a3017189b38437691ce358a2566a)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-devtools/tcltk/tcl/run-ptest | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest b/meta/recipes-devtools/tcltk/tcl/run-ptest
+index 87e025fce12..29dd57cde1a 100644
+--- a/meta/recipes-devtools/tcltk/tcl/run-ptest
++++ b/meta/recipes-devtools/tcltk/tcl/run-ptest
+@@ -5,8 +5,8 @@ export TZ="Europe/London"
+ export TCL_LIBRARY=library
+ 
+ # Some tests are overly strict with timings and fail on loaded systems.
+-# See bugs #14825 #14882 #15081 #15321.
+-SKIPPED_TESTS='async-* cmdMZ-6.6 event-* exit-1.* socket-* socket_inet-*'
++# See bugs #14825 #14882 #15081 #15321 #15467.
++SKIPPED_TESTS='async-* cmdMZ-6.6 event-* exit-1.* socket-* socket_inet-* http11-*'
+ 
+ for i in `ls tests/*.test | awk -F/ '{print $2}'`; do
+     ./tcltest tests/all.tcl -file $i -skip "$SKIPPED_TESTS" >$i.log 2>&1
 
