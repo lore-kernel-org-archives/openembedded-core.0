@@ -1,138 +1,149 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3554F364A5
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 17:04:28 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.137726.1775754264076752003
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EFF6F364A9
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 17:34:39 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.138171.1775756073257876062
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 10:04:24 -0700
+ Thu, 09 Apr 2026 10:34:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=PzrELghX;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=LnBPq1LGjkmg5PuQGy03IJdmn24Ool/hZnyz0HBfCJ0=; b=PzrELghXdn2JiNIW/XYC7oQahb
-	xe2+gJVDZibpKnQpGWZOxW9GaX+ZvO1rdJSWyrHIWo+wfC/Vr5qj4MzgO1lS2VEZmqnPsrfwCm3Va
-	ZZGcyke0nKqv3gxMhS/WuW7lAW3h5DOJUdEZshql4KbFfdZnWkDUDJfzFHHnaCx7SQjfvnQDyXOBc
-	0vfJgdg9Z9PR5dLunmH3D69oAXTZbqVKmgIOmwial/zeVufBvSh+53Cn+6BOXtdkbHdR9GnL5ogRO
-	S8n0u9U1orwpq4VBWysVMoLfZdlh4jcsnYkUCh1cPUkZonqjCT6QQbdROLurR2CesSbNdeWv1wQzK
-	nlsr5kFw==;
-Received: from [147.129.179.166] (port=54416 helo=rday)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.1)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1wAsnk-00000007HXH-1nKq;
-	Thu, 09 Apr 2026 13:04:22 -0400
-Date: Thu, 9 Apr 2026 13:05:40 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] why would ASSUME_PROVIDED recipes be built anyway?
-In-Reply-To: <1acc463784821951790b0a3cf3ee23a6b02aaa68.camel@linuxfoundation.org>
-Message-ID: <fe2e28c3-9ee8-ef26-ce6f-04d45419d6a1@crashcourse.ca>
-References: <daa91ca5-ef8c-bb83-7079-3d03ace27a8a@crashcourse.ca> <1acc463784821951790b0a3cf3ee23a6b02aaa68.camel@linuxfoundation.org>
+ dkim=pass header.i=@baylibre-com.20251104.gappssmtp.com header.s=20251104 header.b=f5L3clDr;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.174, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8d4f78fc9f6so127066285a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 10:34:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775756072; x=1776360872; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YJ8TuocVpx1YYvkZjz6AB4mHhTAL+zxv/CpLbOW8D+E=;
+        b=f5L3clDrg0i+UGrQrEShMbiFwycPCTK7NKADMfAam2QMA4qQ2pcgbu5ZI0nQCuQL+e
+         QhUsz0hw1mcw1YAg/2M2w+xJscjnqW5nA8TLwEXshyuHUimQzLmaMPtFc+4oafWbKbH9
+         pnh2Jy9IiOx2tl9uESA6vRMcGfufS7yk0c+B4AAag7SrWJ83luP0HfL0jDf83cvDV7yM
+         rRcEaoaU6tkqDvceM3QhpWTAdAb3dRPf7YO6Kis8ypIgnsR6uvSYNW8tzVrXzMReNNLO
+         viCHKYM0nKtIhsWDkAxEM0jcEm5Rywkc+idXVVEDXcTvYnj1GQ4e6eCEmOpawpZPjZ/i
+         4srw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775756072; x=1776360872;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YJ8TuocVpx1YYvkZjz6AB4mHhTAL+zxv/CpLbOW8D+E=;
+        b=EHiMQi5LGh6g/4o/QdfkFwf5p9xv7qhytSRviZYpEfI4X2PhpK5fFURwkVGmsgzw5I
+         2QliFz6vyYX5YswVGwCADTvYhjqv+8tPSwQRwEC68U6myIqkfQBs86eX+7MuAHgk5NeE
+         KjbFDG/7sPtFT5MVauv6QFHr5zRCCUvQbvaM8/oMprkKPGMy0TRQpvBSwbdiifRH7rC6
+         yWzCaBLhSiPaqKRAEjmGT43WWOg2SoJul/EOTItuN2KpNrE9Y9xzPVc9/ubVXX0UmbxC
+         E/XrcArqpYVfnsPoOxud+qgSBEjnc5Tg57D4DNanpESnWfh3sZeJOdrrKF9opxAJkgSV
+         jGig==
+X-Gm-Message-State: AOJu0YwMAWPt/Qzv0FEBDAexScyWLIipsgLUECPqmTAuR2QozodGu0AM
+	mhHu6ZTJqblhfdxxT/D5b3h7DJ+6pGxC33Z4xoBa24qp1UyGGaAldv3vIZn77fsmhsYUJGnygf2
+	UMKMY
+X-Gm-Gg: AeBDiesr+onATsU0qoQfOVlRcpDfJEW+NUwF6g9OD+1uBk0k6L+jBxsVT3gAUFzfYhw
+	jvdaIvuL2VCZ5B01CvPSnjhW4l6Wf4tbIfqaDnk5qxkYIJg7qfMxXzjQirSUHqIe4OeSd0GzaZA
+	380u5HXMumNCWv1yUMpg8mFtGRVjWjmlG8Y7p0NsEEvJaQaYosr7Q/+Fo+Uxc7in0D6hnZW2kg/
+	feHbOhTsO1VUuSfUquzgLTlXQ+lkiNKzY8gSioSdsKU3TZIs8u3S2zdKJcDjwSWISAdSpbZ50VP
+	RHxzDhlCFM/DBP9KrTBC5XhN/lSB4VGNhtCv+tYw6fu0a8FU/dPuia14B5gC2+w7Y9o7Q626JQn
+	lFZwiUtsvjXQ9CNM3+T++qjlyezfHUjlxCLee13V0nHzAAxfkijj/boqr0R7ihzVEaGIv3veIhL
+	o5F8cGyrnjpvMArX4qF8YXXKFINBk=
+X-Received: by 2002:a05:620a:440e:b0:8cd:8f04:50ec with SMTP id af79cd13be357-8dc3b03cfe9mr651963985a.2.1775756071433;
+        Thu, 09 Apr 2026 10:34:31 -0700 (PDT)
+Received: from localhost ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ddb646dbd3sm6483485a.16.2026.04.09.10.34.30
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 10:34:30 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] python3: upgrade 3.14.3 -> 3.14.4
+Date: Thu,  9 Apr 2026 13:34:28 -0400
+Message-ID: <20260409173428.3599371-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-2128989187-1775754347=:3820960"
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 17:04:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234937
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 17:34:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234938
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-14-4-final
 
---8323329-2128989187-1775754347=:3820960
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Drop patches:
 
-On Wed, 8 Apr 2026, Richard Purdie wrote:
+- 0001-gh-144787-tests-Allow-TLS-v1.2-to-be-minimum-version.patch since
+  it was a backport and is now included in 3.14.4.
+- 0001-test_pyrepl-skip-test_pyrepl_eio.patch, the test for which was
+  determined flaky and dropped upstream in commit 9743d88334ad.
 
-> On Wed, 2026-04-08 at 06:33 -0700, Robert P. J. Day via lists.openembedded.org wrote:
-> >
-> >   puzzled by something i just noticed ... the documentation for
-> > "ASSUME_PROVIDED":"
-> >
-> > https://docs.yoctoproject.org/ref-manual/variables.html#term-ASSUME_PROVIDED
-> >
-> > clearly suggests that these represent recipes that would not be built
-> > as they are already on the host, the example given there is
-> > "git-native".
-> >
-> >   however, in a walnascar-based build i just built, native recipes
-> > that were listed in ASSUME_PROVIDED were built anyway, even though
-> > they are clearly on my Debian 13 host, "git-native" among them. in
-> > fact, a number of recipes i checked appear to all have been built from
-> > scratch, despite being listed in ASSUME_PROVIDED.
-> >
-> >   as a test, if i then tried to "cleanall" such a recipe, i got the
-> > perfectly reasonable:
-> >
-> >
-> > $ bitbake -c cleanall git-native
-> > ... snip ...
-> > WARNING: Explicit target "git-native" is in ASSUME_PROVIDED, ignoring
-> >
-> >
-> > is there some reason that something listed in ASSUME_PROVIDED will be
-> > fetched and built anyway? is it a version thing?
->
-> Some of the recipes have a PROVIDES for XXX-replacement-native and you
-> can build/depend on that.
+ptests look OK:
 
-  if i may, let's see how badly i'm going to misunderstand this.
-currently, in my build, if i dump the value of ASSUME_PROVIDED, i see
-a pile of native recipes, including (as defined in bitbake.conf)
-bzip2-native, diffstat-native, and patch-native, suggesting that if my
-build needs any of these recipes built natively, then *by default* it
-will try to use the ones already installed on the host.
+|Ran 353 tests in 74.012s
+|
+|OK (skipped=43)
+|
+|== Tests result: SUCCESS ==
+|
+|28 tests skipped:
+|    test.test_asyncio.test_windows_events
+|    test.test_asyncio.test_windows_utils test.test_gdb.test_backtrace
+|    test.test_gdb.test_cfunction test.test_gdb.test_cfunction_full
+|    test.test_gdb.test_misc test.test_gdb.test_pretty_print
+|    test_android test_apple test_asdl_parser test_clinic test_devpoll
+|    test_free_threading test_generated_cases test_idle test_kqueue
+|    test_launcher test_msvcrt test_startfile test_tcl test_tkinter
+|    test_ttk test_ttk_textonly test_turtle test_winapi
+|    test_winconsoleio test_winreg test_wmi
+|
+|9 tests skipped (resource denied):
+|    test_curses test_peg_generator test_smtpnet test_socketserver
+|    test_urllib2net test_urllibnet test_winsound test_xpickle
+|    test_zipfile64
+|
+|455 tests OK.
+|
+|Total duration: 3 min 42 sec
+|Total tests: run=46,926 skipped=2,469
+|Total test files: run=483/492 skipped=28 resource_denied=9
+|Result: SUCCESS
+|DURATION: 223
+|END: /usr/lib/python3/ptest
+|2026-04-09T14:44
+|STOP: ptest-runner
+|TOTAL: 1 FAIL: 0
+|root@qemux86-64:~#
 
-  as an example, there's "quilt", which conveniently RDEPENDS on
-exactly those three native builds:
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ .../python/{python3_3.14.3.bb => python3_3.14.4.bb}            | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.14.3.bb => python3_3.14.4.bb} (99%)
 
-  .../quilt.inc:RDEPENDS:${PN}:class-native =
-    "diffstat-native patch-native bzip2-native"
+diff --git a/meta/recipes-devtools/python/python3_3.14.3.bb b/meta/recipes-devtools/python/python3_3.14.4.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.14.3.bb
+rename to meta/recipes-devtools/python/python3_3.14.4.bb
+index c40742fb43..f48dbc6996 100644
+--- a/meta/recipes-devtools/python/python3_3.14.3.bb
++++ b/meta/recipes-devtools/python/python3_3.14.4.bb
+@@ -33,15 +33,14 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch \
+            file://0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch \
+            file://0001-Skip-flaky-test_default_timeout-tests.patch \
+-           file://0001-gh-144787-tests-Allow-TLS-v1.2-to-be-minimum-version.patch \
+            file://0001-test_only_active_thread-skip-problematic-test.patch \
+-           file://0001-test_pyrepl-skip-test_pyrepl_eio.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "a97d5549e9ad81fe17159ed02c68774ad5d266c72f8d9a0b5a9c371fe85d902b"
++SRC_URI[sha256sum] = "d923c51303e38e249136fc1bdf3568d56ecb03214efdef48516176d3d7faaef8"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+-- 
+2.53.0
 
-so, simplistically, if i'm building quilt natively, none of those
-native recipes should need building -- building quilt will use the
-host versions.
-
-  however, in the case of (for example) bzip2, we have that that
-recipe defines:
-
-
-  .../bzip2_1.0.8.bb:PROVIDES:append:class-native = " bzip2-replacement-native"
-
-which means that some *other* recipe has the right (and here's where i
-might be misunderstanding) to state that, even if bzip2 is listed in
-ASSUME_PROVIDED and is available on the host, that other recipe can
-insist that it not use the host version, but must (for whatever
-reason) build the "replacement" version:
-
-   .../cmake-native_4.3.1.bb:DEPENDS += "bzip2-replacement-native ..."
-
-am i even *close* to understanding this correctly?
-
-rday
-
-p.s. so as i read it, all it takes is a single recipe being built that
-chooses to depend on a "replacement" recipe for that replacement
-recipe to be built and used.
---8323329-2128989187-1775754347=:3820960--
 
