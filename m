@@ -1,167 +1,235 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99074E9DE5E
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 07:49:43 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.24])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.127412.1775720973632494345
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED5DE9DE5F
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 07:52:53 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.25])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.127015.1775720870161315731
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 00:49:34 -0700
+ Thu, 09 Apr 2026 00:47:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=YyffnkDs;
- spf=pass (domain: axis.com, ip: 40.107.162.24, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@mt.com header.s=selector2 header.b=WrOm3Tn+;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: mt.com, ip: 52.101.84.25, mailfrom: wojciech.dubowik@mt.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Aje8T5x/S1InWzPM+Rmh4os0hGglSuqGWa9lfB1NaHTFMLMMuKlmfrNbQLOiaiWDjQw5hTrl3XheCGprWNm51FW6eI5RKNndXZNOCyDBstvSonMLUb3FePRHFaP9xeAIRHoWJfsIhJfF8tWnqsquYBB24d6TGRhAeRtT/3pfF+gzdH7T2nQ19POsz5Ow6gi3Fg54owBVL2VSEdHa2n3m5Mg+Td1JdGInsBO98p70ORihYM/sdMCfPdZHSOmWY9fCpnl1JbEK65BLzc2ZwWzlFaru7cDJQ2OKGR33nsYQniDTzc/AO/PKqf337cFumkxtCHWkrYaPPHSGYKf9l/Vikw==
+ b=ljY+2XaQPlzPxWVCqtcU7mnuSeW/Miw1KRx+uffTJsLnjsuUSKYtR9dtwEOHFXj37e8HC8QiAdyLTmXK1Bh2X4zXScJv7h/5bTwdPrVgLj6lA8UXbimejJXdJy2HaRq/A8btxf7hpN63mFlSamXySEtUftBW7OYamwzAo6jLQp0c3zPxj1YYgTeRg40FRwU0/jBs5WrS2+FRIaB6kLbfMWo9sIsUmYx2Mg7aLBVVYFDQHKg3z+yvmhxVioOOowZbKMIUmygmdvuf4hqz2KI6hr5vdKwIZQBgBKf0GZtcxj4yyzXxm/EnULJFqQbonD7ksekQoox2UB9xCvqmYCMnPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8LxKWEQ95IbOhndulQlIZHwbS8xFJjro1lS6X3hjdNI=;
- b=ev+KUFiavWxTs28KY3i8aCVNrJUp4srZfNF4z4/g+gdj1CPhsst/pM8ZKcotDIVGeav+nVbXkENXzsn00M5QtLgVZ0Rx8iYlvXivDJ2BdTiek2B4XZIzFCL+cJ6JfMR8CxlScWpiY6Gaz8ae1xHWB69aCsgAd2VCYH1VLXcErQSLaPEySWDE66eePQuSHgYrsN9QIQCpbl0B25OldY+gPUowo2cIpq2eylTVmsMU6bU0EIZ17BFC1CsFeSFxa+x6QNBRN3KK9br2+11ioje6+RZO07ZSfsw40b3k/UqqXQ1qeX0MZ+BaysLc+a8xjzvmmwsv4GRH9jkFOKJwF24Eng==
+ bh=h0kwWEtFtb1J1jVNX5QaZXMxnNwJUAr8QdrisWxqpvc=;
+ b=AjVCv95EGQEgmcueYB0Sa1WlgsV12Shd5WhKTfDebhzSawwJtiB4lI3zUPhXkm8yhkIMAV8yEruoh569VqtUgJ9QtomMP1/Y5f251Lk+ZUy3VvxM8evlTMMisfnghT4vrWHuKzTvzT5gjP9LOfrUMSygDCAk0mWBz0oV1WYIeCmo+YlPbSoQTzpr5JsTVX4Dw3uARQCQTm9ZWbJsQON3zaG6lXWads0AwTj5sH84Xe/iO8rGh44bRA/DFSTavdv54EamEHZSvOa0xd/7ol1slABf7BbDsYKoi4VXgqf+cmGMRl5YClAyJOsQIXKCovFqAR7X+tqH6sjsKNUV1fWTcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8LxKWEQ95IbOhndulQlIZHwbS8xFJjro1lS6X3hjdNI=;
- b=YyffnkDsXsMYGONEj3tmZnOgU1OYMEuEo7J8YaH06ZhTX/gS//7TziyLHzjQ2pNSnp7RrHsemAqEPj3pGKMxuaVdkUGgGPpSB9S7I96BPitmI8xy69zXwIQUv5UA3NwZEuQZ152tqzFn6wykBXTl5SHdjWRl9jg/2mMScfR8b34=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by AS8PR02MB10271.eurprd02.prod.outlook.com (2603:10a6:20b:634::11) with
+ bh=h0kwWEtFtb1J1jVNX5QaZXMxnNwJUAr8QdrisWxqpvc=;
+ b=WrOm3Tn+F3TLIFjn9yOiXdhHBvCdiwn8m0LN45gTCS9hAAFuzf59eMUqF+slcdTP/CsmaNIRCLCMUlK3gc0PcDEMkOutABvq1RsKlkRGTtkjkGtn9qBSizv8ik2Dj589gTUG2+c6sIVbWkzOpfCGYDydbbjoMH5PSIVhJUE3RXfgcXRaElY7fOiKKbwiEF9oGhJhqMi8wzXl4Q0jfBSOQiWQ2MVpzwu/cWx0sRwD1u2P7NnIAnxYzQRAAcFGbaKltXSbsVWFOmIgP/BCDbQ4jwQMSJ7HidUpHcBqXfSfaS2Ipw1D/T6VocxTvHE/bbMmZQrxRSlE4Jh2D3dJTvBT1g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from DB9PR03MB7180.eurprd03.prod.outlook.com (2603:10a6:10:22d::13)
+ by DB9PR03MB7811.eurprd03.prod.outlook.com (2603:10a6:10:2c3::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Thu, 9 Apr
- 2026 07:49:29 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9769.016; Thu, 9 Apr 2026
- 07:49:29 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "joerg.sommer@navimatix.de" <joerg.sommer@navimatix.de>, "rs@ti.com"
-	<rs@ti.com>
-CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"ross.burton@arm.com" <ross.burton@arm.com>,
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [oe-core][PATCH] systemd: fix unmerged-bin tainted message
-Thread-Topic: [oe-core][PATCH] systemd: fix unmerged-bin tainted message
-Thread-Index: AQHcx5GrcKDjlhhgMU+wBvLkmWXAT7XWJBcAgAA2ihA=
-Date: Thu, 9 Apr 2026 07:49:28 +0000
-Message-ID: 
- <DB5PR02MB10213895DC73E4599A411B050EF582@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20260408195024.1874335-2-rs@ti.com>
- <adcqUntpjuEXPLyw@navimatix.de>
-In-Reply-To: <adcqUntpjuEXPLyw@navimatix.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AS8PR02MB10271:EE_
-x-ms-office365-filtering-correlation-id: 343bcd40-3deb-48a8-9baa-08de960c877f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|1800799024|22082099003|18002099003|56012099003|38070700021;
-x-microsoft-antispam-message-info: 
- VQsQ22rnKwzEyIBq+aBHr3t0jLBUFe2303YF50SpLiLnvOXL4/L2agpH4utvDn2bNrEBOh0McSLudSUmurVbER7V9K+33Y3HF44Ds/FPD9D3rRi67C5huHo1JH9JMXF7kZeCZUshwfKcZFrdQL5aQnuhlFoIwgo2mNC22nxM1+dn/DimcHXnj8xx/WeMBr/CjawU4WwNOBr6tvEaqUxFRM6O1m+/d5VMKXBJ9tV5evM0OpZha7amZUdh52rNKP54KQmSdR95cQztxAsC3JCLVdP7kYYzEdmVA/w5gOKlsjiV9UaQc76aFg/wBoMPqj9plVETPnnw84Ttd3MzSYx1CfOZSrl40DL2LuZWMYtp3QFBNpzl532uPMHG453yQfNkp0cEPMxuI5osGz0KcNulUZckBqQyiAHHTvwnesU+Q9bHA5pOr1Wh5Ui0sFS11xA7n+5D4XfiTg9W0CfrCqIsevbTeX9TPjgEh5LCKSR0Z8QtWaR4sdItRsH+SadHVGUiHyr9N7d7P2F2iHuNPaqHz5IpIuHjXK2krE788NLWUkzosjup9Dodu6npn0FMe20VpVJLrAHa1wRZQe0BByCjMi8objs20gd8RdgS5eY/A4R0BGiPn82IN7ma25AR4uu81A3TxSciAKWzsm8Wu7T6y0776shQz+OyLOMi3IMG8skfQBlgDF1rKMa+pMarTULeuSSd/UqXGRliSeQCZO6RQD+Cw7DiM9RGxUNU83NOQrKFLQimfau0AjqLOfhZBVqujMh6BrYMUyagj36P4PBCripk6rDPVUnZdZwvRBuJo+k=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(22082099003)(18002099003)(56012099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?0uvDcgjsvNgshS1oyW9QimLqAgEg/ErfFlf0h3YGKyebiF8qd8SkUx+6kv?=
- =?iso-8859-1?Q?4S5iwke0WPUWX3jGiFSid+ROy//YatrIyZyBo4Aaj5S44w5b6xIDgW3V/R?=
- =?iso-8859-1?Q?FbhPCpqSzbIm9ttV2u+Zh5M6MWKlwOQXkSQzNG8sQoQxnBUOyVoKESQJpW?=
- =?iso-8859-1?Q?Uc8YuwvC2G13H3SW0ljemABeyT7qQAJFlb2EKaZ2HHdNZyq4lkmeWwL/0Z?=
- =?iso-8859-1?Q?wB8tgC3aR4LTSrNP8LYl1aPNlqVAAq6azS4+dj12QTvsYvOwZDTkXWsdEq?=
- =?iso-8859-1?Q?XFxgb+Vgzpmkp29p4JUMHdCc0rW7sRBNa+JvpWNmB7E63ar+2PFIGud0f4?=
- =?iso-8859-1?Q?n0Ppv8neEA4arI8yrmgFMR/lpqT8CEJY9GpmmYQpDYnkcTOeEakRkS5lEJ?=
- =?iso-8859-1?Q?7svjcTRllgwETuMqNvY3rnVAYOx0u6XxkxF8aFR9zhYuzCqhoETwIkF/Xf?=
- =?iso-8859-1?Q?KCPrrIRi9sBhPt+oea3t5TrU+5lpJK0zbE/34JTtUo/rD2unoF850sof82?=
- =?iso-8859-1?Q?kZtNUV6n0L/9EIydFjHbiIWWrGfgrmMYUh1O36ThjDb0PYm7j2ZH68YUyZ?=
- =?iso-8859-1?Q?jzTTsui6Hkzspt/c4avHCvtKXJHP3nYriSq+rAQGqdYG30w1diPS0Vb1gu?=
- =?iso-8859-1?Q?y44Vj2jFB8MCLsrFcz8njVZYyW7ZbCHA5OdsnwDdcGdgvW42EN5AzTAdUg?=
- =?iso-8859-1?Q?bW7JH0L6NCwjfmiOPKi861M1JzaVh4SA7A6vy7/vzp5XwhP9iyiNSVmUUn?=
- =?iso-8859-1?Q?j+uBm15NXwZwbKslHnkO6MbLNFT96bQCvDvqvQ2LFZm8wpdDO7gJbgY+UT?=
- =?iso-8859-1?Q?2EOjmFyBrpeNTZiojfFenJhLt4RggKq2BCx//ogH8p4mt5svERvvAaMfOo?=
- =?iso-8859-1?Q?I5q1wvU4nTcc73G+3nrBVeHf6GyvD4y9xz0i6/7dlTSX/O3t2LfbCYhOG3?=
- =?iso-8859-1?Q?TC4yAPdGcOT5aVRG0CN4VIDRL9jPDtPZ1nat+eXfTrcrhF2WplM9JlgBcb?=
- =?iso-8859-1?Q?tspg0Z2N/9YcuUYjTIy81EAnlIuHNC33u/dD+NX/mJJwEuMN+/YGmosnFZ?=
- =?iso-8859-1?Q?SMMwVPYWkh+FfXUZuOFtDc8KkirQ3JYCuGbV3w7mpsLE4zXLSqkb9+g2JY?=
- =?iso-8859-1?Q?LbIWBg0YkEycIwPq+MWSMSeTlTQ/VLt29B8J32ierwHgrqk+pn9IRNo0e0?=
- =?iso-8859-1?Q?/rR/cTecp+r9evh4aJNqSBCNtBEgmPC1MkBuHbVBPgfOY83teN9T1XBb8+?=
- =?iso-8859-1?Q?NRcScz7dvMABh7JsqVH3U7hoJGlM5xho1cBgJZVkzGaADovjtVpcI33BGe?=
- =?iso-8859-1?Q?2fwPZaLigbjgA5sII5OkMIb5qP9z3dG9af+99A+TAlK9UKBlj/a6zDLErP?=
- =?iso-8859-1?Q?8DyZ9yV7i+c5ARXwaLpt03DM8i4wF9KsgCxOp7uYVh8m8wlUAAyiOqRaqg?=
- =?iso-8859-1?Q?rXfeeerkYEpCHwhdEpzh8qWKSBd8WCAfSaRczz5qoiNtmP+Selx4HN+C37?=
- =?iso-8859-1?Q?eJsS4xb7UrqBLKzBtR+imCw42/0cr2Zl84OlsQXk5XTfmCMQjWsqUMo0w7?=
- =?iso-8859-1?Q?mENuxFU0sab8aJBp5XhepBimsZG/XczzhqrGWDo+t7vy0EBWfAKuvI7roV?=
- =?iso-8859-1?Q?FJpt4DK8nrfJQCnnrHn/2x0R3FUTI1wlE6m4+U8SQV+iS2STMfQKxlB+af?=
- =?iso-8859-1?Q?jlKA9ytNwjZ1Aqg4LJD6jL3gBcwxjQHJ2wtm1xfVStzo88TuJ05TIgxkdS?=
- =?iso-8859-1?Q?SWF/syzoDWhEb1Jhe3MNeC6kM=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.41; Thu, 9 Apr
+ 2026 07:47:46 +0000
+Received: from DB9PR03MB7180.eurprd03.prod.outlook.com
+ ([fe80::6fd2:12a9:4423:8ddc]) by DB9PR03MB7180.eurprd03.prod.outlook.com
+ ([fe80::6fd2:12a9:4423:8ddc%6]) with mapi id 15.20.9769.016; Thu, 9 Apr 2026
+ 07:47:46 +0000
+From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+To: u-boot@lists.denx.de
+CC: Wojciech Dubowik <Wojciech.Dubowik@mt.com>,
+	Franz Schnyder <fra.schnyder@gmail.com>,
+	trini@konsulko.com,
+	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>,
+	Francesco Dolcini <francesco@dolcini.it>
+Subject: [PATCH] tools: mkeficapsule: Add disable pkcs11 menu option
+Date: Thu,  9 Apr 2026 09:47:07 +0200
+Message-ID: <20260409074710.1322519-1-Wojciech.Dubowik@mt.com>
+X-Mailer: git-send-email 2.47.3
+X-ClientProxiedBy: ZR0P278CA0076.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:22::9) To DB9PR03MB7180.eurprd03.prod.outlook.com
+ (2603:10a6:10:22d::13)
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR03MB7180:EE_|DB9PR03MB7811:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c3df442-30ea-43bd-1b6e-08de960c4a5f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|19092799006|1800799024|366016|376014|52116014|56012099003|38350700014|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	TdqFboHjkhXuXIqlXZPFQd0w/rGDNStJBu0on+lrbEfCzxMMa76Sx6DOrtlbTz7bKryRJjrN2iYJM4Zsqyh0CSuFfJ+Fw5iIBq4At+gQZtM+MT90EV0lFjQuQz2qwz+JyPPRvmts1YftZltwJlny9wGPRh+cI32fDvHVq+lZi7yrlYQAx4gqLcZ+E7o04E+2EbhSa8OZeCFEAjF9gqONhaXLj7uYUDb/EpzRQHfzutdcQh/wAQqq44Cxipvqhvy4n+rJe7SwdeKH1lBoGoZuKehexVOj02VHSBc71OL1wkvEU3RPqJ3nhyETIVhpV7yQ0M+F7A+SUaD+gH6asN4kOkONYM6ZylhE3MmZFes7ZREobj4+BwwXiHOsi2IcaOutUhvwgKEUurdercP+eCjpXuCWqxiIhQ26brVJ3y0XQNHuuYlBY+e9IOfK4peFWaljUW8g4oh0gVtJSzyhfR7kf0zE9hweOEPCUM6uUTzmhDNGAhqIGI+gvK9VIgrvk/PYwe42kLZNz2PFptSBsuS6XjHXI7oOaDjj5qy7QoPBLUdqQCVVNR3I9EOB/OBxk/9HPl65ztiH9yZ4fZR0uhXuZCK0u1rQ1f/V/kBgbx0B3MsomD3ftb9DBBl31L3W93f/kLUtHmSlTiRu1/iRuy0J+G/aqZMv/5ZjVQVL/+Ba16mbO6W2zs9ddhnz+1KdAdJgND0N/rrog8h7ZxcnCGXO/GiqpDqM9NzRP5CA/tDUM7S6+BxA9K881tahU9WDwjpZiXp0tJJQldOJkSif+ags/Xeyv8PyFirow7t6ByulgX8=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7180.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(366016)(376014)(52116014)(56012099003)(38350700014)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?8dQjew9KIu6WjdTxk4i8ZdfxbA4yz5zM3Y9cZCkg4wqUBubUc6nfiv+T0ieN?=
+ =?us-ascii?Q?uVCrVnJCGbu9JIz3o6j4sEHCiptFL3SH8Zn9DwubM+297yAT1PTttNszh9cp?=
+ =?us-ascii?Q?LxboHMRgb8RTf7gdz85Yqscp5v8gmzrpOUrrP9CMjCVbHKqEebJqAoyWOx1e?=
+ =?us-ascii?Q?X0dyXJg4bIS82W37774w7jMilEHoMwB7C2Uf/nS/Dz+6nPXnxdQpzbpQmkhg?=
+ =?us-ascii?Q?8cIhlcb4GdSoltGpeSsHTssk70vcyqpYv9d/Wi7FBe6CIeBPAlWosSj8gAKI?=
+ =?us-ascii?Q?coFVpQOe1xu68aXFq7ThvM9wxpnmBUluTiz4u4PCQwVLowLTWfALuh/nP4gG?=
+ =?us-ascii?Q?5DMEiA1uYYtukjN7b9XIyAq5ZwGw1+OsL0L36GF1Y0/yu+gNXJxtjZOcBkt/?=
+ =?us-ascii?Q?RaPQ8WuCfH0D3ZwxRkIhUr0vNlLrEN8sKhFTkrveb/65Nlk4clyWKuYiqIVr?=
+ =?us-ascii?Q?Eye/0nYoqcFxPTHcOLw/rS+qfauk5mSOx6Tu+Cw/Pe8qaM+Im+LCD38Yr39l?=
+ =?us-ascii?Q?4BT3S/Jd1oM/yXhega1XUJD4MIChRf4C1Uow+C1bp6CRwSVLIRKjKNThyNeY?=
+ =?us-ascii?Q?7zOosvL1tv7bsCnqdJNOZuCtvSWh8PrlXrgfqp0r1Kzny/0jAW9Byr3QG0zL?=
+ =?us-ascii?Q?ivj67WU7q+4iQQHnhIwjTaAr05WPlqEMt+oe1pDgKHX1AazEjCEunmnJhW4l?=
+ =?us-ascii?Q?XkiZBYbbJvFGEqcmncC0k6hh4nVyboJg92LWpsLkVc9p4WugDk4oRhv09cgX?=
+ =?us-ascii?Q?m+++dXH/AkGOJmN7wxuxlRG1WEJThX38U1DBvbD5K+gMtmZtg6G5E2XebH6X?=
+ =?us-ascii?Q?xtlBBYbLMirkc+GNjARzbB4WTETX8oe2veA+CgbZ26S+hJTXV6cAnsIUZacL?=
+ =?us-ascii?Q?VGiC6h+AlWPI2ecJuAEa/5oucN6sGijADKqt1zt0t3LnF9JHoXRBEJ8tRyFz?=
+ =?us-ascii?Q?8nWd7JMNLG0ffVSzfl6DDMq53rTSVrrGNgD6vn5l9CKJICAo+jJqDaWRM14O?=
+ =?us-ascii?Q?2P7tQe/ZUChfNTLTHbJgyyvNrTPSz7DnOia7BHyniKlbTy0dEASWkxMUkfIz?=
+ =?us-ascii?Q?hkEuCtybLvQVZ2dMfN4aSjIovA0vpkfBS7KRWF6TEFjS3rCsOHA0ku8yhfWF?=
+ =?us-ascii?Q?pVmJ79Nr5gG2TmZrcLMBMTxh8tbBwa8aaoE82xMTAHF/NoygbVVBm0BwwMFT?=
+ =?us-ascii?Q?SXEUENj2FzPIhhvDRbqFne+ve6e0enjbLLZzK8OCDWVFNciXp91895Qi8rth?=
+ =?us-ascii?Q?pyM13zL/6mDRcMqLujIVt6/8/YrX1jzoRjyM893LD/dobwnAlt4iSA/VxDJY?=
+ =?us-ascii?Q?LPb6GpKNLY9D+DFi8aUvwHMjtKz1xUDKjY1/q6aryU6HyUQNmC0kBmMqGeGG?=
+ =?us-ascii?Q?CPZLJ1NK99XAjFO2+SkdlJNrBCYquWFzP4M81nkWHYcHw9ZjX+nz76m7aCkG?=
+ =?us-ascii?Q?M++iorR67mMcyQbtdEUzgGCALOHgkvy111PFseL6tffloh2JJd596Vb0T/Aa?=
+ =?us-ascii?Q?yWHvvFq47MGl2YSdkQUHQ9yzdbANhMO0YDXe5iHA94pXoxOBC3yW0HYte6zQ?=
+ =?us-ascii?Q?VFIwbmaJfB9vvOqc8l/TDMw17r2BojFGc/G5NG1m1NkKmfMXUIfvVCRJ/h+9?=
+ =?us-ascii?Q?cOmKhHo1GIJE1SBleDpihlsssY0KhIFoJP9+t7oXNBi+SCq3XEGCNz0+Esl7?=
+ =?us-ascii?Q?in6asHarLoHSe3qS3sTGCIysh2Tap1Tr3rtCUeanARGoF+UxAUnl3aTip41a?=
+ =?us-ascii?Q?3JU0e+56EQ=3D=3D?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c3df442-30ea-43bd-1b6e-08de960c4a5f
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7180.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 343bcd40-3deb-48a8-9baa-08de960c877f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2026 07:49:29.0037
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 07:47:46.6784
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: m3ZODoEQQrK6HcUfyzGqgDglydyXopdbK4WLFeB8spwTsUdcC/1aNDrPwivK1YsR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB10271
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /MDI81CS0PYbpkoLrrtrYHaI2fOwIZWRlH8J3xdZNXE2RB59XltwNDS1p52A2cVYKvMblD5mXdOrnC5gnuS6ew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB7811
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 07:49:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234889
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 07:52:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234890
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of J=F6rg Sommer via lists.openembedded.org
-> Sent: den 9 april 2026 06:31
-> To: rs@ti.com
-> Cc: richard.purdie@linuxfoundation.org; ross.burton@arm.com; mathieu.dubo=
-is-briand@bootlin.com; openembedded-core@lists.openembedded.org
-> Subject: Re: [oe-core][PATCH] systemd: fix unmerged-bin tainted message
->=20
-> Randolph Sapp via lists.openembedded.org schrieb am Mi 08. Apr, 14:50 (-0=
-500):
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index 84450386d9..29301534d2 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -22,7 +22,7 @@ root_prefix =3D "${@bb.utils.contains('DISTRO_FEATURE=
-S', 'usrmerge', '${exec_prefi
-> >
-> >  # Base paths
-> >  export base_bindir =3D "${root_prefix}/bin"
-> > -export base_sbindir =3D "${root_prefix}/sbin"
-> > +export base_sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrm=
-erge', '${root_prefix}/bin', '${root_prefix}/sbin', d)}"
->=20
-> Maybe:
->=20
-> export base_sbindir =3D "${root_prefix}/${@bb.utils.contains('DISTRO_FEAT=
-URES', 'usrmerge', 'bin', 'sbin', d)}"
->=20
-> or
->=20
-> export base_sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerg=
-e', '${base_bindir}', '${root_prefix}/sbin', d)}"
+Some distros are using gnutls library without pkcs11 support
+and linking of mkeficapsule will fail. Add disable pkcs11
+option with default set to no so distros can control this
+feature with config option.
 
-This one. For the unlikely case that someone modifies base_bindir.
+Suggested-by: Tom Rini <trini@konsulko.com>
+Cc: Franz Schnyder <fra.schnyder@gmail.com>
+Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+---
+ tools/Kconfig        |  8 ++++++++
+ tools/Makefile       |  3 +++
+ tools/mkeficapsule.c | 14 ++++++++++++++
+ 3 files changed, 25 insertions(+)
 
-> >  export base_libdir =3D "${root_prefix}/${baselib}"
-> >  export nonarch_base_libdir =3D "${root_prefix}/lib"
->=20
->=20
-> J=F6rg
-
-//Peter
+diff --git a/tools/Kconfig b/tools/Kconfig
+index ef33295b8ecd..ccc878595d3b 100644
+--- a/tools/Kconfig
++++ b/tools/Kconfig
+@@ -114,6 +114,14 @@ config TOOLS_MKEFICAPSULE
+ 	  optionally sign that file. If you want to enable UEFI capsule
+ 	  update feature on your target, you certainly need this.
+=20
++config MKEFICAPSULE_DISABLE_PKCS11
++	bool "Disable pkcs11 support"
++	depends on TOOLS_MKEFICAPSULE
++	default n
++	help
++	  Disable pkcs11 support. Can be used in cases when host GnuTLS
++	  library doesn't support it.
++
+ menuconfig FSPI_CONF_HEADER
+ 	bool "FlexSPI Header Configuration"
+ 	help
+diff --git a/tools/Makefile b/tools/Makefile
+index 1a5f425ecdaa..60e84bfbf20d 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -271,6 +271,9 @@ mkeficapsule-objs :=3D generated/lib/uuid.o \
+ 	$(LIBFDT_OBJS) \
+ 	mkeficapsule.o
+ hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) +=3D mkeficapsule
++ifeq ($(CONFIG_MKEFICAPSULE_DISABLE_PKCS11),y)
++HOSTCFLAGS_mkeficapsule.o +=3D -DCONFIG_MKEFICAPSULE_DISABLE_PKCS11
++endif
+=20
+ include tools/fwumdata_src/fwumdata.mk
+=20
+diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
+index ec640c57e8a5..ad1c46f0e909 100644
+--- a/tools/mkeficapsule.c
++++ b/tools/mkeficapsule.c
+@@ -229,9 +229,11 @@ static int create_auth_data(struct auth_context *ctx)
+ 	gnutls_pkcs7_t pkcs7;
+ 	gnutls_datum_t data;
+ 	gnutls_datum_t signature;
++#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+ 	gnutls_pkcs11_obj_t *obj_list;
+ 	unsigned int obj_list_size =3D 0;
+ 	const char *lib;
++#endif
+ 	int ret;
+ 	bool pkcs11_cert =3D false;
+ 	bool pkcs11_key =3D false;
+@@ -242,6 +244,7 @@ static int create_auth_data(struct auth_context *ctx)
+ 	if (!strncmp(ctx->key_file, "pkcs11:", strlen("pkcs11:")))
+ 		pkcs11_key =3D true;
+=20
++#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+ 	if (pkcs11_cert || pkcs11_key) {
+ 		lib =3D getenv("PKCS11_MODULE_PATH");
+ 		if (!lib) {
+@@ -259,6 +262,7 @@ static int create_auth_data(struct auth_context *ctx)
+ 			return -1;
+ 		}
+ 	}
++#endif
+=20
+ 	if (!pkcs11_cert) {
+ 		ret =3D read_bin_file(ctx->cert_file, &cert.data, &file_size);
+@@ -301,6 +305,7 @@ static int create_auth_data(struct auth_context *ctx)
+=20
+ 	/* load x509 certificate */
+ 	if (pkcs11_cert) {
++#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+ 		ret =3D gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
+ 							 ctx->cert_file, 0);
+ 		if (ret < 0 || obj_list_size =3D=3D 0) {
+@@ -309,6 +314,10 @@ static int create_auth_data(struct auth_context *ctx)
+ 		}
+=20
+ 		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
++#else
++		fprintf(stdout, "Pkcs11 support is disabled\n");
++		return -1;
++#endif
+ 	} else {
+ 		ret =3D gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
+ 		if (ret < 0) {
+@@ -320,12 +329,17 @@ static int create_auth_data(struct auth_context *ctx)
+=20
+ 	/* load a private key */
+ 	if (pkcs11_key) {
++#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+ 		ret =3D gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
+ 		if (ret < 0) {
+ 			fprintf(stderr, "error in %d: %s\n", __LINE__,
+ 				gnutls_strerror(ret));
+ 			return -1;
+ 		}
++#else
++		fprintf(stdout, "Pkcs11 support is disabled\n");
++		return -1;
++#endif
+ 	} else {
+ 		ret =3D gnutls_privkey_import_x509_raw(pkey, &key, GNUTLS_X509_FMT_PEM,
+ 						     0, 0);
+--=20
+2.47.3
 
 
