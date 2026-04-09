@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEAA3E98FDF
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 23:11:28 +0000 (UTC)
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.145070.1775776285694870686
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E80BF31E23
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 23:11:29 +0000 (UTC)
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.144828.1775776279870288534
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 16:11:26 -0700
+ Thu, 09 Apr 2026 16:11:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=MPHtvbRf;
- spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-488ba840146so13523505e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 16:11:25 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Dyd2uUX1;
+ spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488c2690057so14344365e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 16:11:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775776284; x=1776381084; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1775776278; x=1776381078; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BP2dmZ8/tCvcPVYoWBz+GfrxwcZDBTHysfpT3H3eCm0=;
-        b=MPHtvbRfCAjjGB8Me29WCeKgGqUKnL5nEPbxH26yegge3DUGbEy4w3wDjpdN9uO+KP
-         g6woO0fwysROmFgU1KqukasN7Elela89vULbFkjuloMhgEpKrd1FMko322kfmkfoIekg
-         I2XeUAx5zpS7zKOJBQk0T99cMyRbo8bbFtkKw=
+        bh=WBTX+qTNavn6kWq18ryoO1tzu8j0c9iwV7PD4ZfpRZY=;
+        b=Dyd2uUX13J/YcqnibByYcTlgQEmlR6JkFw+/lpuD96DbDTePQFHbU6yLhG63SIx+Wx
+         dcHZ4YedODD1DZN6Ho2fCH85XfWu82E/XKPDx2OMVq26wKowCzTZITo1XU77jXJaQTON
+         RYj0s9QZCT30zaUSsuyXH6zVCexqQFL+fKQhU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775776284; x=1776381084;
+        d=1e100.net; s=20251104; t=1775776278; x=1776381078;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=BP2dmZ8/tCvcPVYoWBz+GfrxwcZDBTHysfpT3H3eCm0=;
-        b=iCdpdxin6qP8S4Wvpk5ytKeirhEEUU8iE0XYf2S6pjFe373f2J5vGDWtqm+e1cl1m7
-         2aN+J4+vv+8ZFjt1WDUFBTZak/Ml9nQj6Dfk1Ute4rGnDF+bs0nEv/w6h8tieDq3LOaV
-         fVwZXjCQDyeRdXP4jWpuUTp8eN4pxAO2eqkWyo2PBcctibvz23AeX0uozylPrildFtuH
-         vOkcmoMH/tlIeUC0mXXfl2QouFe2MIPqelDuIwWPke0Eb6Idltpwqjr0DJFo9NChDXux
-         8y+UCEw/LV87TnB58y574NGtC4SQiqBw5NxsxF4IE9UH4yrZc85EWYHgFOeQ+R8r0Gt/
-         m9Cw==
-X-Gm-Message-State: AOJu0YzSBEbB7smrRCHumEAX3UbSDwknGZQVx4Mpo/yz6aYk13IdlOR6
-	sHSngSFAg/kHV3cpZtZnaVjTThATEXZJ0rx9kQSooBDpW6tcOwYibGoKbabw2141rwVJ584AsKR
-	R+uumTsdWwUdc
-X-Gm-Gg: AeBDievQpt7AZqpJqhonqNkHf5bhLqgFSpODzackabOIEbzPeQVHtSBysB1PSq8Icbm
-	j3PrGBWfjiLzS6V59B3+O1sFut6A6Ch3xSSfW9BPNMWNseSnj/3RU1ZYMjefa76YlpuazVxA55G
-	dV20TeBYibiwLfl9Bo8B2i7hy0TNoQFMiSy9kgy7nzVL2WOJdut/8jcPidB4y0PEvqPfWPHSpVe
-	uGvelbwSYo2GXX1fS42VTh5GzR3mUiv1hnE5tc2+pRuDtILFWH/8DzhAoq/2w2loHHpTKjF25Ix
-	C7Uff1mXIksOFcumJ4IFnArrkZ7mPn/565Cn31heDRCw/HbDcvYaMeW2DBerAhJiZqPMEW6a8gx
-	3psGJ2iey80EMFdBd9SJzPis8/9ekX6SnvDFwwtuU24BAvw7yYgBM9dRfgI2Wt0XG9Lan7mdaZL
-	aOLfP0O17pJJLLdd2rIBG6WteMeAAMhlGm6aTaS95cJcxGzycY56oMoQFE+SgzjnQQxHmuF3fHo
-	26QwXQxFKJ7j5v5zNCmRVEprWTq
-X-Received: by 2002:a05:600c:314b:b0:488:b241:2c5f with SMTP id 5b1f17b1804b1-488d687c076mr6386615e9.26.1775776283779;
-        Thu, 09 Apr 2026 16:11:23 -0700 (PDT)
+        bh=WBTX+qTNavn6kWq18ryoO1tzu8j0c9iwV7PD4ZfpRZY=;
+        b=AHu0YRDSut63CYKD7raHcVe/qDn1isanqQsSS16+SmMY/ccM1TrxNwBrtByIhzu4vV
+         co+Us30JAnkNoUim/xAZIBsyk6fufAd5ElAnsNC2AOUTmIMLWJkQeFkwKV9Aih7RqtLA
+         XE3kmZB4yXSnADz2mbzwiD3a6HmhbKSABfo4TatTMZaBBNElHl+2H7YMzjRmw7Tv0N18
+         36H1aGLDHb9IryDtuM02ZozwS2caeAxnjNzms2+Jh0dIX+NkLmjZsta89HNMoZwi0a2w
+         5JzU9PLXZJUiBo4qIdQxUO3lDQ0KXGZ3OmkwT3dP0AM9jprMnl/JbvvkSepAI8wDjvHH
+         FESQ==
+X-Gm-Message-State: AOJu0Yxldlw0vLoKuCTX6BellY6foZMapJUnM0q+IAQWgBT1vjAqA6+T
+	hge61V9HWN1zcvaNKejjyNbq2Xnl727Nszn/WtbO5rOtZ5Lep2cNm9IfD4320tp969E8uVi6ihg
+	mRNRdIpJIYMuh
+X-Gm-Gg: AeBDietLQ8/w0a6ROwKpk/rG8S06jhm5JkcmAmLwzX0MF6BTjUSke0P10eKeWED0Pjx
+	fYlkzTgc9/19trr1hDGJzVBA5Xiqe+VSiRbIdUaQ+iGmD8tieyPmFDQuT1xS0Wm4CTMPTslvmjk
+	bz6ovw86aa4UfU7FcJOgy25//cuaTucNbIZ3JOcoD42f7FZCifGcYESB1yjn3R+AhKhsGp1EMue
+	zvp4P1mM72sjsAc5iDzXeF41fMv6kMkrCdle7Zru9HvZtDxtL+J926bFFVxmND8R1gA83MLJbrQ
+	4TudkwyEaPUNHlaBJ6XvtlSKb5LZtewSn79ADvTlUl60siyescKtPdlmaf0tlxRixK6sW11UXkU
+	zLHlWwnvIWyStFV5aD8BEmhrCegeNeFg6+32/R361O1hs6Hp44d6JEr81Hl2OMuRQ6kBeTR3NZM
+	/bQ/yGEUy1Z9cJN7yLJ8WpyVajNRa2c1MlKkEBbouQsfWbQd4zSNIpbm5MVxzSFiItUT0d+qlVZ
+	F7Z08iK97u+7SxT3vrTaNb43Cl4
+X-Received: by 2002:a05:600c:a105:b0:486:af22:4a2a with SMTP id 5b1f17b1804b1-488d681f281mr5423975e9.7.1775776278038;
+        Thu, 09 Apr 2026 16:11:18 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00af4acfc73fc9518a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:af4a:cfc7:3fc9:518a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d67e685csm7708855e9.6.2026.04.09.16.11.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d67e685csm7708855e9.6.2026.04.09.16.11.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 16:11:23 -0700 (PDT)
+        Thu, 09 Apr 2026 16:11:17 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone v4 12/30] vim: Fix CVE-2026-33412
-Date: Fri, 10 Apr 2026 01:10:12 +0200
-Message-ID: <910667342b78fefa22214f6375b657e8b130a24a.1775775155.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone v4 06/30] tzdata,tzcode-native: Upgrade 2025b -> 2025c
+Date: Fri, 10 Apr 2026 01:10:06 +0200
+Message-ID: <d40198e70a3b548e5dc7b95dee4fd4b9cb0358bb.1775775155.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1775775154.git.yoann.congal@smile.fr>
 References: <cover.1775775154.git.yoann.congal@smile.fr>
@@ -65,100 +65,46 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 23:11:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234971
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 23:11:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234965
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Pick patch from [1] also mentioned in NVD report with [2]
-[1] https://github.com/vim/vim/commit/645ed6597d1ea896c712cd7ddbb6edee79577e9a
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-33412
+This release mostly changes code and commentary. The only changed data
+are leap second table expiration and pre-1976 time in Baja California.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Full release notes:
+  https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/TAGXKYLMAQRZRFTERQ33CEKOW7KRJVAK/
+
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 452334219309793ad74abd6ff390dcb06cab929b)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-33412.patch            | 61 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-33412.patch
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-33412.patch b/meta/recipes-support/vim/files/CVE-2026-33412.patch
-new file mode 100644
-index 00000000000..62daa308b58
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-33412.patch
-@@ -0,0 +1,61 @@
-+From 645ed6597d1ea896c712cd7ddbb6edee79577e9a Mon Sep 17 00:00:00 2001
-+From: pyllyukko <pyllyukko@maimed.org>
-+Date: Thu, 19 Mar 2026 19:58:05 +0000
-+Subject: [PATCH] patch 9.2.0202: [security]: command injection via newline in
-+ glob()
-+
-+Problem:  The glob() function on Unix-like systems does not escape
-+          newline characters when expanding wildcards. A maliciously
-+          crafted string containing '\n' can be used as a command
-+          separator to execute arbitrary shell commands via
-+          mch_expand_wildcards(). This depends on the user's 'shell'
-+          setting.
-+Solution: Add the newline character ('\n') to the SHELL_SPECIAL
-+          definition to ensure it is properly escaped before being
-+          passed to the shell (pyllyukko).
-+
-+closes: #19746
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-w5jw-f54h-x46c
-+
-+Signed-off-by: pyllyukko <pyllyukko@maimed.org>
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+CVE: CVE-2026-33412
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/645ed6597d1ea896c712cd7ddbb6edee79577e9a]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/os_unix.c | 2 +-
-+ src/version.c | 2 ++
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/os_unix.c b/src/os_unix.c
-+index cf195e62e1..d767956b1a 100644
-+--- a/src/os_unix.c
-++++ b/src/os_unix.c
-+@@ -7106,7 +7106,7 @@ mch_expandpath(
-+ # define SEEK_END 2
-+ #endif
-+ 
-+-#define SHELL_SPECIAL (char_u *)"\t \"&'$;<>()\\|"
-++# define SHELL_SPECIAL (char_u *)"\t \"&'$;<>()\\|\n"
-+ 
-+     int
-+ mch_expand_wildcards(
-+diff --git a/src/version.c b/src/version.c
-+index 4f3912aedd..712a3e637c 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -724,6 +724,8 @@ static char *(features[]) =
-+ 
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-++/**/
-++    1684,
-+ /**/
-+     1683,
-+ /**/
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 289f31be707..fc9b4db055a 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://disable_acl_header_check.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-            file://no-path-adjust.patch \
-+           file://CVE-2026-33412.patch \
-            "
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index bb81d77ccc5..1c08d4b1023 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- PV .= ".1683"
+-PV = "2025b"
++PV = "2025c"
+ 
+ SRC_URI =" https://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            https://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "https://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "05f8fedb3525ee70d49c87d3fae78a8a0dbae4fe87aa565c65cda9948ae135ec"
+-SRC_URI[tzdata.sha256sum] = "11810413345fc7805017e27ea9fa4885fd74cd61b2911711ad038f5d28d71474"
++SRC_URI[tzcode.sha256sum] = "697ebe6625444aef5080f58e49d03424bbb52e08bf483d3ddb5acf10cbd15740"
++SRC_URI[tzdata.sha256sum] = "4aa79e4effee53fc4029ffe5f6ebe97937282ebcdf386d5d2da91ce84142f957"
 
