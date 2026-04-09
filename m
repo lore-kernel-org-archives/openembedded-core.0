@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D59E98FD6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DEEE98FD8
 	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 09:29:59 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.55])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.128346.1775726991485326286
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.62])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.128078.1775726989906597452
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 02:29:52 -0700
+ Thu, 09 Apr 2026 02:29:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=I9UDjeb1;
- spf=pass (domain: ericsson.com, ip: 52.101.83.55, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=jScyZr+S;
+ spf=pass (domain: ericsson.com, ip: 52.101.83.62, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PAQPu8N+RNktiVdk+LNZqfBya7uHVdvYZqNEz3Pk/yDNmAhSdB3g/1eBaSDv+L50F+c4FtIv+mG4oXcuLMDn6t8i1heT8eiEL5Hkmga4FY5qlCWuXysuUvmqyMhe+kNtH61xxN4DY0FJN8Nwzerc1dCgZ4ylcLkq7NluymW0av7KkZfBpy4+we+UFJnPvc7rqaFogPZwLTnYUHBQxHcwOvWp0q8WheS49Jm7HkZbuYfpbMu2sXGEQS6yRWLbF+jN8V2gMzRJM4majuGR5SFvyNiANXHuk5KoWQN77Z6i82ZYt/XMRze4lbD8d0d9vBGBGQFPEsUWwXiSphH19MCiBA==
+ b=BUeCUH7Ke4zpwwwf0zP1ByoPwGekKXP4XNwXEgELPNH5LZp1z/E/B/xdj2UNzunTrfw+fwYMUZcK5tYZ8WE0OKPIPGJIE53f+qFrPu371pmD54cAGvsTIWgQgrHcszPidviCSMDSP7Aj9rWLRnBajPvPK+/yL5WMbhQ9e7RsHUv+z15ztBKf//4bp33q0DRolkcoN3OLNWDSysGx89ydMHCD9mqZUgePDmo+uZDAJ90r7FL4XRSNI4AYPjOTUMNP3sX6cUqteY17wgane6eqcJNvnc/WgkLBRjNaeXgfYQ03kluhgAbXB7kK3a3V/PKUa6RTjSIPceuF6ASDwrM8dA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VzeFIEhPao2WrlmNHsFKFNAfdON6x60Ihn7g/uRY05U=;
- b=SFT7Z4U1rjpjjkBCjgJ/sjQ9uA/2erS+rbiWf5uqQ0ryl/U8RPfeDWvvVVnBqFRUqmoCXfbciURkaVmiJYH2BJPXHmSCR5a9yfl1qY7Mi9rgPa1djreGVXBwOyF3OkCcZcHWC2K05ZGYqh+gXmf7Zh517hwZZMjXFzB8p4LfRfMSTczZ9OJnT8WB6UoCU3Xx46n2IdX99hpxBcFWTl8+/92E0u7ccXizQhEJZKuqUmF0Q1E2OebpA8u8xj0546cSeYhxzvT6YCHan0uXCsiLny9e6RCSPe4mMlRvNBFqPPezZcdmqLXdCa3M11Nx3nBGilMwrKTs9YmmLdBnsRWAgw==
+ bh=7nQU97z7LbYO3xYiBMMNtARYBoORUnwKqJepnzFnXAA=;
+ b=k8Mc0tXccjgUPukDGUpcISKCHYIPIXbJfBuZkfj1KmnFixF9L2kW0HWcXZQZUffiPfSbBE7GCKLa1+1ixlkuyX+bsjsFhz+Xrut+aF3EB4IAwf6ZkSInVHUPO7vxrueNYpFxeNvfQh5ChchClxYZP9erNyE/i+Ls0dD6eHJVmdcplgTyzDYK66JcOQZSMJ2U+3f2X9oAarm3P2aqdp26z17ffal9BpTu7x2uhVjrPiaiE4VVwLvmO8abyV0Waas3C3cluuH+n/RDSjiZEegZCP4+w0NYE9FLaXI4K21JpDi1XNs19oOkFtXM6C+tkNrRke7+E2mxsdom72Vo6kIxcQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -26,18 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VzeFIEhPao2WrlmNHsFKFNAfdON6x60Ihn7g/uRY05U=;
- b=I9UDjeb1Tjn2xNbpsc99CRMiI3NlDxUtI7/SBLlfxU3RWM5aGTviNJuENSZMcG5kxqnH4Fzs2dLK+qKS2dNXQokELgFDl46N0Wj0+dvPBQbgwAftwZJjyniomUpnnbucXKxybjnMqTlT4fqNIBMgDsJNzr+vAE8Zu6E4z1jJ8kB6LMR+BKOm+Qt0CvBLLrwmcW/5cOPeWYwlo/ZKuJx9dztd5GsVjN4hTX2GSyD57LLs3PDAsXD3LpIMFWoi+bFbdDX9WkX8XGnwdizBfvDfykLC9NMxPWUs4uDU30UaGcd96jFNP/DFyhf4DdJF3ysLSdZ3aDVEnVm2Nq2jrdCh+A==
-Received: from DU7P194CA0011.EURP194.PROD.OUTLOOK.COM (2603:10a6:10:553::17)
- by VI1PR07MB6512.eurprd07.prod.outlook.com (2603:10a6:800:179::16) with
+ bh=7nQU97z7LbYO3xYiBMMNtARYBoORUnwKqJepnzFnXAA=;
+ b=jScyZr+SdiqwAnZRaiBsN3NnLPNSt2yViRMhcVjUyDZQ/NT6c8A8wt0G5WnZoTkIke2LX8B5PsABCwPoXIxf+mDHQ0/sQXBk+WIcUS1TiDhFQrJdqH0mbuN5+pw1dCEK+wyWXmg5j3wY/t/ne2T8e9gwmAaGtCvY28q542tdMc9390f3VyrWHvRCwQaErPZ9g1DPysFDDU9tqTmvMRlatycI5Ac21qhsERWR33e1amqD2UeipFinmq0LufYTePe7r0sHCXipZBK1czz0HxtfOvLH+am2AYhxoGkCAgtkesNPHhEB98Pt25N/I5w3ktsABeBN4V9QT6G+acSSPB/u1g==
+Received: from CWLP265CA0447.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1b7::18)
+ by AM0PR07MB11605.eurprd07.prod.outlook.com (2603:10a6:20b:6f8::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Thu, 9 Apr
- 2026 09:29:43 +0000
-Received: from DU2PEPF00028D0B.eurprd03.prod.outlook.com
- (2603:10a6:10:553:cafe::9d) by DU7P194CA0011.outlook.office365.com
- (2603:10a6:10:553::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.37 via Frontend Transport; Thu,
- 9 Apr 2026 09:29:43 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Thu, 9 Apr
+ 2026 09:29:42 +0000
+Received: from AMS0EPF000001AB.eurprd05.prod.outlook.com
+ (2603:10a6:400:1b7:cafe::d3) by CWLP265CA0447.outlook.office365.com
+ (2603:10a6:400:1b7::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.41 via Frontend Transport; Thu,
+ 9 Apr 2026 09:29:41 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -45,328 +45,426 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- DU2PEPF00028D0B.mail.protection.outlook.com (10.167.242.171) with Microsoft
+ AMS0EPF000001AB.mail.protection.outlook.com (10.167.16.151) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Thu, 9 Apr 2026 09:29:42 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.63) with Microsoft SMTP Server
+ 15.20.9769.17 via Frontend Transport; Thu, 9 Apr 2026 09:29:41 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.62) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.2562.29; Thu, 9 Apr 2026 11:29:41 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id E77324020840;
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id EEF469569E;
 	Thu,  9 Apr 2026 11:29:40 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id CEE3A700DB92; Thu,  9 Apr 2026 11:29:40 +0200 (CEST)
+	id DBCBA700DB95; Thu,  9 Apr 2026 11:29:40 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [scarthgap][PATCH 1/9] base-passwd: upgrade 3.6.3 -> 3.6.8
-Date: Thu, 9 Apr 2026 11:29:28 +0200
-Message-ID: <20260409092936.1740143-2-daniel.turull@ericsson.com>
+Subject: [scarthgap][PATCH 4/9] bash: upgrade 5.2.21 -> 5.2.37
+Date: Thu, 9 Apr 2026 11:29:31 +0200
+Message-ID: <20260409092936.1740143-5-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260409092936.1740143-1-daniel.turull@ericsson.com>
 References: <20260409092936.1740143-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D0B:EE_|VI1PR07MB6512:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b49330c-a64c-4c75-242a-08de961a87cf
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001AB:EE_|AM0PR07MB11605:EE_
+X-MS-Office365-Filtering-Correlation-Id: b749aef4-3d02-4d82-77f7-08de961a873e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700016|13003099007|18002099003|22082099003|56012099003;
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700016|13003099007|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info: 
-	BMwqBDBind6TYkUudmBo/3FEfQy56ZNd0zBsTIQF6KWRJ4NGyGbTkDQsE7vB25HszU4qMS/5jJ9D1LtTOtfMmjg0dpTZ8ndiR2368How58eMEtOcAV65WD0hz0Aj1MUXSLJTAACfWZ55FAvvcVaM68IX+wuSP0ItKOve2tDi5CnDMvyBb2Yx4aI1tymXfU83fCbNwcPHcsleUGjkDJ31g4Dxcp3ZVAOYTFqCicmGxZukON7W+5qgRITWYKgd9Ge2XWCZq2R0Dsm9LpW+9+Fu+lnRKeH3HHLV0XzIdbqFZiQR2RRxkcUYDuOjvG5TbWzr8Svme0GvFekmKBBF5C3zKxBfNkKeYZuho9TpeGYgq9bp7pxsUAo3srVdV4bzdV8zjQGuOKCQb5mvvpL0XueQ8R91AaDc3mjTv4E7Shl+FJmvj9Pp+7Oq/6KMxix8l5Brm6Y9ixKrKUVETVLrwJ5lA1nrylS0+uvwSEZ3Xe796pBOSPnmcMQ06saBI/xbqsrztGHzIVd56OmwhlC+VIMfxbRbi8XtrY6EWH/GSP8j5ak6q6a8Q47DZ4IL9IAWwSqiNmRt18EXQoBaNVAuEIk3a++CRUORF2jwOukxiICDpDDiU8f44To2QCgl+FwpYGN8YO9vX+Woz6Egukntry9nreuWWnlQcPh0Z5xLH3xXtQELJLCgmFB5jA85lT/pke4ZzXPqgacWw/VRRAUfbFH35fMJxy/Xgej2RIvE2f9DYDo=
+	mVI2OtYuAvN2E+iV8W6dfoWswQpJ1H8xeeeWm1lCJ7z0Z3cNVRd5HZi5dlCgpO4yJw817xa7wGNOtw9g0tCpTlIJeht6kXiilmv3nkKtI/ddNhPpnq46txCTB8OJ90oBgqDHi42UVqxJfuWKtiFhf4LCbse2zcZP7gvrU0KWBFmnRlLmgZThw1Pex6N/HAeV+vxzRWlIKR2GEupDL4ixD7RSWIGOYxA7g8bl20B8a8SMdUdLXZQRKVSkLGPl9vSZ8OIyh0nTzloHI1UzWyeiEAOEDhZUuSDISW9i8cn1vt9DvIjevZeRV/DM7BiFRP8ylZTzQxLIOQuVLqe69dBLiIG1ax8WH2xQwEnN1KxA9f5HtFausD45IQAQIMA6W2d8CL/F/UNhrDflet77f4IfPigJhZCK9zG5n95s4i7z0Oc/9mexdmbszLpJFzWgUCWGp7QVhMaqqoDElEUQpW5i0tHziip2XYq21PBpENZQgrgEpPAzXX37FKc3mTqhCtYu2VgnpN01HyW4UXW0CkJA2yuhfEkWzumWuohqKtuFRE2Xbn9DoJ6cxTf9dJP5Jzj+AhDO5nP932OQuHW5shwCnF04xW/HCre0jJYxUDQqfKjMX96a+QhFUEWBnaMDV0rs1eZbYUX+BLNg4ViMwYTVNmLkk5JjJmHztuvfTHsIGuDygJrCZmWy/iKsGaNO2wqp74C057XJgwvC9trhLOR02IDj4xVlYLzG/7r1o1aFQEA=
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700016)(13003099007)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700016)(13003099007)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	rzBtsZKc26irDknxrqEy1GDGtHmLZ/fmsc/losXUdNxeitB6+LvDJI5NXjkrXhuvoxu73h8J0Z2eRniEazgexZ6tc8PqYi5IuLNiQkE1ljVDCeRvXWW3ZMT+yTJfEg/YlRXTBUPY9swvAsb54B4oXEIEF2ZPcPxcOSOTs4wsGuPLQKCsus+9jE8SaVvWF8ifYxP2+85QkNpB8OoZi5Su4Xn3MmQ52FGBpOp8wPHVmD60gN5Mnv9vrAfvjOiDHefdHWklqWLUkslbm+9UXNXYFDcvmHwmRGvfMzA5oadD4aMhVr6q/i31MRSobqlJj+lfv/Mpiv7pabAkKLJJsjZcptNDqiqAL9kkRvWx//6y/QNujb6ZXBEUED524vN2hbcZ27gmN7BmS4EUez6PYaQ65NX5eEOrWsQO8gJG3YEtVWOX3yBkljZZZixevNlXr8I+
+	t7AJCHX9fPLnjkRy8Dq+4vm+hqksebwZjkm0RhV2Km889XMqSJ311mDVd5Sr5WboWtUsAYFz+J47AKD14kBanr7vYvmAUYhC+LUrO/Tzf+fbIcLx0v0aF5S1B7YPXauSB1s2CxgsL7rzg9LsXTnKDCImPZR4WfHGbIhzzfVmdKp70JvJbcy/gkq2Ml2HKHHeDevXbPyNkFgU8mIoqHckB9X5UPsIRbGekUiFDgqO8iNlNM+DIe0jMKDdumnNpCE4CacfcusPHY62DkqjqUABuBAB5B2sC5peaXFTx0nSQPQ6LpLHGDRzL4sGa4x0rvfLHpzUnPVuApjPMN0w7a3ZzX52lU0HVzgEyRySvboFeYA18qxei8iR4u/GyNqdaIyzEJBzjSYa1QloGqTRu9ajqfBFkAp4Rs0pl8kZdhjMxwVYRFzbDArNWf4WnY3vCiRj
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 09:29:42.4197
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 09:29:41.4888
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b49330c-a64c-4c75-242a-08de961a87cf
+X-MS-Exchange-CrossTenant-Network-Message-Id: b749aef4-3d02-4d82-77f7-08de961a873e
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D0B.eurprd03.prod.outlook.com
+	AMS0EPF000001AB.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR07MB6512
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR07MB11605
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 09:29:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234907
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234905
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Changelog for base-passwd: 3.6.3 -> 3.6.8
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-base-passwd (3.6.8) unstable; urgency=3Dmedium
-
-  * Debconf translations:
-    - Turkish (thanks, Nuri K=C3=9C=C3=87=C3=9CKLER; closes: #1102464).
-  * update-passwd(8) translations:
-    - French (thanks, Baptiste Jammet; closes: #1119914).
-
- -- Colin Watson <cjwatson@debian.org>  Mon, 03 Nov 2025 11:03:53 +0000
-
-base-passwd (3.6.7) unstable; urgency=3Dmedium
-
-  [ Marc Haber ]
-  * Add myself to Uploaders.
-
-  [ Colin Watson ]
-  * Debconf translations:
-    - Catalan (thanks, Carles Pina i Estany; closes: #1101110).
-
- -- Colin Watson <cjwatson@debian.org>  Sun, 23 Mar 2025 15:30:08 +0000
-
-base-passwd (3.6.6) unstable; urgency=3Dmedium
-
-  * Move to team maintenance under pkg-shadow-devel.
-
- -- Colin Watson <cjwatson@debian.org>  Sun, 29 Dec 2024 13:43:54 +0000
-
-base-passwd (3.6.5) unstable; urgency=3Dmedium
-
-  [ Colin Watson ]
-  * Apply X-Style: black.
-  * Add Romanian translation of update-passwd(8) (thanks, Remus-Gabriel
-    Chelu; closes: #1055383).
-
-  [ Maks Mishin ]
-  * Fix potential descriptor leaks.
-
- -- Colin Watson <cjwatson@debian.org>  Mon, 21 Oct 2024 18:26:50 +0100
-
-base-passwd (3.6.4) unstable; urgency=3Dmedium
-
-  [ Chris Hofstaedtler ]
-  * Ensure that /etc/subuid and /etc/subgid exist (closes: #1074121).
-
- -- Colin Watson <cjwatson@debian.org>  Mon, 01 Jul 2024 12:20:04 +0100
-
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- .../0001-Add-a-shutdown-group.patch            |  6 +++---
- .../0001-base-passwd-Add-the-sgx-group.patch   |  4 ++--
- ...instead-of-bin-bash-for-the-root-user.patch |  4 ++--
- ...ot-since-we-do-not-have-an-etc-shadow.patch |  4 ++--
- ...input-group-for-the-dev-input-devices.patch |  4 ++--
- .../base-passwd/0005-Add-kvm-group.patch       |  6 +++---
- .../base-passwd/0007-Add-wheel-group.patch     | 18 +++++++++++++-----
- ...se-passwd_3.6.3.bb =3D> base-passwd_3.6.8.bb} |  2 +-
- 8 files changed, 28 insertions(+), 20 deletions(-)
- rename meta/recipes-core/base-passwd/{base-passwd_3.6.3.bb =3D> base-passw=
-d_3.6.8.bb} (98%)
+ ...T-handler-while-waiting-for-a-child-.patch | 21 ++++++++-----------
+ .../bash/bash/0001-fix-c99.patch              | 20 +++---------------
+ .../bash/bash/build-tests.patch               |  7 +++----
+ .../bash/bash/fix-filesubst-errexit.patch     |  7 ++-----
+ .../bash/bash/fix-run-builtins.patch          |  9 +++-----
+ .../bash/bash/mkbuiltins_have_stringize.patch | 18 ++++++++++++----
+ .../bash/bash/test-output.patch               | 11 ++++------
+ .../bash/bash/use_aclocal.patch               |  5 ++---
+ .../bash/{bash_5.2.21.bb =3D> bash_5.2.37.bb}   |  2 +-
+ 9 files changed, 41 insertions(+), 59 deletions(-)
+ rename meta/recipes-extended/bash/{bash_5.2.21.bb =3D> bash_5.2.37.bb} (92=
+%)
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-=
-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown=
--group.patch
-index e50efc9623..f0e1539ca7 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.p=
-atch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.p=
-atch
+diff --git a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler=
+-while-waiting-for-a-child-.patch b/meta/recipes-extended/bash/bash/0001-ch=
+anges-to-SIGINT-handler-while-waiting-for-a-child-.patch
+index 77d770b364..fae56ce2f2 100644
+--- a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-=
+waiting-for-a-child-.patch
++++ b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-=
+waiting-for-a-child-.patch
 @@ -1,4 +1,4 @@
--From 8f3ace87df3aaad85946c22cae240532ea3e73b8 Mon Sep 17 00:00:00 2001
-+From 6f714635792a14fd3ee8d2ce0318c0185add5c00 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Fri, 29 Apr 2022 13:32:27 +0000
- Subject: [PATCH] Add a shutdown group
-@@ -14,10 +14,10 @@ Signed-off-by: Saul Wold <sgw@linux.intel.com>
-  1 file changed, 1 insertion(+)
+-From 721d5be99eb37d31e48bd66d61808a66a4c5ab84 Mon Sep 17 00:00:00 2001
++From 37f1f4ea73a737c23b239cc9e8b09587ccf61963 Mon Sep 17 00:00:00 2001
+ From: Chet Ramey <chet.ramey@case.edu>
+ Date: Mon, 30 Oct 2023 12:16:07 -0400
+ Subject: [PATCH] changes to SIGINT handler while waiting for a child; skip
+@@ -20,10 +20,10 @@ Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com=
+>
+  6 files changed, 43 insertions(+), 32 deletions(-)
 =20
- diff --git a/group.master b/group.master
--index ad1dd2d..1b5e2fb 100644
-+index 3e7bf1c..72108a8 100644
- --- a/group.master
- +++ b/group.master
--@@ -35,5 +35,6 @@ sasl:*:45:
-+@@ -34,5 +34,6 @@ sasl:*:45:
-  plugdev:*:46:
-  staff:*:50:
-  games:*:60:
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add=
--the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-=
-passwd-Add-the-sgx-group.patch
-index e1340e1b70..d50136b24e 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sg=
-x-group.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sg=
-x-group.patch
+ diff --git a/general.c b/general.c
+-index 85c5a8b6..65e2ee06 100644
++index bda39f4..94a5339 100644
+ --- a/general.c
+ +++ b/general.c
+-@@ -262,8 +262,9 @@ legal_number (string, result)
++@@ -264,8 +264,9 @@ legal_number (string, result)
+    if (errno || ep =3D=3D string)
+      return 0;	/* errno is set on overflow or underflow */
+ =20
+@@ -36,7 +36,7 @@ index 85c5a8b6..65e2ee06 100644
+ =20
+    /* If *string is not '\0' but *ep is '\0' on return, the entire string
+ diff --git a/jobs.c b/jobs.c
+-index 6b986ed7..262d78de 100644
++index d3e4ab0..903cf9c 100644
+ --- a/jobs.c
+ +++ b/jobs.c
+ @@ -2718,6 +2718,10 @@ wait_for_background_pids (ps)
+@@ -96,7 +96,7 @@ index 6b986ed7..262d78de 100644
+        waiting_for_child =3D 0;
+        if (old_sigint_handler =3D=3D SIG_IGN)
+  	set_signal_handler (SIGINT, old_sigint_handler);
+-@@ -4136,7 +4144,7 @@ set_job_status_and_cleanup (job)
++@@ -4141,7 +4149,7 @@ set_job_status_and_cleanup (job)
+  		 SIGINT (if we reset the sighandler to the default).
+  		 In this case, we have to fix things up.  What a crock. */
+  	      if (temp_handler =3D=3D trap_handler && signal_is_trapped (SIGINT)=
+ =3D=3D 0)
+@@ -106,7 +106,7 @@ index 6b986ed7..262d78de 100644
+  	      if (temp_handler =3D=3D SIG_DFL)
+  		termsig_handler (SIGINT);	/* XXX */
+ diff --git a/tests/redir.right b/tests/redir.right
+-index 8db10414..9e1403c8 100644
++index 8db1041..9e1403c 100644
+ --- a/tests/redir.right
+ +++ b/tests/redir.right
+ @@ -154,10 +154,10 @@ foo
+@@ -123,7 +123,7 @@ index 8db10414..9e1403c8 100644
+ +./redir11.sub: line 77: 42: No such file or directory
+  42
+ diff --git a/tests/redir11.sub b/tests/redir11.sub
+-index d417cdb6..ca9854cd 100644
++index d417cdb..ca9854c 100644
+ --- a/tests/redir11.sub
+ +++ b/tests/redir11.sub
+ @@ -34,6 +34,8 @@ a=3D4 b=3D7 ss=3D4 declare -i ss
+@@ -136,7 +136,7 @@ index d417cdb6..ca9854cd 100644
+  a=3D4 echo foo 2>&1 >&$(foo) | { grep -q 'Bad file' || echo 'redir11 bad =
+3'; }
+  a=3D1 echo foo 2>&1 >&$(foo) | { grep -q 'Bad file' || echo 'redir11 bad =
+4'; }
+ diff --git a/tests/type.right b/tests/type.right
+-index bbc228e8..e0a66745 100644
++index bbc228e..c0c1c8b 100644
+ --- a/tests/type.right
+ +++ b/tests/type.right
+ @@ -24,15 +24,15 @@ func ()
+@@ -164,7 +164,7 @@ index bbc228e8..e0a66745 100644
+  builtin is a shell builtin
+  /bin/sh
+ diff --git a/tests/type.tests b/tests/type.tests
+-index fd39c18a..ddc15407 100644
++index fd39c18..ddc1540 100644
+ --- a/tests/type.tests
+ +++ b/tests/type.tests
+ @@ -25,8 +25,6 @@ type -r ${THIS_SH}
+@@ -221,6 +221,3 @@ index fd39c18a..ddc15407 100644
+  type m
+ =20
+  hash -r
+---=20
+-2.35.5
+-
+diff --git a/meta/recipes-extended/bash/bash/0001-fix-c99.patch b/meta/reci=
+pes-extended/bash/bash/0001-fix-c99.patch
+index aa810f7d4e..e210e988a4 100644
+--- a/meta/recipes-extended/bash/bash/0001-fix-c99.patch
++++ b/meta/recipes-extended/bash/bash/0001-fix-c99.patch
 @@ -1,4 +1,4 @@
--From 9e57771d138ac423d5139b984b8c869122ce4976 Mon Sep 17 00:00:00 2001
-+From ff622d69e9c06c00dacdffc163a383f8d2903475 Mon Sep 17 00:00:00 2001
- From: Alex Kiernan <alexk@zuma.ai>
- Date: Fri, 28 Jul 2023 10:28:57 +0100
- Subject: [PATCH] base-passwd: Add the sgx group
-@@ -17,7 +17,7 @@ Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-  1 file changed, 1 insertion(+)
+-From e9ed388e760ec33dcf9e72c639946c0d0abeec26 Mon Sep 17 00:00:00 2001
++From 055a7560ef7301ff4c76a5ff2de277633ced0c28 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Wed, 19 Jun 2024 12:57:39 +0000
+ Subject: [PATCH] Fix C99 problems
+@@ -8,9 +8,8 @@ Backport some fixes from upstream to fix configure checks t=
+hat fail with GCC 14.
+ Upstream-Status: Backport [devel branch]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ ---
+- aclocal.m4   | 3 +++
+- configure.ac | 2 +-
+- 2 files changed, 4 insertions(+), 1 deletion(-)
++ aclocal.m4 | 3 +++
++ 1 file changed, 3 insertions(+)
 =20
- diff --git a/group.master b/group.master
--index d34d2b832d43..e54fd1d2c6dc 100644
-+index d34d2b8..e54fd1d 100644
- --- a/group.master
- +++ b/group.master
- @@ -34,6 +34,7 @@ video:*:44:
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-inst=
-ead-of-bin-bash-for-the-root-user.patch b/meta/recipes-core/base-passwd/bas=
-e-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
-index 09f8cfea9c..0fa6b8138d 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-=
-bin-bash-for-the-root-user.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-=
-bin-bash-for-the-root-user.patch
+ diff --git a/aclocal.m4 b/aclocal.m4
+ index cc97bd4..7423b99 100644
+@@ -26,16 +25,3 @@ index cc97bd4..7423b99 100644
+  int
+  main()
+  {
+-diff --git a/configure.ac b/configure.ac
+-index a3b5bd7..2a38c6b 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -842,7 +842,7 @@ AC_CHECK_DECLS([strtold], [
+- 	[AC_COMPILE_IFELSE(
+- 		[AC_LANG_PROGRAM(
+- 		[[#include <stdlib.h>]],
+--		[[long double r; char *foo, bar; r =3D strtold(foo, &bar);]]
+-+		[[long double r; char *foo, *bar; r =3D strtold(foo, &bar);]]
+- 	)],
+- 	[bash_cv_strtold_broken=3Dno],[bash_cv_strtold_broken=3Dyes])
+-         ]
+diff --git a/meta/recipes-extended/bash/bash/build-tests.patch b/meta/recip=
+es-extended/bash/bash/build-tests.patch
+index c1b9b8261f..bb0f11ceab 100644
+--- a/meta/recipes-extended/bash/bash/build-tests.patch
++++ b/meta/recipes-extended/bash/bash/build-tests.patch
 @@ -1,4 +1,4 @@
--From 4411fc0df77566d52bee11ec0bad4be30a96e99e Mon Sep 17 00:00:00 2001
-+From c30862c6892d17ae2f4578101dcb050250956cec Mon Sep 17 00:00:00 2001
- From: Scott Garman <scott.a.garman@intel.com>
- Date: Fri, 29 Apr 2022 13:32:27 +0000
- Subject: [PATCH] Use /bin/sh instead of /bin/bash for the root user
-@@ -12,7 +12,7 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-From 318b762837c2ad25319caeaf0320eff613b64daf Mon Sep 17 00:00:00 2001
++From 920861d8018cdad96f49b320f6f4eb49ae606738 Mon Sep 17 00:00:00 2001
+ From: Anders Roxell <anders.roxell@enea.com>
+ Date: Wed, 19 Dec 2012 17:18:31 +0100
+ Subject: [PATCH] Add 'ptest' target to Makefile, to run tests without chec=
+king
+@@ -9,16 +9,15 @@ Signed-off-by: Anders Roxell <anders.roxell@enea.com>
+=20
+ Rebase to 5.0
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+ ---
+  Makefile.in | 24 +++++++++++++++++++-----
+  1 file changed, 19 insertions(+), 5 deletions(-)
+=20
+ diff --git a/Makefile.in b/Makefile.in
+-index bc97049..937ce39 100644
++index 0b4df73..7e2a34e 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -943,20 +943,34 @@ maybe-clean:
++@@ -958,20 +958,34 @@ maybe-clean:
+  	fi
+ =20
+  recho$(EXEEXT):		$(SUPPORT_SRC)recho.c
+diff --git a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch b/=
+meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
+index 60f1852316..f80ae37656 100644
+--- a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
++++ b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
+@@ -1,4 +1,4 @@
+-From 59ddfda14e3c9aa6286bb4c4c0748f7c1324a65a Mon Sep 17 00:00:00 2001
++From 157de966e6b8a11bf75beab60776fafe757687f1 Mon Sep 17 00:00:00 2001
+ From: Chet Ramey <chet.ramey@case.edu>
+ Date: Fri, 7 Apr 2023 00:28:46 -0700
+ Subject: [PATCH] $(<nosuchfile) is no longer a fatal error with errexit
+@@ -17,7 +17,7 @@ Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
   1 file changed, 1 insertion(+), 1 deletion(-)
 =20
- diff --git a/passwd.master b/passwd.master
--index 7cd4e24..041685a 100644
-+index 90514a5..bd3efc2 100644
- --- a/passwd.master
- +++ b/passwd.master
- @@ -1,4 +1,4 @@
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root=
--since-we-do-not-have-an-etc-shadow.patch b/meta/recipes-core/base-passwd/b=
-ase-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
-index 06222ab04c..4be487cc3f 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-=
-we-do-not-have-an-etc-shadow.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-=
-we-do-not-have-an-etc-shadow.patch
+ diff --git a/builtins/evalstring.c b/builtins/evalstring.c
+-index df3dd68e2a7e..6612081cd646 100644
++index 53a7c0b..c5075cc 100644
+ --- a/builtins/evalstring.c
+ +++ b/builtins/evalstring.c
+ @@ -753,7 +753,7 @@ open_redir_file (r, fnp)
+@@ -29,6 +29,3 @@ index df3dd68e2a7e..6612081cd646 100644
+        free (fn);
+        if (fnp)
+  	*fnp =3D 0;
+---=20
+-2.40.0
+-
+diff --git a/meta/recipes-extended/bash/bash/fix-run-builtins.patch b/meta/=
+recipes-extended/bash/bash/fix-run-builtins.patch
+index 2fa388302e..e567416d5d 100644
+--- a/meta/recipes-extended/bash/bash/fix-run-builtins.patch
++++ b/meta/recipes-extended/bash/bash/fix-run-builtins.patch
 @@ -1,4 +1,4 @@
--From 13a1a284a134d18a454625a5b4485c0d99079ae9 Mon Sep 17 00:00:00 2001
-+From 0d35229f01e3a38a27338320e67c4cb5652a3249 Mon Sep 17 00:00:00 2001
- From: Scott Garman <scott.a.garman@intel.com>
- Date: Fri, 29 Apr 2022 13:32:28 +0000
- Subject: [PATCH] Remove "*" for root since we do not have an /etc/shadow
-@@ -10,7 +10,7 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-From 0c4cab9594c96c2dc435a8d9724605824bcbf917 Mon Sep 17 00:00:00 2001
++From cad8a7b1f355fb677503384adb885e7ef2e96d70 Mon Sep 17 00:00:00 2001
+ From: Dengke Du <dengke.du@windriver.com>
+ Date: Tue, 19 Apr 2016 02:57:45 -0400
+ Subject: [PATCH] fix run-builtins failed
+@@ -16,10 +16,10 @@ Signed-off-by: Dengke Du <dengke.du@windriver.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
 =20
- diff --git a/passwd.master b/passwd.master
--index 041685a..31a84d4 100644
-+index bd3efc2..66e9033 100644
- --- a/passwd.master
- +++ b/passwd.master
- @@ -1,4 +1,4 @@
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-gr=
-oup-for-the-dev-input-devices.patch b/meta/recipes-core/base-passwd/base-pa=
-sswd/0004-Add-an-input-group-for-the-dev-input-devices.patch
-index 394a0f01d3..a3502c3d86 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for=
--the-dev-input-devices.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for=
--the-dev-input-devices.patch
-@@ -1,4 +1,4 @@
--From c5f012750f8102ff54af73ccc2d2b7bfa1f26db4 Mon Sep 17 00:00:00 2001
-+From d2cdd4c8d7332d05ac86fb0625e8c2b3c7bf7728 Mon Sep 17 00:00:00 2001
- From: Darren Hart <dvhart@linux.intel.com>
- Date: Fri, 29 Apr 2022 13:32:28 +0000
- Subject: [PATCH] Add an input group for the /dev/input/* devices
-@@ -10,7 +10,7 @@ Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-  1 file changed, 1 insertion(+)
-=20
- diff --git a/group.master b/group.master
--index 1b5e2fb..cea9d60 100644
-+index 72108a8..7d794b2 100644
- --- a/group.master
- +++ b/group.master
- @@ -12,6 +12,7 @@ uucp:*:10:
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.p=
-atch b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
-index 72e6ee333c..4f8278e5cd 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
-@@ -1,4 +1,4 @@
--From 6cf19461fb31d7a7a3010629aae9aab49c26a01b Mon Sep 17 00:00:00 2001
-+From 07af34abb10b1455e065cfb1ce7ce766614da7e8 Mon Sep 17 00:00:00 2001
- From: Jacob Kroon <jacob.kroon@gmail.com>
- Date: Wed, 30 Jan 2019 04:53:48 +0000
- Subject: [PATCH] Add kvm group
-@@ -10,10 +10,10 @@ Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-  1 file changed, 1 insertion(+)
-=20
- diff --git a/group.master b/group.master
--index cea9d60..5b62284 100644
-+index 7d794b2..7fdd8bf 100644
- --- a/group.master
- +++ b/group.master
--@@ -34,6 +34,7 @@ utmp:*:43:
-+@@ -33,6 +33,7 @@ utmp:*:43:
-  video:*:44:
-  sasl:*:45:
-  plugdev:*:46:
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group=
-.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.pat=
-ch
-index d77122789d..91bbb453e3 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
-@@ -1,3 +1,7 @@
-+From 3c88afb923de603d126f89f2979b2cd232a180c8 Mon Sep 17 00:00:00 2001
-+From: Louis Rannou <lrannou@baylibre.com>
-+Date: Thu, 15 Jun 2023 13:43:55 +0200
-+Subject: [PATCH] base-passwd: add the wheel group
-=20
- We need to have a wheel group which has some system privileges to consult =
-the
- systemd journal or manage printers with cups.
-@@ -7,11 +11,15 @@ Upstream says the group does not exist by default.
- Upstream-Status: Inappropriate [enable feature]
-=20
- Signed-off-by: Louis Rannou <lrannou@baylibre.com>
--Index: base-passwd-3.5.26/group.master
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- base-passwd-3.5.29.orig/group.master
--+++ base-passwd-3.5.29/group.master
--@@ -38,5 +38,6 @@
-+---
-+ group.master | 1 +
-+ 1 file changed, 1 insertion(+)
+ diff --git a/tests/builtins.tests b/tests/builtins.tests
+-index 9d77520..63f3af8 100644
++index 8eee43e..71c9eee 100644
+ --- a/tests/builtins.tests
+ +++ b/tests/builtins.tests
+-@@ -109,7 +109,7 @@ esac
++@@ -124,7 +124,7 @@ esac
+ =20
+  # test options to exec
+  (exec -a specialname ${THIS_SH} -c 'echo $0' )
+@@ -28,6 +28,3 @@ index 9d77520..63f3af8 100644
+  # test `clean' environment.  if /bin/sh is bash, and the script version o=
+f
+  # printenv is run, there will be variables in the environment that bash
+  # sets on startup.  Also test code that prefixes argv[0] with a dash.
+---=20
+-2.8.1
+-
+diff --git a/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patc=
+h b/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
+index a9391d6cac..93dc6a5035 100644
+--- a/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
++++ b/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
+@@ -1,3 +1,8 @@
++From c1a2395ebc4473714533a9cebe9197789addedae Mon Sep 17 00:00:00 2001
++From: Christopher Larson <chris_larson@mentor.com>
++Date: Wed, 14 Nov 2012 07:55:09 -0700
++Subject: [PATCH] bash: fix mkbuiltins build failure
 +
-+diff --git a/group.master b/group.master
-+index 7fdd8bf..d34d2b8 100644
-+--- a/group.master
-++++ b/group.master
-+@@ -37,5 +37,6 @@ kvm:*:47:
-  staff:*:50:
-  games:*:60:
-  shutdown:*:70:
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb b/meta/reci=
-pes-core/base-passwd/base-passwd_3.6.8.bb
-similarity index 98%
-rename from meta/recipes-core/base-passwd/base-passwd_3.6.3.bb
-rename to meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
-index bf50b01fd5..a072791dcf 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
-@@ -15,7 +15,7 @@ SRC_URI =3D "https://launchpad.net/debian/+archive/primar=
-y/+files/${BPN}_${PV}.tar
-            file://0001-base-passwd-Add-the-sgx-group.patch \
+ On hosts with FORTIFY_SOURCES, stringize support is required, as it's used=
+ by
+ the macros to wrap functions (e.g. read and open in unistd.h). Those wrapp=
+ers
+ use the STRING() macro from unistd.h. A header in the bash sources overrid=
+es
+@@ -13,14 +18,19 @@ stringize support, or to not define STRING() at all whe=
+n FORTIFY_SOURCES is
+ defined, letting the unistd.h one be used, instead.
+=20
+ Upstream-Status: Pending
++---
++ builtins/mkbuiltins.c | 1 +
++ 1 file changed, 1 insertion(+)
+=20
+---- bash-4.2.orig/builtins/mkbuiltins.c
+-+++ bash-4.2/builtins/mkbuiltins.c
++diff --git a/builtins/mkbuiltins.c b/builtins/mkbuiltins.c
++index f505ebd..b5b2eed 100644
++--- a/builtins/mkbuiltins.c
+++++ b/builtins/mkbuiltins.c
+ @@ -28,6 +28,7 @@
+  #  define HAVE_STDLIB_H
+-
++=20
+  #  define HAVE_RENAME
+ +#  define HAVE_STRINGIZE
+  #endif /* CROSS_COMPILING */
+-
++=20
+  #if defined (HAVE_UNISTD_H)
+diff --git a/meta/recipes-extended/bash/bash/test-output.patch b/meta/recip=
+es-extended/bash/bash/test-output.patch
+index 0ffcc24587..f16477587b 100644
+--- a/meta/recipes-extended/bash/bash/test-output.patch
++++ b/meta/recipes-extended/bash/bash/test-output.patch
+@@ -1,7 +1,7 @@
+-From 28eb06047ebd2deaa8c7cd2bf6655ef6a469dc14 Mon Sep 17 00:00:00 2001
++From b0d0e91d2bc9b8d0b3b7fb500c324b7a318fddff Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 15 Aug 2017 10:01:56 +0800
+-Subject: [PATCH 1/2] Add FAIL/PASS output to test output.
++Subject: [PATCH] Add FAIL/PASS output to test output.
+ MIME-Version: 1.0
+ Content-Type: text/plain; charset=3DUTF-8
+ Content-Transfer-Encoding: 8bit
+@@ -16,10 +16,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 10 insertions(+), 1 deletion(-)
+=20
+ diff --git a/tests/run-all b/tests/run-all
+-index 2882fe0..e21d026 100644
++index 1f74923..ba36a1f 100644
+ --- a/tests/run-all
+ +++ b/tests/run-all
+-@@ -33,7 +33,16 @@ do
++@@ -57,7 +57,16 @@ do
+  	case $x in
+  	$0|run-minimal|run-gprof)	;;
+  	*.orig|*~) ;;
+@@ -37,6 +37,3 @@ index 2882fe0..e21d026 100644
+  	esac
+  done
+ =20
+---=20
+-1.8.3.1
+-
+diff --git a/meta/recipes-extended/bash/bash/use_aclocal.patch b/meta/recip=
+es-extended/bash/bash/use_aclocal.patch
+index bd6870b386..302bd0d82d 100644
+--- a/meta/recipes-extended/bash/bash/use_aclocal.patch
++++ b/meta/recipes-extended/bash/bash/use_aclocal.patch
+@@ -1,4 +1,4 @@
+-From d1bf23817afffd5917b74da6946e0c3b7e63e336 Mon Sep 17 00:00:00 2001
++From f803b05a8d06f3df10aea47ccf9f5eb2fd438630 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 28 Dec 2020 21:04:27 +0100
+ Subject: [PATCH] bash: update 5.0 -> 5.1
+@@ -9,13 +9,12 @@ as needed instead making it work like other autotools bas=
+ed projects.
+=20
+ Upstream-Status: Inappropriate [OE configuration specific]
+ RP 2021/1/20
+-
+ ---
+  configure.ac | 43 -------------------------------------------
+  1 file changed, 43 deletions(-)
+=20
+ diff --git a/configure.ac b/configure.ac
+-index 50a6e20..a3b5bd7 100644
++index 52d4029..2a38c6b 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -710,49 +710,6 @@ if test x$SIZE =3D x; then
+diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-exten=
+ded/bash/bash_5.2.37.bb
+similarity index 92%
+rename from meta/recipes-extended/bash/bash_5.2.21.bb
+rename to meta/recipes-extended/bash/bash_5.2.37.bb
+index 7652e7d87a..8262cea740 100644
+--- a/meta/recipes-extended/bash/bash_5.2.21.bb
++++ b/meta/recipes-extended/bash/bash_5.2.37.bb
+@@ -17,7 +17,7 @@ SRC_URI =3D "${GNU_MIRROR}/bash/${BP}.tar.gz;name=3Dtarba=
+ll \
+            file://0001-fix-c99.patch \
             "
 =20
--SRC_URI[sha256sum] =3D "83575327d8318a419caf2d543341215c046044073d1afec2ac=
-c0ac4d8095ff39"
-+SRC_URI[sha256sum] =3D "fab3d0e6e8b641e116bda9bd5f7a7ed24482384c1513f6a369=
-b506327fbc8dde"
+-SRC_URI[tarball.sha256sum] =3D "c8e31bdc59b69aaffc5b36509905ba3e5cbb127470=
+91d27b4b977f078560d5b8"
++SRC_URI[tarball.sha256sum] =3D "9599b22ecd1d5787ad7d3b7bf0c59f312b3396d1e2=
+81175dd1f8a4014da621ff"
 =20
- # the package is taken from launchpad; that source is static and goes stal=
-e
- # so we check the latest upstream from a directory that does get updated
+ DEBUG_OPTIMIZATION:append:armv4 =3D " ${@bb.utils.contains('TUNE_CCARGS', =
+'-mthumb', '-fomit-frame-pointer', '', d)}"
+ DEBUG_OPTIMIZATION:append:armv5 =3D " ${@bb.utils.contains('TUNE_CCARGS', =
+'-mthumb', '-fomit-frame-pointer', '', d)}"
 
