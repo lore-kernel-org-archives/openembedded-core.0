@@ -1,93 +1,116 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 041EFF364B8
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 20:30:52 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.141896.1775766647680783291
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BEFEF364BC
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 20:35:42 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.142161.1775766932370638234
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 13:30:47 -0700
+ Thu, 09 Apr 2026 13:35:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vnuEkNJY;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=BfMlhirR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019d73f0b064-0b66f458-ac04-490d-a267-1e44fe084812-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775766647; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=pyIVnJ0FB34lVHbxJZN5E5Hwc7FyTNDAfoJ64dzWHtk=;
-	b=vnuEkNJYsJeADsmsuMkAE0L1r3jtLGQHPgo5y5wsjwwl6eUhAXnv96ronGezZMAp
-	fcb5Mr+NocTX9PDTguYuZmQ0tMxRDoDJfWdhNbUz/EHUbhhBtKZUx6WLESqatQFoS6R
-	muRU674oFS/eDPcjnwng1vw8seL897t9p9a1X628=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775766647;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=pyIVnJ0FB34lVHbxJZN5E5Hwc7FyTNDAfoJ64dzWHtk=;
-	b=BfMlhirREnNDYC8yuPgsDOAiO3asJWi7iUVZaYhjYXx1JKlLiRa4SFJTAvWZDI/R
-	8ITE21RIp1QOz6EW2fwSd09b6S1Aan7W6V9xCf5fvFXrFzmfAnNW7S6PFwOoWJwuy/m
-	oXkf6JrQySNXt415g0bg+8A+vqmwNwdw0Q7H4kKQ=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] libgcc: Bump PR/HASHEQUIV_HASH_VERSION after reproducibility
- issues
-In-Reply-To: <20260409201610.3478433-1-richard.purdie@linuxfoundation.org>
-References: <20260409201610.3478433-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d73f0b064-0b66f458-ac04-490d-a267-1e44fe084812-000000@us-west-2.amazonses.com>
-Date: Thu, 9 Apr 2026 20:30:46 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.09-54.240.27.30
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZGe5kvTt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488a041eae5so9515095e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 13:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1775766930; x=1776371730; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=12b/5pPch9Aq65Y1fK3mBo52T79C/leQ93FGq3dIWwI=;
+        b=ZGe5kvTtvOknWJvGnVgl71wZTF2OsoMOScSyoTedo2DqvG+dz5rA+fOIxz4nVmvhPR
+         roO/9N1yjo66+yO+Lfm8O082+jPUt//tU3xNASzIa5ml98Ml9BLSKub7Qo3Cfj0xMtp0
+         Kjfrgu7M+Urh4UIhwolyHEQBarOuxbIN5Qplo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775766930; x=1776371730;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=12b/5pPch9Aq65Y1fK3mBo52T79C/leQ93FGq3dIWwI=;
+        b=VEZLwvsZkfEoJbwS0JQGrqVqZmYaAHdt9FdF0XWDCBS1xRkMtleYWswDsP2DLU1XZq
+         6Hw9iMwdFWos5kWWjYTWiYk3t5PhwBBDFE7FMstMkmZyyZnNv9E35/1/j3Di0j+lZE70
+         WTeGQGgIXE9KqM3O1PBbKcfpf8amwunVjllV6LtVoImftQ5c92UtN+GPKJpWImFgkPEM
+         5lJ6I2Nn3WerVPO8v4EUPN+/gT0AeEX4PtXmf41jXkC6PNPxKztfKu3TvWjjmo4plrsq
+         0LSjVYv8+Czd7wl+dpXT2VpXxOK5I+7df14JU5Uk6B8AIQ0n6DlaNFBIwi/ETbrGlGP4
+         U24A==
+X-Gm-Message-State: AOJu0YytF4i+AfBwVUJ0bpkk+QAY9VbbxueuksqD++4Mu07Roaj/2tkt
+	91v24J9QF26eUt0lj6xd0dY5i0UqPZZwcpn9RJN2r449ZygVz64rZnDfa6gJB4c5q4dg0nSZIrq
+	hpa3Elqs=
+X-Gm-Gg: AeBDietuSC388sb8r6rhbaksruzYpzJW5E1Vm3IAFoKYD6qai+zQ3ose3lgO5MOduuL
+	EV8VfgOHo5eRzPD54i3t26O6DUxDLeB/z02lu6FPDXPBs0uDZ5bX5uQlkfoU4K4E01CF+sFtlSL
+	ikVlflX24jZMu4LcLC2f1j3Q8ii5mkuH2apx9bjENHI3Hon7rYlvLSGkP7gMO5BkDZAbeBfF2L3
+	ers1UmcJm43q8/jBs5GWPoZ1hF9ATdBDd99qt95U0Qxrkg3SLF22R5ntYhLe2+jMP8dOGnNHYdm
+	3Ai2y1RsHXJ+vS2nhDQZbNSrWg7bPx8zFVcF+fBFGTXDKbr27VJnacUd7W1nOsUPvYDX3VYM7Y3
+	aB3t6qA7y6CIPjTMJottsLdRNvTzVxKaLBOwS2c9M8oxZh/ULHQkCFMadcatc1b55m3VbsmyOmN
+	SgspTfbOl+kyvVMptfUaCZojtQH5p8/zz+WsOWru21uPHvHMtc09eN
+X-Received: by 2002:a05:600c:8b16:b0:488:a916:14a8 with SMTP id 5b1f17b1804b1-488d67e3773mr2897805e9.10.1775766930097;
+        Thu, 09 Apr 2026 13:35:30 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c642:6c74:9bb7:e65d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5dbcb66sm3878745e9.9.2026.04.09.13.35.28
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 13:35:28 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/reproducibility: Work around subunit protocol limitations/bugs
+Date: Thu,  9 Apr 2026 21:35:26 +0100
+Message-ID: <20260409203526.3540882-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 20:30:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234946
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 20:35:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234948
 
---NextPart
-Content-Type: text/plain
+We've seen reproducibility failures with:
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+  File "/usr/lib/python3/dist-packages/subunit/chunked.py", line 108, in _read_length
+    raise ValueError("chunk header invalid: %r" % count_str)
+ValueError: chunk header invalid: b'\n'
 
+which leads to:
+
+2026-04-09 01:18:20,886 - oe-selftest - INFO - ERROR: broken-runner
+
+and UNKNOWN status for builds queued in that runner.
+
+This appears to be when reproducibility builds fail with:
+
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/bringup-fast/build/layers/openembedded-core/meta/lib/oeqa/selftest/cases/reproducible.py", line 407, in test_reproducible_builds
+    self.fail('\n'.join(fails))
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/case.py", line 750, in fail
+    raise self.failureException(msg)
+
+which is possibly from bad placement of '\n' in the byte stream. It doesn't
+100% reproduce since the placement is critical but from the subunit code, it
+does use <int>\n as a header in the protocol.
+
+I've wondered if the presence of "\n" in the traceback code is part of the issue
+so remove "\n" from the traceback by writing the python code differently just in
+case it helps.
+
+Ideally we'd report the issue and fix subunit but I was unable to work out the
+exact sequence to reproduce and any fix would take time to propogate anyway.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Testing patch /home/patchtest/share/mboxes/libgcc-Bump-PR-HASHEQUIV_HASH_VERSION-after-reproducibility-issues.patch
+ meta/lib/oeqa/selftest/cases/reproducible.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 7adeaacd4f5..9ed7dec591a 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -404,5 +404,6 @@ class ReproducibleTests(OESelftestTestCase):
+                         native_sysroot=diffoscope_sysroot, ignore_status=True, cwd=package_dir)
+ 
+         if fails:
+-            self.fail('\n'.join(fails))
++            failmsg = '\n'.join(fails)
++            self.fail(failmsg)
+ 
 
