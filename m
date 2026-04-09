@@ -1,84 +1,93 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C08DEF364B8
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 20:17:01 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.141679.1775765815904431020
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D78F364B6
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 20:30:52 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.141897.1775766648515941569
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 13:16:56 -0700
+ Thu, 09 Apr 2026 13:30:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Gc3FoSjl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b983bb07eso811709f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 13:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775765814; x=1776370614; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I0JZjSF6Ic9ef3srxDFeBGVeUf4rjahQdNdQ2ZCpSzA=;
-        b=Gc3FoSjl5jrEzsm1RpDxHHrAEHc0z6E1i8KS3GPsoyhm4A3ucOfpo/UUrf9hSfN2lq
-         zYuj9E93GWVmdLRRoFJIZmo6E/+t50tWl90l9JNcJQw68ghFXFYSKjijkQun6T0OyOLB
-         71v4gey42t5BCOVcFlGsoanIcz8112MfZLf0g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775765814; x=1776370614;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I0JZjSF6Ic9ef3srxDFeBGVeUf4rjahQdNdQ2ZCpSzA=;
-        b=eKQAqgd/LZuuv/GPXOOI6Cm+WZwC/v/V7BS3YmKMRCc8NJFq0FeqLkZWH/If38FaxX
-         M4z13gIV7Zw7ROzHgZYzmAn8//BAV6CBmmCzjgp48FMDQ264Sz2EW2TAzsgXV2nZkjn+
-         ONg0JIER5QPp4ZaFAXILeqhxosKOqAauYilF9K8c5Gh/oSYRPjpKnfIPuMfg/qN0NlN1
-         APW0at6EC0pZnZznyp6qS0pr5hIhaksQcjnOCjsrCob5mQ8yW/FkOGQoS5TnJGSK+/M/
-         03ocoLsv7N8PHajL7gvDRzolt+k3yGuCHfhwAjmCX8UYTsp3UlDhz4YXumPcCkTLwUsv
-         HzAA==
-X-Gm-Message-State: AOJu0YzwdbbHwtwjrTwFwg3Xn1TX98UblfuHD/Q85BTrAdDxeMjyjHGz
-	lWvNB93zwvpC+0A8J+TnaUyqIIDq/xKjW0Hu699/PKXKD396N2tJ4B6VkGm2xHIxTRWpFnuHCQ5
-	b2tjX9pg=
-X-Gm-Gg: AeBDievZmjWo60gsF9a01Tj/FQr2zQKMqrokkrPviTEyniikNiQX36DK0dEEUB5zA04
-	yo3u3TgTee6mOTjss4k5orcb+vpcAvc60RFmLLkiavqQHnBaTLWU6KqRqJiLfw+q2J612URItrl
-	bV7QoibYjSILKdsG3tv60cCOut2FicNeWatkQy9CCo6C7QUzmYMtVaoZdPehftQ8RMO5uZd7Ym9
-	8j4I5D7pkt75lQ0GQ3crFUqAX5VmF4Bwzc8wfNU70Xy3xppH3orA6GUFoLuiGbBMpv9VQDKm+ER
-	k5gY2TQCN5bsVaKxaIw6kpRtjyrKnPGDrSQKIuz6rMmI56lchmsUuh9E5LV6qGyIMJvtRrbu12G
-	T3v+zbEnnTwFx/9n0cCVXsC2944jg4IgEZzHwofckURTTBDBpYR65265ncHG9gFKZ9cYFM+HLmy
-	4Q7TDvrhOHgUeuFORjW6Zk8j/QmmMc2/i2B2PFeEiEL4MiYrleYCZZ
-X-Received: by 2002:a05:6000:2383:b0:43c:fd7a:e757 with SMTP id ffacd0b85a97d-43d642c87c6mr586532f8f.45.1775765813873;
-        Thu, 09 Apr 2026 13:16:53 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c642:6c74:9bb7:e65d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e51600sm1450643f8f.32.2026.04.09.13.16.53
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 13:16:53 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] libgcc: Bump PR/HASHEQUIV_HASH_VERSION after reproducibility issues
-Date: Thu,  9 Apr 2026 21:16:51 +0100
-Message-ID: <20260409201651.3485286-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=deB+uVKJ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XQZdqVvR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d73f0b3a8-918733fc-2aa2-44c7-bd28-549f826aaac6-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1775766647; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Gz9k/8rQyB22HvMaMIHsAGe02ZOyGFIrYbg/lXc3eu4=;
+	b=deB+uVKJ4MTfcgrP5WcZGkWg4rt5oj9RRQx/NBJuoxGjUNHBIIo6cWpeS3moSYtl
+	vUVFMw01vU8YHZaKFFwRNDMFtwvWZ7P03vI083nhHQhfyGzEYEEjI4NsTDErnFT7uXs
+	XsD4VaUhItsrs6ZSg4CBsXS+L5s7WzS+uy6WAShY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775766647;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Gz9k/8rQyB22HvMaMIHsAGe02ZOyGFIrYbg/lXc3eu4=;
+	b=XQZdqVvRRSB7SDSAmw6qFU9SjMpP6dtWrPL9L9KUntDKPN1Yfnh9qi4I47hRfjga
+	Foljw5yXZaqZ1bIleTOpltEXLbRaKmvQD2HPwmIK5FogM6UrwNJi/W7GRPpAgFMABQT
+	BzPhdwErJ9fW3Vl1it4I3AZOCEM89D6TbClMdpks=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2] libgcc: Bump PR/HASHEQUIV_HASH_VERSION after
+ reproducibility issues
+In-Reply-To: <20260409201651.3485286-1-richard.purdie@linuxfoundation.org>
+References: <20260409201651.3485286-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019d73f0b3a8-918733fc-2aa2-44c7-bd28-549f826aaac6-000000@us-west-2.amazonses.com>
+Date: Thu, 9 Apr 2026 20:30:47 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.04.09-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 20:17:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234945
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 20:30:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234947
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-devtools/gcc/libgcc_15.2.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Testing patch /home/patchtest/share/mboxes/v2-libgcc-Bump-PR-HASHEQUIV_HASH_VERSION-after-reproducibility-issues.patch
 
-diff --git a/meta/recipes-devtools/gcc/libgcc_15.2.bb b/meta/recipes-devtools/gcc/libgcc_15.2.bb
-index fdcd6cc0da1..59c70ea4323 100644
---- a/meta/recipes-devtools/gcc/libgcc_15.2.bb
-+++ b/meta/recipes-devtools/gcc/libgcc_15.2.bb
-@@ -5,3 +5,7 @@ LDFLAGS += "-fuse-ld=bfd"
- 
- # Building with thumb enabled on armv6t fails
- ARM_INSTRUCTION_SET:armv6 = "arm"
-+
-+# remove at next version upgrade or when output changes
-+PR = "r1"
-+HASHEQUIV_HASH_VERSION .= ".1"
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
