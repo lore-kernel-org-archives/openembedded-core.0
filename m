@@ -2,123 +2,509 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01691F364D1
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 22:08:36 +0000 (UTC)
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.144057.1775772511473677347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAACCF364C8
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 22:08:35 +0000 (UTC)
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.143824.1775772510357872083
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 15:08:31 -0700
+ Thu, 09 Apr 2026 15:08:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=0sQCXN9L;
- spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso15501655e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 15:08:31 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=m1Apo2C3;
+ spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4889e045bc6so14871525e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 15:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1775772510; x=1776377310; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hh1S4I66m4GVSBIIy1BtX/Md276XqDavCSzcnFAEIKc=;
-        b=0sQCXN9LhnFAib55LdcVJmyw4uz3oUE5AqzV4RnGzXahpEQ6jRq/V2KRs/2hplziVn
-         OLVGpyR8MUYQCEY8uEDFwi/Xh5nzAw6cEanPxSfWPYo8oOSQe+DJsPgDnI8iJvy7hUW8
-         D0gE8TyfCBFZHLz8kcetYEqgmQ0vuROB0KJ/U=
+        d=smile.fr; s=google; t=1775772508; x=1776377308; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zotv0sVG2xdNQubgvj8WN++QpOSWag/mUgHyGkLX0Us=;
+        b=m1Apo2C39Bya9NjfOBvcp2V8vx9KNOaK257AymFhCL467zZZUNTo0OYJaq8/EgpsIo
+         sUumLvQT0H/sDOgtptfYfh86ZUQPHqh7VDMVonzArzZu07BaFgHZq/dH43OTJsBMB7rd
+         sOttH9aQm6FxAUt8bSzt3acrHQsCxMUJdCrFk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775772510; x=1776377310;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hh1S4I66m4GVSBIIy1BtX/Md276XqDavCSzcnFAEIKc=;
-        b=YK9RtfTCV3vvqO1vDlJER2u27DDXXvzUcvejP9F3AyO1VS/17acs4XPRn+f+tspuis
-         QadY/7AxYK5dCRXsLg3rrN8uT3pPlQ3XZmris2gZvBkBQicpJVEfw4lF3/sjcpQgfput
-         MtwODR6yEMvQzgg+KvNJenqgFcfk7pdhjMbAcix2OvVnltgQOqz/X1BeWdX5LFR21gXP
-         NOFZbR+oSmMvgbSFcOaJIUMpAr/wVGI12qkVntNmkDRSTilOgDb1owAKKMDi4HDk3Veu
-         ci/d2uTnM0Su/7egAPypGJQLDy89Mc1PnLrHrq76El8N2BGYI4fAd488E0V8hg+PMPRi
-         jy9Q==
-X-Gm-Message-State: AOJu0Yzy7DW5GBOkJVZvMoG0LYMHUNvsNVCsNvhVfUDqFF9byZ+8VTOh
-	wiN8ukaFIXpa1AsN3AMSJmbdzGsS3/CGq2b36c7G0mS/84LODoon6ry6sFfyz5hm5JUa6jdepqK
-	9EXBfSvz6JXyE
-X-Gm-Gg: AeBDies5GySmf5bi3B4tDFc4LPUqoPOXGdtZgrfGagPEStMhKYVBXnIgrVweeeVfmuh
-	rzWV7FNFaUXu28prbSrujs9p8w/1VCCpTFg0tjzLgQcaDfrfBqXNhtyhZhCUXbNvAXYIrdzNd9G
-	nL8z3P2znF2G++RHHJtcTw3fSXyjCcoMxWESLx/LnLJD7pTK3cccN70ynZbacDrvz40fddGu/SQ
-	ZktQfeYlbHP89K+/DTekKkkXKuhzZW/aIPVPv/tM3unEv/I6GIdz3WZSAdAzS0Y0WI7xD5zQfOS
-	nStBd/TpAEAEacjOS3wONHQoybUP+s+S41gyfAtq85COB1lkOv2+3mBklFr0WHU/WrV0XIssJ6W
-	ZAONB4Ie3rZJczQNqYjzZvIG6itu5EmjfcMza1zGMbaVHyuB5/MEamAW0MG40CSfwSse9jFUUxa
-	c+TtJHuiBQZhYHIUvlAmhOfNjut++V47YdTo8G7oc374e4n/mfTrc7RrX1wB6lOwhK0vY2PrN8H
-	EuBizQHochcsbf1QpBIvUXAYbM=
-X-Received: by 2002:a05:600c:1987:b0:488:b187:d8ed with SMTP id 5b1f17b1804b1-488d67bf765mr6269475e9.2.1775772509511;
-        Thu, 09 Apr 2026 15:08:29 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d58bb830sm22123045e9.7.2026.04.09.15.08.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20251104; t=1775772508; x=1776377308;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zotv0sVG2xdNQubgvj8WN++QpOSWag/mUgHyGkLX0Us=;
+        b=j6vANrwYZfWHrqWiJtYiDboCc7T0JF6MaOp2ZeCdU1UWYNndxhuNOH/Sy220qi9b9k
+         qSJBubUnFLTyfxTEooSO11pb0TN6TEJ/ZO+qAkhTRtWmXEx9El0HoPH7nXx6CxU/BbAo
+         XOxfuC90EqjKqQVajov5D+BwgnXMB2qHsaKH3ElzszDKmkMu1B1ZjmQtD4NfllivRbYe
+         ssMVz+Bm+r5M6jcVnXVE1NZI+GKT07x8wmE7LLykfFjqccBFCNwV7wn0zRx+tpCKgRE5
+         9UvKWHiSI/F+7mfC0EBylDWH6oPZxntCpOPMzALpS1syiF5/Rqc4TKRA4+NLkhAVRQgE
+         1Rhg==
+X-Gm-Message-State: AOJu0YxIS2/rX0a1Z4ggMcHdwWwlCFrb8hD7L2fVmhtaukDHp6jcEq0s
+	QCdIPOIpcdNCpVYOgjNyaObxWxmwmhk45x5zLjoDsybUeVnTV6ocGAw88vwPYtEaMrnmsXrBtFz
+	9CIlEYPvIjUN+
+X-Gm-Gg: AeBDieu/yO10SiZSQcV9cGstCOwhnLA+SJ3ElTUGG7kvCRzueyzs+CtmYKTpqiMkxau
+	aOBCWao7nxFUJ2fFkKIrWNFE0xHpaSDLf6Rf0xc+VKlAjEM1jYKvm7zd6QOFyJZmLQAGKYK/+nK
+	4sjZHZsEygsmBRi2dv9bn7owx85kTbPG+w49/YhNZu4Y1VTS+j0OedR0jhegIclLMmmRL2ze1Vh
+	QUAdb3Iuq1p+kg7T9/yizm0oez2PrsmCLQBTPCNJfPr/XgwOgDwmsIOqIOhs2Y+3xDuG7ErzgbM
+	tU+rKPItNwjrbOp9zbsPPH3gtTE2zlAgOl3Ho7tDL8UIuctHxmnvV7N9dc0OX5cgdKyWcv49Gmj
+	TjkfHjhcsxjcfjOgpEesDYJeeEexfnT+HwyZYSsb0KvYeETkc8qIx6s6zwmOEu85+kYR+xKFLuA
+	eXSFv6jv05Fs/O8O426DCvcdKJTKswpKkAi1y1XNUV9SKBsYVNxq59bmzy7/X7Dju9pY+DI5kh4
+	Tsc/QSyNuzeWS4LRb1t9wJaqps=
+X-Received: by 2002:a05:600c:4e16:b0:488:966f:70a7 with SMTP id 5b1f17b1804b1-488d67bbc7emr6478265e9.2.1775772508395;
         Thu, 09 Apr 2026 15:08:28 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d58bb830sm22123045e9.7.2026.04.09.15.08.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 15:08:27 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: OE-core ML <openembedded-core@lists.openembedded.org>
 Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [kirkstone][PATCH v2 2/6] oeqa/manual: Default to https git protocol for YP/OE repos
-Date: Fri, 10 Apr 2026 00:08:15 +0200
-Message-ID: <20260409220819.2427583-2-yoann.congal@smile.fr>
+Subject: [kirkstone][PATCH v2 1/6] recipes: Default to https git protocol for YP/OE repos
+Date: Fri, 10 Apr 2026 00:08:14 +0200
+Message-ID: <20260409220819.2427583-1-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260409220819.2427583-1-yoann.congal@smile.fr>
-References: <20260409220819.2427583-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 22:08:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234954
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 22:08:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234953
 
 From: Yoann Congal <yoann.congal@smile.fr>
 
-Following up on commit 139102a73d41 ("recipes: Default to https git protocol where possible"),
+This corresponds to the master
+commit 139102a73d41 ("recipes: Default to https git protocol where possible").
+But only for the git.yoctoproject.org and git.openembedded.org repos.
 > The recommendation from server maintainers is that the https protocol
 > is both faster and more reliable than the dedicated git protocol at this point.
 > Switch to it where possible.
 
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oeqa/manual/crops.json                  | 2 +-
- meta/lib/oeqa/manual/eclipse-plugin.json         | 2 +-
- meta/lib/oeqa/manual/toaster-unmanaged-mode.json | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/fetch.py                     | 2 ++
+ meta/lib/oeqa/selftest/cases/recipetool.py                | 8 ++++----
+ meta/recipes-core/dbus-wait/dbus-wait_git.bb              | 2 +-
+ meta/recipes-core/images/build-appliance-image_15.0.0.bb  | 2 +-
+ meta/recipes-core/psplash/psplash_git.bb                  | 2 +-
+ meta/recipes-core/update-rc.d/update-rc.d_0.8.bb          | 2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb                | 2 +-
+ meta/recipes-graphics/libfakekey/libfakekey_git.bb        | 2 +-
+ meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb     | 2 +-
+ meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb    | 2 +-
+ .../xcursor-transparent-theme_git.bb                      | 2 +-
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-dev.bb              | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb          | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb          | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb        | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb        | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb             | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb             | 4 ++--
+ .../matchbox-config-gtk/matchbox-config-gtk_0.2.bb        | 2 +-
+ .../recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb | 2 +-
+ .../matchbox-keyboard/matchbox-keyboard_0.1.1.bb          | 2 +-
+ .../matchbox-panel-2/matchbox-panel-2_2.11.bb             | 2 +-
+ .../matchbox-terminal/matchbox-terminal_0.2.bb            | 2 +-
+ .../matchbox-theme-sato/matchbox-theme-sato_0.2.bb        | 2 +-
+ meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb  | 2 +-
+ .../recipes-sato/settings-daemon/settings-daemon_0.0.2.bb | 2 +-
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb   | 2 +-
+ 28 files changed, 39 insertions(+), 37 deletions(-)
 
-diff --git a/meta/lib/oeqa/manual/crops.json b/meta/lib/oeqa/manual/crops.json
-index 5cfa6538432..cf6d19e6bf3 100644
---- a/meta/lib/oeqa/manual/crops.json
-+++ b/meta/lib/oeqa/manual/crops.json
-@@ -276,7 +276,7 @@
-                     "expected_results": "this should output the directory of the devtool script and it should be within the sdk workdir you are working in.  \n\n"
-                 },
-                 "5": {
--                    "action": " 4a) git clone git://git.openembedded.org/meta-openembedded in  layers/build  directory   \n \n4b) Add meta-openembedded/meta-oe in bblayer.conf as mentioned below: ${SDKBASEMETAPATH}/layers/build/meta-openembedded/meta-oe \\   \n\n4c) devtool add \"npm://registry.npmjs.org;name=npm;version=2.2.0\"   \n\n",
-+                    "action": " 4a) git clone https://git.openembedded.org/meta-openembedded in  layers/build  directory   \n \n4b) Add meta-openembedded/meta-oe in bblayer.conf as mentioned below: ${SDKBASEMETAPATH}/layers/build/meta-openembedded/meta-oe \\   \n\n4c) devtool add \"npm://registry.npmjs.org;name=npm;version=2.2.0\"   \n\n",
-                     "expected_results": " This should automatically create the recipe npm.bb under /recipes/npm/npm.bb  \n\n"
-                 },
-                 "6": {
-diff --git a/meta/lib/oeqa/manual/eclipse-plugin.json b/meta/lib/oeqa/manual/eclipse-plugin.json
-index 6c110d0656e..6f655a2ba90 100644
---- a/meta/lib/oeqa/manual/eclipse-plugin.json
-+++ b/meta/lib/oeqa/manual/eclipse-plugin.json
-@@ -246,7 +246,7 @@
-             ],
-             "execution": {
-                 "1": {
--                    "action": "Clone eclipse-poky source.   \n    \n    - git clone git://git.yoctoproject.org/eclipse-poky  \n\n",
-+                    "action": "Clone eclipse-poky source.   \n    \n    - git clone https://git.yoctoproject.org/eclipse-poky  \n\n",
-                     "expected_results": "Eclipse plugin is successfully installed  \n\nDocumentation is there. For example if you have release yocto-2.0.1 you will found on   https://downloads.yoctoproject.org/releases/yocto/yocto-2.0.1/eclipse-plugin/mars/  archive with documentation like org.yocto.doc-development-$date.zip  \n  \n"
-                 },
-                 "2": {
-diff --git a/meta/lib/oeqa/manual/toaster-unmanaged-mode.json b/meta/lib/oeqa/manual/toaster-unmanaged-mode.json
-index 29d11a87d5b..3d1dba447b3 100644
---- a/meta/lib/oeqa/manual/toaster-unmanaged-mode.json
-+++ b/meta/lib/oeqa/manual/toaster-unmanaged-mode.json
-@@ -10,7 +10,7 @@
-       ],
-       "execution": {
-         "1": {
--          "action": "Set up yocto project and toaster test environment. \ncd ${installdir} \ngit clone git://git.yoctoproject.org/poky  \n\n",
-+          "action": "Set up yocto project and toaster test environment. \ncd ${installdir} \ngit clone https://git.yoctoproject.org/poky  \n\n",
-           "expected_results": "NA \n\n"
-         },
-         "2": {
+diff --git a/meta/lib/oeqa/selftest/cases/fetch.py b/meta/lib/oeqa/selftest/cases/fetch.py
+index be14272e635..b5c09355fee 100644
+--- a/meta/lib/oeqa/selftest/cases/fetch.py
++++ b/meta/lib/oeqa/selftest/cases/fetch.py
+@@ -34,6 +34,7 @@ PREMIRRORS:forcevariable = ""
+         # No mirrors and broken git, should fail
+         features = """
+ DL_DIR = "%s"
++SRC_URI:pn-dbus-wait = "git://git.yoctoproject.org/dbus-wait;branch=master;protocol=git"
+ GIT_PROXY_COMMAND = "false"
+ MIRRORS:forcevariable = ""
+ PREMIRRORS:forcevariable = ""
+@@ -46,6 +47,7 @@ PREMIRRORS:forcevariable = ""
+         # Broken git but a specific mirror
+         features = """
+ DL_DIR = "%s"
++SRC_URI:pn-dbus-wait = "git://git.yoctoproject.org/dbus-wait;branch=master;protocol=git"
+ GIT_PROXY_COMMAND = "false"
+ MIRRORS:forcevariable = "git://.*/.* http://downloads.yoctoproject.org/mirror/sources/"
+ """ % dldir
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index a2d8d292ad5..adbf0c15f03 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -359,7 +359,7 @@ class RecipetoolCreateTests(RecipetoolBase):
+         tempsrc = os.path.join(self.tempdir, 'srctree')
+         os.makedirs(tempsrc)
+         recipefile = os.path.join(self.tempdir, 'libmatchbox.bb')
+-        srcuri = 'git://git.yoctoproject.org/libmatchbox'
++        srcuri = 'git://git.yoctoproject.org/libmatchbox;protocol=https'
+         result = runCmd(['recipetool', 'create', '-o', recipefile, srcuri + ";rev=9f7cf8895ae2d39c465c04cc78e918c157420269", '-x', tempsrc])
+         self.assertTrue(os.path.isfile(recipefile), 'recipetool did not create recipe file; output:\n%s' % result.output)
+         checkvars = {}
+@@ -512,13 +512,13 @@ class RecipetoolCreateTests(RecipetoolBase):
+         self._test_recipetool_create_git('http://git.yoctoproject.org/git/matchbox-keyboard')
+ 
+     def test_recipetool_create_git_srcuri_master(self):
+-        self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;branch=master')
++        self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;branch=master;protocol=https')
+ 
+     def test_recipetool_create_git_srcuri_branch(self):
+-        self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;branch=matchbox-keyboard-0-1')
++        self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;branch=matchbox-keyboard-0-1;protocol=https')
+ 
+     def test_recipetool_create_git_srcbranch(self):
+-        self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard', 'matchbox-keyboard-0-1')
++        self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;protocol=https', 'matchbox-keyboard-0-1')
+ 
+ 
+ class RecipetoolTests(RecipetoolBase):
+diff --git a/meta/recipes-core/dbus-wait/dbus-wait_git.bb b/meta/recipes-core/dbus-wait/dbus-wait_git.bb
+index f2eb8b1874e..63d3447875d 100644
+--- a/meta/recipes-core/dbus-wait/dbus-wait_git.bb
++++ b/meta/recipes-core/dbus-wait/dbus-wait_git.bb
+@@ -11,7 +11,7 @@ SRCREV = "6cc6077a36fe2648a5f993fe7c16c9632f946517"
+ PV = "0.1+git${SRCPV}"
+ PR = "r2"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master"
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index 544fbea80fe..8595412e501 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -25,7 +25,7 @@ IMAGE_FSTYPES = "wic.vmdk wic.vhd wic.vhdx"
+ inherit core-image setuptools3
+ 
+ SRCREV ?= "1aee6e9648661c1e6159127c2b6e4690576020f7"
+-SRC_URI = "git://git.yoctoproject.org/poky;branch=kirkstone \
++SRC_URI = "git://git.yoctoproject.org/poky;protocol=https;branch=kirkstone \
+            file://Yocto_Build_Appliance.vmx \
+            file://Yocto_Build_Appliance.vmxf \
+            file://README_VirtualBox_Guest_Additions.txt \
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index 9532ed1534a..5420366d862 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -9,7 +9,7 @@ DEPENDS = "gdk-pixbuf-native"
+ SRCREV = "44afb7506d43cca15582b4c5b90ba5580344d75d"
+ PV = "0.1+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master \
+            file://psplash-init \
+            file://psplash-start.service \
+            file://psplash-systemd.service \
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+index ee491984293..6a86196f41f 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
++++ b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=d40a07c27f535425934bb5001f2037d9"
+ 
+-SRC_URI = "git://git.yoctoproject.org/update-rc.d;branch=master"
++SRC_URI = "git://git.yoctoproject.org/update-rc.d;protocol=https;branch=master"
+ SRCREV = "8636cf478d426b568c1be11dbd9346f67e03adac"
+ 
+ UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 6ebe4f457ed..823d4f011be 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,6 +1,6 @@
+ require pseudo.inc
+ 
+-SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master \
++SRC_URI = "git://git.yoctoproject.org/pseudo;protocol=https;branch=master \
+            file://fallback-passwd \
+            file://fallback-group \
+            "
+diff --git a/meta/recipes-graphics/libfakekey/libfakekey_git.bb b/meta/recipes-graphics/libfakekey/libfakekey_git.bb
+index 5d94be52b4f..7db54c10988 100644
+--- a/meta/recipes-graphics/libfakekey/libfakekey_git.bb
++++ b/meta/recipes-graphics/libfakekey/libfakekey_git.bb
+@@ -13,7 +13,7 @@ SECTION = "x11/wm"
+ SRCREV = "7ad885912efb2131e80914e964d5e635b0d07b40"
+ PV = "0.3+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
+index b01b332a55b..f195ea233f6 100644
+--- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
++++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
+@@ -17,7 +17,7 @@ DEPENDS = "virtual/libx11 libxext"
+ 
+ #SRCREV for 1.12
+ SRCREV = "e846ee434f8e23d9db38af13c523f791495e0e87"
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb
+index 81704beac46..ce20283e6e8 100644
+--- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb
++++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb
+@@ -12,7 +12,7 @@ DEPENDS = "libmatchbox virtual/libx11 libxext libxrender startup-notification ex
+ 
+ # SRCREV tagged 1.2.2
+ SRCREV = "27da947e7fbdf9659f7e5bd1e92af92af6c03970"
+-SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager;branch=master \
++SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager;protocol=https;branch=master \
+            file://0001-Fix-build-with-gcc-10.patch \
+            file://kbdconfig"
+ 
+diff --git a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_git.bb b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_git.bb
+index 09fbc9b7983..1d04ad09746 100644
+--- a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_git.bb
++++ b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_git.bb
+@@ -10,7 +10,7 @@ SECTION = "x11/base"
+ SRCREV = "23c8af5ba4a1b7efbaf0bbca59a65ff7e10a1a06"
+ PV = "0.1.1+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master"
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 12f1cf516ee..3de1e7bae2a 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -16,7 +16,7 @@ PV = "0.3+git${SRCPV}"
+ 
+ inherit native
+ 
+-SRC_URI = "git://git.yoctoproject.org/yocto-kernel-tools.git;branch=master"
++SRC_URI = "git://git.yoctoproject.org/yocto-kernel-tools.git;protocol=https;branch=master"
+ S = "${WORKDIR}/git"
+ 
+ do_configure() {
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 94800aeacac..d0549dabe5c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -17,8 +17,8 @@ include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+ KBRANCH = "v5.18/standard/base"
+ KMETA = "kernel-meta"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name=machine \
+-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=master;destsuffix=${KMETA}"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;protocol=https;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=master;destsuffix=${KMETA}"
+ 
+ # Set default SRCREVs. Both the machine and meta SRCREVs are statically set
+ # to the korg v3.7 tag, and hence prevent network access during parsing. If
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+index 772fc4e2ef2..b9f1605cf9b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+@@ -14,8 +14,8 @@ python () {
+ SRCREV_machine ?= "c8a23ffc90611d97d4e0d8b05e5aa30db4795e87"
+ SRCREV_meta ?= "876ae2ac4c2844426ff953a696e455b44d953527"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;protocol=https;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
+ 
+ LINUX_VERSION ?= "5.10.234"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index ea763ce9aa1..7c8369cc874 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -14,8 +14,8 @@ python () {
+ SRCREV_machine ?= "46e4e1200a4fa889438a2cc62151bb7f1057421a"
+ SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;protocol=https;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+ LINUX_VERSION ?= "5.15.201"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+index a78839e32e6..db6f9182db8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+@@ -21,8 +21,8 @@ SRCREV_meta ?= "876ae2ac4c2844426ff953a696e455b44d953527"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;protocol=https;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
+ 
+ COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm|qemuarmv5)$"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index 56853f481fa..358e3bbed3b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -19,8 +19,8 @@ SRCREV_meta ?= "b75d71b7f2455467f2260d514040ccb44d4bdda5"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;protocol=https;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+ COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm64|qemuarm|qemuarmv5)$"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+index db911b29524..74ae0db1a93 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+@@ -26,8 +26,8 @@ SRCREV_machine:qemumips64 ?= "4bae0f4714f4afc50c02ea884ec8ba6026d2ec16"
+ SRCREV_machine ?= "0ef80b08429534f460a78de68ee5c6a05f722eb0"
+ SRCREV_meta ?= "876ae2ac4c2844426ff953a696e455b44d953527"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;protocol=https;name=machine;branch=${KBRANCH}; \
++           git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ LINUX_VERSION ?= "5.10.234"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 176d17e5736..0a770c81b76 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -35,8 +35,8 @@ SRCREV_machine:class-devupstream ?= "3330a8d33e086f76608bb4e80a3dc569d04a8814"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v5.15/base"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;protocol=https;name=machine;branch=${KBRANCH}; \
++           git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ LINUX_VERSION ?= "5.15.201"
+diff --git a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+index d951baf3610..9cb628c0ecc 100644
+--- a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
++++ b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+@@ -11,7 +11,7 @@ RDEPENDS:${PN} = "settings-daemon"
+ 
+ # SRCREV tagged 0.2
+ SRCREV = "ef2192ce98d9374ffdad5f78544c3f8f353c16aa"
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master \
+            file://no-handed.patch"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
+index b05a9c48ad4..95b525c5cd6 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
+@@ -13,7 +13,7 @@ SECTION = "x11/wm"
+ 
+ # SRCREV tagged 2.2
+ SRCREV = "6bc67d09da4147e5552fe30011a05a2c59d2f777"
+-SRC_URI = "git://git.yoctoproject.org/${BPN}-2;branch=master \
++SRC_URI = "git://git.yoctoproject.org/${BPN}-2;protocol=https;branch=master \
+            file://vfolders/ \
+            "
+ 
+diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_0.1.1.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_0.1.1.bb
+index b1724675bab..6243d16a522 100644
+--- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_0.1.1.bb
++++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_0.1.1.bb
+@@ -13,7 +13,7 @@ DEPENDS = "libfakekey expat libxft"
+ 
+ #SRCREV for 0.1.1
+ SRCREV = "630d89068dc0a1e9199306d405cb32f892dfa4d3"
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=matchbox-keyboard-0-1 \
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=matchbox-keyboard-0-1 \
+            file://0001-desktop-file-Hide-the-keyboard-from-app-list.patch \
+            file://80matchboxkeyboard.sh"
+ 
+diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.11.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.11.bb
+index 3dec68b9638..d43aeea07ab 100644
+--- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.11.bb
++++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.11.bb
+@@ -23,7 +23,7 @@ RPROVIDES:${PN} = "matchbox-panel"
+ RREPLACES:${PN} = "matchbox-panel"
+ RCONFLICTS:${PN} = "matchbox-panel"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master \
+            file://0001-applets-systray-Allow-icons-to-be-smaller.patch \
+            "
+ 
+diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
+index 802ffa971bf..74e543b0b53 100644
+--- a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
++++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
+@@ -11,7 +11,7 @@ SECTION = "x11/utils"
+ 
+ #SRCREV tagged 0.2
+ SRCREV = "161276d0f5d1be8187010fd0d9581a6feca70ea5"
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
+index bc4024736f4..3a69ff847e5 100644
+--- a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
++++ b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
+@@ -2,7 +2,7 @@ require matchbox-theme-sato.inc
+ 
+ # SRCREV tagged 0.2
+ SRCREV = "df085ba9cdaeaf2956890b0e29d7ea1779bf6c78"
+-SRC_URI = "git://git.yoctoproject.org/matchbox-sato;branch=master"
++SRC_URI = "git://git.yoctoproject.org/matchbox-sato;protocol=https;branch=master"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
+index eea7025c8d4..1709ab460b7 100644
+--- a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
++++ b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
+@@ -11,7 +11,7 @@ DEPENDS = "matchbox-panel-2 gtk+3"
+ 
+ # SRCREV tagged 0.3
+ SRCREV = "9250fa5a012d84ff45984e8c4345ee7635227756"
+-SRC_URI = "git://git.yoctoproject.org/screenshot;branch=master"
++SRC_URI = "git://git.yoctoproject.org/screenshot;protocol=https;branch=master"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb b/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
+index 4356930da0d..33625f928d5 100644
+--- a/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
++++ b/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
+@@ -9,7 +9,7 @@ SECTION = "x11"
+ 
+ # SRCREV tagged 0.0.2
+ SRCREV = "b2e5da502f8c5ff75e9e6da771372ef8e40fd9a2"
+-SRC_URI = "git://git.yoctoproject.org/xsettings-daemon;branch=master \
++SRC_URI = "git://git.yoctoproject.org/xsettings-daemon;protocol=https;branch=master \
+            file://addsoundkeys.patch \
+            file://70settings-daemon.sh \
+            "
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+index 5a1d3299930..0dea9d67cab 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ SRCREV = "bcb82804daa8f725b6add259dcef2067e61a75aa"
+ PV .= "+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master \
++SRC_URI = "git://git.yoctoproject.org/ptest-runner2;protocol=https;branch=master \
+ "
+ 
+ S = "${WORKDIR}/git"
 
