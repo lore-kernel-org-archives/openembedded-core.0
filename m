@@ -1,160 +1,244 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADDACF31E5E
-	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 16:20:08 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.3])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.136427.1775751599595759402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BFCE98FDC
+	for <webhook@archiver.kernel.org>; Thu,  9 Apr 2026 16:22:38 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.130848.1775737350753972299
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2026 09:20:00 -0700
+ Thu, 09 Apr 2026 05:22:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=kHS74AAA;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=kHS74AAA;
- spf=pass (domain: arm.com, ip: 52.101.66.3, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=VhyKgWNVtw+3Uz2OVXlOlpyytQCvOyA7uxnGGHDAEFGMtZVQpQgtnr/zDg3LnaSAY4aJMwGhSYhHKyoxHUlJd6gwaalbAe7kfhpAu9HUHM2+aQ2VwdqSWn846iAhWCub5AyXWYAIWYmtIUujiVFAESm5/G6KAwaROreZ5FaZUSev2j7sd9A1B5syroizw5q8iReCmRezk1qsnb+hvQq1Y1caMbGmh3uaP++hgA1MMEfdmx78j+X+Zfx9Xv3jji4cK5dphQT38quPftz2p3Whx64l7YT1Fk6N/n3rUmrS/YYkMqLi33ZhZemrd6lOBRierQHGuAsfPZRH+pC6B+ubwQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4I8H1uIksh3sXdKhff5NTsduPlZnxsB39+rpRnuDTYo=;
- b=Zlyj4wEP9U5GtR1QsfkxhJft1iQlVRcFzZEc3B9oF4GVoxDGrOAKd7upSw28xKr8zSEsRqYD01YN1immvsnAAFqZ+n0hBeew2qv7e5CtBuFzY/NgmfRsQ15qfftEzacrZI9Ppo1hFrOENQyYFeABbRurP5cArkovoOhXZvQhulLyM8YxjVORf1rpUJY+4MeSx1rkKfT9zCRL5c8PdRrond0wttQURhDH9YRRlO368s10oD/83z1B+F8NCu7ge+DfzoaeunJZH66+bbz5Qg6PXkD0QATwcf7Wb/9r10KILliMwczjQTmAkEUmhL+YQuagR53zJklraxkuKkOQrHhtHw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=oss.qualcomm.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4I8H1uIksh3sXdKhff5NTsduPlZnxsB39+rpRnuDTYo=;
- b=kHS74AAAmYpAJAs/mvsJjM1InVWwoGCXHHj7CL9EpSzzq9Yn1sJBjV/jgJ0AZVDhGLc+hnmfJTb5mlxdFYal/1kXxdc5w4R/oeXsi+ZM2NgOzo1gFrSDb+WCKChHLMBi43mpffIB4pTGfJGbrvCd/AU579HlGQ5pznPfwatILCk=
-Received: from DU7P251CA0028.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:551::12)
- by AS8PR08MB8087.eurprd08.prod.outlook.com (2603:10a6:20b:54c::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Thu, 9 Apr
- 2026 16:19:54 +0000
-Received: from DU6PEPF00009526.eurprd02.prod.outlook.com
- (2603:10a6:10:551:cafe::e3) by DU7P251CA0028.outlook.office365.com
- (2603:10a6:10:551::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.38 via Frontend Transport; Thu,
- 9 Apr 2026 16:19:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU6PEPF00009526.mail.protection.outlook.com (10.167.8.7) with Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.17 via
- Frontend Transport; Thu, 9 Apr 2026 16:19:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FPvzw2P8QYYgNN5QhxiX5yS1VIxokln5n+Drs5U8qGQYsTqwTUgPrNmsl/USOJevq4fafrdG9PhQrZuhWITbcVmAUg48x+DDxOEKd7bNSP/umrzNIHWH2OvNYKwPDQz2I/guJSy+ZabSAixgT/13X30vscJ8tHRbtnjX2R/Y2W+mXW/AYwCmorTozCPt4xSnEf2l+cHYaPDnV3zYckhtW3IY+YX80Te/vV3VkvwhrdDGlA8nxdFN+umw2KX+Fzs0u8egYoTUfQoFM5ZGe34wSmKEMgOqEkQHO1ANheE0/citC9UQRqUq3bS/ezez4sC3QfsyiIRMfCl2woQvN6Q/cw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4I8H1uIksh3sXdKhff5NTsduPlZnxsB39+rpRnuDTYo=;
- b=wGKGgtyR2Hj3JKAW/s0JH0TAbomlUF7J2pZepqird3Cp9HMaMqwhIpEMGuzl3pXRAg8i4KXhbMh7Ble0RfnZhduqm5PQyQWz7J+sHyXmg4t4/q/sIUrAkv5bp9rkgCp0DSI6UyOWLkMOKX92DIV/jvjDyZHhWIL8F+lAgtAXp63HMaChvc/kQSJ9Ilj2wbgUeKyIu+cDP2YTj9jWjR6kKRD4VWruab510DV59o0IXRejlxBIm+7ILNk8rAKRaqSmYt1PP+YDOG6KAWRZYxz0EumbRiCpsHGNs+7bdhvP+wiuoyDDgWeZDURf5ikNwXtLCw8IxbyemrpB4U0Xaoj0UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4I8H1uIksh3sXdKhff5NTsduPlZnxsB39+rpRnuDTYo=;
- b=kHS74AAAmYpAJAs/mvsJjM1InVWwoGCXHHj7CL9EpSzzq9Yn1sJBjV/jgJ0AZVDhGLc+hnmfJTb5mlxdFYal/1kXxdc5w4R/oeXsi+ZM2NgOzo1gFrSDb+WCKChHLMBi43mpffIB4pTGfJGbrvCd/AU579HlGQ5pznPfwatILCk=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS2PR08MB9917.eurprd08.prod.outlook.com (2603:10a6:20b:55f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Thu, 9 Apr
- 2026 16:18:43 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9769.016; Thu, 9 Apr 2026
- 16:18:43 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "mohammad.rafi.shaik@oss.qualcomm.com"
-	<mohammad.rafi.shaik@oss.qualcomm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "sbojja@qti.qualcomm.com"
-	<sbojja@qti.qualcomm.com>, Tejas Kanfade <tkanfade@qti.qualcomm.com>
-Subject: Re: [OE-core] [PATCH v1] pulseaudio: split pactl into a dedicated
- client subpackage
-Thread-Topic: [OE-core] [PATCH v1] pulseaudio: split pactl into a dedicated
- client subpackage
-Thread-Index: AQHcwrzVhliSSMCQH0yp2EPE0+u6A7XW84UA
-Date: Thu, 9 Apr 2026 16:18:42 +0000
-Message-ID: <65900E7F-3917-4D0E-81D7-D5EC15FC4930@arm.com>
-References: <20260402162109.3523797-1-mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <20260402162109.3523797-1-mohammad.rafi.shaik@oss.qualcomm.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS2PR08MB9917:EE_|DU6PEPF00009526:EE_|AS8PR08MB8087:EE_
-X-MS-Office365-Filtering-Correlation-Id: bec985b5-2020-45b0-2f56-08de9653d556
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|1800799024|366016|18002099003|38070700021|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info-Original: 
- Cl46Wl7vkw503Lw3z3gSn5/hlO4GcbIzSPnWBi5xK+9g+OnvI1UxTiAMAWVlMbm6Bsc7r7SNZIfyhooXKkE8+1nP2Nc7jzdBcnV8ycg8ikbnjH+3YpIUtGN6qSoCkwaRZEBhBcH+1edDRtYX//z4pzUtXSW6hVE7V6/ZLs/mHLsbx6BFDACN+E86ovTyEzUgn+tfaq7u4o4pvRryupjkud20P/901uQraBoiqE9WIcL9dbUK+e8Zz8GrKAKXEN23Z9BQ5bdq9MpOjZFJHG+icTvL5j45E8hUIa5blS2bSZ6v6WE76C1ZYRteitrk5jOAZs/khAUF5NV9KNd2gTDy0GjrOWbCcb+JbxvDtShUWrC/0fmhpmJmjTJGOde9DaG1ZxfDnGIXRv8GmZFvv76H0uyzvPf2HwRZpEYJ+SweMda+5EruZYRqZq8A7MAH7cqilT8A7yU4cEH4B3wNlboZWe4DZznsEHqrwFUM0rXG70j511x9zzHPX+BiCsnn1jPsJL7x7V7XGUxKpM/5QkRzFvauPn94sl8Zt78qOagHUZWZ0bUWvYCgNT/U/kQnOTtVo2FC5gNag4jwED2DlYz48dYHraieoVLAhUIkJJU3MWYOC4j3HKFNV5LMRdkToNko4x8NYF6gOC86g0gzaR8Z9YkCIzCDegKEan0ph/OdRdeIqp7mXhzpVETmvsgWrjdO7KFL/7EgaUGpZ8yeP8wVW+htENXR4YT/lfqBVAUH/g/407z1hIvNHkklxLwP+S4mfgRJlGApJMAGhTMRNNshw70dq0xiYNphL40A/GUF+EQ=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(18002099003)(38070700021)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <AC3063B4CB11D244BEC1EBE2C1ADD3FE@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=GVAm//nh;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488c2690057so8328525e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 05:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775737349; x=1776342149; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zf+Lw2ijUFmxce+zYBVM30IZGwon7WzNpIIb2fRUWfc=;
+        b=GVAm//nhkJ/n/VtLdIcL4C7m9KggEGa84QiU6FLc7ggNlh9Zul5VXaeNrkHy1upOEv
+         Uua5h4VIzXKfLyJ7sABxTcEN6ndNgjAx6z/JMe2yTigZSCiNj+Hk3cXS777Pg3ioAK1k
+         zNgZvIyxKiPC09gj1nDNNO+72RaDUuqV7+DyLenzposzGB20UIRu4WOo8hvjHDkE39CC
+         h1vXobofetaiRniJDKIkdlyhsJr04a+TL8/kHrRkCH23IeGBp2csD1EhpmXXzQfa5ET9
+         2hZeBFc+wL9LZ6MtcewsNHPSI9dqEQQsez8O4QSZY/JYPjkSLh2a1u5shBAGyx6BOa4e
+         QA5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775737349; x=1776342149;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zf+Lw2ijUFmxce+zYBVM30IZGwon7WzNpIIb2fRUWfc=;
+        b=joFPZynXroBUsWZM0708op3zG0Dc1tyv3625i3IzVnm5whKNQ1CvwYdePYnyPR0/p4
+         ipJd1HsIIiT1jpsbm8Zym0cXssysQNYrMOyPqr8QpB0w2APx48qeRj7ZD7vrnpk3Wa4F
+         qcmimc/jVYMUPwhuQ7hS2boFsmpEKmYVaJWVGVxPiKzLkFTAxBXeyyyQ1JfAwbTJIYDF
+         eXo1UZAMjaON8fjHjzYn/6Kr5wEndKhZgdFgL9l42A+pwWNsSKTM7rCK7ZUv/lgp/1Xb
+         YlU3ip/tWygCa8HU4xKNapB5QR5O9YN8tQBYliy4YanA8X5CgDyeiul7wHzWOouAzydW
+         Sklg==
+X-Gm-Message-State: AOJu0YwF2/slAkbO0OedDcOwpDRQCVWq34We8D379l7746xuvqRGRPkV
+	5qFsVfyYkwb6LlHjimJ6syG6GqmG4uQ04y+Zdzmb2C8Tq5xPUxqBIsQMJT52wA==
+X-Gm-Gg: AeBDiesQVLtAg2zH0M9hp/uZIrbSwkXCsEmutELBPfukVtS6Pryy8JaB80COWkKFh6n
+	MqxJTiYvbUOySF+lULcURge1e5gR81XUKu+E2nUpA3bCi6kFm/oGO3Zh0HKOGv3ooG6BJ2xkpkK
+	1+5dltMYuq9B9x22UhltH4VtcQurOOzCpKjOguE3m4eIaLXkvg81KhtfEP0nV617UbHDffXNmSQ
+	/qrSvtKWxCLpGxunq+FGiqwVlbVTLbQeR4eROadydFAmHo69T2+A3fF7q+OmJnyvUTJvYmlx3Ak
+	FYy5z6rJb0Y/MNPVUOr+bSZyA+d1jiotk0sDaF2L9mXgWEm/kk2n2zDENxUcAbI8yRd2nW43AUp
+	Hha/H6dUoJU98Xle4NAux8Xo04kK00JhSdRaXlzdl3ngpHr2mnYrSfXH7Y360TyXFYxPz0kE0hc
+	PE4wY7SA4/DxPuJczP+4P1WUI=
+X-Received: by 2002:a05:600c:1f1a:b0:485:9a50:3370 with SMTP id 5b1f17b1804b1-488ccf63aa9mr48338485e9.8.1775737348647;
+        Thu, 09 Apr 2026 05:22:28 -0700 (PDT)
+Received: from term011.lan (95C81E23.dsl.pool.telekom.hu. [149.200.30.35])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488cd17a6d7sm35985385e9.3.2026.04.09.05.22.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 05:22:28 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] ovmf: Fix build with GCC 16 and GLIBC 2.43
+Date: Thu,  9 Apr 2026 14:22:25 +0200
+Message-ID: <20260409122225.1069828-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- h38BrT5WTqquslR6Qj5ax14CU3Hw2nUFI2CQH1xRWf5d0vnHncOG00ytHGL30yWmpq/XVkmvFQg11jFDbqCWnOl9S77ASPCEyRbnX4hfn9IfvyArcLkVjTD8RnIUm3htgKNPs2xB9iTaeW49Fxqq85bHblSI51kgUKXVmX009QmNRHcIjIuS3MUd3oJTT93xfDeKss4kWiMyC2KGAShfbS9GYeyAkT3/mVVU1LcnE069CW1zRapzbV27wYUYRdZNwD1o2jW8Cqrb/DiW22+2ZgLz28bZju8inPWRkNQR3P4DjimaTYlCUx2KrGveJOD2O9V7KVD3koukqOet1uoPXA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9917
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU6PEPF00009526.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	b307e6ce-e3b3-45c7-3a1b-08de9653ab0e
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|35042699022|82310400026|1800799024|376014|14060799003|36860700016|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	nhuttdrDOQRM46mJZdxL3jzosOBYt9cygyKl8DK27TOK0JlbZCuhryRWYnEhjd/GJ5OtuaAp/89nizQJKnvUW+rsa3g+nP/d2tRrs/tAdFq1lLK7L8WmuuOd/3Q5JoFQWtxpyhGEDG4+wxqHJ+p2blGFEYcbDX0RjXTRgTlVZQ/wM/Jm93fS+a/yxPXFaGUOWBTS6pSIU0nOTSwR25uV59emMXQNpruxrP99rdfEJ5ogcgVpvvwCDjGqSK3Rvl8p4ZxRhzxPL38C2CaPAx2P5wYPcd1m4Yy4SE3I5y1lZzDUxssaVSdc8WtcPTawImbtyKNo4rF7ChRJD16Mq3b2T9uqYGIGjREPXe8vdTDdWunlB+Cjw+IoGK7XLX2bpxqpcwFHKqWcs+BxIwezD307dVXRz3ZLms21NzaeO6K9uYp4Ad1OgxraIiPZwMYOXDoc2GpvUPb+t1Nzhg3NcrLYnskaGBBnp8CvUv/yMhTqieEUQ4h3ITLbRNlbxS1OyQB9cjxWRO9Soqm8sl/+esYRfxJJxfK2chM3x+E1ZJmIQyjATt8cjGflJXaSgGvkb3oIdOBStNUxMx0DLV//mGaxZb/1/tXsnytJhM5ucp2wL/FT6Oy58WkVuT4wG0PjRsMtGioQqaz4ksigdRTZi6JGk4v97ZE+Yx6fFffqf0wVi4tI8sgWkBXi1N5NMZvMI+8lMWdn4O9UPij/loh+v3AeMcNMweQu3kwLWOyKf/GGufrCZF1fIsGvalfJ+CcidIBazplGc3KSqLhO8oAJrJ7cKA==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(82310400026)(1800799024)(376014)(14060799003)(36860700016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	MPeuZjq94f/Hj5Z4LJhpCnnlyL+rAnNjxkYuLZI952vuQY941T9DyQVb5XnyCy/Ory9lVHY+FpEQ0iqlSrRbs+zh+4Kc0FD4qm9jhvSWo0druvj767ZHkrBkSTj5lw5lsiGaU6bElRQEP90amlcmKpNZepRd9lN/bPaVW+5TnsmBGYbci10bw+snsRbg8+atcc1GRD72fwdYqwiV601SbPVv5mTY8SgCIobMGqNvuX8ZG8VQD4LfqaEjPQ4UGm0MAuAMKsXSJtGh5By5G4WSvFajQIuQ8DCla2/Kx2SScHb8W7c9JIsKdtjSOtZwRK+JRaO12SXbN3gv58yGNK/2YPeToOr9D9bsN0/hgtKc8uDB4+sCqJGBDviBq8/pWg1ZJMKr6PHwrgDPOxf6DlRu6AyOgGby6TKqjJ7TLqu/SlJtT2bNXPruXojYQB4K2ruH
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 16:19:53.7819
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bec985b5-2020-45b0-2f56-08de9653d556
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF00009526.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8087
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 16:20:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234932
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2026 16:22:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/234912
 
-On 2 Apr 2026, at 17:21, Mohammad Rafi Shaik via lists.openembedded.org <mo=
-hammad.rafi.shaik=3Doss.qualcomm.com@lists.openembedded.org> wrote:
-> +# pactl is a client tool; it requires libpulse and a PulseAudio-compatib=
-le server
-> +RDEPENDS:${PN}-pactl =3D "libpulse"
+Backport two patches from master to fix native build with
+GCC 16 and GLIBC 2.43
 
-Why is this needed, surely the automatic library dependencies create this f=
-or you?
+commit 3597306191297b504683b83fe7750e49c6a2e836
+Author: Gerd Hoffmann <kraxel@redhat.com>
+Date:   Thu Jan 29 09:23:32 2026 +0100
 
-Ross
+    BaseTools/StringFuncs: fix gcc 16 warning
+
+    StringFuncs.c: In function =E2=80=98SplitStringByWhitespace=E2=80=99:
+    StringFuncs.c:113:15: error: variable =E2=80=98Item=E2=80=99 set but no=
+t used [-Werror=3Dunused-but-set-variable=3D]
+      113 |   UINTN       Item;
+          |               ^~~~
+
+    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Author: Gerd Hoffmann <kraxel@redhat.com>
+Date:   Mon Dec 8 10:28:50 2025 +0100
+
+    BaseTools/EfiRom: fix compiler warning
+
+    New warning after updating gcc:
+
+    EfiRom.c: In function =E2=80=98main=E2=80=99:
+    EfiRom.c:78:17: error: assignment discards =E2=80=98const=E2=80=99 qual=
+ifier from pointer target type [-Werror=3Ddiscarded-qualifiers]
+
+    The assigned value is not used, so fix the warning by just removing it.
+
+    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+---
+ ...Tools-StringFuncs-fix-gcc-16-warning.patch | 43 ++++++++++++++++++
+ ...aseTools-EfiRom-fix-compiler-warning.patch | 45 +++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  2 +
+ 3 files changed, 90 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-StringFuncs-=
+fix-gcc-16-warning.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0002-BaseTools-EfiRom-fix-c=
+ompiler-warning.patch
+
+diff --git a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-StringFuncs-fix-gcc=
+-16-warning.patch b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-StringFuncs-=
+fix-gcc-16-warning.patch
+new file mode 100644
+index 0000000000..38c26224df
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-StringFuncs-fix-gcc-16-war=
+ning.patch
+@@ -0,0 +1,43 @@
++From 3597306191297b504683b83fe7750e49c6a2e836 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Thu, 29 Jan 2026 09:23:32 +0100
++Subject: [PATCH 1/2] BaseTools/StringFuncs: fix gcc 16 warning
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++StringFuncs.c: In function =E2=80=98SplitStringByWhitespace=E2=80=99:
++StringFuncs.c:113:15: error: variable =E2=80=98Item=E2=80=99 set but not u=
+sed [-Werror=3Dunused-but-set-variable=3D]
++  113 |   UINTN       Item;
++      |               ^~~~
++
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Upstream-Status: Backport
++---
++ BaseTools/Source/C/Common/StringFuncs.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/BaseTools/Source/C/Common/StringFuncs.c b/BaseTools/Source/C/=
+Common/StringFuncs.c
++index 53e44365e9..df02d9c808 100644
++--- a/BaseTools/Source/C/Common/StringFuncs.c
+++++ b/BaseTools/Source/C/Common/StringFuncs.c
++@@ -110,7 +110,6 @@ SplitStringByWhitespace (
++   CHAR8       *EndOfSubString;=0D
++   CHAR8       *EndOfString;=0D
++   STRING_LIST *Output;=0D
++-  UINTN       Item;=0D
++ =0D
++   String =3D CloneString (String);=0D
++   if (String =3D=3D NULL) {=0D
++@@ -120,7 +119,7 @@ SplitStringByWhitespace (
++ =0D
++   Output =3D NewStringList ();=0D
++ =0D
++-  for (Pos =3D String, Item =3D 0; Pos < EndOfString; Item++) {=0D
+++  for (Pos =3D String; Pos < EndOfString;) {=0D
++     while (isspace ((int)*Pos)) {=0D
++       Pos++;=0D
++     }=0D
++--=20
++2.53.0
++
+diff --git a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-EfiRom-fix-compiler=
+-warning.patch b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-EfiRom-fix-comp=
+iler-warning.patch
+new file mode 100644
+index 0000000000..f463103661
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-EfiRom-fix-compiler-warnin=
+g.patch
+@@ -0,0 +1,45 @@
++From 9af06ef3cbb052b142f9660c2c01e7aeb401300c Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Mon, 8 Dec 2025 10:28:50 +0100
++Subject: [PATCH 2/2] BaseTools/EfiRom: fix compiler warning
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++New warning after updating gcc:
++
++EfiRom.c: In function =E2=80=98main=E2=80=99:
++EfiRom.c:78:17: error: assignment discards =E2=80=98const=E2=80=99 qualifi=
+er from pointer target type [-Werror=3Ddiscarded-qualifiers]
++
++The assigned value is not used, so fix the warning by just removing it.
++
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Upstream-Status: Backport
++---
++ BaseTools/Source/C/EfiRom/EfiRom.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/BaseTools/Source/C/EfiRom/EfiRom.c b/BaseTools/Source/C/EfiRo=
+m/EfiRom.c
++index fa7bf0e62e..6e903b3504 100644
++--- a/BaseTools/Source/C/EfiRom/EfiRom.c
+++++ b/BaseTools/Source/C/EfiRom/EfiRom.c
++@@ -44,7 +44,6 @@ Returns:
++   FILE_LIST *FList;=0D
++   UINT32    TotalSize;=0D
++   UINT32    Size;=0D
++-  CHAR8     *Ptr0;=0D
++ =0D
++   SetUtilityName(UTILITY_NAME);=0D
++ =0D
++@@ -75,7 +74,7 @@ Returns:
++   //=0D
++   if (mOptions.DumpOption =3D=3D 1) {=0D
++     if (mOptions.FileList !=3D NULL) {=0D
++-      if ((Ptr0 =3D strstr ((CONST CHAR8 *) mOptions.FileList->FileName, =
+DEFAULT_OUTPUT_EXTENSION)) !=3D NULL) {=0D
+++      if (strstr ((CONST CHAR8 *) mOptions.FileList->FileName, DEFAULT_OU=
+TPUT_EXTENSION) !=3D NULL) {=0D
++         DumpImage (mOptions.FileList);=0D
++         goto BailOut;=0D
++       } else {=0D
++--=20
++2.53.0
++
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index ec6c3b516c..107dcf0359 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -26,6 +26,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+=3Dmaster;protocol=3Dhttps;ta
+            file://0003-debug-prefix-map.patch \
+            file://0004-reproducible.patch \
+            file://0005-UefiCpuPkg-CpuExceptionHandlerLib-fix-push-instruct=
+i.patch \
++           file://0001-BaseTools-StringFuncs-fix-gcc-16-warning.patch \
++           file://0002-BaseTools-EfiRom-fix-compiler-warning.patch \
+            "
+=20
+ PV =3D "edk2-stable202511"
+--=20
+2.53.0
 
 
