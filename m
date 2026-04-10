@@ -1,126 +1,99 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09C09F44868
-	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 13:11:13 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156112.1775826665250257337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98219F44868
+	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 13:16:03 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.155870.1775826955452597462
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Apr 2026 06:11:06 -0700
+ Fri, 10 Apr 2026 06:15:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=rI9/sFB9;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B2B3E4E429B1
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 13:11:03 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 89F0D603F0;
-	Fri, 10 Apr 2026 13:11:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2109F1045001B;
-	Fri, 10 Apr 2026 15:11:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775826662; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=gjvUFLuzT4zQp2RWZ1gOwG0K4OCcBBp0bIxviaKoJgA=;
-	b=rI9/sFB9RqNwgG/dSp3jCfSEJNFxjJDN6KR1/9Ovvil8j6TXMUY4YxAEW0+f2X0ePTnwFX
-	Aibv8B1z3VqjqC6foIWiIZgfHAk2m96BAGvex6V0Z1FI7kruml9KZXGTVDa8vb6k0EoCzC
-	enuRQQb4aR8Pdkct4Mpz+86//Ev4Gx2x9sHwPUi4Wq8CSXs60elL63GrcnufZ6HSi6eUua
-	MA5P1m5zvlMJGqfHCKCtS2jAKzrSUAbOElKQ/YK6xLHKDWaM0657WEcArMFb4vAnUTHRhb
-	HMMCMehebpUfyIznqDQkD6HbV3v7OYa1paIBWZLCideYyZf12RR+9znGaeBPOQ==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-Date: Fri, 10 Apr 2026 15:10:43 +0200
-Subject: [PATCH 1/4] cve_check: Improve escaping of special characters in
- CPE 2.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B/vH219H;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b983bb07eso1278370f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 06:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1775826954; x=1776431754; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8T7ZZqhyotMF0Ly/TXsxkAtQ2hK1aXj/AQVomg3iEtI=;
+        b=B/vH219H2YIcYsZGGAGKLwNWBL7aFQhjHERRIB6tdTpeJUcYXdYGvXI4IvWwQZ5M1l
+         WAw2nFnzqMEyPYMGcwRAoIA1Dl83CQemmbpAjnf6FJ6QhYy88AA/HsK0MlSE8Kas4JfC
+         uyxdJwzJBV1zgrhC4IGcRX/BvgQJ6hNVcFrmg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775826954; x=1776431754;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8T7ZZqhyotMF0Ly/TXsxkAtQ2hK1aXj/AQVomg3iEtI=;
+        b=mn0m02rOMtZJM9gEBtdHXFjxkxJy5YMMCsbB4sYnkZQdhlNCUSFs0u34yPpNFBxJOs
+         4f5379VnhFLiYCu+lQPJ9doDuO46LcQMb5mWNznroOUZrFHxlYMpmkL+r8C/XUhFSU7j
+         3Ji9Bu/FdktLuqZBvWJUM0ye1bWjgNIH+biVMFr3MTCVWX6EGXjV0uwqbyV2fTyWIPf9
+         +dzGRWTH5pdjMm0L6ihmbahzVemDl2hDb8W4HfPFeXKSY+m99QPdLq9hZet/iGxh0MGS
+         q5X1p1U4lANt4nRZ+hlVKFCKSPpibiZCR+hmVX3VdiJGUZodne3fWnCO68Ou4V8lxpp6
+         SQIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW34uvkhR3DU30Dz6NPzWESRnEjeTK8R7P1KPuoJVAp2HQYWx+fdisZvbs/t81MgPM++1/C4Mdgo8tSr4bDfDpylw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwDichm+vPdCld9/xfRITEmsnDcBfzg4OPQ0mq2m/2rzEh/yK1y
+	oN5DqfX1UbAlNwNPG+vSjb5XWpBYGTRDlXx2eaR/EEgsBU6DqbvYsKWdL9KR55MFhvs=
+X-Gm-Gg: AeBDieuurj4Nc2pZcxF1ZHdbgw0kQib+lWok23k8Wkjj7j3Qz/qgd/NRQknS4tmMfMA
+	pixhGJtRokaFT2qpvc/2jp75K7yTA6Kv6sMkAI5xXXkK4S7kMeDJadnYwff9FKrFgatM5pjtLCS
+	NkzYQi7HXsJlIM6WJ+akbSlV/LxZSXzs0h0m7lrSBNXJiyuyZXb2EaLW2sXYd4K+JkTtieNI+tE
+	qEqzBER0O2pdZU1SV1KK7IVyF6Yxii4RqtrEypmvWN7p6lB5MrncJ/+jEeiaUbQODKouKD4tB1G
+	3Fb8duhl98mixcYIYWHY7NPtqhdnB3A2U6juPOhc2DCMu2tH8CjmFHehge9Vrz+7mDrcsMRPX0K
+	PIZbvkGHzjGjInOMarYULus5/wCeP4BVRzNWg9LxL+EGQYhy83FIjdaLLQ465Rz3NARKbTYJDu0
+	yTNv/bOpqdCRrK9nLc7DSG/cZc7Sq3eFI8RVR9B/KfLXUhp3G1sBluSeUGDOEU/eBlaUfJiO9ZP
+	DcerbvIpi5WI5Pk
+X-Received: by 2002:a05:6000:1ac5:b0:43c:dc99:771c with SMTP id ffacd0b85a97d-43d642bf201mr4571392f8f.42.1775826953696;
+        Fri, 10 Apr 2026 06:15:53 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:adab:5ac1:52a7:a200? ([2001:8b0:aba:5f3c:adab:5ac1:52a7:a200])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63deba9esm7839947f8f.10.2026.04.10.06.15.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 06:15:53 -0700 (PDT)
+Message-ID: <c8e3d16047191a697c26bfdfd7885fa8f560a7dc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] db: Pin to use C99 std
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Date: Fri, 10 Apr 2026 14:15:52 +0100
+In-Reply-To: <20260408044737.696968-1-khem.raj@oss.qualcomm.com>
+References: <20260408044737.696968-1-khem.raj@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260410-fix-cpe-escaping-v1-1-ed63c2477f46@bootlin.com>
-References: <20260410-fix-cpe-escaping-v1-0-ed63c2477f46@bootlin.com>
-In-Reply-To: <20260410-fix-cpe-escaping-v1-0-ed63c2477f46@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org, ross.burton@arm.com, 
- peter.marko@siemens.com, stefano.tondo.ext@siemens.com, 
- jpewhacker@gmail.com, olivier.benjamin@bootlin.com, 
- antonin.godard@bootlin.com, mathieu.dubois-briand@bootlin.com, 
- thomas.petazzoni@bootlin.com, Benjamin Robin <benjamin.robin@bootlin.com>
-X-Mailer: b4 0.15.1
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 13:11:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235026
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 13:16:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235029
 
-According to the NISTIR 7695 specification [1], multiple characters
-require escaping when using formatted strings (e.g., `cpe:2.3:...`),
-which use backslash escaping. In "Figure 6-3. ABNF for Formatted String
-Binding"", the characters that need escaping are referenced by "escape",
-"special", and "punc". More characters must be escaped than just
-`\`, `?`, `*`, `:`, and `+`.
+On Tue, 2026-04-07 at 21:47 -0700, Khem Raj via lists.openembedded.org wrot=
+e:
+> GCC-15 has switched to using C23 by default, we have been selectively
+> disabling warnings as errors to get by, however with autoconf 2.72 adding
+> -std=3Dgnu23 it now gets enabled for every compiler and clang-22 is more
+> obidient and has dropped support for K&R C completely. db5 code has a lot
+> of K&R C prototypes and it starts to fail vigorously. We can not keep
+> working around with out uplifting sources to be compliant with newer C
+> standard like C23.
+>=20
+> Therefore pin the cflags to use C99 standard as this package expects.
+>=20
+> Drop the code to disable warnings as errors selectively.
+>=20
+> Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+> ---
+> =C2=A0meta/recipes-support/db/db_5.3.28.bb | 9 ++++-----
+> =C2=A01 file changed, 4 insertions(+), 5 deletions(-)
 
-Additionally, use `maketrans()` with `translate()`, which is more
-efficient than a simple `replace()`.
+This seemed to trigger failures for me, e.g.:
 
-[1] https://nvlpubs.nist.gov/nistpubs/legacy/ir/nistir7695.pdf
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/74/builds/3538#bb-=
+step-15
 
-Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
----
- meta/lib/oe/cve_check.py | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+Cheers,
 
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index 65557435149a..22b5062c977c 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -205,33 +205,29 @@ def get_patched_cves(d):
-     return patched_cves
- 
- 
-+_CPE23_ENCODE_TRANS_TABLE = str.maketrans(
-+    {c: f"\\{c}" for c in [
-+        "\\", "!", '"', "#", "$", "%", "&", "'", "(", ")", "+", ",", "/", ":", ";",
-+        "<", "=", ">", "@", "[", "]", "^", "`", "{", "|", "}", "~", "?", "*"
-+    ]}
-+)
-+
-+
- def cpe_escape(value):
--    r"""
-+    """
-     Escape special characters for CPE 2.3 formatted string binding.
- 
-     CPE 2.3 formatted string binding (cpe:2.3:...) uses backslash escaping
-     for special meta-characters, NOT percent-encoding. Percent-encoding is
-     only used in the URI binding (cpe:/...).
- 
--    According to NISTIR 7695, these characters need escaping:
--    - Backslash (\) -> \\
--    - Question mark (?) -> \?
--    - Asterisk (*) -> \*
--    - Colon (:) -> \:
--    - Plus (+) -> \+ (required by some SBOM validators)
-+    According to NISTIR 7695, various characters referenced in the "Figure 6-3.
-+    ABNF for Formatted String Binding" need escaping: escape, special and punc.
-     """
-     if not value:
-         return value
- 
--    # Escape special meta-characters for CPE 2.3 formatted string binding
--    # Order matters: escape backslash first to avoid double-escaping
--    result = value.replace('\\', '\\\\')
--    result = result.replace('?', '\\?')
--    result = result.replace('*', '\\*')
--    result = result.replace(':', '\\:')
--    result = result.replace('+', '\\+')
--
--    return result
-+    return value.translate(_CPE23_ENCODE_TRANS_TABLE)
- 
- 
- def get_cpe_ids(cve_product, version):
-
--- 
-2.53.0
-
+Richard
 
