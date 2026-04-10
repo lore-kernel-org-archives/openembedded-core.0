@@ -2,147 +2,277 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1918DE99074
-	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 10:06:01 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.153079.1775815558497168169
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D7D6E99076
+	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 10:10:21 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.153145.1775815807992803795
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Apr 2026 03:05:58 -0700
+ Fri, 10 Apr 2026 03:10:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=LH6b/qYc;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48374014a77so25387725e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 03:05:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=XsX6QEXm;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-59e4989dacdso2851642e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 03:10:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775815806; cv=none;
+        d=google.com; s=arc-20240605;
+        b=d9eiBeC8wSgOJJz5mRcXw76ENjLEjy7R5cSFet/HRx8LiwjW7e+dfosA+IaJI0t/I0
+         +EDhRZkD9PLcoriLI+VWC8sPMq1Ne7QNXb07fU31WpLkgPMe2ywAICZr95o/UpjcF+A8
+         9yUeYGkpq79cjRZniIbuP4uGsB23FVWQV7/f/3LpmhZDtehwMZ1TMsIbGKpUyP0MHHIr
+         j9gOceJjmtax9VBVIwPFh1TpBX3PwwIba5fk5q6pBCczJJwgunKxrzXQySblpDqTQ/2W
+         ZMjKnPS/R4WU2fmkX5+zaylJnxeu+E9g2oqrK1B+uowJ+1ECGmuOsNlvrY8UqeHrOljn
+         DyTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1Y3Puss2grT3NRIchlS3VUvBlHEUIKaERiiDoL5lRx8=;
+        fh=ipws0wG+k0OA3kXqbycnQoCJAD8PbitcTEukBC/jmQo=;
+        b=dVMAZKV9MQ4HEjzoAv+eW2aUqQfwaJquBnKDdX9C6mHhllCl1MBU9TUJ+m/U9E7JXX
+         vKg7sq1kPT0evc6PIysbnMbF5VkLij4BPeXATANp0uOOahkb/A4EP93Lv2tLDXN75dsG
+         8J9cUAROVh3zKz4gq5lIsK3lII206zX3r35i6f5JnKQgxqPba07p8Wqds+mhKEBKDV4f
+         nZBUhfdfk16Bd0fASBHgV/I0NsSfTbY3B1PLH98lbHQ3t4bEF09NpHetjdT0wiV+qRcy
+         YEXCsrVRZD/iwChuE0fvvYirbppxVhRKtklPoRFSqy1GpqR7hdsW7WmLjsY0vBakYMet
+         rB6A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775815557; x=1776420357; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775815806; x=1776420606; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1fyyTVq8e8XuYXA844yDoJEYeGMSVdIMZTOmgyhTbIY=;
-        b=LH6b/qYcscgIKtcp8yrrHX+U6OpTEFcXzmnjLHuxu6jgkcd/Kn0R6OqPig4iUeh50b
-         8SNlTnmjaleL/sVLTYqCrksu9xWVgeQpjzFnzOgxhNl6DcSWugy9otiernZUeM0c35Sh
-         TSX0/kuhz+p78xspYvP4XX0GQLj/M36rh2jypnQQnGOIkONH3Ab4A3HSq9tj174O8Prw
-         BjLoDzrL7E9TBaHjL1C/8S9ymvzbDQ7acS6+0gegTNjWPUEaO0srFud8DjUG/tmhUgzQ
-         TwqrULCWixBuwvNR2XZr3gKWucAvMoJH1H4ukQlTlLzWAi6raNq0cbD1N6HeqkOVC3uh
-         57+w==
+        bh=1Y3Puss2grT3NRIchlS3VUvBlHEUIKaERiiDoL5lRx8=;
+        b=XsX6QEXmX4tWntGnzm9zoSISibfhLia/+cs7VYYJ09JgI832eGrut75XBtD2p+zmhG
+         7y0PLUr1hP7djgcFVXNs/8u92J8arn104EgHTZcfISG0xGZXI2CyiX1j610ScVBuwgQy
+         KrvCRuOXtHg0++FhO9uOXHgW/AqTPCEqd7ogZcbBzwJbNbjVQg6UdUAAlUVt1M/QUUoH
+         ec1lQBSFZdIlFrnzzVe1rcHQ80iy6Vitqpz9oLaQyV/MtW/bHf+EDdJAquAiut1IvXOC
+         uXkQrWwJqAGYCvMuRd9IHtkVtPIxfMs0o3nf+/gy8XGgtJgj6ag5nAZxMTyWoRhiHbMT
+         fr1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775815557; x=1776420357;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1775815806; x=1776420606;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1fyyTVq8e8XuYXA844yDoJEYeGMSVdIMZTOmgyhTbIY=;
-        b=nBlZqWPCeFMfngWvudrubwKuz0NkdzHIu1HHsOVizjYQp9Vp0ykcriEvUhR967NedD
-         dXNUypFHs+ni6mBBWdSQ4O0nkzrtkmJ2rT4J3V5dgnT0AF13BvDJQ1WDi6tBeKcKwrIN
-         q8idg1RO8mIF5XxFU7UmukI/lkqtYOMfX5cOaWJrXDKA9/zeJHz9QDExIeACIpE2RTBe
-         8/x3SZI3Od5Xk5ihfiVuJZtVf3BVmlT4VWu7oFYUv2wmgcHTZ992xrIJ+HLVp6bRjgWw
-         C7qcqXf5bFyjnAbwb/DMd3w3vzwugY/3ND1MjKKkO1exuxtqxvjZt8PmDA9uIQoxomJG
-         VhHQ==
-X-Gm-Message-State: AOJu0Ywd8d/KL1rbttGEDksyBKl4h66g9TkQKuDi2kC4/BMftzTpJsgb
-	MFNr2GADEHbTw+SrKCQEEW5hkcFRWxloV52blVUcpAnXLcJZ5+DfiW+u0oKEjg==
-X-Gm-Gg: AeBDieurQ7cY/IUYNGVgRbCIlgLJOwB8TEjOKEpcauFJ/AeL5XTlZ4UEymgto1odzYg
-	Xx4JAlidBkn4o8s27mBOnvGPaf7GYPEVQZjN6huLDQ5JnFrhQuGBC+SPC3MMXOTb/ye31viUjq5
-	Oioc0FDiy4/kOvV8xSVlxXyQvXz5lItewjfhDo3quTga4ClPMllbsWclIiAhwhus9r52jzVGD7J
-	GQNTpEdygxdmzqFvgwdlPPAriOlyEzmfqhBI3do4kRvvBZnqiUh4M0dXpeAVc/+uADKCDegF/RK
-	x28z1o1toKYgiN7PG+tq29qc1v9sfMoJpv3H8oi5RFqCBNOF9DslR8nyz0zPITZYR6Y7mu7K9jW
-	LwTZekXZrxG/rccF1xK0bDiN+LfTA6cqlLFvaj+YCmtsvjmLslnHkuzuKMtGC/LYYBM6f1aZDfI
-	veXT6x4evBboYejt49O0LS6h8Mg052QXmgKjI6fSmcw4/1qwasmJ48dCQrXk8iNeBtJDCXGggG0
-	8CcTGAxNg==
-X-Received: by 2002:a05:600c:a010:b0:487:300:d9ca with SMTP id 5b1f17b1804b1-488d68af201mr32899895e9.31.1775815556741;
-        Fri, 10 Apr 2026 03:05:56 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d531f1f9sm77551285e9.1.2026.04.10.03.05.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 03:05:56 -0700 (PDT)
-From: martin.jansa@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Khem Raj <khem.raj@oss.qualcomm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH 3/4] libxcrypt: Fix build wrt C23 support
-Date: Fri, 10 Apr 2026 12:05:47 +0200
-Message-ID: <20260410100548.3944487-3-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260410100548.3944487-1-martin.jansa@gmail.com>
-References: <20260410100548.3944487-1-martin.jansa@gmail.com>
+        bh=1Y3Puss2grT3NRIchlS3VUvBlHEUIKaERiiDoL5lRx8=;
+        b=ez/Pw0UtIKczS73oh3/TNjKikzHn/ijnPpGsUWPbV+DqZ5xVTzOlJlyryrHHQKQwkM
+         cuHp2vrDkXIc0Lls2G6AJbN5BCXc7R58CFeEkga6b6ghN78UJUDZm01DkPN6AOOYWIBl
+         /rbLki9Y1l1Dm4OL+/7zdgyMfXNOfp8wyPiRu2uuvZ0a+wfNTiCSaMr5F7bUocicUL+W
+         FcJj5ATc3P7xL/ZE4oMFg1YuzKVMR7qgLhd7YpkctIzssLgLIoBrICPRXzRxw/Bqlqlt
+         4+LfkdHp5WKnHxkabrwGjNtsnnHCARtlsar6MsZdgdbsEgLzZbzFzCEhPyHS0kYB0VZL
+         CZfA==
+X-Gm-Message-State: AOJu0YxODb+DUhYXn65RxnPsqtrKYZVKDVquH44v9q1WSUOfbaKsHe2q
+	Ts5nDvzyrn7E+T4+Hg6V92bSpVGo8M0auSCRu8eYaPc1px2nQCusQVDum7WTxxxbtqLurA+26Nu
+	FNQ+d5UC1fboQa7bWpjNkx/AaFwTW6F4=
+X-Gm-Gg: AeBDietuZjtoMm2c8nGq1pOeNJWsgOPirdQI04VQKC6s9rekeBDf5gzREGPp+KqU+7p
+	8H7ktpSi2xBLnuBX81xhn1cBrge4iea4UvYMP19ydA+bqTtXQ/3G+lIKygqKSNuL/uRYraszxUr
+	sFB7b9WM5CiqsBp7JKQSGElRSptIkr41TWi47lZhKfL4QI0ii4BibLrRyoT+0ns3Y3sadGUMvXs
+	2iurZy5hHUqdyiSwMmr4u8PPd4zrcJzQianZlpWKWtCXLY5y1MN6Bdws89YKIvQ3xlXbxqp3YZt
+	ahtEVAyg+wpeOV/ByVX6JRCPizz3pMwNOxfCT/WVMflbwwZSGq0arFxb8bEvlscOQQ==
+X-Received: by 2002:a05:6512:3c82:b0:5a2:bef4:5dfe with SMTP id
+ 2adb3069b0e04-5a3efb2c6a0mr970804e87.9.1775815805713; Fri, 10 Apr 2026
+ 03:10:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260409152839.2894434-1-martin.jansa@gmail.com>
+ <DHOV6DD1DEG9.2REH24GS0QYC3@smile.fr> <CA+chaQdA95XBr+n+-Zm2dE9sxFiaAjhthSpGvP-g+N60yj=MJQ@mail.gmail.com>
+ <DHPB0K1HXR2T.1N8T3183RMIUJ@smile.fr> <CA+chaQcHomAk3+9-aJ5vKgnNE_q8EtacTMSv8v1Ns8n1gA0xPw@mail.gmail.com>
+ <DHPDA3LTW9U8.2AC8TDM9LDC0L@smile.fr> <CA+chaQfMPZ3266azx2veSiK4nwXDXMQ_i4RoiKQuKicaU-L0Jw@mail.gmail.com>
+ <DHPDMAYQ3JM8.3MDZOUUD9PA02@smile.fr>
+In-Reply-To: <DHPDMAYQ3JM8.3MDZOUUD9PA02@smile.fr>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 10 Apr 2026 12:09:51 +0200
+X-Gm-Features: AQROBzD9ElL0U_sAz_SSOVnqCmVpkyP0TMH1D9W4Tkw74gVwepD0Isr1LYaSFxI
+Message-ID: <CA+chaQebi5i=CQX+p=xXWCDEKfwOt-=ZO+rr4YRcBVXaj5ZX-w@mail.gmail.com>
+Subject: Re: [OE-core] [whinlatter][PATCH 1/9] dtc: backport fix for build
+ with glibc-2.43
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 10:06:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235009
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 10:10:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235011
 
-From: Khem Raj <raj.khem@gmail.com>
+On Fri, Apr 10, 2026 at 11:44=E2=80=AFAM Yoann Congal <yoann.congal@smile.f=
+r> wrote:
+>
+> On Fri Apr 10, 2026 at 11:39 AM CEST, Martin Jansa wrote:
+> > On Fri, Apr 10, 2026 at 11:28=E2=80=AFAM Yoann Congal <yoann.congal@smi=
+le.fr> wrote:
+> >>
+> >> On Fri Apr 10, 2026 at 11:09 AM CEST, Martin Jansa wrote:
+> >> > On Fri, Apr 10, 2026 at 9:42=E2=80=AFAM Yoann Congal <yoann.congal@s=
+mile.fr> wrote:
+> >> >>
+> >> >> On Thu Apr 9, 2026 at 11:29 PM CEST, Martin Jansa wrote:
+> >> >> > On Thu, Apr 9, 2026 at 9:17=E2=80=AFPM Yoann Congal <yoann.congal=
+@smile.fr> wrote:
+> >> >> >>
+> >> >> >> On Thu Apr 9, 2026 at 5:28 PM CEST, Martin Jansa via lists.opene=
+mbedded.org wrote:
+> >> >> >> > From: Martin Jansa <martin.jansa@gmail.com>
+> >> >> >> >
+> >> >> >> > glibc-2.43 isn't used in OE builds yet, but this fixes dtc-nat=
+ive:
+> >> >> >> > https://errors.yoctoproject.org/Errors/Details/903983/
+> >> >> >> >
+> >> >> >> > ../sources/dtc-1.7.2/libfdt/fdt_overlay.c: In function =E2=80=
+=98overlay_fixup_phandle=E2=80=99:
+> >> >> >> > ../sources/dtc-1.7.2/libfdt/fdt_overlay.c:424:21: error: assig=
+nment discards =E2=80=98const=E2=80=99 qualifier from pointer target type [=
+-Werror=3Ddiscarded-qualifiers]
+> >> >> >> >   424 |                 sep =3D memchr(fixup_str, ':', fixup_l=
+en);
+> >> >> >> >       |                     ^
+> >> >> >> > ../sources/dtc-1.7.2/libfdt/fdt_overlay.c:434:21: error: assig=
+nment discards =E2=80=98const=E2=80=99 qualifier from pointer target type [=
+-Werror=3Ddiscarded-qualifiers]
+> >> >> >> >   434 |                 sep =3D memchr(name, ':', fixup_len);
+> >> >> >> >       |                     ^
+> >> >> >> > cc1: all warnings being treated as errors
+> >> >> >> >
+> >> >> >> > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> >> >> >> > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bo=
+otlin.com>
+> >> >> >> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.=
+org>
+> >> >> >> > ---
+> >> >> >>
+> >> >> >> Hello,
+> >> >> >>
+> >> >> >> I've started a whinlatter bringup build on the new Ubuntu 26.04 =
+worker
+> >> >> >> with this series applied:
+> >> >> >> https://autobuilder.yoctoproject.org/valkyrie/#/builders/96/buil=
+ds/23
+> >> >> >>
+> >> >> >> It got 2 errors (Other errors are most likely consequences of th=
+ese ones):
+> >> >> >>
+> >> >> >> ERROR: shadow-native-4.18.0-r0 do_configure: configure failed:
+> >> >> >> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/96/bui=
+lds/23/steps/12/logs/stdio line 6269:
+> >> >> >> | checking for crypt in -lcrypt... no
+> >> >> >> | configure: error: crypt() not found
+> >> >> >> | NOTE: The following config.log files may provide further infor=
+mation.
+> >> >> >> | NOTE: /srv/pokybuild/yocto-worker/bringup/build/build/tmp/work=
+/x86_64-linux/shadow-native/4.18.0/build/config.log
+> >> >> >> | ERROR: configure failed
+> >> >> >> | WARNING: exit code 1 from a shell command.
+> >> >> >> NOTE: recipe shadow-native-4.18.0-r0: task do_configure: Failed
+> >> >> >
+> >> >> > Hello,
+> >> >> >
+> >> >> > for shadow please read
+> >> >> > https://lists.openembedded.org/g/openembedded-core/message/234119=
+ the
+> >> >> > important part:
+> >> >> > "libcrypt-dev is no longer installed as a dependency in my minima=
+l docker image"
+> >> >> > I guess it's now missing on your ubuntu-26.04 host as well.
+> >> >> > It used to be typically installed by build-essential -> libc6-dev=
+ ->
+> >> >> > libcrypt-dev but not anymore since 2.42-7:
+> >> >> >
+> >> >> > 25.10 questing with 2.42-0ubuntu3.1:
+> >> >> > https://packages.ubuntu.com/questing/libc6-dev
+> >> >> > 26.04 resolute with 2.43-2ubuntu1:
+> >> >> > https://packages.ubuntu.com/resolute/libc6-dev
+> >> >> >
+> >> >> > https://changelogs.ubuntu.com/changelogs/pool/main/g/glibc/glibc_=
+2.43-2ubuntu1/changelog:
+> >> >> > ...
+> >> >> > glibc (2.42-7) unstable; urgency=3Dmedium
+> >> >> >
+> >> >> >   [ Aurelien Jarno ]
+> >> >> >   * debian/control.in/libc, debian/rules.d/debhelper.mk: drop lib=
+crypt-dev
+> >> >> >     dependency from libc6-dev. Thanks to Helmut Grohne for propos=
+ing that,
+> >> >> >     doing an archive rebuild and filling the bug reports.
+> >> >> >   * debian/control.in/main, debian/sysdeps/linux.mk: enable Syste=
+mTap static
+> >> >> >     probes.
+> >> >> >   * debian/debhelper.in/libc-dev.NEWS: add a NEWS entry about the=
+ removal of
+> >> >> >     the obsolete termio interface.  Closes: #1124068.
+> >> >> >   * debian/rules.d/debhelper.mk: ensure that linker scripts work =
+even when
+> >> >> >     /usr is unmerged.  Closes: #1120508
+> >> >> >   * debian/debhelper.in/libc-dev{,-alt}.lintian-overrides,
+> >> >> >     source/lintian-overrides, rules.d/debhelper.mk, salsa-ci.yml:=
+ drop
+> >> >> >     unpack-message-for-{orig,source} overrides, fixed in lintian =
+2.128.0.
+> >> >> >   * debian/control.in/main: drop Rules-Requires-Root: no, this is=
+ now the
+> >> >> >     default.
+> >> >> >   * debian/libc6.symbols.i386, debian/libc6-i386.symbols.{amd64,x=
+32}: remove
+> >> >> >     the workaround for GLIBC_ABI_GNU_TLS.  Closes: #1122038.
+> >> >> >   * debian/control.in/{libc,i386}: ensure that libdpkg-perl is fi=
+xed wrt
+> >> >> >     GLIBC_ABI_GNU_TLS.
+> >> >> >
+> >> >> >  -- Aurelien Jarno <aurel32@debian.org>  Sun, 04 Jan 2026 10:07:2=
+4 +0100
+> >> >> > ...
+> >> >>
+> >> >> Hello,
+> >> >>
+> >> >> In that case, shouldn't we remove "virtual/crypt-native" from ASSUM=
+E_PROVIDED?
+> >> >> https://git.openembedded.org/openembedded-core/tree/meta/conf/bitba=
+ke.conf#n232
+> >> >>
+> >> >> I've tried it but then libxcrypt-native fails to build with:
+> >> >> | ../sources/libxcrypt-4.4.38/lib/crypt-gost-yescrypt.c: In functio=
+n =E2=80=98_crypt_crypt_gost_yescrypt_rn=E2=80=99:
+> >> >> | ../sources/libxcrypt-4.4.38/lib/crypt-gost-yescrypt.c:134:16: err=
+or: initialization discards =E2=80=98const=E2=80=99 qualifier from pointer =
+target type [-Werror=3Ddiscarded-qualifiers]
+> >> >> |   134 |   char *hptr =3D strchr ((const char *) intbuf->retval + =
+3, '$');
+> >> >> |       |                ^~~~~~
+> >> >> | cc1: all warnings being treated as errors
+> >> >>
+> >> >> It looks like the fixes for that are on master but the patches don'=
+t
+> >> >> apply.
+> >> >>
+> >> >> Can you send an update series with those fixes?
+> >> >
+> >> >
+> >> > Patches for building libxcrypt-native? I still see
+> >> > virtual/crypt-native in ASSUME_PROVIDED in master, that's why I've
+> >> > added libcrypt-dev into the ubuntu-26.04 image at least until the sa=
+me
+> >> > is resolved in wrynose/master. The same issue is in current master.
+> >>
+> >> (Sorry, our mails crossed)
+> >>
+> >> I discussed that with Paul. He suggested to add libcrypt-dev as a host
+> >> dependency instead (ie. what you describe). I agree (sorry about the
+> >> sudden change of heart).
+> >>
+> >> Can you send the yocto-docs patch to do this?
+> >
+> > Yes, done:
+> > https://lists.yoctoproject.org/g/docs/message/9213
+>
+> Awesome, thanks!
+> Next, I will ask helpdesk to install libcrypt-dev on the ubuntu 26.04
+> worker and start the build with the added patch
+> "virglrenderer: Fix build with glibc 2.43+"
 
-latest glibc has better C23 support and exposes this problem
+Sounds good, thanks.
 
-Fixes following errors seen in nativesdk-libxcrypt
+I've also sent the libxcrypt-native fixes for whinlatter and scarthgap
+(slightly modified cherry-picks from master). It's not needed to build
+any of my images, but as you already noticed them failing on 26.04
+someone else might need them.
 
-| ../sources/libxcrypt-4.5.2/lib/crypt-sm3-yescrypt.c:139:9: error: initializing 'char *' with an expression of type 'const char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-|   139 |   char *hptr = strchr ((const char *) intbuf->retval + 3, '$');
-|       |         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| 6 errors generated.
-
-Compared to wrynose remove lib/crypt-sm3-yescrypt.c change, because
-the file doesn't exist in the version used in scarthgap, it was failing
-only in lib/crypt-gost-yescrypt.c
-
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...24d6e87aeae631bc0a7bb1ba983cf8def4de.patch | 29 +++++++++++++++++++
- meta/recipes-core/libxcrypt/libxcrypt.inc     |  4 ++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/libxcrypt/files/174c24d6e87aeae631bc0a7bb1ba983cf8def4de.patch
-
-diff --git a/meta/recipes-core/libxcrypt/files/174c24d6e87aeae631bc0a7bb1ba983cf8def4de.patch b/meta/recipes-core/libxcrypt/files/174c24d6e87aeae631bc0a7bb1ba983cf8def4de.patch
-new file mode 100644
-index 0000000000..456788e585
---- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/174c24d6e87aeae631bc0a7bb1ba983cf8def4de.patch
-@@ -0,0 +1,29 @@
-+From 174c24d6e87aeae631bc0a7bb1ba983cf8def4de Mon Sep 17 00:00:00 2001
-+From: Stanislav Zidek <szidek@redhat.com>
-+Date: Wed, 10 Dec 2025 14:03:54 +0100
-+Subject: [PATCH] fix -Werror=discarded-qualifiers
-+
-+On Fedora rawhide (to be Fedora 44), gcc became more strict
-+wrt. const-ness.
-+
-+Upstream-Status: Backport [https://github.com/besser82/libxcrypt/pull/220 without lib/crypt-sm3-yescrypt.c]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+---
-+ lib/crypt-gost-yescrypt.c | 2 +-
-+ lib/crypt-sm3-yescrypt.c  | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/crypt-gost-yescrypt.c b/lib/crypt-gost-yescrypt.c
-+index 190ae94b..e9dc7e80 100644
-+--- a/lib/crypt-gost-yescrypt.c
-++++ b/lib/crypt-gost-yescrypt.c
-+@@ -131,7 +131,7 @@ crypt_gost_yescrypt_rn (const char *phrase, size_t phr_size,
-+   intbuf->outbuf[1] = 'g';
-+
-+   /* extract yescrypt output from "$y$param$salt$output" */
-+-  char *hptr = strchr ((const char *) intbuf->retval + 3, '$');
-++  char *hptr = strchr ((char *) intbuf->retval + 3, '$');
-+   if (!hptr)
-+     {
-+       errno = EINVAL;
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 11ec87c14e..4e240f4d14 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSING;md5=c0a30e2b1502c55a7f37e412cd6c6a4b \
- 
- inherit autotools pkgconfig
- 
--SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH};protocol=https"
-+SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH};protocol=https \
-+           file://174c24d6e87aeae631bc0a7bb1ba983cf8def4de.patch \
-+"
- SRCREV = "f531a36aa916a22ef2ce7d270ba381e264250cbf"
- SRCBRANCH ?= "master"
- 
+Cheers,
 
