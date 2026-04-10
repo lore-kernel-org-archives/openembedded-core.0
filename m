@@ -1,164 +1,355 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <ernst.persson@non.se.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99FE4F364CD
-	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 10:49:51 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.153368.1775818185618749954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B517F364DB
+	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 10:51:51 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.153669.1775818305249001357
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Apr 2026 03:49:45 -0700
+ Fri, 10 Apr 2026 03:51:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=ImK+tCL5;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=b/fTIpsKM4HXBexsXDpznPIR1cqFdBDQJ535bHsdN2A=; b=ImK+tCL578YjciX18+O0dA93uZ
-	3wz/q5ViCoVDbwD5HFBiq+WDg2oFLp9QfPV/2ndRP+oLhiYdqJMpHLsGJnmpEcz2VcVOept092Jxm
-	h8SMpZEwfPSN41iHNxuWX/vuBsYmUQ5JX3d/HxOlBVTd7T/1hhyMmp+5bQ01rQ3z+JyGWjaHgV2Ul
-	Ozsu5gKcrdZ3xlHBBJKJdF0Iw+AMbss3NIcvuUdr1tI3xqKyMWTGTgyX+0F+onY4wAqeTJs+twCFD
-	3WWo0aDXVfM0j6q0X2zSsLGWiA/9xPDFDi4nw8xwkL4WBbIGK0tqPHUvHr7PQgkcpCmZRBemVj08c
-	RMh3cQrw==;
-Received: from [147.129.179.166] (port=49826 helo=rday)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.1)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1wB9Qk-0000000Al8i-1jRh;
-	Fri, 10 Apr 2026 06:49:44 -0400
-Date: Fri, 10 Apr 2026 06:51:08 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] why would ASSUME_PROVIDED recipes be built anyway?
-In-Reply-To: <bb9f56e589af3706364e746de9ca50ac2e60d7ab.camel@linuxfoundation.org>
-Message-ID: <e2f1bf90-5352-c846-7b6f-dbfe5105f65a@crashcourse.ca>
-References: <daa91ca5-ef8c-bb83-7079-3d03ace27a8a@crashcourse.ca>  <1acc463784821951790b0a3cf3ee23a6b02aaa68.camel@linuxfoundation.org>  <fe2e28c3-9ee8-ef26-ce6f-04d45419d6a1@crashcourse.ca>
- <bb9f56e589af3706364e746de9ca50ac2e60d7ab.camel@linuxfoundation.org>
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=vJCqfX7n;
+ spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+ernst.persson.non.se.com@kernel.org)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id CDD5060126;
+	Fri, 10 Apr 2026 10:51:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 84A0FC19425;
+	Fri, 10 Apr 2026 10:51:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775818303;
+	bh=CogbjddbDHl39Sgc7fXKsr7wWXe+8NTGY4C0hqzy3x0=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=vJCqfX7nuExVamsgQxKjun6uM0Fj74QcE76a1h3KpzqCPGbpeBc/WdpNI5Btm8f7L
+	 qd3h3uNaL1kCmAQHZFztuV5VGu6AXGgWs19TTk+RM7s6HTU6PmEzEVnFsUN13WMir8
+	 hkSV8uNqg8prwDowTe8Zowl8qnHD/4vOmiQS51toxWSonGCaSFPJ/csVxO/r/mSLiy
+	 jkKawDQkO1727aC1seOFQdc6SolBSvoK2b0At+zYagVRply53IUqG6/P4CqfGqHwfS
+	 svm4j4KFAa3o1zyo6xZ5WACAvUV05xcccBic8rudIrGyaHmogzwpWxh9G+Yz2n21bJ
+	 6I81fiz0YYc7Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB4EF364D6;
+	Fri, 10 Apr 2026 10:51:43 +0000 (UTC)
+From: Ernst Persson via B4 Relay <devnull+ernst.persson.non.se.com@kernel.org>
+Date: Fri, 10 Apr 2026 12:53:03 +0200
+Subject: [PATCH] busybox: fix for CVE-2026-26157, CVE-2026-26158
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-145874979-1775818271=:44501"
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260410-busybox-fix-cve-v1-1-42202093b870@non.se.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MywqAIBAAf0X23IKaPX8lOqRttRcLpSikf086D
+ sNMgkiBKUIvEgS6OPLuM6hCgNsmvxLynBm01LU0SqI942P3Gxe+0V2E3VTq1qhmLqsWcnUEyuo
+ /DuP7fuYlDwJhAAAA
+X-Change-ID: 20260410-busybox-fix-cve-9a328417d358
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>, 
+ Ernst Persson <ernst.persson@non.se.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12146;
+ i=ernst.persson@non.se.com; s=4B54C57358F748DFEB181A7AB352515D6EE690C1;
+ h=from:subject:message-id;
+ bh=FwqRnYSWoHFpjYsTKiVYnhWpMnJcNcWt3RC5e8uP1Ec=;
+ b=owGbwMvMwCW2OSgwNu/ZhIOMp9WSGDJvXJuy9B3HngWfuYU8H02Knr5w5WPWtebLqmNeHdmoo
+ XxA68WLcx2lLAxiXAyyYoos3iFHiyO+e9x/LSFVBTOHlQlkCAMXpwBMRFmd4Z+JjNBTwR6pdicb
+ G6VpVxgmqYtLX5nS4v+3zUQscEFO4DtGhrYPxxc+/Ty7q7vj19W59bV6v3qesfFumreuh5Pv7ME
+ 3DPwA
+X-Developer-Key: i=ernst.persson@non.se.com; a=openpgp;
+ fpr=4B54C57358F748DFEB181A7AB352515D6EE690C1
+X-Endpoint-Received: by B4 Relay for
+ ernst.persson@non.se.com/4B54C57358F748DFEB181A7AB352515D6EE690C1 with
+ auth_id=729
+X-Original-From: Ernst Persson <ernst.persson@non.se.com>
+Reply-To: ernst.persson@non.se.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 10:49:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235016
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 10:51:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235017
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+From: Ernst Persson <ernst.persson@non.se.com>
 
---8323329-145874979-1775818271=:44501
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Pick up patch from NVD report.
 
-On Thu, 9 Apr 2026, Richard Purdie wrote:
+More details :
+[1]: https://nvd.nist.gov/vuln/detail/CVE-2026-26157
+[2]: https://nvd.nist.gov/vuln/detail/CVE-2026-26158
 
-> On Thu, 2026-04-09 at 10:04 -0700, Robert P. J. Day via lists.openembedded.org wrote:
-> > On Wed, 8 Apr 2026, Richard Purdie wrote:
-> >
-> > > On Wed, 2026-04-08 at 06:33 -0700, Robert P. J. Day via lists.openembedded.org wrote:
-> > > >
-> > > >   puzzled by something i just noticed ... the documentation for
-> > > > "ASSUME_PROVIDED":"
-> > > >
-> > > > https://docs.yoctoproject.org/ref-manual/variables.html#term-ASSUME_PROVIDED
-> > > >
-> > > > clearly suggests that these represent recipes that would not be built
-> > > > as they are already on the host, the example given there is
-> > > > "git-native".
-> > > >
-> > > >   however, in a walnascar-based build i just built, native recipes
-> > > > that were listed in ASSUME_PROVIDED were built anyway, even though
-> > > > they are clearly on my Debian 13 host, "git-native" among them. in
-> > > > fact, a number of recipes i checked appear to all have been built from
-> > > > scratch, despite being listed in ASSUME_PROVIDED.
-> > > >
-> > > >   as a test, if i then tried to "cleanall" such a recipe, i got the
-> > > > perfectly reasonable:
-> > > >
-> > > >
-> > > > $ bitbake -c cleanall git-native
-> > > > ... snip ...
-> > > > WARNING: Explicit target "git-native" is in ASSUME_PROVIDED, ignoring
-> > > >
-> > > >
-> > > > is there some reason that something listed in ASSUME_PROVIDED will be
-> > > > fetched and built anyway? is it a version thing?
-> > >
-> > > Some of the recipes have a PROVIDES for XXX-replacement-native and you
-> > > can build/depend on that.
-> >
-> >   if i may, let's see how badly i'm going to misunderstand this.
-> > currently, in my build, if i dump the value of ASSUME_PROVIDED, i see
-> > a pile of native recipes, including (as defined in bitbake.conf)
-> > bzip2-native, diffstat-native, and patch-native, suggesting that if my
-> > build needs any of these recipes built natively, then *by default* it
-> > will try to use the ones already installed on the host.
-> >
-> >   as an example, there's "quilt", which conveniently RDEPENDS on
-> > exactly those three native builds:
-> >
-> >   .../quilt.inc:RDEPENDS:${PN}:class-native =
-> >     "diffstat-native patch-native bzip2-native"
-> >
-> > so, simplistically, if i'm building quilt natively, none of those
-> > native recipes should need building -- building quilt will use the
-> > host versions.
-> >
-> >   however, in the case of (for example) bzip2, we have that that
-> > recipe defines:
-> >
-> >
-> >   .../bzip2_1.0.8.bb:PROVIDES:append:class-native = " bzip2-replacement-native"
-> >
-> > which means that some *other* recipe has the right (and here's where i
-> > might be misunderstanding) to state that, even if bzip2 is listed in
-> > ASSUME_PROVIDED and is available on the host, that other recipe can
-> > insist that it not use the host version, but must (for whatever
-> > reason) build the "replacement" version:
-> >
-> >    .../cmake-native_4.3.1.bb:DEPENDS += "bzip2-replacement-native ..."
-> >
-> > am i even *close* to understanding this correctly?
-> >
-> > rday
-> >
-> > p.s. so as i read it, all it takes is a single recipe being built that
-> > chooses to depend on a "replacement" recipe for that replacement
-> > recipe to be built and used.
->
-> Correct, but that replacement recipe will only be used by the recipes
-> which depend on the replacement, the others will still see the
-> HOSTTOOLS provided one. HOSTTOOLS and ASSUME_PROVIDED are generally
-> linked.
->
-> In the case of bzip2-replacement-native, what the recipe probably wants
-> is the bzip2 library, not the binary. Different replacements have
-> different reasons for being needed.
+Note:
+We use patch from busybox mirror that looks trustworthy https://gogs.librecmc.org/OWEALS/busybox.
 
-  this is definitely useful information to know but it might be a bit
-much to try to sneak into a reference entry. an alternative might be
-to add another subsection to the already 42 subsections in the dev
-tasks manual:
+Suggested-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Ernst Persson <ernst.persson@non.se.com>
+---
+ ...nsafe-hardlink-components-GNU-tar-does-th.patch | 196 +++++++++++++++++++++
+ ...rip-unsafe-components-from-hardlinks-not-.patch |  35 ++++
+ meta/recipes-core/busybox/busybox_1.37.0.bb        |   4 +-
+ 3 files changed, 234 insertions(+), 1 deletion(-)
 
-  https://docs.yoctoproject.org/dev-manual/index.html#
+diff --git a/meta/recipes-core/busybox/busybox/0001-tar-strip-unsafe-hardlink-components-GNU-tar-does-th.patch b/meta/recipes-core/busybox/busybox/0001-tar-strip-unsafe-hardlink-components-GNU-tar-does-th.patch
+new file mode 100644
+index 0000000000..46e47c5993
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-tar-strip-unsafe-hardlink-components-GNU-tar-does-th.patch
+@@ -0,0 +1,196 @@
++From 3ab1d6c123a6916e7efb821a441164ae56c6cd01 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Thu, 29 Jan 2026 11:48:02 +0100
++Subject: [PATCH] tar: strip unsafe hardlink components - GNU tar does the same
++
++Defends against files like these (python reproducer):
++
++import tarfile
++ti = tarfile.TarInfo("leak_hosts")
++ti.type = tarfile.LNKTYPE
++ti.linkname = "/etc/hosts"  # or "../etc/hosts" or ".."
++ti.size = 0
++with tarfile.open("/tmp/hardlink.tar", "w") as t:
++	t.addfile(ti)
++
++function                                             old     new   delta
++skip_unsafe_prefix                                     -     127    +127
++get_header_tar                                      1752    1754      +2
++.rodata                                           106861  106856      -5
++unzip_main                                          2715    2706      -9
++strip_unsafe_prefix                                  102      18     -84
++------------------------------------------------------------------------------
++(add/remove: 1/0 grow/shrink: 1/3 up/down: 129/-98)            Total: 31 bytes
++
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++CVE: CVE-2026-26157
++CVE: CVE-2026-26158
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3fb6b31c716669e12f75a2accd31bb7685b1a1cb]
++(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/3fb6b31c716669e12f75a2accd31bb7685b1a1cb)
++Signed-off-by: Ernst Persson <ernst.persson@non.se.com>
++---
++ archival/libarchive/data_extract_all.c      |  7 +++--
++ archival/libarchive/get_header_tar.c        | 11 ++++++--
++ archival/libarchive/unsafe_prefix.c         | 30 +++++++++++++++++----
++ archival/libarchive/unsafe_symlink_target.c |  1 +
++ archival/tar.c                              |  2 +-
++ archival/unzip.c                            |  2 +-
++ include/bb_archive.h                        |  3 ++-
++ 7 files changed, 42 insertions(+), 14 deletions(-)
++
++diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchive/data_extract_all.c
++index 8a69711..b84b960 100644
++--- a/archival/libarchive/data_extract_all.c
+++++ b/archival/libarchive/data_extract_all.c
++@@ -66,8 +66,8 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
++ 	}
++ #endif
++ #if ENABLE_FEATURE_PATH_TRAVERSAL_PROTECTION
++-	/* Strip leading "/" and up to last "/../" path component */
++-	dst_name = (char *)strip_unsafe_prefix(dst_name);
+++	/* Skip leading "/" and past last ".." path component */
+++	dst_name = (char *)skip_unsafe_prefix(dst_name);
++ #endif
++ // ^^^ This may be a problem if some applets do need to extract absolute names.
++ // (Probably will need to invent ARCHIVE_ALLOW_UNSAFE_NAME flag).
++@@ -185,8 +185,7 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
++ 
++ 		/* To avoid a directory traversal attack via symlinks,
++ 		 * do not restore symlinks with ".." components
++-		 * or symlinks starting with "/", unless a magic
++-		 * envvar is set.
+++		 * or symlinks starting with "/"
++ 		 *
++ 		 * For example, consider a .tar created via:
++ 		 *  $ tar cvf bug.tar anything.txt
++diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/get_header_tar.c
++index cc6f3f0..1c40ece 100644
++--- a/archival/libarchive/get_header_tar.c
+++++ b/archival/libarchive/get_header_tar.c
++@@ -454,8 +454,15 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
++ #endif
++ 
++ 	/* Everything up to and including last ".." component is stripped */
++-	overlapping_strcpy(file_header->name, strip_unsafe_prefix(file_header->name));
++-//TODO: do the same for file_header->link_target?
+++	strip_unsafe_prefix(file_header->name);
+++	if (file_header->link_target) {
+++		/* GNU tar 1.34 examples:
+++		 * tar: Removing leading '/' from hard link targets
+++		 * tar: Removing leading '../' from hard link targets
+++		 * tar: Removing leading 'etc/../' from hard link targets
+++		 */
+++		strip_unsafe_prefix(file_header->link_target);
+++	}
++ 
++ 	/* Strip trailing '/' in directories */
++ 	/* Must be done after mode is set as '/' is used to check if it's a directory */
++diff --git a/archival/libarchive/unsafe_prefix.c b/archival/libarchive/unsafe_prefix.c
++index 6670811..89a371a 100644
++--- a/archival/libarchive/unsafe_prefix.c
+++++ b/archival/libarchive/unsafe_prefix.c
++@@ -5,11 +5,11 @@
++ #include "libbb.h"
++ #include "bb_archive.h"
++ 
++-const char* FAST_FUNC strip_unsafe_prefix(const char *str)
+++const char* FAST_FUNC skip_unsafe_prefix(const char *str)
++ {
++ 	const char *cp = str;
++ 	while (1) {
++-		char *cp2;
+++		const char *cp2;
++ 		if (*cp == '/') {
++ 			cp++;
++ 			continue;
++@@ -22,10 +22,25 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
++ 			cp += 3;
++ 			continue;
++ 		}
++-		cp2 = strstr(cp, "/../");
+++		cp2 = cp;
+++ find_dotdot:
+++		cp2 = strstr(cp2, "/..");
++ 		if (!cp2)
++-			break;
++-		cp = cp2 + 4;
+++			break; /* No (more) malicious components */
+++
+++		/* We found "/..something" */
+++		cp2 += 3;
+++		if (*cp2 != '/') {
+++			if (*cp2 == '\0') {
+++				/* Trailing "/..": malicious, return "" */
+++				/* (causes harmless errors trying to create or hardlink a file named "") */
+++				return cp2;
+++			}
+++			/* "/..name" is not malicious, look for next "/.." */
+++			goto find_dotdot;
+++		}
+++		/* Found "/../": malicious, advance past it */
+++		cp = cp2 + 1;
++ 	}
++ 	if (cp != str) {
++ 		static smallint warned = 0;
++@@ -37,3 +52,8 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
++ 	}
++ 	return cp;
++ }
+++
+++void FAST_FUNC strip_unsafe_prefix(char *str)
+++{
+++	overlapping_strcpy(str, skip_unsafe_prefix(str));
+++}
++diff --git a/archival/libarchive/unsafe_symlink_target.c b/archival/libarchive/unsafe_symlink_target.c
++index f8dc803..d764c89 100644
++--- a/archival/libarchive/unsafe_symlink_target.c
+++++ b/archival/libarchive/unsafe_symlink_target.c
++@@ -36,6 +36,7 @@ void FAST_FUNC create_links_from_list(llist_t *list)
++ 				*list->data ? "hard" : "sym",
++ 				list->data + 1, target
++ 			);
+++			/* Note: GNU tar 1.34 errors out only _after_ all links are (attempted to be) created */
++ 		}
++ 		list = list->link;
++ 	}
++diff --git a/archival/tar.c b/archival/tar.c
++index d6ca6c1..d42dcfc 100644
++--- a/archival/tar.c
+++++ b/archival/tar.c
++@@ -475,7 +475,7 @@ static int FAST_FUNC writeFileToTarball(struct recursive_state *state,
++ 	DBG("writeFileToTarball('%s')", fileName);
++ 
++ 	/* Strip leading '/' and such (must be before memorizing hardlink's name) */
++-	header_name = strip_unsafe_prefix(fileName);
+++	header_name = skip_unsafe_prefix(fileName);
++ 
++ 	if (header_name[0] == '\0')
++ 		return TRUE;
++diff --git a/archival/unzip.c b/archival/unzip.c
++index 71a3029..8a9a90f 100644
++--- a/archival/unzip.c
+++++ b/archival/unzip.c
++@@ -860,7 +860,7 @@ int unzip_main(int argc, char **argv)
++ 
++ 		/* Guard against "/abspath", "/../" and similar attacks */
++ // NB: UnZip 6.00 has option -: to disable this
++-		overlapping_strcpy(dst_fn, strip_unsafe_prefix(dst_fn));
+++		strip_unsafe_prefix(dst_fn);
++ 
++ 		/* Filter zip entries */
++ 		if (find_list_entry(zreject, dst_fn)
++diff --git a/include/bb_archive.h b/include/bb_archive.h
++index e0ef8fc..1dc77f3 100644
++--- a/include/bb_archive.h
+++++ b/include/bb_archive.h
++@@ -202,7 +202,8 @@ char get_header_tar_xz(archive_handle_t *archive_handle) FAST_FUNC;
++ void seek_by_jump(int fd, off_t amount) FAST_FUNC;
++ void seek_by_read(int fd, off_t amount) FAST_FUNC;
++ 
++-const char *strip_unsafe_prefix(const char *str) FAST_FUNC;
+++const char *skip_unsafe_prefix(const char *str) FAST_FUNC;
+++void strip_unsafe_prefix(char *str) FAST_FUNC;
++ void create_or_remember_link(llist_t **link_placeholders,
++ 		const char *target,
++ 		const char *linkname,
+diff --git a/meta/recipes-core/busybox/busybox/0002-tar-only-strip-unsafe-components-from-hardlinks-not-.patch b/meta/recipes-core/busybox/busybox/0002-tar-only-strip-unsafe-components-from-hardlinks-not-.patch
+new file mode 100644
+index 0000000000..830082a7d6
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0002-tar-only-strip-unsafe-components-from-hardlinks-not-.patch
+@@ -0,0 +1,35 @@
++From 981479997e29953c1a12c9c7376c9d259d035311 Mon Sep 17 00:00:00 2001
++From: Radoslav Kolev <radoslav.kolev@suse.com>
++Date: Mon, 16 Feb 2026 11:50:04 +0200
++Subject: [PATCH] tar: only strip unsafe components from hardlinks, not
++ symlinks
++
++commit 3fb6b31c7 introduced a check for unsafe components in
++tar archive hardlinks, but it was being applied to symlinks too
++which broke "Symlinks and hardlinks coexist" tar test.
++
++Signed-off-by: Radoslav Kolev <radoslav.kolev@suse.com>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++CVE: CVE-2026-26157
++CVE: CVE-2026-26158
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=599f5dd8fac390c18b79cba4c14c334957605dae]
++(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/599f5dd8fac390c18b79cba4c14c334957605dae)
++Signed-off-by: Ernst Persson <ernst.persson@non.se.com>
++---
++ archival/libarchive/get_header_tar.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/get_header_tar.c
++index 1c40ece..606d806 100644
++--- a/archival/libarchive/get_header_tar.c
+++++ b/archival/libarchive/get_header_tar.c
++@@ -455,7 +455,7 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
++ 
++ 	/* Everything up to and including last ".." component is stripped */
++ 	strip_unsafe_prefix(file_header->name);
++-	if (file_header->link_target) {
+++	if (file_header->link_target && !S_ISLNK(file_header->mode)) {
++ 		/* GNU tar 1.34 examples:
++ 		 * tar: Removing leading '/' from hard link targets
++ 		 * tar: Removing leading '../' from hard link targets
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
+index fbb0edb0fb..61ff602be6 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -60,7 +60,9 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://CVE-2025-46394-01.patch \
+            file://CVE-2025-46394-02.patch \
+            file://CVE-2025-60876.patch \
+-           file://0001-busybox-fix-printf-ptest-failure-with-glibc-2.43.patch \ 
++           file://0001-busybox-fix-printf-ptest-failure-with-glibc-2.43.patch \
++           file://0001-tar-strip-unsafe-hardlink-components-GNU-tar-does-th.patch \
++           file://0002-tar-only-strip-unsafe-components-from-hardlinks-not-.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg"
+ SRC_URI:append:x86-64 = " file://sha_accel.cfg"
 
-which explains the rationale of, and inter-relationship between, the
-variables ASSUME_PROVIDED, HOSTTOOLS and HOSTTOOLS_NONFATAL if people
-think it's worth it.
+---
+base-commit: 853baa702e3275fc8b4dc492a93d9a00c8cf5c0f
+change-id: 20260410-busybox-fix-cve-9a328417d358
 
-rday
---8323329-145874979-1775818271=:44501--
+Best regards,
+-- 
+Ernst Persson <ernst.persson@non.se.com>
+
+
 
