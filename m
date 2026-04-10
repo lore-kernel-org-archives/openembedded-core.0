@@ -2,42 +2,42 @@ Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4820F44863
-	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 13:11:12 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.155765.1775826664541136657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FAE6F44869
+	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 13:11:13 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.156114.1775826668380847405
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Apr 2026 06:11:05 -0700
+ Fri, 10 Apr 2026 06:11:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=rB1fjEVV;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=QT+RFLf5;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 9B2FE4E429B0;
-	Fri, 10 Apr 2026 13:11:02 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D8E901A325A;
+	Fri, 10 Apr 2026 13:11:06 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 70031603F0;
-	Fri, 10 Apr 2026 13:11:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C99F81045001A;
-	Fri, 10 Apr 2026 15:10:59 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B005B603F0;
+	Fri, 10 Apr 2026 13:11:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 564F21045001A;
+	Fri, 10 Apr 2026 15:11:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775826661; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=5oXq6/V9ggr+EAwdPxezTog7glo60qc6ETc2bGS495A=;
-	b=rB1fjEVVbJsFr6fV6T1ri5eAJO+vpA4wdywucoVCs4XXDWiTxdhcHFi/bWP/JcmAP8SABU
-	bWTjyLkUF96/ANw1H0nMaCv5RhABWF8vuF/VZ+0Jwf7Ke7kWVOB2uPLIOV/qDTemxZBgOA
-	RFIbkT3pztZxwvJ8TBQC2Ij6lFWPqc5tQdFSxOG3leu5AGkTZdLNKJqLoAJ+aa6dVChbFp
-	Bdqa3AGYeFPMhmtiULDCN8vZeuLH8od4VWpyZedkQPPJic7ob4aFWk4eIAQuLktUCxIO+n
-	Bx/hdOV0hzt5WOn8vZmki2safpZVfPYF0TyxhJ4ySCyOwXI9UbFKlAijUUkEbw==
+	t=1775826666; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=18Podp2LLi4Gx5nsEog4+6cfoh4+OtK+2C6wCDoygfc=;
+	b=QT+RFLf5rjLIh5Ye8SnKUGs4AbU/BqbZXUD3BGFf1f6Uklk0YTDo1nGnZh2NeDqApWmibw
+	N5tCEnqrjA96zu7d592L/AAtlK7HoxhsxoFiggCLvB1OfvKY+oMNGG6aO10YKgqrHtKl9a
+	ZMBXxe/JiE4qAzPfKTwnYmNgTQb3UyagQWmbiio6shL2dQSv5ECx4+3W6VU2C11yzT16E4
+	zSpya2NkRqQE6j8R7OrVvhqVuNON7XuLey6nUyuktVmmgrerG4m8Ix/Smnxr+obiG4eORF
+	bHREQZU0o+dJNKDMhJTb2vav8/MyCdv9ohEAlQBzQsbzUDaC1wU/p4JtGdV/lg==
 From: Benjamin Robin <benjamin.robin@bootlin.com>
-Subject: [PATCH 0/4] cve: Fix escaping of CPE
-Date: Fri, 10 Apr 2026 15:10:42 +0200
-Message-Id: <20260410-fix-cpe-escaping-v1-0-ed63c2477f46@bootlin.com>
+Date: Fri, 10 Apr 2026 15:10:46 +0200
+Subject: [PATCH 4/4] webkitgtk: Remove escaping of the plus sign in
+ `CVE_PRODUCT`
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSw6DMAxF0a0gj7GUQMtvK4hBMC6YQYhiWlVC7
- L0pDI/03j1AOQordNkBkT+isvkEm2dAi/Mzo0zJUJiiMg9r8CVfpMDISi6In/E5Uuuq2jWTLSH
- dQuS0uZL9cFvf48q0/ztwnj8r5sH2dAAAAA==
-X-Change-ID: 20260410-fix-cpe-escaping-5bc9a67a8d13
+Message-Id: <20260410-fix-cpe-escaping-v1-4-ed63c2477f46@bootlin.com>
+References: <20260410-fix-cpe-escaping-v1-0-ed63c2477f46@bootlin.com>
+In-Reply-To: <20260410-fix-cpe-escaping-v1-0-ed63c2477f46@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org, ross.burton@arm.com, 
  peter.marko@siemens.com, stefano.tondo.ext@siemens.com, 
@@ -49,36 +49,31 @@ X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 13:11:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235024
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 13:11:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235028
 
-This series tries to fix the regression introduced by commit
-9dd9c0038907 ("cve_check: Escape special characters in CPE 2.3 strings")
-
-CVE_PRODUCT was already escaped. Now it no longer needs to be escaped,
-otherwise double escaping is realized.
-
-Also add a patch in this series that try to handle the transition between
-the previous behavior and the new one.
+The `+` character is now properly escaped by `cve_check.cpe_escape()`
 
 Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
 ---
-Benjamin Robin (4):
-      cve_check: Improve escaping of special characters in CPE 2.3
-      cve_check: do not break old CVE_PRODUCT with escaped +
-      gtk+: Remove escaping of the plus sign in `CVE_PRODUCT`
-      webkitgtk: Remove escaping of the plus sign in `CVE_PRODUCT`
+ meta/recipes-sato/webkit/webkitgtk_2.50.6.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/lib/oe/cve_check.py                     | 29 ++++++++++++++--------------
- meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb     |  2 +-
- meta/recipes-sato/webkit/webkitgtk_2.50.6.bb |  2 +-
- 3 files changed, 16 insertions(+), 17 deletions(-)
----
-base-commit: 853baa702e3275fc8b4dc492a93d9a00c8cf5c0f
-change-id: 20260410-fix-cpe-escaping-5bc9a67a8d13
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.50.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.50.6.bb
+index 941cbe930416..5d2c970b29e3 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.50.6.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.50.6.bb
+@@ -25,7 +25,7 @@ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+-CVE_PRODUCT = "webkitgtk webkitgtk\+"
++CVE_PRODUCT = "webkitgtk webkitgtk+"
+ 
+ DEPENDS += " \
+           ruby-native \
 
-Best regards,
---  
-Benjamin Robin <benjamin.robin@bootlin.com>
+-- 
+2.53.0
 
 
