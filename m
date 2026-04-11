@@ -1,240 +1,276 @@
-Return-Path: <rs@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A718F45A0A
-	for <webhook@archiver.kernel.org>; Fri, 10 Apr 2026 18:31:35 +0000 (UTC)
-Received: from BL2PR02CU003.outbound.protection.outlook.com (BL2PR02CU003.outbound.protection.outlook.com [52.101.52.39])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.163111.1775845891871634675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFBE1F45A14
+	for <webhook@archiver.kernel.org>; Sat, 11 Apr 2026 00:29:34 +0000 (UTC)
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.170825.1775867373822805331
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Apr 2026 11:31:32 -0700
+ Fri, 10 Apr 2026 17:29:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=p9JU5Yq/;
- spf=pass (domain: ti.com, ip: 52.101.52.39, mailfrom: rs@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oI6CFrw/iAcFCfGiCndDnv2mN+evkkYyrv5xOz9mgGRI1/e5VR9DbATMSLwkMzbs7MovT7bJB0dOdsDJUlZC1ej4EfXxWAFFA5PJT1Q7e+IfX9OFOTGHD9kuuuCVKQJXnRWxe8D03t2YpHRmE6oJ96PbFUAho9wNqwoj6iBgxhOY5UMkfyqX/EnzIA2WNmRdjo9XvWXYOoc/EGRUQrYCpN4bYr9M9gh2Yshh20kfGnfYmMHD4zWwg5l7p1IWwm8MmQI/AKItHNSwJeMJXTgE7bl5w1AmDUDgR1ka2kwdzP2gRsppOOdLtJJc3YIloAXEPpk7slfnUqFnHojbsgW3ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QbecB4UpKWQTbL5v5OewjlAmfS3KevFlV6yN6hmNCfY=;
- b=dChKrp+SO8lr3Hdv0FfKVFzTw9VyY1VRXxcVqpTejJSDoNxw6WqjByOdBCbpmn2EVh75lTzd2dS4/Bw3ORKs7KfFHWgMIZJ+xvSw+0zyOlx2ev7/nHuTsW2b8r+l/3j1oiao76lHR2U4ixWy8FL9IElbdkN9PU/POUue/1rOFIXacCkBBAqBHJjuusobH3CVmF1pk4mSetOBdL5Uf8j5AcWAbe6QRnZ7lGr8B0/viv5rL9ZT7pYubKNu8ZwLQO9czZP4IhDX+v5uR5ynAD/X/cJuMKat2YxQ9/E03aZ9XevXggRxxqJOAMsMhsV5PRbn7DAiyywjpEPwlPWMRDN+Zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=navimatix.de smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QbecB4UpKWQTbL5v5OewjlAmfS3KevFlV6yN6hmNCfY=;
- b=p9JU5Yq/0aqSVA4IuvvOkFYA7sm0GNSXTm1tXmDbJDxfJptEgUcSHwf8KTg9xq1bliMx3PNhp54TMwPayAvps3OMPFe/UgHbxjL3EWua8Yq6eL7uzCYFBjOv9rTFSJecAoNyiRoB2Qk95zgd+XIJ/Jc40DkG4R2IH2sQC2pU3HM=
-Received: from SJ0PR05CA0116.namprd05.prod.outlook.com (2603:10b6:a03:334::31)
- by SA1PR10MB997604.namprd10.prod.outlook.com (2603:10b6:806:4b6::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Fri, 10 Apr
- 2026 18:31:29 +0000
-Received: from SJ1PEPF000023CB.namprd02.prod.outlook.com
- (2603:10b6:a03:334:cafe::cf) by SJ0PR05CA0116.outlook.office365.com
- (2603:10b6:a03:334::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.32 via Frontend Transport; Fri,
- 10 Apr 2026 18:31:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- SJ1PEPF000023CB.mail.protection.outlook.com (10.167.244.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Fri, 10 Apr 2026 18:31:27 +0000
-Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 10 Apr
- 2026 13:31:27 -0500
-Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 10 Apr
- 2026 13:31:27 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 10 Apr 2026 13:31:27 -0500
-Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.39])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 63AIVROj1846491;
-	Fri, 10 Apr 2026 13:31:27 -0500
-From: <rs@ti.com>
-To: <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
-	<mathieu.dubois-briand@bootlin.com>
-CC: <openembedded-core@lists.openembedded.org>, <peter.kjellerstedt@axis.com>,
-	<joerg.sommer@navimatix.de>
-Subject: [oe-core][PATCHv2] systemd: fix unmerged-bin tainted message
-Date: Fri, 10 Apr 2026 13:27:48 -0500
-Message-ID: <20260410182747.1646597-2-rs@ti.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=mNNiwVPc;
+ spf=pass (domain: gmail.com, ip: 74.125.82.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2cf1646bd11so4696011eec.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 17:29:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775867373; x=1776472173; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r7uPs32EEmv5bOXSweqZzAokE00l1c+/2/Zb2ky4HCQ=;
+        b=mNNiwVPcXeWkCCdclyOPYbg0joXBzTaj80lzJjYe1/Ebbs3cMf0na+a2D47Zg5tN5Z
+         adFUgv58159YZE+WqvtaxDdi1FsJMW3WPkmr+7g+nCl+wQIleq/vWO7xAGIbBmsWR9mT
+         Ht+J8jx3Jhroheq8NDiXai1yLRW59+cIHqdANupa3zZKz/N+tr7ATcDzKFgP5a7tlNRN
+         LYBf8wUrFs/9erEaeO1K+D2O/s6QIi2zkkFsG8tyOhNw9xO9h1rJsmvA+rLqUs6I7+SZ
+         f3o9sHQ17+Y5g6IHFNevUjhmYtSU7LCw0RTzj9K4AhTQZev0DyHzng/SATIjSmbNt3L1
+         0x9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775867373; x=1776472173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r7uPs32EEmv5bOXSweqZzAokE00l1c+/2/Zb2ky4HCQ=;
+        b=jSVc2MC2INZyj7LP2CLDLtcHOPpPvFqsPmRLlJLwj6pk0f+1SQ9Dlwcxrd5CXV/biw
+         b2u1y88zFSU1X/CMahwz8/tkAdT2mNFvkEoNyPS3k43jpoFLV1hjZnOFMSfYM/aCp/7c
+         jJckTSZSbHBWKZrbnRG+INP+VBgqZsw8JGLh4KRVZQadm6ul50Q3oY6lf0YOp2dtDVxF
+         zHfPCa+iKRRb1egCkeQDjjARJf099Fm0cGhoyVqH6AWTFfjpbU7/Xv41oJI2Ib6qooSo
+         6odQZJzJf8jT0R7DTJDJOxKmV5jhj2Qf+QNTdZT7NZgJlpO/bAn+uBmlZB5LTo1aH1MJ
+         8gkg==
+X-Gm-Message-State: AOJu0YyKqRAyrheiuU79qC1BbHO0YjHeTCPswzyRRR+TXLTYTubP6BQH
+	inRCpWsMqpeMUkMQwPdfCH9tF/mKDvMRd6naiqiCsnCcCkZDEIvFmmLDwtfCsCMO
+X-Gm-Gg: AeBDiesNG/OAOtqPyTZmlpowQe8pHnGUqMtQfEzS9Hw9No2uDKWfcEo4B0CBbst5rrG
+	8ob8e0ejSaD/de2QO+MKrEEL/8ObjPtyX1SWct6cOOaZ2+N9SAG/oRdNEfp9z36R0Zn10QJjDuH
+	LVjq2Zn8q7RAMwTQ0L3Efs8Y9NyqgjK/WvrFjjlw/9tyWyoBpRk0RWjAVzYdhINx3M29kXrngM1
+	HW1XUgpuyH9+acK2Sdw5ixnbbiQa/JDxMhQ6l5wjKSL+nmTRCENkhwm4UA78e2zoaQGt6BvdBbs
+	JGOysFJi0eKId9l6jNE7S39Ng3lAbk9UfY7AwiGuPX+gGhfVufQkcrGQ8A7k+gz1f/1RmF2RPTa
+	JDkFJi0FMDnYWIsLeNPgvWeUKbSNJLPO27kcnn26SPfTAEUKx2r+bHdgVbL/kp7jwSnKokzm/uh
+	pPExwHkGyuOulA29G2IgSqllcBIlZ4SYZDpCS7r71Y/pUV7r3FEDJ0nPYy2NA7RCbZ94H40uhaq
+	g/Q5amkZjmCzGJpT17GydmJE6BCXUtFL5lJvVO+9X8XbawQsodB4auRhojbsluBat307iA=
+X-Received: by 2002:a05:7300:8606:b0:2d3:9c91:6c49 with SMTP id 5a478bee46e88-2d58ab831acmr3060399eec.30.1775867372696;
+        Fri, 10 Apr 2026 17:29:32 -0700 (PDT)
+Received: from apollo.localdomain ([208.95.233.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d561bde70csm8258009eec.15.2026.04.10.17.29.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 17:29:32 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH 1/4] sudo: Fix build with std=gnu23
+Date: Fri, 10 Apr 2026 17:29:26 -0700
+Message-ID: <20260411002929.571805-1-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023CB:EE_|SA1PR10MB997604:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed47d863-097c-433f-cd3a-08de972f60fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|376014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	CcC//bxZuNZEoIbo+xXNNC4td3f5WnpgKH2Hv7CXurWPyEsBxBTgaqfPeQ1+NJqXI7UP9QOldApWNYTnhzqIjgMEg/JLWim6YoiQEq2tmVD7eEbx1QZtHtviaZ72PiFOOyKhMl2VneQmaO0l68r/dHp1QzEh26qOkqRO2mPCi8VHlyyTCHuKb9Xq1jhYRcpJSIJt2PsUOd4+BfJ7+j3P67FFmq0pfAykD2N3qYfmocEOT4Moyfrow6VNgWWDiTBNS8+Hh5ltsldVSamFKGTVGd9AUmRy0K07c2/eWgMERTguQ4upxtoIDaAZuyy/APwMUmj/7LpBhnqgi5l2lAeGNdLGYqqcGMy18XSg813fBtSTCzACr6g5f99l6ANdwK1gVoc6ai8lLoLjZbkcLV16unEo9WKuJ3ne9rX4Zf1cRbNAtfL30ZkNDWxbQp+isry8k/BCVMZy9wKoMg2xp19xcHBhcqI1loKaCtmeE8rkpX42hJtGoLGKEqImGDD/juD/ils0kpdMV7EFaW1xxz3Cmv6yTUHmxe1r5JYUD/oJLwjd4GAXHESyt7FxU3azodVQlRtdUu6XbDG0a3Y2pLCN/y/aQeTJ3mvi5o1U1+XwM+IDzabWDIX9VG3IZbS7G+jFTvSLOIUma3iZgblah24sWGnZ8Aq7S58cIltq+a8U+Es9zrlNaVsbWL9CVKcUVd46FLq5aRtyAfu36Z6D+Sg911qpPgnUhM/Om8slxH18CLs=
-X-Forefront-Antispam-Report: 
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(376014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	xfDd2MEa6rdMwkssW6dmY9zBc/wja0JycVDWZJ6SmFKUNbwnJNcpqAHu3jP8tWmk+zeZZA+L3p7Z+LijpXG0LUai8s5kTr9EhPU1Uaw7HUTdbdQ2y8aPfMbp0fDx7qWrxayx8ZH3qRzxMWMtGCIIBdwDc4+XiKuzTFMfveldW2JPZWQleiHEwsIuklNwYCCEFL0Km+WBQdMKoWgcq9Gyn3sl/hq0Q2F0N1rMD1SvHgeocj1Yh0UxdtVahfBpe9FCZTJfgH7Ko++32UC23yepXyZGbjSUtfWzu34viocn7XCYYECzj3S93/lJJJUu8vu7+tGkJH8zxE++y9aeNhoFt1P1l2bWgLQWjFnaPo+UAFNK55xzYFtoALwVW0EkLEuVrwxX/+gXWW/VZZt6ZM7OMZAvjmk1hQhFmuRo0JEDPXVGcvRjvZiV15tWD8lU56Va
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 18:31:27.8247
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed47d863-097c-433f-cd3a-08de972f60fb
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SJ1PEPF000023CB.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB997604
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2026 18:31:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235039
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Apr 2026 00:29:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235040
 
-From: Randolph Sapp <rs@ti.com>
+This does not build on hosts with gcc <= 13 which does not have std=gnu23
+dialect option e.g. ubuntu 24.04, especially with clang which does not
+default to gnu23 yet like gcc-15, so autoconf 2.73 decided to enforce the
+standard with clang which then spills into CC_FOR_BUILD as well without
+this patch
 
-Systemd prefers both /bin and /sbin to link to /usr/bin. If this is not
-the case it reports that the system is tainted in systemctl status.
-
-Add a link from /usr/sbin to /usr/bin to prevent anything from being
-excluded from the merged bin directory. This mimics the current merged
-bin directory structure of Arch Linux [1].
-
-Update the systemd recipe to prevent creating a duplicate link when
-sbinmerge is enabled.
-
-Override most sbin variables to point to their bin equivalent when
-usermerge is enabled, with the exception being base_sbindir_native and
-sbindir_native. There is no guarantee the host machine is using this
-filesystem scheme.
-
-This check was added to systemd back in 2024 [2].
-
-[1] https://gitlab.archlinux.org/archlinux/packaging/packages/filesystem/-/=
-blob/main/PKGBUILD
-[2] https://github.com/systemd/systemd/commit/844863c61e7b501097da84a1e4d1e=
-4a6aa6d9f0d
-
-Signed-off-by: Randolph Sapp <rs@ti.com>
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
+ ...kport-ax_prog_cc_for_build.m4-macros.patch | 174 ++++++++++++++++++
+ meta/recipes-extended/sudo/sudo_1.9.17p2.bb   |   1 +
+ 2 files changed, 175 insertions(+)
+ create mode 100644 meta/recipes-extended/sudo/files/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
 
-v2:
-	- Use recommended replacement variable when usermerge is enabled
-	- Apply replacement to other relevant variables in this file
-	- Keep usrmerge distro feature separate as I believe there is still some
-	  merit to mimicking a systemd filesystem in a non-systemd enabled
-	  environment, and I didn't hear too much discussion previously
-
- meta/classes-recipe/populate_sdk_base.bbclass | 5 +++--
- meta/conf/bitbake.conf                        | 8 ++++----
- meta/recipes-core/systemd/systemd_259.5.bb    | 8 ++++++--
- 3 files changed, 13 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-r=
-ecipe/populate_sdk_base.bbclass
-index b427ff2761..15f393a3bb 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -186,9 +186,10 @@ POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sd=
-k =3D " write_host_sdk_manif
- # Prepare the root links to point to the /usr counterparts.
- create_merged_usr_symlinks() {
-     root=3D"$1"
--    install -d $root${base_bindir} $root${base_sbindir} $root${base_libdir=
-}
-+    install -d $root${base_bindir} $root${base_libdir}
-     ln -rs $root${base_bindir} $root/bin
--    ln -rs $root${base_sbindir} $root/sbin
-+    ln -rs $root${base_bindir} $root/sbin
-+    ln -rs $root${base_bindir} $root/usr/sbin
-     ln -rs $root${base_libdir} $root/${baselib}
-=20
-     if [ "${nonarch_base_libdir}" !=3D "${base_libdir}" ]; then
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 84450386d9..5d27e70b04 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -22,7 +22,7 @@ root_prefix =3D "${@bb.utils.contains('DISTRO_FEATURES', =
-'usrmerge', '${exec_prefi
-=20
- # Base paths
- export base_bindir =3D "${root_prefix}/bin"
--export base_sbindir =3D "${root_prefix}/sbin"
-+export base_sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge=
-', '${base_bindir}', '${root_prefix}/sbin', d)}"
- export base_libdir =3D "${root_prefix}/${baselib}"
- export nonarch_base_libdir =3D "${root_prefix}/lib"
-=20
-@@ -43,7 +43,7 @@ export systemd_user_unitdir =3D "${nonarch_libdir}/system=
-d/user"
-=20
- # Architecture dependent paths
- export bindir =3D "${exec_prefix}/bin"
--export sbindir =3D "${exec_prefix}/sbin"
-+export sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '$=
-{bindir}', '${exec_prefix}/sbin', d)}"
- export libdir =3D "${exec_prefix}/${baselib}"
- export libexecdir =3D "${exec_prefix}/libexec"
- export includedir =3D "${exec_prefix}/include"
-@@ -65,9 +65,9 @@ bindir_cross =3D "/bin"
- bindir_crossscripts =3D "${bindir}/crossscripts"
- prefix_nativesdk =3D "/usr"
- bindir_nativesdk =3D "${prefix_nativesdk}/bin"
--sbindir_nativesdk =3D "${prefix_nativesdk}/sbin"
-+sbindir_nativesdk =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',=
- '${bindir_nativesdk}', '${prefix_nativesdk}/sbin', d)}"
- base_bindir_nativesdk =3D "/bin"
--base_sbindir_nativesdk =3D "/sbin"
-+base_sbindir_nativesdk =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrme=
-rge', '${base_bindir_nativesdk}', '/sbin', d)}"
- includedir_nativesdk =3D "${prefix_nativesdk}/include"
- libdir_nativesdk =3D "${prefix_nativesdk}/lib"
- base_libdir_nativesdk =3D "/lib"
-diff --git a/meta/recipes-core/systemd/systemd_259.5.bb b/meta/recipes-core=
-/systemd/systemd_259.5.bb
-index c3cb605b4d..d84e38d7cd 100644
---- a/meta/recipes-core/systemd/systemd_259.5.bb
-+++ b/meta/recipes-core/systemd/systemd_259.5.bb
-@@ -69,6 +69,7 @@ PACKAGECONFIG ??=3D " \
-     quotacheck \
-     randomseed \
-     resolved \
-+    sbinmerge \
-     serial-getty-generator \
-     set-time-epoch \
-     sysusers \
-@@ -339,8 +340,11 @@ do_install() {
- 		install -m 0644 ${UNPACKDIR}/org.freedesktop.hostname1_no_polkit.conf ${=
-D}${datadir}/dbus-1/system.d/
- 	fi
-=20
--	# create link for existing udev rules
--	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
-+	# create link for existing udev rules if sbinmerge is not enabled
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'sbinmerge', 'false', 'true', d)=
-}
-+	then
-+		ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
-+	fi
-=20
- 	# install default policy for presets
- 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
---=20
-2.53.0
-
+diff --git a/meta/recipes-extended/sudo/files/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch b/meta/recipes-extended/sudo/files/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
+new file mode 100644
+index 0000000000..df6deed591
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
+@@ -0,0 +1,174 @@
++From f1ce0cf393a13dff1b42955ade1e9ad11155cc23 Mon Sep 17 00:00:00 2001
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Fri, 10 Apr 2026 23:22:38 +0000
++Subject: [PATCH] m4: Backport ax_prog_cc_for_build.m4 macros
++
++autoconf-2.73 has logic to use C23 which spills into CC_FOR_BUILD [1]
++Bring back the upstream fix from autoconf-archives, this should not
++be needed when sudo is updated to next version as it might have
++regenerated its autotools files and it would have it.
++
++[1] https://savannah.gnu.org/support/index.php?111401
++
++Upstream-Status: Inappropriate [Already in autoconf-archive ]
++
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
++---
++ m4/ax_prog_cc_for_build.m4 | 76 ++++++++++++++++++++++++--------------
++ 1 file changed, 48 insertions(+), 28 deletions(-)
++
++diff --git a/m4/ax_prog_cc_for_build.m4 b/m4/ax_prog_cc_for_build.m4
++index 33eaa38..4d1de99 100644
++--- a/m4/ax_prog_cc_for_build.m4
+++++ b/m4/ax_prog_cc_for_build.m4
++@@ -32,7 +32,7 @@
++ #   and this notice are preserved. This file is offered as-is, without any
++ #   warranty.
++ 
++-#serial 21
+++#serial 26
++ 
++ AU_ALIAS([AC_PROG_CC_FOR_BUILD], [AX_PROG_CC_FOR_BUILD])
++ AC_DEFUN([AX_PROG_CC_FOR_BUILD], [dnl
++@@ -43,16 +43,16 @@ AC_REQUIRE([AC_CANONICAL_BUILD])dnl
++ dnl Use the standard macros, but make them use other variable names
++ dnl
++ pushdef([ac_cv_prog_CPP], ac_cv_build_prog_CPP)dnl
+++pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl
++ pushdef([ac_cv_prog_cc_c89], ac_cv_build_prog_cc_c89)dnl
++ pushdef([ac_cv_prog_cc_c99], ac_cv_build_prog_cc_c99)dnl
++ pushdef([ac_cv_prog_cc_c11], ac_cv_build_prog_cc_c11)dnl
++-pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl
+++pushdef([ac_cv_prog_cc_c23], ac_cv_build_prog_cc_c23)dnl
+++pushdef([ac_cv_prog_cc_stdc], ac_cv_build_prog_cc_stdc)dnl
++ pushdef([ac_cv_prog_cc_works], ac_cv_build_prog_cc_works)dnl
++ pushdef([ac_cv_prog_cc_cross], ac_cv_build_prog_cc_cross)dnl
++ pushdef([ac_cv_prog_cc_g], ac_cv_build_prog_cc_g)dnl
++-pushdef([ac_cv_c_compiler_gnu], ac_cv_build_c_compiler_gnu)dnl
++-pushdef([ac_cv_exeext], ac_cv_build_exeext)dnl
++-pushdef([ac_cv_objext], ac_cv_build_objext)dnl
+++pushdef([ac_prog_cc_stdc], ac_build_prog_cc_stdc)dnl
++ pushdef([ac_exeext], ac_build_exeext)dnl
++ pushdef([ac_objext], ac_build_objext)dnl
++ pushdef([CC], CC_FOR_BUILD)dnl
++@@ -60,9 +60,7 @@ pushdef([CPP], CPP_FOR_BUILD)dnl
++ pushdef([GCC], GCC_FOR_BUILD)dnl
++ pushdef([CFLAGS], CFLAGS_FOR_BUILD)dnl
++ pushdef([CPPFLAGS], CPPFLAGS_FOR_BUILD)dnl
++-pushdef([EXEEXT], BUILD_EXEEXT)dnl
++ pushdef([LDFLAGS], LDFLAGS_FOR_BUILD)dnl
++-pushdef([OBJEXT], BUILD_OBJEXT)dnl
++ pushdef([host], build)dnl
++ pushdef([host_alias], build_alias)dnl
++ pushdef([host_cpu], build_cpu)dnl
++@@ -77,6 +75,32 @@ pushdef([ac_tool_prefix], ac_build_tool_prefix)dnl
++ pushdef([am_cv_CC_dependencies_compiler_type], am_cv_build_CC_dependencies_compiler_type)dnl
++ pushdef([am_cv_prog_cc_c_o], am_cv_build_prog_cc_c_o)dnl
++ pushdef([cross_compiling], cross_compiling_build)dnl
+++dnl
+++dnl These variables are problematic to rename by M4 macros, so we save
+++dnl their values in alternative names, and restore the values later.
+++dnl
+++dnl _AC_COMPILER_EXEEXT and _AC_COMPILER_OBJEXT internally call
+++dnl AC_SUBST which prevents the renaming of EXEEXT and OBJEXT
+++dnl variables. It's not a good idea to rename ac_cv_exeext and
+++dnl ac_cv_objext either as they're related.
+++dnl Renaming ac_exeext and ac_objext is safe though.
+++dnl
+++ac_cv_host_exeext=$ac_cv_exeext
+++AS_VAR_SET_IF([ac_cv_build_exeext],
+++  [ac_cv_exeext=$ac_cv_build_exeext],
+++  [AS_UNSET([ac_cv_exeext])])
+++ac_cv_host_objext=$ac_cv_objext
+++AS_VAR_SET_IF([ac_cv_build_objext],
+++  [ac_cv_objext=$ac_cv_build_objext],
+++  [AS_UNSET([ac_cv_objext])])
+++dnl
+++dnl ac_cv_c_compiler_gnu is used in _AC_LANG_COMPILER_GNU (called by
+++dnl AC_PROG_CC) indirectly.
+++dnl
+++ac_cv_host_c_compiler_gnu=$ac_cv_c_compiler_gnu
+++AS_VAR_SET_IF([ac_cv_build_c_compiler_gnu],
+++  [ac_cv_c_compiler_gnu=$ac_cv_build_c_compiler_gnu],
+++  [AS_UNSET([ac_cv_c_compiler_gnu])])
++ 
++ cross_compiling_build=no
++ 
++@@ -85,25 +109,14 @@ AS_IF([test -n "$build"],      [ac_build_tool_prefix="$build-"],
++       [test -n "$build_alias"],[ac_build_tool_prefix="$build_alias-"])
++ 
++ AC_LANG_PUSH([C])
++-
++-dnl The pushdef([ac_cv_c_compiler_gnu], ...) currently does not cover
++-dnl the use of this variable in _AC_LANG_COMPILER_GNU called by
++-dnl AC_PROG_CC. Unset this cache variable temporarily as a workaround.
++-was_set_c_compiler_gnu=${[ac_cv_c_compiler_gnu]+y}
++-AS_IF([test ${was_set_c_compiler_gnu}],
++-    [saved_c_compiler_gnu=$[ac_cv_c_compiler_gnu]
++-    AS_UNSET([[ac_cv_c_compiler_gnu]])])
++-
++ AC_PROG_CC
++-
++-dnl Restore ac_cv_c_compiler_gnu
++-AS_IF([test ${was_set_c_compiler_gnu}],
++-  [[ac_cv_c_compiler_gnu]=$[saved_c_compiler_gnu]])
++-
++ _AC_COMPILER_EXEEXT
++ _AC_COMPILER_OBJEXT
++ AC_PROG_CPP
++ 
+++BUILD_EXEEXT=$ac_cv_exeext
+++BUILD_OBJEXT=$ac_cv_objext
+++
++ dnl Restore the old definitions
++ dnl
++ popdef([cross_compiling])dnl
++@@ -120,9 +133,7 @@ popdef([host_vendor])dnl
++ popdef([host_cpu])dnl
++ popdef([host_alias])dnl
++ popdef([host])dnl
++-popdef([OBJEXT])dnl
++ popdef([LDFLAGS])dnl
++-popdef([EXEEXT])dnl
++ popdef([CPPFLAGS])dnl
++ popdef([CFLAGS])dnl
++ popdef([GCC])dnl
++@@ -130,15 +141,24 @@ popdef([CPP])dnl
++ popdef([CC])dnl
++ popdef([ac_objext])dnl
++ popdef([ac_exeext])dnl
++-popdef([ac_cv_objext])dnl
++-popdef([ac_cv_exeext])dnl
++-popdef([ac_cv_c_compiler_gnu])dnl
+++popdef([ac_prog_cc_stdc])dnl
++ popdef([ac_cv_prog_cc_g])dnl
++ popdef([ac_cv_prog_cc_cross])dnl
++ popdef([ac_cv_prog_cc_works])dnl
+++popdef([ac_cv_prog_cc_stdc])dnl
+++popdef([ac_cv_prog_cc_c23])dnl
+++popdef([ac_cv_prog_cc_c11])dnl
+++popdef([ac_cv_prog_cc_c99])dnl
++ popdef([ac_cv_prog_cc_c89])dnl
++ popdef([ac_cv_prog_gcc])dnl
++ popdef([ac_cv_prog_CPP])dnl
+++dnl
+++ac_cv_exeext=$ac_cv_host_exeext
+++EXEEXT=$ac_cv_host_exeext
+++ac_cv_objext=$ac_cv_host_objext
+++OBJEXT=$ac_cv_host_objext
+++ac_cv_c_compiler_gnu=$ac_cv_host_c_compiler_gnu
+++ac_compiler_gnu=$ac_cv_host_c_compiler_gnu
++ 
++ dnl restore global variables ac_ext, ac_cpp, ac_compile,
++ dnl ac_link, ac_compiler_gnu (dependent on the current
++@@ -147,8 +167,8 @@ AC_LANG_POP([C])
++ 
++ dnl Finally, set Makefile variables
++ dnl
++-AC_SUBST(BUILD_EXEEXT)dnl
++-AC_SUBST(BUILD_OBJEXT)dnl
+++AC_SUBST([BUILD_EXEEXT])dnl
+++AC_SUBST([BUILD_OBJEXT])dnl
++ AC_SUBST([CFLAGS_FOR_BUILD])dnl
++ AC_SUBST([CPPFLAGS_FOR_BUILD])dnl
++ AC_SUBST([LDFLAGS_FOR_BUILD])dnl
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+index 3a5c111961..d6ee881f8c 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+@@ -3,6 +3,7 @@ require sudo.inc
+ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
++		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
+            "
+ 
+ PAM_SRC_URI = "file://sudo.pam"
 
