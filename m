@@ -1,240 +1,171 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74033F4487A
-	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 09:44:14 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.234632.1775987049473044177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E40F45A0F
+	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 10:39:34 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.139])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.236776.1775990364355322496
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Apr 2026 02:44:09 -0700
+ Sun, 12 Apr 2026 03:39:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=LjtWZZwS;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a2b636b944so3788419e87.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 02:44:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775987048; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YP+AAaBjP7sFdrdQ22cM/KOlRPSY8ckEYe5K+XenbRtvVddjNJHQTZruVbrAIWDeB9
-         aVHht0IdywiSIkGdJWtlid1rwamSWrChp3ZdL+mSfmAGlOZYv/kyPJPzTGnyG7CFKrRq
-         Dt6R9YifiNnU7J+VaqLNGMcQOFIU+kapL48CaxB8sTpulvnpf36ZzNl98n87OrhbeiBs
-         qfgkDbPOl0Is7pM3OkLmpuYBq+AJLlKJmC9bypRA44FK/Dl0RKDbOe5zVxqPI6Xph6kJ
-         rGe15x+pLxxXKMVR8YlJQGwZcj5quRU6AfVYZCXOm43allkx9VtqHn6Wrli/r7dB0dGV
-         /4tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NKbm4GeKYHW0ZoOCEeToa8aiBLYPWxeLmwN4QoTDsgo=;
-        fh=ZFDqbXjYaOFEj+ucwXDGIj93QRTs/hfttca+8o6mnT4=;
-        b=FGUTamCvoialZySZ8vbi50jsg6jwZ1KixZcgRhKAzM9Ltkp02bnQyOn5F2CtrSgNwu
-         1V6pdK0qEQZKmnQrbBtApfH6Ullp6v7NXcVhbFhIaPY4vY+7GJmUHqyH2DWWzBwcNXzh
-         PoGypEkBjdAWU8sXvMboKy6AAxRIMNR4oCM4rMDciMKx78EXzWlWdtttLFi833nYiWb2
-         Cs7ZeRYg+cr7Od3KLBykzjJhO9iilVqYrLHoCMz32y5Nls78YoWIVSfLvEFKLpkAcBAg
-         qL6lFGFQKO7ri5zYHQgDTVY5mxDhgNL1Rwl0wnZg25XuiMA95ZQXCO98U+/+ly1dyjGI
-         OAMA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775987048; x=1776591848; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NKbm4GeKYHW0ZoOCEeToa8aiBLYPWxeLmwN4QoTDsgo=;
-        b=LjtWZZwSqwoofFxwl8vDBlMZ7B/duyd+QMKAkyT17buuLHjDcRHnuN/6vKE17jnRav
-         c1NDR0D/KMCIF8VrcHSxFvuRIWiKHe5bNNWJISDtMZmlALiM0D9njN/3C9v4wOCT/+zu
-         XLAy6VwgcMqVio2Yfu3TmVnO+ksTXk4fF1XqyfLkiWfqrom1kcTBAlCSmneZ7WrGNGVM
-         1bOv7tOP7vb87Vk4BVOqrQHto0xzVVFNkFV6fIlWkmfxRgi99da1IVaxPMdJV5wt4RQa
-         k66aDPvbvZi+MHkLepgRbSXrbCn/6QdE38REprLznQcp9iBp8o2u1wA45lI6tgn53YvB
-         4jMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775987048; x=1776591848;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NKbm4GeKYHW0ZoOCEeToa8aiBLYPWxeLmwN4QoTDsgo=;
-        b=HUQnFtHjW9wfj6QWpuqOg+poJ0tyvGFDjM8kbn/qePMDzIf2LSDjHplUNMy6o13Mcj
-         tRI92m7N3rPgZKpnvoUEtqYMP3PedPQ855quG8Kby+ub33RdgPoTUcOaQKr+tmY+VqYM
-         gKKONTHSLysci2cd8I75+SY59CwqHh/qGKz4Ic+2NvVEBStPf54lAe6VmlQM5FZ5bgE1
-         D484qfe4luIdOhUT7tyf5WeKCUb0a0inwnHnTEBe2bGKPR6dLX318KMg/gzZERTtOMom
-         uA8Ymv4uXD0WOGEI0h9yVh+rn0oyiI8sEEXzqfuBi0mUutsbhbk3NVAiUnXbrO1ziT4R
-         0Vhg==
-X-Gm-Message-State: AOJu0YzXDMlIU729TwJaB7JdEFuz0zzwvNEkRJeFJKB41JM2iy4obmjY
-	rr6jzmOqdzTujI/bdh3TDDi2uOeJb72erKad11Tll+HNpnwuPekHvQVbpteDNigbRLsH7hdp8h+
-	8aNHbmX671qgoWFvyMKkfDoyNQpuryac=
-X-Gm-Gg: AeBDietVQ9u0Zreoh5FOAt+Pum/NPmZz2osL+uPBLlGg3gJW+imH290W/S2445S8hx4
-	YLz+6KuVHnWKbow5+QrxO9yeoSLJSmY9tGSzPjQOLnVnibe3BBm3/HHMHT/0SZv1O/Ka/UpmQ7p
-	c4rNWb12FJVYqfZDLo8jDbm3Ed/6ksYA6x8Hvyj361brK7wBSGln+eR9IRb3wwq8aD9rmyC1pwQ
-	wAKhZdLePYgkLy2QigfZr6gE364tXgTfn+tECr4MmqU/U97Lw+Yy9adM2B/YwIpbaFMfPzuiJHI
-	e49ENOEr1HFezMnXMqSK5nMNifTD+m1JiYSgWp9q57SvXMMPo2MGtlGOqoWZEX/XjSxs4VLPzdN
-	R
-X-Received: by 2002:a05:6512:2308:b0:5a2:b2f5:a2aa with SMTP id
- 2adb3069b0e04-5a3efb3c2a0mr2827077e87.29.1775987047211; Sun, 12 Apr 2026
- 02:44:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260410061205.1473776-1-martin.jansa@gmail.com> <DHQC912RAJRW.1MLR6Y2ATF68X@smile.fr>
-In-Reply-To: <DHQC912RAJRW.1MLR6Y2ATF68X@smile.fr>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 12 Apr 2026 11:43:54 +0200
-X-Gm-Features: AQROBzBI3YIGs4K-wyBeIjFbeia0FyGoq7ik_tnDRfOsXIq_BpI0wQJOyzl_Ufw
-Message-ID: <CA+chaQcCr+_uFN+ZYXN=MZzb9dxhGzO3zMiB3NctV2rs94mfJw@mail.gmail.com>
-Subject: Re: [OE-core] [whinlatter][PATCH] virglrenderer: Fix build with glibc 2.43+
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=dak1nc0Q;
+ spf=pass (domain: navimatix.de, ip: 40.107.162.139, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GuKwtL5MoSQUsVPQ0OR9w5Vhpj2F7CnkE9eCcHJYWXmkz75VR8cY5MC487GSAhfkknQzYF2kDkKIL/C0rXcS7PByy2ArJYot4vp+SnA7/ZYIVxzvA3biFyUHpUPhDuQlA5H1Kam/MFmn6KmPZrS1TSeqLPPKgLsk575Y8RHLEcZ9PCI2Eaa3ENLH6iJtDUwDV6gSHl2CP3vrUOpS7xeIReHNrku69Hr6AOr0v5nI5qM8ymcdBhHxsy9bdrY9FYZYTXHXybIk2wtIsR0B/XqMkH5MR6z1eJ3wpFOmjDm46exDxpQNu7lST91yErolTAqf6Uu83kn+eHeTUeGhdpcBfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9OSHZN8H1GKIlEvV97I3lNDE+e2hVZcNzwYQYko4CiU=;
+ b=M97cZsR8P0YFsYrN8zu3Q2yK8bGxRItRy1wWz4lVzUG0l6XZFkpMA/pk6IFJRBMwACH5q1QtSJ7VzMGloMSW30uLg3R4k+Y/nz9Mtvn7PkVo46A9Cdsn3O2QpnPh1S+PHnHCHUl7Pzg0hsMy8g81eMlkZKTofK9FWzYgsz1TjP5Okh0iybank0lqYJ0ZUV84LZlr0qgQc85wRlKNAcHnTz4HlR7oDDz9uhbakmbNF339I5+Jg0EMqyHV70CvugqbG8dUHnmwecPiLENbthf6jztoPPzJweaFZljajA8UDVSF7IU5RAcLtX7EKARgGkR7alVR8pZUlSUw/P45qUKrkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9OSHZN8H1GKIlEvV97I3lNDE+e2hVZcNzwYQYko4CiU=;
+ b=dak1nc0QGiqEoYgKNAuVv/b4YSAWCW8CYrDQ+bH+1LBgzZChFrMmnR5+1qpIGwRkxm9xkTJERJh2o8AKFJWzYxqd7OuGM252giLuQkMPPfcCBbjuQ9Sj2hfJc9l2SX6oyfRq3jzcktmejlALd5JpHe8lgaHIHX021j2oOGMht8I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by PA4PR01MB9332.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:27e::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.46; Sun, 12 Apr
+ 2026 10:39:20 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.20.9769.046; Sun, 12 Apr 2026 10:39:19 +0000
+Date: Sun, 12 Apr 2026 12:39:17 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-devel@lists.openembedded.org, rs@ti.com, 
+	openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
+CC: rs@ti.com, openembedded-core@lists.openembedded.org, 
+	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [PATCH v2 1/2] atop: Add packages atop-acctd and atop-gpud
+Message-ID: <5a2e6c6a750bb04263768f47307607f17b77f4fe.1775990357.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.53.0
+References: <20260410182747.1646597-2-rs@ti.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260410182747.1646597-2-rs@ti.com>
+X-ClientProxiedBy: BE1P281CA0371.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:82::22) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|PA4PR01MB9332:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3961c4c0-18a1-4321-3cf5-08de987fc0b2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|13003099007|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	s6xHqE5Wo+Si8T8tnxt5qpHIqqq5fxayZzLS87gapDqOK/QRBEf/hZ6EerFLyhiTyNFYwanBf8ihOGXc0OuttZDEccricFZDnsSJRRjaqiSBQSRWSDQ7s7DUr7Fm1QqTadcYVJriuXM3B7LwhWMI9xPsabtam2MA5KP6eHFTgsapkNs2gRisYJzQ4XakQgiEeFtPVbX/6TgUYBaeMxQRXz3chUS9++xlBbHnr8QPDSYUtJe8cqYZOPapXeX+7JESIJjxxmZEDzmElVAsdFPqfzVixCwfLOK+9VzwcwXfdgltl3p8oZeo0lrQ9EWjaoNUhq0AJj2PBvZWD4rSl8wwykmrq2XBU97ylq3Dpg/fovzhvuPR/KPd5hIf3ugmqpEJwVyZULqfnUpc53/d5iRSb0/XTB9c/LOkGUprQTB/PLnXoXTdEjRbPRU3cK3GW0NBjMlQi4muGYL8YeBrZYPFsWxLakV7DQeb10s8xTP4q3ClaMXilqH9qe/p7plrHNIVrdSYmfIySkgQUS0RbzC94DkYAbBBFj1MXuWsIilmGzP/Gy6+BCMNtywI1PlfxsaXdwjJ95v5Sc+rqDF20LUrYteN3gESDuPWZQcBPC8g/n8Ezzmiayt3Z9wNO/+SiQATdxYhFq5Rcv36x4C7ww5qQK8iocGobWB8dZzj7v1E2Def5KnSJJ0+bEhV6pWMiV8M
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(13003099007)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?RQBrFiesXXwA+uMYd6yZ/FlHLHiM8fBJ1a4OHlxzm+zDQuwgDqM7pooB+aQ4?=
+ =?us-ascii?Q?CFajCbmTAtZCsswfiCYg9AcLD8Rgka1KGMSfDQp8OZmiP0AOgqpzUpNYP9k9?=
+ =?us-ascii?Q?64v6QeKH8RRgc38oqs8PJzMkwYgIJIAe2uTMFa129TN0Hsfr5lI+AoV4STis?=
+ =?us-ascii?Q?3NSQ+pibgAxR8BClx1NaY+Zlv0iyuHI5PPfYv0MATUAzBDVugj6t8M1DRG9l?=
+ =?us-ascii?Q?X+N/K55xIib9X9zwwEHyNf6h4MM7YYbusl8IULqjt02hWxC2bHBx/8zYzJ+X?=
+ =?us-ascii?Q?3tpBxLdINREugjJ2EIe4akTDSpv2Py1PM+TjUYjpeZkA980X7L12HcV8EUFZ?=
+ =?us-ascii?Q?RLDIcc+kxauquQrRfQaAgHEJBzF9LN+pC1TTvl4NnaK9am3gop4kD074cSJJ?=
+ =?us-ascii?Q?p0fVRJn/F6aMX4zlowDLZX7F6LBYPBeSRj9NnK4DRFH0tBp761RQoAEXBgYK?=
+ =?us-ascii?Q?1lU1S+Ypbfm8G6V5lylH6yTDv1AvdrCX1G9XTjxuFH2ieJjwx1OkotTblYAF?=
+ =?us-ascii?Q?qZoAdjN5Zx4ppwroHPEWNlqAdkQtzbax+xujjSXffUkjuBcnItJ3sN9ec1xd?=
+ =?us-ascii?Q?/HR3WlDHTbv2sWFx+M/RB3ZrzSIKbfTzOLx9dcqFVe2nw/59fX/v6DG4Kqao?=
+ =?us-ascii?Q?96TX6tjrhN+BMHD1NJDTSquajQSYAnaWQdb7QVeplQwdU1jjaxQxXMm3oxaj?=
+ =?us-ascii?Q?aV1gCTX3yRKyvIgaSkGZgO/hSo1womZCN62HSXKax7ceCp/wra0rrBPW7gam?=
+ =?us-ascii?Q?dkFQBDWkIVo8tMEUXLYrKauhhHAysAse+J7FCAqb2V2Pz3Udn3zmFLNp18TS?=
+ =?us-ascii?Q?nCYT33Rm0nJnqvlnSPpcIzuybxQGSSnqd1IF9pVPIYAnpJ9ajRkGiNY7WUEf?=
+ =?us-ascii?Q?Bgc3ZuiW7s7clXl0z85ZD/0YLczszfmCi0UKQ0dhFsN6vUSsXRpW0Zy0jEg1?=
+ =?us-ascii?Q?SEDV+RA3yHfJSx3BBXSVW1r7EkSRcmsL3W9YLcvTd4d1bhszBb/D44fTySQZ?=
+ =?us-ascii?Q?hn3HWi24ux3pRz3AyH8/lrSfYMW69CUW9bS+OfTDVp78JGIejRHmzanOJonr?=
+ =?us-ascii?Q?4bMc4U6ZmgefYi70mTWjd/UZfcul2ZthXogKjKnwMZ4qysoGg2ulEjJZ7Xr5?=
+ =?us-ascii?Q?afHYoKtc1/7MZzUignr0Yh70bEWDKy+EHCaYydUhty1ZHl7bftpGFx3WVbjN?=
+ =?us-ascii?Q?jT1K/UTCX3tLY5weEa+89tzD0cFE6WwL/iNK2+kqdXc9++Wds6QofAstp7fE?=
+ =?us-ascii?Q?F8AKpFN9tv1lUtQuo0vaQuCpeRGi/gPdOZsiz4Ka2dRw/9Ysg/Fwi80LyIzm?=
+ =?us-ascii?Q?cGVY+53HwFaM1yUlQMbj5Q2GC+j8vtrR4EUtm1SeeCvkq10ohTSGzKgfZNHD?=
+ =?us-ascii?Q?CFqeS/005Tcr7Gqw/TT25EJNYF4KEvAXjDTsxQkKyWXIo2ZoGvQZOAhMFUYV?=
+ =?us-ascii?Q?8CM/WvO83zj89Gum8ohbO7Mf+g6Hpv9dWnAHR6zYhovj7JvQaDhJflyF81Xj?=
+ =?us-ascii?Q?+dm5gnSu7NeQ8937F0IwqE7ppIzAdl8TgEoJ4DU5sbeD3/K/hkjBewHvheia?=
+ =?us-ascii?Q?AM732mX9THyRlpfIyRQy9cPc7jM/of50TYNcMCfNlBu/GRtLXylmfVqwGyao?=
+ =?us-ascii?Q?woH0vM8O3lE7a9Me1RGCXbrhZ7NOoxtdcltxyusOR6rlMUrFLSTSpDaY/dnz?=
+ =?us-ascii?Q?TehRXzrwAm1FKwUuz2UkN/08xqE3WxjIZPgYJTS/+CBuVrvf6sW94oOfZzOj?=
+ =?us-ascii?Q?nuwcbE+ueflhFZiK1ztjhWKMgHXhYoI=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3961c4c0-18a1-4321-3cf5-08de987fc0b2
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2026 10:39:19.6951
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZM0U6uSaIMNt9K7825yUjw+cHtvHEm4Yry974bDeME93YcFyW828hbMJKb1l+LIz5uqS8X0Zd1B4uHmy+GWsCqZWgTz5zY9dw536XZLlIp8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR01MB9332
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 09:44:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235060
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 10:39:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235061
 
-On Sat, Apr 11, 2026 at 2:52=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr=
-> wrote:
->
-> On Fri Apr 10, 2026 at 8:12 AM CEST, Martin Jansa via lists.openembedded.=
-org wrote:
-> > From: Khem Raj <raj.khem@gmail.com>
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com=
->
-> > ---
->
-> Thanks Martin,
->
-> With this patch, the build progress further but, now, ovmf-native fails t=
-o build:
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/96/builds/25/st=
-eps/25/logs/stdio (line 16662).
-> (I could reproduce that locally with my ubuntu26.04 container)
->
-> There is a patch for master[0] but the patches inside it do not apply cle=
-anly on the whinlatter version.
->
-> [0]: https://lore.kernel.org/openembedded-core/20260409122225.1069828-1-z=
-boszor@gmail.com/
->
-> Can you send the backport?
+From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
-Hi,
+For some users these programmes might be useful.
 
-I've sent fix for all 3, the same upstream patches worked for me in
-whinlatter and scarthgap (which needed one more backport), but make
-sure to apply them with --keep-cr, because the source uses windows
-line endings and git am will remove them by default from the ovmf
-.patch file embedded in the .patch for oe-core. Or you can cherry-pick
-them from my jansa/scarthgap, jansa/whinlatter, jansa/master in
-contrib repo (currently top commit in each).
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+---
+ meta-oe/recipes-support/atop/atop_2.12.1.bb | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-wrynose: https://lore.kernel.org/openembedded-core/20260412093610.805271-1-=
-martin.jansa@gmail.com/T/#u
-whinlatter: https://lore.kernel.org/openembedded-core/20260412093637.819659=
--1-martin.jansa@gmail.com/T/#u
-scarthgap: https://lore.kernel.org/openembedded-core/20260412093629.816730-=
-1-martin.jansa@gmail.com/T/#u
+diff --git a/meta-oe/recipes-support/atop/atop_2.12.1.bb b/meta-oe/recipes-=
+support/atop/atop_2.12.1.bb
+index 4ca74edbaf..92665fa464 100644
+--- a/meta-oe/recipes-support/atop/atop_2.12.1.bb
++++ b/meta-oe/recipes-support/atop/atop_2.12.1.bb
+@@ -7,7 +7,7 @@ etc. At regular intervals, it shows system-level activity r=
+elated to the CPU, \
+ memory, swap, disks (including LVM) and network layers, and for every proc=
+ess \
+ (and thread) it shows e.g. the CPU utilization, memory growth, disk \
+ utilization, priority, username, state, and exit code."
+-HOMEPAGE =3D "http://www.atoptool.nl"
++HOMEPAGE =3D "https://www.atoptool.nl"
+ SECTION =3D "console/utils"
+=20
+ LICENSE =3D "GPL-2.0-only"
+@@ -51,16 +51,19 @@ do_install() {
+     # /var/log/atop will be created in runtime
+     rm -rf ${D}${localstatedir}/log
+     rmdir --ignore-fail-on-non-empty ${D}${localstatedir}
+-
+-    # remove atopacct related files
+-    rm -rf ${D}${sbindir} ${D}${mandir}/man8
+ }
+=20
+ inherit systemd
+=20
++PACKAGES =3D+ "${PN}-acctd ${PN}-gpud"
++
+ SYSTEMD_SERVICE:${PN} =3D "atop.service atopgpu.service atop-rotate.servic=
+e"
+ SYSTEMD_AUTO_ENABLE =3D "disable"
+=20
+ FILES:${PN} +=3D "${systemd_unitdir}/system-sleep ${systemd_system_unitdir=
+}/atop-rotate.timer"
++FILES:${PN}-acctd +=3D "${sbindir}/atopacctd ${mandir}/man8/atopacctd.8"
++FILES:${PN}-gpud +=3D "${sbindir}/atopgpud ${mandir}/man8/atopgpud.8"
+=20
+ RDEPENDS:${PN} =3D "procps"
++RDEPENDS:${PN}-gpud =3D "python3-core"
++RRECOMMENDS:${PN} =3D "${PN}-acctd ${PN}-gpud"
+--=20
+2.53.0
 
-I should have read master[0] before doing my own.. lack of coffee on
-Sunday morning..
-
-Cheers,
->
-> Regards,
->
-> >  ...once_flag-ONCE_FLAG_INIT-when-presen.patch | 55 +++++++++++++++++++
-> >  .../virglrenderer/virglrenderer_1.1.1.bb      |  1 +
-> >  2 files changed, 56 insertions(+)
-> >  create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0=
-001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
-> >
-> > diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11=
--use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch b/meta/recipes-grap=
-hics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_I=
-NIT-when-presen.patch
-> > new file mode 100644
-> > index 0000000000..1740d7605f
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-gl=
-ibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
-> > @@ -0,0 +1,55 @@
-> > +From 179e744f7577d98df7c79d7324c22acfb32a0154 Mon Sep 17 00:00:00 2001
-> > +From: Dave Airlie <airlied@redhat.com>
-> > +Date: Fri, 7 Nov 2025 13:14:56 +1000
-> > +Subject: [PATCH] c11/threads: fix build on c23
-> > +
-> > +C23/glibc is now including once_init in stdlib.h
-> > +
-> > +https://patchwork.sourceware.org/project/glibc/patch/78061085-f04a-0c4=
-5-107b-5a8a15521083@redhat.com/#213088
-> > +
-> > +Just fix up our use of it.
-> > +
-> > +Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virgl=
-renderer/-/merge_requests/1567]
-> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > +---
-> > + src/mesa/compat/c11/impl/threads_posix.c | 3 ++-
-> > + 2 files changed, 4 insertions(+), 1 deletion(-)
-> > +
-> > +--- a/src/mesa/compat/c11/threads_posix.h
-> > ++++ b/src/mesa/compat/c11/threads_posix.h
-> > +@@ -51,7 +51,9 @@ Configuration macro:
-> > + #include <pthread.h>
-> > +
-> > + /*---------------------------- macros ----------------------------*/
-> > ++#ifndef __once_flag_defined
-> > + #define ONCE_FLAG_INIT PTHREAD_ONCE_INIT
-> > ++#endif
-> > + #ifdef INIT_ONCE_STATIC_INIT
-> > + #define TSS_DTOR_ITERATIONS PTHREAD_DESTRUCTOR_ITERATIONS
-> > + #else
-> > +@@ -66,8 +68,9 @@ typedef pthread_cond_t  cnd_t;
-> > + typedef pthread_t       thrd_t;
-> > + typedef pthread_key_t   tss_t;
-> > + typedef pthread_mutex_t mtx_t;
-> > ++#ifndef __once_flag_defined
-> > + typedef pthread_once_t  once_flag;
-> > +-
-> > ++#endif
-> > +
-> > + /*
-> > + Implementation limits:
-> > +@@ -90,12 +93,13 @@ impl_thrd_routine(void *p)
-> > +
-> > + /*--------------- 7.25.2 Initialization functions ---------------*/
-> > + // 7.25.2.1
-> > ++#ifndef __once_flag_defined
-> > + static inline void
-> > + call_once(once_flag *flag, void (*func)(void))
-> > + {
-> > +     pthread_once(flag, func);
-> > + }
-> > +-
-> > ++#endif
-> > +
-> > + /*------------- 7.25.3 Condition variable functions -------------*/
-> > + // 7.25.3.1
-> > diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb=
- b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
-> > index 89dd25de70..be4385ada6 100644
-> > --- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
-> > +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
-> > @@ -12,6 +12,7 @@ DEPENDS =3D "libdrm libepoxy python3-pyyaml-native vi=
-rtual/egl virtual/libgbm"
-> >  SRCREV =3D "0f1f43929724a6a414c01a29bc51feccb445c2f0"
-> >  SRC_URI =3D "git://gitlab.freedesktop.org/virgl/virglrenderer.git;bran=
-ch=3Dmain;protocol=3Dhttps;tag=3D${PV} \
-> >             file://0001-meson.build-use-python3-directly-for-python.pat=
-ch \
-> > +           file://0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-p=
-resen.patch \
-> >             "
-> >
-> >  inherit meson pkgconfig features_check
->
->
-> --
-> Yoann Congal
-> Smile ECS
->
 
