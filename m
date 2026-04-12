@@ -1,686 +1,207 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 080CFD58B06
-	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 07:22:20 +0000 (UTC)
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.229089.1775978536400674644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3828FE64007
+	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 08:20:50 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.65])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.231982.1775982041778847412
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Apr 2026 00:22:16 -0700
+ Sun, 12 Apr 2026 01:20:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=pBBxnfnY;
- spf=pass (domain: gmail.com, ip: 74.125.224.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-6507a833e68so3361331d50.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 00:22:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775978535; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JcZl2CoA4d/EaVtGbFaxlUjCwryDh9t7S/4oWPySnW8xjNN5E2rJIbIdMBXDg+VNrb
-         Q7YYvAqfHi+oDpHqRWfJf0CVWqyJU002OzVVMVnB6k+/IqsnDc0xtWlQYzsSn+fWkob6
-         LTY3ViTa+wpkFMlLKMvNJDHPrV+5AyyLd+0ddL3F9BZibTxO3yaJFhq2zPZcx/rDMurl
-         lwn++78yXnzy/fYZwlSuDqLwRQFX3SAQQtUczHx2isaNZ6FFVhsJ7VTyJJYx4VBJonh7
-         qIjSyHQ6zS0tb6Hy3YcQW6QAm94P3jkhUOCAU8qvm/pbvyKQtgr5ebixqeOhUyglPvkL
-         9yQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=W8tOAcAFTz6dEdT5sW5B6xCwQYc3b6IHugCtAdjkmAg=;
-        fh=MCdpyjX8oJIGdnUgA6LSOKxSvtudQZuzC5/qVjDrn6A=;
-        b=ijz1o4pKRXkX61LxC2QIszMUTpNhZeKf+qqa+m/8wCHvXh9uyQn6qlF/tCyh4p39w4
-         rN0X9BGQwEWlzT0Bh90PkXcMyB3kKGIDZienDiiyS9lpNLhqqWbzmWE2U+h2KHAt7IcA
-         +WGShuVtuHqI6hWt8y2aptGQd4u/PZ016YFsNiE8nbYtsCyrSDmgN9Dae6Auup6WKcGr
-         sF9gEy4+y7DCA9/DLKSEguHwqmRkxXw516n53v+Yfc5TAMueDl+ylzX1Sm+ZVKltIrNS
-         iMElF7odxW2WZKs8qgCslxbpC3zB2PMPZfP7r5Au3l4AZUZusjyro7byojlDxI9vpKI4
-         DzLQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775978535; x=1776583335; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W8tOAcAFTz6dEdT5sW5B6xCwQYc3b6IHugCtAdjkmAg=;
-        b=pBBxnfnYe7M/Nyb7RNmQTPFN280SZoPvI73WY/Xl4ph3lk36fSpRj8OcoRQQnbxxg4
-         9X/0+j5H+h7S0EerVIY16D0ll8NfCTFP+LYqtM4cREEOoMMKYCtezahU/RhCIy/wlfAV
-         6bJ+5iZ7XMZAUCteLGqwwYXEzXZ2pqRr719i+ccnrktjnB6O9GBcsnrb858cOBcLyJn+
-         fzQJ1N6gKPPXxhqadl7lqeXk15CDUSZGVSUUdddzVb9EbcPh0RK9qPTnw16DYgIq9xWv
-         yyirwfBY5D1I59WlmRcDbYcQRPDr99HQf2bDdop+8pC4ghkt3OiBu4HP7bsXgt3buIya
-         7ikQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775978535; x=1776583335;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W8tOAcAFTz6dEdT5sW5B6xCwQYc3b6IHugCtAdjkmAg=;
-        b=hJlU8DQLIj6lZD5Gk+QuHhztCZ/ccOMEabmuhy3GNngPUzL13hqlwIL1Ee8qZ+4mU4
-         CnkBqoRih2FP80J58jUXTtvlOrYyp8CIbhBKUK6V9DCBEPxJpF7wLGrel0ip38SUUAi4
-         xiYV9CusniytEFQ7S3WvhIu39Yg1ntzEWX0BszEC1F6VyoICpmVrrXTcW3PfExjvqbPr
-         nnphXAWEyFagimoU9/p1uTAmkk7B7scpKOaQ2cWjrBZTvMePzRw3lWAq6sfDKky6piS3
-         k1F4fAadCvKJPVzWtRaTz37w89r7fhEt3iU85cwrg20LnZznMrFK1bhZOKH+RQ3dq27Z
-         j8nQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8CGdOhOhnXYbo3yTF2r2/KFW1Sa/rrMi98ThJ8ce6u7/u7cXCdZb5U2ec4qG3WY7XVkeQn+WE05RZ7RcgPXvv08Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwupRKO8zQFyKvMjnwRF3nd7PG9tHu6/1CnA6bwYJMRqUZckGZX
-	xXyEji5yFoBzqeVDmSsVfpkyJmmImsaFfEK5LlXga6EbibZD9raFYGkIJ+fIGyoJdCIY+eIlIqK
-	SeB3Rs8Afl4OfjQlIAwjipxbsWRba57w=
-X-Gm-Gg: AeBDietXxaQQsJ6/FoTSjeFd11eCrVtLluGiGi4nGrRe3Ay3AehvHKCbogfN30FXn0d
-	6ybdamyIQeyXfKtzVsMrxgDrDs9J1PMGEOeIgjs0WoIkWMEYrx0SVp+cAdTgxobBglwlCXDcPo7
-	64Ylc7Nc64w+JWzHdeQk/vu4We3LXn01FcZmil1XLGHS7Bk9vSvwFJwRivLwXfKC3xrqEjbmUkV
-	Uy5jFbbXhwmDL3UFPAgSJjq01PWJps6Z0PehEznP5ofIb1VgTFO8gwN66ZZEcojl/gc+tYZJcJE
-	DwSDeJjharuNXVwZAkL+6p378Blc0clU/nJjr6CKlWyMudP8D7TAOgZWyFFTfe2nO99Q1qVoe4j
-	2AO8Wn+n95hVipYvprLWXc1k0jg7E93aBWTHUcxkn+qaen62pB+sp0182QxKy9H4EiFx713vOY8
-	Q9Mrw3pSYfjLQetOc=
-X-Received: by 2002:a05:690e:4011:b0:651:c7c7:3a8c with SMTP id
- 956f58d0204a3-651c7c746acmr14726d50.45.1775978535353; Sun, 12 Apr 2026
- 00:22:15 -0700 (PDT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=iLs2smGn;
+ spf=pass (domain: siemens.com, ip: 52.101.65.65, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Czw3NU7RXsX0narT26/13IBKcKkrJ2bH0LvOr0z7BQUKVtaroIYXwCqWhuyILMz+dNAIBu25jLf/x3NdcCe0Vq4xMS93ySkXTL/WmVTmgHPp38tXzd+Bcpaevb3J+SMsFxqMSvaMBYAEvCGNpDZLfNJg24VMytSviXky1YVmdlH7JPBA9AXcI6f3Y+8wdwz6ucn3iuixDQPG3Vur0Jz9gCao5JAMBD2hxrPu/Yk3L6J+AeHWrjVrsBE0LkiIaCOyKi4zrpoOJ1/eHzOfCVWmanP8PtMqCwtpFID8BXlV9YwA9HdVZ5VzJYc2g4SFw/fiTHCyvCEBqIs9uOnIXnMiJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=euqcvJ4XpNeJ6MkzmRpbv2cJoWrxYjZmsRThok4mLlA=;
+ b=Pe1VWySOVg1Nz3KVSzxmnMF895A7pqjPkeEWVShmjFE5mC4wd+4Rl+rF4IvoPZJUcGMOztwrTf6Ld5U/fTE6alRaqPrnDTFGnJbV6dwqAhSjeP4iaHAT9ftjln6uEobGfMGaExr+9jqLCGdM9qBvpgUgK98q81fEpWvVuo3tPpaNzi2XoWIvEBjY55Rs/SbQObRgf4zelixVARe+WhTNdK5uI2GnEuRbZHhsCyoMY8YGqd0kNzM3c1NE/V3t1FJ42kGylE1YP8eMX8A4jgpeTeUSp6naHziqAwmFTybZNnEOa1Zu662S6vXFzMj60RR0V11BICFe1ziohZpPVP9I7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=euqcvJ4XpNeJ6MkzmRpbv2cJoWrxYjZmsRThok4mLlA=;
+ b=iLs2smGna8ZZZu6LV6zRQ1H594sSmUwE5+7QUCvwgAh/vrgySuWp+sZfX7B9eVQjeHQcy8DU44OOYGvyYDYFLLn5Jj8CwgJJe7PL5iRgCSH7QuCoSmQ0ys3/6Rlety5AYO+HDeNTjuzvLjS0s5CpQ/fltoXaMW2YXfGGAZ8yshl8Slag/F93sv1eJL2dP7DzZkKUiY6b+M0Zsu60e3WIL4DSqSbEwePhUIqg8UrWGznI1wW6C9wI6yVZG/0KC2Tpae3tSNcOgStv/1gh6YPO6IrALh9oZG6K7aXKq2//S82YW0xZkAC3l+j/2nWqtE2JXG+R+U+qd8vTp0slyObSpw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by VI0PR10MB9336.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:2ae::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Sun, 12 Apr
+ 2026 08:20:38 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7%6]) with mapi id 15.20.9769.044; Sun, 12 Apr 2026
+ 08:20:37 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "ross.burton@arm.com" <ross.burton@arm.com>, Patches and discussions about
+ the oe-core layer <openembedded-core@lists.openembedded.org>
+CC: Benjamin Robin <benjamin.robin@bootlin.com>
+Subject: RE: cve-check vs sbom-cve-check, redux
+Thread-Topic: cve-check vs sbom-cve-check, redux
+Thread-Index: AQHcyPEcHfk74ge+GEKe4KvI0SFZ1rXYU8EAgALCs8A=
+Date: Sun, 12 Apr 2026 08:20:37 +0000
+Message-ID: 
+ <AS1PR10MB569790BEA4996F9FEBBB651FFD272@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <EFA287EA-FB51-4610-8DD9-A0BB8541808B@arm.com>
+ <AS1PR10MB56975389F54123AB6CC84424FD592@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: 
+ <AS1PR10MB56975389F54123AB6CC84424FD592@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=0216403c-7b1e-4e13-9b7a-8ee7598ee825;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-04-10T14:03:33Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|VI0PR10MB9336:EE_
+x-ms-office365-filtering-correlation-id: 082b9fe3-e5a1-4823-0392-08de986c6085
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|18002099003|22082099003|56012099003|55112099003|38070700021;
+x-microsoft-antispam-message-info: 
+ L3pH1pjd1jLVAUCVHCRTGt4fML3cqJtgujAMskq0EWUFxIqtbjN0EhuMfE0U2LefSogH6PM0XPcT+d5+S1bf2aNd6dmSZ3JKnfm3++aJowmM7FJpx59+uZMDlPCX/GDa0+9SlwxTLtf+rXfCKbyDnyALiMZGOtFfHL4CxeHHnJu33bT6qLIuYYJcC2RphickxRsWEdX6OHz8/Z7kc4667U3YLaKKRT43UYLi25VvfifzOJBo7LFeBuHZ3F0SFw5UGezJIF9zHplPC71TSF89Yt/CJr/7ZHVpwwX3HtO/vfIqnyUr98/AIlUoRKWMRx+ldboMNr0dFB4uGZh5RMPvJ1wFwMh5I1+W4HfdaRfppEO7gluJNrI7RFLvq7WjX/k2vKzHsehGYhN3sct+6UMgTOPoNhr27TtphKmi2f8QpFhgxi5JZZUJ4n3dN7jc1HLdy4DPMrUTZSTgQtHJKic48QVpvDFbmxW45lMOGsdhsaAfEiwJwNdnU821TvXsBtMbourk/ZpFo74ETBcUamdSTQhHAYPBw0zinhINCDZ09aUJ7cnnhcuzepUJArmtAG1H6+NIWZeQ6IEnphj7rRqj1ZgW70yMfa4wuyWky2buUykoW+4CVRuj/aIJHGfHNE/O8YhpxFSEaDvY+IZo0KQrHBWCoCySfBs5u1XR4gGBYSiITNXfj4ud8CTdfok68LkyJtoC8mbKtX+agaUHqpAKhmk0goLnG94dm9+s1mSMlX0=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(18002099003)(22082099003)(56012099003)(55112099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?WWFCUURBN09KTyswRndNbmxyOExxcGVhSytEakd2OWFsVFJkRmFpblF2bTBa?=
+ =?utf-8?B?VVBLQTcxTDBuOXlyTkMxZUVKZStKa2N4UTc1WUhTclYwNXp2U3cxZFNjY1Ry?=
+ =?utf-8?B?VTM4S1Y5V3BWcW40dHE5blBvTXBEa09XZGRRSXpBbE9vaUJ4MGtySk5CU0pS?=
+ =?utf-8?B?WDZXYVlTby9QMmV1SzY3NVNkVEcyQUl4bGhSL0FuaVFxRDZtTm1lMFVUKzdq?=
+ =?utf-8?B?MVlIZVc3NmxIRU1uMlkzMnFuZ0RsaDZFVzk5Z0s5NHVkUDU1a1FKRTVSQ2FS?=
+ =?utf-8?B?NCtRSHlmUHY4Ym42SUd3R3lxR28ySDhRVHV0amlrMjdyUGM5MGs3K3JaZlo4?=
+ =?utf-8?B?cld4V3lBTWhlTGtJcjROMGpGZVdSSnM4WFhxZ01DNkhUNW5ZemV2b25zZWxL?=
+ =?utf-8?B?cElKb25yZks0alFtYkhTZVRZODU5ek0rLzdycE9XNmxZa3QrSCtsaXhZYVht?=
+ =?utf-8?B?TE5aUnYvbFFMczRjeUlWeEdTZkxtSzFlZjd5c2xhSThUS1I4SDY3NTRpNUJT?=
+ =?utf-8?B?eXBDTWR5ajlNTytPVllFQTNDSkhLaUllTWZKeW51NHJRVnprdTdCOGhodUdE?=
+ =?utf-8?B?V1NoemFubTloOWdzZVNoUDZqbG1mNzd3TmxkeUxjYlFBWTFyRW13R2hBb3U1?=
+ =?utf-8?B?allLUUdKZkJXQ2IyODF1cDlpUmc1cG54NGxCVWRHUjNjRE1lc2pWb3dTczdz?=
+ =?utf-8?B?SnRCS0JsWjdZelFWTXZIVSs3bnBjUkVWOC9kNEJYRnVpTXdJNEdLZ1V2Y2JP?=
+ =?utf-8?B?SDF1RzZmWHlRVkxOR0wzUkxwdXV1aTFBNHUvMUhrYVcwaXlpU1JrR0ozZG9k?=
+ =?utf-8?B?VnZVcmtoVWwxOEFnRE9nNkd6QldsbDg0RzB4NE5tdDdRQmpyWVhSUjNzQzds?=
+ =?utf-8?B?bGZJa1FCUUJBM0UrRkkyQzhXWlI5RHhBaS9aR0xqR0VJNURFSjRxbllJRU9t?=
+ =?utf-8?B?d3Vtbk1wZWlGYmZTN2hyRlJZYkpQdWdwMEdZcFhwVVgzQWFGYXg1MlVsTGpw?=
+ =?utf-8?B?SzdLZTZ2SXhEYndqdS9xaEFLM0oxN1RhLy9uTjRERGVBakRvUkZkVmpzWWZ5?=
+ =?utf-8?B?R0hvZzZTQXlsb3lUOVZyaHF0bmZCWm80d2V2dmU1cDV3Ymt6VzJWbkpwVXdB?=
+ =?utf-8?B?NkJDSjBsald5cmY1SlVvcnFrOGxNTTk2Z2w4aUMzaXNmMW52TVRsclhzNjEv?=
+ =?utf-8?B?V0ZuZ01WbWNYQTlEZVBuQTIzd0NldHhOYmxCTng5YWlOVDhlbjNYTzI0LzMv?=
+ =?utf-8?B?Y3hXV0lEalNGb3hleEJPRGM2Z0tZUVQwOExRUW9PdXcvdXlKY1lGVm41NXls?=
+ =?utf-8?B?NjA4VElaaUZZR3Z5Y2h6emhaaWw3Wm5BRzRXSDdYdkxYd1Q0b2VlOVpEcXJD?=
+ =?utf-8?B?K2Z2UkR1eGhaNW5nVkFhZlRwN1UwM1FLK1UvU1NjQmJLbVF0YXBPRHkvclJR?=
+ =?utf-8?B?ZUFEUTFzM0JSa2FENWV4Z2dvTTJ0dVlZZ2NJay9jcERWZjJYeGRsZ3A1M0ox?=
+ =?utf-8?B?S1BuU09BWFJQNXV5OG4wR2JoVkdvbzFzMEJqdE9iNWpHYStaZ3dURy9ubGRs?=
+ =?utf-8?B?elBENVVwZklQRHdmQzhBWWpidkpic1pJWDc1bzBDazhQN2lRb2N1RFlja0dG?=
+ =?utf-8?B?N2FwczBMcUQ1Q1ZUdmkycmd4Q0VySlZDM1M3bmdvdEM2am5oWHVteDJQWkdK?=
+ =?utf-8?B?aWVYN09xTEtzaXV1WDNrTEU0ck80RzE0QVFLUnFHazVTbkRuKzlkY2l3M0JN?=
+ =?utf-8?B?NXE4VkxtUWxRV3pkRVhONFFDRXkrOGFKUS9yVVp2NW1RTE1vMzBOamVYaHRw?=
+ =?utf-8?B?UFFEbk5ET3JZV09CNDhBUjhDRytRNEhzRFZ3RzhRbDFEWmdtSWJjQi9ZQ2s3?=
+ =?utf-8?B?T3J1UUdpNTRrL1BwMHlEWDBmUUh5eXZXTys0a0RUMkNrRHFNZjZBWkhMcytQ?=
+ =?utf-8?B?MmF1Q1JlSEw5MngrbXdCanZkZWdHeG5YVVpuVVN5Sm1xUnE5WmtXMUhPaHBR?=
+ =?utf-8?B?OVhxc1pxQ2lqdjgvVThUREpROUVuWVlJNlZoUE1OZVRqam9tTis4WjFDTFVh?=
+ =?utf-8?B?N3ZLUkQ1ZEN3Z24vNHh5eUQvVy95REFNUmQvTEtkSHcwejZwVUNnSVA4Zm9p?=
+ =?utf-8?B?ODR5dlVYRUR3MkJjcEIxR20vZFZxcHpUbXVSSE16SFRON016TkZGUUYzTnpQ?=
+ =?utf-8?B?WmhwR0l0bmdPcEMzanpIamZFRlVCUUJGKzJaTmV4amM5N0F3dk15R1BaWTQr?=
+ =?utf-8?B?dk10VUg3dzBEb1lTOXhxbVYwNTQvOEpHTmNUSEs5U2g0bzlvQ0lPVDRpTVc1?=
+ =?utf-8?B?S2Y5MTFxdFVMNDdYKzZHa2N3NWlQVXY1YlhXNFdkTmdsUFNIbGloZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20260410134915.3936107-1-martin.jansa@gmail.com> <8ffabe3414bdb206a716aa9ee5db2fc964d07e79.camel@linuxfoundation.org>
-In-Reply-To: <8ffabe3414bdb206a716aa9ee5db2fc964d07e79.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 12 Apr 2026 00:21:48 -0700
-X-Gm-Features: AQROBzCqz_kCmoPrkMwI4pluRBCQYbfJzYfvbGuvUpOUl5OeTkVKXa8NoPHnR94
-Message-ID: <CAMKF1soX-iCuuf_ygqXU7PAwryUw5NS7fJCpr_J5mezVF_3oyg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] apr: fix build with autoconf-2.73
-To: richard.purdie@linuxfoundation.org
-Cc: martin.jansa@gmail.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ba82cb064f3e3962"
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 082b9fe3-e5a1-4823-0392-08de986c6085
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2026 08:20:37.6109
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9f6/bgIKl81xseyxPO3cDuWJ1PnbGMV4ZMZ5yxuxZfu0QHlT+CvnZpZJP0G9KFPiIP3VhzQEH9O5Qc359xzQ5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR10MB9336
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 07:22:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235054
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 08:20:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235055
 
---000000000000ba82cb064f3e3962
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Apr 11, 2026 at 11:01=E2=80=AFPM Richard Purdie via lists.openembed=
-ded.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-
-> On Fri, 2026-04-10 at 15:49 +0200, Martin Jansa via lists.openembedded.or=
-g
-> wrote:
-> > From: Martin Jansa <martin.jansa@gmail.com>
-> >
-> > On hosts with gcc-13 it was trying to use -std=3Dgnu23 and failing
-> > with unrecognized command-line option (gnu23 needs gcc-14 and newer)
-> >
-> > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> > ---
-> >  ...rog_cc_for_build.m4-update-to-latest.patch | 189 ++++++++++++++++++
-> >  meta/recipes-support/apr/apr_1.7.6.bb         |   1 +
-> >  2 files changed, 190 insertions(+)
-> >  create mode 100644
-> meta/recipes-support/apr/apr/0001-ax_prog_cc_for_build.m4-update-to-lates=
-t.patch
-> >
-> > diff --git
-> a/meta/recipes-support/apr/apr/0001-ax_prog_cc_for_build.m4-update-to-lat=
-est.patch
-> b/meta/recipes-support/apr/apr/0001-ax_prog_cc_for_build.m4-update-to-lat=
-est.patch
-> > new file mode 100644
-> > index 0000000000..2607f6f860
-> > --- /dev/null
-> > +++
-> b/meta/recipes-support/apr/apr/0001-ax_prog_cc_for_build.m4-update-to-lat=
-est.patch
-> > @@ -0,0 +1,189 @@
-> > +From 24eb9fd3469e610b6887517a80b8e038c200e807 Mon Sep 17 00:00:00 2001
-> > +From: Martin Jansa <martin.jansa@gmail.com>
-> > +Date: Fri, 10 Apr 2026 15:04:43 +0200
-> > +Subject: [PATCH] ax_prog_cc_for_build.m4: update to latest
-> > +MIME-Version: 1.0
-> > +Content-Type: text/plain; charset=3DUTF-8
-> > +Content-Transfer-Encoding: 8bit
-> > +
-> > +After the autoconf update to 2.73 this was using -std=3Dgnu23
-> > +even on hosts with gcc-13 which doesn't support it:
-> > +
-> > +ac_cv_prog_ac_ct_CC_FOR_BUILD=3D'gcc '
-> > +CC_FOR_BUILD=3D'gcc  -std=3Dgnu23'
-> > +ac_ct_CC_FOR_BUILD=3D'gcc '
-> > +
-> > +Leading to:
-> > +gcc: error: unrecognized command-line option =E2=80=98-std=3Dgnu23=E2=
-=80=99; did you mean
-> =E2=80=98-std=3Dgnu2x=E2=80=99?
-> > +
-> > +Needs the updated ac_cv_prog_cc_c23 from:
-> > +
-> https://github.com/autoconf-archive/autoconf-archive/commit/8a970ce96721f=
-516fef4226e5eca8da341159765
-> > +
-> > +Upstream-Status: Submitted [https://github.com/apache/apr/pull/72]
-> > +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> > +---
-> > + build/ax_prog_cc_for_build.m4 | 99 ++++++++++++++++++++++++++--------=
--
-> > + 1 file changed, 74 insertions(+), 25 deletions(-)
-> > +
-> > +diff --git a/build/ax_prog_cc_for_build.m4
-> b/build/ax_prog_cc_for_build.m4
-> > +index 26daf36..4d1de99 100644
-> > +--- a/build/ax_prog_cc_for_build.m4
-> > ++++ b/build/ax_prog_cc_for_build.m4
-> > +@@ -32,28 +32,32 @@
-> > + #   and this notice are preserved. This file is offered as-is, withou=
-t
-> any
-> > + #   warranty.
-> > +
-> > +-#serial 9
-> > ++#serial 26
-> > +
-> > + AU_ALIAS([AC_PROG_CC_FOR_BUILD], [AX_PROG_CC_FOR_BUILD])
-> > + AC_DEFUN([AX_PROG_CC_FOR_BUILD], [dnl
-> > + AC_REQUIRE([AC_PROG_CC])dnl
-> > + AC_REQUIRE([AC_PROG_CPP])dnl
-> > +-AC_REQUIRE([AC_EXEEXT])dnl
-> > +-AC_REQUIRE([AC_CANONICAL_HOST])dnl
-> > ++AC_REQUIRE([AC_CANONICAL_BUILD])dnl
-> > +
-> > + dnl Use the standard macros, but make them use other variable names
-> > + dnl
-> > + pushdef([ac_cv_prog_CPP], ac_cv_build_prog_CPP)dnl
-> > + pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl
-> > ++pushdef([ac_cv_prog_cc_c89], ac_cv_build_prog_cc_c89)dnl
-> > ++pushdef([ac_cv_prog_cc_c99], ac_cv_build_prog_cc_c99)dnl
-> > ++pushdef([ac_cv_prog_cc_c11], ac_cv_build_prog_cc_c11)dnl
-> > ++pushdef([ac_cv_prog_cc_c23], ac_cv_build_prog_cc_c23)dnl
-> > ++pushdef([ac_cv_prog_cc_stdc], ac_cv_build_prog_cc_stdc)dnl
-> > + pushdef([ac_cv_prog_cc_works], ac_cv_build_prog_cc_works)dnl
-> > + pushdef([ac_cv_prog_cc_cross], ac_cv_build_prog_cc_cross)dnl
-> > + pushdef([ac_cv_prog_cc_g], ac_cv_build_prog_cc_g)dnl
-> > +-pushdef([ac_cv_exeext], ac_cv_build_exeext)dnl
-> > +-pushdef([ac_cv_objext], ac_cv_build_objext)dnl
-> > ++pushdef([ac_prog_cc_stdc], ac_build_prog_cc_stdc)dnl
-> > + pushdef([ac_exeext], ac_build_exeext)dnl
-> > + pushdef([ac_objext], ac_build_objext)dnl
-> > + pushdef([CC], CC_FOR_BUILD)dnl
-> > + pushdef([CPP], CPP_FOR_BUILD)dnl
-> > ++pushdef([GCC], GCC_FOR_BUILD)dnl
-> > + pushdef([CFLAGS], CFLAGS_FOR_BUILD)dnl
-> > + pushdef([CPPFLAGS], CPPFLAGS_FOR_BUILD)dnl
-> > + pushdef([LDFLAGS], LDFLAGS_FOR_BUILD)dnl
-> > +@@ -67,27 +71,58 @@ pushdef([ac_cv_host_alias], ac_cv_build_alias)dnl
-> > + pushdef([ac_cv_host_cpu], ac_cv_build_cpu)dnl
-> > + pushdef([ac_cv_host_vendor], ac_cv_build_vendor)dnl
-> > + pushdef([ac_cv_host_os], ac_cv_build_os)dnl
-> > +-pushdef([ac_cpp], ac_build_cpp)dnl
-> > +-pushdef([ac_compile], ac_build_compile)dnl
-> > +-pushdef([ac_link], ac_build_link)dnl
-> > ++pushdef([ac_tool_prefix], ac_build_tool_prefix)dnl
-> > ++pushdef([am_cv_CC_dependencies_compiler_type],
-> am_cv_build_CC_dependencies_compiler_type)dnl
-> > ++pushdef([am_cv_prog_cc_c_o], am_cv_build_prog_cc_c_o)dnl
-> > ++pushdef([cross_compiling], cross_compiling_build)dnl
-> > ++dnl
-> > ++dnl These variables are problematic to rename by M4 macros, so we sav=
-e
-> > ++dnl their values in alternative names, and restore the values later.
-> > ++dnl
-> > ++dnl _AC_COMPILER_EXEEXT and _AC_COMPILER_OBJEXT internally call
-> > ++dnl AC_SUBST which prevents the renaming of EXEEXT and OBJEXT
-> > ++dnl variables. It's not a good idea to rename ac_cv_exeext and
-> > ++dnl ac_cv_objext either as they're related.
-> > ++dnl Renaming ac_exeext and ac_objext is safe though.
-> > ++dnl
-> > ++ac_cv_host_exeext=3D$ac_cv_exeext
-> > ++AS_VAR_SET_IF([ac_cv_build_exeext],
-> > ++  [ac_cv_exeext=3D$ac_cv_build_exeext],
-> > ++  [AS_UNSET([ac_cv_exeext])])
-> > ++ac_cv_host_objext=3D$ac_cv_objext
-> > ++AS_VAR_SET_IF([ac_cv_build_objext],
-> > ++  [ac_cv_objext=3D$ac_cv_build_objext],
-> > ++  [AS_UNSET([ac_cv_objext])])
-> > ++dnl
-> > ++dnl ac_cv_c_compiler_gnu is used in _AC_LANG_COMPILER_GNU (called by
-> > ++dnl AC_PROG_CC) indirectly.
-> > ++dnl
-> > ++ac_cv_host_c_compiler_gnu=3D$ac_cv_c_compiler_gnu
-> > ++AS_VAR_SET_IF([ac_cv_build_c_compiler_gnu],
-> > ++  [ac_cv_c_compiler_gnu=3D$ac_cv_build_c_compiler_gnu],
-> > ++  [AS_UNSET([ac_cv_c_compiler_gnu])])
-> > +
-> > +-save_cross_compiling=3D$cross_compiling
-> > +-save_ac_tool_prefix=3D$ac_tool_prefix
-> > +-cross_compiling=3Dno
-> > +-ac_tool_prefix=3D
-> > ++cross_compiling_build=3Dno
-> > +
-> > ++ac_build_tool_prefix=3D
-> > ++AS_IF([test -n "$build"],      [ac_build_tool_prefix=3D"$build-"],
-> > ++      [test -n "$build_alias"],[ac_build_tool_prefix=3D"$build_alias-=
-"])
-> > ++
-> > ++AC_LANG_PUSH([C])
-> > + AC_PROG_CC
-> > ++_AC_COMPILER_EXEEXT
-> > ++_AC_COMPILER_OBJEXT
-> > + AC_PROG_CPP
-> > +-AC_EXEEXT
-> > +
-> > +-ac_tool_prefix=3D$save_ac_tool_prefix
-> > +-cross_compiling=3D$save_cross_compiling
-> > ++BUILD_EXEEXT=3D$ac_cv_exeext
-> > ++BUILD_OBJEXT=3D$ac_cv_objext
-> > +
-> > + dnl Restore the old definitions
-> > + dnl
-> > +-popdef([ac_link])dnl
-> > +-popdef([ac_compile])dnl
-> > +-popdef([ac_cpp])dnl
-> > ++popdef([cross_compiling])dnl
-> > ++popdef([am_cv_prog_cc_c_o])dnl
-> > ++popdef([am_cv_CC_dependencies_compiler_type])dnl
-> > ++popdef([ac_tool_prefix])dnl
-> > + popdef([ac_cv_host_os])dnl
-> > + popdef([ac_cv_host_vendor])dnl
-> > + popdef([ac_cv_host_cpu])dnl
-> > +@@ -101,26 +136,40 @@ popdef([host])dnl
-> > + popdef([LDFLAGS])dnl
-> > + popdef([CPPFLAGS])dnl
-> > + popdef([CFLAGS])dnl
-> > ++popdef([GCC])dnl
-> > + popdef([CPP])dnl
-> > + popdef([CC])dnl
-> > + popdef([ac_objext])dnl
-> > + popdef([ac_exeext])dnl
-> > +-popdef([ac_cv_objext])dnl
-> > +-popdef([ac_cv_exeext])dnl
-> > ++popdef([ac_prog_cc_stdc])dnl
-> > + popdef([ac_cv_prog_cc_g])dnl
-> > + popdef([ac_cv_prog_cc_cross])dnl
-> > + popdef([ac_cv_prog_cc_works])dnl
-> > ++popdef([ac_cv_prog_cc_stdc])dnl
-> > ++popdef([ac_cv_prog_cc_c23])dnl
-> > ++popdef([ac_cv_prog_cc_c11])dnl
-> > ++popdef([ac_cv_prog_cc_c99])dnl
-> > ++popdef([ac_cv_prog_cc_c89])dnl
-> > + popdef([ac_cv_prog_gcc])dnl
-> > + popdef([ac_cv_prog_CPP])dnl
-> > ++dnl
-> > ++ac_cv_exeext=3D$ac_cv_host_exeext
-> > ++EXEEXT=3D$ac_cv_host_exeext
-> > ++ac_cv_objext=3D$ac_cv_host_objext
-> > ++OBJEXT=3D$ac_cv_host_objext
-> > ++ac_cv_c_compiler_gnu=3D$ac_cv_host_c_compiler_gnu
-> > ++ac_compiler_gnu=3D$ac_cv_host_c_compiler_gnu
-> > ++
-> > ++dnl restore global variables ac_ext, ac_cpp, ac_compile,
-> > ++dnl ac_link, ac_compiler_gnu (dependent on the current
-> > ++dnl language after popping):
-> > ++AC_LANG_POP([C])
-> > +
-> > + dnl Finally, set Makefile variables
-> > + dnl
-> > +-BUILD_EXEEXT=3D$ac_build_exeext
-> > +-BUILD_OBJEXT=3D$ac_build_objext
-> > +-AC_SUBST(BUILD_EXEEXT)dnl
-> > +-AC_SUBST(BUILD_OBJEXT)dnl
-> > ++AC_SUBST([BUILD_EXEEXT])dnl
-> > ++AC_SUBST([BUILD_OBJEXT])dnl
-> > + AC_SUBST([CFLAGS_FOR_BUILD])dnl
-> > + AC_SUBST([CPPFLAGS_FOR_BUILD])dnl
-> > + AC_SUBST([LDFLAGS_FOR_BUILD])dnl
-> > + ])
-> > +-
-> > diff --git a/meta/recipes-support/apr/apr_1.7.6.bb
-> b/meta/recipes-support/apr/apr_1.7.6.bb
-> > index 13fa5daa3c..86fac1e4c8 100644
-> > --- a/meta/recipes-support/apr/apr_1.7.6.bb
-> > +++ b/meta/recipes-support/apr/apr_1.7.6.bb
-> > @@ -22,6 +22,7 @@ SRC_URI =3D "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz=
-2 \
-> >
-> file://0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch \
-> >             file://autoconf-2.73.patch \
-> >             file://0001-dso-Check-for-NULL-handle-in-apr_dso_sym.patch =
-\
-> > +           file://0001-ax_prog_cc_for_build.m4-update-to-latest.patch =
-\
-> >             "
-> >
-> >  SRC_URI[sha256sum] =3D
-> "49030d92d2575da735791b496dc322f3ce5cff9494779ba8cc28c7f46c5deb32"
->
-> I think this caused a reproducibility issue:
->
->
-> https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260412-a5w4mcr=
-k/packages/diff-html/
->
->
-I think we should sed -std=3Dgnu23 out from CC_FOR_BUILD in the mk file in
-do_install
-
-
-> Cheers,
->
-> Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#235053):
-> https://lists.openembedded.org/g/openembedded-core/message/235053
-> Mute This Topic: https://lists.openembedded.org/mt/118759816/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000ba82cb064f3e3962
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Apr 11,=
- 2026 at 11:01=E2=80=AFPM Richard Purdie via <a href=3D"http://lists.openem=
-bedded.org">lists.openembedded.org</a> &lt;richard.purdie=3D<a href=3D"mail=
-to:linuxfoundation.org@lists.openembedded.org">linuxfoundation.org@lists.op=
-enembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">On Fri, 2026-04-10 at 15:49 +0200, Martin Jansa via <a href=
-=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lis=
-ts.openembedded.org</a> wrote:<br>
-&gt; From: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" targe=
-t=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; On hosts with gcc-13 it was trying to use -std=3Dgnu23 and failing<br>
-&gt; with unrecognized command-line option (gnu23 needs gcc-14 and newer)<b=
-r>
-&gt; <br>
-&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.c=
-om" target=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0...rog_cc_for_build.m4-update-to-latest.patch | 189 ++++++++++++=
-++++++<br>
-&gt; =C2=A0meta/recipes-support/apr/<a href=3D"http://apr_1.7.6.bb" rel=3D"=
-noreferrer" target=3D"_blank">apr_1.7.6.bb</a>=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +<br>
-&gt; =C2=A02 files changed, 190 insertions(+)<br>
-&gt; =C2=A0create mode 100644 meta/recipes-support/apr/apr/0001-ax_prog_cc_=
-for_build.m4-update-to-latest.patch<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-support/apr/apr/0001-ax_prog_cc_for_build.m4=
--update-to-latest.patch b/meta/recipes-support/apr/apr/0001-ax_prog_cc_for_=
-build.m4-update-to-latest.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..2607f6f860<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-support/apr/apr/0001-ax_prog_cc_for_build.m4-update=
--to-latest.patch<br>
-&gt; @@ -0,0 +1,189 @@<br>
-&gt; +From 24eb9fd3469e610b6887517a80b8e038c200e807 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" targ=
-et=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
-&gt; +Date: Fri, 10 Apr 2026 15:04:43 +0200<br>
-&gt; +Subject: [PATCH] ax_prog_cc_for_build.m4: update to latest<br>
-&gt; +MIME-Version: 1.0<br>
-&gt; +Content-Type: text/plain; charset=3DUTF-8<br>
-&gt; +Content-Transfer-Encoding: 8bit<br>
-&gt; +<br>
-&gt; +After the autoconf update to 2.73 this was using -std=3Dgnu23<br>
-&gt; +even on hosts with gcc-13 which doesn&#39;t support it:<br>
-&gt; +<br>
-&gt; +ac_cv_prog_ac_ct_CC_FOR_BUILD=3D&#39;gcc &#39;<br>
-&gt; +CC_FOR_BUILD=3D&#39;gcc=C2=A0 -std=3Dgnu23&#39;<br>
-&gt; +ac_ct_CC_FOR_BUILD=3D&#39;gcc &#39;<br>
-&gt; +<br>
-&gt; +Leading to:<br>
-&gt; +gcc: error: unrecognized command-line option =E2=80=98-std=3Dgnu23=E2=
-=80=99; did you mean =E2=80=98-std=3Dgnu2x=E2=80=99?<br>
-&gt; +<br>
-&gt; +Needs the updated ac_cv_prog_cc_c23 from:<br>
-&gt; +<a href=3D"https://github.com/autoconf-archive/autoconf-archive/commi=
-t/8a970ce96721f516fef4226e5eca8da341159765" rel=3D"noreferrer" target=3D"_b=
-lank">https://github.com/autoconf-archive/autoconf-archive/commit/8a970ce96=
-721f516fef4226e5eca8da341159765</a><br>
-&gt; +<br>
-&gt; +Upstream-Status: Submitted [<a href=3D"https://github.com/apache/apr/=
-pull/72" rel=3D"noreferrer" target=3D"_blank">https://github.com/apache/apr=
-/pull/72</a>]<br>
-&gt; +Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.=
-com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + build/ax_prog_cc_for_build.m4 | 99 ++++++++++++++++++++++++++-------=
---<br>
-&gt; + 1 file changed, 74 insertions(+), 25 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/build/ax_prog_cc_for_build.m4 b/build/ax_prog_cc_for_bui=
-ld.m4<br>
-&gt; +index 26daf36..4d1de99 100644<br>
-&gt; +--- a/build/ax_prog_cc_for_build.m4<br>
-&gt; ++++ b/build/ax_prog_cc_for_build.m4<br>
-&gt; +@@ -32,28 +32,32 @@<br>
-&gt; + #=C2=A0=C2=A0 and this notice are preserved. This file is offered as=
--is, without any<br>
-&gt; + #=C2=A0=C2=A0 warranty.<br>
-&gt; + <br>
-&gt; +-#serial 9<br>
-&gt; ++#serial 26<br>
-&gt; + <br>
-&gt; + AU_ALIAS([AC_PROG_CC_FOR_BUILD], [AX_PROG_CC_FOR_BUILD])<br>
-&gt; + AC_DEFUN([AX_PROG_CC_FOR_BUILD], [dnl<br>
-&gt; + AC_REQUIRE([AC_PROG_CC])dnl<br>
-&gt; + AC_REQUIRE([AC_PROG_CPP])dnl<br>
-&gt; +-AC_REQUIRE([AC_EXEEXT])dnl<br>
-&gt; +-AC_REQUIRE([AC_CANONICAL_HOST])dnl<br>
-&gt; ++AC_REQUIRE([AC_CANONICAL_BUILD])dnl<br>
-&gt; + <br>
-&gt; + dnl Use the standard macros, but make them use other variable names<=
-br>
-&gt; + dnl<br>
-&gt; + pushdef([ac_cv_prog_CPP], ac_cv_build_prog_CPP)dnl<br>
-&gt; + pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl<br>
-&gt; ++pushdef([ac_cv_prog_cc_c89], ac_cv_build_prog_cc_c89)dnl<br>
-&gt; ++pushdef([ac_cv_prog_cc_c99], ac_cv_build_prog_cc_c99)dnl<br>
-&gt; ++pushdef([ac_cv_prog_cc_c11], ac_cv_build_prog_cc_c11)dnl<br>
-&gt; ++pushdef([ac_cv_prog_cc_c23], ac_cv_build_prog_cc_c23)dnl<br>
-&gt; ++pushdef([ac_cv_prog_cc_stdc], ac_cv_build_prog_cc_stdc)dnl<br>
-&gt; + pushdef([ac_cv_prog_cc_works], ac_cv_build_prog_cc_works)dnl<br>
-&gt; + pushdef([ac_cv_prog_cc_cross], ac_cv_build_prog_cc_cross)dnl<br>
-&gt; + pushdef([ac_cv_prog_cc_g], ac_cv_build_prog_cc_g)dnl<br>
-&gt; +-pushdef([ac_cv_exeext], ac_cv_build_exeext)dnl<br>
-&gt; +-pushdef([ac_cv_objext], ac_cv_build_objext)dnl<br>
-&gt; ++pushdef([ac_prog_cc_stdc], ac_build_prog_cc_stdc)dnl<br>
-&gt; + pushdef([ac_exeext], ac_build_exeext)dnl<br>
-&gt; + pushdef([ac_objext], ac_build_objext)dnl<br>
-&gt; + pushdef([CC], CC_FOR_BUILD)dnl<br>
-&gt; + pushdef([CPP], CPP_FOR_BUILD)dnl<br>
-&gt; ++pushdef([GCC], GCC_FOR_BUILD)dnl<br>
-&gt; + pushdef([CFLAGS], CFLAGS_FOR_BUILD)dnl<br>
-&gt; + pushdef([CPPFLAGS], CPPFLAGS_FOR_BUILD)dnl<br>
-&gt; + pushdef([LDFLAGS], LDFLAGS_FOR_BUILD)dnl<br>
-&gt; +@@ -67,27 +71,58 @@ pushdef([ac_cv_host_alias], ac_cv_build_alias)dnl=
-<br>
-&gt; + pushdef([ac_cv_host_cpu], ac_cv_build_cpu)dnl<br>
-&gt; + pushdef([ac_cv_host_vendor], ac_cv_build_vendor)dnl<br>
-&gt; + pushdef([ac_cv_host_os], ac_cv_build_os)dnl<br>
-&gt; +-pushdef([ac_cpp], ac_build_cpp)dnl<br>
-&gt; +-pushdef([ac_compile], ac_build_compile)dnl<br>
-&gt; +-pushdef([ac_link], ac_build_link)dnl<br>
-&gt; ++pushdef([ac_tool_prefix], ac_build_tool_prefix)dnl<br>
-&gt; ++pushdef([am_cv_CC_dependencies_compiler_type], am_cv_build_CC_depend=
-encies_compiler_type)dnl<br>
-&gt; ++pushdef([am_cv_prog_cc_c_o], am_cv_build_prog_cc_c_o)dnl<br>
-&gt; ++pushdef([cross_compiling], cross_compiling_build)dnl<br>
-&gt; ++dnl<br>
-&gt; ++dnl These variables are problematic to rename by M4 macros, so we sa=
-ve<br>
-&gt; ++dnl their values in alternative names, and restore the values later.=
-<br>
-&gt; ++dnl<br>
-&gt; ++dnl _AC_COMPILER_EXEEXT and _AC_COMPILER_OBJEXT internally call<br>
-&gt; ++dnl AC_SUBST which prevents the renaming of EXEEXT and OBJEXT<br>
-&gt; ++dnl variables. It&#39;s not a good idea to rename ac_cv_exeext and<b=
-r>
-&gt; ++dnl ac_cv_objext either as they&#39;re related.<br>
-&gt; ++dnl Renaming ac_exeext and ac_objext is safe though.<br>
-&gt; ++dnl<br>
-&gt; ++ac_cv_host_exeext=3D$ac_cv_exeext<br>
-&gt; ++AS_VAR_SET_IF([ac_cv_build_exeext],<br>
-&gt; ++=C2=A0 [ac_cv_exeext=3D$ac_cv_build_exeext],<br>
-&gt; ++=C2=A0 [AS_UNSET([ac_cv_exeext])])<br>
-&gt; ++ac_cv_host_objext=3D$ac_cv_objext<br>
-&gt; ++AS_VAR_SET_IF([ac_cv_build_objext],<br>
-&gt; ++=C2=A0 [ac_cv_objext=3D$ac_cv_build_objext],<br>
-&gt; ++=C2=A0 [AS_UNSET([ac_cv_objext])])<br>
-&gt; ++dnl<br>
-&gt; ++dnl ac_cv_c_compiler_gnu is used in _AC_LANG_COMPILER_GNU (called by=
-<br>
-&gt; ++dnl AC_PROG_CC) indirectly.<br>
-&gt; ++dnl<br>
-&gt; ++ac_cv_host_c_compiler_gnu=3D$ac_cv_c_compiler_gnu<br>
-&gt; ++AS_VAR_SET_IF([ac_cv_build_c_compiler_gnu],<br>
-&gt; ++=C2=A0 [ac_cv_c_compiler_gnu=3D$ac_cv_build_c_compiler_gnu],<br>
-&gt; ++=C2=A0 [AS_UNSET([ac_cv_c_compiler_gnu])])<br>
-&gt; + <br>
-&gt; +-save_cross_compiling=3D$cross_compiling<br>
-&gt; +-save_ac_tool_prefix=3D$ac_tool_prefix<br>
-&gt; +-cross_compiling=3Dno<br>
-&gt; +-ac_tool_prefix=3D<br>
-&gt; ++cross_compiling_build=3Dno<br>
-&gt; + <br>
-&gt; ++ac_build_tool_prefix=3D<br>
-&gt; ++AS_IF([test -n &quot;$build&quot;],=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [a=
-c_build_tool_prefix=3D&quot;$build-&quot;],<br>
-&gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [test -n &quot;$build_alias&quot;],[a=
-c_build_tool_prefix=3D&quot;$build_alias-&quot;])<br>
-&gt; ++<br>
-&gt; ++AC_LANG_PUSH([C])<br>
-&gt; + AC_PROG_CC<br>
-&gt; ++_AC_COMPILER_EXEEXT<br>
-&gt; ++_AC_COMPILER_OBJEXT<br>
-&gt; + AC_PROG_CPP<br>
-&gt; +-AC_EXEEXT<br>
-&gt; + <br>
-&gt; +-ac_tool_prefix=3D$save_ac_tool_prefix<br>
-&gt; +-cross_compiling=3D$save_cross_compiling<br>
-&gt; ++BUILD_EXEEXT=3D$ac_cv_exeext<br>
-&gt; ++BUILD_OBJEXT=3D$ac_cv_objext<br>
-&gt; + <br>
-&gt; + dnl Restore the old definitions<br>
-&gt; + dnl<br>
-&gt; +-popdef([ac_link])dnl<br>
-&gt; +-popdef([ac_compile])dnl<br>
-&gt; +-popdef([ac_cpp])dnl<br>
-&gt; ++popdef([cross_compiling])dnl<br>
-&gt; ++popdef([am_cv_prog_cc_c_o])dnl<br>
-&gt; ++popdef([am_cv_CC_dependencies_compiler_type])dnl<br>
-&gt; ++popdef([ac_tool_prefix])dnl<br>
-&gt; + popdef([ac_cv_host_os])dnl<br>
-&gt; + popdef([ac_cv_host_vendor])dnl<br>
-&gt; + popdef([ac_cv_host_cpu])dnl<br>
-&gt; +@@ -101,26 +136,40 @@ popdef([host])dnl<br>
-&gt; + popdef([LDFLAGS])dnl<br>
-&gt; + popdef([CPPFLAGS])dnl<br>
-&gt; + popdef([CFLAGS])dnl<br>
-&gt; ++popdef([GCC])dnl<br>
-&gt; + popdef([CPP])dnl<br>
-&gt; + popdef([CC])dnl<br>
-&gt; + popdef([ac_objext])dnl<br>
-&gt; + popdef([ac_exeext])dnl<br>
-&gt; +-popdef([ac_cv_objext])dnl<br>
-&gt; +-popdef([ac_cv_exeext])dnl<br>
-&gt; ++popdef([ac_prog_cc_stdc])dnl<br>
-&gt; + popdef([ac_cv_prog_cc_g])dnl<br>
-&gt; + popdef([ac_cv_prog_cc_cross])dnl<br>
-&gt; + popdef([ac_cv_prog_cc_works])dnl<br>
-&gt; ++popdef([ac_cv_prog_cc_stdc])dnl<br>
-&gt; ++popdef([ac_cv_prog_cc_c23])dnl<br>
-&gt; ++popdef([ac_cv_prog_cc_c11])dnl<br>
-&gt; ++popdef([ac_cv_prog_cc_c99])dnl<br>
-&gt; ++popdef([ac_cv_prog_cc_c89])dnl<br>
-&gt; + popdef([ac_cv_prog_gcc])dnl<br>
-&gt; + popdef([ac_cv_prog_CPP])dnl<br>
-&gt; ++dnl<br>
-&gt; ++ac_cv_exeext=3D$ac_cv_host_exeext<br>
-&gt; ++EXEEXT=3D$ac_cv_host_exeext<br>
-&gt; ++ac_cv_objext=3D$ac_cv_host_objext<br>
-&gt; ++OBJEXT=3D$ac_cv_host_objext<br>
-&gt; ++ac_cv_c_compiler_gnu=3D$ac_cv_host_c_compiler_gnu<br>
-&gt; ++ac_compiler_gnu=3D$ac_cv_host_c_compiler_gnu<br>
-&gt; ++<br>
-&gt; ++dnl restore global variables ac_ext, ac_cpp, ac_compile,<br>
-&gt; ++dnl ac_link, ac_compiler_gnu (dependent on the current<br>
-&gt; ++dnl language after popping):<br>
-&gt; ++AC_LANG_POP([C])<br>
-&gt; + <br>
-&gt; + dnl Finally, set Makefile variables<br>
-&gt; + dnl<br>
-&gt; +-BUILD_EXEEXT=3D$ac_build_exeext<br>
-&gt; +-BUILD_OBJEXT=3D$ac_build_objext<br>
-&gt; +-AC_SUBST(BUILD_EXEEXT)dnl<br>
-&gt; +-AC_SUBST(BUILD_OBJEXT)dnl<br>
-&gt; ++AC_SUBST([BUILD_EXEEXT])dnl<br>
-&gt; ++AC_SUBST([BUILD_OBJEXT])dnl<br>
-&gt; + AC_SUBST([CFLAGS_FOR_BUILD])dnl<br>
-&gt; + AC_SUBST([CPPFLAGS_FOR_BUILD])dnl<br>
-&gt; + AC_SUBST([LDFLAGS_FOR_BUILD])dnl<br>
-&gt; + ])<br>
-&gt; +-<br>
-&gt; diff --git a/meta/recipes-support/apr/<a href=3D"http://apr_1.7.6.bb" =
-rel=3D"noreferrer" target=3D"_blank">apr_1.7.6.bb</a> b/meta/recipes-suppor=
-t/apr/<a href=3D"http://apr_1.7.6.bb" rel=3D"noreferrer" target=3D"_blank">=
-apr_1.7.6.bb</a><br>
-&gt; index 13fa5daa3c..86fac1e4c8 100644<br>
-&gt; --- a/meta/recipes-support/apr/<a href=3D"http://apr_1.7.6.bb" rel=3D"=
-noreferrer" target=3D"_blank">apr_1.7.6.bb</a><br>
-&gt; +++ b/meta/recipes-support/apr/<a href=3D"http://apr_1.7.6.bb" rel=3D"=
-noreferrer" target=3D"_blank">apr_1.7.6.bb</a><br>
-&gt; @@ -22,6 +22,7 @@ SRC_URI =3D &quot;${APACHE_MIRROR}/apr/${BPN}-${PV}.=
-tar.bz2 \<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fil=
-e://0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch=C2=A0\<=
-br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fil=
-e://autoconf-2.73.patch=C2=A0\<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fil=
-e://0001-dso-Check-for-NULL-handle-in-apr_dso_sym.patch=C2=A0\<br>
-&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0=
-001-ax_prog_cc_for_build.m4-update-to-latest.patch=C2=A0\<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &qu=
-ot;<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0SRC_URI[sha256sum] =3D &quot;49030d92d2575da735791b496dc322f3ce5=
-cff9494779ba8cc28c7f46c5deb32&quot;<br>
-<br>
-I think this caused a reproducibility issue:<br>
-<br>
-<a href=3D"https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-2026041=
-2-a5w4mcrk/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank">https:=
-//valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260412-a5w4mcrk/packag=
-es/diff-html/</a><br>
-<br></blockquote><div><br></div><div>I think we should sed -std=3Dgnu23 out=
- from CC_FOR_BUILD in the mk file in do_install</div><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#235053): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/235053" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/235053</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118759816/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/118759816/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000ba82cb064f3e3962--
+SSBub3RpY2VkIGV4dHJlbWUganVtcCBpbiBtZXRhLW9lIENWRSBtZXRyaWNzIGNhdXNlZCBieSBm
+YWN0IHRoYXQgaXQgbm93IGluY2x1ZGVzIGFsc28gb2UtY29yZSBkYXRhLg0KaHR0cHM6Ly92YWxr
+eXJpZS55b2N0by5pby9wdWIvbm9uLXJlbGVhc2UvcGF0Y2htZXRyaWNzLW1ldGEtb2UvDQpUaGlz
+IGFsc28gY2F1c2VkIHRoZSBmaXJzdCBjb21taXQgYWZ0ZXIgc3dpdGNoIHRvIGJlIHNvIGJpZyB0
+aGF0IGdpdCBkZWNpZGVkIHRvIHJld3JpdGUgdGhlIGZpbGUgdGh1cyB0aGUgZGlmZiBjYW5ub3Qg
+YmUgYW5hbHl6ZWQuDQpodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL3lvY3RvLW1ldHJpY3Mt
+bWV0YS1vZS9jb21taXQvP2lkPTJjYWM4Y2NlOGZjNmFjZDgyMGNjNTBmY2NlODAwNDYxNjFhZWY4
+NWUNCg0KSXMgaXQgcG9zc2libGUgdG8gaW1wbGVtZW50IGZpbHRlcmluZyBiYXNlZCBvbiByZWNp
+cGUgbGF5ZXI/DQoNClBldGVyDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJv
+bTogTWFya28sIFBldGVyIChGVCBEIEVVIFNLIEJGUzEpDQo+IFNlbnQ6IEZyaWRheSwgQXByaWwg
+MTAsIDIwMjYgNDowNyBQTQ0KPiBUbzogcm9zcy5idXJ0b25AYXJtLmNvbTsgUGF0Y2hlcyBhbmQg
+ZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXINCj4gPG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IENjOiBCZW5qYW1pbiBSb2JpbiA8YmVuamFtaW4u
+cm9iaW5AYm9vdGxpbi5jb20+DQo+IFN1YmplY3Q6IFJFOiBjdmUtY2hlY2sgdnMgc2JvbS1jdmUt
+Y2hlY2ssIHJlZHV4DQo+IA0KPiANCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVu
+ZW1iZWRkZWQtDQo+ID4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2Yg
+Um9zcyBCdXJ0b24gdmlhDQo+ID4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IFNlbnQ6IEZy
+aWRheSwgQXByaWwgMTAsIDIwMjYgMzo1MSBQTQ0KPiA+IFRvOiBQYXRjaGVzIGFuZCBkaXNjdXNz
+aW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLQ0KPiA+IGNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gPiBDYzogQmVuamFtaW4gUm9iaW4gPGJlbmphbWluLnJv
+YmluQGJvb3RsaW4uY29tPg0KPiA+IFN1YmplY3Q6IFtPRS1jb3JlXSBjdmUtY2hlY2sgdnMgc2Jv
+bS1jdmUtY2hlY2ssIHJlZHV4DQo+ID4NCj4gPiBIaSwNCj4gPg0KPiA+IHNib20tY3ZlLWNoZWNr
+IGlzIG5vdyBpbnRlZ3JhdGVkIGludG8gb2UtY29yZSBhbmQgYXMgcGFydCBvZiB0aGUgbWlncmF0
+aW9uIEkNCj4gcG9ydGVkDQo+ID4gdGhlIGRhc2hib2FyZCBtZXRyaWNzWzFdIGdlbmVyYXRpb24g
+dG8gdXNlIHNib20tY3ZlLWNoZWNrLiBMdWNraWx5IGl0IGhhcyBhbg0KPiBvcHRpb24NCj4gPiB0
+byBnZW5lcmF0ZSBvdXRwdXQgaW4gdGhlIHN0eWxlIG9mIGN2ZS1jaGVja+KAmXMgYmVzcG9rZSBK
+U09OLCB3aGljaCBtYWRlDQo+IG1pZ3JhdGlvbg0KPiA+IHJlbGF0aXZlbHkgZWFzeS4NCj4gPg0K
+PiA+IEEgbGl0dGxlIGJpdCBvZiBqcSBwcm9jZXNzaW5nIGFuZCBzb21lIG1vcmUgdHdlYWtpbmcg
+dG8gdGhlIGludGVncmF0aW9uIGxhdGVyIGFuZCBJDQo+IHdhcw0KPiA+IGFibGUgdG8gY29tcGFy
+ZSB0aGUgb3V0cHV0IG9mIGN2ZS1jaGVjayBhbmQgc2JvbS1jdmUtY2hlY2suICBTb21lDQo+IG9i
+c2VydmF0aW9uczoNCj4gPg0KPiA+IC0gVGhlcmUgYXJlIGxlc3MgbmF0aXZlIHBhY2thZ2VzIHNj
+YW5uZWQgaW4gdGhlIHNib20tY3ZlLWNoZWNrIHJlcG9ydC4gVGhpcyBpcw0KPiA+IOKAnGludGVy
+ZXN0aW5n4oCdIGFzIGJvdGggc2hvdWxkIGJlIHdvcmtpbmcgb24gdGhlIHNhbWUgcmVjaXBlIGxp
+c3QgKHRoZSB3b3JsZCB0YXJnZXQpDQo+IGJ1dA0KPiA+IGN2ZS1jaGVjayB3aWxsIHJlcG9ydCBw
+YXRjaC1uYXRpdmUgYW5kIHBhdGNoLCB3aGVyZWFzIHNib20tY3ZlLWNoZWNrDQo+IChhY3R1YWxs
+eSwgdGhlDQo+ID4gd29ybGQgU1BEWCkgcmVwb3J0cyBqdXN0IHBhdGNoLiAgSSBzaGFsbCBmaWxl
+IGEgYnVnIGFib3V0IHRoaXMgYnV0IGRvbuKAmXQgY29uc2lkZXIgaXQNCj4gYQ0KPiA+IGJpZyBw
+cm9ibGVtIGFzIGV2ZXJ5IG5hdGl2ZSByZWNpcGUgdGhhdCB3YXMgbWlzc2luZyBhbHNvIGhhcyB0
+YXJnZXQgdmFyaWF0aW9ucw0KPiB0aGF0DQo+ID4gcmVwb3J0IHRoZSBzYW1lIENWRXMuDQo+IA0K
+PiBTbWVsbHMgbGlrZSAiYXNzdW1lLXByb3ZpZGVkICsgcmVwbGFjZW1lbnQtbmF0aXZlIiB0b3Bp
+Yw0KPiANCj4gPg0KPiA+IC0gVGhlIGtlcm5lbCBDVkUgbGlzdCBpcyBtYXNzaXZlbHkgZGlmZmVy
+ZW50LiBQYXJ0bHksIHNib20tY3ZlLWNoZWNrIHJlcG9ydHMgYSBsb3QNCj4gPiBtb3JlIGlzc3Vl
+cyBhcyBpdCBsb2FkcyBpc3N1ZXMgZnJvbSBjdmVsaXN0djUgdW5saWtlIGN2ZS1jaGVjay4gSG93
+ZXZlciB0aGVyZQ0KPiBhcmUNCj4gPiBzb21lIGlzc3VlcyB3aGljaCBkb27igJl0IGdldCByZXBv
+cnRlZCBjb3JyZWN0bHkgZHVlIHRvIGEgYnVnIGluIHRoZSB2ZXJzaW9uDQo+IGhhbmRsaW5nDQo+
+ID4gaW4gc2JvbS1jdmUtY2hlY2sgd2hpY2ggQmVuamFtaW4gaXMgd29ya2luZy4NCj4gPg0KPiA+
+IC0gU29tZSBDVkVzIGFyZSBub3QgcmVwb3J0ZWQgZHVlIHRvIGFuIGVzY2FwaW5nIGJ1ZyBpbiB0
+aGUgU1BEWCAoc3BlY2lmaWNhbGx5DQo+IHRoaXMNCj4gPiBoaXRzIHJlY2lwZXMgdGhhdCBoYXZl
+IENQRXMgbGlrZSAiZ3RrKyIgb3IgIndlYmtpdGd0ayvigJ0uIEkgd2FzIHdyaXRpbmcgYWJvdXQg
+aG93DQo+IHRoaXMNCj4gPiBzaG91bGRu4oCZdCBiZSBkaWZmaWN1bHQgdG8gZml4IGJ1dCBCZW5q
+YW1pbiBqdXN0IHNlbnQgcGF0Y2hlcyB0byBmaXggdGhpcy4NCj4gPg0KPiA+IC0gc2JvbS1jdmUt
+Y2hlY2sgY2Fubm90IHNjYW4gYSBzaW5nbGUgcmVjaXBlLiAgY3ZlLWNoZWNrIGNvdWxkLCBidXQg
+dGhlIHVzZS0NCj4gY2FzZQ0KPiA+IGZvciB0aGlzIGlzIG1hcmdpbmFsLiAgVGhlIHVzZS1jYXNl
+cyB0aGF0IHNib20tY3ZlLWNoZWNrIGV4Y2VscyBhdCBhcmU6DQo+ID4gMSkgV2hhdCBpc3N1ZXMg
+ZG9lcyBteSBpbWFnZSBoYXZlIChieSBsb29raW5nIGF0IHRoZSB0YXJnZXQgcmVjaXBlcyBpbiB0
+aGUNCj4gaW1hZ2UNCj4gPiBTUERYKQ0KPiA+IDIpIFdoYXQgaXNzdWVzIGFyZSB0aGVyZSBpbiBn
+ZW5lcmFsIChieSBsb29raW5nIGF0IHRoZSB3b3JsZCBTUERYLCBpbmNsdWRpbmcNCj4gbmF0aXZl
+DQo+ID4gYW5kIHRhcmdldCkNCj4gPg0KPiA+IC0gU2Nhbm5pbmcgaXMgc2xvd2VyIHdpdGggc2Jv
+bS1jdmUtY2hlY2sgY29tcGFyZWQgdG8gY3ZlLWNoZWNrLiAgSXTigJlzIGFsc28NCj4gZG9pbmcg
+YQ0KPiA+IGxvdCBtb3JlIHdvcmsgYnkgaGF2aW5nIG11bHRpcGxlIGRhdGEgc291cmNlcyBhbmQg
+ZG9pbmcgYmV0dGVyIGFuYWx5c2lzLiBJdA0KPiB3b3VsZCBiZQ0KPiA+IGludGVyZXN0aW5nIHRv
+IHByb2ZpbGUgdGhlIHRvb2wgdG8gc2VlIGlmIHRoZXJlIGFyZSBhbnkgcGxhY2VzIHdoZXJlIHBl
+cmZvcm1hbmNlDQo+IGNhbiBiZQ0KPiA+IGltcHJvdmVkLiAgQXMgd2l0aCBzYm9tLWN2ZS1jaGVj
+ayBzY2FubmluZyBpcyBkb25lIG9uIGltYWdlcyBvciBzcGVjaWZpYw0KPiByZWNpcGVzDQo+ID4g
+aW5zdGVhZCBvZiBvbiBldmVyeSByZWNpcGUsIHNvIHRoaXMgcGVyZm9ybWFuY2UgaGl0IGlzbuKA
+mXQgYXMgbm90aWNlYWJsZS4NCj4gPg0KPiA+IE9uIHRoZSB3aG9sZSBJ4oCZbSBzdGlsbCBhYnNv
+bHV0ZWx5IGhhcHB5IHRvIHJlbW92ZSBjdmUtY2hlY2sgZm9yIHRoZSBuZXh0DQo+IHJlbGVhc2Uu
+DQo+ID4NCj4gPiBGaW5hbGx5LCBtYW55IHRoYW5rcyB0byBCZW5qYW1pbiBSb2JpbiBhdCBCb290
+bGluIHdobyB3cm90ZSB0aGUgdG9vbCBhbmQNCj4gaW50ZWdyYXRpb24NCj4gPiBjbGFzc2VzLCBh
+bmQgaGFzIGJlZW4gaW5jcmVkaWJseSByZXNwb25zaXZlIHdpdGggcXVlc3Rpb25zIGFuZCBpc3N1
+ZXMuDQo+ID4NCj4gPiBDaGVlcnMsDQo+ID4gUm9zcw0KPiA+DQo+ID4NCj4gPiBbMV0gaHR0cHM6
+Ly9kYXNoYm9hcmQueW9jdG9wcm9qZWN0Lm9yZy8gaWYgeW914oCZdmUgbm90IHNlZW4gaXQNCg==
 
