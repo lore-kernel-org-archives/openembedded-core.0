@@ -2,50 +2,50 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BB1F45A18
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AF3F4487B
 	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 10:45:56 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.236978.1775990748990658025
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.236977.1775990748249217682
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Apr 2026 03:45:49 -0700
+ Sun, 12 Apr 2026 03:45:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Kjedg09n;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yu1sHmb3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019d814c340e-e57f197c-f58d-4575-a76a-784123b5de98-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hlx6u5n1;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=08Lx3i8j;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019d814c30c3-e37a93bb-262e-4c79-9cbc-2d049e03ad0c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775990748; i=@automation.yoctoproject.org;
+	t=1775990747; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=slj/VFNX5bhdyhnmCmxqYczGwqgowdwIQy+lc0JPrDw=;
-	b=Kjedg09n91DwI+q+VR3Ga2g5o56ieGSdcDDKR50C1dUt6hXI5yUXuBZ5a/Bw9kQ/
-	G+cWYPpFfuE6SJ/DQc8hr9pQr7uL6Waa1W4pTkKmUeA4YCbdZ/ejBLUj35hnPu4zhWz
-	Etg1CcE1BotOUe3DFx2+Wk74GTsW/54mSIjUr9cA=
+	bh=fg+ygxZhAgG+bMnTgms+ycIC23NXc0ekrwXut1zLOMA=;
+	b=hlx6u5n1FrdNibO2/j7Uf1ULOwsjZUf/Va3xXZP+Zbk2MFY02evfs5NwiVZHMPGR
+	6aA5+YmbPBUcBARQC6EbIO48qOsxmUZa7J19h6w1xU1FgFJHzI1iVHJ4+uXpKP3oMtR
+	YKR7aPWVfXUFNhickYU3FGr7imoMAreKI96tWNME=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775990748;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775990747;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=slj/VFNX5bhdyhnmCmxqYczGwqgowdwIQy+lc0JPrDw=;
-	b=yu1sHmb3lAW9DCcWvgDwKtpXfAjBlYn+9JJA/r4odCAM8dlx3escCdVB283QrPg7
-	AGj8JbiK3hPHGQ2Ee1b+Fm7YXjbnSQRemy7Vumvp3NjeQ6KLzxbWspOjHoN/xlO7nJj
-	TOtCqCcfxYojC/K0Jp8PArJFntVBlWt5CohOU1bE=
+	bh=fg+ygxZhAgG+bMnTgms+ycIC23NXc0ekrwXut1zLOMA=;
+	b=08Lx3i8jlyQ+SUB8u/EtKBYKp+Rs5SBsFUdOHCS8oVgJDNCJrLQoppZPWMIG6oZt
+	uQxDoDHmk+NUz7ZBAZ5NE4zNFxcGlnb81YhDEDQVtHeZBEOZlhBi5NI4sQhhGKhgzwg
+	fVY0Ixub22rmVct5xhowVEdFTSCzD6Ew+Y6TkdSM=
 From: patchtest@automation.yoctoproject.org
 To: =?utf-8?b?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 2/2] atop: Fix binmerge
+Subject: Patchtest results for [PATCH v2 1/2] atop: Add packages atop-acctd and atop-gpud
 In-Reply-To: 
- <8da08c5212bb705329a8b7c390bbf676d7b1038f.1775990357.git.joerg.sommer@navimatix.de>
+ <5a2e6c6a750bb04263768f47307607f17b77f4fe.1775990357.git.joerg.sommer@navimatix.de>
 References: 
- <8da08c5212bb705329a8b7c390bbf676d7b1038f.1775990357.git.joerg.sommer@navimatix.de>
+ <5a2e6c6a750bb04263768f47307607f17b77f4fe.1775990357.git.joerg.sommer@navimatix.de>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d814c340e-e57f197c-f58d-4575-a76a-784123b5de98-000000@us-west-2.amazonses.com>
-Date: Sun, 12 Apr 2026 10:45:48 +0000
+Message-ID: <0101019d814c30c3-e37a93bb-262e-4c79-9cbc-2d049e03ad0c-000000@us-west-2.amazonses.com>
+Date: Sun, 12 Apr 2026 10:45:47 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.12-54.240.27.31
+X-SES-Outgoing: 2026.04.12-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 10:45:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235064
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235063
 
 --NextPart
 Content-Type: text/plain
@@ -55,7 +55,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/v2-2-2-atop-Fix-binmerge.patch
+Testing patch /home/patchtest/share/mboxes/v2-1-2-atop-Add-packages-atop-acctd-and-atop-gpud.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
