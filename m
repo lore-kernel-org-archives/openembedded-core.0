@@ -1,125 +1,112 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EABCDF3ED6E
-	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 02:39:18 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.219450.1775961558182556793
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F3EF3ED7B
+	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 03:58:09 +0000 (UTC)
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.221949.1775966281318317947
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Apr 2026 19:39:18 -0700
+ Sat, 11 Apr 2026 20:58:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=dekXgjnm;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2b25cf1b5f0so22517695ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Apr 2026 19:39:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=b46tIpeW;
+ spf=pass (domain: gmail.com, ip: 74.125.82.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so7380638eec.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Apr 2026 20:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775961557; x=1776566357; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FfMfPfvUcYsKxVWeIuV3b3IIXC9SPXNXYPY4lHiLR1I=;
-        b=dekXgjnmE0Ich3QGhfrGx/E3JFsPSaPPv5JYfjJbpDWpdZrfsmY4wvm8yDXoPSoLMN
-         Vg7I+TyWBOydmTBTvcCxoieFXnbRSENoh5kQ67I+cB/KhsLWol4VsqDAkC7nwnzt0JhZ
-         LWz2KHC4nvdd8BHYKIDiFnQKvSk3YS+PP1SdY/FXu6nvS7CaK1AafjuSo77SJuvl+/dg
-         /X1O8tCaDK3TDJEikJbX3CFey1Jzjm4qulgPTxr2v6EP/mQ+lvGtKmidSEIcCTcSoDIK
-         9EXzgJH+3rBq48bPuTRkHdnTVTOsMziwINpIsDEbo6kUzYdd04v1Ks5T2uH8L4q+cto4
-         W2jA==
+        d=gmail.com; s=20251104; t=1775966280; x=1776571080; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p1qowTnWcIGXA1JJZz7u5xCDHP4rtNQWDT3kVstMMcY=;
+        b=b46tIpeWgRuZ0e0kn8iffH8bHdZ2BTjsGrEC30/pJ4/E+qcI6q/R6N0GpTapxsR5g9
+         +yObm81+8Rj/4jcjiNxXN57K0ieiVDbVkN3kNAP8QfJwvTNNPVoysASkqU5Q6mo8EY+H
+         IrCfcPLzxEc0g84d9cOpv/cUqk0+86ixF1IRwLOIeA92s0dQON2T7IR8fSd0wIJZTgWn
+         cOpdy6FC8V2O+mFgUfUBjOOk5ib/1uPxJXSUnzVSimtGKgJuvvBTOrkmQvejZioUiPLZ
+         d8YUOajkrxdgypa1ws8By0rVw9DE6qcDo5NZOfxI6qICT7MWXVRPJtLLZeENTv5mmJ8V
+         Ez6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775961557; x=1776566357;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FfMfPfvUcYsKxVWeIuV3b3IIXC9SPXNXYPY4lHiLR1I=;
-        b=hLSqiprmEjtf2SrTwy9EBKzI8uiOKtFOSqWG9G2JacfWvcP2M3BB5yqRV7KCCg+pvi
-         n6l9pt2L981Qf6ygS0HxCh0CfVJHxR0aitK1/osezaXes4A+J7L4UKder8hNHSoA8XzO
-         B622Zv9WYWgScSquw8BIkrjQpBXdGQRTeF+tKJGpBEKxAwGRBk05XQjgXFF9N3yx0klH
-         kjNDsvdalsftUHAd8jpLUoU68EQj/vjUZFFXZ/vjNQmnbCICMTujFZ0lNeeJ2UWr3VB+
-         4KO31pHM7EAiWtAw9pIcWck+a7V4zqOvvpwffqYjnGz8dCtzy1I1B1EG6OIsVAy4VcmK
-         LSWw==
-X-Gm-Message-State: AOJu0YymbaFdVi+6kmYZCVGKK9EjC/qkODT9qH3tnHH8W0nEIrIwsjdN
-	FgAX9LYhhOsOPcALpVC/uieqf6nICIKBz2Qnw4PWo8cxOZhpU/m8wRjQ9Z2FEQ==
-X-Gm-Gg: AeBDievsyRxuoVZ3Z0a+r95Zhq3VIedwD+OfyTM9auwYt07S+/w/ZcDTsM7uYHTw54B
-	YgkR0aIqsbNrl3Mr+UMczbneRDs5gc1LX2YnTsSH+V46KcbSg0IT0ZLVaW/DgHiDiHj1r6m/BiQ
-	YYAcXIrVcoYfUXTzp/ixPh4vslC9SXfnQAWw35YcJo1upAnyl2gW2nzBz0n7xoRE6UUQE0c5rRG
-	uG9IjvgRrm4RjBilYh/kUPU7n3B5tT7dSaxgBPX1opS1dWcWV8MCnX5Yk08Pnye5DsoXKLirCx2
-	ZH93PjX3ssVSdg4SmkJOmcG7v1lXMtxNnfPJibY2BnHoYVE960YFslxDToaAO06n3c+trXBK90/
-	8diHc84ECK/qqkFtX5q9QXjH1E13PIcQueuOWLV4SsXBdfZaY5shI2TvXc8ttZjxVeiRYXYJaix
-	OaSMIFcICLoqcF2J0BqGxibeWA9wyGD2nd7i53BhZ0oyNXSro=
-X-Received: by 2002:a17:902:ce0f:b0:2b0:708f:4dc7 with SMTP id d9443c01a7336-2b2d5a2a1a4mr93926365ad.29.1775961557327;
-        Sat, 11 Apr 2026 19:39:17 -0700 (PDT)
-Received: from NVAPF55DW0D-IPD.. ([203.211.108.128])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4f26cdcsm76956165ad.59.2026.04.11.19.39.14
+        d=1e100.net; s=20251104; t=1775966280; x=1776571080;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p1qowTnWcIGXA1JJZz7u5xCDHP4rtNQWDT3kVstMMcY=;
+        b=R1m6T6oFejiVxdDzQyXhBFiAHGjSzExMpplY3Swjo9gT70hV9W8Pq9wGjV71Aa0yVd
+         Z9CM9aZGieIvWkVXz5hRQiG4Yq9Kn4ix+QjaYPAjLDiH+zfrSAFPwcR51fAUxwbkB3mH
+         3tvp6t0SL7HAIhp0G1OKbdQBqSUHewG333nU67uoKbguutVtNKFt+UXD04pKIlpnNbNp
+         sm/0HmehyGc2fL2B8ZV3auPO9ZlIWg5aEgI9MefvASGf/dDM9livVvo7okNZscCgF492
+         vDKHzB8iTZq7wedwCMH7vbvaKOlGVSt4pEeNxRPxdizjZ8WdZohvfaZ6qG9f8LU6MSKg
+         HKIQ==
+X-Gm-Message-State: AOJu0Ywzd6S4DivG/IS5H7lsQdnKYubvgHwkMrafJ3X7/pOT2stocGfZ
+	dib8ae56QQSsE/T5VSQ/roeNTCOr1dO2kwYGgPOD0zi53NqSwbeiKrqEUv43xkmv
+X-Gm-Gg: AeBDieuKpbI/aTmjqWFWYyEODBeK+oshpexFI0BhHBXM3vk2jY6hm9LXJ2ZdPq5OUvd
+	MEyp2LUZKnZBPB4xXMv2fkyEDTdnQDPx68xDe2SGVL5VrOsUc9yfp5CbJY/QmVUC6MO7EfpR01C
+	HNqSWUZKUgtgkAJPY2J8xbxP/zy//UDXtNC+ZEDEVdcdC9xvDG3u21xAFyWuI9uy7vBv7XsbYAU
+	sV7M6rwi3E39B/X2r/aA7AzHl58k6Jn4J08iRizTB8MdY587QSNGTaXqFnQN9nLak55XUtkcjDb
+	MBBSPjGRVOEGSLw6t4kBH1UsJq4DiCHS1udB5B18EDb8tKF0XNFsoiM7aqZfrTWPSnW2TwHodYi
+	gmmTzZmOvhy7kN7TwtNInfcOJP7jaRhPJAktMuKI0iXlatxt55hdZPlYeYe/qlgy2Kcn7LGZpUD
+	2wja7fkL8E3llrbw1gZh0i/eJ9XUddUAQVlw7qv+IUvJYoUisdxy1wX7B6/okthtQiB/TkNEUMz
+	EgcQ6dGAnvU8eJ0RtaYA3VAiN7/NbnVRZVDs90G4zXnMNcV6QStg7e8wIKr
+X-Received: by 2002:a05:693c:2d91:b0:2ce:3aa1:d39b with SMTP id 5a478bee46e88-2d5898a73famr5557807eec.20.1775966280211;
+        Sat, 11 Apr 2026 20:58:00 -0700 (PDT)
+Received: from apollo.localdomain ([208.95.233.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d5621d7d55sm11018878eec.22.2026.04.11.20.57.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 19:39:16 -0700 (PDT)
-From: ankur.tyagi85@gmail.com
+        Sat, 11 Apr 2026 20:57:59 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Andrej Kozemcak <andrej.kozemcak@siemens.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][scarthgap][PATCH 2/2] ca-certificates: upgrade 20250419 -> 20260223
-Date: Sun, 12 Apr 2026 14:38:57 +1200
-Message-ID: <20260412023857.2836123-2-ankur.tyagi85@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260412023857.2836123-1-ankur.tyagi85@gmail.com>
-References: <20260412023857.2836123-1-ankur.tyagi85@gmail.com>
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH v2] u-boot-tools: Add dependency on libyaml for dtschema validation
+Date: Sat, 11 Apr 2026 20:57:57 -0700
+Message-ID: <20260412035757.134385-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 02:39:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235051
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 03:58:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235052
 
-From: Andrej Kozemcak <andrej.kozemcak@siemens.com>
+yamltree host tool, used to emit YAML from the DT, is now
+built as part of the normal u-boot-tools build to support
+the schema infrastructure
 
-Changelog:
- * Update Mozilla certificate authority bundle to version 2.82
-    The following certificate authorities were added (+):
-    + TrustAsia TLS ECC Root CA
-    + TrustAsia TLS RSA Root CA
-    + SwissSign RSA TLS Root CA 2022 - 1
-    + OISTE Server Root ECC G1
-    +  OISTE Server Root RSA G1
-    The following certificate authorities were removed (-):
-    - GlobalSign Root CA
-    - Entrust.net Premium 2048 Secure Server CA
-    - Baltimore CyberTrust Root (closes: #1121936)
-    - Comodo AAA Services root
-    - XRamp Global CA Root
-    - Go Daddy Class 2 CA
-    - Starfield Class 2 CA
-    - CommScope Public Trust ECC Root-01
-    - CommScope Public Trust ECC Root-02
-    - CommScope Public Trust RSA Root-01
-    - CommScope Public Trust RSA Root-02
-  * Use dh_usrlocal to create /usr/local/share/ca-certificates
+Fixes link errors like
 
-Signed-off-by: Andrej Kozemcak <andrej.kozemcak@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 738e08718e31de19c1c8db5e162a4a00e2b0c0e6)
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+| /usr/bin/ld: scripts/dtc/yamltree.o: in function `dt_to_yaml':
+| yamltree.c:(.text+0x91b): undefined reference to `yaml_emitter_initialize'
+| /usr/bin/ld: yamltree.c:(.text+0x926): undefined reference to `yaml_emitter_set_output_file'
+| /usr/bin/ld: yamltree.c:(.text+0x933): undefined reference to `yaml_stream_start_event_initialize'
+| /usr/bin/ld: yamltree.c:(.text+0x93e): undefined reference to `yaml_emitter_emit'
+| /usr/bin/ld: yamltree.c:(.text+0x957): undefined reference to `yaml_document_start_event_initialize'
+| /usr/bin/ld: yamltree.c:(.text+0x962): undefined reference to `yaml_emitter_emit'
+| /usr/bin/ld: yamltree.c:(.text+0x983): undefined reference to `yaml_sequence_start_event_initialize'
+| /usr/bin/ld: yamltree.c:(.text+0x98e): undefined reference to `yaml_emitter_emit'
+| /usr/bin/ld: yamltree.c:(.text+0x9ab): undefined reference to `yaml_sequence_end_event_initialize'
+| /usr/bin/ld: yamltree.c:(.text+0x9b6): undefined reference to `yaml_emitter_emit'
+| /usr/bin/ld: yamltree.c:(.text+0x9c8): undefined reference to `yaml_document_end_event_initialize'
+| /usr/bin/ld: yamltree.c:(.text+0x9d3): undefined reference to `yaml_emitter_emit'
+| /usr/bin/ld: yamltree.c:(.text+0x9e3): undefined reference to `yaml_stream_end_event_initialize'
+| /usr/bin/ld: yamltree.c:(.text+0x9ee): undefined reference to `yaml_emitter_emit'
+| /usr/bin/ld: yamltree.c:(.text+0x9fa): undefined reference to `yaml_emitter_delete'
+
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- ...{ca-certificates_20250419.bb => ca-certificates_20260223.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/ca-certificates/{ca-certificates_20250419.bb => ca-certificates_20260223.bb} (97%)
+v2: Add dep on native libyalm alone
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb b/meta/recipes-support/ca-certificates/ca-certificates_20260223.bb
-similarity index 97%
-rename from meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
-rename to meta/recipes-support/ca-certificates/ca-certificates_20260223.bb
-index 01f594095e..9cf6d5afc7 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20260223.bb
-@@ -14,7 +14,7 @@ DEPENDS:class-nativesdk = "openssl-native"
- # Need rehash from openssl and run-parts from debianutils
- PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
- 
--SRC_URI[sha256sum] = "33b44ef78653ecd3f0f2f13e5bba6be466be2e7da72182f737912b81798ba5d2"
-+SRC_URI[sha256sum] = "2fa2b00d4360f0d14ec51640ae8aea9e563956b95ea786e3c3c01c4eead42b56"
- SRC_URI = "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
-            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
-            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
+ meta/recipes-bsp/u-boot/u-boot-tools.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-bsp/u-boot/u-boot-tools.inc
+index 4e4f7fa092..a055409c2c 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
+@@ -1,5 +1,5 @@
+ SUMMARY = "U-Boot bootloader tools"
+-DEPENDS += "gnutls openssl util-linux swig-native"
++DEPENDS += "gnutls openssl util-linux swig-native libyaml-native"
+
+ inherit python3native
+ export STAGING_INCDIR = "${STAGING_INCDIR_NATIVE}"
 
