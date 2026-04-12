@@ -1,94 +1,98 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AF3F4487B
-	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 10:45:56 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.236977.1775990748249217682
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3497FF45A1C
+	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 10:58:06 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.237978.1775991476342746296
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Apr 2026 03:45:48 -0700
+ Sun, 12 Apr 2026 03:57:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hlx6u5n1;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=08Lx3i8j;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019d814c30c3-e37a93bb-262e-4c79-9cbc-2d049e03ad0c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1775990747; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=fg+ygxZhAgG+bMnTgms+ycIC23NXc0ekrwXut1zLOMA=;
-	b=hlx6u5n1FrdNibO2/j7Uf1ULOwsjZUf/Va3xXZP+Zbk2MFY02evfs5NwiVZHMPGR
-	6aA5+YmbPBUcBARQC6EbIO48qOsxmUZa7J19h6w1xU1FgFJHzI1iVHJ4+uXpKP3oMtR
-	YKR7aPWVfXUFNhickYU3FGr7imoMAreKI96tWNME=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1775990747;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=fg+ygxZhAgG+bMnTgms+ycIC23NXc0ekrwXut1zLOMA=;
-	b=08Lx3i8jlyQ+SUB8u/EtKBYKp+Rs5SBsFUdOHCS8oVgJDNCJrLQoppZPWMIG6oZt
-	uQxDoDHmk+NUz7ZBAZ5NE4zNFxcGlnb81YhDEDQVtHeZBEOZlhBi5NI4sQhhGKhgzwg
-	fVY0Ixub22rmVct5xhowVEdFTSCzD6Ew+Y6TkdSM=
-From: patchtest@automation.yoctoproject.org
-To: =?utf-8?b?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 1/2] atop: Add packages atop-acctd and atop-gpud
-In-Reply-To: 
- <5a2e6c6a750bb04263768f47307607f17b77f4fe.1775990357.git.joerg.sommer@navimatix.de>
-References: 
- <5a2e6c6a750bb04263768f47307607f17b77f4fe.1775990357.git.joerg.sommer@navimatix.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d814c30c3-e37a93bb-262e-4c79-9cbc-2d049e03ad0c-000000@us-west-2.amazonses.com>
-Date: Sun, 12 Apr 2026 10:45:47 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.12-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Jg0MQzZ3;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488c21c636dso20045815e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 03:57:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775991474; x=1776596274; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tzkOzgLadrRfJUIqtIJrNZ9w2IGSm6NcQmNb3WGVWMg=;
+        b=Jg0MQzZ3vVrFZ3Qv+h3/M0nQDdNPevV3tDb2CJoWOEun31zLVEB+6sZxkCCntk0eQ/
+         uVE6PcBYapPLiePVb5Fvzv2oiqFV0gNpPrEsTbDubAQUPvzRbqpEHylaXrwyFLAKsVjf
+         33brhsHr/qk9JqmbdhGLfn4wUzZimb/qpp4Hb6VvTQrqqEvAF2jXef8jVq3zu2PwHVlH
+         uEJVpgf6aIKPFp17rp/X2ENx5X1IhBagENmW1zKQdA/5q57oAF5iQUBogIQzPvJV1lTR
+         UHBOG3V7uBPoKJtTztub45tmY+SmpnfzYBneIDpzq2pMS67n+7tP4nYMj9BmQc/oyILa
+         B7OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775991474; x=1776596274;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tzkOzgLadrRfJUIqtIJrNZ9w2IGSm6NcQmNb3WGVWMg=;
+        b=EP50dYxTHXxHK0kJeuQkhe2eEw8XCqehfOPkWqUbn3fzlMKs5pl6aobXoUguwHew0L
+         oqNkSgPiz/hon4jR4ByW+isiFYOJuO+8cUoJVZefi3ikhnmpR+oINdlQ5PofUVtuu3hf
+         SZLHT/bvDVrmjp46PeAIR5q73hPUIsltR+hoef5JMo2Y5kfKdQ6PsipI4rGYxMETReCg
+         sGTnw9Y2R2qNRqNp4+gpuzCPAOJDeKiEMcefq6qGQkdmbdpXBlM9he27MPY+APYoRFzR
+         SZ6me//9voi2a5hkKhRnNmAOiZNsnrvrWB3m1v+RdDzmAX1RMaDzfOhuiFFaV13F8zXX
+         T6+w==
+X-Gm-Message-State: AOJu0YzsRzGsCRZJ/gdTJBJcX7N615kjD/sJzyUiHbtpOy82XNYHF977
+	hQ4i2+7R4IucEz6K1jjTbBV27+ZUKC2C/bpZ4jh/xytBGtrdenGL/+zHJq1LDg==
+X-Gm-Gg: AeBDieut5Kwlf581bd0S2qG6oHuyVZynwuhCL1NULY7DDYXVWYdKDfBctwXOpUgcGhr
+	tToSUiA0cDJgrAURka0zfLz+hZa8QKVhgVWMLicauZEPiNWlFdzuHimQcB1OZ4vxlfU4dHdNWdQ
+	8aO7VKCTt2XcyxNKeJ89OzVSn//SiWROVf303sf35m/S/UqdH/LWwDxdvOsTMT1o1upocfUgvgJ
+	C9SPwF3lfCesxwKUJsH5O4fzF6S0eZGR1XBuDGgpD/w6QwoxrvhMNM6A+WdexzK5PGmxH2NInEp
+	wLZWP7iqPiD75/lxwZBaUUvYqe9Qg5dF6i6FLKEPu00E9XcKIDuk67oQAqIxNMlQgwnIH/mTUys
+	qWj8rLQ6/5n0f+YR3rNk5TzDTDexfKYa+o2amjsaXJQC8H1xjE3Lz76V4QMtwgNGsjVhzOzyvav
+	8xr0GyfJF9XT/bEXQ/PjsnqVMhXCtpZUSo9DIoSvb0hmwxAcb+OGqRQng4sLbj6OHbphd/5L6yB
+	2TQNwXYMR9NfkRXUtys
+X-Received: by 2002:a05:600c:35c7:b0:483:64b4:79da with SMTP id 5b1f17b1804b1-488d68b27d6mr142048905e9.26.1775991474310;
+        Sun, 12 Apr 2026 03:57:54 -0700 (PDT)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d53807d7sm328079105e9.10.2026.04.12.03.57.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Apr 2026 03:57:53 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] apr: remove -std=gnu23 from apr_rules.mk to fix reproducibility
+Date: Sun, 12 Apr 2026 12:57:50 +0200
+Message-ID: <20260412105750.3342374-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 10:45:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235063
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 10:58:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235065
 
---NextPart
-Content-Type: text/plain
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+With the updated ax_prog_cc_for_build.m4 from
+apr: fix build with autoconf-2.73
+it now correctly detects -std=gnu23 usability on host gcc and doesn't
+try to use it e.g. with gcc-13 which doesn't support it, but that causes
+build reproducibility issue between builds on such hosts as
+CC_FOR_BUILD is included in installed /usr/share/build-1/apr_rules.mk
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260412-a5w4mcrk/packages/diff-html/
 
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-1-2-atop-Add-packages-atop-acctd-and-atop-gpud.patch
+ meta/recipes-support/apr/apr_1.7.6.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-support/apr/apr_1.7.6.bb b/meta/recipes-support/apr/apr_1.7.6.bb
+index 86fac1e4c8..9a7a8ddd74 100644
+--- a/meta/recipes-support/apr/apr_1.7.6.bb
++++ b/meta/recipes-support/apr/apr_1.7.6.bb
+@@ -87,6 +87,8 @@ do_configure:append() {
+ do_install:append() {
+ 	oe_multilib_header apr.h
+ 	install -d ${D}${datadir}/apr
++	# avoid reproducibility issue, -std=gnu23 is used only on hosts with gcc-14 and newer
++	sed -i '/^CC_FOR_BUILD=/s/-std=gnu23//g' ${D}${datadir}/build-1/apr_rules.mk
+ }
+ 
+ do_install:append:class-target() {
 
