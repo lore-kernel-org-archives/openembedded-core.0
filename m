@@ -1,196 +1,325 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D4B1E93804
-	for <webhook@archiver.kernel.org>; Sun, 12 Apr 2026 21:01:46 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.69])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.257546.1776027699823084706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A327EE9380B
+	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 01:41:57 +0000 (UTC)
+Received: from OS0P286CU010.outbound.protection.outlook.com (OS0P286CU010.outbound.protection.outlook.com [40.107.74.69])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.262181.1776044508959796968
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Apr 2026 14:01:40 -0700
+ Sun, 12 Apr 2026 18:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=WVnAciYG;
- spf=pass (domain: siemens.com, ip: 40.107.130.69, mailfrom: peter.marko@siemens.com)
+ dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=VaWuJIQ3;
+ spf=pass (domain: fujitsu.com, ip: 40.107.74.69, mailfrom: liuyd.fnst@fujitsu.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dC+PEud1Mn5SUiBjtk4qGvKBqHS6aWwezKLKHg1jqpy5Y7imfJEHhx3sMoaI+J+rb+htBfo9F8+xsLHnXCveuFurApUNvjbeHyfZPYtMm6sHA0bZYcxkHXtAoUYEv3iCgzQOoTrIvtNCeIb2qZAXsodnj7yaBWzYEv9IONb7xFe3xDh5+4ifsLvtnqqksFisNk5TozQVMJoQRt5thlwYMp4OqO3McHvTMVGBVvRUWQSPXRPhhx2m4jcX087HC59iqm/5MFh2p+09KyFXfhEj5400Ul3KBOl8xxLKUQ8q+lJMOM83HjmJy/cjHwoOSfOqr6MhV7eEjtVPirnwD9pqAw==
+ b=YNyDeOVI1v4B4HkLOwtK0onvXSPJhcey+UxQX8/aML+y+adI8Iyhj0jc+JSr/l1VHEO6kvRRU7PvL4kjaUSpKDRrxB2OkJD7thIyNJpJ4UsoOUcOdwHuSdh5CnnyG58uKACNEqtfK2T68jhgssAO7mdFNbt+cRltCDn7a89uqb/aLqG7G1/U6Sh93sBZpX/4GM7BxtREoacMYVbiW8vk+EqEZnmaJyM8rmr87qPAg/dNfdj4SkoOZMhXgvKkMfTALerM6K6apS6HcNz1EtCiK+NUkKNtLtj3NK6ym7oCJxD/ueGdCJl4UsIoXb+wGHc+uz+w5Yeb7og4Mtq5L3TCSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4ho403ZvxzlfxdnLWlvp1A+nXRh/AyncWAE0zemBLT8=;
- b=j/N+T6bEOeEf+hlOjDiDZy7kRqFTLndX/VeclPO3h6wJogSuvTjb4sNBkT1JnU/EpF84v/1oBkt1pCaKFH6XnJfsw+K5wXpx7dQxdGN5Qo7hs1HKKxX+uJDlEW4GIpM6rQRpDeouNMpmPRys31AADsbH9RQkiixAwkBmFZsj9utdUqDmJLFCTbR3FEnNTukwA+26nOELgjMQBazxQE/FIYNFCsmOKZfoENRTk+DcgfUy+uOc/o2JHQ6d4nwX7ZSzu/TWEpmHpSrg17S2MHBvo70uIhxf5iZnkOSRZcv0z6l0Errzx+OCfD2Z5gesVb3JX+4dLhrJIEtrII7Uu9RBnw==
+ bh=x5btbrYIaH3aSMZmQx40jtypQIHlwFjYIAmf3cm4gTg=;
+ b=IQ5rIhphTvqS2w5M3nWhHpMQcXeWc2mtCmL4DrZdKWu500AyXD1PlpmFIzHzHEnZuWqgxd/VBjvdOPDyH4TPnL1H4KVcMAzuVzLvO3zz6B1l8BAoQ795q7hr7IzgfTbSnWBgn1DBpzBSOFZJIgGcIki9XyMECwnxkVYSB7W9PQVGmU2M43qBi5AUmSvQP/6lRyE+5SYBCGbnEed6XgX/HFN40o72uw6w9T6sinnP5aA1PEo8YXIp+auRWS5bdlj6+AZzkltECKPnxXdKJYfVdF46yssoo+zBOIBaYhX0iTu6FQfEPgBREXNA525ZpwuMvPI0kL0B9YSjBhcLIzeryA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4ho403ZvxzlfxdnLWlvp1A+nXRh/AyncWAE0zemBLT8=;
- b=WVnAciYG9UYAqrKfjRUGUqxJg3cA2Seu3T+6tCrtJo1dAbhp2YZ74039BuGa7Y4Zq2EB0wcfTFKTy0yjH48AKoNt7XUcpkHugZzUMx/Paj1zPC/LXT2HyDoIczJWiO3VPHQzcqOodhrfSeCVL/hQmvSg9Vh0wrgxvQBzqYGjzJn0kg3wYuDXs5mFYVqkozf+8d20+I1GACZxmGc/EGUpy3YGO2CCPCftSljonF7Ka1JdF9CD2Jor9pjG9YS9kFu1Jxm4XnuDFq42f2I62uLDXWrgUyA+x5lzcQOfiS7EgLUxVZo6x1okgVFxbT5bMgw+NqUgnMbkmtX3YkPJdQ81yQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DU0PR10MB6083.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3e2::6) with
+ bh=x5btbrYIaH3aSMZmQx40jtypQIHlwFjYIAmf3cm4gTg=;
+ b=VaWuJIQ3qIhNttmxh9f0xxPCAOYTeauSzJe/2/U4eH8I+7IlMu6LfTQroWBJEZTEJs6sjl0lJps/6woOTp5ecpctA7Pslu06aJfQ0hnKReE+BJEj5X8nwpAUs2TmYw8yj24SEkw2UOvnqi2m0rjVFGFIhZxHT/ROYkNnbQpeNk7sWIup5o53PviJpDp3aUv8uJqSchSuKIY/jgGTlmZP+fpjNUjfICLDt0VohYOWH0Gwhs+/0xnxeAU4w6sPYZ23nTzcnK0bSuVJ3oytHwcs28srB8yHPSHeJ6FOhN8wULr5dc7LCFAd6NNgEeyQksv5JcI5yzawJMUYk7pfBdlxvA==
+Received: from TY3PR01MB10028.jpnprd01.prod.outlook.com (2603:1096:400:1df::7)
+ by TY4PR01MB16904.jpnprd01.prod.outlook.com (2603:1096:405:33a::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Sun, 12 Apr
- 2026 21:01:35 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7%6]) with mapi id 15.20.9769.044; Sun, 12 Apr 2026
- 21:01:35 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Benjamin Robin <benjamin.robin@bootlin.com>, Ross Burton
-	<ross.burton@arm.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Mon, 13 Apr
+ 2026 01:41:44 +0000
+Received: from TY3PR01MB10028.jpnprd01.prod.outlook.com
+ ([fe80::e9f2:ef57:2251:3a6]) by TY3PR01MB10028.jpnprd01.prod.outlook.com
+ ([fe80::e9f2:ef57:2251:3a6%6]) with mapi id 15.20.9769.046; Mon, 13 Apr 2026
+ 01:41:44 +0000
+From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
+To: Ross Burton <Ross.Burton@arm.com>
 CC: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: RE: [PATCH 2/2] xwayland: set status for CVE-2024-21886
-Thread-Topic: [PATCH 2/2] xwayland: set status for CVE-2024-21886
-Thread-Index: AQHcyq2co6Yk9IO1d0Coj5Am6U3L27XbxjhQgAAYqICAAAhHgA==
-Date: Sun, 12 Apr 2026 21:01:35 +0000
+Subject: Re: [OE-core][PATCH] gtk-doc: upgrade 1.35.1 -> 1.36.0
+Thread-Topic: [OE-core][PATCH] gtk-doc: upgrade 1.35.1 -> 1.36.0
+Thread-Index: AQHctfDeaW32L89xuU+z55bgHBoinbW91jYAgAEF/VmAHYVEQQ==
+Date: Mon, 13 Apr 2026 01:41:44 +0000
 Message-ID: 
- <AS1PR10MB56973C7FC237B95B05B7B1DBFD272@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260412185201.2556780-1-peter.marko@siemens.com>
- <20260412185201.2556780-2-peter.marko@siemens.com>
- <AS1PR10MB5697C1A55909F05EE73FB5A2FD272@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <13986342.uLZWGnKmhe@brobin-bootlin>
-In-Reply-To: <13986342.uLZWGnKmhe@brobin-bootlin>
-Accept-Language: en-US
-Content-Language: en-US
+ <TY3PR01MB10028AA9384F9E02304AD9BA29B242@TY3PR01MB10028.jpnprd01.prod.outlook.com>
+References: <20260317093125.10898-1-liuyd.fnst@fujitsu.com>
+ <03973F2A-A04B-45F1-832B-150E7CFE813B@arm.com>
+ <18A0035F8B72A95E.57592@lists.openembedded.org>
+In-Reply-To: <18A0035F8B72A95E.57592@lists.openembedded.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=dd24626c-4be4-4606-884a-f705367e8eac;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-04-12T20:52:19Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
+ MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-04-13T01:41:43.838Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DU0PR10MB6083:EE_
-x-ms-office365-filtering-correlation-id: e907110d-cd14-467c-cd24-08de98d6aeb9
-x-ms-exchange-atpmessageproperties: SA
+x-ms-traffictypediagnostic: TY3PR01MB10028:EE_|TY4PR01MB16904:EE_
+x-ms-office365-filtering-correlation-id: c89430b5-a365-4320-7948-08de98fdd1d4
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700021|55112099003|22082099003|18002099003|56012099003;
+ BCL:0;ARA:13230040|376014|366016|1800799024|38070700021|56012099003|18002099003|22082099003|8096899003|1580799027;
 x-microsoft-antispam-message-info: 
- GK4nYGszF9xhM7I6XoJE1ceDiEmHcO8Dd7uKGyTdSXCf+TPTO/RcDJDl1XnXKoBqIjtM/IuwEKOqQYYsW0Eq1BCrX66D+xSXLVWPEoy4TzJjV9iHAy2A8LR3xDr6pS/zzWyFkH9orPiEt5KyFM+xROvBPyO/cUCESzZoDfAGL4n4ME+XPGrj7lKEZnI4ve4pmhRo0rgHuAEJY2IV4F14l0ELZ/Po6OIuQIDfbB3jIyh5KoEuYLvlprbg7TQtMbD5HA7OTnd62cb76soPUBOu0lIOa90Qpg836pHCi5KLIg0ko9ISv646/5cNLFsG8vEZ9FlXnBSw83+ru9p92mSOuf4O8xTGSqjp2pWYfeljwC4h56o8q6JtLwEHFRHPgHrFfD3TWGn53fB9QKCWGNeIFH8SCc3Mm/fw+2a8DwhT6BcZGNxpsOjqHkCx+dB4lJQaOA5TqCtOxJQnJxtOQUw/Ck5GHGAdE7JODmKfeJvdQ+q/4NLeIu0Izyd/tqxpWJs+R+0BWQAFEey97myaiLzKovbd7INJt/Plnn04cUFFEpPpynSlDx/X8yJQ4RWK8tCKaTGKMzMAEdS5cpDGpFLl6Ac4BWYr2mgqrRzQZQiDxB0wTD0dszZiPZJp2kfE7tjFFQnouUEmR5YaqFhB0wIR1m1QJ204f/3PHzcC8o18YVVRUBaAw5H7XUZywrBnxbwK2qXGQf4niDUceQW8Sx3eV+oNu5Jr4460LYjJcpNO9oE=
+ lkOgy41MYgsruhubxIyh52N8ytKqF4aBwOELqkG/N48gZ94hMYbaL/4ZyNILQxoTvqUjq+qnK7DWuYqpoOM6LRNPviogmwtDCM/Mx1FR/MjZGfpStK0pkNDqQg4fMafgIeCrigGrzV3DqD/RqW8zC9EBKzE18N7A0oYRqMMUqM36LH1tB203MnjTa71VCGO3374lE9Bpx4e8IySwnrFar/q0n08rRY171JkWOZERfW3nUpX9JjjFhZjczWU8tyz8dfP0/6O37OJ4qA0fep1OQW2lcKTWcvfsTacEGonxDobAV0z/Vgv0+SxJqM8G7PCQvOB/17eVewSWF6U2LbFISam+c01aH6CSeg9AWBbKRueAAaPLwQulFDujLrSOsYnwABjeIiafwDp1KR7jbP1IDbogZevKMODzt28tuNuhYB2lXV72iM3AvCqAVvbDlDUDY75Qe+BWdxwZJq1oC0ClN9AKhnDJnfSPzdHfc+99acWfm7JlWVlZKUcrTnuSnd1TrZuhm1oDZ1gGzDOPTdTOkuZz/kUgC5E53TDcPhWshQkt71P+Sx+demiXc9lEKZ+Dmq3vw1ftApSRXyg9dLufCHM3AI6me/GVb6PdDmkDf2GipOesMlrjjvCNa0JQme//XUFFj0EJBKi0a4liW6JzLScJd5up+roV9JM/SA7TkovA0g6e3WxOI58dk+QheHhcVOfnq9LTMpj3WVgduC0seDczAHielEU1P8hLUVr6Ysu/s/geF3EJuUw1mS807xST21fa7GjXdsk9XxbuQHXLwKJdoc4lw3wV8qqivifU1rK+7/PZq+tcWbguQ0ayzZec
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021)(55112099003)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10028.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021)(56012099003)(18002099003)(22082099003)(8096899003)(1580799027);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?WjhVQ3lkcUJMTFdiZGg2dXB0Tm9sa3VWQUNQUXgxVVNrQjFhKzBCM0hNaWt1?=
- =?utf-8?B?UVdzbnVYNDY3cWRrWGlUUFpucEZveldOT2l2U3pFQ1V1VXJpS2FsS242ZWZV?=
- =?utf-8?B?RjczQXJjSVdhWHhFNFZsb3M1VVZIQzIzd0VNeTZuMkxoS2VOdVhmeHM5bldx?=
- =?utf-8?B?UlkxUFd2d0hMNzNaUE4yeEcyNkhXZ3ZvWkVzZU1UMk1lWHhLcjExbThEeUpH?=
- =?utf-8?B?b05qd3MycUhjdWo2NTVMQ2FqcFE4YzdydnI0OEIwejVGaTdLWWtrNkI2bDVY?=
- =?utf-8?B?dUVyc0k5K0dXME5ZMk15eXA3SWlpcVFpOWtIS1pBVk5CNjZyd25oRmttRTZB?=
- =?utf-8?B?TTZ2SVJDdnlIaEg1VzRycysrcWVSQm1QelJGZHNxUCtvcTFDUnkwQVliTW5n?=
- =?utf-8?B?MFFCeDI2ajZtSEpZMHV6RGZMZlBKL1Z6bW0vLzB5aHFpRmowMWsyNkZWNHFV?=
- =?utf-8?B?ZjhOS2xyblpWMWNkYzlnVTB6djFweUZFeEJiN1k1WEpKZ25XSXh4Q0p1K2JI?=
- =?utf-8?B?OXVCc2JQMVJobjZEM2FkUHUzYTNRM0ZwTW42UmFvbVk1c3BoYlhQZDJOTXJ2?=
- =?utf-8?B?RkRlVDU0eGU1U3lHcXdLdlZqUEVPWWtaRTVMeUxRK29oVS9JeUNuN1J5Qk1H?=
- =?utf-8?B?R2VOTjBSYnQrV1lqV3FMQU1pbDBrdHlsaEJzVGpKUW8zdnlFeWVrak1YaFhJ?=
- =?utf-8?B?QlQ0dGNBaVBMbUcvVFV0ZnZXdEIvVG9kblZpZHI5YzhiSHNGMGlKWEQvOG9U?=
- =?utf-8?B?L1NvYVdOREdMbmVyNVhWSkcvQkVFS1lsdFFPMkNNTldCTGg1cGhQOU1BR1Ru?=
- =?utf-8?B?M0doNzZJb016WVRpY1Eyb1ZSclFsbGRjbW5rYkwwSEVNd2tlWndmVUxLcERN?=
- =?utf-8?B?WEJwYVpieTdnR1htSnVTSWVDMERkQVJYMS9YZmI5VmpQV1pjZDhicEVIU1RV?=
- =?utf-8?B?M2lQMVl0S2d0UGdVMGJUL3RXYytpTlk0ZzBUMFJrNlRrLzBHY0N0VGtjdDU3?=
- =?utf-8?B?S1EycWgwVEFqQTdlSVR2SmNZVzM3V3NYb05Td201ZWlaVzltQzRkR1BaaENx?=
- =?utf-8?B?a0p4V0ZaOC8xTW1sUDJSbFZORVBmSEhjWkFhOHQ1UVNnQ1FBYWp0OFQzeDhG?=
- =?utf-8?B?RmcrYmZDeFNleUVOdVlNYW5KWjRMZVd2bzBhT3BVN1E2eHFNRXJWY1QyRzNH?=
- =?utf-8?B?YTBHRjYyRGZmeWdxVkVObC8zZklrSW1DK0NLYmtSQlhaSVVkb3NGM1hxcm9t?=
- =?utf-8?B?a1JkdGh4RXVvWXplMlFWdzQyc1krVUhNU0E4TDYzdFZSN09kTUVPNHFZU3N5?=
- =?utf-8?B?RzAyc3psWnl2VGhaZ0Vvaml6eFFRczhPM2RXaVdrUC95VlV4VWpveDA5SkZM?=
- =?utf-8?B?anpjZkZlT09RQWMrblpHNjRkNTd5RTVsU1F3Y3ZpckZPdmpmeU1EdHE0ZDU2?=
- =?utf-8?B?R2lxZDFFL0VnOGJlcVAyTVdzYU9HZElIQ09STG42VE1PZ3dNZ2hYdzl5K0ox?=
- =?utf-8?B?L0ViTWtJcUYvQ3AyOFdRUlFzSDRNbXBGdUc1LzdZV3lsUnBoakZPdGYydUFa?=
- =?utf-8?B?dDBDbHVtTlZxeFdEa2o2WnJaSnQ0cml0V0Yvem1VUGYyMzRuZmIxRG5qYU9i?=
- =?utf-8?B?L0xDd0dZa1BVaHcza1EzNTU5eUM5VTlZZmUxT0VBd0t0OWFmdkU3U1lOd2ZJ?=
- =?utf-8?B?WFVIQXB5SkxzU1RXZFZhTmVKTlIzaytUSHZHMEJDdHVzNE94UUZBTXQ4MG8z?=
- =?utf-8?B?a0tNZVdyVGFNbStYaGMrMlMwdFVxVllGZ3JGUXBXRE5MOGxLNSt5b1IzeTAv?=
- =?utf-8?B?bHJaVXExcWtLQjhkbzVqYUd3TCsvT2JrbXMzNy9TU283M1ovZThTdXI3RjRL?=
- =?utf-8?B?dDlLRDlEdTAzbXVSZWkyQ2ZVNGFJR08waXdRSGJIc1FwVEE5ZFNpUXp0OUZV?=
- =?utf-8?B?Znk2OC8zRmRBZEJ4eTdTMEp5akQ5cFpZdzJCWHUxYTRpQ3hHV1FWbE5XaUFl?=
- =?utf-8?B?UHRUTFpHeUJJaTJXRjE2NFpxV1JQQS9Lcys3dnlCNUR3a1VxWHpwcklEZVUr?=
- =?utf-8?B?Z1RUQytUQzlBbXliMGpaQVZOSkJHUDhsb1hSejNMdTY1WklLLzcvS1lmMmRm?=
- =?utf-8?B?a0NlWVlRMU5XMGw0MkFPSVk5UmtRcWU2N0NnUGpWVTlMQkF5cHBwNzVtck9a?=
- =?utf-8?B?aTljaCtMbmIrUVRXYi84TmdMZzdzZGpBdmhoOGpmVzJ1bmZCZ2RxV1luRjF4?=
- =?utf-8?B?TTcvaDRZb3dicFpZSkwvWXFLQ1BMQzRlMytod3ZqbFJUTUN3ZE0rczJ1bVc3?=
- =?utf-8?B?YW9Nb2NkY3FIbXUyTFJuMkRQM0hFMmNUN2xsbkh6KzdlQndEbG12QT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ =?gb2312?B?ZStTRnU2T3VJRmtoTlQ0dUU0Tzkza2x2c3k5NUJRMi9jWm93Y3B5NklXL05E?=
+ =?gb2312?B?cDJyU3BmVU9YdTNmQS9tUXR5RWVKQUR6ZjZWSUFPWFkybGI1RGo2MkttRzNC?=
+ =?gb2312?B?MGg3MFdZVFJQZUNpNkdZaTBMN0NWL1FlbFRJeWhVM1VGMkV1Tlhrb2lsWFUy?=
+ =?gb2312?B?MUtpNjR3TkRtSFpqOVRNRXExTlI4bmYxbWYzR1JrVWZ5ODdrOWt0bVBUREE2?=
+ =?gb2312?B?MnVmZ3NGQ0tGelN4c3ZRWGNaV0NxK1JKOE13NVhnOTQyUm9MMTV0NlJNaXVp?=
+ =?gb2312?B?MldwTkQ2R0pCRnJIODhTMlJ5R0hmazNKajV3NmdnMnFDd29rMGRHSkZwY2hi?=
+ =?gb2312?B?WTM5SDd3K1FVMkJDOVBML2hodmFha0pWY1NsL3BzZytjQnFoaUFyMldzZ1RQ?=
+ =?gb2312?B?T3UrTHNtdTZjWGh3eExQcFhWc0t4ZGxvc291TFYzc09wc1FlbEhkeDFUbWJu?=
+ =?gb2312?B?N3lSRWdkdzNySnNSR0FTZWxQTHVkTmNDclRZVXN2aWV2VGRyZ1hGSjNhai94?=
+ =?gb2312?B?YktEdXJkaHZOSUdXZDlZcHdXWEpGUFhlQzlrT1VzVVZkM1BPdDNJbm9NUGVj?=
+ =?gb2312?B?QjhwODAvdWhHY3YwYVFhVTdYemltNGJoUkkzWm43MDNYeGFaNmw1THVUZEoy?=
+ =?gb2312?B?VmRtcklieFdob3NQblJGcG5TWGdDd2pEZE52SnVOUGhmckI1Q1lhMTJSUGlv?=
+ =?gb2312?B?bW5hT0NRTEI0ZHk0cUFpZDdHRzRrMERZSm9SM0RNWUFxVzNEaGdLNGtHTnR2?=
+ =?gb2312?B?L3dud2gwOTZBTkswN2dhMGMzbU5uOTc1c1NsTHRFN1drTmwyZ0pWZmZ4ekor?=
+ =?gb2312?B?UzNpeWZqYUxxRURxQ28ySCtTRy9xTUlrOWdjNXdkSkdJU1RkSDZsSFYvN1Vv?=
+ =?gb2312?B?emZYeFNIYW9leUdIMDBmVWNUaWM4a3FuQVNoSW9xNVlKVkdHNVczbTFPZEl5?=
+ =?gb2312?B?S1hkZU1oTVJWcDBQMHBkUWRmWHU4dzlQdUJEd24wSWxSandXZnM2M1M4bE94?=
+ =?gb2312?B?WjZIZ3ZMeDJ5eEhSSENIWHRpL1RoNGVwRVk0OEZkZ1lCTXRSSmlXSnNTSUtT?=
+ =?gb2312?B?WklqVmZJUG5qNkFZenRZelFSendmU2tkR0ZnKzQxV1ZKdElES055TFEwTlEz?=
+ =?gb2312?B?cEdLNjdncDRpdmh4S1NNc1RCMEVHZFVCN2VpWTkrU2Z1RGZjNHZTZ1RVR0hX?=
+ =?gb2312?B?c1pPODdTa2dhNlRmbFJrd2xUOTN3TVUzc2hsNjdMQzNFb2Q2YjlYMlIrRm82?=
+ =?gb2312?B?bTZ6ZUp3K3luR21KM0JhcTl0dUZQNEVJSFdXWUJ5N2NBTXE3Qm5Qd05aenFo?=
+ =?gb2312?B?SHhlVW5tNTQzUVV3OWw2M3ZKcFluWU9hbHNFYlozamlHTnk3YVQ4V01GY0h3?=
+ =?gb2312?B?RjZVY1J2aGlJcnNBWGV5L09mdzgxanRobjZqTEtDZzUwNEM3d28rN3dpWkYx?=
+ =?gb2312?B?c0tTQ3pDY2c4QjhuNGNpLzEzU2FCeGxlckVWOStvdndtcGEwY2RTekZuL1pG?=
+ =?gb2312?B?azFQUWJTdUR6Ri9VRTU4M2tSY3MyWDVtK1lLSzV2bGhrckhPb1A5RlZYeUlw?=
+ =?gb2312?B?WFhsMGxjSFdJY216aDR6dUJWOU0vK2ovdDI0bUhyNEdrUDkvc2RaaVM2NEdi?=
+ =?gb2312?B?NXp3U3A2Nks3R0xXcUNXdVlhUmM2MzNRbHg0YjRsMGRHRUFkbmhkMTh1K1g2?=
+ =?gb2312?B?Ym90bGFBTU1aNUhWeTlKWDhwcTROQklkL08rUzlmQ3VQYzQ1dkZVZEt2NjVp?=
+ =?gb2312?B?RytFS3creWRFV0NDZm52QUVBQ3R0VVZueVIvdllyVVl1QXRTeEVBK3AxYzZG?=
+ =?gb2312?B?cWNKcGdiUExpWDh4elhLOXE3RU5VZktpR1hQUUNEN1daUHoyQXdGb1dDem9q?=
+ =?gb2312?B?bS9qQmNYd1lwNkMwWUhRbXNBa3BvdGVjeGpvem8yQ3lZU0dodXpMM2tEbWhR?=
+ =?gb2312?B?VHdhWlBNaW9RdlZMYzJmeWwreUF3SjM3cEtUOGs2V1I4RktCOVBVb2JTc1hv?=
+ =?gb2312?B?bE9IOUtTZEtEekt2TTM4ODZsQThYZjBYRzJhaUNWa0JCV3pQQUlMWW0yZFJ5?=
+ =?gb2312?B?RmluNEdhWEsrVVJpUW5uTXpVRjZnejVCOE14SXU3QnpGMjl6VnF6WVUvUlky?=
+ =?gb2312?B?dTZ4ZE1lV2lWWkxyeUJRdVcwaVFuckRXclo5VklrcGhyK0FRc3VjSm9ENldu?=
+ =?gb2312?B?WnFhOW9Ld01Paisvb2d5WDB3VXYxYnAreTJ4dXlMclRDM21DQVpVS3pPUkRs?=
+ =?gb2312?B?UTB1Ny9Nc041NDR6eXZibVg3bG1vaU5Da0FaYTArcnFISERyQ3plMmxTbVNk?=
+ =?gb2312?B?aFlSWEtYZnNGK3pDcjI4WCtHUXJNc2I2U0NoRUJ5OUtIb0NPUzMwdz09?=
+Content-Type: multipart/alternative;
+	boundary="_000_TY3PR01MB10028AA9384F9E02304AD9BA29B242TY3PR01MB10028jp_"
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
+X-Exchange-RoutingPolicyChecked: 
+	opsZKtezDW3NnpN9H+TxUxa1fvNv6LvMZj8oSGTef9ZkkY2g2F3/ZmiythvamAA3iRd7gb7aicfOKY0kF9eH/pF+PJ/QM5HN3pL+oxVKQ/PAVrSPdc33d91OXn4emIeA/fXTVkSwpz1vgZyRLTrnkPGDGB5LBYzZ6fj3tG8H9HUv80V7O7kOX5TygLjdcrjn80vaXgF5tD2PzbPd8oenUhsZlgpYPyUcdJBAkRDkZt6mCRzsp8+F5VulTJGE8wevz9sWvqWQrMkAzZYHkpXbZb2G15HmCLvGhqr1NJf/Y02xsflggaTuoGDoFn4WkfLZjU02+jM8LmtKHqI3NhTfZQ==
+X-OriginatorOrg: fujitsu.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e907110d-cd14-467c-cd24-08de98d6aeb9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2026 21:01:35.4898
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10028.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c89430b5-a365-4320-7948-08de98fdd1d4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2026 01:41:44.7634
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lBFaGUWbTbMJrYTlZZpo0hfJ12l6LQxGRuhFWNMLG8GL4m68LTlkWiuhJrDqHcVLTPUT68MLJ8IZ374iXO7MHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6083
+X-MS-Exchange-CrossTenant-userprincipalname: Be3+xt8cGjamG3gCAeirwxnjut37IDtHTZOQKLQpgOo64KM+VkQzrmxKJ6wDFcR0AhwJuc7KEwAtoOwnCxoQRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB16904
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Apr 2026 21:01:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235076
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 01:41:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235077
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQmVuamFtaW4gUm9iaW4g
-PGJlbmphbWluLnJvYmluQGJvb3RsaW4uY29tPg0KPiBTZW50OiBTdW5kYXksIEFwcmlsIDEyLCAy
-MDI2IDEwOjIzIFBNDQo+IFRvOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT47IE1h
-cmtvLCBQZXRlciAoRlQgRCBFVSBTSyBCRlMxKQ0KPiA8UGV0ZXIuTWFya29Ac2llbWVucy5jb20+
-DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1Ympl
-Y3Q6IFJlOiBbUEFUQ0ggMi8yXSB4d2F5bGFuZDogc2V0IHN0YXR1cyBmb3IgQ1ZFLTIwMjQtMjE4
-ODYNCj4gDQo+IEhlbGxvIFBldGVyLA0KPiANCj4gT24gU3VuZGF5LCBBcHJpbCAxMiwgMjAyNiBh
-dCA5OjA04oCvUE0sIE1hcmtvLCBQZXRlciB3cm90ZToNCj4gPiA+IEZyb206IFBldGVyIE1hcmtv
-IDxwZXRlci5tYXJrb0BzaWVtZW5zLmNvbT4NCj4gPiA+DQo+ID4gPiBSZWZlcmVuY2UgWzFdOg0K
-PiA+ID4gSW50cm9kdWNlZCBpbjogeG9yZy1zZXJ2ZXItMS4xMy4wICgyMDEyKQ0KPiA+ID4gRml4
-ZWQgaW46IHhvcmctc2VydmVyLTIxLjEuMTEgYW5kIHh3YXlsYW5kLTIzLjIuNA0KPiA+ID4NCj4g
-PiA+IE5vdGUgdGhhdCB0aGUgc3RhdHVzIHNob3VsZCBiZSAiZml4ZWQtdmVyc2lvbiIsIGhvd2V2
-ZXIgdGhhdCBkb2VzIG5vdA0KPiA+ID4gc2VlbSB0byB3b3JrIGNvcnJlY3RseSB3aXRoIHRoZSBu
-ZXcgc2JvbS1jdmUtY2hlY2suDQo+ID4NCj4gPiBUaGlzIGxvb2tzIGxpa2UgYSBidWcgaW4gc2Jv
-bS1jdmUtY2hlY2sgKG9yIHZleD8pIGNvZGUuDQo+ID4gQW55IGlkZWEgd2h5IGNlcnRhaW4gbWFu
-dWFsIENWRV9TVEFUVVNlcyB3b3VsZCBiZSBvdmVycmlkZGVuIGJ5IGN2ZWxpc3RWNQ0KPiBzdGF0
-dXM/DQo+IA0KPiBUaGlzIHNob3VsZCBub3QgYmUgcG9zc2libGUuIFdpdGggZGVmYXVsdCBjb25m
-aWd1cmF0aW9uIGEgbWFudWFsDQo+IGFubm90YXRpb24gY2Fubm90IGJlIG92ZXJ3cml0dGVuLiBz
-Ym9tLWN2ZS1jaGVjayBkaXJlY3RseSB1c2UgdGhlDQo+IGFubm90YXRpb24gd2l0aG91dCBhbnkg
-ZXh0cmEgcHJvY2Vzc2luZy4NCg0KSSB3b25kZXIgd2hhdCBJJ20gZG9pbmcgd3Jvbmcgd2hlbiB1
-c2luZyB0aGlzIG5ldyBjb2RlIGZvciB0aGUgZmlyc3QgdGltZS4uLg0KV2hlbiBJIGdvdCB0byB0
-aGUgIm5ldyIgQ1ZFIGZvciBvdm1mLCBjdmUtbWV0cmljcyBzaG93cyBvbmx5IENWRS0yMDI0LTEy
-OTguDQpJbiBteSBsb2NhbCBidWlsZCwgSSBnZXQgYWxsIHRoZSBDVkVzICh3aGljaCBhcmUgc2Ug
-dG8gZml4ZWQtdmVyc2lvbiBpbiB0aGUgcmVjaXBlKS4NCg0KUkVDSVBFPW92bWY7IGJpdGJha2Ug
-JFJFQ0lQRSAtYyBzYm9tX2N2ZV9jaGVja19yZWNpcGU7IGpxIC1yICcucGFja2FnZVtdIHwgc2Vs
-ZWN0KC5uYW1lID09ICInJFJFQ0lQRSciKSB8IC5pc3N1ZVtdPyB8IHNlbGVjdCguc3RhdHVzID09
-ICJVbnBhdGNoZWQiKSB8IC5pZCcgdG1wL2RlcGxveS9pbWFnZXMvcWVtdXg4Ni02NC8kUkVDSVBF
-LXJlY2lwZS1zYm9tLnNib20tY3ZlLWNoZWNrLnlvY3RvLmpzb24NCkNWRS0yMDE0LTQ4NTkNCkNW
-RS0yMDE0LTQ4NjANCkNWRS0yMDE0LTgyNzENCkNWRS0yMDE5LTE0NTUzDQpDVkUtMjAxOS0xNDU1
-OQ0KQ1ZFLTIwMTktMTQ1NjINCkNWRS0yMDE5LTE0NTYzDQpDVkUtMjAxOS0xNDU3NQ0KQ1ZFLTIw
-MTktMTQ1ODYNCkNWRS0yMDE5LTE0NTg3DQpDVkUtMjAyNC0xMjk4DQoNCk15IGxvY2FsLmNvbmYg
-aXM6DQpESVNUUk8gPSAicG9reSINCklOSEVSSVQgKz0gInNib20tY3ZlLWNoZWNrLXJlY2lwZSIN
-ClNSQ1JFVjpwbi1zYm9tLWN2ZS1jaGVjay11cGRhdGUtY3ZlbGlzdC1uYXRpdmUgPSAiODJlMThl
-YjMwNTEwMzk2NDJlZDhlYzBiOGViMTVlYTI3ZGJiZjUyYyINCmluY2x1ZGUgY29uZi9kaXN0cm8v
-aW5jbHVkZS9jdmUtZXh0cmEtZXhjbHVzaW9ucy5pbmMNCg0KUGV0ZXINCg0KPiANCj4gPiA+IGRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdheWxhbmQveHdheWxhbmRfMjQuMS45
-LmJiDQo+IGIvbWV0YS9yZWNpcGVzLQ0KPiA+ID4gZ3JhcGhpY3MveHdheWxhbmQveHdheWxhbmRf
-MjQuMS45LmJiDQo+ID4gPiBpbmRleCBkZjFiYjdlMzFiLi42YzEwZWRkYjhlIDEwMDY0NA0KPiA+
-ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3YXlsYW5kL3h3YXlsYW5kXzI0LjEuOS5i
-Yg0KPiA+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3YXlsYW5kL3h3YXlsYW5kXzI0
-LjEuOS5iYg0KPiA+ID4gQEAgLTE0LDYgKzE0LDggQEAgU1JDX1VSSVtzaGEyNTZzdW1dID0NCj4g
-PiA+ICJmMjk3YWYyN2E4NDUwOGRiOWI4MGQxY2JiY2M2OWMzODAxZGEzOGViNjRjNzJmM2I1YjUw
-ZjU4MjQ1DQo+ID4gPg0KPiA+ID4gIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInh3YXlsYW5kLQ0K
-PiAoP1A8cHZlcj5cZCsoXC4oPyE5MFxkKVxkKykrKVwudGFyIg0KPiA+ID4NCj4gPiA+ICtDVkVf
-U1RBVFVTW0NWRS0yMDI0LTIxODg2XSA9ICJ2ZXJzaW9uLW5vdC1pbi1yYW5nZTogZml4ZWQgc2lu
-Y2UNCj4geHdheWxhbmQtDQo+ID4gPiAyMy4yLjQiDQo+ID4gPiArDQo+ID4gPiAgaW5oZXJpdCBt
-ZXNvbiBmZWF0dXJlc19jaGVjayBwa2djb25maWcNCj4gPiA+ICBSRVFVSVJFRF9ESVNUUk9fRkVB
-VFVSRVMgPSAieDExIG9wZW5nbCINCj4gDQo+IFdoYXQgeW91IHNlZSBpcyBwZXJmZWN0bHkgbm9y
-bWFsLg0KPiBUaGUgcmVjaXBlIGlzIG5hbWVkICJ4d2F5bGFuZCIsIHdpdGhvdXQgYSBDVkVfUFJP
-RFVDVCBzcGVjaWZpZWQsIHNvIHRoZQ0KPiBkZWZhdWx0IENQRSBpcyAiY3BlOjIuMzoqOio6eHdh
-eWxhbmQ6MjQuMS45Oio6KjoqOio6KjoqOioiDQo+IA0KPiBUaGUgQ1ZFIGlzIGFzc29jaWF0ZWQg
-d2l0aCB4b3JnLXNlcnZlciBhbmQgd2l0aCB4d2F5bGFuZC4NCj4gQW5kIGlmIHlvdSBub3RpY2Us
-IGluIHRoZSByZXBvcnQgdGhlIENWRSBpcyBsaW5rZWQgdG8geG9yZy1zZXJ2ZXINCj4gYW5kIHRv
-IHh3YXlsYW5kOiBUaGUgQ1ZFIGlzIHJlZmVyZW5jZWQgdHdpY2UgaW4gdGhlIHJlcG9ydC4NCj4g
-V2hlbiBhc3NvY2lhdGVkIHdpdGggeG9yZy1zZXJ2ZXIgdGhlIGFubm90YXRpb24gZG9lcyBub3Qg
-d29yaywNCj4gYnV0IHdoZW4gYXNzb2NpYXRlZCB3aXRoIHh3YXlsYW5kIGl0IHdvcmtzLg0KPiAN
-Cj4gSSBndWVzcyB5b3UgYWxzbyBuZWVkIHRvIGFkZCB0aGUgQ1ZFX1NUQVRVUyBpbiB4c2VydmVy
-LXhvcmcgcmVjaXBlLg0KPiANCj4gLS0NCj4gQmVuamFtaW4gUm9iaW4sIEJvb3RsaW4NCj4gRW1i
-ZWRkZWQgTGludXggYW5kIEtlcm5lbCBlbmdpbmVlcmluZw0KPiBodHRwczovL2Jvb3RsaW4uY29t
-DQo+IA0KPiANCg0K
+--_000_TY3PR01MB10028AA9384F9E02304AD9BA29B242TY3PR01MB10028jp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+
+cGluZw0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCreivP7Iyzogb3BlbmVtYmVk
+ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZz4gtPqx7SBZaWRpbmcgTGl1IChGdWppdHN1KSB2aWEgbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyA8bGl1eWQuZm5zdD1mdWppdHN1LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPg0Kt6LLzcqxvOQ6IDIwMjbE6jPUwjI1yNUgMTQ6NTkNCsrVvP7IyzogUm9zcyBCdXJ0b24g
+PFJvc3MuQnVydG9uQGFybS5jb20+DQqzrcvNOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K
+1vfM4jogUmU6IFtPRS1jb3JlXVtQQVRDSF0gZ3RrLWRvYzogdXBncmFkZSAxLjM1LjEgLT4gMS4z
+Ni4wDQoNCkhpIGJydWNlDQoNCiAgIEkgcmV2aWV3IHRoZSBtZXNvbi5idWlsZCBvZiBndGstZG9j
+IDEuMzYuMCBhbmQgZmluZCB0aGUgIGRlcGVuZHMgb2YgcHlnbWVudHMgYW5kICB4c2x0cHJvY19w
+cmcgaXMgbmVjZXNzYXJ5Lg0KDQogICAgcmVxdWlyZWRfcHl0aG9uX21vZHVsZXMgPSBbJ3B5Z21l
+bnRzJ10NCiAgIC4uLg0KDQogICAgcHl0aG9uMyA9IHB5dGhvbi5maW5kX2luc3RhbGxhdGlvbign
+cHl0aG9uMycsIG1vZHVsZXM6IHJlcXVpcmVkX3B5dGhvbl9tb2R1bGVzKQ0KICAgICAuLi4NCiAg
+ICB4c2x0cHJvY19wcmcgPSBmaW5kX3Byb2dyYW0oJ3hzbHRwcm9jJywgcmVxdWlyZWQ6IHRydWUp
+DQoNCiAgICBTbyBhcyBteSB1bmRlcnN0YW5kaW5nLCBJIGNhbid0IHNldCBtZXNvbi5jcm9zcyB3
+aXRoIC9iaW4vZmFsc2UgdG8gbm90IHVzZSBweWdtZW50cyBhbmQgIHhzbHRwcm9jLg0KICAgIE9y
+IGRvIHlvdSBoYXZlIGEgYmV0dGVyIHdheSB0byBtaW5pbWFsIGRlcGVuZGVuY2llcz8NCg0KTGl1
+DQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQq3orz+yMs6IFJvc3MgQnVydG9u
+IDxSb3NzLkJ1cnRvbkBhcm0uY29tPg0Kt6LLzcqxvOQ6IDIwMjbE6jPUwjI0yNUgMjM6MTUNCsrV
+vP7IyzogTGl1LCBZaWRpbmcvwfUg0tK2oSA8bGl1eWQuZm5zdEBmdWppdHN1LmNvbT4NCrOty806
+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQrW98ziOiBSZTogW09FLWNvcmVdW1BBVENIXSBn
+dGstZG9jOiB1cGdyYWRlIDEuMzUuMSAtPiAxLjM2LjANCg0KSGksDQoNCk9uIDE3IE1hciAyMDI2
+LCBhdCAwOTozMSwgWWlkaW5nIExpdSAoRnVqaXRzdSkgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcgPGxpdXlkLmZuc3Q9ZnVqaXRzdS5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6
+DQo+IC1QQUNLQUdFQ09ORklHW3dvcmtpbmctc2NyaXB0c10gPSAiLCxsaWJ4c2x0LW5hdGl2ZSBk
+b2Nib29rLXhtbC1kdGQ0LW5hdGl2ZSBkb2Nib29rLXhzbC1zdHlsZXNoZWV0cyBweXRob24zLXB5
+Z21lbnRzIg0KPiArUEFDS0FHRUNPTkZJR1t3b3JraW5nLXNjcmlwdHNdID0gIiwsZG9jYm9vay14
+bWwtZHRkNC1uYXRpdmUgZG9jYm9vay14c2wtc3R5bGVzaGVldHOhsQ0KDQpTbyB0aGUgd29ya2lu
+Zy1zY3JpcHRzIG9wdGlvbnMgd2FzIHNvIHRoYXQgaWYgYXBpLWRvY3VtZW50YXRpb24gaXMgZGlz
+YWJsZWQgdGhlIGd0ay1kb2MgcGFja2FnZSBoYXMgYSBsb3QgbGVzcyBidWlsZCBkZXBlbmRlbmNp
+ZXMuICBXaXRoIHRoaXMgY2hhbmdlLCB0aGlzIGlzIG5vIGxvbmdlciB0aGUgY2FzZS4NCg0KSXMg
+aXQgcG9zc2libGUgdG8gc2VlZCBtZXNvbqGvcyBzZWFyY2ggZm9yIGNvbW1hbmRzIHdlIGRvbqGv
+dCB3YW50IGl0IHRvIHVzZSB3aXRoIC9iaW4vZmFsc2Ugc28gdGhhdCB3ZSBjYW4ga2VlcCB0aGUg
+bWluaW1hbCBkZXBlbmRlbmNpZXMgd2hlbiBub3QgbmVlZGVkPw0KDQpUaGFua3MsDQpSb3NzDQo=
+
+--_000_TY3PR01MB10028AA9384F9E02304AD9BA29B242TY3PR01MB10028jp_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+ping</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>=B7=A2=BC=FE=C8=CB:</b> openemb=
+edded-core@lists.openembedded.org &lt;openembedded-core@lists.openembedded.=
+org&gt; =B4=FA=B1=ED Yiding Liu (Fujitsu) via lists.openembedded.org &lt;li=
+uyd.fnst=3Dfujitsu.com@lists.openembedded.org&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2026=C4=EA3=D4=C225=C8=D5 14:59<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> Ross Burton &lt;Ross.Burton@arm.com&gt;<br>
+<b>=B3=AD=CB=CD:</b> openembedded-core@lists.openembedded.org &lt;openembed=
+ded-core@lists.openembedded.org&gt;<br>
+<b>=D6=F7=CC=E2:</b> Re: [OE-core][PATCH] gtk-doc: upgrade 1.35.1 -&gt; 1.3=
+6.0</font>
+<div>&nbsp;</div>
+</div>
+<style type=3D"text/css" style=3D"display:none">
+<!--
+p
+	{margin-top:0;
+	margin-bottom:0}
+-->
+</style>
+<div dir=3D"ltr">
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+Hi bruce</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+<br>
+</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp; &nbsp;I review the meson.build of gtk-doc&nbsp;1.36.0 and find the&n=
+bsp; depends of pygments and &nbsp;xsltproc_prg is necessary.</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp;&nbsp;</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp; &nbsp; required_python_modules =3D ['pygments']</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp; &nbsp;...</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+<br>
+</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp; &nbsp; python3 =3D python.find_installation('python3', modules: requ=
+ired_python_modules)</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp; &nbsp; &nbsp;...</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp; &nbsp; xsltproc_prg&nbsp;=3D find_program('xsltproc', required: true=
+)</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp; &nbsp;</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+&nbsp; &nbsp; So as my understanding, I can't set meson.cross&nbsp;with /bi=
+n/false to not use pygments and &nbsp;xsltproc.</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt">
+<span style=3D"color:rgb(0,0,0)">&nbsp; &nbsp; Or do you have a better way =
+to minimal dependencies?</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+<br>
+</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+Liu</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
+nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
+rgb(0,0,0)">
+<br>
+</div>
+<div id=3D"x_appendonsend"></div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Ross =
+Burton &lt;Ross.Burton@arm.com&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2026=C4=EA3=D4=C224=C8=D5 23:15<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> Liu, Yiding/=C1=F5 =D2=D2=B6=A1 &lt;liuyd.fnst@f=
+ujitsu.com&gt;<br>
+<b>=B3=AD=CB=CD:</b> openembedded-core@lists.openembedded.org &lt;openembed=
+ded-core@lists.openembedded.org&gt;<br>
+<b>=D6=F7=CC=E2:</b> Re: [OE-core][PATCH] gtk-doc: upgrade 1.35.1 -&gt; 1.3=
+6.0</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"x_BodyFragment"><font size=3D"2"><span style=3D"font-size:11p=
+t">
+<div class=3D"x_PlainText">Hi,<br>
+<br>
+On 17 Mar 2026, at 09:31, Yiding Liu (Fujitsu) via lists.openembedded.org &=
+lt;liuyd.fnst=3Dfujitsu.com@lists.openembedded.org&gt; wrote:<br>
+&gt; -PACKAGECONFIG[working-scripts] =3D &quot;,,libxslt-native docbook-xml=
+-dtd4-native docbook-xsl-stylesheets python3-pygments&quot;<br>
+&gt; +PACKAGECONFIG[working-scripts] =3D &quot;,,docbook-xml-dtd4-native do=
+cbook-xsl-stylesheets=A1=B1<br>
+<br>
+So the working-scripts options was so that if api-documentation is disabled=
+ the gtk-doc package has a lot less build dependencies.&nbsp; With this cha=
+nge, this is no longer the case.<br>
+<br>
+Is it possible to seed meson=A1=AFs search for commands we don=A1=AFt want =
+it to use with /bin/false so that we can keep the minimal dependencies when=
+ not needed?<br>
+<br>
+Thanks,<br>
+Ross</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_TY3PR01MB10028AA9384F9E02304AD9BA29B242TY3PR01MB10028jp_--
 
