@@ -1,160 +1,304 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <vpuar@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 455B1F34C67
-	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 17:01:43 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.1])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.277876.1776099702243111878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A58F531CA
+	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 19:27:54 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.968.1776108467627650314
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Apr 2026 10:01:42 -0700
+ Mon, 13 Apr 2026 12:27:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=ioDrLLpq;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=ioDrLLpq;
- spf=pass (domain: arm.com, ip: 52.101.66.1, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=TuBzJ5pHMHg6N8LJMCMx8vrQzuAJdMBIfAi0V9j5TVsJ6csm440qpr0VvWGi4xZSvinTr3QezNdfe/O56o9TwIAnR4TMJ0glz3H5tLr+AxJNpadFhkrPo/0NCQ8CJvjTZAbGj+ukoBfWzVqBdiC/AvNGB2nxH0l0KUDDaDf1DeWqyaKd6/yJJcbzqZzcZ3vOR1D7+NTdIeRWLlP4jogTkfOUgfHAKM8MdxfbzY78Wt/QZ0TDMgJZGYHkBNhXKCnqj7hTdgiarmvJLBY6vYYV/GXVsOHVHGr9d6DsGyRjMQxLjQWO0ngKWIjAftmd7LMAOk8FsQTEUh4xE3RIRuLbVQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AiwlwztS28Q+lV5lKG2QJmp0vpF2WAEVLIxE5H+kAxU=;
- b=jXvrrIHkGQx0+fzFi72LZQrGromej5GXYKa5gRZMIm4x7rpMMO6w3tNklEtLEK67hYy8Dq9OhxjaW7hq7M+SnBfqQ3nfvNzHQbImULVlho9AZLcNhMpZCMzc6e91v/cfr62/ItCj8yOXIW5Lw99gaDDAMmctthzR7KZ4IBKo2nm6ckYrAWTkpNAPz9ISf6/QWp5qbqorYZVSRL59Q9+tmKINuUDstBinvVL+jZUT8Egm6F82G/JwdXYBMI/ADI1iI2e0k4ibmgUvxgWBbLqZKOzEU6wyKllGfhuWOqBNNmg3X5SPjCFPy6dVED17C0JOvL/NSnHeQUGqkcIprySiEg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=bootlin.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AiwlwztS28Q+lV5lKG2QJmp0vpF2WAEVLIxE5H+kAxU=;
- b=ioDrLLpqFi1yqgY/It7RBDfiD08G/LDTiLyB0M4XHnkgc7+Uj1BoYul8EHsmT3/0NVmj/fBR7Z4JfBIKH2FjAQmpbbb7UTgejmkb9xpWsgIn2pUe/CCjZbAP8RCPpSJAqX5gWc9FdnonnV7kCTrSjMpZ6dxRPv0d7lijK28JAN4=
-Received: from DU2PR04CA0027.eurprd04.prod.outlook.com (2603:10a6:10:3b::32)
- by DU4PR08MB11174.eurprd08.prod.outlook.com (2603:10a6:10:577::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Mon, 13 Apr
- 2026 17:01:36 +0000
-Received: from DU2PEPF00028D0C.eurprd03.prod.outlook.com
- (2603:10a6:10:3b:cafe::b3) by DU2PR04CA0027.outlook.office365.com
- (2603:10a6:10:3b::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.48 via Frontend Transport; Mon,
- 13 Apr 2026 17:01:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU2PEPF00028D0C.mail.protection.outlook.com (10.167.242.20) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.21
- via Frontend Transport; Mon, 13 Apr 2026 17:01:35 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XU46DE07eiaArPViHAcD9qr8YU6lRjUNzU/TXvf/uw91uIuPXFLUa6eopJZv5SJfjtVkGZb2XGzjL76E1piLAqDC6jwk+HFyClGoEWukbhMaUGsclPQ5SmwiOB4vLM57P2SXhV/tJ/9YIFrMxoVpOsq9lap9KiZKVYHcGMY22fro+n4P+P48Gdsy8OcTOoecYjwLn5EiQuOgUKmKW+6Lvl+38mKelzIhglsiC1+Y6l/VPPKUxApAia8d9LTQnk8IsmIJdI0x07BNoZ44ojNUvfW5e3HNmig1vpMQlALNQLuqqOYvmWCb9+Q8HBqAPbsAckar+ZqccbLhnsUavx/FJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AiwlwztS28Q+lV5lKG2QJmp0vpF2WAEVLIxE5H+kAxU=;
- b=wIeUwCgWGJy+usMI6BgyLbjyVZM6zDLdZFLKK5R8WeZ+Q141JftbKuz2WqeUzGdre8NHydE2HZT+yNV0rteq2IPU1vGN1El6xnHimexCNgQzs4O4+LUlzJE0vFO+H+BRNQEI6XQ4LDHzHif7fI849Uhb8QIP/EZ79OAchjfSTzmD3to2wSPzWG0O9raSyHO/T5301+rkUbcOGHtuBsq1UflSyHaXIepf2r7wyFS6aLnCD6aJT18y73qhWY99v6Kpo47cu+/7KzYhNHsOGCd6UFQRuwWJ+gq5DuM2JnWhcyCOHkSkVHozfAG6wtdHdPnr5jZDo60NmcRpUmsfl1ymLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AiwlwztS28Q+lV5lKG2QJmp0vpF2WAEVLIxE5H+kAxU=;
- b=ioDrLLpqFi1yqgY/It7RBDfiD08G/LDTiLyB0M4XHnkgc7+Uj1BoYul8EHsmT3/0NVmj/fBR7Z4JfBIKH2FjAQmpbbb7UTgejmkb9xpWsgIn2pUe/CCjZbAP8RCPpSJAqX5gWc9FdnonnV7kCTrSjMpZ6dxRPv0d7lijK28JAN4=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DU0PR08MB7437.eurprd08.prod.outlook.com (2603:10a6:10:354::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Mon, 13 Apr
- 2026 17:00:31 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9769.046; Mon, 13 Apr 2026
- 17:00:31 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "thomas.perrot@bootlin.com" <thomas.perrot@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "thomas.petazzoni@bootlin.com"
-	<thomas.petazzoni@bootlin.com>
-Subject: Re: [OE-core][PATCH] lto: disable LTO for e2fsprogs
-Thread-Topic: [OE-core][PATCH] lto: disable LTO for e2fsprogs
-Thread-Index: AQHcwJp/pcXptxbCakaO0aQXT4PgALXdTNGA
-Date: Mon, 13 Apr 2026 17:00:31 +0000
-Message-ID: <EA8519B2-D26B-471E-B9B0-840C8B559622@arm.com>
-References: <20260330230727.1380122-1-thomas.perrot@bootlin.com>
-In-Reply-To: <20260330230727.1380122-1-thomas.perrot@bootlin.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DU0PR08MB7437:EE_|DU2PEPF00028D0C:EE_|DU4PR08MB11174:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ba92c65-65ed-4558-e579-08de997e5230
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|1800799024|376014|38070700021|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info-Original: 
- 5mUWfBDK9mPCmWGQliLJu2fFQILrMQ1RuL/EaTcC85Wcc10lfH+VmK2lEZne5lRMR7xim57H9QVMECJVw0ZRLDd/H7e4mwXrSltebJRqHQcD+cEgsJrHTvyNdxr8mdMx5au5/owwHPSelQp4pSt3sxchc7bQU3F92letXqzSqjCjDUQBRIQW8Fq9NOyiOcQ9RJqA7GiZtxhBcaZ1fWXEZmlHOEFg13wpzb3p0a987GSVgsphGbRGf43gQ913yyuYMAjr19CpaKytTlI0w/rEMIt3/QeJHRQ8UvgXjD4JMPxhcgxdhqL/ZQAxj001qFtrV8nCS833ApChINXsyZFwV5gZl7EIT0Labo7AQN9MAT+AO7Czr5zWkT/qPnwHs1W9Y5MMbc34mAY89FFznGTsbPWlh2oXlPY6v9Rf9DYDbR6MgWcbytDhYdHyMV9Z9UgQkUW+mDv85/7BFICIUsddeaKKpuV6aDNk5tlcyFvTDbyCEOIfHegwynRn1zcP+pUpt95gBLLU4Xj7I2Y47Aq0W4EskyfpDpo8JS/yNfg1+kSA4Bw0V8ruoSU3A5j7eg9h8nEORO7bKo/x1eK8gtQA82kmQi/9Lr3wCY1py7i8TiM6ov41hlEYGiQkjZdRmjAOtSF+XAsTNxsdQLNpk6BZvr/2BLbTy1tDuCj2Mxw0/GyBbQ8ZgbAdmGsA4/nkiMHS+3NIJLVJLGy/dlrX6lYLL+vuo1hI8q0RZEkl7Ee6rpMQ26QalS8bwJSx2TYLtDP5oBDLvPvl909fRql3icqL+T4iR7YU1VQlkIpU6na52h0=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <C6AD047B5DF61045AED879E662483223@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Y7tWIFIU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63DINxaA2186578
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 19:27:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=NZ+Mvje7WHITBiDr7gp4/C
+	38EfG9+/AI644F4APJPxE=; b=Y7tWIFIU32xb24OyboaO0dJE6CjsvnRUk/MTSy
+	QVz/tFTwf3q7BapciobYRZbjajDNrwU41vwzrjPSP0Nb+3Rnp1RTKz8pGNmhZoLt
+	j90+0AbKUpkVxj/tct+Lt6ZQVaxieb4jlo1+yvmZJSCM6sX4/tL0i6e3qYI85wCz
+	9bNlasZrDHF5/7bffBXohSnWyaG8zOQW5wrIPKVdMOgV87a+woJbltHurSPFvlT6
+	CirS8NAMbnEwuFokyjFh/TqoUx938T5vyEkffMNcckghOzQHkFse698NHL3zLlVY
+	vAzHCitniPpjavb2SE74I7q8mK26pK+5Ig6ijrBAjc5lhXcA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dh07hhj9m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 19:27:46 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTPS id 63DJRkAO000349
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 19:27:46 GMT
+Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 13 Apr 2026 12:27:44 -0700
+From: Vivek Puar <vpuar@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <vpuar@qti.qualcomm.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH] linux-firmware: upgrade 20260309 -> 20260410
+Date: Tue, 14 Apr 2026 00:57:30 +0530
+Message-ID: <20260413192730.3533490-1-vpuar@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- OVt5GHjZS32gtYG1j1b9Btl02/Zq4hw3/SNMRvcHrRnkqhxx/M49htXND9oRR+4Pyu7n94kZEBKDdjnTBwhgBMIlhjZdb055xKHKGSiFQSszDEZXREfAdQP7DctgmaMxZ1G3jGQlAqfz8gz8A8nvoaGKQWi8Qi4YDMaNJ908yNL6aNFVMtl6tLNjz/L1HPLtNqiCH9sC9FU23KvnFVVMVyWa+ZMBXqdmZWdZz8s+a1FqQxBPMLMR1Yfk3RYUgRy7RbXBCk+4omUq9dyKKCcTf3koglo/YiRButsmDr2izhJkyITFeAI3as2XhdnhT14FU7oeQ8LKjqt+ZNyeQ1Nqaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB7437
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU2PEPF00028D0C.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	6fa94f89-4095-4966-9a4f-08de997e2bde
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|14060799003|36860700016|376014|1800799024|82310400026|35042699022|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	Lckhfq299TdRmNB8GkrJpQ+08G/Ml7l2v0k0yaKgdryVqvwuaNBl+GkFl/zOjdWwGpdTyH2j7FwE6luRMBPXSt19uDRyQcuB/qb3XTJfWG8DiYpehN4AjGhioyWgLU2cIEymh2f31JaIUZrdq3ZeFIy/vQ8xpQuMW3F3HFkrvhdWUecpVZ2uljThOcNCdivs2B/yGOIWiAd91RUGTmxVWn7ChO3LfvDc6NUcg8W/sToVFsF22DPlyZbmQ5dm8YxvFO7VWcIAqA2U2KbS/+K9B6ih1Q25klk9jzroDKM0kd7i4MhFB1yG/bauESryyaI99III+JUZTLZoy3l+S0Wq38ePTJm3rYYeu8+Q2Nxl5RrWSkt9P+E3ZEiQehM8Mm24OoksUozLTtCM98jsnm5ijGTmOKWi+beqVUQrJiDBtTGMlXczmXDV6r0/1IZMvCIl7kxwXU3+xWtFDg00pG80h0ywonvPcxNo/mOpfszOcKQHFqn/w5tleg7tsOgIXQFy2HrmC8dhbFP6dhgBLY2BJvRAYzrk6PofpFl64SJ9gP6KL4C1MKAVp/8Tvzpjs2o1Prwz4JEmx93OeREyQTRzYHU4h3gpkfzdZD1gF/W1t5FWTi/WHn6cTF1u/gUN+JCKwhfJQ0TXFH63XY7OdEdgsSgRzAyAnGidiL82ODZrjscF0uDiI3vOryjbvqVR9pLoQfFqRCBcdwD6WxxIvbZYU3QlYMDms3pFMt81k7zi2xf7eqWjOY/5Yfo4qjRDJRfZLa9MyBdlnEnS5z6NciHjhA==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(36860700016)(376014)(1800799024)(82310400026)(35042699022)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	pRkh9SI+1hAUTewlGnUzHKG3NSw4qM/t7Ur6b4zBC8hcA6aKTuLa9nQQms+tSkc7942Plupneb7Mmh6D8koRE0WwOgXe9ZN0BEid2qI2u4iPQ4B56JjpBtL8gcFDXgVT4RN+DPsELXFi2rdy+YAiYbtmUsKGaEHn85i8/kpBV+n5Va9RUMJvmiKqcxllWdp1aLZ0txpIlBcx3vL+toPehbp19nb7mf4KQzTCRyFMgkMIjAVG5/PBNRBX8KOaiws085X5y82exAN2icJpgQIOx2fFeiWEE6X4fBom6UUU530cfzNxtPZqdnsamt1VusYmIhH5oG9jjFKs9XvvcPpNx1QXw9vJIuvTMl9ce6lY65gDo+4cACIBYZDP25TQ2csOxMeZLLVKZ7upVyhS2e44YBDa4MYtwcWhcyk2BxacCuYTBJUR4vKlNxMe/XMBRIE1
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 17:01:35.6043
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ba92c65-65ed-4558-e579-08de997e5230
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D0C.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR08MB11174
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-ORIG-GUID: wZ3wPlNWV3XcjakbG7-ANiEoeoGW3khV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDE5MSBTYWx0ZWRfXy0heuwD/+1vM
+ FJik7oK5ZjlslFRcDzPcUfKYUeo4iVgOpTlSi/8tYbz/m+zzF+qVFi2/LPJjxQT8qdliaRFyOno
+ pKwns0qVt86SVJ46PYSwF64qDL2SuEK7YfzFOUuY5j+fDsoHSwEaAP/8GzN+yQlE520I5k8cuwX
+ v5We4N0VV8T25RjZaR0SrUfRo1rTSvB2AKFzSwNDfOiS81wT4lcn0se7866DsvAvYrrxvapPTfC
+ ovb73BsFozxnAcDmNxWtVRp5J7PlRVEDiwhb0+dr9PQfjKng2o7ocroS0YvSBWy8L5ufH5KJgBT
+ C/IfsZc3g5wnfPbQqoZ8bK3TQWVZkc3DJL1+BcGGHxZNV6g9PZrBU3JLc2igGrQr5ozfz4RGRU4
+ laMKPZ64FzgGKvpkxEu9mN7VRw1R+dn6gFPK8xiQNy8Uv/nixo9A4PvRa9woUfxqjhXRIYfNUSo
+ 0OO0sYLcwwzZx4uNjnw==
+X-Proofpoint-GUID: wZ3wPlNWV3XcjakbG7-ANiEoeoGW3khV
+X-Authority-Analysis: v=2.4 cv=QtNuG1yd c=1 sm=1 tr=0 ts=69dd43b3 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=tslR33AQg_xhmBUqG40A:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-13_03,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 adultscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604130191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 17:01:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235118
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 19:27:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235119
 
-On 31 Mar 2026, at 00:07, Thomas Perrot via lists.openembedded.org <thomas.=
-perrot=3Dbootlin.com@lists.openembedded.org> wrote:
->=20
-> From: Thomas Perrot <thomas.perrot@bootlin.com>
->=20
-> Fat LTO objects embed original source paths in .gnu.lto_* IR sections
-> which are not remapped by -ffile-prefix-map. This causes buildpaths QA
-> failures for libss.a and libext2fs.a in the e2fsprogs-staticdev package.
+Upgrade the firmware package to latest release. Add qupv3fw
+firmware for qcs615 and shikra, add adreno, audio and compute
+package for DELL XPS13 9345, add audioreach firmware for Glymur
+and arduno monza, add ISH firmware for Intel Wildcat Lake platform,
+add lenovo ish firmware for X9-15 2025, X1 Carbon (Gen 14) and
+X1 2-in-1 (Gen 11).
 
-As this is a GCC-specific issue, can you add a toolchain-gcc override to th=
-is too?
+Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ ...20260309.bb => linux-firmware_20260410.bb} | 59 ++++++++++++++++---
+ 1 file changed, 50 insertions(+), 9 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260309.bb => linux-firmware_20260410.bb} (98%)
 
-Thanks,
-Ross=
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260309.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb
+similarity index 98%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260309.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb
+index 42681a879f..54c2c45261 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260309.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb
+@@ -314,7 +314,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "772c8667ff568e7de3a7794fd420f2f7"
++WHENCE_CHKSUM  = "1468492365c9cec2e7ebf71c79d2e8f5"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -452,7 +452,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "c74cc6f562b58ad5bc6b2b00a61abc29c9e49e06126e7ba34fbca9928e07a96c"
++SRC_URI[sha256sum] = "b7812ed6d59f6b09ecceddaa0be842a7e82a79cc0e46ca60478a4ebf02f1e178"
+ 
+ inherit allarch
+ 
+@@ -720,8 +720,9 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
+              ${PN}-qcom-qcm6490-adreno ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute \
+              ${PN}-qcom-qcm6490-ipa ${PN}-qcom-qcm6490-wifi ${PN}-qcom-qcm6490-qupv3fw \
+-             ${PN}-qcom-qcs615-adreno ${PN}-qcom-qcs615-audio ${PN}-qcom-qcs615-compute \
++             ${PN}-qcom-qcs615-adreno ${PN}-qcom-qcs615-audio ${PN}-qcom-qcs615-compute ${PN}-qcom-qcs615-qupv3fw \
+              ${PN}-qcom-qcs6490-radxa-dragon-q6a-audio ${PN}-qcom-qcs6490-radxa-dragon-q6a-compute \
++             ${PN}-qcom-shikra-qupv3fw \
+              ${PN}-qcom-qcs6490-thundercomm-rubikpi3-audio \
+              ${PN}-qcom-qcs8300-adreno ${PN}-qcom-qcs8300-audio ${PN}-qcom-qcs8300-compute \
+              ${PN}-qcom-qcs8300-generalpurpose ${PN}-qcom-qcs8300-qupv3fw \
+@@ -751,7 +752,10 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-x1e80100-asus-zenbook-a14-audio-tplg \
+              ${PN}-qcom-x1e80100-dell-inspiron-14-plus-7441-audio-tplg \
+              ${PN}-qcom-x1e80100-dell-latitude-7455-audio-tplg \
++             ${PN}-qcom-x1e80100-dell-xps13-9345-adreno \
++             ${PN}-qcom-x1e80100-dell-xps13-9345-audio \
+              ${PN}-qcom-x1e80100-dell-xps13-9345-audio-tplg \
++             ${PN}-qcom-x1e80100-dell-xps13-9345-compute \
+              ${PN}-qcom-x1e80100-hp-omnibook-x14-audio-tplg \
+              ${PN}-qcom-x1e80100-adreno ${PN}-qcom-x1e80100-audio ${PN}-qcom-x1e80100-compute \
+              ${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno ${PN}-qcom-x1e80100-lenovo-t14s-g6-audio \
+@@ -773,8 +777,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-intel-license ${PN}-ish-lnlm \
+              ${PN}-dell-license ${PN}-ish-lnlm-39ceeaf8 ${PN}-ish-ptl-39ceeaf8 \
+              ${PN}-hp-license ${PN}-ish-lnlm-12128606 \
+-             ${PN}-lenovo-license ${PN}-ish-lnlm-53c4ffad \
+-             ${PN}-ish-ptl \
++             ${PN}-lenovo-license ${PN}-ish-lnlm-53c4ffad  ${PN}-ish-ptl-53c4ffad \
++             ${PN}-ish-ptl ${PN}-ish-wcl \
+              ${PN}-advansys-license ${PN}-advansys \
+              ${PN}-aeonsemi-license ${PN}-as21xxx \
+              ${PN}-agere-license ${PN}-orinoco \
+@@ -2330,7 +2334,7 @@ LICENSE:${PN}-qcom-apq8096-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8096-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8096-modem = "Firmware-qcom"
+ LICENSE:${PN}-qcom-glymur-adreno = "Firmware-qcom"
+-LICENSE:${PN}-qcom-glymur-audio = "Firmware-qcom-2"
++LICENSE:${PN}-qcom-glymur-audio = "Firmware-qcom-2 & Firmware-linaro"
+ LICENSE:${PN}-qcom-glymur-compute = "Firmware-qcom-2"
+ LICENSE:${PN}-qcom-kaanapali-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-kaanapali-audio = "Firmware-qcom-2 & Firmware-linaro"
+@@ -2349,8 +2353,10 @@ LICENSE:${PN}-qcom-qcm6490-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs615-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs615-audio = "Firmware-qcom & Firmware-linaro"
+ LICENSE:${PN}-qcom-qcs615-compute = "Firmware-qcom"
++LICENSE:${PN}-qcom-qcs615-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs6490-radxa-dragon-q6a-audio = "Firmware-qcom & Firmware-linaro"
+ LICENSE:${PN}-qcom-qcs6490-radxa-dragon-q6a-compute = "Firmware-qcom"
++LICENSE:${PN}-qcom-shikra-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs6490-thundercomm-rubikpi3-audio = "Firmware-qcom & Firmware-linaro"
+ LICENSE:${PN}-qcom-qcs8300-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs8300-audio = "Firmware-qcom-2 & Firmware-linaro"
+@@ -2402,7 +2408,10 @@ LICENSE:${PN}-qcom-x1e80100-asus-vivobook-s15-audio-tplg = "Firmware-linaro"
+ LICENSE:${PN}-qcom-x1e80100-asus-zenbook-a14-audio-tplg = "Firmware-linaro"
+ LICENSE:${PN}-qcom-x1e80100-dell-inspiron-14-plus-7441-audio-tplg = "Firmware-linaro"
+ LICENSE:${PN}-qcom-x1e80100-dell-latitude-7455-audio-tplg = "Firmware-linaro"
++LICENSE:${PN}-qcom-x1e80100-dell-xps13-9345-adreno = "Firmware-dell"
++LICENSE:${PN}-qcom-x1e80100-dell-xps13-9345-audio = "Firmware-dell"
+ LICENSE:${PN}-qcom-x1e80100-dell-xps13-9345-audio-tplg = "Firmware-linaro"
++LICENSE:${PN}-qcom-x1e80100-dell-xps13-9345-compute = "Firmware-dell"
+ LICENSE:${PN}-qcom-x1e80100-hp-omnibook-x14-audio-tplg = "Firmware-linaro"
+ LICENSE:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "Firmware-qcom & Firmware-linaro"
+@@ -2458,7 +2467,10 @@ FILES:${PN}-qcom-apq8096-adreno = "${nonarch_base_libdir}/firmware/qcom/apq8096/
+ FILES:${PN}-qcom-apq8096-audio = "${nonarch_base_libdir}/firmware/qcom/apq8096/adsp*.*"
+ FILES:${PN}-qcom-apq8096-modem = "${nonarch_base_libdir}/firmware/qcom/apq8096/mba.mbn* ${nonarch_base_libdir}/firmware/qcom/apq8096/modem*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/wlanmdsp.mbn*"
+ FILES:${PN}-qcom-glymur-adreno = "${nonarch_base_libdir}/firmware/qcom/glymur/gen80100_zap.mbn*"
+-FILES:${PN}-qcom-glymur-audio = "${nonarch_base_libdir}/firmware/qcom/glymur/adsp*.*"
++FILES:${PN}-qcom-glymur-audio = " \
++    ${nonarch_base_libdir}/firmware/qcom/glymur/adsp*.* \
++    ${nonarch_base_libdir}/firmware/qcom/glymur/GLYMUR-CRD-tplg.bin* \
++"
+ FILES:${PN}-qcom-glymur-compute = "${nonarch_base_libdir}/firmware/qcom/glymur/cdsp*.*"
+ FILES:${PN}-qcom-kaanapali-adreno = "${nonarch_base_libdir}/firmware/qcom/kaanapali/gen80200_zap.mbn*"
+ FILES:${PN}-qcom-kaanapali-audio = " \
+@@ -2485,6 +2497,7 @@ FILES:${PN}-qcom-qcm6490-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6
+ FILES:${PN}-qcom-qcs615-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs615/a612_zap.mbn*"
+ FILES:${PN}-qcom-qcs615-audio = "${nonarch_base_libdir}/firmware/qcom/qcs615/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qcs615/TALOS-EVK-tplg.bin*"
+ FILES:${PN}-qcom-qcs615-compute = "${nonarch_base_libdir}/firmware/qcom/qcs615/cdsp*.*"
++FILES:${PN}-qcom-qcs615-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcs615/qupv3fw.elf*"
+ FILES:${PN}-qcom-qcs6490-radxa-dragon-q6a-audio = " \
+     ${nonarch_base_libdir}/firmware/qcom/qcs6490/radxa/dragon-q6a/adsp*.* \
+     ${nonarch_base_libdir}/firmware/qcom/qcs6490/radxa/dragon-q6a/QCS6490-Radxa-Dragon-Q6A-tplg.bin*\
+@@ -2493,13 +2506,18 @@ FILES:${PN}-qcom-qcs6490-radxa-dragon-q6a-audio = " \
+ FILES:${PN}-qcom-qcs6490-radxa-dragon-q6a-compute = " \
+     ${nonarch_base_libdir}/firmware/qcom/qcs6490/radxa/dragon-q6a/cdsp*.* \
+ "
++FILES:${PN}-qcom-shikra-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/shikra/qupv3fw.elf*"
+ FILES:${PN}-qcom-qcs6490-thundercomm-rubikpi3-audio = " \
+     ${nonarch_base_libdir}/firmware/qcom/qcs6490/Thundercomm/RubikPi3/adsp*.* \
+     ${nonarch_base_libdir}/firmware/qcom/qcs6490/Thundercomm/RubikPi3/QCS6490-Thundercomm-RubikPi3-tplg.bin* \
+     ${nonarch_base_libdir}/firmware/qcom/qcs6490/QCS6490-Thundercomm-RubikPi3-tplg.bin* \
+ "
+ FILES:${PN}-qcom-qcs8300-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs8300/a623_zap.mbn*"
+-FILES:${PN}-qcom-qcs8300-audio = "${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qcs8300/MONACO-EVK-tplg.bin*"
++FILES:${PN}-qcom-qcs8300-audio = " \
++    ${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.* \
++    ${nonarch_base_libdir}/firmware/qcom/qcs8300/arduino-monza-tplg.bin* \
++    ${nonarch_base_libdir}/firmware/qcom/qcs8300/MONACO-EVK-tplg.bin* \
++"
+ FILES:${PN}-qcom-qcs8300-compute = "${nonarch_base_libdir}/firmware/qcom/qcs8300/cdsp*.*"
+ FILES:${PN}-qcom-qcs8300-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/qcs8300/gpdsp*.*"
+ FILES:${PN}-qcom-qcs8300-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcs8300/qupv3fw.elf*"
+@@ -2577,10 +2595,16 @@ FILES:${PN}-qcom-x1e80100-dell-latitude-7455-audio-tplg = " \
+     ${nonarch_base_libdir}/firmware/qcom/x1e80100/dell/latitude-7455/X1E80100-Dell-Latitude-7455-tplg.bin* \
+     ${nonarch_base_libdir}/firmware/qcom/x1e80100/X1E80100-Dell-Latitude-7455-tplg.bin* \
+ "
++FILES:${PN}-qcom-x1e80100-dell-xps13-9345-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/dell/xps13-9345/qcdxkmsuc8380.mbn*"
++FILES:${PN}-qcom-x1e80100-dell-xps13-9345-audio = " \
++    ${nonarch_base_libdir}/firmware/qcom/x1e80100/dell/xps13-9345/*adsp*.* \
++    ${nonarch_base_libdir}/firmware/qcom/x1e80100/dell/xps13-9345/battmgr.jsn* \
++"
+ FILES:${PN}-qcom-x1e80100-dell-xps13-9345-audio-tplg = " \
+     ${nonarch_base_libdir}/firmware/qcom/x1e80100/dell/xps13-9345/X1E80100-Dell-XPS-13-9345-tplg.bin* \
+     ${nonarch_base_libdir}/firmware/qcom/x1e80100/X1E80100-Dell-XPS-13-9345-tplg.bin* \
+ "
++FILES:${PN}-qcom-x1e80100-dell-xps13-9345-compute = "${nonarch_base_libdir}/firmware/qcom/x1e80100/dell/xps13-9345/*cdsp*.*"
+ FILES:${PN}-qcom-x1e80100-hp-omnibook-x14-audio-tplg = " \
+     ${nonarch_base_libdir}/firmware/qcom/x1e80100/hp/omnibook-x14/X1E80100-HP-OMNIBOOK-X14-tplg.bin* \
+     ${nonarch_base_libdir}/firmware/qcom/x1e80100/X1E80100-HP-OMNIBOOK-X14-tplg.bin* \
+@@ -2631,7 +2655,7 @@ RDEPENDS:${PN}-qcom-apq8096-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-glymur-adreno = "${PN}-qcom-license"
+-RDEPENDS:${PN}-qcom-glymur-audio = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-glymur-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-glymur-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-kaanapali-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-kaanapali-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
+@@ -2654,8 +2678,10 @@ RDEPENDS:${PN}-qcom-qcm6490-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs615-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs615-audio = "${PN}-qcom-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-qcs615-compute = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-qcs615-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs6490-radxa-dragon-q6a-audio = "${PN}-qcom-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-qcs6490-radxa-dragon-q6a-compute = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-shikra-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs6490-thundercomm-rubikpi3-audio = "${PN}-qcom-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-qcs8300-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs8300-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
+@@ -2709,7 +2735,10 @@ RDEPENDS:${PN}-qcom-x1e80100-asus-vivobook-s15-audio-tplg = "${PN}-linaro-licens
+ RDEPENDS:${PN}-qcom-x1e80100-asus-zenbook-a14-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-x1e80100-dell-inspiron-14-plus-7441-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-x1e80100-dell-latitude-7455-audio-tplg = "${PN}-linaro-license"
++RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-adreno = "${PN}-dell-license"
++RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-audio = "${PN}-dell-license"
+ RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-audio-tplg = "${PN}-linaro-license"
++RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-compute = "${PN}-dell-license"
+ RDEPENDS:${PN}-qcom-x1e80100-hp-omnibook-x14-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "${PN}-qcom-license ${PN}-linaro-license"
+@@ -2801,14 +2830,26 @@ LICENSE:${PN}-ish-lnlm-53c4ffad = "Firmware-lenovo"
+ FILES:${PN}-ish-lnlm-53c4ffad = "\
+     ${nonarch_base_libdir}/firmware/intel/ish/ish_lnlm_53c4ffad_*.bin* \
+     ${nonarch_base_libdir}/firmware/LENOVO/ish/ish_lnlm_lenovo_X1_2025_5.8.4.7720.bin* \
++    ${nonarch_base_libdir}/firmware/LENOVO/ish/ish_lnlm_lenovo_x9-15_2025_5.8.0.7720.bin* \
+     ${nonarch_base_libdir}/firmware/LENOVO/ish/ish_lnlm_lenovo_X9-14_2025_5.8.36.09092.bin* \
+ "
+ RDEPENDS:${PN}-ish-lnlm-53c4ffad = "${PN}-lenovo-license"
+ 
++LICENSE:${PN}-ish-ptl-53c4ffad = "Firmware-lenovo"
++FILES:${PN}-ish-ptl-53c4ffad = "\
++    ${nonarch_base_libdir}/firmware/intel/ish/ish_ptl_53c4ffad_*.bin* \
++    ${nonarch_base_libdir}/firmware/LENOVO/ish/ish_ptl_lenovo_X1_2026_5.8.1.7782.bin* \
++"
++RDEPENDS:${PN}-ish-ptl-53c4ffad = "${PN}-lenovo-license"
++
+ LICENSE:${PN}-ish-ptl = "Firmware-intel"
+ FILES:${PN}-ish-ptl = "${nonarch_base_libdir}/firmware/intel/ish/ish_ptl.bin*"
+ RDEPENDS:${PN}-ish-ptl = "${PN}-intel-license"
+ 
++LICENSE:${PN}-ish-wcl = "Firmware-intel"
++FILES:${PN}-ish-wcl = "${nonarch_base_libdir}/firmware/intel/ish/ish_wcl.bin*"
++RDEPENDS:${PN}-ish-wcl = "${PN}-intel-license"
++
+ # For advansys - AdvanSys SCSI
+ LICENSE:${PN}-advansys-license = "Firmware-advansys"
+ FILES:${PN}-advansys-license = "${nonarch_base_libdir}/firmware/LICENCE.advansys"
+-- 
+2.34.1
+
 
