@@ -1,115 +1,88 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6FDEBFD10
-	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 07:37:30 +0000 (UTC)
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.266985.1776065847492473979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA75EBFD16
+	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 08:13:40 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.267485.1776068012476920205
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Apr 2026 00:37:27 -0700
+ Mon, 13 Apr 2026 01:13:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=p7MUK42N;
- spf=pass (domain: gmail.com, ip: 74.125.82.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2c15849aa2cso4705106eec.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 00:37:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776065846; x=1776670646; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t243em0iVI/7qJ6kKvhGfHG1GsI+JAWQk8a4oIh5qNE=;
-        b=p7MUK42Nkk8NQuXgEbaGsmv/PTwUVca6Ypsobnyd0Dt71JknHfhedt6B26MM6yxKZ7
-         0OgKSL5NhoAjRq3Et++QiMjiUSJntqGxod3XI2oYVyJX0a/L1Nryrh2yEKHraUj8GrvO
-         oZxlXazJyZZlEMiM7YTKJLio/Qmrv1nGYFXUSX0yc8faBJwfIHOc9HGKUto2oAFIBJBi
-         3cK24Te186M8oiRmtso0PndX9L73AKIUWcPvLfdjdHfpAWk2EV0QtIPmaAe90iviJs2f
-         CBNYUyUi5zOwCCKBS76GtmBH82XS4CJCkzq3o3nMsJxStRmGNDoYK4ozcaYas/416FwM
-         PWyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776065846; x=1776670646;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t243em0iVI/7qJ6kKvhGfHG1GsI+JAWQk8a4oIh5qNE=;
-        b=WjVJIbrOOZkAo/bJJhStPSnefGIyE2GlsbbeNV3AJMnNj09YUHjIApH01mCMgH5oHb
-         G6Wt243HiZc70jqKdw/6H6G2KxjPJDX9405cPqPgXM89JiUR5nqxrVGBUDH4NNHxP8DQ
-         2EgcbPJjN14sWQrCSUyRAEVwMtaLTgZKQaTbGjV6iMaOEKp47Q54aY29YxJTZl+4iLQ+
-         41GKgp8f4ytcnCKABwdhk22XxQyIT8r9HeEZnwywiFbdJZ0+tAEbyKn/WKlEQsXzPgF5
-         7fMFj4bFfPlT7hlreFpeA0KNEF4lYnBNvIQ8faJ8GHyDVGmW9/kspxP61t2jEkaog0T/
-         ry3w==
-X-Gm-Message-State: AOJu0YwpeBQmnmzK3nBmrWYE+wdBMksztwVK5RsrtAh7EzJrRewOE6S7
-	lD8NP31Kboj1k4qvxNGIeZ7NjM1IGnW7vzr2gFOPl7/23gx6eoI7W61Z172YDrzR
-X-Gm-Gg: AeBDievYorHGhH+UycAMcbBvDgL7x6/K8hDERzwggrhp977KHy+73UmfBQyY8UrrorN
-	peMo96cFiwuhrjRCvKK+MQoJtHaLPFGd3BUelAMzgABfWtk5bcaGCb5F7UuhTRTIZa6xrsDlUVa
-	TssbmF9Dz+5DjLjaxHC9tRufJL16Kv7rRxOZrlKQ3/4jZkVVJ5yAQmNmDCqYd8FNlLmijVm1fz1
-	MVbDbvqbD7BDBsIYFPgKs5ZyzCH+GgRJ0V2Ay+8FrFaa5BOm9e9PpykTu+SpjAMdrjvld4cs5Ul
-	MXcSy5zaFWA0lzUyuVMPbQSPHPWHdv82RaO27QmrPHJ+O6+Pe+uLgHnwwk2xKNlB4a8Wk21/OlN
-	ueKoh0Lg2aUiXQS3fYQOzeZ2PTvzo0uuwzFUqbGHVBafun3LOsgUGtQoYyEfvlNvdHZXXFkKzF0
-	D0H1by6pHdQSr2knG+Po3TiweXTMwKW4YDlFRO6HWfMNOqEB51jpvhylcQ1D/Upl4tk4dLzbtcU
-	rtRHZxp0WLP2TJoZYsMVH5PWUnO2tSPg0jz44aI2ZSjYtJ5eufXXAn5sx1gIGGhXso0LGhUXkWq
-	JUZTf4qCOwSVGlhtB0sq7FtMbJtZXVPpY3bwkqfbFwlBYr9erI4=
-X-Received: by 2002:a05:7300:220d:b0:2ba:6b3a:7696 with SMTP id 5a478bee46e88-2d586991502mr7146676eec.8.1776065846084;
-        Mon, 13 Apr 2026 00:37:26 -0700 (PDT)
-Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d5629b31f5sm14902952eec.24.2026.04.13.00.37.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 00:37:25 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] pulseaudio: Fix build with LLD linker
-Date: Mon, 13 Apr 2026 00:37:22 -0700
-Message-ID: <20260413073722.876319-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=YtIxtaaD;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 612AE1A3193;
+	Mon, 13 Apr 2026 08:13:30 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2FFEB5FFB9;
+	Mon, 13 Apr 2026 08:13:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D357610450096;
+	Mon, 13 Apr 2026 10:13:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776068009; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=1+t6kKB21gFN+w9m+8NngiHJLnv29NBpV/CLTLyr+vk=;
+	b=YtIxtaaDuOV3Zqhbu0r5c8t4YrdxuYZwX2GK9e7rjdL/HKBVWLTb1d91k1I3JFGeNBD8MG
+	MYMKK1HKGlidVNb/voTTHsaSVi1fLyuDs7oRsp17jws94kPTU1Bswq46G0q1LY7GCRweij
+	0aDbvjkCCzpaf7LEamOHdP//A9TKaoDCoaXJZ7XBCEqw/DxXSf8oPpuZfiFBT1cqQMertn
+	0MWSO5lEFxEsdtFifWKmplDAlx3gjTG6CBmNOUVGIbZhHpWPsYXHX8rMs8V3h9cofBHc1j
+	Q5NsvyaPFztXPnyQm2UbBKRuUO00Ut/YSDizIgDwmgslFA8yryHJ1NA18u3dlQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 13 Apr 2026 10:13:27 +0200
+Message-Id: <DHRVKB1I9SSR.H8CA4RX6216U@bootlin.com>
+Subject: Re: [PATCH] [OE-core] [PATCH v2] lttng-tools: upgrade 2.14.1 ->
+ 2.15.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <wangmy@fujitsu.com>, "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260409014036.1519-1-wangmy@fujitsu.com>
+ <DHOMP5U25UXL.ZH8NFSNZYYVM@bootlin.com>
+ <TYYPR01MB1341978CA068B1BAC26E48065DC592@TYYPR01MB13419.jpnprd01.prod.outlook.com> <DHRA8X87GXTM.1KH04ZIZ4R6N1@bootlin.com> <TYYPR01MB134193382D763659A25739F43DC242@TYYPR01MB13419.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYYPR01MB134193382D763659A25739F43DC242@TYYPR01MB13419.jpnprd01.prod.outlook.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 07:37:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235089
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 08:13:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235090
 
-LLD is stricter with version scripts
-This is a classic LLD vs GNU ld compatibility issue with
-version scripts. LLD is stricter than GNU ld — by default
-it treats unmatched version script symbols as hard
-errors, whereas GNU ld silently ignores them.
+On Mon Apr 13, 2026 at 9:13 AM CEST, wangmy via lists.openembedded.org wrot=
+e:
+> Thank you for running the tests. However, looking at the build log for bu=
+ild #3471, I noticed that the sstate summary shows:
+>
+>   Sstate summary: Wanted 5 Local 5 Mirrors 0 Missed 0 Current 440
+>
+> This indicates that only 5 tasks were actually rebuilt, and lttng-ust was=
+ most likely served from the sstate cache rather than rebuilt with the patc=
+h applied. The failure output is also identical to build #3450 (before the =
+patch), which further confirms that the updated lttng-ust package was not u=
+sed during testing.
+>
+> Could you please invalidate the lttng-ust sstate cache and trigger a clea=
+n rebuild before re-running the ptest image? I believe the patch is correct=
+ and the test should pass once lttng-ust is rebuilt from scratch.
+>
+> These ptests all pass in my qemuarm64 and qemux86-64 environments.
+>
+> Thanks,
+>
 
-What's happening is that the version script
-e.g. map.pa, declares symbols like pa_glib_mainloop_new
-under PULSE_0, but those symbols aren't being compiled
-into the current library target.
+Hi Wang,
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+No sorry, I can't do that on the autobuilder. If we need to invalidate
+the cache, we will probably have to increase the PR value of the recipe.
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index b9dc8e236f..a8a5a1e074 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -74,6 +74,12 @@ USE_NLS = "yes"
- # Helps tests for -msse fail on non-SSE architectures which is all non-x86
- TUNE_CCARGS:append:toolchain-clang = " -Werror=unused-command-line-argument"
- 
-+# Fixes
-+# aarch64-yoe-linux-ld.lld: error: version script assignment of 'PULSE_0' to symbol 'pa_glib_mainloop_free' failed: symbol not defined
-+# aarch64-yoe-linux-ld.lld: error: version script assignment of 'PULSE_0' to symbol 'pa_glib_mainloop_get_api' failed: symbol not defined
-+# aarch64-yoe-linux-ld.lld: error: version script assignment of 'PULSE_0' to symbol 'pa_glib_mainloop_new' failed: symbol not defined
-+LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
-+
- # mix_neon.c:179:9: error: invalid operand in inline asm: 'vld1.s32 ${0:h}, [$2]
- #      vld1.s32 ${1:h}, [$3] '
- TOOLCHAIN:armv7ve = "gcc"
-@@ -209,7 +215,7 @@ ALLOW_EMPTY:${PN} = "1"
- 
- CONFFILES:libpulse = "${sysconfdir}/pulse/client.conf"
- 
--CONFFILES:pulseaudio-server = "\ 
-+CONFFILES:pulseaudio-server = "\
-   ${sysconfdir}/pulse/default.pa \
-   ${sysconfdir}/pulse/daemon.conf \
-   ${sysconfdir}/pulse/system.pa \
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
