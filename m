@@ -1,256 +1,362 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC69EBFD06
-	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 07:01:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AADABEBFD07
+	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 07:05:19 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.265949.1776063692550740905
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.265987.1776063919047107964
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Apr 2026 00:01:32 -0700
+ Mon, 13 Apr 2026 00:05:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=XzLkjgTV;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8563df3492=mingli.yu@windriver.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=jutJe0M0;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=85638de241=sunilkumar.dora@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63D6b3Zn2089644
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 00:01:32 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63D58gAF1939479
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 00:05:18 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=sRebbS8TxcVDLhzgbHXbZcfgmsrjuhnJEDviHufZonY=; b=XzLkjgTVUhBU
-	ygS1cZwjA51s7dr17Ab/hKsePognx4bScAMpJbccMZy+RcfNtjD91DN1uC/sYhF+
-	CDgpIaLOoMYxhNgZ+sU7UT7xyWdRxPxPku6MFG01aPQl2XLw7KnjYGGDoZEWQVsH
-	mjtiorecw76fH+vJvaekz01VLpzKOtuSmcJtPmDScTnhzgkpufd8tI417UT5XD8W
-	7/T4fI0sdRPIATVyl9wb+my7szAy7LF1qmLpbJDwO2hrSiofDKkLxD1Je2My2VkC
-	GUedqyJx6udtLe2LeWQ9kTuvwPGUyWXjWgX/5WU85sfQu7t4XXQpJ7UpFoEJ52Oy
-	I1ywC/OSwg==
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013025.outbound.protection.outlook.com [40.93.196.25])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dfntds6ag-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 13 Apr 2026 00:01:31 -0700 (PDT)
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=QGbcxsgNE
+	FEcUWHypffWdNOqj19YK7XWS1veQ4axrgY=; b=jutJe0M0zbPc9lAnhzDIEKk/i
+	cC0iiAL1L8DfTXLvew4lHDrjogrZ02mgm5/E8fqlIesH5LNwk9AAzarWZD1z6ssu
+	2Peop7RSsGcgQ7+5Iw+YtlB48db1LonrxlXbW5/MES6enXlId6FG/QB/B6qZXi49
+	bB8oM0cQhWPMM+eaW5BnjRYMC2o7R5+e/rABvjCxJ3mnQOgxlFTcpd4VEgNb3c8o
+	X0QVtqwBAiYbPPpcwgNyKJFyEnx+EpRqXew7d5f4BZHTFc0Vw3EK5WN/bmCqFWlV
+	Xmfr5cHmbMjMcTBEmpIruak9mmuzP1uBkkO7V+2eLR4qucIxdDJRRf0V16CDA==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010064.outbound.protection.outlook.com [52.101.61.64])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dfntds6es-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 00:05:18 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WPkkZiQhCqiQiTfp4Rg7YUxSl6FjtxJVfgZeMRsHB7XROkyBP9y/H1HTfNlseDtwnSTEPBrWloVuPfBKEGtqGHLeNvy2EVk0gggypqu/8EQPinwHKsosTuGbXOWAGRFu/y2j7QJwEDirTyTamRuhCiuJi1DKKC+f8yhc93O5XzAmqUdt0RWxSKo6mWiMje60w53c47E4E5iM2JHiAuwCZkEEi3q+hoyeJXWFgf+Bji1p7GiQU13kuJY4OcbHIe10axl+CFHUy1HVFRc5PmfPQXpqDChaGPWW2j7aBpPZrC83FcUnpLAFqMkEMoIVDsbj1wg2LMkZk4cEDvonsJa/Iw==
+ b=SV+MPm3hu0m+YbzOiWDFsbm2SMqSz9SfKBznK1G1a1EmOqhCl9B5B0adUa7MKL8Bm+X1iuRDLaVKrpcmPUkBy1HGKaIqOcbr9H2XbaGMTII0+Q22qSHF6ODQD1Uz5NEurmHrWLKTitQji4brOda+ZfCpRTFkaJSNIVNkAcl3zb2PHWVPsdCvQj55BpnxpPnPPCyWR65FWJV7v/h/9R/1e2Gxc7gGa/wftuWUnbV5c/wO6AHbSwmdMb+z29/LL408eTHY4uS76xyko9YhY6ApTfKQpAF3GZ/44qYSzdXNvA5i74Vx0XPqFLm2TO4B1/9BUrO4ICGFQjG1khwWjYq4Ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sRebbS8TxcVDLhzgbHXbZcfgmsrjuhnJEDviHufZonY=;
- b=hfQXYkj4pMGfMK4Kmnbuqk77+iO77C7O1oHEr5u4Wc/KZz4lUxEG2hB/HoHH+MDzbImAhVn/e33IoaFcvcGwMVUocH0KEe5rA12oHvaKsHilYrRMmu1jK1bYh7H6lqWpqFhfFhKrQJN5Yh74CMjXDgzKlPXzGew4Xw9M05iuM/FO9of9hwkWjgCSeCJ/MzZsqLW7sfqFWISXMz0RzwqwWYI6EgfpJvE15tiMWJNUh88Dx0clljzMuyOyjfQQvmi0YipEd647UzUkIOHSrE7cy7IHF8E6Bz5JANPUpDAd4/ifr0uB77NDrUgaH7Io9OxbC9Q832CzYhiS96WRZzoyBQ==
+ bh=QGbcxsgNEFEcUWHypffWdNOqj19YK7XWS1veQ4axrgY=;
+ b=HEh5D4NoDiI2E8GCG1AX4nUY94i41a4iZ1qKu1N+7P5Z/fSzyeEySLMW1O9G0WK99E/dfU0ydH+nz3iCEl0bGbI24HyPFak19miq9dsIkvVcjHqist9AT1CY4973sQTMJYskgYoJhh3JzaO5J85TTpSVJXfKbi5lKDjLx/4XcU0Qi6nqaGizu7zT0mAjcroiOmeQuO1rSxL7RSZJspmvGUGhwzlaDwODeLnqHqJGSNdpO/uc4bmzWhRMRZTsYlwq1UymmWhP4SQsja+T9D9VdYig442KH+AlZWLjhm+m2CpWJXIL2xHF+s99F00RWh90/qGLJIILN5wabEfHDWux+A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5184.namprd11.prod.outlook.com (2603:10b6:a03:2d5::5)
- by CY5PR11MB6258.namprd11.prod.outlook.com (2603:10b6:930:25::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.15; Mon, 13 Apr
- 2026 07:01:28 +0000
-Received: from SJ0PR11MB5184.namprd11.prod.outlook.com
- ([fe80::7a3b:1182:1ac6:1afd]) by SJ0PR11MB5184.namprd11.prod.outlook.com
- ([fe80::7a3b:1182:1ac6:1afd%5]) with mapi id 15.20.9791.032; Mon, 13 Apr 2026
- 07:01:28 +0000
-Message-ID: <25af5a31-83c3-45b5-8cf9-22a4c8e39613@windriver.com>
-Date: Mon, 13 Apr 2026 15:01:23 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 2/7] sbom-cve-check-update-db: Fix unpack
- removing other databases
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-References: <20260407210226.2375631-1-ross.burton@arm.com>
- <20260407210226.2375631-2-ross.burton@arm.com>
-Content-Language: en-US
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-In-Reply-To: <20260407210226.2375631-2-ross.burton@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SEWP216CA0116.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2b9::10) To SJ0PR11MB5184.namprd11.prod.outlook.com
- (2603:10b6:a03:2d5::5)
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
+ DS0PR11MB7879.namprd11.prod.outlook.com (2603:10b6:8:f7::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9791.35; Mon, 13 Apr 2026 07:05:15 +0000
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::4293:7c4b:a0b5:eb5f]) by DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::4293:7c4b:a0b5:eb5f%3]) with mapi id 15.20.9818.017; Mon, 13 Apr 2026
+ 07:05:15 +0000
+From: sunilkumar.dora@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: SunilKumar.Dora@windriver.com, Sundeep.Kokkonda@windriver.com,
+        Randy.MacLeod@windriver.com
+Subject: [PATCH] rust: enable fully static linking with TCLIBC=musl
+Date: Mon, 13 Apr 2026 00:04:57 -0700
+Message-ID: <20260413070457.505816-1-sunilkumar.dora@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY1P220CA0022.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:5c3::14) To DS0PR11MB7901.namprd11.prod.outlook.com
+ (2603:10b6:8:f4::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5184:EE_|CY5PR11MB6258:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3d3f9e5-4161-46b4-2fda-08de992a7c2c
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|DS0PR11MB7879:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2f98aed-8ce2-48f6-6ebe-08de992b034d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|4022899009|1800799024|366016|18002099003|22082099003|56012099003;
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	NO5c5WR6M2FiruxDp0y7W1Sgw1rWYepUWUPsIwYT0A7DWWkVf1eK6yBqbmQCOwOaiL70l+juVC4QVXDj+3+c6/jMWumSORizH1YfbeBT7+yZWdS1EXuN+Qi2GQQb2+gcmFnSroCjHH+UDo7hgsOOXH1s7bGbWQyznR8wRQ16mOhpJTj9nvDA07YkKwkml05OGfeBRVyrsAZ5KSsKWoItf5l07VUDnYED1sHZl/7h/uDd6zLsAEsCkyXFyewyQ73wkND1mPhZPXhPAd03973zixhs+58mTt0BIPrSXKAqUCmpAjlDk1AvunsWX09htkXuk1qPddwiJengblhw0YFveiR7afXcKL6fl/iscl78ntmakj6lH+vy1meP9BvyPcLpXn7NWwq7sYBUv8w66Py8MKpAxk8NVH1atMDHm47lbisCB1nBk79wFSpKx8FbI95FjZbrmYSfkRsXFcDXJ+CMK117h/wC6tDlADKyU2dSEQJcI84MIET3OY3aIlqLAoCpugv5k5RhSB7lrSe+x9jwDMDnQf+NnAoRVJeXgaGJlPlTasH7i8HcDHpoI0bJZ/CFeKFNgWoWsb37LLkrymHr+8vpPVc56SjBZ3wBudDkVbw8y9BCkS72R7QAtJGTW2npBfn7QjS7KrsbpowV5QuHd5E7YVTP41TEoAEE/UzYv/WTtTo68+RIV2EUSxFXc+0/
+	2IOYkVq1ZqihLbx9OUw9TL/wg8A5qCii1KS4fDosSfTvufZ4YJsBx1hpNKuoTPv58DkHENRBntDgwobU4CBd82ptIsxR+VRIW6xvyuMZVCMP9K2LxvnHGl2vWimMmIs+KNMTo20rRToekjomWbnFkrlFBZf3SA+pydGZ+jrvS8CaLu6VwnFJ6ZjL1xnYIVG9QTrgCedt1FmJjAcYpMW/9+S5bYlQLwpMLB6UZJytxjYr34qWNRxC4DZYa+XLmtDH09UswtctoP1aKd9Se7AIe4C+8IE5C+SPBxv1v5jqMFjSS2Qy+pSW8yramuJhMv4BMM6W5H+GB5j2gTsFFs1/lB2s1A8R7cBEEIwEeuSZ4a3Dar2qgAdG7K8wu4cIa4dIFa6txNAIbbQLaNkQxFrS5FzGrTxG5/DrP8Q64g0ILO/Cfz9qXOTFq7w9LDShWkQdBUv+RC/uJ9IWJThXlBULxdU193ruA9SlWZxWyPO+1WyvBYAEQ+k5vZUd9WNns5kfvYRT2+sD/3TLzjVRdkUC4mHNA0bhB5TOOmC2fP8BXa6KCWKHnKpcYZILdtI0XUl5HZ7p1RKOLsJ/P5PwWjmMiFKujAN2vcroxBBFr1CYDTFYxiHmqvmW74la7lzkTErvA5CwYZhXNTO//LSZ2akpcAeRunyLk0WmNc5+KlB605DdquERtWDHkptezXtphWvC+ZkBpyM/Yx5BSJi2ITLGAtHzxbDXhrehVhR/RzxHLK5jCnKOyd1gKyu6Rwr08AjZYymShXx7viw+Ll5zQxNUbXRz1U2LgvmQbe/tLQP3zfxKpeo5jxq9dyDarjFCI1lG
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5184.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(1800799024)(366016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MEgwS01jK1RVK3ZsblBtbVhRMVAzYitrK0dCcXl2Mk94SVVIbDg3aS92cmd5?=
- =?utf-8?B?clZwU2U5V0FSWCtlTnJTNUpaQmtQdTJSVGYyM1JVNWsvcjR5dk92MjYvMTNs?=
- =?utf-8?B?anU3N1oxZU9GL3FOeHdRV3NxUHJmM1NXSGRIcmxIRkVlZTk4WjRtdE5zeklG?=
- =?utf-8?B?QU9mZjZ3VEx3WWdGdG92SWlNVGNnam1KdUlxc3dVcE5rajZUdVZLUzU2a1Nm?=
- =?utf-8?B?d1JlNXBheHpBc3kybDlkWittZFZZbTVKL1JJSjVwOWlGamNldEdUQXdvVnFO?=
- =?utf-8?B?bDdtUGh0QlJVaWRmWGpEY01qOWV1cnBHTXE3bmdPQWZNVUd5MnlESmdBWTdk?=
- =?utf-8?B?U2JodlNxT0tPR1R3TmRPUkx1ZCtuem9CVnN0TldBS3lzMGp4VFEvY0hzaXhq?=
- =?utf-8?B?NnJ5QzZlNXJvRjN0SGRQdUxycGhRTklWZVI2MlRlTXphZ253TjlvSnR5N3Zs?=
- =?utf-8?B?c2NYS3RJZFZtTWc3K2NsUm42Wi9ONE9ObG1CMi9CWC95Qk1MUE9LQkw4YVk1?=
- =?utf-8?B?RUhKcHlBK01oVkZrZjVDOGRLcERpY2plZnRsaHVHaWwybVA5SCttK0gzSHE3?=
- =?utf-8?B?dkVPU3phUVpKSVpOZlhnZENrUWN5emxPVS9hMGtvYTMvNXkyVGJuOVY1SmJa?=
- =?utf-8?B?cnhTbWtEZWZoSDJkZ3ZOYUN5ZmhiVHpOTHFRYnM1RWxEZ3VDbW9WcjFNc0pF?=
- =?utf-8?B?OVp1VlZZMXgrS2FpRTg4QU5PdVN6elIyV2hmRjJldytwZ1Rjc1J6ZHZlb0p0?=
- =?utf-8?B?MldvNDJXWXJJRHVPQmFvYktWU0luN3ZqSVlaRjBkSmlqVTQ4cTB1VHJQSXpo?=
- =?utf-8?B?YS9rSDZSRDZFV3pYUGlGamxKekpHc0U5R0lrVUNUcWwzN1RLOENObmVCdlNV?=
- =?utf-8?B?aFZWem1uRlczT2ZidDdnR0lHamkwc25DSjNnTmo4Vy9qaENlMGdhL0ZXZWVp?=
- =?utf-8?B?cldkWFhuWWZ1KytZYlZqSTVqTXBuZU5aaFplYW4zWnRjL0RKSCtyc1R4K29v?=
- =?utf-8?B?ZDBEUEdmWko3eFRGNk56R096T2VvdDkrZjBKaUd1K2ZZNzNhTTR0dE5nbVJ5?=
- =?utf-8?B?THplMldSeURSMmI2NW4wR05uSkFnWW5OellOVWtMT2RrRm1DOHVoMnBEcElB?=
- =?utf-8?B?NW5YU1AvNzA1WFNpTUJWLzVYVXRsdXRmaElHNkxuZ2g0TGxMOWNJbm92Lzhr?=
- =?utf-8?B?bzY4YVNEbjF2TUgyTEEyTEgxem14eUgxUGxMc3NqTXhZaHV0VWNMM21va1B6?=
- =?utf-8?B?enNjek9vanlUeXprSFozQVFVQnVmaW1SOEM0ZlA1NVRlK1RCakdiMUd2OEZl?=
- =?utf-8?B?MytJVWdTTnNxaWJQa1pFQlBhQ01vSCtvSTExaVJmQ29mdHZJV2Y3dklhUzFM?=
- =?utf-8?B?eFNOVEhoS3hzUHIwWkZ2WXFMbGdZSHR5bmhCL3NPMTZmOGJLQTdTemRJVmtK?=
- =?utf-8?B?NmR1NFpCbXFWalFGU3V3WkV0NEgzL29vT3ZoZ2hVcWhTS0k0QUw5cm0vTHh3?=
- =?utf-8?B?ZERGWHZudDhrcVZNMnFCWjVTV2UyV3RvaDRGQ1FGRngycHoyZ25xcmlENVc5?=
- =?utf-8?B?SVJicng5K0QvYTdVREI0dTBINFhRdWI1QVlGa0hKYVQvRTZZaDg4Z2U5RG83?=
- =?utf-8?B?dVg2cHlmR0ZyN1lTampJYTdTdldwMlRINUQ2dTMzSHhtZzBVMlAxTHc2Nk15?=
- =?utf-8?B?RmdRZU9LWGNYRVJwRjdVekR4UWdmVlEyN1haSGJldHBSdW11Q2IxR3FEWVVt?=
- =?utf-8?B?QklzVUU1S2kxRytFYUwyRnltRHlkaVBHV2ZMbkJUc2FQSVpWd2VZQzVWUUZI?=
- =?utf-8?B?d3lQQ2xWT1I5V2E5QzRldTFmaTJsYmtCemNQOEc4MmN4T0ljWTRtdElCdVUy?=
- =?utf-8?B?YjFkOXlOcWNEYVVmRk1VdE84emNNQVV1MmxHSkxuS3RvYWcwSDViWjZ0NDk0?=
- =?utf-8?B?L2h3Qjd6N1B5cFBZMXAyalE1eVZxUk9mdjE3ZFNRR01ISjZIaW1xR0M4bWdI?=
- =?utf-8?B?Um1icmMxUkI3UDhvMktHdmRqSEJhV3h3MjN6ckJXQ1dMM2N2NGQ3ZE9pRWRn?=
- =?utf-8?B?SGErMTlqdXpmbjhZRkVzMUpaZlNSWEhxai9Db01NeFJIeUltYVhhTW9ycVJP?=
- =?utf-8?B?VWpmQk55aHFYMURDZUlDL0NZVnRjdDlFMk1pQlFJeEZFYUx5dkx2RjhxSXhy?=
- =?utf-8?B?RERJTU11TzRmMFdxUEZJemI1aTZrL3dkWmtJWmdMOGJzRHdtcDBYUkdlVHkv?=
- =?utf-8?B?SzZrUitHckp6aGxxbGZLK2VCOFBsVG8rSGFOZWJ5MHJGb21ERjlJb2xCSVZy?=
- =?utf-8?B?bGNpQ01FZXVaL2J0NXBScHJObUx6WEVxLzdmQTNBZXhQTFNmZ0g0Zz09?=
+	=?us-ascii?Q?Vk4cP/tU3QUdmwcUZGM049EZgSw9pebdIuUcJP5OhuFh0C5TyUc7u0JzbCw8?=
+ =?us-ascii?Q?n9FbGNz6TUCh3X8OBg9qu/yFXq5fb63h0VFeME7RF70VnxURy66oZYkhi8In?=
+ =?us-ascii?Q?o0MAhN53Tii6DG6NWl/fHm/zdIkEWXhdiewmri2Wk9v5Ne3J1Y7YSFwzWvsW?=
+ =?us-ascii?Q?+w5LdevYfp3lQ0P5L3YHBRbja/yHClXiDfhUWW5P2CPd7JGvHS0P41+yaoBy?=
+ =?us-ascii?Q?zBEhYli57W/VXYV8Ip/E2ASX3CYfSRZ3LsrqJVCJA0USaohN4nbOXG/0FQiE?=
+ =?us-ascii?Q?XX9paPtFmzo4ibFGsG8pzjTgnRPHB9Q5CJnCCOP/kKt2Ou9mymfA8SkGS5JH?=
+ =?us-ascii?Q?4NhuscAAADTHh5yh/zRVmqXyN3hJY63P6XuJ7D9cumZCmKH8FpM/MWINof3t?=
+ =?us-ascii?Q?DC2ES+cYH9lJLQSQLpV7NYYAH6dy3uRW/Q9K/TGhuV1yeK664g0yiFMULbLJ?=
+ =?us-ascii?Q?bMl713kJBfdqxjG71oZqDWfFz6BoPh8liiWh7OL+eIsGBolNp7SMz3373kLi?=
+ =?us-ascii?Q?WLYTBV6uMoICVXAnQGdFUDNGB4N7zbSCWOtInO7VOpLnYQyzv+nysX8wJl9N?=
+ =?us-ascii?Q?+PDsHz32umEo2EYYGfg7uSGHmytUjm3Vmwx+bGhRxkTnMaPqqqtOB988ZPz9?=
+ =?us-ascii?Q?zOrHQGkHH29RzY48OoDWPhCTv79f3OQVAS6KSlEpN4YXbEiP8HXv54iZur1O?=
+ =?us-ascii?Q?jS5DQjt41uVsa1QCCGys0uLRdTGAtV2q8xLzrRX631AFPKUCIiikuOjctWvO?=
+ =?us-ascii?Q?2riRmJzLJZ0S+1Yzetcl5sSWDK2P6gcuzPjvhzMjSyFcnVDAY+rDDwvGYd9W?=
+ =?us-ascii?Q?R2VLnJ2NmdOlt7nrQizoKOHUdpuyo/AgC4e856KIYsMeyX6D3G1dqS/jjJZX?=
+ =?us-ascii?Q?DxUSdrXVZr8sD8a45YgzdHj368XuXh1+42w05GIJ8wYyvytsdhsvi/7XFHIL?=
+ =?us-ascii?Q?lGUoaPT0nsiiINZY/NVg3G8tm2Q/H7mgTAyFJsm+Hm0YYIqUxDZOf4cKjXt2?=
+ =?us-ascii?Q?XvboaQXoYJHPBnM0XzPkKCLaXJceWhaNWZuMkUq6b9+jm+XhgBRs441w1rtc?=
+ =?us-ascii?Q?GQhAxA3Wh0j0nkc3bqrP4pPsSYgDsJjxLxGJfBsQhE3/HaRVdvlbSPzIHE5Z?=
+ =?us-ascii?Q?L9KLuDFy2IXMfDJ0t5PHTExyH+jYIMz20M+DqpZJ1EoAQUCvyA5lqmr2PogW?=
+ =?us-ascii?Q?RmleNxd0HbkY/t79ydK77XJuOh5a5XTOg8hPJroRt+MDzl4bugxek3em0EjY?=
+ =?us-ascii?Q?rqATmjN6LBQxIzdPPR6I0PR+b2+oA3AAT/WCbEdaB8tK/4DETg+qCkwi0F1+?=
+ =?us-ascii?Q?d8GpC4/yzHBzb0CkXOJA67kBhWMnn6Ljo9KXNolqKBEidFoRJCzk0wDz6USQ?=
+ =?us-ascii?Q?vxO5O4ZYrMl9Xlu9Z4iNcJEt7uYYm/B9DX3MrGMmcdO+JmZ/GOGtLqWoN3Fu?=
+ =?us-ascii?Q?zf6CS8V/b4mRIhfjW+12k67SJSIeIWbze/vTw2XXLIJrgHo8guUdkGkBZGDU?=
+ =?us-ascii?Q?RRM45hiYT4R94J8h/Ymd5kMxoaNdVnHnlPfRp74bDH1kHyWZzdDDjkyO4C3p?=
+ =?us-ascii?Q?5l79A8vh8JC9hsaRPFabehHkgbG3t1zjKtNbGdoWsujwZcwspx/ph5iZxAw1?=
+ =?us-ascii?Q?lI4wz86iX9zalalBSRwy5BpoGJH0lMF5+YJ3G+CdvTz9urPEbZO4SmyfzP+q?=
+ =?us-ascii?Q?1be0EDr90AKgKjOShpiCQREFGZfehgQLbcvMTSGb69AkQUoThPWGHhx/Xd2P?=
+ =?us-ascii?Q?vsTNhbBGl1WUbx6t3W+6uKtM2lSptuA=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	AhmT2yx1HuMrNueflJm83a2oVRVOGnfBsxpnxH+vV++vIjhPERGF2TsXCJqWzHYFVRD+oc2ZRe5Qc0rZJLF+bTE0GwARUYWwP7GWrM9ChitQ/ZVdLTrca3E4xxYgegHnpHtbyUapPSf180OIOFEunxT4BqNDv2LHgBt5NcDJXcYRV2wU6sgbB9cGBn0fQJqmLkScMeCBWeI5xhZxiTZHKLhvF7uyLLA2g1HOl6fF/VPHNhbbGukjLTm5awzT3MtOkqMHH++PPOJg58S8fY2vf6XFLD5BP9zUmPNJ40sOLFSxzwjjzOpsAx8udh3OHefzXD9Mg8X1WdiuQf3gG/DKxg==
+	idzSpwl8R87ahBlEGoS53io5r5crfOumgujsJNlr1RTUL9iabNNq1k3qIzZZEPbiXiwJ3ZeFDRn+DPdGHho1myF9UxkdIAmaHPmmsv928cBRjzts/odIaxZ65+rNglwScWaGhAxRRvtAhP76iVs5ygll4oNV/24M6micOQJhfM/BF2VsQGO5T41ZkLiZYad8W8YwiXayQf8PWbI1SLXVl+YmqW8uaCXC0B3Yd/J0/lf/jQaOLMbV/SI2dvWkXMXiU/fe2m0ec0bZbNDsPRn/bVHqd9RgKUxt36ZQPcUPbSss2tnnfaJ0dpjNEprImrwnasDxMBVxWVd+pmGQzAn30g==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3d3f9e5-4161-46b4-2fda-08de992a7c2c
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5184.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2f98aed-8ce2-48f6-6ebe-08de992b034d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 07:01:28.6323
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 07:05:15.2888
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5gTk8HJYTxABnlNDBqx5FDM2dsbgsXR7b+mhRD11tkGexiMvOrMOiYgafuhd5DPpB7FQ6i21ybFPfUWHU86KMQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6258
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: 6a62BCmVaHjZNm2VWqk48qyMzVe_KXdR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDA2NiBTYWx0ZWRfXz0lnpRjAT/d3
- gfOMXoiVscjH49fUlfxdFdkOtNKK6vplT7z/+LfPJAp+bdHGkxN91Rpykn6OA4E4Dhwmm73p+0J
- jHe/xDda7/g+0w6BJnP3A4f/AYGHnaK2YIc0GKN+rwlZa1VfStM896DXQgSao2TNxFXq+f7SQuL
- hJGLrfySkeM/kmgyIykeyX1yidP+Hv2SI+G+iKWFFDEa3MpN9Ul6xmj7bqnmIgACNX/avIfqEK+
- fKeWf207H5ksT7UPu0Aptshe3cHcxe89GbiPbaBD6eJvXUCEvvKmIzluh8TzMggtAarf+9vE7Qw
- vvPiT+/latmsPQP0deBwix8TuNZVw1TtxCVvMlqqMnhsqclE4thy+xgJ/B6sEzaLwN0J5J9MK5A
- ODmF67/QeqxAbUJ60Cp10V2uEOIIgs0w0hEtWiwUsCNZdudg8CY3nGf/Ez3XdQuLLsZVUnu7x3V
- 85r3keInuRaOpe9uR7w==
-X-Authority-Analysis: v=2.4 cv=S6/pBosP c=1 sm=1 tr=0 ts=69dc94cc cx=c_pps
- a=XslAgrSL5Auaid5C2fKBmA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: s9BJLoGp31WIjxXDKAKwcQOqW6banAn0jVCbpY3R51Wv6TuKCJ8s/8GYa1K9WWIyeF+Yxymhe+2rzxK/ZwwAQvHnNu/In3gpXPm79Jwpobg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7879
+X-Proofpoint-GUID: PNcXU5MhSiHsaT7xmlgXaQmtOSbNAqpC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDA2NiBTYWx0ZWRfXzupZ1ORCKj3r
+ L/MYn4xmjvLE7POOZn0xmjP0Q+Or3irxCD2E5YP78yRu0EvD7b0493Tx7eez0+i9lJvj6UaQBvv
+ TYc3NkzpAUIq03LXaA34whtqwGN5Tq688ms92zT1UDxeAP3hS0aiiKfF9SNebCOQVLg79B9lhMO
+ 8HXOnUit0r674bE6HtU1kgXGsGChY93y+qsbYDDb5TS3sU/tGXxglibCw3Rx3S+sMa9jsLWHieX
+ ARxwE6ryPTdt5NcFQB9vg41McVVG0rZEZLj5li6HzyjRu9jVkPBqNNoOeQ4AzmZsG2pVMjw245I
+ Knwcv2WyuCfDuwfYb2GU6nxYGvTeKN0wc8jxYEs4sqwJlFgqn1trsdM1L4sEInaowrFKPgvOmll
+ XYDjW4YaHXthBP7z6X4jKU/LgF2t2XzS2pSzh9aPhF0gfsahJN40oqhMH/qHf/NsVaNctvJPOH9
+ mjYO/WLXpFcTlsooXYA==
+X-Authority-Analysis: v=2.4 cv=S6/pBosP c=1 sm=1 tr=0 ts=69dc95ae cx=c_pps
+ a=0b+utHCzfji0ILmZHHcyhA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
- a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=P-IC7800AAAA:8 a=t7CeM3EgAAAA:8
- a=klBjCJ-M86FRvycJo6sA:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=d3PnA9EDa4IxuAV0gXij:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: i9fqZUzKtBBTlF4Y9P4Re83-xUhYKN5v
+ a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=j57RdskLAAAA:20
+ a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=3ZaykzITAAAA:8 a=z2Bb3heFyi89ZgpCzI4A:9
+ a=neqFGx5lQMtEv_Zc:21 a=FdTzh2GWekK77mhwV6Dw:22 a=eq567Uj9mPSXXwt5iH6V:22
+ a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-ORIG-GUID: PNcXU5MhSiHsaT7xmlgXaQmtOSbNAqpC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-13_02,2026-04-09_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1011 impostorscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 clxscore=1015 impostorscore=0 bulkscore=0 adultscore=0
  malwarescore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604130066
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 07:01:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235085
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 07:05:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235086
 
-Hi,
+From: Sunil Dora <sunilkumar.dora@windriver.com>
 
-Have encountered below error when execute "bitbake -cfetch 
-sbom-cve-check-update-cvelist-native",  could you help to take a look?
-ERROR: sbom-cve-check-update-cvelist-native-1.0-r0 do_fetch: Bitbake 
-Fetcher Error: 
-MalformedUrl('git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix')
+Fixes [YOCTO #16076]
 
-Thanks,
+Rust binaries built with TCLIBC=musl and
+-C target-feature=+crt-static were still dynamically linked.
+Fix this by addressing three issues:
 
+1) Set crt-static-respected in the generated musl target spec
+   so rustc honors +crt-static. [1]
 
-On 4/8/26 05:02, Ross Burton via lists.openembedded.org wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
-> 
-> From: Benjamin Robin <benjamin.robin@bootlin.com>
-> 
-> Previously, `UNPACKDIR` was set to `${SBOM_CVE_CHECK_DEPLOY_DB_DIR}`,
-> which points to the `./databases/` directory and may contain multiple
-> databases. Since `do_unpack` cleans the `${UNPACKDIR}` directory,
-> `UNPACKDIR` must only contain a single database.
-> 
-> To address this, set `UNPACKDIR` to
-> `${SBOM_CVE_CHECK_DEPLOY_DB_DIR}/${SBOM_CVE_CHECK_DB_NAME}` and
-> configure `destsuffix` to an empty string. However, it is currently not
-> possible to set `BB_GIT_DEFAULT_DESTSUFFIX` to an empty string, so
-> `destsuffix` is configured through the SRC_URI instead.
-> 
-> Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
-> Tested-by: Antonin Godard <antonin.godard@bootlin.com>
-> ---
->   .../sbom-cve-check/sbom-cve-check-update-cvelist-native.bb    | 2 +-
->   .../sbom-cve-check/sbom-cve-check-update-db.inc               | 3 +--
->   .../sbom-cve-check/sbom-cve-check-update-nvd-native.bb        | 4 ++--
->   3 files changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native.bb
-> index ce204db6c5..3387122165 100644
-> --- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native.bb
-> +++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native.bb
-> @@ -3,7 +3,7 @@ LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-> 
->   HOMEPAGE = "https://github.com/CVEProject/cvelistV5"
-> -SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https"
-> +SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix="
->   SBOM_CVE_CHECK_DB_NAME = "cvelist"
-> 
->   # 2026-03-19_baseline
-> diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
-> index a318e2c40e..7ada67363d 100644
-> --- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
-> +++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
-> @@ -15,6 +15,5 @@ deltask do_install
->   deltask do_populate_sysroot
-> 
->   # Directly unpack the fetched CVE database to the deploy directory.
-> -UNPACKDIR = "${SBOM_CVE_CHECK_DEPLOY_DB_DIR}"
-> +UNPACKDIR = "${SBOM_CVE_CHECK_DEPLOY_DB_DIR}/${SBOM_CVE_CHECK_DB_NAME}"
->   S = "${UNPACKDIR}"
-> -BB_GIT_DEFAULT_DESTSUFFIX = "${SBOM_CVE_CHECK_DB_NAME}"
-> diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native.bb
-> index 30c7868b2a..c868ba09c1 100644
-> --- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native.bb
-> +++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native.bb
-> @@ -1,9 +1,9 @@
->   SUMMARY = "Updates the NVD CVE database"
->   LICENSE = "cve-tou"
-> -LIC_FILES_CHKSUM = "file://${SBOM_CVE_CHECK_DB_NAME}/LICENSES/cve-tou.md;md5=bc5bbf146f01e20ece63d83c8916d8fb"
-> +LIC_FILES_CHKSUM = "file://LICENSES/cve-tou.md;md5=bc5bbf146f01e20ece63d83c8916d8fb"
-> 
->   HOMEPAGE = "https://github.com/fkie-cad/nvd-json-data-feeds"
-> -SRC_URI = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https"
-> +SRC_URI = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https;destsuffix="
->   SBOM_CVE_CHECK_DB_NAME = "nvd-fkie"
-> 
->   # v2026.03.19-010002
-> --
-> 2.43.0
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#234781): https://lists.openembedded.org/g/openembedded-core/message/234781
-> Mute This Topic: https://lists.openembedded.org/mt/118715629/3618448
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mingli.yu@eng.windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+2) Add the target sysroot library path to the linker flags so
+   libunwind.a can be found.
+
+3) Use LLVM libunwind for musl:
+   - GNU libunwind does not provide static libraries in OE
+     and lacks required _Unwind_* symbols on some architectures [2]
+   - libgcc_eh depends on pthread and cannot be used for fully
+     static linking with musl
+   - LLVM libunwind provides the required symbols without
+     additional dependencies
+   Install LLVM libunwind from libcxx and switch libstd-rs
+   to depend on libcxx for musl.
+
+Also remove the obsolete DEPENDS:remove:riscv32/riscv64 = "libunwind"
+lines added in 2021 when riscv musl support was still being patched.
+LLVM libunwind supports both riscv32 and riscv64 - verified locally.
+riscv32 support was upstreamed at [3].
+
+Add a selftest to verify that produced binaries are statically linked.
+
+[1] https://github.com/rust-lang/rust/blob/main/compiler/rustc_target/src/spec/mod.rs
+[2] https://github.com/libunwind/libunwind/issues/761
+[3] https://github.com/llvm/llvm-project/commit/b17d464
+
+Reported-by: Nick Owens <nick.owens@eero.com>
+Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+---
+ .../rust/rust-static-musl-test/Cargo.lock     |  5 ++++
+ .../rust/rust-static-musl-test/Cargo.toml     |  4 +++
+ .../rust/rust-static-musl-test/src/main.rs    |  3 ++
+ .../rust/rust-static-musl-test_0.1.bb         | 20 +++++++++++++
+ meta/classes-recipe/rust-common.bbclass       |  1 +
+ .../classes-recipe/rust-target-config.bbclass |  2 ++
+ meta/lib/oeqa/selftest/cases/rust.py          | 30 +++++++++++++++++++
+ meta/recipes-devtools/clang/libcxx_git.bb     |  5 ++++
+ .../recipes-devtools/rust/libstd-rs_1.94.1.bb |  5 +---
+ 9 files changed, 71 insertions(+), 4 deletions(-)
+ create mode 100644 meta-selftest/recipes-devtools/rust/rust-static-musl-test/Cargo.lock
+ create mode 100644 meta-selftest/recipes-devtools/rust/rust-static-musl-test/Cargo.toml
+ create mode 100644 meta-selftest/recipes-devtools/rust/rust-static-musl-test/src/main.rs
+ create mode 100644 meta-selftest/recipes-devtools/rust/rust-static-musl-test_0.1.bb
+
+diff --git a/meta-selftest/recipes-devtools/rust/rust-static-musl-test/Cargo.lock b/meta-selftest/recipes-devtools/rust/rust-static-musl-test/Cargo.lock
+new file mode 100644
+index 0000000000..cb488024c3
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/rust/rust-static-musl-test/Cargo.lock
+@@ -0,0 +1,5 @@
++version = 3
++
++[[package]]
++name = "rust-static-musl-test"
++version = "0.1.0"
+diff --git a/meta-selftest/recipes-devtools/rust/rust-static-musl-test/Cargo.toml b/meta-selftest/recipes-devtools/rust/rust-static-musl-test/Cargo.toml
+new file mode 100644
+index 0000000000..d7071302bd
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/rust/rust-static-musl-test/Cargo.toml
+@@ -0,0 +1,4 @@
++[package]
++name = "rust-static-musl-test"
++version = "0.1.0"
++edition = "2021"
+diff --git a/meta-selftest/recipes-devtools/rust/rust-static-musl-test/src/main.rs b/meta-selftest/recipes-devtools/rust/rust-static-musl-test/src/main.rs
+new file mode 100644
+index 0000000000..85dcaf9df5
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/rust/rust-static-musl-test/src/main.rs
+@@ -0,0 +1,3 @@
++fn main() {
++    println!("static-musl-ok");
++}
+diff --git a/meta-selftest/recipes-devtools/rust/rust-static-musl-test_0.1.bb b/meta-selftest/recipes-devtools/rust/rust-static-musl-test_0.1.bb
+new file mode 100644
+index 0000000000..442c24c1da
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/rust/rust-static-musl-test_0.1.bb
+@@ -0,0 +1,20 @@
++# SPDX-License-Identifier: MIT
++# Minimal Rust binary to test static musl linking (bug 16076)
++
++SUMMARY = "Minimal Rust binary for static musl linking regression test"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++SRC_URI = "file://Cargo.toml \
++           file://Cargo.lock \
++           file://src/main.rs \
++          "
++
++S = "${UNPACKDIR}"
++CARGO_SRC_DIR = ""
++
++inherit cargo
++
++COMPATIBLE_HOST = ".*-musl.*"
++
++SSTATE_SKIP_CREATION = "1"
+diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recipe/rust-common.bbclass
+index 34bb2377cf..057aeda67a 100644
+--- a/meta/classes-recipe/rust-common.bbclass
++++ b/meta/classes-recipe/rust-common.bbclass
+@@ -161,6 +161,7 @@ WRAPPER_TARGET_CC = "${CC}"
+ WRAPPER_TARGET_CXX = "${CXX}"
+ WRAPPER_TARGET_CCLD = "${CCLD}"
+ WRAPPER_TARGET_LDFLAGS = "${LDFLAGS}"
++WRAPPER_TARGET_LDFLAGS:append:libc-musl = " -L${STAGING_DIR_TARGET}${libdir}"
+ WRAPPER_TARGET_EXTRALD = ""
+ # see recipes-devtools/gcc/gcc/0018-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+ # we need to link with ssp_nonshared on musl to avoid "undefined reference to `__stack_chk_fail_local'"
+diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
+index 2e83cf5aa7..3469de2142 100644
+--- a/meta/classes-recipe/rust-target-config.bbclass
++++ b/meta/classes-recipe/rust-target-config.bbclass
+@@ -429,6 +429,8 @@ def rust_gen_target(d, thing, wd, arch):
+     tspec['has-thread-local'] = True
+     tspec['position-independent-executables'] = True
+     tspec['panic-strategy'] = d.getVar("RUST_PANIC_STRATEGY")
++    if "musl" in tspec['llvm-target']:
++        tspec['crt-static-respected'] = True
+ 
+     # write out the target spec json file
+     with open(wd + rustsys + '.json', 'w') as f:
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+index 7614941661..72ffa5f234 100644
+--- a/meta/lib/oeqa/selftest/cases/rust.py
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -1,4 +1,5 @@
+ # SPDX-License-Identifier: MIT
++import os
+ import subprocess
+ import time
+ from oeqa.core.decorator import OETestTag
+@@ -144,3 +145,32 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+             test_results = parse_results(resultlog)
+             for test in test_results:
+                 self.ptest_result(ptestsuite, test, test_results[test])
++
++# Regression test for bug 16076 - verify static linking with TCLIBC=musl
++class RustStaticMuslTest(OESelftestTestCase):
++
++    RECIPE = "rust-static-musl-test"
++
++    def setUp(self):
++        super().setUp()
++        self.write_config(
++            'TCLIBC = "musl"\n'
++            'RUSTFLAGS:append:pn-%s = " -C target-feature=+crt-static"\n' % self.RECIPE
++        )
++        result = bitbake(self.RECIPE, ignore_status=True)
++        self.assertEqual(result.status, 0,
++            msg="bitbake %s failed:\n%s" % (self.RECIPE, result.output))
++
++    def test_static_musl_linking(self):
++        workdir = get_bb_var("WORKDIR", self.RECIPE)
++        cargo_target_subdir = get_bb_var("CARGO_TARGET_SUBDIR", self.RECIPE)
++        pn = get_bb_var("PN", self.RECIPE)
++        binary = os.path.join(workdir, "build", "target",
++                              cargo_target_subdir, pn)
++
++        result = runCmd("file %s" % binary, ignore_status=True)
++        self.assertIn("ELF", result.output,
++            msg="Not an ELF binary: %s" % result.output)
++        self.assertIn("statically linked", result.output,
++            msg="Binary is not statically linked. Regression of bug 16076.\n"
++                "file output: %s" % result.output)
+diff --git a/meta/recipes-devtools/clang/libcxx_git.bb b/meta/recipes-devtools/clang/libcxx_git.bb
+index 42b2c91e43..dff063ad8b 100644
+--- a/meta/recipes-devtools/clang/libcxx_git.bb
++++ b/meta/recipes-devtools/clang/libcxx_git.bb
+@@ -31,6 +31,11 @@ LIC_FILES_CHKSUM = "file://libcxx/LICENSE.TXT;md5=55d89dd7eec8d3b4204b680e27da39
+ OECMAKE_TARGET_COMPILE = "cxxabi cxx"
+ OECMAKE_TARGET_INSTALL = "install-cxxabi install-cxx"
+ 
++# LLVM libunwind.a needed for static Rust musl builds.
++# GNU libunwind never produces .a on musl so no collision risk.
++OECMAKE_TARGET_COMPILE:append:libc-musl = " unwind"
++OECMAKE_TARGET_INSTALL:append:libc-musl = " install-unwind"
++
+ CC = "${CCACHE}${HOST_PREFIX}clang ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ CXX = "${CCACHE}${HOST_PREFIX}clang++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ BUILD_CC = "${CCACHE}clang ${BUILD_CC_ARCH}"
+diff --git a/meta/recipes-devtools/rust/libstd-rs_1.94.1.bb b/meta/recipes-devtools/rust/libstd-rs_1.94.1.bb
+index 8af93bec57..2a5e977a5e 100644
+--- a/meta/recipes-devtools/rust/libstd-rs_1.94.1.bb
++++ b/meta/recipes-devtools/rust/libstd-rs_1.94.1.bb
+@@ -17,10 +17,7 @@ inherit cargo
+ 
+ CVE_PRODUCT = "rust"
+ 
+-DEPENDS:append:libc-musl = " libunwind"
+-# rv32 does not have libunwind ported yet
+-DEPENDS:remove:riscv32 = "libunwind"
+-DEPENDS:remove:riscv64 = "libunwind"
++DEPENDS:append:libc-musl = " libcxx"
+ 
+ # Embed bitcode in order to allow compiling both with and without LTO
+ RUSTFLAGS += "-Cembed-bitcode=yes"
+-- 
+2.49.0
 
 
