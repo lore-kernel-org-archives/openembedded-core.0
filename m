@@ -2,60 +2,70 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89439EBFD38
-	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 10:27:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F2DEBFD38
+	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 10:28:48 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.269369.1776076032907448136
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.269387.1776076122208680921
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Apr 2026 03:27:13 -0700
+ Mon, 13 Apr 2026 03:28:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=ZvXt+dJ4;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=bWuF0Kkv;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65E9B16F8
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 03:27:06 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E67E916F8
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 03:28:35 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AA1333F641
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 03:27:11 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 39CA63F641
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 03:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1776076032; bh=4AAPYME8elaN5ANkGPt2ggKoKQ5xnxVhc5WRYjuxZAg=;
+	t=1776076121; bh=g1OF269Oa3uKD0IVOEdDMhrudW3ztZ7mtUXcXNWtqq4=;
 	h=From:To:Subject:Date:From;
-	b=ZvXt+dJ4GU+OgrGfIJuJjoE1gwj/wHVYkaYkzGurCPHu+cn5IGLCSb+z2imF93qXh
-	 F3m6wEayshMEVhk9ok4EGX48o4qyV3zdq04s+w6Hw0oMG3OP5SnUmqF3uZCm+6FG8t
-	 uVVZitWRbcTWaDSsUlXjOJR9QihU64RvyJeH5d0s=
+	b=bWuF0KkvGs7xib/3r0tKRFAcPspye/nrCEUH7tYGMygKA3djD1JtwT1uDV2UrFZuT
+	 CVbaxCk2g9S5DtYKFy4a3FppRVnYb8euwYzdpvFoOigP0mS+HmmvuKCp3Vt7OWdJ9N
+	 bCBsf7zrvvFCueX1a+jD4sYn1yQmRMk2gN33zIhI=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemtap: add option for readline
-Date: Mon, 13 Apr 2026 11:27:10 +0100
-Message-ID: <20260413102710.4117966-1-ross.burton@arm.com>
+Subject: [PATCH v2] systemtap: add option for readline
+Date: Mon, 13 Apr 2026 11:28:39 +0100
+Message-ID: <20260413102839.4126045-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 10:27:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235096
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2026 10:28:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235097
 
 systemtap will try and use libreadline if it's available which isn't
 good for determinism. Add an option, and disable it by default.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../systemtap/systemtap/readline.patch        | 83 +++++++++++++++++++
+ .../systemtap/systemtap/readline.patch        | 93 +++++++++++++++++++
  .../recipes-kernel/systemtap/systemtap_5.4.bb |  1 +
  .../systemtap/systemtap_git.inc               |  1 +
- 3 files changed, 85 insertions(+)
+ 3 files changed, 95 insertions(+)
  create mode 100644 meta/recipes-kernel/systemtap/systemtap/readline.patc=
 h
 
 diff --git a/meta/recipes-kernel/systemtap/systemtap/readline.patch b/met=
 a/recipes-kernel/systemtap/systemtap/readline.patch
 new file mode 100644
-index 00000000000..dbd98934244
+index 00000000000..d7afc800cd7
 --- /dev/null
 +++ b/meta/recipes-kernel/systemtap/systemtap/readline.patch
-@@ -0,0 +1,83 @@
+@@ -0,0 +1,93 @@
++configure: add option to enable/disable readline
++
++Add an option to control explicitly whether systemtap will look for and
++use readline, for reproducible builds.
++
++If not specified the behaviour is as before: look for readline and if it
++is found, use it.  However if --with-readline is passed then readline
++must be present, and if --without-readline is passed then readline will
++not be used.
++
 +Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2=
 026q2/028333.html]
 +Signed-off-by: Ross Burton <ross.burton@arm.com>
