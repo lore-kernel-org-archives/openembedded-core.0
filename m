@@ -1,140 +1,299 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <mark.yang@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40097ED7B87
-	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 08:06:33 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.60])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13745.1776153267920859742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F8FBED7B8B
+	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 08:38:13 +0000 (UTC)
+Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14103.1776155871792673146
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2026 00:54:28 -0700
+ Tue, 14 Apr 2026 01:37:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=0gHKmb+r;
- spf=pass (domain: est.tech, ip: 52.101.72.60, mailfrom: adarsh.jagadish.kamini@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C/CPjYOGRyNkGYCAejjKLslKiRHRAvJ9KqQrTPxZE7vcQ20UHN1OQwOf2ndSpY3WKX3+Vubffa5XJuQPHvJGYGa+WQAxZ6PuN0PvQG4DWJ4WS7lxJZ3sVDTczRaoL+Fp4vEY5EDCtWePbXl8er/aEs0USU/Jo/yJhXMK33vabHhD3pjjmmuQIbvotmwDkMK8pA/wAzgsYytQd6aI9I0phsacAF4YBY2tv91Gmarb5AzYgqe98GObot+NHpx/9wI5FblT7LzaRsGKjP3gm0lZHqANCxPcwfG+lYJCe5C4nYRR4QXuFFpEUPapUOOrB2/7enCeGSupW8g4TsrISvf7Jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OR3isDuJXyqfx7YlJoIZ6ZQsoIxRRc70TtAzYe6Xd+w=;
- b=M/Bya1UWXu8EIoeZBOotBiTjGXunBdC17FsIX5G2vvTKMD0gryGxP7bEkt614bmsdQoZQrt6Pr+k0ie7Bp6ZrL02hPN13C8SCh+C/hnm/3DVIFPQ+cUX5N9GkvaQpzkDIIe3iOvY2LWmpQw1oxBDRRl17J3gH+yB2nTdFyF6qRZw/AaUBow6oTs6VVgDFSs6ogMyhQPMlkHetX6B+Y309u/XLU+GgEH6Yw+82jlQ6hY8cuIV7CeUEGDjkWajMoOS+LStHmH9JZ/XhrqdLNKoUZamrHsPIbV4xKZ/eiUI6pWFrZ+fZlZNdIwLoMAPRJVkdysA7hJto/LQ/tPiNvdz8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OR3isDuJXyqfx7YlJoIZ6ZQsoIxRRc70TtAzYe6Xd+w=;
- b=0gHKmb+rvRYpgMIM4DiIwFOCnDormFE6E8dZLxd3bjE7qOXHZRhsb27ONj2WkfwwjQAP8RAyh98yyVJhEO4UImPTEu5nAhf9VS06AueaRFFoYUA6o3CLLFj/0Tnt4nDw8W3BBHHgOqpOsnm91sh1/IojCVrQIV9tiToZi6jUhDIgOY1q7bDd82AnDZNdug/4da9kn23CMP2FnrQKtC7DsSiUfOTy0sZwE1dR4OKrNCYUYbXJMN+iX0fZCKMciW3i/yNTgRI4eN/sx8/MydDlqDJxgOn8UnyifCFadkucbQZBBbchHBZqNoDSEo8mrD0sgxDZt4VmTmcDdHHizF/tfA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by AMBP189MB3361.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6a1::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Tue, 14 Apr
- 2026 07:54:24 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%6]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
- 07:54:24 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: mark.yang@lge.com)
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+	by 156.147.23.53 with ESMTP; 14 Apr 2026 17:37:48 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: mark.yang@lge.com
+Received: from unknown (HELO markyang..) (10.177.127.86)
+	by 156.147.1.126 with ESMTP; 14 Apr 2026 17:37:48 +0900
+X-Original-SENDERIP: 10.177.127.86
+X-Original-MAILFROM: mark.yang@lge.com
+From: mark.yang@lge.com
 To: openembedded-core@lists.openembedded.org
-CC: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][master][PATCH] vim: minor update to 9.2.0340 to fix CVEs
-Date: Tue, 14 Apr 2026 09:54:17 +0200
-Message-ID: <20260414075421.604401-1-adarsh.jagadish.kamini@est.tech>
+Cc: "mark.yang" <mark.yang@lge.com>
+Subject: [PATCH] clang: consolidate sysroot compiler-rt search path patches
+Date: Tue, 14 Apr 2026 17:37:19 +0900
+Message-ID: <20260414083718.3042783-2-mark.yang@lge.com>
 X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: LO6P123CA0007.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::9) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|AMBP189MB3361:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83fd0b09-6674-4229-e70f-08de99fb0b7f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	3I4N6G6cXTNShm7yL03qi2iNGsn3XhMyEOohB79bw3g3t+0IGpe9sc5f60uy6yZCg0nUIHLeLQ+47y63YOMnmD3wSTfGyOHjTWoJVQqdGBq7LAYwiEp7+Tp5JNp6ZPR6zq4ie0snLfP7qKj31EFe8nqg3jO8nS6Fj8gBeAoXRHquVN4W2Ad2gv6EWKCRhU8DdJhzZn/b4TBXeM2y1Pgw/WMnAb8F6u5kLkHqyxDyGTn7QV1leGQWj5M8poi4DFDi5jniAo+i+Lpm6V1C+7Mjd18w2DpkiVJO9lGgyU+JeojzhkeP+b/4pEJDDqZuOZ6YTn/by12ky9WcV7YwMicI68d4SScE0FUixe68wtpkmPnf6sMRC3IsZph4K2lrwmv86WwTUQYKQfTou0cLykF5MBq6Mf/4M63sqRy3p6CigsGppEsY4SGzSzM/oNW+M62VcnSIiomuFufMdhWnDhGsiFQoW8OQOwz1TgOTQDrOeTSWT4cL6nsZFlkHnDiqBaV35twp4fKONUPvpTkLhpudvorw2r4r50TatL2KHM9mfS9UNO3TzUOYZ2ksi4NDVoWOXtpwvHdqsUx414/9b2j8xGl7z5oLyIRxg/xH/hnLo5jtHW3Gc+Rxcetxi55Q6dSgM+NW+GSLmOxKgYGAHW2YbcdAbwy60RlZmfEYwJhplZJQohIIowXgG/ZEUe0kF1eS1pRNNsON+RDUOGW/4v//h/I3MmeJCSP88CJ+givGM2Q=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?EWIHXAHH8daJxj2QrEPiGjnsZmhxs58PT4rbxMlhmbYm+2kYXmPae4Z6HxXK?=
- =?us-ascii?Q?Qn0YgKtouT4542hRhyqqphf5jVblR+JjPRWDPWGN41weLFgQ3sKJiTV95bFv?=
- =?us-ascii?Q?QwvWVadxq55iL3wsJt5QpGvIoQ5A+htu2DEkNpBnGyucn3SPNhRPYm9Kazyi?=
- =?us-ascii?Q?qkLI3YlxAQD1xAR/FpNAlJgScpYdNzLDHm0ikefoGfc+dmj//tmd5fxdJcd1?=
- =?us-ascii?Q?ecZ9/XGdw1xcVsy8e8cUotZbZIO0qT0MUjm+FYVsxjTx58DCihfN7y00DbXB?=
- =?us-ascii?Q?2LXhMy3Z/DyY6eiLE0GwqG+oxMS0OE3/ZRnpYAAIV/QgG5udY8hkItf4SrxW?=
- =?us-ascii?Q?qLcPgEHHAI2Yu7ldCzZf76ejO5yqwC0u5md+9VvmHPJdmU05qMWLjX2swahb?=
- =?us-ascii?Q?cU2deN5eOFIbA9A7OXCa3gw4E24Km8coxurgKO7QKYPnrbutZ/PyHY22Vqb0?=
- =?us-ascii?Q?JRpUJ6YPPJIGd4YSi2lqRA3Z3cWSjbAJML8Jf4TNNs1nUSkDEVqqTQIqcImv?=
- =?us-ascii?Q?XHmNmUsfKY+iv27scCZX9UdrCbClBqxG8PTgL9ppkU/LBsnT8+u7fJJ/q9QK?=
- =?us-ascii?Q?xgoHwqCsCLb6z6nthaTt/LESBepB0uBZRc/TtscTJ6k7aSE15dB6LOHynyqM?=
- =?us-ascii?Q?abuidv89cdlDzjtUGBOO64wCnEiBLex3iqVoYCTsO8tnKCUoS7YA7viHABNW?=
- =?us-ascii?Q?IcuY+xHrU/30a72CYnP7n5YzgVwesdI84yMWVKGrQOEKGxyL9SC6ymMssJOv?=
- =?us-ascii?Q?5pUdHaODTRFaDzHGxOCJrKuUBLUYCS804czru83o+YtXmVIj+cbvrKOfQDeu?=
- =?us-ascii?Q?60PKN8OpSMsISB0XLk8j867QacCLq+vPOPI48Vn6tWBU29rPrhoBh3X+ndCB?=
- =?us-ascii?Q?QnaoliHzcOjcKB3n1kqygfQj+RBr1NQm+W/DtQO9DG9ovA3lTLhiXnu2w4c1?=
- =?us-ascii?Q?OJR62Nqv6KLp+HxpQCMuGw2Y+Nhu7XOTkXSKNHz+PFZ5iF+nSkIuMc4ZQhUY?=
- =?us-ascii?Q?dcih1vRsjxRgWwtg0W1YHrX2Pe3TQZcNAk/ZlRdSjycad6fydZYuYARF7E/a?=
- =?us-ascii?Q?eyy0KMgb8wiqLmoJfMdhnqpLILE6BWSUkgagIHXM54pBAvkcZ/7WRNi+GQVz?=
- =?us-ascii?Q?DxkRz1AZfwWAsPLaGJV0o8FG6BVlvHBjn12XQBkiBvmTxPidokxfK7Pi+EEU?=
- =?us-ascii?Q?9zgGmC7MiKi1PWhTC2P7MGXEuE/9aE5q8Em17taJMUtLIYH8C5KwOjC0EQhX?=
- =?us-ascii?Q?BUEDIlCSefAocaElWTbBJu0FeQj/ThxoG0MpKR5qBY54Z3vCN5MFSJIp0QEX?=
- =?us-ascii?Q?ELED6HdlpVyLHp5UE2mWbMMH5CtlBtMGH2oztg8kcllvV/73tXBBIKtcgfaS?=
- =?us-ascii?Q?EpBqe2pqnedP1AoB0qtYnXZcAE9Bf+R8saoneIRpxNc36pODPw8f06HhRX1U?=
- =?us-ascii?Q?O5WnJoNGJcBaCyqhQDl4rtFk5V/naKva+H5qbP8X58+yJUzZZoeHnuPrvWxU?=
- =?us-ascii?Q?jxahKp3ompM8i3bCOqksz8HQQbp+Sv6vAF4qJA7PBQ+PYRdP/+2yEZQ5QQm+?=
- =?us-ascii?Q?M/+mxt2N7l+ttf47ZZfyMWN7O2K9ROhqGdmvfv4M0tN+9p98UKlzdkfZ3umC?=
- =?us-ascii?Q?zINhFmRn7sqhmqiRpn3LCqPUw/e+ODnPOdXgq5IHdL2YSNg5PTNjpjTtKwUT?=
- =?us-ascii?Q?R4T8/mdkQuRSooKHSYAyar8g1/4TdwnWwOsHA3vXcWUB3vjmR35evt9SePWt?=
- =?us-ascii?Q?ccQfIbVwMo4/HSXz0JIBkKA56ilHMr0=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83fd0b09-6674-4229-e70f-08de99fb0b7f
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2026 07:54:24.3045
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DlkBbwSDiSL3sFwx9kcGYFlbM3EMRMPPnE2SpJc1NY18EWnM9Qm3mCzt77OjSj4wXJk08nLWxSV4VL75pKUAGkhl/W42EmP6RJ31P4OxC9E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP189MB3361
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 08:06:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235145
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 08:38:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235146
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+From: "mark.yang" <mark.yang@lge.com>
 
-CVEs fixed: CVE-2026-34714 and CVE-2026-33412
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Replace patches 0008 and 0033 with a single consolidated patch (0041)
+that fixes native build breakage.
+
+The original patches unconditionally changed the runtime library search
+base from ResourceDir to SysRoot, which breaks native/standalone builds
+where SysRoot is empty (e.g., PGO bootstrap fails to find
+libclang_rt.profile.a). The new patch uses SysRoot-based paths only
+during cross-compilation and falls back to the upstream default
+ResourceDir for native builds.
+
+Signed-off-by: mark.yang <mark.yang@lge.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...e-the-target-sysroot-for-compiler-ru.patch |  41 -------
+ ...t-relative-paths-for-getArchSpecific.patch |  48 --------
+ ...fix-sysroot-based-compiler-rt-search.patch | 105 ++++++++++++++++++
+ meta/recipes-devtools/clang/common.inc        |   3 +-
+ 4 files changed, 106 insertions(+), 91 deletions(-)
+ delete mode 100644 meta/recipes-devtools/clang/clang/0008-clang-Look-inside-the-target-sysroot-for-compiler-ru.patch
+ delete mode 100644 meta/recipes-devtools/clang/clang/0033-clang-Use-sysroot-relative-paths-for-getArchSpecific.patch
+ create mode 100644 meta/recipes-devtools/clang/clang/0041-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vi=
-m.inc
-index 9a5ec9652f..6f9b31d868 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmaster=
-;protocol=3Dhttps;tag=3Dv${PV}
-            file://no-path-adjust.patch \
-            "
-=20
--PV .=3D ".0110"
--SRCREV =3D "7ba60f17c22ef81680f25f8c3225b4edb55ddd7c"
-+PV .=3D ".0340"
-+SRCREV =3D "6addd6c101117706bc9b3609d3a418e26e92618f"
-=20
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.\d+)\.0"
---=20
-2.34.1
-
+diff --git a/meta/recipes-devtools/clang/clang/0008-clang-Look-inside-the-target-sysroot-for-compiler-ru.patch b/meta/recipes-devtools/clang/clang/0008-clang-Look-inside-the-target-sysroot-for-compiler-ru.patch
+deleted file mode 100644
+index 5a0cea90d2..0000000000
+--- a/meta/recipes-devtools/clang/clang/0008-clang-Look-inside-the-target-sysroot-for-compiler-ru.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From d972eb4a51d911e33ad75f8b3ebedafc08efefac Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 16 Mar 2017 19:06:26 -0700
+-Subject: [PATCH] clang: Look inside the target sysroot for compiler runtime
+-
+-In OE compiler-rt and libc++ are built and staged into target
+-sysroot and not into resourcedir which is relative to clang
+-driver installation where the libraries are not instlled
+-
+-Specific to cross compiling the way yocto/OE works
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- clang/lib/Driver/ToolChain.cpp | 6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/clang/lib/Driver/ToolChain.cpp b/clang/lib/Driver/ToolChain.cpp
+-index 77a2c73f0d44..f39de1409c3c 100644
+---- a/clang/lib/Driver/ToolChain.cpp
+-+++ b/clang/lib/Driver/ToolChain.cpp
+-@@ -15,6 +15,7 @@
+- #include "ToolChains/InterfaceStubs.h"
+- #include "clang/Basic/ObjCRuntime.h"
+- #include "clang/Basic/Sanitizers.h"
+-+#include "clang/Basic/Version.h"
+- #include "clang/Config/config.h"
+- #include "clang/Driver/Action.h"
+- #include "clang/Driver/CommonArgs.h"
+-@@ -723,7 +724,10 @@ StringRef ToolChain::getOSLibName() const {
+- }
+- 
+- std::string ToolChain::getCompilerRTPath() const {
+--  SmallString<128> Path(getDriver().ResourceDir);
+-+  SmallString<128> Path(getDriver().SysRoot);
+-+  StringRef ClangLibdirBasename(CLANG_INSTALL_LIBDIR_BASENAME);
+-+  llvm::sys::path::append(Path, "/usr/", ClangLibdirBasename, "clang",
+-+                            CLANG_VERSION_STRING);
+-   if (isBareMetal()) {
+-     llvm::sys::path::append(Path, "lib", getOSLibName());
+-     if (!SelectedMultilibs.empty()) {
+diff --git a/meta/recipes-devtools/clang/clang/0033-clang-Use-sysroot-relative-paths-for-getArchSpecific.patch b/meta/recipes-devtools/clang/clang/0033-clang-Use-sysroot-relative-paths-for-getArchSpecific.patch
+deleted file mode 100644
+index f7b8e2f127..0000000000
+--- a/meta/recipes-devtools/clang/clang/0033-clang-Use-sysroot-relative-paths-for-getArchSpecific.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 6dfed7c23af059937e15523482311503d4bb275b Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 7 Jul 2025 19:22:07 -0700
+-Subject: [PATCH] clang: Use sysroot relative paths for getArchSpecificLibPaths
+- and getRuntimePath
+-
+-Clang's default sysroot implementation differs that what we do in OE,
+-and we do it with gcc as well where we install c++ runtime headers in
+-target sysroot, clang does not by default it puts them relative to its
+-own installation and uses resourcedir to point to it. In order to solve
+-this we have to raise this question with respective upstreams or rethink
+-about how we package compiler runtime.
+-
+-Upstream-Status: Inappropriate [OE-Specific]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- clang/lib/Driver/ToolChain.cpp | 10 ++++++++--
+- 1 file changed, 8 insertions(+), 2 deletions(-)
+-
+-diff --git a/clang/lib/Driver/ToolChain.cpp b/clang/lib/Driver/ToolChain.cpp
+-index f39de1409c3c..d85ba775d317 100644
+---- a/clang/lib/Driver/ToolChain.cpp
+-+++ b/clang/lib/Driver/ToolChain.cpp
+-@@ -1025,7 +1025,10 @@ ToolChain::getTargetSubDirPath(StringRef BaseDir) const {
+- }
+- 
+- std::optional<std::string> ToolChain::getRuntimePath() const {
+--  SmallString<128> P(D.ResourceDir);
+-+  SmallString<128> P(D.SysRoot);
+-+  StringRef ClangLibdirBasename(CLANG_INSTALL_LIBDIR_BASENAME);
+-+  llvm::sys::path::append(P, "/usr/", ClangLibdirBasename, "clang",
+-+                          CLANG_VERSION_STRING);
+-   llvm::sys::path::append(P, "lib");
+-   if (auto Ret = getTargetSubDirPath(P))
+-     return Ret;
+-@@ -1053,7 +1056,10 @@ ToolChain::path_list ToolChain::getArchSpecificLibPaths() const {
+-   path_list Paths;
+- 
+-   auto AddPath = [&](const ArrayRef<StringRef> &SS) {
+--    SmallString<128> Path(getDriver().ResourceDir);
+-+    SmallString<128> Path(getDriver().SysRoot);
+-+    StringRef ClangLibdirBasename(CLANG_INSTALL_LIBDIR_BASENAME);
+-+    llvm::sys::path::append(Path, "/usr/", ClangLibdirBasename, "clang",
+-+                            CLANG_VERSION_STRING);
+-     llvm::sys::path::append(Path, "lib");
+-     for (auto &S : SS)
+-       llvm::sys::path::append(Path, S);
+diff --git a/meta/recipes-devtools/clang/clang/0041-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch b/meta/recipes-devtools/clang/clang/0041-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch
+new file mode 100644
+index 0000000000..a2a7fa80f1
+--- /dev/null
++++ b/meta/recipes-devtools/clang/clang/0041-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch
+@@ -0,0 +1,105 @@
++From b818a92ac171e80e39ad9e99d1f862d23f2bb5b3 Mon Sep 17 00:00:00 2001
++From: "mark.yang" <mark.yang@lge.com>
++Date: Tue, 14 Apr 2026 16:17:01 +0900
++Subject: [PATCH] Consolidate and fix sysroot-based compiler-rt search paths
++
++Consolidate patches 0008 and 0033 into a single patch with a fix for
++native builds.
++
++Background:
++In Yocto/OE, compiler-rt and libc++ are built as separate recipes and
++installed into the target sysroot, not into clang's resource directory
++(which is relative to the clang driver installation).
++Patches 0008 (getCompilerRTPath, Khem Raj, 2017) and 0033 (getRuntimePath and
++getArchSpecificLibPaths, Khem Raj, 2025) addressed this by changing the
++runtime library search base from ResourceDir to SysRoot-based paths.
++
++Problem:
++The patches unconditionally replaced ResourceDir with a SysRoot-based
++path using CLANG_VERSION_STRING. In native/standalone builds where
++SysRoot is empty, this produces invalid absolute paths like
++"/usr/lib/clang/<full-version>/" pointing to the host filesystem instead of the
++build tree's resource directory. This breaks PGO bootstrap and any other
++native workflow that depends on compiler-rt runtime libraries
++(e.g., -fprofile-generate cannot find libclang_rt.profile.a).
++
++Fix:
++Use SysRoot-based paths only when SysRoot is actually set (i.e., during
++cross-compilation). When SysRoot is empty (native/standalone builds),
++fall back to the upstream default ResourceDir, which correctly resolves
++to the build tree's resource directory.
++
++The following functions are updated with this conditional logic:
++- getCompilerRTPath()
++- getRuntimePath()
++- getArchSpecificLibPaths()
++
++Upstream-Status: Inappropriate [OE-Specific]
++Signed-off-by: mark.yang <mark.yang@lge.com>
++---
++ clang/lib/Driver/ToolChain.cpp | 31 ++++++++++++++++++++++++++++---
++ 1 file changed, 28 insertions(+), 3 deletions(-)
++
++diff --git a/clang/lib/Driver/ToolChain.cpp b/clang/lib/Driver/ToolChain.cpp
++index 77a2c73f0..ac28b51c4 100644
++--- a/clang/lib/Driver/ToolChain.cpp
+++++ b/clang/lib/Driver/ToolChain.cpp
++@@ -15,6 +15,7 @@
++ #include "ToolChains/InterfaceStubs.h"
++ #include "clang/Basic/ObjCRuntime.h"
++ #include "clang/Basic/Sanitizers.h"
+++#include "clang/Basic/Version.h"
++ #include "clang/Config/config.h"
++ #include "clang/Driver/Action.h"
++ #include "clang/Driver/CommonArgs.h"
++@@ -723,7 +724,15 @@ StringRef ToolChain::getOSLibName() const {
++ }
++ 
++ std::string ToolChain::getCompilerRTPath() const {
++-  SmallString<128> Path(getDriver().ResourceDir);
+++  SmallString<128> Path;
+++  if (!getDriver().SysRoot.empty()) {
+++    Path = getDriver().SysRoot;
+++    StringRef ClangLibdirBasename(CLANG_INSTALL_LIBDIR_BASENAME);
+++    llvm::sys::path::append(Path, "/usr/", ClangLibdirBasename, "clang",
+++                              CLANG_VERSION_STRING);
+++  } else {
+++    Path = getDriver().ResourceDir;
+++  }
++   if (isBareMetal()) {
++     llvm::sys::path::append(Path, "lib", getOSLibName());
++     if (!SelectedMultilibs.empty()) {
++@@ -1021,7 +1030,15 @@ ToolChain::getTargetSubDirPath(StringRef BaseDir) const {
++ }
++ 
++ std::optional<std::string> ToolChain::getRuntimePath() const {
++-  SmallString<128> P(D.ResourceDir);
+++  SmallString<128> P;
+++  if (!D.SysRoot.empty()) {
+++    P = D.SysRoot;
+++    StringRef ClangLibdirBasename(CLANG_INSTALL_LIBDIR_BASENAME);
+++    llvm::sys::path::append(P, "/usr/", ClangLibdirBasename, "clang",
+++                            CLANG_VERSION_STRING);
+++  } else {
+++    P = D.ResourceDir;
+++  }
++   llvm::sys::path::append(P, "lib");
++   if (auto Ret = getTargetSubDirPath(P))
++     return Ret;
++@@ -1049,7 +1066,15 @@ ToolChain::path_list ToolChain::getArchSpecificLibPaths() const {
++   path_list Paths;
++ 
++   auto AddPath = [&](const ArrayRef<StringRef> &SS) {
++-    SmallString<128> Path(getDriver().ResourceDir);
+++    SmallString<128> Path;
+++    if (!getDriver().SysRoot.empty()) {
+++      Path = getDriver().SysRoot;
+++      StringRef ClangLibdirBasename(CLANG_INSTALL_LIBDIR_BASENAME);
+++      llvm::sys::path::append(Path, "/usr/", ClangLibdirBasename, "clang",
+++                              CLANG_VERSION_STRING);
+++    } else {
+++      Path = getDriver().ResourceDir;
+++    }
++     llvm::sys::path::append(Path, "lib");
++     for (auto &S : SS)
++       llvm::sys::path::append(Path, S);
+diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
+index fecc98d70a..9d45898c68 100644
+--- a/meta/recipes-devtools/clang/common.inc
++++ b/meta/recipes-devtools/clang/common.inc
+@@ -28,7 +28,6 @@ SRC_URI = "\
+     file://0005-clang-driver-Check-sysroot-for-ldso-path.patch \
+     file://0006-clang-Driver-tools.cpp-Add-lssp_nonshared-on-musl.patch \
+     file://0007-clang-Prepend-trailing-to-sysroot.patch \
+-    file://0008-clang-Look-inside-the-target-sysroot-for-compiler-ru.patch \
+     file://0009-clang-Define-releative-gcc-installation-dir.patch \
+     file://0010-clang-Add-lpthread-and-ldl-along-with-lunwind-for-st.patch \
+     file://0011-Check-for-atomic-double-intrinsics.patch \
+@@ -53,7 +52,6 @@ SRC_URI = "\
+     file://0030-llvm-config-remove-LLVM_LDFLAGS-from-ldflags-output.patch \
+     file://0031-compiler-rt-Exclude-sync_fetch_and_-for-any-pre-ARMv.patch \
+     file://0032-compiler-rt-Hardcode-uptr-sptr-typedefs-on-Mips-Linu.patch \
+-    file://0033-clang-Use-sysroot-relative-paths-for-getArchSpecific.patch \
+     file://0034-Revert-libc-Remap-headers-in-the-debug-info-when-bui.patch \
+     file://0035-Prevent-revisiting-block-when-searching-for-noreturn.patch \
+     file://0036-Don-t-expose-LLVM_HAVE_OPT_VIEWER_MODULES-externally.patch \
+@@ -61,6 +59,7 @@ SRC_URI = "\
+     file://0038-llvm-libgcc-Fix-symlink-path-for-libcc-when-LLVM_ENA.patch \
+     file://0039-Rename-UNUSED-and-UNKNOWN-elements-of-OffloadArch-enum.patch \
+     file://0040-libcxxabi-declare-__gnu_unwind_frame-in-cxa_personal.patch \
++    file://0041-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch \
+ "
+ # Fallback to no-PIE if not set
+ GCCPIE ??= ""
 
