@@ -1,171 +1,299 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DB5ED7B9B
-	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 10:27:19 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.40])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15681.1776162436272955938
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F2EED7B9B
+	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 10:31:29 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.20])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15848.1776162683093729192
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2026 03:27:16 -0700
+ Tue, 14 Apr 2026 03:31:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=UAHfd7WM;
- spf=pass (domain: axis.com, ip: 52.101.83.40, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=SxXXVlxE;
+ spf=pass (domain: est.tech, ip: 52.101.65.20, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nH7t9RLSsuMGvXPFuE+0igsyHxxPfvO7Vu8K0h25Gz4rv35zu8gcMm8LD7z7FssAO/7Qh/oVAveOtBj37sH/ByhlIPJDgvO/VPnG/0DlDmsmdJV8b2Vy7RFqpmweFLw8aYgGvuw61vb0vavGScg6cftqX/4byzE5xmJgSPiA3c12ZCUtxmrxhh6Ys85riV717fy91SDHMgHDytesuX22NX/HrYWagM+a7te/dDZXkNtjRZOwbkwD0d73mMvs65+igmrtM+lxi4PbYFaGN6mbk25f6P0rPZmX6uWf/KbAbjLcedpDdVG4LGA0ZmsjJAP+hvliLm0qvzplZFt7Du3ecw==
+ b=xDw0QKU/5YLfhaXJL6MStDvWTZ1COx40xYYiir5iBhl3of+QMkrXwU3LR/pm/YCMRbQe/4dagrC9Dj4JeQWsvK5g5I8enIKYswgytbyd1S86R8PpOVKl+0pE4nGASVxayGYP0I6AdB5tt39tKABlUObXl/Mb+jc7Rn8oMQsYY5YxqAtkaCwOlhFV4JumDTAi9c3GEuKAPP7m/n9Ep9OgUQNQFJplCPt8I6wbd2e4VgGAEljUPNlDMhjMRShkLL6g+0Vv287xuB7Zom/K5HpoV5OaFX2bCyQ7TVhVYpYHdVAyF+1wP5DYZROU0Sp9lSetVhWIftmvTD/KhPZZkOiLqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IRVe1n04Lp3r6hOlpdiCJHOB4qk7zvxj0oxLWyiS23s=;
- b=aCwp/Be4MC91kCtnnT9B8iUeKCtVzrPjxWTpq3ZjlHesQABqgKnglstXq1AJSKmp0oDF1BlDAaMIGeMf1dkHlgceL3yxpQFTH+ViCRfZ9/Rues84xjHVIfIUCbG/HqsQy+NtVM3Itg0/RRmXKlrWznbKsvJdBXOva0oLH3D3khC5Ge3a+ReZaj7LZpd+8sHO321A8p/qoQo/WnWsBInffseUpUdnWQ7iQJDW4vviSfvgK4hp8r6h1txKH6PPKbbYD+H/rzGd8U2RqZWmNMj/+sYZGh3valo3Zs3n6l+i+0f6KOZPm7IKT1KkGQ+rbNIRZSFIlMj0NTWJMe7XAKcb2Q==
+ bh=401vIKsWzFJS7tSXNodgR6572hso+68r0s+lQxKrukY=;
+ b=oHh2di0yzYJO2Sh0Bu9kHWtwIQ7+iXKBbIuGpu2jzR3OKxqoCrso9rFxk3dKQMfc9VdUAKOj5hhSi0PJOIDnagb2e57i6h62ioqoyxbsAuREzTF7DKk8okPnPF5DSZxBeu+jo++ggxISE6X4z+bQDF7p38mt/IW37nH9SuO1MAggvX+u5XXDE6Nb66wvug1NuGWFvIYfrvO6eAgVO26zxPUj+bNpBvR13AbbMgQR8KSvP5FNlgvFE3+IhYS0B57wyCde0Z5ylS73nl77g1JR54ljzoKTwwr7l7o0XqkSPejzzhgIuU+64YykEYuge20HJAVr9fY8XhEgzff17T12fA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IRVe1n04Lp3r6hOlpdiCJHOB4qk7zvxj0oxLWyiS23s=;
- b=UAHfd7WMWbNPrO9l0svPj5MGNS/ajGHit1GvCdzaWOAA0xci14Jmo3BUpzpM3RAIOYiQAH9Z0zSmvTElGGiTimi75CfSLfeRObu1YoDBiq0iLkmStrXVN3STzIw5uL85Weu3QM57toKrfKwzOM4amj+bnFxvlULoCImLP6UKoD0=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by GV2PR02MB11836.eurprd02.prod.outlook.com (2603:10a6:150:31e::15) with
+ bh=401vIKsWzFJS7tSXNodgR6572hso+68r0s+lQxKrukY=;
+ b=SxXXVlxEi7vU0LXPdnvOtgBx0a3P1dA2phxQdLePPWl9jzHJIs/do+eHrlHuUUwwd0ALsaU42vZkSOGqcL+zaUu4gccHjsSEN9EKZoUDqYK4aT7vLqp3x/QiVh4FeVmtjHaAWHeRbHY//sTHr8zL1WuN3tG0CDq0hwidqrwFEQVasqwYcp5Kws2gQJ5BVDRcP6fEJI26TfT6/mEzTBPPrEz8yAxNn/n4Fu7PU/HWGo6KUV1xFL9t79IaaJIGvcNHH11ogdK892tT2K3aE9IGOsFBWU6EoijruXMt6ft0yQBG1MRSKpJsXPsiWYilldLI/mv6wwuEueIJif6jX9xBIA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::a9e)
+ by VI0P189MB3591.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2d5::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Tue, 14 Apr
- 2026 10:27:11 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
- 10:27:11 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "changqing.li@windriver.com" <changqing.li@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH V2] gstreamer1.0-plugins-bad: add
- ANY_OF_DISTRO_FEATURES
-Thread-Topic: [OE-core] [PATCH V2] gstreamer1.0-plugins-bad: add
- ANY_OF_DISTRO_FEATURES
-Thread-Index: AQHcy77YASdeHkYYMkm+RjWptPqfx7XeWqSw
-Date: Tue, 14 Apr 2026 10:27:11 +0000
-Message-ID: 
- <DB5PR02MB1021391A80E4D9F14D29DEA84EF252@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <DHS549F2NTOV.O6QC1JNNT3O2@bootlin.com>
- <20260414032831.1323996-1-changqing.li@windriver.com>
-In-Reply-To: <20260414032831.1323996-1-changqing.li@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|GV2PR02MB11836:EE_
-x-ms-office365-filtering-correlation-id: 44669be3-eb8b-4409-aa9f-08de9a10638b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|56012099003|18002099003|22082099003;
-x-microsoft-antispam-message-info: 
- k6SiJcD6M1qRdnY411YI9/C9gO6YbKM+oSq725RTdYUHlVgf1QL9T1xUh4pTCoaOI89eM01uXVLA6LV9VbLMKAOZ6oDZaNQrNyC5S+sqy0TpMmWpugQtw0Zv4fFhrh1zrZA/pmGwIixQ6tieiraYBiwR4TOvQWhq9XD8Jj8m8r6ECTeuwG+MhcoDYiJRJf+Iu0k47eT8PlU9s1YsE7SGh0TaDY42kbkON+rXHbN/nbs8xIRBXa3iEicX6PQZrr4girQNScz0uiiePwDG51yytA03rMIBxS8NaXZaRn9eYtMaXMEY5w7jFM8tQV+nKJrAB4fqPxbVa3Hv4YPRx8vUFw/Es/KlXpBofvT7rZ6yB8PvoMW6bBwG6TCjPdCW6hpw9ixlk4vViTf7gVlkU08lIozMMC9cKG/scMXN0gWf86iXyW7iGowNBEjQ5Kaq1ydWVg1XPstbtIshNRgvPU13gXDiilN5ZEEbp4yKUP92EK+kH2V3+m5xElotuZcLQGX1QhbPi96RDtMKhPUn1qdswMfIe/qGqFjqqhRFmYLUIpPMOSk5anG5pU0FhQupwa7qoa+KcTUsWQaSlW/QvSidDGUIKNBRsJAegf2RI/ExdqZGppZEYPn81c4gSU7jAgYYuQwsB0tpVQofrhJIn1FgxDNFdfkCJQeAfTq9tEmm/gIdDqeQISKuy6aMJ3M8TRf8a022DVUqTwtIq8lnNnSAlGhrXH3ATovkl8G51bysAm8PsQzXTq70pz2Bk46Y2cegL7ry24h2oSugwsa0Mz0uVMn7H0GVyCab+GnTDly51wY=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?OA8F0h2sR4TFHzhGX3grqgG+Wuyb+WBlS4FHuB32uikYGjiTgovaz/Sc9nhX?=
- =?us-ascii?Q?yfM824uudVdEDSCO6jh7ehG0TqNgNQGxJ4TcFJMxgj2UP7wQdo5SOOoCq51G?=
- =?us-ascii?Q?IliDAZkHV1jkWTOpua2HxugNALu0clrAQCM1v/7NquRq9FPvKaA375YnWZeR?=
- =?us-ascii?Q?wxmsiGwNcR1mR90D1zKH9SlJZLGIcAO9eRAtwcJIisfBjFer7Xm7J7uDGNH1?=
- =?us-ascii?Q?UVZNy4g70Lt01uCj7DzFVRTh2dpPnB+ZH1Gp5baeAn+ba2NaQVRt+lsL+WMj?=
- =?us-ascii?Q?a9ny3bLyB2yq/6k4l+Be8bh9V6KBQPzKyZn4D/HNpnvhgZJH0Bklr2eOTFIV?=
- =?us-ascii?Q?6rK9nIzkJnN81k3LS/TNwLio8e0S3IvHw2tm10jg97PmH3TX/qVUAabY0V7p?=
- =?us-ascii?Q?/a5UUa69jo8NKuT+GQXc3Tpq1LXQG6betwJsCO4d319I8nfy+MEHBnG5tQPX?=
- =?us-ascii?Q?DKYqeNOQ7/rSy9V/cVx4ClX1hljfEes2wgfw9+N/DjRq1rJ/azMUqf3lbtrl?=
- =?us-ascii?Q?S40ihyxYogYDuqIGAoyw/t+2YmHavu0/oLFSmWi2wTqGtft0EJQ8lqHO0LuA?=
- =?us-ascii?Q?x84SsS12zEwfGIIQ6sraZ4y3Ine/u2B8imJkpOFe9OlRQgTsRNLW/zdIvIJi?=
- =?us-ascii?Q?TSt+brSajgDNCzzYfmTJwxEFnd5jstjmQquxirEdzLph3nyJRz3BI8wROmTn?=
- =?us-ascii?Q?ajU0frnrrzvhGymXqX/TqbA19nStDffR6ZiDNTEvnEIqLdGlZe71nLOtPM2N?=
- =?us-ascii?Q?T3ZG45aHyWRutY/pQPJTfoAPrRHVWSfU/39myGKnaAsZ4lFn7Tcq4MMOkHvQ?=
- =?us-ascii?Q?GQWwG6c9aE1ahUXlCxkOpQieIqprFfJgnuuX1Q5RDocfx6po++54UuHGmW0O?=
- =?us-ascii?Q?DkcxjB8GQzYaVinS/4kFfZHJ17yvEnRoAB2Iml5OKU6bNsFQCNDQZPt2ZNfZ?=
- =?us-ascii?Q?bAm0qR34JC4nuld1N09tZLC13olsn0jYTZwDOdHonRjIWV4oVdLVzvfKRL8G?=
- =?us-ascii?Q?BjuLeRZgatXSBeXzRKtyzTcxRlc0KsYTQ8VlkQ/VDGNkJp6RhKEG9SfvYMe7?=
- =?us-ascii?Q?RPhlKfNb9QeXM7BxeI22FTv21ZH7pNEesOLp2DkX0paz9azYrs7Ta31eI9Ra?=
- =?us-ascii?Q?NkLGnhGEskCyY9+sfW8cRluuvFh597znOMHCKhYErQNL+TLxp6fesORcpSel?=
- =?us-ascii?Q?IBULqaZ3jJz9xAkjt2rEZ/ObiP2soGjJUiCkdSCIyRJtGvVuhaKT3x4UJ/ze?=
- =?us-ascii?Q?VFbTc+KlC97XiolPp2RwD9GP69c95FzUwkPp6cwYdxwEUgrwEFgoWwML0+eI?=
- =?us-ascii?Q?C0viiaYFqChuCQTixpZ57/ibWZoORfaXLJUfmVsN+m4dfU2Wo69ZHLkACfh0?=
- =?us-ascii?Q?16Moovn+D5tyckuD2f2tyBSxEgRvOq02eOxif57JlEYu/s5ZJis26hmikUyo?=
- =?us-ascii?Q?Re8K+a76TzYGsOBsiQ3JoCtrUQlTNnS033Sz5BdmvcDpeAlkSr/Ya5hX0O1Q?=
- =?us-ascii?Q?j2nh+E6Jbw8MAH33PuGdRTmIAO7zJBrcluoPGxeFCUR17wA2SP0vCKqJDIQs?=
- =?us-ascii?Q?6GhDSs1wCDU2bEgXE5RYn7GILQ3rfQldcz7MpqOxcZuYapjnQE8q5SNwRvuI?=
- =?us-ascii?Q?3JWNcyxoy2NaXKiMu3fqm8Ydk7GPyBkXzISDi5XBPacbSL2TqSo0Q+Wii8OX?=
- =?us-ascii?Q?CljpQTzS241JIO90aSVSyUOkkI0=3D?=
-Content-Type: text/plain; charset="us-ascii"
+ 2026 10:31:14 +0000
+Received: from DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM
+ ([fe80::48a0:eb8a:db1e:38bb]) by DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM
+ ([fe80::48a0:eb8a:db1e:38bb%7]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
+ 10:31:14 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v6] go: add ptest support
+Date: Tue, 14 Apr 2026 12:31:10 +0200
+Message-ID: <20260414103110.22263-1-pratik.farkase@est.tech>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260305110200.17834-1-pratik.farkase@est.tech>
+References: <20260305110200.17834-1-pratik.farkase@est.tech>
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0327.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:390::10) To DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::a9e)
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PPFB77F8FB19:EE_|VI0P189MB3591:EE_
+X-MS-Office365-Filtering-Correlation-Id: f818b26b-888e-4d25-075e-08de9a10f489
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	LV1L09tJ3PHNdbvijG60OjEDejJO7uXCUnYjqBYY3ZfVPR3n0poXfWTkwNAT0mFzTVkl+EV99YzuJQDqwKmLbuVLA3wU5RoDcfgZFwwWZRIETgatqRBqJqoopenim2bvxZg+QH3T/dKMQu9LlWsXob6GibC8gEBXwJ3osCdJQHvPjE2IvdVLn2rxdp34PYdvSNlj/tty/n+uuwffZrhGoGUx529lLRkzQOqcn8AML61++wQQB/QvWkJiuqe40/0v+yKs9vyYwJv0O6uW2o71Utea3+Jbk8z/f1gcWb8Mnn1MhMSuqJeIEIXj7gjqzwItvbhfgsWS/DAxzjU8m59pOAQwmtA29s6CqWARSE5tGwXRi8MGBD9KLb8A8fO6uFLAYTaElvfnKVrnILBoskGLtP1ubjT8a/BcixDOmzlcJBwwuiWPkJrAOWyyN87NX1J6VxAlhr9DlxBgjBqBdZOr1NkYK5IkBaQ1XKSIXnMQ4YVWnOulS/SoSGr2uLzOUDnRUS4WzshbyVrlud7nydG4hGtOvfKYkaxKbWl5TFHBLKGCkrq7pbEuENQbVgEM3B3ivQybxD42HUIjSUjaNh6EdLU8WM4+Omk9Kg6nUE4qKjKcjNMb+8it5kM0si+OYRJxl9bX+e3v7tYUfjjsPZjysmNyKEODtIxX8smfQkgtEkU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?SObCRzMO5XjnjqdQXyxf5KrEP4xjRlBGO2rvcdR0cm6NLuctm3rL9gbv/mYP?=
+ =?us-ascii?Q?vFE3aKEDNuQyRy74IorTvTAVThgVuubcVHFff46ksyx9tis2N5gEmHxDt/8x?=
+ =?us-ascii?Q?2OPsaHkVhpfQm5ScnSkuo5e+Pe/+rMaa1+s+WxoYavANFb33ZpLRe28kfqF+?=
+ =?us-ascii?Q?aE57rTl867p3K7AKiSDRbSBwwHs4MqbM0ZFZfmQmBzBG0TeYZu1cpLkCTRxL?=
+ =?us-ascii?Q?HPuUYOIRmq3qML4ZyFS7/EFdJpsBqAhBmjMpeCdA3SKHp3FSpludvlShlUvi?=
+ =?us-ascii?Q?AXkYtucxz9CAQ1F7LPP1KTpchAYv+AjyN3GKQ4zo2ALqm+z+AcRb6CZoO5bQ?=
+ =?us-ascii?Q?fm9NNyPEz2tz6F/HnERqrg1Q0504934vWtlfDS0ZruLmjBOFO5V+50Lvy8bX?=
+ =?us-ascii?Q?zI/bWhusA8+XLCesP6Dl/2q35/7XO4VkKHKCNqc+ytKeI1h1aWK1kHUREox+?=
+ =?us-ascii?Q?f1g20+gBi23tMC64rgPUGHIfP29gdydhArgIlrTe+IJAG5jCKTnNX1pGnvSB?=
+ =?us-ascii?Q?4YdAYKIVmlWP8f/blt7sZwLSaVMFt7yTNSe9Do/DslslG0qTuJLUMfb1szT5?=
+ =?us-ascii?Q?ht0UHBs7QtaQQ1s2omef1qAJMz5X+zpNzrdI5kVoGAhQwKcQpdZ5ystEPwbC?=
+ =?us-ascii?Q?LWoEkOTlUN0a9S/tQptvJilYR93qUytwdfiIDYI6Vjzzm6bD4zjEtLHXhR/M?=
+ =?us-ascii?Q?qookJGbN1wpOAyoHVTz+jb5mv+kn2diqU2n3Y/mE/xn8l3ZHgFtyk81W4Q79?=
+ =?us-ascii?Q?FlT6p+9Res5vUF/FV6IY51Kxllt3UtBuIbYYoojAXWf5gPevnZml5Zav0lI9?=
+ =?us-ascii?Q?CSEOl/Ye0Oo+95O8qJWnDQKiP/v4QM3EMGyyc+1GSh5AyqNAJfkr5v2zOI25?=
+ =?us-ascii?Q?5LCjGtrnsICVEfJctF8azGjQjmjFkBhO4J7iMwThDPXa03l2JaqYDqAa7FIb?=
+ =?us-ascii?Q?dUVoPmU1mQtSkRSMeE9+EtY2qSoXXi8crMsLXCdXzzAlvyDCf5p8OuQht8uZ?=
+ =?us-ascii?Q?EHORGFTiJiT6VB7TO2zMsHzEu3anS6BWtjnBZnaSwelwakAhF9TQL6pFqBe4?=
+ =?us-ascii?Q?hoIH4HwWDlSZ6AAFF2s5/vkmbH2yqgx8D63pkDdo2+Q4JooLH8qQ7/VohRl7?=
+ =?us-ascii?Q?Ujdtc+OfHNlbyjvXrzGDdEw+mt5pL7+FubE/MbW/0HS0iuBjrPDzLpe8EnVr?=
+ =?us-ascii?Q?ke2PvzLr2vBtae3uSU0TQBpBlclGN4M9mUr2RSF2GIN5RQeAIKOyj0s6WHvr?=
+ =?us-ascii?Q?dlK558alAvhbRuplKnYCZh2Gn78h98gKBu6AjCztILjOCZllFDd3OPW/XWwn?=
+ =?us-ascii?Q?N3VJTn980kb+W2DWp5FbKRMvXf0fTNA2UZWhgM93DLQGS4GHjT45xLYhBKd8?=
+ =?us-ascii?Q?eV3q7TKwKK8sk6hezk+DlC4SXcWw1SSNF+MMh/eUcYreQyss9aqw574LWtKe?=
+ =?us-ascii?Q?ZBHqeglQmPBRxMyAj79RPdAgKp/ZVfCYk3WQKflHdpn5w0ubbhwsWky3R5gZ?=
+ =?us-ascii?Q?gDSXwhX1+uCj+S2urNb1E4XOOSt1R1X3xX4O5a+hkyBQqQWS4fryaaJpXcdz?=
+ =?us-ascii?Q?oo2JIlM6ZUJbqTFdQ7jheRPFriT2X5h2c6aaHCC3sD0MKdhyLjbAWwi/Us9L?=
+ =?us-ascii?Q?nDMZ81JDGTVBUGGR2jvSDGdnhrFmLvKsGdnYi9e4AlmPikxZ4Y48T/PLnuYo?=
+ =?us-ascii?Q?uWHTTx4i/b+1CQUwQHpuJSI+7CtJ3JWETJqXaukBm5jSaQwiPSVpOXBUSHZ0?=
+ =?us-ascii?Q?pyf3gjxidQ=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: f818b26b-888e-4d25-075e-08de9a10f489
+X-MS-Exchange-CrossTenant-AuthSource: DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44669be3-eb8b-4409-aa9f-08de9a10638b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2026 10:27:11.3204
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2026 10:31:14.7611
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GndNIr+W5XhaPSmnOLsFD5FWjND7IVcZgGbQLbrK4jK8IL1VQLED5gmIBcQJTekz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR02MB11836
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sa/nJE0MRqJL+ckiHHUG9rMULptrTKf0dgzT6qJ0cfWzamywnsMCMN1uWqa639pL+fnWPk3jA/1KTYHllw/zUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3591
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 10:27:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235150
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 10:31:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235151
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Changqing Li via lists.openembedded.org
-> Sent: den 14 april 2026 05:29
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH V2] gstreamer1.0-plugins-bad: add ANY_OF_DISTRO=
-_FEATURES
->=20
-> When vulkan is enabled in DISTRO_FEATURES without x11 or wayland,
-> do_configure will failed with error:
-> gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No Win=
-dowing system found. vulkansink will not work
->=20
-> when vulkan is enabled in DISTRO_FEATURES, set ANY_OF_DISTRO_FEATURES to
-> x11 or wayland to skip building of gstreamer1.0-plugins-bad
->=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  .../gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb             | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1=
-.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.=
-2.bb
-> index cdf3a20dff..61a6d3dd2f 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
-b
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
-b
-> @@ -19,7 +19,10 @@ LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D4fbd65380cdd255951079008b364516c"
->=20
->  DEPENDS +=3D "gstreamer1.0-plugins-base"
->=20
-> -inherit gobject-introspection
-> +inherit gobject-introspection features_check
-> +
-> +# When vulkan is enabled, at lease one of x11 or wayland is needed
+Add ptest infrastructure to test the Go standard library.
 
-lease -> least
+- Run 'go test -short std' via run-ptest script
+- Install source tree and pkg/include headers
+- Create VERSION file for architecture detection
+- Exclude multi-arch binary testdata to avoid QA errors
 
-> +ANY_OF_DISTRO_FEATURES =3D "${@bb.utils.contains('DISTRO_FEATURES', 'vul=
-kan', 'x11 wayland', '', d)}"
->=20
->  PACKAGECONFIG ??=3D " \
->      ${GSTREAMER_ORC} \
-> --
-> 2.34.1
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+---
+Changes in v5:
+- Add QB_MEM:virtclass-mcextend-go =3D "-m 4096" in core-image-ptest.bb
+- Add PTEST_RUNNER_TIMEOUT:virtclass-mcextend-go =3D "4800" for ~66min runt=
+ime
+- Run full test suite (go list std) with skip list for problematic
+  packages in run-ptest
 
-//Peter
+Changes in v4:
+- Run only 17 curated packages that work within 1GB RAM constraint
+- Test runtime reduced to ~6-7 minutes
+
+Changes in v3:
+- Move go from PTESTS_FAST to PTESTS_SLOW (~45min runtime)
+  inside ptest-packagelists.inc
+
+Changes in v2:
+- Exclude .elf* files to fix QA arch errors on all architectures
+- Exclude *-x86-64* files to fix additional arch-specific test binaries
+- Tested on x86-64, x86, aarch64, and arm builds
+---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-core/images/core-image-ptest.bb  |  5 +++
+ meta/recipes-devtools/go/go-1.26.2.inc        |  1 +
+ meta/recipes-devtools/go/go/run-ptest         | 32 +++++++++++++++++++
+ meta/recipes-devtools/go/go_1.26.2.bb         | 27 +++++++++++++++-
+ 5 files changed, 65 insertions(+), 1 deletion(-)
+ create mode 100755 meta/recipes-devtools/go/go/run-ptest
+
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index 11a894accf..254ab5311a 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -120,6 +120,7 @@ PTESTS_SLOW =3D "\
+     gettext \
+     glib-2.0 \
+     gnutls \
++    go \
+     gstreamer1.0 \
+     less \
+     libevent \
+diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-co=
+re/images/core-image-ptest.bb
+index c08561296f..166b4ded63 100644
+--- a/meta/recipes-core/images/core-image-ptest.bb
++++ b/meta/recipes-core/images/core-image-ptest.bb
+@@ -10,6 +10,7 @@ HOMEPAGE =3D "https://www.yoctoproject.org/"
+=20
+ PTESTS =3D "${PTESTS_SLOW} ${PTESTS_FAST}"
+ PTEST_RUNNER_TIMEOUT:virtclass-mcextend-python3-cffi =3D "600"
++PTEST_RUNNER_TIMEOUT:virtclass-mcextend-go =3D "4800"
+=20
+ IMAGE_INSTALL:append =3D " ${MCNAME}-ptest openssh"
+=20
+@@ -32,6 +33,9 @@ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-tar =3D "1524=
+288"
+ # python3-numpy-ptest requires a lot of extra space
+ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-python3-numpy =3D "3048576"
+=20
++# golang go-ptest requires extra space
++IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-go =3D "1524288"
++
+ # ptests need more memory than standard to avoid the OOM killer
+ QB_MEM =3D "-m 1024"
+ QB_MEM:virtclass-mcextend-lttng-tools =3D "-m 4096"
+@@ -39,6 +43,7 @@ QB_MEM:virtclass-mcextend-python3 =3D "-m 2048"
+ QB_MEM:virtclass-mcextend-python3-cryptography =3D "-m 5100"
+ QB_MEM:virtclass-mcextend-python3-numpy =3D "-m 4096"
+ QB_MEM:virtclass-mcextend-tcl =3D "-m 5100"
++QB_MEM:virtclass-mcextend-go =3D "-m 4096"
+=20
+ TEST_SUITES =3D "ping ssh parselogs ptest"
+=20
+diff --git a/meta/recipes-devtools/go/go-1.26.2.inc b/meta/recipes-devtools=
+/go/go-1.26.2.inc
+index 8bb10bc89f..c53e8284a6 100644
+--- a/meta/recipes-devtools/go/go-1.26.2.inc
++++ b/meta/recipes-devtools/go/go-1.26.2.inc
+@@ -16,5 +16,6 @@ SRC_URI +=3D "\
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch=
+ \
+     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch=
+ \
++    file://run-ptest \
+ "
+ SRC_URI[main.sha256sum] =3D "2e91ebb6947a96e9436fb2b3926a8802efe63a6d375df=
+fec4f82aa9dbd6fd43b"
+diff --git a/meta/recipes-devtools/go/go/run-ptest b/meta/recipes-devtools/=
+go/go/run-ptest
+new file mode 100755
+index 0000000000..ac020de025
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/run-ptest
+@@ -0,0 +1,32 @@
++#!/bin/sh
++
++PTEST_DIR=3D/usr/lib/go/ptest
++GOROOT=3D/usr/lib/go
++
++export GOROOT
++export PATH=3D$GOROOT/bin:$PATH
++export ZONEINFO=3D/usr/share/zoneinfo
++
++ln -sf $PTEST_DIR/src $GOROOT/src
++mkdir -p $GOROOT/pkg/include
++cp $PTEST_DIR/pkg/include/* $GOROOT/pkg/include/
++cp $PTEST_DIR/VERSION $GOROOT/VERSION
++
++cd $GOROOT
++
++SKIP_PKGS=3D"debug/dwarf debug/elf debug/pe debug/plan9obj go/types intern=
+al/xcoff net/http runtime testing time"
++
++SKIP_REGEX=3D$(echo "$SKIP_PKGS" | sed 's/ /|/g')
++
++for pkg in $(go list std); do
++    if echo "$pkg" | grep -qE "^($SKIP_REGEX)$"; then
++        echo "SKIP: $pkg"
++        continue
++    fi
++
++    if go test -short "$pkg" >/dev/null 2>&1; then
++        echo "PASS: $pkg"
++    else
++        echo "FAIL: $pkg"
++    fi
++done
+diff --git a/meta/recipes-devtools/go/go_1.26.2.bb b/meta/recipes-devtools/=
+go/go_1.26.2.bb
+index 46f5fbc6be..35a14b8e8b 100644
+--- a/meta/recipes-devtools/go/go_1.26.2.bb
++++ b/meta/recipes-devtools/go/go_1.26.2.bb
+@@ -1,7 +1,7 @@
+ require go-${PV}.inc
+ require go-target.inc
+=20
+-inherit linuxloader
++inherit linuxloader ptest
+=20
+ CGO_LDFLAGS:append =3D " -no-pie"
+=20
+@@ -16,3 +16,28 @@ python() {
+         d.appendVar('INSANE_SKIP:%s' % d.getVar('PN'), " textrel")
+ }
+=20
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/src
++    install -d ${D}${PTEST_PATH}/pkg/include
++
++    cp ${S}/pkg/include/* ${D}${PTEST_PATH}/pkg/include/
++    echo "go${PV}" > ${D}${PTEST_PATH}/VERSION
++
++    cd ${S}/src
++    find . -type d -exec install -d ${D}${PTEST_PATH}/src/{} \;
++    find . -type f \
++        ! -path "*/testdata/*.elf*" \
++        ! -path "*/testdata/*-x86-64*" \
++        ! -path "*/testdata/*.obj" \
++        ! -path "*/testdata/*.syso" \
++        ! -path "*/testdata/*.so" \
++        ! -path "*/testdata/*.so_" \
++        ! -path "*/testdata/*-exec" \
++        ! -path "*/testdata/test32*" \
++        ! -path "*/testdata/test64*" \
++        ! -path "*/race/*.syso" \
++        ! -path "*/boring/syso/*.syso" \
++        -exec install -m 0644 {} ${D}${PTEST_PATH}/src/{} \;
++}
++
++RDEPENDS:${PN}-ptest +=3D "bash tzdata git packagegroup-core-buildessentia=
+l"
+--=20
+2.43.0
 
 
