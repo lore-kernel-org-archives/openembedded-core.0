@@ -1,96 +1,117 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2B45F9D0CD
-	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 12:42:22 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17898.1776170535706881399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 941D0F9D0D3
+	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 14:23:44 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20279.1776176621549751381
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2026 05:42:16 -0700
+ Tue, 14 Apr 2026 07:23:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=mDl0Vag0;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso52403865e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 05:42:15 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=q2ew58El;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so54078645e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 07:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776170534; x=1776775334; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776176619; x=1776781419; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V41nas67FPGyeAVBhoeHPTo6LS78gkDUtLnaB5TmuEg=;
-        b=mDl0Vag0fs7Fp49dalUOCHSlunmo0H0AinXmnD1WEgBT2xRE/jl09SXRnCI2K5qwpj
-         /5rDOpmq2ryFOE3FtPuxYZ1OL1aF2UZAPmv9/DqxrSS+wZqqA5Y0PT4KkGq8+LqhpBMA
-         LdbZXOEji3AhaDDInK0El66lB5wR9UADQGOIBhyOsJWSPKimmAdkLhUlMMTsKJrVCg//
-         mpdFwRmuPbp60eLqliO0gqY98DIwQqIH/zHt9SJdkcjSSr0kGIrYcGHtjCGpXFw51gj9
-         Udg9DGDLMe5ztS57cSSjdiCYVE2YOFaS0TkIx0MNvbAX+FM443zXe9FTQx+Rx/DTs0jl
-         Bt0g==
+        bh=a51qYD8saTI3InJq1iKdFYESDKYril3tHbNYtNdQHjI=;
+        b=q2ew58ElCpbVPrwWSZRFujI7O6qE5k119fr6U8VIHfuXmKb1MC1CDZUDhUIgtWFcPX
+         TKql6BGpzkuzE1JBXynInbGpvBY+R7nctw/NJaES0C9kFW8etIQJ4cy/kerVy/yJBrMl
+         nQXrEwOHZGPVuiPuxSbbzMRF6UXWAQ6/jE0Z0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776170534; x=1776775334;
+        d=1e100.net; s=20251104; t=1776176619; x=1776781419;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V41nas67FPGyeAVBhoeHPTo6LS78gkDUtLnaB5TmuEg=;
-        b=d0qiqZ8X4R4coDUm2R+BWdLu3IV7hpJBIodzcwC2898m4ZQnyu2L5T1opCfuEKKNNs
-         8fHs1NXijU1B/vkhLon24vQKJg+JHEo8lmCZ9kWkSw/eIbTRmfcq6w8PlidR5pvYzYVI
-         RJHK9WAdoR+nVeWBMzYq3IP847wLarr45Hu7ObX9hlH8qvx8VX+T6Wn3BGxU4wGnUudD
-         cHO3/rfBSeYZXlVC6QwhdBpReeAAPKM+gRCX8MBk9XNIFh5B/DcKmgzuTpkOBoFXdl1R
-         pUOMbC+03ZJOhiQCkmVd9L3N3CflT7cWcQambQUfx4OIAkK6DCNJZAmkvMwZwvNDmnEL
-         E8rg==
-X-Gm-Message-State: AOJu0YwzfrIC5E5ZpBbPJ7M3z9V9nKV4kgGH66gUiA3X3Hx41nzTtkQk
-	rHSv9NikqfeqKQDq/6zC48s2bhgxFQU6LadAC2mSZ5KY3V4q+Zbwjav9kcBPEg==
-X-Gm-Gg: AeBDieutQiAzYm8aDWRMRSL95Q5/mpJcafIg6bVU76vFEMorq7Hp9I3dnI7u+s/4c+Y
-	ynEx8QhGw6x0BHICYYEBrIpH4vHInjLaFTlM81/dH4ER+Czz+Ism2n704NRTxHGcVS1Sfblz58Y
-	79QhPXrOwCLVI2W3IBMgS5l+tFAXgcMVmBdxcaX9PxveviQfN7WM76lqNx0ra5upUx0rb8xQYcy
-	Rj9SrMJhW0cB2F0W+Gklxcv6ju3PhLF9QuujQ5XOeZEtG0IYSyCdmzfRHuV35m617XxJFF/fu8x
-	jBd3LOZP5aaGq/ZYBW8/sw0AHonaTrZC5LsLe7kfKZ1zo4iqn9GLCTCiflMCYZnHwMd5NB0cjy3
-	lHS1WtdbjtTsVB3Nn/MH0XDecfvCUQlv2uhm9WKSjabRjdntOQC56IWPPLY9lQAvGMrm1jlpre2
-	dLC/mj+GlQ9p6Aa6RSUU2P0QnFSAfo4KMPZNMFxzG0i92vz9TnqwpwVTOUuHCcGTJoIBHLVyROY
-	FJ7gxLAADU7xkR3wekk
-X-Received: by 2002:a05:600c:c0dc:b0:488:aa3d:fab1 with SMTP id 5b1f17b1804b1-488d68364f2mr156529555e9.17.1776170533763;
-        Tue, 14 Apr 2026 05:42:13 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63dec090sm41694302f8f.12.2026.04.14.05.42.13
+        bh=a51qYD8saTI3InJq1iKdFYESDKYril3tHbNYtNdQHjI=;
+        b=p/k6KQ7ml5JP201cLnI2yHcUKSpUxpzv1T9QTjCuEGFYRJ+dJn2Gyo97plkPEonZJe
+         r5sQjH12uFncl7bCc4bUoF7BKzUm5Xut4zFj/ChaH5KvthM8IpqAwG53U89zTtE6FVqM
+         /rsJbJ0vege0MqZhoa/IGZ4SGe54DfpsGFJhbWoPe4dEsIxjlZXIpbJmIi8N1OzhnFVs
+         TM4nm2Dfyq95bbxrkYzgi7xapndgWyfQch1wE9qsjQyGTPwXG0OOdB8MgRJfnxPFLl87
+         2KxMEEFi4Wjg1iXeuNa/7yZD1AHtCjoAkOnZh5STNK+lMzcN1hjJ4z7WZa+ReAycY778
+         rV3g==
+X-Gm-Message-State: AOJu0YwHI4BYtOsQPlwXImEglOfHv9rjXgdu6kp1yWSdjvZEB1gBDM7X
+	jIQVqlpOtwbKb1Q5r3k6NorTBDfAoKOOiTayd0MCiuEZCzOkyToVA12qcWRB+ObcOjw5vyj5beQ
+	pkCuAp40=
+X-Gm-Gg: AeBDiev6v3m9DORwD0+5KNKR6+TOcPKNDYm2Ynl2KukRelhir9UXBLAT4Y0Tl5ljhPe
+	+EV064iaGxqdeUS/KILbOz6fHqZybuGqO+e7+VbQnuzX9BWvZsNmOHL7etYbqTznpo74KiR0ByL
+	+QlgtAPQF7karjWcHaw974zaYyqO4F4v40nc/1355H4df6K+fYIFbTmF1megU2Ocj+yZBoGiuoe
+	wpetKuw0GhRqsduvbMfoT/pfJIKlsgvOd1qkpeKbHX7xb0LV+hTpMXiltddipGUs/OnA/92XGLs
+	KjdTuEf8Bj2pEsTMxbqIONMkIYpIOvKvdBUloIiVFiY88VaOfY1EAl5yV4nU6i/IjE8lPLl0QMT
+	0Aznyv4AmP0+ol1vkLsL8n/XFHcDaD3Fd2XSUKTXUfRVN2UmKVzRN4tysewPZ0TwBasFHWnySNT
+	j0zashGmvRB8d52wWPyttJE2RfIcNSWPuaKsmgKsXSJZwcvha7blBw9NzTWRT+BFcq7vhamXYET
+	j2h6WUFPUgzjVVD9U5XBfV8JEAhGWotXSYrdCRfcuSY
+X-Received: by 2002:a05:600c:314b:b0:488:b241:2c5f with SMTP id 5b1f17b1804b1-488d687c076mr210744425e9.26.1776176619454;
+        Tue, 14 Apr 2026 07:23:39 -0700 (PDT)
+Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488e07f8207sm118650825e9.1.2026.04.14.07.23.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 05:42:13 -0700 (PDT)
-From: martin.jansa@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH] apr: remove space before the -std=gnu23 from apr_rules.mk
-Date: Tue, 14 Apr 2026 14:42:10 +0200
-Message-ID: <20260414124210.427846-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Tue, 14 Apr 2026 07:23:38 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: OE-core ML <openembedded-core@lists.openembedded.org>
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] oeqa/selftest/devtool: add vulkan feature check for test needing it
+Date: Tue, 14 Apr 2026 16:22:56 +0200
+Message-ID: <20260414142257.2246081-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 12:42:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235157
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 14:23:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235158
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-When -std=gnu23 is added to CC_FOR_BUILD it's with additional space
-we need to remove the space as well to avoid the difference between
-the build where -std=gnu23 was added and removed by sed and wasn't
-added at all like in:
-https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260414-82oogy25/packages/diff-html/
+When run with a distro without 'vulkan' DISTRO_FEATURES:
+   $ oe-selftest -r devtool.DevtoolUpdateTests.test_devtool_git_submodules
+  2026-04-14 14:36:57,036 - oe-selftest - INFO - test_devtool_git_submodules (devtool.DevtoolUpdateTests.test_devtool_git_submodules)
+  vulkan-samples is unavailable:
+    vulkan-samples was skipped: using DISTRO 'nodistro', which is missing required DISTRO_FEATURES: 'vulkan'
+  2026-04-14 14:37:13,002 - oe-selftest - INFO -  ... ERROR
+  2026-04-14 14:37:13,002 - oe-selftest - INFO - Traceback (most recent call last):
+    File "/.../openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 1695, in test_devtool_git_submodules
+      self.assertIn('gitsm://', src_uri, 'This test expects the %s recipe to be a git recipe with submodules' % recipe)
+      ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/usr/lib/python3.13/unittest/case.py", line 1171, in assertIn
+      if member not in container:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  TypeError: argument of type 'NoneType' is not iterable
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+This is caused by vulkan-samples being skipped because it needs the
+vulkan DISTRO_FEATURES.
+
+Note that this is not seen in testing because nodistro has vulkan
+enabled by default since
+2e1e7c86064 (bitbake.conf: Enable opengl ptest multiarch wayland vulkan in DISTRO_FEATURES by default, 2026-02-21)
+
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-support/apr/apr_1.7.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/apr/apr_1.7.6.bb b/meta/recipes-support/apr/apr_1.7.6.bb
-index 9a7a8ddd74..8ad3756b3a 100644
---- a/meta/recipes-support/apr/apr_1.7.6.bb
-+++ b/meta/recipes-support/apr/apr_1.7.6.bb
-@@ -88,7 +88,7 @@ do_install:append() {
- 	oe_multilib_header apr.h
- 	install -d ${D}${datadir}/apr
- 	# avoid reproducibility issue, -std=gnu23 is used only on hosts with gcc-14 and newer
--	sed -i '/^CC_FOR_BUILD=/s/-std=gnu23//g' ${D}${datadir}/build-1/apr_rules.mk
-+	sed -i '/^CC_FOR_BUILD/s/\s-std=gnu23//g' ${D}${datadir}/build-1/apr_rules.mk
- }
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index df45df23423..5ed69aee1b1 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -21,6 +21,7 @@ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, Command, bitbake, get_bb_var, create_temp_layer
+ from oeqa.utils.commands import get_bb_vars, runqemu, runqemu_check_taps, get_test_layer
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.decorator.data import skipIfNotFeature
+ from bb.utils import mkdirhier, edit_bblayers_conf
  
- do_install:append:class-target() {
+ oldmetapath = None
+@@ -1713,6 +1714,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         # Try building
+         bitbake('%s -c patch' % testrecipe)
+ 
++    @skipIfNotFeature('vulkan', 'Test requires vulkan to be in DISTRO_FEATURES (operates on vulkan-samples)')
+     def test_devtool_git_submodules(self):
+         # This tests if we can add a patch in a git submodule and extract it properly using devtool finish
+         # Check preconditions
 
