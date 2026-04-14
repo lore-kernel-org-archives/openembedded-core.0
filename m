@@ -1,515 +1,171 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F37CBED7B98
-	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 10:11:18 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15551.1776161469580061987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DB5ED7B9B
+	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 10:27:19 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.40])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15681.1776162436272955938
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2026 03:11:10 -0700
+ Tue, 14 Apr 2026 03:27:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=s7l79555;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-671c24f23b1so1898883a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 03:11:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776161468; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NA1XfznWXW+QUD8/DX5e+K0yBuOyNB9s4Iz+tbyFCRe2w2H8n0i3R+zlMpunzU6+8k
-         hGpyqNkFagE/5nsoxuntygN7GA0MFmw+3HzoVqR7M4kDfJ5S0xrnPN4oJ6cv3baIsW1r
-         7iFqBBsXL+uswtJw7jW5Qa2of+ogW3MdAgmcOVw8lhKxgJT8Ej3bqe5VYlqmwrtMzN+k
-         xRN83NBAmBsyHONfQcgQymXsdazX8Kfh2adiyLH0kdjm1LbvU0EsJSar4nTQW14ClWWq
-         t8QWnSNn1jS6y/trH1Q3jXvGugnBsHwLQlBwgHwPVkMAgkS51x/Y2HustFVyVbtc5+/C
-         AKrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=38LTr05+8iYcJzW86BlZq8b4Bp/Lne6b5dBfQnyZsEg=;
-        fh=7wQzaFIQc1d+txBxzfk7TbASNnOH21+Gq8YvvTL+Eiw=;
-        b=FtPhDAkYDdCM7YN/7ll1oSBv0Q/dlNOTQzU0rfnTvau4RSw8Rlq4aoPH1tezGfnFN+
-         dttAu4WxDKmsIpqdiGGN7xsSSASrXVy1pGQPMd9uFYvtqsirGQ5y5CVNIEQatRIFTW10
-         +B0JSSxqt6HnFOqnYoxlEJ/wupYSdjhy6x/Lpz+D0bib0BR++nI8XcB8bjO2Rp0+muTR
-         nlNi4/tBlNrx01Ls2u9U5cbfvA3HoJFLE8SbihmIufjFY2QvkvCjEPHSdtIH44CFBUc3
-         MDmFaIWZW6AslcZvfTEtiR1qAiYjH5D4twV58gkV2godn0xsLNfJ9araGPCNB/0YbVZZ
-         +f9w==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776161468; x=1776766268; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=38LTr05+8iYcJzW86BlZq8b4Bp/Lne6b5dBfQnyZsEg=;
-        b=s7l79555WnQFYT4OahWj2njAKLCQyPrlBOXRHMB8QmjgGSUcks62Dmu6vloFxJ+NcX
-         LtlT8d5s/yR9fFfCt+DahN4ZsNxyiKtfz9vCIEODjQEx+FXGfbm9vpzioQubH9gnPuXY
-         84wOtPoTkEgyJNizWcd6vmjOxgOcRWpiBjY9FnEkfApvkMYNdERkte+VQ9EMJ32cc132
-         bk3Ow84pXlDUGGot9parROQCVpY9/d1Trh3jm4VMDRgBR0B20NLEoijNbZtAtsoTIhVi
-         WyRlzs+Rh6cFxk/IHQYHSQWoHN0jKC/b7nRYo5RmAjqXeQ2TiXm7ulPNYMyTFhIpQ76e
-         +Ktg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776161468; x=1776766268;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=38LTr05+8iYcJzW86BlZq8b4Bp/Lne6b5dBfQnyZsEg=;
-        b=TNSWrLrjz0LRbUgcjxqeqZH1p3s6SKWj0eyGk1LEaYohEoGjfv4AotbLHiY/UWjSQp
-         5iMTtVYqCJV+G11GJInB8YkaIQY50vo3g7VRE3mUNz+4yOFH0F1QWn+SZnB5WmRlMHhH
-         o6dj4EHlqTbjiWrMwIEZ2+Vhnt8D8tn7Om9TG41sJPixTKxI8cYXeiPd+tsKxkUg2VFQ
-         lbsnxpkFNmHgyJtsR59I2EIus6UCITwv6a3s6IvlyHxQsXhyMfDtI3FAwU66RzbhddS5
-         BtJPstLmQ3FpmY4L8eF9p1fCtZNnO0hSIoHPD5flpa0GQtWn2TX5jPcKrBwuTc523qGU
-         m4kA==
-X-Forwarded-Encrypted: i=1; AFNElJ/NirP/FmANqrT9YhkKaH5S+ZV4MYWGSA5ob2B2hDC4J7+53mqzSb7IGZ0gdVIxllZeyW69Ac0cup5Y74PWq96Kww==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxtOOgKr3B/uAsbthEdRcSPZIWku6GuyHBE+NxuoZCV36tCA0Ch
-	wKs/l1JcAwdsOfaWkIlDyph7ARceVFJ5eQbc/y6c6utatxmyyrJRs3d3wt/gfthOGd4JkSvYzPR
-	YaFH5fx9VOpIiGBXd97ICHblLa0chJlw=
-X-Gm-Gg: AeBDiesg5ADbbnGM1m4p+BOYxGKEOnM57yC1Loo3z5wm/wA1LCkJVRtk9Kl2XRRPD2g
-	6WQq0Tvq8295ML9JF5tLsE0Rw6NVyUX91EY3tDaSvvAU/qTPs7aB/+JCTZZhRV7W34rNtGMRpia
-	Mk3lM53ybDlJxJzzSF2Ja6NQ5CH9CqW/nKkf/KegSi6ABMWS+IWC9TOSnd9/UYCUsI8L4C3Zg6T
-	urn09h6au2Q7iAIaL+2vlM2dbvPRnV7K3gBTEjnNVbntIKUIHg0Y1UrgJKZ03wbiiANfnY51+7U
-	zCmmi32g
-X-Received: by 2002:a17:907:981:b0:b9c:9dcb:36e8 with SMTP id
- a640c23a62f3a-b9d7294f263mr932218166b.53.1776161467351; Tue, 14 Apr 2026
- 03:11:07 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=UAHfd7WM;
+ spf=pass (domain: axis.com, ip: 52.101.83.40, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nH7t9RLSsuMGvXPFuE+0igsyHxxPfvO7Vu8K0h25Gz4rv35zu8gcMm8LD7z7FssAO/7Qh/oVAveOtBj37sH/ByhlIPJDgvO/VPnG/0DlDmsmdJV8b2Vy7RFqpmweFLw8aYgGvuw61vb0vavGScg6cftqX/4byzE5xmJgSPiA3c12ZCUtxmrxhh6Ys85riV717fy91SDHMgHDytesuX22NX/HrYWagM+a7te/dDZXkNtjRZOwbkwD0d73mMvs65+igmrtM+lxi4PbYFaGN6mbk25f6P0rPZmX6uWf/KbAbjLcedpDdVG4LGA0ZmsjJAP+hvliLm0qvzplZFt7Du3ecw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IRVe1n04Lp3r6hOlpdiCJHOB4qk7zvxj0oxLWyiS23s=;
+ b=aCwp/Be4MC91kCtnnT9B8iUeKCtVzrPjxWTpq3ZjlHesQABqgKnglstXq1AJSKmp0oDF1BlDAaMIGeMf1dkHlgceL3yxpQFTH+ViCRfZ9/Rues84xjHVIfIUCbG/HqsQy+NtVM3Itg0/RRmXKlrWznbKsvJdBXOva0oLH3D3khC5Ge3a+ReZaj7LZpd+8sHO321A8p/qoQo/WnWsBInffseUpUdnWQ7iQJDW4vviSfvgK4hp8r6h1txKH6PPKbbYD+H/rzGd8U2RqZWmNMj/+sYZGh3valo3Zs3n6l+i+0f6KOZPm7IKT1KkGQ+rbNIRZSFIlMj0NTWJMe7XAKcb2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IRVe1n04Lp3r6hOlpdiCJHOB4qk7zvxj0oxLWyiS23s=;
+ b=UAHfd7WMWbNPrO9l0svPj5MGNS/ajGHit1GvCdzaWOAA0xci14Jmo3BUpzpM3RAIOYiQAH9Z0zSmvTElGGiTimi75CfSLfeRObu1YoDBiq0iLkmStrXVN3STzIw5uL85Weu3QM57toKrfKwzOM4amj+bnFxvlULoCImLP6UKoD0=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by GV2PR02MB11836.eurprd02.prod.outlook.com (2603:10a6:150:31e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Tue, 14 Apr
+ 2026 10:27:11 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
+ 10:27:11 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "changqing.li@windriver.com" <changqing.li@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH V2] gstreamer1.0-plugins-bad: add
+ ANY_OF_DISTRO_FEATURES
+Thread-Topic: [OE-core] [PATCH V2] gstreamer1.0-plugins-bad: add
+ ANY_OF_DISTRO_FEATURES
+Thread-Index: AQHcy77YASdeHkYYMkm+RjWptPqfx7XeWqSw
+Date: Tue, 14 Apr 2026 10:27:11 +0000
+Message-ID: 
+ <DB5PR02MB1021391A80E4D9F14D29DEA84EF252@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <DHS549F2NTOV.O6QC1JNNT3O2@bootlin.com>
+ <20260414032831.1323996-1-changqing.li@windriver.com>
+In-Reply-To: <20260414032831.1323996-1-changqing.li@windriver.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|GV2PR02MB11836:EE_
+x-ms-office365-filtering-correlation-id: 44669be3-eb8b-4409-aa9f-08de9a10638b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|56012099003|18002099003|22082099003;
+x-microsoft-antispam-message-info: 
+ k6SiJcD6M1qRdnY411YI9/C9gO6YbKM+oSq725RTdYUHlVgf1QL9T1xUh4pTCoaOI89eM01uXVLA6LV9VbLMKAOZ6oDZaNQrNyC5S+sqy0TpMmWpugQtw0Zv4fFhrh1zrZA/pmGwIixQ6tieiraYBiwR4TOvQWhq9XD8Jj8m8r6ECTeuwG+MhcoDYiJRJf+Iu0k47eT8PlU9s1YsE7SGh0TaDY42kbkON+rXHbN/nbs8xIRBXa3iEicX6PQZrr4girQNScz0uiiePwDG51yytA03rMIBxS8NaXZaRn9eYtMaXMEY5w7jFM8tQV+nKJrAB4fqPxbVa3Hv4YPRx8vUFw/Es/KlXpBofvT7rZ6yB8PvoMW6bBwG6TCjPdCW6hpw9ixlk4vViTf7gVlkU08lIozMMC9cKG/scMXN0gWf86iXyW7iGowNBEjQ5Kaq1ydWVg1XPstbtIshNRgvPU13gXDiilN5ZEEbp4yKUP92EK+kH2V3+m5xElotuZcLQGX1QhbPi96RDtMKhPUn1qdswMfIe/qGqFjqqhRFmYLUIpPMOSk5anG5pU0FhQupwa7qoa+KcTUsWQaSlW/QvSidDGUIKNBRsJAegf2RI/ExdqZGppZEYPn81c4gSU7jAgYYuQwsB0tpVQofrhJIn1FgxDNFdfkCJQeAfTq9tEmm/gIdDqeQISKuy6aMJ3M8TRf8a022DVUqTwtIq8lnNnSAlGhrXH3ATovkl8G51bysAm8PsQzXTq70pz2Bk46Y2cegL7ry24h2oSugwsa0Mz0uVMn7H0GVyCab+GnTDly51wY=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?OA8F0h2sR4TFHzhGX3grqgG+Wuyb+WBlS4FHuB32uikYGjiTgovaz/Sc9nhX?=
+ =?us-ascii?Q?yfM824uudVdEDSCO6jh7ehG0TqNgNQGxJ4TcFJMxgj2UP7wQdo5SOOoCq51G?=
+ =?us-ascii?Q?IliDAZkHV1jkWTOpua2HxugNALu0clrAQCM1v/7NquRq9FPvKaA375YnWZeR?=
+ =?us-ascii?Q?wxmsiGwNcR1mR90D1zKH9SlJZLGIcAO9eRAtwcJIisfBjFer7Xm7J7uDGNH1?=
+ =?us-ascii?Q?UVZNy4g70Lt01uCj7DzFVRTh2dpPnB+ZH1Gp5baeAn+ba2NaQVRt+lsL+WMj?=
+ =?us-ascii?Q?a9ny3bLyB2yq/6k4l+Be8bh9V6KBQPzKyZn4D/HNpnvhgZJH0Bklr2eOTFIV?=
+ =?us-ascii?Q?6rK9nIzkJnN81k3LS/TNwLio8e0S3IvHw2tm10jg97PmH3TX/qVUAabY0V7p?=
+ =?us-ascii?Q?/a5UUa69jo8NKuT+GQXc3Tpq1LXQG6betwJsCO4d319I8nfy+MEHBnG5tQPX?=
+ =?us-ascii?Q?DKYqeNOQ7/rSy9V/cVx4ClX1hljfEes2wgfw9+N/DjRq1rJ/azMUqf3lbtrl?=
+ =?us-ascii?Q?S40ihyxYogYDuqIGAoyw/t+2YmHavu0/oLFSmWi2wTqGtft0EJQ8lqHO0LuA?=
+ =?us-ascii?Q?x84SsS12zEwfGIIQ6sraZ4y3Ine/u2B8imJkpOFe9OlRQgTsRNLW/zdIvIJi?=
+ =?us-ascii?Q?TSt+brSajgDNCzzYfmTJwxEFnd5jstjmQquxirEdzLph3nyJRz3BI8wROmTn?=
+ =?us-ascii?Q?ajU0frnrrzvhGymXqX/TqbA19nStDffR6ZiDNTEvnEIqLdGlZe71nLOtPM2N?=
+ =?us-ascii?Q?T3ZG45aHyWRutY/pQPJTfoAPrRHVWSfU/39myGKnaAsZ4lFn7Tcq4MMOkHvQ?=
+ =?us-ascii?Q?GQWwG6c9aE1ahUXlCxkOpQieIqprFfJgnuuX1Q5RDocfx6po++54UuHGmW0O?=
+ =?us-ascii?Q?DkcxjB8GQzYaVinS/4kFfZHJ17yvEnRoAB2Iml5OKU6bNsFQCNDQZPt2ZNfZ?=
+ =?us-ascii?Q?bAm0qR34JC4nuld1N09tZLC13olsn0jYTZwDOdHonRjIWV4oVdLVzvfKRL8G?=
+ =?us-ascii?Q?BjuLeRZgatXSBeXzRKtyzTcxRlc0KsYTQ8VlkQ/VDGNkJp6RhKEG9SfvYMe7?=
+ =?us-ascii?Q?RPhlKfNb9QeXM7BxeI22FTv21ZH7pNEesOLp2DkX0paz9azYrs7Ta31eI9Ra?=
+ =?us-ascii?Q?NkLGnhGEskCyY9+sfW8cRluuvFh597znOMHCKhYErQNL+TLxp6fesORcpSel?=
+ =?us-ascii?Q?IBULqaZ3jJz9xAkjt2rEZ/ObiP2soGjJUiCkdSCIyRJtGvVuhaKT3x4UJ/ze?=
+ =?us-ascii?Q?VFbTc+KlC97XiolPp2RwD9GP69c95FzUwkPp6cwYdxwEUgrwEFgoWwML0+eI?=
+ =?us-ascii?Q?C0viiaYFqChuCQTixpZ57/ibWZoORfaXLJUfmVsN+m4dfU2Wo69ZHLkACfh0?=
+ =?us-ascii?Q?16Moovn+D5tyckuD2f2tyBSxEgRvOq02eOxif57JlEYu/s5ZJis26hmikUyo?=
+ =?us-ascii?Q?Re8K+a76TzYGsOBsiQ3JoCtrUQlTNnS033Sz5BdmvcDpeAlkSr/Ya5hX0O1Q?=
+ =?us-ascii?Q?j2nh+E6Jbw8MAH33PuGdRTmIAO7zJBrcluoPGxeFCUR17wA2SP0vCKqJDIQs?=
+ =?us-ascii?Q?6GhDSs1wCDU2bEgXE5RYn7GILQ3rfQldcz7MpqOxcZuYapjnQE8q5SNwRvuI?=
+ =?us-ascii?Q?3JWNcyxoy2NaXKiMu3fqm8Ydk7GPyBkXzISDi5XBPacbSL2TqSo0Q+Wii8OX?=
+ =?us-ascii?Q?CljpQTzS241JIO90aSVSyUOkkI0=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20260305110200.17834-1-pratik.farkase@est.tech>
- <20260318140356.7609-1-pratik.farkase@est.tech> <DH6KACIJTUKF.2I7WOQSMNY39E@bootlin.com>
- <VI6PPF734FBAD1FE9D4D1744B8CD242E774FE242@VI6PPF734FBAD1F.EURP189.PROD.OUTLOOK.COM>
- <AS1PR10MB5697E557D5CACB6216753B35FD242@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <DU2PPFB77F8FB199ADB8C70D1EF9FF0DF10FE242@DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM>
-In-Reply-To: <DU2PPFB77F8FB199ADB8C70D1EF9FF0DF10FE242@DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 14 Apr 2026 11:10:55 +0100
-X-Gm-Features: AQROBzCY9zG-Z29gMJSotuZbsxMwu-UQNe5_PT20J2PdIQrzcrQJ21dFhet6elA
-Message-ID: <CANPvuRmVm1CihjHVEbKekoqmc-WYo69i=WT1xtGBXe+G=70RHA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v3] go: add ptest support
-To: pratik.farkase@est.tech
-Cc: "Marko, Peter" <Peter.Marko@siemens.com>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>
-Content-Type: multipart/alternative; boundary="000000000000534a4f064f68d1e7"
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44669be3-eb8b-4409-aa9f-08de9a10638b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2026 10:27:11.3204
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GndNIr+W5XhaPSmnOLsFD5FWjND7IVcZgGbQLbrK4jK8IL1VQLED5gmIBcQJTekz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR02MB11836
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 10:11:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235149
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 10:27:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235150
 
---000000000000534a4f064f68d1e7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Changqing Li via lists.openembedded.org
+> Sent: den 14 april 2026 05:29
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH V2] gstreamer1.0-plugins-bad: add ANY_OF_DISTRO=
+_FEATURES
+>=20
+> When vulkan is enabled in DISTRO_FEATURES without x11 or wayland,
+> do_configure will failed with error:
+> gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No Win=
+dowing system found. vulkansink will not work
+>=20
+> when vulkan is enabled in DISTRO_FEATURES, set ANY_OF_DISTRO_FEATURES to
+> x11 or wayland to skip building of gstreamer1.0-plugins-bad
+>=20
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  .../gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb             | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1=
+.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.=
+2.bb
+> index cdf3a20dff..61a6d3dd2f 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
+b
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
+b
+> @@ -19,7 +19,10 @@ LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D4fbd65380cdd255951079008b364516c"
+>=20
+>  DEPENDS +=3D "gstreamer1.0-plugins-base"
+>=20
+> -inherit gobject-introspection
+> +inherit gobject-introspection features_check
+> +
+> +# When vulkan is enabled, at lease one of x11 or wayland is needed
 
-Hi Pratik,
+lease -> least
 
-Can you please rebase on the master tip that has the golang 1.26.2.
+> +ANY_OF_DISTRO_FEATURES =3D "${@bb.utils.contains('DISTRO_FEATURES', 'vul=
+kan', 'x11 wayland', '', d)}"
+>=20
+>  PACKAGECONFIG ??=3D " \
+>      ${GSTREAMER_ORC} \
+> --
+> 2.34.1
 
-Jose
+//Peter
 
-Pratik Farkase via lists.openembedded.org <pratik.farkase=3D
-est.tech@lists.openembedded.org> escreveu (segunda, 13/04/2026 =C3=A0(s) 23=
-:37):
-
-> Hi Peter,
->
-> Thanks for the suggestion to use QB_MEM override in core-image-ptest.bb!
-> Great to have these multiconfig settings already which i was not aware of=
-.
-> I have sent a v5 patch after testing it locally. It will run full go
-> testsuite and the total run time is around ~66 minutes.
->
-> Attached the test results here along with qemu boot log.
->
-> Best Regards,
-> Pratik
->
-> ________________________________________
-> From: Marko, Peter <Peter.Marko@siemens.com>
-> Sent: Monday, April 13, 2026 2:27 PM
-> To: Pratik Farkase; Mathieu Dubois-Briand;
-> openembedded-core@lists.openembedded.org
-> Cc: pratik.farkase@ericsson.com
-> Subject: RE: [OE-core][PATCH v3] go: add ptest support
->
-> Hello Pratik,
->
-> I think that better is to run the full testsuite and increase QB_MEM for
-> virtclass-mcextend-go under
->
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/ima=
-ges/core-image-ptest.bb#n36
->
-> Peter
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Pratik Farkase
-> > Sent: Monday, April 13, 2026 2:05 PM
-> > To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
-> openembedded-
-> > core@lists.openembedded.org
-> > Cc: pratik.farkase@ericsson.com
-> > Subject: Re: [OE-core][PATCH v3] go: add ptest support
-> >
-> > Hi Mathieu,
-> >
-> > Apologies for getting back bit late and thanks for testing v3 and
-> identifying the OOM
-> > issue.
-> >
-> > The root cause is that Go's test suite performs on-the-fly compilation
-> during
-> > test execution. Even with the autobuilder's 1GB RAM (QB_MEM =3D '-m 102=
-4'),
-> > attempting all 253 stdlib packages causes OOM kills as compilation
-> processes
-> > consume ~1.5GB.
-> >
-> > For v4, I've switched to a curated subset of 17 core packages that
-> complete
-> > successfully within the 1GB constraint:
-> >
-> > Test results on qemux86-64 with 1GB RAM: 17/17 pass (100%) in ~6-7
-> minutes.
-> >
-> > Best Regards,
-> > Pratik
-> >
-> > ________________________________________
-> > From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> > Sent: Thursday, March 19, 2026 7:57 AM
-> > To: Pratik Farkase; openembedded-core@lists.openembedded.org
-> > Cc: pratik.farkase@ericsson.com
-> > Subject: Re: [OE-core][PATCH v3] go: add ptest support
-> >
-> > On Wed Mar 18, 2026 at 3:03 PM CET, Pratik Farkase wrote:
-> > > Add ptest infrastructure to test the Go standard library.
-> > >
-> > > - Run 'go test -short std' via run-ptest script
-> > > - Install source tree and pkg/include headers
-> > > - Create VERSION file for architecture detection
-> > > - Exclude multi-arch binary testdata to avoid QA errors
-> > >
-> > > Test results: 237/253 pass (93.7%) on qemux86-64.
-> > >
-> > > Known issues:
-> > > - debug/elf, debug/pe, debug/plan9obj, internal/xcoff: missing binary
-> testdata
-> > > - time: requires embedded timezone data
-> > > - net/http: requires unstripped go binary
-> > > - testing, go/types: minor edge cases
-> > >
-> > > Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> > > ---
-> > > Changes in v3:
-> > > - Move go from PTESTS_FAST to PTESTS_SLOW (~45min runtime)
-> > >   inside ptest-packagelists.inc
-> > >
-> > > Changes in v2:
-> > > - Exclude .elf* files to fix QA arch errors on all architectures
-> > > - Exclude *-x86-64* files to fix additional arch-specific test binari=
-es
-> > > - Tested on x86-64, x86, aarch64, and arm builds
-> > > ---
-> >
-> > Hi Pratik,
-> >
-> > Thanks for the new version, but we still have some failures:
-> >
-> > WARNING: core-image-ptest-go-1.0-r0 do_testimage: There were failing
-> ptests.
-> > Traceback (most recent call last):
-> >   File
-> "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembedded-
-> > core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   File
-> "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembedded-
-> > core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   File
-> "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembedded-
-> > core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   File
-> "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembedded-
-> > core/meta/lib/oeqa/runtime/cases/ptest.py", line 27, in
-> test_ptestrunner_expectfail
-> >     self.do_ptestrunner()
-> >     ~~~~~~~~~~~~~~~~~~~^^
-> >   File
-> "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembedded-
-> > core/meta/lib/oeqa/runtime/cases/ptest.py", line 121, in do_ptestrunner
-> >     self.fail(failmsg)
-> >     ~~~~~~~~~^^^^^^^^^
-> > AssertionError: ERROR: Processes were killed by the OOM Killer:
-> > [  132.843492] Out of memory: Killed process 769 (compile)
-> total-vm:1553664kB,
-> > anon-rss:256564kB, file-rss:0kB, shmem-rss:128kB, UID:0 pgtables:644kB
-> > oom_score_adj:0
-> >
-> >
-> > Failed ptests:
-> > {'go': ['archive/tar',
-> >         'archive/zip',
-> >         'bufio',
-> >         'bytes',
-> >         'cmp',
-> >         'compress/bzip2',
-> >         'compress
-> >         ...
-> >
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/3319
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/3294
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1277
-> >
-> > Thanks,
-> > Mathieu
-> >
-> > --
-> > Mathieu Dubois-Briand, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#235132):
-> https://lists.openembedded.org/g/openembedded-core/message/235132
-> Mute This Topic: https://lists.openembedded.org/mt/118383123/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000534a4f064f68d1e7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Hi Pratik,<br><br></div>=
-<div>Can you please rebase on the master tip that has the golang 1.26.2.<di=
-v><br></div><div>Jose<br></div></div></div><br><div class=3D"gmail_quote gm=
-ail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Pratik Farkase v=
-ia <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt=
-;pratik.farkase=3D<a href=3D"mailto:est.tech@lists.openembedded.org">est.te=
-ch@lists.openembedded.org</a>&gt; escreveu (segunda, 13/04/2026 =C3=A0(s) 2=
-3:37):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Peter,=
-<br>
-<br>
-Thanks for the suggestion to use QB_MEM override in <a href=3D"http://core-=
-image-ptest.bb" rel=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a=
->! Great to have these multiconfig settings already which i was not aware o=
-f. I have sent a v5 patch after testing it locally. It will run full go tes=
-tsuite and the total run time is around ~66 minutes.<br>
-<br>
-Attached the test results here along with qemu boot log.<br>
-<br>
-Best Regards,<br>
-Pratik<br>
-<br>
-________________________________________<br>
-From: Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@siemens.com" target=3D=
-"_blank">Peter.Marko@siemens.com</a>&gt;<br>
-Sent: Monday, April 13, 2026 2:27 PM<br>
-To: Pratik Farkase; Mathieu Dubois-Briand; <a href=3D"mailto:openembedded-c=
-ore@lists.openembedded.org" target=3D"_blank">openembedded-core@lists.opene=
-mbedded.org</a><br>
-Cc: <a href=3D"mailto:pratik.farkase@ericsson.com" target=3D"_blank">pratik=
-.farkase@ericsson.com</a><br>
-Subject: RE: [OE-core][PATCH v3] go: add ptest support<br>
-<br>
-Hello Pratik,<br>
-<br>
-I think that better is to run the full testsuite and increase QB_MEM for vi=
-rtclass-mcextend-go under<br>
-<a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/recipes=
--core/images/core-image-ptest.bb#n36" rel=3D"noreferrer" target=3D"_blank">=
-https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/image=
-s/core-image-ptest.bb#n36</a><br>
-<br>
-Peter<br>
-<br>
-&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
--<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a>&gt; On Behalf Of Pratik Farkase<br>
-&gt; Sent: Monday, April 13, 2026 2:05 PM<br>
-&gt; To: Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@=
-bootlin.com" target=3D"_blank">mathieu.dubois-briand@bootlin.com</a>&gt;; o=
-penembedded-<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a><br>
-&gt; Cc: <a href=3D"mailto:pratik.farkase@ericsson.com" target=3D"_blank">p=
-ratik.farkase@ericsson.com</a><br>
-&gt; Subject: Re: [OE-core][PATCH v3] go: add ptest support<br>
-&gt;<br>
-&gt; Hi Mathieu,<br>
-&gt;<br>
-&gt; Apologies for getting back bit late and thanks for testing v3 and iden=
-tifying the OOM<br>
-&gt; issue.<br>
-&gt;<br>
-&gt; The root cause is that Go&#39;s test suite performs on-the-fly compila=
-tion during<br>
-&gt; test execution. Even with the autobuilder&#39;s 1GB RAM (QB_MEM =3D &#=
-39;-m 1024&#39;),<br>
-&gt; attempting all 253 stdlib packages causes OOM kills as compilation pro=
-cesses<br>
-&gt; consume ~1.5GB.<br>
-&gt;<br>
-&gt; For v4, I&#39;ve switched to a curated subset of 17 core packages that=
- complete<br>
-&gt; successfully within the 1GB constraint:<br>
-&gt;<br>
-&gt; Test results on qemux86-64 with 1GB RAM: 17/17 pass (100%) in ~6-7 min=
-utes.<br>
-&gt;<br>
-&gt; Best Regards,<br>
-&gt; Pratik<br>
-&gt;<br>
-&gt; ________________________________________<br>
-&gt; From: Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-brian=
-d@bootlin.com" target=3D"_blank">mathieu.dubois-briand@bootlin.com</a>&gt;<=
-br>
-&gt; Sent: Thursday, March 19, 2026 7:57 AM<br>
-&gt; To: Pratik Farkase; <a href=3D"mailto:openembedded-core@lists.openembe=
-dded.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a><br=
->
-&gt; Cc: <a href=3D"mailto:pratik.farkase@ericsson.com" target=3D"_blank">p=
-ratik.farkase@ericsson.com</a><br>
-&gt; Subject: Re: [OE-core][PATCH v3] go: add ptest support<br>
-&gt;<br>
-&gt; On Wed Mar 18, 2026 at 3:03 PM CET, Pratik Farkase wrote:<br>
-&gt; &gt; Add ptest infrastructure to test the Go standard library.<br>
-&gt; &gt;<br>
-&gt; &gt; - Run &#39;go test -short std&#39; via run-ptest script<br>
-&gt; &gt; - Install source tree and pkg/include headers<br>
-&gt; &gt; - Create VERSION file for architecture detection<br>
-&gt; &gt; - Exclude multi-arch binary testdata to avoid QA errors<br>
-&gt; &gt;<br>
-&gt; &gt; Test results: 237/253 pass (93.7%) on qemux86-64.<br>
-&gt; &gt;<br>
-&gt; &gt; Known issues:<br>
-&gt; &gt; - debug/elf, debug/pe, debug/plan9obj, internal/xcoff: missing bi=
-nary testdata<br>
-&gt; &gt; - time: requires embedded timezone data<br>
-&gt; &gt; - net/http: requires unstripped go binary<br>
-&gt; &gt; - testing, go/types: minor edge cases<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Pratik Farkase &lt;pratik.farkase@est.tech&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; Changes in v3:<br>
-&gt; &gt; - Move go from PTESTS_FAST to PTESTS_SLOW (~45min runtime)<br>
-&gt; &gt;=C2=A0 =C2=A0inside ptest-packagelists.inc<br>
-&gt; &gt;<br>
-&gt; &gt; Changes in v2:<br>
-&gt; &gt; - Exclude .elf* files to fix QA arch errors on all architectures<=
-br>
-&gt; &gt; - Exclude *-x86-64* files to fix additional arch-specific test bi=
-naries<br>
-&gt; &gt; - Tested on x86-64, x86, aarch64, and arm builds<br>
-&gt; &gt; ---<br>
-&gt;<br>
-&gt; Hi Pratik,<br>
-&gt;<br>
-&gt; Thanks for the new version, but we still have some failures:<br>
-&gt;<br>
-&gt; WARNING: core-image-ptest-go-1.0-r0 do_testimage: There were failing p=
-tests.<br>
-&gt; Traceback (most recent call last):<br>
-&gt;=C2=A0 =C2=A0File &quot;/srv/pokybuild/yocto-worker/qemux86-64-ptest/bu=
-ild/layers/openembedded-<br>
-&gt; core/meta/lib/oeqa/core/decorator/__init__.py&quot;, line 35, in wrapp=
-ed_f<br>
-&gt;=C2=A0 =C2=A0 =C2=A0return func(*args, **kwargs)<br>
-&gt;=C2=A0 =C2=A0File &quot;/srv/pokybuild/yocto-worker/qemux86-64-ptest/bu=
-ild/layers/openembedded-<br>
-&gt; core/meta/lib/oeqa/core/decorator/__init__.py&quot;, line 35, in wrapp=
-ed_f<br>
-&gt;=C2=A0 =C2=A0 =C2=A0return func(*args, **kwargs)<br>
-&gt;=C2=A0 =C2=A0File &quot;/srv/pokybuild/yocto-worker/qemux86-64-ptest/bu=
-ild/layers/openembedded-<br>
-&gt; core/meta/lib/oeqa/core/decorator/__init__.py&quot;, line 35, in wrapp=
-ed_f<br>
-&gt;=C2=A0 =C2=A0 =C2=A0return func(*args, **kwargs)<br>
-&gt;=C2=A0 =C2=A0File &quot;/srv/pokybuild/yocto-worker/qemux86-64-ptest/bu=
-ild/layers/openembedded-<br>
-&gt; core/meta/lib/oeqa/runtime/cases/ptest.py&quot;, line 27, in test_ptes=
-trunner_expectfail<br>
-&gt;=C2=A0 =C2=A0 =C2=A0self.do_ptestrunner()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0~~~~~~~~~~~~~~~~~~~^^<br>
-&gt;=C2=A0 =C2=A0File &quot;/srv/pokybuild/yocto-worker/qemux86-64-ptest/bu=
-ild/layers/openembedded-<br>
-&gt; core/meta/lib/oeqa/runtime/cases/ptest.py&quot;, line 121, in do_ptest=
-runner<br>
-&gt;=C2=A0 =C2=A0 =C2=A0self.fail(failmsg)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0~~~~~~~~~^^^^^^^^^<br>
-&gt; AssertionError: ERROR: Processes were killed by the OOM Killer:<br>
-&gt; [=C2=A0 132.843492] Out of memory: Killed process 769 (compile) total-=
-vm:1553664kB,<br>
-&gt; anon-rss:256564kB, file-rss:0kB, shmem-rss:128kB, UID:0 pgtables:644kB=
-<br>
-&gt; oom_score_adj:0<br>
-&gt;<br>
-&gt;<br>
-&gt; Failed ptests:<br>
-&gt; {&#39;go&#39;: [&#39;archive/tar&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;archive/zip&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;bufio&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;bytes&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;cmp&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;compress/bzip2&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;compress<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0...<br>
-&gt;<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/73=
-/builds/3319" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
-oproject.org/valkyrie/#/builders/73/builds/3319</a><br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/61=
-/builds/3294" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
-oproject.org/valkyrie/#/builders/61/builds/3294</a><br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/56=
-/builds/1277" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
-oproject.org/valkyrie/#/builders/56/builds/1277</a><br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt; Mathieu<br>
-&gt;<br>
-&gt; --<br>
-&gt; Mathieu Dubois-Briand, Bootlin<br>
-&gt; Embedded Linux and Kernel engineering<br>
-&gt; <a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://bootlin.com</a><br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#235132): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/235132" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/235132</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118383123/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/118383123/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div>
-
---000000000000534a4f064f68d1e7--
 
