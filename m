@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6179F428DB
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:51 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19826.1776261883261738456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 316D4F428E2
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:52 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19812.1776261873807100432
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Apr 2026 07:04:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aJWzflWn;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=s1RX6nEL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019d91756cce-1f290cab-1822-41b5-9ca0-f336fa69fc70-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=D5O76jTB;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jyRlynNb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d91756d5a-08e552f2-d77e-4ead-b71c-1ba956ff963b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1776261885;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Je3sX25NuAC0g27dzqlQlyS2ioJoER6O+43OUBX6apw=;
-	b=aJWzflWnufQtHSNUnZVv0aup+HMyrnu1jWicF+m3GSBHd/mkbTp0ngnlBIEksw6d
-	Z87cB2UgrvsfIFC2M10Bnzh2OrXy1MHxjH0+cRfaWRn7oNHvVqLr7AIFuwD0diuKVdv
-	1Uh8/IkXs1qc2jJZ26hrxieqRKkrS/g8fwZb38mA=
+	bh=DKrFqqC9v9Iz+6PhKB0RlnPRkRd24Vv31QtHW56Qn3I=;
+	b=D5O76jTBLRecRYrrj60a25u3gVzyoCAA5KsEdvRTy8Uvrp48IQpeIqzPnVsMpNyD
+	7xvX8jYyfJ8EMGglem5KHZ1dsGF1soXT346sylPMIEOcrGctpF9AS7eKorBCTiCh/HL
+	6WBqvZ3wD09iMC/VPIX/SA3nuQlKC5hNZNSCg4nY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261885;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Je3sX25NuAC0g27dzqlQlyS2ioJoER6O+43OUBX6apw=;
-	b=s1RX6nELMditUJtZLhDtC53Dx8MEEJBsgAINsAuDO8fA5w6RqcMAvLyCX6rhS+Dq
-	uH0hARSi80U1IH6NLicA7/wuWGoXjyRjGquSTvy9IqQps6i3jb0DA8HS9UiAPUSD5yN
-	UVi/yuMVsCk7iJsUJuUgME7yy7ov+i1ZVBKMxwxU=
-Content-Type: multipart/mixed; boundary="===============6109423443831101810=="
+	bh=DKrFqqC9v9Iz+6PhKB0RlnPRkRd24Vv31QtHW56Qn3I=;
+	b=jyRlynNbKpDzSAzCwewTMMbakBqeJIZe7UlVhU2Wm0tTICR9z0rLRWsxBBDrYSMy
+	9V4ttgsMnCKmeI1Qg8u1CQDCG6nb5QvcbePxvD0qVtmVKwZOmJxtk/ryrvhj9g0FcU4
+	wQAJzZn0wY71NdGPosDjWPNg+gkGsAmOKScAa7Mo=
+Content-Type: multipart/mixed; boundary="===============3849455076468926632=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Benjamin Robin <benjamin.robin@bootlin.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-sbom-cve-check: upgrading to 1.2.1 SUCCEEDED
-Message-ID: <0101019d91756cce-1f290cab-1822-41b5-9ca0-f336fa69fc70-000000@us-west-2.amazonses.com>
+Subject: [AUH] acpica: upgrading to 20260408 SUCCEEDED
+Message-ID: <0101019d91756d5a-08e552f2-d77e-4ead-b71c-1ba956ff963b-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Apr 2026 14:04:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.31
+X-SES-Outgoing: 2026.04.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235258
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235259
 
---===============6109423443831101810==
+--===============3849455076468926632==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-sbom-cve-check* to *1.2.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *acpica* to *20260408* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-sbom-cve-check-upgrade-1.2.0-1.2.1.patch
+    - apply the patch: git am 0001-acpica-upgrade-20251212-20260408.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,142 +72,153 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5ed4ef03252f29b71f47336cd499e4f04379d495 Mon Sep 17 00:00:00 2001
+From 65bb60f4e374ec7684b3f8d6d6d9d77f4c05eee4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 09:32:50 +0000
-Subject: [PATCH] python3-sbom-cve-check: upgrade 1.2.0 -> 1.2.1
+Date: Wed, 15 Apr 2026 09:40:10 +0000
+Subject: [PATCH] acpica: upgrade 20251212 -> 20260408
 
 ---
- ...xport_yocto-use-correct-type-for-the-version-attrib.patch | 5 +----
- ...om-cve-check_1.2.0.bb => python3-sbom-cve-check_1.2.1.bb} | 2 +-
- 2 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/sbom-cve-check/{python3-sbom-cve-check_1.2.0.bb => python3-sbom-cve-check_1.2.1.bb} (84%)
+ ...{acpica_20251212.bb => acpica_20260408.bb} | 26 +++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/acpica/{acpica_20251212.bb => acpica_20260408.bb} (66%)
 
-diff --git a/meta/recipes-devtools/sbom-cve-check/files/0001-export_yocto-use-correct-type-for-the-version-attrib.patch b/meta/recipes-devtools/sbom-cve-check/files/0001-export_yocto-use-correct-type-for-the-version-attrib.patch
-index 392f0b99ea..c6423ab233 100644
---- a/meta/recipes-devtools/sbom-cve-check/files/0001-export_yocto-use-correct-type-for-the-version-attrib.patch
-+++ b/meta/recipes-devtools/sbom-cve-check/files/0001-export_yocto-use-correct-type-for-the-version-attrib.patch
-@@ -1,4 +1,4 @@
--From 1a5ae49c520d3569ed12f0c6373b4223d428f92b Mon Sep 17 00:00:00 2001
-+From 1a1f0c740464b2a423f8bea68176d93d58db77e5 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Thu, 9 Apr 2026 11:55:19 +0100
- Subject: [PATCH] export_yocto: use correct type for the version attribute
-@@ -26,6 +26,3 @@ index c8261f4..78d72c0 100644
-          with self._open_output_as_text() as f:
-              json.dump(json_obj, f, indent=2)
-  
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.2.0.bb b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.2.1.bb
-similarity index 84%
-rename from meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.2.0.bb
-rename to meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.2.1.bb
-index 2a09d8ea4c..6717874998 100644
---- a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.2.0.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.2.1.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=570a9b3749dd0463a1778803b12a6dce"
+diff --git a/meta/recipes-extended/acpica/acpica_20251212.bb b/meta/recipes-extended/acpica/acpica_20260408.bb
+similarity index 66%
+rename from meta/recipes-extended/acpica/acpica_20251212.bb
+rename to meta/recipes-extended/acpica/acpica_20260408.bb
+index 812a62547b..ccb414f7d9 100644
+--- a/meta/recipes-extended/acpica/acpica_20251212.bb
++++ b/meta/recipes-extended/acpica/acpica_20260408.bb
+@@ -1,3 +1,25 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- source/compiler/aslcompile.c
++# +++ source/compiler/aslcompile.c
++# @@ -2,7 +2,7 @@
++#   *
++#   * 1. Copyright Notice
++#   *
++# - * Some or all of this work - Copyright (c) 1999 - 2025, Intel Corp.
++# + * Some or all of this work - Copyright (c) 1999 - 2026, Intel Corp.
++#   * All rights reserved.
++#   *
++#   * 2. License
++# 
++#
++
+ SUMMARY = "ACPICA tools for the development and debug of ACPI tables"
+ DESCRIPTION = "The ACPI Component Architecture (ACPICA) project provides an \
+ OS-independent reference implementation of the Advanced Configuration and \
+@@ -10,14 +32,14 @@ HOMEPAGE = "https://www.intel.com/content/www/us/en/developer/topic-technology/o
+ SECTION = "console/tools"
  
- PYPI_PACKAGE = "sbom_cve_check"
--SRC_URI[sha256sum] = "0b01474c541fb4b9d29d36f86fae6d0f27ff2b991fcb59b2fbeb70c1eaa09664"
-+SRC_URI[sha256sum] = "d7dfca05cf0cee6b439802fe10689790b9395d436d0d9af6170e23603c2ea5cb"
+ LICENSE = "Intel | BSD-3-Clause | GPL-2.0-only"
+-LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=8566a414d226d05b68e41f30698f9624"
++LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=4877caee45a613e9706946c3205a6fb9"
  
- SRC_URI += "file://0001-export_yocto-use-correct-type-for-the-version-attrib.patch"
+ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ 
+ DEPENDS = "m4-native flex-native bison-native"
+ 
+ SRC_URI = "git://github.com/acpica/acpica;protocol=https;branch=master;tag=${PV}"
+-SRCREV = "446be438238e9d339eed5182b807ac5f82df56c9"
++SRCREV = "232ff3f8ae1a4da11c709f61d9154482cfe8e6df"
+ 
+ inherit update-alternatives
  
 -- 
 2.47.1
 
 
---===============6109423443831101810==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check: FILELIST: directory renamed /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.0.dist-info -> /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.1.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-sbom-cve-check (sysroot):
-  /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.1.dist-info
-
---===============6109423443831101810==
+--===============3849455076468926632==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-sbom-cve-check-upgrade-1.2.0-1.2.1.patch"
+ filename="0001-acpica-upgrade-20251212-20260408.patch"
 
-RnJvbSA1ZWQ0ZWYwMzI1MmYyOWI3MWY0NzMzNmNkNDk5ZTRmMDQzNzlkNDk1IE1vbiBTZXAgMTcg
+RnJvbSA2NWJiNjBmNGUzNzRlYzc2ODRiM2Y4ZDZkNmQ5ZDc3ZjRjMDVlZWU0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDk6MzI6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXNib20tY3ZlLWNoZWNrOiB1cGdyYWRlIDEuMi4wIC0+IDEuMi4xCgotLS0KIC4uLnhw
-b3J0X3lvY3RvLXVzZS1jb3JyZWN0LXR5cGUtZm9yLXRoZS12ZXJzaW9uLWF0dHJpYi5wYXRjaCB8
-IDUgKy0tLS0KIC4uLm9tLWN2ZS1jaGVja18xLjIuMC5iYiA9PiBweXRob24zLXNib20tY3ZlLWNo
-ZWNrXzEuMi4xLmJifSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA1
-IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zYm9tLWN2ZS1jaGVj
-ay97cHl0aG9uMy1zYm9tLWN2ZS1jaGVja18xLjIuMC5iYiA9PiBweXRob24zLXNib20tY3ZlLWNo
-ZWNrXzEuMi4xLmJifSAoODQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9z
-Ym9tLWN2ZS1jaGVjay9maWxlcy8wMDAxLWV4cG9ydF95b2N0by11c2UtY29ycmVjdC10eXBlLWZv
-ci10aGUtdmVyc2lvbi1hdHRyaWIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1j
-dmUtY2hlY2svZmlsZXMvMDAwMS1leHBvcnRfeW9jdG8tdXNlLWNvcnJlY3QtdHlwZS1mb3ItdGhl
-LXZlcnNpb24tYXR0cmliLnBhdGNoCmluZGV4IDM5MmYwYjk5ZWEuLmM2NDIzYWIyMzMgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zYm9tLWN2ZS1jaGVjay9maWxlcy8wMDAxLWV4
-cG9ydF95b2N0by11c2UtY29ycmVjdC10eXBlLWZvci10aGUtdmVyc2lvbi1hdHRyaWIucGF0Y2gK
-KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Nib20tY3ZlLWNoZWNrL2ZpbGVzLzAwMDEtZXhw
-b3J0X3lvY3RvLXVzZS1jb3JyZWN0LXR5cGUtZm9yLXRoZS12ZXJzaW9uLWF0dHJpYi5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gMWE1YWU0OWM1MjBkMzU2OWVkMTJmMGM2MzczYjQyMjNkNDI4
-ZjkyYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMWExZjBjNzQwNDY0YjJhNDIzZjhi
-ZWE2ODE3NmQ5M2Q1OGRiNzdlNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3Mg
-QnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogRGF0ZTogVGh1LCA5IEFwciAyMDI2IDExOjU1
-OjE5ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIGV4cG9ydF95b2N0bzogdXNlIGNvcnJlY3QgdHlw
-ZSBmb3IgdGhlIHZlcnNpb24gYXR0cmlidXRlCkBAIC0yNiw2ICsyNiwzIEBAIGluZGV4IGM4MjYx
-ZjQuLjc4ZDcyYzAgMTAwNjQ0CiAgICAgICAgICB3aXRoIHNlbGYuX29wZW5fb3V0cHV0X2FzX3Rl
-eHQoKSBhcyBmOgogICAgICAgICAgICAgIGpzb24uZHVtcChqc29uX29iaiwgZiwgaW5kZW50PTIp
-CiAgCi0tLSAKLTIuNDMuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2Jv
-bS1jdmUtY2hlY2svcHl0aG9uMy1zYm9tLWN2ZS1jaGVja18xLjIuMC5iYiBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9zYm9tLWN2ZS1jaGVjay9weXRob24zLXNib20tY3ZlLWNoZWNrXzEuMi4xLmJi
-CnNpbWlsYXJpdHkgaW5kZXggODQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9z
-Ym9tLWN2ZS1jaGVjay9weXRob24zLXNib20tY3ZlLWNoZWNrXzEuMi4wLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2svcHl0aG9uMy1zYm9tLWN2ZS1jaGVj
-a18xLjIuMS5iYgppbmRleCAyYTA5ZDhlYTRjLi42NzE3ODc0OTk4IDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2svcHl0aG9uMy1zYm9tLWN2ZS1jaGVja18x
-LjIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2svcHl0aG9u
-My1zYm9tLWN2ZS1jaGVja18xLjIuMS5iYgpAQCAtNSw3ICs1LDcgQEAgTElDRU5TRSA9ICJHUEwt
-Mi4wLW9ubHkiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT01NzBhOWIz
-NzQ5ZGQwNDYzYTE3Nzg4MDNiMTJhNmRjZSIKIAogUFlQSV9QQUNLQUdFID0gInNib21fY3ZlX2No
-ZWNrIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBiMDE0NzRjNTQxZmI0YjlkMjlkMzZmODZmYWU2
-ZDBmMjdmZjJiOTkxZmNiNTliMmZiZWI3MGMxZWFhMDk2NjQiCitTUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiZDdkZmNhMDVjZjBjZWU2YjQzOTgwMmZlMTA2ODk3OTBiOTM5NWQ0MzZkMGQ5YWY2MTcwZTIz
-NjAzYzJlYTVjYiIKIAogU1JDX1VSSSArPSAiZmlsZTovLzAwMDEtZXhwb3J0X3lvY3RvLXVzZS1j
-b3JyZWN0LXR5cGUtZm9yLXRoZS12ZXJzaW9uLWF0dHJpYi5wYXRjaCIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDk6NDA6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+Y3BpY2E6IHVwZ3JhZGUgMjAyNTEyMTIgLT4gMjAyNjA0MDgKCi0tLQogLi4ue2FjcGljYV8yMDI1
+MTIxMi5iYiA9PiBhY3BpY2FfMjAyNjA0MDguYmJ9IHwgMjYgKysrKysrKysrKysrKysrKystLQog
+MSBmaWxlIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWV4dGVuZGVkL2FjcGljYS97YWNwaWNhXzIwMjUxMjEyLmJiID0+IGFjcGlj
+YV8yMDI2MDQwOC5iYn0gKDY2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
+YWNwaWNhL2FjcGljYV8yMDI1MTIxMi5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3BpY2Ev
+YWNwaWNhXzIwMjYwNDA4LmJiCnNpbWlsYXJpdHkgaW5kZXggNjYlCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1leHRlbmRlZC9hY3BpY2EvYWNwaWNhXzIwMjUxMjEyLmJiCnJlbmFtZSB0byBtZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvYWNwaWNhL2FjcGljYV8yMDI2MDQwOC5iYgppbmRleCA4MTJhNjI1
+NDdiLi5jY2I0MTRmN2Q5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYWNwaWNh
+L2FjcGljYV8yMDI1MTIxMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYWNwaWNhL2Fj
+cGljYV8yMDI2MDQwOC5iYgpAQCAtMSwzICsxLDI1IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVT
+X0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisj
+IFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUg
+bmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBu
+ZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdl
+IHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6
+IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0g
+c291cmNlL2NvbXBpbGVyL2FzbGNvbXBpbGUuYworIyArKysgc291cmNlL2NvbXBpbGVyL2FzbGNv
+bXBpbGUuYworIyBAQCAtMiw3ICsyLDcgQEAKKyMgICAqCisjICAgKiAxLiBDb3B5cmlnaHQgTm90
+aWNlCisjICAgKgorIyAtICogU29tZSBvciBhbGwgb2YgdGhpcyB3b3JrIC0gQ29weXJpZ2h0IChj
+KSAxOTk5IC0gMjAyNSwgSW50ZWwgQ29ycC4KKyMgKyAqIFNvbWUgb3IgYWxsIG9mIHRoaXMgd29y
+ayAtIENvcHlyaWdodCAoYykgMTk5OSAtIDIwMjYsIEludGVsIENvcnAuCisjICAgKiBBbGwgcmln
+aHRzIHJlc2VydmVkLgorIyAgICoKKyMgICAqIDIuIExpY2Vuc2UKKyMgCisjCisKIFNVTU1BUlkg
+PSAiQUNQSUNBIHRvb2xzIGZvciB0aGUgZGV2ZWxvcG1lbnQgYW5kIGRlYnVnIG9mIEFDUEkgdGFi
+bGVzIgogREVTQ1JJUFRJT04gPSAiVGhlIEFDUEkgQ29tcG9uZW50IEFyY2hpdGVjdHVyZSAoQUNQ
+SUNBKSBwcm9qZWN0IHByb3ZpZGVzIGFuIFwKIE9TLWluZGVwZW5kZW50IHJlZmVyZW5jZSBpbXBs
+ZW1lbnRhdGlvbiBvZiB0aGUgQWR2YW5jZWQgQ29uZmlndXJhdGlvbiBhbmQgXApAQCAtMTAsMTQg
+KzMyLDE0IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vd3d3LmludGVsLmNvbS9jb250ZW50L3d3dy91
+cy9lbi9kZXZlbG9wZXIvdG9waWMtdGVjaG5vbG9neS9vCiBTRUNUSU9OID0gImNvbnNvbGUvdG9v
+bHMiCiAKIExJQ0VOU0UgPSAiSW50ZWwgfCBCU0QtMy1DbGF1c2UgfCBHUEwtMi4wLW9ubHkiCi1M
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9zb3VyY2UvY29tcGlsZXIvYXNsY29tcGlsZS5jO2Jl
+Z2lubGluZT03O2VuZGxpbmU9MTUwO21kNT04NTY2YTQxNGQyMjZkMDViNjhlNDFmMzA2OThmOTYy
+NCIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3NvdXJjZS9jb21waWxlci9hc2xjb21waWxl
+LmM7YmVnaW5saW5lPTc7ZW5kbGluZT0xNTA7bWQ1PTQ4NzdjYWVlNDVhNjEzZTk3MDY5NDZjMzIw
+NWE2ZmI5IgogCiBDT01QQVRJQkxFX0hPU1QgPSAiKGkuODZ8eDg2XzY0fGFybXxhYXJjaDY0KS4q
+LWxpbnV4IgogCiBERVBFTkRTID0gIm00LW5hdGl2ZSBmbGV4LW5hdGl2ZSBiaXNvbi1uYXRpdmUi
+CiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9hY3BpY2EvYWNwaWNhO3Byb3RvY29sPWh0
+dHBzO2JyYW5jaD1tYXN0ZXI7dGFnPSR7UFZ9IgotU1JDUkVWID0gIjQ0NmJlNDM4MjM4ZTlkMzM5
+ZWVkNTE4MmI4MDdhYzVmODJkZjU2YzkiCitTUkNSRVYgPSAiMjMyZmYzZjhhZTFhNGRhMTFjNzA5
+ZjYxZDkxNTQ0ODJjZmU4ZTZkZiIKIAogaW5oZXJpdCB1cGRhdGUtYWx0ZXJuYXRpdmVzCiAKLS0g
+CjIuNDcuMQoK
 
---===============6109423443831101810==
+--===============3849455076468926632==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/sbom_cve_check/sbom_cve_check-1.2.0.tar.gz;downloadfilename=sbom_cve_check-1.2.0.tar.gz file://0001-export_yocto-use-correct-type-for-the-version-attrib.patch" to "https://files.pythonhosted.org/packages/source/s/sbom_cve_check/sbom_cve_check-1.2.1.tar.gz;downloadfilename=sbom_cve_check-1.2.1.tar.gz file://0001-export_yocto-use-correct-type-for-the-version-attrib.patch"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check: PV changed from "1.2.0" to "1.2.1"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-dbg: PV changed from "1.2.0" to "1.2.1"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-dbg: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-dev: PV changed from "1.2.0" to "1.2.1"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-dev: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-doc: PV changed from "1.2.0" to "1.2.1"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-doc: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-locale: PV changed from "1.2.0" to "1.2.1"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-locale: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-src: PV changed from "1.2.0" to "1.2.1"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-src: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-staticdev: PV changed from "1.2.0" to "1.2.1"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check-staticdev: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check: FILELIST: directory renamed /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.0.dist-info -> /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.1.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check: PKGSIZE changed from 1044027 to 1049543 (+1%)
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check: PV changed from "1.2.0" to "1.2.1"
-packages/x86-64-v3-poky-linux/python3-sbom-cve-check/python3-sbom-cve-check: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-sbom-cve-check (sysroot):
-  /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/sbom_cve_check-1.2.1.dist-info
+packages/x86-64-v3-poky-linux/acpica/acpica-dbg: PKGV changed from 20251212 [default] to 20260408 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 10807528 to 10828776 (+0%)
+packages/x86-64-v3-poky-linux/acpica/acpica-dbg: PV changed from "20251212" to "20260408"
+packages/x86-64-v3-poky-linux/acpica/acpica-dev: PKGV changed from 20251212 [default] to 20260408 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-dev: PV changed from "20251212" to "20260408"
+packages/x86-64-v3-poky-linux/acpica/acpica-doc: PKGV changed from 20251212 [default] to 20260408 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-doc: PV changed from "20251212" to "20260408"
+packages/x86-64-v3-poky-linux/acpica/acpica-locale: PKGV changed from 20251212 [default] to 20260408 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-locale: PV changed from "20251212" to "20260408"
+packages/x86-64-v3-poky-linux/acpica/acpica-src: PKGV changed from 20251212 [default] to 20260408 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-src: PKGSIZE changed from 10585354 to 10631366 (+0%)
+packages/x86-64-v3-poky-linux/acpica/acpica-src: PV changed from "20251212" to "20260408"
+packages/x86-64-v3-poky-linux/acpica/acpica-src: FILELIST: directory renamed /usr/src/debug/acpica/20251212/source/components/tables -> /usr/src/debug/acpica/20260408/source/components/tables, directory renamed /usr/src/debug/acpica/20251212/source/os_specific/service_layers -> /usr/src/debug/acpica/20260408/source/os_specific/service_layers, directory renamed /usr/src/debug/acpica/20251212/generate/unix/iasl/obj -> /usr/src/debug/acpica/20260408/generate/unix/iasl/obj, directory renamed /usr/src/debug/acpica/20251212/source/tools/acpidump -> /usr/src/debug/acpica/20260408/source/tools/acpidump, directory renamed /usr/src/debug/acpica/20251212/source/include -> /usr/src/debug/acpica/20260408/source/include, directory renamed /usr/src/debug/acpica/20251212/source/compiler -> /usr/src/debug/acpica/20260408/source/compiler, directory renamed /usr/src/debug/acpica/20251212/source/components/utilities -> /usr/src/debug/acpica/20260408/source/components/utilities, directory renamed /usr/sr
+ c/debug/acpica/20251212/source/components/resources -> /usr/src/debug/acpica/20260408/source/components/resources, directory renamed /usr/src/debug/acpica/20251212/source/components/namespace -> /usr/src/debug/acpica/20260408/source/components/namespace, directory renamed /usr/src/debug/acpica/20251212/source/tools/acpisrc -> /usr/src/debug/acpica/20260408/source/tools/acpisrc, directory renamed /usr/src/debug/acpica/20251212/source/components/parser -> /usr/src/debug/acpica/20260408/source/components/parser, directory renamed /usr/src/debug/acpica/20251212/source/tools/acpibin -> /usr/src/debug/acpica/20260408/source/tools/acpibin, directory renamed /usr/src/debug/acpica/20251212/source/tools/examples -> /usr/src/debug/acpica/20260408/source/tools/examples, directory renamed /usr/src/debug/acpica/20251212/source/components/dispatcher -> /usr/src/debug/acpica/20260408/source/components/dispatcher, directory renamed /usr/src/debug/acpica/20251212/source/components/events -> /usr/src/
+ debug/acpica/20260408/source/components/events, directory renamed /usr/src/debug/acpica/20251212/source/tools/acpiexec -> /usr/src/debug/acpica/20260408/source/tools/acpiexec, directory renamed /usr/src/debug/acpica/20251212/source/common -> /usr/src/debug/acpica/20260408/source/common, directory renamed /usr/src/debug/acpica/20251212/source/components/debugger -> /usr/src/debug/acpica/20260408/source/components/debugger, directory renamed /usr/src/debug/acpica/20251212/source/components/executer -> /usr/src/debug/acpica/20260408/source/components/executer, directory renamed /usr/src/debug/acpica/20251212/source/tools/acpihelp -> /usr/src/debug/acpica/20260408/source/tools/acpihelp, directory renamed /usr/src/debug/acpica/20251212/source/tools/acpixtract -> /usr/src/debug/acpica/20260408/source/tools/acpixtract, directory renamed /usr/src/debug/acpica/20251212/source/components/disassembler -> /usr/src/debug/acpica/20260408/source/components/disassembler, directory renamed /usr/src/
+ debug/acpica/20251212/source/components/hardware -> /usr/src/debug/acpica/20260408/source/components/hardware
+packages/x86-64-v3-poky-linux/acpica/acpica-staticdev: PKGV changed from 20251212 [default] to 20260408 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-staticdev: PV changed from "20251212" to "20260408"
+packages/x86-64-v3-poky-linux/acpica/acpica: PKGV changed from 20251212 [default] to 20260408 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica: PKGSIZE changed from 2688408 to 2711512 (+1%)
+packages/x86-64-v3-poky-linux/acpica/acpica: PV changed from "20251212" to "20260408"
+packages/x86-64-v3-poky-linux/acpica: SRC_URI changed from "git://github.com/acpica/acpica;protocol=https;branch=master;tag=20251212" to "git://github.com/acpica/acpica;protocol=https;branch=master;tag=20260408"
+packages/x86-64-v3-poky-linux/acpica: PV changed from "20251212" to "20260408"
+packages/x86-64-v3-poky-linux/acpica: PKGV changed from 20251212 [default] to 20260408 [default]
 
---===============6109423443831101810==--
+--===============3849455076468926632==--
 
