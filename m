@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95AF9F4210D
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:37 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19737.1776261873959099597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9510EF419BF
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:36 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19815.1776261874440482013
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Apr 2026 07:04:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=E6D/cspv;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=orleSdRH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d91753e2b-69f7fe97-bec4-44eb-9a86-1d46288be893-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TT49P/gK;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nbshiPMb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019d91753f8a-7d3babef-b9dd-41dc-9407-40d3af1c6176-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1776261873;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qgx4qrfIDIuMD6fMamfhLDFVoRXQ77mLm6VbqPKbpLI=;
-	b=E6D/cspvfmSLDy1116Ay+MTSHmy2Pp5VvYu1+4hQiZaFeeszVfmLwQnHvoGTXCWS
-	Y1py8laG/wVmG6lQwJzF4XfEa1tF1lmEUoXR64I8q1FrlSNALzAPaK7Q14K3ZB+HGDq
-	YsHT25QwImMZfElrLHMKVjT4WM1jZMEYYJOC41vY=
+	bh=6FYq2uEfziVrIiTWeBZ+LLoR5rtd9N+fkX0OHKtDMP0=;
+	b=TT49P/gKYUoDmJ7gVw7zIdpu928ODz9QBdBEh3jtWiALE5q3Hvu6Nbj3kNYGrl+z
+	+uasGpQGD9OD+bj5upby09o20LvrTQJB9JiMlytA46oHWZ9UaDpFn1u1RTANgcvlj0q
+	PBU79BBrebmW0f9eIUHrz0E9iK33rMF0r8EJGGcc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261873;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qgx4qrfIDIuMD6fMamfhLDFVoRXQ77mLm6VbqPKbpLI=;
-	b=orleSdRH0BbQe9A8kdumuF3HB0rrf1+xyzyGaQahJX5fBvfWfS00p1UV86FDW1tJ
-	6oOx+RzXL+4MiTo6bb4A7CfkLWhQk7N3a4hNxpRRKbahTXosqbQT7yCVhpTHoyKoP2b
-	AWrDAmcSgirpJtFMyzExyYzINBlqC4B/9LVovLHI=
-Content-Type: multipart/mixed; boundary="===============5166929260456480099=="
+	bh=6FYq2uEfziVrIiTWeBZ+LLoR5rtd9N+fkX0OHKtDMP0=;
+	b=nbshiPMbKqipKcSGq1UWlFhBmqeAtzCwxVs+XnXvFz2q1IC8oOo94AbG9/yXn7bE
+	BySUwZK7NwsHhpJV6nVNOzZN1VdelSgNRW6K9UkVbf2Qxmr2KN6mXBBV3DvrO4VF/qx
+	stLZ9Yl5yLHy3i9MIN1/lbFKBH/8r6opSP+aDD4c=
+Content-Type: multipart/mixed; boundary="===============1293664479220882257=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] kea: upgrading to 3.0.3 SUCCEEDED
-Message-ID: <0101019d91753e2b-69f7fe97-bec4-44eb-9a86-1d46288be893-000000@us-west-2.amazonses.com>
+To: Yi Zhao <yi.zhao@windriver.com>, Yi Zhao <yi.zhao@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libcap-ng,libcap-ng-python: upgrading to 0.9.3,0.9.3 FAILED
+Message-ID: <0101019d91753f8a-7d3babef-b9dd-41dc-9407-40d3af1c6176-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Apr 2026 14:04:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.191
+X-SES-Outgoing: 2026.04.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235218
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235221
 
---===============5166929260456480099==
+--===============1293664479220882257==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *kea* to *3.0.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libcap-ng,libcap-ng-python* to *0.9.3,0.9.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-kea-upgrade-3.0.2-3.0.3.patch
+    - apply the patch: git am 0001-libcap-ng-libcap-ng-python-upgrade-0.9.1-0.9.3-0.9.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,397 +78,1259 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 02ee21ab2041bfa866c114c364acefb315bf04a0 Mon Sep 17 00:00:00 2001
+From 9cdda15f5dff8b7e8475d726ff99040d66befb39 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 06:24:41 +0000
-Subject: [PATCH] kea: upgrade 3.0.2 -> 3.0.3
+Date: Wed, 15 Apr 2026 05:58:54 +0000
+Subject: [PATCH] libcap-ng,libcap-ng-python: upgrade 0.9.1 -> 0.9.3,0.9.1 ->
+ 0.9.3
 
 ---
- .../files/0001-build-boost-1.89.0-fixes.patch |  4 ++--
- ...s-dhcpsrv-Avoid-Boost-lexical_cast-o.patch |  2 +-
- ...se-a-runtime-safe-interpreter-string.patch |  4 ++--
- .../0001-mk_cfgrpt.sh-strip-prefixes.patch    |  2 +-
- ...er_level_impl.cc-add-a-missing-inclu.patch |  2 +-
- ...er_unittest_support.cc-do-not-write-.patch |  2 +-
- .../kea/files/fix-multilib-conflict.patch     |  2 +-
- .../kea/{kea_3.0.2.bb => kea_3.0.3.bb}        | 23 +++++++++++++++++--
- 8 files changed, 30 insertions(+), 11 deletions(-)
- rename meta/recipes-connectivity/kea/{kea_3.0.2.bb => kea_3.0.3.bb} (83%)
+ .../{libcap-ng-python_0.9.1.bb => libcap-ng-python_0.9.3.bb}    | 0
+ meta/recipes-support/libcap-ng/libcap-ng.inc                    | 2 +-
+ .../libcap-ng/{libcap-ng_0.9.1.bb => libcap-ng_0.9.3.bb}        | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libcap-ng/{libcap-ng-python_0.9.1.bb => libcap-ng-python_0.9.3.bb} (100%)
+ rename meta/recipes-support/libcap-ng/{libcap-ng_0.9.1.bb => libcap-ng_0.9.3.bb} (100%)
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-build-boost-1.89.0-fixes.patch b/meta/recipes-connectivity/kea/files/0001-build-boost-1.89.0-fixes.patch
-index 46a1e38eae..e551288e25 100644
---- a/meta/recipes-connectivity/kea/files/0001-build-boost-1.89.0-fixes.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-build-boost-1.89.0-fixes.patch
-@@ -1,4 +1,4 @@
--From c7d1036c6476ddca79a6beb03604a2364d7c469e Mon Sep 17 00:00:00 2001
-+From 810810cb3826304a997eb364aced7cc4f59edccd Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 27 Aug 2025 22:20:09 -0700
- Subject: [PATCH] build: boost 1.89.0 fixes
-@@ -12,7 +12,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  3 files changed, 4 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.1.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng-python_0.9.1.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+index 9d65c889bd..f023fe8f01 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng.inc
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
  
- diff --git a/meson.build b/meson.build
--index 8ed5b2d..d5723ba 100644
-+index b0cecee..7508a4a 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -189,7 +189,7 @@ message(f'Detected system "@SYSTEM@".')
-diff --git a/meta/recipes-connectivity/kea/files/0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch b/meta/recipes-connectivity/kea/files/0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch
-index 7c24a3a27c..d0eb5c208f 100644
---- a/meta/recipes-connectivity/kea/files/0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch
-@@ -1,4 +1,4 @@
--From 4a507d1822cbfb561657ed9a8ccb0dfeced30cac Mon Sep 17 00:00:00 2001
-+From 4ea21099f62e2dd7a54ca11d442f6d05b867e1fe Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 3 Sep 2025 12:52:51 -0700
- Subject: [PATCH] d2/dhcp[46]/radius/dhcpsrv: Avoid Boost lexical_cast on enums
-diff --git a/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch b/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
-index 3740c4abc7..1d46453527 100644
---- a/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
-@@ -1,4 +1,4 @@
--From f7024a5e7153538072a57858e1b48bbb806167e7 Mon Sep 17 00:00:00 2001
-+From cc91c754bcf738aab062e722614ffa93a91a7fee Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 28 Aug 2025 17:02:49 -0700
- Subject: [PATCH] meson: use a runtime-safe interpreter string
-@@ -44,7 +44,7 @@ index 74ba705..71f1c7b 100644
-  if PDFLATEX.found()
-      doc_conf.set('HAVE_PDFLATEX', 'yes')
- diff --git a/meson.build b/meson.build
--index d5723ba..3bb5185 100644
-+index 7508a4a..769e157 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -638,9 +638,13 @@ link_args = []
-diff --git a/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch b/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
-index 076de53c0a..8044d9c2de 100644
---- a/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
-@@ -1,4 +1,4 @@
--From 920e4895c679a5bfda29e66fa199ad8e889659d0 Mon Sep 17 00:00:00 2001
-+From 68b254e4a7f06b5711898a539713801c931b0dc6 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 28 Aug 2025 17:31:39 -0700
- Subject: [PATCH] mk_cfgrpt.sh: strip prefixes
-diff --git a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_level_impl.cc-add-a-missing-inclu.patch b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_level_impl.cc-add-a-missing-inclu.patch
-index 269615dbef..90cf9dff47 100644
---- a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_level_impl.cc-add-a-missing-inclu.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_level_impl.cc-add-a-missing-inclu.patch
-@@ -1,4 +1,4 @@
--From 1ad52a9bbec644e653cc67a596b811b70787c2dd Mon Sep 17 00:00:00 2001
-+From de78201c080d4b3a28293b63f3a9d0017ec9f58f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Wed, 17 Dec 2025 12:36:24 +0100
- Subject: [PATCH] src/lib/log/logger_level_impl.cc: add a missing include to
-diff --git a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-index 7d051705e8..9b6bcc62c1 100644
---- a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-@@ -1,4 +1,4 @@
--From 1a0a7b9633ebc4c171b8ee6db6fcf48e8e27a4b8 Mon Sep 17 00:00:00 2001
-+From c8fe43b2c5f2407f1e93fe956e9adb4bf1c9361d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 10 Nov 2020 15:57:03 +0000
- Subject: [PATCH] src/lib/log/logger_unittest_support.cc: do not write build
-diff --git a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-index 34ae256823..bd865bf462 100644
---- a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-+++ b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-@@ -1,4 +1,4 @@
--From 00e2905dc622f98f608d253b1148a3d778131cad Mon Sep 17 00:00:00 2001
-+From e949c8f8e06902f064a68945e9808fa06e8b3144 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Tue, 14 Oct 2025 01:37:35 +0000
- Subject: [PATCH] There are conflict of config files between kea and lib32-kea:
-diff --git a/meta/recipes-connectivity/kea/kea_3.0.2.bb b/meta/recipes-connectivity/kea/kea_3.0.3.bb
-similarity index 83%
-rename from meta/recipes-connectivity/kea/kea_3.0.2.bb
-rename to meta/recipes-connectivity/kea/kea_3.0.3.bb
-index f46cb1bf80..f8b929361c 100644
---- a/meta/recipes-connectivity/kea/kea_3.0.2.bb
-+++ b/meta/recipes-connectivity/kea/kea_3.0.3.bb
-@@ -1,9 +1,28 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -1,4 +1,4 @@
-+# -Copyright (C) 2009-2025 Internet Systems Consortium, Inc. ("ISC")
-+# +Copyright (C) 2009-2026 Internet Systems Consortium, Inc. ("ISC")
-+#  
-+#  This Source Code Form is subject to the terms of the Mozilla Public
-+#  License, v. 2.0. If a copy of the MPL was not distributed with this
-+# 
-+#
-+
- SUMMARY = "ISC Kea DHCP Server"
- DESCRIPTION = "Kea is the next generation of DHCP software developed by ISC. It supports both DHCPv4 and DHCPv6 protocols along with their extensions, e.g. prefix delegation and dynamic updates to DNS."
- HOMEPAGE = "http://kea.isc.org"
- SECTION = "connectivity"
- LICENSE = "MPL-2.0"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fb634ed1d923b8b8fd1ed7ffc9b70ae4"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a64dc8efc3c40d0502ad372f810700e4"
+ SRC_URI = "git://github.com/stevegrubb/libcap-ng.git;protocol=https;branch=master;tag=v${PV}"
+-SRCREV = "427ed6d2c2b16e9b48f12953e55febfead3ef2e2"
++SRCREV = "0ab44af5a23e8edb69a39c0dc803ce4395ff2086"
  
- DEPENDS = "boost log4cplus openssl"
+ inherit lib_package autotools pkgconfig
  
-@@ -23,7 +42,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.xz \
-            file://0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch \
-            file://0001-src-lib-log-logger_level_impl.cc-add-a-missing-inclu.patch \
-            "
--SRC_URI[sha256sum] = "29f4e44fa48f62fe15158d17411e003496203250db7b3459c2c79c09f379a541"
-+SRC_URI[sha256sum] = "09702ddb078b637e85de9236cbedd3fb9d7af7c6e797026c538b45748ad4d631"
- 
- inherit meson pkgconfig systemd update-rc.d upstream-version-is-even
- 
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.9.1.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng_0.9.1.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb
 -- 
 2.47.1
 
 
---===============5166929260456480099==
+--===============1293664479220882257==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-hooks.so.120 /usr/lib/libkea-process.so.90.0.0 /usr/lib/libkea-process.so.90 /usr/lib/libkea-hooks.so.120.0.0 /usr/lib/libkea-cc.so.82 /usr/lib/libkea-util.so.101 /usr/lib/libkea-cc.so.82.0.0 /usr/lib/libkea-config.so.83 /usr/lib/libkea-util.so.101.0.0 /usr/lib/libkea-config.so.83.0.0", added "/usr/lib/libkea-hooks.so.121 /usr/lib/libkea-process.so.91.0.0 /usr/lib/libkea-process.so.91 /usr/lib/libkea-cc.so.83 /usr/lib/libkea-hooks.so.121.0.0 /usr/lib/libkea-util.so.102 /usr/lib/libkea-cc.so.83.0.0 /usr/lib/libkea-config.so.84 /usr/lib/libkea-util.so.102.0.0 /usr/lib/libkea-config.so.84.0.0"
-Changes to packages/x86-64-v3-poky-linux/kea (sysroot):
-  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.82 to libkea-cc.so.83
-  /usr/lib/libkea-config.so changed symlink target from libkea-config.so.83 to libkea-config.so.84
-  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.120 to libkea-hooks.so.121
-  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.90 to libkea-process.so.91
-  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.101 to libkea-util.so.102
-  /usr/lib/libkea-cc.so.82.0.0 moved to /usr/lib/libkea-cc.so.83.0.0
-  /usr/lib/libkea-cc.so.82 moved to /usr/lib/libkea-cc.so.83
-  /usr/lib/libkea-config.so.83.0.0 moved to /usr/lib/libkea-config.so.84.0.0
-  /usr/lib/libkea-config.so.83 moved to /usr/lib/libkea-config.so.84
-  /usr/lib/libkea-hooks.so.120.0.0 moved to /usr/lib/libkea-hooks.so.121.0.0
-  /usr/lib/libkea-hooks.so.120 moved to /usr/lib/libkea-hooks.so.121
-  /usr/lib/libkea-process.so.90.0.0 moved to /usr/lib/libkea-process.so.91.0.0
-  /usr/lib/libkea-process.so.90 moved to /usr/lib/libkea-process.so.91
-  /usr/lib/libkea-util.so.101.0.0 moved to /usr/lib/libkea-util.so.102.0.0
-  /usr/lib/libkea-util.so.101 moved to /usr/lib/libkea-util.so.102
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 950 .bb files complete (0 cached, 950 parsed). 1971 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============5166929260456480099==
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-2bfa43adb4a5f93cdf8b825ac7a0b3c4da9a280b"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:2bfa43adb4a5f93cdf8b825ac7a0b3c4da9a280b"
+meta-yocto-bsp       
+meta-poky            = "master:49cbb01d52521bfe557395c9ebfae6b1c162581e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 319 Local 180 Mirrors 0 Missed 139 Current 230 (56% match, 74% complete)
+done.
+Removing 9 stale sstate objects for arch x86_64...done.
+Removing 19 stale sstate objects for arch qemux86_64...done.
+Removing 31 stale sstate objects for arch x86-64-v3...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 382 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 395 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 422 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 423 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 426 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 430 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.42.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 432 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 435 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 439 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 440 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 444 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 447 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 448 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 451 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 452 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 453 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc-initial_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcc-initial-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-3.14.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe perl-native-5.42.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 455 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.4.0.bb:do_create_spdx_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 458 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_create_spdx_setscene)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 460 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_create_spdx_setscene)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 461 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.46.bb:do_create_spdx_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 462 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe expat-2.7.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 468 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 469 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 470 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 471 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk-doc/gtk-doc_1.35.1.bb:do_create_spdx_setscene)
+NOTE: recipe xz-5.8.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-initial-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 474 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 477 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 481 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe python3-3.14.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 482 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc-initial_15.2.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 484 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 489 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe perl-native-5.42.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 496 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe binutils-cross-x86_64-2.46-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libcap-native-2.77-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gawk-native-5.4.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libgcc-initial-15.2.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-jinja2-native-3.1.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpcre2-native-10.47-r0: task do_create_spdx_setscene: Started
+NOTE: recipe util-linux-libuuid-native-2.41.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ncurses-native-6.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe glibc-2.43+git-r1: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gtk-doc-native-1.35.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 497 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc-initial_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.46-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 498 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 499 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libcap-native-2.77-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 502 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe gawk-native-5.4.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 503 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gperf/gperf_3.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 504 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-jinja2-native-3.1.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-initial-15.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 505 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 506 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.4.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 510 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.46.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 517 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.4.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libpcre2-native-10.47-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-native-2.41.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 518 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 520 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe glibc-2.43+git-r1: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe ncurses-native-6.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 524 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 525 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_spdx_setscene)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 527 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gtk-doc-native-1.35.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcc-initial-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 528 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.46-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe gperf-native-3.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 529 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libcap-native-2.77-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 532 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk-doc/gtk-doc_1.35.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gawk-native-5.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gawk-native-5.4.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe util-linux-libuuid-native-2.41.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-jinja2-native-3.1.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe zlib-native-1.3.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 535 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe elfutils-native-0.194-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpcre2-native-10.47-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libarchive-native-3.8.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gperf-native-3.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.46-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libgcc-initial-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 540 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_gcc_stash_builddir_setscene)
+NOTE: Running setscene task 542 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc-initial_15.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-native-2.77-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 543 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gperf/gperf_3.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gawk-native-5.4.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-native-2.41.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe python3-jinja2-native-3.1.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe zlib-native-1.3.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe elfutils-native-0.194-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libarchive-native-3.8.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpcre2-native-10.47-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 545 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gtk-doc-native-1.35.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_gcc_stash_builddir_setscene: Started
+NOTE: recipe libgcc-initial-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gawk-native-5.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 547 of 549 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-native-2.41.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gperf-native-3.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running task 400 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_fetch)
+NOTE: recipe gtk-doc-native-1.35.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libgcc-initial-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-native-1.3.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 521 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_recipe_qa)
+NOTE: Running task 531 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_fetch)
+NOTE: Running task 539 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_fetch)
+NOTE: Running task 543 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_fetch)
+NOTE: recipe gperf-native-3.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running task 607 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_write_config)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_fetch: Started
+NOTE: Running noexec task 621 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_fetch)
+NOTE: Running task 626 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_fetch)
+NOTE: Running task 629 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_fetch)
+NOTE: recipe gawk-native-5.4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 656 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_fetch)
+NOTE: Running task 662 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_fetch)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_fetch: Succeeded
+NOTE: Running task 680 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_unpack)
+NOTE: recipe zlib-native-1.3.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running task 681 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_prepare_recipe_sysroot)
+NOTE: Running noexec task 689 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_fetch)
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_fetch: Started
+NOTE: Running task 725 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_fetch)
+NOTE: Running task 727 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_fetch)
+NOTE: Running task 730 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_fetch)
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_write_config: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_recipe_qa: Started
+NOTE: recipe gawk-native-5.4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glibc-2.43+git-r1: task do_fetch: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_fetch: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_unpack: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_write_config: Succeeded
+NOTE: Running task 830 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_fetch)
+NOTE: recipe libarchive-native-3.8.6-r0: task do_fetch: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_fetch: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_fetch: Succeeded
+NOTE: Running task 842 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_fetch)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_fetch: Started
+NOTE: Running task 843 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_unpack)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_fetch: Started
+NOTE: recipe libarchive-native-3.8.6-r0: task do_fetch: Succeeded
+NOTE: recipe elfutils-native-0.194-r0: task do_fetch: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_fetch: Started
+NOTE: Running task 844 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_unpack)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_fetch: Succeeded
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_fetch: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_fetch: Succeeded
+NOTE: recipe elfutils-native-0.194-r0: task do_fetch: Succeeded
+NOTE: Running task 845 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_unpack)
+NOTE: Running task 846 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_unpack)
+NOTE: Running task 847 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_unpack)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_fetch: Started
+NOTE: recipe gdbm-1.26-r0: task do_fetch: Started
+NOTE: Running task 848 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_fetch)
+NOTE: recipe expat-2.7.5-r0: task do_fetch: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_unpack: Started
+NOTE: recipe gdbm-1.26-r0: task do_fetch: Succeeded
+NOTE: Running task 849 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_fetch)
+NOTE: Running task 850 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_fetch)
+NOTE: recipe libarchive-native-3.8.6-r0: task do_unpack: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_unpack: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_unpack: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_unpack: Succeeded
+NOTE: recipe elfutils-native-0.194-r0: task do_unpack: Started
+NOTE: Running task 851 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_patch)
+NOTE: recipe zlib-1.3.2-r0: task do_fetch: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_fetch: Succeeded
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_fetch: Succeeded
+NOTE: Running task 852 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_unpack)
+NOTE: Running task 853 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_unpack)
+NOTE: recipe zlib-1.3.2-r0: task do_fetch: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_fetch: Started
+NOTE: Running task 854 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_fetch)
+NOTE: recipe xz-5.8.2-r0: task do_fetch: Succeeded
+NOTE: Running task 855 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_unpack)
+NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_unpack: Succeeded
+NOTE: Running task 856 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_patch)
+NOTE: recipe glibc-2.43+git-r1: task do_fetch: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_unpack: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_unpack: Started
+NOTE: Running task 857 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_unpack)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_patch: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_recipe_qa: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_fetch: Started
+NOTE: Running task 858 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_fetch)
+NOTE: recipe openssl-3.5.6-r0: task do_fetch: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_unpack: Started
+NOTE: Running task 868 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_unpack)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_patch: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_patch: Succeeded
+NOTE: recipe libarchive-native-3.8.6-r0: task do_unpack: Succeeded
+NOTE: Running task 870 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_unpack)
+NOTE: Running task 871 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_patch)
+NOTE: recipe glibc-2.43+git-r1: task do_unpack: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Succeeded
+NOTE: Running task 872 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_unpack)
+NOTE: recipe gdbm-1.26-r0: task do_unpack: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_fetch: Started
+NOTE: recipe zlib-1.3.2-r0: task do_unpack: Started
+NOTE: recipe expat-2.7.5-r0: task do_unpack: Succeeded
+NOTE: Running task 873 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_patch)
+NOTE: recipe libarchive-native-3.8.6-r0: task do_patch: Started
+NOTE: recipe gdbm-1.26-r0: task do_unpack: Succeeded
+NOTE: Running task 874 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_unpack)
+NOTE: recipe zlib-1.3.2-r0: task do_unpack: Succeeded
+NOTE: Running task 875 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_unpack)
+NOTE: recipe xz-5.8.2-r0: task do_unpack: Started
+NOTE: recipe libarchive-native-3.8.6-r0: task do_patch: Succeeded
+NOTE: Running task 877 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_patch)
+NOTE: recipe expat-2.7.5-r0: task do_patch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Started
+NOTE: recipe openssl-3.5.6-r0: task do_unpack: Started
+NOTE: recipe gdbm-1.26-r0: task do_patch: Started
+NOTE: recipe xz-5.8.2-r0: task do_unpack: Succeeded
+NOTE: Running task 878 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_patch)
+NOTE: recipe util-linux-native-2.41.3-r0: task do_unpack: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_patch: Succeeded
+NOTE: Running task 879 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_patch)
+NOTE: Running task 880 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_patch)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_fetch: Succeeded
+NOTE: Running task 881 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_unpack)
+NOTE: recipe zlib-1.3.2-r0: task do_patch: Started
+NOTE: recipe xz-5.8.2-r0: task do_patch: Started
+NOTE: recipe gdbm-1.26-r0: task do_patch: Succeeded
+NOTE: Running task 882 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_unpack: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_patch: Started
+NOTE: recipe zlib-1.3.2-r0: task do_patch: Succeeded
+NOTE: Running task 891 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_generate_toolchain_file)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_unpack: Succeeded
+NOTE: Running task 892 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_patch)
+NOTE: recipe xz-5.8.2-r0: task do_patch: Succeeded
+NOTE: Running task 897 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_create_recipe_spdx)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe expat-2.7.5-r0: task do_generate_toolchain_file: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_patch: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_patch: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 904 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_fetch)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_create_recipe_spdx: Started
+NOTE: Running task 921 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_fetch)
+NOTE: recipe ncurses-6.6-r0: task do_fetch: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_fetch: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_fetch: Succeeded
+NOTE: Running task 922 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_fetch)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_patch: Succeeded
+NOTE: Running task 923 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_fetch)
+NOTE: Running task 925 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_fetch)
+NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Succeeded
+NOTE: Running task 926 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_patch)
+NOTE: recipe elfutils-native-0.194-r0: task do_unpack: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_fetch: Started
+NOTE: recipe libffi-3.5.2-r0: task do_fetch: Started
+NOTE: Running task 927 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_patch)
+NOTE: recipe libedit-20251016-3.1-r0: task do_fetch: Started
+NOTE: recipe libffi-3.5.2-r0: task do_fetch: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_fetch: Succeeded
+NOTE: Running task 928 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_fetch)
+NOTE: recipe libedit-20251016-3.1-r0: task do_fetch: Succeeded
+NOTE: Running task 929 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_fetch)
+NOTE: Running task 933 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_fetch)
+NOTE: recipe ncurses-6.6-r0: task do_fetch: Succeeded
+NOTE: Running task 934 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_unpack)
+NOTE: recipe bzip2-1.0.8-r0: task do_patch: Started
+NOTE: recipe zstd-1.5.7-r0: task do_fetch: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_fetch: Started
+NOTE: recipe elfutils-native-0.194-r0: task do_patch: Started
+NOTE: recipe ncurses-6.6-r0: task do_unpack: Started
+NOTE: recipe python3-3.14.4-r0: task do_fetch: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_patch: Succeeded
+NOTE: Running task 936 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_unpack)
+NOTE: recipe python3-3.14.4-r0: task do_fetch: Succeeded
+NOTE: Running task 937 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_unpack)
+NOTE: recipe bzip2-1.0.8-r0: task do_patch: Succeeded
+NOTE: Running task 939 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_unpack)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_unpack: Started
+NOTE: recipe zstd-1.5.7-r0: task do_fetch: Succeeded
+NOTE: Running task 940 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_unpack)
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_unpack: Started
+NOTE: Running task 951 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_unpack)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_unpack: Succeeded
+NOTE: Running task 952 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_patch)
+NOTE: recipe libffi-3.5.2-r0: task do_unpack: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_unpack: Started
+NOTE: recipe zstd-1.5.7-r0: task do_unpack: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_unpack: Succeeded
+NOTE: Running task 953 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_patch)
+NOTE: recipe libedit-20251016-3.1-r0: task do_unpack: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_unpack: Succeeded
+NOTE: Running task 954 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_patch)
+NOTE: Running task 955 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_patch)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_patch: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 956 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_patch: Started
+NOTE: Running task 957 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_create_recipe_spdx)
+NOTE: recipe libedit-20251016-3.1-r0: task do_patch: Started
+NOTE: recipe libffi-3.5.2-r0: task do_patch: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe openssl-3.5.6-r0: task do_unpack: Succeeded
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_unpack: Succeeded
+NOTE: Running task 958 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_patch)
+NOTE: Running task 959 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_patch)
+NOTE: recipe util-linux-native-2.41.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_patch: Succeeded
+NOTE: Running task 961 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_unpack)
+NOTE: recipe libedit-20251016-3.1-r0: task do_patch: Succeeded
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_patch: Started
+NOTE: recipe libffi-3.5.2-r0: task do_patch: Succeeded
+NOTE: Running task 971 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_recipe_qa)
+NOTE: Running task 977 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb:do_recipe_qa)
+NOTE: recipe openssl-3.5.6-r0: task do_patch: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_patch: Succeeded
+NOTE: recipe elfutils-native-0.194-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_recipe_qa: Started
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-3.14.4-r0: task do_unpack: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1021 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_patch)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1022 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_configure)
+NOTE: recipe util-linux-native-2.41.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1023 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_create_recipe_spdx)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_patch: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_configure: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_create_recipe_spdx: Started
+NOTE: recipe ncurses-6.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1024 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_patch)
+NOTE: recipe zstd-1.5.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1025 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_patch)
+NOTE: recipe openssl-3.5.6-r0: task do_patch: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_patch: Started
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1027 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb:do_fetch)
+NOTE: recipe zstd-1.5.7-r0: task do_patch: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_fetch: Started
+NOTE: Running task 1028 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_create_recipe_spdx)
+NOTE: recipe zstd-1.5.7-r0: task do_patch: Succeeded
+NOTE: recipe glibc-2.43+git-r1: task do_create_recipe_spdx: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1030 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_fetch)
+NOTE: recipe libcap-ng-0.9.3-r0: task do_fetch: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1032 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb:do_unpack)
+NOTE: recipe ncurses-6.6-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_unpack: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1034 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_unpack)
+NOTE: recipe glibc-2.43+git-r1: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1035 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_create_recipe_spdx)
+NOTE: recipe libcap-ng-0.9.3-r0: task do_unpack: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_fetch: Succeeded
+NOTE: recipe glibc-2.43+git-r1: task do_unpack: Succeeded
+NOTE: Running task 1036 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_unpack)
+NOTE: Running task 1037 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_patch)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_unpack: Started
+NOTE: recipe glibc-2.43+git-r1: task do_patch: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1038 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_recipe_spdx)
+NOTE: Running task 1039 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_patch)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-3.14.4-r0: task do_patch: Started
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1040 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb:do_patch)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1041 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_recipe_spdx)
+NOTE: Running task 1042 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_recipe_spdx)
+NOTE: Running task 1043 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_create_recipe_spdx)
+NOTE: Running task 1044 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_recipe_spdx)
+NOTE: Running task 1045 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_create_recipe_spdx)
+NOTE: Running task 1046 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_create_recipe_spdx)
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_patch: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe zstd-1.5.7-r0: task do_create_recipe_spdx: Started
+NOTE: recipe zlib-1.3.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe expat-2.7.5-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_patch: Succeeded
+NOTE: Running task 1047 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1048 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb:do_populate_lic)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1049 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_patch)
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_populate_lic: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_patch: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1050 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_create_recipe_spdx)
+NOTE: Running task 1051 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_create_recipe_spdx)
+NOTE: Running task 1052 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_create_recipe_spdx)
+NOTE: Running task 1053 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_create_recipe_spdx)
+NOTE: Running task 1054 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_create_recipe_spdx)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1055 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_create_recipe_spdx)
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_populate_lic: Succeeded
+NOTE: Running task 1056 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_create_recipe_spdx)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe gdbm-1.26-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libffi-3.5.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1057 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_patch)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_patch: Succeeded
+NOTE: Running task 1059 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_recipe_spdx)
+NOTE: recipe ncurses-6.6-r0: task do_create_recipe_spdx: Started
+NOTE: recipe xz-5.8.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_patch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_create_recipe_spdx: Started
+NOTE: recipe glibc-2.43+git-r1: task do_patch: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_patch: Succeeded
+NOTE: Running task 1061 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_create_recipe_spdx)
+NOTE: Running task 1062 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1063 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_populate_lic)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libxcrypt-4.5.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ncurses-6.6-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_create_recipe_spdx: Started
+NOTE: Running task 1064 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_create_recipe_spdx)
+NOTE: recipe bzip2-1.0.8-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_populate_lic: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1065 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_create_recipe_spdx)
+NOTE: recipe python3-3.14.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1067 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_unpack)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_unpack: Started
+NOTE: recipe python3-3.14.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1068 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb:do_create_recipe_spdx)
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libcap-ng-python-0.9.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1069 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_patch)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_patch: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_unpack: Succeeded
+NOTE: Running task 1070 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_patch)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_patch: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_patch: Succeeded
+NOTE: Running noexec task 1072 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_configure)
+NOTE: Running noexec task 1073 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_compile)
+NOTE: Running task 1074 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_install)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_patch: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_install: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_install: Succeeded
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1076 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_unpack)
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_unpack: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_configure: Succeeded
+NOTE: Running task 1091 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_compile)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_compile: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1092 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_patch)
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_patch: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_compile: Succeeded
+NOTE: Running task 1093 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_install)
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_patch: Succeeded
+NOTE: Running task 1094 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_generate_toolchain_file)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_install: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_install: Succeeded
+NOTE: Running task 1096 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_populate_sysroot)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_populate_sysroot: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1097 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1098 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_create_spdx)
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_create_spdx: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libcap-ng-native-0.9.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe util-linux-native-2.41.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1099 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_configure)
+NOTE: recipe util-linux-native-2.41.3-r0: task do_configure: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_configure: Succeeded
+NOTE: Running task 1100 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_compile)
+NOTE: recipe util-linux-native-2.41.3-r0: task do_compile: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_compile: Succeeded
+NOTE: Running task 1101 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_install)
+NOTE: recipe util-linux-native-2.41.3-r0: task do_install: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_install: Succeeded
+NOTE: Running task 1102 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_populate_sysroot)
+NOTE: recipe util-linux-native-2.41.3-r0: task do_populate_sysroot: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1103 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1104 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1105 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_create_spdx)
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe util-linux-native-2.41.3-r0: task do_create_spdx: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe util-linux-native-2.41.3-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1106 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_configure)
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_configure: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1107 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_configure)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_configure: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_configure: Succeeded
+NOTE: Running task 1108 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_compile)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_compile: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_configure: Succeeded
+NOTE: Running task 1109 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_compile)
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_compile: Succeeded
+NOTE: Running task 1110 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_install)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_install: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_compile: Succeeded
+NOTE: Running task 1111 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_install)
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_install: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_install: Succeeded
+NOTE: Running task 1112 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_populate_sysroot)
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1113 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1114 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_create_spdx)
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_create_spdx: Started
+NOTE: recipe glibc-2.43+git-r1: task do_prepare_recipe_sysroot: Started
+NOTE: recipe systemd-systemctl-native-259.5-r0: task do_create_spdx: Succeeded
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_install: Succeeded
+NOTE: Running task 1115 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_populate_sysroot)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_populate_sysroot: Started
+NOTE: recipe glibc-2.43+git-r1: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1116 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_configure)
+NOTE: recipe glibc-2.43+git-r1: task do_configure: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1117 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libarchive-native-3.8.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libarchive-native-3.8.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1118 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_configure)
+NOTE: recipe libarchive-native-3.8.6-r0: task do_configure: Started
+NOTE: recipe glibc-2.43+git-r1: task do_configure: Succeeded
+NOTE: Running task 1119 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_compile)
+NOTE: recipe glibc-2.43+git-r1: task do_compile: Started
+NOTE: recipe libarchive-native-3.8.6-r0: task do_configure: Succeeded
+NOTE: Running task 1120 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_compile)
+NOTE: recipe libarchive-native-3.8.6-r0: task do_compile: Started
+NOTE: recipe libarchive-native-3.8.6-r0: task do_compile: Succeeded
+NOTE: Running task 1121 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_install)
+NOTE: recipe libarchive-native-3.8.6-r0: task do_install: Started
+NOTE: recipe libarchive-native-3.8.6-r0: task do_install: Succeeded
+NOTE: Running task 1122 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_populate_sysroot)
+NOTE: recipe libarchive-native-3.8.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libarchive-native-3.8.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1123 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-native-0.194-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe elfutils-native-0.194-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1124 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_configure)
+NOTE: recipe elfutils-native-0.194-r0: task do_configure: Started
+NOTE: recipe elfutils-native-0.194-r0: task do_configure: Succeeded
+NOTE: Running task 1125 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_compile)
+NOTE: recipe elfutils-native-0.194-r0: task do_compile: Started
+NOTE: recipe elfutils-native-0.194-r0: task do_compile: Succeeded
+NOTE: Running task 1126 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_install)
+NOTE: recipe elfutils-native-0.194-r0: task do_install: Started
+NOTE: recipe elfutils-native-0.194-r0: task do_install: Succeeded
+NOTE: Running task 1127 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_populate_sysroot)
+NOTE: recipe elfutils-native-0.194-r0: task do_populate_sysroot: Started
+NOTE: recipe elfutils-native-0.194-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1128 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1129 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_prepare_recipe_sysroot)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1130 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_configure)
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1131 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_configure)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_configure: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_configure: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_configure: Succeeded
+NOTE: Running task 1132 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_compile)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_compile: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_compile: Succeeded
+NOTE: Running task 1133 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_install)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_install: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_install: Succeeded
+NOTE: Running task 1134 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_populate_sysroot)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_configure: Succeeded
+NOTE: Running task 1135 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_compile)
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_compile: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_compile: Succeeded
+NOTE: Running task 1136 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_install)
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_install: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_install: Succeeded
+NOTE: Running task 1137 of 1341 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_populate_sysroot)
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-native-1_4.20.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1138 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_package)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_package unihash changed to 6fcd005e1247f1baab2f567008e2c4fa3e5f64cf36463ac5e8529b82f76d3400
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_create_spdx became valid
+NOTE: Running setscene task 541 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_create_spdx_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_create_spdx_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe glibc-2.43+git-r1: task do_compile: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1143 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_install)
+NOTE: recipe glibc-2.43+git-r1: task do_install: Started
+NOTE: recipe glibc-2.43+git-r1: task do_install: Succeeded
+NOTE: Running task 1144 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_stash_locale)
+NOTE: recipe glibc-2.43+git-r1: task do_stash_locale: Started
+NOTE: recipe glibc-2.43+git-r1: task do_stash_locale: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_stash_locale unihash changed to e30c38aa32029b65a39da1f74e8f01e4f898932a74f1aeba5eedb3e83d4f672f
+NOTE: Setscene tasks completed
+NOTE: Running task 1145 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot)
+NOTE: Running task 1146 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_package)
+NOTE: recipe glibc-2.43+git-r1: task do_populate_sysroot: Started
+NOTE: recipe glibc-2.43+git-r1: task do_package: Started
+NOTE: recipe glibc-2.43+git-r1: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot unihash changed to aa63e1a4ff7546e195e224ddba15b6d50b39502b4e99465d024fcc6c773e0040
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 485 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.14.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.14.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 533 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 534 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 535 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 536 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 537 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 538 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 539 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 540 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 541 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 542 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 543 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 544 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcrypt-4.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 545 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 546 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 547 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 548 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1147 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcc-15.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1148 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_configure)
+NOTE: recipe libgcc-15.2.0-r0: task do_configure: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1149 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_compile)
+NOTE: recipe libgcc-15.2.0-r0: task do_compile: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1150 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_install)
+NOTE: recipe libgcc-15.2.0-r0: task do_install: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1151 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_multilib_install)
+NOTE: recipe libgcc-15.2.0-r0: task do_multilib_install: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_multilib_install: Succeeded
+NOTE: Running task 1152 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_extra_symlinks)
+NOTE: recipe libgcc-15.2.0-r0: task do_extra_symlinks: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_extra_symlinks: Succeeded
+NOTE: Running task 1154 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1155 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_configure)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_configure: Started
+NOTE: recipe glibc-2.43+git-r1: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_package unihash changed to 56c08446afb7a5d1c417ad71bb111064e449f5b48d475b868f63b66fb69414db
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_packagedata became valid
+NOTE: Running setscene task 548 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_packagedata_setscene)
+NOTE: recipe glibc-2.43+git-r1: task do_packagedata_setscene: Started
+NOTE: recipe glibc-2.43+git-r1: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1157 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_package)
+NOTE: Running task 1158 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_create_spdx)
+NOTE: recipe libgcc-15.2.0-r0: task do_package: Started
+NOTE: recipe glibc-2.43+git-r1: task do_create_spdx: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_package unihash changed to ca78807fba211629c1e01f37e894c6eed29b6d48547670ffcac6b2e76dfb6eb8
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata became valid
+NOTE: recipe glibc-2.43+git-r1: task do_create_spdx: Succeeded
+NOTE: Running setscene task 545 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1160 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_create_spdx)
+NOTE: recipe libgcc-15.2.0-r0: task do_create_spdx: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1161 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_compile)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_compile: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1162 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_install)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_install: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1169 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1170 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1171 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1172 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1173 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_package)
+NOTE: Running task 1174 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1175 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1176 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1177 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1178 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1179 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gdbm-1.26-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe zlib-1.3.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe expat-2.7.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_package: Started
+NOTE: recipe libffi-3.5.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe zstd-1.5.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe zlib-1.3.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1180 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_configure)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1181 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_configure)
+NOTE: Running task 1182 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_configure)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1183 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_configure)
+NOTE: recipe zlib-1.3.2-r0: task do_configure: Started
+NOTE: recipe gdbm-1.26-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_configure: Started
+NOTE: Running task 1184 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_configure)
+NOTE: recipe libffi-3.5.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxcrypt-4.5.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_configure: Started
+NOTE: Running task 1185 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_configure)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1186 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_configure)
+NOTE: Running task 1187 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_configure)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_configure: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1188 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_configure)
+NOTE: Running task 1189 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_configure)
+NOTE: recipe gdbm-1.26-r0: task do_configure: Started
+NOTE: recipe zstd-1.5.7-r0: task do_configure: Succeeded
+NOTE: recipe libxcrypt-4.5.2-r0: task do_configure: Started
+NOTE: recipe libffi-3.5.2-r0: task do_configure: Started
+NOTE: Running task 1190 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_compile)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_configure: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_configure: Started
+NOTE: recipe expat-2.7.5-r0: task do_configure: Started
+NOTE: Running task 1191 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_compile)
+NOTE: recipe libcap-ng-0.9.3-r0: task do_configure: Started
+NOTE: recipe zstd-1.5.7-r0: task do_compile: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_compile: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_compile: Succeeded
+NOTE: Running task 1192 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_install)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_install: Started
+NOTE: recipe zlib-1.3.2-r0: task do_configure: Succeeded
+NOTE: Running task 1193 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_configure_ptest_base)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_install: Succeeded
+NOTE: Running task 1195 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1196 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe zlib-1.3.2-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1197 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1198 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe zlib-1.3.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1199 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_compile)
+NOTE: recipe xz-5.8.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe openssl-3.5.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ncurses-6.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe zlib-1.3.2-r0: task do_compile: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1200 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_configure)
+NOTE: Running task 1201 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_configure)
+NOTE: Running task 1202 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_configure)
+NOTE: Running task 1203 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_configure)
+NOTE: recipe bzip2-1.0.8-r0: task do_configure: Started
+NOTE: recipe xz-5.8.2-r0: task do_configure: Started
+NOTE: recipe openssl-3.5.6-r0: task do_configure: Started
+NOTE: recipe ncurses-6.6-r0: task do_configure: Started
+NOTE: recipe zlib-1.3.2-r0: task do_compile: Succeeded
+NOTE: Running task 1204 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_compile_ptest_base)
+NOTE: recipe zlib-1.3.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe zlib-1.3.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1205 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_install)
+NOTE: recipe zlib-1.3.2-r0: task do_install: Started
+NOTE: recipe zlib-1.3.2-r0: task do_install: Succeeded
+NOTE: Running task 1206 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_install_ptest_base)
+NOTE: recipe expat-2.7.5-r0: task do_configure: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_install_ptest_base: Started
+NOTE: Running task 1207 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_configure_ptest_base)
+NOTE: recipe zlib-1.3.2-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_configure_ptest_base: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_configure: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1209 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_compile)
+NOTE: Running task 1210 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_compile)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_compile: Started
+NOTE: recipe expat-2.7.5-r0: task do_compile: Started
+NOTE: recipe expat-2.7.5-r0: task do_compile: Succeeded
+NOTE: Running task 1211 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_compile_ptest_base)
+NOTE: recipe expat-2.7.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe expat-2.7.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1212 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_install)
+NOTE: recipe expat-2.7.5-r0: task do_install: Started
+NOTE: recipe expat-2.7.5-r0: task do_install: Succeeded
+NOTE: Running task 1213 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_install_ptest_base)
+NOTE: recipe expat-2.7.5-r0: task do_install_ptest_base: Started
+NOTE: recipe expat-2.7.5-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_package: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_configure: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_package unihash changed to 704d2619d4fbf146310df7d8cd6268e163b78e32714313592a3fd2dc0e5f1a27
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata became valid
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
+NOTE: Running task 1215 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_configure_ptest_base)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_configure_ptest_base: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1216 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_compile)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1218 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_package)
+NOTE: Running task 1219 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx)
+NOTE: recipe bzip2-1.0.8-r0: task do_compile: Started
+NOTE: Running task 1220 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_package)
+NOTE: Running task 1221 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_package)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_package: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx: Started
+NOTE: recipe expat-2.7.5-r0: task do_package: Started
+NOTE: recipe zlib-1.3.2-r0: task do_package: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1222 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_compile)
+NOTE: recipe bzip2-1.0.8-r0: task do_compile: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_compile: Started
+NOTE: Running task 1223 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_compile_ptest_base)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1224 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx)
+NOTE: recipe bzip2-1.0.8-r0: task do_compile_ptest_base: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1225 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_install)
+NOTE: recipe bzip2-1.0.8-r0: task do_install: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_package: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_package unihash changed to cbf552d54a2010d010164eede7b03ca9ea1804020ef7ccdb57c7b4c0fe71db8b
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata became valid
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_package unihash changed to a80d129fe2989296341f00cb329e7d52c780b8d4d75a9ec55a64241b84ffed08
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_packagedata became valid
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1227 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx)
+NOTE: recipe libffi-3.5.2-r0: task do_configure: Succeeded
+NOTE: Running task 1228 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_compile)
+NOTE: recipe bzip2-1.0.8-r0: task do_install: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 1230 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_create_spdx)
+NOTE: Running task 1231 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_install_ptest_base)
+NOTE: recipe libffi-3.5.2-r0: task do_compile: Started
+NOTE: recipe expat-2.7.5-r0: task do_create_spdx: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_install_ptest_base: Started
+NOTE: recipe zlib-1.3.2-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_package unihash changed to 73f193936b58f166d332de213853ce30b2997333db4d8201052453dd4953fdca
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata became valid
+NOTE: recipe gdbm-1.26-r0: task do_configure: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_install_ptest_base: Succeeded
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running task 1232 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_configure_ptest_base)
+NOTE: Running task 1234 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_package)
+NOTE: recipe openssl-3.5.6-r0: task do_configure: Succeeded
+NOTE: Running task 1235 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_configure_ptest_base)
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_configure_ptest_base: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_package: Started
+NOTE: recipe openssl-3.5.6-r0: task do_configure_ptest_base: Started
+NOTE: recipe gdbm-1.26-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1236 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_compile)
+NOTE: recipe openssl-3.5.6-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1237 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_compile)
+NOTE: Setscene tasks completed
+NOTE: Running task 1239 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_spdx)
+NOTE: recipe gdbm-1.26-r0: task do_compile: Started
+NOTE: recipe openssl-3.5.6-r0: task do_compile: Started
+NOTE: recipe zlib-1.3.2-r0: task do_create_spdx: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_create_spdx: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_compile: Succeeded
+NOTE: Running task 1240 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_install)
+NOTE: recipe libffi-3.5.2-r0: task do_install: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_compile: Succeeded
+NOTE: Running task 1241 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_install)
+NOTE: recipe libcap-ng-0.9.3-r0: task do_install: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1242 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_compile)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_compile: Started
+NOTE: recipe libffi-3.5.2-r0: task do_install: Succeeded
+NOTE: Running task 1244 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_package)
+NOTE: recipe libffi-3.5.2-r0: task do_package: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_install: Succeeded
+NOTE: Running task 1245 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_package)
+NOTE: Running task 1246 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_populate_sysroot)
+NOTE: recipe libcap-ng-0.9.3-r0: task do_package: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_populate_sysroot: Started
+NOTE: recipe gdbm-1.26-r0: task do_compile: Succeeded
+NOTE: Running task 1247 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_compile_ptest_base)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_compile: Succeeded
+NOTE: Running task 1248 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_install)
+NOTE: recipe gdbm-1.26-r0: task do_compile_ptest_base: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_install: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_install: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1250 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_install)
+NOTE: Running task 1251 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_package)
+NOTE: recipe bzip2-1.0.8-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_package unihash changed to 712fed1b0750928357e8f600bb52d427baa36e21e32a99a531ee09fa6e731200
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata became valid
+NOTE: recipe libcap-ng-0.9.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxcrypt-4.5.2-r0: task do_package: Started
+NOTE: recipe gdbm-1.26-r0: task do_install: Started
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_package: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1253 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_package unihash changed to 93008cc775cd4d66de5e187cd5a47c3350bfa41dde84a9dc580266747c0b4e4d
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata became valid
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx: Started
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1255 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_create_spdx)
+NOTE: recipe libffi-3.5.2-r0: task do_create_spdx: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_create_spdx: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_install: Succeeded
+NOTE: Running task 1256 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_install_ptest_base)
+NOTE: recipe gdbm-1.26-r0: task do_install_ptest_base: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_package unihash changed to a4dce40437211adb90ffb894861d55412f141a5ccb2a6be95f62c827c36a8c3f
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_packagedata became valid
+NOTE: Running setscene task 549 of 549 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_packagedata_setscene)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcrypt-4.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1258 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxcrypt/libxcrypt_4.5.2.bb:do_create_spdx)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_create_spdx: Started
+NOTE: recipe xz-5.8.2-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1259 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_configure_ptest_base)
+NOTE: recipe xz-5.8.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe xz-5.8.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1260 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_compile)
+NOTE: recipe libxcrypt-4.5.2-r0: task do_create_spdx: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_compile: Started
+NOTE: recipe gdbm-1.26-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1262 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_package)
+NOTE: recipe gdbm-1.26-r0: task do_package: Started
+NOTE: recipe xz-5.8.2-r0: task do_compile: Succeeded
+NOTE: Running task 1263 of 1341 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_compile_ptest_base)
+NOTE: recipe xz-5.8.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_package: Failed
+NOTE: recipe gdbm-1.26-r0: task do_package: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_compile: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_configure: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_configure: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_compile: Succeeded
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1263 tasks of which 993 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260415055338.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260415055338.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_package
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libcap-ng/0.9.3/temp/log.do_package.367522
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: libcap-ng-0.9.3-r0 do_package: QA Issue: libcap-ng: Files/directories were installed but not shipped in any package:
+  /usr/share/bash-completion
+  /usr/share/bash-completion/completions
+  /usr/share/bash-completion/completions/libcap-ng.bash_completion
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+libcap-ng: 3 installed and not shipped files. [installed-vs-shipped]
+ERROR: libcap-ng-0.9.3-r0 do_package: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libcap-ng/0.9.3/temp/log.do_package.367522
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_package) failed with exit code '1'
+
+--===============1293664479220882257==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-kea-upgrade-3.0.2-3.0.3.patch"
+Content-Disposition: attachment;
+ filename="0001-libcap-ng-libcap-ng-python-upgrade-0.9.1-0.9.3-0.9.1.patch"
 
-RnJvbSAwMmVlMjFhYjIwNDFiZmE4NjZjMTE0YzM2NGFjZWZiMzE1YmYwNGEwIE1vbiBTZXAgMTcg
+RnJvbSA5Y2RkYTE1ZjVkZmY4YjdlODQ3NWQ3MjZmZjk5MDQwZDY2YmVmYjM5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDY6MjQ6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
-ZWE6IHVwZ3JhZGUgMy4wLjIgLT4gMy4wLjMKCi0tLQogLi4uL2ZpbGVzLzAwMDEtYnVpbGQtYm9v
-c3QtMS44OS4wLWZpeGVzLnBhdGNoIHwgIDQgKystLQogLi4ucy1kaGNwc3J2LUF2b2lkLUJvb3N0
-LWxleGljYWxfY2FzdC1vLnBhdGNoIHwgIDIgKy0KIC4uLnNlLWEtcnVudGltZS1zYWZlLWludGVy
-cHJldGVyLXN0cmluZy5wYXRjaCB8ICA0ICsrLS0KIC4uLi8wMDAxLW1rX2NmZ3JwdC5zaC1zdHJp
-cC1wcmVmaXhlcy5wYXRjaCAgICB8ICAyICstCiAuLi5lcl9sZXZlbF9pbXBsLmNjLWFkZC1hLW1p
-c3NpbmctaW5jbHUucGF0Y2ggfCAgMiArLQogLi4uZXJfdW5pdHRlc3Rfc3VwcG9ydC5jYy1kby1u
-b3Qtd3JpdGUtLnBhdGNoIHwgIDIgKy0KIC4uLi9rZWEvZmlsZXMvZml4LW11bHRpbGliLWNvbmZs
-aWN0LnBhdGNoICAgICB8ICAyICstCiAuLi4va2VhL3trZWFfMy4wLjIuYmIgPT4ga2VhXzMuMC4z
-LmJifSAgICAgICAgfCAyMyArKysrKysrKysrKysrKysrKy0tCiA4IGZpbGVzIGNoYW5nZWQsIDMw
-IGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25u
-ZWN0aXZpdHkva2VhL3trZWFfMy4wLjIuYmIgPT4ga2VhXzMuMC4zLmJifSAoODMlKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzLzAwMDEtYnVpbGQtYm9v
-c3QtMS44OS4wLWZpeGVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmls
-ZXMvMDAwMS1idWlsZC1ib29zdC0xLjg5LjAtZml4ZXMucGF0Y2gKaW5kZXggNDZhMWUzOGVhZS4u
-ZTU1MTI4OGUyNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmls
-ZXMvMDAwMS1idWlsZC1ib29zdC0xLjg5LjAtZml4ZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvMDAwMS1idWlsZC1ib29zdC0xLjg5LjAtZml4ZXMucGF0
-Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGM3ZDEwMzZjNjQ3NmRkY2E3OWE2YmViMDM2MDRhMjM2
-NGQ3YzQ2OWUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDgxMDgxMGNiMzgyNjMwNGE5
-OTdlYjM2NGFjZWQ3Y2M0ZjU5ZWRjY2QgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBL
-aGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogV2VkLCAyNyBBdWcgMjAyNSAyMjoy
-MDowOSAtMDcwMAogU3ViamVjdDogW1BBVENIXSBidWlsZDogYm9vc3QgMS44OS4wIGZpeGVzCkBA
-IC0xMiw3ICsxMiw3IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
-b20+CiAgMyBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAK
-IGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCA4ZWQ1YjJkLi5k
-NTcyM2JhIDEwMDY0NAoraW5kZXggYjBjZWNlZS4uNzUwOGE0YSAxMDA2NDQKIC0tLSBhL21lc29u
-LmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAogQEAgLTE4OSw3ICsxODksNyBAQCBtZXNzYWdlKGYn
-RGV0ZWN0ZWQgc3lzdGVtICJAU1lTVEVNQCIuJykKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkva2VhL2ZpbGVzLzAwMDEtZDItZGhjcC00Ni1yYWRpdXMtZGhjcHNydi1Bdm9p
-ZC1Cb29zdC1sZXhpY2FsX2Nhc3Qtby5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-a2VhL2ZpbGVzLzAwMDEtZDItZGhjcC00Ni1yYWRpdXMtZGhjcHNydi1Bdm9pZC1Cb29zdC1sZXhp
-Y2FsX2Nhc3Qtby5wYXRjaAppbmRleCA3YzI0YTNhMjdjLi5kMGViNWMyMDhmIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9maWxlcy8wMDAxLWQyLWRoY3AtNDYtcmFk
-aXVzLWRoY3BzcnYtQXZvaWQtQm9vc3QtbGV4aWNhbF9jYXN0LW8ucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvMDAwMS1kMi1kaGNwLTQ2LXJhZGl1cy1kaGNw
-c3J2LUF2b2lkLUJvb3N0LWxleGljYWxfY2FzdC1vLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
-bSA0YTUwN2QxODIyY2JmYjU2MTY1N2VkOWE4Y2NiMGRmZWNlZDMwY2FjIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQorRnJvbSA0ZWEyMTA5OWY2MmUyZGQ3YTU0Y2ExMWQ0NDJmNmQwNWI4NjdlMWZl
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWls
-LmNvbT4KIERhdGU6IFdlZCwgMyBTZXAgMjAyNSAxMjo1Mjo1MSAtMDcwMAogU3ViamVjdDogW1BB
-VENIXSBkMi9kaGNwWzQ2XS9yYWRpdXMvZGhjcHNydjogQXZvaWQgQm9vc3QgbGV4aWNhbF9jYXN0
-IG9uIGVudW1zCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9maWxl
-cy8wMDAxLW1lc29uLXVzZS1hLXJ1bnRpbWUtc2FmZS1pbnRlcnByZXRlci1zdHJpbmcucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9maWxlcy8wMDAxLW1lc29uLXVzZS1hLXJ1
-bnRpbWUtc2FmZS1pbnRlcnByZXRlci1zdHJpbmcucGF0Y2gKaW5kZXggMzc0MGM0YWJjNy4uMWQ0
-NjQ1MzUyNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMv
-MDAwMS1tZXNvbi11c2UtYS1ydW50aW1lLXNhZmUtaW50ZXJwcmV0ZXItc3RyaW5nLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzLzAwMDEtbWVzb24tdXNlLWEt
-cnVudGltZS1zYWZlLWludGVycHJldGVyLXN0cmluZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gZjcwMjRhNWU3MTUzNTM4MDcyYTU3ODU4ZTFiNDhiYmI4MDYxNjdlNyBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gY2M5MWM3NTRiY2Y3MzhhYWIwNjJlNzIyNjE0ZmZhOTNhOTFhN2Zl
-ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
-bC5jb20+CiBEYXRlOiBUaHUsIDI4IEF1ZyAyMDI1IDE3OjAyOjQ5IC0wNzAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIG1lc29uOiB1c2UgYSBydW50aW1lLXNhZmUgaW50ZXJwcmV0ZXIgc3RyaW5nCkBAIC00
-NCw3ICs0NCw3IEBAIGluZGV4IDc0YmE3MDUuLjcxZjFjN2IgMTAwNjQ0CiAgaWYgUERGTEFURVgu
-Zm91bmQoKQogICAgICBkb2NfY29uZi5zZXQoJ0hBVkVfUERGTEFURVgnLCAneWVzJykKIGRpZmYg
-LS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCBkNTcyM2JhLi4zYmI1MTg1
-IDEwMDY0NAoraW5kZXggNzUwOGE0YS4uNzY5ZTE1NyAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxk
-CiArKysgYi9tZXNvbi5idWlsZAogQEAgLTYzOCw5ICs2MzgsMTMgQEAgbGlua19hcmdzID0gW10K
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzLzAwMDEtbWtf
-Y2ZncnB0LnNoLXN0cmlwLXByZWZpeGVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9rZWEvZmlsZXMvMDAwMS1ta19jZmdycHQuc2gtc3RyaXAtcHJlZml4ZXMucGF0Y2gKaW5kZXgg
-MDc2ZGU1M2MwYS4uODA0NGQ5YzJkZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9rZWEvZmlsZXMvMDAwMS1ta19jZmdycHQuc2gtc3RyaXAtcHJlZml4ZXMucGF0Y2gKKysr
-IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvMDAwMS1ta19jZmdycHQuc2gt
-c3RyaXAtcHJlZml4ZXMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDkyMGU0ODk1YzY3OWE1
-YmZkYTI5ZTY2ZmExOTlhZDhlODg5NjU5ZDAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDY4YjI1NGU0YTdmMDZiNTcxMTg5OGE1Mzk3MTM4MDFjOTMxYjBkYzYgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogVGh1
-LCAyOCBBdWcgMjAyNSAxNzozMTozOSAtMDcwMAogU3ViamVjdDogW1BBVENIXSBta19jZmdycHQu
-c2g6IHN0cmlwIHByZWZpeGVzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
-L2tlYS9maWxlcy8wMDAxLXNyYy1saWItbG9nLWxvZ2dlcl9sZXZlbF9pbXBsLmNjLWFkZC1hLW1p
-c3NpbmctaW5jbHUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9maWxlcy8w
-MDAxLXNyYy1saWItbG9nLWxvZ2dlcl9sZXZlbF9pbXBsLmNjLWFkZC1hLW1pc3NpbmctaW5jbHUu
-cGF0Y2gKaW5kZXggMjY5NjE1ZGJlZi4uOTBjZjlkZmY0NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvMDAwMS1zcmMtbGliLWxvZy1sb2dnZXJfbGV2ZWxf
-aW1wbC5jYy1hZGQtYS1taXNzaW5nLWluY2x1LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25u
-ZWN0aXZpdHkva2VhL2ZpbGVzLzAwMDEtc3JjLWxpYi1sb2ctbG9nZ2VyX2xldmVsX2ltcGwuY2Mt
-YWRkLWEtbWlzc2luZy1pbmNsdS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMWFkNTJhOWJi
-ZWM2NDRlNjUzY2M2N2E1OTZiODExYjcwNzg3YzJkZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gZGU3ODIwMWMwODBkNGIzYTI4MjkzYjYzZjNhOWQwMDE3ZWM5ZjU4ZiBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXgu
-ZGU+CiBEYXRlOiBXZWQsIDE3IERlYyAyMDI1IDEyOjM2OjI0ICswMTAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIHNyYy9saWIvbG9nL2xvZ2dlcl9sZXZlbF9pbXBsLmNjOiBhZGQgYSBtaXNzaW5nIGluY2x1
-ZGUgdG8KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzLzAw
-MDEtc3JjLWxpYi1sb2ctbG9nZ2VyX3VuaXR0ZXN0X3N1cHBvcnQuY2MtZG8tbm90LXdyaXRlLS5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzLzAwMDEtc3JjLWxpYi1s
-b2ctbG9nZ2VyX3VuaXR0ZXN0X3N1cHBvcnQuY2MtZG8tbm90LXdyaXRlLS5wYXRjaAppbmRleCA3
-ZDA1MTcwNWU4Li45YjZiY2M2MmMxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L2tlYS9maWxlcy8wMDAxLXNyYy1saWItbG9nLWxvZ2dlcl91bml0dGVzdF9zdXBwb3J0LmNj
-LWRvLW5vdC13cml0ZS0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEv
-ZmlsZXMvMDAwMS1zcmMtbGliLWxvZy1sb2dnZXJfdW5pdHRlc3Rfc3VwcG9ydC5jYy1kby1ub3Qt
-d3JpdGUtLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxYTBhN2I5NjMzZWJjNGMxNzFiOGVl
-NmRiNmZjZjQ4ZThlMjdhNGI4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBjOGZlNDNi
-MmM1ZjI0MDdmMWU5M2ZlOTU2ZTlhZGI0YmYxYzkzNjFkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRl
-OiBUdWUsIDEwIE5vdiAyMDIwIDE1OjU3OjAzICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIHNyYy9s
-aWIvbG9nL2xvZ2dlcl91bml0dGVzdF9zdXBwb3J0LmNjOiBkbyBub3Qgd3JpdGUgYnVpbGQKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzL2ZpeC1tdWx0aWxp
-Yi1jb25mbGljdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzL2Zp
-eC1tdWx0aWxpYi1jb25mbGljdC5wYXRjaAppbmRleCAzNGFlMjU2ODIzLi5iZDg2NWJmNDYyIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9maWxlcy9maXgtbXVsdGls
-aWItY29uZmxpY3QucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmls
-ZXMvZml4LW11bHRpbGliLWNvbmZsaWN0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMGUy
-OTA1ZGM2MjJmOThmNjA4ZDI1M2IxMTQ4YTNkNzc4MTMxY2FkIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSBlOTQ5YzhmOGUwNjkwMmYwNjRhNjg5NDVlOTgwOGZhMDZlOGIzMTQ0IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5j
-b20+CiBEYXRlOiBUdWUsIDE0IE9jdCAyMDI1IDAxOjM3OjM1ICswMDAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIFRoZXJlIGFyZSBjb25mbGljdCBvZiBjb25maWcgZmlsZXMgYmV0d2VlbiBrZWEgYW5kIGxp
-YjMyLWtlYToKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2tlYV8z
-LjAuMi5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2tlYV8zLjAuMy5iYgpzaW1p
-bGFyaXR5IGluZGV4IDgzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tl
-YS9rZWFfMy4wLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2tl
-YV8zLjAuMy5iYgppbmRleCBmNDZjYjFiZjgwLi5mOGI5MjkzNjFjIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9rZWFfMy4wLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9rZWEva2VhXzMuMC4zLmJiCkBAIC0xLDkgKzEsMjggQEAKKyMgRklYTUU6
-IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9v
-bCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRo
-ZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNF
-TlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUg
-Y29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdM
-aWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5n
-ZXM6CisjCisjIC0tLSBDT1BZSU5HCisjICsrKyBDT1BZSU5HCisjIEBAIC0xLDQgKzEsNCBAQAor
-IyAtQ29weXJpZ2h0IChDKSAyMDA5LTIwMjUgSW50ZXJuZXQgU3lzdGVtcyBDb25zb3J0aXVtLCBJ
-bmMuICgiSVNDIikKKyMgK0NvcHlyaWdodCAoQykgMjAwOS0yMDI2IEludGVybmV0IFN5c3RlbXMg
-Q29uc29ydGl1bSwgSW5jLiAoIklTQyIpCisjICAKKyMgIFRoaXMgU291cmNlIENvZGUgRm9ybSBp
-cyBzdWJqZWN0IHRvIHRoZSB0ZXJtcyBvZiB0aGUgTW96aWxsYSBQdWJsaWMKKyMgIExpY2Vuc2Us
-IHYuIDIuMC4gSWYgYSBjb3B5IG9mIHRoZSBNUEwgd2FzIG5vdCBkaXN0cmlidXRlZCB3aXRoIHRo
-aXMKKyMgCisjCisKIFNVTU1BUlkgPSAiSVNDIEtlYSBESENQIFNlcnZlciIKIERFU0NSSVBUSU9O
-ID0gIktlYSBpcyB0aGUgbmV4dCBnZW5lcmF0aW9uIG9mIERIQ1Agc29mdHdhcmUgZGV2ZWxvcGVk
-IGJ5IElTQy4gSXQgc3VwcG9ydHMgYm90aCBESENQdjQgYW5kIERIQ1B2NiBwcm90b2NvbHMgYWxv
-bmcgd2l0aCB0aGVpciBleHRlbnNpb25zLCBlLmcuIHByZWZpeCBkZWxlZ2F0aW9uIGFuZCBkeW5h
-bWljIHVwZGF0ZXMgdG8gRE5TLiIKIEhPTUVQQUdFID0gImh0dHA6Ly9rZWEuaXNjLm9yZyIKIFNF
-Q1RJT04gPSAiY29ubmVjdGl2aXR5IgogTElDRU5TRSA9ICJNUEwtMi4wIgotTElDX0ZJTEVTX0NI
-S1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ZmI2MzRlZDFkOTIzYjhiOGZkMWVkN2ZmYzliNzBh
-ZTQiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1hNjRkYzhlZmMzYzQw
-ZDA1MDJhZDM3MmY4MTA3MDBlNCIKIAogREVQRU5EUyA9ICJib29zdCBsb2c0Y3BsdXMgb3BlbnNz
-bCIKIApAQCAtMjMsNyArNDIsNyBAQCBTUkNfVVJJID0gImh0dHA6Ly9mdHAuaXNjLm9yZy9pc2Mv
-a2VhLyR7UFZ9LyR7QlB9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWQyLWRoY3At
-NDYtcmFkaXVzLWRoY3BzcnYtQXZvaWQtQm9vc3QtbGV4aWNhbF9jYXN0LW8ucGF0Y2ggXAogICAg
-ICAgICAgICBmaWxlOi8vMDAwMS1zcmMtbGliLWxvZy1sb2dnZXJfbGV2ZWxfaW1wbC5jYy1hZGQt
-YS1taXNzaW5nLWluY2x1LnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjI5ZjRlNDRmYTQ4ZjYyZmUxNTE1OGQxNzQxMWUwMDM0OTYyMDMyNTBkYjdiMzQ1OWMyYzc5
-YzA5ZjM3OWE1NDEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDk3MDJkZGIwNzhiNjM3ZTg1ZGU5
-MjM2Y2JlZGQzZmI5ZDdhZjdjNmU3OTcwMjZjNTM4YjQ1NzQ4YWQ0ZDYzMSIKIAogaW5oZXJpdCBt
-ZXNvbiBwa2djb25maWcgc3lzdGVtZCB1cGRhdGUtcmMuZCB1cHN0cmVhbS12ZXJzaW9uLWlzLWV2
-ZW4KIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDU6NTg6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJjYXAtbmcsbGliY2FwLW5nLXB5dGhvbjogdXBncmFkZSAwLjkuMSAtPiAwLjkuMywwLjkuMSAt
+PgogMC45LjMKCi0tLQogLi4uL3tsaWJjYXAtbmctcHl0aG9uXzAuOS4xLmJiID0+IGxpYmNhcC1u
+Zy1weXRob25fMC45LjMuYmJ9ICAgIHwgMAogbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5n
+L2xpYmNhcC1uZy5pbmMgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL2xpYmNhcC1uZy97
+bGliY2FwLW5nXzAuOS4xLmJiID0+IGxpYmNhcC1uZ18wLjkuMy5iYn0gICAgICAgIHwgMAogMyBm
+aWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy97bGliY2FwLW5nLXB5dGhvbl8wLjkuMS5iYiA9PiBs
+aWJjYXAtbmctcHl0aG9uXzAuOS4zLmJifSAoMTAwJSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJjYXAtbmcve2xpYmNhcC1uZ18wLjkuMS5iYiA9PiBsaWJjYXAtbmdfMC45LjMuYmJ9
+ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJj
+YXAtbmctcHl0aG9uXzAuOS4xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xp
+YmNhcC1uZy1weXRob25fMC45LjMuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmctcHl0aG9uXzAuOS4xLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLXB5dGhv
+bl8wLjkuMy5iYgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xp
+YmNhcC1uZy5pbmMgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLmlu
+YwppbmRleCA5ZDY1Yzg4OWJkLi5mMDIzZmU4ZjAxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLmluYworKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9saWJjYXAtbmcvbGliY2FwLW5nLmluYwpAQCAtOCw3ICs4LDcgQEAgTElDX0ZJTEVTX0NIS1NV
+TSA9ICJmaWxlOi8vQ09QWUlORzttZDU9OTRkNTVkNTEyYTliYTM2Y2FhOWI3ZGYwNzliYWUxOWYg
+XAogCQkgICAgZmlsZTovL0NPUFlJTkcuTElCO21kNT1lM2VkYTAxZDk4MTVmOGQyNGFhZTJkYmQ4
+OWI2OGIwNiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL3N0ZXZlZ3J1YmIvbGliY2Fw
+LW5nLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZz12JHtQVn0iCi1TUkNSRVYg
+PSAiNDI3ZWQ2ZDJjMmIxNmU5YjQ4ZjEyOTUzZTU1ZmViZmVhZDNlZjJlMiIKK1NSQ1JFViA9ICIw
+YWI0NGFmNWEyM2U4ZWRiNjlhMzljMGRjODAzY2U0Mzk1ZmYyMDg2IgogCiBpbmhlcml0IGxpYl9w
+YWNrYWdlIGF1dG90b29scyBwa2djb25maWcKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZ18wLjkuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2xpYmNhcC1uZy9saWJjYXAtbmdfMC45LjMuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmdfMC45LjEuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmdfMC45LjMu
+YmIKLS0gCjIuNDcuMQoK
 
---===============5166929260456480099==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/kea/kea-dbg: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea/kea-dbg: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-packages/x86-64-v3-poky-linux/kea/kea-dbg: FILELIST: removed "/usr/lib/.debug/libkea-cc.so.82.0.0 /usr/lib/.debug/libkea-hooks.so.120.0.0 /usr/lib/.debug/libkea-util.so.101.0.0 /usr/lib/.debug/libkea-process.so.90.0.0 /usr/lib/.debug/libkea-config.so.83.0.0", added "/usr/lib/.debug/libkea-hooks.so.121.0.0 /usr/lib/.debug/libkea-cc.so.83.0.0 /usr/lib/.debug/libkea-util.so.102.0.0 /usr/lib/.debug/libkea-process.so.91.0.0 /usr/lib/.debug/libkea-config.so.84.0.0"
-packages/x86-64-v3-poky-linux/kea/kea-dbg: PKGSIZE changed from 528021384 to 528210376 (+0%)
-packages/x86-64-v3-poky-linux/kea/kea-dev: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea/kea-dev: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-packages/x86-64-v3-poky-linux/kea/kea-dev: PKGSIZE changed from 4093978 to 4101970 (+0%)
-packages/x86-64-v3-poky-linux/kea/kea-doc: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea/kea-doc: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-packages/x86-64-v3-poky-linux/kea/kea-doc: PKGSIZE changed from 1424692 to 1425460 (+0%)
-packages/x86-64-v3-poky-linux/kea/kea-locale: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea/kea-locale: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-packages/x86-64-v3-poky-linux/kea/kea-python: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea/kea-python: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-packages/x86-64-v3-poky-linux/kea/kea-src: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea/kea-src: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-packages/x86-64-v3-poky-linux/kea/kea-src: FILELIST: directory renamed /usr/src/debug/kea/3.0.2/src/bin/lfc -> /usr/src/debug/kea/3.0.3/src/bin/lfc, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/forensic_log -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/forensic_log, directory renamed /usr/src/debug/kea/3.0.2/src/lib/log/interprocess -> /usr/src/debug/kea/3.0.3/src/lib/log/interprocess, directory renamed /usr/src/debug/kea/3.0.2/src/lib/http -> /usr/src/debug/kea/3.0.3/src/lib/http, directory renamed /usr/src/debug/kea/3.0.2/src/lib/asiodns -> /usr/src/debug/kea/3.0.3/src/lib/asiodns, directory renamed /usr/src/debug/kea/3.0.2/src/lib/cryptolink -> /usr/src/debug/kea/3.0.3/src/lib/cryptolink, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/bootp -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/bootp, directory renamed /usr/src/debug/kea/3.0.2/src/lib/dhcpsrv -> /usr/src/debug/kea/3.0.3/src/lib/dhcpsrv, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/class_cmds 
- -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/class_cmds, directory renamed /usr/src/debug/kea/3.0.2/src/lib/cc -> /usr/src/debug/kea/3.0.3/src/lib/cc, directory renamed /usr/src/debug/kea/3.0.2/src/lib/dns -> /usr/src/debug/kea/3.0.3/src/lib/dns, directory renamed /usr/src/debug/kea/3.0.2/src/bin/d2 -> /usr/src/debug/kea/3.0.3/src/bin/d2, directory renamed /usr/src/debug/kea/3.0.2/src/lib/dhcp -> /usr/src/debug/kea/3.0.3/src/lib/dhcp, directory renamed /usr/src/debug/kea/3.0.2/src/lib/tcp -> /usr/src/debug/kea/3.0.3/src/lib/tcp, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/ping_check -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/ping_check, directory renamed /usr/src/debug/kea/3.0.2/src/lib/process -> /usr/src/debug/kea/3.0.3/src/lib/process, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/host_cache -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/host_cache, directory renamed /usr/src/debug/kea/3.0.2/src/lib/process/cfgrpt -> /usr/src/debug/kea/3.0.3/src/lib/process/cf
- grpt, directory renamed /usr/src/debug/kea/3.0.2/src/lib/dhcp_ddns -> /usr/src/debug/kea/3.0.3/src/lib/dhcp_ddns, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/flex_option -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/flex_option, directory renamed /usr/src/debug/kea/3.0.2/src/lib/d2srv -> /usr/src/debug/kea/3.0.3/src/lib/d2srv, directory renamed /usr/src/debug/kea/3.0.2/src/lib/eval -> /usr/src/debug/kea/3.0.3/src/lib/eval, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/radius -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/radius, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/run_script -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/run_script, directory renamed /usr/src/debug/kea/3.0.2/src/lib/util -> /usr/src/debug/kea/3.0.3/src/lib/util, directory renamed /usr/src/debug/kea/3.0.2/src/lib/util/encode -> /usr/src/debug/kea/3.0.3/src/lib/util/encode, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/host_cmds -> /usr/src/debug/kea/3.0.3/src/hooks/dhc
- p/host_cmds, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/limits -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/limits, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/stat_cmds -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/stat_cmds, directory renamed /usr/src/debug/kea/3.0.2/src/lib/config_backend -> /usr/src/debug/kea/3.0.3/src/lib/config_backend, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/lease_query -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/lease_query, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/flex_id -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/flex_id, directory renamed /usr/src/debug/kea/3.0.2/src/bin/dhcp6 -> /usr/src/debug/kea/3.0.3/src/bin/dhcp6, directory renamed /usr/src/debug/kea/3.0.2/src/lib/config -> /usr/src/debug/kea/3.0.3/src/lib/config, directory renamed /usr/src/debug/kea/3.0.2/src/bin/dhcp4 -> /usr/src/debug/kea/3.0.3/src/bin/dhcp4, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/subnet_cmds -> /usr/src/
- debug/kea/3.0.3/src/hooks/dhcp/subnet_cmds, directory renamed /usr/src/debug/kea/3.0.2/src/lib/hooks -> /usr/src/debug/kea/3.0.3/src/lib/hooks, directory renamed /usr/src/debug/kea/3.0.2/src/lib/stats -> /usr/src/debug/kea/3.0.3/src/lib/stats, directory renamed /usr/src/debug/kea/3.0.2/src/lib/log -> /usr/src/debug/kea/3.0.3/src/lib/log, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/high_availability -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/high_availability, directory renamed /usr/src/debug/kea/3.0.2/src/lib/dhcpsrv/parsers -> /usr/src/debug/kea/3.0.3/src/lib/dhcpsrv/parsers, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/ddns_tuning -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/ddns_tuning, directory renamed /usr/src/debug/kea/3.0.2/src/lib/database -> /usr/src/debug/kea/3.0.3/src/lib/database, directory renamed /usr/src/debug/kea/3.0.2/src/lib/asiolink -> /usr/src/debug/kea/3.0.3/src/lib/asiolink, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/per
- fmon -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/perfmon, directory renamed /usr/src/debug/kea/3.0.2/src/bin/agent -> /usr/src/debug/kea/3.0.3/src/bin/agent, directory renamed /usr/src/debug/kea/3.0.2/src/bin/perfdhcp -> /usr/src/debug/kea/3.0.3/src/bin/perfdhcp, directory renamed /usr/src/debug/kea/3.0.2/src/hooks/dhcp/lease_cmds -> /usr/src/debug/kea/3.0.3/src/hooks/dhcp/lease_cmds, directory renamed /usr/src/debug/kea/3.0.2/src/lib/util/io -> /usr/src/debug/kea/3.0.3/src/lib/util/io, directory renamed /usr/src/debug/kea/3.0.2/src/lib/exceptions -> /usr/src/debug/kea/3.0.3/src/lib/exceptions
-packages/x86-64-v3-poky-linux/kea/kea-src: PKGSIZE changed from 12018614 to 12034065 (+0%)
-packages/x86-64-v3-poky-linux/kea/kea-staticdev: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea/kea-staticdev: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-packages/x86-64-v3-poky-linux/kea/kea: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea/kea: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-packages/x86-64-v3-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-util.so.101.0.0 /usr/lib/libkea-config.so.83 /usr/lib/libkea-cc.so.82.0.0 /usr/lib/libkea-config.so.83.0.0 /usr/lib/libkea-cc.so.82 /usr/lib/libkea-hooks.so.120.0.0 /usr/lib/libkea-process.so.90 /usr/lib/libkea-util.so.101 /usr/lib/libkea-process.so.90.0.0 /usr/lib/libkea-hooks.so.120", added "/usr/lib/libkea-util.so.102.0.0 /usr/lib/libkea-config.so.84 /usr/lib/libkea-cc.so.83.0.0 /usr/lib/libkea-config.so.84.0.0 /usr/lib/libkea-hooks.so.121.0.0 /usr/lib/libkea-cc.so.83 /usr/lib/libkea-util.so.102 /usr/lib/libkea-process.so.91 /usr/lib/libkea-process.so.91.0.0 /usr/lib/libkea-hooks.so.121"
-packages/x86-64-v3-poky-linux/kea/kea: PKGSIZE changed from 26609599 to 26630079 (+0%)
-packages/x86-64-v3-poky-linux/kea: SRC_URI changed from "http://ftp.isc.org/isc/kea/3.0.2/kea-3.0.2.tar.xz file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://kea.volatiles file://fix-multilib-conflict.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch file://0001-build-boost-1.89.0-fixes.patch file://0001-meson-use-a-runtime-safe-interpreter-string.patch file://0001-mk_cfgrpt.sh-strip-prefixes.patch file://0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch file://0001-src-lib-log-logger_level_impl.cc-add-a-missing-inclu.patch" to "http://ftp.isc.org/isc/kea/3.0.3/kea-3.0.3.tar.xz file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://kea.volatiles file://fix-multilib-conflict.patch file://0001-src-lib-log-logger_unittest_support.cc
- -do-not-write-.patch file://0001-build-boost-1.89.0-fixes.patch file://0001-meson-use-a-runtime-safe-interpreter-string.patch file://0001-mk_cfgrpt.sh-strip-prefixes.patch file://0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch file://0001-src-lib-log-logger_level_impl.cc-add-a-missing-inclu.patch"
-packages/x86-64-v3-poky-linux/kea: PV changed from "3.0.2" to "3.0.3"
-packages/x86-64-v3-poky-linux/kea: PKGV changed from 3.0.2 [default] to 3.0.3 [default]
-Changes to packages/x86-64-v3-poky-linux/kea (sysroot):
-  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.82 to libkea-cc.so.83
-  /usr/lib/libkea-config.so changed symlink target from libkea-config.so.83 to libkea-config.so.84
-  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.120 to libkea-hooks.so.121
-  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.90 to libkea-process.so.91
-  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.101 to libkea-util.so.102
-  /usr/lib/libkea-cc.so.82.0.0 moved to /usr/lib/libkea-cc.so.83.0.0
-  /usr/lib/libkea-cc.so.82 moved to /usr/lib/libkea-cc.so.83
-  /usr/lib/libkea-config.so.83.0.0 moved to /usr/lib/libkea-config.so.84.0.0
-  /usr/lib/libkea-config.so.83 moved to /usr/lib/libkea-config.so.84
-  /usr/lib/libkea-hooks.so.120.0.0 moved to /usr/lib/libkea-hooks.so.121.0.0
-  /usr/lib/libkea-hooks.so.120 moved to /usr/lib/libkea-hooks.so.121
-  /usr/lib/libkea-process.so.90.0.0 moved to /usr/lib/libkea-process.so.91.0.0
-  /usr/lib/libkea-process.so.90 moved to /usr/lib/libkea-process.so.91
-  /usr/lib/libkea-util.so.101.0.0 moved to /usr/lib/libkea-util.so.102.0.0
-  /usr/lib/libkea-util.so.101 moved to /usr/lib/libkea-util.so.102
-
---===============5166929260456480099==--
+--===============1293664479220882257==--
 
