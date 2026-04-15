@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC1AFA0C4E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5439CF4213F
 	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:40 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19742.1776261879795160481
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19820.1776261879823134887
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 07:04:40 -0700
+ Wed, 15 Apr 2026 07:04:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KjaYJsPu;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IwdHa2ho;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019d917557b3-2a8af6cf-9139-4cb1-843e-a5999cbfeaf4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=h5fZf2I/;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=w+b9q0U5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019d91755567-2bc9e256-cc7b-4aa8-abd3-37e90aab7965-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1776261879;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Ze2SDhn6fzGFgpX6Vv4lpyJ++GLs1mjO0U9khOmQk7c=;
-	b=KjaYJsPuVDApeyUz2INrds8mpi81+VcH/YnapMAKO9BqfHVdT9E8KjzICxJOKclu
-	xQIOMez1CuNZ9KzD/AsIBe3UF3iZGNEOvL6Xw7ytskcQauxrH4HIhQ0BjzpNp2znfej
-	m/eeyAT1BoHcF3jTalBDVfhPIMgKWH8R0bOfvXSc=
+	bh=aiR2rZlkd8QMi2u8i5/ufcobUgfnZz4UKpmWX1qGVDQ=;
+	b=h5fZf2I/sUk0I39aSsN14N23/bBadqE8+WCs0K0/KWBnJcRptGtQaDWuhW24KHpR
+	60Mbt8hrpmafDzo/t5brRC5k614wgm2i/c9h0c37ciKwg0BjIxqu/ySy06WB4/PkJL7
+	Eh+jBteq+EVO7cBNXJr8AKP/TM3Yy4CyXTk7z+Hs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261879;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Ze2SDhn6fzGFgpX6Vv4lpyJ++GLs1mjO0U9khOmQk7c=;
-	b=IwdHa2hoO2R0A+TQTPL7MX/qujByU6eikUAsbCKq4oBCNcHfg+KzkOy5hXEvu6eO
-	y//0R18Q5TLLHC11Rjr0526+lZ4quSM77J/E6UnweUagQyRCRM4b0M2McNtejEXJ2iw
-	quodRdazvwgctBZKRrpnJhcg2htOKVmgcU7uW0Xw=
-Content-Type: multipart/mixed; boundary="===============4446631039342329469=="
+	bh=aiR2rZlkd8QMi2u8i5/ufcobUgfnZz4UKpmWX1qGVDQ=;
+	b=w+b9q0U5qn8k714JFhq9rAR3PdKahB/m5kYmhDkWZdW1r8G1GDSP45JbmOYl64Y4
+	FToKBXjZ1vZkmfHhGvaRUrOv0h8tJFr1u24WoMwGKHb9+L6Ld46Za20w+wPEj/Bv6DM
+	C4kKlVb1RHK7/a1bW0N/DJOg6YtI1dj8YEEjedGc=
+Content-Type: multipart/mixed; boundary="===============9175759421763809370=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pdm: upgrading to 2.26.7 SUCCEEDED
-Message-ID: <0101019d917557b3-2a8af6cf-9139-4cb1-843e-a5999cbfeaf4-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-lxml: upgrading to 6.0.4 SUCCEEDED
+Message-ID: <0101019d91755567-2bc9e256-cc7b-4aa8-abd3-37e90aab7965-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Apr 2026 14:04:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.04.15-54.240.27.45
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235238
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235237
 
---===============4446631039342329469==
+--===============9175759421763809370==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.26.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-lxml* to *6.0.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pdm-upgrade-2.26.6-2.26.7.patch
+    - apply the patch: git am 0001-python3-lxml-upgrade-6.0.2-6.0.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,102 +72,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3238a9bbcbfee0b5f0608f9f055cebf42010bbde Mon Sep 17 00:00:00 2001
+From 5327bb64f19afcd878c3f53c8fc7ff7a6429f402 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 08:33:08 +0000
-Subject: [PATCH] python3-pdm: upgrade 2.26.6 -> 2.26.7
+Date: Wed, 15 Apr 2026 07:46:05 +0000
+Subject: [PATCH] python3-lxml: upgrade 6.0.2 -> 6.0.4
 
 ---
- .../python/{python3-pdm_2.26.6.bb => python3-pdm_2.26.7.bb}     | 2 +-
+ .../python/{python3-lxml_6.0.2.bb => python3-lxml_6.0.4.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm_2.26.6.bb => python3-pdm_2.26.7.bb} (80%)
+ rename meta/recipes-devtools/python/{python3-lxml_6.0.2.bb => python3-lxml_6.0.4.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python3-pdm_2.26.6.bb b/meta/recipes-devtools/python/python3-pdm_2.26.7.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-pdm_2.26.6.bb
-rename to meta/recipes-devtools/python/python3-pdm_2.26.7.bb
-index 72f6415dbc..5e6cdcb4cf 100644
---- a/meta/recipes-devtools/python/python3-pdm_2.26.6.bb
-+++ b/meta/recipes-devtools/python/python3-pdm_2.26.7.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
+diff --git a/meta/recipes-devtools/python/python3-lxml_6.0.2.bb b/meta/recipes-devtools/python/python3-lxml_6.0.4.bb
+similarity index 95%
+rename from meta/recipes-devtools/python/python3-lxml_6.0.2.bb
+rename to meta/recipes-devtools/python/python3-lxml_6.0.4.bb
+index 876fda93b6..1257534c0f 100644
+--- a/meta/recipes-devtools/python/python3-lxml_6.0.2.bb
++++ b/meta/recipes-devtools/python/python3-lxml_6.0.4.bb
+@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
  
--SRC_URI[sha256sum] = "771f95b9a484f9eb34dcf8d851be6ff95333e4f3c46189f9004cfd5cc2e925f9"
-+SRC_URI[sha256sum] = "0a96a6fb4d60dfeacc1f68bf77efda39503833f6c01866cc8700ea403f0183b7"
+ DEPENDS += "libxml2 libxslt"
  
- inherit pypi python_pdm
+-SRC_URI[sha256sum] = "cd79f3367bd74b317dda655dc8fcfa304d9eb6e4fb06b7168c5cf27f96e0cd62"
++SRC_URI[sha256sum] = "4137516be2a90775f99d8ef80ec0283f8d78b5d8bd4630ff20163b72e7e9abf2"
  
+ SRC_URI += "${PYPI_SRC_URI}"
+ inherit pkgconfig pypi setuptools3
 -- 
 2.47.1
 
 
---===============4446631039342329469==
+--===============9175759421763809370==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pdm-2.26.6.dist-info/licenses -> /usr/lib/python3.14/site-packages/pdm-2.26.7.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pdm-2.26.6.dist-info -> /usr/lib/python3.14/site-packages/pdm-2.26.7.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.14/site-packages/pdm-2.26.6.dist-info moved to /usr/lib/python3.14/site-packages/pdm-2.26.7.dist-info
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: FILELIST: directory renamed /usr/lib/python3.14/site-packages/lxml-6.0.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/lxml-6.0.2.dist-info -> /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-lxml (sysroot):
+  /usr/lib/python3.14/site-packages/lxml-6.0.2.dist-info moved to /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info
 
---===============4446631039342329469==
+--===============9175759421763809370==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pdm-upgrade-2.26.6-2.26.7.patch"
+ filename="0001-python3-lxml-upgrade-6.0.2-6.0.4.patch"
 
-RnJvbSAzMjM4YTliYmNiZmVlMGI1ZjA2MDhmOWYwNTVjZWJmNDIwMTBiYmRlIE1vbiBTZXAgMTcg
+RnJvbSA1MzI3YmI2NGYxOWFmY2Q4NzhjM2Y1M2M4ZmM3ZmY3YTY0MjlmNDAyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDg6MzM6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBkbTogdXBncmFkZSAyLjI2LjYgLT4gMi4yNi43CgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtcGRtXzIuMjYuNi5iYiA9PiBweXRob24zLXBkbV8yLjI2LjcuYmJ9ICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcGRtXzIuMjYuNi5iYiA9PiBweXRo
-b24zLXBkbV8yLjI2LjcuYmJ9ICg4MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjYuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtcGRtXzIuMjYuNy5iYgpzaW1pbGFyaXR5IGluZGV4IDgwJQpyZW5hbWUg
-ZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjYuNi5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2Ljcu
-YmIKaW5kZXggNzJmNjQxNWRiYy4uNWU2Y2RjYjRjZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjYuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjcuYmIKQEAgLTQsNyArNCw3IEBAIExJ
-Q0VOU0UgPSAiTUlUIgogU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFO21kNT0yZWIzMWEyY2MxYTc1OGMzNGI0OTlmMjg3ZGQwNGVmMiIK
-IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc3MWY5NWI5YTQ4NGY5ZWIzNGRjZjhkODUxYmU2ZmY5
-NTMzM2U0ZjNjNDYxODlmOTAwNGNmZDVjYzJlOTI1ZjkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-MGE5NmE2ZmI0ZDYwZGZlYWNjMWY2OGJmNzdlZmRhMzk1MDM4MzNmNmMwMTg2NmNjODcwMGVhNDAz
-ZjAxODNiNyIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9wZG0KIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDc6NDY6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWx4bWw6IHVwZ3JhZGUgNi4wLjIgLT4gNi4wLjQKCi0tLQogLi4uL3B5dGhvbi97cHl0
+aG9uMy1seG1sXzYuMC4yLmJiID0+IHB5dGhvbjMtbHhtbF82LjAuNC5iYn0gICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1seG1sXzYuMC4yLmJiID0+IHB5dGhv
+bjMtbHhtbF82LjAuNC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtbHhtbF82LjAuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1seG1sXzYuMC40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBm
+cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1seG1sXzYuMC4yLmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbHhtbF82LjAuNC5i
+YgppbmRleCA4NzZmZGE5M2I2Li4xMjU3NTM0YzBmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbHhtbF82LjAuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbHhtbF82LjAuNC5iYgpAQCAtMTgsNyArMTgsNyBAQCBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFUy50eHQ7bWQ1PWU0YzA0NWViYWQ5NThl
+YWQ0YjQ4MDA4ZjcwODM4NDAzIFwKIAogREVQRU5EUyArPSAibGlieG1sMiBsaWJ4c2x0IgogCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiY2Q3OWYzMzY3YmQ3NGIzMTdkZGE2NTVkYzhmY2ZhMzA0ZDll
+YjZlNGZiMDZiNzE2OGM1Y2YyN2Y5NmUwY2Q2MiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0MTM3
+NTE2YmUyYTkwNzc1Zjk5ZDhlZjgwZWMwMjgzZjhkNzhiNWQ4YmQ0NjMwZmYyMDE2M2I3MmU3ZTlh
+YmYyIgogCiBTUkNfVVJJICs9ICIke1BZUElfU1JDX1VSSX0iCiBpbmhlcml0IHBrZ2NvbmZpZyBw
+eXBpIHNldHVwdG9vbHMzCi0tIAoyLjQ3LjEKCg==
 
---===============4446631039342329469==
+--===============9175759421763809370==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.26.6.tar.gz;downloadfilename=pdm-2.26.6.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.26.7.tar.gz;downloadfilename=pdm-2.26.7.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pdm: PKGV changed from 2.26.6 [default] to 2.26.7 [default]
-packages/x86-64-v3-poky-linux/python3-pdm: PV changed from "2.26.6" to "2.26.7"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.26.6 [default] to 2.26.7 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.26.6" to "2.26.7"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.26.6 [default] to 2.26.7 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.26.6" to "2.26.7"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.26.6 [default] to 2.26.7 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.26.6" to "2.26.7"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.26.6 [default] to 2.26.7 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.26.6" to "2.26.7"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.26.6 [default] to 2.26.7 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.26.6" to "2.26.7"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.26.6 [default] to 2.26.7 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.26.6" to "2.26.7"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pdm-2.26.6.dist-info/licenses -> /usr/lib/python3.14/site-packages/pdm-2.26.7.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pdm-2.26.6.dist-info -> /usr/lib/python3.14/site-packages/pdm-2.26.7.dist-info
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.26.6 [default] to 2.26.7 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2491822 to 2496904 (+0%)
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PV changed from "2.26.6" to "2.26.7"
-Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.14/site-packages/pdm-2.26.6.dist-info moved to /usr/lib/python3.14/site-packages/pdm-2.26.7.dist-info
+packages/x86-64-v3-poky-linux/python3-lxml: PKGV changed from 6.0.2 [default] to 6.0.4 [default]
+packages/x86-64-v3-poky-linux/python3-lxml: PV changed from "6.0.2" to "6.0.4"
+packages/x86-64-v3-poky-linux/python3-lxml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.0.2.tar.gz;downloadfilename=lxml-6.0.2.tar.gz https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.0.2.tar.gz;downloadfilename=lxml-6.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.0.4.tar.gz;downloadfilename=lxml-6.0.4.tar.gz https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.0.4.tar.gz;downloadfilename=lxml-6.0.4.tar.gz"
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dbg: PKGV changed from 6.0.2 [default] to 6.0.4 [default]
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dbg: PV changed from "6.0.2" to "6.0.4"
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dbg: PKGSIZE changed from 21812232 to 21160216 (-3%)
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dev: PKGV changed from 6.0.2 [default] to 6.0.4 [default]
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dev: PV changed from "6.0.2" to "6.0.4"
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-doc: PKGV changed from 6.0.2 [default] to 6.0.4 [default]
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-doc: PV changed from "6.0.2" to "6.0.4"
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-locale: PKGV changed from 6.0.2 [default] to 6.0.4 [default]
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-locale: PV changed from "6.0.2" to "6.0.4"
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-src: FILELIST: directory renamed /usr/src/debug/python3-lxml/6.0.2/src/lxml/includes -> /usr/src/debug/python3-lxml/6.0.4/src/lxml/includes, directory renamed /usr/src/debug/python3-lxml/6.0.2/src/lxml -> /usr/src/debug/python3-lxml/6.0.4/src/lxml, directory renamed /usr/src/debug/python3-lxml/6.0.2/src/lxml/html -> /usr/src/debug/python3-lxml/6.0.4/src/lxml/html
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-src: PKGV changed from 6.0.2 [default] to 6.0.4 [default]
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-src: PV changed from "6.0.2" to "6.0.4"
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-src: PKGSIZE changed from 21142569 to 21256082 (+1%)
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-staticdev: PKGV changed from 6.0.2 [default] to 6.0.4 [default]
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-staticdev: PV changed from "6.0.2" to "6.0.4"
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: FILELIST: directory renamed /usr/lib/python3.14/site-packages/lxml-6.0.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/lxml-6.0.2.dist-info -> /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: PKGV changed from 6.0.2 [default] to 6.0.4 [default]
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: PV changed from "6.0.2" to "6.0.4"
+packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: PKGSIZE changed from 6007519 to 5779462 (-4%)
+Changes to packages/x86-64-v3-poky-linux/python3-lxml (sysroot):
+  /usr/lib/python3.14/site-packages/lxml-6.0.2.dist-info moved to /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info
 
---===============4446631039342329469==--
+--===============9175759421763809370==--
 
