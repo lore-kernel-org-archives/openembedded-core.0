@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D433AF428D0
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:50 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19821.1776261880313926298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 234A4F428D3
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:51 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19806.1776261867822313060
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 07:04:50 -0700
+ Wed, 15 Apr 2026 07:04:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jFM2hIsd;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ewccheLZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019d917580f8-12363f03-4aa2-4d08-8601-12df99eafc18-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FNadiUWS;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Gfn58SpP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019d91756003-9c7e190e-e81a-4bff-9c45-e1805cd12ebd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1776261890;
+	t=1776261882;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=IJg+U1u6+5ZZdIBAoy2U3MIEhK+gbuTM779TSfR1wUw=;
-	b=jFM2hIsd6uWifCoAd4WHGmbob8DuuEBDddrk2Ke2ZhFBdtI2ih+jLgvOyGwEwge0
-	wM+8GmswNhodSpc0kfrHbt3Squ7IGCe3oFqwfsLvze00xnUQPQ1yr91X75gnUgYX9QA
-	Q4CiAwxK7zRUikS87WVlGPaboPya3PczB3OfdJco=
+	bh=QdyvvaQkEb8GfkoR2hli4ZdG3Vf3AcBSQDy/4L4HBus=;
+	b=FNadiUWSJy9b5mwvywaNgYVNxc25X7Jb20IKKpr3FbYFU1l1Wvn9BLOJrCw2xCUJ
+	JW2EMRfpfoTpZ84Jh1PTKNmAQK+Y3M7/ffvdmdqlkM639HmXTciT1fCBDBn4xdSXDpE
+	Yg9WNBOf5E1N10u0HUq1+XVylvM5qt11fLitVxMg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261890;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261882;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=IJg+U1u6+5ZZdIBAoy2U3MIEhK+gbuTM779TSfR1wUw=;
-	b=ewccheLZfmk4+eQos/HA1NoI84IICLLec8tX3GzP4ZPaagyHC0mlNwOKqpCa7Au4
-	5syE86vbQsuULgkgru3rpciIq5D5mYYK2hq93cE/J42mWTTCwzTZgQxpaXUtn0ZnfyS
-	/kMF+gYThO45H67DACk0xD+v4NFtX6YautR7I4EU=
-Content-Type: multipart/mixed; boundary="===============2614496700256174803=="
+	bh=QdyvvaQkEb8GfkoR2hli4ZdG3Vf3AcBSQDy/4L4HBus=;
+	b=Gfn58SpPV9knADb7GfMr9kHZuZbjblNWxlpeLbaRx9cChE4BfltO+aqidKtg4tTz
+	+iv9g1rvci3pi0+4d0bk6EAhV0EFOus3tsTHEOSnPztQMtOf3gjXnD6E3zmIhFTZRy7
+	gjHamvNxQ/nYzjilyxIz80zYR7mwllD6Ig7aT6BA=
+Content-Type: multipart/mixed; boundary="===============1833632119607402732=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxmlb: upgrading to 0.3.26 SUCCEEDED
-Message-ID: <0101019d917580f8-12363f03-4aa2-4d08-8601-12df99eafc18-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Apr 2026 14:04:50 +0000
+Subject: [AUH] python3-pygobject: upgrading to 3.56.2 SUCCEEDED
+Message-ID: <0101019d91756003-9c7e190e-e81a-4bff-9c45-e1805cd12ebd-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Apr 2026 14:04:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.29
+X-SES-Outgoing: 2026.04.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235278
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235243
 
---===============2614496700256174803==
+--===============1833632119607402732==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxmlb* to *0.3.26* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pygobject* to *3.56.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxmlb-upgrade-0.3.25-0.3.26.patch
+    - apply the patch: git am 0001-python3-pygobject-upgrade-3.56.1-3.56.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,139 +72,159 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1e4596f24ec00edb50986e499296bb6219f03db5 Mon Sep 17 00:00:00 2001
+From 4a362991d1beca6ee04aad0b4264f4a3e7029905 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 11:55:55 +0000
-Subject: [PATCH] libxmlb: upgrade 0.3.25 -> 0.3.26
+Date: Wed, 15 Apr 2026 08:46:35 +0000
+Subject: [PATCH] python3-pygobject: upgrade 3.56.1 -> 3.56.2
 
 ---
- .../libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch | 6 +++---
- .../libxmlb/{libxmlb_0.3.25.bb => libxmlb_0.3.26.bb}        | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.25.bb => libxmlb_0.3.26.bb} (93%)
+ ...{python3-pygobject_3.56.1.bb => python3-pygobject_3.56.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pygobject_3.56.1.bb => python3-pygobject_3.56.2.bb} (93%)
 
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-index 1c46f6fc1e..5b489723d4 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-+++ b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-@@ -1,4 +1,4 @@
--From 2dbc50d49e2048f7227c406931a69f747e0eb12c Mon Sep 17 00:00:00 2001
-+From c00ccce2cb52474c416dd1cdc631780008947ac7 Mon Sep 17 00:00:00 2001
- From: Markus Volk <f_l_k@t-online.de>
- Date: Sat, 16 Sep 2023 14:02:57 +0200
- Subject: [PATCH] xb-self-test.c: hardcode G_TEST_SRCDIR
-@@ -18,10 +18,10 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/src/xb-self-test.c b/src/xb-self-test.c
--index 76b2e12..c68c13a 100644
-+index ce2ced7..aa60b6b 100644
- --- a/src/xb-self-test.c
- +++ b/src/xb-self-test.c
--@@ -2912,7 +2912,7 @@ xb_speed_func(void)
-+@@ -2960,7 +2960,7 @@ xb_speed_func(void)
-  int
-  main(int argc, char **argv)
-  {
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb b/meta/recipes-gnome/libxmlb/libxmlb_0.3.26.bb
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.56.2.bb
 similarity index 93%
-rename from meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb
-rename to meta/recipes-gnome/libxmlb/libxmlb_0.3.26.bb
-index 8687436052..b736346a8f 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb
-+++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.26.bb
-@@ -8,7 +8,7 @@ SRC_URI = " \
- 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
- 	file://run-ptest \
- "
--SRCREV = "b31dec072f4428123db3866c18bf32bc5db04d35"
-+SRCREV = "f969b4dd491a7367f7500f55f576c810985363d7"
+rename from meta/recipes-devtools/python/python3-pygobject_3.56.1.bb
+rename to meta/recipes-devtools/python/python3-pygobject_3.56.2.bb
+index c17df1a9d1..24a58adee6 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.56.1.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.56.2.bb
+@@ -19,7 +19,7 @@ DEPENDS += "python3 glib-2.0"
+ GNOME_COMPRESS_TYPE = "gz"
+ GNOMEBN = "pygobject"
  
- DEPENDS = "glib-2.0 xz zstd"
+-SRC_URI[archive.sha256sum] = "2ec1cc8c55c7ffeebb97e58a9bba7aa1e74611f1173628084685446804a8881a"
++SRC_URI[archive.sha256sum] = "b816098969544081de9eecedb94ad6ac59c77e4d571fe7051f18bebcec074313"
+ 
+ S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
  
 -- 
 2.47.1
 
 
---===============2614496700256174803==
+--===============1833632119607402732==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: FILELIST: directory renamed /usr/lib/python3.14/site-packages/PyGObject-3.56.1.dist-info -> /usr/lib/python3.14/site-packages/PyGObject-3.56.2.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pygobject (sysroot):
+  /usr/lib/python3.14/site-packages/PyGObject-3.56.1.dist-info moved to /usr/lib/python3.14/site-packages/PyGObject-3.56.2.dist-info
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8800.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8800.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8800.0-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8800.0-gdb.py was removed
+
+--===============1833632119607402732==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxmlb-upgrade-0.3.25-0.3.26.patch"
+ filename="0001-python3-pygobject-upgrade-3.56.1-3.56.2.patch"
 
-RnJvbSAxZTQ1OTZmMjRlYzAwZWRiNTA5ODZlNDk5Mjk2YmI2MjE5ZjAzZGI1IE1vbiBTZXAgMTcg
+RnJvbSA0YTM2Mjk5MWQxYmVjYTZlZTA0YWFkMGI0MjY0ZjRhM2U3MDI5OTA1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTE6NTU6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4bWxiOiB1cGdyYWRlIDAuMy4yNSAtPiAwLjMuMjYKCi0tLQogLi4uL2xpYnhtbGIvMDAwMS14
-Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
-L2xpYnhtbGIve2xpYnhtbGJfMC4zLjI1LmJiID0+IGxpYnhtbGJfMC4zLjI2LmJifSAgICAgICAg
-fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi97bGlieG1sYl8wLjMuMjUuYmIgPT4g
-bGlieG1sYl8wLjMuMjYuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21l
-L2xpYnhtbGIvbGlieG1sYi8wMDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUtR19URVNUX1NSQ0RJ
-Ui5wYXRjaCBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJ4bWxiL2xpYnhtbGIvMDAwMS14Yi1zZWxm
-dGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2gKaW5kZXggMWM0NmY2ZmMxZS4uNWI0
-ODk3MjNkNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYi8w
-MDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUtR19URVNUX1NSQ0RJUi5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiLzAwMDEteGItc2VsZnRlc3QuYy1oYXJkY29k
-ZS1HX1RFU1RfU1JDRElSLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyZGJjNTBkNDllMjA0
-OGY3MjI3YzQwNjkzMWE2OWY3NDdlMGViMTJjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSBjMDBjY2NlMmNiNTI0NzRjNDE2ZGQxY2RjNjMxNzgwMDA4OTQ3YWM3IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogRGF0ZTog
-U2F0LCAxNiBTZXAgMjAyMyAxNDowMjo1NyArMDIwMAogU3ViamVjdDogW1BBVENIXSB4Yi1zZWxm
-LXRlc3QuYzogaGFyZGNvZGUgR19URVNUX1NSQ0RJUgpAQCAtMTgsMTAgKzE4LDEwIEBAIFNpZ25l
-ZC1vZmYtYnk6IE1hcmt1cyBWb2xrIDxmX2xfa0B0LW9ubGluZS5kZT4KICAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3NyYy94Yi1z
-ZWxmLXRlc3QuYyBiL3NyYy94Yi1zZWxmLXRlc3QuYwotaW5kZXggNzZiMmUxMi4uYzY4YzEzYSAx
-MDA2NDQKK2luZGV4IGNlMmNlZDcuLmFhNjBiNmIgMTAwNjQ0CiAtLS0gYS9zcmMveGItc2VsZi10
-ZXN0LmMKICsrKyBiL3NyYy94Yi1zZWxmLXRlc3QuYwotQEAgLTI5MTIsNyArMjkxMiw3IEBAIHhi
-X3NwZWVkX2Z1bmModm9pZCkKK0BAIC0yOTYwLDcgKzI5NjAsNyBAQCB4Yl9zcGVlZF9mdW5jKHZv
-aWQpCiAgaW50CiAgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpCiAgewpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYl8wLjMuMjUuYmIgYi9tZXRhL3JlY2lw
-ZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4yNi5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4yNS5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYl8wLjMuMjYuYmIKaW5k
-ZXggODY4NzQzNjA1Mi4uYjczNjM0NmE4ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21l
-L2xpYnhtbGIvbGlieG1sYl8wLjMuMjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnht
-bGIvbGlieG1sYl8wLjMuMjYuYmIKQEAgLTgsNyArOCw3IEBAIFNSQ19VUkkgPSAiIFwKIAlmaWxl
-Oi8vMDAwMS14Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2ggXAogCWZp
-bGU6Ly9ydW4tcHRlc3QgXAogIgotU1JDUkVWID0gImIzMWRlYzA3MmY0NDI4MTIzZGIzODY2YzE4
-YmYzMmJjNWRiMDRkMzUiCitTUkNSRVYgPSAiZjk2OWI0ZGQ0OTFhNzM2N2Y3NTAwZjU1ZjU3NmM4
-MTA5ODUzNjNkNyIKIAogREVQRU5EUyA9ICJnbGliLTIuMCB4eiB6c3RkIgogCi0tIAoyLjQ3LjEK
-Cg==
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDg6NDY6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5Z29iamVjdDogdXBncmFkZSAzLjU2LjEgLT4gMy41Ni4yCgotLS0KIC4uLntweXRo
+b24zLXB5Z29iamVjdF8zLjU2LjEuYmIgPT4gcHl0aG9uMy1weWdvYmplY3RfMy41Ni4yLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlnb2JqZWN0XzMuNTYu
+MS5iYiA9PiBweXRob24zLXB5Z29iamVjdF8zLjU2LjIuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjU2LjEuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTYuMi5i
+YgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTYuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjU2LjIuYmIKaW5kZXggYzE3ZGYx
+YTlkMS4uMjRhNThhZGVlNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXB5Z29iamVjdF8zLjU2LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjU2LjIuYmIKQEAgLTE5LDcgKzE5LDcgQEAgREVQ
+RU5EUyArPSAicHl0aG9uMyBnbGliLTIuMCIKIEdOT01FX0NPTVBSRVNTX1RZUEUgPSAiZ3oiCiBH
+Tk9NRUJOID0gInB5Z29iamVjdCIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiMmVj
+MWNjOGM1NWM3ZmZlZWJiOTdlNThhOWJiYTdhYTFlNzQ2MTFmMTE3MzYyODA4NDY4NTQ0NjgwNGE4
+ODgxYSIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImI4MTYwOTg5Njk1NDQwODFkZTll
+ZWNlZGI5NGFkNmFjNTljNzdlNGQ1NzFmZTcwNTFmMThiZWJjZWMwNzQzMTMiCiAKIFMgPSAiJHtV
+TlBBQ0tESVJ9LyR7R05PTUVCTn0tJHtQVn0iCiAKLS0gCjIuNDcuMQoK
 
---===============2614496700256174803==
+--===============1833632119607402732==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libxmlb: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-bin: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-bin: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PKGSIZE changed from 1870968 to 1897720 (+1%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PKGSIZE changed from 355644 to 355651 (+0%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-locale: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-locale: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PKGSIZE changed from 277094 to 281190 (+1%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PKGSIZE changed from 519007 to 524066 (+1%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: FILELIST: directory renamed /usr/src/debug/libxmlb/0.3.25/src -> /usr/src/debug/libxmlb/0.3.26/src
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-staticdev: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-staticdev: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PV changed from "0.3.25" to "0.3.26"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject: SRC_URI changed from "https://download.gnome.org/sources//pygobject/3.56/pygobject-3.56.1.tar.gz;name=archive" to "https://download.gnome.org/sources//pygobject/3.56/pygobject-3.56.2.tar.gz;name=archive"
+packages/x86-64-v3-poky-linux/python3-pygobject: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGSIZE changed from 1493592 to 1499808 (+0%)
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-doc: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-doc: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-locale: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-locale: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: FILELIST: directory renamed /usr/src/debug/python3-pygobject/3.56.1/gi -> /usr/src/debug/python3-pygobject/3.56.2/gi
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PKGSIZE changed from 872743 to 873724 (+0%)
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-staticdev: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-staticdev: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: FILELIST: directory renamed /usr/lib/python3.14/site-packages/PyGObject-3.56.1.dist-info -> /usr/lib/python3.14/site-packages/PyGObject-3.56.2.dist-info
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PV changed from "3.56.1" to "3.56.2"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PKGV changed from 3.56.1 [default] to 3.56.2 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-pygobject (sysroot):
+  /usr/lib/python3.14/site-packages/PyGObject-3.56.1.dist-info moved to /usr/lib/python3.14/site-packages/PyGObject-3.56.2.dist-info
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8800.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8800.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8800.0-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8800.0-gdb.py was removed
 
---===============2614496700256174803==--
+--===============1833632119607402732==--
 
