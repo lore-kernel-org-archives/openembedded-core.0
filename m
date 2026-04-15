@@ -1,140 +1,157 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40AA6F419A6
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 13:16:34 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18666.1776258987426379825
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 782DCF419BD
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:36 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19738.1776261874123920073
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 06:16:28 -0700
+ Wed, 15 Apr 2026 07:04:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RitgAv8K;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d73422431so2833413f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 06:16:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1776258986; x=1776863786; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0/4yHIJAVG0YJkrpCe3VUo4z3FNJ98XkuB6vh450SmU=;
-        b=RitgAv8KmvmI03wCNf4/AH679KaOE5X9sxHFb2whCeZmT0n8gLa84w18Ph+/LEqmuK
-         7llk4cNw5DJIPKDR+EwJ7e5milImvOoNtWx1lt/0FbMqup0iqnvyC2jGrfvcUzp9yo0G
-         tLuPoyZT8Oj7aCXjioc+q/vvyV4snswkYzlAg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776258986; x=1776863786;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0/4yHIJAVG0YJkrpCe3VUo4z3FNJ98XkuB6vh450SmU=;
-        b=LgHTKai87CLKHGtRkAhEiH3CTxToH05+F0OE1Z0q/jKPQGubGAN6VC7Q9v4Rk2vvAf
-         deGMYVLOgOb9kruVREbJukkjRwBJDDRDMEq8CMraXS36V0aIrXBQmJ1E+LubWV5CeNGk
-         VDPEuKE/LMjzaO/m5M8H2BFckqzEjtvjlI21HcKxx5cyoxSJzPK3OgVyVTplVyXEIrlb
-         Vs5eaaz208prpcUnOx35taTfP8CZqmEjIBq8gP1u5fNb9/pJaBLfNijBeC7FOS4F+K/9
-         2yduBFaeTQ9g70smTAIK0qeCxX0yDpKHJ1jJARY6SdbCyyb4V9BGVCk/D2RI8q1jN0iR
-         w6Xg==
-X-Forwarded-Encrypted: i=1; AFNElJ9TSBx1vdXud4vdVf+dKpxyJbf/ARoFTVEO39/XatHGfQ7wozhsaKCJH1VYpGw+WITaQG1e0kzq3h/FJk2UPyT5mw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxhd0QYoLnHuzoji1oWwTQ3Ocqh7/LSi0vkJSvbsfIogohMI3IB
-	Ml7YW8erW41YR6FudmZB+tmium9kmUFI3GUhhJZ+Qe8IP7Wyd0dkG8hpu/BtCei8SBs=
-X-Gm-Gg: AeBDieuxDBICKgTcK0hSWtv57FFWz1MYgiVGIgYK8j+lGRjmduPRZPrlB5KfyCl8cH4
-	j+T/tPdB361pwusPJxQ8ADHPpYTh9r1DUo7lNK9L36/MUsto4iHwNHWtRAoVYq9Ltqona4+cRnZ
-	thLqqS5mctjR9eg6JmfbrnBPCpVUv0H7bFT4xh+Fw9w5WMITrqBAsuYWQuHs3tPZB/+z3GDnqRX
-	6FNNjsSaevi01WCSpj0NVr9O3EUueAi1f8Iw8s9D8SRv9n6spNS8Jj4SOsJ+6MBqSNNz6E/NI42
-	LHo9g1PTcJrqHSiVOQwqMUMztBEwhWdXd4TcPwaOzAXcwHFWi6zRL0psyL1tXW+y4i0CWvIxPzL
-	SEXWGCI0REgbOOn8IKbRJ2BJngMHKzg+OjMfWlGGDcS/jmq0yPoWcO4tzZlMSCuFcTlnzVOFRqU
-	thU/Wmv/IXNyVlsdDp27j2RgpcKAmX/OzY2NVNMB0pm1SEw3TYfc/qLU57jo4GcgJEe7GnybYHo
-	v35p+OV9lCv+nPHknD3gKigcRQn22atvjETeQ==
-X-Received: by 2002:a05:6000:1acc:b0:43e:b020:f8a2 with SMTP id ffacd0b85a97d-43eb020ffb0mr74071f8f.19.1776258985607;
-        Wed, 15 Apr 2026 06:16:25 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b93f:ee00:4e55:7087? ([2001:8b0:aba:5f3c:b93f:ee00:4e55:7087])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead35c026sm5158317f8f.15.2026.04.15.06.16.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 06:16:24 -0700 (PDT)
-Message-ID: <a534592e54506e5576444250023b0bed775a298d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 3/7] pseudo: fix for build with glibc-2.43
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: zboszor@gmail.com, Martin Jansa <martin.jansa@gmail.com>
-Cc: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org,
- 	Sundeep.Kokkonda@windriver.com, Randy.MacLeod@windriver.com
-Date: Wed, 15 Apr 2026 14:16:24 +0100
-In-Reply-To: <ed118dea-62cd-4d29-9ee1-336367a2aae5@gmail.com>
-References: <20260308150834.2508331-1-Hemanth.KumarMD@windriver.com>
-	 <20260308150834.2508331-3-Hemanth.KumarMD@windriver.com>
-	 <CA+chaQcneoNBogdCZmZB3LCE-cVErs2-4NoNtYUGgK+REEBxLg@mail.gmail.com>
-	 <18A40738790ACBCC.657799@lists.openembedded.org>
-	 <e38f41d9-4af6-4389-90a7-0c2ae6b47330@gmail.com>
-	 <CA+chaQdDkMUDBO8G=cku8SVe=Ow+Hgt606mZO863rCaNaznDrA@mail.gmail.com>
-	 <18A41C5827F22307.777565@lists.openembedded.org>
-	 <ed118dea-62cd-4d29-9ee1-336367a2aae5@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TC1ZeeoW;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1Io2yfjQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019d91754702-4ae60130-de5f-4a67-8b1c-864f1a1bb09f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1776261875;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=hMJxx1fbQdFMEMar/SPyRGHb53Fcu8AICP//U7MsFAc=;
+	b=TC1ZeeoWGGm4/JyRuafT9fTjXuJYypjYzWjTJF3F8Y9/mZGjBP/ghAcG7o4vOTTz
+	IBIig1gGYmq90hKgxAtJWTPPIYbqlq2v5ti2XqYMXT+dpDdf09F+P7BFk7Vx6a09xxj
+	k4kQWSDWekkF+6fCIjuu3+QYaMGm5wB5SHkrY71A=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261875;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=hMJxx1fbQdFMEMar/SPyRGHb53Fcu8AICP//U7MsFAc=;
+	b=1Io2yfjQJoxt3cda/VDImKJxlTwZNL26BGliRTuOs5Qt9emmObPJgvSLcIWntpkl
+	wMAIAyvMF6sBy28dZzlLgBC1DTvkyGzWONVKmaMPnhEYV0TVjK0yE1pbpyhObmJaCeg
+	11RTQNlfaflI1Q773YU+MC85F26myevM16QG53QQ=
+Content-Type: multipart/mixed; boundary="===============1359008033860452698=="
 MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gn: upgrading to ec56d4d935a0e2ab9d52b88dd00c93ec51233055
+ SUCCEEDED
+Message-ID: <0101019d91754702-4ae60130-de5f-4a67-8b1c-864f1a1bb09f-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Apr 2026 14:04:35 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.04.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 13:16:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235200
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235222
 
-On Tue, 2026-04-07 at 17:38 +0200, Zoltan Boszormenyi via lists.openembedde=
-d.org wrote:
-> 2026. 04. 07. 17:21 keltez=C3=A9ssel, Zoltan Boszormenyi via lists.openem=
-bedded.org =C3=ADrta:
-> > The issue turns out to be with GNU tar, specifically this build:
-> > https://koji.fedoraproject.org/koji/buildinfo?buildID=3D2924033
-> >=20
-> > Manually downgrading to the previous build fixed the packaging problem:
-> > https://koji.fedoraproject.org/koji/buildinfo?buildID=3D2917292
-> >=20
-> > I reported it here:
-> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2455965
->=20
-> According to the changelog of the current GNU tar 1.35-8.fc44 build,
-> it contains backports from what will be the official 1.36 version.
-> With that release, whenever it will be out, other distros would fail, too=
-.
->=20
-> Note this from the Fedora package changelog:
->=20
-> - Backport upstream changes to jailify extraction directory
-> =C2=A0=C2=A0 Includes related gnulib changes to add openat2
-> =C2=A0=C2=A0 Fixes CVE-2025-45582 (fedora#2380007)
->=20
-> which seems to be this commit:
-> https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=3D75b03fdff4891=
-6bd0654677ed21379bdb0db016d
->=20
-> commit 75b03fdff48916bd0654677ed21379bdb0db016d
-> Author: Paul Eggert <eggert@cs.ucla.edu>
-> Date:=C2=A0 =C2=A0Thu Nov 13 13:44:10 2025 -0800
->=20
-> =C2=A0=C2=A0 =C2=A0 Use openat2 to jailify the extraction directory
->=20
-> =C2=A0=C2=A0 =C2=A0 This addresses CVE-2025-45582.
-> =C2=A0=C2=A0 =C2=A0 * gnulib.modules: Add openat2.
-> =C2=A0=C2=A0 =C2=A0 * src/misc.c (open_subdir): New static function.
-> =C2=A0=C2=A0 =C2=A0 (fdbase_opendir): Use it.
-> =C2=A0=C2=A0 =C2=A0 * src/tar.c (open_searchdir_how): New var, replacing =
-and
-> =C2=A0=C2=A0 =C2=A0 augmenting open_searchdir_flags.=C2=A0 All uses chang=
-ed.
-> =C2=A0=C2=A0 =C2=A0 * tests/extrac31.at: New file.
-> =C2=A0=C2=A0 =C2=A0 * tests/Makefile (TESTSUITE_AT), tests/testuite.at: A=
-dd it.
->=20
-> I guess it will really need fixes in pseudo to overcome this.
+--===============1359008033860452698==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-I have put some patches onto this branch of pseudo:
+Hello,
 
-https://git.yoctoproject.org/pseudo/log/?h=3Drpurdie/openat2
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *gn* to *ec56d4d935a0e2ab9d52b88dd00c93ec51233055* has Succeeded.
 
-In my local testing, that did work but I don't have a Fedora 44 system
-to test on right now. There are some potential issues with chroot
-handling in there but I would be curious how this works on Fedora 44 if
-you were able to test...
+Next steps:
+    - apply the patch: git am 0001-gn-upgrade-to-latest-revision.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Cheers,
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
-Richard
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From b87de3ba6e2a48d2c05fe03fad7bbe3aeea2364c Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 Apr 2026 07:00:21 +0000
+Subject: [PATCH] gn: upgrade to latest revision
+
+---
+ meta/recipes-devtools/gn/gn_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
+index 852c095861..8d2c0821a0 100644
+--- a/meta/recipes-devtools/gn/gn_git.bb
++++ b/meta/recipes-devtools/gn/gn_git.bb
+@@ -7,7 +7,7 @@ DEPENDS += "ninja-native"
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ SRC_URI = "git://gn.googlesource.com/gn;protocol=https;branch=main"
+-SRCREV = "9d19a7870add65151ff91bcc26252bb7521065cf"
++SRCREV = "ec56d4d935a0e2ab9d52b88dd00c93ec51233055"
+ PV = "0+git"
+ 
+ BB_GIT_SHALLOW = ""
+-- 
+2.47.1
+
+
+--===============1359008033860452698==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-dev: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-doc: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-locale: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-src: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-staticdev: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+
+--===============1359008033860452698==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gn-upgrade-to-latest-revision.patch"
+
+RnJvbSBiODdkZTNiYTZlMmE0OGQyYzA1ZmUwM2ZhZDdiYmUzYWVlYTIzNjRjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDc6MDA6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bjogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2duL2duX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nbi9nbl9naXQu
+YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ24vZ25fZ2l0LmJiCmluZGV4IDg1MmMwOTU4NjEu
+LjhkMmMwODIxYTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nbi9nbl9naXQu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2duL2duX2dpdC5iYgpAQCAtNyw3ICs3LDcg
+QEAgREVQRU5EUyArPSAibmluamEtbmF0aXZlIgogVVBTVFJFQU1fQ0hFQ0tfQ09NTUlUUyA9ICIx
+IgogCiBTUkNfVVJJID0gImdpdDovL2duLmdvb2dsZXNvdXJjZS5jb20vZ247cHJvdG9jb2w9aHR0
+cHM7YnJhbmNoPW1haW4iCi1TUkNSRVYgPSAiOWQxOWE3ODcwYWRkNjUxNTFmZjkxYmNjMjYyNTJi
+Yjc1MjEwNjVjZiIKK1NSQ1JFViA9ICJlYzU2ZDRkOTM1YTBlMmFiOWQ1MmI4OGRkMDBjOTNlYzUx
+MjMzMDU1IgogUFYgPSAiMCtnaXQiCiAKIEJCX0dJVF9TSEFMTE9XID0gIiIKLS0gCjIuNDcuMQoK
+
+--===============1359008033860452698==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGSIZE changed from 100806296 to 102634872 (+2%)
+packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-dev: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-doc: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-locale: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-src: PKGSIZE changed from 3139692 to 3180177 (+1%)
+packages/x86-64-v3-poky-linux/gn/gn-src: FILELIST: added "/usr/src/debug/gn/0+git/src/base/memory/ref_counted.cc"
+packages/x86-64-v3-poky-linux/gn/gn-src: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn-staticdev: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+packages/x86-64-v3-poky-linux/gn/gn: PKGSIZE changed from 3698872 to 3731640 (+1%)
+packages/x86-64-v3-poky-linux/gn/gn: PKGV changed from 0+git0+9d19a7870a to 0+git0+ec56d4d935
+
+--===============1359008033860452698==--
 
