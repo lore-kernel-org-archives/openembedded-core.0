@@ -2,191 +2,276 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1071DFA0C5D
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 08:56:18 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13302.1776236968110131708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF8AFA0C5E
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 08:57:48 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.11])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13889.1776240958754505550
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 00:09:28 -0700
+ Wed, 15 Apr 2026 01:15:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=swz2SYUE;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8565f12c77=haiqing.bai@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63F6hUcG2163897
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 06:51:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=h9o7DIoOK1HwdR90aYzq
-	t0Gs6ci5kK40pmhkam8yFv4=; b=swz2SYUEXGRfsGcmZr2VrOlpX+j0jI1PpYPi
-	WGWqpMbZihdt7n3S4S6lIhQ8f3ce+p4Ndgtp1k/8ZpSnKxJ4AmeEtVOc/3f9LqgP
-	napdWAQ20ZXx0VRIj3+9kKyXiJ+DcT7IQKNh4yhVKIALRDqfxOsyFCwOyqeUeUSx
-	BYYbnv46LSK3upCz01CIBdXpk0lgaz+UD/bPo+Gogr8eUZq3Axi/WMZ+QvBEGVqW
-	TtBVawCmO6ULEdHOyuU+O/cGQldExFAnUFf7C6Kpgk0B3TRdjOYgaqRGmrm7dX3w
-	a7dt6VbRwlERNkHYyC7MFrWv/dBQ/0wbh7OQ7kgxGXO6EmTMhg==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dh87a9p49-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 06:51:05 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 14 Apr 2026 23:51:04 -0700
-Received: from ala-lpd-susbld.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 14 Apr 2026 23:51:04 -0700
-From: <haiqing.bai@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <haiqing.bai@windriver.com>
-Subject: [oe-core][PATCH] libxml-parser-perl: patch CVE-2006-10003
-Date: Wed, 15 Apr 2026 06:51:04 +0000
-Message-ID: <20260415065104.4102961-1-haiqing.bai@windriver.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=WYjCohIw;
+ spf=pass (domain: est.tech, ip: 52.101.70.11, mailfrom: adarsh.jagadish.kamini@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jSGHpndmmMbxMkgjpUXUSrnTPOCK3WXw+LlIiK1CtQhufMoJ3tPg2DNjqDgnDK+j8F0StpoCsjCkw8YJCwnnwKU8+sI27eTU0DhJAJTxatLVV0R/5SFBaFnmDjFkvpD6yXPdP73La/n8LFMzM7eWPtFQ8TAwvigrlc/On18YTOonP+3fFHfBapWsIcVqzJbVWCIEVXxArn+nSBMhFDJbstpJq+P4zZksomwX80G06yzehbIdHAxeCRuvY/it93eFvcMnu8t4sEiNzHO01rIwDe7leY/YNNbn2uL9HZQj4QY0RWA6P66fpZJIglEd04QKG6/u0gPDggX3ajF6Ai2d+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S2Pc+ZEpDEgvSnEZTZ1CneKfYKf/g8lg/Hu9sJAJwvs=;
+ b=I0j6TwbqHQJ7NrRjZQ7k8XInZ8rWQ9Sbu7w6x38XCydcVJHK66kp3HhiJRJjcw8cX644/wT/YxGtKhntxFaxdpdpMQM6iwdeMOe6HwSKpYiFAH5fh2tz2MeXTFP1wG+KQFPVZrlKVgnMoD2RTiHaKBoNsO+IrODqs48zabOSEjDj2/KjGeTyCK1OUW7dkiSPrawfmk3cOLzeCVCpkmS2mD70rqXII2lsC5BIbABiki62dlhChW5PR0Fmzbjq/0hh4rpYo60UL1OeNVtFFD9UdbgE7tRPDPKX2Yi0P0OWJBmfJ7H2rcR0IUUN7Qzsr1WOffKzY4M9Nhy0CYfDb0cjnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S2Pc+ZEpDEgvSnEZTZ1CneKfYKf/g8lg/Hu9sJAJwvs=;
+ b=WYjCohIwN0x7LZ5ZG3mCRRF7L672Wjlefx+dOtfGKTM50tgVCcLz+0qm952vQw0lVsnpiubN/3DcjLMV777gP/UN+kcEfJUZjavEYedodQSB/1J88wNl3Q2I1C9TDTF8/KCUcYT9AL0EMID5qLdXoU9Ju7oAdl7DXfu7Vu73PlxrGV+TPUUlstsqyK7uNv1TU8zZry4Z1UfVbjlBvmDjgB+VLKwJaG1rtoK1Q4SoSxTrqhflWi0gZBP6M28YBWq1sYEsgd7iC1lkIJZr/4huNZnZ3R/Lay63m70GnaX1T7R7om8KNVqQHh1h2hxhkYxTRc8LRcp+LaG5+5e2urj6dg==
+Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
+ by GV4P189MB3678.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2b8::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Wed, 15 Apr
+ 2026 08:15:52 +0000
+Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+ ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+ ([fe80::f147:85e5:34de:eeff%6]) with mapi id 15.20.9769.046; Wed, 15 Apr 2026
+ 08:15:51 +0000
+From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][master][PATCH] vim: minor update to 9.2.0340 to fix CVEs
+Thread-Topic: [OE-core][master][PATCH] vim: minor update to 9.2.0340 to fix
+ CVEs
+Thread-Index: AQHcy+PpB+UHT6e8Q0yEZE+aUZny6bXeuJWAgAEPnTg=
+Date: Wed, 15 Apr 2026 08:15:51 +0000
+Message-ID: 
+ <AS8P189MB1672C416E88B1CBCDB78D39FB3222@AS8P189MB1672.EURP189.PROD.OUTLOOK.COM>
+References: <20260414075421.604401-1-adarsh.jagadish.kamini@est.tech>
+ <DHT06GASNSNY.PWPM4R9918KA@bootlin.com>
+In-Reply-To: <DHT06GASNSNY.PWPM4R9918KA@bootlin.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8P189MB1672:EE_|GV4P189MB3678:EE_
+x-ms-office365-filtering-correlation-id: 141d07ad-2908-4a9d-bcc0-08de9ac73543
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|18002099003|56012099003|22082099003|8096899003|38070700021|13003099007;
+x-microsoft-antispam-message-info: 
+ l5KPJ4Q7Vhk4FRGOnVw5GBIuK7CdNF0RSsziWa48rjnWLFI2nPiGRHgIQIZiurZ4RPqsKKp57MZoS0e8nAxm+dq+HuHESYodSyg8yHij5Do37Hkbh4NDV5qbt1JMRm7OL17UdAVj7lHp1/ffxyoHK6kZJ/j7DRp98Qhf7BMyaIysDjVhWvMy3N0jUCxY7eIfZUsepgnOhRRCXAmByWS1O8bC6++s5DCcTi3ZCVW4dlNXgj2cMx8aIa1a6Relil0QVS/FOTJNKHdeQ0YichxLCHzUGyiiMVVmz4H+xPMTuQN+SRub5u5UURQTT4tlC38cRDielxubY1hoibjTSERMQWPKoVsntSHJ1EDv6OrVUgwtfqCkKt8Hggi/QeiDc59/Cc8uid7or3W5lgfuxDJUs2m5PxoOnnD+94HJNaplgF1Xrrp2NouetrYUlb6CRh2fxh679RrdIUYNECXYr7dReqQfE+lPs+QCJhca+gKIWQ//9gtGiiAK8lx5OP0tbcguUmfhSMh2HfPgfhM4Psbni8OsHLb3tIodV8VX54M0lUs9dLv82ZOdlgV/6LfAAP9a8eaHUMxBriaLyCfLaz9z5OFxXk5KmLw9m37fGwnvw8Gji4SBkugHbgBMO6SyZ6h3nWJELMAFZivkZcOjjag+wkWwuriDaJda8i1gydg0KRwh4aSx3AnyJ/jsG9YCMWqlYj0OPuiEoDznZJj+x/9I3mi/URRP/RWhyhYXrRy+9k8=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(18002099003)(56012099003)(22082099003)(8096899003)(38070700021)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?NqWPf3m1W3Lvd3wq6CwuKhersKrsiFasXP2+jCIKK4ibmUDZwt3yY4ZHxE2L?=
+ =?us-ascii?Q?U7b1+SLw78erk73E0U/kG9a22NoqKjwQIihHZR2YMSCZ5at5ANJCVd3VjZEJ?=
+ =?us-ascii?Q?il9SUCu4Uxf9jY+nolxWESzq+S4eDRCicDXXdIYOVVsBLMIfn+F88DF2LM3p?=
+ =?us-ascii?Q?3icvpstSaLuCPS21VyeH6RdZ60YWnXyUUFUOSg1Wv4Z6MZN906wF6gcB5zRz?=
+ =?us-ascii?Q?VxVj/UJ5KjOiDXy+xdbvVptuvZkFubx6Up8vXqSWFzaDmI5esfd7Alt3zLdp?=
+ =?us-ascii?Q?zFm3ZcoAoBDNr57C/yn5NKqFf5tzHyJzwhAdm3a9aOAVqod7XZyJ3iXRERBl?=
+ =?us-ascii?Q?DO+vDwWtHkmHxuhGxKe9snNTNAv/Y4xZ4ypR+mKsQ16XXvqYTFGaABA2HFzT?=
+ =?us-ascii?Q?q+J625haWFLZldeKVZrkhCv92clfehOrOJRBv1iHeqJ++mrowc0qoOSDXhTJ?=
+ =?us-ascii?Q?H/yT7bSp7jM1JIF8eqyEdaMYkunv2a1fLK11umY6C0woOKqqViJGWH4WBfRo?=
+ =?us-ascii?Q?K8Ud1QjeadjaOkgtF1C/qBEwWcfYXDbMDGhi8HsTNO6uC95/tFJ3iEZ+EQSl?=
+ =?us-ascii?Q?9StKd69yo31qObJaolSjrstTlsLhaecaXCr2uvtNurpyJrfGmFTllf0vA/v4?=
+ =?us-ascii?Q?yo6XHNtybiorpQBF5BhuMyKiFE/Smdcr0I8u9csZkZ/Gk2Hdc51P56Gm7clk?=
+ =?us-ascii?Q?q8iZ+hgFW+1iEHjF7td7CO3DfQp/7QitfSR2FCTWSfnPDA/Pq8VS3tjfqx6A?=
+ =?us-ascii?Q?DWJ5oIwxh1z/zcHAhnDjfFXfRQlnb63nM9kqj4GQB36nV3LMEKkpd7fau1zt?=
+ =?us-ascii?Q?pHddK0FmRma+ao+PgySu+NPH+tqL/bWAIJfhQgw2CpOG1HbujuOuOZde0Uxe?=
+ =?us-ascii?Q?Jye40Eqsw715jTY1eNECJIffdZ5tpfZcWcnR+epiWbzV8dlIfYKhhsXwsrQD?=
+ =?us-ascii?Q?/NGfocV147uYqwOtZ9LHBNDs4AeQ6ViIYm2RpkYMmYImwpPD3FYwJvl0X6fU?=
+ =?us-ascii?Q?D+DcYvZtsHBkK1cbJtJH2HMYdl7NsdAhqR9IIx39jaCZbpO1ds6H8fHQfXSo?=
+ =?us-ascii?Q?NRsC/+roO8DNkCoYXBidKRnTItB2WbUfgL4zKLznfkfxVd62b2m9E5my11P2?=
+ =?us-ascii?Q?uyd/25wvA9fhoBhrijs929+0gddGnwDVkzixm2pSIODKkIzt1dI/tR5NNjKk?=
+ =?us-ascii?Q?LcLTtJHzEGKkRWfF7Y18mEju7iTXf+6ygYMf/wQ6HeIFiTMAYG8vgcaSjLr2?=
+ =?us-ascii?Q?ClKQlkRdszZ5rsCEoj0ueoI3bt0LbFZsG8SbBfASNDom5lfKxvJJOfOGpGOL?=
+ =?us-ascii?Q?v5/HtrzST/+KhiBJ9Lg+6z+itsa6jNQw+3lDBTe69iblJce+NPtiKED4+KPz?=
+ =?us-ascii?Q?YjSvzYgmmlIrdXtov/dEejhNBbO7fs3Yln5rE19SbkWJm2kmMjZkY8auxcvh?=
+ =?us-ascii?Q?rycJMocaZL3NbFzGaczPWV6U5PTmipkgjJiy1G0nUydm8+2hnT/iDCqtQF93?=
+ =?us-ascii?Q?yvKv5wmTcDCzt1HsBXH/yenZ77g3PUbCALf/gtI6EI9okMzfCy+wRSSRfD/3?=
+ =?us-ascii?Q?8PMK2pN3VeylTLDtquLpUlQEK2YaPNkaUwFPO1b5SoZ9A56KguOmrjCACph9?=
+ =?us-ascii?Q?D1BzQUi+Ed0lzeuqJ608xuXn4hnLeec0oE2VmiGvOB+f8OhCx5+qadaV3Ze9?=
+ =?us-ascii?Q?cMXJhQxuJXHchJJxXhihbiMUr67YRyERPiQi4Nf5jaBAdumVB9SvVS24CWyd?=
+ =?us-ascii?Q?bQxM9C8q0mIv11oiiERTgb4SZ6ZASYo=3D?=
 MIME-Version: 1.0
-X-Proofpoint-GUID: s_xgQxAcYiGWWhR1WNbuhkgfshmHvUwK
-X-Authority-Analysis: v=2.4 cv=Q4jiJY2a c=1 sm=1 tr=0 ts=69df3559 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=eNcD7ojaAAAA:8
- a=t7CeM3EgAAAA:8 a=6gl_cCoBAAAA:8 a=6MzlWy5WlwFB8YDe1EgA:9
- a=rRYMMicksRHQPzyJ67jW:22 a=FdTzh2GWekK77mhwV6Dw:22 a=Bor9z-CvbNo2M6AZn8_k:22
-X-Proofpoint-ORIG-GUID: s_xgQxAcYiGWWhR1WNbuhkgfshmHvUwK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE1MDA2MiBTYWx0ZWRfX3RhkG8FZSaa0
- +AlNTLirp1WvpqhoIKLqjAT5XHf70tLSzyAPC9yfXBz7RSTdtMSrm0+4umBkKCSSxdY6epVCQ0T
- hzxfSPKZsB3H23TMcpSKRVxeZQBfq2ySqBChVNL9ijeVabD87FhWZ2MqUULVV/PmlwXn0rc0Voa
- QztvQSjUH/ic1jv8zysS8sGBvu/vpYP8fRtvrb00LIloVt9kkw86yknBlNmrLoXckpPqnQg/8EF
- BZaPuf8AQb6oVVzEACSDN6ftyYxm3F8wmUd2GfP208gBF1UVctH9qsc+PDHP80cTQA46pwNbKxV
- nizH3NXNHYfiW8Nfau4cshTWntCsEj/Xg11Z5iBn8p6xZbx+WasJHCCLpDrrcq9Op+GZXBGJRJQ
- JdCuiFU3P4N84wK1TMegOIE9CzFb0FpEm2+w7hxKr0jE3IPiuknuQ8BtPmmmCHVjg1NdXnpRGKY
- NR7iZKzn7AZZsML8aJw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-14_04,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 phishscore=0 spamscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604150062
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 141d07ad-2908-4a9d-bcc0-08de9ac73543
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2026 08:15:51.5954
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8x4PSapNVu5vRvLHCIRbvA3+K/G4k+crIuIFbwYjF5WEZm6CRGcX84Tql9Qieu1Rc35P/mMzGNFF9hYdNhynKLs14ErCgn73gRyshPCSt0k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4P189MB3678
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_AS8P189MB1672C416E88B1CBCDB78D39FB3222AS8P189MB1672EURP_"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 08:56:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235184
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 08:57:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235185
 
-From: Haiqing Bai <haiqing.bai@windriver.com>
+--_000_AS8P189MB1672C416E88B1CBCDB78D39FB3222AS8P189MB1672EURP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-XML::Parser versions through 2.47 for Perl has an off-by-one
-heap buffer overflow in st_serial_stack. In the case
-(stackptr == stacksize - 1), the stack will NOT be expanded.
-Then the new value will be written at location (++stackptr),
-which equals stacksize and therefore falls just outside the
-allocated buffer. The bug can be observed when parsing an
-XML file with very deep element nesting.
+Hi,
+Thanks for pointing out, I will fix this.
 
-References:
-    https://nvd.nist.gov/vuln/detail/CVE-2006-10003
+/Adarsh
+________________________________
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Sent: Tuesday, April 14, 2026 18:03
+To: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>; openembedded-=
+core@lists.openembedded.org <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][master][PATCH] vim: minor update to 9.2.0340 to fix =
+CVEs
 
-Signed-off-by: Haiqing Bai <haiqing.bai@windriver.com>
----
- .../libxml-parser-perl/CVE-2006-10003.patch   | 75 +++++++++++++++++++
- .../perl/libxml-parser-perl_2.47.bb           |  1 +
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+On Tue Apr 14, 2026 at 9:54 AM CEST, Adarsh Jagadish Kamini wrote:
+> From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+>
+> CVEs fixed: CVE-2026-34714 and CVE-2026-33412
+> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+> ---
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
-new file mode 100644
-index 0000000000..7953ed4548
---- /dev/null
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
-@@ -0,0 +1,75 @@
-+From e494a2c3a76b752f6008486fbb36a59f833666c0 Mon Sep 17 00:00:00 2001
-+From: Toddr Bot <toddbot@rinaldo.us>
-+Date: Mon, 16 Mar 2026 22:16:11 +0000
-+Subject: [PATCH] fix: off-by-one heap buffer overflow in st_serial_stack
-+ growth check
-+
-+When st_serial_stackptr == st_serial_stacksize - 1, the old check
-+(stackptr >= stacksize) would not trigger reallocation. The subsequent
-+++stackptr then writes at index stacksize, one element past the
-+allocated buffer.
-+
-+Fix by checking stackptr + 1 >= stacksize so the buffer is grown
-+before the pre-increment write.
-+
-+Add a deep nesting test (600 levels) to exercise this code path.
-+
-+Fixes #39
-+
-+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
-+
-+CVE: CVE-2006-10003
-+
-+Upstream-Status: Backport [https://github.com/cpan-authors/XML-Parser/commit/3eb9cc95420fa0c3f76947c4708962546bf27cfd.patch]
-+
-+Signed-off-by: Bai, Haiqing <Haiqing.Bai@windriver.com>
-+---
-+ Expat/Expat.xs   |  2 +-
-+ t/deep_nesting.t | 22 ++++++++++++++++++++++
-+ 2 files changed, 23 insertions(+), 1 deletion(-)
-+ create mode 100644 t/deep_nesting.t
-+
-+diff --git a/Expat/Expat.xs b/Expat/Expat.xs
-+index dbad380..f04a0cf 100644
-+--- a/Expat/Expat.xs
-++++ b/Expat/Expat.xs
-+@@ -499,7 +499,7 @@ startElement(void *userData, const char *name, const char **atts)
-+     }
-+   }
-+ 
-+-  if (cbv->st_serial_stackptr >= cbv->st_serial_stacksize) {
-++  if (cbv->st_serial_stackptr + 1 >= cbv->st_serial_stacksize) {
-+     unsigned int newsize = cbv->st_serial_stacksize + 512;
-+ 
-+     Renew(cbv->st_serial_stack, newsize, unsigned int);
-+diff --git a/t/deep_nesting.t b/t/deep_nesting.t
-+new file mode 100644
-+index 0000000..8237b5f
-+--- /dev/null
-++++ b/t/deep_nesting.t
-+@@ -0,0 +1,22 @@
-++BEGIN { print "1..1\n"; }
-++
-++# Test for deeply nested elements to exercise st_serial_stack reallocation.
-++# This catches off-by-one errors in the stack growth check (GH #39).
-++
-++use XML::Parser;
-++
-++my $depth = 600;
-++
-++my $xml = '';
-++for my $i (1 .. $depth) {
-++    $xml .= "<e$i>";
-++}
-++for my $i (reverse 1 .. $depth) {
-++    $xml .= "</e$i>";
-++}
-++
-++my $p = XML::Parser->new;
-++eval { $p->parse($xml) };
-++
-++print "not " if $@;
-++print "ok 1\n";
-+-- 
-+2.49.1
-+
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-index b6d28c4bb3..68854c5b20 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-@@ -8,6 +8,7 @@ DEPENDS += "expat"
- 
- SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz \
-            file://0001-Makefile.PL-make-check_lib-cross-friendly.patch \
-+           file://CVE-2006-10003.patch \
-            "
- 
- SRC_URI[sha256sum] = "ad4aae643ec784f489b956abe952432871a622d4e2b5c619e8855accbfc4d1d8"
--- 
-2.53.0
+Hi Adarsh,
 
+Thanks for your patch.
+
+It looks like you will need to drop some vim patches, at least the
+CVE-2026-33412.patch one. Right now, vim does not build with your
+changes:
+
+ERROR: vim-9.2.0340-r0 do_patch: Applying patch '/srv/pokybuild/yocto-worke=
+r/musl-qemux86/build/layers/openembedded-core/meta/recipes-support/vim/file=
+s/CVE-2026-33412.patch' on target directory '/srv/pokybuild/yocto-worker/mu=
+sl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/vim/9.2.0340/sourc=
+es/vim-9.2.0340'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/musl-qemux86/build/bu=
+ild/tmp/work/core2-32-poky-linux-musl/vim/9.2.0340/recipe-sysroot-native/et=
+c/quiltrc push', 0, 'stdout: Applying patch CVE-2026-33412.patch
+patching file src/os_unix.c
+Hunk #1 FAILED at 7106.
+1 out of 1 hunk FAILED -- rejects in file src/os_unix.c
+Patch CVE-2026-33412.patch can be reverse-applied
+
+stderr: ')
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/3620
+
+Can you send a new version fixing this?
+
+Thanks,
+Mathieu
+
+--
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
+--_000_AS8P189MB1672C416E88B1CBCDB78D39FB3222AS8P189MB1672EURP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Hi,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Thanks for pointing out, I will fix this.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+/Adarsh</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Mathieu Dubois-Briand=
+ &lt;mathieu.dubois-briand@bootlin.com&gt;<br>
+<b>Sent:</b> Tuesday, April 14, 2026 18:03<br>
+<b>To:</b> Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&gt;; =
+openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openem=
+bedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core][master][PATCH] vim: minor update to 9.2.0340 =
+to fix CVEs</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Tue Apr 14, 2026 at 9:54 AM CEST, Adarsh Jagadi=
+sh Kamini wrote:<br>
+&gt; From: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&gt;<b=
+r>
+&gt;<br>
+&gt; CVEs fixed: CVE-2026-34714 and CVE-2026-33412<br>
+&gt; Signed-off-by: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.t=
+ech&gt;<br>
+&gt; ---<br>
+<br>
+Hi Adarsh,<br>
+<br>
+Thanks for your patch.<br>
+<br>
+It looks like you will need to drop some vim patches, at least the<br>
+CVE-2026-33412.patch one. Right now, vim does not build with your<br>
+changes:<br>
+<br>
+ERROR: vim-9.2.0340-r0 do_patch: Applying patch '/srv/pokybuild/yocto-worke=
+r/musl-qemux86/build/layers/openembedded-core/meta/recipes-support/vim/file=
+s/CVE-2026-33412.patch' on target directory '/srv/pokybuild/yocto-worker/mu=
+sl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/vim/9.2.0340/sourc=
+es/vim-9.2.0340'<br>
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/musl-qemux86/build/bu=
+ild/tmp/work/core2-32-poky-linux-musl/vim/9.2.0340/recipe-sysroot-native/et=
+c/quiltrc push', 0, 'stdout: Applying patch CVE-2026-33412.patch<br>
+patching file src/os_unix.c<br>
+Hunk #1 FAILED at 7106.<br>
+1 out of 1 hunk FAILED -- rejects in file src/os_unix.c<br>
+Patch CVE-2026-33412.patch can be reverse-applied<br>
+<br>
+stderr: ')<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/build=
+s/3620">https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/3=
+620</a><br>
+<br>
+Can you send a new version fixing this?<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com">https://bootlin.com</a><br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_AS8P189MB1672C416E88B1CBCDB78D39FB3222AS8P189MB1672EURP_--
 
