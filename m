@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C8DEF4382F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62ABFF43830
 	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:56 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19813.1776261873951630950
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19749.1776261894086639253
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Apr 2026 07:04:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BNd9ofBX;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KgNKQ2G5;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d91758e65-ae7c9410-9338-4be0-948a-4cc4b95c1dfa-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZGH4zf0h;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=N08DDRJI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019d91758de1-1880f52e-555f-4454-93be-229105099023-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1776261893;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uhcrgRp7F0puv2Tz0y4daVwnLu1NU+QH63xn7AEi4mA=;
-	b=BNd9ofBXIV2mJMtlrZclHZzlPdPF01J6NzFs9gE9+MPVKi/s9vooRLrTzRp6pRfX
-	ot5LJocTjD08qybvog58lLJJBXgX7py3kPk/adMxwTM7iSCjlGj0BqYob+nXY9/V6zL
-	k4kB1joPJUbqiQ0bYqhy9yKUQ2OWtWYM+BliN+TE=
+	bh=2stwIDoQyvYrRcdcTyi6sVp6trYXJNPdHHqNqxS5Ak4=;
+	b=ZGH4zf0h732YYkf5eRezUqxq87IIsDVDqbrehrApoRhBwmaMzlpi2EWQrEhtnaow
+	NnVDgDltIP36cyFJc0ZM01i9280ufButLnEXkwJrxswxvfiORSZcmDXAUJThIgkv6vE
+	tI/cEqhvuv9iTSSNyHIAiIYyhkBJ7x0BXKWBth0o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261893;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uhcrgRp7F0puv2Tz0y4daVwnLu1NU+QH63xn7AEi4mA=;
-	b=KgNKQ2G53XSQNnvhfN8zMDKUwDszPKu+g9Pv1QAO8plUhV65U56MkzdRmcT9Z1Vx
-	tYhe5uY5N4U+APCHDfXKIskoNTTQJT9Tu6lzNiotNt6kWDZF8jNVdx432cfIdXr27fk
-	f0XZbbPATkgtzrHauhYkTCAUm2qSGwjbW9HYUnXo=
-Content-Type: multipart/mixed; boundary="===============0264248377162716750=="
+	bh=2stwIDoQyvYrRcdcTyi6sVp6trYXJNPdHHqNqxS5Ak4=;
+	b=N08DDRJIqaYDDuv+Sa/2RS2OaZ7g2QbMRUhda8V0wJbBfn4syGLw7xz3iN4Gkt0g
+	ls71Pt9eDgTrt1T/GP3ZbCGDqs+38Inmj1W+e7Gqy+U4IuWSQeuPW7M/s3J/x7jkBod
+	HS+W9XD8d3e8MKHiM91t6Ek9f9i5EbxbiZxKtxvU=
+Content-Type: multipart/mixed; boundary="===============3885790461367615430=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dos2unix: upgrading to 7.5.5 SUCCEEDED
-Message-ID: <0101019d91758e65-ae7c9410-9338-4be0-948a-4cc4b95c1dfa-000000@us-west-2.amazonses.com>
+Subject: [AUH] diffoscope: upgrading to 317 SUCCEEDED
+Message-ID: <0101019d91758de1-1880f52e-555f-4454-93be-229105099023-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Apr 2026 14:04:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.191
+X-SES-Outgoing: 2026.04.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235296
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235295
 
---===============0264248377162716750==
+--===============3885790461367615430==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *dos2unix* to *7.5.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *diffoscope* to *317* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-dos2unix-upgrade-7.5.4-7.5.5.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-314-317.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,101 +72,101 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 70648ae17875d524d618b34e6e2d2624b8eabd2a Mon Sep 17 00:00:00 2001
+From bba23006c627eb2163fd0efdc502b9607e0b90ac Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 13:02:36 +0000
-Subject: [PATCH] dos2unix: upgrade 7.5.4 -> 7.5.5
+Date: Wed, 15 Apr 2026 12:59:52 +0000
+Subject: [PATCH] diffoscope: upgrade 314 -> 317
 
 ---
- .../dos2unix/{dos2unix_7.5.4.bb => dos2unix_7.5.5.bb}           | 2 +-
+ .../diffoscope/{diffoscope_314.bb => diffoscope_317.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/dos2unix/{dos2unix_7.5.4.bb => dos2unix_7.5.5.bb} (95%)
+ rename meta/recipes-support/diffoscope/{diffoscope_314.bb => diffoscope_317.bb} (93%)
 
-diff --git a/meta/recipes-support/dos2unix/dos2unix_7.5.4.bb b/meta/recipes-support/dos2unix/dos2unix_7.5.5.bb
-similarity index 95%
-rename from meta/recipes-support/dos2unix/dos2unix_7.5.4.bb
-rename to meta/recipes-support/dos2unix/dos2unix_7.5.5.bb
-index 87d51574cc..aa078ed200 100644
---- a/meta/recipes-support/dos2unix/dos2unix_7.5.4.bb
-+++ b/meta/recipes-support/dos2unix/dos2unix_7.5.5.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.txt;md5=af1174fd3d1a254eec3a4a1d1da170a9"
- SRC_URI = "git://git.code.sf.net/p/dos2unix/dos2unix;branch=master;protocol=https"
- UPSTREAM_CHECK_GITTAGREGEX = "dos2unix-(?P<pver>(\d+(\.\d+)+))"
+diff --git a/meta/recipes-support/diffoscope/diffoscope_314.bb b/meta/recipes-support/diffoscope/diffoscope_317.bb
+similarity index 93%
+rename from meta/recipes-support/diffoscope/diffoscope_314.bb
+rename to meta/recipes-support/diffoscope/diffoscope_317.bb
+index 11868dc8db..06c3ee1a30 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_314.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_317.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
  
--SRCREV = "dd37537e5fe03ac123aca9a9c944ef87fb998dcd"
-+SRCREV = "54524999eece4e9ad0dab580c79b02855fc85028"
+ inherit pypi setuptools3
  
- S = "${UNPACKDIR}/${BP}/dos2unix"
+-SRC_URI[sha256sum] = "b347d6ebcadd913a5839555b89ea1026422a1cdf7b8b3be21bb2f112133c3ff8"
++SRC_URI[sha256sum] = "9c8741f76bcbd1faec59227da31981a524abca63e19d03f3a594c19f326de542"
  
+ RDEPENDS:${PN} += "\
+         binutils \
 -- 
 2.47.1
 
 
---===============0264248377162716750==
+--===============3885790461367615430==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-diffoscope-upgrade-314-317.patch"
+
+RnJvbSBiYmEyMzAwNmM2MjdlYjIxNjNmZDBlZmRjNTAyYjk2MDdlMGI5MGFjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTI6NTk6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+aWZmb3Njb3BlOiB1cGdyYWRlIDMxNCAtPiAzMTcKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
+c2NvcGVfMzE0LmJiID0+IGRpZmZvc2NvcGVfMzE3LmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8zMTQuYmIgPT4gZGlmZm9zY29wZV8z
+MTcuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
+ZS9kaWZmb3Njb3BlXzMxNC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
+Zm9zY29wZV8zMTcuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzMxNC5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzMxNy5iYgppbmRleCAxMTg2OGRj
+OGRiLi4wNmMzZWUxYTMwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
+b3BlL2RpZmZvc2NvcGVfMzE0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
+cGUvZGlmZm9zY29wZV8zMTcuYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
+ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiYjM0N2Q2ZWJjYWRkOTEzYTU4Mzk1NTViODllYTEwMjY0MjJhMWNkZjdiOGIzYmUyMWJi
+MmYxMTIxMzNjM2ZmOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5Yzg3NDFmNzZiY2JkMWZhZWM1
+OTIyN2RhMzE5ODFhNTI0YWJjYTYzZTE5ZDAzZjNhNTk0YzE5ZjMyNmRlNTQyIgogCiBSREVQRU5E
+Uzoke1BOfSArPSAiXAogICAgICAgICBiaW51dGlscyBcCi0tIAoyLjQ3LjEKCg==
+
+--===============3885790461367615430==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-doc: FILELIST: directory renamed /usr/share/doc/dos2unix-7.5.4 -> /usr/share/doc/dos2unix-7.5.5
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.14/site-packages/diffoscope-314.dist-info -> /usr/lib/python3.14/site-packages/diffoscope-317.dist-info, directory renamed /usr/lib/python3.14/site-packages/diffoscope-314.dist-info/licenses -> /usr/lib/python3.14/site-packages/diffoscope-317.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.14/site-packages/diffoscope-314.dist-info moved to /usr/lib/python3.14/site-packages/diffoscope-317.dist-info
 
---===============0264248377162716750==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-dos2unix-upgrade-7.5.4-7.5.5.patch"
-
-RnJvbSA3MDY0OGFlMTc4NzVkNTI0ZDYxOGIzNGU2ZTJkMjYyNGI4ZWFiZDJhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTM6MDI6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-b3MydW5peDogdXBncmFkZSA3LjUuNCAtPiA3LjUuNQoKLS0tCiAuLi4vZG9zMnVuaXgve2RvczJ1
-bml4XzcuNS40LmJiID0+IGRvczJ1bml4XzcuNS41LmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9kb3MydW5peC97ZG9zMnVuaXhfNy41LjQuYmIgPT4gZG9zMnVuaXhfNy41
-LjUuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZG9zMnVuaXgv
-ZG9zMnVuaXhfNy41LjQuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kb3MydW5peC9kb3MydW5p
-eF83LjUuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9kb3MydW5peC9kb3MydW5peF83LjUuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvZG9zMnVuaXgvZG9zMnVuaXhfNy41LjUuYmIKaW5kZXggODdkNTE1NzRjYy4uYWEw
-NzhlZDIwMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZG9zMnVuaXgvZG9zMnVu
-aXhfNy41LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZG9zMnVuaXgvZG9zMnVuaXhf
-Ny41LjUuYmIKQEAgLTExLDcgKzExLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
-WUlORy50eHQ7bWQ1PWFmMTE3NGZkM2QxYTI1NGVlYzNhNGExZDFkYTE3MGE5IgogU1JDX1VSSSA9
-ICJnaXQ6Ly9naXQuY29kZS5zZi5uZXQvcC9kb3MydW5peC9kb3MydW5peDticmFuY2g9bWFzdGVy
-O3Byb3RvY29sPWh0dHBzIgogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiZG9zMnVuaXgt
-KD9QPHB2ZXI+KFxkKyhcLlxkKykrKSkiCiAKLVNSQ1JFViA9ICJkZDM3NTM3ZTVmZTAzYWMxMjNh
-Y2E5YTljOTQ0ZWY4N2ZiOTk4ZGNkIgorU1JDUkVWID0gIjU0NTI0OTk5ZWVjZTRlOWFkMGRhYjU4
-MGM3OWIwMjg1NWZjODUwMjgiCiAKIFMgPSAiJHtVTlBBQ0tESVJ9LyR7QlB9L2RvczJ1bml4Igog
-Ci0tIAoyLjQ3LjEKCg==
-
---===============0264248377162716750==
+--===============3885790461367615430==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dbg: PKGV changed from 7.5.4 [default] to 7.5.5 [default]
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dbg: PV changed from "7.5.4" to "7.5.5"
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dbg: PKGSIZE changed from 273592 to 275776 (+1%)
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dev: PKGV changed from 7.5.4 [default] to 7.5.5 [default]
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dev: PV changed from "7.5.4" to "7.5.5"
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-doc: PKGV changed from 7.5.4 [default] to 7.5.5 [default]
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-doc: FILELIST: directory renamed /usr/share/doc/dos2unix-7.5.4 -> /usr/share/doc/dos2unix-7.5.5
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-doc: PV changed from "7.5.4" to "7.5.5"
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-doc: PKGSIZE changed from 206698 to 208609 (+1%)
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-locale: PKGV changed from 7.5.4 [default] to 7.5.5 [default]
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-locale: PV changed from "7.5.4" to "7.5.5"
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-src: PKGV changed from 7.5.4 [default] to 7.5.5 [default]
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-src: FILELIST: directory renamed /usr/src/debug/dos2unix/7.5.4 -> /usr/src/debug/dos2unix/7.5.5
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-src: PV changed from "7.5.4" to "7.5.5"
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-src: PKGSIZE changed from 202072 to 201918 (-0%)
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-staticdev: PKGV changed from 7.5.4 [default] to 7.5.5 [default]
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix-staticdev: PV changed from "7.5.4" to "7.5.5"
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix: PKGV changed from 7.5.4 [default] to 7.5.5 [default]
-packages/x86-64-v3-poky-linux/dos2unix/dos2unix: PV changed from "7.5.4" to "7.5.5"
-packages/x86-64-v3-poky-linux/dos2unix: PKGV changed from 7.5.4 [default] to 7.5.5 [default]
-packages/x86-64-v3-poky-linux/dos2unix: PV changed from "7.5.4" to "7.5.5"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dbg: PV changed from "314" to "317"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 314 [default] to 317 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dev: PV changed from "314" to "317"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 314 [default] to 317 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-doc: PV changed from "314" to "317"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 314 [default] to 317 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-locale: PV changed from "314" to "317"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 314 [default] to 317 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-src: PV changed from "314" to "317"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-src: PKGV changed from 314 [default] to 317 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "314" to "317"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 314 [default] to 317 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PV changed from "314" to "317"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1411658 to 1411702 (+0%)
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PKGV changed from 314 [default] to 317 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.14/site-packages/diffoscope-314.dist-info -> /usr/lib/python3.14/site-packages/diffoscope-317.dist-info, directory renamed /usr/lib/python3.14/site-packages/diffoscope-314.dist-info/licenses -> /usr/lib/python3.14/site-packages/diffoscope-317.dist-info/licenses
+packages/x86-64-v3-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-314.tar.gz;downloadfilename=diffoscope-314.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-317.tar.gz;downloadfilename=diffoscope-317.tar.gz"
+packages/x86-64-v3-poky-linux/diffoscope: PV changed from "314" to "317"
+packages/x86-64-v3-poky-linux/diffoscope: PKGV changed from 314 [default] to 317 [default]
+Changes to packages/x86-64-v3-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.14/site-packages/diffoscope-314.dist-info moved to /usr/lib/python3.14/site-packages/diffoscope-317.dist-info
 
---===============0264248377162716750==--
+--===============3885790461367615430==--
 
