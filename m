@@ -2,812 +2,434 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78407F43832
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:56 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19830.1776261891667309223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F358F43844
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:57 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19747.1776261888768925237
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Apr 2026 07:04:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=EZkhQRme;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=loiRTmA4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019d917583fb-33e9c6d4-d32f-4224-a588-af2bf44f7d84-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Yimzlk4q;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zxad87ei;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019d917583b3-f3d31a4e-17a6-4a17-843f-bb938677a243-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1776261891;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VsWcd2eBii9IIXBLkJl34hswdqMLIrjaa1zBGu9LAsU=;
-	b=EZkhQRmeSsyxvf9WqH4ZPyjp/qE+sAnsZxxoQheq4wz79PJs7cNNVzf81tIV0SVX
-	u0c+0nyvRxN1di/l422EP0J0P3yPo5Y6/nnxpmk+HK4ps5MC7SVCYUpsrOVgSutQbEx
-	GKGi3wp8m1wf3tL+dAeDG/+TT4BFvTZRfiY5NPNo=
+	bh=fhyGc1RnBqmzSEvU72vbxwr5uYf9thYRchEOqs0XGD8=;
+	b=Yimzlk4qZDYfs4N1X8kkiy4zYvUyVPgdcIlMo41Mi7pV54JMB0vlPL47MwJSUUZb
+	QCyVdr24YkLO7zQlfDMDVJX7jYNEM7BSex7aQ6bBTa6XaEmbbRuAdG1luCJrr+tNrl0
+	2B8PBZz5D8G9jOwIuz94/QKjejxxy6dOarnHpxzc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261891;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VsWcd2eBii9IIXBLkJl34hswdqMLIrjaa1zBGu9LAsU=;
-	b=loiRTmA473e+7yN5UgMfAEnVCGmMaudkkxxj9J9EDhMAKH+Clx0sMGGWS+ZSDBM3
-	OlC1G3jvCn5NnlpVayik/mLuaHT5+Vr8dkWg3ahEEqMQgh5WExYZTITKT5krqgDs7b1
-	xrMihWqN9BCZ6zmuABkKUWOkTFh6TL6R2Q4KMWj4=
-Content-Type: multipart/mixed; boundary="===============0813006658787355730=="
+	bh=fhyGc1RnBqmzSEvU72vbxwr5uYf9thYRchEOqs0XGD8=;
+	b=zxad87ei0BIQrlo4YpqWytHWCgr7ABcXUMDHAjX0dJKZOeSV6HAEoNLd9UZNR9hC
+	Aj0KVleU3g/TB9QoZUOqvb/XlavreZjqwkLyM6dOggN0qcZQrjFLc6s11yrrAJ3gihO
+	qVIbxMhzqo/oY38Njgf8n8P/VV7DfxQQdcli3Cao=
+Content-Type: multipart/mixed; boundary="===============8523201769131257036=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pango: upgrading to 1.57.1 SUCCEEDED
-Message-ID: <0101019d917583fb-33e9c6d4-d32f-4224-a588-af2bf44f7d84-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libjpeg-turbo: upgrading to 3.1.90 SUCCEEDED
+Message-ID: <0101019d917583b3-f3d31a4e-17a6-4a17-843f-bb938677a243-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Apr 2026 14:04:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.23
+X-SES-Outgoing: 2026.04.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235284
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235280
 
---===============0813006658787355730==
-Content-Type: text/plain; charset="us-ascii"
+--===============8523201769131257036==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpsaWJqcGVnLXR1cmJvKiB0byAqMy4xLjkwKiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBzdGVw
+czoKICAgIC0gYXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1saWJqcGVnLXR1cmJvLXVwZ3Jh
+ZGUtMy4xLjMtMy4xLjkwLnBhdGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFt
+IHBhdGNoZXMgYW5kIHN1bW1hcml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0g
+Y29tcGlsZSBhbiBpbWFnZSB0aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0g
+c29tZSBiYXNpYyBzYW5pdHkgdGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0
+IG9mZjogZ2l0IGNvbW1pdCAtcyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQg
+dG8gdGhlIGFwcHJvcHJpYXRlIG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJl
+bGlldmUgdGhlIHJlY2lwZSBzaG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91
+IGNhbiBmaWxsIFJFQ0lQRV9OT19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZp
+bGUgc28gdGhhdAphdXRvbWF0aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRl
+ZC4KClBsZWFzZSByZXZpZXcgdGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0
+aW9uIGFuZCBidWlsZC91cGRhdGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEg
+YnVnIGF0IGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3By
+b2R1Y3Q9QXV0b21hdGVkJTIwVXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUg
+SGVscGVyCgotLSA+OCAtLQpGcm9tIDI0ZWE4NjA3ZGFmNWI3NzMyYTY1ZjM1ODU1YjY3MzU1MTM2
+MDQ4NWIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhA
+eW9jdG9wcm9qZWN0Lm9yZz4KRGF0ZTogV2VkLCAxNSBBcHIgMjAyNiAxMjowNTo1OCArMDAwMApT
+dWJqZWN0OiBbUEFUQ0hdIGxpYmpwZWctdHVyYm86IHVwZ3JhZGUgMy4xLjMgLT4gMy4xLjkwCgot
+LS0KIC4uLnR1cmJvXzMuMS4zLmJiID0+IGxpYmpwZWctdHVyYm9fMy4xLjkwLmJifSB8IDE0NiAr
+KysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCAxNDQgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvanBlZy97bGlianBlZy10
+dXJib18zLjEuMy5iYiA9PiBsaWJqcGVnLXR1cmJvXzMuMS45MC5iYn0gKDMxJSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvanBlZy9saWJqcGVnLXR1cmJvXzMuMS4zLmJiIGIv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10dXJib18zLjEuOTAuYmIKc2ltaWxh
+cml0eSBpbmRleCAzMSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGli
+anBlZy10dXJib18zLjEuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcv
+bGlianBlZy10dXJib18zLjEuOTAuYmIKaW5kZXggMjZlODRjYTQyYy4uNDU3N2EwYTRiMCAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10dXJib18zLjEuMy5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvanBlZy9saWJqcGVnLXR1cmJvXzMuMS45MC5i
+YgpAQCAtMSwxNSArMSwxNTcgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVl
+cyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2lu
+ZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0
+ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1
+bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNl
+LVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHll
+YXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFLm1kCisj
+ICsrKyBMSUNFTlNFLm1kCisjIEBAIC04LDE4ICs4LDQ2IEBACisjICAKKyMgICAgVGhpcyBsaWNl
+bnNlIGFwcGxpZXMgdG8gdGhlIGxpYmpwZWcgQVBJIGxpYnJhcnkgYW5kIGFzc29jaWF0ZWQgcHJv
+Z3JhbXMsCisjICAgIGluY2x1ZGluZyBhbnkgY29kZSBpbmhlcml0ZWQgZnJvbSBsaWJqcGVnIGFu
+ZCBhbnkgbW9kaWZpY2F0aW9ucyB0byB0aGF0CisjIC0gIGNvZGUuICBOb3RlIHRoYXQgdGhlIGxp
+YmpwZWctdHVyYm8gU0lNRCBzb3VyY2UgY29kZSBiZWFycyB0aGUKKyMgLSAgW3psaWIgTGljZW5z
+ZV0oaHR0cHM6Ly9vcGVuc291cmNlLm9yZy9saWNlbnNlcy9abGliKSwgYnV0IGluIHRoZSBjb250
+ZXh0IG9mCisjIC0gIHRoZSBvdmVyYWxsIGxpYmpwZWcgQVBJIGxpYnJhcnksIHRoZSB0ZXJtcyBv
+ZiB0aGUgemxpYiBMaWNlbnNlIGFyZSBzdWJzdW1lZAorIyAtICBieSB0aGUgdGVybXMgb2YgdGhl
+IElKRyBMaWNlbnNlLgorIyArICBjb2RlLgorIyAgCisjICAtIFRoZSBNb2RpZmllZCAoMy1jbGF1
+c2UpIEJTRCBMaWNlbnNlLCB3aGljaCBpcyBsaXN0ZWQgYmVsb3cKKyMgIAorIyAtICBUaGlzIGxp
+Y2Vuc2UgYXBwbGllcyB0byB0aGUgVHVyYm9KUEVHIEFQSSBsaWJyYXJ5IGFuZCBhc3NvY2lhdGVk
+IHByb2dyYW1zLCBhcworIyAtICB3ZWxsIGFzIHRoZSBidWlsZCBzeXN0ZW0uICBOb3RlIHRoYXQg
+dGhlIFR1cmJvSlBFRyBBUEkgbGlicmFyeSB3cmFwcyB0aGUKKyMgLSAgbGlianBlZyBBUEkgbGli
+cmFyeSwgc28gaW4gdGhlIGNvbnRleHQgb2YgdGhlIG92ZXJhbGwgVHVyYm9KUEVHIEFQSSBsaWJy
+YXJ5LAorIyAtICBib3RoIHRoZSB0ZXJtcyBvZiB0aGUgSUpHIExpY2Vuc2UgYW5kIHRoZSB0ZXJt
+cyBvZiB0aGUgTW9kaWZpZWQgKDMtY2xhdXNlKQorIyAtICBCU0QgTGljZW5zZSBhcHBseS4KKyMg
+KyAgVGhpcyBsaWNlbnNlIGFwcGxpZXMgdG8gdGhlIFR1cmJvSlBFRyBBUEkgbGlicmFyeSBhbmQg
+YXNzb2NpYXRlZCBwcm9ncmFtcywKKyMgKyAgW2xpYnNwbmddKGh0dHBzOi8vbGlic3BuZy5vcmcp
+ICh3aGljaCBpcyB1c2VkIGJ5IGNqcGVnIGFuZCBkanBlZyksIGFuZCB0aGUKKyMgKyAgYnVpbGQv
+dGVzdCBzeXN0ZW0uCisjICsKKyMgKyAgKiBUaGUgVHVyYm9KUEVHIEFQSSBsaWJyYXJ5IHdyYXBz
+IHRoZSBsaWJqcGVnIEFQSSBsaWJyYXJ5LCBzbyBpbiB0aGUgY29udGV4dAorIyArICAgIG9mIHRo
+ZSBvdmVyYWxsIFR1cmJvSlBFRyBBUEkgbGlicmFyeSwgYm90aCB0aGUgdGVybXMgb2YgdGhlIElK
+RyBMaWNlbnNlIGFuZAorIyArICAgIHRoZSB0ZXJtcyBvZiB0aGUgTW9kaWZpZWQgKDMtY2xhdXNl
+KSBCU0QgTGljZW5zZSBhcHBseS4KKyMgKyAgKiBjanBlZyBhbmQgZGpwZWcgdXNlIGxpYnNwbmcs
+IHNvIGluIHRoZSBjb250ZXh0IG9mIHRob3NlIHByb2dyYW1zLCBib3RoIHRoZQorIyArICAgIHRl
+cm1zIG9mIHRoZSBJSkcgTGljZW5zZSBhbmQgdGhlIHRlcm1zIG9mIHRoZSBNb2RpZmllZCAoMy1j
+bGF1c2UpIEJTRAorIyArICAgIExpY2Vuc2UgYXBwbHkuCisjICsKKyMgKworIyArQ29tcG9uZW50
+IExpY2Vuc2VzCisjICs9PT09PT09PT09PT09PT09PT0KKyMgKworIyArU29tZSBvZiBsaWJqcGVn
+LXR1cmJvJ3MgbW9kdWxlcyBhbmQgaW50ZXJuYWwgZGVwZW5kZW5jaWVzIGFyZSBjb3ZlcmVkIGJ5
+IGxlc3MKKyMgK3Jlc3RyaWN0aXZlIGxpY2Vuc2VzLCBidXQgaW4gdGhlIGNvbnRleHQgb2YgbGli
+anBlZy10dXJibyBhcyBhIHdob2xlLCB0aGUgdGVybXMKKyMgK29mIHRoZSBsZXNzIHJlc3RyaWN0
+aXZlIGxpY2Vuc2VzIGFyZSBzdWJzdW1lZCBieSBlaXRoZXIgdGhlIElKRyBMaWNlbnNlIG9yIHRo
+ZQorIyArTW9kaWZpZWQgQlNEIExpY2Vuc2UuICAoSW4gb3RoZXIgd29yZHMsIHRoZSB0ZXJtcyBv
+ZiB0aGUgbGVzcyByZXN0cmljdGl2ZQorIyArbGljZW5zZXMgYXJlIHNhdGlzZmllZCBpZiB0aGUg
+dGVybXMgb2YgdGhlIElKRyBhbmQgTW9kaWZpZWQgQlNEIExpY2Vuc2VzIGFyZQorIyArc2F0aXNm
+aWVkLikKKyMgKworIyArLSBUaGUgbGlianBlZy10dXJibyBTSU1EIHNvdXJjZSBjb2RlIGFuZCB6
+bGliIGFyZSBjb3ZlcmVkIGJ5IHRoZQorIyArICBbemxpYiBMaWNlbnNlXShodHRwczovL3NwZHgu
+b3JnL2xpY2Vuc2VzL1psaWIuaHRtbCksIHdoaWNoIGlzIHN1YnN1bWVkIGJ5IHRoZQorIyArICBJ
+SkcgTGljZW5zZSBpbiB0aGUgY29udGV4dCBvZiB0aGUgY2pwZWcgYW5kIGRqcGVnIHByb2dyYW1z
+IGFuZCB0aGUgbGlianBlZworIyArICBBUEkgbGlicmFyeS4KKyMgKworIyArLSBTb21lIG9mIHRo
+ZSBsaWJzcG5nIHNvdXJjZSBjb2RlIGlzIGNvdmVyZWQgYnkgdGhlCisjICsgIFtQTkcgUmVmZXJl
+bmNlIExpYnJhcnkgTGljZW5zZSB2Ml0oaHR0cHM6Ly9zcGR4Lm9yZy9saWNlbnNlcy9saWJwbmct
+Mi4wLmh0bWwpLAorIyArICB3aGljaCBpcyBzdWJzdW1lZCBieSB0aGUgSUpHIExpY2Vuc2UgaW4g
+dGhlIGNvbnRleHQgb2YgdGhlIGNqcGVnIGFuZCBkanBlZworIyArICBwcm9ncmFtcyBhbmQgdGhl
+IFR1cmJvSlBFRyBBUEkgbGlicmFyeS4KKyMgKworIyArLSBNb3N0IG9mIHRoZSBsaWJzcG5nIHNv
+dXJjZSBjb2RlIGlzIGNvdmVyZWQgYnkgdGhlCisjICsgIFtTaW1wbGlmaWVkICgyLWNsYXVzZSkg
+QlNEIExpY2Vuc2VdKGh0dHBzOi8vc3BkeC5vcmcvbGljZW5zZXMvQlNELTItQ2xhdXNlLmh0bWwp
+LAorIyArICB3aGljaCBpcyBzdWJzdW1lZCBieSB0aGUgTW9kaWZpZWQgQlNEIExpY2Vuc2UgaW4g
+dGhlIGNvbnRleHQgb2YgdGhlIGNqcGVnIGFuZAorIyArICBkanBlZyBwcm9ncmFtcyBhbmQgdGhl
+IFR1cmJvSlBFRyBBUEkgbGlicmFyeS4KKyMgIAorIyAgCisjICBDb21wbHlpbmcgd2l0aCB0aGUg
+bGlianBlZy10dXJibyBMaWNlbnNlcworIyBAQCAtMzgsNyArNjYsNiBAQAorIyAgICAgICAgICAq
+Kk9yaWdpbioqCisjICAgICAgICAgIC0gQ2xhdXNlIDEgb2YgdGhlIElKRyBMaWNlbnNlCisjICAg
+ICAgICAgIC0gQ2xhdXNlIDEgb2YgdGhlIE1vZGlmaWVkIEJTRCBMaWNlbnNlCisjIC0gICAgICAg
+IC0gQ2xhdXNlcyAxIGFuZCAzIG9mIHRoZSB6bGliIExpY2Vuc2UKKyMgIAorIyAgICAgIDIuICBZ
+b3UgbXVzdCBhZGQgeW91ciBvd24gY29weXJpZ2h0IG5vdGljZSB0byB0aGUgaGVhZGVyIG9mIGVh
+Y2ggc291cmNlCisjICAgICAgICAgIGZpbGUgeW91IG1vZGlmaWVkLCBzbyBvdGhlcnMgY2FuIHRl
+bGwgdGhhdCB5b3UgbW9kaWZpZWQgdGhhdCBmaWxlLiAgKElmCisjIEBAIC00Nyw3ICs3NCw2IEBA
+CisjICAKKyMgICAgICAgICAgKipPcmlnaW4qKgorIyAgICAgICAgICAtIENsYXVzZSAxIG9mIHRo
+ZSBJSkcgTGljZW5zZQorIyAtICAgICAgICAtIENsYXVzZSAyIG9mIHRoZSB6bGliIExpY2Vuc2UK
+KyMgIAorIyAgICAgIDMuICBZb3UgbXVzdCBpbmNsdWRlIHRoZSBJSkcgUkVBRE1FIGZpbGUsIGFu
+ZCB5b3UgbXVzdCBub3QgYWx0ZXIgYW55IG9mIHRoZQorIyAgICAgICAgICBjb3B5cmlnaHQgb3Ig
+bGljZW5zZSB0ZXh0IGluIHRoYXQgZmlsZS4KKyMgQEAgLTY3LDkgKzkzLDkgQEAKKyMgICAgICAg
+ICAgKipPcmlnaW4qKgorIyAgICAgICAgICAtIENsYXVzZSAyIG9mIHRoZSBJSkcgbGljZW5zZQor
+IyAgCisjIC0gICAgMi4gIElmIHlvdXIgYmluYXJ5IGRpc3RyaWJ1dGlvbiBpbmNsdWRlcyBvciB1
+c2VzIHRoZSBUdXJib0pQRUcgQVBJLCB0aGVuCisjIC0gICAgICAgIHlvdXIgcHJvZHVjdCBkb2N1
+bWVudGF0aW9uIG11c3QgaW5jbHVkZSB0aGUgdGV4dCBvZiB0aGUgTW9kaWZpZWQgQlNECisjIC0g
+ICAgICAgIExpY2Vuc2UgKHNlZSBiZWxvdy4pCisjICsgICAgMi4gIElmIHlvdXIgYmluYXJ5IGRp
+c3RyaWJ1dGlvbiBpbmNsdWRlcyBvciB1c2VzIHRoZSBUdXJib0pQRUcgQVBJIG9yCisjICsgICAg
+ICAgIGFzc29jaWF0ZWQgcHJvZ3JhbXMsIGNqcGVnLCBvciBkanBlZywgdGhlbiB5b3VyIHByb2R1
+Y3QgZG9jdW1lbnRhdGlvbgorIyArICAgICAgICBtdXN0IGluY2x1ZGUgdGhlIHRleHQgb2YgdGhl
+IE1vZGlmaWVkIEJTRCBMaWNlbnNlIChzZWUgYmVsb3cuKQorIyAgCisjICAgICAgICAgICoqT3Jp
+Z2luKioKKyMgICAgICAgICAgLSBDbGF1c2UgMiBvZiB0aGUgTW9kaWZpZWQgQlNEIExpY2Vuc2UK
+KyMgQEAgLTgxLDIxICsxMDcsMjAgQEAKKyMgICAgICAtIElKRyBMaWNlbnNlCisjICAgICAgLSBD
+bGF1c2UgMyBvZiB0aGUgTW9kaWZpZWQgQlNEIExpY2Vuc2UKKyMgIAorIyAtNC4gIFRoZSBJSkcg
+YW5kIFRoZSBsaWJqcGVnLXR1cmJvIFByb2plY3QgZG8gbm90IHdhcnJhbnQgbGlianBlZy10dXJi
+byB0byBiZQorIyAtICAgIGZyZWUgb2YgZGVmZWN0cywgbm9yIGRvIHdlIGFjY2VwdCBhbnkgbGlh
+YmlsaXR5IGZvciB1bmRlc2lyYWJsZQorIyAtICAgIGNvbnNlcXVlbmNlcyByZXN1bHRpbmcgZnJv
+bSB5b3VyIHVzZSBvZiB0aGUgc29mdHdhcmUuCisjICs0LiAgVGhlIGF1dGhvcnMgYW5kIGRpc3Ry
+aWJ1dG9ycyBkbyBub3Qgd2FycmFudCBsaWJqcGVnLXR1cmJvIHRvIGJlIGZyZWUgb2YKKyMgKyAg
+ICBkZWZlY3RzLCBub3IgZG8gd2UgYWNjZXB0IGFueSBsaWFiaWxpdHkgZm9yIHVuZGVzaXJhYmxl
+IGNvbnNlcXVlbmNlcworIyArICAgIHJlc3VsdGluZyBmcm9tIHlvdXIgdXNlIG9mIHRoZSBzb2Z0
+d2FyZS4KKyMgIAorIyAgICAgICoqT3JpZ2luKioKKyMgICAgICAtIElKRyBMaWNlbnNlCisjICAg
+ICAgLSBNb2RpZmllZCBCU0QgTGljZW5zZQorIyAtICAgIC0gemxpYiBMaWNlbnNlCisjICAKKyMg
+IAorIyAgVGhlIE1vZGlmaWVkICgzLWNsYXVzZSkgQlNEIExpY2Vuc2UKKyMgID09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09CisjICAKKyMgLUNvcHlyaWdodCAoQykyMDA5LTIwMjUg
+RC4gUi4gQ29tbWFuZGVyLiAgQWxsIFJpZ2h0cyBSZXNlcnZlZC48YnI+CisjIC1Db3B5cmlnaHQg
+KEMpMjAxNSBWaWt0b3IgU3phdGhtw6FyeS4gIEFsbCBSaWdodHMgUmVzZXJ2ZWQuCisjICtDb3B5
+cmlnaHQgKEMpIDIwMDktMjAyNiBELiBSLiBDb21tYW5kZXI8YnI+CisjICtDb3B5cmlnaHQgKEMp
+IDIwMTgtMjAyMyBSYW5keSA8cmFuZHk0MDhAcHJvdG9ubWFpbC5jb20+CisjICAKKyMgIFJlZGlz
+dHJpYnV0aW9uIGFuZCB1c2UgaW4gc291cmNlIGFuZCBiaW5hcnkgZm9ybXMsIHdpdGggb3Igd2l0
+aG91dAorIyAgbW9kaWZpY2F0aW9uLCBhcmUgcGVybWl0dGVkIHByb3ZpZGVkIHRoYXQgdGhlIGZv
+bGxvd2luZyBjb25kaXRpb25zIGFyZSBtZXQ6CisjIEBAIC0xMjAsMTYgKzE0NSwzIEBACisjICBD
+T05UUkFDVCwgU1RSSUNUIExJQUJJTElUWSwgT1IgVE9SVCAoSU5DTFVESU5HIE5FR0xJR0VOQ0Ug
+T1IgT1RIRVJXSVNFKQorIyAgQVJJU0lORyBJTiBBTlkgV0FZIE9VVCBPRiBUSEUgVVNFIE9GIFRI
+SVMgU09GVFdBUkUsIEVWRU4gSUYgQURWSVNFRCBPRiBUSEUKKyMgIFBPU1NJQklMSVRZIE9GIFNV
+Q0ggREFNQUdFLgorIyAtCisjIC0KKyMgLVdoeSBUd28gTGljZW5zZXM/CisjIC09PT09PT09PT09
+PT09PT09PQorIyAtCisjIC1UaGUgemxpYiBMaWNlbnNlIGNvdWxkIGhhdmUgYmVlbiB1c2VkIGlu
+c3RlYWQgb2YgdGhlIE1vZGlmaWVkICgzLWNsYXVzZSkgQlNECisjIC1MaWNlbnNlLCBhbmQgc2lu
+Y2UgdGhlIElKRyBMaWNlbnNlIGVmZmVjdGl2ZWx5IHN1YnN1bWVzIHRoZSBkaXN0cmlidXRpb24K
+KyMgLWNvbmRpdGlvbnMgb2YgdGhlIHpsaWIgTGljZW5zZSwgdGhpcyB3b3VsZCBoYXZlIGVmZmVj
+dGl2ZWx5IHBsYWNlZAorIyAtbGlianBlZy10dXJibyBiaW5hcnkgZGlzdHJpYnV0aW9ucyB1bmRl
+ciB0aGUgSUpHIExpY2Vuc2UuICBIb3dldmVyLCB0aGUgSUpHCisjIC1MaWNlbnNlIHNwZWNpZmlj
+YWxseSByZWZlcnMgdG8gdGhlIEluZGVwZW5kZW50IEpQRUcgR3JvdXAgYW5kIGRvZXMgbm90IGV4
+dGVuZAorIyAtYXR0cmlidXRpb24gYW5kIGVuZG9yc2VtZW50IHByb3RlY3Rpb25zIHRvIG90aGVy
+IGVudGl0aWVzLiAgVGh1cywgaXQgd2FzCisjIC1kZXNpcmFibGUgdG8gY2hvb3NlIGEgbGljZW5z
+ZSB0aGF0IGdyYW50ZWQgdXMgdGhlIHNhbWUgcHJvdGVjdGlvbnMgZm9yIG5ldyBjb2RlCisjIC10
+aGF0IHdlcmUgZ3JhbnRlZCB0byB0aGUgSUpHIGZvciBjb2RlIGRlcml2ZWQgZnJvbSB0aGVpciBz
+b2Z0d2FyZS4KKyMgCisjCisKIFNVTU1BUlkgPSAiSGFyZHdhcmUgYWNjZWxlcmF0ZWQgSlBFRyBj
+b21wcmVzc2lvbi9kZWNvbXByZXNzaW9uIGxpYnJhcnkiCiBERVNDUklQVElPTiA9ICJsaWJqcGVn
+LXR1cmJvIGlzIGEgZGVyaXZhdGl2ZSBvZiBsaWJqcGVnIHRoYXQgdXNlcyBTSU1EIGluc3RydWN0
+aW9ucyAoTU1YLCBTU0UyLCBORU9OKSB0byBhY2NlbGVyYXRlIGJhc2VsaW5lIEpQRUcgY29tcHJl
+c3Npb24gYW5kIGRlY29tcHJlc3Npb24iCiBIT01FUEFHRSA9ICJodHRwOi8vbGlianBlZy10dXJi
+by5vcmcvIgogCiBMSUNFTlNFID0gIklKRyAmIEJTRC0zLUNsYXVzZSAmIFpsaWIiCi1MSUNfRklM
+RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21kNT01MmZkZGFiYzdlOGU3OTIzMzE1MGVi
+ZGE5NWMzZmMxZiIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UubWQ7bWQ1PWQy
+MWRhZWYzYjRiMzE4Zjc3MDYyMDU1MDU5YzcyOTM0IgogCiBERVBFTkRTOmFwcGVuZDp4ODYtNjQ6
+Y2xhc3MtdGFyZ2V0ID0gIiBuYXNtLW5hdGl2ZSIKIERFUEVORFM6YXBwZW5kOng4NjpjbGFzcy10
+YXJnZXQgPSAiIG5hc20tbmF0aXZlIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9k
+b3dubG9hZC8ke1BWfS8ke0JQfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDc1OTIw
+YjgyNjgzNGFjNGRkZjk3NjYxY2M3MzQ5MTA0Nzg1NTg1OWFmZmQ2NzFkNTIwNzljNjg2N2MxYzZj
+MCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxZDBlODZlZTQ1YmY0MzVkYzU3Zjg3NDQ3NjNiYTYy
+NDEwMjk0YjBmNTMxMmNiODc5NjIyMTRhYzFmN2ZiNzhiIgogCiBQRSA9ICIxIgogCi0tIAoyLjQ3
+LjEKCg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pango* to *1.57.1* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-pango-upgrade-1.57.0-1.57.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From b0065ba6add5e60ceb803627d43d848301b68f7c Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 12:09:22 +0000
-Subject: [PATCH] pango: upgrade 1.57.0 -> 1.57.1
-
----
- .../recipes-graphics/pango/{pango_1.57.0.bb => pango_1.57.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.57.0.bb => pango_1.57.1.bb} (94%)
-
-diff --git a/meta/recipes-graphics/pango/pango_1.57.0.bb b/meta/recipes-graphics/pango/pango_1.57.1.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.57.0.bb
-rename to meta/recipes-graphics/pango/pango_1.57.1.bb
-index 5dc8a67dfe..a9129dad4c 100644
---- a/meta/recipes-graphics/pango/pango_1.57.0.bb
-+++ b/meta/recipes-graphics/pango/pango_1.57.1.bb
-@@ -18,7 +18,7 @@ UPSTREAM_CHECK_REGEX = "pango-(?P<pver>\d+\.(?!9\d+)\d+\.\d+)"
- GIR_MESON_ENABLE_FLAG = "enabled"
- GIR_MESON_DISABLE_FLAG = "disabled"
- 
--SRC_URI[archive.sha256sum] = "890640c841dae77d3ae3d8fe8953784b930fa241b17423e6120c7bfdf8b891e7"
-+SRC_URI[archive.sha256sum] = "e65d6d117080dc3aeeb7d8b4b3b518f7383aa2e6cfce23117c623cd624764c2f"
- 
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
- DEPENDS += "${@' python3-docutils-native' if d.getVar('GIDOCGEN_ENABLED') == 'True' else ''}"
--- 
-2.47.1
-
-
---===============0813006658787355730==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 950 .bb files complete (0 cached, 950 parsed). 1971 targets, 62 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-musleabi"
-MACHINE              = "qemuarm"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-32644a9e985a9b104c6522b7818e4fe0d48cdac8"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-meta                 = "tmp-auh-upgrades:32644a9e985a9b104c6522b7818e4fe0d48cdac8"
-meta-yocto-bsp       
-meta-poky            = "master:49cbb01d52521bfe557395c9ebfae6b1c162581e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 444 Local 433 Mirrors 0 Missed 11 Current 293 (97% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 314 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 322 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 330 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 369 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_create_spdx_setscene)
-NOTE: Running task 753 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_write_config)
-NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxft-1_2.3.9-r0: task do_create_spdx_setscene: Started
-NOTE: recipe harfbuzz-12.3.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.57.1-r0: task do_populate_lic_setscene: Started
-NOTE: recipe pango-1.57.1-r0: task do_write_config: Started
-NOTE: recipe pango-1.57.1-r0: task do_write_config: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 385 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 386 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 387 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libxft-1_2.3.9-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 388 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_populate_sysroot_setscene)
-NOTE: recipe harfbuzz-12.3.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 389 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 390 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 391 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 393 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 394 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 395 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe pango-1.57.1-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 396 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_recipe_qa_setscene)
-NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libxft-1_2.3.9-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe harfbuzz-12.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-12.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.18.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe harfbuzz-12.3.2-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe pango-1.57.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.9-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe cairo-1.18.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe pango-1.57.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 398 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 401 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 402 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_create_spdx_setscene)
-NOTE: Running task 788 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_fetch)
-NOTE: recipe harfbuzz-12.3.2-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 404 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libxft-1_2.3.9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 408 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 410 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_recipe_qa_setscene)
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/harfbuzz/12.3.2/temp/log.do_packagedata_setscene.1946172
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 411 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb:do_package_setscene)
-NOTE: recipe harfbuzz-12.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.13-r0: task do_create_spdx_setscene: Started
-NOTE: recipe fontconfig-2.17.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.57.1-r0: task do_fetch: Started
-NOTE: recipe cairo-1.18.4-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.57.1-r0: task do_fetch: Succeeded
-NOTE: recipe libxft-1_2.3.9-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libx11-1_1.8.13-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe fontconfig-2.17.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe cairo-1.18.4-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.9-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 412 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 413 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 415 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 423 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 424 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_create_spdx_setscene)
-NOTE: Running task 800 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_unpack)
-NOTE: recipe fontconfig-2.17.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libx11-1_1.8.13-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe freetype-2.14.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.57.1-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe fontconfig-2.17.1-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.13-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe freetype-2.14.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 440 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 461 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 465 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe freetype-2.14.3-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe pango-1.57.1-r0: task do_unpack: Succeeded
-NOTE: Running task 844 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_patch)
-NOTE: recipe freetype-2.14.3-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 486 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 487 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe pango-1.57.1-r0: task do_patch: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.57.1-r0: task do_patch: Succeeded
-NOTE: Running task 845 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe harfbuzz-12.3.2-r0: task do_package_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 494 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe pango-1.57.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running task 916 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_create_recipe_spdx)
-NOTE: recipe pango-1.57.1-r0: task do_create_recipe_spdx: Started
-NOTE: recipe pango-1.57.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_deploy_source_date_epoch unihash changed to febc172b5ad027f97aac7a8ed5fb8f922b6d1f20be6670d073df330d49c962ec
-NOTE: recipe pango-1.57.1-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe harfbuzz-12.3.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 503 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 504 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 506 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 507 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 508 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-78.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.18.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-78.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.18.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-12.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe harfbuzz-12.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cairo-1.18.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 510 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 511 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 512 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 513 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 514 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_packagedata_setscene)
-NOTE: recipe cairo-1.18.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe icu-78.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 516 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 517 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 518 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 519 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 520 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 522 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-78.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 524 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libxext-1_1.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.17.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.46.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.17.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.46.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.18.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-78.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cairo-1.18.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 527 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.46.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.17.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 530 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_packagedata_setscene)
-NOTE: recipe libxext-1_1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 532 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe pixman-1_0.46.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fontconfig-2.17.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 533 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 536 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 537 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 538 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 540 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-78.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.14.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pixman-1_0.46.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe freetype-2.14.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fontconfig-2.17.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxext-1_1.3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 542 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.46.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 543 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
-NOTE: recipe fontconfig-2.17.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe freetype-2.14.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 545 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.56.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.8.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 546 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 548 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 549 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_recipe_qa_setscene)
-NOTE: recipe freetype-2.14.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 551 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 552 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.56.bb:do_populate_sysroot_setscene)
-NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpng-1.6.56-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.13-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe freetype-2.14.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.56-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 555 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 556 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 557 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 558 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_packagedata_setscene)
-NOTE: Running setscene task 559 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 561 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libpng-1.6.56-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.13-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe freetype-2.14.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 564 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 565 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 566 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 567 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
-NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 569 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 571 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 572 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 573 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 574 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpng-1.6.56-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 575 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.47-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.41.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.41.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.88.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 577 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.56.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 579 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_packagedata_setscene)
-NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpcre2-10.47-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 582 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 583 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 586 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 591 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_packagedata_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 592 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
-NOTE: recipe libpng-1.6.56-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 595 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 597 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 598 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 600 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 601 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 603 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.14.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.47-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.56-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2025.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2025.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2025.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpcre2-10.47-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 607 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 609 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
-NOTE: recipe xorgproto-2025.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 611 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.47-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2025.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpcre2-10.47-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-3.14.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 613 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 614 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
-NOTE: Running setscene task 615 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 616 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 617 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 618 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 619 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 620 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
-NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2025.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-3.14.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 621 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 622 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 625 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 626 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 627 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 628 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 629 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.41.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.5.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 630 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 631 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 636 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 637 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 639 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 640 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-3.5.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 642 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.14.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 643 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 644 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_packagedata_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 645 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 646 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 647 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 648 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 650 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 652 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.1.bb:do_packagedata_setscene)
-NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 655 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-completion-2.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.51.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.9.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.17.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 657 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_packagedata_setscene)
-NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.9.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 660 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 665 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 666 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.51.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 667 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-completion-2.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 670 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 671 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 674 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
-NOTE: recipe libpam-1.7.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 676 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-completion-2.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 677 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 681 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.9.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 683 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 685 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.9.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 687 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.1.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.5.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 689 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-2.41.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.7.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 690 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 694 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.51.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.9.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.5.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.7.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.51.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.9.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 699 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 701 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 703 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 704 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.7.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 706 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 707 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 708 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 711 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 713 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 714 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
-NOTE: Running setscene task 715 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 716 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 718 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 726 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 727 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 728 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 731 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 733 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 735 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 737 of 737 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1736 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb:do_packagedata)
-NOTE: Running task 1744 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe harfbuzz-12.3.2-r0: task do_packagedata: Started
-NOTE: recipe pango-1.57.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-12.3.2-r0: task do_packagedata: Succeeded
-NOTE: recipe pango-1.57.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1755 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_configure)
-NOTE: recipe pango-1.57.1-r0: task do_configure: Started
-NOTE: recipe pango-1.57.1-r0: task do_configure: Succeeded
-NOTE: Running task 1756 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_compile)
-NOTE: recipe pango-1.57.1-r0: task do_compile: Started
-NOTE: recipe pango-1.57.1-r0: task do_compile: Succeeded
-NOTE: Running task 1757 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_install)
-NOTE: recipe pango-1.57.1-r0: task do_install: Started
-NOTE: recipe pango-1.57.1-r0: task do_install: Succeeded
-NOTE: Running task 1758 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package)
-NOTE: Running task 1759 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_populate_sysroot)
-NOTE: recipe pango-1.57.1-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.57.1-r0: task do_package: Started
-NOTE: recipe pango-1.57.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pango-1.57.1-r0: task do_package: Succeeded
-NOTE: Running task 1760 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_packagedata)
-NOTE: recipe pango-1.57.1-r0: task do_packagedata: Started
-NOTE: recipe pango-1.57.1-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_packagedata unihash changed to aba1829c0c5fbaac3757ea5dd0bf70565aa0f14583cddbbc01400371e9dd0e39
-NOTE: Setscene tasks completed
-NOTE: Running task 1761 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_create_spdx)
-NOTE: Running task 1762 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package_write_ipk)
-NOTE: Running task 1763 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package_write_deb)
-NOTE: Running task 1764 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package_write_rpm)
-NOTE: Running task 1765 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package_qa)
-NOTE: recipe pango-1.57.1-r0: task do_create_spdx: Started
-NOTE: recipe pango-1.57.1-r0: task do_package_write_ipk: Started
-NOTE: recipe pango-1.57.1-r0: task do_package_write_deb: Started
-NOTE: recipe pango-1.57.1-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.57.1-r0: task do_package_qa: Started
-NOTE: recipe pango-1.57.1-r0: task do_create_spdx: Succeeded
-NOTE: recipe pango-1.57.1-r0: task do_package_write_ipk: Succeeded
-NOTE: Running task 1766 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_create_package_spdx)
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package_write_ipk unihash changed to 8a7960de3d59f30cbda8589331eec943d75e3ef99ed37c83a1461218653be743
-NOTE: recipe pango-1.57.1-r0: task do_create_package_spdx: Started
-NOTE: recipe pango-1.57.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.57.1-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package_write_rpm unihash changed to 8dbb59e695870282150f9aad205a2ef046caf69e3a5fa6848325265179e174c9
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package_qa unihash changed to cab430580c2689d1e1e944b5a81d4e74b8c719fa548f493745603a423d1e284e
-NOTE: recipe pango-1.57.1-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe pango-1.57.1-r0: task do_package_write_deb: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_package_write_deb unihash changed to 844a97fe7e0ce1cd87e994f1d3ccb06f7730c53fe45f70493e5026e3b0985527
-NOTE: Running noexec task 1767 of 1767 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.1.bb:do_build)
-NOTE: Tasks Summary: Attempted 1767 tasks of which 1746 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 12 ERROR messages, returning a non-zero exit code.
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:14.1.0-r0 to 0:12.3.2-r0) [version-going-backwards]
-ERROR: harfbuzz-12.3.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0813006658787355730==
+--===============8523201769131257036==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.5700.0 /usr/lib/libpango-1.0.so.0.5700.0 /usr/lib/libpangocairo-1.0.so.0.5700.0 /usr/lib/libpangoxft-1.0.so.0.5700.0", added "/usr/lib/libpango-1.0.so.0.5701.0 /usr/lib/libpangoxft-1.0.so.0.5701.0 /usr/lib/libpangoft2-1.0.so.0.5701.0 /usr/lib/libpangocairo-1.0.so.0.5701.0"
-Changes to packages/x86-64-v3-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5700.0 to libpango-1.0.so.0.5701.0
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5700.0 to libpangocairo-1.0.so.0.5701.0
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5700.0 to libpangoft2-1.0.so.0.5701.0
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5700.0 to libpangoxft-1.0.so.0.5701.0
-  /usr/lib/libpango-1.0.so.0.5700.0 moved to /usr/lib/libpango-1.0.so.0.5701.0
-  /usr/lib/libpangocairo-1.0.so.0.5700.0 moved to /usr/lib/libpangocairo-1.0.so.0.5701.0
-  /usr/lib/libpangoft2-1.0.so.0.5700.0 moved to /usr/lib/libpangoft2-1.0.so.0.5701.0
-  /usr/lib/libpangoxft-1.0.so.0.5700.0 moved to /usr/lib/libpangoxft-1.0.so.0.5701.0
+packages/x86-64-v3-poky-linux/libjpeg-turbo/jpeg-tools: PKGSIZE changed from 287288 to 561720 (+96%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PKGSIZE changed from 5707128 to 7269448 (+27%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PKGSIZE changed from 2123117 to 3410168 (+61%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: PKGSIZE changed from 874973 to 1026581 (+17%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: FILELIST: removed "/usr/lib/libturbojpeg.so.0.4.0", added "/usr/lib/libturbojpeg.so.0.5.0"
+Changes to packages/x86-64-v3-poky-linux/libjpeg-turbo (sysroot):
+  /usr/lib/libturbojpeg.so.0 changed symlink target from libturbojpeg.so.0.4.0 to libturbojpeg.so.0.5.0
+  /usr/lib/libturbojpeg.so.0.4.0 moved to /usr/lib/libturbojpeg.so.0.5.0
 
---===============0813006658787355730==
+--===============8523201769131257036==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-pango-upgrade-1.57.0-1.57.1.patch"
+ filename="0001-libjpeg-turbo-upgrade-3.1.3-3.1.90.patch"
 
-RnJvbSBiMDA2NWJhNmFkZDVlNjBjZWI4MDM2MjdkNDNkODQ4MzAxYjY4ZjdjIE1vbiBTZXAgMTcg
+RnJvbSAyNGVhODYwN2RhZjViNzczMmE2NWYzNTg1NWI2NzM1NTEzNjA0ODViIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTI6MDk6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-YW5nbzogdXBncmFkZSAxLjU3LjAgLT4gMS41Ny4xCgotLS0KIC4uLi9yZWNpcGVzLWdyYXBoaWNz
-L3BhbmdvL3twYW5nb18xLjU3LjAuYmIgPT4gcGFuZ29fMS41Ny4xLmJifSB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9wYW5nby97cGFuZ29fMS41Ny4wLmJiID0+IHBhbmdvXzEuNTcuMS5iYn0g
-KDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28vcGFuZ29fMS41
-Ny4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3BhbmdvXzEuNTcuMS5iYgpzaW1p
-bGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28v
-cGFuZ29fMS41Ny4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28vcGFu
-Z29fMS41Ny4xLmJiCmluZGV4IDVkYzhhNjdkZmUuLmE5MTI5ZGFkNGMgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nb18xLjU3LjAuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3BhbmdvL3BhbmdvXzEuNTcuMS5iYgpAQCAtMTgsNyArMTgsNyBAQCBVUFNU
-UkVBTV9DSEVDS19SRUdFWCA9ICJwYW5nby0oP1A8cHZlcj5cZCtcLig/ITlcZCspXGQrXC5cZCsp
-IgogR0lSX01FU09OX0VOQUJMRV9GTEFHID0gImVuYWJsZWQiCiBHSVJfTUVTT05fRElTQUJMRV9G
-TEFHID0gImRpc2FibGVkIgogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI4OTA2NDBj
-ODQxZGFlNzdkM2FlM2Q4ZmU4OTUzNzg0YjkzMGZhMjQxYjE3NDIzZTYxMjBjN2JmZGY4Yjg5MWU3
-IgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiZTY1ZDZkMTE3MDgwZGMzYWVlYjdkOGI0
-YjNiNTE4ZjczODNhYTJlNmNmY2UyMzExN2M2MjNjZDYyNDc2NGMyZiIKIAogREVQRU5EUyA9ICJn
-bGliLTIuMCBnbGliLTIuMC1uYXRpdmUgZm9udGNvbmZpZyBmcmVldHlwZSB2aXJ0dWFsL2xpYmlj
-b252IGNhaXJvIGhhcmZidXp6IGZyaWJpZGkiCiBERVBFTkRTICs9ICIke0AnIHB5dGhvbjMtZG9j
-dXRpbHMtbmF0aXZlJyBpZiBkLmdldFZhcignR0lET0NHRU5fRU5BQkxFRCcpID09ICdUcnVlJyBl
-bHNlICcnfSIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTI6MDU6NTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJqcGVnLXR1cmJvOiB1cGdyYWRlIDMuMS4zIC0+IDMuMS45MAoKLS0tCiAuLi50dXJib18zLjEu
+My5iYiA9PiBsaWJqcGVnLXR1cmJvXzMuMS45MC5iYn0gfCAxNDYgKysrKysrKysrKysrKysrKyst
+CiAxIGZpbGUgY2hhbmdlZCwgMTQ0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcve2xpYmpwZWctdHVyYm9fMy4xLjMuYmIgPT4g
+bGlianBlZy10dXJib18zLjEuOTAuYmJ9ICgzMSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL2pwZWcvbGlianBlZy10dXJib18zLjEuMy5iYiBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMy4xLjkwLmJiCnNpbWlsYXJpdHkgaW5kZXggMzElCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMy4xLjMu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMy4x
+LjkwLmJiCmluZGV4IDI2ZTg0Y2E0MmMuLjQ1NzdhMGE0YjAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMy4xLjMuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10dXJib18zLjEuOTAuYmIKQEAgLTEsMTUgKzEsMTU3
+IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0
+ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVu
+Y2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVw
+ZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5n
+ZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisj
+IChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisj
+CisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRS5tZAorIyArKysgTElDRU5TRS5tZAor
+IyBAQCAtOCwxOCArOCw0NiBAQAorIyAgCisjICAgIFRoaXMgbGljZW5zZSBhcHBsaWVzIHRvIHRo
+ZSBsaWJqcGVnIEFQSSBsaWJyYXJ5IGFuZCBhc3NvY2lhdGVkIHByb2dyYW1zLAorIyAgICBpbmNs
+dWRpbmcgYW55IGNvZGUgaW5oZXJpdGVkIGZyb20gbGlianBlZyBhbmQgYW55IG1vZGlmaWNhdGlv
+bnMgdG8gdGhhdAorIyAtICBjb2RlLiAgTm90ZSB0aGF0IHRoZSBsaWJqcGVnLXR1cmJvIFNJTUQg
+c291cmNlIGNvZGUgYmVhcnMgdGhlCisjIC0gIFt6bGliIExpY2Vuc2VdKGh0dHBzOi8vb3BlbnNv
+dXJjZS5vcmcvbGljZW5zZXMvWmxpYiksIGJ1dCBpbiB0aGUgY29udGV4dCBvZgorIyAtICB0aGUg
+b3ZlcmFsbCBsaWJqcGVnIEFQSSBsaWJyYXJ5LCB0aGUgdGVybXMgb2YgdGhlIHpsaWIgTGljZW5z
+ZSBhcmUgc3Vic3VtZWQKKyMgLSAgYnkgdGhlIHRlcm1zIG9mIHRoZSBJSkcgTGljZW5zZS4KKyMg
+KyAgY29kZS4KKyMgIAorIyAgLSBUaGUgTW9kaWZpZWQgKDMtY2xhdXNlKSBCU0QgTGljZW5zZSwg
+d2hpY2ggaXMgbGlzdGVkIGJlbG93CisjICAKKyMgLSAgVGhpcyBsaWNlbnNlIGFwcGxpZXMgdG8g
+dGhlIFR1cmJvSlBFRyBBUEkgbGlicmFyeSBhbmQgYXNzb2NpYXRlZCBwcm9ncmFtcywgYXMKKyMg
+LSAgd2VsbCBhcyB0aGUgYnVpbGQgc3lzdGVtLiAgTm90ZSB0aGF0IHRoZSBUdXJib0pQRUcgQVBJ
+IGxpYnJhcnkgd3JhcHMgdGhlCisjIC0gIGxpYmpwZWcgQVBJIGxpYnJhcnksIHNvIGluIHRoZSBj
+b250ZXh0IG9mIHRoZSBvdmVyYWxsIFR1cmJvSlBFRyBBUEkgbGlicmFyeSwKKyMgLSAgYm90aCB0
+aGUgdGVybXMgb2YgdGhlIElKRyBMaWNlbnNlIGFuZCB0aGUgdGVybXMgb2YgdGhlIE1vZGlmaWVk
+ICgzLWNsYXVzZSkKKyMgLSAgQlNEIExpY2Vuc2UgYXBwbHkuCisjICsgIFRoaXMgbGljZW5zZSBh
+cHBsaWVzIHRvIHRoZSBUdXJib0pQRUcgQVBJIGxpYnJhcnkgYW5kIGFzc29jaWF0ZWQgcHJvZ3Jh
+bXMsCisjICsgIFtsaWJzcG5nXShodHRwczovL2xpYnNwbmcub3JnKSAod2hpY2ggaXMgdXNlZCBi
+eSBjanBlZyBhbmQgZGpwZWcpLCBhbmQgdGhlCisjICsgIGJ1aWxkL3Rlc3Qgc3lzdGVtLgorIyAr
+CisjICsgICogVGhlIFR1cmJvSlBFRyBBUEkgbGlicmFyeSB3cmFwcyB0aGUgbGlianBlZyBBUEkg
+bGlicmFyeSwgc28gaW4gdGhlIGNvbnRleHQKKyMgKyAgICBvZiB0aGUgb3ZlcmFsbCBUdXJib0pQ
+RUcgQVBJIGxpYnJhcnksIGJvdGggdGhlIHRlcm1zIG9mIHRoZSBJSkcgTGljZW5zZSBhbmQKKyMg
+KyAgICB0aGUgdGVybXMgb2YgdGhlIE1vZGlmaWVkICgzLWNsYXVzZSkgQlNEIExpY2Vuc2UgYXBw
+bHkuCisjICsgICogY2pwZWcgYW5kIGRqcGVnIHVzZSBsaWJzcG5nLCBzbyBpbiB0aGUgY29udGV4
+dCBvZiB0aG9zZSBwcm9ncmFtcywgYm90aCB0aGUKKyMgKyAgICB0ZXJtcyBvZiB0aGUgSUpHIExp
+Y2Vuc2UgYW5kIHRoZSB0ZXJtcyBvZiB0aGUgTW9kaWZpZWQgKDMtY2xhdXNlKSBCU0QKKyMgKyAg
+ICBMaWNlbnNlIGFwcGx5LgorIyArCisjICsKKyMgK0NvbXBvbmVudCBMaWNlbnNlcworIyArPT09
+PT09PT09PT09PT09PT09CisjICsKKyMgK1NvbWUgb2YgbGlianBlZy10dXJibydzIG1vZHVsZXMg
+YW5kIGludGVybmFsIGRlcGVuZGVuY2llcyBhcmUgY292ZXJlZCBieSBsZXNzCisjICtyZXN0cmlj
+dGl2ZSBsaWNlbnNlcywgYnV0IGluIHRoZSBjb250ZXh0IG9mIGxpYmpwZWctdHVyYm8gYXMgYSB3
+aG9sZSwgdGhlIHRlcm1zCisjICtvZiB0aGUgbGVzcyByZXN0cmljdGl2ZSBsaWNlbnNlcyBhcmUg
+c3Vic3VtZWQgYnkgZWl0aGVyIHRoZSBJSkcgTGljZW5zZSBvciB0aGUKKyMgK01vZGlmaWVkIEJT
+RCBMaWNlbnNlLiAgKEluIG90aGVyIHdvcmRzLCB0aGUgdGVybXMgb2YgdGhlIGxlc3MgcmVzdHJp
+Y3RpdmUKKyMgK2xpY2Vuc2VzIGFyZSBzYXRpc2ZpZWQgaWYgdGhlIHRlcm1zIG9mIHRoZSBJSkcg
+YW5kIE1vZGlmaWVkIEJTRCBMaWNlbnNlcyBhcmUKKyMgK3NhdGlzZmllZC4pCisjICsKKyMgKy0g
+VGhlIGxpYmpwZWctdHVyYm8gU0lNRCBzb3VyY2UgY29kZSBhbmQgemxpYiBhcmUgY292ZXJlZCBi
+eSB0aGUKKyMgKyAgW3psaWIgTGljZW5zZV0oaHR0cHM6Ly9zcGR4Lm9yZy9saWNlbnNlcy9abGli
+Lmh0bWwpLCB3aGljaCBpcyBzdWJzdW1lZCBieSB0aGUKKyMgKyAgSUpHIExpY2Vuc2UgaW4gdGhl
+IGNvbnRleHQgb2YgdGhlIGNqcGVnIGFuZCBkanBlZyBwcm9ncmFtcyBhbmQgdGhlIGxpYmpwZWcK
+KyMgKyAgQVBJIGxpYnJhcnkuCisjICsKKyMgKy0gU29tZSBvZiB0aGUgbGlic3BuZyBzb3VyY2Ug
+Y29kZSBpcyBjb3ZlcmVkIGJ5IHRoZQorIyArICBbUE5HIFJlZmVyZW5jZSBMaWJyYXJ5IExpY2Vu
+c2UgdjJdKGh0dHBzOi8vc3BkeC5vcmcvbGljZW5zZXMvbGlicG5nLTIuMC5odG1sKSwKKyMgKyAg
+d2hpY2ggaXMgc3Vic3VtZWQgYnkgdGhlIElKRyBMaWNlbnNlIGluIHRoZSBjb250ZXh0IG9mIHRo
+ZSBjanBlZyBhbmQgZGpwZWcKKyMgKyAgcHJvZ3JhbXMgYW5kIHRoZSBUdXJib0pQRUcgQVBJIGxp
+YnJhcnkuCisjICsKKyMgKy0gTW9zdCBvZiB0aGUgbGlic3BuZyBzb3VyY2UgY29kZSBpcyBjb3Zl
+cmVkIGJ5IHRoZQorIyArICBbU2ltcGxpZmllZCAoMi1jbGF1c2UpIEJTRCBMaWNlbnNlXShodHRw
+czovL3NwZHgub3JnL2xpY2Vuc2VzL0JTRC0yLUNsYXVzZS5odG1sKSwKKyMgKyAgd2hpY2ggaXMg
+c3Vic3VtZWQgYnkgdGhlIE1vZGlmaWVkIEJTRCBMaWNlbnNlIGluIHRoZSBjb250ZXh0IG9mIHRo
+ZSBjanBlZyBhbmQKKyMgKyAgZGpwZWcgcHJvZ3JhbXMgYW5kIHRoZSBUdXJib0pQRUcgQVBJIGxp
+YnJhcnkuCisjICAKKyMgIAorIyAgQ29tcGx5aW5nIHdpdGggdGhlIGxpYmpwZWctdHVyYm8gTGlj
+ZW5zZXMKKyMgQEAgLTM4LDcgKzY2LDYgQEAKKyMgICAgICAgICAgKipPcmlnaW4qKgorIyAgICAg
+ICAgICAtIENsYXVzZSAxIG9mIHRoZSBJSkcgTGljZW5zZQorIyAgICAgICAgICAtIENsYXVzZSAx
+IG9mIHRoZSBNb2RpZmllZCBCU0QgTGljZW5zZQorIyAtICAgICAgICAtIENsYXVzZXMgMSBhbmQg
+MyBvZiB0aGUgemxpYiBMaWNlbnNlCisjICAKKyMgICAgICAyLiAgWW91IG11c3QgYWRkIHlvdXIg
+b3duIGNvcHlyaWdodCBub3RpY2UgdG8gdGhlIGhlYWRlciBvZiBlYWNoIHNvdXJjZQorIyAgICAg
+ICAgICBmaWxlIHlvdSBtb2RpZmllZCwgc28gb3RoZXJzIGNhbiB0ZWxsIHRoYXQgeW91IG1vZGlm
+aWVkIHRoYXQgZmlsZS4gIChJZgorIyBAQCAtNDcsNyArNzQsNiBAQAorIyAgCisjICAgICAgICAg
+ICoqT3JpZ2luKioKKyMgICAgICAgICAgLSBDbGF1c2UgMSBvZiB0aGUgSUpHIExpY2Vuc2UKKyMg
+LSAgICAgICAgLSBDbGF1c2UgMiBvZiB0aGUgemxpYiBMaWNlbnNlCisjICAKKyMgICAgICAzLiAg
+WW91IG11c3QgaW5jbHVkZSB0aGUgSUpHIFJFQURNRSBmaWxlLCBhbmQgeW91IG11c3Qgbm90IGFs
+dGVyIGFueSBvZiB0aGUKKyMgICAgICAgICAgY29weXJpZ2h0IG9yIGxpY2Vuc2UgdGV4dCBpbiB0
+aGF0IGZpbGUuCisjIEBAIC02Nyw5ICs5Myw5IEBACisjICAgICAgICAgICoqT3JpZ2luKioKKyMg
+ICAgICAgICAgLSBDbGF1c2UgMiBvZiB0aGUgSUpHIGxpY2Vuc2UKKyMgIAorIyAtICAgIDIuICBJ
+ZiB5b3VyIGJpbmFyeSBkaXN0cmlidXRpb24gaW5jbHVkZXMgb3IgdXNlcyB0aGUgVHVyYm9KUEVH
+IEFQSSwgdGhlbgorIyAtICAgICAgICB5b3VyIHByb2R1Y3QgZG9jdW1lbnRhdGlvbiBtdXN0IGlu
+Y2x1ZGUgdGhlIHRleHQgb2YgdGhlIE1vZGlmaWVkIEJTRAorIyAtICAgICAgICBMaWNlbnNlIChz
+ZWUgYmVsb3cuKQorIyArICAgIDIuICBJZiB5b3VyIGJpbmFyeSBkaXN0cmlidXRpb24gaW5jbHVk
+ZXMgb3IgdXNlcyB0aGUgVHVyYm9KUEVHIEFQSSBvcgorIyArICAgICAgICBhc3NvY2lhdGVkIHBy
+b2dyYW1zLCBjanBlZywgb3IgZGpwZWcsIHRoZW4geW91ciBwcm9kdWN0IGRvY3VtZW50YXRpb24K
+KyMgKyAgICAgICAgbXVzdCBpbmNsdWRlIHRoZSB0ZXh0IG9mIHRoZSBNb2RpZmllZCBCU0QgTGlj
+ZW5zZSAoc2VlIGJlbG93LikKKyMgIAorIyAgICAgICAgICAqKk9yaWdpbioqCisjICAgICAgICAg
+IC0gQ2xhdXNlIDIgb2YgdGhlIE1vZGlmaWVkIEJTRCBMaWNlbnNlCisjIEBAIC04MSwyMSArMTA3
+LDIwIEBACisjICAgICAgLSBJSkcgTGljZW5zZQorIyAgICAgIC0gQ2xhdXNlIDMgb2YgdGhlIE1v
+ZGlmaWVkIEJTRCBMaWNlbnNlCisjICAKKyMgLTQuICBUaGUgSUpHIGFuZCBUaGUgbGlianBlZy10
+dXJibyBQcm9qZWN0IGRvIG5vdCB3YXJyYW50IGxpYmpwZWctdHVyYm8gdG8gYmUKKyMgLSAgICBm
+cmVlIG9mIGRlZmVjdHMsIG5vciBkbyB3ZSBhY2NlcHQgYW55IGxpYWJpbGl0eSBmb3IgdW5kZXNp
+cmFibGUKKyMgLSAgICBjb25zZXF1ZW5jZXMgcmVzdWx0aW5nIGZyb20geW91ciB1c2Ugb2YgdGhl
+IHNvZnR3YXJlLgorIyArNC4gIFRoZSBhdXRob3JzIGFuZCBkaXN0cmlidXRvcnMgZG8gbm90IHdh
+cnJhbnQgbGlianBlZy10dXJibyB0byBiZSBmcmVlIG9mCisjICsgICAgZGVmZWN0cywgbm9yIGRv
+IHdlIGFjY2VwdCBhbnkgbGlhYmlsaXR5IGZvciB1bmRlc2lyYWJsZSBjb25zZXF1ZW5jZXMKKyMg
+KyAgICByZXN1bHRpbmcgZnJvbSB5b3VyIHVzZSBvZiB0aGUgc29mdHdhcmUuCisjICAKKyMgICAg
+ICAqKk9yaWdpbioqCisjICAgICAgLSBJSkcgTGljZW5zZQorIyAgICAgIC0gTW9kaWZpZWQgQlNE
+IExpY2Vuc2UKKyMgLSAgICAtIHpsaWIgTGljZW5zZQorIyAgCisjICAKKyMgIFRoZSBNb2RpZmll
+ZCAoMy1jbGF1c2UpIEJTRCBMaWNlbnNlCisjICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PQorIyAgCisjIC1Db3B5cmlnaHQgKEMpMjAwOS0yMDI1IEQuIFIuIENvbW1hbmRlci4g
+IEFsbCBSaWdodHMgUmVzZXJ2ZWQuPGJyPgorIyAtQ29weXJpZ2h0IChDKTIwMTUgVmlrdG9yIFN6
+YXRobcOhcnkuICBBbGwgUmlnaHRzIFJlc2VydmVkLgorIyArQ29weXJpZ2h0IChDKSAyMDA5LTIw
+MjYgRC4gUi4gQ29tbWFuZGVyPGJyPgorIyArQ29weXJpZ2h0IChDKSAyMDE4LTIwMjMgUmFuZHkg
+PHJhbmR5NDA4QHByb3Rvbm1haWwuY29tPgorIyAgCisjICBSZWRpc3RyaWJ1dGlvbiBhbmQgdXNl
+IGluIHNvdXJjZSBhbmQgYmluYXJ5IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQKKyMgIG1vZGlmaWNh
+dGlvbiwgYXJlIHBlcm1pdHRlZCBwcm92aWRlZCB0aGF0IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9u
+cyBhcmUgbWV0OgorIyBAQCAtMTIwLDE2ICsxNDUsMyBAQAorIyAgQ09OVFJBQ1QsIFNUUklDVCBM
+SUFCSUxJVFksIE9SIFRPUlQgKElOQ0xVRElORyBORUdMSUdFTkNFIE9SIE9USEVSV0lTRSkKKyMg
+IEFSSVNJTkcgSU4gQU5ZIFdBWSBPVVQgT0YgVEhFIFVTRSBPRiBUSElTIFNPRlRXQVJFLCBFVkVO
+IElGIEFEVklTRUQgT0YgVEhFCisjICBQT1NTSUJJTElUWSBPRiBTVUNIIERBTUFHRS4KKyMgLQor
+IyAtCisjIC1XaHkgVHdvIExpY2Vuc2VzPworIyAtPT09PT09PT09PT09PT09PT0KKyMgLQorIyAt
+VGhlIHpsaWIgTGljZW5zZSBjb3VsZCBoYXZlIGJlZW4gdXNlZCBpbnN0ZWFkIG9mIHRoZSBNb2Rp
+ZmllZCAoMy1jbGF1c2UpIEJTRAorIyAtTGljZW5zZSwgYW5kIHNpbmNlIHRoZSBJSkcgTGljZW5z
+ZSBlZmZlY3RpdmVseSBzdWJzdW1lcyB0aGUgZGlzdHJpYnV0aW9uCisjIC1jb25kaXRpb25zIG9m
+IHRoZSB6bGliIExpY2Vuc2UsIHRoaXMgd291bGQgaGF2ZSBlZmZlY3RpdmVseSBwbGFjZWQKKyMg
+LWxpYmpwZWctdHVyYm8gYmluYXJ5IGRpc3RyaWJ1dGlvbnMgdW5kZXIgdGhlIElKRyBMaWNlbnNl
+LiAgSG93ZXZlciwgdGhlIElKRworIyAtTGljZW5zZSBzcGVjaWZpY2FsbHkgcmVmZXJzIHRvIHRo
+ZSBJbmRlcGVuZGVudCBKUEVHIEdyb3VwIGFuZCBkb2VzIG5vdCBleHRlbmQKKyMgLWF0dHJpYnV0
+aW9uIGFuZCBlbmRvcnNlbWVudCBwcm90ZWN0aW9ucyB0byBvdGhlciBlbnRpdGllcy4gIFRodXMs
+IGl0IHdhcworIyAtZGVzaXJhYmxlIHRvIGNob29zZSBhIGxpY2Vuc2UgdGhhdCBncmFudGVkIHVz
+IHRoZSBzYW1lIHByb3RlY3Rpb25zIGZvciBuZXcgY29kZQorIyAtdGhhdCB3ZXJlIGdyYW50ZWQg
+dG8gdGhlIElKRyBmb3IgY29kZSBkZXJpdmVkIGZyb20gdGhlaXIgc29mdHdhcmUuCisjIAorIwor
+CiBTVU1NQVJZID0gIkhhcmR3YXJlIGFjY2VsZXJhdGVkIEpQRUcgY29tcHJlc3Npb24vZGVjb21w
+cmVzc2lvbiBsaWJyYXJ5IgogREVTQ1JJUFRJT04gPSAibGlianBlZy10dXJibyBpcyBhIGRlcml2
+YXRpdmUgb2YgbGlianBlZyB0aGF0IHVzZXMgU0lNRCBpbnN0cnVjdGlvbnMgKE1NWCwgU1NFMiwg
+TkVPTikgdG8gYWNjZWxlcmF0ZSBiYXNlbGluZSBKUEVHIGNvbXByZXNzaW9uIGFuZCBkZWNvbXBy
+ZXNzaW9uIgogSE9NRVBBR0UgPSAiaHR0cDovL2xpYmpwZWctdHVyYm8ub3JnLyIKIAogTElDRU5T
+RSA9ICJJSkcgJiBCU0QtMy1DbGF1c2UgJiBabGliIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxl
+Oi8vTElDRU5TRS5tZDttZDU9NTJmZGRhYmM3ZThlNzkyMzMxNTBlYmRhOTVjM2ZjMWYiCitMSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21kNT1kMjFkYWVmM2I0YjMxOGY3NzA2
+MjA1NTA1OWM3MjkzNCIKIAogREVQRU5EUzphcHBlbmQ6eDg2LTY0OmNsYXNzLXRhcmdldCA9ICIg
+bmFzbS1uYXRpdmUiCiBERVBFTkRTOmFwcGVuZDp4ODY6Y2xhc3MtdGFyZ2V0ID0gIiBuYXNtLW5h
+dGl2ZSIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vJHtC
+UH0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjA3NTkyMGI4MjY4MzRhYzRkZGY5NzY2
+MWNjNzM0OTEwNDc4NTU4NTlhZmZkNjcxZDUyMDc5YzY4NjdjMWM2YzAiCitTUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiMWQwZTg2ZWU0NWJmNDM1ZGM1N2Y4NzQ0NzYzYmE2MjQxMDI5NGIwZjUzMTJjYjg3
+OTYyMjE0YWMxZjdmYjc4YiIKIAogUEUgPSAiMSIKIAotLSAKMi40Ny4xCgo=
 
---===============0813006658787355730==
+--===============8523201769131257036==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/pango: PV changed from "1.57.0" to "1.57.1"
-packages/x86-64-v3-poky-linux/pango: PKGV changed from 1.57.0 [default] to 1.57.1 [default]
-packages/x86-64-v3-poky-linux/pango: SRC_URI changed from "https://download.gnome.org/sources//pango/1.57/pango-1.57.0.tar.xz;name=archive" to "https://download.gnome.org/sources//pango/1.57/pango-1.57.1.tar.xz;name=archive"
-packages/x86-64-v3-poky-linux/pango/pango-dbg: FILELIST: removed "/usr/lib/.debug/libpangoxft-1.0.so.0.5700.0 /usr/lib/.debug/libpangocairo-1.0.so.0.5700.0 /usr/lib/.debug/libpangoft2-1.0.so.0.5700.0 /usr/lib/.debug/libpango-1.0.so.0.5700.0", added "/usr/lib/.debug/libpango-1.0.so.0.5701.0 /usr/lib/.debug/libpangoxft-1.0.so.0.5701.0 /usr/lib/.debug/libpangoft2-1.0.so.0.5701.0 /usr/lib/.debug/libpangocairo-1.0.so.0.5701.0"
-packages/x86-64-v3-poky-linux/pango/pango-dbg: PV changed from "1.57.0" to "1.57.1"
-packages/x86-64-v3-poky-linux/pango/pango-dbg: PKGSIZE changed from 2274184 to 2302240 (+1%)
-packages/x86-64-v3-poky-linux/pango/pango-dbg: PKGV changed from 1.57.0 [default] to 1.57.1 [default]
-packages/x86-64-v3-poky-linux/pango/pango-dev: PV changed from "1.57.0" to "1.57.1"
-packages/x86-64-v3-poky-linux/pango/pango-dev: PKGSIZE changed from 1588622 to 1588642 (+0%)
-packages/x86-64-v3-poky-linux/pango/pango-dev: PKGV changed from 1.57.0 [default] to 1.57.1 [default]
-packages/x86-64-v3-poky-linux/pango/pango-doc: PV changed from "1.57.0" to "1.57.1"
-packages/x86-64-v3-poky-linux/pango/pango-doc: PKGV changed from 1.57.0 [default] to 1.57.1 [default]
-packages/x86-64-v3-poky-linux/pango/pango-locale: PV changed from "1.57.0" to "1.57.1"
-packages/x86-64-v3-poky-linux/pango/pango-locale: PKGV changed from 1.57.0 [default] to 1.57.1 [default]
-packages/x86-64-v3-poky-linux/pango/pango-src: FILELIST: directory renamed /usr/src/debug/pango/1.57.0/pango -> /usr/src/debug/pango/1.57.1/pango, directory renamed /usr/src/debug/pango/1.57.0/utils -> /usr/src/debug/pango/1.57.1/utils, directory renamed /usr/src/debug/pango/1.57.0/pango/json -> /usr/src/debug/pango/1.57.1/pango/json
-packages/x86-64-v3-poky-linux/pango/pango-src: PV changed from "1.57.0" to "1.57.1"
-packages/x86-64-v3-poky-linux/pango/pango-src: PKGSIZE changed from 2130378 to 2162499 (+2%)
-packages/x86-64-v3-poky-linux/pango/pango-src: PKGV changed from 1.57.0 [default] to 1.57.1 [default]
-packages/x86-64-v3-poky-linux/pango/pango-staticdev: PV changed from "1.57.0" to "1.57.1"
-packages/x86-64-v3-poky-linux/pango/pango-staticdev: PKGV changed from 1.57.0 [default] to 1.57.1 [default]
-packages/x86-64-v3-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoxft-1.0.so.0.5700.0 /usr/lib/libpangocairo-1.0.so.0.5700.0 /usr/lib/libpangoft2-1.0.so.0.5700.0 /usr/lib/libpango-1.0.so.0.5700.0", added "/usr/lib/libpangoft2-1.0.so.0.5701.0 /usr/lib/libpangoxft-1.0.so.0.5701.0 /usr/lib/libpangocairo-1.0.so.0.5701.0 /usr/lib/libpango-1.0.so.0.5701.0"
-packages/x86-64-v3-poky-linux/pango/pango: PV changed from "1.57.0" to "1.57.1"
-packages/x86-64-v3-poky-linux/pango/pango: PKGSIZE changed from 877503 to 889791 (+1%)
-packages/x86-64-v3-poky-linux/pango/pango: PKGV changed from 1.57.0 [default] to 1.57.1 [default]
-Changes to packages/x86-64-v3-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5700.0 to libpango-1.0.so.0.5701.0
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5700.0 to libpangocairo-1.0.so.0.5701.0
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5700.0 to libpangoft2-1.0.so.0.5701.0
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5700.0 to libpangoxft-1.0.so.0.5701.0
-  /usr/lib/libpango-1.0.so.0.5700.0 moved to /usr/lib/libpango-1.0.so.0.5701.0
-  /usr/lib/libpangocairo-1.0.so.0.5700.0 moved to /usr/lib/libpangocairo-1.0.so.0.5701.0
-  /usr/lib/libpangoft2-1.0.so.0.5700.0 moved to /usr/lib/libpangoft2-1.0.so.0.5701.0
-  /usr/lib/libpangoxft-1.0.so.0.5700.0 moved to /usr/lib/libpangoxft-1.0.so.0.5701.0
+packages/x86-64-v3-poky-linux/libjpeg-turbo/jpeg-tools: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/jpeg-tools: PKGSIZE changed from 287288 to 561720 (+96%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/jpeg-tools: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo: SRC_URI changed from "https://github.com/libjpeg-turbo/libjpeg-turbo/releases//download/3.1.3/libjpeg-turbo-3.1.3.tar.gz" to "https://github.com/libjpeg-turbo/libjpeg-turbo/releases//download/3.1.90/libjpeg-turbo-3.1.90.tar.gz"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PKGSIZE changed from 5707128 to 7269448 (+27%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: FILELIST: removed "/usr/lib/.debug/libturbojpeg.so.0.4.0", added "/usr/lib/.debug/libturbojpeg.so.0.5.0"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PKGSIZE changed from 218034 to 223440 (+2%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-doc: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-doc: PKGSIZE changed from 436430 to 445974 (+2%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-doc: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-locale: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-locale: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PKGSIZE changed from 2123117 to 3410168 (+61%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: FILELIST: removed "/usr/src/debug/libjpeg-turbo/3.1.3/src/jpegtran.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdtrans.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcapistd.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcapimin.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcphuff.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jccoefct.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jccolext.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcomapi.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcmainct.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcmarker.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcmaster.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcmaster.h /usr/src/debug/libjpeg-turbo/3.1.3/src/cdjpeg.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdcolext.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jddctmgr.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jddiffct.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdlossls.c /usr/src/debug/libjpeg-turbo/3.1.3/src/cdjpeg.h /usr/src/debug/libjpeg-
+ turbo/3.1.3/src/jdpostct.c /usr/src/debug/libjpeg-turbo/3.1.3/src/rdjpgcom.c /usr/src/debug/libjpeg-turbo/3.1.3/src/rdgif.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdatadst-tj.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdatasrc-tj.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jsimddct.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jdhuff.h /usr/src/debug/libjpeg-turbo/3.1.3/src/wrppm.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcicc.c /usr/src/debug/libjpeg-turbo/3.1.3/src/wrgif.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdhuff.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jmemmgr.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jmemsys.h /usr/src/debug/libjpeg-turbo/3.1.3/src/wrjpgcom.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdinput.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jclhuff.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdmaster.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jcarith.c /usr/src/debug/libjpeg-turbo/3.1.3/src/rdtarga.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdct.h /usr/src/debug/libjpeg-turbo/3.1.3/src/r
+ dbmp.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jutils.c /usr/src/debug/libjpeg-turbo/3.1.3/src/turbojpeg-mp.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jsimd.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jcparam.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jquant1.c /usr/src/debug/libjpeg-turbo/3.1.3/src/wrtarga.c /usr/src/debug/libjpeg-turbo/3.1.3/simd/jsimd.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jctrans.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jquant2.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcdctmgr.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcdiffct.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jchuff.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jclossls.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcprepct.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jerror.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jerror.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jchuff.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdmerge.c /usr/src/debug/libjpeg-turbo/3.1.3/src/turbojpeg.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdsample.h /usr/s
+ rc/debug/libjpeg-turbo/3.1.3/src/jdmerge.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jdcoefct.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jdmainct.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jcinit.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdcoefct.c /usr/src/debug/libjpeg-turbo/3.1.3/src/rdcolmap.c /usr/src/debug/libjpeg-turbo/3.1.3/src/turbojpeg.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jdmainct.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdmarker.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdsample.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdmaster.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdmrg565.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdmrgext.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdcol565.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdphuff.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jpegint.h /usr/src/debug/libjpeg-turbo/3.1.3/src/rdppm.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdcolor.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jlossls.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jstdhuff.c /usr/src/deb
+ ug/libjpeg-turbo/3.1.3/src/cmyk.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jaricom.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jcsample.c /usr/src/debug/libjpeg-turbo/3.1.3/src/tjbench.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jinclude.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jmemnobs.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdarith.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jidctflt.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jidctfst.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jidctint.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jidctred.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jmorecfg.h /usr/src/debug/libjpeg-turbo/3.1.3/src/transupp.h /usr/src/debug/libjpeg-turbo/3.1.3/src/tjutil.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jccolor.c /usr/src/debug/libjpeg-turbo/3.1.3/simd/x86_64/jsimd.c /usr/src/debug/libjpeg-turbo/3.1.3/src/transupp.c /usr/src/debug/libjpeg-turbo/3.1.3/src/wrbmp.c /usr/src/debug/libjpeg-turbo/3.1.3/src/tjutil.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jfdctflt.c /usr/src/debug/libj
+ peg-turbo/3.1.3/src/jfdctfst.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jfdctint.c /usr/src/debug/libjpeg-turbo/3.1.3/src/rdswitch.c /usr/src/debug/libjpeg-turbo/3.1.3/src/cderror.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jdicc.c /usr/src/debug/libjpeg-turbo/3.1.3/src/cjpeg.c /usr/src/debug/libjpeg-turbo/3.1.3/src/djpeg.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jpeg_nbits.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jdlhuff.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jpeglib.h /usr/src/debug/libjpeg-turbo/3.1.3/src/jdapimin.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdapistd.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdatadst.c /usr/src/debug/libjpeg-turbo/3.1.3/src/jdatasrc.c", added "/usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/trees.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/zutil.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/crc32.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/trees.h /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/crc32.h /usr/src/debug/libjpeg-turb
+ o/3.1.90/src/spng/zlib/zconf.h /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/zutil.h /usr/src/debug/libjpeg-turbo/3.1.90/src/wrgif.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdatasrc-tj.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdatadst-tj.c /usr/src/debug/libjpeg-turbo/3.1.90/src/rdpng.c /usr/src/debug/libjpeg-turbo/3.1.90/src/tjbench.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jpeg_nbits.h /usr/src/debug/libjpeg-turbo/3.1.90/src/djpeg.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/inffast.h /usr/src/debug/libjpeg-turbo/3.1.90/src/cmyk.h /usr/src/debug/libjpeg-turbo/3.1.90/src/cjpeg.c /usr/src/debug/libjpeg-turbo/3.1.90/src/rdppm.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/inffast.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcparam.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcphuff.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jctrans.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jaricom.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcarith.c /usr/src/debug/libjpeg-turbo/3.1.90/src/
+ jccolor.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jclhuff.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcomapi.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jmemsys.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jcmarker.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcmaster.c /usr/src/debug/libjpeg-turbo/3.1.90/src/wrtarga.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdct.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jcicc.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdpostct.c /usr/src/debug/libjpeg-turbo/3.1.90/src/rdtarga.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jerror.c /usr/src/debug/libjpeg-turbo/3.1.90/src/transupp.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jerror.h /usr/src/debug/libjpeg-turbo/3.1.90/src/rdbmp.c /usr/src/debug/libjpeg-turbo/3.1.90/src/transupp.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jdmaster.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdmrg565.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdmrgext.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jddctmgr.c /usr/src/debug/libjpeg-turbo/3.1.90/s
+ rc/jddiffct.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdlossls.c /usr/src/debug/libjpeg-turbo/3.1.90/src/rdjpgcom.c /usr/src/debug/libjpeg-turbo/3.1.90/src/wrpng.c /usr/src/debug/libjpeg-turbo/3.1.90/src/rdswitch.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcmaster.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jinclude.h /usr/src/debug/libjpeg-turbo/3.1.90/src/wrbmp.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jmorecfg.h /usr/src/debug/libjpeg-turbo/3.1.90/src/rdcolmap.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcdctmgr.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcdiffct.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jclossls.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcprepct.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcsample.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcapistd.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jccoefct.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jccolext.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcapimin.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jcmainct.c /usr/src/debug/libjp
+ eg-turbo/3.1.90/simd/jsimd.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jstdhuff.c /usr/src/debug/libjpeg-turbo/3.1.90/simd/jsimd.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jcinit.c /usr/src/debug/libjpeg-turbo/3.1.90/src/rdgif.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/inftrees.h /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/inftrees.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdicc.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jmemnobs.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdhuff.c /usr/src/debug/libjpeg-turbo/3.1.90/simd/jsimdint.h /usr/src/debug/libjpeg-turbo/3.1.90/simd/jsimddct.h /usr/src/debug/libjpeg-turbo/3.1.90/src/cderror.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jdhuff.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jfdctflt.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jfdctfst.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jfdctint.c /usr/src/debug/libjpeg-turbo/3.1.90/src/turbojpeg.c /usr/src/debug/libjpeg-turbo/3.1.90/src/turbojpeg.h /usr/src/debug/libjpeg-turbo/3.1.90/src/j
+ dmerge.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdarith.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdcolor.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdinput.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdlhuff.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdphuff.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdtrans.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdmerge.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jlossls.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jpegint.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jpeglib.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jmemmgr.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jidctflt.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jidctfst.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jidctint.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jidctred.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/spng.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/inffixed.h /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/compress.c /usr/src/debug/libjpeg-turbo/3.1.90/src/tjutil.h /usr/src/de
+ bug/libjpeg-turbo/3.1.90/src/spng/spng.h /usr/src/debug/libjpeg-turbo/3.1.90/src/tjutil.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jchuff.c /usr/src/debug/libjpeg-turbo/3.1.90/src/wrppm.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jchuff.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jquant1.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jquant2.c /usr/src/debug/libjpeg-turbo/3.1.90/src/turbojpeg-mp.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdmaster.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jdsample.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jdcoefct.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jdmainct.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jdatadst.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdatasrc.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdcoefct.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdcol565.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jpegtran.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdapimin.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdapistd.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdcol
+ ext.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdmainct.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdmarker.c /usr/src/debug/libjpeg-turbo/3.1.90/src/jdsample.c /usr/src/debug/libjpeg-turbo/3.1.90/src/wrjpgcom.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/adler32.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/deflate.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/inflate.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/deflate.h /usr/src/debug/libjpeg-turbo/3.1.90/src/jutils.c /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/inflate.h /usr/src/debug/libjpeg-turbo/3.1.90/src/cdjpeg.h /usr/src/debug/libjpeg-turbo/3.1.90/src/spng/zlib/zlib.h /usr/src/debug/libjpeg-turbo/3.1.90/src/cdjpeg.c"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-staticdev: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-staticdev: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo: PKGSIZE changed from 731193 to 718833 (-2%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: PV changed from "3.1.3" to "3.1.90"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: PKGSIZE changed from 874973 to 1026581 (+17%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: FILELIST: removed "/usr/lib/libturbojpeg.so.0.4.0", added "/usr/lib/libturbojpeg.so.0.5.0"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: PKGV changed from 3.1.3 [default] to 3.1.90 [default]
+Changes to packages/x86-64-v3-poky-linux/libjpeg-turbo (sysroot):
+  /usr/lib/libturbojpeg.so.0 changed symlink target from libturbojpeg.so.0.4.0 to libturbojpeg.so.0.5.0
+  /usr/lib/libturbojpeg.so.0.4.0 moved to /usr/lib/libturbojpeg.so.0.5.0
 
---===============0813006658787355730==--
+--===============8523201769131257036==--
 
