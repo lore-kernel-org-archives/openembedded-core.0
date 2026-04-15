@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC89F428C9
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:40 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19743.1776261880454230442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D433AF428D0
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:50 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19821.1776261880313926298
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 07:04:40 -0700
+ Wed, 15 Apr 2026 07:04:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PwvbH+eo;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=t4NC4CLn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019d917557ec-7c097923-6121-4a67-a9e1-f216997ac59c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jFM2hIsd;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ewccheLZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019d917580f8-12363f03-4aa2-4d08-8601-12df99eafc18-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1776261879;
+	t=1776261890;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rxz1r1C8LjDwMU8lYUvDL4AdtNvQCQia9SAT1L1lfWw=;
-	b=PwvbH+eobpzUvdLiKo39DhffwWUS43Y4r3VodzECZpQ+DMALfz5BxYKzjk5sFZ5d
-	OZMKcimLmYUVCTSXDJ0Kj8Jm4KMTWRjbb6rqd2KGMLLWjftvjs9POIKRmzSqyV2NlZ6
-	MWkhNyAKw5T35re/7pdma0DmX+zmnklOFA5T+Ze0=
+	bh=IJg+U1u6+5ZZdIBAoy2U3MIEhK+gbuTM779TSfR1wUw=;
+	b=jFM2hIsd6uWifCoAd4WHGmbob8DuuEBDddrk2Ke2ZhFBdtI2ih+jLgvOyGwEwge0
+	wM+8GmswNhodSpc0kfrHbt3Squ7IGCe3oFqwfsLvze00xnUQPQ1yr91X75gnUgYX9QA
+	Q4CiAwxK7zRUikS87WVlGPaboPya3PczB3OfdJco=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261879;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261890;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rxz1r1C8LjDwMU8lYUvDL4AdtNvQCQia9SAT1L1lfWw=;
-	b=t4NC4CLnwWPCupnDduIGvfB9JIlQW5Whl8wywqPtUBapKJfISWVaQuhHzFQDR8K+
-	3/NaSTIzfzQCSwnOSeYKlZ9knUVDpSRxGeKRelBnCffIedGmjMmK+0flSQob9vZ1LQz
-	3Db0WgXOHVac4Bo1V87iT5E4yd7/Pcz3WvK3ULJ0=
-Content-Type: multipart/mixed; boundary="===============7605523665755329754=="
+	bh=IJg+U1u6+5ZZdIBAoy2U3MIEhK+gbuTM779TSfR1wUw=;
+	b=ewccheLZfmk4+eQos/HA1NoI84IICLLec8tX3GzP4ZPaagyHC0mlNwOKqpCa7Au4
+	5syE86vbQsuULgkgru3rpciIq5D5mYYK2hq93cE/J42mWTTCwzTZgQxpaXUtn0ZnfyS
+	/kMF+gYThO45H67DACk0xD+v4NFtX6YautR7I4EU=
+Content-Type: multipart/mixed; boundary="===============2614496700256174803=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Markus Volk <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-poetry-core: upgrading to 2.3.2 SUCCEEDED
-Message-ID: <0101019d917557ec-7c097923-6121-4a67-a9e1-f216997ac59c-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Apr 2026 14:04:39 +0000
+Subject: [AUH] libxmlb: upgrading to 0.3.26 SUCCEEDED
+Message-ID: <0101019d917580f8-12363f03-4aa2-4d08-8601-12df99eafc18-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Apr 2026 14:04:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.45
+X-SES-Outgoing: 2026.04.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235242
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235278
 
---===============7605523665755329754==
+--===============2614496700256174803==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-poetry-core* to *2.3.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libxmlb* to *0.3.26* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-poetry-core-upgrade-2.3.1-2.3.2.patch
+    - apply the patch: git am 0001-libxmlb-upgrade-0.3.25-0.3.26.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,108 +72,139 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e828bc0be2f061f3cc36b3bcc8225e73b8e93f7c Mon Sep 17 00:00:00 2001
+From 1e4596f24ec00edb50986e499296bb6219f03db5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 08:36:07 +0000
-Subject: [PATCH] python3-poetry-core: upgrade 2.3.1 -> 2.3.2
+Date: Wed, 15 Apr 2026 11:55:55 +0000
+Subject: [PATCH] libxmlb: upgrade 0.3.25 -> 0.3.26
 
 ---
- ...ython3-poetry-core_2.3.1.bb => python3-poetry-core_2.3.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-poetry-core_2.3.1.bb => python3-poetry-core_2.3.2.bb} (93%)
+ .../libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch | 6 +++---
+ .../libxmlb/{libxmlb_0.3.25.bb => libxmlb_0.3.26.bb}        | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.25.bb => libxmlb_0.3.26.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb b/meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
+diff --git a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
+index 1c46f6fc1e..5b489723d4 100644
+--- a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
++++ b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
+@@ -1,4 +1,4 @@
+-From 2dbc50d49e2048f7227c406931a69f747e0eb12c Mon Sep 17 00:00:00 2001
++From c00ccce2cb52474c416dd1cdc631780008947ac7 Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+ Date: Sat, 16 Sep 2023 14:02:57 +0200
+ Subject: [PATCH] xb-self-test.c: hardcode G_TEST_SRCDIR
+@@ -18,10 +18,10 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/xb-self-test.c b/src/xb-self-test.c
+-index 76b2e12..c68c13a 100644
++index ce2ced7..aa60b6b 100644
+ --- a/src/xb-self-test.c
+ +++ b/src/xb-self-test.c
+-@@ -2912,7 +2912,7 @@ xb_speed_func(void)
++@@ -2960,7 +2960,7 @@ xb_speed_func(void)
+  int
+  main(int argc, char **argv)
+  {
+diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb b/meta/recipes-gnome/libxmlb/libxmlb_0.3.26.bb
 similarity index 93%
-rename from meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb
-rename to meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
-index 705e08d98b..0f55368d13 100644
---- a/meta/recipes-devtools/python/python3-poetry-core_2.3.1.bb
-+++ b/meta/recipes-devtools/python/python3-poetry-core_2.3.2.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "\
-     file://src/poetry/core/_vendor/tomli/LICENSE;md5=aaaaf0879d17df0110d1aa8c8c9f46f5 \
+rename from meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb
+rename to meta/recipes-gnome/libxmlb/libxmlb_0.3.26.bb
+index 8687436052..b736346a8f 100644
+--- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.25.bb
++++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.26.bb
+@@ -8,7 +8,7 @@ SRC_URI = " \
+ 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
+ 	file://run-ptest \
  "
+-SRCREV = "b31dec072f4428123db3866c18bf32bc5db04d35"
++SRCREV = "f969b4dd491a7367f7500f55f576c810985363d7"
  
--SRC_URI[sha256sum] = "96f791d5d7d4e040f3983d76779425cf9532690e2756a24fd5ca0f86af19ef82"
-+SRC_URI[sha256sum] = "20cb71be27b774628da9f384effd9183dfceb53bcef84063248a8672aa47031f"
- 
- inherit python_poetry_core pypi
+ DEPENDS = "glib-2.0 xz zstd"
  
 -- 
 2.47.1
 
 
---===============7605523665755329754==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-poetry-core (sysroot):
-  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
-Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
-  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
-
---===============7605523665755329754==
+--===============2614496700256174803==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-poetry-core-upgrade-2.3.1-2.3.2.patch"
+ filename="0001-libxmlb-upgrade-0.3.25-0.3.26.patch"
 
-RnJvbSBlODI4YmMwYmUyZjA2MWYzY2MzNmIzYmNjODIyNWU3M2I4ZTkzZjdjIE1vbiBTZXAgMTcg
+RnJvbSAxZTQ1OTZmMjRlYzAwZWRiNTA5ODZlNDk5Mjk2YmI2MjE5ZjAzZGI1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDg6MzY6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBvZXRyeS1jb3JlOiB1cGdyYWRlIDIuMy4xIC0+IDIuMy4yCgotLS0KIC4uLnl0aG9u
-My1wb2V0cnktY29yZV8yLjMuMS5iYiA9PiBweXRob24zLXBvZXRyeS1jb3JlXzIuMy4yLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4z
-LjEuYmIgPT4gcHl0aG9uMy1wb2V0cnktY29yZV8yLjMuMi5iYn0gKDkzJSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4zLjEu
-YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4z
-LjIuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXBvZXRyeS1jb3JlXzIuMy4xLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4zLjIuYmIKaW5kZXgg
-NzA1ZTA4ZDk4Yi4uMGY1NTM2OGQxMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXBvZXRyeS1jb3JlXzIuMy4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjMuMi5iYgpAQCAtMTUsNyArMTUs
-NyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gIlwKICAgICBmaWxlOi8vc3JjL3BvZXRyeS9jb3JlL192
-ZW5kb3IvdG9tbGkvTElDRU5TRTttZDU9YWFhYWYwODc5ZDE3ZGYwMTEwZDFhYThjOGM5ZjQ2ZjUg
-XAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTZmNzkxZDVkN2Q0ZTA0MGYzOTgzZDc2Nzc5
-NDI1Y2Y5NTMyNjkwZTI3NTZhMjRmZDVjYTBmODZhZjE5ZWY4MiIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIyMGNiNzFiZTI3Yjc3NDYyOGRhOWYzODRlZmZkOTE4M2RmY2ViNTNiY2VmODQwNjMyNDhh
-ODY3MmFhNDcwMzFmIgogCiBpbmhlcml0IHB5dGhvbl9wb2V0cnlfY29yZSBweXBpCiAKLS0gCjIu
-NDcuMQoK
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTE6NTU6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4bWxiOiB1cGdyYWRlIDAuMy4yNSAtPiAwLjMuMjYKCi0tLQogLi4uL2xpYnhtbGIvMDAwMS14
+Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
+L2xpYnhtbGIve2xpYnhtbGJfMC4zLjI1LmJiID0+IGxpYnhtbGJfMC4zLjI2LmJifSAgICAgICAg
+fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi97bGlieG1sYl8wLjMuMjUuYmIgPT4g
+bGlieG1sYl8wLjMuMjYuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21l
+L2xpYnhtbGIvbGlieG1sYi8wMDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUtR19URVNUX1NSQ0RJ
+Ui5wYXRjaCBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJ4bWxiL2xpYnhtbGIvMDAwMS14Yi1zZWxm
+dGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2gKaW5kZXggMWM0NmY2ZmMxZS4uNWI0
+ODk3MjNkNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYi8w
+MDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUtR19URVNUX1NSQ0RJUi5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiLzAwMDEteGItc2VsZnRlc3QuYy1oYXJkY29k
+ZS1HX1RFU1RfU1JDRElSLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyZGJjNTBkNDllMjA0
+OGY3MjI3YzQwNjkzMWE2OWY3NDdlMGViMTJjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bSBjMDBjY2NlMmNiNTI0NzRjNDE2ZGQxY2RjNjMxNzgwMDA4OTQ3YWM3IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQogRnJvbTogTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogRGF0ZTog
+U2F0LCAxNiBTZXAgMjAyMyAxNDowMjo1NyArMDIwMAogU3ViamVjdDogW1BBVENIXSB4Yi1zZWxm
+LXRlc3QuYzogaGFyZGNvZGUgR19URVNUX1NSQ0RJUgpAQCAtMTgsMTAgKzE4LDEwIEBAIFNpZ25l
+ZC1vZmYtYnk6IE1hcmt1cyBWb2xrIDxmX2xfa0B0LW9ubGluZS5kZT4KICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3NyYy94Yi1z
+ZWxmLXRlc3QuYyBiL3NyYy94Yi1zZWxmLXRlc3QuYwotaW5kZXggNzZiMmUxMi4uYzY4YzEzYSAx
+MDA2NDQKK2luZGV4IGNlMmNlZDcuLmFhNjBiNmIgMTAwNjQ0CiAtLS0gYS9zcmMveGItc2VsZi10
+ZXN0LmMKICsrKyBiL3NyYy94Yi1zZWxmLXRlc3QuYwotQEAgLTI5MTIsNyArMjkxMiw3IEBAIHhi
+X3NwZWVkX2Z1bmModm9pZCkKK0BAIC0yOTYwLDcgKzI5NjAsNyBAQCB4Yl9zcGVlZF9mdW5jKHZv
+aWQpCiAgaW50CiAgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpCiAgewpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYl8wLjMuMjUuYmIgYi9tZXRhL3JlY2lw
+ZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4yNi5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpy
+ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4yNS5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYl8wLjMuMjYuYmIKaW5k
+ZXggODY4NzQzNjA1Mi4uYjczNjM0NmE4ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21l
+L2xpYnhtbGIvbGlieG1sYl8wLjMuMjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnht
+bGIvbGlieG1sYl8wLjMuMjYuYmIKQEAgLTgsNyArOCw3IEBAIFNSQ19VUkkgPSAiIFwKIAlmaWxl
+Oi8vMDAwMS14Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2ggXAogCWZp
+bGU6Ly9ydW4tcHRlc3QgXAogIgotU1JDUkVWID0gImIzMWRlYzA3MmY0NDI4MTIzZGIzODY2YzE4
+YmYzMmJjNWRiMDRkMzUiCitTUkNSRVYgPSAiZjk2OWI0ZGQ0OTFhNzM2N2Y3NTAwZjU1ZjU3NmM4
+MTA5ODUzNjNkNyIKIAogREVQRU5EUyA9ICJnbGliLTIuMCB4eiB6c3RkIgogCi0tIAoyLjQ3LjEK
+Cg==
 
---===============7605523665755329754==
+--===============2614496700256174803==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-poetry-core: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.3.1.tar.gz;downloadfilename=poetry_core-2.3.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.3.2.tar.gz;downloadfilename=poetry_core-2.3.2.tar.gz"
-packages/x86-64-v3-poky-linux/python3-poetry-core: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dev: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dev: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-doc: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-doc: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-locale: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-locale: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-src: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-src: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PV changed from "2.3.1" to "2.3.2"
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PKGSIZE changed from 2788311 to 2789869 (+0%)
-packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PV changed from "2.3.1" to "2.3.2"
-Changes to packages/x86-64-v3-poky-linux/python3-poetry-core (sysroot):
-  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
-Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
-  /usr/lib/python3.14/site-packages/poetry_core-2.3.1.dist-info moved to /usr/lib/python3.14/site-packages/poetry_core-2.3.2.dist-info
+packages/x86-64-v3-poky-linux/libxmlb: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-bin: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-bin: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PKGSIZE changed from 1870968 to 1897720 (+1%)
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PKGSIZE changed from 355644 to 355651 (+0%)
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-locale: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-locale: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PKGSIZE changed from 277094 to 281190 (+1%)
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PKGSIZE changed from 519007 to 524066 (+1%)
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: FILELIST: directory renamed /usr/src/debug/libxmlb/0.3.25/src -> /usr/src/debug/libxmlb/0.3.26/src
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-staticdev: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb-staticdev: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PV changed from "0.3.25" to "0.3.26"
+packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PKGV changed from 0.3.25 [default] to 0.3.26 [default]
 
---===============7605523665755329754==--
+--===============2614496700256174803==--
 
