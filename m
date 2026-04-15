@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAAFAF43826
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:55 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19811.1776261873316093719
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F000F42105
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:54 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19827.1776261883381747073
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 07:04:51 -0700
+ Wed, 15 Apr 2026 07:04:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=grt8zTCb;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=e/tVjQbY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019d91758295-4b2938cc-b0ea-4631-9b37-0721b41dd1ff-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GBpD3yHt;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dz2s5wop;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019d9175630e-b16b6a38-7df8-4d89-9a6e-d17ecc223e26-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1776261890;
+	t=1776261882;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rxjzHrCrkqw3IyBq8YcAboaC0non06/qod6y4L6WiKQ=;
-	b=grt8zTCbnp0+ntF+b+z3NnYzT9n73gx30gCfmuKU6X8Zrsgt1z4fmJjdeL7IoJZa
-	cZRNFBTApOV0M6aZ2gt8z5Xm9TKWzQezZY891pX64zDe2oTT/hJqgWj2opVsriwvsNJ
-	z0xqrtl4e4q5QtsfKzVhuvPswnsJlBSJgLO2u/7c=
+	bh=NGmI91SAFSlfM/GlxGsqakuhB/sUcdiHIskT2QokIt4=;
+	b=GBpD3yHtelBODXHAXaCejXFuPOjLI78ijdn2sBoLpGeR6h4hBRJLVe0UozW34PoY
+	+Nz5FRtT4BXaTIKhc6Wrn6MCgKPAoodG5AGTu3wmdz1iLOH8hEnW2nKZiFxQpBGt52g
+	1eUBHGSJs5GRgDgEIC2DRpX8V9sHDVxktrn9WQ2E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261890;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261882;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rxjzHrCrkqw3IyBq8YcAboaC0non06/qod6y4L6WiKQ=;
-	b=e/tVjQbYnSMPmRXf1KhtOdNMOoev8hhwIwrp24IIAyP1koJxnnxl3KJaTNCyQ0iu
-	S19AeMTvbrFlElgSBVsgIwiDI7i0YVVhtOfd3gJY/bDnLKC2eCUBA2WG2/cRaBcQM/o
-	D0aoysb45TGGZl4JuVZqqCvh8L/+Fh+6y50jddoo=
-Content-Type: multipart/mixed; boundary="===============0362022621141713517=="
+	bh=NGmI91SAFSlfM/GlxGsqakuhB/sUcdiHIskT2QokIt4=;
+	b=dz2s5wopuFoqF3Fum1RGXEuRWGtUkDGCX3scHsipXryYPq1qjkIRUDdM6aQyeu62
+	dugnRBrv/yXaQuHzR1hqntgpn65cKfvl1Nvv9RFIIJ2vmw24OZ/Vid2+jirfW9N6/t1
+	dP91X/KK4HN11aIXaXA0r9lyK5wSWRkWIG7/ANJo=
+Content-Type: multipart/mixed; boundary="===============0989871655447254962=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] harfbuzz: upgrading to 14.1.0 SUCCEEDED
-Message-ID: <0101019d91758295-4b2938cc-b0ea-4631-9b37-0721b41dd1ff-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Apr 2026 14:04:50 +0000
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-requests: upgrading to 2.33.1 SUCCEEDED
+Message-ID: <0101019d9175630e-b16b6a38-7df8-4d89-9a6e-d17ecc223e26-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Apr 2026 14:04:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.29
+X-SES-Outgoing: 2026.04.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235279
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235252
 
---===============0362022621141713517==
+--===============0989871655447254962==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *harfbuzz* to *14.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-requests* to *2.33.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-harfbuzz-upgrade-12.3.2-14.1.0.patch
+    - apply the patch: git am 0001-python3-requests-upgrade-2.32.5-2.33.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,220 +72,877 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1340aca4ea4d5397f761b1ba770de5e3477c4b90 Mon Sep 17 00:00:00 2001
+From 8726df79d71a40c168b8a5c522e7c96015c212f3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 12:00:12 +0000
-Subject: [PATCH] harfbuzz: upgrade 12.3.2 -> 14.1.0
+Date: Wed, 15 Apr 2026 08:52:35 +0000
+Subject: [PATCH] python3-requests: upgrade 2.32.5 -> 2.33.1
 
 ---
- .../harfbuzz/{harfbuzz_12.3.2.bb => harfbuzz_14.1.0.bb}         | 2 +-
+ .../{python3-requests_2.32.5.bb => python3-requests_2.33.1.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_12.3.2.bb => harfbuzz_14.1.0.bb} (95%)
+ rename meta/recipes-devtools/python/{python3-requests_2.32.5.bb => python3-requests_2.33.1.bb} (91%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_14.1.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_14.1.0.bb
-index 12bebc4bee..dcc3469fee 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_14.1.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/recipes-devtools/python/python3-requests_2.32.5.bb b/meta/recipes-devtools/python/python3-requests_2.33.1.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-requests_2.32.5.bb
+rename to meta/recipes-devtools/python/python3-requests_2.33.1.bb
+index 43b63e32b1..dbb65ecf69 100644
+--- a/meta/recipes-devtools/python/python3-requests_2.32.5.bb
++++ b/meta/recipes-devtools/python/python3-requests_2.33.1.bb
+@@ -7,7 +7,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-python3-requests.sh \
+ "
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "6f6db164359a2da5a84ef826615b448b33e6306067ad829d85d5b0bf936f1bb8"
-+SRC_URI[sha256sum] = "ee0eb3a1da2c5a28147f12dff55f6c7d60aeeeb29ac7ef334eabe84c8476c105"
+-SRC_URI[sha256sum] = "dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf"
++SRC_URI[sha256sum] = "18817f8c57c6263968bc123d237e3b8b08ac046f5456bd1e307ee8f4250d3517"
  
- DEPENDS += "glib-2.0-native"
+ inherit pypi python_setuptools_build_meta
  
 -- 
 2.47.1
 
 
---===============0362022621141713517==
+--===============0989871655447254962==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 950 .bb files complete (0 cached, 950 parsed). 1971 targets, 62 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-76628070d342dd57750e5ae4d8bd711a693e3590"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:76628070d342dd57750e5ae4d8bd711a693e3590"
+meta-yocto-bsp       
+meta-poky            = "master:49cbb01d52521bfe557395c9ebfae6b1c162581e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 512 Local 452 Mirrors 0 Missed 60 Current 308 (88% match, 92% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 318 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 322 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 323 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 340 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_package_qa_setscene)
+NOTE: Running setscene task 374 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 416 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 440 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 442 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 462 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 464 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 467 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 471 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 472 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-requests-2.33.1-r0: task do_populate_lic_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-idna-3.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.14.4-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-3.14.4-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.14.4-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-3.14.4-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-3.14.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 473 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 474 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.4-r0: task do_package_qa_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/python3-pytest/9.0.2/temp/log.do_packagedata_setscene.2648507
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 478 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_package_setscene)
+NOTE: recipe python3-idna-3.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 480 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.46.bb:do_packagedata_setscene)
+NOTE: Running setscene task 481 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 482 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 483 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_setscene)
+NOTE: Running setscene task 485 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 489 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 491 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 492 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 498 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 500 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 503 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe binutils-2.46-r0: task do_packagedata_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: Running task 895 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_fetch)
+NOTE: Running task 897 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_fetch)
+NOTE: Running task 901 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_fetch)
+NOTE: Running task 902 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_fetch)
+NOTE: recipe coreutils-9.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.14.4-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_fetch: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_fetch: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 506 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_fetch: Started
+NOTE: Running setscene task 509 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.19.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 512 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe python3-requests-2.33.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 518 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 536 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_recipe_spdx_setscene)
+NOTE: Running task 903 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_fetch)
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 538 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_fetch: Started
+NOTE: Running task 904 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_unpack)
+NOTE: recipe binutils-2.46-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 545 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running task 909 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_unpack)
+NOTE: Running task 910 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_unpack)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 915 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_unpack)
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 556 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe coreutils-9.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 569 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe python3-requests-2.33.1-r0: task do_unpack: Started
+NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_unpack: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1049 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_patch)
+NOTE: recipe python3-requests-2.33.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_unpack: Started
+NOTE: Running task 1050 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_patch)
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1051 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_patch)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_setscene: Started
+NOTE: recipe python3-idna-3.11-r0: task do_package_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 572 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Started
+NOTE: Running task 1058 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe python3-requests-2.33.1-r0: task do_patch: Started
+NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_fetch: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_patch: Started
+NOTE: Running task 1061 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_unpack)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 591 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 598 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 599 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 600 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 601 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: Running setscene task 602 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 605 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_unpack: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_unpack: Succeeded
+NOTE: Running task 1162 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1172 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_patch)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1177 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libmicrohttpd-1.0.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libarchive-3.8.6-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1181 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1182 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1193 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_check_backend)
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_patch: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_unpack: Succeeded
+NOTE: Running task 1194 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_patch)
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 617 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 619 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.19.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 623 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 625 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.47.bb:do_packagedata_setscene)
+NOTE: recipe libarchive-3.8.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_check_backend: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_check_backend: Succeeded
+NOTE: Running setscene task 639 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-idna-3.11-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 640 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running task 1249 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_create_recipe_spdx)
+NOTE: Running task 1250 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_create_recipe_spdx)
+NOTE: Running task 1251 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_create_recipe_spdx)
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1252 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_create_recipe_spdx)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_package_setscene: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_patch: Succeeded
+NOTE: Running task 1253 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: Running task 1254 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_patch: Started
+NOTE: Running setscene task 641 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe file-5.47-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcrypt-1.12.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-8.19.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-idna-3.11-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-idna-3.11-r0: task do_create_recipe_spdx: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_patch: Succeeded
+NOTE: Running setscene task 643 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_packagedata_setscene)
+NOTE: recipe python3-idna-3.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe file-5.47-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running setscene task 644 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 645 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_recipe_qa_setscene)
+NOTE: recipe libgcrypt-1.12.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 648 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.16.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 653 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_packagedata_setscene)
+NOTE: recipe curl-8.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 659 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.59.bb:do_packagedata_setscene)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 663 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-idna-3.11-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gnutls-3.8.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 668 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.59-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_deploy_source_date_epoch unihash changed to 2fd7b4234fcfbe992a6741ae9fcec94aeca178c074be5944070bfd9ff1d2bdd4
+NOTE: recipe python3-idna-3.11-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 661 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 665 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 666 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_packagedata_setscene)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_deploy_source_date_epoch unihash changed to ab2f13d42271edd294eaf117cc842c669c4ade94464f3f4277d7deea46cf2ffe
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_deploy_source_date_epoch unihash changed to e7d7a582a82428fcff1cfc811d14c16c8f810f9f9a2a8379002589148b5ea9a7
+NOTE: Running setscene task 676 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
+NOTE: Running task 1281 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_fetch)
+NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1292 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_deploy_source_date_epoch)
+NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1294 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: Running task 1300 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_create_recipe_spdx)
+NOTE: recipe libgpg-error-1.59-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1301 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_create_recipe_spdx)
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe python3-idna-3.11-r0: task do_fetch: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-idna-3.11-r0: task do_fetch: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 692 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_packagedata_setscene)
+NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 706 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: Running task 1333 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_unpack)
+NOTE: recipe python3-3.14.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 708 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 709 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 711 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 712 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 713 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 714 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 715 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 716 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running setscene task 717 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libunistring-1.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-idna-3.11-r0: task do_unpack: Started
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-idna-3.11-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 718 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 719 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 720 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_packagedata_setscene)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_deploy_source_date_epoch unihash changed to 674570e17fc08cf93da7c1c165b578f9305965a409d0f67e1e0fe48d1b168324
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 709 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 710 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 711 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 712 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 713 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 714 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 715 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 716 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 717 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 718 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 719 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 730 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 741 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe expat-2.7.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 747 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 748 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 750 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 755 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 757 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 759 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
+NOTE: Running task 1349 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_patch)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 761 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 764 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 766 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.5.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1356 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe openssl-3.5.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 773 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 775 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 777 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_patch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe expat-2.7.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: recipe sqlite3-3_3.51.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 780 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 782 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1397 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.7.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-idna-3.11-r0: task do_patch: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 785 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 786 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 788 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 790 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 1431 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 792 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 793 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 794 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 797 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 798 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 799 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 800 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 802 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 807 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 810 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 811 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 812 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 816 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 818 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 820 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1755 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1843 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1844 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1845 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1846 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1847 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-idna-3.11-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1967 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_packagedata)
+NOTE: recipe python3-requests-2.33.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_packagedata: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1975 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_configure)
+NOTE: recipe python3-requests-2.33.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1976 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_configure)
+NOTE: Running task 1977 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_configure)
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_configure: Started
+NOTE: Running task 1978 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_configure)
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1979 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_configure)
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1980 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_configure)
+NOTE: recipe python3-requests-2.33.1-r0: task do_configure: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Started
+NOTE: recipe python3-idna-3.11-r0: task do_configure: Succeeded
+NOTE: Running task 1981 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_configure_ptest_base)
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_configure: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_configure: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Succeeded
+NOTE: Running task 1982 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_compile)
+NOTE: Running task 1983 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_compile)
+NOTE: recipe python3-idna-3.11-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1984 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_configure: Succeeded
+NOTE: Running task 1985 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_compile)
+NOTE: recipe python3-idna-3.11-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_configure: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_configure: Succeeded
+NOTE: Running task 1986 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_compile)
+NOTE: Running task 1987 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_compile)
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Started
+NOTE: Running task 1988 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_compile)
+NOTE: recipe python3-requests-2.33.1-r0: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_compile: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_compile: Started
+NOTE: recipe python3-idna-3.11-r0: task do_compile: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 27a1287f03f8699e6a83b8e7203f6b85f617ccd1b7f11fa183cd486905f39fba
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Succeeded
+NOTE: Running task 1995 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_install)
+NOTE: recipe python3-idna-3.11-r0: task do_compile: Succeeded
+NOTE: Running task 1996 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_compile_ptest_base)
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_compile: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_compile_ptest_base: Started
+NOTE: Running task 1997 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_install)
+NOTE: recipe python3-idna-3.11-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1998 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_install)
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_install: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_install: Started
+NOTE: Running task 1999 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_install)
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_compile: Succeeded
+NOTE: Running task 2000 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_install)
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_install: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_compile: Succeeded
+NOTE: Running task 2001 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_install)
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_install: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Succeeded
+NOTE: Running task 2002 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package)
+NOTE: Running task 2003 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_populate_sysroot)
+NOTE: recipe python3-requests-2.33.1-r0: task do_install: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-idna-3.11-r0: task do_install: Succeeded
+NOTE: Running task 2004 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_install_ptest_base)
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_install: Succeeded
+NOTE: Running task 2005 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package)
+NOTE: Running task 2006 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_populate_sysroot)
+NOTE: recipe python3-idna-3.11-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_install: Succeeded
+NOTE: Running task 2007 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package)
+NOTE: Running task 2008 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_populate_sysroot)
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-idna-3.11-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_install: Succeeded
+NOTE: Running task 2009 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_package)
+NOTE: Running task 2010 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_populate_sysroot)
+NOTE: Running task 2013 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_populate_sysroot)
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package: Started
+NOTE: Running task 2014 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_write_ipk)
+NOTE: Running task 2015 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_write_deb)
+NOTE: Running task 2016 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_write_rpm)
+NOTE: Running task 2017 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_qa)
+NOTE: recipe python3-requests-2.33.1-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_package: Started
+NOTE: recipe python3-idna-3.11-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-idna-3.11-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-idna-3.11-r0: task do_package_write_deb: Started
+NOTE: recipe python3-idna-3.11-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-idna-3.11-r0: task do_package_qa: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2018 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_create_spdx)
+NOTE: recipe python3-idna-3.11-r0: task do_create_spdx: Started
+NOTE: recipe python3-idna-3.11-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_write_ipk unihash changed to f33ba6e54e51824c87b85a8f32e7eb149681b7e5b0be20181f870a7eef826278
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Succeeded
+NOTE: Running task 2019 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_packagedata)
+NOTE: recipe python3-idna-3.11-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-idna-3.11-r0: task do_package_write_deb: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_write_deb unihash changed to 02a42eb9dbbaef79ab28c747f1a2ac9a1a7700daad26eef65d9e550761d1cce9
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_qa unihash changed to 2c2c559e143430e863a44e7ccaa869f91943eefe60b2115f48b4555fcb30818b
+NOTE: recipe python3-idna-3.11-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-idna_3.11.bb:do_package_write_rpm unihash changed to bf7870dab43b8c74c8b536cce5d1cb9d343f9011f747062e05cfc48480450822
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_packagedata unihash changed to e1a0cd46ec8995017f7e614380b045a85731ac9bc2f674b5a0f5a1a2943ca377
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2020 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_create_spdx)
+NOTE: Running task 2021 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_ipk)
+NOTE: Running task 2022 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_packagedata)
+NOTE: Running task 2023 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_deb)
+NOTE: Running task 2024 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_rpm)
+NOTE: Running task 2025 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_qa)
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_create_spdx: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_packagedata: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_deb: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_qa: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_install: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_package: Succeeded
+NOTE: Running task 2026 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_package)
+NOTE: Running task 2027 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_populate_sysroot)
+NOTE: Running task 2028 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_packagedata)
+NOTE: Running task 2029 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_packagedata)
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_package: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_packagedata: Started
+NOTE: recipe python3-requests-2.33.1-r0: task do_packagedata: Started
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_packagedata unihash changed to a31bbdf1abe329b398f10cb63f2122560c477ccaf914c4eaf9356c31ddb38b73
+NOTE: Setscene tasks completed
+NOTE: Running task 2030 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_create_spdx)
+NOTE: Running task 2031 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package_write_ipk)
+NOTE: Running task 2032 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package_write_deb)
+NOTE: Running task 2033 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package_write_rpm)
+NOTE: Running task 2034 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package_qa)
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_create_spdx: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package_write_deb: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package_qa: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_packagedata unihash changed to afec0b7d5596745c5f07bb96e6d9776d695093b91f70cb5b94bf312647417f7d
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_deb: Succeeded
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_packagedata unihash changed to 82cddaa0a5f4e7ba3435f33aac57830dfa4c7245176ad34bfc876190add8e467
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_deb unihash changed to 539a2f766bdfe9753bb7c6db2b86c52c148b992f7fe4cecc11b15ba68334b1ec
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_qa unihash changed to db0a5b130c3ed87d3a49312151f4367a355ff99df1dad8822ce50b129b1e9c90
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_ipk unihash changed to 9acd4b5fc9dd845fa9b2a59bdd9b69e4d2a9cb1b28b682e42dfc8a7210a23e16
+NOTE: Running task 2035 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-requests_2.33.1.bb:do_create_spdx)
+NOTE: Running task 2036 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_create_spdx)
+NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running task 2037 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package_write_ipk)
+NOTE: Running task 2038 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package_write_deb)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_rpm unihash changed to e2b25c221675f060ff82b681051b5fdece095c2ab927ae0a6abdf2e1f2c8d933
+NOTE: Setscene tasks completed
+NOTE: Running task 2039 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package_write_rpm)
+NOTE: Running task 2040 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package_qa)
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_create_spdx: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package_write_deb: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package_qa: Started
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package_qa unihash changed to b6154bb2902a8ad439c2c95f71f3c00832bbba65fa4299699b9710fb88a3c965
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe python3-requests-2.33.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package_write_deb unihash changed to 48c1173e341e5d71d390d3536fdbf687ca66b83835989633542a841afbdceaf7
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package_write_ipk unihash changed to 4c6a2fe67341172378715652ed6ac95f6dd595e1a75bf65a60e4384f00786de0
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-certifi-2026.2.25-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb:do_package_write_rpm unihash changed to a0480c4bcf3760ae0fb6153ac81d1bf22d212978c747467599fbbe55b5957590
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package_write_ipk unihash changed to 0c8b6fa7c86b49343c9f282e9a559488fa2d8504a02bd8172b0dbf135f6af65b
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package_qa unihash changed to 76ffc7fa10261a32ed55cffc185fc42f7f21bf8d6793a02009c1b8927ea7a4fe
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package_write_rpm unihash changed to 11b9ed47dfb4b5096c28ca227f998d637d379b3a054ee42f18b8c3eb6ad2a6d2
+NOTE: recipe python3-urllib3-2.6.3-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb:do_package_write_deb unihash changed to 1301f6c886a4b13c8dcae3bf3a7c782a4c82ea93016ae8e3976ba8facd2cc848
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_package: Succeeded
+NOTE: Running task 2041 of 2052 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_packagedata)
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_packagedata: Started
+NOTE: recipe python3-chardet-6.0.0.post1-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2041 tasks of which 1938 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260415085213.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260415085213.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_packagedata
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/python3-chardet/6.0.0.post1/temp/log.do_packagedata.2656402
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+ERROR: python3-pytest-9.0.2-r0 do_packagedata_setscene: QA Issue: Package version for package python3-pytest-src went backwards which would break package feeds (from 0:9.0.3-r0 to 0:9.0.2-r0) [version-going-backwards]
+ERROR: python3-pytest-9.0.2-r0 do_packagedata_setscene: QA Issue: Package version for package python3-pytest-dbg went backwards which would break package feeds (from 0:9.0.3-r0 to 0:9.0.2-r0) [version-going-backwards]
+ERROR: python3-pytest-9.0.2-r0 do_packagedata_setscene: QA Issue: Package version for package python3-pytest-staticdev went backwards which would break package feeds (from 0:9.0.3-r0 to 0:9.0.2-r0) [version-going-backwards]
+ERROR: python3-pytest-9.0.2-r0 do_packagedata_setscene: QA Issue: Package version for package python3-pytest-dev went backwards which would break package feeds (from 0:9.0.3-r0 to 0:9.0.2-r0) [version-going-backwards]
+ERROR: python3-pytest-9.0.2-r0 do_packagedata_setscene: QA Issue: Package version for package python3-pytest-doc went backwards which would break package feeds (from 0:9.0.3-r0 to 0:9.0.2-r0) [version-going-backwards]
+ERROR: python3-pytest-9.0.2-r0 do_packagedata_setscene: QA Issue: Package version for package python3-pytest-locale went backwards which would break package feeds (from 0:9.0.3-r0 to 0:9.0.2-r0) [version-going-backwards]
+ERROR: python3-pytest-9.0.2-r0 do_packagedata_setscene: QA Issue: Package version for package python3-pytest went backwards which would break package feeds (from 0:9.0.3-r0 to 0:9.0.2-r0) [version-going-backwards]
+ERROR: python3-pytest-9.0.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: QA Issue: Package version for package python3-chardet-src went backwards which would break package feeds (from 0:7.4.3-r0 to 0:6.0.0.post1-r0) [version-going-backwards]
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: QA Issue: Package version for package python3-chardet-dbg went backwards which would break package feeds (from 0:7.4.3-r0 to 0:6.0.0.post1-r0) [version-going-backwards]
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: QA Issue: Package version for package python3-chardet-cli went backwards which would break package feeds (from 0:7.4.3-r0 to 0:6.0.0.post1-r0) [version-going-backwards]
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: QA Issue: Package version for package python3-chardet-staticdev went backwards which would break package feeds (from 0:7.4.3-r0 to 0:6.0.0.post1-r0) [version-going-backwards]
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: QA Issue: Package version for package python3-chardet-dev went backwards which would break package feeds (from 0:7.4.3-r0 to 0:6.0.0.post1-r0) [version-going-backwards]
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: QA Issue: Package version for package python3-chardet-doc went backwards which would break package feeds (from 0:7.4.3-r0 to 0:6.0.0.post1-r0) [version-going-backwards]
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: QA Issue: Package version for package python3-chardet-locale went backwards which would break package feeds (from 0:7.4.3-r0 to 0:6.0.0.post1-r0) [version-going-backwards]
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: QA Issue: Package version for package python3-chardet went backwards which would break package feeds (from 0:7.4.3-r0 to 0:6.0.0.post1-r0) [version-going-backwards]
+ERROR: python3-chardet-6.0.0.post1-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/python3-chardet/6.0.0.post1/temp/log.do_packagedata.2656402
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb:do_packagedata) failed with exit code '1'
+
+--===============0989871655447254962==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: FILELIST: added "/usr/bin/hb-vector /usr/bin/hb-raster"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: RDEPENDS: added "libstdc++ (['>= 15.2.0'])"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PKGSIZE changed from 217576 to 378088 (+74%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: RRECOMMENDS: added "libpng-dbg libstdc++-dbg zlib-dbg"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 82965480 to 102567064 (+24%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: FILELIST: added "/usr/lib/libharfbuzz-raster.so /usr/lib/pkgconfig/harfbuzz-gpu.pc /usr/lib/libharfbuzz-gpu.so /usr/lib/libharfbuzz-vector.so /usr/include/harfbuzz/hb-raster.h /usr/include/harfbuzz/hb-vector.h /usr/lib/pkgconfig/harfbuzz-raster.pc /usr/lib/pkgconfig/harfbuzz-vector.pc /usr/include/harfbuzz/hb-gpu.h"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: RDEPENDS: added "libpng-dev zlib-dev"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: RRECOMMENDS: added "libpng-dev zlib-dev"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61232.0", added "/usr/lib/libharfbuzz-icu.so.0.61410.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 5177058 to 5858188 (+13%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61232.0", added "/usr/lib/libharfbuzz-subset.so.0.61410.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.61232.0 /usr/lib/libharfbuzz.so.0.61232.0 /usr/lib/libharfbuzz-gobject.so.0.61232.0", added "/usr/lib/libharfbuzz-cairo.so.0.61410.0 /usr/lib/libharfbuzz-raster.so.0 /usr/lib/libharfbuzz.so.0.61410.0 /usr/lib/libharfbuzz-gpu.so.0.61410.0 /usr/lib/libharfbuzz-gobject.so.0.61410.0 /usr/lib/libharfbuzz-vector.so.0.61410.0 /usr/lib/libharfbuzz-vector.so.0 /usr/lib/libharfbuzz-gpu.so.0 /usr/lib/libharfbuzz-raster.so.0.61410.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: RDEPENDS: added "libpng (['>= 1.6.56']) zlib (['>= 1.3.2'])"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1189214 to 1544264 (+30%)
-Changes to packages/x86-64-v3-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61232.0 to libharfbuzz-cairo.so.0.61410.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61232.0 to libharfbuzz-gobject.so.0.61410.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61232.0 to libharfbuzz-icu.so.0.61410.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61232.0 to libharfbuzz.so.0.61410.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61232.0 to libharfbuzz-subset.so.0.61410.0
-  /usr/lib/libharfbuzz-cairo.so.0.61232.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61410.0
-  /usr/lib/libharfbuzz-gobject.so.0.61232.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61410.0
-  /usr/lib/libharfbuzz-icu.so.0.61232.0 moved to /usr/lib/libharfbuzz-icu.so.0.61410.0
-  /usr/lib/libharfbuzz.so.0.61232.0 moved to /usr/lib/libharfbuzz.so.0.61410.0
-  /usr/lib/libharfbuzz-subset.so.0.61232.0 moved to /usr/lib/libharfbuzz-subset.so.0.61410.0
-  /usr/include/harfbuzz/hb-gpu.h was added
-  /usr/include/harfbuzz/hb-raster.h was added
-  /usr/include/harfbuzz/hb-vector.h was added
-  /usr/lib/libharfbuzz-gpu.so.0.61410.0 was added
-  /usr/lib/libharfbuzz-gpu.so.0 was added
-  /usr/lib/libharfbuzz-gpu.so was added
-  /usr/lib/libharfbuzz-raster.so.0.61410.0 was added
-  /usr/lib/libharfbuzz-raster.so.0 was added
-  /usr/lib/libharfbuzz-raster.so was added
-  /usr/lib/libharfbuzz-vector.so.0.61410.0 was added
-  /usr/lib/libharfbuzz-vector.so.0 was added
-  /usr/lib/libharfbuzz-vector.so was added
-  /usr/lib/pkgconfig/harfbuzz-gpu.pc was added
-  /usr/lib/pkgconfig/harfbuzz-raster.pc was added
-  /usr/lib/pkgconfig/harfbuzz-vector.pc was added
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests: FILELIST: directory renamed /usr/lib/python3.14/site-packages/requests-2.32.5.dist-info -> /usr/lib/python3.14/site-packages/requests-2.33.1.dist-info, removed "/usr/lib/python3.14/site-packages/requests-2.32.5.dist-info/licenses/LICENSE", added "/usr/lib/python3.14/site-packages/requests-2.33.1.dist-info/licenses/NOTICE /usr/lib/python3.14/site-packages/requests-2.33.1.dist-info/licenses/LICENSE"
+Changes to packages/x86-64-v3-poky-linux/python3-requests (sysroot):
+  /usr/lib/python3.14/site-packages/requests-2.32.5.dist-info moved to /usr/lib/python3.14/site-packages/requests-2.33.1.dist-info
+  /usr/lib/python3.14/site-packages/requests-2.33.1.dist-info/licenses/NOTICE was added
 
---===============0362022621141713517==
+--===============0989871655447254962==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-harfbuzz-upgrade-12.3.2-14.1.0.patch"
+ filename="0001-python3-requests-upgrade-2.32.5-2.33.1.patch"
 
-RnJvbSAxMzQwYWNhNGVhNGQ1Mzk3Zjc2MWIxYmE3NzBkZTVlMzQ3N2M0YjkwIE1vbiBTZXAgMTcg
+RnJvbSA4NzI2ZGY3OWQ3MWE0MGMxNjhiOGE1YzUyMmU3Yzk2MDE1YzIxMmYzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTI6MDA6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
-YXJmYnV6ejogdXBncmFkZSAxMi4zLjIgLT4gMTQuMS4wCgotLS0KIC4uLi9oYXJmYnV6ei97aGFy
-ZmJ1enpfMTIuMy4yLmJiID0+IGhhcmZidXp6XzE0LjEuMC5iYn0gICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei97aGFyZmJ1enpfMTIuMy4yLmJiID0+IGhhcmZidXp6
-XzE0LjEuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFy
-ZmJ1enovaGFyZmJ1enpfMTIuMy4yLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6
-L2hhcmZidXp6XzE0LjEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMTIuMy4yLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMTQuMS4wLmJiCmluZGV4IDEy
-YmViYzRiZWUuLmRjYzM0NjlmZWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9o
-YXJmYnV6ei9oYXJmYnV6el8xMi4zLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hh
-cmZidXp6L2hhcmZidXp6XzE0LjEuMC5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vQ09QWUlORzttZDU9Yjk4NDI5YjhlOGUzYzJhNjdjZmVmMDFlOTllNDg5M2Qg
-XAogICAgICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9
-L2Rvd25sb2FkLyR7UFZ9LyR7QlBOfS0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiNmY2ZGIxNjQzNTlhMmRhNWE4NGVmODI2NjE1YjQ0OGIzM2U2MzA2MDY3YWQ4MjlkODVkNWIw
-YmY5MzZmMWJiOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlZTBlYjNhMWRhMmM1YTI4MTQ3ZjEy
-ZGZmNTVmNmM3ZDYwYWVlZWIyOWFjN2VmMzM0ZWFiZTg0Yzg0NzZjMTA1IgogCiBERVBFTkRTICs9
-ICJnbGliLTIuMC1uYXRpdmUiCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDg6NTI6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXJlcXVlc3RzOiB1cGdyYWRlIDIuMzIuNSAtPiAyLjMzLjEKCi0tLQogLi4uL3tweXRo
+b24zLXJlcXVlc3RzXzIuMzIuNS5iYiA9PiBweXRob24zLXJlcXVlc3RzXzIuMzMuMS5iYn0gIHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1yZXF1ZXN0c18yLjMyLjUu
+YmIgPT4gcHl0aG9uMy1yZXF1ZXN0c18yLjMzLjEuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJlcXVlc3RzXzIuMzIuNS5iYiBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1yZXF1ZXN0c18yLjMzLjEuYmIKc2lt
+aWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXJlcXVlc3RzXzIuMzIuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXJlcXVlc3RzXzIuMzMuMS5iYgppbmRleCA0M2I2M2UzMmIxLi5k
+YmI2NWVjZjY5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtcmVxdWVzdHNfMi4zMi41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1yZXF1ZXN0c18yLjMzLjEuYmIKQEAgLTcsNyArNyw3IEBAIFNSQ19VUkk6YXBwZW5k
+OmNsYXNzLW5hdGl2ZXNkayA9ICIgXAogICAgICAgICAgICBmaWxlOi8vZW52aXJvbm1lbnQuZC1w
+eXRob24zLXJlcXVlc3RzLnNoIFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImRiYmEwYmFj
+NTZlMTAwODUzZGIwZWE3MWI4MmI0ZGZkNWZlMmJmNmQzNzU0YTg4OTNjM2FmNTAwY2VjN2Q3Y2Yi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTg4MTdmOGM1N2M2MjYzOTY4YmMxMjNkMjM3ZTNiOGIw
+OGFjMDQ2ZjU0NTZiZDFlMzA3ZWU4ZjQyNTBkMzUxNyIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9z
+ZXR1cHRvb2xzX2J1aWxkX21ldGEKIAotLSAKMi40Ny4xCgo=
 
---===============0362022621141713517==
+--===============0989871655447254962==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: RDEPENDS: added "libstdc++ (['>= 15.2.0'])"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PKGSIZE changed from 217576 to 378088 (+74%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: FILELIST: added "/usr/bin/hb-raster /usr/bin/hb-vector"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 82965480 to 102567064 (+24%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-cairo.so.0.61232.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61232.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61232.0 /usr/lib/.debug/libharfbuzz.so.0.61232.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61232.0", added "/usr/lib/.debug/libharfbuzz.so.0.61410.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61410.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61410.0 /usr/lib/.debug/libharfbuzz-raster.so.0.61410.0 /usr/bin/.debug/hb-vector /usr/bin/.debug/hb-raster /usr/lib/.debug/libharfbuzz-gpu.so.0.61410.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61410.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61410.0 /usr/lib/.debug/libharfbuzz-vector.so.0.61410.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: RRECOMMENDS: added "zlib-dbg libstdc++-dbg libpng-dbg"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: RDEPENDS: added "libpng-dev zlib-dev"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1809161 to 1840888 (+2%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: FILELIST: added "/usr/include/harfbuzz/hb-raster.h /usr/include/harfbuzz/hb-vector.h /usr/lib/pkgconfig/harfbuzz-vector.pc /usr/lib/pkgconfig/harfbuzz-raster.pc /usr/lib/libharfbuzz-gpu.so /usr/lib/libharfbuzz-vector.so /usr/include/harfbuzz/hb-gpu.h /usr/lib/libharfbuzz-raster.so /usr/lib/pkgconfig/harfbuzz-gpu.pc"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: RRECOMMENDS: added "libpng-dev zlib-dev"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61232.0", added "/usr/lib/libharfbuzz-icu.so.0.61410.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 5177058 to 5858188 (+13%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: FILELIST: directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Layout/GSUB -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Layout/GSUB, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Color/CBDT -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Color/CBDT, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Layout/GDEF -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Layout/GDEF, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Var/VARC -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Var/VARC, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Color/COLR -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Color/COLR, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Color/sbix -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Color/sbix, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Layout/Common -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Layout/Common, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/graph -> /usr/src/debug/harfbuzz/14.
- 1.0/src/graph, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Layout -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Layout, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Color/svg -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Color/svg, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Color/CPAL -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Color/CPAL, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/Layout/GPOS -> /usr/src/debug/harfbuzz/14.1.0/src/OT/Layout/GPOS, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/name -> /usr/src/debug/harfbuzz/14.1.0/src/OT/name, directory renamed /usr/src/debug/harfbuzz/12.3.2/src/OT/glyf -> /usr/src/debug/harfbuzz/14.1.0/src/OT/glyf, removed "/usr/src/debug/harfbuzz/12.3.2/src/hb-ot-metrics.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-var.h /usr/src/debug/harfbuzz/12.3.2/src/hb-icu.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-glib.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ucd.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-set.hh /usr/s
- rc/debug/harfbuzz/12.3.2/src/hb-sanitize.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-khmer.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-gobject-enums.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-font.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-open-type.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-open-file.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-shape-plan.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-cairo.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-syllabic.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-map.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-string-array.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-layout-common.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-layout-gsubgpos.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-os2-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-map.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-set.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-table-cff.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-bit-set-invertible.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-ara
- bic-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-number.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-face.hh /usr/src/debug/harfbuzz/12.3.2/util/hb-info.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-indic.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-use.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ft-colr.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-buffer.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-face.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ft.h /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-instancer-iup.cc /usr/src/debug/harfbuzz/12.3.2/util/main-font-text.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout-feat-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout-just-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout-trak-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-cff1-table.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-cff2-table.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-indic-table.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-unicode-emoji-table.hh /us
- r/src/debug/harfbuzz/12.3.2/src/hb-alloc-pool.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-thai.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout-common.hh /usr/src/debug/harfbuzz/12.3.2/util/batch.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-instancer-iup.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-tag.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-face.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper.hh /usr/src/debug/harfbuzz/12.3.2/util/shape-consumer.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-default.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-name.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-cff-common.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-cff1-interp-cs.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-metrics.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-vowel-constraints.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-myanmar.cc /usr/src/debug/harfbuzz/12.3.2/util/options.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-serialize.h /usr/src/debug/harfbuzz/1
- 2.3.2/src/hb-ot-shape-normalize.hh /usr/src/debug/harfbuzz/12.3.2/util/helper-cairo-ansi.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-color.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shape.cc /usr/src/debug/harfbuzz/12.3.2/util/hb-shape.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-cplusplus.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shape.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-set.h /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-table-layout.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-blob.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-syllabic.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-buffer-verify.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-plan-member-list.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-serialize.cc /usr/src/debug/harfbuzz/12.3.2/util/shape-options.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-layout-gsub-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-face-table-list.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ft.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-meta.h /
- usr/src/debug/harfbuzz/12.3.2/src/hb-ot-face.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-machinery.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-kern.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-multimap.hh /usr/src/debug/harfbuzz/12.3.2/util/hb-subset.cc /usr/src/debug/harfbuzz/12.3.2/util/ansi-print.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-plan.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-shaper.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-style.h /usr/src/debug/harfbuzz/12.3.2/src/hb-meta.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-atomic.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-math.h /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-cff1.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-paint-extents.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-utf.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-geometry.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-input.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-draw.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-ltag-table.hh /usr/sr
- c/debug/harfbuzz/12.3.2/src/hb-common.h /usr/src/debug/harfbuzz/12.3.2/src/hb-repacker.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-plan-layout.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-gobject-structs.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-hdmx-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-head-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-dispatch.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-hhea-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-hmtx-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-post-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-vorg-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-paint-bounded.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-map.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ucd-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-unicode.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-cairo-utils.cc /usr/src/debug/harfbuzz/12.3.2/util/helper-subset.hh /usr/src/debug/harfbuzz/12.3.2/util/shape-format.hh /usr
- /src/debug/harfbuzz/12.3.2/src/hb-shape.h /usr/src/debug/harfbuzz/12.3.2/util/shape-output.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-metrics.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-gobject-enums.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shape-fallback.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-face.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-font.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-bimap.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-priority-queue.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-instancer-solver.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-set-digest.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-free-pool.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-var-avar-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-var-cvar-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-var-fvar-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-var-gvar-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-var-hvar-table.hh /usr/src/debug/harfbuzz/12.
- 3.2/src/hb-ot-var-mvar-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-cff-interp-dict-common.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-paint.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-font.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-indic.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-cache.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-debug.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-face-builder.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-paint-bounded.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-layout.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-post-macroman.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-tag-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-buffer.h /usr/src/debug/harfbuzz/12.3.2/src/hb-object.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-cff-common.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-array.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-var.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-shape-plan.hh /usr/src/debug/harfbuzz/12.3.2/sr
- c/hb-shape.cc /usr/src/debug/harfbuzz/12.3.2/util/helper-cairo-ft.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-vowel-constraints.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-bit-set.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-shaper.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-meta.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout-kerx-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout-ankr-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout-morx-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-plan-var.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-font.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-paint.h /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-map.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-math.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-name-language-static.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-shape-plan.h /usr/src/debug/harfbuzz/12.3.2/src/hb-vector.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-cff1-std-str.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-paint-extents.hh /
- usr/src/debug/harfbuzz/12.3.2/src/hb-number.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-blob.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-arabic-pua.hh /usr/src/debug/harfbuzz/12.3.2/util/face-options.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-font.h /usr/src/debug/harfbuzz/12.3.2/src/hb-common.cc /usr/src/debug/harfbuzz/12.3.2/util/font-options.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-layout.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-iter.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-hangul.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-hebrew.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-var-common.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-cff2-interp-cs.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-script-list.h /usr/src/debug/harfbuzz/12.3.2/src/hb-outline.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-cairo-utils.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-map.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-deprecated.h /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-map.hh /usr/src/debu
- g/harfbuzz/12.3.2/src/hb-map.h /usr/src/debug/harfbuzz/12.3.2/src/hb-unicode.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-layout.h /usr/src/debug/harfbuzz/12.3.2/src/hb-buffer.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-mutex.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-deprecated.h /usr/src/debug/harfbuzz/12.3.2/src/hb-fallback-shape.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-color.h /usr/src/debug/harfbuzz/12.3.2/src/hb-cff-interp-cs-common.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-aat-layout.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-name.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-arabic-fallback.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-outline.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-accelerator.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-arabic-joining-list.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-input.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-unicode.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shape-fallback.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper
- -arabic.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-layout-gpos-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-algs.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-bit-page.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-arabic.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-instancer-solver.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-buffer-serialize.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shape-normalize.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-blob.hh /usr/src/debug/harfbuzz/12.3.2/util/output-options.hh /usr/src/debug/harfbuzz/12.3.2/util/view-cairo.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset.h /usr/src/debug/harfbuzz/12.3.2/src/hb-cff-interp-common.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-name-language.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-draw.h /usr/src/debug/harfbuzz/12.3.2/src/hb-cairo.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-plan.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-serialize.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-shaper-use-table.hh /usr/src/debug/h
- arfbuzz/12.3.2/src/hb-paint.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-null.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-post-table-v2subset.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-cff-common.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-decycler.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-shaper-list.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-cff2.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-draw.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-static.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-layout-base-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-version.h /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-cff1-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-cff2-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-cmap-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-kern-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-math-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-maxp-table.hh /usr/src/debug/harfbuzz/12.3.2/util/text-options.hh /usr/src/debug/harfbuzz/12.3.2/util/view-options.hh /us
- r/src/debug/harfbuzz/12.3.2/src/hb-ot-meta-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-stat-table.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-style.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-table-color.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-table-var.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-table-other.cc /usr/src/debug/harfbuzz/12.3.2/util/helper-cairo.hh /usr/src/debug/harfbuzz/12.3.2/src/hb-subset-table.hh /usr/src/debug/harfbuzz/12.3.2/util/hb-view.cc /usr/src/debug/harfbuzz/12.3.2/src/hb-ot-os2-unicode-ranges.hh", added "/usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var.h /usr/src/debug/harfbuzz/14.1.0/src/hb-set.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-font.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-open-type.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-open-file.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-shape-plan.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-string-array.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-layout-common.hh /usr/src/debug/harfbuzz/14.1.0/sr
- c/hb-ot-layout-gsubgpos.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-os2-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-map.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-defs.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-set.cc /usr/src/debug/harfbuzz/14.1.0/util/main-font-text.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout-trak-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-cff1-table.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-cff2-table.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-base.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-tag.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-fill.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-face.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-default.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-cff-common.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg-subset.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-serialize.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shape-nor
- malize.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-cplusplus.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-table-layout.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg-subset.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-gradient.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-bbox.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-gradient.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-plan-member-list.hh /usr/src/debug/harfbuzz/14.1.0/util/shape-options.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-multimap.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-meta.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-math.h /usr/src/debug/harfbuzz/14.1.0/src/hb-subset.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-draw.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-ltag-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-gobject-structs.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-dispatch.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-unicode.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-vertex-glsl.hh /usr/src/deb
- ug/harfbuzz/14.1.0/src/hb-subset.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ucd-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shape-fallback.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-face.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-font.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-priority-queue.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-set-digest.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-shaders.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-paint.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-cache.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-face-builder.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-image.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-shaper.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-math.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-vector.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-number.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-font.h /us
- r/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-hebrew.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-script-list.h /usr/src/debug/harfbuzz/14.1.0/src/hb-cairo-utils.hh /usr/src/debug/harfbuzz/14.1.0/util/hb-vector.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-color.h /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-input.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-arabic.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-arabic.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-blob.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-name-language.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-draw.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-use-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-post-table-v2subset.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-decycler.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-style.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-table-cff.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-table-var.cc /usr/src/debug/harfbuzz/14.1.0/src/
- hb-cff-width-optimizer.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-machinery.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-metrics.h /usr/src/debug/harfbuzz/14.1.0/src/hb-icu.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gobject-enums.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-syllabic.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-defs-scan.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-bit-set-invertible.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-face.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-indic.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-zlib.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ft.h /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout-just-table.hh /usr/src/debug/harfbuzz/14.1.0/util/shape-consumer.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-metrics.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-fragment-hlsl.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-fragment-wgsl.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-fragment-glsl.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-blob.h /u
- sr/src/debug/harfbuzz/14.1.0/util/hb-raster.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ft.cc /usr/src/debug/harfbuzz/14.1.0/util/ansi-print.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg-path.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-shaper.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-atomic.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-cff1.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg-path.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-geometry.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-common.h /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg-utils.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg-utils.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg-draw.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-shape.h /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-context.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-indic.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-debug.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-paint-bounded.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-buffer.h /usr/src/de
- bug/harfbuzz/14.1.0/src/hb-object.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-cff-common.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-use.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-shape.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-bbox.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-bit-set.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout-morx-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-plan-var.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-defs.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-name-language-static.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-common.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-iter.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-deprecated.h /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-map.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-accelerator.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-name.h /usr/src/debug/harfbuzz/14.1.0/src/hb-unicode.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-arabic-joining-list.hh /usr/src/debug/harfbuzz/14
- .1.0/src/hb-raster-svg-parse.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-parse.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-bit-page.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-instancer-solver.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-buffer-serialize.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shape-normalize.cc /usr/src/debug/harfbuzz/14.1.0/util/output-options.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-serialize.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-vector.h /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-cff2.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-draw.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-math-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-maxp-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-meta-table.hh /usr/src/debug/harfbuzz/14.1.0/util/face-options.hh /usr/src/debug/harfbuzz/14.1.0/util/font-options.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-vector-svg-paint.cc /usr/src/debug/harfbuzz/14.1.0/util/text-options.hh /usr/src/debug/harfbuzz/14.1.0/util/view-opt
- ions.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-gobject-enums.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ucd.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-sanitize.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-use.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-vertex-msl.hh /usr/src/debug/harfbuzz/14.1.0/util/hb-info.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ft-colr.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-buffer.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-face.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-instancer-iup.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-indic-table.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-draw.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout-common.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-thai.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-instancer-iup.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-draw.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-name.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-vowel-constraints.hh /usr/src/debug/ha
- rfbuzz/14.1.0/src/hb-ot-shaper-myanmar.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-vertex-wgsl.hh /usr/src/debug/harfbuzz/14.1.0/util/helper-cairo-ansi.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-color.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shape.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shape.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-buffer-verify.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-color.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-serialize.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-layout-gsub-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-color.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-plan.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-style.h /usr/src/debug/harfbuzz/14.1.0/src/hb-utf.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-input.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-base.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-repacker.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-plan-layout.cc /usr/src/debug/harfbuzz/14.1.0/src/
- hb-raster-paint.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-hdmx-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-head-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-hhea-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-hmtx-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-paint-bounded.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-post-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-draw.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-cairo-utils.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu.h /usr/src/debug/harfbuzz/14.1.0/src/hb-free-pool.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var-avar-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var-cvar-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var-fvar-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var-gvar-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var-hvar-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var-mvar-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-cff-interp-dict-common.hh /usr/src/debug/harfbuzz/14.1.
- 0/src/hb-ot-layout.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-tag-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-fill.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-utils.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout-kerx-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-font.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-shape-plan.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-cff1-std-str.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-paint-extents.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-arabic-pua.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-blob.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-layout.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-hangul.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-var-common.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-map.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-unicode.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-layout.h /usr/src/debug/harfbuzz/14.1.0/src/hb-buffer.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-deprecated.h /usr/src/debug/harfb
- uzz/14.1.0/src/hb-fallback-shape.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-cff-interp-cs-common.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-arabic-fallback.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shape-fallback.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-layout-gpos-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-algs.hh /usr/src/debug/harfbuzz/14.1.0/util/view-cairo.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-image.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-cu2qu.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-paint.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-cairo.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-paint.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-null.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-static.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-layout-base-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-stat-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-cmap-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-kern
- -table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-cff1-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-cff2-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-table-color.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-table-other.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-os2-unicode-ranges.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-glib.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-zlib.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-khmer.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-cairo.h /usr/src/debug/harfbuzz/14.1.0/src/hb-map.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-arabic-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-number.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-use.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-clip.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout-feat-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-unicode-emoji-table.hh 
- /usr/src/debug/harfbuzz/14.1.0/src/hb-alloc-pool.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-clip.cc /usr/src/debug/harfbuzz/14.1.0/util/batch.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-cff1-interp-cs.hh /usr/src/debug/harfbuzz/14.1.0/util/options.hh /usr/src/debug/harfbuzz/14.1.0/util/hb-shape.cc /usr/src/debug/harfbuzz/14.1.0/util/vector-output.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-set.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-syllabic.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-face-table-list.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-meta.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-face.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-kern.hh /usr/src/debug/harfbuzz/14.1.0/util/hb-subset.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-paint-extents.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-cff2-to-cff1.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-vorg-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-map.hh /usr/src/debug/h
- arfbuzz/14.1.0/util/helper-subset.hh /usr/src/debug/harfbuzz/14.1.0/util/raster-output.hh /usr/src/debug/harfbuzz/14.1.0/util/shape-format.hh /usr/src/debug/harfbuzz/14.1.0/util/shape-output.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-metrics.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-vertex-hlsl.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-bimap.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-instancer-solver.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-font.h /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-post-macroman.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-array.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-shape-plan.hh /usr/src/debug/harfbuzz/14.1.0/util/helper-cairo-ft.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-shaper-vowel-constraints.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-gpu-fragment-msl.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-ot-meta.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-aat-layout-ankr-table.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-paint.h /usr/src/debug/harfbuzz/14.1.0/src/hb-aa
- t-map.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-render.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-cff2-interp-cs.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-outline.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-map.h /usr/src/debug/harfbuzz/14.1.0/src/hb-mutex.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-raster-svg-defs-scan.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-outline.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-raster.h /usr/src/debug/harfbuzz/14.1.0/src/hb-cff-interp-common.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-cff-specializer.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-plan.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-subset-cff-common.cc /usr/src/debug/harfbuzz/14.1.0/src/hb-shaper-list.hh /usr/src/debug/harfbuzz/14.1.0/src/hb-version.h /usr/src/debug/harfbuzz/14.1.0/util/helper-image-output.hh /usr/src/debug/harfbuzz/14.1.0/util/helper-cairo.hh /usr/src/debug/harfbuzz/14.1.0/util/hb-view.cc"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PKGSIZE changed from 919711 to 948383 (+3%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61232.0", added "/usr/lib/libharfbuzz-subset.so.0.61410.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: RDEPENDS: added "zlib (['>= 1.3.2']) libpng (['>= 1.6.56'])"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1189214 to 1544264 (+30%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.61232.0 /usr/lib/libharfbuzz.so.0.61232.0 /usr/lib/libharfbuzz-cairo.so.0.61232.0", added "/usr/lib/libharfbuzz-gpu.so.0 /usr/lib/libharfbuzz-vector.so.0 /usr/lib/libharfbuzz-raster.so.0 /usr/lib/libharfbuzz-gpu.so.0.61410.0 /usr/lib/libharfbuzz-raster.so.0.61410.0 /usr/lib/libharfbuzz-vector.so.0.61410.0 /usr/lib/libharfbuzz-cairo.so.0.61410.0 /usr/lib/libharfbuzz.so.0.61410.0 /usr/lib/libharfbuzz-gobject.so.0.61410.0"
-packages/x86-64-v3-poky-linux/harfbuzz: PV changed from "12.3.2" to "14.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/12.3.2/harfbuzz-12.3.2.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/14.1.0/harfbuzz-14.1.0.tar.xz"
-packages/x86-64-v3-poky-linux/harfbuzz: PKGV changed from 12.3.2 [default] to 14.1.0 [default]
-Changes to packages/x86-64-v3-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61232.0 to libharfbuzz-cairo.so.0.61410.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61232.0 to libharfbuzz-gobject.so.0.61410.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61232.0 to libharfbuzz-icu.so.0.61410.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61232.0 to libharfbuzz.so.0.61410.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61232.0 to libharfbuzz-subset.so.0.61410.0
-  /usr/lib/libharfbuzz-cairo.so.0.61232.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61410.0
-  /usr/lib/libharfbuzz-gobject.so.0.61232.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61410.0
-  /usr/lib/libharfbuzz-icu.so.0.61232.0 moved to /usr/lib/libharfbuzz-icu.so.0.61410.0
-  /usr/lib/libharfbuzz.so.0.61232.0 moved to /usr/lib/libharfbuzz.so.0.61410.0
-  /usr/lib/libharfbuzz-subset.so.0.61232.0 moved to /usr/lib/libharfbuzz-subset.so.0.61410.0
-  /usr/include/harfbuzz/hb-gpu.h was added
-  /usr/include/harfbuzz/hb-raster.h was added
-  /usr/include/harfbuzz/hb-vector.h was added
-  /usr/lib/libharfbuzz-gpu.so.0.61410.0 was added
-  /usr/lib/libharfbuzz-gpu.so.0 was added
-  /usr/lib/libharfbuzz-gpu.so was added
-  /usr/lib/libharfbuzz-raster.so.0.61410.0 was added
-  /usr/lib/libharfbuzz-raster.so.0 was added
-  /usr/lib/libharfbuzz-raster.so was added
-  /usr/lib/libharfbuzz-vector.so.0.61410.0 was added
-  /usr/lib/libharfbuzz-vector.so.0 was added
-  /usr/lib/libharfbuzz-vector.so was added
-  /usr/lib/pkgconfig/harfbuzz-gpu.pc was added
-  /usr/lib/pkgconfig/harfbuzz-raster.pc was added
-  /usr/lib/pkgconfig/harfbuzz-vector.pc was added
+packages/x86-64-v3-poky-linux/python3-requests: PKGV changed from 2.32.5 [default] to 2.33.1 [default]
+packages/x86-64-v3-poky-linux/python3-requests: PV changed from "2.32.5" to "2.33.1"
+packages/x86-64-v3-poky-linux/python3-requests: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/requests/requests-2.32.5.tar.gz;downloadfilename=requests-2.32.5.tar.gz" to "https://files.pythonhosted.org/packages/source/r/requests/requests-2.33.1.tar.gz;downloadfilename=requests-2.33.1.tar.gz"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-dbg: PKGV changed from 2.32.5 [default] to 2.33.1 [default]
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-dbg: PV changed from "2.32.5" to "2.33.1"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-dev: PKGV changed from 2.32.5 [default] to 2.33.1 [default]
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-dev: PV changed from "2.32.5" to "2.33.1"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-doc: PKGV changed from 2.32.5 [default] to 2.33.1 [default]
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-doc: PV changed from "2.32.5" to "2.33.1"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-locale: PKGV changed from 2.32.5 [default] to 2.33.1 [default]
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-locale: PV changed from "2.32.5" to "2.33.1"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-src: PKGV changed from 2.32.5 [default] to 2.33.1 [default]
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-src: PV changed from "2.32.5" to "2.33.1"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-staticdev: PKGV changed from 2.32.5 [default] to 2.33.1 [default]
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests-staticdev: PV changed from "2.32.5" to "2.33.1"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests: PKGV changed from 2.32.5 [default] to 2.33.1 [default]
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests: PV changed from "2.32.5" to "2.33.1"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests: FILELIST: directory renamed /usr/lib/python3.14/site-packages/requests-2.32.5.dist-info -> /usr/lib/python3.14/site-packages/requests-2.33.1.dist-info, removed "/usr/lib/python3.14/site-packages/requests-2.32.5.dist-info/licenses/LICENSE", added "/usr/lib/python3.14/site-packages/requests-2.33.1.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/requests-2.33.1.dist-info/licenses/NOTICE"
+packages/x86-64-v3-poky-linux/python3-requests/python3-requests: PKGSIZE changed from 414958 to 414081 (-0%)
+Changes to packages/x86-64-v3-poky-linux/python3-requests (sysroot):
+  /usr/lib/python3.14/site-packages/requests-2.32.5.dist-info moved to /usr/lib/python3.14/site-packages/requests-2.33.1.dist-info
+  /usr/lib/python3.14/site-packages/requests-2.33.1.dist-info/licenses/NOTICE was added
 
---===============0362022621141713517==--
+--===============0989871655447254962==--
 
