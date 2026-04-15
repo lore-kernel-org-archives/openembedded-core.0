@@ -1,159 +1,109 @@
-Return-Path: <li.wang@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8C7AF531FC
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 03:22:44 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10975.1776223356404013155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46363FA0C29
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 04:39:35 +0000 (UTC)
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11709.1776227969705383751
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2026 20:22:36 -0700
+ Tue, 14 Apr 2026 21:39:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=sjRJnWDN;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=85650a9195=li.wang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63F0j01K1553408
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 03:22:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=nYwYx5I79zhLn5GrOYI8
-	fOwm/lVbKauLPilZNwP/140=; b=sjRJnWDNbcuQF+qSehRxWJBszVTMhR6k2WQW
-	d//wGzGQOcr22oNZsbdqqj4E7OAOA0vxAniCO9BydIAxJnuqJ/T779eVnM7n3szk
-	asvx8LSAIEHKl9dnxJ/0pVtyWvkq05t7Z4klqt+pzE+UVibg2wWSCEOlKs6OJq4Q
-	DDo/xH+uqCKPULd2A5Mhb3dRo3LXkX8ZWOM/iAy9LCXzqvmh11TnrLubtg1+dVM0
-	Nb9n0zJUwwXL4Jw6rK9U4gxyrg4O+44rkDctisoOoCV/OlYVupMfQQV+YpdtB+mk
-	NMg4fRSJDX8ZoRnjgFItQSd6LhYooaT2RnrDOY1hpb/YmEMRcQ==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dh87a9hud-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 03:22:35 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 14 Apr 2026 20:22:33 -0700
-Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 14 Apr 2026 20:22:33 -0700
-From: Li Wang <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <li.wang@windriver.com>
-Subject: [scarthgap][PATCH] ltp: fix epoll_ctl04 failed
-Date: Wed, 15 Apr 2026 11:22:32 +0800
-Message-ID: <20260415032232.2057560-1-li.wang@windriver.com>
-X-Mailer: git-send-email 2.49.1
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=hTak0AuP;
+ spf=pass (domain: gmail.com, ip: 74.125.82.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2c15849aa2cso7355470eec.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2026 21:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776227969; x=1776832769; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A3gUGUsqSieTxlp7mhd9JrJ6OUUfXaypdTJFEwU+KFA=;
+        b=hTak0AuPc4NPFSdSLntoDmx6T9D0MOACNvygRdkBHxhwI2mwuAd2fmwo0ZaAK+DxFL
+         fZyXi6NszUZkCJjzz3yrcmTagWUUV1u8cvNMxyhdh+938SpIn2Ag3HhAhsdhQP09KKMb
+         7bJar1LBtfQ5FrwULJqRBHClfHylj9ke9NNw47ZL32xzH9NeCmxoYra8kaHPy28xylq0
+         jDckP7TwiwtjKsmeFnpBgZXW6+AGPHaUTCFc0p5DohHNhjB5TB8YJh9IKtAE+YkOAWYP
+         A1njtvlfbkdls3fwZhiGzUyRwqG2lSNtws22BIXnxumeM+eScwiOurxVy2EhQ/seX9gR
+         QAPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776227969; x=1776832769;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A3gUGUsqSieTxlp7mhd9JrJ6OUUfXaypdTJFEwU+KFA=;
+        b=F/NGP8WCMj7QZRLMDtvXCBliKNxatd2M6CzCDiRUWBgeQ6o8MsY/d1g7gFuxlhM9Hi
+         3oeJQA7F1B5tlYQOW0PNUtZE/OLhvLt/9X0To9E+Kd2wQznCppcyChRdD909P1T80wCe
+         0VZx75pHNKvV0pzUvhXcWUwJhCMbTpyMJQ8HqT1v0iLZQdbV8wHxZ9Jnb5zxgjz3tJUd
+         j6jiB9Hjn5cfNKPVKPnyHWi7BfCvfcTwNcm9gWUfAejRKLbA28V4rEFuO8h+aJnrj1u+
+         StWo2Dr1W+/IlPl3DJ5Ce+bgMfk0M1RrJRiWxQ89IeXDNd20bHrjMJsoTHknGX6laAjF
+         Iebw==
+X-Gm-Message-State: AOJu0YxZoUHZyMVcxQpJ0l1g1Tisloj6BUS1S0W9+A1ihKXBhG3mc4m6
+	tNXP/RT0CIMCa9aA0uhhLE6KLG4gqYtqcWKTMjL4QXNaAqf4rEJoXiHDrgPPF3zk
+X-Gm-Gg: AeBDieu0RgCakFMcqRXAke6xDLyw6C2GYM0WLC2aSwBDXmANnmJbQA7CL73bciD4Hy7
+	TW7hRHOfmmzB+g2VPtw5VAI8H2IpsRGc7GUEbEGf69Uc2WIXlKSGwNtYRlwY+d1xgcY3lOXQDPO
+	GCGrilI+9oTaEV2LEMXYQLVWEmgoFXcjL93czZjCjh3Ee9cmzcL/L67SGJy4+11r298mCFMShQS
+	LP6bfW4nPTOfkX9uaXwe3tdMlz9U7FTSGWhJQmhPFdgUa3ylsXe8Pq+5/q3+qgeAby8av5IuPl7
+	4l7JKumZldZdOnNbiKEuSmqGtfoC+5V/noSvJXxZlkno+d5HZWSwA0Qzcn5eGzbzxX8dF2tvDlT
+	WL/dyycLyDzrehrMSqoEgLCY53KxoNyVXbJv2YOcI1g7qAYuAmayeftJ6NxaBob1rtxOJRuePQF
+	PzG3iuRqHx6kxkOUnDwefqs8+zYNnjChRBIuqywMr7OxbjL3uSM8lA55ljizjTK7tQidV5ynlBH
+	NIPBbpGlM87umFHdEvbU08NP1v2itlzm50T+5Pn6kajJq+mmPTSEWnp7su8A1uoYeBgqgku8IKK
+	rtmK20AjSuIO44mKELip0rxoALRaTyChMdreXNn+rkaEUR5DUs4=
+X-Received: by 2002:a05:7300:8184:b0:2d9:d062:4cb3 with SMTP id 5a478bee46e88-2d9d0624f07mr5745474eec.26.1776227968591;
+        Tue, 14 Apr 2026 21:39:28 -0700 (PDT)
+Received: from apollo.localdomain ([208.95.233.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2de8fa5efb6sm1031701eec.28.2026.04.14.21.39.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 21:39:28 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [RFC][PATCH] autotools: Disable autoconf C23 compiler default detection
+Date: Tue, 14 Apr 2026 21:39:25 -0700
+Message-ID: <20260415043925.795191-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 6uTW3GnXAPhfiydcnfeCeye_Fso6j90m
-X-Authority-Analysis: v=2.4 cv=Q4jiJY2a c=1 sm=1 tr=0 ts=69df047b cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=20KFwNOVAAAA:8
- a=t7CeM3EgAAAA:8 a=iox4zFpeAAAA:8 a=39dCfGlMvhMnTBUAMx8A:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=WzC6qhA0u3u7Ye7llzcV:22
-X-Proofpoint-ORIG-GUID: 6uTW3GnXAPhfiydcnfeCeye_Fso6j90m
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE1MDAyOSBTYWx0ZWRfX3lQ8SNYjy73I
- 5e6Ho5itLPNnrE2h83KTyNUvTosqSF/EjupEBtfWXdoyNeHBsyNd+brSlKffubnWYlaM+27ZE5t
- 8An5yWaszkLHVZPYzk6KWI+RDi8XpZ8koxrFqHhKHZdvmysLF3Zouoyeu9nDZBu5pW1oyXADbDV
- XOtRAdw49oJOVPZUuzPIAvWafOoolfxezwx7Wbl1JgLWMAth4SU8twOrlHuRFT7er3MplMdAnBo
- cSVihM6FXEmO/m71osJCCV2FFvHGengjvAZ3KE6beiBpV3H4L7veTJdNgUoVXu8Uz+sv9doC2q+
- rRpjVFFH0XciWUrloGti6d76Mdd6WykKA+nhnlHBzDCyQAM2oh2h/1ajyC+ypvlwhf7kxh3PYlm
- 3y4UwdLWx4LUvh4GmPWToSLW8W0U7bHuOlsWYzNgXRq+AQcteFEmgck6ZxFNwsdxzWoqW8EgivF
- tsnlczRp4QOwaIxeB1g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-14_04,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 phishscore=0 spamscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604150029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 03:22:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235177
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 04:39:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235178
 
-backport from ltp upstream commit:
-https://github.com/linux-test-project/ltp/commit/e84f0689cf7a8a77478a0e70aa62560f66c3bceb
+Autoconf 2.73 introduced detection for C23 defaults in the compiler,
+adding -std=gnu23 if the compiler's default standard is older than C23.
+and compiler does support C23. This causes build failures for packages
+that do not yet support C23.
 
-the related kernel patch was already merged into yocto linux:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f2e467a48287c868818085aa35389a224d226732
+Clang 22.1 still defaults to C17, but the autoconf probe can
+misdetect or prematurely enable C23 mode across the build system.
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
+Disable the check globally by setting ac_cv_prog_cc_c23=no in
+CACHED_CONFIGUREVARS until upstream packages have added proper C23
+support.
+
+See: https://savannah.gnu.org/support/index.php?111401
+
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- ...l_ctl04-add-ELOOP-to-expected-errnos.patch | 49 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20240129.bb     |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-epoll_ctl04-add-ELOOP-to-expected-errnos.patch
+ meta/classes-recipe/autotools.bbclass | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-epoll_ctl04-add-ELOOP-to-expected-errnos.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-epoll_ctl04-add-ELOOP-to-expected-errnos.patch
-new file mode 100644
-index 0000000000..203836a5f6
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-epoll_ctl04-add-ELOOP-to-expected-errnos.patch
-@@ -0,0 +1,49 @@
-+From e84f0689cf7a8a77478a0e70aa62560f66c3bceb Mon Sep 17 00:00:00 2001
-+From: Jan Stancek <jstancek@redhat.com>
-+Date: Tue, 5 Aug 2025 11:27:23 +0200
-+Subject: [PATCH] syscalls/epoll_ctl04: add ELOOP to expected errnos
-+
-+Kernel commit f2e467a48287 ("eventpoll: Fix semi-unbounded recursion")
-+added an extra checks for determining the maximum depth of an upwards walk,
-+which starting with 6.17-rc kernels now hits ELOOP before EINVAL.
-+
-+Add ELOOP to list of expected errnos.
-+
-+Upstream-Status: Backport from
-+[https://github.com/linux-test-project/ltp/commit/e84f0689]
-+
-+Link: https://lore.kernel.org/ltp/39ee7abdee12e22074b40d46775d69d37725b932.1754386027.git.jstancek@redhat.com/
-+Reviewed-by: Andrea Cervesato <andrea.cervesato@suse.com>
-+Reviewed-by: Petr Vorel <pvorel@suse.cz>
-+Reviewed-by: Avinesh Kumar <akumar@suse.de>
-+Tested-by: Avinesh Kumar <akumar@suse.de>
-+Signed-off-by: Jan Stancek <jstancek@redhat.com>
-+[ modify TST_EXP_FAIL2_ARR function parameters ]
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ testcases/kernel/syscalls/epoll_ctl/epoll_ctl04.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/testcases/kernel/syscalls/epoll_ctl/epoll_ctl04.c b/testcases/kernel/syscalls/epoll_ctl/epoll_ctl04.c
-+index 955959b6b26..feb49623b15 100644
-+--- a/testcases/kernel/syscalls/epoll_ctl/epoll_ctl04.c
-++++ b/testcases/kernel/syscalls/epoll_ctl/epoll_ctl04.c
-+@@ -51,13 +51,16 @@ static void cleanup(void)
-+ 
-+ static void verify_epoll_ctl(void)
-+ {
-++	const int exp_errnos[] = {EINVAL, ELOOP};
-++
-+ 	new_epfd = epoll_create(1);
-+ 	if (new_epfd == -1)
-+ 		tst_brk(TBROK | TERRNO, "fail to create epoll instance");
-+ 
-+ 	events.data.fd = epfd;
-+-	TST_EXP_FAIL(epoll_ctl(new_epfd, EPOLL_CTL_ADD, epfd, &events), EINVAL,
-+-		     "epoll_ctl(..., EPOLL_CTL_ADD, ...) with number of nesting is 5");
-++	TST_EXP_FAIL2_ARR(epoll_ctl(new_epfd, EPOLL_CTL_ADD, epfd, &events),
-++		exp_errnos,
-++		"epoll_ctl(..., EPOLL_CTL_ADD, ...) with number of nesting is 5");
-+ 	SAFE_CLOSE(new_epfd);
-+ }
-+ 
-diff --git a/meta/recipes-extended/ltp/ltp_20240129.bb b/meta/recipes-extended/ltp/ltp_20240129.bb
-index 18c6439283..ec31c98544 100644
---- a/meta/recipes-extended/ltp/ltp_20240129.bb
-+++ b/meta/recipes-extended/ltp/ltp_20240129.bb
-@@ -31,6 +31,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=ht
-            file://0001-scenario_groups-default-remove-connectors.patch \
-            file://0001-sched_stress-Use-time_t-instead-of-long-for-type.patch \
-            file://0001-cve-2015-3290-Disable-AVX-for-x86_64.patch \
-+           file://0001-syscalls-epoll_ctl04-add-ELOOP-to-expected-errnos.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.49.1
+diff --git a/meta/classes-recipe/autotools.bbclass b/meta/classes-recipe/autotools.bbclass
+index bf58008669..7bb5c29f10 100644
+--- a/meta/classes-recipe/autotools.bbclass
++++ b/meta/classes-recipe/autotools.bbclass
+@@ -77,7 +77,12 @@ CONFIGUREOPTS = " --build=${BUILD_SYS} \
+ 		  ${CONFIGUREOPT_DEPTRACK}"
+ CONFIGUREOPT_DEPTRACK ?= "--disable-dependency-tracking"
 
+-CACHED_CONFIGUREVARS ?= ""
++# Disable autoconf-2.73 detection for C23 defaults in compiler
++# and adding -std=gnu23 if compiler's defaults are older than
++# C23, clang as of 22.1 release is still defaulting to C17
++# See - https://savannah.gnu.org/support/index.php?111401
++# Unplug it when packages have added C23 support
++CACHED_CONFIGUREVARS:append = " ac_cv_prog_cc_c23=no"
+
+ AUTOTOOLS_SCRIPT_PATH ?= "${S}"
+ CONFIGURE_SCRIPT ?= "${AUTOTOOLS_SCRIPT_PATH}/configure"
 
