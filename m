@@ -1,38 +1,93 @@
-Return-Path: <mail2szahir@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A25D9F4213D
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 18:29:20 +0000 (UTC)
-Subject: Re: [scarthgap][PATCH] rocksdb: packageconfig knob for set static library option
-To: openembedded-core@lists.openembedded.org
-From: "aszh07" <mail2szahir@gmail.com>
-X-Originating-Location: Chennai, Tamil Nadu, IN (167.103.88.251)
-X-Originating-Platform: Linux Edge 145
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Wed, 15 Apr 2026 11:29:15 -0700
-References: <20260415181354.1189841-1-zahir.basha@partner.bmwgroup.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B83DCF4213F
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 18:30:50 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2215.1776277848826370825
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 15 Apr 2026 11:30:48 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=oe7D1yzB;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jZmELIj6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d9268ff5a-a682784d-5edd-4902-928d-907c1c1ee88e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1776277848; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=qPOX67mDS02lOCw0w6bxwO0KXOXD6SKYYz3AwZSlkwc=;
+	b=oe7D1yzB5Cr6V3mBVXmUInaQ672z3IMDdxfM6WlCR3q9xS7MUgCW7V9oydYQcc7/
+	sOf6oXnXK8XdIlRX99Z59IxZc5YeDqT/2//+qekYKGglexIrRYzsoMx2xnN3a27L/RH
+	0AMT4sowQbBINzIfVByORdA2xVdlgXJSF+T4zKA8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776277848;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=qPOX67mDS02lOCw0w6bxwO0KXOXD6SKYYz3AwZSlkwc=;
+	b=jZmELIj64TH1iV8QCoTteuf6RrDGV8Jw82NL+yJJyjbvvTbyhB2rvARLdiWm2JRD
+	qGpVGPQU0qMRdGVFW6fmvJYgw8pp4HgwocpHifpoXL7pekElIrPwJyB3hzke9HNfTPb
+	4t5U7GvoIlSXfVDBKP8Q2ilmUbG39fBeKbhzMrDM=
+From: patchtest@automation.yoctoproject.org
+To: Zahir Hussain <mail2szahir@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][scarthgap][PATCH] rocksdb: packageconfig knob for set
+ static library option
 In-Reply-To: <20260415181354.1189841-1-zahir.basha@partner.bmwgroup.com>
-Message-ID: <1443323.1776277755936263547@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="HhS9YA90lx59Eo5lzslo"
+References: <20260415181354.1189841-1-zahir.basha@partner.bmwgroup.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019d9268ff5a-a682784d-5edd-4902-928d-907c1c1ee88e-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Apr 2026 18:30:47 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.04.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 18:29:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235318
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 18:30:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235319
 
---HhS9YA90lx59Eo5lzslo
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+--NextPart
+Content-Type: text/plain
 
-Please ignore this
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
---HhS9YA90lx59Eo5lzslo
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+---
+Testing patch /home/patchtest/share/mboxes/scarthgap-rocksdb-packageconfig-knob-for-set-static-library-option.patch
 
-<div>Please ignore this</div>
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
---HhS9YA90lx59Eo5lzslo--
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
