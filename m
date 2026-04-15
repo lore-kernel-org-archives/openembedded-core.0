@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7062AF428E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F140F428E9
 	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:52 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19738.1776261874123920073
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19820.1776261879823134887
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 07:04:48 -0700
+ Wed, 15 Apr 2026 07:04:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NLUqxSWN;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=l7BPrLha;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019d91757703-fca505cd-297e-4d25-ba40-931cd7165c0f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QcaWxuN4;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=pKnPZBxm;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019d91756377-62d7f641-d6bc-4cd1-aab1-4776d876c93b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1776261888;
+	t=1776261882;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5UXH1E3sTYWR3E70FmxpqqQqCi/FybSKWoGeQiH4lCM=;
-	b=NLUqxSWNAH7EA2Rv7e3XFLQlj83G9VX6UUqS6+U1BMULriufDGSF2VmOG9UpDhXP
-	a+WCUht72DLy0kkBpYmBc8AeKpds0fs/+UNF5HElqHIgTuchCGHTBV+xNW0Xhq7SNqf
-	KexUFm1ZRlVQr3G1UUkAi7VGZsCV6qbtX0ywdFKI=
+	bh=JBYUSsw6sEgidyGALFPvJo5NW1HNzgvrAW1DgZW9Mm4=;
+	b=QcaWxuN4r4Itqbwv89w3GD8pPr7MPQ0kh1giZKv5U5e0Ti4AO4MyxMFXlnsqSYKh
+	yiSvM0brR1Y/48+Fxr3l4/mRZUEcEiXdX7y/ofTWpPhams9ZwSXN9Xut9PXrlu4Yv9Z
+	3QcUhNI/1qtKLY4/mv+eH+0bTY8OYN7LmfE1mZ2k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261888;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261882;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5UXH1E3sTYWR3E70FmxpqqQqCi/FybSKWoGeQiH4lCM=;
-	b=l7BPrLhaZsnCS0ElKXbglaHG22KO6mcRlU9NGWCr/JETtRK+HtrD/oaCZKZkqglZ
-	WGgWJSJEgvdHAB2shUdLtmmaAsW1G9vDxuLlcEm2yfv4L3ZMONlLwoc0hgJickj/W3H
-	aDlDn4EzzplEqQ4n5yKgRRq4FKyQUNSjn5610UUU=
-Content-Type: multipart/mixed; boundary="===============5640483515219419723=="
+	bh=JBYUSsw6sEgidyGALFPvJo5NW1HNzgvrAW1DgZW9Mm4=;
+	b=pKnPZBxmAwLykYswbAIVeSJNVWrLRae+b+7ecn9wy3651e/4Wxq+usqVgAhH3+MU
+	oE4fF34XHG//hRwjEjAYLa6MF95bUz5Viz5avlCm4zv1uIqFGQ0LIm+lCRIodAIphhL
+	YB9ZKTShQMezN9PiG6OcVWdxmtcy/ZAEqZWyC+E8=
+Content-Type: multipart/mixed; boundary="===============1951740827141838963=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] xz: upgrading to 5.8.3 SUCCEEDED
-Message-ID: <0101019d91757703-fca505cd-297e-4d25-ba40-931cd7165c0f-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Apr 2026 14:04:47 +0000
+Subject: [AUH] python3-setuptools-scm: upgrading to 10.0.5 FAILED
+Message-ID: <0101019d91756377-62d7f641-d6bc-4cd1-aab1-4776d876c93b-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Apr 2026 14:04:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.30
+X-SES-Outgoing: 2026.04.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235267
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235248
 
---===============5640483515219419723==
+--===============1951740827141838963==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xz* to *5.8.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-setuptools-scm* to *10.0.5* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-xz-upgrade-5.8.2-5.8.3.patch
+    - apply the patch: git am 0001-python3-setuptools-scm-upgrade-9.2.2-10.0.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,229 +78,254 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5b8e89dd7daf77f2cad56ebc2c79f14635b166a9 Mon Sep 17 00:00:00 2001
+From 437a0294f827a48ae7fd7832dc33aeb1ffc925e6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 10:43:21 +0000
-Subject: [PATCH] xz: upgrade 5.8.2 -> 5.8.3
+Date: Wed, 15 Apr 2026 08:57:55 +0000
+Subject: [PATCH] python3-setuptools-scm: upgrade 9.2.2 -> 10.0.5
 
 ---
- meta/recipes-extended/xz/{xz_5.8.2.bb => xz_5.8.3.bb} | 2 +-
+ ...setuptools-scm_9.2.2.bb => python3-setuptools-scm_10.0.5.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/xz/{xz_5.8.2.bb => xz_5.8.3.bb} (97%)
+ rename meta/recipes-devtools/python/{python3-setuptools-scm_9.2.2.bb => python3-setuptools-scm_10.0.5.bb} (88%)
 
-diff --git a/meta/recipes-extended/xz/xz_5.8.2.bb b/meta/recipes-extended/xz/xz_5.8.3.bb
-similarity index 97%
-rename from meta/recipes-extended/xz/xz_5.8.2.bb
-rename to meta/recipes-extended/xz/xz_5.8.3.bb
-index 982f5054c3..2c87065837 100644
---- a/meta/recipes-extended/xz/xz_5.8.2.bb
-+++ b/meta/recipes-extended/xz/xz_5.8.3.bb
-@@ -28,7 +28,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d38d562f6112174de93a9677682231b2 \
- SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
-            file://run-ptest \
-           "
--SRC_URI[sha256sum] = "ce09c50a5962786b83e5da389c90dd2c15ecd0980a258dd01f70f9e7ce58a8f1"
-+SRC_URI[sha256sum] = "3d3a1b973af218114f4f889bbaa2f4c037deaae0c8e815eec381c3d546b974a0"
- UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
- UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_9.2.2.bb b/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-setuptools-scm_9.2.2.bb
+rename to meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
+index d16d79c79f..1f488f92f0 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_9.2.2.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
+@@ -6,7 +6,7 @@ argument or in a SCM managed file."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
+ 
+-SRC_URI[sha256sum] = "1c674ab4665686a0887d7e24c03ab25f24201c213e82ea689d2f3e169ef7ef57"
++SRC_URI[sha256sum] = "bbba8fe754516cdefd017f4456721775e6ef9662bd7887fb52ae26813d4838c3"
+ 
+ PYPI_PACKAGE = "setuptools_scm"
  
 -- 
 2.47.1
 
 
---===============5640483515219419723==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.8.2", added "/usr/lib/liblzma.so.5.8.3"
-Changes to packages/x86-64-v3-poky-linux/xz (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.2 to liblzma.so.5.8.3
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.2 to liblzma.so.5.8.3
-  /usr/lib/liblzma.so.5.8.2 moved to /usr/lib/liblzma.so.5.8.3
-packages/x86-64-v3-poky-linux/xz/xz-doc: FILELIST: added "/usr/share/man/ar/man1/lzdiff.1 /usr/share/man/ar/man1/xzdiff.1 /usr/share/man/ar/man1/lzegrep.1 /usr/share/man/ar/man1/xzegrep.1 /usr/share/man/ar/man1/lzfgrep.1 /usr/share/man/ar/man1/xzfgrep.1 /usr/share/man/ar/man1/lzmadec.1 /usr/share/man/ar/man1/lzcat.1 /usr/share/man/ar/man1/unxz.1 /usr/share/man/ar/man1/xzcat.1 /usr/share/man/ar/man1/unlzma.1 /usr/share/man/ar/man1/lzgrep.1 /usr/share/man/ar/man1/xzgrep.1 /usr/share/man/ar/man1/xz.1 /usr/share/man/ar/man1/lzcmp.1 /usr/share/man/ar/man1/xzcmp.1 /usr/share/man/ar/man1/lzmore.1 /usr/share/man/ar/man1/xzless.1 /usr/share/man/ar/man1/lzless.1 /usr/share/man/ar/man1/lzma.1 /usr/share/man/ar/man1/xzdec.1 /usr/share/man/ar/man1/lzmainfo.1 /usr/share/man/ar/man1/xzmore.1"
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0 was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8800.0-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8800.0-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0 was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8800.0-gdb.py was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8800.0-gdb.py was removed
-Changes to packages/x86_64-linux/xz-native (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.2 to liblzma.so.5.8.3
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.2 to liblzma.so.5.8.3
-  /usr/lib/liblzma.so.5.8.2 moved to /usr/lib/liblzma.so.5.8.3
-
---===============5640483515219419723==
+--===============1951740827141838963==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-xz-upgrade-5.8.2-5.8.3.patch"
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-scm-upgrade-9.2.2-10.0.5.patch"
 
-RnJvbSA1YjhlODlkZDdkYWY3N2YyY2FkNTZlYmMyYzc5ZjE0NjM1YjE2NmE5IE1vbiBTZXAgMTcg
+RnJvbSA0MzdhMDI5NGY4MjdhNDhhZTdmZDc4MzJkYzMzYWViMWZmYzkyNWU2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTA6NDM6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
-ejogdXBncmFkZSA1LjguMiAtPiA1LjguMwoKLS0tCiBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHov
-e3h6XzUuOC4yLmJiID0+IHh6XzUuOC4zLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC94
-ei97eHpfNS44LjIuYmIgPT4geHpfNS44LjMuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuOC4yLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6
-L3h6XzUuOC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1leHRlbmRlZC94ei94el81LjguMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L3h6L3h6XzUuOC4zLmJiCmluZGV4IDk4MmY1MDU0YzMuLjJjODcwNjU4MzcgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjguMi5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQveHoveHpfNS44LjMuYmIKQEAgLTI4LDcgKzI4LDcgQEAgTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ZDM4ZDU2MmY2MTEyMTc0ZGU5M2E5Njc3NjgyMjMxYjIg
-XAogU1JDX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vdHVrYWFuaS1wcm9qZWN0L3h6L3JlbGVh
-c2VzL2Rvd25sb2FkL3Yke1BWfS94ei0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8v
-cnVuLXB0ZXN0IFwKICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2UwOWM1MGE1
-OTYyNzg2YjgzZTVkYTM4OWM5MGRkMmMxNWVjZDA5ODBhMjU4ZGQwMWY3MGY5ZTdjZTU4YThmMSIK
-K1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzZDNhMWI5NzNhZjIxODExNGY0Zjg4OWJiYWEyZjRjMDM3
-ZGVhYWUwYzhlODE1ZWVjMzgxYzNkNTQ2Yjk3NGEwIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAi
-cmVsZWFzZXMvdGFnL3YoP1A8cHZlcj5cZCsoXC5cZCspKykiCiBVUFNUUkVBTV9DSEVDS19VUkkg
-PSAiaHR0cHM6Ly9naXRodWIuY29tL3R1a2FhbmktcHJvamVjdC94ei9yZWxlYXNlcy8iCiAKLS0g
-CjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDg6NTc6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNldHVwdG9vbHMtc2NtOiB1cGdyYWRlIDkuMi4yIC0+IDEwLjAuNQoKLS0tCiAuLi5z
+ZXR1cHRvb2xzLXNjbV85LjIuMi5iYiA9PiBweXRob24zLXNldHVwdG9vbHMtc2NtXzEwLjAuNS5i
+Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXNldHVwdG9vbHMt
+c2NtXzkuMi4yLmJiID0+IHB5dGhvbjMtc2V0dXB0b29scy1zY21fMTAuMC41LmJifSAoODglKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRv
+b2xzLXNjbV85LjIuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1z
+ZXR1cHRvb2xzLXNjbV8xMC4wLjUuYmIKc2ltaWxhcml0eSBpbmRleCA4OCUKcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMtc2NtXzkuMi4y
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0
+b29scy1zY21fMTAuMC41LmJiCmluZGV4IGQxNmQ3OWM3OWYuLjFmNDg4ZjkyZjAgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLXNjbV85
+LjIuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0
+b29scy1zY21fMTAuMC41LmJiCkBAIC02LDcgKzYsNyBAQCBhcmd1bWVudCBvciBpbiBhIFNDTSBt
+YW5hZ2VkIGZpbGUuIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
+Ly9MSUNFTlNFO21kNT04MzhjMzY2ZjY5YjcyYzVkZjA1Yzk2ZGZmNzliMzVmMiIKIAotU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjFjNjc0YWI0NjY1Njg2YTA4ODdkN2UyNGMwM2FiMjVmMjQyMDFjMjEz
+ZTgyZWE2ODlkMmYzZTE2OWVmN2VmNTciCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYmJiYThmZTc1
+NDUxNmNkZWZkMDE3ZjQ0NTY3MjE3NzVlNmVmOTY2MmJkNzg4N2ZiNTJhZTI2ODEzZDQ4MzhjMyIK
+IAogUFlQSV9QQUNLQUdFID0gInNldHVwdG9vbHNfc2NtIgogCi0tIAoyLjQ3LjEKCg==
 
---===============5640483515219419723==
+--===============1951740827141838963==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/xz: SRC_URI changed from "https://github.com/tukaani-project/xz/releases/download/v5.8.2/xz-5.8.2.tar.gz file://run-ptest" to "https://github.com/tukaani-project/xz/releases/download/v5.8.3/xz-5.8.3.tar.gz file://run-ptest"
-packages/x86-64-v3-poky-linux/xz: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/liblzma: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/liblzma: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.8.2", added "/usr/lib/liblzma.so.5.8.3"
-Changes to packages/x86-64-v3-poky-linux/xz (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.2 to liblzma.so.5.8.3
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.2 to liblzma.so.5.8.3
-  /usr/lib/liblzma.so.5.8.2 moved to /usr/lib/liblzma.so.5.8.3
-packages/x86-64-v3-poky-linux/xz/xz-dbg: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-dbg: PKGSIZE changed from 2251128 to 2255160 (+0%)
-packages/x86-64-v3-poky-linux/xz/xz-dbg: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-dbg: FILELIST: removed "/usr/lib/.debug/liblzma.so.5.8.2", added "/usr/lib/.debug/liblzma.so.5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-dev: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-dev: PKGSIZE changed from 229928 to 229942 (+0%)
-packages/x86-64-v3-poky-linux/xz/xz-dev: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-doc: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-doc: PKGSIZE changed from 1390205 to 1517047 (+9%)
-packages/x86-64-v3-poky-linux/xz/xz-doc: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-doc: FILELIST: added "/usr/share/man/ar/man1/lzcat.1 /usr/share/man/ar/man1/xzcat.1 /usr/share/man/ar/man1/xzdec.1 /usr/share/man/ar/man1/unlzma.1 /usr/share/man/ar/man1/lzmainfo.1 /usr/share/man/ar/man1/xz.1 /usr/share/man/ar/man1/xzfgrep.1 /usr/share/man/ar/man1/xzegrep.1 /usr/share/man/ar/man1/lzfgrep.1 /usr/share/man/ar/man1/lzegrep.1 /usr/share/man/ar/man1/lzless.1 /usr/share/man/ar/man1/lzdiff.1 /usr/share/man/ar/man1/xzdiff.1 /usr/share/man/ar/man1/lzgrep.1 /usr/share/man/ar/man1/xzgrep.1 /usr/share/man/ar/man1/lzma.1 /usr/share/man/ar/man1/lzmadec.1 /usr/share/man/ar/man1/lzmore.1 /usr/share/man/ar/man1/xzmore.1 /usr/share/man/ar/man1/unxz.1 /usr/share/man/ar/man1/lzcmp.1 /usr/share/man/ar/man1/xzcmp.1 /usr/share/man/ar/man1/xzless.1"
-packages/x86-64-v3-poky-linux/xz/xz-locale-ca: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-ca: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-cs: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-cs: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-da: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-da: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-de: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-de: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-eo: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-eo: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-es: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-es: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-fi: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-fi: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-fr: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-fr: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-hr: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-hr: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-hu: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-hu: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-it: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-it: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-ka: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-ka: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-ko: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-ko: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-nl: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-nl: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-pl: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-pl: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-pt-br: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-pt-br: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-pt: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-pt: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-ro: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-ro: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-sr: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-sr: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-sv: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-sv: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-tr: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-tr: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-uk: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-uk: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-vi: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-vi: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-zh-cn: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-zh-cn: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-locale-zh-tw: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-locale-zh-tw: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-ptest: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-ptest: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-src: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-src: PKGSIZE changed from 1696338 to 1698866 (+0%)
-packages/x86-64-v3-poky-linux/xz/xz-src: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz-src: FILELIST: directory renamed /usr/src/debug/xz/5.8.2/src/liblzma/lzma -> /usr/src/debug/xz/5.8.3/src/liblzma/lzma, directory renamed /usr/src/debug/xz/5.8.2/src/liblzma/api/lzma -> /usr/src/debug/xz/5.8.3/src/liblzma/api/lzma, directory renamed /usr/src/debug/xz/5.8.2/src/common -> /usr/src/debug/xz/5.8.3/src/common, directory renamed /usr/src/debug/xz/5.8.2/src/xzdec -> /usr/src/debug/xz/5.8.3/src/xzdec, directory renamed /usr/src/debug/xz/5.8.2/tests -> /usr/src/debug/xz/5.8.3/tests, directory renamed /usr/src/debug/xz/5.8.2/src/liblzma/rangecoder -> /usr/src/debug/xz/5.8.3/src/liblzma/rangecoder, directory renamed /usr/src/debug/xz/5.8.2/src/liblzma/simple -> /usr/src/debug/xz/5.8.3/src/liblzma/simple, directory renamed /usr/src/debug/xz/5.8.2/src/liblzma/check -> /usr/src/debug/xz/5.8.3/src/liblzma/check, directory renamed /usr/src/debug/xz/5.8.2/src/liblzma/common -> /usr/src/debug/xz/5.8.3/src/liblzma/common, directory renamed /usr/src/de
- bug/xz/5.8.2/src/lzmainfo -> /usr/src/debug/xz/5.8.3/src/lzmainfo, directory renamed /usr/src/debug/xz/5.8.2/src/liblzma/lz -> /usr/src/debug/xz/5.8.3/src/liblzma/lz, directory renamed /usr/src/debug/xz/5.8.2/src/xz -> /usr/src/debug/xz/5.8.3/src/xz, directory renamed /usr/src/debug/xz/5.8.2/src/liblzma/delta -> /usr/src/debug/xz/5.8.3/src/liblzma/delta
-packages/x86-64-v3-poky-linux/xz/xz-staticdev: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz-staticdev: PV changed from "5.8.2" to "5.8.3"
-packages/x86-64-v3-poky-linux/xz/xz: PKGV changed from 5.8.2 [default] to 5.8.3 [default]
-packages/x86-64-v3-poky-linux/xz/xz: PV changed from "5.8.2" to "5.8.3"
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0 was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8800.0-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8800.0-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0 was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8800.0-gdb.py was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.88.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8800.0-gdb.py was removed
-Changes to packages/x86_64-linux/xz-native (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.2 to liblzma.so.5.8.3
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.2 to liblzma.so.5.8.3
-  /usr/lib/liblzma.so.5.8.2 moved to /usr/lib/liblzma.so.5.8.3
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 950 .bb files complete (0 cached, 950 parsed). 1971 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============5640483515219419723==--
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-84afec03db3b6770337fc5d9fe2de59cdff8ef0a"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:84afec03db3b6770337fc5d9fe2de59cdff8ef0a"
+meta-yocto-bsp       
+meta-poky            = "master:49cbb01d52521bfe557395c9ebfae6b1c162581e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 175 Local 157 Mirrors 0 Missed 18 Current 587 (89% match, 97% complete)
+done.
+Removing 1 stale sstate objects for arch qemux86_64...done.
+Removing 5 stale sstate objects for arch x86-64-v3...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 636 of 762 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 757 of 762 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 759 of 762 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 760 of 762 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_populate_lic_setscene: Started
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 761 of 762 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 762 of 762 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_recipe_qa_setscene)
+NOTE: Running task 1654 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_fetch)
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1871 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_create_recipe_spdx)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_fetch: Started
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1886 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_unpack)
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1888 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_fetch)
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_create_recipe_spdx: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 1890 of 1928 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_fetch)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_unpack: Started
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_fetch: Started
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1891 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_unpack)
+NOTE: Running task 1892 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_fetch: Started
+NOTE: Running task 1893 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.2.bb:do_patch)
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1894 of 1928 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_unpack)
+NOTE: Running task 1895 of 1928 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_unpack: Started
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1896 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_patch)
+NOTE: recipe python3-pytest-9.0.2-r0: task do_patch: Started
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_unpack: Started
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1897 of 1928 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_patch)
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_patch: Started
+NOTE: recipe python3-pytest-9.0.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_patch: Started
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_patch: Succeeded
+NOTE: Running task 1900 of 1928 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_configure)
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_configure: Started
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_patch: Succeeded
+NOTE: Running task 1903 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_configure)
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_configure: Succeeded
+NOTE: Running task 1904 of 1928 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile)
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_configure: Started
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_compile: Started
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_configure: Succeeded
+NOTE: Running task 1905 of 1928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile)
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
+|     main()
+|     ~~~~^^
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 373, in main
+|     json_out["return_val"] = hook(**hook_input["kwargs"])
+|                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 143, in get_requires_for_build_wheel
+|     return hook(config_settings)
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 333, in get_requires_for_build_wheel
+|     return self._get_build_requires(config_settings, requirements=[])
+|            ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 301, in _get_build_requires
+|     self.run_setup()
+|     ~~~~~~~~~~~~~~^^
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 317, in run_setup
+|     exec(code, locals())
+|     ~~~~^^^^^^^^^^^^^^^^
+|   File "<string>", line 15, in <module>
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/sources/setuptools_scm-10.0.5/src/setuptools_scm/__init__.py", line 8, in <module>
+|     from vcs_versioning import Configuration
+| ModuleNotFoundError: No module named 'vcs_versioning'
+| 
+| ERROR Backend subprocess exited when trying to invoke get_requires_for_build_wheel
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.2676265:154 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/sources/setuptools_scm-10.0.5'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.2676265, line 154
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.2676265, line 149
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.2676265, line 158
+NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_compile: Failed
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
+|     main()
+|     ~~~~^^
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 373, in main
+|     json_out["return_val"] = hook(**hook_input["kwargs"])
+|                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 143, in get_requires_for_build_wheel
+|     return hook(config_settings)
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 333, in get_requires_for_build_wheel
+|     return self._get_build_requires(config_settings, requirements=[])
+|            ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 301, in _get_build_requires
+|     self.run_setup()
+|     ~~~~~~~~~~~~~~^^
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 317, in run_setup
+|     exec(code, locals())
+|     ~~~~^^^^^^^^^^^^^^^^
+|   File "<string>", line 15, in <module>
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/sources/setuptools_scm-10.0.5/src/setuptools_scm/__init__.py", line 8, in <module>
+|     from vcs_versioning import Configuration
+| ModuleNotFoundError: No module named 'vcs_versioning'
+| 
+| ERROR Backend subprocess exited when trying to invoke get_requires_for_build_wheel
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.2676285:151 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/sources/setuptools_scm-10.0.5'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.2676285, line 151
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.2676285, line 146
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.2676285, line 163
+NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1905 tasks of which 1889 didn't need to be rerun and 2 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260415085740.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260415085740.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 2 tasks failed:
+  virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/log.do_compile.2676265
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/log.do_compile.2676285
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: python3-setuptools-scm-native-10.0.5-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.2676265' failed with exit code 1
+ERROR: python3-setuptools-scm-10.0.5-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.2676285' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/log.do_compile.2676265
+ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile) failed with exit code '1'
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/log.do_compile.2676285
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile) failed with exit code '1'
+
+--===============1951740827141838963==--
 
