@@ -1,101 +1,107 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <mail2szahir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 738FBF4210F
-	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 18:09:49 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1636.1776276581195268352
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 792D0F42113
+	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 18:15:09 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1796.1776276903632023477
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 11:09:42 -0700
+ Wed, 15 Apr 2026 11:15:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=WsA67Ug4;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260415180938b2e5a6be3e000207ef-vdqxmw@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260415180938b2e5a6be3e000207ef
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 15 Apr 2026 20:09:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=y21HV7wDIFqFuvK0QtQzYR40mLvvSOQFU8CEyFRuo4Q=;
- b=WsA67Ug4w4Z+JkcwtohYx25K73/1cyu/kLQ4avRxH1PCcp3JaByqK7txAbbSE2r1Q7F7kY
- 41js7A+5PHhoV9hTHHyERMR2TUDTOA3aAPmWjcznBbov1O45nZhs2h6D57bOTw2BFeNibO0g
- 1cn7gsjHSyM2/uo1rdZAXq2bJDOZfUcBL/fAKryMnFLhEiVaSOw5CZ7o3/0rhwKNKFqCI4kB
- AvOY5RyG07dzXyzi3PRHHSsgtchQm2hUbXAQtuihp5dwG+Q1UwLeTQKrrL6QolXie7rn/i2y
- 7hhFx4bIpwQlVlhFqLuqou7aQAKK6o5Pckx7oumU9tqEd09fLpiV4QdQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] kea: upgrade 3.0.2 -> 3.0.3
-Date: Wed, 15 Apr 2026 20:09:34 +0200
-Message-ID: <20260415180934.1748344-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=DQ+CUu+o;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: mail2szahir@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c794baca11dso1514226a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 11:15:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776276903; x=1776881703; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oyYSL5wcNzpVS5gyF9WEGXsoGuPGcQLJVZNVYO1mTu8=;
+        b=DQ+CUu+oVBlWhuNhShY9LtDQLZSfQQpPgoFd6wcTtACRX+bdVW7/IlANfZO6N6BpKd
+         8K1Qb/FJP5SdrErNMr0znKpuV3a+53YnVoub3eBaBIO5iVGCUYDJ0zByxhQiEPzqSnL5
+         B/2phedODs9ln4C4S17HkQTR+wavHzc+4Kw84Nn1pzVRW/Ehbu2Ktl6ML9iYQwsXmvrd
+         EccTl8NEi8TlHgJbLSA5sGPbnf7qeev3DFWPzfDAkBykzcO3uDXXJwticszbyfPfsUF/
+         tKmmdVwmGj9rr63YXKm2Y+bNQ9lAk9yVyVGpwZoSIoyeVvxZtTY550whlZUar9YYT/KM
+         9D7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776276903; x=1776881703;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oyYSL5wcNzpVS5gyF9WEGXsoGuPGcQLJVZNVYO1mTu8=;
+        b=Rdtr75cZW20v78QlEhNLBFj1y/aIeSpV2j+VfPPPLnDZCelK0ZXLbtpJdC1ra8/6vU
+         e1Fn23Pk5cwrOS0WdO1wnJssmkLHvXPUUD+Ltv7HZg+kEgi8+diugMMZPaNAmLXk3bTM
+         /6tdQIiRzM9WR95W6feg9JUAva7VeXGgp5tw5Wgkfg3qezRG11MBEqhL43pp0wOtGIXs
+         si/vMOBJw8bajY2PV4FvVnttSfOKOPV3qxkR2TOBqsJey78IdpgWqv033rMqd/xPdKRM
+         jSByWhV4o2IO91+J+xcupPpMCBiImWLBswsFIYXJcDyW7zhrf14IoB09B4GoVaxzB4Ry
+         UK+A==
+X-Gm-Message-State: AOJu0YxkKUi/qss+PgLDjeG0b6lmsaIG6aHWUkZEaDUTjCFMeNeh6ZfA
+	vx9z1OQjdt12YsHyY4F3u/k/ZwX2hDPzxTDLjWvUBniEN5L1pbG04yeWNMMF2Q==
+X-Gm-Gg: AeBDietYupq+Xo0UG2PYdUGeoGLHENeM6UWfZiBSuMBK22/nyBypDgbu1hD8ku+KgpN
+	VRi0Q+MV/Txdkta6xHZ/d/i4zqmpL0XAiQ6kmE1c4hM93jDOv9t/v6c5MPSMrk1WKyo+9oN2N+l
+	ty7rSZ6krdIciI4gpSPWmURzK7/z/N9dX5nHbQBjskYiVta2IYbsBzKLDAFFGEExWl9o1AgtYGi
+	sVi7mQ9SrbJjJC5lEu0HKitidadNG12hesVear+ouvbviF6j0ImyM+HpvUQuABb89/Kd071IXlS
+	ilVQQWX7KA6Px8kFRnDLFTjumJfw9wJXB2DA3pw46QstcMyE0J6gt3VkCDwZoDlfBrLQQxFi8AL
+	ZaVfSbroKYYoXTyd7UqO+2yhWxDhZzXeioeGOyI+fan8zabk5ODF6jAjoNCjD2MNlmG0HGX1GTS
+	bMSRpsIosuwDtX9S9BS8uu+nVjOLhmvM+wPRpf6NZxCsaWlQ==
+X-Received: by 2002:a17:903:94d:b0:2b2:4c58:5ba7 with SMTP id d9443c01a7336-2b2d5a4992emr227623595ad.30.1776276902725;
+        Wed, 15 Apr 2026 11:15:02 -0700 (PDT)
+Received: from L-17367L.kpit.com ([49.47.218.130])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b478291a38sm38834725ad.58.2026.04.15.11.15.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 11:15:02 -0700 (PDT)
+From: Zahir Hussain <mail2szahir@gmail.com>
+X-Google-Original-From: Zahir Hussain <zahir.basha@partner.bmwgroup.com>
+To: openembedded-core@lists.openembedded.org,
+	zahir.basha@kpit.com
+Cc: mail2szahir@gmail.com
+Subject: [OE-core][scarthgap][PATCH] rocksdb: packageconfig knob for set static library option
+Date: Wed, 15 Apr 2026 23:43:54 +0530
+Message-Id: <20260415181354.1189841-1-zahir.basha@partner.bmwgroup.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 18:09:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235315
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 18:15:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235316
 
-Solves CVE-2026-3608.
+From: Zahir Hussain <zahir.basha@kpit.com>
 
-License-Update: copyright years refreshed
+Adding PACKAGECONFIG knob for enable/disable the static library option
 
-Release notes [1]:
+It is just a follow-up changes of previous commit
+https://git.openembedded.org/meta-openembedded/commit/?h=scarthgap&id=72018ca1b1a471226917e8246e8bbf9a374ccf97
+and also this changes are already accepted and integrated in kirkstone branch.
 
-Welcome to Kea 3.0.3, a vulnerability release of the stable 3.0 series.
-This supersedes the previous release, version 3.0.2.
-
-1. **Vulnerability**: We addressed an issue, which was assigned
-CVE-2026-3608, where a large number of bracket pairs in a JSON payload
-directed to any endpoint would result in a stack overflow, due to
-recursive calls when parsing the JSON [#4275, #4288, #4387]. Since the
-exploit does not require the JSON request to have the full syntax of a
-valid command, it bypasses RBAC and the command filters on the
-High-Availability endpoints.
-
-2. **Security**: A null dereference is now no longer possible when
-configuring the Control Agent with a socket that lacks the mandatory
-socket-name entry [#4388, #4365].
-
-3. **Permissions**: UNIX sockets are now created as group-writable
-[#4398, #4260]. This allows users belonging to the group to send
-commands to the UNIX sockets. In particular, it allows Stork 2.4.0 and
-above to detect the Kea daemon.
-
-[1] https://downloads.isc.org/isc/kea/3.0.3/Kea-3.0.3-ReleaseNotes.txt
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
 ---
- meta/recipes-connectivity/kea/{kea_3.0.2.bb => kea_3.0.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/kea/{kea_3.0.2.bb => kea_3.0.3.bb} (96%)
+ meta-oe/recipes-dbs/rocksdb/rocksdb_9.0.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/kea/kea_3.0.2.bb b/meta/recipes-connectivity/kea/kea_3.0.3.bb
-similarity index 96%
-rename from meta/recipes-connectivity/kea/kea_3.0.2.bb
-rename to meta/recipes-connectivity/kea/kea_3.0.3.bb
-index f46cb1bf80..0646bf702e 100644
---- a/meta/recipes-connectivity/kea/kea_3.0.2.bb
-+++ b/meta/recipes-connectivity/kea/kea_3.0.3.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Kea is the next generation of DHCP software developed by ISC. It
- HOMEPAGE = "http://kea.isc.org"
- SECTION = "connectivity"
- LICENSE = "MPL-2.0"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fb634ed1d923b8b8fd1ed7ffc9b70ae4"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a64dc8efc3c40d0502ad372f810700e4"
+diff --git a/meta-oe/recipes-dbs/rocksdb/rocksdb_9.0.0.bb b/meta-oe/recipes-dbs/rocksdb/rocksdb_9.0.0.bb
+index fae54fdba4..a55a8eb59b 100644
+--- a/meta-oe/recipes-dbs/rocksdb/rocksdb_9.0.0.bb
++++ b/meta-oe/recipes-dbs/rocksdb/rocksdb_9.0.0.bb
+@@ -36,6 +36,7 @@ PACKAGECONFIG[zlib] = "-DWITH_ZLIB=ON,-DWITH_ZLIB=OFF,zlib"
+ PACKAGECONFIG[zstd] = "-DWITH_ZSTD=ON,-DWITH_ZSTD=OFF,zstd"
+ PACKAGECONFIG[lite] = "-DROCKSDB_LITE=ON,-DROCKSDB_LITE=OFF"
+ PACKAGECONFIG[gflags] = "-DWITH_GFLAGS=ON,-DWITH_GFLAGS=OFF,gflags"
++PACKAGECONFIG[rocksdb_static] = "-DROCKSDB_BUILD_STATIC=ON, -DROCKSDB_BUILD_STATIC=OFF"
  
- DEPENDS = "boost log4cplus openssl"
+ # Tools and tests currently don't compile on armv5 so we disable them
+ EXTRA_OECMAKE = "\
+@@ -44,7 +45,6 @@ EXTRA_OECMAKE = "\
+     -DWITH_BENCHMARK_TOOLS=OFF \
+     -DWITH_TOOLS=OFF \
+     -DFAIL_ON_WARNINGS=OFF \
+-    -DROCKSDB_BUILD_STATIC=OFF \
+ "
  
-@@ -23,7 +23,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.xz \
-            file://0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch \
-            file://0001-src-lib-log-logger_level_impl.cc-add-a-missing-inclu.patch \
-            "
--SRC_URI[sha256sum] = "29f4e44fa48f62fe15158d17411e003496203250db7b3459c2c79c09f379a541"
-+SRC_URI[sha256sum] = "09702ddb078b637e85de9236cbedd3fb9d7af7c6e797026c538b45748ad4d631"
- 
- inherit meson pkgconfig systemd update-rc.d upstream-version-is-even
- 
+ CXXFLAGS += "${@bb.utils.contains('SELECTED_OPTIMIZATION', '-Og', '-DXXH_NO_INLINE_HINTS', '', d)}"
+-- 
+2.34.1
+
 
