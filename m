@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DEA2F42105
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A40AF42107
 	for <webhook@archiver.kernel.org>; Wed, 15 Apr 2026 14:04:37 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19812.1776261873807100432
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19735.1776261873605934514
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Apr 2026 07:04:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=wTea/4P4;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yd90d4Oi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019d91753d6d-d4e54035-6dce-444c-bb44-f992312117d8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NWk2aK2d;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0VA7qgqS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019d91753d17-52651beb-521c-4714-a73c-c00716d14bc7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1776261873;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dnB7gMjfoB63sfjP9x429Vcpq5oJzPtXvodfEHzEr6c=;
-	b=wTea/4P4XFYSzpc+IJXxtQAz6ooRavcyCLQFkivBonl1nWVv99zexTbyNIN21sBF
-	Q3WhT8Nm6SZ9jmHbb0SwXm9QyKz7Qq5T9GgcJycYYtckoJZSOqBfknLio5ud/b7VpOI
-	NvLs+0Yat0pqChotZf6u+NJwUIkAZ1wufnGPhg1k=
+	bh=Mgu/PrGF1lyax7chbN003XC6IFTPtkUC/mp7556Pw6Q=;
+	b=NWk2aK2dxcX/d2nFdOW6gJgZvnd5K1ycbeK8sHHvF3ASsBCmDbbWMVwNX90ZMuO8
+	kzGQGYbJQLd/xzZw9lwCQEdjJpq2cupS2MO4PycIBDq7XP7/ko0Vp84J4Py4cvnURWA
+	kUav/RXWQ5L9Y+ZA1Xrtab3mC8VSs+5AF49WoRRc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776261873;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dnB7gMjfoB63sfjP9x429Vcpq5oJzPtXvodfEHzEr6c=;
-	b=yd90d4OiX7RnQSmYFkW+n23a3w/8YPDQjNckIc+nkuo5k95wlWIpyfAROx8EDjI4
-	q1ZWRfGx5eFnWENWe3a2Noq0+rrBeJi54O1u60zzNeh0BOYozotJEjRdc14S8FbveCv
-	IpNVnp49MvtVJq5juJFmLL9JbD4w/uSraRpnkWlc=
-Content-Type: multipart/mixed; boundary="===============4240116660667685882=="
+	bh=Mgu/PrGF1lyax7chbN003XC6IFTPtkUC/mp7556Pw6Q=;
+	b=0VA7qgqSIlPc3v6xkps9hPGNo5ljTJpWfy7qyMsNrkRU0bCtGXGyW6FvYnlp6LwH
+	2RSXvES5svkydiRXJa5YAH2IPQIq1PmYKIvBFjs+DcXKp5MRQHQTvtWjLS4VIMqbDx+
+	miJhHiz/OmF/B0fT/dlJCzrwYybs87gARcE+rCa4=
+Content-Type: multipart/mixed; boundary="===============8940264060421916598=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] neard: upgrading to 0.20 FAILED
-Message-ID: <0101019d91753d6d-d4e54035-6dce-444c-bb44-f992312117d8-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Apr 2026 14:04:33 +0000
+Subject: [AUH] bind: upgrading to 9.20.22 SUCCEEDED
+Message-ID: <0101019d91753d17-52651beb-521c-4714-a73c-c00716d14bc7-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Apr 2026 14:04:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.15-54.240.27.191
+X-SES-Outgoing: 2026.04.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 14:04:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235214
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235213
 
---===============4240116660667685882==
+--===============8940264060421916598==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *neard* to *0.20* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *bind* to *9.20.22* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-neard-upgrade-0.19-0.20.patch
+    - apply the patch: git am 0001-bind-upgrade-9.20.20-9.20.22.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,348 +72,334 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f55ddc56c04e9b81a767e1f8fe36aff3b59fdae2 Mon Sep 17 00:00:00 2001
+From 25f354a84430756a1fee52cecdd98b783b99165a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Apr 2026 06:27:01 +0000
-Subject: [PATCH] neard: upgrade 0.19 -> 0.20
+Date: Wed, 15 Apr 2026 06:07:31 +0000
+Subject: [PATCH] bind: upgrade 9.20.20 -> 9.20.22
 
 ---
- ...Add-header-dependency-to-nciattach.o.patch |  9 ++----
- .../Makefile.am-do-not-ship-version.h.patch   |  9 ++----
- .../Makefile.am-fix-parallel-issue.patch      | 30 -------------------
- .../neard/{neard_0.19.bb => neard_0.20.bb}    |  5 ++--
- 4 files changed, 8 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
- rename meta/recipes-connectivity/neard/{neard_0.19.bb => neard_0.20.bb} (93%)
+ .../bind/bind/0001-avoid-start-failure-with-bind-user.patch   | 2 +-
+ .../0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch     | 2 +-
+ ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
+ ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 4 ++--
+ meta/recipes-connectivity/bind/bind/conf.patch                | 2 +-
+ .../bind/bind/init.d-add-support-for-read-only-rootfs.patch   | 2 +-
+ .../bind/bind/make-etc-initd-bind-stop-work.patch             | 2 +-
+ .../bind/{bind_9.20.20.bb => bind_9.20.22.bb}                 | 2 +-
+ 8 files changed, 10 insertions(+), 10 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.20.20.bb => bind_9.20.22.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch b/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-index d8e8a5e5da..814c5af493 100644
---- a/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-+++ b/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
+diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
+index 4fa377a594..8f7627d8c0 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
 @@ -1,4 +1,4 @@
--From affaa2021a54c30353e4e1fee09c13a4de2196be Mon Sep 17 00:00:00 2001
-+From 57df6a3acdbe76874ca0a4d3838db9c0b25227b4 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Fri, 17 Mar 2017 14:24:29 +0200
- Subject: [PATCH] Add header dependency to nciattach.o
-@@ -19,10 +19,10 @@ Upstream-Status: Submitted [mailinglist]
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index fa552ee..acef6ba 100644
-+index d865e84..1c81d58 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -253,6 +253,7 @@ se/builtin.h: src/genbuiltin $(builtin_se_sources)
-+@@ -258,6 +258,7 @@ se/builtin.h: src/genbuiltin $(builtin_se_sources)
-  
-  $(src_neard_OBJECTS) \
-  $(tools_nfctool_nfctool_OBJECTS) \
-@@ -30,6 +30,3 @@ index fa552ee..acef6ba 100644
-  $(plugin_objects) \
-  $(se_seeld_OBJECTS) \
-  $(unit_test_ndef_parse_OBJECTS) \
---- 
--2.11.0
--
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-index 16875e0543..1c22928def 100644
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-+++ b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
+-From 2a3ff2a026c55dc67655baf28e0f4175232ee0ff Mon Sep 17 00:00:00 2001
++From fafc8e32b3bf65ab58926c04f62b072131045669 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 15 Oct 2018 16:55:09 +0800
+ Subject: [PATCH] avoid start failure with bind user
+diff --git a/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch b/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
+index 7279a73e87..f310c7337b 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
 @@ -1,4 +1,4 @@
--From bfd32d68cfc9f1e31dab88e07446d1c02bc80b5e Mon Sep 17 00:00:00 2001
-+From c9ea78dc914eb821d041527436ba6fa914483219 Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
- Date: Thu, 12 Feb 2015 00:39:29 -0800
- Subject: [PATCH] Makefile.am: do not ship version.h
-@@ -10,11 +10,11 @@ Upstream-Status: Pending
+-From 77f8fafab0cc91c3ad8fbf1382b1d0f2d2cd99a6 Mon Sep 17 00:00:00 2001
++From 92694541ea5db345bbb3c7b294c94192c4a90152 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <khem.raj@oss.qualcomm.com>
+ Date: Fri, 10 Apr 2026 23:33:49 +0000
+ Subject: [PATCH] m4: Backport ax_prog_cc_for_build.m4 macros
+diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+index 369185ad86..f643e4d689 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+@@ -1,4 +1,4 @@
+-From 49ca7b5432dd6c24541bbde21bca5043cd0c000b Mon Sep 17 00:00:00 2001
++From 9bb7b5dd7cdcdc65409616141848615625681979 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Mon, 27 Aug 2018 21:24:20 +0800
+ Subject: [PATCH] `named/lwresd -V' and start log hide build options
+@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- ---
-- Makefile.am |    4 ++--
-+ Makefile.am | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+ diff --git a/configure.ac b/configure.ac
+-index c3852ec..3b7a446 100644
++index 47e12c3..ee215af 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
+diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+index 4a066294f0..fc9d1137a9 100644
+--- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
++++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+@@ -1,4 +1,4 @@
+-From fa165cb4a9dfeb72f0db787decd527e3d587cd4e Mon Sep 17 00:00:00 2001
++From 626c7df8226f9ddd39790cbe12d870abbb605305 Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Tue, 9 Jun 2015 11:22:00 -0400
+ Subject: [PATCH] bind: ensure searching for json headers searches sysroot
+@@ -32,7 +32,7 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/Makefile.am b/Makefile.am
--index 3334790..69cd58f 100644
-+index 592fb7c..d865e84 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -10,11 +10,11 @@ pkginclude_HEADERS = include/types.h include/log.h include/plugin.h \
-@@ -31,6 +31,3 @@ index 3334790..69cd58f 100644
-  			$(noinst_HEADERS), include/near/$(notdir $(file)))
-  
-  gdbus_sources = gdbus/gdbus.h gdbus/mainloop.c gdbus/watch.c \
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-deleted file mode 100644
-index aeb33a5bdc..0000000000
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 43acc56d5506c7e318f717fb3634bc16e3438913 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 15 Jan 2015 18:12:07 -0800
--Subject: [PATCH] Makefile.am: fix parallel issue
--
--There might be no src dir if src/builtin.h runs earlier, create it to
--fix the race issue:
--
--src/genbuiltin nfctype1 nfctype2 nfctype3 nfctype4 p2p > src/builtin.h
--/bin/sh: src/builtin.h: No such file or directory
--
--Upstream-Status: Backport [d39f8c0eee659743b4425d395c2f7ab1949e9c71]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- Makefile.am |    1 +
-- 1 file changed, 1 insertion(+)
--
--Index: neard-0.16/Makefile.am
--===================================================================
----- neard-0.16.orig/Makefile.am
--+++ neard-0.16/Makefile.am
--@@ -244,6 +244,7 @@ SED_PROCESS = $(AM_V_GEN)$(MKDIR_P) $(di
-- src/plugin.$(OBJEXT): src/builtin.h
-- 
-- src/builtin.h: src/genbuiltin $(builtin_sources)
--+	$(AM_V_at)$(MKDIR_P) src
-- 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
-- 
-- se/plugin.$(OBJEXT): se/builtin.h
-diff --git a/meta/recipes-connectivity/neard/neard_0.19.bb b/meta/recipes-connectivity/neard/neard_0.20.bb
-similarity index 93%
-rename from meta/recipes-connectivity/neard/neard_0.19.bb
-rename to meta/recipes-connectivity/neard/neard_0.20.bb
-index c1149e7631..a583da827f 100644
---- a/meta/recipes-connectivity/neard/neard_0.19.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.20.bb
-@@ -10,12 +10,11 @@ DEPENDS = "dbus glib-2.0 libnl autoconf-archive-native"
+ diff --git a/configure.ac b/configure.ac
+-index c6a10f6..c3852ec 100644
++index 59457e0..47e12c3 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -865,7 +865,7 @@ AS_CASE([$with_lmdb],
+diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
+index ec22fe84c4..e1de5e0d5e 100644
+--- a/meta/recipes-connectivity/bind/bind/conf.patch
++++ b/meta/recipes-connectivity/bind/bind/conf.patch
+@@ -1,4 +1,4 @@
+-From 4b9f6f6735340d558d9c9fba9c84d7f99d3cbde2 Mon Sep 17 00:00:00 2001
++From 05570f673e7141f2da7e758f673e18a578aba9ad Mon Sep 17 00:00:00 2001
+ From: Qing He <qing.he@intel.com>
+ Date: Tue, 30 Nov 2010 13:35:42 +0800
+ Subject: [PATCH] bind: add new recipe
+diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+index fd96d46448..817519cd1f 100644
+--- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
++++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+@@ -1,4 +1,4 @@
+-From 19933be78902d90014f177b5633dd15984bc1bc9 Mon Sep 17 00:00:00 2001
++From f9713e4dc5ea7fc30c58859805d25737a9e95fe9 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Thu, 27 Mar 2014 02:34:41 +0000
+ Subject: [PATCH] init.d: add support for read-only rootfs
+diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+index 155cc5a110..5b2cdf1b14 100644
+--- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
++++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+@@ -1,4 +1,4 @@
+-From e429899c34ea8a4f85de428e22ee49c453281e82 Mon Sep 17 00:00:00 2001
++From 465c4b6dbdfc6fa5a9385fe69e1d6d413715ba14 Mon Sep 17 00:00:00 2001
+ From: Roy Li <rongqing.li@windriver.com>
+ Date: Thu, 15 Nov 2012 02:27:54 +0000
+ Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
+diff --git a/meta/recipes-connectivity/bind/bind_9.20.20.bb b/meta/recipes-connectivity/bind/bind_9.20.22.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.20.20.bb
+rename to meta/recipes-connectivity/bind/bind_9.20.22.bb
+index dd51c3a808..c459cf28c9 100644
+--- a/meta/recipes-connectivity/bind/bind_9.20.20.bb
++++ b/meta/recipes-connectivity/bind/bind_9.20.22.bb
+@@ -21,7 +21,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+ 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
+            "
  
- SRC_URI = "git://github.com/linux-nfc/neard;protocol=https;branch=master \
-            file://neard.in \
--           file://Makefile.am-fix-parallel-issue.patch \
-            file://Makefile.am-do-not-ship-version.h.patch \
-            file://0001-Add-header-dependency-to-nciattach.o.patch \
--          "
-+           "
+-SRC_URI[sha256sum] = "19b8335d25305231d5eb8f7d924240d1ac97c4da7c93eaa6273503133aa6106a"
++SRC_URI[sha256sum] = "cba92ff631b949655f475fe4b54290f6860fd0070d399f2279f6437c0d383ec6"
  
--SRCREV = "a1dc8a75cba999728e154a0f811ab9dd50c809f7"
-+SRCREV = "7118668bc92fe15a8ff5e4067abd5e1622524f03"
- 
- inherit autotools pkgconfig systemd update-rc.d
- 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.47.1
 
 
---===============4240116660667685882==
+--===============8940264060421916598==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 950 .bb files complete (0 cached, 950 parsed). 1971 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libisccfg-9.20.20.so /usr/lib/libisccc-9.20.20.so /usr/lib/libisc-9.20.20.so /usr/lib/libdns-9.20.20.so /usr/lib/libns-9.20.20.so", added "/usr/lib/libisccfg-9.20.22.so /usr/lib/libdns-9.20.22.so /usr/lib/libisc-9.20.22.so /usr/lib/libisccc-9.20.22.so /usr/lib/libns-9.20.22.so"
+Changes to packages/x86-64-v3-poky-linux/bind (sysroot):
+  /usr/lib/libdns.so changed symlink target from libdns-9.20.20.so to libdns-9.20.22.so
+  /usr/lib/libisccc.so changed symlink target from libisccc-9.20.20.so to libisccc-9.20.22.so
+  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.20.20.so to libisccfg-9.20.22.so
+  /usr/lib/libisc.so changed symlink target from libisc-9.20.20.so to libisc-9.20.22.so
+  /usr/lib/libns.so changed symlink target from libns-9.20.20.so to libns-9.20.22.so
+  /usr/lib/libdns-9.20.20.so moved to /usr/lib/libdns-9.20.22.so
+  /usr/lib/libisc-9.20.20.so moved to /usr/lib/libisc-9.20.22.so
+  /usr/lib/libisccc-9.20.20.so moved to /usr/lib/libisccc-9.20.22.so
+  /usr/lib/libisccfg-9.20.20.so moved to /usr/lib/libisccfg-9.20.22.so
+  /usr/lib/libns-9.20.20.so moved to /usr/lib/libns-9.20.22.so
 
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-9a3f0547d6e1f6b27ebfcd7a9108f93a53e405e4"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:9a3f0547d6e1f6b27ebfcd7a9108f93a53e405e4"
-meta-yocto-bsp       
-meta-poky            = "master:49cbb01d52521bfe557395c9ebfae6b1c162581e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 405 Local 392 Mirrors 0 Missed 13 Current 581 (96% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 781 of 986 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.86.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 820 of 986 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 877 of 986 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_recipe_qa_setscene)
-NOTE: recipe wpa-supplicant-2.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bluez5-5.86-r0: task do_create_spdx_setscene: Started
-NOTE: recipe neard-0.20-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe neard-0.20-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1299 of 2356 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_fetch)
-NOTE: recipe wpa-supplicant-2.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 888 of 986 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_create_spdx_setscene)
-NOTE: recipe bluez5-5.86-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 892 of 986 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_create_spdx_setscene)
-NOTE: recipe neard-0.20-r0: task do_fetch: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe dbus-1.16.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 960 of 986 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe dbus-1.16.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 966 of 986 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe neard-0.20-r0: task do_fetch: Succeeded
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe dbus-1.16.2-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running task 2146 of 2356 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_unpack)
-NOTE: Running task 2209 of 2356 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_prepare_recipe_sysroot)
-NOTE: recipe neard-0.20-r0: task do_unpack: Started
-NOTE: recipe dbus-1.16.2-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2334 of 2356 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_create_recipe_spdx)
-NOTE: recipe neard-0.20-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe neard-0.20-r0: task do_create_recipe_spdx: Started
-NOTE: recipe neard-0.20-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe neard-0.20-r0: task do_unpack: Succeeded
-NOTE: Running task 2341 of 2356 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_patch)
-NOTE: recipe neard-0.20-r0: task do_patch: Started
-NOTE: recipe neard-0.20-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe neard-0.20-r0: task do_patch: Succeeded
-NOTE: Running task 2342 of 2356 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2343 of 2356 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_populate_lic)
-NOTE: recipe neard-0.20-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe neard-0.20-r0: task do_populate_lic: Started
-NOTE: recipe neard-0.20-r0: task do_populate_lic: Succeeded
-NOTE: recipe neard-0.20-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_populate_lic unihash changed to 87ef655b9a11ac009f3ace839c086d3984b1b3510ea7f401a17d8f9823a4265c
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_deploy_source_date_epoch unihash changed to 7782d7f416f40304c7cd4d2394a0ddd45260ac1ee9ce677b141fc8e7c034d020
-NOTE: Setscene tasks completed
-NOTE: Running task 2344 of 2356 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure)
-NOTE: recipe neard-0.20-r0: task do_configure: Started
-NOTE: recipe neard-0.20-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2344 tasks of which 2336 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260415062639.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260415062639.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/neard/0.20/temp/log.do_configure.952946
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: neard-0.20-r0 do_configure: QA Issue: neard: configure was passed unrecognised options: --with-systemduserunitdir [unknown-configure-option]
-ERROR: neard-0.20-r0 do_configure: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/neard/0.20/temp/log.do_configure.952946
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure) failed with exit code '1'
-
---===============4240116660667685882==
+--===============8940264060421916598==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-neard-upgrade-0.19-0.20.patch"
+Content-Disposition: attachment;
+ filename="0001-bind-upgrade-9.20.20-9.20.22.patch"
 
-RnJvbSBmNTVkZGM1NmMwNGU5YjgxYTc2N2UxZjhmZTM2YWZmM2I1OWZkYWUyIE1vbiBTZXAgMTcg
+RnJvbSAyNWYzNTRhODQ0MzA3NTZhMWZlZTUyY2VjZGQ5OGI3ODNiOTkxNjVhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDY6Mjc6MDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
-ZWFyZDogdXBncmFkZSAwLjE5IC0+IDAuMjAKCi0tLQogLi4uQWRkLWhlYWRlci1kZXBlbmRlbmN5
-LXRvLW5jaWF0dGFjaC5vLnBhdGNoIHwgIDkgKystLS0tCiAuLi4vTWFrZWZpbGUuYW0tZG8tbm90
-LXNoaXAtdmVyc2lvbi5oLnBhdGNoICAgfCAgOSArKy0tLS0KIC4uLi9NYWtlZmlsZS5hbS1maXgt
-cGFyYWxsZWwtaXNzdWUucGF0Y2ggICAgICB8IDMwIC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi9u
-ZWFyZC97bmVhcmRfMC4xOS5iYiA9PiBuZWFyZF8wLjIwLmJifSAgICB8ICA1ICsrLS0KIDQgZmls
-ZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA0NSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2Rl
-IDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkL01ha2VmaWxlLmFt
-LWZpeC1wYXJhbGxlbC1pc3N1ZS5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvbmVhcmQve25lYXJkXzAuMTkuYmIgPT4gbmVhcmRfMC4yMC5iYn0gKDkzJSkKCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkLzAwMDEtQWRkLWhlYWRl
-ci1kZXBlbmRlbmN5LXRvLW5jaWF0dGFjaC5vLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9uZWFyZC9uZWFyZC8wMDAxLUFkZC1oZWFkZXItZGVwZW5kZW5jeS10by1uY2lhdHRhY2gu
-by5wYXRjaAppbmRleCBkOGU4YTVlNWRhLi44MTRjNWFmNDkzIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkLzAwMDEtQWRkLWhlYWRlci1kZXBlbmRlbmN5
-LXRvLW5jaWF0dGFjaC5vLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVh
-cmQvbmVhcmQvMDAwMS1BZGQtaGVhZGVyLWRlcGVuZGVuY3ktdG8tbmNpYXR0YWNoLm8ucGF0Y2gK
-QEAgLTEsNCArMSw0IEBACi1Gcm9tIGFmZmFhMjAyMWE1NGMzMDM1M2U0ZTFmZWUwOWMxM2E0ZGUy
-MTk2YmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDU3ZGY2YTNhY2RiZTc2ODc0Y2Ew
-YTRkMzgzOGRiOWMwYjI1MjI3YjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKdXNz
-aSBLdWtrb25lbiA8anVzc2kua3Vra29uZW5AaW50ZWwuY29tPgogRGF0ZTogRnJpLCAxNyBNYXIg
-MjAxNyAxNDoyNDoyOSArMDIwMAogU3ViamVjdDogW1BBVENIXSBBZGQgaGVhZGVyIGRlcGVuZGVu
-Y3kgdG8gbmNpYXR0YWNoLm8KQEAgLTE5LDEwICsxOSwxMCBAQCBVcHN0cmVhbS1TdGF0dXM6IFN1
-Ym1pdHRlZCBbbWFpbGluZ2xpc3RdCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCiAK
-IGRpZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFtCi1pbmRleCBmYTU1MmVlLi5h
-Y2VmNmJhIDEwMDY0NAoraW5kZXggZDg2NWU4NC4uMWM4MWQ1OCAxMDA2NDQKIC0tLSBhL01ha2Vm
-aWxlLmFtCiArKysgYi9NYWtlZmlsZS5hbQotQEAgLTI1Myw2ICsyNTMsNyBAQCBzZS9idWlsdGlu
-Lmg6IHNyYy9nZW5idWlsdGluICQoYnVpbHRpbl9zZV9zb3VyY2VzKQorQEAgLTI1OCw2ICsyNTgs
-NyBAQCBzZS9idWlsdGluLmg6IHNyYy9nZW5idWlsdGluICQoYnVpbHRpbl9zZV9zb3VyY2VzKQog
-IAogICQoc3JjX25lYXJkX09CSkVDVFMpIFwKICAkKHRvb2xzX25mY3Rvb2xfbmZjdG9vbF9PQkpF
-Q1RTKSBcCkBAIC0zMCw2ICszMCwzIEBAIGluZGV4IGZhNTUyZWUuLmFjZWY2YmEgMTAwNjQ0CiAg
-JChwbHVnaW5fb2JqZWN0cykgXAogICQoc2Vfc2VlbGRfT0JKRUNUUykgXAogICQodW5pdF90ZXN0
-X25kZWZfcGFyc2VfT0JKRUNUUykgXAotLS0gCi0yLjExLjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFyZC9uZWFyZC9NYWtlZmlsZS5hbS1kby1ub3Qtc2hpcC12
-ZXJzaW9uLmgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkL01h
-a2VmaWxlLmFtLWRvLW5vdC1zaGlwLXZlcnNpb24uaC5wYXRjaAppbmRleCAxNjg3NWUwNTQzLi4x
-YzIyOTI4ZGVmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25l
-YXJkL01ha2VmaWxlLmFtLWRvLW5vdC1zaGlwLXZlcnNpb24uaC5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkL01ha2VmaWxlLmFtLWRvLW5vdC1zaGlwLXZl
-cnNpb24uaC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYmZkMzJkNjhjZmM5ZjFlMzFkYWI4
-OGUwNzQ0NmQxYzAyYmM4MGI1ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzllYTc4
-ZGM5MTRlYjgyMWQwNDE1Mjc0MzZiYTZmYTkxNDQ4MzIxOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogRGF0ZTog
-VGh1LCAxMiBGZWIgMjAxNSAwMDozOToyOSAtMDgwMAogU3ViamVjdDogW1BBVENIXSBNYWtlZmls
-ZS5hbTogZG8gbm90IHNoaXAgdmVyc2lvbi5oCkBAIC0xMCwxMSArMTAsMTEgQEAgVXBzdHJlYW0t
-U3RhdHVzOiBQZW5kaW5nCiAKIFNpZ25lZC1vZmYtYnk6IFJvYmVydCBZYW5nIDxsaWV6aGkueWFu
-Z0B3aW5kcml2ZXIuY29tPgogLS0tCi0gTWFrZWZpbGUuYW0gfCAgICA0ICsrLS0KKyBNYWtlZmls
-ZS5hbSB8IDQgKystLQogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRp
-b25zKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFtCi1pbmRleCAz
-MzM0NzkwLi42OWNkNThmIDEwMDY0NAoraW5kZXggNTkyZmI3Yy4uZDg2NWU4NCAxMDA2NDQKIC0t
-LSBhL01ha2VmaWxlLmFtCiArKysgYi9NYWtlZmlsZS5hbQogQEAgLTEwLDExICsxMCwxMSBAQCBw
-a2dpbmNsdWRlX0hFQURFUlMgPSBpbmNsdWRlL3R5cGVzLmggaW5jbHVkZS9sb2cuaCBpbmNsdWRl
-L3BsdWdpbi5oIFwKQEAgLTMxLDYgKzMxLDMgQEAgaW5kZXggMzMzNDc5MC4uNjljZDU4ZiAxMDA2
-NDQKICAJCQkkKG5vaW5zdF9IRUFERVJTKSwgaW5jbHVkZS9uZWFyLyQobm90ZGlyICQoZmlsZSkp
-KQogIAogIGdkYnVzX3NvdXJjZXMgPSBnZGJ1cy9nZGJ1cy5oIGdkYnVzL21haW5sb29wLmMgZ2Ri
-dXMvd2F0Y2guYyBcCi0tLSAKLTEuNy45LjUKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9uZWFyZC9uZWFyZC9NYWtlZmlsZS5hbS1maXgtcGFyYWxsZWwtaXNzdWUucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkL01ha2VmaWxlLmFtLWZp
-eC1wYXJhbGxlbC1pc3N1ZS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggYWVi
-MzNhNWJkYy4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25lYXJk
-L25lYXJkL01ha2VmaWxlLmFtLWZpeC1wYXJhbGxlbC1pc3N1ZS5wYXRjaAorKysgL2Rldi9udWxs
-CkBAIC0xLDMwICswLDAgQEAKLUZyb20gNDNhY2M1NmQ1NTA2YzdlMzE4ZjcxN2ZiMzYzNGJjMTZl
-MzQzODkxMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IFJvYmVydCBZYW5nIDxsaWV6
-aGkueWFuZ0B3aW5kcml2ZXIuY29tPgotRGF0ZTogVGh1LCAxNSBKYW4gMjAxNSAxODoxMjowNyAt
-MDgwMAotU3ViamVjdDogW1BBVENIXSBNYWtlZmlsZS5hbTogZml4IHBhcmFsbGVsIGlzc3VlCi0K
-LVRoZXJlIG1pZ2h0IGJlIG5vIHNyYyBkaXIgaWYgc3JjL2J1aWx0aW4uaCBydW5zIGVhcmxpZXIs
-IGNyZWF0ZSBpdCB0bwotZml4IHRoZSByYWNlIGlzc3VlOgotCi1zcmMvZ2VuYnVpbHRpbiBuZmN0
-eXBlMSBuZmN0eXBlMiBuZmN0eXBlMyBuZmN0eXBlNCBwMnAgPiBzcmMvYnVpbHRpbi5oCi0vYmlu
-L3NoOiBzcmMvYnVpbHRpbi5oOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5Ci0KLVVwc3RyZWFt
-LVN0YXR1czogQmFja3BvcnQgW2QzOWY4YzBlZWU2NTk3NDNiNDQyNWQzOTVjMmY3YWIxOTQ5ZTlj
-NzFdCi0KLVNpZ25lZC1vZmYtYnk6IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIu
-Y29tPgotLS0tCi0gTWFrZWZpbGUuYW0gfCAgICAxICsKLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKykKLQotSW5kZXg6IG5lYXJkLTAuMTYvTWFrZWZpbGUuYW0KLT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0t
-LSBuZWFyZC0wLjE2Lm9yaWcvTWFrZWZpbGUuYW0KLSsrKyBuZWFyZC0wLjE2L01ha2VmaWxlLmFt
-Ci1AQCAtMjQ0LDYgKzI0NCw3IEBAIFNFRF9QUk9DRVNTID0gJChBTV9WX0dFTikkKE1LRElSX1Ap
-ICQoZGkKLSBzcmMvcGx1Z2luLiQoT0JKRVhUKTogc3JjL2J1aWx0aW4uaAotIAotIHNyYy9idWls
-dGluLmg6IHNyYy9nZW5idWlsdGluICQoYnVpbHRpbl9zb3VyY2VzKQotKwkkKEFNX1ZfYXQpJChN
-S0RJUl9QKSBzcmMKLSAJJChBTV9WX0dFTikkKHNyY2Rpcikvc3JjL2dlbmJ1aWx0aW4gJChidWls
-dGluX21vZHVsZXMpID4gJEAKLSAKLSBzZS9wbHVnaW4uJChPQkpFWFQpOiBzZS9idWlsdGluLmgK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmRfMC4xOS5i
-YiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmRfMC4yMC5iYgpzaW1pbGFy
-aXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25lYXJk
-L25lYXJkXzAuMTkuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQv
-bmVhcmRfMC4yMC5iYgppbmRleCBjMTE0OWU3NjMxLi5hNTgzZGE4MjdmIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkXzAuMTkuYmIKKysrIGIvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFyZC9uZWFyZF8wLjIwLmJiCkBAIC0xMCwxMiArMTAsMTEg
-QEAgREVQRU5EUyA9ICJkYnVzIGdsaWItMi4wIGxpYm5sIGF1dG9jb25mLWFyY2hpdmUtbmF0aXZl
-IgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vbGludXgtbmZjL25lYXJkO3Byb3RvY29s
-PWh0dHBzO2JyYW5jaD1tYXN0ZXIgXAogICAgICAgICAgICBmaWxlOi8vbmVhcmQuaW4gXAotICAg
-ICAgICAgICBmaWxlOi8vTWFrZWZpbGUuYW0tZml4LXBhcmFsbGVsLWlzc3VlLnBhdGNoIFwKICAg
-ICAgICAgICAgZmlsZTovL01ha2VmaWxlLmFtLWRvLW5vdC1zaGlwLXZlcnNpb24uaC5wYXRjaCBc
-CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUFkZC1oZWFkZXItZGVwZW5kZW5jeS10by1uY2lhdHRh
-Y2guby5wYXRjaCBcCi0gICAgICAgICAgIgorICAgICAgICAgICAiCiAKLVNSQ1JFViA9ICJhMWRj
-OGE3NWNiYTk5OTcyOGUxNTRhMGY4MTFhYjlkZDUwYzgwOWY3IgorU1JDUkVWID0gIjcxMTg2Njhi
-YzkyZmUxNWE4ZmY1ZTQwNjdhYmQ1ZTE2MjI1MjRmMDMiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHBr
-Z2NvbmZpZyBzeXN0ZW1kIHVwZGF0ZS1yYy5kCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTUgQXByIDIwMjYgMDY6MDc6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+aW5kOiB1cGdyYWRlIDkuMjAuMjAgLT4gOS4yMC4yMgoKLS0tCiAuLi4vYmluZC9iaW5kLzAwMDEt
+YXZvaWQtc3RhcnQtZmFpbHVyZS13aXRoLWJpbmQtdXNlci5wYXRjaCAgIHwgMiArLQogLi4uLzAw
+MDEtbTQtQmFja3BvcnQtYXhfcHJvZ19jY19mb3JfYnVpbGQubTQtbWFjcm9zLnBhdGNoICAgICB8
+IDIgKy0KIC4uLjAwMDEtbmFtZWQtbHdyZXNkLVYtYW5kLXN0YXJ0LWxvZy1oaWRlLWJ1aWxkLW9w
+dGlvbnMucGF0Y2ggfCA0ICsrLS0KIC4uLmJpbmQtZW5zdXJlLXNlYXJjaGluZy1mb3ItanNvbi1o
+ZWFkZXJzLXNlYXJjaGVzLXN5c3IucGF0Y2ggfCA0ICsrLS0KIG1ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvYmluZC9iaW5kL2NvbmYucGF0Y2ggICAgICAgICAgICAgICAgfCAyICstCiAuLi4vYmlu
+ZC9iaW5kL2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5wYXRjaCAgIHwg
+MiArLQogLi4uL2JpbmQvYmluZC9tYWtlLWV0Yy1pbml0ZC1iaW5kLXN0b3Atd29yay5wYXRjaCAg
+ICAgICAgICAgICB8IDIgKy0KIC4uLi9iaW5kL3tiaW5kXzkuMjAuMjAuYmIgPT4gYmluZF85LjIw
+LjIyLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiA4IGZpbGVzIGNoYW5nZWQsIDEwIGluc2Vy
+dGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvYmluZC97YmluZF85LjIwLjIwLmJiID0+IGJpbmRfOS4yMC4yMi5iYn0gKDk3JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLWF2b2lkLXN0
+YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L2JpbmQvYmluZC8wMDAxLWF2b2lkLXN0YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0
+Y2gKaW5kZXggNGZhMzc3YTU5NC4uOGY3NjI3ZDhjMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1hdm9pZC1zdGFydC1mYWlsdXJlLXdpdGgtYmlu
+ZC11c2VyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAw
+MDEtYXZvaWQtc3RhcnQtZmFpbHVyZS13aXRoLWJpbmQtdXNlci5wYXRjaApAQCAtMSw0ICsxLDQg
+QEAKLUZyb20gMmEzZmYyYTAyNmM1NWRjNjc2NTViYWYyOGUwZjQxNzUyMzJlZTBmZiBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZmFmYzhlMzJiM2JmNjVhYjU4OTI2YzA0ZjYyYjA3MjEz
+MTA0NTY2OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENoZW4gUWkgPFFpLkNoZW5A
+d2luZHJpdmVyLmNvbT4KIERhdGU6IE1vbiwgMTUgT2N0IDIwMTggMTY6NTU6MDkgKzA4MDAKIFN1
+YmplY3Q6IFtQQVRDSF0gYXZvaWQgc3RhcnQgZmFpbHVyZSB3aXRoIGJpbmQgdXNlcgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1tNC1CYWNrcG9y
+dC1heF9wcm9nX2NjX2Zvcl9idWlsZC5tNC1tYWNyb3MucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW00LUJhY2twb3J0LWF4X3Byb2dfY2NfZm9yX2J1aWxk
+Lm00LW1hY3Jvcy5wYXRjaAppbmRleCA3Mjc5YTczZTg3Li5mMzEwYzczMzdiIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW00LUJhY2twb3J0LWF4
+X3Byb2dfY2NfZm9yX2J1aWxkLm00LW1hY3Jvcy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW00LUJhY2twb3J0LWF4X3Byb2dfY2NfZm9yX2J1aWxk
+Lm00LW1hY3Jvcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzdmOGZhZmFiMGNjOTFjM2Fk
+OGZiZjEzODJiMWQwZjJkMmNkOTlhNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOTI2
+OTQ1NDFlYTVkYjM0NWJiYjNjN2IyOTRjOTQxOTJjNGE5MDE1MiBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKIEZyb206IEtoZW0gUmFqIDxraGVtLnJhakBvc3MucXVhbGNvbW0uY29tPgogRGF0ZTog
+RnJpLCAxMCBBcHIgMjAyNiAyMzozMzo0OSArMDAwMAogU3ViamVjdDogW1BBVENIXSBtNDogQmFj
+a3BvcnQgYXhfcHJvZ19jY19mb3JfYnVpbGQubTQgbWFjcm9zCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW5hbWVkLWx3cmVzZC1WLWFuZC1zdGFy
+dC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9iaW5kL2JpbmQvMDAwMS1uYW1lZC1sd3Jlc2QtVi1hbmQtc3RhcnQtbG9nLWhpZGUtYnVpbGQt
+b3B0aW9ucy5wYXRjaAppbmRleCAzNjkxODVhZDg2Li5mNjQzZTRkNjg5IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW5hbWVkLWx3cmVzZC1WLWFu
+ZC1zdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFtZWQtbHdyZXNkLVYtYW5kLXN0YXJ0LWxvZy1o
+aWRlLWJ1aWxkLW9wdGlvbnMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQ5Y2E3YjU0MzJk
+ZDZjMjQ1NDFiYmRlMjFiY2E1MDQzY2QwYzAwMGIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIDliYjdiNWRkN2NkY2RjNjU0MDk2MTYxNDE4NDg2MTU2MjU2ODE5NzkgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+
+CiBEYXRlOiBNb24sIDI3IEF1ZyAyMDE4IDIxOjI0OjIwICswODAwCiBTdWJqZWN0OiBbUEFUQ0hd
+IGBuYW1lZC9sd3Jlc2QgLVYnIGFuZCBzdGFydCBsb2cgaGlkZSBidWlsZCBvcHRpb25zCkBAIC0y
+MCw3ICsyMCw3IEBAIFNpZ25lZC1vZmYtYnk6IEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEu
+Y29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBk
+aWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCBjMzg1MmVjLi4z
+YjdhNDQ2IDEwMDY0NAoraW5kZXggNDdlMTJjMy4uZWUyMTVhZiAxMDA2NDQKIC0tLSBhL2NvbmZp
+Z3VyZS5hYwogKysrIGIvY29uZmlndXJlLmFjCiBAQCAtMzUsNyArMzUsNyBAQCBBQ19ERUZJTkUo
+W1BBQ0tBR0VfVkVSU0lPTl9FWFRSQV0sIFsiXVtiaW5kX1ZFUlNJT05fRVhUUkFdWyJdLCBbQklO
+RCA5IEV4dHJhIHBhcgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5k
+L2JpbmQvYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMtc3lz
+ci5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJl
+LXNlYXJjaGluZy1mb3ItanNvbi1oZWFkZXJzLXNlYXJjaGVzLXN5c3IucGF0Y2gKaW5kZXggNGEw
+NjYyOTRmMC4uZmM5ZDExMzdhOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9iaW5kL2JpbmQvYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNo
+ZXMtc3lzci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9i
+aW5kLWVuc3VyZS1zZWFyY2hpbmctZm9yLWpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNo
+CkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmYTE2NWNiNGE5ZGZlYjcyZjBkYjc4N2RlY2Q1MjdlM2Q1
+ODdjZDRlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2MjZjN2RmODIyNmY5ZGRkMzk3
+OTBjYmUxMmQ4NzBhYmJiNjA1MzA1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUGF1
+bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDkg
+SnVuIDIwMTUgMTE6MjI6MDAgLTA0MDAKIFN1YmplY3Q6IFtQQVRDSF0gYmluZDogZW5zdXJlIHNl
+YXJjaGluZyBmb3IganNvbiBoZWFkZXJzIHNlYXJjaGVzIHN5c3Jvb3QKQEAgLTMyLDcgKzMyLDcg
+QEAgU2lnbmVkLW9mZi1ieTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZl
+ci5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAK
+IGRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IGM2YTEwZjYu
+LmMzODUyZWMgMTAwNjQ0CitpbmRleCA1OTQ1N2UwLi40N2UxMmMzIDEwMDY0NAogLS0tIGEvY29u
+ZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKIEBAIC04NjUsNyArODY1LDcgQEAgQVNfQ0FT
+RShbJHdpdGhfbG1kYl0sCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Jp
+bmQvYmluZC9jb25mLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQv
+Y29uZi5wYXRjaAppbmRleCBlYzIyZmU4NGM0Li5lMWRlNWUwZDVlIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9jb25mLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2NvbmYucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
+cm9tIDRiOWY2ZjY3MzUzNDBkNTU4ZDljOWZiYTljODRkN2Y5OWQzY2JkZTIgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCitGcm9tIDA1NTcwZjY3M2U3MTQxZjJkYTdlNzU4ZjY3M2UxOGE1NzhhYmE5
+YWQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBRaW5nIEhlIDxxaW5nLmhlQGludGVs
+LmNvbT4KIERhdGU6IFR1ZSwgMzAgTm92IDIwMTAgMTM6MzU6NDIgKzA4MDAKIFN1YmplY3Q6IFtQ
+QVRDSF0gYmluZDogYWRkIG5ldyByZWNpcGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvYmluZC9iaW5kL2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rm
+cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2luaXQuZC1hZGQt
+c3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5wYXRjaAppbmRleCBmZDk2ZDQ2NDQ4Li44MTc1
+MTljZDFmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9p
+bml0LmQtYWRkLXN1cHBvcnQtZm9yLXJlYWQtb25seS1yb290ZnMucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvaW5pdC5kLWFkZC1zdXBwb3J0LWZvci1yZWFk
+LW9ubHktcm9vdGZzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxOTkzM2JlNzg5MDJkOTAw
+MTRmMTc3YjU2MzNkZDE1OTg0YmMxYmM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBm
+OTcxM2U0ZGM1ZWE3ZmMzMGM1ODg1OTgwNWQyNTczN2E5ZTk1ZmU5IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogVGh1
+LCAyNyBNYXIgMjAxNCAwMjozNDo0MSArMDAwMAogU3ViamVjdDogW1BBVENIXSBpbml0LmQ6IGFk
+ZCBzdXBwb3J0IGZvciByZWFkLW9ubHkgcm9vdGZzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L2JpbmQvYmluZC9tYWtlLWV0Yy1pbml0ZC1iaW5kLXN0b3Atd29yay5wYXRj
+aCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL21ha2UtZXRjLWluaXRkLWJp
+bmQtc3RvcC13b3JrLnBhdGNoCmluZGV4IDE1NWNjNWExMTAuLjViMmNkZjFiMTQgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL21ha2UtZXRjLWluaXRkLWJp
+bmQtc3RvcC13b3JrLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9i
+aW5kL21ha2UtZXRjLWluaXRkLWJpbmQtc3RvcC13b3JrLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
+RnJvbSBlNDI5ODk5YzM0ZWE4YTRmODVkZTQyOGUyMmVlNDljNDUzMjgxZTgyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQorRnJvbSA0NjVjNGI2ZGJkZmM2ZmE1YTkzODVmZTY5ZTFkNmQ0MTM3MTVi
+YTE0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm95IExpIDxyb25ncWluZy5saUB3
+aW5kcml2ZXIuY29tPgogRGF0ZTogVGh1LCAxNSBOb3YgMjAxMiAwMjoyNzo1NCArMDAwMAogU3Vi
+amVjdDogW1BBVENIXSBiaW5kOiBtYWtlICIvZXRjL2luaXQuZC9iaW5kIHN0b3AiIHdvcmsKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuMjAuMjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjIwLjIyLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9i
+aW5kXzkuMjAuMjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9i
+aW5kXzkuMjAuMjIuYmIKaW5kZXggZGQ1MWMzYTgwOC4uYzQ1OWNmMjhjOSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmRfOS4yMC4yMC5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjIwLjIyLmJiCkBAIC0yMSw3ICsyMSw3
+IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9mdHAuaXNjLm9yZy9pc2MvYmluZDkvJHtQVn0vJHtCUE59
+LSR7UFZ9LnRhci54eiBcCiAJCSAgIGZpbGU6Ly8wMDAxLW00LUJhY2twb3J0LWF4X3Byb2dfY2Nf
+Zm9yX2J1aWxkLm00LW1hY3Jvcy5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjE5YjgzMzVkMjUzMDUyMzFkNWViOGY3ZDkyNDI0MGQxYWM5N2M0ZGE3YzkzZWFh
+NjI3MzUwMzEzM2FhNjEwNmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2JhOTJmZjYzMWI5NDk2
+NTVmNDc1ZmU0YjU0MjkwZjY4NjBmZDAwNzBkMzk5ZjIyNzlmNjQzN2MwZDM4M2VjNiIKIAogVVBT
+VFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vZnRwLmlzYy5vcmcvaXNjL2JpbmQ5LyIKICMgZm9s
+bG93IHRoZSBFU1YgdmVyc2lvbnMgZGl2aXNpYmxlIGJ5IDIKLS0gCjIuNDcuMQoK
 
---===============4240116660667685882==--
+--===============8940264060421916598==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/bind/bind-dbg: FILELIST: removed "/usr/lib/.debug/libisccfg-9.20.20.so /usr/lib/.debug/libisccc-9.20.20.so /usr/lib/.debug/libisc-9.20.20.so /usr/lib/.debug/libdns-9.20.20.so /usr/lib/.debug/libns-9.20.20.so", added "/usr/lib/.debug/libns-9.20.22.so /usr/lib/.debug/libisccc-9.20.22.so /usr/lib/.debug/libisc-9.20.22.so /usr/lib/.debug/libisccfg-9.20.22.so /usr/lib/.debug/libdns-9.20.22.so"
+packages/x86-64-v3-poky-linux/bind/bind-dbg: PKGSIZE changed from 15883464 to 15893560 (+0%)
+packages/x86-64-v3-poky-linux/bind/bind-dbg: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind-dbg: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind/bind-dev: PKGSIZE changed from 1603388 to 1603648 (+0%)
+packages/x86-64-v3-poky-linux/bind/bind-dev: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind-dev: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind/bind-doc: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind-doc: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libisccfg-9.20.20.so /usr/lib/libisc-9.20.20.so /usr/lib/libdns-9.20.20.so /usr/lib/libisccc-9.20.20.so /usr/lib/libns-9.20.20.so", added "/usr/lib/libdns-9.20.22.so /usr/lib/libisc-9.20.22.so /usr/lib/libisccfg-9.20.22.so /usr/lib/libisccc-9.20.22.so /usr/lib/libns-9.20.22.so"
+packages/x86-64-v3-poky-linux/bind/bind-libs: FILES: removed "/usr/lib/*-9.20.20.so", added "/usr/lib/*-9.20.22.so"
+packages/x86-64-v3-poky-linux/bind/bind-libs: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind-libs: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind/bind-locale: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind-locale: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind/bind-src: FILELIST: directory renamed /usr/src/debug/bind/9.20.20/lib/dns/rdata/generic -> /usr/src/debug/bind/9.20.22/lib/dns/rdata/generic, directory renamed /usr/src/debug/bind/9.20.20/bin/named/include/named -> /usr/src/debug/bind/9.20.22/bin/named/include/named, directory renamed /usr/src/debug/bind/9.20.20/lib/dns/rdata/hs_4 -> /usr/src/debug/bind/9.20.22/lib/dns/rdata/hs_4, directory renamed /usr/src/debug/bind/9.20.20/lib/dns/include/irs -> /usr/src/debug/bind/9.20.22/lib/dns/include/irs, directory renamed /usr/src/debug/bind/9.20.20/bin/plugins -> /usr/src/debug/bind/9.20.22/bin/plugins, directory renamed /usr/src/debug/bind/9.20.20/bin/dnssec -> /usr/src/debug/bind/9.20.22/bin/dnssec, directory renamed /usr/src/debug/bind/9.20.20/bin/nsupdate -> /usr/src/debug/bind/9.20.22/bin/nsupdate, directory renamed /usr/src/debug/bind/9.20.20/bin/named -> /usr/src/debug/bind/9.20.22/bin/named, directory renamed /usr/src/debug/bind/9.20.20/lib/isc -> 
+ /usr/src/debug/bind/9.20.22/lib/isc, directory renamed /usr/src/debug/bind/9.20.20/lib/isccc/include/isccc -> /usr/src/debug/bind/9.20.22/lib/isccc/include/isccc, directory renamed /usr/src/debug/bind/9.20.20/lib/ns -> /usr/src/debug/bind/9.20.22/lib/ns, directory renamed /usr/src/debug/bind/9.20.20/lib/dns -> /usr/src/debug/bind/9.20.22/lib/dns, directory renamed /usr/src/debug/bind/9.20.20/lib/dns/rdata/in_1 -> /usr/src/debug/bind/9.20.22/lib/dns/rdata/in_1, directory renamed /usr/src/debug/bind/9.20.20/lib/dns/rdata/ch_3 -> /usr/src/debug/bind/9.20.22/lib/dns/rdata/ch_3, directory renamed /usr/src/debug/bind/9.20.20/bin/tools -> /usr/src/debug/bind/9.20.22/bin/tools, directory renamed /usr/src/debug/bind/9.20.20/bin/confgen -> /usr/src/debug/bind/9.20.22/bin/confgen, directory renamed /usr/src/debug/bind/9.20.20/bin/confgen/include/confgen -> /usr/src/debug/bind/9.20.22/bin/confgen/include/confgen, directory renamed /usr/src/debug/bind/9.20.20/bin/delv -> /usr/src/debug/bind/9.20
+ .22/bin/delv, directory renamed /usr/src/debug/bind/9.20.20/lib/ns/include/ns -> /usr/src/debug/bind/9.20.22/lib/ns/include/ns, directory renamed /usr/src/debug/bind/9.20.20/lib/dns/include/dst -> /usr/src/debug/bind/9.20.22/lib/dns/include/dst, directory renamed /usr/src/debug/bind/9.20.20/lib/isc/include/isc -> /usr/src/debug/bind/9.20.22/lib/isc/include/isc, directory renamed /usr/src/debug/bind/9.20.20/lib/isccc -> /usr/src/debug/bind/9.20.22/lib/isccc, directory renamed /usr/src/debug/bind/9.20.20/lib/dns/rdata/any_255 -> /usr/src/debug/bind/9.20.22/lib/dns/rdata/any_255, directory renamed /usr/src/debug/bind/9.20.20/bin/rndc -> /usr/src/debug/bind/9.20.22/bin/rndc, directory renamed /usr/src/debug/bind/9.20.20/lib/isccfg/include/isccfg -> /usr/src/debug/bind/9.20.22/lib/isccfg/include/isccfg, directory renamed /usr/src/debug/bind/9.20.20/lib/isc/netmgr -> /usr/src/debug/bind/9.20.22/lib/isc/netmgr, directory renamed /usr/src/debug/bind/9.20.20/bin/dig -> /usr/src/debug/bind/9.
+ 20.22/bin/dig, directory renamed /usr/src/debug/bind/9.20.20/lib/isccfg -> /usr/src/debug/bind/9.20.22/lib/isccfg, directory renamed /usr/src/debug/bind/9.20.20/lib/dns/include/dns -> /usr/src/debug/bind/9.20.22/lib/dns/include/dns, directory renamed /usr/src/debug/bind/9.20.20/bin/check -> /usr/src/debug/bind/9.20.22/bin/check, directory renamed /usr/src/debug/bind/9.20.20/bin/named/include/dlz -> /usr/src/debug/bind/9.20.22/bin/named/include/dlz
+packages/x86-64-v3-poky-linux/bind/bind-src: PKGSIZE changed from 10081900 to 10085710 (+0%)
+packages/x86-64-v3-poky-linux/bind/bind-src: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind-src: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind/bind-staticdev: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind-staticdev: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind/bind-utils: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind-utils: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind/bind: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind/bind: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+packages/x86-64-v3-poky-linux/bind: SRC_URI changed from "https://ftp.isc.org/isc/bind9/9.20.20/bind-9.20.20.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch" to "https://ftp.isc.org/isc/bind9/9.20.22/bind-9.20.22.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch file://0001-m4-Backport-ax_prog_cc_f
+ or_build.m4-macros.patch"
+packages/x86-64-v3-poky-linux/bind: PV changed from "9.20.20" to "9.20.22"
+packages/x86-64-v3-poky-linux/bind: PKGV changed from 9.20.20 [default] to 9.20.22 [default]
+Changes to packages/x86-64-v3-poky-linux/bind (sysroot):
+  /usr/lib/libdns.so changed symlink target from libdns-9.20.20.so to libdns-9.20.22.so
+  /usr/lib/libisccc.so changed symlink target from libisccc-9.20.20.so to libisccc-9.20.22.so
+  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.20.20.so to libisccfg-9.20.22.so
+  /usr/lib/libisc.so changed symlink target from libisc-9.20.20.so to libisc-9.20.22.so
+  /usr/lib/libns.so changed symlink target from libns-9.20.20.so to libns-9.20.22.so
+  /usr/lib/libdns-9.20.20.so moved to /usr/lib/libdns-9.20.22.so
+  /usr/lib/libisc-9.20.20.so moved to /usr/lib/libisc-9.20.22.so
+  /usr/lib/libisccc-9.20.20.so moved to /usr/lib/libisccc-9.20.22.so
+  /usr/lib/libisccfg-9.20.20.so moved to /usr/lib/libisccfg-9.20.22.so
+  /usr/lib/libns-9.20.20.so moved to /usr/lib/libns-9.20.22.so
+
+--===============8940264060421916598==--
 
