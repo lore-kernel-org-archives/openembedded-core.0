@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0EFFA0C5E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9582F8E488
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:33:27 +0000 (UTC)
 Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28272.1776378802339626939
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28276.1776378806385555214
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 15:33:22 -0700
+ Thu, 16 Apr 2026 15:33:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=xJItR3CB;
+ dkim=pass header.i=@smile.fr header.s=google header.b=h3VufN32;
  spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so241135e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:22 -0700 (PDT)
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4887f49ec5aso621815e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776378800; x=1776983600; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776378804; x=1776983604; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qQ+oTPOH9/tKMRLEMfTumVffv5c6sMHBTGnRX0018Kk=;
-        b=xJItR3CBsPATBey2rgrlWyt9fKfQXM2lcJHYV3+tlbZAkllVDrLvOW7VM3HBc/RFJS
-         yn/C896O90aMpzWW5liqUV9x+6+71pHqscDQfizei3sDy1lWXHPosJjiPpCkdv2vHbZo
-         wmfRQaVy7iCSAHZTTspNA0iQytg1j1cmCNJKU=
+        bh=8x20e9wxeDlAXdEuZpXs2g/DEGuOIR/2HUSKnMHglAo=;
+        b=h3VufN32ce9GFx0h0CMfXydc9hi5Hzk1OmGEo9pbsMKCcSCNBXIxXP8PCGQPDOtk9K
+         W1QEmQZX/qZvbcfJ4jqJFrLx0YeIyQE+bH3RqSd8tZqlTGJrYy0lFuy18u4576YqTUHt
+         h8zCnNP1B/pJ/LZ+WmZmzXQFwEPvMcbfi8vik=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776378800; x=1776983600;
+        d=1e100.net; s=20251104; t=1776378804; x=1776983604;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=qQ+oTPOH9/tKMRLEMfTumVffv5c6sMHBTGnRX0018Kk=;
-        b=apvhivmi96lIOaNLZrNvEfRPnOujzxH+y6AudnW+X5YhrSNOlnkTFiQj6H543EJa98
-         USXJCMMIOKd6VWvKQ6PoYW4pKZBsqWN2nyCMgWjBAImrX/bWQiH6LKtnlveQZ8yWFa78
-         jVvOUp9kC0kCzYgbaSTBBgog8Bs1ROTAtMArCthFUECCJsODZDZy1y3p+T8getiu/d73
-         O0jFfezWcmZK/8qI1b65zk0cEZla+2H/7LRXE39EwElwI3TKvxqyB5M1uG+kyTnbLht6
-         V624fGFqkIGWjYhO+2PhtfF1wbq4IZi+0HarrlDfH30nX86nBvK0ikUwM1y7owCl3wnY
-         7rrg==
-X-Gm-Message-State: AOJu0YyL8Ud593q/QwdXZ9IA5nXvIt/IDT9kV3iSlQecaKF92RdR9Kn+
-	bm+bVjt0tXrhzMZVmsnewIAuE9aqK/xQJ7+PB9DXNjCL9f54w2sCRnKB9RMK8sj3I40gpLMazpo
-	KYNraLojt1fc1
-X-Gm-Gg: AeBDiesPOrLiK+SGuRchEAwsL5683FAAb4lq0nU5vm4KIPkoQhoy0+J1hzMp2bjQA++
-	6ziwsahaEBavSoU5HSB5JKJx2t7/1o5od2KjH03FyODZWcs26QrTqMnSpNQwTMg0Kpx41n0u4Ty
-	P4SyzQ3+jtQLPQQo5BDH/Y/sSdDphl3Ve6szp0S1J08W8PD85a2gDvfH4GJATY8oQnxG4Lsc/7D
-	Oq6VrfyIs2hCZ582S56WD8gATv3vhAJzs45FGDXXDg1O0RDE0LwiWa7OdArSeLILigBMIGauNQy
-	0A3x/79m2yIRXnV6cj+cvx+fFwGqq0umg5NM5jSL8BoaGimBBhRjQ274dc71RyLcOJbHevtjJdk
-	m0PAQS2pGjwqml1xUMmTK6Wy7z17Da8E3FpBY+Z564vGflK0TYpaPpYxAdAZ63GBuA1lyWvF5Ps
-	NWt3TbSgtB52i5ZDBpXTZx7zxC2lPh8HDu5IX8H4EWsoUz8jN87FV8fXjk/cBoMTYDqBRsWZaDj
-	wV/q19MP0B7e1mLpH+0KilIfppJExoct4TT3g==
-X-Received: by 2002:a05:600c:a105:b0:486:fb69:4960 with SMTP id 5b1f17b1804b1-488fb7786e4mr3531785e9.19.1776378800403;
-        Thu, 16 Apr 2026 15:33:20 -0700 (PDT)
+        bh=8x20e9wxeDlAXdEuZpXs2g/DEGuOIR/2HUSKnMHglAo=;
+        b=fhVWtY8mTQFtafmdWriWxmERe0RqzSYAa4zwDW1uCsswbmHIZEvg9ly1CgWo3l6Hhc
+         AChFmAjxjA/dLxzW3mk+TzXbp3FptxdW0j8iFNpc8ZQqjqvwhEyjOpa5RGyn1yBK0p9X
+         YXhjgkCcDls8j2Co3SUeFSgXvdwvegzdwIgx5rejAC/A9dOpyjbtDMMbN8q09ooUB2iu
+         QWXy5fJdMVNpN8Y+AoNf7IXnr/o9oy6lkZkNZmk9zGpIhbAv85WVMqq5QOAYhU+DkC6I
+         lsxW2W5E+PXjGNjBaqB6g/93eIUaoml8JPeHryF7KHGbQAKC7wjVxl4n6ze0mZ6DdYSf
+         +wzA==
+X-Gm-Message-State: AOJu0YxbvdkZLQlFEAq8KJPyPOdroHboGWQJl5/RnAEi4Wk7ZdFgsTfH
+	J1rHfGkRBn0CtaoukcHMB8Rm/YxXm887Rcixs0j3N6Qjc80BPWIg6szru8pY4quu17001zSLj5q
+	rwQno7hAe8kZW
+X-Gm-Gg: AeBDiesGj0puGiLVTp1bHc6tZWkIoqGsEHiC0khpiWrihTjCJGn9YfdTc98gnssES2D
+	qro6CX1JKIC3AvjC0gvCRgYF8hDsTVZvpVdLrnP0haadBmQNEPaRW4AVjSe+bw2Y5XfjIHkAn1D
+	jvAS39jpjtFdltUlWoFa3ljpv3y8LdLFaX8e4iBnUJqKA+CdSkeNsXnn1inFogJDtgIhCaI7A9H
+	QO61GI+LNDK5rA4RbzY+BkejsEqW8DbjYX6JkYhkv8cp7dZMGWdJuiIDyh+rTAfgisuUdsHJMUR
+	wufsC2E+WOFF1gYawEYG9pkmuJupjv/sZ0/lCzqM6X5lhFWleYH9F9Na6w9vhdsjoyqAGbcI1At
+	tV6xP5u54VnA1bw7fnMCSw2ucNQbf5b0CAdSlHGRShfgyrKuzHUom2i7JEC5eqOQX0g0iJ46VSx
+	EiM4YPNXgIO3xqGNJ4vEeU3P/e4xjOxNX+XCGuH41OjIkFyAR4vEzV555uv5iU1/wQ+GfublllI
+	1BXxd2EPeKcM1Do1rAQ7qImDQdT52tvFhi38g==
+X-Received: by 2002:a05:600c:8909:b0:485:30f7:6e88 with SMTP id 5b1f17b1804b1-488fb78a385mr3876775e9.31.1776378804502;
+        Thu, 16 Apr 2026 15:33:24 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 15:33:19 -0700 (PDT)
+        Thu, 16 Apr 2026 15:33:23 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 34/51] selftest/scripts: Update old git protocol references
-Date: Fri, 17 Apr 2026 00:30:17 +0200
-Message-ID: <4825bf044255dfff2d2ce5b288aff006ec5dd584.1776377993.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 39/51] selftest/gdbserver: replace shutil.unpack_archive with tarfile extract
+Date: Fri, 17 Apr 2026 00:30:22 +0200
+Message-ID: <2a9d7bc66aafb111413331f5c510935b14a86c9b.1776377993.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776377993.git.yoann.congal@smile.fr>
 References: <cover.1776377993.git.yoann.congal@smile.fr>
@@ -66,191 +66,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:33:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235463
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235468
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex@linutronix.de>
 
-git protocol accesses to our infrastructure are currently struggling and this
-has highlighted a number of places we're making those obsolete access forms.
+This is a followup to
+https://lists.openembedded.org/g/openembedded-core/message/233609
+as the same issue happened in a different selftest.
 
-Update them to use https instead of the git protocol since it is preferred
-and more reliable.
+[YOCTO #16195]
 
-The devtool test needed quoting to handle the ';' in the url. The -f option
-to devtool also shows a deprecation warning so remove that.
-
-There were internal references to git protocol urls inside the nested git
-submodules test report, which means those repos need updating to use
-new git revisions.
-
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1ceba42623c5187d2f5a100d6a523abcdc75d34e)
+(cherry picked from commit c7468e70c238b056acbe06ef722b62b02626db8f)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../recipes-test/devtool/devtool-upgrade-test2_git.bb       | 2 +-
- .../devtool/devtool-upgrade-test2_git.bb.upgraded           | 2 +-
- .../recipes-test/devtool/devtool-upgrade-test5_git.bb       | 4 ++--
- .../devtool/devtool-upgrade-test5_git.bb.upgraded           | 4 ++--
- meta/lib/oeqa/selftest/cases/devtool.py                     | 6 +++---
- meta/lib/oeqa/selftest/cases/externalsrc.py                 | 2 +-
- meta/lib/oeqa/selftest/cases/gitarchivetests.py             | 2 +-
- meta/lib/oeqa/selftest/cases/sstatetests.py                 | 2 +-
- meta/lib/oeqa/selftest/cases/yoctotestresultsquerytests.py  | 2 +-
- scripts/yocto_testresults_query.py                          | 2 +-
- 10 files changed, 14 insertions(+), 14 deletions(-)
+ meta/lib/oeqa/selftest/cases/gdbserver.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
-index 66d66e95e29..fdc85243787 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
-@@ -11,7 +11,7 @@ SRCREV = "1a3e1343761b30750bed70e0fd688f6d3c7b3717"
- PV = "0.1+git"
- PR = "r2"
+diff --git a/meta/lib/oeqa/selftest/cases/gdbserver.py b/meta/lib/oeqa/selftest/cases/gdbserver.py
+index 1c713331900..fe1fa6dac1f 100644
+--- a/meta/lib/oeqa/selftest/cases/gdbserver.py
++++ b/meta/lib/oeqa/selftest/cases/gdbserver.py
+@@ -7,6 +7,7 @@ import os
+ import time
+ import tempfile
+ import shutil
++import tarfile
+ import concurrent.futures
  
--SRC_URI = "git://git.yoctoproject.org/dbus-wait;branch=master"
-+SRC_URI = "git://git.yoctoproject.org/dbus-wait;branch=master;protocol=https"
- UPSTREAM_CHECK_COMMITS = "1"
- RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+ from oeqa.selftest.case import OESelftestTestCase
+@@ -41,7 +42,8 @@ CORE_IMAGE_EXTRA_INSTALL = "gdbserver"
+             filename = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'], "%s-dbg.tar.bz2" % bb_vars['IMAGE_LINK_NAME'])
+             shutil.unpack_archive(filename, debugfs)
+             filename = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'], "%s.tar.bz2" % bb_vars['IMAGE_LINK_NAME'])
+-            shutil.unpack_archive(filename, debugfs)
++            with tarfile.open(filename) as tar:
++                tar.extract("./bin/kmod", path=debugfs)
  
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
-index d3256ef5df8..07f7c50c775 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
-@@ -10,7 +10,7 @@ DEPENDS = "dbus"
- SRCREV = "6cc6077a36fe2648a5f993fe7c16c9632f946517"
- PV = "0.1+git"
- 
--SRC_URI = "git://git.yoctoproject.org/dbus-wait;branch=master"
-+SRC_URI = "git://git.yoctoproject.org/dbus-wait;branch=master;protocol=https"
- UPSTREAM_CHECK_COMMITS = "1"
- RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
- 
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb
-index 7e8b001a287..f2a1358c8aa 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb
-@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- INHIBIT_DEFAULT_DEPS = "1"
- 
- # Note: this is intentionally not the latest version in the original .bb
--SRCREV = "132fea6e4dee56b61bcf5721c94e8b2445c6a017"
-+SRCREV = "f280847494763cdcf71197557a81ba7d8a6bce42"
- PV = "0.1+git"
- PR = "r2"
- 
--SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test;branch=master"
-+SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test;branch=master;protocol=https"
- UPSTREAM_CHECK_COMMITS = "1"
- RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
- 
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded
-index 938c46b0163..aa0d72f0ed1 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded
-@@ -6,10 +6,10 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- INHIBIT_DEFAULT_DEPS = "1"
- 
- # Note: this is intentionally not the latest version in the original .bb
--SRCREV = "a2885dd7d25380d23627e7544b7bbb55014b16ee"
-+SRCREV = "0a60d6af95d22b4c50446559cd41942a8acd2d57"
- PV = "0.1+git"
- 
--SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test;branch=master"
-+SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test;branch=master;protocol=https"
- UPSTREAM_CHECK_COMMITS = "1"
- RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
- 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index c7bd1831a9c..73a79b21041 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -584,7 +584,7 @@ class DevtoolAddTests(DevtoolBase):
-     def test_devtool_add_fetch_git(self):
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir)
--        url = 'gitsm://git.yoctoproject.org/mraa'
-+        url = 'gitsm://git.yoctoproject.org/mraa;protocol=https'
-         url_branch = '%s;branch=master' % url
-         checkrev = 'ae127b19a50aa54255e4330ccfdd9a5d058e581d'
-         testrecipe = 'mraa'
-@@ -593,7 +593,7 @@ class DevtoolAddTests(DevtoolBase):
-         self.track_for_cleanup(self.workspacedir)
-         self.add_command_to_tearDown('bitbake -c cleansstate %s' % testrecipe)
-         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
--        result = runCmd('devtool add %s %s -a -f %s' % (testrecipe, srcdir, url))
-+        result = runCmd('devtool add %s %s -a "%s"' % (testrecipe, srcdir, url))
-         self.assertExists(os.path.join(self.workspacedir, 'conf', 'layer.conf'), 'Workspace directory not created: %s' % result.output)
-         self.assertTrue(os.path.isfile(os.path.join(srcdir, 'imraa', 'imraa.c')), 'Unable to find imraa/imraa.c in source directory')
-         # Test devtool status
-@@ -1996,7 +1996,7 @@ class DevtoolUpgradeTests(DevtoolBase):
-         self._test_devtool_upgrade_git_by_recipe('devtool-upgrade-test2', '6cc6077a36fe2648a5f993fe7c16c9632f946517')
- 
-     def test_devtool_upgrade_gitsm(self):
--        self._test_devtool_upgrade_git_by_recipe('devtool-upgrade-test5', 'a2885dd7d25380d23627e7544b7bbb55014b16ee')
-+        self._test_devtool_upgrade_git_by_recipe('devtool-upgrade-test5', '0a60d6af95d22b4c50446559cd41942a8acd2d57')
- 
-     def test_devtool_upgrade_drop_md5sum(self):
-         # Check preconditions
-diff --git a/meta/lib/oeqa/selftest/cases/externalsrc.py b/meta/lib/oeqa/selftest/cases/externalsrc.py
-index 1d800dc82ca..c127d254e36 100644
---- a/meta/lib/oeqa/selftest/cases/externalsrc.py
-+++ b/meta/lib/oeqa/selftest/cases/externalsrc.py
-@@ -17,7 +17,7 @@ class ExternalSrc(OESelftestTestCase):
-     #     so we check only that a recipe with externalsrc can be parsed
-     def test_externalsrc_srctree_hash_files(self):
-         test_recipe = "git-submodule-test"
--        git_url = "git://git.yoctoproject.org/git-submodule-test"
-+        git_url = "https://git.yoctoproject.org/git-submodule-test"
-         externalsrc_dir = tempfile.TemporaryDirectory(prefix="externalsrc").name
- 
-         self.write_config(
-diff --git a/meta/lib/oeqa/selftest/cases/gitarchivetests.py b/meta/lib/oeqa/selftest/cases/gitarchivetests.py
-index dcf0eb3be56..454f4bd4683 100644
---- a/meta/lib/oeqa/selftest/cases/gitarchivetests.py
-+++ b/meta/lib/oeqa/selftest/cases/gitarchivetests.py
-@@ -105,7 +105,7 @@ class GitArchiveTests(OESelftestTestCase):
-         delete_fake_repository(path)
- 
-     def test_get_tags_without_valid_remote(self):
--        url = 'git://git.yoctoproject.org/poky'
-+        url = 'https://git.yoctoproject.org/poky'
-         path, git_obj = create_fake_repository(False, None, False)
- 
-         tags = ga.get_tags(git_obj, self.log, pattern="yocto-*", url=url)
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 44dd674a325..687640a4016 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -221,7 +221,7 @@ class SStateTests(SStateBase):
-         # Use dbus-wait as a local git repo we can add a commit between two builds in
-         pn = 'dbus-wait'
-         srcrev = '6cc6077a36fe2648a5f993fe7c16c9632f946517'
--        url = 'git://git.yoctoproject.org/dbus-wait'
-+        url = 'https://git.yoctoproject.org/dbus-wait'
-         result = runCmd('git clone %s noname' % url, cwd=tempdir)
-         srcdir = os.path.join(tempdir, 'noname')
-         result = runCmd('git reset --hard %s' % srcrev, cwd=srcdir)
-diff --git a/meta/lib/oeqa/selftest/cases/yoctotestresultsquerytests.py b/meta/lib/oeqa/selftest/cases/yoctotestresultsquerytests.py
-index b1015d60efe..be062cf7839 100644
---- a/meta/lib/oeqa/selftest/cases/yoctotestresultsquerytests.py
-+++ b/meta/lib/oeqa/selftest/cases/yoctotestresultsquerytests.py
-@@ -36,4 +36,4 @@ class TestResultsQueryTests(OESelftestTestCase):
-             shutil.rmtree(workdir, ignore_errors=True)
-             self.fail(f"Can not execute git commands in {workdir}")
-         shutil.rmtree(workdir)
--        self.assertEqual(url, "git://git.yoctoproject.org/yocto-testresults")
-+        self.assertEqual(url, "https://git.yoctoproject.org/yocto-testresults")
-diff --git a/scripts/yocto_testresults_query.py b/scripts/yocto_testresults_query.py
-index 521ead8473a..08bd8cbff17 100755
---- a/scripts/yocto_testresults_query.py
-+++ b/scripts/yocto_testresults_query.py
-@@ -21,7 +21,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
- poky_path = os.path.abspath(os.path.join(script_path, ".."))
- resulttool = os.path.abspath(os.path.join(script_path, "resulttool"))
- logger = scriptutils.logger_create(sys.argv[0])
--testresults_default_url="git://git.yoctoproject.org/yocto-testresults"
-+testresults_default_url="https://git.yoctoproject.org/yocto-testresults"
- 
- def create_workdir():
-     workdir = tempfile.mkdtemp(prefix='yocto-testresults-query.')
+             with runqemu("core-image-minimal", runqemuparams="nographic") as qemu:
+                 status, output = qemu.run_serial("kmod --help")
 
