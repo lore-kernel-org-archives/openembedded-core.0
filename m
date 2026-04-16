@@ -1,175 +1,118 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C649F8D76F
-	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 19:11:46 +0000 (UTC)
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23335.1776366696100919172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E0AF8A171
+	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 21:08:55 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.26625.1776373734227340869
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 12:11:36 -0700
+ Thu, 16 Apr 2026 14:08:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=W7qOXOHN;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=FyFbNTPR;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.145, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3E90AEC008F;
-	Thu, 16 Apr 2026 15:11:35 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Thu, 16 Apr 2026 15:11:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1776366695; x=1776453095; bh=j1zKIPf6f3
-	bHOYpaGPLMu5+rA2jrOb6AzXKqCff0Ixk=; b=W7qOXOHNn822unrMNDyZXJi83W
-	QvxN15xXfZVUwHUmWQ0TGvdoe91XzWOIi8+OPPJ5MNoS3XZX8ajgK9fBLoCwZT3e
-	hp/CJzPgqGq31ADsoHduHAjcxQPlZvdv9OJ2w618yAaZw/l3b2TaRt99xY/fOQjn
-	EYHqSKNyyD3xHviBd3Y9lKjaFWZhzlaHDK7wPtNxno2qCMtiodeuqFHOKxs9Pdu+
-	m0+Jn7Cj47vPBNQBH1le9Zbfjyk3VYOOq+xMmddUDQAgObJtSZerPtbzk8OeiJ9o
-	ZhQ2nGyGqaMqWCoOAiFP6BHy9yhyX7B3hTOzwzcUjApCIUojgAlo/l31JzfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1776366695; x=1776453095; bh=j1zKIPf6f3bHOYpaGPLMu5+rA2jrOb6AzXK
-	qCff0Ixk=; b=FyFbNTPRWIklgJEJiXwag0IY4cdVsm6eBat7Q9AQNc0K3RlUY20
-	BxY0sGSesA7+g8OWRSq/o8hIYsD/5hxXGQz/tVCSbEo0nnU0taCBbk+ri5MFeAlN
-	n1+JIZi15ct47VSn6vm+az1FSeLMAPudSeFQ0mSUKfhvY/6tZhpEkCt0ZCq5nFHd
-	QCWwFWEDcKPbrh2uqyETJHDEoktzm8N/bOSjTM+JjalhAN3CjSV1QrfZ4V/5cEgA
-	wYYcIU7/pOnDO4T8XN/JpWQOH+Du20KrsYTUeu1UCIM5QDWFYpzCxiUCozOb/6dF
-	sUbNahgJq3/2kykYPaDGL3OQjlOs8DJDuPQ==
-X-ME-Sender: <xms:ZjThabhF4xMCbVcAKYAQC1WWTUVgIJzU0g2TLTOlSLXXKLj5qYYCsA>
-    <xme:ZjThaeCem1a1lm1-xnUniOFSK6InVQfhcplckT3qRhxbrT-TU4X5E4-ve6jQBUTEI
-    0eL0KoGUnI5CSLu3Xp17ihlZFeQFsipfhWLBMeETL6gPcXsY-fbmA>
-X-ME-Received: <xmr:ZjThaYvbyJsXqz9vPCkiZcmmArTIOq6U0qULT3ETq6EpM7rGXJLwJ-0Ujdl1B5kMm-L59vmQRGpncW4esLJpmRpH-HrIhRchcXPwnWZ9ijAB>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegjeekudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecufghrlhcuvffnffculddquddtmdenucfjughrpefkuffhvf
-    ffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehp
-    rghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhephfejvdeiieelie
-    ehheegheejudetffehhfejhfejjedtueetudelgfduhfeugfejnecuffhomhgrihhnpeho
-    phgvnhgvmhgsvgguuggvugdrohhrghdpnhhishhtrdhgohhvnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdgu
-    vghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
-    hhrghiqhhinhhgrdgsrghiseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtohepohhp
-    vghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurd
-    horhhg
-X-ME-Proxy: <xmx:ZjThaTalwt8vf-wuoXyV-2y6Q3zTEshIMgX5eHpEv18ypyNRovHK8w>
-    <xmx:ZjThabVZ3TFXVWq6lfSHmhkw-pGr8AnAYJs8Dze5oE6rnTKTWO_g3w>
-    <xmx:ZjThaX67S2CaoqsgFVLG8qBY-oXghGh3X_jg7gOSXB6rEgvWV3skpA>
-    <xmx:ZjThaWi7bgK9KiHW7PxoYLSX-79-lYGoCK76EsNFxrqnU9za5OMq2A>
-    <xmx:ZzThaTCxA1pNXMQRolAEXHrG2fZ9V0PV-_IgFvK9BzwqQWd_t4DZ-2Mn>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Apr 2026 15:11:34 -0400 (EDT)
-Message-ID: <f993a1ea7bc959eec48d2c6b97c9ba77012c0edd.camel@pbarker.dev>
-Subject: Re: [oe-core][PATCH] libxml-parser-perl: patch CVE-2006-10003
-From: Paul Barker <paul@pbarker.dev>
-To: haiqing.bai@windriver.com, openembedded-core@lists.openembedded.org
-Date: Thu, 16 Apr 2026 20:11:26 +0100
-In-Reply-To: <20260415065104.4102961-1-haiqing.bai@windriver.com>
-References: <20260415065104.4102961-1-haiqing.bai@windriver.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-YZ+/c7rsa2N4dLrn+L8e"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@smile.fr header.s=google header.b=HjxtBXKs;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488ba6366a7so29595e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 14:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1776373732; x=1776978532; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rgHIj4Xxd5n0RXNvK7ojySMx24ccOk1nbQNAz53x0+M=;
+        b=HjxtBXKsatfShwTx2eYp2MURzSzoGaG7RWNYDyVBcbLTOgq+11hP3JRjrZQpSxNTUv
+         F4Ug8GpVVMlx9J4ZYT6OvlIYiM10rUG2K8V2OmKjo54SaD0826HFiHi8sMUxT0Non+z7
+         2307zfshd66gRIUijXiZqNKWOUM9FAzj3P+Is=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776373732; x=1776978532;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rgHIj4Xxd5n0RXNvK7ojySMx24ccOk1nbQNAz53x0+M=;
+        b=lwm54Zavq2oj3yyReZ1ykvZxodkKALcL3wXgPs7JVX9sGSeX45lAVk4i5oi/rEYeni
+         N/oRbT0YcpooBZRdNSq8sHloxX6WzksWmClESwhPO4ecyb/8V4lJBwLf+VpLmLabh3mV
+         u7G+aoh6tY49wr74+R6uul5tQgzqNInjPE3yjBz94Clwme0CVCdPDr1zSliToRx56h8U
+         xLpSOv9hh3h1/8yDaD94cs/APjo9ldWtQojdWSolMjYggCJZhtWgVBXVqsgsdXJg25Sp
+         fLcv21diSyGVjTgejBfCP6nHg1FTDQ0QUgpeRyo2WXdYAFUzNgzSy8WxSk7/SDMfJmbX
+         Pu5A==
+X-Gm-Message-State: AOJu0Yz5dwBiPdPbNwM6NFAug0alX0t/Y4U0zxFR/orR2K2LE/8K0hv8
+	l/uAf5X3e8i2aGb2+SDqQA4hl4HmBUrb86+bbkOpUPSARLEN0VL7HCp1GPPuzDAseBfBF+c5w0Q
+	zDxDmf8ql8g==
+X-Gm-Gg: AeBDietI2ksdaVbHW6QI2naqzop6201VLS44llQMkTFgXdXXxLDF/1i82urVPRN8NP4
+	unJhHQlECoaIA9lE63B9CBlCFxn+WL7ZLPoJhQsCv/RGRiP5Rg3bmyTKpNkhXLUXcmuEbzE/zQW
+	960nV5CBWy3RN38qQ43OU6AsxQ3y9c+BWIHlMAGkkhbbToD4oFa6diRYOuDvQiNtiqPkDnQiOBS
+	WGPwMr9kOrgMSnO5f6nAwjVzSYXO+XdQMlzzjodsBbCSSmQ+W1h75djErgxIUGemnQW3FLjPm5k
+	A8zKTVO3JG8p7DCO2+WZNP35Ks4VC/lIBmYAP0PSUwkfBd01HCe2udsLNNNWUvKN+bKYWmLLTTE
+	i5VnmSiV2PgUv9wbI+iZFWfVmgQsqXdo1P603/wvlT1aSW93rQE7b7DfAzdC3CwBrobvPMdJ9co
+	6yHP5wjkXy+7w12xkj/P99ZfGX1lXgMzr0GwerS0AtEfFVGkVhXWTS03T7aMgrqA+GcA5UKNUaB
+	wPXYD8XcXDIhX4OvC9GHh9vsfCNWwQn8O4pCQ==
+X-Received: by 2002:a05:600c:5252:b0:486:f9d0:aac8 with SMTP id 5b1f17b1804b1-488fb768483mr3106815e9.18.1776373732324;
+        Thu, 16 Apr 2026 14:08:52 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fb7c2167sm944985e9.36.2026.04.16.14.08.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 14:08:51 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: OE-core ML <openembedded-core@lists.openembedded.org>
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH 2/8] oeqa/selftest/incompatible_lic: add wayland feature check for test needing it
+Date: Thu, 16 Apr 2026 23:03:55 +0200
+Message-ID: <20260416210836.1336162-3-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260416210836.1336162-1-yoann.congal@smile.fr>
+References: <20260416210836.1336162-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 19:11:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235417
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 21:08:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235419
 
+From: Yoann Congal <yoann.congal@smile.fr>
 
---=-YZ+/c7rsa2N4dLrn+L8e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When run with a distro without 'wayland' DISTRO_FEATURES:
+2026-04-14 17:42:00,568 - oe-selftest - INFO - FAIL: test_core_image_full_cmdline_weston (incompatible_lic.NoGPL3InImagesTests.test_core_image_full_cmdline_weston)
+2026-04-14 17:42:00,568 - oe-selftest - INFO - ----------------------------------------------------------------------
+2026-04-14 17:42:00,568 - oe-selftest - INFO - Traceback (most recent call last):
+  File ".../openembedded-core/meta/lib/oeqa/selftest/cases/incompatible_lic.py", line 153, in test_core_image_full_cmdline_weston
+    bitbake('core-image-full-cmdline core-image-weston')
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+AssertionError: Command 'bitbake  core-image-full-cmdline core-image-weston' returned non-zero exit status 1:
+...
+ERROR: Nothing PROVIDES 'core-image-weston'
+core-image-weston was skipped: using DISTRO 'nodistro', which is missing required DISTRO_FEATURES: 'wayland'
 
-On Wed, 2026-04-15 at 06:51 +0000, haiqing.bai via
-lists.openembedded.org wrote:
-> From: Haiqing Bai <haiqing.bai@windriver.com>
->=20
-> XML::Parser versions through 2.47 for Perl has an off-by-one
-> heap buffer overflow in st_serial_stack. In the case
-> (stackptr =3D=3D stacksize - 1), the stack will NOT be expanded.
-> Then the new value will be written at location (++stackptr),
-> which equals stacksize and therefore falls just outside the
-> allocated buffer. The bug can be observed when parsing an
-> XML file with very deep element nesting.
->=20
-> References:
->     https://nvd.nist.gov/vuln/detail/CVE-2006-10003
->=20
-> Signed-off-by: Haiqing Bai <haiqing.bai@windriver.com>
+This is caused by core-image-weston being skipped because it needs the
+wayland DISTRO_FEATURES.
 
-We had some questions about this on the patch review call, given the
-CVE was assigned with a year of 2006! I was also a little confused
-reading about a fix already being present in XML::Parser v2.45, but that
-is for CVE-2006-10002 whereas this is CVE-2006-10003 (one digit higher).
+Note that this is not seen in testing because nodistro has wayland
+enabled by default since
+2e1e7c86064 (bitbake.conf: Enable opengl ptest multiarch wayland vulkan in DISTRO_FEATURES by default, 2026-02-21)
 
-So, all seems to be in order and we should take this patch.
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/lib/oeqa/selftest/cases/incompatible_lic.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Best regards,
-
---=20
-Paul Barker
-
-
---=-YZ+/c7rsa2N4dLrn+L8e
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaeE0XhEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bgloAQDROMcCHbhY9FJ8PkLKJHUhMpxY5oKtaz4f
-rTT/Zwg4kAD/S/C8KpGXuy9FEp4ja/hKwq/rFwX0icTNexd0BJEjCAE=
-=EZzT
------END PGP SIGNATURE-----
-
---=-YZ+/c7rsa2N4dLrn+L8e--
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+index 1395e5d1376..12f4d14f165 100644
+--- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -5,6 +5,7 @@
+ #
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake
++from oeqa.core.decorator.data import skipIfNotFeature
+ 
+ class IncompatibleLicenseTestObsolete(OESelftestTestCase):
+ 
+@@ -142,6 +143,7 @@ require conf/distro/include/no-gplv3.inc
+ """)
+         bitbake('core-image-minimal')
+ 
++    @skipIfNotFeature('wayland', 'Test requires wayland to be in DISTRO_FEATURES')
+     def test_core_image_full_cmdline_weston(self):
+         self.write_config("""
+ IMAGE_CLASSES += "testimage"
 
