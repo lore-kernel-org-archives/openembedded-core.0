@@ -2,113 +2,230 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B5BEF8E484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F360F8A153
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:33:27 +0000 (UTC)
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28586.1776378803728865105
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28270.1776378800464849002
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 15:33:24 -0700
+ Thu, 16 Apr 2026 15:33:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=tjspvLG+;
- spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488b8efed61so689465e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:23 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=nL9YLdlw;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-488ad135063so539685e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776378802; x=1776983602; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776378799; x=1776983599; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MYFTEJZe4DIV7YB1HGlxm7n6+5/dpCJAZhYQu3GUKHQ=;
-        b=tjspvLG+M+/UFYPDot7VZdjh/UhMLiLUtmiQ+3CxZMEPLcxmu0uVEnjnhdZjyTRy2j
-         5Eg4rrDeVV5M7moX8JA0Jj9wvczzO4KNYRdWaXjfKW7FdkJFyv5HUnOhu/iArhWO3i7R
-         sLYMbA7ShpxV2Yhzizjgnx3aAd2dHoqV6LY00=
+        bh=dnyQthd4W5Spmw+L7gS3Gbq370V6fdiXpTS+X67Gxc4=;
+        b=nL9YLdlwP2+K27+/H6W0i/8xHBOdkw7+QXseoR04LruCrSYs8nAElUHbLv3sI6+fse
+         LGHpIYnBAx2Sojuui+jkJWl8FDM9mwpbbKertbHOLLz05kR2FF5Mr+hUzNBkFTwaOF0A
+         3/BDT8FrSRA8ztoTwSlZV+KEtPb7fi0gtEocU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776378802; x=1776983602;
+        d=1e100.net; s=20251104; t=1776378799; x=1776983599;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=MYFTEJZe4DIV7YB1HGlxm7n6+5/dpCJAZhYQu3GUKHQ=;
-        b=gPJJll7Luzx63L/86fEKD2VVUO7ZzowbLDYKvClwpVy3R0SFtk+SkyHhCXm8P3eSXk
-         HlkL41GOz3VgIfL2NZgsUTuCJTOibH1sV7KkFcxAMxQWh7MsjZNte1eTqYTGOEUSvPVr
-         qjwG1L6JR+HCYYAIw44IWLjM/ZgKpX906tIL6ph05CvQIzIO5oK45nPqmYJJbL+ehJ+K
-         HeElZRmLMnalg3IlzvENKy2qq6O25fsZTd+uMzshyTLOI25LfaDfXaeBUQ8WbYX+ZMFq
-         AcatIPQa1Y4C8f+c1x1OZdGNJyv1k9VU3n4t+4PBb2fXfZNQe0f+t22BSuFjf9HInsJ3
-         WOqA==
-X-Gm-Message-State: AOJu0YwnRkLcSmlPV63DMCRCgUsg3F51wsd/z4Quzwz8N3XIW9jA/bGu
-	ikGLvR0u/pdPeH5eS80ak8xW3hEUDUptsscbaKT9zQprKhOISxYTH7SK7MxGrfcr00OOif0o6MZ
-	bbFsypvPkG17Y
-X-Gm-Gg: AeBDieu3zMhV7Y3Hxh3xLT21ADeQmxaYxUpWyi7lLbMGLyW67WVGl3DAUVjsxQF7qiB
-	FLmzUr0t9YJLwQZYSQwLTrGg8wYALoP5ordCigxceLboITZDkypGl3k34d91xrhIW4ZXtcAD4uL
-	ECamWG0GSH+wNRvWwfD+YiJo78jtsk4e80bAFwGLikduLgfegHLKphyaY8Fy2IT0AiRlf+q43/H
-	+fpIgLFw9eFfGBuvYFvImElW9E8nL885isCHTjyBsRJrXXJFklm+qGflCSC4f6v1jHWD8gKSdnN
-	h6Hyyiaxf7mmsO7rOju1zehE/pJPKeKe5VtD7XXa9M+MYz+8p0zPXU2tCNp59Fl0N9cVID5NmFJ
-	4Cd48NbIy0KLyigiVHtC8r+hD9x6IS5VYVwydhQzr3pte1YHCB/ewQr4B0bVbYzJtPpfbablweP
-	gnqZoX4tMXKh73nA2cE/9TxxV4R899PNllzK1tsIHKyLdMIfK5ZuY3N4H6hFMq4qz9DxHTyzjMC
-	JhOPpElAU4qkaxQrAObNJ90OtmUYKhJmZer0Q==
-X-Received: by 2002:a05:600c:3150:b0:485:3cef:d6ea with SMTP id 5b1f17b1804b1-488fb8b9deamr2696325e9.13.1776378801807;
-        Thu, 16 Apr 2026 15:33:21 -0700 (PDT)
+        bh=dnyQthd4W5Spmw+L7gS3Gbq370V6fdiXpTS+X67Gxc4=;
+        b=bmIQkW5xDc+AHSn8BgyrcDRIvcYPzcH9eXdOFW1gWlTxQYwTl2Dbmu7tbAcqdEp/Cd
+         wGjwXuHcxtlmmx3VpCq5siGye3JwMFj44QTLl2fYVrTssZDYHOxdpngsGO8sEf83bq5j
+         GoO6149+/yDyHewarhnLrJYlVgMNGlrMG4vXeTF61oh/onE1E0/vk+ZiU4UQh4BqqF5i
+         t/SPCu/jLlr12avnnHSXXaCb8qxWD0k5BKJ0NEZmYaYRzI4k5qwRTe5PR5/4DwW6noNk
+         +uBeqzvqROqUYDuTKSQ8PYdRCRkCcZusT8e+xOYqCt2DaUdSAzr0t/1Hc8wfMneUOotH
+         qvDg==
+X-Gm-Message-State: AOJu0YzTPBoETDFQ6iaLj+QqDOtjkilqnL7EFd3GYV0VG+92ST9Oa9hp
+	wPs75wygqH1PfVE6swfrMMp4DToAlWQWUlu0tov65cMoPSAL8dMuyXzee9gnv9wBXGgTPyRweZn
+	+j5NwAXc7I/lk
+X-Gm-Gg: AeBDieuivrVQHmtE9uUIDRwcq6DPz+0v7D/cCgtooXA9CB763codRujPmzeWCxokucl
+	YQR+WtdfjjmBKLIlwLGalErpCt2ciYxtlp8bw/oGux4BFtH8gO+w+oJ98JIvOduXzo+h+mWcgW+
+	Zgl+5j+aQ90qs9kNkW1ZGLjN6cSsA8T+W4qZGacmeovamh0l72esacjawmXG4wQLUVvXZCsMuXF
+	zTaC7xpiZzK7nfu47TSzr37vqOYE0ebRcb+wm/ApK1ywUKR04swn/lmdsrX4uileByE8ocPnmiQ
+	XPKSq49Ho1KG1VZUsrJ/OXfccGdPBOe/epjOCuTi1vCglNqKT9HauuS1Jbk77rDPuw33hvJDwY6
+	G5jZ9yaCjHlWmKrZhyZDYDTlRSA0HWG3FQEvCamBh9u8tMhhv1GJaNPCYnMfpmiQeql9WxMtxmJ
+	ElbgNbV94qiIjHuCPTa+XDu+Phpgz7pGsfidRpbtfn+kOIc6RIq5QTMF3fawwpBG4EkNpev7gbE
+	7mYXFTkR6yIxZ6/5dTJ17Tm5YAPXRKz8jxxnQ==
+X-Received: by 2002:a05:600c:c0c8:b0:471:700:f281 with SMTP id 5b1f17b1804b1-488fb78b8c5mr3796655e9.25.1776378798560;
+        Thu, 16 Apr 2026 15:33:18 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 15:33:21 -0700 (PDT)
+        Thu, 16 Apr 2026 15:33:18 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 36/51] license.py: Drop visit_Str from SeenVisitor in selftest
-Date: Fri, 17 Apr 2026 00:30:19 +0200
-Message-ID: <4bffedef91d04e848a4a31e2618b837d2b82436a.1776377993.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 31/51] ovmf: backport a fix for build with gcc-16
+Date: Fri, 17 Apr 2026 00:30:14 +0200
+Message-ID: <ca1f42f9dca8c068bf1df0d9d052329b4dc0d666.1776377993.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776377993.git.yoann.congal@smile.fr>
 References: <cover.1776377993.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:33:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235465
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235460
 
-From: Sunil Dora <sunilkumar.dora@windriver.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-ast.Str was deprecated in Python 3.8 and removed in Python 3.14.
-In [1], visit_Str was already removed from the LicenseVisitor
-subclasses (FlattenVisitor, ListVisitor) in oe/license.py since
-bitbake now requires Python 3.8+.
+Fixes build on host with gcc-16:
 
-However, the test-only SeenVisitor class in the selftest was
-missed at that time and still uses visit_Str/node.s. On Python
-3.14, ast.Str is fully removed so visit_Str is never called,
-causing test_single_licenses to return [] instead of the
-expected license list.
+StringFuncs.c: In function =E2=80=98SplitStringByWhitespace=E2=80=99:
+StringFuncs.c:113:15: error: variable =E2=80=98Item=E2=80=99 set but not us=
+ed [-Werror=3Dunused-but-set-variable=3D]
+  113 |   UINTN       Item;
+      |               ^~~~
 
-Replace visit_Str/node.s with visit_Constant/node.value in
-SeenVisitor.
+and
 
-[1] https://git.openembedded.org/openembedded-core/commit/meta/lib/oe/license.py?id=6d3da37adbcaf5a7a3dade08f9d052571b195249
+EfiRom.c: In function =E2=80=98main=E2=80=99:
+EfiRom.c:78:17: error: assignment discards =E2=80=98const=E2=80=99 qualifie=
+r from pointer target type [-Werror=3Ddiscarded-qualifiers]
+   78 |       if ((Ptr0 =3D strstr ((CONST CHAR8 *) mOptions.FileList->File=
+Name, DEFAULT_OUTPUT_EXTENSION)) !=3D NULL) {
+      |                 ^
 
-Fixes [YOCTO #16220]
-
-Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8a5b019eec72676893507d018e7609745d2e3f49)
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oeqa/selftest/cases/oelib/license.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...Tools-StringFuncs-fix-gcc-16-warning.patch | 42 ++++++++++++++++++
+ ...aseTools-EfiRom-fix-compiler-warning.patch | 44 +++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  2 +
+ 3 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-=
+fix-gcc-16-warning.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-c=
+ompiler-warning.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/license.py b/meta/lib/oeqa/selftest/cases/oelib/license.py
-index 5eea12e7619..49b28951f76 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/license.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/license.py
-@@ -12,8 +12,8 @@ class SeenVisitor(oe.license.LicenseVisitor):
-         self.seen = []
-         oe.license.LicenseVisitor.__init__(self)
- 
--    def visit_Str(self, node):
--        self.seen.append(node.s)
-+    def visit_Constant(self, node):
-+        self.seen.append(node.value)
- 
- class TestSingleLicense(TestCase):
-     licenses = [
+diff --git a/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-fix-gcc=
+-16-warning.patch b/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-=
+fix-gcc-16-warning.patch
+new file mode 100644
+index 00000000000..a465dede9c3
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-fix-gcc-16-war=
+ning.patch
+@@ -0,0 +1,42 @@
++From 015c26aea52a54e96319887ea542870b4804fb91 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Thu, 29 Jan 2026 09:23:32 +0100
++Subject: [PATCH] BaseTools/StringFuncs: fix gcc 16 warning
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++StringFuncs.c: In function =E2=80=98SplitStringByWhitespace=E2=80=99:
++StringFuncs.c:113:15: error: variable =E2=80=98Item=E2=80=99 set but not u=
+sed [-Werror=3Dunused-but-set-variable=3D]
++  113 |   UINTN       Item;
++      |               ^~~~
++
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport [edk2-stable202602 https://github.com/tianocore/=
+edk2/commit/3597306191297b504683b83fe7750e49c6a2e836]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ BaseTools/Source/C/Common/StringFuncs.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/BaseTools/Source/C/Common/StringFuncs.c b/BaseTools/Source/C/=
+Common/StringFuncs.c
++index 53e44365e9..df02d9c808 100644
++--- a/BaseTools/Source/C/Common/StringFuncs.c
+++++ b/BaseTools/Source/C/Common/StringFuncs.c
++@@ -110,7 +110,6 @@ SplitStringByWhitespace (
++   CHAR8       *EndOfSubString;=0D
++   CHAR8       *EndOfString;=0D
++   STRING_LIST *Output;=0D
++-  UINTN       Item;=0D
++ =0D
++   String =3D CloneString (String);=0D
++   if (String =3D=3D NULL) {=0D
++@@ -120,7 +119,7 @@ SplitStringByWhitespace (
++ =0D
++   Output =3D NewStringList ();=0D
++ =0D
++-  for (Pos =3D String, Item =3D 0; Pos < EndOfString; Item++) {=0D
+++  for (Pos =3D String; Pos < EndOfString;) {=0D
++     while (isspace ((int)*Pos)) {=0D
++       Pos++;=0D
++     }=0D
+diff --git a/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-compiler=
+-warning.patch b/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-comp=
+iler-warning.patch
+new file mode 100644
+index 00000000000..7aaafe6efbf
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-compiler-warnin=
+g.patch
+@@ -0,0 +1,44 @@
++From 4d2bdadcd6d45f6708b1b4827b0dc9b6e4b8edd2 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Mon, 8 Dec 2025 10:28:50 +0100
++Subject: [PATCH] BaseTools/EfiRom: fix compiler warning
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++New warning after updating gcc:
++
++EfiRom.c: In function =E2=80=98main=E2=80=99:
++EfiRom.c:78:17: error: assignment discards =E2=80=98const=E2=80=99 qualifi=
+er from pointer target type [-Werror=3Ddiscarded-qualifiers]
++
++The assigned value is not used, so fix the warning by just removing it.
++
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport [edk2-stable202602 https://github.com/tianocore/=
+edk2/commit/9af06ef3cbb052b142f9660c2c01e7aeb401300c]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ BaseTools/Source/C/EfiRom/EfiRom.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/BaseTools/Source/C/EfiRom/EfiRom.c b/BaseTools/Source/C/EfiRo=
+m/EfiRom.c
++index fa7bf0e62e..6e903b3504 100644
++--- a/BaseTools/Source/C/EfiRom/EfiRom.c
+++++ b/BaseTools/Source/C/EfiRom/EfiRom.c
++@@ -44,7 +44,6 @@ Returns:
++   FILE_LIST *FList;=0D
++   UINT32    TotalSize;=0D
++   UINT32    Size;=0D
++-  CHAR8     *Ptr0;=0D
++ =0D
++   SetUtilityName(UTILITY_NAME);=0D
++ =0D
++@@ -75,7 +74,7 @@ Returns:
++   //=0D
++   if (mOptions.DumpOption =3D=3D 1) {=0D
++     if (mOptions.FileList !=3D NULL) {=0D
++-      if ((Ptr0 =3D strstr ((CONST CHAR8 *) mOptions.FileList->FileName, =
+DEFAULT_OUTPUT_EXTENSION)) !=3D NULL) {=0D
+++      if (strstr ((CONST CHAR8 *) mOptions.FileList->FileName, DEFAULT_OU=
+TPUT_EXTENSION) !=3D NULL) {=0D
++         DumpImage (mOptions.FileList);=0D
++         goto BailOut;=0D
++       } else {=0D
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index 577310a6782..bf41bbbf6e9 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -25,6 +25,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+=3Dmaster;protocol=3Dhttps;ta
+            file://0002-BaseTools-makefile-adjust-to-build-in-under-bitbake=
+.patch \
+            file://0003-debug-prefix-map.patch \
+            file://0004-reproducible.patch \
++           file://0006-BaseTools-StringFuncs-fix-gcc-16-warning.patch \
++           file://0007-BaseTools-EfiRom-fix-compiler-warning.patch \
+            "
+=20
+ PV =3D "edk2-stable202508"
 
