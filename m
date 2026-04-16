@@ -2,574 +2,1117 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DD3FF8DFDB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DD6CF8DFDD
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:33:15 +0000 (UTC)
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28571.1776378794503824233
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.28558.1776378785061791993
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 15:33:14 -0700
+ Thu, 16 Apr 2026 15:33:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=xibr9pd+;
- spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488971db0fdso601815e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Kw9n8HY0;
+ spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4888375f735so426965e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776378793; x=1776983593; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776378783; x=1776983583; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xg97HcAxyKl7CWH+m5fikwRL/8UGeav6UcucMGD73Ys=;
-        b=xibr9pd+k4hxfmWSKErg4ZdC/8WxbNwNA9V24uaTMcH3ujINCoaVVPF9YPhJH34z0T
-         E03UPy7mP9xDBu1jQR4Ki7hXVSn9Awb7hmJ7ryf0Ho3XvKG/2l8ps9JKGcU66jij2xcJ
-         vYdGrh6KGwPEZ7XOCD3x3ISiqB1ryfopk5Twc=
+        bh=3gxipPuQZqqP6lRhkjh3oxNL0Xk+PKMIt/WBu9r9Cc4=;
+        b=Kw9n8HY0HUjzv+kP2aQ2+1oU4NR2j9BuygrpsdCSJxpnY+XCDrpY065V5/6dB2+gdE
+         azKrNKYFbtmm5tV3rvOqW9FCg6dIdUhkRFMWJCmYVwxRVn+KqTUQxrKjj/uLYBi5ZaeD
+         UlCPypc9zlGCNFNCd87uqOAmTFd4EEB/Uj8pM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776378793; x=1776983593;
+        d=1e100.net; s=20251104; t=1776378783; x=1776983583;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=xg97HcAxyKl7CWH+m5fikwRL/8UGeav6UcucMGD73Ys=;
-        b=Y9RqrsJGrJDW/3jm2z07Ez3RZVu/ohJuw6l3PYWyswvxiO2PGeHDzart5Y8U6pQzfq
-         ueLTzy4sOKQIPovIEJNR8ncykp7fhTeWT6gQSa+wEljE/7IwPMbJMuZX5sKRvYdnRAzd
-         Nh3K5FwcgCzWg804mD2txNC24qPoF94NlPm7Bd9DgaXy7K3X4ZmmlosT5mU/K0RcLOmx
-         QWm+372b5bxqByzX+4hZiBq9HsrTi/66xFfqC9ukdoMkZYrWmyDQ6rXJP891bI8eC3vS
-         GAvlGcyn/FuG9wab6bTrUua8TX6MXtujMEleV25avbMMevHZzTAXlMf7qNoLrdUP8Ka/
-         etlQ==
-X-Gm-Message-State: AOJu0YzxO3UbO7zTaEdD3zAnGTaQQGynoSL1llnKpzCBXWo6UZ0uzHwL
-	RrYr3N08wEfOyLzs7isUH3vK4LC9b3IG7MuHFgM+RZC2bcPh3HZFgi6YAK7/uYeyBADA/ny+FU7
-	cP+ZwR5yJu+jU
-X-Gm-Gg: AeBDiet1ZGwRnIFBENPOg6sCdaVPttfsxfqNcM0ZxDq2rdgE4TQihkhwUcdMox+QxqR
-	MjL9VsbzP2Bl21AkvPz7lRuw2NX4rinftYg6snAt2skKyU9dmCD76iLw+cEaLNJRG0jFRG/D57F
-	1VCjWQK5wAplOcuO9bgPFPXpMWfxeH1gDIQPsnwwTWIaO6zancDOEEJZnBkKB430E812AEhqqJ/
-	b9UB1i1hEhtL/h0t399SvaAI40Gf4S7AP6T16C7L0Gwm1WIdCKdmAbyMO//N6I8OMdi13W2rWE/
-	o5otob7rAIx04Y4UWXiA14+xFNMs3j+xGrWsTx+rwzXg3rrhdFMfP4XK2XBbA1T0G0w9TZNbSah
-	CObE+T5QaLrP0gYaFnuUEGhDWAewkHKMyUNoO0ldSVx31duBO59JBQjk256Alv1Wq/VVUs29ZMm
-	XzOuBp8+JOdcSPx8r+9i06bRLYySfdRQXZ1g9XndRonTasJ3d7imORgTJSbrgC0JHAAoDFYeSUz
-	AIH8LZ2tnsggo20MTJmyjzfiLT4K0DDyCpgkUz3mmfk2h+j
-X-Received: by 2002:a05:600c:5285:b0:485:1878:7b8c with SMTP id 5b1f17b1804b1-488fb77812dmr6006825e9.18.1776378792312;
-        Thu, 16 Apr 2026 15:33:12 -0700 (PDT)
+        bh=3gxipPuQZqqP6lRhkjh3oxNL0Xk+PKMIt/WBu9r9Cc4=;
+        b=ZwA/GOJiWTrXMbzgWCDtYxOl7leqwVAqnZhGjL9ULJyijsPgaXAWjNfBX92WypIeSP
+         YzhIt5mxEvTQfI6YCaQn7gJuGpGhWZnfCsqrzNaygUCKmXm49ikFaaP1tZp+QopQgJqv
+         Pvgk83YreoJpG+nas+TTfZk27v/GX6pG53WR2qhEhI2SdgasoLZDSTjxuHBQoeKu1Tq3
+         RAxHTPZDlYZ5+1Px9tNV3oAZAVPo+PoMKwvSF8bi3ovclzf09x+O9ZG3vmxxKkz9T1GM
+         cRHp6rd5DDPdo0VqnSpRFVwx9hD2mgzQBIh6VAV/XXag17MgR7rk9at86WXnSRMFontu
+         Kr/g==
+X-Gm-Message-State: AOJu0Yyprl0Iyd/8F8L5ZWKNHIfQB8TtzoWAR4T9+/IpsR7cOGddOCxT
+	hl6xHbGR98vhiEUy10iG9Y4YONFN03AsJGIlpxf4M4Y8E6915Bc3HtChM8h9UGDTObYGp88wVpD
+	+egNwgt6iR4hd
+X-Gm-Gg: AeBDieuspOpvX3Ro/kgz1SGsF1/+e/jmNoJxA40QGRbUVCtKNED9m7HgUjiNBgw15Ut
+	1BZz0/kYOTzrPRQZQigZC64dx9KPNqkxQ/j//FayHof0edcaFwSIZHub3p8O+9HPKmYHa/TK+sb
+	erqNKr9BLA7NuhHxInEyGk5TMaA9794e6ZbNO5kd5Wn2o2RcY1GRwKZWNRg5p7EOCO/aAFQ+p7Y
+	sO7ev6S7H4vCcIHwYQtyQthN3heE6Oe5xGkaEGoPOJZ+162FS5BsU+C4AgpP4cQ26mdrPNLhXCW
+	1/fb6q1OOjWEXBqO6ofJTAWFNUoXdn108/ym3m64px/m025cTOBcVCrWzn4vLmHzK3xOq7aauut
+	RcqJKGn7PmVCNNKQtMAd0mdupwVViy/w12EtXY9WF8r303ANW36AQ3MpioSKpsqdDKdqpgM/Agl
+	oH2wuMaT/jnpH54hCTjn44ojoXvJmLi4wzRUYIASkT5hdWsz/8d8ulfIkezggLmVKDcy423Fj0+
+	Yf6e7nwwx6sGlRMPdWDOvMKCdg1piO+KE00FA==
+X-Received: by 2002:a05:600c:8706:b0:488:d6eb:e635 with SMTP id 5b1f17b1804b1-488fb753abdmr5452245e9.12.1776378782600;
+        Thu, 16 Apr 2026 15:33:02 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 15:33:11 -0700 (PDT)
+        Thu, 16 Apr 2026 15:33:02 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 21/51] m4: backport 3 gnulib changes to fix build with glibc-2.43 on host
-Date: Fri, 17 Apr 2026 00:30:04 +0200
-Message-ID: <7daef08b2bd4fb852169939e0eaa0486e204d230.1776377993.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 06/51] nfs-utils: Fix CVE-2025-12801
+Date: Fri, 17 Apr 2026 00:29:49 +0200
+Message-ID: <6d14141cb096391f1c0730cc509704784d194f2f.1776377993.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776377993.git.yoann.congal@smile.fr>
 References: <cover.1776377993.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:33:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235450
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235435
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Deepak Rathore <deeratho@cisco.com>
 
-All 3 are already included in m4-1.4.21 used in master.
+- This patch applies the upstream fix [1] as referenced in [5].
+- To successfully apply the fixed commit, apply the dependent commits
+  [2] to [4] which are included in v2.8.6, as referenced in [5].
+- Reference:
+  [1] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=f36bd900a899
+  [2] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=7e8b36522f58
+  [3] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=42f01e6a78fe
+  [4] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=51738ae56d92
+  [5] https://security-tracker.debian.org/tracker/CVE-2025-12801
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+[YC: fixed tab vs space indent in recipe patch]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/m4/m4-1.4.20.inc        |   3 +
- ...-Fix-some-g-Wsystem-headers-warnings.patch | 135 ++++++++++++
- ...pilation-error-on-macOS-with-fortify.patch | 126 ++++++++++++
- ...23-qualifier-generic-fns-like-strchr.patch | 194 ++++++++++++++++++
- 4 files changed, 458 insertions(+)
- create mode 100644 meta/recipes-devtools/m4/m4/0001-string-h-wchar-h-Fix-some-g-Wsystem-headers-warnings.patch
- create mode 100644 meta/recipes-devtools/m4/m4/0002-string-h-Fix-compilation-error-on-macOS-with-fortify.patch
- create mode 100644 meta/recipes-devtools/m4/m4/0003-Port-to-C23-qualifier-generic-fns-like-strchr.patch
+ .../CVE-2025-12801-dependent_p1.patch         |  81 +++
+ .../CVE-2025-12801-dependent_p2.patch         | 181 +++++++
+ .../CVE-2025-12801-dependent_p3.patch         | 465 ++++++++++++++++++
+ .../nfs-utils/nfs-utils/CVE-2025-12801.patch  | 254 ++++++++++
+ .../nfs-utils/nfs-utils_2.8.4.bb              |   4 +
+ 5 files changed, 985 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
 
-diff --git a/meta/recipes-devtools/m4/m4-1.4.20.inc b/meta/recipes-devtools/m4/m4-1.4.20.inc
-index 5c4ba09288c..df47e1e1881 100644
---- a/meta/recipes-devtools/m4/m4-1.4.20.inc
-+++ b/meta/recipes-devtools/m4/m4-1.4.20.inc
-@@ -8,6 +8,9 @@ inherit autotools texinfo ptest gettext
- 
- SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
-            file://0001-gettext-h-Avoid-gcc-Wformat-security-warnings-with-d.patch \
-+           file://0001-string-h-wchar-h-Fix-some-g-Wsystem-headers-warnings.patch \
-+           file://0002-string-h-Fix-compilation-error-on-macOS-with-fortify.patch \
-+           file://0003-Port-to-C23-qualifier-generic-fns-like-strchr.patch \
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
+new file mode 100644
+index 00000000000..8f2174c5b81
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
+@@ -0,0 +1,81 @@
++From 0ea29d6077dacbf6a754b0e648275eec2a576e87 Mon Sep 17 00:00:00 2001
++From: Trond Myklebust <trond.myklebust@hammerspace.com>
++Date: Mon, 10 Nov 2025 11:26:03 -0500
++Subject: [PATCH 1/4] mountd: Minor refactor of get_rootfh()
++
++Perform the mountpoint checks before checking the user path.
++
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=7e8b36522f58657359c6842119fc516c6dd1baa4]
++
++Reviewed-by: Jeff Layton <jlayton@kernel.org>
++Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit 7e8b36522f58657359c6842119fc516c6dd1baa4)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ utils/mountd/mountd.c | 34 +++++++++++++++++-----------------
++ 1 file changed, 17 insertions(+), 17 deletions(-)
++
++diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
++index dbd5546d..39afd4aa 100644
++--- a/utils/mountd/mountd.c
+++++ b/utils/mountd/mountd.c
++@@ -412,6 +412,23 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		*error = MNT3ERR_ACCES;
++ 		return NULL;
++ 	}
+++	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
+++		xlog(L_WARNING, "can't stat export point %s: %s",
+++		     p, strerror(errno));
+++		*error = MNT3ERR_NOENT;
+++		return NULL;
+++	}
+++	if (exp->m_export.e_mountpoint &&
+++		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
+++				  exp->m_export.e_mountpoint:
+++				  exp->m_export.e_path,
+++				  nfsd_path_lstat)) {
+++		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
+++		     p);
+++		*error = MNT3ERR_NOENT;
+++		return NULL;
+++	}
+++
++ 	if (nfsd_path_stat(p, &stb) < 0) {
++ 		xlog(L_WARNING, "can't stat exported dir %s: %s",
++ 				p, strerror(errno));
++@@ -426,12 +443,6 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		*error = MNT3ERR_NOTDIR;
++ 		return NULL;
++ 	}
++-	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
++-		xlog(L_WARNING, "can't stat export point %s: %s",
++-		     p, strerror(errno));
++-		*error = MNT3ERR_NOENT;
++-		return NULL;
++-	}
++ 	if (estb.st_dev != stb.st_dev
++ 	    && !(exp->m_export.e_flags & NFSEXP_CROSSMOUNT)) {
++ 		xlog(L_WARNING, "request to export directory %s below nearest filesystem %s",
++@@ -439,17 +450,6 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		*error = MNT3ERR_ACCES;
++ 		return NULL;
++ 	}
++-	if (exp->m_export.e_mountpoint &&
++-		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
++-				  exp->m_export.e_mountpoint:
++-				  exp->m_export.e_path,
++-				  nfsd_path_lstat)) {
++-		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
++-		     p);
++-		*error = MNT3ERR_NOENT;
++-		return NULL;
++-	}
++-
++ 	/* This will be a static private nfs_export with just one
++ 	 * address.  We feed it to kernel then extract the filehandle,
++ 	 */
++-- 
++2.35.6
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
+new file mode 100644
+index 00000000000..e078ddd0e86
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
+@@ -0,0 +1,181 @@
++From 8a19b1f0dd1f09d440a6a94748fe403f7ef8da81 Mon Sep 17 00:00:00 2001
++From: Trond Myklebust <trond.myklebust@hammerspace.com>
++Date: Mon, 10 Nov 2025 11:28:39 -0500
++Subject: [PATCH 2/4] mountd: Separate lookup of the exported directory and the
++ mount path
++
++When the caller asks to mount a path that does not terminate with an
++exported directory, we want to split up the lookups so that we can
++look up the exported directory using the mountd privileged credential,
++and the remaining subdirectory lookups using the RPC caller's
++credential.
++
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=42f01e6a78fed98f12437ac8b28cfb12b6bad056]
++
++Reviewed-by: Jeff Layton <jlayton@kernel.org>
++Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit 42f01e6a78fed98f12437ac8b28cfb12b6bad056)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ support/include/nfsd_path.h |  1 +
++ support/misc/nfsd_path.c    | 31 ++++++++++++++++++
++ utils/mountd/mountd.c       | 63 +++++++++++++++++++++++++++++++------
++ 3 files changed, 86 insertions(+), 9 deletions(-)
++
++diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
++index f600fb5a..3e5a2f5d 100644
++--- a/support/include/nfsd_path.h
+++++ b/support/include/nfsd_path.h
++@@ -18,6 +18,7 @@ char *		nfsd_path_prepend_dir(const char *dir, const char *pathname);
++ 
++ int 		nfsd_path_stat(const char *pathname, struct stat *statbuf);
++ int 		nfsd_path_lstat(const char *pathname, struct stat *statbuf);
+++int		nfsd_openat(int dirfd, const char *path, int flags);
++ 
++ int		nfsd_path_statfs(const char *pathname,
++ 				   struct statfs *statbuf);
++diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
++index caec33ca..dfe88e4f 100644
++--- a/support/misc/nfsd_path.c
+++++ b/support/misc/nfsd_path.c
++@@ -203,6 +203,37 @@ nfsd_realpath(const char *path, char *resolved_buf)
++         return realpath_buf.res_ptr;
++ }
++ 
+++struct nfsd_openat_t {
+++	const char *path;
+++	int dirfd;
+++	int flags;
+++	int res_fd;
+++	int res_error;
+++};
+++
+++static void nfsd_openatfunc(void *data)
+++{
+++	struct nfsd_openat_t *d = data;
+++
+++	d->res_fd = openat(d->dirfd, d->path, d->flags);
+++	if (d->res_fd == -1)
+++		d->res_error = errno;
+++}
+++
+++int nfsd_openat(int dirfd, const char *path, int flags)
+++{
+++	struct nfsd_openat_t open_buf = {
+++		.path = path,
+++		.dirfd = dirfd,
+++		.flags = flags,
+++	};
+++
+++	nfsd_run_task(nfsd_openatfunc, &open_buf);
+++	if (open_buf.res_fd == -1)
+++		errno = open_buf.res_error;
+++	return open_buf.res_fd;
+++}
+++
++ struct nfsd_rw_data {
++ 	int             fd;
++ 	void*           buf;
++diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
++index 39afd4aa..f43ebef5 100644
++--- a/utils/mountd/mountd.c
+++++ b/utils/mountd/mountd.c
++@@ -392,7 +392,10 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 	struct nfs_fh_len *fh;
++ 	char		rpath[MAXPATHLEN+1];
++ 	char		*p = *path;
+++	char		*subpath;
++ 	char		buf[INET6_ADDRSTRLEN];
+++	size_t		epathlen;
+++	int		dirfd;
++ 
++ 	if (*p == '\0')
++ 		p = "/";
++@@ -412,12 +415,21 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		*error = MNT3ERR_ACCES;
++ 		return NULL;
++ 	}
++-	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
++-		xlog(L_WARNING, "can't stat export point %s: %s",
+++
+++	dirfd = nfsd_openat(AT_FDCWD, exp->m_export.e_path, O_PATH);
+++	if (dirfd == -1) {
+++		xlog(L_WARNING, "can't open export point %s: %s",
++ 		     p, strerror(errno));
++ 		*error = MNT3ERR_NOENT;
++ 		return NULL;
++ 	}
+++	if (fstat(dirfd, &estb) == -1) {
+++		xlog(L_WARNING, "can't stat export point %s: %s",
+++		     p, strerror(errno));
+++		*error = MNT3ERR_ACCES;
+++		close(dirfd);
+++		return NULL;
+++	}
++ 	if (exp->m_export.e_mountpoint &&
++ 		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
++ 				  exp->m_export.e_mountpoint:
++@@ -426,18 +438,51 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
++ 		     p);
++ 		*error = MNT3ERR_NOENT;
+++		close(dirfd);
++ 		return NULL;
++ 	}
++ 
++-	if (nfsd_path_stat(p, &stb) < 0) {
++-		xlog(L_WARNING, "can't stat exported dir %s: %s",
++-				p, strerror(errno));
++-		if (errno == ENOENT)
++-			*error = MNT3ERR_NOENT;
++-		else
++-			*error = MNT3ERR_ACCES;
+++	epathlen = strlen(exp->m_export.e_path);
+++	if (epathlen > strlen(p)) {
+++		xlog(L_WARNING, "raced with change of exported path: %s", p);
+++		*error = MNT3ERR_NOENT;
+++		close(dirfd);
++ 		return NULL;
++ 	}
+++	subpath = &p[epathlen];
+++	while (*subpath == '/')
+++		subpath++;
+++	if (*subpath != '\0') {
+++		int fd;
+++
+++		/* Just perform a lookup of the path */
+++		fd = nfsd_openat(dirfd, subpath, O_PATH);
+++		close(dirfd);
+++		if (fd == -1) {
+++			xlog(L_WARNING, "can't open exported dir %s: %s", p,
+++			     strerror(errno));
+++			if (errno == ENOENT)
+++				*error = MNT3ERR_NOENT;
+++			else
+++				*error = MNT3ERR_ACCES;
+++			return NULL;
+++		}
+++		if (fstat(fd, &stb) == -1) {
+++			xlog(L_WARNING, "can't open exported dir %s: %s", p,
+++			     strerror(errno));
+++			if (errno == ENOENT)
+++				*error = MNT3ERR_NOENT;
+++			else
+++				*error = MNT3ERR_ACCES;
+++			close(fd);
+++			return NULL;
+++		}
+++		close(fd);
+++	} else {
+++		close(dirfd);
+++		stb = estb;
+++	}
+++
++ 	if (!S_ISDIR(stb.st_mode) && !S_ISREG(stb.st_mode)) {
++ 		xlog(L_WARNING, "%s is not a directory or regular file", p);
++ 		*error = MNT3ERR_NOTDIR;
++-- 
++2.35.6
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
+new file mode 100644
+index 00000000000..7c9a1e6d2bc
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
+@@ -0,0 +1,465 @@
++From 0114ef262d61988b8209b7baab7426eac9a49548 Mon Sep 17 00:00:00 2001
++From: Trond Myklebust <trond.myklebust@hammerspace.com>
++Date: Mon, 10 Nov 2025 12:18:38 -0500
++Subject: [PATCH 3/4] support: Add a mini-library to extract and apply RPC
++ credentials
++
++Add server functionality to extract the credentials from the client RPC
++call, and apply them. This is needed in order to perform access checking
++on the requested path in the mountd daemon.
++
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=51738ae56d922d4961e60dad73ad1c2d97d8d99b]
++
++Reviewed-by: Jeff Layton <jlayton@kernel.org>
++Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit 51738ae56d922d4961e60dad73ad1c2d97d8d99b)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ aclocal/libtirpc.m4         |  12 +++
++ support/include/Makefile.am |   1 +
++ support/include/nfs_ucred.h |  44 ++++++++++
++ support/misc/Makefile.am    |   2 +-
++ support/misc/ucred.c        | 162 ++++++++++++++++++++++++++++++++++++
++ support/nfs/Makefile.am     |   2 +-
++ support/nfs/ucred.c         | 147 ++++++++++++++++++++++++++++++++
++ 7 files changed, 368 insertions(+), 2 deletions(-)
++ create mode 100644 support/include/nfs_ucred.h
++ create mode 100644 support/misc/ucred.c
++ create mode 100644 support/nfs/ucred.c
++
++diff --git a/aclocal/libtirpc.m4 b/aclocal/libtirpc.m4
++index ef48a2ae..06629db9 100644
++--- a/aclocal/libtirpc.m4
+++++ b/aclocal/libtirpc.m4
++@@ -31,6 +31,18 @@ AC_DEFUN([AC_LIBTIRPC], [
++                          [AC_DEFINE([HAVE_TIRPC_GSS_SECCREATE], [1],
++                                     [Define to 1 if your tirpc library provides rpc_gss_seccreate])],,
++                          [${LIBS}])])
+++
+++     AS_IF([test -n "${LIBTIRPC}"],
+++           [AC_CHECK_LIB([tirpc], [rpc_gss_getcred],
+++                         [AC_DEFINE([HAVE_TIRPC_GSS_GETCRED], [1],
+++                                    [Define to 1 if your tirpc library provides rpc_gss_getcred])],,
+++                         [${LIBS}])])
+++
+++     AS_IF([test -n "${LIBTIRPC}"],
+++           [AC_CHECK_LIB([tirpc], [authdes_getucred],
+++                         [AC_DEFINE([HAVE_TIRPC_AUTHDES_GETUCRED], [1],
+++                                    [Define to 1 if your tirpc library provides authdes_getucred])],,
+++                         [${LIBS}])])
++   AC_SUBST([AM_CPPFLAGS])
++   AC_SUBST(LIBTIRPC)
++ 
++diff --git a/support/include/Makefile.am b/support/include/Makefile.am
++index 1373891a..631a84f8 100644
++--- a/support/include/Makefile.am
+++++ b/support/include/Makefile.am
++@@ -10,6 +10,7 @@ noinst_HEADERS = \
++ 	misc.h \
++ 	nfs_mntent.h \
++ 	nfs_paths.h \
+++	nfs_ucred.h \
++ 	nfsd_path.h \
++ 	nfslib.h \
++ 	nfsrpc.h \
++diff --git a/support/include/nfs_ucred.h b/support/include/nfs_ucred.h
++new file mode 100644
++index 00000000..d58b61e4
++--- /dev/null
+++++ b/support/include/nfs_ucred.h
++@@ -0,0 +1,44 @@
+++#ifndef _NFS_UCRED_H
+++#define _NFS_UCRED_H
+++
+++#include <sys/types.h>
+++
+++struct nfs_ucred {
+++	uid_t uid;
+++	gid_t gid;
+++	int ngroups;
+++	gid_t *groups;
+++};
+++
+++struct svc_req;
+++struct exportent;
+++
+++int nfs_ucred_get(struct nfs_ucred **credp, struct svc_req *rqst,
+++		  const struct exportent *ep);
+++
+++void nfs_ucred_squash_groups(struct nfs_ucred *cred,
+++			     const struct exportent *ep);
+++int nfs_ucred_reload_groups(struct nfs_ucred *cred, const struct exportent *ep);
+++int nfs_ucred_swap_effective(const struct nfs_ucred *cred,
+++			     struct nfs_ucred **savedp);
+++
+++static inline void nfs_ucred_free(struct nfs_ucred *cred)
+++{
+++	free(cred->groups);
+++	free(cred);
+++}
+++
+++static inline void nfs_ucred_init_groups(struct nfs_ucred *cred, gid_t *groups,
+++					 int ngroups)
+++{
+++	cred->groups = groups;
+++	cred->ngroups = ngroups;
+++}
+++
+++static inline void nfs_ucred_free_groups(struct nfs_ucred *cred)
+++{
+++	free(cred->groups);
+++	nfs_ucred_init_groups(cred, NULL, 0);
+++}
+++
+++#endif /* _NFS_UCRED_H */
++diff --git a/support/misc/Makefile.am b/support/misc/Makefile.am
++index f9993e3a..7ea2d798 100644
++--- a/support/misc/Makefile.am
+++++ b/support/misc/Makefile.am
++@@ -2,6 +2,6 @@
++ 
++ noinst_LIBRARIES = libmisc.a
++ libmisc_a_SOURCES = tcpwrapper.c from_local.c mountpoint.c file.c \
++-		    nfsd_path.c workqueue.c xstat.c
+++		    nfsd_path.c ucred.c workqueue.c xstat.c
++ 
++ MAINTAINERCLEANFILES = Makefile.in
++diff --git a/support/misc/ucred.c b/support/misc/ucred.c
++new file mode 100644
++index 00000000..92d97912
++--- /dev/null
+++++ b/support/misc/ucred.c
++@@ -0,0 +1,162 @@
+++#ifdef HAVE_CONFIG_H
+++#include <config.h>
+++#endif
+++
+++#include <alloca.h>
+++#include <errno.h>
+++#include <pwd.h>
+++#include <stdlib.h>
+++#include <unistd.h>
+++#include <grp.h>
+++
+++#include "exportfs.h"
+++#include "nfs_ucred.h"
+++
+++#include "xlog.h"
+++
+++void nfs_ucred_squash_groups(struct nfs_ucred *cred, const struct exportent *ep)
+++{
+++	int i;
+++
+++	if (!(ep->e_flags & NFSEXP_ROOTSQUASH))
+++		return;
+++	if (cred->gid == 0)
+++		cred->gid = ep->e_anongid;
+++	for (i = 0; i < cred->ngroups; i++) {
+++		if (cred->groups[i] == 0)
+++			cred->groups[i] = ep->e_anongid;
+++	}
+++}
+++
+++static int nfs_ucred_init_effective(struct nfs_ucred *cred)
+++{
+++	int ngroups = getgroups(0, NULL);
+++
+++	if (ngroups > 0) {
+++		size_t sz = ngroups * sizeof(gid_t);
+++		gid_t *groups = malloc(sz);
+++		if (groups == NULL)
+++			return ENOMEM;
+++		if (getgroups(ngroups, groups) == -1) {
+++			free(groups);
+++			return errno;
+++		}
+++		nfs_ucred_init_groups(cred, groups, ngroups);
+++	} else
+++		nfs_ucred_init_groups(cred, NULL, 0);
+++	cred->uid = geteuid();
+++	cred->gid = getegid();
+++	return 0;
+++}
+++
+++static size_t nfs_ucred_getpw_r_size_max(void)
+++{
+++	long buflen = sysconf(_SC_GETPW_R_SIZE_MAX);
+++
+++	if (buflen == -1)
+++		return 16384;
+++	return buflen;
+++}
+++
+++int nfs_ucred_reload_groups(struct nfs_ucred *cred, const struct exportent *ep)
+++{
+++	struct passwd pwd, *pw;
+++	uid_t uid = cred->uid;
+++	gid_t gid = cred->gid;
+++	size_t buflen;
+++	char *buf;
+++	int ngroups = 0;
+++	int ret;
+++
+++	if (ep->e_flags & (NFSEXP_ALLSQUASH | NFSEXP_ROOTSQUASH) &&
+++	    (int)uid == ep->e_anonuid)
+++		return 0;
+++	buflen = nfs_ucred_getpw_r_size_max();
+++	buf = alloca(buflen);
+++	ret = getpwuid_r(uid, &pwd, buf, buflen, &pw);
+++	if (ret != 0)
+++		return ret;
+++	if (!pw)
+++		return ENOENT;
+++	if (getgrouplist(pw->pw_name, gid, NULL, &ngroups) == -1 &&
+++	    ngroups > 0) {
+++		gid_t *groups = malloc(ngroups * sizeof(groups[0]));
+++		if (groups == NULL)
+++			return ENOMEM;
+++		if (getgrouplist(pw->pw_name, gid, groups, &ngroups) == -1) {
+++			free(groups);
+++			return ENOMEM;
+++		}
+++		free(cred->groups);
+++		nfs_ucred_init_groups(cred, groups, ngroups);
+++		nfs_ucred_squash_groups(cred, ep);
+++	} else
+++		nfs_ucred_free_groups(cred);
+++	return 0;
+++}
+++
+++static int nfs_ucred_set_effective(const struct nfs_ucred *cred,
+++				   const struct nfs_ucred *saved)
+++{
+++	uid_t suid = saved ? saved->uid : geteuid();
+++	gid_t sgid = saved ? saved->gid : getegid();
+++	int ret;
+++
+++	/* Start with a privileged effective user */
+++	if (setresuid(-1, 0, -1) < 0) {
+++		xlog(L_WARNING, "can't change privileged user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++		return errno;
+++	}
+++
+++	if (setgroups(cred->ngroups, cred->groups) == -1) {
+++		xlog(L_WARNING, "can't change groups for user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++		return errno;
+++	}
+++	if (setresgid(-1, cred->gid, sgid) == -1) {
+++		xlog(L_WARNING, "can't change gid for user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++		ret = errno;
+++		goto restore_groups;
+++	}
+++	if (setresuid(-1, cred->uid, suid) == -1) {
+++		xlog(L_WARNING, "can't change uid for user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++		ret = errno;
+++		goto restore_gid;
+++	}
+++	return 0;
+++restore_gid:
+++	if (setresgid(-1, sgid, -1) < 0) {
+++		xlog(L_WARNING, "can't restore privileged user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++	}
+++restore_groups:
+++	if (saved)
+++		setgroups(saved->ngroups, saved->groups);
+++	else
+++		setgroups(0, NULL);
+++	return ret;
+++}
+++
+++int nfs_ucred_swap_effective(const struct nfs_ucred *cred,
+++			     struct nfs_ucred **savedp)
+++{
+++	struct nfs_ucred *saved = malloc(sizeof(*saved));
+++	int ret;
+++
+++	if (saved == NULL)
+++		return ENOMEM;
+++	ret = nfs_ucred_init_effective(saved);
+++	if (ret != 0) {
+++		free(saved);
+++		return ret;
+++	}
+++	ret = nfs_ucred_set_effective(cred, saved);
+++	if (savedp == NULL || ret != 0)
+++		nfs_ucred_free(saved);
+++	else
+++		*savedp = saved;
+++	return ret;
+++}
++diff --git a/support/nfs/Makefile.am b/support/nfs/Makefile.am
++index 2e1577cc..f6921265 100644
++--- a/support/nfs/Makefile.am
+++++ b/support/nfs/Makefile.am
++@@ -7,7 +7,7 @@ libnfs_la_SOURCES = exports.c rmtab.c xio.c rpcmisc.c rpcdispatch.c \
++ 		   xcommon.c wildmat.c mydaemon.c \
++ 		   rpc_socket.c getport.c \
++ 		   svc_socket.c cacheio.c closeall.c nfs_mntent.c \
++-		   svc_create.c atomicio.c strlcat.c strlcpy.c
+++		   svc_create.c atomicio.c strlcat.c strlcpy.c ucred.c
++ libnfs_la_LIBADD = libnfsconf.la
++ libnfs_la_CPPFLAGS = $(AM_CPPFLAGS) $(CPPFLAGS) -I$(top_srcdir)/support/reexport
++ 
++diff --git a/support/nfs/ucred.c b/support/nfs/ucred.c
++new file mode 100644
++index 00000000..6ea8efdf
++--- /dev/null
+++++ b/support/nfs/ucred.c
++@@ -0,0 +1,147 @@
+++#ifdef HAVE_CONFIG_H
+++#include <config.h>
+++#endif
+++
+++#include <errno.h>
+++#include <stdlib.h>
+++#include <unistd.h>
+++#include <rpc/rpc.h>
+++
+++#include "exportfs.h"
+++#include "nfs_ucred.h"
+++
+++#ifdef HAVE_TIRPC_GSS_GETCRED
+++#include <rpc/rpcsec_gss.h>
+++#endif /* HAVE_TIRPC_GSS_GETCRED */
+++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
+++#include <rpc/auth_des.h>
+++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
+++
+++static int nfs_ucred_copy_cred(struct nfs_ucred *cred, uid_t uid, gid_t gid,
+++			       const gid_t *groups, int ngroups)
+++{
+++	if (ngroups > 0) {
+++		size_t sz = ngroups * sizeof(groups[0]);
+++		cred->groups = malloc(sz);
+++		if (cred->groups == NULL)
+++			return ENOMEM;
+++		cred->ngroups = ngroups;
+++		memcpy(cred->groups, groups, sz);
+++	} else
+++		nfs_ucred_init_groups(cred, NULL, 0);
+++	cred->uid = uid;
+++	cred->gid = gid;
+++	return 0;
+++}
+++
+++static int nfs_ucred_init_cred_squashed(struct nfs_ucred *cred,
+++					const struct exportent *ep)
+++{
+++	cred->uid = ep->e_anonuid;
+++	cred->gid = ep->e_anongid;
+++	nfs_ucred_init_groups(cred, NULL, 0);
+++	return 0;
+++}
+++
+++static int nfs_ucred_init_cred(struct nfs_ucred *cred, uid_t uid, gid_t gid,
+++			       const gid_t *groups, int ngroups,
+++			       const struct exportent *ep)
+++{
+++	if (ep->e_flags & NFSEXP_ALLSQUASH) {
+++		nfs_ucred_init_cred_squashed(cred, ep);
+++	} else if (ep->e_flags & NFSEXP_ROOTSQUASH && uid == 0) {
+++		nfs_ucred_init_cred_squashed(cred, ep);
+++		if (gid != 0)
+++			cred->gid = gid;
+++	} else {
+++		int ret = nfs_ucred_copy_cred(cred, uid, gid, groups, ngroups);
+++		if (ret != 0)
+++			return ret;
+++		nfs_ucred_squash_groups(cred, ep);
+++	}
+++	return 0;
+++}
+++
+++static int nfs_ucred_init_null(struct nfs_ucred *cred,
+++			       const struct exportent *ep)
+++{
+++	return nfs_ucred_init_cred_squashed(cred, ep);
+++}
+++
+++static int nfs_ucred_init_unix(struct nfs_ucred *cred, struct svc_req *rqst,
+++			       const struct exportent *ep)
+++{
+++	struct authunix_parms *aup;
+++
+++	aup = (struct authunix_parms *)rqst->rq_clntcred;
+++	return nfs_ucred_init_cred(cred, aup->aup_uid, aup->aup_gid,
+++				   aup->aup_gids, aup->aup_len, ep);
+++}
+++
+++#ifdef HAVE_TIRPC_GSS_GETCRED
+++static int nfs_ucred_init_gss(struct nfs_ucred *cred, struct svc_req *rqst,
+++			      const struct exportent *ep)
+++{
+++	rpc_gss_ucred_t *gss_ucred = NULL;
+++
+++	if (!rpc_gss_getcred(rqst, NULL, &gss_ucred, NULL) || gss_ucred == NULL)
+++		return EINVAL;
+++	return nfs_ucred_init_cred(cred, gss_ucred->uid, gss_ucred->gid,
+++				   gss_ucred->gidlist, gss_ucred->gidlen, ep);
+++}
+++#endif /* HAVE_TIRPC_GSS_GETCRED */
+++
+++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
+++int authdes_getucred(struct authdes_cred *adc, uid_t *uid, gid_t *gid,
+++		     int *grouplen, gid_t *groups);
+++
+++static int nfs_ucred_init_des(struct nfs_ucred *cred, struct svc_req *rqst,
+++			      const struct exportent *ep)
+++{
+++	struct authdes_cred *des_cred;
+++	uid_t uid;
+++	gid_t gid;
+++	int grouplen;
+++	gid_t groups[NGROUPS];
+++
+++	des_cred = (struct authdes_cred *)rqst->rq_clntcred;
+++	if (!authdes_getucred(des_cred, &uid, &gid, &grouplen, &groups[0]))
+++		return EINVAL;
+++	return nfs_ucred_init_cred(cred, uid, gid, groups, grouplen, ep);
+++}
+++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
+++
+++int nfs_ucred_get(struct nfs_ucred **credp, struct svc_req *rqst,
+++		  const struct exportent *ep)
+++{
+++	struct nfs_ucred *cred = malloc(sizeof(*cred));
+++	int ret;
+++
+++	*credp = NULL;
+++	if (cred == NULL)
+++		return ENOMEM;
+++	switch (rqst->rq_cred.oa_flavor) {
+++	case AUTH_UNIX:
+++		ret = nfs_ucred_init_unix(cred, rqst, ep);
+++		break;
+++#ifdef HAVE_TIRPC_GSS_GETCRED
+++	case RPCSEC_GSS:
+++		ret = nfs_ucred_init_gss(cred, rqst, ep);
+++		break;
+++#endif /* HAVE_TIRPC_GSS_GETCRED */
+++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
+++	case AUTH_DES:
+++		ret = nfs_ucred_init_des(cred, rqst, ep);
+++		break;
+++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
+++	default:
+++		ret = nfs_ucred_init_null(cred, ep);
+++		break;
+++	}
+++	if (ret == 0) {
+++		*credp = cred;
+++		return 0;
+++	}
+++	free(cred);
+++	return ret;
+++}
++-- 
++2.35.6
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
+new file mode 100644
+index 00000000000..23e18ffdab4
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
+@@ -0,0 +1,254 @@
++From 6dc289e68d8432eb4fc4f397fed28435bf600bb1 Mon Sep 17 00:00:00 2001
++From: Trond Myklebust <trond.myklebust@hammerspace.com>
++Date: Thu, 5 Mar 2026 10:41:02 -0500
++Subject: [PATCH 4/4] Fix access checks when mounting subdirectories in NFSv3
++
++If a NFSv3 client asks to mount a subdirectory of one of the exported
++directories, then apply the RPC credential together with any root
++or all squash rules that would apply to the client in question.
++
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=f36bd900a899088ca1925de079bd58d6205a1f3c]
++
++Reviewed-by: Jeff Layton <jlayton@kernel.org>
++Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
++Signed-off-by: Scott Mayhew <smayhew@redhat.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit f36bd900a899088ca1925de079bd58d6205a1f3c)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ nfs.conf                    |  1 +
++ support/include/nfsd_path.h |  9 ++++++++-
++ support/misc/nfsd_path.c    | 32 ++++++++++++++++++++++++++++++--
++ utils/mountd/mountd.c       | 28 ++++++++++++++++++++++++++--
++ utils/mountd/mountd.man     | 26 ++++++++++++++++++++++++++
++ 5 files changed, 91 insertions(+), 5 deletions(-)
++
++diff --git a/nfs.conf b/nfs.conf
++index 3cca68c3..ddf0c143 100644
++--- a/nfs.conf
+++++ b/nfs.conf
++@@ -46,6 +46,7 @@
++ # ttl=1800
++ [mountd]
++ # debug="all|auth|call|general|parse"
+++# apply-root-cred=n
++ # manage-gids=n
++ # descriptors=0
++ # port=0
++diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
++index 3e5a2f5d..06c0f2f4 100644
++--- a/support/include/nfsd_path.h
+++++ b/support/include/nfsd_path.h
++@@ -9,6 +9,7 @@
++ struct file_handle;
++ struct statfs;
++ struct nfsd_task_t;
+++struct nfs_ucred;
++ 
++ void 		nfsd_path_init(void);
++ 
++@@ -18,7 +19,8 @@ char *		nfsd_path_prepend_dir(const char *dir, const char *pathname);
++ 
++ int 		nfsd_path_stat(const char *pathname, struct stat *statbuf);
++ int 		nfsd_path_lstat(const char *pathname, struct stat *statbuf);
++-int		nfsd_openat(int dirfd, const char *path, int flags);
+++int		nfsd_cred_openat(const struct nfs_ucred *cred, int dirfd,
+++				 const char *path, int flags);
++ 
++ int		nfsd_path_statfs(const char *pathname,
++ 				   struct statfs *statbuf);
++@@ -31,4 +33,9 @@ ssize_t		nfsd_path_write(int fd, void* buf, size_t len);
++ int		nfsd_name_to_handle_at(int fd, const char *path,
++ 				       struct file_handle *fh,
++ 				       int *mount_id, int flags);
+++
+++static inline int nfsd_openat(int dirfd, const char *path, int flags)
+++{
+++	return nfsd_cred_openat(NULL, dirfd, path, flags);
+++}
++ #endif
++diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
++index dfe88e4f..6466666d 100644
++--- a/support/misc/nfsd_path.c
+++++ b/support/misc/nfsd_path.c
++@@ -17,6 +17,7 @@
++ #include "xstat.h"
++ #include "nfslib.h"
++ #include "nfsd_path.h"
+++#include "nfs_ucred.h"
++ #include "workqueue.h"
++ 
++ static struct xthread_workqueue *nfsd_wq = NULL;
++@@ -204,6 +205,7 @@ nfsd_realpath(const char *path, char *resolved_buf)
++ }
++ 
++ struct nfsd_openat_t {
+++	const struct nfs_ucred *cred;
++ 	const char *path;
++ 	int dirfd;
++ 	int flags;
++@@ -220,15 +222,41 @@ static void nfsd_openatfunc(void *data)
++ 		d->res_error = errno;
++ }
++ 
++-int nfsd_openat(int dirfd, const char *path, int flags)
+++static void nfsd_cred_openatfunc(void *data)
+++{
+++	struct nfsd_openat_t *d = data;
+++	struct nfs_ucred *saved = NULL;
+++	int ret;
+++
+++	ret = nfs_ucred_swap_effective(d->cred, &saved);
+++	if (ret != 0) {
+++		d->res_fd = -1;
+++		d->res_error = ret;
+++		return;
+++	}
+++
+++	nfsd_openatfunc(data);
+++
+++	if (saved != NULL) {
+++		nfs_ucred_swap_effective(saved, NULL);
+++		nfs_ucred_free(saved);
+++	}
+++}
+++
+++int nfsd_cred_openat(const struct nfs_ucred *cred, int dirfd, const char *path,
+++		     int flags)
++ {
++ 	struct nfsd_openat_t open_buf = {
+++		.cred = cred,
++ 		.path = path,
++ 		.dirfd = dirfd,
++ 		.flags = flags,
++ 	};
++ 
++-	nfsd_run_task(nfsd_openatfunc, &open_buf);
+++	if (cred)
+++		nfsd_run_task(nfsd_cred_openatfunc, &open_buf);
+++	else
+++		nfsd_run_task(nfsd_openatfunc, &open_buf);
++ 	if (open_buf.res_fd == -1)
++ 		errno = open_buf.res_error;
++ 	return open_buf.res_fd;
++diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
++index f43ebef5..6e6777cd 100644
++--- a/utils/mountd/mountd.c
+++++ b/utils/mountd/mountd.c
++@@ -31,6 +31,7 @@
++ #include "nfsd_path.h"
++ #include "nfslib.h"
++ #include "export.h"
+++#include "nfs_ucred.h"
++ 
++ extern void my_svc_run(void);
++ 
++@@ -40,6 +41,7 @@ static struct nfs_fh_len *get_rootfh(struct svc_req *, dirpath *, nfs_export **,
++ 
++ int reverse_resolve = 0;
++ int manage_gids;
+++int apply_root_cred;
++ int use_ipaddr = -1;
++ 
++ /* PRC: a high-availability callout program can be specified with -H
++@@ -74,9 +76,10 @@ static struct option longopts[] =
++ 	{ "log-auth", 0, 0, 'l'},
++ 	{ "cache-use-ipaddr", 0, 0, 'i'},
++ 	{ "ttl", 1, 0, 'T'},
+++	{ "apply-root-cred", 0, 0, 'c' },
++ 	{ NULL, 0, 0, 0 }
++ };
++-static char shortopts[] = "o:nFd:p:P:hH:N:V:vurs:t:gliT:";
+++static char shortopts[] = "o:nFd:p:P:hH:N:V:vurs:t:gliT:c";
++ 
++ #define NFSVERSBIT(vers)	(0x1 << (vers - 1))
++ #define NFSVERSBIT_ALL		(NFSVERSBIT(2) | NFSVERSBIT(3) | NFSVERSBIT(4))
++@@ -453,11 +456,27 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 	while (*subpath == '/')
++ 		subpath++;
++ 	if (*subpath != '\0') {
+++		struct nfs_ucred *cred = NULL;
++ 		int fd;
++ 
+++		/* Load the user cred */
+++		if (!apply_root_cred) {
+++			nfs_ucred_get(&cred, rqstp, &exp->m_export);
+++			if (cred == NULL) {
+++				xlog(L_WARNING, "can't retrieve credential");
+++				*error = MNT3ERR_ACCES;
+++				close(dirfd);
+++				return NULL;
+++			}
+++			if (manage_gids)
+++				nfs_ucred_reload_groups(cred, &exp->m_export);
+++		}
+++
++ 		/* Just perform a lookup of the path */
++-		fd = nfsd_openat(dirfd, subpath, O_PATH);
+++		fd = nfsd_cred_openat(cred, dirfd, subpath, O_PATH);
++ 		close(dirfd);
+++		if (cred)
+++			nfs_ucred_free(cred);
++ 		if (fd == -1) {
++ 			xlog(L_WARNING, "can't open exported dir %s: %s", p,
++ 			     strerror(errno));
++@@ -681,6 +700,8 @@ read_mountd_conf(char **argv)
++ 	ttl = conf_get_num("mountd", "ttl", default_ttl);
++ 	if (ttl > 0)
++ 		default_ttl = ttl;
+++	apply_root_cred = conf_get_bool("mountd", "apply-root-cred",
+++					apply_root_cred);
++ }
++ 
++ int
++@@ -794,6 +815,9 @@ main(int argc, char **argv)
++ 			}
++ 			default_ttl = ttl;
++ 			break;
+++		case 'c':
+++			apply_root_cred = 1;
+++			break;
++ 		case 0:
++ 			break;
++ 		case '?':
++diff --git a/utils/mountd/mountd.man b/utils/mountd/mountd.man
++index a206a3e2..f4f1fc23 100644
++--- a/utils/mountd/mountd.man
+++++ b/utils/mountd/mountd.man
++@@ -242,6 +242,32 @@ can support both NFS version 2 and the newer version 3.
++ Print the version of
++ .B rpc.mountd
++ and exit.
+++.TP
+++.B \-c " or " \-\-apply-root-cred
+++When mountd is asked to allow a NFSv3 mount to a subdirectory of the
+++exported directory, then it will check if the user asking to mount has
+++lookup rights to the directories below that exported directory. When
+++performing the check, mountd will apply any root squash or all squash
+++rules that were specified for that client.
+++
+++Performing lookup checks as the user requires that the mountd daemon
+++be run as root or that it be given CAP_SETUID and CAP_SETGID privileges
+++so that it can change its own effective user and effective group settings.
+++When troubleshooting, please also note that LSM frameworks such as SELinux
+++can sometimes prevent the daemon from changing the effective user/groups
+++despite the capability settings.
+++
+++In earlier versions of mountd, the same checks were performed using the
+++mountd daemon's root privileges, meaning that it could authorise access
+++to directories that are not normally accessible to the user requesting
+++to mount them. This option enables that legacy behaviour.
+++
+++.BR Note:
+++If there is a need to provide access to specific subdirectories that
+++are not normally accessible to a client, it is always possible to add
+++export entries that explicitly grant such access. That ability does
+++not depend on this option being enabled.
+++
++ .TP
++ .B \-g " or " \-\-manage-gids
++ Accept requests from the kernel to map user id numbers into  lists of
++-- 
++2.35.6
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.4.bb
+index 08e7dd89003..04f65fdff38 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.4.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.4.bb
+@@ -24,6 +24,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
+            file://0004-Use-nogroup-for-nobody-group.patch \
+            file://0005-find-OE-provided-Kerberos.patch \
++           file://CVE-2025-12801-dependent_p1.patch \
++           file://CVE-2025-12801-dependent_p2.patch \
++           file://CVE-2025-12801-dependent_p3.patch \
++           file://CVE-2025-12801.patch \
             "
- SRC_URI:append:class-target = " file://run-ptest \
-                                 file://0001-test-c32ispunct-Check-for-musl-along-with-glibc.patch \
-diff --git a/meta/recipes-devtools/m4/m4/0001-string-h-wchar-h-Fix-some-g-Wsystem-headers-warnings.patch b/meta/recipes-devtools/m4/m4/0001-string-h-wchar-h-Fix-some-g-Wsystem-headers-warnings.patch
-new file mode 100644
-index 00000000000..63495a8443e
---- /dev/null
-+++ b/meta/recipes-devtools/m4/m4/0001-string-h-wchar-h-Fix-some-g-Wsystem-headers-warnings.patch
-@@ -0,0 +1,135 @@
-+From a9ff1a1ea55bee12751c751460a0102493fa65aa Mon Sep 17 00:00:00 2001
-+From: Bruno Haible <bruno@clisp.org>
-+Date: Mon, 12 May 2025 03:05:51 +0200
-+Subject: [PATCH] string-h, wchar-h: Fix some g++ -Wsystem-headers warnings.
-+
-+* lib/string.in.h (memcpy, memccpy, memmove, strncpy, strndup, strncat,
-+memcmp, strncmp, memset): On glibc systems, declare with
-+_GL_ATTRIBUTE_NOTHROW.
-+* lib/wchar.in.h (wmemcpy, wmemmove, wcsncpy, wcsncat, wmemcmp, wcsncmp,
-+wmemset): Likewise.
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gnulib.git/commit/?id=0614c2db34f65c595d85be4adc5628778905855a]
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ lib/string.in.h | 27 +++++++++++++++++++++++++++
-+ lib/wchar.in.h  | 21 +++++++++++++++++++++
-+ 2 files changed, 48 insertions(+)
-+
-+diff --git a/lib/string.in.h b/lib/string.in.h
-+index e764221..e3d94b7 100644
-+--- a/lib/string.in.h
-++++ b/lib/string.in.h
-+@@ -215,25 +215,49 @@ _GL_EXTERN_C void free (void *);
-+ /* Declarations for ISO C N3322.  */
-+ #if defined __GNUC__ && __GNUC__ >= 15 && !defined __clang__
-+ _GL_EXTERN_C void *memcpy (void *__dest, const void *__src, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C void *memccpy (void *__dest, const void *__src, int __c, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 4)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 4);
-+ _GL_EXTERN_C void *memmove (void *__dest, const void *__src, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C char *strncpy (char *__dest, const char *__src, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C char *strndup (const char *__s, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 2);
-+ _GL_EXTERN_C char *strncat (char *__dest, const char *__src, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ARG_NONNULL ((1)) _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C int memcmp (const void *__s1, const void *__s2, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C int strncmp (const char *__s1, const char *__s2, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ # ifndef __cplusplus
-+@@ -243,6 +267,9 @@ _GL_EXTERN_C void *memrchr (const void *__s, int __c, size_t __n)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-+ # endif
-+ _GL_EXTERN_C void *memset (void *__s, int __c, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-+ _GL_EXTERN_C void *memset_explicit (void *__s, int __c, size_t __n)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-+diff --git a/lib/wchar.in.h b/lib/wchar.in.h
-+index 8836ed1..a6c52eb 100644
-+--- a/lib/wchar.in.h
-++++ b/lib/wchar.in.h
-+@@ -281,20 +281,38 @@ _GL_EXTERN_C void free (void *);
-+ /* Declarations for ISO C N3322.  */
-+ #if defined __GNUC__ && __GNUC__ >= 15 && !defined __clang__
-+ _GL_EXTERN_C wchar_t *wmemcpy (wchar_t *__dest, const wchar_t *__src, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C wchar_t *wmemmove (wchar_t *__dest, const wchar_t *__src, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C wchar_t *wcsncpy (wchar_t *__dest, const wchar_t *__src, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C wchar_t *wcsncat (wchar_t *__dest, const wchar_t *__src, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ARG_NONNULL ((1)) _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C int wmemcmp (const wchar_t *__s1, const wchar_t *__s2, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ _GL_EXTERN_C int wcsncmp (const wchar_t *__s1, const wchar_t *__s2, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ # ifndef __cplusplus
-+@@ -302,6 +320,9 @@ _GL_EXTERN_C wchar_t *wmemchr (const wchar_t *__s, wchar_t __wc, size_t __n)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-+ # endif
-+ _GL_EXTERN_C wchar_t *wmemset (wchar_t *__s, wchar_t __wc, size_t __n)
-++# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++  _GL_ATTRIBUTE_NOTHROW
-++# endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-+ #endif
-+ 
-diff --git a/meta/recipes-devtools/m4/m4/0002-string-h-Fix-compilation-error-on-macOS-with-fortify.patch b/meta/recipes-devtools/m4/m4/0002-string-h-Fix-compilation-error-on-macOS-with-fortify.patch
-new file mode 100644
-index 00000000000..ef7117997b5
---- /dev/null
-+++ b/meta/recipes-devtools/m4/m4/0002-string-h-Fix-compilation-error-on-macOS-with-fortify.patch
-@@ -0,0 +1,126 @@
-+From 84b6bcb2c691796d87b47bfcf815409ca2b9e461 Mon Sep 17 00:00:00 2001
-+From: Bruno Haible <bruno@clisp.org>
-+Date: Thu, 10 Jul 2025 11:04:50 +0200
-+Subject: [PATCH] string-h: Fix compilation error on macOS with fortify.
-+
-+Reported by Pierre Ossman <ossman@cendio.se> at
-+<https://savannah.gnu.org/bugs/?67300>.
-+
-+* lib/string.in.h (memcpy etc.): Don't redeclare functions that are
-+declared as macros.
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gnulib.git/commit/?id=c44fe03b72687c9e913727724c29bdb49c1f86e3]
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ lib/string.in.h | 58 +++++++++++++++++++++++++++++++++----------------
-+ 1 file changed, 39 insertions(+), 19 deletions(-)
-+
-+diff --git a/lib/string.in.h b/lib/string.in.h
-+index e3d94b7..9a039c7 100644
-+--- a/lib/string.in.h
-++++ b/lib/string.in.h
-+@@ -214,65 +214,85 @@ _GL_EXTERN_C void free (void *);
-+ 
-+ /* Declarations for ISO C N3322.  */
-+ #if defined __GNUC__ && __GNUC__ >= 15 && !defined __clang__
-++# ifndef memcpy
-+ _GL_EXTERN_C void *memcpy (void *__dest, const void *__src, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-++# endif
-++# ifndef memccpy
-+ _GL_EXTERN_C void *memccpy (void *__dest, const void *__src, int __c, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 4)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 4);
-++# endif
-++# ifndef memmove
-+ _GL_EXTERN_C void *memmove (void *__dest, const void *__src, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-++# endif
-++# ifndef strncpy
-+ _GL_EXTERN_C char *strncpy (char *__dest, const char *__src, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-++# endif
-++# ifndef strndup
-+ _GL_EXTERN_C char *strndup (const char *__s, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 2);
-++# endif
-++# ifndef strncat
-+ _GL_EXTERN_C char *strncat (char *__dest, const char *__src, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ARG_NONNULL ((1)) _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-++# endif
-++# ifndef memcmp
-+ _GL_EXTERN_C int memcmp (const void *__s1, const void *__s2, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-++# endif
-++# ifndef strncmp
-+ _GL_EXTERN_C int strncmp (const char *__s1, const char *__s2, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+-# ifndef __cplusplus
-++# endif
-++# if !defined memchr && !defined __cplusplus
-+ _GL_EXTERN_C void *memchr (const void *__s, int __c, size_t __n)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-+ _GL_EXTERN_C void *memrchr (const void *__s, int __c, size_t __n)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-+ # endif
-++# ifndef memset
-+ _GL_EXTERN_C void *memset (void *__s, int __c, size_t __n)
-+-# if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-++#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
-+   _GL_ATTRIBUTE_NOTHROW
-+-# endif
-++#  endif
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-++# endif
-++# ifndef memset_explicit
-+ _GL_EXTERN_C void *memset_explicit (void *__s, int __c, size_t __n)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-++# endif
-+ #endif
-+ 
-+ 
-diff --git a/meta/recipes-devtools/m4/m4/0003-Port-to-C23-qualifier-generic-fns-like-strchr.patch b/meta/recipes-devtools/m4/m4/0003-Port-to-C23-qualifier-generic-fns-like-strchr.patch
-new file mode 100644
-index 00000000000..7d88e45fa58
---- /dev/null
-+++ b/meta/recipes-devtools/m4/m4/0003-Port-to-C23-qualifier-generic-fns-like-strchr.patch
-@@ -0,0 +1,194 @@
-+From 100cbc40da39dcdf259ebce2bd0f2b4889cf2204 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Sun, 23 Nov 2025 00:50:40 -0800
-+Subject: [PATCH] Port to C23 qualifier-generic fns like strchr
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+This ports Gnulib to strict C23 platforms that reject code
-+like ‘char *q = strchr (P, 'x');’ when P is a pointer to const,
-+because in C23 strchr is a qualifier-generic function so
-+strchr (P, 'x') returns char const *.
-+This patch does not attempt to do the following two things,
-+which might be useful in the future:
-+1. When compiling on non-C23 platforms, check user code for
-+portability to platforms that define qualifier-generic functions.
-+2. Port Gnulib to platforms that have qualifier-generic functions
-+not listed in the C23 standard, e.g., strchrnul.  I don’t know
-+of any such platforms.
-+* lib/argp-help.c (argp_doc):
-+* lib/c-strstr.c (c_strstr):
-+* lib/dfa.c (comsubs):
-+* lib/mbschr.c (mbschr):
-+* lib/mbspbrk.c (mbspbrk):
-+* lib/mbsrchr.c (mbsrchr):
-+* lib/memchr2.c (memchr2):
-+* lib/string-desc.c (_sd_index):
-+* tests/test-bsearch.c (lib_bsearch):
-+* tests/test-memchr.c (lib_memchr):
-+* tests/test-wmemchr.c (lib_wmemchr):
-+Port to C23, where functions like strchr are qualifier-generic.
-+* lib/c++defs.h (_GL_FUNCDECL_SYS_NAME): New macro.
-+* lib/c++defs.h (_GL_FUNCDECL_SYS):
-+* lib/stdlib.in.h (bsearch):
-+Use it, to prevent C23 names like strchr from acting like macros.
-+* lib/string.in.h (memchr, strchr, strpbrk, strrchr):
-+Do not #undef when GNULIB_POSIXCHECK is defined, as this could
-+cause conforming C23 code to fail to conform.  It’s not clear why
-+_GL_WARN_ON_USE_CXX; perhaps it was needed but isn’t any more?
-+But for now, limit the removal of #undef to these four functions
-+where #undeffing is clearly undesirable in C23.
-+* lib/wchar.in.h (wmemchr): Parenthesize function name in decl,
-+to prevent it from acting like a macro.
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gnulib.git/commit/?id=df17f4f37ed3ca373d23ad42eae51122bdb96626]
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ lib/c++defs.h   | 12 +++++++++++-
-+ lib/memchr2.c   |  2 +-
-+ lib/stdlib.in.h |  6 +++---
-+ lib/string.in.h |  4 ----
-+ lib/wchar.in.h  |  2 +-
-+ tests/c++defs.h | 12 +++++++++++-
-+ 6 files changed, 27 insertions(+), 11 deletions(-)
-+
-+diff --git a/lib/c++defs.h b/lib/c++defs.h
-+index df98a5a..d3dfabd 100644
-+--- a/lib/c++defs.h
-++++ b/lib/c++defs.h
-+@@ -127,6 +127,16 @@
-+ #define _GL_FUNCDECL_RPL_1(rpl_func,rettype,parameters,...) \
-+   _GL_EXTERN_C_FUNC __VA_ARGS__ rettype rpl_func parameters
-+ 
-++/* _GL_FUNCDECL_SYS_NAME (func) expands to plain func if C++, and to
-++   parenthsized func otherwise.  Parenthesization is needed in C23 if
-++   the function is like strchr and so is a qualifier-generic macro
-++   that expands to something more complicated.  */
-++#ifdef __cplusplus
-++# define _GL_FUNCDECL_SYS_NAME(func) func
-++#else
-++# define _GL_FUNCDECL_SYS_NAME(func) (func)
-++#endif
-++
-+ /* _GL_FUNCDECL_SYS (func, rettype, parameters, [attributes]);
-+    declares the system function, named func, with the given prototype,
-+    consisting of return type, parameters, and attributes.
-+@@ -139,7 +149,7 @@
-+      _GL_FUNCDECL_SYS (posix_openpt, int, (int flags), _GL_ATTRIBUTE_NODISCARD);
-+  */
-+ #define _GL_FUNCDECL_SYS(func,rettype,parameters,...) \
-+-  _GL_EXTERN_C_FUNC __VA_ARGS__ rettype func parameters
-++  _GL_EXTERN_C_FUNC __VA_ARGS__ rettype _GL_FUNCDECL_SYS_NAME (func) parameters
-+ 
-+ /* _GL_CXXALIAS_RPL (func, rettype, parameters);
-+    declares a C++ alias called GNULIB_NAMESPACE::func
-+diff --git a/lib/memchr2.c b/lib/memchr2.c
-+index 7493823..d7724ae 100644
-+--- a/lib/memchr2.c
-++++ b/lib/memchr2.c
-+@@ -55,7 +55,7 @@ memchr2 (void const *s, int c1_in, int c2_in, size_t n)
-+   c2 = (unsigned char) c2_in;
-+ 
-+   if (c1 == c2)
-+-    return memchr (s, c1, n);
-++    return (void *) memchr (s, c1, n);
-+ 
-+   /* Handle the first few bytes by reading one byte at a time.
-+      Do this until VOID_PTR is aligned on a longword boundary.  */
-+diff --git a/lib/stdlib.in.h b/lib/stdlib.in.h
-+index 1342db4..3548d6e 100644
-+--- a/lib/stdlib.in.h
-++++ b/lib/stdlib.in.h
-+@@ -237,9 +237,9 @@ _GL_INLINE_HEADER_BEGIN
-+ 
-+ /* Declarations for ISO C N3322.  */
-+ #if defined __GNUC__ && __GNUC__ >= 15 && !defined __clang__
-+-_GL_EXTERN_C void *bsearch (const void *__key,
-+-                            const void *__base, size_t __nmemb, size_t __size,
-+-                            int (*__compare) (const void *, const void *))
-++_GL_EXTERN_C void *_GL_FUNCDECL_SYS_NAME (bsearch)
-++  (const void *__key, const void *__base, size_t __nmemb, size_t __size,
-++   int (*__compare) (const void *, const void *))
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3) _GL_ARG_NONNULL ((5));
-+ _GL_EXTERN_C void qsort (void *__base, size_t __nmemb, size_t __size,
-+                          int (*__compare) (const void *, const void *))
-+diff --git a/lib/string.in.h b/lib/string.in.h
-+index 9a039c7..bc44f81 100644
-+--- a/lib/string.in.h
-++++ b/lib/string.in.h
-+@@ -403,7 +403,6 @@ _GL_CXXALIASWARN1 (memchr, void const *,
-+ _GL_CXXALIASWARN (memchr);
-+ # endif
-+ #elif defined GNULIB_POSIXCHECK
-+-# undef memchr
-+ /* Assume memchr is always declared.  */
-+ _GL_WARN_ON_USE (memchr, "memchr has platform-specific bugs - "
-+                  "use gnulib module memchr for portability" );
-+@@ -653,7 +652,6 @@ _GL_WARN_ON_USE (stpncpy, "stpncpy is unportable - "
-+ #if defined GNULIB_POSIXCHECK
-+ /* strchr() does not work with multibyte strings if the locale encoding is
-+    GB18030 and the character to be searched is a digit.  */
-+-# undef strchr
-+ /* Assume strchr is always declared.  */
-+ _GL_WARN_ON_USE_CXX (strchr,
-+                      const char *, char *, (const char *, int),
-+@@ -945,7 +943,6 @@ _GL_CXXALIASWARN (strpbrk);
-+    Even in this simple case, it does not work with multibyte strings if the
-+    locale encoding is GB18030 and one of the characters to be searched is a
-+    digit.  */
-+-#  undef strpbrk
-+ _GL_WARN_ON_USE_CXX (strpbrk,
-+                      const char *, char *, (const char *, const char *),
-+                      "strpbrk cannot work correctly on character strings "
-+@@ -975,7 +972,6 @@ _GL_WARN_ON_USE (strspn, "strspn cannot work correctly on character strings "
-+ #if defined GNULIB_POSIXCHECK
-+ /* strrchr() does not work with multibyte strings if the locale encoding is
-+    GB18030 and the character to be searched is a digit.  */
-+-# undef strrchr
-+ /* Assume strrchr is always declared.  */
-+ _GL_WARN_ON_USE_CXX (strrchr,
-+                      const char *, char *, (const char *, int),
-+diff --git a/lib/wchar.in.h b/lib/wchar.in.h
-+index a6c52eb..b4de385 100644
-+--- a/lib/wchar.in.h
-++++ b/lib/wchar.in.h
-+@@ -316,7 +316,7 @@ _GL_EXTERN_C int wcsncmp (const wchar_t *__s1, const wchar_t *__s2, size_t __n)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (2, 3);
-+ # ifndef __cplusplus
-+-_GL_EXTERN_C wchar_t *wmemchr (const wchar_t *__s, wchar_t __wc, size_t __n)
-++_GL_EXTERN_C wchar_t *(wmemchr) (const wchar_t *__s, wchar_t __wc, size_t __n)
-+   _GL_ATTRIBUTE_NONNULL_IF_NONZERO (1, 3);
-+ # endif
-+ _GL_EXTERN_C wchar_t *wmemset (wchar_t *__s, wchar_t __wc, size_t __n)
-+diff --git a/tests/c++defs.h b/tests/c++defs.h
-+index df98a5a..d3dfabd 100644
-+--- a/tests/c++defs.h
-++++ b/tests/c++defs.h
-+@@ -127,6 +127,16 @@
-+ #define _GL_FUNCDECL_RPL_1(rpl_func,rettype,parameters,...) \
-+   _GL_EXTERN_C_FUNC __VA_ARGS__ rettype rpl_func parameters
-+ 
-++/* _GL_FUNCDECL_SYS_NAME (func) expands to plain func if C++, and to
-++   parenthsized func otherwise.  Parenthesization is needed in C23 if
-++   the function is like strchr and so is a qualifier-generic macro
-++   that expands to something more complicated.  */
-++#ifdef __cplusplus
-++# define _GL_FUNCDECL_SYS_NAME(func) func
-++#else
-++# define _GL_FUNCDECL_SYS_NAME(func) (func)
-++#endif
-++
-+ /* _GL_FUNCDECL_SYS (func, rettype, parameters, [attributes]);
-+    declares the system function, named func, with the given prototype,
-+    consisting of return type, parameters, and attributes.
-+@@ -139,7 +149,7 @@
-+      _GL_FUNCDECL_SYS (posix_openpt, int, (int flags), _GL_ATTRIBUTE_NODISCARD);
-+  */
-+ #define _GL_FUNCDECL_SYS(func,rettype,parameters,...) \
-+-  _GL_EXTERN_C_FUNC __VA_ARGS__ rettype func parameters
-++  _GL_EXTERN_C_FUNC __VA_ARGS__ rettype _GL_FUNCDECL_SYS_NAME (func) parameters
-+ 
-+ /* _GL_CXXALIAS_RPL (func, rettype, parameters);
-+    declares a C++ alias called GNULIB_NAMESPACE::func
+ 
+ SRC_URI[sha256sum] = "11c4cc598a434d7d340bad3e072a373ba1dcc2c49f855d44b202222b78ecdbf5"
 
