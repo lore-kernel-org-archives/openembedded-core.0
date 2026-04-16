@@ -1,86 +1,103 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEB5F8DFD0
-	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:25:54 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28388.1776378346283784895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE69CF8DFD4
+	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:33:04 +0000 (UTC)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28248.1776378780198097863
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 15:25:48 -0700
+ Thu, 16 Apr 2026 15:33:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=MwnZvhX/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260416222543defb8d72dc0002074d-n3myes@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260416222543defb8d72dc0002074d
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 17 Apr 2026 00:25:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=KncwWyZjiWoe2eVJbwETginXhxqtxNMCodN5eOVTDmU=;
- b=MwnZvhX/lAogFExL2YlMvE3rjRRUXPGFeZ9r/Mo9l9PWJKZ+YhUxGIg6JdfNOe9s/pOz90
- Aeeen9wY/ytwCrY/grmVHv0SJ8iYuyD78wjbLfvZPJp4uQPkdvqGLNp9k07ZKvJSQrjYAvFM
- vdsjaD80r911NQccdObwAMTDAexiFUxwrym1uFdtojAwvjf2vXGX20gxDpiNebnZNbTbiJxU
- gZYUVLDsOxQDf8giv0NI75UxgGNEORs8I9YrtIaN9ObmJZyPaEH1MOQADfgQa/ynQiunEFVN
- HMBY3HvGwIoY0AFEyZkebcWngqPbbDG0F+lKYQMmi6YE6phE3mt+KhIQ==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=1nN2TRgL;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-483487335c2so381595e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1776378778; x=1776983578; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jRCl0tVwqYErBK7HJ84GPbGXwrPXvclOxp+FY6afpe0=;
+        b=1nN2TRgLRQQVipJodHt1schsF7hp11JE4rMX0REpB99XQvFj6uiJ5doyxDRiKNnlvB
+         61CFJ8zfLG0Ws+WoIPmVDCY1/5zoIQL+iBevo2uze6H5Lb5Uc3Nmgoyap9zIwUHgDzii
+         JmmZysLuEVkBHZK3d1eGq33MjbUM13fulIXjQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776378778; x=1776983578;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jRCl0tVwqYErBK7HJ84GPbGXwrPXvclOxp+FY6afpe0=;
+        b=TcRRZMTGO3k4/KyFyfT6zTBQQ42ROXyKLTuhfKAwdH2pZnZA+R2WjWyZQfBCoRZz7Y
+         caZJ+JcGAqrP04hmG9CRBKVf/Mv3InFw6B85oMl7/uVpNsZuWLktF2MZkvUkgDISy6vW
+         0/pwp9kPCHg7WHAPJG39XRdKvJv+ROx6dJT1uZJuRNqzuNHIiZUQivXbTeEqSz7ingKK
+         /F1b1OXCQKemIzI/q2eGiBn7n2hJCNxujI7gpNj3CUtmwfu8MpLq0EdnobM6UfD1tUP8
+         xMGH5z+9a5osI+PFguiLtlObTchkE8cExsKDJNyNRbf0MtV4utXfvJbHaktLkDp//pj/
+         HtLg==
+X-Gm-Message-State: AOJu0YyfI4tizXgGKJBxh8w9yyOQIfEgvgrRtQU7uahFNLUGlFRp4GvS
+	Xs0WiKUUJajBz08HXeHQwGAlYsKF959qyHU+L05iEl7jkO7+GKhhe18AiJ5Fbw3U3CvFcVTyKBz
+	FMgiKIbtRg2Eu
+X-Gm-Gg: AeBDiet4Za866NRq0tn7rzjT2XLnv2a6Iza60mTQQRS5GYnyYcwpQ/0vQsdUKeEHeYq
+	gV2y9W3+KGbfjjavj0xE9QnWAbZQ51k+VZlRM8fGUrpD1ozSyPFrkKaH0lbvxCwVuZFOIH7VMyO
+	J7ll3TE/359rk6bhsbmQPNDX/R62wePFvV944mga0B+ZlGztXpWoW7/HoFgtS+O+SQwWbAjqk+V
+	6enuNm1036izuR7CoyjlOloYBOA7YoEOLXa3d+dQKu3rHem9hnx0uqUrLUb1gAAGMI7e07LkidL
+	OsDTM20x1Ma6pr4mt1gJ106jAAys+IKiyzmeaasQehHyEGbRvPm9EAl71daSgddnZ80m9LztG8O
+	02I/brgP/FoB2L5XMBWHZq7KulkhEormO/F67NHvTPwEJtmLmvXASF+4JJsZ7p5PJs+s4+YGbHD
+	B+JrcPm10FQpw7FySovVGwETpNGTzJuRFeT2r6CXkBnM+6lj3uTN782urJ1Li8yhSFUo7YxoQ/n
+	gtqq/QBWjTVraOkWH8KkKl1l0sToJpyRJNu2Q==
+X-Received: by 2002:a05:600c:8b38:b0:485:39b2:a47c with SMTP id 5b1f17b1804b1-488fb796fa0mr4702695e9.25.1776378778202;
+        Thu, 16 Apr 2026 15:32:58 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.32.57
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 15:32:57 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH 1/2] cve-exclusions: set status for 5 CVEs
-Date: Fri, 17 Apr 2026 00:25:25 +0200
-Message-ID: <20260416222526.1992249-1-peter.marko@siemens.com>
+Subject: [OE-core][whinlatter v2 01/51] binutils: mark CVE-2025-69650 and CVE-2025-69651 as disputed
+Date: Fri, 17 Apr 2026 00:29:44 +0200
+Message-ID: <8c5819cb2464d5dcc5c0812ae1d8c2f1e0db6866.1776377993.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1776377993.git.yoann.congal@smile.fr>
+References: <cover.1776377993.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:25:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235427
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:33:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235430
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-Reuse work of Debian researchers and set status for fixed CVEs
-accordingly.
+Both CVEs are disputed by third parties. The observed behavior
+(double free / invalid pointer free in readelf) only occurred in
+pre-release code and did not affect any tagged version [1][2].
 
-* https://security-tracker.debian.org/tracker/CVE-2023-53012
-  * 6.2-rc5
-* https://security-tracker.debian.org/tracker/CVE-2023-53187
-  * 6.5-rc3
-* https://security-tracker.debian.org/tracker/CVE-2024-49854
-  * 6.12-rc1
-* https://security-tracker.debian.org/tracker/CVE-2025-38656
-  * 6.17-rc1
-* https://security-tracker.debian.org/tracker/CVE-2025-68195
-  * 6.18-rc5
+CVE_STATUS[CVE-2025-69650] = "disputed: observed behavior only in pre-release code, does not affect any tagged version"
+CVE_STATUS[CVE-2025-69651] = "disputed: observed behavior only in pre-release code, does not affect any tagged version"
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+[1] https://www.cve.org/CVERecord?id=CVE-2025-69650
+[2] https://www.cve.org/CVERecord?id=CVE-2025-69651
+
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+(cherry picked from commit 9c6df56fe18237880c391798c2083dca595566f4)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-kernel/linux/cve-exclusion.inc | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/recipes-devtools/binutils/binutils-2.45.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-kernel/linux/cve-exclusion.inc
-index 7d68a9bbaa..f86c8c3e2c 100644
---- a/meta/recipes-kernel/linux/cve-exclusion.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -173,3 +173,18 @@ CVE_STATUS[CVE-2023-39180] = "fixed-version: Fixed from 6.5"
- # Fix https://git.kernel.org/linus/0849a5441358cef02586fb2d60f707c0db195628
- # Fix https://git.kernel.org/linus/9a1abc24850eb759e36a2f8869161c3b7254c904
- CVE_STATUS[CVE-2023-6535] = "fixed-version: Fixed from 6.8"
-+
-+# Fix https://git.kernel.org/linus/6c54b7bc8a31ce0f7cc7f8deef05067df414f1d8
-+CVE_STATUS[CVE-2023-53012] = "fixed-version: Fixed from 6.2"
-+
-+# Fix https://git.kernel.org/linus/0657b20c5a76c938612f8409735a8830d257866e
-+CVE_STATUS[CVE-2023-53187] = "fixed-version: Fixed from 6.5"
-+
-+# Fix https://git.kernel.org/linus/1ba0403ac6447f2d63914fb760c44a3b19c44eaf
-+CVE_STATUS[CVE-2024-49854] = "fixed-version: Fixed from 6.12"
-+
-+# Fix https://git.kernel.org/linus/cf80c02a9fdb6c5bc8508beb6a0f6a1294fc32f6
-+CVE_STATUS[CVE-2025-38656] = "fixed-version: Fixed from 6.17"
-+
-+# Fix https://git.kernel.org/linus/f1fdffe0afea02ba783acfe815b6a60e7180df40
-+CVE_STATUS[CVE-2025-68195] = "fixed-version: Fixed from 6.18"
+diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
+index 16a63cabc5b..5cd4d185ac1 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.45.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
+@@ -20,6 +20,8 @@ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+ 
+ CVE_STATUS[CVE-2025-7545] = "cpe-stable-backport: fix available in used git hash"
+ CVE_STATUS[CVE-2025-7546] = "cpe-stable-backport: fix available in used git hash"
++CVE_STATUS[CVE-2025-69650] = "disputed: observed behavior only in pre-release code, does not affect any tagged version"
++CVE_STATUS[CVE-2025-69651] = "disputed: observed behavior only in pre-release code, does not affect any tagged version"
+ 
+ SRCREV ?= "2f028c6bb163a045db95439fb92e1dcbc919413c"
+ BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=https"
 
