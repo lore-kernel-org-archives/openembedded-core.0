@@ -2,233 +2,230 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50052F8807F
-	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 06:48:32 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7579.1776322111257314787
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 563E0F8806B
+	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 06:48:42 +0000 (UTC)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7587.1776322120228954561
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 23:48:31 -0700
+ Wed, 15 Apr 2026 23:48:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KpX06+sL;
- spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488a29e6110so80098775e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 23:48:31 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=2le0kczn;
+ spf=pass (domain: smile.fr, ip: 209.85.221.67, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-43eb05b1875so434919f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 23:48:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776322109; x=1776926909; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776322118; x=1776926918; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r3uz/IBC8WoEl6OgkTCty9zioKhFMNZuwF2w6RxRGuE=;
-        b=KpX06+sLZSb670wsjj4RTY8PhaQuVozU42+u4DCupN6iXrNRur0T5Rlu+05YnO3xWC
-         CsUJ1TvNUsW6EdvilQqiB8afTV93q/pwc4vOwAsyulMy8KNk8ht3tsofylz8pohuy6hu
-         YZ8qFc7PRR9BHpyOG6wpteMlbhij42Aevlm40=
+        bh=dnyQthd4W5Spmw+L7gS3Gbq370V6fdiXpTS+X67Gxc4=;
+        b=2le0kcznU0aTyDX+GuKhW6a/muYIZz7KjvtRB9RXnSfeLPp7v4iJGFdZHsB4SCR6St
+         q1wUeBCz5UXqGITLcR49tesabZ5wy4iBL8ByR0rAe5/ze187ZA3RjeRvFK+OD2tw/bo9
+         o2/vGzlrF02G7ElZADGiryiti6WBEdHjIA9g8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776322109; x=1776926909;
+        d=1e100.net; s=20251104; t=1776322118; x=1776926918;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=r3uz/IBC8WoEl6OgkTCty9zioKhFMNZuwF2w6RxRGuE=;
-        b=P4hW9bEcNfPvKgr8OBYSIg0OhIVUATCQTTWdEN+v/ibcPaKzGaHuAjzlXKfYy+T1z8
-         f1djXNAmVWge06ca8p/k8WCvbbr0LoGemqrS/KRFanhjE7CMPvkyDzqjWA4idVeXd1tC
-         yLqFdKEPTtxo05RtQEajd/iDBCxkx0PxY/bTwMGAjpcxpP5ux3604k1Gb1ueBvDBLcAF
-         lYi32COAHUmVHZETniCB41llAF7QHJEV7m1fWb+CKe1pp2g6ogSzFGPMd8RKeMvXFGWQ
-         IHz0RiBS5ofQw7oMpjH+sn1oy3c+eCjBTW2CR+/XscWbOuuMMzBhjr7DyvDpVl1q6FwU
-         Utrg==
-X-Gm-Message-State: AOJu0YxBmR2Ufd3LCYP0ea4GxJgwelnHBVtTPYaWCL2QhAf/5k56APSe
-	RD4vs9mbE1brz0+x+V5EVYrjXLfiLXS4YqxBgUXJXQmYYn8hrXjZDM70+x0J9j0sIkyeBJENS6k
-	fETfdCLz1sPB7
-X-Gm-Gg: AeBDievDqSSZdx0r34trCYRwZOAeWtrBWOOhn8UdE1PDlsSosUugAAADw6IA0Ezrk4y
-	1AF6ioxLzdlcy5i15rtLjhVwo78PUR89ed9yiBEWBBhcdZcGd8+5MTu+w9gxL1wT6/B0AXnPn1t
-	bsLjX2b/da3iRaH1Dp0yi0hD0+vne65pRCsBnhDw9xNCIzeYs7S3v/0plzkZ3oJ2GL69D9fQKB7
-	hk+q8z01CwSOXY6HS4oRJdFTYr6GMFcS96pPekIkviuvtZEPwMiYRjVrnVipJcDcJ0PHxnoCUdF
-	ET2ENtdT2iLF9cgbJxSMOVbantYkxxSPUFAnP/mrhaWvCutRIh4qUonii4F1Wj6W6dBx6ZRmY+d
-	Y1cJYxIzhCuDC8r4anSAZk00TgVWjivA7iVw+oE/l6gqQupVvkcB/cQbfmBRASzbwdtWEtpX1jc
-	D71GDLVhuUK6k/NBbKCz9DwDsqDHJm/ayloX3aCY7Fpap/CtFvbGRcSSL3eeNkz4fiFxI/Gsstr
-	KjXD7IqAf4HdzN3TgfrSTONFXjuMru67O8tRg==
-X-Received: by 2002:a05:600c:474c:b0:485:35d3:ce59 with SMTP id 5b1f17b1804b1-488d68101edmr316629135e9.10.1776322109251;
-        Wed, 15 Apr 2026 23:48:29 -0700 (PDT)
+        bh=dnyQthd4W5Spmw+L7gS3Gbq370V6fdiXpTS+X67Gxc4=;
+        b=pOAQrM6ze9XHPm6llDwBCx+OfV4oWQmiO7LzJ91ARgGoCFVU96HsOAcmAWToAAKE2+
+         zqA1BE+JUCk8Z8djVl42jHm8TubUg/QKsgfQUFOdoZljpE+ejj85NaT+s+VKiXOg7843
+         tVqo45OjDPz+jEB90bwuEubpf0lC/e53lc6ClDr5XN4wcXiqBglJuT0lwck9SH1oNPU+
+         S6Y3YWSd8whaRkaYFh0pbTY515PVOsl5x++DPJQGGcfkl27QNsOsO3gg1iADdw/inYZl
+         W86NaI2ltzhaWKzFvb5mP0R7/QidQqni4GvYjcdxowndxaiWTpwxmeHlk45vRl8DszDF
+         kZkg==
+X-Gm-Message-State: AOJu0YzMjYKHiYQ+uZYZVm2i3pqwGe4Y7nTO4F4HMK5Loj7SGxr7/vcB
+	z1U9pG+PciVlvZosQEekS5mahcl1PywbVeM4i1uCH3lvYfZ4mlyy1Zyk2MG4FhnqqeCIj6WQmTw
+	8Ts8HjzkM6tpH
+X-Gm-Gg: AeBDieuQ98pERAFS9UOQWs/kUBhaKkZJtmF7VIsy0Au1WnEfD4ufX57JMIsEqQ58aPu
+	bFkqUL50h8AVF+FIvFfj4L9c+Hz6b/08f3Ly7XozL3wUkvvlDn8C1LcOke1UCG03XeRCLPWN2td
+	xaLCrXzDsRYMHuE7+ZcV+lOq3JvIJDFf8shH/vXjvu/tQYo/eY6gdAEXSVLq9YQFPXRyTbv2KYX
+	705ZLMeyJVzkjYpX8SdeoRVihgFfY8SUsv0TUNO5NivJQWwz2u5O7fPPXR7/FoECK6xXIg8F44H
+	uxydeUtpbPO4DINdlPyPBAzmE7BILs1x0rEeG+jd5l3Jn7PlEHedQgS42gooUByrsga45CWOLVo
+	Sbn3y7/X8Kg356s2xvgxYl7YpLfpgBS5/WI5joBWWhd/W57FAvf0XhKlUc54eim5oSBD8cYOcwq
+	8GZ438TCT1piAoXdBPrF77M/0SOpFniVGgGQDK+VN7JSFTkB6SCbSUEmpW/awrEwfiX2pxc1+yX
+	rRH0spqZyNoGBhh9TCHa/7MJVJceVM9KLRy/g==
+X-Received: by 2002:a05:6000:603:b0:43d:77ad:ebee with SMTP id ffacd0b85a97d-43d77adee92mr24583324f8f.9.1776322118275;
+        Wed, 15 Apr 2026 23:48:38 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3d5ea9sm11200017f8f.21.2026.04.15.23.48.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3d5ea9sm11200017f8f.21.2026.04.15.23.48.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 23:48:28 -0700 (PDT)
+        Wed, 15 Apr 2026 23:48:37 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 17/47] go: upgrade 1.25.8 -> 1.25.9
-Date: Thu, 16 Apr 2026 08:47:18 +0200
-Message-ID: <3be4eeea60a52b8694ae0688d794bb44991ae634.1776321810.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 31/47] ovmf: backport a fix for build with gcc-16
+Date: Thu, 16 Apr 2026 08:47:32 +0200
+Message-ID: <ca1f42f9dca8c068bf1df0d9d052329b4dc0d666.1776321810.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776321810.git.yoann.congal@smile.fr>
 References: <cover.1776321810.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 06:48:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235359
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 06:48:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235373
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Upgrade to latest 1.25.x release [1]:
+Fixes build on host with gcc-16:
 
-$ git --no-pager log --oneline go1.25.8..go1.25.9
-7076e01d9d (tag: go1.25.9) [release-branch.go1.25] go1.25.9
-abaa0cbb25 [release-branch.go1.25] cmd/go: disallow cgo trust boundary bypass
-02f574a830 [release-branch.go1.25] crypto/tls: prevent deadlock when client sends multiple key update messages
-82b0cdb741 [release-branch.go1.25] archive/tar: limit the number of old GNU sparse format entries
-7d2dd3488c [release-branch.go1.25] cmd/compile: fix loopbce overflow check logic
-72cc33629a [release-branch.go1.25] cmd/compile: fix mem access overlap detection
-3ed3169244 [release-branch.go1.25] html/template: properly track JS template literal brace depth across contexts
-4c79c4223e [release-branch.go1.25] internal/syscall/unix: properly support AT_SYMLINK_NOFOLLOW on Linux
-edc1e4a5f2 [release-branch.go1.25] crypto/x509: fix signature checking limit
-210b8112b1 [release-branch.go1.25] crypto/x509: hoist policy pruning out of loop
-93a4f03ed8 [release-branch.go1.25] runtime/race: apply LLVM zero-initialization fix
-cff64a5cf3 [release-branch.go1.25] cmd/go: tests: rename git-min-vers->git-sha256
-7301bd39d1 [release-branch.go1.25] cmd/go: skip git sha256 tests if git < 2.29
-f9532f001a [release-branch.go1.25] test/fixedbugs: remove issue46234 test timeout
-4f81fbf332 [release-branch.go1.25] doc: remove template use in godebug.md
-aed39507b1 [release-branch.go1.25] cmd/go/internal/cache: update trim timestamp before trimming
-9a6627a5db [release-branch.go1.25] crypto/x509: fix wildcard domain exclusions.
-19c660de6b [release-branch.go1.25] cmd/compile/internal/typecheck: simplify tcSliceHeader
-b02c84a684 [release-branch.go1.25] cmd/internal/testdir: pass -buildid to link command
-814b540c17 [release-branch.go1.25] cmd/internal/testdir: unify link command
-de86eaeb0f [release-branch.go1.25] cmd/cgo/internal/test: use (syntactic) constant for C array bound
+StringFuncs.c: In function =E2=80=98SplitStringByWhitespace=E2=80=99:
+StringFuncs.c:113:15: error: variable =E2=80=98Item=E2=80=99 set but not us=
+ed [-Werror=3Dunused-but-set-variable=3D]
+  113 |   UINTN       Item;
+      |               ^~~~
 
-Fixes CVE-2026-32282, CVE-2026-32289, CVE-2026-27144, CVE-2026-27143,
-      CVE-2026-32288, CVE-2026-32283, CVE-2026-27140, CVE-2026-32280 and
-      CVE-2026-32281.
+and
 
-Release information: [2]
+EfiRom.c: In function =E2=80=98main=E2=80=99:
+EfiRom.c:78:17: error: assignment discards =E2=80=98const=E2=80=99 qualifie=
+r from pointer target type [-Werror=3Ddiscarded-qualifiers]
+   78 |       if ((Ptr0 =3D strstr ((CONST CHAR8 *) mOptions.FileList->File=
+Name, DEFAULT_OUTPUT_EXTENSION)) !=3D NULL) {
+      |                 ^
 
-[1] https://github.com/golang/go/compare/go1.25.8...go1.25.9
-[2] https://groups.google.com/g/golang-announce/c/0uYbvbPZRWU
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/go/{go-1.25.8.inc => go-1.25.9.inc} | 2 +-
- ...binary-native_1.25.8.bb => go-binary-native_1.25.9.bb} | 6 +++---
- ...oss-canadian_1.25.8.bb => go-cross-canadian_1.25.9.bb} | 0
- .../go/{go-cross_1.25.8.bb => go-cross_1.25.9.bb}         | 0
- .../go/{go-crosssdk_1.25.8.bb => go-crosssdk_1.25.9.bb}   | 0
- .../go/{go-runtime_1.25.8.bb => go-runtime_1.25.9.bb}     | 0
- ...go-make-content-based-hash-generation-less-pedan.patch | 8 ++++----
- .../go/0006-cmd-go-make-GOROOT-precious-by-default.patch  | 2 +-
- meta/recipes-devtools/go/{go_1.25.8.bb => go_1.25.9.bb}   | 0
- 9 files changed, 9 insertions(+), 9 deletions(-)
- rename meta/recipes-devtools/go/{go-1.25.8.inc => go-1.25.9.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.8.bb => go-binary-native_1.25.9.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.25.8.bb => go-cross-canadian_1.25.9.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.25.8.bb => go-cross_1.25.9.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.25.8.bb => go-crosssdk_1.25.9.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.25.8.bb => go-runtime_1.25.9.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.25.8.bb => go_1.25.9.bb} (100%)
+ ...Tools-StringFuncs-fix-gcc-16-warning.patch | 42 ++++++++++++++++++
+ ...aseTools-EfiRom-fix-compiler-warning.patch | 44 +++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  2 +
+ 3 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-=
+fix-gcc-16-warning.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-c=
+ompiler-warning.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.25.8.inc b/meta/recipes-devtools/go/go-1.25.9.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.25.8.inc
-rename to meta/recipes-devtools/go/go-1.25.9.inc
-index 5db1b1c04cb..9a96f6f1704 100644
---- a/meta/recipes-devtools/go/go-1.25.8.inc
-+++ b/meta/recipes-devtools/go/go-1.25.9.inc
-@@ -18,4 +18,4 @@ SRC_URI += "\
-     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
-     file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch \
- "
--SRC_URI[main.sha256sum] = "e988d4a2446ac7fe3f6daa089a58e9936a52a381355adec1c8983230a8d6c59e"
-+SRC_URI[main.sha256sum] = "0ec9ef8ebcea097aac37decae9f09a7218b451cd96be7d6ed513d8e4bcf909cf"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.8.bb b/meta/recipes-devtools/go/go-binary-native_1.25.9.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.25.8.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.25.9.bb
-index df6cb542fb6..b11b822c946 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.25.8.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.25.9.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "ceb5e041bbc3893846bd1614d76cb4681c91dadee579426cf21a63f2d7e03be6"
--SRC_URI[go_linux_arm64.sha256sum] = "7d137f59f66bb93f40a6b2b11e713adc2a9d0c8d9ae581718e3fad19e5295dc7"
--SRC_URI[go_linux_ppc64le.sha256sum] = "28ed144a945e4d7188c93f8d85fb772a98ed18f8f9f8d3a650696b739f8cc57c"
-+SRC_URI[go_linux_amd64.sha256sum] = "00859d7bd6defe8bf84d9db9e57b9a4467b2887c18cd93ae7460e713db774bc1"
-+SRC_URI[go_linux_arm64.sha256sum] = "ec342e7389b7f489564ed5463c63b16cf8040023dabc7861256677165a8c0e2b"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "b0c41c7da1fc8d39020d65296a0dc54167afd9f76d67064e22c31ce3d839a739"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.25.8.bb b/meta/recipes-devtools/go/go-cross-canadian_1.25.9.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.25.8.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.25.9.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.25.8.bb b/meta/recipes-devtools/go/go-cross_1.25.9.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.25.8.bb
-rename to meta/recipes-devtools/go/go-cross_1.25.9.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.25.8.bb b/meta/recipes-devtools/go/go-crosssdk_1.25.9.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.25.8.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.25.9.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.25.8.bb b/meta/recipes-devtools/go/go-runtime_1.25.9.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.25.8.bb
-rename to meta/recipes-devtools/go/go-runtime_1.25.9.bb
-diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-index 6d75266cbe6..921e59c4a20 100644
---- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-+++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-@@ -109,7 +109,7 @@ index 7b073165d5..1f618be0bb 100644
-  	}
-  
-  	// Configuration specific to compiler toolchain.
--@@ -2639,8 +2641,25 @@ func envList(key, def string) []string {
-+@@ -2636,8 +2638,25 @@ func envList(key, def string) []string {
-  	return args
-  }
-  
-@@ -136,7 +136,7 @@ index 7b073165d5..1f618be0bb 100644
-  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
-  		return
-  	}
--@@ -2656,6 +2675,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
-+@@ -2653,6 +2672,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
-  	if ldflags, err = buildFlags("LDFLAGS", DefaultCFlags, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
-  		return
-  	}
-@@ -150,7 +150,7 @@ index 7b073165d5..1f618be0bb 100644
-  
-  	return
-  }
--@@ -2673,7 +2699,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
-+@@ -2670,7 +2696,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
-  	p := a.Package
-  	sh := b.Shell(a)
-  
-@@ -159,7 +159,7 @@ index 7b073165d5..1f618be0bb 100644
-  	if err != nil {
-  		return nil, nil, err
-  	}
--@@ -3237,7 +3263,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
-+@@ -3238,7 +3264,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
-  	p := a.Package
-  	sh := b.Shell(a)
-  
-diff --git a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
-index 15ffdb3cf38..4ac478be851 100644
---- a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
-+++ b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
-@@ -94,7 +94,7 @@ index 1f618be0bb..651fa64582 100644
-  	if err := sh.Mkdir(a.Objdir); err != nil {
-  		return err
-  	}
--@@ -1739,6 +1756,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
-+@@ -1736,6 +1753,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
-  		return err
-  	}
-  
-diff --git a/meta/recipes-devtools/go/go_1.25.8.bb b/meta/recipes-devtools/go/go_1.25.9.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.25.8.bb
-rename to meta/recipes-devtools/go/go_1.25.9.bb
+diff --git a/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-fix-gcc=
+-16-warning.patch b/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-=
+fix-gcc-16-warning.patch
+new file mode 100644
+index 00000000000..a465dede9c3
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-fix-gcc-16-war=
+ning.patch
+@@ -0,0 +1,42 @@
++From 015c26aea52a54e96319887ea542870b4804fb91 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Thu, 29 Jan 2026 09:23:32 +0100
++Subject: [PATCH] BaseTools/StringFuncs: fix gcc 16 warning
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++StringFuncs.c: In function =E2=80=98SplitStringByWhitespace=E2=80=99:
++StringFuncs.c:113:15: error: variable =E2=80=98Item=E2=80=99 set but not u=
+sed [-Werror=3Dunused-but-set-variable=3D]
++  113 |   UINTN       Item;
++      |               ^~~~
++
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport [edk2-stable202602 https://github.com/tianocore/=
+edk2/commit/3597306191297b504683b83fe7750e49c6a2e836]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ BaseTools/Source/C/Common/StringFuncs.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/BaseTools/Source/C/Common/StringFuncs.c b/BaseTools/Source/C/=
+Common/StringFuncs.c
++index 53e44365e9..df02d9c808 100644
++--- a/BaseTools/Source/C/Common/StringFuncs.c
+++++ b/BaseTools/Source/C/Common/StringFuncs.c
++@@ -110,7 +110,6 @@ SplitStringByWhitespace (
++   CHAR8       *EndOfSubString;=0D
++   CHAR8       *EndOfString;=0D
++   STRING_LIST *Output;=0D
++-  UINTN       Item;=0D
++ =0D
++   String =3D CloneString (String);=0D
++   if (String =3D=3D NULL) {=0D
++@@ -120,7 +119,7 @@ SplitStringByWhitespace (
++ =0D
++   Output =3D NewStringList ();=0D
++ =0D
++-  for (Pos =3D String, Item =3D 0; Pos < EndOfString; Item++) {=0D
+++  for (Pos =3D String; Pos < EndOfString;) {=0D
++     while (isspace ((int)*Pos)) {=0D
++       Pos++;=0D
++     }=0D
+diff --git a/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-compiler=
+-warning.patch b/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-comp=
+iler-warning.patch
+new file mode 100644
+index 00000000000..7aaafe6efbf
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-compiler-warnin=
+g.patch
+@@ -0,0 +1,44 @@
++From 4d2bdadcd6d45f6708b1b4827b0dc9b6e4b8edd2 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Mon, 8 Dec 2025 10:28:50 +0100
++Subject: [PATCH] BaseTools/EfiRom: fix compiler warning
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++New warning after updating gcc:
++
++EfiRom.c: In function =E2=80=98main=E2=80=99:
++EfiRom.c:78:17: error: assignment discards =E2=80=98const=E2=80=99 qualifi=
+er from pointer target type [-Werror=3Ddiscarded-qualifiers]
++
++The assigned value is not used, so fix the warning by just removing it.
++
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport [edk2-stable202602 https://github.com/tianocore/=
+edk2/commit/9af06ef3cbb052b142f9660c2c01e7aeb401300c]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ BaseTools/Source/C/EfiRom/EfiRom.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/BaseTools/Source/C/EfiRom/EfiRom.c b/BaseTools/Source/C/EfiRo=
+m/EfiRom.c
++index fa7bf0e62e..6e903b3504 100644
++--- a/BaseTools/Source/C/EfiRom/EfiRom.c
+++++ b/BaseTools/Source/C/EfiRom/EfiRom.c
++@@ -44,7 +44,6 @@ Returns:
++   FILE_LIST *FList;=0D
++   UINT32    TotalSize;=0D
++   UINT32    Size;=0D
++-  CHAR8     *Ptr0;=0D
++ =0D
++   SetUtilityName(UTILITY_NAME);=0D
++ =0D
++@@ -75,7 +74,7 @@ Returns:
++   //=0D
++   if (mOptions.DumpOption =3D=3D 1) {=0D
++     if (mOptions.FileList !=3D NULL) {=0D
++-      if ((Ptr0 =3D strstr ((CONST CHAR8 *) mOptions.FileList->FileName, =
+DEFAULT_OUTPUT_EXTENSION)) !=3D NULL) {=0D
+++      if (strstr ((CONST CHAR8 *) mOptions.FileList->FileName, DEFAULT_OU=
+TPUT_EXTENSION) !=3D NULL) {=0D
++         DumpImage (mOptions.FileList);=0D
++         goto BailOut;=0D
++       } else {=0D
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index 577310a6782..bf41bbbf6e9 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -25,6 +25,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+=3Dmaster;protocol=3Dhttps;ta
+            file://0002-BaseTools-makefile-adjust-to-build-in-under-bitbake=
+.patch \
+            file://0003-debug-prefix-map.patch \
+            file://0004-reproducible.patch \
++           file://0006-BaseTools-StringFuncs-fix-gcc-16-warning.patch \
++           file://0007-BaseTools-EfiRom-fix-compiler-warning.patch \
+            "
+=20
+ PV =3D "edk2-stable202508"
 
