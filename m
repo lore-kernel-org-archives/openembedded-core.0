@@ -2,230 +2,140 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 563E0F8806B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0ABF88069
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 06:48:42 +0000 (UTC)
 Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7587.1776322120228954561
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7585.1776322119011047567
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2026 23:48:40 -0700
+ Wed, 15 Apr 2026 23:48:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2le0kczn;
+ dkim=pass header.i=@smile.fr header.s=google header.b=0jgiuYRw;
  spf=pass (domain: smile.fr, ip: 209.85.221.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-43eb05b1875so434919f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 23:48:40 -0700 (PDT)
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-43cf7683a28so5119549f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 23:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776322118; x=1776926918; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776322117; x=1776926917; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dnyQthd4W5Spmw+L7gS3Gbq370V6fdiXpTS+X67Gxc4=;
-        b=2le0kcznU0aTyDX+GuKhW6a/muYIZz7KjvtRB9RXnSfeLPp7v4iJGFdZHsB4SCR6St
-         q1wUeBCz5UXqGITLcR49tesabZ5wy4iBL8ByR0rAe5/ze187ZA3RjeRvFK+OD2tw/bo9
-         o2/vGzlrF02G7ElZADGiryiti6WBEdHjIA9g8=
+        bh=kK7I/Dj6jEptH08CVaYYpmC8ZWnGsKlnT4Wcpctu+Ww=;
+        b=0jgiuYRwGVMy8zrjNlsZLKCsv2otxDgOycuLh35DPvcXMqWOvWYk9sgYPvmngOJgAr
+         6/Pa0cb2A/0RpO2WtAOjKZBv7BI7GMnBXnBr4jVXCtbToXLj8yfLkvVuXQ4NeltibL6L
+         SZFRrWtml2tgEHne70L0yjACTj16+eHDGpnDY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776322118; x=1776926918;
+        d=1e100.net; s=20251104; t=1776322117; x=1776926917;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dnyQthd4W5Spmw+L7gS3Gbq370V6fdiXpTS+X67Gxc4=;
-        b=pOAQrM6ze9XHPm6llDwBCx+OfV4oWQmiO7LzJ91ARgGoCFVU96HsOAcmAWToAAKE2+
-         zqA1BE+JUCk8Z8djVl42jHm8TubUg/QKsgfQUFOdoZljpE+ejj85NaT+s+VKiXOg7843
-         tVqo45OjDPz+jEB90bwuEubpf0lC/e53lc6ClDr5XN4wcXiqBglJuT0lwck9SH1oNPU+
-         S6Y3YWSd8whaRkaYFh0pbTY515PVOsl5x++DPJQGGcfkl27QNsOsO3gg1iADdw/inYZl
-         W86NaI2ltzhaWKzFvb5mP0R7/QidQqni4GvYjcdxowndxaiWTpwxmeHlk45vRl8DszDF
-         kZkg==
-X-Gm-Message-State: AOJu0YzMjYKHiYQ+uZYZVm2i3pqwGe4Y7nTO4F4HMK5Loj7SGxr7/vcB
-	z1U9pG+PciVlvZosQEekS5mahcl1PywbVeM4i1uCH3lvYfZ4mlyy1Zyk2MG4FhnqqeCIj6WQmTw
-	8Ts8HjzkM6tpH
-X-Gm-Gg: AeBDieuQ98pERAFS9UOQWs/kUBhaKkZJtmF7VIsy0Au1WnEfD4ufX57JMIsEqQ58aPu
-	bFkqUL50h8AVF+FIvFfj4L9c+Hz6b/08f3Ly7XozL3wUkvvlDn8C1LcOke1UCG03XeRCLPWN2td
-	xaLCrXzDsRYMHuE7+ZcV+lOq3JvIJDFf8shH/vXjvu/tQYo/eY6gdAEXSVLq9YQFPXRyTbv2KYX
-	705ZLMeyJVzkjYpX8SdeoRVihgFfY8SUsv0TUNO5NivJQWwz2u5O7fPPXR7/FoECK6xXIg8F44H
-	uxydeUtpbPO4DINdlPyPBAzmE7BILs1x0rEeG+jd5l3Jn7PlEHedQgS42gooUByrsga45CWOLVo
-	Sbn3y7/X8Kg356s2xvgxYl7YpLfpgBS5/WI5joBWWhd/W57FAvf0XhKlUc54eim5oSBD8cYOcwq
-	8GZ438TCT1piAoXdBPrF77M/0SOpFniVGgGQDK+VN7JSFTkB6SCbSUEmpW/awrEwfiX2pxc1+yX
-	rRH0spqZyNoGBhh9TCHa/7MJVJceVM9KLRy/g==
-X-Received: by 2002:a05:6000:603:b0:43d:77ad:ebee with SMTP id ffacd0b85a97d-43d77adee92mr24583324f8f.9.1776322118275;
-        Wed, 15 Apr 2026 23:48:38 -0700 (PDT)
+        bh=kK7I/Dj6jEptH08CVaYYpmC8ZWnGsKlnT4Wcpctu+Ww=;
+        b=pWnFfjdDolVcISUp7NKJQLpHd/LYLPY+kg4b6z+PSieR/hFg8HVfQiQiu6RTWXBFAx
+         VqbPkp1XORc4grTrR2B0uoe/KixEXmeWUI54qTY/IKZQqkRBvOMingfNT1KX01wFYzpR
+         vM2vNc/rFmJeLkKMU/oll+MkvSDfLEUZzpYrbjGVhqPMUVIIXeEyyHOvIi98HftswGQg
+         XYK1PCyXAO0TIQBKnvosFPuAlS8rmVurn4GBXwv7154boWrkJmUb1iQzRNtKJn4/9Eej
+         e+cw0MmokNEcpRbwEP4Tc2tEio6shJwsHye5xMMZoenpK9kK61XdJIIEbakaIHRpwB9X
+         7FWA==
+X-Gm-Message-State: AOJu0Yyf1SiZck539ydO4xDNJrNZYM9cqVqVkXK6FF814W4HAPKGMDz4
+	+NOJon3wp3fE0yIQvaxCzfrHx6J5xlFwdsvI5rZv15uvzoiS0oIP+bYBE0d01Qw4H2gtYGQ27tq
+	OjSAJUNQniEYi
+X-Gm-Gg: AeBDievH2zboYKC2O7VJM35TofJa0Bf3IRgSTv0UqLBWOh0TauiNie3ExHEebK1Q3aX
+	O4xyM7VXsHiUSvzbqA2uFPj3kpGDkLKsT9+1QYVFya8hbOO4UAAHnQ7fcGig4qBma/LqyY3/Mjb
+	YQTieKS5DPOApJysVKlsLLTLH8H/Jv4uX1Dzmmp21hBZleh6KIvlFNhEBzyUkSuvqBRqFUcbjRN
+	pegYesm+RTS8AHFuMkIngo3o831bUa1j5BhwPnMz7SqMav6VYr4imzEH7tTEwRfEKt7ShgAhQRu
+	OxXa6QBSLrflApcACBVQ0PxpuMApWwdrURY8ZtJ708EujWA7KWwkaSCkW60WkplwQc2gPnHPvIF
+	C3dRGZZDjI141FkFUDIfJ6YMkeejXqNRa2vcckQXX0VL97BTzVO4fF769BZ6Gb3AAisU7NFfRES
+	uA+hv09KJ6bAUdNTPqCduxzJ0ZqhFDTPOXhctkKe4cUWQHUl5yalH8v+0qRVrDFe+aA+p1wLqBU
+	Jy7N1C0ViA6wxouo7G1RZ2u++/JyU27dhOjmg==
+X-Received: by 2002:a05:6000:2211:b0:43d:1deb:a5df with SMTP id ffacd0b85a97d-43d641eb44cmr37394367f8f.0.1776322116955;
+        Wed, 15 Apr 2026 23:48:36 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3d5ea9sm11200017f8f.21.2026.04.15.23.48.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3d5ea9sm11200017f8f.21.2026.04.15.23.48.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 23:48:37 -0700 (PDT)
+        Wed, 15 Apr 2026 23:48:36 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 31/47] ovmf: backport a fix for build with gcc-16
-Date: Thu, 16 Apr 2026 08:47:32 +0200
-Message-ID: <ca1f42f9dca8c068bf1df0d9d052329b4dc0d666.1776321810.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 29/47] glibc: stable 2.42 branch updates
+Date: Thu, 16 Apr 2026 08:47:30 +0200
+Message-ID: <6261f1fb32d248ab3b242642674b913039d01758.1776321810.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776321810.git.yoann.congal@smile.fr>
 References: <cover.1776321810.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 06:48:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235373
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235371
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 
-Fixes build on host with gcc-16:
+$ git log --oneline 912d89a766847649a3857985a3b5e6065c51bfd4..a56a2943d2ce541102c630142c2eae0fbfc5886b
 
-StringFuncs.c: In function =E2=80=98SplitStringByWhitespace=E2=80=99:
-StringFuncs.c:113:15: error: variable =E2=80=98Item=E2=80=99 set but not us=
-ed [-Werror=3Dunused-but-set-variable=3D]
-  113 |   UINTN       Item;
-      |               ^~~~
+a56a2943d2 tests: fix tst-rseq with Linux 7.0
+68099ccc94 elf: parse /proc/self/maps as the last resort to find the gap for tst-link-map-contiguous-ldso
+426378547e resolv: Check hostname for validity (CVE-2026-4438)
+8e863fb1c9 resolv: Count records correctly (CVE-2026-4437)
+1a19d5a507 posix: Run tst-wordexp-reuse-mem test
+9cd9c90544 iconvdata: Fix invalid pointer arithmetic in ANSI_X3.110 module
+ebd45473f5 nss: Missing checks in __nss_configure_lookup, __nss_database_get (bug 28940)
+937ef7aaf3 Linux: In getlogin_r, use utmp fallback only for specific errors
+3989780591 nss: Introduce dedicated struct nss_database_for_fork type
 
-and
+Testing Results:
++--------------+--------+--------+------+
+| Result       | Before | After  | Diff |
++--------------+--------+--------+------+
+| PASS         | 6934   | 6938   | +4   |
+| XPASS        | 4      | 4      |  0   |
+| FAIL         | 76     | 75     | -1   |
+| XFAIL        | 16     | 16     |  0   |
+| UNSUPPORTED  | 108    | 109    | +1   |
++--------------+--------+--------+------+
 
-EfiRom.c: In function =E2=80=98main=E2=80=99:
-EfiRom.c:78:17: error: assignment discards =E2=80=98const=E2=80=99 qualifie=
-r from pointer target type [-Werror=3Ddiscarded-qualifiers]
-   78 |       if ((Ptr0 =3D strstr ((CONST CHAR8 *) mOptions.FileList->File=
-Name, DEFAULT_OUTPUT_EXTENSION)) !=3D NULL) {
-      |                 ^
+Changes in testcases:
++------------------------------------------------------+--------+-------------+
+| Testcase                                             | Before | After       |
++------------------------------------------------------+--------+-------------+
+| elf/tst-glibc-hwcaps                                | FAIL   | PASS        |
+| elf/tst-ldconfig-soname                             | FAIL   | PASS        |
+| nptl/tst-thread-affinity-pthread2                   | PASS   | FAIL        |
+| nss/tst-nss-malloc-failure-getlogin_r               | N/A    | UNSUPPORTED |
+| posix/tst-wordexp-reuse-mem                         | N/A    | PASS        |
+| resolv/tst-resolv-dns-section                       | N/A    | PASS        |
+| resolv/tst-resolv-invalid-ptr                       | N/A    | PASS        |
++------------------------------------------------------+--------+-------------+
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...Tools-StringFuncs-fix-gcc-16-warning.patch | 42 ++++++++++++++++++
- ...aseTools-EfiRom-fix-compiler-warning.patch | 44 +++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |  2 +
- 3 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-=
-fix-gcc-16-warning.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-c=
-ompiler-warning.patch
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ meta/recipes-core/glibc/glibc_2.42.bb     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-fix-gcc=
--16-warning.patch b/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-=
-fix-gcc-16-warning.patch
-new file mode 100644
-index 00000000000..a465dede9c3
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0006-BaseTools-StringFuncs-fix-gcc-16-war=
-ning.patch
-@@ -0,0 +1,42 @@
-+From 015c26aea52a54e96319887ea542870b4804fb91 Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Thu, 29 Jan 2026 09:23:32 +0100
-+Subject: [PATCH] BaseTools/StringFuncs: fix gcc 16 warning
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+StringFuncs.c: In function =E2=80=98SplitStringByWhitespace=E2=80=99:
-+StringFuncs.c:113:15: error: variable =E2=80=98Item=E2=80=99 set but not u=
-sed [-Werror=3Dunused-but-set-variable=3D]
-+  113 |   UINTN       Item;
-+      |               ^~~~
-+
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport [edk2-stable202602 https://github.com/tianocore/=
-edk2/commit/3597306191297b504683b83fe7750e49c6a2e836]
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+---
-+ BaseTools/Source/C/Common/StringFuncs.c | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/BaseTools/Source/C/Common/StringFuncs.c b/BaseTools/Source/C/=
-Common/StringFuncs.c
-+index 53e44365e9..df02d9c808 100644
-+--- a/BaseTools/Source/C/Common/StringFuncs.c
-++++ b/BaseTools/Source/C/Common/StringFuncs.c
-+@@ -110,7 +110,6 @@ SplitStringByWhitespace (
-+   CHAR8       *EndOfSubString;=0D
-+   CHAR8       *EndOfString;=0D
-+   STRING_LIST *Output;=0D
-+-  UINTN       Item;=0D
-+ =0D
-+   String =3D CloneString (String);=0D
-+   if (String =3D=3D NULL) {=0D
-+@@ -120,7 +119,7 @@ SplitStringByWhitespace (
-+ =0D
-+   Output =3D NewStringList ();=0D
-+ =0D
-+-  for (Pos =3D String, Item =3D 0; Pos < EndOfString; Item++) {=0D
-++  for (Pos =3D String; Pos < EndOfString;) {=0D
-+     while (isspace ((int)*Pos)) {=0D
-+       Pos++;=0D
-+     }=0D
-diff --git a/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-compiler=
--warning.patch b/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-comp=
-iler-warning.patch
-new file mode 100644
-index 00000000000..7aaafe6efbf
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0007-BaseTools-EfiRom-fix-compiler-warnin=
-g.patch
-@@ -0,0 +1,44 @@
-+From 4d2bdadcd6d45f6708b1b4827b0dc9b6e4b8edd2 Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Mon, 8 Dec 2025 10:28:50 +0100
-+Subject: [PATCH] BaseTools/EfiRom: fix compiler warning
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+New warning after updating gcc:
-+
-+EfiRom.c: In function =E2=80=98main=E2=80=99:
-+EfiRom.c:78:17: error: assignment discards =E2=80=98const=E2=80=99 qualifi=
-er from pointer target type [-Werror=3Ddiscarded-qualifiers]
-+
-+The assigned value is not used, so fix the warning by just removing it.
-+
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport [edk2-stable202602 https://github.com/tianocore/=
-edk2/commit/9af06ef3cbb052b142f9660c2c01e7aeb401300c]
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+---
-+ BaseTools/Source/C/EfiRom/EfiRom.c | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/BaseTools/Source/C/EfiRom/EfiRom.c b/BaseTools/Source/C/EfiRo=
-m/EfiRom.c
-+index fa7bf0e62e..6e903b3504 100644
-+--- a/BaseTools/Source/C/EfiRom/EfiRom.c
-++++ b/BaseTools/Source/C/EfiRom/EfiRom.c
-+@@ -44,7 +44,6 @@ Returns:
-+   FILE_LIST *FList;=0D
-+   UINT32    TotalSize;=0D
-+   UINT32    Size;=0D
-+-  CHAR8     *Ptr0;=0D
-+ =0D
-+   SetUtilityName(UTILITY_NAME);=0D
-+ =0D
-+@@ -75,7 +74,7 @@ Returns:
-+   //=0D
-+   if (mOptions.DumpOption =3D=3D 1) {=0D
-+     if (mOptions.FileList !=3D NULL) {=0D
-+-      if ((Ptr0 =3D strstr ((CONST CHAR8 *) mOptions.FileList->FileName, =
-DEFAULT_OUTPUT_EXTENSION)) !=3D NULL) {=0D
-++      if (strstr ((CONST CHAR8 *) mOptions.FileList->FileName, DEFAULT_OU=
-TPUT_EXTENSION) !=3D NULL) {=0D
-+         DumpImage (mOptions.FileList);=0D
-+         goto BailOut;=0D
-+       } else {=0D
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index 577310a6782..bf41bbbf6e9 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -25,6 +25,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps;ta
-            file://0002-BaseTools-makefile-adjust-to-build-in-under-bitbake=
-.patch \
-            file://0003-debug-prefix-map.patch \
-            file://0004-reproducible.patch \
-+           file://0006-BaseTools-StringFuncs-fix-gcc-16-warning.patch \
-+           file://0007-BaseTools-EfiRom-fix-compiler-warning.patch \
-            "
-=20
- PV =3D "edk2-stable202508"
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 9991c024953..9f1003570d7 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.42/master"
+ PV = "2.42+git"
+-SRCREV_glibc ?= "912d89a766847649a3857985a3b5e6065c51bfd4"
++SRCREV_glibc ?= "a56a2943d2ce541102c630142c2eae0fbfc5886b"
+ SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+diff --git a/meta/recipes-core/glibc/glibc_2.42.bb b/meta/recipes-core/glibc/glibc_2.42.bb
+index a8717c0eae2..7e0aa3d5fc5 100644
+--- a/meta/recipes-core/glibc/glibc_2.42.bb
++++ b/meta/recipes-core/glibc/glibc_2.42.bb
+@@ -17,7 +17,7 @@ Allows for ASLR bypass so can bypass some hardening, not an exploit in itself, m
+ easier access for another. 'ASLR bypass itself is not a vulnerability.'"
+ 
+ CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
+-CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915"
++CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915 CVE-2026-4437 CVE-2026-4438"
+ CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
+ 
+ DEPENDS += "gperf-native bison-native"
 
