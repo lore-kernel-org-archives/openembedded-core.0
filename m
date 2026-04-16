@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B85F8DFF1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EEEDF8DFF7
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:33:16 +0000 (UTC)
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28568.1776378790195326239
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28257.1776378793095939232
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 15:33:10 -0700
+ Thu, 16 Apr 2026 15:33:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=p2yLlfCD;
- spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488ba840146so418655e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:09 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=btaMK7gr;
+ spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488a29e6110so253745e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776378788; x=1776983588; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776378791; x=1776983591; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9xfxOUvyf5rP0+FcG6K0whv60DNj4BWFYvbItdKejKA=;
-        b=p2yLlfCDfFDihVKtuCMX0baMJfq0Hw3fkv6F/Hn3Z9hpPyVceXxOKtymq/pI+/9Ewt
-         u+4jraEILe2ScAH5OrT95O+PBaSi4gaAzBSpsYlHrFlbelQ6SVsy4P5SWVV4SMCB3rnp
-         8Qlz15OCXFnF6vomA1floNn8kQVhpOsiW7qOk=
+        bh=WVhU4dd0fSKGFFw3DxJjyGrc8CGImTlTcAo7+1C/Vwg=;
+        b=btaMK7gryBIo/MQ519Gp8FlYYm4Ny4kF2x/MPgNNL4FMpwG7iGaEgT453HI6lF5pN0
+         abh15B0+CcCCcwJRQ2L+7IzFCP4bqcNNT9oZaS4GHJySHVukfphXyvayGZVhlAvUCDqZ
+         UXUhB0yPUPIaED8EHiWQIQ9eunCyCgAO8QDAY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776378788; x=1776983588;
+        d=1e100.net; s=20251104; t=1776378791; x=1776983591;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=9xfxOUvyf5rP0+FcG6K0whv60DNj4BWFYvbItdKejKA=;
-        b=krTnECLaOvGD+TrFziLa+49Jet5vJ6km215MMjBUEGH+DWt8mvrlPviAg6u8PS7IIP
-         qLBufEYhrlvU4Pv/LvzBQhn6lAcYHRl/57IPMHlIJS3Ll/mqYt5+5p592A1AjyBdG+zY
-         FJdl4yQoBC9ZAjKqWeHARoeeO/V4kKoWtcRURvb9+WixSiYzYTIVuSVODY5jzYspEjJW
-         1oqNsUtRT4YY2L+s6M/o+5GQzJtAcYhdR+ocliKpaJ+/58dBjeKF14xFFdlf2kLr0wsi
-         dWtpiqwt0odOMp2YnQghbEn94CLyYk7zqM4wVPfr9hpMoQ2Wewy266ETdB8NJqOkF5zu
-         85ow==
-X-Gm-Message-State: AOJu0Yx+LvZ5HTYS7yeA+h0Vp+8EpaMk3pL8rDwozhU25hL23jl52aFT
-	IIW8D2ysQ939v/ZhvV93u/JQOyEn7ASwEfJJ/rIl7P3caFZuUurVkMcO4sdJecQythFxV1DfG8l
-	VHydf3vYTDtLR
-X-Gm-Gg: AeBDiespo0b12gQ1FB3Snoem1mkB1JC+j+aGTky2QBtCZbzbsamzsk5Kum5pj3wxNao
-	JHHx9AFjpOGdMAxP8y0Vc/Hl9ZdoIAEnnQ01GW7u4Dx9gxAo87Ezb2YfMoD6Yef0PjqkO9aDpXH
-	kc953Ow/9ZTk/B98Q3213bhH4+D6o6kobODBmBeNzBnOSWBUaC78psKiLoB43sdT4i13BfcJKh3
-	bSMfgwoeNVU1ZgvxU7LPfU6/EcBZ/NiTOb/1rjjzxE4Sm+HO1gV7SBZDpw8qzKJoJpDBLKdEDou
-	aTDidVA9Q/Yi3Tmbxgpc9m69+dVUZEJvcCABIHdsElFlZI+gO3NgCzwUwePdwamwZmfdTjJnXov
-	z5knKb8jvUuJkfdSc9sRS4Ew82bDZ7yzgLMPb7JqC595YDSyvl/Kl5EmoimcvwK8Vt3jn6NR9tN
-	kJmv6G7FCVolyl9rlkBH0nZW9122MxEgUXBEX7NDj9/vT3qK2crmBmxd7pWM5/LULlEbBGX82RP
-	0FuBJytuxWEroHa4sX4OjSZ086p2wfDcCnMEg==
-X-Received: by 2002:a05:600c:6289:b0:488:f941:aab2 with SMTP id 5b1f17b1804b1-488fb78a561mr5078725e9.30.1776378788315;
-        Thu, 16 Apr 2026 15:33:08 -0700 (PDT)
+        bh=WVhU4dd0fSKGFFw3DxJjyGrc8CGImTlTcAo7+1C/Vwg=;
+        b=DYI9jEE91C2bMoPgMAJ1JWUcBLAlLgMbhF1HdgmC5VD7ocaYc0d6+4v0x/Ad6UkljL
+         4WYjWQJooYd6gx37HBn64m+gUTZxV5KuQBhEwD3Jojnuhwa8YUpVjYNtslKrB6FkVOZq
+         u2mkOXxLo61pyEJ5CI7zqyngUVcKQTqouaZfraeXEZYkTGZTqaKJNj9EMMGDQpoZTBLJ
+         sli1h2nxAvP2v1pK8FXiny8sYUVb+V9oAjIGraBbwzvrVEEMiHgfwmDBbuVYPE3L6/7d
+         BKEM39RVRWgDXKUiDmvZduDFJ5dBRmx6LgyQjKCY4I/ooeoq2OfxZHCkAZNVaE+dareh
+         Q3Ww==
+X-Gm-Message-State: AOJu0YzGnA4tpjAjdgfLRhGQhcW1/nfSDwsBNlo5Z0UJXHErxBWBVjhh
+	GYZgoHBoqjImO5XZ+udka88QzpXk2CEgZ+04Sl853SwUdyEXnYPlMcvF+aaHcjxrVwx9mRk8dKN
+	Ux/JmyBV8A4AC
+X-Gm-Gg: AeBDiesU8umTBLNeCRTzxJKGK6RsnCdBFxHRu3m65Zm2Fal4O8etI03msNvM0/AjBjs
+	ezoadvjXErE6/AsdAxt2BX08cvzEzkjszXM5uUmCYd4sZ1vRQHDjbYja4B6IUbtty13mGsHdcyj
+	0dwNfUuRs9F/mDlNInyEjEMDeJxUkncTNEnC/FK50CLJ7YIpjCCYpLtZX4UI0PK0H3Mcmprh2F4
+	xI7jSgWOd9BC6RbQ3+2DysMBNC5CFKARs6KBoElTd6KnKVq3CKYuuFxXfr1m86eMslNQcWTbMKx
+	iTREF2oASuqEWI91EHMCbTCCZv/6SayPlM0Q0M+UtjOLpeSerdWnJqx44VpWuCc/LSRX8IZaPWV
+	5F1zTzhlP5nRkOZmiMMz36tqoVaNfgT2VsX1u1snvzbnN+CqsJ8LUjZSxg3BRB1wAQLKI2sBiKy
+	S9x38/WVYFVNKR2iarLrM9h6601myyrASIiblL3IX62LucEv6m83FxuB4U87KciQTaLuEG8d78j
+	vm2lObkxtyZWV6++8hXBjTnAx2Y7BLOGYP54A==
+X-Received: by 2002:a05:600c:c118:b0:488:a82f:bb96 with SMTP id 5b1f17b1804b1-488fb79891cmr3609575e9.29.1776378791201;
+        Thu, 16 Apr 2026 15:33:11 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 15:33:07 -0700 (PDT)
+        Thu, 16 Apr 2026 15:33:10 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 15/51] barebox/barebox-tools: upgrade 2025.09.0 -> 2025.09.3
-Date: Fri, 17 Apr 2026 00:29:58 +0200
-Message-ID: <c113fff232b77e2fd03762e0c694e876933a101b.1776377993.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 19/51] pseudo: Add fix for glibc 2.43
+Date: Fri, 17 Apr 2026 00:30:02 +0200
+Message-ID: <10cf0fc5f2a18ac377186c3013a50d1355b41312.1776377993.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776377993.git.yoann.congal@smile.fr>
 References: <cover.1776377993.git.yoann.congal@smile.fr>
@@ -66,49 +66,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:33:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235444
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235448
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-2025.09.3
----------
-Fixed FIT image vulnerability
-https://lore.barebox.org/barebox/abljJRMecNdejSD0@pengutronix.de/
+Update to add a fix for a function definition to work with glibc 2.43.
 
-Changelog:
-https://github.com/barebox/barebox/compare/v2025.09.2...v2025.09.3
-
-2025.09.2
----------
-Changelog:
-https://github.com/barebox/barebox/compare/v2025.09.1...v2025.09.2
-
-2025.09.1
----------
-This stable release is specifically targeted at whinlatter which is
-currently at v2025.09.0
-https://lore.barebox.org/barebox/aUkaSKDePHF8__LB@pengutronix.de/
-
-Changelog:
-https://github.com/barebox/barebox/compare/v2025.09.0...v2025.09.1
-
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7d35b0e7929d666af783db835a3a809f8f6ce429)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
-index e41d0858fd9..91865b4d44c 100644
---- a/meta/recipes-bsp/barebox/barebox-common.inc
-+++ b/meta/recipes-bsp/barebox/barebox-common.inc
-@@ -3,6 +3,6 @@ SECTION = "bootloaders"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index a26a205a160..4d316299033 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -12,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+-SRCREV = "43cbd8fb4914328094ccdb4bb827d74b1bac2046"
++SRCREV = "56e1f8df4761da60e41812fc32b1de797d1765e9"
+ PV = "1.9.3+git"
  
--PV = "2025.09.0"
-+PV = "2025.09.3"
- SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "7df1aa47bb7bf1763a729137ac773e69a4052812af094475d739fc63a9295f0d"
-+SRC_URI[sha256sum] = "e87eb863cbe45e4f5af8930825c8f6e20c02b82451e9e1125ea1c73c1fb49a87"
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
 
