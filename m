@@ -1,206 +1,143 @@
-Return-Path: <fra.schnyder@gmail.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B37A7F8D75F
-	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 15:51:19 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17937.1776354676645692173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8DFEF8D763
+	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 16:38:20 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.129])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19171.1776357499228846088
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 08:51:16 -0700
+ Thu, 16 Apr 2026 09:38:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Tvtsax3K;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: fra.schnyder@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488971db0fdso82010405e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 08:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776354675; x=1776959475; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ijxK31UKfkp1DpRBTTIzwXNN21ByR9LiwFdqvBVazLc=;
-        b=Tvtsax3K5P9VGyCVdonK4ptx6SQ3jmLEvi+7TLVapg+5ZWx5xy14cRNdMb9H8KEHDr
-         xQEtU+qlW87UM5tWOGd2ow9qpHZ99utHhWiG3WRkoyuslvAzc5c7w0cBQtmhBh2AsfgH
-         4TQBi9qGvxy03U3e+HHF/r6lCvLwezvdis41v3RPU8qCtqEOKxAUOLlYod15/0LZ1krA
-         Jokh7nPPH5qa4WukFvB++0p6D9SWDALPdCxE/qO5PpR61BFOfHtR2AJcfqrQnRQtCncT
-         RElO5tw29Z5Z+s3MpiHk7L0RbmT7oifIAE+GJf6ZAcPYKrAGaTskJnuGzoX8ELr4MbLp
-         UeFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776354675; x=1776959475;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ijxK31UKfkp1DpRBTTIzwXNN21ByR9LiwFdqvBVazLc=;
-        b=DlSbKlOLUXP1gMe7hnm27mlCzjvL0TsAMesBr98+AmPhUKM5WTFrLhMhoN72bqLJjs
-         27nYlakSKkeEQUEkNhtGoo9eUJVwNq8Y58TmqmSTZ/7de9oq5Z9kV9DmHost75yxJJQ/
-         fyKttWr+/YLBIVAYhF/cDaI7M2CKxUOIEX60DJWHRUoJQgcWMZR5wxeIRYgCMRe6FsWa
-         9zAUtQj1z65pJgvcPVl90CVjfcAaPirMm22UvZ3AkrSK77yHnh6BT69YjSM9nGni0FCP
-         mYXvL43ajSyrTeR3l32A27dYPAh8tMCsu91QzebAnqA22HpQKRweH+jM3S54B9IqfQ60
-         ZPKA==
-X-Forwarded-Encrypted: i=1; AFNElJ8xl2XR+68+c69y3JhnPhR0sA2x8nolDvzGzdQT+yPyZVAiWOtNQcDQQOCF4YI/ymQgjYlQIFosa+CA3ZTPN/JLNg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxk0QSTIpMgdNvPc0ew7tVNp5NhuOrf7LWP2flPabE/Lu+Ohe/m
-	jGFgg2LtIAI9RI2nLMP9mEttdqcsvL/KnvlJGHE+UKragQf0EJcsbQjg
-X-Gm-Gg: AeBDiev4yEYvPXI9RKts2d+2VY19cb6/emxgK/WuJNENEzo72zHVk1DAmptr3+UmC1K
-	PFbKwkhmwNEo389rltk2UTJ8z5OQdlk1o+HP6suDvsZywYatigrSznwAV+ECWEtAPLnI9VGq/5Y
-	HtgbHIHBCMVEKzueC5BAm0D6bt4i8Dz30Pqmi0BIGoLS9MkTp6wN+eR49INJufaXXQiFdERzA/8
-	IfRikpWTZ/aJzoMz5SlPIFpqOEugINqo7jDKNY3xINxJDenvBjoEqVlhNNZgb9yxJZJB/cGICxA
-	MQ3RLgG8e7TfsFC1I9Km97dG6qkyha6nMWpVQB89ZD82Q3y6gvTsA9Y0UONaK/aW5UWfJyGevSX
-	1XFFwR4aPZDScCzO4XsBZ6ctF/3khgOPugYZxVHEBidRN4BH+glF8JZtIWl5vFot9I9Haituh6T
-	nBdynJGouRBzP4kZs7cz5Q5EKUNnu7x+Ib18LUx6oeIj8e6uPwV0vXCdL+KI1St89ZcvXX/HVpi
-	y52E2ogKubp4iSjFmEz4O0z693A7tVwOJQFCXGMW2v4Aln3M64gR+vbIC/6FdQjRhgdr6wxDw==
-X-Received: by 2002:a05:600c:8207:b0:488:bf0c:a372 with SMTP id 5b1f17b1804b1-488d68a0ec8mr376113135e9.31.1776354674594;
-        Thu, 16 Apr 2026 08:51:14 -0700 (PDT)
-Received: from franzs-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f584e306sm74276835e9.11.2026.04.16.08.51.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 08:51:14 -0700 (PDT)
-Date: Thu, 16 Apr 2026 17:51:13 +0200
-From: Franz Schnyder <fra.schnyder@gmail.com>
-To: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-Cc: u-boot@lists.denx.de, trini@konsulko.com, 
-	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>, Francesco Dolcini <francesco@dolcini.it>
-Subject: Re: [PATCH] tools: mkeficapsule: Add disable pkcs11 menu option
-Message-ID: <7xe72m3tkzultqh3hw4cubfognfryjk5ababajoe6w6zt7jx4c@aaxa2kehv635>
-References: <20260409074710.1322519-1-Wojciech.Dubowik@mt.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=gtyRdAdb;
+ spf=pass (domain: navimatix.de, ip: 40.107.162.129, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YzewmNiL+qwowhrNmEhDgDDVXHrLoM87Dmo+IZdBYBtH0SG4J6/Pgy6dBweOaui/eVipk7eupzHpXCE1ezQFyXMU82d0acH1yd2c2SfVw4jOF67PKdGmI6FSmjsSHXPf+wN+CD8gGFxgNnBaxUKnsCMZEdjbjytSMxXetuDJ4X42LsIMFcSEqrkNRLBCHA1FvBY6rpmClK2QK+PsbidCuB0ksHIVm7rMLGSaO7UHjL63LXAjVLDWK6NZSb1lVW/JxfeMnLlSn23UMRspIvKWbPNpUG/1kkh5uhl4Z7H8JTUEkrWb9mgE+GP1wMjeklt41V8iquUuork/V+JgQOSskA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X742569dH84rw7k6/mW1khd/Dja60J9LSJDiz0tlOiU=;
+ b=J8x9c+r//CdhyYoKmPZYdwnYra5VDqsACV03QabYrejNpRDk3nTMfwnwVogEDMnCK+pMF191+eiAerBdbpeDb22Z59EStwuzAOlBZyYsV3EZV5S3fLylsCsT+Mtx9D7WyuR/z6SGObFVVaGoi2iMvEt+apobCQAjD34hSpf2+d9psumWmqamb0mdj/NkeYS7L7VaREQV0X8/ZmIa+zOY/Ka0ZuNZ7k9iOqxWYFxXH0YLvwLbBFyd4QKDEx9DmZvYqkhwO7rHWJTqHyGj5nirk9n8aSmFS8MNsGf33eL8jXXsW8rct0OJ3nUpi3oodULyXKXzQGSw+HP1vKmjzgsxrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X742569dH84rw7k6/mW1khd/Dja60J9LSJDiz0tlOiU=;
+ b=gtyRdAdbeaj3EQ7Ot6pcUMFTbwGQfxXLrdMvvgDdGsNXWRDOLFpSm4CIfhQc5YAap12W7Dqr9nZrmxY/Ugr+Jh71ENnGtXJ51td4YSfg5P+NsJ4yC+hvGZehYyiG9dTM1EtGaSwzYhiDVR6n2lErxiaQLErUr309UFojmrkAANU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by PR3PR01MB6634.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:2e::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Thu, 16 Apr
+ 2026 16:38:15 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.20.9818.023; Thu, 16 Apr 2026 16:38:14 +0000
+Date: Thu, 16 Apr 2026 18:38:13 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
+CC: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [PATCH] run-postinsts: Replace which by command -v
+Message-ID: <cfc0fd54a4efc5ba57ecf7a84980be54169ca07a.1776357492.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.53.0
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260409074710.1322519-1-Wojciech.Dubowik@mt.com>
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BE1P281CA0477.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:7e::22) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|PR3PR01MB6634:EE_
+X-MS-Office365-Filtering-Correlation-Id: 42449e5c-cfaa-4d65-afae-08de9bd68e40
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|366016|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	ECXd/chk2S7bquIA4z3deZ+WanZ5QKhttQ8QDblVTMPAZh9Sg/+Ab8NgbeLHzk+U3k7lTMbrN8tBwVSnd0zCwI9w0XWgzrFQbaIJNLz15MvV6pwxNyN5r+yIQCHmdAW1/AgS9oxOFpES9fMZp1E5ldM1RqlMQCgjmcru0VXw2CrBFTCMpZYrf5pquoGM+bdUKZc7twbat3KNTHK46w8GbNxgp+O3WmtmqItOb9LVlcphuZotyQziV1EMi/eF5TGX7JGC1pIi0mBNbqCsGS2rvtoDELIyrwcONHDeinsC7DapS1LAawXivw0lPLww+WfrYOe/ISOJk/TjNDTVavVNotajZ/rm3XsjszX5uyto6rc+z6jOL2s44GCuCf9KUily7Fk29tGxIsX7FXPolYomsFPKUiU5iZhwyOhnUsRResr6pIs2sGQxkHQ9Nk7RR3VJCtHVARiSNcova6ayQ/xDC78f5V3Ovh62Z4Y98wJzgSk9BuyEfwwLlJSPlVfsfOmGhs3cQJgEtB8hkj/p+tzgAsMCtdyI2nk4K1DZxpQtWzyESz+J2rRy9UakvJB/loq4k4sAzuQiZ9UafnnDGz+4CfTLULa0135NzrsrjT77f9Ff1zOnGN9pylXTllQZqAOHUEazdllc1hMWDBcNYoFLi8iqq2qIRfDtJSYf+oi5hkuF1GH9iMw5Dls3uOLr6QubMXIhdHwJgGCHtaEQwYyH1qegEcU0VfSXLDhvfICkzeM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?uVAzchn3nRcUQzdQBRYnAEpP/zeerhSpRPK2TTkP6jUibwbVZvg9l4qw+5Fp?=
+ =?us-ascii?Q?Kfhn6oCzb4W6Ky8Dt9Fnowa5u6Ymyf5bSa6mjmIy9v4xk+oKzklssqfH/g6G?=
+ =?us-ascii?Q?DR6nqZslcv7fbaDXChmDN01kY3gtQwvAMRXU8pf8rYaiRQjOAiAEtMvEHR10?=
+ =?us-ascii?Q?gp6fmCavgrLUWtTROCBYSyvcdwTfwyE7cbbQoyzRRkEt9VHokNUgZypYTOpp?=
+ =?us-ascii?Q?Xd+2RGYacO/U2Jlg5ptUUxz7kZicl7l9u4MwAUiqbv4+ivqYlt61cP8Fqdvu?=
+ =?us-ascii?Q?/dafjFDcO3OWjrqO9YygIZFDP4Ess6e8azatBNYFFrtehKbaHJdF7vN3ODKM?=
+ =?us-ascii?Q?JejpUiXLD4VIydS8XR3qzFtrbZKyZT9j4h9tTHokyTg48Ea6lXmmvBAnSI0P?=
+ =?us-ascii?Q?cjE/5dzztz738Drgu4Y5AyFAzZF7HEDEGhbaPOTChQv/M4qTE4x18HO11/XV?=
+ =?us-ascii?Q?QuBHqdaq16CQHJ7CMhllle/VQeFgKoTeW2xTaOuRH8sauyAlRWfkK7BWdiTQ?=
+ =?us-ascii?Q?h4GlsdYC+Tv0D6O60gzpgIyRVC0ZrHqC3V+0E2plO+dEiFBE+3uwk+qstsGR?=
+ =?us-ascii?Q?9pcyttFl8hIhQTOReY/alh/Ljix8AO742ZKIF8C5ptgVK7rLuJDxsfDRhRC7?=
+ =?us-ascii?Q?k2p82qH951I7Peq87nZs8uaSqNRQK22/QjHflWt0wj/kzMW7CSWX4wmX+YrA?=
+ =?us-ascii?Q?481oi9FQHQAhg0Y3Hf5V/nFaBHBxlfcNn0nmdwGf3PkswRFh+gstQ8CVuRGl?=
+ =?us-ascii?Q?GTk0iOUL2pSZr2uLWC4ffxJdyTEskLTMyeANzSUblLKyos8/O4XR1Cac9XM1?=
+ =?us-ascii?Q?DiJWJ9XkShCDU22C9QBJf9PolN+ACRsY30UTszJw478pcwAo5QoaB2gvFKGj?=
+ =?us-ascii?Q?+XFQSIiHK3weCrc8uddcmUvOqzzoJpzfajlrnPrVpVe9ay+QBkLsVb3LgqW5?=
+ =?us-ascii?Q?pNYZCtUdq2Y3F3gADuaMFK+KOJyb73m1iqkZGgcp0yMSCoB8Zp8Ik3nh3lbn?=
+ =?us-ascii?Q?faw1oNFgK4LO41YEVQEd7WRjuPDJwLGixnXpAVbkujY1MyzIeIZNwi4jKZPr?=
+ =?us-ascii?Q?lNqJrx4gpRna2Har8uyUWVwJ/mn09S/Z860phE6rVxAJPHelpZZFPWy/jQHJ?=
+ =?us-ascii?Q?eEbLyYoMzGZMZov3jKA/wWX0uvAv7XlA44JlMx+cSWUGeYHNjMdiGaDYkj1P?=
+ =?us-ascii?Q?g4yQr35FAUe+GNjQ5qnUEM94I3TEL4lReleTHTmQkYPYgOTTBpU9TKbSRt2/?=
+ =?us-ascii?Q?9Rq+J+RCU+CriTRrmFVEvpqAtbKGg+NwAVQDaU3i/AFph0G3uuFk15WHV88F?=
+ =?us-ascii?Q?wedp9/0F+ixOdJQisWGkUkKSZSujqBiYH1nl/QvcgG/1CVLv3XI4CL4VBsSw?=
+ =?us-ascii?Q?0D6JaqjqF9CYtABeIxixR9QBBSLAuZE3qtvQSioWbj/5DS8PAjpqB4W2FD76?=
+ =?us-ascii?Q?VHgc+uEro34QKsdssK0m1NQeWgtLixq6rPSQTp9o6raITmE2BRBdPVXS+3Ih?=
+ =?us-ascii?Q?T3tsYB9S6fcNTmsOgJNyuAeh0U+53DdV5X/GBDjRhEOLUwRJFS1INcxm/d9X?=
+ =?us-ascii?Q?Egw6bb+kTSK8DP2ENxDqDt/s0QZc3RHLOl4lWkW30R1zRoT9rfBkuWcj6zlU?=
+ =?us-ascii?Q?fdRMSFCN+RwiCADIXwUA5lT1eYlEsxb3nYD/r9EmjGjpgua97Y4BQDU86bNt?=
+ =?us-ascii?Q?1kyf9LZeycjq/ii+479XaswaHCME42yX6xSxuxqg0G5Yzp3S5nTO8Afe1iGY?=
+ =?us-ascii?Q?+WwlcxKfXFrZwx8V4jNGE0Nfw9IO3Po=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42449e5c-cfaa-4d65-afae-08de9bd68e40
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 16:38:14.7041
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2cMfXMv3/uKEHP1mHYyhRI8UdhHoxPbKD51vnI2TvCkhD756Na5gUgLBMsPGTX7cDnhAkWHYzPFOqNi5aLktLDJJgYTQLCiMOsq2bty6cUo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR01MB6634
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:51:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235413
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 16:38:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235414
 
-On Thu, Apr 09, 2026 at 09:47:07AM +0200, Wojciech Dubowik wrote:
-> Some distros are using gnutls library without pkcs11 support
-> and linking of mkeficapsule will fail. Add disable pkcs11
-> option with default set to no so distros can control this
-> feature with config option.
-> 
-> Suggested-by: Tom Rini <trini@konsulko.com>
-> Cc: Franz Schnyder <fra.schnyder@gmail.com>
-> Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-> ---
->  tools/Kconfig        |  8 ++++++++
->  tools/Makefile       |  3 +++
->  tools/mkeficapsule.c | 14 ++++++++++++++
->  3 files changed, 25 insertions(+)
-> 
-> diff --git a/tools/Kconfig b/tools/Kconfig
-> index ef33295b8ecd..ccc878595d3b 100644
-> --- a/tools/Kconfig
-> +++ b/tools/Kconfig
-> @@ -114,6 +114,14 @@ config TOOLS_MKEFICAPSULE
->  	  optionally sign that file. If you want to enable UEFI capsule
->  	  update feature on your target, you certainly need this.
->  
-> +config MKEFICAPSULE_DISABLE_PKCS11
-> +	bool "Disable pkcs11 support"
-> +	depends on TOOLS_MKEFICAPSULE
-> +	default n
-> +	help
-> +	  Disable pkcs11 support. Can be used in cases when host GnuTLS
-> +	  library doesn't support it.
-> +
->  menuconfig FSPI_CONF_HEADER
->  	bool "FlexSPI Header Configuration"
->  	help
-> diff --git a/tools/Makefile b/tools/Makefile
-> index 1a5f425ecdaa..60e84bfbf20d 100644
-> --- a/tools/Makefile
-> +++ b/tools/Makefile
-> @@ -271,6 +271,9 @@ mkeficapsule-objs := generated/lib/uuid.o \
->  	$(LIBFDT_OBJS) \
->  	mkeficapsule.o
->  hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
-> +ifeq ($(CONFIG_MKEFICAPSULE_DISABLE_PKCS11),y)
-> +HOSTCFLAGS_mkeficapsule.o += -DCONFIG_MKEFICAPSULE_DISABLE_PKCS11
-> +endif
->  
->  include tools/fwumdata_src/fwumdata.mk
->  
-> diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
-> index ec640c57e8a5..ad1c46f0e909 100644
-> --- a/tools/mkeficapsule.c
-> +++ b/tools/mkeficapsule.c
-> @@ -229,9 +229,11 @@ static int create_auth_data(struct auth_context *ctx)
->  	gnutls_pkcs7_t pkcs7;
->  	gnutls_datum_t data;
->  	gnutls_datum_t signature;
-> +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
->  	gnutls_pkcs11_obj_t *obj_list;
->  	unsigned int obj_list_size = 0;
->  	const char *lib;
-> +#endif
->  	int ret;
->  	bool pkcs11_cert = false;
->  	bool pkcs11_key = false;
-> @@ -242,6 +244,7 @@ static int create_auth_data(struct auth_context *ctx)
->  	if (!strncmp(ctx->key_file, "pkcs11:", strlen("pkcs11:")))
->  		pkcs11_key = true;
->  
-> +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
->  	if (pkcs11_cert || pkcs11_key) {
->  		lib = getenv("PKCS11_MODULE_PATH");
->  		if (!lib) {
-> @@ -259,6 +262,7 @@ static int create_auth_data(struct auth_context *ctx)
->  			return -1;
->  		}
->  	}
-> +#endif
->  
->  	if (!pkcs11_cert) {
->  		ret = read_bin_file(ctx->cert_file, &cert.data, &file_size);
-> @@ -301,6 +305,7 @@ static int create_auth_data(struct auth_context *ctx)
->  
->  	/* load x509 certificate */
->  	if (pkcs11_cert) {
-> +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
->  		ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
->  							 ctx->cert_file, 0);
->  		if (ret < 0 || obj_list_size == 0) {
-> @@ -309,6 +314,10 @@ static int create_auth_data(struct auth_context *ctx)
->  		}
->  
->  		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
-> +#else
-> +		fprintf(stdout, "Pkcs11 support is disabled\n");
-> +		return -1;
-> +#endif
->  	} else {
->  		ret = gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
->  		if (ret < 0) {
-> @@ -320,12 +329,17 @@ static int create_auth_data(struct auth_context *ctx)
->  
->  	/* load a private key */
->  	if (pkcs11_key) {
-> +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
->  		ret = gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
->  		if (ret < 0) {
->  			fprintf(stderr, "error in %d: %s\n", __LINE__,
->  				gnutls_strerror(ret));
->  			return -1;
->  		}
-> +#else
-> +		fprintf(stdout, "Pkcs11 support is disabled\n");
-> +		return -1;
-> +#endif
->  	} else {
->  		ret = gnutls_privkey_import_x509_raw(pkey, &key, GNUTLS_X509_FMT_PEM,
->  						     0, 0);
-> -- 
-> 2.47.3
-> 
+From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
-Hi Wojciech,
+The command *which* can be provided by the packages which, debianutils,
+busybox, or zsh. But if none of these are installed, the call fails. The
+POSIX way to check for a command is `command -v` and suppress the output in
+case of success.
 
-Shouldn't it be the other way around? Use of pkcs11 should be disabled 
-by default and enabled if required. As it is now, it would still depend
-on the the gnutls library having pkcs11 support and therefore still 
-would break our OE builds with mainline u-boot if we don't change our
-modules defconfig.
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+---
+ meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-kind regards
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinst=
+s b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+index e8c31e04ce..be752a95f0 100755
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+@@ -41,7 +41,7 @@ for pm in $backend_list; do
+ done
+=20
+ remove_rcsd_link () {
+-	if [ -n "`which update-rc.d`" ]; then
++	if command -v update-rc.d >/dev/null; then
+ 		update-rc.d -f run-postinsts remove
+ 	fi
+ }
+--=20
+2.53.0
 
-Franz
 
