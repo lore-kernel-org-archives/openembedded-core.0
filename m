@@ -2,140 +2,158 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32207F8DFFD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE92F8DFFF
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:33:27 +0000 (UTC)
 Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28578.1776378799391720682
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.28580.1776378799936453208
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 15:33:19 -0700
+ Thu, 16 Apr 2026 15:33:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=r4JSrgKj;
+ dkim=pass header.i=@smile.fr header.s=google header.b=NSDLMBbB;
  spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so508675e9.2
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488afb0427eso614705e9.1
         for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776378797; x=1776983597; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776378798; x=1776983598; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kK7I/Dj6jEptH08CVaYYpmC8ZWnGsKlnT4Wcpctu+Ww=;
-        b=r4JSrgKjeKP5yNsnIvl49bvDARvKvJ2KnQzCZBlaj9q1VnIHmQk2MEoX6UiKQNF58W
-         qw5Ht7pV2zxDm4wWJCmCnAZ8Ou5I5fJzmC4OdVAG8l7atYsDAKkPznoA5iw94fmZMUpU
-         P2elrbig7GAX/tfjFbk8kMY2iH1bgxN07OCcA=
+        bh=x7gLM0M8of39R2sQvm++eXO9/oPJTZEMqnB7bpqOVIs=;
+        b=NSDLMBbB9ZlsRTLKv0SvmTJPHHJC38WSs+L4Hpx5bzBvojF2bIFmb0jYgx9EO9Ujvc
+         e6+BtwGXuu/f3O89cWQMfgbHkv4Ngz/K3NXURI/BQIGyHAU3RSo89vjC0nRZimfFL9/y
+         YrpxidtyE1nGgGitV6siZzW1ZDjQuemcAoobs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776378797; x=1776983597;
+        d=1e100.net; s=20251104; t=1776378798; x=1776983598;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=kK7I/Dj6jEptH08CVaYYpmC8ZWnGsKlnT4Wcpctu+Ww=;
-        b=CZUyR2MBbKeVMn67GleQ2iJipDj3+1ZJ5ODMrLgsnTe0LJlbmJoVhju0GW3A+7wvFU
-         MQPwHVllyed0a/TzOFguE4tvEgcWC1h7D0CmHYDGAG7tCyyz8L11w4Z3z/AMN4u75Zak
-         0vinJ5X4ioXkuZhwQtlXZPDlUu6MiqmkTuNhTEnUsOjRtwe57BD00GDulF3y8faEYRHk
-         i0CvSvpjSVC6PQUQnqPi2K8XpQlbeh0IICBt4TunDg6crxNfMopJmBLsJZ0WBMlmlAUl
-         dYF4WyTAU6O9lZBTC4D+dc5MQkft4QcffKzYpaSImKxM9FIBycO2pbJBe40p587jbbmu
-         A34Q==
-X-Gm-Message-State: AOJu0YxP3JK4g0t1lHSEupzkMQ+GFwiflEJolk1MnPkMhnsUzV9lqPdv
-	wc1Yh15MG4ASd9FYomwKeazj4TldjQGMQjS2KKzbKWFBDxwdw2LlW8n7YGutl40biJR89AebR9L
-	13Mpg+oTP4VD3
-X-Gm-Gg: AeBDievnzfYmS8Uxuz6Jdse8f00NS5vp3iDH/PhKIR5+zN1b7UIDik6FfjQwTuH0DLz
-	NnS1ff94dmJwKegEtgZJ0dxKFnYcWYSl+M8GXmTX3QZBgdQOTb29lr9DsfoUn7p41R2PPsv55In
-	gjXL2NoZp7tOSJ/OtaZLvNhgwYtSpeQUGWkz7hXBS7ev45NbfT/rldJJ7CjnIhvF3ckLIJCaIDe
-	Pgu7YRuKNJq3E7LUlzzuNYvy+ypzZU7pWdjLRu7u6e8oBOgxwgVMiIXjTWVJYY8id2lhn12Qom/
-	td40oxT1sZNAhRCxLMWqJDd3FaYfkB0NdlieU0eAyGbmfLuE20DSxQsT+sJ0dBXucMNPkx5uolz
-	wZm88axgyP5IFjLSha++1iQ1UnJJ04/HPb6PamlcMizGH8vn01uZsG0jWa3a9TgjeGIR3Xgyd8X
-	38f28zse4EXscd7xVCY3xEVHlV7i7UvLXw/EPjhz8aWgxkp4ML9gJPxNH3aH2AD9c3LL31wT8gi
-	iaexbs1O1hgmRzXpHGqbvDUSHJzHb1Amr0/qw==
-X-Received: by 2002:a05:600c:4750:b0:486:fdba:f5db with SMTP id 5b1f17b1804b1-488fb6e7316mr6577565e9.0.1776378797489;
-        Thu, 16 Apr 2026 15:33:17 -0700 (PDT)
+        bh=x7gLM0M8of39R2sQvm++eXO9/oPJTZEMqnB7bpqOVIs=;
+        b=Ff6lAauLzq/webQeUX/XhLM/hJ1OFbeF0oLZqiuOpJG0/IWnfEjvgd+52fTagf/Z/q
+         YSo70jrwsupyt7XnhkysiLTvQExsRUBDscvDQOZlWOLQJlJ9FbJ8pljUgjIS9jWvqfAq
+         CqA3CTjbon00fK0egVfKKdq2Ct7fuV6lubpQMad7367FC98HI4cCFSUrA1G1rzZl1It4
+         3jTbLY0VG6N4nLCytOxIMGBa8PVesx3ukIEE+QqNAhFkb5bvNWLbJR4sC/UIq7bY5YyG
+         Q0x7fqtxEorowk9AuAvymzwDNkYHJL8CXHReyGshFDm+n+772m/ljcxRhyrl4laYhXkX
+         RNOg==
+X-Gm-Message-State: AOJu0Yzhie61vnmqVafwx7DmD6RXb+XEid5o+H8r1E9ant+tlFCj2GZl
+	LA26IYI730S/6BWRtwrPrsUIC901blE0uQJtfH+luEKTSs9T8pOGkiUU/+iZfmz5efND8k1IM2C
+	bVpvTdBmdSFuy
+X-Gm-Gg: AeBDies4RwI+Ikz5/PdpwZjDUyKvga32P8Q0jdL9AnqYfWbyQqxHJM4oXQFnDXEWzno
+	GGmfPny88n8nlfRRsCd/6mCn10yZJ5MD6nHImrgJglV/lnhrR7viTfg2XeDCrMPcXakbYfsH+6R
+	/dArKRAqfusz88zU0CiViZ4fePV/s+9I0w3nZG4rx1xM0aFc3OglIidPmmtIYiR5WbzmywKimMz
+	ZdUrsAfoc+5ojhkYiXe7+JafjZN/PmC1VSADJmv54h/BKL/IN0EAB17kTwlBlrITCwbKOBYbY1d
+	NrpcYGCTxxC5Su5mHkqKXWnRI8kF6+yMuoGF4g8stz5QTS5Ta4w6REkKAWY4jWwGV2mMFfAzfus
+	3HvZ2c1EDiqxG+F/mCg3oBG33tUN8o3kLyea53slOQtlwRf79+Q7xU1UGnh+WsD41xsR9lzNkyM
+	CWYOQa3eXj/LTvlMpI+AYvUm/FYm5kq/w7ofGlny8leVKP6LSkm9n8mLtrYSwfuOPaY/cjqvlw/
+	arm1r90f3RQWRSU56Qsah8I3ee9CQ4ox1h8JA==
+X-Received: by 2002:a05:600c:8901:b0:488:f9cb:f6c4 with SMTP id 5b1f17b1804b1-488fb7786cemr4127415e9.18.1776378798029;
+        Thu, 16 Apr 2026 15:33:18 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 16 Apr 2026 15:33:17 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 29/51] glibc: stable 2.42 branch updates
-Date: Fri, 17 Apr 2026 00:30:12 +0200
-Message-ID: <6261f1fb32d248ab3b242642674b913039d01758.1776377993.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 30/51] spirv-tools: backport a fix for building with gcc-16
+Date: Fri, 17 Apr 2026 00:30:13 +0200
+Message-ID: <ad83be2dad42de511a9b702c927643482ffd04b9.1776377993.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776377993.git.yoann.congal@smile.fr>
 References: <cover.1776377993.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:33:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235458
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235459
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-$ git log --oneline 912d89a766847649a3857985a3b5e6065c51bfd4..a56a2943d2ce541102c630142c2eae0fbfc5886b
+Fixes:
+https://errors.yoctoproject.org/Errors/Details/905195/
+when building on host with gcc-16
 
-a56a2943d2 tests: fix tst-rseq with Linux 7.0
-68099ccc94 elf: parse /proc/self/maps as the last resort to find the gap for tst-link-map-contiguous-ldso
-426378547e resolv: Check hostname for validity (CVE-2026-4438)
-8e863fb1c9 resolv: Count records correctly (CVE-2026-4437)
-1a19d5a507 posix: Run tst-wordexp-reuse-mem test
-9cd9c90544 iconvdata: Fix invalid pointer arithmetic in ANSI_X3.110 module
-ebd45473f5 nss: Missing checks in __nss_configure_lookup, __nss_database_get (bug 28940)
-937ef7aaf3 Linux: In getlogin_r, use utmp fallback only for specific errors
-3989780591 nss: Introduce dedicated struct nss_database_for_fork type
-
-Testing Results:
-+--------------+--------+--------+------+
-| Result       | Before | After  | Diff |
-+--------------+--------+--------+------+
-| PASS         | 6934   | 6938   | +4   |
-| XPASS        | 4      | 4      |  0   |
-| FAIL         | 76     | 75     | -1   |
-| XFAIL        | 16     | 16     |  0   |
-| UNSUPPORTED  | 108    | 109    | +1   |
-+--------------+--------+--------+------+
-
-Changes in testcases:
-+------------------------------------------------------+--------+-------------+
-| Testcase                                             | Before | After       |
-+------------------------------------------------------+--------+-------------+
-| elf/tst-glibc-hwcaps                                | FAIL   | PASS        |
-| elf/tst-ldconfig-soname                             | FAIL   | PASS        |
-| nptl/tst-thread-affinity-pthread2                   | PASS   | FAIL        |
-| nss/tst-nss-malloc-failure-getlogin_r               | N/A    | UNSUPPORTED |
-| posix/tst-wordexp-reuse-mem                         | N/A    | PASS        |
-| resolv/tst-resolv-dns-section                       | N/A    | PASS        |
-| resolv/tst-resolv-invalid-ptr                       | N/A    | PASS        |
-+------------------------------------------------------+--------+-------------+
-
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b4801e63d1284f3fa5006f0e24f560130c2a0a4c)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- meta/recipes-core/glibc/glibc_2.42.bb     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ ...sue-with-gcc-16-replaeces-PR-6542-65.patch | 50 +++++++++++++++++++
+ .../spir/spirv-tools_1.4.328.1.bb             |  3 +-
+ 2 files changed, 52 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/spir/spirv-tools/0001-opt-Fix-build-issue-with-gcc-16-replaeces-PR-6542-65.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 9991c024953..9f1003570d7 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.42/master"
- PV = "2.42+git"
--SRCREV_glibc ?= "912d89a766847649a3857985a3b5e6065c51bfd4"
-+SRCREV_glibc ?= "a56a2943d2ce541102c630142c2eae0fbfc5886b"
- SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
+diff --git a/meta/recipes-graphics/spir/spirv-tools/0001-opt-Fix-build-issue-with-gcc-16-replaeces-PR-6542-65.patch b/meta/recipes-graphics/spir/spirv-tools/0001-opt-Fix-build-issue-with-gcc-16-replaeces-PR-6542-65.patch
+new file mode 100644
+index 00000000000..ce58b6b8c0f
+--- /dev/null
++++ b/meta/recipes-graphics/spir/spirv-tools/0001-opt-Fix-build-issue-with-gcc-16-replaeces-PR-6542-65.patch
+@@ -0,0 +1,50 @@
++From aab5c96b7eb237b8bcd15e28f8aff068842db4b7 Mon Sep 17 00:00:00 2001
++From: David Neto <dneto@google.com>
++Date: Tue, 3 Mar 2026 12:11:47 -0500
++Subject: [PATCH] opt: Fix build issue with gcc 16  (replaeces PR #6542)
++ (#6567)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Compiling with gcc 16 throws this error:
++
++FAILED: [code=1]
++source/opt/CMakeFiles/SPIRV-Tools-opt.dir/decoration_manager.cpp.o
++    source/opt/decoration_manager.cpp: In member function
++‘spvtools::opt::analysis::DecorationManager::CloneDecorations(unsigned
++int, unsigned int)’:
++    source/opt/decoration_manager.cpp:546:27: error:
++‘MEM[(unsigned int &)&op + 24]’ may be used uninitialized
++[-Werror=maybe-uninitialized]
++
++546 | if (op.words[0] == from) { // add new pair of operands: (to,
++literal)
++    source/opt/decoration_manager.cpp:545:19: note: ‘op’ declared here
++      545 |           Operand op = inst->GetOperand(i);
++          |                   ^~
++    cc1plus: all warnings being treated as errors
++
++Make sure that the vector is not empty before using it.
++
++Co-authored-by: José Expósito <jose.exposito89@gmail.com>
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++Upstream-Status: Backport [c28f5937bce369dde1d645299a8c9873da43dc72]
++---
++ source/opt/decoration_manager.cpp | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/source/opt/decoration_manager.cpp b/source/opt/decoration_manager.cpp
++index 3e95dbc35..bee7d9482 100644
++--- a/source/opt/decoration_manager.cpp
+++++ b/source/opt/decoration_manager.cpp
++@@ -543,7 +543,8 @@ void DecorationManager::CloneDecorations(uint32_t from, uint32_t to) {
++         const uint32_t num_operands = inst->NumOperands();
++         for (uint32_t i = 1; i < num_operands; i += 2) {
++           Operand op = inst->GetOperand(i);
++-          if (op.words[0] == from) {  // add new pair of operands: (to, literal)
+++          if (!op.words.empty() &&
+++              op.words[0] == from) {  // add new pair of operands: (to, literal)
++             inst->AddOperand(
++                 Operand(spv_operand_type_t::SPV_OPERAND_TYPE_ID, {to}));
++             op = inst->GetOperand(i + 1);
+diff --git a/meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb b/meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb
+index e5aedb16208..99d4e34ec5b 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb
+@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
-diff --git a/meta/recipes-core/glibc/glibc_2.42.bb b/meta/recipes-core/glibc/glibc_2.42.bb
-index a8717c0eae2..7e0aa3d5fc5 100644
---- a/meta/recipes-core/glibc/glibc_2.42.bb
-+++ b/meta/recipes-core/glibc/glibc_2.42.bb
-@@ -17,7 +17,7 @@ Allows for ASLR bypass so can bypass some hardening, not an exploit in itself, m
- easier access for another. 'ASLR bypass itself is not a vulnerability.'"
- 
- CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
--CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915"
-+CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915 CVE-2026-4437 CVE-2026-4438"
- CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
- 
- DEPENDS += "gperf-native bison-native"
+ SRCREV = "7f2d9ee926f98fc77a3ed1e1e0f113b8c9c49458"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=vulkan-sdk-1.4.328;protocol=https \
+-           "
++    file://0001-opt-Fix-build-issue-with-gcc-16-replaeces-PR-6542-65.patch \
++"
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
+ # glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
 
