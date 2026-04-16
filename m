@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE898F8808C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71867F88077
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 06:48:53 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7592.1776322126826079091
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7732.1776322127326794353
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Apr 2026 23:48:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Bw809IBk;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d7650202fso3335896f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 23:48:46 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=golavCTr;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso117139635e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2026 23:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1776322125; x=1776926925; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cOJc0sc2X9W0KluyZy40GdVF8HL/+LAlKeITT2hK1+4=;
-        b=Bw809IBkwA7c227/zHOmCU2dgOub4GCtFQExAgDOlHZrDJA5DsMqxC+thE3Q+WD6FP
-         95jRLm/87tnzIV1r1AIWE4QvWx+6y2BzgQ01dn8X3mdJdrT9YAZnZvKQ4LLx6EPCv2RP
-         sFt9u1LmdSXGSqPwup8M5sH7aBZuyzmhGtzv8=
+        bh=P7+oiW+E7TFCEvgg7t8LoFkNmsqgnc8T2/jUJQznBMw=;
+        b=golavCTrO2oDk37Y7GIpD8Xybl4PognO1o229HmU10CT/OaC6YE/9qGUoCPe6V7odk
+         k/lFLr8ZbJPVQkC/9Pk0uHarPGw5p1YTUxy1Dg6v1RBCSD2qJZRJtgyzQHizt3k3xkfV
+         cu4kCovSDq2udoaxI4bswrON4Uw30ntdOFrvc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1776322125; x=1776926925;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=cOJc0sc2X9W0KluyZy40GdVF8HL/+LAlKeITT2hK1+4=;
-        b=qg2lnjLp/7wUXW26CZK1/O8jbk/VGIP3m9wujwAqlkVVEHSOfNTRudl0dCpfcD5PKu
-         3vvbKQGCiwq+vYYT2I7JEgp0FaNlZhLZn7ThmMSSfJVmqUBwPkLqktWofX+aK8Z5sfUh
-         o/wZ4m1SZ9DcXjmWPfXNTucvPn0tYPZwzvqz8iAKHBy7RLDvvU22OfEjLSCafkwbudgc
-         szI7pBhh3Ey11rhxD81+xjR9eK5iBWzY1TuoeafHsjMdb4nEmF8rvoEmE41NJrsRJyDJ
-         8PHLvbj1uLsVz/CZQ9K3XoPZO4zgNpYki/cgPQM9hMyE02mQp/5rCkYTehBTygRUnBYT
-         umZw==
-X-Gm-Message-State: AOJu0Yxdy+iL2kUfnewU3KHGNWbsHys6vws+czBcn51qeiYbN+m4jtpN
-	FXavNbmH10iFucW0fMZjWKAacdqSYfvm4alyJ/5tNtrID3kJC6RaSAMKgLFjPvN9MfF2K/QcPaS
-	FIkzx5Xwh7A==
-X-Gm-Gg: AeBDiesEjKUbcUzFlQecE2mLFEwtEDkLml1Wa1oHqbtCZyaztqTVhoPCheHqKNlLRgx
-	0C5MJzrRc//phFupPbPF3jcwJ6hL527BvlJQEHly41iiDFdZuO2N7k+5QsXS4z24YgYuj/4NOeX
-	penq2LU3ywW1dit0SFDN6vwBCpExmofTik3nH/JSF0gsBh4tMmSY86PH9NGo9rrF6AYAuLTJW1w
-	Pn11cC0o7cFXBAWSWd/Dl2i8/hWg4G0ui641iFs02gMF7bUjmuowhemeg7PmV68TnMGDq334Pdi
-	yvehDydq8y7zmSDpIQpiaTEkKoqEeZBLe/mzYIgEysQrXfm/ETMgdhTOpdlMwBpPVFCbMMC1Mct
-	/JBi+H/PzJB4vcD9soqCan0vx6zPP8fDOfaW4BnCKq22UQigbv6puG+mfD7ObXn+CDirAi3eF+W
-	Ily2Wubf+Y0HPPzw5eUd7xWD7D9sd2Eu3Toz4b+O5Yzd07v7g72s9JY3SVOAlMbsI+B8NdEbEIg
-	8YX6FKK8GHxhbHzrma7L+uvgQrkQYaxWl/E3A==
-X-Received: by 2002:a05:6000:178b:b0:43d:7940:f143 with SMTP id ffacd0b85a97d-43d7940f22cmr22156209f8f.1.1776322124870;
-        Wed, 15 Apr 2026 23:48:44 -0700 (PDT)
+        bh=P7+oiW+E7TFCEvgg7t8LoFkNmsqgnc8T2/jUJQznBMw=;
+        b=C6W8CW3eZYuwjYIvpXT2ZB4iNNaX32/EwBKEvpbkbqPLUxEGQhVxLsSXnrYf6xRHHZ
+         4pYtPUOQnshfbEiCO6rRkrKGjdJvLpe7sm0HDCb5QLXVqplhxrEY/XE2+k1fjXBJIOzM
+         utD9k9VSxtAdih+JjBTtjVvnh6BkJGgz5GMR68+ogfYUFI9D187du7MfwzXS4KhrND+c
+         WkFT3EN3oLEhEVs8qA05cUSxLcRYmdrV+9GUHKfMH1bQRryi8wP4CZhgnVch3/GlTMjy
+         zIrDUE4QoM7CIVuzypUhezzfHrt+Y0m/u5XWG3VwdaRtvFC3MLUxsLBe0XNuipXITzgj
+         w1xA==
+X-Gm-Message-State: AOJu0Yzy7kzxCgdQeQJsgTw0a4VptCMKtDZlHMBzaDO0btN0jwWNwCLW
+	arwAoPemHoIYwmYW/sX3bHSNkpFHzRWaCFy75cePKQHboVHZObLqUe9ZS9Wvfm2F4lVUP0FbWhZ
+	ZruOSWjyLzA7H
+X-Gm-Gg: AeBDievz7pRm4/uSSNfavf3q1eLI6KiJ+Haa4IV6YXYmUhduFQpSp8bC/mLfCQrBSeB
+	dFc1NqAcSqpdyv++tyPWh8EDUU1pdgx0RSNDhd9HTN3WIsb4daACne1ehWxqoPQTEv9Fz9pdQeD
+	DZQSo7o33aabSmw/5SpLnuChDeX+dRxLBhWMhMT+uMvlyMXgGhcoUSheaKl7IJOsDgBaLkX49w1
+	77iNGaw/5/QIvRXMVXuLIXjO/a76GvrZ/xIAFjB7cAHIx3NU9VLNCsYOQ2m4Q7NP5Q+AxZwvzGM
+	vJMw7Zn385ow5/Eh5TEjBORog9V/suTRQj2Gr2UKn8gLx1WKCDZjJDZthmEKbOhkNTnk3DUrJX1
+	dbifIgO6e6Q2GEuUvhzhyKXkhCp8i/IfYl+ELLgo6QAP9Jq2sO5Z12xlAIuUaQuNT4u6qtY+iYl
+	GEvSnOKK9A6Sa2q/rDfwi9NaZohmfBTXRPe2Je4Y+3uUFj1+DzCloz1TkXggfwttsI2fw9OhZ92
+	0JN3LZdrNInZCYz8Rk6AQbgCM5d6t/IqVkmYA==
+X-Received: by 2002:a05:600c:3149:b0:488:ae6c:42c6 with SMTP id 5b1f17b1804b1-488d684319emr336687495e9.14.1776322125422;
+        Wed, 15 Apr 2026 23:48:45 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3d5ea9sm11200017f8f.21.2026.04.15.23.48.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 23:48:44 -0700 (PDT)
+        Wed, 15 Apr 2026 23:48:45 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 40/47] oeqa/selftest: add wayland feature check for tests needing it
-Date: Thu, 16 Apr 2026 08:47:41 +0200
-Message-ID: <17841fd5e64cb2f0e966e848481a1807918dc62d.1776321810.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 41/47] report-error.bbclass: replace 'codecs.open()' with 'open()'
+Date: Thu, 16 Apr 2026 08:47:42 +0200
+Message-ID: <52d542285b3345d474eb5246e178d268138a443d.1776321810.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776321810.git.yoann.congal@smile.fr>
 References: <cover.1776321810.git.yoann.congal@smile.fr>
@@ -66,91 +66,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 06:48:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235382
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235383
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Trevor Gamblin <tgamblin@baylibre.com>
 
-When run with a distro without 'wayland' DISTRO_FEATURES:
-2026-04-14 17:42:00,568 - oe-selftest - INFO - FAIL: test_sstate_32_64_same_hash (sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash)
-2026-04-14 17:42:00,568 - oe-selftest - INFO - ----------------------------------------------------------------------
-2026-04-14 17:42:00,568 - oe-selftest - INFO - Traceback (most recent call last):
-  File ".../openembedded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 407, in test_sstate_32_64_same_hash
-    self.sstate_hashtest("i686")
-    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^
-  File ".../openembedded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File ".../openembedded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 371, in sstate_hashtest
-    bitbake("core-image-weston -S none")
-    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-AssertionError: Command 'bitbake  core-image-weston -S none' returned non-zero exit status 1:
-...
-ERROR: Nothing PROVIDES 'core-image-weston'
-core-image-weston was skipped: using DISTRO 'nodistro', which is missing required DISTRO_FEATURES: 'wayland'
+With newer Python versions, codecs.open() is deprecated:
 
-2026-04-14 17:42:00,568 - oe-selftest - INFO - FAIL: test_core_image_full_cmdline_weston (incompatible_lic.NoGPL3InImagesTests.test_core_image_full_cmdline_weston)
-2026-04-14 17:42:00,568 - oe-selftest - INFO - ----------------------------------------------------------------------
-2026-04-14 17:42:00,568 - oe-selftest - INFO - Traceback (most recent call last):
-  File ".../openembedded-core/meta/lib/oeqa/selftest/cases/incompatible_lic.py", line 153, in test_core_image_full_cmdline_weston
-    bitbake('core-image-full-cmdline core-image-weston')
-    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-AssertionError: Command 'bitbake  core-image-full-cmdline core-image-weston' returned non-zero exit status 1:
-...
-ERROR: Nothing PROVIDES 'core-image-weston'
-core-image-weston was skipped: using DISTRO 'nodistro', which is missing required DISTRO_FEATURES: 'wayland'
+https://docs.python.org/3/library/codecs.html#codecs.open
 
-This is caused by core-image-weston being skipped because it needs the
-wayland DISTRO_FEATURES.
+Replace it with the preferred call to open().
 
-Note that this is not seen in testing because nodistro has wayland
-enabled by default since
-2e1e7c86064 (bitbake.conf: Enable opengl ptest multiarch wayland vulkan in DISTRO_FEATURES by default, 2026-02-21)
-
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit 58b9f90779d1227e30a7de4948b10e49fb5b5ac1)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oeqa/selftest/cases/incompatible_lic.py | 2 ++
- meta/lib/oeqa/selftest/cases/sstatetests.py      | 2 ++
- 2 files changed, 4 insertions(+)
+ meta/classes/report-error.bbclass | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-index 93884f57319..0e225ad02c7 100644
---- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-+++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-@@ -5,6 +5,7 @@
- #
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake
-+from oeqa.core.decorator.data import skipIfNotFeature
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 2b880c8b0c7..01ac1f2a37f 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -10,19 +10,17 @@
+ ERR_REPORT_DIR ?= "${LOG_DIR}/error-report"
  
- class IncompatibleLicenseTestObsolete(OESelftestTestCase):
+ def errorreport_getdata(e):
+-    import codecs
+     logpath = e.data.getVar('ERR_REPORT_DIR')
+     datafile = os.path.join(logpath, "error-report.txt")
+-    with codecs.open(datafile, 'r', 'utf-8') as f:
++    with open(datafile, mode='r', encoding='utf-8', errors='strict') as f:
+         data = f.read()
+     return data
  
-@@ -142,6 +143,7 @@ require conf/distro/include/no-gplv3.inc
- """)
-         bitbake('core-image-minimal')
+ def errorreport_savedata(e, newdata, file):
+     import json
+-    import codecs
+     logpath = e.data.getVar('ERR_REPORT_DIR')
+     datafile = os.path.join(logpath, file)
+-    with codecs.open(datafile, 'w', 'utf-8') as f:
++    with open(datafile, mode='w', encoding='utf-8', errors='strict') as f:
+         json.dump(newdata, f, indent=4, sort_keys=True)
+     return datafile
  
-+    @skipIfNotFeature('wayland', 'Test requires wayland to be in DISTRO_FEATURES')
-     def test_core_image_full_cmdline_weston(self):
-         self.write_config("""
- IMAGE_CLASSES += "testimage"
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 687640a4016..02fd45fe0d9 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -15,6 +15,7 @@ import re
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer, get_bb_vars
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.decorator.data import skipIfNotFeature
- 
- import oe
- import bb.siggen
-@@ -354,6 +355,7 @@ class SStateCacheManagement(SStateBase):
-         self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
- 
- class SStateHashSameSigs(SStateBase):
-+    @skipIfNotFeature('wayland', 'Test requires wayland to be in DISTRO_FEATURES')
-     def sstate_hashtest(self, sdkmachine):
- 
-         self.write_config("""
+@@ -86,7 +84,7 @@ python errorreport_handler () {
+             taskdata['task'] = task
+             if log:
+                 try:
+-                    with codecs.open(log, encoding='utf-8') as logFile:
++                    with open(log, encoding='utf-8') as logFile:
+                         logdata = logFile.read()
+                     # Replace host-specific paths so the logs are cleaner
+                     for d in ("TOPDIR", "TMPDIR"):
 
