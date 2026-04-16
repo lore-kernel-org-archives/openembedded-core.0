@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D48E2F8DFE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1332F8DFE5
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:33:15 +0000 (UTC)
 Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28562.1776378787478291055
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28256.1776378791700917064
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 15:33:07 -0700
+ Thu, 16 Apr 2026 15:33:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=B5nbz+Vp;
+ dkim=pass header.i=@smile.fr header.s=google header.b=X1GJObsr;
  spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-488c2690057so445705e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:07 -0700 (PDT)
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-488a041eae5so266385e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776378785; x=1776983585; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776378790; x=1776983590; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4D9RfUCZVh+iyh8GhBpyOFsLwX5twyAJhgYJtCgl7aA=;
-        b=B5nbz+VpU346RdAYRTj/dVTGV7WwyNiIwTiERMon/4PN/gGFlvNe4c5AGFA/HtflWe
-         vUlV0f8WO7HW8Tnqyg/HbQQBUcwxKDbfK5CwC55A0KYDBGOnmNxAnqDapvMajtYt7zrB
-         ka8JUGNIW+nMxSfyOYjBu/C8aoeA2B5D7uXp4=
+        bh=r3uz/IBC8WoEl6OgkTCty9zioKhFMNZuwF2w6RxRGuE=;
+        b=X1GJObsr+KmY2/c+1U+mqAbSv6C+yxHayrlOiI3mE9cuKl9/hUxftKQ+aRN3Uuvz3D
+         DjeTVtXGpcv8njmJ81ybPYxvcGXw/So6yTYTXI7d8fTNPNmSZbK0qEOq+I33LhSVQiLD
+         hnjXX9YQf1hjzSUjMocBnszssAYJihYH7RTBU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776378785; x=1776983585;
+        d=1e100.net; s=20251104; t=1776378790; x=1776983590;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=4D9RfUCZVh+iyh8GhBpyOFsLwX5twyAJhgYJtCgl7aA=;
-        b=sZoq+bePMguRrjDiDxn6uWgvlGOelR4KtMPEFsDoG8LHIVh/4Er1hIWTHGcTj/jssI
-         b0vdab6b4jYNga4jaMV+4HjOvz3cMAly9WhhadF9bnOPcyb4JlV8CssqUmR4I7d623Ti
-         a+X7XBAGIbTY1ii/o0XdQyykAlTDUvU4rhJHEBjCPnl2Rylik1oQzRUuHtK6AO8ISaz1
-         HrGSjJ2oteAjEWebgxRG5w0x1cWEmlLT7luZ2oP4O3jd2EMq2WV04rJqEqkouI/gyor5
-         iHR+ePJsY3BbxbRNumCRph1zvXDiey8pNQ+gHpLve4MqufrBx7MiW40fzmdB1nO1QIpu
-         6V0w==
-X-Gm-Message-State: AOJu0YyIth8ZgNVbIDLqJW5f+lEeFQPWXNGMUeo1UtRdK/3haJC5B5Ce
-	3xmlHd1743p1fGih56TNRFBKZB4ExRAWvXqbqpbEMhbn3JB9e7szBMm8NC5kdFcMSokvqG3vgXo
-	+hj1Wc08WrQZU
-X-Gm-Gg: AeBDiesyB4s2GtaprLSeYiQP6dNLMh2Vt6KLCYyrPeRxE3udj9/HAqESqF2j7F3furl
-	8zLG4wlwsePYklt3EwTYIGMpPtHJSnv0k9Rp+FAP5RfbNmq+0Tk8FNQ5QaqNIXpPkyIOCaKNCHU
-	f32EGJHQd2oTDVO/8xMHwC7+frXuzvmwP/LFlFie9eBc4hhrEZVzsg/Jn7HAnzZiXqTU+pjEEJT
-	r+Oz6IMuuEJ2oW8fA0MKQGmHTkisHPxQojOW4dcoU4SRzmoZQgvLGOTFnHgsOArMeYP1TN7AhS6
-	jypy3K6ybBCtOpLX8PfW+KlE6nIhH4pveDiF3Db9A0hZqxbOJNZkI9jcxPJTqO2vi5JCBKvysad
-	9AzJ2UPRx+1U8uIpPyP7HK4FTT+wCHWh38tEsEhWFNAx7t6ynblA94ltxrsocX0PvyC2Kzs6wfA
-	ihPqIjwX6HULU1rgaUEk0mf74cYp01stM4iqXk6j/yH9adXaYWlF4IwsAJE9A3N9rmdmobppcTe
-	i29nh+ZIbFt19PQ2PYnl3O0bGTd/uAmYqwrRQ==
-X-Received: by 2002:a05:600c:314b:b0:485:3a86:6392 with SMTP id 5b1f17b1804b1-488fb778b66mr4613695e9.20.1776378785483;
-        Thu, 16 Apr 2026 15:33:05 -0700 (PDT)
+        bh=r3uz/IBC8WoEl6OgkTCty9zioKhFMNZuwF2w6RxRGuE=;
+        b=eDrCQjCZ1UwqRTwoMTSAQaWg504Edquqp3i0HhBJTl75odWT81fmhVccGmIMbHI+c8
+         CpGTLx/wlPtUnj4asn+Ye0jl8EirW1ZrkxfnuSPmSh2+EJFWjnF+tDpP1VipXJ+Z02rR
+         m4+5UKg0IuBfxDe6J6BomGeTGiK3BY69mwmLs3TysBZ6qMNoLCL57nz09qpHcxgifFHv
+         6QKfB+TMB00i88esAiiWOptxUUULom3IgS6bc4t4Zh10IOKm93Kn2+1vv4CBmSswaof8
+         all7y4UmNYKVtHTPWLeZZN09nzW3zmu83uAbZbgh419lLh9mdgCJ+IrhzZBbzC6W1St4
+         ZAdw==
+X-Gm-Message-State: AOJu0YxNXX4SwD+QDi17ZulIur1DQ3tO5MLUf53iEUkq8q0ySRqkyk9a
+	1/kkbzvNGxVs1p/+XBjiW1pVGU4NqHaeNHNfAu8JaEuVKJdp7fOhiio5VyDd/T/Mp1AeUhPnsR9
+	vzcL7DUrKkCg/
+X-Gm-Gg: AeBDietSkHWG1nlZ9vD1KQYsdkn0czG4tqqZoJ5VWX/U1prl57oDyFwGqCNJbccvqAW
+	62xYEHFIU9ywJvx/TKUnw4KNAnemxhZT0XGmnODL0z0tEDRXvsZYv7ASPm7IcDATV6iGTsaANF8
+	QX/51h45nrjIXk6F0jFo4GnRSAMANn53WBfyH9/LdKpozILcAZ5uVje/RK3DzbUUZXGI+yJyQZ1
+	eX4bB2c30vkiq5nRw6CGQ1HLmCyzXebrsAGmtDfvc0JWgKrRXFdPWlkmZx54ZsHciLSMCHuHRr0
+	t5trvtsLJmqib2GMtN3YFJOEbs/HMNk2iKw8ie2MaJ+BjFmb0YDWC3K0sxFbGSX8Sa+DxB8IahB
+	+IfjYyWX9AReVxqZ4ebrfFT6K8MaAMzXICSCMDE5ajJPwuNPq+8i9i9tzF0QhhVJKJ5OYUdJlk5
+	v8HpIWiDtLtklglsVc6UDIICv46ftBcoRIVaFP6BSixujS9RbPhE9qlWDKBC1lAiIJtWbSBuu1u
+	vXsz189TD6NO0BVrbmwMf9O3/r5pCWw6zjS6g==
+X-Received: by 2002:a05:600c:c0db:b0:485:3eba:ab96 with SMTP id 5b1f17b1804b1-488fb73b259mr4354755e9.3.1776378789710;
+        Thu, 16 Apr 2026 15:33:09 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 15:33:05 -0700 (PDT)
+        Thu, 16 Apr 2026 15:33:09 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 11/51] vim: Fix CVE-2026-28418
-Date: Fri, 17 Apr 2026 00:29:54 +0200
-Message-ID: <2c12cdc3442f31038ad64404c6bab4dd64c9a92f.1776377993.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 17/51] go: upgrade 1.25.8 -> 1.25.9
+Date: Fri, 17 Apr 2026 00:30:00 +0200
+Message-ID: <3be4eeea60a52b8694ae0688d794bb44991ae634.1776377993.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776377993.git.yoann.congal@smile.fr>
 References: <cover.1776377993.git.yoann.congal@smile.fr>
@@ -66,117 +66,169 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:33:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235440
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235446
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch from [1] also mentioned in [2]
+Upgrade to latest 1.25.x release [1]:
 
-[1] https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28418
+$ git --no-pager log --oneline go1.25.8..go1.25.9
+7076e01d9d (tag: go1.25.9) [release-branch.go1.25] go1.25.9
+abaa0cbb25 [release-branch.go1.25] cmd/go: disallow cgo trust boundary bypass
+02f574a830 [release-branch.go1.25] crypto/tls: prevent deadlock when client sends multiple key update messages
+82b0cdb741 [release-branch.go1.25] archive/tar: limit the number of old GNU sparse format entries
+7d2dd3488c [release-branch.go1.25] cmd/compile: fix loopbce overflow check logic
+72cc33629a [release-branch.go1.25] cmd/compile: fix mem access overlap detection
+3ed3169244 [release-branch.go1.25] html/template: properly track JS template literal brace depth across contexts
+4c79c4223e [release-branch.go1.25] internal/syscall/unix: properly support AT_SYMLINK_NOFOLLOW on Linux
+edc1e4a5f2 [release-branch.go1.25] crypto/x509: fix signature checking limit
+210b8112b1 [release-branch.go1.25] crypto/x509: hoist policy pruning out of loop
+93a4f03ed8 [release-branch.go1.25] runtime/race: apply LLVM zero-initialization fix
+cff64a5cf3 [release-branch.go1.25] cmd/go: tests: rename git-min-vers->git-sha256
+7301bd39d1 [release-branch.go1.25] cmd/go: skip git sha256 tests if git < 2.29
+f9532f001a [release-branch.go1.25] test/fixedbugs: remove issue46234 test timeout
+4f81fbf332 [release-branch.go1.25] doc: remove template use in godebug.md
+aed39507b1 [release-branch.go1.25] cmd/go/internal/cache: update trim timestamp before trimming
+9a6627a5db [release-branch.go1.25] crypto/x509: fix wildcard domain exclusions.
+19c660de6b [release-branch.go1.25] cmd/compile/internal/typecheck: simplify tcSliceHeader
+b02c84a684 [release-branch.go1.25] cmd/internal/testdir: pass -buildid to link command
+814b540c17 [release-branch.go1.25] cmd/internal/testdir: unify link command
+de86eaeb0f [release-branch.go1.25] cmd/cgo/internal/test: use (syntactic) constant for C array bound
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Fixes CVE-2026-32282, CVE-2026-32289, CVE-2026-27144, CVE-2026-27143,
+      CVE-2026-32288, CVE-2026-32283, CVE-2026-27140, CVE-2026-32280 and
+      CVE-2026-32281.
+
+Release information: [2]
+
+[1] https://github.com/golang/go/compare/go1.25.8...go1.25.9
+[2] https://groups.google.com/g/golang-announce/c/0uYbvbPZRWU
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-28418.patch            | 78 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28418.patch
+ meta/recipes-devtools/go/{go-1.25.8.inc => go-1.25.9.inc} | 2 +-
+ ...binary-native_1.25.8.bb => go-binary-native_1.25.9.bb} | 6 +++---
+ ...oss-canadian_1.25.8.bb => go-cross-canadian_1.25.9.bb} | 0
+ .../go/{go-cross_1.25.8.bb => go-cross_1.25.9.bb}         | 0
+ .../go/{go-crosssdk_1.25.8.bb => go-crosssdk_1.25.9.bb}   | 0
+ .../go/{go-runtime_1.25.8.bb => go-runtime_1.25.9.bb}     | 0
+ ...go-make-content-based-hash-generation-less-pedan.patch | 8 ++++----
+ .../go/0006-cmd-go-make-GOROOT-precious-by-default.patch  | 2 +-
+ meta/recipes-devtools/go/{go_1.25.8.bb => go_1.25.9.bb}   | 0
+ 9 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.25.8.inc => go-1.25.9.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.25.8.bb => go-binary-native_1.25.9.bb} (79%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.25.8.bb => go-cross-canadian_1.25.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.25.8.bb => go-cross_1.25.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.25.8.bb => go-crosssdk_1.25.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.25.8.bb => go-runtime_1.25.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.25.8.bb => go_1.25.9.bb} (100%)
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-28418.patch b/meta/recipes-support/vim/files/CVE-2026-28418.patch
-new file mode 100644
-index 00000000000..3a80ba77f7d
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-28418.patch
-@@ -0,0 +1,78 @@
-+From f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Mon, 23 Feb 2026 18:30:11 +0000
-+Subject: [PATCH] patch 9.2.0074: [security]: Crash with overlong emacs tag
-+ file
-+
-+Problem:  Crash with overlong emacs tag file, because of an OOB buffer
-+          read (ehdgks0627, un3xploitable)
-+Solution: Check for end of buffer and return early.
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-h4mf-vg97-hj8j
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+CVE: CVE-2026-28418
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/tag.c                    |  3 +++
-+ src/testdir/test_taglist.vim | 15 +++++++++++++++
-+ src/version.c                |  2 ++
-+ 3 files changed, 20 insertions(+)
-+
-+diff --git a/src/tag.c b/src/tag.c
-+index a32bbb2459..45af67f20d 100644
-+--- a/src/tag.c
-++++ b/src/tag.c
-+@@ -1902,6 +1902,9 @@ emacs_tags_new_filename(findtags_state_T *st)
-+ 
-+     for (p = st->ebuf; *p && *p != ','; p++)
-+ 	;
-++    // invalid
-++    if (*p == NUL)
-++	return;
-+     *p = NUL;
-+ 
-+     // check for an included tags file.
-+diff --git a/src/testdir/test_taglist.vim b/src/testdir/test_taglist.vim
-+index 5a946042be..506e64f7ae 100644
-+--- a/src/testdir/test_taglist.vim
-++++ b/src/testdir/test_taglist.vim
-+@@ -301,4 +301,19 @@ func Test_tag_complete_with_overlong_line()
-+   set tags&
-+ endfunc
-+ 
-++" This used to crash Vim
-++func Test_evil_emacs_tagfile()
-++  CheckFeature emacs_tags
-++  let longline = repeat('a', 515)
-++  call writefile([
-++	\ "\x0c",
-++	\ longline
-++	\ ], 'Xtags', 'D')
-++  set tags=Xtags
-++
-++  call assert_fails(':tag a', 'E426:')
-++
-++  set tags&
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index 712a3e637c..7d265ab641 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -724,6 +724,8 @@ static char *(features[]) =
-+ 
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-++/**/
-++    1685,
-+ /**/
-+     1684,
-+ /**/
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index c29361cf3c0..11200a08240 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-25749.patch \
-            file://CVE-2026-26269.patch \
-            file://CVE-2026-33412.patch \
-+           file://CVE-2026-28418.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-1.25.8.inc b/meta/recipes-devtools/go/go-1.25.9.inc
+similarity index 91%
+rename from meta/recipes-devtools/go/go-1.25.8.inc
+rename to meta/recipes-devtools/go/go-1.25.9.inc
+index 5db1b1c04cb..9a96f6f1704 100644
+--- a/meta/recipes-devtools/go/go-1.25.8.inc
++++ b/meta/recipes-devtools/go/go-1.25.9.inc
+@@ -18,4 +18,4 @@ SRC_URI += "\
+     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
+     file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch \
+ "
+-SRC_URI[main.sha256sum] = "e988d4a2446ac7fe3f6daa089a58e9936a52a381355adec1c8983230a8d6c59e"
++SRC_URI[main.sha256sum] = "0ec9ef8ebcea097aac37decae9f09a7218b451cd96be7d6ed513d8e4bcf909cf"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.8.bb b/meta/recipes-devtools/go/go-binary-native_1.25.9.bb
+similarity index 79%
+rename from meta/recipes-devtools/go/go-binary-native_1.25.8.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.25.9.bb
+index df6cb542fb6..b11b822c946 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.25.8.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.25.9.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
- PV .= ".1683"
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "ceb5e041bbc3893846bd1614d76cb4681c91dadee579426cf21a63f2d7e03be6"
+-SRC_URI[go_linux_arm64.sha256sum] = "7d137f59f66bb93f40a6b2b11e713adc2a9d0c8d9ae581718e3fad19e5295dc7"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "28ed144a945e4d7188c93f8d85fb772a98ed18f8f9f8d3a650696b739f8cc57c"
++SRC_URI[go_linux_amd64.sha256sum] = "00859d7bd6defe8bf84d9db9e57b9a4467b2887c18cd93ae7460e713db774bc1"
++SRC_URI[go_linux_arm64.sha256sum] = "ec342e7389b7f489564ed5463c63b16cf8040023dabc7861256677165a8c0e2b"
++SRC_URI[go_linux_ppc64le.sha256sum] = "b0c41c7da1fc8d39020d65296a0dc54167afd9f76d67064e22c31ce3d839a739"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.25.8.bb b/meta/recipes-devtools/go/go-cross-canadian_1.25.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.25.8.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.25.9.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.25.8.bb b/meta/recipes-devtools/go/go-cross_1.25.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.25.8.bb
+rename to meta/recipes-devtools/go/go-cross_1.25.9.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.25.8.bb b/meta/recipes-devtools/go/go-crosssdk_1.25.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.25.8.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.25.9.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.25.8.bb b/meta/recipes-devtools/go/go-runtime_1.25.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.25.8.bb
+rename to meta/recipes-devtools/go/go-runtime_1.25.9.bb
+diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+index 6d75266cbe6..921e59c4a20 100644
+--- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
++++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+@@ -109,7 +109,7 @@ index 7b073165d5..1f618be0bb 100644
+  	}
+  
+  	// Configuration specific to compiler toolchain.
+-@@ -2639,8 +2641,25 @@ func envList(key, def string) []string {
++@@ -2636,8 +2638,25 @@ func envList(key, def string) []string {
+  	return args
+  }
+  
+@@ -136,7 +136,7 @@ index 7b073165d5..1f618be0bb 100644
+  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
+  		return
+  	}
+-@@ -2656,6 +2675,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
++@@ -2653,6 +2672,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
+  	if ldflags, err = buildFlags("LDFLAGS", DefaultCFlags, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
+  		return
+  	}
+@@ -150,7 +150,7 @@ index 7b073165d5..1f618be0bb 100644
+  
+  	return
+  }
+-@@ -2673,7 +2699,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
++@@ -2670,7 +2696,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
+  	p := a.Package
+  	sh := b.Shell(a)
+  
+@@ -159,7 +159,7 @@ index 7b073165d5..1f618be0bb 100644
+  	if err != nil {
+  		return nil, nil, err
+  	}
+-@@ -3237,7 +3263,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
++@@ -3238,7 +3264,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
+  	p := a.Package
+  	sh := b.Shell(a)
+  
+diff --git a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+index 15ffdb3cf38..4ac478be851 100644
+--- a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
++++ b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+@@ -94,7 +94,7 @@ index 1f618be0bb..651fa64582 100644
+  	if err := sh.Mkdir(a.Objdir); err != nil {
+  		return err
+  	}
+-@@ -1739,6 +1756,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
++@@ -1736,6 +1753,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
+  		return err
+  	}
+  
+diff --git a/meta/recipes-devtools/go/go_1.25.8.bb b/meta/recipes-devtools/go/go_1.25.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.25.8.bb
+rename to meta/recipes-devtools/go/go_1.25.9.bb
 
