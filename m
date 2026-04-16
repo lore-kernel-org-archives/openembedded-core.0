@@ -1,139 +1,169 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D4A2F8808C
-	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 07:03:24 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7963.1776322998168012241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 845BBFA0C23
+	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 07:27:56 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8064.1776324468592291685
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 00:03:18 -0700
+ Thu, 16 Apr 2026 00:27:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Vhd497o2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488ba6366a7so92098025e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 00:03:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=KvBL/T+A;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so117240145e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 00:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1776322996; x=1776927796; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=L7Mn56nvd80QgwV3vnmCfQQDCK4NKAQsuE8qem4cvuA=;
-        b=Vhd497o27IV4SijpQYA6RT20/Mh4l98QhmPrIyGkuTBRQYXviSvpEVx14ODlJR72Fx
-         6aUDz3cBJNDEG4Fp7mc+KWyhstbN4CtOLzPF24aI8mi/kvMdtaZv7yWooDEXaXSpUKc8
-         anmTLVPV/Z505Ii+k8UVEBHAXYHzI8b5wuFHw=
+        d=gmail.com; s=20251104; t=1776324467; x=1776929267; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EmNJFLmcfzG1RsGCm0UotehnDoBOFs8bBwSPUPcMEPY=;
+        b=KvBL/T+A43uQ4MGD6ATk+Tyb75wt2/ZgNhlu2A7Lrp9c/SXKIKp100OyLOgm4HjDgR
+         ztdAG+lQ1NbsqBRcCN3ARhbH/5FA+Piuc0gdMpWvKz8mIJaYdDQfElfHqfKfTi/jqKSo
+         TOoIhfz0RaHoTLsUBM9I4OMFq72yABV5tImRLTCTApZJs/Z8QRtOPdOwmnxRy73xkdRx
+         XNT0YkytDgakwhpKrnEWPSf1eJn2iLKZQGUTXdVMMnGTClmOkp67rmpsHpelxKjJSLTE
+         hDqdA3R+kA475zrRICq31NESrBXxubSpWIHCRgQQ/F7L60OEnd1CJdIf8KrmAVoxsBzz
+         MCMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776322996; x=1776927796;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L7Mn56nvd80QgwV3vnmCfQQDCK4NKAQsuE8qem4cvuA=;
-        b=qf4Fgi9eAstI+626q9SFZc+J+6yw7x0/mq62hSK1HskY4sSIvzikk8FP1do05p8GOk
-         C6NRaje+/gfPZGvEK/SLG9OQgLiNL6xHic12NYNUv+ZqfTHj8KaJcUtydnLSF5YcbwP7
-         yzpRrAqpRpGw28tP9G0BMc0SI3CPLH31Kn81lglr/Q+Rw5JQlg/hQIxNGpIK62tM5cNM
-         8pXFgRaRtz+5XpatkxlXSX3SIrRull8n9FFlAhNha4P8HKn6IubJHMd6sLcy4nwzyCVG
-         T93lrFtDvym6AXPvcjBBIoNO9v8gNTRP7sqahwdlR4XmBVfTs2R1plQMD7EJH2X9M2A2
-         bGGg==
-X-Gm-Message-State: AOJu0YyR3kAr7MO56++/h3um9A5WkUlN/GpdUkXsJ7czzbR3kaRI/x12
-	XHkG0UCMNLXPeB0wnJULHQKpIVIgD3rRcAr6CQ/H2ontn2Cqpf7ny4YCT7gM1IXO6ho=
-X-Gm-Gg: AeBDiet7Nq174AIPbe8f7JuT0ujAx0P5bdt1ydCpz3jgt2wzi+v9X45ePv34HSAts32
-	0yAjOuzrvMe8Q2Ijjxlygz/RnrNwWzNK0Jm6ER5guaF0ECsS3mzgI4IW0K6sStmpFQMr1zPc7RE
-	vAA/UTRaqt7Aa32lBEQFcjLR6JOC+baBKCpZPupZwFFkjUZEPG26LW5ph3Eemi0reSg8JPQaFgz
-	wV6C797H2lXELRgGevul/vybhzqH0cvtzbcCjs5HTiWqU1uRN5VZmxz6HAzxBKREQynWoCxLMAh
-	vNhOEhPMwMipqZbpl1XKWhhQKw3r+2DIO39z3Pf2xSnolwYoG+5miMXVmzM+8UCyozjRNN+rnWN
-	LDGBnZ5cjndrtFu6CI6bkNq/P1fcZIeKnquHa0vu8hNGFrO6Kowp+W77XC1esNOsVJh70pqRDCh
-	dZAu0hj6bduxtKCSFUnyh5bpcUb1b0yp6kn6SZxZ0kpcb/2AO3ObEdyKVCyQ367VhSf4SKlIRgE
-	1KneLSj+RSckcfTbZyKOJJhZhY=
-X-Received: by 2002:a05:600c:4f95:b0:488:be58:bb5b with SMTP id 5b1f17b1804b1-488d686c443mr344749975e9.24.1776322996433;
-        Thu, 16 Apr 2026 00:03:16 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9444:ba74:dc4b:e8c7? ([2001:8b0:aba:5f3c:9444:ba74:dc4b:e8c7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f5818d70sm49855885e9.4.2026.04.16.00.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 00:03:15 -0700 (PDT)
-Message-ID: <aa893eb861bf4dd18e3e84e6bbebdee3b0367d1b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 2/4] package_pkgdata: fix typo to stop
- calling undefined function
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adam Blank <adam.blank.g@gmail.com>, Mathieu Dubois-Briand
-	 <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Apr 2026 08:03:14 +0100
-In-Reply-To: <CAFAffzwtCKC7HGtRptDoTDFUyCg4kYfkTGmYUCy3Atn-2TqWXA@mail.gmail.com>
-References: <20260402-dead_code_and_unification-v2-0-259169372299@gmail.com>
-	 <20260402-dead_code_and_unification-v2-2-259169372299@gmail.com>
-	 <DHJD0XSTONE6.2ZXL04SBPR664@bootlin.com>
-	 <CAFAffzx7EdXXEudpQGCgSA-1M7aDDwMuRLW+Dta5urcmVx_yWg@mail.gmail.com>
-	 <DHJHIMYYUTH6.16YUU1V7MJZY@bootlin.com>
-	 <CAFAffzzW9r43AE5hKbXihkXqZTWeO=sQGctTkmL4Eg+U9X31AA@mail.gmail.com>
-	 <DHMXQQX9N8S2.2XR0GJ6ALH1O3@bootlin.com>
-	 <CAFAffzwtCKC7HGtRptDoTDFUyCg4kYfkTGmYUCy3Atn-2TqWXA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        d=1e100.net; s=20251104; t=1776324467; x=1776929267;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EmNJFLmcfzG1RsGCm0UotehnDoBOFs8bBwSPUPcMEPY=;
+        b=kE9iCwrDZd+4hgeO/O2JnLah/ribe/V0+F9Q93QQxjF9zQWvpJ+CtEaSJ5bs0x9hKi
+         TYrItpfeL0iIk1SDqR1wGYrC0si/QkJideSBhmYRSEaE7KhGEWcitzgC5gSM3r3t42Fa
+         RlYiqPezmBtDvUH2MnR6Zx/rQPqGjdQuqC1g4ITyVjD8K9JSuJgoFLvMa5mER3wgmEvm
+         TrfGZqby8O4dQSYd4cNNwWcXVcdmhvRjfPRgMNuzEs0irescgOkJjdSZ4wS7oItHTSEG
+         ucaq79czGcHLvqSDltCQi6ws4OjR07metLH1+dvoSmPFPUv56dE7m8WoThqu+Wn0FeKx
+         uY4w==
+X-Forwarded-Encrypted: i=1; AFNElJ9QQmvW7fxMsmrxO09xvPid7wcfUl7nij0BP3NyS3NUSu539EUy1VM1EQ2jx94U1Qb8XFVxKnFpZ4DOZ5asB8wdVw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxRS6jHCLOXOfr2Rt0hznmcTfUlDn2ycmNH1Skz8dOZTzHqRkSk
+	G9Tv2ynWNxnJ5KQhlwZTIIJhtokuhujum9Z2kfoOFB80x7niYQygCvyuJm86HA==
+X-Gm-Gg: AeBDietAw59iTJqxDkAY7c0Y7MIQc6tcLJmF+iuLknihh/pIh9LoNXQXRjHLl27SaRb
+	inrOBcsjQLNX0/m2xT4YSV83PLtTJFO3szqRkqO+x9752GEHqaPidRudy4stg/CDtMBJHGxAkrT
+	C9CXCa284QsdjjBRgz8+Q8A73lkM2IuxpDXuHi5jkKp4v/2BZFCOSBLHNDUJyrGh2LwZ2vxsJgI
+	D2/cmWxfCRkKVPkD0aOZ5/6Cc5FiKWw2OHJQnYxTSOpbeWnJMJsXtXSVhCevugDqWKg4ipzqHP1
+	pwCbqe9DJyYaKr4edG7E8WlvmaY406h2V92d1NWe/c7fJwWERISsUyXepMUKE8ohF6v0Q7PL3L/
+	3zVDgHNxJ0f6jTjS/RidI0NtXmSmAGkF0KbsK/u8kDtyXuwDObb6OLxrGG7InphZ0MilNAcWH9p
+	HZraI4w5YHZ+gWGSY+98P9+lR+lBOekrFXJMfF9cO+NOkHStcf8bcMKw==
+X-Received: by 2002:a05:600d:9:b0:488:b4e3:aeca with SMTP id 5b1f17b1804b1-488d67bf177mr272633545e9.1.1776324466765;
+        Thu, 16 Apr 2026 00:27:46 -0700 (PDT)
+Received: from [192.168.2.123] (95C81E23.dsl.pool.telekom.hu. [149.200.30.35])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f584e306sm36236175e9.11.2026.04.16.00.27.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Apr 2026 00:27:46 -0700 (PDT)
+Message-ID: <ee4be5e2-033f-436b-b847-a3c796304fab@gmail.com>
+Date: Thu, 16 Apr 2026 09:27:44 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2 3/7] pseudo: fix for build with glibc-2.43
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Martin Jansa <martin.jansa@gmail.com>
+Cc: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org,
+ Sundeep.Kokkonda@windriver.com, Randy.MacLeod@windriver.com
+References: <20260308150834.2508331-1-Hemanth.KumarMD@windriver.com>
+ <20260308150834.2508331-3-Hemanth.KumarMD@windriver.com>
+ <CA+chaQcneoNBogdCZmZB3LCE-cVErs2-4NoNtYUGgK+REEBxLg@mail.gmail.com>
+ <18A40738790ACBCC.657799@lists.openembedded.org>
+ <e38f41d9-4af6-4389-90a7-0c2ae6b47330@gmail.com>
+ <CA+chaQdDkMUDBO8G=cku8SVe=Ow+Hgt606mZO863rCaNaznDrA@mail.gmail.com>
+ <18A41C5827F22307.777565@lists.openembedded.org>
+ <ed118dea-62cd-4d29-9ee1-336367a2aae5@gmail.com>
+ <a534592e54506e5576444250023b0bed775a298d.camel@linuxfoundation.org>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <a534592e54506e5576444250023b0bed775a298d.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 07:03:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235390
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 07:27:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235391
 
-On Sun, 2026-04-12 at 16:18 +0200, Adam Blank wrote:
-> I've dug some more, as I couldn't come to terms with it ;-)
+2026. 04. 15. 15:16 keltezéssel, Richard Purdie írta:
+> On Tue, 2026-04-07 at 17:38 +0200, Zoltan Boszormenyi via lists.openembedded.org wrote:
+>> 2026. 04. 07. 17:21 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
+>>> The issue turns out to be with GNU tar, specifically this build:
+>>> https://koji.fedoraproject.org/koji/buildinfo?buildID=2924033
+>>>
+>>> Manually downgrading to the previous build fixed the packaging problem:
+>>> https://koji.fedoraproject.org/koji/buildinfo?buildID=2917292
+>>>
+>>> I reported it here:
+>>> https://bugzilla.redhat.com/show_bug.cgi?id=2455965
+>> According to the changelog of the current GNU tar 1.35-8.fc44 build,
+>> it contains backports from what will be the official 1.36 version.
+>> With that release, whenever it will be out, other distros would fail, too.
+>>
+>> Note this from the Fedora package changelog:
+>>
+>> - Backport upstream changes to jailify extraction directory
+>>     Includes related gnulib changes to add openat2
+>>     Fixes CVE-2025-45582 (fedora#2380007)
+>>
+>> which seems to be this commit:
+>> https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=75b03fdff48916bd0654677ed21379bdb0db016d
+>>
+>> commit 75b03fdff48916bd0654677ed21379bdb0db016d
+>> Author: Paul Eggert <eggert@cs.ucla.edu>
+>> Date:   Thu Nov 13 13:44:10 2025 -0800
+>>
+>>       Use openat2 to jailify the extraction directory
+>>
+>>       This addresses CVE-2025-45582.
+>>       * gnulib.modules: Add openat2.
+>>       * src/misc.c (open_subdir): New static function.
+>>       (fdbase_opendir): Use it.
+>>       * src/tar.c (open_searchdir_how): New var, replacing and
+>>       augmenting open_searchdir_flags.  All uses changed.
+>>       * tests/extrac31.at: New file.
+>>       * tests/Makefile (TESTSUITE_AT), tests/testuite.at: Add it.
+>>
+>> I guess it will really need fixes in pseudo to overcome this.
+> I have put some patches onto this branch of pseudo:
+>
+> https://git.yoctoproject.org/pseudo/log/?h=rpurdie/openat2
+>
+> In my local testing, that did work but I don't have a Fedora 44 system
+> to test on right now. There are some potential issues with chroot
+> handling in there but I would be curious how this works on Fedora 44 if
+> you were able to test...
 
-I'm certainly a bit concerned with what you found and have been wanting
-to try and find time to understand what is going on. It would seem we
-simply must not be calling that code path?
+Here's the patch I made against pseudo:
 
-> I've got a fix and a reasoning behind it: when the typo is fixed, a
-> new callable function is identified and treated as a dependency of
-> 'do_package'. This in turn pulls in its dependency on
-> 'PACKAGE_EXTRA_ARCHS' and the test must fail.
-> The fix is simply about making sure, that
-> 'package_populate_pkgdata_dir' has 'PACKAGE_EXTRA_ARCHS' and a few
-> other variables in its 'vardepsexclude'.
+--------
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb 
+b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 4d31629903..1282e231d7 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,6 +1,6 @@
+  require pseudo.inc
 
-That is a good find and would certainly explain the error.
+-SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
++SRC_URI = "git://git.yoctoproject.org/pseudo;branch=rpurdie/openat2;protocol=https \
+             file://fallback-passwd \
+             file://fallback-group \
+             "
+@@ -12,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
+      file://older-glibc-symbols.patch"
+  SRC_URI[prebuilt.sha256sum] = 
+"ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
 
-> What bothered me was something else though. I could clearly see, how
-> this part of code in 'package.bbclass' was based on
-> 'staging.bbclass'. There is an identical chain of dependencies:
-> -=C2=A0do_prepare_recipe_sysroot ->=C2=A0extend_recipe_sysroot -
-> >=C2=A0staging_populate_sysroot_dir (referencing 'PACKAGE_EXTRA_ARCHS')
-> -=C2=A0do_package ->=C2=A0package_prepare_pkgdata -
-> >=C2=A0package_populate_pkgdata_dir (referencing 'PACKAGE_EXTRA_ARCHS')
+-SRCREV = "56e1f8df4761da60e41812fc32b1de797d1765e9"
++SRCREV = "54f3d1b4dd3eaed2c57b43c3a4d62cdf99239ed2"
+  PV = "1.9.3+git"
 
-That would bother me too and is a very good question.
+  # largefile and 64bit time_t support adds these macros via compiler flags globally
+--------
 
-> I couldn't believe that somehow 'do_package' had this issue, but
-> 'do_prepare_recipe_sysroot' didn't (for no apparent reason). After an
-> extremely long chase, I found 'extend_recipe_sysroot' in
-> 'BB_BASEHASH_IGNORE_VARS'... Since this was more unexpected to me
-> than the Spanish Inquisition, and has been there since 2017, I'd like
-> to ask:
->=20
-> - Is it truly justified for 'extend_recipe_sysroot' to have this sort
-> of globally unique, special treatment?
-> - Wouldn't it be better for it to be handled using the same mechanism
-> that are applied to other functions?=C2=A0
+I have upgraded to tar 1.35-8.fc44 and run some build.
+This change in pseudo works properly with the newer tar build shipped in Fedora 44.
+FWIW, I have not tried building GNU tar from their latest git sources.
 
-Those are good questions. I suspect this:
-
-* was done to make things a little easier on rebuilds if/as/when=C2=A0
-  that=C2=A0code changes
-* was by 'design' in that it was anticipated that=C2=A0
-  extend_recipe_sysroot=C2=A0would be called from more places than it=C2=A0
-  may=C2=A0have ended up being called from
-* may have predated the exclusion mechanisms being reliable
-
-I'd not be against using more exclusions and moving it out of
-BB_BASEHASH_IGNORE_VARS but we'd have to be very careful about the
-potential new dependency chains and carefully audit them.
-
-Cheers,
-
-Richard
-
-
-
+Thank you very much!
 
 
