@@ -2,189 +2,135 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01498F8DFEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 192F8F8DFEA
 	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 22:33:16 +0000 (UTC)
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28563.1776378787992115962
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28255.1776378789074481406
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 15:33:08 -0700
+ Thu, 16 Apr 2026 15:33:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=aIJfdGzh;
- spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488afb0427eso613555e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:07 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=wRJ8NiDB;
+ spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so507125e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776378786; x=1776983586; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776378787; x=1776983587; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mXN7aEZFKmUORiNVJiXvWTSjjE98DeEPnv8xkjv6vSc=;
-        b=aIJfdGzhIZ4lVndkkoJI4O1Gt7lsHnDP7DwsorPCNh0gEFWxPFv0p2BYLuwprxeStw
-         bwgOAnUd/iJkeQboxFywzkfrK/iWBKP1Exg9nhhd70/KdzJD4fXd2EdpKiJyZ1Upbb/T
-         i9Ruvp+X7+yH4hDKuoskpwjYvyLLO9o0czIFc=
+        bh=LVxFLZXyxleC1/tWo9DUC3Wm/ch6/RCWSpYsaOU0/Q4=;
+        b=wRJ8NiDBekYKj83kiAi/7XyH7YOl18mtoFI+2oOGbrLlhq2U8FhJSIaEPfmrACYrBu
+         Gd/U5KosRKKJh9VjNzmqgd4kKkWo+rYYni0SQmmWf6DmmM6eJhGbJ6W+FQPY4gyrfpVW
+         Wct6JaZbehfIV4AZsPT+hK81b+uflJ2+EN1UE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776378786; x=1776983586;
+        d=1e100.net; s=20251104; t=1776378787; x=1776983587;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=mXN7aEZFKmUORiNVJiXvWTSjjE98DeEPnv8xkjv6vSc=;
-        b=ZyUhe71kznngH9wwGlcql/irqex2YryRlTNCuQzUSzMRyOLl8J34jxhkz0cQBZ2tPA
-         mm2r8P+AHgcPM9R8q/csteSVtLWym8y8grlV95mKoy3HttTJ7YtaywcGN00kL4EoN0uT
-         AUyJoPrjI62pHiU9Ad+B4mbhpiUkY0fuhAS3Rd+abOMOMZQ98TePJHqkNEoiKjQG0he/
-         KaZ9OmkpG4aBaRx1sFfP9yhMHpwkJPzZ0Zd7PMr7eFX19QjLtun7Wk3btpUfmcUxljDr
-         FyOtDpDoAQP8Wv/MJ9ADWepNQz6TuAAUj/0ZrRSUrHQSM6NM87O6fm3y/t24myI/Ykkk
-         9e/g==
-X-Gm-Message-State: AOJu0Yy4934gbN449PUW97VM1Bpj9i9id8ckXXiBjSVyi+aKp8KC67OJ
-	9qtwdONKzVlGIx/Aj41OwD9dpLA1ZDqXw86kpN++NTBTdhH9EIT2uj534wQYWqj0tPOZoxjw2Fx
-	fboVFKN0jmJFs
-X-Gm-Gg: AeBDietuDTcyM0cPXibSRw/DAMwgiR7OX+LlyXd0kN1mnqR521q+Yc7zC5yfCEg0pl/
-	j/L2ItqRMeNHobaU3sUc4vpowibmNK7MUSPdz6vOfRv+N/Frb/uGvDPdTfiWXd0xVkuU5jCAlDm
-	TRFpt5mCPWoo+lWMFQCdmrw+ZIAbh0oDIO/gpKJkxDqT50cbZUHBzanymvnsELju2VPlnk8pgPj
-	Sz0iXOss2Eq7cwtx1HeDVa45ECb/DlDLxDwKs0o1GrsFQTJBGXT4+M/t3rZZcJ3tbFNNz2iqdBd
-	kHjf8DBRE8TZghin8G0Si260iuUnEhlEbuyigmeXMtHAA822asvs8yhJn17CT/9qjKnWxamimJG
-	dlRhNFrjBcyK0T2Tk67vO7HQ2NkM6QoiHO69SIOm8YAkkzsKI6RBMOQlQkqztjuiT4ruia++lMB
-	0q9at0HEejheTEhlxmZwTo1GubkayYgyz+0mcHdm2Z8A1m+bmHKkb4H0JGYz1ONaitcpGjk8Vj+
-	Ci2ot5LNEl3jzhvONtR4tntd0v7YrYXE6RIPQ==
-X-Received: by 2002:a05:600c:a416:b0:488:90ac:8f71 with SMTP id 5b1f17b1804b1-488fb73a9fcmr4034545e9.5.1776378786115;
-        Thu, 16 Apr 2026 15:33:06 -0700 (PDT)
+        bh=LVxFLZXyxleC1/tWo9DUC3Wm/ch6/RCWSpYsaOU0/Q4=;
+        b=tWWO/jcWM6etg+/y4HDWMPUwPuMnhloDba8nbxuiN7Rs8N26jG5qQ6WSX4Mua3UnB8
+         IFkvjli2LVzIp8mucWvbMSujgXGVb1ORyaT+Sn68L+Tnt10k1996qWzf8clKYr7Vp378
+         8xf+xNX02885AJHJUwkudDE9v3lEjpUnU7wzrHQjV9xxyF1uoBVUgrS7atKWhNtQ5uA1
+         QzYw8yCbYWOgM3iyITKH63PtYtkwO75NHjLu+YjHSXEXzqkaE8crvcBENML3S+l5v9Dh
+         ULnS9/LwEnQJyuQYc+NITQBckfehJirdbZcQkoaTtBKYLASGSZ8E/US8wMIvH6pHOy7k
+         RLXA==
+X-Gm-Message-State: AOJu0YzrJ+AJZMgWrrIbLeUnGVu+7ICDTgahs7BiYsKzzPJqUHrWfe27
+	oaHCjuKxJjz8kpGvtkf3dlXB8/lNcgXTzfwUD/7c6oDL9AUA0rZ08zMYo+VFbiy1/s7VmFu5aUe
+	aUj7Zt3GaAPZ7
+X-Gm-Gg: AeBDiet0cVTdcIwvHkrvtZC+tg34+6AJSFEJe8vJk7DahOxbSDNR5udd/5n66tHzkKV
+	cDVzifmtuSP7YX0ZAdWXtyQgVogUGIFRQjsvZbtP7GQhh3AYSdY9MJ6IEC5zykCAYNyex7C2mv/
+	Ss0n7k9+MNp+lOUXAzz8g/DU3/pew1fBe5MslRgOfVSTHjCgAE3eAoha+NWvO6vwZOZn9pVMLHl
+	6cMGtZUd/DZ8SjZYSPhpKOjfKpjPvaXoaa05RjxrSaZVG7kBy8Qj23RxTR6rK8VHEkHyEigMj5A
+	Md+cJRDH3Nx0NxvifzOLldslrRwChop3p+OT7Ph+8eLB9vGUS4lmDX74NUyVMdKgLqYqYBsb3GZ
+	hwaqf25lQalHiFq/UMF1t7y0zTfIQJdg4ncD7XKo7m9RPsdm4lj01PetPgLj4jjdqqWv5waTzGH
+	YzY6Lybn1EsQshaSKhSEPgjEqSPAxwVdf3GR5wfcLl8Xu2tXo3tWrJgLRkEJKMBpTYpdmxM0Ycp
+	g52oX3FWQ6atJZHFsHXnQPGSIUAXyr2m1T4aopBLqjmCQA/
+X-Received: by 2002:a05:600c:8b68:b0:488:7f69:4abf with SMTP id 5b1f17b1804b1-488fb75405fmr5977795e9.12.1776378787121;
+        Thu, 16 Apr 2026 15:33:07 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57da2aesm141885005e9.0.2026.04.16.15.33.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 15:33:05 -0700 (PDT)
+        Thu, 16 Apr 2026 15:33:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 12/51] vim: Fix CVE-2026-28419
-Date: Fri, 17 Apr 2026 00:29:55 +0200
-Message-ID: <d4829660cfbd9c46c99142c935fd6ca26a3c13f9.1776377993.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 13/51] binutils: Fix build with GLIBC 2.43 on the host
+Date: Fri, 17 Apr 2026 00:29:56 +0200
+Message-ID: <47c73e8d5c4b60e7a9124010352804507b76d75d.1776377993.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1776377993.git.yoann.congal@smile.fr>
 References: <cover.1776377993.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 22:33:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235441
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235442
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Zoltán Böszörményi <zboszor@gmail.com>
 
-Pick patch from [1] also mentioned in [2]
+Added a patch to fix a build error in the CALL_UTIL() macro
+when built against GLIBC 2.43 on Fedora 44. This fixes
+binutils-native.
 
-[1] https://github.com/vim/vim/commit/9b7dfa2948c9e1e5e32a5812812d580c7879f4a0
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28419
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-28419.patch            | 86 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28419.patch
+ .../binutils/binutils-2.45.inc                |  1 +
+ ...tect-against-standard-library-macros.patch | 34 +++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-gprofng-protect-against-standard-library-macros.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-28419.patch b/meta/recipes-support/vim/files/CVE-2026-28419.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
+index f635d76069a..81d46bfb734 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.45.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
+@@ -52,4 +52,5 @@ SRC_URI = "\
+      file://CVE-2025-69644_CVE-2025-69647.patch \
+      file://CVE-2025-69649.patch \
+      file://CVE-2025-69652.patch \
++     file://0001-gprofng-protect-against-standard-library-macros.patch \
+ "
+diff --git a/meta/recipes-devtools/binutils/binutils/0001-gprofng-protect-against-standard-library-macros.patch b/meta/recipes-devtools/binutils/binutils/0001-gprofng-protect-against-standard-library-macros.patch
 new file mode 100644
-index 00000000000..91100a7e91e
+index 00000000000..b626c51b6cd
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-28419.patch
-@@ -0,0 +1,86 @@
-+From 9b7dfa2948c9e1e5e32a5812812d580c7879f4a0 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Mon, 23 Feb 2026 19:35:25 +0000
-+Subject: [PATCH] patch 9.2.0075: [security]: Buffer underflow with emacs tag
-+ file
++++ b/meta/recipes-devtools/binutils/binutils/0001-gprofng-protect-against-standard-library-macros.patch
+@@ -0,0 +1,34 @@
++From 5f66aee7f4bec7a2d8378034116f5e5c3dc50f41 Mon Sep 17 00:00:00 2001
++From: Andreas Schwab <schwab@suse.de>
++Date: Sat, 22 Nov 2025 11:29:43 +0100
++Subject: [PATCH] gprofng: protect against standard library macros
 +
-+Problem:  When parsing a malformed Emacs-style tags file, a 1-byte
-+          heap-buffer-underflow read occurs if the 0x7f delimiter
-+          appears at the very beginning of a line. This happens
-+          because the code attempts to scan backward for a tag
-+          name from the delimiter without checking if space exists.
-+          (ehdgks0627, un3xploitable)
-+Solution: Add a check to ensure the delimiter (p_7f) is not at the
-+          start of the buffer (lbuf) before attempting to isolate
-+          the tag name.
++The CALL_UTIL macro can expand to an unparsable expression of the argument
++is a macro, like with the new const-preserving standard library macros in
++C23.
 +
-+GitHub Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-xcc8-r6c5-hvwv
++	* gprofng/src/collector_module.h (CALL_UTIL): Add parens to not
++	expand its argument if it is a function-like macro.
 +
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+
-+CVE: CVE-2026-28419
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/9b7dfa2948c9e1e5e32a5812812d580c7879f4a0]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Signed-off-by: Andreas Schwab <schwab@suse.de>
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=5f66aee7f4bec7a2d8378034116f5e5c3dc50f41]
 +---
-+ src/tag.c                    |  3 +++
-+ src/testdir/test_taglist.vim | 16 ++++++++++++++++
-+ src/version.c                |  2 ++
-+ 3 files changed, 21 insertions(+)
++ gprofng/src/collector_module.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/tag.c b/src/tag.c
-+index 45af67f20d..d3a73997bb 100644
-+--- a/src/tag.c
-++++ b/src/tag.c
-+@@ -2023,6 +2023,9 @@ etag_fail:
-+     }
-+     else			    // second format: isolate tagname
-+     {
-++	if (p_7f == lbuf)
-++	    goto etag_fail;
-++
-+ 	// find end of tagname
-+ 	for (p = p_7f - 1; !vim_iswordc(*p); --p)
-+ 	    if (p == lbuf)
-+diff --git a/src/testdir/test_taglist.vim b/src/testdir/test_taglist.vim
-+index 506e64f7ae..42ecc4b76e 100644
-+--- a/src/testdir/test_taglist.vim
-++++ b/src/testdir/test_taglist.vim
-+@@ -316,4 +316,20 @@ func Test_evil_emacs_tagfile()
-+   set tags&
-+ endfunc
++diff --git a/gprofng/src/collector_module.h b/gprofng/src/collector_module.h
++index b64d69c45ab..859a6dd1f7d 100644
++--- a/gprofng/src/collector_module.h
+++++ b/gprofng/src/collector_module.h
++@@ -119,7 +119,7 @@ typedef struct CollectorUtilFuncs
++ extern CollectorUtilFuncs __collector_util_funcs;
++ extern int __collector_dlsym_guard;
 + 
-++" This used to crash Vim due to a heap-buffer-underflow
-++func Test_emacs_tagfile_underflow()
-++  CheckFeature emacs_tags
-++  " The sequence from the crash artifact:
-++  let lines = [
-++    \ "\x0c\xff\xffT\x19\x8a",
-++    \ "\x19\x19\x0dtags\x19\x19\x19\x00\xff\xff\xff",
-++    \ "\x7f3\x0c"
-++    \ ]
-++  call writefile(lines, 'Xtags', 'D')
-++  set tags=Xtags
-++  call assert_fails(':tag a', 'E431:')
-++
-++  set tags&
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index 7d265ab641..4f47ec2688 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -724,6 +724,8 @@ static char *(features[]) =
++-#define CALL_UTIL(x) __collector_util_funcs.x
+++#define CALL_UTIL(x) (__collector_util_funcs.x)
 + 
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-++/**/
-++    1686,
-+ /**/
-+     1685,
-+ /**/
++ /* The following constants define the meaning of the "void *arg"
++  * argument of getFrameInfo().
 +-- 
-+2.50.1
++2.53.0
 +
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 11200a08240..70d3dbf7d8c 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-26269.patch \
-            file://CVE-2026-33412.patch \
-            file://CVE-2026-28418.patch \
-+           file://CVE-2026-28419.patch \
-            "
- 
- PV .= ".1683"
 
