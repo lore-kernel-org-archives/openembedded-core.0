@@ -1,172 +1,204 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3FA5F8D74F
-	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 14:11:15 +0000 (UTC)
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15198.1776348672204328601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DEB2F8D753
+	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 14:48:17 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11342.1776337917410740692
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 07:11:12 -0700
+ Thu, 16 Apr 2026 04:11:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KaSiVI2Q;
- spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488971db0fdso80847405e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 07:11:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=eKWkgs5s;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: careers.myinfo@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-50b69bf5638so84639431cf.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 04:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776348670; x=1776953470; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3C8hvJiJCdmJistd4sSGxG/BrY+qFf9kDebIcFbXHV8=;
-        b=KaSiVI2QWP2f6fnr91RylT2RvN7IlYrpkIMQAF0CYnpclr03xBRzOCYGIenHdSAfPd
-         f0Mzqy4CY4mYuAeP/UpqYGZYJTp9IvGtadtP6dGocOt0fJu34yFjqu/SyImKOFZnOJwK
-         Kil6/zRjj8fnIP8a/qAXDg69OexDmMrF54i6U=
+        d=gmail.com; s=20251104; t=1776337916; x=1776942716; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kJemU0pmhCzcMFJ+uhdpgwCK7hbxRlfPAVlNvLLmFU0=;
+        b=eKWkgs5snC5cGXuIznqo4qNqoM5V/3wKnjDcyCYvy3IvVlKJjMn3nSDYOT+of3cvoC
+         bRQX7p9mlGJzWHhvRAUFcUi0n0U2hrp3JpauAgMciyQGzlSFpTfvRNrGgW5sYj8ZK75X
+         Q8zfj+cA5/CD26x4P+ZOZhaPJAT7Z0NxFP7IHeQwH9/0OS8h7v1dMebajLkFrxuXnWIp
+         Yqo4DDw0ex9zadHJ8upnU4nJG1wO904bO0uwwWIDtlhPBfVnuGQjClW5K6Lh0KR0E54W
+         DqMOj7Up5/sqPYT5crPK5Im6rpFZYuCjv8JOL/RsrvxiNDMhTMYSP3SUBQ05PhqSmmon
+         P0MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776348670; x=1776953470;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3C8hvJiJCdmJistd4sSGxG/BrY+qFf9kDebIcFbXHV8=;
-        b=nPLz1dNUaFzxEQqAEq0OvYMao1LmxyQRL0AudgNpt6MUI4bKhypnY238uEMoz91yW0
-         G3OiZTzKGrQ+2EeBtne16ShmqYi/XRu6eavpJCZkvQk6lOW1/AWPO5cqNFdOVFCerMh0
-         8kpCwfq0oX+0e+EX0cHWWg0pJ4h83FcweBa2jHzACHqDZX/4hf9m0MA3u8xJ+xELj1kV
-         XnJ7j6IruCNbaRSutjYhg75t1QTBYEYjgNzld59uxB4j5UKTDQPCj4D7fZdMur/wbDdb
-         UsZfRxGj6T/G/OIVrQ0GDNjrwtBdjiWgykTMG+AE/t50voFczuYfOCwFASCRQfrW2feA
-         QLlA==
-X-Forwarded-Encrypted: i=1; AFNElJ+15tn/Mm8W4J5tu5ybQmbv7eived/UTWjRLM8dNzIBLvpl2giOijpj6S8wIexBJ/p3Ykal6zpUkvxybkPyIXBuIQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy/wY+2LrQhxhu384miZ+0RSVoOyj/te/pTqztVlbFM8dh9Hp0j
-	RzUe6SYn42YLh+jfAw+KWChscMCVbpdJ4AVlctUCIjLkV3F11YV/pdKQa6LazUuIbgVXgOQiCUG
-	gplE7n3DVm2zs
-X-Gm-Gg: AeBDieuYYsGFPIYd9U2LzBmSfxsvNjW8IW6tkfiIR14yb8QrGFL4dt378tcaMA7Ofjq
-	Lrd42yUbJWSAt1f8MNLRfXZU5CeQi0ziPzg+sHCe0jdIQvCS0xGKIFg//AytSN+w75uc21Z7FJk
-	xpBcUbj93efe2J3v9D5lyCE+bzodc0PqUgLVQ1huUAzSFhN3yZKe4o5kpqvoInBBeEIl6k1fUqf
-	DPqqXX5FQn7dee3ieKr4AVAZBDhKvT7tkxjp18rzjgh/1CM7gbbHS7JQxJYqFRCBJw4X0LD0i/K
-	ADRpv6/OxJr2t56S4Iq4OH45ZCeYIVCnM3oPLwXsditSSt6ZyWaM2In2rfxVCwlR6CJKN/jAHg4
-	XMNhTzXEz9s1Oy64sgmTjhnSaYjKpW9AE60oP5Cavt8S8I1ffWf8jJeJnUVQ5/r94FslpyFuox9
-	JWxgE/A2cxj09NHnWEMUoMQs7hlfrswUaZKG0CkbiWi3iTIsn1SCFMzTXXgZXHzZa8ng1yZPRDG
-	boNYAx3xRZmGkqup9AAtoguXUwTXySubMja
-X-Received: by 2002:a05:600c:4715:b0:488:9e54:94c0 with SMTP id 5b1f17b1804b1-488d67e7dd4mr384535035e9.8.1776348670494;
-        Thu, 16 Apr 2026 07:11:10 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f585cea1sm56060495e9.15.2026.04.16.07.11.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Apr 2026 07:11:09 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Apr 2026 16:11:09 +0200
-Message-Id: <DHUN1SXX5RDI.1OA9PUGO3NH3H@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <martin.jansa@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [whinlatter][PATCH 9/9] binutils: backport patch to
- fix build with glibc-2.43 on host
-X-Mailer: aerc 0.20.0
-References: <20260409152839.2894434-1-martin.jansa@gmail.com>
- <20260409152839.2894434-9-martin.jansa@gmail.com>
-In-Reply-To: <20260409152839.2894434-9-martin.jansa@gmail.com>
+        d=1e100.net; s=20251104; t=1776337916; x=1776942716;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kJemU0pmhCzcMFJ+uhdpgwCK7hbxRlfPAVlNvLLmFU0=;
+        b=fEJlija0QLnnsiMBITRx9BJXKsMdhwqEELRQwdYG+Ar26AbPbAzJGOqKHWi87U9seL
+         xPI1hxETO84x7g8Qo0sRAX0LBTe0vJU+LknEtGBXhlVyssuvBMzPLnSQq0M94VsWBgow
+         VdTT8Xmqrqg44yH6ex2+2si/k8DM5Y2TO/w19xCb/SMYgwvDqx9gPDDZrVeT47IDfhes
+         EyLu06vMDRGNyjBTnNJXQ6/pgnRdXirGi/89wL/8/hBvZxo547k3OrtqDGXb+hSYWJWo
+         xqAa8I1cGZY+QOqlM2BAckdcwiPm49SHvMvx5v7YNs2B5JE6NfSZhOUNXtGIBp6L1A9K
+         +aIA==
+X-Gm-Message-State: AOJu0YwfSVBfzOBoUDLSoAON7k9Gv0JYOozSgEH8CxEdTno9QwLEgyto
+	TvRbyTCzYoMt0j1YRg/iKjEKD7wFCRYB44Fuyx75Y776uJmWeGit0dLLmjvjjQ==
+X-Gm-Gg: AeBDietG4lVNHQ2YZJZv5B0yX+7if98JI7tMZ7rMK0I5+vENP/AN83QSYO6Im/Xso/m
+	rsIicuKYiflPRr3fl2zH25VKRQPhrVdHhDYrKecFxe4j3v4VTHa7ilrdWwZLSCKSC7/DAWdziQg
+	WiJr6QhWwfty5Tst+9smyqVomS0u/H/4BU4JZQijU5tZhHf2Nrn3rjMbQhz2pUjiEcXNQq+aZ6C
+	3CT47TwVgX/tD2VDBaT4HzuRhrZoFfRiVw4P6+a8LpLdDayDCwaFVnt00CWLYr/xSH+9Ms34JPJ
+	L8R9CrLJaEY9am/KC3y+UPjyxF1I35E3qZE6GK8C2jCrneUVk2Mk8H08tASQO3W8Oplw7yIl48E
+	IX/AHZ4sBnCBaGf9irqDC8qutxyBTixgSv/qX1ot3TLzWj5NqnseabgLWLjhZjD2gJZd0ePfpMR
+	3QRlBhQSBkEM6Qh+vZ9Mtr4WZUwaOuGHfwdtnrrq25uEWkxA==
+X-Received: by 2002:a05:6a21:6d83:b0:398:e2b9:cce4 with SMTP id adf61e73a8af0-39fe3fe0240mr27468289637.40.1776337587778;
+        Thu, 16 Apr 2026 04:06:27 -0700 (PDT)
+Received: from L-15597L.kpit.com ([49.205.102.244])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c79581d6341sm4093760a12.30.2026.04.16.04.06.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 04:06:26 -0700 (PDT)
+From: Shaik Moin <careers.myinfo@gmail.com>
+X-Google-Original-From: Shaik Moin <moin.shaik@partner.bmwgroup.com>
+To: openembedded-core@lists.openembedded.org
+Cc: careers.myinfo@gmail.com
+Subject: [OE-core][master][PATCH] libsamplerate0: Adding ptest for libsamplerate0
+Date: Thu, 16 Apr 2026 16:35:25 +0530
+Message-Id: <20260416110525.1048871-1-moin.shaik@partner.bmwgroup.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 14:11:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235408
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 14:48:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235409
 
-On Thu Apr 9, 2026 at 5:28 PM CEST, Martin Jansa via lists.openembedded.org=
- wrote:
-> From: Martin Jansa <martin.jansa@gmail.com>
->
-> Fixes:
-> ../../../gprofng/libcollector/linetrace.c: In function =E2=80=98__collect=
-or_ext_line_install=E2=80=99:
-> ../../../gprofng/libcollector/linetrace.c:219:45: error: expected identif=
-ier before =E2=80=98_Generic=E2=80=99
->   219 |   if (java_follow_env !=3D NULL && CALL_UTIL (strstr)(java_follow=
-_env, COLLECTOR_JVMTI_OPTION))
->       |                                             ^~~~~~
-> ../../../gprofng/libcollector/linetrace.c:219:34: note: in expansion of m=
-acro =E2=80=98CALL_UTIL=E2=80=99
->   219 |   if (java_follow_env !=3D NULL && CALL_UTIL (strstr)(java_follow=
-_env, COLLECTOR_JVMTI_OPTION))
->       |                                  ^~~~~~~~~
->
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> ---
+From: Shaik Moin <careers.myinfo@gmail.com>
 
-Hello Martin,
+Executables Description:
+ callback_hang_test		-	Verifies that callback-based processing does not hang and that the library properly returns control without deadlocks.
+ callback_test			-	Tests the callback-driven processing mode of libsamplerate (SRC's non-blocking interface).
+ clone_test			-	Ensures the SRC state objects can be cloned correctly and continue producing identical output.
+ downsample_test		-	Tests accuracy and behavior when downsampling audio (reducing sample rate).
+ float_short_test		-	Tests conversions between float and short integer sample formats.
+ misc_test			-	Runs assorted sanity and utility tests that don't fit into other categories.
+ multi_channel_test		-	Verifies correct handling of multi-channel audio (e.g., stereo, 5.1) during sample-rate conversion.
+ multichan_throughput_test	-	Measures throughput and performance for multi-channel SRC processing.
+ nullptr_test			-	Ensures libsamplerate properly rejects or handles NULL pointers and invalid state.
+ reset_test			-	Tests the reset() behavior - state clearing, flushing buffers, resetting filters.
+ simple_test			-	The most basic test of sample-rate conversion functionality - often converting a small buffer to ensure fundamental correctness.
+ snr_bw_test			-	Measures Signal - Noise Ratio (SNR) and bandwidth performance for different converter algorithms.
+ src-evaluate			-	Evaluates internal SRC filter performance, quality, and algorithmic behavior.
+ termination_test		-	Ensures end - stream / termination behavior is handled correctly without artifacts or crashes.
+ throughput_test		-	Benchmarks throughput for mono or simple use cases to measure raw processing speed.
+ varispeed_test			-	Tests variable sample-rate operation (changing SRC ratio on the fly).
 
-Thank you for your patches. Ultimately, I took the equivalent patch from
-Zolt=C3=A1n:
-https://lore.kernel.org/all/20260407133521.840916-1-zboszor@gmail.com/
+Time taken to execute the ptest:- Approx ~3 mins
 
-Regards,
+Signed-off-by: Shaik Moin <careers.myinfo@gmail.com>
+---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../libsamplerate/files/run-ptest             | 47 +++++++++++++++++++
+ .../libsamplerate/libsamplerate0_0.2.2.bb     | 16 ++++++-
+ 3 files changed, 63 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libsamplerate/files/run-ptest
 
->  .../binutils/binutils-2.45.inc                |  1 +
->  ...tect-against-standard-library-macros.patch | 31 +++++++++++++++++++
->  2 files changed, 32 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/0022-gprofng-=
-protect-against-standard-library-macros.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.45.inc
-> index 16a63cabc5..f5456c0b0f 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.45.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
-> @@ -39,6 +39,7 @@ SRC_URI =3D "\
->       file://0015-CVE-2025-11081.patch \
->       file://0016-CVE-2025-11082.patch \
->       file://0017-CVE-2025-11083.patch \
-> +     file://0022-gprofng-protect-against-standard-library-macros.patch \
->       file://CVE-2025-11414.patch \
->       file://CVE-2025-11412.patch \
->       file://CVE-2025-11413.patch \
-> diff --git a/meta/recipes-devtools/binutils/binutils/0022-gprofng-protect=
--against-standard-library-macros.patch b/meta/recipes-devtools/binutils/bin=
-utils/0022-gprofng-protect-against-standard-library-macros.patch
-> new file mode 100644
-> index 0000000000..0fa0a93991
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-agains=
-t-standard-library-macros.patch
-> @@ -0,0 +1,31 @@
-> +From 5f66aee7f4bec7a2d8378034116f5e5c3dc50f41 Mon Sep 17 00:00:00 2001
-> +From: Andreas Schwab <schwab@suse.de>
-> +Date: Sat, 22 Nov 2025 11:29:43 +0100
-> +Subject: [PATCH] gprofng: protect against standard library macros
-> +
-> +The CALL_UTIL macro can expand to an unparsable expression of the argume=
-nt
-> +is a macro, like with the new const-preserving standard library macros i=
-n
-> +C23.
-> +
-> +	* gprofng/src/collector_module.h (CALL_UTIL): Add parens to not
-> +	expand its argument if it is a function-like macro.
-> +
-> +Upstream-Status: Backport [2.46 5f66aee7f4bec7a2d8378034116f5e5c3dc50f41=
-]
-> +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> +---
-> + gprofng/src/collector_module.h | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/gprofng/src/collector_module.h b/gprofng/src/collector_modu=
-le.h
-> +index b64d69c45ab..859a6dd1f7d 100644
-> +--- a/gprofng/src/collector_module.h
-> ++++ b/gprofng/src/collector_module.h
-> +@@ -119,7 +119,7 @@ typedef struct CollectorUtilFuncs
-> + extern CollectorUtilFuncs __collector_util_funcs;
-> + extern int __collector_dlsym_guard;
-> +=20
-> +-#define CALL_UTIL(x) __collector_util_funcs.x
-> ++#define CALL_UTIL(x) (__collector_util_funcs.x)
-> +=20
-> + /* The following constants define the meaning of the "void *arg"
-> +  * argument of getFrameInfo().
-
-
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 11a894accf..b5b536bb92 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -127,6 +127,7 @@ PTESTS_SLOW = "\
+     libmodule-build-perl \
+     libpng \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'libseccomp', '',d)} \
++    libsamplerate0 \
+     lttng-tools \
+     lz4 \
+     openssh \
+diff --git a/meta/recipes-multimedia/libsamplerate/files/run-ptest b/meta/recipes-multimedia/libsamplerate/files/run-ptest
+new file mode 100644
+index 0000000000..9fc9739b7c
+--- /dev/null
++++ b/meta/recipes-multimedia/libsamplerate/files/run-ptest
+@@ -0,0 +1,47 @@
++#!/bin/sh
++
++set -e
++
++TESTDIR="$(dirname "$0")/tests"
++
++total=0
++pass=0
++fail=0
++
++if [ ! -d "$TESTDIR" ]; then
++    echo "(tests directory missing)"
++    exit 1
++fi
++
++echo "----- Executables are: -----"
++
++for t in "$TESTDIR"/*; do
++    [ -x "$t" ] || continue
++    echo "$(basename "$t")"
++done
++
++echo "----------------------------------------------"
++
++for t in "$TESTDIR"/*; do
++    [ -x "$t" ] || continue
++
++    name="$(basename "$t")"
++    echo "Running $name"
++    total=$((total + 1))
++
++    if "$t"; then
++        echo "PASS: $name"
++        pass=$((pass + 1))
++    else
++        status=$?
++        echo "FAIL: $name (exit=$status)"
++        fail=$((fail + 1))
++	fi
++done
++
++echo "============================================================================"
++echo "# TOTAL: $total"
++echo "# PASS:  $pass"
++echo "# FAIL:  $fail"
++echo "============================================================================"
++[ "$fail" -eq 0 ]
+diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
+index 819096878b..52ff7f313d 100644
+--- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
++++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=336d6faf40fb600bafb0061f4052f1f4 \
+ DEPENDS = "libsndfile1"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsamplerate-${PV}.tar.xz \
++           file://run-ptest \
+ "
+ 
+ SRC_URI[sha256sum] = "3258da280511d24b49d6b08615bbe824d0cacc9842b0e4caf11c52cf2b043893"
+@@ -18,9 +19,22 @@ GITHUB_BASE_URI = "https://github.com/libsndfile/libsamplerate/releases"
+ 
+ S = "${UNPACKDIR}/libsamplerate-${PV}"
+ 
+-inherit autotools pkgconfig github-releases
++inherit autotools pkgconfig github-releases ptest
+ 
+ # FFTW and ALSA are only used in tests and examples, so they don't affect
+ # normal builds. It should be safe to ignore these, but explicitly disabling
+ # them adds some extra certainty that builds are deterministic.
+ EXTRA_OECONF = "--disable-fftw --disable-alsa"
++do_compile:append() {
++    oe_runmake buildtest-TESTS
++}
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/tests
++
++    for t in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
++        [ -x "${B}/$t" ] || continue
++        "${B}/libtool" --mode=install install -c \
++            "${B}/$t" "${D}${PTEST_PATH}/tests/$(basename "$t")"
++    done
++}
+-- 
+2.34.1
 
 
