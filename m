@@ -1,212 +1,206 @@
-Return-Path: <a.fatoum@pengutronix.de>
+Return-Path: <fra.schnyder@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24B52F8D75B
-	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 15:45:09 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17741.1776354305935373228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B37A7F8D75F
+	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 15:51:19 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17937.1776354676645692173
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2026 08:45:06 -0700
+ Thu, 16 Apr 2026 08:51:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: a.fatoum@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1wDOtr-0004ty-A0; Thu, 16 Apr 2026 17:45:03 +0200
-Message-ID: <1276260c-7dca-4f6d-801e-b486e7261ba7@pengutronix.de>
-Date: Thu, 16 Apr 2026 17:45:02 +0200
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Tvtsax3K;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: fra.schnyder@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488971db0fdso82010405e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 08:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776354675; x=1776959475; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ijxK31UKfkp1DpRBTTIzwXNN21ByR9LiwFdqvBVazLc=;
+        b=Tvtsax3K5P9VGyCVdonK4ptx6SQ3jmLEvi+7TLVapg+5ZWx5xy14cRNdMb9H8KEHDr
+         xQEtU+qlW87UM5tWOGd2ow9qpHZ99utHhWiG3WRkoyuslvAzc5c7w0cBQtmhBh2AsfgH
+         4TQBi9qGvxy03U3e+HHF/r6lCvLwezvdis41v3RPU8qCtqEOKxAUOLlYod15/0LZ1krA
+         Jokh7nPPH5qa4WukFvB++0p6D9SWDALPdCxE/qO5PpR61BFOfHtR2AJcfqrQnRQtCncT
+         RElO5tw29Z5Z+s3MpiHk7L0RbmT7oifIAE+GJf6ZAcPYKrAGaTskJnuGzoX8ELr4MbLp
+         UeFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776354675; x=1776959475;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ijxK31UKfkp1DpRBTTIzwXNN21ByR9LiwFdqvBVazLc=;
+        b=DlSbKlOLUXP1gMe7hnm27mlCzjvL0TsAMesBr98+AmPhUKM5WTFrLhMhoN72bqLJjs
+         27nYlakSKkeEQUEkNhtGoo9eUJVwNq8Y58TmqmSTZ/7de9oq5Z9kV9DmHost75yxJJQ/
+         fyKttWr+/YLBIVAYhF/cDaI7M2CKxUOIEX60DJWHRUoJQgcWMZR5wxeIRYgCMRe6FsWa
+         9zAUtQj1z65pJgvcPVl90CVjfcAaPirMm22UvZ3AkrSK77yHnh6BT69YjSM9nGni0FCP
+         mYXvL43ajSyrTeR3l32A27dYPAh8tMCsu91QzebAnqA22HpQKRweH+jM3S54B9IqfQ60
+         ZPKA==
+X-Forwarded-Encrypted: i=1; AFNElJ8xl2XR+68+c69y3JhnPhR0sA2x8nolDvzGzdQT+yPyZVAiWOtNQcDQQOCF4YI/ymQgjYlQIFosa+CA3ZTPN/JLNg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxk0QSTIpMgdNvPc0ew7tVNp5NhuOrf7LWP2flPabE/Lu+Ohe/m
+	jGFgg2LtIAI9RI2nLMP9mEttdqcsvL/KnvlJGHE+UKragQf0EJcsbQjg
+X-Gm-Gg: AeBDiev4yEYvPXI9RKts2d+2VY19cb6/emxgK/WuJNENEzo72zHVk1DAmptr3+UmC1K
+	PFbKwkhmwNEo389rltk2UTJ8z5OQdlk1o+HP6suDvsZywYatigrSznwAV+ECWEtAPLnI9VGq/5Y
+	HtgbHIHBCMVEKzueC5BAm0D6bt4i8Dz30Pqmi0BIGoLS9MkTp6wN+eR49INJufaXXQiFdERzA/8
+	IfRikpWTZ/aJzoMz5SlPIFpqOEugINqo7jDKNY3xINxJDenvBjoEqVlhNNZgb9yxJZJB/cGICxA
+	MQ3RLgG8e7TfsFC1I9Km97dG6qkyha6nMWpVQB89ZD82Q3y6gvTsA9Y0UONaK/aW5UWfJyGevSX
+	1XFFwR4aPZDScCzO4XsBZ6ctF/3khgOPugYZxVHEBidRN4BH+glF8JZtIWl5vFot9I9Haituh6T
+	nBdynJGouRBzP4kZs7cz5Q5EKUNnu7x+Ib18LUx6oeIj8e6uPwV0vXCdL+KI1St89ZcvXX/HVpi
+	y52E2ogKubp4iSjFmEz4O0z693A7tVwOJQFCXGMW2v4Aln3M64gR+vbIC/6FdQjRhgdr6wxDw==
+X-Received: by 2002:a05:600c:8207:b0:488:bf0c:a372 with SMTP id 5b1f17b1804b1-488d68a0ec8mr376113135e9.31.1776354674594;
+        Thu, 16 Apr 2026 08:51:14 -0700 (PDT)
+Received: from franzs-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f584e306sm74276835e9.11.2026.04.16.08.51.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 08:51:14 -0700 (PDT)
+Date: Thu, 16 Apr 2026 17:51:13 +0200
+From: Franz Schnyder <fra.schnyder@gmail.com>
+To: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+Cc: u-boot@lists.denx.de, trini@konsulko.com, 
+	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>, Francesco Dolcini <francesco@dolcini.it>
+Subject: Re: [PATCH] tools: mkeficapsule: Add disable pkcs11 menu option
+Message-ID: <7xe72m3tkzultqh3hw4cubfognfryjk5ababajoe6w6zt7jx4c@aaxa2kehv635>
+References: <20260409074710.1322519-1-Wojciech.Dubowik@mt.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][whinlatter][PATCH] barebox/barebox-tools: upgrade
- 2025.09.0 -> 2025.09.3
-To: Yoann Congal <yoann.congal@smile.fr>, ankur.tyagi85@gmail.com,
- openembedded-core@lists.openembedded.org
-References: <20260408000932.10450-1-ankur.tyagi85@gmail.com>
- <DHU1874ATB71.203BIG61AS590@smile.fr>
- <aeef1553-eec2-480e-bbc3-21766628dec5@pengutronix.de>
- <DHUMED89KHZI.2OCH4Y9XKVKO4@smile.fr>
-Content-Language: en-US, de-DE, de-BE
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <DHUMED89KHZI.2OCH4Y9XKVKO4@smile.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260409074710.1322519-1-Wojciech.Dubowik@mt.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:45:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235412
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2026 15:51:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235413
 
-Hello Yoann,
-
-Cc += yocto@pengutronix.de who are listed as recipe maintainers.
-
-On 4/16/26 3:40 PM, Yoann Congal wrote:
-> On Thu Apr 16, 2026 at 1:34 PM CEST, Ahmad Fatoum wrote:
->> On 4/15/26 11:05 PM, Yoann Congal via lists.openembedded.org wrote:
->>> On Wed Apr 8, 2026 at 2:09 AM CEST, Ankur Tyagi via lists.openembedded.org wrote:
->> I had prepared the v2025.09.y releases, so we (barebox) can hone a
->> workflow to be able to support the release that makes it into Wrynose
->> for a longer time than the usual 1 month it takes between the monthly
->> releases of barebox.
->>
->>> but on the other
->>> hand, there are changes that I find too risky:
->>> For example:
->>> * API Change: https://github.com/barebox/barebox/commit/5e9f709b2b56bd9689e174572ef2af59b9fed5d2
->>
->> barebox is a bare metal bootloader. Its API surface is:
->>
->> - the data formats it parses
->> - the data it passes along, e.g. fixed up device trees
->> - the boot/runtime services it provides to an OS (UEFI/PSCI/TEE-supplicant).
-
-Rereading this, it's probably worth to spell out also:
-
-- The protocols that barebox speaks
-- The build integration (e.g. Kconfig options)
-- The shell environment
-
-Such changes are also not suitable for a point release.
-
->> The change to bootm_set_overrides is not a change that affects
->> user-visible API for any of that; it is completely internal to barebox.
->> Revisiting it, I still think it was appropriate to backport it.
+On Thu, Apr 09, 2026 at 09:47:07AM +0200, Wojciech Dubowik wrote:
+> Some distros are using gnutls library without pkcs11 support
+> and linking of mkeficapsule will fail. Add disable pkcs11
+> option with default set to no so distros can control this
+> feature with config option.
 > 
-> I kind of agreeing with you I just remember my BSP dev days where this
-> is the kind of function I would call for my custom boot flow (But in
-> this case, fix looks easy enough)
-
-We had rather heated discussions not so long ago about the extent we
-should accommodate out-of-tree board code. :-)
-
-I believe a build-time failure is as good as it gets if an API is just
-not salvageable like the one you pointed out; It didn't take recursive
-calls into account, which occurred in real world scenarios.
-
-For compatibility breakage that is not immediately obvious at
-compile-time, we are maintaining migration notes:
-
-https://www.barebox.org/doc/latest/migration-guides/index.html
-
-But nothing that deserves an entry there should be something that would
-be ok to include in a point release - save grave security bugs that
-can't be fixed any other way.
-
-Most recently, both barebox v2026.03.1 and U-Boot v2026.04.0 will refuse
-to boot a FIT with a verified signed configuration when some of the
-images were left unsigned:
-
-https://lore.kernel.org/barebox/20260416153455.2630276-1-a.fatoum@pengutronix.de/T/#u
-
-Migration guide entry is the best we can do here.
-
->>> * New feature: https://github.com/barebox/barebox/compare/v2025.09.0...v2025.09.3#diff-2dd6d3e4c91931c982f091155a47dd8d03e26731f8d59b112e938508fe12255aR1
->>
->> Which features do you see there?
+> Suggested-by: Tom Rini <trini@konsulko.com>
+> Cc: Franz Schnyder <fra.schnyder@gmail.com>
+> Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+> ---
+>  tools/Kconfig        |  8 ++++++++
+>  tools/Makefile       |  3 +++
+>  tools/mkeficapsule.c | 14 ++++++++++++++
+>  3 files changed, 25 insertions(+)
 > 
-> Sorry the URL is not as direct as I thought.
-> This should link to the new "scripts/imx/pread.c" file.
-
-We don't have mingw build in CI, so this fixes a build regression even
-if doesn't sound this way.
-
-> Also, looks like imx-image gained a new option :
-> "-a authenticate additionaly the DCD block..."
-
-So this was the second commit in a series of two patches. The first is a
-fix and the second fixes an incompatibility with the external uuu
-utility. I concede that you can decide either way whether this patch is
-backport material or not.
-
-The impact on a user not affected by this issue is nonetheless minimal.
-
-> But those look like dependencies of a bugfix.
-
-Fixes are occasionally split for master (next release) and next (release
-after next), when the change is too involved.
-Recent example is that TF-A v2.14 broke backwards compatibility for its
-consumers:
-
-https://lore.barebox.org/barebox/20260325113711.2163037-1-a.fatoum@pengutronix.de/
-
-https://lore.barebox.org/barebox/20260325114753.2249763-1-a.fatoum@pengutronix.de/
-
-No one size fits all.
-
->> I appreciate that the stable branch was picked up, so many thanks for that!
-> 
-> Globally, I lean towards taking the upgrade. We will see if there are
-> other point of views.
-> 
-> And by the way, thank you for creating and maintaining a stable branch
-> :)
-
-This has been a pain point I heard at conferences in the past and I am
-happy to get feedback on how we can improve the process.
-
-The LTS and the migration guides are inspired by Yocto and we see it as
-an important part of making sure that barebox is a reliable bootloader
-in secure boot contexts.
-
-I think there's generally a lot to improve[1] the status quo of embedded
-bootloader security and I see making bootloader updates easier as
-important as shiny new features like barebox security policies (coming
-hopefully soon to an OE-core near you!), even if the former is
-admittedly not as fun..
-
-[1]:
-https://osseu2025.sched.com/event/25VqL/bootloaders-under-fire-real-world-threats-and-practical-defenses-ahmad-fatoum-pengutronix
-
-Thanks,
-Ahmad
-
-> 
->>
->> Cheers,
->> Ahmad
->>
->>>
->>>> ---
->>>>  meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
->>>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
->>>> index e41d0858fd..91865b4d44 100644
->>>> --- a/meta/recipes-bsp/barebox/barebox-common.inc
->>>> +++ b/meta/recipes-bsp/barebox/barebox-common.inc
->>>> @@ -3,6 +3,6 @@ SECTION = "bootloaders"
->>>>  
->>>>  LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
->>>>  
->>>> -PV = "2025.09.0"
->>>> +PV = "2025.09.3"
->>>>  SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
->>>> -SRC_URI[sha256sum] = "7df1aa47bb7bf1763a729137ac773e69a4052812af094475d739fc63a9295f0d"
->>>> +SRC_URI[sha256sum] = "e87eb863cbe45e4f5af8930825c8f6e20c02b82451e9e1125ea1c73c1fb49a87"
->>>
->>>
->>>
->>>
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#235329): https://lists.openembedded.org/g/openembedded-core/message/235329
->>> Mute This Topic: https://lists.openembedded.org/mt/118717996/4830399
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [a.fatoum@pengutronix.de]
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>>
-> 
+> diff --git a/tools/Kconfig b/tools/Kconfig
+> index ef33295b8ecd..ccc878595d3b 100644
+> --- a/tools/Kconfig
+> +++ b/tools/Kconfig
+> @@ -114,6 +114,14 @@ config TOOLS_MKEFICAPSULE
+>  	  optionally sign that file. If you want to enable UEFI capsule
+>  	  update feature on your target, you certainly need this.
+>  
+> +config MKEFICAPSULE_DISABLE_PKCS11
+> +	bool "Disable pkcs11 support"
+> +	depends on TOOLS_MKEFICAPSULE
+> +	default n
+> +	help
+> +	  Disable pkcs11 support. Can be used in cases when host GnuTLS
+> +	  library doesn't support it.
+> +
+>  menuconfig FSPI_CONF_HEADER
+>  	bool "FlexSPI Header Configuration"
+>  	help
+> diff --git a/tools/Makefile b/tools/Makefile
+> index 1a5f425ecdaa..60e84bfbf20d 100644
+> --- a/tools/Makefile
+> +++ b/tools/Makefile
+> @@ -271,6 +271,9 @@ mkeficapsule-objs := generated/lib/uuid.o \
+>  	$(LIBFDT_OBJS) \
+>  	mkeficapsule.o
+>  hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
+> +ifeq ($(CONFIG_MKEFICAPSULE_DISABLE_PKCS11),y)
+> +HOSTCFLAGS_mkeficapsule.o += -DCONFIG_MKEFICAPSULE_DISABLE_PKCS11
+> +endif
+>  
+>  include tools/fwumdata_src/fwumdata.mk
+>  
+> diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
+> index ec640c57e8a5..ad1c46f0e909 100644
+> --- a/tools/mkeficapsule.c
+> +++ b/tools/mkeficapsule.c
+> @@ -229,9 +229,11 @@ static int create_auth_data(struct auth_context *ctx)
+>  	gnutls_pkcs7_t pkcs7;
+>  	gnutls_datum_t data;
+>  	gnutls_datum_t signature;
+> +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+>  	gnutls_pkcs11_obj_t *obj_list;
+>  	unsigned int obj_list_size = 0;
+>  	const char *lib;
+> +#endif
+>  	int ret;
+>  	bool pkcs11_cert = false;
+>  	bool pkcs11_key = false;
+> @@ -242,6 +244,7 @@ static int create_auth_data(struct auth_context *ctx)
+>  	if (!strncmp(ctx->key_file, "pkcs11:", strlen("pkcs11:")))
+>  		pkcs11_key = true;
+>  
+> +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+>  	if (pkcs11_cert || pkcs11_key) {
+>  		lib = getenv("PKCS11_MODULE_PATH");
+>  		if (!lib) {
+> @@ -259,6 +262,7 @@ static int create_auth_data(struct auth_context *ctx)
+>  			return -1;
+>  		}
+>  	}
+> +#endif
+>  
+>  	if (!pkcs11_cert) {
+>  		ret = read_bin_file(ctx->cert_file, &cert.data, &file_size);
+> @@ -301,6 +305,7 @@ static int create_auth_data(struct auth_context *ctx)
+>  
+>  	/* load x509 certificate */
+>  	if (pkcs11_cert) {
+> +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+>  		ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
+>  							 ctx->cert_file, 0);
+>  		if (ret < 0 || obj_list_size == 0) {
+> @@ -309,6 +314,10 @@ static int create_auth_data(struct auth_context *ctx)
+>  		}
+>  
+>  		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
+> +#else
+> +		fprintf(stdout, "Pkcs11 support is disabled\n");
+> +		return -1;
+> +#endif
+>  	} else {
+>  		ret = gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
+>  		if (ret < 0) {
+> @@ -320,12 +329,17 @@ static int create_auth_data(struct auth_context *ctx)
+>  
+>  	/* load a private key */
+>  	if (pkcs11_key) {
+> +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+>  		ret = gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
+>  		if (ret < 0) {
+>  			fprintf(stderr, "error in %d: %s\n", __LINE__,
+>  				gnutls_strerror(ret));
+>  			return -1;
+>  		}
+> +#else
+> +		fprintf(stdout, "Pkcs11 support is disabled\n");
+> +		return -1;
+> +#endif
+>  	} else {
+>  		ret = gnutls_privkey_import_x509_raw(pkey, &key, GNUTLS_X509_FMT_PEM,
+>  						     0, 0);
+> -- 
+> 2.47.3
 > 
 
--- 
-Pengutronix e.K.                  |                             |
-Steuerwalder Str. 21              | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany         | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686  | Fax:   +49-5121-206917-5555 |
+Hi Wojciech,
 
+Shouldn't it be the other way around? Use of pkcs11 should be disabled 
+by default and enabled if required. As it is now, it would still depend
+on the the gnutls library having pkcs11 support and therefore still 
+would break our OE builds with mainline u-boot if we don't change our
+modules defconfig.
+
+kind regards
+
+Franz
 
