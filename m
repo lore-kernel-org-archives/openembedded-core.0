@@ -1,130 +1,103 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <corentin.guillevic@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6262CF436BA
-	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 16:07:20 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.48807.1776442030301146742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D95CF436BB
+	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 16:10:00 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.48872.1776442192700212528
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Apr 2026 09:07:10 -0700
+ Fri, 17 Apr 2026 09:09:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=tRZWxP3d;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F33731DB5
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 09:07:03 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3A4563F641
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 09:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1776442029; bh=KN1t3LdMDCUe2/jBqupFfO4PobyXP0cOVxFYiIfPvSU=;
-	h=From:To:Subject:Date:From;
-	b=tRZWxP3d3BInguwIC6nd40vNfQYI5Xokwud5oblHnh9XB/iyaqzoN2+nm9elz2HfN
-	 b+n28UYAAMDlYhucDfILUz1xQL+chkokzhRvdbQ6wKKKp/RUIm+sF2k4i4klLtXfa6
-	 030AInHeCpZAb31+Vui0Isd6szIrKYv/a5Nn6nhU=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=qkXxcAb8;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: corentin.guillevic@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so6257625e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 09:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1776442191; x=1777046991; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ud1P8aSygvnc4jUZzJFbWlE2K5ZhFhHnnU1daBzNiiI=;
+        b=qkXxcAb8NQc/Jv2Q2Wt4Zh57+6iXqaabOseTPuQX3/KprVkQiVPQATyKyC+HwnYeWC
+         u3bqVMFrpdQUFZIQJMAkefU7miW0qsJSJhI1XgAU4f4kp7YN50xtVRAI65VYP/5cx7ak
+         K+htiS0xetmG6Fn68g1aX3ID0XE35ZwzRB9pc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776442191; x=1777046991;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ud1P8aSygvnc4jUZzJFbWlE2K5ZhFhHnnU1daBzNiiI=;
+        b=mtO0awm49+N+ISzsU/nkT7IhF2Wxv5fvM+LkEHcgxXZ5cXVNV+lDgQuAobcMWvnDUq
+         8nzoFxDZYyKvpJTsJa4zMLew606dMV4DGWC7bFClvih2iYd+6Jh1ADfzIiFhP2PQmqUt
+         KjXayLezyc0CMGEJuh1dd90CvZCnVOXYOyvnEE+rTXtF/SoRLpPhBw2oi+DiCPcV65Os
+         rSaTl2jZZM9FjOwygx+Cesou/QFiB4FiNDDf6YxXpVtE8G70UWTJCYnOIXhyEvnx6Mwp
+         yTkrTka1hTFD6uopBI4/aD2dMQoa3IByV6uXh6O0A3hTH964UHkFLf19V+y13YekZaOL
+         Rhuw==
+X-Gm-Message-State: AOJu0YxFegYSQqcV0bC39sqPrz08zb/HSy5UCllhDuqMhkXdENK9z/h/
+	ObAeOEFOhpvny7Y5q0jQ/H8cE2et4yNVFdh9VIssRZVjJ61mUdkuH26xxm5g3SFos6B5TIpg/r8
+	zwKMS6Lo=
+X-Gm-Gg: AeBDievxnrvfyOH9K0HlkxGxb7qV1iQ6Aah5ywOAptKgPJt5RJ4MyBKz3Gs+bBVbz7j
+	qdVOaBKhQH2yZehRJNwIMshqlT9fHMZxNzjqhYl/TKsGz/TqMfIS32AQtJEWgHAfB4ex1rF1Spn
+	O88vqRocwNkJh6b/RWh5oOkc8t2+nu+70NMxOtWU8yCDw6WsmBpMmsYQblFyvoadQLLnn3V9o8n
+	mO9exLOeXevlyTiGWOGJJcIdjNPCH0RLc13lIDQRMboT9zf08vHRDQMKrFL4O9Fgj2hbtVvNjbG
+	5VyYyli0VXRwcMpsdpIJcbanbpDjnS72nrH3pgF4Agz5eOPc2nE+MRZ0k6o3CrGUoy/W7WV6rLL
+	OlHNVQyWEI04yNjqWyXj4bNwtBwgOP6ZGdenOTksbpJg/kS8xI5Lfbs28VL3VaZxyPp9e6U2qTu
+	fzqP7VGfhr7U44vTR4OZU1O7wHvsaHkhDgsoDjzA==
+X-Received: by 2002:a05:600c:4e16:b0:488:d6eb:e63a with SMTP id 5b1f17b1804b1-488fb76fe73mr52781595e9.14.1776442190939;
+        Fri, 17 Apr 2026 09:09:50 -0700 (PDT)
+Received: from heaven ([2a01:e0a:2c:37e0:31a6:f161:bbe5:6cec])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc177dafsm69192945e9.4.2026.04.17.09.09.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 09:09:50 -0700 (PDT)
+From: corentin.guillevic@smile.fr
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: prefer valid dists when searching for entry points
-Date: Fri, 17 Apr 2026 17:06:55 +0100
-Message-ID: <20260417160655.4111529-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
+Subject: [PATCH] sanity: add check for own-mirrors/SOURCE_MIRROR_URL
+Date: Fri, 17 Apr 2026 18:09:25 +0200
+Message-ID: <20260417160925.339720-1-corentin.guillevic@smile.fr>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 16:07:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235507
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 16:10:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235508
 
-When bitbake regenerates a sysroot due to upgrades it will remove any
-previously installed files but keep the directories. This can result in
-site-packages containing:
+From: Corentin Guillevic <corentin.guillevic@smile.fr>
 
-  setuptools/                  <-- the actual Python code
-  setuptools-82.0.0.dist-info  <-- empty metadata directory
-  setuptools-82.0.1.dist-info  <-- populated metadata directory
+The SOURCE_MIRROR_URL variable belongs to  the own-mirrors class. However, the
+user may forget to define it. This will cause the class to inject incorrect
+content into PREMIRRORS, resulting in the following error:
 
-When importlib_metadata.entry_points() iterates the distributions it
-will take the list of dists *in on-disk order* and then remove
-duplicates. If the empty directory comes first in the unsorted directory
-listing then that is the only one that is returned.
+ERROR: gettext-minimal-native-1.0-r0 do_fetch: Bitbake Fetcher Error: MalformedUrl('${SOURCE_MIRROR_URL}')
+ERROR: Logfile of failure stored in: /path/to/tmp/work/x86_64-linux/gettext-minimal-native/1.0/temp/log.do_fetch.258066
+ERROR: Task (/path/to/layers/poky/meta/recipes-core/gettext/gettext-minimal-native_1.0.bb:do_fetch) failed with exit code '1'
 
-This eventually results in mysterious errors from setuptools:
+Add a check to the sanity class, to detect this case and raise an error.
 
-  error: invalid command 'egg_info'
-
-Solve this by sorting the distribution list so that valid dists are
-first.
-
-[ YOCTO #16235 ]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
 ---
- .../0001-prefer-valid-entrypoints.patch       | 27 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.14.4.bb |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-prefer-vali=
-d-entrypoints.patch
+ meta/classes-global/sanity.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-prefer-valid-entry=
-points.patch b/meta/recipes-devtools/python/python3/0001-prefer-valid-ent=
-rypoints.patch
-new file mode 100644
-index 00000000000..1250dc9ff04
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypoints.=
-patch
-@@ -0,0 +1,27 @@
-+From ef33ac27e3ac1b9cb159d7eec0ad1af120cd9dc1 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Fri, 17 Apr 2026 16:53:42 +0100
-+Subject: [PATCH] prefer valid entrypoints
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 1a490f8d61..b24cec7f2c 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -984,6 +984,11 @@ def check_sanity_everybuild(status, d):
+             "Please set TMPDIR to a clean path with no trailing slash or "
+             "consecutive slashes (e.g. %s).\n" % (tmpdir, os.path.normpath(tmpdir)))
+ 
++    # Check whether the SOURCE_MIRROR_URL variable, belonging to the 'own-mirrors' class, is defined
++    inheritlist = d.getVar('INHERIT')
++    if "own-mirrors" in inheritlist.split(" ") and not d.getVar('SOURCE_MIRROR_URL'):
++        bb.fatal("own-mirrors is enabled, but SOURCE_MIRROR_URL is not defined")
 +
-+When there are multiple distributions found and some of them are invalid=
-, ensure that
-+the entry_points() accessor puts valid dists first.
-+
-+Upstream-Status: Submitted [https://github.com/python/importlib_metadata=
-/issues/534]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ Lib/importlib/metadata/__init__.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Lib/importlib/metadata/__init__.py b/Lib/importlib/metadata=
-/__init__.py
-+index 085378c..ff5cae4 100644
-+--- a/Lib/importlib/metadata/__init__.py
-++++ b/Lib/importlib/metadata/__init__.py
-+@@ -1016,7 +1016,7 @@ def entry_points(**params) -> EntryPoints:
-+     :return: EntryPoints for all installed packages.
-+     """
-+     eps =3D itertools.chain.from_iterable(
-+-        dist.entry_points for dist in _unique(distributions())
-++        dist.entry_points for dist in _unique(Distribution._prefer_vali=
-d(distributions()))
-+     )
-+     return EntryPoints(eps).select(**params)
-+=20
-diff --git a/meta/recipes-devtools/python/python3_3.14.4.bb b/meta/recipe=
-s-devtools/python/python3_3.14.4.bb
-index f48dbc69963..ea10c4d0e04 100644
---- a/meta/recipes-devtools/python/python3_3.14.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.4.bb
-@@ -34,6 +34,7 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
-hon-${PV}.tar.xz \
-            file://0001-test_sysconfig-skip-test_sysconfig.test_sysconfig=
-dat.patch \
-            file://0001-Skip-flaky-test_default_timeout-tests.patch \
-            file://0001-test_only_active_thread-skip-problematic-test.pat=
-ch \
-+           file://0001-prefer-valid-entrypoints.patch \
-            "
- SRC_URI:append:class-native =3D " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-conf=
-igu.patch \
---=20
-2.43.0
+     # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
+     import re
+     mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
+-- 
+2.51.0
 
 
