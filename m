@@ -1,92 +1,91 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 504E2F8DFDF
-	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 08:46:05 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40366.1776415556634873529
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60984F8DFF9
+	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 08:48:55 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40278.1776415727910438666
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Apr 2026 01:45:56 -0700
+ Fri, 17 Apr 2026 01:48:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=4BiuHvEZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=MiIguFld;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019d9a9e40d7-21826752-8d5d-40ef-8fb2-fc6630873cf2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1776415555; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=pYtwkubDQIHqxWopWvns3WKxi/kpWuzh83K7zXLFhRY=;
-	b=4BiuHvEZ/PX2IAeiyxUw7syLGp6SKGspTWuw7Y9v1IPOkQOsrHneIecYP9V4PWxO
-	UUMhQhiXviJudvdL2J4W/Aioqo1SwxOtIe7OlkXXyByUoSmQpH6YeaWHfaQXkeOXp3p
-	3VzBOPPcIgbCdRZ2z/kxz8N9fOMzbNxgEvC5lCCQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1776415555;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=pYtwkubDQIHqxWopWvns3WKxi/kpWuzh83K7zXLFhRY=;
-	b=MiIguFld21ikY2g2+9TllgViZRaNwruWpgwF1meU/ebxpUuKaKF3UQvfXRgNe4Ug
-	H/QWndOMLArCY/ZE3dz8bSpkggYfBOtBrkpT643k3BXNj9aL/HlCcwJPtbR08e7kBBw
-	9Cbwv7alwJGJ9ofv1LsVB5tyOWUZoC+iQ4aINrR0=
-From: patchtest@automation.yoctoproject.org
-To: libo.chen.cn@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe] [meta-oe][scarthgap][PATCH v3 08/11] hdf5: fix CVE-2025-2308
-In-Reply-To: <20260417083032.3462824-1-libo.chen.cn@windriver.com>
-References: <20260417083032.3462824-1-libo.chen.cn@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019d9a9e40d7-21826752-8d5d-40ef-8fb2-fc6630873cf2-000000@us-west-2.amazonses.com>
-Date: Fri, 17 Apr 2026 08:45:55 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.17-54.240.27.23
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=aEj/yx/q;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 53CB14E42A22
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 08:48:46 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2C23860497
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 08:48:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9DF661046097F;
+	Fri, 17 Apr 2026 10:48:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776415721; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=MaEgONEd4IKxCdVLP3EKl4b7nJ3GSSThGqvLkoqKHrY=;
+	b=aEj/yx/qaTWpLLmZskfGKijo3RK+b8y04ezcThs/DJprzc/nh1O5CQUrGow8aZCDbMUim1
+	3fhc6QAvB0fnkG2qXSFpHLThHKOYiqpmv6hif2FhkcYL968YMiRIGTL9rtiCO5Oeyo8sM4
+	40Bvcki59RwbOuQBI1qdORK3oMB8VpABGD+Oq5bqR7hg8FYAlbkWMetB0JVT5so3nsvu9o
+	RUUKfuYFXRC9op0zddGEAlLcjsp9ZV+2sunmX0Eh9yimalCuv447sQPtGgGowAmgRQEAvw
+	Tv20GlfYOVusH/DDwL233OArrxXSEOlLO75OahlK9dbCAIA4SSxFhnvkjqdGBg==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Date: Fri, 17 Apr 2026 10:48:22 +0200
+Subject: [PATCH 1/2] python3: exclude test_timerfd_TFD_TIMER_ABSTIME from
+ ptest
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260417-mathieu-python3-ptest-v1-1-9b5ec044a1b8@bootlin.com>
+References: <20260417-mathieu-python3-ptest-v1-0-9b5ec044a1b8@bootlin.com>
+In-Reply-To: <20260417-mathieu-python3-ptest-v1-0-9b5ec044a1b8@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776415716; l=1909;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=8rrxnXzn9u56cAXvQCI9yoEuTkU8KPY/lqeR+8UG1fo=;
+ b=oFp7CxCsTTXbrRp2D2Aqu+9Ca/R8ALEjNJ6Ftmwj4ONFH0pLMDWpXHlnek+MWXQcZgXEebMRY
+ rFfIBN9KaaoB0qKczPVIkfwUQDr+pWfY8J39vG5n/a37/inygHXVPKq
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 08:46:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235492
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 08:48:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235494
 
---NextPart
-Content-Type: text/plain
+This test tends to fail intermittently, probably when the qemu machine is
+a bit too slow.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Fixes [YOCTO #15743]
 
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
-Testing patch /home/patchtest/share/mboxes/oe-meta-oe-scarthgap-v3-08-11-hdf5-fix-CVE-2025-2308.patch
+ meta/recipes-devtools/python/python3_3.14.4.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-devtools/python/python3_3.14.4.bb b/meta/recipes-devtools/python/python3_3.14.4.bb
+index f48dbc699636..a5f7cbc66f05 100644
+--- a/meta/recipes-devtools/python/python3_3.14.4.bb
++++ b/meta/recipes-devtools/python/python3_3.14.4.bb
+@@ -251,8 +251,12 @@ do_install:append:class-nativesdk () {
+     create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
+ }
+ 
++do_install_ptest:append () {
++    sed -i -e 's|SKIPPED_TESTS=|SKIPPED_TESTS="--ignore test.test_os.test_os.TimerfdTests.test_timerfd_TFD_TIMER_ABSTIME"|' ${D}${PTEST_PATH}/run-ptest
++}
++
+ do_install_ptest:append:class-target:libc-musl () {
+-    sed -i -e 's|SKIPPED_TESTS=|SKIPPED_TESTS="-x test__locale -x test_c_locale_coercion -x test_locale -x test_os test_re -x test__xxsubinterpreters -x test_threading --ignore test.test_strptime.StrptimeTests.test_date_locale2 --ignore test.test_ctypes.test_dlerror.TestNullDlsym.test_null_dlsym"|' ${D}${PTEST_PATH}/run-ptest
++    sed -i -e 's|SKIPPED_TESTS=|SKIPPED_TESTS="-x test__locale -x test_c_locale_coercion -x test_locale -x test_os test_re -x test__xxsubinterpreters -x test_threading --ignore test.test_strptime.StrptimeTests.test_date_locale2 --ignore test.test_ctypes.test_dlerror.TestNullDlsym.test_null_dlsym --ignore test.test_os.test_os.TimerfdTests.test_timerfd_TFD_TIMER_ABSTIME"|' ${D}${PTEST_PATH}/run-ptest
+ }
+ 
+ SYSROOT_PREPROCESS_FUNCS:append:class-target = " provide_target_config_script"
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+-- 
+2.47.3
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
