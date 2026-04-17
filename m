@@ -1,72 +1,79 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <michael@rndt.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9360CF8DFFF
-	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 17:29:20 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50734.1776446950615444776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C542F99C63
+	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 20:08:04 +0000 (UTC)
+Received: from hognose1.porkbun.com (hognose1.porkbun.com [35.82.102.206])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.54266.1776456476755708287
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Apr 2026 10:29:12 -0700
+ Fri, 17 Apr 2026 13:07:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=jXEYUDqx;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260417172907b3c1636fad0002077a-uovncj@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260417172907b3c1636fad0002077a
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 17 Apr 2026 19:29:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=UIhuG2LxQGh1uWMnraXPATgft0lMZs7oM+6WVp2tWhQ=;
- b=jXEYUDqxuKDzz8VoPdgtnei34KUVs7DT5hCaXiVtiyJ18D5R8wIl1I7GEgxvXbeoGT70dV
- N+S3ZZwg6xIkGfLabcGudoX/8GCa7/r68nlwa7LztBq1s83rETc1MCFCdH34EL+YEJ31YWDF
- HrIsM0VF6eab75w6YLS74S1FLngo7X9wXj/4tKueFhNgyHZyydVbvBAINHPjicoQS5I7pc+q
- 69pO070XQ3tpKGmyPhFGpk/tO96qdB9jBX2TtLC1jg+nggtItfEFXv9y5vHEa4Wr2f0f1iKw
- p8v1a8AwwOxnvJMQJYoiZrpCh2Daxizi6DuM5CKF95b+0JQmQ0LfLUjA==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@rndt.dev header.s=default header.b=CZtDzd6/;
+ spf=pass (domain: rndt.dev, ip: 35.82.102.206, mailfrom: michael@rndt.dev)
+Received: from titan.fritz.box (unknown [46.253.78.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: michael@rndt.dev)
+	by hognose1.porkbun.com (Postfix) with ESMTPSA id EE3264758C5;
+	Fri, 17 Apr 2026 20:07:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rndt.dev; s=default;
+	t=1776456476; bh=L6BO7aG/KH6pbf+oya1v1JM+4EC1fkBw/QfCSQoNMXk=;
+	h=From:To:Cc:Subject:Date;
+	b=CZtDzd6/tzrJ58i16KQQ/keC/xsIS/1//JNf20OqocbMZCTGjxaLT81zE1584sC4F
+	 v6zF+UGDmIQMpSn8xawnXElPhECALvPDfECZ2rsykWsr32S64/sk4MgAjV+QAwKw8M
+	 xSk4ign1jIdHPUD7QKOGNFuwXIF65dbisqmySoyQ=
+From: Michael Arndt <michael@rndt.dev>
 To: openembedded-core@lists.openembedded.org
-Cc: jpewhacker@gmail.com,
-	Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH v2] create-spdx-3.0: rerun do_create_recipe_spdx on patch changes
-Date: Fri, 17 Apr 2026 19:28:57 +0200
-Message-ID: <20260417172857.8469-1-peter.marko@siemens.com>
+Cc: Michael Arndt <michael@rndt.dev>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] sstate: Fail on file systems without hard link support
+Date: Fri, 17 Apr 2026 22:07:09 +0200
+Message-ID: <20260417200709.96501-1-michael@rndt.dev>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 17:29:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235511
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 20:08:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235512
 
-From: Peter Marko <peter.marko@siemens.com>
+The sstate can only work reliably when the file system has support for ha=
+rd
+links. Previously this error was silenced, now the build fails and the us=
+er is
+informed about the problem.
 
-Valkyrie patchmetrics from 2026-04-17 is showing two CVEs where patches
-were merged the day before (2026-04-16) - inetutils/CVE-2026-32746 and
-re2c/CVE-2026-2903.
-Root-cause is that the CVE patches are evaluated in task
-do_create_recipe_spdx which does not have any dependency on SRC_URI nor
-content of the patches, so it is taken from sstate-cache which contains
-old (stale) data.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Michael Arndt <michael@rndt.dev>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-v2: reworked from scheduling after do_patch to using file-checksums flag
+ meta/classes-global/sstate.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- meta/classes/create-spdx-3.0.bbclass | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 432adb14cd..56fd01fd53 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -201,6 +201,7 @@ do_create_recipe_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
- do_create_recipe_spdx[cleandirs] = "${SPDXRECIPEDEPLOY}"
- do_create_recipe_spdx[deptask] += "do_create_recipe_spdx"
- do_create_recipe_spdx[vardeps] += "${SPDX3_VAR_DEPS}"
-+do_create_recipe_spdx[file-checksums] = "${@bb.fetch.get_checksum_file_list(d)}"
- 
- python do_create_recipe_spdx_setscene () {
-     sstate_setscene(d)
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sst=
+ate.bbclass
+index 88449d19c7..1d41d9bc20 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -787,6 +787,7 @@ sstate_task_postfunc[dirs] =3D "${WORKDIR}"
+ # and renamed in place once created.
+ python sstate_create_and_sign_package () {
+     from pathlib import Path
++    import errno
+=20
+     # Best effort touch
+     def touch(file):
+@@ -806,6 +807,9 @@ python sstate_create_and_sign_package () {
+             else:
+                 os.link(src, dst)
+             return True
++        except OSError as e:
++            if e.errno =3D=3D errno.ENOSYS:
++                bb.fatal("sstate is only supported on file systems with =
+hard link support: %s" % e)
+         except:
+             pass
+=20
 
