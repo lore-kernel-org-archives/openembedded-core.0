@@ -1,270 +1,448 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B248F4369D
-	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 13:08:11 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44502.1776431286332643411
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A40BBF436A1
+	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 13:24:21 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.68])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44942.1776432259588381154
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Apr 2026 06:08:06 -0700
+ Fri, 17 Apr 2026 06:24:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=DNIafz0N;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b9c01854477so135446666b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 06:08:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776431285; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WOach/QtnZ2YydumPwfSCaqq0wrH/nW0dF8L51yyfrRAK7dLRk9ugx5QnPnsevT1Bu
-         u/+tqQ4cdbvQWg2+fVOryBXz1SplbZEuIPogi6cjUkXelsqmCkr00KD7637Ozy7+Fi8w
-         jRgAM/UyXnXuOWYniSksmobKinez4tXdwwv/7/EXjT2CvCXwhu2OkS/ZpnkVMzWaccgP
-         AneY51z8Fyo6r6HuqzAGH9OU80wCMgF1Gl3tA+YCdPABtA3eFLvs0WIBJOjRlRlUdx+G
-         w5Nzo92Myo6KERROly1IcJGID1KQ6aPCf/XbPB0j3jjpAOvGZgy/zpPcjLTCjMol2Cae
-         NeoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=c5Gq8aivpPh9cnXMWHwliQ4qofBNNZB/vaesx6T3YJ0=;
-        fh=E5ilaYtv1WdTuyt6V2EYk/83154v411Kypn542jaU7s=;
-        b=H+eiyRXIKdFs1GrPC3/glMPxsTBNJWu8rejdjIpLdpw2YZYF2cTSOK0KABrqLcyt6d
-         D5WCh702eWms+SwUyxAysM52jA5/0qJTO32/Fsc/yUTbvQlB87Rm/ekvnlALhbv+eRtW
-         qfJxPL0AQwfmgkm1fXNeSbvQ+QNtB/DtkMntHT0xIB7TCjvZnQ3YUP1M6nIwTXJ9VBgq
-         5R3rWF0AUEje8rRMTPcOcs6BYqhtoIYxOsW8XoXRe5Fu2Pgri2hhztYuATd93BORr/1Z
-         Ne8VKhTGwG7Q9Z4RG1+fFugKzBlR0NP8G3q1Ibqn2gd4peesc/tWs6zSHY6zFoC/WORP
-         PdVg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776431285; x=1777036085; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c5Gq8aivpPh9cnXMWHwliQ4qofBNNZB/vaesx6T3YJ0=;
-        b=DNIafz0N4+EwIf5wFTrW6sluI0szf3jJ/R+Zng0gbTbWjNaktop/TajCOXSLDJokFn
-         Pgo3WkK1JKTxWED7STADcSKKQbY0Ks0YTuIo34yFEKS1c40vjg9vpzjApnMA+lj9c6F2
-         EIGZyfZVQ6FsaDoMA9ClRumEzevV6e90ko9D3iOeeq/kuA9GWstHmQhhn8ZJ8L+PSVCf
-         emUGqizkEswW2nItc/vBFs62L6q64FZons+At738pLs3xzoUPxnHEVJ6dX4LAFjMApCx
-         qIH+WZWlD+xarn9FcXKY1G/I29D1LXfgRCnfoCcgla6N5Y8AZslzGj6oMjJWQjgNxSvI
-         V96g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776431285; x=1777036085;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c5Gq8aivpPh9cnXMWHwliQ4qofBNNZB/vaesx6T3YJ0=;
-        b=keTzkwfW0NHbsk1ZjGgZ3rH8tPQeA7p84zDTgwDwR3aYGGu50ocNVku1N1Ajsr57nG
-         62jZtZtvLDT+90WQHCB+fkyBUzDs8TWZC28kdaHBaM4n04ADZPMBiC2a+ivsSYAsLzNc
-         Di3LZ7zjDn+wuKl+TAni/0uyOIY8tsbI1c6UToyn15k0svK9tJJqrJajvqLhQpN8s9Qx
-         tHlBUN4NowQrPesGC02zN62yIqrGS5b/cXntqYsWUNvH88H1WtBS6O8+YjZqyODXDAxL
-         TK/3ZhqCR6bbkUoR4s9ZgG16qpc0o/luyNHondoUiEvB+j6flMwadz68EOczAtekVCZx
-         2Oyg==
-X-Forwarded-Encrypted: i=1; AFNElJ8ZIGPzKIWFk/wNhtbG41s4scA4Kq3TS8ZW1Cs+N9UQhgXmu0f0F6cJn52CENq7XGdkW3NpcQ/Mi/RAmBBAdxqSTg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzNh6y1w6LGUJ3n+RyGAthnGD8xuiAOY4j/7husPw/EmpptuR8V
-	lkF15OIYTOKbcHA/1a6WVuttmNj6dDB2dsroo5CMKMZMzRLNpOezKLul6V/vNgecgCPnmMJxTTB
-	El6TgyCoLzLJWUu4AraQBgtJnHf8TYww=
-X-Gm-Gg: AeBDiev4oFBIH7skqVy/7gONQ4dCj7E+TOYqR/UmGHuMsR+Ag+7HaZn4t5lWTdEtY3l
-	/JMdcz/e5U/cfWUATmvCzUs9OdQkK3vJjxU7c03pEx/hv5kn0bnIc4bgensgQvpCQjk5ZGjuB8p
-	palXZYORDrSjL2Bk4H6C61xpLkt894cu6A1y9C4tgWU2WgYXLFkslpGIf4fCdG0+B7GsHnFMB2K
-	W3pMO89xtItE/f0A43w6Ry6wSJVdx/qrMe/s7E88czma2VHOycmPJWNxeuuJNTOTX2mj5MD/u8L
-	aVwU65x3IUT80TwyXX2rnGmt6KSC7vD11oTHywTzEtqP8SMH0ZEm6P2UYka4DYW6P3T9ZLlPlJl
-	w/Nac
-X-Received: by 2002:a17:906:c145:b0:b94:1df4:3525 with SMTP id
- a640c23a62f3a-ba41bad0123mr142378366b.1.1776431284102; Fri, 17 Apr 2026
- 06:08:04 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=zEUfYtz+;
+ spf=pass (domain: ericsson.com, ip: 52.101.70.68, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CBai93GFQAAtRA/cVtGH7g3iWKincTbeNtKiue3y33QuxA9QnoR9M1BFIPOy/b19YslIG+4zUwVPpHDHBI1HoOnhoffrlQtmovOTDjGLavGatxlXPeofJVYdxX04BZBXJHSudHAQ9tuItxT214SpFBIVs7LDgIJElr4GMfVkZqtE/kC154alvdjE49gcwx0LGWW/Ogx6in060tPpYjl4N5q8tl1G12N2wSTSKOdMHurHgGcL8FDt20i6JZh4FqnCZjicZ2jywgYBkm8103QwYXxRTIvWrv9iqedMLrLraMZGvgsB/iKuyfx7Y7brPWvYkIYOLlOWPOYJnuV2SSLNGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gpFjwPXWXb+xtAP69Q63W/OgLI2FVYALr9Bah+HfGRs=;
+ b=mxIrOFtxBOBZkz5K+Bsd9SMl68sZKQgU8z5aHQ9jFmucjmKh//DimyHBtII/5ZQgl2QbEKJNvrIvbWQeh/1f1LqYe7R6iJRcGsFJWRuo7w0zwctI/xeT6VmVQdNPOiNPtAHf3UBbsbhUOir1B1XVe59DALpR3OYDmTTHbo49bS7uAGh3nxIdfdKl5OoHVq6zgGMj1AW+cPkZPGzwnvG3oCvnfU2JgNVj2b7Z4E2isw9KUU5axU94VYeZqS5T7LCZfcaKgnJUvjmERiOxSwiPylpXxBCmGJSleOhaBso+Il+uNINsFIt5tILiG0yHT6POyrx+l38fOGUrhgQ6j3HUZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=bootlin.com smtp.mailfrom=ericsson.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gpFjwPXWXb+xtAP69Q63W/OgLI2FVYALr9Bah+HfGRs=;
+ b=zEUfYtz+dlGWOhuoiOEymhYZMDDLqv25GswX6V7t1TcdRTe8hleTrB1CNzMCnVt5zz9vgl0zm4axIWDzusMjvcpngjlIEUq5BR5L8oHabhiiSdp4FWhupI/LSm8O3VDE+0qGIHNDVdZIW9jop9xm9mBMo0jejuB7rRy93aIImGt7JvzBV5rWW4RXpKFIZM4PnzrQUkzyRVi0c4G1/t4LKY29Lnoen5qm6DDW7janhy6/BhXq3nPzk86hHa1fCPdGY8JSZYnRp60MOTXfEjL15HLDaCpCVm+phfLK7f84EUXufahaLEIl7eqnS9kyxn0u9rjvxmoF9HTrG5CViXKQVw==
+Received: from DU7P251CA0012.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:551::18)
+ by AMVPR07MB12305.eurprd07.prod.outlook.com (2603:10a6:20b:775::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Fri, 17 Apr
+ 2026 13:24:14 +0000
+Received: from DB5PEPF00014B8D.eurprd02.prod.outlook.com
+ (2603:10a6:10:551:cafe::d1) by DU7P251CA0012.outlook.office365.com
+ (2603:10a6:10:551::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.52 via Frontend Transport; Fri,
+ 17 Apr 2026 13:24:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DB5PEPF00014B8D.mail.protection.outlook.com (10.167.8.201) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.17 via Frontend Transport; Fri, 17 Apr 2026 13:24:13 +0000
+Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 17 Apr 2026 15:24:13 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 393A44020B70;
+	Fri, 17 Apr 2026 15:24:13 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 22E30700CF09; Fri, 17 Apr 2026 15:24:13 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <benjamin.robin@bootlin.com>, Daniel Turull <daniel.turull@ericsson.com>
+Subject: [PATCH] improve_kernel_cve_report: use numeric versions instead of cpeApplicability
+Date: Fri, 17 Apr 2026 15:24:09 +0200
+Message-ID: <20260417132409.1638132-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-References: <20260407094759.3116923-1-mangadi@qti.qualcomm.com>
- <DHOHLMLD4MQ9.34VQG7IIO7F3C@bootlin.com> <DHVA1T5G5BSM.1PPMQ6SPQQC5X@bootlin.com>
-In-Reply-To: <DHVA1T5G5BSM.1PPMQ6SPQQC5X@bootlin.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 17 Apr 2026 14:07:52 +0100
-X-Gm-Features: AQROBzCofITOC45tHJ6z6qU2D2EwLF2Do-gSxu8bkfB-2qoJpzCm-XHTdgwI-ig
-Message-ID: <CANPvuRmcLJJzoVqeeU81w0xSLqUZMZ8ACcifEFG0XgU4dDzSmw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] weston: backport gl-shaders fix to avoid shader
- compiler crashes
-To: mathieu.dubois-briand@bootlin.com
-Cc: mangadi@qti.qualcomm.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000a82f36064fa7a394"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B8D:EE_|AMVPR07MB12305:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc4a263f-2ca1-4a93-7fde-08de9c849e61
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|376014|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	OswJqFWRBf58Zbuk27Qgs9Fd4TUr6mszpnl1ENUCRqwDaEtd0TlTIyiHLtE+YWu8c456YrGP4Tz0mkIRuFVQYI8bJaO4uPtaZfNkEC4ma4W4d5DyZFRrEx2JDbvMn9rwKP9Isa3RuAW60NdSDILeUDiNGKdY85fXiwX8Qm1HXG1rZHBNZiBhCbBPjkF2eh8Yo2ePfBlI1MdHU7QdHDuGKClf9Gz0dEUQSs+dKiOE7+p4GBDmv1qqIWAJ7wyaEg7JY9MEpcr+M0xYKtpuUDG+bZIdJKuSmgD5uFYRt2fuBGwq/qGjsV+VwbzVQt7p5zc48NLVUtInHBCd6Q+c7rrZnW08Y1cUzJ3Ei3O9qvHppl6QpwR4y1KU372to4pVhy67L6gfr65KA7J9NVw00rNmtBBrBuFozoCca4cWMr8xaoQSh5+gdyuVr5ujZClZZ8/MGRtgIKK5M0cjCcqzHgGWLAWq44YB6l31jxy4W3ZdUv5X6uvPMOcImKpKdvA3qSOEaMaXw+tv5HD5EiwTeR7Z2dB4G81f7z+W6Ef+PpZnS5Dk+DZCx7yXDQbv87blHgtnarHFnK9Pkfm4lRt3lWRA2UlGKblDB/wh3tOwghgZbchptXxoR24DCLqqfom9FyaQtP8R14JB6BJd+P9JYUaq8VGmptsVDrg4wuR0eYYevfQjZaQz1V86bdc71ogPW5gr3iP1TUc7WpxeFFz1aT4Rg03OYNwnF59Rzcl6Sj72iClcKO8WDIASIEPZ6h1R3WH8fKT/JrIW1kGZBmt4YHsSvw==
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(376014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	iD8U1T2GCmY60/x1L1X42pmLxbFLbiSkcKH0mV9Mf1muVs5C5z0mPSmae2pQ+K5zvIhhn/r6SIaB92fKVDDTCJz6B6UrUQzvpr9J1YwoJtB2SE+xWJtCpHDecgryJ9/5Kcm02BGfMWvVeovfFoeURigdoD6jA0k/ItLD9bWibV+DgZqoxMKtG1bebIFVGvV7zawMI9BMTDiutuy+HZ21X6DkOFzOg7lijgYJD+Y1egUjqrzC7IUv4K7Ya0h1RZxUyUi3NilIVRHvE8ug5kbwRG1lzwqF8sbrFmVBjDxHD2JDttgt7LhWzh/E9SwO7bUUfe4f8vRUHc5VKqw0+peDttm9vUfQR9eAjg8L6pn4K0+Rt5+gDO8yfZTv58U/+hzZ8GDx8b8dEKqK99v+UFfmJhNWf+2DU/KgZka6I38zXd/hijYT2Fqe6hSUtkIFmBDS
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 13:24:13.9181
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc4a263f-2ca1-4a93-7fde-08de9c849e61
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B8D.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMVPR07MB12305
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 13:08:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235498
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2026 13:24:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235499
 
---000000000000a82f36064fa7a394
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Hi Mathieu,
+git shas or versions should be use instead of cpeApplicability.
+Reuse the same logic as generate-cve-exclusions, so outputs are consistent.
 
-First of all, I want to apologize for the inconvenience caused by the
-meta-qcom layer.
+cpeApplicability does not provide accurate version information and for some
+ CVEs the information is not the same. This came from a discussion that
+we had with Greg Kroah-Hartma, member of the Linux security team.
 
-We have a proposed fix in place to unblock the autobuilder and it should be
-integrated today.
-https://github.com/qualcomm-linux/meta-qcom/pull/1940
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+---
+ scripts/contrib/improve_kernel_cve_report.py | 247 ++++++++-----------
+ 1 file changed, 104 insertions(+), 143 deletions(-)
 
-Thanks for reporting the issue.
-
-Jose
-
-Mathieu Dubois-Briand via lists.openembedded.org <mathieu.dubois-briand=3D
-bootlin.com@lists.openembedded.org> escreveu (sexta, 17/04/2026 =C3=A0(s) 0=
-9:12):
-
-> On Thu Apr 9, 2026 at 10:38 AM CEST, Mathieu Dubois-Briand wrote:
-> > On Tue Apr 7, 2026 at 11:47 AM CEST, Mahesh Angadi via
-> lists.openembedded.org wrote:
-> >> Some GPU shader compilers do not optimize away unused YUV shader
-> >> uniforms, even when the associated code paths are unreachable. This ca=
-n
-> cause
-> >> Weston to hit assertion failures at runtime on non-Mesa platforms,
-> despite
-> >> working correctly on Mesa-based drivers.
-> >>
-> >> Backport the upstream gl-shaders fix to restore stable behavior across
-> >> GPU drivers.
-> >>
-> >> Signed-off-by: Mahesh Angadi <mangadi@qti.qualcomm.com>
-> >> ---
-> >
-> > Hi Mahesh,
-> >
-> > I note this is breaking builds with meta-qcom, as the patch is also
-> > present in there. But as you are the author of changes in both side, I
-> > bet you already knew this. :)
-> >
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/113/builds/565
-> >
-> > Thanks,
-> > Mathieu
->
-> Hi Mahesh,
->
-> This patch is now merged into master, so builds with meta-qcom are now
-> failing. Are you taking care of fixing this into meta-qcom or should I
-> contact maintainers?
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/113/builds/619
->
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#235485):
-> https://lists.openembedded.org/g/openembedded-core/message/235485
-> Mute This Topic: https://lists.openembedded.org/mt/118705814/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
+diff --git a/scripts/contrib/improve_kernel_cve_report.py b/scripts/contrib=
+/improve_kernel_cve_report.py
+index b386c9383a..a5458f8dd3 100755
+--- a/scripts/contrib/improve_kernel_cve_report.py
++++ b/scripts/contrib/improve_kernel_cve_report.py
+@@ -82,16 +82,59 @@ def get_kernel_cves(datadir, compiled_files, version):
+                 "description": f"Rejected by CNA"
+             }
+             continue
+-        if any(elem in cve_file for elem in ["review", "reverved", "testin=
+g"]):
++        if any(elem in cve_file for elem in ["review", "reverved", "testin=
+g", "tmp"]):
+             continue
+=20
+-        is_vulnerable, first_affected, last_affected, better_match_first, =
+better_match_last, affected_versions =3D get_cpe_applicability(cve_info, ve=
+rsion)
++        first_affected, fixed, backport_ver =3D get_fixed_versions(cve_inf=
+o, base_version)
+=20
+-        logging.debug("%s: %s (%s - %s) (%s - %s)", cve_id, is_vulnerable,=
+ better_match_first, better_match_last, first_affected, last_affected)
++        logging.debug("%s: first_affected=3D%s fixed=3D%s backport=3D%s", =
+cve_id, first_affected, fixed, backport_ver)
+=20
+-        if is_vulnerable is None:
+-            logging.warning("%s doesn't have good metadata", cve_id)
+-        if is_vulnerable:
++        if not fixed:
++            logging.warning("%s has no known resolution", cve_id)
++            cves[cve_id] =3D {
++                "id": cve_id,
++                "status": "Unpatched",
++                "detail": "known-affected",
++                "summary": description,
++                "description": "No known resolution"
++            }
++            vulnerable +=3D 1
++            continue
++        elif first_affected and version < first_affected:
++            logging.debug('%s - fixed-version: only affects %s onwards',
++                          cve_id, first_affected)
++            cves[cve_id] =3D {
++                "id": cve_id,
++                "status": "Patched",
++                "detail": "fixed-version",
++                "summary": description,
++                "description": f"only affects {first_affected} onwards"
++            }
++            not_vulnerable +=3D 1
++        elif fixed <=3D version:
++            logging.debug("%s - fixed-version: Fixed from version %s",
++                          cve_id, fixed)
++            cves[cve_id] =3D {
++                "id": cve_id,
++                "status": "Patched",
++                "detail": "fixed-version",
++                "summary": description,
++                "description": f"Fixed from version {fixed}"
++            }
++            not_vulnerable +=3D 1
++        elif backport_ver and backport_ver <=3D version:
++            logging.debug("%s - cpe-stable-backport: Backported in %s",
++                          cve_id, backport_ver)
++            cves[cve_id] =3D {
++                "id": cve_id,
++                "status": "Patched",
++                "detail": "cpe-stable-backport",
++                "summary": description,
++                "description": f"Backported in {backport_ver}"
++            }
++            not_vulnerable +=3D 1
++        else:
++            # Vulnerable - may need backporting
+             is_affected =3D True
+             affected_files =3D []
+             if check_config:
+@@ -108,87 +151,21 @@ def get_kernel_cves(datadir, compiled_files, version)=
+:
+                     "summary": description,
+                     "description": f"Source code not compiled by config. {=
+sorted(affected_files)}"
+                 }
+-                not_applicable_config +=3D1
+-            # Check if we have backport
++                not_applicable_config +=3D 1
+             else:
+-                if not better_match_last:
+-                    fixed_in =3D last_affected
+-                else:
+-                    fixed_in =3D better_match_last
++                fixed_in =3D backport_ver if backport_ver else fixed
+                 logging.debug("%s needs backporting (fixed from %s)", cve_=
+id, fixed_in)
+-                cves[cve_id] =3D {
+-                        "id": cve_id,
+-                        "status": "Unpatched",
+-                        "detail": "version-in-range",
+-                        "summary": description,
+-                        "description": f"Needs backporting (fixed from {fi=
+xed_in})"
+-                }
+-                vulnerable +=3D 1
+-                if (better_match_last and
+-                    Version(f"{better_match_last.major}.{better_match_last=
+.minor}") =3D=3D base_version):
+-                    fixed_as_later_backport +=3D 1
+-        # Not vulnerable
+-        else:
+-            if not first_affected:
+-                logging.debug("%s - not known affected %s",
+-                              cve_id,
+-                              better_match_last)
+                 cves[cve_id] =3D {
+                     "id": cve_id,
+-                    "status": "Patched",
+-                    "detail": "version-not-in-range",
++                    "status": "Unpatched",
++                    "detail": "version-in-range",
+                     "summary": description,
+-                    "description": "No CPE match"
++                    "description": f"Needs backporting (fixed from {fixed_=
+in})"
+                 }
+-                not_vulnerable +=3D 1
+-                continue
+-            backport_base =3D Version(f"{better_match_last.major}.{better_=
+match_last.minor}")
+-            if version < first_affected:
+-                logging.debug('%s - fixed-version: only affects %s onwards=
+',
+-                              cve_id,
+-                              first_affected)
+-                cves[cve_id] =3D {
+-                    "id": cve_id,
+-                    "status": "Patched",
+-                    "detail": "fixed-version",
+-                    "summary": description,
+-                    "description": f"only affects {first_affected} onwards=
+"
+-                }
+-                not_vulnerable +=3D 1
+-            elif last_affected <=3D version:
+-                logging.debug("%s - fixed-version: Fixed from version %s",
+-                              cve_id,
+-                              last_affected)
+-                cves[cve_id] =3D {
+-                    "id": cve_id,
+-                    "status": "Patched",
+-                    "detail": "fixed-version",
+-                    "summary": description,
+-                    "description": f"Fixed from version {last_affected}"
+-                }
+-                not_vulnerable +=3D 1
+-            elif backport_base =3D=3D base_version:
+-                logging.debug("%s - cpe-stable-backport: Backported in %s"=
+,
+-                              cve_id,
+-                              better_match_last)
+-                cves[cve_id] =3D {
+-                    "id": cve_id,
+-                    "status": "Patched",
+-                    "detail": "cpe-stable-backport",
+-                    "summary": description,
+-                    "description": f"Backported in {better_match_last}"
+-                }
+-                not_vulnerable +=3D 1
+-            else:
+-                logging.debug("%s - version not affected %s", cve_id, str(=
+affected_versions))
+-                cves[cve_id] =3D {
+-                    "id": cve_id,
+-                    "status": "Patched",
+-                    "detail": "version-not-in-range",
+-                    "summary": description,
+-                    "description": f"Range {affected_versions}"
+-                }
+-                not_vulnerable +=3D 1
++                vulnerable +=3D 1
++                if (backport_ver and
++                    Version(f"{backport_ver.major}.{backport_ver.minor}") =
+=3D=3D base_version):
++                    fixed_as_later_backport +=3D 1
+=20
+     logging.info("Total CVEs ignored due to not applicable config: %d", no=
+t_applicable_config)
+     logging.info("Total CVEs not vulnerable due version-not-in-range: %d",=
+ not_vulnerable)
+@@ -276,70 +253,54 @@ def check_kernel_compiled_files(compiled_files, cve_i=
+nfo):
+                 is_affected =3D True
+     return is_affected, files_affected
+=20
+-def get_cpe_applicability(cve_info, v):
++def get_fixed_versions(cve_info, base_version):
+     '''
+-    Check if version is affected and return affected versions
++    Get fixed versionss
+     '''
+-    base_branch =3D Version(f"{v.major}.{v.minor}")
+-    affected =3D []
+-    if not 'cpeApplicability' in cve_info["containers"]["cna"]:
+-        return None, None, None, None, None, None
+-
+-    for nodes in cve_info["containers"]["cna"]["cpeApplicability"]:
+-        for node in nodes.values():
+-            vulnerable =3D False
+-            matched_branch =3D False
+-            first_affected =3D Version("5000")
+-            last_affected =3D Version("0")
+-            better_match_first =3D Version("0")
+-            better_match_last =3D Version("5000")
+-
+-            if len(node[0]['cpeMatch']) =3D=3D 0:
+-                first_affected =3D None
+-                last_affected =3D None
+-                better_match_first =3D None
+-                better_match_last =3D None
+-
+-            for cpe_match in node[0]['cpeMatch']:
+-                version_start_including =3D Version("0")
+-                version_end_excluding =3D Version("0")
+-                if 'versionStartIncluding' in cpe_match:
+-                    version_start_including =3D Version(cpe_match['version=
+StartIncluding'])
+-                else:
+-                    version_start_including =3D Version("0")
+-                # if versionEndExcluding is missing we are in a branch, wh=
+ich is not fixed.
+-                if "versionEndExcluding" in cpe_match:
+-                    version_end_excluding =3D Version(cpe_match["versionEn=
+dExcluding"])
+-                else:
+-                    # if versionEndExcluding is missing we are in a branch=
+, which is not fixed.
+-                    version_end_excluding =3D Version(
+-                        f"{version_start_including.major}.{version_start_i=
+ncluding.minor}.5000"
+-                    )
+-                affected.append(f" {version_start_including}-{version_end_=
+excluding}")
+-                # Detect if versionEnd is in fixed in base branch. It has =
+precedence over the rest
+-                branch_end =3D Version(f"{version_end_excluding.major}.{ve=
+rsion_end_excluding.minor}")
+-                if branch_end =3D=3D base_branch:
+-                    if version_start_including <=3D v < version_end_exclud=
+ing:
+-                        vulnerable =3D cpe_match['vulnerable']
+-                    # If we don't match in our branch, we are not vulnerab=
+le,
+-                    # since we have a backport
+-                    matched_branch =3D True
+-                    better_match_first =3D version_start_including
+-                    better_match_last =3D version_end_excluding
+-                if version_start_including <=3D v < version_end_excluding =
+and not matched_branch:
+-                    if version_end_excluding < better_match_last:
+-                        better_match_first =3D max(version_start_including=
+, better_match_first)
+-                        better_match_last =3D min(better_match_last, versi=
+on_end_excluding)
+-                        vulnerable =3D cpe_match['vulnerable']
+-                        matched_branch =3D True
+-
+-                first_affected =3D min(version_start_including, first_affe=
+cted)
+-                last_affected =3D max(version_end_excluding, last_affected=
+)
+-            # Not a better match, we use the first and last affected inste=
+ad of the fake .5000
+-            if vulnerable and better_match_last =3D=3D Version(f"{base_bra=
+nch}.5000"):
+-                better_match_last =3D last_affected
+-                better_match_first =3D first_affected
+-    return vulnerable, first_affected, last_affected, better_match_first, =
+better_match_last, affected
++    first_affected =3D None
++    fixed =3D None
++    fixed_backport =3D None
++    next_version =3D Version(str(base_version) + ".5000")
++    for affected in cve_info["containers"]["cna"]["affected"]:
++        # In case the CVE info is not complete, it might not have default =
+status and therefore
++        # we don't know the status of this CVE.
++        if not "defaultStatus" in affected:
++            return first_affected, fixed, fixed_backport
++        if affected["defaultStatus"] =3D=3D "affected":
++            for version in affected["versions"]:
++                v =3D Version(version["version"])
++                if v =3D=3D Version('0'):
++                    #Skiping non-affected
++                    continue
++                if version["status"] =3D=3D "unaffected" and first_affecte=
+d and v < first_affected:
++                    first_affected =3D Version(f"{v.major}.{v.minor}")
++                if version["status"] =3D=3D "affected" and not first_affec=
+ted:
++                    first_affected =3D v
++                elif (version["status"] =3D=3D "unaffected" and
++                    version['versionType'] =3D=3D "original_commit_for_fix=
+"):
++                    fixed =3D v
++                elif base_version < v and v < next_version:
++                    fixed_backport =3D v
++        elif affected["defaultStatus"] =3D=3D "unaffected":
++            # Only specific versions are affected. We care only about our =
+base version
++            if "versions" not in affected:
++                continue
++            for version in affected["versions"]:
++                if "versionType" not in version:
++                    continue
++                if version["versionType"] =3D=3D "git":
++                    continue
++                v =3D Version(version["version"])
++                # in case it is not in our base version
++                less_than =3D Version(version["lessThan"])
++
++                if not first_affected:
++                    first_affected =3D v
++                fixed =3D less_than
++                if base_version < v and v < next_version:
++                    fixed_backport =3D less_than
++
++    return first_affected, fixed, fixed_backport
+=20
+ def copy_data(old, new):
+     '''Update dictionary with new entries, while keeping the old ones'''
 --=20
-Best regards,
+2.43.0
 
-Jos=C3=A9 Quaresma
-
---000000000000a82f36064fa7a394
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Mathieu,<br><br>First of all, I want t=
-o apologize for the inconvenience caused by the meta-qcom layer.<br><br>We =
-have a proposed fix in place to unblock the autobuilder and it should be in=
-tegrated today.<br><a href=3D"https://github.com/qualcomm-linux/meta-qcom/p=
-ull/1940">https://github.com/qualcomm-linux/meta-qcom/pull/1940</a><br><br>=
-Thanks=C2=A0for reporting the issue.</div><br>Jose<div><br><div class=3D"gm=
-ail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Math=
-ieu Dubois-Briand via <a href=3D"http://lists.openembedded.org">lists.opene=
-mbedded.org</a> &lt;mathieu.dubois-briand=3D<a href=3D"mailto:bootlin.com@l=
-ists.openembedded.org">bootlin.com@lists.openembedded.org</a>&gt; escreveu =
-(sexta, 17/04/2026 =C3=A0(s) 09:12):<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">On Thu Apr 9, 2026 at 10:38 AM CEST, Mathieu Dubois-Br=
-iand wrote:<br>
-&gt; On Tue Apr 7, 2026 at 11:47 AM CEST, Mahesh Angadi via <a href=3D"http=
-://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.opene=
-mbedded.org</a> wrote:<br>
-&gt;&gt; Some GPU shader compilers do not optimize away unused YUV shader<b=
-r>
-&gt;&gt; uniforms, even when the associated code paths are unreachable. Thi=
-s can cause<br>
-&gt;&gt; Weston to hit assertion failures at runtime on non-Mesa platforms,=
- despite<br>
-&gt;&gt; working correctly on Mesa-based drivers.<br>
-&gt;&gt;<br>
-&gt;&gt; Backport the upstream gl-shaders fix to restore stable behavior ac=
-ross<br>
-&gt;&gt; GPU drivers.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Mahesh Angadi &lt;<a href=3D"mailto:mangadi@qti.qua=
-lcomm.com" target=3D"_blank">mangadi@qti.qualcomm.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;<br>
-&gt; Hi Mahesh,<br>
-&gt;<br>
-&gt; I note this is breaking builds with meta-qcom, as the patch is also<br=
->
-&gt; present in there. But as you are the author of changes in both side, I=
-<br>
-&gt; bet you already knew this. :)<br>
-&gt;<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/11=
-3/builds/565" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
-oproject.org/valkyrie/#/builders/113/builds/565</a><br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt; Mathieu<br>
-<br>
-Hi Mahesh,<br>
-<br>
-This patch is now merged into master, so builds with meta-qcom are now<br>
-failing. Are you taking care of fixing this into meta-qcom or should I<br>
-contact maintainers?<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/113/bui=
-lds/619" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/113/builds/619</a><br>
-<br>
-Thanks,<br>
-Mathieu<br>
-<br>
--- <br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#235485): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/235485" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/235485</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118705814/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/118705814/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div></div>
-
---000000000000a82f36064fa7a394--
 
