@@ -2,112 +2,101 @@ Return-Path: <adam.blank.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4275EF99C88
-	for <webhook@archiver.kernel.org>; Sat, 18 Apr 2026 18:34:09 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.71726.1776537247671809652
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02082F99C90
+	for <webhook@archiver.kernel.org>; Sat, 18 Apr 2026 18:34:19 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.72009.1776537253080189711
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2026 11:34:08 -0700
+ Sat, 18 Apr 2026 11:34:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=I5VpYQ+Q;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: adam.blank.g@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38e7d984096so18653621fa.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 11:34:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=rkk+RRHx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: adam.blank.g@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38e96a071c3so18570821fa.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 11:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776537246; x=1777142046; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1776537251; x=1777142051; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=e0Etaddj/015AodtU14GaW0PUhkDGRoNlsQEx6C5paA=;
-        b=I5VpYQ+QqFCB1EZ+nBB80EhjUiBK38i8H2ImfXRfUpxZnwn032vlsqESBEz38lJBkr
-         9oJLh3qnvJRNQQHRMh2ZS+pQr8usYDkMRBGm2vFNcIb2NpHK22IeaXtsWrEn+ZzVc6YH
-         5i7GV5a1CaZURdJWDaQLoAEvVFKWHtbEzjnQ7XCjO73Bm7NIIvOdHrjDKyfFKEU4DqLI
-         w6T2Wf1buerJQlPBmk5vG211WD59JClfugV8dXqX7LAYThW0KWFVw+b7Yt1pTXoVIFYr
-         pNuKJbb5FFBzFC0JvG7Xi5tXn5YBe553PVSMj8YxvA77Zvq3GbSTU8RT+XRulVqQ0TJU
-         1yYQ==
+        bh=fwceO2bx0KSUrc3K51s9fxA+sa3Gv5yD8Cj6haUBtMQ=;
+        b=rkk+RRHxPYb+n00cuocYHgXxUGnD6uZ7aPcLA1LmccdRgaofFY+NdGfu5fxeTx6V1J
+         OXt9+w58nA5SnDnJ8UQr4hiTtrvN7TDBpIL7GLC3jwsFdJ+cbXjKMRqcfQHo0xVsHyf+
+         A2ctGQx2XMvlSxtojRJH3loML26QFEXgOnBmEwfI/I9yo3ucgL4qKQApeCCJugyMaZGj
+         4EpjRLAC6d8hMWdAn4ISQK0w6lfhbYSjRE0IFOL7t38hU3LWAXtF42wHNqCTQ6IqjDxh
+         MuFidJoJb+KtJzEne/EW6mSDU6d6eE/jBC6HXrbufZtcv+3a7f+yQZISDZ8zS/X7ypNX
+         rFJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776537246; x=1777142046;
+        d=1e100.net; s=20251104; t=1776537251; x=1777142051;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=e0Etaddj/015AodtU14GaW0PUhkDGRoNlsQEx6C5paA=;
-        b=kMFLXdkWk6/Oa/CAb4QKDaFFVFRzuuhpshBQMDRzrFjsuXeHRKXGl/7d3mJ0EsRF5/
-         ZwPEWyf4dOdU7FP/iKO4jp1cCz/BxvELzM/Nb290yC7ksiEy9nl7SjkonyrWB7f72nD7
-         aikaxMGBh67+QcVGO69yobHe8m5kTfFLQP1BVSqE/wGK4xVjLin9wAoBQRM4jgOxgCxb
-         ZjhDcOJzkz3mVhNUQxJcsYpBHnVi990/TujAmjd+hxLbp0YfaLKhL+5raTFjbHZmBk9P
-         sZyTIwiCQZFtYlbxNLtbUf/iMYJsTZPd/PNsZPmZhFvdpSz1tRYA8LTEdNwKKxjdkT2e
-         Kpjg==
-X-Gm-Message-State: AOJu0Yy9yzF+LpeAF6wY1H/+gV2aimifZan3CdnuxwJyUOuR1hzQqEyt
-	9ABoNfJ3CcP0l49cuq/U33J+ssf5rx2r/JDNReZgwrQVMxV9Qr89L1nJ
-X-Gm-Gg: AeBDiev13DvOMTCH5nuGlBnw+mynqGlOgJecgLZQx4mWwW6Vc0CPH2c822aJqsoGtl1
-	4KAoMKsHOkthMIKBvmg+lA9mj9Z9L/t9DgCToIts9R+yMtcuxU5NvBRODUjratJSLnIcFUgY4rR
-	uAVivhBBubeBIHhEkUHzWGfu+0MjLU69duLGDEs9vzn27pqhenHd15g8H9Uh7W0E3zMqG4RjbtJ
-	ldU8tbvtSt5hZ5yZUc/52OV0VDQdyJjI6HTZ/nuu3Pu0JJ0q4FXkBItAIT3BTr/GLJeZ2xPiRsT
-	oKWk7SpCggiCZ7kTlair8qYl1VrIYDwQLP/P4v/syoBshXBAa50DIOTq4z5c/LdJ0q6+huPgY2k
-	DXIwi7Tes6+qrCvcjvkrNKgXwR4m46gThWmcQ/p8vYL/nyE+L370SHmLTwxRKPc9tSxCF/5xnB5
-	k6JalHxLvhU9chx3fwUGDxT9duZs4DvZLOESdVWlPwVpBq/iNZURw=
-X-Received: by 2002:a05:651c:2120:b0:38e:a8ef:b61 with SMTP id 38308e7fff4ca-38ec7b479b6mr21770591fa.29.1776537245636;
-        Sat, 18 Apr 2026 11:34:05 -0700 (PDT)
+        bh=fwceO2bx0KSUrc3K51s9fxA+sa3Gv5yD8Cj6haUBtMQ=;
+        b=EbWaEZj02OrI9nQhZLK7jdmVfkX5SWx61LBH693BoeljU3wAXIM7HaKWL96rPkDgmG
+         +rnQR7293Vp2zYmJhtBM8PyWnjxunJ93fszOJpDp7ps6qLhkj0HRa1i1hhrcAIftj0Xj
+         yNSpP6ybkuSeMMGZn/uff2Oazxqm/v/LkvwnINU8H9+JHBRwpvoQoouyirMMYH4vdDWg
+         BWcpZM3MCu/SKfBOUiJ2m2uDyXNdgACnCvoX2aAPQKLvqmjL9RPnamvySP+vY9gQohT0
+         75Ve3L2YOzXqIiDFTvdp7VdESJZeQNbdUS4liMGQ2C7Z2qClwYVnFljzhl3zWgNt4v5r
+         XRfg==
+X-Gm-Message-State: AOJu0YyHr/5w15Iyu1zTzM5asPOirk0N6WdAOyJUBNO+Km3RcHK+Inb6
+	O/e6wrlDKVo7/Jl6ZIl6uh/G8tlOq+cMNb+tvpoaD+tmyuV67bJb19m5Zf2czA==
+X-Gm-Gg: AeBDieu7aGlBkkSspyzsDe9cQQYxNi6nFmmcGMz+Qdm/p+JSF3AYnsBNeUG5CUw44gz
+	RYWbh10yAybY+iSN+W2VDIcACy8ba9HVdHHuWp7H85hHLLvi8odL8uq5NPIwpsdMi2308nbOchi
+	VpigOI23LClHXTDIiidYdfUxMJkf3qI2VXe5wlb4SMopLcm06EzeFT+/ilU9i+hNewC4KdhKq19
+	KKnJgumzgYbsuZOrH9VtpHal+LA/NasltQW0lXs/7+IMpEIkcvWnbgmBEJ1WFoGCxyh6SgvvGsB
+	n3W7cv22NIfgwprBL2YK4foU+uLQ+enXcspb0Vnvd+U85cuSNp8llR48k+nucqNNUdwH4l9xA2U
+	Ri+onWd0VZXkm65+1erOA/qOcuRotSUsDKyKPfHdYHkrSKO0gncC2/ogtiCu8X3Fbli+0felw4v
+	xMedZRTsBLUHcpPpvr5SafkZFeFM5Wq6mq81b6Kf3L
+X-Received: by 2002:a05:651c:f0a:b0:38e:827b:98ec with SMTP id 38308e7fff4ca-38ec782b8bemr23959441fa.2.1776537250961;
+        Sat, 18 Apr 2026 11:34:10 -0700 (PDT)
 Received: from [127.0.1.1] ([2a02:a312:c8a8:7a00:8f12:8be3:442f:59fd])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb6f0bfdsm12965981fa.26.2026.04.18.11.34.03
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb6f0bfdsm12965981fa.26.2026.04.18.11.34.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 11:34:05 -0700 (PDT)
+        Sat, 18 Apr 2026 11:34:10 -0700 (PDT)
 From: Adam Blank <adam.blank.g@gmail.com>
-Date: Sat, 18 Apr 2026 20:34:01 +0200
-Subject: [PATCH 1/7] package_pkgdata: fix typo to stop calling undefined
- function
+Date: Sat, 18 Apr 2026 20:34:06 +0200
+Subject: [PATCH 6/7] wic-tool: add 'extend_recipe_sysroot' to
+ 'vardepsexclude'
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260418-extend_recipe_sysroot-v1-1-8aeb383ba743@gmail.com>
+Message-Id: <20260418-extend_recipe_sysroot-v1-6-8aeb383ba743@gmail.com>
 References: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
 In-Reply-To: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Blank <adam.blank.g@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776537242; l=1160;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776537242; l=781;
  i=adam.blank.g@gmail.com; s=20251027; h=from:subject:message-id;
- bh=C+X4lSdXMNMVkvUy4xnHRxAGYH0lJQdZ8DKB6NgBW3s=;
- b=EN7EVwdtJ/WbstLHjxrQX1hJ4QsYzvn07KvDk2QfXnV8jEgt5ozthZ5t5irt/klgAr/HMJpPI
- uV6TZlgJYxcDu7mZRIodvqoNH4Da/H/+P7ZO25zL4ezBDNIXckgj/2k
+ bh=2TmxFWWozk0dGjsyoMrcnXlaCraUNb/YO+eRF5QDErs=;
+ b=dHx8ZKLs8UnqI23qHhpnUuRRUU5HcN+ldWRpFzq9Vc4lx+4qx86Gnp1PPS+wSFmYlN781tqCS
+ LpGzRmqKwI1A9dmM8LdBu9pQHySbB/9PNEeQbjNXRq36526KMtLX38S
 X-Developer-Key: i=adam.blank.g@gmail.com; a=ed25519;
  pk=5t8u8IPKPL1CUykIX2JYa+1iHdXRdN5MqI7ik/fbvEM=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 18:34:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235515
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 18:34:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235520
 
-The function is named 'package_populate_pkgdata_dir' but the
-call was to 'staging_package_populate_pkgdata_dir'.
+'do_build_sysroot' did not declare this explicitly,
+ but made use of the fact, that 'extend_recipe_sysroot' is
+ignored on the base hash level.
 
 Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
 ---
- meta/classes-global/package_pkgdata.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-core/meta/wic-tools.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes-global/package_pkgdata.bbclass b/meta/classes-global/package_pkgdata.bbclass
-index f653bd9240..b2f4e7594c 100644
---- a/meta/classes-global/package_pkgdata.bbclass
-+++ b/meta/classes-global/package_pkgdata.bbclass
-@@ -31,6 +31,8 @@ def package_populate_pkgdata_dir(pkgdatadir, d):
-                     except FileExistsError:
-                         continue
- 
-+package_populate_pkgdata_dir[vardepsexclude] += "MACHINE_ARCH PACKAGE_EXTRA_ARCHS"
-+
- python package_prepare_pkgdata() {
-     import copy
-     import glob
-@@ -47,7 +49,7 @@ python package_prepare_pkgdata() {
-     # Detect bitbake -b usage
-     nodeps = d.getVar("BB_LIMITEDDEPS") or False
-     if nodeps:
--        staging_package_populate_pkgdata_dir(pkgdatadir, d)
-+        package_populate_pkgdata_dir(pkgdatadir, d)
-         return
- 
-     start = None
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index 45fb873dd6..1f86347739 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -27,3 +27,4 @@ python do_build_sysroot () {
+     bb.build.exec_func("extend_recipe_sysroot", d)
+ }
+ addtask do_build_sysroot after do_prepare_recipe_sysroot before do_build
++do_build_sysroot[vardepsexclude] += "extend_recipe_sysroot"
+\ No newline at end of file
 
 -- 
 2.43.0
