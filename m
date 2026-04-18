@@ -2,103 +2,103 @@ Return-Path: <adam.blank.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 131BCF99C92
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2759F99C95
 	for <webhook@archiver.kernel.org>; Sat, 18 Apr 2026 18:34:19 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.72008.1776537252157654556
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.71728.1776537248621756587
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2026 11:34:12 -0700
+ Sat, 18 Apr 2026 11:34:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=a/uKWyNL;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: adam.blank.g@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38e97e73234so14353821fa.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 11:34:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=gYcfVfSp;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: adam.blank.g@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a415fd6bceso1994456e87.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 11:34:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776537250; x=1777142050; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1776537247; x=1777142047; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wwDC0qbIekZ01QcIITPykg4/PIEHcmQlJQ0FRNCtrxY=;
-        b=a/uKWyNL8xMSrYtnfXouPRaY5DZ1ONxm9MUt3iweu4qu9uUACQ33D0mBw8jL2oHvua
-         rbLr0qmK6DA7WtnYHgzNgi5LLy0jK91Zd14QDepnPQdxzA2rIfRLD4U+5MINYoTIGFps
-         dLBWnp8d9O2iOZ+0LGdD0z6FQJXouXcadiL5g67KVNcFoPBkr5WVwtX/AKZyh+fQysJj
-         SFZg4CT3wS0vlbc8QXKeK8hDTuHMw2ysgzv5qK/RZ4KG8X9CV1XebiAHfeco2yUJV4Wq
-         y0B6p1EXSJMuz1E0hdbxcjLoCWZwZjzTzhi9dLo25liNJxK/CQEYS16OcJ4RIOqXPYDI
-         gWlQ==
+        bh=oAtRArrCBeAmPSiMVA1gMZfchtoaK1zgrRlOgpEivGk=;
+        b=gYcfVfSpLo0TgjPt1ElTrVz54vjdQZFhjyMnta3y/WPbq9vVypE7gTINL8L37dFEKa
+         1iWOpFTkGAL2CoJIJ/cJ33Ma90VDWyHkknSa3hqEdlrOGfdFcVXWNxhw/7sR2CO7ZzvX
+         ewXJaOfqGuhj/cDoj/IzxssiFT+4GZwyaxFTykrKfUGzKvDyQRn8msGyej4v9WJM1gfn
+         DrdYJNNZrCvEi1stLcIsvFQz2yio3Q+JD8YIZ5AmJ/OkLu+CR5PMSmteGReR3r8o1x5f
+         XuT7W9tl1M+Q4naV4ugOGoovRInWVEEyeRNAV7nVk/OSPsf4pFBzY5/wboUs/CB4MzZ0
+         yD/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776537250; x=1777142050;
+        d=1e100.net; s=20251104; t=1776537247; x=1777142047;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=wwDC0qbIekZ01QcIITPykg4/PIEHcmQlJQ0FRNCtrxY=;
-        b=OgHoEtnSqD0LHVIS/Pqwy5pDZJESsxLVWDBYX1dB0VuITRhe3/bvQM2ozrdJfIu3VR
-         tl30sOkE0k1sPWSY4QDymUbVcmleTgwgK2f7iyVTwjoWrKqZqjAmrySiFrEKyvOadIwq
-         Vs4Wx7vt9rjW2tKGqUtdVnmrGm5zEoB7G/k1noCD6mqudb9dROH2ugTIDpRWNYKn/5KL
-         SuJqgIM0Hrbwa5T/+9UkU6jwLcBHYpnPZaYR7HYUesLT4svkb8zctIRF5nozZiQl3oJ0
-         kO+v8TjAIJcffpQJEqa9muMIiL03p/jwmhmZKxlqMgWjMnMsTwMG4kEvdDVXdRWNEIBf
-         Lrfw==
-X-Gm-Message-State: AOJu0YxAKdlwVlxOW75odhr20/WylJuQyURqCVOz9Knw2Jq74Z4m1W8o
-	4DnOS/oHhYCH+s5ul1UHCYdFLG+f/n57ptZWIlfkgAxTd/JkB4C7prK0L9GRwA==
-X-Gm-Gg: AeBDietao1YZSYttunbDkk96YI4fAxofpgDOngZZDQRriMZ0rGq4wuAG5L4uKCdcqHn
-	xFbRh8yfTWyFzLZpa0W/oQpbV9cVdAR/zr+owwxuNKxfEC8115zWC3dkSyYpcuvT3gkOUZZgY8l
-	zox4iH+DXtmEqhjTUQpKplWiGNEtTh75DpnE9vUdZbxPt3Urj94yW64tPUQbo+wg6DzbFNhl3wo
-	wNwTrVlLk4Co0APQvnmUoM/0+y6jBzqOs6sG+A/xj75FbDIKmXNTe8HDDRi/Q8yEoC5fiXlUSO5
-	Zz4t+aapxEuqzfVCzrEl82PPR9UvT4EXtYbO6gKErtt3cOETx85/EBWJQqMBjLyqQaz3Z5CZGtt
-	WUxwCJ2/p0B1JO+Ajp2sugjXUriK+eXPsLkK0fHEwNVQLznRyYf3XhM6UB6JJFTsbJKk6Ip/ZU5
-	ssG/DD0H9uOtjtmytJJR4UhigcC8CsAoDb14DxPHoa
-X-Received: by 2002:a2e:8a98:0:b0:38c:c068:1689 with SMTP id 38308e7fff4ca-38ec7b25288mr28168631fa.29.1776537250140;
-        Sat, 18 Apr 2026 11:34:10 -0700 (PDT)
+        bh=oAtRArrCBeAmPSiMVA1gMZfchtoaK1zgrRlOgpEivGk=;
+        b=r0SpLDMeimgITA/3o6HCudTU174QnCHG+MOBp+fo34RNbWrykq93tp6Epq5N71wjl0
+         HpJfOYxbpR1CZaPHz7QicPhlLEab4kg7kJbfG5ndmsx6THRfYCK5KLCnLyjZxFwGsx5O
+         QLCuVoLsCqqiA3pZsHmm8mnzQrT+8npws6gn13TnzUbb2yLDj2xsDyJpYzF9xgp2gH34
+         233ANAMOFqBCKtQCT7B6ZZwy8rEAs+OLTNXapV2nOYQkdmDSPO8ujPiCGpfWXXC7Sokk
+         romozDLg+2zevV0atGKIi3mtldKUIVVJxLLN3bFWIbn/V4V9hu2zexCKYqjxaXj9ll0u
+         2KqQ==
+X-Gm-Message-State: AOJu0Yw9q3z9t0sUrtBXRZOzOloLHnQDqA6fFr+cb8KvUXIbg25eCrDm
+	hQINunDZXC5VD5XEZv2uCmnLzWy+V0BzHuNlY46fajmWCzdBYB/JUMsB/LB8rg==
+X-Gm-Gg: AeBDieudMMVbt7WWBaAode1FGoFY26AkimVf9l7CE75x0E8E4RYrFct3ZJbNcnx/93l
+	MnPbf/3vlzgExtxKW9amvQkfqsoz1jG67by5EjgrsrE8v5xXWRuKJKFkSyXeT+k1JF2lWSoCyQa
+	Qp/KYXA3JZVsWwA0d9de7n/2B/8/UxHRosf/vuJPWe5BioyXiyR3cmr4+U0L37Bk2aCOXK3t7wh
+	KkkHPbJE9bx11ZRhoggQuye98vmxdj4NWAOS0xXurKBzbOD7TlUsRzERnyJwF+rl57nAnbe4DOa
+	/+VYv8NZ2QxLfLpRVmjpFFxfKGU1PWEH3U3QMEGR27IKBMtdWwLbRG9kNxSIR22x9+i30kuBrbC
+	RYBAsF24aiYrRkyXfUg74ljHyHWPG1jPUXRZGLhDCcUYGX65o9f5/6gnvQ4pEP+MO2ix3r7ImCS
+	4IVIfKhhHHRfng15hVf3Td//TOYS75ID/KYtiFHYTd
+X-Received: by 2002:a05:6512:2396:b0:5a4:143b:3f3e with SMTP id 2adb3069b0e04-5a416f4c297mr2110457e87.0.1776537246504;
+        Sat, 18 Apr 2026 11:34:06 -0700 (PDT)
 Received: from [127.0.1.1] ([2a02:a312:c8a8:7a00:8f12:8be3:442f:59fd])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb6f0bfdsm12965981fa.26.2026.04.18.11.34.09
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb6f0bfdsm12965981fa.26.2026.04.18.11.34.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 11:34:09 -0700 (PDT)
+        Sat, 18 Apr 2026 11:34:06 -0700 (PDT)
 From: Adam Blank <adam.blank.g@gmail.com>
-Date: Sat, 18 Apr 2026 20:34:05 +0200
-Subject: [PATCH 5/7] native: add 'extend_recipe_sysroot' to
- 'vardepsexclude'
+Date: Sat, 18 Apr 2026 20:34:02 +0200
+Subject: [PATCH 2/7] staging: add 'vardepsexclude' to
+ 'staging_populate_sysroot_dir'
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260418-extend_recipe_sysroot-v1-5-8aeb383ba743@gmail.com>
+Message-Id: <20260418-extend_recipe_sysroot-v1-2-8aeb383ba743@gmail.com>
 References: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
 In-Reply-To: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Blank <adam.blank.g@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776537242; l=784;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776537242; l=968;
  i=adam.blank.g@gmail.com; s=20251027; h=from:subject:message-id;
- bh=I7ikx3mW5mXq3+UiE4G3VE6EwhqmBdunFLBSLpioB38=;
- b=jtRjEugChokwv0r+sbXtqoiHBaqEevWohmSYI6qrrfGyWNzqs0kt8t9NEi05eYqPfJo4xn60Z
- sgYihv9pCR+BWP6pAkSYykhzkjK3Wpn0B2Ad2v6AV5sWDzV1G1pF/aS
+ bh=bT33xbBHivJSzMlMdtGkaAa1GpdmVLWWnxeJH8MV/J0=;
+ b=BNYQ5i/NhvStYiAVk01JF2ecCYN9GNZPlNAzbOTsfMxiNd8dmYYGsORiTLH5BKVgaOwuK4NmA
+ /hZ4BgxwMJBDsGDLI5tXpH5HjefEM50+iWc2bW94hDPHyIOVSPM4HC0
 X-Developer-Key: i=adam.blank.g@gmail.com; a=ed25519;
  pk=5t8u8IPKPL1CUykIX2JYa+1iHdXRdN5MqI7ik/fbvEM=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 18:34:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235519
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235516
 
-'do_addto_recipe_sysroot' did not declare this explicitly,
-but made use of the fact, that 'extend_recipe_sysroot' is
-ignored on the base hash level.
+It will be needed when 'extend_recipe_sysroot' is no longer
+ignored when calculating signatures.
 
 Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
 ---
- meta/classes-recipe/native.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-global/staging.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes-recipe/native.bbclass b/meta/classes-recipe/native.bbclass
-index 9f4ca170f7..ac9458a2f4 100644
---- a/meta/classes-recipe/native.bbclass
-+++ b/meta/classes-recipe/native.bbclass
-@@ -176,6 +176,7 @@ python do_addto_recipe_sysroot () {
- }
- addtask addto_recipe_sysroot after do_populate_sysroot
- do_addto_recipe_sysroot[deptask] = "do_populate_sysroot"
-+do_addto_recipe_sysroot[vardepsexclude] += "extend_recipe_sysroot"
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
+index 1008867a6c..259603dcbf 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -248,6 +248,8 @@ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
+     for p in sorted(postinsts):
+         bb.note("Running postinst {}, output:\n{}".format(p, subprocess.check_output(p, shell=True, stderr=subprocess.STDOUT)))
  
- inherit nopackages
- 
++staging_populate_sysroot_dir[vardepsexclude] += "PACKAGE_EXTRA_ARCHS"
++
+ #
+ # Manifests here are complicated. The main sysroot area has the unpacked sstate
+ # which us unrelocated and tracked by the main sstate manifests. Each recipe
 
 -- 
 2.43.0
