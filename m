@@ -1,105 +1,106 @@
-Return-Path: <adam.blank.g@gmail.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2759F99C95
-	for <webhook@archiver.kernel.org>; Sat, 18 Apr 2026 18:34:19 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.71728.1776537248621756587
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C7AF99C99
+	for <webhook@archiver.kernel.org>; Sat, 18 Apr 2026 21:50:31 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.74938.1776549030448712545
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2026 11:34:08 -0700
+ Sat, 18 Apr 2026 14:50:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=gYcfVfSp;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: adam.blank.g@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a415fd6bceso1994456e87.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 11:34:08 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=gYG88wil;
+ spf=pass (domain: underview.tech, ip: 209.85.222.175, mailfrom: vince@underview.tech)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8e895b9e7cbso129499485a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 14:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776537247; x=1777142047; darn=lists.openembedded.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oAtRArrCBeAmPSiMVA1gMZfchtoaK1zgrRlOgpEivGk=;
-        b=gYcfVfSpLo0TgjPt1ElTrVz54vjdQZFhjyMnta3y/WPbq9vVypE7gTINL8L37dFEKa
-         1iWOpFTkGAL2CoJIJ/cJ33Ma90VDWyHkknSa3hqEdlrOGfdFcVXWNxhw/7sR2CO7ZzvX
-         ewXJaOfqGuhj/cDoj/IzxssiFT+4GZwyaxFTykrKfUGzKvDyQRn8msGyej4v9WJM1gfn
-         DrdYJNNZrCvEi1stLcIsvFQz2yio3Q+JD8YIZ5AmJ/OkLu+CR5PMSmteGReR3r8o1x5f
-         XuT7W9tl1M+Q4naV4ugOGoovRInWVEEyeRNAV7nVk/OSPsf4pFBzY5/wboUs/CB4MzZ0
-         yD/g==
+        d=underview.tech; s=google; t=1776549029; x=1777153829; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCiTAf/eUVBnHaVACCqW/87q1OVTHFuub3KJ15ULMSk=;
+        b=gYG88wilmAamJxlLqJaV0e7/2rDpj6rLz46fC2epY3o0wCepSQgrmLz1U/IR91sJB4
+         sFimBXvJ/Nihw9PeRUlcCLbutPHGBS6eH0XzsDPc89JUQfEq0IqHZ7HZD1rHErQ6snzg
+         8TuYY5hlT09MaYqzkcSwRwJZ1ap9DN6EB7Zq8gR1dXwYtNLlnvGHO8+nypMByuWba0SM
+         W5aQ1mEND+oW6EsOBmrGMGV5YlWYMW/yQy9n5bgholsQde+1joh3zthDQi2xDjdjUyF2
+         xzwLe2QfkHmxZAHmuC9BXLrYIzCb4UUhB/3MAq2eBxnBc5mMP7EBsJDNvH+k67cLZaE3
+         3a8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776537247; x=1777142047;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=oAtRArrCBeAmPSiMVA1gMZfchtoaK1zgrRlOgpEivGk=;
-        b=r0SpLDMeimgITA/3o6HCudTU174QnCHG+MOBp+fo34RNbWrykq93tp6Epq5N71wjl0
-         HpJfOYxbpR1CZaPHz7QicPhlLEab4kg7kJbfG5ndmsx6THRfYCK5KLCnLyjZxFwGsx5O
-         QLCuVoLsCqqiA3pZsHmm8mnzQrT+8npws6gn13TnzUbb2yLDj2xsDyJpYzF9xgp2gH34
-         233ANAMOFqBCKtQCT7B6ZZwy8rEAs+OLTNXapV2nOYQkdmDSPO8ujPiCGpfWXXC7Sokk
-         romozDLg+2zevV0atGKIi3mtldKUIVVJxLLN3bFWIbn/V4V9hu2zexCKYqjxaXj9ll0u
-         2KqQ==
-X-Gm-Message-State: AOJu0Yw9q3z9t0sUrtBXRZOzOloLHnQDqA6fFr+cb8KvUXIbg25eCrDm
-	hQINunDZXC5VD5XEZv2uCmnLzWy+V0BzHuNlY46fajmWCzdBYB/JUMsB/LB8rg==
-X-Gm-Gg: AeBDieudMMVbt7WWBaAode1FGoFY26AkimVf9l7CE75x0E8E4RYrFct3ZJbNcnx/93l
-	MnPbf/3vlzgExtxKW9amvQkfqsoz1jG67by5EjgrsrE8v5xXWRuKJKFkSyXeT+k1JF2lWSoCyQa
-	Qp/KYXA3JZVsWwA0d9de7n/2B/8/UxHRosf/vuJPWe5BioyXiyR3cmr4+U0L37Bk2aCOXK3t7wh
-	KkkHPbJE9bx11ZRhoggQuye98vmxdj4NWAOS0xXurKBzbOD7TlUsRzERnyJwF+rl57nAnbe4DOa
-	/+VYv8NZ2QxLfLpRVmjpFFxfKGU1PWEH3U3QMEGR27IKBMtdWwLbRG9kNxSIR22x9+i30kuBrbC
-	RYBAsF24aiYrRkyXfUg74ljHyHWPG1jPUXRZGLhDCcUYGX65o9f5/6gnvQ4pEP+MO2ix3r7ImCS
-	4IVIfKhhHHRfng15hVf3Td//TOYS75ID/KYtiFHYTd
-X-Received: by 2002:a05:6512:2396:b0:5a4:143b:3f3e with SMTP id 2adb3069b0e04-5a416f4c297mr2110457e87.0.1776537246504;
-        Sat, 18 Apr 2026 11:34:06 -0700 (PDT)
-Received: from [127.0.1.1] ([2a02:a312:c8a8:7a00:8f12:8be3:442f:59fd])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb6f0bfdsm12965981fa.26.2026.04.18.11.34.05
+        d=1e100.net; s=20251104; t=1776549029; x=1777153829;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FCiTAf/eUVBnHaVACCqW/87q1OVTHFuub3KJ15ULMSk=;
+        b=I0ILRDJ+XTVSR7wt739YubzAEVZ50+lDUO/0+NTrPKaqGLy1Ed/b4RdC+YbB11Wi/P
+         zpz4rgeICfpZv+erMpMLMEWAyX7rAu5UgDGO36awYa7/jLaUy13ZkY9kiFtCGCsY/RHk
+         dVt+9oTcmjdKxdqFzH3pjL00tYiTChWCz80DIOUi6HEvwEDO2kGtrmH366QFXFEWK/ur
+         tUY3lOH6lPQIMFah0UPKLPMWAUzf6e6+bGuQqFKkPi8ALLqvRaHWbZsqyP0/X3GI5gzm
+         TYARcphcaNHS65Qs1h0T+NsPFQ21p0Cgl3CF1BKbYlRc+wSippFyzPCqFT0/UkYjZNwP
+         1rEQ==
+X-Gm-Message-State: AOJu0YwWZNF0WXCbVO+jNSnFHsX0apAmaPfTmKFMN7akv5NqSNMKDoEi
+	Wc9zOp8TTmqhjQ9Otxd+ksDofrRqKg8RLAtged9xWzizh6y5g3d8U0dZ9UQDaC2NyEVqR5FT8Ug
+	pdaoh
+X-Gm-Gg: AeBDievkXVKEcXdcWn7yfiO90F5zyQt3OhYhoRhyvzIzsxi7/2COWFBQdlQeNdsZ3Ri
+	COfupWwyZw6Liy1sFUPA62mg6YQyl0/MU/ORQFimI/QnVzXO2QHe97UFWm5vTAjT4t+wrshYkjj
+	ojDebsVBCbfXvLJkIgJEdb86Sr3lFOQ4uFs2iUwhirIiaiJLD8D3KN80soezkHOG9uzCLj6HWDd
+	NySVRG15/TVOoWXkvpw9ELDLYTqlTDPtfsML/SE4PEMD5Q2Dgm/Z2pj2mze7TNvni+82xJtKIsc
+	nPLUoq+dQf6lwWwvqSF9HY4Wq2Oc6TcCL+sdtTWcBpWD+ENVweutzBSsKhiUJA8Gav0OjGZy+uL
+	zwXWxsab49gcs1l9x6U1eXT3UcOKCRaInDzMt4SHZdY1ksWaPlzcexOmmTLOc+7p20umbi+HYYs
+	pb6Z8lOyX8/KnrLr8+0H1GXg==
+X-Received: by 2002:a05:620a:4089:b0:8cd:9468:691c with SMTP id af79cd13be357-8e78f82d1f0mr1222292785a.14.1776549028578;
+        Sat, 18 Apr 2026 14:50:28 -0700 (PDT)
+Received: from vince-server.. ([2601:406:4d00:3890::ddbf])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e7d69ae320sm507501785a.20.2026.04.18.14.50.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 11:34:06 -0700 (PDT)
-From: Adam Blank <adam.blank.g@gmail.com>
-Date: Sat, 18 Apr 2026 20:34:02 +0200
-Subject: [PATCH 2/7] staging: add 'vardepsexclude' to
- 'staging_populate_sysroot_dir'
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260418-extend_recipe_sysroot-v1-2-8aeb383ba743@gmail.com>
-References: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
-In-Reply-To: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
+        Sat, 18 Apr 2026 14:50:28 -0700 (PDT)
+From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Adam Blank <adam.blank.g@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776537242; l=968;
- i=adam.blank.g@gmail.com; s=20251027; h=from:subject:message-id;
- bh=bT33xbBHivJSzMlMdtGkaAa1GpdmVLWWnxeJH8MV/J0=;
- b=BNYQ5i/NhvStYiAVk01JF2ecCYN9GNZPlNAzbOTsfMxiNd8dmYYGsORiTLH5BKVgaOwuK4NmA
- /hZ4BgxwMJBDsGDLI5tXpH5HjefEM50+iWc2bW94hDPHyIOVSPM4HC0
-X-Developer-Key: i=adam.blank.g@gmail.com; a=ed25519;
- pk=5t8u8IPKPL1CUykIX2JYa+1iHdXRdN5MqI7ik/fbvEM=
+Cc: Vincent Davis Jr <vince@underview.tech>
+Subject: [PATCH] grub-efi: support custom embedded grub configs
+Date: Sat, 18 Apr 2026 17:49:10 -0400
+Message-ID: <20260418214910.47616-1-vince@underview.tech>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 18:34:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235516
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2026 21:50:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235522
 
-It will be needed when 'extend_recipe_sysroot' is no longer
-ignored when calculating signatures.
+Adds support for including custom
+embedded grub configs. The default one
+provided in OE-core is limited to everything
+being in the /EFI/BOOT directory.
 
-Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
+Some users may want their modules
+and configs in /boot/grub instead.
+
+Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta/classes-global/staging.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-bsp/grub/grub-efi_2.14.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index 1008867a6c..259603dcbf 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -248,6 +248,8 @@ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
-     for p in sorted(postinsts):
-         bb.note("Running postinst {}, output:\n{}".format(p, subprocess.check_output(p, shell=True, stderr=subprocess.STDOUT)))
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.14.bb b/meta/recipes-bsp/grub/grub-efi_2.14.bb
+index 6354b43989..8fcc7aa01d 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.14.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.14.bb
+@@ -48,6 +48,7 @@ EXTRA_OECONF += "--enable-efiemu=no"
  
-+staging_populate_sysroot_dir[vardepsexclude] += "PACKAGE_EXTRA_ARCHS"
-+
- #
- # Manifests here are complicated. The main sysroot area has the unpacked sstate
- # which us unrelocated and tracked by the main sstate manifests. Each recipe
-
+ # Define GRUB_MKIMAGE_OPTS variable for additional grub-mkimage options (e.g., disabling shim lock)
+ GRUB_MKIMAGE_OPTS ?= ""
++EMBEDDED_GRUB_CONFIG ?= "${UNPACKDIR}/cfg"
+ 
+ do_mkimage() {
+ 	cd ${B}
+@@ -63,7 +64,7 @@ do_mkimage() {
+ 
+ 	# Search for the grub.cfg on the local boot media by using the
+ 	# built in cfg file provided via this recipe
+-	grub-mkimage -v -c ${UNPACKDIR}/cfg -p ${EFIDIR} -d ./grub-core/ \
++	grub-mkimage -v -c ${EMBEDDED_GRUB_CONFIG} -p ${EFIDIR} -d ./grub-core/ \
+ 	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
+ 	               ${GRUB_MKIMAGE_OPTS} ${GRUB_MKIMAGE_MODULES}
+ }
 -- 
 2.43.0
 
