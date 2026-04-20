@@ -1,279 +1,259 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79682F36C59
-	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 08:30:13 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15348.1776673810672727816
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3F2F36C5C
+	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 08:32:33 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.21])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14960.1776673862287252081
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Apr 2026 01:30:11 -0700
+ Mon, 20 Apr 2026 01:31:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=pBSXyay3;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a40502e63bso2692491e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 01:30:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776673808; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PwehRz7Ni+pHrrqg0wj+NRZspPQIkL2ZojwY/MFNIPSOw5TSevUgsrzm7x4JuNS7PU
-         NTR0H36M5wo4OfKc89SZxWDJq6lfks5TSbrxY4+xIQPebdVa9JIgoQNuldFisUlweqJX
-         G/amKLe1qhRx/KvPnamVf7egLZUFUYBndzTp9SYn45jnTvOkGYRj8WTW4NIhSyU3FUBw
-         lmHurigwp4mf+BXaSKeNWbkgHrIkkcydFBSHwPpeLl1DsUCktYjmtGweFQJ9nxfK0xA7
-         rs1ES+xsGRpzwg8v/ij1Y8xiESMfyfGwJ7EL/HzWAs7foJ5yM7q+aQqwxahHrbXqyYMX
-         ytXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eT/WhXzsd/Zk8/ZwPstodaM83Ylf4CnpRnCfvmeGmzk=;
-        fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
-        b=e8fMXr3KDt+xC03LYqBtt1ULGZH+MYwISiQX/aPDIMq/dAT3NX7U6HGf5IfNkexBAb
-         m8tt4BNZftTSUAw1WT30MFQ4c1onThj9M3NWufo0U5TMUgseK6Cj1a4VN9bv1BmoJyM2
-         adoaeOuwMpZtvbCBCKjKiJDE2ZXDTkWTKzOr+7rYP9Gju9Wbotyy3XLxCQxO24GMUVCe
-         7AjdW47p54E5PWe5XA/A7zmF4FjnsHyhUaYNh+CQh2RCrbAvGZw0ag1/JU004pojG+Wy
-         I+RfgJOetHfXA9RvSXQx37WRiTcCnBHwfl/Cr0vN53He3J5wa1s3ykN562nRWyjjT66c
-         OG1g==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776673808; x=1777278608; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eT/WhXzsd/Zk8/ZwPstodaM83Ylf4CnpRnCfvmeGmzk=;
-        b=pBSXyay3hVE4XdWb1nmAJ+/IKEGSJ8YHjN8vqpK0NlOFgMTT37Gx2FDNy9O6kFD77j
-         ds6hBnsHdv8TDfslpGtdVU1s7WH1YNf5ZNdE3xc+kPP6KFkTcNChShEaSu5ufuHg+Fsj
-         TSErhlyvD6xfa+53Ov8XHIPiXQeF9Chcbf8NfliCMIEHFwgB4MgERft02w1gWbDJ5HZ7
-         8vovyYmXB2weMcGL/aaXwX0dfY6kGn7ywxHDdU+vd7kW5eUQTSrraYXIoCN0VhOPdqa8
-         n0eGLmQjV2fAkOyj9xtfzM7fL6Cja5EA2+e2RfOTMgGGmqQtWHJtik2b5eFFHg4kbll7
-         CMLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776673808; x=1777278608;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eT/WhXzsd/Zk8/ZwPstodaM83Ylf4CnpRnCfvmeGmzk=;
-        b=sUq5gt1jzd/VUA0lIBK3cvB+ImO0kJ9IE6JVKDLOkI62ZMNNvwCwWNV/5E3lSQom4E
-         S4fBWbcnosFoG82EWd3Cq5bNwe4gK87M7EK9B4awR5jxpHXq2JY9P3HN3v+qvswuVC3B
-         fPdBpcEXr6W8JKEPUg7v4KpRdi4XvZjVIrstrEQnJHMDuGoR6DijHDxZs06xr+OVTQj/
-         OY1S19ZUKean2Poc/KSlLAvSHpSIi+HD5bNDmFCy2vEz9uDrF9blBG4BVPsDapx90slj
-         M6KGYwrvuInzy29+7/AaBsgxPeyda+mV1a5PvnmFMU7fhflwtr4HEOApDtfDbBJqBmoa
-         nCrA==
-X-Gm-Message-State: AOJu0YyyV9wgqExPjIi8Vmebsjbc1FejJMjiecLHlIOjOGSdv8zheyWV
-	LZ3dQgXAqMmE86vrhCgU+4t0mauCZDHK5+ofAFB+hCyD5oamHKBJpHCnkwScprwM2S78wL2mrb/
-	NZYeerWdzg5RKp5EYpa9kExRp5W0JhNk=
-X-Gm-Gg: AeBDietakr+Gv03UuRacFwZO2lwHeTl0rJ9XhnXMuR+dI7ldrB1Z0HDqd3xIMK70WsS
-	TbTf5wsWJEFrZQxkZLMZc7QEOyaixdTh42nV97eMz3QuOzUvfFQXWfRaFhahXM6u7E7uqivRV5m
-	qb7LCT1jo9xHl796N4+qlfCSF4Is6VVXWd+ztTSLes6c3/3B53QsZCTYQ7vSZONb1AyAPf+D/wu
-	sXZnyAc1KH4aNgyYXZXDuzuumGZmjoOsx1+pZFVwzKRP1Qu0uECiaQuXPp/NB8AabcX9i0l1wj5
-	MfBLQawp7wBXgL1SFwPa8QgRhp5uuTAF0JrrMcWRmxNyKqdWaggC+AQLjLpqMPzU44Y0V5srgGu
-	tGtNZoH6wtvw=
-X-Received: by 2002:a05:6512:2308:b0:5a4:2cf:601e with SMTP id
- 2adb3069b0e04-5a4172c3f7fmr3813084e87.12.1776673807904; Mon, 20 Apr 2026
- 01:30:07 -0700 (PDT)
+ dkim=pass header.i=@mt.com header.s=selector2 header.b=mt1O6g0u;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: mt.com, ip: 52.101.84.21, mailfrom: wojciech.dubowik@mt.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EePaxZ226ZkdQwuLP/g7IoSRRakUryhu4ysgi/wh1XJQeOlf8CQseR3VnGWnC4GKTpYEpmf8hxxIcYCfxnMe4AqXpyNaRLA7eesZT5jSneNKCvFvEuWF+rU7bw8Dh4QlqtvCfKZ8K0IjCu6W6/16MZsO9fY3BW9sHBnQg1HlaFtpS3yK78IFkINIQjmDf9n06r2eQ9oNA7tkNxZDkD4vsTnhTy9Igs2+gIjxuBwkESEKcy9iITNiw6gfWVLRVKDyxM8YODRF1wM4jxifTNp5RRV4MmP6Bysz6ZhapvMAhuf2Oc0wEYLBiecgHRQ+VAiscF2yPErlxmlyNFc3hDL4ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MOF2YOjy2u5dAAeqfQwxzdS2RII4PDs/qOhadP/liiU=;
+ b=ogrTM7UMFmtyRvZPG+oVotV3Qjs53lK3JPWEoguwgY16u0dFJwJhPShDDGMBGJCKW7bIqSCSEIEyKpLamd/5FTmfP2QTsiyCVR0Lb+3wlUKfsJkWX1XijsviyagzC5gaS9lM6gIMhXuiBgSfehOD3jJYAAitIEJ2mHF9gyzPmUg5XlUkA0M4WWaXMoXqshwHdUdJz2WiC6cyMixu7XnYeYwn7VlefSf7ORrLNVD9kDotPuDLEwh7s9wfHQK3mhqrm/x6ywjoWkZyk8kHCJ6Aoq50YrN3jThJ8pn5GkgboNEdoBkezi6RzLqSN82WnVzELp94hvoOIAV0r9uG8tyapw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MOF2YOjy2u5dAAeqfQwxzdS2RII4PDs/qOhadP/liiU=;
+ b=mt1O6g0uKU4VE39ZNG9nuaE+aY1GeeI3e5tk8e8sC0HAyklnQ2/V7wjxVRXOYUKX9XojwtsW8aPf2Iu4U3JROscW/aFVe1cYVWTy7VPJT3ofBPovWG8PFgcY2R4eYE9cigWWrcNMg06fj70jU4Er2YKFlXkpmggpFC6KwKt2+om2sUHFZTOG5kZHcppVNzpxxn4Awoqbcs0j7id0buJpny0DLw86PPXdluNWuNzu+NRoYLnZZT05Jm8NihN0B5lxmpjU6kYsykTojAq1BC1mtJ0SZmFFazCGgF4Vs4SjYDKE3dKa1f3nVvaimEmB1Fv405K3/kZUax3ssu7Mx7mHbg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from DB9PR03MB7180.eurprd03.prod.outlook.com (2603:10a6:10:22d::13)
+ by DU4PR03MB10744.eurprd03.prod.outlook.com (2603:10a6:10:585::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Mon, 20 Apr
+ 2026 08:14:56 +0000
+Received: from DB9PR03MB7180.eurprd03.prod.outlook.com
+ ([fe80::6fd2:12a9:4423:8ddc]) by DB9PR03MB7180.eurprd03.prod.outlook.com
+ ([fe80::6fd2:12a9:4423:8ddc%6]) with mapi id 15.20.9818.032; Mon, 20 Apr 2026
+ 08:14:55 +0000
+Date: Mon, 20 Apr 2026 10:14:46 +0200
+From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+To: Franz Schnyder <fra.schnyder@gmail.com>
+Cc: u-boot@lists.denx.de, trini@konsulko.com,
+	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>,
+	Francesco Dolcini <francesco@dolcini.it>
+Subject: Re: [PATCH] tools: mkeficapsule: Add disable pkcs11 menu option
+Message-ID: <aeXgdkBin5uz0-OH@mt.com>
+References: <20260409074710.1322519-1-Wojciech.Dubowik@mt.com>
+ <7xe72m3tkzultqh3hw4cubfognfryjk5ababajoe6w6zt7jx4c@aaxa2kehv635>
+In-Reply-To: <7xe72m3tkzultqh3hw4cubfognfryjk5ababajoe6w6zt7jx4c@aaxa2kehv635>
+X-ClientProxiedBy: MI0P293CA0011.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:44::11) To DB9PR03MB7180.eurprd03.prod.outlook.com
+ (2603:10a6:10:22d::13)
 MIME-Version: 1.0
-References: <cover.1774824253.git.yoann.congal@smile.fr> <58ef52e9ee33c76689a57e6c39e91c00c257c43f.1774824253.git.yoann.congal@smile.fr>
- <DHG6XYWYS20G.3GXDCN07SKIGJ@smile.fr>
-In-Reply-To: <DHG6XYWYS20G.3GXDCN07SKIGJ@smile.fr>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 20 Apr 2026 10:29:55 +0200
-X-Gm-Features: AQROBzC7LmswmJIMk_991hBvVHVN9U5IsfALaR_UEpTNq4M-6DVggoJYvrfWPQI
-Message-ID: <CA+chaQf17Z9yPRyqUip6xWjJwGSc6CadNdqVURBsLx7SMUvy3g@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap 04/11] dtc: backport fix for build with glibc-2.43
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR03MB7180:EE_|DU4PR03MB10744:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7fa49e5-de61-4411-b810-08de9eb4e78d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|19092799006|38350700014|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	Cks3Lj7nkllExs0B1KUic3mcqtpg6xHaW1SJCg+Kgw0qPJgqP5jNZvebtEEnbfAxjAFb/OG92rAn/TA3H8d6ASwzAUx5crrn6SNPpX10XwcN/Und5LiiQqYg3fLel2Jg3apmqg5oalmmZFoaKmJFD+l5pa8SC8/IAlahN3I/L/wRyQyMb4IcyU4DTwkQpE3tfZ4U618yNdV8stSx4gdib9MZLZq45qqfIZL81TyFCIgRMnHYswgQy/Zp53/TnPMwZHfI1//STywPhriDxPBOWY+of/mYGWSLcN6YhFK/iUtWR0hfhaHWEjv85hhMbol0EZhnK1WAFypL8Apyzl9f3K1V5gip1R/PHAeUYTdjEtFk6OamVqiWAq8LUT8Zf8TkU47+kjfZSQfgSKV7ce7PW8L3rnWzceTnTTde5CWmAAdkn700cDrgC8+l9M4cCL44YEtrT1XrBexMwLqRfAj81oghyUtgKCi4yV0ErZgRYTgQltrqqaMJMZxWoxmJiO1ZANr+qrvspjyzwqgj2B52PMWqeKsH0M8/+svSr1M3tp+ojPPn55FKq823NUArzH6gZhkFHGKdOb0ZA8Zs6x4YVT9CXVWSDqc3IfM8JHiZ3LC5ApCpoXEuCsdLW9UH7S0jcJvghv4OHjQveBwi7ewslUogVE2heH8fpo8JViDD7I5kppcxIpIJu1jULG51PFQbgu2kFDiv2XiKjkJFt4blFKGQ9eiReq0SUExEioYGSWWJlNxJQEVqlNPIecdcFDJIIrf96HEH83h07cE+LhqPWCSax598OnV3cbnglGy1RWk=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7180.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(19092799006)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?zhiJB9cNtMrWcS+uA7FXohTBoPJvVug9owpnhm9lvYSZJtb3uhbK2bxPu7r0?=
+ =?us-ascii?Q?KmwEqytm0v6dBNx9XncNvALtuIz/mJBNavFDP55grh/5wXRENITvKAAnv9Cz?=
+ =?us-ascii?Q?6M4mDXjH2kNdtqizZAg6B3ZtFz+7ZA4lLaXHfvrpp2merZCMCb2IyiGw3sf+?=
+ =?us-ascii?Q?Suhule6HEDlhXqXxy9nQ8+Ywq8bNaMdYbXHOdHBfdH+5//UQn9LsZAfof2PC?=
+ =?us-ascii?Q?lMVmhtKvzG/ij/LttwACt3McxTUsR7/H28lDOcCHgkhUlFIwH6flNq2Xhgt+?=
+ =?us-ascii?Q?SGvz8XlTScWsNuyg6+53X1TOVVm7Wc24ol5fXGmT4PY54TvlhE0chXr6DOkr?=
+ =?us-ascii?Q?h4A9Q+4evoR42GspD9efh2Oi70BRtLy62RT+NYghPc84auGpCoW8tNQhSyzZ?=
+ =?us-ascii?Q?0OTuv1uO/OQ/YCeGn8gXS+oGOBNhSDAMxc8f6YJdUQ4FgSs4eenraYMtbrk/?=
+ =?us-ascii?Q?XV0lW/bx2jIxd2uHLlkOD5ASUBA4x16TzE3Kjil+o0wwNo3xboG4VPbs+VMR?=
+ =?us-ascii?Q?8PvRlHZEvh5HeAdRdnclplmni25JpIL62xh9twXzyiFEtHoqAViYE9Cu4wRj?=
+ =?us-ascii?Q?9gRl/I16GeYHOQ6+oaZGlTudFa69ry2CcjJXvlMl0Wmu/CKgwIfsPe4z2+kc?=
+ =?us-ascii?Q?Ppo7M2zLFKSxOuyEPytd4KTMJ7tH34hQ5MGmqe71jDZPKi6lVplVXm+E/qdh?=
+ =?us-ascii?Q?DJ5w4t9z6BtJlKk7Fxn42WLS7Ps8c2PR2fbCBL0Vdq2oPHtE3ThlkmqVIewn?=
+ =?us-ascii?Q?5f7QLUJUZvW6mtBAQk5q6lAmglSTLFDLF6aldjA70ZhdlgOhews8TIUT9ynH?=
+ =?us-ascii?Q?z/7FvNK3S/a2wZZofs29qERuazlb68zSg39N7iLNotgibHG3nwnVA9aF6yo+?=
+ =?us-ascii?Q?4jVtYcsvgx14DlnmR9ZHUA/+ckWJdAaAhZ4EJwNlSbP1P7SRw5tG7wIMlEzB?=
+ =?us-ascii?Q?zXEHJrDhfxLP48ZCiZHP36UjEFQxjC4X/iitilh2ZUAdTi5usmRfoXj28Eaa?=
+ =?us-ascii?Q?uj1pK3ta0Ycg29vPW+AAnGC1Zwce9SpjyY9nFGVyadmn+TYJWkJxcKTL0X/Y?=
+ =?us-ascii?Q?G8GGknHXAL3zm8C8/3CeOflQwdHpvipS2FIwG102q39ZFP3TCUj975spOcfu?=
+ =?us-ascii?Q?c0g5/RD19wDXEarDP70lQJHH0GJtTtkhYgIGgH3Z9f4GkeCk95yc9ocueBhy?=
+ =?us-ascii?Q?G/mpNSY8CQmzI+RsBpppmkZDjFq5h6550hh4pikYm7C6g3GgUF1UGhabJkY1?=
+ =?us-ascii?Q?q9G7KEBXQ1NmjmwHk4JbAIBGQU2KgvruJac4TDcufky5ozYvwFKW/dXgM5n0?=
+ =?us-ascii?Q?3b2f6wCojL2sgib/r1+1T40v0ZVzsY2FSstXxEZPZNlHBeJhFldvD5mRIlr6?=
+ =?us-ascii?Q?snss4gtlLu7QGrbCIz1/BWMTXxpTk6VnmPyy8c4FaHdGCFOavBsWtyVkP3/q?=
+ =?us-ascii?Q?F80es94dsX5wvn8irTIn+/3lkTZ4EaQUaQoLBREHOKzUQegctbRD+je9epwQ?=
+ =?us-ascii?Q?E6CPYklMMPVX8YHzwivuz6vXrn/JeeVDkMENaoP8qruB/1f2U8EaDfQ0jHlc?=
+ =?us-ascii?Q?7zmqXFo/lnTce0X7QDxq4wAfo81TP0+CRotHX6gCOPCQmTKvwQHmmvNmB7uZ?=
+ =?us-ascii?Q?0sEelDTuW4BeVRHxRB3UdffPe9l5Wynaa5c6J+lL+3ueNG1HVzgAMnUJ7Eqp?=
+ =?us-ascii?Q?4K+pOhLdpNZ+IyLE7+2sxN1ey4kbdEd9SKtbsTR06wPHS4/J2TZQeDcIFo/G?=
+ =?us-ascii?Q?aFeURH78wA=3D=3D?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7fa49e5-de61-4411-b810-08de9eb4e78d
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7180.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 08:14:55.2544
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hwdsgJ78H/eFBhcCYrKREOQ2SgJua45+nuTgYpjmRPfL5LXMhAi9dDMj7B2a3aC4zPlKGOgdT+J2CN7fNNE1rg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR03MB10744
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 08:30:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235554
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 08:32:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235555
 
-Hello Yoann,
+On Thu, Apr 16, 2026 at 05:51:13PM +0200, Franz Schnyder wrote:
+Hello Franz,
+> On Thu, Apr 09, 2026 at 09:47:07AM +0200, Wojciech Dubowik wrote:
+> > Some distros are using gnutls library without pkcs11 support
+> > and linking of mkeficapsule will fail. Add disable pkcs11
+> > option with default set to no so distros can control this
+> > feature with config option.
+> > 
+> > Suggested-by: Tom Rini <trini@konsulko.com>
+> > Cc: Franz Schnyder <fra.schnyder@gmail.com>
+> > Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+> > ---
+> >  tools/Kconfig        |  8 ++++++++
+> >  tools/Makefile       |  3 +++
+> >  tools/mkeficapsule.c | 14 ++++++++++++++
+> >  3 files changed, 25 insertions(+)
+> > 
+> > diff --git a/tools/Kconfig b/tools/Kconfig
+> > index ef33295b8ecd..ccc878595d3b 100644
+> > --- a/tools/Kconfig
+> > +++ b/tools/Kconfig
+> > @@ -114,6 +114,14 @@ config TOOLS_MKEFICAPSULE
+> >  	  optionally sign that file. If you want to enable UEFI capsule
+> >  	  update feature on your target, you certainly need this.
+> >  
+> > +config MKEFICAPSULE_DISABLE_PKCS11
+> > +	bool "Disable pkcs11 support"
+> > +	depends on TOOLS_MKEFICAPSULE
+> > +	default n
+> > +	help
+> > +	  Disable pkcs11 support. Can be used in cases when host GnuTLS
+> > +	  library doesn't support it.
+> > +
+> >  menuconfig FSPI_CONF_HEADER
+> >  	bool "FlexSPI Header Configuration"
+> >  	help
+> > diff --git a/tools/Makefile b/tools/Makefile
+> > index 1a5f425ecdaa..60e84bfbf20d 100644
+> > --- a/tools/Makefile
+> > +++ b/tools/Makefile
+> > @@ -271,6 +271,9 @@ mkeficapsule-objs := generated/lib/uuid.o \
+> >  	$(LIBFDT_OBJS) \
+> >  	mkeficapsule.o
+> >  hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
+> > +ifeq ($(CONFIG_MKEFICAPSULE_DISABLE_PKCS11),y)
+> > +HOSTCFLAGS_mkeficapsule.o += -DCONFIG_MKEFICAPSULE_DISABLE_PKCS11
+> > +endif
+> >  
+> >  include tools/fwumdata_src/fwumdata.mk
+> >  
+> > diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
+> > index ec640c57e8a5..ad1c46f0e909 100644
+> > --- a/tools/mkeficapsule.c
+> > +++ b/tools/mkeficapsule.c
+> > @@ -229,9 +229,11 @@ static int create_auth_data(struct auth_context *ctx)
+> >  	gnutls_pkcs7_t pkcs7;
+> >  	gnutls_datum_t data;
+> >  	gnutls_datum_t signature;
+> > +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+> >  	gnutls_pkcs11_obj_t *obj_list;
+> >  	unsigned int obj_list_size = 0;
+> >  	const char *lib;
+> > +#endif
+> >  	int ret;
+> >  	bool pkcs11_cert = false;
+> >  	bool pkcs11_key = false;
+> > @@ -242,6 +244,7 @@ static int create_auth_data(struct auth_context *ctx)
+> >  	if (!strncmp(ctx->key_file, "pkcs11:", strlen("pkcs11:")))
+> >  		pkcs11_key = true;
+> >  
+> > +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+> >  	if (pkcs11_cert || pkcs11_key) {
+> >  		lib = getenv("PKCS11_MODULE_PATH");
+> >  		if (!lib) {
+> > @@ -259,6 +262,7 @@ static int create_auth_data(struct auth_context *ctx)
+> >  			return -1;
+> >  		}
+> >  	}
+> > +#endif
+> >  
+> >  	if (!pkcs11_cert) {
+> >  		ret = read_bin_file(ctx->cert_file, &cert.data, &file_size);
+> > @@ -301,6 +305,7 @@ static int create_auth_data(struct auth_context *ctx)
+> >  
+> >  	/* load x509 certificate */
+> >  	if (pkcs11_cert) {
+> > +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+> >  		ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
+> >  							 ctx->cert_file, 0);
+> >  		if (ret < 0 || obj_list_size == 0) {
+> > @@ -309,6 +314,10 @@ static int create_auth_data(struct auth_context *ctx)
+> >  		}
+> >  
+> >  		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
+> > +#else
+> > +		fprintf(stdout, "Pkcs11 support is disabled\n");
+> > +		return -1;
+> > +#endif
+> >  	} else {
+> >  		ret = gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
+> >  		if (ret < 0) {
+> > @@ -320,12 +329,17 @@ static int create_auth_data(struct auth_context *ctx)
+> >  
+> >  	/* load a private key */
+> >  	if (pkcs11_key) {
+> > +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
+> >  		ret = gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
+> >  		if (ret < 0) {
+> >  			fprintf(stderr, "error in %d: %s\n", __LINE__,
+> >  				gnutls_strerror(ret));
+> >  			return -1;
+> >  		}
+> > +#else
+> > +		fprintf(stdout, "Pkcs11 support is disabled\n");
+> > +		return -1;
+> > +#endif
+> >  	} else {
+> >  		ret = gnutls_privkey_import_x509_raw(pkey, &key, GNUTLS_X509_FMT_PEM,
+> >  						     0, 0);
+> > -- 
+> > 2.47.3
+> > 
+> 
+> Hi Wojciech,
+> 
+> Shouldn't it be the other way around? Use of pkcs11 should be disabled 
+> by default and enabled if required. As it is now, it would still depend
+> on the the gnutls library having pkcs11 support and therefore still 
+> would break our OE builds with mainline u-boot if we don't change our
+> modules defconfig.
 
-some of the follow-up glibc/gcc patches for ubuntu-26.04 are now in
-your contrib/stable/scarthgap-nut, but the 6 changes from this PR are
-still removed, is it intentional now when similar changes are going to
-be merged in whinlatter? Should I resend the 6 on top of current
-stable/scarthgap-nut?
+As far as I understand, gnutls is built by default with pkcs11 support. So for
+most of the distribution it should be ok. Security by default.
+I don't have yn strong opinion for this but default enabled has been suggested
+by the maintainer.
 
 Regards,
+Wojtek
 
-On Mon, Mar 30, 2026 at 4:36=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr=
-> wrote:
->
-> On Mon Mar 30, 2026 at 12:46 AM CEST, Yoann Congal wrote:
-> > From: Martin Jansa <martin.jansa@gmail.com>
-> >
-> > glibc-2.43 isn't used in OE builds yet, but this fixes dtc-native:
-> > https://errors.yoctoproject.org/Errors/Details/903983/
-> >
-> > ../sources/dtc-1.7.2/libfdt/fdt_overlay.c: In function =E2=80=98overlay=
-_fixup_phandle=E2=80=99:
-> > ../sources/dtc-1.7.2/libfdt/fdt_overlay.c:424:21: error: assignment dis=
-cards =E2=80=98const=E2=80=99 qualifier from pointer target type [-Werror=
-=3Ddiscarded-qualifiers]
-> >   424 |                 sep =3D memchr(fixup_str, ':', fixup_len);
-> >       |                     ^
-> > ../sources/dtc-1.7.2/libfdt/fdt_overlay.c:434:21: error: assignment dis=
-cards =E2=80=98const=E2=80=99 qualifier from pointer target type [-Werror=
-=3Ddiscarded-qualifiers]
-> >   434 |                 sep =3D memchr(name, ':', fixup_len);
-> >       |                     ^
-> > cc1: all warnings being treated as errors
-> >
-> > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com=
->
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > [YC: upstream commit 28552a7b6c94060c7ab3899619ab8afb74124d02]
-> > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> > ---
->
-> Hello Martin,
->
-> FYI, while it looked good, this patch and your whole series about glibc
-> 2.43 support:
-> * [scarthgap 04/11] dtc: backport fix for build with glibc-2.43
-> * [scarthgap 05/11] pseudo: Add fix for glibc 2.43
-> * [scarthgap 06/11] yocto-uninative: Update to 5.0 for needed patchelf up=
-dates
-> * [scarthgap 07/11] yocto-uninative: Update to 5.1 for glibc 2.43
-> * [scarthgap 08/11] elfutils: don't add -Werror to avoid discarded-qualif=
-iers
-> * [scarthgap 09/11] binutils: backport patch to fix build with glibc-2.43=
- on host
-> ... will be put on hold until I can test it: So, not until Ubuntu 26.04
-> is released and the autobuilder gain an Ubuntu 26.04 worker (most likely
-> after Wrynose release).
->
-> Thanks!
->
-> Regards,
->
-> >  .../0001-Fix-discarded-const-qualifiers.patch | 85 +++++++++++++++++++
-> >  meta/recipes-kernel/dtc/dtc_1.7.0.bb          |  1 +
-> >  2 files changed, 86 insertions(+)
-> >  create mode 100644 meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-cons=
-t-qualifiers.patch
-> >
-> > diff --git a/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-quali=
-fiers.patch b/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifie=
-rs.patch
-> > new file mode 100644
-> > index 00000000000..c643410ae9b
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/dtc/dtc/0001-Fix-discarded-const-qualifiers.p=
-atch
-> > @@ -0,0 +1,85 @@
-> > +From 861cb43eb53afff83e28ba0e0f88ffa464ebe8ca Mon Sep 17 00:00:00 2001
-> > +From: Stephen Gallagher <sgallagh@redhat.com>
-> > +Date: Tue, 6 Jan 2026 14:19:30 -0500
-> > +Subject: [PATCH] Fix discarded const qualifiers
-> > +
-> > +It's unsafe to implicitly discard the const qualifier on a pointer. In
-> > +overlay_fixup_phandle(), this was probably just an oversight, and maki=
-ng
-> > +the "sep" variable a const char * is sufficient to fix it.
-> > +
-> > +In create_node(), however, the "p" variable is directly modifying the
-> > +buffer pointed to by "const char* node_name". To fix this, we need to
-> > +actually make a duplicate of the buffer and operate on that instead.
-> > +
-> > +This introduces a malloc()/free()  and an unbounded strdup() into the
-> > +operation, but fdtput isn't a long-running service and the node_name
-> > +argument comes directly from argv, so this shouldn't introduce a
-> > +significant performance impact.
-> > +
-> > +Signed-off-by: Stephen Gallagher <sgallagh@redhat.com>
-> > +Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> > +Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/dtc/dt=
-c.git/commit/libfdt/fdt_overlay.c?h=3Dmain&id=3D9a1c801a1a3c102bf95c5339c9e=
-985b26b823a21]
-> > +---
-> > + fdtput.c             | 8 +++++---
-> > + libfdt/fdt_overlay.c | 3 ++-
-> > + meson.build          | 3 ++-
-> > + 3 files changed, 9 insertions(+), 5 deletions(-)
-> > +
-> > +diff --git a/fdtput.c b/fdtput.c
-> > +index c2fecf4..8deec7e 100644
-> > +--- a/fdtput.c
-> > ++++ b/fdtput.c
-> > +@@ -230,19 +230,21 @@ static int create_paths(char **blob, const char =
-*in_path)
-> > + static int create_node(char **blob, const char *node_name)
-> > + {
-> > +     int node =3D 0;
-> > +-    char *p;
-> > ++    const char *p;
-> > ++    char *path =3D NULL;
-> > +
-> > +     p =3D strrchr(node_name, '/');
-> > +     if (!p) {
-> > +             report_error(node_name, -1, -FDT_ERR_BADPATH);
-> > +             return -1;
-> > +     }
-> > +-    *p =3D '\0';
-> > +
-> > +     *blob =3D realloc_node(*blob, p + 1);
-> > +
-> > +     if (p > node_name) {
-> > +-            node =3D fdt_path_offset(*blob, node_name);
-> > ++            path =3D xstrndup(node_name, (size_t)(p - node_name));
-> > ++            node =3D fdt_path_offset(*blob, path);
-> > ++            free(path);
-> > +             if (node < 0) {
-> > +                     report_error(node_name, -1, node);
-> > +                     return -1;
-> > +diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
-> > +index 5c0c398..75b0619 100644
-> > +--- a/libfdt/fdt_overlay.c
-> > ++++ b/libfdt/fdt_overlay.c
-> > +@@ -431,7 +431,8 @@ static int overlay_fixup_phandle(void *fdt, void *=
-fdto, int symbols_off,
-> > +             const char *fixup_str =3D value;
-> > +             uint32_t path_len, name_len;
-> > +             uint32_t fixup_len;
-> > +-            char *sep, *endptr;
-> > ++            const char *sep;
-> > ++            char *endptr;
-> > +             int poffset, ret;
-> > +
-> > +             fixup_end =3D memchr(value, '\0', len);
-> > +diff --git a/meson.build b/meson.build
-> > +index 8952e8a..ecb0ae0 100644
-> > +--- a/meson.build
-> > ++++ b/meson.build
-> > +@@ -14,7 +14,8 @@ add_project_arguments(
-> > +     '-Wstrict-prototypes',
-> > +     '-Wmissing-prototypes',
-> > +     '-Wredundant-decls',
-> > +-    '-Wshadow'
-> > ++    '-Wshadow',
-> > ++    '-Wdiscarded-qualifiers'
-> > +   ]),
-> > +   language: 'c'
-> > + )
-> > diff --git a/meta/recipes-kernel/dtc/dtc_1.7.0.bb b/meta/recipes-kernel=
-/dtc/dtc_1.7.0.bb
-> > index 0702fc16dfa..a2f41197fda 100644
-> > --- a/meta/recipes-kernel/dtc/dtc_1.7.0.bb
-> > +++ b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
-> > @@ -12,6 +12,7 @@ SRC_URI =3D " \
-> >      git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmain;proto=
-col=3Dhttps \
-> >      file://0001-meson.build-bump-version-to-1.7.0.patch \
-> >      file://0002-meson-allow-building-from-shallow-clones.patch \
-> > +    file://0001-Fix-discarded-const-qualifiers.patch \
-> >  "
-> >  SRCREV =3D "039a99414e778332d8f9c04cbd3072e1dcc62798"
-> >
->
->
-> --
-> Yoann Congal
-> Smile ECS
->
+> 
+> kind regards
+> 
+> Franz
 
