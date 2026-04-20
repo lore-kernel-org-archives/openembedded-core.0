@@ -1,351 +1,104 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <corentin.guillevic@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77D1DF55810
-	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 11:07:07 +0000 (UTC)
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17083.1776683226036994450
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC0ACF588C5
+	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 13:29:21 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19254.1776691751690560237
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Apr 2026 04:07:06 -0700
+ Mon, 20 Apr 2026 06:29:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=XeydSNAE;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1776683225; x=1808219225;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=kKSEbGL0ZpI6pg0cJP8ExXzdRVMfE1qIhK3xeIATNVE=;
-  b=XeydSNAEe20qU1T5omM1wavQM+jzoQI5Nx42YILTtf8NiSy977ocVrRP
-   V+08XABhm6898wWZtmyWsBrwqm5H1KHQu9EuJ42scHVkY+ijkzk/PwE4o
-   n811rS7JYzuJMzqZ1LDp7yOSun5G46IkSS23ItCPGuNpoUczejuhtAOMX
-   1HiW4JEYY0GRdfbsg2m0IrB0RlQH644gUphK4ylHBlPNhEauCEyH2RTQ9
-   zpPozpJ8NOmeKNpE2P+WJRsglCqyirOcHb7aec+xbqnGJpPV1oM8DTvvd
-   SwSYSOS5SDje0yp7SSmKfpTSzb85T/DmSfRqxPfBG1/GuGN96YNYljYOK
-   Q==;
-X-CSE-ConnectionGUID: 5rvKClWpTQC67mHsZD1wHQ==
-X-CSE-MsgGUID: sNsMwjlTRz6RFC+HQ6iy6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="237552867"
-X-IronPort-AV: E=Sophos;i="6.23,189,1770562800"; 
-   d="scan'208";a="237552867"
-Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 20:07:03 +0900
-Received: from az2nlsmgm2.o.css.fujitsu.com (unknown [10.150.26.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 51ABA1C0009F
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 11:07:04 +0000 (UTC)
-Received: from az2uksmom3.o.css.fujitsu.com (az2uksmom3.o.css.fujitsu.com [10.151.22.205])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id EE46F1C002E8
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 11:07:03 +0000 (UTC)
-Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
-	by az2uksmom3.o.css.fujitsu.com (Postfix) with ESMTP id 6EC9B100037C;
-	Mon, 20 Apr 2026 11:07:01 +0000 (UTC)
-From: Wang Mingyu < wangmy@fujitsu.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=kw3PCQ/s;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: corentin.guillevic@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso9158255e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 06:29:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1776691750; x=1777296550; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u9o2frGbiwvufvs3crayqi0VE+cgZ3jKFp1V7hQp7DI=;
+        b=kw3PCQ/ssyaX8fMycn3/d3OErxzZddSTikPsLiSgIGTho3p91zN4bLLXqd7OQH1y2F
+         E9fT4dFrl4N8e18iOLL+yP2GQJQh3HwZQK4DdTleGHs9xUin7dzJC1oyzjdLZJPPn0iq
+         dpqXuurW6iDNtWF5HiNq5LxhE/xinMHfvZzlE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776691750; x=1777296550;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u9o2frGbiwvufvs3crayqi0VE+cgZ3jKFp1V7hQp7DI=;
+        b=l+D4ZoP/pzKCUGPJe5ibCSjRNOVY+pY+IsvkqkGQbpL8cXA5NWm9ijQ6ZGO6N1DwiM
+         JDtblbwQrmiWT5ZqfTzr/DVhG5wwiVI87Nk+7lHRNFQy2pHcYRTXT9CYnUhMK/DcMO4D
+         kLHVQDYNKw7Z8a2PNZmjqVjW8NH18FLRWxlf5Y7loZ+sveNpTt8/arzZwMdCaw0ynI/F
+         BAjZssGaLPpzC7dTMasAAr66SvuJt7+FfbL3V/Rmbn+CgNQswAjxKXuFtpy3EdGlCOXS
+         WkXZVgwKq7xIF0E5Bq+HFYXRTjHQ22jVdRts6Uyz2ui8rIAWquqsu5/9RbRC/mmyqwKM
+         tiDQ==
+X-Gm-Message-State: AOJu0Yz+Q5gNnOm5Y9N7Ec02/hg5Ul3FR0T88NYd/VA6hgNoEO26XzEE
+	TULb/E9TKCfvQUmodqPl+Nu1A8RqLwYy9BAEOOuD97MlgOxjEh6OZDClifrClEPbMcHAn40dz0C
+	vGXczXlU=
+X-Gm-Gg: AeBDievFpAAKxQKoGEBOI73AyItO0Ni9BZJ6JNLHVNPCkUSSrQhKxbTgDDs+tp2AU3K
+	NCBI4FiJ/x0B/Zdn+zxU7/CkmI3rVLMYwoerpK0K0f+9MfMcsNCUcyyFtZwb8MPXySxxNqIGwQd
+	RHBY6mrFt8Y+JCfiIynZUM8i/ASPtuT4euv2khvSAcn6cPt8z4sLbMyZspd2P0e6R0jTYMqz73B
+	FLcvTbIL/LxL3YL2EMvmYKIFBh7lBHm9exB1/GFZHwVP+iEdl/QA43adYO85Bazd2/NGsFftpFc
+	+0GOWfYpu/pz90FxGXBoMfP8trGRY6dqKVvHhJDPo5q01JTV3AA5eyUqSNCksC6Od8suzzRPIV+
+	WI7Ysealx4VXT+18NpzKEKWnG0dMNQlTyi7xLQ9Mx2I5AjwsjZ5VMA1IDsJKuc3huiPQjWs5BR0
+	DGmMaEREa+i6B0grJWGsKCkD2ewNz6NdzqTG9x2fpFseVjyPBBasy33QcXnztckCN9IvXlWfCqH
+	VXHdGyEjrP8vndkMtBWzjzb3oTycrzMEVzuJdGWfLw=
+X-Received: by 2002:a05:600c:1554:b0:485:439b:683f with SMTP id 5b1f17b1804b1-488fb775fd5mr186015535e9.20.1776691749946;
+        Mon, 20 Apr 2026 06:29:09 -0700 (PDT)
+Received: from heaven.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891b46cffasm98933635e9.13.2026.04.20.06.29.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 06:29:09 -0700 (PDT)
+From: corentin.guillevic@smile.fr
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v3] lttng-tools: upgrade 2.14.1 -> 2.15.0
-Date: Mon, 20 Apr 2026 19:06:57 +0800
-Message-ID: <20260420110657.1831-1-wangmy@fujitsu.com>
-X-Mailer: git-send-email 2.49.0.windows.1
+Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
+Subject: [PATCH v2] sanity: add check for own-mirrors/SOURCE_MIRROR_URL
+Date: Mon, 20 Apr 2026 15:28:26 +0200
+Message-ID: <20260420132825.441861-2-corentin.guillevic@smile.fr>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 11:07:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235563
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 13:29:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235564
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Corentin Guillevic <corentin.guillevic@smile.fr>
 
-disable-tests2.patch
-refresshed for 2.15.0
+The SOURCE_MIRROR_URL variable belongs to  the own-mirrors class. However, the
+user may forget to define it. This will cause the class to inject incorrect
+content into PREMIRRORS, resulting in the following error:
 
-0001-tests-do-not-strip-a-helper-library.patch
-removed since it's not available in 2.15.0
+ERROR: gettext-minimal-native-1.0-r0 do_fetch: Bitbake Fetcher Error: MalformedUrl('${SOURCE_MIRROR_URL}')
+ERROR: Logfile of failure stored in: /path/to/tmp/work/x86_64-linux/gettext-minimal-native/1.0/temp/log.do_fetch.258066
+ERROR: Task (/path/to/layers/poky/meta/recipes-core/gettext/gettext-minimal-native_1.0.bb:do_fetch) failed with exit code '1'
 
-0001-common-Autodetect-musl-libc-and-fix-C-compilation-er.patch
-added to fix compile error when enable musl
+Add a check to the sanity class, to detect this case and raise an error.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
 ---
- ...t-musl-libc-and-fix-C-compilation-er.patch | 97 +++++++++++++++++++
- ...-tests-do-not-strip-a-helper-library.patch | 24 -----
- .../lttng/lttng-tools/disable-tests2.patch    | 22 +++--
- ...-tools_2.14.1.bb => lttng-tools_2.15.0.bb} | 37 ++++---
- 4 files changed, 135 insertions(+), 45 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-common-Autodetect-musl-libc-and-fix-C-compilation-er.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.14.1.bb => lttng-tools_2.15.0.bb} (85%)
+ meta/classes-global/sanity.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-common-Autodetect-musl-libc-and-fix-C-compilation-er.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-common-Autodetect-musl-libc-and-fix-C-compilation-er.patch
-new file mode 100644
-index 0000000000..a3ac13c9fa
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-common-Autodetect-musl-libc-and-fix-C-compilation-er.patch
-@@ -0,0 +1,97 @@
-+From 18c8e9070bee05c4e205ea4885d62773bd5e3426 Mon Sep 17 00:00:00 2001
-+From: Wang Mingyu <wangmy@fujitsu.com>
-+Date: Fri, 27 Mar 2026 11:37:11 +0000
-+Subject: [PATCH] common: Autodetect musl libc and fix C++ compilation errors
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 1a490f8d61..cd2cfa9a62 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -984,6 +984,11 @@ def check_sanity_everybuild(status, d):
+             "Please set TMPDIR to a clean path with no trailing slash or "
+             "consecutive slashes (e.g. %s).\n" % (tmpdir, os.path.normpath(tmpdir)))
+ 
++    # Check whether the SOURCE_MIRROR_URL variable, belonging to the 'own-mirrors' class, is defined
++    inheritlist = d.getVar('INHERIT')
++    if oe.utils.inherits(d, 'own-mirrors') and not d.getVar('SOURCE_MIRROR_URL'):
++        status.addresult("own-mirrors is enabled, but SOURCE_MIRROR_URL is not defined")
 +
-+Upstream-Status: Submitted [https://github.com/lttng/lttng-tools/pull/172/changes/b50e5519cb98f02e52463a221e58ba80adb7c424]
-+
-+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-+---
-+ configure.ac           |  7 +++++++
-+ src/common/poller.cpp  | 10 +++++++++-
-+ src/common/timerfd.hpp | 12 +++++++++++-
-+ 3 files changed, 27 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 5d5ff5a..375f8bd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -181,6 +181,13 @@ AM_CONDITIONAL([HAVE_SHELLCHECK], [test "x$SHELLCHECK" != "x"])
-+ AS_IF([test -f "$srcdir/bootstrap"], [in_git_repo=yes], [in_git_repo=no])
-+ AM_CONDITIONAL([IN_GIT_REPO], [test "x$in_git_repo" = "xyes"])
-+ 
-++# Check for musl libc:
-++case "${host_cpu}-${host_os}-${LIBC}" in
-++  *-musl*)
-++    AC_DEFINE([HAVE_MUSL_LIBC], [1], [Define to 1 if building against musl libc.])
-++    ;;
-++esac
-++
-+ # check for bison
-+ AC_PROG_YACC
-+ BISON=$YACC
-+diff --git a/src/common/poller.cpp b/src/common/poller.cpp
-+index 783d58f..500d3bb 100644
-+--- a/src/common/poller.cpp
-++++ b/src/common/poller.cpp
-+@@ -7,6 +7,10 @@
-+ #include <common/error.hpp>
-+ #include <common/poller.hpp>
-+ 
-++#if defined(HAVE_MUSL_LIBC) && !defined(LTTNG_MUSL_EPOLL_CLOEXEC_REPLACEMENT)
-++constexpr int LTTNG_MUSL_EPOLL_CLOEXEC_REPLACEMENT = EPOLL_CLOEXEC;
-++#endif
-++
-+ namespace {
-+ 
-+ std::uint32_t to_epoll_events(lttng::poller::event_type events)
-+@@ -58,7 +62,11 @@ lttng::poller::event_type from_epoll_events(std::uint32_t epoll_events)
-+ 
-+ lttng::poller::poller() :
-+ 	_epoll_fd([]() {
-++#if defined(HAVE_MUSL_LIBC)
-++		const auto epoll_fd = ::epoll_create1(LTTNG_MUSL_EPOLL_CLOEXEC_REPLACEMENT);
-++#else
-+ 		const auto epoll_fd = ::epoll_create1(::EPOLL_CLOEXEC);
-++#endif
-+ 
-+ 		if (epoll_fd < 0) {
-+ 			LTTNG_THROW_POSIX("Failed to create epoll fd", errno);
-+@@ -198,4 +206,4 @@ void lttng::poller::_epoll(int timeout) const
-+ 
-+ 		break;
-+ 	}
-+-}
-+\ No newline at end of file
-++}
-+diff --git a/src/common/timerfd.hpp b/src/common/timerfd.hpp
-+index 8ab2939..91d2029 100644
-+--- a/src/common/timerfd.hpp
-++++ b/src/common/timerfd.hpp
-+@@ -14,12 +14,22 @@
-+ #include <sys/timerfd.h>
-+ #include <time.h>
-+ 
-++#if defined(HAVE_MUSL_LIBC) && !defined(LTTNG_MUSL_TFD_CLOEXEC_REPLACEMENT)
-++constexpr int LTTNG_MUSL_TFD_CLOEXEC_REPLACEMENT = TFD_CLOEXEC;
-++#endif
-++
-+ namespace lttng {
-+ 
-+ class timerfd : public stream_descriptor {
-+ public:
-+ 	/* Throws a posix_error exception on failure to create the underlying resource. */
-+-	explicit timerfd(int flags = ::TFD_CLOEXEC);
-++	explicit timerfd(int flags =
-++#if defined(HAVE_MUSL_LIBC)
-++		LTTNG_MUSL_TFD_CLOEXEC_REPLACEMENT
-++#else
-++		::TFD_CLOEXEC
-++#endif
-++	);
-+ 	timerfd(const timerfd&) = delete;
-+ 	timerfd& operator=(const timerfd&) = delete;
-+ 	timerfd(timerfd&&) = delete;
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
-deleted file mode 100644
-index 0547f30c02..0000000000
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From a45157a50e14d4bd244a3dd05d79c5703c819550 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 12 Dec 2019 16:52:07 +0100
--Subject: [PATCH] tests: do not strip a helper library
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- tests/utils/testapp/userspace-probe-elf-binary/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
--index 836f13e..e19a554 100644
----- a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
--+++ b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
--@@ -14,7 +14,7 @@ userspace_probe_elf_binary_LDADD = libfoo.la
-- libfoo.strip: libfoo.la
-- 	$(OBJCOPY) --strip-all .libs/libfoo.so
-- 
---all-local: libfoo.strip
--+all-local:
-- 	@if [ x"$(srcdir)" != x"$(builddir)" ]; then \
-- 		for script in $(EXTRA_DIST); do \
-- 			cp -f $(srcdir)/$$script $(builddir); \
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch b/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
-index 5b9a07fcb8..f93d6cdc4f 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
-@@ -5,24 +5,30 @@ now. Ideally tests.serial would have occasional output when running to show acti
- Upstream-Status: Inappropriate [workaround for slow tests]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
--Index: lttng-tools-2.14.0/tests/regression/Makefile.am
--===================================================================
----- lttng-tools-2.14.0.orig/tests/regression/Makefile.am
--+++ lttng-tools-2.14.0/tests/regression/Makefile.am
--@@ -26,7 +26,6 @@ SERIAL_TESTS = tools/base-path/test_ust
-+---
-+ tests/regression/Makefile.am | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
-+index a7cd133..bd82e94 100644
-+--- a/tests/regression/Makefile.am
-++++ b/tests/regression/Makefile.am
-+@@ -30,7 +30,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
-  	tools/tracefile-limits/test_tracefile_count \
-  	tools/tracefile-limits/test_tracefile_size \
-  	tools/exclusion/test_exclusion \
- -	tools/snapshots/test_kernel \
-  	tools/snapshots/test_ust_fast \
-+ 	tools/snapshots/test_ust_long \
-  	tools/snapshots/test_ust_streaming \
-- 	tools/snapshots/test_kernel_streaming \
--@@ -47,8 +46,6 @@ SERIAL_TESTS = tools/base-path/test_ust
-+@@ -53,7 +52,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
-  	tools/rotation/test_schedule_api \
-  	tools/metadata/test_kernel \
-  	tools/working-directory/test_relayd_working_directory \
---	tools/clear/test_ust \
- -	tools/clear/test_kernel \
-  	tools/clear/test_live_hang.py \
-  	tools/tracker/test_event_tracker \
-  	tools/trigger/start-stop/test_start_stop \
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.15.0.bb
-similarity index 85%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.15.0.bb
-index 3a3f2cff2c..9e77215494 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.15.0.bb
-@@ -44,15 +44,15 @@ PACKAGECONFIG[kmod] = "--with-kmod, --without-kmod, kmod"
- PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
- 
- SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
--           file://0001-tests-do-not-strip-a-helper-library.patch \
-            file://run-ptest \
-            file://lttng-sessiond.service \
-            file://disable-tests.patch \
-            file://disable-tests2.patch \
-            file://libc++.patch \
-+           file://0001-common-Autodetect-musl-libc-and-fix-C-compilation-er.patch \
-            "
- 
--SRC_URI[sha256sum] = "0e68eb27923621c4bc127cfce40422d28cf7e473fedf6229ae6c32ba5c5b7c6d"
-+SRC_URI[sha256sum] = "4d739116556da71d58275bc7f0a6c0a967c6774b7d90f02c2731a7875debf28a"
- 
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
-@@ -78,6 +78,7 @@ INSANE_SKIP:${PN} = "libexec dev-so"
- INSANE_SKIP:${PN}-dbg = "libexec"
- 
- PRIVATE_LIBS:${PN}-ptest = "libfoo.so"
-+INSANE_SKIP:${PN} = "already-stripped"
- 
- do_install:append () {
-     # install systemd unit file
-@@ -95,7 +96,7 @@ do_install_ptest () {
-         install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
-     done
- 
--    for f in tests/utils/tap-driver.sh config/test-driver src/common/session.xsd src/common/mi-lttng-4.1.xsd \
-+    for f in tests/utils/tap-driver.sh config/test-driver src/common/session.xsd src/common/mi-lttng-4.2.xsd \
-              tests/regression/tests.serial; do
-         install -D "${S}/$f" "${D}${PTEST_PATH}/$f"
-     done
-@@ -140,10 +141,14 @@ do_install_ptest () {
-         done
-     done
- 
--    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary
--    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary
-+    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary
-+    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary
-     chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libbar.so
-     chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libfoo.so
-+    find ${D}${PTEST_PATH}/tests/utils/testapp -type f \
-+    \( -name "gen-ust-events" -o -name "gen-ust-events-*-a" \
-+       -o -name "gen-ust-events-*-so" -o -name "uses_heap" \) \
-+    -exec chrpath --delete {} \; 2>/dev/null || true
- 
-     #
-     # Use the versioned libs of liblttng-ust-dl.
-@@ -207,12 +212,18 @@ do_install_ptest:append:libc-musl () {
- }
- 
- INHIBIT_PACKAGE_STRIP_FILES = "\
--    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary \
--    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/.libs/userspace-probe-elf-binary \
--    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary \
--    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/.libs/userspace-probe-elf-cxx-binary \
--    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events/gen-syscall-events \
--    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events/.libs/gen-syscall-events \
--    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack/gen-syscall-events-callstack \
--    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack/.libs/gen-syscall-events-callstack \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/.libs/userspace-probe-elf-binary \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/.libs/userspace-probe-elf-cxx-binary \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/.libs/gen-syscall-events \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/.libs/gen-syscall-events-callstack \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-ust-events \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-ust-events-constructor/gen-ust-events-constructor-a \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-ust-events-constructor/gen-ust-events-constructor-so \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-ust-events-constructor/gen-ust-events-c-constructor-a \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-ust-events-constructor/gen-ust-events-c-constructor-so \
-+    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-ust-events-constructor/uses_heap \
-     "
+     # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
+     import re
+     mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
 -- 
-2.43.0
+2.51.0
 
 
