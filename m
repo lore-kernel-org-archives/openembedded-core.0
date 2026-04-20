@@ -1,228 +1,181 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31EA6F36C31
-	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 07:10:38 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14131.1776669029846430259
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A55EF36C3A
+	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 07:30:18 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14731.1776670210173106908
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Apr 2026 00:10:30 -0700
+ Mon, 20 Apr 2026 00:30:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector1 header.b=L7cI9pPQ;
- spf=pass (domain: ericsson.com, ip: 40.107.130.42, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GgtDgt0l7WjNvSjwOEOlFdFNyzMGQe0AV7wfjSWhOYRCsTTRkz+y32AdwfvnrmykcWL46VMjSpVum67ZzLqRFM+uohA4JgBuJgbyHwbDhjuOP6d11Ssm9jSoJ2H0ZQer3+5QhpfEX+N2mT9naoQzrlj0rdGJQdxga+s6wZQPhBX4GVeiBQzhtS4QCN9usO0Fg8XmEiiVzh4c6q1PV/yeUH5mCOVYSxnG4UbBN0glxDSAZkdbrQq1wyRfwKneZ36rsd6FwclTjRF6rDU10aZ3X9y+a8QPnVl1NNrSQiVOW+pBrCtSitOMZWhi6vUbQEncu3M6BI89dJlNCVIpE6gnRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b3xoLB8vI5ZBceL84DpFbqt/WLc7e76iznRk+T4CHJE=;
- b=a5Fw3KQXPGnnw/mDqsXnbE5boherY7xE+VuXQpBmLfswJJiS3/uuVn1JPkeSDJOfoHIrMQiyk9G5tCI2gCX6TM/+SDr5b89l5U+NI6HoW7dRb5pE2kmYy7a/mn4RZJFmeNe/fiz6gJ7VtNSw92es3I8xE1JvdL+u/M19SfGFVMyV3jv0/pTYIG0ecROwGhD2Yx7663gu5ahmblam2PQ4Q7xgTcVl7ZoW7YK3YEzwKJOCgNmOFbrT2PGQcf3xXa42eOfr8qSoQl0kIBxpOxQzU8NK4kDqJVsjTxDjCBEDQBT9xeedvnrkByItgfb+neroJZlPoiY5mmqxUThL+lsUJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b3xoLB8vI5ZBceL84DpFbqt/WLc7e76iznRk+T4CHJE=;
- b=L7cI9pPQ8WmgIG476GhKbiE4UByZH7mWI0nYHri1IQ8ETvTaXCvx2Ym0SC4A6zLvnnFbNhOprlz9indKKFYFd5Iic9xLddabPWjZGLE8Sj4mw2xJUG2xijxEXElHbyE7NrbWEGB3rrb7L0Ub4caChGYt4VkGNVtceF6Ppd9y22ZPekTjwOHAIp1NPwuqLMI5v5DqEHfvi26KHmiUCRxpPHBowdo8aCCr1SEdBe2P9Y80AOJBDKc3i8m4obEvwb/FDpbLGd0SKZ9lk7b/85fakTGG8xHaiKNtopsBMxUbDdK3PUbHgGNaFIRx5KMbA6Z7ypV6lg26jO2ZIBowWhPWgw==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by AS5PR07MB9769.eurprd07.prod.outlook.com (2603:10a6:20b:679::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Mon, 20 Apr
- 2026 07:10:26 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%7]) with mapi id 15.20.9818.032; Mon, 20 Apr 2026
- 07:10:25 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "benjamin.robin@bootlin.com" <benjamin.robin@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] improve_kernel_cve_report: use numeric versions
- instead of cpeApplicability
-Thread-Topic: [OE-core] [PATCH] improve_kernel_cve_report: use numeric
- versions instead of cpeApplicability
-Thread-Index: 
- AQHczm2B/2JX3IZrHUWnHD4MYhMn+rXjQF0AgAACoaCAAAOzgIAAAJTggAAOAQCAACFWDIACpFSAgAFwkUA=
-Date: Mon, 20 Apr 2026 07:10:25 +0000
-Message-ID: 
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=R0ocJylz;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D41661A3363
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 07:30:07 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9AE3B5FFA5;
+	Mon, 20 Apr 2026 07:30:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B55581046088E;
+	Mon, 20 Apr 2026 09:30:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776670207; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=svj4Z/inZrqVnp2wIVvhC2E73Y1gYhpWynQxalTlClg=;
+	b=R0ocJylz3cneWWRsVf1JVp+Dq4TdMNDgjyXVpuOzcf5atv1O6FqvQ762g8U4XYcACjmCoD
+	NzTeRr6STMHKXdryYqecG/wjOf6onQfxO2gkBwrckUCQ4ku6r4fPk8hj9Qruw5yAvzFbCv
+	e6nqzIcGMz1DLQn93rzZ5VhPMJ4wXEZPecdQ3xGdXSDseMYKxyn6XZoU0hShlZ+u9mUo8Y
+	AJTecDBwu4N30hMSak52afNITIdeKlMOv4W/fjO0eGCcYHaTQWebWS59Wnp6/M/7vDSFvT
+	1xhlUgK4NO3rEQsSylaCfj3FOOmHXGuCihZBC6ELFydUdbC8/2xqeMQK4xW2NA==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+To: 
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ Daniel Turull <daniel.turull@ericsson.com>
+Subject: 
+ Re: [OE-core] [PATCH] improve_kernel_cve_report: use numeric versions instead
+ of cpeApplicability
+Date: Mon, 20 Apr 2026 09:30:05 +0200
+Message-ID: <X57sBsVVR06ktoT6yI1WyA@bootlin.com>
+In-Reply-To: 
  <PA3PR07MB1072146E662BC68654B733C8A8A2F2@PA3PR07MB10721.eurprd07.prod.outlook.com>
-References: <20260417132409.1638132-1-daniel.turull@ericsson.com>
- <8667598.T7Z3S40VBb@brobin-bootlin>
- <PA3PR07MB10721D8F9BEC6B4059E7A6C3A8A202@PA3PR07MB10721.eurprd07.prod.outlook.com>
+References: 
+ <20260417132409.1638132-1-daniel.turull@ericsson.com>
  <RTcJopQBQMuBZtd3st4uZA@bootlin.com>
-In-Reply-To: <RTcJopQBQMuBZtd3st4uZA@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|AS5PR07MB9769:EE_
-x-ms-office365-filtering-correlation-id: 1be0c22e-2b64-4bbb-31e1-08de9eabe546
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|10070799003|38070700021|18002099003|56012099003|22082099003;
-x-microsoft-antispam-message-info: 
- NvaRiYlTD3/mRI+LPZWRUbHyw5zcaD3ftcyeW/ob2otLDktbcStXvcRrvOTNU/0pXDYMQL+ky9IMzJoLXT2XZMrTS5xkDllt/IN9MHY+X43PeXCPOs02FFaEj1zUTqvrjnTXNw3JPbQoQtHtdrct1zg+7MbkugCWOjXN2JgYMnuOXkUyD0lkOy+LYLrFlRVjtI49kIQfkmRYYQDiXULwUKhL/saXMcFBg/ec6x7yJDZUxOw+WM/1vJduAzzeVSe5pXoTvZuk/kchlZDk/HMFVp4RE2FbMjRhzDOPrKgAn2qxA0Vp3C6eSolFxIdLO7ZMa7j5GC3pv7bHBWKCYP/4xb3PjNKhs+nZrt3uUmmJwT6Ir+ga4LR9Jh5NMLG789k3YCmuW7Yf+fKcKxzdacaDMcLzN3Nydk8sGhuUBJSYBmhfYtppjXxZWAgQtwq3ChEkqZszvuHE9LxU4++hvt5O+so9rinNzK6Q9qhrLpkY8P1K65lUnpxqpp+oiSaXeaWLRi6GECa72smDzJK71pueciISSS6miAKPsXEKH6IkOVijJsU/24bcAsGqr6RFQbYW3Er4Bxk0j+jJJ4UWFA6My1UUrorXqn4ups1WGaXuozzaiD/22/f3gSopSaHvRIZew6Ti6aU7Vb4FL8SqltseSNkxD2oWMmscXaie0xZoiPDQWjWxBMWQHjGQR84auOJBqQkG2jaaxZrxKZ95xGk2ntCvUdVDQ2ggWUAG+LqI2/PvjoU9AFeDy5NRm4iFaCtmt4KQqJdcYWB0yecOAggle+VxIxcwzaR3YnuGQyU3BAk=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(10070799003)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?c1hSbDVIeXhyZGh5eldwUWFtd2VFdTRVR1JjdUZ0YTh0aTFIOEtHQWxVRjRo?=
- =?utf-8?B?V0ROQTBKcWFlR1NnSHl5eUhVbFJSUXN1TDI0eEd1YmNpNmROZ0FCcm96Tjlk?=
- =?utf-8?B?bHhoMmVEV2pha3FNbW1ySHNsbDQyckppOEF6K3ZtcnI3b1BnZms5cEc5dDBs?=
- =?utf-8?B?LzBWUHFXVU9DaWtGVzdhV1Y3QXpLQ05aeEgvQUpkTmsvdU8zOEJDSno3VEcy?=
- =?utf-8?B?VVZYcmJxVFo1UEpUMzJOUTl2eGNJdnhZeFJSU1QxN0tlYmRjVk1pUTl1M3A0?=
- =?utf-8?B?MFdFZENMWkR3aTkrZHhRK0w4bGh1MjlzdFBMbmZMWmVlRUZ0Mmp3YTB4RUJP?=
- =?utf-8?B?UDFEUXh1dk5tMEtFSFVSTm1wZXNRRk1VV1R1bmNQWjNxL3BXVFdqUUVQMzRI?=
- =?utf-8?B?ODhCTHZML0QxbHNxYnZrdStDb1pud0RSSzB2S1JMZEhYaTY5cU5WRHBEdmhO?=
- =?utf-8?B?UloremIwSU9nOGtOWXFpQ1hWY1EzaWkwQkJwL3dFNFVqVDlwYzRSekl5ZzhR?=
- =?utf-8?B?ZDUxdmYwN0doSW1IR01zR2hDVG1FbHM1RDlXNWJxZkY0eXNzc051MG41dGdY?=
- =?utf-8?B?WGV4WDhxeE12VkIrLzBJaWVZeDBKQzNIY3ByZGxBTWFaUkpRL0ttMVFqb1dE?=
- =?utf-8?B?eDVWclpMNmIySXVabE5CQm94a3paclU5cTlzMjNYbE1hTmdXOS9zSzJ6ZW1Q?=
- =?utf-8?B?MEhRcXlWam9ESGNkMlhkS0dxcVpOU1AvcWFTV0FIRWhtQ1BzcHJOYnlLT1o5?=
- =?utf-8?B?cGEvT3h3N0ZFdkgzY3JkdmRWNHBiTjB3RG9McTFDSHAzYzRiZE91Q29Pa2la?=
- =?utf-8?B?OUYxa1lWVkRXRDNQOTJSYnBrR3dFUnB0T1RSbHk3U1QxUUpFamNRKzJGMk5Y?=
- =?utf-8?B?L0RLa2ljWWx5VUlmRFB2a0dPclg5alBMRDRrcmdIZkdjeVZFTkkyZzAwRlVS?=
- =?utf-8?B?MWswMWVLS2ovRzV2eHhsMSs4MFlMSHhUb25HZ1kvcEJMc1FFeVdFNlU4MG1I?=
- =?utf-8?B?YmpvL0hZZ0wyVVo2YVlYbCtDc094NHRIckhmcWtNcWhPaU9kZnpCcFhOT3NZ?=
- =?utf-8?B?eW9JQ3gxQVA5ckZFNW1sNnJ5ME5FVS9yR3FDRkJTNFZvRzJzT25xd3hyanFs?=
- =?utf-8?B?VHBIMmh6dGJraEJ2eG94VTBOTGw3aU1NYXJNcHIrQTJGNkdXV3lNY09uRzZ1?=
- =?utf-8?B?WnZpeGpaaWx3T2N6QnZYSFZuUEQ2NDV6SlQrc1gwYlVxQ0czZThubjBuZnZP?=
- =?utf-8?B?cUpnSm9JcGJaZGZodlFqRjJwQ05zb05PRjlraEt2SkpmbFUwaUViMkJwRnhi?=
- =?utf-8?B?cUk2TXZlenlnZUJFWDEvQXJOMHZ1WHFKQnlTdkphY1V3cmo1UFEzUWZpVFlp?=
- =?utf-8?B?N1JTVVNzcE1jWHRzMlgzRnBvaW9LYTI3TmNrdnB3a1NSZkIrck1pcnYvR3lJ?=
- =?utf-8?B?eFNrekRWRHIrVnA0TVlVQkdkYkhqVDBvYzFER1NUcGlrdmFwZ2p5LzVEMTE3?=
- =?utf-8?B?T2o4ZjhpcUlMcTdoS2FRYzhaOTkzbldSbi9rOVRlT2YraUtHNXdqdTE0b3g1?=
- =?utf-8?B?bDhqMFZwaFB3TXBZbHVwNytydm1jdjRjY292V3o2R3JvdDhNYlBUakFHK1ZL?=
- =?utf-8?B?bWJBMzVCaDNlS2FPM1A2aDFiRy9iZVhFNnVFTjd6VWlJM0pLUWRKTFFUY0ZU?=
- =?utf-8?B?YUZmSVR6REJKNzhEMnRZbGEwWXRCTk0zVzIvYkxhL1llM2k1WjB1azYrNVdG?=
- =?utf-8?B?OUFXQUtOYitFRm9YZFo4M29iUVh3Rjl5RzkrS0d2U3JKQlFKbmFZZFRRS2RW?=
- =?utf-8?B?MmN6VThHN0xiQkVuVVFBNlp1Q1Z6bWNPNnZleklET1p3REc2WHBQM3ZvOGNj?=
- =?utf-8?B?aE9BYWkraGcxT2pza28xb1d0RkxSdi9zR3g4dy83Q3h1S09Ud0wyZVlaUVdL?=
- =?utf-8?B?b204cTlxL1g5Y1dRS3V5N2FFdTNDRDJucFVPK2N1bXJ4ZklVbjFSOERMMnE5?=
- =?utf-8?B?MFdrVGhMaGhpa2J4aDRVY0cxMW1TWEdyOFZUZFlERUF4Q0JtRGhtL1JVc3VF?=
- =?utf-8?B?ZVVhcnNudmZFUW1kLzVuOHJaRm15T21tSm9ZSjF2R0N6VnRnazlQS3o2MmpM?=
- =?utf-8?B?RWFHM1pDckc3dHVuY1dkY1VMZUhtYzBVeENaYmtkZTdQZy9OY2FoWVJ4a3JC?=
- =?utf-8?B?MlU2MHc1c01Yc1d4cjN6YU5aaFc5aHk0WC91UVFTd0EwMXNqSEZNMjdMRVRr?=
- =?utf-8?B?N0J0aDRTdmp0RWFvbkdIcml2OXF6aFMvWHF1S2VZek9Ya2o2S3FUeERQdDdr?=
- =?utf-8?B?ay8wUHRicWtUY0E3VTZHOTJwMjYxTUVxeEVLNlFXeC9qZnhEczJMdzlGMWRr?=
- =?utf-8?Q?STF/kx/abmUQhk6438VnUPNlKj7QoE1MXek0owumBHBWY?=
-x-ms-exchange-antispam-messagedata-1: GgHxu5dEHd9u8A==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <PA3PR07MB1072146E662BC68654B733C8A8A2F2@PA3PR07MB10721.eurprd07.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1be0c22e-2b64-4bbb-31e1-08de9eabe546
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2026 07:10:25.6288
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VIkSEgKa5QMbvuOanIKq/dKoxNXNEbpDPtnnvnEg56ciJuZQbUtKwiSsaWPabtaP9TP4TEvoc3T8uCmjdE46ClbX7jSMptW8ItJR1cXCEBc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR07MB9769
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 07:10:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235537
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 07:30:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235538
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBCZW5qYW1pbiBSb2JpbiB2aWENCj4gbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KPiBTZW50OiBTdW5kYXksIDE5IEFwcmlsIDIwMjYgMTE6MDcNCj4g
-VG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IERhbmllbCBUdXJ1
-bGwNCj4gPGRhbmllbC50dXJ1bGxAZXJpY3Nzb24uY29tPg0KPiBTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIFtQQVRDSF0gaW1wcm92ZV9rZXJuZWxfY3ZlX3JlcG9ydDogdXNlIG51bWVyaWMNCj4gdmVy
-c2lvbnMgaW5zdGVhZCBvZiBjcGVBcHBsaWNhYmlsaXR5DQo+IA0KPiBIZWxsbyBEYW5pZWwsDQo+
-IA0KPiBPbiBGcmlkYXksIEFwcmlsIDE3LCAyMDI2IGF0IDY6NTTigK9QTSwgRGFuaWVsIFR1cnVs
-bCB3cm90ZToNCj4gPiBXaGF0IEkgdHJpZWQgdG8gc2F5IHdhcyB0aGF0IGluIHRoaXMgY2FzZSB1
-c2luZyB2ZXJzaW9ucyBpZiB3ZSBoYXZlIDYuNi4xMDAgd2UNCj4gdGhpbmsgd2UgYXJlIHZ1bG5l
-cmFibGUsIGJ1dCB0aGUgY3ZlIHdhcyBpbnRyb2R1Y2VkIGluIGEgYmFja3BvcnQgaW4gNi42LjEw
-Mi4NCj4gT25seSB0aGUgcmFuZ2UgNi42LjEwMiB0byA2LjYuMTEyIHNob3VsZCBiZSB2dWxuZXJh
-YmxlLiBJJ2xsIHNlZSBpZiBJIGNhbiByZXBvcnQNCj4gdGhlIGlzc3VlcyBzbyB0aGUgc291cmNl
-IGRhdGEgaXMgY29ycmVjdC4NCj4gDQo+IEZyb20gdGhlIHZlcnNpb24gcmFuZ2VzOg0KPiAgLQ0K
-PiANCj4gVGhlICJjcGVBcHBsaWNhYmlsaXR5IiBub2RlIHNheXM6DQo+IA0KPiB7DQo+ICAgICAi
-dnVsbmVyYWJsZSI6IHRydWUsDQo+ICAgICAiY3JpdGVyaWEiOiAiY3BlOjIuMzpvOmxpbnV4Omxp
-bnV4X2tlcm5lbDoqOio6KjoqOio6KjoqOioiLA0KPiAgICAgInZlcnNpb25TdGFydEluY2x1ZGlu
-ZyI6ICI2LjYuMTAyIiwNCj4gICAgICJ2ZXJzaW9uRW5kRXhjbHVkaW5nIjogIjYuNi4xMTIiDQo+
-IH0sDQo+IA0KPiBTbyBpdCBpcyB2ZXJ5IGNsZWFyIHRoYXQgdGhlIGZpcnN0IHZ1bG5lcmFibGUg
-dmVyc2lvbiBzdGFydHMgZnJvbSA2LjYuMTAyDQo+IA0KPiBBbmQgdGhlICJ2ZXJzaW9ucyIgbm9k
-ZSBzYXlzOg0KPiANCj4gew0KPiAgICAgInZlcnNpb24iOiAiNi42LjExMiIsDQo+ICAgICAibGVz
-c1RoYW5PckVxdWFsIjogIjYuNi4qIiwNCj4gICAgICJzdGF0dXMiOiAidW5hZmZlY3RlZCIsDQo+
-ICAgICAidmVyc2lvblR5cGUiOiAic2VtdmVyIg0KPiB9LA0KPiANCj4gV2hpY2ggaXMgY29oZXJl
-bnQsIHZlcnNpb24gNi42LjExMiBpcyBub3QgdnVsbmVyYWJsZS4NCj4gDQo+IFNvIGluIHN1bW1h
-cnkgd2UgYXJlIGhhdmluZzoNCj4gIC0gWz49Ni42LjAsIDw2LjYuMTAyXSA9PiBub3QgdnVsbmVy
-YWJsZSwNCj4gIC0gWz49Ni42LjEwMiwgPDYuNi4xMTJdID0+IHZ1bG5lcmFibGUsDQo+ICAtIFs+
-PTYuNi4xMTIsIDw9Ni42LipdID0+IG5vdCB2dWxuZXJhYmxlLg0KPiANCj4gVG8gaGF2ZSBhIGZ1
-bGwgcGljdHVyZSwgd2UgbXVzdCB1c2UgYWxsIHRoZSBpbmZvcm1hdGlvbiAoImNwZUFwcGxpY2Fi
-aWxpdHkiIGFuZA0KPiAidmVyc2lvbnMiIG5vZGVzKS4NCj4gQnV0IG5vdyBJIGFtIHN0YXJ0aW5n
-IHRvIHVuZGVyc3RhbmQgd2hhdCB5b3UgYXJlIHNheWluZyA6KQ0KPiANCj4gPiBpbiB0aGlzIGNh
-c2UgdXNpbmcgdmVyc2lvbnMgaWYgd2UgaGF2ZSA2LjYuMTAwIHdlIHRoaW5rIHdlIGFyZQ0KPiA+
-IHZ1bG5lcmFibGUNCj4gDQo+IElmIHdlIGFyZSBvbmx5IGxvb2tpbmcgYXQgdGhlICJ2ZXJzaW9u
-cyIgbm9kZSwgd2UgbWF5IHRoaW5rIHRoYXQgYW55IHZlcnNpb24NCj4gYmVsb3cgNi42LjEwMiBp
-cyB2dWxuZXJhYmxlIChlLmcuLCB0aGUgNi42LjEwMCB2ZXJzaW9uKS4NCg0KRXhhY3RseS4NCg0K
-PiANCj4gVGhpcyBpcyBub3QgdGhlIG9ubHkgQ1ZFIHRoYXQgaXMgbGlrZSB0aGF0OyBhICpsb3Qq
-IG9mIGtlcm5lbCBDVkVzIGFyZSBpbiB0aGlzIGNhc2UuDQo+IFNvIEkgZG9uJ3Qga25vdyB3aHkg
-R3JlZyBLcm9haC1IYXJ0bWEgc2FpZCB0aGF0IGNwZUFwcGxpY2FiaWxpdHkgbm9kZXMNCj4gc2hv
-dWxkIG5vdCBiZSB1c2VkLiBXaXRob3V0IGl0LCB0aGUgZnVsbCBwaWN0dXJlIG9mIHdoaWNoIHZl
-cnNpb24gaXMgdnVsbmVyYWJsZQ0KPiBjYW5ub3QgYmUgb2J0YWluZWQuDQoNCkkgdGhpbmsgaXMg
-YmVjYXVzZSBpZiB5b3UgbG9vayBsaXRlcmFsbHkgdGhlIHZlcnNpb25zIHdpdGhvdXQgbG9va2lu
-ZyBsaWtlIGEgdHJlZSAod2hpY2ggd2UgZG8pIHRoZSBpbmZvcm1hdGlvbiBpcyBub3QgY29ycmVj
-dC4gRm9yIGV4YW1wbGUsDQppbWFnaW5lIHRoYXQgdGhlIGNvcnJlY3Rpb24gaXMgNi42LjEwMCwg
-dGhlbiBhbnkgNi43LlggaXMgbm90IGFmZmVjdGVkLCBidXQgdGhhdCA2LjYuMTAwIHdhcyBhIGJh
-Y2twb3J0IGFuZCBpdCB3YXMgbmV2ZXIgYmFja3BvcnRlZCB0byA2LjcuWCBzaW5jZSANCml0IGlz
-IG5vdCBzdXBwb3J0ZWQgYW55bW9yZS4NCg0KDQo+IA0KPiA+IElmIHdlIHBsYW4gdG8gZHJvcCB0
-aGUgc2NyaXB0LCBJIHNob3VsZCBwcm9iYWJseSBub3Qgc3BlbmQgdG9vIG11Y2ggdGltZSBvbg0K
-PiB0aGUgc2NyaXB0IGl0c2VsZiBidXQgb24gdGhlIGRhdGEgcXVhbGl0eS4NCj4gDQo+IEkgZG9u
-J3Qga25vdyBpZiB3ZSBhcmUgZ29pbmcgdG8gZHJvcCB0aGUgc2NyaXB0Lg0KPiBQcmV2aW91c2x5
-IHRoZSBzY3JpcHQgaGFkIHNvbWUgZmxvd3MgKGFuZCBpdCBzdGlsbCBoYXMpLCBhbmQgc2luY2Ug
-c2JvbS1jdmUtDQo+IGNoZWNrIChpbiB0aGUgbmV4dCByZWxlYXNlKSBzaG91bGQgZG8gYmV0dGVy
-LCBJIHdhcyBnb2luZyB0byBwcm9wb3NlIGl0cw0KPiBzdXBwcmVzc2lvbiAoSW4gYSBmZXcgd2Vl
-a3MpLg0KDQpDYW4geW91IHBvaW50IHRvIHRoZSBmbGF3cywgc28gSSdtIGF3YXJlPw0KDQpUaGFu
-a3MNCkRhbmllbA0KDQoNCj4gPiBIYXZlIGEgbmljZSB3ZWVrZW5kDQo+ID4gRGFuaWVsDQo+ID4N
-Cj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+IEZyb206IEJlbmphbWlu
-IFJvYmluIDxiZW5qYW1pbi5yb2JpbkBib290bGluLmNvbT4NCj4gPiBTZW50OiBGcmlkYXksIEFw
-cmlsIDE3LCAyMDI2IDQ6NDcgUE0NCj4gPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KPiA+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnPjsgRGFuaWVsIFR1cnVsbA0KPiA+IDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4NCj4g
-PiBTdWJqZWN0OiBSZTogW1BBVENIXSBpbXByb3ZlX2tlcm5lbF9jdmVfcmVwb3J0OiB1c2UgbnVt
-ZXJpYyB2ZXJzaW9ucw0KPiA+IGluc3RlYWQgb2YgY3BlQXBwbGljYWJpbGl0eQ0KPiA+DQo+ID4g
-T24gRnJpZGF5LCBBcHJpbCAxNywgMjAyNiBhdCA0OjM14oCvUE0sIERhbmllbCBUdXJ1bGwgd3Jv
-dGU6DQo+ID4gPiBUcnVlLA0KPiA+ID4gSSBzZW50IENWRXMgdGhhdCBoYWQgZGlmZmVyZW50IHJl
-c3BvbnNlcy4gSSB1c2VkIGFuIG9sZCBjaGVja291dCBhbmQgcmVydW4NCj4gd2l0aCB0aGUgb2xk
-IGFuZCB0aGUgbmV3IHNjcmlwdC4NCj4gPiA+DQo+ID4gPiBJJ20gc3RhcnRpbmcgdG8gZmluZCBz
-b21lIGlzc3VlcyB3aXRoIHRoZSBkYXRhIHRoYXQgd2Ugc2hvdWxkIGNsYXJpZnkgYmVmb3JlDQo+
-IG1lcmdpbmcgdGhpcyBwYXRjaC4gTGV0J3MgcGF1c2UgaXQgYW5kIGhhdmUgaXQgY29ycmVjdC4N
-Cj4gPiA+DQo+ID4gPiBGb3IgZXhhbXBsZSwNCj4gPiA+DQo+ID4gPiAiZGVmYXVsdFN0YXR1cyI6
-ICJhZmZlY3RlZCIsDQo+ID4gPiB7DQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAidmVyc2lv
-biI6ICI2LjYuMTEyIiwNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICJsZXNzVGhhbk9yRXF1
-YWwiOiAiNi42LioiLA0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAgInN0YXR1cyI6ICJ1bmFm
-ZmVjdGVkIiwNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICJ2ZXJzaW9uVHlwZSI6ICJzZW12
-ZXIiDQo+ID4gPiAgICAgICAgICAgICAgICAgICB9LA0KPiA+ID4NCj4gPiA+ICJuZWdhdGUiOiBm
-YWxzZSwNCj4gPiA+IHsNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICJ2dWxuZXJh
-YmxlIjogdHJ1ZSwNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICJjcml0ZXJpYSI6
-ICJjcGU6Mi4zOm86bGludXg6bGludXhfa2VybmVsOio6KjoqOio6KjoqOio6KiIsDQo+ID4gPiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAidmVyc2lvblN0YXJ0SW5jbHVkaW5nIjogIjYuNi4x
-MDIiLA0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgInZlcnNpb25FbmRFeGNsdWRp
-bmciOiAiNi42LjExMiINCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgIH0sDQo+ID4NCj4g
-PiBJIHNlZSBub3RoaW5nIHdyb25nIGhlcmUuDQo+ID4gSW4gWz42LjYuMTAyLCA8Ni42LjExMl0g
-PT4gdnVsbmVyYWJsZSwgYW5kIFs+PTYuNi4xMTIsIDw9Ni42LipdID0+IG5vdA0KPiB2dWxuZXJh
-YmxlLg0KPiA+DQo+ID4gPiBJbiB0aGlzIGNhc2UsIHRoZSBpbmZvcm1hdGlvbiBpbiBvbmUgb2Yg
-dGhlIGVudHJpZXMgaXMgbm90IGNvcnJlY3QuIEZvcg0KPiBleGFtcGxlLCBpbiA2LjYuMTAwIGlz
-IHZ1bG5lcmFibGUgaW4gdGhlIHZlcnNpb24gbm90IGluIHRoZSBjcGVBcHBsaWNhYmlsaXR5LCBi
-dXQNCj4gZ2l0IHZlcnNpb25zIGFuZCBjcGVBcHBsaWNhYmlsaXR5IG1hdGNoIGlmIHdlIGRvIGEg
-Z2l0IGRlc2NyaWJlIG9uIHRoZW0uDQo+ID4NCj4gPiBJIHJlYWxseSBkaWQgbm90IHVuZGVyc3Rv
-b2QgdGhpcyBzZW50ZW5jZS4NCj4gPiBCZSBhd2FyZSB0aGF0IGlmIHlvdSBkbyBhIGdpdCBkZXNj
-cmliZSwgdGhpcyBpcyB0aGUgdGFnIHRoYXQgY2FuIGJlDQo+ID4gcmVhY2hlZCB0aGF0IGlzIGRp
-c3BsYXllZCwgbm90IHRoZSB0YWcgdGhhdCBpbmNsdWRlIHRoZSBjb21taXQhDQo+ID4NCj4gPiBD
-b3VsZCB5b3UgZWxhYm9yYXRlIGluIG1vcmUgZGV0YWlscywgSSBtYXkgYmUgd3JvbmcgaGVyZS4u
-Lg0KPiANCj4gLS0NCj4gQmVuamFtaW4gUm9iaW4sIEJvb3RsaW4NCj4gRW1iZWRkZWQgTGludXgg
-YW5kIEtlcm5lbCBlbmdpbmVlcmluZw0KPiANCj4gDQoNCg==
+On Monday, April 20, 2026 at 9:10=E2=80=AFAM, Daniel Turull wrote:
+>=20
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Benjamin Robin via
+> > lists.openembedded.org
+> > Sent: Sunday, 19 April 2026 11:07
+> > To: openembedded-core@lists.openembedded.org; Daniel Turull
+> > <daniel.turull@ericsson.com>
+> > Subject: Re: [OE-core] [PATCH] improve_kernel_cve_report: use numeric
+> > versions instead of cpeApplicability
+> >=20
+> > Hello Daniel,
+> >=20
+> > On Friday, April 17, 2026 at 6:54=E2=80=AFPM, Daniel Turull wrote:
+> > > What I tried to say was that in this case using versions if we have 6=
+=2E6.100 we
+> > think we are vulnerable, but the cve was introduced in a backport in 6.=
+6.102.
+> > Only the range 6.6.102 to 6.6.112 should be vulnerable. I'll see if I c=
+an report
+> > the issues so the source data is correct.
+> >=20
+> > From the version ranges:
+> >  -
+> >=20
+> > The "cpeApplicability" node says:
+> >=20
+> > {
+> >     "vulnerable": true,
+> >     "criteria": "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+> >     "versionStartIncluding": "6.6.102",
+> >     "versionEndExcluding": "6.6.112"
+> > },
+> >=20
+> > So it is very clear that the first vulnerable version starts from 6.6.1=
+02
+> >=20
+> > And the "versions" node says:
+> >=20
+> > {
+> >     "version": "6.6.112",
+> >     "lessThanOrEqual": "6.6.*",
+> >     "status": "unaffected",
+> >     "versionType": "semver"
+> > },
+> >=20
+> > Which is coherent, version 6.6.112 is not vulnerable.
+> >=20
+> > So in summary we are having:
+> >  - [>=3D6.6.0, <6.6.102] =3D> not vulnerable,
+> >  - [>=3D6.6.102, <6.6.112] =3D> vulnerable,
+> >  - [>=3D6.6.112, <=3D6.6.*] =3D> not vulnerable.
+> >=20
+> > To have a full picture, we must use all the information ("cpeApplicabil=
+ity" and
+> > "versions" nodes).
+> > But now I am starting to understand what you are saying :)
+> >=20
+> > > in this case using versions if we have 6.6.100 we think we are
+> > > vulnerable
+> >=20
+> > If we are only looking at the "versions" node, we may think that any ve=
+rsion
+> > below 6.6.102 is vulnerable (e.g., the 6.6.100 version).
+>=20
+> Exactly.
+>=20
+> >=20
+> > This is not the only CVE that is like that; a *lot* of kernel CVEs are =
+in this case.
+> > So I don't know why Greg Kroah-Hartma said that cpeApplicability nodes
+> > should not be used. Without it, the full picture of which version is vu=
+lnerable
+> > cannot be obtained.
+>=20
+> I think is because if you look literally the versions without looking lik=
+e a tree (which we do) the information is not correct. For example,
+> imagine that the correction is 6.6.100, then any 6.7.X is not affected, b=
+ut that 6.6.100 was a backport and it was never backported to 6.7.X since=20
+> it is not supported anymore.
+
+Yes I understand that, but why we should not look it like a tree? sbom-cve-=
+check
+in main branch has a special case for the kernel which do a specific proces=
+sing for
+all these version ranges provided by the kernel CNA.
+
+> > > If we plan to drop the script, I should probably not spend too much t=
+ime on
+> > the script itself but on the data quality.
+> >=20
+> > I don't know if we are going to drop the script.
+> > Previously the script had some flows (and it still has), and since sbom=
+=2Dcve-
+> > check (in the next release) should do better, I was going to propose its
+> > suppression (In a few weeks).
+>=20
+> Can you point to the flaws, so I'm aware?
+
+The current version of improve_kernel_cve_report.py does not process the
+"versions" nodes. We need both sources of information.
+
+I did not double check if these findings are right (but at first glance it
+looked wrong):
+ - If at least one entry does not have versionStartIncluding defined,
+   first_affected is going to be 0.
+ - It does not handle versionStartExcluding
+ - It does not handle the fact that we could have multiples ranges
+   within the same branch that is vulnerable.
+ - Maybe there are others issues, I did not spent to much time analyzing
+   it since I choose to use a different way to do that.
+
+>=20
+> Thanks
+> Daniel
+
+=2D-=20
+Benjamin Robin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
+
 
