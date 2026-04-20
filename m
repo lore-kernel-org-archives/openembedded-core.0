@@ -1,126 +1,157 @@
-Return-Path: <dwagenknecht@emlix.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 871E6F5A8A9
-	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 17:45:04 +0000 (UTC)
-Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25980.1776707094736875399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D458F5A8AA
+	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 19:08:04 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1310.1776712075893373664
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Apr 2026 10:44:55 -0700
+ Mon, 20 Apr 2026 12:07:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=KjcjlqBw;
- dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=KjcjlqBw;
- spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: dwagenknecht@emlix.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1776707092;
-	bh=iHjqsJHndQDYWVl0s/BmAQpiwaqfAQlN96mth21WoE8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KjcjlqBwRi7aBvbGCdGzH20UFw4+J0j0Ex+oHojZk360i4K/MT+uHwxDGun0ZFiI5
-	 ZNc03ZtBJ2A/+MegCWxuqA9ruZ/Lr8hHbIn6aK0XrAPqxG/noRn7CR30mq21pvLMyT
-	 cnmPlOvj1i64jU7VXOdKCogr/BPmnwXvZnBDV4wkrtY9AwqhYfY/RucPhexjqT7PaN
-	 OpsKHlpGOM3tDELb9UQhSZ0Wcu6oKxk2FJsA4Wuf+nriTEltpvNeOCc1QZ1BihdAaA
-	 LyyYs34RoLG0xrz07Vg3KGrSLhCylC7m6wRz3zJUFxeJ8HpUS/T8ifLKxGcSKZQYVz
-	 nFd5HgflkrSSA==
-Received: from mx1.emlix.com (localhost [127.0.0.1])
-	by mx1.emlix.com (Postfix) with ESMTP id 7EE975F905
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 19:44:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1776707092;
-	bh=iHjqsJHndQDYWVl0s/BmAQpiwaqfAQlN96mth21WoE8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KjcjlqBwRi7aBvbGCdGzH20UFw4+J0j0Ex+oHojZk360i4K/MT+uHwxDGun0ZFiI5
-	 ZNc03ZtBJ2A/+MegCWxuqA9ruZ/Lr8hHbIn6aK0XrAPqxG/noRn7CR30mq21pvLMyT
-	 cnmPlOvj1i64jU7VXOdKCogr/BPmnwXvZnBDV4wkrtY9AwqhYfY/RucPhexjqT7PaN
-	 OpsKHlpGOM3tDELb9UQhSZ0Wcu6oKxk2FJsA4Wuf+nriTEltpvNeOCc1QZ1BihdAaA
-	 LyyYs34RoLG0xrz07Vg3KGrSLhCylC7m6wRz3zJUFxeJ8HpUS/T8ifLKxGcSKZQYVz
-	 nFd5HgflkrSSA==
-Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.emlix.com (Postfix) with ESMTPS id 65E655F78A
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 19:44:52 +0200 (CEST)
-From: Daniel Wagenknecht <dwagenknecht@emlix.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=ojwisC1A;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5655E25DE
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 12:07:50 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 99A313F915
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 12:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1776712075; bh=h2byWhp4LNsLvZon33ohA33bS+Efji/ajkucKC6TVpU=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=ojwisC1A8M5YKb63mkV0QAqTVir6eXFGmbu4rO+Ih5wHhctZO6FiAXKX0KJh8Hyni
+	 QdXZDRFkKWLDDQR0hzY4mo6Gj4ryYzUFaQrDF/+oLVzh0ewMDB8AMHIchOnqijzVuN
+	 bphjOMdCq/QQPsdyu100d6JGYoo3E7wptHc0ft/Q=
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Daniel Wagenknecht <dwagenknecht@emlix.com>
-Subject: [PATCH] classes: image-buildinfo: allow deploying the buildinfo file
-Date: Mon, 20 Apr 2026 19:43:47 +0200
-Message-ID: <20260420174404.122964-2-dwagenknecht@emlix.com>
-X-Mailer: git-send-email 2.51.2
+Subject: [PATCH 4/5] xz: fix CVE-2026-34743
+Date: Mon, 20 Apr 2026 20:07:48 +0100
+Message-ID: <20260420190749.1280090-4-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260420190749.1280090-1-ross.burton@arm.com>
+References: <20260420190749.1280090-1-ross.burton@arm.com>
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 17:45:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235581
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 19:08:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235585
 
-The `buildinfo` file generated by the `image-buildinfo` class
-contains useful information to identify an image. Having it in the
-rootfs of the image as well as deployed alongside the image artifact
-can be useful. Allow to deploy it alongside the image by setting
-'IMAGE_BUILDINFO_DEPLOY' to '1'.
+Backport a fix from upstream to resolve CVE-2026-34743:
 
-I use this in an automated testing workflow with unreliable deploy step
-to ensure the deployment succeeded. With
-    IMAGE_BUILDINFO_VARS +=3D "IMAGE_NAME"
-    IMAGE_BUILDINFO_DEPLOY =3D "1"
-the generated buidinfo file is unique and the deploy step can be
-verified by comparing (the hash of) the file on the booted system and in
-`IMAGE_DEPLOY_DIR`.
+  Prior to version 5.8.3, if lzma_index_decoder() was used to decode an
+  Index that contained no Records, the resulting lzma_index was left in
+  a state where where a subsequent lzma_index_append() would allocate
+  too little memory, and a buffer overflow would occur.
 
-Signed-off-by: Daniel Wagenknecht <dwagenknecht@emlix.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
+ ...buffer-overflow-in-lzma_index_append.patch | 66 +++++++++++++++++++
+ meta/recipes-extended/xz/xz_5.8.2.bb          |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-extended/xz/xz/0001-liblzma-Fix-a-buffer=
+-overflow-in-lzma_index_append.patch
 
-I have prepared a patch for yocto-docs to add the variable to the glossar=
-y.
-I did not find guidance on how to do simultanious changes to OE-Core and
-yocto-docs so I'll send them once this has been merged.
-
-
- meta/classes/image-buildinfo.bbclass | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-bu=
-ildinfo.bbclass
-index b83ce650ad..1dce50b376 100644
---- a/meta/classes/image-buildinfo.bbclass
-+++ b/meta/classes/image-buildinfo.bbclass
-@@ -16,6 +16,9 @@ IMAGE_BUILDINFO_VARS ?=3D "DISTRO DISTRO_VERSION"
- IMAGE_BUILDINFO_FILE ??=3D "${sysconfdir}/buildinfo"
- SDK_BUILDINFO_FILE ??=3D "/buildinfo"
-=20
-+# Deploy the file alongside the images.
-+IMAGE_BUILDINFO_DEPLOY ??=3D "0"
+diff --git a/meta/recipes-extended/xz/xz/0001-liblzma-Fix-a-buffer-overfl=
+ow-in-lzma_index_append.patch b/meta/recipes-extended/xz/xz/0001-liblzma-=
+Fix-a-buffer-overflow-in-lzma_index_append.patch
+new file mode 100644
+index 00000000000..d3918233eab
+--- /dev/null
++++ b/meta/recipes-extended/xz/xz/0001-liblzma-Fix-a-buffer-overflow-in-l=
+zma_index_append.patch
+@@ -0,0 +1,66 @@
++From c8c22869e780ff57c96b46939c3d79ff99395f87 Mon Sep 17 00:00:00 2001
++From: Lasse Collin <lasse.collin@tukaani.org>
++Date: Sun, 29 Mar 2026 19:11:21 +0300
++Subject: [PATCH] liblzma: Fix a buffer overflow in lzma_index_append()
 +
- # From buildhistory.bbclass
- def image_buildinfo_outputvars(vars, d):
-     vars =3D vars.split()
-@@ -70,12 +73,20 @@ python buildinfo_image () {
-     bb.build.exec_func("buildinfo", d)
- }
-=20
-+python buildinfo_deploy() {
-+    d.setVar("BUILDINFODEST", "${IMGDEPLOYDIR}/")
-+    d.setVar("IMAGE_BUILDINFO_FILE", "${IMAGE_NAME}.buildinfo")
-+    bb.build.exec_func("buildinfo", d)
-+}
-+do_image[postfuncs] +=3D "create_symlinks"
-+do_image[subimages] +=3D "buildinfo"
++If lzma_index_decoder() was used to decode an Index that contained no
++Records, the resulting lzma_index had an invalid internal "prealloc"
++value. If lzma_index_append() was called on this lzma_index, too
++little memory would be allocated and a buffer overflow would occur.
 +
- python buildinfo_sdk () {
-     d.setVar("BUILDINFODEST", "${SDK_OUTPUT}/${SDKPATH}")
-     d.setVar("IMAGE_BUILDINFO_FILE", d.getVar("SDK_BUILDINFO_FILE"))
-     bb.build.exec_func("buildinfo", d)
- }
++While this combination of the API functions is meant to work, in the
++real-world apps this call sequence is rare or might not exist at all.
++
++This bug is older than xz 5.0.0, so all stable releases are affected.
++
++Reported-by: GitHub user christos-spearbit
++
++CVE: CVE-2026-34743
++Upstream-Status: Backport [https://github.com/tukaani-project/xz/commit/=
+c8c22869e780ff57c96b46939c3d79ff99395f87]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ src/liblzma/common/index.c | 21 +++++++++++++++++++++
++ 1 file changed, 21 insertions(+)
++
++diff --git a/src/liblzma/common/index.c b/src/liblzma/common/index.c
++index 6add6a68..c4aadb9b 100644
++--- a/src/liblzma/common/index.c
+++++ b/src/liblzma/common/index.c
++@@ -433,6 +433,26 @@ lzma_index_prealloc(lzma_index *i, lzma_vli records=
+)
++ 	if (records > PREALLOC_MAX)
++ 		records =3D PREALLOC_MAX;
++=20
+++	// If index_decoder.c calls us with records =3D=3D 0, it's decoding
+++	// an Index that has no Records. In that case the decoder won't call
+++	// lzma_index_append() at all, and i->prealloc isn't used during
+++	// the Index decoding either.
+++	//
+++	// Normally the first lzma_index_append() call from the Index decoder
+++	// would reset i->prealloc to INDEX_GROUP_SIZE. With no Records,
+++	// lzma_index_append() isn't called and the resetting of prealloc
+++	// won't occur either. Thus, if records =3D=3D 0, use the default valu=
+e
+++	// INDEX_GROUP_SIZE instead.
+++	//
+++	// NOTE: lzma_index_append() assumes i->prealloc > 0. liblzma <=3D 5.8=
+.2
+++	// didn't have this check and could set i->prealloc =3D 0, which would
+++	// result in a buffer overflow if the application called
+++	// lzma_index_append() after decoding an empty Index. Appending
+++	// Records after decoding an Index is a rare thing to do, but
+++	// it is supposed to work.
+++	if (records =3D=3D 0)
+++		records =3D INDEX_GROUP_SIZE;
+++
++ 	i->prealloc =3D (size_t)(records);
++ 	return;
++ }
++@@ -685,6 +705,7 @@ lzma_index_append(lzma_index *i, const lzma_allocato=
+r *allocator,
++ 		++g->last;
++ 	} else {
++ 		// We need to allocate a new group.
+++		assert(i->prealloc > 0);
++ 		g =3D lzma_alloc(sizeof(index_group)
++ 				+ i->prealloc * sizeof(index_record),
++ 				allocator);
++--=20
++2.43.0
++
+diff --git a/meta/recipes-extended/xz/xz_5.8.2.bb b/meta/recipes-extended=
+/xz/xz_5.8.2.bb
+index 7ada44d9f58..15eaa7a52f8 100644
+--- a/meta/recipes-extended/xz/xz_5.8.2.bb
++++ b/meta/recipes-extended/xz/xz_5.8.2.bb
+@@ -26,6 +26,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd38d562f6112=
+174de93a9677682231b2 \
+                     "
 =20
--IMAGE_PREPROCESS_COMMAND +=3D "buildinfo_image"
-+IMAGE_PREPROCESS_COMMAND +=3D "buildinfo_image ${@oe.utils.vartrue('IMAG=
-E_BUILDINFO_DEPLOY', 'buildinfo_deploy', '', d)}"
- POPULATE_SDK_PRE_TARGET_COMMAND +=3D "buildinfo_sdk"
-=20
+ SRC_URI =3D "https://github.com/tukaani-project/xz/releases/download/v${=
+PV}/xz-${PV}.tar.gz \
++           file://0001-liblzma-Fix-a-buffer-overflow-in-lzma_index_appen=
+d.patch \
+            file://run-ptest \
+           "
+ SRC_URI[sha256sum] =3D "ce09c50a5962786b83e5da389c90dd2c15ecd0980a258dd0=
+1f70f9e7ce58a8f1"
 --=20
-2.51.2
+2.43.0
 
 
