@@ -1,259 +1,154 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3F2F36C5C
-	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 08:32:33 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.21])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14960.1776673862287252081
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EB0CF557E8
+	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 08:44:33 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15482.1776674671136897396
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Apr 2026 01:31:03 -0700
+ Mon, 20 Apr 2026 01:44:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mt.com header.s=selector2 header.b=mt1O6g0u;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: mt.com, ip: 52.101.84.21, mailfrom: wojciech.dubowik@mt.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EePaxZ226ZkdQwuLP/g7IoSRRakUryhu4ysgi/wh1XJQeOlf8CQseR3VnGWnC4GKTpYEpmf8hxxIcYCfxnMe4AqXpyNaRLA7eesZT5jSneNKCvFvEuWF+rU7bw8Dh4QlqtvCfKZ8K0IjCu6W6/16MZsO9fY3BW9sHBnQg1HlaFtpS3yK78IFkINIQjmDf9n06r2eQ9oNA7tkNxZDkD4vsTnhTy9Igs2+gIjxuBwkESEKcy9iITNiw6gfWVLRVKDyxM8YODRF1wM4jxifTNp5RRV4MmP6Bysz6ZhapvMAhuf2Oc0wEYLBiecgHRQ+VAiscF2yPErlxmlyNFc3hDL4ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MOF2YOjy2u5dAAeqfQwxzdS2RII4PDs/qOhadP/liiU=;
- b=ogrTM7UMFmtyRvZPG+oVotV3Qjs53lK3JPWEoguwgY16u0dFJwJhPShDDGMBGJCKW7bIqSCSEIEyKpLamd/5FTmfP2QTsiyCVR0Lb+3wlUKfsJkWX1XijsviyagzC5gaS9lM6gIMhXuiBgSfehOD3jJYAAitIEJ2mHF9gyzPmUg5XlUkA0M4WWaXMoXqshwHdUdJz2WiC6cyMixu7XnYeYwn7VlefSf7ORrLNVD9kDotPuDLEwh7s9wfHQK3mhqrm/x6ywjoWkZyk8kHCJ6Aoq50YrN3jThJ8pn5GkgboNEdoBkezi6RzLqSN82WnVzELp94hvoOIAV0r9uG8tyapw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MOF2YOjy2u5dAAeqfQwxzdS2RII4PDs/qOhadP/liiU=;
- b=mt1O6g0uKU4VE39ZNG9nuaE+aY1GeeI3e5tk8e8sC0HAyklnQ2/V7wjxVRXOYUKX9XojwtsW8aPf2Iu4U3JROscW/aFVe1cYVWTy7VPJT3ofBPovWG8PFgcY2R4eYE9cigWWrcNMg06fj70jU4Er2YKFlXkpmggpFC6KwKt2+om2sUHFZTOG5kZHcppVNzpxxn4Awoqbcs0j7id0buJpny0DLw86PPXdluNWuNzu+NRoYLnZZT05Jm8NihN0B5lxmpjU6kYsykTojAq1BC1mtJ0SZmFFazCGgF4Vs4SjYDKE3dKa1f3nVvaimEmB1Fv405K3/kZUax3ssu7Mx7mHbg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DB9PR03MB7180.eurprd03.prod.outlook.com (2603:10a6:10:22d::13)
- by DU4PR03MB10744.eurprd03.prod.outlook.com (2603:10a6:10:585::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Mon, 20 Apr
- 2026 08:14:56 +0000
-Received: from DB9PR03MB7180.eurprd03.prod.outlook.com
- ([fe80::6fd2:12a9:4423:8ddc]) by DB9PR03MB7180.eurprd03.prod.outlook.com
- ([fe80::6fd2:12a9:4423:8ddc%6]) with mapi id 15.20.9818.032; Mon, 20 Apr 2026
- 08:14:55 +0000
-Date: Mon, 20 Apr 2026 10:14:46 +0200
-From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-To: Franz Schnyder <fra.schnyder@gmail.com>
-Cc: u-boot@lists.denx.de, trini@konsulko.com,
-	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>,
-	Francesco Dolcini <francesco@dolcini.it>
-Subject: Re: [PATCH] tools: mkeficapsule: Add disable pkcs11 menu option
-Message-ID: <aeXgdkBin5uz0-OH@mt.com>
-References: <20260409074710.1322519-1-Wojciech.Dubowik@mt.com>
- <7xe72m3tkzultqh3hw4cubfognfryjk5ababajoe6w6zt7jx4c@aaxa2kehv635>
-In-Reply-To: <7xe72m3tkzultqh3hw4cubfognfryjk5ababajoe6w6zt7jx4c@aaxa2kehv635>
-X-ClientProxiedBy: MI0P293CA0011.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:290:44::11) To DB9PR03MB7180.eurprd03.prod.outlook.com
- (2603:10a6:10:22d::13)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=uun4JI5F;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id A5BD4C5C987
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 08:45:08 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D75645FFA5;
+	Mon, 20 Apr 2026 08:44:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D734C10460BFA;
+	Mon, 20 Apr 2026 10:44:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776674668; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=EdWfaDtOshVjksv+nBbeNRth7KttSgrzdq5X26jwxtk=;
+	b=uun4JI5F9ktzBTotBWG6xv8SvMPWLCn2YF3ycoT+eqUnrdGQZzA0qg/um64QcXkVXScePk
+	vug00q/R7835qeh9RHEYK1nhXC1NEWxocZ5v3+21hyH8TLDHl3U1WlMc9SQ2sxc7JDQGXD
+	U0miVIuWP2zMVkQqxkbzpF5SEd/umNWjdEG39268VZykwMH4xCcWjwXcdGkLDVtsPF8DBC
+	iX+ljHe3F9lJ/pafwWI1KEpMsoCtQG9gj+Tph3+s81DsMdavOkDGPjaLtCK8TD3MFaohNQ
+	4bfld+AS1OVdXQ22XSEcfWoSv4qngMMHN2pKVKTTBjwGsnxTgJyGWmoV7stz4g==
+Message-ID: <af76f008-c484-450f-8c6a-955d4957a173@bootlin.com>
+Date: Mon, 20 Apr 2026 10:44:26 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR03MB7180:EE_|DU4PR03MB10744:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7fa49e5-de61-4411-b810-08de9eb4e78d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|19092799006|38350700014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	Cks3Lj7nkllExs0B1KUic3mcqtpg6xHaW1SJCg+Kgw0qPJgqP5jNZvebtEEnbfAxjAFb/OG92rAn/TA3H8d6ASwzAUx5crrn6SNPpX10XwcN/Und5LiiQqYg3fLel2Jg3apmqg5oalmmZFoaKmJFD+l5pa8SC8/IAlahN3I/L/wRyQyMb4IcyU4DTwkQpE3tfZ4U618yNdV8stSx4gdib9MZLZq45qqfIZL81TyFCIgRMnHYswgQy/Zp53/TnPMwZHfI1//STywPhriDxPBOWY+of/mYGWSLcN6YhFK/iUtWR0hfhaHWEjv85hhMbol0EZhnK1WAFypL8Apyzl9f3K1V5gip1R/PHAeUYTdjEtFk6OamVqiWAq8LUT8Zf8TkU47+kjfZSQfgSKV7ce7PW8L3rnWzceTnTTde5CWmAAdkn700cDrgC8+l9M4cCL44YEtrT1XrBexMwLqRfAj81oghyUtgKCi4yV0ErZgRYTgQltrqqaMJMZxWoxmJiO1ZANr+qrvspjyzwqgj2B52PMWqeKsH0M8/+svSr1M3tp+ojPPn55FKq823NUArzH6gZhkFHGKdOb0ZA8Zs6x4YVT9CXVWSDqc3IfM8JHiZ3LC5ApCpoXEuCsdLW9UH7S0jcJvghv4OHjQveBwi7ewslUogVE2heH8fpo8JViDD7I5kppcxIpIJu1jULG51PFQbgu2kFDiv2XiKjkJFt4blFKGQ9eiReq0SUExEioYGSWWJlNxJQEVqlNPIecdcFDJIIrf96HEH83h07cE+LhqPWCSax598OnV3cbnglGy1RWk=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7180.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(19092799006)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?zhiJB9cNtMrWcS+uA7FXohTBoPJvVug9owpnhm9lvYSZJtb3uhbK2bxPu7r0?=
- =?us-ascii?Q?KmwEqytm0v6dBNx9XncNvALtuIz/mJBNavFDP55grh/5wXRENITvKAAnv9Cz?=
- =?us-ascii?Q?6M4mDXjH2kNdtqizZAg6B3ZtFz+7ZA4lLaXHfvrpp2merZCMCb2IyiGw3sf+?=
- =?us-ascii?Q?Suhule6HEDlhXqXxy9nQ8+Ywq8bNaMdYbXHOdHBfdH+5//UQn9LsZAfof2PC?=
- =?us-ascii?Q?lMVmhtKvzG/ij/LttwACt3McxTUsR7/H28lDOcCHgkhUlFIwH6flNq2Xhgt+?=
- =?us-ascii?Q?SGvz8XlTScWsNuyg6+53X1TOVVm7Wc24ol5fXGmT4PY54TvlhE0chXr6DOkr?=
- =?us-ascii?Q?h4A9Q+4evoR42GspD9efh2Oi70BRtLy62RT+NYghPc84auGpCoW8tNQhSyzZ?=
- =?us-ascii?Q?0OTuv1uO/OQ/YCeGn8gXS+oGOBNhSDAMxc8f6YJdUQ4FgSs4eenraYMtbrk/?=
- =?us-ascii?Q?XV0lW/bx2jIxd2uHLlkOD5ASUBA4x16TzE3Kjil+o0wwNo3xboG4VPbs+VMR?=
- =?us-ascii?Q?8PvRlHZEvh5HeAdRdnclplmni25JpIL62xh9twXzyiFEtHoqAViYE9Cu4wRj?=
- =?us-ascii?Q?9gRl/I16GeYHOQ6+oaZGlTudFa69ry2CcjJXvlMl0Wmu/CKgwIfsPe4z2+kc?=
- =?us-ascii?Q?Ppo7M2zLFKSxOuyEPytd4KTMJ7tH34hQ5MGmqe71jDZPKi6lVplVXm+E/qdh?=
- =?us-ascii?Q?DJ5w4t9z6BtJlKk7Fxn42WLS7Ps8c2PR2fbCBL0Vdq2oPHtE3ThlkmqVIewn?=
- =?us-ascii?Q?5f7QLUJUZvW6mtBAQk5q6lAmglSTLFDLF6aldjA70ZhdlgOhews8TIUT9ynH?=
- =?us-ascii?Q?z/7FvNK3S/a2wZZofs29qERuazlb68zSg39N7iLNotgibHG3nwnVA9aF6yo+?=
- =?us-ascii?Q?4jVtYcsvgx14DlnmR9ZHUA/+ckWJdAaAhZ4EJwNlSbP1P7SRw5tG7wIMlEzB?=
- =?us-ascii?Q?zXEHJrDhfxLP48ZCiZHP36UjEFQxjC4X/iitilh2ZUAdTi5usmRfoXj28Eaa?=
- =?us-ascii?Q?uj1pK3ta0Ycg29vPW+AAnGC1Zwce9SpjyY9nFGVyadmn+TYJWkJxcKTL0X/Y?=
- =?us-ascii?Q?G8GGknHXAL3zm8C8/3CeOflQwdHpvipS2FIwG102q39ZFP3TCUj975spOcfu?=
- =?us-ascii?Q?c0g5/RD19wDXEarDP70lQJHH0GJtTtkhYgIGgH3Z9f4GkeCk95yc9ocueBhy?=
- =?us-ascii?Q?G/mpNSY8CQmzI+RsBpppmkZDjFq5h6550hh4pikYm7C6g3GgUF1UGhabJkY1?=
- =?us-ascii?Q?q9G7KEBXQ1NmjmwHk4JbAIBGQU2KgvruJac4TDcufky5ozYvwFKW/dXgM5n0?=
- =?us-ascii?Q?3b2f6wCojL2sgib/r1+1T40v0ZVzsY2FSstXxEZPZNlHBeJhFldvD5mRIlr6?=
- =?us-ascii?Q?snss4gtlLu7QGrbCIz1/BWMTXxpTk6VnmPyy8c4FaHdGCFOavBsWtyVkP3/q?=
- =?us-ascii?Q?F80es94dsX5wvn8irTIn+/3lkTZ4EaQUaQoLBREHOKzUQegctbRD+je9epwQ?=
- =?us-ascii?Q?E6CPYklMMPVX8YHzwivuz6vXrn/JeeVDkMENaoP8qruB/1f2U8EaDfQ0jHlc?=
- =?us-ascii?Q?7zmqXFo/lnTce0X7QDxq4wAfo81TP0+CRotHX6gCOPCQmTKvwQHmmvNmB7uZ?=
- =?us-ascii?Q?0sEelDTuW4BeVRHxRB3UdffPe9l5Wynaa5c6J+lL+3ueNG1HVzgAMnUJ7Eqp?=
- =?us-ascii?Q?4K+pOhLdpNZ+IyLE7+2sxN1ey4kbdEd9SKtbsTR06wPHS4/J2TZQeDcIFo/G?=
- =?us-ascii?Q?aFeURH78wA=3D=3D?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7fa49e5-de61-4411-b810-08de9eb4e78d
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7180.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 08:14:55.2544
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hwdsgJ78H/eFBhcCYrKREOQ2SgJua45+nuTgYpjmRPfL5LXMhAi9dDMj7B2a3aC4zPlKGOgdT+J2CN7fNNE1rg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR03MB10744
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][scarthgap 00/11] Patch review
+To: openembedded-core@lists.openembedded.org
+References: <cover.1774824253.git.yoann.congal@smile.fr>
+Content-Language: en-US, fr
+Cc: Yoann Congal <yoann.congal@smile.fr>
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <cover.1774824253.git.yoann.congal@smile.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 08:32:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235555
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 08:44:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235556
 
-On Thu, Apr 16, 2026 at 05:51:13PM +0200, Franz Schnyder wrote:
-Hello Franz,
-> On Thu, Apr 09, 2026 at 09:47:07AM +0200, Wojciech Dubowik wrote:
-> > Some distros are using gnutls library without pkcs11 support
-> > and linking of mkeficapsule will fail. Add disable pkcs11
-> > option with default set to no so distros can control this
-> > feature with config option.
-> > 
-> > Suggested-by: Tom Rini <trini@konsulko.com>
-> > Cc: Franz Schnyder <fra.schnyder@gmail.com>
-> > Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-> > ---
-> >  tools/Kconfig        |  8 ++++++++
-> >  tools/Makefile       |  3 +++
-> >  tools/mkeficapsule.c | 14 ++++++++++++++
-> >  3 files changed, 25 insertions(+)
-> > 
-> > diff --git a/tools/Kconfig b/tools/Kconfig
-> > index ef33295b8ecd..ccc878595d3b 100644
-> > --- a/tools/Kconfig
-> > +++ b/tools/Kconfig
-> > @@ -114,6 +114,14 @@ config TOOLS_MKEFICAPSULE
-> >  	  optionally sign that file. If you want to enable UEFI capsule
-> >  	  update feature on your target, you certainly need this.
-> >  
-> > +config MKEFICAPSULE_DISABLE_PKCS11
-> > +	bool "Disable pkcs11 support"
-> > +	depends on TOOLS_MKEFICAPSULE
-> > +	default n
-> > +	help
-> > +	  Disable pkcs11 support. Can be used in cases when host GnuTLS
-> > +	  library doesn't support it.
-> > +
-> >  menuconfig FSPI_CONF_HEADER
-> >  	bool "FlexSPI Header Configuration"
-> >  	help
-> > diff --git a/tools/Makefile b/tools/Makefile
-> > index 1a5f425ecdaa..60e84bfbf20d 100644
-> > --- a/tools/Makefile
-> > +++ b/tools/Makefile
-> > @@ -271,6 +271,9 @@ mkeficapsule-objs := generated/lib/uuid.o \
-> >  	$(LIBFDT_OBJS) \
-> >  	mkeficapsule.o
-> >  hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
-> > +ifeq ($(CONFIG_MKEFICAPSULE_DISABLE_PKCS11),y)
-> > +HOSTCFLAGS_mkeficapsule.o += -DCONFIG_MKEFICAPSULE_DISABLE_PKCS11
-> > +endif
-> >  
-> >  include tools/fwumdata_src/fwumdata.mk
-> >  
-> > diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
-> > index ec640c57e8a5..ad1c46f0e909 100644
-> > --- a/tools/mkeficapsule.c
-> > +++ b/tools/mkeficapsule.c
-> > @@ -229,9 +229,11 @@ static int create_auth_data(struct auth_context *ctx)
-> >  	gnutls_pkcs7_t pkcs7;
-> >  	gnutls_datum_t data;
-> >  	gnutls_datum_t signature;
-> > +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
-> >  	gnutls_pkcs11_obj_t *obj_list;
-> >  	unsigned int obj_list_size = 0;
-> >  	const char *lib;
-> > +#endif
-> >  	int ret;
-> >  	bool pkcs11_cert = false;
-> >  	bool pkcs11_key = false;
-> > @@ -242,6 +244,7 @@ static int create_auth_data(struct auth_context *ctx)
-> >  	if (!strncmp(ctx->key_file, "pkcs11:", strlen("pkcs11:")))
-> >  		pkcs11_key = true;
-> >  
-> > +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
-> >  	if (pkcs11_cert || pkcs11_key) {
-> >  		lib = getenv("PKCS11_MODULE_PATH");
-> >  		if (!lib) {
-> > @@ -259,6 +262,7 @@ static int create_auth_data(struct auth_context *ctx)
-> >  			return -1;
-> >  		}
-> >  	}
-> > +#endif
-> >  
-> >  	if (!pkcs11_cert) {
-> >  		ret = read_bin_file(ctx->cert_file, &cert.data, &file_size);
-> > @@ -301,6 +305,7 @@ static int create_auth_data(struct auth_context *ctx)
-> >  
-> >  	/* load x509 certificate */
-> >  	if (pkcs11_cert) {
-> > +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
-> >  		ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
-> >  							 ctx->cert_file, 0);
-> >  		if (ret < 0 || obj_list_size == 0) {
-> > @@ -309,6 +314,10 @@ static int create_auth_data(struct auth_context *ctx)
-> >  		}
-> >  
-> >  		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
-> > +#else
-> > +		fprintf(stdout, "Pkcs11 support is disabled\n");
-> > +		return -1;
-> > +#endif
-> >  	} else {
-> >  		ret = gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
-> >  		if (ret < 0) {
-> > @@ -320,12 +329,17 @@ static int create_auth_data(struct auth_context *ctx)
-> >  
-> >  	/* load a private key */
-> >  	if (pkcs11_key) {
-> > +#ifndef CONFIG_MKEFICAPSULE_DISABLE_PKCS11
-> >  		ret = gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
-> >  		if (ret < 0) {
-> >  			fprintf(stderr, "error in %d: %s\n", __LINE__,
-> >  				gnutls_strerror(ret));
-> >  			return -1;
-> >  		}
-> > +#else
-> > +		fprintf(stdout, "Pkcs11 support is disabled\n");
-> > +		return -1;
-> > +#endif
-> >  	} else {
-> >  		ret = gnutls_privkey_import_x509_raw(pkey, &key, GNUTLS_X509_FMT_PEM,
-> >  						     0, 0);
-> > -- 
-> > 2.47.3
-> > 
-> 
-> Hi Wojciech,
-> 
-> Shouldn't it be the other way around? Use of pkcs11 should be disabled 
-> by default and enabled if required. As it is now, it would still depend
-> on the the gnutls library having pkcs11 support and therefore still 
-> would break our OE builds with mainline u-boot if we don't change our
-> modules defconfig.
+Hello, Yoan
 
-As far as I understand, gnutls is built by default with pkcs11 support. So for
-most of the distribution it should be ok. Security by default.
-I don't have yn strong opinion for this but default enabled has been suggested
-by the maintainer.
 
-Regards,
-Wojtek
+On 3/30/26 00:46, Yoann Congal via lists.openembedded.org wrote:
+> Please review this set of changes for scarthgap and have comments back =
+by
+> end of day Tuesday, March 31.
+>=20
+> Passed a-full on autobuilder:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3546
+> Note: This particular build had a gnutls patch that I removed because i=
+t needed a small change[0].
+> Build (currently running) without the gnutls patch: https://autobuilder=
+.yoctoproject.org/valkyrie/#/builders/29/builds/3551
+>=20
+> [0]: https://lore.kernel.org/openembedded-core/DHFLXG1K82R7.3EOQRZ2H6KW=
+8Q@smile.fr/T/#t
+>=20
+> The following changes since commit 41597b5260fb5ca811d0fb4ae7e65246d617=
+34eb:
+>=20
+>    Revert "scripts/install-buildtools: Update to 5.0.16" (2026-03-26 09=
+:48:20 +0000)
+>=20
+> are available in the Git repository at:
+>=20
+>    https://git.openembedded.org/openembedded-core-contrib stable/scarth=
+gap-nut
+>    https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstab=
+le/scarthgap-nut
+>=20
+> for you to fetch changes up to e6f3b2e043259650d80fb6f761797c5cf5587eb5=
+:
+>=20
+>    python3-pyopenssl: Fix CVE-2026-27459 (2026-03-30 00:09:38 +0200)
+>=20
+> ----------------------------------------------------------------
+>=20
+> Jo=C3=A3o Marcos Costa (Schneider Electric) (1):
+>    spdx: add option to include only compiled sources
+>=20
+> Martin Jansa (3):
+>    dtc: backport fix for build with glibc-2.43
+>    elfutils: don't add -Werror to avoid discarded-qualifiers
+>    binutils: backport patch to fix build with glibc-2.43 on host
+>=20
+> Michael Halstead (2):
+>    yocto-uninative: Update to 5.0 for needed patchelf updates
+>    yocto-uninative: Update to 5.1 for glibc 2.43
+>=20
+> Nguyen Dat Tho (1):
+>    python3-cryptography: Fix CVE-2026-26007
+>=20
+> Paul Barker (1):
+>    tzdata,tzcode-native: Upgrade 2025b -> 2025c
+>=20
+> Richard Purdie (1):
+>    pseudo: Add fix for glibc 2.43
+>=20
+> Vijay Anusuri (2):
+>    python3-pyopenssl: Fix CVE-2026-27448
+>    python3-pyopenssl: Fix CVE-2026-27459
+(...)
 
-> 
-> kind regards
-> 
-> Franz
+Was the commit below not picked, or am I missing something?
+
+commit b24d5cda19136fb8120154279eedd55d162b4640
+Author: Jo=C3=A3o Marcos Costa (Schneider Electric)=20
+<joaomarcos.costa@bootlin.com>
+Date:   Fri Apr 3 11:32:30 2026 +0200
+
+     linux-yocto/6.6: update CVE exclusions (6.6.123)
+
+     This new version of cve-exclusion_6.6.inc was generated with oe-core=
+'s
+     latest version of the generate-cve-exclusions.py.
+
+     Regarding the database used and how this file was generated:
+
+     Generated at 2026-04-03 09:30:32.247568+00:00 for kernel version=20
+6.6.123
+     From cvelistV5 cve_2026-04-03_0700Z
+
+     The backporting of the generate-cve-exclusions.py script from master=
+ to
+     Scarthgap is handled in a different patch.
+
+     Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric)=20
+<joaomarcos.costa@bootlin.com>
+
+However, I see the commit below, prior to this one, was kept:
+
+linux/generate-cve-exclusions: backport script from master branch
+
+I'm not really used to the backports schedule/workflow, so please excuse=20
+me if I misinterpreted something.
+
+Thanks!
+
+--=20
+Best regards,
+Jo=C3=A3o Marcos Costa
 
