@@ -2,62 +2,62 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD9DF36C3F
-	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 16:40:50 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23947.1776703187606104937
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9B1F36C5C
+	for <webhook@archiver.kernel.org>; Mon, 20 Apr 2026 16:41:00 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24400.1776703188828676149
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Apr 2026 09:39:47 -0700
+ Mon, 20 Apr 2026 09:39:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=oZG+iT+a;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: zizuzacker@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a7a9b8ed69so29016955ad.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 09:39:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=iGc8yLO3;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: zizuzacker@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2b2503753efso31988675ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 09:39:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776703187; x=1777307987; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1776703188; x=1777307988; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QnRgLP3erUwy0o+p96LB15Z7V3pObcK2h1N+/zJrdEo=;
-        b=oZG+iT+aEWb7ShUyWU5ouvRmO20YDWy9E7l5/kNABGiz4kpwo6mPjOhXzuB0aEXGi7
-         3XC+nLH/x19tpyZU6mVjgyGZOi1krowHf1aYvh+r/cs4xjYWGBTX5W1fDMTOKanNtslp
-         jMRah3QkGTkAoW0FHwUeaRgL8UmE1ATWGI21ZQ9YSzVOe4+wP7/0bOvTjHKUsoq0Cyov
-         K4DXtvRDpWhIhAEUKFAGF1nV9eEFEZtxuXie5/gIxdc3OWp35eOA1JLXdH8eORb5MgZJ
-         4VAOY97QnOlclZ8cgExoRFXJG9HuxiKHmFNwLbwWS1cbqaVQODTkSXiBDrg1Yz14F7Fh
-         fkYQ==
+        bh=vk0qKtqQpBNFCl2n1XH/HW29hDYIDRhwJN3jJT1on9Q=;
+        b=iGc8yLO3hgUuBKXZvNJOpZsi+DMGK0/Zf9H2zFn9tRP+/wY0BFWamZYNeM+OkQKXlp
+         RmkkpVH2TTRzZZKPR5DB32heJ5xGQ7LSpMxRGaNUyAjoAnMSbtK3q0FXi4tzWo/0RZOe
+         jEn0XT0y6ydN/xtq1PfzCBYyVbn1P4/7o5BPFnAAX5ER4/SBusxZKWYZq9ljC3X1UPjG
+         VefQp1q22HkydH8TYslPJhkOtjz7oIJedLcifgskgUeGzZ8zJv+2yErLGNKP/cKgeNWd
+         +c8Qh68zpoPOHKyakaD8hJYlMLgS4qo1vTSK30qds98M0fdb8bwAomRdZ5Wiincn1yOq
+         e05w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776703187; x=1777307987;
+        d=1e100.net; s=20251104; t=1776703188; x=1777307988;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QnRgLP3erUwy0o+p96LB15Z7V3pObcK2h1N+/zJrdEo=;
-        b=d6vR7nv6zE0OJvp3qkU9/fxiOm8y3m5h4WHXFY7lOqQn+lnVmGY2n6TmxK7kOId3ZN
-         2BrLlF9i2JKs74Wgl7AgD4wTZqZVjgDkElK0iTzSzA5aOOge+ISknQvO6MJv97j7UAGJ
-         I8HXsjUqy+nJiaS2tE6F3vuRNgNoNs7nptGBhnffKOxOFKUY1PyN6h0M2BGyyhtE/fRA
-         MzOk0Lf8tNptxLRwXUKp7zdAzuWR+lBzcaYDdDlX8D7lz+HX9lnu3/MyMrugG8JJfvpj
-         8z2Nt9NC7ovZu7eiSL3kdEo4sxW1LCoBXbQZIUvE7zmM391tP3GO0H5xe0z0y3qrtpg9
-         Ixsw==
-X-Gm-Message-State: AOJu0YzOrAjQTmVdSmTHpmRqcBxgQN0iyCGZanxd1gfEau18q1hDNB2y
-	ENgjLRyYe1YqfRb188zeGPBAWh0w0GQaSYVRn/k72rmU4sPjbet0XHW1pTSzmA==
-X-Gm-Gg: AeBDies2q1G7npfsInAdW4U6/aTTFNHD2P07ODskCGzJW0PofH8aWkImDEgwb6LceB1
-	zY5ZwDQMUrVvTK57MqqzyREJ3lxjveI3o4stSqHwvTYo5iXuYPeB8Z88ecDwnsFxDW+pg4syz4s
-	7KppoIpFsJ1C2c06OBd9L10SY7DuBL6KdTsWlpMZoF0iAEvs8+wRGa1K+syiBKHQY8g7KxC7aCp
-	o6EVpVSfSJYy12pTfbOQc4UmkRSFfRxE/oJksg/sJpcahnB1hFMiq+k3HW1bDNYfvKpP7ZQ/oNG
-	2wmnpFYKUKxU9R0+wHwVE+9uboTueBfrnm55djOm9b5v0wjnXuYKeM8/jgmtZq04pSwPqm4ALQH
-	RhL0a0Ux2WlOpGFKNRwisyvRDZ6hRBkElq6MtJYTDNHAEPfXEIpnkwUKEVeFJ+j5PUYpRTC/HWM
-	NSp7VYzxRoOKKdaoy0xCdRY+cPflPnEedxj6wfxL7g6IwMTw==
-X-Received: by 2002:a17:902:9696:b0:2b0:4fb6:85ce with SMTP id d9443c01a7336-2b5f9f7cec4mr101558845ad.21.1776703186724;
-        Mon, 20 Apr 2026 09:39:46 -0700 (PDT)
+        bh=vk0qKtqQpBNFCl2n1XH/HW29hDYIDRhwJN3jJT1on9Q=;
+        b=D6FiI5KcUwNKoTXTcAiWb2xiCMFfxFBr+UE6Hw/IdommfDt0D2K2tvTuANmAjvYh47
+         Z3RnxPebm0ixuyeOmT9rSg2FPu50/NRhpXV+cv69beqyUVyIp7KNtEk/BagBIE/FJXjZ
+         Ozt56JyEcsUgD5T1KRNkVeTUQFR/0t2YJSs20K52YOdh7KfdeSyDEYpwawiA0wBjKCHK
+         ukT89Q5FkWwEwwdIJrX3Hw9aMRBaPGjztpdPoPtK2zwKvXuBs9hbh837zYcOSmqfOrRT
+         zEqjjXs6nZpO7xIAVHjlRH+BkNRAO8bHDcu3TBbU2HHC8sEbd01xQUywbipNF5CREm7W
+         9g4A==
+X-Gm-Message-State: AOJu0Yxm/J77dOIK/JHeQ4NrtzsWYr2PGJnd9TuW1NuGD/9gdff0BByV
+	Q/Alxc0oeKi50B3PdS7BjMbySLH+3C9Xc49qXbO2Vw4LGoXCOQvsjHIfkgJpzA==
+X-Gm-Gg: AeBDiesaSi0tJKYRiDj2yoXz4n7Bad+iPnY6EIFvXFplbCc1jXnyG19Su26l+ttdoFU
+	vVXV4jOiBTcn7tx2JnuigzF8VPqx9069ozPzILrAbnd/s4WFJHPtFe8+HENpZn7wDvadA35voGv
+	w3vG7ryt7+sUlLiXBY05PJbTdiYCidqZr/HxRkX+ltDtrhMFDe+bzil+FkhuNn0RfE5UbSIntTw
+	nDJSK5ZAXNu34SQnXt+bbUdPkjABqtfXzKEQHUTOFj1t6qogus8tFjuKoxiJPryb7Yo454I/qOH
+	o2+pRmjLzGt7eIHwwo5N0JFOD207xMxta06M8Z0lMrM/rCuWviw9yuKQrfQ1ITzLCDYVecvlaYr
+	o/mmprZmw09ZZ0It5N0zwASHTkacPscWfkDZNQ7gnd4vTqJdcbkhwNL0Vk8Xsd5O4p9XB6ODiXm
+	qBCJ+kBfdBuTRg4oYTA4Rl0YPXaiRee3eWSSUWL6frjoQClg==
+X-Received: by 2002:a17:902:aa47:b0:2b2:6b58:9317 with SMTP id d9443c01a7336-2b5f9fd69d0mr116081865ad.39.1776703187984;
+        Mon, 20 Apr 2026 09:39:47 -0700 (PDT)
 Received: from localhost.localdomain ([42.118.25.200])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9fedf0sm129221105ad.6.2026.04.20.09.39.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9fedf0sm129221105ad.6.2026.04.20.09.39.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 09:39:46 -0700 (PDT)
+        Mon, 20 Apr 2026 09:39:47 -0700 (PDT)
 From: "Zk47T" <zizuzacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ross.Burton@arm.com
-Subject: [PATCH v2 2/3] meta-selftest: add usegroup-deponly recipe to test USERADD_DEPENDS only
-Date: Mon, 20 Apr 2026 23:39:39 +0700
-Message-Id: <20260420163940.182918-3-zizuzacker@gmail.com>
+Subject: [PATCH v2 3/3] oe-selftest: add test for useradd with only USERADD_DEPENDS
+Date: Mon, 20 Apr 2026 23:39:40 +0700
+Message-Id: <20260420163940.182918-4-zizuzacker@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260420163940.182918-1-zizuzacker@gmail.com>
 References: <20260420163940.182918-1-zizuzacker@gmail.com>
@@ -66,56 +66,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 16:40:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235578
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2026 16:41:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235579
 
-Add a test recipe that inherits useradd and only sets USERADD_DEPENDS
-without USERADD_PACKAGES to validate the fix for [YOCTO #15863].
-
-The root bug is that useradd.bbclass unconditionally requires
-USERADD_PACKAGES to be set, even when a recipe only needs to depend on
-users/groups created by another recipe via USERADD_DEPENDS. This recipe
-depends on creategroup1 for user gt1 and group grouptest, but does not
-create any users/groups itself, exercising the code path fixed in the
-previous commit.
+Add a test case to verify that a recipe inheriting useradd with only
+USERADD_DEPENDS set (and no USERADD_PACKAGES) parses and builds
+successfully. This validates the fix in useradd.bbclass for
+[YOCTO #15863].
 
 Signed-off-by: Nguyen Minh Tien <zizuzacker@gmail.com>
 ---
- .../selftest-users/usegroup-deponly.bb        | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 meta-selftest/recipes-test/selftest-users/usegroup-deponly.bb
+ meta/lib/oeqa/selftest/cases/usergrouptests.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta-selftest/recipes-test/selftest-users/usegroup-deponly.bb b/meta-selftest/recipes-test/selftest-users/usegroup-deponly.bb
-new file mode 100644
-index 0000000000..e5db7a47ea
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-users/usegroup-deponly.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "Test recipe that only uses USERADD_DEPENDS without USERADD_PARAM"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+diff --git a/meta/lib/oeqa/selftest/cases/usergrouptests.py b/meta/lib/oeqa/selftest/cases/usergrouptests.py
+index 3c59b0f290..69025a59aa 100644
+--- a/meta/lib/oeqa/selftest/cases/usergrouptests.py
++++ b/meta/lib/oeqa/selftest/cases/usergrouptests.py
+@@ -55,3 +55,9 @@ class UserGroupTests(OESelftestTestCase):
+         self.write_config("USERADD_GID_TABLES += \"files/static-group\"")
+         self.logger.info("Rebuild with other staticids")
+         self.assertTrue(bitbake(' core-image-minimal'))
 +
-+LICENSE = "MIT"
-+
-+# This recipe depends on the user/group created by creategroup1
-+# but does NOT create users or groups itself.
-+USERADD_DEPENDS = "creategroup1"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
-+
-+EXCLUDE_FROM_WORLD = "1"
-+
-+inherit useradd allarch
-+
-+TESTDIR = "${D}${sysconfdir}/deponly"
-+
-+do_install() {
-+	install -d   ${TESTDIR}
-+	touch        ${TESTDIR}/file
-+	chown gt1:grouptest ${TESTDIR}/file
-+}
-+
-+FILES:${PN} = "${sysconfdir}/deponly/*"
++    def test_useradd_depends_only(self):
++        # Test that a recipe inheriting useradd with only USERADD_DEPENDS
++        # (and no USERADD_PACKAGES) parses and builds successfully. [YOCTO #15863]
++        self.logger.info("Building usegroup-deponly to test USERADD_DEPENDS only")
++        self.assertTrue(bitbake(' usegroup-deponly'))
 -- 
 2.34.1
 
