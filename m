@@ -1,178 +1,144 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F36F327C7
-	for <webhook@archiver.kernel.org>; Tue, 21 Apr 2026 08:38:27 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.67])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17098.1776760448595472548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6306BF327CC
+	for <webhook@archiver.kernel.org>; Tue, 21 Apr 2026 09:15:42 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18550.1776762940281282068
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Apr 2026 01:34:09 -0700
+ Tue, 21 Apr 2026 02:15:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mt.com header.s=selector2 header.b=XvqEpFJN;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: mt.com, ip: 52.101.65.67, mailfrom: wojciech.dubowik@mt.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nihlXciYVJzDA5E8ZQp7cgUKmO99V4uEqm98kmW9ayXqnmkp2Is2erHYRE1eTDxpr2lw589gnMBtEFsIhdCsbwJCWDTP2LpHfRhcjiS8OlhHgI1CTrNcny8Ucjb3y06zLWFAjW+xgBxOozh7OiqsTfNRzageT8LdH0Tb9mLk1zKGE+eygHnw0jrkPKKDBSCqup02CP1/D5aIeYb8YJTm0vV4gwL2/Mnej/tOha0ASsAlNyWFwrFqnNI/PkDZvrLroWL+L3g1wH6qvhs5yd3JA2a1cJpIkMCwpQUojjsRck4e3uKzLHRuUvNSRwNaziw2BvN+jffY2qM5QNOegJDxWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3hOxIi3fvnM9QzM2ZEQOO+fTFSlwiwh6EgcxkXx40z4=;
- b=BunBL8g9zJZ9XgsWofsKW4V9M74K5tQPe5ZZfO1lm5rHrJO+dCt/za/WXMWJCvcaY/gQhxlN3uSmr8HWpsSkH4AvydKzFMNV5v6VKBmE3xJUoVf2+jo6a3LNUyTk91ResITncsRrK6ziAPqx2ULf7Q84bIKmWlE1DJeAOTfJB0c51Cb9PCH+5Y87SyH5EAg/kP/FaYzy1PL07Jn8lzRHelVKuc8A16JGtdqzFN6naPAkJYJ+JTaNwnE54Ix225fPu1kdT63eniT5H5eCJfbqURJ9n4AUAhctjXcuikp9Xw2o1EHlpea1iRbkRH+2hpoavdmI3XItIBNLjKFoy03SvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3hOxIi3fvnM9QzM2ZEQOO+fTFSlwiwh6EgcxkXx40z4=;
- b=XvqEpFJNEDNUne6h2EFa+usv4EQAxeHv+sjkBHzb509PlG0PvtvdCMaAOgBXlXwu8Pz+guzEUZnNQlAPj+uKYdhAPxhY4odqJiZ4FxrmUvu4NxePz0T/USykUfTqo1kXXLNxyBUSzu7SeumYFMKYaPQl9iU/4mqANlP4b8IMCHzeD7eiQjvcljfg7N36pWblxaQRMqaDtapl1CYtoXA/+c4iBw4SaD5Xu8wMYBe7ZRSKEbfFSSkPDNxjwpSOLc6Tg6AETVJ47Q7SPJFf6EOFzVDop9gJROvlZCtjjHf/OPYACc0r2d8sygcMp1J63At0hHwMVI8P6mRUAlzks/4vwA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DB9PR03MB7180.eurprd03.prod.outlook.com (2603:10a6:10:22d::13)
- by AM7PR03MB6231.eurprd03.prod.outlook.com (2603:10a6:20b:142::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Tue, 21 Apr
- 2026 08:34:03 +0000
-Received: from DB9PR03MB7180.eurprd03.prod.outlook.com
- ([fe80::6fd2:12a9:4423:8ddc]) by DB9PR03MB7180.eurprd03.prod.outlook.com
- ([fe80::6fd2:12a9:4423:8ddc%6]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
- 08:34:03 +0000
-Date: Tue, 21 Apr 2026 10:34:01 +0200
-From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: u-boot@lists.denx.de, Simon Glass <sjg@chromium.org>,
-	Franz Schnyder <fra.schnyder@gmail.com>, trini@konsulko.com,
-	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>,
-	Francesco Dolcini <francesco@dolcini.it>
-Subject: Re: [PATCH v2] tools: mkeficapsule: Add disable pkcs11 menu option
-Message-ID: <aec2eSBfuDD8GyM3@mt.com>
-References: <20260420083850.8504-1-Wojciech.Dubowik@mt.com>
- <61daa047-74f0-4a76-a61f-de54ca4b716e@baylibre.com>
- <ec9b6639-00a0-4fc4-aee4-f57f9cb26a5b@baylibre.com>
-In-Reply-To: <ec9b6639-00a0-4fc4-aee4-f57f9cb26a5b@baylibre.com>
-X-ClientProxiedBy: ZR0P278CA0201.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:6a::14) To DB9PR03MB7180.eurprd03.prod.outlook.com
- (2603:10a6:10:22d::13)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=tkdYHPj5;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: antonin.godard@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B0CBD4E42A87
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 09:15:37 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 88666600D2
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 09:15:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 20CBC10460A47;
+	Tue, 21 Apr 2026 11:15:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776762937; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=4USgh/yYftDRsPorOQ3v1GbWWoH/oT4Yf5mLnTT7cvI=;
+	b=tkdYHPj5q5b1YCQaCwZdwQf1hwyQwOV0JrvrZE9yO7EizP8oy9+jhodUNcS5NaSd5/oWLP
+	O+62DxLZA3p9RWaKNjNgnMYgZLeys6ibBtQ7X7iXDF/8WZqo2N3s8FdJJpcQ+ojkzGAno0
+	C7AvBzvigwicceuYTdxcJwuKTKchC9IXPlS68EfpMvG8W/3DEZ2YjjATe4ClEm7CiXVjxo
+	iuEF5/UqWv1l049QSDeCG2fypeSGLNk7/LYQoM6i/CI2m1dM354xisSGoN8Ik+yOG69vm0
+	3YjxkmOynaJeTZ1NvWCm1DDZsIYqtEImZfW5qiwtZHIbxUKAitwP+f69TsfuFw==
+From: Antonin Godard <antonin.godard@bootlin.com>
+Date: Tue, 21 Apr 2026 11:15:31 +0200
+Subject: [PATCH] sbom-cve-check-common: print warnings on unpatched CVEs
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR03MB7180:EE_|AM7PR03MB6231:EE_
-X-MS-Office365-Filtering-Correlation-Id: d89aff40-fac9-4b00-561a-08de9f80be7e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|19092799006|366016|376014|52116014|1800799024|38350700014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	GINMBgiI8g4pwyhtM5jV/kib+egi8+ZOUXYYAI4BO4Qx4UgY+MUjtnaY7UKLmEnfJ36fb+6xTsCJ8EUwdsZiMqz2FMgj/6LdmVBGMWyYVJd11k7WfOeMT+dXqcWCANB+Bfs29Lm7OSNxnTuzf/cf5m1g/C9NFd1zz8Km7N25UbIjYU+xG0GMHC7oSr4k0E2ZEph8ICW3autn2mZCfcnxOlCMGx5GozcZ4QaNvWRQzO7xoOsOGuyqAiqY4F9c3+E5nrJXmw13MBgegPiho/h9O/c3ZLmzs0WmBtj8N41RJtriEr99xb2GE4S9MObWrr6m3/Z7vlgy9u49RL2SucM1hV89Yz98apoS+41MygVWKIkI4WXCBj2cUguE8STrzQ985Zq0qQroTpY6ZeY07VKXqDG9bpWAHV55puzxLVTSkALuNrpl1o8httGqQ/4ldfFEu8Qf+gA1AG5jDFRHUoC0lLVOUd76Ydgc1MzVLW8jZ0wnwp0EbSaxWH28766i4gvA6Vlo3yufdguvf15gp2Kyz+AAYZloJBUUEvhuRmKIwpZSGgoQhnzpui+7rsFE11lbr5HjQQQQj/f5LpFjGhZW+XN2xYxuBBi02zY0v/p3TD/EUO+jUiv4+xeVHkNHJxKF/K+fFP0HP3ZPK4J2CFf7Nnl4q+HnKVVCiWUANHmZnGYSY+N8z4Q/x7mF4RsqG3bnm8GBXp/wHKbzuz2KWvVDKXSntMldku9iFp5YdmD26Rml7eTsn5pGfV+R9Quks9jJXTnUr0OiNXYX6F4N3ZyoPqhqzRhPDHCYwIVxrFaVM1Q=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7180.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(376014)(52116014)(1800799024)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?mT4DrpthG9IyOsMZAhiokKkJSNI+VnagoS5h2Molt4Krfj0rbMDJFWC/+4ud?=
- =?us-ascii?Q?07fLIT3MJUAclKKXaH9Q2NZrMs7y/wpMcoGCxPj6NqT8RX46CdCmQppGenJE?=
- =?us-ascii?Q?X8Rest04fxYKufblzstI5uii2rrp6Y/2WN74vuQysVNYFHxOxzpwt0ArMTIc?=
- =?us-ascii?Q?t/2ZA555H4kcPS5Pop1YArsmGLhyYT8bQapWgSH27ACDtyWO4gluC45i1BM1?=
- =?us-ascii?Q?1iTtkNW+ci2UY0sNjETx7UEU5rd4YjJrgLqpobcxv/TOPbgLrXzZQkr1VtVJ?=
- =?us-ascii?Q?5XFFLNukAJBKx0dcMEsQlGFXFuk4DhSTOeyT3vpJ2OhrbzPQeMSjUUzKpAGi?=
- =?us-ascii?Q?IgknsQgiuS9gnVRqxBD80T48j2y+4uV2iv7NqWSfjDOhIfqaKURkJzxnCwKJ?=
- =?us-ascii?Q?8Pm1OttitGIuU7rYrR+USrGNAhiLH+MoC2rS25+Me3Uzv20An9gpUTQtyWrG?=
- =?us-ascii?Q?Muf01HZHNHNm9os41tAgs9Mc9poWkJo7AqbTvnxL7wSCtdZQkgfaoi36MjYx?=
- =?us-ascii?Q?5CUmpMIHCou5+E6D2RDoNZkLDalWFcnpXF8ElArdYDVltjTAM7SluKsiEG7q?=
- =?us-ascii?Q?7bp+vVm8NU+26jSXlpDzG3sYjIUGuoiemxwnmLZ/DBRJi0hJFe9De3sn8vk0?=
- =?us-ascii?Q?zR4dkZSE7Dge9/DksJqwheyavxWv42eTwZ41gplwPj3X+17SRFFp0b9L2UKL?=
- =?us-ascii?Q?PeF0BBiKm/lq2rY30uhArC1Ixckcu1XJIKh6cuivc/pSm1HZfORvb86JWfAk?=
- =?us-ascii?Q?NCcVDpkDpyUjO2KCoRPGa3pidqvKl2KjtWloUwqQttDddHj6ZvJA4n+xbNZT?=
- =?us-ascii?Q?D7ZqjozPaJGgGC2vH0weV5ggIZSwMpKhKg7qSeVcMRn6RBy/41kDZTDwU6j2?=
- =?us-ascii?Q?6Q4DOxjzc3EeNTvnFzp4x1tYOkqDt3gGtrt8jfFLMeyPGbPQ0yeM2sMt/Ak5?=
- =?us-ascii?Q?Q2yr7qQH8QmCXMjN7hIIqtvNSnU+SQEXLIv80X80wzP8R0TC7W2H/halZkD4?=
- =?us-ascii?Q?cbWRUPawBZ+u65dMF47uz1/oRHTh/RIRdjKVEwZOtaeCIQeVV6uZMODoq+ZO?=
- =?us-ascii?Q?FFkz4pM2Rl1JNe/Vq2dG+3OwPzipyWnmP7PtXIWYdCByYWpCil1jpxH0cydT?=
- =?us-ascii?Q?8NvAYB4z5sNBehvKy+2vIx+RWNRx3cdweI+Czfc84gtMdl4OFfz9OhG46ByW?=
- =?us-ascii?Q?kKndsEYMp/0Dv53p4ZguoGTVddiqUkqIdAZb3TJqphkdy/xshx3ziZQP8sP3?=
- =?us-ascii?Q?krpyV+48PJE1TQ7Plqi7uJM5PYeNN2UilEql6tG0j6oGuDn6yJO6DAsSKJol?=
- =?us-ascii?Q?7JP74TNqLLXAK1hUU9I1twycTYqluwpHORcHA/JTlDRLcH+kNXj5C9NcTI1p?=
- =?us-ascii?Q?gdUuFi+NFqsoatgVL3O/EbuMJMGVlBREL+tVXuQmv0WTOCo1idjxKAgLQEKP?=
- =?us-ascii?Q?huZHGeJlAywcXo86FA7hIrq9gEnBBtqYnm9BsO0K34YM6KX+yAurjrJR1kxx?=
- =?us-ascii?Q?KMwyICQrYWF3BsiJJ6dB+UOkLAy40QAae5egRqT7bCV/YfURKlFGcXJZ/2qy?=
- =?us-ascii?Q?M4BxbV0ccVRCmTy9LXZF9ZjHzjdZ1ne9Vkv5j07trCgzTZMXf55L1tRXJmJd?=
- =?us-ascii?Q?VJZ66U8/WNdyprmX64g+zFkc6uv3EU8BWkck4Z7tofRhloIgKmjNbP1LndFQ?=
- =?us-ascii?Q?pUMB9WP5slUktnvL8v5XqiPX14vbWlU6pCqpuEGfFDx+8QQ7fZP0n4WIl91Q?=
- =?us-ascii?Q?GE1zAQpr4A=3D=3D?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d89aff40-fac9-4b00-561a-08de9f80be7e
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7180.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 08:34:03.6414
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JLmPmVgXw9gduYfwWW0aQDgk2pWxnd3mv5kDon94vBJYhovj7Ji8zjAMhW3nDyyBHF6Ydn/h8qy4RAABqWSDWA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR03MB6231
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260421-sbom-cve-check-warnings-v1-1-df7861a0a0bc@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTtJaQioVzEu6PADo7GYDqIJ4
+ e5WXH6L91YyJIXRuVgpYVHTKWaUh4JkbOMA1i6bvPO1q3zJFqYHywKWEXLnd5uixsG4cscOp6a
+ pgzjK9TOh189+vlz/tle4QebfjrbtC9qiHXh7AAAA
+X-Change-ID: 20260421-sbom-cve-check-warnings-408de9776bc0
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Antonin Godard <antonin.godard@bootlin.com>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3102;
+ i=antonin.godard@bootlin.com; h=from:subject:message-id;
+ bh=LJ0/OUVjMGh2RM23DcHdSvWK22Q/MkMAqCsbXpCL0C8=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBp50A3QzEvNR24RwKJpzj2uPBbGdPncIjuuBdYu
+ q/ICpbP9E6JAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCaedANwAKCRDRgEFAKaOo
+ NpApD/9B/CI/P3Y+b1Cgj8rfxU32YZRenmKEf6srH8BWT5C6iHVNNKfjNtWaYp+7jiHVesqMXNI
+ tNUfdBuV3Fs0NmuB6sWjTO65lIdOKJGrFozB901OUCgVlV+TNCw8Co+2rhSUrYlB3o71xNz8cLS
+ 9BJoK2wyg083Jxq5l4j98jC60fpm8OXC9wMkRPEN9v9OdPzL07l/6N9EVRFjYBC4huOLJ0HHBLD
+ YcD/DjCmfcnOChRch5B3bbed+Sx95yCCN9mWosGi/J6p5Wd25Wr4ZGD+AgNSp5LbNpNscSiZt+x
+ UNz2MSLyoLYnj5wKUKAy5+FLrq1jr2FzuphhR3e9HXoN/nBl8RV14Af+Ei52Czu6QZyOmagHtsc
+ fwrS6ZsTHqr7LDNnleG1LquMliU2dW09VvNugHXcMKCd4tNFV2BDoxVF1dwJz3d3bJszuiR0efX
+ od3fPh0l6rpSvtie3g8q5Ui4RMhSufRBEbZwIjGCjjB9mS0GZDNACWNVKWN8gKlLnmcyOp+lYXb
+ fyrk+EsyMykn+KVwR9NAwxnrnoZzp+IwB79wYymMKZ9ve01CGVukucvetcfjWo+NAKRixXPtUDN
+ H3yYPRTnhDj1oaw9ieuBKntBf9797q1SggAJbD23qaJ6Yy3c8mb0sWe0y7oedv8HZj7ft6AYUqU
+ drfcJl0ybcNf9jA==
+X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
+ fpr=8648725188DD401BB9A0D3FFD180414029A3A836
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 08:38:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235605
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 09:15:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235606
 
-On Mon, Apr 20, 2026 at 05:58:45PM -0500, David Lechner wrote:
+The now removed cve-check class used to print warnings when CVEs with
+status "Unpatched" were found. Add this feature to the
+sbom-cve-check class with the same default value (enabled).
 
-Hello David,
+For now it only does so when the cvecheck report type is enabled. It may
+be possible to do the same for the SPDX report type.
 
-> On 4/20/26 5:15 PM, David Lechner wrote:
-> > On 4/20/26 3:38 AM, Wojciech Dubowik wrote:
-> >> Some distros are using gnutls library without pkcs11 support
-> >> and linking of mkeficapsule will fail. Add disable pkcs11
-> >> option with default set to no so distros can control this
-> >> feature with config option.
-> >>
-> >> Suggested-by: Tom Rini <trini@konsulko.com>
-> >> Cc: Franz Schnyder <fra.schnyder@gmail.com>
-> >> Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-> >> ---
-> >> Changes in v2:
-> >> - make use of stderr more consistent
-> >> - add missing ifndef around pkcs11 deinit functions
-> >> ---
-> >>  tools/Kconfig        |  8 ++++++++
-> >>  tools/Makefile       |  3 +++
-> >>  tools/mkeficapsule.c | 17 ++++++++++++++++-
-> >>  3 files changed, 27 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/tools/Kconfig b/tools/Kconfig
-> >> index ef33295b8ecd..ccc878595d3b 100644
-> >> --- a/tools/Kconfig
-> >> +++ b/tools/Kconfig
-> >> @@ -114,6 +114,14 @@ config TOOLS_MKEFICAPSULE
-> >>  	  optionally sign that file. If you want to enable UEFI capsule
-> >>  	  update feature on your target, you certainly need this.
-> >>  
-> >> +config MKEFICAPSULE_DISABLE_PKCS11
-> > 
-> > Options that disable something instead of enabling it are confusing.
-> > Can we make this MKEFICAPSULE_PKCS11 instead and invert the logic?
-> > 
-> >> +	bool "Disable pkcs11 support"
-> >> +	depends on TOOLS_MKEFICAPSULE
-> >> +	default n
-> > 
-> > I think it would be more convenient if we did not require PKS11 by
-> > default. Otherwise, everyone using Open Embedded that doesn't have
-> > the "p11-kit" PACKAGECONFIG option set for GnuTLS set (which is the
-> > default) is going to get a build failure and have to research this
-> > and find the option and modify their config to fix the build.
-> > 
-> > It seems like it would be better to make people who actually need
-> > PKCS11 possibly get an error by default instead and enable the
-> > option. This is pure speculation on my part, but it seems like
-> > this would be the smaller group.
-> > 
-> Or maybe we could avoid the config option altogether and do something
-> with `pkg-config --libs gnutls --print-requires-private` at build time
-> to detect if `p11-kit-1` is used by gnutls or not?
-I will have a look into it and your previous proposal. I guess from 
-discussions that this feature is quite urgent.
+Sample output:
 
-Regards,
-Wojtek
+WARNING: core-image-minimal-1.0-r0 do_sbom_cve_check: busybox-1.37.0: Found unpatched CVEs: CVE-2024-58251
+WARNING: core-image-minimal-1.0-r0 do_sbom_cve_check: expat-2.7.5: Found unpatched CVEs: CVE-2025-66382, CVE-2026-41080
+WARNING: core-image-minimal-1.0-r0 do_sbom_cve_check: glibc-2.43+git: Found unpatched CVEs: CVE-2010-4756, CVE-2026-4046
+
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+---
+ meta/classes/sbom-cve-check-common.bbclass | 31 ++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/meta/classes/sbom-cve-check-common.bbclass b/meta/classes/sbom-cve-check-common.bbclass
+index 6963ad71c61..d84416c8a50 100644
+--- a/meta/classes/sbom-cve-check-common.bbclass
++++ b/meta/classes/sbom-cve-check-common.bbclass
+@@ -48,6 +48,33 @@ SBOM_CVE_CHECK_UPDATE_DB_DEPENDENCIES ?= " \
+     sbom-cve-check-update-nvd-native:do_patch \
+ "
+ 
++SBOM_CVE_CHECK_SHOW_WARNINGS ?= "1"
++SBOM_CVE_CHECK_SHOW_WARNINGS[doc] = "Show warning messages when unpatched CVEs are found. \
++Requires the SBOM_CVE_CHECK_EXPORT_CVECHECK report type to be enabled"
++
++def show_warnings_from_file(cvecheck_export_file):
++    import json
++    report = {}
++
++    try:
++        with open(cvecheck_export_file, "r") as f:
++            report = json.load(f)
++    except (json.JSONDecodeError, UnicodeDecodeError) as e:
++        bb.error(f"Failed to open JSON report file {f}: {e}")
++        return
++
++    packages = report.get("package", [])
++    for package in packages:
++        unpatched = []
++        cves = package.get("issue", [])
++        for cve in cves:
++            if cve["status"] == "Unpatched":
++                unpatched.append(cve["id"])
++        if unpatched:
++            pname = package["name"]
++            version = package["version"]
++            bb.warn(f"{pname}-{version}: Found unpatched CVEs: {', '.join(unpatched)}")
++
+ def run_sbom_cve_check(d, sbom_path, export_base_name, export_link_name=None):
+     import os
+     import bb
+@@ -94,9 +121,13 @@ def run_sbom_cve_check(d, sbom_path, export_base_name, export_link_name=None):
+         bb.error(f"sbom-cve-check failed: {e}")
+         return
+ 
++    show_warnings = oe.utils.vartrue("SBOM_CVE_CHECK_SHOW_WARNINGS", True, False, d)
++
+     for export_type, export_file, export_link in export_files:
+         bb.note(f"sbom-cve-check exported: {export_file}")
+         if export_link:
+             update_symlinks(export_file, export_link)
++        if show_warnings and export_type == d.getVarFlag("SBOM_CVE_CHECK_EXPORT_CVECHECK", "type"):
++            show_warnings_from_file(export_file)
+ 
+ 
+
+---
+base-commit: 9a83f0878b6bacbc7b322cfec076b4e79ad7b8fb
+change-id: 20260421-sbom-cve-check-warnings-408de9776bc0
+
 
