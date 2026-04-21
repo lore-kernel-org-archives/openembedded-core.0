@@ -1,143 +1,144 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2900F8FA9C
-	for <webhook@archiver.kernel.org>; Tue, 21 Apr 2026 16:49:17 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38727.1776790150029087139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2297EF94CAA
+	for <webhook@archiver.kernel.org>; Tue, 21 Apr 2026 20:10:33 +0000 (UTC)
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47872.1776802231395229239
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Apr 2026 09:49:10 -0700
+ Tue, 21 Apr 2026 13:10:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=T+y8GgQf;
- spf=pass (domain: underview.tech, ip: 209.85.221.43, mailfrom: vince@underview.tech)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43fe608cb92so3118635f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 09:49:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776790148; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ltx4ET/El2Om29BHdpgA94sbcKjsSjgctKT6j2XHb1j6mUvrhZN2DGA2WMJAUCgOZF
-         hs0VLnVH9GYmWRDEzyMnIn2yiccwbU6fK0/wSWvLI4/pELS8bhQ61y8aABMcVMIf48h4
-         u9j+tIhE4fgoYdZo5hZA2HcQejnClfBGlkkX6nHjA3BCxKpfq6KwISYDaULu7hHMeLKz
-         3wrs0ay1oHVG72ZXusSwYuamRHXpR+zHlMFRiRXAlyslMWW8EyWDJ3VUrLZ5uMQ/b2T3
-         VM67jkKpzdfzV8KGdwUjZIQK+O3k90+H/YamzXj0VaAD4SLpxtvPz5CMXVr+MozxmsHe
-         b6wg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=77TsXqHtFQKJPpJycXCLFee8cSTi2arPLIUNNH81D1s=;
-        fh=NNfI88hsO7CI48JebUBbbF8/V41leukwKJNyqPQXUX0=;
-        b=V3DWvWaSLJJKloKZEEHjqHMG1jsyf56D1h0HRRW6o7fhLrLT1XI4cxWihbG0iHcLvW
-         HdFbLSMo3h0aC423U+0C2p5z3cRuLcjesAP1NNdhlC9x1nuwi/O6/GBuB+LT0CaW51WP
-         2EeUS3kLDRFEkDFlTYhrecf78zILc/USTdT2/GBqG7NvzJUuLB7DFIKTLKzkUvYJSBT0
-         eERzrYh/IEdpIJrfM7Qf8isLJlo3eXmMnxUnmEL6p4tJamoFmiKl0JBl6wSHwjP+Yj6p
-         K2NWOzjQZNnUBiQm3RvzN83wvjL26nKRatDCwvWHJKeHlJTAF+1xojboMHOdx5rseg63
-         xgpg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1776790148; x=1777394948; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=77TsXqHtFQKJPpJycXCLFee8cSTi2arPLIUNNH81D1s=;
-        b=T+y8GgQfuE8V7KJyDxYOjRKZ/Puj5Ijm5Z1ooNIRMHqQKiwwl5M5FK9NxXQCt7Ws8X
-         nRlqctVqxn6g3cRlmDWCmgnpq5Nod6nbjnG7sUHy2H1F4JxzppEo/H5O74erq4J1aA1V
-         At2/6nLZMY5wKJb4RA7lVj37bjD/roCFQR5DQaf7xbki7FSAgnG6UrY3pXmfi5vvmHSh
-         q3Pf3npxHFf8mPV4B0HhyV3geE4ygbS/n86jY1B6PWIZzip3JLlXwPWsGvJYlf2DMRJ6
-         KNAotpzws1bRzwmdkvLFzSSYtYHNPDu14a38vwGNKNUAi9x0mXWDrtigpiMwKfkAYscV
-         jx2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776790148; x=1777394948;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=77TsXqHtFQKJPpJycXCLFee8cSTi2arPLIUNNH81D1s=;
-        b=CwwaTmsDsa+9A+FwHiMyOorgxtsP7cXNc6XZFZCNF2iZ/1hAfaYyxh+E2hUi89DFfU
-         r7PsaxjjaR3/xtbF/B/0w8nuVfuIPwmLIQKoMZIDeD0trb3BU/GSzqhcUXoQGpi1ZW/4
-         LJw/xaH5ZrWegXJ2CJT6fnMswRq/Y9PVqwlovMRq4G0UcHoTWRakPNY/FlRV1R0+io0t
-         EvlNx4TKTbF+qxgjIiok1PsaVwkSCOx50/4IUfWZaKYU9qo/sIBKq+HUydSH2oWVWYBc
-         zJadbHrrX6cB81mb/bENp1fJMPFt/HVygMjR3jCvqB3jFtSUXu4yDS0uBgUEQ5UrnK3T
-         sYBg==
-X-Gm-Message-State: AOJu0YwusFcLwr/D/Z/F/XYV5wopw2Kar9oGblKsmGVYJPoqfu37CfTh
-	AA8p1EgxA4jxCcZiNHrdsmwESyyPOGzkFac4gm1sSfkkQ8DBlTTdw4eSVNr60zs0I0+REbvpmBe
-	RY5h9ooSlV8jO6NpU3HYbbVAX+avyO7ZGfrwe4b/Jqg==
-X-Gm-Gg: AeBDiesXhP1rq8PBjizPqxxXB5E4CRkrXE2i7qfbQCSilXOBQHwXCLOHO/JUE1Wxr/u
-	BkpNirLjm3kPSI2ZTLmloIsW2BI7IYr6HFGgs0OV33Sl+TXCFQQRTvqQFBWh7LYrAXeAcDZFnOd
-	NMRSmP9003U7axMU/Y3hWmjH8mJqttAWzzNV9csbY3vD3M/HvXEDSbFqpwB0+V4CM60Sn9WDwVN
-	k2bcsT0XacBNjY9qvRnNeRgVYJ106ZIaypvXe4DbAtBx+unwCCdLFBYN7xU4IUMJu+g6uqsaEZN
-	FtH589QaKT3jF0ry2qJnLHgusw==
-X-Received: by 2002:a05:6000:2511:b0:43e:b0b0:629a with SMTP id
- ffacd0b85a97d-43fe3e0a1bemr28776824f8f.34.1776790147868; Tue, 21 Apr 2026
- 09:49:07 -0700 (PDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=OwQ0KJNw;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=LqeFPCpm;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.148, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9C8821D00225;
+	Tue, 21 Apr 2026 16:10:30 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 21 Apr 2026 16:10:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1776802230; x=1776888630; bh=xU
+	sQBknALRZmWXKWsbmPa/Leel5SXplzdkBxSeCQ3bo=; b=OwQ0KJNwffFOC1eP07
+	yB+dUJ6QKl2lsqUj0LOPCVhcoI2jxUsRsN7/ZVyXuqpnctsCc9QgU6lJSRs9E1QQ
+	+QXHRN74795cGLzNVIzuBjoutn4BKCZXIIY1oKTj3eXmgKHE8OS6qPz/TvNPB6If
+	QJztxhn1pv1fCKnc7eiAvgAXilQTu6Xb5uNEwiJ9/aW8Pzffxhn5uv53d2W1QzqG
+	7sCJ1uI8Jv88XyJmia75FSMn3iwexOi36rzeEnYl6JxD+FyJoeijEzOT/4pv7bgK
+	ZHGlfCK3gi4eLblnG+jQZg8kIhWuJmza8rNHb/xLayGeGkuafhgltlQN8DDUrCvk
+	qLbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1776802230; x=1776888630; bh=xUsQBknALRZmWXKWsbmPa/Leel5S
+	XplzdkBxSeCQ3bo=; b=LqeFPCpmW3PgIYrwOruwPL5qJmfF88pI/U1ij4yBhhJw
+	rfvd8MUs6fsdo1/0zYjqmU2My771zcwez9f1bPcqlrHXzMX6iPVakxT850GNV6jn
+	/CiXRQaEpKQi8oe0s4WcOmlAqJYiiEPOf+DqMOdpgNUj8lYysBkvnGFmQ/l8oZAg
+	G1qFPuuOVaFDzNjaeJkjmK8xDvXKtti1CMeAG3HXYAv32W1wpW30V97rg5Pp9MBk
+	Msi29GglHjatWSBYFIk1Cpzq/bzFZniFy2sKUJK5a9j5ca8Coln4kBb4lrvEQKPG
+	7ktsOFMe45CrcvneEn779EjZi+niuKmT26H42VdJxg==
+X-ME-Sender: <xms:tdnnacCSRUHqTFYlkZGqVXwJmqCt35CV3fswtUuu9iUaEEr6Pvsj5g>
+    <xme:tdnnaV_zScedRZziMT1R71wPejC09ckQ4Hc8fcY2ML6uPMyi4BnKQzNM8M-cq-I9Q
+    jlmFTRypVH5_YI2uC4E2nCg4lidWcfecbeauUnbXazZ69taDAkKt0Q>
+X-ME-Received: <xmr:tdnnac8BNj3MP8L6ejj1eKmyI99_4IqJ6a2TinAtw2Jq_QKgnrkGFdDBhnpwTVbqT_8yrMyomklXrqQv7_msI25GzZJac9o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeivdefudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomheprfgruhhluceurghr
+    khgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhepje
+    elteefleetkeduueefteffgeeltdeguefgveetteekveetieektdfftedtkefhnecuvehl
+    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsg
+    grrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopehprghulhesphgsrghrkhgvrhdruggvvhdprhgtphhtthhopehophgvnh
+    gvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhr
+    ghdprhgtphhtthhopehtfihovghrnhgvrhesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:tdnnacdCPasBh4ZYIxbyKxrwyHk94zAayOYs7WkDtg6wYiud5rXxKg>
+    <xmx:tdnnaVG06X73JA7saxUUr_pYXPYqnK_R-Z9dbvbRRltJTBsMD9e3Og>
+    <xmx:tdnnaacNwIQ5QRd8Su3xk7kRFccpXIfpyM2qlwdjSINsVUm7Su3fbg>
+    <xmx:tdnnafHj0Ofs8Ni380i4QCeb1g4aZ56ooaddJMK7LoLIjInIguWmCQ>
+    <xmx:ttnnaXFJzRr5wnBc4Xc07GTpLm8_CH9Y7YNdECDt8P0xdlTkpX6JaUny>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 21 Apr 2026 16:10:29 -0400 (EDT)
+From: Paul Barker <paul@pbarker.dev>
+Date: Tue, 21 Apr 2026 21:10:20 +0100
+Subject: [PATCH] image_types_wic: Introduce wicenv image type
 MIME-Version: 1.0
-References: <20260418214910.47616-1-vince@underview.tech> <9973BEAD-DA01-46ED-8BA5-C950F4B15DBD@arm.com>
-In-Reply-To: <9973BEAD-DA01-46ED-8BA5-C950F4B15DBD@arm.com>
-From: Vincent Davis <vince@underview.tech>
-Date: Tue, 21 Apr 2026 12:48:55 -0400
-X-Gm-Features: AQROBzC15MibJNBHI_3MJd7fZThshuY_Z47VIa4ROV93lJoE8voTfMQVFGJvmic
-Message-ID: <CAPQx_gODhcxv4SZ-Ec=b4iNqgEJxuVC1irRAJwsh2DJsKQ04BQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] grub-efi: support custom embedded grub configs
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000009ac64b064ffb313c"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260421-wicenv-v1-1-75450eff8364@pbarker.dev>
+X-B4-Tracking: v=1; b=H4sIAKzZ52kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDEyND3fLM5NS8Ml1Tc0uDZEsDMzNTAwsloOKCotS0zAqwQdGxEH5xaVJ
+ WanIJSLdSbS0AdRvDNmoAAAA=
+X-Change-ID: 20260421-wicenv-5790c9066508
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>, Trevor Woerner <twoerner@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1889; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=MOpop/LyZnDsIF+qVRPd9uHxk9QxWXDgHyRnuLVMooM=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWQ+v7n1G7uMzbL/nS/5Z7Mrh07KcTZ84bGM4/1E6+j3v
+ ffEkt+LdJSyMIhxMciKKbJs7vl6/2mvI29GyC0FmDmsTCBDGLg4BWAi9XwM/3TXLNrbKnjaJdNo
+ /YH5l9qz+trqI+f+3Xm1oOZdhfHhJ40M/0z/uMw70bk291uGeqxX5FeZvcnaRzza7i+6y/lhGSf
+ XT0YA
+X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
+ fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 16:49:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235687
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 20:10:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235688
 
---0000000000009ac64b064ffb313c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Now that wic is an external tool, using it outside of the normal Yocto
+build workflow will become more common. So, we need a way for users to
+specify that they want the .env file used by wic to be placed into
+${DEPLOY_DIR_IMAGE}.
 
-O yeah!!
+With this change, if you intend to use wic externally, you should
+specify:
 
-We can drop this patch.
-Don't know what I was thinking here.
+    IMAGE_FSTYPES += "wicenv"
 
-Vincent
+As we now have a separate IMAGE_CMD for this, we no longer need to
+deploy the .env file in do_rootfs_wicenv.
 
-On Tue, Apr 21, 2026, 8:32=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wro=
-te:
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+Cc: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/classes-recipe/image_types_wic.bbclass | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-> On 18 Apr 2026, at 22:49, Vincent Davis Jr via lists.openembedded.org
-> <vince=3Dunderview.tech@lists.openembedded.org> wrote:
-> >
-> > Adds support for including custom
-> > embedded grub configs. The default one
-> > provided in OE-core is limited to everything
-> > being in the /EFI/BOOT directory.
->
-> The cfg file is in SRC_URI, so you can do this with a simple bbappend to
-> provide a replacement cfg file without any changes to the recipe.
->
-> Ross
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+index aa0680561b9a..ea8c1c94ca2f 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -224,11 +224,13 @@ python do_rootfs_wicenv () {
+             if value:
+                 envf.write('%s="%s"\n' % (var, value.strip()))
+     envf.close()
+-    # Copy .env file to deploy directory for later use with stand alone wic
+-    depdir = d.getVar('IMGDEPLOYDIR')
+-    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
+ }
+ addtask do_flush_pseudodb after do_rootfs before do_image do_image_qa
+-addtask do_rootfs_wicenv after do_image before do_image_wic
++addtask do_rootfs_wicenv after do_image before do_image_wic do_image_wicenv
+ do_rootfs_wicenv[vardeps] += "${WICVARS}"
+ do_rootfs_wicenv[prefuncs] = 'set_image_size'
++
++IMAGE_CMD:wicenv () {
++	cp "${STAGING_DIR}/${MACHINE}/imgdata/${IMAGE_BASENAME}.env" \
++	   "${IMGDEPLOYDIR}/${IMAGE_BASENAME}.env"
++}
 
---0000000000009ac64b064ffb313c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+---
+base-commit: 9a83f0878b6bacbc7b322cfec076b4e79ad7b8fb
+change-id: 20260421-wicenv-5790c9066508
 
-<div dir=3D"auto">O yeah!!<div dir=3D"auto"><br></div><div dir=3D"auto">We =
-can drop this patch.</div><div dir=3D"auto">Don&#39;t know what I was think=
-ing here.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Vincent</div><=
-/div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Tue, Apr 21, 2026, 8:32=E2=80=AFAM Ross Burton &lt;=
-<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">On 18 Apr 2026, at 22:49, Vincent Da=
-vis Jr via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">lists.openembedded.org</a> &lt;vince=3D<a href=3D=
-"mailto:underview.tech@lists.openembedded.org" target=3D"_blank" rel=3D"nor=
-eferrer">underview.tech@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; Adds support for including custom<br>
-&gt; embedded grub configs. The default one<br>
-&gt; provided in OE-core is limited to everything<br>
-&gt; being in the /EFI/BOOT directory.<br>
-<br>
-The cfg file is in SRC_URI, so you can do this with a simple bbappend to pr=
-ovide a replacement cfg file without any changes to the recipe.<br>
-<br>
-Ross</blockquote></div>
+Best regards,
+--  
+Paul Barker
 
---0000000000009ac64b064ffb313c--
 
