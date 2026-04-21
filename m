@@ -2,75 +2,81 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E21BF89248
-	for <webhook@archiver.kernel.org>; Tue, 21 Apr 2026 10:00:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E525F8924B
+	for <webhook@archiver.kernel.org>; Tue, 21 Apr 2026 10:07:35 +0000 (UTC)
 Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20553.1776765643200370806
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20795.1776766046559605660
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Apr 2026 03:00:43 -0700
+ Tue, 21 Apr 2026 03:07:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=DUNjEKId;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=fqKd6MF3;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=TpQoPXlP;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=TvgZE3+w;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 35918140001B;
-	Tue, 21 Apr 2026 06:00:42 -0400 (EDT)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C377D140006D;
+	Tue, 21 Apr 2026 06:07:25 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 21 Apr 2026 06:00:42 -0400
+  by phl-compute-02.internal (MEProxy); Tue, 21 Apr 2026 06:07:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1776765642; x=1776852042; bh=xhsZZF4kvX
-	NUcnu0Kkt1MiZpj3cyRo1TV6e2Hvb3uuA=; b=DUNjEKId70ZF8Gq9pHP/6ByYO8
-	NDn42Y7twVFnSjQYxBumX8ftwfw0a+dW/f0Vl7QyhR4PB2NBhr5msVQwaZeCWQVo
-	QZtkNISWwPEzISbANzKusoes7EKWck5RUgmrBP6e7ZFTloc0x+XOi1pBdCQVlEwS
-	FPOQfVoj7oGbEGNr7+iofi25kjPrgaQMUEUF4w0578j9/vmeTSSYusmTCDVNzjlg
-	L/NCO77Ukckw9TPE57BQa8QX3zaSh3pymYL1nM4RS1v+05C5+SMP5KJM4ocvapXY
-	pqsWqY/vv8kG4vT6KD+aA0YcgXwYUtCMkd1xMtxciDaUPp4WpLJKz+VXRbVA==
+	:subject:to:to; s=fm1; t=1776766045; x=1776852445; bh=aS/zom2hXG
+	1e2LI+iTVcHBrLXhOGje5t85hibC3JSg4=; b=TpQoPXlP5bqt7H1FqaDIo1I0R8
+	DhZDU+Xya/wi1kjuiq/dI8BJVT/TcbzAARToY3byCM9XnqMZrDT/3MNOKUcUu/B4
+	M3VDPhwS0QP6eaRh51L5FWPyPXGioKLmgoKRXMKUR8iwpEYBQS2jkE3omEqMwYW2
+	2YDQdTB0RqBlq1HnuxY/CSQMmBkr2blhf3Jy0w+Mn70GVs950c66mSn3zbMdlpO5
+	Bt5sckHqwME5Y4j9bNnfRNeM9DqgCeMi923hQeYV+4X1unH18FQleCE3kkF/c6BA
+	639KaEbDnImH7cIVMczosy4YHsO+4RXygimhXSPEQ8hWDqI5pTWCir+UheMA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1776765642; x=1776852042; bh=xhsZZF4kvXNUcnu0Kkt1MiZpj3cyRo1TV6e
-	2Hvb3uuA=; b=fqKd6MF3d2g8KzQsRUR1B8O+YpwWp8kpiXgF9hcTRHz0YO9+vjX
-	6VoJqyhyD/wNnagS4fq2sjQJ31gxJfDsPqPBG7ZJSgQhu/xKt87WTqDwwDpu3FMP
-	U5P1/Fyx0koVomEAxkDRY8eg0lRgPjnOYMkYH401YS176L4wM/ECZK8xTO+BnrMU
-	unogBi57OO6CH318UkpqHUDIfRsfFZkBm3Cp4W5n+9VPUrEYYRIPRSrCZrULfdQC
-	3/rMfxcOgJ7/SMNn8h9+Yt0Ub4Z3R9vWR0ATuE3wWx7cOqpucacBlVJU1G/uoEGJ
-	ijP3QQpe3Ds7M8X7huGRbfxwHvYl7MksuLQ==
-X-ME-Sender: <xms:yUrnaZhagRnV4o9tC29WuzkPrm4IgVOjzSsvNVrNDFX0yRUyC3thEw>
-    <xme:yUrnaUDCK0D1SDy7SSbjitmnhypc0lLhcrRW_mUIheb2wuYh5rOQ5t5tc5JGH1GQF
-    4y2TdtOw7CGf5ksCRccJmm32tMabWpQOvOJovmxjJzXQ1npOavlLg>
-X-ME-Received: <xmr:yUrnaWsrcGpV6yu0lnvgMdhFilaoGArQ7EEqKgFx_kRvA4pmmZOdcBCtr5GZpL11xsvRnXzTPMcbPTbPijX7xEkiaYdcrNb07ioQz27G3owm>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiuddtlecutefuodetggdotefrod
+	1776766045; x=1776852445; bh=aS/zom2hXG1e2LI+iTVcHBrLXhOGje5t85h
+	ibC3JSg4=; b=TvgZE3+wkTPetNVUcIuNU8NR1qE0QoNgXMuu3fh5/jFtHltKrlO
+	DLZD0tnwRjhFZ+Ib34h+Sn7O2PhhS9HuqWToAAIjw7xQa/fXlFFZhPM9jltz3LhB
+	baPQzL7OatM0gKgi/oTIRo8FaHrCCDPGRJST4CA7+9WHk4d37dmETlay8yJn+uvl
+	ICfAnuDhSRgA7rHecuCxVhmYZlZUaCA390djLu5+Wm3fcTMMBR9hx2T+lNROjoV1
+	T/IjmJ6UZnkWTxhKjn8ZQsgPEorC80VMlkksRNd9kPRTQqAFgwlDlyJL9ChvsVDl
+	iZKjNkJtr/Yyd3hnmdPg4bwYHaTg/lsW9qw==
+X-ME-Sender: <xms:XUznaSsoainpzsDBa1ngsAHV824DKcG0Dwe3HBjUkUY38NZzQ6zOyw>
+    <xme:XUznaQws2zeALxpXjfye6Ul7crRgXW-DmuDD0pbNT62RTbyNqC0r7DBQifGPkb_xE
+    RC0X2-DjV4ln89TwXKKuL2enjVcSj0hG9ERbOXLjlCBY91PR8h8TZ3y>
+X-ME-Received: <xmr:XUznaVBYahsSCPhqWwuFI1l0yainKL3eEAXDfd_jnNqyLiE4GvcI4xuH8kzopI8vuwJ77a_t62W8LEFsN2Vp17YBEbupqIv4qcbzcjPSdL6q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiudduudcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkuffhvfffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghr
-    khgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhephe
-    fgueduvdduiedtleehveffvdfggeejkefgvefhgffhveejtdehleeiveejhfehnecuffho
-    mhgrihhnpehkvghrnhgvlhdrohhrghdphihotghtohhprhhojhgvtghtrdhorhhgpdhoph
-    gvnhgvmhgsvgguuggvugdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpth
-    htohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephihorghnnhdrtghonhhg
-    rghlsehsmhhilhgvrdhfrhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorh
-    gvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:yUrnaZbnQhFi11jyJq3vHw3dNHrWmJ9Y7QCkYSMQGU8RjlMj2DcArw>
-    <xmx:yUrnaZXcm_FF_giEeTvIwGLmA7OHHKwJSDjwqVXb9t2urf2zrs1z1w>
-    <xmx:yUrnad60fhTqFI7o84fSEDoM494fP1ZofSk8wNWv4dxQCa8UHak9-g>
-    <xmx:yUrnaUgpr6y_QkeZcgP6pXlC7iz__tH2-LP3ZvfwQekPe_m4E2DN2w>
-    <xmx:ykrnaeFGeqljaHbrAEAEXvhl8uohNi7g4v9FK4XeJh1-MT4dW00sg7Cy>
+    hrpefkuffhvfevffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegr
+    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
+    eljeehuefhffeuffduhefhgfdtgedtvefggeektdfhteetvdduieefleegteduueenucff
+    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgt
+    phhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehfrhgrnhgtvghstg
+    hoseguohhltghinhhirdhithdprhgtphhtthhopeifohhjtghivggthhdrughusghofihi
+    khesmhhtrdgtohhmpdhrtghpthhtohepthhrihhniheskhhonhhsuhhlkhhordgtohhmpd
+    hrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghn
+    vghmsggvugguvggurdhorhhgpdhrtghpthhtohepfhhrrgdrshgthhhnhiguvghrsehgmh
+    grihhlrdgtohhmpdhrtghpthhtohepuhdqsghoohhtsehlihhsthhsrdguvghngidruggv
+X-ME-Proxy: <xmx:XUznaeeYj5CkpIrkAtYWO6W_UUix4vaXQiK7LAjkETYLsGkvhwZVWw>
+    <xmx:XUznafkagOWPvWgnLaBhxc-Dw_yHXjDkRuLLJup2zlfSwzL29PjIpA>
+    <xmx:XUznaVE2IZpnClqYYtwcyfmMM6LK7CeRojWq6Ri2c6lSU6sbhzCX0w>
+    <xmx:XUznaX7C4LKtRpa4FLKMT-iW0p6WXLMe3AhxWEXBlYond31CjD9dPA>
+    <xmx:XUznaVpqk0d8dymvQizABde9XWpdVRwcVmn0wHLc60ykMl2mfYQDT4uz>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 21 Apr 2026 06:00:41 -0400 (EDT)
-Message-ID: <41c86ccd2bfb42dce32b3ef4d31183698450e232.camel@pbarker.dev>
-Subject: Re: [OE-core][whinlatter 00/52] Pull request (cover letter only)
+ 21 Apr 2026 06:07:24 -0400 (EDT)
+Message-ID: <e87d67ec12516ae9c62b1d7b19797ff0ec131b36.camel@pbarker.dev>
+Subject: Re: [PATCH] tools: mkeficapsule: Add disable pkcs11 menu option
 From: Paul Barker <paul@pbarker.dev>
-To: Yoann Congal <yoann.congal@smile.fr>, 
+To: Francesco Dolcini <francesco@dolcini.it>, Wojciech Dubowik
+	 <Wojciech.Dubowik@mt.com>, trini@konsulko.com, 
 	openembedded-core@lists.openembedded.org
-Date: Tue, 21 Apr 2026 11:00:38 +0100
-In-Reply-To: <cover.1776702292.git.yoann.congal@smile.fr>
-References: <cover.1776702292.git.yoann.congal@smile.fr>
+Cc: Franz Schnyder <fra.schnyder@gmail.com>, u-boot@lists.denx.de
+Date: Tue, 21 Apr 2026 11:07:21 +0100
+In-Reply-To: <20260420085001.GA47182@francesco-nb>
+References: <20260409074710.1322519-1-Wojciech.Dubowik@mt.com>
+	 <7xe72m3tkzultqh3hw4cubfognfryjk5ababajoe6w6zt7jx4c@aaxa2kehv635>
+	 <aeXgdkBin5uz0-OH@mt.com> <20260420085001.GA47182@francesco-nb>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -116,71 +122,81 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-LKn5GWaEFdz/132c4WLa"
+	protocol="application/pgp-signature"; boundary="=-FSIrMXyddQJwQz8lGCqU"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 10:00:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235658
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2026 10:07:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235659
 
 
---=-LKn5GWaEFdz/132c4WLa
+--=-FSIrMXyddQJwQz8lGCqU
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-04-20 at 18:26 +0200, Yoann Congal wrote:
-> Those are the patches from the last patch review:
-> https://lore.kernel.org/openembedded-core/DHVA7OKM4Z5B.8F1XG493U352@smile=
-.fr/T/#t
-> with added python3: Fix test under ptest-runner 2.5.1
->   https://lore.kernel.org/openembedded-core/20260417075943.1398549-1-yoan=
-n.congal@smile.fr/T/#u
+On Mon, 2026-04-20 at 10:50 +0200, Francesco Dolcini wrote:
+> + Paul Barker
 >=20
-> Passed a-full on autobuilder:
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3678
-> * qemuarm64-ptest failed with #16150 - AB-INT: oe-selftest-armhost: Faile=
-d to start QEMU (hangs with drm)
->   https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/350=
-3
->   * ... but was sucessfully retried as:
->     https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/3=
-505
+> Hello all,
 >=20
-> The following changes since commit e8a3acb03d4c466cd08e358953df15746cb5aa=
-ca:
+> On Mon, Apr 20, 2026 at 10:14:46AM +0200, Wojciech Dubowik wrote:
+> > On Thu, Apr 16, 2026 at 05:51:13PM +0200, Franz Schnyder wrote:
+> > > On Thu, Apr 09, 2026 at 09:47:07AM +0200, Wojciech Dubowik wrote:
+> > > > Some distros are using gnutls library without pkcs11 support
+> > > > and linking of mkeficapsule will fail. Add disable pkcs11
+> > > > option with default set to no so distros can control this
+> > > > feature with config option.
+> > > Shouldn't it be the other way around? Use of pkcs11 should be disable=
+d=20
+> > > by default and enabled if required. As it is now, it would still depe=
+nd
+> > > on the the gnutls library having pkcs11 support and therefore still=
+=20
+> > > would break our OE builds with mainline u-boot if we don't change our
+> > > modules defconfig.
+> >=20
+> > As far as I understand, gnutls is built by default with pkcs11 support.=
+ So for
+> > most of the distribution it should be ok. Security by default.
+> > I don't have yn strong opinion for this but default enabled has been su=
+ggested
+> > by the maintainer.
 >=20
->   vim: Fix CVE-2026-26269 (2026-04-02 00:08:06 +0200)
+> We are in the very unfortunate situation in which we are not able to run
+> any test at the moment in our CI and automated test infrastructure (not
+> in U-Boot, not in OE), and the reason is that we have pcks11 enabled in
+> U-Boot, and OE core is not picking up the patch to enable it [1].
 >=20
-> are available in the Git repository at:
+> Any advise to have a way forward?
 >=20
->   https://git.openembedded.org/openembedded-core-contrib stable/whinlatte=
-r-next
->   https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
-whinlatter-next
+> Francesco
 >=20
-> for you to fetch changes up to 4fbdd0fc15fe23f469454a063d1c966876a71426:
->=20
->   python3: Fix test under ptest-runner 2.5.1 (2026-04-17 01:43:10 +0200)
+> [1] https://lore.kernel.org/all/20260408130553.819420-1-fra.schnyder@gmai=
+l.com/
 
-Merged, thanks!
+Hi Francesco,
+
+Which versions of U-Boot and openembedded-core are you trying to build?
+
+Thanks,
 
 --=20
 Paul Barker
 
 
---=-LKn5GWaEFdz/132c4WLa
+--=-FSIrMXyddQJwQz8lGCqU
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaedKxhEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bkCgAQCZUd/LFWqxxjSUujkIGmvS8fioWz2lwCa8
-AGiYxOXfhQEAxrPpvnY+JiG4PM9GZRvgkNLiFYUJ4YrEsL3eF5hBBws=
-=itQX
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaedMWREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0burCAP9PFG0jXI0TZTsUhTbxBA4o8zo+6osso6Fp
+/79ugmDR0wEAzJdYGjGASG6SRwW41LU0W+Zf81dGhoz8aqU4WOnmMw8=
+=Vg6X
 -----END PGP SIGNATURE-----
 
---=-LKn5GWaEFdz/132c4WLa--
+--=-FSIrMXyddQJwQz8lGCqU--
 
