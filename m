@@ -2,147 +2,137 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41715F9B602
-	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 09:53:58 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.78630.1776851635096373761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A34F9B60A
+	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 10:20:48 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.79188.1776853245271075939
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2026 02:53:55 -0700
+ Wed, 22 Apr 2026 03:20:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=dVDnQ/uL;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8cb3bae8d3eso456512885a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 02:53:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776851634; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=iVgQO3yc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8dfb9139008so356004785a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 03:20:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776853244; cv=none;
         d=google.com; s=arc-20240605;
-        b=l07AJTNVukD/dc3c0985kAKFBjggkEx4oHgR5N1kUjtTAtvwiV8e3ZY72JMoSYpcVg
-         aMfcO9QC6jsvYo+MhJtZB5MNiZFZ0YEo7UfJJuG8KBpwKP63Bpp5vyv1xXv2PbT2uLk7
-         kuwkbBwsrMWPKxPcDNgpAtTnCYaCq6E0ptIcyz2fwqLXJjVMHXq6JJ7lLDnSL/kzBvDr
-         h6frELJTy9TStij5S47tnkegaJsCagme06diLUCkw4B/YyR3T/f2c5RGWdpkc/Lb1Srv
-         zrbAZiDG0tBAV2u5c0GpxMW7nfbTKKPeaP2nQqnnRGgzeRZXCstXjJAH56bfhRcNQ1h4
-         6ohw==
+        b=H9So9kRJgjPu0PiNY8+d+n+pDOGk88Zasxd1FSlo6uXmnaJSo3wgsbc3b2awUg9j7J
+         t3XCwvDVzhvhp91ouuaG2bDEmb5JLSjL5TNHWhiHkp6nFmOhVcqJ5VmIH8HM6f2v2BVs
+         bHv/ha3cJBF5iWjV27C3Ez7geSE5kgaRJaL69xkmuAm0i4KF9CiOSOQ0QZ/UMityIbfz
+         NmrSn2rB6cUV7B9N8ya4x2euPmMsgQ1aoO26/bz3ve3Bi/VQpT+Uv9NT9yzvVI64xsOn
+         MZEleYN7zVcq+b8Ta5+PxjyNIojBM/ceE2ikw6y4b9hOuNuSwmoQmO6BNZ3DGcfIhTZY
+         zwKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=+ah70vmwoP2B+4yK15Uyb3gb8jacSc/mDde9pmnDX6Y=;
-        fh=IY1cTBAxAct7v9dbEJDiqbFt7sQ9+KsjKvYX6Of3i4I=;
-        b=hrwJ3cGsqFi/IV5E+Q5QTiaBgaQF1bN4jkoZkQRMQP/kL3Ae6IwrOvxFvy/Lv7fLyy
-         ITfie7FIkI8HPIXqTOWjSt4PnQ3juBUTQY+760TiUP/qq7jD78y40v6VlE7BNEzr6lNl
-         2EkuyZ4vETuxH10RS6QrZjjFQ+s0/qUJe3PT0jHxrRO62PHSNFi4oXJptd6ZNR6wmMtv
-         Q5D3cr0gTCkVWddrRgsMI5Q8O4g81XTmOxHODj16bZgCFOwkszXuFKRE8a/cyHhM9IsY
-         b7dLNm1JDZA2L/+s/CU71Txf+G65dBPQyVnGP3FmKwHRXoW5bPHR+tYd183ezPkip6Z1
-         zohA==;
+        bh=6felqTi7gbr6AsbjTRZDsI1ogqNGfCKeozzALvYPGfM=;
+        fh=KDBggjr8BLztnc4QKL9wpIZeKsRhbOowKcZEQS8F7CA=;
+        b=JOc6tBo/pfra50/bNPpm5H0D8kwwBQhlMEe0stc3iiSHoWkhssrPAMx33uTzZCI6CW
+         0vh86AjsjrjJ16QpTGJScJ5G+3wJ+YrYEkKM1MttLES4W93qjXGwriXD4Bg8xpwt3SPo
+         OYANnQmZ8Tn6SJN/VldvItkVD2296ZGWEtSz0Rio5lylU3AmMB9n6OtAKITXzxUedcqH
+         5Y6RzeAgNsjy0X1kCZNTD6gf2u/GIrFhwcI/rRBtTRbWFweUu78HkgvMo0Z48L9+gK1b
+         tCnNu0gQEM7nM5qSO6Np3lAmcR45/GPgxTLf2DqsRPIlVQ8a6OWInUxzCy4JLauSUY/l
+         OUDA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776851634; x=1777456434; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1776853244; x=1777458044; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+ah70vmwoP2B+4yK15Uyb3gb8jacSc/mDde9pmnDX6Y=;
-        b=dVDnQ/uLy2nUMW0F1gpcnQBcwUNZTAbyW7cvCkXTHOMyc8pltGJuqJalp0g639uuuG
-         NkHaHvs9zzhVYE7MxCVsZyqlF5rW9ysVqN9T1TbcKZ0H2V0Ke1YeLh15tvUNvncRg+5F
-         88uF51y/LV9QF0zfGNoHC0ZuEJcJ+ncwn+RwpNhcIyA3ZklBeF4Hb8sZluRVOo9lUoWx
-         2M1+OYpPlZz4CCs3X7lcnJYLywFccjS9VYW3NdIAP8Vn8dC0WbH6J04Ribq0Q/p7I4UB
-         42jf7Aze3LzBco+Ipgz7j71DOA3/BdUpVOhWhLsao/3+8Q8pG9dmGH+eo2IYdU1oehdD
-         pMag==
+        bh=6felqTi7gbr6AsbjTRZDsI1ogqNGfCKeozzALvYPGfM=;
+        b=iVgQO3ycVK3pVBqTkA3YYkpGHHmVitfY6RjL9k1gN5sSDV+IAS5jLY2DAD371Qp/ET
+         NSwc0JJWZUK7LTTaCmb2T9iI3hrNCywk5iAGRtwkD2y5sqH3UGcH9t47bfJVfZC13aW3
+         hLrjb8tNZ8CD/G5DCen09JtW22YWSrKJDmwEjJOlbgk1/vfNUyCBmswbDUc5ThGLvzdx
+         eE5ratJZYTBTXdN2wAcYvobr6H1syi5vnn3XRw36ojYzxDesCP/xzCF9bX/ZZzkYn/XD
+         dUTVrXao9WFhjs4NFueCRe5b+tp7csEvBoodv8U7AhFAnWT81KM211lXNvBIPKKwxb97
+         XPyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776851634; x=1777456434;
+        d=1e100.net; s=20251104; t=1776853244; x=1777458044;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+ah70vmwoP2B+4yK15Uyb3gb8jacSc/mDde9pmnDX6Y=;
-        b=aSt+FY8KTj+6a/eqh+aH2zkwxsuyPmebO510Pc4KQ2QfM4FoJHpgG3T4nmMzpzPMVe
-         xV+nU8uXUPERz1jw23eOpHNZWRl1z2Jfiw2nIddVkh65hFPE1zm5twr+o1sSOQPblwtu
-         gzhwcEoh/3agUWqaza+Lp+0GBF+MDntCa+4pCm4A/I6eFSFbD55pbWi2B61zimnEHVRM
-         2wGPGRcBKnUoStiAglVWUZyRBXvaJjM5uv/lEYxzAcstdZEPfbbOc9KZgTzSz+NG1O+0
-         M0FOD6EEWB6BPvAlXvLCB893bHdAPlsfwOR1u+IXQe6SS/xfMqc1fgmlQYo5ano1K0Dv
-         dUjA==
-X-Forwarded-Encrypted: i=1; AFNElJ8eXIdVDXbz/quzhYOc9p/8mBe3VswTZe2czgrRpV8P5wx9vK15njL4RjYlVeIrvvR0/3iTm3uJFLm18lwn8j34og==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzk0pz4DhutQhSXAfQ9jewIy88XxaxXD6YHrzH0juEmt9yvwK1h
-	u5AfuIxWDmcUAEWPRXYBgmlyJrMTbdoiu0JspLUMNKSle+DJEznA+FtI42nHT8hFaC1fjin9vbv
-	DWwVC2ST2VoBZkiWg+eJ86MxU226kjpQhOA==
-X-Gm-Gg: AeBDiespsU9FKLiaQ6uMkCFFrkStRR5K5PVK/GmSdnGoYd8OaeYIB82obFTENVhF0PU
-	yrtGkb3fjWmuptyiK5oHBdlBNBrZ3rCyhTqPhzTmFFSgYlRybVkRLCOAvfeWisl6u5tucDMPpXi
-	CQ36ACuIQiNeB5XGD+Okn1MRBmuOTAgbBr9IOiz5gQCheyvt9GdBx88Fif5bNipWbGVtmBcJWgy
-	06E0rPWGjJyz+J7LNnJPVo8adGrtD71w+vq+gdS/tqQvpsl0+aBg6ztCQe3xsS5IwRhEjTq0NDr
-	Z09A2zxC9OWCv/2NdWkXEs1t9H1DgVyKk5eQ0/Lw6jyriE0PyQo4
-X-Received: by 2002:a05:6214:519d:b0:89c:4f67:8d17 with SMTP id
- 6a1803df08f44-8b0280c9032mr332967196d6.8.1776851633946; Wed, 22 Apr 2026
- 02:53:53 -0700 (PDT)
+        bh=6felqTi7gbr6AsbjTRZDsI1ogqNGfCKeozzALvYPGfM=;
+        b=COY6OxmDQfrvzilFmMHP7EA7HGy5Gn29TDAfy1OdUO16hliBnRNkBAL430ncO45a+w
+         eyFs/yAOggGtYetGuoIUEUyGrrnu2tJuo5vKtI0oLSq487dLjN5NdjlJmlbSfm0IfHWz
+         Z+AXX2VNNzm3aEbkXCQZW/SpLettVgCan+u7Q6O8uEvrRJMwG1vmTvuOZfexIBOX1G8y
+         Dyvsry4A7x+U9dacbwsyA1JtGLsL0XhXY3ddnl4chK/es/LOgW4rSoNjLCG6X1yUmjoh
+         Eay3vCRY18AFOmzBY3KA7GlrDIKngMfgwvObCqYSQiypcEiyQIPxgAEnpRzO64B2HrWE
+         zsyA==
+X-Gm-Message-State: AOJu0YyxLmPKppuhE1nhq9uryH+V8XPeuMO4G6K3C6DD1zSTo0sMxmsC
+	HN03K4VHEKl1pxyOIrZkWUlc1qtpb7JTPfFRRVLZVVbI6qatEXBTpSSTF/kNdQG7pNHTOIAUyU0
+	tkeLh7rXhKwLxwx5Q94mqNml658KLFPc=
+X-Gm-Gg: AeBDietEWz+bjicdfbI0RuIwy13855cGow+74cAlub3nsYBZcnn216qSE4faPuxUMml
+	6WBtO6IiApPHPaXRVsqJZrnn07EbTdRzuCEDXbfGLlcDFrcOvplVF2PfiTG8j0aecVNrzHcsvlu
+	GgszMIbz6CGjXQ9HlmG+1D8vE/E2sVdbHmpqicvTs6SjV4tHSDwkZMoEh1X6BiN4ROx5pk0dG2h
+	4lvcDhPmb4EzADkslEUcSnpHx714ou7c0pabRJPxmzkjep2rv47FeYgkMVkdGLb3p+2cXv6RwL4
+	1qP0FIUnyGaf/1gvp0faytTkW+ni6+NKD4tHosHMw9Kj6/ppTJu6
+X-Received: by 2002:a05:620a:4403:b0:8ed:d6df:c779 with SMTP id
+ af79cd13be357-8edd6ef1c26mr1281273985a.35.1776853244147; Wed, 22 Apr 2026
+ 03:20:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <18973B8A1D1BE087.558139@lists.openembedded.org>
- <AS1PR10MB56978C6748852F61C4F7109BFD74A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <17678281463335733ecacbfc29bedd53164414d2.camel@est.tech> <c97339dc-7e9b-4e49-9df8-8df32d4fa5e3@windriver.com>
-In-Reply-To: <c97339dc-7e9b-4e49-9df8-8df32d4fa5e3@windriver.com>
+References: <20260421095559.1856-1-wangmy@fujitsu.com> <20260421095559.1856-24-wangmy@fujitsu.com>
+In-Reply-To: <20260421095559.1856-24-wangmy@fujitsu.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 22 Apr 2026 11:53:44 +0200
-X-Gm-Features: AQROBzB9aPtHNyTx_Exft-pO63ovLAlFtLgBUn0hzY3kaHRZxT1YdRNpEeM2bng
-Message-ID: <CANNYZj9SGkKaQ0zxTjFPPjnvuzD0rXb9bV_ieHG0OY6tdjK7zQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] vim: upgrade 9.1.2144 -> 9.2.0
-To: mingli.yu@eng.windriver.com
-Cc: David Partain <david.partain@est.tech>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"peter.marko@siemens.com" <peter.marko@siemens.com>, "yoann.congal@smile.fr" <yoann.congal@smile.fr>, 
-	Randy MacLeod <randy.macleod@windriver.com>, "Chen, Qi" <Qi.Chen@windriver.com>
+Date: Wed, 22 Apr 2026 12:20:31 +0200
+X-Gm-Features: AQROBzCtVPUg5b12nLOrygbwOFtWZX2tOTY3x8788FdPYLZ1Ahqz3j5dBHEOa-U
+Message-ID: <CANNYZj_y_tPwBYeGeGuEYk=SVNVVbJ0nBkwrXK44nVqmsSGGCg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 24/49] python3-chardet: upgrade 6.0.0.post1 -> 7.4.3
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 09:53:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235707
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 10:20:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235708
 
-Do those CVEs actually affect your product security, or is it just
-something you'd like to do to improve CVE reports?
+Neither Fedora nor Debian have taken the 7.x rewrite yet. The AI
+rewrite controversy is well publicized.
 
-I have this uneasy feeling that people are optimizing statistics
-instead of just adding vim to ignorelist and focusing on what actually
-matters.
+I think we should hold this for a bit longer.
 
 Alex
 
-On Wed, 22 Apr 2026 at 08:37, Yu, Mingli via lists.openembedded.org
-<mingli.yu=eng.windriver.com@lists.openembedded.org> wrote:
+On Tue, 21 Apr 2026 at 11:56, wangmy via lists.openembedded.org
+<wangmy=fujitsu.com@lists.openembedded.org> wrote:
 >
-> The number of the vim CVEs in 2026 has reached 15 so far [1], and may
-> still be growing. Could we keep upgrading vim to resolve the vim CVEs
-> for LTS branch maintenance as we have done in the past?
+> From: Wang Mingyu <wangmy@fujitsu.com>
 >
-> [1] https://github.com/vim/vim/security
+> License-Update: Change 7.x license to 0BSD
 >
-> Thanks,
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  ...hon3-chardet_6.0.0.post1.bb => python3-chardet_7.4.3.bb} | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-chardet_6.0.0.post1.bb => python3-chardet_7.4.3.bb} (68%)
 >
-> On 3/3/26 18:23, David Partain wrote:
-> > CAUTION: This email comes from a non Wind River email account!
-> > Do not click links or open attachments unless you recognize the sender and know the content is safe.
-> >
-> > On Tue, 2026-02-24 at 16:45 +0000, Peter Marko via lists.openembedded.org wrote:
-> >> Alternatively, we could also continue updating vim in LTS like we did in the
-> >> past.
-> >> For now, there are two active CVEs in LTS releases.
-> >> Please let me know if I need to backport patches now or if vim upgrade would
-> >> be accepted.
-> >
-> > Greetings,
-> >
-> > I've found it quite useful in the past that vim simply gets updated to the
-> > latest, even in the LTS branch we use.  Keeping up with vim CVEs is painful
-> > otherwise. As such, I would prefer to keep doing things as they have been done
-> > in the past.
-> >
-> > Cheers,
-> >
-> > David
-> >
-> >
-> >
-> >
-> >
+> diff --git a/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb b/meta/recipes-devtools/python/python3-chardet_7.4.3.bb
+> similarity index 68%
+> rename from meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb
+> rename to meta/recipes-devtools/python/python3-chardet_7.4.3.bb
+> index 14c3247b35..ad36834169 100644
+> --- a/meta/recipes-devtools/python/python3-chardet_6.0.0.post1.bb
+> +++ b/meta/recipes-devtools/python/python3-chardet_7.4.3.bb
+> @@ -1,9 +1,9 @@
+>  SUMMARY = "Universal encoding detector for Python 2 and 3"
+>  HOMEPAGE = "https://pypi.org/project/chardet/"
+> -LICENSE = "LGPL-2.1-only"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
+> +LICENSE = "0BSD"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=bd0753b9dc12e5e3da3047778fcf1dca"
+>
+> -SRC_URI[sha256sum] = "6b78048c3c97c7b2ed1fbad7a18f76f5a6547f7d34dbab536cc13887c9a92fa4"
+> +SRC_URI[sha256sum] = "cc1d4eb92a4ec1c2df3b490836ffa46922e599d34ce0bb75cf41fd2bf6303d56"
+>
+>  inherit pypi python_hatchling
+>
+> --
+> 2.43.0
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#235695): https://lists.openembedded.org/g/openembedded-core/message/235695
-> Mute This Topic: https://lists.openembedded.org/mt/117978611/1686489
+> View/Reply Online (#235632): https://lists.openembedded.org/g/openembedded-core/message/235632
+> Mute This Topic: https://lists.openembedded.org/mt/118935094/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
