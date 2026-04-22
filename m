@@ -1,223 +1,221 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C269F9B60C
-	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 10:31:08 +0000 (UTC)
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.79555.1776853864878903626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7831FF9B60D
+	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 10:36:38 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.79498.1776854194449829045
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2026 03:31:05 -0700
+ Wed, 22 Apr 2026 03:36:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=fpni8BQh;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=q98NZC9f;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.152, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 281537A0201;
-	Wed, 22 Apr 2026 06:31:04 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 22 Apr 2026 06:31:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1776853863; x=1776940263; bh=6WXX3w+nUE
-	6Hn0CaXLamuATPej7XvSSU4VfkDj3GYIs=; b=fpni8BQhJrg2hJMP1WtY8akM4K
-	vqz5dzUD6e8awmGie+KGrcY0wv5diT3RrW/UaeQbj8NLMhCGInfZVD5zQxHnxEOj
-	kDzf+He9wdZZFLQ0az+gEAm5/EpYN/1YtTjjcavE3Dp+r4Y6NbVK+nslOapNR5/a
-	yvqshy/nkN4FugPhKK04LwwnEKdUCbNM/LsAkwoGpxPbzISCc40j/aFIAZViDo8a
-	XNCgrybQk+S9ZLA7+IP4HZsTgf2savZnMmNX3ivnKRztepFfGY7sLr0xu7fOgYcE
-	67g5gjXWxpnuUc3h4FQU+PQ7LaUrCNbDLTAnkGcKfwVDZyfjnnA0J0JwXIyw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1776853863; x=1776940263; bh=6WXX3w+nUE6Hn0CaXLamuATPej7XvSSU4Vf
-	kDj3GYIs=; b=q98NZC9fxxLje+ZPVk3bJSQP3lK8AZeySWW9VZfAuOyrR7DSD8Z
-	KhlGBX3iC5m6fyPaDRU3cj0dYh3RF0b788raDX5uh3nJozUW8DZ6kaNR2+o270rz
-	1I5xLo3mnP40DBVzfuxrgLM0OaV13JwJ4tpK2WP0Er61fcP39npcRI/sQQwHkwMK
-	/zy7NbtGjwWhHdeWgpqNSap/gl0cTPwKjY5ixXi2QLaMoDGrkp9r/RLIhOew//lX
-	7KjJ7JsMFvsJTmOHf0L5wuPKlGqTnvPqRGQYtU7Ebh9+4QBMShbrX08BiL4lw6+a
-	8OBo/A7o39GoH+kIuVt8suXWQBsfByn3uMw==
-X-ME-Sender: <xms:Z6PoaaQelFLYosCVWpDsizNe6xIBxq7sUjOlkXFtL6siFhBStdwA5g>
-    <xme:Z6PoaVwDXIz9f4n6oltfWK7q_R1i5hsi6O2RpDStIiPLy4VsRigqFg9c4eObC0jxm
-    acZkCJYmO087dJnY9yqnX8hmvn9E1C7gZuLFfKERk8638WyUllxEW_E>
-X-ME-Received: <xmr:Z6PoaVcMS4O0D7YPpdL-rJkhCZ8zDpNckYRHUczKoth2ZwO-6IXrChAnbwSk1AyS_C-68Ya6ixyYw28QTXxiGHUkRw_ovPzHT7kwDK5VFEDj>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeigedtfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepkffuhffvffgjfhgtfgggsehgtderredtre
-    ejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdgu
-    vghvqeenucggtffrrghtthgvrhhnpeegfefhudethfffveehveekjefhgeffgeeikedtfe
-    ektdethfduvdffueeiieetffenucffohhmrghinhepohhpvghnvghmsggvugguvggurdho
-    rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepph
-    gruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhm
-    thhpohhuthdprhgtphhtthhopehhjhgrughonhestghishgtohdrtghomhdprhgtphhtth
-    hopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvggu
-    uggvugdrohhrgh
-X-ME-Proxy: <xmx:Z6PoaRK0GE45_AHzfYIZboSzpOxsRvze5pH0dcckRu0XaFZp8YwqMQ>
-    <xmx:Z6PoaWFVq_jKXupV3dlI0mfs_s2nF6stpqza6Yx7JzhWhDGyYG1mCA>
-    <xmx:Z6PoabprrED3BeHILSIt1rbEHRFyHlAXj0pfi03N6CE_QNbatIXavw>
-    <xmx:Z6PoafSsP-m80PxzqxVzmK7glGYiDdK4OuM4XrD27_1J2ycyT2yd9A>
-    <xmx:Z6PoaVh91CInIYw7oLh3cTEhhwMct1LHMkWJ1a-zQ4uXjseGfiN_Zvzv>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Apr 2026 06:31:03 -0400 (EDT)
-Message-ID: <e225fccde9314e31a8efa5a171afa97780f67332.camel@pbarker.dev>
-Subject: Re: [OE-core] [master] [PATCH] apt: Add CVE_PRODUCT to support
- product name
-From: Paul Barker <paul@pbarker.dev>
-To: hjadon@cisco.com, openembedded-core@lists.openembedded.org
-Date: Wed, 22 Apr 2026 11:31:00 +0100
-In-Reply-To: <988308.1776780282564546487@lists.openembedded.org>
-References: <20260421111028.2501890-1-hjadon@cisco.com>
-	 <b6875fed11ec10d190215ff3587a9553362a55a2.camel@pbarker.dev>
-	 <988308.1776780282564546487@lists.openembedded.org>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-kbASMarE+gr3VwLQU48D"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=IgQcIJgT;
+ spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1776854194; x=1808390194;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MqesmoSoXZIpig388eIufhu7l2/Tu8fgCdve1Edgz14=;
+  b=IgQcIJgT/au/N2vInf2noGW+1J+TTq8mvM0r3qV8mTANYGNHJ5ECSRpb
+   Opad+5SfdHzU/oEGuMU/8cUcknTIbQRlNZ1jsvxaLsgfwNaXIlr/9XKbf
+   pkPl1H4w9SUuawjFDDu5HfINYmOvpYI+2XrrSeKGphycxqBpPCvOJrf/1
+   /gix3BIBDJECmdp3Xfv8gLaxzvB2QB6dWKaGhehY19AutFdsCyu6pvdlT
+   +IH9iT1xAI+gxhx0Wfx/gLski53m/nguoQ7A+w6ZJMpDWH7dniGG8/hei
+   7pzCIH7m/RHs3GbmLiiOJHS2XrVkca3Q6vL6wU8GIxrvqaDmgZMBo2lnE
+   w==;
+X-CSE-ConnectionGUID: kE1s+b6FRY+7hkRMl7m+eg==
+X-CSE-MsgGUID: XiLPJ5JcQuy5sLnV2weYkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="216823923"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770562800"; 
+   d="scan'208";a="216823923"
+Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 19:36:33 +0900
+Received: from az2uksmgm1.o.css.fujitsu.com (unknown [10.151.22.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id BBE56C0181C
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 10:36:32 +0000 (UTC)
+Received: from az2nlsmom3.fujitsu.com (az2nlsmom3.o.css.fujitsu.com [10.150.26.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 708268D29E3
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 10:36:32 +0000 (UTC)
+Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
+	by az2nlsmom3.fujitsu.com (Postfix) with ESMTP id E6902101732E;
+	Wed, 22 Apr 2026 10:36:29 +0000 (UTC)
+From: Wang Mingyu < wangmy@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-cryptography(-vectors): upgrade 46.0.5 -> 46.0.7
+Date: Wed, 22 Apr 2026 18:36:24 +0800
+Message-ID: <20260422103626.817-1-wangmy@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 10:31:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235709
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 10:36:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235710
 
+From: Wang Mingyu <wangmy@fujitsu.com>
 
---=-kbASMarE+gr3VwLQU48D
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add 0001-bump-uv_build-to-0.11.0.patch to bump uv_build version
 
-On Tue, 2026-04-21 at 07:04 -0700, Himanshu Jadon -X (hjadon - E
-INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> Hi Paul,
->=20
-> Thanks for raising this point.
->=20
-> The main intention of these patches is to improve CVE correlation in case=
-s where the recipe name does not match the active NVD product identity prop=
-erly, or where NVD has moved from an older/deprecated product string to a n=
-ewer normalized one. In such situations, depending only on default recipe-n=
-ame-based matching can lead to missed CVEs.
->=20
-> We have already added CVE_PRODUCT internally for multiple packages and ha=
-ve seen better reporting because of that, which also helps improve the over=
-all security view. For example:
-> - abseil-cpp -> abseil:common_libraries, which results in reporting of CV=
-E-2025-0838 with CVSS v3 9.8
-> - onig -> oniguruma_project:oniguruma, where the current DB contains mult=
-iple CVEs with CVSS v3 9.8 such as CVE-2017-9224 and CVE-2019-1901
-> - apr -> apache:portable_runtime, where the current DB contains CVE-2022-=
-2496 and CVE-2022-2833, both CVSS v3 9.8
->=20
-> This also helps in the longer term by making SBOM-to-CVE correlation more=
- reliable and by reducing dependency on implicit recipe-name matching when =
-the upstream NVD product naming differs.
->=20
-> So the purpose here is not only metadata cleanup, and not only false-posi=
-tive handling. The main goal is to make the mapping explicit wherever it im=
-proves correctness, avoids missed CVEs, and gives better security reporting=
-.
->=20
-> Regarding deprecated CPEs, I agree that they should not be removed blindl=
-y. If a deprecated CPE still carries CVEs that are relevant for the recipe =
-version being considered, then it makes sense to keep that older alias alon=
-g with the newer active one.
->=20
-> In the specific apt case, the older debian:apt alias is deprecated, and t=
-he CVEs currently associated with that alias do not apply to apt_3.0.3. So =
-in this case the deprecated alias is not adding relevant coverage for the c=
-urrent recipe version, whereas debian:advanced_package_tool is the active N=
-VD product identity. Because of that, this patch uses the new identity inst=
-ead of carrying the deprecated one unnecessarily.
->=20
-> Additionally, whenever we come across cases where the NVD CPE naming or m=
-apping itself looks inconsistent or incorrect, we are also informing NVD se=
-parately so that the source data can be corrected there as well. So these r=
-ecipe-side CVE_PRODUCT updates are for improving present correlation, while=
- the underlying CPE/data-quality issues should ideally be corrected upstrea=
-m in NVD.
->=20
-> I also think there is scope to improve the cve-check class itself so that=
- it can report when a deprecated CPE is being used in a recipe. That would =
-make such cases more visible and help maintain the mappings more cleanly.
->=20
-> Best regards,
-> Himanshu
+0001-bump-uv_build-to-0.10.0-14271.patch
+0001-pyproject.toml-bump-uv_build-version-requirement.patch
+removed since they're not needed in 46.0.7
 
-Hi Himanshu,
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../python/python3-cryptography-common.inc    |  2 +-
+ .../python/python3-cryptography-vectors.bb    |  6 ++---
+ .../0001-bump-uv_build-to-0.10.0-14271.patch  | 27 -------------------
+ .../0001-bump-uv_build-to-0.11.0.patch        | 26 ++++++++++++++++++
+ ...ml-bump-uv_build-version-requirement.patch | 22 ---------------
+ .../python/python3-cryptography.bb            |  2 +-
+ 6 files changed, 30 insertions(+), 55 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-cryptography-vectors/0001-bump-uv_build-to-0.10.0-14271.patch
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography-vectors/0001-bump-uv_build-to-0.11.0.patch
+ delete mode 100644 meta/recipes-devtools/python/python3-cryptography-vectors/0001-pyproject.toml-bump-uv_build-version-requirement.patch
 
-I've discussed this with Richard and Ross. We should keep the older CPE
-in the list, both for completeness and because future CVEs may be filed
-using the older CPE by mistake.
+diff --git a/meta/recipes-devtools/python/python3-cryptography-common.inc b/meta/recipes-devtools/python/python3-cryptography-common.inc
+index 4e4434bd66..0515cf7705 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-common.inc
++++ b/meta/recipes-devtools/python/python3-cryptography-common.inc
+@@ -3,4 +3,4 @@
+ #
+ # Additionally AUH will detect that they share this .inc file and
+ # perform a lockstep upgrade for both.
+-PV = "46.0.5"
++PV = "46.0.7"
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+index 800bf1b0e0..0d2b638527 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
++++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+@@ -9,10 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
+ # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
+ #       Upgrade both recipes at the same time
+ require python3-cryptography-common.inc
+-SRC_URI += "file://0001-pyproject.toml-bump-uv_build-version-requirement.patch \
+-            file://0001-bump-uv_build-to-0.10.0-14271.patch \
+-"
+-SRC_URI[sha256sum] = "ffbccee9455201c01b37c63d65d9f83b362d40c2bed9caac248ebbdfa4e4fc7c"
++SRC_URI += "file://0001-bump-uv_build-to-0.11.0.patch"
++SRC_URI[sha256sum] = "08f3d13846fdd86d4c1138a88c695cee203b3dd3825c784d64a3b06d000cdda1"
+ 
+ PYPI_PACKAGE = "cryptography_vectors"
+ 
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors/0001-bump-uv_build-to-0.10.0-14271.patch b/meta/recipes-devtools/python/python3-cryptography-vectors/0001-bump-uv_build-to-0.10.0-14271.patch
+deleted file mode 100644
+index 9fa4d1cd47..0000000000
+--- a/meta/recipes-devtools/python/python3-cryptography-vectors/0001-bump-uv_build-to-0.10.0-14271.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 1f6626557e4766ffa40874984f1e29197ed66eb8 Mon Sep 17 00:00:00 2001
+-From: Ridai Govinda Pombo <beholderseye@vivaldi.net>
+-Date: Tue, 3 Mar 2026 10:38:12 +0800
+-Subject: [PATCH] bump uv_build to 0.10.0 (#14271)
+-
+-Co-authored-by: Ridai Govinda Pombo <beholders.eye@disroot.org>
+-
+-Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/14cfa5757461d5c228600fc0104ac0ef08ea15d9]
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- pyproject.toml | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/pyproject.toml b/pyproject.toml
+-index f01d2c1..f7af712 100644
+---- a/pyproject.toml
+-+++ b/pyproject.toml
+-@@ -1,5 +1,5 @@
+- [build-system]
+--requires = ["uv_build>=0.7.19,<0.10.0"]
+-+requires = ["uv_build>=0.7.19,<0.11.0"]
+- build-backend = "uv_build"
+- 
+- [project]
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors/0001-bump-uv_build-to-0.11.0.patch b/meta/recipes-devtools/python/python3-cryptography-vectors/0001-bump-uv_build-to-0.11.0.patch
+new file mode 100644
+index 0000000000..05f225de2f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cryptography-vectors/0001-bump-uv_build-to-0.11.0.patch
+@@ -0,0 +1,26 @@
++From b1e8722ccf79ef02ae929df2e7fd7547e8615e68 Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@fujitsu.com>
++Date: Wed, 22 Apr 2026 10:09:16 +0000
++Subject: [PATCH] bump uv_build to 0.11.0
++
++Upstream-Status: Backport [https://github.com/pyca/cryptography/pull/14545]
++
++Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
++---
++ pyproject.toml | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pyproject.toml b/pyproject.toml
++index eac1a07..6bc8d46 100644
++--- a/pyproject.toml
+++++ b/pyproject.toml
++@@ -1,5 +1,5 @@
++ [build-system]
++-requires = ["uv_build>=0.7.19,<0.9.0"]
+++requires = ["uv_build>=0.7.19,<0.12.0"]
++ build-backend = "uv_build"
++ 
++ [project]
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors/0001-pyproject.toml-bump-uv_build-version-requirement.patch b/meta/recipes-devtools/python/python3-cryptography-vectors/0001-pyproject.toml-bump-uv_build-version-requirement.patch
+deleted file mode 100644
+index 6faaf1051d..0000000000
+--- a/meta/recipes-devtools/python/python3-cryptography-vectors/0001-pyproject.toml-bump-uv_build-version-requirement.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-From 6d4c14a2781fb02903fd4d59f638cf72ee370b8d Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Thu, 18 Dec 2025 20:20:13 +0100
+-Subject: [PATCH] pyproject.toml: bump uv_build version requirement
+-
+-Upstream-Status: Backport [partial https://github.com/pyca/cryptography/pull/13617]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- pyproject.toml | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/pyproject.toml b/pyproject.toml
+-index 2ed12a3..f01d2c1 100644
+---- a/pyproject.toml
+-+++ b/pyproject.toml
+-@@ -1,5 +1,5 @@
+- [build-system]
+--requires = ["uv_build>=0.7.19,<0.9.0"]
+-+requires = ["uv_build>=0.7.19,<0.10.0"]
+- build-backend = "uv_build"
+- 
+- [project]
+diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
+index fc5cb50b02..a2a2d3ac0c 100644
+--- a/meta/recipes-devtools/python/python3-cryptography.bb
++++ b/meta/recipes-devtools/python/python3-cryptography.bb
+@@ -11,7 +11,7 @@ LDSHARED += "-pthread"
+ # NOTE: Make sure to keep this recipe at the same version as python3-cryptography-vectors
+ #       Upgrade both recipes at the same time
+ require python3-cryptography-common.inc
+-SRC_URI[sha256sum] = "abace499247268e3757271b2f1e244b36b06f8515cf27c4d49468fc9eb16e93d"
++SRC_URI[sha256sum] = "e4cfd68c5f3e0bfdad0d38e023239b96a2fe84146481852dffbcca442c245aa5"
+ 
+ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+             file://check-memfree.py \
+-- 
+2.43.0
 
-So, we should set:
-
-    CVE_PRODUCT =3D "debian:apt debian:advanced_package_tool"
-
-Also, please quote the email you're replying to in future (as I have
-done here) so that the conversation is easier to follow.
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-kbASMarE+gr3VwLQU48D
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaeijZBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0boCIAP9nSrBSI2vWq+F+YUkk50EcfSs7cCPv98B6
-UTRR7E5hrwD/avXjZBTQRGcUnNw3yD2E5QoXY6O6rnqZefOtBBXevws=
-=QoQC
------END PGP SIGNATURE-----
-
---=-kbASMarE+gr3VwLQU48D--
 
