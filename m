@@ -1,88 +1,141 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Jhonata.poma@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02F3EFA1FD3
-	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 16:17:14 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.86630.1776874632957786556
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F055DFA1FEA
+	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 19:30:54 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.90970.1776886251011082436
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2026 09:17:13 -0700
+ Wed, 22 Apr 2026 12:30:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ReATKlpS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48896199cbaso56805505e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 09:17:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=jZJ5wMAW;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: jhonata.poma@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ba36357195bso703504666b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 12:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1776874631; x=1777479431; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V3UgYvZuiP2dEDKRd5JdtGGM5rEqNOa9UY258JNFn4w=;
-        b=ReATKlpSWOFSxAKHSJMYs7ETtVHhIPhCzlIhgr7T4/qYcJDxAe+gIUqELGWeabXLrt
-         siZ1IX8R3P3jS4yNHFIOv73iZOY+m+WcU8YGpVlQ1f4SRrHDo0ZVbTaoTVv7DzmsA+JX
-         zCMcIkjLYzKngBJdiiJllx5LrIrf6Ev/osCrY=
+        d=gmail.com; s=20251104; t=1776886249; x=1777491049; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=POsRoNKcX3El6pnQ5j1guV8Iq6Qc5ANtHCMf8xyTKwM=;
+        b=jZJ5wMAWMgmP5aKJF7m9c8axDOFueHXzD7IixuMApWUtD0cwXd0r90cAW4ooIAfL1S
+         LODKBBaR2+nFhXrRWCl73u1/XrnsvM+GdTyvM9nXf0hx1fvbgrpwqxVQlDUKVRSq8AZ/
+         R4IbfTwt0HzuOyg4j63udU9nFXLloaxDnhghTgoqjvyvC9GaRK/Z07sg+EbB2pId0F4x
+         c2OKswwPcExKDWmR771tnaWfXl0jUyku79BofvKJSi+zU7+kWJzIx3Fl0YkDCdHaG+l7
+         Kl67hikjvaDKzQD46gVDxI4A5soTC0+A0Y2AwMHhAwmGpFNWuhvaKYMX/QLAEcAS4buO
+         ug2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776874631; x=1777479431;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V3UgYvZuiP2dEDKRd5JdtGGM5rEqNOa9UY258JNFn4w=;
-        b=F2KcMZAx19drApp3yb2BgouWy3tVheaCHLAkIfIvvkaHJqaZbGGsmFG2EycxLpc0y8
-         Z1tvQFi7aI00CDZ3czauy1NvWQ01iZhuDACv9ED/p3WR/wwIfBitle4ARK/DSv0Ic2za
-         aI7+9ZLoq8J3mI7fexCpZWsrEZY1m+Be0kyQd7hTFCyNW/fGM/MDeqPM+QlW9hRABfsW
-         rE7xlKhCCiYyhvETIRKPQAWw19IICufTk8BNmVLft2yug/H6kozUm1gCiurkh4CifMt1
-         5MRr5AQiRLT9AASHWkKXLT5jD7afY6kXFJvNSKx8zzYccPXrBIJ6zFBcfFPJ2fT3vPP8
-         CQOg==
-X-Gm-Message-State: AOJu0Yx+mTSC2JQiaruGTDGHPpU01N2u+E7sMTp6/KNF99lrNpsucjvr
-	NRmY6hAocCll2tPKQvk24/AC0A8U/wTystlLLL9jk33FbvOOe/ye0EcC44tFvz7P/9ls6TpqCZc
-	kHmOOyqg=
-X-Gm-Gg: AeBDiessTrcErUGmOEZ+Cu3tBRTAf1N2wFmtnawrp5+oURQDrCiYAhL9FLsS441gRUU
-	wzfjg14yg3FxM+y6bQt+gOeAR/QatEGBLwQBu8ZjertwGK+g9ijCSs5++itmGaVDEUeGOEaqQlE
-	bAlKh5M6EZqdrmjulwz1G9wSlpdyo/jk5cmTxlwbzRB9z/uqUGW3770Omj0amwQ4ylOQzBT8fuu
-	xZOUNA+1jaAyYg+1SaprzOPbirQsNnUmGSY+QH8B2APcMLQlIQ0xYyZhipTQkY7XcdADvxHcfXg
-	GqBKNROJ4ZNvd32zHi5/HCgLogVa31xcJN5VPp7JPaSPENQCWDg/VBoscwsCGmk7TnAOdu0Z6Zi
-	zQMHbuUuYN31S6OQZGRy6NCVmYYZhVs1r0ZJZc5dngpK/msXCRIxH7qJeE2REgbiIllpb8LerKy
-	7MiwbsJp/sH3/qQGM3LzN1eYjythVbYO3Zt8/tiLt9nJxuYUR8rd51iGlBqYLKvDo=
-X-Received: by 2002:a05:600c:154e:b0:488:9ed3:1492 with SMTP id 5b1f17b1804b1-488fb74fc02mr326808845e9.10.1776874630262;
-        Wed, 22 Apr 2026 09:17:10 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a9c6:3deb:bd01:ef01])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm248636285e9.9.2026.04.22.09.17.09
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1776886249; x=1777491049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=POsRoNKcX3El6pnQ5j1guV8Iq6Qc5ANtHCMf8xyTKwM=;
+        b=lHIZ7ZKPw14bUrKMzOINA/lwqumUqqSHDW/uDX5xKf/J1bOJOtFfvYJ9Shlk2G+5PC
+         JCQiADtbvpmmc6TgbIl5TaWG8HQAbKOKmjIko9NVrYc1StEjni/h4/O2/ChZii7XaBmp
+         ALd12LpbmxXc5dIgE013rqZC1PRiiseQbZLXFtJxdXRH1nISn18L01D5XKbepySKykYV
+         amQRKlpn/SxO1R1Vys/iAgBQiz8QBCHAu/7Afs66N2D8Migey4aCN9G4V0F4q20Um8uB
+         vv1VTdT2hhwdv1jbZjb+A2UZKhL+UyvUI/Z4f4h1ebZI+PLV3QIGPX4Qp56abw99PrTZ
+         epbw==
+X-Gm-Message-State: AOJu0YybCG+v/j8vSeFfa7U4lmIUepiC39sHXgtGv1wv1vPGqoXkT5wN
+	toAishicPT5riAK7L2OF6W4MXumBm8nRg1PHJBG02fXwpl1dZBy+n+rW3kgAjHmV
+X-Gm-Gg: AeBDievUyp0HsXATi4eetPSCH2KO0y2iMBdrCrp/mD5y/+o6eAxpzGPnW60pqkjppqZ
+	RfdtCFKPglv97M1YdfhE4R/BuyvnqSXVTqOyS8nVbIuARAxKJOZQKgCx7FziKo07F8YTcHdUo9l
+	aHvbrroYDRRGivC7cGTSk6ODPtuFfzeXiCtJicXpg6kpg60rdxFj+dKYQdUrofMcvXW+KhQMtTI
+	lrtMeQx1IMLiEdoKdvOtTFi1bQxO2AGXRawfH1g0qjqn2ZVPJZPXRHknp3+7A3kY5wjvhlmpRz3
+	li6LOzqIWIWJgRYYvut9urvd9OlMRyYp0XL1m1iESSuWRpV9c2XMdqWpKAh4jMlXqnTraaBt8gu
+	0dJ+Y+/TNrf3BThyM9y06gb4oAaqqF5hqKeLhFcX85ks/zSS0MQ9Tbg8H1KJlyVJEUjZqdjlVbZ
+	fCNrgSXVPsuWeZaFap3uWi8n0F7kX+ndbdwvWIM8c5aaLz7U7MtYL2dnTx+8ec+vh2rBynyzu88
+	vFxfyFEfOHqw77a2dWhZUU=
+X-Received: by 2002:a17:906:599c:b0:ba2:5354:95dd with SMTP id a640c23a62f3a-ba41828ccacmr870820766b.5.1776886248738;
+        Wed, 22 Apr 2026 12:30:48 -0700 (PDT)
+Received: from karaburan ([89.150.155.129])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba45504441bsm574833966b.45.2026.04.22.12.30.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 09:17:09 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Wed, 22 Apr 2026 12:30:48 -0700 (PDT)
+From: Jhonata Poma-Hansen <jhonata.poma@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest/runtime_test: Avoid virgl test on opensuse 16.0 for now
-Date: Wed, 22 Apr 2026 17:17:08 +0100
-Message-ID: <20260422161708.597348-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+Cc: Steve Sakoman <steve@sakoman.com>,
+	Ross Burton <ross.burton@arm.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jhonata Poma-Hansen <jhonata.poma@gmail.com>
+Subject: [scarthgap][PATCH] dbus: gate user-session PACKAGECONFIG on systemd in DISTRO_FEATURES
+Date: Wed, 22 Apr 2026 21:29:54 +0200
+Message-ID: <20260422193025.1263535-1-jhonata.poma@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 16:17:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235734
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 19:30:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235735
 
-Currently this sometimes works but sometimes crashes the Xserver on that
-platform. For now, disable it there until someone investiagtes/fixes it.
+On scarthgap images built without systemd in DISTRO_FEATURES, dbus
+still shipped dbus.socket and dbus.service under
+${systemd_user_unitdir} (/usr/lib/systemd/user), because the
+'user-session' PACKAGECONFIG was always enabled and passed
+--enable-user-session --with-systemduserunitdir=... to configure.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+In dbus-1.14.10 the user-session autoconf option (configure.ac and
+bus/Makefile.am 'if DBUS_ENABLE_USER_SESSION') only installs systemd
+user units; it has no non-systemd effect. Enabling it on a sysvinit
+image has no benefit and produces the stale unit files.
+
+Make user-session a systemd-gated PACKAGECONFIG by using
+bb.utils.contains in the default, so it is enabled when systemd is
+in DISTRO_FEATURES and disabled otherwise. No changes to the
+PACKAGECONFIG[user-session] or PACKAGECONFIG[systemd] entries are
+needed: --disable-user-session is passed on sysvinit builds, which
+prevents the configure/Makefile machinery from ever setting up the
+user-unit install step.
+
+This is the scarthgap equivalent of master commit a296b0623eb2
+("dbus: use the systemd class to handle the unit files"), adapted
+to the autotools 1.14.10 recipe. The master fix was broader because
+the meson 1.16.2 build handles unit-file install differently, which
+let that commit drop the manual do_install unit block, the
+systemctl mask postinst, and PACKAGE_WRITE_DEPS. On 1.14.10 those
+pieces are still needed; the minimal correct gate here is the
+user-session default.
+
+Fixes [YOCTO #15779]
+
+Signed-off-by: Jhonata Poma-Hansen <jhonata.poma@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 ++
- 1 file changed, 2 insertions(+)
+Build-verified on scarthgap (crops/poky:ubuntu-22.04), qemux86-64
+core-image-minimal with DISTRO_FEATURES:remove = "systemd" and
+VIRTUAL-RUNTIME_init_manager = "sysvinit". After 'bitbake -c
+cleansstate dbus && bitbake -c package dbus':
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index a337194f9b1..a3c31260368 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -243,6 +243,8 @@ TEST_RUNQEMUPARAMS += " slirp"
-             self.skipTest('virgl isn\'t working with Centos 7')
-         if distro and distro == 'opensuseleap-15.0':
-             self.skipTest('virgl isn\'t working with Opensuse 15.0')
-+        if distro and distro == 'opensuseleap-16.0':
-+            self.skipTest('virgl isn\'t working with Opensuse 16.0')
+- packages-split for dbus/dbus-common/dbus-tools contains no files
+  under /lib/systemd/system or /usr/lib/systemd/user.
+- /etc/init.d/dbus-1 is installed (packages-split/dbus/etc/init.d/).
+- The work tree contains only image/ (no imageno/ side-effect dir
+  that would indicate --without-systemduserunitdir is silently
+  redirecting installs outside ${D}).
+
+systemd-enabled images are unchanged: bb.utils.contains returns
+'user-session' whenever systemd is in DISTRO_FEATURES, so the
+default PACKAGECONFIG matches the pre-patch value for that
+configuration and autotools receives the same flag set.
+
+ meta/recipes-core/dbus/dbus_1.14.10.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/dbus/dbus_1.14.10.bb b/meta/recipes-core/dbus/dbus_1.14.10.bb
+index 4fe7af7512..1b6dd0dad0 100644
+--- a/meta/recipes-core/dbus/dbus_1.14.10.bb
++++ b/meta/recipes-core/dbus/dbus_1.14.10.bb
+@@ -29,7 +29,7 @@ EXTRA_OECONF = "--disable-xml-docs \
+ EXTRA_OECONF:append:class-target = " SYSTEMCTL=${base_bindir}/systemctl"
  
-         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
-         qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)} \
+-                   user-session \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'user-session', '', d)} \
+                   "
+ PACKAGECONFIG:class-native = ""
+ PACKAGECONFIG:class-nativesdk = ""
+-- 
+2.51.2
+
 
