@@ -2,49 +2,49 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 754A5F9EDD5
-	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 13:43:49 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.82859.1776865266123263954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 891DAF9EDD9
+	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 13:57:39 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.9])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.82861.1776865548765118536
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2026 06:41:06 -0700
+ Wed, 22 Apr 2026 06:45:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=ayzp+Gb8;
- spf=pass (domain: est.tech, ip: 52.101.84.29, mailfrom: adarsh.jagadish.kamini@est.tech)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=ZK1Ld4mA;
+ spf=pass (domain: est.tech, ip: 40.107.162.9, mailfrom: adarsh.jagadish.kamini@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R90INu4iUm+4og7B6x9iOPoQWdeqH3+kZA5sbFAmXmpcEcy062Xx9b5hYIQq6Jvsgh9yX2lF0jrXDdNovq4SMn0j0fU5//36fQFoHKVFxUt9w+c4I0LdtObyh/mAywOiUiKp3J84yz21CjAppnn44Y3l+TTuuom4SEAl7U7BgAtU7xMPh2r8DR811OTAtOB4gbuFY1GLIUOKZwdzUwZg/FmzexqPy98y4TBZCRf0vi5zELYjPWXIay7loWQKE/OAaM3fv20JTSxWdNeELtHRkLdZEtXRg/ixjywrMuWgYqpznNdRcDDSe9Vs7JIAQChuY5gdRYx+DUn2tmEIqPsGxg==
+ b=xw/HZeJumLZehtMVBRJDwVBCAdxkZPPUcbTsuCMvyuFfOPMhW1IofLA8hz/JW30WSV5+DELC/HullolYGUwqUfCYYxg/6CWbqjMh7clCkKZd+9z71QdR8/gu7LCHOUXN+g8OYPjbLX/RUQ8IDPIusab3qrNW/0pUHkBOk2JqqPEyCs4rnteYlqPGREOh85cWqfhffiIMCqTrRoqPYq1eqaZqBDSSe7tXa/vNPtiy5FqEb+96AKXN6yEcYK652U6oDL6G7rbLyoD/WyFE4DwdAjJVvUw+0+9RWMriNqk2E8gJNiAM+83ChRTGMJxcOhMfPwKujraJKDlpVz5TKWOdaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wztnPNA6kt5WRdai4va8EHX2L8j4/3mESmBMZlQz0lE=;
- b=SDUKUkmeZeRxyacWkE0csDw+yEuZYNt+DBh0KDIm4z5wsBwFuR/kChezms8PDSYi15iMahGxkIfaNMdnZY/rwlRVcH9dh9GTOVWCXDtA8jVUFNdrwTYXxe9VpVxcqCPcU1pzGcWbM/nHQa7/b17mKQM8tRpAskhapWYBq79xLuY/Ep0Xqr7CtqStkoxTP3S+CRTpKy8EEUU00gRdEoMuBHJ1peiqQj2TqQyvB3NsMFXSDF6/q3P83FxDYf77louLKVl6oaEx5/d/q+6eVbfY+f6Sg/cBf/1ADbSYcT8vJ0JndN0y0KbCcDed1bzZLMPR2WmW+CVs89LbkVdCQLEmnA==
+ bh=RJcibLnrZFBJrpMBaaq/aEbzZOPv5c2XfWD/kJBmKuM=;
+ b=J/doEljCMRL/rnBe1jhFgNMJvB27F7IkQ8uyINtAlKQ3kVeFV2VrMpOqMOri3YPq4xlu9M0sTftJT+kL6r0+CazBUUA946OmX1r6DO0a5VARqiB2UuoIlJnTRFKUG2oUvLVWM6e457AkfXtj9lg7PeV97dfPriyQaUsU6J+3SjvtJTlUrgwwRkEr4O2+ywed969b0/3v5HaAdTe0UCHk7Bc0xVDOrcb47zcKUujOsEhLQsYwM3IwdRON6mfQo4eJq0d5x4Rl1LIWKzk6htvYXpnBxR4rLqQJFPGXHid6htfhjPSV1nDk0bq1u7Vh/1fZ2S/ZQUAq+qiHSyL5ty1djQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wztnPNA6kt5WRdai4va8EHX2L8j4/3mESmBMZlQz0lE=;
- b=ayzp+Gb82l+Nqxm94s9bWr63TGPMYA2XbQdtuKY84ApJkEtAyZSq6BfF0uqIhCJ7aMCV9aZiblt/41BBLhHbZh64mX16cF40vT0z5Yigx9ORji4gpgWhB7EmE4RnlKMZjh5vqlS5OJ5Uc3tCbXPryxx4hPUXNpIIkDbNmbIODaCO0PoYbIihHR3WS/JVf7Jy8TDL0NQKIKEgbw3AhS6QgpK9ClWyYvLGF0pOmksbeyTT0KB8Sphwsvh82MNntAdgzmxujIBVCrNXawACJDov7rQwMAXm4aoqamUpPScJfD54EHMFXvL1GMrDu8mZ09dKmO5hnTijWg0Oa3tEpJH/Eg==
+ bh=RJcibLnrZFBJrpMBaaq/aEbzZOPv5c2XfWD/kJBmKuM=;
+ b=ZK1Ld4mAdKzFqNHil+v1MizNoAgWWE6EPxQHulpK3O+kt+kq/UIk0R0QZJy5/leJjpTj3vME8ea9eZPzN1mVzDyaVYmGUQrgfGlgjoC+cJBfj+EHLvZh9wV/IjopKE3JoRN/cD5YA+/3z10TzhgO9pwlBdDmwqEJJ9SgJ2JND5uLeCtw3ZWc3kOtMqo0V/WGSjF4EUDxUxc0eXkl2XRgHCHqNQrChPX6LUYC7+djTo/FAKHoU8yTuNDpcABWX2YUekPOx+4Gbht517CiNPtMz4+zp7qG/Ogv5pi4lbPOiBXP/1By64A72fodx01VcyPVYo9b6hcpXsPRrvGH8kMRrw==
 Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by GVXP189MB3387.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2ab::13) with
+ by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Wed, 22 Apr
- 2026 13:41:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.18; Wed, 22 Apr
+ 2026 13:45:44 +0000
 Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
  ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
  ([fe80::f147:85e5:34de:eeff%6]) with mapi id 15.20.9846.016; Wed, 22 Apr 2026
- 13:41:00 +0000
+ 13:45:44 +0000
 From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH 3/4] binutils: fix CVE-2025-69649
-Thread-Topic: [OE-core][scarthgap][PATCH 3/4] binutils: fix CVE-2025-69649
-Thread-Index: AQHc0lh9l0ZcLojaME6p1K0fFsEwIrXrFDKx
-Date: Wed, 22 Apr 2026 13:41:00 +0000
+Subject: Re: [OE-core][scarthgap][PATCH 4/4] binutils: fix CVE-2025-69652
+Thread-Topic: [OE-core][scarthgap][PATCH 4/4] binutils: fix CVE-2025-69652
+Thread-Index: AQHc0liHqhJgTnMsoEiRlt+tbs73XrXrF8TI
+Date: Wed, 22 Apr 2026 13:45:44 +0000
 Message-ID: 
- <AS8P189MB167235D33D9618A5E6294A6BB32D2@AS8P189MB1672.EURP189.PROD.OUTLOOK.COM>
-References: <20260422130358.386475-1-adarsh.jagadish.kamini@est.tech>
-In-Reply-To: <20260422130358.386475-1-adarsh.jagadish.kamini@est.tech>
+ <AS8P189MB167256874023C8229D7D82EBB32D2@AS8P189MB1672.EURP189.PROD.OUTLOOK.COM>
+References: <20260422130413.386573-1-adarsh.jagadish.kamini@est.tech>
+In-Reply-To: <20260422130413.386573-1-adarsh.jagadish.kamini@est.tech>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -52,161 +52,162 @@ msip_labels:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8P189MB1672:EE_|GVXP189MB3387:EE_
-x-ms-office365-filtering-correlation-id: b76b20ae-5c40-49d8-ffd4-08dea074ca19
+x-ms-traffictypediagnostic: AS8P189MB1672:EE_|DU7PPF66507B2D7:EE_
+x-ms-office365-filtering-correlation-id: c093b6d8-8a36-4f4d-2931-08dea0757385
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|8096899003|13003099007|38070700021|56012099003|18002099003|22082099003;
+ BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|18002099003|56012099003|38070700021|13003099007|8096899003;
 x-microsoft-antispam-message-info: 
- YhVsdONaTP5HBvv7k6sgfl73lgepac3vdaXiU6QI0aZ/yOYnHSakBKujfpmkWL6+MeAO0bBa/tDkNz3HV+MKTPvAnqVlWMN02dQBhZUpljxRetRBeZ4ZYXIyKJj1dsIoG3gKTTXHuijVwnz9o5yl93AdxT+syfHOm3bq/FOLebx6UWcdv1uO7QMNBjJjnSJGr1NwT9rxuOrHTQV6XVIFBJp14MrLs208QjtIy8frKo9oJ5MjqHD8nTr2J6GOIlnYphhqO45kpd4jZxtOSd/U9Rc7tLuuWOg2MNbMogJyDq9IfaGVnrPdpg6o6+F55LbV5nt8tuxrgJe2PzSsN+V1KrTdYTltshm+gqYyblMTTWVq4g7EUHRa0BYYO2k/x0dSDk3fHhxe/J96iOj9Nr1x2Fo+UiULCScUReLFZYzQ6FOn3xYNPMfu1PijyzKPf1dB7i/rqyOmcUfJ+tHyCN2BXxegdh8X9eQs25n7fB3zTvBxAs78RObRj8DVoj7sRaXsooQ8F/b1IsKoVZQ2rPGEBn5KCSfLbC93QP+FAC/TjvFS7/fKA9FczosFgCY52X4Krci9l5He8Rqql6WyetwO0Bd09WIzyM9qswVQi+/jQgvL708n2/a5FxkvIj7V5aJhO3sLKMv0ZLvoIeq4FJHX+0bXXHBQqdMng1RbcrS1a+hupxReOAAsLetc6+BUzN3HqWNRIIqa3Y4DLiN08qF+Njmf/dmdiUds1ycS+hjXv/LlCVB1sDVKgacUGANBXoV7
+ 47++AcRiJSms8i310QEFiBgb771/Av5X5Nkmcp2piWOxg5WqcBzltxme0cYz7m4gHCGSyejuTgHXWfw40tYVBj82KpkpXbJpx64ogWeHh88ljWz99gfHRYOnXjRkwpW9zoUOauha0kcacPqU+3/iVluKTGDVgyVllzcOpuxWxwFAAiV2lBp6npn6gM6NpX5L56IeqrpkO3iYOXlH9yEq2SMpSdlJi4QwjWKDbGxd6xX73/kfilhUezbPVYDS9PmwZ4WC47VvvDIvoS4BBe1Z5xvPvQn3g4x61IumxH0HyM1ay41BT1isuW9m+RZl6xHAg1wuWgo9C233RQeFDLrWeXJBSKUTV7/KBAi56aF/s6j1MxRDi4gR/65Cw4S5BZShsCezKiRBT1G5vSDHDDcuaJli5/88XKeB5F9l3GiD6MRh0g6R/QDkHqiADrOYLHyxIDkK48RS8wam8YQyAmviPD2zBDWpjDXIdySEzTJEowv7tEIXzwg78jPZxTowCZI6uvhyuzUkqxSD7z+7NQCLdvrnE+gW0UdW0rHVFm2kdY2xY90A7wy8QEwvYAYA4H/D8FOWEU62qNOozYu7s5h5U0prL72TOv89FL/6fBgvWOyvXs0tQez0RBgSez/r6tbBmu5jFTuRfTDSfHVyuq9S1Jci8rXfsGEExX+gaZkPXtCt5FvCtbvw2ORNeosDnclzY414Fd9Xx/Swe/JnxMJbOd+OI3HHOIQJSfY3Z+xOOBLUI1zSj/Pp+SZNoYpJxL6l
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(8096899003)(13003099007)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(18002099003)(56012099003)(38070700021)(13003099007)(8096899003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?CGz070LVXQxmysoGRt93u6NeoVctGPiRrbWI2eXLSAJmSWNH8gelTDtvZk?=
- =?iso-8859-1?Q?GiF2/IcRiVhXVwhXtSQd2h9+p+nN8Amk1BK2/bRpH/AjO2yQEGu0PTXXIb?=
- =?iso-8859-1?Q?fcfZT3pKYYgdQF5YZ9ZWnGoGguPtCEkcGBeuVE2XLApPRGlOqoEE9X1Nt/?=
- =?iso-8859-1?Q?Kb9oawopRTGrwhE2THAFrGSjyd13EPc+XrreEx8/NLT4q15STZPdWzSSKd?=
- =?iso-8859-1?Q?SWKq7aBFaOTl6vcuYpM/N4F40awIopA+mMU2mXwxIRx4RU1pXMacOXoj3j?=
- =?iso-8859-1?Q?q6fu3sNyU5SYP2Pyt5q3Am2Q7T4shySj4p+Xb2UQ+Z5lR/AxAGLerg8MXz?=
- =?iso-8859-1?Q?XId1h4f2HuzPzRl8Xv6doyD+jWVRQ864hNTh8+a6Baf/Le63ZHiXrgfsIN?=
- =?iso-8859-1?Q?MEkHolR3rYEWOc3qU+J/pxr9cb52/8jtQOAMr20JR7KFbKjmVvWOb/TjyY?=
- =?iso-8859-1?Q?YzBl6F5leeiodmds4HmDxMhAXO3wp+FgRBCqyR1lQxpUET/RLTcEiPhAtL?=
- =?iso-8859-1?Q?cyrXs/Ij1X/eIbZp0nKuaKALSMVqS0IiRXw1e3bWignEfHzsPd84C04AkQ?=
- =?iso-8859-1?Q?BzmwT57iblGVfFPnYWSV9vvwYmj2V0ozMxs6JKDiOfWfdZZ7kdbba39yFJ?=
- =?iso-8859-1?Q?UumMFF/wLFUz36rDo7oBWmrrLl1jELH3tdHvEZmH+vX3XZ0gg+m4394IsK?=
- =?iso-8859-1?Q?Cdny80wcyEp0T6RKwu/Doo1W4uxbM6EUXoOCQ6O+Q6dvTgWAfPenEINOWR?=
- =?iso-8859-1?Q?qaP+PgYpzXx+9/kheq4E7YTI9lbjQnrvRBeweakMp8HKvvTslphmJGBWYJ?=
- =?iso-8859-1?Q?HXPgmkR41g/i1f+44a/Twq0eT+orFdwLjB9pM6oFyHnzCvHfknOUlr4wgX?=
- =?iso-8859-1?Q?rTYRdIHsCfXlX46iBTd2rs0cFuqKqDkX+obEgWfpWENS8aIc9Ia1tUkKdW?=
- =?iso-8859-1?Q?aTYKwAf1FuCc6q5PQqk/A/8XRLS2gz8TBvcQxn6x7lL8eJcv2i9zwPyMDY?=
- =?iso-8859-1?Q?KTtaX8EDmMv9Em2YEns8krReK9x1rD1qr4emGBiJ+Uy7e/CPqxy1jMnoSZ?=
- =?iso-8859-1?Q?WIA603bYtlBFYcLKy8KdSA2G4qBemD35Nq8dF99HjL9c7tlG15d9IPuVKX?=
- =?iso-8859-1?Q?r/4FSZG2NfW6XxEtb+3WObpo/XoqwLJ6qFe2xCls1mTcFvn2zQtq1tmSch?=
- =?iso-8859-1?Q?V3neGSmJ/p7eGgb61LHZfVWjjctFKOvu9fXsmwmqQAdwcMZmGWZvlkMXKS?=
- =?iso-8859-1?Q?zCmGg0VyIDBN+3dDJTsDTgiTPZPSBw3AjkOxBQ8KkGg7/z7+w/kQ5RRh4/?=
- =?iso-8859-1?Q?mRKX3hR+PlGR9sGk3kGfOWJcoNQA1fXExC4XlyU+4icFhFNvtH2Ll2NnQ9?=
- =?iso-8859-1?Q?fx9+YqkVYWjRRJigzKLxksn/IatqWxfy6Q8g56s8ZExmr6Llq9zSImVj22?=
- =?iso-8859-1?Q?i2bDXOvMhATg2lL5730Tp04xG/auGpSOL1YmSWaKhjWvUd9qXAZzyJWnvJ?=
- =?iso-8859-1?Q?iKVPOUbGjab9BzmVxnNYgpA73vQDV0WRasmrIWkSSJUjFuezWZ+dWmsAF1?=
- =?iso-8859-1?Q?aj8WZ5pkeWCQvmPD544QDxygzqLHD7fQR+566tjr8zWSP7pAJVP1ZP8Eca?=
- =?iso-8859-1?Q?i+M18n/1lgJzEGzgWEPAsmfSM9GQsuo4LpPdKcySqP81Gg4HdnZuj8mlA3?=
- =?iso-8859-1?Q?ccNr+NT6SZl/myNBdKjvPS0QIzCVwSl8VxN2stok0DsxED7REMW7TUQnkT?=
- =?iso-8859-1?Q?qcNkOcM/T3V9n7ThRUsN7ez6oH20MmjfakVhERYgllH3/iI3DPT/K/2ZzN?=
- =?iso-8859-1?Q?J/ybtP9gAR02EXRkLmbKgpw8uC9p7ow=3D?=
+ =?us-ascii?Q?IEw+leoOeQMHy549eg7miFAAA5ugvo8hCk0L5T1G3ZFy3Hmo8YkZlBicBp0Y?=
+ =?us-ascii?Q?iO9bFwWdipcMDLBI+2r8iI8/X7lFeaWS5cEGP5pzmFQ+Owvl8mrG0BkebAdX?=
+ =?us-ascii?Q?rJzTCLoIen/1n3PZHydfBRMSi++vby9MELsltuXuRi5h5mYO7+uM3eXTcrCS?=
+ =?us-ascii?Q?XSu6FY70iIhMi5t3xWb2faARbUD62QspOB1rfuBmloNs/g/ZnBfqEmVjR6Ew?=
+ =?us-ascii?Q?EbdX2mlK4keOiIDQ+rCkaqxhGE3ABaTBswlsT1sqBSlxD3V9TRxpwWcRdxTq?=
+ =?us-ascii?Q?5/PGXZxlpFnWHVNZEt31FUL9Q6k0TJN4sXuNi77urvoyFPg0a9s/uhyu2VCl?=
+ =?us-ascii?Q?5jAburHhwW1L+97dbrMhYV70TQDPX5qiH+SETkIV5r6xAOFI8918lyWmVGUr?=
+ =?us-ascii?Q?buQ/anVRj36A+OnwqhMtJ9ygZbNTCGLxi7loVNuoIAXYTRuVhMHy3y4Vlwsi?=
+ =?us-ascii?Q?0Tav/D1cyO2HBmDToXGngZGAo9JYtw01LeomLD9UnDo3Wp51avFd925d45x8?=
+ =?us-ascii?Q?6D4OpSWAu0aN6J3pVqrUDOd72AqLD6ZvSW5D1/Her0B4O8plci+3E3UW0FUG?=
+ =?us-ascii?Q?q3sXks4rDySdObR9YspBz05kSADP6myoVuzKCIubzGJ1H+7bCWQOewghrqd0?=
+ =?us-ascii?Q?rfKOQCr9tFQGV/xJ0uudM8fEPsbe0vi7GgZwxFiMeH9STynpRxC0JAlZCvtP?=
+ =?us-ascii?Q?oI3gQX/se7HfrQCIAOBMlOytzwTYcr4gTPEg90mpiSbI5dxZciz/HiQmM1qh?=
+ =?us-ascii?Q?7FLH4RqxnjXRx0tCi4PdnBNKTXF9SoxwNucxqIFM1w+84p9gOR/Puif/PDsd?=
+ =?us-ascii?Q?aAjSlDkDbfBKMLkvcj0AFVSFgdnv5f8l5C0sMreOVB9T5ZHRnlxEl1zpW2fL?=
+ =?us-ascii?Q?gnvSSn1GTcEvjonsM1rnx8OrMnB3z0M+3YWpuvxfp0zX74dvCAe7Jrky/7N+?=
+ =?us-ascii?Q?JWF7LJwa9jTb14EuO7EoZT9k2OXMq0he02jp2SlQLN0UK4wQQA+hV0Do81Zq?=
+ =?us-ascii?Q?EuZZVAZVKCYHnHZ4smqQ+DuXu9qkfJa4VzzdcjTCHlYRTiqPTEolcq7plka4?=
+ =?us-ascii?Q?9CtiuFvDjlsBZdX0GQNOoMaJvpv/N55KVvDMPrlr00EqpQ53WPeeom92wSl6?=
+ =?us-ascii?Q?w66xm7kVoiXoIvfEwDLy28Nkfg8K3EMtxaa11JPQqAD8cfwtx2yMiKgOzO1O?=
+ =?us-ascii?Q?rFdxlBQE7tQkM4F3I/wKLjog/ycLJNLRCPkwGDJh7ydDiUf04R/RaQ9PDm+c?=
+ =?us-ascii?Q?5mf9XNPR9qv2HHWGtIhScVoN5ohkUQPYMZ5Jq3uX3KOfF9IXFcU79mxY9rgK?=
+ =?us-ascii?Q?L89vyETD8xN6YYra0zb4iUJsAGW3R5aWAipR9xO/ArF35RSZjuukQHQ6lA5y?=
+ =?us-ascii?Q?Ra0Qv8n1ag8qQcOmuvXecV0IWeuqkln9ACzy9v84I+qTnTb/iotJlcCezQkG?=
+ =?us-ascii?Q?vMdB+UZhnaE2eFxXW/7M2FBL9AhmqZ2Z7bxnrpacVkGOthhSyPk8vcqgvRwt?=
+ =?us-ascii?Q?ulCAJcT0STwLGVCSJadceyevqI6wxbr2c+yf+d6kXAKYy+JIgmdUrIsfh+xX?=
+ =?us-ascii?Q?EX+vxGqFAAQ9LpmnfKZAXdOOfI9cvZSLbLVDW8aSJI3NgfkSdaSTfjK8/1Uh?=
+ =?us-ascii?Q?eMQIsIzgOKyWjdv/a2bqGTEDujBh1JX2fHskANWeqWwLMKN05zhWClsz4zq0?=
+ =?us-ascii?Q?IvxznVkyEoGa7/tpIq19f4rqzI1TKdnwT/Mpcus5neNz0eFA5z81zxmlGC22?=
+ =?us-ascii?Q?K6g13lbVnNkrl/AvjMW8NEUmbIcdEZs=3D?=
 MIME-Version: 1.0
 X-OriginatorOrg: est.tech
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: b76b20ae-5c40-49d8-ffd4-08dea074ca19
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2026 13:41:00.0344
+X-MS-Exchange-CrossTenant-Network-Message-Id: c093b6d8-8a36-4f4d-2931-08dea0757385
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2026 13:45:44.2723
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nAmPa3pG6nn888WJk9STYo1TGS3GE2/VBi7zY1djWBGaICirX+mLnoXc1IBzTAaVIqmNP4SkPgoNUtmpYyYf5FjKZsjpERFIIsYCujP/lUk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB3387
+X-MS-Exchange-CrossTenant-userprincipalname: p2HP6dKdEg57+JSNcljLv1SRBBVVH7xvhKVaB3gmbedihx0okJTi57Pb7zx03dXDg2BmVtkJabdlP8Sr6DlZ3EX+Rwhj9RJbSdFiQqbRaFU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPF66507B2D7
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_AS8P189MB167235D33D9618A5E6294A6BB32D2AS8P189MB1672EURP_"
+	boundary="_000_AS8P189MB167256874023C8229D7D82EBB32D2AS8P189MB1672EURP_"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 13:43:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235725
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 13:57:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235726
 
---_000_AS8P189MB167235D33D9618A5E6294A6BB32D2AS8P189MB1672EURP_
-Content-Type: text/plain; charset="iso-8859-1"
+--_000_AS8P189MB167256874023C8229D7D82EBB32D2AS8P189MB1672EURP_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
-Please drop this patch, this doesn't apply for binutils 2.42
+Please drop this patch for CVE-2025-69652, this doesn't apply for binutils =
+2.42
 
 Thanks!
 Adarsh
+
 ________________________________
 From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Sent: Wednesday, April 22, 2026 15:03
+Sent: Wednesday, April 22, 2026 15:04
 To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
 mbedded.org>
 Cc: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][scarthgap][PATCH 3/4] binutils: fix CVE-2025-69649
+Subject: [OE-core][scarthgap][PATCH 4/4] binutils: fix CVE-2025-69652
 
 From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-Backport upstream fix for CVE-2025-69649 [1].
+Backport upstream fix for CVE-2025-69652 [1].
 
-[1] https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D66a3492c=
-e68e1ae45b2489bd9a815c39ea5d7f66
+[1] https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommitdiff;h=3D44b=
+79abd0fa12e7947252eb4c6e5d16ed6033e01
 
 Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 ---
  .../binutils/binutils-2.42.inc                |  1 +
- .../binutils/binutils/CVE-2025-69649.patch    | 42 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69649.=
+ .../binutils/binutils/CVE-2025-69652.patch    | 41 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69652.=
 patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipe=
 s-devtools/binutils/binutils-2.42.inc
-index 6c1f9dc870..8a92807f30 100644
+index 8a92807f30..8768451303 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -73,5 +73,6 @@ SRC_URI =3D "\
-      file://0030-CVE-2025-11840.patch \
+@@ -74,5 +74,6 @@ SRC_URI =3D "\
       file://CVE-2025-69647.patch \
       file://CVE-2025-69648.patch \
-+     file://CVE-2025-69649.patch \
+      file://CVE-2025-69649.patch \
++     file://CVE-2025-69652.patch \
  "
  S  =3D "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch b=
+/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
 new file mode 100644
-index 0000000000..bf27987625
+index 0000000000..c0c7c99c2a
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
-@@ -0,0 +1,42 @@
-+From cc53801dff2ba4bc62eaa666b3b7d9401232089c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
+@@ -0,0 +1,41 @@
++From 5a2f57ab03067f6622c19983e1e31207bd2293a6 Mon Sep 17 00:00:00 2001
 +From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 8 Dec 2025 15:58:33 +1030
-+Subject: [PATCH] PR 33697, fuzzer segfault
++Date: Mon, 8 Dec 2025 16:04:44 +1030
++Subject: [PATCH] PR 33701, abort in byte_get_little_endian
 +
-+       PR 33697
-+       * readelf.c (process_relocs): Don't segfault on no sections.
++       PR 33701
++       * dwarf.c (process_debug_info): Set debug_info_p NULL when
++       DEBUG_INFO_UNAVAILABLE.
 +
-+CVE: CVE-2025-69649
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
-ils-gdb.git;h=3D66a3492ce68e1ae45b2489bd9a815c39ea5d7f66]
++CVE: CVE-2025-69652
++Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.gi=
+t;a=3Dcommitdiff;h=3D44b79abd0fa12e7947252eb4c6e5d16ed6033e01]
 +
-+(cherry picked from commit 66a3492ce68e1ae45b2489bd9a815c39ea5d7f66)
++(cherry picked from commit 44b79abd0fa12e7947252eb4c6e5d16ed6033e01)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 +---
-+ binutils/readelf.c | 8 +++-----
-+ 1 file changed, 3 insertions(+), 5 deletions(-)
++ binutils/dwarf.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
 +
-+diff --git a/binutils/readelf.c b/binutils/readelf.c
-+index 8f188e8c3e2..8d28b1c30e4 100644
-+--- a/binutils/readelf.c
-++++ b/binutils/readelf.c
-+@@ -9621,13 +9621,11 @@ process_relocs (Filedata * filedata)
-+       size_t i;
-+       bool found =3D false;
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 2462e6540a7..0d88ea94619 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -4248,9 +4248,11 @@ process_debug_info (struct dwarf_section * section,
++              break;
++            }
 +
-+-      for (i =3D 0, section =3D filedata->section_headers;
-+-         i < filedata->file_header.e_shnum;
-+-         i++, section++)
-+-      {
-++      section =3D filedata->section_headers;
-++      if (section !=3D NULL)
-++      for (i =3D 0; i < filedata->file_header.e_shnum; i++, section++)
-+          if (display_relocations (section, filedata))
-+            found =3D true;
-+-      }
++-        debug_info *debug_info_p =3D ((debug_information
++-                                     && unit < alloc_num_debug_info_entri=
+es)
++-                                    ? debug_information + unit : NULL);
+++        debug_info *debug_info_p =3D NULL;
+++        if (debug_information
+++            && num_debug_info_entries !=3D DEBUG_INFO_UNAVAILABLE
+++            && unit < alloc_num_debug_info_entries)
+++          debug_info_p =3D debug_information + unit;
 +
-+       if (! found)
-+        {
++          assert (!debug_info_p
++                  || (debug_info_p->num_loc_offsets
 +--
 +2.35.6
 +
@@ -214,14 +215,14 @@ ils-gdb.git;h=3D66a3492ce68e1ae45b2489bd9a815c39ea5d7f66]
 2.34.1
 
 
---_000_AS8P189MB167235D33D9618A5E6294A6BB32D2AS8P189MB1672EURP_
-Content-Type: text/html; charset="iso-8859-1"
+--_000_AS8P189MB167256874023C8229D7D82EBB32D2AS8P189MB1672EURP_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 <html>
 <head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
 <style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
 ttom:0;} </style>
 </head>
@@ -233,7 +234,8 @@ Hi,</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
 olor: rgb(0, 0, 0);">
-Please drop this patch, this doesn't apply for binutils 2.42</div>
+Please drop this patch for <span style=3D"font-weight: 600;">CVE-2025-69652=
+</span>, this doesn't apply for binutils 2.42</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
 olor: rgb(0, 0, 0);">
@@ -247,135 +249,139 @@ Thanks!</div>
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
 olor: rgb(0, 0, 0);">
 Adarsh</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div id=3D"divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tec=
-h&gt;<br>
-<b>Sent:</b>&nbsp;Wednesday, April 22, 2026 15:03<br>
-<b>To:</b>&nbsp;openembedded-core@lists.openembedded.org &lt;openembedded-c=
-ore@lists.openembedded.org&gt;<br>
-<b>Cc:</b>&nbsp;Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&=
-gt;<br>
-<b>Subject:</b>&nbsp;[OE-core][scarthgap][PATCH 3/4] binutils: fix CVE-2025=
--69649</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
 </div>
-<div style=3D"font-size: 11pt;">From: Adarsh Jagadish Kamini &lt;adarsh.jag=
-adish.kamini@est.tech&gt;<br>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Adarsh Jagadish Kamin=
+i &lt;adarsh.jagadish.kamini@est.tech&gt;<br>
+<b>Sent:</b> Wednesday, April 22, 2026 15:04<br>
+<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Cc:</b> Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&gt;<b=
+r>
+<b>Subject:</b> [OE-core][scarthgap][PATCH 4/4] binutils: fix CVE-2025-6965=
+2</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">From: Adarsh Jagadish Kamini &lt;adarsh.jagadish.k=
+amini@est.tech&gt;<br>
 <br>
-Backport upstream fix for CVE-2025-69649 [1].<br>
+Backport upstream fix for CVE-2025-69652 [1].<br>
 <br>
-[1] <a href=3D"https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=
-=3D66a3492ce68e1ae45b2489bd9a815c39ea5d7f66" data-auth=3D"NotApplicable" id=
-=3D"OWAff4b33ae-3b5b-b69a-3c63-898a2d9b80e2" class=3D"OWAAutoLink">
-https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D66a3492ce68e=
-1ae45b2489bd9a815c39ea5d7f66</a><br>
+[1] <a href=3D"https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommitd=
+iff;h=3D44b79abd0fa12e7947252eb4c6e5d16ed6033e01">
+https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommitdiff;h=3D44b79ab=
+d0fa12e7947252eb4c6e5d16ed6033e01</a><br>
 <br>
 Signed-off-by: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&g=
 t;<br>
 ---<br>
 &nbsp;.../binutils/binutils-2.42.inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
 sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 1 +<br>
-&nbsp;.../binutils/binutils/CVE-2025-69649.patch&nbsp;&nbsp;&nbsp; | 42 +++=
+&nbsp;.../binutils/binutils/CVE-2025-69652.patch&nbsp;&nbsp;&nbsp; | 41 +++=
 ++++++++++++++++<br>
-&nbsp;2 files changed, 43 insertions(+)<br>
+&nbsp;2 files changed, 42 insertions(+)<br>
 &nbsp;create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-6=
-9649.patch<br>
+9652.patch<br>
 <br>
 diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipe=
 s-devtools/binutils/binutils-2.42.inc<br>
-index 6c1f9dc870..8a92807f30 100644<br>
+index 8a92807f30..8768451303 100644<br>
 --- a/meta/recipes-devtools/binutils/binutils-2.42.inc<br>
 +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc<br>
-@@ -73,5 +73,6 @@ SRC_URI =3D &quot;\<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://0030-CVE-2025-11840.patch"=
- data-auth=3D"NotApplicable" id=3D"OWA38757733-87c0-bbe5-4c06-280de5b89f4e"=
- class=3D"OWAAutoLink">
-file://0030-CVE-2025-11840.patch</a>&nbsp;\<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2025-69647.patch" data=
--auth=3D"NotApplicable" id=3D"OWA4eb4abaa-9f9e-6b68-f6c3-b3fdc9a90b03" clas=
-s=3D"OWAAutoLink">
-file://CVE-2025-69647.patch</a>&nbsp;\<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2025-69648.patch" data=
--auth=3D"NotApplicable" id=3D"OWAdb0ee430-164a-98b3-b9e6-522814ca2d48" clas=
-s=3D"OWAAutoLink">
-file://CVE-2025-69648.patch</a>&nbsp;\<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2025-69649.patch" data-auth=
-=3D"NotApplicable" id=3D"OWAe1ae0711-6a63-ac05-c029-efbc74467c4c" class=3D"=
-OWAAutoLink">
-file://CVE-2025-69649.patch</a>&nbsp;\<br>
+@@ -74,5 +74,6 @@ SRC_URI =3D &quot;\<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2025-69647.patch">file=
+://CVE-2025-69647.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2025-69648.patch">file=
+://CVE-2025-69648.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2025-69649.patch">file=
+://CVE-2025-69649.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2025-69652.patch">file://CV=
+E-2025-69652.patch</a> \<br>
 &nbsp;&quot;<br>
 &nbsp;S&nbsp; =3D &quot;${WORKDIR}/git&quot;<br>
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch<br>
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch b=
+/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch<br>
 new file mode 100644<br>
-index 0000000000..bf27987625<br>
+index 0000000000..c0c7c99c2a<br>
 --- /dev/null<br>
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch<br>
-@@ -0,0 +1,42 @@<br>
-+From cc53801dff2ba4bc62eaa666b3b7d9401232089c Mon Sep 17 00:00:00 2001<br>
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch<br>
+@@ -0,0 +1,41 @@<br>
++From 5a2f57ab03067f6622c19983e1e31207bd2293a6 Mon Sep 17 00:00:00 2001<br>
 +From: Alan Modra &lt;amodra@gmail.com&gt;<br>
-+Date: Mon, 8 Dec 2025 15:58:33 +1030<br>
-+Subject: [PATCH] PR 33697, fuzzer segfault<br>
++Date: Mon, 8 Dec 2025 16:04:44 +1030<br>
++Subject: [PATCH] PR 33701, abort in byte_get_little_endian<br>
 +<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PR 33697<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * readelf.c (process_relocs): Don't s=
-egfault on no sections.<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PR 33701<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * dwarf.c (process_debug_info): Set d=
+ebug_info_p NULL when<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEBUG_INFO_UNAVAILABLE.<br>
 +<br>
-+CVE: CVE-2025-69649<br>
-+Upstream-Status: Backport [<a href=3D"https://sourceware.org/git/gitweb.cg=
-i?p=3Dbinutils-gdb.git;h=3D66a3492ce68e1ae45b2489bd9a815c39ea5d7f66" data-a=
-uth=3D"NotApplicable" id=3D"OWA8c62964a-f829-383d-6255-c9ab7c1c21b0" class=
-=3D"OWAAutoLink">https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git=
-;h=3D66a3492ce68e1ae45b2489bd9a815c39ea5d7f66</a>]<br>
++CVE: CVE-2025-69652<br>
++Upstream-Status: Backport [<a href=3D"https://sourceware.org/git/?p=3Dbinu=
+tils-gdb.git;a=3Dcommitdiff;h=3D44b79abd0fa12e7947252eb4c6e5d16ed6033e01">h=
+ttps://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommitdiff;h=3D44b79abd=
+0fa12e7947252eb4c6e5d16ed6033e01</a>]<br>
 +<br>
-+(cherry picked from commit 66a3492ce68e1ae45b2489bd9a815c39ea5d7f66)<br>
++(cherry picked from commit 44b79abd0fa12e7947252eb4c6e5d16ed6033e01)<br>
 +Signed-off-by: Deepak Rathore &lt;deeratho@cisco.com&gt;<br>
 +Signed-off-by: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&=
 gt;<br>
 +---<br>
-+ binutils/readelf.c | 8 +++-----<br>
-+ 1 file changed, 3 insertions(+), 5 deletions(-)<br>
++ binutils/dwarf.c | 8 +++++---<br>
++ 1 file changed, 5 insertions(+), 3 deletions(-)<br>
 +<br>
-+diff --git a/binutils/readelf.c b/binutils/readelf.c<br>
-+index 8f188e8c3e2..8d28b1c30e4 100644<br>
-+--- a/binutils/readelf.c<br>
-++++ b/binutils/readelf.c<br>
-+@@ -9621,13 +9621,11 @@ process_relocs (Filedata * filedata)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; size_t i;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bool found =3D false;<br>
-+<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (i =3D 0, section =3D filedata-&gt;sec=
-tion_headers;<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i &lt; filedata-&gt;file=
-_header.e_shnum;<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i++, section++)<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; section =3D filedata-&gt;section_headers;<=
-br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (section !=3D NULL)<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (i =3D 0; i &lt; filedata-&gt;file_hea=
-der.e_shnum; i++, section++)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (display_relocat=
-ions (section, filedata))<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; found =
-=3D true;<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (! found)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>
-+--<br>
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c<br>
++index 2462e6540a7..0d88ea94619 100644<br>
++--- a/binutils/dwarf.c<br>
+++++ b/binutils/dwarf.c<br>
++@@ -4248,9 +4248,11 @@ process_debug_info (struct dwarf_section * section,=
+<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; break;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
++ <br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; debug_info *debug_info_p =3D (=
+(debug_information<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&=
+amp; unit &lt; alloc_num_debug_info_entries)<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ? debug_info=
+rmation + unit : NULL);<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; debug_info *debug_info_p =3D N=
+ULL;<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (debug_information<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&=
+amp; num_debug_info_entries !=3D DEBUG_INFO_UNAVAILABLE<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&=
+amp; unit &lt; alloc_num_debug_info_entries)<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; debug_info_p =3D d=
+ebug_information + unit;<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; assert (!debug_info=
+_p<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp; || (debug_info_p-&gt;num_loc_offsets<br>
++-- <br>
 +2.35.6<br>
 +<br>
---<br>
+-- <br>
 2.34.1<br>
 <br>
 </div>
+</span></font></div>
 </body>
 </html>
 
---_000_AS8P189MB167235D33D9618A5E6294A6BB32D2AS8P189MB1672EURP_--
+--_000_AS8P189MB167256874023C8229D7D82EBB32D2AS8P189MB1672EURP_--
 
