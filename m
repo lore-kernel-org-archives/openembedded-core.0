@@ -1,262 +1,185 @@
-Return-Path: <corentin.guillevic@smile.fr>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39A19F9B5F7
-	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 09:33:14 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.76982.1776850386210607868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC80F9B5F8
+	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 09:33:54 +0000 (UTC)
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.76749.1776850429916395149
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2026 02:33:06 -0700
+ Wed, 22 Apr 2026 02:33:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GqG9zs0n;
- spf=pass (domain: smile.fr, ip: 209.85.208.43, mailfrom: corentin.guillevic@smile.fr)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-671dad7cac8so7634284a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 02:33:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776850384; cv=none;
-        d=google.com; s=arc-20240605;
-        b=b4Bfbth73rSH89HvpAb3uIlM1L2iULWU7hZccUlQuHUWCGuAwy1ZTGevFRpTUzXaf7
-         +AtfmVQi8COcJNYEaBq5eyv+4Oh4b8S9K8XnHxpZpAv/XbwApVvezlzGAw1I9F+VeAKN
-         Wd9r3cbUwJgCsX96hGChLfu55T7u/wCCdvQ1d5xUvko/yk1HLTm0dVKzKgGKImmIcatp
-         wyC112k70NKUIHAfoREfP2Y+VEQWYTpnrQtMQk8c6jQkNJK9sZQdKhPJmLssevKGq9x0
-         /q2+fe+C0nlO2FozrXGE9GoE0zeRx3LaLuELCuiopmfXwlM2ukITFp6kYUG5E5FrQnIJ
-         WlJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=W+QGYEzdCyc96eJ95GltOerFKbGfcc/AvXcX04mQkX8=;
-        fh=iuh7a7WO4MHJcgXMAsTgtgz6Gu8xH5WATMAPKsgVKvk=;
-        b=B45cFlg+YNp9l07WSEfjxWdQNQwosyEO8BoRddeBYzo0rsQWStRZwDngIKTeqfKcWt
-         FNDrw8HRsxrNpF2//B77zEuRaHf6FTS+7FGcpQv4kkZyogrDWWEwOYYJQV138Bbn6xsn
-         9rPF6OeMpWYOyzaeC1zAeb8lTc+Mgn9W/KkSNlnTBCA8Sdom55o5vXxto830l9Su5pE6
-         HYaBCeA2mWZDL3RnW0Jt4huNCfudIJEFntRgSxdXaDrjHD1ZmDYivgTpmTXzyc7LHd6t
-         GiYtHrM0c8z1eDjqsJ41PnNNQMcQUM3GYGXdztS2Qw4Z1Ysu5g7Ke7wiQjQq7bWnJlh+
-         hQbA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776850384; x=1777455184; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W+QGYEzdCyc96eJ95GltOerFKbGfcc/AvXcX04mQkX8=;
-        b=GqG9zs0nZwqWUyi19OPiUC3uM+9dlVLbGt8kDjBtA5V4TujQKY0lbFr8yJGKrPFj4u
-         ro7IXYvUCP987wlhj7uar4/SmewVwANkcYQ9r/5NtwyJtd0k3UTOJw92XcaPQiabVGBi
-         cgNmY73JjcAN5Q5jAsYJeviQG302mKGtadUZY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776850384; x=1777455184;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W+QGYEzdCyc96eJ95GltOerFKbGfcc/AvXcX04mQkX8=;
-        b=VW4OWG9D4Z8kHTqTSNqa4VAI8uuyPLNdWP9Ybs8PgIOorOpy6XDyMy3SwEq5riJz3T
-         HfkLk4j2UsAeHWX4oekzk/jfJvZHUVUk2Q9XpBPiAGZ7tb7ADRDAyW54Nmsl75EuQNK3
-         xLdJnmR4Urs5XINk3UEGCK+2uLCozGXq3Wu+8w7GY7MFaMHekYFgxia7b1ZHqTyYAXVD
-         QqZ1lIPrtaUKgGTcvAeCZxnjxsgRgamn6aKiX72UeYa11onccU2B6vcVgQM+yhK7S+pi
-         7omg4ogriUiIxLV7ybAIJUQrB84lH1CNwudnedDvUGqSCXOdCXXu6CwOvV2rJYZwsGk5
-         lPuA==
-X-Gm-Message-State: AOJu0YwB5AV47fHktdM+CmzopxZ3MMHtp7ucIBhNcjfZUGCy0svrPZfF
-	wDXQ0tFTr4S85jG1wOGioefQxHjZBPaieRfuvDdeGvVqFadsBJUXc5voXv3ODPKZp8DSz1Le+lN
-	+IXIeXAi38VYP3FLShxjwN5NOaOMqx9uB+AbbfdSaTQ==
-X-Gm-Gg: AeBDievn3KkwZPh23zort1nFn9it35+M3RUboQhYTUkPceGmATGqqeV4vQLJx+Tlu4k
-	qVoWDz4YWNHvQKHow0jxS4aeK4f6XLLkfFk0NNaaehld7/zlLLJvadJHh2O/Sc8RuW0ekjjHKpk
-	sMosipyzK6Op5JmktAAK00jcC7UXY+3r3qzl6eutHaDxRn1AIDdCylTOjiEzsSZa9QCu64owoZ2
-	neUjuJIXG/6ukNZUrRAnXecM3jFZ7GC8RzJR/5AoF794hoOQ/1kI/MQCtSq8wcaa3HWj2nHXz9d
-	SIIBl50HIyNf2LtdmVQJRf1d5POfEz/VdFIh9xZXlOOfP8Pk
-X-Received: by 2002:a05:6402:46c5:b0:672:c1d6:6855 with SMTP id
- 4fb4d7f45d1cf-672c1d66a46mr7192423a12.3.1776850384361; Wed, 22 Apr 2026
- 02:33:04 -0700 (PDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=SdpmobLx;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=WvD2CnyP;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.148, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 1DF5A1D0023D;
+	Wed, 22 Apr 2026 05:33:49 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 22 Apr 2026 05:33:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1776850428; x=1776936828; bh=x4pO7klqeX
+	BJ35bjqbaKZnIebFEUxuBAGDERsnO9SRU=; b=SdpmobLx8tkP81/h2sooFefiY8
+	Vpd2RRWW1LIByhzoIKk2epJW3Pk0pUtRXp8yY1h2JqC7Bud07cQGnZxXyIxBdtq5
+	MCkJpzWgGTa2n99B5zU/FLQ/W67iLWqjXqD4IHC/IDxe/+ddWYGutLpjPk2PIJfo
+	z8FbO9FzUScisLNDnoKCpYt0G3TEY9nZidt1q387yVQfCYioHVAxF2bEpVYgARYE
+	4GBOq/bF6NKNdvDg0uegMB8D3ksqG/kUYRRU3pW63hvp2a7kfZjsfbYyH7SvF6YG
+	qa3xMzEiVivFKGBeo0BCGzEvC/gV/8ysZuja1JVtokwnCYLnccUemweQc2og==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1776850428; x=1776936828; bh=x4pO7klqeXBJ35bjqbaKZnIebFEUxuBAGDE
+	RsnO9SRU=; b=WvD2CnyPCLlXKy91lrje6TSkZtYv8ZzTSf1LOGEGqm06ScId9on
+	14LiYBeueZoAL4jU5pPkihSgs65ioNDQZ+9skBRKGLCUCXsMKNC7jQ8KmHUyHsUH
+	F9qL7l98jzlep+DN4BeGsyczyRQflhyIVD3zirvwBVCYV1Upf/SsXk+oNaqNEY8D
+	73hjga7oS4WgwqXEjemUWymAj6om3uTztNSDuHRsvHE5JU/8lt8BfglcEl73qUgS
+	KkPFi1fbH95Yagd55M3+O+Fc2G4WFtr4euDcC+rySsx/oSg59IEe+zugFiTvch/v
+	BkcJCekztFvS5id1ViwdRKiVZEN6792SuNw==
+X-ME-Sender: <xms:_JXoabFgAuHRREU41S2y0EIyRvI2P_pbeV_bb8I56UaD_dU3Aycmlw>
+    <xme:_JXoafwo4EO9ZYlRQzSsgCGg2ylfCmGBX92IFTQcSE93amNJKr7_1c1yIiV4zx349
+    pFVBUxu72GSKzv-dbj4s5RawQMCRniiF0tp6yL6EJpjSL4dq5s_Emk>
+X-ME-Received: <xmr:_JXoaajjEdD3V-0LQa5ykGG0eQSD2pVqa-4i0Qy6sMteabxtM-rX9WmxxIHKB89ke_HjFN50S7uxc93Sv57KlfeEkcDDYGrPjZmMH13pY_nB>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeifeelvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkuffhvfevffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegr
+    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
+    egieegtddukeevgffhfeejffettefhtdevjeetudevfeelvdegleeileeutdegieenucff
+    ohhmrghinhepsggrrhgvsghogidrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhk
+    vghrrdguvghvpdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdprhgtph
+    htthhopegrrdhfrghtohhumhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohep
+    ohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvg
+    gurdhorhhgpdhrtghpthhtohephihotghtohesphgvnhhguhhtrhhonhhigidruggv
+X-ME-Proxy: <xmx:_JXoaSxi0SGLTONsnBZ2TBqTM7tAXe6XBst26y6_O3q-puWXffLvjA>
+    <xmx:_JXoaVLQS5e8l4OYq26d8Hm4BiFP2bQKm585je_ZVv-Q08UpmJpsGA>
+    <xmx:_JXoaRTgmrpHtKOEqpSr7_LuJtBMltEszNWbLVoBpy0hBrc-VlESiQ>
+    <xmx:_JXoaVpqhvHkalOJVa6MwHV_FNTJV-0l_dLsBqK7o85g9TM3jx0mzA>
+    <xmx:_JXoaWnzMq8P31IK0UnuBZSoYnMj9lfXgMUJsS19h3HVVwodUhdDHUJu>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Apr 2026 05:33:48 -0400 (EDT)
+Message-ID: <e527213d5944e137dffca719318b9630a741c552.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH] barebox: upgrade 2026.03.1 -> 2026.04.0
+From: Paul Barker <paul@pbarker.dev>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de
+Date: Wed, 22 Apr 2026 10:33:41 +0100
+In-Reply-To: <25b4ca00-a528-473b-9451-e3696ecc4a35@pengutronix.de>
+References: <18A7DC2A7C609741.1451107@lists.openembedded.org>
+	 <25b4ca00-a528-473b-9451-e3696ecc4a35@pengutronix.de>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-xiMbG7rYWsr521vsgQvv"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-References: <20260420143154.452247-2-corentin.guillevic@smile.fr> <DHY27VP0PXS1.3BCMSWT6AHOW9@bootlin.com>
-In-Reply-To: <DHY27VP0PXS1.3BCMSWT6AHOW9@bootlin.com>
-From: Corentin GUILLEVIC <corentin.guillevic@smile.fr>
-Date: Wed, 22 Apr 2026 11:32:52 +0200
-X-Gm-Features: AQROBzAb4svpS81uG2Q5bodtRQV8kHnFiFgB0WCix2uOvxF6q1EH0laevLwg7tg
-Message-ID: <CAMFqQmo=Sngdi4Tbsnhs+UYXtmt4_FL8jzdqw7jag6RzzVqbYQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] sanity: add check for own-mirrors/SOURCE_MIRROR_URL
-To: Antonin Godard <antonin.godard@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000fab0b40650093710"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 09:33:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235704
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 09:33:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235705
 
---000000000000fab0b40650093710
+
+--=-xiMbG7rYWsr521vsgQvv
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Antonin,
+On Mon, 2026-04-20 at 11:40 +0200, Ahmad Fatoum wrote:
+> Hi,
+>=20
+> On 4/19/26 10:30 PM, Ahmad Fatoum wrote:
+> > Main highlight of this release is the new devboot mechanism, which
+> > allows overriding any combination of kernel, device tree and
+> > initramfs in an existing boot flow with network-hosted files,
+> > simplifying iterative development:
+> >=20
+> >   https://www.barebox.org/doc/latest/user/devboot.html
+> >=20
+> > This release also restores compatibility with new TF-A versions acting
+> > as SCMI clock provider, after TF-A v2.14 broke the SCMI v2.0 clock
+> > protocol used by earlier barebox (and Linux <=3D v6.6).
+>=20
+> I see now that this barely missed the M3 freeze.
+> barebox releases are monthly, but we were intending to provide long term
+> support for v2026.04.0, so it would be great if this could make it in.
+>=20
+> The majority of new commits in this release are bugfixes[1] and even the
+> highlighted feature resolves a boot-time breakage for barebox when
+> compiled as EFI app.
+>=20
+> [1]: https://github.com/barebox/barebox/compare/v2026.03.0...v2026.04.0
 
-Sure, but my test has been added to the sanity class. The
-https://git.yoctoproject.org/yocto-docs/tree/documentation/ref-manual/qa-ch=
-ecks.rst
-doc
-is related to the insane class. Is there a document relating to the sanity
-class in which I can document the new test?
+Hi Ahmad,
 
-Corentin
+Thanks for the extra information here. We've queued this one for the 6.0
+M4 build as it's worthwhile to align with your LTS release when we know
+you're actively involved.
 
-Le lun. 20 avr. 2026 =C3=A0 16:42, Antonin Godard <antonin.godard@bootlin.c=
-om> a
-=C3=A9crit :
+Best regards,
 
-> On Mon Apr 20, 2026 at 4:31 PM CEST, Corentin Guillevic via
-> lists.openembedded.org wrote:
-> > From: Corentin Guillevic <corentin.guillevic@smile.fr>
-> >
-> > The SOURCE_MIRROR_URL variable belongs to the own-mirrors class.
-> However, the
-> > user may forget to define it. This will cause the class to inject
-> incorrect
-> > content into PREMIRRORS, resulting in the following error:
-> >
-> > ERROR: gettext-minimal-native-1.0-r0 do_fetch: Bitbake Fetcher Error:
-> MalformedUrl('${SOURCE_MIRROR_URL}')
-> > ERROR: Logfile of failure stored in:
-> /path/to/tmp/work/x86_64-linux/gettext-minimal-native/1.0/temp/log.do_fet=
-ch.258066
-> > ERROR: Task
-> (/path/to/layers/poky/meta/recipes-core/gettext/gettext-minimal-native_1.=
-0.bb:do_fetch)
-> failed with exit code '1'
-> >
-> > Add a check to the sanity class, to detect this case and raise an error=
-.
-> >
-> > Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
-> > ---
-> >
-> > Notes:
-> >     Changes in v3:
-> >     - Unused variable removed.
-> >
-> >  meta/classes-global/sanity.bbclass | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/meta/classes-global/sanity.bbclass
-> b/meta/classes-global/sanity.bbclass
-> > index 1a490f8d61..3142ff61f2 100644
-> > --- a/meta/classes-global/sanity.bbclass
-> > +++ b/meta/classes-global/sanity.bbclass
-> > @@ -984,6 +984,10 @@ def check_sanity_everybuild(status, d):
-> >              "Please set TMPDIR to a clean path with no trailing slash
-> or "
-> >              "consecutive slashes (e.g. %s).\n" % (tmpdir,
-> os.path.normpath(tmpdir)))
-> >
-> > +    # Check whether the SOURCE_MIRROR_URL variable, belonging to the
-> 'own-mirrors' class, is defined
-> > +    if oe.utils.inherits(d, 'own-mirrors') and not
-> d.getVar('SOURCE_MIRROR_URL'):
-> > +        status.addresult("own-mirrors is enabled, but SOURCE_MIRROR_UR=
-L
-> is not defined")
-> > +
-> >      # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
-> >      import re
-> >      mirror_vars =3D ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
->
-> Reviewed-by: Antonin Godard <antonin.godard@bootlin.com>
->
-> This should be added to
->
-> https://git.yoctoproject.org/yocto-docs/tree/documentation/ref-manual/qa-=
-checks.rst
-> if merged and if you have some time and can send a patch to
-> docs@lists.yoctoproject.org :)
->
-> Thanks,
-> Antonin
->
+--=20
+Paul Barker
 
---000000000000fab0b40650093710
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Antonin,</div><div><br></div><div>Sure, but my tes=
-t has been added to the sanity class. The=C2=A0<a href=3D"https://git.yocto=
-project.org/yocto-docs/tree/documentation/ref-manual/qa-checks.rst" rel=3D"=
-noreferrer" target=3D"_blank">https://git.yoctoproject.org/yocto-docs/tree/=
-documentation/ref-manual/qa-checks.rst</a>=C2=A0doc is related to the insan=
-e class.=C2=A0Is there a document relating to the sanity class in which I c=
-an document the new test?</div><div><br></div><div>Corentin</div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lu=
-n. 20 avr. 2026 =C3=A0=C2=A016:42, Antonin Godard &lt;<a href=3D"mailto:ant=
-onin.godard@bootlin.com" target=3D"_blank">antonin.godard@bootlin.com</a>&g=
-t; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">On Mon Apr 20, 2026 at 4:31 PM CEST, Corentin Guillevic via <a href=
-=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lis=
-ts.openembedded.org</a> wrote:<br>
-&gt; From: Corentin Guillevic &lt;<a href=3D"mailto:corentin.guillevic@smil=
-e.fr" target=3D"_blank">corentin.guillevic@smile.fr</a>&gt;<br>
-&gt;<br>
-&gt; The SOURCE_MIRROR_URL variable belongs to the own-mirrors class. Howev=
-er, the<br>
-&gt; user may forget to define it. This will cause the class to inject inco=
-rrect<br>
-&gt; content into PREMIRRORS, resulting in the following error:<br>
-&gt;<br>
-&gt; ERROR: gettext-minimal-native-1.0-r0 do_fetch: Bitbake Fetcher Error: =
-MalformedUrl(&#39;${SOURCE_MIRROR_URL}&#39;)<br>
-&gt; ERROR: Logfile of failure stored in: /path/to/tmp/work/x86_64-linux/ge=
-ttext-minimal-native/1.0/temp/log.do_fetch.258066<br>
-&gt; ERROR: Task (/path/to/layers/poky/meta/recipes-core/gettext/gettext-mi=
-nimal-native_1.0.bb:do_fetch) failed with exit code &#39;1&#39;<br>
-&gt;<br>
-&gt; Add a check to the sanity class, to detect this case and raise an erro=
-r.<br>
-&gt;<br>
-&gt; Signed-off-by: Corentin Guillevic &lt;<a href=3D"mailto:corentin.guill=
-evic@smile.fr" target=3D"_blank">corentin.guillevic@smile.fr</a>&gt;<br>
-&gt; ---<br>
-&gt;<br>
-&gt; Notes:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Changes in v3:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- Unused variable removed.<br>
-&gt;<br>
-&gt;=C2=A0 meta/classes-global/sanity.bbclass | 4 ++++<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/=
-sanity.bbclass<br>
-&gt; index 1a490f8d61..3142ff61f2 100644<br>
-&gt; --- a/meta/classes-global/sanity.bbclass<br>
-&gt; +++ b/meta/classes-global/sanity.bbclass<br>
-&gt; @@ -984,6 +984,10 @@ def check_sanity_everybuild(status, d):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Please set TMPDI=
-R to a clean path with no trailing slash or &quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;consecutive slas=
-hes (e.g. %s).\n&quot; % (tmpdir, os.path.normpath(tmpdir)))<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 # Check whether the SOURCE_MIRROR_URL variable, belongi=
-ng to the &#39;own-mirrors&#39; class, is defined<br>
-&gt; +=C2=A0 =C2=A0 if oe.utils.inherits(d, &#39;own-mirrors&#39;) and not =
-d.getVar(&#39;SOURCE_MIRROR_URL&#39;):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 status.addresult(&quot;own-mirrors is ena=
-bled, but SOURCE_MIRROR_URL is not defined&quot;)<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # Check the format of MIRRORS, PREMIRRORS and SSTA=
-TE_MIRRORS<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 import re<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 mirror_vars =3D [&#39;MIRRORS&#39;, &#39;PREMIRROR=
-S&#39;, &#39;SSTATE_MIRRORS&#39;]<br>
-<br>
-Reviewed-by: Antonin Godard &lt;<a href=3D"mailto:antonin.godard@bootlin.co=
-m" target=3D"_blank">antonin.godard@bootlin.com</a>&gt;<br>
-<br>
-This should be added to<br>
-<a href=3D"https://git.yoctoproject.org/yocto-docs/tree/documentation/ref-m=
-anual/qa-checks.rst" rel=3D"noreferrer" target=3D"_blank">https://git.yocto=
-project.org/yocto-docs/tree/documentation/ref-manual/qa-checks.rst</a><br>
-if merged and if you have some time and can send a patch to <a href=3D"mail=
-to:docs@lists.yoctoproject.org" target=3D"_blank">docs@lists.yoctoproject.o=
-rg</a> :)<br>
-<br>
-Thanks,<br>
-Antonin<br>
-</blockquote></div>
+--=-xiMbG7rYWsr521vsgQvv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
---000000000000fab0b40650093710--
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaeiV9REccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0btYUAQCGzCU+fh6Bh1I47OZecwiJ3B5AcSk6F7Dj
+mGVuqKetHwD8DqSsJXKDRmwNNdQQLRLmWN2uokRRvI7ADqd7tOExKg4=
+=zttO
+-----END PGP SIGNATURE-----
+
+--=-xiMbG7rYWsr521vsgQvv--
 
