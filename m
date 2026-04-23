@@ -2,268 +2,388 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C4BFC0352
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 641F8FC0351
 	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 15:32:41 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.397.1776958354300752209
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.399.1776958356163675703
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2026 08:32:34 -0700
+ Thu, 23 Apr 2026 08:32:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=DHP5t/1d;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8a3342d301aso67151626d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 08:32:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=IHJDeWoq;
+ spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-612d8a59ca0so4371705137.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 08:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776958353; x=1777563153; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1776958355; x=1777563155; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V/ffDjrpI7IsynGhnI5XFJJH7/uuqvypzl3pVD7EKsY=;
-        b=DHP5t/1dFKF/Y3JTAomSA4ayel+h1IIy7XcRD492FM5SiPWifU25FmRpQC25ssve1y
-         ZL+m4IbZGnb2x6ntFjw26u0QSXc0gDUt7zBX0DC0GoOyw1aHKKRAKolFM+TbqybNG0aq
-         ZEOSq43gQYNrocjDe4F6vp/NlHf68OPqXp+Vd36utsIOwxXWer/d6eGPb31xkuYPjhr2
-         MHHegz6pop7/LlRDVmejz2X/An949QcFHv1tO7Yz5slgTF+CQZmgwXNSkA1ul2AYfA8p
-         ktlAKE/vo64oyS2r6/EkVmyKXYKCcQi79SDQfGrjnn3iOksIthe4UwbLUWBy480y3Y3B
-         T50w==
+        bh=6XZDqQYjqeA4FvkfFXwpqEWP9FEQ7J5cW4IvCaRMwKE=;
+        b=IHJDeWoqwrqSDw+pJuPyIJKGUNacsxd92tL0H9auzzrVpDKocHA+fm4ldXPW7YOlGS
+         48SyALJBc06dvGNYfQPIlGeL47qS8rCApL9HfZUMlhgsv0An//M8+32Lnm7FGO47bPMW
+         ebNaptNVe3uEkOQWclBV0CEsSMbDhlSxBnIdlxKuEUuwqF4cOrOJcOC3aXdsX5JBPEOt
+         CQ2LxNAvq1O/L2TKLp2/NfU1xnT+Mj0SlmJYfWDGEfAkZIPa7HJSdJbus7kd1dQPaat4
+         AwBGlClUVu0BGGfAf8kDD27pL9H5hatH40b8Gwnu6Jp6V6ltkebkfjIIM9LSRyLvEJHu
+         yOjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776958353; x=1777563153;
+        d=1e100.net; s=20251104; t=1776958355; x=1777563155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=V/ffDjrpI7IsynGhnI5XFJJH7/uuqvypzl3pVD7EKsY=;
-        b=AE30AFBCbEmoM+b4+oC1rxfDxGNB+svMjCuzQXb7kfzTEd0MdhYsXo/9Fz75v92mIC
-         QdV6dEMv4infnnk7zpYUeOFulWVByX5dQgj2rtC0pkXyQBWlYATIxzTP+FWmLOOArvv2
-         OOdnPxQ1BUw3VQF709bYYIY2H/w9+LCTsMpcok8QEhIbUQjzfbv00vGecdgFs9cSdfke
-         2WffQl6YcL07oVXJjwNvDDeXVbgCSbMQ6O7S6PVSAX+d5pAEGuVNPR/eNIA+JfjWeBeD
-         4uLmHiWME9EHPaxrEiQjef4U12KJx2lG43xcOBa+RcudhxeGyX3ethq3+vHVcT4nKTbu
-         bZOg==
-X-Gm-Message-State: AOJu0Yz66ou68hb1yQa12mP0fvGXcgJdnx4RPtTBE7HukqHmYg+qNU4x
-	fEZCBp83BPnp6ddxddkczldNP1liQP2/Juhmny0y6kdfqZyorlcx8oGd0OkkobYy
-X-Gm-Gg: AeBDievg+fGUII+jfMsAgmkPHTcPw7BgxPAO6f/rjnoaAvIzFbCJcHXbOamlv4reL5L
-	QBs5apoahuHI/rnlnD7+jiIUgPdGLQF648uLg70Pd8utFrpjDjdvSk6qbZq2XaMGp0J6kyP2ppo
-	YvmaPBSvhkjiB0j7mwm+JXjVANUpV9XQI1rzyVdM20w1XXW5prjOrynRVfgnpsuyZ3/Fnr+s6Tz
-	HkbT2wE4Dz5YlPsDw4Zx/VKtWT2BupdqDxIHPquZnG75IzXuuat/a5mlZ0+Nogv2IpEqkXv8DuX
-	CKzzaFLDPs6kr0ynxCUY6bfK7t2AOrh5TmPXCp7Fo4S7lpuTmZGg5/P0mQkRCGG/FkBjxQlXo6s
-	EozzuFLUDEOGjKuak1qFM1QfDny3TfxnVGzuhvz5CtHcvFqt37IDGOq3airER/oFzWHfZrUWcs5
-	6zq7EktemhSyJgE5/hEguU9r7mwshRaIzeXW3lxnt6BckIy9LZH6lxbKfmfL0tEHEUjDoKIj5be
-	0his4X9A4Ea+FzKWMcNqG7+BWWsZ8gsJm9+gw0IvcK2DH8dO8YQFbxa9c4lOSngEneHgg==
-X-Received: by 2002:a05:6214:4c8a:b0:89c:a2b2:8d44 with SMTP id 6a1803df08f44-8b028112da3mr388905366d6.39.1776958352973;
-        Thu, 23 Apr 2026 08:32:32 -0700 (PDT)
+        bh=6XZDqQYjqeA4FvkfFXwpqEWP9FEQ7J5cW4IvCaRMwKE=;
+        b=jzYcC1BE/CbBoNrz+ncfyztgmCUZnr2Sig3A98igSvWZcNHxsAJUOp7l8ENUYuCJT1
+         BIky7VmtUuA17wUBV8LRYtiCTYRG982sZWvB6wBL7RLV5ULpCF3Ic1TmDdR2c/q+W6Jh
+         /LVZDLO2e8gMVZxzfjNkNA3FIe56PXymnnNrE5mgH+p+gibmUS7vdoNJ1VS0jDLEQrLv
+         /hgcfG6KwHtfhmBdejZdFxAFEQzy2qOYTvpKButrEeLUgvLAYRUoFdLc3+OyMIhU1/x0
+         x1jIX5ibFBfFp0F5Wb6OdxDAuAsSmhDC3d0bEJ2mAo1qQkhMU9JkFIZmOqnGiSYqE9ev
+         zklQ==
+X-Gm-Message-State: AOJu0YyqOB95wLOgD7SSfYimTf11H0T9fpkQGFW6HGp+StjxO0JQe15n
+	90tFzLI2XHSwMykpuZc1Muy2var7J+gbpqU8hyKP/6dwdi23XxbJ4h4p/3Gf0k1J
+X-Gm-Gg: AeBDies7IbgRMBGgSuMDe5+Sd9HKNoUvGhfqieUK4wnH7BTKVoWnd8FezsdCd5piCD4
+	Af+Nlt5M5kRM4UK8GaMlmIHZkIMbojvXoWp4H+Dot7zDIfi0dJA/E5nxVF5i+g+dDVy1WfOWiIb
+	3OfG/3LS5AjfMbawH9MqiSJGoPPZNFKAvfMlrlqAIvkn6WFkr9fLqltlDxABRZcVwyOzFqXOw/i
+	+k5vBju3QrNKysCMP2xUUejikdy6Zx+Jpo2fEr2vkzN/87eD8nlTgixxDzbrjL3Ru0JVOPDAIg3
+	kshX9T839UljsmCCMko1naafvT/YLZQ3dMlOYMdrHXNIvrRndptM4p4jR+cSLOw9mFFRWgG5odM
+	K6+ErP/cAHV9ki4BDlLwLojyunbENmRUaGUxuf/r/kUDQ4eWWqc2V8EbrPO+RateFQhLsz0c0Jh
+	/11RwvgT9fhTGwyyy1Dfl67fuId7TDBNxr2sFq4V7+5/Y49vfZVDMdiX7S2Dt7d9YDfi8PmVdkt
+	Stm01zAWSKIW8hLhzjjn/Y/RLdw2gKHVIGOBsiqiY7pVu1j6as/zt/lXaPwT3LlRk4+Iw==
+X-Received: by 2002:a05:6102:f14:b0:611:3bcb:aef6 with SMTP id ada2fe7eead31-616f16429b5mr14195654137.0.1776958354811;
+        Thu, 23 Apr 2026 08:32:34 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ac429ffsm160765996d6.2.2026.04.23.08.32.32
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ac429ffsm160765996d6.2.2026.04.23.08.32.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 08:32:32 -0700 (PDT)
+        Thu, 23 Apr 2026 08:32:33 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [meta][PATCH 07/15] linux-yocto/6.18: update to v6.18.23
-Date: Thu, 23 Apr 2026 11:32:14 -0400
-Message-ID: <20260423153222.1932256-8-bruce.ashfield@gmail.com>
+Subject: [meta][PATCH 08/15] linux-yocto/6.18: update CVE exclusions (6.18.23)
+Date: Thu, 23 Apr 2026 11:32:15 -0400
+Message-ID: <20260423153222.1932256-9-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260423153222.1932256-1-bruce.ashfield@gmail.com>
 References: <20260423153222.1932256-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 15:32:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235782
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235783
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/6.18 to the latest korg -stable release that comprises
-the following commits:
+Data pulled from: https://github.com/CVEProject/cvelistV5
 
-    47a33eea6d51 Linux 6.18.23
-    ad17f07e95e6 x86/CPU: Fix FPDSS on Zen1
-    2d64618ea846 net: skb: fix cross-cache free of KFENCE-allocated skb head
-    db297c78ce53 rxrpc: proc: size address buffers for %pISpc output
-    d0035e634dae rxrpc: only handle RESPONSE during service challenge
-    794586789800 rxrpc: Fix buffer overread in rxgk_do_verify_authenticator()
-    4b5e8365515f rxrpc: Fix leak of rxgk context in rxgk_verify_response()
-    1f864d9daaf6 rxrpc: Fix integer overflow in rxgk_verify_response()
-    bf4d6e4a6856 rxrpc: Fix missing error checks for rxkad encryption/decryption failure
-    03d1c51decae rxrpc: Fix key/keyring checks in setsockopt(RXRPC_SECURITY_KEY/KEYRING)
-    8ee931c3cd97 rxrpc: fix reference count leak in rxrpc_server_keyring()
-    beee051f259a rxrpc: fix oversized RESPONSE authenticator length check
-    7875f3d9777b rxrpc: fix RESPONSE authenticator parser OOB read
-    22f6258e7b31 rxrpc: reject undecryptable rxkad response tickets
-    8299ca146489 rxrpc: Only put the call ref if one was acquired
-    8b353f5f1385 rxrpc: Fix to request an ack if window is limited
-    2e6ef713b159 rxrpc: Fix key reference count leak from call->key
-    86303a1da93f rxrpc: Fix rack timer warning to report unexpected mode
-    9132b1a7bf83 rxrpc: Fix use of wrong skb when comparing queued RESP challenge serial
-    3e04596cba8a rxrpc: Fix RxGK token loading to check bounds
-    3be718f65968 rxrpc: Fix call removal to use RCU safe deletion
-    3bb18ed3b2f6 rxrpc: Fix anonymous key handling
-    d5f76f812d2c rxrpc: Fix key parsing memleak
-    862cb78fb2c9 rxrpc: Fix key quota calculation for multitoken keys
-    92a673019943 net: lan966x: fix use-after-free and leak in lan966x_fdma_reload()
-    22e1ee9f22b5 net: lan966x: fix page pool leak in error paths
-    b5dcb41ba891 net: lan966x: fix page_pool error handling in lan966x_fdma_rx_alloc_page_pool()
-    214ceaa8a3a2 idpf: set the payload size before calling the async handler
-    d6e9bef3313a idpf: improve locking around idpf_vc_xn_push_free()
-    e02c974fc331 idpf: fix PREEMPT_RT raw/bh spinlock nesting for async VC handling
-    576543bedd61 mm: filemap: fix nr_pages calculation overflow in filemap_map_pages()
-    6fca757c2039 net: stmmac: fix integer underflow in chain mode
-    9fdece45f6e0 net: qualcomm: qca_uart: report the consumed byte on RX skb allocation failure
-    ea7468f61be0 mmc: vub300: fix use-after-free on disconnect
-    c83a282615d8 mmc: vub300: fix NULL-deref on disconnect
-    447f8870b484 mm/damon/stat: deallocate damon_call() failure leaking damon_ctx
-    b9dadf026a9f mm/damon/sysfs: dealloc repeat_call_control if damon_call() fails
-    49c00ae87230 mm/memory_hotplug: maintain N_NORMAL_MEMORY during hotplug
-    470047177574 igb: remove napi_synchronize() in igb_down()
-    e44919669f07 pmdomain: imx8mp-blk-ctrl: Keep the NOC_HDCP clock enabled
-    82e8174d1d0e net/mlx5: Update the list of the PCI supported devices
-    de9aa7e89b98 drm/i915/psr: Do not use pipe_src as borders for SU area
-    2af8b200cae3 drm/i915/gt: fix refcount underflow in intel_engine_park_heartbeat
-    4dee4c068844 batman-adv: hold claim backbone gateways by reference
-    60f462cd2716 net: altera-tse: fix skb leak on DMA mapping error in tse_start_xmit()
-    5d70eb25b41e net/tls: fix use-after-free in -EBUSY error path of tls_do_encryption
-    87ce8ae51196 EDAC/mc: Fix error path ordering in edac_mc_alloc()
-    206121294b9c X.509: Fix out-of-bounds access when parsing extensions
-    de6c1dc3c7d0 batman-adv: reject oversized global TT response buffers
-    21ae2cda66a5 nfc: pn533: allocate rx skb before consuming bytes
-    083c5a417dee arm64: dts: hisilicon: hi3798cv200: Add missing dma-ranges
-    f0a0a6a8c1cc arm64: dts: hisilicon: poplar: Correct PCIe reset GPIO polarity
-    c82a3c9d9fb3 arm64: dts: renesas: sparrow-hawk: Reserve first 128 MiB of DRAM
-    a4115c2abab3 arm64: dts: imx8mq-librem5: Bump BUCK1 suspend voltage up to 0.85V
-    3b31b15230b0 Revert "arm64: dts: imx8mq-librem5: Set the DVS voltages lower"
-    aee881c21b57 Revert "arm64: dts: rockchip: Further describe the WiFi for the Pinebook Pro"
-    fecceacbaf48 platform/x86/intel-uncore-freq: Handle autonomous UFS status bit
-    c4e1eff4606c platform/x86: ISST: Reset core count to 0
-    b27fa888e4a4 wifi: brcmsmac: Fix dma_free_coherent() size
-    1b6f13f62666 tipc: fix bc_ackers underflow on duplicate GRP_ACK_MSG
-    0f451b43c88b xfrm: hold dev ref until after transport_finish NF_HOOK
-    b1dfd6b27df3 xfrm: clear trailing padding in build_polexpire()
-    688c1b491c35 modpost: Declare extra_warn with unused attribute
-    0133aa1a28af workqueue: Add pool_workqueue to pending_pwqs list when unplugging multiple inactive works
-    fbdb43f6bb2a firmware: thead: Fix buffer overflow and use standard endian macros
-    b42aca3660dc netfilter: nft_ct: fix use-after-free in timeout object destroy
-    2802ba3981f1 i2c: imx: zero-initialize dma_slave_config for eDMA
-    72cf49ad50c1 af_unix: Give up GC if MSG_PEEK intervened.
-    33120558237c af_unix: Simplify GC state.
-    1e211179f1d9 af_unix: Count cyclic SCC.
-    450e6a685d0c btrfs: fix incorrect return value after changing leaf in lookup_extent_data_ref()
-    2124a61e6e2b btrfs: remove pointless out labels from extent-tree.c
-    d8b281165a86 MIPS: mm: Rewrite TLB uniquification for the hidden bit feature
-    ccc6a2241a49 MIPS: mm: Suppress TLB uniquification on EHINV hardware
-    6c600fc0e991 MIPS: Always record SEGBITS in cpu_data.vmbits
-    6c098142b370 Input: uinput - take event lock when submitting FF request "event"
-    1e09dfbb4f5d Input: uinput - fix circular locking dependency with ff-core
-    fb56de5d9921 seg6: separate dst_cache for input and output paths in seg6 lwtunnel
-    15fa9ead4d5e mptcp: fix slab-use-after-free in __inet_lookup_established
-    96a95b6d9e6d Revert "mptcp: add needs_id for netlink appending addr"
-    130c991e6aad Revert "ALSA: hda/realtek: Add quirk for Gigabyte Technology to fix headphone"
-    a8c26800e022 net: rfkill: prevent unlimited numbers of rfkill events from being created
-    6c55714c9310 xfrm_user: fix info leak in build_report()
-    e360d15fcb1e wifi: rt2x00usb: fix devres lifetime
-    f4786c34216a usb: typec: ucsi: skip connector validation before init
+    1/1 [
+        Author: cvelistV5 Github Action
+        Email: github_action@example.com
+        Subject: 205 changes (128 new | 77 updated): - 128 new CVEs: CVE-20=
+00-5001, CVE-2005-20001, CVE-2008-20002, CVE-2008-20003, CVE-2009-20012, CV=
+E-2010-20110, CVE-2010-20116, CVE-2010-20117, CVE-2010-20118, CVE-2010-2012=
+4, CVE-2011-10031, CVE-2013-10041, CVE-2013-10045, CVE-2013-10056, CVE-2014=
+-125120, CVE-2026-31192, CVE-2026-31434, CVE-2026-31435, CVE-2026-31436, CV=
+E-2026-31437, CVE-2026-31438, CVE-2026-31439, CVE-2026-31440, CVE-2026-3144=
+1, CVE-2026-31442, CVE-2026-31443, CVE-2026-31444, CVE-2026-31445, CVE-2026=
+-31446, CVE-2026-31447, CVE-2026-31448, CVE-2026-31449, CVE-2026-31450, CVE=
+-2026-31451, CVE-2026-31452, CVE-2026-31453, CVE-2026-31454, CVE-2026-31455=
+, CVE-2026-31456, CVE-2026-31457, CVE-2026-31458, CVE-2026-31459, CVE-2026-=
+31460, CVE-2026-31461, CVE-2026-31462, CVE-2026-31463, CVE-2026-31464, CVE-=
+2026-31465, CVE-2026-31466, CVE-2026-31467, CVE-2026-31468, CVE-2026-31469,=
+ CVE-2026-31470, CVE-2026-31471, CVE-2026-31472, CVE-2026-31473, CVE-2026-3=
+1474, CVE-2026-31475, CVE-2026-31476, CVE-2026-31477, CVE-2026-31478, CVE-2=
+026-31479, CVE-2026-31480, CVE-2026-31481, CVE-2026-31482, CVE-2026-31483, =
+CVE-2026-31484, CVE-2026-31485, CVE-2026-31486, CVE-2026-31487, CVE-2026-31=
+488, CVE-2026-31489, CVE-2026-31490, CVE-2026-31491, CVE-2026-31492, CVE-20=
+26-31493, CVE-2026-31494, CVE-2026-31495, CVE-2026-31496, CVE-2026-31497, C=
+VE-2026-31498, CVE-2026-31499, CVE-2026-31500, CVE-2026-31501, CVE-2026-315=
+02, CVE-2026-31503, CVE-2026-31504, CVE-2026-31505, CVE-2026-31506, CVE-202=
+6-31507, CVE-2026-31508, CVE-2026-31509, CVE-2026-31510, CVE-2026-31511, CV=
+E-2026-31512, CVE-2026-31513, CVE-2026-31514, CVE-2026-31515, CVE-2026-3151=
+6, CVE-2026-31517, CVE-2026-31518, CVE-2026-31519, CVE-2026-31520, CVE-2026=
+-31521, CVE-2026-31522, CVE-2026-31523, CVE-2026-31524, CVE-2026-31525, CVE=
+-2026-31526, CVE-2026-31527, CVE-2026-31528, CVE-2026-31529, CVE-2026-31530=
+, CVE-2026-33254, CVE-2026-33593, CVE-2026-33594, CVE-2026-33595, CVE-2026-=
+33596, CVE-2026-33597, CVE-2026-33598, CVE-2026-33599, CVE-2026-33602, CVE-=
+2026-33608, CVE-2026-33609, CVE-2026-33610, CVE-2026-33611, CVE-2026-6861, =
+CVE-2026-6862 - 77 updated CVEs: CVE-2026-0539, CVE-2026-1930, CVE-2026-201=
+33, CVE-2026-21997, CVE-2026-21998, CVE-2026-21999, CVE-2026-22001, CVE-202=
+6-22002, CVE-2026-22003, CVE-2026-22004, CVE-2026-22005, CVE-2026-22007, CV=
+E-2026-22008, CVE-2026-22009, CVE-2026-22010, CVE-2026-22013, CVE-2026-2201=
+4, CVE-2026-22015, CVE-2026-22016, CVE-2026-22017, CVE-2026-22018, CVE-2026=
+-22019, CVE-2026-22021, CVE-2026-22746, CVE-2026-25917, CVE-2026-33145, CVE=
+-2026-34267, CVE-2026-34268, CVE-2026-34269, CVE-2026-34270, CVE-2026-34271=
+, CVE-2026-34272, CVE-2026-34273, CVE-2026-34274, CVE-2026-34288, CVE-2026-=
+34289, CVE-2026-34290, CVE-2026-34291, CVE-2026-34292, CVE-2026-34293, CVE-=
+2026-34294, CVE-2026-34295, CVE-2026-34296, CVE-2026-34297, CVE-2026-34298,=
+ CVE-2026-34299, CVE-2026-34312, CVE-2026-34319, CVE-2026-35587, CVE-2026-3=
+9808, CVE-2026-3362, CVE-2026-40342, CVE-2026-40614, CVE-2026-40868, CVE-20=
+26-40872, CVE-2026-40878, CVE-2026-40884, CVE-2026-40887, CVE-2026-40895, C=
+VE-2026-40903, CVE-2026-40906, CVE-2026-40923, CVE-2026-40926, CVE-2026-409=
+31, CVE-2026-40943, CVE-2026-41055, CVE-2026-41060, CVE-2026-41320, CVE-202=
+6-4089, CVE-2026-4111, CVE-2026-5501, CVE-2026-5749, CVE-2026-5750, CVE-202=
+6-6236, CVE-2026-6823, CVE-2026-6830, CVE-2026-6857
+        Date: Wed, 22 Apr 2026 14:13:54 +0000
+
+    ]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_6.18.bb              |  6 ++---
- .../linux/linux-yocto-tiny_6.18.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_6.18.bb | 24 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ .../linux/cve-exclusion_6.18.inc              | 214 +++++++++++++++++-
+ 1 file changed, 209 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-index c2beb077bb..5158089ff7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-@@ -15,13 +15,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "801e59a34036a1375d8f340cb0c88b84e8bc6e5c"
--SRCREV_meta ?= "d8f130c88c0f0944979672241b46b634b20b12f4"
-+SRCREV_machine ?= "10663f4ac37a6565b2b001bc6d12aab1eb0d2ad4"
-+SRCREV_meta ?= "dcbc01fb2df5c72a789ab9506b9bc7a1078c3298"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.18.22"
-+LINUX_VERSION ?= "6.18.23"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-index 3f5569220a..0b284494c3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-@@ -9,7 +9,7 @@ require recipes-kernel/linux/linux-yocto.inc
- include recipes-kernel/linux/cve-exclusion.inc
- include recipes-kernel/linux/cve-exclusion_6.18.inc
- 
--LINUX_VERSION ?= "6.18.22"
-+LINUX_VERSION ?= "6.18.23"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -18,8 +18,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
--SRCREV_meta ?= "d8f130c88c0f0944979672241b46b634b20b12f4"
-+SRCREV_machine ?= "76bfd39e9965b26a81b6785c018c409195444f21"
-+SRCREV_meta ?= "dcbc01fb2df5c72a789ab9506b9bc7a1078c3298"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-index 2f1a881aae..f034960b95 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.18/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.18/standard/base"
- KBRANCH:qemumips64 ?= "v6.18/standard/mti-malta"
- 
--SRCREV_machine:qemuarm ?= "43553ba7e511af2175454d2629934737c09ca662"
--SRCREV_machine:qemuarm64 ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
--SRCREV_machine:qemuloongarch64 ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
-+SRCREV_machine:qemuarm ?= "c45ea572f0138dcc0dbfec2375113517a7b61020"
-+SRCREV_machine:qemuarm64 ?= "76bfd39e9965b26a81b6785c018c409195444f21"
-+SRCREV_machine:qemuloongarch64 ?= "76bfd39e9965b26a81b6785c018c409195444f21"
- SRCREV_machine:qemumips ?= "62ea92a539f58803a222be98b81118403074206e"
--SRCREV_machine:qemuppc ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
--SRCREV_machine:qemuriscv64 ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
--SRCREV_machine:qemuriscv32 ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
--SRCREV_machine:qemux86 ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
--SRCREV_machine:qemux86-64 ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
-+SRCREV_machine:qemuppc ?= "76bfd39e9965b26a81b6785c018c409195444f21"
-+SRCREV_machine:qemuriscv64 ?= "76bfd39e9965b26a81b6785c018c409195444f21"
-+SRCREV_machine:qemuriscv32 ?= "76bfd39e9965b26a81b6785c018c409195444f21"
-+SRCREV_machine:qemux86 ?= "76bfd39e9965b26a81b6785c018c409195444f21"
-+SRCREV_machine:qemux86-64 ?= "76bfd39e9965b26a81b6785c018c409195444f21"
- SRCREV_machine:qemumips64 ?= "9fb4ff0187c85426f21fd40d4c61b742800f65c4"
--SRCREV_machine ?= "d479bdd7e63f27f13596d0008a10fac508d9eaba"
--SRCREV_meta ?= "d8f130c88c0f0944979672241b46b634b20b12f4"
-+SRCREV_machine ?= "76bfd39e9965b26a81b6785c018c409195444f21"
-+SRCREV_meta ?= "dcbc01fb2df5c72a789ab9506b9bc7a1078c3298"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "f2b09e8b594ce61b8ff508ea1fb594b3b24ec6d3"
-+SRCREV_machine:class-devupstream ?= "47a33eea6d5145d53e42315381ef28286c2218fb"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.18/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.18.22"
-+LINUX_VERSION ?= "6.18.23"
- 
- PV = "${LINUX_VERSION}+git"
- 
--- 
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.18.inc b/meta/recipe=
+s-kernel/linux/cve-exclusion_6.18.inc
+index 2429851ff8..9e446741d5 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.18.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.18.inc
+@@ -1,11 +1,11 @@
+=20
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2026-04-14 21:26:55.774766+00:00 for kernel version 6.18.22
+-# From linux_kernel_cves cve_2026-04-14_2000Z-2-gad6d9150d01
++# Generated at 2026-04-22 14:47:41.674823+00:00 for kernel version 6.18.23
++# From linux_kernel_cves cve_2026-04-22_1300Z-1-g44d8eee41e5
+=20
+=20
+ python check_kernel_cve_status_version() {
+-    this_version =3D "6.18.22"
++    this_version =3D "6.18.23"
+     kernel_version =3D d.getVar("LINUX_VERSION")
+     if kernel_version !=3D this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but ke=
+rnel is %s" % (this_version, kernel_version))
+@@ -21260,7 +21260,7 @@ CVE_STATUS[CVE-2026-23392] =3D "cpe-stable-backport=
+: Backported in 6.18.20"
+=20
+ CVE_STATUS[CVE-2026-23393] =3D "cpe-stable-backport: Backported in 6.18.20"
+=20
+-# CVE-2026-23394 needs backporting (fixed from 7.0)
++CVE_STATUS[CVE-2026-23394] =3D "cpe-stable-backport: Backported in 6.18.23"
+=20
+ CVE_STATUS[CVE-2026-23395] =3D "cpe-stable-backport: Backported in 6.18.20"
+=20
+@@ -21458,7 +21458,7 @@ CVE_STATUS[CVE-2026-31405] =3D "cpe-stable-backport=
+: Backported in 6.18.19"
+=20
+ CVE_STATUS[CVE-2026-31406] =3D "cpe-stable-backport: Backported in 6.18.21"
+=20
+-# CVE-2026-31407 needs backporting (fixed from 7.0)
++# CVE-2026-31407 may need backporting (fixed from 6.18.24)
+=20
+ CVE_STATUS[CVE-2026-31408] =3D "cpe-stable-backport: Backported in 6.18.21"
+=20
+@@ -21502,5 +21502,209 @@ CVE_STATUS[CVE-2026-31427] =3D "cpe-stable-backpo=
+rt: Backported in 6.18.21"
+=20
+ CVE_STATUS[CVE-2026-31428] =3D "cpe-stable-backport: Backported in 6.18.21"
+=20
++CVE_STATUS[CVE-2026-31429] =3D "cpe-stable-backport: Backported in 6.18.23"
++
++CVE_STATUS[CVE-2026-31430] =3D "cpe-stable-backport: Backported in 6.18.23"
++
++CVE_STATUS[CVE-2026-31431] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-31432] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-31433] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31434] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31435] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31436] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31437] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31438] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31439] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31440] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31441] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31442] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31443] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31444] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31445] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31446] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31447] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31448] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31449] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31450] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31451] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31452] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31453] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31454] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31455] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31456] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31457] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31458] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31459] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31460] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-31461] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31462] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31463] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-31464] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31465] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31466] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31467] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31468] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-31469] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31470] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31471] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31472] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31473] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31474] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31475] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31476] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31477] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31478] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31479] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31480] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31481] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-31482] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31483] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31484] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-31485] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31486] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31487] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31488] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31489] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31490] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-31491] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31492] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31493] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31494] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31495] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31496] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31497] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31498] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31499] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31500] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++# CVE-2026-31501 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-31502] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31503] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31504] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31505] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31506] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31507] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31508] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31509] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31510] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31511] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31512] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31513] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31514] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31515] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31516] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31517] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31518] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31519] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31520] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31521] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31522] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31523] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31524] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31525] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31526] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31527] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31528] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-31529] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-31530] =3D "cpe-stable-backport: Backported in 6.18.21"
++
+ CVE_STATUS[CVE-2026-31788] =3D "cpe-stable-backport: Backported in 6.18.20"
+=20
+--=20
 2.43.0
 
 
