@@ -2,188 +2,200 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2DA9F99340
-	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 07:29:38 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14480.1776929373416626059
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0524EF99349
+	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 07:36:29 +0000 (UTC)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14457.1776929780372752448
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2026 00:29:33 -0700
+ Thu, 23 Apr 2026 00:36:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=N6/kySFk;
- spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so37863625e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 00:29:33 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=JCYOtH8R;
+ spf=pass (domain: smile.fr, ip: 209.85.221.67, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-43d7badbd7dso3114494f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 00:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1776929372; x=1777534172; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1776929779; x=1777534579; darn=lists.openembedded.org;
         h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R7cGAAGeH0MXPShHq2fKf09jHv1XlKDlMlfFTCfrIos=;
-        b=N6/kySFkAT/eZ2Tk+8Rd5qe0h8ZmeeOjrQuPsgrkqXpXKaJJ3xtsMX/EGffSBrKAsR
-         FPt4bDczwe1RYXuLYDjHT2nhGRVe2kzOCbeLozEwS6zzCGawAk2qTm+xRIxhQoa1+WDK
-         TDJHa244QB6VpX0GdjJN9heeyyYgrC2DYXHMw=
+        bh=pujdc0HFow9kZ8BjnrNeqqUTFECrBnuvvQXRWoKe+5Q=;
+        b=JCYOtH8RF6/86NMj8bxMwjYvxaRp4G1WhSNGjMTU3TBChKyBodOE886DnvYjDyti/H
+         f/eBfvxcKaxnqXAUV+UfDhwr9V1qWPzIdDx7w+nkKHNBrtGZPTLDL7nQPG19rP4ioGfN
+         5mJycU+UIHtdLFTFwVbQWb9If+y+4+khgQ/Fo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776929372; x=1777534172;
+        d=1e100.net; s=20251104; t=1776929779; x=1777534579;
         h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=R7cGAAGeH0MXPShHq2fKf09jHv1XlKDlMlfFTCfrIos=;
-        b=jrRZpS7Y2g1rQfFDN1s10fse1SqPoChdt7oVHqzemRnRcRZYZWxHY1PQgLCxBKIJvi
-         /s1NF6OVDFcssXCm+6N1RDYriaEVOjIDtmwKDY2GF5rLo4E/zpbZ/DsApNqOnioRb2oj
-         xPuUMPGzC+6Az/tsOMP3sFDuWcPLtCH8DR8FAZohHEpnTaycymFkFZdtdDswio8yD2iC
-         Z/LgwEEN+qnZoDXyAKXonPEDbkjlhj41sjmfm3iDruZp06d2ixlk8f/fuDqiah0NgM7Z
-         iDxrIblK2t56muY+N1IOzn8K9/PBlLLZ+UebpdHaY6fxbsRUDHggBm4GJrRDzOTaH4r8
-         sZ0w==
-X-Forwarded-Encrypted: i=1; AFNElJ/3bEPpWfzWTpV+hoJrjgiKtSZL7Dehc1DeBQBI4erST60dI0IWpi6EqCeAymg8IBaU7Vg+tQsTRvmhVk0t2a8j6Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyvz4cdSbqSZZsmnItobEncatuVkzdkSN08fVOAnuWPZqt1Vlk9
-	F/nmuSyV9tXHUbAwvNfctxXYLuhNPjxMlUUb9QXvappjIU01hIDqktn1kYO1hN9oT98=
-X-Gm-Gg: AeBDievT8jes/NvsE00u/F2TnXGkhKd1a0D+MuLmWrHtnz+LeP5fRKEHH2x2wHNC2Qn
-	AgZoaD8+pXR899Ivmm8oTvdi7ZsvXmner8Uvcqlk3GXuQ4PXucX5oM0jIJrGHtrzhYHNDAXbRMV
-	sdM6XUX/xkSxfXUpExRCx/H2NqmVTIuqqayJHpWmo+KbUQVnT5utM1M24BQIcFcQSFFd5VSPvvI
-	7vOhre0dLBQJnj6+XpMXt+fuRy5etA/tOS3gRmXpbRSNlfQri1/FCMEUagehHPK6aHZsvqdL05p
-	MXC7ZfuXn8iOv+bvPmudfZIXA5N71fv2w9Egsje4aJCqD1u4gyRnezEMYeEjJPUgwUAUM2+g89l
-	85NV/gMhdyXILdPwPYyk8w0BQF88T5B0zPLeYjEYnT3Ifn6vdSkzSLfp7gHxgeq54Po1JKrm016
-	LIYSWj43YF8Bnsq+5kBx18OBsXUQcH6PFoVkLBhat/n0cm95ntnUnm0he7K9F8LJvKFEqHdEdU3
-	2lO9CXZVMVFllqpUCHi6MhWrw==
-X-Received: by 2002:a05:600c:a08c:b0:48a:563c:c8c0 with SMTP id 5b1f17b1804b1-48a563cd176mr141494185e9.7.1776929371653;
-        Thu, 23 Apr 2026 00:29:31 -0700 (PDT)
+        bh=pujdc0HFow9kZ8BjnrNeqqUTFECrBnuvvQXRWoKe+5Q=;
+        b=A4hOAN+NXiBw9ZpHT0QsCvVjL3GwsAA6OnLw+khobL1cMll42taVeYrLsg5O7qXkX2
+         /AVyNh2unk8uvTdoLGokH7F0f/CCiKrnMBlpl2xbYSXd8s9cVuLz0USCXAyzJk2ifmn6
+         sR6AiN8Lgx/TRzjrGspIoFv7IZ8YlFZQVAc2UWKSk2SmOER8C1R2nwTtqOKeQpog+iuO
+         qmCXJ5pm/dmVduPkiJsBqXukl+f1dyNCDvTjQxO9IIMhDXt7NEts7xvr/1D3e1a6tdpb
+         nOSYGxexmQs6u18IJSHLxAD+dk4jHB2hbeohYj/GehimBydusu9vwlJIv+cq7xVukt3w
+         tksQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+EnhrzSrUih8dRGAVcKbWsPuWGuJ6d5ZUOrXL8RRq0eFZ4pE9ybfw/RXhoYA09nu5uJCB2JLT7qdc/zZJLJfjIVA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwdwG7Izgwt7XZAjDZlTznyPVbbXq9RTcdujeZp04wMYpssmam3
+	H9andnKfLaclGAqngL+AxT9O45KgENlYzTVkodWCdcaIf7ZMsCXdYGzAXwl+3HUGRds=
+X-Gm-Gg: AeBDieu9fvb5/Hh4DpuJ/BhkTub5Oj0ntk9Gb0d/Q18d3rGs1kU1onD8xRh2Vmzwdot
+	9Z2EUISFvWQ4ekRWTwQis6pRYsbaL/uB6CbqUs01CPBCxjUQlqrbBeKNDUZ2tSE4EqT/C39Fz4u
+	s9BkviKBwzIuIbrL0URRfuHd1usf5xL8sJCfrqhmy6Ut6FtPBGbXbuwe1QjI9wLXRlZZ/zq+Own
+	z/GiSrd9KSZYHROUmQKv6jgnvlD03JE1h0Lv/sBXCbUvW+xYtzl/pxk5UWp8jzoksuXHBqi0aSG
+	/gsXfMqGyHQ60bg/1eSFXeHmVbgwH+SLJBrAutxK9zE0QViRJ4t/mlb0meBqBBEGP7+ORjB5tVi
+	m5SUgTLvXBg/qmA/xZIXXigGpIum2M8hXubyNiL2dnJ9a7mdrb/86wcX3229LTPcnsuamCg/8up
+	q476n0qEJEKDza/dRrMG1yaKJelubdvnmBt4lEeY733y2wbCihJkUrk6TyXYiAYfwC9moXLQXbs
+	6RL64uE5OElowKAbw+ScPWNBQ==
+X-Received: by 2002:a05:6000:18a3:b0:43c:f247:4792 with SMTP id ffacd0b85a97d-43fe3dc5c98mr38740829f8f.12.1776929778503;
+        Thu, 23 Apr 2026 00:36:18 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1393f5sm469286905e9.9.2026.04.23.00.29.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d525sm48830341f8f.31.2026.04.23.00.36.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Apr 2026 00:29:31 -0700 (PDT)
+        Thu, 23 Apr 2026 00:36:17 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Apr 2026 09:29:30 +0200
-Message-Id: <DI0CW3KSBR0U.2DMG7JRXV5QFF@smile.fr>
-Subject: Re: [OE-core][PATCH] grub: update search parameter
+Date: Thu, 23 Apr 2026 09:36:17 +0200
+Message-Id: <DI0D1AFMURTB.318ISRG49BOEQ@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH v2] systemd: backport patch to fix
+ journal-file issue
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Paul Barker" <paul@pbarker.dev>, <arindam.nath@amd.com>
-To: "Xiangyu Chen" <xiangyu.chen@eng.windriver.com>,
- <openembedded-core@lists.openembedded.org>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>
+Cc: "sureshha" <suresh.ha@bmwtechworks.in>
+To: <git-patches@bmwtechworks.in>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260226081937.671793-1-xiangyu.chen@eng.windriver.com>
- <2c704d3b5aa8852a3d4e24143fdedb8f530517ae.camel@pbarker.dev>
- <20fd5dc4-ef85-49d6-931b-7a8ea3f94c04@windriver.com>
- <95988640-2fa5-4e41-a980-2173af637eca@eng.windriver.com>
- <DI0BSP6LTXLQ.3H9BKWL7KE1YY@smile.fr>
- <88dd3787-7e07-4016-8bd2-529772791df8@eng.windriver.com>
-In-Reply-To: <88dd3787-7e07-4016-8bd2-529772791df8@eng.windriver.com>
+References: <20260330110508.1013370-1-git-patches@bmwtechworks.in>
+In-Reply-To: <20260330110508.1013370-1-git-patches@bmwtechworks.in>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 07:29:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235747
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 07:36:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235748
 
-On Thu Apr 23, 2026 at 9:18 AM CEST, Xiangyu Chen wrote:
+On Mon Mar 30, 2026 at 1:05 PM CEST, Suresh H A via lists.openembedded.org =
+wrote:
+> From: sureshha <suresh.ha@bmwtechworks.in>
 >
-> =E5=9C=A8 2026/4/23 14:38, Yoann Congal via lists.openembedded.org =E5=86=
-=99=E9=81=93:
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the sender a=
-nd know the content is safe.
->>
->> On Thu Apr 23, 2026 at 8:04 AM CEST, Xiangyu Chen via lists.openembedded=
-.org wrote:
->>> Hi Richard,
->>>
->>>
->>> Since the behavior was found in OE scarthgap branch, could you please
->>> help to cherry-pick this
->>>
->>> commit: 42b530581f72 ("grub: update search parameter") to whinlatter an=
-d
->>> scarthgap branch?
->> Hello,
->>
->> For whinlatter, that will be too late (the last build has already left f=
-or
->> QA).
->>
->> For scarthgap, I would need to look into it (change does not look
->> trivial). Can you send a rebased patch targeting scarthgap?
->>
->> Thanks!
+> Backport patch to fix systemd journal-file assertion on removed or corrup=
+ted files
 >
-> Thanks for your info, a rebased patch will be sent later.
+> Extracted from systemd MR:
+> https://github.com/systemd/systemd/pull/40378
+>
+> Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
+> ---
 
-Received, thanks!
+Hello,
 
-I will consider it for the next review cycle.
+Looks to me that this patch is still needed on master. Can you send it
+there?
+Or, alternatively, wait for master to have systemd upgraded above
+v260 and then, resend this backport request.
 
+Thanks!
+
+>  ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
+>  2 files changed, 66 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-d=
+o-not-trigger-assertion-on-removed-or-.patch
 >
->
-> Br,
->
-> Xiangyu
->
->>
->>>
->>> Thanks.
->>>
->>>
->>> Br,
->>>
->>> Xiangyu
->>>
->>> =E5=9C=A8 2026/3/31 10:57, Xiangyu Chen =E5=86=99=E9=81=93:
->>>> Hi Paul,
->>>>
->>>>
->>>> On 3/5/26 19:49, Paul Barker wrote:
->>>>> I'm not sure that this can work for all use cases. The grub
->>>>> documentatation for hints says "First try the device HINT" (i.e. it's
->>>>> explicitly a device), whereas the documentation for cmdpath says that=
- it
->>>>> is "an absolute directory name".
->>>> While the documentation defines $cmdpath as a directory and hints as
->>>> devices, grub=E2=80=99s internal implementation of
->>>> grub_disk_open (grub-core/kern/disk.c [1]) is designed to handle this
->>>> exact "device+path" format.
->>>>
->>>> When a hint like (hd0,gpt1)/EFI/BOOT/ is passed, grub_disk_open calls
->>>> find_part_sep to locate the partition/path delimiter.
->>>> It then uses grub_memcpy to extract only the device part (e.g., (hd0)
->>>> into the raw buffer for the disk driver.
->>>>
->>>> The remaining string (gpt1)/EFI/BOOT/) is passed to
->>>> grub_partition_probe, which identifies the partition and gracefully
->>>> ignores the trailing directory path.
->>>>
->>>> The current syntax ($cmdpath) results in double parentheses ((hd0...))
->>>> if the variable is already populated.
->>>> In grub_disk_open, this extracts a malformed device name ((hd0 which
->>>> no driver can open, triggering a hard no such device error.
->>>>
->>>>
->>>> Ref:
->>>>
->>>> [1]
->>>> https://elixir.bootlin.com/grub/grub-2.14/source/grub-core/kern/disk.c=
-#L192
->>>>
->>>>
->>>> Br,
->>>>
->>>> Xiangyu
->>>>
->>
->> --
->> Yoann Congal
->> Smile ECS
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#235740): https://lists.openembedded.org/g/openembedd=
-ed-core/message/235740
->> Mute This Topic: https://lists.openembedded.org/mt/118009422/7175143
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [x=
-iangyu.chen@eng.windriver.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+> diff --git a/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-t=
+rigger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/0=
+023-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+> new file mode 100644
+> index 0000000000..ad8f31261e
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0023-journal-file-do-not-trigger-=
+assertion-on-removed-or-.patch
+> @@ -0,0 +1,65 @@
+> +From 1350f39db7e72116c3b2423db02da3ddc8e29082 Mon Sep 17 00:00:00 2001
+> +From: Yu Watanabe <watanabe.yu+github@gmail.com>
+> +Date: Sun, 18 Jan 2026 19:15:31 +0900
+> +Subject: [PATCH] journal-file: do not trigger assertion on removed or
+> + corrupted journal file
+> +
+> +When a journal file is removed or corrupted, then the value `p`, which i=
+s
+> +read from Object.data.entry_offset, may be zero.
+> +
+> +Note, journal_file_move_to_object() checks the passed offset and return
+> +-EBADMSG if it is invalid.
+> +
+> +Fixes the issue reported at
+> +https://github.com/systemd/systemd/pull/40372#issuecomment-3762907261.
+> +
+> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/112=
+cbc37906fb97afe0ad04164262cf62d0af5e9]
+> +
+> +Comment: Patch is refreshed as per codebase of v255
+> +
+> +Signed-off-by: sureshha <suresh.ha@bmwtechworks.in>
+> +---
+> + src/libsystemd/sd-journal/journal-file.c | 7 +++----
+> + 1 file changed, 3 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/s=
+d-journal/journal-file.c
+> +index 08f3b82..633de5b 100644
+> +--- a/src/libsystemd/sd-journal/journal-file.c
+> ++++ b/src/libsystemd/sd-journal/journal-file.c
+> +@@ -3305,7 +3305,9 @@ use_extra:
+> +
+> + static int test_object_offset(JournalFile *f, uint64_t p, uint64_t need=
+le) {
+> +         assert(f);
+> +-        assert(p > 0);
+> ++
+> ++        if (p <=3D 0)
+> ++                return -EBADMSG;
+> +
+> +         if (p =3D=3D needle)
+> +                 return TEST_FOUND;
+> +@@ -3341,7 +3343,6 @@ static int test_object_seqnum(JournalFile *f, uint=
+64_t p, uint64_t needle) {
+> +         int r;
+> +
+> +         assert(f);
+> +-        assert(p > 0);
+> +
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +@@ -3382,7 +3383,6 @@ static int test_object_realtime(JournalFile *f, ui=
+nt64_t p, uint64_t needle) {
+> +         int r;
+> +
+> +         assert(f);
+> +-        assert(p > 0);
+> +
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +@@ -3423,7 +3423,6 @@ static int test_object_monotonic(JournalFile *f, u=
+int64_t p, uint64_t needle) {
+> +         int r;
+> +
+> +         assert(f);
+> +-        assert(p > 0);
+> +
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +--
+> +2.34.1
+> diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-c=
+ore/systemd/systemd_255.21.bb
+> index 87e186bbfa..504d6cbef6 100644
+> --- a/meta/recipes-core/systemd/systemd_255.21.bb
+> +++ b/meta/recipes-core/systemd/systemd_255.21.bb
+> @@ -29,6 +29,7 @@ SRC_URI +=3D " \
+>             file://0002-binfmt-Don-t-install-dependency-links-at-install-=
+tim.patch \
+>             file://0003-timedated-Respond-on-org.freedesktop.timedate1.Se=
+tNT.patch \
+>             file://0008-implment-systemd-sysv-install-for-OE.patch \
+> +           file://0023-journal-file-do-not-trigger-assertion-on-removed-=
+or-.patch \
+>             "
+> =20
+>  # patches needed by musl
 
 
 --=20
