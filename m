@@ -1,314 +1,212 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <peter.tatrai.ext@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DA9FA1FD6
-	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 07:15:18 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14378.1776928509953157930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3FBFA1FDF
+	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 07:17:19 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14296.1776928627254736678
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2026 00:15:10 -0700
+ Thu, 23 Apr 2026 00:17:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=YXu/LK5y;
- spf=pass (domain: mvista.com, ip: 209.85.214.182, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2adbfab4501so31072205ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 00:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1776928509; x=1777533309; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YmlHlhHMXY2/naXUkq2y5HDG3qHGB/oDc4LX0IrV8dM=;
-        b=YXu/LK5yiZEFeGpPpPIIDHEYg5ghZHSyy6Vzq0wNn8DRNZpps1qcZbScENQMYCzXvM
-         VRjpjJgMOo+uECxpUGJx6no/NjLFxXYHK4cWDw3AvV3O4vjp7cBpMKzuOIqRAYGk8j22
-         I7822MTl7UXPagzDBjjU0H3H+lO9iXhBkqo5c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776928509; x=1777533309;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YmlHlhHMXY2/naXUkq2y5HDG3qHGB/oDc4LX0IrV8dM=;
-        b=b03l7KSjpIwmnPqL7DRy3NRLiKECDkYwm01cEMlqOrj7K6OhuU69WN/sGAEkh3z5sH
-         sWEdG3ip2BGgwfaLUMdKLrUw1YQTeYsHREaoQOgl9QK1rgGpKV5gIYLo/0rk8H6cMtFx
-         EPnyj/nmgAe94cS8+F4GbVmww4YjVztAuWVTABhhBIdJdYJSiEv56HgvzqCRG/17i45v
-         48/qcrIW0OBtOIolZDhFJlilP+c4rB2Fza5OXkrnEZdDFgYs931hBT4U37hYFKHzWHUV
-         Z9P1SeMI61edQORtyKNsY1iHOM65r+cQVM640gVEeNxlm15b0XXLfkcJBtniipQDIM+y
-         VAtw==
-X-Gm-Message-State: AOJu0YyM3l2MVXJjfNhB9/hvxBqmI9cfF675cBw0fdcUlP0n9Z6Ny4LD
-	Ipq9wGMHF2Q9cmIcQdH5yfJOb2Im/z594Api8LljwdwXTuFJ/GzD8AMwr94ggzgpWvlrEfyw71D
-	jJzeC7Qg=
-X-Gm-Gg: AeBDiet0kk5IBStUw2Rb2upwdxHh3Qu6AkhLL2RnECV0HWPiShWnEVzrSYt8cyFcvyh
-	9fUWdj8OKFBqnRNWKkvJeieJ3YR1xHvoQRcObCyENtWhr7GXmE+sySEFvHrD3kNyeiYs1uSOCIC
-	Kf0s+wbvURk6aG99Yt6gox/O2w5dPVIxK5Vc+t5Afww7NvAugn388Q4FEc9u3P6WyGecOKPOlyb
-	1+kyTlJls/1Xz/dmy9yYC1UOoxWu5c4JgxtK7LEDy6123JVJYmdWc6gAtVixswttDvTogHKRuNe
-	gZ/7deWalxdq5fuEKtwMz2Tt3Qq/hB6ncH0UyKswghYthxlRlgjTZlJhA7L6A+wXQGge/dPhp+N
-	biEvGpIVR2HF73LtP/QNb4iIUtwBUV7+V26g+7T5G05CbCTZzrRix+Bcwo2FKseVrgh2rOCUWqV
-	Iri2J3tmWKN5yUfH0wGcEpRnKawr4IljtERkwFLDX0wldZ1xsMqQ==
-X-Received: by 2002:a17:902:74c2:b0:2b0:6d33:e7c0 with SMTP id d9443c01a7336-2b5f9ecaea6mr208068545ad.1.1776928508734;
-        Thu, 23 Apr 2026 00:15:08 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([2401:4900:1cc4:1ce5:d73b:b6e5:4ccc:62a2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5faa4f092sm186795565ad.36.2026.04.23.00.15.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 00:15:07 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+ dkim=pass header.i=peter.tatrai.ext@siemens.com header.s=fm2 header.b=itPUnKL5;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1328017-2026042307170321bd24b9b1000207d9-2r8jtq@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026042307170321bd24b9b1000207d9
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 23 Apr 2026 09:17:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.tatrai.ext@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=DBJGmoyMIJS9yqKyFRUVZVJ5elhhDlC+yectjIXrv7s=;
+ b=itPUnKL5X1CybtfnVlOmtZ8vlAMBmgFz9OhFn9GQPveLZ6t8LxGsIeOrEizfwXnA3V/VDW
+ iBQFMzYQ103TuYmk+lzp0pPn83AwbcojCvpJcGZ+R3C/7CIFwGdK6Ytvc8M6V2hPntf3Lcu1
+ 1pf5SzX5tCmP+UK06Wnq1elb+a75mSKLgOL+YbTNrUNvY9wZzxS3WP0AKcMDLdxy4FX82jej
+ pIRbynSPMFSnG44dYTiIPvplTfGfhSWEDXrOnXVGCOEUZlLigVdk0UCmzfGUeMKiW5t4dPzk
+ 7E2CGvitbSPRW77oYpVJ8l8fXbUwoaDjTfKDztsJC1loFpNqDuxwhS6w==;
+From: "P. Tatrai" <peter.tatrai.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][master][patch] avahi: Fix CVE-2026-34933
-Date: Thu, 23 Apr 2026 12:44:56 +0530
-Message-ID: <20260423071457.1301936-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Peter Tatrai <peter.tatrai.ext@siemens.com>
+Subject: [PATCH] rust: fix codegen test failure on big-endian targets
+Date: Thu, 23 Apr 2026 09:17:01 +0200
+Message-Id: <20260423071701.2112776-1-peter.tatrai.ext@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1328017:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 07:15:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235743
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 07:17:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235744
 
-Pick patch according to [1]
+From: Peter Tatrai <peter.tatrai.ext@siemens.com>
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-34933
-[2] https://github.com/avahi/avahi/pull/891
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-34933
+The test tests/codegen-llvm/issues/multiple-option-or-permutations.rs
+uses FileCheck to verify LLVM IR for Option::or operations on slices.
+The CHECK-NEXT directives assumed a little-endian memory layout where
+the Option discriminant is the low byte, emitting a simple:
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+  trunc i16 %0 to i1
+
+On big-endian targets (e.g. powerpc), the discriminant resides in the
+high byte, so LLVM first emits an lshr before the trunc, causing the
+test to fail.
+
+Backport upstream fix from rust-lang/rust#151780 which introduces
+BIG/LITTLE revisions with the only-endian-big / ignore-endian-big
+directives (also backported via directive_names.rs change) to handle
+both layouts correctly.
+
+Fixes: rust-lang/rust#151718
+Upstream-Status: Backport [https://github.com/rust-lang/rust/pull/151780]
+
+Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
 ---
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   2 +
- .../avahi/files/CVE-2026-34933-1.patch        | 108 ++++++++++++++++++
- .../avahi/files/CVE-2026-34933-2.patch        |  96 ++++++++++++++++
- 3 files changed, 206 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
+ ...ion-or-permutations-test-for-big-end.patch | 121 ++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |   1 +
+ 2 files changed, 122 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/0001-Fix-multiple-option-or-permutations-test-for-big-end.patch
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index 931946646e..0042c3c2e3 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -41,6 +41,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
-            file://CVE-2026-24401.patch \
-            file://CVE-2025-68468.patch \
-            file://CVE-2025-68471.patch \
-+           file://CVE-2026-34933-1.patch \
-+           file://CVE-2026-34933-2.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/avahi/avahi/releases/"
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
+diff --git a/meta/recipes-devtools/rust/files/0001-Fix-multiple-option-or-permutations-test-for-big-end.patch b/meta/recipes-devtools/rust/files/0001-Fix-multiple-option-or-permutations-test-for-big-end.patch
 new file mode 100644
-index 0000000000..208345a325
+index 0000000000..a36089cf3a
 --- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
-@@ -0,0 +1,108 @@
-+From 0be89b6bb5c3983837b5e0febcbbbf452ecf7675 Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Wed, 1 Apr 2026 05:31:58 +0000
-+Subject: [PATCH] core: refuse to accept publish flags where both wide_area and
-+ multicast are set
++++ b/meta/recipes-devtools/rust/files/0001-Fix-multiple-option-or-permutations-test-for-big-end.patch
+@@ -0,0 +1,121 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: Ryan Ward <rwardd@users.noreply.github.com>
++Date: Tue, 28 Jan 2026 12:21:35 +0000
++Subject: [PATCH] Fix multiple-option-or-permutations test for big-endian
++ targets
 +
-+It fixes a bug where it was possible for unprivileged local users to
-+crash avahi-daemon via D-Bus by calling EntryGroup methods accepting
-+flags and passing both AVAHI_PUBLISH_USE_WIDE_AREA and
-+AVAHI_PUBLISH_USE_MULTICAST there. For example when AddRecord was
-+invoked like that avahi-daemon crashed with
-+```
-+dbus-entry-group.c: interface=org.freedesktop.Avahi.EntryGroup, path=/Client0/EntryGroup1, member=AddRecord
-+avahi-daemon: entry.c:57: transport_flags_from_domain: Assertion `!((*flags & AVAHI_PUBLISH_USE_MULTICAST) && (*flags & AVAHI_PUBLISH_USE_WIDE_AREA))' failed.
-+==84944==
-+==84944== Process terminating with default action of signal 6 (SIGABRT)
-+==84944==    at 0x4B353BC: __pthread_kill_implementation (pthread_kill.c:44)
-+==84944==    by 0x4ADE941: raise (raise.c:26)
-+==84944==    by 0x4AC64AB: abort (abort.c:77)
-+==84944==    by 0x4AC641F: __assert_fail_base.cold (assert.c:118)
-+==84944==    by 0x48A9404: transport_flags_from_domain (entry.c:57)
-+==84944==    by 0x48A9F8F: server_add_internal (entry.c:224)
-+==84944==    by 0x48AA49F: avahi_server_add (entry.c:324)
-+==84944==    by 0x401A670: avahi_dbus_msg_entry_group_impl (dbus-entry-group.c:348)
-+==84944==    by 0x4A70741: ??? (in /usr/lib/x86_64-linux-gnu/libdbus-1.so.3.38.3)
-+==84944==    by 0x4A5FB22: dbus_connection_dispatch (in /usr/lib/x86_64-linux-gnu/libdbus-1.so.3.38.3)
-+==84944==    by 0x401D01D: dispatch_timeout_callback (dbus-watch-glue.c:105)
-+==84944==    by 0x488E3AE: timeout_callback (simple-watch.c:447)
-+==84944==
-+```
-+It's a follow-up to fbce111b069aa1e4c701ed37ee1d9f6d6cefaac5 where
-+those flags were introduced and consistent with the other places
-+where wide_area/multicast flags are used.
++The FileCheck tests for Option::or on slices assumed little-endian
++layout. On big-endian targets (e.g. powerpc), the Option discriminant
++resides in the high byte, so LLVM emits an lshr before the trunc.
 +
-+It was discovered by
-+Guillaume Meunier - Head of Vulnerability Operations Center France - Orange Cyberdefense
++Add only-endian-big directive support and use BIG/LITTLE revisions to
++cover both cases.
 +
-+https://github.com/avahi/avahi/security/advisories/GHSA-w65r-6gxh-vhvc
-+
-+CVE-2026-34933
-+
-+Upstream-Status: Backport [https://github.com/avahi/avahi/commit/0be89b6bb5c3983837b5e0febcbbbf452ecf7675]
-+CVE: CVE-2026-34933
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Upstream-Status: Backport [https://github.com/rust-lang/rust/pull/151780]
++Signed-off-by: Ryan Ward <rwardd@users.noreply.github.com>
++Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
 +---
-+ avahi-core/entry.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ .../compiletest/src/directives/directive_names.rs     |  1 +
++ .../issues/multiple-option-or-permutations.rs         | 47 ++++++++++++++++--
++ 2 files changed, 44 insertions(+), 4 deletions(-)
 +
-+diff --git a/avahi-core/entry.c b/avahi-core/entry.c
-+index 0d862133d..06eb12076 100644
-+--- a/avahi-core/entry.c
-++++ b/avahi-core/entry.c
-+@@ -207,6 +207,7 @@ static AvahiEntry * server_add_internal(
-+                                          AVAHI_PUBLISH_UPDATE|
-+                                          AVAHI_PUBLISH_USE_WIDE_AREA|
-+                                          AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, avahi_is_valid_domain_name(r->key->name), AVAHI_ERR_INVALID_HOST_NAME);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, r->ttl != 0, AVAHI_ERR_INVALID_TTL);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !avahi_key_is_pattern(r->key), AVAHI_ERR_IS_PATTERN);
-+@@ -454,6 +455,7 @@ int avahi_server_add_address(
-+                                               AVAHI_PUBLISH_UPDATE|
-+                                               AVAHI_PUBLISH_USE_WIDE_AREA|
-+                                               AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY(s, !name || avahi_is_valid_fqdn(name), AVAHI_ERR_INVALID_HOST_NAME);
++diff --git a/src/tools/compiletest/src/directives/directive_names.rs b/src/tools/compiletest/src/directives/directive_names.rs
++index 9813ac7ff500d..334b2dda343a5 100644
++--- a/src/tools/compiletest/src/directives/directive_names.rs
+++++ b/src/tools/compiletest/src/directives/directive_names.rs
++@@ -218,6 +218,7 @@ pub(crate) const KNOWN_DIRECTIVE_NAMES: &[&str] = &[
++     "only-eabihf",
++     "only-elf",
++     "only-emscripten",
+++    "only-endian-big",
++     "only-gnu",
++     "only-i686-pc-windows-gnu",
++     "only-i686-pc-windows-msvc",
++diff --git a/tests/codegen-llvm/issues/multiple-option-or-permutations.rs b/tests/codegen-llvm/issues/multiple-option-or-permutations.rs
++index 9ec4ec8eeb159..8756d45eaa03e 100644
++--- a/tests/codegen-llvm/issues/multiple-option-or-permutations.rs
+++++ b/tests/codegen-llvm/issues/multiple-option-or-permutations.rs
++@@ -1,4 +1,7 @@
++ // Tests output of multiple permutations of `Option::or`
+++//@ revisions: LITTLE BIG
+++//@ [BIG] only-endian-big
+++//@ [LITTLE] ignore-endian-big
++ //@ compile-flags: -Copt-level=3 -Zmerge-functions=disabled
 + 
-+     /* Prepare the host naem */
-+@@ -595,6 +597,7 @@ static int server_add_service_strlst_nocopy(
-+                                                                 AVAHI_PUBLISH_UPDATE|
-+                                                                 AVAHI_PUBLISH_USE_WIDE_AREA|
-+                                                                 AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
-+@@ -754,6 +757,7 @@ static int server_update_service_txt_strlst_nocopy(
-+                                                                 AVAHI_PUBLISH_NO_COOKIE|
-+                                                                 AVAHI_PUBLISH_USE_WIDE_AREA|
-+                                                                 AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
-+@@ -843,6 +847,7 @@ int avahi_server_add_service_subtype(
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_IF_VALID(interface), AVAHI_ERR_INVALID_INTERFACE);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_PROTO_VALID(protocol), AVAHI_ERR_INVALID_PROTOCOL);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_MULTICAST|AVAHI_PUBLISH_USE_WIDE_AREA), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
-+@@ -910,6 +915,7 @@ static AvahiEntry *server_add_dns_server_name(
-+     assert(name);
-+ 
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, type == AVAHI_DNS_SERVER_UPDATE || type == AVAHI_DNS_SERVER_RESOLVE, AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, port != 0, AVAHI_ERR_INVALID_PORT);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, avahi_is_valid_fqdn(name), AVAHI_ERR_INVALID_HOST_NAME);
-+@@ -967,6 +973,7 @@ int avahi_server_add_dns_server_address(
-+     AVAHI_CHECK_VALIDITY(s, AVAHI_IF_VALID(interface), AVAHI_ERR_INVALID_INTERFACE);
-+     AVAHI_CHECK_VALIDITY(s, AVAHI_PROTO_VALID(protocol) && AVAHI_PROTO_VALID(address->proto), AVAHI_ERR_INVALID_PROTOCOL);
-+     AVAHI_CHECK_VALIDITY(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_MULTICAST|AVAHI_PUBLISH_USE_WIDE_AREA), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY(s, type == AVAHI_DNS_SERVER_UPDATE || type == AVAHI_DNS_SERVER_RESOLVE, AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY(s, port != 0, AVAHI_ERR_INVALID_PORT);
-+     AVAHI_CHECK_VALIDITY(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
-new file mode 100644
-index 0000000000..479d0d7e93
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
-@@ -0,0 +1,96 @@
-+From a93fdd980d2db5d453475c0aa2b39946bd6611bd Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Wed, 1 Apr 2026 05:30:58 +0000
-+Subject: [PATCH] tests: make sure AVAHI_PUBLISH_USE_WIDE_AREA is refused
-+
-+Upstream-Status: Backport [https://github.com/avahi/avahi/commit/a93fdd980d2db5d453475c0aa2b39946bd6611bd]
-+CVE: CVE-2026-34933
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-client/client-test.c | 25 +++++++++++++++++++++++++
-+ avahi-core/avahi-test.c    | 12 +++++++++++-
-+ 2 files changed, 36 insertions(+), 1 deletion(-)
-+
-+diff --git a/avahi-client/client-test.c b/avahi-client/client-test.c
-+index 9a015d7..c80e12f 100644
-+--- a/avahi-client/client-test.c
-++++ b/avahi-client/client-test.c
-+@@ -212,6 +212,28 @@ static void terminate(AVAHI_GCC_UNUSED AvahiTimeout *timeout, AVAHI_GCC_UNUSED v
-+     avahi_simple_poll_quit(simple_poll);
++ #![crate_type = "lib"]
++@@ -70,8 +73,16 @@ pub fn if_some_u8(opta: Option<u8>, optb: Option<u8>) -> Option<u8> {
++ #[no_mangle]
++ pub fn or_match_slice_u8(opta: Option<[u8; 1]>, optb: Option<[u8; 1]>) -> Option<[u8; 1]> {
++     // CHECK: start:
++-    // CHECK-NEXT: [[SOME_A:%.+]] = trunc i16 %0 to i1
++-    // CHECK-NEXT: [[R:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // LITTLE-NEXT: [[SOME_A:%.+]] = trunc i16 %0 to i1
+++    // LITTLE-NEXT: [[R:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // BIG-NEXT: [[OPT_A:%.+]] = lshr i16 %0, 8
+++    // BIG-NEXT: [[SOME_A:%.+]] = trunc i16 [[OPT_A]] to i1
+++    // BIG-NEXT: [[OPT_B:%.+]] = lshr i16 %1, 8
+++    // BIG-NEXT: [[A_OR_B:%.+]] = select i1 [[SOME_A]], i16 [[OPT_A]], i16 [[OPT_B]]
+++    // BIG-NEXT: [[AGGREGATE:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // BIG-NEXT: [[R_LOWER:%.+]] = and i16 [[AGGREGATE]], 255
+++    // BIG-NEXT: [[R_UPPER:%.+]] = shl nuw i16 [[A_OR_B]], 8
+++    // BIG-NEXT: [[R:%.+]] = or disjoint i16 [[R_UPPER]], [[R_LOWER]]
++     // CHECK: ret i16 [[R]]
++     match opta {
++         Some(x) => Some(x),
++@@ -84,8 +95,16 @@ pub fn or_match_slice_u8(opta: Option<[u8; 1]>, optb: Option<[u8; 1]>) -> Option<[u8; 1]> {
++ #[no_mangle]
++ pub fn or_match_slice_alt_u8(opta: Option<[u8; 1]>, optb: Option<[u8; 1]>) -> Option<[u8; 1]> {
++     // CHECK: start:
++-    // CHECK-NEXT: [[SOME_A:%.+]] = trunc i16 %0 to i1
++-    // CHECK-NEXT: [[R:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // LITTLE-NEXT: [[SOME_A:%.+]] = trunc i16 %0 to i1
+++    // LITTLE-NEXT: [[R:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // BIG-NEXT: [[OPT_A:%.+]] = lshr i16 %0, 8
+++    // BIG-NEXT: [[SOME_A:%.+]] = trunc i16 [[OPT_A]] to i1
+++    // BIG-NEXT: [[OPT_B:%.+]] = lshr i16 %1, 8
+++    // BIG-NEXT: [[A_OR_B:%.+]] = select i1 [[SOME_A]], i16 [[OPT_A]], i16 [[OPT_B]]
+++    // BIG-NEXT: [[AGGREGATE:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // BIG-NEXT: [[R_LOWER:%.+]] = and i16 [[AGGREGATE]], 255
+++    // BIG-NEXT: [[R_UPPER:%.+]] = shl nuw i16 [[A_OR_B]], 8
+++    // BIG-NEXT: [[R:%.+]] = or disjoint i16 [[R_UPPER]], [[R_LOWER]]
++     // CHECK: ret i16 [[R]]
++     match opta {
++         Some(_) => opta,
++@@ -98,8 +117,16 @@ pub fn or_match_slice_alt_u8(opta: Option<[u8; 1]>, optb: Option<[u8; 1]>) -> Option<[u8; 1]> {
++ #[no_mangle]
++ pub fn option_or_slice_u8(opta: Option<[u8; 1]>, optb: Option<[u8; 1]>) -> Option<[u8; 1]> {
++     // CHECK: start:
++-    // CHECK-NEXT: [[SOME_A:%.+]] = trunc i16 %0 to i1
++-    // CHECK-NEXT: [[R:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // LITTLE-NEXT: [[SOME_A:%.+]] = trunc i16 %0 to i1
+++    // LITTLE-NEXT: [[R:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // BIG-NEXT: [[OPT_A:%.+]] = lshr i16 %0, 8
+++    // BIG-NEXT: [[SOME_A:%.+]] = trunc i16 [[OPT_A]] to i1
+++    // BIG-NEXT: [[OPT_B:%.+]] = lshr i16 %1, 8
+++    // BIG-NEXT: [[A_OR_B:%.+]] = select i1 [[SOME_A]], i16 [[OPT_A]], i16 [[OPT_B]]
+++    // BIG-NEXT: [[AGGREGATE:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // BIG-NEXT: [[R_LOWER:%.+]] = and i16 [[AGGREGATE]], 255
+++    // BIG-NEXT: [[R_UPPER:%.+]] = shl nuw i16 [[A_OR_B]], 8
+++    // BIG-NEXT: [[R:%.+]] = or disjoint i16 [[R_UPPER]], [[R_LOWER]]
++     // CHECK: ret i16 [[R]]
++     opta.or(optb)
 + }
-+ 
-++static void test_refuse_publish_flags(AvahiEntryGroup *g, AvahiPublishFlags flags, int expected) {
-++    AvahiAddress a;
-++    AvahiStringList *l = NULL;
-++    int r;
-++
-++    r = avahi_entry_group_add_record(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test.local", AVAHI_DNS_CLASS_IN, AVAHI_DNS_TYPE_CNAME, 120, "\0", 1);
-++    assert(r == expected);
-++
-++    avahi_address_parse("224.0.0.251", AVAHI_PROTO_UNSPEC, &a);
-++    r = avahi_entry_group_add_address(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test.local", &a);
-++    assert(r == expected);
-++
-++    r = avahi_entry_group_add_service_strlst(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, NULL, 80, l);
-++    assert(r == expected);
-++
-++    r = avahi_entry_group_update_service_txt_strlst(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, l);
-++    assert(r == expected);
-++
-++    r = avahi_entry_group_add_service_subtype(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, "_magic._sub._http._tcp");
-++    assert(r == expected);
-++}
-++
-+ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
-+     AvahiClient *avahi;
-+     AvahiEntryGroup *group, *group2;
-+@@ -275,6 +297,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
-+     error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
-+     assert(error != AVAHI_OK);
-+ 
-++    test_refuse_publish_flags(group, AVAHI_PUBLISH_USE_WIDE_AREA, AVAHI_ERR_NOT_SUPPORTED);
-++    test_refuse_publish_flags(group, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST, AVAHI_ERR_INVALID_FLAGS);
-++
-+     avahi_entry_group_commit (group);
-+ 
-+     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
-+diff --git a/avahi-core/avahi-test.c b/avahi-core/avahi-test.c
-+index 2a7872b..2bae82b 100644
-+--- a/avahi-core/avahi-test.c
-++++ b/avahi-core/avahi-test.c
-+@@ -30,6 +30,7 @@
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ 
-++#include <avahi-common/error.h>
-+ #include <avahi-common/malloc.h>
-+ #include <avahi-common/simple-watch.h>
-+ #include <avahi-common/alternative.h>
-+@@ -150,6 +151,7 @@ static void remove_entries(void) {
-+ static void create_entries(int new_name) {
-+     AvahiAddress a;
-+     AvahiRecord *r;
-++    int error;
-+ 
-+     remove_entries();
-+ 
-+@@ -181,7 +183,15 @@ static void create_entries(int new_name) {
-+         goto fail;
-+     }
-+ 
-+-    if (avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, NULL, AVAHI_DNS_SERVER_RESOLVE, avahi_address_parse("192.168.50.1", AVAHI_PROTO_UNSPEC, &a), 53) < 0) {
-++    avahi_address_parse("192.168.50.1", AVAHI_PROTO_UNSPEC, &a);
-++
-++    error = avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, AVAHI_PUBLISH_USE_WIDE_AREA, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53);
-++    assert(error == AVAHI_ERR_NOT_SUPPORTED);
-++
-++    error = avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53);
-++    assert(error == AVAHI_ERR_INVALID_FLAGS);
-++
-++    if (avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53) < 0) {
-+         avahi_log_error("Failed to add new DNS Server address");
-+         goto fail;
-+     }
-+-- 
-+2.43.0
-+
++@@ -109,8 +136,16 @@ pub fn option_or_slice_u8(opta: Option<[u8; 1]>, optb: Option<[u8; 1]>) -> Option<[u8; 1]> {
++ #[no_mangle]
++ pub fn if_some_slice_u8(opta: Option<[u8; 1]>, optb: Option<[u8; 1]>) -> Option<[u8; 1]> {
++     // CHECK: start:
++-    // CHECK-NEXT: [[SOME_A:%.+]] = trunc i16 %0 to i1
++-    // CHECK-NEXT: [[R:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // LITTLE-NEXT: [[SOME_A:%.+]] = trunc i16 %0 to i1
+++    // LITTLE-NEXT: [[R:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // BIG-NEXT: [[OPT_A:%.+]] = lshr i16 %0, 8
+++    // BIG-NEXT: [[SOME_A:%.+]] = trunc i16 [[OPT_A]] to i1
+++    // BIG-NEXT: [[OPT_B:%.+]] = lshr i16 %1, 8
+++    // BIG-NEXT: [[A_OR_B:%.+]] = select i1 [[SOME_A]], i16 [[OPT_A]], i16 [[OPT_B]]
+++    // BIG-NEXT: [[AGGREGATE:%.+]] = select i1 [[SOME_A]], i16 %0, i16 %1
+++    // BIG-NEXT: [[R_LOWER:%.+]] = and i16 [[AGGREGATE]], 255
+++    // BIG-NEXT: [[R_UPPER:%.+]] = shl nuw i16 [[A_OR_B]], 8
+++    // BIG-NEXT: [[R:%.+]] = or disjoint i16 [[R_UPPER]], [[R_LOWER]]
++     // CHECK: ret i16 [[R]]
++     if opta.is_some() { opta } else { optb }
++ }
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index 43d60fb6f6..f11bbea9b3 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -10,6 +10,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://0001-Fix-flaky-assertions-in-oneshot-tests.patch;patchdir=${RUSTSRC} \
+             file://0001-Update-amdgpu-data-layout.patch;patchdir=${RUSTSRC} \
+             file://0001-Adjust-loongarch-assembly-test.patch;patchdir=${RUSTSRC} \
++            file://0001-Fix-multiple-option-or-permutations-test-for-big-end.patch;patchdir=${RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] = "174fce10ce012317ca995810296d8af199318838180b03d68a853e0f02d4b571"
+ 
 -- 
-2.43.0
+2.39.5
 
 
