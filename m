@@ -2,72 +2,74 @@ Return-Path: <hsimeliere.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAACF589B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC96F589B2
 	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 12:39:45 +0000 (UTC)
-Received: from mx-relay31-hz12-if1.hornetsecurity.com (mx-relay31-hz12-if1.hornetsecurity.com [94.100.139.231])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18355.1776947976243655370
+Received: from mx-relay81-hz1-if1.hornetsecurity.com (mx-relay81-hz1-if1.hornetsecurity.com [94.100.128.91])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18357.1776947983298940116
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2026 05:39:37 -0700
+ Thu, 23 Apr 2026 05:39:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=Aw29+07z;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.231, mailfrom: hsimeliere@witekio.com)
-ARC-Authentication-Results: i=2; mx-gate31-hz12.hornetsecurity.com 1;
- spf=pass reason=mailfrom (ip=52.101.72.109, headerfrom=witekio.com)
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=r9TwtYNv;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.128.91, mailfrom: hsimeliere@witekio.com)
+ARC-Authentication-Results: i=2; mx-gate81-hz1.hornetsecurity.com 1; spf=pass
+ reason=mailfrom (ip=40.107.130.92, headerfrom=witekio.com)
  smtp.mailfrom=witekio.com
- smtp.helo=am0pr02cu008.outbound.protection.outlook.com; dkim=pass
+ smtp.helo=mrwpr03cu001.outbound.protection.outlook.com; dkim=pass
  header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
  header.from=witekio.com orig.disposition=pass
 ARC-Message-Signature: a=rsa-sha256;
- bh=WI6fy0ms9Nw8jI8nXWBzQmi4fOVTDeTExcORrHEQe24=; c=relaxed/relaxed;
+ bh=ahScvSEqqsiKSPdTnT5a9lKI7LfkuQ96x3MFCMiWkns=; c=relaxed/relaxed;
  d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=2; s=hse1;
- t=1776947973;
- b=iYJsRUrKkga9v9dJgpgcrarX1sT/G3wlStAH9OrJFIliJEgDuJeT/EqtRvw7aVIybMkFR5Xb
- 0VPiIVzPDTE1ENMvpniwe/7Rr32z1mVCW/0uKv6FlDW0UbJq0bugSQIfi/BowEM60RrgGICcVk8
- rQ7Wf29iDjgpGRR/c8ZbBqlYxZCbRxlI8iyFcupAekM75o3VFHRWGE++XS2dT1Y1ihba66LWYzs
- 8WIwj3UrZPIzoZHqwY63PMwGZQN9u8pYQ06smAGGPI/UD9Ydri9PgI3SogV9BYUa5uhN4T5AfqC
- 6n6D4l6Za+jFCK2hzEnzMDZuRLLPrmocJrXblr8aAQAiw==
+ t=1776947980;
+ b=Ds2Pz+fTZTM0N6MtnuxmimlQml3BWBa2j8sC4MSzTKkTW7P4pZp2+CEfimXwB3qhUrQ83rB7
+ 5QBgxYsRIT0yXnjr+zkx7nP9cvP9L+rF3jLJ1Oad5FC2huPIUbwlkUvs3+yyMzk3JREpl8BqckO
+ 3n4R4GDBri4tTWD7ZoS10sXxekLTk3rbVUV3JXGHRZj+wI4aHzsQXUNnjnwlL/7zuzYconNN9CZ
+ PqqPqWoiNjgmUSEXgCF+sf+dG/iBjzBfdklNrBqZs/Mdso5B+z5RErg3LVosVdQiF9xVE5MZaJ5
+ JH8Y3K2lyOA5ClWALnsUwXWZzF1qSUjhfppFrrujWgt+g==
 ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
- t=1776947973;
- b=IOeWk1KU+9ImLCPgqXhUTq7iGKEFvqtGwWRfGK2klV98Mv6098SQIcmvHpysYLgOYqUBiow7
- 6Mp+vdD24YRzJO0flKhoM0wMFFU7IrQeV3hGTlFVjnBxnz9cbCockkg0/U1IwzzcfNB18srvRR9
- yolLmR2+BnpiVdQX0r9IzW72hVg4E7KpaT+N2Gq99b2D1f9DYaqVgyQiD8wMwP8gih9DkQAhCsu
- uNpNWMee/NYNfQZfHchpWmaQHAU09cjRuItcimytvtYYk9zBM5ObfZ/Nuwjiu0dto6DN9eSU4OO
- ETaiqa9/52tYz2Mf0551zEytCw1MS2AgWFaDGq8drQFHw==
-Received: from mail-westeuropeazon11023109.outbound.protection.outlook.com ([52.101.72.109]) by mx-gate31-hz12;
- Thu, 23 Apr 2026 14:39:33 +0200
+ t=1776947980;
+ b=QGqPqa0McMni780N5SC4IMSzJb/3SPoP0c/RoqUpnbmD6wfyho/wSWvw0TxXy8N+hDsUH/mG
+ Gg9hw6siuObMqYO0sxsULPm2NIC/+oB06SjZkGJI4mXe3LCtlVhutxT6P2Aov//pTl41IoZWIiG
+ h28GXnMEcN87BIvgJpxuIU23hPrytZHwK1aezISApraXdCAIoej7YMLHaXjXZQHh6tgQy5QSANY
+ nOlhSL6hmKlWdcrKQuDXy7y5OhCWCR1A69OkqGlAc4WUEcRh8o37h20VemsEua1JvgZ0T1ShCfD
+ bJcyTwweqMDEtLFkhdO9RDvtC4DIJshIXGSZKJkCzoH4A==
+Received: from mail-francesouthazon11021092.outbound.protection.outlook.com ([40.107.130.92]) by mx-gate81-hz1;
+ Thu, 23 Apr 2026 14:39:40 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u1JpZ4v+nw432zIBKq6w5twW5uI6Tx0/1m1rbD0jAkWloNnxyD7THf24zuIaXmXTIKdTrL0WizsLv+++krcRHaDYG8ONTPBiT9yV7a4XZqCXqQGqlhwMipxGPoq95GW1lKQgK6MmX6kv3Ba2R+i+bfl+UAIbfL1JQb3lZNFSzJ9dHqpWWw/BV1QghNm0Ns6CyMKzJ7UC+ZRCDuxgftpTLYIygBssWCJ+0MBch9DochkN+geJdGUfOvz/yhaYTeqgyVQ3ye6+9BgxkqpZHhcpRoc0bM8Vu+CNDuThkVXH2Zi9wpUPBAWf2Qr2fXHoFAsgaBJpc/sUNxt4vVcHbXYXtA==
+ b=Dug7b4w/HMWLQVd9VyCwTjQv5vFUgMpdySmbcPQ1jHGhlzfIn0My91Ko/tFUz9y9KmVeU8wfI2lmO0VObs2HQO/EXzNOdjTjKpreG8B/7Hp0VVUJlfOHO2JkkMGVQ1dxlatLhNXWobShAeUhIJMdb/iIDZ1b+/oxSr6FC+QfLl3CwJIEwMqAVWSD8EtEsKxJjQbwO8sxEwY1WIpC/1N/uxQcmH0lSc0CCVCNZo/zXPmqV/fzmFIpdCa90xepC+qHXdtnQfs5P0VKKWIgHTr/QoK9pmvk1x2m81TFXmh9yVho9ave+MsLNTUxctaMOETDtV3Ge/dLeNmT7yjqOBdOpA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WI6fy0ms9Nw8jI8nXWBzQmi4fOVTDeTExcORrHEQe24=;
- b=cnOrfTApfqe4HIcISoE/CuIpBjv1jE4F6ie6fyyvMj/Z5DcUWkuL1AyxvOT4OAQKWxeBbT9eJxhUjOnlxofR7bezSOpl26yX1BBhgDHxyr4UgDq+G1RbHNPB4+5ryloyOYQj/OX0SPpx3dJ/ojDWEKug20H8/oGNjG3JhwpIk5fq72Vp/lHrdR0Z2OThNBE+xFVC57XRvo5Dyre318BcRa+zyYs2ZyhwHfnMMug2T2e+ZzdABgtT5d3KR8L5H5ns+rPDcsTPugOJBUM8layQAhXy3pq0DtCp4CEYh5mJvsA+8Zg7OEPbkRxMtXzMe0JWZVhVRVpYc90l8qmSeBdBjw==
+ bh=ahScvSEqqsiKSPdTnT5a9lKI7LfkuQ96x3MFCMiWkns=;
+ b=ZAqyXRmvhKBK9P/1WHvv+Qjvp69i2ooUJU18LkQMz27N73zPfKAIVMnLh3jd1FEYHBDAcIn8KEAwl8s7Rpzx0hG+5gK/Ikf8d9mpjFnXP1o5Es6d6wNTHFL2PmKybwsjQXPbUfQrAhnlmzH+8aTP6pCIXILtNj2CYsOLclCMiu73dhnMAfUNOuUYqUstYXdnyNbK91GtnXHqztHylkqGCAh2fPTYETWj++QTuTPBaGpD3p+flfyyvKlVLarUfdLHTpzXEVpDv8p2AeAmitVXrPw1xc+ZlhlpoqqAzTXHQhnqmhaXJlpGamh+iQPrYwZ9vUqbisrLRvMWbD2HMT3zig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WI6fy0ms9Nw8jI8nXWBzQmi4fOVTDeTExcORrHEQe24=;
- b=Aw29+07zwFpKLIdu9WCbAeTfmenZ2vfNYRwr7VOFGnURH4m0hYrrO0lBWc/tDcuJX6dYyklA7z6nV1vrSJzAlaq7HcxZ+SmOghWS0b5uDU4QeSOISxPzXohZpPZZvE1Tw7ekM8u2P/8JJhX429Ev2KuJIEA9+V5E2W8MX1MMdTz0q/opdkzSDXG3Zvc+B0+mZIyuOgQSYZuVgeb8Rs8n92790s4nvU1UQk9cZkk6+lTmfq+LgqXbrrUfIeGvIvTe2WgiQqsGuFmWUOnXW1f2his6hecrOZaGj6Im+rSxsw19CLvNNwFmdlFL9izCiYwY5sm5JHTq9EZXfi+ALXJCxg==
+ bh=ahScvSEqqsiKSPdTnT5a9lKI7LfkuQ96x3MFCMiWkns=;
+ b=r9TwtYNv1jyAxV3tNRwkWJl6PD6KsRswLM/f+uqC6oLLfwOZquOZwUmJ82IIVy/JMjbjCVdxzmAexEExo3H4XHICYWQ35t9ed6PZU5dGZFbL0J3bcyrxUnKA7Hy3ZUxP+iZmRTznHA8yOMcIo8CuPoqYxR5cHY12mUL0lrHUnhSfC3900Ahv0I3qFAr2fvadJygmPHtLHrhTAz3aeNG5roZ4Y8oYzCABV7L3zFNlblmEJrf0JEvdh3r1WSW5y3TFKO3tv48Xtfn8ocW5VzqQx8oRMUfZH7YnzP8ut3xioTT8aRrGGYSLRd3f9gwqXyNry3N7coTjQ+qyeMmTPNFoKg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from MRWP192MB3504.EURP192.PROD.OUTLOOK.COM (2603:10a6:501:87::6) by
- DB9P192MB1563.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:33b::8) with Microsoft
+ PAVP192MB2112.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:321::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18; Thu, 23 Apr 2026 12:39:25 +0000
+ 15.20.9818.25; Thu, 23 Apr 2026 12:39:30 +0000
 Received: from MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
  ([fe80::e437:672a:5abc:a0f4]) by MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
  ([fe80::e437:672a:5abc:a0f4%6]) with mapi id 15.20.9818.032; Thu, 23 Apr 2026
- 12:39:25 +0000
+ 12:39:30 +0000
 From: hsimeliere.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
 Cc: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>,
 	Bruno VERNAY <bruno.vernay@se.com>
-Subject: [OE-core][scarthgap][PATCH 1/3] expat: patch CVE-2026-32776
-Date: Thu, 23 Apr 2026 14:37:05 +0200
-Message-ID: <20260423123854.388088-1-hsimeliere.opensource@witekio.com>
+Subject: [OE-core][scarthgap][PATCH 2/3] expat: patch CVE-2026-32777
+Date: Thu, 23 Apr 2026 14:37:06 +0200
+Message-ID: <20260423123854.388088-2-hsimeliere.opensource@witekio.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260423123854.388088-1-hsimeliere.opensource@witekio.com>
+References: <20260423123854.388088-1-hsimeliere.opensource@witekio.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: LO2P265CA0448.GBRP265.PROD.OUTLOOK.COM
@@ -75,202 +77,235 @@ X-ClientProxiedBy: LO2P265CA0448.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:501:87::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MRWP192MB3504:EE_|DB9P192MB1563:EE_
-X-MS-Office365-Filtering-Correlation-Id: b96e5647-4a74-43d6-d920-08dea1355a3c
+X-MS-TrafficTypeDiagnostic: MRWP192MB3504:EE_|PAVP192MB2112:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8592833-db9f-46a8-d30e-08dea1355d2f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|10070799003|18002099003|56012099003;
+	BCL:0;ARA:13230040|366016|1800799024|10070799003|52116014|376014|18002099003|22082099003|56012099003;
 X-Microsoft-Antispam-Message-Info: 
-	BkWTEB27etXnlvs1BMIaLSAt0cVxwHXypsNg1MrJAW9dU9tBOwR54czRTAY2ImvaM8VuKthothuTYTxLZ6Nt7LvUILRyayneh0sgahJQGFDznF3ruhiZ62YMvZ5orR3DTQMVx5d8Z0jy0aV6ZZvvEZS7Oxf524u6Ntvt/1aogv9l3DAzro2U5GvUzWzHfLkk/E3hgLxeh2ufHEp1dRg7+x0NVL35cVMkxLisdw4VDpwxjKiZD52DRTsNlVOlW4VhVe9ebl/MNHuqfqhBORHNhn6C3TiAVnVImsZPGa0+OKJBQklUXHb4WR6FCn1QMbPtQ+O3dj576QMUDmraK3k3q4KwYn6wkcdi9yDKEQCFWvf+1ZhVFIZDV7NYA47d0MxoUH3s0LMoVz0MI9xX3eQ8H3rr3/B7p5WFHU3a9gDIT9lqrTM5g8AdCh75GSCsTYeFGumQnbpgYLl0xAuYpje7Yhj6LFgm2XdIngE+e4doemoy8Vxdi8dthlTDoAotnGydUMTnzP1Uez07aYcrljMFmp4hIQykcEHShU1mvxX6t/QTNMi8ETxDZ+7ZYtegSP6+OjnTmhQxeHjc4TFGV0R6GoOiWEZMdeRbl0a1mW8F8ok4ZMbChKMnlf8QkmMc5qTt78qcun1abXXjayKAmJ+UeRZkYso5oQr1MkFCG2TBrCzfyIAOAZaf/K/Wpl5i3iwt
+	ymmQ19a/kxBFHGHx0nplD/L1AcOingHFBg4leNpyVO9kr2hRr7Q60lxdaO0OO2KjEjlA69H3bKwJUfeViyqXC5pfKGLWQiUwN6wjDDQNlwpzG+chiDyvGXTfwMK2zoQzCC6UNI/AFNq65nDACHitm8JkSnnybRKle8OgY3RGYSlKjzUydmGdtx7JC2OxC2r5CkOul0WKvlTcb4vYE5DmYZS6X0il6FoFLQvtZV0Je4qihjGTuKh1kuTJJ8iZM4KRMQRSaS5OorV6O6NL1T1qmyRwVYSwOQvhkaJi/a2aL2RaUADJrqq5sV3AbZYnXYH7SVMQDKsXBgweQrEM+yee0GApqTfScLnYAojkHDtcj4GuFk+Y2ObEQvDTkeOAcbnJs6zzMuJ3ty+Za7n6YXV1yfjKBKpWiYo6gAj91a81e/oy0QuXtsm9D1vDOpxdyAfAziZRSo8ND+QidfPhzzSSjOrDIGkZ6aFLuZ+U9dp6gzZ+FBkM24YbTF6dE88w7PBC12FBUBr8FEpum0B9wqvVscgcZwfuuTb8/Gk79AM3wA86sRP87Je6ogi1Ps/f3MLFy0YNEVK33ywdwB20hhF165SWW+ugX0DW1MP90OYKHOIWukZdm0YmmDPLG6QwOZENLQ4k6kOTBA7thtv3aNABHqRiasnqZNpWAtalC/AjhVVUgBMnTK8fEnee7noHUsFJ
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWP192MB3504.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(10070799003)(18002099003)(56012099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWP192MB3504.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(52116014)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Kt4nzpYviBVOImZX9GrgYfajYYKvgzwZnpVffqicvqXA7d1CNoUdWXHqHpwU?=
- =?us-ascii?Q?AcSw5R6W3IfivUdVpJYEyLsS/5mJBYKqXMEhejz2LpuaCkl8fBigodOtAEej?=
- =?us-ascii?Q?ZOWEnfFmMPX/ClL7/TmcvaDPbnY4JYxQMG5zXLPQ+qmMy107LxnZB3vMMSKn?=
- =?us-ascii?Q?Vy8oqA7G8ndmfwzmHmTW326OLgC2yCQ3ukbQnf5WpJ9xfSMaLZROwkR2JcFB?=
- =?us-ascii?Q?rbFbaxk1YwTk10hX0BzXI8+/xto+tI80ISrJsOtyNXtqSyXOUC4Y40u8Z6+6?=
- =?us-ascii?Q?k3Fvhgi1WIblAh1EYhWE8arVRKorcsKrHkt48YX0AeDufFythc7oMZn3nsWh?=
- =?us-ascii?Q?gAcrXFPcVcVPHGEq6bO9n01LnmB+E0gOPiQZ1rglirCPZMHMhQB4vxN+SCbY?=
- =?us-ascii?Q?fc09mL7heoRQw2OFOM/9ifp5nkbaScIb6zOOMJp4TIDgD4imtUtIMWKk9va9?=
- =?us-ascii?Q?B2/j0p1LX7juv0Pcs+sSLYRoxCKxgiHMAfN4BDdCpooRca/55V4KULMfiRFK?=
- =?us-ascii?Q?SWhCy+hEOagkhuyW9oTJE0iYL6yW3vL8tArlLsZhe4gGkLlHPM4v8DYMPAfw?=
- =?us-ascii?Q?KJfjWwBr3f9MW65PERiNKozjdKOYnVZuMNUj1rZmQsBjRiLi8AnFZTQxWs7k?=
- =?us-ascii?Q?xV9LejwgGcHlo2dmsVwzx+U+dtD4PvU+I7qY59x/Cz9HuTkcyKBOGQoJU8+R?=
- =?us-ascii?Q?zJEUsuQSJA/9BYxyRC0eSuXmjTB+N/+ZqeXhG2ocbKvueOPw+zCJOca7feaf?=
- =?us-ascii?Q?6eROR+A3Ybp8ZxACBJD8tFNncAqROYL2T1Ae4Vxh4fYWHvY4uA0dUw1Ofl61?=
- =?us-ascii?Q?NW4DlmnMhTGHCwusS7Rnv5QNyT/sOs5Nf5YS/mA/oJDJrrqoAf0ZE4HpEnza?=
- =?us-ascii?Q?FkAFsgZQv39gJ+HHuJiYdX4HaFMeyH6koOUKjwFuCu938qf+c1Ipk4gC4yb0?=
- =?us-ascii?Q?U2cE9+S7fW8cZdiUcJc9rJ0y/4kkpYE+xOJ6QftHe75SgetmkvbCl8bbHQz9?=
- =?us-ascii?Q?x/RilaAym7GevQ6GONFqkTwunDp+Ro8UZIhMSrJgPfwLhWlh6l88MoJSpNUf?=
- =?us-ascii?Q?jyXEcSDod5GtI1zKqWLhLezQzebqTQzBXn5rPcm4H/L9BAt2JxaIhexOZLyi?=
- =?us-ascii?Q?uoaPL4vkUXzfysGXlFjy26Jq/Hidcf3GV6l3cYq0wqlHV7vdoYDCxiy5tqC/?=
- =?us-ascii?Q?pRWYGmyx6OKgCDwWHlvragoKwITwvI22nIhntoSV1QIUbqDu5VA7ESxFEp4h?=
- =?us-ascii?Q?K0c3BQOcOU236TYsjqPliExTsXg2Wo8am2CnJxuAjOTRCgNCkmDgcQd6ccTy?=
- =?us-ascii?Q?q2zVO8Si0krF/WNkQW7CYUnC8nCrN90AmCo6egwk+257aS9qTnB1Jem6E6GX?=
- =?us-ascii?Q?vV+GbhbLoOVek5ksSdt6frtB87hUDc8nQYYqBjWhtQ+LQf4bNKaO1eRSSxcl?=
- =?us-ascii?Q?4V8kiHYuaT0jFMtdWHU2EB8l5aGcMLNLE5QZBdu5Ami1HgTFgHSmXm6GRAhb?=
- =?us-ascii?Q?tUOAs5ZYKvYn3V+O+zMXgQOMhlfyFTJaO/BmefnH/RRVZTP15ioagXawf1bB?=
- =?us-ascii?Q?mhBjobDGos4O7n9q27ykF7xrmW7csxTmHC9wOzmlGzHuB+55rK6X4uc8O0aY?=
- =?us-ascii?Q?H321VG9lAs0USFWmRo+9YnLS96cq84pl7y3F32alpYYa38PoLVJ53KnjO6yA?=
- =?us-ascii?Q?5xv4bdUEt4gZsbAFTHk4FRNhGJe5j55pudYVxewsGv4yYjAiqhUo9h/zNXKh?=
- =?us-ascii?Q?2Huh3pucGjIzRFlZ0YMfAAKln8/eB6nhmDgSpAH33no/QzkC/o1eo4wQNIY0?=
-X-MS-Exchange-AntiSpam-MessageData-1: TG7/52lXGod50Q==
+	=?us-ascii?Q?Baqd6Ia7i/loxEDUfNZJDb0Klp3xcpa1pkdFA40ojJs9xopa/AHdMfJdNQUo?=
+ =?us-ascii?Q?59lEnbH1xlSwxhFkBdzksjhBhfRp6EeQEsoPSj51SngP1RmJDUxNUDPRTVo7?=
+ =?us-ascii?Q?BkwOHrzciAzSesftf987fLtCFdhddMZpu3LyGshbl8k0WuCSWunUFb9kzm6D?=
+ =?us-ascii?Q?iIxSHtAXMbxrg28ZhKOmPstGsxVSi+7GMC4P1E63W81KklmYndZb9CraLxGE?=
+ =?us-ascii?Q?U4ag8JUlz255S3glvIzrJsmvnew4QhjpyYT5sT59Mk3R/xUQHC0im4iU7STm?=
+ =?us-ascii?Q?IUCP2bT0gTmhlreijZ4DPtHZXlin8skHnuqaDNm5m9R8GFIMnUdm2JxJQwJo?=
+ =?us-ascii?Q?zKNxXkT9vRsa3tkaL+plpOqD2AlKaxz9Fi0AFO0t9/rAo1F+oY/HQyft05wS?=
+ =?us-ascii?Q?xA6Ruma5IyoHjtgcxUlzX0OIQShxny13+UEdch1f4HdMhe2obop7AOqbZShN?=
+ =?us-ascii?Q?l5+MsYLG/pU/jCbI3h+QvqNcGgRDzs9nAsbHdO6BI9c94vByfCmcOq70tGQB?=
+ =?us-ascii?Q?t5jGXEdhmenIn3aP0MsAaowJb0qDCHYP998u6x2NasBMqhZ972ctK2rT9n5t?=
+ =?us-ascii?Q?gjFX+ftLjax6GZy9+3SQScg5Iy5SrRTMd0j42atFsiYEaNvtxTCjj3doNnmN?=
+ =?us-ascii?Q?0rUROnYub4ebxA4VZpURxA/kdfXz25uR80Ya5iBrdRGoJme7YKIm59KcxRWB?=
+ =?us-ascii?Q?TmRblIr4RxGRpdTHZLyqWNyVXekedAEuiH/FjXC7alup3XHMfk1rBcQ63A5J?=
+ =?us-ascii?Q?331gOUt/nBfC7R+yZAJuVK3rZYcrRKz+pKaaJHVJu8JAF+f9gOiUfhCCxwXh?=
+ =?us-ascii?Q?9m6TkkrtkbsNcVB+BMe/SBIQ3x6ctRFcETt1lNLjkAiqrcaf9LorUbyQ8NXv?=
+ =?us-ascii?Q?rjiZ7ybSPpXLXEepuIFCgf8USEFKxUCqrUrFgacE9fYeb7AeES3galvcFPJ9?=
+ =?us-ascii?Q?PjGeIqKIcO/xWzAs7J10IJuHlzGGXI0zhWM6nfvqc3egCW/T+rlSkgLB40vW?=
+ =?us-ascii?Q?QGcycn4Sh42eeMsfmAl9BD3A5jkyEcKhW9hDs2fBGXtQSn1jYhTmtqfgmFQQ?=
+ =?us-ascii?Q?YSGk7nvYMmadPvfjC9LI5dbiCQ/ZDY4We6NZ1lKy6DD4REP53YWbk76O+BGq?=
+ =?us-ascii?Q?2To966SDJmqpSGKsLxXPjiRahP2kLDVKamQdrh77BUOm/L6vcae8hHBfPZcq?=
+ =?us-ascii?Q?0qP30zcBnjk27OcLMwcJMtz4mZZK5yiabcXApdquPupAiai9i+BGZL1nFlF1?=
+ =?us-ascii?Q?gpGQiSXpCW+0HD9xWTY+/herrrdzaCp1m+G0DhZDnPXMb6EZ6J1W+Q/UMwl1?=
+ =?us-ascii?Q?Y2rCVhyu1C0S5qjvhuXA/6h5TWW0gUtoQGJJ3TT+MXH9BEtLUrARfn15rUuu?=
+ =?us-ascii?Q?7tb1rbN0H+VoHZFHBP5BksDdZOWC0CX39T+2j7m08CZafvfSo2vl4BSwmuNT?=
+ =?us-ascii?Q?LeyM20W8830EGlvJRa34KCmZbhNkI/owIdw1l+70Krc1SzRN2Sp9vT3L5IGb?=
+ =?us-ascii?Q?485wzqPGnL11OOLxTRzwQgWt96MWoLI4Bo6ndb+241TnzBinMpuh4pzGgMCy?=
+ =?us-ascii?Q?EGlYQXDqNJnHYgpj8lvUTWv4N42NLfkwqAB3cZpuagNo+z/I+a8k8ZpfOzpC?=
+ =?us-ascii?Q?/rgfSJUvap95+8uhFrlZ5bePuGsscEbY6kGAzP0cQAv2N26dr+7qRgG7kFkO?=
+ =?us-ascii?Q?M11sAdo54YSZjZR7PRldxY+/guijRM59JuVpMWvqq9Bv1m0PFXVxTDxpCuXq?=
+ =?us-ascii?Q?1xQT6qv4l3jw7QJq7bEkvP9KIru/bL6QHLx1nRq6BXWOq6knxspDIyKAolrv?=
+X-MS-Exchange-AntiSpam-MessageData-1: kB95PsO+9dM4KQ==
 X-Exchange-RoutingPolicyChecked: 
-	JvmgtRM7sCt4igBUp3zyeiVAAAY0ew0p35T0aFFDt/1NAwAM65BzFWqV+OUhmZ/crwf73yh86/8VBvp/4yVZ5uK3VNFAZuY4H/5xaSqWFPO6HVnNuztCkTGBHGHU49GUHI073TsBQhNEsvwXCca1tWbHXaUNTefth51nD9LEEFA/rZByrByRv6TkGmSnZGNF9c8tAlCxp+g01nVGi5KhNZ1RqPUcS+yH6CDQXE0frpWnchYnLPISeMy36rmSjqBOP6v0rs4tTm6XT+jt17KO+CxT5zqRsxPP+St+Wv4/7K3o1NM6oOTTvLXNtl5FI2qnaGT1ebB4rCmTAVsTfJIqEg==
+	naYpFNL2Idym8L1qMmveHGCsiMNxyK23M3hHGkPE2TivVHqMTFSfodrCMko+jvA3RFtOhwoyv6dwvqjPqd/xpLQ+1CBS251JWr7iswzkO7anNOZpAlztY7yyxlLXT48ZF/yd3DxjhheYqjkoiaI+XYwtixOm1ZUl6KEEjhCf64Tb4kpodzUDnFUWB/JAiEf+/aoHRP03HW2ZkoGvoavGNGfRBdqYUAiCSdQej4ToU2iLO+5F5qkhaOzY66kh8G2jrl8fdHGdcdYmpXmxiY9yvficJwJWVIPH3AMGM7B/6ItGG5W0T/F9HYQzAa4h+TyMmCgKHgM6IX54EgMVeNGpMA==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	yuXuEKpD5HbLxFlzayuukWGUMA+1xdNMbHv0BBawFnr050XFJwuB0OI8RGn89aHCTCoV8Y2RqSfg28Lk+ak7gAxC4NaKP3T0SneN2poTN4KnR/OlLkPr9cpgmmYggkVp/2kuRvpXt8sPawx/8yuzN34W0NYcKEvWW+w9aBVHjSMqu1RBsyg0JDS88rAYK3TXDphxLkVrAtAKLIRboYvmEd1MeAESGx/KRBQev1OSbfk/JRGrBPoqzkTAwpPiOrZWFk/80q7uesIny1/9PrGqdYW9UD7gGGUCx6y/PszbaQJhPoNurg7C/jKSWfC7aZG8eRzhsOWWdSPD99KiKwFgRkLyJyM2kk1/aGnvQQfxpDPK4yE1Uc6ysOf+ubudqOJJFQynRYEhOHkdg/QJaRYpGdF+wqCkhiOZPHhnPQOjSCQdxXB3K3dMvCjtBfXxxMz0Kq7LgNlgnjynJr2LoQjFpS0369aMDAk2rtbDaSzB/I3tSwkPfmgMg5lXXS7MTj+fI2ZUNMdNKjXmQ0s+UD/FP4PBDe+Zr/CTh6fvGBaSaDYdho8vtyE0K10vocjxsrlyrP+d9hhBDNjl8qkQW7OTa/YdA4A19w8JtAQhWBp1MI3C/ZqSdJ9vslrw/6XhUlRB
+	YD+cNG0NQWwNV3JdRZ5Z+zdooBsCRTdAz5fwof+VV9TGaydNBBrja3zOcfZfiFmfmPcTr7w9BR915VaUPSqmeCrTZIfBAwX8jR8kfaIOVcPSuSkNl4nUGARjk+BHsRlSdsNi3Xw9nXa/WKhPjvsN+GPWBT2UtDLg0DJFRrIIq8VT5SAyt+VFLqbsEVp0xon5u5Kl3fLzneD9LSGy6PHJygwR8ZGeuElYR5dX430OYLy3BWJ1NGIxONo6+MsBQrlKj5Y55Mxgc6yuxjkICT6A6PUD0S2A5dWUah8CBok1nYLHrY280ST+UZkdFgLAjxOlhSk73PtwJpf3LUDHk3uurf54hnySxqYlNsHsX93jSt9BUJuBGKvA1RK2VaI0Au7eKftvAOYPDOcgaIAf1PGerd+h83k8EQZ39xikDR261armZmKHIiQTPMgESN11CvmQwcD41UO0N78khN/2RSLWoTql3l4ZfCbK8xtwFvI5Bzoh1WKhuYZldLTySbOKPfuDWyHvzXteyGXIPtJi96akIJS6ri0S0E5YkOS5nCnxcj4yoRStufEf9nv7PM1xlX5Ar8e4ITAFUOfHFs5/Rruj9J4v3VPSoarGru0G3pk1Oph9DMD0DpLrUw7+gkcMj67X
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b96e5647-4a74-43d6-d920-08dea1355a3c
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8592833-db9f-46a8-d30e-08dea1355d2f
 X-MS-Exchange-CrossTenant-AuthSource: MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2026 12:39:25.3779
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2026 12:39:30.3200
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oKdSfdqkkphmHqRCd2ZIeGXUT/0N4vIhN1RE87yr9vnh9efwtDRwE4fY8FpVhm+IrecPjozOzgfV1+uM4clxdQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P192MB1563
+X-MS-Exchange-CrossTenant-UserPrincipalName: nBPw/GBwcYGCq8xILwen/Et5SF4OdSuR/cfWOF9MYOcodxIju+LR2g6A6TOxKDUR5HGTK5pFknE40uszkYZ1bA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVP192MB2112
 X-cloud-security-sender: hsimeliere@witekio.com
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
 X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: hsimeliere.opensource@witekio.com
 X-cloud-security-Mailarchivtype: outbound
 X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate31-hz12 with 4g1bJK2YdNz2TWxh
-X-cloud-security-connect: mail-westeuropeazon11023109.outbound.protection.outlook.com[52.101.72.109], TLS=1, IP=52.101.72.109
-X-cloud-security-Digest: b498b17ca388eeee1db3f33ca5e631df
-X-cloud-security: scantime:1.461
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate81-hz1 with 4g1bJN3p89z1FZLj
+X-cloud-security-connect: mail-francesouthazon11021092.outbound.protection.outlook.com[40.107.130.92], TLS=1, IP=40.107.130.92
+X-cloud-security-Digest: 8684cf1a55f67a0ea0e04dbd92656c8b
+X-cloud-security: scantime:1.898
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 12:39:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235763
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235764
 
 From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 
-Pick patch from [1] also mentioned in [2].
+Pick patches from [1] also mentioned in [2].
 
-[1] https://github.com/libexpat/libexpat/pull/1158
-[2] https://security-tracker.debian.org/tracker/CVE-2026-32776
+[1] https://github.com/libexpat/libexpat/pull/1162
+[2] https://security-tracker.debian.org/tracker/CVE-2026-32777
 
 Signed-off-by: Bruno VERNAY <bruno.vernay@se.com>
 Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 ---
- .../expat/expat/CVE-2026-32776.patch          | 91 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.6.4.bb        |  1 +
- 2 files changed, 92 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32776.patch
+ .../expat/expat/CVE-2026-32777-01.patch       | 49 ++++++++++++++
+ .../expat/expat/CVE-2026-32777-02.patch       | 66 +++++++++++++++++++
+ meta/recipes-core/expat/expat_2.6.4.bb        |  2 +
+ 3 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-32776.patch b/meta/recipes-core/expat/expat/CVE-2026-32776.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch b/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
 new file mode 100644
-index 0000000000..96a869a7c8
+index 0000000000..50ba27dcd4
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-32776.patch
-@@ -0,0 +1,91 @@
-+From 3340f971f2f92e499adf03156024105bb9bb7ed9 Mon Sep 17 00:00:00 2001
-+From: Francesco Bertolaccini <francesco.bertolaccini@trailofbits.com>
-+Date: Tue, 3 Mar 2026 16:41:43 +0100
-+Subject: [PATCH] Fix NULL function-pointer dereference for empty external
-+ parameter entities
++++ b/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
+@@ -0,0 +1,49 @@
++From a6e6cf7c30e54402b2fa3c49f9d98702e74f8c34 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 1 Mar 2026 20:16:13 +0100
++Subject: [PATCH 1/2] lib: Reject XML_TOK_INSTANCE_START infinite loop in
++ entityValueProcessor
 +
-+When an external parameter entity with empty text is referenced inside
-+an entity declaration value, the sub-parser created to handle it receives
-+0 bytes of input.  Processing enters entityValueInitProcessor which calls
-+storeEntityValue() with the parser's encoding; since no bytes were ever
-+processed, encoding detection has not yet occurred and the encoding is
-+still the initial probing encoding set up by XmlInitEncoding().  That
-+encoding only populates scanners[] (for prolog and content), not
-+literalScanners[].  XmlEntityValueTok() calls through
-+literalScanners[XML_ENTITY_VALUE_LITERAL] which is NULL, causing a
-+SEGV.
++.. that OSS-Fuzz/ClusterFuzz uncovered
 +
-+Skip the tokenization loop entirely when entityTextPtr >= entityTextEnd,
-+and initialize the `next` pointer before the early exit so that callers
-+(callStoreEntityValue) receive a valid value through nextPtr.
++CVE: CVE-2026-32777
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/55cda8c7125986e17d7e1825cba413bd94a35d02]
 +
-+CVE: CVE-2026-32776
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5be25657583ea91b09025c858b4785834c20f59c]
-+
-+(cherry picked from commit 5be25657583ea91b09025c858b4785834c20f59c)
++(cherry picked from commit 55cda8c7125986e17d7e1825cba413bd94a35d02)
 +Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 +---
-+ lib/xmlparse.c      |  9 ++++++++-
-+ tests/basic_tests.c | 19 +++++++++++++++++++
-+ 2 files changed, 27 insertions(+), 1 deletion(-)
++ lib/xmlparse.c | 11 ++++++++++-
++ 1 file changed, 10 insertions(+), 1 deletion(-)
 +
 +diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index aa5e91e4..56faf2eb 100644
++index 56faf2eb..bfb8ac58 100644
 +--- a/lib/xmlparse.c
 ++++ b/lib/xmlparse.c
-+@@ -6777,7 +6777,14 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
-+       return XML_ERROR_NO_MEMORY;
++@@ -5077,7 +5077,7 @@ entityValueInitProcessor(XML_Parser parser, const char *s, const char *end,
++     }
++     /* If we get this token, we have the start of what might be a
++        normal tag, but not a declaration (i.e. it doesn't begin with
++-       "<!").  In a DTD context, that isn't legal.
+++       "<!" or "<?").  In a DTD context, that isn't legal.
++     */
++     else if (tok == XML_TOK_INSTANCE_START) {
++       *nextPtr = next;
++@@ -5166,6 +5166,15 @@ entityValueProcessor(XML_Parser parser, const char *s, const char *end,
++       /* found end of entity value - can store it now */
++       return storeEntityValue(parser, enc, s, end, XML_ACCOUNT_DIRECT, NULL);
++     }
+++    /* If we get this token, we have the start of what might be a
+++       normal tag, but not a declaration (i.e. it doesn't begin with
+++       "<!" or "<?").  In a DTD context, that isn't legal.
+++    */
+++    else if (tok == XML_TOK_INSTANCE_START) {
+++      *nextPtr = next;
+++      return XML_ERROR_SYNTAX;
+++    }
+++
++     start = next;
 +   }
-+ 
-+-  const char *next;
-++  const char *next = entityTextPtr;
-++
-++  /* Nothing to tokenize. */
-++  if (entityTextPtr >= entityTextEnd) {
-++    result = XML_ERROR_NONE;
-++    goto endEntityValue;
-++  }
-++
-+   for (;;) {
-+     next
-+         = entityTextPtr; /* XmlEntityValueTok doesn't always set the last arg */
-+diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-+index 2a5e43d6..023d9ce4 100644
-+--- a/tests/basic_tests.c
-++++ b/tests/basic_tests.c
-+@@ -6210,6 +6210,24 @@ START_TEST(test_varying_buffer_fills) {
++ }
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch b/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
+new file mode 100644
+index 0000000000..a1518c9a3e
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
+@@ -0,0 +1,66 @@
++From 4b91fc7eb4998c49bfd3b701a679ad6eb7ce7682 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Fri, 6 Mar 2026 18:31:34 +0100
++Subject: [PATCH 2/2] misc_tests.c: Cover XML_TOK_INSTANCE_START infinite loop
++ case
++
++.. that OSS-Fuzz/ClusterFuzz uncovered
++
++CVE: CVE-2026-32777
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/a7805c1a8a48d2ce83ef289cf55bdc8b45de76a8]
++
++(cherry picked from commit a7805c1a8a48d2ce83ef289cf55bdc8b45de76a8)
++Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
++---
++ tests/misc_tests.c | 30 ++++++++++++++++++++++++++++++
++ 1 file changed, 30 insertions(+)
++
++diff --git a/tests/misc_tests.c b/tests/misc_tests.c
++index 07902d52..cdcdd507 100644
++--- a/tests/misc_tests.c
+++++ b/tests/misc_tests.c
++@@ -713,6 +713,35 @@ START_TEST(test_misc_async_entity_rejected) {
 + }
 + END_TEST
 + 
-++START_TEST(test_empty_ext_param_entity_in_value) {
-++  const char *text = "<!DOCTYPE r SYSTEM \"ext.dtd\"><r/>";
-++  ExtOption options[] = {
-++      {XCS("ext.dtd"), "<!ENTITY % pe SYSTEM \"empty\">"
-++                       "<!ENTITY ge \"%pe;\">"},
-++      {XCS("empty"), ""},
+++START_TEST(test_misc_no_infinite_loop_issue_1161) {
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++
+++  const char *text = "<!DOCTYPE d SYSTEM 'secondary.txt'>";
+++
+++  struct ExtOption options[] = {
+++      {XCS("secondary.txt"),
+++       "<!ENTITY % p SYSTEM 'tertiary.txt'><!ENTITY g '%p;'>"},
+++      {XCS("tertiary.txt"), "<?xml version='1.0'?><a"},
 ++      {NULL, NULL},
 ++  };
 ++
-++  XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
-++  XML_SetExternalEntityRefHandler(g_parser, external_entity_optioner);
-++  XML_SetUserData(g_parser, options);
-++  if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
-++      == XML_STATUS_ERROR)
-++    xml_failure(g_parser);
+++  XML_SetUserData(parser, options);
+++  XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+++  XML_SetExternalEntityRefHandler(parser, external_entity_optioner);
+++
+++  assert_true(_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++              == XML_STATUS_ERROR);
+++
+++#if defined(XML_DTD)
+++  assert_true(XML_GetErrorCode(parser) == XML_ERROR_EXTERNAL_ENTITY_HANDLING);
+++#else
+++  assert_true(XML_GetErrorCode(parser) == XML_ERROR_NO_ELEMENTS);
+++#endif
+++
+++  XML_ParserFree(parser);
 ++}
 ++END_TEST
 ++
 + void
-+ make_basic_test_case(Suite *s) {
-+   TCase *tc_basic = tcase_create("basic tests");
-+@@ -6456,6 +6474,7 @@ make_basic_test_case(Suite *s) {
-+   tcase_add_test(tc_basic, test_empty_element_abort);
-+   tcase_add_test__ifdef_xml_dtd(tc_basic,
-+                                 test_pool_integrity_with_unfinished_attr);
-++  tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_ext_param_entity_in_value);
-+   tcase_add_test__if_xml_ge(tc_basic, test_entity_ref_no_elements);
-+   tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_entity);
-+   tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_attribute_entity);
++ make_miscellaneous_test_case(Suite *s) {
++   TCase *tc_misc = tcase_create("miscellaneous tests");
++@@ -743,4 +772,5 @@ make_miscellaneous_test_case(Suite *s) {
++   tcase_add_test(tc_misc, test_misc_expected_event_ptr_issue_980);
++   tcase_add_test(tc_misc, test_misc_sync_entity_tolerated);
++   tcase_add_test(tc_misc, test_misc_async_entity_rejected);
+++  tcase_add_test(tc_misc, test_misc_no_infinite_loop_issue_1161);
++ }
 +-- 
 +2.43.0
 +
 diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
-index 048093f010..631aebe6ca 100644
+index 631aebe6ca..f78d9a8a60 100644
 --- a/meta/recipes-core/expat/expat_2.6.4.bb
 +++ b/meta/recipes-core/expat/expat_2.6.4.bb
-@@ -46,6 +46,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-25210-01.patch \
+@@ -47,6 +47,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
             file://CVE-2026-25210-02.patch \
             file://CVE-2026-25210-03.patch \
-+           file://CVE-2026-32776.patch \
+            file://CVE-2026-32776.patch \
++           file://CVE-2026-32777-01.patch \
++           file://CVE-2026-32777-02.patch \
             "
  
  GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
