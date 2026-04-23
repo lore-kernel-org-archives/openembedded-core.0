@@ -1,977 +1,217 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D340FA1FF0
-	for <webhook@archiver.kernel.org>; Wed, 22 Apr 2026 20:26:45 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.92082.1776889598803699730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9CAFAD41D
+	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 06:04:48 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13558.1776924287880735161
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2026 13:26:39 -0700
+ Wed, 22 Apr 2026 23:04:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=jVQmRD8o;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b886fc047d5so1058425766b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 13:26:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776889597; cv=none;
-        d=google.com; s=arc-20240605;
-        b=T6p5FNNMPKyScjmfL6gBndGeopxIW1soKyeySSt0+3tzPc9FsIgpLeeAOVtXOJ3T24
-         6WuV/OyBVQhYjdBvj82JQAy5c3kU4tL4aH2wLzsUGzoG41m3ZXUtD9Cx9sKMfviJ4P1o
-         G6iiq8KUarRqGpPdxZT90CVNHDW5XWHUidFTqdFPKzyUVENblmnad5Zuc6wOrkYGa23w
-         hVxj3aHxs+4mp1xJ2RkoIYLF3pIFv4TIWBDggzPbopf4xdpFvQTIGqkSV8YhWyO1CNd4
-         eM1lPWM7TLq8xGK1pL7il/SGfV1/LLTs5JdM2fMi/DhNEcf8H262ZCd0zcJq2oF8lQun
-         f3Bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=35XNlF4gjjbPRrdIRrgKk+jZErlnp5rf/Ij1fcO6Zj4=;
-        fh=KVqLDFeniA1qVY9UE5vQWhpS22CW0oBJEQbbjtExiQA=;
-        b=fMD4pWXtZvSsurNgSjAuFtXDudmIxqq8hc1Xr2wmhm0+a5zdRfDyrBbf56zQIx70iD
-         waFMF8+tWU1ujWKyhaqHYQii6uSQNZjHTANkmPfBH4g5cwsPYJKoRt6eXka5uXWaQrPF
-         rzVpcIXDRIQOFbDE1xBhRlS54aD2TBSnXn2SM9d3mWsBNgttYN1Wtu35gm557MubwBcL
-         ArEoUx8stiHgGvCXBcxJ853lHPQRWvuwJURXF4FloWnFZw0KFoOwkbUqXoGTd9mHkuEn
-         b+VZjX4LH2mDlpy77F5gvI5ACRlA1EoXbku6NmOGc4LFf6NC8J3k3QqI8xJc4Sil6zeb
-         zrow==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776889597; x=1777494397; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=35XNlF4gjjbPRrdIRrgKk+jZErlnp5rf/Ij1fcO6Zj4=;
-        b=jVQmRD8oNmulrraYXSvbTa98Ywa98UOmKZf7y9YbKucCEVOOBoCsCxWcVPZEbPNyVF
-         BjQFglanRcnDyAng0jloJMgRB404c51slB47+RwpyLcGUarNWpRp7Vo/08nUrNJKuGL0
-         A1KspHKkVuTFqEYUAkkvDetIH9okL12iC6BHm+raLm/9tpCVG87WsEV26MqwbwCTDviu
-         M+IN4R4qeS3ynA808gt6ZrtajNsuVCjlGyBkKkANAxSVy9WkjzPdz8l6yFr2YVGy0JK5
-         1Nd6+gfsy+Mq3qHf9b7yeRNfYoMYfiSLr5/94WaXn/s123+j8vHnhNOqKVBHZ9SHn9kG
-         N2Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776889597; x=1777494397;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=35XNlF4gjjbPRrdIRrgKk+jZErlnp5rf/Ij1fcO6Zj4=;
-        b=FgTZHCqGod0emSP5qa7YCFexrJaJ307c+NUvM5neralJmisPoTiI/vF3GyNr0tnHHU
-         h4+Y+LVQjGj06aw+lc0B+1bcYo4PSWEwBDXnHsJskASGoWrFMy9p3IZoUtX/cIYXbg78
-         vEa9aKEDILLm4C8rUONWYGlsCdsubLbqW/TKzzQB9Xg29HvL2PC6Zsc6iH5QsY4b/rQj
-         gi9SpxY99RNIdIHLaEd2Awf3CEe+vixA/TTUQBqIZpgjxakO2PhqTMTjqRuhdfM4URrX
-         hDzXMmeUkIjMQKhN3jJBm4oYmh1q/MPqsFIha2Zk5v7omeYopVS3BPzSIUCzyAaQqcC3
-         ZilQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/AcgbOIsT4N+QbF/CenTVIYmBO0dtzrDaK3oT75gj1FkFJAY1SoL2kikGwll6tvmF0vZcl7z+cEJI8EVFPTezn3g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxf3OSJUyoELPGMCDUy0Kzrl2G4Zfpe8C0HTKPgjEdP2ZjLJEn2
-	g2E01eukKB3ixaf4j02UTilyNhHILi8LVYR+/9GYQEgNjVH5BkpgfPj0M8Q22d2IdxodZRh+Gki
-	d7hVfmpWOrKyhB1tcEEL3yIGhTFFXc3M=
-X-Gm-Gg: AeBDiesRmjMfUiZsQ6/LSC72GXUkEL6mxTdt0usq6ntja6DA0ua+ctVpmtKxZEEvoQV
-	PG91PPxa7JFQoMY+LtGqZPIIyJxUvmFzbgiDo32a8RTGE61PZ8t6c7NDg4tZYyrsxlieo2DAVAL
-	jTU0SSZFpxqjX4xsjq1I4bpijCQeDCHSHQ08XacQjMooLWI75HO/1/rG+wr2frS3X2sSDaBj1EB
-	RT8pSdvF2q6Mgc4bCwpblFKqqJ9fsJVW7heLbEqA+O4Ni7uOGXBdw1CSfWqwJW7JxisKvsjrViV
-	qj7oLZ/83DJY9NWZpE024AWq1T0Veoexdf3ZEe854oRJofdKdW8Arevaf5ywain14U1D61HMhth
-	V/+En2Q==
-X-Received: by 2002:a17:907:3f1c:b0:ba7:670b:f076 with SMTP id
- a640c23a62f3a-ba7670bf31dmr831599566b.2.1776889596473; Wed, 22 Apr 2026
- 13:26:36 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8573dc5874=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63N3cBn0990568
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 06:04:46 GMT
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011071.outbound.protection.outlook.com [52.101.52.71])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dq8qc07qy-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 23 Apr 2026 06:04:46 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NvxPsjoPjPpvtf6ZamT+G3ws6+qhhIO8htgfwGqnCZHDW2hp6trc77p3zplt8EWz1Lm60CkHz2XQnN1LpFR6Dx6thWEzaC8VRble0CqqoN2YzjKvsMgBP25ij+r9ifSYRDUItR0Xu87x1wC/XjuDTumBWWqS6xyNp/whcVA0tNZgAC9gf0Ue9QcJ67FrXaWmsLXFdBPPHuFCJrs0mBC3he+5zpugcXbF9xfqWzGTm6zk28XgMFjGGe3J84Exi4ilgJCIu/9BCZFiN0CujSfJV2ADrlS1zYcJL1YzTiB+RGB7R9UGiPCT1WaaBbETnehtaHnmbkuk2fLmsMU20ab6wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1tEf4UzRU5JuFHHazOy6hoRTSwmwFI/PWHhkbSyVgN4=;
+ b=jnYRWkXDOkx0OjIFr0O51V4uiu7qSeEa5EQ8bvjUxOrfnib8rlOID1Q9K/Ifcye+JwbaCYS4M/0yjP268EhV/tP30I4DTl6SIP02WvrmMtiwzuN19bEuubQ1Cf47ktrsvmTe1o0UEctb8fJRb8uFcR0oqJePNpFPQFQiRGp4AgNlkBT+j2REzZjPQ2R4zyxROfwvvzce3y4QMFLlkU6zGmr3P72rnrLsE0UX8tqa+dw5jF659nt9VgMkpUuoPcDAAN55JStQdwlfBIHUB9tMovrVDMiEvoNmrLNYOdClAVOdz2J5nU/J54BGOD3oBnEYwDDFzC1/hsvPEYxrT2fcsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from DS4PPF641CF4859.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::26) by LV8PR11MB8509.namprd11.prod.outlook.com
+ (2603:10b6:408:1e6::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.18; Thu, 23 Apr
+ 2026 06:04:43 +0000
+Received: from DS4PPF641CF4859.namprd11.prod.outlook.com
+ ([fe80::794e:2099:77b9:92f6]) by DS4PPF641CF4859.namprd11.prod.outlook.com
+ ([fe80::794e:2099:77b9:92f6%6]) with mapi id 15.20.9818.017; Thu, 23 Apr 2026
+ 06:04:43 +0000
+Message-ID: <95988640-2fa5-4e41-a980-2173af637eca@eng.windriver.com>
+Date: Thu, 23 Apr 2026 14:04:35 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH] grub: update search parameter
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+To: openembedded-core@lists.openembedded.org,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20260226081937.671793-1-xiangyu.chen@eng.windriver.com>
+ <2c704d3b5aa8852a3d4e24143fdedb8f530517ae.camel@pbarker.dev>
+ <20fd5dc4-ef85-49d6-931b-7a8ea3f94c04@windriver.com>
+Content-Language: en-US
+Cc: Paul Barker <paul@pbarker.dev>, xiangyu.chen@eng.windriver.com,
+        arindam.nath@amd.com
+In-Reply-To: <20fd5dc4-ef85-49d6-931b-7a8ea3f94c04@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: TY4PR01CA0102.jpnprd01.prod.outlook.com
+ (2603:1096:405:378::17) To DS4PPF641CF4859.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::26)
 MIME-Version: 1.0
-References: <20260401-default-features-v3-0-8f4b40401ab7@pbarker.dev>
- <20260401-default-features-v3-2-8f4b40401ab7@pbarker.dev> <18A8B511426C8EDA.1516946@lists.openembedded.org>
-In-Reply-To: <18A8B511426C8EDA.1516946@lists.openembedded.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 22 Apr 2026 21:26:25 +0100
-X-Gm-Features: AQROBzASqnamHpPh5px1FL-b_JzHuP2au5kI9159nwCFUhzdYTWIaVrfMeGkGhw
-Message-ID: <CANPvuRmjv0YyiPqACX6JuhUfxSTYsiCQfstHxA+kFmE0sny+bg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 2/4] meta: Support opting out of any distro features
-To: quaresma.jose@gmail.com
-Cc: paul@pbarker.dev, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000033f8f806501259ba"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF641CF4859:EE_|LV8PR11MB8509:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0704742-1e96-43a9-f54b-08dea0fe3668
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 
+	9Hm1Mp5uEBAoXEGl9p9draCIamgzjCSYkF8+H87qR0s7W5Msc7WgIQdmZ1AxtOCon2JUs0MnIQA2Z1zMzjfJpNiCRH06xBKPshO8nntAx9BYeIxFUvoAbQB5EFTh/GzyP702UqTa/1irfPds++FQhnIaYp90XW+Z3yrscaQXKPAKe7tmmlzO75hC4WXlaA78mDgQZIiBbLHZtL0npcT4McWwo5XMrv3zJVkkxTB9ry+tt1s9xTxuIulrNV1sMTmx9BC8CRHjFVs+mNvG6AN94RUAYI+I5Y/126HWp9lmjQ54Ete9EwSxhjyu9YlTnLcYh/CyngbzUl7MmlrVKFLf5JrKe2HwWrRsvY5enckrGF8/WrsO7byUo4uZnq1BnnuMG57Xw+S1SuFgmxPnCXD3gJspp44W4cpwTDxZYGU1MJK7UcI444TNBzLkvIl9Wn7DyBTe65B3NILIiXLxkXXrLy4HFuPj9/4et3LgEPL6fbfUujE74GqugkNWBHkzOUdzg49PFRjFcjMqJy4RGJHnvFryPGzUvVopt+MDn6LgWEoSMamkgpph0rLJ/zYpGHFvKEZaFP2PbEOS7dIKRpUGt37iyQeM/wrLGZaqfK83kst3viIWbTqCzf7PfjeaIhBDPwYGyKMXoaUaRc3lMZ2IdjbH1SMDaeyA3eNjqz1jEkcV1ZaxKSisXV5KofNDogIe
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF641CF4859.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?enB1VVRuampxU3FHVmF0SHM2VFRGNHVtTk9VY0R5R2g5aHNKaWgzVUpJS1pF?=
+ =?utf-8?B?YUt5NnhRNlZFVFpHNXpwdTB0ZjBMNGNhc0ZBbzBtUzEzenZRckNObzdDMDlz?=
+ =?utf-8?B?b2lxbFhXblNpZGJISm9SMFJ1WWc0MGVIaEpSaSs4c0xlTDUzNHJzZ0tJR0JU?=
+ =?utf-8?B?RHdwcVJnbTVyclZmK1hFZnhhWFhrcnowYmYreUc3SGtDMStOaGh2Zk1xVVJJ?=
+ =?utf-8?B?eFJCSlZxd3BlbENjY1pLeTMzWXI5R1J6a3BPU3ZVdWRDL0xMSlQyeGlROGNY?=
+ =?utf-8?B?clNNZ3BrN1J2NkRGYWxvR1hDOW94blc0dXdNekdkZUlUYi9Ia3ZsbHFRRkFo?=
+ =?utf-8?B?VldmK01DTXp0VE0xUWR2OUpieHR2aGZJNHkxRHJmRjUreXo0amxJV0VuMTFI?=
+ =?utf-8?B?Ny9mbCtMVnlVMXRtQW5Qc3JlY0k2Z2w1c1NoZnQ5VjFONWRRYWlNVzlIemYv?=
+ =?utf-8?B?bGFhYVFpN1lIaGc3cDRUSEJlSi85U01oY0ZWZkhzTXkxZzBwUWtwMWVhd2Ux?=
+ =?utf-8?B?bG0vZ3BVZjJiRVQwTVFaVjlMVlJtYWVmcDRQNVhLcE1lMzNQT2VlaitBWjQ1?=
+ =?utf-8?B?VFZ3bDBMZ3pLNU4vT0xsYUZFNTVWR2JCSlIvbEx4ZTh1aDhHdWlCRnpVWnlW?=
+ =?utf-8?B?ZWMzMWdaMm55RXkzWDVvR1RmNW0zdlMvYVVSZ0VKTndQazhsR05ndVV2MWZF?=
+ =?utf-8?B?TUd5N2ZNMGpLcXluemNDU0JUc2FQN1cwL3lSRFN1VHZ6UnVMemlkTXl1ZFJW?=
+ =?utf-8?B?QzFUUUNWa2h2VHVLL1oweklyRFpJd3NLaUtGVUZNSTFvRW5iUHhDTENOQlUx?=
+ =?utf-8?B?RWp4Nk4xUHdMSmhnNklMb05uWFNyOER6Lzc5dmlUOFg0Z0N0NTZxUlBKeC9y?=
+ =?utf-8?B?OTNkRmZkNlRlQzdOVkZVZFE1eVRLUHE3Z3d0YTRmYWl5NGp1a2gxeS9yb2JU?=
+ =?utf-8?B?aERnR0Z0MHh4eXZCQUxwV2dyTWc4blNUbE9QUGZhYVNGN2hVNXNLU0dXNmJX?=
+ =?utf-8?B?Y1UzR0x4SERzMTc3a2ZqeTk0SkxxN1Nkb0ZLakdrdnlKaWNjZFU0TXc5U2x5?=
+ =?utf-8?B?TWVEQ0h3bzVCTUU4dlNjemcvc1JXcW1Ka1k2S3NTM3dFMUJ2U0dWZmNac3hq?=
+ =?utf-8?B?NmwyUnZLbWZmS3FTQUtBclBTSDEvZDExdmFyVEZ2T08zK0xNS2FudGpXMWNN?=
+ =?utf-8?B?QVhWWktieVZGc0Uvam1hN0gzd09uMkdmNkhucU9HV2JLMlJoS3pHZFl3MDZp?=
+ =?utf-8?B?OWVxblhCdytsMTM2OEgrR0RUcmZwSzV5NCtrVGdyUEU3M2VUbzlMamZ2a25O?=
+ =?utf-8?B?cEhEZHpQMXlMMzFmUWhMY2E2VEtpMkZaU2wxTUNmOXFmZkIycExuamNYR0JH?=
+ =?utf-8?B?ZmhHWERWb3VTbGpvdHAwRzBIbWdScjJUQ01DUEhnSDZKZ21oWkhtalhmMEI5?=
+ =?utf-8?B?eCtNZmZBM3dXQTFZSDB5VHp4ZnExaWZaaE5PclloejR4YnpaSkt1bThmeTU3?=
+ =?utf-8?B?eXhiUnNhTkM1RUFuck5wVXhlYkxTSHEyY0tiN0V6b0NBMzJWU1dhOFNwRDU1?=
+ =?utf-8?B?WENONm03ZmxhMWZ0ckw0ZzRoSHVlQ2JBOUVsRldVcEMxWDc3b0U2bEVHNG14?=
+ =?utf-8?B?TlMzcGwxNnBEV3FvdnhDOHJ0ZGhkU3ZITmp4Nk1XL2NFcll2L21HR25pTGZr?=
+ =?utf-8?B?VnA4SjB6b2pFeG9XVFN6S2dEeFppbUZqc3lHNVc0RngxSENEYkJPS2VKYXdK?=
+ =?utf-8?B?enNFMzNLRlpya3dWWWxPZEhrN0hyYS9ZTS9qd3pWeGJkSmRXcWJlUU5lclFz?=
+ =?utf-8?B?aVBiLzdDV2M5N0lHZ0hKVTRhZlEzbGhEZzF4ZU1rVVZraVkrWEtoc0lHNEVu?=
+ =?utf-8?B?K3M5Qm83TTlOUnVBODF2QWZmNGQ1VUM3bE12UjhqNU5iWitQOC9GSlA5U1Z4?=
+ =?utf-8?B?RVc3YzZmWUtiQjFFajZOWU5RcU1BdnpQcE9MTG5STXVBZVViaEtCbWsydTBp?=
+ =?utf-8?B?WFo4bytJcmxXZVAzSmZualhCbnh6OStsSHkxVERocXhtK1FPNHdQQldSNlVE?=
+ =?utf-8?B?bXZjWkRnTGZ2aGZsZkl0TytibDN4WW45dC8rZkdoWTBKSkVDb2gvNnltb3pt?=
+ =?utf-8?B?czdYWFhyN0dwekZUeXNTbzg2YjkvVnRVUzFSWVZtVWNCSkVURmorMTlUOTJl?=
+ =?utf-8?B?S24zZ3hrbnpIZGZBZ2lwUS9aZjVJOCtiK1JGalhQZ2FMb29kTWdNVFlPSk9i?=
+ =?utf-8?B?TkFOcE1QdEFPZVhOcndjQnFYU1lzU2ZLR0NUWlRjVlJsTkkxV1ZvKzkvbzBj?=
+ =?utf-8?B?cE5VT25mMk5ZSDRoNnhZRll5NlUyMVd2NVBwc3EvQ2tvTnJ3NlZydVJoczN2?=
+ =?utf-8?Q?bjgxYJVTtS2pW9Fs=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	rDw1af5zsk61wZkLGiKu7L/ncV5rtA3DGXcWx6soKhxNhz5nAEnsJlBHjGNXr9GpcwOqMGx/T3RF0f1TW9J84p3h4rYsqE217c3+p9wzq++Cf6p6bvLoY7yZKsX5Xu2pnlYID+ECv2c8l5AXrUkYMi9k3kaZHllLAce+aUcBeIG4tsGjwCL11xVjuwNlpgaLpvsYGctIzbqLrl/v1WCn3jtN7qqo/fDZg3SYe3Wzvd1knAdjNpX6r9v+OsmSL35nWqINb+YLr5NQ4MVqmU4PkB6xVFRKU1+8mz0EbJ5jviomhwzRh9Qo0GYAzOesExtlXWz9xvUdP4hWrBuURDpKxw==
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0704742-1e96-43a9-f54b-08dea0fe3668
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF641CF4859.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2026 06:04:43.1294
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zOlOW3a1DO9bjgnUZYMjY479psbekwctNCuC0zAR3e/22V+hVUeCm2cpA7bIzZXCjRZ+viZvUAoL0LH0H5LPpb6Z+3rjt5E+qIT86rUK4DU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8509
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: 9PhUajjHpawFIkzn96oUBsdDS-f9AArZ
+X-Proofpoint-ORIG-GUID: Wxo-3eCWjemNONOrDgnqB4yaAMM3dCpt
+X-Authority-Analysis: v=2.4 cv=EY74hvmC c=1 sm=1 tr=0 ts=69e9b67e cx=c_pps
+ a=FQqMf2dcfR2Kwex5s5bwow==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
+ a=P-IC7800AAAA:8 a=6AdNy0EVr-gjGu2FS-0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDA1NCBTYWx0ZWRfX/9c3ESQkntUD
+ kouAymoan2AytANUJBOYsQX3iaJhBscM8G/TrDZAM7K5TED1pA1PFtyTxXx3QkmAxwiHBl7+Wp6
+ qhfqXo23DNh7mWQ7cOZhm8BPFkBLBDBgk0R/N7xsWqZtZsZTcsUpXXfx1dgu0SPtqCNXkd/ykI4
+ np0p7iTqbNyhRn26gB4er/yH/iMhwA48ZU6pFt3KvEh/Ih4qAoOvRGOkDbWb/4ACu+wE8MHARHo
+ RsjViI6DOo041cYH8EnhzRmAgcHOOnRI+3l1cQ9rmUE4ln1lHN35EiTmIL7dsYPeepvRCEUhdXJ
+ nOzyglNf3Hu3nI4lFKDrrFGk3Q43AnzhHFzSejRkE7bdtGQAf4vXKkb2hjizZunZcvZZKCDvKYz
+ Dt/Vo5kSYam/mBt8XKOvBgeY4QrlL+HFuYnOIeWYYoEny34rYwlHPIIi4QbD3FaOeeeA5pAhjEW
+ VKBN5uCduDKL9MblVww==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_01,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ adultscore=0 clxscore=1015 phishscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604230054
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 63N3cBn0990568
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2026 20:26:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235737
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2026 06:04:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235738
 
---00000000000033f8f806501259ba
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Richard,
 
-Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
-gmail.com@lists.openembedded.org> escreveu (quarta, 22/04/2026 =C3=A0(s) 15=
-:45):
 
+Since the behavior was found in OE scarthgap branch, could you please=20
+help to cherry-pick this
+
+commit: 42b530581f72 ("grub: update search parameter") to whinlatter and=20
+scarthgap branch?
+
+
+Thanks.
+
+
+Br,
+
+Xiangyu
+
+=E5=9C=A8 2026/3/31 10:57, Xiangyu Chen =E5=86=99=E9=81=93:
 > Hi Paul,
 >
-> I think I found a bug that is somehow related to DISTRO_FEATURES_DEFAULTS=
-.
-> I don't understand why, but the variables in
-> DISTRO_FEATURES_DEFAULTS cannot
-> be used in inherit or inherit_defer.
 >
-> Let's use the following recipe as an example:
+> On 3/5/26 19:49, Paul Barker wrote:
+>> I'm not sure that this can work for all use cases. The grub
+>> documentatation for hints says "First try the device HINT" (i.e. it's
+>> explicitly a device), whereas the documentation for cmdpath says that =
+it
+>> is "an absolute directory name".
+> While the documentation defines $cmdpath as a directory and hints as=20
+> devices, grub=E2=80=99s internal implementation of
+> grub_disk_open (grub-core/kern/disk.c [1]) is designed to handle this=20
+> exact "device+path" format.
 >
-> -------------------------------------------------------------------------=
-------------------------------------------
-> mkdir -p recipes-test/inherit
-> cat <<'EOF' >recipes-test/inherit/inherit.bb
+> When a hint like (hd0,gpt1)/EFI/BOOT/ is passed, grub_disk_open calls=20
+> find_part_sep to locate the partition/path delimiter.
+> It then uses grub_memcpy to extract only the device part (e.g., (hd0)=20
+> into the raw buffer for the disk driver.
 >
-> LICENSE =3D "MIT"
+> The remaining string (gpt1)/EFI/BOOT/) is passed to=20
+> grub_partition_probe, which identifies the partition and gracefully
+> ignores the trailing directory path.
 >
-> # FAIL
-> PACKAGECONFIG ??=3D " \
->         ${@bb.utils.contains('DISTRO_FEATURES',
-> 'gobject-introspection-data', 'ccache', '', d)} \
->         ${@bb.utils.contains('DISTRO_FEATURES',
-> 'gobject-introspection-data', 'vala', '', d)} \
-> "
->
-> # OK
-> #PACKAGECONFIG ??=3D " \
-> #        ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'ccache', '',
-> d)} \
-> #        ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'vala', '',
-> d)} \
-> #"
->
-> # get PACKAGECONFIG
-> # bitbake-getvar -r inherit PACKAGECONFIG
->
-> # get CCACHE_TOP_DIR
-> # bitbake-getvar -r inherit CCACHE_TOP_DIR
-> inherit_defer ${@bb.utils.filter('PACKAGECONFIG', 'ccache', d)}
->
-> # get VALADEPENDS
-> # bitbake-getvar -r inherit VALADEPENDS
-> inherit_defer ${@bb.utils.filter('PACKAGECONFIG', 'vala', d)}
-> EOF
->
-> -------------------------------------------------------------------------=
-------------------------------------------
->
-
-A clearer way to replicate the problem:
-
-#
----------------------------------------------------------------------------=
-----------------------------------------
-mkdir -p recipes-test/inherit
-cat <<'EOF' >recipes-test/inherit/inherit.bb
-LICENSE =3D "MIT"
-
-DISTRO_FEATURES_DEFAULTS +=3D "aaa"
-DISTRO_FEATURES +=3D "bbb"
-
-PACKAGECONFIG =3D " \
-        ${@bb.utils.contains('DISTRO_FEATURES', 'aaa', 'ccache', '', d)} \
-        ${@bb.utils.contains('DISTRO_FEATURES', 'bbb', 'vala', '', d)} \
-"
-
-inherit_defer ${@bb.utils.filter('PACKAGECONFIG', 'ccache', d)}
-
-inherit_defer ${@bb.utils.filter('PACKAGECONFIG', 'vala', d)}
-EOF
-#
----------------------------------------------------------------------------=
-----------------------------------------
-bitbake-getvar --value -r inherit PACKAGECONFIG
-bitbake-getvar --value -r inherit CCACHE_TOP_DIR
-bitbake-getvar --value -r inherit VALADEPENDS
-#
----------------------------------------------------------------------------=
-----------------------------------------
-
-
-The DISTRO_FEATURES is mapped to inherit/inherit_defer as follows:
- 'aaa' maps to  'ccache'
- 'bbb' maps to  'vala'
-
-I chose these two classes, but it could be any others. The idea is to see
-if they were inherited by looking at the class variables.
-The ccache.bbclass was not inherit and so the variable 'CCACHE_TOP_DIR' is
-not defined.
-
-
-Hence my conclusion that DISTRO_FEATURES_DEFAULTS doesn't work for these
-cases, which in my opinion is not expected.
-
-I encountered this problem while debugging the patch
-https://lists.openembedded.org/g/openembedded-devel/topic/118939974.
-
-Best regards,
-Jose
-
-
->
-> We can see that inherit is not working by running the following command:
->
-> bitbake-getvar -r inherit PACKAGECONFIG
-> bitbake-getvar -r inherit CCACHE_TOP_DIR
-> bitbake-getvar -r inherit VALADEPENDS
+> The current syntax ($cmdpath) results in double parentheses ((hd0...))=20
+> if the variable is already populated.
+> In grub_disk_open, this extracts a malformed device name ((hd0 which=20
+> no driver can open, triggering a hard no such device error.
 >
 >
-> By commenting out the block that uses 'gobject-introspection-data' and
-> uncommenting the 'systemd', the inherit will then work.
-> One difference I see is that 'gobject-introspection-data' belongs to
-> DISTRO_FEATURES_DEFAULTS and 'systemd' does not.
+> Ref:
 >
-> Am I doing something wrong? Could you give me your opinion?
->
-> Thanks for your attention.
->
-> Jose
->
-> Paul Barker via lists.openembedded.org <paul=3D
-> pbarker.dev@lists.openembedded.org> escreveu (quarta, 1/04/2026 =C3=A0(s)
-> 18:42):
->
->> Add default values to DISTRO_FEATURES using the new
->> filter_default_features() function.
->>
->> This change obsoletes the variables DISTRO_FEATURES_BACKFILL and
->> DISTRO_FEATURES_BACKFILL_CONSIDERED. Instead, all defaults are added via
->> DISTRO_FEATURES_DEFAULTS and users can opt out of any of these using
->> DISTRO_FEATURES_OPTED_OUT. Hopefully the variable naming here is easier
->> for people to understand and remember.
->>
->> Migration notes:
->>
->> - If you have previously assigned DISTRO_FEATURES without using
->>   DISTRO_FEATURES_DEFAULT, you will now get the default features added
->>   automatically. You will need to review these and add any features you
->>   do not want to use to DISTRO_FEATURES_OPTED_OUT.
->>
->> - DISTRO_FEATURES_DEFAULT is now unused, the new variable name is
->>   slighlty different to ensure that it is not accidentally used if a
->>   layer hasn't been modified to adapt to the new naming.
->>
->> - If you previously set DISTRO_FEATURES_BACKFILL_CONSIDERED, use the new
->>   variable DISTRO_FEATURES_OPTED_OUT instead.
->>
->> - If you previously modified DISTRO_FEATURES_BACKFILL, don't do that.
->>
->> Signed-off-by: Paul Barker <paul@pbarker.dev>
->> ---
->>  meta/classes-global/base.bbclass                |  5 ++++-
->>  meta/classes-recipe/crosssdk.bbclass            |  8 ++++----
->>  meta/classes-recipe/native.bbclass              |  8 ++++----
->>  meta/classes-recipe/nativesdk.bbclass           |  8 ++++----
->>  meta/conf/bitbake.conf                          |  1 -
->>  meta/conf/distro/include/default-distrovars.inc | 15 +++++++++------
->>  meta/conf/distro/include/tclibc-musl.inc        |  2 +-
->>  meta/conf/distro/include/tclibc-newlib.inc      |  2 +-
->>  meta/conf/distro/include/tclibc-picolibc.inc    |  2 +-
->>  meta/conf/documentation.conf                    |  4 ++--
->>  10 files changed, 30 insertions(+), 25 deletions(-)
->>
->> diff --git a/meta/classes-global/base.bbclass
->> b/meta/classes-global/base.bbclass
->> index 22b427a5211b..0a4cfd594c72 100644
->> --- a/meta/classes-global/base.bbclass
->> +++ b/meta/classes-global/base.bbclass
->> @@ -454,8 +454,11 @@ def set_packagetriplet(d):
->>  python () {
->>      import string, re
->>
->> +    # Filter default features to allow users to opt out of features the=
-y
->> don't
->> +    # want.
->> +    oe.utils.filter_default_features("DISTRO_FEATURES", d)
->> +
->>      # Handle backfilling
->> -    oe.utils.features_backfill("DISTRO_FEATURES", d)
->>      oe.utils.features_backfill("MACHINE_FEATURES", d)
->>
->>      # To add a recipe to the skip list , set:
->> diff --git a/meta/classes-recipe/crosssdk.bbclass
->> b/meta/classes-recipe/crosssdk.bbclass
->> index a2853e6a9201..dac18b39edb2 100644
->> --- a/meta/classes-recipe/crosssdk.bbclass
->> +++ b/meta/classes-recipe/crosssdk.bbclass
->> @@ -16,13 +16,13 @@ PACKAGE_ARCH =3D "${SDK_ARCH}"
->>  python () {
->>      # set TUNE_PKGARCH to SDK_ARCH
->>      d.setVar('TUNE_PKGARCH', d.getVar('SDK_ARCH'))
->> -    # Set features here to prevent appends and distro features backfill
->> -    # from modifying nativesdk distro features
->> +    # Set features here to prevent DISTRO_FEATURES modifications from
->> affecting
->> +    # crosssdk distro features
->>      features =3D set(d.getVar("DISTRO_FEATURES_NATIVESDK").split())
->> -    oe.utils.features_backfill("DISTRO_FEATURES", d)
->> +    oe.utils.filter_default_features("DISTRO_FEATURES", d)
->>      filtered =3D set(bb.utils.filter("DISTRO_FEATURES",
->> d.getVar("DISTRO_FEATURES_FILTER_NATIVESDK"), d).split())
->>      d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
->> -    d.setVar("DISTRO_FEATURES_BACKFILL", "")
->> +    d.setVar("DISTRO_FEATURES_DEFAULTS", "")
->>  }
->>
->>  STAGING_BINDIR_TOOLCHAIN =3D
->> "${STAGING_DIR_NATIVE}${bindir_native}/${TARGET_ARCH}${TARGET_VENDOR}-${=
-TARGET_OS}"
->> diff --git a/meta/classes-recipe/native.bbclass
->> b/meta/classes-recipe/native.bbclass
->> index 5aa9c8e4145e..9f4ca170f762 100644
->> --- a/meta/classes-recipe/native.bbclass
->> +++ b/meta/classes-recipe/native.bbclass
->> @@ -126,13 +126,13 @@ python native_virtclass_handler () {
->>          return
->>      bpn =3D d.getVar("BPN")
->>
->> -    # Set features here to prevent appends and distro features backfill
->> -    # from modifying native distro features
->> +    # Set features here to prevent DISTRO_FEATURES modifications from
->> affecting
->> +    # native distro features
->>      features =3D set(d.getVar("DISTRO_FEATURES_NATIVE").split())
->> -    oe.utils.features_backfill("DISTRO_FEATURES", d)
->> +    oe.utils.filter_default_features("DISTRO_FEATURES", d)
->>      filtered =3D set(bb.utils.filter("DISTRO_FEATURES",
->> d.getVar("DISTRO_FEATURES_FILTER_NATIVE"), d).split())
->>      d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
->> -    d.setVar("DISTRO_FEATURES_BACKFILL", "")
->> +    d.setVar("DISTRO_FEATURES_DEFAULTS", "")
->>
->>      classextend =3D d.getVar('BBCLASSEXTEND') or ""
->>      if "native" not in classextend:
->> diff --git a/meta/classes-recipe/nativesdk.bbclass
->> b/meta/classes-recipe/nativesdk.bbclass
->> index 5adb7515bf14..a4801c48b2de 100644
->> --- a/meta/classes-recipe/nativesdk.bbclass
->> +++ b/meta/classes-recipe/nativesdk.bbclass
->> @@ -78,13 +78,13 @@ python nativesdk_virtclass_handler () {
->>      if not (pn.endswith("-nativesdk") or pn.startswith("nativesdk-")):
->>          return
->>
->> -    # Set features here to prevent appends and distro features backfill
->> -    # from modifying nativesdk distro features
->> +    # Set features here to prevent DISTRO_FEATURES modifications from
->> affecting
->> +    # nativesdk distro features
->>      features =3D set(d.getVar("DISTRO_FEATURES_NATIVESDK").split())
->> -    oe.utils.features_backfill("DISTRO_FEATURES", d)
->> +    oe.utils.filter_default_features("DISTRO_FEATURES", d)
->>      filtered =3D set(bb.utils.filter("DISTRO_FEATURES",
->> d.getVar("DISTRO_FEATURES_FILTER_NATIVESDK"), d).split())
->>      d.setVar("DISTRO_FEATURES", " ".join(sorted(features | filtered)))
->> -    d.setVar("DISTRO_FEATURES_BACKFILL", "")
->> +    d.setVar("DISTRO_FEATURES_DEFAULTS", "")
->>
->>      e.data.setVar("MLPREFIX", "nativesdk-")
->>      e.data.setVar("PN", "nativesdk-" +
->> e.data.getVar("PN").replace("-nativesdk", "").replace("nativesdk-", ""))
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 6b3443695a04..f851e2adc9f7 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -912,7 +912,6 @@ DISTRO_FEATURES_NATIVESDK:mingw32 =3D "x11 ipv6"
->>  DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod opencl
->> opengl wayland"
->>  DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfod ope=
-ncl
->> opengl wayland"
->>
->> -DISTRO_FEATURES_BACKFILL =3D "pulseaudio gobject-introspection-data
->> ldconfig opengl ptest multiarch wayland vulkan"
->>  MACHINE_FEATURES_BACKFILL =3D "rtc qemu-usermode"
->>
->>  COMBINED_FEATURES =3D "${@oe.utils.set_intersect('DISTRO_FEATURES',
->> 'MACHINE_FEATURES', d)}"
->> diff --git a/meta/conf/distro/include/default-distrovars.inc
->> b/meta/conf/distro/include/default-distrovars.inc
->> index 7adcdfad4ff4..daa4d2a74dda 100644
->> --- a/meta/conf/distro/include/default-distrovars.inc
->> +++ b/meta/conf/distro/include/default-distrovars.inc
->> @@ -14,19 +14,22 @@ LOCALE_UTF8_IS_DEFAULT ?=3D "1"
->>  LOCALE_UTF8_IS_DEFAULT:class-nativesdk =3D "0"
->>
->>  # seccomp is not yet ported to rv32
->> -DISTRO_FEATURES_DEFAULT:remove:riscv32 =3D "seccomp"
->> +DISTRO_FEATURES_OPTED_OUT:append:riscv32 =3D "seccomp"
->>
->>  # seccomp is not yet ported to ARC
->> -DISTRO_FEATURES_DEFAULT:remove:arc =3D "seccomp"
->> +DISTRO_FEATURES_OPTED_OUT:append:arc =3D "seccomp"
->>
->>  # seccomp is not yet ported to microblaze
->> -DISTRO_FEATURES_DEFAULT:remove:microblaze =3D "seccomp"
->> +DISTRO_FEATURES_OPTED_OUT:append:microblaze =3D "seccomp"
->>
->>  # seccomp is not yet ported to loongarch64
->> -DISTRO_FEATURES_DEFAULT:remove:loongarch64 =3D "seccomp"
->> +DISTRO_FEATURES_OPTED_OUT:append:loongarch64 =3D "seccomp"
->>
->> -DISTRO_FEATURES_DEFAULT ?=3D "acl alsa bluetooth debuginfod ext2 ipv4 i=
-pv6
->> pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat
->> seccomp"
->> -DISTRO_FEATURES ?=3D "${DISTRO_FEATURES_DEFAULT}"
->> +DISTRO_FEATURES_DEFAULTS ?=3D " \
->> +    acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget
->> usbhost \
->> +    wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp pulseaudio \
->> +    gobject-introspection-data ldconfig opengl ptest multiarch wayland
->> vulkan \
->> +    "
->>  IMAGE_FEATURES ?=3D ""
->>
->>  COMMERCIAL_AUDIO_PLUGINS ?=3D ""
->> diff --git a/meta/conf/distro/include/tclibc-musl.inc
->> b/meta/conf/distro/include/tclibc-musl.inc
->> index 98d7a801ac84..a61a6ced0dd2 100644
->> --- a/meta/conf/distro/include/tclibc-musl.inc
->> +++ b/meta/conf/distro/include/tclibc-musl.inc
->> @@ -14,7 +14,7 @@ PREFERRED_PROVIDER_virtual/libc-locale ?=3D "musl-loca=
-les"
->>  PREFERRED_PROVIDER_virtual/nativesdk-libintl ?=3D "nativesdk-glibc"
->>  PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?=3D "nativesdk-glibc"
->>
->> -DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "ldconfig"
->> +DISTRO_FEATURES_OPTED_OUT +=3D "ldconfig"
->>
->>  #USE_NLS ?=3D "no"
->>
->> diff --git a/meta/conf/distro/include/tclibc-newlib.inc
->> b/meta/conf/distro/include/tclibc-newlib.inc
->> index 34318b24549c..fff9b9f066fb 100644
->> --- a/meta/conf/distro/include/tclibc-newlib.inc
->> +++ b/meta/conf/distro/include/tclibc-newlib.inc
->> @@ -11,7 +11,7 @@ PREFERRED_PROVIDER_virtual/libintl ?=3D "newlib"
->>  PREFERRED_PROVIDER_virtual/nativesdk-libintl ?=3D "nativesdk-glibc"
->>  PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?=3D "nativesdk-glibc"
->>
->> -DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "ldconfig"
->> +DISTRO_FEATURES_OPTED_OUT +=3D "ldconfig"
->>
->>  #USE_NLS ?=3D "no"
->>
->> diff --git a/meta/conf/distro/include/tclibc-picolibc.inc
->> b/meta/conf/distro/include/tclibc-picolibc.inc
->> index 2cd26cfd7dcd..6134b0d97d6a 100644
->> --- a/meta/conf/distro/include/tclibc-picolibc.inc
->> +++ b/meta/conf/distro/include/tclibc-picolibc.inc
->> @@ -11,7 +11,7 @@ PREFERRED_PROVIDER_virtual/libintl ?=3D "picolibc"
->>  PREFERRED_PROVIDER_virtual/nativesdk-libintl ?=3D "nativesdk-glibc"
->>  PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?=3D "nativesdk-glibc"
->>
->> -DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "ldconfig"
->> +DISTRO_FEATURES_OPTED_OUT +=3D "ldconfig"
->>
->>  IMAGE_LINGUAS =3D ""
->>
->> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
->> index 1853676fa060..5c93d0e47970 100644
->> --- a/meta/conf/documentation.conf
->> +++ b/meta/conf/documentation.conf
->> @@ -141,8 +141,8 @@ DISTRO[doc] =3D "The short name of the distribution.=
- If
->> the variable is blank, met
->>  DISTRO_EXTRA_RDEPENDS[doc] =3D "Specifies a list of distro-specific
->> packages to add to all images. The variable only applies to the images t=
-hat
->> include packagegroup-base."
->>  DISTRO_EXTRA_RRECOMMENDS[doc] =3D "Specifies a list of distro-specific
->> packages to add to all images if the packages exist. The list of package=
-s
->> are automatically installed but you can remove them."
->>  DISTRO_FEATURES[doc] =3D "The features enabled for the distribution."
->> -DISTRO_FEATURES_BACKFILL[doc] =3D "Features to be added to DISTRO_FEATU=
-RES
->> if not also present in DISTRO_FEATURES_BACKFILL_CONSIDERED. This variabl=
-e
->> is set in the meta/conf/bitbake.conf file and it is not intended to be
->> user-configurable."
->> -DISTRO_FEATURES_BACKFILL_CONSIDERED[doc] =3D "Features from
->> DISTRO_FEATURES_BACKFILL that should not be backfilled (i.e. added to
->> DISTRO_FEATURES) during the build."
->> +DISTRO_FEATURES_DEFAULTS[doc] =3D "The default set of distribution
->> features, prior to any filtering. Usually you should leave this alone an=
-d
->> modify DISTRO_FEATURES and/or DISTRO_FEATURES_OPTED_OUT."
->> +DISTRO_FEATURES_OPTED_OUT[doc] =3D "The set of default distribtion
->> features to disable. Prefer opting out of features using this variable
->> instead of using DISTRO_FEATURES:remove."
->>  DISTRO_NAME[doc] =3D "The long name of the distribution."
->>  DISTRO_PN_ALIAS[doc] =3D "Alias names used for the recipe in various Li=
-nux
->> distributions."
->>  DISTRO_VERSION[doc] =3D "The version of the distribution."
->>
->> --
->> 2.43.0
->>
->>
->>
->>
->>
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#235727):
-> https://lists.openembedded.org/g/openembedded-core/message/235727
-> Mute This Topic: https://lists.openembedded.org/mt/118620443/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> [1]=20
+> https://elixir.bootlin.com/grub/grub-2.14/source/grub-core/kern/disk.c#=
+L192
 >
 >
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---00000000000033f8f806501259ba
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma v=
-ia <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt=
-;quaresma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.=
-com@lists.openembedded.org</a>&gt; escreveu (quarta, 22/04/2026 =C3=A0(s) 1=
-5:45):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div>Hi Paul,</div><br>I think I found a bug that is somehow relat=
-ed to DISTRO_FEATURES_DEFAULTS.<br>I don&#39;t understand why, but the vari=
-ables in DISTRO_FEATURES_DEFAULTS=C2=A0cannot<div>be used in inherit or inh=
-erit_defer.<div><br>Let&#39;s use the following recipe as an example:<div>-=
----------------------------------------------------------------------------=
----------------------------------------</div><div>mkdir -p recipes-test/inh=
-erit<br>cat &lt;&lt;&#39;EOF&#39; &gt;recipes-test/inherit/<a href=3D"http:=
-//inherit.bb" target=3D"_blank">inherit.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 <br>LICENSE =3D &quot;MIT&quot;<br><br># FAIL<br>PACKAGECONFIG ??=3D &q=
-uot; \<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEAT=
-URES&#39;, &#39;gobject-introspection-data&#39;, &#39;ccache&#39;, &#39;&#3=
-9;, d)} \<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_F=
-EATURES&#39;, &#39;gobject-introspection-data&#39;, &#39;vala&#39;, &#39;&#=
-39;, d)} \<br>&quot;</div><div><br># OK<br>#PACKAGECONFIG ??=3D &quot; \<br=
-># =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39=
-;, &#39;systemd&#39;, &#39;ccache&#39;, &#39;&#39;, d)} \<br># =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;syste=
-md&#39;, &#39;vala&#39;, &#39;&#39;, d)} \<br>#&quot;<br><br># get PACKAGEC=
-ONFIG<br># bitbake-getvar -r inherit PACKAGECONFIG<br><br># get CCACHE_TOP_=
-DIR<br># bitbake-getvar -r inherit CCACHE_TOP_DIR<br>inherit_defer ${@bb.ut=
-ils.filter(&#39;PACKAGECONFIG&#39;, &#39;ccache&#39;, d)}<br><br># get VALA=
-DEPENDS<br># bitbake-getvar -r inherit VALADEPENDS<br>inherit_defer ${@bb.u=
-tils.filter(&#39;PACKAGECONFIG&#39;, &#39;vala&#39;, d)}<br>EOF</div><div><=
-div>-----------------------------------------------------------------------=
---------------------------------------------</div></div></div></div></div><=
-/blockquote><div><br></div><div>A clearer way to replicate the problem:</di=
-v><div><br></div><div># ---------------------------------------------------=
-----------------------------------------------------------------</div><div>=
-mkdir -p recipes-test/inherit</div><div>cat &lt;&lt;&#39;EOF&#39; &gt;recip=
-es-test/inherit/<a href=3D"http://inherit.bb">inherit.bb</a><br>LICENSE =3D=
- &quot;MIT&quot;<br><br>DISTRO_FEATURES_DEFAULTS +=3D &quot;aaa&quot;<br>DI=
-STRO_FEATURES +=3D &quot;bbb&quot;<br><br>PACKAGECONFIG =3D &quot; \<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#=
-39;aaa&#39;, &#39;ccache&#39;, &#39;&#39;, d)} \<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;bbb&#39;, &#39;=
-vala&#39;, &#39;&#39;, d)} \<br>&quot;<br><br>inherit_defer ${@bb.utils.fil=
-ter(&#39;PACKAGECONFIG&#39;, &#39;ccache&#39;, d)}<br><br>inherit_defer ${@=
-bb.utils.filter(&#39;PACKAGECONFIG&#39;, &#39;vala&#39;, d)}<br>EOF<br><div=
-># ------------------------------------------------------------------------=
--------------------------------------------</div>bitbake-getvar --value -r =
-inherit PACKAGECONFIG<br>bitbake-getvar --value -r inherit CCACHE_TOP_DIR<b=
-r>bitbake-getvar --value -r inherit VALADEPENDS<br></div><div><div># ------=
----------------------------------------------------------------------------=
-----------------------------------</div><br class=3D"gmail-Apple-interchang=
-e-newline"></div><div><br></div><div>The DISTRO_FEATURES is mapped to inher=
-it/inherit_defer=C2=A0as follows:</div><div><div>=C2=A0&#39;aaa&#39; maps t=
-o=C2=A0=C2=A0&#39;ccache&#39;</div>=C2=A0&#39;bbb&#39; maps to=C2=A0=C2=A0&=
-#39;vala&#39;<br class=3D"gmail-Apple-interchange-newline"></div><div><br><=
-/div><div>I chose these two classes, but it could be any others. The idea i=
-s to see if they were inherited by looking at the class variables.<br>The c=
-cache.bbclass was not inherit=C2=A0and so the variable &#39;CCACHE_TOP_DIR&=
-#39; is not defined.</div><div><br></div><div><br></div><div>Hence my concl=
-usion that DISTRO_FEATURES_DEFAULTS=C2=A0doesn&#39;t work for these cases, =
-which in my opinion is not expected.</div><div><br></div><div>I encountered=
- this problem while debugging the patch <a href=3D"https://lists.openembedd=
-ed.org/g/openembedded-devel/topic/118939974">https://lists.openembedded.org=
-/g/openembedded-devel/topic/118939974</a>.</div><div><br></div><div>Best re=
-gards,<br>Jose</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><div dir=3D"ltr"><div><div><div><br></div><div><br></div><div>We=
- can see that inherit is not working by running the following command:</div=
-><div><br></div><div>bitbake-getvar -r inherit PACKAGECONFIG<br>bitbake-get=
-var -r inherit CCACHE_TOP_DIR</div><div>bitbake-getvar -r inherit VALADEPEN=
-DS</div><div><br></div><div><br></div><div>By commenting out the block that=
- uses &#39;gobject-introspection-data&#39;=C2=A0and uncommenting the &#39;s=
-ystemd&#39;, the inherit=C2=A0will then work.</div><div>One difference I se=
-e is that &#39;gobject-introspection-data&#39; belongs to DISTRO_FEATURES_D=
-EFAULTS=C2=A0and &#39;systemd&#39; does not.</div><div><br></div><div>Am I =
-doing something wrong? Could you give me your opinion?</div><div><br></div>=
-<div>Thanks for your attention.</div><div>=C2=A0</div><div>Jose<br><br><div=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Paul Bark=
-er via <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.op=
-enembedded.org</a> &lt;paul=3D<a href=3D"mailto:pbarker.dev@lists.openembed=
-ded.org" target=3D"_blank">pbarker.dev@lists.openembedded.org</a>&gt; escre=
-veu (quarta, 1/04/2026 =C3=A0(s) 18:42):<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">Add default values to DISTRO_FEATURES using the ne=
-w<br>
-filter_default_features() function.<br>
-<br>
-This change obsoletes the variables DISTRO_FEATURES_BACKFILL and<br>
-DISTRO_FEATURES_BACKFILL_CONSIDERED. Instead, all defaults are added via<br=
+> Br,
 >
-DISTRO_FEATURES_DEFAULTS and users can opt out of any of these using<br>
-DISTRO_FEATURES_OPTED_OUT. Hopefully the variable naming here is easier<br>
-for people to understand and remember.<br>
-<br>
-Migration notes:<br>
-<br>
-- If you have previously assigned DISTRO_FEATURES without using<br>
-=C2=A0 DISTRO_FEATURES_DEFAULT, you will now get the default features added=
-<br>
-=C2=A0 automatically. You will need to review these and add any features yo=
-u<br>
-=C2=A0 do not want to use to DISTRO_FEATURES_OPTED_OUT.<br>
-<br>
-- DISTRO_FEATURES_DEFAULT is now unused, the new variable name is<br>
-=C2=A0 slighlty different to ensure that it is not accidentally used if a<b=
-r>
-=C2=A0 layer hasn&#39;t been modified to adapt to the new naming.<br>
-<br>
-- If you previously set DISTRO_FEATURES_BACKFILL_CONSIDERED, use the new<br=
+> Xiangyu
 >
-=C2=A0 variable DISTRO_FEATURES_OPTED_OUT instead.<br>
-<br>
-- If you previously modified DISTRO_FEATURES_BACKFILL, don&#39;t do that.<b=
-r>
-<br>
-Signed-off-by: Paul Barker &lt;<a href=3D"mailto:paul@pbarker.dev" target=
-=3D"_blank">paul@pbarker.dev</a>&gt;<br>
----<br>
-=C2=A0meta/classes-global/base.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 ++++-<br>
-=C2=A0meta/classes-recipe/crosssdk.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 8 ++++----<br>
-=C2=A0meta/classes-recipe/native.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 8 ++++----<br>
-=C2=A0meta/classes-recipe/nativesdk.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 8 ++++----<br>
-=C2=A0meta/conf/bitbake.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 -<br>
-=C2=A0meta/conf/distro/include/default-distrovars.inc | 15 +++++++++------<=
-br>
-=C2=A0meta/conf/distro/include/tclibc-musl.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 2 +-<br>
-=C2=A0meta/conf/distro/include/tclibc-newlib.inc=C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 2 +-<br>
-=C2=A0meta/conf/distro/include/tclibc-picolibc.inc=C2=A0 =C2=A0 |=C2=A0 2 +=
--<br>
-=C2=A0meta/conf/documentation.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++--<br>
-=C2=A010 files changed, 30 insertions(+), 25 deletions(-)<br>
-<br>
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bb=
-class<br>
-index 22b427a5211b..0a4cfd594c72 100644<br>
---- a/meta/classes-global/base.bbclass<br>
-+++ b/meta/classes-global/base.bbclass<br>
-@@ -454,8 +454,11 @@ def set_packagetriplet(d):<br>
-=C2=A0python () {<br>
-=C2=A0 =C2=A0 =C2=A0import string, re<br>
-<br>
-+=C2=A0 =C2=A0 # Filter default features to allow users to opt out of featu=
-res they don&#39;t<br>
-+=C2=A0 =C2=A0 # want.<br>
-+=C2=A0 =C2=A0 oe.utils.filter_default_features(&quot;DISTRO_FEATURES&quot;=
-, d)<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0# Handle backfilling<br>
--=C2=A0 =C2=A0 oe.utils.features_backfill(&quot;DISTRO_FEATURES&quot;, d)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0oe.utils.features_backfill(&quot;MACHINE_FEATURES&quot;=
-, d)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# To add a recipe to the skip list , set:<br>
-diff --git a/meta/classes-recipe/crosssdk.bbclass b/meta/classes-recipe/cro=
-sssdk.bbclass<br>
-index a2853e6a9201..dac18b39edb2 100644<br>
---- a/meta/classes-recipe/crosssdk.bbclass<br>
-+++ b/meta/classes-recipe/crosssdk.bbclass<br>
-@@ -16,13 +16,13 @@ PACKAGE_ARCH =3D &quot;${SDK_ARCH}&quot;<br>
-=C2=A0python () {<br>
-=C2=A0 =C2=A0 =C2=A0# set TUNE_PKGARCH to SDK_ARCH<br>
-=C2=A0 =C2=A0 =C2=A0d.setVar(&#39;TUNE_PKGARCH&#39;, d.getVar(&#39;SDK_ARCH=
-&#39;))<br>
--=C2=A0 =C2=A0 # Set features here to prevent appends and distro features b=
-ackfill<br>
--=C2=A0 =C2=A0 # from modifying nativesdk distro features<br>
-+=C2=A0 =C2=A0 # Set features here to prevent DISTRO_FEATURES modifications=
- from affecting<br>
-+=C2=A0 =C2=A0 # crosssdk distro features<br>
-=C2=A0 =C2=A0 =C2=A0features =3D set(d.getVar(&quot;DISTRO_FEATURES_NATIVES=
-DK&quot;).split())<br>
--=C2=A0 =C2=A0 oe.utils.features_backfill(&quot;DISTRO_FEATURES&quot;, d)<b=
-r>
-+=C2=A0 =C2=A0 oe.utils.filter_default_features(&quot;DISTRO_FEATURES&quot;=
-, d)<br>
-=C2=A0 =C2=A0 =C2=A0filtered =3D set(bb.utils.filter(&quot;DISTRO_FEATURES&=
-quot;, d.getVar(&quot;DISTRO_FEATURES_FILTER_NATIVESDK&quot;), d).split())<=
-br>
-=C2=A0 =C2=A0 =C2=A0d.setVar(&quot;DISTRO_FEATURES&quot;, &quot; &quot;.joi=
-n(sorted(features | filtered)))<br>
--=C2=A0 =C2=A0 d.setVar(&quot;DISTRO_FEATURES_BACKFILL&quot;, &quot;&quot;)=
-<br>
-+=C2=A0 =C2=A0 d.setVar(&quot;DISTRO_FEATURES_DEFAULTS&quot;, &quot;&quot;)=
-<br>
-=C2=A0}<br>
-<br>
-=C2=A0STAGING_BINDIR_TOOLCHAIN =3D &quot;${STAGING_DIR_NATIVE}${bindir_nati=
-ve}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}&quot;<br>
-diff --git a/meta/classes-recipe/native.bbclass b/meta/classes-recipe/nativ=
-e.bbclass<br>
-index 5aa9c8e4145e..9f4ca170f762 100644<br>
---- a/meta/classes-recipe/native.bbclass<br>
-+++ b/meta/classes-recipe/native.bbclass<br>
-@@ -126,13 +126,13 @@ python native_virtclass_handler () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
-=C2=A0 =C2=A0 =C2=A0bpn =3D d.getVar(&quot;BPN&quot;)<br>
-<br>
--=C2=A0 =C2=A0 # Set features here to prevent appends and distro features b=
-ackfill<br>
--=C2=A0 =C2=A0 # from modifying native distro features<br>
-+=C2=A0 =C2=A0 # Set features here to prevent DISTRO_FEATURES modifications=
- from affecting<br>
-+=C2=A0 =C2=A0 # native distro features<br>
-=C2=A0 =C2=A0 =C2=A0features =3D set(d.getVar(&quot;DISTRO_FEATURES_NATIVE&=
-quot;).split())<br>
--=C2=A0 =C2=A0 oe.utils.features_backfill(&quot;DISTRO_FEATURES&quot;, d)<b=
-r>
-+=C2=A0 =C2=A0 oe.utils.filter_default_features(&quot;DISTRO_FEATURES&quot;=
-, d)<br>
-=C2=A0 =C2=A0 =C2=A0filtered =3D set(bb.utils.filter(&quot;DISTRO_FEATURES&=
-quot;, d.getVar(&quot;DISTRO_FEATURES_FILTER_NATIVE&quot;), d).split())<br>
-=C2=A0 =C2=A0 =C2=A0d.setVar(&quot;DISTRO_FEATURES&quot;, &quot; &quot;.joi=
-n(sorted(features | filtered)))<br>
--=C2=A0 =C2=A0 d.setVar(&quot;DISTRO_FEATURES_BACKFILL&quot;, &quot;&quot;)=
-<br>
-+=C2=A0 =C2=A0 d.setVar(&quot;DISTRO_FEATURES_DEFAULTS&quot;, &quot;&quot;)=
-<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0classextend =3D d.getVar(&#39;BBCLASSEXTEND&#39;) or &q=
-uot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0if &quot;native&quot; not in classextend:<br>
-diff --git a/meta/classes-recipe/nativesdk.bbclass b/meta/classes-recipe/na=
-tivesdk.bbclass<br>
-index 5adb7515bf14..a4801c48b2de 100644<br>
---- a/meta/classes-recipe/nativesdk.bbclass<br>
-+++ b/meta/classes-recipe/nativesdk.bbclass<br>
-@@ -78,13 +78,13 @@ python nativesdk_virtclass_handler () {<br>
-=C2=A0 =C2=A0 =C2=A0if not (pn.endswith(&quot;-nativesdk&quot;) or pn.start=
-swith(&quot;nativesdk-&quot;)):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
-<br>
--=C2=A0 =C2=A0 # Set features here to prevent appends and distro features b=
-ackfill<br>
--=C2=A0 =C2=A0 # from modifying nativesdk distro features<br>
-+=C2=A0 =C2=A0 # Set features here to prevent DISTRO_FEATURES modifications=
- from affecting<br>
-+=C2=A0 =C2=A0 # nativesdk distro features<br>
-=C2=A0 =C2=A0 =C2=A0features =3D set(d.getVar(&quot;DISTRO_FEATURES_NATIVES=
-DK&quot;).split())<br>
--=C2=A0 =C2=A0 oe.utils.features_backfill(&quot;DISTRO_FEATURES&quot;, d)<b=
-r>
-+=C2=A0 =C2=A0 oe.utils.filter_default_features(&quot;DISTRO_FEATURES&quot;=
-, d)<br>
-=C2=A0 =C2=A0 =C2=A0filtered =3D set(bb.utils.filter(&quot;DISTRO_FEATURES&=
-quot;, d.getVar(&quot;DISTRO_FEATURES_FILTER_NATIVESDK&quot;), d).split())<=
-br>
-=C2=A0 =C2=A0 =C2=A0d.setVar(&quot;DISTRO_FEATURES&quot;, &quot; &quot;.joi=
-n(sorted(features | filtered)))<br>
--=C2=A0 =C2=A0 d.setVar(&quot;DISTRO_FEATURES_BACKFILL&quot;, &quot;&quot;)=
-<br>
-+=C2=A0 =C2=A0 d.setVar(&quot;DISTRO_FEATURES_DEFAULTS&quot;, &quot;&quot;)=
-<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0e.data.setVar(&quot;MLPREFIX&quot;, &quot;nativesdk-&qu=
-ot;)<br>
-=C2=A0 =C2=A0 =C2=A0e.data.setVar(&quot;PN&quot;, &quot;nativesdk-&quot; + =
-e.data.getVar(&quot;PN&quot;).replace(&quot;-nativesdk&quot;, &quot;&quot;)=
-.replace(&quot;nativesdk-&quot;, &quot;&quot;))<br>
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-index 6b3443695a04..f851e2adc9f7 100644<br>
---- a/meta/conf/bitbake.conf<br>
-+++ b/meta/conf/bitbake.conf<br>
-@@ -912,7 +912,6 @@ DISTRO_FEATURES_NATIVESDK:mingw32 =3D &quot;x11 ipv6&qu=
-ot;<br>
-=C2=A0DISTRO_FEATURES_FILTER_NATIVE ?=3D &quot;api-documentation debuginfod=
- opencl opengl wayland&quot;<br>
-=C2=A0DISTRO_FEATURES_FILTER_NATIVESDK ?=3D &quot;api-documentation debugin=
-fod opencl opengl wayland&quot;<br>
-<br>
--DISTRO_FEATURES_BACKFILL =3D &quot;pulseaudio gobject-introspection-data l=
-dconfig opengl ptest multiarch wayland vulkan&quot;<br>
-=C2=A0MACHINE_FEATURES_BACKFILL =3D &quot;rtc qemu-usermode&quot;<br>
-<br>
-=C2=A0COMBINED_FEATURES =3D &quot;${@oe.utils.set_intersect(&#39;DISTRO_FEA=
-TURES&#39;, &#39;MACHINE_FEATURES&#39;, d)}&quot;<br>
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/di=
-stro/include/default-distrovars.inc<br>
-index 7adcdfad4ff4..daa4d2a74dda 100644<br>
---- a/meta/conf/distro/include/default-distrovars.inc<br>
-+++ b/meta/conf/distro/include/default-distrovars.inc<br>
-@@ -14,19 +14,22 @@ LOCALE_UTF8_IS_DEFAULT ?=3D &quot;1&quot;<br>
-=C2=A0LOCALE_UTF8_IS_DEFAULT:class-nativesdk =3D &quot;0&quot;<br>
-<br>
-=C2=A0# seccomp is not yet ported to rv32<br>
--DISTRO_FEATURES_DEFAULT:remove:riscv32 =3D &quot;seccomp&quot;<br>
-+DISTRO_FEATURES_OPTED_OUT:append:riscv32 =3D &quot;seccomp&quot;<br>
-<br>
-=C2=A0# seccomp is not yet ported to ARC<br>
--DISTRO_FEATURES_DEFAULT:remove:arc =3D &quot;seccomp&quot;<br>
-+DISTRO_FEATURES_OPTED_OUT:append:arc =3D &quot;seccomp&quot;<br>
-<br>
-=C2=A0# seccomp is not yet ported to microblaze<br>
--DISTRO_FEATURES_DEFAULT:remove:microblaze =3D &quot;seccomp&quot;<br>
-+DISTRO_FEATURES_OPTED_OUT:append:microblaze =3D &quot;seccomp&quot;<br>
-<br>
-=C2=A0# seccomp is not yet ported to loongarch64<br>
--DISTRO_FEATURES_DEFAULT:remove:loongarch64 =3D &quot;seccomp&quot;<br>
-+DISTRO_FEATURES_OPTED_OUT:append:loongarch64 =3D &quot;seccomp&quot;<br>
-<br>
--DISTRO_FEATURES_DEFAULT ?=3D &quot;acl alsa bluetooth debuginfod ext2 ipv4=
- ipv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat =
-seccomp&quot;<br>
--DISTRO_FEATURES ?=3D &quot;${DISTRO_FEATURES_DEFAULT}&quot;<br>
-+DISTRO_FEATURES_DEFAULTS ?=3D &quot; \<br>
-+=C2=A0 =C2=A0 acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadge=
-t usbhost \<br>
-+=C2=A0 =C2=A0 wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp pulseaud=
-io \<br>
-+=C2=A0 =C2=A0 gobject-introspection-data ldconfig opengl ptest multiarch w=
-ayland vulkan \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-=C2=A0IMAGE_FEATURES ?=3D &quot;&quot;<br>
-<br>
-=C2=A0COMMERCIAL_AUDIO_PLUGINS ?=3D &quot;&quot;<br>
-diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distro/in=
-clude/tclibc-musl.inc<br>
-index 98d7a801ac84..a61a6ced0dd2 100644<br>
---- a/meta/conf/distro/include/tclibc-musl.inc<br>
-+++ b/meta/conf/distro/include/tclibc-musl.inc<br>
-@@ -14,7 +14,7 @@ PREFERRED_PROVIDER_virtual/libc-locale ?=3D &quot;musl-lo=
-cales&quot;<br>
-=C2=A0PREFERRED_PROVIDER_virtual/nativesdk-libintl ?=3D &quot;nativesdk-gli=
-bc&quot;<br>
-=C2=A0PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?=3D &quot;nativesdk-gl=
-ibc&quot;<br>
-<br>
--DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D &quot;ldconfig&quot;<br>
-+DISTRO_FEATURES_OPTED_OUT +=3D &quot;ldconfig&quot;<br>
-<br>
-=C2=A0#USE_NLS ?=3D &quot;no&quot;<br>
-<br>
-diff --git a/meta/conf/distro/include/tclibc-newlib.inc b/meta/conf/distro/=
-include/tclibc-newlib.inc<br>
-index 34318b24549c..fff9b9f066fb 100644<br>
---- a/meta/conf/distro/include/tclibc-newlib.inc<br>
-+++ b/meta/conf/distro/include/tclibc-newlib.inc<br>
-@@ -11,7 +11,7 @@ PREFERRED_PROVIDER_virtual/libintl ?=3D &quot;newlib&quot=
-;<br>
-=C2=A0PREFERRED_PROVIDER_virtual/nativesdk-libintl ?=3D &quot;nativesdk-gli=
-bc&quot;<br>
-=C2=A0PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?=3D &quot;nativesdk-gl=
-ibc&quot;<br>
-<br>
--DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D &quot;ldconfig&quot;<br>
-+DISTRO_FEATURES_OPTED_OUT +=3D &quot;ldconfig&quot;<br>
-<br>
-=C2=A0#USE_NLS ?=3D &quot;no&quot;<br>
-<br>
-diff --git a/meta/conf/distro/include/tclibc-picolibc.inc b/meta/conf/distr=
-o/include/tclibc-picolibc.inc<br>
-index 2cd26cfd7dcd..6134b0d97d6a 100644<br>
---- a/meta/conf/distro/include/tclibc-picolibc.inc<br>
-+++ b/meta/conf/distro/include/tclibc-picolibc.inc<br>
-@@ -11,7 +11,7 @@ PREFERRED_PROVIDER_virtual/libintl ?=3D &quot;picolibc&qu=
-ot;<br>
-=C2=A0PREFERRED_PROVIDER_virtual/nativesdk-libintl ?=3D &quot;nativesdk-gli=
-bc&quot;<br>
-=C2=A0PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?=3D &quot;nativesdk-gl=
-ibc&quot;<br>
-<br>
--DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D &quot;ldconfig&quot;<br>
-+DISTRO_FEATURES_OPTED_OUT +=3D &quot;ldconfig&quot;<br>
-<br>
-=C2=A0IMAGE_LINGUAS =3D &quot;&quot;<br>
-<br>
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf<br=
->
-index 1853676fa060..5c93d0e47970 100644<br>
---- a/meta/conf/documentation.conf<br>
-+++ b/meta/conf/documentation.conf<br>
-@@ -141,8 +141,8 @@ DISTRO[doc] =3D &quot;The short name of the distributio=
-n. If the variable is blank, met<br>
-=C2=A0DISTRO_EXTRA_RDEPENDS[doc] =3D &quot;Specifies a list of distro-speci=
-fic packages to add to all images. The variable only applies to the images =
-that include packagegroup-base.&quot;<br>
-=C2=A0DISTRO_EXTRA_RRECOMMENDS[doc] =3D &quot;Specifies a list of distro-sp=
-ecific packages to add to all images if the packages exist. The list of pac=
-kages are automatically installed but you can remove them.&quot;<br>
-=C2=A0DISTRO_FEATURES[doc] =3D &quot;The features enabled for the distribut=
-ion.&quot;<br>
--DISTRO_FEATURES_BACKFILL[doc] =3D &quot;Features to be added to DISTRO_FEA=
-TURES if not also present in DISTRO_FEATURES_BACKFILL_CONSIDERED. This vari=
-able is set in the meta/conf/bitbake.conf file and it is not intended to be=
- user-configurable.&quot;<br>
--DISTRO_FEATURES_BACKFILL_CONSIDERED[doc] =3D &quot;Features from DISTRO_FE=
-ATURES_BACKFILL that should not be backfilled (i.e. added to DISTRO_FEATURE=
-S) during the build.&quot;<br>
-+DISTRO_FEATURES_DEFAULTS[doc] =3D &quot;The default set of distribution fe=
-atures, prior to any filtering. Usually you should leave this alone and mod=
-ify DISTRO_FEATURES and/or DISTRO_FEATURES_OPTED_OUT.&quot;<br>
-+DISTRO_FEATURES_OPTED_OUT[doc] =3D &quot;The set of default distribtion fe=
-atures to disable. Prefer opting out of features using this variable instea=
-d of using DISTRO_FEATURES:remove.&quot;<br>
-=C2=A0DISTRO_NAME[doc] =3D &quot;The long name of the distribution.&quot;<b=
-r>
-=C2=A0DISTRO_PN_ALIAS[doc] =3D &quot;Alias names used for the recipe in var=
-ious Linux distributions.&quot;<br>
-=C2=A0DISTRO_VERSION[doc] =3D &quot;The version of the distribution.&quot;<=
-br>
-<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div></div></div></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#235727): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/235727" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/235727</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118620443/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/118620443/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div>
-
---00000000000033f8f806501259ba--
 
