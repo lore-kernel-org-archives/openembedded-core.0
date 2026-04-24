@@ -2,96 +2,139 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC44AFF8858
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F40FF8851
 	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:57:14 +0000 (UTC)
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32596.1777064223564254753
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.31995.1777064229446914251
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 13:57:03 -0700
+ Fri, 24 Apr 2026 13:57:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Jpg6Mp39;
- spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so49528705e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:03 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=uo8JuzGl;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso113588835e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1777064222; x=1777669022; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1777064228; x=1777669028; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yEsIz4X2ymYrlB8LwQW309giaifP7vZaXJxgf+BYxFE=;
-        b=Jpg6Mp39Y1+5zLqXAuxosvLTJwONgfNQhH4Nww7f2LEiko+8on9YHTSATGf6l4JSK8
-         rvXDvJUNj0W+1WcSps5V1YIUCDSD99s3z4lajyh+257A/LH6v1HQB7og/jSfMX4NakQ2
-         QHLija7uGyipW1hq1hwHP34Z8E9bbbQ6uZCrU=
+        bh=/sk+KyOSUpry0foy4yc4J13HLhPnVzfT1QPR38uM++A=;
+        b=uo8JuzGlSS4I+2KTNgOaNsCzIWX+pjxJLfgQCjRC4KfCHvgMViL/QvYu1KecEB4EtC
+         RBvU/6ch/IgHqh71eOphYNFwmxVSOcAY0I90/fXW5bS0aXiF+axZ+r6Ss2pE0BXvsDva
+         abTnO0HFwTU487r6dW6YtGYVkqM4YAGEsM1Aw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777064222; x=1777669022;
+        d=1e100.net; s=20251104; t=1777064228; x=1777669028;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=yEsIz4X2ymYrlB8LwQW309giaifP7vZaXJxgf+BYxFE=;
-        b=X/IdfX7xjhQDZhk0dYx3NzB4iD085DFOqwYCyCny7A26/0ccUPCWICdVSYrjsP6nm1
-         lw1QAKxd5qP47oSivNalI04677tbWGZ/ftXi3O/vIOVb/dsV6SMQxu1t4owoPGRrUaFa
-         uxkbZViveAnXIUyHHF/QI9DDivWBFz0uqa47xamQLq2qqGmAN7xkU2Tq4aiSiIEwUF+h
-         ZCC2XuGPz40TaoL5/uAkkgyaHAa49BgDkxN5uuDW5n4hV3i9w1+n9i0Dhwr2AFin8NGD
-         wS1Dlt+xCNC6/1ty11LPX191IdoZ/EIUxvtLDYW/PJ5yY19jwEy3tuDsPYX72D5Zz1j2
-         Fg/A==
-X-Gm-Message-State: AOJu0Yy30hyThO6tB5p0d87PCINI6Rk4hTdFS2YDE4OboE96fLjUWc8a
-	M9zeNljmwL6kRY0w5w3I7pdQdMSTv+tMyr7vTFJw/SsotVcI+or5Ro2dXxjhCVamhEVqQeolhZR
-	I4+0SUaM5pkns
-X-Gm-Gg: AeBDiet1SdM1yqQ5xz0r5OFVNCapjmw6aFoM378rQz+dyMdVEF3xNfJYsGd/6hJcnrr
-	84cOv+O8UX+Wj6EaVGM0hJJGDBarEJM+JtMx0qtjvWssNJfcULg78bxm3nTfMXbLbqA5u9lu5q1
-	rSzxjmQXTy2DQgM3h7VxheSdGHZIHW8m3SQThXiS3REtSkRx7LFuyM1uNCRiDSsGtWc22J/lnyG
-	hwxtcXtlkrOpbV5VdXed7k7WCNEvKBZQFkHl1o++N3TynPQeG3Yj7YS68ux0dFExMM9FLi6ZPFW
-	bxS26+zo41ZaNcYVRt95yucrLJ1TVyVAEvuQYqyNFcUQuTt22nYQDL7R1mnKqELqHzTC6q8wrhv
-	AKxEZ1QGnQgHM/bPsxvP0vHDoYuak1dITmL21f8k386QyvlN8iqwActVNmfewlG3l3fhvdPY6ny
-	iKvhTgMu4rwGwdx/NlwsXuyWFnhPPjGwon+DNVXJN0LpTnUBbXTjwVwDL19lhPq593jf2F3qBEb
-	mpslua/utA5zbB7x3/KiiN9JDMAIHUsiejfGw==
-X-Received: by 2002:a05:600c:5297:b0:485:9a50:3370 with SMTP id 5b1f17b1804b1-488fb74a431mr527618275e9.8.1777064221674;
-        Fri, 24 Apr 2026 13:57:01 -0700 (PDT)
+        bh=/sk+KyOSUpry0foy4yc4J13HLhPnVzfT1QPR38uM++A=;
+        b=Ue/JZ4nzV3D9MIl9iGxLpEmjdi6Dvq30YtomuSs1QUDqcNLkJ76cqAdrP8T0GgvMWv
+         GHIAu7aK13G+Fzd2UBuBv664kSTQ5Rl2k9ioZQvTRFaQipOT0cXQmbaXdQ4Cy+sOB3U5
+         d7djxZiTBf2s7AQQTksU1brsxudbqO2lIrZZJOPTwy+7zKgj88ogzKSVavOd2tlMFklS
+         SrfO3E6G4y2eOMDKMIolRPkO1cdXafZNk943lH5WZmBENuBchLrMZ2UEoBmPirZNhqFm
+         PhLBeuv2MSWStt7Xus1Y3W9PWi0hECjUsOoaHG2M3qw7P8E27nymcqxateb4aIww7GgW
+         30kw==
+X-Gm-Message-State: AOJu0YwxihkvC9dh6hEAACfsv73xJTcYXGbdwarI1UxkZTeaFt9DgRO4
+	y4p8927BwN6QC5x/Q4BgDd4/QjJIkQP2lIBqxVeg0pLUKwy4JF59zomj89vWlZdWIJnRXTewzY/
+	olFyeN88E+w==
+X-Gm-Gg: AeBDieuZyCWtberjiBWpt1MhcTG7YM7+DLGXyVNWqyALDAWDTzFW9AuxJvTLYop5Q3z
+	aJoDZzs1GfRznVmWPlZ6CYQe+PDXkCvTehTdpmSUNbDug/XnsA9B6L6fM8wuo4Et41hP73P28dR
+	6ECneQ4txW8mnarOpjN4U2dhR9ZY8CaGVyKA4WjxF+lpofTSOtwuLigXQl6HE0YCt59RsKGlSS3
+	WPvJD/Xg/G6mwRQN/zKTU47cFUBqy1FbN7Xvz+sR6hZ1XCh5oJ36+FkVvRRgc9vwkYV+WHSuqcr
+	gpL/tSnr1Vh+vxbqIRz+M0JmmI/cfxMeSIMXreoSZwXxqE2CI+pFhGrPeECAAAcK3qOzF3BwdGr
+	JXPsDpKi+tsLpZxiRCG87AXglXIEhWFd8j5Rk0dBXAsj3eWL4ddptelRr3WKDAiVxl+xThR9FmO
+	G6N8/efl/DvTh8wq5a7cf1qgJcbFW0i7l7YrHhdJHVzSitfKVyUHMiDDhyT1bJtvwNjmL546dOg
+	XCNvLqGcWdJNh3OKCXLnO1pF89y1WhAaa7nvw==
+X-Received: by 2002:a05:600c:8183:b0:488:ab26:8fe0 with SMTP id 5b1f17b1804b1-488fb765b1dmr397942135e9.15.1777064227550;
+        Fri, 24 Apr 2026 13:57:07 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:57:01 -0700 (PDT)
+        Fri, 24 Apr 2026 13:57:07 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 42/66] build-appliance-image: switch SRC_URI to https protocol
-Date: Fri, 24 Apr 2026 22:55:41 +0200
-Message-ID: <6cfdf7fc1a63a3c2ee8093462fedc80d6358c54c.1777064068.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 53/66] binutils: backport patch to fix build with glibc-2.43 on host
+Date: Fri, 24 Apr 2026 22:55:52 +0200
+Message-ID: <6421f085fbb75df1cd122f1c327352b9434f8307.1777064068.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1777064068.git.yoann.congal@smile.fr>
 References: <cover.1777064068.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:57:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235914
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235926
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Following up on commit 139102a73d41 ("recipes: Default to https git protocol where possible"),
-> The recommendation from server maintainers is that the https protocol
-> is both faster and more reliable than the dedicated git protocol at this point.
-> Switch to it where possible.
+Fixes:
+../../../gprofng/libcollector/linetrace.c: In function ‘__collector_ext_line_install’:
+../../../gprofng/libcollector/linetrace.c:219:45: error: expected identifier before ‘_Generic’
+  219 |   if (java_follow_env != NULL && CALL_UTIL (strstr)(java_follow_env, COLLECTOR_JVMTI_OPTION))
+      |                                             ^~~~~~
+../../../gprofng/libcollector/linetrace.c:219:34: note: in expansion of macro ‘CALL_UTIL’
+  219 |   if (java_follow_env != NULL && CALL_UTIL (strstr)(java_follow_env, COLLECTOR_JVMTI_OPTION))
+      |                                  ^~~~~~~~~
 
-(cherry picked from commit 9bab238d26a3317a6212dc711427f4917eaac50e)
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/images/build-appliance-image_15.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../binutils/binutils-2.42.inc                |  1 +
+ ...tect-against-standard-library-macros.patch | 31 +++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch
 
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index 85521b6026a..3f6fcbcb3e3 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -27,7 +27,7 @@ inherit core-image setuptools3 features_check
- REQUIRED_DISTRO_FEATURES += "xattr"
- 
- SRCREV ?= "f4877d8e682ed22e339fe6c07f3ffa28e50c7b98"
--SRC_URI = "git://git.yoctoproject.org/poky;branch=scarthgap \
-+SRC_URI = "git://git.yoctoproject.org/poky;branch=scarthgap;protocol=https \
-            file://Yocto_Build_Appliance.vmx \
-            file://Yocto_Build_Appliance.vmxf \
-            file://README_VirtualBox_Guest_Additions.txt \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index e27502af72e..096ccf42c2a 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -45,6 +45,7 @@ SRC_URI = "\
+      file://0019-Fix-32097-Warnings-when-building-gprofng-with-Clang.patch \
+      file://0020-gprofng-fix-std-gnu23-compatibility-wrt-unprototyped.patch \
+      file://0021-gprofng-fix-build-with-std-gnu23.patch \
++     file://0022-gprofng-protect-against-standard-library-macros.patch \
+      file://0018-CVE-2025-0840.patch \
+      file://CVE-2025-1176.patch \
+      file://CVE-2025-1178.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch b/meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch
+new file mode 100644
+index 00000000000..0fa0a939918
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch
+@@ -0,0 +1,31 @@
++From 5f66aee7f4bec7a2d8378034116f5e5c3dc50f41 Mon Sep 17 00:00:00 2001
++From: Andreas Schwab <schwab@suse.de>
++Date: Sat, 22 Nov 2025 11:29:43 +0100
++Subject: [PATCH] gprofng: protect against standard library macros
++
++The CALL_UTIL macro can expand to an unparsable expression of the argument
++is a macro, like with the new const-preserving standard library macros in
++C23.
++
++	* gprofng/src/collector_module.h (CALL_UTIL): Add parens to not
++	expand its argument if it is a function-like macro.
++
++Upstream-Status: Backport [2.46 5f66aee7f4bec7a2d8378034116f5e5c3dc50f41]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ gprofng/src/collector_module.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gprofng/src/collector_module.h b/gprofng/src/collector_module.h
++index b64d69c45ab..859a6dd1f7d 100644
++--- a/gprofng/src/collector_module.h
+++++ b/gprofng/src/collector_module.h
++@@ -119,7 +119,7 @@ typedef struct CollectorUtilFuncs
++ extern CollectorUtilFuncs __collector_util_funcs;
++ extern int __collector_dlsym_guard;
++ 
++-#define CALL_UTIL(x) __collector_util_funcs.x
+++#define CALL_UTIL(x) (__collector_util_funcs.x)
++ 
++ /* The following constants define the meaning of the "void *arg"
++  * argument of getFrameInfo().
 
