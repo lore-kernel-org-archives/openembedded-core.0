@@ -1,218 +1,330 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12B61FE51FB
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 09:54:24 +0000 (UTC)
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17524.1777024459333266450
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 165B0FE51FC
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 09:57:54 +0000 (UTC)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17551.1777024673266582052
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 02:54:19 -0700
+ Fri, 24 Apr 2026 02:57:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=PQQWORNH;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=HsI7kX40;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.155, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6A967140006F;
-	Fri, 24 Apr 2026 05:54:18 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 24 Apr 2026 05:54:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1777024458; x=1777110858; bh=2icUIpy5oo
-	U4ujYsqoDZIUnR8zmUuBxsP29islf5wCo=; b=PQQWORNHvV5TF2Hk7nLohcwxSr
-	UpidPJXENShDCHKxB8ff5aIfdj7B+gBRDsBeuBXJgK/WTqQWjI4b8LpNHJAyOmf+
-	TjZtOzbaYSbKgoaZYoczjygJoEc1Tm/DvY97n57tqOoKIOqsDKRk0oFZZswhi8g/
-	cXmrEJHoY2jqAm1f2hpgnJoHMKonO7SpI234RHv6okHSVlElfanmpwvTot1YYDHn
-	X/oMy6XuzNA9OFeqIjbcnBK439+iZ31Afe1OFdeOdmTgCL8wJWLLEt7s05KSHh+3
-	rYK4/THFRSdDtBowkO+zhAFr7OnwfU7rmOZ+JxFkn09W8AoBn6L9w+mHE4eA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1777024458; x=1777110858; bh=2icUIpy5ooU4ujYsqoDZIUnR8zmUuBxsP29
-	islf5wCo=; b=HsI7kX40CHNZAbR6xIZcV4nu6RU22L/lTbwdVAV8iZWTxiKkolf
-	NUtPWFP5zfN8HsOgaHtdZrTOvXBUVCIuTikK6he/46fd4uGTrzdGYsWYakqSXa0Z
-	OeJfaXIA25VNUgd01XZeuBl7pAAOhgM1SDsv8YYNrBMGJTfFDL7sycs5FJy1M5oO
-	0OIz6LRsw3+jRIKHq4iYFRGyCKPk6HFqkJBx4k3W4F5cpNJEGS1jWmnVvHXZ3grk
-	6ObXbHKi86tzUcZQZEaRLdz49gZg7mC/fQqhrcoR3AR3JnemsukwkjCOxPKb7iXf
-	dzTdR31Yf/FA53IJ3kBiMhDB9rPtemuHQxg==
-X-ME-Sender: <xms:yj3raTJx-xwN0W6vCQJaHZJ3a3jRQ6JwUWp5AQGcZLFdpa2RahXL2w>
-    <xme:yj3raZv-jSf-_usTWgMIr9Ee6Spo7q-uW-0wE5Uq-QT0SuQiV_NuIB1lG1wBZHAyy
-    zrYXE14o8JPZVFXv1YsXoB40HZclLDqdZX0J3J4qRsF9vNd4uuOEQ8>
-X-ME-Received: <xmr:yj3rafV-NhILjzgZ-2ASNz7wNF5z6N-rmI87Tg2w35WAe4TaY_sjbt8UmWRmCTOMZtsKOQF37cctAFLdyGffvPg9YnOpn9H4ZHe2kfrJjltn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeileejvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepkffuhffvveffjghftggfggesghdtreertd
-    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnhepjeeggfelgfeggffggfejfeeugfelffegveekhf
-    egueefveegkeehveejteejudefnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
-    ohhrghdpuddurdgssgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepjedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhirggthhgvnhhgrdhshhhisehosh
-    hsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdq
-    tghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhope
-    gumhhithhrhidrsggrrhihshhhkhhovhesohhsshdrqhhurghltghomhhmrdgtohhmpdhr
-    tghpthhtohepiihhihdrtghhvghnsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtph
-    htthhopehmihgrohhqihhnghdrphgrnhesohhsshdrqhhurghltghomhhmrdgtohhmpdhr
-    tghpthhtohepphgvnhhgfhgvihdriihhrghnghesohhsshdrqhhurghltghomhhmrdgtoh
-    hmpdhrtghpthhtohepghgrohhlvgdriihhrghnghesohhsshdrqhhurghltghomhhmrdgt
-    ohhm
-X-ME-Proxy: <xmx:yj3racjhrERz0azZlJvbCsQMwEjmPG4gv_-D-GgA2opUWX18H15zKA>
-    <xmx:yj3rafoBVqaFw4__kl5oMa_gLHF7x_YbAjTgzdRsy-LuP8rc7cDQMQ>
-    <xmx:yj3raaEpf8ju-ZUQLhs-sbO5YOTpNGfeWW27jS5oKg9JT7W1pj9IwQ>
-    <xmx:yj3rac5b_mQ-fwRBhd_epFPGQpSuqlnCzPquqrx1dhs2zxbfquyvEg>
-    <xmx:yj3rabWn47i_VB77h3dzg09F9q3WvGzYSnarO82Pwjkr5h47PsFTq1Hv>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Apr 2026 05:54:17 -0400 (EDT)
-Message-ID: <e0a1a2fa3b627a698b46cf3ef645a29bb1e98127.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v2] wpa-supplicant: add patches to support
- RSNE/RSNXE overriding
-From: Paul Barker <paul@pbarker.dev>
-To: jiacheng.shi@oss.qualcomm.com, openembedded-core@lists.openembedded.org
-Cc: dmitry.baryshkov@oss.qualcomm.com, zhi.chen@oss.qualcomm.com, 
-	miaoqing.pan@oss.qualcomm.com, pengfei.zhang@oss.qualcomm.com, 
-	gaole.zhang@oss.qualcomm.com
-Date: Fri, 24 Apr 2026 10:54:14 +0100
-In-Reply-To: <20260424093601.1867587-1-jiacheng.shi@oss.qualcomm.com>
-References: <20260424093601.1867587-1-jiacheng.shi@oss.qualcomm.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-LTqG3qaXAUAshN3Yq2Wk"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=KKgZy+w2;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so93914005e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 02:57:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1777024672; x=1777629472; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EVyLeJeZosi7LXOtd4BdsELI+j2ycyTIjMGR/QRfBls=;
+        b=KKgZy+w2EYMKNKqvaaw1tjCbSQh+IEDnPaO4WcFjBH/SyA0HM/MTzLIn6da+vLZIHn
+         WyZ4Ku7LzQ9VxGf26gxhLvvTWGiY2+24FKdA1Ex4BfEuys50iuo3fXmh/vCS7102Rs8i
+         KGUb20HFBjhI1Wuoea090FC3ZWX8de8zj+bgA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777024672; x=1777629472;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EVyLeJeZosi7LXOtd4BdsELI+j2ycyTIjMGR/QRfBls=;
+        b=aFxpcYoTUY/EN49Sw8dtzt4k4kQHJYfe+OsWhqVcDEMaXJL3AT5SoFhEFkfl+lGFYK
+         lsYFqrt9OTdjmleELGzVjtn5CUDWlLpMpkJ0uFYzhQua4HhU5wCMLM0U1SL2mbmyNUF6
+         7M8NqZYvwoS8HFVpVIjheJ5OyFQnSXs8Iw+wRi70xqpvXjQRVa68gRfCMyTazjI2K9/b
+         z8LRRICDZCeJTtulQ+HLOz6JJtF8Cs87XRoOFATZZk3l7jLw9G+LC0fPNXL4ARjMQ86l
+         LBHhUZUjOqtjOEnq14qLK4KYzu15T/2oNJ5zsbsua0Q+BHLBEyENcQeowvyWc5CU7ACH
+         GKQg==
+X-Forwarded-Encrypted: i=1; AFNElJ+QqgMd8h9M+kykDLlccgG2Iz3buQ3AFXhJ2QllYbO3JiHhv93XXrJ/4aJbeucjuJ3+3y8lXfkG7RaKA0byZ/WO8w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxbV79lSzbZY7bIR/XRbAQzwFXVypR7YwMLEM7Bcibfs0XXgh3e
+	vg8UUc+PW5TZ04D9UlVAU1PzxILk6vjYxOTVK46USNyNjOjgVlzxX5HwamUb+XMAnAk=
+X-Gm-Gg: AeBDieuPlCZaY/uPzCs1eDNO3TFtYeA4WKruglyxMCvQUETe+C9AOIoQe0xrl3g73x3
+	pnm7hjeyG/8HcDLxOee94qwCnJWr6Cd/NQJ7ZOVRYekKp5FxKF5wzv7KeUTf9pm57NiqVBEis8A
+	sBFF9OZdTg/GssFfvNJ8WJCI17W6ZbVXlR1QA7ArH/EpbVZB3Bfjq9QfGFTprJ4UT+GUWKT8Q4q
+	JdrgzVHM9L244sMOXsFqWJAWfm4IoaQYe9fKtrN5TMYbVWUN7RYgEvl10kuq9aoa1aVo2ACVzxL
+	m/HMg6YtvUeKCblYe5woMe4jYeaFZ04rp30ynmrerzIcvSFG2FDxmP2VNJwDh5OMcGtSADpz9R/
+	XInDyjzCe5Sz9mHiiA/LnEcfQtWzMGY+Ch/SY9VQNhTgvBOLE6NJiNP5MZkcTrDyArWj/hTymEs
+	2Q1vBYLVTg8hYsMVMgqM+cvs2cKNejM8jyc8G6B9+CuG5lN8pJSWt2FlFfCVBUc/VPSdj54qkSD
+	/Xuuvs6jsQXobR48Yq0KAk/QKjTSSv3xQtJ
+X-Received: by 2002:a05:600c:3553:b0:48a:52f2:a0f1 with SMTP id 5b1f17b1804b1-48a52f2a5f0mr249430975e9.18.1777024671481;
+        Fri, 24 Apr 2026 02:57:51 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a5d27d6casm44630945e9.27.2026.04.24.02.57.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2026 02:57:50 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Apr 2026 11:57:50 +0200
+Message-Id: <DI1AO7MBSEFG.SVPI5YNXXZ44@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH] systemd-analyze: add SVG scaling
+ and detailed timestamps
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <mail2szahir@gmail.com>, <openembedded-core@lists.openembedded.org>,
+ <zahir.basha@kpit.com>
+X-Mailer: aerc 0.20.0
+References: <20260424092433.3222272-1-zahir.basha@partner.bmwgroup.com>
+In-Reply-To: <20260424092433.3222272-1-zahir.basha@partner.bmwgroup.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 09:54:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235854
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 09:57:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235855
 
+On Fri Apr 24, 2026 at 11:24 AM CEST, aszh07 via lists.openembedded.org wro=
+te:
+> From: Zahir Hussain <zahir.basha@kpit.com>
+>
+> Enhance the `plot` command with two new options for better visualization:
+>  `--scale-svg=3D<FACTOR>`: Scales the x-axis to improve plot readability.
+>  `--detailed`: Adds activation timestamps to the SVG output.
+>
+> This is a backport of the following upstream commit:
+> https://github.com/systemd/systemd/commit/1592d2f900c25251ece2670c71d9578=
+06f48216b
+>
+> This improves the readability of boot analysis plots when dealing
+> with complex or high-density timing data.
+>
+> Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
 
---=-LTqG3qaXAUAshN3Yq2Wk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Fri, 2026-04-24 at 17:36 +0800, Jiacheng Shi via
-lists.openembedded.org wrote:
-> Add RSN/RSNXE override support in wpa_supplicant to pass Wi-Fi
-> certification test FC 5.2.3.3.
->=20
-> During the 2EAPMSG exchange, the STA did not apply the SNonce_Cookie
-> provided by the AP as required by the test specification, resulting
-> in sniffer validation failure.
-> To address this, allow RSN/RSNX overriding in STA mode and explicitly
-> signal SNonce_Cookie=E2=80=93based override capability.
->=20
-> Signed-off-by: Jiacheng Shi <jiacheng.shi@oss.qualcomm.com>
+Sorry but this a new feature and is excluded by policy from stable
+branches.
+
+Regards,
+
 > ---
-> v2:
->  * Change commit message=20
->=20
->  ...r-specific-element-types-for-RSNE-RS.patch |  34 +
->  ...-overriding-elements-into-IE-parsing.patch |  58 ++
->  ...ide-element-to-override-RSNE-content.patch |  36 +
->  ...ride-element-to-override-RSNXE-conte.patch |  36 +
->  ...eature-flags-to-indicate-RSN-overrid.patch |  67 ++
->  ...a-capability-flag-for-RSN-overriding.patch |  65 ++
->  ...ions-to-access-RSNE-RSNXE-from-BSS-e.patch | 448 +++++++++++
->  ...bilities-for-AKM-suites-available-wi.patch |  66 ++
->  .../0013-RSNE-RSNXE-overriding-for-STA.patch  | 739 ++++++++++++++++++
->  ...-Selection-element-to-indicate-which.patch | 415 ++++++++++
->  ...cookie-to-indicate-support-for-RSN-o.patch |  84 ++
->  .../wpa-supplicant/wpa-supplicant_2.11.bb     |  11 +
->  12 files changed, 2059 insertions(+)
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0005-Define-WFA-vendor-specific-element-types-for-RSNE-RS.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0006-Add-RSN-overriding-elements-into-IE-parsing.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0007-Allow-RSNE-Override-element-to-override-RSNE-content.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0008-Allow-RSNXE-Override-element-to-override-RSNXE-conte.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0009-Add-QCA-vendor-feature-flags-to-indicate-RSN-overrid.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0010-nl80211-Add-a-capability-flag-for-RSN-overriding.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0011-Use-helper-functions-to-access-RSNE-RSNXE-from-BSS-e.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0012-Make-driver-capabilities-for-AKM-suites-available-wi.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0013-RSNE-RSNXE-overriding-for-STA.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0014-RSNO-Use-the-RSN-Selection-element-to-indicate-which.patch
->  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
-nt/0015-RSNO-Use-SNonce-cookie-to-indicate-support-for-RSN-o.patch
+>  ...temd-analyze-Add-svg-scaling-options.patch | 167 ++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_255.21.bb   |   1 +
+>  2 files changed, 168 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0023-systemd-analyz=
+e-Add-svg-scaling-options.patch
+>
+> diff --git a/meta/recipes-core/systemd/systemd/0023-systemd-analyze-Add-s=
+vg-scaling-options.patch b/meta/recipes-core/systemd/systemd/0023-systemd-a=
+nalyze-Add-svg-scaling-options.patch
+> new file mode 100644
+> index 0000000000..9bae1654d2
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0023-systemd-analyze-Add-svg-scal=
+ing-options.patch
+> @@ -0,0 +1,167 @@
+> +From 6f1af79ed9515771113ea5b39ac7b267cac66dc7 Mon Sep 17 00:00:00 2001
+> +From: rajmohan r <rajmohan.r@kpit.com>
+> +Date: Thu, 8 Aug 2024 15:09:35 +0530
+> +Subject: [PATCH] systemd-analyze: Add svg scaling options
+> +
+> ++ Scale the x-axis of the resulting plot by a factor (default 1.0)
+> ++ Add activation timestamps to each bar
+> +
+> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/159=
+2d2f900c25251ece2670c71d957806f48216b]
+> +
+> +comment: refresh the patch according to source code and Changes to=20
+> +test/units/TEST-65-ANALYZE.sh do not take effect because the file
+> +is not available in the source code.
+> +
+> +Signed-off-by: rajmohan r <rajmohan.r@kpit.com>
+> +Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
+> +---
+> + man/systemd-analyze.xml               | 18 ++++++++++++++++++
+> + shell-completion/bash/systemd-analyze |  2 +-
+> + src/analyze/analyze-plot.c            |  7 ++++++-
+> + src/analyze/analyze.c                 | 17 +++++++++++++++++
+> + src/analyze/analyze.h                 |  2 ++
+> + 5 files changed, 42 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/man/systemd-analyze.xml b/man/systemd-analyze.xml
+> +index 35ad8435f4f..9a7998b3f6d 100644
+> +--- a/man/systemd-analyze.xml
+> ++++ b/man/systemd-analyze.xml
+> +@@ -1499,6 +1499,24 @@ NR NAME                SHA256
+> +         <xi:include href=3D"version-info.xml" xpointer=3D"v255"/></list=
+item>
+> +       </varlistentry>
+> +=20
+> ++      <varlistentry>
+> ++        <term><option>--scale-svg=3D<replaceable>FACTOR</replaceable></=
+option></term>
+> ++
+> ++        <listitem><para>When used with the <command>plot</command> comm=
+and, the x-axis of the plot
+> ++        can be stretched by FACTOR (default: 1.0).</para>
+> ++
+> ++        <xi:include href=3D"version-info.xml" xpointer=3D"v255"/></list=
+item>
+> ++      </varlistentry>
+> ++
+> ++      <varlistentry>
+> ++        <term><option>--detailed</option></term>
+> ++
+> ++        <listitem><para>When used with the <command>plot</command> comm=
+and, activation timestamps
+> ++        details can be seen in SVG plot.</para>
+> ++
+> ++        <xi:include href=3D"version-info.xml" xpointer=3D"v255"/></list=
+item>
+> ++      </varlistentry>
+> ++
+> +       <xi:include href=3D"standard-options.xml" xpointer=3D"help" />
+> +       <xi:include href=3D"standard-options.xml" xpointer=3D"version" />
+> +       <xi:include href=3D"standard-options.xml" xpointer=3D"no-pager" /=
+>
+> +diff --git a/shell-completion/bash/systemd-analyze b/shell-completion/ba=
+sh/systemd-analyze
+> +index 1fde67218b9..781cb1572e2 100644
+> +--- a/shell-completion/bash/systemd-analyze
+> ++++ b/shell-completion/bash/systemd-analyze
+> +@@ -196,7 +196,7 @@ _systemd_analyze() {
+> +=20
+> +     elif __contains_word "$verb" ${VERBS[PLOT]}; then
+> +         if [[ $cur =3D -* ]]; then
+> +-            comps=3D'--help --version --system --user --global --no-pag=
+er --json=3Doff --json=3Dpretty --json=3Dshort --table --no-legend'
+> ++            comps=3D'--help --version --system --user --global --no-pag=
+er --json=3Doff --json=3Dpretty --json=3Dshort --table --no-legend --scale-=
+svg --detailed'
+> +         fi
+> +     fi
+> +=20
+> +diff --git a/src/analyze/analyze-plot.c b/src/analyze/analyze-plot.c
+> +index 81fc25b31e0..70a903e0db1 100644
+> +--- a/src/analyze/analyze-plot.c
+> ++++ b/src/analyze/analyze-plot.c
+> +@@ -12,7 +12,7 @@
+> + #include "unit-def.h"
+> + #include "version.h"
+> +=20
+> +-#define SCALE_X (0.1 / 1000.0) /* pixels per us */
+> ++#define SCALE_X (0.1 * arg_svg_timescale / 1000.0) /* pixels per us */
+> + #define SCALE_Y (20.0)
+> +=20
+> + #define svg(...) printf(__VA_ARGS__)
+> +@@ -30,6 +30,9 @@
+> +                 svg("</text>\n");                                      =
+ \
+> +         } while (false)
+> +=20
+> ++#define svg_timestamp(b, t, y) \
+> ++        svg_text(b, t, y, "%u.%03us", (unsigned)((t) / USEC_PER_SEC), (=
+unsigned)(((t) % USEC_PER_SEC) / USEC_PER_MSEC))
+> ++
+> +=20
+> + typedef struct HostInfo {
+> +         char *hostname;
+> +@@ -358,6 +361,8 @@ static int produce_plot_as_svg(
+> +         svg_bar("generators", boot->generators_start_time, boot->genera=
+tors_finish_time, y);
+> +         svg_bar("unitsload", boot->unitsload_start_time, boot->unitsloa=
+d_finish_time, y);
+> +         svg_text(true, boot->userspace_time, y, "systemd");
+> ++        if (arg_detailed_svg)
+> ++                svg_timestamp(false, boot->userspace_time, y);
+> +         y++;
+> +=20
+> +         for (; u->has_data; u++)
+> +diff --git a/src/analyze/analyze.c b/src/analyze/analyze.c
+> +index 021de65bdbf..457f9e59cc8 100644
+> +--- a/src/analyze/analyze.c
+> ++++ b/src/analyze/analyze.c
+> +@@ -99,6 +99,8 @@ RuntimeScope arg_runtime_scope =3D RUNTIME_SCOPE_SYSTE=
+M;
+> + RecursiveErrors arg_recursive_errors =3D _RECURSIVE_ERRORS_INVALID;
+> + bool arg_man =3D true;
+> + bool arg_generators =3D false;
+> ++double arg_svg_timescale =3D 1.0;
+> ++bool arg_detailed_svg =3D false;
+> + char *arg_root =3D NULL;
+> + static char *arg_image =3D NULL;
+> + char *arg_security_policy =3D NULL;
+> +@@ -271,6 +273,9 @@ static int help(int argc, char *argv[], void *userda=
+ta) {
+> +                "     --profile=3Dname|PATH     Include the specified pr=
+ofile in the\n"
+> +                "                             security review of the uni=
+t(s)\n"
+> +                "     --table                 Output plot's raw time dat=
+a as a table\n"
+> ++               "     --scale-svg=3DFACTOR      Stretch x-axis of plot b=
+y FACTOR (default: 1.0)\n"
+> ++               "     --detailed              Add more details to SVG pl=
+ot,\n"
+> ++               "                             e.g. show activation times=
+tamps\n"
+> +                "  -h --help                  Show this help\n"
+> +                "     --version               Show package version\n"
+> +                "  -q --quiet                 Do not emit hints\n"
+> +@@ -319,6 +324,8 @@ static int parse_argv(int argc, char *argv[]) {
+> +                 ARG_TABLE,
+> +                 ARG_NO_LEGEND,
+> +                 ARG_TLDR,
+> ++                ARG_SCALE_FACTOR_SVG,
+> ++                ARG_DETAILED_SVG,
+> +         };
+> +=20
+> +         static const struct option options[] =3D {
+> +@@ -353,6 +360,8 @@ static int parse_argv(int argc, char *argv[]) {
+> +                 { "table",            optional_argument, NULL, ARG_TABL=
+E            },
+> +                 { "no-legend",        optional_argument, NULL, ARG_NO_L=
+EGEND        },
+> +                 { "tldr",             no_argument,       NULL, ARG_TLDR=
+             },
+> ++                { "scale-svg",        required_argument, NULL, ARG_SCAL=
+E_FACTOR_SVG },
+> ++                { "detailed",         no_argument,       NULL, ARG_DETA=
+ILED_SVG     },
+> +                 {}
+> +         };
+> +=20
+> +@@ -546,6 +555,14 @@ static int parse_argv(int argc, char *argv[]) {
+> +                         arg_cat_flags =3D CAT_TLDR;
+> +                         break;
+> +=20
+> ++                case ARG_SCALE_FACTOR_SVG:
+> ++                        arg_svg_timescale =3D strtod(optarg, NULL);
+> ++                        break;
+> ++
+> ++                case ARG_DETAILED_SVG:
+> ++                        arg_detailed_svg =3D true;
+> ++                        break;
+> ++
+> +                 case '?':
+> +                         return -EINVAL;
+> +=20
+> +diff --git a/src/analyze/analyze.h b/src/analyze/analyze.h
+> +index 8a9528c0d3b..ddd4ad547c7 100644
+> +--- a/src/analyze/analyze.h
+> ++++ b/src/analyze/analyze.h
+> +@@ -28,6 +28,8 @@ extern RuntimeScope arg_runtime_scope;
+> + extern RecursiveErrors arg_recursive_errors;
+> + extern bool arg_man;
+> + extern bool arg_generators;
+> ++extern double arg_svg_timescale;
+> ++extern bool arg_detailed_svg;
+> + extern char *arg_root;
+> + extern char *arg_security_policy;
+> + extern bool arg_offline;
+> diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-c=
+ore/systemd/systemd_255.21.bb
+> index 87e186bbfa..2d5badb489 100644
+> --- a/meta/recipes-core/systemd/systemd_255.21.bb
+> +++ b/meta/recipes-core/systemd/systemd_255.21.bb
+> @@ -29,6 +29,7 @@ SRC_URI +=3D " \
+>             file://0002-binfmt-Don-t-install-dependency-links-at-install-=
+tim.patch \
+>             file://0003-timedated-Respond-on-org.freedesktop.timedate1.Se=
+tNT.patch \
+>             file://0008-implment-systemd-sysv-install-for-OE.patch \
+> +           file://0023-systemd-analyze-Add-svg-scaling-options.patch \
+>             "
+> =20
+>  # patches needed by musl
 
-Hi,
-
-This is a lot to backport for a new feature. Have you tried asking
-upstream for a new release? That would be a better path forward if they
-have important new features in their development branch.
-
-Thanks,
 
 --=20
-Paul Barker
+Yoann Congal
+Smile ECS
 
-
---=-LTqG3qaXAUAshN3Yq2Wk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaes9xhEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bjWMAQCKugEnss2Tc3jwt2YbnvDAKiJjFa4rwzeH
-aljnqsxQpAD7B5XondZGVCPy8CojjjmCpCm2OJtaStXg3hiunT8ZWw8=
-=xWpa
------END PGP SIGNATURE-----
-
---=-LTqG3qaXAUAshN3Yq2Wk--
 
