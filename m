@@ -1,140 +1,102 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <li.wang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2985EFE51E8
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 08:50:11 +0000 (UTC)
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16919.1777020606867529895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E31A4FE51F2
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 09:21:03 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17440.1777022454682702380
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 01:50:07 -0700
+ Fri, 24 Apr 2026 02:20:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=WsWtCA4I;
- spf=pass (domain: mvista.com, ip: 74.125.82.43, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1279eced0b9so11343967c88.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 01:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1777020606; x=1777625406; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1yOrQBot5hic91cwiNGDJM0udgQkXOYL8RrVpje1MiE=;
-        b=WsWtCA4IgoF6rUttxd5WHOzdu6MnY6AgL/bWA+heYSVSaKlII4MWzgw9xwg+BOPxmj
-         Nt8V0rmwecpblOTRG0PbZnC0e5ww9y8pqcEW74r7GQlQw1gMvAKdwAlr4m1/PMoo5zx9
-         d4+wD3T+IhOBtzCDSdvHflhe6U8YiVeOiUzXE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777020606; x=1777625406;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1yOrQBot5hic91cwiNGDJM0udgQkXOYL8RrVpje1MiE=;
-        b=R5U9YysxL6F94v5QLA3I2pqcvA3Ru43frMTqmM5roJ+cSM5Z/u8pve2du4tRqzXu4U
-         LvRXvZhjpbg1Yul/Ciwkgr+EEULRKcua7ZC9Iunm4WR64iYL5hz41ZzeeyR5QTqwB/ee
-         UPGAkn6TfPTB+Qvr5XDy1TPT0v7ImcaPCopjpY8bmFSCiUl4Sz9OA6+6DslSOK99VgqE
-         FZqNXbgbFlCMcuoqNopwsd11Iw5NkF9w2NUpjnB1G3FVonZWw2P8lfXSAwMBsHMx6r3l
-         /hJM5J0+Z7r2fwXBW58hS23h/4/aod7PwF5lV3Dmuu+X+nd8onEB1Tvk9sstzLJwp6sE
-         csbw==
-X-Gm-Message-State: AOJu0YwCltVKiBeUDoqg7tomPmZjqGb/rSNTkB9/wbpBiFoNKHrrtZfq
-	WyHcD6vIKOKdVqzn4zWfOUojYWC7tRjcQWOMlUs3mA1RlL+j0jhUOUo45LfD5VfrcHL0d9Po+o4
-	Di0VLhOE=
-X-Gm-Gg: AeBDieuAyJVtFFDRsRLQlUMHXVp19vMbHfV+iNelrYCteL3UnHKvm89AxVBLtL54G3K
-	evocIoFllaKaMvwUMiNJh4x3OqtNQ0sGFErmMpWHeQ50mex/qGezo7/6wiDxzz0C1xBC6o8pf5A
-	dmdrNIc0LVVIHJy6Q1hfptexPt6pdtbuYkBnln6WZDsN8h8LpTu6AsTc57SBoG1sLitNoclDiE7
-	TnYsfpoH6Ou2SeItoh1IGb8kyFOqXEWSH47HqTpJI428eV6lqqS+bijnzUED0odlZW3QGewiy+2
-	05zeIohICwP52Tov9gINWiVafQXC+ilaLi7QYFs3i45FX7WPX9PXfP4i7drZXU1DBscyDJUlWfZ
-	8Ci582sEhNz2C8if1h+MwUYnTKXoA4f7pff9OBBJaOP/DKy5JXMbc7yKNhm9XF28sVwPq23ACXD
-	OxsZFee3J6/COVVlcyxGqHn2bmjz30FYLaRFsB8nVaIq3Qwqo=
-X-Received: by 2002:a05:7022:4199:b0:12c:2cf8:2f30 with SMTP id a92af1059eb24-12c73f83616mr16657922c88.15.1777020605898;
-        Fri, 24 Apr 2026 01:50:05 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([150.129.170.179])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12dbe78e12fsm8888183c88.15.2026.04.24.01.50.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 01:50:05 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] rsync: fix for CVE-2026-41035
-Date: Fri, 24 Apr 2026 14:19:56 +0530
-Message-ID: <20260424084956.214345-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=rBHraFBX;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8574518e23=li.wang@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63O3uQZi3966594
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 02:20:54 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=SXIsaeRzi
+	H85Q+7as5Q2vuR0HMh2sxMH+ci/hVLzvPY=; b=rBHraFBXyVCfiJ4Zh+2DHwDED
+	LIp1OfTygSK4kPB5rk+u525dIZkd76yVwqUHE8pq2o3Y5Q2y4Oxq2s6WOtPpiSsA
+	+zqnl/vY0413gFYK2UYFO05/LnlPPHqg/B0GbjrnZ+xXEWIOllVUJWiVTK+FKORV
+	F96YX3xaSvh1lFbXF0ABTzOPpdhP2fol8h+a3RAuScGRqRdS0ZEvS+wCl/o3nwTW
+	71lUIjiKNPlQnKqk762eRkxGgtYk9IOkd21dwUfyt7f/0dsULnoBlJsledhdJPzB
+	JKtlsx5CIfwTR3gAyz3Clh7ACoxuxYvzd/7s4A7txJD8Ac76MVaC+QqVTTfww==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dq8rcstes-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 02:20:54 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 24 Apr 2026 02:20:53 -0700
+Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 24 Apr 2026 02:20:52 -0700
+From: Li Wang <li.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <li.wang@windriver.com>
+Subject: [PATCH V2] perf: add PACKAGECONFIG for llvm
+Date: Fri, 24 Apr 2026 17:20:51 +0800
+Message-ID: <20260424092052.1485864-1-li.wang@windriver.com>
+X-Mailer: git-send-email 2.49.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: axZ_Uyi4XSV-ljNfNpsBflSTROTw6QIC
+X-Authority-Analysis: v=2.4 cv=MYhcfZ/f c=1 sm=1 tr=0 ts=69eb35f6 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8 a=JXP8E5rqUi0behDgYIQA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: axZ_Uyi4XSV-ljNfNpsBflSTROTw6QIC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDA4NSBTYWx0ZWRfX4ZdAFTeKUMgl
+ MlFLfyX6WLJn9Skti8XyCi6VRI/b3OzMiI+c/i60oUPPRFLcDjaYWu7DAQkz7avkxM2Iv4GWbpe
+ 618V9FRLau/xMejj2v714GlA9CVrf/L88KX0hjS6RK+kYmZupV58kCQUibXDG7lJr19+u+AXRux
+ A6/FVbCZG5tC7IDErmwCM34eYOEMkTW5A986y15+r+6SqeltAs9e8QvforLSd1eqvvJN0u9c+3E
+ Om177VsSeUYgfM9BmBz7D+mHBwrAZ7aETDbeEEW36E23XfYxjX0/uu6dQ0AOHqcIkt8hrrpjU/E
+ jmEG8tri4KRcw33Vnif8IcInJY/UnGgPI2G99m/pVQDzMCto3kZQoipT8ApPLUqkdA1wreL/rHv
+ 12xC7VqSiLj3wQsW9RhKiFlSU2GQ+gdEbQa0UHqEmpxrFsExfpAoUqkBRu/P99ypDbaHTk8WlgN
+ s0jAhi1+qB4Uqaet8zg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 adultscore=0 spamscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604240085
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:50:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235847
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 09:21:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235849
 
-Pick patch from [1] also mentioned at Debian report in [2]
+for avoiding to enable llvm option under uncommon condition,
+make llvm controll under PACKAGECONFIG.
 
-[1] https://github.com/RsyncProject/rsync/commit/bb0a8118c2d2ab01140bac5e4e327e5e1ef90c9c
-[2] https://security-tracker.debian.org/tracker/CVE-2026-41035
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-41035
+error log:
+ERROR: perf-1.0-r2 do_package_qa: QA Issue: /usr/bin/trace contained in package perf requires libLLVM.so.2x.x(LLVM_2x.x)(64bit), but no providers found in RDEPENDS:perf? [file-rdeps]
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Li Wang <li.wang@windriver.com>
 ---
- .../rsync/files/CVE-2026-41035.patch          | 39 +++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.2.7.bb    |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-41035.patch
+ meta/recipes-kernel/perf/perf.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-41035.patch b/meta/recipes-devtools/rsync/files/CVE-2026-41035.patch
-new file mode 100644
-index 0000000000..66b1b93672
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-41035.patch
-@@ -0,0 +1,39 @@
-+From bb0a8118c2d2ab01140bac5e4e327e5e1ef90c9c Mon Sep 17 00:00:00 2001
-+From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Wed, 22 Apr 2026 09:57:45 +1000
-+Subject: [PATCH] xattrs: fixed count in qsort
-+
-+this fixes the count passed to the sort of the xattr list. This issue
-+was reported here:
-+
-+https://www.openwall.com/lists/oss-security/2026/04/16/2
-+
-+the bug is not exploitable due to the fork-per-connection design of
-+rsync, the attack is the equivalent of the user closing the socket
-+themselves.
-+
-+CVE: CVE-2026-41035
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/bb0a8118c2d2ab01140bac5e4e327e5e1ef90c9c]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ xattrs.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/xattrs.c b/xattrs.c
-+index 26e50a6..65166ee 100644
-+--- a/xattrs.c
-++++ b/xattrs.c
-+@@ -860,8 +860,8 @@ void receive_xattr(int f, struct file_struct *file)
-+ 		rxa->num = num;
-+ 	}
-+ 
-+-	if (need_sort && count > 1)
-+-		qsort(temp_xattr.items, count, sizeof (rsync_xa), rsync_xal_compare_names);
-++	if (need_sort && temp_xattr.count > 1)
-++		qsort(temp_xattr.items, temp_xattr.count, sizeof (rsync_xa), rsync_xal_compare_names);
-+ 
-+ 	ndx = rsync_xal_store(&temp_xattr); /* adds item to rsync_xal_l */
-+ 
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-index 14beafb681..2a1c3d9d56 100644
---- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-@@ -28,6 +28,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://CVE-2024-12088.patch \
-            file://CVE-2024-12747.patch \
-            file://CVE-2025-10158.patch \
-+           file://CVE-2026-41035.patch \
-            "
- SRC_URI[sha256sum] = "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e488fb2dc41346f2bb"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 7a58088462..f24b44954e 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -39,6 +39,7 @@ PACKAGECONFIG[coresight] = "CORESIGHT=1,,opencsd"
+ PACKAGECONFIG[pfm4] = ",NO_LIBPFM4=1,libpfm4"
+ PACKAGECONFIG[babeltrace] = ",NO_LIBBABELTRACE=1,babeltrace"
+ PACKAGECONFIG[zstd] = ",NO_LIBZSTD=1,zstd"
++PACKAGECONFIG[llvm] = ",NO_LIBLLVM=1,llvm"
  
+ # libunwind is not yet ported for some architectures
+ PACKAGECONFIG:remove:arc = "libunwind"
 -- 
-2.50.1
+2.49.1
 
 
