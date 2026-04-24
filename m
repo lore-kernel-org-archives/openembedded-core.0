@@ -1,264 +1,129 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AABFED3E3
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 15:17:50 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24773.1777043859668072740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D79C6FED3E5
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 15:19:39 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24823.1777043971000445773
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 08:17:40 -0700
+ Fri, 24 Apr 2026 08:19:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=jcHOzwVI;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id D50CDC5EF2E
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 15:18:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 131E2604EB
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 15:17:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 494811072090F;
-	Fri, 24 Apr 2026 17:17:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777043856; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=q6PQzE2fofatdxpmfiZsC16W1u9BAJwqFAJYDG/KFmg=;
-	b=jcHOzwVIspsj0+a0rporUIWHyggd3JLun4Ajxla/H7ZFfGdAouKsdztnljbdFdvdoT8R5k
-	CZ1G0V1JEKiSkvsy6ic3eQt6vdxLKC8CnmYHXFwn0RW/1XUQ+nlgftqz1fuWZ+lwaIqHA6
-	8KNqHxtJjy985M3NYyvSbw+XUXTuyn4Ok95Ix62tzPq3AjD+7WpNYZ9OWKeMpUeNR/Ovjt
-	FhzS4xIC/hJV7DmhV3rJz6WzsxD7vTMTqDr81lu6QlkB+F/dTFj7x/JxET8onGTKDgduOW
-	3hCEDXmJR5c090e+2aIjtXvDdUW4Qrr1GpcoYEsPzCvBS/P57Y72WHGgjWJ3tQ==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-Subject: [PATCH] meta: simplify conditional operations with bb.utils.filter
-Date: Fri, 24 Apr 2026 17:17:18 +0200
-Message-ID: <20260424151718.13081-1-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.47.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=h8BBFqK7;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8acb550db18so83715126d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:19:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777043970; cv=none;
+        d=google.com; s=arc-20240605;
+        b=c2LsBimcNDSu1T79qehvQwhXd5l1xD4AOdWZtbATfZeAOZ/FtZre9q6L74dOWDOOqv
+         7ySbv/C2TNcbRfKml5mSwjZTpdjCytHZoJ6nraWze2Ves0or4PsPiCVpih5rl+PG19To
+         MRnExOiTTtLMXBjMbV5r2JY34OLaaVv3pxbWaIFRVp/XCil9+wQuKCAPjBdj0811opIG
+         YTOKuXUGytw9+WZpd1Tc7KW964A6BiW6V98CJt6Dtwpfp/3j5f0RZC7QNAg2MuefwMGw
+         1zxs/xmAXGL4cCbGeWWn80mvWFKF5RLWDSf9kujyZtzYanzDYeUJQkfc2HHC9EqDwHfC
+         +lIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=m6CaUaqBAowGz5XN4Auaf6u8zGDj08mg8Xl9G72IWcc=;
+        fh=N0upAYIiDVqGfj5GUfc6e4DBLv/4Q3r1ndLH3rRtA2Q=;
+        b=UyApPG8kl32O9dRVZaR2KxoN9QlvjYYdreK59YFcl5t9A+9XRLXtJ9mw1ebDCsbBVS
+         egkKmQej+UQ7a6M5jFJLJ36TCp+K3Gnxali9+GAeJ2HlL6y7lcljhtWOHjFXP8xAVK1N
+         OIMRcegNnPCcsMdcI3sp4lf9qb9oDfjc60KrSHd7HV6Od92j0ZTZocaTDKnZJl1bxmhq
+         YicDfUtcqkmjd40J2ssEWKB+HFTspithFSb/1VxRm9wQ/sWHT7hy2hKlvsiA6bEIsky6
+         G3WqY4y4lAe6VXn1TLiYHIaS4EwrsZ2+z4mtXZifZarRa//i2GnZjXZz2Z4jLreFGtOb
+         AhVw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777043970; x=1777648770; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=m6CaUaqBAowGz5XN4Auaf6u8zGDj08mg8Xl9G72IWcc=;
+        b=h8BBFqK7tOy4zqw4Z4o5FRc7N+4OyRIkZ4ui7S89+tAE/zOPfxjIFOeMCXBcJ0Y19M
+         FY8EjXxmCraPfWGTr23IeSZkRei/Xz0XX6QJ7p+6Fo9PXUJIXaoj2wfdy+KUkV2iaQiN
+         PFvvB/mljPvdP1jc06vDGrw1go8N3b9TgUeCrazs6J2CJTgFhluyEfvaPGRql7cOEuRi
+         HtnELidmMqukeqSMFpJP4GYWlcp13IP0LIQn2XQloEP/d/jNuFkWjB57d+5grfssbPVV
+         c9q01oVeV7vFjZCljgiddLSr1541EEJWYWqUS4bbtMJyB9jHGIsq7mdO95lKexjlY2+6
+         EnHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777043970; x=1777648770;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m6CaUaqBAowGz5XN4Auaf6u8zGDj08mg8Xl9G72IWcc=;
+        b=f64VvbvES+uhAWM2G5yA9XPH3zkXZ9T5I6lPiohXGesz77ypRbHTwQDbsok1lshFG4
+         SgCvggJqG7UdxcywxKjhE0bjPrOhYStO7dZnYPxKHH15iE6GTUNSt5nl7DgEtai/AHXT
+         cac32gL2T6jSB1PKjTMAyPWTk8ZH8KT2ZtgmUGHgw4Vjgcewt6qljSq9M/Fl9F1ZRU+p
+         Qk/zUFEN/m/phXB5QSALS9bcuKgNyh5wRV6YUkFjugfA5ML1F1/AoWG8PslVT2PELlt5
+         dQ1NQg1uYGuSEd8TFmzbBIM2bJzSSlBZYQ87Le2vIgO9Jvg1eyFDsU9ycvGcLcjakDUW
+         DfHA==
+X-Gm-Message-State: AOJu0Yw+X85X41dNBhzGiiiatk+Z/MXPdmgwS4Wea7jhzsRdz8QwG5eM
+	0AVsMvPedAu7DV/WmzzfAjOpacH1FyLZdZ5N9whAAXAKbJSs4BQNXYjkQ9ghALpg1rOMPHQn3FC
+	IqblYSs7oYYUG+xUiaq8/rWY/Gs0P4kQ=
+X-Gm-Gg: AeBDievDTjT+lpQ6L8s3Hhvmdi58eYhOR72MxSbYcq6+02cXYAtU2qGvVr3TXnTa+tD
+	1wAUsdjmZb4ZknBdcIWQgJSQpAGUP2NkMfdx8OXrRmg1/6msdE5D7LSEkXaPJi44wV2vcL3rroy
+	3CyETUkmSVPFOhFJnlSs3N5fUaqrCZDNu6ywxS5AXavX7kKzfR0cjN5sXXHptPXxBAES2UfXBvl
+	/jvUx6mMg7tckcXEVlWoDbAluK1RNsgP241BYLOGA5s9xhNAMzn+PaIqbv7/aKgDdPilqWN1pNV
+	LvACmEjGoRk5Ylk27obHVDdvciT5uARMxp3hwAkdDjsL0PuxYjOV
+X-Received: by 2002:a05:6214:4703:b0:89c:8709:d238 with SMTP id
+ 6a1803df08f44-8b02816d232mr429708546d6.40.1777043969922; Fri, 24 Apr 2026
+ 08:19:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+References: <711678500.248994.1777008574252@app.mailbox.org>
+In-Reply-To: <711678500.248994.1777008574252@app.mailbox.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 24 Apr 2026 17:19:17 +0200
+X-Gm-Features: AQROBzDS-hQdCaIVX7d7h8UdwaIfY0jhq6LPMdjKuT85h28AErtDP44my8Lr6TE
+Message-ID: <CANNYZj-O2OXqe4JnHhnP1D9ETtmWgwPt+D-hJ+YQ=XheMietYw@mail.gmail.com>
+Subject: Re: [OE-core] DPKG Issue - guidance neede
+To: patrick.vogelaar.dev@mailbox.org
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 15:17:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235868
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 15:19:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235869
 
-Some recipes and configuration files use bb.utils.contains to check for
-a string inside a variable, and return the exact same string if true.
+You need to explain why the directory has permissions that don't allow
+you to access it. What is the workflow that causes this? Typically
+anything in a build directory is built by the user themselves, and
+taking a build from another user and reusing it is not supported.
+Sstate cache is the correct mechanism to share build output.
 
-This can be simplified by a call to bb.utils.filter, since the result is
-the same, and the inline is shorter.
+Alex
 
-Replace "bb.utils.contains(A, 'a', 'a', '', d)" by "bb.utils.filter(A, 'a=
-', d)".
-
-Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
----
- meta/classes-global/insane.bbclass                        | 2 +-
- meta/conf/machine/include/arm/feature-arm-neon.inc        | 8 ++++----
- meta/conf/machine/include/arm/feature-arm-vfp.inc         | 2 +-
- meta/recipes-connectivity/connman/connman_2.0.bb          | 2 +-
- meta/recipes-core/coreutils/coreutils_9.10.bb             | 2 +-
- meta/recipes-core/ovmf/ovmf_git.bb                        | 2 +-
- meta/recipes-extended/at/at_3.2.5.bb                      | 2 +-
- meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb          | 2 +-
- meta/recipes-graphics/waffle/waffle_1.8.1.bb              | 2 +-
- .../gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb          | 2 +-
- 10 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
-ane.bbclass
-index feddfe0335..04700be71c 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -46,7 +46,7 @@ ERROR_QA ?=3D "\
-     ${CHECKLAYER_REQUIRED_TESTS}"
-=20
- # Add usrmerge QA check based on distro feature
--ERROR_QA:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',=
- ' usrmerge', '', d)}"
-+ERROR_QA:append =3D " ${@bb.utils.filter('DISTRO_FEATURES', 'usrmerge', =
-d)}"
- WARN_QA:append:layer-core =3D " missing-metadata missing-maintainer"
-=20
- FAKEROOT_QA =3D "host-user-contaminated"
-diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc b/meta/co=
-nf/machine/include/arm/feature-arm-neon.inc
-index 174b9b9f2a..2ec354bfeb 100644
---- a/meta/conf/machine/include/arm/feature-arm-neon.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
-@@ -5,16 +5,16 @@
- # 'vfp', -mfloat-abi parameter and 'hf' suffix is implemented in feature=
--arm-vfp.inc
-=20
- TUNEVALID[neon] =3D "Enable Neon SIMD accelerator unit."
--TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neon', ' n=
-eon', '', d)}"
-+TUNE_CCARGS_MFPU .=3D " ${@bb.utils.filter('TUNE_FEATURES', 'neon', d)}"
-=20
- TUNEVALID[vfpv3d16] =3D "Enable Vector Floating Point Version 3 with 16 =
-registers (vfpv3-d16) unit."
--TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',=
- ' vfpv3-d16', '', d)}"
-+TUNE_CCARGS_MFPU .=3D " ${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16'=
-, ' vfpv3-d16', '', d)}"
-=20
- TUNEVALID[vfpv3] =3D "Enable Vector Floating Point Version 3 with 32 reg=
-isters (vfpv3) unit."
--TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', ' =
-vfpv3', '' , d)}"
-+TUNE_CCARGS_MFPU .=3D " ${@bb.utils.filter('TUNE_FEATURES', 'vfpv3', d)}=
-"
-=20
- TUNEVALID[vfpv4] =3D "Enable Vector Floating Point Version 4 (vfpv4) uni=
-t."
--TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4', ' =
-vfpv4', '', d)}"
-+TUNE_CCARGS_MFPU .=3D " ${@bb.utils.filter('TUNE_FEATURES', 'vfpv4', d)}=
-"
- TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'vfpv4', =
-'neon' ], ' neon-vfpv4', '', d)}"
-=20
- TUNEVALID[vfpv4d16] =3D "Enable Vector Floating Point Version 4 with 16 =
-registers (vfpv4-d16) unit."
-diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/con=
-f/machine/include/arm/feature-arm-vfp.inc
-index d020100daa..be0c19bd03 100644
---- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-@@ -3,7 +3,7 @@
- # and this .inc file is included from armv5
-=20
- TUNEVALID[vfp] =3D "Enable Vector Floating Point (vfp) unit."
--TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', ' vf=
-p', '', d)}"
-+TUNE_CCARGS_MFPU .=3D " ${@bb.utils.filter('TUNE_FEATURES', 'vfp', d)}"
-=20
- # simd is special, we don't pass this to the -mfpu, it's implied
- TUNE_CCARGS  .=3D "${@ (' -mfpu=3D%s' % d.getVar('TUNE_CCARGS_MFPU').spl=
-it()[-1]) if (d.getVar('TUNE_CCARGS_MFPU') !=3D '') else ''}"
-diff --git a/meta/recipes-connectivity/connman/connman_2.0.bb b/meta/reci=
-pes-connectivity/connman/connman_2.0.bb
-index 6f7093301b..e9873f3163 100644
---- a/meta/recipes-connectivity/connman/connman_2.0.bb
-+++ b/meta/recipes-connectivity/connman/connman_2.0.bb
-@@ -169,7 +169,7 @@ FILES:${PN}-tools =3D "${bindir}/wispr"
- RDEPENDS:${PN}-tools =3D "${PN}"
-=20
- FILES:${PN}-tests =3D "${bindir}/*-test"
--RDEPENDS:${PN}-tests =3D "${@bb.utils.contains('PACKAGECONFIG', 'iptable=
-s', 'iptables', '', d)}"
-+RDEPENDS:${PN}-tests =3D "${@bb.utils.filter('PACKAGECONFIG', 'iptables'=
-, d)}"
-=20
- FILES:${PN}-client =3D "${bindir}/connmanctl"
- RDEPENDS:${PN}-client =3D "${PN}"
-diff --git a/meta/recipes-core/coreutils/coreutils_9.10.bb b/meta/recipes=
--core/coreutils/coreutils_9.10.bb
-index 984c5b5292..744d930272 100644
---- a/meta/recipes-core/coreutils/coreutils_9.10.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.10.bb
-@@ -222,6 +222,6 @@ do_install_ptest:append:libc-musl () {
- }
-=20
- RDEPENDS:${PN}-ptest +=3D "xz  \
--                         ${@bb.utils.contains('PACKAGECONFIG', 'acl', 'a=
-cl', '', d)} \
-+                         ${@bb.utils.filter('PACKAGECONFIG', 'acl', d)} =
-\
-                          ${@bb.utils.contains('PACKAGECONFIG', 'xattr', =
-'attr', '', d)}"
- FILES:${PN}-ptest +=3D "${bindir}/getlimits"
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/=
-ovmf_git.bb
-index d731bca7f2..38d5d090b4 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://OvmfPkg/License.txt;md5=3D=
-06357ddc23f46577c2aeaeaf7b776
- # compiling OVMF twice, so it is disabled by default. Distros
- # may change that default.
- PACKAGECONFIG ??=3D ""
--PACKAGECONFIG +=3D "${@bb.utils.contains('MACHINE_FEATURES', 'tpm', 'tpm=
-', '', d)}"
-+PACKAGECONFIG +=3D "${@bb.utils.filter('MACHINE_FEATURES', 'tpm', d)}"
- PACKAGECONFIG +=3D "${@bb.utils.contains('MACHINE_FEATURES', 'tpm2', 'tp=
-m', '', d)}"
- PACKAGECONFIG[debug] =3D ",,,"
- PACKAGECONFIG[secureboot] =3D ",,,"
-diff --git a/meta/recipes-extended/at/at_3.2.5.bb b/meta/recipes-extended=
-/at/at_3.2.5.bb
-index 112d1c4adc..ee485f67ec 100644
---- a/meta/recipes-extended/at/at_3.2.5.bb
-+++ b/meta/recipes-extended/at/at_3.2.5.bb
-@@ -9,7 +9,7 @@ DEPENDS =3D "flex flex-native bison-native \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', =
-d)}"
-=20
- PACKAGECONFIG ?=3D "\
--    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)=
-} \
-+    ${@bb.utils.filter('DISTRO_FEATURES', 'selinux', d)} \
- "
-=20
- PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux,=
-"
-diff --git a/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb b/meta/reci=
-pes-graphics/libglvnd/libglvnd_1.7.0.bb
-index 18eeaa5523..c76763f811 100644
---- a/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb
-+++ b/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb
-@@ -14,7 +14,7 @@ REQUIRED_DISTRO_FEATURES =3D "opengl glvnd"
- inherit meson pkgconfig features_check
-=20
- PACKAGECONFIG ?=3D "\
--  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+  ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
-   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'egl gles1 gles2', '=
-', d)} \
-   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl x11', 'glx', '', d)} \
-   "
-diff --git a/meta/recipes-graphics/waffle/waffle_1.8.1.bb b/meta/recipes-=
-graphics/waffle/waffle_1.8.1.bb
-index aefa0069cf..5d993cf254 100644
---- a/meta/recipes-graphics/waffle/waffle_1.8.1.bb
-+++ b/meta/recipes-graphics/waffle/waffle_1.8.1.bb
-@@ -21,7 +21,7 @@ DEPENDS:append =3D " python3"
- # This should be overridden per-machine to reflect the capabilities of t=
-he GL
- # stack.
- PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'glx=
- x11-egl', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'w=
-ayland', '', d)} \
-+                   ${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)} =
-\
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gb=
-m surfaceless-egl', '', d)} \
- "
-=20
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1=
-.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2=
-8.2.bb
-index cdf3a20dff..9945e79bf7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
-b
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
-b
-@@ -25,7 +25,7 @@ PACKAGECONFIG ??=3D " \
-     ${GSTREAMER_ORC} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)=
-} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan x11', d)} \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)=
-} \
-+    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
-     bz2 closedcaption curl dash dtls hls openssl sbc smoothstreaming \
-     sndfile ttml uvch264 webp analytics \
---=20
-2.47.0
-
+On Fri, 24 Apr 2026 at 07:29, Patrick Vogelaar via
+lists.openembedded.org
+<patrick.vogelaar.dev=mailbox.org@lists.openembedded.org> wrote:
+>
+> Hi all,
+>
+> we are building a custom distribution and are using a shared sstate cache. Now we discovered an edge case where it causes problems if parts of the CIs build path exist but is not accessible due to permissions.
+>
+> Build path CI: /var/jenkins_home/.../build
+>
+> If now on my local machine the directory /var/jenkins_home exists but is not accessible due to permissions the build fails in do_rootfs with:
+> dpkg: error: error opening configuration directory '/var/jenkins_home/.../build/tmp/.../recipe-sysroot-native/etc/dpkg/dpkg.cfg.d': Permission denied
+>
+> If this directory does not exist dpkg fails silent and there is no problem at all. But if it cannot access it because of permissions it throws an error.
+>
+> What would the workflow now be?
+> Provide a patch to the dpkg project and also add the patch to the recipe? or something else?
+> Should I create a bugzilla issue?
+> ...
+>
+> Would be great to get some support on the typical next steps.
+>
+> Thanks for the guidance
+> Patrick
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#235836): https://lists.openembedded.org/g/openembedded-core/message/235836
+> Mute This Topic: https://lists.openembedded.org/mt/118983534/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
