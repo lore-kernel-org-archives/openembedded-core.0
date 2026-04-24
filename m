@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10944FDEE45
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:56:51 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32574.1777064203151993172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C42FB44D8
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:56:50 +0000 (UTC)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32575.1777064204634088387
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 13:56:43 -0700
+ Fri, 24 Apr 2026 13:56:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PGP3xaR4;
- spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so59583725e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:56:42 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=3AAs2wnC;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso88834235e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:56:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1777064201; x=1777669001; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1777064203; x=1777669003; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dVoGt3caDMmWOYK5iNGAgDLiWoHa2dIuOdBYvVZQrfc=;
-        b=PGP3xaR4JPOUJkb+6eK7+F80r4+oMqA7Ko01uFWLl1SSeZYsti8Cxe2YhKWq75BikE
-         1KZNO1UtwSjDTqmQ9zd3Dsfgf9m3B8KUiLeexSniWAjOKt1wMVvKI7xrHv5ZYUZVnF5s
-         fbOv0PDk6eBROX6rSZy8l9X4Y7r1DGXGyjIEY=
+        bh=tAqfv+OqSVbpeEJ+7m/ua2R9Jf4qLpWqXKMacFjNoBE=;
+        b=3AAs2wnCxwvO9aIn/1GMxMrRfOAq9UrId1vDFBk57GtR1CJotAmUGIchLpXonOnY9Y
+         ZaZxt3Mr5xDnMn1aTHz82eWYKsyJqoQS5WN2QGY+R8O+gHikiw+lXEz/n3JtB3ML3pgj
+         fEFi42DvVYkb64lbohgvYfXQq9HZkdV6RhnHc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777064201; x=1777669001;
+        d=1e100.net; s=20251104; t=1777064203; x=1777669003;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dVoGt3caDMmWOYK5iNGAgDLiWoHa2dIuOdBYvVZQrfc=;
-        b=AMwWV0PZM8AniJ5IpjFQEeA4jH44KcXUdBkpluLryE78NHFSCDzr2ryVTkAomkNYSf
-         JaQdJAH/GRNBJnCjBGa9x8gBLOPGNi6QsA3axHV1y/qZ+tyl66J2AsQfJetjPBU7B9n5
-         pqksgbeK/ALFU2TE9BgNMZhuxZ8OsGn9UF3jQxiC+5vf8+CwEE+Sg8bSowUyE12SUkDa
-         MMALQRa3rt+miTy+Xm0DSYhLTbKwdReD8HQPpBc5G3fg1S1ebDVGu0dmpqvj6IVfmd7T
-         5OcfEO3j/+HlLMO2C6iLQ2xZJh354CIHiMfTibrSheozSKJPRrWwK8agrPnu8/pXYS2K
-         c1WA==
-X-Gm-Message-State: AOJu0Yz/LBQZsaZFHf0lthvK/DdgDkeFNn/B4qtVJOdis6SFuegA8gLr
-	e8ItNmvXCV7Xrm1d/XUaCjab8T8IHTw2y8+nx8sSIHr82WBGtiPPObc5an2RC3HMQk/EwqRWfHz
-	KnyoOhC/pWBLy
-X-Gm-Gg: AeBDievB/zfzge4Op1tp7kk3Os0kb+TmyxElsL8qonSAzVagn0SoU4wW4djgBHlFDNI
-	zRJtY2Vsp1FKllpI7u+LOdIWWTsAi6YrQILXcrKILMs83UASsjO8JTJdbBoUEN5zmR2kdRQaf62
-	CIThTb1jJ6xZHTbW8RCo1e2/RqSoxM3WiAH/3mlLG9TEGMQ1wbv+xpORFNM9STOsd4DqI3sW6pk
-	Urd4Sb1mU8UuKrBHE4x6KBwBVd3dZzK4I+YSAGWtrrPwXPKFSBLMlOBVaqubevVCZZj7142PRtI
-	stWL8vyEQAz63g5DyNURon3K4CGgV22BHcp72e3S7P/BrocbsNw4yCV9fAIM4gqH6yfXpiLNdQ5
-	iBfnGLNIyJZU8Ng3Xd2Wvmayoys6CNNfpUtBqaN5WLf0eCXSxwkqZXRaoT5CrgIxrMYQ9QNGBtT
-	N4jSBEEtZLSNqCvhab9gn4l1UQMxFsU3oxtz+Hz8kjmUYM344fV6heko6IAlvEwLeUXFbAx34+j
-	ICYJe0Fa16i/duE6wD51xnsjPKuVC/RiOOp/Q==
-X-Received: by 2002:a05:600c:a414:b0:48a:53ea:13e6 with SMTP id 5b1f17b1804b1-48a53ea14d3mr214769505e9.25.1777064201274;
-        Fri, 24 Apr 2026 13:56:41 -0700 (PDT)
+        bh=tAqfv+OqSVbpeEJ+7m/ua2R9Jf4qLpWqXKMacFjNoBE=;
+        b=jj6XoHa6TDi3YTr9nPVXDQPUdeVZXSXq1JeKA1rZRyp5F9N5GEl0D8q4KX4cA7FCZm
+         m3nOsIgls/vf/7SnjjspQ6a2+jEb32cGbFkxYpuDCcjnHHcc4WrDN1Ewwh+cGW2dVLNh
+         uqwTklLAIqvu0vc8Q3FrKhrajBNHTJ0ziAWTrm6uuF6Hzscu2TYFd6B9q19UMNqDTwq+
+         zGdLjSTvn2d1y+O0gugWeYLh1IdKQoPG2Dn+TeUh+2qr9P3CWOo/RvYGgnxiZuIqZAIh
+         HvFDvaZoB2wd5mkNkLS6ZbmQu27baOw8A4ZX6aB2pHPqcJH0XVCPdeNKO9aE24vvUxaQ
+         zeAw==
+X-Gm-Message-State: AOJu0Yz1r5FW6hG+wQ8Ct1+DNdUDpApDKgZSfjbOT928Rz0DKvc6A2XG
+	esp2uXN0taxS+cHn9/9uC9TUXxQTJGUTuM9+FjUaIF9bXylUL2ieN8iPMNtdpJ28XeiFsX2vFh9
+	G/NUG1VcjDqzP
+X-Gm-Gg: AeBDievFICnBEaTk91E4xOr9jb21+1jhGLNaI44TfaKz2r37sms+L6+zWNhb30PJA9z
+	HeIQe96Mzxhucc6HUoUQBjA4guYIcH1ST9q1DBArpgIzfaL12MgRoKQcXc1nc2G7L+qU3O7nn/O
+	UGEU9DxddyR9j7xutNZp/vVORdoUat58UvVneWuuLWEL9+ODcPen/e0VSQtsn5KJKlkGamXU+Rl
+	xItB+reS9vhJ9U29I2vTMNw6ED8YbSRRG/ntKw2Y4DTwPjIqvmccEB3NYkqNQz3r6Q+1/j0xcoh
+	5rgkWTfZKmRfdeV7HPTEEqRA/1cJ09RLZpmqboxkZuhkBlLvraMSRF8G1RCbvnMDP8Tnoa5+E0W
+	7Z4AQdEGduLRDWwhY+CKiP2Hh+YNSMzkoCZCFLl17GrolIfm4t5U/k/9xvO+zmPUAu2b4OBvv0U
+	gZErniOleaDfBpoXkktQ7GpMOp5YNnT5PHxoABqOMyRKGApVv3Cn4XwTPTk3w4fXaotR+cvqCSG
+	s5ZD1CeFE6cLgrgrHXrBuUZi0FqXwAh7auNfQ==
+X-Received: by 2002:a05:600c:19d4:b0:48a:5339:ef0e with SMTP id 5b1f17b1804b1-48a5339ef15mr284992915e9.3.1777064202747;
+        Fri, 24 Apr 2026 13:56:42 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.56.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.56.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:56:40 -0700 (PDT)
+        Fri, 24 Apr 2026 13:56:42 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/66] curl: patch CVE-2026-3784
-Date: Fri, 24 Apr 2026 22:55:05 +0200
-Message-ID: <1142953d395cd8de187fbd0dc8c143b953c42612.1777064068.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 09/66] busybox: fix for CVE-2026-26157, CVE-2026-26158
+Date: Fri, 24 Apr 2026 22:55:08 +0200
+Message-ID: <086785b621a782aa87546921c58e1049528be3b3.1777064068.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1777064068.git.yoann.congal@smile.fr>
 References: <cover.1777064068.git.yoann.congal@smile.fr>
@@ -65,118 +65,288 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:56:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235879
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:56:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235882
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-pick patch from ubuntu per [1]
+Pick up patch from NVD report.
 
-[1] http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
-[2] https://ubuntu.com/security/CVE-2026-3784
-[3] https://curl.se/docs/CVE-2026-3784.html
+More details :
+[1]: https://nvd.nist.gov/vuln/detail/CVE-2026-26157
+[2]: https://nvd.nist.gov/vuln/detail/CVE-2026-26158
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Note:
+We use patch from busybox mirror that looks trustworthy https://gogs.librecmc.org/OWEALS/busybox.
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-3784.patch             | 77 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3784.patch
+ .../CVE-2026-26157-CVE-2026-26158-01.patch    | 198 ++++++++++++++++++
+ .../CVE-2026-26157-CVE-2026-26158-02.patch    |  37 ++++
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |   2 +
+ 3 files changed, 237 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-3784.patch b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
 new file mode 100644
-index 00000000000..c3bdb672474
+index 00000000000..cdc23947949
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-3784.patch
-@@ -0,0 +1,77 @@
-+From 5f13a7645e565c5c1a06f3ef86e97afb856fb364 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Fri, 6 Mar 2026 14:54:09 +0100
-+Subject: [PATCH] proxy-auth: additional tests
++++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-01.patch
+@@ -0,0 +1,198 @@
++From 3fb6b31c716669e12f75a2accd31bb7685b1a1cb Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Thu, 29 Jan 2026 11:48:02 +0100
++Subject: [PATCH] tar: strip unsafe hardlink components - GNU tar does the same
 +
-+Also eliminate the special handling for socks proxy match.
++Defends against files like these (python reproducer):
 +
-+Closes #20837
++import tarfile
++ti = tarfile.TarInfo("leak_hosts")
++ti.type = tarfile.LNKTYPE
++ti.linkname = "/etc/hosts"  # or "../etc/hosts" or ".."
++ti.size = 0
++with tarfile.open("/tmp/hardlink.tar", "w") as t:
++	t.addfile(ti)
 +
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/5f13a7645e565c5c1a06f3]
-+Backported by Ubuntu team http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
++function                                             old     new   delta
++skip_unsafe_prefix                                     -     127    +127
++get_header_tar                                      1752    1754      +2
++.rodata                                           106861  106856      -5
++unzip_main                                          2715    2706      -9
++strip_unsafe_prefix                                  102      18     -84
++------------------------------------------------------------------------------
++(add/remove: 1/0 grow/shrink: 1/3 up/down: 129/-98)            Total: 31 bytes
 +
-+CVE: CVE-2026-3784
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++CVE: CVE-2026-26157, CVE-2026-26158
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3fb6b31c716669e12f75a2accd31bb7685b1a1cb]
++(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/3fb6b31c716669e12f75a2accd31bb7685b1a1cb)
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ lib/url.c | 35 ++++++++---------------------------
-+ 1 file changed, 8 insertions(+), 27 deletions(-)
++ archival/libarchive/data_extract_all.c      |  7 +++--
++ archival/libarchive/get_header_tar.c        | 11 ++++++--
++ archival/libarchive/unsafe_prefix.c         | 30 +++++++++++++++++----
++ archival/libarchive/unsafe_symlink_target.c |  1 +
++ archival/tar.c                              |  2 +-
++ archival/unzip.c                            |  2 +-
++ include/bb_archive.h                        |  3 ++-
++ 7 files changed, 42 insertions(+), 14 deletions(-)
 +
-+diff --git a/lib/url.c b/lib/url.c
-+index 22ed0be..76360c8 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -703,34 +703,15 @@ proxy_info_matches(const struct proxy_info *data,
-+ {
-+   if((data->proxytype == needle->proxytype) &&
-+      (data->port == needle->port) &&
-+-     strcasecompare(data->host.name, needle->host.name))
-+-    return TRUE;
-++     curl_strequal(data->host.name, needle->host.name)) {
++diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchive/data_extract_all.c
++index 8a69711..b84b960 100644
++--- a/archival/libarchive/data_extract_all.c
+++++ b/archival/libarchive/data_extract_all.c
++@@ -66,8 +66,8 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
++ 	}
++ #endif
++ #if ENABLE_FEATURE_PATH_TRAVERSAL_PROTECTION
++-	/* Strip leading "/" and up to last "/../" path component */
++-	dst_name = (char *)strip_unsafe_prefix(dst_name);
+++	/* Skip leading "/" and past last ".." path component */
+++	dst_name = (char *)skip_unsafe_prefix(dst_name);
++ #endif
++ // ^^^ This may be a problem if some applets do need to extract absolute names.
++ // (Probably will need to invent ARCHIVE_ALLOW_UNSAFE_NAME flag).
++@@ -185,8 +185,7 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
 + 
-++    if(Curl_timestrcmp(data->user, needle->user) ||
-++       Curl_timestrcmp(data->passwd, needle->passwd))
-++      return FALSE;
-++    return TRUE;
-++  }
-+   return FALSE;
-+ }
-+-
-+-static bool
-+-socks_proxy_info_matches(const struct proxy_info *data,
-+-                         const struct proxy_info *needle)
-+-{
-+-  if(!proxy_info_matches(data, needle))
-+-    return FALSE;
-+-
-+-  /* the user information is case-sensitive
-+-     or at least it is not defined as case-insensitive
-+-     see https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.1 */
-+-
-+-  /* curl_strequal does a case insensitive comparison,
-+-     so do not use it here! */
-+-  if(Curl_timestrcmp(data->user, needle->user) ||
-+-     Curl_timestrcmp(data->passwd, needle->passwd))
-+-    return FALSE;
-+-  return TRUE;
-+-}
-+-#else
-+-/* disabled, won't get called */
-+-#define proxy_info_matches(x,y) FALSE
-+-#define socks_proxy_info_matches(x,y) FALSE
++ 		/* To avoid a directory traversal attack via symlinks,
++ 		 * do not restore symlinks with ".." components
++-		 * or symlinks starting with "/", unless a magic
++-		 * envvar is set.
+++		 * or symlinks starting with "/"
++ 		 *
++ 		 * For example, consider a .tar created via:
++ 		 *  $ tar cvf bug.tar anything.txt
++diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/get_header_tar.c
++index cc6f3f0..1c40ece 100644
++--- a/archival/libarchive/get_header_tar.c
+++++ b/archival/libarchive/get_header_tar.c
++@@ -454,8 +454,15 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
 + #endif
 + 
-+ /* A connection has to have been idle for a shorter time than 'maxage_conn'
-+@@ -1085,8 +1066,8 @@ ConnectionExists(struct Curl_easy *data,
-+       continue;
++ 	/* Everything up to and including last ".." component is stripped */
++-	overlapping_strcpy(file_header->name, strip_unsafe_prefix(file_header->name));
++-//TODO: do the same for file_header->link_target?
+++	strip_unsafe_prefix(file_header->name);
+++	if (file_header->link_target) {
+++		/* GNU tar 1.34 examples:
+++		 * tar: Removing leading '/' from hard link targets
+++		 * tar: Removing leading '../' from hard link targets
+++		 * tar: Removing leading 'etc/../' from hard link targets
+++		 */
+++		strip_unsafe_prefix(file_header->link_target);
+++	}
 + 
-+     if(needle->bits.socksproxy &&
-+-      !socks_proxy_info_matches(&needle->socks_proxy,
-+-                                &check->socks_proxy))
-++      !proxy_info_matches(&needle->socks_proxy,
-++                          &check->socks_proxy))
-+       continue;
++ 	/* Strip trailing '/' in directories */
++ 	/* Must be done after mode is set as '/' is used to check if it's a directory */
++diff --git a/archival/libarchive/unsafe_prefix.c b/archival/libarchive/unsafe_prefix.c
++index 6670811..89a371a 100644
++--- a/archival/libarchive/unsafe_prefix.c
+++++ b/archival/libarchive/unsafe_prefix.c
++@@ -5,11 +5,11 @@
++ #include "libbb.h"
++ #include "bb_archive.h"
 + 
-+     if(needle->bits.httpproxy) {
++-const char* FAST_FUNC strip_unsafe_prefix(const char *str)
+++const char* FAST_FUNC skip_unsafe_prefix(const char *str)
++ {
++ 	const char *cp = str;
++ 	while (1) {
++-		char *cp2;
+++		const char *cp2;
++ 		if (*cp == '/') {
++ 			cp++;
++ 			continue;
++@@ -22,10 +22,25 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
++ 			cp += 3;
++ 			continue;
++ 		}
++-		cp2 = strstr(cp, "/../");
+++		cp2 = cp;
+++ find_dotdot:
+++		cp2 = strstr(cp2, "/..");
++ 		if (!cp2)
++-			break;
++-		cp = cp2 + 4;
+++			break; /* No (more) malicious components */
+++
+++		/* We found "/..something" */
+++		cp2 += 3;
+++		if (*cp2 != '/') {
+++			if (*cp2 == '\0') {
+++				/* Trailing "/..": malicious, return "" */
+++				/* (causes harmless errors trying to create or hardlink a file named "") */
+++				return cp2;
+++			}
+++			/* "/..name" is not malicious, look for next "/.." */
+++			goto find_dotdot;
+++		}
+++		/* Found "/../": malicious, advance past it */
+++		cp = cp2 + 1;
++ 	}
++ 	if (cp != str) {
++ 		static smallint warned = 0;
++@@ -37,3 +52,8 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
++ 	}
++ 	return cp;
++ }
+++
+++void FAST_FUNC strip_unsafe_prefix(char *str)
+++{
+++	overlapping_strcpy(str, skip_unsafe_prefix(str));
+++}
++diff --git a/archival/libarchive/unsafe_symlink_target.c b/archival/libarchive/unsafe_symlink_target.c
++index f8dc803..d764c89 100644
++--- a/archival/libarchive/unsafe_symlink_target.c
+++++ b/archival/libarchive/unsafe_symlink_target.c
++@@ -36,6 +36,7 @@ void FAST_FUNC create_links_from_list(llist_t *list)
++ 				*list->data ? "hard" : "sym",
++ 				list->data + 1, target
++ 			);
+++			/* Note: GNU tar 1.34 errors out only _after_ all links are (attempted to be) created */
++ 		}
++ 		list = list->link;
++ 	}
++diff --git a/archival/tar.c b/archival/tar.c
++index 9de3759..cf8c2d1 100644
++--- a/archival/tar.c
+++++ b/archival/tar.c
++@@ -475,7 +475,7 @@ static int FAST_FUNC writeFileToTarball(struct recursive_state *state,
++ 	DBG("writeFileToTarball('%s')", fileName);
++ 
++ 	/* Strip leading '/' and such (must be before memorizing hardlink's name) */
++-	header_name = strip_unsafe_prefix(fileName);
+++	header_name = skip_unsafe_prefix(fileName);
++ 
++ 	if (header_name[0] == '\0')
++ 		return TRUE;
++diff --git a/archival/unzip.c b/archival/unzip.c
++index 691a2d8..5844215 100644
++--- a/archival/unzip.c
+++++ b/archival/unzip.c
++@@ -853,7 +853,7 @@ int unzip_main(int argc, char **argv)
++ 		unzip_skip(zip.fmt.extra_len);
++ 
++ 		/* Guard against "/abspath", "/../" and similar attacks */
++-		overlapping_strcpy(dst_fn, strip_unsafe_prefix(dst_fn));
+++		strip_unsafe_prefix(dst_fn);
++ 
++ 		/* Filter zip entries */
++ 		if (find_list_entry(zreject, dst_fn)
++diff --git a/include/bb_archive.h b/include/bb_archive.h
++index e0ef8fc..1dc77f3 100644
++--- a/include/bb_archive.h
+++++ b/include/bb_archive.h
++@@ -202,7 +202,8 @@ char get_header_tar_xz(archive_handle_t *archive_handle) FAST_FUNC;
++ void seek_by_jump(int fd, off_t amount) FAST_FUNC;
++ void seek_by_read(int fd, off_t amount) FAST_FUNC;
++ 
++-const char *strip_unsafe_prefix(const char *str) FAST_FUNC;
+++const char *skip_unsafe_prefix(const char *str) FAST_FUNC;
+++void strip_unsafe_prefix(char *str) FAST_FUNC;
++ void create_or_remember_link(llist_t **link_placeholders,
++ 		const char *target,
++ 		const char *linkname,
 +-- 
-+2.43.0
++2.50.1
 +
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index ff4524e1bd1..14d63d63733 100644
---- a/meta/recipes-support/curl/curl_8.7.1.bb
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -35,6 +35,7 @@ SRC_URI = " \
-     file://CVE-2026-1965-1.patch \
-     file://CVE-2026-1965-2.patch \
-     file://CVE-2026-3783.patch \
-+    file://CVE-2026-3784.patch \
- "
- 
- SRC_URI:append:class-nativesdk = " \
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
+new file mode 100644
+index 00000000000..00a276fa4f8
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/CVE-2026-26157-CVE-2026-26158-02.patch
+@@ -0,0 +1,37 @@
++From 599f5dd8fac390c18b79cba4c14c334957605dae Mon Sep 17 00:00:00 2001
++From: Radoslav Kolev <radoslav.kolev@suse.com>
++Date: Mon, 16 Feb 2026 11:50:04 +0200
++Subject: [PATCH] tar: only strip unsafe components from hardlinks, not
++ symlinks
++
++commit 3fb6b31c7 introduced a check for unsafe components in
++tar archive hardlinks, but it was being applied to symlinks too
++which broke "Symlinks and hardlinks coexist" tar test.
++
++Signed-off-by: Radoslav Kolev <radoslav.kolev@suse.com>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++CVE: CVE-2026-26157, CVE-2026-26158
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=599f5dd8fac390c18b79cba4c14c334957605dae]
++(Alternative mirrored URL: https://gogs.librecmc.org/OWEALS/busybox/commit/599f5dd8fac390c18b79cba4c14c334957605dae)
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ archival/libarchive/get_header_tar.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/archival/libarchive/get_header_tar.c b/archival/libarchive/get_header_tar.c
++index 1c40ece..606d806 100644
++--- a/archival/libarchive/get_header_tar.c
+++++ b/archival/libarchive/get_header_tar.c
++@@ -455,7 +455,7 @@ char FAST_FUNC get_header_tar(archive_handle_t *archive_handle)
++ 
++ 	/* Everything up to and including last ".." component is stripped */
++ 	strip_unsafe_prefix(file_header->name);
++-	if (file_header->link_target) {
+++	if (file_header->link_target && !S_ISLNK(file_header->mode)) {
++ 		/* GNU tar 1.34 examples:
++ 		 * tar: Removing leading '/' from hard link targets
++ 		 * tar: Removing leading '../' from hard link targets
++-- 
++2.50.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
+index d870e2ee10c..228bfdadd33 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+@@ -62,6 +62,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://CVE-2025-46394-01.patch \
+            file://CVE-2025-46394-02.patch \
+            file://CVE-2025-60876.patch \
++           file://CVE-2026-26157-CVE-2026-26158-01.patch \
++           file://CVE-2026-26157-CVE-2026-26158-02.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg "
+ # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
 
