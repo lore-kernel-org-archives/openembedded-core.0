@@ -2,139 +2,94 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA24FF8848
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:57:13 +0000 (UTC)
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31993.1777064228935825359
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2986EFF884A
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:57:14 +0000 (UTC)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.31991.1777064227499277757
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 13:57:09 -0700
+ Fri, 24 Apr 2026 13:57:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=P2FazADx;
- spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso77502035e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:08 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=EmvXgiOY;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so42146295e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1777064227; x=1777669027; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1777064226; x=1777669026; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a8Dd+FrHpCNy79P3B933WiRSDFENewdEom0cBtxoJ3g=;
-        b=P2FazADxGmYTkn/mPH8IEjNftUCVGvYydmpETmT5Cvfdg7xPFE9NOMqbeqDYqDspwV
-         PxJkCdePQ9RDbGHvZxJOYQXWf26i/5dobHW5eG757rxi6fIcd/AEh9K6DXU3j8GWOIr2
-         TCTs1ABoGIFejqSr8sIVcc0e0yubG2pEbCr3U=
+        bh=r5pGbKtl4qnVIGrQ5r3MHb0Q+pMQTAAdpsDc2EgOY2I=;
+        b=EmvXgiOYeK4V4Xzs7Td8n0tAE6B78w9gopeZzwQ9ir7uB5ejzht7EWF1oYzNmRaRXB
+         /0tWHOH4ig8Vx9aFK8vhI56WZ8zIPepa32Fvtyh8IXOwxZA4OFluNeArtgzDr8eIrc/2
+         N1WejjWSxSJDPiknTbiYZGyin4F2n7xGPzOq4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777064227; x=1777669027;
+        d=1e100.net; s=20251104; t=1777064226; x=1777669026;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=a8Dd+FrHpCNy79P3B933WiRSDFENewdEom0cBtxoJ3g=;
-        b=cNr5Kt6uS4ZKfTEUYCPt5aosrBCGMMkLK7MBmj+jBuSBcu250RGjcC0HwnYyvG08KR
-         fICz3KtJiL4tyLCgB5NDQ86tRArghRlEXFcjwr+l9b4owyT0fXNtmQvCmzA3h3pkAKvv
-         hOvDGOOzxG5QivDppCxSxJWmJSDJZG2sEYN6Qcpebu8yDFueoOMnmwYdAIWECR4C2tZO
-         R9/y9OrzxQXP1kmdLVKyjD5AN7F1K6TiO1nfAQ3i2nB5WfSX3tAOOUk47H8EQKBRVcVk
-         XJg+8BjzJ6lUXHbHFri4VGv1FxQuKYZPCNj4CDiHQRboUxrnUM2O5dFdz9sqFBnZptsM
-         6Bog==
-X-Gm-Message-State: AOJu0YybgJQulIA9Qz293s8mzxBl71MKm6p0NO54z3817ZkK/lLfqCfY
-	ARy/YZ/aLLFkoB95jtopPqr7RGyaKuKbwzLnO670cx92A263r8AqFBbHzu1h5H6SYUysX75wwe7
-	iZax1eJCnU8o1
-X-Gm-Gg: AeBDiesBjI9hgXtp5Qwujo9sd8cD+ZhPnAoAbtsOMf2eoy/RRbfVd749VKllYHXZ3wL
-	uIPG2hM16cx6xKqUerWtKjiWzPgjQmMTeJ33Yxk0vNGHE8zc0W9Z23puEP6p5PGk8zGEBrAfmkN
-	EYHZ5pfsyPZcWJu2if1yB0ktUilWqQPRFuw2w8ZdPavudyDBndLLL0QFcEwC+AaQYiuG2ctvait
-	QtBYx31s6H7EwcSNv4ZXq7/wvb7x3d3MpbXAU+HeTdV4gsyAhHB+o2lJ3iCXaikbss6eQFXwDY6
-	W5eaecTtsjcIINwik5Gvy++KPts40N63woJDVu9NNIKFiC5LYoGd53uCGF9dO6UwUGzEaQM6zpN
-	nDl49/yLBc21qlCr7h8S4XXQ7d7x30FwP6vUW79jRtChDPYfGEKrMchMecWi6QPKahSgkxIMYFO
-	YsKrHRUSvzcM3sW2PORjKgQV3m7O4bSmcX6Pv45TLUG1tZMeBzTqn7rFvWkBu2VOFjPmbI6/f/+
-	jyLOjFUxfJfQNJpZd9ZJoSpzO9/5tKsypPVgA==
-X-Received: by 2002:a05:600c:a30b:b0:485:17a7:b9c7 with SMTP id 5b1f17b1804b1-488fb750a2bmr330943205e9.10.1777064227085;
-        Fri, 24 Apr 2026 13:57:07 -0700 (PDT)
+        bh=r5pGbKtl4qnVIGrQ5r3MHb0Q+pMQTAAdpsDc2EgOY2I=;
+        b=pefW0cwKAlYeIPsMZMfqzHrCnGed1DZwJDF0d/eY+fjMHqtFACwMds1FEOwrKGqJSr
+         LVEowedYqBzFS7dkhsAh5RhwCoBecnefuismKpvIGgz3RqzvBb42zB3W9y7cFb1XLChY
+         XRpaH3PwAUNiO20DWwApl2IzrSlJm3a0cvj0f+y6bl9zI96sUk6ZQ6CpzL5oW+z0PSJK
+         Zr4qjYDvM9vicVvngO9sB0xG22qVYnBVpfpYuDfk3Wu9KLs4RM6bNWkFGOz183PjJghj
+         +HL5zV3NcqpZ8Lo86ROK5LY+LHz5Q2riCZEoXcr4Z3xq4I5QQ94k+kJOra+QxFxaXnxf
+         s/Ug==
+X-Gm-Message-State: AOJu0Ywsdv3kR8iqh9ac+ci0OHK9QxvvIsVd2vMknIj0XsnWcXbSdv6E
+	3GoF29CK9qkXfwi8wAA+L8jf5wtT6nCBWYkj/b9nh4ZeOimQ21v53yE7jGVrhmhnLjIY+RH5ZMw
+	+2/abkKbdNtxm
+X-Gm-Gg: AeBDievkrRBZA/CiHzgrr6+sPSsvM5F75z/LV3aSxPcEAAz+Nf8MfPkLxM5nzb1/yU7
+	Hd2QkFUYnO5s6zklj5n7+HeyMDmmMIRJAQbmLKCM8TeRQ9Mrul7PTIwhTm5DOImCuyoBDBPe+IM
+	jKmzXfPamXtQJV1i66WmDY+BOZT2tdmBRsxCQT4TuOa0c69YlOOPB3X7AzPWEUI+4Hwx3PjAftL
+	yHG6DQsGgoQHUVlz+vugIEke8kB2kppiC8GHcViqsd4ziGOnC59hQQ+jRE5att3I/99GZk+2LG3
+	H3yaBwve3ePhSDDdKHlmUnG1mjwTjkiVTnlF0NKWioA6PnJPUb67/FLQ2+lMNK/XGnLKOC8kNfw
+	r+GIrB9WkNX+xtN+/RBbwE1HJzNU6CS0LuXfl/H4fbnNOVqTovvYVQhztyeijgCwQ8aJqoHWx3W
+	chapVG1QbiHI0JIF6LCflWWX4t/OdJ5xaxlP5OElFyNSyzhInSD3AJPRoHwBaxMPL6ke7VbRk81
+	hmVot6tbBD8/DEGP/qz7IUJsBpgxKBTzpDXGg==
+X-Received: by 2002:a05:600c:8b6b:b0:485:3c2e:60d5 with SMTP id 5b1f17b1804b1-488fb8859ddmr438786675e9.2.1777064225621;
+        Fri, 24 Apr 2026 13:57:05 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:57:06 -0700 (PDT)
+        Fri, 24 Apr 2026 13:57:05 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 52/66] elfutils: don't add -Werror to avoid discarded-qualifiers
-Date: Fri, 24 Apr 2026 22:55:51 +0200
-Message-ID: <7d9d9bcb64094da7121c6d6ce89cf07640537182.1777064068.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 49/66] pseudo: Add fix for glibc 2.43
+Date: Fri, 24 Apr 2026 22:55:48 +0200
+Message-ID: <689bd1811c2300263a8a86ba3b46bbc6b1622323.1777064068.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1777064068.git.yoann.congal@smile.fr>
 References: <cover.1777064068.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:57:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235925
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:57:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235922
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-With glibc-2.43 on host elfutils-native fails with:
-elfutils-0.191/libcpu/riscv_disasm.c:1259:46: error: initialization discards âconstâ qualifier from pointer target type [-Werror=discarded-qualifiers]
+Update to add a fix for a function definition to work with glibc 2.43.
 
-elfutils-0.194 in master doesn't have this issue thanks to this patch avoiding -Werror from:
-https://git.openembedded.org/openembedded-core/commit/?id=1d6ac3c811798732e6addc798656bbe104661d77
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7d35b0e7929d666af783db835a3a809f8f6ce429)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../elfutils/elfutils_0.191.bb                |  1 +
- ...001-config-eu.am-do-not-force-Werror.patch | 34 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/0001-config-eu.am-do-not-force-Werror.patch
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.191.bb b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-index 0fd6d31af19..5156e5c9f6d 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-@@ -23,6 +23,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
-            file://0001-debuginfod-Remove-unused-variable.patch \
-            file://0001-srcfiles-fix-unused-variable-BUFFER_SIZE.patch \
-+           file://0001-config-eu.am-do-not-force-Werror.patch \
-            file://CVE-2025-1352.patch \
-            file://CVE-2025-1365.patch \
-            file://CVE-2025-1372.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/0001-config-eu.am-do-not-force-Werror.patch b/meta/recipes-devtools/elfutils/files/0001-config-eu.am-do-not-force-Werror.patch
-new file mode 100644
-index 00000000000..d4e141927f1
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/0001-config-eu.am-do-not-force-Werror.patch
-@@ -0,0 +1,34 @@
-+From e169c3fc734be1783b3e1a4768dbec05fb64cb4f Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Fri, 22 Nov 2024 12:50:48 +0100
-+Subject: [PATCH] config/eu.am: do not force -Werror
-+
-+This is undesirable when compiler versions may not be the same
-+as what upstream is using for their own testing.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ config/eu.am | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/config/eu.am b/config/eu.am
-+index 0b7dab5..5e7a03f 100644
-+--- a/config/eu.am
-++++ b/config/eu.am
-+@@ -99,7 +99,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-+ 	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-+ 	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
-+ 	    $(USE_AFTER_FREE3_WARNING) \
-+-	    $(if $($(*F)_no_Werror),,-Werror) \
-+ 	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-+ 	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-+ 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-+@@ -109,7 +108,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-+ 	   $(TRAMPOLINES_WARNING) \
-+ 	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-+ 	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
-+-	   $(if $($(*F)_no_Werror),,-Werror) \
-+ 	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-+ 	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-+ 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 0f063f18812..3ae560487bd 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -12,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+ 
+-SRCREV = "43cbd8fb4914328094ccdb4bb827d74b1bac2046"
++SRCREV = "56e1f8df4761da60e41812fc32b1de797d1765e9"
+ S = "${WORKDIR}/git"
+ PV = "1.9.3+git"
+ 
 
