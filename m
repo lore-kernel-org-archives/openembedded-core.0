@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0CCEFF8855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B9DFF8850
 	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:57:14 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32606.1777064228470973095
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32603.1777064225957558888
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 13:57:08 -0700
+ Fri, 24 Apr 2026 13:57:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=yKp9nYJ6;
- spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488ff90d6c7so68179295e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:08 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=eGGnbJS6;
+ spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4891c0620bcso53510215e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1777064227; x=1777669027; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1777064224; x=1777669024; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MV6ULFDYbvbGwrNtaGcHJ2UyeTW77SfuMN/2MFcZcxY=;
-        b=yKp9nYJ6pwl3w6tCZM1kUhkmI3TCzKbgUhGeSIUiSSYDcRy2mXulapJx3KDOIR007v
-         hmqmiC6IncVZ5pAlgyLzpCcj/xpJBiQ+n+Tk8ZAv6wRO/P/3LqYVsVvjz9LqSEyYWh5p
-         oU12KOnaMJqAl01BruulAqeBTsnW0VQeplDrs=
+        bh=NzJtNoexvhkIkcet+RXT40OaVxXOZO0Ior6BVKAsNGg=;
+        b=eGGnbJS6oLqg/A4wulXB38elNf1U0YfY5k0U4EQrd+hn/pQ0ZsJMH3vGcTw43jmvl6
+         QV59W5hf8VmvoltOTRI9x+ow+2dmh4EqOZcU8hatvWjHp3wgEQ0D/kI8Rx/epwnYIYd1
+         YNUwvf6PB7Hir1QDHuq5KqX2REoQozvzsWKtI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777064227; x=1777669027;
+        d=1e100.net; s=20251104; t=1777064224; x=1777669024;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=MV6ULFDYbvbGwrNtaGcHJ2UyeTW77SfuMN/2MFcZcxY=;
-        b=RZ3lEVg9Zz4QLQOy2hdqZQvHAcKSmt5BzRySRQXTupU758r7TGhAFzIYxQ7/i3gvEi
-         +9QOL+0sAncNhGKxnQSp70/CNW8tQdULljNaGCQxBYNmgRQy7yOTpput5KpKvwo8+Cbs
-         qGx42Qh4LUfUAX6orqRjXs9FiTIGXzzn5Gg21khsMrCAP+Iz2LigwieVfs/6uQq95yqH
-         gADqBdO3ryhl7MSVBzXyyqejsGjIiASOSFaeFJUChWVXRq+BYdJhm5ga7EfTT3KpLw1k
-         sJ/Iuz8E1PXDhMbTyAXOWZX6MH2YoZrd0Wag6YGdfXUDtVYt+evqvTL81BB2jsahkLzB
-         CpEA==
-X-Gm-Message-State: AOJu0YyOoKivWD/WprHlG/VI/KgMn4KnlMXdJgOJ8Qt6C2GC/sUlVSUC
-	Nopt4pA1/GmyM0RrryNmsacjx7NadvoICTRo8T4TfFhGVmzuzEkovTDK0WSvN6C6VCLAMDsRibO
-	rJ3xE2BMVmPyq
-X-Gm-Gg: AeBDiesk3KATttwQSUnVj91LotF2ETN8R4I3Sv+KEKP8acRBGLWgQ5ip2YjApwMwGoT
-	glX3Rsca4H/YVWgiRiDyirxC8ko5LLI1Hv3fOg8q0ABRXpnTDCHB5K2cVjLEBYN4jcjLPkWYYUv
-	UiBM6p7pVVjGHD1nnK7DoSFI8rTQbYjYiNVT8rKiwzOPzrFb7IxJh9akFIwZkXi0Y6kRzuUvwMo
-	0IPU4PXIC9WWhJtSt2Wqi0sfKaUeM/lqPJknaWh98PQ1dyzYiYjTEbruvv1cfn0+3MT8KbHt7Nn
-	VWXqjRT0HzMz9/B7G9GSYvQ48/Ng+5bIwhNRJ8MKtcbNTJpJTM2CU1eSufgf/e2zQwNUhX7jxEx
-	irzhceuHDJcG+MPdRi3zLPUNxmnUJy/MRrUqcQp+TUE5FkC1FJfr9nufFjyzD2UvVgDZCP71gDl
-	ScCqd8xF5KIozMVL2cvz/b8hfX1uTof1a8HcT1pE2uex9AnToXw3W0Ia8BHvwDV/o6VqbOyGssS
-	LxB3KTV0vQMy7BW5RxrXUQrW0dWj2Gw3P4dIw==
-X-Received: by 2002:a05:600c:8587:b0:485:3f30:6250 with SMTP id 5b1f17b1804b1-488fb7856b9mr363199905e9.20.1777064226657;
-        Fri, 24 Apr 2026 13:57:06 -0700 (PDT)
+        bh=NzJtNoexvhkIkcet+RXT40OaVxXOZO0Ior6BVKAsNGg=;
+        b=SlE4cOdmC3h6C6n1pwHoPHuBTiPuSwA9PaIY1TERd5oQy4C6SaHSQNCE6jAwHdPjVR
+         Ft3VVbLjsviZql1MVdpldw/xuUel1jA7RgRgZdjlVGFOeEBL+kx8g0WqtrjBo9Is98V9
+         CplHb8OYVCyzwd07ZggHZeGS/ilphwvRVDFe6MuHIhhU7N7YNKAFhMdQGRi0iemx/oBu
+         /Lkv4nNF5+FXsn52hCXryrxR4IYj12YpKc26kKNz9/VYE/iwHI+JKS29zd2dv5TEMEpK
+         ZeTf/fSH3y3hWjYPEUK3AGERyDxDLoUhuWBsiKa2Oq7aioQX6jGzn+mUG+iue1GrZwja
+         2hVg==
+X-Gm-Message-State: AOJu0Yw+17ekwkxCf7c5V0AmDywZxvU1Q1KRuWgWvcH9zySb3IWwWggU
+	RmuuvVrJ1n3b6jDkbXOg7BFNMW6N6w7FNIH3WlrZJwwTELbS4swdaQY4zmM1CN65doy1WcT/t8o
+	LGI1OU9A2VY5F
+X-Gm-Gg: AeBDieu3XFccsRDnfJ/ltG5GVHq41t51k9cod3zUiM+Z9Ukv/rHaeswkKyyPK9bdTBm
+	dJCQzDKqheYsa3Dq86zJQ2pfyztXsVg5cxNsuFNsMkpu17d+qvPtjr3xwqfkSWX67N3o9L1Yo+l
+	8FBp/BZ3a5UE3AOvaFJ9IgFPwbuRbgO8Eao4wweJ2QWrcPb0bPk6ghV2ohN4e6tGUP9j9WPdIKr
+	v9Zgd9ggeAaTmd+IisKu5t80pjxjfaOVwCcu6ufl+u7XtWtNniKIC+Ki+kTNI6hp+YZCg8RrTI8
+	yOckTOm4fs/f9CG92BMdyeMlXMyGdhxtRTKKsDUFXAGkZyz03HZm6SIm4w17o4EF9sUktX3o841
+	586ZVyr+l/7VZF+VPHBJytPjfzoQNacL+oA6pAWtIor7qLHU387XBvUJn9A/sH9EfC/qsDK3xTo
+	XG32KHezFv9UKim8vln5FY5eJMzu9w6H2GNekThvo/K5BVlKrSn0Utsm0KHTfr72q2BHZNAbEf9
+	YuugNbb7xvz8/WV/cAviaKGi8fy5O3O9iWZ6A==
+X-Received: by 2002:a05:600c:8b8c:b0:489:1d74:56d with SMTP id 5b1f17b1804b1-4891d7406famr363468525e9.29.1777064224119;
+        Fri, 24 Apr 2026 13:57:04 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:57:06 -0700 (PDT)
+        Fri, 24 Apr 2026 13:57:03 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 51/66] yocto-uninative: Update to 5.1 for glibc 2.43
-Date: Fri, 24 Apr 2026 22:55:50 +0200
-Message-ID: <fd94d49fa9b053105ddc725d5e3024582395a373.1777064068.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 46/66] oeqa/sdk: Default to https git protocol for YP/OE repos
+Date: Fri, 24 Apr 2026 22:55:45 +0200
+Message-ID: <296798981c9b8a1185a31146bb660eb0fa016ab2.1777064068.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1777064068.git.yoann.congal@smile.fr>
 References: <cover.1777064068.git.yoann.congal@smile.fr>
@@ -66,37 +66,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:57:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235924
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235919
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c1fb515f2a88fa0a0e95529afc07a99db001af0e)
-[YC: Remove duplicated line in commit message]
+Following up on commit 139102a73d41 ("recipes: Default to https git protocol where possible"),
+> The recommendation from server maintainers is that the https protocol
+> is both faster and more reliable than the dedicated git protocol at this point.
+> Switch to it where possible.
+
+(cherry picked from commit 037f83803905fdbdf77ed325466abaa8a501d7ff)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/sdk/buildtools-docs-cases/build.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index e9dc6c86408..d97c96f631f 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,10 +6,10 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.42"
--UNINATIVE_VERSION = "5.0"
-+UNINATIVE_MAXGLIBCVERSION = "2.43"
-+UNINATIVE_VERSION = "5.1"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "a25f2174d0cefcb22af005e9bc72ac01ae83b011c5b6d6d5bf00dac979877f76"
--UNINATIVE_CHECKSUM[i686] ?= "959cc2539b692f9b9862825c7324a0fe4d061fca742f6c259f67f581c59af956"
--UNINATIVE_CHECKSUM[x86_64] ?= "96045e8b1e242c8a849426a8506c7043f354b39f2bc0035192780e8205e23e9d"
-+UNINATIVE_CHECKSUM[aarch64] ?= "4166237a9dabd222dcb9627a9435dffd756764fabf76ed7ef2e93dc2964567ad"
-+UNINATIVE_CHECKSUM[i686] ?= "761502cc9aef4d54d0c6fe9418beb9fdd2c6220da6f2b04128c89f47902ab9ae"
-+UNINATIVE_CHECKSUM[x86_64] ?= "2b63a078c26535e0786e87f81ae69509df30f4dce40693004c527bd5e4ab2b85"
+diff --git a/meta/lib/oeqa/sdk/buildtools-docs-cases/build.py b/meta/lib/oeqa/sdk/buildtools-docs-cases/build.py
+index 6e3ee94292b..9f963f18f8d 100644
+--- a/meta/lib/oeqa/sdk/buildtools-docs-cases/build.py
++++ b/meta/lib/oeqa/sdk/buildtools-docs-cases/build.py
+@@ -15,5 +15,5 @@ class BuildTests(OESDKTestCase):
+     """
+     def test_docs_build(self):
+         with tempfile.TemporaryDirectory(prefix='docs-tarball-build-', dir=self.tc.sdk_dir) as testdir:
+-            self._run('git clone git://git.yoctoproject.org/yocto-docs %s' % testdir)
++            self._run('git clone https://git.yoctoproject.org/yocto-docs %s' % testdir)
+             self._run('cd %s/documentation && make html' % testdir)
 
