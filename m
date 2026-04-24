@@ -1,174 +1,196 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75392FE5202
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 11:14:04 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.2])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18854.1777029230263735626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CEB6FE520C
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 11:17:54 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18106.1777027244102208933
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 04:13:50 -0700
+ Fri, 24 Apr 2026 03:40:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=M8lAB/5Z;
- spf=pass (domain: cherry.de, ip: 52.101.83.2, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qp9tD/NXzBqwXxgAXF/raNx1MaX2geilUNGouY7WfYUZ3G0QIMund8U+WRFza5OjPa4DfhhlyQcpHovC2MyOGWvF4V6IaU4Yb53X4yjAQuSkK+S1umeS3vWaYjU62/S1KuVgB6k7g5SdP7evPebWQHPk7JXv3JynBINfsC84sdL/iB6Er5QTNKUW/mr0Ylxk4xMltSsdU+9BgFiJCS0BqO/AZcGRpZ1LF275avU6JnK+8/EpI3Kjk2oELFp9cUnKcsTEzzrbcuXnLPcY5B0RNH4LHyEuD2Zzy6j5TF4Qu03VQZjH0JdnF3PBAEgYjv/7wcP7+l3edgsBIzudTq7m0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LRpFv/lFcgYD7J3BGSiam4SUR07dWLgbvM+dlft62AI=;
- b=Fk5MIRWEWj6SALv7ZX3njc6cNolJFNG2jElVvy7T95P2v8ap1vH4P/U/NNY5IdtKzmZWBKRZOAh7u7E/nK0K3VjFppuCo9MqRkYQCWE3K0rfy/Q57wey31DjqnXULNgtBs/1UMz6lZOaLA/m3KIrhRoIkXwN9owmYCWq3RhNZJJAcGkTicvow0JLGaJsgc0XeIqU/iHO0+swErqGbUGyuX/v6MkTmkj+j1xRls1F/0nGk1ENmm39RSlKCrAUBMkv0Yupzyf91yIwO1/m2SlgsGjARNuTvRbnXdcrLf6uDdbeSsD1UWMDNOUsf29bJO98tc0qF+htAOorAZnSZZqtWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LRpFv/lFcgYD7J3BGSiam4SUR07dWLgbvM+dlft62AI=;
- b=M8lAB/5ZXqraKHVDJdcZglKswhGmQPQw30sT9mYC1AvZg1B2JoY8A0p8KSU3oNmK54I99iFezNlir8E8BAGJIpF/7hXi6dArfftseoqSboo1fZFvrX4dbWTRB+wDDBRFVNXTLX5lCNKk09RNCn/yfyBqoqUWcT886mGRq3McvZ0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
- by VI0PR04MB11917.eurprd04.prod.outlook.com (2603:10a6:800:306::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.22; Fri, 24 Apr
- 2026 11:13:39 +0000
-Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
- ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
- ([fe80::5960:fb4b:9313:2b00%4]) with mapi id 15.20.9846.017; Fri, 24 Apr 2026
- 11:13:39 +0000
-Message-ID: <52fa5836-b061-4896-be48-673fca5ba3d4@cherry.de>
-Date: Fri, 24 Apr 2026 13:13:37 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] u-boot-tools: Add dependency on libyaml for
- dtschema validation
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-References: <20260412035757.134385-1-khem.raj@oss.qualcomm.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260412035757.134385-1-khem.raj@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI5PEPF0000097D.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:808:1::80f) To DBBPR04MB7737.eurprd04.prod.outlook.com
- (2603:10a6:10:1e5::22)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=fzTk3H7z;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=EOQ5npu0;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: jiacheng.shi@oss.qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63O914SB756716
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 10:40:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	llJdZb3iYPBWKIsiWMZi7jeU40fkOAq3sUu2QXopPpw=; b=fzTk3H7zv8U8WoOU
+	3z8+7fSYofg5c95YCqVtRfN0XzYVswPl4zTUP5Xd2BIIQPIebfGGNqb5sdfWWk5H
+	mgOtJr3mrAiojMBH2VMKAbzeXiOduWwxgqzR0sFlocdCDFPeLI4eixbpPIX8u+Mt
+	F40xaBwhrStkiWWLovhq2VTKspI+yt2IFhy/KoYp9SWcljBYni5tLFHsCWIFDi2P
+	qzB7dMX/hu6oqbJM1fHvD9XmSII+o7cKMps3AADGV3JK6OOTumIm35IRtANN/gIR
+	hCDc6+PD3PBcSSeRrBcFs6ICQ7BIV/XVNQWsZhol9wM4MkOFi29pe3bIOIlZ102d
+	8NAPfw==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dqr4bkkff-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 10:40:42 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-82fa5ecd760so3793370b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 03:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777027242; x=1777632042; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=llJdZb3iYPBWKIsiWMZi7jeU40fkOAq3sUu2QXopPpw=;
+        b=EOQ5npu0YN0fYPk06Yr+tzirQZBAoGCW/36kTgC3LZ8oYwdEamPIuTw8Sd8GNovsHa
+         XOnfp71+DsxPiz7jqoanJrESt1DhC+e+GTc0L0IQk6vDEK+oUDGMqrqnBul7IRNY6ayW
+         6YiduB2AUqXxLpXpWM1dvfIyLL9jQiG23cLKEtOhsl1qycTrsMhNNNjzKmfuTSEQVZ78
+         epEAt5PvjNvK+9ELp/C08ysWd6MH3t5I94P+TvLzufBnfRYKNTTiK3UBv/y9nnVkiMpX
+         hZTpwNbqgOe3gD/simx3xJ36dLmyNXz1JwTKyroUkvkHuMxy18m+JJO4autKj2V9W14T
+         dSBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777027242; x=1777632042;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=llJdZb3iYPBWKIsiWMZi7jeU40fkOAq3sUu2QXopPpw=;
+        b=fthTyVVzsYgjOydJfFOtMi1fgDnuDWjXZdqiVKzUOStzO4QtS0M0D5de88l8E3C8kQ
+         d/scy3Yw7syzcgb4PeF+0N+JAmTewll7iMG12rfdnFnWd3dFmhFu3iMUkPwDZb1I9F/S
+         eYucCJwkXVsE8mYvPKmDtKXUV3qavPj580xd5VdVpavbC0CvukIzbNcByFJFpAwjP1We
+         QM/LctdQyozGJCL5Q2Wex58ETKc5N/j4KLz4AqzAKI5KE7YUq/uNFKwm83HT8FeZG4ox
+         sHYWNnbsIbcFjN9ce4+D5lblHK4jkC/d0pSJWcNpTQAeH+mibF8oYpinWsfv6HCCwLZB
+         K0nQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/pUNVW36sTM/nmdKqjgvtvbey+6rGu2RUdXNtGUx/bC2cBRjNuj/gW3LHI7+OgjxeDxuCP7/H09AmCDZfzM7+lLQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyafPnvEgFIB9RttBz2H4Hyp6eVfal4tzpn+D8omVpXQBunUnmA
+	Y2xK0AMf1cKeTZEBm/KuRXGgAG3pERMEII0vWU1cd5/wzOw/i7bJY+FiyvN0jUgpGSRE48CY9by
+	EP1JEQxRimaf03jEly9/3Sp/Sq+RntuLj0NnVnJAI3VoGW3jz9VXddKY/wCKPg0JhcGz7yZD3uc
+	1fj83di5I=
+X-Gm-Gg: AeBDies75fkFV089A5ZA+jXXj9Au9qIqm2SpEHJcXHPu5wwIWWbEqPANwAB/DZAhoZF
+	qb2ROeCmvcBLiKuyjDIyXo5tqt6fwTx5/qyl6IaUVnTJxFF79DZeuuaTVjTQ3/+HFYrWOTX/U0+
+	xi9Ekc2+FR4FRNdIewAB12+N48y5oywK7ULlbkIgj8V3QZWvitQjccTMkVxB7ewlMnli6j7AwVU
+	5Abb/Z1tHGkdXahO5zUS+XTcq4dFwguS2wmXIyHtbyvjk45s11pG/1CX8shocf+NnddxJ9IOfkL
+	XWK85JDDEKXry1Fg+K8gJXOErvA0w5GE3tRl8wchV1Q5deuoNVNrOZZNOW9jev23Zmc9q3g3zaS
+	FeSe7sSrbzHxnpgd/eMjStC9Kdai/9fhmPWLHkEYtwttgtyEap+HjdXGJg/I=
+X-Received: by 2002:a05:6a00:3cc6:b0:82c:db50:ef77 with SMTP id d2e1a72fcca58-82f8c98c45amr34345023b3a.49.1777027241906;
+        Fri, 24 Apr 2026 03:40:41 -0700 (PDT)
+X-Received: by 2002:a05:6a00:3cc6:b0:82c:db50:ef77 with SMTP id d2e1a72fcca58-82f8c98c45amr34345000b3a.49.1777027241381;
+        Fri, 24 Apr 2026 03:40:41 -0700 (PDT)
+Received: from [10.239.29.59] ([114.94.8.21])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec037e1sm27693316b3a.54.2026.04.24.03.40.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2026 03:40:41 -0700 (PDT)
+Message-ID: <d7dc7eb8-2e4c-4d8b-a1dd-465a5eb455c0@oss.qualcomm.com>
+Date: Fri, 24 Apr 2026 18:40:36 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|VI0PR04MB11917:EE_
-X-MS-Office365-Filtering-Correlation-Id: 045de782-bb74-45a2-99d6-08dea1f28935
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|1800799024|10070799003|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	M3H11o9U7QXzjueafrrpjvVI4PTrLZWiJV6/eabVrfbXk9wXSxdTtxDd9U4WGSU29FUctv+FQtqHVEBcT3cLI2H1gkjMWzMOkVzOVVrXCj1u6nzLSTsEnL+GPutgZpV7QjUTTWTMdJualgD6AfEVGp0IT9RLh/+UfxvThYcRPUwRptlzfX8AIRsVky33A6jMURpyUTkNe+r405WwVQ4QAhiVIoXUCoxMIv/FFTIZKFPnMr47/MHtA30C7blipLx3wP2nX1hosVly2xy9JyUN5Q8imNExlMpLlSAhw1H8itWi/KhNLcBkmkaJIhtXmkolS3uuCqdTX5yvFb26OuKrf9QIuG0r7Ibr47bN36VqotV+er/4Ns2aI68aGD49Ng5dqPMSsyYN4tekCfvx1LZ9uszlsi7tVpejnVh0u0fxrhI9gzl31djRz3xudHQtjI5HclpeK6GSeZNWQTFzVa6bB7V6+i0qRt77Azt6STqEqYACbiyJRwmY7Jh4K0k4MHXZvWgRKhQrdQQIibPaU+Er7imLOoCLAjKlpe/2bY6p7ut/hQuAuyqwbcG5rZAVvYT5ZjA3G7SOw8rC0qglG6ppcXVxsQ2ueF5UyheUzS6q7JtgcJdrguKPVMVpCiQ1QPQJG10mnFvsu62i3bhI4F3gkrkGmQfCfCYWZfAg1GAQqE+IvjRvHeNGTiPsE9ba1VGWgUffDWuKTinzowbDourBQOPzV+OUNaIIYP2ISSpa0Lc=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(10070799003)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?eTZoRTFxVmJ5Tk5zczBIWUo1WldoVTZrOVVWckNmdStiZTdHa0dGY0lpNnVD?=
- =?utf-8?B?OG5ZSDVQeWxFQk5jVGdGeXBEQzZDblRCdDRxNFlLT0hOTFlmb2QvSXB0QlUr?=
- =?utf-8?B?Wk1xMkUvTFVyRkt4azErWkJLUUZUQTdjTzA5Mzh6aWphL1ZuT0xhcmxtVUF5?=
- =?utf-8?B?eGN4ZWl2dER1NERKSVZYRkxzSFA1blZyUlRZMThYbEtWS2NjVGRNcU5NTlRO?=
- =?utf-8?B?cm1aVkFCRWUrWER2dDMwWVAreFdvUkZ4L2N6ZDhFc1R5RU96RXVTSVhZWmNy?=
- =?utf-8?B?Z1VDYklGTEZiVzl3RFVsODFFOUpnUitvRXJ6NjZYMzd4TVg1aVhEUGhDbjhu?=
- =?utf-8?B?V3ZpaFJBcFY1WG5JcnhxVTdLSUxHemJmQW5WZExDMWVGTmRnckVoRGtrSU1I?=
- =?utf-8?B?SmNGd1loRU90WmZKVDZkU3BaK3pUZ0tPcmY1c1g2K1hMdGU1aTNrRm84SUti?=
- =?utf-8?B?SmpNNTFwYzhya0FDYUZnTkxVejlGTGJaNHpoRWlmWThqWG55MTA3ZEwrYlIy?=
- =?utf-8?B?S3VyeGRiVVllNmVVUXA0RHJCdkp5c291NlJYa1VzeUVXWlVpV1JQbUhoRkZC?=
- =?utf-8?B?Njh4NnExQmFaTzJSRThzL1lZcThsMHczbFNyWk9jSENlYXZGck8vNlhUaTRz?=
- =?utf-8?B?VWYzUDlXOXE4Sm9RMGRjVzBsbGtTOTFrNXdHWGVWZTJMeG9IOFNVVnF4OGJM?=
- =?utf-8?B?b2FxazkySndkSytkWDQvdG1KZWx5UUFaanZaTXRXU2Yva1NQWDhUOUthWHBq?=
- =?utf-8?B?TXpVRUdUYzhtU0FnZXdxU2lHTERZM0ZzeVFjSkVURlozT1loVXpOY2VTYVE0?=
- =?utf-8?B?SXM5YkYzVWNmMFZxS1NOZFZRR042YWc2Y0lBOHdzd0xRTEkreXVLOGZYWmhL?=
- =?utf-8?B?SzRMTThTbmpSOEhLeURibFJGNGZGK2J6YWlNKzV0ZWpobkdIaHh5RHpzY3hN?=
- =?utf-8?B?bXlNTURwM0pRWTlxenpVNjlDZEVXMEhNZnVJRnVIQUFhdXU1V2pHekxGL2Mr?=
- =?utf-8?B?L3RHWmpvVVV1Q29XdWc4REJRNjN1bFRQem45dUJzbmYxSmV1cEhyLzBOaWFV?=
- =?utf-8?B?UDlOUHlZdUpOWFZOTEU5N01TZnFqR2EvaG16dDJ6YmtUTk5zQ2VkWE5FTUhE?=
- =?utf-8?B?aUxNU3JxWDNrZmZrMnFYb0l2OHI3Ris5N0w0QWtDM3dxdXQyd29DQ2lzY25i?=
- =?utf-8?B?cnBIbDRtanZwbXpNYUlkZUt4VCtwV09mQVppaFMrT3N4dzRPeDgrMUVoa2k2?=
- =?utf-8?B?UlZJZXJZbHlZV29KYWgxLytRK3lpR05XNEs3RDRBajFNdWJvUTVpUGV5dkpQ?=
- =?utf-8?B?RFBWODRGZmJtWUFEZENFbEExZ1FoWWFLZGNuSkNZb2ZrbTZFdnR6c0hEa3VC?=
- =?utf-8?B?cjFDYXFhQ2VEZVZ2TG5tM3d1Q2dCcTRCLzErMVhkcHNlRjVUT1diWDBKcDhV?=
- =?utf-8?B?UldVWDU1MFFvRldjcnZtQkMrWjRCRzNjQmdYYk1xV2lJZTRaU05IODI5YjZB?=
- =?utf-8?B?c2E2WEpRc3JMSjYwMy9oWU5Zanp2bGRVRHR6UGhBUE82VnhFY1hLTmJsNmNm?=
- =?utf-8?B?RUxkS2ZRWGE2bVhWTnNxODZnVTgwc0N4QitRRmVYaFJXOVhueEZyN2tGT2JP?=
- =?utf-8?B?ajVXaU5pRkkva1ZwV1Y4MTh3M2ZIajJqZnpmQkR6MTlBbkJneEY2MmZlMGdY?=
- =?utf-8?B?bEZLVkRybm4xNXE3ZDBwNVF2Q1Nsd2JsdE1uL2NnT3FIamg0MCs0T0ZBVVZK?=
- =?utf-8?B?Vk84aHlYVVpuak1TbUp1NVZUUG1zYXQwMHY3Y0dRdlA3VnM2aHNaK2orYWhI?=
- =?utf-8?B?YnptQk1IWUplZHlETThUL3M5eXVrV1ovNnpac3N6ZDN5Z2Nzd0k5dEVCbjJ1?=
- =?utf-8?B?dG9SVURyS3QxemphVnByUHZrWDY5SlpycEpVdXFsNjBSL1BzWVVTdHBRMFha?=
- =?utf-8?B?UzltZ0prV2U4MCttckljelpRWDA1SFQzeFdZZ3E5WHlEOGkycXBwRTJkZndG?=
- =?utf-8?B?cGVQcEhTcVJhaDIxZk9yVWZhZUo1QzBSMWlHMkV5bThraGYvZUU3bG1wbjM2?=
- =?utf-8?B?Vy9ZSG9rZm5jTGQybGxNL09VeUxzYytCVFFyYjNNOUZtejdSaGtGbDdMR0NN?=
- =?utf-8?B?VTRuTUpIUytXZG1rTHdsaWw4WDd1ZndjK2JnQ2VwTWtDcGpKYm8wTUQ2alM4?=
- =?utf-8?B?TkFYaWsxSTUxS1loR0Z5anVteWJEZFlxOHkySi9CNS81V3V3U0h5T2ZrM25D?=
- =?utf-8?B?VFhxQXZoQnl3eE9LQ3BTSU9jSVZZaURCSHJJdmNvL2wwcEpScGlpTGpybmhJ?=
- =?utf-8?B?V0FzbVZjZVNZOEZwVmQyMFVmdXlTOFJCa2hNL1IzV2lXN3NQcFpscVEvV0h1?=
- =?utf-8?Q?VqycNLwCMsmKGt/8TT5KkGyJAsE+Bt4lJabO1?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 045de782-bb74-45a2-99d6-08dea1f28935
-X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 11:13:39.1532
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zBW6ftNngSlSRWEBIQbiPKSqzEXZjrDMslGopise7mQUgJSsZk89zO52G34uSrb6koqOb/oi0dfl+0h6WuRIYPFtSmh0EXRvsTNtLQpRo1s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11917
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2] wpa-supplicant: add patches to support RSNE/RSNXE overriding
+To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, zhi.chen@oss.qualcomm.com,
+        miaoqing.pan@oss.qualcomm.com, pengfei.zhang@oss.qualcomm.com,
+        gaole.zhang@oss.qualcomm.com
+References: <20260424093601.1867587-1-jiacheng.shi@oss.qualcomm.com>
+ <e0a1a2fa3b627a698b46cf3ef645a29bb1e98127.camel@pbarker.dev>
+From: "Jiacheng Shi (Consultant)" <jiacheng.shi@oss.qualcomm.com>
+In-Reply-To: <e0a1a2fa3b627a698b46cf3ef645a29bb1e98127.camel@pbarker.dev>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDEwMSBTYWx0ZWRfX7YD+lv4+tM02
+ yofhFehhDzVTuT2VWmq02ptFWPsGTuPzg8z68QPl0msPK5waN2fb7TNYuvboy2yEeSJC+AszxqA
+ MXjOTuAf1yoNuMGxRZST8A340BuBOyWwY842FqQW2N1BptPO/yTdD5/Ku6K/tqnpcDdzzDaUwlS
+ 3Zip+d9jnlQeHuYdbzFygelcfDN+Xia9SGTN4KF+Itp9gpOON82EGAsm/cjNJzt5ZObqEMcANjP
+ NL3K+1NYWny4yDz1Ao5KgDyoLerfZQQJ8KvrJYswDGRByEgnah7JehaWnpr9JZ5hAGn+ieOSypn
+ Ftp5GrLzJ0zsKAxPbhiIyLUFKJu/e7OrvxU/qBmTKOq7P479rDTxjK4jjKTv+YCC/pKeLLnjw9M
+ SANqxFZi+P2JZli9jMa7rr8enOHeIi5y3Byy9Fg4lEOpda5GfU1npkbyjPpqeMWwDLGeFfE+4hH
+ SYkAB1Xr9AbBzwyhf0w==
+X-Authority-Analysis: v=2.4 cv=TtnWQjXh c=1 sm=1 tr=0 ts=69eb48aa cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=koynXS-pVACRZpjXEngA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-ORIG-GUID: enCDjGTCySq51tknFgD6MYb3TF19zhyP
+X-Proofpoint-GUID: enCDjGTCySq51tknFgD6MYb3TF19zhyP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 clxscore=1015 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604240101
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 63O914SB756716
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 11:14:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235858
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 11:17:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235859
 
-Hi Khem,
 
-On 4/12/26 5:57 AM, Khem Raj via lists.openembedded.org wrote:
-> yamltree host tool, used to emit YAML from the DT, is now
-> built as part of the normal u-boot-tools build to support
-> the schema infrastructure
-> 
-> Fixes link errors like
-> 
-> | /usr/bin/ld: scripts/dtc/yamltree.o: in function `dt_to_yaml':
-> | yamltree.c:(.text+0x91b): undefined reference to `yaml_emitter_initialize'
-> | /usr/bin/ld: yamltree.c:(.text+0x926): undefined reference to `yaml_emitter_set_output_file'
-> | /usr/bin/ld: yamltree.c:(.text+0x933): undefined reference to `yaml_stream_start_event_initialize'
-> | /usr/bin/ld: yamltree.c:(.text+0x93e): undefined reference to `yaml_emitter_emit'
-> | /usr/bin/ld: yamltree.c:(.text+0x957): undefined reference to `yaml_document_start_event_initialize'
-> | /usr/bin/ld: yamltree.c:(.text+0x962): undefined reference to `yaml_emitter_emit'
-> | /usr/bin/ld: yamltree.c:(.text+0x983): undefined reference to `yaml_sequence_start_event_initialize'
-> | /usr/bin/ld: yamltree.c:(.text+0x98e): undefined reference to `yaml_emitter_emit'
-> | /usr/bin/ld: yamltree.c:(.text+0x9ab): undefined reference to `yaml_sequence_end_event_initialize'
-> | /usr/bin/ld: yamltree.c:(.text+0x9b6): undefined reference to `yaml_emitter_emit'
-> | /usr/bin/ld: yamltree.c:(.text+0x9c8): undefined reference to `yaml_document_end_event_initialize'
-> | /usr/bin/ld: yamltree.c:(.text+0x9d3): undefined reference to `yaml_emitter_emit'
-> | /usr/bin/ld: yamltree.c:(.text+0x9e3): undefined reference to `yaml_stream_end_event_initialize'
-> | /usr/bin/ld: yamltree.c:(.text+0x9ee): undefined reference to `yaml_emitter_emit'
-> | /usr/bin/ld: yamltree.c:(.text+0x9fa): undefined reference to `yaml_emitter_delete'
-> 
+On 4/24/2026 5:54 PM, Paul Barker wrote:
+> On Fri, 2026-04-24 at 17:36 +0800, Jiacheng Shi via
+> lists.openembedded.org wrote:
+>> Add RSN/RSNXE override support in wpa_supplicant to pass Wi-Fi
+>> certification test FC 5.2.3.3.
+>>
+>> During the 2EAPMSG exchange, the STA did not apply the SNonce_Cookie
+>> provided by the AP as required by the test specification, resulting
+>> in sniffer validation failure.
+>> To address this, allow RSN/RSNX overriding in STA mode and explicitly
+>> signal SNonce_Cookie=E2=80=93based override capability.
+>>
+>> Signed-off-by: Jiacheng Shi <jiacheng.shi@oss.qualcomm.com>
+>> ---
+>> v2:
+>>   * Change commit message
+>>
+>>   ...r-specific-element-types-for-RSNE-RS.patch |  34 +
+>>   ...-overriding-elements-into-IE-parsing.patch |  58 ++
+>>   ...ide-element-to-override-RSNE-content.patch |  36 +
+>>   ...ride-element-to-override-RSNXE-conte.patch |  36 +
+>>   ...eature-flags-to-indicate-RSN-overrid.patch |  67 ++
+>>   ...a-capability-flag-for-RSN-overriding.patch |  65 ++
+>>   ...ions-to-access-RSNE-RSNXE-from-BSS-e.patch | 448 +++++++++++
+>>   ...bilities-for-AKM-suites-available-wi.patch |  66 ++
+>>   .../0013-RSNE-RSNXE-overriding-for-STA.patch  | 739 ++++++++++++++++=
+++
+>>   ...-Selection-element-to-indicate-which.patch | 415 ++++++++++
+>>   ...cookie-to-indicate-support-for-RSN-o.patch |  84 ++
+>>   .../wpa-supplicant/wpa-supplicant_2.11.bb     |  11 +
+>>   12 files changed, 2059 insertions(+)
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0005-Define-WFA-vendor-specific-element-types-for-RSNE-RS.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0006-Add-RSN-overriding-elements-into-IE-parsing.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0007-Allow-RSNE-Override-element-to-override-RSNE-content.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0008-Allow-RSNXE-Override-element-to-override-RSNXE-conte.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0009-Add-QCA-vendor-feature-flags-to-indicate-RSN-overrid.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0010-nl80211-Add-a-capability-flag-for-RSN-overriding.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0011-Use-helper-functions-to-access-RSNE-RSNXE-from-BSS-e.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0012-Make-driver-capabilities-for-AKM-suites-available-wi.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0013-RSNE-RSNXE-overriding-for-STA.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0014-RSNO-Use-the-RSN-Selection-element-to-indicate-which.patch
+>>   create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supp=
+licant/0015-RSNO-Use-SNonce-cookie-to-indicate-support-for-RSN-o.patch
+> Hi,
+>
+> This is a lot to backport for a new feature. Have you tried asking
+> upstream for a new release? That would be a better path forward if they
+> have important new features in their development branch.
+>
+> Thanks,
 
-OK so there's a test to check if libyaml is available by looking if 
-there's a file at $(PKG_CONFIG_SYSROOT_DIR)/usr/include/yaml.h. Then it 
-uses pkg-config --cflags and pkg-config --libs on yaml-0.1 to find where 
-that is located. I'm assuming the first one is found, possibly on the 
-host distro, and the pkg-config possibly returns nothing as libyaml 
-isn't available in the sysroot? This seems to be what 807bcd844afe 
-("scripts/dtc: Fix pkg-config behavior under sysroot") is supposed to 
-handle (specifically mentioning this fixes building with Yocto SDK). 
-This commit is part of 2026.04, so not sure what's going on there. They 
-say the error doesn't happen within Yocto because pseudo intercepts and 
-rewrites the path, so this seems weird.
+Hi,
 
-This logic is also borrowed from the kernel, which funnily enough 
-dropped this entirely 4 years ago, in commit ef8795f3f1ce ("dt-bindings: 
-kbuild: Use DTB files for validation"). So maybe something to work on 
-with U-Boot to update DTC again (Kbuild and DTC updates aren't trivial 
-in U-Boot as far as I understood as we have "lightly" forked it).
+Since we don't have control over the upstream release schedule,
+would it be possible to merge these certification-related patches first?
+Once wpa_suoolicant version 2.12 is ready, we can then proceed to remove =
+them accordingly.
 
-Cheers,
-Quentin
+Thanks,
+
+
+
 
