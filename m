@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F40FF8851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B67FF884F
 	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:57:14 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31995.1777064229446914251
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32612.1777064230631153218
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 13:57:09 -0700
+ Fri, 24 Apr 2026 13:57:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=uo8JuzGl;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso113588835e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:09 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=hCOFh9Sk;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-48909558b3aso78132465e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1777064228; x=1777669028; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1777064229; x=1777669029; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/sk+KyOSUpry0foy4yc4J13HLhPnVzfT1QPR38uM++A=;
-        b=uo8JuzGlSS4I+2KTNgOaNsCzIWX+pjxJLfgQCjRC4KfCHvgMViL/QvYu1KecEB4EtC
-         RBvU/6ch/IgHqh71eOphYNFwmxVSOcAY0I90/fXW5bS0aXiF+axZ+r6Ss2pE0BXvsDva
-         abTnO0HFwTU487r6dW6YtGYVkqM4YAGEsM1Aw=
+        bh=ujpZ53CRhA+tBXaMR5DmftM0N1Ui0T3iRz1/mQ/YxiE=;
+        b=hCOFh9SkKOUiLEFyFuhkjqwRXNhn/seGda0pE0mczbkZrs+7BA5gmOxKjVZTjaEOKr
+         cEj3HwB1tmhvoLNEg+pSJXw73coR30LJoyhWGGDMiQ4rICvyULlp37qNfuTzUVAz6YS5
+         H39tNZGIkZvoAUp3vh8b+QD2B9ZvlK9ssKoYo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777064228; x=1777669028;
+        d=1e100.net; s=20251104; t=1777064229; x=1777669029;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=/sk+KyOSUpry0foy4yc4J13HLhPnVzfT1QPR38uM++A=;
-        b=Ue/JZ4nzV3D9MIl9iGxLpEmjdi6Dvq30YtomuSs1QUDqcNLkJ76cqAdrP8T0GgvMWv
-         GHIAu7aK13G+Fzd2UBuBv664kSTQ5Rl2k9ioZQvTRFaQipOT0cXQmbaXdQ4Cy+sOB3U5
-         d7djxZiTBf2s7AQQTksU1brsxudbqO2lIrZZJOPTwy+7zKgj88ogzKSVavOd2tlMFklS
-         SrfO3E6G4y2eOMDKMIolRPkO1cdXafZNk943lH5WZmBENuBchLrMZ2UEoBmPirZNhqFm
-         PhLBeuv2MSWStt7Xus1Y3W9PWi0hECjUsOoaHG2M3qw7P8E27nymcqxateb4aIww7GgW
-         30kw==
-X-Gm-Message-State: AOJu0YwxihkvC9dh6hEAACfsv73xJTcYXGbdwarI1UxkZTeaFt9DgRO4
-	y4p8927BwN6QC5x/Q4BgDd4/QjJIkQP2lIBqxVeg0pLUKwy4JF59zomj89vWlZdWIJnRXTewzY/
-	olFyeN88E+w==
-X-Gm-Gg: AeBDieuZyCWtberjiBWpt1MhcTG7YM7+DLGXyVNWqyALDAWDTzFW9AuxJvTLYop5Q3z
-	aJoDZzs1GfRznVmWPlZ6CYQe+PDXkCvTehTdpmSUNbDug/XnsA9B6L6fM8wuo4Et41hP73P28dR
-	6ECneQ4txW8mnarOpjN4U2dhR9ZY8CaGVyKA4WjxF+lpofTSOtwuLigXQl6HE0YCt59RsKGlSS3
-	WPvJD/Xg/G6mwRQN/zKTU47cFUBqy1FbN7Xvz+sR6hZ1XCh5oJ36+FkVvRRgc9vwkYV+WHSuqcr
-	gpL/tSnr1Vh+vxbqIRz+M0JmmI/cfxMeSIMXreoSZwXxqE2CI+pFhGrPeECAAAcK3qOzF3BwdGr
-	JXPsDpKi+tsLpZxiRCG87AXglXIEhWFd8j5Rk0dBXAsj3eWL4ddptelRr3WKDAiVxl+xThR9FmO
-	G6N8/efl/DvTh8wq5a7cf1qgJcbFW0i7l7YrHhdJHVzSitfKVyUHMiDDhyT1bJtvwNjmL546dOg
-	XCNvLqGcWdJNh3OKCXLnO1pF89y1WhAaa7nvw==
-X-Received: by 2002:a05:600c:8183:b0:488:ab26:8fe0 with SMTP id 5b1f17b1804b1-488fb765b1dmr397942135e9.15.1777064227550;
-        Fri, 24 Apr 2026 13:57:07 -0700 (PDT)
+        bh=ujpZ53CRhA+tBXaMR5DmftM0N1Ui0T3iRz1/mQ/YxiE=;
+        b=FefCzK/HeTHHpbqpZXYJBExxOjmQC5X0IdHgoSfn9RLzhLWleF1ZDfngmggMFab/ZQ
+         Su5exx2tMYE39h9OcEXGGMcmpTOm79AJr3JWAIwQwc/2ag0WiMcOWDEftkV+YbB2AUGV
+         nhuzpsFSPKmLdUPj1E5CsB14rZ+UuI0rN/vKDDIQcc4enCbb9yXTkDAECu5JbyrOGcdm
+         6IR16NvMHRWjjihoVy8U0GX+X2swi3HsXLYPJv5TbLivm8+WWJY/8Cr9rrla63ObAoI3
+         iEiRlOWNSJEwJq+JgtLj+iRBEVyP//LruwGx7KgbC6TA0xAz2sk7WKIuTewX+TJBQCHL
+         sPZQ==
+X-Gm-Message-State: AOJu0YxKnW9VgQrED5OaqArzX1t/w0MGboTAU5zWLxnb4bPdO1dPfhTA
+	jW+3EnPg1WiCvSB6Wp8qtwwKiuZ3cNDYmNaGXNvMPBLXPqinbyAGZe6cm5BoOOnePRYvHKajtFR
+	ppQ4gpoCCNZSJ
+X-Gm-Gg: AeBDieuJGkHquXtvBVWLotsCqZ/DYPV8eZeppQWLsgJAC0fuzC/bNyePMQKc8qBQoSD
+	TobEUJJCd2tL/L3pK6NRax1tQ13NHPC6arxCpmVdqrr5MazmUhLVHuEzYbsumhD0mPGXZ5FilH7
+	3Y41cOunx/ihrxwOPouYBR96oNCl7cSc14fG+ryjCX0PWiCvLzu4qg+q3sQLK8KTHN6MRmlFLjR
+	9P8u52hYtIe6EDvitE54LU9WyIoc49Ka9VzDqvN07FXogwoaINdvdKZl/LNWxH0l07anVNT5knK
+	LSfn4bJFmA2458yjlqSs317ZJjDYIwyQt9vvM6QizKkTjrG006rt/kGYUSYwOBHYl7r4MDuiwMp
+	/bJe4gY6HleGVrrTEzcIl9Hf+Qmbn89gx7COb6t74K1BRZjVNqlNGHvk0gYUEWhR3XvfZkkavNE
+	Q0RLRuCazxe6zeCqdOzVn8/nu6RDWJk0xN/BTbrGfwmNXuJ1/dPGEey1n13ypuw5oUk2JEIymtu
+	VGpecD8ncku+EstqldqHbz7ZvTDSxnjm0JtXA==
+X-Received: by 2002:a05:600d:16:b0:489:19e9:b139 with SMTP id 5b1f17b1804b1-48919e9b29fmr261116695e9.1.1777064228623;
+        Fri, 24 Apr 2026 13:57:08 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:57:07 -0700 (PDT)
+        Fri, 24 Apr 2026 13:57:08 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 53/66] binutils: backport patch to fix build with glibc-2.43 on host
-Date: Fri, 24 Apr 2026 22:55:52 +0200
-Message-ID: <6421f085fbb75df1cd122f1c327352b9434f8307.1777064068.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 55/66] qemu: backport patches to support python 3.14
+Date: Fri, 24 Apr 2026 22:55:54 +0200
+Message-ID: <28bab00b35af8bbe3455c8266e4c792fa2367c5d.1777064068.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1777064068.git.yoann.congal@smile.fr>
 References: <cover.1777064068.git.yoann.congal@smile.fr>
@@ -67,74 +67,361 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:57:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235926
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235928
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Fixes:
-../../../gprofng/libcollector/linetrace.c: In function ‘__collector_ext_line_install’:
-../../../gprofng/libcollector/linetrace.c:219:45: error: expected identifier before ‘_Generic’
-  219 |   if (java_follow_env != NULL && CALL_UTIL (strstr)(java_follow_env, COLLECTOR_JVMTI_OPTION))
-      |                                             ^~~~~~
-../../../gprofng/libcollector/linetrace.c:219:34: note: in expansion of macro ‘CALL_UTIL’
-  219 |   if (java_follow_env != NULL && CALL_UTIL (strstr)(java_follow_env, COLLECTOR_JVMTI_OPTION))
-      |                                  ^~~~~~~~~
+We use QEMU QMP python module to drive qemu in testimage. QMP uses
+asyncIO and the method to get the event loop changed.
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Backport the patches handling the depreciation to fix the error:
+  ERROR: core-image-minimal-1.0-r0 do_testimage: Error executing a python function in exec_func_python() autogenerated:
+
+  The stack trace of python calls that resulted in this exception/failure was:
+  File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+   *** 0002:do_testimage(d)
+  ...
+  File: '.../openembedded-core/meta/lib/oeqa/utils/qemurunner.py', lineno: 332, function: launch
+       0331:                from qmp.legacy import QEMUMonitorProtocol
+   *** 0332:                self.qmp = QEMUMonitorProtocol(os.path.basename(qmp_port))
+  File: '.../build-ubuntu2604/tmp-glibc/work/qemux86_64-oe-linux/core-image-minimal/1.0/recipe-sysroot-native/usr/lib/qemu-python/qmp/legacy.py', lineno: 89, function: __init__
+   *** 0089:        self._aloop = asyncio.get_event_loop()
+  File: '/usr/lib/python3.14/asyncio/events.py', lineno: 715, function: get_event_loop
+       0711:
+       0712:        Returns an instance of EventLoop or raises an exception.
+       0713:        """
+       0714:        if self._local._loop is None:
+   *** 0715:            raise RuntimeError('There is no current event loop in thread %r.'
+       0716:                               % threading.current_thread().name)
+       0717:
+       0718:        return self._local._loop
+  Exception: RuntimeError: There is no current event loop in thread 'MainThread'.
+
+Both patches are in Qemu 10.2 (OE Core master version)
+
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../binutils/binutils-2.42.inc                |  1 +
- ...tect-against-standard-library-macros.patch | 31 +++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch
+ meta/recipes-devtools/qemu/qemu.inc           |   2 +
+ ...Remove-deprecated-get_event_loop-cal.patch |  92 ++++++++
+ ...avoid-creating-additional-event-loop.patch | 199 ++++++++++++++++++
+ 3 files changed, 293 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-python-backport-Remove-deprecated-get_event_loop-cal.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0002-python-backport-avoid-creating-additional-event-loop.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index e27502af72e..096ccf42c2a 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -45,6 +45,7 @@ SRC_URI = "\
-      file://0019-Fix-32097-Warnings-when-building-gprofng-with-Clang.patch \
-      file://0020-gprofng-fix-std-gnu23-compatibility-wrt-unprototyped.patch \
-      file://0021-gprofng-fix-build-with-std-gnu23.patch \
-+     file://0022-gprofng-protect-against-standard-library-macros.patch \
-      file://0018-CVE-2025-0840.patch \
-      file://CVE-2025-1176.patch \
-      file://CVE-2025-1178.patch \
-diff --git a/meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch b/meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 748a32215e0..54644dd9241 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -43,6 +43,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://qemu-guest-agent.udev \
+            file://CVE-2024-8354.patch \
+            file://CVE-2025-12464.patch \
++           file://0001-python-backport-Remove-deprecated-get_event_loop-cal.patch \
++           file://0002-python-backport-avoid-creating-additional-event-loop.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-python-backport-Remove-deprecated-get_event_loop-cal.patch b/meta/recipes-devtools/qemu/qemu/0001-python-backport-Remove-deprecated-get_event_loop-cal.patch
 new file mode 100644
-index 00000000000..0fa0a939918
+index 00000000000..7a564513c03
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0022-gprofng-protect-against-standard-library-macros.patch
-@@ -0,0 +1,31 @@
-+From 5f66aee7f4bec7a2d8378034116f5e5c3dc50f41 Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@suse.de>
-+Date: Sat, 22 Nov 2025 11:29:43 +0100
-+Subject: [PATCH] gprofng: protect against standard library macros
++++ b/meta/recipes-devtools/qemu/qemu/0001-python-backport-Remove-deprecated-get_event_loop-cal.patch
+@@ -0,0 +1,92 @@
++From 120d060528d02e24b68ac06b44de34fb206b4319 Mon Sep 17 00:00:00 2001
++From: John Snow <jsnow@redhat.com>
++Date: Tue, 13 Aug 2024 09:35:30 -0400
++Subject: [PATCH] python: backport 'Remove deprecated get_event_loop calls'
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+The CALL_UTIL macro can expand to an unparsable expression of the argument
-+is a macro, like with the new const-preserving standard library macros in
-+C23.
++This method was deprecated in 3.12 because it ordinarily should not be
++used from coroutines; if there is not a currently running event loop,
++this automatically creates a new event loop - which is usually not what
++you want from code that would ever run in the bottom half.
 +
-+	* gprofng/src/collector_module.h (CALL_UTIL): Add parens to not
-+	expand its argument if it is a function-like macro.
++In our case, we do want this behavior in two places:
 +
-+Upstream-Status: Backport [2.46 5f66aee7f4bec7a2d8378034116f5e5c3dc50f41]
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++(1) The synchronous shim, for convenience: this allows fully sync
++programs to use QEMUMonitorProtocol() without needing to set up an event
++loop beforehand. This is intentional to fully box in the async
++complexities into the legacy sync shim.
++
++(2) The qmp_tui shell; instead of relying on asyncio.run to create and
++run an asyncio program, we need to be able to pass the current asyncio
++loop to urwid setup functions. For convenience, again, we create one if
++one is not present to simplify the creation of the TUI appliance.
++
++The remaining user of get_event_loop() was in fact one of the erroneous
++users that should not have been using this function: if there's no
++running event loop inside of a coroutine, you're in big trouble :)
++
++Signed-off-by: John Snow <jsnow@redhat.com>
++cherry picked from commit python-qemu-qmp@aa1ff9907603a3033296027e1bd021133df86ef1
++Signed-off-by: John Snow <jsnow@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/5d99044d09db0fa8c2b3294e301927118f9effc9]
++Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 +---
-+ gprofng/src/collector_module.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ python/qemu/qmp/legacy.py  | 9 ++++++++-
++ python/qemu/qmp/qmp_tui.py | 7 ++++++-
++ python/tests/protocol.py   | 2 +-
++ 3 files changed, 15 insertions(+), 3 deletions(-)
 +
-+diff --git a/gprofng/src/collector_module.h b/gprofng/src/collector_module.h
-+index b64d69c45ab..859a6dd1f7d 100644
-+--- a/gprofng/src/collector_module.h
-++++ b/gprofng/src/collector_module.h
-+@@ -119,7 +119,7 @@ typedef struct CollectorUtilFuncs
-+ extern CollectorUtilFuncs __collector_util_funcs;
-+ extern int __collector_dlsym_guard;
++diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
++index 22a2b5616ef..ea9b8032c3b 100644
++--- a/python/qemu/qmp/legacy.py
+++++ b/python/qemu/qmp/legacy.py
++@@ -86,7 +86,14 @@ def __init__(self,
++                 "server argument should be False when passing a socket")
 + 
-+-#define CALL_UTIL(x) __collector_util_funcs.x
-++#define CALL_UTIL(x) (__collector_util_funcs.x)
++         self._qmp = QMPClient(nickname)
++-        self._aloop = asyncio.get_event_loop()
+++
+++        try:
+++            self._aloop = asyncio.get_running_loop()
+++        except RuntimeError:
+++            # No running loop; since this is a sync shim likely to be
+++            # used in fully sync programs, create one if neccessary.
+++            self._aloop = asyncio.get_event_loop_policy().get_event_loop()
+++
++         self._address = address
++         self._timeout: Optional[float] = None
 + 
-+ /* The following constants define the meaning of the "void *arg"
-+  * argument of getFrameInfo().
++diff --git a/python/qemu/qmp/qmp_tui.py b/python/qemu/qmp/qmp_tui.py
++index 2d9ebbd20bc..d11b9fc547b 100644
++--- a/python/qemu/qmp/qmp_tui.py
+++++ b/python/qemu/qmp/qmp_tui.py
++@@ -377,7 +377,12 @@ def run(self, debug: bool = False) -> None:
++         screen = urwid.raw_display.Screen()
++         screen.set_terminal_properties(256)
++ 
++-        self.aloop = asyncio.get_event_loop()
+++        try:
+++            self.aloop = asyncio.get_running_loop()
+++        except RuntimeError:
+++            # No running asyncio event loop. Create one if necessary.
+++            self.aloop = asyncio.get_event_loop_policy().get_event_loop()
+++
++         self.aloop.set_debug(debug)
++ 
++         # Gracefully handle SIGTERM and SIGINT signals
++diff --git a/python/tests/protocol.py b/python/tests/protocol.py
++index 56c4d441f9c..8dcef573b6c 100644
++--- a/python/tests/protocol.py
+++++ b/python/tests/protocol.py
++@@ -228,7 +228,7 @@ def async_test(async_test_method):
++         Decorator; adds SetUp and TearDown to async tests.
++         """
++         async def _wrapper(self, *args, **kwargs):
++-            loop = asyncio.get_event_loop()
+++            loop = asyncio.get_running_loop()
++             loop.set_debug(True)
++ 
++             await self._asyncSetUp()
+diff --git a/meta/recipes-devtools/qemu/qemu/0002-python-backport-avoid-creating-additional-event-loop.patch b/meta/recipes-devtools/qemu/qemu/0002-python-backport-avoid-creating-additional-event-loop.patch
+new file mode 100644
+index 00000000000..d893c10c420
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0002-python-backport-avoid-creating-additional-event-loop.patch
+@@ -0,0 +1,199 @@
++From f25eb62190a6fa170db24584fe6225cd0dcd64ad Mon Sep 17 00:00:00 2001
++From: John Snow <jsnow@redhat.com>
++Date: Wed, 3 Sep 2025 01:06:30 -0400
++Subject: [PATCH] python: backport 'avoid creating additional event loops per
++ thread'
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++This commit is two backports squashed into one to avoid regressions.
++
++python: *really* remove get_event_loop
++
++A prior commit, aa1ff990, switched away from using get_event_loop *by
++default*, but this is not good enough to avoid deprecation warnings as
++`asyncio.get_event_loop_policy().get_event_loop()` is *also*
++deprecated. Replace this mechanism with explicit calls to
++asyncio.get_new_loop() and revise the cleanup mechanisms in __del__ to
++match.
++
++python: avoid creating additional event loops per thread
++
++"Too hasty by far!", commit 21ce2ee4 attempted to avoid deprecated
++behavior altogether by calling new_event_loop() directly if there was no
++loop currently running, but this has the unfortunate side effect of
++potentially creating multiple event loops per thread if tests
++instantiate multiple QMP connections in a single thread. This behavior
++is apparently not well-defined and causes problems in some, but not all,
++combinations of Python interpreter version and platform environment.
++
++Partially revert to Daniel Berrange's original patch, which calls
++get_event_loop and simply suppresses the deprecation warning in
++Python<=3.13. This time, however, additionally register new loops
++created with new_event_loop() so that future calls to get_event_loop()
++will return the loop already created.
++
++Reported-by: Richard W.M. Jones <rjones@redhat.com>
++Reported-by: Daniel P. Berrangé <berrange@redhat.com>
++Signed-off-by: John Snow <jsnow@redhat.com>
++cherry picked from commit python-qemu-qmp@21ce2ee4f2df87efe84a27b9c5112487f4670622
++cherry picked from commit python-qemu-qmp@c08fb82b38212956ccffc03fc6d015c3979f42fe
++Signed-off-by: John Snow <jsnow@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/85f223e5b031eb8ab63fbca314a4fb296a3a2632]
++Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
++---
++ python/qemu/qmp/legacy.py  | 46 +++++++++++++++++++++++---------------
++ python/qemu/qmp/qmp_tui.py | 10 ++-------
++ python/qemu/qmp/util.py    | 27 ++++++++++++++++++++++
++ 3 files changed, 57 insertions(+), 26 deletions(-)
++
++diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
++index ea9b8032c3b..c732212c048 100644
++--- a/python/qemu/qmp/legacy.py
+++++ b/python/qemu/qmp/legacy.py
++@@ -38,6 +38,7 @@
++ from .error import QMPError
++ from .protocol import Runstate, SocketAddrT
++ from .qmp_client import QMPClient
+++from .util import get_or_create_event_loop
++ 
++ 
++ #: QMPMessage is an entire QMP message of any kind.
++@@ -86,17 +87,13 @@ def __init__(self,
++                 "server argument should be False when passing a socket")
++ 
++         self._qmp = QMPClient(nickname)
++-
++-        try:
++-            self._aloop = asyncio.get_running_loop()
++-        except RuntimeError:
++-            # No running loop; since this is a sync shim likely to be
++-            # used in fully sync programs, create one if neccessary.
++-            self._aloop = asyncio.get_event_loop_policy().get_event_loop()
++-
++         self._address = address
++         self._timeout: Optional[float] = None
++ 
+++        # This is a sync shim intended for use in fully synchronous
+++        # programs. Create and set an event loop if necessary.
+++        self._aloop = get_or_create_event_loop()
+++
++         if server:
++             assert not isinstance(self._address, socket.socket)
++             self._sync(self._qmp.start_server(self._address))
++@@ -310,17 +307,30 @@ def send_fd_scm(self, fd: int) -> None:
++         self._qmp.send_fd_scm(fd)
++ 
++     def __del__(self) -> None:
++-        if self._qmp.runstate == Runstate.IDLE:
++-            return
+++        if self._qmp.runstate != Runstate.IDLE:
+++            self._qmp.logger.warning(
+++                "QEMUMonitorProtocol object garbage collected without a prior "
+++                "call to close()"
+++            )
++ 
++         if not self._aloop.is_running():
++-            self.close()
++-        else:
++-            # Garbage collection ran while the event loop was running.
++-            # Nothing we can do about it now, but if we don't raise our
++-            # own error, the user will be treated to a lot of traceback
++-            # they might not understand.
+++            if self._qmp.runstate != Runstate.IDLE:
+++                # If the user neglected to close the QMP session and we
+++                # are not currently running in an asyncio context, we
+++                # have the opportunity to close the QMP session. If we
+++                # do not do this, the error messages presented over
+++                # dangling async resources may not make any sense to the
+++                # user.
+++                self.close()
+++
+++        if self._qmp.runstate != Runstate.IDLE:
+++            # If QMP is still not quiesced, it means that the garbage
+++            # collector ran from a context within the event loop and we
+++            # are simply too late to take any corrective action. Raise
+++            # our own error to give meaningful feedback to the user in
+++            # order to prevent pages of asyncio stacktrace jargon.
++             raise QMPError(
++-                "QEMUMonitorProtocol.close()"
++-                " was not called before object was garbage collected"
+++                "QEMUMonitorProtocol.close() was not called before object was "
+++                "garbage collected, and could not be closed due to GC running "
+++                "in the event loop"
++             )
++diff --git a/python/qemu/qmp/qmp_tui.py b/python/qemu/qmp/qmp_tui.py
++index d11b9fc547b..76e540931c7 100644
++--- a/python/qemu/qmp/qmp_tui.py
+++++ b/python/qemu/qmp/qmp_tui.py
++@@ -40,7 +40,7 @@
++ from .message import DeserializationError, Message, UnexpectedTypeError
++ from .protocol import ConnectError, Runstate
++ from .qmp_client import ExecInterruptedError, QMPClient
++-from .util import create_task, pretty_traceback
+++from .util import get_or_create_event_loop, create_task, pretty_traceback
++ 
++ 
++ # The name of the signal that is used to update the history list
++@@ -376,13 +376,7 @@ def run(self, debug: bool = False) -> None:
++         """
++         screen = urwid.raw_display.Screen()
++         screen.set_terminal_properties(256)
++-
++-        try:
++-            self.aloop = asyncio.get_running_loop()
++-        except RuntimeError:
++-            # No running asyncio event loop. Create one if necessary.
++-            self.aloop = asyncio.get_event_loop_policy().get_event_loop()
++-
+++        self.aloop = get_or_create_event_loop()
++         self.aloop.set_debug(debug)
++ 
++         # Gracefully handle SIGTERM and SIGINT signals
++diff --git a/python/qemu/qmp/util.py b/python/qemu/qmp/util.py
++index ca6225e9cda..213f09c6528 100644
++--- a/python/qemu/qmp/util.py
+++++ b/python/qemu/qmp/util.py
++@@ -20,6 +20,7 @@
++     TypeVar,
++     cast,
++ )
+++import warnings
++ 
++ 
++ T = TypeVar('T')
++@@ -30,6 +31,32 @@
++ # --------------------------
++ 
++ 
+++def get_or_create_event_loop() -> asyncio.AbstractEventLoop:
+++    """
+++    Return this thread's current event loop, or create a new one.
+++
+++    This function behaves similarly to asyncio.get_event_loop() in
+++    Python<=3.13, where if there is no event loop currently associated
+++    with the current context, it will create and register one. It should
+++    generally not be used in any asyncio-native applications.
+++    """
+++    try:
+++        with warnings.catch_warnings():
+++            # Python <= 3.13 will trigger deprecation warnings if no
+++            # event loop is set, but will create and set a new loop.
+++            warnings.simplefilter("ignore")
+++            loop = asyncio.get_event_loop()
+++    except RuntimeError:
+++        # Python 3.14+: No event loop set for this thread,
+++        # create and set one.
+++        loop = asyncio.new_event_loop()
+++        # Set this loop as the current thread's loop, to be returned
+++        # by calls to get_event_loop() in the future.
+++        asyncio.set_event_loop(loop)
+++
+++    return loop
+++
+++
++ async def flush(writer: asyncio.StreamWriter) -> None:
++     """
++     Utility function to ensure a StreamWriter is *fully* drained.
 
