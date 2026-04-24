@@ -1,186 +1,328 @@
-Return-Path: <li.wang@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D370FB44C9
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 08:09:09 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16540.1777018139302337417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4366CFB44C8
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 08:10:19 +0000 (UTC)
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16549.1777018211557747671
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 01:09:00 -0700
+ Fri, 24 Apr 2026 01:10:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=l2k5Unnc;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8574518e23=li.wang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63O4e3YV1640065
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:08:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=+8rAgiGPXGf/ts5svtDkufoJpSPBToZ/iLVXICpp9nk=; b=
-	l2k5UnncedC0eUKXNLoMb4zzuxCbpXneHofphWA9gG21omLiFG95qCfJYdYPA8+l
-	iH1P7RawRYfXejPwMEK2TkR5qpzwBp26V2wkdWAdH2wXS/q1wX3bjoPA9L0QCxJw
-	1OnMmqvxnDFfwFXSU4XoW/fedqf+vUaC5r1sZFR8eqlMlZXO8OwU+XV0tZmbji04
-	yhJ1Qe9vB/aq1IV54Uii5bHGcfcmFs6QP2q4yha5lG+ZUNitWoukvn734EFKCM4j
-	ybs8GveU5RlFOuQqco8YFp6fFLjI5yHYjG/xhihQTMKy3a/jfA50Z8lk7dRVaWEY
-	o43GTWDlpEX1+HpJOssfiw==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012064.outbound.protection.outlook.com [52.101.53.64])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dq8u89pyh-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:08:57 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Md305YCQ3JJhXz8ifI7Y39t97cLXbdNLl7qCEXNHAqlluw/yOaO9tCoYxgzhLSp2nl/dw3rAza5OqYC/D+hkpl7m2WalDtUalijBzsEs0duTSV/JjHBS2sxpiCb5mdVG6cH8wq76BhWICCU3/N53TUPKxJqpxHqu3G/VlNy5WIbPkMXpGPZarnE8/9j4rUYKL5Rp3s4Tj3452Lwc0uzspKs0R5YOYUPvY0j4fumxQU1HHVvZkXyzmF/PBUyhGAexkDJxw3mECkwi6ky8mDZYi2XygQVfl3pFyAcf6ldfdxWPS+QKNoM2eAgBnRa8q8SM587SurN+sYoHSxnRaNGeWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+8rAgiGPXGf/ts5svtDkufoJpSPBToZ/iLVXICpp9nk=;
- b=VpCgoNvd5mXaCCnFLwocmWnnNEJSqZsx0L8EzCIhAzL34Nmq8cX/WgtDB4oEeCQXaoqGrvAeay2p6/akoVcO3yYPQDXoCQrX2a/4caQWa7d3TFbGPwnp3YfKUn0e6Gzi4rY5KEJGw0dj2I48G/vC+9G5nxFE51402JA9NQZKrqr4/BV95R8J3mfZak4Shz+8dxNJaPRgeVvJZD5wEeO6GcS6eSlLqygYV/e513it4/ic7rz+cBc4BEcCzu0SUdlSzM3qjNa0RGM7SVm+VLdiOVyLUbjbcN7XvSqt145sHZd9Rxy3TUFaHTd4cxWIwwBKC25bGGrV2F1W/ofPWGV1fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from LV8PR11MB8697.namprd11.prod.outlook.com (2603:10b6:408:1fe::17)
- by LV4PR11MB9513.namprd11.prod.outlook.com (2603:10b6:408:2e4::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.22; Fri, 24 Apr
- 2026 08:08:56 +0000
-Received: from LV8PR11MB8697.namprd11.prod.outlook.com
- ([fe80::5e93:9ab7:9ff5:7631]) by LV8PR11MB8697.namprd11.prod.outlook.com
- ([fe80::5e93:9ab7:9ff5:7631%3]) with mapi id 15.20.9846.021; Fri, 24 Apr 2026
- 08:08:56 +0000
-Message-ID: <67c6a54c-91bd-4e5d-a4c5-c2fe7bd9ed85@windriver.com>
-Date: Fri, 24 Apr 2026 16:08:47 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] perf: disable llvm by default
-To: openembedded-core@lists.openembedded.org
-References: <20260424064804.3331766-1-li.wang@windriver.com>
-Content-Language: en-US
-Cc: Li Wang <li.wang@windriver.com>
-From: "Wang, Li" <li.wang@windriver.com>
-In-Reply-To: <20260424064804.3331766-1-li.wang@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SE2P216CA0181.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2ca::13) To CYXPR11MB8691.namprd11.prod.outlook.com
- (2603:10b6:930:d5::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR11MB8697:EE_|LV4PR11MB9513:EE_
-X-MS-Office365-Filtering-Correlation-Id: 54710032-7fdc-4a4c-dc5b-08dea1d8baa1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	OMSkV94J4KIhbNdXBzgJjr/mcuOBIV8Y5P2PJ1N4xPXfdXd7SF5hGXGtMLpiS0p1nwD7bcr0FGT4dGhRDUMzXqhQbIvzIgQqUgOIMFGZE+WWgnCF2E6GUtqS38hVK8yIAccdM7xA279UIscBgUC3xyx19pGe4roXgtEZn+/JmTY3orBdM/upJynm/BY5m4AFOgSmdeQciIrSD7C8hdKVlH97S96w2e7JaAFfF1bnZatiqDcSUSe9UNLkaZT2c7uYZk/JQYSu/p++bSAZsLhkas74W0Avkf3HwRE3TUR0Gv8APiRYZJYaaKVcxz8LZoIXNxh0A6a83qOhomRho6Cus7ZU5IATmfw4fbmNvQlsqMjLO2nxof7d1zuDka3z8P0NZFwbnxNbEYgUmIfvGpS0/9/bO24/lf0kL+y7HSmlfZ1QJlN0UYl1ec4ux95BEMKnjY1EM35GsqRTdwsOTxYlSp7BsZomBSiwCa0ZGPeK+yB+XlX+vRI/lUCn5v4t5ESCfScqbqvAanxU7jpOTpqOaHtUScxmjgc8O4WcCV+bLEHVdHXB4zocYO+FPclyUHwmvLLnOC8YOhXqGonT1UgZfkDz6vhkk1KGo9hhRNO9pJg2Zdj0IP4LEJe8PhSLuIPVTIADrPseNVUB8g4BeJWelHFJNjP4+J/RRRiwCuNq1+H/zb0gyorSqHKz1uG2fxH1QlN99NpgdTX9ZYOOt+Qyu0T9ZJ7rMcdE1rA9C86rHL8=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR11MB8697.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bmJXbnJNZmJBaHkybUltYW5oUTA1Wk1pOTZNWkk1aE85R2MrbkdXVkd3enFE?=
- =?utf-8?B?WkFwUnB3SHdWWmNycTMzbEJXMDdCSWtoZTlEZmZxaDNxQ0V0Rm5FVGttd1dj?=
- =?utf-8?B?V1JkTXBYMXdNTkZ5QXhWcGJJc084UU4yakRucExWMmNWb09QOGxHMU4xTDhX?=
- =?utf-8?B?L3U4MU5NYUs1UWZMSW16RWhsVWJWMlZhYzVMR0FJakFZRVBlc2VURE5mM3FI?=
- =?utf-8?B?Rmp1UHFFS2RjdC8wM3lBc3RFY0hwN2dEd0wxWkhYMkNLMUpUZk1mckczSUpH?=
- =?utf-8?B?Y1lKRHBTVHliQ0pXMWFJYWk0NDZiaWxMQ2JBSGVPLzd2ZlNpK2NMYlU4NDVk?=
- =?utf-8?B?QnhyNHJld29lckdWZWZ6bWRJSzBHVnMyMmExQWdsS2VGd3BCSlNqc3JUSnpI?=
- =?utf-8?B?L1EwTFVPbEY3TE1YYXU5SnJ4NmViZ3FnNHo4cy90RGdKOVp2ZlpZWXV5YndS?=
- =?utf-8?B?Q3diNTJxQXRoRGd5ejJQTm1UVmJxeDlHR2owNGx2SkQ1UjFzMzdOVndGZXJK?=
- =?utf-8?B?Q2N5bjBEVWp4eEZSK0MreGtScWdURGxDZXhhQmQveHZNOThBVTRMZ2NZZHBm?=
- =?utf-8?B?eE5GWFFpWGZHYVJyNHRuTDJkVEtKVHZkSzZKSWYyK044ZzBmUHNFQVpEcmFn?=
- =?utf-8?B?UlR1clpaOWtWNVo0ZXB0MVNZd1p0YnpPZ01zR3hocmgzQUNwYTVib205SVE3?=
- =?utf-8?B?SnV5M0VGL0g0VFpqaUw1TWxSZmQ2SFpqczN1Si9rV25lQWFjcHBLeFJMVW83?=
- =?utf-8?B?S3JQUng3UU5GcC9RYTlrWndua1pDVGM4TWhoVlJwc05Bek5IeWJvRjlJR3Bx?=
- =?utf-8?B?NnlIa1FNVVF3WUpCMHM5N3A0OEV5VDNpZ3lHVm9hUzFiTXhUL0VaKzNKeHl5?=
- =?utf-8?B?emR1M3VDaDluRlNqMWswczVUdUI5V0pTMFA3Q1A5NWtQNkQ4Q0QrV3UvWk1N?=
- =?utf-8?B?cndZVUZFVFI1Y3JKQ0VKcTIwcVh4UTN4SkI0YXV3Wk4wMjg4NW50Zm1jQkZS?=
- =?utf-8?B?VDNudmVZMnB1K01TRjB5aEMzTEpxTWh2bHdCL2tneXJFL3lvT1RzNnNETklw?=
- =?utf-8?B?czdvaHAxWk52YnhtczlBT2Q0WnlTUnZxVU90K0t0cWtFQTluV3RQMFZJZVBW?=
- =?utf-8?B?b1dBdWgvcTdRYi9HVHJ1SUI5UjZmTGhmRnM1bFp0VHlyUS9MOVJnMGJ0c3Nh?=
- =?utf-8?B?a2ZkRFJTaitJVXY3SEhyM2lQTXdwb04wdjNqWU1maDFZWW5VYmYya29iN25P?=
- =?utf-8?B?MEZ0TElQSnNTY3l6bEU4SFErUFVDdkZKZ0xPaitUVHNTb3IxMS90YzJQQkc1?=
- =?utf-8?B?UUhXRDY5enk1Qmg1bURXU21uYkQxVkVweDJRRDc0bitlajJ2WWdWd2tCeDRE?=
- =?utf-8?B?VnJvK3lIbFp3Z05WZm10Ty9XL3licTlsYkhxejZibUlJZDFicCtYb1JJWkhQ?=
- =?utf-8?B?ZDRIQ1didVBEUjdUcFEvek9EUGxDVXpDMnFwVGJHWGpKeVZPNFVOUjZneGJn?=
- =?utf-8?B?ZUpkdzlGY1VkQUljb1FqUnMxdFJHSnpDWnBZbGc1aHRQallmK3h0OXljYXBM?=
- =?utf-8?B?SnY4ZU4vWndYaEhjclJQUnhVOHNvSGtvZ0RyRXlGTTRIK01vakl1anF0NFR4?=
- =?utf-8?B?UFEvSnJOTnA0eFdEbWRYMkhMWkF1ZnErclBCc1VZa1duU2JoNDVwOG0zSTVr?=
- =?utf-8?B?WHVjMmhQZEVHaUcxamJ5QW1RSFZZQzI5NllYbmpXVW4xZGc1aXVkbGFhR2xh?=
- =?utf-8?B?aTBEbFZ2cjdWZjVtTTJzcEU4cVN3dEtyRnY2eGRFY3M2QnNNSXJkR2szQTlM?=
- =?utf-8?B?bjRwY3JuYkdwcjJXU0hwRkFicWdxdWMzZWVISDdndnF1SFBEdSszZmdSb3NY?=
- =?utf-8?B?dllCVWdmQ21ZMTd6ODF5R3ZUQVFkcUk0cTdpOW1qRVRGQXRqWXpoblZjTEJT?=
- =?utf-8?B?M3BtdjlQaEZUalVwbzV2SXVDMTRJRG5uR2Fvalk3endJOXZWeGlxUnJlVStH?=
- =?utf-8?B?SUxGczRxNVZ3c3R1V3I3akUveklpRmgzdXJyL1ZaWk0yOGlHRmpkVVhpd2Zq?=
- =?utf-8?B?WlBmdXIzSXRNMWFQNU1ESVVWNGYzUjAzY2NUeTlLNXZZZk1pcXlWMU5LZzlI?=
- =?utf-8?B?REJxQUIzUjZzNXk2ekRXbkhNUEU2MEV6RDYrbWpVT2tLaVR0REFNUEQyZ2NJ?=
- =?utf-8?B?OTBwODhxc1NRZm5CYVpYOVllWEQzK0trTzBGMEV4amV3UDVCcjE2Q0RsRnBM?=
- =?utf-8?B?YW9zdWJoSGtGOHpIWlYyNk5zbUlqTElRY2ZRR0srdUdIZmJGVTI5UVhkZGl0?=
- =?utf-8?B?L1g5WTRzVE1YdzgwZzlrVWZCMzdIUktwVXdyREJZM3lRRzJvaVZ1UT09?=
-X-Exchange-RoutingPolicyChecked: 
-	XhClaLjWB3b3nlUFye6pqIQF0ycLcqcSwCp8hSyrl8WDFjp5Kau1Ch90Xb6BZh5qNQCs+ZNf4ehTlGNbgE9lDaR1GPMWSj3e9vLI97fEIBQaOre90YwgV+jkKywVEspouzD06eg4jz/PLPSMfph92632fOQeuVcpc8DpOcshs2g6Nmu/I9hGUBMki6YsIYeNMzVUISF+2ZeW+pw/e7tW9ez5hSbSbkCr07jk97lqsx8uzvGF4RBioB+4NyGgXt3eWgIVqBxOMjfA6J6m+QJmyWv9zSEg9CJO7GPIrn36P0EpNTRtslDvnkhqarW1DryoKZSSPDrZQrW4Bo7vBm1jDQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54710032-7fdc-4a4c-dc5b-08dea1d8baa1
-X-MS-Exchange-CrossTenant-AuthSource: CYXPR11MB8691.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 08:08:56.0754
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 00+m2/+nUOQ6+jpHcFOys9WmJlZgpYr8zwqxUrKjL9A5cREz9QrKgp9wHrCVDAc2hzk7q/qJhAArjaqD+zk3VA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV4PR11MB9513
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDA3NCBTYWx0ZWRfX7WqvgG8SIdC2
- ZwtiYxepGejjqeS1exMSXIJSfyk0qW95Nxge18h02YgxKeudwD3MzeJh4CtQx1gOgK79geIersE
- qO8XaIwkgSVWEUjoE3WpOrEL+OB6UWw3cHieIGm20qGkwjgcY6K2rn7L2fX2G9vk9VFE1y8Q58P
- lvLjTwSsXqz9fn3sXsHzLWUBENIaNfWBmnGeFWsTlT+2zY1iDCQevteNaWq6EoXQHoaTvx0uJVr
- rv1wDSLfPfrBQxNam3WDnX9zk9zPZWpy6uw0VKPXwNhje6igqPAV3px1n4laQjPcCtLO+SULZD2
- IiZ5PQhj5JUII6EufQqH/Lu/TNt1xI/5TvkWWx0VyxapksylQ8lO9V9d1MYhEp8lTDiamYACHAS
- /dyNZmHfaE/CpuxQ+Ny9CiSEsEcgDl4aRLjbbTpFrNeBLltWVxYvWdf7LidDjCbahQUYoWoTrvV
- ppWmJVBWR9JR5WAPRCw==
-X-Proofpoint-GUID: 0BaHFY7oUSsNrNwK8iQksPPmzqGntDag
-X-Authority-Analysis: v=2.4 cv=WLNPmHsR c=1 sm=1 tr=0 ts=69eb251a cx=c_pps
- a=BYzTVJwijQ+wlo0xVi9Hgw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
- a=t7CeM3EgAAAA:8 a=OJW0wz3wZG3RevqjeBIA:9 a=QEXdDO2ut3YA:10
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: 0BaHFY7oUSsNrNwK8iQksPPmzqGntDag
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
- adultscore=0 clxscore=1015 bulkscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604240074
+ dkim=pass header.i=@smile.fr header.s=google header.b=yVGOb838;
+ spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so95594465e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 01:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1777018210; x=1777623010; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uRPHOONq+pIi4YcGDxFGqI0pYVKmGQ5dpF2ssOKnmrM=;
+        b=yVGOb8389YAYklBU71JtN5pD8opJ4dUQTnf0qrdXZRiSx0RXfrP5jjfSiwD85sU1Uy
+         F26glDD65P0QqnUj9y7p+WAhJVwxzoUWkBXdk8h8pdT6m8zGtFdiekZgm4EUS4ZPWZs/
+         prwe7JzdFie2egL1UoYJdUHHkVNprbn7QHypM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777018210; x=1777623010;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uRPHOONq+pIi4YcGDxFGqI0pYVKmGQ5dpF2ssOKnmrM=;
+        b=YzNr9JFrS9AyzWQ9NjaeAN8xnPYPKmRaDrcspWNnk+gLroqjo+0nQOKzYOAD65Vv/o
+         MgUK0GQe1otGndoPGDAvG7G6DylLM0dXNB6XflG+gjpjdj9mCubD21XDbWGThM5DuwGV
+         yAWscgsiSdP0Mxwd0uztQ13rKOCtCQ3rVt2YikoOxtT3o8zRy0jt6b5Ghx8JRuTHKg+J
+         MwQjCfnQDAyRjUsZKPSPbAex+6NEu+gt7pBbK22H9ohrWHZxwZRwrZVB2y87oXOQ8W35
+         ibX4pDpbNBZ1eT9aBAFTxBPWMoHmER5bks5QDaUuGCOhYo+fg6XFis6ZSMO5p4fDdBQV
+         Xmsg==
+X-Forwarded-Encrypted: i=1; AFNElJ+8Oq6X4BJsAGQfYoMC8+p7XtGdv09XShf4EAnQj16tuGEkDr3SZkDImVLEjb0OgAYPiII2Cks0YoaTq0KuB657sQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzONq4M0xAPo1/tzHpGHZFQj202EfnnJQvHF/VekZ2xo7bjrZR/
+	3hU29QsQhrURVVQhR6+KQwtcgWNEAHB4CrHusSphsEnG9JWSngUPPdlHPLVEgRPdKpwRRKI4tc9
+	xSnR0R/UcnYOA
+X-Gm-Gg: AeBDiet69C7+g9fkE+cJkfHbCobDbtx4JW9rcWbD9OVhXa/E5qJ1NB5vtRwFoKXYQO0
+	Qrerbar8AQy3W0/KQoKWZ3IhqTmYPhdxmf9vfcJiJ/FMLd3vHCsOMYY+JniskCOTK8IPB/LmqDU
+	TXVy/CqMHxIzWnVyp3crs4tyv2m8QKK4rSRLUMEE648RQC8TDNADb6wWSyJFuJUaoIVjin537mY
+	7Pw1MD8guvnjRRGtJLJsGj3UXo0LVz3/FdKEH0N/xE7D9qUt+xSWVJHDEZDI6b1/orChZOqA3xU
+	wAMjo+c3JfpPnIpMdVi0z4yUcpHYJd4BrX9QGT5gn1g1XoUMdZSKVZ8qIb3DN2gmpUAnwmUAeqk
+	BQ7udaOGAlrUankEcCiSbxfAvESnvHuWg86Ok/dLa8//JK9/kfe2FhWvDCYH7LMtMcV1rnykfoE
+	CwpOWtRFG6dzbNkYNFIIHSx5RQpZJayixN+jwmfC6pRLe+u8zvOcRVropvmTWGuMRsDSj88zPRo
+	gz7q3Cgyt2dths686mn+b883Q==
+X-Received: by 2002:a05:600c:8717:b0:48a:568f:ae6d with SMTP id 5b1f17b1804b1-48a568faffemr212454055e9.8.1777018209557;
+        Fri, 24 Apr 2026 01:10:09 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891b46cffasm396103435e9.13.2026.04.24.01.10.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2026 01:10:09 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Apr 2026 10:10:08 +0200
+Message-Id: <DI18DRADT7SL.3INF79V2ES995@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH 11/12] zlib: upgrade 1.3.1 -> 1.3.2
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <Jinfeng.Wang.CN@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260409061639.1688205-1-jinfeng.wang.cn@windriver.com>
+ <20260409061639.1688205-12-jinfeng.wang.cn@windriver.com>
+In-Reply-To: <20260409061639.1688205-12-jinfeng.wang.cn@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:09:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235842
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:10:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235843
 
-please ignore the fix patch
-
-On 2026-04-24 14:48, Li Wang wrote:
-> perf.bb does not include any script about llvm. for avoiding to enable
-> llvm option under uncommon condition, force to disable it.
-> Maybe a future improvement would be to add llvm function.
+On Thu Apr 9, 2026 at 8:16 AM CEST, Jinfeng (CN) via lists.openembedded.org=
+ Wang wrote:
+> From: Liyin Zhang <liyin.zhang.cn@windriver.com>
 >
-> Signed-off-by: Li Wang <li.wang@windriver.com>
+> Upgrade zlib from 1.3.1 to 1.3.2 to fix CVE-2026-27171.
+> And delete patches included in this version.
+>
+> Reference:
+> [https://nvd.nist.gov/vuln/detail/CVE-2026-27171]
+> [https://git.openembedded.org/openembedded-core/commit/meta/recipes-core/=
+zlib?id=3Daf357536104e918aefbb2a2cb835c45eed690e88]
+>
+> Signed-off-by: Liyin Zhang <liyin.zhang.cn@windriver.com>
+> Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
 > ---
->   meta/recipes-kernel/perf/perf.bb | 1 +
->   1 file changed, 1 insertion(+)
+
+Please add the changelog (either by URL or spelt out) to commit message
+when sending an upgrade: I need to review it for stability.
+If this is a cherry-pick from master, keep the original commit message
+and add the backporting comments at the end.
+
+In this case, there are changes in this upgrade that do not look
+compatible with our stable policy:
+* Complete rewrite of cmake support.
+* Remove untgz from contrib.
+* Add zipAlreadyThere() to minizip zip.c to help avoid duplicates.
+* Add deflateUsed() function to get the used bits in the last byte.
+* Add a "G" option to force gzip, disabling transparency in gzread().
+* Return all available uncompressed data on error in gzread.c.
+* Support non-blocking devices in the gz* routines.
+
+Either justify that none of the upgrade changes break anything or only
+backport the CVE patches.
+
+Regards,
+
+>  ...configure-Pass-LDFLAGS-to-link-tests.patch | 78 -------------------
+>  .../zlib/zlib/CVE-2026-27171.patch            | 63 ---------------
+>  .../zlib/{zlib_1.3.1.bb =3D> zlib_1.3.2.bb}     |  4 +-
+>  3 files changed, 1 insertion(+), 144 deletions(-)
+>  delete mode 100644 meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLA=
+GS-to-link-tests.patch
+>  delete mode 100644 meta/recipes-core/zlib/zlib/CVE-2026-27171.patch
+>  rename meta/recipes-core/zlib/{zlib_1.3.1.bb =3D> zlib_1.3.2.bb} (87%)
 >
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 7a58088462..f9e2b9f4ee 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -114,6 +114,7 @@ EXTRA_OEMAKE = '\
->       EXTRA_LDFLAGS="${PERF_EXTRA_LDFLAGS}" \
->       perfexecdir=${libexecdir} \
->       NO_GTK2=1 \
-> +    NO_LIBLLVM=1 \
->       ${PACKAGECONFIG_CONFARGS} \
->       PKG_CONFIG=pkg-config \
->       TMPDIR="${B}" \
+> diff --git a/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-l=
+ink-tests.patch b/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-t=
+o-link-tests.patch
+> deleted file mode 100644
+> index 07b2cd3879..0000000000
+> --- a/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tes=
+ts.patch
+> +++ /dev/null
+> @@ -1,78 +0,0 @@
+> -Upstream-Status: Submitted [https://github.com/madler/zlib/pull/599]
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From ea77f1f003a4d18b23cca703f3c824942863a1b4 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Tue, 8 Mar 2022 22:38:47 -0800
+> -Subject: [PATCH] configure: Pass LDFLAGS to link tests
+> -
+> -LDFLAGS can contain critical flags without which linking wont succeed
+> -therefore ensure that all configure tests involving link time checks are
+> -using LDFLAGS on compiler commandline along with CFLAGS to ensure the
+> -tests perform correctly. Without this some tests may fail resulting in
+> -wrong confgure result, ending in miscompiling the package
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> ----
+> - configure | 12 ++++++------
+> - 1 file changed, 6 insertions(+), 6 deletions(-)
+> -
+> -diff --git a/configure b/configure
+> -index c55098a..a7c6d72 100755
+> ---- a/configure
+> -+++ b/configure
+> -@@ -443,7 +443,7 @@ if test $shared -eq 1; then
+> -   echo Checking for shared library support... | tee -a configure.log
+> -   # we must test in two steps (cc then ld), required at least on SunOS =
+4.x
+> -   if try $CC -c $SFLAGS $test.c &&
+> --     try $LDSHARED $SFLAGS -o $test$shared_ext $test.o; then
+> -+     try $LDSHARED $SFLAGS $LDFLAGS -o $test$shared_ext $test.o; then
+> -     echo Building shared library $SHAREDLIBV with $CC. | tee -a configu=
+re.log
+> -   elif test -z "$old_cc" -a -z "$old_cflags"; then
+> -     echo No shared library support. | tee -a configure.log
+> -@@ -505,7 +505,7 @@ int main(void) {
+> - }
+> - EOF
+> -   fi
+> --  if try $CC $CFLAGS -o $test $test.c; then
+> -+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+> -     sizet=3D`./$test`
+> -     echo "Checking for a pointer-size integer type..." $sizet"." | tee =
+-a configure.log
+> -     CFLAGS=3D"${CFLAGS} -DNO_SIZE_T=3D${sizet}"
+> -@@ -539,7 +539,7 @@ int main(void) {
+> -   return 0;
+> - }
+> - EOF
+> --  if try $CC $CFLAGS -o $test $test.c; then
+> -+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+> -     echo "Checking for fseeko... Yes." | tee -a configure.log
+> -   else
+> -     CFLAGS=3D"${CFLAGS} -DNO_FSEEKO"
+> -@@ -556,7 +556,7 @@ cat > $test.c <<EOF
+> - #include <errno.h>
+> - int main() { return strlen(strerror(errno)); }
+> - EOF
+> --if try $CC $CFLAGS -o $test $test.c; then
+> -+if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+> -   echo "Checking for strerror... Yes." | tee -a configure.log
+> - else
+> -   CFLAGS=3D"${CFLAGS} -DNO_STRERROR"
+> -@@ -663,7 +663,7 @@ int main()
+> -   return (mytest("Hello%d\n", 1));
+> - }
+> - EOF
+> --  if try $CC $CFLAGS -o $test $test.c; then
+> -+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+> -     echo "Checking for vsnprintf() in stdio.h... Yes." | tee -a configu=
+re.log
+> -=20
+> -     echo >> configure.log
+> -@@ -753,7 +753,7 @@ int main()
+> - }
+> - EOF
+> -=20
+> --  if try $CC $CFLAGS -o $test $test.c; then
+> -+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+> -     echo "Checking for snprintf() in stdio.h... Yes." | tee -a configur=
+e.log
+> -=20
+> -     echo >> configure.log
+> diff --git a/meta/recipes-core/zlib/zlib/CVE-2026-27171.patch b/meta/reci=
+pes-core/zlib/zlib/CVE-2026-27171.patch
+> deleted file mode 100644
+> index e6a8a3eac5..0000000000
+> --- a/meta/recipes-core/zlib/zlib/CVE-2026-27171.patch
+> +++ /dev/null
+> @@ -1,63 +0,0 @@
+> -From f234bdf5c0f94b681312452fcd5e36968221fa04 Mon Sep 17 00:00:00 2001
+> -From: Mark Adler <git@madler.net>
+> -Date: Sun, 21 Dec 2025 18:17:56 -0800
+> -Subject: [PATCH] Check for negative lengths in crc32_combine functions.
+> -
+> -Though zlib.h says that len2 must be non-negative, this avoids the
+> -possibility of an accidental infinite loop.
+> -
+> -Upstream-Status: Backport [https://github.com/madler/zlib/commit/ba829a4=
+58576d1ff0f26fc7230c6de816d1f6a77]
+> -CVE: CVE-2026-27171
+> -
+> -Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+> ----
+> - crc32.c | 4 ++++
+> - zlib.h  | 4 ++--
+> - 2 files changed, 6 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/crc32.c b/crc32.c
+> -index 6c38f5c..33d8c79 100644
+> ---- a/crc32.c
+> -+++ b/crc32.c
+> -@@ -1019,6 +1019,8 @@ unsigned long ZEXPORT crc32(unsigned long crc, con=
+st unsigned char FAR *buf,
+> -=20
+> - /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D */
+> - uLong ZEXPORT crc32_combine64(uLong crc1, uLong crc2, z_off64_t len2) {
+> -+    if (len2 < 0)
+> -+        return 0;
+> - #ifdef DYNAMIC_CRC_TABLE
+> -     once(&made, make_crc_table);
+> - #endif /* DYNAMIC_CRC_TABLE */
+> -@@ -1032,6 +1034,8 @@ uLong ZEXPORT crc32_combine(uLong crc1, uLong crc2=
+, z_off_t len2) {
+> -=20
+> - /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D */
+> - uLong ZEXPORT crc32_combine_gen64(z_off64_t len2) {
+> -+    if (len2 < 0)
+> -+        return 0;
+> - #ifdef DYNAMIC_CRC_TABLE
+> -     once(&made, make_crc_table);
+> - #endif /* DYNAMIC_CRC_TABLE */
+> -diff --git a/zlib.h b/zlib.h
+> -index 8d4b932..8c7f8ac 100644
+> ---- a/zlib.h
+> -+++ b/zlib.h
+> -@@ -1758,14 +1758,14 @@ ZEXTERN uLong ZEXPORT crc32_combine(uLong crc1, =
+uLong crc2, z_off_t len2);
+> -    seq1 and seq2 with lengths len1 and len2, CRC-32 check values were
+> -    calculated for each, crc1 and crc2.  crc32_combine() returns the CRC=
+-32
+> -    check value of seq1 and seq2 concatenated, requiring only crc1, crc2=
+, and
+> --   len2. len2 must be non-negative.
+> -+   len2. len2 must be non-negative, otherwise zero is returned.
+> - */
+> -=20
+> - /*
+> - ZEXTERN uLong ZEXPORT crc32_combine_gen(z_off_t len2);
+> -=20
+> -      Return the operator corresponding to length len2, to be used with
+> --   crc32_combine_op(). len2 must be non-negative.
+> -+   crc32_combine_op(). len2 must be non-negative, otherwise zero is ret=
+urned.
+> - */
+> -=20
+> - ZEXTERN uLong ZEXPORT crc32_combine_op(uLong crc1, uLong crc2, uLong op=
+);
+> ---=20
+> -2.43.0
+> -
+> diff --git a/meta/recipes-core/zlib/zlib_1.3.1.bb b/meta/recipes-core/zli=
+b/zlib_1.3.2.bb
+> similarity index 87%
+> rename from meta/recipes-core/zlib/zlib_1.3.1.bb
+> rename to meta/recipes-core/zlib/zlib_1.3.2.bb
+> index e42578fd7e..c7d59fdf78 100644
+> --- a/meta/recipes-core/zlib/zlib_1.3.1.bb
+> +++ b/meta/recipes-core/zlib/zlib_1.3.2.bb
+> @@ -8,13 +8,11 @@ LIC_FILES_CHKSUM =3D "file://zlib.h;beginline=3D6;endli=
+ne=3D23;md5=3D5377232268e952e9ef6
+> =20
+>  # The source tarball needs to be .gz as only the .gz ends up in fossils/
+>  SRC_URI =3D "https://zlib.net/${BP}.tar.gz \
+> -           file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+>             file://run-ptest \
+> -           file://CVE-2026-27171.patch \
+>             "
+>  UPSTREAM_CHECK_URI =3D "http://zlib.net/"
+> =20
+> -SRC_URI[sha256sum] =3D "9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91=
+eefb60f03b72df23"
+> +SRC_URI[sha256sum] =3D "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2=
+dfa8de64f0119d16"
+> =20
+>  # When a new release is made the previous release is moved to fossils/, =
+so add this
+>  # to PREMIRRORS so it is also searched automatically.
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
