@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F7FBFE5218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 778B5FF8841
 	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:56:51 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32573.1777064202600700732
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32580.1777064210095154988
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 13:56:42 -0700
+ Fri, 24 Apr 2026 13:56:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KFuUdff9;
- spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so101192365e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:56:42 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=fX51ZfHV;
+ spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so42144955e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:56:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1777064201; x=1777669001; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1777064208; x=1777669008; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8YcwZ540DUifD4V6KsO5S8rGugtz37qMuR8sr2Em/PU=;
-        b=KFuUdff9CjhHih6wH03T22dTOFTYNxDPaFO2VTuaBI3YJMGEglJCZxhDWicKJzQY7S
-         SRA81JKLf8uzIc+c9QBo6OuOv6HbNLk02Ot29LZk2NnIA+lWfMpw8zawSkhbYvtAHH3E
-         wQJlMgCF6MFsTdCGfOpij0chCtdcWxxL31PrA=
+        bh=EVZn56Z+EO8gXCc5bBC4olKUsP8bV9S8R/6BjNte8lQ=;
+        b=fX51ZfHVrItkQZ6mwuvaLMRrcxSNPQFZeDLxvTtmKdRAzoG9N8EQKzc1VKB9Y2GFgo
+         ds12f7v2CYr3u07F7gK3bRCVX+ceAfLqdNiPoOKVve5O5swQFOdh6XB+ffJu6gA+eLBX
+         8Jp2YpdhP2EYWlOQJXmJdoI3qGqKUCH7U/Hfc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777064201; x=1777669001;
+        d=1e100.net; s=20251104; t=1777064208; x=1777669008;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8YcwZ540DUifD4V6KsO5S8rGugtz37qMuR8sr2Em/PU=;
-        b=DDx0rSW/e2A/8H14MZli7CIKiUjcdlmInDEW+iqDS5MtydAEePFQmjzWxAoNNy/VlB
-         7yf7I5sgdrt8MxVDVGhfH+RByHtLBewrHpYX2CI5aum++Ya6xZnKb1DgKI3Drwp+iGMo
-         hbf+G0oy1N/uYJH89Qn+fa7A55CjuE6Ij+H+j4UE/OiggXRtigYLrF6HiPSup6N03qdf
-         mxPYx2JyJJ0oswJDADUUUltpJ1sdjBcQsuB7IdPjLfCiMFcPesCMwY8SUdwCFgEl/4Ih
-         1BTFabHMHJ8muexAZPdxh8EbkbX+DpWN06yaT/9vUf9axRSepyi4HYnVS/avDPBEn25e
-         ef1A==
-X-Gm-Message-State: AOJu0Ywliex6TgX8CRQrwf1T1fhHEegayPrlHP+ykqt39hbY069933UZ
-	ITKfWAGKkesBhsnkOkNRTyaLy6fkUlqT+LxUf0SdXZdbQi+K4fX+1ePYUUkXAry8l/whQLDiXee
-	4jFlC+ydxeShX
-X-Gm-Gg: AeBDietEpXbVK1+/7JNnO9Cd732ivyDqik4/bTQhUxfcYGx9snReXed+7eVJNAOSiNy
-	0gLZRSQDZBsflvi/ylKgu+g3G7+idvy/xTBqfFt5k3BBQikuyDvYFlp4jEqwVJqh5x+ODYR8eZm
-	7J+dDsEXKUM7wazdrkomCcY0MpimOk0odcu/mLgBwbyWkNS3nzMvIWRvKg3QL9a+I3kuZ3HY94m
-	+UDLVOz2Z4jaW9IffZdEvhhlWXi8wr/snzrzqpnigz2gWcqGmeQ1jeQSMrs5/5i5i7l7KxoytYh
-	Tgwx442ny3bw2bP3Q7uCvVcs/BfqTg/b8kNt6MeV0a5AHMuz0Muk8D03FjTli7n3DsrsbzkHOZh
-	IbOo+niZAYzkePFoVOEOgw4QsfzxJaWHVDMGKcRxyZsvp045e1te8vMN/V2aNTC86B0fJfEHxem
-	61N9nOdmEmOcSBZmHbrqdqZsecaFUeg3MksEqIcN9+V4GJKRHbeCb83QCbRQHawHh+jMiH6mTxh
-	HzHnXrvdFGtl5DseGPF4mUei7w2D2sGM7+uu5axipVs3gu2
-X-Received: by 2002:a05:600c:c4ab:b0:487:1fb4:7e1 with SMTP id 5b1f17b1804b1-488fb7864c3mr475614255e9.22.1777064200734;
-        Fri, 24 Apr 2026 13:56:40 -0700 (PDT)
+        bh=EVZn56Z+EO8gXCc5bBC4olKUsP8bV9S8R/6BjNte8lQ=;
+        b=TAQlnH4iLqTHLXe/q4ffkq+40LPPNXeaLav0BfhTCOLZvFCCHCqNy+Z9H72EdAOi3b
+         1Uxi8PUVBdIAORUVOT2sQ3NjovsVT5mpKdwtyBjExlxyxCsYXrLTzRippIN2fiYuJscl
+         euqKO9Q+dU1RzDGIy9ZhTXrl0sTSzCnVsiAmUXhPdgUZY2MvfKwnHYHNoKqoZtf1qJZP
+         jaMlXF8tEcH/GDi3MTJxoFZdsQJ87ZqeiX8d/gbLep0OsCA7rAMdtsF6rC5YvE5gYFnB
+         4htlPqAjY6doKOyzgrwKDoFK6mhs6VEfRq08NyD9k+PkURX+5G6NyWznQCcK+9ZGgBhd
+         ojtw==
+X-Gm-Message-State: AOJu0YzZ64M7mjFWq+lD1oO0t56MZXoYixOo56p7JKVi4m/F+x9hdt8p
+	pEbEvzMRZXWzA97wO61XqRF+r3650I+wiL2QFB4krOxKgp54z4gzAce411X4DkbtGw6Zzm54zV1
+	a9ZxRVR8jHthM
+X-Gm-Gg: AeBDietT03QyUeku53EZW2AZtnMM9HhdB6l1Lw9GfYs6xXqho19fPQCgWf+/S/PuRzl
+	7y9OuGxFW/ezXzwmNHoedvV573wOxLa6CoU0GZI2sV+WpuVP3K0Lqz/obj+VYSSQsL3ZxdyyKwq
+	JxD5BYKMfeGIp+FSrLzIHNRndrMCa9uqa5+J0J4mVLhLNxP877j7FuNnxIYcluVHxPYe/mw1Njz
+	ZtWB28osiDNu16Jw4y8GTYOrFkkaypPh+ZLfh8xUFYowiA3CAOCL3bPa3gw48WyRRPx0MMThpNf
+	vzkFPCAOy6B4Mb3W1RFjDE3MMs9uuZT5tKNqYygukQ1LkoooNNibtH52XpJICfHBAR+SSC77htO
+	ux0Me19Vy1ITZrFNsCo9OefVnSe82Ifr0niK+0HQwCCMxAgMQLpy+1CG144yGi3A1BGZ/OgOHDB
+	3W+GkNB9OTHw00WlfvtN6pLCdemmy8l8oXDUiqZYDMnRVefwo7+/cKbvd/jVBn8fff6nM3nw2Fo
+	vn9IafiLKDLV39vP/3z7JX/x1zOi8xU0hAKoA==
+X-Received: by 2002:a05:600c:b96:b0:48a:5339:a46 with SMTP id 5b1f17b1804b1-48a53390f6cmr266036825e9.9.1777064208204;
+        Fri, 24 Apr 2026 13:56:48 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.56.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.56.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:56:40 -0700 (PDT)
+        Fri, 24 Apr 2026 13:56:47 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/66] curl: patch CVE-2026-3783
-Date: Fri, 24 Apr 2026 22:55:04 +0200
-Message-ID: <f09125ca033126260c3d66daaa04fffb0d1480f3.1777064068.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 19/66] vim: Fix CVE-2026-28418
+Date: Fri, 24 Apr 2026 22:55:18 +0200
+Message-ID: <bbbe166c9d9df9b8cf0df6f84bf1eb3c7732b7da.1777064068.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1777064068.git.yoann.congal@smile.fr>
 References: <cover.1777064068.git.yoann.congal@smile.fr>
@@ -66,193 +66,117 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:56:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235878
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235892
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-pick patches from ubuntu per [1]
+Pick patch from [1] also mentioned in [2]
 
-[1] http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
-[2] https://ubuntu.com/security/CVE-2026-3783
-[3] https://curl.se/docs/CVE-2026-3783.html
+[1] https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28418
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-3783.patch             | 153 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
- 2 files changed, 154 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3783.patch
+ .../vim/files/CVE-2026-28418.patch            | 78 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28418.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-3783.patch b/meta/recipes-support/curl/curl/CVE-2026-3783.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-28418.patch b/meta/recipes-support/vim/files/CVE-2026-28418.patch
 new file mode 100644
-index 00000000000..609b519ddb4
+index 00000000000..3a80ba77f7d
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-3783.patch
-@@ -0,0 +1,153 @@
-+From e3d7401a32a46516c9e5ee877e613e62ed35bddc Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Fri, 6 Mar 2026 23:13:07 +0100
-+Subject: [PATCH] http: only send bearer if auth is allowed
++++ b/meta/recipes-support/vim/files/CVE-2026-28418.patch
+@@ -0,0 +1,78 @@
++From f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Mon, 23 Feb 2026 18:30:11 +0000
++Subject: [PATCH] patch 9.2.0074: [security]: Crash with overlong emacs tag
++ file
 +
-+Verify with test 2006
++Problem:  Crash with overlong emacs tag file, because of an OOB buffer
++          read (ehdgks0627, un3xploitable)
++Solution: Check for end of buffer and return early.
 +
-+Closes #20843
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-h4mf-vg97-hj8j
 +
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/e3d7401a32a46516c9e5ee877]
-+Backported by Ubuntu team http://archive.ubuntu.com/ubuntu/pool/main/c/curl/curl_8.5.0-2ubuntu10.8.debian.tar.xz
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+CVE: CVE-2026-3783
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++CVE: CVE-2026-28418
++Upstream-Status: Backport [https://github.com/vim/vim/commit/f6a7f469a9c0d09e84cd6cb46c3a9e76f684da2d]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ lib/http.c              |  1 +
-+ tests/data/Makefile.inc |  2 +-
-+ tests/data/test2006     | 98 +++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 100 insertions(+), 1 deletion(-)
-+ create mode 100644 tests/data/test2006
++ src/tag.c                    |  3 +++
++ src/testdir/test_taglist.vim | 15 +++++++++++++++
++ src/version.c                |  2 ++
++ 3 files changed, 20 insertions(+)
 +
-+diff --git a/lib/http.c b/lib/http.c
-+index a764d3c..b80bebf 100644
-+--- a/lib/http.c
-++++ b/lib/http.c
-+@@ -673,6 +673,7 @@ output_auth_headers(struct Curl_easy *data,
-+   if(authstatus->picked == CURLAUTH_BEARER) {
-+     /* Bearer */
-+     if((!proxy && data->set.str[STRING_BEARER] &&
-++	Curl_auth_allowed_to_host(data) &&
-+         !Curl_checkheaders(data, STRCONST("Authorization")))) {
-+       auth = "Bearer";
-+       result = http_output_bearer(data);
-+diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-+index 4c2cd52..9fb9274 100644
-+--- a/tests/data/Makefile.inc
-++++ b/tests/data/Makefile.inc
-+@@ -230,7 +230,7 @@ test1941 test1942 test1943 test1944 test1945 test1946 test1947 test1948 \
-+ test1955 test1956 test1957 test1958 test1959 test1960 test1964 \
-+ test1970 test1971 test1972 test1973 test1974 test1975 \
-+ \
-+-test2000 test2001 test2002 test2003 test2004 test2005 \
-++test2000 test2001 test2002 test2003 test2004 test2005 test2006 \
-+ \
-+                                                                test2023 \
-+ test2024 test2025 test2026 test2027 test2028 test2029 test2030 test2031 \
-+diff --git a/tests/data/test2006 b/tests/data/test2006
-+new file mode 100644
-+index 0000000..4b8b269
-+--- /dev/null
-++++ b/tests/data/test2006
-+@@ -0,0 +1,98 @@
-++<?xml version="1.0" encoding="US-ASCII"?>
-++<testcase>
-++<info>
-++<keywords>
-++netrc
-++HTTP
-++</keywords>
-++</info>
-++# Server-side
-++<reply>
-++<data crlf="yes">
-++HTTP/1.1 301 Follow this you fool
-++Date: Tue, 09 Nov 2010 14:49:00 GMT
-++Server: test-server/fake
-++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
-++ETag: "21025-dc7-39462498"
-++Accept-Ranges: bytes
-++Content-Length: 6
-++Connection: close
-++Location: http://b.com/%TESTNUMBER0002
++diff --git a/src/tag.c b/src/tag.c
++index a32bbb2459..45af67f20d 100644
++--- a/src/tag.c
+++++ b/src/tag.c
++@@ -1902,6 +1902,9 @@ emacs_tags_new_filename(findtags_state_T *st)
++ 
++     for (p = st->ebuf; *p && *p != ','; p++)
++ 	;
+++    // invalid
+++    if (*p == NUL)
+++	return;
++     *p = NUL;
++ 
++     // check for an included tags file.
++diff --git a/src/testdir/test_taglist.vim b/src/testdir/test_taglist.vim
++index 5a946042be..506e64f7ae 100644
++--- a/src/testdir/test_taglist.vim
+++++ b/src/testdir/test_taglist.vim
++@@ -301,4 +301,19 @@ func Test_tag_complete_with_overlong_line()
++   set tags&
++ endfunc
++ 
+++" This used to crash Vim
+++func Test_evil_emacs_tagfile()
+++  CheckFeature emacs_tags
+++  let longline = repeat('a', 515)
+++  call writefile([
+++	\ "\x0c",
+++	\ longline
+++	\ ], 'Xtags', 'D')
+++  set tags=Xtags
 ++
-++-foo-
-++</data>
+++  call assert_fails(':tag a', 'E426:')
 ++
-++<data2 crlf="yes">
-++HTTP/1.1 200 OK
-++Date: Tue, 09 Nov 2010 14:49:00 GMT
-++Server: test-server/fake
-++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
-++ETag: "21025-dc7-39462498"
-++Accept-Ranges: bytes
-++Content-Length: 7
-++Connection: close
+++  set tags&
+++endfunc
 ++
-++target
-++</data2>
-++
-++<datacheck crlf="yes">
-++HTTP/1.1 301 Follow this you fool
-++Date: Tue, 09 Nov 2010 14:49:00 GMT
-++Server: test-server/fake
-++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
-++ETag: "21025-dc7-39462498"
-++Accept-Ranges: bytes
-++Content-Length: 6
-++Connection: close
-++Location: http://b.com/%TESTNUMBER0002
-++
-++HTTP/1.1 200 OK
-++Date: Tue, 09 Nov 2010 14:49:00 GMT
-++Server: test-server/fake
-++Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
-++ETag: "21025-dc7-39462498"
-++Accept-Ranges: bytes
-++Content-Length: 7
-++Connection: close
-++
-++target
-++</datacheck>
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++<features>
-++proxy
-++</features>
-++<name>
-++.netrc default with redirect plus oauth2-bearer
-++</name>
-++<command>
-++--netrc --netrc-file %LOGDIR/netrc%TESTNUMBER --oauth2-bearer SECRET_TOKEN -L -x http://%HOSTIP:%HTTPPORT/ http://a.com/
-++</command>
-++<file name="%LOGDIR/netrc%TESTNUMBER" >
-++default login testuser password testpass
-++</file>
-++</client>
-++
-++<verify>
-++<protocol crlf="yes">
-++GET http://a.com/ HTTP/1.1
-++Host: a.com
-++Authorization: Bearer SECRET_TOKEN
-++User-Agent: curl/%VERSION
-++Accept: */*
-++Proxy-Connection: Keep-Alive
-++
-++GET http://b.com/%TESTNUMBER0002 HTTP/1.1
-++Host: b.com
-++User-Agent: curl/%VERSION
-++Accept: */*
-++Proxy-Connection: Keep-Alive
-++
-++</protocol>
-++</verify>
-++</testcase>
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/version.c b/src/version.c
++index 712a3e637c..7d265ab641 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -724,6 +724,8 @@ static char *(features[]) =
++ 
++ static int included_patches[] =
++ {   /* Add new patch number below this line */
+++/**/
+++    1685,
++ /**/
++     1684,
++ /**/
 +-- 
-+2.43.0
++2.50.1
 +
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index 0b4c93ec66c..ff4524e1bd1 100644
---- a/meta/recipes-support/curl/curl_8.7.1.bb
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -34,6 +34,7 @@ SRC_URI = " \
-     file://CVE-2025-15224.patch \
-     file://CVE-2026-1965-1.patch \
-     file://CVE-2026-1965-2.patch \
-+    file://CVE-2026-3783.patch \
- "
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 4553c69c55f..37534c696b1 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-25749.patch \
+            file://CVE-2026-26269.patch \
+            file://CVE-2026-33412.patch \
++           file://CVE-2026-28418.patch \
+            "
  
- SRC_URI:append:class-nativesdk = " \
+ PV .= ".1683"
 
