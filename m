@@ -1,561 +1,164 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9CCFE51E5
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 08:45:01 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16868.1777020297022808378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA4DFE51E9
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 08:50:11 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.8])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16920.1777020608759639752
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 01:44:57 -0700
+ Fri, 24 Apr 2026 01:50:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=MZQwuxck;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6729c6f0ca7so9027117a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 01:44:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777020295; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jZd5joQ85y/2V2bIawp7yM7ELFJUXD+q3tAYfFzbAtzqEBb4xfp3GcBaYJ43GvxIRR
-         SiO8UO8zpirYB4AGmMEXNefGsKEkYBrfoHfTS3raLg9aBZ5ByJq8Nm7bqv6XuxOGArk+
-         YLzrSyMp9lw+vL53kR2KCL5kIjQ3UIsAvBG26+zvTwIG8qRYwVvCN65GW6jQ+IWrgmLf
-         WcOz1EWOgsBorubdyRjpNQ/f9f+Zf+Zid/ZU1tH0ODJZQL2KCcD9yWg1bfLagzU+p1pU
-         Hahp+jyAUS/7Kip20iwFoRJh7tYg5gxqhxJ+pcYkiOtvfaoSecrcTa5JF+GKTvhTEK1U
-         pmeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qF17+Rq3Ao/qPaziNOUnS8zBAdKd7I2drIACZKmCLkc=;
-        fh=MON4YVbYFRcBzSKXnURwQ5FxGz4ua+sedovowY7SohU=;
-        b=RBmcvczbpk7MFvjqczsLsXHe9gPD0kjQGXrncW13bQQ9Upkn4i74ZqynpWqal2M1y2
-         AYY9cwm4ybAjAqPQ8uUrfaQv40agBn8WQqTfwiRP4Zc1R+n/l8PojLaBMWmh92sxVEM8
-         FciqrVWpuTlDOw6Dv4zQhtXO1MCsUWIFnOk6V8VOrAXr/W6X5GxViIFqk4GrBQfRypqT
-         WCwr482e9R1c66mOB7lYVIFPw4anGpTTD7LsmaOUdvHDjuHHVxEj5v2n3s3IaH8KpIdG
-         4evtCKW/gguMduIrtpWO+udrSv+ExEvi3SxB0LWNbZKnJpg6KMLf+ABakx+R5aFFsKrV
-         sQNg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777020295; x=1777625095; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qF17+Rq3Ao/qPaziNOUnS8zBAdKd7I2drIACZKmCLkc=;
-        b=MZQwuxckO7TmJ67TBxFcj9S0pEJHpLz7zOIZtC9JGGq8ypzHuPAcmo7mwoUgla0t9S
-         k2uyR+HBHI7WKX3AuRNxIAgcpYlwkgX6sDg5Q3cJtt+ojBMUnSVtpiL77JNsBKfKp3ym
-         EBh9iE3wVQ+I7JpFQgu8az88XFqjOhGp7CQONyTiKDhNAdYpViDu8rYAs3HMWXfqpZqW
-         5dx+0oYuksGHuUh0AxrAPgvJhC9Y6QY8UivtdbZRR/tOkSmLkIZX1GdXo6lZMCp/Ci1c
-         UQzXfzb3YirDLeshmKAYB1rG6Ao4ul5QZX5jian4jyHdEkyLOnebs95Pn7FMKljqpnvn
-         U5GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777020295; x=1777625095;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qF17+Rq3Ao/qPaziNOUnS8zBAdKd7I2drIACZKmCLkc=;
-        b=EZ772KDno+njBBhksu/NK8ui9G60Th3BW5NFIY9TFm2t/7SvnmSFf5b0iwh1DOCYUH
-         vTapPElzDKEbh1J+2lO0jvwVNsA+9A7PtjqokgaufYJ4B9cS5XSVXjqIGgpRQ1pPiF4a
-         yWDyNWyWnGIT8A3mqehtgCV9eb8eLyDYQcPbJuH4vaTpFRPwL68SgjagsCK/s5Am1ibr
-         OC0RQhfoezL56pnJwrpYEXpBJOt0gL2SqeU/aIqCrBLqUEUqoF8YFq2Gq1h/8QSM9Mg1
-         TsOpZYqeveioXWbfDu6aotCfKhI7+zktSYa3aR9LTMxBVdGcHJOeKwgO6ltCpZC6P1I4
-         ZvfQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+ZmWuXYnRg/GIwCCiRiqnfkXzbBp90ZajJcT4/3GG44s+joVnMjKayThVQCj2YMkcSRduq+5BjLj623EQGAGBfWQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyWpxyy1HL19gHk97lE3sw4FojCOg6qdUyx3lrs7SH9wx5PRLdW
-	1NrYwDpxKprcy/+GdMlEwdGjZyTcEbT0581d+A/EipYYoskbFpuA95qWkO9LQPtqqnCqBF5BXbg
-	7yJ4FuVvaANBme7cmcGqAcjQsqxlPLi5wt/p8
-X-Gm-Gg: AeBDieu3MyS2IZBST03ZeDPlwc6oThmaoWfovOSYX6E1n1C4oXOb/QxsjLaQz7XVMlo
-	4LACfnRpNekMjqb2ZPpImYfTqT+HT/oNlkDLgz+P80u32a2k8GrjVZMpMToll+ec/9kjxDZgeo4
-	cDpFCS8TbAqDEPb2vLUmXPUi87cow58pmh388ulx465e6l8Crfl5D2eJvgGbJOT2DI/R9qLMqeU
-	AVSyBtEzmMczNGpKY5vUeZItPWxtWPC0gX4LTzmtV//Z9i8/0E2mIirv31ga9igbNXw81Rdn/Iw
-	odICr1kBJ3jScg/CAXLb3ZG7DWtophXC8euEyaR9icUhMmJk0RFMjAj/CvcfCrvWys6qChW8F0P
-	bpF2yAQ==
-X-Received: by 2002:a17:906:6a03:b0:bac:779a:1d5b with SMTP id
- a640c23a62f3a-bac779a1dc1mr357759766b.13.1777020294828; Fri, 24 Apr 2026
- 01:44:54 -0700 (PDT)
+ dkim=pass header.i=@ericsson.com header.s=selector1 header.b=Iq1cQ6Jj;
+ spf=pass (domain: ericsson.com, ip: 40.107.159.8, mailfrom: daniel.turull@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V9xDg70iYfv9EQb4QiUuZmYhRs/Zuo0K5EfTi8eMAO3DFwo8PDeoFnJx1h0D25yi7OE2LsYaepMlhLr/VrMymQZDIuYH+KfAWspJCcqIcLQmucG8AnIulE48zP/FZ+6Xp4evV+VqurZWGL+i/7isWPOBdgaDsF5QxLbcKb8q4rMDYSXZlOI1EEwt2XkHcUI92gFv16RHN4idtNG9NBC4JtKMvMXn2nhLF5KcCRTC+HD90NHXvSmOpZIThk9XxWHyHWQ/RE+Pv09Awquj3GdPm3V2NUzcc3Q5VIF5gOTHVfzLQIVWqvkKUvelakEyhXPk4E6hYJ3EDcZl4aUomrAcFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IC6+l2xd1ibg7NAAD9w9wwJlkFzObm4xgAejnVV5Fc8=;
+ b=OKYfW9qqJAIEm7ZsVYeervX5MWXrWhEgFLbABHRfhoIGRybHPmlqUOGcHY5c8KU3ok3s0LSmOnh8f2zIAwumi204X8LlC0Gc8PiB58f84H6PJTxHTDsRz6lMrKdtoXlOYkybFtTZ+KwhEdh7UOvzJnfT0M4bi+Aj1KQIT0lAYHtOCDxsq25fXrBvVIClxdgsoBsWDAqJRBml/i41DSbG9bkdEyXxPtV5KAGDdUh3m6gbynpslqKjY662HGd22ZKyEwWxP7xroaysAGgYjEbqeg6QUW5wiNB+5u5CzcgSZtVsZ8zGSS7XAATI+0c7mHOhYHw9qft/ypwS4++Xc5/+sQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IC6+l2xd1ibg7NAAD9w9wwJlkFzObm4xgAejnVV5Fc8=;
+ b=Iq1cQ6JjHHjZTm94bOD8j0/cexmFH+mi7SajroPmcTcHOWOiflo3tloETytTNimFTn1WTIssUAQ6lWJvY38OQLHti0GVzwfC3kMp+BOQH3s03qJ+uYHykT4kk6/P4+3C2/uiVG6OajvplP4JzvzFVxR/EvrqReEko7XHe0cGioBnICluBbDIrvfvmCB0gtrfDBPO4Pm6QrmIAMKjDprZ54141F9EyOu4z2a6S9qJJO+/WXQ1197bTnb4luVsF8bWsPhfeAZ1/QM9lbCAPdLE990yS89CKH+08HyZtTHEWB3kdISU9ec0nPkc87GGKTV+Hz5ciZiugKebHB7ZljqyUw==
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
+ by AM4PR07MB11085.eurprd07.prod.outlook.com (2603:10a6:20b:6ea::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Fri, 24 Apr
+ 2026 08:50:04 +0000
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7%7]) with mapi id 15.20.9846.021; Fri, 24 Apr 2026
+ 08:50:04 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: Yoann Congal <yoann.congal@smile.fr>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [scarthgap][PATCH 3/9] python3-requests: upgrade 2.32.4
+ -> 2.32.5
+Thread-Topic: [OE-core] [scarthgap][PATCH 3/9] python3-requests: upgrade
+ 2.32.4 -> 2.32.5
+Thread-Index: AQHcyANpofR9t6QFP0ioEfau8+Tvc7Xt/JUAgAABeuA=
+Date: Fri, 24 Apr 2026 08:50:04 +0000
+Message-ID: 
+ <PA3PR07MB1072149E41A3AF6E9EA446E228A2B2@PA3PR07MB10721.eurprd07.prod.outlook.com>
+References: <20260409092936.1740143-1-daniel.turull@ericsson.com>
+ <20260409092936.1740143-4-daniel.turull@ericsson.com>
+ <DI192N2M7DFY.2KF06OYFF458A@smile.fr>
+In-Reply-To: <DI192N2M7DFY.2KF06OYFF458A@smile.fr>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|AM4PR07MB11085:EE_
+x-ms-office365-filtering-correlation-id: fc167690-8298-4357-c722-08dea1de7ab9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|10070799003|376014|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info: 
+ R2g1a9gxb9HwtWTHiKLBE25tvMFiQ6HL2htCVyWcJBVn1JwTI2+UupAld5UxFu3ZLFEjYmCh5GVV6H9g/kji0x/aptT/aJHCMPVgjG1YZKI6AoS2m45jNrxG9lhm+tg/09ppBTDKxaByyKe0kezhCXDSQ+MU/ejAW79dRgWMB9HxPoPSrQUVsTnGg4wn82mzSVO9LeIb2ZMSFzIewHEOzlsMnIHdeIeXa3djPghULYR947loA1r3QYtNsbm+NEJScFWRHUj+tOBwABJgeHpAOMroLV7QS8Te/d/F3aC91rE7L6eP4DUN4abr7NOQQnK4RpoOtgSu+/zHPjKr90q2iHnds+yCdL41zyf8H3ZHPJgxh3MFb6l4VEA9mMnB6+PrjhrKCvdoFAXFFlkby/mDv876UBZf8eqFSkojA7fE/GBb9Ir9RohBubTxNDYS/JbCUwArhIPCxrB6VchPol6FQFP1pDCebdqDtHxIgT2FZqsBrSYAb8qMW5yEsm5US7GMGz+NjHcSqH+lS+pO7jaCFzuZXMMYuqtFYVWhUMXP3mZiT6Ve+qoLdUqN5dRmsf+xijjXjW1eLDMSAPmSnLRMC4Ax7bmYksn0zWUfpBYoJ/WcVL7A/oPrYCYXy/iwuNgXFm2QWPyI0KOZLim/CHWqe6y2PEsFQt0D0TGKBMCKmu0MBgQikFIhCMV/Vm6oFa4skK3PQ5FSBnbZQ2txo+3rSH6FDIHb4j6F0v/drJdkslV3tX0SCA6GFcwx+KnEoy4q5E1Cg5+H2R1SqQ8whEfQFSHbmq7Gk4nk37KeTXGLPiA=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?NGw4TVNoVkRmQ2FNN2ZxYnloZmw1Q3p5Q1lWQS84aEpBem03bUtQWlB4Mndq?=
+ =?utf-8?B?ckJKdVlHRTc2R3BYUStQeHgzL0ZLTm5iMlpqVitFRkZiaEhCQ0c4S00yVHhl?=
+ =?utf-8?B?NU95QjFvZFA5N2psUG5NY3pzYk41VlpzVUlpeUo5TTM3eHVxTUZlRXdDZkoy?=
+ =?utf-8?B?ZlFuNTc2US96RSsrK3AvTHJhU1ZFZkdENFpPQTZCK29yRVJFbUxVbTk1aElt?=
+ =?utf-8?B?b3Z0bmI3Y3R4UWhVRXpUZU9SNFkyS3ZETnNDU09yODMrMGQ3TkdveWhUTDZL?=
+ =?utf-8?B?NVBjK0xlZlJjVGU2NFdtUXRBS240RlFhL0NEeVowSEc3ZEhFQjVHb3ZadjZ6?=
+ =?utf-8?B?d21kQTdJUkRyZHF6UXgxVjhDWGVsSEoxSnhBeGRqcmRqUWVHS0NZOEpDanQv?=
+ =?utf-8?B?WU1KS1M1anBjdFhFZFB2UXBYUzJNTmZFTnVqR2lEVmRPR20rZW5iQ0dqOU1F?=
+ =?utf-8?B?TGx3ejZEMmZQYlk3cWY1aExPWTZCY3MrT1VWbHRtYkpweFovYklWSmVydkhH?=
+ =?utf-8?B?eFZqUElVbmlSOWI1ZllXY2dOcmtnY2dLSjRhWUw0bjFXVFNoT1A1TXlzaE96?=
+ =?utf-8?B?YnExN0hDL3F6bmN4SlNnM1dsUmFpWFJkOUVVckhLWWtCSXJPNmJPQ1p3cnlh?=
+ =?utf-8?B?UjdmM3UzbFJRcXQ1SFBpY0RzN21BNlpJMjdQV09yUEFIOEtueDdYNlRQWXJ6?=
+ =?utf-8?B?Mjdya3RaWjNVT1ZqZDBwdEZsdkN3ckwxajcwTTZmYlBGekFnQ1NIWUJxZE5k?=
+ =?utf-8?B?ZlY0YXFDcFlLNEZnUks2Rnc5cFBPUWVwWkkxYjhVY1lqMVE2WmtRS3JCZW0y?=
+ =?utf-8?B?Z3l0U0dDWjBybXJmSnNQam1VR240Z1VISWgxQjZUbkgyS1gwN2ZFV1c3bzRp?=
+ =?utf-8?B?clV5SFc1T3Jxb0lNUitKSndZb201ejFkRkYvTmRSMk5UYkxoWEdTeUVvMGhL?=
+ =?utf-8?B?bzBwSGpmTTAwRkxyd2hFeEZpcVJ1V2NWVDA5ZC9SL21IM00rQm1ySEMxV1lO?=
+ =?utf-8?B?aUJMWExMQWc2QjhBNUVvQ1I2bENRaEFHdzZwME1iM1k4UUEwcG9hdmFQdlgz?=
+ =?utf-8?B?NHpyejZjbFhFa3FJSjJwS1ZacEJLSUlDUEFMdnFyTHVoSEVFelFaZTIvUHpx?=
+ =?utf-8?B?Q2hqWDBZalZwS0JVOVp4NDJvWXpvSExCOGN1Y3dwNk1JNElQRm54ek5ubmkr?=
+ =?utf-8?B?UXp1UTJuY2RrTzkwWDhyQ2xPS2QwOUZ6UmtEN2k3anczVHFqMXlQZDY2eTFx?=
+ =?utf-8?B?dXN0TDQ3bmkyVVVGdGNOM0Q2ZzZ6K0wvL2NaMHZxcU1XaHBvT2l0aGVxV1pu?=
+ =?utf-8?B?RkVudW1DeDZzZUVRTy9IYjBHL2tKUVo2L24xcmhsb3RlK2JUSUI3VTM0YTM2?=
+ =?utf-8?B?TWM2aXcvc1FnSVd2YWNrUHJ2VTlUQkFoZCtsUm9DVnlXc0tmdWh4bE1CVnJS?=
+ =?utf-8?B?cGtWVTdvSFhLU3FhTXdQdyswcnF2alJ5NTQyUHpVeHZwNGszdk13U0RvZ0Ez?=
+ =?utf-8?B?L0JLNENwMDM0WkJTV3gvVjlpREZERFRvVHdkUjIxMHUrM3BLNFVCUnIvRUVB?=
+ =?utf-8?B?YTBlaUVsendIY2p1aGdFd1RQM2xtYk1aaXcySVcydWZJME5KTnU1dXZ5bDk4?=
+ =?utf-8?B?Ym8wZkZpN25yRjRUTzJsUUFTaDRyUWlDUUphZ1pjallNTEpRbVRPS0RmTUQ4?=
+ =?utf-8?B?eE9MWEMrdlBiZkpib2xySjVRc1liaVFBUmJMTy9UK1BWWGx1eCsxME9tdUFM?=
+ =?utf-8?B?RUNjV3BKT3F6TWZ0RWowTXRzQXZ6TFhkb0FnWjdQRGFMaG5FZ1piVlZDUlFW?=
+ =?utf-8?B?OEN0dHR1WWwySzJZb1ZHZXpXaGhJNlNjN1loK2ZKTHlQbWJQSEMzcjB6SUgw?=
+ =?utf-8?B?VXRacE9UczJoQVp3NGJ5T3NnQ2lWcW1Kam5nUDVZcVhId3VYblhsMjlxLy9w?=
+ =?utf-8?B?NjNCOHBTYTVUN0VmdTh1S0tTU3pYSHNNenBkc0VhUDhUOU8xL1JtT2RRWU5H?=
+ =?utf-8?B?bFAvdlR0cVhvWUdWMG9IbTh2QUJTd2RiMWpLelNoTzhpTVVua0lWNHZNczZ5?=
+ =?utf-8?B?eDlXR1Bza0QwbUJPcGRDZ244VHdYUVI2T1l6bHhXdVlrT2U0K3VpeTloeXdi?=
+ =?utf-8?B?MGlFOURtZHdiTkxJek5rdkV6Y0dSL3JPblRmV3M5YkZLV01tTGxLMm80aVdL?=
+ =?utf-8?B?dURjREptcnFtRnRJaGFBdkRoV0VwTXI5VGtadHhvU2Nvd0c0bGpJZ3NxYlZO?=
+ =?utf-8?B?QUh2QjVZWVMzYlhoS1lNRkRiWXJDWFgwUmdFc2RBcnlnVlQvWUhOK2JQajFa?=
+ =?utf-8?B?V0xEdkt2dXhKTHZsSzJRUmErNm5TZFZiaGNLbVY2UTY2WitOS0p4cG9wajYy?=
+ =?utf-8?Q?n+LZXq8Zrwh0WSGyzRIkshBcAwyTgK6rBtgG5l5vsG76L?=
+x-ms-exchange-antispam-messagedata-1: t2OV/0Bg7gW3mg==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20260401-default-features-v3-0-8f4b40401ab7@pbarker.dev>
- <20260401-default-features-v3-2-8f4b40401ab7@pbarker.dev> <18A8B511426C8EDA.1516946@lists.openembedded.org>
- <CANPvuRmjv0YyiPqACX6JuhUfxSTYsiCQfstHxA+kFmE0sny+bg@mail.gmail.com>
- <b44d65517593ec7279aef2618f49e00908eb938c.camel@pbarker.dev> <18A8F319FD743690.2028604@lists.openembedded.org>
-In-Reply-To: <18A8F319FD743690.2028604@lists.openembedded.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 24 Apr 2026 09:44:42 +0100
-X-Gm-Features: AQROBzDCh0kMJ9jxJ70hUgApTZw5XO-xtBJF1jYPHc275YWt6-D_KZTEdYFB51k
-Message-ID: <CANPvuRk19e3PhcVXxLUJTjaPE9bMXO-04MLytqGNpA0=PEzeeA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 2/4] meta: Support opting out of any distro features
-To: quaresma.jose@gmail.com
-Cc: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006e95cb065030c7d3"
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc167690-8298-4357-c722-08dea1de7ab9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2026 08:50:04.6396
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sGYsKWG4szpEjBgiwCtPp5TrExYEuw6CSbWm3BhMR/pwD/60lARk3lTUvEWI+jn8MaZaLsGLyuIEkeGwia/b7S1E/TNNpTE8RHYbY3MBBRM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR07MB11085
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:45:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235846
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:50:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235848
 
---0000000000006e95cb065030c7d3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
-gmail.com@lists.openembedded.org> escreveu (quinta, 23/04/2026 =C3=A0(s) 10=
-:42):
-
->
->
-> Paul Barker <paul@pbarker.dev> escreveu (quinta, 23/04/2026 =C3=A0(s) 10:=
-12):
->
->> On Wed, 2026-04-22 at 21:26 +0100, Jose Quaresma wrote:
->> > Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
->> > gmail.com@lists.openembedded.org> escreveu (quarta, 22/04/2026 =C3=A0(=
-s)
->> 15:45):
->> >
->> > > Hi Paul,
->> > >
->> > > I think I found a bug that is somehow related to
->> DISTRO_FEATURES_DEFAULTS.
->> > > I don't understand why, but the variables in
->> > > DISTRO_FEATURES_DEFAULTS cannot
->> > > be used in inherit or inherit_defer.
->> > >
->> > > Let's use the following recipe as an example:
->> > >
->> > >
->> ------------------------------------------------------------------------=
--------------------------------------------
->> > > mkdir -p recipes-test/inherit
->> > > cat <<'EOF' >recipes-test/inherit/inherit.bb
->> > >
->> > > LICENSE =3D "MIT"
->> > >
->> > > # FAIL
->> > > PACKAGECONFIG ??=3D " \
->> > >         ${@bb.utils.contains('DISTRO_FEATURES',
->> > > 'gobject-introspection-data', 'ccache', '', d)} \
->> > >         ${@bb.utils.contains('DISTRO_FEATURES',
->> > > 'gobject-introspection-data', 'vala', '', d)} \
->> > > "
->> > >
->> > > # OK
->> > > #PACKAGECONFIG ??=3D " \
->> > > #        ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'ccache'=
-,
->> '',
->> > > d)} \
->> > > #        ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'vala',
->> '',
->> > > d)} \
->> > > #"
->> > >
->> > > # get PACKAGECONFIG
->> > > # bitbake-getvar -r inherit PACKAGECONFIG
->> > >
->> > > # get CCACHE_TOP_DIR
->> > > # bitbake-getvar -r inherit CCACHE_TOP_DIR
->> > > inherit_defer ${@bb.utils.filter('PACKAGECONFIG', 'ccache', d)}
->> > >
->> > > # get VALADEPENDS
->> > > # bitbake-getvar -r inherit VALADEPENDS
->> > > inherit_defer ${@bb.utils.filter('PACKAGECONFIG', 'vala', d)}
->> > > EOF
->> > >
->> > >
->> ------------------------------------------------------------------------=
--------------------------------------------
->> > >
->> >
->> > A clearer way to replicate the problem:
->> >
->> > #
->> >
->> ------------------------------------------------------------------------=
--------------------------------------------
->> > mkdir -p recipes-test/inherit
->> > cat <<'EOF' >recipes-test/inherit/inherit.bb
->> > LICENSE =3D "MIT"
->> >
->> > DISTRO_FEATURES_DEFAULTS +=3D "aaa"
->> > DISTRO_FEATURES +=3D "bbb"
->> >
->> > PACKAGECONFIG =3D " \
->> >         ${@bb.utils.contains('DISTRO_FEATURES', 'aaa', 'ccache', '',
->> d)} \
->> >         ${@bb.utils.contains('DISTRO_FEATURES', 'bbb', 'vala', '', d)}=
- \
->> > "
->> >
->> > inherit_defer ${@bb.utils.filter('PACKAGECONFIG', 'ccache', d)}
->> >
->> > inherit_defer ${@bb.utils.filter('PACKAGECONFIG', 'vala', d)}
->> > EOF
->> > #
->> >
->> ------------------------------------------------------------------------=
--------------------------------------------
->> > bitbake-getvar --value -r inherit PACKAGECONFIG
->> > bitbake-getvar --value -r inherit CCACHE_TOP_DIR
->> > bitbake-getvar --value -r inherit VALADEPENDS
->> > #
->> >
->> ------------------------------------------------------------------------=
--------------------------------------------
->> >
->> >
->> > The DISTRO_FEATURES is mapped to inherit/inherit_defer as follows:
->> >  'aaa' maps to  'ccache'
->> >  'bbb' maps to  'vala'
->> >
->> > I chose these two classes, but it could be any others. The idea is to
->> see
->> > if they were inherited by looking at the class variables.
->> > The ccache.bbclass was not inherit and so the variable 'CCACHE_TOP_DIR=
-'
->> is
->> > not defined.
->> >
->> >
->> > Hence my conclusion that DISTRO_FEATURES_DEFAULTS doesn't work for the=
-se
->> > cases, which in my opinion is not expected.
->> >
->> > I encountered this problem while debugging the patch
->> > https://lists.openembedded.org/g/openembedded-devel/topic/118939974.
->> >
->> > Best regards,
->> > Jose
->> >
->>
->> Hi Jose,
->>
->> We can simplify this even further to demonstrate what bitbake is doing:
->>
->>     LICENSE =3D "MIT"
->>
->>     python () {
->>         d.setVar('MAYBE_VALA', 'vala')
->>     }
->>
->>     inherit_defer ${@bb.utils.filter('MAYBE_VALA', 'vala', d)}
->>
->> Looking at the output of `bitbake -e`, MAYBE_VALA is set to "vala" but
->> the vala bbclass is not included.
->>
->> If we simplify the last line to `inherit_defer ${MAYBE_VALA}` we get a
->> parse error. It also doesn't work with plain inherit.
->
->
->> This contadicts the example in the bitbake docs [1], which suggests that
->> a variable assigned in an anonymous Python block can be used with
->> inherit_defer.
->>
->> [1]:
->> https://docs.yoctoproject.org/bitbake/dev/bitbake-user-manual/bitbake-us=
-er-manual-metadata.html#inherit-defer-directive
->>
->> I will investigate further!
->>
->
-> Looks like you found a much simpler way to reproduce.
-> Yesterday I spent all afternoon trying to figure out a way to reproduce i=
-t
-> because at first it didn't make any sense at all.
->
-> It seems the problem is somehow related to the python setvar usage.
-> Given that some of the values in DISTRO_FEATURES are now set using the
-> setvar function,
-> like the ones from DISTRO_FEATURES_DEFAULTS, it will suffer from this
-> problem.
->
-> Thus some of the elements in DISTRO_FEATURES won't be usable in
-> inherit/inherit_defer.
-> This is a serious bug affecting DISTRO_FEATURES, which is widely used.
->
-
-The problem was solved by Richard [1] and the inherit is now working again
-as expected.
-
-Thank you for your effort and record-time resolution! I would never have
-been able to solve this problem myself.
-
-[1]
-https://git.openembedded.org/openembedded-core/commit/?id=3D6b553a5042b9d58=
-28a9da675ede16e10f06dae90
-
-Jose
-
-
->
-> I will continue my analysis as well, but I doubt I will find any solution=
-.
->
-> Thanks
->
-> Jose
->
->
->> Best regards,
->>
->> --
->> Paul Barker
->>
->>
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#235753):
-> https://lists.openembedded.org/g/openembedded-core/message/235753
-> Mute This Topic: https://lists.openembedded.org/mt/118620443/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000006e95cb065030c7d3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma v=
-ia <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt=
-;quaresma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.=
-com@lists.openembedded.org</a>&gt; escreveu (quinta, 23/04/2026 =C3=A0(s) 1=
-0:42):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Paul Barker &lt;<a href=3D"mailto:paul@pbarke=
-r.dev" target=3D"_blank">paul@pbarker.dev</a>&gt; escreveu (quinta, 23/04/2=
-026 =C3=A0(s) 10:12):<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Wed, 2026-04-22 at 21:26 +0100, Jose Quaresma wrote:<br>
-&gt; Jose Quaresma via <a href=3D"http://lists.openembedded.org" rel=3D"nor=
-eferrer" target=3D"_blank">lists.openembedded.org</a> &lt;quaresma.jose=3D<=
-br>
-&gt; <a href=3D"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">=
-gmail.com@lists.openembedded.org</a>&gt; escreveu (quarta, 22/04/2026 =C3=
-=A0(s) 15:45):<br>
-&gt; <br>
-&gt; &gt; Hi Paul,<br>
-&gt; &gt; <br>
-&gt; &gt; I think I found a bug that is somehow related to DISTRO_FEATURES_=
-DEFAULTS.<br>
-&gt; &gt; I don&#39;t understand why, but the variables in<br>
-&gt; &gt; DISTRO_FEATURES_DEFAULTS cannot<br>
-&gt; &gt; be used in inherit or inherit_defer.<br>
-&gt; &gt; <br>
-&gt; &gt; Let&#39;s use the following recipe as an example:<br>
-&gt; &gt; <br>
-&gt; &gt; -----------------------------------------------------------------=
---------------------------------------------------<br>
-&gt; &gt; mkdir -p recipes-test/inherit<br>
-&gt; &gt; cat &lt;&lt;&#39;EOF&#39; &gt;recipes-test/inherit/<a href=3D"htt=
-p://inherit.bb" rel=3D"noreferrer" target=3D"_blank">inherit.bb</a><br>
-&gt; &gt; <br>
-&gt; &gt; LICENSE =3D &quot;MIT&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; # FAIL<br>
-&gt; &gt; PACKAGECONFIG ??=3D &quot; \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO=
-_FEATURES&#39;,<br>
-&gt; &gt; &#39;gobject-introspection-data&#39;, &#39;ccache&#39;, &#39;&#39=
-;, d)} \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO=
-_FEATURES&#39;,<br>
-&gt; &gt; &#39;gobject-introspection-data&#39;, &#39;vala&#39;, &#39;&#39;,=
- d)} \<br>
-&gt; &gt; &quot;<br>
-&gt; &gt; <br>
-&gt; &gt; # OK<br>
-&gt; &gt; #PACKAGECONFIG ??=3D &quot; \<br>
-&gt; &gt; #=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEA=
-TURES&#39;, &#39;systemd&#39;, &#39;ccache&#39;, &#39;&#39;,<br>
-&gt; &gt; d)} \<br>
-&gt; &gt; #=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEA=
-TURES&#39;, &#39;systemd&#39;, &#39;vala&#39;, &#39;&#39;,<br>
-&gt; &gt; d)} \<br>
-&gt; &gt; #&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; # get PACKAGECONFIG<br>
-&gt; &gt; # bitbake-getvar -r inherit PACKAGECONFIG<br>
-&gt; &gt; <br>
-&gt; &gt; # get CCACHE_TOP_DIR<br>
-&gt; &gt; # bitbake-getvar -r inherit CCACHE_TOP_DIR<br>
-&gt; &gt; inherit_defer ${@bb.utils.filter(&#39;PACKAGECONFIG&#39;, &#39;cc=
-ache&#39;, d)}<br>
-&gt; &gt; <br>
-&gt; &gt; # get VALADEPENDS<br>
-&gt; &gt; # bitbake-getvar -r inherit VALADEPENDS<br>
-&gt; &gt; inherit_defer ${@bb.utils.filter(&#39;PACKAGECONFIG&#39;, &#39;va=
-la&#39;, d)}<br>
-&gt; &gt; EOF<br>
-&gt; &gt; <br>
-&gt; &gt; -----------------------------------------------------------------=
---------------------------------------------------<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; A clearer way to replicate the problem:<br>
-&gt; <br>
-&gt; #<br>
-&gt; ----------------------------------------------------------------------=
----------------------------------------------<br>
-&gt; mkdir -p recipes-test/inherit<br>
-&gt; cat &lt;&lt;&#39;EOF&#39; &gt;recipes-test/inherit/<a href=3D"http://i=
-nherit.bb" rel=3D"noreferrer" target=3D"_blank">inherit.bb</a><br>
-&gt; LICENSE =3D &quot;MIT&quot;<br>
-&gt; <br>
-&gt; DISTRO_FEATURES_DEFAULTS +=3D &quot;aaa&quot;<br>
-&gt; DISTRO_FEATURES +=3D &quot;bbb&quot;<br>
-&gt; <br>
-&gt; PACKAGECONFIG =3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEAT=
-URES&#39;, &#39;aaa&#39;, &#39;ccache&#39;, &#39;&#39;, d)} \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEAT=
-URES&#39;, &#39;bbb&#39;, &#39;vala&#39;, &#39;&#39;, d)} \<br>
-&gt; &quot;<br>
-&gt; <br>
-&gt; inherit_defer ${@bb.utils.filter(&#39;PACKAGECONFIG&#39;, &#39;ccache&=
-#39;, d)}<br>
-&gt; <br>
-&gt; inherit_defer ${@bb.utils.filter(&#39;PACKAGECONFIG&#39;, &#39;vala&#3=
-9;, d)}<br>
-&gt; EOF<br>
-&gt; #<br>
-&gt; ----------------------------------------------------------------------=
----------------------------------------------<br>
-&gt; bitbake-getvar --value -r inherit PACKAGECONFIG<br>
-&gt; bitbake-getvar --value -r inherit CCACHE_TOP_DIR<br>
-&gt; bitbake-getvar --value -r inherit VALADEPENDS<br>
-&gt; #<br>
-&gt; ----------------------------------------------------------------------=
----------------------------------------------<br>
-&gt; <br>
-&gt; <br>
-&gt; The DISTRO_FEATURES is mapped to inherit/inherit_defer as follows:<br>
-&gt;=C2=A0 &#39;aaa&#39; maps to=C2=A0 &#39;ccache&#39;<br>
-&gt;=C2=A0 &#39;bbb&#39; maps to=C2=A0 &#39;vala&#39;<br>
-&gt; <br>
-&gt; I chose these two classes, but it could be any others. The idea is to =
-see<br>
-&gt; if they were inherited by looking at the class variables.<br>
-&gt; The ccache.bbclass was not inherit and so the variable &#39;CCACHE_TOP=
-_DIR&#39; is<br>
-&gt; not defined.<br>
-&gt; <br>
-&gt; <br>
-&gt; Hence my conclusion that DISTRO_FEATURES_DEFAULTS doesn&#39;t work for=
- these<br>
-&gt; cases, which in my opinion is not expected.<br>
-&gt; <br>
-&gt; I encountered this problem while debugging the patch<br>
-&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-devel/topic/1=
-18939974" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/g/openembedded-devel/topic/118939974</a>.<br>
-&gt; <br>
-&gt; Best regards,<br>
-&gt; Jose<br>
-&gt; <br>
-<br>
-Hi Jose,<br>
-<br>
-We can simplify this even further to demonstrate what bitbake is doing:<br>
-<br>
-=C2=A0 =C2=A0 LICENSE =3D &quot;MIT&quot;<br>
-<br>
-=C2=A0 =C2=A0 python () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;MAYBE_VALA&#39;, &#39;vala&#39;)<=
-br>
-=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 inherit_defer ${@bb.utils.filter(&#39;MAYBE_VALA&#39;, &#39;v=
-ala&#39;, d)}<br>
-<br>
-Looking at the output of `bitbake -e`, MAYBE_VALA is set to &quot;vala&quot=
-; but<br>
-the vala bbclass is not included.<br>
-<br>
-If we simplify the last line to `inherit_defer ${MAYBE_VALA}` we get a<br>
-parse error. It also doesn&#39;t work with plain inherit.</blockquote><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-This contadicts the example in the bitbake docs [1], which suggests that<br=
->
-a variable assigned in an anonymous Python block can be used with<br>
-inherit_defer.<br>
-<br>
-[1]: <a href=3D"https://docs.yoctoproject.org/bitbake/dev/bitbake-user-manu=
-al/bitbake-user-manual-metadata.html#inherit-defer-directive" rel=3D"norefe=
-rrer" target=3D"_blank">https://docs.yoctoproject.org/bitbake/dev/bitbake-u=
-ser-manual/bitbake-user-manual-metadata.html#inherit-defer-directive</a><br=
->
-<br>
-I will investigate further!<br></blockquote><div><br></div><div>Looks like =
-you found a much simpler way to reproduce.</div><div>Yesterday I spent all =
-afternoon trying to figure out a way to reproduce it because at first it di=
-dn&#39;t make any sense at all.<br><br>It seems the problem is somehow rela=
-ted to the python setvar usage.<br>Given that some of the values in DISTRO_=
-FEATURES=C2=A0are now set using the setvar=C2=A0function,</div><div>like th=
-e ones from=C2=A0DISTRO_FEATURES_DEFAULTS, it will suffer from this problem=
-.</div><div><br></div><div>Thus some of the elements in DISTRO_FEATURES won=
-&#39;t be usable in inherit/inherit_defer.<br>This is a serious bug affecti=
-ng DISTRO_FEATURES, which is widely used.</div></div></div></blockquote><di=
-v><br></div><div>The problem was solved by=C2=A0<span style=3D"color:rgb(51=
-,51,51);font-family:sans-serif;font-size:13.3333px">Richard</span>=C2=A0[1]=
- and the inherit=C2=A0is now working again as expected.<br><br></div><div>T=
-hank you for your effort and record-time resolution! I would never have bee=
-n able to solve this problem myself.</div><div><br></div><div>[1] <a href=
-=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D6b553a5042b=
-9d5828a9da675ede16e10f06dae90">https://git.openembedded.org/openembedded-co=
-re/commit/?id=3D6b553a5042b9d5828a9da675ede16e10f06dae90</a></div><div><br>=
-</div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div><br></div><di=
-v>I will continue my analysis as well, but I doubt I will find any solution=
-.</div><div><br></div><div>Thanks</div><div><br></div><div>Jose</div><div><=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Best regards,<br>
-<br>
--- <br>
-Paul Barker<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#235753): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/235753" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/235753</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118620443/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/118620443/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div>
-
---0000000000006e95cb065030c7d3--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWW9hbm4gQ29uZ2FsIDx5
+b2Fubi5jb25nYWxAc21pbGUuZnI+DQo+IFNlbnQ6IEZyaWRheSwgMjQgQXByaWwgMjAyNiAxMDo0
+Mw0KPiBUbzogRGFuaWVsIFR1cnVsbCA8ZGFuaWVsLnR1cnVsbEBlcmljc3Nvbi5jb20+OyBvcGVu
+ZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtzY2FydGhnYXBdW1BBVENIIDMvOV0gcHl0aG9uMy1yZXF1ZXN0czogdXBncmFk
+ZQ0KPiAyLjMyLjQgLT4gMi4zMi41DQo+IA0KPiBbWW91IGRvbid0IG9mdGVuIGdldCBlbWFpbCBm
+cm9tIHlvYW5uLmNvbmdhbEBzbWlsZS5mci4gTGVhcm4gd2h5IHRoaXMgaXMNCj4gaW1wb3J0YW50
+IGF0IGh0dHBzOi8vYWthLm1zL0xlYXJuQWJvdXRTZW5kZXJJZGVudGlmaWNhdGlvbiBdDQo+IA0K
+PiBPbiBUaHUgQXByIDksIDIwMjYgYXQgMTE6MjkgQU0gQ0VTVCwgRGFuaWVsIFR1cnVsbCB2aWEN
+Cj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gPiBGcm9tOiBEYW5pZWwgVHVydWxs
+IDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4NCj4gPg0KPiA+IENoYW5nZWxvZyBmb3IgcHl0
+aG9uMy1yZXF1ZXN0czogMi4zMi40IC0+IDIuMzIuNQ0KPiA+ID09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA+DQo+ID4gMi4zMi41
+ICgyMDI1LTA4LTE4KQ0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPg0KPiA+ICoqQnVnZml4
+ZXMqKg0KPiA+DQo+ID4gLSBUaGUgU1NMQ29udGV4dCBjYWNoaW5nIGZlYXR1cmUgb3JpZ2luYWxs
+eSBpbnRyb2R1Y2VkIGluIDIuMzIuMCBoYXMgY3JlYXRlZA0KPiA+ICAgYSBuZXcgY2xhc3Mgb2Yg
+aXNzdWVzIGluIFJlcXVlc3RzIHRoYXQgaGF2ZSBoYWQgbmVnYXRpdmUgaW1wYWN0IGFjcm9zcyBh
+DQo+IG51bWJlcg0KPiA+ICAgb2YgdXNlIGNhc2VzLiBUaGUgUmVxdWVzdHMgdGVhbSBoYXMgZGVj
+aWRlZCB0byByZXZlcnQgdGhpcyBmZWF0dXJlIGFzIGxvbmcNCj4gdGVybQ0KPiA+ICAgbWFpbnRl
+bmFuY2Ugb2YgaXQgaXMgcHJvdmluZyB0byBiZSB1bnN1c3RhaW5hYmxlIGluIGl0cyBjdXJyZW50
+IGl0ZXJhdGlvbi4NCj4gPg0KPiA+ICoqRGVwcmVjYXRpb25zKioNCj4gPiAtIEFkZGVkIHN1cHBv
+cnQgZm9yIFB5dGhvbiAzLjE0Lg0KPiA+IC0gRHJvcHBlZCBzdXBwb3J0IGZvciBQeXRob24gMy44
+IGZvbGxvd2luZyBpdHMgZW5kIG9mIHN1cHBvcnQuDQo+IA0KPiBTb3JyeSBidXQgdGhhdCBtZWFu
+IGRyb3BwaW5nIHN1cHBvcnQgZm9yIGEgcHl0aG9uIHZlcnNpb24gd2UgYXJlIHN1cHBvc2VkDQo+
+IHRvIHN1cHBvcnQ6DQo+IEJpdGJha2UgaW4gc2NhcnRoZ2FwIG5lZWRzID49IDMuOCBhbmQgcHl0
+aG9uMy1yZXF1ZXN0cyBjYW4gYmUgLW5hdGl2ZSBzbw0KPiB0aGF0IG1lYW4gdGhhdCBhIHB5dGhv
+biAzLjggY2FuIHJ1biB0aGlzIGNvZGUuDQoNClRoYW5rcywgSSBtaXNzZWQgdGhhdCBzaW5jZSBv
+ZS1jb3JlIHNjYXJ0aGdhcCBoYXMgMy4xMi4xMi4gSSdsbCBjaGVjayBmb3IgdGhhdCBpbiB0aGUg
+bmV4dCBweXRob24zLSogdXBkYXRlcy4NCg0KSSBndWVzcyB0aGVuIHdlIG5lZWQgdG8gZHJvcCB0
+aGUgcGF0Y2guDQoNCg0KRGFuaWVsDQo=
 
