@@ -1,129 +1,238 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D79C6FED3E5
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 15:19:39 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24823.1777043971000445773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 763AEFED3EA
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 15:41:00 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.37])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25816.1777045258831098325
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 08:19:31 -0700
+ Fri, 24 Apr 2026 08:40:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=h8BBFqK7;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8acb550db18so83715126d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 08:19:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777043970; cv=none;
-        d=google.com; s=arc-20240605;
-        b=c2LsBimcNDSu1T79qehvQwhXd5l1xD4AOdWZtbATfZeAOZ/FtZre9q6L74dOWDOOqv
-         7ySbv/C2TNcbRfKml5mSwjZTpdjCytHZoJ6nraWze2Ves0or4PsPiCVpih5rl+PG19To
-         MRnExOiTTtLMXBjMbV5r2JY34OLaaVv3pxbWaIFRVp/XCil9+wQuKCAPjBdj0811opIG
-         YTOKuXUGytw9+WZpd1Tc7KW964A6BiW6V98CJt6Dtwpfp/3j5f0RZC7QNAg2MuefwMGw
-         1zxs/xmAXGL4cCbGeWWn80mvWFKF5RLWDSf9kujyZtzYanzDYeUJQkfc2HHC9EqDwHfC
-         +lIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=m6CaUaqBAowGz5XN4Auaf6u8zGDj08mg8Xl9G72IWcc=;
-        fh=N0upAYIiDVqGfj5GUfc6e4DBLv/4Q3r1ndLH3rRtA2Q=;
-        b=UyApPG8kl32O9dRVZaR2KxoN9QlvjYYdreK59YFcl5t9A+9XRLXtJ9mw1ebDCsbBVS
-         egkKmQej+UQ7a6M5jFJLJ36TCp+K3Gnxali9+GAeJ2HlL6y7lcljhtWOHjFXP8xAVK1N
-         OIMRcegNnPCcsMdcI3sp4lf9qb9oDfjc60KrSHd7HV6Od92j0ZTZocaTDKnZJl1bxmhq
-         YicDfUtcqkmjd40J2ssEWKB+HFTspithFSb/1VxRm9wQ/sWHT7hy2hKlvsiA6bEIsky6
-         G3WqY4y4lAe6VXn1TLiYHIaS4EwrsZ2+z4mtXZifZarRa//i2GnZjXZz2Z4jLreFGtOb
-         AhVw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777043970; x=1777648770; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=m6CaUaqBAowGz5XN4Auaf6u8zGDj08mg8Xl9G72IWcc=;
-        b=h8BBFqK7tOy4zqw4Z4o5FRc7N+4OyRIkZ4ui7S89+tAE/zOPfxjIFOeMCXBcJ0Y19M
-         FY8EjXxmCraPfWGTr23IeSZkRei/Xz0XX6QJ7p+6Fo9PXUJIXaoj2wfdy+KUkV2iaQiN
-         PFvvB/mljPvdP1jc06vDGrw1go8N3b9TgUeCrazs6J2CJTgFhluyEfvaPGRql7cOEuRi
-         HtnELidmMqukeqSMFpJP4GYWlcp13IP0LIQn2XQloEP/d/jNuFkWjB57d+5grfssbPVV
-         c9q01oVeV7vFjZCljgiddLSr1541EEJWYWqUS4bbtMJyB9jHGIsq7mdO95lKexjlY2+6
-         EnHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777043970; x=1777648770;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m6CaUaqBAowGz5XN4Auaf6u8zGDj08mg8Xl9G72IWcc=;
-        b=f64VvbvES+uhAWM2G5yA9XPH3zkXZ9T5I6lPiohXGesz77ypRbHTwQDbsok1lshFG4
-         SgCvggJqG7UdxcywxKjhE0bjPrOhYStO7dZnYPxKHH15iE6GTUNSt5nl7DgEtai/AHXT
-         cac32gL2T6jSB1PKjTMAyPWTk8ZH8KT2ZtgmUGHgw4Vjgcewt6qljSq9M/Fl9F1ZRU+p
-         Qk/zUFEN/m/phXB5QSALS9bcuKgNyh5wRV6YUkFjugfA5ML1F1/AoWG8PslVT2PELlt5
-         dQ1NQg1uYGuSEd8TFmzbBIM2bJzSSlBZYQ87Le2vIgO9Jvg1eyFDsU9ycvGcLcjakDUW
-         DfHA==
-X-Gm-Message-State: AOJu0Yw+X85X41dNBhzGiiiatk+Z/MXPdmgwS4Wea7jhzsRdz8QwG5eM
-	0AVsMvPedAu7DV/WmzzfAjOpacH1FyLZdZ5N9whAAXAKbJSs4BQNXYjkQ9ghALpg1rOMPHQn3FC
-	IqblYSs7oYYUG+xUiaq8/rWY/Gs0P4kQ=
-X-Gm-Gg: AeBDievDTjT+lpQ6L8s3Hhvmdi58eYhOR72MxSbYcq6+02cXYAtU2qGvVr3TXnTa+tD
-	1wAUsdjmZb4ZknBdcIWQgJSQpAGUP2NkMfdx8OXrRmg1/6msdE5D7LSEkXaPJi44wV2vcL3rroy
-	3CyETUkmSVPFOhFJnlSs3N5fUaqrCZDNu6ywxS5AXavX7kKzfR0cjN5sXXHptPXxBAES2UfXBvl
-	/jvUx6mMg7tckcXEVlWoDbAluK1RNsgP241BYLOGA5s9xhNAMzn+PaIqbv7/aKgDdPilqWN1pNV
-	LvACmEjGoRk5Ylk27obHVDdvciT5uARMxp3hwAkdDjsL0PuxYjOV
-X-Received: by 2002:a05:6214:4703:b0:89c:8709:d238 with SMTP id
- 6a1803df08f44-8b02816d232mr429708546d6.40.1777043969922; Fri, 24 Apr 2026
- 08:19:29 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=fjIwUax3;
+ spf=pass (domain: cherry.de, ip: 52.101.70.37, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JBxT/E/W5ixSLVPBt1gcCE4QoQLgMylw1YDeo3vmSjOTgKtuzz/F86lIQNoc/2ZlWTCuPf0jXKUEw1SIhLD44q42U3OXlbUnyKp0kW8kEsF/sqaS+ul+PkFvaj+PUdCIwa+n/rrTuZ7u9f0Pm6nb5F58AwySjObvEJ61pprJhlsPoWx49AnO0+X5LjgC7AWUYYUKCfha7oBCnn3PLDwGHp50yosL/jBvVMgyQo955OTpWzus4+BtTYcBreDjYJTq9p5aNRD6niLcUbCsTwdISrPyIzpmpGt5JATgupdWBFZwvjJyYJ/v7PHEiMxmx3KC9SxpHV/vCWobGnv5anaWvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yw7MnkHiFd5P9qV69XEImTAWcwLB6U0Fe/gMPVh2cPs=;
+ b=Kyq+iHl0+adalCuFVs7Hje8j5C8/mAmYXnL9Pd1zXWc2apIOAtaxrh0twbCg4F2NDkCrd3L4AsVNmTorMBduReJL18+tqCcFSDcFbN5JJWwF4baO7DDNjYxUlxse9qoS3ChYoVTZROBfwPpqhdh/NFFR0s4VL+FZPqHLkEV0CyNz9XM4qyJ16hUcsVTvGZtGuM9a+3pCBU+gD4Kh6xwvh8yWeiqZNL4i3NSjithAnHWtcHcXsjRtsRBpZ10LWh9fsGoUaJn47oeVyJZSG7OhgERpBgcEfL2eoMXPvKDtZmFk+400SwNNQ050C6NQRrPQnQ6uSQ15/SlE2kaj1g/q6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yw7MnkHiFd5P9qV69XEImTAWcwLB6U0Fe/gMPVh2cPs=;
+ b=fjIwUax3T34Mv0RgXIjMS/XmmXKY6O2ebsdfmZVq/zu9KgPb356/Fy7ROjkub6rS1QAIKRGd1aQjMwb3y2edjOazUYm3nroi184UBsOvO8Q6UoLJvvqlMXbWpUf6WDHvJltOybCYhEyFuC8mhYod7GXTDXjjktH0508iSuYlczc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
+ by AM0PR04MB6868.eurprd04.prod.outlook.com (2603:10a6:208:18c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.22; Fri, 24 Apr
+ 2026 15:40:54 +0000
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00%4]) with mapi id 15.20.9846.017; Fri, 24 Apr 2026
+ 15:40:54 +0000
+Message-ID: <f038565f-4a53-426b-990f-d41e9d1e3732@cherry.de>
+Date: Fri, 24 Apr 2026 17:40:52 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] meta: simplify conditional operations with
+ bb.utils.filter
+To: joaomarcos.costa@bootlin.com, openembedded-core@lists.openembedded.org
+CC: thomas.petazzoni@bootlin.com
+References: <20260424151718.13081-1-joaomarcos.costa@bootlin.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260424151718.13081-1-joaomarcos.costa@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: VI1PR04CA0062.eurprd04.prod.outlook.com
+ (2603:10a6:802:2::33) To DBBPR04MB7737.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e5::22)
 MIME-Version: 1.0
-References: <711678500.248994.1777008574252@app.mailbox.org>
-In-Reply-To: <711678500.248994.1777008574252@app.mailbox.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 24 Apr 2026 17:19:17 +0200
-X-Gm-Features: AQROBzDS-hQdCaIVX7d7h8UdwaIfY0jhq6LPMdjKuT85h28AErtDP44my8Lr6TE
-Message-ID: <CANNYZj-O2OXqe4JnHhnP1D9ETtmWgwPt+D-hJ+YQ=XheMietYw@mail.gmail.com>
-Subject: Re: [OE-core] DPKG Issue - guidance neede
-To: patrick.vogelaar.dev@mailbox.org
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|AM0PR04MB6868:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92d8bc64-a294-4a23-f1ed-08dea217df13
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|10070799003|1800799024|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 
+	32YztVWFIjtb7Nqaf6hOXHWE//V5yMR+jIJJ45V7RvCdc6jiruIZQgel8OcoOAb9WMgANT8aCgWZ/3+wR+VlmtLfovSqYwmDSQSN7pxXHnpw5mntjI643smVYARZU5jiv+6q/0tQe8CXtzQt7Mpf7tQ3CDL5L90NWEbrZdS3kfcGfw45oLDV2dp3VjneWDxXOiPmlSmK72iUIZrX37XS5OJkx5+2/RFlIGjy6Qbz1XK6CVs3U49AoQdjjiN3N6fSbAcnYjyu6wqVTF/oK77uRsLbZakp0ILcfnKaSDmTDlOYZtkARap+5rMSTv+WWX66vMzt8cNPw3PsIvRU94zgh/QtccunN+pkK0/GgDyU/Z46ADFNin6IY9F/eii4mQbYq/Rwa1exCv7mhTB/oJ2FhfWP9VOQFt7EgR+dhfGb0aRRJXBxz7r1C6A9tBv0DixXNzJmaN1ns9/Ws+B5EbtaPkPwy6VGnQ/2armSqNF/GAQEWNaITJLN2KRdLTlZ++qxwwPSXys0fvXdaa+WdDxeNxM5YbcnLpq0PV+UOaP7aRqlrwvkuz3hJZgCcXo3vAbl+y1l/XPCOuky+9vYIabpF0ZLdvo5yP78um+gfbJpajmDqpVhXCTQnVBhs7nYIWirvt5eRgNHwVmLpPGjYChQu1geiM7ISIQ+skWuLb7CJv6rZkGGs9hsvVZE2BSO17Ct2a5jY5U0P4Dhi1GcF6qAOUX+nsm/8Y1B4Zw0qEONe8Y=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(10070799003)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?dPMicqn3nAh3fCGZiOKFDzKGlZTt0QgU082ZZxaaLguQ3ZkhCUZpp8YkAYhm?=
+ =?us-ascii?Q?rFKap+YdEwpQMMLeKCwaT3I0krE2jnKycmizOQ9MCtqEmIdTs7AurQrb0KL4?=
+ =?us-ascii?Q?NpshulJDsobveD5/1Yx3zf0puy7AZ9IDIugpHp6VDGdE92WcS9JGXHuDxLk8?=
+ =?us-ascii?Q?ZQMruEKEsJhzdl5gty5Efqw72HyMUACoFjezc3fVgmtuArqerUxnRmw+WRxp?=
+ =?us-ascii?Q?UMnAFEFhVJIxOYeQOz6aqSKEY0P6qdjOsArQjsJrojclSDYcBqS4ZxgINUmC?=
+ =?us-ascii?Q?K1aEKtRYOvudPIoqkGPaUKWuxMZHq32SfCtPe+oqiIQ/qDs74b0vaKEcVMSK?=
+ =?us-ascii?Q?o6w+VrFl915uoMjke7KfBZf6y1C/oC1n6IHGC2CaETS4EgH4DQarFwelgtT0?=
+ =?us-ascii?Q?Tmu/+kGY1ZdbIYpbDkIxDPBmeqHYOv6wGefCOMVePDipneWbyjcLnFqyuumM?=
+ =?us-ascii?Q?VA/edXorbZ+iNEhHjWJpr69mLszepHQA+WCaF3NA/StqGU50iYKsYe+Gq2+N?=
+ =?us-ascii?Q?0Gxpqvq3isPLvScgGDStVK4GNIiIx36vlEQWGRJ2U7JRM8YJKnpuxQyDPyHJ?=
+ =?us-ascii?Q?KG2if/CMVTCELJBx5nrA5wE3DAksd3JAwupk/10x6mmcoPzIHzh2rsp9Bw7H?=
+ =?us-ascii?Q?x2w157S8hlD5LsfUlZtbOOg7D8VJQ3t1mcVgye4/VkiZPirD9m1U+F/Ag034?=
+ =?us-ascii?Q?7f4EtmDNZIZlxsF5q3dtAR1hMk1jxQEXqM5LW/oKMEHL1MVoIRBkYZMYKbed?=
+ =?us-ascii?Q?ua9tYRLpFWtsV6mSFkDPabYCLbTu7v94jEFtbwbDzXoJyA0azVhGtjSdeEUZ?=
+ =?us-ascii?Q?wBVoM35Ra9DmPRqUQ2bcwhdQqVy6s85V+Gza+dr59JzWw6OWdJJ1TIUBm23b?=
+ =?us-ascii?Q?RlJE9rC+o/vYb5BXJFsjWJ+3xHfj2Pwqk47bkBtTHWoor0KEcPipAaRd/+9g?=
+ =?us-ascii?Q?eU7QVo9flRRa1B7ksm5kxHYaw1KWNccn8wvKe22rs5xsk9qdO7lNAQz695Vb?=
+ =?us-ascii?Q?nXXLxVq3ugm86Hqvezwc5kp1315h6FSrruW+bkFoT7DoMbVsBMmXBUd4G1Hy?=
+ =?us-ascii?Q?kLt2r6WhabcX4c9aT38BofD3cJ/JdvFvjKcLPHhO+Bt5s9fskEhFB5vF2C7G?=
+ =?us-ascii?Q?lYMt/ddoAJXczPCm6tA4GHPL3AeufWJNeJhhWFOsK8FOqzGj4QKqKQOKHodb?=
+ =?us-ascii?Q?KtE6xLUVMj/FLzgRcuh7jEXPM5G6N2VIVh8QDQnBXuG52jkQAqAI3wNvNapu?=
+ =?us-ascii?Q?qb8RLDumWMe01FngJdL/Ssu5ZMryXcCIOuyKVRCre0vOynyarurNYMW2Jx7A?=
+ =?us-ascii?Q?5sqkldQS0Sw5ODcz9v4ZIrO2hcpYkLz4IHd7DCIvy78P6vVuo5WRTW2UwqTY?=
+ =?us-ascii?Q?/cLTNvnjFC0jkakZsEkwMXANxp2G60JDtpQwf+0WJafSXdDK3u/C8t/Yd7se?=
+ =?us-ascii?Q?Rg+N1YZ1BKelxpjhgE1zskJMRhF2XhCiRihvDrlzCTuMnC1JWsiybf/p83Oe?=
+ =?us-ascii?Q?5AOVzV5ezVI2vTJsdWkuptRHRGoG3EtGs3cwQUJovRSVEyF5MpoXMkKCvhxJ?=
+ =?us-ascii?Q?o5NdW6OwTNEYzd4PEF1Z9zw9ktWXS1qJS++5v6LcT5SBHaxB1Bz/MwqStdSl?=
+ =?us-ascii?Q?j68BY/zLRVTS2mQ674wkIwk5KIwYPNfsOoAahS+Q49jHJq83X9UHcNqBmecl?=
+ =?us-ascii?Q?3oi12zyFMw8hFfo59NH0Vdx79QCDEIXmPPbcr9u3/UkbyHSsgz1ID4pPV2ep?=
+ =?us-ascii?Q?sshMLx9494NRegA+bp6oGJcLJ3wpzdAzcUmmHiX6USdLbmR0e0nM?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92d8bc64-a294-4a23-f1ed-08dea217df13
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 15:40:54.4899
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VbT8Amg9NN0tLYsTL9Z377xrGO28YQ+6OkfhLb4iz2t5EOLYjn4Mj9PaTp+qXzO4UXT6a5Sb8wF+5Ihhog5JFs3XaEo6pjYWqQHOj7gWLj4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6868
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 15:19:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235869
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 15:41:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235870
 
-You need to explain why the directory has permissions that don't allow
-you to access it. What is the workflow that causes this? Typically
-anything in a build directory is built by the user themselves, and
-taking a build from another user and reusing it is not supported.
-Sstate cache is the correct mechanism to share build output.
+Hi Jo=C3=A3o,
 
-Alex
+On 4/24/26 5:17 PM, Joao Marcos Costa via lists.openembedded.org wrote:
+> Some recipes and configuration files use bb.utils.contains to check for
+> a string inside a variable, and return the exact same string if true.
+>=20
+> This can be simplified by a call to bb.utils.filter, since the result is
+> the same, and the inline is shorter.
+>=20
+> Replace "bb.utils.contains(A, 'a', 'a', '', d)" by "bb.utils.filter(A, 'a=
+', d)".
+>=20
+> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+> ---
+>   meta/classes-global/insane.bbclass                        | 2 +-
+>   meta/conf/machine/include/arm/feature-arm-neon.inc        | 8 ++++----
+>   meta/conf/machine/include/arm/feature-arm-vfp.inc         | 2 +-
+>   meta/recipes-connectivity/connman/connman_2.0.bb          | 2 +-
+>   meta/recipes-core/coreutils/coreutils_9.10.bb             | 2 +-
+>   meta/recipes-core/ovmf/ovmf_git.bb                        | 2 +-
+>   meta/recipes-extended/at/at_3.2.5.bb                      | 2 +-
+>   meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb          | 2 +-
+>   meta/recipes-graphics/waffle/waffle_1.8.1.bb              | 2 +-
+>   .../gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb          | 2 +-
+>   10 files changed, 13 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
+ane.bbclass
+> index feddfe0335..04700be71c 100644
+> --- a/meta/classes-global/insane.bbclass
+> +++ b/meta/classes-global/insane.bbclass
+> @@ -46,7 +46,7 @@ ERROR_QA ?=3D "\
+>       ${CHECKLAYER_REQUIRED_TESTS}"
+>  =20
+>   # Add usrmerge QA check based on distro feature
+> -ERROR_QA:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',=
+ ' usrmerge', '', d)}"
+> +ERROR_QA:append =3D " ${@bb.utils.filter('DISTRO_FEATURES', 'usrmerge', =
+d)}"
+>   WARN_QA:append:layer-core =3D " missing-metadata missing-maintainer"
+>  =20
+>   FAKEROOT_QA =3D "host-user-contaminated"
+> diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc b/meta/co=
+nf/machine/include/arm/feature-arm-neon.inc
+> index 174b9b9f2a..2ec354bfeb 100644
+> --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
+> +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
+> @@ -5,16 +5,16 @@
+>   # 'vfp', -mfloat-abi parameter and 'hf' suffix is implemented in featur=
+e-arm-vfp.inc
+>  =20
+>   TUNEVALID[neon] =3D "Enable Neon SIMD accelerator unit."
+> -TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neon', ' n=
+eon', '', d)}"
+> +TUNE_CCARGS_MFPU .=3D " ${@bb.utils.filter('TUNE_FEATURES', 'neon', d)}"
+>  =20
+>   TUNEVALID[vfpv3d16] =3D "Enable Vector Floating Point Version 3 with 16=
+ registers (vfpv3-d16) unit."
+> -TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',=
+ ' vfpv3-d16', '', d)}"
+> +TUNE_CCARGS_MFPU .=3D " ${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16'=
+, ' vfpv3-d16', '', d)}"
+>  =20
+>   TUNEVALID[vfpv3] =3D "Enable Vector Floating Point Version 3 with 32 re=
+gisters (vfpv3) unit."
+> -TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', ' =
+vfpv3', '' , d)}"
+> +TUNE_CCARGS_MFPU .=3D " ${@bb.utils.filter('TUNE_FEATURES', 'vfpv3', d)}=
+"
+>  =20
+>   TUNEVALID[vfpv4] =3D "Enable Vector Floating Point Version 4 (vfpv4) un=
+it."
+> -TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4', ' =
+vfpv4', '', d)}"
+> +TUNE_CCARGS_MFPU .=3D " ${@bb.utils.filter('TUNE_FEATURES', 'vfpv4', d)}=
+"
+>   TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'vfpv4',=
+ 'neon' ], ' neon-vfpv4', '', d)}"
+>  =20
+>   TUNEVALID[vfpv4d16] =3D "Enable Vector Floating Point Version 4 with 16=
+ registers (vfpv4-d16) unit."
+> diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/con=
+f/machine/include/arm/feature-arm-vfp.inc
+> index d020100daa..be0c19bd03 100644
+> --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> @@ -3,7 +3,7 @@
+>   # and this .inc file is included from armv5
+>  =20
+>   TUNEVALID[vfp] =3D "Enable Vector Floating Point (vfp) unit."
+> -TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', ' vf=
+p', '', d)}"
+> +TUNE_CCARGS_MFPU .=3D " ${@bb.utils.filter('TUNE_FEATURES', 'vfp', d)}"
+>  =20
+>   # simd is special, we don't pass this to the -mfpu, it's implied
+>   TUNE_CCARGS  .=3D "${@ (' -mfpu=3D%s' % d.getVar('TUNE_CCARGS_MFPU').sp=
+lit()[-1]) if (d.getVar('TUNE_CCARGS_MFPU') !=3D '') else ''}"
 
-On Fri, 24 Apr 2026 at 07:29, Patrick Vogelaar via
-lists.openembedded.org
-<patrick.vogelaar.dev=mailbox.org@lists.openembedded.org> wrote:
->
-> Hi all,
->
-> we are building a custom distribution and are using a shared sstate cache. Now we discovered an edge case where it causes problems if parts of the CIs build path exist but is not accessible due to permissions.
->
-> Build path CI: /var/jenkins_home/.../build
->
-> If now on my local machine the directory /var/jenkins_home exists but is not accessible due to permissions the build fails in do_rootfs with:
-> dpkg: error: error opening configuration directory '/var/jenkins_home/.../build/tmp/.../recipe-sysroot-native/etc/dpkg/dpkg.cfg.d': Permission denied
->
-> If this directory does not exist dpkg fails silent and there is no problem at all. But if it cannot access it because of permissions it throws an error.
->
-> What would the workflow now be?
-> Provide a patch to the dpkg project and also add the patch to the recipe? or something else?
-> Should I create a bugzilla issue?
-> ...
->
-> Would be great to get some support on the typical next steps.
->
-> Thanks for the guidance
-> Patrick
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#235836): https://lists.openembedded.org/g/openembedded-core/message/235836
-> Mute This Topic: https://lists.openembedded.org/mt/118983534/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+I'm pretty sure your changes in the conf files won't work, but maybe I'm=20
+wrong?
+
+Before, we only added a space if there was a new tune to add. Now, it's=20
+always added.
+
+Considering TUNE_CCARGS_MFPU can now possibly contain only spaces, the=20
+check if TUNE_CCARGS_MFPU is not the empty string to access the last=20
+element in the list returned by split(), which will now be the empty=20
+list, will raise an IndexError exception.
+
+You need to adapt anything that's using this variable to check if it=20
+only contains spaces or at least remove spurious ones, possibly with=20
+str.strip() for example. Unfortunately, if TUNE_CCARGS_MFPU doesn't=20
+exist, d.getVar() will return None and you cannot strip() on None. Of=20
+course, considering TUNE_CCARGS_MFPU is declared just above in the file,=20
+it'll always be defined, so maybe that's fine to not check for None.
+
+If the space didn't matter, we probably would have used +=3D instead of=20
+.=3D, so I'm wary of this change (the rest looks fine).
+
+Cheers,
+Quentin
 
