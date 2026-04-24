@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25879FF8842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38FE3FF8846
 	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 20:57:25 +0000 (UTC)
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32618.1777064236068700375
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32617.1777064235050255591
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2026 13:57:16 -0700
+ Fri, 24 Apr 2026 13:57:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KNFI3k8K;
- spf=pass (domain: smile.fr, ip: 209.85.128.65, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-488a14c31eeso66531545e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:15 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tyTBhemk;
+ spf=pass (domain: smile.fr, ip: 209.85.128.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-488ff90d6c7so68180485e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 13:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1777064234; x=1777669034; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1777064233; x=1777669033; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WOWPIm5Nse9NJC0LtJS0zbS23M8F6fTXptumUXYdkaU=;
-        b=KNFI3k8KHEf1mzeXP7t1NDHO+Yi/XOCeMCVoEvKDiRsZrO4j2H29RScYpH/a/Izxmc
-         xuHJ9AC4MBTv0+GO57JEKa5+rLbEL4SS2mAJJ0xed+nyYmM9+blupbDoHJxdjY8cSZKS
-         YGvswnrYeMaK5NJeHnHmqb+MsnL9GNmzqng1g=
+        bh=vDMA4Gn+wCmKzSGRQCK9y5XfaAOR/Kz0Q72NWXHRzz8=;
+        b=tyTBhemkr0My+Z3Bmc7dsodzfiH5lu1haJNYBvsXeJPG5pGBWT/m6yhPPpdIU3DYeK
+         o/fcd5znjq3dlUQ3lnDmxdpYTmivL2qXt9QQA+mlKlJI8jxZlpa7SPyS6qIQuH3iDKkp
+         M0luqTxirfQg/t9b4fdq6lF0VXVbV1mFK9dNA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777064234; x=1777669034;
+        d=1e100.net; s=20251104; t=1777064233; x=1777669033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=WOWPIm5Nse9NJC0LtJS0zbS23M8F6fTXptumUXYdkaU=;
-        b=QMAsosvJgj96hD5LEo7ceVq0l+dYMncyaI2BF2zXqtfT+bC8fenm2HBRsNZO2WcaMW
-         xDXgMNs0mGHF+zMgp+9JvqYvNN4o07mBVLnHo95LH2xXHj0WLLYFUualhK1UgykD5MRC
-         +tTBj0sMsyGn1Su8T2NGm+k5kfO1Vf4OZY2GSi7Okf0o92oUZZA7QmMLlIyQz/hs08U1
-         QfN4JKIIIRaGAeOHJgo0QAcodNeEhGrpQnOW15TBadTEzzvghtXYuJy1YQaVBRaAS4LQ
-         K4mAFUpbB3v7+Zx0vZIAajOWyXXNzpq5NqQqQtKZs72zgrGhKdYGFF5Aqi5i51K+pBxy
-         8x3w==
-X-Gm-Message-State: AOJu0YyIDJ49SOaYtDizeqI+Oom0pyuQKBPDCgg5KIRVGf5PGlghDX55
-	TGLHrzAAH1uIkeF1eucIRf9LKzcCDW6UtVvozI1J4hJi55PpxQsivt2orq3wtZkRI2b94TLk5pe
-	GYLL3hwDrP+yA
-X-Gm-Gg: AeBDieti5o7/D2UYLXjtxvG6mUkQa2cEi9+i6Y77GUUitxpAj13TclsoZSAWkAfTI6i
-	VhzmoX6EYdO5OJIIN+j6U7JUXSxmB4cBjTxQ5R3U6WH/LP/XSFX+A5+ZY3deDXOMTv6OpabUKg8
-	b5fU9SZnpnHlL8NtYnq30zTn2QEVbV0QIMkzz/RC9lGGQQYpOzcIlmiekwdOGOWRAUMoR+22LIp
-	E68V9DIhJ3AxCJ4YfDpHS+mpwJjoaDHL8jJxyDd1Mjv9Bdmx8XP0RG5PHAxkOIxLPP4tu8K4G5J
-	iACC+6zt5a+JVg1uEA22ckJYOw3PxTiuWBlh41tN+McOOCMZdaZ0sf1m/aa7imrDx5LIidLNnZj
-	iPQOBPcmT4Q4nthZRRou1afEaGLsjL4qIH2tLwasN+eqbgdOvaSFPvAdbhOb/HVbgvsKsSLe7Yi
-	WGU5J/Uo2FFEoVH84ykPDxBFvRxj3m4bGCJyOZyYMiADreRECDYI/tb3BKfDytc0UgSaeswXU7+
-	slphBC6tudj5g7eTJaujSFBGTGwuUCsZW6MSA==
-X-Received: by 2002:a05:600d:8454:b0:48a:5970:2003 with SMTP id 5b1f17b1804b1-48a59702216mr148867305e9.3.1777064234201;
-        Fri, 24 Apr 2026 13:57:14 -0700 (PDT)
+        bh=vDMA4Gn+wCmKzSGRQCK9y5XfaAOR/Kz0Q72NWXHRzz8=;
+        b=LUFcG+zitt4qGJdH/BG/WrmsLDwEFzpuehdcm5FnaPp/4GcjEeer9cV/M8+XLqslow
+         Tu0mvTTcnfEtvvtlURst8RTCBG5RcMc8ODuKImUr5BIjZHVKfDNOR0UVsJtwaIU9RKWB
+         LCrYPTij9lrFdm+HC8UnF8SJwYNFUFS0PKZFu1ij/u+FaVcngehSBn/UjOarjswgDKLj
+         YoZBspznQ5S+H5V6lGVWbIm/J57PqtzlX9wxOg/aLmeK/h4msdsn1ZT/R/BP1Z3TVTin
+         to1l/fUD5g08H6L07tZcwA0X5Qa9/gyTYdy+o4dYz1Bt0LtZziBFkW/5saj16sdUBTkD
+         CDng==
+X-Gm-Message-State: AOJu0YxtFug+xMHEYOLLekVP/tc1K6uIMO+mvDfeHv6EsS+NmNJIoLAN
+	5IDOeJZGDTW5JQR5Js5+ozdwd5e4NdotOOjKi1qdo8iw7YTe6jq7KnS+znMbSVZt6ewamyjserO
+	o+K6JM2s7KYWI
+X-Gm-Gg: AeBDieuhRr5N3LrEZMGnLRH1g2mY+h2ETIMC3tY2EShsQ4BiogdYAYtEalvMh1aHg87
+	hn6s+vUQ4M1XbkP7d4A6QL8kpCaxkLfsMgyZsIQLG3oGgXp4rbkhXL/vyvuzTZkjb8ttcuIMMXe
+	FdvaSkZdKSORpZiKOxVlHKaF5+OLCqdLJQ025WYIG1cRv/BZ7xIiymn/89mw1e0sUvT3cO+Y1MG
+	x9fZcqXlXYcR8sisvd0gSbnZGjH4yhdI7L5+vcyX5tPqDmVdkM2fxMSt7rLZauWvUT3oniV9O/0
+	3dpUztSHs6gPL5O8otKs7kkQZPnsSyGbMRV0uEmTqUdrmaw7otyRSVMiN6woHbGCRam/t0DcZx3
+	5UKzv4sruqeKwIzdoob9Lj/7cyn4nH13SRU3XkR44Q0DvKy515b3kobnPZV8IzVHIDyVWa/aj5w
+	P+JuxInx6nB0Z6bJ9U6XFQAjGk/1UCztaLb+6hDssvGx7i0PyUoA6l8faaD3lUx+Xlbuuk13ivT
+	bkZk0i+o9UQMfzWo83PmftGlMG85tg2mpo50A==
+X-Received: by 2002:a05:600c:1da1:b0:488:d376:42cd with SMTP id 5b1f17b1804b1-488fb785901mr519006155e9.22.1777064233095;
+        Fri, 24 Apr 2026 13:57:13 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cca5743sm394841005e9.9.2026.04.24.13.57.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:57:13 -0700 (PDT)
+        Fri, 24 Apr 2026 13:57:12 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 65/66] libatomic-ops: upgrade 7.8.2 -> 7.8.4
-Date: Fri, 24 Apr 2026 22:56:04 +0200
-Message-ID: <189ecdff01a9c2c47b809d153b04ea6080f74e4f.1777064068.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 63/66] sudo: upgrade 1.9.17p1 -> 1.9.17p2
+Date: Fri, 24 Apr 2026 22:56:02 +0200
+Message-ID: <76b98657e3dc9da01a746deb7b9d08cb84ba44b6.1777064068.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1777064068.git.yoann.congal@smile.fr>
 References: <cover.1777064068.git.yoann.congal@smile.fr>
@@ -66,46 +66,144 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2026 20:57:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235937
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235936
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Changelog for libatomic-ops: 7.8.2 -> 7.8.4
+Changelog for sudo: 1.9.17p1 -> 1.9.17p2
 ============================================================
 
-== [7.8.4] 2025-09-05 ==
+	Merge sudo 1.9.17p2 from branch 'main' into sudo-1.9
+	[d1b48c651]
 
-* Document Win32-specific AO_NO_ASM_XADD macro in README
-* Eliminate 'atomic_thread_fence is unsupported with tsan' gcc-11 warning
-* Eliminate 'munmap argument 1 from incompatible pointer type' gcc warning
-* Eliminate 'uninitialized memory use' gcc-13 warning in test_atomic
-* Fix all broken URLs in comments
-* Fix atomic_ops_sysdeps.S compilation for SunPro compiler in CMake script
-* Update URLs after repository transfer to bdwgc organization
-* Update CMake minimum required version to 3.10
+	* configure, configure.ac:
+	Fix check for which man page type to use with nroff
+
+	Fixes a bug where configure would use *.man instead of *.mdoc on
+	systems without mandoc. Bug #1077.
+	[aa2498e46]
+
+	* plugins/sudoers/log_client.c:
+	client_msg_cb: make warning match the function that failed
+	[f73162df3]
+
+2025-07-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.17p2
+	[f0e1a5ca3]
+
+	* plugins/sudoers/match_command.c, plugins/sudoers/match_digest.c:
+	digest_matches: plug fd leak on snprinf() failure
+	[26a1a7529]
+
+2025-07-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* etc/sudo-logsrvd.pp, etc/sudo-python.pp, etc/sudo.pp,
+	scripts/mkpkg:
+	Add a way to override pp_rpm_arch when building rpms
+
+	This will be used to build x86_64_v2 packages for Alma Linux.
+	[55d3c99c4]
+
+	* configure, configure.ac:
+	Fix check for which man page type to use with nroff
+
+	Fixes a bug where configure would use *.man instead of *.mdoc on
+	systems without mandoc.
+	[2dc10cfbd]
+
+	* plugins/sudoers/timestamp.c:
+	ts_write: call lseek after fruncate on short write
+
+	We need to make sure the file position is reset to the old EOF on
+	error.
+	[8e7e0e23f]
+
+2025-07-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_ptrace.c:
+	ptrace_readv_string: quiet sign-compare warning
+	[fac2a49e7]
+
+	* src/exec_ptrace.c:
+	ptrace_readv_string: properly handle reads of more than one page
+
+	When the intercept and intercept_verify options are enabled and
+	either argv[] or envp[] contains a string larger than the page size
+	(usually 4096), ptrace_readv_string() would fill the buffer with
+	mutiple copies of the same string. Fixes GitHub issue #453.
+	[2e93eabed]
+
+2025-07-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_pty.c:
+	revoke_pty: use killpg() not kill() to send HUP to the process group
+
+	Also make sure we never call killpg(-1, SIGHUP), which would send
+	SIGHUP to process 1 (init). It is possible for cmnd_pid to be -1 in
+	certain error conditions where sudo killed the command itself. This
+	may explain GitHub issue #458.
+	[fb208d383]
+
+2025-07-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* etc/sudo-logsrvd.pp, etc/sudo-python.pp, etc/sudo.pp, scripts/pp:
+	Don't assume RHEL major version is only a single digit
+
+	Fixes handling of RHEL 10 and higher.
+	[e5d953f33]
+
+	* plugins/sudoers/visudo.c:
+	visudo: create temporary file as mod 0600 not 0700
+
+	This was due to a typo in the mode field when the temporary file was
+	created. Noticed by Bjorn Baron of the sudo-rs project.
+	[1c254b330]
+
+2025-06-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* Makefile.in:
+	We now build sudo releases from git, not mercurial
+	[cb4e26734]
+
+2025-06-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS, configure, configure.ac:
 
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-(cherry picked from commit 02d66279071cbd043474dc44f44d348ec3228583)
+(cherry picked from commit 12e9ba655153a9cb7c2b79cf52a2300e19634dcf)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../{libatomic-ops_7.8.2.bb => libatomic-ops_7.8.4.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.8.2.bb => libatomic-ops_7.8.4.bb} (89%)
+ .../files/0001-sudo.conf.in-fix-conflict-with-multilib.patch    | 2 +-
+ .../sudo/{sudo_1.9.17p1.bb => sudo_1.9.17p2.bb}                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.17p1.bb => sudo_1.9.17p2.bb} (96%)
 
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb
-similarity index 89%
-rename from meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
-rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb
-index 62691334087..d0bb11eb5d7 100644
---- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
-+++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libatomic_ops-${PV}.tar.gz"
- GITHUB_BASE_URI = "https://github.com/bdwgc/libatomic_ops/releases"
+diff --git a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+index 1989c5abd7c..f96ab4b1f6d 100644
+--- a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
++++ b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+@@ -1,4 +1,4 @@
+-From 8c69192754ba73dd6e3273728a21aa73988f4bfb Mon Sep 17 00:00:00 2001
++From 3b9ed5e1ae1e217158af7d9128e35ef3463bc107 Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Tue, 17 Nov 2020 11:13:40 +0800
+ Subject: [PATCH] sudo.conf.in: fix conflict with multilib
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p1.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+similarity index 96%
+rename from meta/recipes-extended/sudo/sudo_1.9.17p1.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+index 5b9d73b33b1..d715bc2075f 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.17p1.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
--SRC_URI[sha256sum] = "d305207fe207f2b3fb5cb4c019da12b44ce3fcbc593dfd5080d867b1a2419b51"
-+SRC_URI[sha256sum] = "2356e002e80ef695875e971d6a4fd8c61ca5c6fa4fd1bf31cce54a269c8bfcd5"
+ PAM_SRC_URI = "file://sudo.pam"
  
- S = "${WORKDIR}/libatomic_ops-${PV}"
+-SRC_URI[sha256sum] = "ff607ea717072197738a78f778692cd6df9a7e3e404565f51de063ca27455d32"
++SRC_URI[sha256sum] = "4a38a1ab3adb1199257edc2a7c4a2bd714665eb605b04368843b06dada2cfcfb"
  
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 
