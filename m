@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9096CFF8863
-	for <webhook@archiver.kernel.org>; Sat, 25 Apr 2026 22:27:23 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6774.1777156042114565050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F38DFF885C
+	for <webhook@archiver.kernel.org>; Sat, 25 Apr 2026 22:27:33 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6776.1777156047375638355
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Apr 2026 15:27:22 -0700
+ Sat, 25 Apr 2026 15:27:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Ti061HUp;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2026042522272056483309a2000207cb-k0js3s@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026042522272056483309a2000207cb
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=h0dpVuI7;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202604252227254ff4aa90c30002071c-t6xhlu@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202604252227254ff4aa90c30002071c
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 26 Apr 2026 00:27:20 +0200
+        Sun, 26 Apr 2026 00:27:25 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=MItJL+TWceH9C2mZfOYzYgWvpdzaiSZ45VHHbQSQM2Q=;
- b=Ti061HUpjr3ji1YFl4/WkDnBD1DRUGXCNDi3+dD2oqhbUeKNm09J3+ZSxDjzBY5TyVWc1n
- 7BVCAUUwk+WZqwKMHhX635G5TCqeEL617Jd2lUeQdeHCnhNCvVcjA1XJ4i7bH5XbSHph3bu1
- SjSk1TgV4XpCuqzpa9JoJ45NwHUaoqqpHj1Zb08axg2yejNl3Ax+YTMxSPLXraBmR9BycOPH
- PsXLFpD+8786dfHv4WF4Mmej1oujQ+8zWY4BQt05VRFVQgXfUcjBcBn7egGGgL/I+le07nHA
- lzidVbA3DirLXPtGCYTGAzmMs5QPf9jccUdjXTxHTTLYmvpOUlya+1lQ==;
+ bh=Kq/ZUnPs63A6PoXoevO+5DwbHt8XGuHKv8OOBMD0BTI=;
+ b=h0dpVuI7ZEGvsnH1Cu+xMINuvCu8l3V9hESMcU2iuOC8IWYG4D28msVj9xPhqJbJtAmCqO
+ TXZWBe//W5D++lxuuLySJfROhNkoG2GiNuI0XYE6jZUUM49oFSoR/lEKvAEev+5V6D+bnGw4
+ 3JI0vAPyWlJ2BLIgoKD2Og6vev/NsJ/PLJbC4M/HDgtyrgXk9b+dLtlyNAAuA2wvSVRPVdig
+ mRrZAc9zYlRmRc8OOkOfA0B7IHnY1OLyKtodzIPXmktJ7n6QnXY/7Xlga6rawk0pkb0ZqiEu
+ FHhf+UC3Miq/VAMBO0Q2/jmdPzPcCtsviT886mLtNjxmlypJJrYr3Mag==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH 2/5] ruby: set status for CVE-2025-0306
-Date: Sun, 26 Apr 2026 00:26:31 +0200
-Message-ID: <20260425222634.44171-2-peter.marko@siemens.com>
+Subject: [PATCH 3/5] python3-setuptools: set status for CVE-2024-6345
+Date: Sun, 26 Apr 2026 00:26:32 +0200
+Message-ID: <20260425222634.44171-3-peter.marko@siemens.com>
 In-Reply-To: <20260425222634.44171-1-peter.marko@siemens.com>
 References: <20260425222634.44171-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -38,29 +38,29 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2026 22:27:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235947
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2026 22:27:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235948
 
 From: Peter Marko <peter.marko@siemens.com>
 
-This is a version-less Redhat CVE, so explicit status is needed.
-Per [1] the issue is mitigated by using openssl >= 3.2.0.
+Current version of sbom-cve-check reports this for some reason.
+NVD does not have CPE and cvelistV5 ([1]) says "lessThan": "70.0".
 
-[1] https://bugzilla.redhat.com/show_bug.cgi?id=2336100
+[1] https://github.com/CVEProject/cvelistV5/blob/main/cves/2024/6xxx/CVE-2024-6345.json
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-devtools/ruby/ruby_4.0.2.bb | 2 ++
+ meta/recipes-devtools/python/python3-setuptools_82.0.1.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_4.0.2.bb b/meta/recipes-devtools/ruby/ruby_4.0.2.bb
-index ba24e8601c..f2076e0f2c 100644
---- a/meta/recipes-devtools/ruby/ruby_4.0.2.bb
-+++ b/meta/recipes-devtools/ruby/ruby_4.0.2.bb
-@@ -140,3 +140,5 @@ FILES:${PN}-ptest:append:class-target = "\
- "
- 
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb b/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb
+index a3943a29c3..c413578faf 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb
+@@ -49,3 +49,5 @@ BBCLASSEXTEND = "native nativesdk"
+ # This used to use the bootstrap install which didn't compile. Until we bump the
+ # tmpdir version we can't compile the native otherwise the sysroot unpack fails
+ INSTALL_WHEEL_COMPILE_BYTECODE:class-native = "--no-compile-bytecode"
 +
-+CVE_STATUS[CVE-2025-0306] = "not-applicable-config: issue does not occur with openssl >= 3.2.0"
++CVE_STATUS[CVE-2024-6345] = "fixed-version: fixed since 70.0"
 
