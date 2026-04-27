@@ -2,45 +2,53 @@ Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78A96FF8862
-	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 07:13:05 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.37872.1777273975210399962
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82952FF8862
+	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 07:25:55 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38002.1777274751091153644
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 00:12:56 -0700
+ Mon, 27 Apr 2026 00:25:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=kWddnhJT;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=E77YAodT;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id B7D0C1A343C;
-	Mon, 27 Apr 2026 07:12:52 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id DCFF8C5CD43;
+	Mon, 27 Apr 2026 07:26:31 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 874E5600D1;
-	Mon, 27 Apr 2026 07:12:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0C76410721153;
-	Mon, 27 Apr 2026 09:12:50 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C33A7600D1;
+	Mon, 27 Apr 2026 07:25:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C24A41072001B;
+	Mon, 27 Apr 2026 09:25:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777273972; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1777274748; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=kL0vcUU0Mhvc5uNPAvzwo2+NCbimDD+ghPBQBSTvi1U=;
-	b=kWddnhJTDnVvWCGNSVKLbRxzeBmlQ8ELwqyKnmw3ipcXyLM42WVxd7H3eyTkQzi50G0lq0
-	Ri2Xcj12E4ZvOKBYo+504a8DUB9+ahEwNvWugpIo1/8B8vy26YtRcCp6DNoqAgkDvdXSUk
-	ZBnZdORXRV0UBajJeiiL86QeCbuz60HH9AZwGUZBWACL+JV6WcilMkfO2awlxvbFaqupfJ
-	2yKIXz/CIJyO1uIKPSUe4/ggK1+DoCfIISwFqXVypw0ttBPvB7ZQFsnzURChy5S0sGU+PT
-	VtR32ab431HhW8L1tcCWyO5MczE5wR8TC66KVr5A28bS9s7bEof8uPZb5ZOt+A==
+	bh=VNERuq0XNWHClF73E6fnK9DuvkNViiu2sDn5kQ7+i/w=;
+	b=E77YAodT9zllfXMRAerjNofJQRxS6bvHs8ZDZVEBULu12hWeXvWnDRmft0q24IVKxSyhcs
+	8a77EAT6cSm0F8nhfqHe3d/fgjZuG6Ims3sTkCsysh8X9Pv0+hn3z59GzxOph7jm8gw0H4
+	AQ591wHQdMG645cwtLA3P2Gi5kqkjNQ2cwpWdphtLZuslB2NnXWAm6T6KctZXYiB6Y+o3K
+	XylsvaDOzfRANfLzMz/PoxGEPc+adumUwFQzbKKkGxg8WkJ5X/0HaGBGKaKGLS03H85u5f
+	O6Op8DCIb0RlNn8yRMojwlG4xrIxnxbR7o3dfP4Ofmhbqntrku0JGBSIydv5Uw==
 From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: 
+To: 
  "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/6] sudo: set status of CVE-2025-64170 and CVE-2025-64517
-Date: Mon, 27 Apr 2026 09:12:50 +0200
-Message-ID: <RRV3rhtPRj-XxHaMgbEl5A@bootlin.com>
+ <openembedded-core@lists.openembedded.org>,
+ "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+ "ross.burton@arm.com" <ross.burton@arm.com>,
+ "jpewhacker@gmail.com" <jpewhacker@gmail.com>,
+ "olivier.benjamin@bootlin.com" <olivier.benjamin@bootlin.com>,
+ "antonin.godard@bootlin.com" <antonin.godard@bootlin.com>,
+ "mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>,
+ "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 1/3] python3-shacl2code: Update to version 1.0.1
+Date: Mon, 27 Apr 2026 09:25:45 +0200
+Message-ID: <7o6_XKvhQ267WrzPXGIUdQ@bootlin.com>
 In-Reply-To: 
- <AS1PR10MB56977CF6AB8F681734EAD75DFD292@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <AS1PR10MB5697161BED467E81C606A1D7FD292@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 References: 
- <20260426185025.13217-1-peter.marko@siemens.com>
- <AS1PR10MB56977CF6AB8F681734EAD75DFD292@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <20260422-update-sbom-cve-check-and-depends-v1-0-4646f840ce48@bootlin.com>
+ <20260422-update-sbom-cve-check-and-depends-v1-1-4646f840ce48@bootlin.com>
+ <AS1PR10MB5697161BED467E81C606A1D7FD292@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
@@ -48,72 +56,37 @@ X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 07:13:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235987
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 07:25:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235988
 
-On Sunday, April 26, 2026 at 9:17=E2=80=AFPM, Marko, Peter wrote:
+Hello Peter,
+
+On Sunday, April 26, 2026 at 9:22=E2=80=AFPM, Marko, Peter wrote:
+> I have sent ton of new false-positive cleanup commits this weekend.
+> For many I couldn't find any explanation why they reappeared.
+> Since there were also new true positives I think this is fine.
 >=20
-> > -----Original Message-----
-> > From: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Sent: Sunday, April 26, 2026 8:50 PM
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Subject: [PATCH 1/6] sudo: set status of CVE-2025-64170 and CVE-2025-64=
-517
-> >=20
-> > From: Peter Marko <peter.marko@siemens.com>
-> >=20
-> > These CVEs are for sudo-rs, not sudo.
-> > It can be easily deducted from first word in NVD descripotion.
-> > Also cvelistV5 product is "sudo-re".
-> >=20
-> > It looks line that new version of sbom-cve-check matches product with
-> > startsWith instead of equals?
->=20
-> Benjamin, any idea about this topic?
+> But there should be a follow-up investigation for most of my commits to i=
+dentify why those false-positives appeared and if the tooling can be fixed.
+> Peter
 
-Yes, sadly the CPE of sudo-rs is trifectatech:sudo.
-Why this is the official CPE of sudo-rs, I don't know...
-
-What it is happening:
- - From https://cveawg.mitre.org/api/cve/CVE-2025-64170
-   we extract vendor and product name, then we look the products database
-   which is built in sbom-cve-check.
- - The returned CPE are "memorysafety:sudo", "trifectatech:sudo"
- - Then we check if the CPE in the SBOM matches with these CPE.
-   Currently sudo is declared as: *:sudo, which matches trifectatech:sudo.
-
-The easy fix is to declare the proper CPE of sudo using CVE_PRODUCT,
-which should be set to "sudo_project:sudo".
-
-This behavior is documented here:
+The current behavior of sbom-cve-check is documented here:
 https://sbom-cve-check.readthedocs.io/en/latest/design.html#find-applicable=
 =2Dcve
 
->=20
-> >=20
-> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > ---
-> >  meta/recipes-extended/sudo/sudo_1.9.17p2.bb | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >=20
-> > diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-
-> > extended/sudo/sudo_1.9.17p2.bb
-> > index d6ee881f8c..12f81c5d4a 100644
-> > --- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-> > +++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-> > @@ -60,3 +60,6 @@ RDEPENDS:${PN} +=3D "${SUDO_PACKAGES}"
-> >=20
-> >  FILES:${PN}-sudo =3D "${bindir}/sudo ${bindir}/sudoedit"
-> >  FILES:${PN}-lib =3D "${localstatedir} ${libexecdir} ${sysconfdir} ${li=
-bdir}
-> > ${nonarch_libdir}"
-> > +
-> > +CVE_STATUS[CVE-2025-64170] =3D "cpe-incorrect: this CVE is for sudo-rs"
-> > +CVE_STATUS[CVE-2025-64517] =3D "cpe-incorrect: this CVE is for sudo-rs"
->=20
+I don't think that the tool is not currently working as designed, but maybe
+there are wrong entries the product database. Also maybe we could improve
+the algorithm to try to reduce the number of false-positives.
+The main problem is that the current state of the CVEs databases is not gre=
+at.
+This is really not an easy problem to solve.
 
+Most of the time, the proper solution is going to define CVE_PRODUCT.
 
+If you have a list of CVEs that need to be investigated, could you send it.
+This way I could explain or investigate why there is a problem?
+
+Best regards,
 =2D-=20
 Benjamin Robin, Bootlin
 Embedded Linux and Kernel engineering
