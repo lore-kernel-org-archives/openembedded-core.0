@@ -2,92 +2,94 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDEEDFF8872
-	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 20:46:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE9AFF8867
+	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 21:08:52 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5992.1777322810038155514
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6475.1777324131109996501
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 13:46:50 -0700
+ Mon, 27 Apr 2026 14:08:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=JXT9CzgU;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=vTf/9LSY;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E461616F2
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 13:46:43 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B0C316F2
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 14:08:45 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0E2063F763
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 13:46:48 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4ABA03F7B4
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 14:08:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1777322809; bh=5/+S2QgTSmF1c7oSQvPzT+N7GBUSWcWnBdRs9/y5xJE=;
+	t=1777324130; bh=7wCPeoVnX+RjDiPU77oROCWf1NJbUvTIpv4kaXYE1lQ=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=JXT9CzgU5eiIELwzOBu8x4+YXE3Tuc2BTXBeFEbP5Rtq2h1nbW5Q2Six8BTIVXtoY
-	 I1xvYdbcR7cdwBrhZQeynajOUNglU0aVhIFBq1HYdC1lzMHRmoR5XqbyjgDw/Y7ebf
-	 XD6apagMFAONyZV/A6ZcXDvCkP0/h7ROqHJRvr+0=
+	b=vTf/9LSY+4uqdNhLylljqShTA9HPJkRPg3i3vlj0PlZc/oW5wzbOL5L1djEdaHSi3
+	 RXGVRwiOIUquCqJFe3VgL/X2nzTWly8xnlpOM4n0OYtjZVQrOsW0MBZN6z3k1YR/LT
+	 NeO/5Z+G1FFajvWTGQ4uqU/QmZPzuYuFpaJ1V4PU=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] p11-kit: add PACKAGECONFIG for trust and systemd
-Date: Mon, 27 Apr 2026 21:46:38 +0100
-Message-ID: <20260427204640.2003231-2-ross.burton@arm.com>
+Subject: [PATCH 2/5] wpa-supplicant: remove obsolete explicit debug packaging
+Date: Mon, 27 Apr 2026 22:08:44 +0100
+Message-ID: <20260427210847.3027890-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260427204640.2003231-1-ross.burton@arm.com>
-References: <20260427204640.2003231-1-ross.burton@arm.com>
+In-Reply-To: <20260427210847.3027890-1-ross.burton@arm.com>
+References: <20260427210847.3027890-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 20:46:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236022
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 21:08:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236026
 
-libtasn dependencies are specific to the trust module, add a PACKAGECONFI=
-G
-for that and move the dependencies. This is currently enabled by default
-to preserve behaviour.
+The .debug directories are packaged automatically by default, so this is
+redundant.
 
-p11-kit has optional systemd user units for the remote server, add a
-PACKAGECONFIG for that that respects the systemd DISTRO_FEATURE.
+This recipe packages the plugin debug symbols into their own packages,
+there's no real advantage to doing this so remove that logic.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-support/p11-kit/p11-kit_0.26.2.bb | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../wpa-supplicant/wpa-supplicant_2.11.bb                  | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.26.2.bb b/meta/recipe=
-s-support/p11-kit/p11-kit_0.26.2.bb
-index aa8b28e0e71..a0e2e17d026 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.26.2.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.26.2.bb
-@@ -6,16 +6,17 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D02933887f609=
-807fbb57aa4237d14a50"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11=
+.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+index 7c7a8bd9c13..71bfb090a0a 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+@@ -113,13 +113,11 @@ PACKAGES +=3D "${PN}-plugins"
+ ALLOW_EMPTY:${PN}-plugins =3D "1"
 =20
- inherit meson gettext pkgconfig gtk-doc bash-completion manpages
+ PACKAGES_DYNAMIC +=3D "^${PN}-plugin-.*$"
+-NOAUTOPACKAGEDEBUG =3D "1"
 =20
--DEPENDS =3D "libtasn1 libtasn1-native libffi"
-+DEPENDS =3D "libffi"
+ FILES:${PN}-passphrase =3D "${sbindir}/wpa_passphrase"
+ FILES:${PN}-cli =3D "${sbindir}/wpa_cli"
+ FILES:${PN}-lib =3D "${libdir}/libwpa_client*${SOLIBSDEV}"
+ FILES:${PN} +=3D "${datadir}/dbus-1/system-services/* ${systemd_system_u=
+nitdir}/*"
+-FILES:${PN}-dbg +=3D "${sbindir}/.debug ${libdir}/.debug"
 =20
- DEPENDS:append =3D "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') =3D=3D =
-'True' else ''}"
+ CONFFILES:${PN} +=3D "${sysconfdir}/wpa_supplicant.conf"
 =20
--SRC_URI =3D "gitsm://github.com/p11-glue/p11-kit;branch=3Dmaster;protoco=
-l=3Dhttps;tag=3D${PV} \
--           "
-+SRC_URI =3D "gitsm://github.com/p11-glue/p11-kit;branch=3Dmaster;protoco=
-l=3Dhttps;tag=3D${PV}"
- SRCREV =3D "8e6e4e6d64d9fe91c62b0052c105b2b72d4c24ef"
+@@ -130,14 +128,9 @@ SYSTEMD_AUTO_ENABLE =3D "disable"
 =20
--PACKAGECONFIG ??=3D ""
-+PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)=
-} trust"
-+PACKAGECONFIG[systemd] =3D "-Dsystemd=3Denabled,-Dsystemd=3Ddisabled,sys=
-temd"
- PACKAGECONFIG[manpages] =3D "-Dman=3Dtrue,-Dman=3Dfalse,libxslt-native"
-+PACKAGECONFIG[trust] =3D "-Dtrust_module=3Denabled,-Dtrust_module=3Ddisa=
-bled,libtasn1-native libtasn1"
- PACKAGECONFIG[trust-paths] =3D "-Dtrust_paths=3D/etc/ssl/certs/ca-certif=
-icates.crt,,,ca-certificates"
-=20
- EXTRA_OEMESON:append =3D " -Dnls=3D${@'false' if d.getVar('USE_NLS') =3D=
-=3D 'no' else 'true'}"
+ python split_wpa_supplicant_libs () {
+     libdir =3D d.expand('${libdir}/wpa_supplicant')
+-    dbglibdir =3D os.path.join(libdir, '.debug')
+-
+     split_packages =3D do_split_packages(d, libdir, r'^(.*)\.so', '${PN}=
+-plugin-%s', 'wpa_supplicant %s plugin', prepend=3DTrue)
+-    split_dbg_packages =3D do_split_packages(d, dbglibdir, r'^(.*)\.so',=
+ '${PN}-plugin-%s-dbg', 'wpa_supplicant %s plugin - Debugging files', pre=
+pend=3DTrue, extra_depends=3D'${PN}-dbg')
+-
+     if split_packages:
+         pn =3D d.getVar('PN')
+         d.setVar('RRECOMMENDS:' + pn + '-plugins', ' '.join(split_packag=
+es))
+-        d.appendVar('RRECOMMENDS:' + pn + '-dbg', ' ' + ' '.join(split_d=
+bg_packages))
+ }
+ PACKAGESPLITFUNCS +=3D "split_wpa_supplicant_libs"
 --=20
 2.43.0
 
