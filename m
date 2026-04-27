@@ -1,69 +1,52 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <francesco@dolcini.it>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB41FF885E
-	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 10:10:59 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40199.1777284649675547144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B535DFF8861
+	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 10:12:40 +0000 (UTC)
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40564.1777284755256391216
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 03:10:52 -0700
+ Mon, 27 Apr 2026 03:12:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Ak2j9THB;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20260427101045e41f87635e00020716-0_dcd7@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260427101045e41f87635e00020716
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 27 Apr 2026 12:10:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=ffCEOACH0306OWlpaO2/W9VEG/wNoe1mN6883eu955c=;
- b=Ak2j9THBN0o/9rxaOgRN4Z5jdwL3OxIq4F8nRM6+tEazm+R8jVz/FKVdYPhw6EH3Ya1dc4
- AbOefItvKa0N9xlrZELWgxSC5+SKBFasPoJnOiOwb7JoqgYRG5GqP6Oasx6m5SFfzOmdILWl
- H/gNjP7uDUVBANvnYd/WRbELXegjfyKHW+yvn/bLBUijTAjfWQCULPKcJD0hOwWu45qfjUY1
- /X9XPynuY1XahKHcntyMAReHXMlWKg6phCQRxRYwcA26NAMXTeGDYhlBwpFpT8jc6/WJTcS6
- ORGtKd3aybzpDvgq37ZOsTctvSTZMgtqYrh7bNxVolvpPa7DP/t3zAQg==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH v2] ffmpeg: set status for 4 CVEs
-Date: Mon, 27 Apr 2026 12:10:42 +0200
-Message-ID: <20260427101042.5132-1-peter.marko@siemens.com>
-In-Reply-To: <20260426185025.13217-6-peter.marko@siemens.com>
-References: <20260426185025.13217-6-peter.marko@siemens.com>
+ dkim=pass header.i=@dolcini.it header.s=default header.b=sKLPqz7e;
+ spf=pass (domain: dolcini.it, ip: 217.194.8.81, mailfrom: francesco@dolcini.it)
+Received: from francesco-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
+	by mail11.truemail.it (Postfix) with ESMTPA id 21DAC20ABC;
+	Mon, 27 Apr 2026 12:12:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1777284752;
+	bh=38JLuzLyvJ4+jRopVr0GCZvpHD70ZurwMElPcUF6Orw=; h=From:To:Subject;
+	b=sKLPqz7eQVkGLDEFMUz2YSz0HaPOlYe+6sdAT9XepKI1HnN/mTcyfeT3YOYVgp1Oa
+	 nUK6vv21MEANmHVYxDSzGycSDSDd/tZhxrXQ1sWJnq1UrxNajnMdPUliOdf+1+gvKQ
+	 t29bvmfoIoc5r5yPbOql/UmLv560YieL8h3tlJciQ4YUEj7OCXTF4syz5lEwh//f51
+	 804d3dMHm2IzUHoNhX/XdFfCg900r8GQadF172pTzBExkitgOtiB2/6C4x1Pl0uJLg
+	 C81G247ms4N8vuV4XACZawtJltqPJDXJKG20k2FquSgUCmz9IyuU+P9DXVyrelhvV7
+	 fh3/AO77zMGFw==
+Date: Mon, 27 Apr 2026 12:12:28 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: gnutls p11-kit in oe-core/master-next
+Message-ID: <20260427101228.GA57248@francesco-nb>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 10:10:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236001
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 10:12:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236002
 
-From: Peter Marko <peter.marko@siemens.com>
+Hello Richard,
+in master-next commit 3f2f565af755 ("Revert "gnutls: Enable p11-kit by default"")
+is not reverting just commit d8c97e06c385 ("gnutls: Enable p11-kit by
+default"), but it is also reverting commit e9f12f64279c ("gnutls: Add
+p11-kit for native builds").
 
-These reappeared after update of sbom-cve-check tooling.
-Fixed version found by links from Debian security tracker.
+What's the plan there? Is this wanted?
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Francesco
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
-index 7bb7de3d25..b6d3ceb6dc 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
-@@ -176,6 +176,10 @@ CVE_STATUS_GROUPS = "CVE_STATUS_WRONG_CPE"
- CVE_STATUS_WRONG_CPE = "CVE-2023-51791 CVE-2023-51793 CVE-2023-51794 CVE-2023-51795 CVE-2023-51796 CVE-2023-51797 CVE-2023-51798 CVE-2025-22921"
- CVE_STATUS_WRONG_CPE[status] = "fixed-version: these CVEs are fixed in used version"
- 
-+CVE_STATUS[CVE-2022-2566] = "fixed-version: these CVEs are fixed since v5.1.1"
-+CVE_STATUS[CVE-2025-9951] = "fixed-version: these CVEs are fixed since v8.0"
- CVE_STATUS[CVE-2025-25468] = "fixed-version: these CVEs are fixed since v8.0"
- CVE_STATUS[CVE-2025-25469] = "fixed-version: these CVEs are fixed since v8.0"
- CVE_STATUS[CVE-2025-12343] = "fixed-version: this CVE are fixed since v8.0"
-+CVE_STATUS[CVE-2025-59729] = "fixed-version: this CVE are fixed since v8.0"
-+CVE_STATUS[CVE-2025-59730] = "fixed-version: this CVE are fixed since v8.0"
+
 
