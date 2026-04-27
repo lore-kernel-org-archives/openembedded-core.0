@@ -1,338 +1,174 @@
-Return-Path: <fabien.thomas@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFF78FF8868
-	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 15:33:21 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.48222.1777303995791497994
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50AA3FF8860
+	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 16:40:51 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.398.1777308043259868630
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 08:33:16 -0700
+ Mon, 27 Apr 2026 09:40:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=lrYwJCzG;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43cfd832155so7745277f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 08:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1777303994; x=1777908794; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=REmaoMTZx2yGj1NhLwa1X6aW3KHr1YFBcxMQYiG9KVo=;
-        b=lrYwJCzGGe8rYf8FNNfJeQAT8K9o32J8GnhsLerlW1meveZmfXneK5e3jqrZvPpaRv
-         kIlMaad5nXAENzcLO/Hzl8LxooD36NOcLgmJgdzOh47KQFH4L3GW/vscyUOHj3Mv56g3
-         zl/qpCvXvMwBidTMxrvc7QtP8BIQ0aVXF2zVc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777303994; x=1777908794;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=REmaoMTZx2yGj1NhLwa1X6aW3KHr1YFBcxMQYiG9KVo=;
-        b=VnujHhKWFh0QNVYxaMVRVv64Q7dI545hFAYLTwp9uBER96Gp2k6VmDGheT0zPXVoky
-         GI757w25Jqu6fPviXK0Tmzus51BB7lImeCx57btU1k7iPZCzas/HZwwkRttIDH5eOiBW
-         4jYAtJnV3Hi2Iwufa6C5nl7cSHjokt1nRtDHEAPRqx8fvIXrIv53unU6YxqJVDTZHsFE
-         yaDUY+rrVepzJA6GoOF2hCjp+zAwZQbGTTUJzMc5Rt67ExG8tDOB7MItpL7am2p+AY8b
-         sln6CVOzqzjeU9+nRChcYZ3Yay33dQs/ojNltNaO9Wgc8m0hfzvv37s+qucRDFSTHhlE
-         CMBw==
-X-Forwarded-Encrypted: i=1; AFNElJ879fVtL3C556Kg9cF8zQM434vE7UDSxckyoEnrVVAjV+icNcH3zyZd0O9HQ43/g1bVz3M5NeJQPMskqqwAccM6hg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxC984fk3QtBV6Vkoy0nnQNgubew7TbUhEWxswMSgWQCmfSufWa
-	ZomqO6t1Zc7vb2hwSGBNxr/ke5+BgW0iB2J+v6kc9VqpgzzZvxqsVtoBghv/tHMLe0s=
-X-Gm-Gg: AeBDievQFG+gJXTb9D16m05Uigq7X8CtBP+Yo+GoBqjuLS/2gPSOO2V4K5kkGqPuhXR
-	yQI+Ak5PS5Vp76S9ks/1eRLd83jy7L8/djzdLHOzEPTUNcrLGs+/HcLNzH3ZA3wC3jbcj0VxGzk
-	XRBX39UK9VhL45OAuNPjtPu5FK/hAcF5t8Q/s2f8kNkGeWqvpjyIOD5TXjzRiNuGUOgdtzUXkep
-	+j8wvkM57YKN/YPlexOhtMmvUIL3fR6vrtttLLUUF+fh2Sc5I1Zfp2FXUWSCus0D5KOA7riau1O
-	gs5Bt2rSTWotckvC1a+W577ZFBUXI2YBWmanZZW5yZ1SKcyIRZO20DKvDSePiYT6KJ7LUHIQUye
-	OfjcjyElz88MDTM+e9ZpXpnc93IiZqHzPRuFPw8TMqC2OOqupCoQ85gj1pN9KqKhSjVtX9wJ6TG
-	X5cdORKR0U7Gf03H6sSa27BnU7YJyqVlhCp2jUJQJYed14sMmg6qpH5SosTZhzZDZwzXWB+3XMx
-	8+zTYPZVZhxj1vxVisvARiZI5s=
-X-Received: by 2002:a05:6000:4381:b0:43f:e791:a333 with SMTP id ffacd0b85a97d-43fe791a3a6mr66122680f8f.29.1777303994016;
-        Mon, 27 Apr 2026 08:33:14 -0700 (PDT)
-Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4c221cdsm82547476f8f.0.2026.04.27.08.33.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Apr 2026 08:33:13 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=YVKG2YMV;
+ spf=pass (domain: siemens.com, ip: 52.101.72.4, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ibAE4B06TQg+IxNkPIs9f6vDXFgQhrAwzjQuuvvoCxUk4hmu6SZf8oug26N1j2L+couyeamqtKdQSAfUGrSwELz2aNd+R1kIOtB5GdPJAd4wTwEs+rrPJOsuZ9afANYBnWgGuiBiGaFKzFstbjPIckjfMOc0YOMxEIe9kNiCx70mXBsl2GaZegTGa/k5sB7HMJ1IzoQnmbfdOwNBNCHdfeVbGmULdPe+S18RQPppcZzhHIlK/sv+any1r/oxIfLZaoD1AWjWC4+92OWyYnuXB4S4iDCrmUitCmqU0eO37pav6mtPnwSLJaX+rJ1anGB4ta5LWX9aALH9UvN8cijwCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QhHaiz0VrmRk+ydvaYtmXwFRXAmshsR0hhry5lVY6JU=;
+ b=ddplD+lil08zFomLYXFLYxwRSRkgvOrDGx6nJ2cBwaonlaIwDym3I6HolXqkB0YIPLb4Ux7jpjAHE0jPP4KMNTMJ7ueZFvvfniNU7vpOlxIGe2qNMJddRO2IFPkWiLLgwDLJO5evEv1zuPwgss00CDhbROHFvoa54t/J6uY8M390mgcek41eQhLyabNptb3Mawrcu1zmvD1i4TVMUsvl3KDOeT6ntdgdZsCoUXbIeYAbKM4ENRdb1lEQWUKYwDFGvOWweomiNQs04svivz6K0iLVRVLQYm0YgTsRnXl4rqtbs6HrNetBhzAeWP3CPbv1ny3zq3Z24PiNprPqHR7QdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QhHaiz0VrmRk+ydvaYtmXwFRXAmshsR0hhry5lVY6JU=;
+ b=YVKG2YMV/0Po7qKVXf4xn12Zn06ZEq+WZeq0qS1xppBEDPiXVDl49gzPukMRHjGCowWCkYqbqe64wPLssqg3bkPRJoAzQiX5w5CUfttSFT1v4U1SGMArtq+BYzLODxxwQtduADWl8u3smRjWvIRbAeN/dKyee/UlBqQES5vT8NmbKFC+PvRRmAfyrtKzg/RrdD58R5YG4MWAcIUkxiOr4IbG60uzs2emhFwcKIDEkDd4cDy5X8LlFUPJyesopjNLqah/t/LhJB6HRSzsR7LW10eUa4Ms9wj574Gik2CcOdJ423TJy+QnZqFUbL31O4eCjbc4RsnRs/I7EgZtoxAeiw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DB9PR10MB8093.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:4f0::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Mon, 27 Apr
+ 2026 16:40:38 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7%5]) with mapi id 15.20.9818.023; Mon, 27 Apr 2026
+ 16:40:38 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: OE-Core ML <openembedded-core@lists.openembedded.org>
+Subject: RE: [PATCH v2] ffmpeg: set status for 4 CVEs
+Thread-Topic: [PATCH v2] ffmpeg: set status for 4 CVEs
+Thread-Index: AQHc1i4hbu4W22BCrkK7XI/HpWxyY7XzHGxw
+Date: Mon, 27 Apr 2026 16:40:38 +0000
+Message-ID: 
+ <AS1PR10MB56973A58CCD25A3BF979FE49FD362@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260426185025.13217-6-peter.marko@siemens.com>
+ <20260427101042.5132-1-peter.marko@siemens.com>
+In-Reply-To: <20260427101042.5132-1-peter.marko@siemens.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=809a9d66-9f5b-4f78-93ab-7cd116b2c2be;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-04-27T16:39:18Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB9PR10MB8093:EE_
+x-ms-office365-filtering-correlation-id: 5994160c-c315-4128-9fa3-08dea47bb67b
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|38070700021|22082099003|18002099003|56012099003|55112099003;
+x-microsoft-antispam-message-info: 
+ OTRni+VoiYlA+PHcB/7hlnKVEfgq6Yx+v7NgZEEiU3aV81ARtPkX/vEhi5xxQCNoYNy9xcsaULoUsbjQFCimKMXiFnaLAvMxPew/5SwX0ThL530LBsMVp9PhNJWpz6DFPOOzOcYhuLXqFuN9ms/0wp2nvR3+Zw0WYNLk1lJ9ySGhnZyK7TL0ty29tVkVeWN4IGTmnyj1k5CQ/Apd3LUkQDPJOoRSoodbKjlKZHBwvugPjqfp9J31ZyT+W2FffHWrKCyhM2f5xFbA5dL7PalY/lYSin+SD/T6gxbOafMFdtuNlHLiQJ2xwyoOxrQittQiVPsp+0PSBMgtMdBRLL+BzNyy7iq1AiHvB5C8GSG58wdauxKJ9LqecOijaAf6jvsO7Yr6hsBIHMTbr2+2SRlkYnYf2a46LCx4NsMiGgSXpZq+Dgcwv1io0by0bIDJ9eS0AA+G9B1/jlhBcz68Nf+o9WQQbG2NPzIMxZH+BoCCS89N2feRB+uKmjLP5NtFqyUVDca3hsunZuwdinOK/Z8ZLbwIka4VwtZzqeEiiu1ZTXi9mhO9DXum5lTfY6/M9oybeYjS/QqPqRie+S9Pp3pYok4H5B2E4U7CbACVbPb8HVrdqFI3yjR1Y2wbfMIJdOmSYBu7AhbFlqjuEQgdbfpYcbSabArH8XrJq932dIhzJeNWe3c02FDc0ofTNo9eoKVu/QfILEbahtXi0RQPrrJbLuHNTYC4kxxVAipYuJvoZxNl/CkNljMgGBCvpvKaVNMCwD1fWiPBunFETfYb78/lEOT6V5ZmN2vQ+P2/lkuXtXU=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021)(22082099003)(18002099003)(56012099003)(55112099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?7rdCv1fuPZvuVHaQ0oOSmjixeRuKkSWw35CUTVyvo4f/xyXEXRsJVEJNj1s6?=
+ =?us-ascii?Q?cFht25DLonW55Y1jZ5Cwb33CfTN3HQkmoZg6ygPVR7kSkTC77VcnWjO9H9uN?=
+ =?us-ascii?Q?oJpyESqLQ0saNg9urhZgF6UfgWe1nCgEOw1v46XQhqKNUk7+CRTEZkIPlVxl?=
+ =?us-ascii?Q?XD+lDHJK0O8oKjLJTqL6IKtn++AtszInYA/68feOutObkEUrDnRrLd8tmPrG?=
+ =?us-ascii?Q?vReY8sZ+T9MHk55FzDRZpph4RthOs9pVMAqVEbYggeaYSFDZDInADsyOmd/b?=
+ =?us-ascii?Q?OyKjmMgeumUS5nmB8+GZXn+DvbrONVX3TxqIs7MxnFzip3XZe5JBWt8jn+rF?=
+ =?us-ascii?Q?hblqs4lwEzIeWB0s5Kh9N/bXQMrdDfbPnn5UHw3lt8bjim/1y2DLsLpoFNie?=
+ =?us-ascii?Q?ysxWwTmJNwzBykqTuuNZGHV4hHOVqV6LPVh8JJhT48DOU6x/fTSL51EO+7TB?=
+ =?us-ascii?Q?Bbtode6CgkNqRieM6ENS7QX3QydicUeMg/pn8JCWEuw4FxbNTHqOUx1ZVLNZ?=
+ =?us-ascii?Q?9D111rKRRsMualwCFiqH6CTc34IEFzgfQP+YvpkLqnSN2mTSHGH5XvE2YBxh?=
+ =?us-ascii?Q?OzPvGhJOBKwKdpUU0Jl+Uyv3iHHSV9WhelajN3bvuFg13gkXD0bGsjWlsOZX?=
+ =?us-ascii?Q?k3rG04pWZOMTAjFsb+Whc/5CaMqYr564SFlQxrGDosIs4OTgWqjGU8TkoizA?=
+ =?us-ascii?Q?6YKFuPsEmRg7JWkFjnVXhFNaYMKba5m2iZsKfh/fwmpLAZoKVuhsqoG5cszX?=
+ =?us-ascii?Q?x5n/ogHfWmLOsjOAQdZtWtiKcWYhiBMmmyJ4bUmjbGecPJA9Fu2KEHvYF3lG?=
+ =?us-ascii?Q?LsLRroXgP3WOOF0whMd65mYWa5nnFH/7GyUzQBguEEjp3wCH7epY/yFbwoSC?=
+ =?us-ascii?Q?CpCLGilLSVpWRELnQWKD0ZT7RUL/8tV63snT8J49DsQgWEBi3uBrXNNH/t5K?=
+ =?us-ascii?Q?pNqUBJQNNhc5XkjIxMKEoSmXTnXV1qR3f7A7OEGN+aKnpwIGuWu99b5rTmEO?=
+ =?us-ascii?Q?ttZtwId0MGdVvv8p7DtVc5lPy+beWk/i6EOZzZ0B2ihUKN19LHlLEh9HM3r8?=
+ =?us-ascii?Q?UxCgvXZ/wJwpA/0HBKMqq6wUs8IdyAYkCQO2b4hAJ/8R0aEwGei4pCMUHISd?=
+ =?us-ascii?Q?AjCvH39aPLwv8Gc4+JolyJTPJr02gVW16WJ+T2QgNrsXtMe1ylbtXfwf6jbE?=
+ =?us-ascii?Q?YmexeWWC4oag5nFPIN0TMu1S/uUOaBFQSb+sDeVvG7H8xNCAhWAOaqvHj/Pl?=
+ =?us-ascii?Q?dVSxTQTEp69hmZWMaFR70jCnQZwj2S+yGCFzXYS6JkI9Tqm9tD1c9MiDv/pC?=
+ =?us-ascii?Q?5YyIIYTe+QvruZmzigJ4urC69fOish5HoLDPV1e22t1IMa3vmBwlWDUi9hH2?=
+ =?us-ascii?Q?U5IoxhI8L71F6sh9FH/n4rqRKavD5BTeqM4c7K0MNoyujchNVDMXucA5vjtZ?=
+ =?us-ascii?Q?yTelm6blT6JBWcxamCoy3JcCjjuud/Xdnk4FkjIrpI7t2VqJHcX/ybSgXSOu?=
+ =?us-ascii?Q?GlsFoPbS79NnzEM7Qc91yK6fB8FCqJasyLQXI9QVBbJQD2BBl3j1+gN1+UEy?=
+ =?us-ascii?Q?P+OzRitm4cpkeelCucZu6snY6AYLD1noaP6NVsTL9Uo1yQgG09u80El/V2tZ?=
+ =?us-ascii?Q?ZTGWi/1Q2C/BWjC/mx0qJ0x4oWb5fv1/48r4lWmX5VeP8dB+6nKOp+CiqpDI?=
+ =?us-ascii?Q?H2Sr/V72MgwQC0tzuQKCgNt4PzmdJ3D8FbQuS3//yyVP+VTDM9Cv5s21pXQP?=
+ =?us-ascii?Q?r34ezfk1UQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Apr 2026 17:33:12 +0200
-Message-Id: <DI41OMP4G56B.27ZI7H01HB7KW@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH 2/4] binutils: fix CVE-2025-69648
-From: "Fabien Thomas" <fabien.thomas@smile.fr>
-To: <adarsh.jagadish.kamini@est.tech>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0
-References: <20260422130342.386379-1-adarsh.jagadish.kamini@est.tech>
-In-Reply-To: <20260422130342.386379-1-adarsh.jagadish.kamini@est.tech>
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5994160c-c315-4128-9fa3-08dea47bb67b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2026 16:40:38.2312
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tWLEB9IO0TocyeBtCFkg01VafHqgW87mbGo4eg145FYCZEWofWpukgoWEaV7LUWQoeVmwlHstvR8+h+zCj3ZTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB8093
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 15:33:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236019
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 16:40:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236020
 
-On Wed Apr 22, 2026 at 3:03 PM CEST, Adarsh Jagadish Kamini via lists.opene=
-mbedded.org wrote:
-> From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
->
-> Backport upstream fix for CVE-2025-69648 [1].
->
-> [1] https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D598704=
-a00cbac5e85c2bedd363357b5bf6fcee33
->
-> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> ---
->  .../binutils/binutils-2.42.inc                |   1 +
->  .../binutils/binutils/CVE-2025-69648.patch    | 190 ++++++++++++++++++
->  2 files changed, 191 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-6964=
-8.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.42.inc
-> index a337a3e850..6c1f9dc870 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-> @@ -72,5 +72,6 @@ SRC_URI =3D "\
->       file://0029-CVE-2025-11839.patch \
->       file://0030-CVE-2025-11840.patch \
->       file://CVE-2025-69647.patch \
-> +     file://CVE-2025-69648.patch \
->  "
->  S  =3D "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch=
- b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
-> new file mode 100644
-> index 0000000000..e04d7ed6c2
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
-> @@ -0,0 +1,190 @@
-> +From 7df481dd76c05c89782721e9df5468be829c356b Mon Sep 17 00:00:00 2001
-> +From: Alan Modra <amodra@gmail.com>
-> +Date: Sat, 22 Nov 2025 09:22:10 +1030
-> +Subject: [PATCH] PR 33638, debug_rnglists output
-> +
-> +The fuzzed testcase in this PR continuously outputs an error about
-> +the debug_rnglists header.  Fixed by taking notice of the error and
-> +stopping output.  The patch also limits the length in all cases, not
-> +just when a relocation is present, and limits the offset entry count
-> +read from the header.  I removed the warning and the test for relocs
-> +because the code can't work reliably with unresolved relocs in the
-> +length field.
-> +
-> +	PR 33638
-> +	* dwarf.c (display_debug_rnglists_list): Return bool.  Rename
-> +	"inital_length" to plain "length".  Verify length is large
-> +	enough to read header.  Limit length to rest of section.
-> +	Similarly limit offset_entry_count.
-> +	(display_debug_ranges): Check display_debug_rnglists_unit_header
-> +	return status.  Stop output on error.
-> +
-> +CVE: CVE-2025-69648
-> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbin=
-utils-gdb.git;h=3D598704a00cbac5e85c2bedd363357b5bf6fcee33]
-> +
-> +(cherry picked from commit 598704a00cbac5e85c2bedd363357b5bf6fcee33)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> +---
-> + binutils/dwarf.c | 67 ++++++++++++++++++++++++------------------------
-> + 1 file changed, 34 insertions(+), 33 deletions(-)
-> +
-> +diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-> +index f4bcb677761..b4fb56351ec 100644
-> +--- a/binutils/dwarf.c
-> ++++ b/binutils/dwarf.c
-> +@@ -8282,7 +8282,7 @@ display_debug_rnglists_list (unsigned char * start=
-,
-> +   return start;
-> + }
-> +=20
-> +-static int
-> ++static bool
-> + display_debug_rnglists_unit_header (struct dwarf_section *  section,
-> + 				    uint64_t *              unit_offset,
-> + 				    unsigned char *         poffset_size)
-> +@@ -8290,7 +8290,8 @@ display_debug_rnglists_unit_header (struct dwarf_s=
-ection *  section,
-> +   uint64_t        start_offset =3D *unit_offset;
-> +   unsigned char * p =3D section->start + start_offset;
-> +   unsigned char * finish =3D section->start + section->size;
-> +-  uint64_t        initial_length;
-> ++  unsigned char * hdr;
-> ++  uint64_t        length;
-> +   unsigned char   segment_selector_size;
-> +   unsigned int    offset_entry_count;
-> +   unsigned int    i;
-> +@@ -8299,66 +8300,59 @@ display_debug_rnglists_unit_header (struct dwarf=
-_section *  section,
-> +   unsigned char   offset_size;
-> +=20
-> +   /* Get and check the length of the block.  */
-> +-  SAFE_BYTE_GET_AND_INC (initial_length, p, 4, finish);
-> ++  SAFE_BYTE_GET_AND_INC (length, p, 4, finish);
-> +=20
-> +-  if (initial_length =3D=3D 0xffffffff)
-> ++  if (length =3D=3D 0xffffffff)
-> +     {
-> +       /* This section is 64-bit DWARF 3.  */
-> +-      SAFE_BYTE_GET_AND_INC (initial_length, p, 8, finish);
-> ++      SAFE_BYTE_GET_AND_INC (length, p, 8, finish);
-> +       *poffset_size =3D offset_size =3D 8;
-> +     }
-> +   else
-> +     *poffset_size =3D offset_size =3D 4;
-> +=20
-> +-  if (initial_length > (size_t) (finish - p))
-> +-    {
-> +-      /* If the length field has a relocation against it, then we shoul=
-d
-> +-	 not complain if it is inaccurate (and probably negative).
-> +-	 It is copied from .debug_line handling code.  */
-> +-      if (reloc_at (section, (p - section->start) - offset_size))
-> +-	initial_length =3D finish - p;
-> +-      else
-> +-	{
-> +-	  warn (_("The length field (%#" PRIx64
-> +-		  ") in the debug_rnglists header is wrong"
-> +-		  " - the section is too small\n"),
-> +-		initial_length);
-> +-	  return 0;
-> +-	}
-> +-    }
-> +-
-> +-  /* Report the next unit offset to the caller.  */
-> +-  *unit_offset =3D (p - section->start) + initial_length;
-> ++  if (length < 8)
-> ++    return false;
-> +=20
-> +   /* Get the other fields in the header.  */
-> ++  hdr =3D p;
-> +   SAFE_BYTE_GET_AND_INC (version, p, 2, finish);
-> +   SAFE_BYTE_GET_AND_INC (address_size, p, 1, finish);
-> +   SAFE_BYTE_GET_AND_INC (segment_selector_size, p, 1, finish);
-> +   SAFE_BYTE_GET_AND_INC (offset_entry_count, p, 4, finish);
-> +=20
-> +   printf (_(" Table at Offset: %#" PRIx64 ":\n"), start_offset);
-> +-  printf (_("  Length:          %#" PRIx64 "\n"), initial_length);
-> ++  printf (_("  Length:          %#" PRIx64 "\n"), length);
-> +   printf (_("  DWARF version:   %u\n"), version);
-> +   printf (_("  Address size:    %u\n"), address_size);
-> +   printf (_("  Segment size:    %u\n"), segment_selector_size);
-> +   printf (_("  Offset entries:  %u\n"), offset_entry_count);
-> +=20
-> ++  if (length > (size_t) (finish - hdr))
-> ++    length =3D finish - hdr;
-> ++
-> ++  /* Report the next unit offset to the caller.  */
-> ++  *unit_offset =3D (hdr - section->start) + length;
-> ++
-> +   /* Check the fields.  */
-> +   if (segment_selector_size !=3D 0)
-> +     {
-> +       warn (_("The %s section contains "
-> + 	      "unsupported segment selector size: %d.\n"),
-> + 	    section->name, segment_selector_size);
-> +-      return 0;
-> ++      return false;
-> +     }
-> +=20
-> +   if (version < 5)
-> +     {
-> +       warn (_("Only DWARF version 5+ debug_rnglists info "
-> + 	      "is currently supported.\n"));
-> +-      return 0;
-> ++      return false;
-> +     }
-> +=20
-> ++  uint64_t max_off_count =3D (length - 8) / offset_size;
-> ++  if (offset_entry_count > max_off_count)
-> ++    offset_entry_count =3D max_off_count;
-> +   if (offset_entry_count !=3D 0)
-> +     {
-> +       printf (_("\n   Offsets starting at %#tx:\n"), p - section->start=
-);
-> +@@ -8372,7 +8366,7 @@ display_debug_rnglists_unit_header (struct dwarf_s=
-ection *  section,
-> + 	}
-> +     }
-> +=20
-> +-  return 1;
-> ++  return true;
-> + }
-> +=20
-> + static bool
-> +@@ -8404,6 +8398,7 @@ display_debug_ranges (struct dwarf_section *sectio=
-n,
-> +   uint64_t last_offset =3D 0;
-> +   uint64_t next_rnglists_cu_offset =3D 0;
-> +   unsigned char offset_size;
-> ++  bool ok_header =3D true;
-> +=20
-> +   if (bytes =3D=3D 0)
-> +     {
-> +@@ -8493,8 +8488,12 @@ display_debug_ranges (struct dwarf_section *secti=
-on,
-> +       /* If we've moved on to the next compile unit in the rnglists sec=
-tion - dump the unit header(s).  */
-> +       if (is_rnglists && next_rnglists_cu_offset < offset)
-> + 	{
-> +-	  while (next_rnglists_cu_offset < offset)
-> +-	    display_debug_rnglists_unit_header (section, &next_rnglists_cu_off=
-set, &offset_size);
-> ++	  while (ok_header && next_rnglists_cu_offset < offset)
-> ++	    ok_header =3D display_debug_rnglists_unit_header (section,
-> ++							    &next_rnglists_cu_offset,
-> ++							    &offset_size);
-> ++	  if (!ok_header)
-> ++	    break;
-> + 	  printf (_("    Offset   Begin    End\n"));
-> + 	}
-> +=20
-> +@@ -8548,10 +8547,12 @@ display_debug_ranges (struct dwarf_section *sect=
-ion,
-> +     }
-> +=20
-> +   /* Display trailing empty (or unreferenced) compile units, if any.  *=
-/
-> +-  if (is_rnglists)
-> ++  if (is_rnglists && ok_header)
-> +     while (next_rnglists_cu_offset < section->size)
-> +-      display_debug_rnglists_unit_header (section, &next_rnglists_cu_of=
-fset, &offset_size);
-> +-
-> ++      if (!display_debug_rnglists_unit_header (section,
-> ++					       &next_rnglists_cu_offset,
-> ++					       &offset_size))
-> ++	break;
-> +   putchar ('\n');
-> +=20
-> +   free (range_entries);
-> +--=20
-> +2.35.6
-> +
+Could you please take one this instead of the old version to master-next?
 
-Hello Adarsh,
+ffmpeg: set status for 5 CVEs
+https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&id=
+=3De941054f6f1381742a5af02c85f8174cc776a81f
 
-I'm filling in for Yoann while he's on leave.
+Thanks,
+  Peter
 
-Thank you for these pathes. A few notes, however: for future binutils proje=
-cts,=20
-please include links to the CVE (ideally NVD or NIST), as well as the link=
+-----Original Message-----
+From: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>=20
+Sent: Monday, April 27, 2026 12:11 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+Subject: [PATCH v2] ffmpeg: set status for 4 CVEs
+
+From: Peter Marko <peter.marko@siemens.com>
+
+These reappeared after update of sbom-cve-check tooling.
+Fixed version found by links from Debian security tracker.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb b/meta/recipes-=
+multimedia/ffmpeg/ffmpeg_8.0.1.bb
+index 7bb7de3d25..b6d3ceb6dc 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
+@@ -176,6 +176,10 @@ CVE_STATUS_GROUPS =3D "CVE_STATUS_WRONG_CPE"
+ CVE_STATUS_WRONG_CPE =3D "CVE-2023-51791 CVE-2023-51793 CVE-2023-51794 CVE=
+-2023-51795 CVE-2023-51796 CVE-2023-51797 CVE-2023-51798 CVE-2025-22921"
+ CVE_STATUS_WRONG_CPE[status] =3D "fixed-version: these CVEs are fixed in u=
+sed version"
 =20
-to the Bugzilla entry mentioned in the patch that indicates that the patch=
-=20
-is resolved and in which version (especially when there are =E2=80=9Cduplic=
-ates=E2=80=9D).
-
-All of these elements make it easier for us to validate the patch.
-
-And for this second patch, I see a Signed-off-by: Deepak Rathore <deeratho@=
-cisco.com>
-Are there two of you from different companies who made this backport,=20
-or is this a mistake?
-
-Thank for your reply.
---
-Fabien Thomas
-Smile ECS
-
++CVE_STATUS[CVE-2022-2566] =3D "fixed-version: these CVEs are fixed since v=
+5.1.1"
++CVE_STATUS[CVE-2025-9951] =3D "fixed-version: these CVEs are fixed since v=
+8.0"
+ CVE_STATUS[CVE-2025-25468] =3D "fixed-version: these CVEs are fixed since =
+v8.0"
+ CVE_STATUS[CVE-2025-25469] =3D "fixed-version: these CVEs are fixed since =
+v8.0"
+ CVE_STATUS[CVE-2025-12343] =3D "fixed-version: this CVE are fixed since v8=
+.0"
++CVE_STATUS[CVE-2025-59729] =3D "fixed-version: this CVE are fixed since v8=
+.0"
++CVE_STATUS[CVE-2025-59730] =3D "fixed-version: this CVE are fixed since v8=
+.0"
 
