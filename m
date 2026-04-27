@@ -2,111 +2,110 @@ Return-Path: <hjadon@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCC94FF8860
-	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 05:07:54 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35835.1777266470549241109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6006FF8850
+	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 05:14:54 +0000 (UTC)
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.35933.1777266884861305994
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Apr 2026 22:07:50 -0700
+ Sun, 26 Apr 2026 22:14:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=NUv+WPh4;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: hjadon@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=kHcP5iFG;
+ spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: hjadon@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1104; q=dns/txt;
-  s=iport01; t=1777266470; x=1778476070;
+  d=cisco.com; i=@cisco.com; l=840; q=dns/txt;
+  s=iport01; t=1777266884; x=1778476484;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=q4TiX7qZrp/56cmU3dJEHWLXL1yaFXn28tuU+FNjLK0=;
-  b=NUv+WPh4eP9EQFXEEiaSM9u8RqkRxmFrKOK2QndH+kJN1mu7AeyVHDOB
-   NTSxw0/5bY4JlNSYEOT4JBT/fpkabsRCPP2zjZv/b5D/bWOmRxRNhVZDd
-   pPeRV3zVgCUz3I/mnIcELeKL3OrfzS7KMwIsxvGnP540s0e7qTz+xpFzG
-   nc4tC1m+jVzkooHTWwo7pzZwsjNFIsybO4svJCC48xQvZWKrRnPYavTEY
-   5CEudcLeiYCwvSZOW9N6uXXS5WVmRJOFZ+Z7iqTQCAPYXrVBc++yp5k7J
-   uqPR4Ow9ht0MLACsYS+ZkqhdbDQ/+h0KK+auo+co/hGGK36QhcuE8DXb2
-   w==;
-X-CSE-ConnectionGUID: eVqt84BjS1uacEIRUuie+A==
-X-CSE-MsgGUID: MHemEYaWTm2RBi0Hu9VDJw==
-X-IPAS-Result: =?us-ascii?q?A0BFAgAv7u5p/5H/Ja1RCYJZgldxXkNJk1oBgnCRTYxQg?=
- =?us-ascii?q?X8PAQEBDzEgBAEBhQaNMQImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBB?=
- =?us-ascii?q?QEBAQIBBwWBDhOGTw2GXTYBGAEtMFxEgwIBgnMDthqCLIEBgygBgVTbJwELF?=
- =?us-ascii?q?AGBOIU/iByFbicbG4FyhH2EF3mFdwSCIoEOgX6CSopMSIEeA1ksAVUTDQoLB?=
- =?us-ascii?q?wWBZgM1EioVbjIdgSM+F4EMGwcFgUuDVW1qgQuEXngiGgMLGA1IESw3FBsEP?=
- =?us-ascii?q?m4HijQgD4IkB4EOgUdSUJMAkEKCIaEOCiiDdIwelToaM6prLphYo3ELXYRog?=
- =?us-ascii?q?Wg8gVlwFYMiCUoZD5FxyHQmMgI7AgcCBw0DC5NlAQE?=
-IronPort-Data: A9a23:5uaI/aCRscp9VxVW/37iw5YqxClBgxIJ4kV8jS/XYbTApD9z0j0Cz
- WsZDT+OOq3bMDT2fNt1YNi09k4Gv5TcytZkOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jWGthh
- fuo+5eBYAP/hWYuWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEzst3EBFqF48jo/t+Ckxvz
- 8EFKT1OR0XW7w626OrTpuhEnM8vKozveYgYoHwllWGfBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGYyBPjDS0Un1lM/CJA3kOCurnL+aDZf7lmSoMLb5kCMllEvgOezb4O9ltqiYOVYm2upr
- 136+j7DKBBCFMHO9xan7Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aetRIaHt4VGOog5UTVmuzf4h2SAS4PSTsphMEaifLajAcCj
- jeh9+4FzxQ22FFJYRpxLoupkA4=
-IronPort-HdrOrdr: A9a23:jjaFQ61UnwnSUorvl03qewqjBIQkLtp133Aq2lEZdPWaSKOlfq
- eV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKkXbak7D398Y87
- t8eK5jD9C1J117gcHmpDScKb8bsb26GGTCv5a585+rJjsaDJ1d0w==
-X-Talos-CUID: =?us-ascii?q?9a23=3AC39G82rIJdiErq4+5GiNxzzmUc0ba2GNkF3SGBa?=
- =?us-ascii?q?lAG1EaYeoVF6du4oxxg=3D=3D?=
-X-Talos-MUID: 9a23:Mv3V1AnNeOxSJsSt8p0vdnpHFMptzpWnN3wIy68supGkKH1OFxWC2WE=
+  bh=IllrFcbCBDK+5SlnXJfqHUIy7uaS2naTSep2ZvebvDY=;
+  b=kHcP5iFGT/koLWu3Exnp7/0YqwKGisHGL2YsEvmRetMDq5gRoflSw7Ey
+   odmUWu2FXgFXZR+TbcSgbcZP+W2byjz1+1pF70s6xEjoE0/ptzDyfGlGo
+   HsUvyDuWznLlQbqPCx2jBO3608MDos3Thlmsc7K03pbRH4hs5IWa54qWK
+   9VjkUGFaey1LwmHGQInBAjjJd8qWq+5P/yGbCtCliQNbGQFu9at4pbdYy
+   VeeWgD/gts9Xa3R/xy0oDcD6g5HP/iMkYdq5tEqDoI84OSnyvSU2KSP2P
+   Q5IrUZseET80ywGoOAS0zq/knhMfUfqY7aR09KO296zPDCNseoe5mOJxt
+   Q==;
+X-CSE-ConnectionGUID: D5nuYKb2TdCqJEGdlr9Gdg==
+X-CSE-MsgGUID: CZDFZPzwRjmCd//ZfEKlNQ==
+X-IPAS-Result: =?us-ascii?q?A0BGAgAz8O5p/5P/Ja1RCYJZgldxXkNJhFePAwGhDYF/D?=
+ =?us-ascii?q?wEBAQ8xIAQBAYUGjTECJjQJDgECBAEBAQEDAgMBAQEBAQEBAQEBAQsBAQUBA?=
+ =?us-ascii?q?QECAQcFgQ4ThlyGXScPARgBLTAFAiYCLUSDAgGCcwO2I3qBMoEBgygBgVTbJ?=
+ =?us-ascii?q?wELFAGBCi6FP4MZAYUChW4nGxuBcoR9hBd5gw6CaQSCIoEOjxRIgQIcA1ksA?=
+ =?us-ascii?q?VUTDQoLBwWBZgM1EioVbjIdgSM+FzRYGwcFgUuDVW1qgQuEXngiGgMLGA1IE?=
+ =?us-ascii?q?Sw3FBsEPQFuB4o0IA+BOHMBgQ2CaaNCgiGhDgoog3SMHpU6GjOqay6YWKRZh?=
+ =?us-ascii?q?GiBaDyBWXAVgyIJShkP2mEmMgI9BwIHDgKTcAEB?=
+IronPort-Data: A9a23:HN+qLqICsJqI97BTFE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS12YEn
+ TFND2nVP/2KNGL2e9kjPt6w8hlVvZXRm9VrSwYd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnW0
+ T/Oi5eHYgH9h2Qqajh8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1CUUcrDK4SoNp7Knhs2
+ NMULCpcQRyM0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSAVbAtQIvIROPB4towMDUY358VW62BI
+ ZBENHw2MEuojx5nYj/7DLo+nu6kgX/XeDxDo1XTrq0yi4TW5FMqieWyaIWEJrRmQ+1+rGq2l
+ FrU4F77BzoWc5utxxem9lSV07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/OMpQ2YHWMDCDVGbbTKqfMLeNDj7
+ XfR9/uBONClmOzIEhpxKp/8QeuOBBUo
+IronPort-HdrOrdr: A9a23:eyYz+K066rz/PvZM5dvLmwqjBJ4kLtp133Aq2lEZdPWaSKOlfq
+ eV7ZAmPH7P+VMssR4b+OxoVJPsfZq+z+8W3WBuB9eftWDd0QPCRr2KhrGN/9SPIUHDH5ZmpM
+ RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
+X-Talos-CUID: =?us-ascii?q?9a23=3ACK0VtWj9gkZfjh1F7oG2+OviVTJuXiDb0UbzKRW?=
+ =?us-ascii?q?EBU1wapC6RVuKqYxonJ87?=
+X-Talos-MUID: 9a23:Qu6t0QmHHfV1nGSEbdkNdnpJButG0Zy8F3oPlL4K/I62OwFTPxGk2WE=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.23,201,1770595200"; 
-   d="scan'208";a="725687671"
-Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 27 Apr 2026 05:07:49 +0000
+   d="scan'208";a="731570794"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 27 Apr 2026 05:14:06 +0000
 Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 8EC9B180001D9;
-	Mon, 27 Apr 2026 05:07:49 +0000 (GMT)
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id F382E180093BB;
+	Mon, 27 Apr 2026 05:12:15 +0000 (GMT)
 Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
-	id 394D4CC1288; Sun, 26 Apr 2026 22:07:49 -0700 (PDT)
+	id 9E2FFCC1288; Sun, 26 Apr 2026 22:12:15 -0700 (PDT)
 From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: vchavda@cisco.com
-Subject: [OE-core] [scarthgap] [PATCH] apt: Add CVE_PRODUCT to support product name
-Date: Sun, 26 Apr 2026 22:07:39 -0700
-Message-Id: <20260427050739.1537812-1-hjadon@cisco.com>
+Subject: [OE-core] [master] [PATCH] apr: Add CVE_PRODUCT to support product name
+Date: Sun, 26 Apr 2026 22:12:09 -0700
+Message-Id: <20260427051209.1541980-1-hjadon@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
-X-Outbound-Node: rcdn-l-core-08.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 05:07:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235979
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 05:14:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235980
 
 From: Himanshu Jadon <hjadon@cisco.com>
 
-- Keep both the older deprecated debian:apt alias and the active
-  debian:advanced_package_tool identity in CVE_PRODUCT.
-- This preserves completeness and avoids missing CVEs in case older
-  aliases are still used in NVD records.
+apr is tracked in NVD under apache:portable_runtime rather than the
+recipe name apr. Set CVE_PRODUCT accordingly so cve-check uses the
+correct NVD product identity for APR.
 
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4c777220ee5740b800f4128da79c24f7e42c7b88)
+No additional alias was found to be necessary for this recipe.
+
 Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 ---
- meta/recipes-devtools/apt/apt_2.6.1.bb | 3 +++
+ meta/recipes-support/apr/apr_1.7.6.bb | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/apt/apt_2.6.1.bb b/meta/recipes-devtools/apt/apt_2.6.1.bb
-index e688d30cae..5709bbe24a 100644
---- a/meta/recipes-devtools/apt/apt_2.6.1.bb
-+++ b/meta/recipes-devtools/apt/apt_2.6.1.bb
-@@ -140,3 +140,6 @@ do_install:append() {
- 	# Avoid non-reproducible -src package
- 	sed -i -e "s,${B}/include/,,g" ${B}/apt-pkg/tagfile-keys.cc
+diff --git a/meta/recipes-support/apr/apr_1.7.6.bb b/meta/recipes-support/apr/apr_1.7.6.bb
+index 13fa5daa3c..0057704989 100644
+--- a/meta/recipes-support/apr/apr_1.7.6.bb
++++ b/meta/recipes-support/apr/apr_1.7.6.bb
+@@ -135,3 +135,6 @@ do_install_ptest() {
  }
+ 
+ export CONFIG_SHELL = "/bin/bash"
 +
 +# Add CVE_PRODUCT to match the NVD CPE product name
-+CVE_PRODUCT = "debian:apt debian:advanced_package_tool"
++CVE_PRODUCT = "apache:portable_runtime"
 -- 
 2.35.6
 
