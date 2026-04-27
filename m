@@ -1,152 +1,120 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD0E2FF8860
-	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 14:21:36 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.12])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.46096.1777299695973408486
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4D90FF8868
+	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 14:26:56 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.46565.1777300015084044757
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 07:21:36 -0700
+ Mon, 27 Apr 2026 07:26:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=Zcp4fz7W;
- spf=pass (domain: cherry.de, ip: 52.101.70.12, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d1Miwwhr4oIQaR7qpdHbgYJQzMJVUFWaMQ7koHASFM0oBUb0wW/jc0J2L9YIwx/9J/GZ2C/ilGBeHztNbUvAJ6+WtEg8PC/VAYOdcWB/y6lLk+VhljuPIOoDh8rBCuA7EmJSOjiegJGiF8559t05dRui44ai10Ur8UOIGMEeSJQqTBeAKlRECK7PHkr7jSRtWrlQGeQDWaKwcU58e5mBVnQoDsLZhfyRJJ9IzkZEvmFdqW3sKljK4gB40t5SzOGHkt3BDoRYn14HUGbMLhoEsJu+xJ/7HuobDp3lYaLxwyTiUxyMiaVfzzeFFmEPVeLOh8AfSGjuRhodTg1D9UY4Pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=65i7soipS9MCSi9MMNqObFX6tYmgxXESHIlf5Kb6VDU=;
- b=p+0YJq0JpWdUhWBNiyJWHvYbVB5gxEiJFAID+XiwtdbZMNMuYHLAnGV7w2h3QYaRaRruUAvZeaRGUjxGtTGFMdGG1AybQ6RxnVjXdP64s7P/MTp0Uk6ikGcPRfbzpBeFT60xqOmdumd2TVKd2TjYNCXcz8GrBxxPwy81d5tgoGfvcUB/dZbiY/pqj2F/n1Z/832fyiy83OTl9Et78TC2lJD2w6rJ1GPgxnJXatuUr8k6r/DGId1FuXNoh6BpJ0ZKcB15SKffrVA8fM5I857kwQ52e2NoXz9i941s0TZ0dNZGGuZiV+Neo9QPx7r9BVpmeACv+7Y0+zTObji+UXYa1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=65i7soipS9MCSi9MMNqObFX6tYmgxXESHIlf5Kb6VDU=;
- b=Zcp4fz7Wg8Cy6/g3EhFBehXcGdEt1UTWm/fnTcWDRtdz/zqYyHnn28idxOAtlUp+Pd1iHr3qH87CmCv8iBQFI3pkUjLZfmppn7uJGj6Um1neN8ATM5Bd7l8d/oYu4A9JvRtB6qxBhzYmwYI7kZzqdgdnwf2RDID+4Z3DL8pX1rE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA4PR04MB7743.eurprd04.prod.outlook.com (2603:10a6:102:b8::20)
- by PA1PR04MB10179.eurprd04.prod.outlook.com (2603:10a6:102:460::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Mon, 27 Apr
- 2026 14:21:31 +0000
-Received: from PA4PR04MB7743.eurprd04.prod.outlook.com
- ([fe80::9a4e:252f:2fd:97b7]) by PA4PR04MB7743.eurprd04.prod.outlook.com
- ([fe80::9a4e:252f:2fd:97b7%6]) with mapi id 15.20.9846.016; Mon, 27 Apr 2026
- 14:21:31 +0000
-Message-ID: <17be66c8-363a-4010-818b-67c42d51a825@cherry.de>
-Date: Mon, 27 Apr 2026 16:21:30 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] machine: include: arm: simplify conditional
- operations with bb.utils.filter
-To: =?UTF-8?Q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>,
- openembedded-core@lists.openembedded.org
-CC: thomas.petazzoni@bootlin.com, qi.chen@windriver.com
-References: <20260427130846.96013-1-joaomarcos.costa@bootlin.com>
- <20260427130846.96013-4-joaomarcos.costa@bootlin.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260427130846.96013-4-joaomarcos.costa@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BjxxxF52;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.218.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ba545100a13so1116446066b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 07:26:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1777300013; x=1777904813; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eh5x9n+9pc23nnL4WyzjicGQMTWpaAJw+O2tFuvIHM4=;
+        b=BjxxxF52n+z9jPc6eDCPvysyiVebfk0dRZJruEvApCsXO4Z7V+nDRmoMHk82CuhGZp
+         O0l7KmF/+Fx4YUWSsTDLGWw4gcif9+LYvfRN9/vAFb2pjBDpwdCohRk9DoiE1kMUqt6h
+         lR7PR7eEDlp5Fng7NJxoHAdfFiilZvrPmYFHs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777300013; x=1777904813;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eh5x9n+9pc23nnL4WyzjicGQMTWpaAJw+O2tFuvIHM4=;
+        b=Go0HUp20wY2YHOwnTmaw2NtvjyaLFHHu9SHQQqr+QFxbPwa5O86zPWBhIzphAgKsKE
+         a9T1pdCVJD7JgrWx6t1T79DVthltWLiuqkvpFOPG3kYjEd360sx6/NW6hB6gikoobrG3
+         ijqQwJucmyfrtQpEaORDAC6rE+YW8/4SVKf8kZnbTISPVx30lopw/b6WcKLxnC5iZOXm
+         BYYzKCYBlR2Sc9Ut2t6S+vbXcyaJeMK4cx+OwE9CXgKpk26XpbZocyrIsrfIj2I0DC8j
+         vrqYP2FJt5pb3OKPK1ZDohaSYFw6Tt4E0TPkhGc5dg9/0GEb+hhQuY46MKKshd8DrEHS
+         gkXQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+Hj0ndW2ayi/5AkjOoFDRJ7XEwxxwjZIRMlhwAxtzNe1gabmdF1W0yXxZSC3S8mQ5PwHZx8/hrFuP04ESHb+odpA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy20T0HGPat7yT9Z89Z20m7uOP6dsJ9bmTQJBPDMbnlaEuCrOh5
+	8Rzk+IfYIBmL0oKTfE4eoQc0bEtHEgI3DWTg7J/HBS/1pvA99lSIMhUmwD4TmTKz7Dk=
+X-Gm-Gg: AeBDievLDf5LfmewgA7O07MGUvyDYxVtG6sPxg49MNSbwImAV/nDAnsXR6Hs/IXuGEl
+	T63a3cPmWWjMpVXzEJ1D3TbzDhh3eWo5TS3qLMJWX4cD/qTJG0zCabz579YFDnRs6dqwPAfGC1O
+	TZupgFVdutqZl/qGqlbTwNebw221Lvj0n4g4cCb5dP8byauGEpXKEqEo/gR9f2zC2Q69dAHXFaz
+	VH64juTmJi+2ezhu3Ra7IHD1SKDkC6NN1czoZ/hRVLXaquk0FCmxZcluvs+SNngmdWqEJZl0BWK
+	MkeU+MuitAmEP5l3/JdQ9ACpzmhWcl/vfNnj7THbeSe6DFRvjo6xI7OOxMk8kFv4CzaR4HeHZlX
+	1hrOvJ7W3eanxC35G+zeIqkqsZqGrpmAXTJb6nEDbijUy31YvRoYZK4gGLmab+ILanQRx2U+9Gz
+	7TXuHRH6hRq2ipUTfe8VbNZZRIBHESaBKiXkrhDMP5UsVT2pHhbCnkANeknBdpST+2t6t0Uaw3Z
+	yBUKznhF5N9sttFzLlrwIrUCbcxycZ3sIK/dg==
+X-Received: by 2002:a17:906:7312:b0:ba5:8976:552a with SMTP id a640c23a62f3a-ba589766925mr2080882666b.15.1777300013215;
+        Mon, 27 Apr 2026 07:26:53 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:90d5:aef4:c08f:dc6b? ([2001:8b0:aba:5f3c:90d5:aef4:c08f:dc6b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba451211010sm1173800366b.1.2026.04.27.07.26.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Apr 2026 07:26:52 -0700 (PDT)
+Message-ID: <1d912b5e73c5ef463eaa1c7e0dfcf8607767efad.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] base/bitbake.conf: Rework DISTRO_FEATURES
+ and MACHINE_FEATURES default handling
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?B=F6sz=F6rm=E9nyi_Zolt=E1n?= <zboszor@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 27 Apr 2026 15:26:51 +0100
+In-Reply-To: <822efc1b-68ff-4d95-adbf-15576b653a55@gmail.com>
+References: <20260423133340.1954703-1-richard.purdie@linuxfoundation.org>
+	 <20260423133340.1954703-2-richard.purdie@linuxfoundation.org>
+	 <822efc1b-68ff-4d95-adbf-15576b653a55@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: VI1PR09CA0150.eurprd09.prod.outlook.com
- (2603:10a6:803:12c::34) To PA4PR04MB7743.eurprd04.prod.outlook.com
- (2603:10a6:102:b8::20)
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7743:EE_|PA1PR04MB10179:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7a75456-1109-4e27-ed14-08dea4684755
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|10070799003|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	vnWeqAcva7RLrdO4IXr+ly297zzWpVRQH+Ukxn7rtoEDetCPitqMBcdc4DNQAKF5zg8r62xtsiTdgl4dNN80ZyhfcdkDZahzwIPQV3gROrN2410gaRsCTFLptClvP1A0ttBKqNOzqELyrFx4vWu9m3TWzguTm+F2WDguNDepwH39E5w7nOfWwvj4NCfK3aPoEACKr+XdDbv4mIEwvehQFg+r3ekkHfefUU6q9yOb2lywFPrPGV7K1ZJLEkj87m6lo9KSCdA47c5QxjAcO9Wz5P7v8dGSmrJp9MlwNJ/b31R2xinrET302OaeB2g7OP3LhiSSFLXRI73DljB6dqBU+q+aq0PKs4akpaglDzCuawhuUwgXQhBwOiAzR5O3e6mZvi41mrglPIM72KZywqVW7QDUd5inN03YRQJpjxLQjaA1Aa3T6wyRAQEJAhKIR0NI3xqCLW3wS5/gMF1uevERT/wct6XJ4x9pVEvJrX2MyGm+NoaWhMmyNJN4Wc67ieIwtZ9oNX+z2K2LUWlmCkgIn+1FOgU0u89RNIj7Lb8Wnmn8iOf865q4+3BuG0x5jvojdR4oNbmxIuq78sCrD9C4ZXMzuwPJu6qjTAlZHDRqJLZAaeWbeIsHCnA1bIuP7OuloZlLHHcI7Ce2/icd+lYudZQUqP8PvpsArT0h/fyHRtToSOYzH3bJX+XzAbdL9fH8QTYFZ+4Q8Wz/lZIPxFz12vN7B3Y9gt7y4kYabyH8cgY=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(10070799003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?o41HNJYbC4+JpekzjkmCcJJSjYeJU2hM6kz/2jMI0zS6e/1Paymq6WeB60z4?=
- =?us-ascii?Q?qcSmNMfTo2aEK5vxdlxiV15OOZ4Xa0tjkWRMTYGs/p1Jz5JeQclngFjtOiiQ?=
- =?us-ascii?Q?N5mooI5UZdMf+L/1i2bp7Fz22Qg7mi/y5aYqlt0zbz9hJffcFIdeexGwXHhR?=
- =?us-ascii?Q?peKrbVf6kSLLs28KP/qm0Vh9vAyDAEb3+UQUcWB3zdGArbDNWHrHEVeOCk0m?=
- =?us-ascii?Q?5BilGEsoG4bBYrEtfRyX2k92VrNWLqX3bZrpBJVhlGewDOv9LnUKI6oNYJtP?=
- =?us-ascii?Q?7y++PxpDP4wMiMw/+8pFHkKRckN1bqa4jzmMUsrYkWH/jEUv+4q5fgI9eLDE?=
- =?us-ascii?Q?y2umBTXbOEq5X+zSB+q/zvxtoay8vfgHVnHxdQujjJTGgo+O0E5TWU1sFGWz?=
- =?us-ascii?Q?3wyjqp7/Q1YK2KbIAGRQi4nAj1ExWFXSLA6d5vMoBkT10SStuhjwbCGGN6Pz?=
- =?us-ascii?Q?jmpm8BJFsqmn+D/syoq3kifTG1ba9V9H33fh+8my05wkVxJs5bjIg7/a3V3V?=
- =?us-ascii?Q?QS8ZtTA1zsXcmbq4EzsPGAtB+BLHS7pKXxHxdR5/4SgwIJjMobxlXK+5cc2v?=
- =?us-ascii?Q?CopLV4VsqyvzJ4pWU6kXnf1vTPztApEDQLupL69Q/ChZQyjtdgkHhUcqGSjo?=
- =?us-ascii?Q?Og3ASGObpnASmdnq+OjzqVYrnVMbJXxrmQn/U5ZhNEiuEK2Q9xJ+u3bF81aT?=
- =?us-ascii?Q?ivHnR3XAfj8X26uL5HsyTfbBoSQO78X+AK1GF8OOQAw2MNbjkipSi6WBbn6H?=
- =?us-ascii?Q?vesAE2XrCp7GgMaIZNwrbQc/ylLjdq27pxE6Vq4VxEH1QOvV9EE8y7GE/thw?=
- =?us-ascii?Q?FqyH1PUYjpJTZcipBHUoM5HIizLENemuQ4/pyLuA0FQRgwtBc1WKVLllcc79?=
- =?us-ascii?Q?jwPJpf58Z7ro5h2oiDR7ejubplZ/Bbil1vRessCWKetr0p/cA0PH0jlLPhiU?=
- =?us-ascii?Q?/PkI/o3Kp+aMHSfk9rsP+iHp1PSH09bPG5eY33iC93LzZ6WJ4V4MXkPS37t+?=
- =?us-ascii?Q?35JE5vvG6oKB4Z5BqD8WvU+0P5+dEEDhoCllczQ4obVzlPMH+ZFr4ZaH8Y12?=
- =?us-ascii?Q?lHr/d4kfbXztrEukh2z6G9M1yyIXcmjKklu1I2GJXUcPu/0H++ovGFNuFXcm?=
- =?us-ascii?Q?zjEzsAssmZNkh337qDinWvbcoDBWl8QL9FdXxgK3J60CpI0e5BmGtNJ9UKjE?=
- =?us-ascii?Q?xuKReWRGbR2Wjg/tswEliuOhzw8X7ukQMvD2Ez7/jyE+kJacxfM9eidDhznf?=
- =?us-ascii?Q?pG72PSQJrICIsYYSeOZJ0sFVkGOFqB+3eKHjr/ARmnGEmlTFQRmdyfmOJo4p?=
- =?us-ascii?Q?d/PauDbliAIKuHEopx1rVdLOmdAUJtUDkph2Sj6VhpgDWhf/K8Gz2m+htsMG?=
- =?us-ascii?Q?7ey9Bbv0ht04CQo85nTyvDZm/VIz9LRNea1n/PEeWKZZnGhCbEeOPCmQal7/?=
- =?us-ascii?Q?ginIhY3aEvnmoAeXfCTVfeC0kK7AQ9R6cXczoUszctuJDzPo0oIERxo8CmR1?=
- =?us-ascii?Q?/m4otOY1q/zyXnCYCpgpRuDtuXuAwKTlKBf/dkypq317VNwmpBK78rqgIDAP?=
- =?us-ascii?Q?a2AegIELkePg+ILGYxzWhOg8DdQa/SBb3Ss3rn5Qi5TK7QjOMgFlfV6Ip9XL?=
- =?us-ascii?Q?76SayZ4okFTgExjEwhreSj0azT4V/ysmGRDIEK3i7q1lVy5vADQs3+nT0ZMY?=
- =?us-ascii?Q?IVnv7IyfCNbxLtK80zDuxHUKiRLrf+R8rBf6+6pufrcg8DGiwF3c56NUXBOQ?=
- =?us-ascii?Q?d0meTsNJ2p8Qi9Pr/9gw1rLO9GKG6L/1Q7xOcTyDJtWhwRqm6jdc?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7a75456-1109-4e27-ed14-08dea4684755
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 14:21:31.5112
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hxWaZL9mzjhT+YK+Ev0rw5zOCDebxpOVqKhYaANFk3qVCrhBhKbgX0ldq81Q1Fg+YZCz8BG6biEWoph76VCNSEQoyywYhpcJ2i0ypywDkk0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10179
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 14:21:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236016
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 14:26:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236017
 
-Hi Jo=C3=A3o,
-
-On 4/27/26 3:08 PM, Jo=C3=A3o Marcos Costa wrote:
-> Some configuration files use bb.utils.contains to check for a string
-> inside a variable, and return the exact same string if true.
+On Sun, 2026-04-26 at 09:28 +0200, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n w=
+rote:
+> I found via git bisect that this breaks my builds.
 >=20
-> This can be simplified by a call to bb.utils.filter, since the result is
-> the same, and the inline is shorter.
+> It breaks two things:
 >=20
-> Replace "bb.utils.contains(A, 'a', 'a', '', d)" by "bb.utils.filter(A, 'a=
-', d)".
+> 1.
 >=20
-> bb.utils.filter() does not return the string with a leading space, and
-> this is handled by a leading space outside of the helper. This
-> workaround, however, has its limitations: the leading space is always
-> added. To avoid any potential issues, use .strip() when dereferencing
-> TUNE_CCARGS_MFPU in the if statements.
+> With DISTRO_FEATURES containing seccomp (e.g. when using
+> meta-virtualization and/or meta-security), this libseccomp-native
+> is not found by gnutls-native anymore. Sure enough, the libseccomp
+> recipe does not have BBCLASSEXTEND =3D "native nativesdk" like
+> gnutls has. So this change has at least some good points to
+> point out pre-existing issues.
 >=20
+> 2.
+>=20
+> A circular dependency occurs:
+>=20
+> ERROR: Task=20
+> virtual:native:/mnt2/zozo/yocto-6.0-arm/conf/../layers/openembedded-
+> core/meta/recipes-core/util-linux/util-
+> linux_2.41.3.bb:do_create_recipe_spdx=20
+> has circular dependency on=20
+> /mnt2/zozo/yocto-6.0-arm/conf/../layers/openembedded-
+> core/meta/recipes-core/systemd/systemd-systemctl-
+> native_259.5.bb:do_create_recipe_spdx
+> ERROR: Command execution failed: Exited with 1
+>=20
+> Adding INHERIT +=3D "nospdx" does not fix this and none of
+> the layers have any bbappend that would explain this.
+>=20
+> Using the preceding commit fixes the build even without adding
+> the necessary BBCLASSEXTEND incantation to libseccomp.
 
-I'm not sure this is worth it as this pattern means next time we add a=20
-new tunefeatures we'll likely follow the same pattern. This means that=20
-even though the existing machines won't set this new tunefeature,=20
-they'll likely rebuild a few things because TUNE_CCARGS_MFPU will have=20
-an additional space in it (but maybe BitBake parsing is smart enough to=20
-realize that only
+I tried to reproduce this by including meta-virtualization, using a
+systemd based DISTRO (poky-altcfg), setting seccomp in my
+DISTRO_FEATURES and building both util-linux-native and systemd-
+systemctl-native (and then world). I wasn't able to reproduce.
 
-TUNE_CCARGS, ARMPKGSFX_FPU and TUNE_CCARGS_MFLOAT use it and they won't=20
-change if there's only one space difference, so:
+How do I reproduce it?
 
-Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
+Cheers,
 
-Thanks!
-Quentin
+Richard
 
