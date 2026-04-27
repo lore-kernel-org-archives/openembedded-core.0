@@ -1,101 +1,67 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CBF5FF8867
-	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 21:34:33 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6925.1777325663397467757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D99A2FF8864
+	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 21:51:34 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7212.1777326690521047065
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 14:34:23 -0700
+ Mon, 27 Apr 2026 14:51:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BD6htdaB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4411e1eba51so7379013f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 14:34:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777325661; x=1777930461; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BCKNV6/QIHqxNEMp8WZ/9E47H7oc8vbGJzAw7e4dxIQ=;
-        b=BD6htdaBj00GLzBnn5KrneCq2F6OoFkrBLwkYh/Du9ggq1AFsAILm85mBkSPdz9NR/
-         af8MGhw104Sn0Linc7vE05YzNcQQtha7B3l6SQeajB0X0aC8VNqn3pD1OkLY4UVC81d+
-         WeFj2wNFpOfzUlfZR0D7hXhY2kzbub7sqgGnM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777325661; x=1777930461;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BCKNV6/QIHqxNEMp8WZ/9E47H7oc8vbGJzAw7e4dxIQ=;
-        b=ZGoA1RwNRB0MwubLFxjV7QZWUgyuOmT1bTbLsx50Ec4bQkOobW7eKg05O/DgP1HQ0n
-         YMhI0zESl41KTbeilStUTIRdBIHkJ/RP/8UtWZuCDfLCGqWhL5dw5I9e8Vg/ptzPDX/L
-         1MKwMRlD2c+BOWs19096vy0ARSXoRGRb7sZevyF00EngJWAxzLxlVzTUu4BJ2MK7S/D1
-         7GGh+wKV9tmhVnyMjAujvW+LcQ044h4gPng/lSHdAKYdhxYe4tj4emtvb3VY4PQRCR2m
-         QIVASZgGSxg5dUapjsyeqmTMpY/YliVR0UCbPYjekB2YOaH6s6onEbFdcB0d1nOOf9Oc
-         4sFw==
-X-Gm-Message-State: AOJu0YysjLPRNN8acI/HkzQygfjSXwIDfdmI+Pmin1bgIcd2wBQx0Dzs
-	SsY3nvoQRoQaZi7tNADdp4HzquCJwFekXpFZaejVzRXe9hZS56wZaVVLtRz6eBcRDU32WR2fXmJ
-	EbMztyrc=
-X-Gm-Gg: AeBDieueJRSus61FLde2gQ+vV3mhjTBfdxDRuBtR1QFk0j/0ErZxpIgbkJvoMiPKI/I
-	n+lV9xn979AABqnnQiZByqF851K8etMq0g1FZnu4qswXrvJNuHF7WtFJd4hahYQfoUisinaJ7lN
-	tb7qU/1xPPnRs5r4fPOD70Q+6z9P3mcHRVq8ZCLvk6BRdw1EkFcTrP3umJekEJfR0m8TmTmeo4D
-	kPEy0+5V81gBGNtggO67Betm1nyBh1fucYNwJJen77ND33EQhzK+ZC7oXatkbvHJU1sO62lkHND
-	gaRagZRwP9ndYabPKSju2KvuVhBFLWeId7NEOT+DGzUf6JzWwQByPu6tsBKi8r+CLXee4O7HhxS
-	D3t3rwDcSttsuzbebCgKCquBgN/NbgeAWxXs2tiq0WJ5C141SDo3PBeectk0jc6ETsta9nGqZRM
-	NWU2h3oXW0TBrINZQwvTWQfvspfSEMWg4gIJLk9fRhmU25wKxyAHFmz/8HW8iCxr3SNLhS/zLk
-X-Received: by 2002:a05:6000:2006:b0:43d:7e6f:3816 with SMTP id ffacd0b85a97d-4464a72938fmr734483f8f.40.1777325661218;
-        Mon, 27 Apr 2026 14:34:21 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1ee:ac09:77b8:6d78])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463cb59ebasm1187183f8f.8.2026.04.27.14.34.20
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 14:34:20 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=QHH/lMK+;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260427215127772e8b1bc300020706-tzxrzn@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260427215127772e8b1bc300020706
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 27 Apr 2026 23:51:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=HANnLk3pKqW23Mgi1qbCtQgqUCV4g34Wll+QJKr5hyY=;
+ b=QHH/lMK+7+hq3fjdq40bcy8LbSRmbiwwZG/w8/NIa7iKM0ssvdyUdmEuTT9zgaGi1PJD27
+ /hcV5UcpRZdk7RCtANSSeHYm1EvpJxdz/f+23FduBVN6ds15+OkVJM7Q9RPzljjL1GLapj5P
+ hAqmYbUFaNmBMOxqWrEN4/hD8oLGHDeGEae4iqqylXOBbnN1M1kpUabwmLgpcmptGGU4VbuI
+ OdfNnbKq2mYZWloyPnhr5dwl8cKq4bALQVw9jqZyodU8mrgMzRPqEljHJkLFQtq+FrZ+XSU1
+ kW/Hg/PL5oGpm8+/sDN1fofkezY/9JzxjaVrVVLubcBrGUCgOOEukfyQ==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pseudo: Update 1.9.5 -> 1.9.6
-Date: Mon, 27 Apr 2026 22:34:19 +0100
-Message-ID: <20260427213419.1030226-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH 1/4] coreutils: set CVE_PRODUCT
+Date: Mon, 27 Apr 2026 23:51:17 +0200
+Message-ID: <20260427215120.199335-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 21:34:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236030
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 21:51:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236031
 
-Pulls in the changes:
+From: Peter Marko <peter.marko@siemens.com>
 
-  * Makefile.in: Bump version to 1.9.6
-  * pseudo_util.c: Fix symlink processing for symlinkat and related
-  * test: Add test symlinkat and related
-  * ports/unix: realpath: Fix chroot processing
-  * test: Add test cases for canonicalize functions
-  * ports/unix: fts_open: Fix chroot behavior
-  * ports/unix: fts_*: Certain functions were incorrectly returning stat data
-  * test: Add fts test case
-  * test: Add test for linkat chroot path stripping
-  * linkat: Avoid a segmentation fault
-  * Only copy xattrs on a rename if it's cross-filesystem
+This removes rust uutils coreutils CVEs from reports.
+Comparing sbom-cve-check shows that only
+CVE-2026-35338..CVE-2026-35381 are removed and all of them contained
+reference to uutils.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/coreutils/coreutils_9.10.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 8c16aa71355..b118f436db8 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -12,8 +12,8 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+diff --git a/meta/recipes-core/coreutils/coreutils_9.10.bb b/meta/recipes-core/coreutils/coreutils_9.10.bb
+index 984c5b5292..8109244f44 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.10.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.10.bb
+@@ -19,6 +19,8 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            "
+ SRC_URI[sha256sum] = "16535a9adf0b10037364e2d612aad3d9f4eca3a344949ced74d12faf4bd51d25"
  
--SRCREV = "0bad85523ff71f1a84cea5fdf72e7f560c4aeed4"
--PV = "1.9.5"
-+SRCREV = "7109ac1b417cd31e0100f6e1c4f3e5743541b9ed"
-+PV = "1.9.6"
- 
- # largefile and 64bit time_t support adds these macros via compiler flags globally
- # remove them for pseudo since pseudo intercepts some of the functions which will be
++CVE_PRODUCT = "gnu:coreutils"
++
+ # http://git.savannah.gnu.org/cgit/coreutils.git/commit/?id=v8.27-101-gf5d7c0842
+ #
+ CVE_STATUS[CVE-2016-2781] = "disputed: runcon is not really a sandbox command, use `runcon ... setsid ...` to avoid this particular issue."
 
