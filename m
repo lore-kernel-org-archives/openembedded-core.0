@@ -1,132 +1,112 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <hjadon@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE05BFF885E
-	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 08:38:25 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.39097.1777279102187441341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ADD1FF8861
+	for <webhook@archiver.kernel.org>; Mon, 27 Apr 2026 08:48:26 +0000 (UTC)
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38924.1777279704640684418
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 01:38:23 -0700
+ Mon, 27 Apr 2026 01:48:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=PwhoOwB+;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id EEFEDC5CD44;
-	Mon, 27 Apr 2026 08:39:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DC17B600D1;
-	Mon, 27 Apr 2026 08:38:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 633E5107200A4;
-	Mon, 27 Apr 2026 10:38:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777279099; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=T6MPkJABqacP9CLo0BpkqN7TfT3AzTWw7goVuUbZ0gQ=;
-	b=PwhoOwB+q9eLZcaK7GAgQy23gJay6M5/k1idAdNOv5RNWx3LmpSsg9N3tys4mTkdA8voYG
-	gYiIAMf7xiFiFLyJENjNDqAQIdxb5/yAOF0uN8t8P0eDFfq+MIRG8xRHo6jeiBTqfGj9jg
-	IIBZp/q74RTIf3Rhp8NPrsBC1YPAX/iteT9CuWiRgZRDS3WP6cYPruCBawrZfvZDJsyMwI
-	nECeFK+8GODaFX4RHRjnGba1IpnGy3UIxxol9E8dIP3GZCSl2afmF15I3KYOcbrHehT576
-	5pVOxjoM21fkdiHkHh9gtnV78SRZBnksttFAebfxmdBGvyQty381e3o3Xu08Cw==
-Message-ID: <d34abdf5-0ea6-4aae-a334-14f85e12449c@bootlin.com>
-Date: Mon, 27 Apr 2026 10:38:17 +0200
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dQRlxdNl;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: hjadon@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=906; q=dns/txt;
+  s=iport01; t=1777279704; x=1778489304;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pHT81bvcb20iILzRvpxq2NHm8aphM8uuROJynybtY2o=;
+  b=dQRlxdNlRCh9SX8FxXKmMY6dAy0cJ4dofbgnZ+C6MVkOSjs9IprmWdNT
+   Y2bcOWOeK2Cot4PaZ/32vPSThUDALcYHZ8jAaNX4Ny+Wqiw1UeAjwnzgd
+   AVEnh09dtL4Rb9BbW9l0/tWFBlm2am1VmoiXlfhkKEbpXkTpBMl7WCtVG
+   RpuSgU+Hb/SAMdMjYfiIbYt9yqLnA1Z8vlvdR0eC/NUe9lt+jfDSnNw6D
+   xjtnQtMAOVqY+4amReepIfjec2aM/ZE30PJlTO+rNPiuulG2gQKXI410K
+   8+JM5PEpYy4AFrwB/IJcEYSv9UL/E1cOlH+7Kv8542X1FVv2+GXbY3DHO
+   A==;
+X-CSE-ConnectionGUID: fjfb1NJhQZC9kREGccWvbw==
+X-CSE-MsgGUID: ARKjXbU6S+2aAhGyfXP9Pg==
+X-IPAS-Result: =?us-ascii?q?A0BFAgACIu9p/5H/Ja1aglmCV3FeQ0mEV48DAaENgX8PA?=
+ =?us-ascii?q?QEBDzcaBAEBhQaNMQImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
+ =?us-ascii?q?QIBBwWBDhOGXIZdJw8BGAEtMAUCJgItRIMCAYJzA7dJeoEygQGDKAGBVNsnA?=
+ =?us-ascii?q?QsUAYEKLoU/gxkBhQKFbicbG4FyhH2FEIMOgmkEgiKBDoF+jQBIgQIcA1ksA?=
+ =?us-ascii?q?VUTDQoLBwWBZgM1EioVbjIdgSM+FzRYGwcFgUuDP21qgQiEYHgjGgMLGA1IE?=
+ =?us-ascii?q?Sw3FBsEPQFuB4orHg+CLAE8UYJpo0KCIaEOCiiDdIwelToaM6prLphYpFmEa?=
+ =?us-ascii?q?IFoPIFZcBVIAYJZCUoZD9o+JjICPQcCBw4Ck3ABAQ?=
+IronPort-Data: A9a23:Zae3L68X0n7AleURG88YDrUD13+TJUtcMsCJ2f8bNWPcYEJGY0x3y
+ DMeDWHSaP/bYjP1e90ibY61p0MHsJbRz4M3TQVtqilEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mpyyHjEAX9gWAsbjhKs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2k4P4MSo8BVAVh83
+ q0bEh0iZRu8meiplefTpulE3qzPLeHxN48Z/3UlxjbDALN+EdbIQr7B4plT2zJYasJmRKmFI
+ ZFGL2AyMVKZP0An1lQ/UPrSmM+ohHDzdDtwo1OOrq1x6G/WpOB0+Oe3bYeKJYbbH625mG6xn
+ EHEz27EXCpZbtW2yRWU/EKU19fAyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7JQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSn1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:7YA1wa4/GjG5CO1E6QPXwFPXdLJyesId70hD6qkRc20xTiX8ra
+ qTdZsguiMc5Ax+ZJhCo6HjBEDjexPhHPdOiOF9UYtKNDOMhILCFvAA0WKN+VzdMhy7zMFx/+
+ NJarEWMqyNMbB75/yKnTWQIpIb7/SstIqPvtzz6l9RbSdML4FMhj0JcDpyECdNNXZ77UxSLu
+ vj2iJFzQDQCEj+dq6Adx04dtmGnfLnvtbBWjA6NycKgTP+9Q9BcNTBYmOlNhF1aUIp/V9zmV
+ K19TAQ/8+YwoiG9iM=
+X-Talos-CUID: 9a23:2RCPbG7f1AwiY67A5Nss+kwaEJkDUH3k/lyBIHWVJm1id6OfVgrF
+X-Talos-MUID: 9a23:/KVnDwsTpChz6ZYywc2nrQtBNvdi3vqVSxoEuJUpqse0DX1INGLI
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,201,1770595200"; 
+   d="scan'208";a="725577292"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 27 Apr 2026 08:48:23 +0000
+Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 87DF918000588;
+	Mon, 27 Apr 2026 08:48:23 +0000 (GMT)
+Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
+	id 32935CC1288; Mon, 27 Apr 2026 01:48:23 -0700 (PDT)
+From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: vchavda@cisco.com
+Subject: [OE-core] [master] [PATCH] apr-util: Add CVE_PRODUCT to support product name
+Date: Mon, 27 Apr 2026 01:48:13 -0700
+Message-Id: <20260427084813.1811031-1-hjadon@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] meta: simplify conditional operations with
- bb.utils.filter
-To: quentin.schulz@cherry.de, openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com
-References: <20260424151718.13081-1-joaomarcos.costa@bootlin.com>
- <f038565f-4a53-426b-990f-d41e9d1e3732@cherry.de>
-Content-Language: en-US, fr
-From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <f038565f-4a53-426b-990f-d41e9d1e3732@cherry.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 08:38:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235993
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 08:48:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/235994
 
-Hello, Quentin
+From: Himanshu Jadon <hjadon@cisco.com>
 
-On 4/24/26 17:40, Quentin Schulz via lists.openembedded.org wrote:
-> Hi Jo=C3=A3o,
->=20
-> On 4/24/26 5:17 PM, Joao Marcos Costa via lists.openembedded.org wrote:
->> Some recipes and configuration files use bb.utils.contains to check fo=
-r
->> a string inside a variable, and return the exact same string if true.
->>
->> This can be simplified by a call to bb.utils.filter, since the result =
-is
->> the same, and the inline is shorter.
->>
->> Replace "bb.utils.contains(A, 'a', 'a', '', d)" by "bb.utils.filter(A,=
-=20
->> 'a', d)".
->>
->> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
->> ---
+apr-util is tracked in NVD under apache:apr-util, while a smaller set
+of newer CVEs also appears under apache:portable_runtime_utility.
+Set CVE_PRODUCT accordingly so cve-check can cover both the historical
+and current NVD product identities used for APR-util.
 
-(...)
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+---
+ meta/recipes-support/apr/apr-util_1.6.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> I'm pretty sure your changes in the conf files won't work, but maybe I'=
-m=20
-> wrong?
->=20
-> Before, we only added a space if there was a new tune to add. Now, it's=
-=20
-> always added.
->=20
-> Considering TUNE_CCARGS_MFPU can now possibly contain only spaces, the=20
-> check if TUNE_CCARGS_MFPU is not the empty string to access the last=20
-> element in the list returned by split(), which will now be the empty=20
-> list, will raise an IndexError exception.
->=20
-> You need to adapt anything that's using this variable to check if it=20
-> only contains spaces or at least remove spurious ones, possibly with=20
-> str.strip() for example. Unfortunately, if TUNE_CCARGS_MFPU doesn't=20
-> exist, d.getVar() will return None and you cannot strip() on None. Of=20
-> course, considering TUNE_CCARGS_MFPU is declared just above in the file=
-,=20
-> it'll always be defined, so maybe that's fine to not check for None.
->=20
-> If the space didn't matter, we probably would have used +=3D instead of=
-=20
-> .=3D, so I'm wary of this change (the rest looks fine).
->=20
-> Cheers,
-> Quentin
+diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
+index b5e3d2fc8a..2c9da5b44b 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.3.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
+@@ -93,3 +93,6 @@ do_install_ptest() {
+ 	  cp -r ${B}/test/$i $t; \
+ 	done
+ }
++
++# Add CVE_PRODUCT to match the NVD CPE product name
++CVE_PRODUCT = "apache:apr-util apache:portable_runtime_utility"
+-- 
+2.35.6
 
-Thanks for your review. And yes, I'm looking at this part of the patch=20
-again, and I'm considering two things:
-
-a) Add the strip() as you said, here, and keep my changes:
-
--TUNE_CCARGS  .=3D "${@ (' -mfpu=3D%s' %=20
-d.getVar('TUNE_CCARGS_MFPU').split()[-1]) if=20
-(d.getVar('TUNE_CCARGS_MFPU') !=3D '') else ''}"
-+TUNE_CCARGS  .=3D "${@ (' -mfpu=3D%s' %=20
-d.getVar('TUNE_CCARGS_MFPU').split()[-1]) if=20
-(d.getVar('TUNE_CCARGS_MFPU').strip() !=3D '') else ''}"
-  # The following deals with both vfpv3-d16 and vfpv4-d16
--ARMPKGSFX_FPU =3D "${@ ('-%s'       %=20
-d.getVar('TUNE_CCARGS_MFPU').split()[-1].replace('-d16', 'd16')) if=20
-(d.getVar('TUNE_CCARGS_MFPU') !=3D '') else ''}"
-+ARMPKGSFX_FPU =3D "${@ ('-%s'       %=20
-d.getVar('TUNE_CCARGS_MFPU').split()[-1].replace('-d16', 'd16')) if=20
-(d.getVar('TUNE_CCARGS_MFPU').strip() !=3D '') else ''}"
-
-b) Simply remove those changes, then send another patch keeping only the=20
-changes in recipes.
-
-What do you think?
-
---=20
-Best regards,
-Jo=C3=A3o Marcos Costa
 
