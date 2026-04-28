@@ -1,314 +1,107 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA5CFF885A
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 06:35:25 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6681.1777358120035708848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56664FF8870
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 06:46:16 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7087.1777358772590999743
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 23:35:20 -0700
+ Mon, 27 Apr 2026 23:46:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=gOq8e7Ev;
- spf=pass (domain: mvista.com, ip: 209.85.214.174, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2b458ca2296so68013465ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 23:35:19 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=T/Y5UG7n;
+ spf=pass (domain: linaro.org, ip: 209.85.208.170, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38e9653b580so122530311fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 23:46:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1777358119; x=1777962919; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1777358770; x=1777963570; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iN9Q1NpAyHtLrfJcjZZdPuuWeQlMw+GwQinNbgot7wo=;
-        b=gOq8e7EvOXjw87KCyWaMD5+VSzScoPrXSD+kEB9WMe8NrbZvsOpAq1KxFL79MMYFrC
-         7gadJb3A3VSOdwzEN6tA9baiK1huBkPTqj43F64+g6DxPp4aaSlfVrsQHYagchKXiraO
-         MVNbcWkDAwAsE8lTysSOtpIoy73UE+gu2XGTU=
+        bh=OlqzUZJ7Or5Lyj0U70aSerGe7SzPc0K4ChqVdZM1e10=;
+        b=T/Y5UG7nP/KujZVNQhDT/V5LJ+HVThUdbQ9NsHwCa55RmwbEdAKrtjqNdUQTpC6ydg
+         eysvfblDfetxA6oniMhB5un3vEaMTZC9RUvqcFsU0BptarSLafyAT/V0gubp4QHNuaL4
+         Nv1VhqtF8SgQ7ylP9FFpEtfymOBj+JEn5VLafPPxbJ7gKrxre2MYB2qYggm3Pfdfabc2
+         /Vk80mHLCiVmEb9zWUn1w8LJOc2/ddmMpZZwERhF0uzFntbNEYQqujatxFUFjnaqvcE6
+         +v8H9kDALKyRYDqs+hAocfKHZw9PJEIIvOTRA/bzpolu8jznopPmYaJ/Cm+UukKKHlj4
+         SaPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777358119; x=1777962919;
+        d=1e100.net; s=20251104; t=1777358770; x=1777963570;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iN9Q1NpAyHtLrfJcjZZdPuuWeQlMw+GwQinNbgot7wo=;
-        b=K1bsQrRKoHSKMHWXqrHwXP39qQ3vPlKlYpnHJrHv6nmRhI9n1Qlqvjd9RvNwOeY64W
-         azgHlg8Q5f6Utj3ebDnwDNLTiIxarN058mOc5Znh18gvZ8TzEtWFsBCSC75YlTC42XHj
-         TEtKQYZS2tDBmjWr4ms1IrEhHxGXISGTJvH/nTPxyrI/cjsZ6Vbjekc3/bUi8gpd9amF
-         gPb9/onjA8wgbmoetMg+XTu1PKg8udIGWMWJrRwPd8sMm39KbrRpAaDLFNdHL6oAwPs0
-         /J37iOx199twGakxoxAL2+AxLqi+EASGrQCLiGPC5wv0VIrdUUdUPLeGXbFi6/qR9JaP
-         IAdw==
-X-Gm-Message-State: AOJu0Ywboa8hVOa9GFpd6/+X40l+byoTaj7HLSWjD6C4AkMlxzwjC8C/
-	+TFGjf8eI8Jt/emEtRceL97cZCwBzY7fL9K6o5xJBGr696XoLwKivLa1REQtpIyL7E4z333qbFI
-	+Y2RC
-X-Gm-Gg: AeBDiesc4041X/aCwi+dztdvSUV5bmcXIqAGGG8zo7av5ea3LZ3LwGNXCwFv5BGYNkU
-	p+OwY66070klXcpKm0F44kEaqMm/hedCsW2dZPPtRvEIX3Q5UCyTmpesVJP2dYi7fn5FbrgPf3e
-	vbpprQKYwUUeYhmh7FsmKameKjUBfdB1Aej7/665fzpHUA5/YYO/OVhgEy1EAoYApTH2siupoB4
-	wnNZBj4J/G5JW85Du7q/QUt4oDiaUWIzeaj7sk8OBcZ3w751AJ/ncjz2kN89KMNY3HBbAIhG+25
-	k8ZHffsRgPzoQss83C7QHb5xauC0+7lUOKBfr6wjG1L5IrGyEZLJel7bzHus8ekM2M4PGIgaAou
-	B6HmtZcw1C+GHxDABOeW7ot/lrrHN50p1FekdDjMLDmx4Hdd1Rj7mfaiybKnQjhcM2/mMzrIby5
-	mrmGoDY08GGnbDJZSVaNFFKrqHW0rp4+WSxOnE2zDZ4PrvEoceEA==
-X-Received: by 2002:a17:903:11d0:b0:2b4:6367:7b86 with SMTP id d9443c01a7336-2b97c4a9217mr19322405ad.37.1777358118955;
-        Mon, 27 Apr 2026 23:35:18 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([2401:4900:1f28:603c:6fd6:b51b:642a:9f84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b97aa9270esm14409325ad.18.2026.04.27.23.35.17
+        bh=OlqzUZJ7Or5Lyj0U70aSerGe7SzPc0K4ChqVdZM1e10=;
+        b=GNlnI1wZNj+gPriWpJI05SgC1+xz67MrEMoZCrszdQjVj62VpsuFzS8fQaeRQIBTSp
+         pcuQfb1D1gpORR7XtgFNv6M/9hQlhVwg3QoclJ/i3BS8RKBSLm9OkDeu0ZzphdhOfAil
+         9LSx8st+wcPSCDfU50G0fi20Xzl/gS/drX8GJgXgypfNs6pdyeS01HVT6GnMrkdt67BJ
+         PAV6JRdZRx+9fI92bbZA2ZUC4yV86EWfYbK/JVswqZlDiAPfnso4r07yp5eJ5UUSrhQq
+         V0eO4rt6K6wYy77ik0hstxUHffAOb2LC+0iPQ/+9SX3XdKqClpRLbMmutGWyFcM8fX9Y
+         Cc7Q==
+X-Gm-Message-State: AOJu0Yyl5djatcDyZ6YiVoxvm1BIzsNgEz2PLlB/8Zf03vSOb8I0dFwM
+	WywHPHnD1f0IjVWFuy4qkspBBPIBJAgG+scif5JX31jfTpKWYggwpYddmU9ezG6lFX/21j4f6oT
+	DSca7
+X-Gm-Gg: AeBDieutOkdd6Zz2g0y5tt+wo8q+z6reli8X4BPJLqXczChBYU2Fsmh4m4Wq354Ry81
+	cjhpVl+T9dii5dcE81MQz8OzFEyL0BXpfw53g9VJu+2dzMiZo9xP6LzLeI2c/zuX70NwcbJ/Lyk
+	giaQIQ5PT/OjPMOlLkMrjl0ml/VxGak6ba5OK+A87jjCPBAyXDTEk5q+yyzbCbBVjbOMBs/sLn+
+	drei5HvCdwMcvOnzE1J61Y+10CTm3L+1axuJGNbHhzvjsP8VHVTmLgZTHW4YiChfo69MBlAl9oJ
+	B1HqMdt4JZokNki0fjJ6qj8jYZfwK2N0dmLxqEvUWZyvcM2T8gltu0RcIh+a8EZNk9LAMRIwO8v
+	1FYiswqoJ2uBS0wapD3b42vhlVwudxAtEHr0iGbgaFcTaqw7B9FCFtezGMhsG5qB1ndDU48bsOq
+	W8ZpdKusvg0xf0JAQclzn/T82/b+fNfEudixVYftyWaarfb9nXPvULG2W3roZ0xw==
+X-Received: by 2002:a05:651c:3243:b0:38d:eb82:d80f with SMTP id 38308e7fff4ca-39240b36f96mr5665451fa.0.1777358770297;
+        Mon, 27 Apr 2026 23:46:10 -0700 (PDT)
+Received: from nuoska (78-27-71-225.bb.dnainternet.fi. [78.27.71.225])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3923f34533esm4415911fa.16.2026.04.27.23.46.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 23:35:18 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+        Mon, 27 Apr 2026 23:46:09 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][whinlatter][patch] avahi: Fix CVE-2026-34933
-Date: Tue, 28 Apr 2026 12:05:09 +0530
-Message-ID: <20260428063509.2656694-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [scarthgap][PATCH 1/2] ghostscript: Pin to C17 std
+Date: Tue, 28 Apr 2026 09:43:19 +0300
+Message-ID: <20260428064329.1591381-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 06:35:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236036
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 06:46:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236037
 
-Pick patch according to [1]
+From: Khem Raj <raj.khem@gmail.com>
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-34933
-[2] https://github.com/avahi/avahi/pull/891
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-34933
+The code defines a custom 'bool' type (as an 'int'), which is incompatible
+with C23 in which bool is a keyword, and trying to use <stdbool.h> fails
+because 'int' and 'bool' are used interchangeably in the code.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Add the flag to CC variable, since CFLAGS is used by both c and c++ compilers
+and clang++ is less forgiving when C compiler only option is used on its
+cmdline so it complains about -std=gnu17 and bails out.
+
+(From OE-Core rev: 49657089ef215824f8f79a81deb7baf4f27d0030)
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   2 +
- .../avahi/files/CVE-2026-34933-1.patch        | 108 ++++++++++++++++++
- .../avahi/files/CVE-2026-34933-2.patch        |  96 ++++++++++++++++
- 3 files changed, 206 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
+ meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index 9fa2ad1e78..b95510f77d 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -41,6 +41,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
-            file://CVE-2025-68468.patch \
-            file://CVE-2025-68471.patch \
-            file://CVE-2026-24401.patch \
-+           file://CVE-2026-34933-1.patch \
-+           file://CVE-2026-34933-2.patch \
-            "
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+index a48ad671c7..57a1098521 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+@@ -50,6 +50,8 @@ EXTRA_OECONF:append:mipsarcho32 = " --with-large_color_index=0"
+ EXTRA_OECONF:append:armv7a = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
+ EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
  
- GITHUB_BASE_URI = "https://github.com/avahi/avahi/releases/"
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
-new file mode 100644
-index 0000000000..208345a325
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
-@@ -0,0 +1,108 @@
-+From 0be89b6bb5c3983837b5e0febcbbbf452ecf7675 Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Wed, 1 Apr 2026 05:31:58 +0000
-+Subject: [PATCH] core: refuse to accept publish flags where both wide_area and
-+ multicast are set
++CC += "-std=gnu17"
 +
-+It fixes a bug where it was possible for unprivileged local users to
-+crash avahi-daemon via D-Bus by calling EntryGroup methods accepting
-+flags and passing both AVAHI_PUBLISH_USE_WIDE_AREA and
-+AVAHI_PUBLISH_USE_MULTICAST there. For example when AddRecord was
-+invoked like that avahi-daemon crashed with
-+```
-+dbus-entry-group.c: interface=org.freedesktop.Avahi.EntryGroup, path=/Client0/EntryGroup1, member=AddRecord
-+avahi-daemon: entry.c:57: transport_flags_from_domain: Assertion `!((*flags & AVAHI_PUBLISH_USE_MULTICAST) && (*flags & AVAHI_PUBLISH_USE_WIDE_AREA))' failed.
-+==84944==
-+==84944== Process terminating with default action of signal 6 (SIGABRT)
-+==84944==    at 0x4B353BC: __pthread_kill_implementation (pthread_kill.c:44)
-+==84944==    by 0x4ADE941: raise (raise.c:26)
-+==84944==    by 0x4AC64AB: abort (abort.c:77)
-+==84944==    by 0x4AC641F: __assert_fail_base.cold (assert.c:118)
-+==84944==    by 0x48A9404: transport_flags_from_domain (entry.c:57)
-+==84944==    by 0x48A9F8F: server_add_internal (entry.c:224)
-+==84944==    by 0x48AA49F: avahi_server_add (entry.c:324)
-+==84944==    by 0x401A670: avahi_dbus_msg_entry_group_impl (dbus-entry-group.c:348)
-+==84944==    by 0x4A70741: ??? (in /usr/lib/x86_64-linux-gnu/libdbus-1.so.3.38.3)
-+==84944==    by 0x4A5FB22: dbus_connection_dispatch (in /usr/lib/x86_64-linux-gnu/libdbus-1.so.3.38.3)
-+==84944==    by 0x401D01D: dispatch_timeout_callback (dbus-watch-glue.c:105)
-+==84944==    by 0x488E3AE: timeout_callback (simple-watch.c:447)
-+==84944==
-+```
-+It's a follow-up to fbce111b069aa1e4c701ed37ee1d9f6d6cefaac5 where
-+those flags were introduced and consistent with the other places
-+where wide_area/multicast flags are used.
-+
-+It was discovered by
-+Guillaume Meunier - Head of Vulnerability Operations Center France - Orange Cyberdefense
-+
-+https://github.com/avahi/avahi/security/advisories/GHSA-w65r-6gxh-vhvc
-+
-+CVE-2026-34933
-+
-+Upstream-Status: Backport [https://github.com/avahi/avahi/commit/0be89b6bb5c3983837b5e0febcbbbf452ecf7675]
-+CVE: CVE-2026-34933
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-core/entry.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/avahi-core/entry.c b/avahi-core/entry.c
-+index 0d862133d..06eb12076 100644
-+--- a/avahi-core/entry.c
-++++ b/avahi-core/entry.c
-+@@ -207,6 +207,7 @@ static AvahiEntry * server_add_internal(
-+                                          AVAHI_PUBLISH_UPDATE|
-+                                          AVAHI_PUBLISH_USE_WIDE_AREA|
-+                                          AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, avahi_is_valid_domain_name(r->key->name), AVAHI_ERR_INVALID_HOST_NAME);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, r->ttl != 0, AVAHI_ERR_INVALID_TTL);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !avahi_key_is_pattern(r->key), AVAHI_ERR_IS_PATTERN);
-+@@ -454,6 +455,7 @@ int avahi_server_add_address(
-+                                               AVAHI_PUBLISH_UPDATE|
-+                                               AVAHI_PUBLISH_USE_WIDE_AREA|
-+                                               AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY(s, !name || avahi_is_valid_fqdn(name), AVAHI_ERR_INVALID_HOST_NAME);
-+ 
-+     /* Prepare the host naem */
-+@@ -595,6 +597,7 @@ static int server_add_service_strlst_nocopy(
-+                                                                 AVAHI_PUBLISH_UPDATE|
-+                                                                 AVAHI_PUBLISH_USE_WIDE_AREA|
-+                                                                 AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
-+@@ -754,6 +757,7 @@ static int server_update_service_txt_strlst_nocopy(
-+                                                                 AVAHI_PUBLISH_NO_COOKIE|
-+                                                                 AVAHI_PUBLISH_USE_WIDE_AREA|
-+                                                                 AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
-+@@ -843,6 +847,7 @@ int avahi_server_add_service_subtype(
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_IF_VALID(interface), AVAHI_ERR_INVALID_INTERFACE);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_PROTO_VALID(protocol), AVAHI_ERR_INVALID_PROTOCOL);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_MULTICAST|AVAHI_PUBLISH_USE_WIDE_AREA), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
-+     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
-+@@ -910,6 +915,7 @@ static AvahiEntry *server_add_dns_server_name(
-+     assert(name);
-+ 
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, type == AVAHI_DNS_SERVER_UPDATE || type == AVAHI_DNS_SERVER_RESOLVE, AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, port != 0, AVAHI_ERR_INVALID_PORT);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, avahi_is_valid_fqdn(name), AVAHI_ERR_INVALID_HOST_NAME);
-+@@ -967,6 +973,7 @@ int avahi_server_add_dns_server_address(
-+     AVAHI_CHECK_VALIDITY(s, AVAHI_IF_VALID(interface), AVAHI_ERR_INVALID_INTERFACE);
-+     AVAHI_CHECK_VALIDITY(s, AVAHI_PROTO_VALID(protocol) && AVAHI_PROTO_VALID(address->proto), AVAHI_ERR_INVALID_PROTOCOL);
-+     AVAHI_CHECK_VALIDITY(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_MULTICAST|AVAHI_PUBLISH_USE_WIDE_AREA), AVAHI_ERR_INVALID_FLAGS);
-++    AVAHI_CHECK_VALIDITY(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY(s, type == AVAHI_DNS_SERVER_UPDATE || type == AVAHI_DNS_SERVER_RESOLVE, AVAHI_ERR_INVALID_FLAGS);
-+     AVAHI_CHECK_VALIDITY(s, port != 0, AVAHI_ERR_INVALID_PORT);
-+     AVAHI_CHECK_VALIDITY(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
-new file mode 100644
-index 0000000000..479d0d7e93
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
-@@ -0,0 +1,96 @@
-+From a93fdd980d2db5d453475c0aa2b39946bd6611bd Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Wed, 1 Apr 2026 05:30:58 +0000
-+Subject: [PATCH] tests: make sure AVAHI_PUBLISH_USE_WIDE_AREA is refused
-+
-+Upstream-Status: Backport [https://github.com/avahi/avahi/commit/a93fdd980d2db5d453475c0aa2b39946bd6611bd]
-+CVE: CVE-2026-34933
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-client/client-test.c | 25 +++++++++++++++++++++++++
-+ avahi-core/avahi-test.c    | 12 +++++++++++-
-+ 2 files changed, 36 insertions(+), 1 deletion(-)
-+
-+diff --git a/avahi-client/client-test.c b/avahi-client/client-test.c
-+index 9a015d7..c80e12f 100644
-+--- a/avahi-client/client-test.c
-++++ b/avahi-client/client-test.c
-+@@ -212,6 +212,28 @@ static void terminate(AVAHI_GCC_UNUSED AvahiTimeout *timeout, AVAHI_GCC_UNUSED v
-+     avahi_simple_poll_quit(simple_poll);
-+ }
-+ 
-++static void test_refuse_publish_flags(AvahiEntryGroup *g, AvahiPublishFlags flags, int expected) {
-++    AvahiAddress a;
-++    AvahiStringList *l = NULL;
-++    int r;
-++
-++    r = avahi_entry_group_add_record(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test.local", AVAHI_DNS_CLASS_IN, AVAHI_DNS_TYPE_CNAME, 120, "\0", 1);
-++    assert(r == expected);
-++
-++    avahi_address_parse("224.0.0.251", AVAHI_PROTO_UNSPEC, &a);
-++    r = avahi_entry_group_add_address(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test.local", &a);
-++    assert(r == expected);
-++
-++    r = avahi_entry_group_add_service_strlst(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, NULL, 80, l);
-++    assert(r == expected);
-++
-++    r = avahi_entry_group_update_service_txt_strlst(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, l);
-++    assert(r == expected);
-++
-++    r = avahi_entry_group_add_service_subtype(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, "_magic._sub._http._tcp");
-++    assert(r == expected);
-++}
-++
-+ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
-+     AvahiClient *avahi;
-+     AvahiEntryGroup *group, *group2;
-+@@ -275,6 +297,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
-+     error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
-+     assert(error != AVAHI_OK);
-+ 
-++    test_refuse_publish_flags(group, AVAHI_PUBLISH_USE_WIDE_AREA, AVAHI_ERR_NOT_SUPPORTED);
-++    test_refuse_publish_flags(group, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST, AVAHI_ERR_INVALID_FLAGS);
-++
-+     avahi_entry_group_commit (group);
-+ 
-+     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
-+diff --git a/avahi-core/avahi-test.c b/avahi-core/avahi-test.c
-+index 2a7872b..2bae82b 100644
-+--- a/avahi-core/avahi-test.c
-++++ b/avahi-core/avahi-test.c
-+@@ -30,6 +30,7 @@
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ 
-++#include <avahi-common/error.h>
-+ #include <avahi-common/malloc.h>
-+ #include <avahi-common/simple-watch.h>
-+ #include <avahi-common/alternative.h>
-+@@ -150,6 +151,7 @@ static void remove_entries(void) {
-+ static void create_entries(int new_name) {
-+     AvahiAddress a;
-+     AvahiRecord *r;
-++    int error;
-+ 
-+     remove_entries();
-+ 
-+@@ -181,7 +183,15 @@ static void create_entries(int new_name) {
-+         goto fail;
-+     }
-+ 
-+-    if (avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, NULL, AVAHI_DNS_SERVER_RESOLVE, avahi_address_parse("192.168.50.1", AVAHI_PROTO_UNSPEC, &a), 53) < 0) {
-++    avahi_address_parse("192.168.50.1", AVAHI_PROTO_UNSPEC, &a);
-++
-++    error = avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, AVAHI_PUBLISH_USE_WIDE_AREA, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53);
-++    assert(error == AVAHI_ERR_NOT_SUPPORTED);
-++
-++    error = avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53);
-++    assert(error == AVAHI_ERR_INVALID_FLAGS);
-++
-++    if (avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53) < 0) {
-+         avahi_log_error("Failed to add new DNS Server address");
-+         goto fail;
-+     }
-+-- 
-+2.43.0
-+
+ # Uses autoconf but not automake, can't do out-of-tree
+ inherit autotools-brokensep pkgconfig
+ 
 -- 
-2.43.0
+2.51.0
 
 
