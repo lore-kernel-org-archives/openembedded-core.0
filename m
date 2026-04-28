@@ -1,144 +1,109 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 119F7FF885A
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 07:02:58 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7103.1777359774613752151
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4448EFF885A
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 07:05:08 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7364.1777359903394826374
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2026 00:02:54 -0700
+ Tue, 28 Apr 2026 00:05:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=U/htL1rW;
- spf=pass (domain: mvista.com, ip: 209.85.210.171, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8318293f02bso2054517b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 00:02:54 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=s8XNtLsD;
+ spf=pass (domain: linaro.org, ip: 209.85.208.176, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38e7d984096so121835311fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 00:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1777359773; x=1777964573; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1777359901; x=1777964701; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UOjKmBcpDsuK5OQVweOJ+Vo7XfL1NsmIyqKYaI6r1JY=;
-        b=U/htL1rWquaYQmpZh9GvRPm7aA7vXQwaT0AyLhZ4d3++vgoxcObX2t8LjMWtahKgU/
-         xlWJxq7Y5wcFscs4jqwWNJDQSKMsbh02HV/5xnuHZbR6TM3A0+2SAr8qlzRCxTTRag2B
-         NkiIze4Fiyuy0ob0twXQOfIoQxEZneUBIR1sA=
+        bh=oWr3A8S59cxriNa5fp1jXd/0NzIbtinX/cG+fBcmLls=;
+        b=s8XNtLsD6b7F3mN+rwOiCmJ13S+pS9UsX1jBB3rN/+rPnlmbZiHEonnLO0LcqQyRyj
+         VWrfIRdNPfb6ys/b+E93/K9DfqDa3XpeNY/j8K26s4QqCpZAqCNUk7ROwjKss/g3VRNA
+         cL7ctreQrsM3FxSMqU3pWEFr6A2hzofxZjotdpRZNGfKIAhvBi0K3PBGrbLap/hcO/JK
+         ciS3JEVTvaheFLUr4E3vje+1ITD2ws8hC3lfl/GfpoGrUJh+dR3EZrOkc2cU0dc5ewe7
+         TPUZ5oM+aIdAVdhdRdqat93lWfRO+1j7ILnT+SzIpBiWDAZemtpi66R3DW3swe4Mdyiv
+         qrlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777359773; x=1777964573;
+        d=1e100.net; s=20251104; t=1777359901; x=1777964701;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UOjKmBcpDsuK5OQVweOJ+Vo7XfL1NsmIyqKYaI6r1JY=;
-        b=JGOb9qREJ9K2f7vkc2riv62YO5oIF/7j/G8uuSDrmbiW8gYuSbgrgIGaOyfcxGddGh
-         Qnp6lnw3/J9NBMWHI2cheevq3IEDjq6sIo3hHu0+tu/+f1smMW4Ql7lnJVxE125XGaRL
-         xJ7FgI1rbw47tOaKQZ8zbBYbsneUM3sT8SU0/7/oTQMst3VEsiQp9Eja+ZcBr054bDa9
-         ltjulil6CSamwcUgJREGU5AMeqUAkxCAog0poGWaXWNG5io9q7jNrJIPmojaaEhR4Cxv
-         ki4IK+YBNVAdJjFhtBY2vfbWRDBos+dJXBwjip6UGKt3qwwDHnA1cR41L0k17ExJDXUC
-         gt8A==
-X-Gm-Message-State: AOJu0YwFQfX5dEn9BnZGBOp0ZwVmaJy1PbrIlF2T+AWZXR1iLavPVmiu
-	uWe8YPUYvW48K8Jw0mVwP1cIExwSiJ6q1VQcYWGmB1wm+jf4U4DIbJFYZwwZdfyzHjl7eSi8qLZ
-	J8Niz
-X-Gm-Gg: AeBDiessUqE+HG0jK0bfQ6ZaG7/dO6Y4nyPcy5d2nQHn9NHz6QhRe4xEjV5n5/R4eGX
-	wmRf+SJWlsxwG0Q6I+P22Me1s6C+1/xNq4r2PCT95urwz/jpnxjnJwFb14f3gWRPy52chRRntkm
-	sPeC3V9MUkkbrW12DdQwf08RyzJHp5/CoBXV14ia8LhFjVkffQYzaJ+ZEN7p0Yal2wR8yZU+5St
-	3cX4ER5V0fqryb8fjJTbTMAgWhej3Xmk1qshObJhBMbgfMqddvZYwee69wg3oPFV3Xgm5eTDN2a
-	bBB2x3N2vIGxLaGZBHt+9moZuMoMwHrIwsyDNITdLGwwSYvL7DO+6siMDArbFzzzjLliN2b9YpN
-	OEaWCqo8L6PQ44OxP0fSaXIL1Ey8EfDw1sb95UHT+cwjThkabFllQjuTqiSMPw19Wt+DaL8QyGT
-	RGO1rdROdX4je6G8mW2fn/XWZMIIrS9dwJlehcRVTNSDTZXe5hGQ==
-X-Received: by 2002:a05:6a00:b483:b0:82f:7888:e2fa with SMTP id d2e1a72fcca58-834dd3e98dcmr1621793b3a.17.1777359773369;
-        Tue, 28 Apr 2026 00:02:53 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([2401:4900:1f28:603c:6fd6:b51b:642a:9f84])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834daf31e33sm1601393b3a.36.2026.04.28.00.02.51
+        bh=oWr3A8S59cxriNa5fp1jXd/0NzIbtinX/cG+fBcmLls=;
+        b=GBGjS4kN4bWG2NbS6HO9y/ZhfktNYiEPXx/YqAYk13XVn1Io0HEZu+Wx+1JmFVQQ+Q
+         JhFb5eI9rp/31EGYdBSggIRhiCfN3nnOvK2M/xDBgVYQebLUCxEDcEp7r5wCm3OR/SUX
+         pRclvdnTgKB4B4bCnQa4RGJ7OMjhok3SOaA0llk6ihwjgyQTjgk+hMFL/DNKWTuLSqHH
+         5p40Ai7zNn63dkQaWnELw9B9khar1s65P/TntrXJ1wudIJ8w7hpTPhyFfsHxjcXsGQdY
+         92rkDeztOVUlEmJFXA3xKb4b78UeWPJ+0xK7wTZj2NCptSL4iKjG6vR2neAV9Z0pZcvY
+         5B7w==
+X-Gm-Message-State: AOJu0YwVE6tPYrX0OWGJxYcGej1BnXhuFz6SN69WlxLgwAABAUD1Sqz/
+	uo4IxbfDtw6e5uRmTajqIlksVT+DepEzHyndHAfxndu5SeNHdFCcTg3y1F3qzR+G+ZXdECZSRr8
+	BdM0t
+X-Gm-Gg: AeBDietvRvDENzE+qcsL5ROVa/RHQqBzzsagvDAqfIASdFBOjfOOz3TvrHNnpMDbPxZ
+	WTO+Dkx0Kc2DKmEhlaxSVNpyYhfoTUfNSFw4yp/FBBxK+CahgpIPNecUWfTKHQnxJcR4xdNQb4c
+	l8h5nmYyt65yRG7SoxASRGULoEYt1qV/btdQTrw3Sz/MRh66ZVMiwbqlAXD6z841effR36L/6OE
+	IyOG15UmO6hMTgl0wb7jgrVPGmhe5pVyL7GEjb/9hiCYAEhwh0muQN2i+3sA7anJb6MDr8DV+/T
+	NNBgOGndMpugxNSQ1NBF7LJpeVErfV6FbDpG94fjSFs6LccAlf+vurAnKjW4jcSr4rgOJxUzFOo
+	x0dZaQiJWydoQYpUgIuGva0jI19tIkpStnPkIIg5hI8kCfI4ZV+fcqqNDwalaDOlR+ak2tcXO7X
+	sFjn03m/lSVfbc+Jq502qDzl9CI8fDAoIgzByc72VyOsg9Vd108fljWUfXgOR9nQ==
+X-Received: by 2002:a05:651c:3252:b0:38e:cab9:365c with SMTP id 38308e7fff4ca-39240b34918mr5617361fa.0.1777359901258;
+        Tue, 28 Apr 2026 00:05:01 -0700 (PDT)
+Received: from nuoska (78-27-71-225.bb.dnainternet.fi. [78.27.71.225])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3923f2e0d9bsm4765121fa.6.2026.04.28.00.05.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 00:02:52 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+        Tue, 28 Apr 2026 00:05:00 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch] gdk-pixbuf: Fix CVE-2026-5201
-Date: Tue, 28 Apr 2026 12:32:39 +0530
-Message-ID: <20260428070240.2691024-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [scarthgap][PATCH v2 1/2] ghostscript: Pin to C17 std
+Date: Tue, 28 Apr 2026 10:04:46 +0300
+Message-ID: <20260428070449.1820616-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 07:02:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236041
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 07:05:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236042
 
-Pick patch according to [1]
+From: Khem Raj <raj.khem@gmail.com>
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-5201
-[2] https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/304
+The code defines a custom 'bool' type (as an 'int'), which is incompatible
+with C23 in which bool is a keyword, and trying to use <stdbool.h> fails
+because 'int' and 'bool' are used interchangeably in the code.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Add the flag to CC variable, since CFLAGS is used by both c and c++ compilers
+and clang++ is less forgiving when C compiler only option is used on its
+cmdline so it complains about -std=gnu17 and bails out.
+
+(From OE-Core rev: 49657089ef215824f8f79a81deb7baf4f27d0030)
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- .../gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch | 44 +++++++++++++++++++
- .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch
+ meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch
-new file mode 100644
-index 0000000000..97e0dddb62
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch
-@@ -0,0 +1,44 @@
-+From 6cce9311e70b969cbcc6e3e1e74ae1756ed02d5b Mon Sep 17 00:00:00 2001
-+From: Matthias Clasen <mclasen@redhat.com>
-+Date: Mon, 30 Mar 2026 12:21:56 -0400
-+Subject: [PATCH] jpeg: Reject unsupported number of components
-+
-+This condition was already checked for incremental loading.
-+This commit adds the same check in the nonincremental
-+code path.
-+
-+Closes: #304
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/6cce9311e70b969cbcc6e3e1e74ae1756ed02d5b]
-+CVE: CVE-2026-5201
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ gdk-pixbuf/io-jpeg.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+diff --git a/gdk-pixbuf/io-jpeg.c b/gdk-pixbuf/io-jpeg.c
-+index 9ee1d21..d419812 100644
-+--- a/gdk-pixbuf/io-jpeg.c
-++++ b/gdk-pixbuf/io-jpeg.c
-+@@ -625,6 +625,18 @@ gdk_pixbuf__real_jpeg_image_load (FILE *f, struct jpeg_decompress_struct *cinfo,
-+ 	cinfo->do_fancy_upsampling = FALSE;
-+ 	cinfo->do_block_smoothing = FALSE;
-+ 
-++	/* Reject unsupported component counts */
-++	if (cinfo->output_components != 3 && cinfo->output_components != 4 &&
-++	    !(cinfo->output_components == 1 &&
-++	      cinfo->out_color_space == JCS_GRAYSCALE)) {
-++		g_set_error (error,
-++			     GDK_PIXBUF_ERROR,
-++			     GDK_PIXBUF_ERROR_CORRUPT_IMAGE,
-++			     _("Unsupported number of color components (%d)"),
-++			     cinfo->output_components);
-++		goto out;
-++	}
-++
-+ 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
-+ 				 cinfo->out_color_components == 4 ? TRUE : FALSE, 
-+ 				 8,
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-index 7c58fe1e1d..2f0de425b5 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch \
-            file://CVE-2025-7345.patch \
-            file://CVE-2025-6199.patch \
-+           file://CVE-2026-5201.patch \
-            "
+v2: no change
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+index a48ad671c7..57a1098521 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+@@ -50,6 +50,8 @@ EXTRA_OECONF:append:mipsarcho32 = " --with-large_color_index=0"
+ EXTRA_OECONF:append:armv7a = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
+ EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
  
- SRC_URI[sha256sum] = "b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7"
++CC += "-std=gnu17"
++
+ # Uses autoconf but not automake, can't do out-of-tree
+ inherit autotools-brokensep pkgconfig
+ 
 -- 
-2.43.0
+2.51.0
 
 
