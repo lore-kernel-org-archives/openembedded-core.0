@@ -1,175 +1,282 @@
-Return-Path: <viswanath.kraleti@oss.qualcomm.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36942FF8868
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 12:25:34 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12141.1777379125326437853
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12BE4FF8868
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 12:25:44 +0000 (UTC)
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12143.1777379138284701428
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2026 05:25:25 -0700
+ Tue, 28 Apr 2026 05:25:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=d+Oiw8Bi;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=CM/26MGh;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: viswanath.kraleti@oss.qualcomm.com)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63SAFJqd1329569
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 12:25:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ANEiNMERo0EFPbqB36YK/WNeDmX4BAnj4WQVLwG+A8E=; b=d+Oiw8Biy0DRbb7x
-	IMvErDrkg969UvOwD8MMJ5zegADBb9fN9X31bTveaev8QOSVqojw11nF0+6FTPjF
-	2hTNnThpXt6vuTpiKf6/KcClOSZHRSrRqOqym9kEAJjjMjE0gQiiMSa/LeyyJI11
-	koeNWCQJWH/o3b2r1DZ3jVvNGgqUs4VDC06UF4F297Oqit+b8DLIPjwFjaXNhzAU
-	i8yHhtilG9CPTdl3C6x69Q9Bjgv4WIJjjxqFgoZ/q59JBoFO8I543ba9K6aG/qoA
-	gHYWAI5onC4gQyotqQms+T79Ebz5UJHDAk4pls8QXv8CnuFAVsWmVkbDFyr7ppA7
-	XSvlNw==
-Received: from mail-yx1-f70.google.com (mail-yx1-f70.google.com [74.125.224.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dtnhahsv0-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 12:25:24 +0000 (GMT)
-Received: by mail-yx1-f70.google.com with SMTP id 956f58d0204a3-6546ccc8989so9523659d50.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 05:25:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777379123; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AKWUrulII4oMleK39sNHlVoqoJLcxtAaw3fKIfd3yl9gZOJgYdTxHpb6qf8M0WXRhn
-         2cjZeNh4xIVOA+hu0RS3L+Hn8DJkxA0ZWk3uHj85mqDAACwC75VNptXQxfifzE1Z7jSx
-         Ln4kzPMgHLvrfuYJrWyuevvIt3ClSQoRR+Nk+RfNTk1AIlBlNT6qb9eIAo1EYc1KrhM1
-         xJHoI3WdVd1m4AANsP1bZzcw/FoOKq5psfqtKemzhKs9dpQ81ztmjkrR1wvqZ59E9fYb
-         XJfw76Ghrf0OgAjdCDnV6RY4na8Y0uONtura77MW5LV9qH1WoQehPQ8v8iN2FYti3XQ3
-         mNYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ANEiNMERo0EFPbqB36YK/WNeDmX4BAnj4WQVLwG+A8E=;
-        fh=Tyc0Jk2T+8fGWDixU3qFe8BDCZOG+4XtkeWc0U40ryA=;
-        b=cgE2E7jYy1gZbzxP4hRVfVUyvWHd33m6mt8pvwN6qQcDQ+iCu5gKYC1fuT8Apesb+S
-         5wfSd3YpyZawSywwN2y6zVp7D9sy5bdY2wEcBUKLoTW2oVmBhVZKf6p8MZaSolly4G0L
-         xOjS2ic82UuFQp7EaPYN5ZZjjUkZe6iTO5kmLKT1AU6NEtlJctCc1wXY6l5a3s3L7POM
-         6OUi9t230ncfvs4NvmOilyakSewOr3my8V8n//Y6OhxjGa9reBkmgISPFBngEmX0wdCZ
-         FBeOfmDXYduLW4hVGZFSAkWuw01JjDoTXBzBJQBXyLWmU6Hg9gp7pMajq+g517lWvZz4
-         RkAw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@mvista.com header.s=google header.b=OT6mvh+z;
+ spf=pass (domain: mvista.com, ip: 74.125.82.50, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12c6df0b9bbso3044692c88.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 05:25:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777379123; x=1777983923; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ANEiNMERo0EFPbqB36YK/WNeDmX4BAnj4WQVLwG+A8E=;
-        b=CM/26MGhh/LeVvYcW0R5J/vpff+41zdBlUCdjlTfqUrp7DTkKXC+6ixbuYj9HQWwUR
-         v/RToCfpxLj8CBT4k2T/NbSUDJWh30LF46UbfUplhwQhdkCTiC31SooluXKzGINgPx4G
-         /KrVfHSFGLCHSjziZrfG/QbNupbN8ZElu7DemYTViRZTbHvDWmDS1CVxetfbs72qfLbf
-         zxOpNCw/u3hZgjWzC0Vm000DZvmqPGtgzVcUzW1ekLxLW0QXt7cR324dfg/OomTCUbqU
-         jd9v6n9H7isx/n6I8PNKghbWHG6FBv8M4ptpp6PjdnmGavNgBnxLo9c6F6BGT4+ZslaY
-         rT7g==
+        d=mvista.com; s=google; t=1777379137; x=1777983937; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sk/igCLvGXV4wzIXRpe/ZHjRNdzt5ako9GkSoWdZenA=;
+        b=OT6mvh+z5Id3P/taRcfAr0/uE9qDO6u4GCi+iwtwiCndPCyaNQZGcI2/3YSPXqsZ3L
+         2oCVgnEgcbSRTdAL3XIlYYxeSLQMoK5nR4U3f0e/L+eHMVA4YM4xyN96fycBI9kIj13c
+         CDMo1q7o9Xu1iShgU57t8yP72cj16/DWRvFj4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777379123; x=1777983923;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ANEiNMERo0EFPbqB36YK/WNeDmX4BAnj4WQVLwG+A8E=;
-        b=jPyQA7U6TwZpawb9eYhM3oUTQEDOg0xAdDOcpm7qFzKAh02X/0sSHbUSEJWRW6gIyr
-         +XUS4n6F2JzGFc0/T+RaWMGWv14bjTmWmezHvd61PEFw7p2pKPDlZKNNdNJBoNnuhhQG
-         KQ9sQk1fudRrrRHeY6Vdviwg0ImFmukFZw/DZJjHQewVgI//oEI5uZjAbJpQG901fCeY
-         CdTZ06enOktv3cRa4arzf2IcOHUsqA76wb+m0Xdgmjlqt4vqoLMnAMVp9vobcK0hg4ko
-         W8lv1qLdLCtGLNBheHaqMWRAj5ognbav2pbz8nbOOErlV00MXp8HP+jWta4/I3VkJiOa
-         CH7g==
-X-Gm-Message-State: AOJu0Yxwa4ka3F+YVbLYtn/4t3eY6h1EpYOxYZGUNrNbHCldRhVgm7Eh
-	15Q6EeidbnPpPWGRKhu+G5yYBzjGY+jr5VFb6yDGOOrCIwOo8pB9d0mypNe1EDYidPJ9QfgVZce
-	Pmm7jwC639n1nb2JRSdGLir1t+cNTQiC7IbDPn4Cnzlfm+K1wZ0KzEA9iIlbF2NWIu8cbPgRZcI
-	O0VNXWj2Cj3UC3F2iHtyfRU/0XKtBDgXxf3KFJAGDX7aDI85V2Wjf5VQHKvXwm4bfnzZ43
-X-Gm-Gg: AeBDiesbhEq4nRi9Yz6IbNZw74qgtwrIbPvsQwl5UpY4nmoZUzJk7cY+H2sZvnMHQ3N
-	SJILc5Giz0wy0aniAwsp+XYyNNSSwNC/4JmWwC6WIDH+e59F5sz7n8OmK67F1bmEztGoEc0mQRv
-	SNIMrKEJBKnTCNSnAtwR6PuxJxuNnYZFuh/C0Ircrh6vgQupRFgDvAHe/bqde3CrmrGvJ38aHfs
-	Zd2CWrH2W/48NdNKwI2wRJPRaJ8O7ho0IgdIoktBriY5ATJQ2A=
-X-Received: by 2002:a53:7c0d:0:b0:650:88fa:f5e5 with SMTP id 956f58d0204a3-65beeec5f29mr1964393d50.59.1777379123554;
-        Tue, 28 Apr 2026 05:25:23 -0700 (PDT)
-X-Received: by 2002:a53:7c0d:0:b0:650:88fa:f5e5 with SMTP id
- 956f58d0204a3-65beeec5f29mr1964368d50.59.1777379123024; Tue, 28 Apr 2026
- 05:25:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777379137; x=1777983937;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sk/igCLvGXV4wzIXRpe/ZHjRNdzt5ako9GkSoWdZenA=;
+        b=hhmj0WHcqHSs+JgaI9PItyEKiHZv4sImrL13tNHBNol4/IKpMvdgbj9ACJqWBf8R8T
+         CHrdRfkZwhBZWe+tMVMIHB7RcYu5BsDaxtKHDxErXLk8N51x1S7ClcaKcIb3KgNNrOQ1
+         OxSkFYXzchU9BNhZ6R0gcgdrJppd6yqyZRS3CBFO8BngmfztaY3sW/QD+KWyEFwFVb+B
+         2KfdZpXk//hgYEvKdNfggWFodXGAVpHjq91RlI4fi81hWfrXzophz415mO3/+b2sL0SO
+         /11LJazLf91nyKCjM2nPuGWBg8mfqALHmtCorcAvRHIjmKmm555o83du//WhclU7LZuU
+         jfWA==
+X-Gm-Message-State: AOJu0Yy9LlkTDpre1QUxOm41VxLJ92HRwqz7zNq1T+ECdXfNnwMAFDJw
+	rSrwXsrmOpaJgBlBlVvgqY291VR5qllRB1zkVBpMDsOzhZ9bZX8IuXVC9E+N04r5kkUKhPHzwTd
+	JRm2Q
+X-Gm-Gg: AeBDietprIuz/BxcWTFIQ1TmFCc8RYZ/qjI3DCkp2gkdBR1LnT+m6ntP6xP9bShamdk
+	4dDk91kqfA/x2DBSwNkVUeA6YNOggti0KikQIwjMzotEAP4CRn+ZrkXEhJGT049k2n+B7j378o2
+	jlTXbnh+b1NySNXMQ6QcRKS/uOJ9kwUKyjp75V5zdk2zvRkDv5tVZsiTh5DTmLy+zXT5fq3WJWk
+	05MFCPF01fIrVC7/uqJqoSDeSCqrmRiTTLgoJxdi8O0nTwSsTKiubl3UlgNCrYtB8Lcr1tcfa0f
+	VAqKA9hlH39tlhcVb4Lb+7mqZnRiKFnODte5/9opVboe9hvTn3OMhwx9I9r9JbO8Y4A0QePU4cq
+	2oQD3gtRBwKuzk7uNBAvZvZLeO6jQvI/bz7No7/dh+OhwRpODtCUewUt/A5xDe4G+V7s9/sDVRD
+	pT4fP0c2jL/5g+NyDYOejpRw3HX6dRl/GTDQ/VWbp/Sr5n/sQ=
+X-Received: by 2002:a05:7300:ef89:b0:2d4:2cc8:67e with SMTP id 5a478bee46e88-2ed0a1558e0mr1222874eec.23.1777379136905;
+        Tue, 28 Apr 2026 05:25:36 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([150.129.170.153])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed09f8efeesm2157868eec.6.2026.04.28.05.25.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 05:25:36 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] systemd: fix for CVE-2026-40225
+Date: Tue, 28 Apr 2026 17:55:28 +0530
+Message-ID: <20260428122528.659662-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <20260427103040.1519121-1-viswanath.kraleti@oss.qualcomm.com> <c222df959189ef167ca167ba79152454df00d351.camel@linuxfoundation.org>
-In-Reply-To: <c222df959189ef167ca167ba79152454df00d351.camel@linuxfoundation.org>
-From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-Date: Tue, 28 Apr 2026 17:55:10 +0530
-X-Gm-Features: AVHnY4KRggTikLQ6fAkgAC0gQA4lHedleaygYw25-DvLZ86ZNWnbNmg-TUUjvoE
-Message-ID: <CAHyS93o7jQSFFGCXtYBVVseLRnxA3RLdXtR7ALWjAJqWWMBXgA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] mirrors: switch Yocto Project mirrors to HTTPS
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI4MDExNCBTYWx0ZWRfX6N1ccP9eWnRm
- U1eP2fjaxQPiIL9eyN02kM8AwSi0su/r0j2b5F/YnXgQHVkWMPH47OQdSUNYbMc13uRF91dkq11
- V0BVzW/qcHwD282ZFfYTCtqybhf6Fp7zZv/qd8ny7mr1J8vszwwzmrMpiS8Etd7ynJZKR8EW6uW
- VUITrXct64FuHHQbmhOZranx/emYnUaZCu+17lc8zS7zBV5w2HojrI0uVx0O0REEo+sAdUUbNrD
- M9UzyZxT1CU07G3otY8qC6vxN6WCpIth0Y/0Pq4FsPAmgKS/6zwR8h4b1Edgy1/qHAOHxenLGuD
- RRrrAU7D1riMciekkLuuET1PJu9DDI2jwH1CXpL2uw6flCVLE1fO0u6xr0zIBn3S/57DVYzOO2G
- 1ciOijta7RiHJID8BRezOH+dUl2EhgzYN1AhZY08fa5IZKjKYuYSws8HIGmxKIIUxiMQG8KUKsK
- UgOVcp1jZL93SiRiC5g==
-X-Authority-Analysis: v=2.4 cv=JoDBas4C c=1 sm=1 tr=0 ts=69f0a734 cx=c_pps
- a=S/uc88zpIJVNbziUnJ6G4Q==:117 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=rJkE3RaqiGZ5pbrm-msn:22 a=ag1SF4gXAAAA:8 a=Q4-j1AaZAAAA:8 a=iGHA9ds3AAAA:8
- a=EUspDBNiAAAA:8 a=k53qNq1pm9rbLvYtpRcA:9 a=QEXdDO2ut3YA:10
- a=nd2WpGr1bMy9NW-iytEl:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=nM-MV4yxpKKO9kiQg6Ot:22
-X-Proofpoint-GUID: z5cIkRI19pqU8PjZwrxSTHi21TDZD1bQ
-X-Proofpoint-ORIG-GUID: z5cIkRI19pqU8PjZwrxSTHi21TDZD1bQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-28_03,2026-04-28_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 clxscore=1015
- adultscore=0 phishscore=0 malwarescore=0 suspectscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604280114
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 12:25:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236059
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 12:25:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236060
 
-On Tue, Apr 28, 2026 at 5:06=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2026-04-27 at 16:00 +0530, Viswanath Kraleti via lists.openembedd=
-ed.org wrote:
-> > downloads.yoctoproject.org supports access over HTTPS, which provides
-> > better security and reliability than HTTP.
-> >
-> > Switch the default Yocto Project mirror URLs to use HTTPS instead of
-> > HTTP to improve fetch reliability.
-> >
-> > Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
->
-> I'm not going to fight against the current on this one but keep in mind
-> we checksum/verify anything we download, so http vs https doesn't
-> actually matter as much as people think here.
->
-> What we did used to care about more was the load on the server of https
-> vs http. I'm therefore not convinced about reliability or security.
->
+Backport commit[0] and [1] which fixes this vulnerability as mentioned in Debian report [2].
 
-At least in my organization, accessing http servers from behind a
-firewall is considered insecure and is subject to restrictions and
-audits. I suspect many other workplaces follow similar practices.
-Since the server already supports https, which is generally accepted,
-switching to it seems like a better approach. Please let me know if
-you think otherwise.
+[0] https://github.com/systemd/systemd/commit/03bb697b8df0339c37f4b845025320b261aeb7cc
+[1] https://github.com/systemd/systemd/commit/5887e72ff87d3a66a4c3fa91897fbec1545f4d3d
+[2] https://security-tracker.debian.org/tracker/CVE-2026-40225
 
-If needed, I can reword the commit message to clarify that this change
-is primarily about aligning with best practices, rather than
-introducing any reliability or security.
+More details : https://nvd.nist.gov/vuln/detail/CVE-2026-40225
 
-> Cheers,
->
-> Richard
->
->
->
->
->
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../systemd/systemd/CVE-2026-40225-01.patch   | 131 ++++++++++++++++++
+ .../systemd/systemd/CVE-2026-40225-02.patch   |  39 ++++++
+ meta/recipes-core/systemd/systemd_255.21.bb   |   2 +
+ 3 files changed, 172 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch b/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
+new file mode 100644
+index 0000000000..f616e636c2
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
+@@ -0,0 +1,131 @@
++From 03bb697b8df0339c37f4b845025320b261aeb7cc Mon Sep 17 00:00:00 2001
++From: Luca Boccassi <luca.boccassi@gmail.com>
++Date: Fri, 6 Mar 2026 19:32:35 +0000
++Subject: [PATCH] udev: check for invalid chars in various fields received from
++ the kernel
++
++(cherry picked from commit 16325b35fa6ecb25f66534a562583ce3b96d52f3)
++(cherry picked from commit 3513862eabe9ec4a6a095d7266e98f998f289ed2)
++(cherry picked from commit c20d21e0da293e715db468f9f4a15a5c8fbf8273)
++
++CVE: CVE-2026-40225
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/03bb697b8df0339c37f4b845025320b261aeb7cc]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/udev/dmi_memory_id/dmi_memory_id.c | 3 ++-
++ src/udev/scsi_id/scsi_id.c             | 5 +++--
++ src/udev/udev-builtin-net_id.c         | 9 +++++++++
++ src/udev/v4l_id/v4l_id.c               | 5 ++++-
++ 4 files changed, 18 insertions(+), 4 deletions(-)
++
++diff --git a/src/udev/dmi_memory_id/dmi_memory_id.c b/src/udev/dmi_memory_id/dmi_memory_id.c
++index 52ea250af8..4f2c21b80b 100644
++--- a/src/udev/dmi_memory_id/dmi_memory_id.c
+++++ b/src/udev/dmi_memory_id/dmi_memory_id.c
++@@ -51,6 +51,7 @@
++ #include "string-util.h"
++ #include "udev-util.h"
++ #include "unaligned.h"
+++#include "utf8.h"
++ 
++ #define SUPPORTED_SMBIOS_VER 0x030300
++ 
++@@ -185,7 +186,7 @@ static void dmi_memory_device_string(
++ 
++         str = strdupa_safe(dmi_string(h, s));
++         str = strstrip(str);
++-        if (!isempty(str))
+++        if (!isempty(str) && utf8_is_valid(str) && !string_has_cc(str, /* ok= */ NULL))
++                 printf("MEMORY_DEVICE_%u_%s=%s\n", slot_num, attr_suffix, str);
++ }
++ 
++diff --git a/src/udev/scsi_id/scsi_id.c b/src/udev/scsi_id/scsi_id.c
++index 6308c52b7e..7e18bc755a 100644
++--- a/src/udev/scsi_id/scsi_id.c
+++++ b/src/udev/scsi_id/scsi_id.c
++@@ -27,6 +27,7 @@
++ #include "strv.h"
++ #include "strxcpyx.h"
++ #include "udev-util.h"
+++#include "utf8.h"
++ 
++ static const struct option options[] = {
++         { "device",             required_argument, NULL, 'd' },
++@@ -443,8 +444,8 @@ static int scsi_id(char *maj_min_dev) {
++                 }
++                 if (dev_scsi.tgpt_group[0] != '\0')
++                         printf("ID_TARGET_PORT=%s\n", dev_scsi.tgpt_group);
++-                if (dev_scsi.unit_serial_number[0] != '\0')
++-                        printf("ID_SCSI_SERIAL=%s\n", dev_scsi.unit_serial_number);
+++                if (dev_scsi.unit_serial_number[0] != '\0' && utf8_is_valid(dev_scsi.unit_serial_number) && !string_has_cc(dev_scsi.unit_serial_number, /* ok= */ NULL))
+++                        printf("ID_SCSI_SERIAL=%s\n", serial_str);
++                 goto out;
++         }
++ 
++diff --git a/src/udev/udev-builtin-net_id.c b/src/udev/udev-builtin-net_id.c
++index 91b40088f4..715184e282 100644
++--- a/src/udev/udev-builtin-net_id.c
+++++ b/src/udev/udev-builtin-net_id.c
++@@ -39,6 +39,7 @@
++ #include "strv.h"
++ #include "strxcpyx.h"
++ #include "udev-builtin.h"
+++#include "utf8.h"
++ 
++ #define ONBOARD_14BIT_INDEX_MAX ((1U << 14) - 1)
++ #define ONBOARD_16BIT_INDEX_MAX ((1U << 16) - 1)
++@@ -247,6 +248,9 @@ static int get_port_specifier(sd_device *dev, bool fallback_to_dev_id, char **re
++                         }
++                 }
++ 
+++                if (!utf8_is_valid(phys_port_name) || string_has_cc(phys_port_name, /* ok= */ NULL))
+++                        return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid phys_port_name");
+++
++                 /* Otherwise, use phys_port_name as is. */
++                 buf = strjoin("n", phys_port_name);
++                 if (!buf)
++@@ -351,6 +355,9 @@ static int names_pci_onboard_label(sd_device *dev, sd_device *pci_dev, const cha
++         if (r < 0)
++                 return log_device_debug_errno(pci_dev, r, "Failed to get PCI onboard label: %m");
++ 
+++        if (!utf8_is_valid(label) || string_has_cc(label, /* ok= */ NULL))
+++                return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid label");
+++
++         char str[ALTIFNAMSIZ];
++         if (snprintf_ok(str, sizeof str, "%s%s",
++                         naming_scheme_has(NAMING_LABEL_NOPREFIX) ? "" : prefix,
++@@ -1209,6 +1216,8 @@ static int names_netdevsim(sd_device *dev, const char *prefix, bool test) {
++         if (isempty(phys_port_name))
++                 return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EOPNOTSUPP),
++                                               "The 'phys_port_name' attribute is empty.");
+++        if (!utf8_is_valid(phys_port_name) || string_has_cc(phys_port_name, /* ok= */ NULL))
+++                return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid phys_port_name");
++ 
++         char str[ALTIFNAMSIZ];
++         if (snprintf_ok(str, sizeof str, "%si%un%s", prefix, addr, phys_port_name))
++diff --git a/src/udev/v4l_id/v4l_id.c b/src/udev/v4l_id/v4l_id.c
++index 30527e9556..2ec96d8d3a 100644
++--- a/src/udev/v4l_id/v4l_id.c
+++++ b/src/udev/v4l_id/v4l_id.c
++@@ -29,6 +29,8 @@
++ #include "build.h"
++ #include "fd-util.h"
++ #include "main-func.h"
+++#include "string-util.h"
+++#include "utf8.h"
++ 
++ static const char *arg_device = NULL;
++ 
++@@ -82,7 +84,8 @@ static int run(int argc, char *argv[]) {
++                 int capabilities;
++ 
++                 printf("ID_V4L_VERSION=2\n");
++-                printf("ID_V4L_PRODUCT=%s\n", v2cap.card);
+++                if (utf8_is_valid((char *)v2cap.card) && !string_has_cc((char *)v2cap.card, /* ok= */ NULL))
+++                        printf("ID_V4L_PRODUCT=%s\n", v2cap.card);
++                 printf("ID_V4L_CAPABILITIES=:");
++ 
++                 if (v2cap.capabilities & V4L2_CAP_DEVICE_CAPS)
++-- 
++2.50.1
++
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch b/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+new file mode 100644
+index 0000000000..bc0a5514d4
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+@@ -0,0 +1,39 @@
++From 5887e72ff87d3a66a4c3fa91897fbec1545f4d3d Mon Sep 17 00:00:00 2001
++From: Luca Boccassi <luca.boccassi@gmail.com>
++Date: Fri, 13 Mar 2026 11:10:47 +0000
++Subject: [PATCH] udev: fix review mixup
++
++The previous version in the PR changed variable and sanitized it
++in place. The second version switched to skip if CCs are in the
++string instead, but didn't move back to the original variable.
++Because it's an existing variable, no CI caught it.
++
++Follow-up for 16325b35fa6ecb25f66534a562583ce3b96d52f3
++
++(cherry picked from commit 54f880b02ecf7362e630ffc885d1466df6ee6820)
++(cherry picked from commit 4425d8523e79f3cc00b3b93a0b5e7c6cdc284a97)
++(cherry picked from commit 75c585beae60e73208941e6b3f64cf249223f53d)
++
++CVE: CVE-2026-40225
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/5887e72ff87d3a66a4c3fa91897fbec1545f4d3d]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/udev/scsi_id/scsi_id.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/udev/scsi_id/scsi_id.c b/src/udev/scsi_id/scsi_id.c
++index 7e18bc755a..b2df8d9f7f 100644
++--- a/src/udev/scsi_id/scsi_id.c
+++++ b/src/udev/scsi_id/scsi_id.c
++@@ -445,7 +445,7 @@ static int scsi_id(char *maj_min_dev) {
++                 if (dev_scsi.tgpt_group[0] != '\0')
++                         printf("ID_TARGET_PORT=%s\n", dev_scsi.tgpt_group);
++                 if (dev_scsi.unit_serial_number[0] != '\0' && utf8_is_valid(dev_scsi.unit_serial_number) && !string_has_cc(dev_scsi.unit_serial_number, /* ok= */ NULL))
++-                        printf("ID_SCSI_SERIAL=%s\n", serial_str);
+++                        printf("ID_SCSI_SERIAL=%s\n", dev_scsi.unit_serial_number);
++                 goto out;
++         }
++ 
++-- 
++2.50.1
++
+diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-core/systemd/systemd_255.21.bb
+index 87e186bbfa..fe9d699816 100644
+--- a/meta/recipes-core/systemd/systemd_255.21.bb
++++ b/meta/recipes-core/systemd/systemd_255.21.bb
+@@ -29,6 +29,8 @@ SRC_URI += " \
+            file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-timedated-Respond-on-org.freedesktop.timedate1.SetNT.patch \
+            file://0008-implment-systemd-sysv-install-for-OE.patch \
++           file://CVE-2026-40225-01.patch \
++           file://CVE-2026-40225-02.patch \
+            "
+ 
+ # patches needed by musl
+-- 
+2.50.1
+
 
