@@ -2,67 +2,67 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98902FF886F
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 04:42:24 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5394.1777351337257985065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA5CFF885A
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 06:35:25 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6681.1777358120035708848
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2026 21:42:17 -0700
+ Mon, 27 Apr 2026 23:35:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=SnmYJZin;
- spf=pass (domain: mvista.com, ip: 209.85.216.53, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-35d95017a68so7334632a91.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 21:42:17 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=gOq8e7Ev;
+ spf=pass (domain: mvista.com, ip: 209.85.214.174, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2b458ca2296so68013465ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2026 23:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1777351334; x=1777956134; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1777358119; x=1777962919; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/idn8zBdk36Hf7P78pgi4C+lu1NX83yBL81hak9Wdg=;
-        b=SnmYJZinVPA7aifSMiRKkJfLcGbzqhVOImgH9kzPQVNr4muOMuobhFqj4D95+F5ZiV
-         K4D0++pvZ5apmHPGmAb+JitVnSgm89XlkSBiKtOq7D26iVU6UYEJHntaP0+4q8Q7+pEL
-         E4fZ9iS7vHalErkUwAaARyW0F2z5eXpoNEcdQ=
+        bh=iN9Q1NpAyHtLrfJcjZZdPuuWeQlMw+GwQinNbgot7wo=;
+        b=gOq8e7EvOXjw87KCyWaMD5+VSzScoPrXSD+kEB9WMe8NrbZvsOpAq1KxFL79MMYFrC
+         7gadJb3A3VSOdwzEN6tA9baiK1huBkPTqj43F64+g6DxPp4aaSlfVrsQHYagchKXiraO
+         MVNbcWkDAwAsE8lTysSOtpIoy73UE+gu2XGTU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777351334; x=1777956134;
+        d=1e100.net; s=20251104; t=1777358119; x=1777962919;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q/idn8zBdk36Hf7P78pgi4C+lu1NX83yBL81hak9Wdg=;
-        b=ZrIHlyRdzRggQq6MX4xEXEaRhnxjyAjr+pB2V9AweyuSlI/Ry0mYEKOx+c/egS289P
-         FjZOPUYyxdrTlpYvoDBnAzSEGh7mzSLEPEzsov8jH9MCR6PkNjLJ1woVIITZ1jVUhCd8
-         NV2tFJJYWBXD4VNHvlFsLCs4XjDtguJrf4cUphuGRmt/7f3IZU2XMaP3nCw4Cke3tUQq
-         LLe3NrlNEj1bItx8tW2B4Z45od1GNL56NPh8v1ZvCXn4QkuwqD41rYy2vVmsioXZLyoK
-         tDyya1ARq+sTtiu9v+hP7UO1CEt4U9vXLD5jznh2xb366Ms83oVmssMMvD2K1YRJ+txp
-         lppg==
-X-Gm-Message-State: AOJu0YxhfRcLfHiDbhoHmgP57MLwRIxShOvV/wW3wYxR/9ZkihqneNr0
-	dQqakypRLmRXVNPKZILUXOUBOjABp2enDcYJofbhlUr5t1p48pEsvndCvwAI0YSs811HCD82hyZ
-	lH6Wu
-X-Gm-Gg: AeBDieuRGeCWAkjMfy6fFVHhpNZXg/aJ36vfC3Xt1aGvSwLAQ6cX/S6NZcrJw/jQyvg
-	nuRz5iuz1qCrL24BSFkHr4eT2qe5PRwLMFkGroSlJmtiskqYMLGypov70dpn9LLKCvJuHFsbueD
-	jVCYKAZtoc1c7E4Lu2sdONDy4V1c6QIMNmrOPRt2y0C5xdiMstCZvppN2xqk4+Ch2+4RLZHBM/u
-	dHtxfbqbuQm38/SwpB+2hCNNlouw3C99HEkTmZe9kO3n5nUk8gyI5MqrLnjay9WWzTS6fHgKVpj
-	kO9KvkypLa0x6XLR5ZlJDgryG19iwVAh7q4czZYdUwRp5n9g095qUlMzxUmz252fawEinW9MHSQ
-	M6ZOMLzmRf2tOpta2NGwC1XmP8y1CQpSaGJkpEUXM3kKVijoIkd0Wh0lXjhfiQQ/aNTOBPn4QGS
-	HA8+WHrwZK8MurCwlpl9DwUF8sOGRj38M3fHda5ZeDWq78F6Exvg==
-X-Received: by 2002:a17:90a:d44e:b0:364:78a5:8d39 with SMTP id 98e67ed59e1d1-36492049ce4mr1171525a91.20.1777351333811;
-        Mon, 27 Apr 2026 21:42:13 -0700 (PDT)
+        bh=iN9Q1NpAyHtLrfJcjZZdPuuWeQlMw+GwQinNbgot7wo=;
+        b=K1bsQrRKoHSKMHWXqrHwXP39qQ3vPlKlYpnHJrHv6nmRhI9n1Qlqvjd9RvNwOeY64W
+         azgHlg8Q5f6Utj3ebDnwDNLTiIxarN058mOc5Znh18gvZ8TzEtWFsBCSC75YlTC42XHj
+         TEtKQYZS2tDBmjWr4ms1IrEhHxGXISGTJvH/nTPxyrI/cjsZ6Vbjekc3/bUi8gpd9amF
+         gPb9/onjA8wgbmoetMg+XTu1PKg8udIGWMWJrRwPd8sMm39KbrRpAaDLFNdHL6oAwPs0
+         /J37iOx199twGakxoxAL2+AxLqi+EASGrQCLiGPC5wv0VIrdUUdUPLeGXbFi6/qR9JaP
+         IAdw==
+X-Gm-Message-State: AOJu0Ywboa8hVOa9GFpd6/+X40l+byoTaj7HLSWjD6C4AkMlxzwjC8C/
+	+TFGjf8eI8Jt/emEtRceL97cZCwBzY7fL9K6o5xJBGr696XoLwKivLa1REQtpIyL7E4z333qbFI
+	+Y2RC
+X-Gm-Gg: AeBDiesc4041X/aCwi+dztdvSUV5bmcXIqAGGG8zo7av5ea3LZ3LwGNXCwFv5BGYNkU
+	p+OwY66070klXcpKm0F44kEaqMm/hedCsW2dZPPtRvEIX3Q5UCyTmpesVJP2dYi7fn5FbrgPf3e
+	vbpprQKYwUUeYhmh7FsmKameKjUBfdB1Aej7/665fzpHUA5/YYO/OVhgEy1EAoYApTH2siupoB4
+	wnNZBj4J/G5JW85Du7q/QUt4oDiaUWIzeaj7sk8OBcZ3w751AJ/ncjz2kN89KMNY3HBbAIhG+25
+	k8ZHffsRgPzoQss83C7QHb5xauC0+7lUOKBfr6wjG1L5IrGyEZLJel7bzHus8ekM2M4PGIgaAou
+	B6HmtZcw1C+GHxDABOeW7ot/lrrHN50p1FekdDjMLDmx4Hdd1Rj7mfaiybKnQjhcM2/mMzrIby5
+	mrmGoDY08GGnbDJZSVaNFFKrqHW0rp4+WSxOnE2zDZ4PrvEoceEA==
+X-Received: by 2002:a17:903:11d0:b0:2b4:6367:7b86 with SMTP id d9443c01a7336-2b97c4a9217mr19322405ad.37.1777358118955;
+        Mon, 27 Apr 2026 23:35:18 -0700 (PDT)
 Received: from MVIN00352.mvista.com ([2401:4900:1f28:603c:6fd6:b51b:642a:9f84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36490f9a304sm1198334a91.9.2026.04.27.21.42.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b97aa9270esm14409325ad.18.2026.04.27.23.35.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 21:42:13 -0700 (PDT)
+        Mon, 27 Apr 2026 23:35:18 -0700 (PDT)
 From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch] avahi: Fix CVE-2026-34933
-Date: Tue, 28 Apr 2026 10:12:04 +0530
-Message-ID: <20260428044204.1360329-1-vanusuri@mvista.com>
+Subject: [OE-core][whinlatter][patch] avahi: Fix CVE-2026-34933
+Date: Tue, 28 Apr 2026 12:05:09 +0530
+Message-ID: <20260428063509.2656694-1-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 04:42:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236035
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 06:35:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236036
 
 Pick patch according to [1]
 
@@ -80,7 +80,7 @@ Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
 
 diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index fce2d7cd56..31febc360d 100644
+index 9fa2ad1e78..b95510f77d 100644
 --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
 +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
 @@ -41,6 +41,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
