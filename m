@@ -1,246 +1,171 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BAEFF885A
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 14:53:35 +0000 (UTC)
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15353.1777388011434402605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 825A3FF8868
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 15:19:35 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15609.1777389569744242368
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2026 07:53:31 -0700
+ Tue, 28 Apr 2026 08:19:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Xn76xZHU;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=huVmb/fE;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.153, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 919301400053;
-	Tue, 28 Apr 2026 10:53:30 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 28 Apr 2026 10:53:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
-	 t=1777388010; x=1777474410; bh=MhfDJPauhldSRumAolVtYVy9H8305BzW
-	ebIGDdloGKU=; b=Xn76xZHU7g1jBYXa4/Iug5AdwJi5t91ouwBkUPfhkTbdSsIo
-	GTDhWr4yFBwu4MMi8Qxmty7U84keEjATXcxUljn7x9liU9ksqEirHmJqhcxekG00
-	+Chph1nU7FwQHYfUdXPEPrB1EzQui7BsTcw0zk0BZs66+wTNkqJB5VHJLRZ48GNr
-	nv5s30fGLTFOGZyusTM0yvrEArpuNTfsExhnX5fw3PFObRmUWYfU1152fGgIBPpM
-	KBvW7EnumnsC5igEKJh/QX5My5gbnB4hZUM7mW5yqBVdaHNpI6+aiMYG3rBT2Lb1
-	ww1P00mn4XD9BkvAPivCSnhdyD+g70YxQ16OVg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777388010; x=
-	1777474410; bh=MhfDJPauhldSRumAolVtYVy9H8305BzWebIGDdloGKU=; b=h
-	uVmb/fE5HnIWBnST0kbiMA8NxSkCaTmVw4QMghxk1NBE+5UoFKIiK/bO0n2mGJEe
-	zZTOy2Y4d6NJ5oy8h0Jg7B9t3qcnErbMOhEioK6e8Q6dkLg5nI6aLQEABmxLFRnV
-	tc+sznRL3wxSY4qHuLoovEilX0a9FPkLAaTR5sM+y/HFJ0C0Ygs7Zv08xoCtVOME
-	ErBZe9GkFOvngtKMLK52Me9M1qlSn+ZZqVVqIQAc0mWHPZTC38ENFNUph7rs2QKx
-	z3VoX/X91qaMuUKJAu1pdjsFe+sRNuF+iscIscjk35bNC0pawAVYHTIym6JgF7K8
-	AXNruqg7mHcWhXEAOY3kw==
-X-ME-Sender: <xms:6snwaaBI7KzWjOblxDeS8bYKfHStzvUoBje_ieN8KBC9KJENmjwWpg>
-    <xme:6snwaf_58Ot94e8kw1NmAZsSYQMfs0wFnGufPkU1g9F6EYYjTnikxHnaqhmEY_BIX
-    g0lAu07vrz11p-vVC9_E9Ly8q8PKxGEun0rVNumBDnij6ytkV0l9H8>
-X-ME-Received: <xmr:6snwaRGfNBfLhXq5ongkPGbJVRmJrArR-2vRc392opcKV6cTgsj3C_Ao7otxuYHPqTbMCFM_1ceB8pR0MCPMu9IIS1IORypfoOZaJQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekudekhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecuogfuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjug
-    hrpefkuffhvffftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghrkhgv
-    rhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhepteetgf
-    ekfffhvdefueektddutdevhedvfeehfeejheduleelgedujeekleejgfefnecuffhomhgr
-    ihhnpeiiohhomhdruhhspdihohgtthhophhrohhjvggtthdrohhrghdpohhpvghnvghmsg
-    gvuggvugdrohhrghdphihotghtohdrihhopdhophgvnhgvmhgsvgguuggvugdrohhrghdp
-    ghhoohhglhgvrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeeg
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeihohgtthhosehlihhsthhsrdihoh
-    gtthhophhrohhjvggtthdrohhrghdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdq
-    tghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhope
-    ihohgtthhoqdhsthgrthhusheslhhishhtshdrhihotghtohhprhhojhgvtghtrdhorhhg
-    pdhrtghpthhtohepshhjohhllhgvhidrhihprdhpmhesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:6snwadPmKaUoKJ6I_rqIm0lAAa5L6BsFFDQ7G7GJF9TJRziZgXJHVA>
-    <xmx:6snwabdsz182VQ2xrEpxZgaGxXfQoNkHfdO82otAFkE7BsYSsH2Fyw>
-    <xmx:6snwaSveUpfFbkS6HennQNsIsBUXTxp69yqFGod0RVTFj4ZX3U0FYA>
-    <xmx:6snwaUn3nDDAc4RfU1P8EKqNqBfqEFPFosUlNf9eU0PtZepTxdqhkQ>
-    <xmx:6snwaRGbIoC8bXCSJA54uDCjFs6Ci4BtnOM0RKC9P0gHD7LJ25ip9lq->
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Apr 2026 10:53:29 -0400 (EDT)
-Message-ID: <15a043cafb56dfbcf587dd830ab068309af8a467.camel@pbarker.dev>
-Subject: Yocto Project Status 28 April 2026 (WW18)
-From: Paul Barker <paul@pbarker.dev>
-To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org, 
-	yocto-status@lists.yoctoproject.org
-Date: Tue, 28 Apr 2026 15:53:23 +0100
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ld7jhsqWTCRz5kFbOOOe"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=GnMY+XWl;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48896199cbaso114010695e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 08:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1777389568; x=1777994368; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qVbpgNEdRk1g4WHbc5CoLjakoTX8p19C4H5GB8/mXtQ=;
+        b=GnMY+XWlffqQyfl1o8OhGH1MZOXEtVkkOTNtcref1igbyyvNI0TyKm41fm65DL6kBY
+         GKm0r6wHiocT8XdN4xVzHNjRXB0zmJYKfxTurPHg5czpcmlf/vyHwTZ9wLEMGEYqmjhC
+         hVCw990yOTFQbHFKaM/2uZ3bQx5MlpYG9CjX4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777389568; x=1777994368;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qVbpgNEdRk1g4WHbc5CoLjakoTX8p19C4H5GB8/mXtQ=;
+        b=fZ6/gTf890WbcTrX8eHxr4NjtXf4JmeD43grVosWtpEmWvmrzOT4B2oz3x3SXLuuFl
+         F/sVkcemZmvlmLLt1InRsHpmtYrT4+R3PdNx2kfdp5xyUz2c7MyadaFRFW69mjB2T/kW
+         fEJfF4fSEoMDwErbjVkv49ENM7GdjEYTw1vCnchbXmITG/IShah+SUhW2Lav/zITVLHk
+         bGPQeTT1ckz8G9SN1Fmp2KaVSt5Bns7YCYHFY3G98/z+KqdlIaVQgJmEkqeNUT89iAEQ
+         KrfqJQRu9YtAt3s9UzNh5jy8yMbJCa0miRRTLrUIuHU6MC2rLAt/wL7oDt5MdTpJzYJg
+         3Z8g==
+X-Forwarded-Encrypted: i=1; AFNElJ/mXu7Mbh+6Pe8gnCXkpNWv0Qxr7vBRuum6IbmxP0CgB4dHFQIJh+741x/Cq/lCqY/8iMd4XNC5ODVcIHduS3pYDQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyPRVF6IGbfD0DCDcfD2ebUg6kBDqJJ00Mac3qiBIWBmvZESx3W
+	E/uXwIaAjnAT299hppvrt/72SYWRrDxW4n0GqQCNjDdBkK2dNvSmKgG0R4+wzQKOzkQ=
+X-Gm-Gg: AeBDiev/ORFBf1Kc0S25h2Sz7S0hNRJzgV/2M4Ai1RC92DBYYsvbjveFidt5BCUPMav
+	ryu8P3fActE7ixv+O05dt0E6oltXAhKIWTBJQ58oavW4a5zWeKne/lRsND5JlQEkaIuZGBQ0Da1
+	f1wYCotA4/XP2QyRrRHTQoo0ahZ3z5Irk5rDuIemrn6yQYp1yjHScM4G5BJ6taYglCfyskWORnG
+	67gOw5ZvOPLHiYmsmk4a8s05lrsC5yu1psbSsBGNh9LMEzSMpTzFSeMALXXDXh+J7JhiVAgA2wP
+	zGycN1iDT6OfrZgrk+4eyYKhhWD/+PZDhDUUrHbUDF5CZmuZ2IpdNc/AN4E9WRaWX5S+JWTTQy2
+	HqVotK3zK+65hDl32MXbApTkwUKE0cZ8Lx8GiSzRi3ErYc1J1coV+P8TLtvmnt4o0fJEA+UTlcK
+	09xVFWPQPSWn+KiSZlckiWjEqPcJo1emSa55uNMtLYcm5kSvs8h28T8G1PpCTeUa0B19x4M68Gy
+	mm6PkLV/jVZzBOXbXWDTAAVGlrJCzn3sNPWQLcXZ8fOW7DPBc01X+Oh+xeHxIt64gWyxHyPAqPn
+	K1i0EcoNQcPt
+X-Received: by 2002:a05:600c:a013:b0:48a:563c:c8e0 with SMTP id 5b1f17b1804b1-48a77ad5a89mr58780935e9.1.1777389568007;
+        Tue, 28 Apr 2026 08:19:28 -0700 (PDT)
+Received: from localhost (2a02-8440-750d-af80-c14f-081a-27a2-598d.rev.sfr.net. [2a02:8440:750d:af80:c14f:81a:27a2:598d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a774c3ddfsm49049465e9.2.2026.04.28.08.19.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2026 08:19:27 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 28 Apr 2026 17:19:26 +0200
+Message-Id: <DI4W0MH446S5.1PZMW524MSN7V@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] rsync: fix for CVE-2026-41035
+From: "Fabien Thomas" <fabien.thomas@smile.fr>
+To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0
+References: <20260424084956.214345-1-hprajapati@mvista.com>
+In-Reply-To: <20260424084956.214345-1-hprajapati@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 14:53:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236066
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 15:19:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236067
 
+On Fri Apr 24, 2026 at 10:49 AM CEST, Hitendra Prajapati via lists.openembe=
+dded.org wrote:
+> Pick patch from [1] also mentioned at Debian report in [2]
+>
+> [1] https://github.com/RsyncProject/rsync/commit/bb0a8118c2d2ab01140bac5e=
+4e327e5e1ef90c9c
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-41035
+> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-41035
+>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ---
+>  .../rsync/files/CVE-2026-41035.patch          | 39 +++++++++++++++++++
+>  meta/recipes-devtools/rsync/rsync_3.2.7.bb    |  1 +
+>  2 files changed, 40 insertions(+)
+>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-41035.patc=
+h
+>
+> diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-41035.patch b/met=
+a/recipes-devtools/rsync/files/CVE-2026-41035.patch
+> new file mode 100644
+> index 0000000000..66b1b93672
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rsync/files/CVE-2026-41035.patch
+> @@ -0,0 +1,39 @@
+> +From bb0a8118c2d2ab01140bac5e4e327e5e1ef90c9c Mon Sep 17 00:00:00 2001
+> +From: Andrew Tridgell <andrew@tridgell.net>
+> +Date: Wed, 22 Apr 2026 09:57:45 +1000
+> +Subject: [PATCH] xattrs: fixed count in qsort
+> +
+> +this fixes the count passed to the sort of the xattr list. This issue
+> +was reported here:
+> +
+> +https://www.openwall.com/lists/oss-security/2026/04/16/2
+> +
+> +the bug is not exploitable due to the fork-per-connection design of
+> +rsync, the attack is the equivalent of the user closing the socket
+> +themselves.
+> +
+> +CVE: CVE-2026-41035
+> +Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/=
+bb0a8118c2d2ab01140bac5e4e327e5e1ef90c9c]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + xattrs.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/xattrs.c b/xattrs.c
+> +index 26e50a6..65166ee 100644
+> +--- a/xattrs.c
+> ++++ b/xattrs.c
+> +@@ -860,8 +860,8 @@ void receive_xattr(int f, struct file_struct *file)
+> + 		rxa->num =3D num;
+> + 	}
+> +=20
+> +-	if (need_sort && count > 1)
+> +-		qsort(temp_xattr.items, count, sizeof (rsync_xa), rsync_xal_compare_n=
+ames);
+> ++	if (need_sort && temp_xattr.count > 1)
+> ++		qsort(temp_xattr.items, temp_xattr.count, sizeof (rsync_xa), rsync_xa=
+l_compare_names);
+> +=20
+> + 	ndx =3D rsync_xal_store(&temp_xattr); /* adds item to rsync_xal_l */
+> +=20
+> +--=20
+> +2.50.1
+> +
+> diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-de=
+vtools/rsync/rsync_3.2.7.bb
+> index 14beafb681..2a1c3d9d56 100644
+> --- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+> +++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+> @@ -28,6 +28,7 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/src/=
+${BP}.tar.gz \
+>             file://CVE-2024-12088.patch \
+>             file://CVE-2024-12747.patch \
+>             file://CVE-2025-10158.patch \
+> +           file://CVE-2026-41035.patch \
+>             "
+>  SRC_URI[sha256sum] =3D "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e4=
+88fb2dc41346f2bb"
+> =20
+Hi Hitendra,
 
---=-ld7jhsqWTCRz5kFbOOOe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Since this fix has been merged into the rsync v3.4.2, and openembedded-core=
+=20
+master branch use currently rsync v3.4.1, I cannot accept this directly for=
+=20
+scarthgap yet because of the "master-first" policy we follow.=20
 
-Hi all,
+Could you please submit a backport for the master branch first?
+Once received, I can move forward with this backport for scarthgap.
 
-Current Dev Position: YP 6.0 M4
-Next Deadline: YP 6.0 Release Date w/c 2026-05-04
-
-Next Team Meetings:
-- Bug Triage meeting - Thursday 30th Apr. 7:30am PDT
-  (https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
-- Weekly Project Engineering Sync  - Tuesday 29th Apr. 8am PDT
-  (https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
-- Yocto Project Patch Review - Thursday 30th Apr. 10am GMT
-  (https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1)
-
-Project data dashboard: https://dashboard.yoctoproject.org/=20
-
-Key Status/Updates:
-- YP 4.0.35 is due to release
-- YP 5.3.4 is in QA
-- YP 6.0 rc1 is in QA
-- There will be no patch review on Monday 4th May due to public
-  holidays.
-- We continue to triage the CVEs being reported by the new tooling.
-- There were some last minute changes to DISTRO_FEATURES behaviour to
-  resolve some usability issues that users identified.
-- There have been several issues in pseudo identified and these have
-  been fixed in the various pseudo point releases. We will upgrade
-  pseudo in 6.0.1 to pull these in.
-- There have been issues with 403 errors from crates.io, there is a
-  change in bitbake to use the preferred upstream urls via their CDN.
-- The kvm cpu features issue looks to be a host system CPU microcode
-  issue and using the latest microcode appears to have resolved the
-  issues.
-- git:// protocol access to git.yoctoproject.org and git.openembeded.org
-  is deprecated and going forward https:// URLs should be used to access
-  git repositories. We are aiming to discontinue git protocol use.
-- We=E2=80=99re working through the backlog of patches and intermittent bui=
-ld
-  failures are still problematic. We continue to struggle for bandwidth
-  for changes needing in depth review/feedback but are trying to clear
-  the backlog.
-
-Want to contribute? We would appreciate help with the following areas:
-- We have several open issues for pseudo and limited maintainer time to
-  work on them. Help from someone familiar with systems programming in C
-  would be greatly appreciated.
-  https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&priority=
-=3DHigh&priority=3DMedium%2B&product=3DPseudo&query_format=3Dadvanced&resol=
-ution=3D
-- There are a large number of intermittent failures on our autobuilder,
-  any help with investigating, reproducing or solving these issues would
-  be welcome! https://valkyrie.yocto.io/pub/non-release/abint/
-- Many recipes in openembedded-core would benefit from a new recipe
-  maintainer. Please look at
-  https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/incl=
-ude/maintainers.inc
-  and see if you can adopt any of the unassigned recipes.
-- For more ways to contribute, see
-  https://docs.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCW=
-bzgjOk/edit?usp=3Dsharing
-
-New to the project?
-- We have a list of issues we think are good places to start
-  contributing:
-  https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER
-
-Tracking Metrics:
-- WDD 2788 (last week 2790)
-  (https://wiki.yoctoproject.org/charts/combo.html)
-- OE-Core/Poky Patch Metrics
-    - Total patches found: 1085 (last week 1078)
-    - Patches in the Pending State: 146 (13%) [last week 147 (14%)]
-    - https://valkyrie.yocto.io/pub/non-release/patchmetrics/
-
-Upcoming dot releases:
-- YP 4.0.35 is in review.
-- YP 5.3.4 is in QA
-    - Release Date 2026-05-06
-- YP 5.0.18
-    - Build Date   2026-05-11
-    - Release Date 2026-05-25
-For future release dates, see
-https://wiki.yoctoproject.org/wiki/Release_calendar
-
-The Yocto Project=E2=80=99s technical governance is through its Technical
-Steering Committee, more information is available at:
-https://wiki.yoctoproject.org/wiki/TSC
-
-The Status reports are now stored on the wiki at:
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
-[If anyone has suggestions for other information you=E2=80=99d like to see =
-on
-this weekly status update, let us know!]
-
-Best regards,
+Thanks,
+Regards.
 
 --=20
-Paul Barker
+Fabien Thomas
+Smile ECS
 
---=-ld7jhsqWTCRz5kFbOOOe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCafDJ4xEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bqpuAQDR3NvVAWNfoZDai2ARuWcn1HRKc+qpfBsL
-0RZpICplTAEA/wXH/XPpZP/YhWm8dkB7inFvcvoilRQnRo4K82WotwE=
-=bah9
------END PGP SIGNATURE-----
-
---=-ld7jhsqWTCRz5kFbOOOe--
 
