@@ -2,277 +2,209 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12BE4FF8868
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 12:25:44 +0000 (UTC)
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12143.1777379138284701428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D9CFF8868
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 12:42:14 +0000 (UTC)
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12470.1777380128567407581
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2026 05:25:38 -0700
+ Tue, 28 Apr 2026 05:42:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=OT6mvh+z;
- spf=pass (domain: mvista.com, ip: 74.125.82.50, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12c6df0b9bbso3044692c88.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 05:25:38 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=hzSObcdi;
+ spf=pass (domain: mvista.com, ip: 74.125.82.175, mailfrom: hprajapati@mvista.com)
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2d832f2f44cso9602371eec.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 05:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1777379137; x=1777983937; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1777380128; x=1777984928; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sk/igCLvGXV4wzIXRpe/ZHjRNdzt5ako9GkSoWdZenA=;
-        b=OT6mvh+z5Id3P/taRcfAr0/uE9qDO6u4GCi+iwtwiCndPCyaNQZGcI2/3YSPXqsZ3L
-         2oCVgnEgcbSRTdAL3XIlYYxeSLQMoK5nR4U3f0e/L+eHMVA4YM4xyN96fycBI9kIj13c
-         CDMo1q7o9Xu1iShgU57t8yP72cj16/DWRvFj4=
+        bh=gc8Lmas5ZG1YYeX8RR0zFF45XiVRdVifdnTkOzh3qRM=;
+        b=hzSObcdiQT8rzF1O/UOwz0qtaEyv57WggQ8DSDGvoWdWRqAFUUUyzkmtEV87fOBvgg
+         ALsyCfY7tuIbz9y22L7YUSJzdZJR+KwAIyCLRrsfTJ1kXyf7jyLVgFENZ+PZN2/AYM9D
+         9a7F+dxPeXEgkD/nu6X6YQq9uoQ3i8cLHiN40=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777379137; x=1777983937;
+        d=1e100.net; s=20251104; t=1777380128; x=1777984928;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sk/igCLvGXV4wzIXRpe/ZHjRNdzt5ako9GkSoWdZenA=;
-        b=hhmj0WHcqHSs+JgaI9PItyEKiHZv4sImrL13tNHBNol4/IKpMvdgbj9ACJqWBf8R8T
-         CHrdRfkZwhBZWe+tMVMIHB7RcYu5BsDaxtKHDxErXLk8N51x1S7ClcaKcIb3KgNNrOQ1
-         OxSkFYXzchU9BNhZ6R0gcgdrJppd6yqyZRS3CBFO8BngmfztaY3sW/QD+KWyEFwFVb+B
-         2KfdZpXk//hgYEvKdNfggWFodXGAVpHjq91RlI4fi81hWfrXzophz415mO3/+b2sL0SO
-         /11LJazLf91nyKCjM2nPuGWBg8mfqALHmtCorcAvRHIjmKmm555o83du//WhclU7LZuU
-         jfWA==
-X-Gm-Message-State: AOJu0Yy9LlkTDpre1QUxOm41VxLJ92HRwqz7zNq1T+ECdXfNnwMAFDJw
-	rSrwXsrmOpaJgBlBlVvgqY291VR5qllRB1zkVBpMDsOzhZ9bZX8IuXVC9E+N04r5kkUKhPHzwTd
-	JRm2Q
-X-Gm-Gg: AeBDietprIuz/BxcWTFIQ1TmFCc8RYZ/qjI3DCkp2gkdBR1LnT+m6ntP6xP9bShamdk
-	4dDk91kqfA/x2DBSwNkVUeA6YNOggti0KikQIwjMzotEAP4CRn+ZrkXEhJGT049k2n+B7j378o2
-	jlTXbnh+b1NySNXMQ6QcRKS/uOJ9kwUKyjp75V5zdk2zvRkDv5tVZsiTh5DTmLy+zXT5fq3WJWk
-	05MFCPF01fIrVC7/uqJqoSDeSCqrmRiTTLgoJxdi8O0nTwSsTKiubl3UlgNCrYtB8Lcr1tcfa0f
-	VAqKA9hlH39tlhcVb4Lb+7mqZnRiKFnODte5/9opVboe9hvTn3OMhwx9I9r9JbO8Y4A0QePU4cq
-	2oQD3gtRBwKuzk7uNBAvZvZLeO6jQvI/bz7No7/dh+OhwRpODtCUewUt/A5xDe4G+V7s9/sDVRD
-	pT4fP0c2jL/5g+NyDYOejpRw3HX6dRl/GTDQ/VWbp/Sr5n/sQ=
-X-Received: by 2002:a05:7300:ef89:b0:2d4:2cc8:67e with SMTP id 5a478bee46e88-2ed0a1558e0mr1222874eec.23.1777379136905;
-        Tue, 28 Apr 2026 05:25:36 -0700 (PDT)
+        bh=gc8Lmas5ZG1YYeX8RR0zFF45XiVRdVifdnTkOzh3qRM=;
+        b=BR+zQ/pPbERAqtQnM5laSz7SjGysEQtLeodTaiqRdzJnO6ylBEN/GrTiyxqdT4fphj
+         1oO1x9Quu7Kgkotqom6OCXcQXuvFjQhGY102Hq8f/HkB4g+2vOfmTCJqAS4nbvwujbum
+         ycO80pyrYQX3iP0pbvqhSQR1FlIo3eWPgHBgkvCKBG2CVse8jMMxQ46UbZv3CUY1/B9O
+         Xu5jL+Xl5a8F3EWJzOhfT/hx58d47tZFbzd1g/s95TH6Kc0nMoKGkjKC1T0ZGzBC4ES+
+         JHbhp30sZVuPopOH5Ja+qSi2YqdAT1dLmTFkLs2Es0bmpaWW3HU6jSDUFDdVqg842L80
+         fqUg==
+X-Gm-Message-State: AOJu0Yy1sFPnehab7FWGza3d1nbs9uwwdBH4oTU8gZQtM/b//ITlK4bd
+	k1XptskSC3PJMsCbyywYvQP+EYinHYXaDqZx3JJGgm8kUlG8ylNQfjOugf+WouIVa+VZpPOZ83J
+	baJbT
+X-Gm-Gg: AeBDietDmh+uJsrZqcFUkuiVtvVSz8cKKg6S4k1HsDL2LSn24i0afVGigyfgOGL1yzX
+	kakVhp3qKrxpRES3Pf+J66c1eMGjweC73YtepcGRiBw1wXj3qbg6HCuKlWq0DtgdN1w5glDZwrZ
+	lMf2dO2z9TmNMyiSwTm8KMmEXsn65b8dHSZqAOZ40rKPBF1hvnqPB8BNF74hb/lUysNNlLNpvk8
+	RhClMpebh1zC2AERM/aynaFuHthQFy6in7UthVuiHjvKbvpwc01dthi1lFeWDCEEqnggMmFuuWx
+	jaNzhypqwafExbQ7s0dNnqdjnO4iTttT1XuILJPt4CHAEJnKzpsVZ8Pm8hQ7SWPmEueVjGemlRq
+	Z8plz8Yr+urTdf7rRuHR4qR7eZbdrO1CGu3mqX9WRQPa/J23qdMYMo8tiI+EzEZA6KSkgPAFNHc
+	hUno0f4gtdC3FPri2Uy3lAcruVQjoTqrODczuDP4AUso7x899tBTYqjAs4ZQ==
+X-Received: by 2002:a05:7300:642a:b0:2ea:b975:3db1 with SMTP id 5a478bee46e88-2ed0a0a8bb3mr1272021eec.23.1777380127579;
+        Tue, 28 Apr 2026 05:42:07 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([150.129.170.153])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed09f8efeesm2157868eec.6.2026.04.28.05.25.35
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed0a0ce761sm2153638eec.15.2026.04.28.05.42.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 05:25:36 -0700 (PDT)
+        Tue, 28 Apr 2026 05:42:07 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] systemd: fix for CVE-2026-40225
-Date: Tue, 28 Apr 2026 17:55:28 +0530
-Message-ID: <20260428122528.659662-1-hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] systemd: fix for CVE-2026-40226
+Date: Tue, 28 Apr 2026 18:12:00 +0530
+Message-ID: <20260428124200.661553-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 12:25:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236060
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 12:42:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236061
 
 Backport commit[0] and [1] which fixes this vulnerability as mentioned in Debian report [2].
 
-[0] https://github.com/systemd/systemd/commit/03bb697b8df0339c37f4b845025320b261aeb7cc
-[1] https://github.com/systemd/systemd/commit/5887e72ff87d3a66a4c3fa91897fbec1545f4d3d
-[2] https://security-tracker.debian.org/tracker/CVE-2026-40225
+[0] https://github.com/systemd/systemd/commit/773fd3b6e72e6c83cbb1cfc1cb20f3793db8649a
+[1] https://github.com/systemd/systemd/commit/bfa0a842822c4f79da9d47f8a773fd128d8f8a0a
+[2] https://security-tracker.debian.org/tracker/CVE-2026-40226
 
-More details : https://nvd.nist.gov/vuln/detail/CVE-2026-40225
+More details : https://nvd.nist.gov/vuln/detail/CVE-2026-40226
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../systemd/systemd/CVE-2026-40225-01.patch   | 131 ++++++++++++++++++
- .../systemd/systemd/CVE-2026-40225-02.patch   |  39 ++++++
- meta/recipes-core/systemd/systemd_255.21.bb   |   2 +
- 3 files changed, 172 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+ .../systemd/systemd/CVE-2026-40226-01.patch   | 63 +++++++++++++++++++
+ .../systemd/systemd/CVE-2026-40226-02.patch   | 39 ++++++++++++
+ meta/recipes-core/systemd/systemd_255.21.bb   |  2 +
+ 3 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40226-01.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40226-02.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch b/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40226-01.patch b/meta/recipes-core/systemd/systemd/CVE-2026-40226-01.patch
 new file mode 100644
-index 0000000000..f616e636c2
+index 0000000000..6f2893cab7
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
-@@ -0,0 +1,131 @@
-+From 03bb697b8df0339c37f4b845025320b261aeb7cc Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/systemd/systemd/CVE-2026-40226-01.patch
+@@ -0,0 +1,63 @@
++From 773fd3b6e72e6c83cbb1cfc1cb20f3793db8649a Mon Sep 17 00:00:00 2001
 +From: Luca Boccassi <luca.boccassi@gmail.com>
-+Date: Fri, 6 Mar 2026 19:32:35 +0000
-+Subject: [PATCH] udev: check for invalid chars in various fields received from
-+ the kernel
++Date: Wed, 11 Mar 2026 12:15:26 +0000
++Subject: [PATCH] nspawn: apply BindUser/Ephemeral from settings file only if
++ trusted
 +
-+(cherry picked from commit 16325b35fa6ecb25f66534a562583ce3b96d52f3)
-+(cherry picked from commit 3513862eabe9ec4a6a095d7266e98f998f289ed2)
-+(cherry picked from commit c20d21e0da293e715db468f9f4a15a5c8fbf8273)
++Originally reported on yeswehack.com as:
++YWH-PGM9780-116
 +
-+CVE: CVE-2026-40225
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/03bb697b8df0339c37f4b845025320b261aeb7cc]
++Follow-up for 2f8930449079403b26c9164b8eeac78d5af2c8df
++Follow-up for a2f577fca0be79b23f61f033229b64884e7d840a
++
++(cherry picked from commit 61bceb1bff4b1f9c126b18dc971ca3e6d8c71c40)
++(cherry picked from commit 718711ed876c870a72149eea279b819cdab14e91)
++(cherry picked from commit e4db9c12957d315c0ed22c6ca87a816d0927d6dc)
++
++
++CVE: CVE-2026-40226
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/773fd3b6e72e6c83cbb1cfc1cb20f3793db8649a]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ src/udev/dmi_memory_id/dmi_memory_id.c | 3 ++-
-+ src/udev/scsi_id/scsi_id.c             | 5 +++--
-+ src/udev/udev-builtin-net_id.c         | 9 +++++++++
-+ src/udev/v4l_id/v4l_id.c               | 5 ++++-
-+ 4 files changed, 18 insertions(+), 4 deletions(-)
++ src/nspawn/nspawn.c | 18 ++++++++++++++----
++ 1 file changed, 14 insertions(+), 4 deletions(-)
 +
-+diff --git a/src/udev/dmi_memory_id/dmi_memory_id.c b/src/udev/dmi_memory_id/dmi_memory_id.c
-+index 52ea250af8..4f2c21b80b 100644
-+--- a/src/udev/dmi_memory_id/dmi_memory_id.c
-++++ b/src/udev/dmi_memory_id/dmi_memory_id.c
-+@@ -51,6 +51,7 @@
-+ #include "string-util.h"
-+ #include "udev-util.h"
-+ #include "unaligned.h"
-++#include "utf8.h"
-+ 
-+ #define SUPPORTED_SMBIOS_VER 0x030300
-+ 
-+@@ -185,7 +186,7 @@ static void dmi_memory_device_string(
-+ 
-+         str = strdupa_safe(dmi_string(h, s));
-+         str = strstrip(str);
-+-        if (!isempty(str))
-++        if (!isempty(str) && utf8_is_valid(str) && !string_has_cc(str, /* ok= */ NULL))
-+                 printf("MEMORY_DEVICE_%u_%s=%s\n", slot_num, attr_suffix, str);
-+ }
-+ 
-+diff --git a/src/udev/scsi_id/scsi_id.c b/src/udev/scsi_id/scsi_id.c
-+index 6308c52b7e..7e18bc755a 100644
-+--- a/src/udev/scsi_id/scsi_id.c
-++++ b/src/udev/scsi_id/scsi_id.c
-+@@ -27,6 +27,7 @@
-+ #include "strv.h"
-+ #include "strxcpyx.h"
-+ #include "udev-util.h"
-++#include "utf8.h"
-+ 
-+ static const struct option options[] = {
-+         { "device",             required_argument, NULL, 'd' },
-+@@ -443,8 +444,8 @@ static int scsi_id(char *maj_min_dev) {
-+                 }
-+                 if (dev_scsi.tgpt_group[0] != '\0')
-+                         printf("ID_TARGET_PORT=%s\n", dev_scsi.tgpt_group);
-+-                if (dev_scsi.unit_serial_number[0] != '\0')
-+-                        printf("ID_SCSI_SERIAL=%s\n", dev_scsi.unit_serial_number);
-++                if (dev_scsi.unit_serial_number[0] != '\0' && utf8_is_valid(dev_scsi.unit_serial_number) && !string_has_cc(dev_scsi.unit_serial_number, /* ok= */ NULL))
-++                        printf("ID_SCSI_SERIAL=%s\n", serial_str);
-+                 goto out;
++diff --git a/src/nspawn/nspawn.c b/src/nspawn/nspawn.c
++index 005a3d2be1..0ac0c94f06 100644
++--- a/src/nspawn/nspawn.c
+++++ b/src/nspawn/nspawn.c
++@@ -4275,8 +4275,13 @@ static int merge_settings(Settings *settings, const char *path) {
 +         }
 + 
-+diff --git a/src/udev/udev-builtin-net_id.c b/src/udev/udev-builtin-net_id.c
-+index 91b40088f4..715184e282 100644
-+--- a/src/udev/udev-builtin-net_id.c
-++++ b/src/udev/udev-builtin-net_id.c
-+@@ -39,6 +39,7 @@
-+ #include "strv.h"
-+ #include "strxcpyx.h"
-+ #include "udev-builtin.h"
-++#include "utf8.h"
-+ 
-+ #define ONBOARD_14BIT_INDEX_MAX ((1U << 14) - 1)
-+ #define ONBOARD_16BIT_INDEX_MAX ((1U << 16) - 1)
-+@@ -247,6 +248,9 @@ static int get_port_specifier(sd_device *dev, bool fallback_to_dev_id, char **re
-+                         }
-+                 }
-+ 
-++                if (!utf8_is_valid(phys_port_name) || string_has_cc(phys_port_name, /* ok= */ NULL))
-++                        return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid phys_port_name");
++         if ((arg_settings_mask & SETTING_EPHEMERAL) == 0 &&
++-            settings->ephemeral >= 0)
++-                arg_ephemeral = settings->ephemeral;
+++            settings->ephemeral >= 0) {
 ++
-+                 /* Otherwise, use phys_port_name as is. */
-+                 buf = strjoin("n", phys_port_name);
-+                 if (!buf)
-+@@ -351,6 +355,9 @@ static int names_pci_onboard_label(sd_device *dev, sd_device *pci_dev, const cha
-+         if (r < 0)
-+                 return log_device_debug_errno(pci_dev, r, "Failed to get PCI onboard label: %m");
+++                if (!arg_settings_trusted)
+++                        log_warning("Ignoring ephemeral setting, file %s is not trusted.", path);
+++                else
+++                        arg_ephemeral = settings->ephemeral;
+++        }
 + 
-++        if (!utf8_is_valid(label) || string_has_cc(label, /* ok= */ NULL))
-++                return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid label");
++         if ((arg_settings_mask & SETTING_DIRECTORY) == 0 &&
++             settings->root) {
++@@ -4444,8 +4449,13 @@ static int merge_settings(Settings *settings, const char *path) {
++         }
++ 
++         if ((arg_settings_mask & SETTING_BIND_USER) == 0 &&
++-            !strv_isempty(settings->bind_user))
++-                strv_free_and_replace(arg_bind_user, settings->bind_user);
+++            !strv_isempty(settings->bind_user)) {
 ++
-+         char str[ALTIFNAMSIZ];
-+         if (snprintf_ok(str, sizeof str, "%s%s",
-+                         naming_scheme_has(NAMING_LABEL_NOPREFIX) ? "" : prefix,
-+@@ -1209,6 +1216,8 @@ static int names_netdevsim(sd_device *dev, const char *prefix, bool test) {
-+         if (isempty(phys_port_name))
-+                 return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EOPNOTSUPP),
-+                                               "The 'phys_port_name' attribute is empty.");
-++        if (!utf8_is_valid(phys_port_name) || string_has_cc(phys_port_name, /* ok= */ NULL))
-++                return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid phys_port_name");
+++                if (!arg_settings_trusted)
+++                        log_warning("Ignoring bind user setting, file %s is not trusted.", path);
+++                else
+++                        strv_free_and_replace(arg_bind_user, settings->bind_user);
+++        }
 + 
-+         char str[ALTIFNAMSIZ];
-+         if (snprintf_ok(str, sizeof str, "%si%un%s", prefix, addr, phys_port_name))
-+diff --git a/src/udev/v4l_id/v4l_id.c b/src/udev/v4l_id/v4l_id.c
-+index 30527e9556..2ec96d8d3a 100644
-+--- a/src/udev/v4l_id/v4l_id.c
-++++ b/src/udev/v4l_id/v4l_id.c
-+@@ -29,6 +29,8 @@
-+ #include "build.h"
-+ #include "fd-util.h"
-+ #include "main-func.h"
-++#include "string-util.h"
-++#include "utf8.h"
-+ 
-+ static const char *arg_device = NULL;
-+ 
-+@@ -82,7 +84,8 @@ static int run(int argc, char *argv[]) {
-+                 int capabilities;
-+ 
-+                 printf("ID_V4L_VERSION=2\n");
-+-                printf("ID_V4L_PRODUCT=%s\n", v2cap.card);
-++                if (utf8_is_valid((char *)v2cap.card) && !string_has_cc((char *)v2cap.card, /* ok= */ NULL))
-++                        printf("ID_V4L_PRODUCT=%s\n", v2cap.card);
-+                 printf("ID_V4L_CAPABILITIES=:");
-+ 
-+                 if (v2cap.capabilities & V4L2_CAP_DEVICE_CAPS)
++         if ((arg_settings_mask & SETTING_NOTIFY_READY) == 0 &&
++             settings->notify_ready >= 0)
 +-- 
 +2.50.1
 +
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch b/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40226-02.patch b/meta/recipes-core/systemd/systemd/CVE-2026-40226-02.patch
 new file mode 100644
-index 0000000000..bc0a5514d4
+index 0000000000..47f780e6c5
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
++++ b/meta/recipes-core/systemd/systemd/CVE-2026-40226-02.patch
 @@ -0,0 +1,39 @@
-+From 5887e72ff87d3a66a4c3fa91897fbec1545f4d3d Mon Sep 17 00:00:00 2001
++From bfa0a842822c4f79da9d47f8a773fd128d8f8a0a Mon Sep 17 00:00:00 2001
 +From: Luca Boccassi <luca.boccassi@gmail.com>
-+Date: Fri, 13 Mar 2026 11:10:47 +0000
-+Subject: [PATCH] udev: fix review mixup
++Date: Wed, 11 Mar 2026 13:27:14 +0000
++Subject: [PATCH] nspawn: normalize pivot_root paths
 +
-+The previous version in the PR changed variable and sanitized it
-+in place. The second version switched to skip if CCs are in the
-+string instead, but didn't move back to the original variable.
-+Because it's an existing variable, no CI caught it.
++Originally reported on yeswehack.com as:
++YWH-PGM9780-116
 +
-+Follow-up for 16325b35fa6ecb25f66534a562583ce3b96d52f3
++Follow-up for b53ede699cdc5233041a22591f18863fb3fe2672
 +
-+(cherry picked from commit 54f880b02ecf7362e630ffc885d1466df6ee6820)
-+(cherry picked from commit 4425d8523e79f3cc00b3b93a0b5e7c6cdc284a97)
-+(cherry picked from commit 75c585beae60e73208941e6b3f64cf249223f53d)
++(cherry picked from commit 7b85f5498a958e5bb660c703b8f4a71cceed3373)
++(cherry picked from commit 6566dc1451089e07090f5a114ae2eb43ed39188d)
++(cherry picked from commit 1c55a0a5e26a07df828f72092ad1203e221b60db)
 +
-+CVE: CVE-2026-40225
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/5887e72ff87d3a66a4c3fa91897fbec1545f4d3d]
++CVE: CVE-2026-40226
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/bfa0a842822c4f79da9d47f8a773fd128d8f8a0a]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ src/udev/scsi_id/scsi_id.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/nspawn/nspawn-mount.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/udev/scsi_id/scsi_id.c b/src/udev/scsi_id/scsi_id.c
-+index 7e18bc755a..b2df8d9f7f 100644
-+--- a/src/udev/scsi_id/scsi_id.c
-++++ b/src/udev/scsi_id/scsi_id.c
-+@@ -445,7 +445,7 @@ static int scsi_id(char *maj_min_dev) {
-+                 if (dev_scsi.tgpt_group[0] != '\0')
-+                         printf("ID_TARGET_PORT=%s\n", dev_scsi.tgpt_group);
-+                 if (dev_scsi.unit_serial_number[0] != '\0' && utf8_is_valid(dev_scsi.unit_serial_number) && !string_has_cc(dev_scsi.unit_serial_number, /* ok= */ NULL))
-+-                        printf("ID_SCSI_SERIAL=%s\n", serial_str);
-++                        printf("ID_SCSI_SERIAL=%s\n", dev_scsi.unit_serial_number);
-+                 goto out;
-+         }
++diff --git a/src/nspawn/nspawn-mount.c b/src/nspawn/nspawn-mount.c
++index 470f477f22..09c442a63a 100644
++--- a/src/nspawn/nspawn-mount.c
+++++ b/src/nspawn/nspawn-mount.c
++@@ -1255,7 +1255,9 @@ int pivot_root_parse(char **pivot_root_new, char **pivot_root_old, const char *s
 + 
++         if (!path_is_absolute(root_new))
++                 return -EINVAL;
++-        if (root_old && !path_is_absolute(root_old))
+++        if (!path_is_normalized(root_new))
+++                return -EINVAL;
+++        if (root_old && (!path_is_absolute(root_old) || !path_is_normalized(root_old)))
++                 return -EINVAL;
++ 
++         free_and_replace(*pivot_root_new, root_new);
 +-- 
 +2.50.1
 +
 diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-core/systemd/systemd_255.21.bb
-index 87e186bbfa..fe9d699816 100644
+index fe9d699816..9c5f8af240 100644
 --- a/meta/recipes-core/systemd/systemd_255.21.bb
 +++ b/meta/recipes-core/systemd/systemd_255.21.bb
-@@ -29,6 +29,8 @@ SRC_URI += " \
-            file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-timedated-Respond-on-org.freedesktop.timedate1.SetNT.patch \
+@@ -31,6 +31,8 @@ SRC_URI += " \
             file://0008-implment-systemd-sysv-install-for-OE.patch \
-+           file://CVE-2026-40225-01.patch \
-+           file://CVE-2026-40225-02.patch \
+            file://CVE-2026-40225-01.patch \
+            file://CVE-2026-40225-02.patch \
++           file://CVE-2026-40226-01.patch \
++           file://CVE-2026-40226-02.patch \
             "
  
  # patches needed by musl
