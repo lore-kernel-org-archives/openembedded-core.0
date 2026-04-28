@@ -1,169 +1,106 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69413FF886C
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 09:00:19 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8389.1777363920090557000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2FEFF8873
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 09:01:19 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8951.1777366865175588695
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2026 01:12:00 -0700
+ Tue, 28 Apr 2026 02:01:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ZUsjKiF2;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: sam.john.kent@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so11204578f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 01:11:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777363918; x=1777968718; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iSPpAGe0QhXEcve7pLZOgeAXtZhG4hz4K0PrXKXCCsU=;
-        b=ZUsjKiF2VutWCL0hznjTFID2rb/qQ6cNjN+2/hYuRf1s2WDLvgjz+cpTzhV1yT3MxW
-         1oQAxOVgy9Tlwb53Jez2J9u0joTNfx+0Rq7Gaw9S5NYQSQdAtnMiCNzyNg4+mF4SY/q5
-         U+Rsh+qQxKvMEvIyCHq8bzbC3FZvDo/GBOy86k5ZR/AxCU7tidhokieoH++7xH1DTaul
-         f5BAbJDmcMGuM7k4jYcDgLPH2M3Iha4UsxtUF1Qc45jJZWmU7eW17wr1sTWAyauGrEWf
-         nIZaX/tFfb2qRn4HROrbQ2a9RnYYiB49Bgm/OiSFZddeMCqEldSSrIZ/nUquOEPBHFHq
-         wd+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777363918; x=1777968718;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iSPpAGe0QhXEcve7pLZOgeAXtZhG4hz4K0PrXKXCCsU=;
-        b=mQ2fEAxv/TqAn/zMCwBBJ1zJ7TzMrpWi7sH4Nzzj7uaPAAktT2VV1nEAiknoJjKCZ0
-         DM9OaMW10mNGiOSCZSH1zlDCmQFGediw/c3DeppmEOLvf2IdVSgKe1xnEcXauuFdoXrx
-         f+zstLCFj7Uc/uNVmrjllbOO2/j2+NU/jocBKBmc5lErjZjla10d0v3Z1n+o2p/waZ1A
-         tw8zZqVEVyCr/5JfDXDp3ticqp5vCDwFVXhFn8PJTb3KtVI58FFdTjeEpdo+ffZRm2CY
-         p1kXF+5Fh2khuXWPOxv/FQ04X5wza8Ve5yvLcn65clH/ymFP/1cPEhq3InxugvChlqgU
-         /eUg==
-X-Gm-Message-State: AOJu0YwsP7DLkjYLP2vu3lLUePGSP6446hc87jqb2bCwEzHSKlPJ1di7
-	pwwUMwCe6kx6My2fdBMXrkYFFty9tPuLxHX4eEfx25eK8zDWRkNHR5T/31qD5RP9PLc=
-X-Gm-Gg: AeBDievH3vkPtDtj7H1wDVXTjx2aeau0cKJ+t/ygM+dxPR/wkMxBWoQzf2xAxJ8TRSy
-	0JzXXJCIchLdl5V9W37hXLUKXLF1W0+Xmdm6ppW0yxfGuFlbYPWHDYo4c0iefccS+OdU1PaGulZ
-	iOUjEcIFrnFdYP+MjALwNbN+i82WdKTnYk84KRY+J+WCpjW4qN9FIJzK1uIAiy/uCW2J+4PBhWE
-	WrFWKmnweY95Vd5AOn5xaQngaD9HHUoXsbw0mbsHyyhJ/cFKrmbmDS0B7P00MSe/pU7qymJrLec
-	2soOhurkNwz+8dPmyKTY4E5+590ja2tyrqhcAg/6UOgdMr4pkt6R5US4j8zJZIrUFpNyS+4QiJP
-	Z7awNzWAOGeBn8B3Q/VdZLMPNUXlKMp8N0UtJtfgfXqOw4k5f5QT9eiBwcNRdEx+XdJwzkEJpFP
-	y+ClEdC3EtR5f5nTqlsHKvML0s7f1vgtMprz9CooR0zrPmhKTe1UewRK76G5GGPJjWyVODiej2z
-	clW8hY=
-X-Received: by 2002:a5d:5f85:0:b0:43d:303f:f358 with SMTP id ffacd0b85a97d-4464761c249mr3514533f8f.2.1777363918081;
-        Tue, 28 Apr 2026 01:11:58 -0700 (PDT)
-Received: from sam-ThinkPad-X1-Carbon-Gen-11.netbird.cloud ([79.123.125.82])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463f4c07a2sm4588351f8f.20.2026.04.28.01.11.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 01:11:57 -0700 (PDT)
-From: "Sam Kent" <sam.john.kent@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Sam Kent <sam.john.kent@gmail.com>
-Subject: [PATCH v2 3/3] oeqa/selftest: add oe-selftest for kernel module pre-filter
-Date: Tue, 28 Apr 2026 09:10:46 +0100
-Message-Id: <20260428081046.1660101-4-sam.john.kent@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=s+3rNC99;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=857845e3b2=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63S4TCCE1652981
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 02:01:04 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=kgV1BKByy+fGjksyC5aZ
+	busxronvA2DNA/xdkxKFu1A=; b=s+3rNC99BoH6i+q/opC+siKJX2UQl5+P/gHs
+	Z/kjR26Q1cgZKQu7LLPq4sKlkt+PaU8cfO00Sp7LuBv394Uhj3egGYOkhmkAE6VA
+	5LdzM0hzXs7t28r2Dj/lzX9s+Od+Weya82zfqj9nk1hSYv735TdnW0P194S03tcm
+	EacYTvqLY5cade34F+VeXcgkDHQw7mRs+OzvED17C8mYBhtmjO1CiiStXdciDjxn
+	TojEz5sZlFmvYATonAXRvvuafLhkdHXALQfM2mrkzhP7Q/LBCn91t/r866Rdcb6v
+	oQlHNDZK5bR79SBNrQ2FOxn4zKN4AgeXGbQkarMee0B/xfvZKw==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4drw4j2u93-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 02:01:04 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 28 Apr 2026 02:01:04 -0700
+Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 28 Apr 2026 02:01:03 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] valgrind: Upgrade 3.26.0 -> 3.27.0
+Date: Tue, 28 Apr 2026 17:01:02 +0800
+Message-ID: <20260428090102.3408799-1-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260428081046.1660101-1-sam.john.kent@gmail.com>
-References: <20260428081046.1660101-1-sam.john.kent@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: Ssud0gJ6hOD5krlnnROhntPxFW60ohZF
+X-Proofpoint-ORIG-GUID: Ssud0gJ6hOD5krlnnROhntPxFW60ohZF
+X-Authority-Analysis: v=2.4 cv=Iroutr/g c=1 sm=1 tr=0 ts=69f07750 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=vMm7aj2tAAAA:8 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8
+ a=LGPaG4bEClZ9SS9wbcwA:9 a=r6sWxlpsa93XciTrHfvA:22 a=ul9cdbp4aOFLsgKbc677:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI4MDA4MCBTYWx0ZWRfXw2aaRLdcPHIC
+ CZTZ5CK73LKCfJ0xKpyutz2yN4PIK4SF3yf83Ckir7g36zFzU6qXLikMLj3kbTi0O5TY60nTBw3
+ 5EIilBTweR3V+apMNBSexFUXwbyDrXlWrKO7lREtclVNSJhu93Y9c8Gr0oGUgfyeDvc+lWiJHTk
+ t+IhJHXi0ebKdmm+5Ox8BEYEnZMRUca3/LOHxdW2QpCr2LiQw93sEe7c2cB6EtbLYM1j8t09tV7
+ g80UvIcPREuvWHwktq1htWl+NP3xivL97oeLqNbHYETt2Tmq3RpRFRXEbsN3iLRjdVjN5Vo+hCv
+ mIf2MzdQ3VVSPh2hRjmqeq+BmA43YYHJ+uH2iVBDOuuOuRL+JAkykr8XeTMkOWEFAkuXO1GS5ko
+ Xanl7nwl5ENohWu4cE4IDGAQNU1dKHqWUv29MNbWBi2EyVWh0HyoGNV0Yg5skdZvCoeeAz77cAs
+ vQDK7oYnndDIO8UF2ow==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-28_02,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 spamscore=0 clxscore=1015
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604280080
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 09:00:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236050
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2026 09:01:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236051
 
-Add selftest-ko-filter recipe and a PackageTests.test_kmodule_prefilter
-oe-selftest that builds it to verify process_split_and_strip_files()
-handles .ko.xz/.ko.gz alongside a real .ko without corrupting them.
-Regression test for YOCTO #2348.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-AI-Generated: Uses Claude Sonnet 4.6
+Release notes:
+https://valgrind.org/docs/manual/dist.news.html
 
-Signed-off-by: Sam Kent <sam.john.kent@gmail.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../selftest-ko-filter/files/module.c         |  3 ++
- .../selftest-ko-filter/selftest-ko-filter.bb  | 29 +++++++++++++++++++
- meta/lib/oeqa/selftest/cases/package.py       | 22 ++++++++++++++
- 3 files changed, 54 insertions(+)
- create mode 100644 meta-selftest/recipes-test/selftest-ko-filter/files/module.c
- create mode 100644 meta-selftest/recipes-test/selftest-ko-filter/selftest-ko-filter.bb
+ .../valgrind/{valgrind_3.26.0.bb => valgrind_3.27.0.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/valgrind/{valgrind_3.26.0.bb => valgrind_3.27.0.bb} (98%)
 
-diff --git a/meta-selftest/recipes-test/selftest-ko-filter/files/module.c b/meta-selftest/recipes-test/selftest-ko-filter/files/module.c
-new file mode 100644
-index 0000000..f6d50ba
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-ko-filter/files/module.c
-@@ -0,0 +1,3 @@
-+/* SPDX-License-Identifier: MIT */
-+/* Minimal relocatable object used as a .ko stand-in for pre-filter testing. */
-+int selftest_ko_filter_marker = 42;
-diff --git a/meta-selftest/recipes-test/selftest-ko-filter/selftest-ko-filter.bb b/meta-selftest/recipes-test/selftest-ko-filter/selftest-ko-filter.bb
-new file mode 100644
-index 0000000..1b8cc73
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-ko-filter/selftest-ko-filter.bb
-@@ -0,0 +1,29 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+SUMMARY = "Test fixture for the kernel-module file pre-filter in package.py"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+SRC_URI = "file://module.c"
-+S = "${UNPACKDIR}"
-+
-+MODDIR = "${libdir}/selftest-ko-filter"
-+
-+do_compile () {
-+    ${CC} ${CFLAGS} -c module.c -o module.ko
-+}
-+
-+do_install () {
-+    install -d ${D}${MODDIR}
-+    install -m 0644 module.ko ${D}${MODDIR}/
-+
-+    # Fake compressed modules — the pre-filter must not pass these to strip.
-+    # Use octal escapes: dash (the OE recipe shell) does not support \xHH in printf.
-+    printf '\375\067\172\130\132\000' > ${D}${MODDIR}/module.ko.xz
-+    printf '\037\213'                 > ${D}${MODDIR}/module.ko.gz
-+}
-+
-+FILES:${PN} = "${MODDIR}/*"
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 38ed717..d33424b 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -185,6 +185,28 @@ class PackageTests(OESelftestTestCase):
-                 if not gdbtest(qemu, binary):
-                     self.fail('GDB %s failed' % binary)
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.26.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.27.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/valgrind/valgrind_3.26.0.bb
+rename to meta/recipes-devtools/valgrind/valgrind_3.27.0.bb
+index 6f7d67df0ec..4886dd0d3b9 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.26.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.27.0.bb
+@@ -27,7 +27,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+            file://0001-tests-arm-Use-O-instead-of-O0.patch \
+            file://0001-getdents_filter.c-workaround-off64_t-not-defined-in-.patch \
+            "
+-SRC_URI[sha256sum] = "8d54c717029106f1644aadaf802ab9692e53d93dd015cbd19e74190eba616bd7"
++SRC_URI[sha256sum] = "5b5937de8257ee8f51698ea71b9711adce98061aa07daa4a685efc3af9215bef"
+ UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
  
-+    def test_kmodule_prefilter(self):
-+        # Regression test for YOCTO #2348: process_split_and_strip_files() must
-+        # use f.endswith(".ko") so that compressed modules (.ko.xz, .ko.gz) are
-+        # not fed to is_elf() / strip.
-+        bitbake("selftest-ko-filter -c package")
-+
-+        pkgdest = get_bb_var('PKGDEST', 'selftest-ko-filter')
-+        libdir  = get_bb_var('libdir',  'selftest-ko-filter')
-+        moddir  = pkgdest + "/selftest-ko-filter" + libdir + "/selftest-ko-filter"
-+
-+        self.assertTrue(os.path.exists(moddir + "/module.ko"),
-+                        "module.ko missing from PKGDEST")
-+
-+        for fname, magic in [("module.ko.xz", b"\xfd\x37\x7a\x58\x5a\x00"),
-+                             ("module.ko.gz", b"\x1f\x8b")]:
-+            path = moddir + "/" + fname
-+            self.assertTrue(os.path.exists(path),
-+                            "%s missing from PKGDEST" % fname)
-+            with open(path, "rb") as f:
-+                self.assertEqual(f.read(len(magic)), magic,
-+                                 "%s header corrupted in PKGDEST" % fname)
-+
-     def test_preserve_ownership(self):
-         features = 'IMAGE_INSTALL:append = " selftest-chown"\n'
-         self.write_config(features)
+ COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64|riscv64).*-linux'
 -- 
 2.34.1
 
