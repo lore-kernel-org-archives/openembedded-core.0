@@ -1,214 +1,202 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF39FF8867
-	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 09:13:15 +0000 (UTC)
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7155.1777453987900603845
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59324FF8875
+	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 09:29:31 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7614.1777454966405946223
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 02:13:08 -0700
+ Wed, 29 Apr 2026 02:29:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=YPG1v4y7;
- spf=pass (domain: mvista.com, ip: 74.125.82.42, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-12db7bf1541so10000851c88.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 02:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1777453987; x=1778058787; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZzZTwK/XzuU4f9Mw5GS9SWqMrOoJrNoV9Zb+TeZezOs=;
-        b=YPG1v4y7KBDk90wh1sh/N4DJwlnhiv0Dhz2cxO0C9FlIwGu430Cq2bGTJS+BPJ/faC
-         F0jImH9cMcEKSuipn2/oOtOPinhcicmDiDidiw8oN1QbaDxFCJ4FkCzp0H3xALOkDFTW
-         NMuiEJWpQufY5Il4SITqolP2OnrSc00T6Pqe0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777453987; x=1778058787;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZzZTwK/XzuU4f9Mw5GS9SWqMrOoJrNoV9Zb+TeZezOs=;
-        b=bi8wHC8fsWLph7BdwqudIlA4q/KRZ2al8mAV4fNLbdBr7Q5X0W2OTEkcQ5nb2jOoNx
-         5/5l5/pJotjXqe1qOIsESG1d56tM3TXAxAqEld1SJDgxu7vVZTkvkmIpAE1C7D7v65fA
-         ZjB5V0uxSaK7XImpHQN8fjo8vAARllFIiQ5VJyGiYCP8n9oo1UETjJ/CpI6YA3Qaja9K
-         h7MM3QDxO2FlK7wtkmm+fPCRzIcI41ifFKtSBStM3rn6zysRDgSF3KZppGOIKclo6WsO
-         wGIls1Phl61rc3VZlT0xuXMq/E+O37l6Qe8KxFVG9WjAzcSN1N62NJGNq4svh28KxiMT
-         M+0g==
-X-Gm-Message-State: AOJu0Yyl8Sth1QsqH3FizbbYaHm9tO2Sl2RXgC7Kbs1QuZvm3UY7piGf
-	6iIOGwmnoTMEXRuxcNzFqlLP2vvOgggasyuXWQsS2WQ0ehtVBfhN9/1NGal/DPpo5u0ydgDQQLj
-	BM96L
-X-Gm-Gg: AeBDies+lBP/fcPNYhAynPk7e2qkIhBSOnl5lBZgSQgtI5w2iR4IXBZIDDQm+JGI6Wx
-	iLAIT2duXOjNJeqAv5Y9B6nR+b3DkEjDH46NqFDYlYGb0qBsCTdgiPLOJVzY9KZgfvePB0F7tqc
-	jatOM/UpiurWyCC4xEDYFkbfkmtRKXNz2LG2VLIHCfNAETA9R3/pvCv9vRpEH9b0jsxETaCa5va
-	kX46CC/yDJqwkuFn7hlfQ1HvKOq1mvSpcQoswD5AVyL3cZ1cCJZ8HoQHRxrah+Vx/XkK1OB4KZK
-	X6zJD60GaL46WNXQ85pYyf+DX0+/OYmO5RjyQN+LijFID4ZmKvaatqVESDqCmsIAeFUprdayS3w
-	TtQRi6U16x9lOlfwkfZrc0XSGwfB17KV5v1xCZzQZLtyia8Hf+pLCZC1BeLKWdV2VbiPwgac8bt
-	6P8KFqwf2c/dgkGebN4s2KRpOwfCFzem7XQSVGhUCFdgIiqd0=
-X-Received: by 2002:a05:7022:ec4:b0:12a:713b:896a with SMTP id a92af1059eb24-12ddd9c76a1mr2990239c88.17.1777453986768;
-        Wed, 29 Apr 2026 02:13:06 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([103.250.136.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12de3261533sm1806197c88.9.2026.04.29.02.13.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 02:13:06 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=K6rPiQVf;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=957907c96c=sunilkumar.dora@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T5Z2hw3625614
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:29:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=qa/lCF5danJFbSvJbSR2d84fdQl9Xg/yzyyzGLTMRLA=; b=
+	K6rPiQVfBFY8BoByXbeKxIuSLa7gwsQGUisKzdNIooxFWhpZ+RISpiE+bhpY+7Kg
+	Kjif+8HIOIGD28lnDmr1YPHl5YLgXF+KGGMDmJBbHvAXKDAX7eC2aHXUMesYD4Df
+	liGGZupEpy1K+OB7VdEaEXMpT/HHYUbmvksuOjMSb7wnhzbnrI9Ow9ixMI3gu8RO
+	pL77SAqZnOuwoAIp1qBTP5Bz37a0KuyX87O4ctXiHhKuScSrF2eCQgdgt0ktr6NN
+	giLAzfNxbng+gTAs6161ZVw5FmXHSwktfFOQNQ+iFxll68Irql4PrWKeEqe8EJQz
+	Y7NUkLwEdsFdn2OzuDW4+w==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010018.outbound.protection.outlook.com [52.101.61.18])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4drju0csan-3
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 29 Apr 2026 09:29:24 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DtLCQsJq2TNulGxP5Ihm5N8fkFhR5XBHz41SkpnwfsKa9xdKKYEqmWWpq9x9eEl56NhR5db6iPJKdzVp5XEebEQ4Cu+HXZkj0QCvl372OJHLThlOwNKxOdQTTTx5Hf00HnT/6/lUz49h1GywaFQiKG+LFnSouKdqfsDnILQAjRoqXDFmfJIfztfgNuqJmG5j8VCY8OtTHL/3TFlRGPQqYpCAp591ZDD3TiCVk0D73WtffdOgg0K8TS/qRC0hzSLy9FS5NTIYgPEiWtFcB++HV3t61lRsCJ4cSVMMet+FlIn0JLq8tG7OwoUMFz5RPhNbhDndSBrjEj0n7NPwqwM7Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qa/lCF5danJFbSvJbSR2d84fdQl9Xg/yzyyzGLTMRLA=;
+ b=Zvduj3+zK1jVnQhrNauicDBSf3d7nHglCbhueUqVT3udoUSPXEjUqiTJmAJuSufw5eHUljcjiO6cMC6ehxHoRJw6qQGnvZly/ei3qb18N4UrDN/0Dyvo1vB4q1izS7AGneBafz7B50bq3/Vljstw8fcMNzzCjcF+n/mfEUhxVcVvhP/2uJjbvBbdoqPId/lVc3jV+ywU8HqVRX2NieMJHf7ntVjGIn9vkMVqxYgniW/KO4AdDy7ruRCwTvKJPO7Kyr8cC7UHCVZLWIZqD8KF5EycwhIP01U2uODG4Yjc/wj+5u8cwol9vrUBcGb/FZp8rGFsBGVR/Nm0f2XeesOcGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
+ PH8PR11MB7023.namprd11.prod.outlook.com (2603:10b6:510:221::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.17; Wed, 29 Apr
+ 2026 09:29:21 +0000
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::4293:7c4b:a0b5:eb5f]) by DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::4293:7c4b:a0b5:eb5f%3]) with mapi id 15.20.9870.016; Wed, 29 Apr 2026
+ 09:29:21 +0000
+From: sunilkumar.dora@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] python3: fix for CVE-2026-1502
-Date: Wed, 29 Apr 2026 14:42:55 +0530
-Message-ID: <20260429091256.301317-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
+Cc: JPEWhacker@gmail.com, richard.purdie@linuxfoundation.org,
+        ross.burton@arm.com, saul.wold@windriver.com, hongxu.jia@windriver.com,
+        Qi.Chen@windriver.com, Randy.MacLeod@windriver.com,
+        Maganuru.Jayasurya@windriver.com, Sundeep.Kokkonda@windriver.com
+Subject: [PATCH v5 2/2] populate_sdk_ext: keep SDK_TARGETS so SPDX/SBOM tasks remain in locked sigs
+Date: Wed, 29 Apr 2026 02:29:00 -0700
+Message-ID: <20260429092900.2205617-3-sunilkumar.dora@windriver.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260429092900.2205617-1-sunilkumar.dora@windriver.com>
+References: <20260429092900.2205617-1-sunilkumar.dora@windriver.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR05CA0004.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::9) To DS0PR11MB7901.namprd11.prod.outlook.com
+ (2603:10b6:8:f4::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|PH8PR11MB7023:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f6b7590-fa24-4fe2-23d4-08dea5d1cb75
+X-LD-Processed: 8ddb2873-a1ad-4a18-ae4e-4644631433be,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|56012099003|38350700014|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 
+	PMc5vD2iDu4O7EF7EoN5nxJFRSeAp3igV12POmwiJw8F6hThnuetAeTaLKItxy3ftkLMx2Emj2KcuxnPJVnyxjwz7XKxeKZAkKP0b7lUUeMZgbYmGmBzi1POn95K5fzNAEKIlHSzHlQw+2UyTGDqoNYieNorONmcpPxEpRPaGZcFQbS99h+nyHIqmZTKvRT7Nta1elmOqkEhzcx7ATM6bx4hLSc34P3dkEP6a/o93LbCww/Ta8XPn5pwNStHb6twjwR6qcIk7GW8QcWjl4y4bofiZxYMlvUveU3LWV+pIR676t+2PFGPrnzio+uQGGi5IR9UgSGUVO9kMP7vMyOAYOSYDyEx9yqGtSyCvaTrsUsY5bo8daeSkGB/6t5y1v5ussh4/EXAeyzGArUUu/BsB1bDuObVRxHAb+P1Ydd7IEtldD9c7heUc96/PqINToZUyBgtcoWEE9Xr0kZxnKzrSmZ+J/F/UlZu+ZrwtqO+Uh6cD0R8Amx2pLNu3/pNMGSU+tpSvh8PhqFYkomsnCPue69hlQ8gZpVQEfYM4rGh1hhMldl+q9yULqpoSqqcHWA/a4UtJtQvvXTKBPemhquOPmcgmed4tuM1BWtxgKFKVYoeoOIGfGpV43zHpNAKF3LdZ6PpHGUJDn/A7fJ3pdtAdM3D8QsMJ9+TJKsUZvlknpI5+SBydEvUCep3PUDdohloBdKuFJ2esAlBYX4byVCb7VOVfSIIUAjP6gK8tKNtKv6YOslk6L6OeVyNhMUEn9Hb1YUcKiRramidMGOoF828kMxSbj04tA9MgoKQuTJt5lk=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(56012099003)(38350700014)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?sYCkxVvvl2xf+pnTAAbIJpSQFywuMrS7N8/dU5VFBc8rxwCysALS53p866vp?=
+ =?us-ascii?Q?zUw0cIql/wqPhnc1UyEbszCxjs6qNrla2QtzJJcB9e2TCEv2v6JKqf13/pFD?=
+ =?us-ascii?Q?yueX6ZY5lXGrQPh+LukN7Kqr9tekWcEvnskTFFoxMwFyLe1gwncwZnd8Tyri?=
+ =?us-ascii?Q?xH5LbJzB7bn1kgA/ErWUmHHwYv3dnfYcVjd7qvwZni4lWOL+f0kYKZ4xtJMG?=
+ =?us-ascii?Q?SEoeqrRssFRhQhn+S1GvrupvVztBtyzCKz/MhG2mE3WO1HEznxZUec3+11mr?=
+ =?us-ascii?Q?kUA24Vu7c4wziG0/Ea/ykCYQPvO1aHa8V9Rj+J/f9KE0O3pXjMZpOjUB3vrE?=
+ =?us-ascii?Q?+y/nfCAv8Pe0eMDs5OYsYWvi6LdXk+b1ayD94E7qYd5jDTgvXZp/cZD87K+B?=
+ =?us-ascii?Q?MzXjKCiYct2nMimOoTG1nWELqa8nWASUyh4tBV5sWu8G5/aMHBOTEBEmqCrM?=
+ =?us-ascii?Q?CeVpkWREeuMSzp2UZ/HSUAGzng1x2qVSEcjjFFl2Kp09AuCErNlo5RpAjd6A?=
+ =?us-ascii?Q?zXaSeNxLLW9iVd01Pf2KnA0Oqo+ufIFf1BFc+LCSlegkqsvhgLhHkQ5NW1XF?=
+ =?us-ascii?Q?SbKwm9DjMjKLQgwmBs6xriae3r5YRG6P9YcnRQg2R4BVk3g96AnhSV9JBZ1p?=
+ =?us-ascii?Q?j+ND93eCW0IkyKbbXcypZWnqhMpDiUL7PoSN3rjKiNhj62OORfU0PjmyqYxs?=
+ =?us-ascii?Q?xPh1QDMtZiWuTyyBoo1dm3NpK4PWbVes0oADVZ2bt4d0zFns3ZLiiDzGiXMW?=
+ =?us-ascii?Q?vVq+QomuXN7ptKAQEZWFNCkPcGGI1jhNISjR6OW2wXYiHZQo4aig39Vwsbab?=
+ =?us-ascii?Q?IruHl5bOtLlebvuoLNWeAdVL2Qk95+gBP+Dxn/NPSzjkLnScPAlrWeSg6DBt?=
+ =?us-ascii?Q?iLzBtRH2u/AUHoxxqqSnh8j2s8mX2pthBPi8AhyDQ1GKvgJn4Qb28hbWRWTy?=
+ =?us-ascii?Q?HWl92HFMfCdYCgC9LEmQBgji91Nl7NTtycgCVMvwoTxEYTjXzLbt2QVugTLH?=
+ =?us-ascii?Q?9BlWt4Wf6WJcniI/SiQP6MOc3oDH8QXYz4uXyuftOXafO3UKgKW+rwT6DxCF?=
+ =?us-ascii?Q?IUp2MYGcAdXn/g1jo1c2uM5EH5Q/tY2GvIelOBlqpEDPSRddJJBlhUdOIOtT?=
+ =?us-ascii?Q?9QjrvObQhbLzj2rkG+eGj6LA7e4t1aRnklnl8jDo8vBUJmqbaGjE9NuFv8xW?=
+ =?us-ascii?Q?Jp7HjDAqcAxzwKKEYZazI8KfKy/gtpvtBpXTjH6EJ9y0ZYkh4nUN/5aNk6v9?=
+ =?us-ascii?Q?5WB9cg3rFbTYb377aIW2D/lLO5gYAce7rMM6wyemj9XMtsyMsge3/pYA1Y8Y?=
+ =?us-ascii?Q?SYqpgUAmxsg5Ko9R9L99E+NKhsCjNPMtZNJRcMqK1A/UYlEUg3dD+cN2D+AI?=
+ =?us-ascii?Q?Zce77kUGwv/SEE/P9gNXRZC4lIY3ww8Lpk1yXW2/rEEr1BmO/znFCszH33he?=
+ =?us-ascii?Q?vfnEX9onU88S+q1APKO4VLdQjuEWkSSaAXVz8XAZEpNCuMdK1SrVKG0JaPNT?=
+ =?us-ascii?Q?cZer6sLe1xE6CKHHZh/22pAwc4sd27sYc1mMEikwxNpkGmKnm5wOPKmV2HVl?=
+ =?us-ascii?Q?oOdNXD3gghjI18rg5BFnDfCn8ZEwYl4shTUGsLZK8PWaHU9kButQXvT+J/+5?=
+ =?us-ascii?Q?3YcSD6Mj2noe0/Tv/O0vRXBYkjW2zzRiygRZwBusGSzbluWoqmeJel0Cf2zh?=
+ =?us-ascii?Q?+g+fUfSFDJkk3K0RBN2v6I1qkkV9tSve9TrHc/FOAv3MeWZrsFS3DJ9yPoOm?=
+ =?us-ascii?Q?Gcg+lEBpudq5dsZVVSdHe0CF91x3TaA=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	jkK4fs4ZSz5dRfFhm6SxwwCUpO8QtGm9V30c7U0+KjBNUjSrxP6KJvetJXmPxvh167YTo+ndEjFsTZsbj/D0Y9Hd+GTCclK3ZwUcQTIY5HnI8JuAkdzFDRoGqF5F4PLCZNU2iBPhbte1MSCucAH3KlG/na2PZYRqcce/+WGmFYPfeDCfm/Xj6aIqCldlHA2e31CHsgDLTcvXKQbSsHLmnEk+FF+DHxcop5tRHb0Vcfa4a8ElDs4GQnDPFF9hkcC5YedFNvUHQYis/uvLG6eEAtv4+9w7U83yZXoAwn4A8/kKO17xoGLmP7S8EtNhQzEweuvu1XQ7foEZwHyCV+LHiA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f6b7590-fa24-4fe2-23d4-08dea5d1cb75
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 09:29:21.4656
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 17hTva4qBs6so3Ri+6vyP+9myPEuxESVGXORn1H2y7cmU/sWWEqgcoO0pvyXVqeP7DTtVJeuxdw5aBnnGUMdAszzW/bbOjJcbT/iswCOrFE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7023
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=J+SaKgnS c=1 sm=1 tr=0 ts=69f1cf74 cx=c_pps
+ a=+TgAdn5i6nn1e/5/V9fTSg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
+ a=5hl-ExYLI99A9eZlSqoA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: l-z-T0pt_7FaZzUSC0VAXvbqyUxEB2K7
+X-Proofpoint-ORIG-GUID: bLm1R2_vYY8ZSteyXmsly2T3zVKMm-x8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDA5NCBTYWx0ZWRfX5bHWH5X/26e9
+ QX/ODeahYndNLZOWqkjusOhujtlg6UekdAkVKZ09MTwe1oh+zm/Q01MY3zxejUT5uGtz6iVB5sq
+ FFpWGT1D+vaZCcEtLpVrGOCf+ALK+jsq3Vh+evY6IYq5z1uYcCH3nCFziReubZMPdtWr4UWh4kW
+ 5mENm4+xm6kxas4DJO2qnZdtnioJLLL+P0JYXbpJNMgCa7LB8tKVz9Ow4KyD7BHtPcKqX3RvweE
+ PU2/N3OPnF82XBM8wZVW6WOU+qDV1P+Z+C3IhNDu11/2X3DTnrw2a7RkwI46UASE6T+QKi8GoBD
+ pw9yuyXtnq6dOv5Ya8eiiS0qRyoGen9FulW0xD0629tubd02LbpYhb3lsdbHhwtUp/r9prD3dKX
+ Ts12zLJlXKcrRAi7H2YfF0O56vYzRPbEc4hkXx24ymTkGESZ77VGp4LL94SNbtZ1po50vwwaoUK
+ oHv9gYNaRZXw6sR/n+g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-28_05,2026-04-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 priorityscore=1501 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604290094
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:13:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236090
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:29:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236093
 
-Pick patch from [1] also mentioned at NVD report in [2]
+From: Jayasurya Maganuru <Maganuru.Jayasurya@windriver.com>
 
-[1] https://github.com/python/cpython/commit/05ed7ce7ae9e17c23a04085b2539fe6d6d3cef69
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-1502
-[3] https://security-tracker.debian.org/tracker/CVE-2026-1502
+Fixes [YOCTO #15853]
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+The filtering in populate_sdk_ext.bbclass was removing all image targets from
+the locked signatures, including the main SDK images (SDK_TARGETS). As a
+result, their tasks including the image SPDX/SBOM tasks were not added to
+locked-sigs.inc.
+
+Without these entries, the eSDK lacked the necessary sstate, and the installer
+attempted to run the missing tasks during installation, leading to unexpected
+task execution errors.
+
+This patch keeps SDK_TARGETS (and their multilib variants) in the locked
+signatures so their SPDX/SBOM tasks are included. With those tasks in the
+sstate cache, the eSDK installs cleanly without needing to re-run anything.
+
+Signed-off-by: Jayasurya Maganuru <Maganuru.Jayasurya@windriver.com>
+Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 ---
- .../python/python3/CVE-2026-1502.patch        | 113 ++++++++++++++++++
- .../python/python3_3.12.13.bb                 |   1 +
- 2 files changed, 114 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-1502.patch
+ meta/classes-recipe/populate_sdk_ext.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2026-1502.patch b/meta/recipes-devtools/python/python3/CVE-2026-1502.patch
-new file mode 100644
-index 0000000000..be6a8379a8
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2026-1502.patch
-@@ -0,0 +1,113 @@
-+From 05ed7ce7ae9e17c23a04085b2539fe6d6d3cef69 Mon Sep 17 00:00:00 2001
-+From: Seth Larson <seth@python.org>
-+Date: Fri, 10 Apr 2026 10:21:42 -0500
-+Subject: [PATCH] gh-146211: Reject CR/LF in HTTP tunnel request headers
-+ (#146212)
-+
-+Co-authored-by: Illia Volochii <illia.volochii@gmail.com>
-+
-+CVE: CVE-2026-1502
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/05ed7ce7ae9e17c23a04085b2539fe6d6d3cef69]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ Lib/http/client.py                            | 11 ++++-
-+ Lib/test/test_httplib.py                      | 45 +++++++++++++++++++
-+ ...-03-20-09-29-42.gh-issue-146211.PQVbs7.rst |  2 +
-+ 3 files changed, 57 insertions(+), 1 deletion(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2026-03-20-09-29-42.gh-issue-146211.PQVbs7.rst
-+
-+diff --git a/Lib/http/client.py b/Lib/http/client.py
-+index 70451d6..7db4807 100644
-+--- a/Lib/http/client.py
-++++ b/Lib/http/client.py
-+@@ -972,13 +972,22 @@ class HTTPConnection:
-+         return ip
-+ 
-+     def _tunnel(self):
-++        if _contains_disallowed_url_pchar_re.search(self._tunnel_host):
-++            raise ValueError('Tunnel host can\'t contain control characters %r'
-++                             % (self._tunnel_host,))
-+         connect = b"CONNECT %s:%d %s\r\n" % (
-+             self._wrap_ipv6(self._tunnel_host.encode("idna")),
-+             self._tunnel_port,
-+             self._http_vsn_str.encode("ascii"))
-+         headers = [connect]
-+         for header, value in self._tunnel_headers.items():
-+-            headers.append(f"{header}: {value}\r\n".encode("latin-1"))
-++            header_bytes = header.encode("latin-1")
-++            value_bytes = value.encode("latin-1")
-++            if not _is_legal_header_name(header_bytes):
-++                raise ValueError('Invalid header name %r' % (header_bytes,))
-++            if _is_illegal_header_value(value_bytes):
-++                raise ValueError('Invalid header value %r' % (value_bytes,))
-++            headers.append(b"%s: %s\r\n" % (header_bytes, value_bytes))
-+         headers.append(b"\r\n")
-+         # Making a single send() call instead of one per line encourages
-+         # the host OS to use a more optimal packet size instead of
-+diff --git a/Lib/test/test_httplib.py b/Lib/test/test_httplib.py
-+index e46dac0..e027d93 100644
-+--- a/Lib/test/test_httplib.py
-++++ b/Lib/test/test_httplib.py
-+@@ -369,6 +369,51 @@ class HeaderTests(TestCase):
-+                 with self.assertRaisesRegex(ValueError, 'Invalid header'):
-+                     conn.putheader(name, value)
-+ 
-++    def test_invalid_tunnel_headers(self):
-++        cases = (
-++            ('Invalid\r\nName', 'ValidValue'),
-++            ('Invalid\rName', 'ValidValue'),
-++            ('Invalid\nName', 'ValidValue'),
-++            ('\r\nInvalidName', 'ValidValue'),
-++            ('\rInvalidName', 'ValidValue'),
-++            ('\nInvalidName', 'ValidValue'),
-++            (' InvalidName', 'ValidValue'),
-++            ('\tInvalidName', 'ValidValue'),
-++            ('Invalid:Name', 'ValidValue'),
-++            (':InvalidName', 'ValidValue'),
-++            ('ValidName', 'Invalid\r\nValue'),
-++            ('ValidName', 'Invalid\rValue'),
-++            ('ValidName', 'Invalid\nValue'),
-++            ('ValidName', 'InvalidValue\r\n'),
-++            ('ValidName', 'InvalidValue\r'),
-++            ('ValidName', 'InvalidValue\n'),
-++        )
-++        for name, value in cases:
-++            with self.subTest((name, value)):
-++                conn = client.HTTPConnection('example.com')
-++                conn.set_tunnel('tunnel', headers={
-++                    name: value
-++                })
-++                conn.sock = FakeSocket('')
-++                with self.assertRaisesRegex(ValueError, 'Invalid header'):
-++                    conn._tunnel()  # Called in .connect()
-++
-++    def test_invalid_tunnel_host(self):
-++        cases = (
-++            'invalid\r.host',
-++            '\ninvalid.host',
-++            'invalid.host\r\n',
-++            'invalid.host\x00',
-++            'invalid host',
-++        )
-++        for tunnel_host in cases:
-++            with self.subTest(tunnel_host):
-++                conn = client.HTTPConnection('example.com')
-++                conn.set_tunnel(tunnel_host)
-++                conn.sock = FakeSocket('')
-++                with self.assertRaisesRegex(ValueError, 'Tunnel host can\'t contain control characters'):
-++                    conn._tunnel()  # Called in .connect()
-++
-+     def test_headers_debuglevel(self):
-+         body = (
-+             b'HTTP/1.1 200 OK\r\n'
-+diff --git a/Misc/NEWS.d/next/Security/2026-03-20-09-29-42.gh-issue-146211.PQVbs7.rst b/Misc/NEWS.d/next/Security/2026-03-20-09-29-42.gh-issue-146211.PQVbs7.rst
-+new file mode 100644
-+index 0000000..4993633
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2026-03-20-09-29-42.gh-issue-146211.PQVbs7.rst
-+@@ -0,0 +1,2 @@
-++Reject CR/LF characters in tunnel request headers for the
-++HTTPConnection.set_tunnel() method.
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes-devtools/python/python3_3.12.13.bb
-index 5fa25235fe..da7e3c604e 100644
---- a/meta/recipes-devtools/python/python3_3.12.13.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.13.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- 	   file://0001-test_deadlock-skip-problematic-test.patch \
- 	   file://0001-test_active_children-skip-problematic-test.patch \
-            file://0001-test_readline-skip-limited-history-test.patch \
-+           file://CVE-2026-1502.patch \
-            "
+diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+index 071cf959e7..d17fc3af64 100644
+--- a/meta/classes-recipe/populate_sdk_ext.bbclass
++++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+@@ -461,6 +461,15 @@ def prepare_locked_cache(d, baseoutpath, derivative, conf_initpath):
  
- SRC_URI:append:class-native = " \
+     # Filter the locked signatures file to just the sstate tasks we are interested in
+     excluded_targets = get_sdk_install_targets(d, images_only=True)
++    sdk_targets = d.getVar('SDK_TARGETS')
++    ext_sdk_target_set = set(multilib_pkg_extend(d, sdk_targets).split())
++    excluded_set = set(excluded_targets.split())
++
++    # Ensure SDK_TARGETS and their image SPDX/SBOM tasks are included in the locked signatures,
++    # as they are required during eSDK installation.
++    filtered_excluded_set = excluded_set - ext_sdk_target_set
++    excluded_targets = ' '.join(filtered_excluded_set)
++
+     sigfile = d.getVar('WORKDIR') + '/locked-sigs.inc'
+     lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
+     #nativesdk-only sigfile to merge into locked-sigs.inc
 -- 
-2.50.1
+2.49.0
 
 
