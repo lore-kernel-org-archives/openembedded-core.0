@@ -1,65 +1,61 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 309B6CCFA13
-	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 15:54:23 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14817.1777478057188603671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B370DCCFA13
+	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 16:48:37 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.927.1777481307901315735
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 08:54:18 -0700
+ Wed, 29 Apr 2026 09:48:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=lJrsqV0L;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202604291554138aae50c6a60002074d-cnfvsj@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202604291554138aae50c6a60002074d
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 29 Apr 2026 17:54:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=hbJCh+7JEt+fWZqfzrXABG+WNME61MR798BRrFIeUVA=;
- b=lJrsqV0LQkzbtncj0rp5+QBKcBPnRmJ7mj+jCemwO2Q7FjDItxGVZ06op3bV/Ic46x8kqq
- 1SjDXqUHeTkRwpuiHhYR6ReSM3fO2TqVdzkAmlL1UZkT46N/aO5m7BqVUeQt+ci7JJ1ZT3Nu
- nOL/AbZCmpeY04IJJYsWTsgNZOPpKrYZ4dJ1Ya+dXW0NjJadc1+DPmx2lw91B4O7uPpcYphm
- y+goS73Id8NHnQZHkV/8P3TKmeboTw4+pDdROxR5ieoREmHSZ24FAqPJd7XNMcgGepysiUXR
- L576A5UOuQY/3y+TjUpkQnnSmmPuPqv0wYajnoJD0/V2JSJ+wHj23KpQ==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=ZuNJ9QV7;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9CBAA1BB0
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:48:21 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A87F73F62B
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:48:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1777481307; bh=HRspzq76R9gOxQzWvTWUvbYY7y2HPBQF+s6TjOxVc6g=;
+	h=From:To:Subject:Date:From;
+	b=ZuNJ9QV7vBhEjtK+rJ9LpzY1utVyC1NAyRqop4A/FPDpqrWGjFxL+EO1HeQp0R9x6
+	 A03kAWekrWggwFNTVzveiCSIe2vaT8IGnTrEAfMxThNFEFI8RZdrvPbA3Orf6kdIEJ
+	 fj9uB6LiwzAJGcf2L4V6cUxNTYQ52g2PBKLI1Tv0=
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] libsoup: set status for CVE-2026-2369
-Date: Wed, 29 Apr 2026 17:54:04 +0200
-Message-ID: <20260429155404.205979-1-peter.marko@siemens.com>
+Subject: [PATCH 01/10] bitbake add firmwaredir
+Date: Wed, 29 Apr 2026 17:48:12 +0100
+Message-ID: <20260429164821.3425757-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 15:54:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236112
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 16:48:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236113
 
-From: Peter Marko <peter.marko@siemens.com>
-
-Per [1] this is fixed by commit in version 3.6.6.
-It is RedHat version-less CVE.
-
-[1] https://security-tracker.debian.org/tracker/CVE-2026-2369
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-support/libsoup/libsoup_3.6.6.bb | 1 +
+ meta/conf/bitbake.conf | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/libsoup/libsoup_3.6.6.bb b/meta/recipes-support/libsoup/libsoup_3.6.6.bb
-index b36976a2be..792cb26e93 100644
---- a/meta/recipes-support/libsoup/libsoup_3.6.6.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.6.6.bb
-@@ -63,5 +63,6 @@ BBCLASSEXTEND = "native nativesdk"
- CVE_STATUS[CVE-2026-1467] = "fixed-version: fixed in 3.6.6"
- CVE_STATUS[CVE-2026-1536] = "fixed-version: fixed in 3.6.6"
- CVE_STATUS[CVE-2026-1801] = "fixed-version: fixed in 3.6.6"
-+CVE_STATUS[CVE-2026-2369] = "fixed-version: fixed in 3.6.6"
- CVE_STATUS[CVE-2026-2436] = "fixed-version: fixed in 3.6.6"
- CVE_STATUS[CVE-2026-2443] = "fixed-version: fixed in 3.6.6"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 24e095632e9..181221facd6 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -40,6 +40,7 @@ export systemd_unitdir =3D "${nonarch_base_libdir}/syst=
+emd"
+ export systemd_system_unitdir =3D "${nonarch_base_libdir}/systemd/system=
+"
+ export nonarch_libdir =3D "${exec_prefix}/lib"
+ export systemd_user_unitdir =3D "${nonarch_libdir}/systemd/user"
++firmwaredir =3D "${nonarch_base_libdir}/firmware"
+=20
+ # Architecture dependent paths
+ export bindir =3D "${exec_prefix}/bin"
+--=20
+2.43.0
+
 
