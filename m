@@ -2,33 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB79FF8875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CADECD13D2
 	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 19:37:12 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4483.1777491422797661378
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4485.1777491425638566711
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 12:37:04 -0700
+ Wed, 29 Apr 2026 12:37:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Ydct4n8h;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20260429193659e5d109808300020709-vhm_6i@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260429193659e5d109808300020709
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=fjJLMcMs;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260429193703c8f71daa38000207c6-damf4_@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260429193703c8f71daa38000207c6
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 29 Apr 2026 21:37:00 +0200
+        Wed, 29 Apr 2026 21:37:03 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=1GajbPkDq9iPOghRlYPX67QoOYM3alFsXex7xM3Jffo=;
- b=Ydct4n8hGeCCZsqtW2n2j0k4EhSqNHkcb0tIhm/3QHO7LyLmm91/aXlWWEVVt3A8C+plo2
- RiSRjx3no633ONQhrOIxvyePX4gsH83DGW3KCA2WrpPhpe3bOxvnMc6gqg9yKHciKEZo1V6f
- Ua9hc8bcetnyvBGeUzAmvfF563YG74iog4xRxlOOP4wLfNxNIUgyUe8XKb97EIcM0t5Mspzv
- xCP+P5V3YLdP5ZYyMZRVE5l7s6rL6CRffM/HhmHcM5kY6voUdw30Cl6bwiieklkwSvCPTIG7
- 018pQvBaRU0deZru1sILIhjpkUVX1c4ANGbykEhcHJ0JF4zt9ZlS54Cw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=HHj+K6pJdNWW5fGL21Pobf2Qq5mPwoahqqRXv3f4vUs=;
+ b=fjJLMcMs9KXNL9g9DG9iFV2o5gPDFIxh7EGGbZvFMMCjP7xpx3w6Smk+BRdlmFXjDVhJ7B
+ we6YuZxCa1r3RQ7E4Rg9alRGryZtB4MqGG3UqN1F5gro6dxsWi0XvNf+n3CQV8LcvCTNDaLE
+ 8yzTni4F6u3FPb0KWx8PSAIWblDYpntzdjPjexFKNcp+HrckTMB9kd0O8eoUV6WmOUJEOUBX
+ tUfwn0bPMREMirGUj9xxXPbuVJ1fsCLdgB6a/vXvp+0TQdI6rGTOqSQDcLF+16tKqQABqIaj
+ 8LayggX7CZHq70hZ8Grk5gpYXRgevQaqbIT2qnTKACqXd8KGvAlcf1/A==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH 1/7] libgcrypt: upgrade 1.12.1 -> 1.12.2
-Date: Wed, 29 Apr 2026 21:36:41 +0200
-Message-ID: <20260429193647.3090502-1-peter.marko@siemens.com>
+Subject: [PATCH 2/7] libpng: upgrade 1.6.56 -> 1.6.58
+Date: Wed, 29 Apr 2026 21:36:42 +0200
+Message-ID: <20260429193647.3090502-2-peter.marko@siemens.com>
+In-Reply-To: <20260429193647.3090502-1-peter.marko@siemens.com>
+References: <20260429193647.3090502-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,75 +39,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 19:37:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236131
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236132
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Solves CVE-2026-41989 and CVE-2026-41990.
+Solves CVE-2026-34757 (in 1.6.57, as described in CVE description).
+Solves also regression of CVE-2026-33416 (in 1.56.58).
 
-Release notes: [1]
-
-Refereshed patches.
-
-[1] https://lists.gnu.org/archive/html/info-gnu/2026-04/msg00007.html
+Explicit CVE_STATUS is needed to remove it from open CVE list.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../files/0001-tests-Fix-link-errors-for-t-thread-local.patch | 2 +-
- ...tests-Makefile.am-fix-undefined-reference-to-pthread.patch | 4 ++--
- .../libgcrypt/{libgcrypt_1.12.1.bb => libgcrypt_1.12.2.bb}    | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.12.1.bb => libgcrypt_1.12.2.bb} (95%)
+ .../libpng/{libpng_1.6.56.bb => libpng_1.6.58.bb}             | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.56.bb => libpng_1.6.58.bb} (95%)
 
-diff --git a/meta/recipes-support/libgcrypt/files/0001-tests-Fix-link-errors-for-t-thread-local.patch b/meta/recipes-support/libgcrypt/files/0001-tests-Fix-link-errors-for-t-thread-local.patch
-index 8dc2fe328c..19a925c2c6 100644
---- a/meta/recipes-support/libgcrypt/files/0001-tests-Fix-link-errors-for-t-thread-local.patch
-+++ b/meta/recipes-support/libgcrypt/files/0001-tests-Fix-link-errors-for-t-thread-local.patch
-@@ -24,7 +24,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
- index 4800135..f0f7adb 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -98,7 +98,7 @@ testapi_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
-+@@ -102,7 +102,7 @@ testapi_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
-  t_lock_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS) @LDADD_FOR_TESTS_KLUDGE@
-  t_lock_CFLAGS = $(GPG_ERROR_MT_CFLAGS) -lpthread
-  t_thread_local_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS) @LDADD_FOR_TESTS_KLUDGE@
-diff --git a/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-index bbd48ebeee..090948c3c5 100644
---- a/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-+++ b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-@@ -17,7 +17,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
- index 93daf3c..4800135 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -96,7 +96,7 @@ t_mpi_bit_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
-+@@ -100,7 +100,7 @@ t_mpi_bit_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
-  t_secmem_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
-  testapi_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
-  t_lock_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS) @LDADD_FOR_TESTS_KLUDGE@
-@@ -26,7 +26,7 @@ index 93daf3c..4800135 100644
-  t_thread_local_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS) @LDADD_FOR_TESTS_KLUDGE@
-  t_thread_local_CFLAGS = $(GPG_ERROR_MT_CFLAGS)
-  testdrv_LDADD = $(LDADD_FOR_TESTS_KLUDGE)
--@@ -117,7 +117,7 @@ else
-+@@ -122,7 +122,7 @@ else
-  xtestsuite_libs = ../src/.libs/libgcrypt.so*
-  xtestsuite_driver = testdrv
-  t_kdf_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS) @LDADD_FOR_TESTS_KLUDGE@
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.56.bb b/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
 similarity index 95%
-rename from meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb
-rename to meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb
-index b3c0d050b7..1eb6c472a3 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb
-@@ -26,7 +26,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://no-bench-slope.patch \
+rename from meta/recipes-multimedia/libpng/libpng_1.6.56.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.58.bb
+index 7ede0a6c8b..630b489d00 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.56.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
             file://run-ptest \
-            "
--SRC_URI[sha256sum] = "7df5c08d952ba33f9b6bdabdb06a61a78b2cf62d2122c2d1d03a91a79832aa3c"
-+SRC_URI[sha256sum] = "7ce33c2492221a0436f96a8500215e9f3e3dcb5fd26a757cd415e7a843babd5e"
+ "
  
- BINCONFIG = "${bindir}/libgcrypt-config"
+-SRC_URI[sha256sum] = "f7d8bf1601b7804f583a254ab343a6549ca6cf27d255c302c47af2d9d36a6f18"
++SRC_URI[sha256sum] = "28eb403f51f0f7405249132cecfe82ea5c0ef97f1b32c5a65828814ae0d34775"
  
+ MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
+ 
+@@ -70,3 +70,5 @@ do_install_ptest() {
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++CVE_STATUS[CVE-2026-34757] = "fixed-version: fixed since 1.6.57"
 
