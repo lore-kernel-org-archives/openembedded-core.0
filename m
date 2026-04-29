@@ -1,111 +1,135 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BF27FF8864
-	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 07:24:44 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5980.1777447469505037823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE38FF8867
+	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 07:58:14 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6305.1777449492499925133
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 00:24:30 -0700
+ Wed, 29 Apr 2026 00:58:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=ckHP8nSX;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 375301A3470;
-	Wed, 29 Apr 2026 07:24:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0C53F601DF;
-	Wed, 29 Apr 2026 07:24:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CA3AD10729424;
-	Wed, 29 Apr 2026 09:24:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777447466; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Sui8xule5gRpcNXc2WZq6q74MqOwLEl01xCQCfziThA=;
-	b=ckHP8nSXw10tKa9vCqLXXkHhJ0b06qlL4RqAlLVTCqkOELBLr6JMBDtmvkB3gGNAKsz7HD
-	ubVd0VEGSfsBNhls/TJSKFIJq+B9jmfwxpJJg3iwRAuIDCuHgXe35ra2ZeFnLWtpjqSURd
-	27Y85cOXWayM/ksfS6iAdD7V1tiItZ2JUXQN6h9G29SgM8QiBVPUIyX2HqkkSA/nwf/+wh
-	dvFaDjoQEAfYmFgEkix5Ggi/twVklXNUAgr4XVUDlloaUVVP12xW1T6pKeDHn6dE+D30IZ
-	XXEvQXExjlvoQkXi8R+xcegkQDf3QqHkvj3EZPE5QpjSHTxzu3sNiFYEW45jww==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: 
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/6] sudo: set status of CVE-2025-64170 and CVE-2025-64517
-Date: Wed, 29 Apr 2026 09:24:25 +0200
-Message-ID: <guQOcvruSnqgA-55eCHYSw@bootlin.com>
-In-Reply-To: 
- <AS1PR10MB569741551B057DB782B91C58FD372@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: 
- <20260426185025.13217-1-peter.marko@siemens.com>
- <RRV3rhtPRj-XxHaMgbEl5A@bootlin.com>
- <AS1PR10MB569741551B057DB782B91C58FD372@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=tHNrkDpz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so87630765e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 00:58:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777449491; x=1778054291; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QBZF8RORLW/BckZQ2lywKEUKPfqQGz95CH0bNU0JyRw=;
+        b=tHNrkDpzR/CPEgIQKRC+xVIxvbZ44zcHEsH823KViWcAbIZ3idLXBGU1Mp2iN5503R
+         +VDTqjd5RDO/o41wSz78o4Ky32zBmAhaAHi6QyN5YaVB7Cm63w7V+wpyBH5jiGGK4GIZ
+         CswpRYFgESD+gJ3yObuYhxU58UKno7k6dsxUSvMiC00RJv0IrOoPk2x8HQGAOHDuqFLK
+         OBh7TIupfmMl3wrsMc2Y/rANUA9xr6UViGf/oyTgH4IIgki5fuFCH6wR+ZMgSx2J1z2S
+         qZaFgase5Ar1YeQZw/D7mHIIKOwtP5d3bkXOLrr8OllAodnfy5x3Oc91gphJ9hxX/9jt
+         FbUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777449491; x=1778054291;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QBZF8RORLW/BckZQ2lywKEUKPfqQGz95CH0bNU0JyRw=;
+        b=gscRyJawJQKYkPw3PofD9Z2vu3zF4TsxTlaXlClM6StDtW7K6842gum9qFgD7xz+7X
+         coHRbh7J+bOENVHckN3mwvK5tH/iuByKtElnvcDOhPwYGzEYOXf8BD66dhXq9lvYsrfM
+         H2SB3kwOaX7ieA+EZt6ZWXsyGH2seMrYBaLynbC99vhtuSplOzei6yNFZ7TtNvvPwxA5
+         QyPoTKxhg8pgJwmLs+GW7RJV6l1asejfjMJ5LcVPBSGsKZw7ptKtXVk8H0+AGnOULkOs
+         yASe/TFUrZE6r9Rh/j7EGUGL7FjtwcCZqVV/nx5YyKjAh4ZRUKOqOlxqAR9Kcw0Xluld
+         F6Nw==
+X-Forwarded-Encrypted: i=1; AFNElJ862DEV7HZey0NAcz/RkvQCbpRb5AB3sOhY3kx2Gm1ZsDh0wQ2snyJ8/0EzFC2g0qQt9on/uryw7w1X8GhiUB0hBw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzokaRHrwiHmN9YxMGfWCF4GcHO4y4z8TlAZPfSdXp2/weBe8hA
+	2KE5Zh4j6AoHKSIcE6MLr+EVCs2/52zM94hi4eGFvlAOmIOlvLdtifa5
+X-Gm-Gg: AeBDiesFaOjtctynH+gEYMvkkq8/qHM5k6qv13hkP43gmEKNbkpoXGul45qFhu1kO2Z
+	3Szj8xgTeLmhPAfLbMXPVx6SHJXHgkpdiRcFeKKQXqdpCbjgifljVhtrLWWl9DQjoLnVJRnIzx5
+	0LmQf5uTfmoyV4X25fIOMB08XIzf5Eu3ae+rajO8ECgriUK4qS4BFKuzJX86z70XGeq1Ig+AWkW
+	7P/hrjgCP82HtZlzXtD5dsnNR+dfTQeGD3L36ccC4QqML9bxxvLG5WPEYEQzHCUTSPLqHdCrbWo
+	wrAXA0nt6iMm/yJ2wak6udrhceuPr6zkAEpQv6fZO809bWR36HFup+czlQ3eaw7GmcOKpDTLeVr
+	LIluNAdz2HT5W9uOAvqkOv6DlWv3Pmc45GRHuZxJswjiNNxZo0FvS4mHB54lFaKfwOhoHuefTdK
+	NLkkKdGf297IjK3MvlyqC/1OSSHqNDKwO9Yrz1z1xuHIVK2TqiEZGsAYnv+Gkg44S9
+X-Received: by 2002:a05:600d:d:b0:480:1c69:9d36 with SMTP id 5b1f17b1804b1-48a77b1333fmr84523505e9.17.1777449490422;
+        Wed, 29 Apr 2026 00:58:10 -0700 (PDT)
+Received: from [192.168.2.123] (95C81E23.dsl.pool.telekom.hu. [149.200.30.35])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7bc23ffesm40177145e9.8.2026.04.29.00.58.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 00:58:09 -0700 (PDT)
+Message-ID: <73dcaf57-8629-483c-935b-0abec14656d4@gmail.com>
+Date: Wed, 29 Apr 2026 09:58:07 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 2/2] base/bitbake.conf: Rework DISTRO_FEATURES
+ and MACHINE_FEATURES default handling
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20260423133340.1954703-1-richard.purdie@linuxfoundation.org>
+ <20260423133340.1954703-2-richard.purdie@linuxfoundation.org>
+ <822efc1b-68ff-4d95-adbf-15576b653a55@gmail.com>
+ <1d912b5e73c5ef463eaa1c7e0dfcf8607767efad.camel@linuxfoundation.org>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <1d912b5e73c5ef463eaa1c7e0dfcf8607767efad.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 07:24:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236082
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 07:58:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236083
 
-Hello Peter,
+2026. 04. 27. 16:26 keltezéssel, Richard Purdie írta:
+> On Sun, 2026-04-26 at 09:28 +0200, Böszörményi Zoltán wrote:
+>> I found via git bisect that this breaks my builds.
+>>
+>> It breaks two things:
+>>
+>> 1.
+>>
+>> With DISTRO_FEATURES containing seccomp (e.g. when using
+>> meta-virtualization and/or meta-security), this libseccomp-native
+>> is not found by gnutls-native anymore. Sure enough, the libseccomp
+>> recipe does not have BBCLASSEXTEND = "native nativesdk" like
+>> gnutls has. So this change has at least some good points to
+>> point out pre-existing issues.
+>>
+>> 2.
+>>
+>> A circular dependency occurs:
+>>
+>> ERROR: Task
+>> virtual:native:/mnt2/zozo/yocto-6.0-arm/conf/../layers/openembedded-
+>> core/meta/recipes-core/util-linux/util-
+>> linux_2.41.3.bb:do_create_recipe_spdx
+>> has circular dependency on
+>> /mnt2/zozo/yocto-6.0-arm/conf/../layers/openembedded-
+>> core/meta/recipes-core/systemd/systemd-systemctl-
+>> native_259.5.bb:do_create_recipe_spdx
+>> ERROR: Command execution failed: Exited with 1
+>>
+>> Adding INHERIT += "nospdx" does not fix this and none of
+>> the layers have any bbappend that would explain this.
+>>
+>> Using the preceding commit fixes the build even without adding
+>> the necessary BBCLASSEXTEND incantation to libseccomp.
+> I tried to reproduce this by including meta-virtualization, using a
+> systemd based DISTRO (poky-altcfg), setting seccomp in my
+> DISTRO_FEATURES and building both util-linux-native and systemd-
+> systemctl-native (and then world). I wasn't able to reproduce.
+>
+> How do I reproduce it?
 
-On Tuesday, April 28, 2026 at 6:51=E2=80=AFPM, Marko, Peter wrote:
->=20
-> > > Benjamin, any idea about this topic?
-> >=20
-> > Yes, sadly the CPE of sudo-rs is trifectatech:sudo.
-> > Why this is the official CPE of sudo-rs, I don't know...
-> >=20
-> > What it is happening:
-> >  - From https://cveawg.mitre.org/api/cve/CVE-2025-64170
-> >    we extract vendor and product name, then we look the products databa=
-se
-> >    which is built in sbom-cve-check.
-> >  - The returned CPE are "memorysafety:sudo", "trifectatech:sudo"
-> >  - Then we check if the CPE in the SBOM matches with these CPE.
-> >    Currently sudo is declared as: *:sudo, which matches trifectatech:su=
-do.
->=20
-> Hello Benjamin,
->=20
-> I will sent CVE_PRODUCT update to get rid of some older sudo-rs CVE.
->=20
-> However for these two CVEs, I can still only see "sudo-rs" as product, no=
-t "sudo", also via link you have provided from cveawg.org/api.
+I only found the culprit today.
+I had this lingering in my custom distro layer:
 
-Yes, but this is not a CPE. As explained previously (see the steps detailed
-above in the previous email), using the vendor/product names extracted from
-the associated field, we look in the products database for an associated CP=
-E:
-https://github.com/bootlin/sbom-cve-check/blob/v1.3.0/src/sbom_cve_check/pr=
-oducts/products.toml#L1688
+DISTRO_FEATURES += "${DISTRO_FEATURES_LIBC}"
 
-The associated CPE is "trifectatech:sudo" (which is used by the NVD databas=
-e).
-Why the NVD database provided this CPE, I don't know... But this is the
-"official" CPE for sudo-rs as I am aware.
+Apparently, DISTRO_FEATURES_LIBC was dropped in 2019 without me
+noticing it and nothing was warning about that I was still using it.
 
-> Peter
->=20
-> >=20
-> > The easy fix is to declare the proper CPE of sudo using CVE_PRODUCT,
-> > which should be set to "sudo_project:sudo".
-> >=20
-> > This behavior is documented here:
-> > https://sbom-cve-check.readthedocs.io/en/latest/design.html#find-applic=
-able-cve
+The circular dependency problem was gone after removing this line.
 
+Please, add this variable to the list of obsolete variables.
 
-=2D-=20
-Benjamin Robin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
+Thanks!
 
 
