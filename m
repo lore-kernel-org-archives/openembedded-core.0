@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6900FCCFA13
-	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 19:37:12 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4540.1777491430668408517
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 564F5CCFA13
+	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 19:37:22 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4550.1777491437162002096
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 12:37:11 -0700
+ Wed, 29 Apr 2026 12:37:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=bF3yOSmK;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202604291937086785e7f45900020743-qnkipp@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202604291937086785e7f45900020743
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=jpTRxCHo;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260429193715ae95c5e78e0002075f-zw2lve@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260429193715ae95c5e78e0002075f
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 29 Apr 2026 21:37:08 +0200
+        Wed, 29 Apr 2026 21:37:15 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=rz16NynGVVGcLscGi2TLWm1dww0KpGY8q6gD9m5XbZs=;
- b=bF3yOSmKTfDGXPD0E8FwuVYMJ99f1elzO53INhOKOZsc85WJkyZHE2iQIQLW8mVgVHh7L3
- iTB9XYFEoNkvn/r9O/hgz6D7VOtleq8bjSOxNNGJOko2urHYJFo3g7xrz9ebZvwtqIcZLKto
- kvDLpb3i0BtudUUDctZmFSIRgLX0bMGSKi1XB/L2DMJCK0umwGINzIfnVYMmR44JN2V0ycoR
- olHROaWBJzjmDHa5QQXei6SfZVGf91d6ORgcNcAPkMgMixRs1itFuRe29BWUiPCCTh3IBCtY
- eNdhmazT/tHSL/qF9q91ogNiL4eX7+83rbjC6g/9j9n4xYquegFGX/vg==;
+ bh=cs3cBzvJCnwWvJHvqtopa0GMiaKx6ExjpxAYuvCm3xY=;
+ b=jpTRxCHoNySuNJGS8alVaiWilESR1rTBzdMxR4ke49e8lrfrXZ14uzhNNUStwidqwUploa
+ 8bp2b851uxKp7t2RyzXo46Ba36/aD+y/YgARCR0g2tlXNXdZsREHl79488V2HhkH/W8atu79
+ OSluZAHBRN3VG2i55KwS4nt8fNn7Lu24an0aIFGB0/ARHdBrqaJr8iXB0WWWpydzgTE0i5/j
+ U2C3L6SHy3cbBfd7xyPWfQGm0k2lsD56938R6iuwmH2WQK1uey7mmp1viYgHANozagmBIiEe
+ dCZNIIhkv86opPOU9ZPhTTdQFJsmusgpqS18inYG3O6WAGiYR7uTzbOA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH 3/7] libmicrohttpd: set status for CVE-2025-59777 and CVE-2025-62689
-Date: Wed, 29 Apr 2026 21:36:43 +0200
-Message-ID: <20260429193647.3090502-3-peter.marko@siemens.com>
+Subject: [PATCH 4/7] libsdl2: set status for CVE-2026-35444
+Date: Wed, 29 Apr 2026 21:36:44 +0200
+Message-ID: <20260429193647.3090502-4-peter.marko@siemens.com>
 In-Reply-To: <20260429193647.3090502-1-peter.marko@siemens.com>
 References: <20260429193647.3090502-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -38,31 +38,31 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 19:37:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236133
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 19:37:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236134
 
 From: Peter Marko <peter.marko@siemens.com>
 
-This was fixed in the same commit includeded in 1.0.3 per [1] and [2].
-The CVEs have dates instead of version in CPE.
+This CVE is for SDL_IMAGE, not SDL.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2025-59777
-[2] https://security-tracker.debian.org/tracker/CVE-2025-62689
+Mapping in sbom-cve-check tool seems to be wrong at [1].
+It maps both SDL and SDL_IMAGE to the same CPE.
+
+[1] https://github.com/bootlin/sbom-cve-check/blob/v1.3.0/src/sbom_cve_check/products/products.toml#L1608
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.5.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.5.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.5.bb
-index cca3496a19..935fbfcf89 100644
---- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.5.bb
-+++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.5.bb
-@@ -25,3 +25,6 @@ do_compile:append() {
- }
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
+index 834cf096b9..2b583448ef 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
+@@ -85,3 +85,5 @@ CFLAGS:append:class-native = " -DNO_SHARED_MEMORY"
+ FILES:${PN} += "${datadir}/licenses/SDL2/LICENSE.txt"
  
  BBCLASSEXTEND = "native nativesdk"
 +
-+CVE_STATUS[CVE-2025-59777] = "fixed-version: fixed since 1.0.3"
-+CVE_STATUS[CVE-2025-62689] = "fixed-version: fixed since 1.0.3"
++CVE_STATUS[CVE-2026-35444] = "cpe-incorrect: this CVE is for sdl_image"
 
