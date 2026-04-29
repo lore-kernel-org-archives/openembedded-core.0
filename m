@@ -2,39 +2,39 @@ Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59324FF8875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 545EFFF8864
 	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 09:29:31 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7614.1777454966405946223
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7475.1777454965541312169
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 02:29:26 -0700
+ Wed, 29 Apr 2026 02:29:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=K6rPiQVf;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=XZVD4TAU;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=957907c96c=sunilkumar.dora@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T5Z2hw3625614
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:29:25 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T5LhGc3603015
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:29:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=qa/lCF5danJFbSvJbSR2d84fdQl9Xg/yzyyzGLTMRLA=; b=
-	K6rPiQVfBFY8BoByXbeKxIuSLa7gwsQGUisKzdNIooxFWhpZ+RISpiE+bhpY+7Kg
-	Kjif+8HIOIGD28lnDmr1YPHl5YLgXF+KGGMDmJBbHvAXKDAX7eC2aHXUMesYD4Df
-	liGGZupEpy1K+OB7VdEaEXMpT/HHYUbmvksuOjMSb7wnhzbnrI9Ow9ixMI3gu8RO
-	pL77SAqZnOuwoAIp1qBTP5Bz37a0KuyX87O4ctXiHhKuScSrF2eCQgdgt0ktr6NN
-	giLAzfNxbng+gTAs6161ZVw5FmXHSwktfFOQNQ+iFxll68Irql4PrWKeEqe8EJQz
-	Y7NUkLwEdsFdn2OzuDW4+w==
+	PPS06212021; bh=GOha6BP7Ns4ETJJWlG/FnqilozMH4tVfUyfTCtYlV7g=; b=
+	XZVD4TAUcyrpTecEfjmJh5D3iY1oh9+ruMjG1nFN6eNQOFbn6Qh8Fhz0UFLVKxfd
+	DGj/2B3BE7IIdbWF/2lhOKJCmSfy/Hn+f/lfEAxTv5JHFix1iQXoPamRdCBRAEEi
+	+E6jqUeZXQ4SLWDd1lP0xAK6mZqa3U0Dh0k+hZInMxPyn/bCBCL+WqRieWuoCAlm
+	utxSAIlCxph1atcKGXifgqIvbOiOtSKpFrZrhy3dxp7ivLQwF3lR9WLbmw2n0L1x
+	P6suZdgDIGNXeeRTb6QmEMUNiSz9rgfedfXL9ab67tGih9MO5ImoAN3AmdPKYJ+N
+	OUVkq2rSOQgFZoAbE2JUOQ==
 Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010018.outbound.protection.outlook.com [52.101.61.18])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4drju0csan-3
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4drju0csan-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 29 Apr 2026 09:29:24 +0000 (GMT)
+	Wed, 29 Apr 2026 09:29:23 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DtLCQsJq2TNulGxP5Ihm5N8fkFhR5XBHz41SkpnwfsKa9xdKKYEqmWWpq9x9eEl56NhR5db6iPJKdzVp5XEebEQ4Cu+HXZkj0QCvl372OJHLThlOwNKxOdQTTTx5Hf00HnT/6/lUz49h1GywaFQiKG+LFnSouKdqfsDnILQAjRoqXDFmfJIfztfgNuqJmG5j8VCY8OtTHL/3TFlRGPQqYpCAp591ZDD3TiCVk0D73WtffdOgg0K8TS/qRC0hzSLy9FS5NTIYgPEiWtFcB++HV3t61lRsCJ4cSVMMet+FlIn0JLq8tG7OwoUMFz5RPhNbhDndSBrjEj0n7NPwqwM7Rg==
+ b=PqPzwyBOVY149PJEHA6Vu2yJt3bF2do81bPBc+tAxvjVhN5FWgUD20sp6tbibNdm/DihNifC7Ps5yrGQL5lS9vk95CVbxpYPWCcKS1RJRdNyXnOMMIlOs2up/KGLmKyxKELhcSv3UXIiOEqkRXvXv9X3LMjpGURp7qsm2mLDbkE3RVNYmMdiHUpXj4C5CIuNcmEFkLtu6taPt4QRhQevpiJoN/jUQO9yY4sD+WP5hRqPTck9vEr668oaLM+fT40NdHd6XxWnsojL0d/P3vxxn6+FreBYxsOLQ77exugh7vW0xvPk7n8NRe7AyJm6F0lmC0eiHYpzN3pxEEKgzW5Xiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qa/lCF5danJFbSvJbSR2d84fdQl9Xg/yzyyzGLTMRLA=;
- b=Zvduj3+zK1jVnQhrNauicDBSf3d7nHglCbhueUqVT3udoUSPXEjUqiTJmAJuSufw5eHUljcjiO6cMC6ehxHoRJw6qQGnvZly/ei3qb18N4UrDN/0Dyvo1vB4q1izS7AGneBafz7B50bq3/Vljstw8fcMNzzCjcF+n/mfEUhxVcVvhP/2uJjbvBbdoqPId/lVc3jV+ywU8HqVRX2NieMJHf7ntVjGIn9vkMVqxYgniW/KO4AdDy7ruRCwTvKJPO7Kyr8cC7UHCVZLWIZqD8KF5EycwhIP01U2uODG4Yjc/wj+5u8cwol9vrUBcGb/FZp8rGFsBGVR/Nm0f2XeesOcGg==
+ bh=GOha6BP7Ns4ETJJWlG/FnqilozMH4tVfUyfTCtYlV7g=;
+ b=UxJacy1Nt82uhal7hN1X/5xDGN2p42oAsU8+B7d+IhmlUYxQIjIAslHVClMjUAk1mJ17A30qoWkiAvFqHM7RvUhSt/DNjaAy8p7FnkvNVfZ38OSaBYT0Vq+klFWlwKoEgszxa2AjH6YQI+aDOCs4WB84sqJ6Z3PSIzyvlSsTR3Mbsb+mWctM7UPCx+ANH9RJnlSv4/yku+p1uyXTRSbEWCScTm9uKKxaKzuI2PgC4gUZLSw4sagAVXLVwTWnHHorZiaVB0v0Skyhs2TrLkzIBlenWDaYRRLA928vs8oVVbUV7EnP1kskbKIpkQfCHRF1RmxLcdQLKy2xvESbA0A0uQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -53,9 +53,9 @@ Cc: JPEWhacker@gmail.com, richard.purdie@linuxfoundation.org,
         ross.burton@arm.com, saul.wold@windriver.com, hongxu.jia@windriver.com,
         Qi.Chen@windriver.com, Randy.MacLeod@windriver.com,
         Maganuru.Jayasurya@windriver.com, Sundeep.Kokkonda@windriver.com
-Subject: [PATCH v5 2/2] populate_sdk_ext: keep SDK_TARGETS so SPDX/SBOM tasks remain in locked sigs
-Date: Wed, 29 Apr 2026 02:29:00 -0700
-Message-ID: <20260429092900.2205617-3-sunilkumar.dora@windriver.com>
+Subject: [PATCH v5 1/2] create-spdx-image-3.0: Image SPDX/SBOM tasks are retained for eSDK installation
+Date: Wed, 29 Apr 2026 02:28:59 -0700
+Message-ID: <20260429092900.2205617-2-sunilkumar.dora@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260429092900.2205617-1-sunilkumar.dora@windriver.com>
 References: <20260429092900.2205617-1-sunilkumar.dora@windriver.com>
@@ -67,60 +67,60 @@ X-ClientProxiedBy: BY3PR05CA0004.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|PH8PR11MB7023:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f6b7590-fa24-4fe2-23d4-08dea5d1cb75
+X-MS-Office365-Filtering-Correlation-Id: ba1c7fd3-36b9-4861-7565-08dea5d1caf7
 X-LD-Processed: 8ddb2873-a1ad-4a18-ae4e-4644631433be,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|56012099003|38350700014|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info: 
-	PMc5vD2iDu4O7EF7EoN5nxJFRSeAp3igV12POmwiJw8F6hThnuetAeTaLKItxy3ftkLMx2Emj2KcuxnPJVnyxjwz7XKxeKZAkKP0b7lUUeMZgbYmGmBzi1POn95K5fzNAEKIlHSzHlQw+2UyTGDqoNYieNorONmcpPxEpRPaGZcFQbS99h+nyHIqmZTKvRT7Nta1elmOqkEhzcx7ATM6bx4hLSc34P3dkEP6a/o93LbCww/Ta8XPn5pwNStHb6twjwR6qcIk7GW8QcWjl4y4bofiZxYMlvUveU3LWV+pIR676t+2PFGPrnzio+uQGGi5IR9UgSGUVO9kMP7vMyOAYOSYDyEx9yqGtSyCvaTrsUsY5bo8daeSkGB/6t5y1v5ussh4/EXAeyzGArUUu/BsB1bDuObVRxHAb+P1Ydd7IEtldD9c7heUc96/PqINToZUyBgtcoWEE9Xr0kZxnKzrSmZ+J/F/UlZu+ZrwtqO+Uh6cD0R8Amx2pLNu3/pNMGSU+tpSvh8PhqFYkomsnCPue69hlQ8gZpVQEfYM4rGh1hhMldl+q9yULqpoSqqcHWA/a4UtJtQvvXTKBPemhquOPmcgmed4tuM1BWtxgKFKVYoeoOIGfGpV43zHpNAKF3LdZ6PpHGUJDn/A7fJ3pdtAdM3D8QsMJ9+TJKsUZvlknpI5+SBydEvUCep3PUDdohloBdKuFJ2esAlBYX4byVCb7VOVfSIIUAjP6gK8tKNtKv6YOslk6L6OeVyNhMUEn9Hb1YUcKiRramidMGOoF828kMxSbj04tA9MgoKQuTJt5lk=
+	e1W7Sbw9ZvwVR9H2BQmCcmULcbsJHevKHIFz6CvTF351/B7IMgNkSEJpjtGerl46XFzGrugo0il/hu7s+Lv5aniyU5A0o/GBRbVMLfFoTcAqApHi35kV3brd0XgpZFALv3ZOo6WN2kXp1pkiMK5M0c1MysKRoZLJeJ6Nj8S+DzbgT6w6uU8Y+B0KiQjV61Sf6mdT13r4Elts79bULX7BovTvNOu7piF0eN0R3pKLbDkkjbbVOU6HfwWtya9jzUX8W94LMiRbqQhwh8/Yp3zN/wI9myJavmPXHwPNGV7NMaVKp/8AG1boAt8pS7FeKQeSGFE2I8hLCEtyYuI842GBmnEsKsr65SIZyPpuL4TXu3gmZlfF4s1fq9rq2USPcnCVBqX64ZtzV/HJnKxCsauziNWlK4KxNQzPDGazgxMFry1HVW7/r8Wuivy/aFdeBYXPS7+gYBDlNAGtfmYJZ6WwXgg1NS1Ge2mkqSHQhxlJm1t0dQvc01AdpNQ1HgpT3LO7SqORYo6gAFvz9s7Fyz0etUv2QX8TGDvy4KFZQzqkUQ/RzHbjiFlzBXOoY5PJONTbTsgKC9EJ/BDvv0gbemGq47EG7gPi8sf3HzAuMgvInBbu0yTRK0q30Fn99WP39/foLoZs85uJ3cfLji7wZh/46CYRBFQKo4Z7lMaJZRhi84wG1wO0Uyl7vTKIwBqFrnQ8l7Mh98Rk/CrpHQDnNDiXkUTnWuDVOp+J1y+fSJTn3mKoZqgh0ol/PMBFfCbtylEYNP+sEG/5FwpXLNkTHkUfURV0vPspIfrebeUL14AeLj4=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(56012099003)(38350700014)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?sYCkxVvvl2xf+pnTAAbIJpSQFywuMrS7N8/dU5VFBc8rxwCysALS53p866vp?=
- =?us-ascii?Q?zUw0cIql/wqPhnc1UyEbszCxjs6qNrla2QtzJJcB9e2TCEv2v6JKqf13/pFD?=
- =?us-ascii?Q?yueX6ZY5lXGrQPh+LukN7Kqr9tekWcEvnskTFFoxMwFyLe1gwncwZnd8Tyri?=
- =?us-ascii?Q?xH5LbJzB7bn1kgA/ErWUmHHwYv3dnfYcVjd7qvwZni4lWOL+f0kYKZ4xtJMG?=
- =?us-ascii?Q?SEoeqrRssFRhQhn+S1GvrupvVztBtyzCKz/MhG2mE3WO1HEznxZUec3+11mr?=
- =?us-ascii?Q?kUA24Vu7c4wziG0/Ea/ykCYQPvO1aHa8V9Rj+J/f9KE0O3pXjMZpOjUB3vrE?=
- =?us-ascii?Q?+y/nfCAv8Pe0eMDs5OYsYWvi6LdXk+b1ayD94E7qYd5jDTgvXZp/cZD87K+B?=
- =?us-ascii?Q?MzXjKCiYct2nMimOoTG1nWELqa8nWASUyh4tBV5sWu8G5/aMHBOTEBEmqCrM?=
- =?us-ascii?Q?CeVpkWREeuMSzp2UZ/HSUAGzng1x2qVSEcjjFFl2Kp09AuCErNlo5RpAjd6A?=
- =?us-ascii?Q?zXaSeNxLLW9iVd01Pf2KnA0Oqo+ufIFf1BFc+LCSlegkqsvhgLhHkQ5NW1XF?=
- =?us-ascii?Q?SbKwm9DjMjKLQgwmBs6xriae3r5YRG6P9YcnRQg2R4BVk3g96AnhSV9JBZ1p?=
- =?us-ascii?Q?j+ND93eCW0IkyKbbXcypZWnqhMpDiUL7PoSN3rjKiNhj62OORfU0PjmyqYxs?=
- =?us-ascii?Q?xPh1QDMtZiWuTyyBoo1dm3NpK4PWbVes0oADVZ2bt4d0zFns3ZLiiDzGiXMW?=
- =?us-ascii?Q?vVq+QomuXN7ptKAQEZWFNCkPcGGI1jhNISjR6OW2wXYiHZQo4aig39Vwsbab?=
- =?us-ascii?Q?IruHl5bOtLlebvuoLNWeAdVL2Qk95+gBP+Dxn/NPSzjkLnScPAlrWeSg6DBt?=
- =?us-ascii?Q?iLzBtRH2u/AUHoxxqqSnh8j2s8mX2pthBPi8AhyDQ1GKvgJn4Qb28hbWRWTy?=
- =?us-ascii?Q?HWl92HFMfCdYCgC9LEmQBgji91Nl7NTtycgCVMvwoTxEYTjXzLbt2QVugTLH?=
- =?us-ascii?Q?9BlWt4Wf6WJcniI/SiQP6MOc3oDH8QXYz4uXyuftOXafO3UKgKW+rwT6DxCF?=
- =?us-ascii?Q?IUp2MYGcAdXn/g1jo1c2uM5EH5Q/tY2GvIelOBlqpEDPSRddJJBlhUdOIOtT?=
- =?us-ascii?Q?9QjrvObQhbLzj2rkG+eGj6LA7e4t1aRnklnl8jDo8vBUJmqbaGjE9NuFv8xW?=
- =?us-ascii?Q?Jp7HjDAqcAxzwKKEYZazI8KfKy/gtpvtBpXTjH6EJ9y0ZYkh4nUN/5aNk6v9?=
- =?us-ascii?Q?5WB9cg3rFbTYb377aIW2D/lLO5gYAce7rMM6wyemj9XMtsyMsge3/pYA1Y8Y?=
- =?us-ascii?Q?SYqpgUAmxsg5Ko9R9L99E+NKhsCjNPMtZNJRcMqK1A/UYlEUg3dD+cN2D+AI?=
- =?us-ascii?Q?Zce77kUGwv/SEE/P9gNXRZC4lIY3ww8Lpk1yXW2/rEEr1BmO/znFCszH33he?=
- =?us-ascii?Q?vfnEX9onU88S+q1APKO4VLdQjuEWkSSaAXVz8XAZEpNCuMdK1SrVKG0JaPNT?=
- =?us-ascii?Q?cZer6sLe1xE6CKHHZh/22pAwc4sd27sYc1mMEikwxNpkGmKnm5wOPKmV2HVl?=
- =?us-ascii?Q?oOdNXD3gghjI18rg5BFnDfCn8ZEwYl4shTUGsLZK8PWaHU9kButQXvT+J/+5?=
- =?us-ascii?Q?3YcSD6Mj2noe0/Tv/O0vRXBYkjW2zzRiygRZwBusGSzbluWoqmeJel0Cf2zh?=
- =?us-ascii?Q?+g+fUfSFDJkk3K0RBN2v6I1qkkV9tSve9TrHc/FOAv3MeWZrsFS3DJ9yPoOm?=
- =?us-ascii?Q?Gcg+lEBpudq5dsZVVSdHe0CF91x3TaA=3D?=
+	=?us-ascii?Q?HeZff/WrnoAU7F7QakeGlKMZaNwmdn0qcN6emTZJaAEyiW7haq3wO/lgigr4?=
+ =?us-ascii?Q?tiU2oAHpS5EUFY5d+pUQE617kzwmXCYTsvj1pvXvlnwC8DcVgwGaRzRN2sXe?=
+ =?us-ascii?Q?ONUH1Ezq3Yi6kJYsx8OIezHZkrYGz7WIVPhA750HX/K3BxOzLgBO/uhZohrL?=
+ =?us-ascii?Q?O5vtQ9dWWFN7IQeVraXR7H+niVdPliOOoCKjSk1x0K9w/KCrUr9caGb/fYXa?=
+ =?us-ascii?Q?PuXzNZKDRuOvJxgfBuULYnayPhMLV4eTHne76muN0g9dmmPc1TbI/cR7R0sQ?=
+ =?us-ascii?Q?oCXXnqdcZ58bFuACgOJz9srr0wEmUSEDAlVADu+ifbwmo3wy7SdGs+kna4vW?=
+ =?us-ascii?Q?gnSz/0uA5Grx2H2TIubxwURXb8+nt0THpp0pBlcVlgCbgnMe40umVlJnpiUm?=
+ =?us-ascii?Q?67Py7Z4bsXLJX8pxbqaUYFwI5hKikBc5EsT2edrrnj98n4Wky0nqXM9uQMZS?=
+ =?us-ascii?Q?Aa9EWdvxpjAcyyudE61bt7nuxfHAl3MDw8Magm8hFGZTnLJf5vXOafiJ2A1H?=
+ =?us-ascii?Q?ddi02C511v8RF7HBqnL/1qh/2aIdIf4pMC7hgWE1qbukpMxtGauwF34LjVHi?=
+ =?us-ascii?Q?YOEywDNFzVW1NgNCX+qUAIDPWgESam4TG1p3zlbLlx5m4m+8JeAJW5URO0sa?=
+ =?us-ascii?Q?COf4BTa4xu6Awn/sUXSGz4cVhLN3Se9ZaTe2HWjUOFk9Jq6DG4n2jmUk6D+1?=
+ =?us-ascii?Q?cTNlGe1y5v8VXUOqcp8j5aolhfzNaUb5Whdiv57AZkztWzjBnTKOG0wbWgsQ?=
+ =?us-ascii?Q?r371gZd7c479YlEtvBK1ptPe81qTnRScTd/4Mrga3FVRX//97PZRcQmXGwjj?=
+ =?us-ascii?Q?qdazG/goGDls/NCDRPDZpdzWgiBbaz8sxF5k4Hq9gdFEBtczk5wJf06mnpEJ?=
+ =?us-ascii?Q?WHm9ue8rAKlUpFUeVHDZFSnZdDHTxrNQh4aI8BoD78XfNcAh1H4eS7W5QLm0?=
+ =?us-ascii?Q?FxAE3pnPihP9HPFZzKfJIwxanCFt62mNhBKrfqomNgQaOi1+EKxcBtZCoYfl?=
+ =?us-ascii?Q?PvYTeAlaN/EkMQl0jXq4CKw67aAt23QGEQF9XTVsAtnpzRi+u6ZARFhCuXoh?=
+ =?us-ascii?Q?BrxRqxa6cfpQlELYYZdkfS+tDBp2CREgmhq2iiyGx8f333eaX8mrC/mlFouA?=
+ =?us-ascii?Q?iFBRX7R8wesx2D8PH+6kewD5xWV1fCF1YN6vPEvUhI48f8WeujRrcCP81+NK?=
+ =?us-ascii?Q?KuDYWNpd7nquLcRe4QLaGUzPzGRVsCv6wM4SVsPT8RPl4F4wGSPYHaIBfz4O?=
+ =?us-ascii?Q?05wGaztJvncw7BYx0O32BzWPi1LdhyAIsXBTVMZx5BO2z4tqgt+j94b/+TCz?=
+ =?us-ascii?Q?kIfgcUo4jBOtdF3rCafICJyvpQjHRjt32LSd5LKF24JaKY0oheH9Rc7smSfR?=
+ =?us-ascii?Q?MYUB4ZoNiA3vUvLwEM9dnVxPvuJ9URBpL2m3Ux97WoW4chvKZiQxASD4+VZU?=
+ =?us-ascii?Q?95NKJ2oF3pmX4VeHOyOqeLy329dOhfdmxJ/ZU8OU8SRh/F2I/RKWOjyBgH+0?=
+ =?us-ascii?Q?VHCx6QU0UaBk6eZ30RGCMZS7S9dTzVxWYwtztLJSmIr69q9cgwTSaxkGi2AW?=
+ =?us-ascii?Q?U+zgG3RfyBuEkE9lyolyTT96qaeFKwtofOdC9u3o8mvJv3vHb9oiKYrlBoEF?=
+ =?us-ascii?Q?sKrAnCjjr0b8+qbI5P65+FhxNrdbw6/EEOUlum5CMrfeQrQrMbrjvU4sXGT7?=
+ =?us-ascii?Q?FxFu6h2/nxnrJqkJEuN57y0IlF7z6tOyV/O3ZG3x1JCgSft3U+ue9EJZh2Wk?=
+ =?us-ascii?Q?xQ5rKLjnSyQvs5DXD0WCznHoC7jo0kU=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	jkK4fs4ZSz5dRfFhm6SxwwCUpO8QtGm9V30c7U0+KjBNUjSrxP6KJvetJXmPxvh167YTo+ndEjFsTZsbj/D0Y9Hd+GTCclK3ZwUcQTIY5HnI8JuAkdzFDRoGqF5F4PLCZNU2iBPhbte1MSCucAH3KlG/na2PZYRqcce/+WGmFYPfeDCfm/Xj6aIqCldlHA2e31CHsgDLTcvXKQbSsHLmnEk+FF+DHxcop5tRHb0Vcfa4a8ElDs4GQnDPFF9hkcC5YedFNvUHQYis/uvLG6eEAtv4+9w7U83yZXoAwn4A8/kKO17xoGLmP7S8EtNhQzEweuvu1XQ7foEZwHyCV+LHiA==
+	ozv7dRddJ3xQ3GpwHhDdvQiBarMdAtQapZ5okw3duwcGp3BR5D3FtbrAWVZVcTeLeg5P7CIyZsbURFcL0iHd3ENWowg7KPjWqZr25b64m+7NdIlEk5ffzSPX3Jj85BFHboDT2n8ib2jYojBs1yuXZHKAqqkuW1z2cHg/EUtE2oEyMbrd3F6CX3Qcj0X5VSon/8Or6pGRdpdLUKTtfukWVYqhXr3IwLjX0IrXDWztR6veWpETYeP6EzbgZ2H0udPfmUKKBMzqINatO2OfHV1xE9a4p98tBnlKjy2FaFCkQNQZOoKHrpOkIJoVuGbEE/3EfQ6+zMC4M2DxjWzNUwJkHQ==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f6b7590-fa24-4fe2-23d4-08dea5d1cb75
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba1c7fd3-36b9-4861-7565-08dea5d1caf7
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 09:29:21.4656
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 09:29:20.6425
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 17hTva4qBs6so3Ri+6vyP+9myPEuxESVGXORn1H2y7cmU/sWWEqgcoO0pvyXVqeP7DTtVJeuxdw5aBnnGUMdAszzW/bbOjJcbT/iswCOrFE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: BVaWqFP/CcMwS4Cw430uYG1Tc7bUJ18tl3aJ5q4bY94Elp6k6wIidjv9JuXclp8DXFo4W6POzDSjeTekIQPabJ/bpadDNGq4B2vmOCh35mE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7023
 X-Proofpoint-Reinject: loops=2 maxloops=12
 X-Authority-Analysis: v=2.4 cv=J+SaKgnS c=1 sm=1 tr=0 ts=69f1cf74 cx=c_pps
@@ -128,17 +128,17 @@ X-Authority-Analysis: v=2.4 cv=J+SaKgnS c=1 sm=1 tr=0 ts=69f1cf74 cx=c_pps
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
- a=5hl-ExYLI99A9eZlSqoA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: l-z-T0pt_7FaZzUSC0VAXvbqyUxEB2K7
-X-Proofpoint-ORIG-GUID: bLm1R2_vYY8ZSteyXmsly2T3zVKMm-x8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDA5NCBTYWx0ZWRfX5bHWH5X/26e9
- QX/ODeahYndNLZOWqkjusOhujtlg6UekdAkVKZ09MTwe1oh+zm/Q01MY3zxejUT5uGtz6iVB5sq
- FFpWGT1D+vaZCcEtLpVrGOCf+ALK+jsq3Vh+evY6IYq5z1uYcCH3nCFziReubZMPdtWr4UWh4kW
- 5mENm4+xm6kxas4DJO2qnZdtnioJLLL+P0JYXbpJNMgCa7LB8tKVz9Ow4KyD7BHtPcKqX3RvweE
- PU2/N3OPnF82XBM8wZVW6WOU+qDV1P+Z+C3IhNDu11/2X3DTnrw2a7RkwI46UASE6T+QKi8GoBD
- pw9yuyXtnq6dOv5Ya8eiiS0qRyoGen9FulW0xD0629tubd02LbpYhb3lsdbHhwtUp/r9prD3dKX
- Ts12zLJlXKcrRAi7H2YfF0O56vYzRPbEc4hkXx24ymTkGESZ77VGp4LL94SNbtZ1po50vwwaoUK
- oHv9gYNaRZXw6sR/n+g==
+ a=pGLkceISAAAA:8 a=ikt4RBt7ELKClQgxfkkA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: kiZrte0GplBOw9jE1E5SicYNfYkiXjLv
+X-Proofpoint-ORIG-GUID: pIMbmcd9qXnWFsxWLcm4h3tIgD0X1_W_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDA5NCBTYWx0ZWRfXzc4hWBnMa9v1
+ YZsJYJUjbuEhNOmangZdUjQFWSXgziS0iP6ZuLbYWAPWymvkVmOakUyvZD3eUMzN+eqaTFPEFIj
+ wq7KLb6rx5j4EGLMZc6V2QN7BcX9OYPVHqFxc3rFtHKadnCGtXChHt7aH8Wp/qPMKIFaN921MgK
+ +boDhQGE8U7zCF0wVvpk5IZaEXwGZgBsh6jMbFxTDRzjAiGkXHcTPg36XnWrgM34goahMNFWypQ
+ nPxK7Xr69kGOvaoYnpr0xyouCLhD77xW50PmOCj9EJ22B5NPl3fttIqqVmN9YFUSoVSzELZ/p3k
+ wdeUAkZ3vjg44HR9MvDFRuwJXqN5s/wBUfKZhtfV8w5An/qxshbwPHDyudXF8jipcJ8xJ6gU+uX
+ ZyTngkqja04XbgUgqQbCsI8dhepS+qOWW2YyFHcQFbItEzg1/vHCYs3VbsNHsDushNDjSOkcDcI
+ gyDigcbCpX3R6N+E3SQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-28_05,2026-04-28_01,2025-10-01_01
@@ -151,51 +151,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:29:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236093
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236091
 
 From: Jayasurya Maganuru <Maganuru.Jayasurya@windriver.com>
 
 Fixes [YOCTO #15853]
 
-The filtering in populate_sdk_ext.bbclass was removing all image targets from
-the locked signatures, including the main SDK images (SDK_TARGETS). As a
-result, their tasks including the image SPDX/SBOM tasks were not added to
-locked-sigs.inc.
+Image SPDX/SBOM tasks were running after do_sdk_depends, causing their
+signatures to be excluded from locked-sigs.inc. As a result, the eSDK installer
+attempted to re-run these tasks, leading to unexpected task execution errors.
 
-Without these entries, the eSDK lacked the necessary sstate, and the installer
-attempted to run the missing tasks during installation, leading to unexpected
-task execution errors.
-
-This patch keeps SDK_TARGETS (and their multilib variants) in the locked
-signatures so their SPDX/SBOM tasks are included. With those tasks in the
-sstate cache, the eSDK installs cleanly without needing to re-run anything.
+Run do_create_image_sbom_spdx before do_sdk_depends to ensure all image
+SPDX/SBOM tasks are completed and captured in the locked signatures.
 
 Signed-off-by: Jayasurya Maganuru <Maganuru.Jayasurya@windriver.com>
+Suggested-by: Joshua Watt <jpewhacker@gmail.com>
 Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 ---
- meta/classes-recipe/populate_sdk_ext.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/classes-recipe/create-spdx-image-3.0.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
-index 071cf959e7..d17fc3af64 100644
---- a/meta/classes-recipe/populate_sdk_ext.bbclass
-+++ b/meta/classes-recipe/populate_sdk_ext.bbclass
-@@ -461,6 +461,15 @@ def prepare_locked_cache(d, baseoutpath, derivative, conf_initpath):
- 
-     # Filter the locked signatures file to just the sstate tasks we are interested in
-     excluded_targets = get_sdk_install_targets(d, images_only=True)
-+    sdk_targets = d.getVar('SDK_TARGETS')
-+    ext_sdk_target_set = set(multilib_pkg_extend(d, sdk_targets).split())
-+    excluded_set = set(excluded_targets.split())
-+
-+    # Ensure SDK_TARGETS and their image SPDX/SBOM tasks are included in the locked signatures,
-+    # as they are required during eSDK installation.
-+    filtered_excluded_set = excluded_set - ext_sdk_target_set
-+    excluded_targets = ' '.join(filtered_excluded_set)
-+
-     sigfile = d.getVar('WORKDIR') + '/locked-sigs.inc'
-     lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
-     #nativesdk-only sigfile to merge into locked-sigs.inc
+diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+index 15a91e90e2..b9e34645f9 100644
+--- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
++++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+@@ -69,7 +69,7 @@ python do_create_image_sbom_spdx() {
+     import oe.spdx30_tasks
+     oe.spdx30_tasks.create_image_sbom_spdx(d)
+ }
+-addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_create_image_spdx before do_build
++addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_create_image_spdx before do_build do_sdk_depends
+ SSTATETASKS += "do_create_image_sbom_spdx"
+ SSTATE_SKIP_CREATION:task-create-image-sbom = "1"
+ do_create_image_sbom_spdx[sstate-inputdirs] = "${SPDXIMAGEDEPLOYDIR}"
 -- 
 2.49.0
 
