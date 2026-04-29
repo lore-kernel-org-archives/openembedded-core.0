@@ -1,58 +1,60 @@
-Return-Path: <marek.vasut@mailbox.org>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24752FF8867
-	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 08:37:15 +0000 (UTC)
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6790.1777451820421477799
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27852FF8864
+	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 08:43:45 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6735.1777452218124817021
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 01:37:01 -0700
+ Wed, 29 Apr 2026 01:43:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=XT167LJg;
- spf=pass (domain: mailbox.org, ip: 80.241.56.172, mailfrom: marek.vasut@mailbox.org)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4g59dj2GQxz9tx6;
-	Wed, 29 Apr 2026 10:36:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777451817;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5u7cA0dFGJO6E/XEp5MoPqmifU/FmCVKQZtnFmmDA/4=;
-	b=XT167LJgSz32bA3HY0NIUN7APLOjsUtK1sMHOnLu64L1fkRp05XggEoVch0ZH3lTp/vKge
-	TLKSXhNZDviIfft6d9nRzHWi1f0CYJfNTJo9ima2U5bpX5SYPHt5I9p5egYYiSKR7R2WHn
-	RNlKU3FM/NtrVqSV2rwzSh7V1dsfLN8AxOmOVBdKJiPTbJxcSjWLKwzq3AtPV57O5M5FVY
-	H+CqY74JXS7aW5wvHjTvgtyROS1CC70GZ1Z5GphwhKn1JMNPqIWru//+/15+3BA8BazYKS
-	gD70/r3yT/Grz1jBR3o8wajwTSctf6QaCpEgeaNs3DCknQMM3Z5y0ss2mTePhA==
-Message-ID: <70662038-11e3-46d4-b2cb-ff603ab3858f@mailbox.org>
-Date: Wed, 29 Apr 2026 10:36:55 +0200
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=0qjRAldQ;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 020FF1A3478
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 08:43:36 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CA9CC601DF;
+	Wed, 29 Apr 2026 08:43:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5CEC110729990;
+	Wed, 29 Apr 2026 10:43:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1777452215; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=6p4W0YkIHr+OmzW3xW87Rmi1G6Dfs7uoL+vkY1SnSGw=;
+	b=0qjRAldQ/8xgeVY8+ZyzB/axgJFO97TWHfY50kwWju9fBQ94x7MFKg1jczrFZo7Jc5tje1
+	roqIF3En+YYxd5d97OadmDYxoP1/g0TjAo2DmbuwJsO9X5bbjtmqUrr4ZJbY/iQvsHs8A8
+	IfjT9Jt8Mzs/8R21WFAkZqaZx1rjRFGjc7JQN/hV19cWuUNZap9Pb1ZTaGtnaDgF7Azy6j
+	ASprApFSg/tF7L5XHJjliSA+/1XpjjKO3eaJGgKAa8u7PZAKqSgR7oC5t4CiOap1enHLoO
+	QjVAf4JMZ8tA2tyD76L+RrX0V8HJo1WCRy8E17QOXZpjXLhsDyvcENc/7SsBIQ==
+Message-ID: <d322d9ea-5312-4033-a0fc-91abd7fd71cb@bootlin.com>
+Date: Wed, 29 Apr 2026 10:43:32 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH] u-boot: Fix u-boot-tools-native build after DTC
  update
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, festevam@gmail.com,
+To: richard.purdie@linuxfoundation.org, festevam@gmail.com,
  openembedded-core@lists.openembedded.org
-Cc: khem.raj@oss.qualcomm.com
+Cc: khem.raj@oss.qualcomm.com, marek.vasut@mailbox.org
 References: <20260429001811.2723886-1-festevam@gmail.com>
  <516fab60f06521e2335185dc20d8b8c1d1330730.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
 In-Reply-To: <516fab60f06521e2335185dc20d8b8c1d1330730.camel@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-X-MBO-RS-META: i6n8x3wgpy9ky7swx6dxqcksmkj93p11
-X-MBO-RS-ID: 1af8bdf84c1dd8feb14
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 08:37:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236086
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 08:43:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236087
 
-On 4/29/26 10:03 AM, Richard Purdie wrote:
+Hello,
+
+On 4/29/26 10:03, Richard Purdie via lists.openembedded.org wrote:
 > On Tue, 2026-04-28 at 21:18 -0300, Fabio Estevam via lists.openembedded=
 .org wrote:
 >> From: Marek Vasut <marek.vasut@mailbox.org>
@@ -64,25 +66,7 @@ On 4/29/26 10:03 AM, Richard Purdie wrote:
 >>
 >> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 >> Signed-off-by: Fabio Estevam <festevam@gmail.com>
->> ---
->>  =C2=A0meta/recipes-bsp/u-boot/u-boot-tools.inc | 7 ++++++-
->>  =C2=A01 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-b=
-sp/u-boot/u-boot-tools.inc
->> index a055409c2cb0..071746b64e24 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
->> +++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
->> @@ -1,5 +1,5 @@
->>  =C2=A0SUMMARY =3D "U-Boot bootloader tools"
->> -DEPENDS +=3D "gnutls openssl util-linux swig-native libyaml-native"
->> +DEPENDS +=3D "gnutls openssl util-linux swig-native"
->>  =20
->>  =C2=A0inherit python3native
->>  =C2=A0export STAGING_INCDIR =3D "${STAGING_INCDIR_NATIVE}"
->> @@ -88,3 +88,8 @@ RDEPENDS:${PN}:class-native =3D ""
->>  =20
->>  =C2=A0BBCLASSEXTEND =3D "native nativesdk"
+(...)
 >>  =20
 >> +# Set PKG_CONFIG_SYSROOT_DIR as invalid path, so the host tools
 >> +# build will surely not find host /usr/include/yaml.h file and
@@ -92,9 +76,21 @@ sp/u-boot/u-boot-tools.inc
 >=20
 > This feels a bit like a hack. Is there not a config option we can pass
 > to u-boot to make this deterministic, i.e. always disable libyaml?
-Currently there is not, but Linux did drop the whole yamltree part in=20
-ef8795f3f1ce ("dt-bindings: kbuild: Use DTB files for validation") and=20
-U-Boot should do the same. This path change is the minimum invasive=20
-change to achieve disabled yamltree with current U-Boot, until this is=20
-fixed upstream the same way Linux fixed it.
+>=20
+> Cheers,
+>=20
+> Richard
+
+Maybe setting/appending "-DNO_YAML" at HOST_EXTRACFLAGS (e.g., through=20
+EXTRA_OEMAKE or BUILD_CFLAGS)?
+
+In the end, that's a direct consequence of having an invalid=20
+PKG_CONFIG_SYSROOT_DIR:
+https://github.com/u-boot/u-boot/blob/master/scripts/dtc/Makefile#L21
+
+It is still kind of a hack, though, but I hope it helps!
+
+--=20
+Best regards,
+Jo=C3=A3o Marcos Costa
 
