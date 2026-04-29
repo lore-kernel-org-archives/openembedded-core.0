@@ -2,39 +2,38 @@ Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 545EFFF8864
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8033CFF8867
 	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 09:29:31 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7475.1777454965541312169
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7613.1777454965922440572
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 02:29:25 -0700
+ Wed, 29 Apr 2026 02:29:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=XZVD4TAU;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hka9iMBx;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=957907c96c=sunilkumar.dora@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T5LhGc3603015
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T5lZ2R3646770
 	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:29:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=GOha6BP7Ns4ETJJWlG/FnqilozMH4tVfUyfTCtYlV7g=; b=
-	XZVD4TAUcyrpTecEfjmJh5D3iY1oh9+ruMjG1nFN6eNQOFbn6Qh8Fhz0UFLVKxfd
-	DGj/2B3BE7IIdbWF/2lhOKJCmSfy/Hn+f/lfEAxTv5JHFix1iQXoPamRdCBRAEEi
-	+E6jqUeZXQ4SLWDd1lP0xAK6mZqa3U0Dh0k+hZInMxPyn/bCBCL+WqRieWuoCAlm
-	utxSAIlCxph1atcKGXifgqIvbOiOtSKpFrZrhy3dxp7ivLQwF3lR9WLbmw2n0L1x
-	P6suZdgDIGNXeeRTb6QmEMUNiSz9rgfedfXL9ab67tGih9MO5ImoAN3AmdPKYJ+N
-	OUVkq2rSOQgFZoAbE2JUOQ==
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=O3BMv/7Jx
+	kljbqY/f8qfyKyb09m4aqmGnAz5La/dwi0=; b=hka9iMBx1ikqZdsjz1UIOnDf3
+	75NIREANb+8DB0yyqU+fdUCwz2VGJ/S+2AtMsgDIK35lGCV3EDOt6rzSy43CABN+
+	8ecXKKcal6ZFbbT+DFNAnLhuo5KZW6bu74iuTiYXxgeSuXZkGPJJZOlZLMKhf8qV
+	wYk2Hg/cCbv+KfbYNSQLF1nRwc4d0Ugglg50UymQGR9B8Z699RzFPh+FjCynNyAl
+	xL9yWDTpuNFTKgVp9mEg4OPGildzwLHs+VMTTcmi23p7INhhLmqCnKQSAn+V1XOq
+	dpSwpszlXfZiwSQqam5Whgl/K4ZR3SukvgS+m6fptS8wOR55/AHfVTx2V4UfQ==
 Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010018.outbound.protection.outlook.com [52.101.61.18])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4drju0csan-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4drju0csan-2
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 29 Apr 2026 09:29:23 +0000 (GMT)
+	Wed, 29 Apr 2026 09:29:24 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PqPzwyBOVY149PJEHA6Vu2yJt3bF2do81bPBc+tAxvjVhN5FWgUD20sp6tbibNdm/DihNifC7Ps5yrGQL5lS9vk95CVbxpYPWCcKS1RJRdNyXnOMMIlOs2up/KGLmKyxKELhcSv3UXIiOEqkRXvXv9X3LMjpGURp7qsm2mLDbkE3RVNYmMdiHUpXj4C5CIuNcmEFkLtu6taPt4QRhQevpiJoN/jUQO9yY4sD+WP5hRqPTck9vEr668oaLM+fT40NdHd6XxWnsojL0d/P3vxxn6+FreBYxsOLQ77exugh7vW0xvPk7n8NRe7AyJm6F0lmC0eiHYpzN3pxEEKgzW5Xiw==
+ b=l7s/UvQK/DOZzEq5nWhWqW/YeWEiKu2GI76oBFC3G9XySviOdok52ZiK8Xseo4VTLk5GZ0TuS/67AKBCw0XNixeG4+Nvml29Sw/cvnbuAJlzCUM+ulLLSJFhnitfcrLRgUtiYPirHZrOKkWVBchjLIzN+FZteBLvVaftvDhxjDZQZmAgwH9t4Iv9zmBTyToC3Y9Fj4uDmPbEP6iU3KY/SqTz2Pu2b4ND/VLMR1dLsEHu6e6yC8y3LcydBBsjEFX88mbSa5Jp7PnZiOybWAKWfYtu/cQ/zSTnnB28HVEk0SGZK+4ODCzWcwmlGH2ClMgvPCySG5zEoy23aKhy1dRikA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GOha6BP7Ns4ETJJWlG/FnqilozMH4tVfUyfTCtYlV7g=;
- b=UxJacy1Nt82uhal7hN1X/5xDGN2p42oAsU8+B7d+IhmlUYxQIjIAslHVClMjUAk1mJ17A30qoWkiAvFqHM7RvUhSt/DNjaAy8p7FnkvNVfZ38OSaBYT0Vq+klFWlwKoEgszxa2AjH6YQI+aDOCs4WB84sqJ6Z3PSIzyvlSsTR3Mbsb+mWctM7UPCx+ANH9RJnlSv4/yku+p1uyXTRSbEWCScTm9uKKxaKzuI2PgC4gUZLSw4sagAVXLVwTWnHHorZiaVB0v0Skyhs2TrLkzIBlenWDaYRRLA928vs8oVVbUV7EnP1kskbKIpkQfCHRF1RmxLcdQLKy2xvESbA0A0uQ==
+ bh=O3BMv/7JxkljbqY/f8qfyKyb09m4aqmGnAz5La/dwi0=;
+ b=Ib6CHd3LqdBt87riTv5Cg5flaoAoS0JOv5p9Dc1l7D4rnpxHPd++9l20Ok2xlH23XqP8H5NgVai+IkzBTqVvVQWem2//4bdJEUsQUwETtN/SrYztq1O0PAT1LFAD6hs5x8/CkVZyFKp/w4A/h3DkMQUZ/5nH2XoQ9wLy4T3xUw72J+jaQUA93E+xC1/2/+GUNdpRUSPjMvRJbANfWy/B9mN+JR5IjBtF1w5c5AcwY+FSsP9WSWrJ4GAS5m+N2h+s4E6wBaCfjweUe2lCCE2zliS+mjhxXFotY9LdtZl2pnHcjqf/2Q2OOpgMxP/qeMtXFMogWWde7BP0Aaz0i5GX+Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,23 +41,21 @@ Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
  PH8PR11MB7023.namprd11.prod.outlook.com (2603:10b6:510:221::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.17; Wed, 29 Apr
- 2026 09:29:21 +0000
+ 2026 09:29:20 +0000
 Received: from DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::4293:7c4b:a0b5:eb5f]) by DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::4293:7c4b:a0b5:eb5f%3]) with mapi id 15.20.9870.016; Wed, 29 Apr 2026
- 09:29:21 +0000
+ 09:29:19 +0000
 From: sunilkumar.dora@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com, richard.purdie@linuxfoundation.org,
         ross.burton@arm.com, saul.wold@windriver.com, hongxu.jia@windriver.com,
         Qi.Chen@windriver.com, Randy.MacLeod@windriver.com,
         Maganuru.Jayasurya@windriver.com, Sundeep.Kokkonda@windriver.com
-Subject: [PATCH v5 1/2] create-spdx-image-3.0: Image SPDX/SBOM tasks are retained for eSDK installation
-Date: Wed, 29 Apr 2026 02:28:59 -0700
-Message-ID: <20260429092900.2205617-2-sunilkumar.dora@windriver.com>
+Subject: [PATCH v5 0/2] eSDK installation fix for SPDX 3.0
+Date: Wed, 29 Apr 2026 02:28:58 -0700
+Message-ID: <20260429092900.2205617-1-sunilkumar.dora@windriver.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260429092900.2205617-1-sunilkumar.dora@windriver.com>
-References: <20260429092900.2205617-1-sunilkumar.dora@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: BY3PR05CA0004.namprd05.prod.outlook.com
@@ -67,60 +64,60 @@ X-ClientProxiedBy: BY3PR05CA0004.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|PH8PR11MB7023:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba1c7fd3-36b9-4861-7565-08dea5d1caf7
+X-MS-Office365-Filtering-Correlation-Id: 4cc5ce9a-2d09-4a4a-a4f2-08dea5d1ca5d
 X-LD-Processed: 8ddb2873-a1ad-4a18-ae4e-4644631433be,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|56012099003|38350700014|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|56012099003|38350700014|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	e1W7Sbw9ZvwVR9H2BQmCcmULcbsJHevKHIFz6CvTF351/B7IMgNkSEJpjtGerl46XFzGrugo0il/hu7s+Lv5aniyU5A0o/GBRbVMLfFoTcAqApHi35kV3brd0XgpZFALv3ZOo6WN2kXp1pkiMK5M0c1MysKRoZLJeJ6Nj8S+DzbgT6w6uU8Y+B0KiQjV61Sf6mdT13r4Elts79bULX7BovTvNOu7piF0eN0R3pKLbDkkjbbVOU6HfwWtya9jzUX8W94LMiRbqQhwh8/Yp3zN/wI9myJavmPXHwPNGV7NMaVKp/8AG1boAt8pS7FeKQeSGFE2I8hLCEtyYuI842GBmnEsKsr65SIZyPpuL4TXu3gmZlfF4s1fq9rq2USPcnCVBqX64ZtzV/HJnKxCsauziNWlK4KxNQzPDGazgxMFry1HVW7/r8Wuivy/aFdeBYXPS7+gYBDlNAGtfmYJZ6WwXgg1NS1Ge2mkqSHQhxlJm1t0dQvc01AdpNQ1HgpT3LO7SqORYo6gAFvz9s7Fyz0etUv2QX8TGDvy4KFZQzqkUQ/RzHbjiFlzBXOoY5PJONTbTsgKC9EJ/BDvv0gbemGq47EG7gPi8sf3HzAuMgvInBbu0yTRK0q30Fn99WP39/foLoZs85uJ3cfLji7wZh/46CYRBFQKo4Z7lMaJZRhi84wG1wO0Uyl7vTKIwBqFrnQ8l7Mh98Rk/CrpHQDnNDiXkUTnWuDVOp+J1y+fSJTn3mKoZqgh0ol/PMBFfCbtylEYNP+sEG/5FwpXLNkTHkUfURV0vPspIfrebeUL14AeLj4=
+	S34EmoqVN5Fd4VfkfMivGO+UgOCyqxp48pyRkpY2WBT6chTqIwHllDvzhjAZwn5kf1aEApnHVdBYHghZc5/Kh7QFEOkcuBSCHRdQ+C979IQwbYN9PlC43JTiXANYViyFJ4jYHxa/4na9yCg/1p++ZvBxeZZGP5vMQ1ddSqZGYCWNscjRYa3E9uDwZHs4QyY8ESw0+vIlVM7KwdXju5CtuzWkiMwppdqnKN+FGGw9To43iM6ar8G2C/0cUuDirdIM0XNQ5L+ztZwvE5rTJdnKZ66Aisc3McF/CuGPhVZkqdHxuJFAgeGKU/9tbQao4bYnsKy/S6AjiyovL4p1QUqCnZFn2hiUig3FxbOlRLD1wl1KX64AXc//XUkbsCqtGEFadwgNlyVJW8y5NxPaDxNS1tX+ghCltPRNi7Gf4jyfHQ63TgU/VK53vWVXkeqnB3HIsmxYMFmNiqiiDfAtYN/xnwkn/eLk+nFFpi8Na89Thc4CQeZ2jLoJx0IK0djve/JA/5rWxwL31UIlDlk/spBSt4T0ayIEil7jjt3QT3kgo1AG6cGlDHeTMv5EAIO7si/pyNXHA0rayDJOQQ/6/Q37eK8VV6A5y3gdzU37KBqfNrQM7ZIsOmOb80r/w/fBa4Xxo3f8t9DvuIeIPlsoT5xKfMGH0BRbGymvkK1znaabbCOqFOsyuim71xBGKqM1Qvl7efbOVc/v9H+8rUlVdI31BV5G3XW5fPvXwoSlY5n183jxXVB3tC3YdlUHRyRvCdjKwAsHjmP9cEpViE5Xohls+7oX3QSGpDXf8x7Y+593r6Y=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(56012099003)(38350700014)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(56012099003)(38350700014)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?HeZff/WrnoAU7F7QakeGlKMZaNwmdn0qcN6emTZJaAEyiW7haq3wO/lgigr4?=
- =?us-ascii?Q?tiU2oAHpS5EUFY5d+pUQE617kzwmXCYTsvj1pvXvlnwC8DcVgwGaRzRN2sXe?=
- =?us-ascii?Q?ONUH1Ezq3Yi6kJYsx8OIezHZkrYGz7WIVPhA750HX/K3BxOzLgBO/uhZohrL?=
- =?us-ascii?Q?O5vtQ9dWWFN7IQeVraXR7H+niVdPliOOoCKjSk1x0K9w/KCrUr9caGb/fYXa?=
- =?us-ascii?Q?PuXzNZKDRuOvJxgfBuULYnayPhMLV4eTHne76muN0g9dmmPc1TbI/cR7R0sQ?=
- =?us-ascii?Q?oCXXnqdcZ58bFuACgOJz9srr0wEmUSEDAlVADu+ifbwmo3wy7SdGs+kna4vW?=
- =?us-ascii?Q?gnSz/0uA5Grx2H2TIubxwURXb8+nt0THpp0pBlcVlgCbgnMe40umVlJnpiUm?=
- =?us-ascii?Q?67Py7Z4bsXLJX8pxbqaUYFwI5hKikBc5EsT2edrrnj98n4Wky0nqXM9uQMZS?=
- =?us-ascii?Q?Aa9EWdvxpjAcyyudE61bt7nuxfHAl3MDw8Magm8hFGZTnLJf5vXOafiJ2A1H?=
- =?us-ascii?Q?ddi02C511v8RF7HBqnL/1qh/2aIdIf4pMC7hgWE1qbukpMxtGauwF34LjVHi?=
- =?us-ascii?Q?YOEywDNFzVW1NgNCX+qUAIDPWgESam4TG1p3zlbLlx5m4m+8JeAJW5URO0sa?=
- =?us-ascii?Q?COf4BTa4xu6Awn/sUXSGz4cVhLN3Se9ZaTe2HWjUOFk9Jq6DG4n2jmUk6D+1?=
- =?us-ascii?Q?cTNlGe1y5v8VXUOqcp8j5aolhfzNaUb5Whdiv57AZkztWzjBnTKOG0wbWgsQ?=
- =?us-ascii?Q?r371gZd7c479YlEtvBK1ptPe81qTnRScTd/4Mrga3FVRX//97PZRcQmXGwjj?=
- =?us-ascii?Q?qdazG/goGDls/NCDRPDZpdzWgiBbaz8sxF5k4Hq9gdFEBtczk5wJf06mnpEJ?=
- =?us-ascii?Q?WHm9ue8rAKlUpFUeVHDZFSnZdDHTxrNQh4aI8BoD78XfNcAh1H4eS7W5QLm0?=
- =?us-ascii?Q?FxAE3pnPihP9HPFZzKfJIwxanCFt62mNhBKrfqomNgQaOi1+EKxcBtZCoYfl?=
- =?us-ascii?Q?PvYTeAlaN/EkMQl0jXq4CKw67aAt23QGEQF9XTVsAtnpzRi+u6ZARFhCuXoh?=
- =?us-ascii?Q?BrxRqxa6cfpQlELYYZdkfS+tDBp2CREgmhq2iiyGx8f333eaX8mrC/mlFouA?=
- =?us-ascii?Q?iFBRX7R8wesx2D8PH+6kewD5xWV1fCF1YN6vPEvUhI48f8WeujRrcCP81+NK?=
- =?us-ascii?Q?KuDYWNpd7nquLcRe4QLaGUzPzGRVsCv6wM4SVsPT8RPl4F4wGSPYHaIBfz4O?=
- =?us-ascii?Q?05wGaztJvncw7BYx0O32BzWPi1LdhyAIsXBTVMZx5BO2z4tqgt+j94b/+TCz?=
- =?us-ascii?Q?kIfgcUo4jBOtdF3rCafICJyvpQjHRjt32LSd5LKF24JaKY0oheH9Rc7smSfR?=
- =?us-ascii?Q?MYUB4ZoNiA3vUvLwEM9dnVxPvuJ9URBpL2m3Ux97WoW4chvKZiQxASD4+VZU?=
- =?us-ascii?Q?95NKJ2oF3pmX4VeHOyOqeLy329dOhfdmxJ/ZU8OU8SRh/F2I/RKWOjyBgH+0?=
- =?us-ascii?Q?VHCx6QU0UaBk6eZ30RGCMZS7S9dTzVxWYwtztLJSmIr69q9cgwTSaxkGi2AW?=
- =?us-ascii?Q?U+zgG3RfyBuEkE9lyolyTT96qaeFKwtofOdC9u3o8mvJv3vHb9oiKYrlBoEF?=
- =?us-ascii?Q?sKrAnCjjr0b8+qbI5P65+FhxNrdbw6/EEOUlum5CMrfeQrQrMbrjvU4sXGT7?=
- =?us-ascii?Q?FxFu6h2/nxnrJqkJEuN57y0IlF7z6tOyV/O3ZG3x1JCgSft3U+ue9EJZh2Wk?=
- =?us-ascii?Q?xQ5rKLjnSyQvs5DXD0WCznHoC7jo0kU=3D?=
+	=?us-ascii?Q?5l6oKdmgjd5NdAxSIKrhzkefC0UMl85TJB7r3Yi8JXDQ5hd399otDq205F+v?=
+ =?us-ascii?Q?7ztggrDoqUL33p1liNbc+g4o4jvofsCrqrszDIZufcKxXgRqUNMd/YMM8cBx?=
+ =?us-ascii?Q?WH7TTJ95ja30YyuCVvhxxJtkgVTerB4c0KsKOEkq6mEh8fQsF4i4T673rbR6?=
+ =?us-ascii?Q?4K93nhDBTeKlfyXGYa3U+lwlrun43qaKVO8aNT81/TKKUzC+qldMS+pytHhu?=
+ =?us-ascii?Q?Tf9prZgmCwWB5tbbe7XsmAnrKnS93mOKBlmFP37bPfGO2blZpy9a0TXO44Qj?=
+ =?us-ascii?Q?yVScgP+4yjL9DJXDMLR3U3POfEcalKiz8A5vJ7sqs9qK5zT5pEPm1X9nu1oS?=
+ =?us-ascii?Q?Xv1xZku2bU2AJJ2fHsMEbhcArjZfmos91zqzsmMCkiQI7nfvza/TNzP5e5M3?=
+ =?us-ascii?Q?NeJ/K+7uachQLTwGYiy0VM4HksrBei4MXN5TPOvZZtsl9yLORK58Uu/azjux?=
+ =?us-ascii?Q?gdTTdgLP+J+0w+ah7dYwL5Tn6LZEOEAkJtcxw5XsKPPD+UWCo4MjPU1l9sD/?=
+ =?us-ascii?Q?TZBbyKpGcpKEay27xH1kfIzF6OA/8L4yHBSbaTGSTs51C7peEmCHXhLhJjHO?=
+ =?us-ascii?Q?5KwOC/zz/NQAvI1mWfYRn9/Sfbgv7bGmG4oX8RTUCiJS4ietUo6IlbWdeese?=
+ =?us-ascii?Q?RZUoW1C4BDs6LcNWAE1/PCX3WyvoSQz+iYiUrORFoatfj93Ahx1X1c29WRDU?=
+ =?us-ascii?Q?NU+AF5vpSkKBilW1zCQmop3nzcwXE+P69HUrLK5Z2VxCU1Ccq5v8IrCrzx53?=
+ =?us-ascii?Q?J2MgUTWft5iF6N+h8HQ9z3tqYMEY7daxgqImbncZ+pqTa1Bj7NGieWeBwvq7?=
+ =?us-ascii?Q?rZ8fQtvT1jARJUESQumRp2Gui04UkuXEV/tvRwcjMmr40RKKukAcCxUEJBSw?=
+ =?us-ascii?Q?7LqPKWa7qAdLmagobCkczSkzLLPlvX1hXineJNrt853Yqh+1NBaKdujp8OzS?=
+ =?us-ascii?Q?v1lC+xqwG787CYxiGV6G9LcPhPavTfkAYStMI1bWzo+xOj6yHmwjg/SoytV3?=
+ =?us-ascii?Q?BVp9pSRIlYV/NzErGa1y1pCeZe0ggVTI+T5MC8fZEs784Gifz+GsQzOMwqyT?=
+ =?us-ascii?Q?+yACmkkoIrnJRnX6eeIZGc8l68Q4ZuGS8BRVtsCPIdG0IvJma0Bv438XqBMi?=
+ =?us-ascii?Q?TQ9ULTgyhgo+yox4Wts1Ww8hMIo2u3hT7F0FAzcjyrPjocgS9Q0uaiqg9Gui?=
+ =?us-ascii?Q?j0H0KO1/w6H7XP924mHGL/pH6NZoo6JbeZW3KLJyxWfLCxGcNpy0uq6N9323?=
+ =?us-ascii?Q?CNuEm2YM1/fGslx8TBqozH2iQGrwu8f7r+g6KPbI0CEq0mqwSys+y0sdB5lI?=
+ =?us-ascii?Q?pxvmI1lADv+14kP8AenCYNTdq+BOBPYfLsUkWhI1gX+t337zUufyRyOBogLm?=
+ =?us-ascii?Q?L8rah3GQHEzv+Vailh816n9sQyeNIoi8JuCAc3oVcfvVqpmqLLiHzyqpgC4H?=
+ =?us-ascii?Q?iiQJaSxgbQ9LZ0EDDQPHUTsxEl7LKOop2BWdHPelIs8OfCzWt9iJ3i0g/TsQ?=
+ =?us-ascii?Q?HCpeuhQbPrBzkGX4Msg+Hah3EC0VIwhib9w/OxHdIx6u+YwjxUPAZ7ML6S5s?=
+ =?us-ascii?Q?CaKrYX3rdC054pMh9LahZm+GRgD5SVA6GZoq2k66tdtOAPrBUB5xm5cq1DgO?=
+ =?us-ascii?Q?lTqP0mCCltD4GxHTd8sHp6aOJ68Pt/ZjSyZZVoicXYgrxK9alECjmSqCW0UT?=
+ =?us-ascii?Q?72l6PFXxoRBmoG7TYm8IQwe2kVyCkyfWu2wq77Qsz/jl2Wfm0u9VEio5B1N6?=
+ =?us-ascii?Q?71Mzkr7Q3pyv4zC+jCg2IX1nwr1nU+k=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	ozv7dRddJ3xQ3GpwHhDdvQiBarMdAtQapZ5okw3duwcGp3BR5D3FtbrAWVZVcTeLeg5P7CIyZsbURFcL0iHd3ENWowg7KPjWqZr25b64m+7NdIlEk5ffzSPX3Jj85BFHboDT2n8ib2jYojBs1yuXZHKAqqkuW1z2cHg/EUtE2oEyMbrd3F6CX3Qcj0X5VSon/8Or6pGRdpdLUKTtfukWVYqhXr3IwLjX0IrXDWztR6veWpETYeP6EzbgZ2H0udPfmUKKBMzqINatO2OfHV1xE9a4p98tBnlKjy2FaFCkQNQZOoKHrpOkIJoVuGbEE/3EfQ6+zMC4M2DxjWzNUwJkHQ==
+	jPpo4b0e9aWcJfljHEnsn9jBNWekJAXwwWAhz5tEW+HsdWzM4r3OVY10jRLNTr/nx76rLh82i4PfMH6C/AkQFB+kSryjQV8HGeGwNCZP1lI1HzRtnvLm5HghL1SwFGmqlT78wfbSBf4Hq6sTRVVGZU1SUjmyAApMD5k0W7WAg2IcoOWZpSTA4lVh6tHwKC9rS3Y4C5+YL8suQn5xtCHdtR6A4ybBuYMEI4kaYqIi1ssJq+9TdYYnGlJBQ+orpFQSnevcNexYfkG0FTEScRNhrC7vLjIja7bD1YGqxjaQMfbARXGEyisRVt9KC/dmXRN+tGWYYKNFgeW1sdmUCEwizg==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba1c7fd3-36b9-4861-7565-08dea5d1caf7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4cc5ce9a-2d09-4a4a-a4f2-08dea5d1ca5d
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 09:29:20.6425
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 09:29:19.7609
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BVaWqFP/CcMwS4Cw430uYG1Tc7bUJ18tl3aJ5q4bY94Elp6k6wIidjv9JuXclp8DXFo4W6POzDSjeTekIQPabJ/bpadDNGq4B2vmOCh35mE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: wKOt5Twn+bUGQAT5DSs8qlJU6QkpagslrTFRvEeuEE5BWJWzzTVeWoffRjWsbC/sil22AuQaFXre9wXqp3cgmW0fYyg+lzR8NhTIBid9LY0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7023
 X-Proofpoint-Reinject: loops=2 maxloops=12
 X-Authority-Analysis: v=2.4 cv=J+SaKgnS c=1 sm=1 tr=0 ts=69f1cf74 cx=c_pps
@@ -128,17 +125,18 @@ X-Authority-Analysis: v=2.4 cv=J+SaKgnS c=1 sm=1 tr=0 ts=69f1cf74 cx=c_pps
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
- a=pGLkceISAAAA:8 a=ikt4RBt7ELKClQgxfkkA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: kiZrte0GplBOw9jE1E5SicYNfYkiXjLv
-X-Proofpoint-ORIG-GUID: pIMbmcd9qXnWFsxWLcm4h3tIgD0X1_W_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDA5NCBTYWx0ZWRfXzc4hWBnMa9v1
- YZsJYJUjbuEhNOmangZdUjQFWSXgziS0iP6ZuLbYWAPWymvkVmOakUyvZD3eUMzN+eqaTFPEFIj
- wq7KLb6rx5j4EGLMZc6V2QN7BcX9OYPVHqFxc3rFtHKadnCGtXChHt7aH8Wp/qPMKIFaN921MgK
- +boDhQGE8U7zCF0wVvpk5IZaEXwGZgBsh6jMbFxTDRzjAiGkXHcTPg36XnWrgM34goahMNFWypQ
- nPxK7Xr69kGOvaoYnpr0xyouCLhD77xW50PmOCj9EJ22B5NPl3fttIqqVmN9YFUSoVSzELZ/p3k
- wdeUAkZ3vjg44HR9MvDFRuwJXqN5s/wBUfKZhtfV8w5An/qxshbwPHDyudXF8jipcJ8xJ6gU+uX
- ZyTngkqja04XbgUgqQbCsI8dhepS+qOWW2YyFHcQFbItEzg1/vHCYs3VbsNHsDushNDjSOkcDcI
- gyDigcbCpX3R6N+E3SQ==
+ a=oBelrDsAZAV4_zrlAYQA:9 a=ZXulRonScM0A:10 a=zZCYzV9kfG8A:10
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: DHRQyoHzFvgzTgCqReSCu9i9TuWtd0xB
+X-Proofpoint-ORIG-GUID: CbqX2vxLRooRHjvxYTkowlK6qn5mC1ok
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDA5NCBTYWx0ZWRfX58t7zkuQ+8gW
+ STv8bXFpLg+KMKJyC5jyvRNCRsdQQmtwHWmT22VMQ6LWoyMgcylJWj5SAzfKq6QrLkroac8TZwB
+ JavsfrjWYolJaTLQKZi60CEINg4WobEk8nn7/udfHSoJEFzGTTZEz557Th35rhPI0VrcLsaxDY9
+ D+iP4LJjcKkKwdMTJ3Xoee52uffxqH3TiKOn4nYBW1D1p2oh2kEC8c//VQJ4em2W2uHkHkSNrPB
+ Fzz6kXAgDymwAGbS+/oIAObOlwf+YunutA0Ihol8hH+IcPcNWB254SkmZLrTJZU27iz4zGauzFZ
+ kPbM7sJ0TDz8Bbg/QvGUvsBSR5HyLmoJUo0Wd/lw7zT6TVAcdzZEGWb1a0Ltz92dd1VN++YfaG2
+ dNjNNC878i0kBdJ9Ot41gAI86nIrzBQP/mIuNzurspDtyahxS2jceW4JWkKIgxLJAxUU2ACczrE
+ R5CYpgdMbJEA1A3cV1A==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-28_05,2026-04-28_01,2025-10-01_01
@@ -151,39 +149,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 09:29:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236091
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236092
 
-From: Jayasurya Maganuru <Maganuru.Jayasurya@windriver.com>
+From: Sunil Dora <sunilkumar.dora@windriver.com>
 
-Fixes [YOCTO #15853]
+Reposting Jayasurya's v4 series, rebased on current master.
+The bug is still reproducible on clean master.
 
-Image SPDX/SBOM tasks were running after do_sdk_depends, causing their
-signatures to be excluded from locked-sigs.inc. As a result, the eSDK installer
-attempted to re-run these tasks, leading to unexpected task execution errors.
+History:
+  v1 (Oct 10): single patch in populate_sdk_ext.bbclass
+  v2 (Oct 29): moved addtask to create-spdx-sdk-3.0.bbclass per Joshua's
+               review feedback
+  v3 (Nov 5):  moved addtask to create-spdx-image-3.0.bbclass per Joshua's
+               feedback to avoid addtask in multiple locations
+  v4 (Dec 15): split into two patches and addressed shortlog length
+               warning per Randy's review
+  v5:          rebased on current master.
 
-Run do_create_image_sbom_spdx before do_sdk_depends to ensure all image
-SPDX/SBOM tasks are completed and captured in the locked signatures.
+Jayasurya Maganuru (2):
+  create-spdx-image-3.0: Image SPDX/SBOM tasks are retained for eSDK
+    installation
+  populate_sdk_ext: keep SDK_TARGETS so SPDX/SBOM tasks remain in locked
+    sigs
 
-Signed-off-by: Jayasurya Maganuru <Maganuru.Jayasurya@windriver.com>
-Suggested-by: Joshua Watt <jpewhacker@gmail.com>
-Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
----
  meta/classes-recipe/create-spdx-image-3.0.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/populate_sdk_ext.bbclass      | 9 +++++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-index 15a91e90e2..b9e34645f9 100644
---- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
-+++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-@@ -69,7 +69,7 @@ python do_create_image_sbom_spdx() {
-     import oe.spdx30_tasks
-     oe.spdx30_tasks.create_image_sbom_spdx(d)
- }
--addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_create_image_spdx before do_build
-+addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_create_image_spdx before do_build do_sdk_depends
- SSTATETASKS += "do_create_image_sbom_spdx"
- SSTATE_SKIP_CREATION:task-create-image-sbom = "1"
- do_create_image_sbom_spdx[sstate-inputdirs] = "${SPDXIMAGEDEPLOYDIR}"
 -- 
 2.49.0
 
