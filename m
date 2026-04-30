@@ -2,226 +2,294 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC86FF8875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F33CD13DE
 	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 12:54:13 +0000 (UTC)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16772.1777543431841410621
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19568.1777552734425189950
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2026 03:03:51 -0700
+ Thu, 30 Apr 2026 05:38:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=V+a8zxMS;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.128.178, mailfrom: dario.binacchi@amarulasolutions.com)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79885f4a8ffso7449247b3.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 03:03:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777543431; cv=none;
-        d=google.com; s=arc-20240605;
-        b=K3033Y5YEemC9ZebkmPHn+sNW4mGpDMdm77GWY04c0gGvbrABfi+eP1X0jeWGnu9IW
-         Hoc5IrVs2D6ZmBcgwxTJ7mvyT9y54xqFS3g9Wb4peeU0LEUItbGXLtZjuosqtcIxw4zw
-         asjAUa+b/SVptqJQXswNEt2potSc9lbBn9FoMCsjCZM28EbaXEO34/uNruwLn0rY5uv1
-         hI911l2yncOHJquI7+Bw4EjwWr+OJmheIXDwN+Cs6/NewxY1wQ1usU0NzK7EMUVRvpjQ
-         CwN1oco6Ke4OwMJjdJN//QCuiZSxbeRqXPCAG4wabrgYh8tRsRNvKc9SwLx+ra9ZfG3e
-         QjOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BHO+XJNQ2kaaeXC7rpFwchsOstUo+F7AUqjyPSqqXP4=;
-        fh=NJGkk3nwIyxj9vqYo3vGPKlcGdvWele04a2wvsPG48M=;
-        b=AtSf7eMYgNQInA4Viziy8tooHhxUTS/sTAGZs/Ct/sIjE57m92jXRV3YvkKgOj+YOu
-         o9OfHmEYD3HDWBvfBdBpViGG7OAHDZZXyXLooGxkFalsQmqzdezYTPDEouAWIMltqIDn
-         J3v4+8vtlkbRWHBmYkkrdTKX36qWCGhb/ZQwkZN+NTWyR9pSWd1LcONjLj+99QaWcB6Z
-         39w2zETjff6aVOUxOY0SL85LlQtrSyJ92GMPSKjwM8Lso1Sf9+wlg7ZyXYIRmTHLpm7X
-         jjhHjwxv4XbOOnqfvpnWNtZFar2DM/3DwEWgp/SjXXlhA6gnhouqRxQIA/T7qnTmknru
-         xmeA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1777543431; x=1778148231; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BHO+XJNQ2kaaeXC7rpFwchsOstUo+F7AUqjyPSqqXP4=;
-        b=V+a8zxMS+UYLkm3PftyTqBNEpZIqPhcRbUZQmtQhlOmluJKoqb1ojRnF7lXmMTkM43
-         yYeqdGUebzN5wm+cjPTH0Rbtcq8bk6xIUu9OlnZnRtOAXkqr52AVsbT2ohX844S/O7M1
-         2gTUJnJPTEgjKtAjezYi1exBuyLNdcM0xbI1Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777543431; x=1778148231;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BHO+XJNQ2kaaeXC7rpFwchsOstUo+F7AUqjyPSqqXP4=;
-        b=YX3/Ymk5YrQpSKK6AG1l0v+R+aQlqDP3HpEZR8vDBON2/8WhKnPtrolOn5lpSfQfWH
-         Sud7rKbmdYDTBiJjYeRD++doI0BDmz2Z1YHhgZDlreiom0x+0vbhs2osyAcJvgNUVORi
-         xGtF4N9jrWxsXO924Tny6ZGIQ1efFrM78d+1IZ9wElni4MOcF9TgbvIHEomGQPcmbN36
-         1+YQhOB+sUvg0gjLmg88/Ir1Y6N5jYV4BNf3kZn8LOibVZCaYYC9jyK7kFwzB5Qvkas2
-         ZfnMt7C0bCEOSSDN+Jtwm8SKzL2tV1FwFUwUBNgE90Bu4+mI9F5xQFszWe0EhDbpsnVZ
-         C1Xw==
-X-Gm-Message-State: AOJu0YzFLUl5nKhywGqwQIKw+Cyviykh+yQDxvRAPKR6ya2/vZjJkzpw
-	ZqufnVcAv1iXZjYsgPaYlEieVYwbctpV/qC0Rs8mMdwAzVGXuBN3M0pZLgwATmfHcRvqOzGX9Zv
-	6mIvXsElMwfzm1gWnHzz93vFs5PnRbImZ7/xtJQ+46HAyC6F8LoKB
-X-Gm-Gg: AeBDiesGi/FNt8//GRv3d4r2pcRQqHH93lCOu68H7zuNchlVKa1IGD7aWHq1c3IiK9p
-	gbL3QHN7Ac9tNvN7O/Dze9AOnoyomZnQIdpbIz0nYSzGCwUSA9qazsBHayT3fhBcryM2Fuve8mm
-	2Izc67u/QDDmSY/Qxqyg3c2Q98uujFVSM1jpUOO7tWcSLhlXqRckT+hyOXqDHFfvfoodtUY8yOw
-	fn5Aar90mhSvkm1vgeh6Iz1d4S/Ey2gzqtkwiO1Kr/gywrWWs5URU4SvHDNdjxaDzBChPfhQDOn
-	Nc10eUvmuoHlVJAPlja5iH+1ItiJxWH4W/6ClMuU1Du51uCT
-X-Received: by 2002:a05:690c:4992:b0:7ba:eefe:9f9c with SMTP id
- 00721157ae682-7bd548a78demr18199487b3.23.1777543430867; Thu, 30 Apr 2026
- 03:03:50 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=bX67wHRQ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: tdarote@qualcomm.com)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63UAImrO3730092
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 11:47:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=HGTRq9JyIvBuq5+beKLXfl7sjT+Cjte7tOn
+	Je/rp7Oo=; b=bX67wHRQFN+ynxaL7SQtqr4kGF2FgOtA2ajWEdxSJ/aLDPfsHnJ
+	G+pnVvKEL8TocDnGK+HRrjSgmWeaputBapnlNI8vO6GxY172U+LfLaLJl/YfoK3V
+	AXPA/CUJr/N11bRe+J1Dh4PXrqa9Mrpniz4L/xPezBQEd7gRYXKLu60+EJiS10DB
+	ZWYcBYAewfeYQxBfy47dYqd89PSYkO2yFaCNEbedxBIbeOYuAR+0T3HjCWdihplr
+	yJ5mJWTIa1qKRlg1wxYzGQk4sg0kUkJJn/y3UmbwVMRhcaHSQFnJ7Wa/1a2lk0QU
+	lC9sHhlDTMPQ1Zzim0YweLDws8LlU1qc0MQ==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4duy1w9wya-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 11:47:41 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 63UBlcaA000620;
+	Thu, 30 Apr 2026 11:47:38 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4ds64uk8bu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 11:47:38 +0000 (GMT)
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 63UBlcK2000615
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 11:47:38 GMT
+Received: from hyd-lnxbld389.qualcomm.com (hyd-lnxbld389.qualcomm.com [10.142.195.70])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 63UBlbt8000608
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 Apr 2026 11:47:38 +0000 (GMT)
+Received: by hyd-lnxbld389.qualcomm.com (Postfix, from userid 4146169)
+	id A25DE225CF; Thu, 30 Apr 2026 17:17:34 +0530 (IST)
+From: Tushar Darote <tdarote@qti.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tushar Darote <tdarote@qti.qualcomm.com>
+Subject: [PATCH] gstreamer1.0-plugins-bad: handle padded buffers in wl_shm buffer creation
+Date: Thu, 30 Apr 2026 17:17:14 +0530
+Message-Id: <20260430114715.990400-1-tdarote@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20260429145136.618168-1-dario.binacchi@amarulasolutions.com> <DI6B8Z1L4R7N.FUR3IC2PYJWU@bootlin.com>
-In-Reply-To: <DI6B8Z1L4R7N.FUR3IC2PYJWU@bootlin.com>
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Thu, 30 Apr 2026 12:03:38 +0200
-X-Gm-Features: AVHnY4L7Tk_MzlBCw4WuvrQPMuTEBdAWjY7_7YETVhc_0uObbNIGED-74QMK0gA
-Message-ID: <CABGWkvqCTihBJf=QEqu+Ka_TuQcZkB_GpTvh+A4Gge5xHWE+1w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] libfwumdata: add new recipe
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	linux-amarula@amarulasolutions.com
-Content-Type: multipart/alternative; boundary="000000000000c51c520650aa9410"
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-GUID: TzzH6ikFS2uLqjyfTWRvlsvYMwXra0p6
+X-Proofpoint-ORIG-GUID: TzzH6ikFS2uLqjyfTWRvlsvYMwXra0p6
+X-Authority-Analysis: v=2.4 cv=DPy/JSNb c=1 sm=1 tr=0 ts=69f3415e cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yOCtJkima9RkubShWh1s:22 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
+ a=KcXFmDjPo46N4eE_IPUA:9 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDEyMCBTYWx0ZWRfXx/xS9JQ6N46G
+ D+0bnne/11fVJcks61g+OjlG4pNpa0xeW+RQMw4neKI7b8sTm6T2pPJud9PbKYrcUOsw2ZOOffz
+ vfaF8ZP7pIQ9H4CpsaX7rAeaVqyuflnI5+JHdOcQjQj2dMdq6fSgEcAvwTVwfKrskUnjdoveEpt
+ AMMaI6ADoPcZbpI+3X3ypgfA3mjVB+U+IJ2FBbmrco5v/00K2IEAZZQERS2c1i/ZT253YSSUcT2
+ U3CXWtqDK7R/Cd9Wy3Bh9FBybO0SHtuxBgWolb+66iFKA9aLYGjZVVbYSfATBf4c7R/ZyzBKEWU
+ 59YMjf+nb96tWcqqI7W29AiBoRqB/Q90t+sBFcPoPgJ2o765mZ2WswYR9KtP6FlsmUBTupbpaaE
+ rKeCn7G2voNxt7ItvIJn5EX9tVtrF6UpmQy0NBD6X6YRXSGYeVP6N6EjpjQ9V+O4444FgQhVI23
+ XuRWp+YV5/CS9NTUG/A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-30_04,2026-04-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 priorityscore=1501 malwarescore=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604300120
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 12:54:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236165
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236166
 
---000000000000c51c520650aa9410
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Use GstBuffer metadata when constructing wl_shm buffers so stride and size reflect the actual buffer layout.
+This fixes incorrect rendering with DMA-backed buffers that include padding or custom strides.
 
-Hi Mathieu,
+Signed-off-by: Tushar Darote <tdarote@qti.qualcomm.com>
+---
+ ...added-buffers-in-wl_shm-buffer-creat.patch | 178 ++++++++++++++++++
+ .../gstreamer1.0-plugins-bad_1.28.2.bb        |   1 +
+ 2 files changed, 179 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
 
-On Thu, Apr 30, 2026 at 9:28=E2=80=AFAM Mathieu Dubois-Briand <
-mathieu.dubois-briand@bootlin.com> wrote:
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
+new file mode 100644
+index 0000000000..949da1b7e4
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
+@@ -0,0 +1,178 @@
++From f8bc21dae1056be483645594ea79131888d8b1ae Mon Sep 17 00:00:00 2001
++From: Tushar Darote <tdarote@qti.qualcomm.com>
++Date: Thu, 30 Apr 2026 16:49:57 +0530
++Subject: [PATCH] wayland: handle padded buffers in wl_shm buffer creation
++
++Use GstBuffer metadata when constructing wl_shm buffers so stride and size reflect the actual buffer layout.
++This fixes incorrect rendering with DMA-backed buffers that include padding or custom strides.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/11370]
++---
++ ext/gtk/gstgtkwaylandsink.c              |  4 +-
++ ext/wayland/gstwaylandsink.c             |  4 +-
++ gst-libs/gst/wayland/gstwlshmallocator.c | 57 +++++++++++++++++-------
++ gst-libs/gst/wayland/gstwlshmallocator.h |  2 +-
++ gst-libs/gst/wayland/gstwlwindow.c       |  2 +-
++ 5 files changed, 48 insertions(+), 21 deletions(-)
++
++diff --git a/ext/gtk/gstgtkwaylandsink.c b/ext/gtk/gstgtkwaylandsink.c
++index 0660b30..6d1adce 100644
++--- a/ext/gtk/gstgtkwaylandsink.c
+++++ b/ext/gtk/gstgtkwaylandsink.c
++@@ -1302,7 +1302,7 @@ handle_shm:
++   if (!wbuf && gst_wl_display_check_format_for_shm (priv->display,
++           &priv->render_info)) {
++     if (gst_buffer_n_memory (buffer) == 1 && gst_is_fd_memory (mem))
++-      wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, priv->display,
+++      wbuf = gst_wl_shm_memory_construct_wl_buffer (buffer, priv->display,
++           &priv->render_info);
++ 
++     /* If nothing worked, copy into our internal pool */
++@@ -1329,7 +1329,7 @@ handle_shm:
++       /* attach a wl_buffer if there isn't one yet */
++       if (G_UNLIKELY (!wlbuffer)) {
++         mem = gst_buffer_peek_memory (to_render, 0);
++-        wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, priv->display,
+++        wbuf = gst_wl_shm_memory_construct_wl_buffer (to_render, priv->display,
++             &priv->render_info);
++ 
++         if (G_UNLIKELY (!wbuf))
++diff --git a/ext/wayland/gstwaylandsink.c b/ext/wayland/gstwaylandsink.c
++index 443db24..2490b6e 100644
++--- a/ext/wayland/gstwaylandsink.c
+++++ b/ext/wayland/gstwaylandsink.c
++@@ -1148,7 +1148,7 @@ handle_shm:
++   if (!wbuf && gst_wl_display_check_format_for_shm (self->display,
++           &self->render_info)) {
++     if (gst_buffer_n_memory (buffer) == 1 && gst_is_fd_memory (mem))
++-      wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, self->display,
+++      wbuf = gst_wl_shm_memory_construct_wl_buffer (buffer, self->display,
++           &self->video_info);
++ 
++     /* If nothing worked, copy into our internal pool */
++@@ -1174,7 +1174,7 @@ handle_shm:
++       /* attach a wl_buffer if there isn't one yet */
++       if (G_UNLIKELY (!wlbuffer)) {
++         mem = gst_buffer_peek_memory (to_render, 0);
++-        wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, self->display,
+++        wbuf = gst_wl_shm_memory_construct_wl_buffer (to_render, self->display,
++             &self->video_info);
++ 
++         if (G_UNLIKELY (!wbuf))
++diff --git a/gst-libs/gst/wayland/gstwlshmallocator.c b/gst-libs/gst/wayland/gstwlshmallocator.c
++index 671f2b7..4452b96 100644
++--- a/gst-libs/gst/wayland/gstwlshmallocator.c
+++++ b/gst-libs/gst/wayland/gstwlshmallocator.c
++@@ -76,32 +76,58 @@ gst_wl_shm_validate_video_info (const GstVideoInfo * vinfo)
++ }
++ 
++ struct wl_buffer *
++-gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem, GstWlDisplay * display,
+++gst_wl_shm_memory_construct_wl_buffer (GstBuffer * buf, GstWlDisplay * display,
++     const GstVideoInfo * info)
++ {
+++  GstMemory *mem;
+++  GstVideoMeta *vmeta;
+++  GstVideoInfo vinfo;
++   gint width, height, stride;
++-  gsize offset, size, memsize, maxsize;
+++  gsize plane_offset = 0;
+++  gsize mem_offset = 0;
+++  gsize size, memsize, maxsize;
++   enum wl_shm_format format;
++   struct wl_shm_pool *wl_pool;
++   struct wl_buffer *wbuffer;
++ 
++-  if (!gst_wl_shm_validate_video_info (info)) {
++-    GST_DEBUG_OBJECT (display, "Unsupported strides and offsets.");
+++  /* Ensure the buffer has exactly one memory block */
+++  if (gst_buffer_n_memory (buf) != 1)
+++    return NULL;
+++
+++  /* Retrieve the memory and ensure it is FD backed */
+++  mem = gst_buffer_peek_memory (buf, 0);
+++  if (!gst_is_fd_memory (mem))
++     return NULL;
+++
+++  /* Start from caps-derived video info */
+++  vinfo = *info;
+++
+++  /* Override layout using GstVideoMeta if present */
+++  vmeta = gst_buffer_get_video_meta (buf);
+++  if (vmeta) {
+++    vinfo.width = vmeta->width;
+++    vinfo.height = vmeta->height;
+++    vinfo.stride[0] = vmeta->stride[0];
+++    vinfo.offset[0] = vmeta->offset[0];
++   }
++ 
++-  width = GST_VIDEO_INFO_WIDTH (info);
++-  height = GST_VIDEO_INFO_HEIGHT (info);
++-  stride = GST_VIDEO_INFO_PLANE_STRIDE (info, 0);
++-  size = GST_VIDEO_INFO_SIZE (info);
++-  format = gst_video_format_to_wl_shm_format (GST_VIDEO_INFO_FORMAT (info));
+++  /* Validate the final video layout */
+++  if (!gst_wl_shm_validate_video_info (&vinfo)) {
+++    GST_DEBUG_OBJECT (display, "Unsupported strides and offsets.");
+++    return NULL;
+++  }
++ 
++-  memsize = gst_memory_get_sizes (mem, &offset, &maxsize);
++-  offset += GST_VIDEO_INFO_PLANE_OFFSET (info, 0);
+++  width = GST_VIDEO_INFO_WIDTH (&vinfo);
+++  height = GST_VIDEO_INFO_HEIGHT (&vinfo);
+++  stride = GST_VIDEO_INFO_PLANE_STRIDE (&vinfo, 0);
+++  plane_offset = GST_VIDEO_INFO_PLANE_OFFSET (&vinfo, 0);
++ 
++-  g_return_val_if_fail (gst_is_fd_memory (mem), NULL);
+++  /* wl_shm requires the actual memory footprint of the buffer */
+++  size = plane_offset + (stride * height);
+++  format = gst_video_format_to_wl_shm_format (GST_VIDEO_INFO_FORMAT (&vinfo));
+++  memsize = gst_memory_get_sizes (mem, &mem_offset, &maxsize);
++   g_return_val_if_fail (size <= memsize, NULL);
++-  g_return_val_if_fail (gst_wl_display_check_format_for_shm (display, info),
+++  g_return_val_if_fail (gst_wl_display_check_format_for_shm (display, &vinfo),
++       NULL);
++ 
++   GST_DEBUG_OBJECT (display, "Creating wl_buffer from SHM of size %"
++@@ -110,8 +136,9 @@ gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem, GstWlDisplay * display,
++ 
++   wl_pool = wl_shm_create_pool (gst_wl_display_get_shm (display),
++       gst_fd_memory_get_fd (mem), memsize);
++-  wbuffer = wl_shm_pool_create_buffer (wl_pool, offset, width, height, stride,
++-      format);
+++  wbuffer =
+++      wl_shm_pool_create_buffer (wl_pool, mem_offset + plane_offset, width,
+++      height, stride, format);
++   wl_shm_pool_destroy (wl_pool);
++ 
++   return wbuffer;
++diff --git a/gst-libs/gst/wayland/gstwlshmallocator.h b/gst-libs/gst/wayland/gstwlshmallocator.h
++index 4309bd7..38f3ba5 100644
++--- a/gst-libs/gst/wayland/gstwlshmallocator.h
+++++ b/gst-libs/gst/wayland/gstwlshmallocator.h
++@@ -33,7 +33,7 @@ GST_WL_API
++ void gst_wl_shm_init_once (void);
++ 
++ GST_WL_API
++-struct wl_buffer * gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem,
+++struct wl_buffer * gst_wl_shm_memory_construct_wl_buffer (GstBuffer * buf,
++     GstWlDisplay * display, const GstVideoInfo * info);
++ 
++ G_END_DECLS
++diff --git a/gst-libs/gst/wayland/gstwlwindow.c b/gst-libs/gst/wayland/gstwlwindow.c
++index 3c5c3cc..b055755 100644
++--- a/gst-libs/gst/wayland/gstwlwindow.c
+++++ b/gst-libs/gst/wayland/gstwlwindow.c
++@@ -986,7 +986,7 @@ gst_wl_window_update_borders (GstWlWindow * self)
++     gst_buffer_memset (buf, 0, 0, info.size);
++ 
++     wlbuf =
++-        gst_wl_shm_memory_construct_wl_buffer (gst_buffer_peek_memory (buf, 0),
+++        gst_wl_shm_memory_construct_wl_buffer (buf,
++         priv->display, &info);
++ 
++     g_object_unref (alloc);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
+index cdf3a20dff..72f2cc7342 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
+@@ -9,6 +9,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
++           file://0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch \
+            "
+ SRC_URI[sha256sum] = "6467e3964828f4d7d08bfe1fbb4d76287a1c8fa76674e59e101a149c020fefd7"
+ 
+-- 
+2.34.1
 
-> On Wed Apr 29, 2026 at 4:51 PM CEST, Dario Binacchi via
-> lists.openembedded.org wrote:
-> > libfwumdata is a lightweight C library for parsing, validating (CRC32),
-> > and manipulating Firmware Update (FWU) metadata, allowing tools such as
-> > RAUC or SWUpdate, and in general any application, to modify the boot
-> > bank selection.
-> >
-> > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> > ---
->
-> Hi Dario,
->
-> Thanks for your patch.
->
-> In addition to Alex comment, I note build is failing on the autobuilder:
->
-> ERROR: libfwumdata-0.1.0-r0 do_unpack: Recipes that set S =3D
-> "${WORKDIR}/git" or S =3D "${UNPACKDIR}/git" should remove that assignmen=
-t,
-> as S set by bitbake.conf in oe-core now works.
->
-
-I will drop.
-
-Thanks and regards,
-Dario
-
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3709
->
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
-
---=20
-*Dario Binacchi*
-Senior Embedded Software Engineer
-M. +39 328 0625246
-dario.binacchi@amarulasolutions.com
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95
-Amarula Solutions SRL
- Via Felice Cavallotti 25D, 41012 Carpi, MO, IT
-info@amarulasolutions.com
-www.amarulasolutions.com
-
---000000000000c51c520650aa9410
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Mathieu,</div><br><div class=3D"gmail_=
-quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, =
-Apr 30, 2026 at 9:28=E2=80=AFAM Mathieu Dubois-Briand &lt;<a href=3D"mailto=
-:mathieu.dubois-briand@bootlin.com">mathieu.dubois-briand@bootlin.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed=
- Apr 29, 2026 at 4:51 PM CEST, Dario Binacchi via <a href=3D"http://lists.o=
-penembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.or=
-g</a> wrote:<br>
-&gt; libfwumdata is a lightweight C library for parsing, validating (CRC32)=
-,<br>
-&gt; and manipulating Firmware Update (FWU) metadata, allowing tools such a=
-s<br>
-&gt; RAUC or SWUpdate, and in general any application, to modify the boot<b=
-r>
-&gt; bank selection.<br>
-&gt;<br>
-&gt; Signed-off-by: Dario Binacchi &lt;<a href=3D"mailto:dario.binacchi@ama=
-rulasolutions.com" target=3D"_blank">dario.binacchi@amarulasolutions.com</a=
->&gt;<br>
-&gt; ---<br>
-<br>
-Hi Dario,<br>
-<br>
-Thanks for your patch.<br>
-<br>
-In addition to Alex comment, I note build is failing on the autobuilder:<br=
->
-<br>
-ERROR: libfwumdata-0.1.0-r0 do_unpack: Recipes that set S =3D &quot;${WORKD=
-IR}/git&quot; or S =3D &quot;${UNPACKDIR}/git&quot; should remove that assi=
-gnment, as S set by bitbake.conf in oe-core now works.<br></blockquote><div=
-><br>I will drop.<br><br>Thanks and regards,</div><div>Dario=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/buil=
-ds/3709" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/59/builds/3709</a><br>
-<br>
-Thanks,<br>
-Mathieu<br>
-<br>
--- <br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr"><font color=3D"#888888"><font color=3D"#000000" =
-face=3D"Times New Roman"><span style=3D"font-size:14px"><b>Dario Binacchi</=
-b></span></font><br style=3D"color:rgb(0,0,0);font-family:&quot;Times New R=
-oman&quot;;font-size:medium"><span style=3D"color:rgb(0,0,0);font-family:&q=
-uot;Times New Roman&quot;;font-size:12px">Senior Embedded Software Engineer=
-<br></span></font><span style=3D"color:rgb(0,0,0);font-family:&quot;Times N=
-ew Roman&quot;;font-size:12px">M. +39 328 0625246</span><font color=3D"#888=
-888"><span style=3D"color:rgb(0,0,0);font-family:&quot;Times New Roman&quot=
-;;font-size:12px"><br><a href=3D"mailto:dario.binacchi@amarulasolutions.com=
-" style=3D"color:rgb(17,85,204)" target=3D"_blank">dario.binacchi@amarulaso=
-lutions.com</a></span><br style=3D"color:rgb(0,0,0);font-family:&quot;Times=
- New Roman&quot;;font-size:medium"><span style=3D"font-family:&quot;Times N=
-ew Roman&quot;;font-size:12px;color:rgb(241,194,50)">=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95</span><br style=3D"color:rgb(0,0,0)=
-;font-family:&quot;Times New Roman&quot;;font-size:medium"><span style=3D"c=
-olor:rgb(0,0,0);font-family:&quot;Times New Roman&quot;;font-size:12px"><sp=
-an style=3D"font-weight:700">Amarula Solutions SRL</span><br>=C2=A0Via Feli=
-ce Cavallotti 25D, 41012 Carpi, MO, IT<br><a href=3D"mailto:info@amarulasol=
-utions.com" style=3D"color:rgb(17,85,204)" target=3D"_blank">info@amarulaso=
-lutions.com</a><br><a href=3D"http://www.amarulasolutions.com/" style=3D"co=
-lor:rgb(17,85,204)" target=3D"_blank">www.amarulasolutions.com</a></span></=
-font></div></div></div>
-
---000000000000c51c520650aa9410--
 
