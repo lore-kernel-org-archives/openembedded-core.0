@@ -1,351 +1,315 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95F4EFF8873
-	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 12:23:46 +0000 (UTC)
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19108.1777551821331707906
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F20FF8873
+	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 12:25:47 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19144.1777551937792211026
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2026 05:23:41 -0700
+ Thu, 30 Apr 2026 05:25:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=WY+3ngkg;
- spf=pass (domain: mvista.com, ip: 74.125.82.179, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2bdcf5970cdso816658eec.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 05:23:41 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Burl6ZJg;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-448528f4e69so554972f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 05:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1777551821; x=1778156621; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3e7PKlvod8ByimSkAjW76FNMn8O+/drdZ3dyhrLK98U=;
-        b=WY+3ngkgjn5WoeVo9c64/T/mwYTSGKzyLR8wv9+MCy7HKLp3wx2NOrVn5NcrrBUeN7
-         nh0vaHHxq/z2J14pVJm9VWCCqaaPfQEATX8VQTH+hdl0u8/2Bz2S7+X9JFgWg1n1yh5o
-         wLKuYMH+Uo/gdyIsXDZpZ6yTn71dh+LGbYOzs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777551821; x=1778156621;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1777551936; x=1778156736; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3e7PKlvod8ByimSkAjW76FNMn8O+/drdZ3dyhrLK98U=;
-        b=RGBTpWRpX83Tm6cjNzQlK31tBYfSsg+odZRWli0sEJuxZcQGpS2J945qln0zVpA/vs
-         5MhmzAVmIbkeg2mdvtOHgNz7yHG736YDJRlCgcWMWiz9iH2FrrGU5tR6SN435I30TsIC
-         OBg4BDY0d/yCLYb8jM3TLI7vpmzefZLO4MTmGwHHJWUhgTECbb9k/Y3GDm76/80YDife
-         9WUZctSGyRyk4m4fEMhMUlv3LBNbznQpKFu78BQo4SkjznTvqjm6wb2hF0ckqNlCgxg/
-         zTLedVJ1WOiJwgmEORTW1L9S1gMqiUIO7K3JCwXN3RZaKb4k86pVOjprv44N+VTXERO3
-         TLCA==
-X-Gm-Message-State: AOJu0YxqCbubPZEutLk/bYiKMC5DbOLBC5Cjfi/kOpYJSr4rR+LZ3z3e
-	x4+AcqDAMeUYqvxIBmx6cjVm17XZyKMrbWZkjrGQVzZRvWiOZczYp5M4AmYQjvtzqttsgaavPjb
-	J3N1D2fA=
-X-Gm-Gg: AeBDievOX6N1fGhDklK4ijoiaqFPUQMUofs5cA6ZXyszS0GlNErm8MynTuk4XKJR8kA
-	+RfGTpTSXElEGPKzsW/jApA8Uxgwgsnejc3ScAlwj0fijff3bin1wWgEXIr+O2MTPIgN1ce4R+R
-	ddOF99Puhb+m5hwVvwVkSSrZk+c3QI4+0vuBJvJe/fK6gA6TTLByj8gTJbF/U7A95vNFFXrKRJS
-	LvcBO13iBhs32OgocwVG+rfj5VFm9cmBm9w7Ft9CeGrGbd9BNiBq+EKCyNQMy3VVrybUBHAjofd
-	74gTvTdMtDgXa8Jew5uB0KOoXDHK0rSXgqW/5ObLdwaNpPK3GkmLxFrV4F2oSbQPIL7yVeqhYMn
-	P4RVYJl0JCe25MC58Tg181F90vjtcSAOXYLfj8Zfv+H7I6CKre1ccK0o2kOfnjt3CShJxKtboR7
-	bDboEGCMU7jJPuRfQ5piIUOOCCMLvcwZmIoHcpvRBOTh4WmB5vI3Xhx5/u
-X-Received: by 2002:a05:7301:618:b0:2c1:82c2:bc31 with SMTP id 5a478bee46e88-2ed4f1bafbfmr940256eec.10.1777551820380;
-        Thu, 30 Apr 2026 05:23:40 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([43.249.234.253])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed1c09b911sm8915071eec.23.2026.04.30.05.23.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 05:23:39 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] vim: fix for CVE-2026-39881
-Date: Thu, 30 Apr 2026 17:53:24 +0530
-Message-ID: <20260430122326.642225-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
+        bh=L5c+9cVev80Q6XY9xdL6/NZ9uDk45ZiQQSX/xsJnH9M=;
+        b=Burl6ZJgEPB8aJOWANXT5aI9sTyiWmg2BmpzzyfYiZYhTFEGIOab2jT57szpRQQ8Sc
+         1xE0ZqX+o6mZkUuvUm399MSnBr3t63rewFF1nhGwncG/AcpDIxT7rJvewFq3EAhfKEbO
+         P+RwgP3aK+IAVavVYZfPCarHt5bDsSXibDWxQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777551936; x=1778156736;
+        h=in-reply-to:references:subject:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L5c+9cVev80Q6XY9xdL6/NZ9uDk45ZiQQSX/xsJnH9M=;
+        b=ny4aMIifsetlDYGHnRkHTLUgWvbrq4kiN4c2KxaJMa45D2K0fIYdlYNw3fSah2z032
+         ZiAXpgWrQGhscXbhUu2juJ/ymOI4VQvFbdwWUkDbRQSEwXwpD1KLSIW1sY4QVLpRg5HJ
+         JjvGFWPZJmWbBJ4rx+5bbBYCaBP8SUHXnWShaT07QBAVkYMd2UWn5tPNxy5ALbVOocvs
+         hfivDlLisnLhuFcFyBMJdcIwNskUcmYYS94/LF9jkCRyxsR5qgg0kUdaCbcLcqgTjZFV
+         6DRMVX1SC8lkPZre5mnUGYJPafEcAnlLLexaCXiCObENATgV+qJj+hwOaAJx5NSECeiD
+         PZCA==
+X-Forwarded-Encrypted: i=1; AFNElJ/DdHSMbfIlwi9LhEnFFwZOvGH2IQ4aQPfxge4BbGb3Rb5qvQElRd4BTNsRezda4VfzkBNTjf5VluYfymcXcKVifA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw+y/TiLy1ZUMd0nW37KHP092D9kpenDrZrxBVV07AE03Gya4It
+	SgvtNJGgzNXEWS4/BbzrOcknMYulBwlY06/+FvAB/6wkvPNQHgX+ymwOYBXJVGhEYMk=
+X-Gm-Gg: AeBDieurfNJWX74YXJzaTG+1xV4KeSYJrrZ193HRtKvcQwbItsve2Mvd8QzVMG6UCsA
+	rjveNN+8kSNxWWilnDNfVfC3h915mNHgddLK9GStD6QNlYN3pV71H5YVMZ57Gw164Ok77iuCBtg
+	FaiSIC8StI/TGOW9gS+t1GfeMh4iamdz2Hgyoif+NxvhW1sTlwGtD9TzrRk9EOkNpI0WPUmLPYi
+	LcoIioUxKIz9rcWRjVbmvn6bPnV1HBkNKoeiKsJJ/kqUHK+8O90MX6P0/3k/UJUnaBHkCgoyURd
+	ZB6k8JFI5765hC2cdvMZT9Jk4+LPGbR9oPb6fm4sGEvh246TcEoVG6WtQNdXaVF2cStkRVOMnC0
+	cnWSgrXvnapaIcZHw9zDDSohLwaBTJsBhmozwv6puY7rzYgql4qGY1d1nR5LZmYF30qruwzcG+G
+	VQ0v9Wm34eb/vNffTj9rEOsi1yoiMVE2lFCR4iGL2XdU5unae7FUdqUFPgwOePxEdDefH8MtgK/
+	Ec+nYWmccKW6zaH3WHU1O+re5o=
+X-Received: by 2002:a5d:64e3:0:b0:43f:e659:1705 with SMTP id ffacd0b85a97d-4493e2ba59amr4588493f8f.20.1777551935693;
+        Thu, 30 Apr 2026 05:25:35 -0700 (PDT)
+Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b7ca67b9sm10713486f8f.34.2026.04.30.05.25.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 05:25:35 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Thu, 30 Apr 2026 14:25:34 +0200
+Message-Id: <DI6HKLJPYBHV.95KI3VALLEC2@smile.fr>
+From: "Fabien Thomas" <fabien.thomas@smile.fr>
+To: "Hongxu Jia" <hongxu.jia@windriver.com>, "Fabien Thomas"
+ <fabien.thomas@smile.fr>, <openembedded-core@lists.openembedded.org>,
+ <yoann.congal@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH 3/3] ovmf: fix CVE-2024-38798
+X-Mailer: aerc 0.21.0
+References: <20260427045650.2365793-1-hongxu.jia@windriver.com>
+ <20260427045650.2365793-3-hongxu.jia@windriver.com>
+ <DI6DQKDSGHF1.244EBN969P2YA@smile.fr>
+ <29edab2d-29e6-49f3-88ec-6eb1d831214c@windriver.com>
+In-Reply-To: <29edab2d-29e6-49f3-88ec-6eb1d831214c@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 12:23:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236161
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 12:25:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236162
 
-Pick patch from [1] also mentioned at Debian report in [2]
+On Thu Apr 30, 2026 at 2:05 PM CEST, Hongxu Jia wrote:
+> On 4/30/26 17:25, Fabien Thomas wrote:
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the sender a=
+nd know the content is safe.
+>>
+>> On Mon Apr 27, 2026 at 6:56 AM CEST, hongxu via lists.openembedded.org w=
+rote:
+>>> According to [1],
+>>>
+>>>    EDK2 contains a vulnerability in BIOS where an attacker may cause =
+=E2=80=9CExposure of
+>>>    Sensitive Information to an Unauthorized Actor=E2=80=9D by local acc=
+ess. Successful
+>>>    exploitation of this vulnerability will lead to possible information=
+ disclosure
+>>>    or escalation of privilege and impact Confidentiality.
+>>>
+>>> Backport a patch [2] from upstream to fix CVE-2024-38798
+>>>
+>>> [1] https://nvd.nist.gov/vuln/detail/CVE-2024-38798
+>>> [2] https://github.com/tianocore/edk2/commit/0cad130cb4885961da201bb9b0=
+8424b3fd3d2249
+>>>
+>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>> ---
+>>>   .../ovmf/ovmf/CVE-2024-38798.patch            | 116 +++++++++++++++++=
++
+>>>   meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
+>>>   2 files changed, 117 insertions(+)
+>>>   create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2024-38798.patch
+>>>
+>>> diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2024-38798.patch b/meta/re=
+cipes-core/ovmf/ovmf/CVE-2024-38798.patch
+>>> new file mode 100644
+>>> index 0000000000..2d0a73c7a6
+>>> --- /dev/null
+>>> +++ b/meta/recipes-core/ovmf/ovmf/CVE-2024-38798.patch
+>>> @@ -0,0 +1,116 @@
+>>> +From 81263e46ad8cf2a6c7d86bc51c95342d07ec31ca Mon Sep 17 00:00:00 2001
+>>> +From: Hongxu Jia <hongxu.jia@windriver.com>
+>>> +Date: Mon, 5 Jan 2026 13:04:18 +0800
+>>> +Subject: [PATCH] MdeModulePkg : Clear keyboard queue buffer after read=
+ing
+>>> +
+>>> +There is a possibility to retrieve user input keystroke data stored in=
+ the
+>>> +queue buffer via the EFI_SIMPLE_TEXT_INPUT_PROTOCOL pointer. To preven=
+t
+>>> +exposure of the password string, clear the queue buffer by filling it
+>>> +with zeros after reading.
+>>> +
+>>> +Signed-off-by: Nick Wang <nick.wang@insyde.com>
+>>> +
+>>> +CVE: CVE-2024-38798
+>>> +Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/0c=
+ad130cb4885961da201bb9b08424b3fd3d2249]
+>>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>> +---
+>>> + MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c       | 2 ++
+>>> + MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c        | 1 +
+>>> + MdeModulePkg/Bus/Usb/UsbKbDxe/KeyBoard.c                  | 2 +-
+>>> + .../Universal/Console/ConSplitterDxe/ConSplitter.c        | 1 +
+>>> + .../Universal/Console/TerminalDxe/TerminalConIn.c         | 8 ++++++-=
+-
+>>> + 5 files changed, 11 insertions(+), 3 deletions(-)
+>>> +
+>>> +diff --git a/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c b/Mde=
+ModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c
+>>> +index 981309f..32757a7 100644
+>>> +--- a/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c
+>>> ++++ b/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c
+>>> +@@ -650,6 +650,8 @@ PopScancodeBufHead (
+>>> +     if (Buf !=3D NULL) {
+>>> +       Buf[Index] =3D Queue->Buffer[Queue->Head];
+>>> +     }
+>>> ++
+>>> ++    Queue->Buffer[Queue->Head] =3D 0;
+>>> +   }
+>>> +
+>>> +   return EFI_SUCCESS;
+>>> +diff --git a/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c b/MdeM=
+odulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c
+>>> +index 81d3c6e..e03c88f 100644
+>>> +--- a/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c
+>>> ++++ b/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c
+>>> +@@ -51,6 +51,7 @@ PopEfikeyBufHead (
+>>> +     CopyMem (KeyData, &Queue->Buffer[Queue->Head], sizeof (EFI_KEY_DA=
+TA));
+>>> +   }
+>>> +
+>>> ++  ZeroMem (&Queue->Buffer[Queue->Head], sizeof (EFI_KEY_DATA));
+>>> +   Queue->Head =3D (Queue->Head + 1) % KEYBOARD_EFI_KEY_MAX_COUNT;
+>>> +   return EFI_SUCCESS;
+>>> + }
+>>> +diff --git a/MdeModulePkg/Bus/Usb/UsbKbDxe/KeyBoard.c b/MdeModulePkg/B=
+us/Usb/UsbKbDxe/KeyBoard.c
+>>> +index b5a6459..7df1566 100644
+>>> +--- a/MdeModulePkg/Bus/Usb/UsbKbDxe/KeyBoard.c
+>>> ++++ b/MdeModulePkg/Bus/Usb/UsbKbDxe/KeyBoard.c
+>>> +@@ -1840,7 +1840,7 @@ Dequeue (
+>>> +   }
+>>> +
+>>> +   CopyMem (Item, Queue->Buffer[Queue->Head], ItemSize);
+>>> +-
+>>> ++  ZeroMem (Queue->Buffer[Queue->Head], ItemSize);
+>>> +   //
+>>> +   // Adjust the head pointer of the FIFO keyboard buffer.
+>>> +   //
+>>> +diff --git a/MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitter=
+.c b/MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitter.c
+>>> +index 0a776f3..5c1a35e 100644
+>>> +--- a/MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitter.c
+>>> ++++ b/MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitter.c
+>>> +@@ -3537,6 +3537,7 @@ ConSplitterTextInExDequeueKey (
+>>> +     &Private->KeyQueue[1],
+>>> +     Private->CurrentNumberOfKeys * sizeof (EFI_KEY_DATA)
+>>> +     );
+>>> ++  ZeroMem (&Private->KeyQueue[Private->CurrentNumberOfKeys], sizeof (=
+EFI_KEY_DATA));
+>>> +   return EFI_SUCCESS;
+>>> + }
+>>> +
+>>> +diff --git a/MdeModulePkg/Universal/Console/TerminalDxe/TerminalConIn.=
+c b/MdeModulePkg/Universal/Console/TerminalDxe/TerminalConIn.c
+>>> +index f1d0a34..8aafb4b 100644
+>>> +--- a/MdeModulePkg/Universal/Console/TerminalDxe/TerminalConIn.c
+>>> ++++ b/MdeModulePkg/Universal/Console/TerminalDxe/TerminalConIn.c
+>>> +@@ -760,7 +760,8 @@ RawFiFoRemoveOneKey (
+>>> +     return FALSE;
+>>> +   }
+>>> +
+>>> +-  *Output =3D TerminalDevice->RawFiFo->Data[Head];
+>>> ++  *Output                             =3D TerminalDevice->RawFiFo->Da=
+ta[Head];
+>>> ++  TerminalDevice->RawFiFo->Data[Head] =3D 0;
+>>> +
+>>> +   TerminalDevice->RawFiFo->Head =3D (UINT8)((Head + 1) % (RAW_FIFO_MA=
+X_NUMBER + 1));
+>>> +
+>>> +@@ -881,6 +882,7 @@ EfiKeyFiFoForNotifyRemoveOneKey (
+>>> +   }
+>>> +
+>>> +   CopyMem (Output, &EfiKeyFiFo->Data[Head], sizeof (EFI_INPUT_KEY));
+>>> ++  ZeroMem (&EfiKeyFiFo->Data[Head], sizeof (EFI_INPUT_KEY));
+>>> +
+>>> +   EfiKeyFiFo->Head =3D (UINT8)((Head + 1) % (FIFO_MAX_NUMBER + 1));
+>>> +
+>>> +@@ -1032,6 +1034,7 @@ EfiKeyFiFoRemoveOneKey (
+>>> +   }
+>>> +
+>>> +   CopyMem (Output, &TerminalDevice->EfiKeyFiFo->Data[Head], sizeof (E=
+FI_INPUT_KEY));
+>>> ++  ZeroMem (&TerminalDevice->EfiKeyFiFo->Data[Head], sizeof (EFI_INPUT=
+_KEY));
+>>> +
+>>> +   TerminalDevice->EfiKeyFiFo->Head =3D (UINT8)((Head + 1) % (FIFO_MAX=
+_NUMBER + 1));
+>>> +
+>>> +@@ -1142,7 +1145,8 @@ UnicodeFiFoRemoveOneKey (
+>>> +   Head =3D TerminalDevice->UnicodeFiFo->Head;
+>>> +   ASSERT (Head < FIFO_MAX_NUMBER + 1);
+>>> +
+>>> +-  *Output =3D TerminalDevice->UnicodeFiFo->Data[Head];
+>>> ++  *Output                                 =3D TerminalDevice->Unicode=
+FiFo->Data[Head];
+>>> ++  TerminalDevice->UnicodeFiFo->Data[Head] =3D 0;
+>>> +
+>>> +   TerminalDevice->UnicodeFiFo->Head =3D (UINT8)((Head + 1) % (FIFO_MA=
+X_NUMBER + 1));
+>>> + }
+>>> +--
+>>> +2.34.1
+>>> +
+>>> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovm=
+f/ovmf_git.bb
+>>> index f0503db9fb..85b3d7c911 100644
+>>> --- a/meta/recipes-core/ovmf/ovmf_git.bb
+>>> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+>>> @@ -36,6 +36,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;br=
+anch=3Dmaster;protocol=3Dhttps \
+>>>              file://CVE-2025-2296-7.patch \
+>>>              file://CVE-2025-2296-8.patch \
+>>>              file://CVE-2025-2296-9.patch \
+>>> +           file://CVE-2024-38798.patch \
+>>>              "
+>>>
+>>>   PV =3D "edk2-stable202402"
+>> Helllo Hongxu,
+>>
+>> I'm filling in for Yoann while he's on leave.
+>>
+>> It appears that the patches from commits "[PATCH 2/3] ovmf: fix CVE-2025=
+-2296"
+>> and "[PATCH 3/3] ovmf: fix CVE-2024-38798" do not apply to neither
+>> scarthgap-next nor scarthgap branch :
+>> `Patch 0001-AmdSev-Halt-on-failed-blob-allocation.patch does not apply`
+>> `Patch CVE-2024-38798.patch does not apply`
+>>
+>> Could you take another look at this?
+>
+> Hi Thomas,
+>
+> I could apply the patch on latest scarthgap, I am afraid it was caused=20
+> by the `CR' at the end of lines
+>
+> would you please apply the patch by `git am --keep-cr 00*.patch' or=20
+> cherry-pick from my github by following steps:
+>
+> $ git fetch https://github.com/hongxu-jia/openembedded-core.git scarthgap
+>
+> $ git log HEAD..FETCH_HEAD=C2=A0 --oneline
+> 405b06db9d (scarthgap) ovmf: fix CVE-2024-38798
+> 5b951e8d74 ovmf: fix CVE-2025-2296
+> 2b93d45cfa u-boot: fix CVE-2025-24857
+>
+> $ git cherry-pick=C2=A02b93d45cfa=C2=A05b951e8d74=C2=A0405b06db9d
+>
+> //Hongxu
+>
+>
+>>
+>> --
+>> Fabien Thomas
+>> Smile ECS
+>>
 
-[1] https://github.com/vim/vim/commit/7ab76a86048ed492374ac6b19c6cb52f89a365b4
-[2] https://security-tracker.debian.org/tracker/CVE-2026-39881
+Sorry Hongxu,
 
-More details: https://nvd.nist.gov/vuln/detail/CVE-2026-39881
+I didn't see your other reply, at first.
+I've just done exactly what you suggest and they applied correctly now.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../vim/files/CVE-2026-39881.patch            | 248 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 249 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-39881.patch
+Thanks for these fixes.
+Regards,
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-39881.patch b/meta/recipes-support/vim/files/CVE-2026-39881.patch
-new file mode 100644
-index 0000000000..e0d21c5f23
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-39881.patch
-@@ -0,0 +1,248 @@
-+From 7ab76a86048ed492374ac6b19c6cb52f89a365b4 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Tue, 7 Apr 2026 17:32:02 +0000
-+Subject: [PATCH] patch 9.2.0316: [security]: command injection in netbeans
-+ interface via defineAnnoType
-+
-+Problem:  [security]: The netbeans defineAnnoType command passes typeName, fg and bg
-+          unsanitized to coloncmd(), allowing a malicious server to inject
-+          arbitrary Ex commands via '|'. Similarly, specialKeys does not
-+          validate key tokens before building a map command.
-+Solution: Validate typeName, fg and bg against an allowlist of safe
-+          characters before passing them to coloncmd()
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-mr87-rhgv-7pw6
-+
-+Supported by AI
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+CVE: CVE-2026-39881
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/7ab76a86048ed492374ac6b19c6cb52f89a365b4]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ runtime/doc/netbeans.txt      |  4 +--
-+ runtime/doc/tags              |  1 +
-+ src/errors.h                  |  3 ++-
-+ src/netbeans.c                | 46 ++++++++++++++++++++++++++++++++++-
-+ src/po/vim.pot                |  5 +++-
-+ src/testdir/test_netbeans.py  |  4 ++-
-+ src/testdir/test_netbeans.vim | 38 +++++++++++++++++++++++++++++
-+ 7 files changed, 96 insertions(+), 7 deletions(-)
-+
-+diff --git a/runtime/doc/netbeans.txt b/runtime/doc/netbeans.txt
-+index ca32f06f66..fa53eae784 100644
-+--- a/runtime/doc/netbeans.txt
-++++ b/runtime/doc/netbeans.txt
-+@@ -1,4 +1,4 @@
-+-*netbeans.txt*  For Vim version 9.1.  Last change: 2025 Aug 10
-++*netbeans.txt*  For Vim version 9.1.  Last change: 2026 Apr 30
-+ 
-+ 
-+ 		  VIM REFERENCE MANUAL    by Gordon Prieur et al.
-+@@ -847,7 +847,7 @@ REJECT		Not used.
-+ These errors occur when a message violates the protocol:
-+ *E627* *E628* *E629* *E632* *E633* *E634* *E635* *E636*
-+ *E637* *E638* *E639* *E640* *E641* *E642* *E643* *E644* *E645* *E646*
-+-*E647* *E648* *E650* *E651* *E652*
-++*E647* *E648* *E649* *E650* *E651* *E652*
-+ 
-+ 
-+ ==============================================================================
-+diff --git a/runtime/doc/tags b/runtime/doc/tags
-+index 8af54eae0a..300dfd18a6 100644
-+--- a/runtime/doc/tags
-++++ b/runtime/doc/tags
-+@@ -5236,6 +5236,7 @@ E645	netbeans.txt	/*E645*
-+ E646	netbeans.txt	/*E646*
-+ E647	netbeans.txt	/*E647*
-+ E648	netbeans.txt	/*E648*
-++E649	netbeans.txt	/*E649*
-+ E65	pattern.txt	/*E65*
-+ E650	netbeans.txt	/*E650*
-+ E651	netbeans.txt	/*E651*
-+diff --git a/src/errors.h b/src/errors.h
-+index 5d6867464b..01ed16a035 100644
-+--- a/src/errors.h
-++++ b/src/errors.h
-+@@ -1664,7 +1664,8 @@ EXTERN char e_invalid_buffer_identifier_in_setdot[]
-+ 	INIT(= N_("E647: Invalid buffer identifier in setDot"));
-+ EXTERN char e_invalid_buffer_identifier_in_close[]
-+ 	INIT(= N_("E648: Invalid buffer identifier in close"));
-+-// E649 unused
-++EXTERN char e_invalid_identifier_in_defineannotype[]
-++	INIT(= N_("E649: Invalid identifier name in defineAnnoType"));
-+ EXTERN char e_invalid_buffer_identifier_in_defineannotype[]
-+ 	INIT(= N_("E650: Invalid buffer identifier in defineAnnoType"));
-+ EXTERN char e_invalid_buffer_identifier_in_addanno[]
-+diff --git a/src/netbeans.c b/src/netbeans.c
-+index 8a341a20be..599cdc1994 100644
-+--- a/src/netbeans.c
-++++ b/src/netbeans.c
-+@@ -40,6 +40,11 @@
-+ #define GUARDEDOFFSET 1000000 // base for "guarded" sign id's
-+ #define MAX_COLOR_LENGTH 32 // max length of color name in defineAnnoType
-+ 
-++// Characters valid in a sign/highlight group name
-++#define VALID_CHARS         (char_u *)"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-++#define VALID_SIGNNAME_CHARS    VALID_CHARS "_"
-++#define VALID_COLOR_CHARS       VALID_CHARS "#"
-++
-+ // The first implementation (working only with Netbeans) returned "1.1".  The
-+ // protocol implemented here also supports A-A-P.
-+ static char *ExtEdProtocolVersion = "2.5";
-+@@ -77,6 +82,22 @@ static int dosetvisible = FALSE;
-+ static int needupdate = 0;
-+ static int inAtomic = 0;
-+ 
-++/*
-++ * Return TRUE if "str" contains only characters from "allowed".
-++ * Used to validate NetBeans-supplied strings before interpolating them
-++ * into Ex commands via coloncmd().
-++ */
-++    static int
-++nb_is_safe_string(char_u *str, char_u *allowed)
-++{
-++    if (str == NULL)
-++	return FALSE;
-++    for (char_u *p = str; *p != NUL; p++)
-++	if (vim_strchr(allowed, *p) == NULL)
-++	    return FALSE;
-++    return TRUE;
-++}
-++
-+ /*
-+  * Callback invoked when the channel is closed.
-+  */
-+@@ -1949,6 +1970,15 @@ nb_do_cmd(
-+ 		VIM_CLEAR(typeName);
-+ 		parse_error = TRUE;
-+ 	    }
-++	    else if (!nb_is_safe_string(typeName, VALID_SIGNNAME_CHARS) ||
-++		    (*fg != NUL && !nb_is_safe_string(fg, VALID_COLOR_CHARS)) ||
-++		    (*bg != NUL && !nb_is_safe_string(bg, VALID_COLOR_CHARS)))
-++	    {
-++		nbdebug(("    invalid chars in typeName/fg/bg in defineAnnoType\n"));
-++		emsg(_(e_invalid_identifier_in_defineannotype));
-++		VIM_CLEAR(typeName);
-++		parse_error = TRUE;
-++	    }
-+ 	    else if (typeName != NULL && tooltip != NULL && glyphFile != NULL)
-+ 		addsigntype(buf, typeNum, typeName, tooltip, glyphFile, fg, bg);
-+ 
-+@@ -2321,11 +2351,25 @@ special_keys(char_u *args)
-+ 
-+ 	if (strlen(tok) + i < KEYBUFLEN)
-+ 	{
-+-	    strcpy(&keybuf[i], tok);
-++	    // Only allow alphanumeric and function-key name characters.
-++	    // Reject anything else to prevent map command injection.
-++	    int safe = TRUE;
-++	    for (char_u *tp = (char_u *)tok; *tp != NUL; tp++)
-++	    {
-++		if (!ASCII_ISALNUM(*tp) && *tp != '-')
-++		{
-++		    safe = FALSE;
-++		    break;
-++		}
-++	    }
-++	    if (safe)
-++	    {
-++	    vim_strncpy((char_u *)&keybuf[i], (char_u *)tok, KEYBUFLEN - i - 1);
-+ 	    vim_snprintf(cmdbuf, sizeof(cmdbuf),
-+ 				 "<silent><%s> :nbkey %s<CR>", keybuf, keybuf);
-+ 	    do_map(MAPTYPE_MAP, (char_u *)cmdbuf, MODE_NORMAL, FALSE);
-+ 	}
-++    }
-+ 	tok = strtok(NULL, " ");
-+     }
-+     vim_free(save_str);
-+diff --git a/src/po/vim.pot b/src/po/vim.pot
-+index bf44567726..9608271418 100644
-+--- a/src/po/vim.pot
-++++ b/src/po/vim.pot
-+@@ -8,7 +8,7 @@ msgid ""
-+ msgstr ""
-+ "Project-Id-Version: Vim\n"
-+ "Report-Msgid-Bugs-To: vim-dev@vim.org\n"
-+-"POT-Creation-Date: 2025-08-23 16:16+0200\n"
-++"POT-Creation-Date: 2026-04-30 12:40+0200\n"
-+ "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-+ "Language-Team: LANGUAGE <LL@li.org>\n"
-+@@ -5866,6 +5866,9 @@ msgstr ""
-+ msgid "E648: Invalid buffer identifier in close"
-+ msgstr ""
-+ 
-++msgid "E649: Invalid identifier name in defineAnnoType"
-++msgstr ""
-++
-+ msgid "E650: Invalid buffer identifier in defineAnnoType"
-+ msgstr ""
-+ 
-+diff --git a/src/testdir/test_netbeans.py b/src/testdir/test_netbeans.py
-+index 585886fb40..ba5fd638ec 100644
-+--- a/src/testdir/test_netbeans.py
-++++ b/src/testdir/test_netbeans.py
-+@@ -113,7 +113,9 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
-+                   'endAtomic_Test' : '0:endAtomic!95\n',
-+                   'AnnoScale_Test' : "".join(['2:defineAnnoType!60 ' + str(i) + ' "s' + str(i) + '" "x" "=>" blue none\n' for i in range(2, 26)]),
-+                   'detach_Test' : '2:close!96\n1:close!97\nDETACH\n',
-+-                  'specialKeys_overflow_Test' : '0:specialKeys!200 "' + 'A'*80 + '-X"\n'
-++                  'specialKeys_overflow_Test' : '0:specialKeys!200 "' + 'A'*80 + '-X"\n',
-++                  'defineAnnoType_injection_Test': '1:defineAnnoType!1 "MySign guifg=red|call writefile([\'inject\'],\'Xinject\')|" "tooltip" "glyphFile" 1 2\n'
-++
-+ 
-+                 }
-+                 # execute the specified test
-+diff --git a/src/testdir/test_netbeans.vim b/src/testdir/test_netbeans.vim
-+index d1be5066ef..a464c63acc 100644
-+--- a/src/testdir/test_netbeans.vim
-++++ b/src/testdir/test_netbeans.vim
-+@@ -1024,4 +1024,42 @@ func Test_nb_specialKeys_overflow()
-+   call s:run_server('Nb_specialKeys_overflow')
-+ endfunc
-+ 
-++func Nb_defineAnnoType_injection(port)
-++  call writefile([], "Xnetbeans", 'D')
-++  let g:last = 0
-++
-++  exe 'nbstart :localhost:' .. a:port .. ':bunny'
-++  call assert_true(has("netbeans_enabled"))
-++  call WaitFor('len(ReadXnetbeans()) > (g:last + 2)')
-++  let g:last += 3
-++
-++  split Xcmdbuf
-++  let cmdbufnr = bufnr()
-++  call WaitFor('len(ReadXnetbeans()) > (g:last + 2)')
-++  let g:last += 3
-++  hide
-++
-++  sleep 1m
-++
-++  call delete('Xinject')
-++  call appendbufline(cmdbufnr, '$', 'defineAnnoType_injection_Test')
-++  " E475 from :sign is expected — catch it before RunServer sees it.
-++  " give it a bit of time to process it
-++  try
-++    sleep 500m
-++  catch /E475/
-++  catch /E649/
-++  endtry
-++
-++  " Injected call must not have created this file
-++  call assert_false(filereadable('Xinject'))
-++  call delete('Xinject')
-++  bwipe! Xcmdbuf
-++  nbclose
-++endfunc
-++
-++func Test_nb_defineAnnoType_injection()
-++  call ch_log('Test_nb_defineAnnoType_injection')
-++  call s:run_server('Nb_defineAnnoType_injection')
-++endfunc
-+ " vim: shiftwidth=2 sts=2 expandtab
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 9456cf3e13..1396ac4fbc 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -21,6 +21,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-33412.patch \
-            file://CVE-2026-28418.patch \
-            file://CVE-2026-28419.patch \
-+           file://CVE-2026-39881.patch \
-            "
- 
- PV .= ".1683"
--- 
-2.50.1
+--=20
+Fabien Thomas
+Smile ECS
 
 
