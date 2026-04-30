@@ -1,117 +1,81 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43838CD13D3
-	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 07:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48664FF886F
+	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 07:28:28 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14769.1777533667595908914
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14885.1777534101032554307
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2026 00:21:08 -0700
+ Thu, 30 Apr 2026 00:28:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=Yrhgjn1m;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=FwQeDlmv;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 418C14E42B74
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 07:21:05 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 37FD64E42B73;
+	Thu, 30 Apr 2026 07:28:19 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1170C60495;
-	Thu, 30 Apr 2026 07:21:05 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 761E51072B6D9;
-	Thu, 30 Apr 2026 09:21:03 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 067F660495;
+	Thu, 30 Apr 2026 07:28:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D82271072B6F2;
+	Thu, 30 Apr 2026 09:28:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777533664; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1777534098; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=q5SSHtUL37RrZzH3MIP7Gtemx7g1jQiUb2IreB7ghxs=;
-	b=Yrhgjn1mZiIxJVhCDgfNPEWCMevG/H2nG3NjqYiwS2k4CEMTDz5Es9D0LbD8O8ueduZP83
-	Vj8GBIWwMjPgKG1UxJ74lUQUdJQzslf1OWAVw8/usa0NQt9ov+mxuW/g3ugd7msJD4XSYD
-	ED/jH2oJJF6HH8aMlZhLwHKea43vMAlTEuwf2dxcoqfHfwZK+Wui9F3tjjCl5i16Gw5NWP
-	0za9nkJLIUOsHE5RhceS9aPH0CdGb+qTBEl6vCKIKHGHJriiS7U2ykNOt8uLPvVzyA9aei
-	1EzqZbjbE/5L9thl6u5unyEvbQ9YQSpa5xkNiRry6ky7Hcc6Ph1ExzItjRP5YQ==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: 
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/6] sudo: set status of CVE-2025-64170 and CVE-2025-64517
-Date: Thu, 30 Apr 2026 09:21:02 +0200
-Message-ID: <zu-eGewcQDqGgk84Tio0gA@bootlin.com>
-In-Reply-To: 
- <AS1PR10MB56972D5D144DE00D1F5838B3FD342@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: 
- <20260426185025.13217-1-peter.marko@siemens.com>
- <guQOcvruSnqgA-55eCHYSw@bootlin.com>
- <AS1PR10MB56972D5D144DE00D1F5838B3FD342@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-MIME-Version: 1.0
+	bh=6ZM6Do65Qwib6YQSpu0XOKAtiJhObhUbSkZzorxwEh8=;
+	b=FwQeDlmvAjN2ujEdv5Ie4diewn8SNtJCnnatfy89CcBUV3QJzKZiRHwmd1fma894al10Fq
+	KUimKdf+2n7ZjRi6XvaWuRRi11wANGe3wn9sdMx1fBsi0B1EexS3WvS8iIs01IQQB+3fbZ
+	elsR3dpoJXtSBDPWqPYwg3Ko6TdUml6tNl4GJ/QNHpR7g+G12YlRmgL3tKPlK/BxgakNHL
+	wmypAurObDhYEqTL/cMqf1UJaG/PI2BICEOFanbjHNT1/tXSzWtuRE/Ux1xT6W1vlJw75h
+	gtHOZ9bnoEHfwp2QO3Ml21p++TsxnAQLICW39DIDSFfUz5x6BjhAVL30Wf7agg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 30 Apr 2026 09:28:17 +0200
+Message-Id: <DI6B8Z1L4R7N.FUR3IC2PYJWU@bootlin.com>
+Subject: Re: [OE-core][PATCH] libfwumdata: add new recipe
+Cc: <linux-amarula@amarulasolutions.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <dario.binacchi@amarulasolutions.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260429145136.618168-1-dario.binacchi@amarulasolutions.com>
+In-Reply-To: <20260429145136.618168-1-dario.binacchi@amarulasolutions.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 07:21:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236141
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 07:28:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236142
 
-Hello Peter,
+On Wed Apr 29, 2026 at 4:51 PM CEST, Dario Binacchi via lists.openembedded.=
+org wrote:
+> libfwumdata is a lightweight C library for parsing, validating (CRC32),
+> and manipulating Firmware Update (FWU) metadata, allowing tools such as
+> RAUC or SWUpdate, and in general any application, to modify the boot
+> bank selection.
+>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> ---
 
-On Wednesday, April 29, 2026 at 7:13=E2=80=AFPM, Marko, Peter wrote:
+Hi Dario,
 
-> > > Hello Benjamin,
-> > >
-> > > I will sent CVE_PRODUCT update to get rid of some older sudo-rs CVE.
-> > >
-> > > However for these two CVEs, I can still only see "sudo-rs" as product=
-, not "sudo",
-> > also via link you have provided from cveawg.org/api.
-> >=20
-> > Yes, but this is not a CPE. As explained previously (see the steps deta=
-iled
-> > above in the previous email), using the vendor/product names extracted =
-from
-> > the associated field, we look in the products database for an associate=
-d CPE:
-> > https://github.com/bootlin/sbom-cve-
-> > check/blob/v1.3.0/src/sbom_cve_check/products/products.toml#L1688
->=20
-> Thanks for the explanation.
-> Finally, I'm starting to understand how some CVEs get assigned to compone=
-nts where I'd not expect them.
->=20
-> How was that toml file created? Manual work?
-> For sudo I think the table is correct (although I don't understand NVD mo=
-tivation for that).
+Thanks for your patch.
 
-This is a mix of an automated script and of a manual work...
-=20
-> However for SDL (CVE-2026-35444) it looks wrong:
-> https://github.com/bootlin/sbom-cve-check/blob/v1.3.0/src/sbom_cve_check/=
-products/products.toml#L1608
-> Why does it map sdl and sdl_image and simple_directmedia_layer together?
-> There are distinctive CPEs for both sdl and sdl_image in NVD DB...
+In addition to Alex comment, I note build is failing on the autobuilder:
 
-=46rom my understanding this was the same component, but it is clearly
-not the case...
+ERROR: libfwumdata-0.1.0-r0 do_unpack: Recipes that set S =3D "${WORKDIR}/g=
+it" or S =3D "${UNPACKDIR}/git" should remove that assignment, as S set by =
+bitbake.conf in oe-core now works.
 
-=2D https://nvd.nist.gov/vuln/detail/CVE-2019-7573 use this CPE
-  "cpe:2.3:a:libsdl:simple_directmedia_layer:*:*:*:*:*:*:*:*"
-  and refer to both SDL 1 and 2. The referenced code looks like it is:
-  https://github.com/libsdl-org/SDL/blob/main/src/audio/SDL_wave.c#L376
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3709
 
-=2D https://nvd.nist.gov/vuln/detail/CVE-2008-0544 use this CPE
-  "cpe:2.3:a:sdl:sdl_image:1.2.6:*:*:*:*:*:*:*"
-   and refer to SDL_image 1. The referenced code looks like it is:
-   https://github.com/libsdl-org/SDL_image/blob/SDL-1.2/IMG_lbm.c
+Thanks,
+Mathieu
 
-> Peter
-
-I expected to make several mistakes. This is a first version, and it is
-going to be improved and fixed in the long run (at least this was my plan).
-
-=2D-=20
-Benjamin Robin, Bootlin
+--=20
+Mathieu Dubois-Briand, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
-
-
 
 
