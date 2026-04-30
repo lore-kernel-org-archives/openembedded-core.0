@@ -1,93 +1,174 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 818C4FF8875
-	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 13:00:53 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19899.1777554047078588684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E74FF8875
+	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 13:43:13 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20904.1777556587799319910
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2026 06:00:47 -0700
+ Thu, 30 Apr 2026 06:43:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=iFVw26EB;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=RZcEebIU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019dde7a3cea-4dc6615e-74eb-49d9-9cdb-31a8c7bd6751-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777554046; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=/GzwOMh7m/smDj2mCDM2m9do1YLJp71Z6hIYtetduSw=;
-	b=iFVw26EBeBOPnX4EGpELWUb6j98Q3JMfJZrplzBr+VKJ11CuKO7LNGzIcBzu/vSl
-	4y4dZIwQaCuNFJuW/ifDVm6YHKCeed+g+YbHr532hoHmLvOuhztCwLGYAQgMa83AdCq
-	LE/NsuUS5PVJRcDW0EVr5ThoaD1Hnx3gmYivtLVA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777554046;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=/GzwOMh7m/smDj2mCDM2m9do1YLJp71Z6hIYtetduSw=;
-	b=RZcEebIU2udxXoZkyAYRFqV0D232757Eg3pgPmpjA5vLsT6q9Qh0pyjOa+yKvHsR
-	wnbuGYMyMCOetfZMxfwY3dHu/MP8I+9FPKbcqy/ZM8BxEdTwj11Cxl9hR9brekw9fMN
-	gXP0yOTGrUm77eC+aObjIHfqG7iTifskHloB2Gvo=
-From: patchtest@automation.yoctoproject.org
-To: Tushar Darote <tdarote@qti.qualcomm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gstreamer1.0-plugins-bad: handle padded buffers in wl_shm
- buffer creation
-In-Reply-To: <20260430114715.990400-1-tdarote@qti.qualcomm.com>
-References: <20260430114715.990400-1-tdarote@qti.qualcomm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019dde7a3cea-4dc6615e-74eb-49d9-9cdb-31a8c7bd6751-000000@us-west-2.amazonses.com>
-Date: Thu, 30 Apr 2026 13:00:46 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.04.30-54.240.27.193
+ dkim=pass header.i=@smile.fr header.s=google header.b=E2dQYLok;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488d2079582so9740035e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 06:43:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1777556586; x=1778161386; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nNFsH76ggmBAfvJoyscdNguDZRm/4eEGnQi/qg0hZqc=;
+        b=E2dQYLoki6H5Jr+xG4lbWKIli9bkwJ0ptfTO62YReSd4NNUWzCLjEhLhRYfZlbiuKJ
+         AVRRGMjuBH5WTKKZD5DVedsaBgDIAUMVts5GJLQLKS0AXOH6zNWwNquAU9wq7O+IDMJP
+         +pWH2QUWmsuvPXNcIuIjFRsqmdMt5QyyiuofE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777556586; x=1778161386;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nNFsH76ggmBAfvJoyscdNguDZRm/4eEGnQi/qg0hZqc=;
+        b=Y5oRb41+JJh+NRNWaShMWJcSUAVwKMA+D3UjLCJkoMtwD6D7j0RhpGNjwuazY7K+aK
+         vP1bch1gm6VmMEvmAA9G7UZFwGF91n18RWZ22QthkI5IZSKfyLexBWsgrTiy9jxturx5
+         gnxHy7BNnAKcPzU58Xpu5Kt58HAAUUcne7py8pB1FaffD1QcgG7pswtzicMql/K2YzSu
+         xY1IUHKJeBWcM1I1qCQ2GrLxyuvHLyGgs2HgEWCRxypprv5S90bp2ii4Ybd5LMyHN5Ua
+         cnrKCBGXtGaLNGixp3ZD912YOBVKOz+bhusbN61tU3uPKFPtGXITWdbLjwzFg+DMPYrN
+         56ZA==
+X-Forwarded-Encrypted: i=1; AFNElJ+bPtPRg5Ozsn7bSYt7bLjIyK4ckTgwqbDr9i7s6wR0w2WBnNXU44XXA47MIOkgBIgk4OYycWwIKi5ttXXwUwU9bw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwqcSTXCuKqRZhEpxoU28YpqhnfIFzPi2/TAN+y3gDUUre8IZuS
+	o4+/MNTQDdwPWv5pz011bsHZm2kEYh7mF46OyYgyNJ34qcHU6x5ywondWtY50SolyEo=
+X-Gm-Gg: AeBDiet7xJPqVMrhZfgFGoQwnIpiiFhenbxpQ6LnhoVetcHre0//o+nBiv+o7/PwUKU
+	kR144nGNjivvTIwTdZ5vyNi6IwUHPimYsKem/ibuSZRayCcFoD/B+z4g1yCtWsWWmzVnQKJhh2w
+	SOGGppH8j/NDI3vxUE6pZTYcpBVTfBgFeY9k+otw/1ZT6CkSGEFsXp6rEMCr3KN/6W1Sri2E8p5
+	w/onzEnYo7t7qflHPfESnYPZPIiCPZ4mMY9JoZcZ97dmUDhhdoHQr8Srl/bBUu8fO7KJFQENCaD
+	IimBpOYf7WsZCBv2g4mQ2615pgAYeCHfzQ5jp+Qu/6sHEl4kEyQ4A6aVUvP09vji5MDWpRVl0JK
+	4j5n16Piew6hSDTCggbAyoCH8fVW/Y+yV/U8+vnovbGHm/9l7mSp8kaZlTSi7JS/mPOGLqgf/fJ
+	WpntAf/hSWaRhnhqyQRHOJMZXLuooCLIV1Jl/Hswdm1kG1LijiEI2AH9q3vJ2Wlwowm+7pgGXgm
+	o4GwAjamNFeXlS5bb3MHDzO18M=
+X-Received: by 2002:a05:600c:4fc8:b0:48a:7772:c26b with SMTP id 5b1f17b1804b1-48a8445d259mr52139295e9.26.1777556586042;
+        Thu, 30 Apr 2026 06:43:06 -0700 (PDT)
+Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c319385sm60372275e9.9.2026.04.30.06.43.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 06:43:05 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 30 Apr 2026 15:43:04 +0200
+Message-Id: <DI6J7XTUQ6CP.EB98FAD9J0WE@smile.fr>
+Subject: Re: [OE-core][scarthgap][patch] gdk-pixbuf: Fix CVE-2026-5201
+From: "Fabien Thomas" <fabien.thomas@smile.fr>
+To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0
+References: <20260428070240.2691024-1-vanusuri@mvista.com>
+In-Reply-To: <20260428070240.2691024-1-vanusuri@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 13:00:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236167
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 13:43:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236168
 
---NextPart
-Content-Type: text/plain
+On Tue Apr 28, 2026 at 9:02 AM CEST, Vijay Anusuri via lists.openembedded.o=
+rg wrote:
+> Pick patch according to [1]
+>
+> [1] https://security-tracker.debian.org/tracker/CVE-2026-5201
+> [2] https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/304
+>
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> ---
+>  .../gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch | 44 +++++++++++++++++++
+>  .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |  1 +
+>  2 files changed, 45 insertions(+)
+>  create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-520=
+1.patch
+>
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch=
+ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch
+> new file mode 100644
+> index 0000000000..97e0dddb62
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch
+> @@ -0,0 +1,44 @@
+> +From 6cce9311e70b969cbcc6e3e1e74ae1756ed02d5b Mon Sep 17 00:00:00 2001
+> +From: Matthias Clasen <mclasen@redhat.com>
+> +Date: Mon, 30 Mar 2026 12:21:56 -0400
+> +Subject: [PATCH] jpeg: Reject unsupported number of components
+> +
+> +This condition was already checked for incremental loading.
+> +This commit adds the same check in the nonincremental
+> +code path.
+> +
+> +Closes: #304
+> +
+> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/c=
+ommit/6cce9311e70b969cbcc6e3e1e74ae1756ed02d5b]
+> +CVE: CVE-2026-5201
+> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> +---
+> + gdk-pixbuf/io-jpeg.c | 12 ++++++++++++
+> + 1 file changed, 12 insertions(+)
+> +
+> +diff --git a/gdk-pixbuf/io-jpeg.c b/gdk-pixbuf/io-jpeg.c
+> +index 9ee1d21..d419812 100644
+> +--- a/gdk-pixbuf/io-jpeg.c
+> ++++ b/gdk-pixbuf/io-jpeg.c
+> +@@ -625,6 +625,18 @@ gdk_pixbuf__real_jpeg_image_load (FILE *f, struct j=
+peg_decompress_struct *cinfo,
+> + 	cinfo->do_fancy_upsampling =3D FALSE;
+> + 	cinfo->do_block_smoothing =3D FALSE;
+> +=20
+> ++	/* Reject unsupported component counts */
+> ++	if (cinfo->output_components !=3D 3 && cinfo->output_components !=3D 4=
+ &&
+> ++	    !(cinfo->output_components =3D=3D 1 &&
+> ++	      cinfo->out_color_space =3D=3D JCS_GRAYSCALE)) {
+> ++		g_set_error (error,
+> ++			     GDK_PIXBUF_ERROR,
+> ++			     GDK_PIXBUF_ERROR_CORRUPT_IMAGE,
+> ++			     _("Unsupported number of color components (%d)"),
+> ++			     cinfo->output_components);
+> ++		goto out;
+> ++	}
+> ++
+> + 	pixbuf =3D gdk_pixbuf_new (GDK_COLORSPACE_RGB,=20
+> + 				 cinfo->out_color_components =3D=3D 4 ? TRUE : FALSE,=20
+> + 				 8,
+> +--=20
+> +2.43.0
+> +
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/r=
+ecipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+> index 7c58fe1e1d..2f0de425b5 100644
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+> @@ -22,6 +22,7 @@ SRC_URI =3D "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-$=
+{PV}.tar.xz \
+>             file://0001-meson.build-allow-a-subset-of-tests-in-cross-comp=
+ile.patch \
+>             file://CVE-2025-7345.patch \
+>             file://CVE-2025-6199.patch \
+> +           file://CVE-2026-5201.patch \
+>             "
+> =20
+>  SRC_URI[sha256sum] =3D "b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a1=
+48cb669ab748e3c7"
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Vijay=20
 
----
-Testing patch /home/patchtest/share/mboxes/gstreamer1.0-plugins-bad-handle-padded-buffers-in-wl_shm-buffer-creation.patch
+Thanks for this patch, but unfortunately I have to put it on hold.
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+The fix is merged in the upstream project gtk-pixbuf from the version 2.44.=
+6,
+and the oe-core master branch is currently using gtk-pixbuf 2.44.5.
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+You'll need to either submit to master a backport of this patch or=20
+bump to 2.44.6 before I can approve it here.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+Thank you.
 
----
+--=20
+Fabien Thomas
+Smile ECS
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
