@@ -1,126 +1,133 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8010FF8873
-	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 18:37:48 +0000 (UTC)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5768.1777574265147133987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29058CD13DA
+	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 19:45:09 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7106.1777578305835695017
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2026 11:37:45 -0700
+ Thu, 30 Apr 2026 12:45:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Y2/IRdZz;
- spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: danismostlikely@gmail.com)
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7dbe437b072so842324a34.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 11:37:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=nlyoT17m;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2b4583f0a1aso8677595ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 12:45:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777574264; x=1778179064; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1777578305; x=1778183105; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ztpc4bvbNjnPTHw/7NhNZdHar/zBqzcRHJtLmRwTTK0=;
-        b=Y2/IRdZzBztsS/Uz7JH13esgD4k+b+8XvA5T05sgbgL1lZIR0396h6nv0j37hr0ea2
-         ZyWYcAAzYyZW2AydWICsJEYTJ/PoTrnZ2XWXZB13ZJjADHfk4Kmp63ZJpm62THFDp1mf
-         tA7vRKesWXhWBE0uqTq7T+ZTBXlRTaz2+15z8XRoTlXXt83sod7fkxQv/VYb94mhWaqT
-         wlS9BqMtaw5+fLvez7ot2SnhrtWOywvQo2ANbZQPNyCzkwOo4/3CgHI9dqJ1o78GKOn6
-         LbaBp+r+KM37b7GP0jddnSuJKaPWBlWEJ3EBMTySbtkOzV8tfmRejm5EVk+Kb54BCUcS
-         mJtQ==
+        bh=gcoQpAI8Mh/opK8Dsw79RFq7l8TT6DdQjTylsz9/EZw=;
+        b=nlyoT17m9sTMwbEtnjhWI+fcaSA53GysWFHmnuLOgsAFj7AKw+m5PKc4t2NCm4kztJ
+         VB7o4Ly0ceGK+jTup4LM5V43WYh05PGcwL5tgqs7mefx2fFGeGs+0hP6R03rupjgLlih
+         H+8WzfJanq0MKE6Nmlg8W4mY9HN8aFxvwtMNgdMDaTiIk68DK/uchybWslb0kAbYjFnT
+         4PJIQ2V23Q/DZgVPqoDqIX7DhSmIc84wQvhSJG20bvyPkzqGmrnendVA+Gv0QD/7gowA
+         oz9Rm2U03ht0bWn0kKJ+QbSCOtZucPReQNG6qNypntxfrKhcExfaBYt5PFvTJkPBohCx
+         8xPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777574264; x=1778179064;
+        d=1e100.net; s=20251104; t=1777578305; x=1778183105;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ztpc4bvbNjnPTHw/7NhNZdHar/zBqzcRHJtLmRwTTK0=;
-        b=haKkr7izJJJn1ivwH97M1gRziOi1Sx9098jSIAzUK5rkWuHYD1mbV3pFPWCkcjemyL
-         +Pd2Qtl4qRj1X0Jeu7jaVkU8YU7ZMp19RwXLqeVAImkbc+3X15tVTO2A9vvQL9hYUy7L
-         zFKEAThUBlHgiLg4vWOifTD35kOuHq3zvvQ+mVtx/mk8aMXZw5yqTfIW4dpMVs6r7O/z
-         /xpkZRo1NtbKfsqNlJDBcNyVPEttZlZ0Ia3Z8S1NNX0YmTuc1PnOV+1wSpWDmrVpseJA
-         bds4M8bnp1Befs9Ar+JtaVcpE81l24xrP08ydAUEWagbITfDWEnWQHGmI19zd6SMaAZM
-         OF/g==
-X-Gm-Message-State: AOJu0YxogX7yACrdq8TIcwezMeYdRDDLe+P04g6CLweO+OESG5LY5uPE
-	L/a0/+f/DWZN+KyCkiDvCktC376su7EJZp4luHebA04xHBiPpSjAjkjLb8QxEg==
-X-Gm-Gg: AeBDies9hE9zoE1qgHfrA6mpDqov3cvX89kncufmoli4/x6lLRh8YvELfZPAT5YVAaX
-	EOA++utTfU3aRVmTFmxLtlLStCShReu6rPeFIv+NXRZZEfIv1eX1PElvN5dqyiA0UWfPy8GVlAK
-	p+lYW3StuEaQ1JMEoGQ2qz9Cnl3T8aMB3OvfsZliS1ppZsryuRzs+YWQFtmjJ6GMyFZmSJi4PX6
-	BdDVZv8dvAgnJJFUe9GxUOAcbsrQtMJRmvMJEj+QS9aLcb4KIURX8+27mr7nAF9PfSpr2O1d4XG
-	uM320MxAdYjoUogYtu0zhnzBbxLdkik3RRLnu6K9VPwZ+o3RD9XUFyJO0ZvYDO3YsZFQ4jPubHV
-	0xLM8cCPHbMit7sDWHXV/DJk2MLyJvO3uDkPybRSrxkCaedROQHLLLnhuX8fJJf8OzZFCld6PR2
-	UjvrBm1ZKYtF0qQsSRTs1jr+Fn5QNP9arLqBZCK0sxRUVDvM7gzI0lBWlwmoVPaSW2yw==
-X-Received: by 2002:a05:6830:4392:b0:7de:4fc6:a588 with SMTP id 46e09a7af769-7deba302d21mr2699472a34.23.1777574264025;
-        Thu, 30 Apr 2026 11:37:44 -0700 (PDT)
-Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7decae680bdsm429016a34.27.2026.04.30.11.37.42
+        bh=gcoQpAI8Mh/opK8Dsw79RFq7l8TT6DdQjTylsz9/EZw=;
+        b=C5O+O8IZ0/wUPhslUGNqLt5MzgBCrpcMCniz8YvnMrYLkDI/8zYz16ifMY+8zBMPwX
+         DOhJWPZQKm2DxlI+zAkqH91Wuqekqx+6+Vax6NpeB3FCCA1f7IlN1bfQx8zMzPok5AgM
+         8yL9zJlJKO6M8BU8MdyM3PqAkjbwZ0yqtc2SyIelblBPwNdpuLBlsjb228kpB5XY+gjl
+         Urvk7qpey3X0YouJl9LC9gGLUIDi2q2yIPf6uLCHnsz2FW9whtx36Zb1CP/Z5RxXa2sD
+         Ridm2n2EnQXzVH585grTVTqMVgym1hLfyIGlvAQpe36V06NHTVH6as8p7v7QJZ6wLJYU
+         AQBg==
+X-Gm-Message-State: AOJu0YwM6ZWR5PhT73vj7fymi9GYX2QSPDAFHcSsllcs5CgRPzh29K41
+	LzO2R2ETMm7g5NRYXxm+78aioa1Wr1wLU5bodF4egR/dHXBa0iu+6BfURcZuKbrQ
+X-Gm-Gg: AeBDievFwD7Q1A49moZjXQsrRIXpVphxVyizuStJSN/NWLBG+F37qMtgSopLBmWu6zW
+	FSDyVrKoJSxyYWzhfvcudcCudMW/xB+1r4If0eLbiGmBZY/xsnIYLalxuZXIoJYl2cBlMmnEsxA
+	JAwyz6awuxWehlQ4yOuNkSMxI6hyvCZnQ6Ky13qOtM2aFzfmnnI/3Ak6U/BMnFfCk7gSz4HFcQ+
+	zYNrEwLWWo4HKSXdfV4InKlrw2ogwgnliGohyWLVRt+r5eykhk/tLTFFhUN//rCF0pO7so4gfV4
+	tVoNdL8VG93SJZs6cgVGbUgRBKXEOA8QkgNPm6fXN1v0Eb2u2QPCVpwYi5tdPdbMd/TwxLafTCr
+	/NVts1QNORY8TTwgTVJsO0AjdYGdCeLGMqhcfkDAemLZ0T8o0swbW2WdDtWolH50xGmEiPAxRzk
+	9u4w+JcyoLc/uvJOaLcuFxUNz0e184tl0MCPXGTT7bQrmCg2c=
+X-Received: by 2002:a17:902:b403:b0:2b9:5d18:994a with SMTP id d9443c01a7336-2b9a230481fmr32629015ad.7.1777578304812;
+        Thu, 30 Apr 2026 12:45:04 -0700 (PDT)
+Received: from NVAPF55DW0D-IPD.. ([203.211.108.128])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae59864sm3626325ad.75.2026.04.30.12.45.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 11:37:43 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
+        Thu, 30 Apr 2026 12:45:04 -0700 (PDT)
+From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: [wrynose][PATCH v2] python3-requests: Increase chardet upper limit
-Date: Thu, 30 Apr 2026 12:37:33 -0600
-Message-ID: <20260430183733.88082-1-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.54.0
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 1/2] tzdata/tzcode-native: upgrade 2026a -> 2026b
+Date: Fri,  1 May 2026 07:44:52 +1200
+Message-ID: <20260430194453.261162-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 18:37:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236180
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 19:45:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236181
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-OE Core includes chardet 6.0, while requests warns for any version
-greater than or equal to 6.0. Not for any real reason, but because
-it was a higher version than what was released when requests 2.32
-was released.
+The 2026b release contains the following changes:
 
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Briefly:
+    British Columbia moved to permanent -07 on 2026-03-09.
+    Some more overflow bugs have been fixed in zic.
+
+Changes to future timestamps
+
+    British Columbia’s 2026-03-08 spring forward was its last
+    foreseeable clock change, as it moved to permanent -07 thereafter.
+    (Thanks to Arthur David Olson.)  Although the change to permanent
+    -07 legally took place on 2026-03-09, temporarily model the change
+    to occur on 2026-11-01 at 02:00 instead.  This works around a
+    limitation in CLDR v48.2 (2026-03-17).  This temporary hack is
+    planned to be removed after CLDR is fixed.
+
+Changes to code
+
+    zic no longer mishandles a last transition to a new time type.
+    zic no longer overflows a buffer when generating a TZ string like
+    "PST-167:59:58PDT-167:59:59,M11.5.6/-167:59:59,M12.5.6/-167:59:59",
+    which can occur with adversarial input.  (Thanks to Naveed Khan.)
+
+    zic no longer generates a longer TZif file than necessary when
+    an earlier time zone abbreviation is a suffix of a later one.
+    As a nice side effect, zic no longer overflows a buffer when given
+    a long series of abbreviations, each a suffix of the next.
+    (Buffer overflow reported by Arthur Chan.)
+
+    zic no longer overflows an int when processing input like ‘Zone
+    Ouch 2147483648:00:00 - LMT’.  The int overflow can lead to buffer
+    overflow in adversarial cases.  (Thanks to Naveed Khan.)
+
+    zic now checks for signals more often.
+
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- ...01-Increase-chardet-upper-limit-to-8.patch | 25 +++++++++++++++++++
- .../python/python3-requests_2.32.5.bb         |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-requests/0001-Increase-chardet-upper-limit-to-8.patch
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-requests/0001-Increase-chardet-upper-limit-to-8.patch b/meta/recipes-devtools/python/python3-requests/0001-Increase-chardet-upper-limit-to-8.patch
-new file mode 100644
-index 00000000000..662049ef94d
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-requests/0001-Increase-chardet-upper-limit-to-8.patch
-@@ -0,0 +1,25 @@
-+From c6a303bc6ea1d1d2ee5be86c4eed92cbb325c1fe Mon Sep 17 00:00:00 2001
-+From: Dan Blanchard <dan.blanchard@gmail.com>
-+Date: Mon, 2 Mar 2026 17:49:19 -0500
-+Subject: [PATCH] Increase chardet upper limit to 8
-+
-+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
-+Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
-+Upstream-Status: Backport [https://github.com/psf/requests/commit/b2a1d33f571518ca9a6148e7da787cc5827f897a]
-+---
-+ src/requests/__init__.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/requests/__init__.py b/src/requests/__init__.py
-+index 051cda1..f22eb37 100644
-+--- a/src/requests/__init__.py
-++++ b/src/requests/__init__.py
-+@@ -76,7 +76,7 @@ def check_compatibility(urllib3_version, chardet_version, charset_normalizer_ver
-+         major, minor, patch = chardet_version.split(".")[:3]
-+         major, minor, patch = int(major), int(minor), int(patch)
-+         # chardet_version >= 3.0.2, < 6.0.0
-+-        assert (3, 0, 2) <= (major, minor, patch) < (6, 0, 0)
-++        assert (3, 0, 2) <= (major, minor, patch) < (8, 0, 0)
-+     elif charset_normalizer_version:
-+         major, minor, patch = charset_normalizer_version.split(".")[:3]
-+         major, minor, patch = int(major), int(minor), int(patch)
-diff --git a/meta/recipes-devtools/python/python3-requests_2.32.5.bb b/meta/recipes-devtools/python/python3-requests_2.32.5.bb
-index 3477a5d83e9..4c58436cef4 100644
---- a/meta/recipes-devtools/python/python3-requests_2.32.5.bb
-+++ b/meta/recipes-devtools/python/python3-requests_2.32.5.bb
-@@ -8,6 +8,7 @@ inherit pypi python_setuptools_build_meta
- SRC_URI[sha256sum] = "dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 00bb704e36..ff02416ed3 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- SRC_URI += "file://CVE-2026-25645.patch"
-+SRC_URI += "file://0001-Increase-chardet-upper-limit-to-8.patch"
- SRC_URI:append:class-nativesdk = " file://environment.d-python3-requests.sh"
+-PV = "2026a"
++PV = "2026b"
  
- do_install:append:class-nativesdk() {
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "f80a17a2eddd2b54041f9c98d75b0aa8038b016d7c5de72892a146d9938740e1"
+-SRC_URI[tzdata.sha256sum] = "77b541725937bb53bd92bd484c0b43bec8545e2d3431ee01f04ef8f2203ba2b7"
++SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
++SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
 
