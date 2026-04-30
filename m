@@ -1,158 +1,133 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22D3DCD13D3
-	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 19:51:39 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7240.1777578689606542050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1F1CD13DA
+	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 19:56:39 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7357.1777578998513030925
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2026 12:51:29 -0700
+ Thu, 30 Apr 2026 12:56:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=lFycusER;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: danismostlikely@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-41708f6c3feso855505fac.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 12:51:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=pBtykSb8;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b4650d5f5cso5468335ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 12:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777578688; x=1778183488; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1777578998; x=1778183798; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aUOBpS1j6DXHYSsFLow2BsQXb8mtdMNoLa7t0gAi0O4=;
-        b=lFycusERLnmqRt4h3T6ENUx8bASzwoRRbKmMqBlE4gFcS0GXB5AJq+Yv92i/hkl6XV
-         jNa4FRx+q6EAbDeeXbECnW+3/tr+ZUPcKvpnHQsaF9RD8yf8OehNeM988pN7a9P9znvH
-         I7hynHQHDCPrXJtKfLQGtmbVaKWMGg3dEYci8RJlMJU4pniqpMGue5SXLELACXwCLFdo
-         R6MyXwdQVXBqinE6gv6bbPe4TKfo1ObnpT5bh5OxsKajodwn10uwl9mHqNMRbcran1aK
-         B92KYQfGgH+MWd9XPLgb/v5YZkrZvxfElDYL0SQNXjnDxyUe0hzHSMojq+Df9Sq2XPUl
-         HYaQ==
+        bh=gcoQpAI8Mh/opK8Dsw79RFq7l8TT6DdQjTylsz9/EZw=;
+        b=pBtykSb8hWnDN1twnuzd6tVAYGk9Qd+VtYhfqdW5H0uxA3zJEUhGXiJy3e1If7XJZ+
+         IP7kxDv1WbTS+Tr+Y7yl16U8WmXqx7g58pcFnFVR6vrJ67XBl7HbCq39ZWD6U+kH2jm/
+         SI6lrgh9Stw+GZc+1GaTqZQTIR6pOWIKD55n1RUUUtP46Y8iRpAP6yK01xS56glmTdyN
+         zalCvTuidZUappke8rKPhtYH1FY1DNx0I/pyolrGaP6x8jJ0knrxifebZ0jWtmBI559X
+         CStlHqzGh61IC/mGsfTzbg3vhzDyaTQhMugCt+fwLnBdJ0bSWRefZiv6/RYKInJnP6bV
+         iCRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777578688; x=1778183488;
+        d=1e100.net; s=20251104; t=1777578998; x=1778183798;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aUOBpS1j6DXHYSsFLow2BsQXb8mtdMNoLa7t0gAi0O4=;
-        b=XVaN6wvYddCsihYjsmnlvUCaqXwF1b9r8M6ok9EIe59+nnYn6hYYUIQU1W6bqBipWZ
-         1NsWPX6BZySnS3jDP8W4xN1a1+/yK1kCzXHilILGNzNIgrnuhM95K13vmF3Q+mWnOu3v
-         glW0Aw4/W9NPAxgVJ3sUANDUzGJHVHEfLhaXWpNGlyOk5Y1hZt9EEeyVkZwtDW/1DnOW
-         28JBWGXIx0h4IDpSLN3SwSyPqiDQNPK5O09uXmOkgS+mYK4eqlSzSkP4KJ7MfqWXTQ4o
-         x2bMkdI5+skljMhfqyiQ9bvESZ0cklXW4jZxaNF3/tdYT62H8/51S2hMvt/1HOBX1Wsa
-         s3BA==
-X-Gm-Message-State: AOJu0Yz+FSt2wPB/dGuM5w0iZ9v+XD5KOdZjjOp1dQweRnT9rkiei72i
-	b/sbnIBzTwdHwyVpOvN0eNblzEMxNxUQrOACyVnMeq7QcsUIA8nj+wIZQX0/KA==
-X-Gm-Gg: AeBDieuY6PBSkSYnYJVcYymjGtnbeyofYRUq9hfYJ4vxAK9c3LlIXLtn4BdpZ0yQ1bx
-	keF9ZX69z8t/c6KaxZV8nYDOW9QEHeASqmxDpbHs8zFJbbwbbXzG46/PgDkql9EPn1KnfrorCkg
-	/x5L52RoylKcMOsWApuglaqebiwrsRHKxll49wgduANY4VtPve6oeFYK1+ul0hxmiixCPpbekpa
-	aHXAOnIX+TGzGRFP3I6ZafR+SsWiQQuYDyrp9suV0TdG80pmqC+w3UKqG9usZN5L9JY+caqjErx
-	XH3Wbx+ZYJevVZVspmRPHHOnDBf0Nd6nB2jUttP2eRV1kfdqJoovw/oVB4v448UwiPnnbJaK2HI
-	KRE7l2Ck7RLE6BzbN8Qe4lOuc2IIV5oIvcQsgDQGp7v9c/vYAfN6o77g5YlN6B1CiCXWpZxU/rY
-	ya3Y4ZTaXacqK9iMPumxM0W3TvFbIXnqNlf2UjmXb7OqVTQHg9aC9WDqqZSI42zh51jg==
-X-Received: by 2002:a05:6870:3922:b0:42b:f401:4fc2 with SMTP id 586e51a60fabf-43433731d89mr2794420fac.6.1777578688420;
-        Thu, 30 Apr 2026 12:51:28 -0700 (PDT)
-Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43454cbbbd7sm508718fac.10.2026.04.30.12.51.27
+        bh=gcoQpAI8Mh/opK8Dsw79RFq7l8TT6DdQjTylsz9/EZw=;
+        b=q209H1wpNLe+uwziTgVx6tQ+mOUIJWU5V3pcS5faWhWcsyjFzOvznVR7eH2XoAhpwg
+         sA9VUaGqEu+vVn0l8ki/gr4Vqb2sOmBQZAswkUbgaKvL/UhCQrs42NjNMgxF3+KYLiDt
+         Mph6k496tvD8m10WHoKAZys9IiFuxSkO/ArjOJd0xJh9OQ0RS3EEQqACEjru3eVE60NT
+         NlFdT/kuUEvxwyMdWbIcypUFoT6P7hiCWAoZf5hqWhErT+iNIRF+B2snaKvOVQyGY9zY
+         KLba3z4Jo6EoLELV0qS/cyOmMm0gCEOYEvq0wGPr8yRgl05AN8RG2Z2CCSCHPS2qt8DY
+         1GTA==
+X-Gm-Message-State: AOJu0Yw6co4Axy6CN+GOVKozU1fDR+94YZsExBInRd+HjbTjVFcmlh9z
+	8X2Km7+CAwF7Jk9d25LNDuGFqZE2qq6e0IQDYQgfOUDQ0jUdXmRoNAnKoVEQV5XD
+X-Gm-Gg: AeBDiev5o4LMSy5scbT4iFk21ugvq3syv5yhLG18wyOOVBCzsQETxc3wiz1W9yXgtt+
+	R3kY5sYfi4Esjdbw3Prp1kPDfhXzDkK2RxnHwrqA61hZNedABBY23RXsdcPGLCb8uemO6sP5jPV
+	2a4K8qhSlhMpICBFds5e3Xy3CdQlsaG8S/63PhDBpBqziVKkqFc1+aAvAHG6YrrqWkQV1ZnPzOi
+	baTsO02saYUqW/w2dntxlEIU08vrmWSo8U/lkPZpL3TIzAsFSBhzbxyqlWneqaNfM6EKvQ65f0r
+	zuAifF4J2iw0ssODCHmURRitsuTKzhScBdUwNOmKmGr2CPB2AWc+l3abiYgcnLYtQhmQPgJJ/9V
+	O/JzavM9v99lrznIY/AWiJVh7UzYXM9YMzqtmDrlailhAGZPAgm+avGh2tOmZbyY58YTrXa/NMe
+	KWf09Hu6y1LBpQCBdukoRS2Bi1bI6Gh2hd175FYie9c4MuqCU=
+X-Received: by 2002:a17:902:db0b:b0:2b0:67cc:adc3 with SMTP id d9443c01a7336-2b9a233734amr44913445ad.14.1777578997571;
+        Thu, 30 Apr 2026 12:56:37 -0700 (PDT)
+Received: from NVAPF55DW0D-IPD.. ([203.211.108.128])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae59864sm3796735ad.75.2026.04.30.12.56.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 12:51:27 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
+        Thu, 30 Apr 2026 12:56:37 -0700 (PDT)
+From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: [PATCH] python3-requests: update to 2.33.1
-Date: Thu, 30 Apr 2026 13:51:20 -0600
-Message-ID: <20260430195120.99622-1-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.54.0
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][wrynose][PATCH 1/2] tzdata/tzcode-native: upgrade 2026a -> 2026b
+Date: Fri,  1 May 2026 07:56:22 +1200
+Message-ID: <20260430195623.278134-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 19:51:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236183
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 19:56:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236184
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-OE Core includes chardet 6.0, while requests warns for any version
-greater than or equal to 6.0. requests > 2.33 support chardet up
-to version 8, so import the new release.
+The 2026b release contains the following changes:
 
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Briefly:
+    British Columbia moved to permanent -07 on 2026-03-09.
+    Some more overflow bugs have been fixed in zic.
+
+Changes to future timestamps
+
+    British Columbia’s 2026-03-08 spring forward was its last
+    foreseeable clock change, as it moved to permanent -07 thereafter.
+    (Thanks to Arthur David Olson.)  Although the change to permanent
+    -07 legally took place on 2026-03-09, temporarily model the change
+    to occur on 2026-11-01 at 02:00 instead.  This works around a
+    limitation in CLDR v48.2 (2026-03-17).  This temporary hack is
+    planned to be removed after CLDR is fixed.
+
+Changes to code
+
+    zic no longer mishandles a last transition to a new time type.
+    zic no longer overflows a buffer when generating a TZ string like
+    "PST-167:59:58PDT-167:59:59,M11.5.6/-167:59:59,M12.5.6/-167:59:59",
+    which can occur with adversarial input.  (Thanks to Naveed Khan.)
+
+    zic no longer generates a longer TZif file than necessary when
+    an earlier time zone abbreviation is a suffix of a later one.
+    As a nice side effect, zic no longer overflows a buffer when given
+    a long series of abbreviations, each a suffix of the next.
+    (Buffer overflow reported by Arthur Chan.)
+
+    zic no longer overflows an int when processing input like ‘Zone
+    Ouch 2147483648:00:00 - LMT’.  The int overflow can lead to buffer
+    overflow in adversarial cases.  (Thanks to Naveed Khan.)
+
+    zic now checks for signals more often.
+
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../python3-requests/CVE-2026-25645.patch     | 46 -------------------
- ...s_2.32.5.bb => python3-requests_2.33.1.bb} |  4 +-
- 2 files changed, 2 insertions(+), 48 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-requests/CVE-2026-25645.patch
- rename meta/recipes-devtools/python/{python3-requests_2.32.5.bb => python3-requests_2.33.1.bb} (87%)
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-requests/CVE-2026-25645.patch b/meta/recipes-devtools/python/python3-requests/CVE-2026-25645.patch
-deleted file mode 100644
-index 3bebba65726..00000000000
---- a/meta/recipes-devtools/python/python3-requests/CVE-2026-25645.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 66d21cb07bd6255b1280291c4fafb71803cdb3b7 Mon Sep 17 00:00:00 2001
--From: Nate Prewitt <nate.prewitt@gmail.com>
--Date: Wed, 25 Mar 2026 08:57:56 -0600
--Subject: [PATCH] Merge commit from fork
--
--Prior to version 2.33.0, the `requests.utils.extract_zipped_paths()` utility function
--uses a predictable filename when extracting files from zip archives into the system
--temporary directory. If the target file already exists, it is reused without validation.
--A local attacker with write access to the temp directory could pre-create a malicious
--file that would be loaded in place of the legitimate one. Standard usage of the Requests
--library is not affected by this vulnerability. Only applications that call
--`extract_zipped_paths()` directly are impacted. Starting in version 2.33.0, the library
--extracts files to a non-deterministic location. If developers are unable to upgrade,
--they can set `TMPDIR` in their environment to a directory with restricted write access.
--
--CVE: CVE-2026-25645
--Upstream-Status: Backport [https://github.com/psf/requests/commit/66d21cb07bd6255b1280291c4fafb71803cdb3b7]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- src/requests/utils.py | 13 +++++++------
-- 1 file changed, 7 insertions(+), 6 deletions(-)
--
--diff --git a/src/requests/utils.py b/src/requests/utils.py
--index d8803e6e91..54959bb8ab 100644
----- a/src/requests/utils.py
--+++ b/src/requests/utils.py
--@@ -282,12 +282,13 @@ def extract_zipped_paths(path):
--         return path
-- 
--     # we have a valid zip archive and a valid member of that archive
---    tmp = tempfile.gettempdir()
---    extracted_path = os.path.join(tmp, member.split("/")[-1])
---    if not os.path.exists(extracted_path):
---        # use read + write to avoid the creating nested folders, we only want the file, avoids mkdir racing condition
---        with atomic_open(extracted_path) as file_handler:
---            file_handler.write(zip_file.read(member))
--+    suffix = os.path.splitext(member.split("/")[-1])[-1]
--+    fd, extracted_path = tempfile.mkstemp(suffix=suffix)
--+    try:
--+        os.write(fd, zip_file.read(member))
--+    finally:
--+        os.close(fd)
--+
--     return extracted_path
-- 
-- 
-diff --git a/meta/recipes-devtools/python/python3-requests_2.32.5.bb b/meta/recipes-devtools/python/python3-requests_2.33.1.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-requests_2.32.5.bb
-rename to meta/recipes-devtools/python/python3-requests_2.33.1.bb
-index 3477a5d83e9..e9c6fe4e970 100644
---- a/meta/recipes-devtools/python/python3-requests_2.32.5.bb
-+++ b/meta/recipes-devtools/python/python3-requests_2.33.1.bb
-@@ -5,9 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 00bb704e36..ff02416ed3 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- inherit pypi python_setuptools_build_meta
+-PV = "2026a"
++PV = "2026b"
  
--SRC_URI[sha256sum] = "dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf"
-+SRC_URI[sha256sum] = "18817f8c57c6263968bc123d237e3b8b08ac046f5456bd1e307ee8f4250d3517"
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
  
--SRC_URI += "file://CVE-2026-25645.patch"
- SRC_URI:append:class-nativesdk = " file://environment.d-python3-requests.sh"
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
- do_install:append:class-nativesdk() {
-@@ -35,3 +34,4 @@ BBCLASSEXTEND = "native nativesdk"
- 
- CVE_STATUS[CVE-2024-35195] = "fixed-version: fixed since 2.32.0"
- CVE_STATUS[CVE-2024-47081] = "fixed-version: fixed since 2.32.4"
-+CVE_STATUS[CVE-2026-25645] = "fixed-version: fixed since 2.33.0"
+-SRC_URI[tzcode.sha256sum] = "f80a17a2eddd2b54041f9c98d75b0aa8038b016d7c5de72892a146d9938740e1"
+-SRC_URI[tzdata.sha256sum] = "77b541725937bb53bd92bd484c0b43bec8545e2d3431ee01f04ef8f2203ba2b7"
++SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
++SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
 
