@@ -1,130 +1,115 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D95FCCFA13
-	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 22:12:52 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2246.1777587166228902733
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E45DCCFA13
+	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 22:18:52 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4799.1777571598975484722
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2026 15:12:46 -0700
+ Thu, 30 Apr 2026 10:53:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G5mE8Lvr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-449d6c68ed8so748221f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 15:12:45 -0700 (PDT)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=TtZP8BMX;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.128.42, mailfrom: dario.binacchi@amarulasolutions.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso10950695e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 10:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777587164; x=1778191964; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9RiKpw8zDipyTVEeDG6QKdzcVBIKf9DKGbP4S8hPzZc=;
-        b=G5mE8LvrzMfTLQfdXuct+APfdUt4W/g83vQo1APhJH0ztRuI4gHG9fEIzzX9m6jmFS
-         KlgVBcAF+Pv2QfmttbUsRW3kFycUYkxIAtxNoUBsFv55qzvnI2VNccqvdqK8vYJ7e1WA
-         2BQGmpWVqZ3ohhQWRJJczD0u29v/xT4m4WJfY=
+        d=amarulasolutions.com; s=google; t=1777571597; x=1778176397; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JRASaNsFgmPTjbXLC7nKZ/wlbOi8yD473WoGWv7wW7A=;
+        b=TtZP8BMXZVf8VS+VNY9xNTiPY2rsIv4hcBh/0cqVADCHhJYf0fmSmPpSqQfGRoZdqw
+         uC9H2QMOliCeuDYOk0cpiiQl6F/BSR8djmjhbUBNuyuVGie3UY1iHwPPxOENkGFAS6kp
+         /3oBRAHefcqUynRJOj1P+ShC+hkMxEKlIf3EU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777587164; x=1778191964;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9RiKpw8zDipyTVEeDG6QKdzcVBIKf9DKGbP4S8hPzZc=;
-        b=F1kHTGAdTng9d3No5O4pRLDBNO474Ia/5JXcHKxzJhcfrZ8eKaE5OIo+/rRIImq4ID
-         AQU7c3zTimRM7FElNeWytArMV/2qejh0J4lMO26Ply7aW+1QsQYQXFZnbOWe650C6CW2
-         0Cd+Bh1h5kuUjQZlY7JL41eK5km5XfvJZLNb7XDrR2XvnNkjUIIaRiXs5qX9AM/P0kyo
-         yyMMZMjojkGcEi2kHOwAPUVoYTm1kPnmpN3B/ewW2Ic69pqNGLMQ4VxqSlC7nI+gYeZi
-         xr+vIEs/NoGWxVf3sARPGbRhLRsx3s73wFvNx6cPMVLSkhOnd26PGJfWX3mYYy4pWfyz
-         tTaQ==
-X-Gm-Message-State: AOJu0YwG3ssnFBeXqoLQhXy9cWfnc28t+bDv9PXk2YBRejwl68/3PWLR
-	gxotOkIwowHnR1ahx1vBtSjOeP2fNfvmwibocjHxyj4jO8IAIzFZdE3mjrpX4qqbJOE=
-X-Gm-Gg: AeBDieug52MGcPYHd8RLbJZU6X7h3rUnc4x50wGoO0We0kh3N3PKih3MzPFEbWu/ktm
-	UnUq7X7k2MvYmYtJfRiFFMGvmTfoHxB+gSZNVNpXVRuuKvR//j0X/EvTbp61yFXwdbYa+NELgrq
-	IpaO5Y6csbCKasSL4sHGSm5tdeg9K7W+RCROqefuMOSR1yQC2xfRx8a9lYMfmzmAn5F68ygyePs
-	10ulNMh82l0GD+/nhuWY4gKOD8SbZYDhKCYNfwbf7bZf+9QNGRnyuuGQOKGiLc4/vdIRd2gZsUQ
-	MqB8sRlyyqwbsy1u1BLLdDeodB6+j7rr6XkCQ6VWuWLLvhf2bFKMkEsz5qIK1iEjFI4dMNfcxUV
-	GSrqj98KC9nhxw6TqWxuiwvI2Tx/XP7u7mEJ5U0UMtkbtQjc5ZFw5oH1notlrG3sOxpfXP2Je1H
-	N5I6zZbC5nH52CnJ6irVy0rt/YWUfK6XzUK+w4iCvSijOkDJ3Oj9lncpfMhNbnUKg3orBTn/Ou0
-	nz1rUCHMJN57Pg6rbL3TpkkyzDbWWC4vCB5Cg==
-X-Received: by 2002:a05:6000:2204:b0:43b:3b80:6776 with SMTP id ffacd0b85a97d-44a87b85a50mr698679f8f.30.1777587164589;
-        Thu, 30 Apr 2026 15:12:44 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9943:7451:f7ef:baf8? ([2001:8b0:aba:5f3c:9943:7451:f7ef:baf8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a8f51bac8sm651472f8f.16.2026.04.30.15.12.43
+        d=1e100.net; s=20251104; t=1777571597; x=1778176397;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JRASaNsFgmPTjbXLC7nKZ/wlbOi8yD473WoGWv7wW7A=;
+        b=IShxRNst/z69AJNlcAhgQvw5dqxiDv1C7uP7PGm6jl6+qTV6HESpRdmt9buaMmEXy7
+         0ZfR9fIkvONM/2LFoF+64i/wDHtBQnLg13AqZGjgQC09FBBJ0vF28RmqpMjzsynzJhWb
+         EkBoeodBniHTpQAbYrcJzijryGxd7u4C56Hv8cieMfY5895dlZG49EfikmSANmcDfiJV
+         LEoTmocqzhQordWR9pvhOF7uh11yCtij/iN+gsD7ZKH2D1DSllb4ulQQpNRzMSvnT+jF
+         QuD69nA7Av6RiqYy/0vTG3oklUoSh9QPBHmXe9lLsXBAdE1zj+5MC6kNUgp7RFUqCJ4V
+         vO4Q==
+X-Gm-Message-State: AOJu0Yx78AmISegJ9cKCVbMQz6JCbCMTgL9c/fvs/+VUxZ7uLPqX6t1L
+	m6lkzZP8KZDQ1F4Ki866RDEB4pdlcMH9q7BdNaoQFuI5j5AQkWD/kM05HJC1R+8mFZ5fD8HIg3k
+	QAi/a
+X-Gm-Gg: AeBDiet5yNIMlHKS9Wyg1MSzOB/XqdrYpvlPqUjM0NNkOClNoLodZ+ph9qHiZqIf7Jk
+	05C1GRoQcj19DcWm6D8GA0VpjZLCJAyydihKzZ8Km8NknlrCGhNcSPpErwMDqEK0t3ybEtX314L
+	jGDgU5c8cgYsir3cy5N+Kmt2TY5iyQ9hI+GSymeRvQr7bEVSGJ+AP9q5QQCI1uNbhBPjlb0IsyI
+	DbVVBAZbaKuZHQ40ReFa4xGy4RxOHrRFGobiH4xjJAjrD+4rD8SqnH0iLTwMItb+QuxzrBNDHMa
+	lROmBCQInAS9kRuOD2vB7g+1fELy5b0Em0zO48jIbx7A0uAbVv1VKc+lIF8KmTnjdMC+umcHMmm
+	8Oi7g37Vm1QapIrr3eW9T2gkYmsCet1vSefGQdfZwbGnAqVwqT2QIuChWBPaGgztApja55Fws2K
+	GCTNmEQdOpvxNIQ9kvjs0BD2dRBk9m6A9OJBfjdoAzgi17qBpKc7gz6MmcY59YE3y3fE0vHf//F
+	M2Gxoi6V89sd46h7GK6BwixAa9bvknUclMz3woZziEWeMnAWqfcEDf1FUlkkx84n9IxJFwLZbtT
+	MLNz6b8L3UuKLK+XlecBDpmLuF4bo0G3q54=
+X-Received: by 2002:a05:600c:3b8c:b0:485:3ff1:d5ed with SMTP id 5b1f17b1804b1-48a83d6e1b2mr70193035e9.1.1777571596955;
+        Thu, 30 Apr 2026 10:53:16 -0700 (PDT)
+Received: from dario-ThinkPad-P14s-Gen-5.homenet.telecomitalia.it (host-82-56-22-134.retail.telecomitalia.it. [82.56.22.134])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b7217b20sm13835551f8f.22.2026.04.30.10.53.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 15:12:43 -0700 (PDT)
-Message-ID: <5829500e00f459d2ad76027b2b56662223871795.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/7] Remove 'extend_recipe_sysroot' from
- 'BB_HASHEXCLUDE_COMMON'
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: adam.blank.g@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Apr 2026 23:12:42 +0100
-In-Reply-To: <CAFAffzxnk+YvferrFbRO2O_rrz8FvGbgKAmGewq0Rf=Mxye-cA@mail.gmail.com>
-References: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
-	 <64eb162c5c22721ff9d11d9c1f0d6c15aea3640a.camel@linuxfoundation.org>
-	 <CAFAffzxnk+YvferrFbRO2O_rrz8FvGbgKAmGewq0Rf=Mxye-cA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Thu, 30 Apr 2026 10:53:15 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: openembedded-core@lists.openembedded.org
+Cc: linux-amarula@amarulasolutions.com,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Subject: [OE-core][PATCH v2] libfwumdata: add new recipe
+Date: Thu, 30 Apr 2026 19:53:08 +0200
+Message-ID: <20260430175308.868993-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 22:12:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236190
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 22:18:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236191
 
-On Thu, 2026-04-30 at 17:15 +0200, Adam Blank via
-lists.openembedded.org wrote:
-> >=20
-> > which is a lot of non-trivial change and a lot of extra data in the
-> > sigdata file.
-> >=20
-> > Do we really want all of this data to be added into every signature
-> > computation?
-> >=20
-> > Are we 100% sure that add the newly added variable dependencies are
-> > "safe" and won't trigger sstate cache reuse issues?
-> >=20
->=20
->=20
-> Well, obviously such increase in the visibility of dependencies is
-> not a comforting or welcome thing, but let's not forget, that those
-> dependencies truly are there :-)
-> I'd ask the opposite question: given the extent and nature of the
-> relations exposed by this change, do we want to keep wholesale hiding
-> them with the current implementation?
-> Or in other words, are those particular dependencies (stemming from
-> 'extend_recipe_sysroot') so irrelevant for the overall signature and
-> sstate management, that it is justifiable to keep ignoring them in
-> such a unique way and on such a fundamental level?
->=20
-> Unless it is truly a desirable situation and the whole subject can be
-> dismissed, what would be the recommended way to tackle it?
+libfwumdata is a lightweight C library for parsing, validating (CRC32),
+and manipulating Firmware Update (FWU) metadata, allowing tools such as
+RAUC or SWUpdate, and in general any application, to modify the boot
+bank selection.
 
-I'm mentioning this as I wanted to explain the delay, and why I'm
-hesitant about this.
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
-Not every piece of build information is put into the hashes and we
-previously made a conscious decision that extend_recipe_sysroot and
-anything hidden behind it were out of scope for the hashes. Looking at
-at the list of new dependencies, I can see why we did that.
+---
 
-Does having these dependencies help the average user? or does it waste
-space in the sigdata files and complicate the dependencies? Right now
-I'm torn and I'm not sure which way we should proceed.
+Changes v1 -> v2:
+- Drop S = "${WORKDIR}/git"
 
-I should also mention that in testing, we've had sstate mismatch issues
-too, e.g.=C2=A0
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3747
+ meta/recipes-bsp/u-boot/libfwumdata_0.1.0.bb | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/libfwumdata_0.1.0.bb
 
-We don't know which of the patches under test are at fault for that and
-the errors are non-specific, just that sstate wasn't matching. It could
-be something in this patchset, or it might be something else, we just
-can't tell and don't know.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-bsp/u-boot/libfwumdata_0.1.0.bb b/meta/recipes-bsp/u-boot/libfwumdata_0.1.0.bb
+new file mode 100644
+index 000000000000..aa8184845c00
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/libfwumdata_0.1.0.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "Library to access Firmware Update (FWU) metadata"
++
++DESCRIPTION = "This package contains a library to read and modify FWU \
++metadata. It provides a minimal API to allow userspace applications, such as \
++SWUpdate, RAUC or any other OTA update manager, to modify the boot bank \
++selection."
++
++HOMEPAGE = "https://github.com/passgat/libfwumdata"
++LICENSE = "LGPL-2.1-or-later"
++LIC_FILES_CHKSUM = "file://LICENSES/LGPL-2.1-or-later.txt;md5=4fbd65380cdd255951079008b364516c"
++SECTION = "libs"
++
++SRC_URI = "git://github.com/passgat/libfwumdata;protocol=https;branch=master"
++SRCREV = "c6e235d3cf0467211ca6946bd10a2c8bdc0d5053"
++
++inherit cmake lib_package
++
++DEPENDS = "zlib"
++
++BBCLASSEXTEND = "native"
+-- 
+2.43.0
 
 
