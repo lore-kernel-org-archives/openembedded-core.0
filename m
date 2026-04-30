@@ -2,132 +2,95 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1F1CD13DA
-	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 19:56:39 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7357.1777578998513030925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F413CD13DA
+	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 19:56:49 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7358.1777579000914290882
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2026 12:56:38 -0700
+ Thu, 30 Apr 2026 12:56:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=pBtykSb8;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b4650d5f5cso5468335ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 12:56:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=pHkjiYJl;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-364d72f2986so714822a91.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 12:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777578998; x=1778183798; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gcoQpAI8Mh/opK8Dsw79RFq7l8TT6DdQjTylsz9/EZw=;
-        b=pBtykSb8hWnDN1twnuzd6tVAYGk9Qd+VtYhfqdW5H0uxA3zJEUhGXiJy3e1If7XJZ+
-         IP7kxDv1WbTS+Tr+Y7yl16U8WmXqx7g58pcFnFVR6vrJ67XBl7HbCq39ZWD6U+kH2jm/
-         SI6lrgh9Stw+GZc+1GaTqZQTIR6pOWIKD55n1RUUUtP46Y8iRpAP6yK01xS56glmTdyN
-         zalCvTuidZUappke8rKPhtYH1FY1DNx0I/pyolrGaP6x8jJ0knrxifebZ0jWtmBI559X
-         CStlHqzGh61IC/mGsfTzbg3vhzDyaTQhMugCt+fwLnBdJ0bSWRefZiv6/RYKInJnP6bV
-         iCRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777578998; x=1778183798;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777579000; x=1778183800; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gcoQpAI8Mh/opK8Dsw79RFq7l8TT6DdQjTylsz9/EZw=;
-        b=q209H1wpNLe+uwziTgVx6tQ+mOUIJWU5V3pcS5faWhWcsyjFzOvznVR7eH2XoAhpwg
-         sA9VUaGqEu+vVn0l8ki/gr4Vqb2sOmBQZAswkUbgaKvL/UhCQrs42NjNMgxF3+KYLiDt
-         Mph6k496tvD8m10WHoKAZys9IiFuxSkO/ArjOJd0xJh9OQ0RS3EEQqACEjru3eVE60NT
-         NlFdT/kuUEvxwyMdWbIcypUFoT6P7hiCWAoZf5hqWhErT+iNIRF+B2snaKvOVQyGY9zY
-         KLba3z4Jo6EoLELV0qS/cyOmMm0gCEOYEvq0wGPr8yRgl05AN8RG2Z2CCSCHPS2qt8DY
-         1GTA==
-X-Gm-Message-State: AOJu0Yw6co4Axy6CN+GOVKozU1fDR+94YZsExBInRd+HjbTjVFcmlh9z
-	8X2Km7+CAwF7Jk9d25LNDuGFqZE2qq6e0IQDYQgfOUDQ0jUdXmRoNAnKoVEQV5XD
-X-Gm-Gg: AeBDiev5o4LMSy5scbT4iFk21ugvq3syv5yhLG18wyOOVBCzsQETxc3wiz1W9yXgtt+
-	R3kY5sYfi4Esjdbw3Prp1kPDfhXzDkK2RxnHwrqA61hZNedABBY23RXsdcPGLCb8uemO6sP5jPV
-	2a4K8qhSlhMpICBFds5e3Xy3CdQlsaG8S/63PhDBpBqziVKkqFc1+aAvAHG6YrrqWkQV1ZnPzOi
-	baTsO02saYUqW/w2dntxlEIU08vrmWSo8U/lkPZpL3TIzAsFSBhzbxyqlWneqaNfM6EKvQ65f0r
-	zuAifF4J2iw0ssODCHmURRitsuTKzhScBdUwNOmKmGr2CPB2AWc+l3abiYgcnLYtQhmQPgJJ/9V
-	O/JzavM9v99lrznIY/AWiJVh7UzYXM9YMzqtmDrlailhAGZPAgm+avGh2tOmZbyY58YTrXa/NMe
-	KWf09Hu6y1LBpQCBdukoRS2Bi1bI6Gh2hd175FYie9c4MuqCU=
-X-Received: by 2002:a17:902:db0b:b0:2b0:67cc:adc3 with SMTP id d9443c01a7336-2b9a233734amr44913445ad.14.1777578997571;
-        Thu, 30 Apr 2026 12:56:37 -0700 (PDT)
+        bh=gn+iWEGoT97rtbIhgZj/wCiftKV/jpjN0UrCF65134M=;
+        b=pHkjiYJlkSj2+CSXW2IZKM3SfxD8+NSocdGaeFYYWcKlENUAO2Dc07Me0hmdrntxUX
+         A7agtMI2g/zHYhfkpTznAFEXYToDl3sXOWvN/qqPHGb+ZDldJT6h0uN7wClnb2G3Atqg
+         YMjGhoDJahGu1up2kDmh/K2zvwng3DO8DWPCjFO/afnmVqrzUy8N4Ti5C1DcxGPlATUq
+         auvYCnATPI4YXpbJ1FgZtUSMrCLDnVFuKW3M6RBSaVTXXVwfC3mp41aT/3y1QAwsxrTs
+         Ou0ncvGJ48+3HFbu8qkYH3OGglxUVuV8/Sg13198fLITbp8hF8UhMlAbPr/WP25c/DbL
+         utvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777579000; x=1778183800;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gn+iWEGoT97rtbIhgZj/wCiftKV/jpjN0UrCF65134M=;
+        b=gYUrRmp7srAr0fw038d535uoVYmDAWUGPzG9E5rcjTMY3im+22SRZCt+WmGrMGI8rw
+         F2pZP3aNktwIZCYCRjuWgX+OGSMQsVa+JG2Ga3ROFm16cVXlUj/NzzFgVfWp3VUwYKm4
+         LfwGOSCMDmSwp2WM2mkY3AR98g7zmv7Cv3ET9meGUrabO1GmjhMp2rn367v3upMkaiv4
+         Gh1HvgFWfhKRwjsMizRy+PkRXr0zmr+lXyDqhkJNh5DNvkVn8czxY12eDY6Smn8iqHQg
+         U0bLfjpoxSNUIYeUD4qBrBDSS6mYmBrTZyv3q2kxuONybNP7g0oO4CuSr3IN2H2+GGpi
+         qujQ==
+X-Gm-Message-State: AOJu0YzrOaSe76d2cD7ONp1JYJd+WnCKJu+x28YLTYZdWhZlSNYpzrR9
+	ht5bDXEdQPuTuhlZIwcvIlXGWxNBNbRV/B9Gqgxgm2vccy8sM1zjSAgXHaPSXHiv
+X-Gm-Gg: AeBDieuw8sVbc5pto/zcJ4EGtxdBSGVnUm8K4al3HVzWYmYEB/Z+2EWrWc+gZ35t3fh
+	C6tVasQFmQQPeNRF43IK1RhISU23HCXovdRrDvGnbleoO/ZXA4FKkzzECCaHzJ6Wku2U/5sR5GX
+	wCGGPnZqfE521fFRyCoEQsH43EsBCUIIoe3fsQQwILDMNbx7B8eFPN2gux5MxJk9KcNj/ziYRPW
+	FtXL7PRSut2+lVYKnSLqYiv9tYRvZxOqk7flmFls8ilaX/js8MSWbit7NOH87ak9HCKWEfJcKs4
+	TI0As1rSlcvP+R4+yeaLoV5ZLrbNYl0Dj14ThAeOfy7cMInLYwDIFcDA+XOJTsFA65e7aZqJjDP
+	bbH0+d4OFvnZaVxMDFnLvPjRkrzVS/oDCJe/YwrI+AF+oefscWalEZcTh/+rzGxqX0XXRA1jKCl
+	0GmQPmzxFOi+uu2xEq4gpZcrUTQ4HbfkgUTazS+WEbBwYUqqo=
+X-Received: by 2002:a17:90b:1a8d:b0:362:e7e5:a20a with SMTP id 98e67ed59e1d1-364ef34a965mr26447a91.4.1777579000134;
+        Thu, 30 Apr 2026 12:56:40 -0700 (PDT)
 Received: from NVAPF55DW0D-IPD.. ([203.211.108.128])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae59864sm3796735ad.75.2026.04.30.12.56.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae59864sm3796735ad.75.2026.04.30.12.56.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 12:56:37 -0700 (PDT)
+        Thu, 30 Apr 2026 12:56:39 -0700 (PDT)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][wrynose][PATCH 1/2] tzdata/tzcode-native: upgrade 2026a -> 2026b
-Date: Fri,  1 May 2026 07:56:22 +1200
-Message-ID: <20260430195623.278134-1-ankur.tyagi85@gmail.com>
+Subject: [OE-core][wrynose][PATCH 2/2] wireless-regdb: upgrade 2026.02.04 -> 2026.03.18
+Date: Fri,  1 May 2026 07:56:23 +1200
+Message-ID: <20260430195623.278134-2-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260430195623.278134-1-ankur.tyagi85@gmail.com>
+References: <20260430195623.278134-1-ankur.tyagi85@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 19:56:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236184
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 19:56:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236185
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-The 2026b release contains the following changes:
-
-Briefly:
-    British Columbia moved to permanent -07 on 2026-03-09.
-    Some more overflow bugs have been fixed in zic.
-
-Changes to future timestamps
-
-    British Columbia’s 2026-03-08 spring forward was its last
-    foreseeable clock change, as it moved to permanent -07 thereafter.
-    (Thanks to Arthur David Olson.)  Although the change to permanent
-    -07 legally took place on 2026-03-09, temporarily model the change
-    to occur on 2026-11-01 at 02:00 instead.  This works around a
-    limitation in CLDR v48.2 (2026-03-17).  This temporary hack is
-    planned to be removed after CLDR is fixed.
-
-Changes to code
-
-    zic no longer mishandles a last transition to a new time type.
-    zic no longer overflows a buffer when generating a TZ string like
-    "PST-167:59:58PDT-167:59:59,M11.5.6/-167:59:59,M12.5.6/-167:59:59",
-    which can occur with adversarial input.  (Thanks to Naveed Khan.)
-
-    zic no longer generates a longer TZif file than necessary when
-    an earlier time zone abbreviation is a suffix of a later one.
-    As a nice side effect, zic no longer overflows a buffer when given
-    a long series of abbreviations, each a suffix of the next.
-    (Buffer overflow reported by Arthur Chan.)
-
-    zic no longer overflows an int when processing input like ‘Zone
-    Ouch 2147483648:00:00 - LMT’.  The int overflow can lead to buffer
-    overflow in adversarial cases.  (Thanks to Naveed Khan.)
-
-    zic now checks for signals more often.
-
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ ...ireless-regdb_2026.02.04.bb => wireless-regdb_2026.03.18.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2026.02.04.bb => wireless-regdb_2026.03.18.bb} (94%)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 00bb704e36..ff02416ed3 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.02.04.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.03.18.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.02.04.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.03.18.bb
+index 2f7c816043..a70e9dd0da 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.02.04.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.03.18.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
  
--PV = "2026a"
-+PV = "2026b"
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "0ff48a5cd9e9cfe8e815a24e023734919e9a3b7ad2f039243ad121cf5aabf6c6"
++SRC_URI[sha256sum] = "5fc0000475d8c5368ccc5222827c16aef98b1eb6a69c9b5a3e7b7e98528945ac"
  
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
+ inherit bin_package allarch
  
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "f80a17a2eddd2b54041f9c98d75b0aa8038b016d7c5de72892a146d9938740e1"
--SRC_URI[tzdata.sha256sum] = "77b541725937bb53bd92bd484c0b43bec8545e2d3431ee01f04ef8f2203ba2b7"
-+SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
-+SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
 
