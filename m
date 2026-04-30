@@ -1,143 +1,160 @@
-Return-Path: <marek.vasut@mailbox.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52F48FF887E
-	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 23:32:42 +0000 (UTC)
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9087.1777505552711722352
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B00CD13D3
+	for <webhook@archiver.kernel.org>; Thu, 30 Apr 2026 06:33:37 +0000 (UTC)
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14390.1777530816829414506
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2026 16:32:33 -0700
+ Wed, 29 Apr 2026 23:33:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=qgIb9Jlm;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=DpXjKDWx;
- spf=pass (domain: mailbox.org, ip: 80.241.56.151, mailfrom: marek.vasut@mailbox.org)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4g5YW20cnjz9tjb;
-	Thu, 30 Apr 2026 01:32:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777505550;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7bHO37trfa0YC2zUvmxmhj5TEJ+nmzsDVMhOHiKPEE8=;
-	b=qgIb9JlmRorUtXtXzcz00C4oDOCEapcZpHDWp27cYRYbRggmu3icbSc7f7D5TG3lZQcnsm
-	aRVe1UwEeygshqSDpiouQbwl6o3Su0hDm5GqpCOOPqICSB5DFDUg8A7C9iBYwsDLmYxwgB
-	RPmqxmq9ZQD60grnuRbbfleNVAm7Q7DrlcsCPLPovdzOsUH0mde8arOaiOW9pGHBRWLove
-	8ag3QcJBaf9twGNI93S1wBUImeClZ9RCqlFpRV46ZCUOHdRs/iAqtKkc06L3wQGmmfJJjJ
-	Pxf25ALlzW7+WAN+w52hH/42VWXuyOMuMtcbmGvLjKmGxuzQSwFYdAxL4n2jWg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=DpXjKDWx;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
-From: Marek Vasut <marek.vasut@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777505548;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7bHO37trfa0YC2zUvmxmhj5TEJ+nmzsDVMhOHiKPEE8=;
-	b=DpXjKDWx/wX9BLSbn5mnxpSOoOrNVT+3nVDxBv4VM2D+/hTNCIW+S0dMoE6+ZxBAcPVDPX
-	MWhJuuxIK22XY7VAcwfZCzWO8pR+veUX3+MdI6YZqZM23yHsWkyGlqQyRrEYxC8+WaYoHa
-	hgOQXhA+lg4mCUqoFTSTSWn524KaJRiqnjtiC+7DqZRC5IMzi2++EvIAMJBGz7A9wJkJgH
-	8KAIW42DzikEBvZDE1kmlSTilK2mMvivI+K1vht41q7gB8v0pxb2M4YdJtidh1CHyIOsG6
-	QSkugb3AIFVMZVCsrBTShaLuzvNLi2SF9Q9XwcDp6Xfn3FlLl2V2imW6qdXwAw==
+ dkim=pass header.i=@mvista.com header.s=google header.b=EglRU06d;
+ spf=pass (domain: mvista.com, ip: 74.125.82.53, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12c8ccc7755so861771c88.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 23:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1777530816; x=1778135616; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j5SxYAiptCJxdRnFwDhlJO/TFlr1PGg31GnvwMBcZTc=;
+        b=EglRU06d8L52rFURodieifnVoAXkn+pA8DET3nyJieRuSKYIh/XkzHxbFXh7h3iZez
+         NooPmjo6chWXttYjSITPl3gZfKpQn9+hyOPlvyAvKhIVy/wnUIERNr31gDq2T+nrMuz7
+         78p7AgnY2QrjCz9ba9FVm7a+fse8uzSFWF1iY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777530816; x=1778135616;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j5SxYAiptCJxdRnFwDhlJO/TFlr1PGg31GnvwMBcZTc=;
+        b=c8CX/Q+qa7Tb2+yy3V/4pATJInUobM1mA4KNhnq2rL4AXjT3J1v7g1EUbILAdiVo6H
+         445V/sdjdXd5AURiaEmPNABlO83/zV1wzBCEUcPestg0mm8Cw4d0gjay3rJ5troszFVl
+         HyMWiOBuB1Url38u9HbmIOotE/womE2IJm7qBfixTtSWpxBTLMOBc73PjwznbVO0KJ9V
+         jS7i+9frIs3yqcfo1q/sFWGcJ2IDe4cwo5X6fJekQIxPcJpQKwaBfkOFrUxtWQqDpyk1
+         p8X1TBn2IBu6glQo+aq1GZDp3GPUndDK4SvBVi113LLwcp60zyVsvZsfhtTnY5vxKQY1
+         SMwQ==
+X-Gm-Message-State: AOJu0YzUoC55EUymZ+ziy/60HV0tWDnCqbssydkzSqm3uXMAs53MqnBi
+	Gm2ZWcEon3jEwXfgpWT2qiJkTfWN96JD9IX8YVBRLJhBjsptooJvWeyrPccei7kh4ekMr4Lp3WT
+	kXMBm
+X-Gm-Gg: AeBDievc0CoOFgZOEydAnBNV5iOkRIMbw/zfkf5DoVxdLu79/0RWghnUThUbCufYoiH
+	DyZ2bf6oiXzPkcLV7nhXqJguL8A7wiHxffVmefYvk8LpF15B4Hnx8QN/b0YppzpBs+q4nb9Ux4D
+	K1S8fpa1tB0aDOQqiqvrk6uGavHpjexsbL/V3yucTll1OYcmBfZYH3PVEq1cZt1TNiBpGtV4biA
+	Tg/r8jHC0f7Fsth9lzKqZJ5w0HyNHs1RBOtgg7XefAl9qM/9a3xE0gUFxuwuWDkJCuplht+GpqP
+	WSkU0uaV903qzbD0hcNxwCEx/rs0xYcFQRcvb4KCqlNEzvRWGbM9UJTzRNfPLoK4CugH9ZI7wic
+	3naHx76H5Xu9ZVQ5v/Rqd4hAurxbstBY35qBe864pvuVgwvCC+w8lIINUygtnAh/lPlXfbDQB5C
+	vRmA1yo78QAvz0kllzY1IR0oG1trOa2dU/SNS8SULFclC5SDc=
+X-Received: by 2002:a05:7022:1603:b0:12d:c3fb:14a7 with SMTP id a92af1059eb24-12deac8fc66mr809986c88.18.1777530815526;
+        Wed, 29 Apr 2026 23:33:35 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([103.250.136.254])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12de31ab65fsm6115186c88.0.2026.04.29.23.33.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 23:33:35 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marek.vasut@mailbox.org>,
-	Adam Nilsson <Adam.X.Nilsson@axis.com>,
-	Alexander Kanavin <alex@linutronix.de>,
-	Khem Raj <raj.khem@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Patrick Ohly <patrick.ohly@intel.com>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Philip Lorenz <philip.lorenz@bmw.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] populate_sdk: Execute populate_sdk before rm_work if rm_work.bbclass active
-Date: Thu, 30 Apr 2026 01:31:59 +0200
-Message-ID: <20260429233224.562584-1-marek.vasut@mailbox.org>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] libarchive: fix for CVE-2026-4426
+Date: Thu, 30 Apr 2026 12:03:28 +0530
+Message-ID: <20260430063328.370756-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-MBO-RS-ID: 4982362bbab1ebe47ee
-X-MBO-RS-META: 6usem8rpjt97m5xynrbxsrgd7kymh18x
-X-Rspamd-Queue-Id: 4g5YW20cnjz9tjb
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2026 23:32:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236138
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2026 06:33:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236139
 
-In case the rm_work.bbclass is inherited via INHERIT +=3D "rm_work" into
-a build, it is currently possible for an image build to execute both
-rm_work and populate_sdk tasks in parallel, which usually leads to an
-unusual failure of the populate_sdk task.
+Pick patch from [1] also mentioned at Debian report in [2]
 
-This can be reproduced with oe-core and bitbake as follows:
-$ . oe-init-build-env /path/to/build
-$ bitbake core-image-base core-image-base:do_populate_sdk
+[1] https://github.com/libarchive/libarchive/commit/c3cb1c568ebf9e8f7f478cfc0356ae54e99712b0
+[2] https://security-tracker.debian.org/tracker/CVE-2026-4426
 
-Fix this in a manner similar to 00b1911c65fa ("populate_sdk_ext.bbclass:
-enhance compatibility with rm_work.bbclass"). Make sure do_populate_sdk
-is executed before rm_work for both image and SDK only recipes. Use the
-RM_WORK_BUILD_WITHOUT variable provided by rm_work bbclass to determine
-whether rm_work is inherited or not. This way, in case rm_work is not
-inherited, the dependencies remain unchanged, otherwise populate_sdk is
-surely executed before the rm_work task.
+More details: https://nvd.nist.gov/vuln/detail/CVE-2026-4426
 
-Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
-Cc: Adam Nilsson <Adam.X.Nilsson@axis.com>
-Cc: Alexander Kanavin <alex@linutronix.de>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Philip Lorenz <philip.lorenz@bmw.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-recipe/populate_sdk.bbclass      | 9 ++++++++-
- meta/classes-recipe/populate_sdk_base.bbclass | 7 +++++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ .../libarchive/libarchive/CVE-2026-4426.patch | 58 +++++++++++++++++++
+ .../libarchive/libarchive_3.7.9.bb            |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-4426.patch
 
-diff --git a/meta/classes-recipe/populate_sdk.bbclass b/meta/classes-reci=
-pe/populate_sdk.bbclass
-index caeef5d2b2a..3b89ff997f5 100644
---- a/meta/classes-recipe/populate_sdk.bbclass
-+++ b/meta/classes-recipe/populate_sdk.bbclass
-@@ -10,4 +10,11 @@
- inherit populate_sdk_base
-=20
- addtask populate_sdk after do_install before do_build
--
-+addhandler inject_sdk_rm_work
-+inject_sdk_rm_work[eventmask] =3D "bb.event.RecipeTaskPreProcess"
-+python inject_sdk_rm_work() {
-+    if d.getVar('RM_WORK_BUILD_WITHOUT'):
-+        bb.build.addtask('do_populate_sdk', 'do_rm_work do_build', ' ', =
-d)
-+    else:
-+        bb.build.addtask('do_populate_sdk', 'do_build', ' ', d)
-+}
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes=
--recipe/populate_sdk_base.bbclass
-index b427ff27616..073949ebcde 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -435,3 +435,10 @@ do_populate_sdk[rdepends] =3D "${@' '.join([x + ':do=
-_package_write_${IMAGE_PKGTYPE
- do_populate_sdk[recrdeptask] +=3D "do_packagedata do_package_write_rpm d=
-o_package_write_ipk do_package_write_deb do_package_qa"
- do_populate_sdk[file-checksums] +=3D "${POSTINST_INTERCEPT_CHECKSUMS}"
- addtask populate_sdk
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4426.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4426.patch
+new file mode 100644
+index 0000000000..c303c2372a
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4426.patch
+@@ -0,0 +1,58 @@
++From c3cb1c568ebf9e8f7f478cfc0356ae54e99712b0 Mon Sep 17 00:00:00 2001
++From: elhananhaenel <elhanan.haenel@mail.huji.ac.il>
++Date: Sat, 7 Mar 2026 22:14:23 +0200
++Subject: [PATCH] iso9660: validate pz_log2_bs in parse_rockridge_ZF1()
 +
-+addhandler inject_sdk_rm_work
-+inject_sdk_rm_work[eventmask] =3D "bb.event.RecipeTaskPreProcess"
-+python inject_sdk_rm_work() {
-+    if d.getVar('RM_WORK_BUILD_WITHOUT'):
-+        bb.build.addtask('do_populate_sdk', 'do_rm_work', ' ', d)
-+}
---=20
-2.53.0
++The zisofs block size exponent (pz_log2_bs) read from the Rock Ridge ZF
++extension entry is used directly in shift expressions without validation.
++The zisofs specification only permits values 15, 16, or 17 (corresponding
++to 32K, 64K, and 128K block sizes).
++
++When pz_log2_bs >= 64 on 64-bit systems (or >= 32 on 32-bit), the
++expression (size_t)1UL << pz_log2_bs is undefined behavior per C11
++6.5.7. On 32-bit systems, a large exponent also causes the block pointer
++allocation size computation (ceil + 1) * 4 to overflow to zero, leading
++to a heap buffer overflow write after malloc(0).
++
++Fix: reject any pz_log2_bs outside the range [15, 17] by disabling
++zisofs for the entry (file->pz = 0), which prevents the zisofs
++decompression path from executing.
++
++Found by fuzzing with ASAN/UBSAN.
++
++CVE: CVE-2026-4426
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/c3cb1c568ebf9e8f7f478cfc0356ae54e99712b0]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libarchive/archive_read_support_format_iso9660.c | 15 ++++++++++-----
++ 1 file changed, 10 insertions(+), 5 deletions(-)
++
++diff --git a/libarchive/archive_read_support_format_iso9660.c b/libarchive/archive_read_support_format_iso9660.c
++index 7d3655a..477aae9 100644
++--- a/libarchive/archive_read_support_format_iso9660.c
+++++ b/libarchive/archive_read_support_format_iso9660.c
++@@ -2756,11 +2756,16 @@ parse_rockridge_ZF1(struct file_info *file, const unsigned char *data,
++ {
++ 
++ 	if (data[0] == 0x70 && data[1] == 0x7a && data_length == 12) {
++-		/* paged zlib */
++-		file->pz = 1;
++-		file->pz_log2_bs = data[3];
++-		file->pz_uncompressed_size = archive_le32dec(&data[4]);
++-	}
+++        /* paged zlib */
+++        file->pz = 1;
+++        file->pz_log2_bs = data[3];
+++        if (file->pz_log2_bs < 15 || file->pz_log2_bs > 17) {
+++            /* Invalid block size exponent; disable zisofs. */
+++            file->pz = 0;
+++            return;
+++        }
+++        file->pz_uncompressed_size = archive_le32dec(&data[4]);
+++    }
++ }
++ 
++ static void
++-- 
++2.50.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+index bc0d3ba074..de9682400a 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+@@ -46,6 +46,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://CVE-2025-60753-02.patch \
+            file://CVE-2026-4111-1.patch \
+            file://CVE-2026-4111-2.patch \
++           file://CVE-2026-4426.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+-- 
+2.50.1
 
 
