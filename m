@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2808CD342C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAED7CD342D
 	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:38 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15617.1777645535643143513
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15620.1777645536402545244
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2026 07:25:35 -0700
+ Fri, 01 May 2026 07:25:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZCpP8BP3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SiaJSV1m;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019de3ee3e8d-182ad5f6-9ff7-48af-8872-38a5e6d79608-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=zJ2dhfn9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=c5yVEVoF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019de3ee423f-d5a06856-c120-44bb-9b52-cc495e0fddab-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1777645535;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ptj7wgF1mRWH+fI+QWa8kGwkf4ThCVdRr6/dgj5yQOY=;
-	b=ZCpP8BP3p7fVpoWlm//wy3QU4HBse8PYtNq4IWYP24FLQgV0s5wrc9jL8qrH7oxR
-	/FZC7E168LF44LeGVXS6YQ4P6xmRxj1kcJvRODA2urm08S0vptJ170NSVjAonPC+SZN
-	TveNCm8NJS1pQptnhi0ODyH0b94qCZnIm5elvjPs=
+	bh=KLFQuuSgNnXGU7mULwNpZpusFW3gKMMg0ArFQ2mKd1s=;
+	b=zJ2dhfn9VeNGmAanfqGLsRbkveVHl8GP+VyBmEVyIBr3R3YGHd9Sro/ulX2Xm2M/
+	UjEoz5BmavOXdRW9b6U1BpWDKUAC6kPAgajnQNpD/IqtTj96mwRQ0mUNkj3NMy5HW8/
+	MIgeqVOCKM3PnmWMFJGc8dEFKFOXqqKDM2igH8E8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645535;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ptj7wgF1mRWH+fI+QWa8kGwkf4ThCVdRr6/dgj5yQOY=;
-	b=SiaJSV1mhkM+Q8cY5AChUpU8syfiG5aRn2v+9WsfFC3cT9Zk6UKZzHWkgHRxj1HC
-	QqSl4HfCvgvxeumnqMikWZp/uXu/rUWk2pOaE+wUVU35vtq0BQxjQf8plUj3L6STQOS
-	x4H57COH1z/BNEdlu3yz8JrCq3hEcFs2Xyrc20cA=
-Content-Type: multipart/mixed; boundary="===============4980715576551726944=="
+	bh=KLFQuuSgNnXGU7mULwNpZpusFW3gKMMg0ArFQ2mKd1s=;
+	b=c5yVEVoFHzO6qSnKFYaNfUPC/zh0SRyYj22pEnr3k2J1cSTqJMyQHFS4dtdKpQli
+	eOo+AqF8nInamg/xwOfxIY3j8E0x5GuOOH0A51IrrjuibES6z/Of21bFAzNPeqgwgZr
+	Zq3Qxt3kYzWF13y8xOqdKQjkbkiKUrgce1ni/kpY=
+Content-Type: multipart/mixed; boundary="===============0021707249466345975=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] ovmf: upgrading to edk2-stable202602 FAILED
-Message-ID: <0101019de3ee3e8d-182ad5f6-9ff7-48af-8872-38a5e6d79608-000000@us-west-2.amazonses.com>
-Date: Fri, 1 May 2026 14:25:34 +0000
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] debugedit: upgrading to 5.3 FAILED
+Message-ID: <0101019de3ee423f-d5a06856-c120-44bb-9b52-cc495e0fddab-000000@us-west-2.amazonses.com>
+Date: Fri, 1 May 2026 14:25:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.01-54.240.27.193
+X-SES-Outgoing: 2026.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236220
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236221
 
---===============4980715576551726944==
+--===============0021707249466345975==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,21 +51,82 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ovmf* to *edk2-stable202602* has Failed(get_env).
+that the automatic attempt to upgrade the recipe(s) *debugedit* to *5.3* has Failed (devtool error).
 
 Detailed error information:
 
-Empty environment returned
+Running 'devtool upgrade' for recipe debugedit failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1976 targets, 57 skipped, 0 masked, 0 errors.
-Removing 15 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 18 recipes from the qemuarm sysroot...done.
-Removing 1 recipes from the x86_64 sysroot...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1976 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: There was 1 ERROR message, returning a non-zero exit code.
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-ef0dd5eb98345bc4f8ceae6b15f27a2c4d802d1b"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:ef0dd5eb98345bc4f8ceae6b15f27a2c4d802d1b"
+meta-yocto-bsp       
+meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 952 .bb files complete (0 cached, 952 parsed). 1977 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-ef0dd5eb98345bc4f8ceae6b15f27a2c4d802d1b"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:ef0dd5eb98345bc4f8ceae6b15f27a2c4d802d1b"
+meta-yocto-bsp       
+meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://sourceware.org/ftp/debugedit/5.3/debugedit-5.3.tar.xz...
+INFO: Rebasing devtool onto 887cfb88a98dcdba2570d99510291ab2c79916b8
+WARNING: Command 'git rebase 887cfb88a98dcdba2570d99510291ab2c79916b8' failed:
+Auto-merging Makefile.am
+CONFLICT (content): Merge conflict in Makefile.am
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/debugedit
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/debugedit/debugedit_5.3.bb
 
 
 
@@ -74,5 +135,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4980715576551726944==--
+--===============0021707249466345975==--
 
