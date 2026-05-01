@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9276ACD37AA
-	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:41 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15610.1777645533598114196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB9ACD3435
+	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:39 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15616.1777645533803624288
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2026 07:25:39 -0700
+ Fri, 01 May 2026 07:25:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=qeGrm8Fc;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=xI5vRvX6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019de3ee5128-95c96f98-4e65-4476-b7e9-b6679bc1bb5a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dzkIXXXi;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FH2gcNv9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019de3ee37f5-9701b409-5ea6-4d9c-841d-39c36e0e16a4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777645539;
+	t=1777645533;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=oaVGN355gPPDTj31XyDNDssF4IpHdrjXMezLU+iRuJI=;
-	b=qeGrm8FclXv/Wui9KvMx66+pNsxHewwqfQpHLOgAMxKHXW9W/V1NU99L9Xsu5cz0
-	SE9y86r/fe6Dkolx7TxO/rIXBogcb4M10Miti3MEoye2IuFd/SsKxxKtho44lqz2x2J
-	PdszwFKKSs6bauN2hp8KbmUk0R9aR9AS4W3E30/0=
+	bh=xJI3k0TJWumNFwpL5uSrezMKMc5czZJd95GNaeSABvQ=;
+	b=dzkIXXXiBXsRd3LbK3R/h/1NFqZEnHOOpOclj6NWYPYe0qaQHmWidS8tFJw8FQx6
+	GaKukpM6sEtFyjQn7vw98hLVirbR+iY0a3rSMJyH+Ot77yQ0p2kNCNgN08DBb9K9zuO
+	ix6hoixAD7T5FZb26U0WmKRl0yyjLgoCqXa9aNtY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645539;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645533;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=oaVGN355gPPDTj31XyDNDssF4IpHdrjXMezLU+iRuJI=;
-	b=xI5vRvX6ZRK6tQsYzQfLQoFLMpMK89OjoN9y5t0CtcsYFOkBKHxYOiBnx3Qz0gtz
-	Ykgs0Ue34G012ezwK83IeN1dV4ibPmD3dAGFOh3A7nuxdhlCtst4BNU4+bAihKTY9Ec
-	Wax/scBtyKOB78SuUWuuKGtpIeYHQkbNPwHVMHxs=
-Content-Type: multipart/mixed; boundary="===============3340774163296647523=="
+	bh=xJI3k0TJWumNFwpL5uSrezMKMc5czZJd95GNaeSABvQ=;
+	b=FH2gcNv9t/N0F3o57NN1pTwkumpZ4FCJ6oA+4PdNa+0PqOHmzSQ9Lmd+u2WL1NCy
+	vkoMc0NS3Q3vBJzMqd/7nGW1UWTqAb9ZBlMw6AbYgnoqBJ/rrvy8ArkXiQNVVygLfGo
+	Hrm8cELya+lqlPyCcAgiAGacKXx7Lz8Pn2EZC1jc=
+Content-Type: multipart/mixed; boundary="===============5021674383486056631=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-installer: upgrading to 1.0.0 FAILED
-Message-ID: <0101019de3ee5128-95c96f98-4e65-4476-b7e9-b6679bc1bb5a-000000@us-west-2.amazonses.com>
-Date: Fri, 1 May 2026 14:25:39 +0000
+Subject: [AUH] coreutils: upgrading to 9.11 SUCCEEDED
+Message-ID: <0101019de3ee37f5-9701b409-5ea6-4d9c-841d-39c36e0e16a4-000000@us-west-2.amazonses.com>
+Date: Fri, 1 May 2026 14:25:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.01-54.240.27.191
+X-SES-Outgoing: 2026.05.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236233
+ <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236215
 
---===============3340774163296647523==
+--===============5021674383486056631==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,93 +51,358 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-installer* to *1.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *coreutils* to *9.11* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-coreutils-upgrade-9.10-9.11.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-installer failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1976 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-7af7f1dd689d85ab0d8e27ad4bace839c7aca670"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:7af7f1dd689d85ab0d8e27ad4bace839c7aca670"
-meta-yocto-bsp       
-meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 952 .bb files complete (0 cached, 952 parsed). 1977 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-7af7f1dd689d85ab0d8e27ad4bace839c7aca670"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:7af7f1dd689d85ab0d8e27ad4bace839c7aca670"
-meta-yocto-bsp       
-meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/i/installer/installer-1.0.0.tar.gz;downloadfilename=installer-1.0.0.tar.gz...
-INFO: Rebasing devtool onto 58ed82cb491a7601070311e59775c4aef98cb656
-WARNING: Command 'git rebase 58ed82cb491a7601070311e59775c4aef98cb656' failed:
-Auto-merging src/installer/__main__.py
-CONFLICT (content): Merge conflict in src/installer/__main__.py
-Auto-merging src/installer/scripts.py
-CONFLICT (content): Merge conflict in src/installer/scripts.py
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3-installer
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/python3-installer/python3-installer_1.0.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3340774163296647523==--
+
+-- >8 --
+From d2ecbf63bc1f76061a2e2808238342336e7f5dfd Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 May 2026 07:02:21 +0000
+Subject: [PATCH] coreutils: upgrade 9.10 -> 9.11
+
+---
+ .../coreutils/coreutils/remove-usr-local-lib-from-m4.patch    | 4 ++--
+ .../coreutils/{coreutils_9.10.bb => coreutils_9.11.bb}        | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/coreutils/{coreutils_9.10.bb => coreutils_9.11.bb} (99%)
+
+diff --git a/meta/recipes-core/coreutils/coreutils/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils/remove-usr-local-lib-from-m4.patch
+index 718de0ab78..b5d788161a 100644
+--- a/meta/recipes-core/coreutils/coreutils/remove-usr-local-lib-from-m4.patch
++++ b/meta/recipes-core/coreutils/coreutils/remove-usr-local-lib-from-m4.patch
+@@ -1,4 +1,4 @@
+-From f53ffb5b27ab7d4a4c62df00ebd6a1a6936d1709 Mon Sep 17 00:00:00 2001
++From 91c377bc35037aaa087b9db8cd2e4c5cefe8f2d7 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 3 Aug 2011 14:12:30 -0700
+ Subject: [PATCH] coreutils: Fix build on uclibc
+@@ -17,7 +17,7 @@ Upstream-Status: Inappropriate [Upstream does care for AIX while we may not]
+  1 file changed, 12 deletions(-)
+ 
+ diff --git a/m4/getloadavg.m4 b/m4/getloadavg.m4
+-index 9d0236f..68f7c52 100644
++index dc22616..39561dd 100644
+ --- a/m4/getloadavg.m4
+ +++ b/m4/getloadavg.m4
+ @@ -46,18 +46,6 @@ if test $ac_cv_func_getloadavg != yes; then
+diff --git a/meta/recipes-core/coreutils/coreutils_9.10.bb b/meta/recipes-core/coreutils/coreutils_9.11.bb
+similarity index 99%
+rename from meta/recipes-core/coreutils/coreutils_9.10.bb
+rename to meta/recipes-core/coreutils/coreutils_9.11.bb
+index ad4639b5ed..ea2d237c3d 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.10.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.11.bb
+@@ -17,7 +17,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "16535a9adf0b10037364e2d612aad3d9f4eca3a344949ced74d12faf4bd51d25"
++SRC_URI[sha256sum] = "394024eda0a5955217ceda9cd1201e65dc8fa3aa29c2951135a49521d57c3cc3"
+ 
+ CVE_PRODUCT = "gnu:coreutils"
+ 
+-- 
+2.47.1
+
+
+--===============5021674383486056631==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-cs: PKGSIZE changed from 302281 to 388250 (+28%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sr: PKGSIZE changed from 370011 to 470491 (+27%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sv: PKGSIZE changed from 286168 to 365393 (+28%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-zh-cn: PKGSIZE changed from 326417 to 367186 (+12%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-ptest: FILELIST: removed "/usr/lib/coreutils/ptest/tests/tty/tty-eof.pl /usr/lib/coreutils/ptest/tests/misc/nl.sh", added "/usr/lib/coreutils/ptest/tests/nl/multibyte.sh /usr/lib/coreutils/ptest/tests/split/non-utf8.sh /usr/lib/coreutils/ptest/tests/expand/mb.sh /usr/lib/coreutils/ptest/tests/fold/multiple-files.sh /usr/lib/coreutils/ptest/tests/mktemp/mktemp-misc.sh /usr/lib/coreutils/ptest/tests/ls/non-utf8-hidden.sh /usr/lib/coreutils/ptest/src/wc_neon.c /usr/lib/coreutils/ptest/tests/cat/splice.sh /usr/lib/coreutils/ptest/tests/truncate/multiple-files.sh /usr/lib/coreutils/ptest/tests/unexpand/mb.sh /usr/lib/coreutils/ptest/tests/df/sync.sh /usr/lib/coreutils/ptest/tests/nl/multiple-files.sh /usr/lib/coreutils/ptest/tests/chmod/only-op.sh /usr/lib/coreutils/ptest/tests/ls/quoting-utf8.sh /usr/lib/coreutils/ptest/tests/ln/non-utf8-src.sh /usr/lib/coreutils/ptest/tests/rm/dash-hint.sh /usr/lib/coreutils/ptest/tests/misc/warning-erro
+ rs.sh /usr/lib/coreutils/ptest/tests/dd/partial-write.sh /usr/lib/coreutils/ptest/tests/cp/non-utf8-name.sh /usr/lib/coreutils/ptest/tests/pwd/argument.sh /usr/lib/coreutils/ptest/tests/misc/user.sh /usr/lib/coreutils/ptest/tests/cp/readonly-dir.sh /usr/lib/coreutils/ptest/tests/ln/backup-suffix-traversal.sh /usr/lib/coreutils/ptest/tests/timeout/init-parent.sh /usr/lib/coreutils/ptest/tests/mktemp/write-error.sh /usr/lib/coreutils/ptest/tests/misc/tty-eof.pl /usr/lib/coreutils/ptest/tests/misc/responsive.sh /usr/lib/coreutils/ptest/tests/nl/nl.sh /usr/lib/coreutils/ptest/tests/cut/mb-non-utf8.sh"
+
+--===============5021674383486056631==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-coreutils-upgrade-9.10-9.11.patch"
+
+RnJvbSBkMmVjYmY2M2JjMWY3NjA2MWEyZTI4MDgyMzgzNDIzMzZlN2Y1ZGZkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAwNzowMjoyMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNv
+cmV1dGlsczogdXBncmFkZSA5LjEwIC0+IDkuMTEKCi0tLQogLi4uL2NvcmV1dGlscy9jb3JldXRp
+bHMvcmVtb3ZlLXVzci1sb2NhbC1saWItZnJvbS1tNC5wYXRjaCAgICB8IDQgKystLQogLi4uL2Nv
+cmV1dGlscy97Y29yZXV0aWxzXzkuMTAuYmIgPT4gY29yZXV0aWxzXzkuMTEuYmJ9ICAgICAgICB8
+IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy97Y29yZXV0aWxzXzkuMTAuYmIgPT4g
+Y29yZXV0aWxzXzkuMTEuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUv
+Y29yZXV0aWxzL2NvcmV1dGlscy9yZW1vdmUtdXNyLWxvY2FsLWxpYi1mcm9tLW00LnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGlscy9yZW1vdmUtdXNyLWxvY2FsLWxp
+Yi1mcm9tLW00LnBhdGNoCmluZGV4IDcxOGRlMGFiNzguLmI1ZDc4ODE2MWEgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvcmVtb3ZlLXVzci1sb2NhbC1s
+aWItZnJvbS1tNC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0
+aWxzL3JlbW92ZS11c3ItbG9jYWwtbGliLWZyb20tbTQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
+cm9tIGY1M2ZmYjViMjdhYjdkNGE0YzYyZGYwMGViZDZhMWE2OTM2ZDE3MDkgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCitGcm9tIDkxYzM3N2JjMzUwMzdhYWEwODdiOWRiOGNkMmU0YzVjZWZlOGYy
+ZDcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgogRGF0ZTogV2VkLCAzIEF1ZyAyMDExIDE0OjEyOjMwIC0wNzAwCiBTdWJqZWN0OiBb
+UEFUQ0hdIGNvcmV1dGlsczogRml4IGJ1aWxkIG9uIHVjbGliYwpAQCAtMTcsNyArMTcsNyBAQCBV
+cHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW1Vwc3RyZWFtIGRvZXMgY2FyZSBmb3IgQUlY
+IHdoaWxlIHdlIG1heSBub3RdCiAgMSBmaWxlIGNoYW5nZWQsIDEyIGRlbGV0aW9ucygtKQogCiBk
+aWZmIC0tZ2l0IGEvbTQvZ2V0bG9hZGF2Zy5tNCBiL200L2dldGxvYWRhdmcubTQKLWluZGV4IDlk
+MDIzNmYuLjY4ZjdjNTIgMTAwNjQ0CitpbmRleCBkYzIyNjE2Li4zOTU2MWRkIDEwMDY0NAogLS0t
+IGEvbTQvZ2V0bG9hZGF2Zy5tNAogKysrIGIvbTQvZ2V0bG9hZGF2Zy5tNAogQEAgLTQ2LDE4ICs0
+Niw2IEBAIGlmIHRlc3QgJGFjX2N2X2Z1bmNfZ2V0bG9hZGF2ZyAhPSB5ZXM7IHRoZW4KZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHNfOS4xMC5iYiBiL21l
+dGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHNfOS4xMS5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDk5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxz
+XzkuMTAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHNf
+OS4xMS5iYgppbmRleCBhZDQ2MzliNWVkLi5lYTJkMjM3YzNkIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzXzkuMTAuYmIKKysrIGIvbWV0YS9yZWNpcGVz
+LWNvcmUvY29yZXV0aWxzL2NvcmV1dGlsc185LjExLmJiCkBAIC0xNyw3ICsxNyw3IEBAIFNSQ19V
+UkkgPSAiJHtHTlVfTUlSUk9SfS9jb3JldXRpbHMvJHtCUH0udGFyLnh6IFwKICAgICAgICAgICAg
+ZmlsZTovL3JlbW92ZS11c3ItbG9jYWwtbGliLWZyb20tbTQucGF0Y2ggXAogICAgICAgICAgICBm
+aWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE2
+NTM1YTlhZGYwYjEwMDM3MzY0ZTJkNjEyYWFkM2Q5ZjRlY2EzYTM0NDk0OWNlZDc0ZDEyZmFmNGJk
+NTFkMjUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzk0MDI0ZWRhMGE1OTU1MjE3Y2VkYTljZDEy
+MDFlNjVkYzhmYTNhYTI5YzI5NTExMzVhNDk1MjFkNTdjM2NjMyIKIAogQ1ZFX1BST0RVQ1QgPSAi
+Z251OmNvcmV1dGlscyIKIAotLSAKMi40Ny4xCgo=
+
+--===============5021674383486056631==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/coreutils/coreutils-dbg: PKGSIZE changed from 64792640 to 70456160 (+9%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-dbg: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-dbg: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-dev: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-dev: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-doc: PKGSIZE changed from 1448813 to 1452127 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-doc: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-doc: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-af: PKGSIZE changed from 26373 to 26211 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-af: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-af: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ar: PKGSIZE changed from 426888 to 422825 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ar: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ar: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-be: PKGSIZE changed from 58542 to 58320 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-be: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-be: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-bg: PKGSIZE changed from 392255 to 389742 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-bg: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-bg: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ca: PKGSIZE changed from 285657 to 284424 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ca: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ca: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-cs: PKGSIZE changed from 302281 to 388250 (+28%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-cs: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-cs: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-da: PKGSIZE changed from 255870 to 254808 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-da: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-da: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-de: PKGSIZE changed from 391685 to 388595 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-de: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-de: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-el: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-el: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-eo: PKGSIZE changed from 131814 to 130677 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-eo: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-eo: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-es: PKGSIZE changed from 191798 to 190613 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-es: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-es: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-et: PKGSIZE changed from 360763 to 361524 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-et: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-et: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-eu: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-eu: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-fi: PKGSIZE changed from 97040 to 96118 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-fi: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-fi: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-fr: PKGSIZE changed from 398603 to 399417 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-fr: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-fr: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ga: PKGSIZE changed from 115442 to 114414 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ga: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ga: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-gl: PKGSIZE changed from 30123 to 30035 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-gl: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-gl: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-hr: PKGSIZE changed from 375640 to 378348 (+1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-hr: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-hr: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-hu: PKGSIZE changed from 241723 to 240581 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-hu: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-hu: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ia: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ia: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-id: PKGSIZE changed from 113395 to 112504 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-id: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-id: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-it: PKGSIZE changed from 144922 to 143796 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-it: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-it: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ja: PKGSIZE changed from 326844 to 324919 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ja: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ja: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ka: PKGSIZE changed from 148656 to 147339 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ka: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ka: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-kk: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-kk: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ko: PKGSIZE changed from 397753 to 398665 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ko: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ko: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-lg: PKGSIZE changed from 186294 to 185039 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-lg: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-lg: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-lt: PKGSIZE changed from 27957 to 27423 (-2%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-lt: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-lt: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ms: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ms: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-nb: PKGSIZE changed from 249114 to 247962 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-nb: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-nb: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-nl: PKGSIZE changed from 308479 to 306496 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-nl: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-nl: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pl: PKGSIZE changed from 394328 to 395208 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pl: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pl: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pt-br: PKGSIZE changed from 243460 to 242320 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pt-br: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pt-br: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pt: PKGSIZE changed from 370864 to 371073 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pt: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-pt: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ro: PKGSIZE changed from 409352 to 410325 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ro: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ro: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ru: PKGSIZE changed from 335832 to 334199 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ru: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ru: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sk: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sk: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sl: PKGSIZE changed from 245394 to 243282 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sl: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sl: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sr: PKGSIZE changed from 370011 to 470491 (+27%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sr: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sr: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sv: PKGSIZE changed from 286168 to 365393 (+28%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sv: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-sv: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ta: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-ta: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-tr: PKGSIZE changed from 252295 to 251104 (-0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-tr: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-tr: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-uk: PKGSIZE changed from 492880 to 493842 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-uk: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-uk: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-vi: PKGSIZE changed from 250852 to 249568 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-vi: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-vi: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-zh-cn: PKGSIZE changed from 326417 to 367186 (+12%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-zh-cn: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-zh-cn: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-zh-tw: PKGSIZE changed from 208828 to 207736 (-1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-zh-tw: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-locale-zh-tw: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-ptest: PKGSIZE changed from 17867626 to 18362578 (+3%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-ptest: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-ptest: FILELIST: removed "/usr/lib/coreutils/ptest/tests/misc/nl.sh /usr/lib/coreutils/ptest/tests/tty/tty-eof.pl", added "/usr/lib/coreutils/ptest/tests/nl/nl.sh /usr/lib/coreutils/ptest/tests/nl/multibyte.sh /usr/lib/coreutils/ptest/tests/rm/dash-hint.sh /usr/lib/coreutils/ptest/tests/timeout/init-parent.sh /usr/lib/coreutils/ptest/tests/nl/multiple-files.sh /usr/lib/coreutils/ptest/tests/split/non-utf8.sh /usr/lib/coreutils/ptest/tests/cut/mb-non-utf8.sh /usr/lib/coreutils/ptest/tests/cp/readonly-dir.sh /usr/lib/coreutils/ptest/tests/fold/multiple-files.sh /usr/lib/coreutils/ptest/tests/ls/non-utf8-hidden.sh /usr/lib/coreutils/ptest/tests/cat/splice.sh /usr/lib/coreutils/ptest/src/wc_neon.c /usr/lib/coreutils/ptest/tests/truncate/multiple-files.sh /usr/lib/coreutils/ptest/tests/misc/warning-errors.sh /usr/lib/coreutils/ptest/tests/chmod/only-op.sh /usr/lib/coreutils/ptest/tests/misc/tty-eof.pl /usr/lib/coreutils/ptest/tests/pwd/arg
+ ument.sh /usr/lib/coreutils/ptest/tests/misc/responsive.sh /usr/lib/coreutils/ptest/tests/ls/quoting-utf8.sh /usr/lib/coreutils/ptest/tests/ln/backup-suffix-traversal.sh /usr/lib/coreutils/ptest/tests/expand/mb.sh /usr/lib/coreutils/ptest/tests/misc/user.sh /usr/lib/coreutils/ptest/tests/cp/non-utf8-name.sh /usr/lib/coreutils/ptest/tests/unexpand/mb.sh /usr/lib/coreutils/ptest/tests/dd/partial-write.sh /usr/lib/coreutils/ptest/tests/ln/non-utf8-src.sh /usr/lib/coreutils/ptest/tests/mktemp/mktemp-misc.sh /usr/lib/coreutils/ptest/tests/mktemp/write-error.sh /usr/lib/coreutils/ptest/tests/df/sync.sh"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-ptest: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-src: PKGSIZE changed from 6574383 to 6666762 (+1%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-src: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-src: FILELIST: directory renamed /usr/src/debug/coreutils/9.10/lib/malloc -> /usr/src/debug/coreutils/9.11/lib/malloc, directory renamed /usr/src/debug/coreutils/9.10/lib/unistr -> /usr/src/debug/coreutils/9.11/lib/unistr, directory renamed /usr/src/debug/coreutils/9.10/lib/sys -> /usr/src/debug/coreutils/9.11/lib/sys, directory renamed /usr/src/debug/coreutils/9.10/src/blake2 -> /usr/src/debug/coreutils/9.11/src/blake2, directory renamed /usr/src/debug/coreutils/9.10/lib/selinux -> /usr/src/debug/coreutils/9.11/lib/selinux, removed "/usr/src/debug/coreutils/9.10/lib/tmpdir.c /usr/src/debug/coreutils/9.10/lib/fclose.c /usr/src/debug/coreutils/9.10/lib/fflush.c /usr/src/debug/coreutils/9.10/lib/fpurge.c /usr/src/debug/coreutils/9.10/lib/fseeko.c /usr/src/debug/coreutils/9.10/lib/getcwd.c /usr/src/debug/coreutils/9.10/lib/getopt.c /usr/src/debug/coreutils/9.10/lib/fchmodat.c /usr/src/debug/coreutils/9.10/lib/fchownat.c /usr/src/debug/co
+ reutils/9.10/src/find-mount-point.h /usr/src/debug/coreutils/9.10/src/find-mount-point.c /usr/src/debug/coreutils/9.10/lib/mcel.h /usr/src/debug/coreutils/9.10/lib/fnmatch_loop.c /usr/src/debug/coreutils/9.10/lib/fdutimensat.c /usr/src/debug/coreutils/9.10/lib/xalignalloc.c /usr/src/debug/coreutils/9.10/lib/getndelim2.h /usr/src/debug/coreutils/9.10/lib/getndelim2.c /usr/src/debug/coreutils/9.10/lib/bitrotate.h /usr/src/debug/coreutils/9.10/src/term-sig.h /usr/src/debug/coreutils/9.10/lib/full-write.h /usr/src/debug/coreutils/9.10/lib/safe-write.h /usr/src/debug/coreutils/9.10/src/printenv.c /usr/src/debug/coreutils/9.10/lib/full-write.c /usr/src/debug/coreutils/9.10/src/fold.c /usr/src/debug/coreutils/9.10/src/show-date.c /usr/src/debug/coreutils/9.10/src/show-date.h /usr/src/debug/coreutils/9.10/src/env.c /usr/src/debug/coreutils/9.10/lib/findprog-in.c /usr/src/debug/coreutils/9.10/lib/gethrxtime.c /usr/src/debug/coreutils/9.10/lib/mbsrtowcs.c /usr/src/debug/coreutils/9.10/lib/get
+ hrxtime.h /usr/src/debug/coreutils/9.10/src/wc_avx2.c /usr/src/debug/coreutils/9.10/lib/hashcode-string1.c /usr/src/debug/coreutils/9.10/src/unlink.c /usr/src/debug/coreutils/9.10/lib/hashcode-string1.h /usr/src/debug/coreutils/9.10/lib/backup-find.c /usr/src/debug/coreutils/9.10/src/sync.c /usr/src/debug/coreutils/9.10/lib/langinfo.h /usr/src/debug/coreutils/9.10/lib/malloca.c /usr/src/debug/coreutils/9.10/src/cp.c /usr/src/debug/coreutils/9.10/lib/malloca.h /usr/src/debug/coreutils/9.10/lib/localename.h /usr/src/debug/coreutils/9.10/lib/propername.h /usr/src/debug/coreutils/9.10/lib/fts_.h /usr/src/debug/coreutils/9.10/lib/c-strtod.h /usr/src/debug/coreutils/9.10/lib/c-strtod.c /usr/src/debug/coreutils/9.10/lib/calendars.h /usr/src/debug/coreutils/9.10/lib/skipchars.h /usr/src/debug/coreutils/9.10/lib/settime.c /usr/src/debug/coreutils/9.10/lib/exclude.c /usr/src/debug/coreutils/9.10/lib/fadvise.c /usr/src/debug/coreutils/9.10/lib/fsusage.c /usr/src/debug/coreutils/9.10/lib/gettim
+ e.c /usr/src/debug/coreutils/9.10/lib/idcache.c /usr/src/debug/coreutils/9.10/lib/isapipe.c /usr/src/debug/coreutils/9.10/lib/dirname.c /usr/src/debug/coreutils/9.10/lib/fadvise.h /usr/src/debug/coreutils/9.10/lib/fsusage.h /usr/src/debug/coreutils/9.10/lib/exclude.h /usr/src/debug/coreutils/9.10/lib/c-ctype.h /usr/src/debug/coreutils/9.10/lib/idcache.h /usr/src/debug/coreutils/9.10/lib/dirname.h /usr/src/debug/coreutils/9.10/lib/regexec.c /usr/src/debug/coreutils/9.10/lib/xmalloc.c /usr/src/debug/coreutils/9.10/lib/basename-lgpl.h /usr/src/debug/coreutils/9.10/lib/at-func.c /usr/src/debug/coreutils/9.10/lib/heap.h /usr/src/debug/coreutils/9.10/lib/mbrtowc.c /usr/src/debug/coreutils/9.10/src/realpath.c /usr/src/debug/coreutils/9.10/lib/basename-lgpl.c /usr/src/debug/coreutils/9.10/lib/heap.c /usr/src/debug/coreutils/9.10/lib/freadptr.h /usr/src/debug/coreutils/9.10/lib/inttostr.h /usr/src/debug/coreutils/9.10/lib/anytostr.c /usr/src/debug/coreutils/9.10/lib/freadptr.c /usr/src/debug
+ /coreutils/9.10/lib/propername-lite.c /usr/src/debug/coreutils/9.10/lib/backupfile.h /usr/src/debug/coreutils/9.10/lib/backupfile.c /usr/src/debug/coreutils/9.10/src/unexpand.c /usr/src/debug/coreutils/9.10/src/pr.c /usr/src/debug/coreutils/9.10/lib/randread.c /usr/src/debug/coreutils/9.10/lib/areadlink.c /usr/src/debug/coreutils/9.10/lib/xreadlink.c /usr/src/debug/coreutils/9.10/src/du.c /usr/src/debug/coreutils/9.10/lib/reallocarray.c /usr/src/debug/coreutils/9.10/lib/randread.h /usr/src/debug/coreutils/9.10/lib/areadlink.h /usr/src/debug/coreutils/9.10/lib/issymlink.h /usr/src/debug/coreutils/9.10/lib/xreadlink.h /usr/src/debug/coreutils/9.10/src/wc.h /usr/src/debug/coreutils/9.10/src/basenc.c /usr/src/debug/coreutils/9.10/src/chroot.c /usr/src/debug/coreutils/9.10/src/crctab.c /usr/src/debug/coreutils/9.10/lib/dtimespec-bound.h /usr/src/debug/coreutils/9.10/src/csplit.c /usr/src/debug/coreutils/9.10/src/expand.c /usr/src/debug/coreutils/9.10/src/factor.c /usr/src/debug/coreutils
+ /9.10/lib/canon-host.c /usr/src/debug/coreutils/9.10/src/groups.c /usr/src/debug/coreutils/9.10/src/iopoll.h /usr/src/debug/coreutils/9.10/lib/canon-host.h /usr/src/debug/coreutils/9.10/src/remove.h /usr/src/debug/coreutils/9.10/src/system.h /usr/src/debug/coreutils/9.10/src/wc.c /usr/src/debug/coreutils/9.10/lib/mbswidth.c /usr/src/debug/coreutils/9.10/lib/mbswidth.h /usr/src/debug/coreutils/9.10/src/cut.c /usr/src/debug/coreutils/9.10/lib/acl-internal.h /usr/src/debug/coreutils/9.10/lib/copy-acl.c /usr/src/debug/coreutils/9.10/lib/qset-acl.c /usr/src/debug/coreutils/9.10/lib/acl-internal.c /usr/src/debug/coreutils/9.10/lib/boot-time-aux.h /usr/src/debug/coreutils/9.10/lib/fts-cycle.c /usr/src/debug/coreutils/9.10/lib/fd-safer-flag.c /usr/src/debug/coreutils/9.10/src/seq.c /usr/src/debug/coreutils/9.10/lib/canonicalize.h /usr/src/debug/coreutils/9.10/lib/dup-safer-flag.c /usr/src/debug/coreutils/9.10/lib/mkstemp-safer.c /usr/src/debug/coreutils/9.10/lib/canonicalize.c /usr/src/debu
+ g/coreutils/9.10/lib/freadseek.c /usr/src/debug/coreutils/9.10/lib/filemode.h /usr/src/debug/coreutils/9.10/lib/freadseek.h /usr/src/debug/coreutils/9.10/lib/sha256-stream.c /usr/src/debug/coreutils/9.10/lib/alignalloc.h /usr/src/debug/coreutils/9.10/lib/sha512-stream.c /usr/src/debug/coreutils/9.10/lib/filemode.c /usr/src/debug/coreutils/9.10/lib/memchr2.h /usr/src/debug/coreutils/9.10/lib/memcmp2.h /usr/src/debug/coreutils/9.10/src/basename.c /usr/src/debug/coreutils/9.10/src/hostname.c /usr/src/debug/coreutils/9.10/lib/memchr2.c /usr/src/debug/coreutils/9.10/lib/memcmp2.c /usr/src/debug/coreutils/9.10/lib/modechange.c /usr/src/debug/coreutils/9.10/lib/targetdir.h /usr/src/debug/coreutils/9.10/src/nice.c /usr/src/debug/coreutils/9.10/lib/strnumcmp.h /usr/src/debug/coreutils/9.10/lib/argmatch.c /usr/src/debug/coreutils/9.10/lib/modechange.h /usr/src/debug/coreutils/9.10/lib/targetdir.c /usr/src/debug/coreutils/9.10/lib/argmatch.h /usr/src/debug/coreutils/9.10/lib/strintcmp.c /usr/s
+ rc/debug/coreutils/9.10/lib/strnumcmp.c /usr/src/debug/coreutils/9.10/lib/same.c /usr/src/debug/coreutils/9.10/lib/strnlen1.h /usr/src/debug/coreutils/9.10/lib/same.h /usr/src/debug/coreutils/9.10/lib/strnlen1.c /usr/src/debug/coreutils/9.10/src/shuf.c /usr/src/debug/coreutils/9.10/src/cksum_pclmul.c /usr/src/debug/coreutils/9.10/lib/c-strncasecmp.c /usr/src/debug/coreutils/9.10/lib/areadlinkat-with-size.c /usr/src/debug/coreutils/9.10/lib/memcasecmp.h /usr/src/debug/coreutils/9.10/lib/mbscasecmp.c /usr/src/debug/coreutils/9.10/lib/memcasecmp.c /usr/src/debug/coreutils/9.10/src/ln.c /usr/src/debug/coreutils/9.10/lib/time-internal.h /usr/src/debug/coreutils/9.10/lib/read-file.h /usr/src/debug/coreutils/9.10/lib/buffer-lcm.h /usr/src/debug/coreutils/9.10/lib/read-file.c /usr/src/debug/coreutils/9.10/lib/buffer-lcm.c /usr/src/debug/coreutils/9.10/lib/strnumcmp-in.h /usr/src/debug/coreutils/9.10/src/fmt.c /usr/src/debug/coreutils/9.10/lib/mbs_endswith.c /usr/src/debug/coreutils/9.10/lib
+ /str_endswith.c /usr/src/debug/coreutils/9.10/lib/unicodeio.h /usr/src/debug/coreutils/9.10/src/remove.c /usr/src/debug/coreutils/9.10/lib/md5.c /usr/src/debug/coreutils/9.10/lib/base32.c /usr/src/debug/coreutils/9.10/lib/base64.c /usr/src/debug/coreutils/9.10/lib/unicodeio.c /usr/src/debug/coreutils/9.10/src/join.c /usr/src/debug/coreutils/9.10/lib/md5.h /usr/src/debug/coreutils/9.10/lib/fcntl-safer.h /usr/src/debug/coreutils/9.10/lib/stdio-safer.h /usr/src/debug/coreutils/9.10/lib/sha1.c /usr/src/debug/coreutils/9.10/lib/sha1.h /usr/src/debug/coreutils/9.10/lib/fopen-safer.c /usr/src/debug/coreutils/9.10/lib/crc-x86_64-pclmul.c /usr/src/debug/coreutils/9.10/lib/version-etc-fsf.c /usr/src/debug/coreutils/9.10/lib/version-etc.h /usr/src/debug/coreutils/9.10/src/operand2sig.c /usr/src/debug/coreutils/9.10/lib/version-etc.c /usr/src/debug/coreutils/9.10/src/operand2sig.h /usr/src/debug/coreutils/9.10/src/copy.c /usr/src/debug/coreutils/9.10/src/cksum_crc.c /usr/src/debug/coreutils/9.1
+ 0/lib/calendar-thai.h /usr/src/debug/coreutils/9.10/lib/mbsrtowcs-impl.h /usr/src/debug/coreutils/9.10/src/cksum_crc.h /usr/src/debug/coreutils/9.10/src/copy.h /usr/src/debug/coreutils/9.10/src/chmod.c /usr/src/debug/coreutils/9.10/src/chown.c /usr/src/debug/coreutils/9.10/src/cksum.c /usr/src/debug/coreutils/9.10/src/ls-ls.c /usr/src/debug/coreutils/9.10/src/mkdir.c /usr/src/debug/coreutils/9.10/src/chown.h /usr/src/debug/coreutils/9.10/src/cksum.h /usr/src/debug/coreutils/9.10/src/mknod.c /usr/src/debug/coreutils/9.10/src/nohup.c /usr/src/debug/coreutils/9.10/src/statx.h /usr/src/debug/coreutils/9.10/src/uname.h /usr/src/debug/coreutils/9.10/lib/xstrtol-error.h /usr/src/debug/coreutils/9.10/lib/filevercmp.c /usr/src/debug/coreutils/9.10/lib/xstrtol-error.c /usr/src/debug/coreutils/9.10/src/set-fields.h /usr/src/debug/coreutils/9.10/lib/filevercmp.h /usr/src/debug/coreutils/9.10/src/set-fields.c /usr/src/debug/coreutils/9.10/src/yes.c /usr/src/debug/coreutils/9.10/lib/localcharset.
+ h /usr/src/debug/coreutils/9.10/lib/localcharset.c /usr/src/debug/coreutils/9.10/lib/asprintf.c /usr/src/debug/coreutils/9.10/lib/vzprintf.c /usr/src/debug/coreutils/9.10/lib/readtokens.c /usr/src/debug/coreutils/9.10/lib/close-stream.c /usr/src/debug/coreutils/9.10/lib/readtokens.h /usr/src/debug/coreutils/9.10/lib/close-stream.h /usr/src/debug/coreutils/9.10/lib/xsetenv.c /usr/src/debug/coreutils/9.10/src/comm.c /usr/src/debug/coreutils/9.10/lib/xsetenv.h /usr/src/debug/coreutils/9.10/src/nproc.c /usr/src/debug/coreutils/9.10/src/paste.c /usr/src/debug/coreutils/9.10/src/pinky.c /usr/src/debug/coreutils/9.10/src/rmdir.c /usr/src/debug/coreutils/9.10/src/shred.c /usr/src/debug/coreutils/9.10/src/sleep.c /usr/src/debug/coreutils/9.10/src/split.c /usr/src/debug/coreutils/9.10/src/touch.c /usr/src/debug/coreutils/9.10/src/tsort.c /usr/src/debug/coreutils/9.10/src/uname.c /usr/src/debug/coreutils/9.10/lib/concat-filename.c /usr/src/debug/coreutils/9.10/lib/linebuffer.h /usr/src/debug/c
+ oreutils/9.10/lib/time_rz.c /usr/src/debug/coreutils/9.10/lib/linebuffer.c /usr/src/debug/coreutils/9.10/lib/concat-filename.h /usr/src/debug/coreutils/9.10/lib/hard-locale.h /usr/src/debug/coreutils/9.10/lib/mbsrtowcs-state.c /usr/src/debug/coreutils/9.10/lib/hashcode-string2.h /usr/src/debug/coreutils/9.10/lib/hashcode-file-inode.c /usr/src/debug/coreutils/9.10/lib/hard-locale.c /usr/src/debug/coreutils/9.10/lib/hashcode-string2.c /usr/src/debug/coreutils/9.10/lib/closein.h /usr/src/debug/coreutils/9.10/lib/argv-iter.h /usr/src/debug/coreutils/9.10/lib/closein.c /usr/src/debug/coreutils/9.10/lib/freopen.c /usr/src/debug/coreutils/9.10/lib/vasprintf.c /usr/src/debug/coreutils/9.10/lib/argv-iter.c /usr/src/debug/coreutils/9.10/lib/cycle-check.c /usr/src/debug/coreutils/9.10/lib/vfzprintf.c /usr/src/debug/coreutils/9.10/lib/xasprintf.c /usr/src/debug/coreutils/9.10/lib/memcoll.h /usr/src/debug/coreutils/9.10/lib/xstrtol.h /usr/src/debug/coreutils/9.10/lib/filenamecat.h /usr/src/debug
+ /coreutils/9.10/lib/mountlist.h /usr/src/debug/coreutils/9.10/src/force-link.h /usr/src/debug/coreutils/9.10/lib/memcoll.c /usr/src/debug/coreutils/9.10/lib/set-acl.c /usr/src/debug/coreutils/9.10/lib/xstrtol.c /usr/src/debug/coreutils/9.10/lib/cycle-check.h /usr/src/debug/coreutils/9.10/src/force-link.c /usr/src/debug/coreutils/9.10/lib/filenamecat.c /usr/src/debug/coreutils/9.10/lib/qcopy-acl.c /usr/src/debug/coreutils/9.10/lib/mountlist.c /usr/src/debug/coreutils/9.10/src/sort.c /usr/src/debug/coreutils/9.10/src/pathchk.c /usr/src/debug/coreutils/9.10/src/libstdbuf.c /usr/src/debug/coreutils/9.10/src/dirname.c /usr/src/debug/coreutils/9.10/src/logname.c /usr/src/debug/coreutils/9.10/src/tr.c /usr/src/debug/coreutils/9.10/lib/root-dev-ino.c /usr/src/debug/coreutils/9.10/lib/root-dev-ino.h /usr/src/debug/coreutils/9.10/lib/dirchownmod.c /usr/src/debug/coreutils/9.10/lib/fseterr.h /usr/src/debug/coreutils/9.10/lib/ftoastr.h /usr/src/debug/coreutils/9.10/lib/savedir.h /usr/src/debug/
+ coreutils/9.10/lib/crc-x86_64.h /usr/src/debug/coreutils/9.10/lib/dirchownmod.h /usr/src/debug/coreutils/9.10/lib/fseterr.c /usr/src/debug/coreutils/9.10/lib/ftoastr.c /usr/src/debug/coreutils/9.10/lib/savedir.c /usr/src/debug/coreutils/9.10/lib/sig2str.c /usr/src/debug/coreutils/9.10/lib/ino-map.h /usr/src/debug/coreutils/9.10/lib/mkdir-p.h /usr/src/debug/coreutils/9.10/lib/str-kmp.h /usr/src/debug/coreutils/9.10/lib/ino-map.c /usr/src/debug/coreutils/9.10/lib/mkdir-p.c /usr/src/debug/coreutils/9.10/lib/regcomp.c /usr/src/debug/coreutils/9.10/src/nl.c /usr/src/debug/coreutils/9.10/src/echo.c /usr/src/debug/coreutils/9.10/src/speedlist.h /usr/src/debug/coreutils/9.10/lib/getopt_int.h /usr/src/debug/coreutils/9.10/lib/randint.c /usr/src/debug/coreutils/9.10/lib/randint.h /usr/src/debug/coreutils/9.10/lib/sha3.c /usr/src/debug/coreutils/9.10/lib/openat-proc.c /usr/src/debug/coreutils/9.10/lib/sha3.h /usr/src/debug/coreutils/9.10/src/true.c /usr/src/debug/coreutils/9.10/lib/printf-args
+ .c /usr/src/debug/coreutils/9.10/src/getlimits.c /usr/src/debug/coreutils/9.10/lib/printf-args.h /usr/src/debug/coreutils/9.10/src/pwd.c /usr/src/debug/coreutils/9.10/lib/getlocalename_l-unsafe.h /usr/src/debug/coreutils/9.10/lib/open-safer.c /usr/src/debug/coreutils/9.10/lib/getlocalename_l-unsafe.c /usr/src/debug/coreutils/9.10/lib/fts.c /usr/src/debug/coreutils/9.10/lib/c-strcase.h /usr/src/debug/coreutils/9.10/lib/filenamecat-lgpl.c /usr/src/debug/coreutils/9.10/lib/mbrtoc32.c /usr/src/debug/coreutils/9.10/lib/dup-safer.c /usr/src/debug/coreutils/9.10/lib/nl_langinfo.c /usr/src/debug/coreutils/9.10/lib/crc.c /usr/src/debug/coreutils/9.10/lib/crc.h /usr/src/debug/coreutils/9.10/src/prog-fprintf.h /usr/src/debug/coreutils/9.10/lib/getopt1.c /usr/src/debug/coreutils/9.10/lib/findprog.h /usr/src/debug/coreutils/9.10/lib/hashcode-file.h /usr/src/debug/coreutils/9.10/src/prog-fprintf.c /usr/src/debug/coreutils/9.10/lib/fprintftime.h /usr/src/debug/coreutils/9.10/lib/xgetcwd.c /usr/src
+ /debug/coreutils/9.10/lib/xstrtod.c /usr/src/debug/coreutils/9.10/lib/xmemcoll.c /usr/src/debug/coreutils/9.10/lib/btowc.c /usr/src/debug/coreutils/9.10/lib/error.c /usr/src/debug/coreutils/9.10/lib/fcntl.c /usr/src/debug/coreutils/9.10/lib/fopen.c /usr/src/debug/coreutils/9.10/lib/human.c /usr/src/debug/coreutils/9.10/lib/nproc.c /usr/src/debug/coreutils/9.10/lib/pipe2.c /usr/src/debug/coreutils/9.10/lib/xgetcwd.h /usr/src/debug/coreutils/9.10/lib/xmemcoll.h /usr/src/debug/coreutils/9.10/lib/xstrtod.h /usr/src/debug/coreutils/9.10/lib/quote.h /usr/src/debug/coreutils/9.10/lib/error.h /usr/src/debug/coreutils/9.10/lib/fcntl.h /usr/src/debug/coreutils/9.10/lib/fpucw.h /usr/src/debug/coreutils/9.10/lib/hash.c /usr/src/debug/coreutils/9.10/lib/human.h /usr/src/debug/coreutils/9.10/lib/mbbuf.h /usr/src/debug/coreutils/9.10/lib/nproc.h /usr/src/debug/coreutils/9.10/lib/regex.h /usr/src/debug/coreutils/9.10/lib/smack.h /usr/src/debug/coreutils/9.10/lib/hash.h /usr/src/debug/coreutils/9.10
+ /lib/unitypes.h /usr/src/debug/coreutils/9.10/lib/sm3.h /usr/src/debug/coreutils/9.10/lib/sm3.c /usr/src/debug/coreutils/9.10/lib/next-prime.c /usr/src/debug/coreutils/9.10/lib/long-options.c /usr/src/debug/coreutils/9.10/lib/long-options.h /usr/src/debug/coreutils/9.10/lib/next-prime.h /usr/src/debug/coreutils/9.10/lib/cl-strtod.h /usr/src/debug/coreutils/9.10/lib/fnmatch.c /usr/src/debug/coreutils/9.10/lib/i-ring.c /usr/src/debug/coreutils/9.10/lib/cl-strtod.c /usr/src/debug/coreutils/9.10/lib/fnmatch.h /usr/src/debug/coreutils/9.10/lib/xprintf.c /usr/src/debug/coreutils/9.10/src/expand-common.c /usr/src/debug/coreutils/9.10/lib/sys-limits.h /usr/src/debug/coreutils/9.10/lib/xprintf.h /usr/src/debug/coreutils/9.10/src/expand-common.h /usr/src/debug/coreutils/9.10/lib/xfts.h /usr/src/debug/coreutils/9.10/lib/xfts.c /usr/src/debug/coreutils/9.10/src/chown-chgrp.c /usr/src/debug/coreutils/9.10/lib/u64.h /usr/src/debug/coreutils/9.10/lib/setlocale_null.h /usr/src/debug/coreutils/9.10/
+ lib/acl-errno-valid.c /usr/src/debug/coreutils/9.10/lib/setlocale_null.c /usr/src/debug/coreutils/9.10/lib/allocator.h /usr/src/debug/coreutils/9.10/lib/binary-io.h /usr/src/debug/coreutils/9.10/src/truncate.c /usr/src/debug/coreutils/9.10/lib/allocator.c /usr/src/debug/coreutils/9.10/lib/dtotimespec.c /usr/src/debug/coreutils/9.10/lib/rand-isaac.c /usr/src/debug/coreutils/9.10/lib/rand-isaac.h /usr/src/debug/coreutils/9.10/src/head.c /usr/src/debug/coreutils/9.10/lib/mkancesdirs.h /usr/src/debug/coreutils/9.10/src/dd.c /usr/src/debug/coreutils/9.10/lib/mkancesdirs.c /usr/src/debug/coreutils/9.10/lib/c-file-type.c /usr/src/debug/coreutils/9.10/lib/areadlink-with-size.c /usr/src/debug/coreutils/9.10/lib/freadahead.c /usr/src/debug/coreutils/9.10/lib/freadahead.h /usr/src/debug/coreutils/9.10/src/stdbuf.c /usr/src/debug/coreutils/9.10/lib/calendar-persian.h /usr/src/debug/coreutils/9.10/lib/freopen-safer.c /usr/src/debug/coreutils/9.10/lib/randperm.h /usr/src/debug/coreutils/9.10/src/
+ dircolors.c /usr/src/debug/coreutils/9.10/lib/randperm.c /usr/src/debug/coreutils/9.10/lib/set-permissions.c /usr/src/debug/coreutils/9.10/src/dircolors.h /usr/src/debug/coreutils/9.10/src/chown-chown.c /usr/src/debug/coreutils/9.10/src/ioblksize.h /usr/src/debug/coreutils/9.10/lib/quotearg.c /usr/src/debug/coreutils/9.10/lib/quotearg.h /usr/src/debug/coreutils/9.10/src/df.c /usr/src/debug/coreutils/9.10/lib/hashcode-named-file.c /usr/src/debug/coreutils/9.10/src/link.c /usr/src/debug/coreutils/9.10/lib/parse-datetime.h /usr/src/debug/coreutils/9.10/lib/timespec.h /usr/src/debug/coreutils/9.10/lib/userspec.h /usr/src/debug/coreutils/9.10/lib/stat-time.h /usr/src/debug/coreutils/9.10/lib/userspec.c /usr/src/debug/coreutils/9.10/lib/backup-internal.h /usr/src/debug/coreutils/9.10/src/readlink.c /usr/src/debug/coreutils/9.10/lib/closeout.h /usr/src/debug/coreutils/9.10/lib/xgethostname.h /usr/src/debug/coreutils/9.10/src/cksum_avx512.c /usr/src/debug/coreutils/9.10/lib/getprogname.c /u
+ sr/src/debug/coreutils/9.10/lib/mpsort.c /usr/src/debug/coreutils/9.10/lib/closeout.c /usr/src/debug/coreutils/9.10/lib/c-strcasecmp.c /usr/src/debug/coreutils/9.10/lib/readtokens0.h /usr/src/debug/coreutils/9.10/lib/xdectoint.h /usr/src/debug/coreutils/9.10/lib/careadlinkat.h /usr/src/debug/coreutils/9.10/lib/readtokens0.c /usr/src/debug/coreutils/9.10/lib/careadlinkat.c /usr/src/debug/coreutils/9.10/lib/xdectoint.c /usr/src/debug/coreutils/9.10/lib/xgetaname-impl.h /usr/src/debug/coreutils/9.10/lib/dirname-lgpl.c /usr/src/debug/coreutils/9.10/lib/yesno.c /usr/src/debug/coreutils/9.10/lib/getopt-core.h /usr/src/debug/coreutils/9.10/src/uniq.c /usr/src/debug/coreutils/9.10/lib/progname.h /usr/src/debug/coreutils/9.10/lib/strftime.h /usr/src/debug/coreutils/9.10/lib/tempname.h /usr/src/debug/coreutils/9.10/lib/progname.c /usr/src/debug/coreutils/9.10/lib/basename.c /usr/src/debug/coreutils/9.10/lib/strftime.c /usr/src/debug/coreutils/9.10/lib/tempname.c /usr/src/debug/coreutils/9.10/
+ lib/utimens.c /usr/src/debug/coreutils/9.10/lib/utimens.h /usr/src/debug/coreutils/9.10/lib/stdio.h /usr/src/debug/coreutils/9.10/lib/gettime-res.c /usr/src/debug/coreutils/9.10/lib/uchar.h /usr/src/debug/coreutils/9.10/lib/wchar.h /usr/src/debug/coreutils/9.10/lib/xsize.h /usr/src/debug/coreutils/9.10/lib/xtime.h /usr/src/debug/coreutils/9.10/lib/yesno.h /usr/src/debug/coreutils/9.10/src/tty.c /usr/src/debug/coreutils/9.10/src/stty.c /usr/src/debug/coreutils/9.10/lib/exitfail.c /usr/src/debug/coreutils/9.10/lib/obstack.h /usr/src/debug/coreutils/9.10/lib/openat-die.c /usr/src/debug/coreutils/9.10/lib/xalloc-die.c /usr/src/debug/coreutils/9.10/src/ptx.c /usr/src/debug/coreutils/9.10/lib/full-read.h /usr/src/debug/coreutils/9.10/lib/safe-read.h /usr/src/debug/coreutils/9.10/lib/exitfail.h /usr/src/debug/coreutils/9.10/lib/obstack.c /usr/src/debug/coreutils/9.10/lib/safe-read.c /usr/src/debug/coreutils/9.10/src/fs-is-local.h /usr/src/debug/coreutils/9.10/lib/md5-stream.c /usr/src/debu
+ g/coreutils/9.10/lib/sm3-stream.c /usr/src/debug/coreutils/9.10/src/timeout.c /usr/src/debug/coreutils/9.10/lib/same-inode.h /usr/src/debug/coreutils/9.10/lib/cpu-supports.h /usr/src/debug/coreutils/9.10/lib/fd-reopen.c /usr/src/debug/coreutils/9.10/lib/fd-reopen.h /usr/src/debug/coreutils/9.10/lib/cpu-supports.c /usr/src/debug/coreutils/9.10/lib/xbinary-io.h /usr/src/debug/coreutils/9.10/lib/file-type.c /usr/src/debug/coreutils/9.10/lib/openat.h /usr/src/debug/coreutils/9.10/lib/file-type.h /usr/src/debug/coreutils/9.10/src/install.c /usr/src/debug/coreutils/9.10/src/version.h /usr/src/debug/coreutils/9.10/src/version.c /usr/src/debug/coreutils/9.10/src/rm.c /usr/src/debug/coreutils/9.10/lib/save-cwd.c /usr/src/debug/coreutils/9.10/lib/save-cwd.h /usr/src/debug/coreutils/9.10/lib/xnanosleep.h /usr/src/debug/coreutils/9.10/src/selinux.h /usr/src/debug/coreutils/9.10/lib/getugroups.h /usr/src/debug/coreutils/9.10/lib/mgetgroups.h /usr/src/debug/coreutils/9.10/lib/opendirat.c /usr/src
+ /debug/coreutils/9.10/lib/backup-rename.c /usr/src/debug/coreutils/9.10/lib/issymlinkat.h /usr/src/debug/coreutils/9.10/lib/opendirat.h /usr/src/debug/coreutils/9.10/lib/mgetgroups.c /usr/src/debug/coreutils/9.10/lib/xgetgroups.c /usr/src/debug/coreutils/9.10/lib/regex_internal.c /usr/src/debug/coreutils/9.10/lib/xmemdup0.h /usr/src/debug/coreutils/9.10/lib/xnanosleep.c /usr/src/debug/coreutils/9.10/src/sum.c /usr/src/debug/coreutils/9.10/src/cat.c /usr/src/debug/coreutils/9.10/src/sum.h /usr/src/debug/coreutils/9.10/lib/idx.h /usr/src/debug/coreutils/9.10/lib/nanosleep.c /usr/src/debug/coreutils/9.10/lib/regex_internal.h /usr/src/debug/coreutils/9.10/lib/xmemdup0.c /usr/src/debug/coreutils/9.10/src/ls-vdir.c /usr/src/debug/coreutils/9.10/lib/vasnprintf.c /usr/src/debug/coreutils/9.10/lib/vaszprintf.c /usr/src/debug/coreutils/9.10/lib/write-any-file.h /usr/src/debug/coreutils/9.10/lib/xvasprintf.c /usr/src/debug/coreutils/9.10/src/cksum_avx2.c /usr/src/debug/coreutils/9.10/lib/write
+ -any-file.c /usr/src/debug/coreutils/9.10/lib/vasnprintf.h /usr/src/debug/coreutils/9.10/lib/xvasprintf.h /usr/src/debug/coreutils/9.10/src/stat.c /usr/src/debug/coreutils/9.10/src/test.c /usr/src/debug/coreutils/9.10/src/cp-hash.h /usr/src/debug/coreutils/9.10/src/relpath.h /usr/src/debug/coreutils/9.10/lib/tmpdir.h /usr/src/debug/coreutils/9.10/lib/unistd.h /usr/src/debug/coreutils/9.10/lib/unistr.h /usr/src/debug/coreutils/9.10/lib/xalloc.h /usr/src/debug/coreutils/9.10/lib/af_alg.h /usr/src/debug/coreutils/9.10/src/cp-hash.c /usr/src/debug/coreutils/9.10/src/relpath.c /usr/src/debug/coreutils/9.10/lib/di-set.c /usr/src/debug/coreutils/9.10/lib/mbschr.c /usr/src/debug/coreutils/9.10/lib/memchr.c /usr/src/debug/coreutils/9.10/lib/savewd.c /usr/src/debug/coreutils/9.10/lib/sha256.c /usr/src/debug/coreutils/9.10/lib/sha512.c /usr/src/debug/coreutils/9.10/lib/strstr.c /usr/src/debug/coreutils/9.10/lib/mbslen.c /usr/src/debug/coreutils/9.10/lib/mbrlen.c /usr/src/debug/coreutils/9.10/l
+ ib/mbsstr.c /usr/src/debug/coreutils/9.10/lib/isapipe.h /usr/src/debug/coreutils/9.10/lib/crc-sliceby8.h /usr/src/debug/coreutils/9.10/lib/readutmp.c /usr/src/debug/coreutils/9.10/lib/posixver.h /usr/src/debug/coreutils/9.10/lib/utimecmp.c /usr/src/debug/coreutils/9.10/lib/getopt-ext.h /usr/src/debug/coreutils/9.10/lib/openat-safer.c /usr/src/debug/coreutils/9.10/lib/fd-safer.c /usr/src/debug/coreutils/9.10/lib/posixver.c /usr/src/debug/coreutils/9.10/lib/readutmp.h /usr/src/debug/coreutils/9.10/lib/stdlib-safer.h /usr/src/debug/coreutils/9.10/lib/unistd-safer.h /usr/src/debug/coreutils/9.10/lib/utimecmp.h /usr/src/debug/coreutils/9.10/src/copy-file-data.c /usr/src/debug/coreutils/9.10/src/tac.c /usr/src/debug/coreutils/9.10/lib/chdir-long.c /usr/src/debug/coreutils/9.10/lib/file-has-acl.c /usr/src/debug/coreutils/9.10/lib/file-set.h /usr/src/debug/coreutils/9.10/lib/chdir-long.h /usr/src/debug/coreutils/9.10/lib/priv-set.h /usr/src/debug/coreutils/9.10/src/uname-uname.c /usr/src/de
+ bug/coreutils/9.10/lib/file-set.c /usr/src/debug/coreutils/9.10/src/who.c /usr/src/debug/coreutils/9.10/src/od.c /usr/src/debug/coreutils/9.10/src/mv.c /usr/src/debug/coreutils/9.10/lib/openat-priv.h /usr/src/debug/coreutils/9.10/lib/printf-parse.c /usr/src/debug/coreutils/9.10/src/temp-stream.h /usr/src/debug/coreutils/9.10/src/ls.c /usr/src/debug/coreutils/9.10/lib/printf-parse.h /usr/src/debug/coreutils/9.10/src/ls.h /usr/src/debug/coreutils/9.10/lib/acl.h /usr/src/debug/coreutils/9.10/src/temp-stream.c /usr/src/debug/coreutils/9.10/src/wc_avx512.c /usr/src/debug/coreutils/9.10/lib/localename-unsafe.c /usr/src/debug/coreutils/9.10/src/date.c /usr/src/debug/coreutils/9.10/src/expr.c /usr/src/debug/coreutils/9.10/lib/savewd.h /usr/src/debug/coreutils/9.10/lib/sha256.h /usr/src/debug/coreutils/9.10/lib/sha512.h /usr/src/debug/coreutils/9.10/lib/signal.h /usr/src/debug/coreutils/9.10/lib/stdlib.h /usr/src/debug/coreutils/9.10/lib/renameatu.h /usr/src/debug/coreutils/9.10/lib/renameat
+ u.c /usr/src/debug/coreutils/9.10/lib/str-two-way.h /usr/src/debug/coreutils/9.10/lib/sha1-stream.c /usr/src/debug/coreutils/9.10/lib/sha3-stream.c /usr/src/debug/coreutils/9.10/src/tail.c /usr/src/debug/coreutils/9.10/lib/copy-file-range.c /usr/src/debug/coreutils/9.10/lib/setlocale_null-unlocked.c /usr/src/debug/coreutils/9.10/src/tee.c /usr/src/debug/coreutils/9.10/src/hostid.c /usr/src/debug/coreutils/9.10/src/users.c /usr/src/debug/coreutils/9.10/src/whoami.c /usr/src/debug/coreutils/9.10/src/iopoll.c /usr/src/debug/coreutils/9.10/src/ls-dir.c /usr/src/debug/coreutils/9.10/src/mkfifo.c /usr/src/debug/coreutils/9.10/src/mktemp.c /usr/src/debug/coreutils/9.10/src/numfmt.c /usr/src/debug/coreutils/9.10/src/chown-core.c /usr/src/debug/coreutils/9.10/src/printf.c /usr/src/debug/coreutils/9.10/src/chown-core.h /usr/src/debug/coreutils/9.10/src/id.c /usr/src/debug/coreutils/9.10/lib/dev-ino.h /usr/src/debug/coreutils/9.10/lib/physmem.h /usr/src/debug/coreutils/9.10/lib/posixtm.h /usr/
+ src/debug/coreutils/9.10/src/group-list.h /usr/src/debug/coreutils/9.10/lib/calendar-ethiopian.h /usr/src/debug/coreutils/9.10/src/group-list.c /usr/src/debug/coreutils/9.10/lib/physmem.c /usr/src/debug/coreutils/9.10/lib/posixtm.c /usr/src/debug/coreutils/9.10/lib/time.c /usr/src/debug/coreutils/9.10/lib/time.h /usr/src/debug/coreutils/9.10/lib/stripslash.c /usr/src/debug/coreutils/9.10/lib/futimens.c /usr/src/debug/coreutils/9.10/src/uname-arch.c /usr/src/debug/coreutils/9.10/lib/base32.h /usr/src/debug/coreutils/9.10/lib/base64.h /usr/src/debug/coreutils/9.10/lib/di-set.h /usr/src/debug/coreutils/9.10/lib/dirent.h /usr/src/debug/coreutils/9.10/lib/i-ring.h /usr/src/debug/coreutils/9.10/lib/ialloc.h /usr/src/debug/coreutils/9.10/lib/string.h /usr/src/debug/coreutils/9.10/lib/mbchar.h /usr/src/debug/coreutils/9.10/lib/mbiter.h /usr/src/debug/coreutils/9.10/lib/mpsort.h", added "/usr/src/debug/coreutils/9.11/lib/tmpdir.c /usr/src/debug/coreutils/9.11/lib/fclose.c /usr/src/debug/core
+ utils/9.11/lib/fflush.c /usr/src/debug/coreutils/9.11/lib/fpurge.c /usr/src/debug/coreutils/9.11/lib/fseeko.c /usr/src/debug/coreutils/9.11/lib/getcwd.c /usr/src/debug/coreutils/9.11/lib/getopt.c /usr/src/debug/coreutils/9.11/lib/fchmodat.c /usr/src/debug/coreutils/9.11/lib/fchownat.c /usr/src/debug/coreutils/9.11/src/find-mount-point.h /usr/src/debug/coreutils/9.11/src/find-mount-point.c /usr/src/debug/coreutils/9.11/lib/mcel.h /usr/src/debug/coreutils/9.11/lib/fnmatch_loop.c /usr/src/debug/coreutils/9.11/lib/fdutimensat.c /usr/src/debug/coreutils/9.11/lib/xalignalloc.c /usr/src/debug/coreutils/9.11/lib/bitrotate.h /usr/src/debug/coreutils/9.11/src/term-sig.h /usr/src/debug/coreutils/9.11/lib/full-write.h /usr/src/debug/coreutils/9.11/lib/safe-write.h /usr/src/debug/coreutils/9.11/src/printenv.c /usr/src/debug/coreutils/9.11/lib/full-write.c /usr/src/debug/coreutils/9.11/src/fold.c /usr/src/debug/coreutils/9.11/src/show-date.c /usr/src/debug/coreutils/9.11/src/show-date.h /usr/src/
+ debug/coreutils/9.11/src/env.c /usr/src/debug/coreutils/9.11/lib/findprog-in.c /usr/src/debug/coreutils/9.11/lib/gethrxtime.c /usr/src/debug/coreutils/9.11/lib/mbsrtowcs.c /usr/src/debug/coreutils/9.11/lib/gethrxtime.h /usr/src/debug/coreutils/9.11/src/wc_avx2.c /usr/src/debug/coreutils/9.11/lib/hashcode-string1.c /usr/src/debug/coreutils/9.11/src/unlink.c /usr/src/debug/coreutils/9.11/lib/hashcode-string1.h /usr/src/debug/coreutils/9.11/lib/backup-find.c /usr/src/debug/coreutils/9.11/src/sync.c /usr/src/debug/coreutils/9.11/lib/langinfo.h /usr/src/debug/coreutils/9.11/lib/malloca.c /usr/src/debug/coreutils/9.11/src/cp.c /usr/src/debug/coreutils/9.11/lib/malloca.h /usr/src/debug/coreutils/9.11/lib/localename.h /usr/src/debug/coreutils/9.11/lib/propername.h /usr/src/debug/coreutils/9.11/lib/errno-iter.c /usr/src/debug/coreutils/9.11/lib/fts_.h /usr/src/debug/coreutils/9.11/lib/c-strtod.h /usr/src/debug/coreutils/9.11/lib/errno-iter.h /usr/src/debug/coreutils/9.11/lib/c-strtod.c /usr/
+ src/debug/coreutils/9.11/lib/calendars.h /usr/src/debug/coreutils/9.11/lib/skipchars.h /usr/src/debug/coreutils/9.11/lib/settime.c /usr/src/debug/coreutils/9.11/lib/exclude.c /usr/src/debug/coreutils/9.11/lib/fadvise.c /usr/src/debug/coreutils/9.11/lib/fsusage.c /usr/src/debug/coreutils/9.11/lib/gettime.c /usr/src/debug/coreutils/9.11/lib/idcache.c /usr/src/debug/coreutils/9.11/lib/isapipe.c /usr/src/debug/coreutils/9.11/lib/dirname.c /usr/src/debug/coreutils/9.11/lib/fadvise.h /usr/src/debug/coreutils/9.11/lib/fsusage.h /usr/src/debug/coreutils/9.11/lib/exclude.h /usr/src/debug/coreutils/9.11/lib/c-ctype.h /usr/src/debug/coreutils/9.11/lib/idcache.h /usr/src/debug/coreutils/9.11/lib/dirname.h /usr/src/debug/coreutils/9.11/lib/regexec.c /usr/src/debug/coreutils/9.11/lib/xmalloc.c /usr/src/debug/coreutils/9.11/lib/basename-lgpl.h /usr/src/debug/coreutils/9.11/lib/at-func.c /usr/src/debug/coreutils/9.11/lib/heap.h /usr/src/debug/coreutils/9.11/lib/mbrtowc.c /usr/src/debug/coreutils/9.
+ 11/src/realpath.c /usr/src/debug/coreutils/9.11/lib/basename-lgpl.c /usr/src/debug/coreutils/9.11/lib/heap.c /usr/src/debug/coreutils/9.11/lib/inttostr.h /usr/src/debug/coreutils/9.11/lib/anytostr.c /usr/src/debug/coreutils/9.11/lib/propername-lite.c /usr/src/debug/coreutils/9.11/lib/backupfile.h /usr/src/debug/coreutils/9.11/lib/backupfile.c /usr/src/debug/coreutils/9.11/src/unexpand.c /usr/src/debug/coreutils/9.11/src/pr.c /usr/src/debug/coreutils/9.11/lib/randread.c /usr/src/debug/coreutils/9.11/lib/areadlink.c /usr/src/debug/coreutils/9.11/lib/xreadlink.c /usr/src/debug/coreutils/9.11/src/du.c /usr/src/debug/coreutils/9.11/lib/reallocarray.c /usr/src/debug/coreutils/9.11/lib/randread.h /usr/src/debug/coreutils/9.11/lib/areadlink.h /usr/src/debug/coreutils/9.11/lib/issymlink.h /usr/src/debug/coreutils/9.11/lib/xreadlink.h /usr/src/debug/coreutils/9.11/src/wc.h /usr/src/debug/coreutils/9.11/src/basenc.c /usr/src/debug/coreutils/9.11/src/chroot.c /usr/src/debug/coreutils/9.11/src/c
+ rctab.c /usr/src/debug/coreutils/9.11/lib/dtimespec-bound.h /usr/src/debug/coreutils/9.11/src/csplit.c /usr/src/debug/coreutils/9.11/src/expand.c /usr/src/debug/coreutils/9.11/src/factor.c /usr/src/debug/coreutils/9.11/lib/canon-host.c /usr/src/debug/coreutils/9.11/src/groups.c /usr/src/debug/coreutils/9.11/src/iopoll.h /usr/src/debug/coreutils/9.11/lib/canon-host.h /usr/src/debug/coreutils/9.11/src/remove.h /usr/src/debug/coreutils/9.11/src/splice.h /usr/src/debug/coreutils/9.11/src/system.h /usr/src/debug/coreutils/9.11/src/wc.c /usr/src/debug/coreutils/9.11/lib/mbswidth.c /usr/src/debug/coreutils/9.11/lib/mbswidth.h /usr/src/debug/coreutils/9.11/src/cut.c /usr/src/debug/coreutils/9.11/lib/acl-internal.h /usr/src/debug/coreutils/9.11/lib/copy-acl.c /usr/src/debug/coreutils/9.11/lib/qset-acl.c /usr/src/debug/coreutils/9.11/lib/acl-internal.c /usr/src/debug/coreutils/9.11/lib/boot-time-aux.h /usr/src/debug/coreutils/9.11/lib/fts-cycle.c /usr/src/debug/coreutils/9.11/lib/fd-safer-fla
+ g.c /usr/src/debug/coreutils/9.11/src/seq.c /usr/src/debug/coreutils/9.11/lib/canonicalize.h /usr/src/debug/coreutils/9.11/lib/dup-safer-flag.c /usr/src/debug/coreutils/9.11/lib/mkstemp-safer.c /usr/src/debug/coreutils/9.11/lib/canonicalize.c /usr/src/debug/coreutils/9.11/lib/filemode.h /usr/src/debug/coreutils/9.11/lib/sha256-stream.c /usr/src/debug/coreutils/9.11/lib/alignalloc.h /usr/src/debug/coreutils/9.11/lib/sha512-stream.c /usr/src/debug/coreutils/9.11/lib/filemode.c /usr/src/debug/coreutils/9.11/lib/memchr2.h /usr/src/debug/coreutils/9.11/lib/memcmp2.h /usr/src/debug/coreutils/9.11/src/basename.c /usr/src/debug/coreutils/9.11/src/hostname.c /usr/src/debug/coreutils/9.11/lib/memchr2.c /usr/src/debug/coreutils/9.11/lib/memcmp2.c /usr/src/debug/coreutils/9.11/lib/modechange.c /usr/src/debug/coreutils/9.11/lib/targetdir.h /usr/src/debug/coreutils/9.11/src/nice.c /usr/src/debug/coreutils/9.11/lib/strnumcmp.h /usr/src/debug/coreutils/9.11/lib/argmatch.c /usr/src/debug/coreutils/9
+ .11/lib/modechange.h /usr/src/debug/coreutils/9.11/lib/targetdir.c /usr/src/debug/coreutils/9.11/lib/argmatch.h /usr/src/debug/coreutils/9.11/lib/strintcmp.c /usr/src/debug/coreutils/9.11/lib/strnumcmp.c /usr/src/debug/coreutils/9.11/lib/same.c /usr/src/debug/coreutils/9.11/lib/strnlen1.h /usr/src/debug/coreutils/9.11/lib/same.h /usr/src/debug/coreutils/9.11/lib/strnlen1.c /usr/src/debug/coreutils/9.11/src/shuf.c /usr/src/debug/coreutils/9.11/src/cksum_pclmul.c /usr/src/debug/coreutils/9.11/lib/c-strncasecmp.c /usr/src/debug/coreutils/9.11/lib/areadlinkat-with-size.c /usr/src/debug/coreutils/9.11/lib/memcasecmp.h /usr/src/debug/coreutils/9.11/lib/mbscasecmp.c /usr/src/debug/coreutils/9.11/lib/memcasecmp.c /usr/src/debug/coreutils/9.11/src/ln.c /usr/src/debug/coreutils/9.11/lib/time-internal.h /usr/src/debug/coreutils/9.11/lib/read-file.h /usr/src/debug/coreutils/9.11/lib/buffer-lcm.h /usr/src/debug/coreutils/9.11/lib/read-file.c /usr/src/debug/coreutils/9.11/lib/buffer-lcm.c /usr/sr
+ c/debug/coreutils/9.11/lib/strnumcmp-in.h /usr/src/debug/coreutils/9.11/src/fmt.c /usr/src/debug/coreutils/9.11/lib/mbs_endswith.c /usr/src/debug/coreutils/9.11/lib/str_endswith.c /usr/src/debug/coreutils/9.11/lib/unicodeio.h /usr/src/debug/coreutils/9.11/src/remove.c /usr/src/debug/coreutils/9.11/lib/md5.c /usr/src/debug/coreutils/9.11/lib/base32.c /usr/src/debug/coreutils/9.11/lib/base64.c /usr/src/debug/coreutils/9.11/lib/unicodeio.c /usr/src/debug/coreutils/9.11/src/join.c /usr/src/debug/coreutils/9.11/lib/md5.h /usr/src/debug/coreutils/9.11/lib/fcntl-safer.h /usr/src/debug/coreutils/9.11/lib/stdio-safer.h /usr/src/debug/coreutils/9.11/lib/sha1.c /usr/src/debug/coreutils/9.11/lib/sha1.h /usr/src/debug/coreutils/9.11/lib/fopen-safer.c /usr/src/debug/coreutils/9.11/lib/pipe2-safer.c /usr/src/debug/coreutils/9.11/lib/crc-x86_64-pclmul.c /usr/src/debug/coreutils/9.11/lib/version-etc-fsf.c /usr/src/debug/coreutils/9.11/lib/version-etc.h /usr/src/debug/coreutils/9.11/src/operand2sig.c
+  /usr/src/debug/coreutils/9.11/lib/version-etc.c /usr/src/debug/coreutils/9.11/src/operand2sig.h /usr/src/debug/coreutils/9.11/src/copy.c /usr/src/debug/coreutils/9.11/src/cksum_crc.c /usr/src/debug/coreutils/9.11/lib/calendar-thai.h /usr/src/debug/coreutils/9.11/lib/mbsrtowcs-impl.h /usr/src/debug/coreutils/9.11/src/cksum_crc.h /usr/src/debug/coreutils/9.11/src/copy.h /usr/src/debug/coreutils/9.11/src/chmod.c /usr/src/debug/coreutils/9.11/src/chown.c /usr/src/debug/coreutils/9.11/src/cksum.c /usr/src/debug/coreutils/9.11/src/ls-ls.c /usr/src/debug/coreutils/9.11/src/mkdir.c /usr/src/debug/coreutils/9.11/src/chown.h /usr/src/debug/coreutils/9.11/src/cksum.h /usr/src/debug/coreutils/9.11/src/mknod.c /usr/src/debug/coreutils/9.11/src/nohup.c /usr/src/debug/coreutils/9.11/src/statx.h /usr/src/debug/coreutils/9.11/src/uname.h /usr/src/debug/coreutils/9.11/lib/xstrtol-error.h /usr/src/debug/coreutils/9.11/lib/filevercmp.c /usr/src/debug/coreutils/9.11/lib/xstrtol-error.c /usr/src/debug/c
+ oreutils/9.11/src/set-fields.h /usr/src/debug/coreutils/9.11/lib/filevercmp.h /usr/src/debug/coreutils/9.11/src/set-fields.c /usr/src/debug/coreutils/9.11/src/yes.c /usr/src/debug/coreutils/9.11/lib/localcharset.h /usr/src/debug/coreutils/9.11/lib/localcharset.c /usr/src/debug/coreutils/9.11/lib/asprintf.c /usr/src/debug/coreutils/9.11/lib/vzprintf.c /usr/src/debug/coreutils/9.11/lib/readtokens.c /usr/src/debug/coreutils/9.11/lib/close-stream.c /usr/src/debug/coreutils/9.11/lib/readtokens.h /usr/src/debug/coreutils/9.11/lib/close-stream.h /usr/src/debug/coreutils/9.11/lib/xsetenv.c /usr/src/debug/coreutils/9.11/src/comm.c /usr/src/debug/coreutils/9.11/lib/xsetenv.h /usr/src/debug/coreutils/9.11/src/nproc.c /usr/src/debug/coreutils/9.11/src/paste.c /usr/src/debug/coreutils/9.11/src/pinky.c /usr/src/debug/coreutils/9.11/src/rmdir.c /usr/src/debug/coreutils/9.11/src/shred.c /usr/src/debug/coreutils/9.11/src/sleep.c /usr/src/debug/coreutils/9.11/src/split.c /usr/src/debug/coreutils/9.11
+ /src/touch.c /usr/src/debug/coreutils/9.11/src/tsort.c /usr/src/debug/coreutils/9.11/src/uname.c /usr/src/debug/coreutils/9.11/lib/concat-filename.c /usr/src/debug/coreutils/9.11/lib/linebuffer.h /usr/src/debug/coreutils/9.11/lib/time_rz.c /usr/src/debug/coreutils/9.11/lib/linebuffer.c /usr/src/debug/coreutils/9.11/lib/concat-filename.h /usr/src/debug/coreutils/9.11/lib/hard-locale.h /usr/src/debug/coreutils/9.11/lib/mbsrtowcs-state.c /usr/src/debug/coreutils/9.11/lib/hashcode-string2.h /usr/src/debug/coreutils/9.11/lib/hashcode-file-inode.c /usr/src/debug/coreutils/9.11/lib/hard-locale.c /usr/src/debug/coreutils/9.11/lib/hashcode-string2.c /usr/src/debug/coreutils/9.11/lib/closein.h /usr/src/debug/coreutils/9.11/lib/argv-iter.h /usr/src/debug/coreutils/9.11/lib/closein.c /usr/src/debug/coreutils/9.11/lib/freopen.c /usr/src/debug/coreutils/9.11/lib/vasprintf.c /usr/src/debug/coreutils/9.11/lib/argv-iter.c /usr/src/debug/coreutils/9.11/lib/cycle-check.c /usr/src/debug/coreutils/9.11/
+ lib/vfzprintf.c /usr/src/debug/coreutils/9.11/lib/xasprintf.c /usr/src/debug/coreutils/9.11/lib/memcoll.h /usr/src/debug/coreutils/9.11/lib/xstrtol.h /usr/src/debug/coreutils/9.11/lib/filenamecat.h /usr/src/debug/coreutils/9.11/lib/mountlist.h /usr/src/debug/coreutils/9.11/src/force-link.h /usr/src/debug/coreutils/9.11/lib/memcoll.c /usr/src/debug/coreutils/9.11/lib/set-acl.c /usr/src/debug/coreutils/9.11/lib/xstrtol.c /usr/src/debug/coreutils/9.11/lib/cycle-check.h /usr/src/debug/coreutils/9.11/src/force-link.c /usr/src/debug/coreutils/9.11/lib/filenamecat.c /usr/src/debug/coreutils/9.11/lib/qcopy-acl.c /usr/src/debug/coreutils/9.11/lib/mountlist.c /usr/src/debug/coreutils/9.11/src/sort.c /usr/src/debug/coreutils/9.11/src/pathchk.c /usr/src/debug/coreutils/9.11/src/libstdbuf.c /usr/src/debug/coreutils/9.11/src/dirname.c /usr/src/debug/coreutils/9.11/src/logname.c /usr/src/debug/coreutils/9.11/src/tr.c /usr/src/debug/coreutils/9.11/lib/root-dev-ino.c /usr/src/debug/coreutils/9.11/li
+ b/root-dev-ino.h /usr/src/debug/coreutils/9.11/lib/dirchownmod.c /usr/src/debug/coreutils/9.11/lib/fseterr.h /usr/src/debug/coreutils/9.11/lib/ftoastr.h /usr/src/debug/coreutils/9.11/lib/savedir.h /usr/src/debug/coreutils/9.11/lib/crc-x86_64.h /usr/src/debug/coreutils/9.11/lib/dirchownmod.h /usr/src/debug/coreutils/9.11/lib/fseterr.c /usr/src/debug/coreutils/9.11/lib/ftoastr.c /usr/src/debug/coreutils/9.11/lib/savedir.c /usr/src/debug/coreutils/9.11/lib/sig2str.c /usr/src/debug/coreutils/9.11/lib/ino-map.h /usr/src/debug/coreutils/9.11/lib/mkdir-p.h /usr/src/debug/coreutils/9.11/lib/str-kmp.h /usr/src/debug/coreutils/9.11/lib/ino-map.c /usr/src/debug/coreutils/9.11/lib/mkdir-p.c /usr/src/debug/coreutils/9.11/lib/regcomp.c /usr/src/debug/coreutils/9.11/src/nl.c /usr/src/debug/coreutils/9.11/src/echo.c /usr/src/debug/coreutils/9.11/src/speedlist.h /usr/src/debug/coreutils/9.11/lib/getopt_int.h /usr/src/debug/coreutils/9.11/lib/randint.c /usr/src/debug/coreutils/9.11/lib/randint.h /usr
+ /src/debug/coreutils/9.11/lib/sha3.c /usr/src/debug/coreutils/9.11/lib/openat-proc.c /usr/src/debug/coreutils/9.11/lib/sha3.h /usr/src/debug/coreutils/9.11/src/true.c /usr/src/debug/coreutils/9.11/lib/printf-args.c /usr/src/debug/coreutils/9.11/src/getlimits.c /usr/src/debug/coreutils/9.11/lib/printf-args.h /usr/src/debug/coreutils/9.11/src/pwd.c /usr/src/debug/coreutils/9.11/lib/getlocalename_l-unsafe.h /usr/src/debug/coreutils/9.11/lib/open-safer.c /usr/src/debug/coreutils/9.11/lib/pipe-safer.c /usr/src/debug/coreutils/9.11/lib/getlocalename_l-unsafe.c /usr/src/debug/coreutils/9.11/lib/fts.c /usr/src/debug/coreutils/9.11/lib/c-strcase.h /usr/src/debug/coreutils/9.11/lib/filenamecat-lgpl.c /usr/src/debug/coreutils/9.11/lib/mbrtoc32.c /usr/src/debug/coreutils/9.11/lib/dup-safer.c /usr/src/debug/coreutils/9.11/lib/nl_langinfo.c /usr/src/debug/coreutils/9.11/lib/crc.c /usr/src/debug/coreutils/9.11/lib/crc.h /usr/src/debug/coreutils/9.11/src/prog-fprintf.h /usr/src/debug/coreutils/9.11
+ /lib/getopt1.c /usr/src/debug/coreutils/9.11/lib/findprog.h /usr/src/debug/coreutils/9.11/lib/hashcode-file.h /usr/src/debug/coreutils/9.11/src/prog-fprintf.c /usr/src/debug/coreutils/9.11/lib/fprintftime.h /usr/src/debug/coreutils/9.11/lib/xgetcwd.c /usr/src/debug/coreutils/9.11/lib/xstrtod.c /usr/src/debug/coreutils/9.11/lib/xmemcoll.c /usr/src/debug/coreutils/9.11/lib/btowc.c /usr/src/debug/coreutils/9.11/lib/error.c /usr/src/debug/coreutils/9.11/lib/fcntl.c /usr/src/debug/coreutils/9.11/lib/fopen.c /usr/src/debug/coreutils/9.11/lib/human.c /usr/src/debug/coreutils/9.11/lib/nproc.c /usr/src/debug/coreutils/9.11/lib/pipe2.c /usr/src/debug/coreutils/9.11/lib/xgetcwd.h /usr/src/debug/coreutils/9.11/lib/xmemcoll.h /usr/src/debug/coreutils/9.11/lib/xstrtod.h /usr/src/debug/coreutils/9.11/lib/nproc.h /usr/src/debug/coreutils/9.11/lib/quote.h /usr/src/debug/coreutils/9.11/lib/regex.h /usr/src/debug/coreutils/9.11/lib/error.h /usr/src/debug/coreutils/9.11/lib/fcntl.h /usr/src/debug/coreu
+ tils/9.11/lib/fpucw.h /usr/src/debug/coreutils/9.11/lib/hash.c /usr/src/debug/coreutils/9.11/lib/human.h /usr/src/debug/coreutils/9.11/lib/mbbuf.h /usr/src/debug/coreutils/9.11/lib/smack.h /usr/src/debug/coreutils/9.11/lib/hash.h /usr/src/debug/coreutils/9.11/lib/unitypes.h /usr/src/debug/coreutils/9.11/lib/sm3.h /usr/src/debug/coreutils/9.11/lib/sm3.c /usr/src/debug/coreutils/9.11/lib/next-prime.c /usr/src/debug/coreutils/9.11/lib/long-options.c /usr/src/debug/coreutils/9.11/lib/long-options.h /usr/src/debug/coreutils/9.11/lib/next-prime.h /usr/src/debug/coreutils/9.11/lib/cl-strtod.h /usr/src/debug/coreutils/9.11/lib/fnmatch.c /usr/src/debug/coreutils/9.11/lib/i-ring.c /usr/src/debug/coreutils/9.11/lib/cl-strtod.c /usr/src/debug/coreutils/9.11/lib/fnmatch.h /usr/src/debug/coreutils/9.11/lib/xprintf.c /usr/src/debug/coreutils/9.11/src/expand-common.c /usr/src/debug/coreutils/9.11/lib/sys-limits.h /usr/src/debug/coreutils/9.11/lib/xprintf.h /usr/src/debug/coreutils/9.11/src/expand-c
+ ommon.h /usr/src/debug/coreutils/9.11/lib/xfts.h /usr/src/debug/coreutils/9.11/lib/xfts.c /usr/src/debug/coreutils/9.11/src/chown-chgrp.c /usr/src/debug/coreutils/9.11/lib/u64.h /usr/src/debug/coreutils/9.11/lib/setlocale_null.h /usr/src/debug/coreutils/9.11/lib/acl-errno-valid.c /usr/src/debug/coreutils/9.11/lib/setlocale_null.c /usr/src/debug/coreutils/9.11/lib/filesystem-remote.h /usr/src/debug/coreutils/9.11/lib/allocator.h /usr/src/debug/coreutils/9.11/lib/binary-io.h /usr/src/debug/coreutils/9.11/lib/filesystem-remote.c /usr/src/debug/coreutils/9.11/src/truncate.c /usr/src/debug/coreutils/9.11/lib/allocator.c /usr/src/debug/coreutils/9.11/lib/dtotimespec.c /usr/src/debug/coreutils/9.11/lib/rand-isaac.c /usr/src/debug/coreutils/9.11/lib/rand-isaac.h /usr/src/debug/coreutils/9.11/src/head.c /usr/src/debug/coreutils/9.11/lib/mkancesdirs.h /usr/src/debug/coreutils/9.11/src/dd.c /usr/src/debug/coreutils/9.11/lib/mkancesdirs.c /usr/src/debug/coreutils/9.11/lib/c-file-type.c /usr/src
+ /debug/coreutils/9.11/lib/areadlink-with-size.c /usr/src/debug/coreutils/9.11/lib/freadahead.c /usr/src/debug/coreutils/9.11/lib/freadahead.h /usr/src/debug/coreutils/9.11/src/stdbuf.c /usr/src/debug/coreutils/9.11/lib/calendar-persian.h /usr/src/debug/coreutils/9.11/lib/freopen-safer.c /usr/src/debug/coreutils/9.11/lib/randperm.h /usr/src/debug/coreutils/9.11/src/dircolors.c /usr/src/debug/coreutils/9.11/lib/randperm.c /usr/src/debug/coreutils/9.11/lib/set-permissions.c /usr/src/debug/coreutils/9.11/src/dircolors.h /usr/src/debug/coreutils/9.11/src/chown-chown.c /usr/src/debug/coreutils/9.11/src/ioblksize.h /usr/src/debug/coreutils/9.11/lib/quotearg.c /usr/src/debug/coreutils/9.11/lib/quotearg.h /usr/src/debug/coreutils/9.11/src/df.c /usr/src/debug/coreutils/9.11/lib/hashcode-named-file.c /usr/src/debug/coreutils/9.11/src/link.c /usr/src/debug/coreutils/9.11/lib/parse-datetime.h /usr/src/debug/coreutils/9.11/lib/timespec.h /usr/src/debug/coreutils/9.11/lib/userspec.h /usr/src/debug
+ /coreutils/9.11/lib/stat-time.h /usr/src/debug/coreutils/9.11/lib/userspec.c /usr/src/debug/coreutils/9.11/lib/backup-internal.h /usr/src/debug/coreutils/9.11/src/readlink.c /usr/src/debug/coreutils/9.11/lib/closeout.h /usr/src/debug/coreutils/9.11/lib/xgethostname.h /usr/src/debug/coreutils/9.11/src/cksum_avx512.c /usr/src/debug/coreutils/9.11/lib/getprogname.c /usr/src/debug/coreutils/9.11/lib/mpsort.c /usr/src/debug/coreutils/9.11/lib/closeout.c /usr/src/debug/coreutils/9.11/lib/c-strcasecmp.c /usr/src/debug/coreutils/9.11/lib/readtokens0.h /usr/src/debug/coreutils/9.11/lib/xdectoint.h /usr/src/debug/coreutils/9.11/lib/careadlinkat.h /usr/src/debug/coreutils/9.11/lib/readtokens0.c /usr/src/debug/coreutils/9.11/lib/careadlinkat.c /usr/src/debug/coreutils/9.11/lib/xdectoint.c /usr/src/debug/coreutils/9.11/lib/xgetaname-impl.h /usr/src/debug/coreutils/9.11/lib/dirname-lgpl.c /usr/src/debug/coreutils/9.11/lib/yesno.c /usr/src/debug/coreutils/9.11/lib/streq-opt.h /usr/src/debug/coreut
+ ils/9.11/lib/getopt-core.h /usr/src/debug/coreutils/9.11/src/uniq.c /usr/src/debug/coreutils/9.11/lib/progname.h /usr/src/debug/coreutils/9.11/lib/strftime.h /usr/src/debug/coreutils/9.11/lib/tempname.h /usr/src/debug/coreutils/9.11/lib/strerrorname_np.c /usr/src/debug/coreutils/9.11/lib/progname.c /usr/src/debug/coreutils/9.11/lib/basename.c /usr/src/debug/coreutils/9.11/lib/strftime.c /usr/src/debug/coreutils/9.11/lib/tempname.c /usr/src/debug/coreutils/9.11/lib/utimens.c /usr/src/debug/coreutils/9.11/lib/utimens.h /usr/src/debug/coreutils/9.11/lib/stdio.h /usr/src/debug/coreutils/9.11/lib/gettime-res.c /usr/src/debug/coreutils/9.11/lib/uchar.h /usr/src/debug/coreutils/9.11/lib/wchar.h /usr/src/debug/coreutils/9.11/lib/xsize.h /usr/src/debug/coreutils/9.11/lib/xtime.h /usr/src/debug/coreutils/9.11/lib/yesno.h /usr/src/debug/coreutils/9.11/src/tty.c /usr/src/debug/coreutils/9.11/src/stty.c /usr/src/debug/coreutils/9.11/lib/exitfail.c /usr/src/debug/coreutils/9.11/lib/obstack.h /usr
+ /src/debug/coreutils/9.11/lib/openat-die.c /usr/src/debug/coreutils/9.11/lib/xalloc-die.c /usr/src/debug/coreutils/9.11/src/ptx.c /usr/src/debug/coreutils/9.11/lib/full-read.h /usr/src/debug/coreutils/9.11/lib/safe-read.h /usr/src/debug/coreutils/9.11/lib/exitfail.h /usr/src/debug/coreutils/9.11/lib/obstack.c /usr/src/debug/coreutils/9.11/lib/safe-read.c /usr/src/debug/coreutils/9.11/src/fs-is-local.h /usr/src/debug/coreutils/9.11/lib/md5-stream.c /usr/src/debug/coreutils/9.11/lib/sm3-stream.c /usr/src/debug/coreutils/9.11/src/timeout.c /usr/src/debug/coreutils/9.11/lib/same-inode.h /usr/src/debug/coreutils/9.11/lib/cpu-supports.h /usr/src/debug/coreutils/9.11/lib/fd-reopen.c /usr/src/debug/coreutils/9.11/lib/fd-reopen.h /usr/src/debug/coreutils/9.11/lib/cpu-supports.c /usr/src/debug/coreutils/9.11/lib/xbinary-io.h /usr/src/debug/coreutils/9.11/lib/file-type.c /usr/src/debug/coreutils/9.11/lib/file-type.h /usr/src/debug/coreutils/9.11/src/install.c /usr/src/debug/coreutils/9.11/src/
+ version.h /usr/src/debug/coreutils/9.11/src/version.c /usr/src/debug/coreutils/9.11/src/rm.c /usr/src/debug/coreutils/9.11/lib/save-cwd.c /usr/src/debug/coreutils/9.11/lib/save-cwd.h /usr/src/debug/coreutils/9.11/lib/xnanosleep.h /usr/src/debug/coreutils/9.11/src/selinux.h /usr/src/debug/coreutils/9.11/lib/getugroups.h /usr/src/debug/coreutils/9.11/lib/mgetgroups.h /usr/src/debug/coreutils/9.11/lib/opendirat.c /usr/src/debug/coreutils/9.11/lib/backup-rename.c /usr/src/debug/coreutils/9.11/lib/issymlinkat.h /usr/src/debug/coreutils/9.11/lib/opendirat.h /usr/src/debug/coreutils/9.11/lib/mgetgroups.c /usr/src/debug/coreutils/9.11/lib/xgetgroups.c /usr/src/debug/coreutils/9.11/lib/regex_internal.c /usr/src/debug/coreutils/9.11/lib/xmemdup0.h /usr/src/debug/coreutils/9.11/lib/xnanosleep.c /usr/src/debug/coreutils/9.11/src/sum.c /usr/src/debug/coreutils/9.11/src/cat.c /usr/src/debug/coreutils/9.11/src/sum.h /usr/src/debug/coreutils/9.11/lib/idx.h /usr/src/debug/coreutils/9.11/lib/nanoslee
+ p.c /usr/src/debug/coreutils/9.11/lib/regex_internal.h /usr/src/debug/coreutils/9.11/lib/xmemdup0.c /usr/src/debug/coreutils/9.11/src/ls-vdir.c /usr/src/debug/coreutils/9.11/lib/vasnprintf.c /usr/src/debug/coreutils/9.11/lib/vaszprintf.c /usr/src/debug/coreutils/9.11/lib/write-any-file.h /usr/src/debug/coreutils/9.11/lib/xvasprintf.c /usr/src/debug/coreutils/9.11/src/cksum_avx2.c /usr/src/debug/coreutils/9.11/lib/write-any-file.c /usr/src/debug/coreutils/9.11/lib/vasnprintf.h /usr/src/debug/coreutils/9.11/lib/xvasprintf.h /usr/src/debug/coreutils/9.11/src/stat.c /usr/src/debug/coreutils/9.11/src/test.c /usr/src/debug/coreutils/9.11/src/cp-hash.h /usr/src/debug/coreutils/9.11/src/relpath.h /usr/src/debug/coreutils/9.11/lib/tmpdir.h /usr/src/debug/coreutils/9.11/lib/unistd.h /usr/src/debug/coreutils/9.11/lib/unistr.h /usr/src/debug/coreutils/9.11/lib/xalloc.h /usr/src/debug/coreutils/9.11/lib/af_alg.h /usr/src/debug/coreutils/9.11/src/cp-hash.c /usr/src/debug/coreutils/9.11/src/relpat
+ h.c /usr/src/debug/coreutils/9.11/lib/di-set.c /usr/src/debug/coreutils/9.11/lib/mbschr.c /usr/src/debug/coreutils/9.11/lib/memchr.c /usr/src/debug/coreutils/9.11/lib/savewd.c /usr/src/debug/coreutils/9.11/lib/sha256.c /usr/src/debug/coreutils/9.11/lib/sha512.c /usr/src/debug/coreutils/9.11/lib/strstr.c /usr/src/debug/coreutils/9.11/lib/mbrlen.c /usr/src/debug/coreutils/9.11/lib/mbsstr.c /usr/src/debug/coreutils/9.11/lib/mbslen.c /usr/src/debug/coreutils/9.11/lib/isapipe.h /usr/src/debug/coreutils/9.11/lib/crc-sliceby8.h /usr/src/debug/coreutils/9.11/lib/mbrtowc-impl-utf8.h /usr/src/debug/coreutils/9.11/lib/readutmp.c /usr/src/debug/coreutils/9.11/lib/posixver.h /usr/src/debug/coreutils/9.11/lib/utimecmp.c /usr/src/debug/coreutils/9.11/lib/getopt-ext.h /usr/src/debug/coreutils/9.11/lib/openat-safer.c /usr/src/debug/coreutils/9.11/lib/fd-safer.c /usr/src/debug/coreutils/9.11/lib/posixver.c /usr/src/debug/coreutils/9.11/lib/readutmp.h /usr/src/debug/coreutils/9.11/lib/stdlib-safer.h /
+ usr/src/debug/coreutils/9.11/lib/unistd-safer.h /usr/src/debug/coreutils/9.11/lib/utimecmp.h /usr/src/debug/coreutils/9.11/src/copy-file-data.c /usr/src/debug/coreutils/9.11/src/tac.c /usr/src/debug/coreutils/9.11/lib/chdir-long.c /usr/src/debug/coreutils/9.11/lib/file-has-acl.c /usr/src/debug/coreutils/9.11/lib/file-set.h /usr/src/debug/coreutils/9.11/lib/chdir-long.h /usr/src/debug/coreutils/9.11/lib/priv-set.h /usr/src/debug/coreutils/9.11/src/uname-uname.c /usr/src/debug/coreutils/9.11/lib/file-set.c /usr/src/debug/coreutils/9.11/src/who.c /usr/src/debug/coreutils/9.11/src/od.c /usr/src/debug/coreutils/9.11/src/mv.c /usr/src/debug/coreutils/9.11/lib/openat-priv.h /usr/src/debug/coreutils/9.11/lib/printf-parse.c /usr/src/debug/coreutils/9.11/src/temp-stream.h /usr/src/debug/coreutils/9.11/src/ls.c /usr/src/debug/coreutils/9.11/lib/printf-parse.h /usr/src/debug/coreutils/9.11/src/ls.h /usr/src/debug/coreutils/9.11/lib/acl.h /usr/src/debug/coreutils/9.11/src/temp-stream.c /usr/src/
+ debug/coreutils/9.11/src/wc_avx512.c /usr/src/debug/coreutils/9.11/lib/localename-unsafe.c /usr/src/debug/coreutils/9.11/src/date.c /usr/src/debug/coreutils/9.11/src/expr.c /usr/src/debug/coreutils/9.11/lib/sha512.h /usr/src/debug/coreutils/9.11/lib/signal.h /usr/src/debug/coreutils/9.11/lib/stdlib.h /usr/src/debug/coreutils/9.11/lib/string.h /usr/src/debug/coreutils/9.11/lib/renameatu.h /usr/src/debug/coreutils/9.11/lib/strerror.c /usr/src/debug/coreutils/9.11/lib/renameatu.c /usr/src/debug/coreutils/9.11/lib/str-two-way.h /usr/src/debug/coreutils/9.11/lib/sha1-stream.c /usr/src/debug/coreutils/9.11/lib/sha3-stream.c /usr/src/debug/coreutils/9.11/src/tail.c /usr/src/debug/coreutils/9.11/lib/copy-file-range.c /usr/src/debug/coreutils/9.11/lib/setlocale_null-unlocked.c /usr/src/debug/coreutils/9.11/src/tee.c /usr/src/debug/coreutils/9.11/src/hostid.c /usr/src/debug/coreutils/9.11/src/users.c /usr/src/debug/coreutils/9.11/src/whoami.c /usr/src/debug/coreutils/9.11/src/iopoll.c /usr/sr
+ c/debug/coreutils/9.11/src/ls-dir.c /usr/src/debug/coreutils/9.11/src/mkfifo.c /usr/src/debug/coreutils/9.11/src/mktemp.c /usr/src/debug/coreutils/9.11/src/numfmt.c /usr/src/debug/coreutils/9.11/src/chown-core.c /usr/src/debug/coreutils/9.11/src/printf.c /usr/src/debug/coreutils/9.11/src/chown-core.h /usr/src/debug/coreutils/9.11/src/id.c /usr/src/debug/coreutils/9.11/lib/dev-ino.h /usr/src/debug/coreutils/9.11/lib/physmem.h /usr/src/debug/coreutils/9.11/lib/posixtm.h /usr/src/debug/coreutils/9.11/src/group-list.h /usr/src/debug/coreutils/9.11/lib/calendar-ethiopian.h /usr/src/debug/coreutils/9.11/src/group-list.c /usr/src/debug/coreutils/9.11/lib/physmem.c /usr/src/debug/coreutils/9.11/lib/posixtm.c /usr/src/debug/coreutils/9.11/lib/time.c /usr/src/debug/coreutils/9.11/lib/time.h /usr/src/debug/coreutils/9.11/lib/stripslash.c /usr/src/debug/coreutils/9.11/lib/futimens.c /usr/src/debug/coreutils/9.11/src/uname-arch.c /usr/src/debug/coreutils/9.11/lib/base32.h /usr/src/debug/coreutil
+ s/9.11/lib/base64.h /usr/src/debug/coreutils/9.11/lib/di-set.h /usr/src/debug/coreutils/9.11/lib/dirent.h /usr/src/debug/coreutils/9.11/lib/i-ring.h /usr/src/debug/coreutils/9.11/lib/ialloc.h /usr/src/debug/coreutils/9.11/lib/mpsort.h /usr/src/debug/coreutils/9.11/lib/openat.h /usr/src/debug/coreutils/9.11/lib/savewd.h /usr/src/debug/coreutils/9.11/lib/sha256.h"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-src: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-staticdev: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-staticdev: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils-stdbuf: PKGSIZE changed from 90256 to 90264 (+0%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils-stdbuf: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils-stdbuf: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils/coreutils: PKGSIZE changed from 8114848 to 8451760 (+4%)
+packages/x86-64-v3-poky-linux/coreutils/coreutils: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils/coreutils: PV changed from "9.10" to "9.11"
+packages/x86-64-v3-poky-linux/coreutils: SRC_URI changed from "https://ftpmirror.gnu.org/gnu/coreutils/coreutils-9.10.tar.xz file://remove-usr-local-lib-from-m4.patch file://run-ptest" to "https://ftpmirror.gnu.org/gnu/coreutils/coreutils-9.11.tar.xz file://remove-usr-local-lib-from-m4.patch file://run-ptest"
+packages/x86-64-v3-poky-linux/coreutils: PKGV changed from 9.10 [default] to 9.11 [default]
+packages/x86-64-v3-poky-linux/coreutils: PV changed from "9.10" to "9.11"
+
+--===============5021674383486056631==--
 
