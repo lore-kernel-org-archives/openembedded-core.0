@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C68CD342A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0CEDCD342E
 	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:38 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15710.1777645532874758684
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15613.1777645533763619911
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2026 07:25:36 -0700
+ Fri, 01 May 2026 07:25:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=3vtw+Tik;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=3WbctHmj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019de3ee441c-6d93a9ed-7082-407c-9c49-9d91c5c93331-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=k8Y2kfdl;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YZ3ovAlf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019de3ee4072-f34492da-73dc-48f6-a3b9-642e7e0285de-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777645536;
+	t=1777645535;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NQditKd1e7nktiZYq3laBaP3TmCt+vBWdKSs0bTDWME=;
-	b=3vtw+Tiky0Ug9NF0lD0Wl/Ml+fmgIDjPQbunQdB6Wuhbj8ae/ji21cM4E0YxNCjZ
-	tWmvSBzlQ+X6rtbKQQq6tFNslCrVJCJmBq31Qp9d3yqHLBYhhI5EThXrmW5vV1HoF9y
-	ieHPqh/5PHvmrfJ+8r2odW8Wt9KSb5yx09VVoldQ=
+	bh=tkoeAQMiROlY7jXueuv+KAnhqML8FEs2Rfg0gT/C5yk=;
+	b=k8Y2kfdlmVjq8W+jhLena6k1bfcFzeeGsK5gMNvc/f6PGWd7BxhhaBcJ7uMebayP
+	L2qJs+PVVnnIYsOjMCXiIn3yToTlsdYmo35+jEadmMr7OK3I7t2OhVC1/VJ0MX5mNic
+	moP8hMCm+BBdnssknAZZ5slvFmjTrPYM/guGebdk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645536;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645535;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NQditKd1e7nktiZYq3laBaP3TmCt+vBWdKSs0bTDWME=;
-	b=3WbctHmjhx9LVKsn7CuOqoqeG9hrd+fcRXoR+u1iPOWXpfYaHWxAMe2p0u0xD7Jf
-	FFiCSTq+j6rehljQLAiaw3/sOQvVIJGCCLLxzJ/ALdyvReGAhZEREzIVaPFpZaCJp1q
-	DrRUS6W5Vo2ydBMPcBEza3M6cG3Z0qCsCoGpXCrY=
-Content-Type: multipart/mixed; boundary="===============6044234539207530379=="
+	bh=tkoeAQMiROlY7jXueuv+KAnhqML8FEs2Rfg0gT/C5yk=;
+	b=YZ3ovAlf/iDbrxRD9XrOUxTKoGt/sL5h8VE81pSsN+UcU74d7h1i/tbddV7UK8Hr
+	WRbs1Qt+npfhd3gWpyk9Iq2R86dNRblhCoYlN/blAT0dJdRa2T98c8+C84Dl1USt+s+
+	B00Nbmbn+O/f9puSb4K2FTRALL7OBtyVeFu3nXgs=
+Content-Type: multipart/mixed; boundary="===============2842356405739589678=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gn: upgrading to eab8a9f92dca9b8548a89d9e5eb6aeb8ac6bba77
- SUCCEEDED
-Message-ID: <0101019de3ee441c-6d93a9ed-7082-407c-9c49-9d91c5c93331-000000@us-west-2.amazonses.com>
-Date: Fri, 1 May 2026 14:25:36 +0000
+Subject: [AUH] ttyrun: upgrading to 2.42.0 SUCCEEDED
+Message-ID: <0101019de3ee4072-f34492da-73dc-48f6-a3b9-642e7e0285de-000000@us-west-2.amazonses.com>
+Date: Fri, 1 May 2026 14:25:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.01-54.240.27.191
+X-SES-Outgoing: 2026.05.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236222
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236219
 
---===============6044234539207530379==
+--===============2842356405739589678==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gn* to *eab8a9f92dca9b8548a89d9e5eb6aeb8ac6bba77* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ttyrun* to *2.42.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gn-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-ttyrun-upgrade-2.41.0-2.42.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,189 +72,88 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5014588ed366272e80548e9f3c413c5915e7f6ee Mon Sep 17 00:00:00 2001
+From 01ef154aff92f045703a498036acf210d9a9c0b7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 May 2026 07:25:03 +0000
-Subject: [PATCH] gn: upgrade to latest revision
+Date: Fri, 1 May 2026 07:09:05 +0000
+Subject: [PATCH] ttyrun: upgrade 2.41.0 -> 2.42.0
 
 ---
- meta/recipes-devtools/gn/gn_git.bb | 2 +-
+ meta/recipes-core/ttyrun/{ttyrun_2.41.0.bb => ttyrun_2.42.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ttyrun/{ttyrun_2.41.0.bb => ttyrun_2.42.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
-index 8d2c0821a0..d2f61c2098 100644
---- a/meta/recipes-devtools/gn/gn_git.bb
-+++ b/meta/recipes-devtools/gn/gn_git.bb
-@@ -7,7 +7,7 @@ DEPENDS += "ninja-native"
- UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-core/ttyrun/ttyrun_2.41.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.42.0.bb
+similarity index 94%
+rename from meta/recipes-core/ttyrun/ttyrun_2.41.0.bb
+rename to meta/recipes-core/ttyrun/ttyrun_2.42.0.bb
+index 59dfab7122..811a4da70a 100644
+--- a/meta/recipes-core/ttyrun/ttyrun_2.41.0.bb
++++ b/meta/recipes-core/ttyrun/ttyrun_2.42.0.bb
+@@ -7,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
  
- SRC_URI = "git://gn.googlesource.com/gn;protocol=https;branch=main"
--SRCREV = "ec56d4d935a0e2ab9d52b88dd00c93ec51233055"
-+SRCREV = "eab8a9f92dca9b8548a89d9e5eb6aeb8ac6bba77"
- PV = "0+git"
+ SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v${PV}"
+-SRCREV = "5e07b30bdf67623e7a6d3850e26208b642d416d7"
++SRCREV = "997343f8417ab0af0ceb869e7a34b23cae3061e3"
  
- BB_GIT_SHALLOW = ""
+ CVE_PRODUCT = "s390-tools"
+ 
 -- 
 2.47.1
 
 
---===============6044234539207530379==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-dev: RRECOMMENDS: removed "gn (['= 0+git0+ec56d4d935-r0'])", added "gn (['= 0+git0+eab8a9f92d-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-dev: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-doc: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-locale: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: RDEPENDS: removed "gn-dev (['= 0+git0+ec56d4d935-r0'])", added "gn-dev (['= 0+git0+eab8a9f92d-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-
---===============6044234539207530379==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1976 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-61e008d736b240043c15b3a05fa60ccdc9494436"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:61e008d736b240043c15b3a05fa60ccdc9494436"
-meta-yocto-bsp       
-meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 151 Local 140 Mirrors 0 Missed 11 Current 271 (92% match, 97% complete)
-done.
-Removing 1 stale sstate objects for arch qemux86_64...done.
-Removing 8 stale sstate objects for arch x86-64-v3...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 327 of 422 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_create_recipe_spdx_setscene)
-NOTE: Running task 959 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_fetch)
-NOTE: recipe gn-0+git-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe gn-0+git-r0: task do_fetch: Started
-NOTE: recipe gn-0+git-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe gn-0+git-r0: task do_fetch: Succeeded
-NOTE: Running task 1055 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_unpack)
-NOTE: Running task 1056 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gn-0+git-r0: task do_unpack: Started
-NOTE: recipe gn-0+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gn-0+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gn-0+git-r0: task do_unpack: Succeeded
-NOTE: Running task 1057 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_patch)
-NOTE: recipe gn-0+git-r0: task do_patch: Started
-NOTE: recipe gn-0+git-r0: task do_patch: Succeeded
-NOTE: Running task 1058 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1059 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_lic)
-NOTE: recipe gn-0+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gn-0+git-r0: task do_populate_lic: Started
-NOTE: recipe gn-0+git-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_lic unihash changed to 32e669a88727ba263a70b54286ad69cf4555b4e66cecdf2c8872bb05d50a2cf6
-NOTE: recipe gn-0+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1060 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_configure)
-NOTE: recipe gn-0+git-r0: task do_configure: Started
-NOTE: recipe gn-0+git-r0: task do_configure: Succeeded
-NOTE: Running task 1061 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_compile)
-NOTE: recipe gn-0+git-r0: task do_compile: Started
-NOTE: recipe gn-0+git-r0: task do_compile: Succeeded
-NOTE: Running task 1062 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_install)
-NOTE: recipe gn-0+git-r0: task do_install: Started
-NOTE: recipe gn-0+git-r0: task do_install: Succeeded
-NOTE: Running task 1063 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_package)
-NOTE: Running task 1064 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_sysroot)
-NOTE: recipe gn-0+git-r0: task do_populate_sysroot: Started
-NOTE: recipe gn-0+git-r0: task do_package: Started
-NOTE: recipe gn-0+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_sysroot unihash changed to ffcf428d829d16b68aa558fd22add081921db1bc62fbad7d24edcd4ce7dd07f5
-NOTE: Setscene tasks completed
-NOTE: recipe gn-0+git-r0: task do_package: Succeeded
-NOTE: Running task 1065 of 1072 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata)
-NOTE: recipe gn-0+git-r0: task do_packagedata: Started
-NOTE: recipe gn-0+git-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 1065 tasks of which 1053 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260501072328.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260501072328.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gn/0+git/temp/log.do_packagedata.3985679
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-src went backwards which would break package feeds (from 0:0+git0+ec56d4d935-r0 to 0:0+git0+eab8a9f92d-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-dbg went backwards which would break package feeds (from 0:0+git0+ec56d4d935-r0 to 0:0+git0+eab8a9f92d-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-staticdev went backwards which would break package feeds (from 0:0+git0+ec56d4d935-r0 to 0:0+git0+eab8a9f92d-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-dev went backwards which would break package feeds (from 0:0+git0+ec56d4d935-r0 to 0:0+git0+eab8a9f92d-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-doc went backwards which would break package feeds (from 0:0+git0+ec56d4d935-r0 to 0:0+git0+eab8a9f92d-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-locale went backwards which would break package feeds (from 0:0+git0+ec56d4d935-r0 to 0:0+git0+eab8a9f92d-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn went backwards which would break package feeds (from 0:0+git0+ec56d4d935-r0 to 0:0+git0+eab8a9f92d-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gn/0+git/temp/log.do_packagedata.3985679
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata) failed with exit code '1'
-
---===============6044234539207530379==
+--===============2842356405739589678==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gn-upgrade-to-latest-revision.patch"
+ filename="0001-ttyrun-upgrade-2.41.0-2.42.0.patch"
 
-RnJvbSA1MDE0NTg4ZWQzNjYyNzJlODA1NDhlOWYzYzQxM2M1OTE1ZTdmNmVlIE1vbiBTZXAgMTcg
+RnJvbSAwMWVmMTU0YWZmOTJmMDQ1NzAzYTQ5ODAzNmFjZjIxMGQ5YTljMGI3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAwNzoyNTowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdu
-OiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Z24vZ25fZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2duL2duX2dpdC5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nbi9nbl9naXQuYmIKaW5kZXggOGQyYzA4MjFhMC4u
-ZDJmNjFjMjA5OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2duL2duX2dpdC5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ24vZ25fZ2l0LmJiCkBAIC03LDcgKzcsNyBA
-QCBERVBFTkRTICs9ICJuaW5qYS1uYXRpdmUiCiBVUFNUUkVBTV9DSEVDS19DT01NSVRTID0gIjEi
-CiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ24uZ29vZ2xlc291cmNlLmNvbS9nbjtwcm90b2NvbD1odHRw
-czticmFuY2g9bWFpbiIKLVNSQ1JFViA9ICJlYzU2ZDRkOTM1YTBlMmFiOWQ1MmI4OGRkMDBjOTNl
-YzUxMjMzMDU1IgorU1JDUkVWID0gImVhYjhhOWY5MmRjYTliODU0OGE4OWQ5ZTVlYjZhZWI4YWM2
-YmJhNzciCiBQViA9ICIwK2dpdCIKIAogQkJfR0lUX1NIQUxMT1cgPSAiIgotLSAKMi40Ny4xCgo=
+CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAwNzowOTowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHR0
+eXJ1bjogdXBncmFkZSAyLjQxLjAgLT4gMi40Mi4wCgotLS0KIG1ldGEvcmVjaXBlcy1jb3JlL3R0
+eXJ1bi97dHR5cnVuXzIuNDEuMC5iYiA9PiB0dHlydW5fMi40Mi4wLmJifSB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1jb3JlL3R0eXJ1bi97dHR5cnVuXzIuNDEuMC5iYiA9PiB0dHlydW5fMi40Mi4wLmJifSAo
+OTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi40MS4w
+LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3R0eXJ1bl8yLjQyLjAuYmIKc2ltaWxhcml0
+eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3R0eXJ1bl8y
+LjQxLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi40Mi4w
+LmJiCmluZGV4IDU5ZGZhYjcxMjIuLjgxMWE0ZGE3MGEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1jb3JlL3R0eXJ1bi90dHlydW5fMi40MS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3R0
+eXJ1bi90dHlydW5fMi40Mi4wLmJiCkBAIC03LDcgKzcsNyBAQCBMSUNFTlNFID0gIk1JVCIKIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWY1MTE4ZjE2N2IwNTViZmQ3YzM0
+NTA4MDNmMTg0N2FmIgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vaWJtLXMzOTAtbGlu
+dXgvczM5MC10b29scztwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZz12JHtQVn0iCi1T
+UkNSRVYgPSAiNWUwN2IzMGJkZjY3NjIzZTdhNmQzODUwZTI2MjA4YjY0MmQ0MTZkNyIKK1NSQ1JF
+ViA9ICI5OTczNDNmODQxN2FiMGFmMGNlYjg2OWU3YTM0YjIzY2FlMzA2MWUzIgogCiBDVkVfUFJP
+RFVDVCA9ICJzMzkwLXRvb2xzIgogCi0tIAoyLjQ3LjEKCg==
 
---===============6044234539207530379==
+--===============2842356405739589678==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGSIZE changed from 102634872 to 104588616 (+2%)
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-dev: RRECOMMENDS: removed "gn (['= 0+git0+ec56d4d935-r0'])", added "gn (['= 0+git0+eab8a9f92d-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-dev: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-doc: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-locale: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGSIZE changed from 3180177 to 3214700 (+1%)
-packages/x86-64-v3-poky-linux/gn/gn-src: FILELIST: added "/usr/src/debug/gn/0+git/src/gn/function_expand_directory.cc /usr/src/debug/gn/0+git/src/base/files/file_path_posix.cc /usr/src/debug/gn/0+git/src/gn/command_suggest.cc"
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: RDEPENDS: removed "gn-dev (['= 0+git0+ec56d4d935-r0'])", added "gn-dev (['= 0+git0+eab8a9f92d-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
-packages/x86-64-v3-poky-linux/gn/gn: PKGSIZE changed from 3731640 to 3809464 (+2%)
-packages/x86-64-v3-poky-linux/gn/gn: PKGV changed from 0+git0+ec56d4d935 to 0+git0+eab8a9f92d
+packages/x86-64-v3-poky-linux/ttyrun: PV changed from "2.41.0" to "2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun: SRC_URI changed from "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.41.0" to "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PV changed from "2.41.0" to "2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PV changed from "2.41.0" to "2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PV changed from "2.41.0" to "2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PV changed from "2.41.0" to "2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PV changed from "2.41.0" to "2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: FILELIST: directory renamed /usr/src/debug/ttyrun/2.41.0/iucvterm/src -> /usr/src/debug/ttyrun/2.42.0/iucvterm/src
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PV changed from "2.41.0" to "2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PV changed from "2.41.0" to "2.42.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
 
---===============6044234539207530379==--
+--===============2842356405739589678==--
 
