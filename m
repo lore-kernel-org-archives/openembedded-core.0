@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D67CD3441
-	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:40 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15708.1777645532001932005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 699A0CD379F
+	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:41 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15715.1777645540185683116
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2026 07:25:32 -0700
+ Fri, 01 May 2026 07:25:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NsForNrs;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=a1RwGtgf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019de3ee3057-fcfd2f9d-d0af-4eed-8709-0589e378f8da-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=p9Dcm16i;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UAk5U9iS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019de3ee5054-0d13abab-9673-476d-ab5e-adc09bfd0292-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777645531;
+	t=1777645539;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=R1TrJ9tRnA7qBxtul2ruuo9OO4RvayIeHta/12od4mc=;
-	b=NsForNrsiP4VDaAXuQHoWmtsuYPnQG9bWYyFII4NrvNCh+C1hNoyH87LIEk76LOz
-	LSqoFIkbtXg8FpkrWI6Xt9wWq7fHmj2Dnvg339cVGuDFb4qXuHNVnFWEYsMfhBK8lCq
-	cHGDqP3vovpMhhR3ypmYiLDneUWWWDHYjYMaDeuU=
+	bh=4YCirOvQz1ifxkNTBCxuW+dNRls6N/pEjnjJzrTUuss=;
+	b=p9Dcm16imvxhN1nnsOLYu/vHgnjIqLrCqZAcHxgmocixR5DUNuH06ic5lx6tKH7p
+	cGAWuGXzMjSeiRH3slwAeQI7cSMQW/MZZReVUakfGTpj2KyfHZaWatyMChL92HtDhdd
+	NYnkQGyXJqGrpQJY7aYqfiUHtqdI5iMLoC6Y4sGQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645531;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645539;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=R1TrJ9tRnA7qBxtul2ruuo9OO4RvayIeHta/12od4mc=;
-	b=a1RwGtgfC8WrtytGD+odlMEsqRMeILVhqkIC7R2qOcQ2pujDs0WCNI4YW4D7VGY9
-	TEobywMEHuMlpw1xGrgCJpSQJTRoOjxoKaOKnFTw5U8IwvXmFYzZ2fVo+bFDoWvWeHI
-	ykqJJ5+o3X7lFepm1H7hyZ5XTiSxNxLUodajlLkc=
-Content-Type: multipart/mixed; boundary="===============7840905709632564715=="
+	bh=4YCirOvQz1ifxkNTBCxuW+dNRls6N/pEjnjJzrTUuss=;
+	b=UAk5U9iSp7zD4SoNFi3rt6qbywm/RpVyq/zn9Q6+QHBc2oK/zrohp/ZTi6ZJ0xTN
+	8PPRTKRbvSGGL5puJdtKX66KHsEkX/9WYIIXqNzEnZeuMzswcmfzA7e+oppCX3HD6F0
+	YFJHdWmaEs9UajItVtY3g0wYjT0cleSr8rH1+7PE=
+Content-Type: multipart/mixed; boundary="===============9054278387386972423=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] mesa-tools-native,mesa: upgrading to 26.0.6,26.0.6 SUCCEEDED
-Message-ID: <0101019de3ee3057-fcfd2f9d-d0af-4eed-8709-0589e378f8da-000000@us-west-2.amazonses.com>
-Date: Fri, 1 May 2026 14:25:31 +0000
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-idna: upgrading to 3.13 SUCCEEDED
+Message-ID: <0101019de3ee5054-0d13abab-9673-476d-ab5e-adc09bfd0292-000000@us-west-2.amazonses.com>
+Date: Fri, 1 May 2026 14:25:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.01-54.240.27.29
+X-SES-Outgoing: 2026.05.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236203
+ <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236235
 
---===============7840905709632564715==
+--===============9054278387386972423==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mesa-tools-native,mesa* to *26.0.6,26.0.6* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-idna* to *3.13* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mesa-tools-native-mesa-upgrade-26.0.5-26.0.6-26.0.5-.patch
+    - apply the patch: git am 0001-python3-idna-upgrade-3.11-3.13.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,286 +72,146 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 774c43560e4e85b70edffe3b5de58d013816f08b Mon Sep 17 00:00:00 2001
+From 73b14b8b7f466931cacc014dc16ba21ada9907c1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 May 2026 06:10:36 +0000
-Subject: [PATCH] mesa-tools-native,mesa: upgrade 26.0.5 -> 26.0.6,26.0.5 ->
- 26.0.6
+Date: Fri, 1 May 2026 08:20:13 +0000
+Subject: [PATCH] python3-idna: upgrade 3.11 -> 3.13
 
 ---
- ...01-freedreno-don-t-encode-build-path-into-binaries.patch | 6 +++---
- .../0001-gallivm-Fix-armhf-build-against-LLVM-22.patch      | 5 +----
- .../0001-meson-misdetects-64bit-atomics-on-mips-clang.patch | 2 +-
- meta/recipes-graphics/mesa/mesa-tools-native.bb             | 1 +
- meta/recipes-graphics/mesa/mesa.inc                         | 4 ++--
- 5 files changed, 8 insertions(+), 10 deletions(-)
+ ...hon3-idna_3.11.bb => python3-idna_3.13.bb} | 25 +++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-idna_3.11.bb => python3-idna_3.13.bb} (29%)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-index 4d36e68a58..e976b3399f 100644
---- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-@@ -1,4 +1,4 @@
--From 8299fe0615638dc88694f08b95a62e9dd3943a6f Mon Sep 17 00:00:00 2001
-+From 4ef7487109f9acfa2baf1a2224da31a0ae0c74c6 Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
- Date: Wed, 10 Dec 2025 02:27:16 +0200
- Subject: [PATCH] freedreno: don't encode build path into binaries
-@@ -25,7 +25,7 @@ Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-  2 files changed, 5 insertions(+), 2 deletions(-)
- 
- diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
--index a4bfd337179..330b6468d01 100644
-+index a4bfd33..330b646 100644
- --- a/src/freedreno/meson.build
- +++ b/src/freedreno/meson.build
- @@ -4,9 +4,10 @@
-@@ -42,7 +42,7 @@ index a4bfd337179..330b6468d01 100644
-  dep_libarchive = dependency('libarchive', allow_fallback: true, required: false, disabler : true)
-  dep_libxml2 = dependency('libxml-2.0', allow_fallback: true, required: false)
- diff --git a/src/freedreno/registers/meson.build b/src/freedreno/registers/meson.build
--index f4be68117c3..cd0caafa431 100644
-+index f4be681..cd0caaf 100644
- --- a/src/freedreno/registers/meson.build
- +++ b/src/freedreno/registers/meson.build
- @@ -43,4 +43,6 @@ if install_fd_decode_tools
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch b/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-index dfa2e86568..065dd373a7 100644
---- a/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-@@ -1,4 +1,4 @@
--From 973dc32026c164d0c13f7f5bef36c8d1c2375973 Mon Sep 17 00:00:00 2001
-+From 2a40c481affef4df729d794daf378ed2e0184895 Mon Sep 17 00:00:00 2001
- From: Alessandro Astone <ales.astone@gmail.com>
- Date: Sun, 1 Mar 2026 18:14:09 +0100
- Subject: [PATCH] gallivm: Fix armhf build against LLVM 22
-@@ -25,6 +25,3 @@ index d3ad342..c95d86e 100644
-          f != features.end();
-          ++f) {
-        MAttrs.push_back(((*f).second ? "+" : "-") + (*f).first().str());
---- 
--2.53.0
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-index baa98a0d46..b039ac213e 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-@@ -1,4 +1,4 @@
--From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
-+From 8943b38a0c14b220e3e173c038c87ce9a697c173 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 13 Jan 2020 15:23:47 -0800
- Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
-diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-index 0fff6ef1dd..20207450bf 100644
---- a/meta/recipes-graphics/mesa/mesa-tools-native.bb
-+++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-@@ -17,3 +17,4 @@ EXTRA_OEMESON += " \
-     -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
-     -Dprecomp-compiler=enabled -Dinstall-precomp-compiler=true \
- "
+diff --git a/meta/recipes-devtools/python/python3-idna_3.11.bb b/meta/recipes-devtools/python/python3-idna_3.13.bb
+similarity index 29%
+rename from meta/recipes-devtools/python/python3-idna_3.11.bb
+rename to meta/recipes-devtools/python/python3-idna_3.13.bb
+index de4595c1d4..eb0f0a1b3c 100644
+--- a/meta/recipes-devtools/python/python3-idna_3.11.bb
++++ b/meta/recipes-devtools/python/python3-idna_3.13.bb
+@@ -1,9 +1,30 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.md
++# +++ LICENSE.md
++# @@ -1,6 +1,6 @@
++#  BSD 3-Clause License
++#  
++# -Copyright (c) 2013-2025, Kim Davies and contributors.
++# +Copyright (c) 2013-2026, Kim Davies and contributors.
++#  All rights reserved.
++#  
++#  Redistribution and use in source and binary forms, with or without
++# 
++#
 +
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 01f7e3bcea..15dad6eedd 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,8 +20,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-gallivm-Fix-armhf-build-against-LLVM-22.patch \
- "
+ SUMMARY = "Internationalised Domain Names in Applications"
+ HOMEPAGE = "https://github.com/kjd/idna"
+ LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-TOU"
+-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=18a4795c19833413a7e2f1cb3cd3b143"
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=9a6c29079fc90c29d80332f44d2625f2"
  
--SRC_URI[sha256sum] = "d229c9937d9a25ca0a8958c59f425174563d300ec42acbea2dbe84a055023368"
--PV = "26.0.5"
-+SRC_URI[sha256sum] = "1d3c3b8a8363b8cc354175bb4a684ad8b035211cc1d6fa17aeb9b9623c513f89"
-+PV = "26.0.6"
+-SRC_URI[sha256sum] = "795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902"
++SRC_URI[sha256sum] = "585ea8fe5d69b9181ec1afba340451fba6ba764af97026f92a91d4eef164a242"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ inherit pypi python_flit_core ptest-python-pytest
  
 -- 
 2.47.1
 
 
---===============7840905709632564715==
+--===============9054278387386972423==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-26.0.5.so", added "/usr/lib/libgallium-26.0.6.so"
-Changes to packages/x86-64-v3-poky-linux/mesa (sysroot):
-  /usr/lib/libgallium-26.0.5.so moved to /usr/lib/libgallium-26.0.6.so
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: FILELIST: directory renamed /usr/lib/python3.14/site-packages/idna-3.11.dist-info -> /usr/lib/python3.14/site-packages/idna-3.13.dist-info, directory renamed /usr/lib/python3.14/site-packages/idna-3.11.dist-info/licenses -> /usr/lib/python3.14/site-packages/idna-3.13.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PKGSIZE changed from 796016 to 604339 (-24%)
+Changes to packages/x86-64-v3-poky-linux/python3-idna (sysroot):
+  /usr/lib/python3.14/site-packages/idna-3.11.dist-info moved to /usr/lib/python3.14/site-packages/idna-3.13.dist-info
 
---===============7840905709632564715==
+--===============9054278387386972423==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mesa-tools-native-mesa-upgrade-26.0.5-26.0.6-26.0.5-.patch"
+ filename="0001-python3-idna-upgrade-3.11-3.13.patch"
 
-RnJvbSA3NzRjNDM1NjBlNGU4NWI3MGVkZmZlM2I1ZGU1OGQwMTM4MTZmMDhiIE1vbiBTZXAgMTcg
+RnJvbSA3M2IxNGI4YjdmNDY2OTMxY2FjYzAxNGRjMTZiYTIxYWRhOTkwN2MxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAwNjoxMDozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
-c2EtdG9vbHMtbmF0aXZlLG1lc2E6IHVwZ3JhZGUgMjYuMC41IC0+IDI2LjAuNiwyNi4wLjUgLT4K
-IDI2LjAuNgoKLS0tCiAuLi4wMS1mcmVlZHJlbm8tZG9uLXQtZW5jb2RlLWJ1aWxkLXBhdGgtaW50
-by1iaW5hcmllcy5wYXRjaCB8IDYgKysrLS0tCiAuLi4vMDAwMS1nYWxsaXZtLUZpeC1hcm1oZi1i
-dWlsZC1hZ2FpbnN0LUxMVk0tMjIucGF0Y2ggICAgICB8IDUgKy0tLS0KIC4uLi8wMDAxLW1lc29u
-LW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoIHwgMiArLQogbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS10b29scy1uYXRpdmUuYmIgICAgICAgICAgICAg
-fCAxICsKIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwgNCArKy0tCiA1IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMTAg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmls
-ZXMvMDAwMS1mcmVlZHJlbm8tZG9uLXQtZW5jb2RlLWJ1aWxkLXBhdGgtaW50by1iaW5hcmllcy5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZnJlZWRyZW5vLWRv
-bi10LWVuY29kZS1idWlsZC1wYXRoLWludG8tYmluYXJpZXMucGF0Y2gKaW5kZXggNGQzNmU2OGE1
-OC4uZTk3NmIzMzk5ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmls
-ZXMvMDAwMS1mcmVlZHJlbm8tZG9uLXQtZW5jb2RlLWJ1aWxkLXBhdGgtaW50by1iaW5hcmllcy5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWZyZWVkcmVu
-by1kb24tdC1lbmNvZGUtYnVpbGQtcGF0aC1pbnRvLWJpbmFyaWVzLnBhdGNoCkBAIC0xLDQgKzEs
-NCBAQAotRnJvbSA4Mjk5ZmUwNjE1NjM4ZGM4ODY5NGYwOGI5NWE2MmU5ZGQzOTQzYTZmIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0ZWY3NDg3MTA5ZjlhY2ZhMmJhZjFhMjIyNGRhMzFh
-MGFlMGM3NGM2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogRG1pdHJ5IEJhcnlzaGtv
-diA8ZG1pdHJ5LmJhcnlzaGtvdkBvc3MucXVhbGNvbW0uY29tPgogRGF0ZTogV2VkLCAxMCBEZWMg
-MjAyNSAwMjoyNzoxNiArMDIwMAogU3ViamVjdDogW1BBVENIXSBmcmVlZHJlbm86IGRvbid0IGVu
-Y29kZSBidWlsZCBwYXRoIGludG8gYmluYXJpZXMKQEAgLTI1LDcgKzI1LDcgQEAgU2lnbmVkLW9m
-Zi1ieTogUXVlbnRpbiBTY2h1bHogPHF1ZW50aW4uc2NodWx6QGNoZXJyeS5kZT4KICAyIGZpbGVz
-IGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBh
-L3NyYy9mcmVlZHJlbm8vbWVzb24uYnVpbGQgYi9zcmMvZnJlZWRyZW5vL21lc29uLmJ1aWxkCi1p
-bmRleCBhNGJmZDMzNzE3OS4uMzMwYjY0NjhkMDEgMTAwNjQ0CitpbmRleCBhNGJmZDMzLi4zMzBi
-NjQ2IDEwMDY0NAogLS0tIGEvc3JjL2ZyZWVkcmVuby9tZXNvbi5idWlsZAogKysrIGIvc3JjL2Zy
-ZWVkcmVuby9tZXNvbi5idWlsZAogQEAgLTQsOSArNCwxMCBAQApAQCAtNDIsNyArNDIsNyBAQCBp
-bmRleCBhNGJmZDMzNzE3OS4uMzMwYjY0NjhkMDEgMTAwNjQ0CiAgZGVwX2xpYmFyY2hpdmUgPSBk
-ZXBlbmRlbmN5KCdsaWJhcmNoaXZlJywgYWxsb3dfZmFsbGJhY2s6IHRydWUsIHJlcXVpcmVkOiBm
-YWxzZSwgZGlzYWJsZXIgOiB0cnVlKQogIGRlcF9saWJ4bWwyID0gZGVwZW5kZW5jeSgnbGlieG1s
-LTIuMCcsIGFsbG93X2ZhbGxiYWNrOiB0cnVlLCByZXF1aXJlZDogZmFsc2UpCiBkaWZmIC0tZ2l0
-IGEvc3JjL2ZyZWVkcmVuby9yZWdpc3RlcnMvbWVzb24uYnVpbGQgYi9zcmMvZnJlZWRyZW5vL3Jl
-Z2lzdGVycy9tZXNvbi5idWlsZAotaW5kZXggZjRiZTY4MTE3YzMuLmNkMGNhYWZhNDMxIDEwMDY0
-NAoraW5kZXggZjRiZTY4MS4uY2QwY2FhZiAxMDA2NDQKIC0tLSBhL3NyYy9mcmVlZHJlbm8vcmVn
-aXN0ZXJzL21lc29uLmJ1aWxkCiArKysgYi9zcmMvZnJlZWRyZW5vL3JlZ2lzdGVycy9tZXNvbi5i
-dWlsZAogQEAgLTQzLDQgKzQzLDYgQEAgaWYgaW5zdGFsbF9mZF9kZWNvZGVfdG9vbHMKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZ2FsbGl2bS1GaXgt
-YXJtaGYtYnVpbGQtYWdhaW5zdC1MTFZNLTIyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L21lc2EvZmlsZXMvMDAwMS1nYWxsaXZtLUZpeC1hcm1oZi1idWlsZC1hZ2FpbnN0LUxMVk0tMjIu
-cGF0Y2gKaW5kZXggZGZhMmU4NjU2OC4uMDY1ZGQzNzNhNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1nYWxsaXZtLUZpeC1hcm1oZi1idWlsZC1hZ2Fp
-bnN0LUxMVk0tMjIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMv
-MDAwMS1nYWxsaXZtLUZpeC1hcm1oZi1idWlsZC1hZ2FpbnN0LUxMVk0tMjIucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIDk3M2RjMzIwMjZjMTY0ZDBjMTNmN2Y1YmVmMzZjOGQxYzIzNzU5NzMg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDJhNDBjNDgxYWZmZWY0ZGY3MjlkNzk0ZGFm
-Mzc4ZWQyZTAxODQ4OTUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGVzc2FuZHJv
-IEFzdG9uZSA8YWxlcy5hc3RvbmVAZ21haWwuY29tPgogRGF0ZTogU3VuLCAxIE1hciAyMDI2IDE4
-OjE0OjA5ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdhbGxpdm06IEZpeCBhcm1oZiBidWlsZCBh
-Z2FpbnN0IExMVk0gMjIKQEAgLTI1LDYgKzI1LDMgQEAgaW5kZXggZDNhZDM0Mi4uYzk1ZDg2ZSAx
-MDA2NDQKICAgICAgICAgIGYgIT0gZmVhdHVyZXMuZW5kKCk7CiAgICAgICAgICArK2YpIHsKICAg
-ICAgICBNQXR0cnMucHVzaF9iYWNrKCgoKmYpLnNlY29uZCA/ICIrIiA6ICItIikgKyAoKmYpLmZp
-cnN0KCkuc3RyKCkpOwotLS0gCi0yLjUzLjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24t
-bWlwcy1jbGFuZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEt
-bWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKaW5kZXgg
-YmFhOThhMGQ0Ni4uYjAzOWFjMjEzZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1j
-bGFuZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1l
-c29uLW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoCkBAIC0xLDQg
-KzEsNCBAQAotRnJvbSAwMmNjMjE4MDBmZTI5ZjU2NmFkZDUyNWU2M2Y2MTljMDUzNmQ2ZTdiIE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA4OTQzYjM4YTBjMTRiMjIwZTNlMTczYzAzOGM4
-N2NlOWE2OTdjMTczIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJh
-ai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IE1vbiwgMTMgSmFuIDIwMjAgMTU6MjM6NDcgLTA4MDAK
-IFN1YmplY3Q6IFtQQVRDSF0gbWVzb24gbWlzZGV0ZWN0cyA2NGJpdCBhdG9taWNzIG9uIG1pcHMv
-Y2xhbmcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EtdG9vbHMt
-bmF0aXZlLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS10b29scy1uYXRpdmUu
-YmIKaW5kZXggMGZmZjZlZjFkZC4uMjAyMDc0NTBiZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL21lc2EvbWVzYS10b29scy1uYXRpdmUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL21lc2EvbWVzYS10b29scy1uYXRpdmUuYmIKQEAgLTE3LDMgKzE3LDQgQEAgRVhUUkFf
-T0VNRVNPTiArPSAiIFwKICAgICAtRG1lc2EtY2xjPWVuYWJsZWQgLURpbnN0YWxsLW1lc2EtY2xj
-PXRydWUgLURtZXNhLWNsYy1idW5kbGUtaGVhZGVycz1lbmFibGVkIFwKICAgICAtRHByZWNvbXAt
-Y29tcGlsZXI9ZW5hYmxlZCAtRGluc3RhbGwtcHJlY29tcC1jb21waWxlcj10cnVlIFwKICIKKwpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMgYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYwppbmRleCAwMWY3ZTNiY2VhLi4xNWRhZDZlZWRk
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYworKysgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYwpAQCAtMjAsOCArMjAsOCBAQCBTUkNf
-VVJJID0gImh0dHBzOi8vYXJjaGl2ZS5tZXNhM2Qub3JnL21lc2EtJHtQVn0udGFyLnh6IFwKICAg
-ICAgICAgICAgZmlsZTovLzAwMDEtZ2FsbGl2bS1GaXgtYXJtaGYtYnVpbGQtYWdhaW5zdC1MTFZN
-LTIyLnBhdGNoIFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImQyMjljOTkzN2Q5YTI1Y2Ew
-YTg5NThjNTlmNDI1MTc0NTYzZDMwMGVjNDJhY2JlYTJkYmU4NGEwNTUwMjMzNjgiCi1QViA9ICIy
-Ni4wLjUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWQzYzNiOGE4MzYzYjhjYzM1NDE3NWJiNGE2
-ODRhZDhiMDM1MjExY2MxZDZmYTE3YWViOWI5NjIzYzUxM2Y4OSIKK1BWID0gIjI2LjAuNiIKIAog
-VVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAibWVzYS0oP1A8cHZlcj5cZCsoXC5cZCspKyki
-CiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAwODoyMDoxMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtaWRuYTogdXBncmFkZSAzLjExIC0+IDMuMTMKCi0tLQogLi4uaG9uMy1pZG5hXzMuMTEu
+YmIgPT4gcHl0aG9uMy1pZG5hXzMuMTMuYmJ9IHwgMjUgKysrKysrKysrKysrKysrKystLQogMSBm
+aWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1pZG5hXzMuMTEuYmIgPT4gcHl0aG9u
+My1pZG5hXzMuMTMuYmJ9ICgyOSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWlkbmFfMy4xMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy1pZG5hXzMuMTMuYmIKc2ltaWxhcml0eSBpbmRleCAyOSUKcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWlkbmFfMy4xMS5iYgpyZW5hbWUg
+dG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWlkbmFfMy4xMy5iYgppbmRl
+eCBkZTQ1OTVjMWQ0Li5lYjBmMGExYjNjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtaWRuYV8zLjExLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1pZG5hXzMuMTMuYmIKQEAgLTEsOSArMSwzMCBAQAorIyBGSVhNRTog
+dGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29s
+IHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhl
+IG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VO
+U0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBj
+b21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xp
+Y2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdl
+czoKKyMKKyMgLS0tIExJQ0VOU0UubWQKKyMgKysrIExJQ0VOU0UubWQKKyMgQEAgLTEsNiArMSw2
+IEBACisjICBCU0QgMy1DbGF1c2UgTGljZW5zZQorIyAgCisjIC1Db3B5cmlnaHQgKGMpIDIwMTMt
+MjAyNSwgS2ltIERhdmllcyBhbmQgY29udHJpYnV0b3JzLgorIyArQ29weXJpZ2h0IChjKSAyMDEz
+LTIwMjYsIEtpbSBEYXZpZXMgYW5kIGNvbnRyaWJ1dG9ycy4KKyMgIEFsbCByaWdodHMgcmVzZXJ2
+ZWQuCisjICAKKyMgIFJlZGlzdHJpYnV0aW9uIGFuZCB1c2UgaW4gc291cmNlIGFuZCBiaW5hcnkg
+Zm9ybXMsIHdpdGggb3Igd2l0aG91dAorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFs
+aXNlZCBEb21haW4gTmFtZXMgaW4gQXBwbGljYXRpb25zIgogSE9NRVBBR0UgPSAiaHR0cHM6Ly9n
+aXRodWIuY29tL2tqZC9pZG5hIgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UgJiBQeXRob24tMi4w
+ICYgVW5pY29kZS1UT1UiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21k
+NT0xOGE0Nzk1YzE5ODMzNDEzYTdlMmYxY2IzY2QzYjE0MyIKK0xJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0xJQ0VOU0UubWQ7bWQ1PTlhNmMyOTA3OWZjOTBjMjlkODAzMzJmNDRkMjYyNWYyIgog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzk1ZGFmY2M5YzA0ZWQwYzFmYjAzMmMyYWE3MzY1NGQ4
+ZThjNTAyM2E3ZGY2NGE1M2YzOTE5MGFkYTYyOTkwMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1
+ODVlYThmZTVkNjliOTE4MWVjMWFmYmEzNDA0NTFmYmE2YmE3NjRhZjk3MDI2ZjkyYTkxZDRlZWYx
+NjRhMjQyIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2ZsaXRfY29yZSBwdGVzdC1weXRob24tcHl0
+ZXN0CiAKLS0gCjIuNDcuMQoK
 
---===============7840905709632564715==
+--===============9054278387386972423==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/mesa: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa: SRC_URI changed from "https://archive.mesa3d.org/mesa-26.0.5.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-gallivm-Fix-armhf-build-against-LLVM-22.patch" to "https://archive.mesa3d.org/mesa-26.0.6.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-gallivm-Fix-armhf-build-against-LLVM-22.patch"
-packages/x86-64-v3-poky-linux/mesa: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libegl-mesa-dev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libegl-mesa: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libegl-mesa: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgallium: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgallium: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgallium: PKGSIZE changed from 42886880 to 42890976 (+0%)
-packages/x86-64-v3-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-26.0.5.so", added "/usr/lib/libgallium-26.0.6.so"
-packages/x86-64-v3-poky-linux/mesa/libgbm-dev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgbm-dev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgbm: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgbm: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgl-mesa-dev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgl-mesa: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgl-mesa: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libglapi-dev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libglapi-dev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libglapi: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libglapi: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgles1-mesa-dev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgles1-mesa: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgles1-mesa: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgles2-mesa-dev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libgles2-mesa: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libgles2-mesa: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libglx-mesa-dev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libglx-mesa: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libglx-mesa: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libopencl-mesa: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libopencl-mesa: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/libteflon: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/libteflon: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-dbg: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-dbg: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 717154288 to 717178168 (+0%)
-packages/x86-64-v3-poky-linux/mesa/mesa-dbg: FILELIST: removed "/usr/lib/.debug/libgallium-26.0.5.so", added "/usr/lib/.debug/libgallium-26.0.6.so"
-packages/x86-64-v3-poky-linux/mesa/mesa-dev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-dev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-doc: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-doc: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-locale: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-locale: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-megadriver: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-megadriver: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 212140 to 212338 (+0%)
-packages/x86-64-v3-poky-linux/mesa/mesa-src: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-src: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-src: PKGSIZE changed from 198542428 to 198543473 (+0%)
-packages/x86-64-v3-poky-linux/mesa/mesa-src: FILELIST: directory renamed /usr/src/debug/mesa/26.0.5/src/intel/compiler/brw -> /usr/src/debug/mesa/26.0.6/src/intel/compiler/brw, directory renamed /usr/src/debug/mesa/26.0.5/src/gallium/drivers/r600 -> /usr/src/debug/mesa/26.0.6/src/gallium/drivers/r600, directory renamed /usr/src/debug/mesa/26.0.5/src/compiler/spirv -> /usr/src/debug/mesa/26.0.6/src/compiler/spirv, directory renamed /usr/src/debug/mesa/26.0.5/src/amd/vulkan/layers -> /usr/src/debug/mesa/26.0.6/src/amd/vulkan/layers, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/genxml -> /usr/src/debug/mesa/26.0.6/src/intel/genxml, directory renamed /usr/src/debug/mesa/26.0.5/src/util/format -> /usr/src/debug/mesa/26.0.6/src/util/format, directory renamed /usr/src/debug/mesa/26.0.5/src/compiler/glsl/glcpp -> /usr/src/debug/mesa/26.0.6/src/compiler/glsl/glcpp, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/perf -> /usr/src/debug/mesa/26.0.6/src/intel/perf, directory ren
- amed /usr/src/debug/mesa/26.0.5/src/vulkan/wsi -> /usr/src/debug/mesa/26.0.6/src/vulkan/wsi, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/blorp -> /usr/src/debug/mesa/26.0.6/src/intel/blorp, directory renamed /usr/src/debug/mesa/26.0.5/src/amd/compiler -> /usr/src/debug/mesa/26.0.6/src/amd/compiler, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/compiler/elk -> /usr/src/debug/mesa/26.0.6/src/intel/compiler/elk, directory renamed /usr/src/debug/mesa/26.0.5/src/gallium/drivers/r300 -> /usr/src/debug/mesa/26.0.6/src/gallium/drivers/r300, directory renamed /usr/src/debug/mesa/26.0.5/src/gallium/auxiliary -> /usr/src/debug/mesa/26.0.6/src/gallium/auxiliary, directory renamed /usr/src/debug/mesa/26.0.5/src/mesa/glapi/glapi/gen -> /usr/src/debug/mesa/26.0.6/src/mesa/glapi/glapi/gen, directory renamed /usr/src/debug/mesa/26.0.5/src/virtio/vulkan -> /usr/src/debug/mesa/26.0.6/src/virtio/vulkan, directory renamed /usr/src/debug/mesa/26.0.5/src/vulkan/util -> /usr/src/debug/m
- esa/26.0.6/src/vulkan/util, directory renamed /usr/src/debug/mesa/26.0.5/src/compiler/nir -> /usr/src/debug/mesa/26.0.6/src/compiler/nir, directory renamed /usr/src/debug/mesa/26.0.5/src/gallium/frontends/lavapipe -> /usr/src/debug/mesa/26.0.6/src/gallium/frontends/lavapipe, directory renamed /usr/src/debug/mesa/26.0.5/src/mesa/program -> /usr/src/debug/mesa/26.0.6/src/mesa/program, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/isl -> /usr/src/debug/mesa/26.0.6/src/intel/isl, directory renamed /usr/src/debug/mesa/26.0.5/src/compiler -> /usr/src/debug/mesa/26.0.6/src/compiler, directory renamed /usr/src/debug/mesa/26.0.5/src/gfxstream/guest/vulkan_enc -> /usr/src/debug/mesa/26.0.6/src/gfxstream/guest/vulkan_enc, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/shaders -> /usr/src/debug/mesa/26.0.6/src/intel/shaders, directory renamed /usr/src/debug/mesa/26.0.5/src/gallium/drivers/radeonsi -> /usr/src/debug/mesa/26.0.6/src/gallium/drivers/radeonsi, directory renamed /us
- r/src/debug/mesa/26.0.5/src/intel/vulkan -> /usr/src/debug/mesa/26.0.6/src/intel/vulkan, directory renamed /usr/src/debug/mesa/26.0.5/src/mesa/glapi/shared-glapi -> /usr/src/debug/mesa/26.0.6/src/mesa/glapi/shared-glapi, directory renamed /usr/src/debug/mesa/26.0.5/src/loader -> /usr/src/debug/mesa/26.0.6/src/loader, directory renamed /usr/src/debug/mesa/26.0.5/src/mesa -> /usr/src/debug/mesa/26.0.6/src/mesa, directory renamed /usr/src/debug/mesa/26.0.5/src/amd/common -> /usr/src/debug/mesa/26.0.6/src/amd/common, directory renamed /usr/src/debug/mesa/26.0.5/src/amd/vulkan -> /usr/src/debug/mesa/26.0.6/src/amd/vulkan, directory renamed /usr/src/debug/mesa/26.0.5/src/gallium/drivers/zink -> /usr/src/debug/mesa/26.0.6/src/gallium/drivers/zink, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/dev -> /usr/src/debug/mesa/26.0.6/src/intel/dev, directory renamed /usr/src/debug/mesa/26.0.5/src/nouveau/headers -> /usr/src/debug/mesa/26.0.6/src/nouveau/headers, directory renamed /usr/src
- /debug/mesa/26.0.5/src/vulkan/runtime -> /usr/src/debug/mesa/26.0.6/src/vulkan/runtime, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/ds -> /usr/src/debug/mesa/26.0.6/src/intel/ds, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/compiler -> /usr/src/debug/mesa/26.0.6/src/intel/compiler, directory renamed /usr/src/debug/mesa/26.0.5/src/compiler/glsl -> /usr/src/debug/mesa/26.0.6/src/compiler/glsl, directory renamed /usr/src/debug/mesa/26.0.5/src/util -> /usr/src/debug/mesa/26.0.6/src/util, directory renamed /usr/src/debug/mesa/26.0.5/src/intel/vulkan_hasvk -> /usr/src/debug/mesa/26.0.6/src/intel/vulkan_hasvk
-packages/x86-64-v3-poky-linux/mesa/mesa-staticdev: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-staticdev: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-tools: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-tools: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 76943832 to 76952024 (+0%)
-packages/x86-64-v3-poky-linux/mesa/mesa: PV changed from "26.0.5" to "26.0.6"
-packages/x86-64-v3-poky-linux/mesa/mesa: PKGV changed from 26.0.5 [default] to 26.0.6 [default]
-Changes to packages/x86-64-v3-poky-linux/mesa (sysroot):
-  /usr/lib/libgallium-26.0.5.so moved to /usr/lib/libgallium-26.0.6.so
+packages/x86-64-v3-poky-linux/python3-idna: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/idna/idna-3.11.tar.gz;downloadfilename=idna-3.11.tar.gz" to "https://files.pythonhosted.org/packages/source/i/idna/idna-3.13.tar.gz;downloadfilename=idna-3.13.tar.gz"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dbg: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dbg: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dev: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dev: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-doc: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-doc: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-locale: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-locale: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PKGSIZE changed from 1483590 to 1483107 (-0%)
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-src: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-src: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-staticdev: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-staticdev: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PKGV changed from 3.11 [default] to 3.13 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: FILELIST: directory renamed /usr/lib/python3.14/site-packages/idna-3.11.dist-info -> /usr/lib/python3.14/site-packages/idna-3.13.dist-info, directory renamed /usr/lib/python3.14/site-packages/idna-3.11.dist-info/licenses -> /usr/lib/python3.14/site-packages/idna-3.13.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PV changed from "3.11" to "3.13"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PKGSIZE changed from 796016 to 604339 (-24%)
+Changes to packages/x86-64-v3-poky-linux/python3-idna (sysroot):
+  /usr/lib/python3.14/site-packages/idna-3.11.dist-info moved to /usr/lib/python3.14/site-packages/idna-3.13.dist-info
 
---===============7840905709632564715==--
+--===============9054278387386972423==--
 
