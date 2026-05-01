@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD61FCD343B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B18CD3437
 	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:39 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15610.1777645533598114196
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15613.1777645533763619911
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 May 2026 07:25:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=oWf/CcD+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=xAUF60Ft;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019de3ee3672-b0c9597f-b8da-49c1-b7a0-d65ca37c5478-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vWDyOPH+;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=B4A699Z2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019de3ee36c1-80c38748-0760-44f4-b6aa-dbd11f8f3519-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777645532;
+	t=1777645533;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=MbURreQbQSulOPlhDBaNPdQM/jCC+5zV+qRaKSZ8+E0=;
-	b=oWf/CcD+100kUYOvCGf6fCbkdLsBbFMMRWo8DG1rPVy+jIgJqnPHMGj6blspZvjF
-	qjXXClwaYkXjBEehEiy35lSEblLkIabOAXWDOICGwVlsw/65Iyco6M7Z8Tr+tKgtKe8
-	HliXSMVFf0KExaiNaiFU3J1HoDJylrywwcunyWDo=
+	bh=jCc9GpkSauuFrVoSKJM+ZiK0+5F3e33r8Xr2uLZdwRw=;
+	b=vWDyOPH+8P63Z16wW/DF1a14TmvH2MF9uOmvKkHsAUccNLD/u9IthYJcfsaiLg+O
+	6dy2lpfNh40KTEiTI1h7qSF/xLDcCovkQq+Ho1bLvqMLuMPbL0+Ua/7wo9G29RcrC9o
+	565IBf7qI7onW/KVgAGBWMje/pHw8zZgkUJZcyOQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645532;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645533;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=MbURreQbQSulOPlhDBaNPdQM/jCC+5zV+qRaKSZ8+E0=;
-	b=xAUF60FtTfZYAkREN1+uiy6NH+j6z75kut4WPgJXp/Mc10TTqs17vPmO/I0iNzcA
-	PSA+SHVMaasRWLzbhV6M2UN+CoouoTgX2uUXG0bHDAojwdMItQon6k1g6u0s2xhsd1P
-	b4k7EzAqpkEaig8dBvxHIrq+VT+h/3Rz4rPPvElg=
-Content-Type: multipart/mixed; boundary="===============6473034205994758084=="
+	bh=jCc9GpkSauuFrVoSKJM+ZiK0+5F3e33r8Xr2uLZdwRw=;
+	b=B4A699Z2dvdYW9QIrim61rrzDZwCUf2oy09N2D4R19zHYCJuUb7309vd4QlCnc2q
+	w3JCxR2wWjy80elWIZ1jQz6NhITOXCU310CUGpYvRnzNctF2QiQhzlrm1exxu4egrO1
+	1atGadZff/U4j88Q+KSTY9IxRyk+iLRA8FXg2EvM=
+Content-Type: multipart/mixed; boundary="===============5110575816921294665=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] neard: upgrading to 0.20 FAILED
-Message-ID: <0101019de3ee3672-b0c9597f-b8da-49c1-b7a0-d65ca37c5478-000000@us-west-2.amazonses.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] nfs-utils: upgrading to 2.9.1 FAILED
+Message-ID: <0101019de3ee36c1-80c38748-0760-44f4-b6aa-dbd11f8f3519-000000@us-west-2.amazonses.com>
 Date: Fri, 1 May 2026 14:25:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.01-54.240.27.191
+X-SES-Outgoing: 2026.05.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236210
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236212
 
---===============6473034205994758084==
+--===============5110575816921294665==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *neard* to *0.20* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *nfs-utils* to *2.9.1* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-neard-upgrade-0.19-0.20.patch
+    - apply the patch: git am 0001-nfs-utils-upgrade-2.8.7-2.9.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,144 +78,86 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1a88f11a0361514e10f8019beed3dc282ad1fa5b Mon Sep 17 00:00:00 2001
+From eec9ea5afa77417d56ae06c60e0acfb7a57eba2b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 May 2026 06:50:44 +0000
-Subject: [PATCH] neard: upgrade 0.19 -> 0.20
+Date: Fri, 1 May 2026 06:52:58 +0000
+Subject: [PATCH] nfs-utils: upgrade 2.8.7 -> 2.9.1
 
 ---
- ...Add-header-dependency-to-nciattach.o.patch |  9 ++----
- .../Makefile.am-do-not-ship-version.h.patch   |  9 ++----
- .../Makefile.am-fix-parallel-issue.patch      | 30 -------------------
- .../neard/{neard_0.19.bb => neard_0.20.bb}    |  5 ++--
- 4 files changed, 8 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
- rename meta/recipes-connectivity/neard/{neard_0.19.bb => neard_0.20.bb} (93%)
+ .../nfs-utils/0004-Use-nogroup-for-nobody-group.patch       | 6 +++---
+ .../nfs-utils/0005-find-OE-provided-Kerberos.patch          | 4 ++--
+ .../nfs-utils/{nfs-utils_2.8.7.bb => nfs-utils_2.9.1.bb}    | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.8.7.bb => nfs-utils_2.9.1.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch b/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-index d8e8a5e5da..9e366693e7 100644
---- a/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-+++ b/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0004-Use-nogroup-for-nobody-group.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0004-Use-nogroup-for-nobody-group.patch
+index bbf44d5977..bbb7ee4bfd 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0004-Use-nogroup-for-nobody-group.patch
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0004-Use-nogroup-for-nobody-group.patch
 @@ -1,4 +1,4 @@
--From affaa2021a54c30353e4e1fee09c13a4de2196be Mon Sep 17 00:00:00 2001
-+From de251cdfe62140d6f3e688ddc7ae5dff2e709ecf Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Fri, 17 Mar 2017 14:24:29 +0200
- Subject: [PATCH] Add header dependency to nciattach.o
-@@ -19,10 +19,10 @@ Upstream-Status: Submitted [mailinglist]
-  1 file changed, 1 insertion(+)
+-From 001913c5eb0aad933a93ee966252905cd46d776b Mon Sep 17 00:00:00 2001
++From 28cfd8cd6a631463bc2e770e5b5a5796cd780708 Mon Sep 17 00:00:00 2001
+ From: Daniel McGregor <daniel.mcgregor@vecima.com>
+ Date: Tue, 6 Jun 2023 16:07:53 -0600
+ Subject: [PATCH] Use "nogroup" for nobody group
+@@ -11,7 +11,7 @@ Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+  2 files changed, 2 insertions(+), 2 deletions(-)
  
- diff --git a/Makefile.am b/Makefile.am
--index fa552ee..acef6ba 100644
-+index d865e84..1c81d58 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -253,6 +253,7 @@ se/builtin.h: src/genbuiltin $(builtin_se_sources)
-+@@ -258,6 +258,7 @@ se/builtin.h: src/genbuiltin $(builtin_se_sources)
+ diff --git a/support/nfsidmap/idmapd.conf b/support/nfsidmap/idmapd.conf
+-index 2a2f79a1..e6f3724f 100644
++index 2a2f79a..e6f3724 100644
+ --- a/support/nfsidmap/idmapd.conf
+ +++ b/support/nfsidmap/idmapd.conf
+ @@ -41,7 +41,7 @@
+@@ -24,7 +24,7 @@ index 2a2f79a1..e6f3724f 100644
+  [Translation]
   
-  $(src_neard_OBJECTS) \
-  $(tools_nfctool_nfctool_OBJECTS) \
-@@ -30,6 +30,3 @@ index fa552ee..acef6ba 100644
-  $(plugin_objects) \
-  $(se_seeld_OBJECTS) \
-  $(unit_test_ndef_parse_OBJECTS) \
---- 
--2.11.0
--
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-index 16875e0543..b606103c5f 100644
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-+++ b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
+ diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
+-index cd9a965f..3be805e9 100644
++index 5231f56..e1aa8a5 100644
+ --- a/utils/idmapd/idmapd.c
+ +++ b/utils/idmapd/idmapd.c
+ @@ -89,7 +89,7 @@
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-find-OE-provided-Kerberos.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-find-OE-provided-Kerberos.patch
+index 3241e8e859..0bf3e2a4ba 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-find-OE-provided-Kerberos.patch
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-find-OE-provided-Kerberos.patch
 @@ -1,4 +1,4 @@
--From bfd32d68cfc9f1e31dab88e07446d1c02bc80b5e Mon Sep 17 00:00:00 2001
-+From 2584e21cb46346a22e1bad66c9c1f77ef8865aea Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
- Date: Thu, 12 Feb 2015 00:39:29 -0800
- Subject: [PATCH] Makefile.am: do not ship version.h
-@@ -10,11 +10,11 @@ Upstream-Status: Pending
+-From a2af266f013722a64c5d04e0fe097cd711393a53 Mon Sep 17 00:00:00 2001
++From b0a14ad7b85a4374a9de68876d02ccc0e9ad7800 Mon Sep 17 00:00:00 2001
+ From: Daniel McGregor <daniel.mcgregor@vecima.com>
+ Date: Wed, 8 Nov 2023 16:24:20 -0600
+ Subject: [PATCH] find OE provided Kerberos
+@@ -10,7 +10,7 @@ Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+  1 file changed, 4 insertions(+), 2 deletions(-)
  
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- ---
-- Makefile.am |    4 ++--
-+ Makefile.am | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+ diff --git a/aclocal/kerberos5.m4 b/aclocal/kerberos5.m4
+-index f96f0fd4..ad85fdf2 100644
++index f96f0fd..ad85fdf 100644
+ --- a/aclocal/kerberos5.m4
+ +++ b/aclocal/kerberos5.m4
+ @@ -22,8 +22,8 @@ AC_DEFUN([AC_KERBEROS_V5],[
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.7.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
+similarity index 98%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.7.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
+index 7693a88682..2a3f1e8f5a 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.7.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0005-find-OE-provided-Kerberos.patch \
+            "
  
- diff --git a/Makefile.am b/Makefile.am
--index 3334790..69cd58f 100644
-+index 592fb7c..d865e84 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -10,11 +10,11 @@ pkginclude_HEADERS = include/types.h include/log.h include/plugin.h \
-@@ -31,6 +31,3 @@ index 3334790..69cd58f 100644
-  			$(noinst_HEADERS), include/near/$(notdir $(file)))
-  
-  gdbus_sources = gdbus/gdbus.h gdbus/mainloop.c gdbus/watch.c \
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-deleted file mode 100644
-index aeb33a5bdc..0000000000
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 43acc56d5506c7e318f717fb3634bc16e3438913 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 15 Jan 2015 18:12:07 -0800
--Subject: [PATCH] Makefile.am: fix parallel issue
--
--There might be no src dir if src/builtin.h runs earlier, create it to
--fix the race issue:
--
--src/genbuiltin nfctype1 nfctype2 nfctype3 nfctype4 p2p > src/builtin.h
--/bin/sh: src/builtin.h: No such file or directory
--
--Upstream-Status: Backport [d39f8c0eee659743b4425d395c2f7ab1949e9c71]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- Makefile.am |    1 +
-- 1 file changed, 1 insertion(+)
--
--Index: neard-0.16/Makefile.am
--===================================================================
----- neard-0.16.orig/Makefile.am
--+++ neard-0.16/Makefile.am
--@@ -244,6 +244,7 @@ SED_PROCESS = $(AM_V_GEN)$(MKDIR_P) $(di
-- src/plugin.$(OBJEXT): src/builtin.h
-- 
-- src/builtin.h: src/genbuiltin $(builtin_sources)
--+	$(AM_V_at)$(MKDIR_P) src
-- 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
-- 
-- se/plugin.$(OBJEXT): se/builtin.h
-diff --git a/meta/recipes-connectivity/neard/neard_0.19.bb b/meta/recipes-connectivity/neard/neard_0.20.bb
-similarity index 93%
-rename from meta/recipes-connectivity/neard/neard_0.19.bb
-rename to meta/recipes-connectivity/neard/neard_0.20.bb
-index c1149e7631..a583da827f 100644
---- a/meta/recipes-connectivity/neard/neard_0.19.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.20.bb
-@@ -10,12 +10,11 @@ DEPENDS = "dbus glib-2.0 libnl autoconf-archive-native"
+-SRC_URI[sha256sum] = "59d0f1e17b18efaa60ea3ccf89a9cad3217f8d3b23c18d2fe34b25c8969d60ae"
++SRC_URI[sha256sum] = "302846343bf509f8f884c23bdbd0fe853b7f7cbb6572060a9082279d13b21a2c"
  
- SRC_URI = "git://github.com/linux-nfc/neard;protocol=https;branch=master \
-            file://neard.in \
--           file://Makefile.am-fix-parallel-issue.patch \
-            file://Makefile.am-do-not-ship-version.h.patch \
-            file://0001-Add-header-dependency-to-nciattach.o.patch \
--          "
-+           "
- 
--SRCREV = "a1dc8a75cba999728e154a0f811ab9dd50c809f7"
-+SRCREV = "7118668bc92fe15a8ff5e4067abd5e1622524f03"
- 
- inherit autotools pkgconfig systemd update-rc.d
- 
+ # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
+ # pull in the remainder of the dependencies.
 -- 
 2.47.1
 
 
---===============6473034205994758084==
+--===============5110575816921294665==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -238,183 +180,305 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-bdcc92127fb84566c17e5ad4ca5f62fc3ec9bf22"
+DISTRO_VERSION       = "6.0.99+snapshot-1d2be0ed5b75ba6387c9b3a87f05be592f990608"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:bdcc92127fb84566c17e5ad4ca5f62fc3ec9bf22"
+meta                 = "tmp-auh-upgrades:1d2be0ed5b75ba6387c9b3a87f05be592f990608"
 meta-yocto-bsp       
 meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 406 Local 392 Mirrors 0 Missed 14 Current 583 (96% match, 98% complete)
+Sstate summary: Wanted 477 Local 462 Mirrors 0 Missed 15 Current 638 (96% match, 98% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 773 of 989 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 794 of 989 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.86.bb:do_create_spdx_setscene)
-NOTE: recipe wpa-supplicant-2.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bluez5-5.86-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1229 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_recipe_qa)
-NOTE: recipe wpa-supplicant-2.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 899 of 989 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_create_spdx_setscene)
-NOTE: recipe bluez5-5.86-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe neard-0.20-r0: task do_recipe_qa: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 984 of 989 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe neard-0.20-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_recipe_qa unihash changed to 1bb5c0ff674e02c51c318b350cb27db6aebe702522c8d5b3fab78101dbb72eea
+NOTE: Running setscene task 771 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 888 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/netbase/netbase_6.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 901 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux/linux-yocto_6.18.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 908 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libevent/libevent_2.1.12.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 922 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 924 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_create_spdx_setscene)
+NOTE: Running task 890 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_recipe_qa)
+NOTE: recipe netbase-1_6.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe rpcbind-1.2.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libevent-2.1.12-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxml2-2.15.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe netbase-1_6.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe nfs-utils-2.9.1-r0: task do_recipe_qa: Started
+NOTE: recipe rpcbind-1.2.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1057 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libevent-2.1.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1065 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libevent/libevent_2.1.12.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libxml2-2.15.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1067 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libevent-2.1.12-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe util-linux-2.41.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxml2-2.15.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe linux-yocto-6.18.24+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libevent-2.1.12-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe util-linux-2.41.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libxml2-2.15.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1072 of 1115 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe linux-yocto-6.18.24+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe nfs-utils-2.9.1-r0: task do_recipe_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_recipe_qa unihash changed to 6cccbced4d82bdb3ca013704427a71d616ceaca93fd519956d97b97e304d278e
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_create_recipe_spdx_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2154 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_fetch)
-NOTE: Running task 2330 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_create_recipe_spdx)
-NOTE: recipe neard-0.20-r0: task do_fetch: Started
-NOTE: recipe neard-0.20-r0: task do_create_recipe_spdx: Started
-NOTE: recipe neard-0.20-r0: task do_fetch: Succeeded
-NOTE: Running task 2350 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_unpack)
-NOTE: Running task 2351 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_prepare_recipe_sysroot)
-NOTE: recipe neard-0.20-r0: task do_unpack: Started
-NOTE: recipe neard-0.20-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe neard-0.20-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe neard-0.20-r0: task do_unpack: Succeeded
-NOTE: Running task 2352 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_patch)
-NOTE: recipe neard-0.20-r0: task do_patch: Started
-NOTE: recipe neard-0.20-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe neard-0.20-r0: task do_patch: Succeeded
-NOTE: Running task 2353 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2354 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_populate_lic)
-NOTE: recipe neard-0.20-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe neard-0.20-r0: task do_populate_lic: Started
-NOTE: recipe neard-0.20-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_populate_lic unihash changed to 87ef655b9a11ac009f3ace839c086d3984b1b3510ea7f401a17d8f9823a4265c
-NOTE: recipe neard-0.20-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_deploy_source_date_epoch unihash changed to 7782d7f416f40304c7cd4d2394a0ddd45260ac1ee9ce677b141fc8e7c034d020
+NOTE: Running task 2261 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_fetch)
+NOTE: Running task 2450 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx)
+NOTE: Running task 2598 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_create_recipe_spdx)
+NOTE: recipe nfs-utils-2.9.1-r0: task do_fetch: Started
+NOTE: recipe nfs-utils-2.9.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2643 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_unpack)
+NOTE: Running task 2644 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe base-files-3.0.14-r0: task do_create_spdx: Started
+NOTE: recipe nfs-utils-2.9.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe nfs-utils-2.9.1-r0: task do_unpack: Started
+NOTE: recipe nfs-utils-2.9.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe nfs-utils-2.9.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2645 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_patch)
+NOTE: recipe nfs-utils-2.9.1-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_create_spdx: Succeeded
+NOTE: recipe nfs-utils-2.9.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe nfs-utils-2.9.1-r0: task do_patch: Succeeded
+NOTE: Running task 2650 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2651 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_populate_lic)
+NOTE: recipe nfs-utils-2.9.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe nfs-utils-2.9.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nfs-utils-2.9.1-r0: task do_populate_lic: Started
+NOTE: recipe nfs-utils-2.9.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_populate_lic unihash changed to 0407cafeec21b82233a2ffb0482ab2c2fd461d209d2130635e5718b54428149e
+NOTE: recipe nfs-utils-2.9.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_deploy_source_date_epoch unihash changed to cf873a84f410dd5df950c9d086d5c9f0fb3a2dab46ce5dd49d4c80292991705d
 NOTE: Setscene tasks completed
-NOTE: Running task 2355 of 2367 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure)
-NOTE: recipe neard-0.20-r0: task do_configure: Started
-NOTE: recipe neard-0.20-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2355 tasks of which 2346 didn't need to be rerun and 1 failed.
+NOTE: Running task 2652 of 2664 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_configure)
+NOTE: recipe nfs-utils-2.9.1-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worke
+ r/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-native_2.5.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libtirpc/libtirpc_1.3.7.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.19.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recip
+ es-support/libcap/libcap_2.78.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libevent/libevent_2.1.12.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/autoconf/autoconf_2.73.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/automake/automake_1.18.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/r
+ ecipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.19.4.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['base-files', 'base-passwd', 'gettext-minimal-native', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'systemd-systemctl-native', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libtool-cross', 'libtool-native', 'm4-native', 'opkg-utils', 'quilt-native', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'linux-libc-headers', 'attr', 'bash-completion', 'libcap-ng', 'libcap', 'libevent', 'sqlite3', 'openssl-native', 'expat-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'autoconf-native', 'automake-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'patch-native', 'perl-native', 'pkgconf-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-jinja2-native', 'python3-markupsafe-native', 'python3-packaging-nat
+ ive', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libcap-ng-native', 'libcap-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function autotools_preconfigure
+| DEBUG: Shell function autotools_preconfigure finished
+| DEBUG: Executing python function autotools_sitefiles
+| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
+| DEBUG: Python function autotools_sitefiles finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing ACLOCAL="aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot/usr/share/aclocal/" autoreconf -Wcross --verbose --install --force --exclude=autopoint
+| autoreconf: export WARNINGS=cross,no-obsolete
+| autoreconf: Entering directory '.'
+| autoreconf: configure.ac: not running autopoint: --exclude autopoint was given
+| autoreconf: running: aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot/usr/share/aclocal/ --force -I aclocal
+| autoreconf: configure.ac: tracing
+| autoreconf: running: libtoolize --copy --force
+| libtoolize: putting auxiliary files in '.'.
+| libtoolize: copying file './ltmain.sh'
+| libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'aclocal'.
+| libtoolize: copying file 'aclocal/libtool.m4'
+| libtoolize: copying file 'aclocal/ltoptions.m4'
+| libtoolize: copying file 'aclocal/ltsugar.m4'
+| libtoolize: copying file 'aclocal/ltversion.m4'
+| libtoolize: copying file 'aclocal/lt~obsolete.m4'
+| autoreconf: configure.ac: not using Intltool
+| autoreconf: configure.ac: not using Gtkdoc
+| autoreconf: configure.ac: no need to run autopoint (confirmed)
+| autoreconf: running: aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot/usr/share/aclocal/ --force -I aclocal
+| autoreconf: running: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot-native/usr/bin/autoconf --force
+| configure.ac:294: warning: cannot check for file existence when cross compiling
+| ../sources/autoconf-2.73/lib/autoconf/general.m4:3066: AC_CHECK_FILE is expanded from...
+| ../sources/autoconf-2.73/lib/m4sugar/m4sh.m4:696: AS_IF is expanded from...
+| aclocal/libtirpc.m4:54: AC_LIBTIRPC_OLD is expanded from...
+| aclocal.m4:168: PKG_CHECK_MODULES is expanded from...
+| ../sources/autoconf-2.73/lib/m4sugar/m4sh.m4:696: AS_IF is expanded from...
+| aclocal/libtirpc.m4:3: AC_LIBTIRPC is expanded from...
+| configure.ac:294: the top level
+| autoreconf: running: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot-native/usr/bin/autoheader --force
+| autoreconf: running: automake --add-missing --copy --force-missing
+| configure.ac:11: installing './compile'
+| configure.ac:7: installing './missing'
+| support/export/Makefile.am: installing './depcomp'
+| autoreconf: './config.sub' is updated
+| autoreconf: './config.guess' is updated
+| autoreconf: configure.ac: not running make: --make not given
+| autoreconf: Leaving directory '.'
+| NOTE: Running ./configure  --build=x86_64-linux 		  --host=x86_64-poky-linux 		  --target=x86_64-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking --with-statduser=rpcuser                 --enable-mountconfig                 --enable-libmount-mount                 --enable-uuid                 --with-statdpath=/var/lib/nfs/statd                 --with-pluginpath=/usr/lib/libnfsidmap                 --with-rpcgen=/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/rpcgen                 --disable-static  --disable-blkmapd --disable-gss --disable-svcgss --enable-ipv6 --disable-nfsdctl --disable-nfsv4 --di
+ sable-nfsdcltrack --with-systemd=/usr/lib/systemd/system
+| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/endian-little
+| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/common-linux
+| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/common-glibc
+| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/x86_64-linux
+| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/common
+| checking build system type... x86_64-pc-linux-gnu
+| checking host system type... x86_64-poky-linux-gnu
+| checking for a BSD-compatible install... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c
+| checking whether sleep supports fractional seconds... yes
+| checking filesystem timestamp resolution... 0.01
+| checking whether build environment is sane... yes
+| checking for x86_64-poky-linux-strip... x86_64-poky-linux-strip
+| checking for a race-free mkdir -p... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p
+| checking for gawk... gawk
+| checking whether make sets $(MAKE)... yes
+| checking whether make supports nested variables... yes
+| checking xargs -n works... yes
+| checking whether UID '6000' is supported by ustar format... yes
+| checking whether GID '6000' is supported by ustar format... yes
+| checking how to create a ustar tar archive... gnutar
+| checking whether to enable maintainer-specific portions of Makefiles... no
+| checking whether make supports the include directive... yes (GNU style)
+| checking for x86_64-poky-linux-gcc... x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot
+| checking whether the C compiler works... yes
+| checking for C compiler default output file name... a.out
+| checking for suffix of executables...
+| checking whether we are cross compiling... yes
+| checking for suffix of object files... o
+| checking whether the compiler supports GNU C... yes
+| checking whether x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot accepts -g... yes
+| checking for x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot option to enable C23 features... none needed
+| checking whether x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot understands -c and -o together... yes
+| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot... none
+| checking for stdio.h... yes
+| checking for stdlib.h... yes
+| checking for string.h... yes
+| checking for inttypes.h... yes
+| checking for stdint.h... yes
+| checking for strings.h... yes
+| checking for sys/stat.h... yes
+| checking for sys/types.h... yes
+| checking for unistd.h... yes
+| checking for wchar.h... yes
+| checking for minix/config.h... no
+| checking for vfork.h... no
+| checking for sys/select.h... yes
+| checking for sys/socket.h... yes
+| checking whether it is safe to define __EXTENSIONS__... yes
+| checking whether _XOPEN_SOURCE should be defined... no
+| checking for x86_64-poky-linux-pkg-config... no
+| checking for pkg-config... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/recipe-sysroot-native/usr/bin/pkg-config
+| configure: WARNING: using cross tools not prefixed with host triplet
+| checking pkg-config is at least version 0.9.0... yes
+| checking for mount... yes
+| checking for libnl-3.0 >= 3.1... no
+| configure: error: Package requirements (libnl-3.0 >= 3.1) were not met:
+| 
+| Package 'libnl-3.0' not found
+| 
+| Consider adjusting the PKG_CONFIG_PATH environment variable if you
+| installed software in a non-standard prefix.
+| 
+| Alternatively, you may set the environment variables LIBNL3_CFLAGS
+| and LIBNL3_LIBS to avoid the need to call pkg-config.
+| See the pkg-config man page for more details.
+| NOTE: The following config.log files may provide further information.
+| NOTE: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/sources/nfs-utils-2.9.1/config.log
+| ERROR: configure failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/run.do_configure.3474579:284 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/run.do_configure.3474579, line 284
+| 	#2: oe_runconf, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/run.do_configure.3474579, line 260
+| 	#3: autotools_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/run.do_configure.3474579, line 233
+| 	#4: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/run.do_configure.3474579, line 154
+| 	#5: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/run.do_configure.3474579, line 288
+NOTE: recipe nfs-utils-2.9.1-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2652 tasks of which 2642 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260501065022.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260501065238.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260501065022.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260501065238.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/neard/0.20/temp/log.do_configure.3467073
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/log.do_configure.3474579
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: neard-0.20-r0 do_configure: QA Issue: neard: configure was passed unrecognised options: --with-systemduserunitdir [unknown-configure-option]
-ERROR: neard-0.20-r0 do_configure: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/neard/0.20/temp/log.do_configure.3467073
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure) failed with exit code '1'
+ERROR: nfs-utils-2.9.1-r0 do_configure: configure failed
+ERROR: nfs-utils-2.9.1-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/run.do_configure.3474579' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/nfs-utils/2.9.1/temp/log.do_configure.3474579
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb:do_configure) failed with exit code '1'
 
---===============6473034205994758084==
+--===============5110575816921294665==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-neard-upgrade-0.19-0.20.patch"
+Content-Disposition: attachment;
+ filename="0001-nfs-utils-upgrade-2.8.7-2.9.1.patch"
 
-RnJvbSAxYTg4ZjExYTAzNjE1MTRlMTBmODAxOWJlZWQzZGMyODJhZDFmYTViIE1vbiBTZXAgMTcg
+RnJvbSBlZWM5ZWE1YWZhNzc0MTdkNTZhZTA2YzYwZTBhY2ZiN2E1N2ViYTJiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAwNjo1MDo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5l
-YXJkOiB1cGdyYWRlIDAuMTkgLT4gMC4yMAoKLS0tCiAuLi5BZGQtaGVhZGVyLWRlcGVuZGVuY3kt
-dG8tbmNpYXR0YWNoLm8ucGF0Y2ggfCAgOSArKy0tLS0KIC4uLi9NYWtlZmlsZS5hbS1kby1ub3Qt
-c2hpcC12ZXJzaW9uLmgucGF0Y2ggICB8ICA5ICsrLS0tLQogLi4uL01ha2VmaWxlLmFtLWZpeC1w
-YXJhbGxlbC1pc3N1ZS5wYXRjaCAgICAgIHwgMzAgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL25l
-YXJkL3tuZWFyZF8wLjE5LmJiID0+IG5lYXJkXzAuMjAuYmJ9ICAgIHwgIDUgKystLQogNCBmaWxl
-cyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDQ1IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvTWFrZWZpbGUuYW0t
-Zml4LXBhcmFsbGVsLWlzc3VlLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9uZWFyZC97bmVhcmRfMC4xOS5iYiA9PiBuZWFyZF8wLjIwLmJifSAoOTMlKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvMDAwMS1BZGQtaGVhZGVy
-LWRlcGVuZGVuY3ktdG8tbmNpYXR0YWNoLm8ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L25lYXJkL25lYXJkLzAwMDEtQWRkLWhlYWRlci1kZXBlbmRlbmN5LXRvLW5jaWF0dGFjaC5v
-LnBhdGNoCmluZGV4IGQ4ZThhNWU1ZGEuLjllMzY2NjkzZTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvMDAwMS1BZGQtaGVhZGVyLWRlcGVuZGVuY3kt
-dG8tbmNpYXR0YWNoLm8ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFy
-ZC9uZWFyZC8wMDAxLUFkZC1oZWFkZXItZGVwZW5kZW5jeS10by1uY2lhdHRhY2guby5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gYWZmYWEyMDIxYTU0YzMwMzUzZTRlMWZlZTA5YzEzYTRkZTIx
-OTZiZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZGUyNTFjZGZlNjIxNDBkNmYzZTY4
-OGRkYzdhZTVkZmYyZTcwOWVjZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEp1c3Np
-IEt1a2tvbmVuIDxqdXNzaS5rdWtrb25lbkBpbnRlbC5jb20+CiBEYXRlOiBGcmksIDE3IE1hciAy
-MDE3IDE0OjI0OjI5ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFkZCBoZWFkZXIgZGVwZW5kZW5j
-eSB0byBuY2lhdHRhY2gubwpAQCAtMTksMTAgKzE5LDEwIEBAIFVwc3RyZWFtLVN0YXR1czogU3Vi
-bWl0dGVkIFttYWlsaW5nbGlzdF0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKIAog
-ZGlmZiAtLWdpdCBhL01ha2VmaWxlLmFtIGIvTWFrZWZpbGUuYW0KLWluZGV4IGZhNTUyZWUuLmFj
-ZWY2YmEgMTAwNjQ0CitpbmRleCBkODY1ZTg0Li4xYzgxZDU4IDEwMDY0NAogLS0tIGEvTWFrZWZp
-bGUuYW0KICsrKyBiL01ha2VmaWxlLmFtCi1AQCAtMjUzLDYgKzI1Myw3IEBAIHNlL2J1aWx0aW4u
-aDogc3JjL2dlbmJ1aWx0aW4gJChidWlsdGluX3NlX3NvdXJjZXMpCitAQCAtMjU4LDYgKzI1OCw3
-IEBAIHNlL2J1aWx0aW4uaDogc3JjL2dlbmJ1aWx0aW4gJChidWlsdGluX3NlX3NvdXJjZXMpCiAg
-CiAgJChzcmNfbmVhcmRfT0JKRUNUUykgXAogICQodG9vbHNfbmZjdG9vbF9uZmN0b29sX09CSkVD
-VFMpIFwKQEAgLTMwLDYgKzMwLDMgQEAgaW5kZXggZmE1NTJlZS4uYWNlZjZiYSAxMDA2NDQKICAk
-KHBsdWdpbl9vYmplY3RzKSBcCiAgJChzZV9zZWVsZF9PQkpFQ1RTKSBcCiAgJCh1bml0X3Rlc3Rf
-bmRlZl9wYXJzZV9PQkpFQ1RTKSBcCi0tLSAKLTIuMTEuMAotCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkL01ha2VmaWxlLmFtLWRvLW5vdC1zaGlwLXZl
-cnNpb24uaC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvTWFr
-ZWZpbGUuYW0tZG8tbm90LXNoaXAtdmVyc2lvbi5oLnBhdGNoCmluZGV4IDE2ODc1ZTA1NDMuLmI2
-MDYxMDNjNWYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVh
-cmQvTWFrZWZpbGUuYW0tZG8tbm90LXNoaXAtdmVyc2lvbi5oLnBhdGNoCisrKyBiL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvTWFrZWZpbGUuYW0tZG8tbm90LXNoaXAtdmVy
-c2lvbi5oLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZmQzMmQ2OGNmYzlmMWUzMWRhYjg4
-ZTA3NDQ2ZDFjMDJiYzgwYjVlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAyNTg0ZTIx
-Y2I0NjM0NmEyMmUxYmFkNjZjOWMxZjc3ZWY4ODY1YWVhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiBEYXRlOiBU
-aHUsIDEyIEZlYiAyMDE1IDAwOjM5OjI5IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2VmaWxl
-LmFtOiBkbyBub3Qgc2hpcCB2ZXJzaW9uLmgKQEAgLTEwLDExICsxMCwxMSBAQCBVcHN0cmVhbS1T
-dGF0dXM6IFBlbmRpbmcKIAogU2lnbmVkLW9mZi1ieTogUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5n
-QHdpbmRyaXZlci5jb20+CiAtLS0KLSBNYWtlZmlsZS5hbSB8ICAgIDQgKystLQorIE1ha2VmaWxl
-LmFtIHwgNCArKy0tCiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
-bnMoLSkKIAogZGlmZiAtLWdpdCBhL01ha2VmaWxlLmFtIGIvTWFrZWZpbGUuYW0KLWluZGV4IDMz
-MzQ3OTAuLjY5Y2Q1OGYgMTAwNjQ0CitpbmRleCA1OTJmYjdjLi5kODY1ZTg0IDEwMDY0NAogLS0t
-IGEvTWFrZWZpbGUuYW0KICsrKyBiL01ha2VmaWxlLmFtCiBAQCAtMTAsMTEgKzEwLDExIEBAIHBr
-Z2luY2x1ZGVfSEVBREVSUyA9IGluY2x1ZGUvdHlwZXMuaCBpbmNsdWRlL2xvZy5oIGluY2x1ZGUv
-cGx1Z2luLmggXApAQCAtMzEsNiArMzEsMyBAQCBpbmRleCAzMzM0NzkwLi42OWNkNThmIDEwMDY0
-NAogIAkJCSQobm9pbnN0X0hFQURFUlMpLCBpbmNsdWRlL25lYXIvJChub3RkaXIgJChmaWxlKSkp
-CiAgCiAgZ2RidXNfc291cmNlcyA9IGdkYnVzL2dkYnVzLmggZ2RidXMvbWFpbmxvb3AuYyBnZGJ1
-cy93YXRjaC5jIFwKLS0tIAotMS43LjkuNQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29u
-bmVjdGl2aXR5L25lYXJkL25lYXJkL01ha2VmaWxlLmFtLWZpeC1wYXJhbGxlbC1pc3N1ZS5wYXRj
-aCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvTWFrZWZpbGUuYW0tZml4
-LXBhcmFsbGVsLWlzc3VlLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBhZWIz
-M2E1YmRjLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQv
-bmVhcmQvTWFrZWZpbGUuYW0tZml4LXBhcmFsbGVsLWlzc3VlLnBhdGNoCisrKyAvZGV2L251bGwK
-QEAgLTEsMzAgKzAsMCBAQAotRnJvbSA0M2FjYzU2ZDU1MDZjN2UzMThmNzE3ZmIzNjM0YmMxNmUz
-NDM4OTEzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogUm9iZXJ0IFlhbmcgPGxpZXpo
-aS55YW5nQHdpbmRyaXZlci5jb20+Ci1EYXRlOiBUaHUsIDE1IEphbiAyMDE1IDE4OjEyOjA3IC0w
-ODAwCi1TdWJqZWN0OiBbUEFUQ0hdIE1ha2VmaWxlLmFtOiBmaXggcGFyYWxsZWwgaXNzdWUKLQot
-VGhlcmUgbWlnaHQgYmUgbm8gc3JjIGRpciBpZiBzcmMvYnVpbHRpbi5oIHJ1bnMgZWFybGllciwg
-Y3JlYXRlIGl0IHRvCi1maXggdGhlIHJhY2UgaXNzdWU6Ci0KLXNyYy9nZW5idWlsdGluIG5mY3R5
-cGUxIG5mY3R5cGUyIG5mY3R5cGUzIG5mY3R5cGU0IHAycCA+IHNyYy9idWlsdGluLmgKLS9iaW4v
-c2g6IHNyYy9idWlsdGluLmg6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKLQotVXBzdHJlYW0t
-U3RhdHVzOiBCYWNrcG9ydCBbZDM5ZjhjMGVlZTY1OTc0M2I0NDI1ZDM5NWMyZjdhYjE5NDllOWM3
-MV0KLQotU2lnbmVkLW9mZi1ieTogUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5j
-b20+Ci0tLS0KLSBNYWtlZmlsZS5hbSB8ICAgIDEgKwotIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKQotCi1JbmRleDogbmVhcmQtMC4xNi9NYWtlZmlsZS5hbQotPT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0t
-IG5lYXJkLTAuMTYub3JpZy9NYWtlZmlsZS5hbQotKysrIG5lYXJkLTAuMTYvTWFrZWZpbGUuYW0K
-LUBAIC0yNDQsNiArMjQ0LDcgQEAgU0VEX1BST0NFU1MgPSAkKEFNX1ZfR0VOKSQoTUtESVJfUCkg
-JChkaQotIHNyYy9wbHVnaW4uJChPQkpFWFQpOiBzcmMvYnVpbHRpbi5oCi0gCi0gc3JjL2J1aWx0
-aW4uaDogc3JjL2dlbmJ1aWx0aW4gJChidWlsdGluX3NvdXJjZXMpCi0rCSQoQU1fVl9hdCkkKE1L
-RElSX1ApIHNyYwotIAkkKEFNX1ZfR0VOKSQoc3JjZGlyKS9zcmMvZ2VuYnVpbHRpbiAkKGJ1aWx0
-aW5fbW9kdWxlcykgPiAkQAotIAotIHNlL3BsdWdpbi4kKE9CSkVYVCk6IHNlL2J1aWx0aW4uaApk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFyZC9uZWFyZF8wLjE5LmJi
-IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFyZC9uZWFyZF8wLjIwLmJiCnNpbWlsYXJp
-dHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQv
-bmVhcmRfMC4xOS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFyZC9u
-ZWFyZF8wLjIwLmJiCmluZGV4IGMxMTQ5ZTc2MzEuLmE1ODNkYTgyN2YgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmRfMC4xOS5iYgorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkXzAuMjAuYmIKQEAgLTEwLDEyICsxMCwxMSBA
-QCBERVBFTkRTID0gImRidXMgZ2xpYi0yLjAgbGlibmwgYXV0b2NvbmYtYXJjaGl2ZS1uYXRpdmUi
-CiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9saW51eC1uZmMvbmVhcmQ7cHJvdG9jb2w9
-aHR0cHM7YnJhbmNoPW1hc3RlciBcCiAgICAgICAgICAgIGZpbGU6Ly9uZWFyZC5pbiBcCi0gICAg
-ICAgICAgIGZpbGU6Ly9NYWtlZmlsZS5hbS1maXgtcGFyYWxsZWwtaXNzdWUucGF0Y2ggXAogICAg
-ICAgICAgICBmaWxlOi8vTWFrZWZpbGUuYW0tZG8tbm90LXNoaXAtdmVyc2lvbi5oLnBhdGNoIFwK
-ICAgICAgICAgICAgZmlsZTovLzAwMDEtQWRkLWhlYWRlci1kZXBlbmRlbmN5LXRvLW5jaWF0dGFj
-aC5vLnBhdGNoIFwKLSAgICAgICAgICAiCisgICAgICAgICAgICIKIAotU1JDUkVWID0gImExZGM4
-YTc1Y2JhOTk5NzI4ZTE1NGEwZjgxMWFiOWRkNTBjODA5ZjciCitTUkNSRVYgPSAiNzExODY2OGJj
-OTJmZTE1YThmZjVlNDA2N2FiZDVlMTYyMjUyNGYwMyIKIAogaW5oZXJpdCBhdXRvdG9vbHMgcGtn
-Y29uZmlnIHN5c3RlbWQgdXBkYXRlLXJjLmQKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAwNjo1Mjo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5m
+cy11dGlsczogdXBncmFkZSAyLjguNyAtPiAyLjkuMQoKLS0tCiAuLi4vbmZzLXV0aWxzLzAwMDQt
+VXNlLW5vZ3JvdXAtZm9yLW5vYm9keS1ncm91cC5wYXRjaCAgICAgICB8IDYgKysrLS0tCiAuLi4v
+bmZzLXV0aWxzLzAwMDUtZmluZC1PRS1wcm92aWRlZC1LZXJiZXJvcy5wYXRjaCAgICAgICAgICB8
+IDQgKystLQogLi4uL25mcy11dGlscy97bmZzLXV0aWxzXzIuOC43LmJiID0+IG5mcy11dGlsc18y
+LjkuMS5iYn0gICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNiBk
+ZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy97
+bmZzLXV0aWxzXzIuOC43LmJiID0+IG5mcy11dGlsc18yLjkuMS5iYn0gKDk4JSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwNC1V
+c2Utbm9ncm91cC1mb3Itbm9ib2R5LWdyb3VwLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
+dml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzLzAwMDQtVXNlLW5vZ3JvdXAtZm9yLW5vYm9keS1ncm91
+cC5wYXRjaAppbmRleCBiYmY0NGQ1OTc3Li5iYmI3ZWU0YmZkIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwNC1Vc2Utbm9ncm91cC1m
+b3Itbm9ib2R5LWdyb3VwLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZz
+LXV0aWxzL25mcy11dGlscy8wMDA0LVVzZS1ub2dyb3VwLWZvci1ub2JvZHktZ3JvdXAucGF0Y2gK
+QEAgLTEsNCArMSw0IEBACi1Gcm9tIDAwMTkxM2M1ZWIwYWFkOTMzYTkzZWU5NjYyNTI5MDVjZDQ2
+ZDc3NmIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDI4Y2ZkOGNkNmE2MzE0NjNiYzJl
+NzcwZTViNWE1Nzk2Y2Q3ODA3MDggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBEYW5p
+ZWwgTWNHcmVnb3IgPGRhbmllbC5tY2dyZWdvckB2ZWNpbWEuY29tPgogRGF0ZTogVHVlLCA2IEp1
+biAyMDIzIDE2OjA3OjUzIC0wNjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFVzZSAibm9ncm91cCIgZm9y
+IG5vYm9keSBncm91cApAQCAtMTEsNyArMTEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgTWNH
+cmVnb3IgPGRhbmllbC5tY2dyZWdvckB2ZWNpbWEuY29tPgogIDIgZmlsZXMgY2hhbmdlZCwgMiBp
+bnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvc3VwcG9ydC9uZnNp
+ZG1hcC9pZG1hcGQuY29uZiBiL3N1cHBvcnQvbmZzaWRtYXAvaWRtYXBkLmNvbmYKLWluZGV4IDJh
+MmY3OWExLi5lNmYzNzI0ZiAxMDA2NDQKK2luZGV4IDJhMmY3OWEuLmU2ZjM3MjQgMTAwNjQ0CiAt
+LS0gYS9zdXBwb3J0L25mc2lkbWFwL2lkbWFwZC5jb25mCiArKysgYi9zdXBwb3J0L25mc2lkbWFw
+L2lkbWFwZC5jb25mCiBAQCAtNDEsNyArNDEsNyBAQApAQCAtMjQsNyArMjQsNyBAQCBpbmRleCAy
+YTJmNzlhMS4uZTZmMzcyNGYgMTAwNjQ0CiAgW1RyYW5zbGF0aW9uXQogIAogZGlmZiAtLWdpdCBh
+L3V0aWxzL2lkbWFwZC9pZG1hcGQuYyBiL3V0aWxzL2lkbWFwZC9pZG1hcGQuYwotaW5kZXggY2Q5
+YTk2NWYuLjNiZTgwNWU5IDEwMDY0NAoraW5kZXggNTIzMWY1Ni4uZTFhYThhNSAxMDA2NDQKIC0t
+LSBhL3V0aWxzL2lkbWFwZC9pZG1hcGQuYwogKysrIGIvdXRpbHMvaWRtYXBkL2lkbWFwZC5jCiBA
+QCAtODksNyArODksNyBAQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9u
+ZnMtdXRpbHMvbmZzLXV0aWxzLzAwMDUtZmluZC1PRS1wcm92aWRlZC1LZXJiZXJvcy5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlscy8wMDA1LWZpbmQt
+T0UtcHJvdmlkZWQtS2VyYmVyb3MucGF0Y2gKaW5kZXggMzI0MWU4ZTg1OS4uMGJmM2UyYTRiYSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxz
+LzAwMDUtZmluZC1PRS1wcm92aWRlZC1LZXJiZXJvcy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwNS1maW5kLU9FLXByb3ZpZGVkLUtl
+cmJlcm9zLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhMmFmMjY2ZjAxMzcyMmE2NGM1ZDA0
+ZTBmZTA5N2NkNzExMzkzYTUzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiMGExNGFk
+N2I4NWE0Mzc0YTlkZTY4ODc2ZDAyY2NjMGU5YWQ3ODAwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogRGFuaWVsIE1jR3JlZ29yIDxkYW5pZWwubWNncmVnb3JAdmVjaW1hLmNvbT4KIERh
+dGU6IFdlZCwgOCBOb3YgMjAyMyAxNjoyNDoyMCAtMDYwMAogU3ViamVjdDogW1BBVENIXSBmaW5k
+IE9FIHByb3ZpZGVkIEtlcmJlcm9zCkBAIC0xMCw3ICsxMCw3IEBAIFNpZ25lZC1vZmYtYnk6IERh
+bmllbCBNY0dyZWdvciA8ZGFuaWVsLm1jZ3JlZ29yQHZlY2ltYS5jb20+CiAgMSBmaWxlIGNoYW5n
+ZWQsIDQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL2FjbG9j
+YWwva2VyYmVyb3M1Lm00IGIvYWNsb2NhbC9rZXJiZXJvczUubTQKLWluZGV4IGY5NmYwZmQ0Li5h
+ZDg1ZmRmMiAxMDA2NDQKK2luZGV4IGY5NmYwZmQuLmFkODVmZGYgMTAwNjQ0CiAtLS0gYS9hY2xv
+Y2FsL2tlcmJlcm9zNS5tNAogKysrIGIvYWNsb2NhbC9rZXJiZXJvczUubTQKIEBAIC0yMiw4ICsy
+Miw4IEBAIEFDX0RFRlVOKFtBQ19LRVJCRVJPU19WNV0sWwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzXzIuOC43LmJiIGIvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzXzIuOS4xLmJiCnNpbWlsYXJpdHkg
+aW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxz
+L25mcy11dGlsc18yLjguNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9u
+ZnMtdXRpbHMvbmZzLXV0aWxzXzIuOS4xLmJiCmluZGV4IDc2OTNhODg2ODIuLjJhM2YxZThmNWEg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGls
+c18yLjguNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMt
+dXRpbHNfMi45LjEuYmIKQEAgLTI1LDcgKzI1LDcgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19N
+SVJST1J9L2xpbnV4L3V0aWxzL25mcy11dGlscy8ke1BWfS9uZnMtdXRpbHMtJHtQVn0udGFyLngK
+ICAgICAgICAgICAgZmlsZTovLzAwMDUtZmluZC1PRS1wcm92aWRlZC1LZXJiZXJvcy5wYXRjaCBc
+CiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU5ZDBmMWUxN2IxOGVmYWE2
+MGVhM2NjZjg5YTljYWQzMjE3ZjhkM2IyM2MxOGQyZmUzNGIyNWM4OTY5ZDYwYWUiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiMzAyODQ2MzQzYmY1MDlmOGY4ODRjMjNiZGJkMGZlODUzYjdmN2NiYjY1
+NzIwNjBhOTA4MjI3OWQxM2IyMWEyYyIKIAogIyBPbmx5IGtlcm5lbC1tb2R1bGUtbmZzZCBpcyBy
+ZXF1aXJlZCBoZXJlIChidXQgY2FuIGJlIGJ1aWx0LWluKSAgLSB0aGUgbmZzZCBtb2R1bGUgd2ls
+bAogIyBwdWxsIGluIHRoZSByZW1haW5kZXIgb2YgdGhlIGRlcGVuZGVuY2llcy4KLS0gCjIuNDcu
+MQoK
 
---===============6473034205994758084==--
+--===============5110575816921294665==--
 
