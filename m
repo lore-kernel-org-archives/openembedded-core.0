@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AE64CD37B1
-	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:42 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15604.1777645529436783410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3759ACD343C
+	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:54 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15723.1777645549488820244
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2026 07:25:40 -0700
+ Fri, 01 May 2026 07:25:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UAYINz4c;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=xmzcqKrB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019de3ee53f8-b58926cc-a780-4b3b-b3e5-e45acb49a5bf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QypQrcOu;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=d5PTOJfS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019de3ee7556-c72620d0-180b-43bc-b335-9e5be4345a72-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777645540;
+	t=1777645549;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Vv3ggBjaX9ei/3U+MJssPkrTJyWSoePg6b4WNkV/82w=;
-	b=UAYINz4cpYDHk6J0c1C+RKl2uKar51Jd7xSlSbG30ixZV8V/7t1MCIjiA5i3CHh2
-	8YRDwJYJKG2NqTR9Ik7mUik7CDwp/vHVzyjvp2F1qwedyXMT58b9QJaRMIddeVmhcT2
-	locPl1QWfJPJGLk61t7NtvP7cW35LCCcV/QPkG2I=
+	bh=grQIHzusM4tnk8dd9AXmiOP2sltIQQDLCFcozI4ZMSA=;
+	b=QypQrcOuUgNid1smZsg/Qynt/itXr8qp8vXyhdZcCyddhgocXELaMEL0HFi0fzQ1
+	dFO0VOKi+Sfc21YnyHxDycbZ8+nFDmf2/4b6vlA66vHuHYg9CkueHzvs/XjTwLeYIp8
+	/LBK1jlIVLtZjMOItKomnzHig7k++vbtv+WT6ITE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645540;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645549;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Vv3ggBjaX9ei/3U+MJssPkrTJyWSoePg6b4WNkV/82w=;
-	b=xmzcqKrBZNE2SSDFUofWb3Irhn5H+7MGcKs+v/5H3qZAlEA8dmLvvfcjEiU6kI7S
-	mkEl+qfwrJRs3LCOyf7uaR9U91HB4mEVA7ZNtUviADEISZjgVHUbI15NGIHJaA/E+Ue
-	JuQBi3QVNobG6fnn4Elh0dNWiww4mr31sPV7zf2A=
-Content-Type: multipart/mixed; boundary="===============6338752995387536394=="
+	bh=grQIHzusM4tnk8dd9AXmiOP2sltIQQDLCFcozI4ZMSA=;
+	b=d5PTOJfSvQtAoWHmlSBoNfRpGMOBpKGxfkclE+nWpyoalbE52/CQADraOkv3QfmZ
+	gmNchF+hYwyxqR8X4x+oZWRYRhski808rlc22AD6uFtn3qo+tuaoKFJBuKQpUP2ZGhR
+	CKPfCcvcuMOp+XCZnFJX45Y5czjslv4DfFAb47vM=
+Content-Type: multipart/mixed; boundary="===============4495545267384942005=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-lxml: upgrading to 6.1.0 SUCCEEDED
-Message-ID: <0101019de3ee53f8-b58926cc-a780-4b3b-b3e5-e45acb49a5bf-000000@us-west-2.amazonses.com>
-Date: Fri, 1 May 2026 14:25:40 +0000
+Subject: [AUH] gdk-pixbuf: upgrading to 2.44.6 SUCCEEDED
+Message-ID: <0101019de3ee7556-c72620d0-180b-43bc-b335-9e5be4345a72-000000@us-west-2.amazonses.com>
+Date: Fri, 1 May 2026 14:25:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.01-54.240.27.45
+X-SES-Outgoing: 2026.05.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236238
+ <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236267
 
---===============6338752995387536394==
+--===============4495545267384942005==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-lxml* to *6.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gdk-pixbuf* to *2.44.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-lxml-upgrade-6.0.4-6.1.0.patch
+    - apply the patch: git am 0001-gdk-pixbuf-upgrade-2.44.5-2.44.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,690 +72,449 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 966d29ceb648cc106b3ca1bfdfae57541d847e26 Mon Sep 17 00:00:00 2001
+From 55da7891d3d5cbe886a6cf10e1bd0bba9e309c1e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 May 2026 08:29:34 +0000
-Subject: [PATCH] python3-lxml: upgrade 6.0.4 -> 6.1.0
+Date: Fri, 1 May 2026 11:32:08 +0000
+Subject: [PATCH] gdk-pixbuf: upgrade 2.44.5 -> 2.44.6
 
 ---
- .../python/{python3-lxml_6.0.4.bb => python3-lxml_6.1.0.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-lxml_6.0.4.bb => python3-lxml_6.1.0.bb} (95%)
+ ....build-allow-a-subset-of-tests-in-cross-compile.patch | 9 +++------
+ .../gdk-pixbuf/gdk-pixbuf/fatal-loader.patch             | 4 ++--
+ .../{gdk-pixbuf_2.44.5.bb => gdk-pixbuf_2.44.6.bb}       | 2 +-
+ 3 files changed, 6 insertions(+), 9 deletions(-)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.44.5.bb => gdk-pixbuf_2.44.6.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-lxml_6.0.4.bb b/meta/recipes-devtools/python/python3-lxml_6.1.0.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-lxml_6.0.4.bb
-rename to meta/recipes-devtools/python/python3-lxml_6.1.0.bb
-index 1257534c0f..b7bbf5c3d6 100644
---- a/meta/recipes-devtools/python/python3-lxml_6.0.4.bb
-+++ b/meta/recipes-devtools/python/python3-lxml_6.1.0.bb
-@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
+index 45b9aa60c4..2b41d1cca9 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
+@@ -1,4 +1,4 @@
+-From 3b6aab24f6844b7d5b3e166bc910bffbcee1f6f5 Mon Sep 17 00:00:00 2001
++From 38bc595a5c365074b924ed2706a402679b3f6df4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Thu, 26 Jan 2023 20:29:46 +0100
+ Subject: [PATCH] meson.build: allow (a subset of) tests in cross compile
+@@ -22,10 +22,10 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
+  2 files changed, 9 insertions(+), 7 deletions(-)
  
- DEPENDS += "libxml2 libxslt"
+ diff --git a/meson.build b/meson.build
+-index f478326..464ae1d 100644
++index b88ef70..b181054 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -428,10 +428,10 @@ subdir('gdk-pixbuf')
++@@ -434,10 +434,10 @@ subdir('gdk-pixbuf')
+  # i18n
+  subdir('po')
+  
+@@ -67,6 +67,3 @@ index 9b96fdc..9c3ed7d 100644
+  
+  foreach test_name, test_data: installed_tests
+    test_sources = [ test_name + '.c', 'test-common.c' ]
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/fatal-loader.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/fatal-loader.patch
+index 3b4bf62861..2dd790115d 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/fatal-loader.patch
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/fatal-loader.patch
+@@ -1,4 +1,4 @@
+-From f78ab4edaee5f62663a9a4bcfa56e5c524da4474 Mon Sep 17 00:00:00 2001
++From dc1096f95914b7faf786e3c2682aa0b453605a3f Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 1 Apr 2014 17:23:36 +0100
+ Subject: [PATCH] gdk-pixbuf: add an option so that loader errors are fatal
+@@ -13,7 +13,7 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  1 file changed, 15 insertions(+), 4 deletions(-)
  
--SRC_URI[sha256sum] = "4137516be2a90775f99d8ef80ec0283f8d78b5d8bd4630ff20163b72e7e9abf2"
-+SRC_URI[sha256sum] = "bfd57d8008c4965709a919c3e9a98f76c2c7cb319086b3d26858250620023b13"
+ diff --git a/gdk-pixbuf/queryloaders.c b/gdk-pixbuf/queryloaders.c
+-index baa9a5c..9b6fa89 100644
++index 5228c6f..46ffa35 100644
+ --- a/gdk-pixbuf/queryloaders.c
+ +++ b/gdk-pixbuf/queryloaders.c
+ @@ -216,7 +216,7 @@ write_loader_info (GString *contents, const char *path, GdkPixbufFormat *info)
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.5.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.6.bb
+similarity index 97%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.5.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.6.bb
+index 9ed9a272e0..d9c0d0ab65 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.5.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.6.bb
+@@ -14,7 +14,7 @@ SECTION = "libs"
  
- SRC_URI += "${PYPI_SRC_URI}"
- inherit pkgconfig pypi setuptools3
+ DEPENDS = "glib-2.0 shared-mime-info"
+ 
+-SRC_URI[archive.sha256sum] = "69b93e09139b80c0ee661503d60deb5a5874a31772b5184b9cd5462a4100ab68"
++SRC_URI[archive.sha256sum] = "140c2d0b899fcf853ee92b26373c9dc228dbcde0820a4246693f4328a27466fa"
+ 
+ inherit gettext gnomebase pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gi-docgen lib_package manpages
+ 
 -- 
 2.47.1
 
 
---===============6338752995387536394==
+--===============4495545267384942005==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: FILELIST: directory renamed /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info -> /usr/lib/python3.14/site-packages/lxml-6.1.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/lxml-6.1.0.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-lxml (sysroot):
-  /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info moved to /usr/lib/python3.14/site-packages/lxml-6.1.0.dist-info
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf: FILELIST: removed "/usr/lib/libgdk_pixbuf-2.0.so.0.4400.5", added "/usr/lib/libgdk_pixbuf-2.0.so.0.4400.6"
+Changes to packages/x86-64-v3-poky-linux/gdk-pixbuf (sysroot):
+  /usr/lib/libgdk_pixbuf-2.0.so.0 changed symlink target from libgdk_pixbuf-2.0.so.0.4400.5 to libgdk_pixbuf-2.0.so.0.4400.6
+  /usr/lib/libgdk_pixbuf-2.0.so.0.4400.5 moved to /usr/lib/libgdk_pixbuf-2.0.so.0.4400.6
+Changes to packages/x86_64-linux/gdk-pixbuf-native (sysroot):
+  /usr/lib/libgdk_pixbuf-2.0.so.0 changed symlink target from libgdk_pixbuf-2.0.so.0.4400.5 to libgdk_pixbuf-2.0.so.0.4400.6
+  /usr/lib/libgdk_pixbuf-2.0.so.0.4400.5 moved to /usr/lib/libgdk_pixbuf-2.0.so.0.4400.6
 
---===============6338752995387536394==
+--===============4495545267384942005==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-lxml-upgrade-6.0.4-6.1.0.patch"
+ filename="0001-gdk-pixbuf-upgrade-2.44.5-2.44.6.patch"
 
-RnJvbSA5NjZkMjljZWI2NDhjYzEwNmIzY2ExYmZkZmFlNTc1NDFkODQ3ZTI2IE1vbiBTZXAgMTcg
+RnJvbSA1NWRhNzg5MWQzZDVjYmU4ODZhNmNmMTBlMWJkMGJiYTllMzA5YzFlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAwODoyOTozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtbHhtbDogdXBncmFkZSA2LjAuNCAtPiA2LjEuMAoKLS0tCiAuLi4vcHl0aG9uL3tweXRo
-b24zLWx4bWxfNi4wLjQuYmIgPT4gcHl0aG9uMy1seG1sXzYuMS4wLmJifSAgICAgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWx4bWxfNi4wLjQuYmIgPT4gcHl0aG9u
-My1seG1sXzYuMS4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1seG1sXzYuMC40LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWx4bWxfNi4xLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWx4bWxfNi4wLjQuYmIKcmVu
-YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1seG1sXzYuMS4wLmJi
-CmluZGV4IDEyNTc1MzRjMGYuLmI3YmJmNWMzZDYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1seG1sXzYuMC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1seG1sXzYuMS4wLmJiCkBAIC0xOCw3ICsxOCw3IEBAIExJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0VTLnR4dDttZDU9ZTRjMDQ1ZWJhZDk1OGVh
-ZDRiNDgwMDhmNzA4Mzg0MDMgXAogCiBERVBFTkRTICs9ICJsaWJ4bWwyIGxpYnhzbHQiCiAKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICI0MTM3NTE2YmUyYTkwNzc1Zjk5ZDhlZjgwZWMwMjgzZjhkNzhi
-NWQ4YmQ0NjMwZmYyMDE2M2I3MmU3ZTlhYmYyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImJmZDU3
-ZDgwMDhjNDk2NTcwOWE5MTljM2U5YTk4Zjc2YzJjN2NiMzE5MDg2YjNkMjY4NTgyNTA2MjAwMjNi
-MTMiCiAKIFNSQ19VUkkgKz0gIiR7UFlQSV9TUkNfVVJJfSIKIGluaGVyaXQgcGtnY29uZmlnIHB5
-cGkgc2V0dXB0b29sczMKLS0gCjIuNDcuMQoK
+CkRhdGU6IEZyaSwgMSBNYXkgMjAyNiAxMTozMjowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdk
+ay1waXhidWY6IHVwZ3JhZGUgMi40NC41IC0+IDIuNDQuNgoKLS0tCiAuLi4uYnVpbGQtYWxsb3ct
+YS1zdWJzZXQtb2YtdGVzdHMtaW4tY3Jvc3MtY29tcGlsZS5wYXRjaCB8IDkgKysrLS0tLS0tCiAu
+Li4vZ2RrLXBpeGJ1Zi9nZGstcGl4YnVmL2ZhdGFsLWxvYWRlci5wYXRjaCAgICAgICAgICAgICB8
+IDQgKystLQogLi4uL3tnZGstcGl4YnVmXzIuNDQuNS5iYiA9PiBnZGstcGl4YnVmXzIuNDQuNi5i
+Yn0gICAgICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgOSBkZWxl
+dGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ2RrLXBpeGJ1Zi97Z2RrLXBpeGJ1
+Zl8yLjQ0LjUuYmIgPT4gZ2RrLXBpeGJ1Zl8yLjQ0LjYuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWdub21lL2dkay1waXhidWYvZ2RrLXBpeGJ1Zi8wMDAxLW1lc29uLmJ1aWxk
+LWFsbG93LWEtc3Vic2V0LW9mLXRlc3RzLWluLWNyb3NzLWNvbXBpbGUucGF0Y2ggYi9tZXRhL3Jl
+Y2lwZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9nZGstcGl4YnVmLzAwMDEtbWVzb24uYnVpbGQtYWxsb3ct
+YS1zdWJzZXQtb2YtdGVzdHMtaW4tY3Jvc3MtY29tcGlsZS5wYXRjaAppbmRleCA0NWI5YWE2MGM0
+Li4yYjQxZDFjY2E5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9n
+ZGstcGl4YnVmLzAwMDEtbWVzb24uYnVpbGQtYWxsb3ctYS1zdWJzZXQtb2YtdGVzdHMtaW4tY3Jv
+c3MtY29tcGlsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9nZGst
+cGl4YnVmLzAwMDEtbWVzb24uYnVpbGQtYWxsb3ctYS1zdWJzZXQtb2YtdGVzdHMtaW4tY3Jvc3Mt
+Y29tcGlsZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2I2YWFiMjRmNjg0NGI3ZDViM2Ux
+NjZiYzkxMGJmZmJjZWUxZjZmNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMzhiYzU5
+NWE1YzM2NTA3NGI5MjRlZDI3MDZhNDAyNjc5YjNmNmRmNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBU
+aHUsIDI2IEphbiAyMDIzIDIwOjI5OjQ2ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uLmJ1
+aWxkOiBhbGxvdyAoYSBzdWJzZXQgb2YpIHRlc3RzIGluIGNyb3NzIGNvbXBpbGUKQEAgLTIyLDEw
+ICsyMiwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBDaGFuZ3FpbmcgTGkgPGNoYW5ncWluZy5saUB3aW5k
+cml2ZXIuY29tPgogIDIgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9u
+cygtKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5idWlsZAotaW5kZXggZjQ3
+ODMyNi4uNDY0YWUxZCAxMDA2NDQKK2luZGV4IGI4OGVmNzAuLmIxODEwNTQgMTAwNjQ0CiAtLS0g
+YS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKLUBAIC00MjgsMTAgKzQyOCwxMCBAQCBz
+dWJkaXIoJ2dkay1waXhidWYnKQorQEAgLTQzNCwxMCArNDM0LDEwIEBAIHN1YmRpcignZ2RrLXBp
+eGJ1ZicpCiAgIyBpMThuCiAgc3ViZGlyKCdwbycpCiAgCkBAIC02Nyw2ICs2NywzIEBAIGluZGV4
+IDliOTZmZGMuLjljM2VkN2QgMTAwNjQ0CiAgCiAgZm9yZWFjaCB0ZXN0X25hbWUsIHRlc3RfZGF0
+YTogaW5zdGFsbGVkX3Rlc3RzCiAgICB0ZXN0X3NvdXJjZXMgPSBbIHRlc3RfbmFtZSArICcuYycs
+ICd0ZXN0LWNvbW1vbi5jJyBdCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9nZGstcGl4YnVmL2ZhdGFsLWxvYWRlci5wYXRjaCBiL21ldGEv
+cmVjaXBlcy1nbm9tZS9nZGstcGl4YnVmL2dkay1waXhidWYvZmF0YWwtbG9hZGVyLnBhdGNoCmlu
+ZGV4IDNiNGJmNjI4NjEuLjJkZDc5MDExNWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9t
+ZS9nZGstcGl4YnVmL2dkay1waXhidWYvZmF0YWwtbG9hZGVyLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1nbm9tZS9nZGstcGl4YnVmL2dkay1waXhidWYvZmF0YWwtbG9hZGVyLnBhdGNoCkBAIC0x
+LDQgKzEsNCBAQAotRnJvbSBmNzhhYjRlZGFlZTVmNjI2NjNhOWE0YmNmYTU2ZTVjNTI0ZGE0NDc0
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkYzEwOTZmOTU5MTRiN2ZhZjc4NmUzYzI2
+ODJhYTBiNDUzNjA1YTNmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9zcyBCdXJ0
+b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IFR1ZSwgMSBBcHIgMjAxNCAxNzoyMzoz
+NiArMDEwMAogU3ViamVjdDogW1BBVENIXSBnZGstcGl4YnVmOiBhZGQgYW4gb3B0aW9uIHNvIHRo
+YXQgbG9hZGVyIGVycm9ycyBhcmUgZmF0YWwKQEAgLTEzLDcgKzEzLDcgQEAgU2lnbmVkLW9mZi1i
+eTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwg
+MTUgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL2dkay1waXhi
+dWYvcXVlcnlsb2FkZXJzLmMgYi9nZGstcGl4YnVmL3F1ZXJ5bG9hZGVycy5jCi1pbmRleCBiYWE5
+YTVjLi45YjZmYTg5IDEwMDY0NAoraW5kZXggNTIyOGM2Zi4uNDZmZmEzNSAxMDA2NDQKIC0tLSBh
+L2dkay1waXhidWYvcXVlcnlsb2FkZXJzLmMKICsrKyBiL2dkay1waXhidWYvcXVlcnlsb2FkZXJz
+LmMKIEBAIC0yMTYsNyArMjE2LDcgQEAgd3JpdGVfbG9hZGVyX2luZm8gKEdTdHJpbmcgKmNvbnRl
+bnRzLCBjb25zdCBjaGFyICpwYXRoLCBHZGtQaXhidWZGb3JtYXQgKmluZm8pCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9nZGstcGl4YnVmXzIuNDQuNS5iYiBiL21l
+dGEvcmVjaXBlcy1nbm9tZS9nZGstcGl4YnVmL2dkay1waXhidWZfMi40NC42LmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9nZGstcGl4YnVmL2dk
+ay1waXhidWZfMi40NC41LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvZ2RrLXBpeGJ1
+Zi9nZGstcGl4YnVmXzIuNDQuNi5iYgppbmRleCA5ZWQ5YTI3MmUwLi5kOWMwZDBhYjY1IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9nZGstcGl4YnVmXzIuNDQuNS5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9nZGstcGl4YnVmXzIuNDQuNi5i
+YgpAQCAtMTQsNyArMTQsNyBAQCBTRUNUSU9OID0gImxpYnMiCiAKIERFUEVORFMgPSAiZ2xpYi0y
+LjAgc2hhcmVkLW1pbWUtaW5mbyIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiNjli
+OTNlMDkxMzliODBjMGVlNjYxNTAzZDYwZGViNWE1ODc0YTMxNzcyYjUxODRiOWNkNTQ2MmE0MTAw
+YWI2OCIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjE0MGMyZDBiODk5ZmNmODUzZWU5
+MmIyNjM3M2M5ZGMyMjhkYmNkZTA4MjBhNDI0NjY5M2Y0MzI4YTI3NDY2ZmEiCiAKIGluaGVyaXQg
+Z2V0dGV4dCBnbm9tZWJhc2UgcGl4YnVmY2FjaGUgcHRlc3QtZ25vbWUgdXBzdHJlYW0tdmVyc2lv
+bi1pcy1ldmVuIGdvYmplY3QtaW50cm9zcGVjdGlvbiBnaS1kb2NnZW4gbGliX3BhY2thZ2UgbWFu
+cGFnZXMKIAotLSAKMi40Ny4xCgo=
 
---===============6338752995387536394==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1976 targets, 62 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-musleabi"
-MACHINE              = "qemuarm"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-c6fe37a3563c7526a5ef1155a59d7ddc9bc4bd5a"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-meta                 = "tmp-auh-upgrades:c6fe37a3563c7526a5ef1155a59d7ddc9bc4bd5a"
-meta-yocto-bsp       
-meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 458 Local 429 Mirrors 0 Missed 29 Current 282 (93% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 289 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 297 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 299 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 303 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_package_qa_setscene)
-NOTE: Running setscene task 307 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 381 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 385 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 394 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_package_qa_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe libxslt-1.1.45-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.15.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-3.14.4-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 396 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 397 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 398 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_create_recipe_spdx_setscene)
-NOTE: Running task 773 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_fetch)
-NOTE: Running task 774 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_recipe_qa)
-NOTE: recipe python3-3.14.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 399 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 400 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 414 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: recipe libxml2-2.15.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_fetch: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_recipe_qa: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-3.14.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-3.14.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-3.14.4-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 415 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 416 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.46.bb:do_packagedata_setscene)
-NOTE: Running setscene task 417 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 418 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 419 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 420 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 421 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 422 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.15.2-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 423 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 424 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libxml2/2.15.2/temp/log.do_packagedata_setscene.2449471
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 425 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_setscene)
-NOTE: recipe python3-3.14.4-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe binutils-2.46-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.14.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 444 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 445 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 448 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.19.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 456 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 460 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 854 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_fetch)
-NOTE: recipe binutils-2.46-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 463 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 468 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.14.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sed-4.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxslt-1.1.45-r0: task do_fetch: Succeeded
-NOTE: Running task 888 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_unpack)
-NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe coreutils-9.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmpc-1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_fetch: Started
-NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 899 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_unpack)
-NOTE: recipe libxslt-1.1.45-r0: task do_unpack: Started
-NOTE: recipe python3-3.14.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 481 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 482 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 483 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 484 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 485 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 486 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 487 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 488 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 489 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmpc-1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 492 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 493 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_unpack: Started
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.8.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.8.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 494 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 496 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.4.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 501 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
-NOTE: recipe libxslt-1.1.45-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 503 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 504 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 506 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.5.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.8.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: Running setscene task 511 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_packagedata_setscene)
-NOTE: Running setscene task 517 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 519 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.8.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 520 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 522 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
-NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 523 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
-NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 533 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 537 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.0.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.53.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libarchive-3.8.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-3.14.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_package_setscene: Started
-NOTE: Running setscene task 542 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.53.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 543 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.14.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.8.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 544 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 547 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.53.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 548 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 551 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 556 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.47.bb:do_packagedata_setscene)
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 557 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 558 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb:do_packagedata_setscene)
-NOTE: recipe libarchive-3.8.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 561 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.19.0.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.53.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.8.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 574 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 585 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 946 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_patch)
-NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 964 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_patch)
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe file-5.47-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gnutls-3.8.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.53.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe curl-8.19.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 588 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 982 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxslt-1.1.45-r0: task do_patch: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_patch: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libxslt-1.1.45-r0: task do_patch: Succeeded
-NOTE: recipe sqlite3-3_3.53.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1088 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_deploy_source_date_epoch)
-NOTE: recipe file-5.47-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1110 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_create_recipe_spdx)
-NOTE: Running setscene task 601 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 602 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 603 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 604 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 605 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 606 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.16.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
-NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcrypt-1.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 610 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 612 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.59.bb:do_packagedata_setscene)
-NOTE: recipe curl-8.19.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 615 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_packagedata_setscene)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_patch: Succeeded
-NOTE: Running setscene task 620 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 621 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_packagedata_setscene)
-NOTE: recipe libxslt-1.1.45-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxslt-1.1.45-r0: task do_create_recipe_spdx: Started
-NOTE: Running setscene task 625 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-2.78-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 632 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.59-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.5.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 633 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtasn1-4.21.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 635 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 636 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.78-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 644 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 649 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 651 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
-NOTE: Running task 1154 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 655 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_recipe_qa_setscene)
-NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.5.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgpg-error-1.59-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1155 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1161 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtasn1-4.21.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 665 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: Running task 1172 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_check_backend)
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
-NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 667 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 669 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_recipe_qa_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-lxml-6.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_deploy_source_date_epoch unihash changed to c990a5b8711b27cf2c67b2471a3eb672289ea2caa15f2929ed9b7a11ecce8a1d
-NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-lxml-6.1.0-r0: task do_check_backend: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_check_backend: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
-NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxslt-1.1.45-r0: task do_create_recipe_spdx: Succeeded
-NOTE: Running setscene task 664 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1199 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: Running task 1200 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_create_recipe_spdx)
-NOTE: recipe openssl-3.5.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 682 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.5.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 685 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_create_recipe_spdx: Started
-NOTE: recipe libunistring-1.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
-NOTE: Running task 1212 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunistring-1.4.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
-NOTE: Running task 1228 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
-NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
-NOTE: Running task 1299 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: Running task 1301 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 698 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 699 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 700 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 701 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 702 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 704 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 706 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 708 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 709 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxml2-2.15.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 711 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1317 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 713 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 714 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 716 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 718 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 719 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 720 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 722 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 723 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 27a1287f03f8699e6a83b8e7203f6b85f617ccd1b7f11fa183cd486905f39fba
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 727 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 728 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 729 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 732 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 736 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 738 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 740 of 740 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1673 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_packagedata)
-NOTE: Running task 1675 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxslt-1.1.45-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_packagedata: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1860 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_configure)
-NOTE: recipe libxml2-2.15.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1862 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_write_ipk)
-NOTE: Running task 1863 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_write_deb)
-NOTE: Running task 1864 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_write_rpm)
-NOTE: Running task 1865 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_qa)
-NOTE: recipe libxslt-1.1.45-r0: task do_configure: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_package_write_ipk: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_package_write_deb: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_package_qa: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_write_ipk unihash changed to 7287f76c32f9b3e3704c5ba1a54eb72d6648368ddd548babdd4a207e86a5b2c6
-NOTE: recipe libxml2-2.15.2-r0: task do_package_write_deb: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_write_deb unihash changed to 9c8f6811d78d955bf3d7039fb4830c7012d610b8bf50962b9d5a45c42bb716d0
-NOTE: recipe libxml2-2.15.2-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_qa unihash changed to fb82a7041f32864744e40e95df2fd13773cb292c0082d82bd12ba3042aae4cfa
-NOTE: recipe libxslt-1.1.45-r0: task do_configure: Succeeded
-NOTE: Running task 1866 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_compile)
-NOTE: recipe libxslt-1.1.45-r0: task do_compile: Started
-NOTE: recipe libxml2-2.15.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.2.bb:do_package_write_rpm unihash changed to 89f8e225124385aac3c9e638294e855495b7d34f293d93ad5965b3ce77f4e4c6
-NOTE: recipe libxslt-1.1.45-r0: task do_compile: Succeeded
-NOTE: Running task 1867 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_install)
-NOTE: recipe libxslt-1.1.45-r0: task do_install: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_install: Succeeded
-NOTE: Running task 1868 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package)
-NOTE: Running task 1869 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_populate_sysroot)
-NOTE: recipe libxslt-1.1.45-r0: task do_populate_sysroot: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_package: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_populate_sysroot unihash changed to 2338c5e1713fee52809bd66a158460ca412728af6f275202d02c54df5513dfe1
-NOTE: Setscene tasks completed
-NOTE: Running task 1870 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1871 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_configure)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_configure: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 1872 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_compile)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_compile: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package unihash changed to 158f9ab56d491b8af04b46c379e356cb039cdbd2e105c7478a096ebb7de2256c
-NOTE: Setscene tasks completed
-NOTE: Running task 1873 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_packagedata)
-NOTE: recipe libxslt-1.1.45-r0: task do_packagedata: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_packagedata unihash changed to 58ab181461d2fb4a9607209ae8d06d5c4b9198fa4259e311d6b9291abe665104
-NOTE: Setscene tasks completed
-NOTE: Running task 1874 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_create_spdx)
-NOTE: Running task 1875 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package_write_ipk)
-NOTE: Running task 1876 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package_write_deb)
-NOTE: Running task 1877 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package_write_rpm)
-NOTE: Running task 1878 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package_qa)
-NOTE: recipe libxslt-1.1.45-r0: task do_create_spdx: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_package_write_ipk: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_package_write_deb: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_package_write_rpm: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_package_qa: Started
-NOTE: recipe libxslt-1.1.45-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxslt-1.1.45-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package_write_ipk unihash changed to 8f5a86060e78ebc27fdfce3427269ea4be1fe8d3d8e8c2a28041611f1386993e
-NOTE: recipe libxslt-1.1.45-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package_qa unihash changed to 64f6941ceb236972a7704abeaac875f8b8270159b005d17b2d5751158ec3da18
-NOTE: recipe libxslt-1.1.45-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package_write_rpm unihash changed to 8f008b97de5391d64d7d9921189d7cbfa2d1c2d83dbc513238db54978c9790df
-NOTE: recipe libxslt-1.1.45-r0: task do_package_write_deb: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_package_write_deb unihash changed to c6fd467aa9f00caf161c3b13c92d16b5b63d72e86e45df98aa5a0966214833b0
-NOTE: recipe python3-lxml-6.1.0-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1879 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_install)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_install: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1880 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_package)
-NOTE: Running task 1881 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_populate_sysroot)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package: Succeeded
-NOTE: Running task 1882 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_packagedata)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1883 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_create_spdx)
-NOTE: Running task 1884 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_package_write_ipk)
-NOTE: Running task 1885 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_package_write_deb)
-NOTE: Running task 1886 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_package_write_rpm)
-NOTE: Running task 1887 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_package_qa)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_create_spdx: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package_write_ipk: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package_write_deb: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package_qa: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1888 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_create_package_spdx)
-NOTE: recipe python3-lxml-6.1.0-r0: task do_create_package_spdx: Started
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package_qa: Succeeded
-NOTE: recipe python3-lxml-6.1.0-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-lxml-6.1.0-r0: task do_package_write_deb: Succeeded
-NOTE: Running noexec task 1889 of 1889 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-lxml_6.1.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 1889 tasks of which 1837 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-src went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dbg went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-ptest went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-staticdev went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dev went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-doc went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-locale went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-utils went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2 went backwards which would break package feeds (from 0:2.15.3-r0 to 0:2.15.2-r0) [version-going-backwards]
-ERROR: libxml2-2.15.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============6338752995387536394==
+--===============4495545267384942005==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-lxml: PKGV changed from 6.0.4 [default] to 6.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-lxml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.0.4.tar.gz;downloadfilename=lxml-6.0.4.tar.gz https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.0.4.tar.gz;downloadfilename=lxml-6.0.4.tar.gz" to "https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.1.0.tar.gz;downloadfilename=lxml-6.1.0.tar.gz https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.1.0.tar.gz;downloadfilename=lxml-6.1.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-lxml: PV changed from "6.0.4" to "6.1.0"
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dbg: PKGSIZE changed from 21160216 to 21161840 (+0%)
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dbg: PKGV changed from 6.0.4 [default] to 6.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dbg: PV changed from "6.0.4" to "6.1.0"
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dev: PKGV changed from 6.0.4 [default] to 6.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-dev: PV changed from "6.0.4" to "6.1.0"
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-doc: PKGV changed from 6.0.4 [default] to 6.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-doc: PV changed from "6.0.4" to "6.1.0"
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-locale: PKGV changed from 6.0.4 [default] to 6.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-locale: PV changed from "6.0.4" to "6.1.0"
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-src: PKGSIZE changed from 21256082 to 21258062 (+0%)
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-src: FILELIST: directory renamed /usr/src/debug/python3-lxml/6.0.4/src/lxml -> /usr/src/debug/python3-lxml/6.1.0/src/lxml, directory renamed /usr/src/debug/python3-lxml/6.0.4/src/lxml/html -> /usr/src/debug/python3-lxml/6.1.0/src/lxml/html, directory renamed /usr/src/debug/python3-lxml/6.0.4/src/lxml/includes -> /usr/src/debug/python3-lxml/6.1.0/src/lxml/includes
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-src: PKGV changed from 6.0.4 [default] to 6.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-src: PV changed from "6.0.4" to "6.1.0"
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-staticdev: PKGV changed from 6.0.4 [default] to 6.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml-staticdev: PV changed from "6.0.4" to "6.1.0"
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: PKGSIZE changed from 5779462 to 5783406 (+0%)
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: FILELIST: directory renamed /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/lxml-6.1.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info -> /usr/lib/python3.14/site-packages/lxml-6.1.0.dist-info
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: PKGV changed from 6.0.4 [default] to 6.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-lxml/python3-lxml: PV changed from "6.0.4" to "6.1.0"
-Changes to packages/x86-64-v3-poky-linux/python3-lxml (sysroot):
-  /usr/lib/python3.14/site-packages/lxml-6.0.4.dist-info moved to /usr/lib/python3.14/site-packages/lxml-6.1.0.dist-info
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-bin: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-bin: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-dbg: FILELIST: removed "/usr/lib/.debug/libgdk_pixbuf-2.0.so.0.4400.5", added "/usr/lib/.debug/libgdk_pixbuf-2.0.so.0.4400.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-dbg: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-dbg: PKGSIZE changed from 2033312 to 2033424 (+0%)
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-dbg: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-dev: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-dev: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-doc: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-doc: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-ani: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-ani: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-bmp: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-bmp: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-gif: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-gif: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-icns: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-icns: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-ico: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-ico: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-pnm: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-pnm: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-qtif: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-qtif: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-tga: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-tga: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-xbm: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-xbm: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-xpm: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-xpm: PKGSIZE changed from 34832 to 34816 (-0%)
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-loader-xpm: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ab: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ab: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-af: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-af: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ang: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ang: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ar: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ar: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-as: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-as: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ast: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ast: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-az: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-az: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-be+latin: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-be+latin: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-be: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-be: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-bg: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-bg: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-bn-in: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-bn-in: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-bn: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-bn: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-br: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-br: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-bs: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-bs: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ca+valencia: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ca+valencia: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ca: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ca: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-crh: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-crh: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-cs: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-cs: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-csb: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-csb: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-cy: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-cy: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-da: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-da: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-de: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-de: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-dz: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-dz: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-el: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-el: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-en+shaw: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-en+shaw: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-en-ca: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-en-ca: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-en-gb: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-en-gb: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-eo: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-eo: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-es: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-es: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-et: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-et: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-eu: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-eu: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-fa: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-fa: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-fi: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-fi: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-fr: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-fr: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-fur: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-fur: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ga: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ga: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-gl: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-gl: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-gu: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-gu: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-he: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-he: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-hi: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-hi: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-hr: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-hr: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-hu: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-hu: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-hy: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-hy: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ia: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ia: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-id: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-id: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-io: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-io: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-is: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-is: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-it: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-it: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ja: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ja: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ka: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ka: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-kab: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-kab: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-kk: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-kk: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-km: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-km: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-kn: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-kn: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ko: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ko: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ku: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ku: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-li: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-li: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-lt: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-lt: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-lv: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-lv: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mai: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mai: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mi: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mi: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mk: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mk: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ml: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ml: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mn: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mn: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mr: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-mr: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ms: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ms: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-my: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-my: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nb: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nb: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nds: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nds: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ne: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ne: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nl: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nl: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nn: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nn: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nso: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-nso: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-oc: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-oc: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-or: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-or: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-pa: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-pa: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-pl: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-pl: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ps: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ps: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-pt-br: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-pt-br: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-pt: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-pt: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ro: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ro: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ru: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ru: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-si: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-si: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sk: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sk: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sl: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sl: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sq: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sq: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sr+ije: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sr+ije: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sr+latin: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sr+latin: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sr: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sr: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sv: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-sv: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ta: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ta: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-te: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-te: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-tg: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-tg: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-th: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-th: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-tk: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-tk: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-tr: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-tr: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-tt: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-tt: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ug: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-ug: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-uk: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-uk: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-uz+cyrillic: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-uz+cyrillic: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-uz: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-uz: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-vi: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-vi: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-wa: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-wa: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-xh: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-xh: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-yi: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-yi: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-zh-cn: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-zh-cn: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-zh-hk: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-zh-hk: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-zh-tw: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-locale-zh-tw: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-ptest: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-ptest: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-src: FILELIST: directory renamed /usr/src/debug/gdk-pixbuf/2.44.5/tests -> /usr/src/debug/gdk-pixbuf/2.44.6/tests, directory renamed /usr/src/debug/gdk-pixbuf/2.44.5/gdk-pixbuf -> /usr/src/debug/gdk-pixbuf/2.44.6/gdk-pixbuf, directory renamed /usr/src/debug/gdk-pixbuf/2.44.5/gdk-pixbuf/pixops -> /usr/src/debug/gdk-pixbuf/2.44.6/gdk-pixbuf/pixops
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-src: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-src: PKGSIZE changed from 1109399 to 1109953 (+0%)
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-src: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-staticdev: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf-staticdev: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf: FILELIST: removed "/usr/lib/libgdk_pixbuf-2.0.so.0.4400.5", added "/usr/lib/libgdk_pixbuf-2.0.so.0.4400.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf/gdk-pixbuf: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+packages/x86-64-v3-poky-linux/gdk-pixbuf: SRC_URI changed from "https://download.gnome.org/sources//gdk-pixbuf/2.44/gdk-pixbuf-2.44.5.tar.xz;name=archive file://run-ptest file://fatal-loader.patch file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch" to "https://download.gnome.org/sources//gdk-pixbuf/2.44/gdk-pixbuf-2.44.6.tar.xz;name=archive file://run-ptest file://fatal-loader.patch file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch"
+packages/x86-64-v3-poky-linux/gdk-pixbuf: PV changed from "2.44.5" to "2.44.6"
+packages/x86-64-v3-poky-linux/gdk-pixbuf: PKGV changed from 2.44.5 [default] to 2.44.6 [default]
+Changes to packages/x86-64-v3-poky-linux/gdk-pixbuf (sysroot):
+  /usr/lib/libgdk_pixbuf-2.0.so.0 changed symlink target from libgdk_pixbuf-2.0.so.0.4400.5 to libgdk_pixbuf-2.0.so.0.4400.6
+  /usr/lib/libgdk_pixbuf-2.0.so.0.4400.5 moved to /usr/lib/libgdk_pixbuf-2.0.so.0.4400.6
+Changes to packages/x86_64-linux/gdk-pixbuf-native (sysroot):
+  /usr/lib/libgdk_pixbuf-2.0.so.0 changed symlink target from libgdk_pixbuf-2.0.so.0.4400.5 to libgdk_pixbuf-2.0.so.0.4400.6
+  /usr/lib/libgdk_pixbuf-2.0.so.0.4400.5 moved to /usr/lib/libgdk_pixbuf-2.0.so.0.4400.6
 
---===============6338752995387536394==--
+--===============4495545267384942005==--
 
