@@ -1,110 +1,152 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F82CCFA13
-	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 13:16:57 +0000 (UTC)
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14076.1777641407973269272
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E1FECCFA13
+	for <webhook@archiver.kernel.org>; Fri,  1 May 2026 14:25:28 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15602.1777645526072816566
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2026 06:16:48 -0700
+ Fri, 01 May 2026 07:25:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Lcy8Vkqj;
- spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-654672a6d68so2021407d50.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 06:16:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777641407; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UNIn1Oe5fEXVg/PA30sVGZh8/yMg4CHPwwSS7aFLXuLWzvWnf2PjJ4U5Puxe8kD9k2
-         n1RL25NFPi1bY5x4EMqahGYzMN4Pd1pE3Q1AmoZNqQzRS+OhZD1hYlhIObZ8biMfd8bP
-         IC0vNWg3XYcExGaV/0E9o8XTA9h+HUeYVCud5MYXyOasyoMoRRtlASjV4VXMGJZ2m8B4
-         1clsIraBD++Eou5THbnvaAwh+Hd+lUfhmqlmJPR/xucZPfYIrq1tlqUIIwrVe15hz4Y1
-         fKdd9Fu6rVsZTa4l5nZYnVdNILtnngbysinB6NU+P+Ys12Y1QUD5oYq/pVoSh4BQkN0U
-         6E0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=nAvqJ59pJLjuoy1yryrTZ7FNpqON9nqmRlhQeFdXeNU=;
-        fh=2OgyJC1ocBqP4ZMAeBmOH5g1q4VwpYKdvp6AnKDZOMU=;
-        b=DdoSCy6uX+myy/PNZS17Zp7txmzLvlXr2ZttsTJsg2aQIkVkzoJoNjKk4QaQnFigul
-         MCpL1s3CdEzgJpweh/Q2DJ+M3EtqNEekW8ynC1bnWKIpxqqgpXYaiE9agY/EWsevdn3o
-         tskbf48yYxa7yzzMxR4O3uHKgmecEr1IOBBiB4RJtL/UtOdJfG0DZySdlg3DGDXW2ju/
-         +QgJst15AUc9ueRBbfhP/tcjADhSLSXadOuSZDU6DZHFXih05eYhTXAE+oJAir3JMOUK
-         7HUbIO+xYST24C1HZYLhMmlMPtiljrRpXSmvL63fI0sD9m71gkfsZnyqXA4cjtkQYmv5
-         pukg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777641407; x=1778246207; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nAvqJ59pJLjuoy1yryrTZ7FNpqON9nqmRlhQeFdXeNU=;
-        b=Lcy8Vkqj1d7o3viwF+rcNG0iDyHmJ7cF6xdBzj0ZyNDVrT/11shH5lJEVZeV7JeTAA
-         i010I68dtK1h5L0xcWyMjdM+c8c7A5R3qe+bbKKxBLcGR88hfpWDwN+okxF2IzJQjcsF
-         oMFBP1A8ZPgAgieIOIwiME4pDIGxYRhI5A3CxrSR+juEJOR4JbnFCbuPY/O7J5et/+9E
-         eoIKoYeY00Fvbzx8uHWE9Yum+9jjRny05+J+chVfruTH4Ya6GiLcovvpTVvgd8w4Gtcs
-         ID5uBYhbNV/5WlPF80XbUnbh/eGxLbC+zMOHCZTORJNeplC5o1XYsn5La7g2fLcxQtfV
-         a7Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777641407; x=1778246207;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nAvqJ59pJLjuoy1yryrTZ7FNpqON9nqmRlhQeFdXeNU=;
-        b=j4KvVCXbRCxVfdPh5/RNXaiIMfxhF2vcDDXvgurE0PJruKKUxZOOZGNAuH1fKEj89R
-         mqIjyRjCDZvWm2YKLsbWlu70zFlNm2sRAp9bJPNAiOK139+wQzSoeA7r6tu25ZV8cP53
-         E+FG+tCqIrSPp7PjENQAnk3SieYl4tUnnzQ3pg7UQwp+ynqATjtA0pwxaMXpq91J8Z5g
-         flYMmpr782aFfR8zpC9Lz4WNkVi0fXUdhAEmGDZc/x7eVO1TiizpICe6JIgbXAsUfzy6
-         IVvS3K+4CEaEV6Ud3lR4878UeoZMHDzPqATSTY34KX3xchAGtEhdF9ChFIoAZ41bzbsY
-         ciBw==
-X-Gm-Message-State: AOJu0YwM9loK3cuZR2AUL0KHTG0L+51yeZtxogf0uutCodM74FO085BO
-	ietnXjVURdJ/lGst7D5gAPO1Pt25Vn7Ozu2efZdwmiV7hjvnKzN22xEzcgeXvMlCIO36XQJ3nT3
-	bgs4TAyuyYZ8Cwc1WvHmESZmxnd94Xlc=
-X-Gm-Gg: AeBDievCE3VCMx2iSZ6Hhe+cG6oRF8FjvXqVs7MzCsPLvSWchQpmmr9WDnLwwd8MwgA
-	iTz2u1nK6rmuH+Txqj2xhuzhh16/BPgPzkH2L2Zn0p0YsE5w8dPTnHBXGSsB2dIQik+ZXSvcpq1
-	WLkDfbi984i7yx+uQxf2efar73OQEh0g0n4KNO2FfgRI6e+QrDF5iAWxrECHVphlpS+zO2Ozm0a
-	hkeHgQMOoB+9DBarQuQ+JQyYZFK+SDZiJO5DtArzR/YFB3IUdAimqJt7ZoHWij0TOddDMtRDi1Z
-	HwLeRTo1oNBmzwFSFOp4Hehz/IPtKQmOKoueMxxPAqHs3ywPQP4E
-X-Received: by 2002:a05:690e:1557:10b0:64a:d479:bfbe with SMTP id
- 956f58d0204a3-65c18b02ba5mr5035909d50.11.1777641406969; Fri, 01 May 2026
- 06:16:46 -0700 (PDT)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kYuPxVTr;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cJR/792S;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019de3ee18fe-7a1c9219-cfd8-4e43-a18c-a6049857d03b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1777645525;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=GAFJzL0dLDuITLGd19GPNajnNqUr4/KedLcam/TtwYw=;
+	b=kYuPxVTrYcZ2YimBNtMVhH8RXpmSUCyEWzSjRm8I1yq4A7xobLYSvKS+/eREdlk0
+	SgbN8hVRZxR9r0RejJCtzSOIzbxVOnQ5gJ7Ay8gyKJJH6oLw0Q2eR4y95/szRRU4bp+
+	akQZH7RHqDMnTZqtyZBXg/Qc7ntcGaOkT5Fbjj2s=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777645525;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=GAFJzL0dLDuITLGd19GPNajnNqUr4/KedLcam/TtwYw=;
+	b=cJR/792SGFnaJUgoDAoRPvq8CMt7yZI0RnoFTCaZbM2bimDUGh12Z0Gv9Q0cA4/V
+	9wtAL1AappDBWUdXzXgUhIcTPEOmMo82RIEAWmSaFaU41KGKWfFk+mAke0DAl5q3vbS
+	60PghCrrXrWLArydW6/w6yoWm94va8uYDoWqEodQ=
+Content-Type: multipart/mixed; boundary="===============7923417908530127709=="
 MIME-Version: 1.0
-References: <20260430175308.868993-1-dario.binacchi@amarulasolutions.com>
-In-Reply-To: <20260430175308.868993-1-dario.binacchi@amarulasolutions.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 1 May 2026 15:16:37 +0200
-X-Gm-Features: AVHnY4LJhcjrMikAh0YM4W41xIqF9QrLQsGLSRgqnapoZRbX9KCq-vwgVw1fKs4
-Message-ID: <CANNYZj97SF0G6X0dBg4C7PnrW6QFCXBpq6e4XJCkWzYECK7RhA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] libfwumdata: add new recipe
-To: dario.binacchi@amarulasolutions.com
-Cc: openembedded-core@lists.openembedded.org, 
-	linux-amarula@amarulasolutions.com
-Content-Type: text/plain; charset="UTF-8"
+From: auh@yoctoproject.org
+To: Chen Qi <Qi.Chen@windriver.com>, Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] util-linux-libuuid,util-linux: upgrading to 2.42,2.42 FAILED
+Message-ID: <0101019de3ee18fe-7a1c9219-cfd8-4e43-a18c-a6049857d03b-000000@us-west-2.amazonses.com>
+Date: Fri, 1 May 2026 14:25:25 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 13:16:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236194
+ <openembedded-core@lists.openembedded.org>; Fri, 01 May 2026 14:25:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236196
 
-On Fri, 1 May 2026 at 00:18, Dario Binacchi via lists.openembedded.org
-<dario.binacchi=amarulasolutions.com@lists.openembedded.org> wrote:
-> libfwumdata is a lightweight C library for parsing, validating (CRC32),
-> and manipulating Firmware Update (FWU) metadata, allowing tools such as
-> RAUC or SWUpdate, and in general any application, to modify the boot
-> bank selection.
+--===============7923417908530127709==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-A library recipe without any consumers doesn't make sense. The patch
-should include enabling support for it in other recipes. There should
-also be an explanation of why this functionality is common and
-important enough that the recipe should be in oe-core; until now no
-one has asked for it.
+Hello,
 
-> Changes v1 -> v2:
-> - Drop S = "${WORKDIR}/git"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *util-linux-libuuid,util-linux* to *2.42,2.42* has Failed (devtool error).
 
-This begs the question: how was the recipe tested before submission?
-The above line would result in an immediate error on master and some
-earlier releases.
+Detailed error information:
 
-Alex
+Running 'devtool upgrade' for recipe util-linux-libuuid failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1976 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-9ca41405e6bca276468a3b6f67eaa328b8016485"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:9ca41405e6bca276468a3b6f67eaa328b8016485"
+meta-yocto-bsp       
+meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 952 .bb files complete (0 cached, 952 parsed). 1977 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-9ca41405e6bca276468a3b6f67eaa328b8016485"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:9ca41405e6bca276468a3b6f67eaa328b8016485"
+meta-yocto-bsp       
+meta-poky            = "master:a67ae0e83d8aba0c46cb8383808b2d1203fbb414"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   6% |##                                  | ETA:  0:00:02
+Adding changed files:  13% |####                                | ETA:  0:00:01
+Adding changed files:  20% |#######                             | ETA:  0:00:01
+Adding changed files:  27% |#########                           | ETA:  0:00:00
+Adding changed files:  34% |############                        | ETA:  0:00:00
+Adding changed files:  41% |##############                      | ETA:  0:00:00
+Adding changed files:  48% |#################                   | ETA:  0:00:00
+Adding changed files:  55% |###################                 | ETA:  0:00:00
+Adding changed files:  62% |######################              | ETA:  0:00:00
+Adding changed files:  69% |########################            | ETA:  0:00:00
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files:  83% |#############################       | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files:  97% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:01
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.tar.xz...
+INFO: Rebasing devtool onto 8234268a3d1dc932668ced4476f4b7671630ba36
+WARNING: Command 'git rebase 8234268a3d1dc932668ced4476f4b7671630ba36' failed:
+Auto-merging tests/ts/script/options
+CONFLICT (content): Merge conflict in tests/ts/script/options
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/util-linux-libuuid
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/util-linux-libuuid/util-linux-libuuid_2.42.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============7923417908530127709==--
 
