@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95750CD3427
-	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:30:20 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9374.1777739410097977985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A89CFCD3423
+	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:30:30 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9493.1777739429794431537
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2026 09:30:10 -0700
+ Sat, 02 May 2026 09:30:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BDTFS7qX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d77f6092eso1660065f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 09:30:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ChUJFBpc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43fe3e22e33so1498351f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 09:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777739408; x=1778344208; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1777739428; x=1778344228; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XanQVPclfYtn8xS2gIswkkZghQTbROVYygpNy/XPMDY=;
-        b=BDTFS7qX3I+xi4zFcP93ioAlzXn2xXiKILNthdFUox/8ShleGM4xujuidsVmuvxQ6z
-         Grd7pM+29cEhDQv/WgGIUVmXY+zcyCHxx22qNQOxL4/ynW2+Bro5Hk4PtzsS/UTT+wsA
-         Azr56bANwucD6MWJU+U5Gl4nAmEjBkkt+CcyU=
+        bh=z7yTlG7hqCVk5nwAU21Hlj15pRpteB5M+qJVzUCw4Kk=;
+        b=ChUJFBpc7vMxufEbcC2bRCffP2szZyRQhP6qbyMnqSeOnuSqKD6iur0yukeiWGkeLC
+         TgR6zOIroBkMwzaztHX76/T4Bf9/YdwD+x3j/ku7WvVOowmepvTwcNCneB2U/+4mSkyk
+         bKY3/Jp8xmVG+wQnn41dNMljqnEs+KOdl+YSE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777739408; x=1778344208;
+        d=1e100.net; s=20251104; t=1777739428; x=1778344228;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XanQVPclfYtn8xS2gIswkkZghQTbROVYygpNy/XPMDY=;
-        b=DssZdPL6xFcg+sH0qbuh2HkolPrwabUUjK655PkYETdEvmNuPB06ymwOkYlnTy9GNO
-         JpGAL8yt10JRsFqD2ZXyyUJJwRxuTzk/ifkXKv1iJiIpsn40tyZJtWxhWxF0aGLtHfax
-         T+I/RX5nrcVIK8yJGNHxVk7i8kRQG4RuRQgxAOXGig1RZ8w0mmoZ0kwQW57iXI83cVlE
-         5oqTlEIF4D5pIq77/dKP/entvgg6O8rCJlfZh3Gwg3352J0WrRDrPjXn5chiyPAUHK7a
-         txRVdUhs4Z88QC4Sb141IWvWpkWdm3J30aV61wpV1eGfeoGTY79Pxg5AUkAe1n1tjg0v
-         7FzA==
-X-Gm-Message-State: AOJu0Yy3525nE7H7v9Ls6tKJD7i2X4V3YD5P+Rhs6ronHiyoqLhH1isz
-	rDzrafuZluL2Yryyei/LqDFwIvMwM5BP8+wwefmJljCy76NsLzkZb/M5B0p8j5ySatV2VGkrEl9
-	ntSNLdq//VMEMCpUeyUJyBMilsSZzAf1QP7yD31TazVMWvm09Lcpmp+dWN69JmzFhOc/pn+Jw/l
-	Ho4WqxfZk4gQaXhL8=
-X-Gm-Gg: AeBDietfTEUcsz072C0u3p2HXGDGFCJ8I+O3qjQoqGN110dKzSKJfZgqMlOy5NAtrj5
-	7piyCPFJrPDqV4nXnxlHhCpmz36WfwlrlaHwZYDrfxYDxQRhE8NnfZYB7kHHbDhZ0G+NZzGAzsn
-	nHLqAvZYU09d37U2QcGHdhO0L5j37rHnA44NL2rNshkyHqLeK88IPnyLrVvoq2EHzveZXGP6HXi
-	pLgpSKt9HlY7OWI6G54lMiRkHW0ylEOfqIgf+C9ZsMVG81oRAug5QLtls7UHSTU8hB1+QvHS+Wx
-	RjnHmBuUcjt46up3+pFR0Lyhq5r36mzaX8Ypa13k8b73wFDYKgp9Ow7vpoRPLL66m8WB+HQ5SC8
-	tM1nTu+24C5Vat2PQwFtKSXC0vdO8iFO0NPWN+fPayt1io2RQKBR9wST59lAV+FJ9vGem+3/erg
-	5tPgCAcUbPNtOn99zR4naLX9ADmWLygzbd+2XbXP0dMIic8KCg+RBk5cp936kJaNc=
-X-Received: by 2002:a05:6000:1869:b0:441:1cf8:ca00 with SMTP id ffacd0b85a97d-44bb5680dcamr5707862f8f.26.1777739407837;
-        Sat, 02 May 2026 09:30:07 -0700 (PDT)
+        bh=z7yTlG7hqCVk5nwAU21Hlj15pRpteB5M+qJVzUCw4Kk=;
+        b=qacv5xWc1505e2z9SGDfWgYBRDibL0u0mY/l+MuxyobAh9GDy+WlI79gik90lVT6nY
+         eJknJ6NuHAhdaobs3V/VA47vof4X8TA4z85ntHNQGiWtkZHebZqQSFDq9hz1YDJJFi0u
+         nE8w4eoTnmsIcqbETEHv2RDFxzYGLirvGC5NajuRQOi+3m8/+Bena6DcWu4/sBmhuwZ7
+         vJcEZAj1iXnynNANnX/FVl6i+ZSAvVLg16t2Do0JT8JdphUmhEThXlUqjO+evY/Dtnbw
+         M8eiahkxIx4k0KX2wcxV+f+VPo2XRPEOjXk8E+X8xOiUludWCnvoS26EXHcSAalTxu2G
+         FenQ==
+X-Gm-Message-State: AOJu0YwtxrUyWdvgtCT92RBN3hmOrfr9M7EL+qoxcaepNaSUgNuYMfAY
+	+1lQFhV4zVx/CXeqHvU3/BcHMZKgjoPwEyjuOIqvua9KEbnp2n0Xs7Kp2PqNpbH2KI6y3gpRMLB
+	4MCOcuWd1Uq6KFnz/5VqIVBlIGfMjR+7UEFCgCnA/9lqdhLlTuxFByaMbUNQrTFslvj3LbH4jM9
+	Natwjt/vbat7GCUiA=
+X-Gm-Gg: AeBDietbq8xy45nvqT+JSd1Er9jH9/RL1r3F7J4jK0/Cq99P2wlpyHhHmgJsjXQpcef
+	rnpqIH5BcsiyN7mYmKorrALsHdBJnWr1zECL5Dd4Ra1EJf4gtwkRifu22Q6eYVOF1oX3YTmH6ne
+	LBbPoCv4C+P9futJeAjUnLLWge0OioWYgpTz07Lawi059Y6JOXIH2OztH5HsbLc9XsJMh6lRuqX
+	HXV4/Cr74hY8BXDG7KxkZMhd6qik5h4XxWs5OF3s/Dcp2C6i9AERM8IXDp6/Av6VHdEnHnZWcfF
+	/THtivhZBM7nMKNnOQR8hb5hr61q6sgplkWezuzgykraboATJdkVeji7Fbt4yU2kDkankSsCtRH
+	vC4iDCC83nMtIjmkbnsExryqHy2NtbjWHLVSoXFuBwTJm9y4bP2YqUQWnvptbGirkOvdKaoC+QP
+	1XOvYG7nGAuCZT1ES0zsHXQ50L3e6ltxQ4Jqwj9bEsCwtgZJ0x7oZwsHJmC1ScyVY=
+X-Received: by 2002:a05:6000:2311:b0:43c:fa96:d939 with SMTP id ffacd0b85a97d-44bb5495b6bmr5738135f8f.22.1777739427600;
+        Sat, 02 May 2026 09:30:27 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8635:4fc6:d16e:90be])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aac01sm11971926f8f.31.2026.05.02.09.30.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aac01sm11971926f8f.31.2026.05.02.09.30.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2026 09:30:06 -0700 (PDT)
+        Sat, 02 May 2026 09:30:25 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 21/62] libsolv: upgrade 0.7.36 -> 0.7.37
-Date: Sat,  2 May 2026 17:28:41 +0100
-Message-ID: <20260502162929.1377831-21-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 29/62] nghttp2: upgrade 1.68.1 -> 1.69.0
+Date: Sat,  2 May 2026 17:28:49 +0100
+Message-ID: <20260502162929.1377831-29-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
 References: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
@@ -67,47 +67,71 @@ X-Gm-Phishy: 0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:30:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236330
+ <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:30:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236338
+
+Drop patch included upstream.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libsolv/0001-compress_buf-fix-musl-segfaults.patch       | 5 +----
- .../libsolv/{libsolv_0.7.36.bb => libsolv_0.7.37.bb}         | 2 +-
- 2 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/libsolv/{libsolv_0.7.36.bb => libsolv_0.7.37.bb} (96%)
+ ...xt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch | 26 -------------------
+ .../{nghttp2_1.68.1.bb => nghttp2_1.69.0.bb}  |  7 ++---
+ 2 files changed, 2 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
+ rename meta/recipes-support/nghttp2/{nghttp2_1.68.1.bb => nghttp2_1.69.0.bb} (62%)
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/0001-compress_buf-fix-musl-segfaults.patch b/meta/recipes-extended/libsolv/libsolv/0001-compress_buf-fix-musl-segfaults.patch
-index cf87b3c4c67..c2734eb676a 100644
---- a/meta/recipes-extended/libsolv/libsolv/0001-compress_buf-fix-musl-segfaults.patch
-+++ b/meta/recipes-extended/libsolv/libsolv/0001-compress_buf-fix-musl-segfaults.patch
-@@ -1,4 +1,4 @@
--From 23e2d4c5064ddb023ed1a9d364793dbe0d20717f Mon Sep 17 00:00:00 2001
-+From 847fb663583fd01121313d1ec0e9ceab240c9143 Mon Sep 17 00:00:00 2001
- From: Adam Duskett <adam.duskett@amarulasolutions.com>
- Date: Thu, 26 Mar 2026 12:11:42 +0100
- Subject: [PATCH] compress_buf: fix musl segfaults
-@@ -39,6 +39,3 @@ index 77c7fcc7..470e4f34 100644
-    unsigned int litofs = 0;
-    memset(htab, -1, sizeof (htab));
-    memset(hnext, -1, sizeof (hnext));
---- 
--2.53.0
+diff --git a/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch b/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
+deleted file mode 100644
+index 32adb05e073..00000000000
+--- a/meta/recipes-support/nghttp2/nghttp2/0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From eb5812d018eb96284aa6ef82569d0b6b75bcd020 Mon Sep 17 00:00:00 2001
+-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+-Date: Sun, 9 Nov 2025 12:45:25 +1300
+-Subject: [PATCH] lib/CMakeLists.txt: Fix NGHTTP2_CONFIG_INSTALL_DIR path
 -
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb b/meta/recipes-extended/libsolv/libsolv_0.7.37.bb
-similarity index 96%
-rename from meta/recipes-extended/libsolv/libsolv_0.7.36.bb
-rename to meta/recipes-extended/libsolv/libsolv_0.7.37.bb
-index 852e79c45e2..1a95d1d11d6 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.37.bb
-@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https;ta
-            file://run-ptest \
- "
+-Remove hard coded path to fix installation on 64-bit arch.
+-
+-Upstream-Status: Submitted [https://github.com/nghttp2/nghttp2/pull/2551]
+-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+----
+- lib/CMakeLists.txt | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+-index 98e3dbe7..3b6a4400 100644
+---- a/lib/CMakeLists.txt
+-+++ b/lib/CMakeLists.txt
+-@@ -51,7 +51,7 @@ set(NGHTTP2_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+- set(NGHTTP2_VERSION_CONFIG "${NGHTTP2_GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
+- set(NGHTTP2_PROJECT_CONFIG "${NGHTTP2_GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
+- set(NGHTTP2_TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
+--set(NGHTTP2_CONFIG_INSTALL_DIR "lib/cmake/${PROJECT_NAME}")
+-+set(NGHTTP2_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+- set(NGHTTP2_NAMESPACE "${PROJECT_NAME}::")
+- set(NGHTTP2_VERSION ${PROJECT_VERSION})
+- 
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb b/meta/recipes-support/nghttp2/nghttp2_1.69.0.bb
+similarity index 62%
+rename from meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.69.0.bb
+index 71d5eef8d6b..8f3e1e4a97b 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.69.0.bb
+@@ -4,12 +4,9 @@ SECTION = "libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
  
--SRCREV = "1e377699be108ec82bb798ec9c223d45d84a733c"
-+SRCREV = "806c0513cd0799a37802f483710cfbdcc6d16b5f"
+-SRC_URI = "\
+-    ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
+-    file://0001-lib-CMakeLists.txt-Fix-NGHTTP2_CONFIG_INSTALL_DIR-pa.patch \
+-"
++SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
  
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+-SRC_URI[sha256sum] = "6abd7ab0a7f1580d5914457cb3c85eb80455657ee5119206edbd7f848c14f0b2"
++SRC_URI[sha256sum] = "1fb324b6ec2c56f6bde0658f4139ffd8209fa9e77ce98fd7a5f63af8d0e508ad"
+ 
+ inherit cmake manpages python3native github-releases
  
 
