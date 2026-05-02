@@ -2,62 +2,62 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C15CD3431
-	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:30:10 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9371.1777739408456864418
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8879CD3423
+	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:30:19 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9380.1777739418112151901
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2026 09:30:08 -0700
+ Sat, 02 May 2026 09:30:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Q2xulp6F;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-44c4cc7c1cfso282362f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 09:30:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g3fSjiow;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43d7badbd7dso1251793f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 09:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777739406; x=1778344206; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1777739416; x=1778344216; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2EsuNuAPmEOA8AMqTjvz926Lsms4tdt1MMxQZiQNEYA=;
-        b=Q2xulp6F0goAcY2bcAPXG3VWy15u55bzhprrRjFfJb8lYZTvCqcvn3TInh4jvvhEiV
-         qmoX4jnk4U+VV4KgDZSMLqE/7sNuVcEoimveUPY01v4ijPrfa7KGAmmOBHY37w9LuHEa
-         uvaMzUtOUmv1qwhy8124ieN5Wqs5VglcJcGJo=
+        bh=yiw23kiSH66wv4gFbINLi0bKgo6UBE7vW9JhEztcSaA=;
+        b=g3fSjiowgpz0B8QVMDR/ueZynlvr6ilowjW7Pp0Vt1NCPzUpnHtYQwHhnQFFPR84SS
+         698AMLoQTlE1nu88AXHHyxnB2m8if+YdecNnDOI4gHIflbEaZE6EmktWt+GNh1IkxL9G
+         uN//36SBaV9WvI2gW4nl3HwbGcNHlI6Ji7e7Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777739406; x=1778344206;
+        d=1e100.net; s=20251104; t=1777739416; x=1778344216;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2EsuNuAPmEOA8AMqTjvz926Lsms4tdt1MMxQZiQNEYA=;
-        b=r2aN8V4ta/4ozmsZ4QOUUzDIV38jFvT0XCPpmKushRaEUn8uKpMvX6tIQhCu7tryaK
-         g4Bl9woxsFuavf+9yVvYV7xipPjbzv/KFpFAjhhQsobmIGr+KOpZ3xtt/mYPH/xd0DHV
-         LFPMJ8Z/j1iYlz2bmISxn3OmJcdilUiYkKPk++gP51LS0u2eW+IS9Ji3+tr17EaJs8+y
-         srt1ZHet+ntdifkjdYH7n4wrO9tklI3qgOcqQLM3Lzx3IPN+8FgFrPNtopw6Cwo5AV0y
-         816DEJuluFauekEKS5Krq28M8H6Yqhnkpwjh2TYwep8Bwzh695UKD0zqIVoRxINXSU4/
-         zHAA==
-X-Gm-Message-State: AOJu0YxoeeS8JDcQWdDl73ipO1KrgBRjTKCxTeE0GZQ51/wVx5JiiNJt
-	aOS8reKc8q4qbBk1mdh7YCvUYdaDuAWnH+8N2x+XHNB0gR9LOPGEmm/BiYxGEPRDAi/nGRKFwHr
-	woXdjt2T/3OqtChbJYvu4GO7ghwsJpBVzahOh3EiVmDObbUIFy9AP4sxdm7wQI6D7Vg5Uzi5udU
-	34P9xvg5xqlGZbK8w=
-X-Gm-Gg: AeBDieuQvTXwqPdKXbujQkdh3RdrL8WfqU+oZcGL1EdmcXeeQDSMyBGPikaP7XaNmaY
-	5bOF/rFmKfgFgW5urVonvhdNvpzSGqtE2+t1LMuf0O99gHrhIqsSAgcn0QKRWkFUNmkWzJ7LGCj
-	BmEgm7Rbn0YYdrPT/mmqyp56PZlj3bFza3+IqDK2DrvSEoRuQGv4UDBixMn1bIS4mnOQRKR7PmT
-	muZl3jP9Cd7NCUnuENudwGVeOwsIdUWeVqqxwzK+HfZI3o4M8GE2v9+x34Lyjm395czC2AvmdC/
-	I0Al6+aDV1F2fnsXXdVqlqBbfWCramsjZQyfho5Qr/qZpeQQgGFEo7t0z9bSg8Wc5lnN2N+pM2G
-	MZEFiA+794OoswGwbDBQ198IXeUZOBb7uaf/trrzcAAuxiPYj3XYm4c7Yrqs2h5qHOL3MYXyBrf
-	4JDLET+GP5Ifwmuf43mpHfMSpOc0z5PxZsV+4RgMoAY+yym3FUm1B1nnMtZ7rsv1KYP4MkfEd4a
+        bh=yiw23kiSH66wv4gFbINLi0bKgo6UBE7vW9JhEztcSaA=;
+        b=anQ6UcHOknfKJMcX+cijdBYWQq8qj0HKEz1CbZE4krJi7n0EI7N673WUpRKtDbzjYT
+         0Up+QvmBz50WItjBFSAuJYOeFF0fXmM0i7zGTpuoXGNn0lj/Rpi9SAdzHmPaW+BbaMR5
+         qeGFIVxQrRXeYmDDJsaRa76UDpuW4EYq1DTl0KUrkJZK9la8+ej0WpfK5ywlKCs9bnVV
+         Caem68NOPJ9YG1/QDQWiSNKapK6EM3cItDdYLQVm34voGQaRDhzWc1rGWe7gfsJ/yn7C
+         l3ko5mvy+4h94rYVDSoZhKrPmT/b4AQNrz1dDw8RM76rhipFbpIQbGpvsmkTSFG3QE2U
+         OZ1Q==
+X-Gm-Message-State: AOJu0YyoiRZaWlyE+hC12YnbAb/ruRYN/MvanufVZ0ZfrI61EOWIOS3/
+	zn19W88RiWFvZhXYUbZa0EntFsrDuxLCi6/TQPQ+i3dKHOaW4IKJjsCVJ0Bxk36cLRKJyJmhTfR
+	+cmrOkmpEcrW41BAYRClHxNurA/fZwkPAKweRqTze0WoAalhCafUKUSel4ef3GBH1l6nR/0Ck4C
+	M6KwFS/xkJWbXVmLM=
+X-Gm-Gg: AeBDievYs1xtFaLdtkhxOUFcAKDjpGUnMUBAQTj50rHeyVxEibQvpAWE8grH0gLWpBG
+	RxXZhByUgNHuI6gNBgPxAcjLnKkNFa9GD5u1wpdQY1AqfoL0grBbsW7XI0uM8dyGEF8mzzhooxj
+	AWtuxHEPdru0CiyiJvIvVmhGThWVqAuwWVHFFXeVbrBwoPVT/4JOwIAhR/Xz2eLPqduQqtluHEv
+	gJRZ+YV0B01P9nm+0hp+2faJc9r+gNvIbYR4owVlXVfrKrFynvt9Smu/81ksInack7KTZWjT4yG
+	r4xTNLjNVKiMwTzoABeSbBlisqircpGuy939N9Fq7qXaJ2EhsoddpMkOjfL5rN4kb0rqZu09HuS
+	uiBs44eSzoxA+dywmwZ/Fa7RorV2kqJ9gaqe0Joy/iUOtJbWboQfeKdQCT/XXC1nMytzsG693LY
+	SSL5IioW+29Ir3FkR7tes5k85e04Wf/K/9bJH5eLZ7ftDUlZxPLTi5pAVSIWW4o2PVoLIRlUU8j
 	w==
-X-Received: by 2002:a5d:54c9:0:b0:44b:db60:5592 with SMTP id ffacd0b85a97d-44bdb6055b4mr3826616f8f.1.1777739406449;
-        Sat, 02 May 2026 09:30:06 -0700 (PDT)
+X-Received: by 2002:adf:fc49:0:b0:44b:bf31:1858 with SMTP id ffacd0b85a97d-44bbf3118b2mr3363767f8f.0.1777739415984;
+        Sat, 02 May 2026 09:30:15 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8635:4fc6:d16e:90be])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aac01sm11971926f8f.31.2026.05.02.09.30.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aac01sm11971926f8f.31.2026.05.02.09.30.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2026 09:30:04 -0700 (PDT)
+        Sat, 02 May 2026 09:30:13 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 20/62] libpng: upgrade 1.6.56 -> 1.6.58
-Date: Sat,  2 May 2026 17:28:40 +0100
-Message-ID: <20260502162929.1377831-20-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 24/62] libxpm: upgrade 3.5.18 -> 3.5.19
+Date: Sat,  2 May 2026 17:28:44 +0100
+Message-ID: <20260502162929.1377831-24-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
 References: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
@@ -68,29 +68,28 @@ X-Gm-Phishy: 0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:30:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236329
+ <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:30:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236333
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libpng/{libpng_1.6.56.bb => libpng_1.6.58.bb}               | 2 +-
+ .../xorg-lib/{libxpm_3.5.18.bb => libxpm_3.5.19.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.56.bb => libpng_1.6.58.bb} (97%)
+ rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.18.bb => libxpm_3.5.19.bb} (88%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.56.bb b/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
-similarity index 97%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.56.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.58.bb
-index 7ede0a6c8b7..7a8a524043f 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.56.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
-            file://run-ptest \
- "
+diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb
+rename to meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
+index 94bf28232e9..32e052fd424 100644
+--- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb
++++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
+@@ -22,6 +22,6 @@ PACKAGES =+ "sxpm cxpm"
+ FILES:cxpm = "${bindir}/cxpm"
+ FILES:sxpm = "${bindir}/sxpm"
  
--SRC_URI[sha256sum] = "f7d8bf1601b7804f583a254ab343a6549ca6cf27d255c302c47af2d9d36a6f18"
-+SRC_URI[sha256sum] = "28eb403f51f0f7405249132cecfe82ea5c0ef97f1b32c5a65828814ae0d34775"
+-SRC_URI[sha256sum] = "b4ed79bfc718000edee837d551c35286f0b84576db0ce07bbbebe60a4affa1e4"
++SRC_URI[sha256sum] = "ad3576d689221a39dc728f0e0dc02ca7bb6a0d724c9a77fd1bfa1e9af83be900"
  
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
- 
+ BBCLASSEXTEND = "native"
 
