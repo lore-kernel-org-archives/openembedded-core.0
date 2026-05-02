@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0394FCD3437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41E0ACD3439
 	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:49:42 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9707.1777740569156422075
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9868.1777740581620892699
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2026 09:49:30 -0700
+ Sat, 02 May 2026 09:49:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZA3JRosf;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Z9I9tKJw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019de9985e2d-8ebf2258-d72f-463e-97d1-5e4356fde121-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vXdzgk3F;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cD4m3bcG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019de9988906-577fe471-f186-4165-8dd8-a25bd9c5062d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777740570; i=@automation.yoctoproject.org;
+	t=1777740581; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=jDf66rH8jAPqQnwCKTRHyvqiVuL3HHzAsUzpKkXi4wc=;
-	b=ZA3JRosf0RvmR0+ASG7Z4XB6eN0/+omb2sxEOUjn15Zl6tehAYM7ZTB0D6xj+VuM
-	9E+g3JFKnabDAnjzRzHH4BIwVgamRJ5Iv631TStGIGdMmNPGkEOZdI97Ipbmg4Uoybx
-	7+ly2fD3QH4p2owwxBjNj89vYoIN5E75BJxJ5x3E=
+	bh=V5xu9DB5SMo81Ww9TtBzMC66ba1lf1AMNg+oQpuf4xU=;
+	b=vXdzgk3Ff51oYdmG+Qejj3+K+uWdUcjTxQxp2n00uYhuof5qk0EDos9chnDBvmmW
+	1JB1cZxHpRpK5FSR6oMXpX01zNdiXF4sUlqH+9uw3kxin9UyU0AltRyVyJnVHQxY0mt
+	bpNcDztyKfJ943/ZknPFmIucaQEBeD2WZjWJMCfk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777740570;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777740581;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=jDf66rH8jAPqQnwCKTRHyvqiVuL3HHzAsUzpKkXi4wc=;
-	b=Z9I9tKJwPU3pMcHWxrplF64Jz3KcqzTILHWSdeUUix04r1op3yDVpU/42jwInaZ9
-	RfcaGzHE7FvE7TgvzKEOhHfyXCByxKLRVaYpo+TequM2Cv4PpE6LFwQFrKBAUCMoh6o
-	onXGibf58rhp3Y7fDV7yIrZpRpLnoGStM82FwWfs=
+	bh=V5xu9DB5SMo81Ww9TtBzMC66ba1lf1AMNg+oQpuf4xU=;
+	b=cD4m3bcG4/inlbDWMi4x64gWzPFanzATPJP8ncbmLdbot74iPz/TwL0qR7mvaUIh
+	ytKQzBiaamJBDPb6XO/YTqn3mtctuBGdCzWbfQG3DqCuzRF3kd1duFODx4iyaWyG33u
+	tmyjQ4G2wU4dNlgzpfScepSVKVjyezEzI1Jxny5o=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 12/62] gtk4: upgrade 4.22.2 -> 4.22.4
-In-Reply-To: <20260502162929.1377831-12-richard.purdie@linuxfoundation.org>
-References: <20260502162929.1377831-12-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 26/62] mesa, mesa-tools-native: Upgrade 26.0.5 -> 26.0.6
+In-Reply-To: <20260502162929.1377831-26-richard.purdie@linuxfoundation.org>
+References: <20260502162929.1377831-26-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019de9985e2d-8ebf2258-d72f-463e-97d1-5e4356fde121-000000@us-west-2.amazonses.com>
-Date: Sat, 2 May 2026 16:49:30 +0000
+Message-ID: <0101019de9988906-577fe471-f186-4165-8dd8-a25bd9c5062d-000000@us-west-2.amazonses.com>
+Date: Sat, 2 May 2026 16:49:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.02-54.240.27.193
+X-SES-Outgoing: 2026.05.02-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:49:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236381
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236395
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/12-62-gtk4-upgrade-4.22.2---4.22.4.patch
+Testing patch /home/patchtest/share/mboxes/26-62-mesa-mesa-tools-native-Upgrade-26.0.5---26.0.6.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
