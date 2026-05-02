@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB92BCD3435
-	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:50:07 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9724.1777740600027488325
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15209CD3431
+	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:50:08 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9723.1777740599475144982
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2026 09:50:00 -0700
+ Sat, 02 May 2026 09:49:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=u2b2+At+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qmutqXmY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019de998d0ee-d45831e2-5642-4d6f-932b-e7bd6c4f586d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=v7nNl3o5;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=MVpGMYm7;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019de998ce18-0903c970-cd47-4ef4-b1e8-537b5a8397e3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777740599; i=@automation.yoctoproject.org;
+	t=1777740598; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=T4Ap5px28MQa9YxS78wgdUcD/EfHtdLG84+Y/h3LZao=;
-	b=u2b2+At+x29z0FhS7amgchMvet3YXMzAePKd4R6Ewv/1DrAvSabx23y8ZimGM9Y0
-	mzU6IoEDhJiOSypeDa1BuHt9Z881AoSbw2KSHjEdB3mHa3j9+HnrsPNgXrxYvjpnusX
-	yCZbWav7U0SH0IMYbitln3ec1/7uxrlTCxumGC6w=
+	bh=jCynsRUlTcsj0UbKvEBSOWkMRC07IqQR8DhB4Ldf77A=;
+	b=v7nNl3o5DWnk2nBtd+vZIgB5ywvT1ZLcJUc54GFzi0yKFVf3AOKDfxRejwdo3Ecr
+	QkLOQypC+UQar7ZZ96gq7UjLTVrizE1tjS/6LFQdOxVDBLhmJ46qGfi/AF7lT1xPk/F
+	Qn5gYgne+DirtMF0rGueqwEk6qaZuT0fRT+yW6NI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777740599;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777740598;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=T4Ap5px28MQa9YxS78wgdUcD/EfHtdLG84+Y/h3LZao=;
-	b=qmutqXmY6dIKvgXh3ZkGCMwMIZQpdLIbg+N6EVPjH3EIzeBhFhXHfImkDUHx1eWm
-	U3mbsJPzUt+xjNQ3LJSCoj8sOOJmvmJdslfn5Q9sbzRUCBfuJ8hTW/xijTmGIsyt40U
-	mXlWgS2OGDm/AccS494HPf/pKW3LPIt6nG05XkvM=
+	bh=jCynsRUlTcsj0UbKvEBSOWkMRC07IqQR8DhB4Ldf77A=;
+	b=MVpGMYm7NlXl1byy4Vd5sLj4RFSui/pswE0WJz9bQ/UmHXT34NiILL/g8BMxuied
+	U2bfImt8T43lTYhM4jzontXBvweKpU6JuTS+iK6Ybk45mie7gNOQByd8ZzRdvxs3ceL
+	UY3M3SdvOYNXywdvI99gWEAJUStnMZYPZ3ncxK0E=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 53/62] rpm-sequoia-crypto-policy: upgrade to latest revision
-In-Reply-To: <20260502162929.1377831-53-richard.purdie@linuxfoundation.org>
-References: <20260502162929.1377831-53-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 52/62] repo: upgrade 2.62 -> 2.63
+In-Reply-To: <20260502162929.1377831-52-richard.purdie@linuxfoundation.org>
+References: <20260502162929.1377831-52-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019de998d0ee-d45831e2-5642-4d6f-932b-e7bd6c4f586d-000000@us-west-2.amazonses.com>
-Date: Sat, 2 May 2026 16:49:59 +0000
+Message-ID: <0101019de998ce18-0903c970-cd47-4ef4-b1e8-537b5a8397e3-000000@us-west-2.amazonses.com>
+Date: Sat, 2 May 2026 16:49:58 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.02-54.240.27.45
+X-SES-Outgoing: 2026.05.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:50:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236418
+ <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:50:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236417
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/53-62-rpm-sequoia-crypto-policy-upgrade-to-latest-revision.patch
+Testing patch /home/patchtest/share/mboxes/52-62-repo-upgrade-2.62---2.63.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
