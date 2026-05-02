@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A50CD3423
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B93E3CD13DA
 	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:30:52 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9502.1777739450719414959
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9500.1777739446821315756
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2026 09:30:51 -0700
+ Sat, 02 May 2026 09:30:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QPsJBNy2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-44985f4ab0fso1143699f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 09:30:50 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KbQ+/fI/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4891b0786beso18996085e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 09:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777739448; x=1778344248; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1777739445; x=1778344245; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PwcpiLiGv+XpKEQ0Oe5kkEWJEEArkcz9JmXtOuj78Ds=;
-        b=QPsJBNy2hEFiEHoYeh7zTPTv/NL5OxacBQbzFihiCUPy8m5gTE9GNqM03ClTZeXOBk
-         PbcgfhXqpxosCjXChqO6Yl1gkfXpWjxkFk+24X8WfDszJvnf8pn1RnqdMDpAkkBpnEFv
-         CpKDTcfXnaandHOiKHr7rN4r2PcP4P/iIaaAQ=
+        bh=bcZSg+HIgGh+ZRHQ6HVxDbmDhuOwciJ/gOndi3tdz8I=;
+        b=KbQ+/fI/kEJmpO+4avZWVz2RID+t3y4YPRT3FcASX4748sPUw8h00TqnYD+cXXDoWS
+         4l7FI0t33pW50uZNmQ669uqzV2bP9oUIkycU2V8ECAoQIWOF3/LABD5jy7XlbQWUr6LB
+         L3a+ZAIWSBwm45nvEGwR1TMYaH8hdLGvxs55A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777739448; x=1778344248;
+        d=1e100.net; s=20251104; t=1777739445; x=1778344245;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=PwcpiLiGv+XpKEQ0Oe5kkEWJEEArkcz9JmXtOuj78Ds=;
-        b=HtyhoPVnEsgF5l/5JmJCH0KmttjMt7DllQ66bXNxKpvVLnq2HNrqHri6XxN1I8QWUO
-         D0vjvOFSrRQjas8llOzwLi+y/zbs9z6Pm4I5XqgJWNrwud0AFpubmp0rkp1+osN7MxtS
-         idZXeUBW07A6StGjjrWUypxz/G71q2M9CjdXzYdx4NIy3rfdREKWvrzraZhjkVbiIIpr
-         3EQJSsVeUeEjxwPTlqji/5l7o0nC6Q9MvriFxE5ecg4xhtH/IVnUGnV0Z/RRm6tOEchm
-         aR9AekHuj0qa1eYDINQ/XWoqBwHhuMGs51cnuMXMSck47I2YCNgWQBdc345hx5ktZvoB
-         XQgA==
-X-Gm-Message-State: AOJu0YwudGBoj0D3uZrslIW6rUmBwKeVo96tjnCSBpfRVroqXDqPXK5a
-	BoxIWemB3c9tV4tIJv9cr5keVM86IrryBti8He5La4S40IUVFvqrKZ3GRhqEIgGmcVwL0vcsov2
-	6cmohdsWYdddjFErRPw8QIJKTT47MBrew9BVT6plH/he2hkERt+u/KY6myruo1tFFeIf7vzwzHG
-	qJsw82kK4nQo0LG/M=
-X-Gm-Gg: AeBDieuZsfHnIf8RCpvH6l5I/8Ey3FanGxLerbe0cZDEFNsarveY33VVCp3DSgJdMrp
-	lcE7aeIuMvOPZuuFTPvJBIqHgPL2aKOL/jBKeaLLgeI7UBSJvelbv55uFccjuKpKSCDJgIoFavj
-	rLcPNCHW97b9ASZ3TqcOKD57doptiz51/aBRAY+mv3+kDB4XiKMYpsz6zaJfsIp9x2FjMSMW7GM
-	wIqqejwg4wuOSG8OdDBND9TPslkkBp61TcnwD0A4v50bQg1CsE8Z8sU07qPu+9hTf0Ao3702/sK
-	+DGSmzURVV6nZ0hYh0kLxOB5/LOG/b9rKfu36T56C6aHdagmFGvcoVhXCBGrY2d/GD1PNxHJcJZ
-	g0BsVz8CQDaGHa7n3lncP1cjZXIwo2rhxxziynbiRQZNGABpE/iAxcJAI9AptiEhb1DRDPvHpgh
-	oKit6K3lDzCOMZF20qURZ6dutdrZ8YWeyC7gg5Lo5XEqz/gNKOTbDL8UOK0ueN8NY=
-X-Received: by 2002:a05:6000:178b:b0:43f:e9f0:f1d4 with SMTP id ffacd0b85a97d-44bb4bee73amr5586789f8f.18.1777739448430;
-        Sat, 02 May 2026 09:30:48 -0700 (PDT)
+        bh=bcZSg+HIgGh+ZRHQ6HVxDbmDhuOwciJ/gOndi3tdz8I=;
+        b=fsX3rxz+hpRAjpr4vG7ezjy89nvMSVyOpw6cZzim5VnSBqWW/aAO64gO0Fl70ozpUA
+         9jsbYdA+cU4/Wwm4VlPaXQwH7UiAzlFEpuIGkIrsouua/ku1z2sVQ/UznnMWcGh5Ay+k
+         JWirvXexIYQ3TtbFsLLfDBwc7oogblDSqFAzGkQFUn7InLixw87ZJtoSrXBtj7teC7TU
+         K/8VJ0urkFH9aA8j70yDetj4RpwLvkJnR8TzPK3VvwrZysFwCWGGxm3+NUmduQxyHQ86
+         iv8FkzGsPK/UOzJYo+N9SxGfcSRBNPsoPTpbiKOMYBKdVCoXquW5oLcF/CVjYu1Jp4Qc
+         y3JQ==
+X-Gm-Message-State: AOJu0YyjlSEFILGu0x/nQ5vNXXUWOinNqqSnaG6rzXhlPiaf3ZibHdJs
+	aBABu+8Yiw9UObwawGVGw7HYAKuHsCX0vEfjfLmcg6tnFM4fRlGzsKwg0rRG6gIFt3kHJG4JStg
+	I+5RshXLkKYZAdMc7hCY4wfA6a7wZa7mzG8P9B7IWRrUToTCCFCJd2Tbk54yLqT4wy9SNXRT+Dc
+	mKolkduch+nK4J21A=
+X-Gm-Gg: AeBDievPcaIrFpE2ov2aUfxf+egkQlJTOTx0hcg+8b6v/T83E1ujHLYej2ZppzBk7qI
+	Cf4fTUpe8TxwO2jry3eMbHNZoK/WtLbZZB/9QJNKkDRLpGwYx2jrrAe7BkdY6SM2qjcoM2rf8h6
+	E+7UH9BJjx7pLAtFWulwwHMdS+5kap5SLNfACOcZ7Ranjsg7n4N0srH56G6U1fH56GdrMjHSZ+0
+	Cq3N9Wpoc8zVULATmOH0IxbpgnRyEMAtWqlpDvz9+m8NETw1XoMg83LMPPc9hANGuIgz4A32wm1
+	vGdDoNLEL7+kFMD8lP25IW+GPzDF9PhKjp43GQrUclgJM8wp/7YeCi+89w30i8oAUuWsbaJrrxZ
+	8BNNFiKNMPBwpXHlOJaEpAyV4NekoEYGBtckQ92RlRGe9UAOwm0lsvPx9UOT/pml33SjvZ42NgE
+	da7KIruauFI/4eywjSiwMajK7jZr4zq++ZPZEuIS4QYglIT11xjRk+7vI2RmmyHio=
+X-Received: by 2002:a05:600c:698d:b0:487:2439:b7be with SMTP id 5b1f17b1804b1-48a9852f4b9mr54707905e9.6.1777739444652;
+        Sat, 02 May 2026 09:30:44 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8635:4fc6:d16e:90be])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aac01sm11971926f8f.31.2026.05.02.09.30.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aac01sm11971926f8f.31.2026.05.02.09.30.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2026 09:30:46 -0700 (PDT)
+        Sat, 02 May 2026 09:30:42 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 37/62] python3-jsonpointer: upgrade 3.0.0 -> 3.1.1
-Date: Sat,  2 May 2026 17:28:57 +0100
-Message-ID: <20260502162929.1377831-37-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 35/62] python3-hypothesis: upgrade 6.151.9 -> 6.152.4
+Date: Sat,  2 May 2026 17:28:55 +0100
+Message-ID: <20260502162929.1377831-35-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
 References: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
@@ -68,28 +68,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:30:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236346
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236344
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...ython3-jsonpointer_3.0.0.bb => python3-jsonpointer_3.1.1.bb} | 2 +-
+ ...hon3-hypothesis_6.151.9.bb => python3-hypothesis_6.152.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jsonpointer_3.0.0.bb => python3-jsonpointer_3.1.1.bb} (85%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.151.9.bb => python3-hypothesis_6.152.4.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb b/meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
-rename to meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb
-index 0a23dc31002..ddc8e256a4d 100644
---- a/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=32b15c843b7a329130f4e266a281ebb3"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.151.9.bb b/meta/recipes-devtools/python/python3-hypothesis_6.152.4.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.151.9.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.152.4.bb
+index 157e4a2ee01..f08e0bad792 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.151.9.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.152.4.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
- inherit pypi ptest setuptools3
+-SRC_URI[sha256sum] = "2f284428dda6c3c48c580de0e18470ff9c7f5ef628a647ee8002f38c3f9097ca"
++SRC_URI[sha256sum] = "31c8f9ce619716f543e2710b489b1633c833586641d9e6c94cee03f109a5afc4"
  
--SRC_URI[sha256sum] = "2b2d729f2091522d61c3b31f82e11870f60b68f43fbc705cb76bf4b832af59ef"
-+SRC_URI[sha256sum] = "0b801c7db33a904024f6004d526dcc53bbb8a4a0f4e32bfd10beadf60adf1900"
- 
- SRC_URI += " \
- 	file://run-ptest \
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 
