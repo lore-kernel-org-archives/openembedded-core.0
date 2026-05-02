@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A456CD342E
-	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:30:31 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9382.1777739421925875119
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C486CD3423
+	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:30:41 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9390.1777739439843841152
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2026 09:30:22 -0700
+ Sat, 02 May 2026 09:30:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qtc1JX+p;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-445795cf6f1so1649335f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 09:30:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NS/DW/bK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-44c350a5b87so197967f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 09:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777739420; x=1778344220; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1777739438; x=1778344238; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6sJc/CaMYQQuvy4ScZziEofsKqqlwTOw4Gos3EhHMZU=;
-        b=Qtc1JX+pYhrLxyb/mKQSifoBBjLxYjKwMva8DJVIJnQmBK60o2ywttscHMIjL9qS7R
-         Ia2O5XhfP79qS7JO5krSvfoqvp94jApChXIDJGrtHzu6vFwmE5Y6o2YYXifOL8w6mQ7H
-         IrPBG8thCQE4Lbc8OrdHq+gt15PHux2pEuD8c=
+        bh=YjzErleXeTsMd7mizI1i3vAzqf3+0HnaCHXZ/In1Cwg=;
+        b=NS/DW/bKR8mNBv/2v8SaXSh2wg3ihichC4yxT6Tvil/MqjHnWNJ6RD8yNP54iWDH3w
+         W71l56UpexE/6bBFnQiut7iFarYwVwXjoiMiewRB18txAAt2U5sdrjvWlpqN5GW4M0jx
+         qL9pZL8FGMuEc1HzAWTLqy/6vmza1IKsqDtoo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777739420; x=1778344220;
+        d=1e100.net; s=20251104; t=1777739438; x=1778344238;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=6sJc/CaMYQQuvy4ScZziEofsKqqlwTOw4Gos3EhHMZU=;
-        b=b1CtD1eq6NCzU0QPNhrJYY72qooGvXKBO78dvN+fEYW2XafGMaonzGfXoH1OHrS0Lm
-         ietKmcLsYqeH26EoUUKghMe6CGgc+E4dx84jBmX7YoCLBJRVppNw6pH/Jr8ZKpyiD7++
-         99B/DECGNoWZkTWMKtmpCeTYZaf881saCSeBXnjOV5kjCihCZEcimtn/mi8d5uw7nFcc
-         lKO3jF4BQeIZXlL6Bw6dz6UrWCMSX0+KEsxoKD1UwZZDfUF49BIl7ICLQ2cXyBc2q1dv
-         nMNjP/oWK0G87Ml649eDq40VhfZlhS+0HZY3s5W5eDgf+3pWuuurm4NWmNr4fLuF2Bi1
-         LFGg==
-X-Gm-Message-State: AOJu0YwwXo2ZAPY7SUOruaWjKy6mp0jZovnuqg08ot5ro8wCwFI8GsuU
-	lZPi+UeWLcIFlKfHB0U8O/0hGexWdHUUjBwqtCEbAt4IJi6pQlEExc/PE9sFTDMbh+HJKMy5Ppm
-	ku0hLabUL0kFq9on8IqV6w6KszoyY2Dc3+S+ehmhEVJ8wkGdA6C0cFEPMlXvOyJ+W5n6kEI1GsL
-	MqSAv3O1899BI9Z2g=
-X-Gm-Gg: AeBDievVp6LwMvpIQDYO3/tTuL+Q1YdiIOsW9LAhLGfi+tYTL7+x6i31VZffew3COiV
-	anCGGWwPKvCMwDJ340Dpea0G96Wd84SRgUiCkKfPhC2moJcGOH4uzPqfmC7KH2gfUFTTT8Fmo51
-	7OqZJ0W0mGwprL4Buc4SoHC3aPkxU2Ob6dmOMIBvZDeSDjhF5x9mTGoDD8uZkyXL7u/XwXGfvOG
-	e3iXyDl2dR8tXBzZbeByKIOj5z6oeDxaF/i7kxjnDDZUguLb9NFjf4s+Wjkz3lcnYfC6ZriFnYe
-	tHC6Bq5fh5M7yAJ3++TK66NTgNH2zFaRM9nif46zIQ5VLJ3OUvFNhppf2jLlORJ87LWOa2F2RNk
-	xgnwR7pkMnKvQicHcn01oJSc3HYNRwfKOdDByP5LKHj/AfqzEbE3jCkIkYLpys1kg9K8FEmxZjh
-	NEwbiiImB+fvGq+bw2sZuFvf3a/Mbl46nGiHmFde0uhiJwhvbg58EcTx9at1bS2kE=
-X-Received: by 2002:a5d:5d02:0:b0:43d:75ec:26f7 with SMTP id ffacd0b85a97d-44bb59629f8mr5846289f8f.29.1777739419896;
-        Sat, 02 May 2026 09:30:19 -0700 (PDT)
+        bh=YjzErleXeTsMd7mizI1i3vAzqf3+0HnaCHXZ/In1Cwg=;
+        b=mu72tPG4lWuhA8pt4H9SFeL6oWQygMOXa8VQ4ST6aAN9k7tBwt25pD5AFNbw0hYwj9
+         TMzevattLOxMJj+TstgxP0XBuskMFyRQjCD7TXvJsiLpSp+TAiRAjGdaMia56CjAiDDz
+         jMQGej+DGAM6kaMaR2HFARIcFENrbRD1djYssq2xVR6L0bQgCHbLHBmyT4q9MHu3U0Mh
+         w/bomxtSHNW9v6YNkIGq4huKvzlrdzXrhZ/stM/W20KZpn7F50rVSRc9GnDpUuJkkWmt
+         rHjj2rLNNy2mm4P4PpnGmGEWWNHZLUxPR0ixaOdMmDcVTOFXqNPDn/xGWrezeHyHIvci
+         Uhpg==
+X-Gm-Message-State: AOJu0YzwGih0Tc5RDLLNicNYAuJNU8U1PLryH0zfUEGS1JajNQKmcVYT
+	mnITRMND1sLO6SRpbRmtlM0tR9llN/s1ZyTo5hhv7MkD5iQbsuIS+hA+TQtnrqR2t0c99iuHQhP
+	COhdfI9oSRRq2q82rLegMKUV2yPA0QmStn/dCPLhQfWUKLn4RIdtpoPKtAEi7g4gXJSa6goCBsS
+	Yl9/pdkXgTX0opdH4=
+X-Gm-Gg: AeBDieuce7rAY0WvG8tWVQwycfA14J0nHYAni33qnvBTol/5SYo9nSt0TByO5eif48/
+	Q4/eBPb8Fb9fFr3ZsWXJHRyHmllIIQA31Sdsv9pdQebLrGdQ0QzPun0emSJ95Agb2FF+xP8ZdkD
+	CXJs4viD+Yg7aF80h8cvU+ctRK0sf85MKcSGKHYhoIMo2exEEiZeGNTJWK6mJnmeaNfhj3u+4+S
+	dJp/rUCMA+HP8bbGkNPgb/+YXhpR4Q09UaKAv2C9c+CNSBWHP9ZkJPfQp/V96I9wyjITZC6G3J2
+	GogtfoI/faCtWfRH/YJePTE1tJ56ehW23p16iNgF1C5nBFhSfzS99Bz0iLmkkZMGJZt7yYhzjfM
+	GpSeye6wfw8N7+70a5mZpcE+6zpYnVW7UbUH8RH+X/MLs2rTYlTQIzsXkWErKxPQziwSkuN/HIE
+	MtlUWnQv+WRAQoFjtkGuYJCTUFabezBvmh1XikCpNmc2MPIUgYi5YVr1ec8vSc+Kg=
+X-Received: by 2002:a05:6000:2011:b0:43f:dc54:9493 with SMTP id ffacd0b85a97d-44bb5495b60mr5159014f8f.21.1777739437772;
+        Sat, 02 May 2026 09:30:37 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8635:4fc6:d16e:90be])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aac01sm11971926f8f.31.2026.05.02.09.30.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aac01sm11971926f8f.31.2026.05.02.09.30.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2026 09:30:18 -0700 (PDT)
+        Sat, 02 May 2026 09:30:35 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 26/62] mesa, mesa-tools-native: Upgrade 26.0.5 -> 26.0.6
-Date: Sat,  2 May 2026 17:28:46 +0100
-Message-ID: <20260502162929.1377831-26-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 33/62] python3-certifi: upgrade 2026.2.25 -> 2026.4.22
+Date: Sat,  2 May 2026 17:28:53 +0100
+Message-ID: <20260502162929.1377831-33-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
 References: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
@@ -67,95 +67,29 @@ X-Gm-Phishy: 0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:30:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236335
+ <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:30:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236342
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...01-freedreno-don-t-encode-build-path-into-binaries.patch | 6 +++---
- .../0001-gallivm-Fix-armhf-build-against-LLVM-22.patch      | 5 +----
- .../0001-meson-misdetects-64bit-atomics-on-mips-clang.patch | 2 +-
- meta/recipes-graphics/mesa/mesa-tools-native.bb             | 1 +
- meta/recipes-graphics/mesa/mesa.inc                         | 4 ++--
- 5 files changed, 8 insertions(+), 10 deletions(-)
+ ...ython3-certifi_2026.2.25.bb => python3-certifi_2026.4.22.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-certifi_2026.2.25.bb => python3-certifi_2026.4.22.bb} (87%)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-index 4d36e68a58d..e976b3399f4 100644
---- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-@@ -1,4 +1,4 @@
--From 8299fe0615638dc88694f08b95a62e9dd3943a6f Mon Sep 17 00:00:00 2001
-+From 4ef7487109f9acfa2baf1a2224da31a0ae0c74c6 Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
- Date: Wed, 10 Dec 2025 02:27:16 +0200
- Subject: [PATCH] freedreno: don't encode build path into binaries
-@@ -25,7 +25,7 @@ Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-  2 files changed, 5 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb b/meta/recipes-devtools/python/python3-certifi_2026.4.22.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-certifi_2026.2.25.bb
+rename to meta/recipes-devtools/python/python3-certifi_2026.4.22.bb
+index 7034f7a6f13..990e37d8012 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2026.4.22.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = " http://certifi.io/"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=11618cb6a975948679286b1211bd573c"
  
- diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
--index a4bfd337179..330b6468d01 100644
-+index a4bfd33..330b646 100644
- --- a/src/freedreno/meson.build
- +++ b/src/freedreno/meson.build
- @@ -4,9 +4,10 @@
-@@ -42,7 +42,7 @@ index a4bfd337179..330b6468d01 100644
-  dep_libarchive = dependency('libarchive', allow_fallback: true, required: false, disabler : true)
-  dep_libxml2 = dependency('libxml-2.0', allow_fallback: true, required: false)
- diff --git a/src/freedreno/registers/meson.build b/src/freedreno/registers/meson.build
--index f4be68117c3..cd0caafa431 100644
-+index f4be681..cd0caaf 100644
- --- a/src/freedreno/registers/meson.build
- +++ b/src/freedreno/registers/meson.build
- @@ -43,4 +43,6 @@ if install_fd_decode_tools
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch b/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-index dfa2e865680..065dd373a7b 100644
---- a/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-@@ -1,4 +1,4 @@
--From 973dc32026c164d0c13f7f5bef36c8d1c2375973 Mon Sep 17 00:00:00 2001
-+From 2a40c481affef4df729d794daf378ed2e0184895 Mon Sep 17 00:00:00 2001
- From: Alessandro Astone <ales.astone@gmail.com>
- Date: Sun, 1 Mar 2026 18:14:09 +0100
- Subject: [PATCH] gallivm: Fix armhf build against LLVM 22
-@@ -25,6 +25,3 @@ index d3ad342..c95d86e 100644
-          f != features.end();
-          ++f) {
-        MAttrs.push_back(((*f).second ? "+" : "-") + (*f).first().str());
---- 
--2.53.0
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-index baa98a0d46b..b039ac213ea 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-@@ -1,4 +1,4 @@
--From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
-+From 8943b38a0c14b220e3e173c038c87ce9a697c173 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 13 Jan 2020 15:23:47 -0800
- Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
-diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-index 0fff6ef1dde..20207450bf2 100644
---- a/meta/recipes-graphics/mesa/mesa-tools-native.bb
-+++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-@@ -17,3 +17,4 @@ EXTRA_OEMESON += " \
-     -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
-     -Dprecomp-compiler=enabled -Dinstall-precomp-compiler=true \
- "
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 01f7e3bcea0..15dad6eedd3 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,8 +20,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-gallivm-Fix-armhf-build-against-LLVM-22.patch \
- "
+-SRC_URI[sha256sum] = "e887ab5cee78ea814d3472169153c2d12cd43b14bd03329a39a9c6e2e80bfba7"
++SRC_URI[sha256sum] = "8d455352a37b71bf76a79caa83a3d6c25afee4a385d632127b6afb3963f1c580"
  
--SRC_URI[sha256sum] = "d229c9937d9a25ca0a8958c59f425174563d300ec42acbea2dbe84a055023368"
--PV = "26.0.5"
-+SRC_URI[sha256sum] = "1d3c3b8a8363b8cc354175bb4a684ad8b035211cc1d6fa17aeb9b9623c513f89"
-+PV = "26.0.6"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ inherit pypi python_setuptools_build_meta
  
 
