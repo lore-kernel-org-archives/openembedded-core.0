@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A905ECD13DA
-	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:50:06 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9861.1777740572815025747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B00CD342E
+	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 16:50:07 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9716.1777740584892745654
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2026 09:50:04 -0700
+ Sat, 02 May 2026 09:50:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lkb8OG2c;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=muVA6uyg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019de998e3ad-259f4705-e03c-4e1f-9beb-de0b009f4cc5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VeFndEO9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Ehlv3UhE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019de998da77-7ceacf5a-7d18-4acc-bfe0-d02c86cb202f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1777740604; i=@automation.yoctoproject.org;
+	t=1777740602; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=qxDKTd0mEwQszyd9yPBYph1oBFAAytz9NJWEq8TQCsc=;
-	b=lkb8OG2ctlituknC/qRIUEFfptjeJNHHGvFFObwocJJZjZX5Ptqj0tlGFoChTESi
-	F14nxyUhP5xz0omZKHVjETCXf3M3cw+YJCos5ZHyq9+W1sW4rO+Fw/7BpsNd1BcF3zS
-	WGWt5XroHZUUBNj7FXnfYtqOzbucBxBtM2kxC8CA=
+	bh=rGW1xYbPNXNpO95ApIxzO7wVx5Yrm5IT1WJFGSDRa8g=;
+	b=VeFndEO92cEjtxAnL6SEQF3ShKHaqZQ31VmZeDzjAw6LQGhdsEcUnNNMxtffFivz
+	MjsjkOlzJ9KWX+6FzYpwkszRrdY4rAz65np0hkQSCQpnEX4kLiJ3TGgZ2xFcycFcL6v
+	ledltuU2GeZAuc+ULwB8RlO0Yb/td7UzerbZGTHo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777740604;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1777740602;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=qxDKTd0mEwQszyd9yPBYph1oBFAAytz9NJWEq8TQCsc=;
-	b=muVA6uygKMN3Rs42GjbNruj7DVUamaHiQ2aIcmIJSE11kYRpFg6mNu8RmvLIpRWi
-	oRv0V3e8n0zHVA9bpk13LglHS/ssCoR5SoZz6NYGP3+UhYHuncQneghBlQPvt9xMSSu
-	5/H6CiK7zEHSTBsBv1L1CTIX5EMEwkydOmLHWe58=
+	bh=rGW1xYbPNXNpO95ApIxzO7wVx5Yrm5IT1WJFGSDRa8g=;
+	b=Ehlv3UhED5IbK7/R7rKLAapgLVrUGEfMJ5W78B46TntK+7df0UO6NOA1ip6ayqgY
+	kTTdlOjvb2BoI5JmVZVoF16pWmLChohiJ7LDaTYaTLD8pxCbb/SiyymaIg3THy72bvs
+	exMLrRBsvfjHFTF6KNzge3yijzHgvjVLavFrmK8g=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 60/62] vulkan-samples: upgrade to latest revision
-In-Reply-To: <20260502162929.1377831-60-richard.purdie@linuxfoundation.org>
-References: <20260502162929.1377831-60-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 57/62] shaderc: upgrade 2026.1 -> 2026.2
+In-Reply-To: <20260502162929.1377831-57-richard.purdie@linuxfoundation.org>
+References: <20260502162929.1377831-57-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019de998e3ad-259f4705-e03c-4e1f-9beb-de0b009f4cc5-000000@us-west-2.amazonses.com>
-Date: Sat, 2 May 2026 16:50:04 +0000
+Message-ID: <0101019de998da77-7ceacf5a-7d18-4acc-bfe0-d02c86cb202f-000000@us-west-2.amazonses.com>
+Date: Sat, 2 May 2026 16:50:02 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.02-54.240.27.23
+X-SES-Outgoing: 2026.05.02-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:50:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236424
+ <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 16:50:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236421
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/60-62-vulkan-samples-upgrade-to-latest-revision.patch
+Testing patch /home/patchtest/share/mboxes/57-62-shaderc-upgrade-2026.1---2026.2.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
