@@ -1,355 +1,149 @@
-Return-Path: <sudumbha@cisco.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE00ACD13DA
-	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 14:26:14 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7179.1777731973706370832
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CA57CD3423
+	for <webhook@archiver.kernel.org>; Sat,  2 May 2026 15:54:05 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8733.1777737228760420841
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2026 07:26:13 -0700
+ Sat, 02 May 2026 08:53:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Mtn5gqRW;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: sudumbha@cisco.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IiXKbOv6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d73422431so2356216f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 08:53:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=10002; q=dns/txt;
-  s=iport01; t=1777731973; x=1778941573;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=Fzd6/tytQ1p/6b9fTPj+oYOe3HR1pPgi+n0wrJNMmaY=;
-  b=Mtn5gqRW9i+/hluaWsW9+giTBhVx8jGMBEQbCCbICHFe2aPs0dUtFGDt
-   67+J3JXb7vZuDwTG7xevNb+7orLjJQSHS+K4XNpDkIa+e53GsYK2ZWMV5
-   T4BmO9bo/4p55lKcSK2pXXkTzVz4/y24+2UIH4MEca/gzec2SumaN4vpF
-   1G6uLGZTYsgUTOxyVfA0wicdVTZP+SfZmtDxxdvxOQwT7+y2YU3bobRUu
-   AZdjvYnkmOjaGuRbK9ADseYQVuaDObFeGYftKgNQk4hB9svhpL3siO5Os
-   dgBbyX8tOj9SiynT9a+WDu86nw3gap0ODUKU/XBLpjbEeAXj/xBN+pKWG
-   g==;
-X-CSE-ConnectionGUID: f1F62q1jRImvPNhd7tacwQ==
-X-CSE-MsgGUID: I8kQvauoRD+atWR8op+hcw==
-X-IPAS-Result: =?us-ascii?q?A0B2AgAlCfZp/4//Ja1aglmCV3FfQkkDlCeCIQOBE4pRk?=
- =?us-ascii?q?jaBfw8BAQEPRA0EAQGFBgKNMQImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBC?=
- =?us-ascii?q?wEBBQEBAQIBBwWBDhOGTw2GWgECAQMnCwFWHAMBAi8gCyMIGYMCAYI6AzYCA?=
- =?us-ascii?q?REGsneBeTOBAYNaBQkCQ1DYSA2CUgEFBhQBgTiFP4J5hSNbGAGEeicbG4Fyg?=
- =?us-ascii?q?RQBgTuBN3aBBYEaQgECARh+boYeBIIigQ6BYB6NHEiBHgNZLAFVEw0KCwcFg?=
- =?us-ascii?q?WYDNRIqFW4yHYEjPheBDBsHBYFLgwBtaoEDhGB4IywDTnIDCxgNSBEsNxQbB?=
- =?us-ascii?q?D5uB4pkHQ+BPnIBLGEBKQIggV0SHZM/kBSCIaAdcQoog3SMHo8+hXwaM4QEl?=
- =?us-ascii?q?BWSUpkGjgmECZJHhGiBaDyBRwsHcBWDIlMZD44tCwuDYIF/gxTAECM1AgkDL?=
- =?us-ascii?q?wEBBwIHDQMLgWiQEYFsAQE?=
-IronPort-Data: A9a23:i1OMt6ib05+BGlhdxpXUbIL2X161MREKZh0ujC45NGQN5FlHY01je
- htvXGmGO6qDMGfwf491btiw805T7ZHRz4RhSFdvqCg0QnhjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeEULOZ82QsaDxMtvrZ8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUWo8gpW3gX9
- 8Y5LS41SBCP2P6/y62CH7wEasQLdKEHPasFsX1miDWcBvE8TNWbHePB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgx/5JEWxI9EglHkbjFFrViVrII84nPYy0p6172F3N/9JYfSGp0EzxnFz
- o7A10WpASgEPcGY8xbG+26TvL/IhWD7U51HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFmAHY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn289lte5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:e7dnq6nRv8gWMPPHJmpk99m06Q/pDfIA3DAbv31ZSRFFG/Fw8P
- re+MjzuiWbtN98YhwdcJW7Scq9qBDnhPtICPcqXItKNTOO0ADDEGgh1/qB/9SKIULDH4BmuZ
- uIC5IfNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYLcemvAJsQljuQzW2gYytLeDU=
-X-Talos-CUID: 9a23:ElTZFmFPXNb5Qm36qmJprWBKQNl8cEf8yWnoBU+0VnpgQ6KsHAo=
-X-Talos-MUID: =?us-ascii?q?9a23=3ANf6JNA4jwFhHE8BOAoMF99f6xoxJs6eXFkkQlq8?=
- =?us-ascii?q?q+MCYChYgPC/ejD+oF9o=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,212,1770595200"; 
-   d="scan'208";a="730709975"
-Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 May 2026 14:26:10 +0000
-Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id CC0771800039B
-	for <openembedded-core@lists.openembedded.org>; Sat,  2 May 2026 14:26:10 +0000 (GMT)
-Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
-	id 79061CC12B5; Sat,  2 May 2026 07:26:10 -0700 (PDT)
-From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH 2/2] binutils: fix CVE-2026-4647
-Date: Sat,  2 May 2026 07:23:56 -0700
-Message-Id: <20260502142354.3840615-2-sudumbha@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260502142354.3840615-1-sudumbha@cisco.com>
-References: <20260502142354.3840615-1-sudumbha@cisco.com>
+        d=linuxfoundation.org; s=google; t=1777737227; x=1778342027; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8sJiermHVRx/nZENKF6UIfY3252TyUtlADduJgGi+EI=;
+        b=IiXKbOv6Mrul+Bh3wZHx+J220zLRwQq+PPLnkaO7sjZVcfQp9dI/+9kMSonZlTXdV7
+         3AJA25PUnHmaN9rAuV9tQW+O8h22FnkUetBaByzvy6GfzD7Cw1HMudXemm9VsErQImpf
+         BL51J9Bbu3QOyIoyF0znOeZe/DNvcjMBjciQk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777737227; x=1778342027;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8sJiermHVRx/nZENKF6UIfY3252TyUtlADduJgGi+EI=;
+        b=PledB2KU1q0ObcYlUDCCIUWZ/VTASKV5VaHycL9eLe2CeO3Dppo879IzZ+ZOb41CLZ
+         3D4ngABRsHa/D4RyegP99Saa7mfdnT9SMfGPT97ponK4qM77V5wp43WPADuny+SHkZ+5
+         xerHMzg68BZE1V+rFpIm7tmsk79fzds/kuWkUA6YOeoNt3pjz25lLmUM9Oh5+Nhi4ba2
+         xXdeiglyc0XsCu+VQ0bRHLt59Q0uB6AYRVcOWoXqgDIo/CZFYXCOFN5hyMj076vPesvn
+         bBAbRMMGgKS2gZ2pqH6YWgH9TPCqMZzSL4LmCV2cj3g/vCUe84uYtY/tmLPlLbyub5w7
+         Qbfw==
+X-Gm-Message-State: AOJu0YzMjy2nZpHmQuK9E3bgfR9HPn4FjX5D8FJLtsRfYp8DkQVR5gzN
+	mB4nePy4OX9OulMmqHBjn2xP/JNxt+5aPtP6sI9pg2Vh3Ub4ZY2cOziQUvoSkYOShmBawBTBUmI
+	u6lIYIPJRbAK9/yqAouxgkB6vA50sNTXqdLU1dsK9txpdJusy+rmRx50DeBWPZQCfoJvYOZ2k2C
+	4=
+X-Gm-Gg: AeBDievQO81FcKRXH16E+srd71b9i66kLU9IdGk1rdE7fdvU4gs+8C8julDCrK1RlK1
+	na/AdHxgN6v87d1Of/4h0G7Aap9Jd5L6wiPZQuFex6BuHkQS/SXRIw3P3qJ6Z6jZhZvsqBQQFOE
+	UgE9h9wegfK1/fmE7b9BTocD3GYEx+EVKWKfs6PjchpD50d28xKbRZqfXLgv9hRSboGG98ndidK
+	CgauQckFH8n75cjXYLxedkUTF8mICqDFD1BbJpqqIN84Ockap8xb+a3v2Cm9kgjcuaN78OUtH5B
+	A+GhpO9xAkAmXS7SzZmEasp9xpaMnxcM9mR9yuBAbMITxZKjxaliS3JoZjOOHvKrQ5g1ToJzWBD
+	NZiIxN1ViDFMZW2TCXQGTrfXz+69g4g6T8Psgu23sGxnBaZVTHWfW5I111eOVBmxSgLKLd7iAJE
+	uiVv/1Z/afC7V4nrQKwxR0/0H15P9tzMG6oU0wmCQ5uVufGe7fuYzIkYxLPohSQkhx5djZX9ADz
+	YG3giUxagaAF4GDZ7R/XEOqPi4=
+X-Received: by 2002:a05:6000:25c3:b0:437:711c:8754 with SMTP id ffacd0b85a97d-44bb36d192emr5396975f8f.7.1777737226907;
+        Sat, 02 May 2026 08:53:46 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8635:4fc6:d16e:90be? ([2001:8b0:aba:5f3c:8635:4fc6:d16e:90be])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44acad8f974sm10808536f8f.23.2026.05.02.08.53.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 May 2026 08:53:45 -0700 (PDT)
+Message-ID: <cd7bb82ad82d6e341662dd346b4a8d5a03a0dafe.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [AUH] python3-packaging: upgrading to 26.2 SUCCEEDED
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: auh@yoctoproject.org, Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Sat, 02 May 2026 16:53:45 +0100
+In-Reply-To: <0101019de3ee57c3-589c9dd5-ea2a-4508-8462-a02599db30fd-000000@us-west-2.amazonses.com>
+References: 
+	<0101019de3ee57c3-589c9dd5-ea2a-4508-8462-a02599db30fd-000000@us-west-2.amazonses.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-12007.cisco.com [171.70.97.7];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
-X-Outbound-Node: rcdn-l-core-06.cisco.com
+X-Gm-Spam: 0
+X-Gm-Phishy: 0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 14:26:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236308
+ <openembedded-core@lists.openembedded.org>; Sat, 02 May 2026 15:54:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236309
 
-From: Sudhir Dumbhare <sudumbha@cisco.com>
+On Fri, 2026-05-01 at 14:25 +0000, Auto Upgrade Helper via lists.openembedd=
+ed.org wrote:
+> Hello,
+>=20
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe(s) *python3-packaging* t=
+o *26.2* has Succeeded.
+>=20
+> Next steps:
+> =C2=A0=C2=A0=C2=A0 - apply the patch: git am 0001-python3-packaging-upgra=
+de-26.0-26.2.patch
+> =C2=A0=C2=A0=C2=A0 - check the changes to upstream patches and summarize =
+them in the commit message,
+> =C2=A0=C2=A0=C2=A0 - compile an image that contains the package
+> =C2=A0=C2=A0=C2=A0 - perform some basic sanity tests
+> =C2=A0=C2=A0=C2=A0 - amend the patch and sign it off: git commit -s --res=
+et-author --amend
+> =C2=A0=C2=A0=C2=A0 - send it to the appropriate mailing list
+>=20
+> Alternatively, if you believe the recipe should not be upgraded at this t=
+ime,
+> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> automatic upgrades would no longer be attempted.
+>=20
+> Please review the attached files for further information and build/update=
+ failures.
+> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_=
+bug.cgi?product=3DAutomated%20Update%20Handler
+>=20
+> Regards,
+> The Upgrade Helper
+>=20
+> -- >8 --
+> From 59193a7e4a05b0bca422b8b94d2558ad8d67a039 Mon Sep 17 00:00:00 2001
+> From: Upgrade Helper <auh@yoctoproject.org>
+> Date: Fri, 1 May 2026 08:53:35 +0000
+> Subject: [PATCH] python3-packaging: upgrade 26.0 -> 26.2
+>=20
+> ---
+> =C2=A0.../{python3-packaging_26.0.bb =3D> python3-packaging_26.2.bb}=C2=
+=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> =C2=A0rename meta/recipes-devtools/python/{python3-packaging_26.0.bb =3D>=
+ python3-packaging_26.2.bb} (94%)
+>=20
+> diff --git a/meta/recipes-devtools/python/python3-packaging_26.0.bb b/met=
+a/recipes-devtools/python/python3-packaging_26.2.bb
+> similarity index 94%
+> rename from meta/recipes-devtools/python/python3-packaging_26.0.bb
+> rename to meta/recipes-devtools/python/python3-packaging_26.2.bb
+> index ff45cb5133..1e4c0a6bd3 100644
+> --- a/meta/recipes-devtools/python/python3-packaging_26.0.bb
+> +++ b/meta/recipes-devtools/python/python3-packaging_26.2.bb
+> @@ -3,7 +3,7 @@ HOMEPAGE =3D "https://github.com/pypa/packaging"
+> =C2=A0LICENSE =3D "Apache-2.0 | BSD-2-Clause"
+> =C2=A0LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dfaadaedca9251a90b205c916=
+7578ce91"
+> =C2=A0
+> -SRC_URI[sha256sum] =3D "00243ae351a257117b6a241061796684b084ed1c516a08c4=
+8a3f7e147a9d80b4"
+> +SRC_URI[sha256sum] =3D "ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075a=
+adb987c2fb221661"
+> =C2=A0
+> =C2=A0SRC_URI +=3D "file://run-ptest.in"
+> =C2=A0
 
-This patch applies the upstream fix [1], which addresses an out-of-bounds
-read issue in XCOFF relocation processing, as described in [2].
+This has ptest failures triggering warnings:
 
-[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=9e99dbc1f19ffaf18d0250788951706066ebe7f2
-[2] https://sourceware.org/bugzilla/show_bug.cgi?id=33919
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/353
 
-Reference:
-https://bugzilla.suse.com/show_bug.cgi?id=1260338
-https://www.suse.com/security/cve/CVE-2026-4647.html
-https://nvd.nist.gov/vuln/detail/CVE-2026-4647
+Cheers,
 
-Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
----
- .../binutils/binutils-2.42.inc                |   1 +
- .../binutils/binutils/CVE-2026-4647.patch     | 228 ++++++++++++++++++
- 2 files changed, 229 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-4647.patch
-
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index 5d91a41648..b1546de02c 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -70,5 +70,6 @@ SRC_URI = "\
-      file://0029-CVE-2025-11839.patch \
-      file://0030-CVE-2025-11840.patch \
-      file://CVE-2026-3441_CVE-2026-3442.patch \
-+     file://CVE-2026-4647.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-4647.patch b/meta/recipes-devtools/binutils/binutils/CVE-2026-4647.patch
-new file mode 100644
-index 0000000000..cece5afefe
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-4647.patch
-@@ -0,0 +1,228 @@
-+From 3e24faeffc0116c271d048137b340586d800e17c Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Fri, 13 Mar 2026 17:28:28 +1030
-+Subject: [PATCH] PR33919 Out-of-bounds read in XCOFF relocation processing
-+
-+	PR 33919
-+	* coff-rs6000.c (xcoff_calculate_relocation): Don't use explicit
-+	array size.
-+	(xcoff_complain_overflow): Likewise.
-+	(xcoff_rtype2howto): Return a NULL howto rather than aborting.
-+	(_bfd_xcoff_reloc_name_lookup): Use ARRAY_SIZE.
-+	(xcoff_ppc_relocate_section): Sanity check reloc r_type before
-+	accessing xcoff_howto_table.  Print r_type using %#x.  Remove
-+	now redundant later reloc r_type sanity check.
-+	* coff64-rs6000.c: Similarly.
-+	* libxcoff.h (XCOFF_MAX_CALCULATE_RELOCATION): Don't define.
-+	(XCOFF_MAX_COMPLAIN_OVERFLOW): Don't define.
-+
-+CVE: CVE-2026-4647
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=9e99dbc1f19ffaf18d0250788951706066ebe7f2]
-+
-+(cherry picked from commit 9e99dbc1f19ffaf18d0250788951706066ebe7f2)
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ bfd/coff-rs6000.c   | 36 +++++++++++++++++++++---------------
-+ bfd/coff64-rs6000.c | 33 ++++++++++++++++++++-------------
-+ bfd/libxcoff.h      |  3 ---
-+ 3 files changed, 41 insertions(+), 31 deletions(-)
-+
-+diff --git a/bfd/coff-rs6000.c b/bfd/coff-rs6000.c
-+index 87feb672bf1..0f2cc496b63 100644
-+--- a/bfd/coff-rs6000.c
-++++ b/bfd/coff-rs6000.c
-+@@ -155,8 +155,7 @@ static xcoff_complain_function xcoff_complain_overflow_bitfield_func;
-+ static xcoff_complain_function xcoff_complain_overflow_signed_func;
-+ static xcoff_complain_function xcoff_complain_overflow_unsigned_func;
-+ 
-+-xcoff_reloc_function *const
-+-xcoff_calculate_relocation[XCOFF_MAX_CALCULATE_RELOCATION] =
-++xcoff_reloc_function *const xcoff_calculate_relocation[] =
-+ {
-+   xcoff_reloc_type_pos,  /* R_POS   (0x00) */
-+   xcoff_reloc_type_neg,  /* R_NEG   (0x01) */
-+@@ -210,8 +209,7 @@ xcoff_calculate_relocation[XCOFF_MAX_CALCULATE_RELOCATION] =
-+   xcoff_reloc_type_toc,  /* R_TOCL    (0x31) */
-+ };
-+ 
-+-xcoff_complain_function *const
-+-xcoff_complain_overflow[XCOFF_MAX_COMPLAIN_OVERFLOW] =
-++xcoff_complain_function *const xcoff_complain_overflow[] =
-+ {
-+   xcoff_complain_overflow_dont_func,
-+   xcoff_complain_overflow_bitfield_func,
-+@@ -1158,8 +1156,11 @@ reloc_howto_type xcoff_howto_table[] =
-+ void
-+ xcoff_rtype2howto (arelent *relent, struct internal_reloc *internal)
-+ {
-+-  if (internal->r_type > R_TOCL)
-+-    abort ();
-++  if (internal->r_type >= ARRAY_SIZE (xcoff_howto_table))
-++    {
-++      relent->howto = NULL;
-++      return;
-++    }
-+ 
-+   /* Default howto layout works most of the time */
-+   relent->howto = &xcoff_howto_table[internal->r_type];
-+@@ -1183,7 +1184,7 @@ xcoff_rtype2howto (arelent *relent, struct internal_reloc *internal)
-+   if (relent->howto->dst_mask != 0
-+       && (relent->howto->bitsize
-+ 	  != ((unsigned int) internal->r_size & 0x1f) + 1))
-+-    abort ();
-++    relent->howto = NULL;
-+ }
-+ 
-+ reloc_howto_type *
-+@@ -1236,9 +1237,7 @@ _bfd_xcoff_reloc_name_lookup (bfd *abfd ATTRIBUTE_UNUSED,
-+ {
-+   unsigned int i;
-+ 
-+-  for (i = 0;
-+-       i < sizeof (xcoff_howto_table) / sizeof (xcoff_howto_table[0]);
-+-       i++)
-++  for (i = 0; i < ARRAY_SIZE (xcoff_howto_table); i++)
-+     if (xcoff_howto_table[i].name != NULL
-+ 	&& strcasecmp (xcoff_howto_table[i].name, r_name) == 0)
-+       return &xcoff_howto_table[i];
-+@@ -3776,6 +3775,14 @@ xcoff_ppc_relocate_section (bfd *output_bfd,
-+ 	 the csect including the symbol which it references.  */
-+       if (rel->r_type == R_REF)
-+ 	continue;
-++      if (rel->r_type >= ARRAY_SIZE (xcoff_howto_table))
-++	{
-++	  /* xgettext:c-format */
-++	  _bfd_error_handler (_("%pB: unsupported relocation type %#x"),
-++			      input_bfd, rel->r_type);
-++	  bfd_set_error (bfd_error_bad_value);
-++	  return false;
-++	}
-+ 
-+       /* Retrieve default value in HOWTO table and fix up according
-+ 	 to r_size field, if it can be different.
-+@@ -3795,7 +3802,7 @@ xcoff_ppc_relocate_section (bfd *output_bfd,
-+ 
-+ 	    default:
-+ 	      _bfd_error_handler
-+-		(_("%pB: relocation (%d) at 0x%" PRIx64 " has wrong r_rsize (0x%x)\n"),
-++		(_("%pB: relocation (%#x) at 0x%" PRIx64 " has wrong r_rsize (0x%x)\n"),
-+ 		 input_bfd, rel->r_type, (uint64_t) rel->r_vaddr, rel->r_size);
-+ 	      return false;
-+ 	    }
-+@@ -3871,10 +3878,9 @@ xcoff_ppc_relocate_section (bfd *output_bfd,
-+ 	    }
-+ 	}
-+ 
-+-      if (rel->r_type >= XCOFF_MAX_CALCULATE_RELOCATION
-+-	  || !((*xcoff_calculate_relocation[rel->r_type])
-+-	       (input_bfd, input_section, output_bfd, rel, sym, &howto, val,
-+-		addend, &relocation, contents, info)))
-++      if (!((*xcoff_calculate_relocation[rel->r_type])
-++	    (input_bfd, input_section, output_bfd, rel, sym, &howto, val,
-++	     addend, &relocation, contents, info)))
-+ 	return false;
-+ 
-+       /* address */
-+diff --git a/bfd/coff64-rs6000.c b/bfd/coff64-rs6000.c
-+index 0f8d9e08783..c74698070d5 100644
-+--- a/bfd/coff64-rs6000.c
-++++ b/bfd/coff64-rs6000.c
-+@@ -177,8 +177,7 @@ static bool xcoff64_bad_format_hook
-+ /* Relocation functions */
-+ static xcoff_reloc_function xcoff64_reloc_type_br;
-+ 
-+-xcoff_reloc_function *const
-+-xcoff64_calculate_relocation[XCOFF_MAX_CALCULATE_RELOCATION] =
-++xcoff_reloc_function *const xcoff64_calculate_relocation[] =
-+ {
-+   xcoff_reloc_type_pos,  /* R_POS     (0x00) */
-+   xcoff_reloc_type_neg,  /* R_NEG     (0x01) */
-+@@ -1439,8 +1438,11 @@ reloc_howto_type xcoff64_howto_table[] =
-+ void
-+ xcoff64_rtype2howto (arelent *relent, struct internal_reloc *internal)
-+ {
-+-  if (internal->r_type > R_TOCL)
-+-    abort ();
-++  if (internal->r_type >= ARRAY_SIZE (xcoff64_howto_table))
-++    {
-++      relent->howto = NULL;
-++      return;
-++    }
-+ 
-+   /* Default howto layout works most of the time */
-+   relent->howto = &xcoff64_howto_table[internal->r_type];
-+@@ -1473,7 +1475,7 @@ xcoff64_rtype2howto (arelent *relent, struct internal_reloc *internal)
-+   if (relent->howto->dst_mask != 0
-+       && (relent->howto->bitsize
-+ 	  != ((unsigned int) internal->r_size & 0x3f) + 1))
-+-    abort ();
-++    relent->howto = NULL;
-+ }
-+ 
-+ reloc_howto_type *
-+@@ -1528,9 +1530,7 @@ xcoff64_reloc_name_lookup (bfd *abfd ATTRIBUTE_UNUSED,
-+ {
-+   unsigned int i;
-+ 
-+-  for (i = 0;
-+-       i < sizeof (xcoff64_howto_table) / sizeof (xcoff64_howto_table[0]);
-+-       i++)
-++  for (i = 0; i < ARRAY_SIZE (xcoff64_howto_table); i++)
-+     if (xcoff64_howto_table[i].name != NULL
-+ 	&& strcasecmp (xcoff64_howto_table[i].name, r_name) == 0)
-+       return &xcoff64_howto_table[i];
-+@@ -1574,6 +1574,14 @@ xcoff64_ppc_relocate_section (bfd *output_bfd,
-+ 	 the csect including the symbol which it references.  */
-+       if (rel->r_type == R_REF)
-+ 	continue;
-++      if (rel->r_type >= ARRAY_SIZE (xcoff64_howto_table))
-++	{
-++	  /* xgettext:c-format */
-++	  _bfd_error_handler (_("%pB: unsupported relocation type %#x"),
-++			      input_bfd, rel->r_type);
-++	  bfd_set_error (bfd_error_bad_value);
-++	  return false;
-++	}
-+ 
-+       /* Retrieve default value in HOWTO table and fix up according
-+ 	 to r_size field, if it can be different.
-+@@ -1595,7 +1603,7 @@ xcoff64_ppc_relocate_section (bfd *output_bfd,
-+ 
-+ 	    default:
-+ 	      _bfd_error_handler
-+-		(_("%pB: relocation (%d) at (0x%" PRIx64 ") has wrong"
-++		(_("%pB: relocation (%#x) at (0x%" PRIx64 ") has wrong"
-+ 		   " r_rsize (0x%x)\n"),
-+ 		 input_bfd, rel->r_type, rel->r_vaddr, rel->r_size);
-+ 	      return false;
-+@@ -1668,10 +1676,9 @@ xcoff64_ppc_relocate_section (bfd *output_bfd,
-+ 	    }
-+ 	}
-+ 
-+-      if (rel->r_type >= XCOFF_MAX_CALCULATE_RELOCATION
-+-	  || !((*xcoff64_calculate_relocation[rel->r_type])
-+-	      (input_bfd, input_section, output_bfd, rel, sym, &howto, val,
-+-	       addend, &relocation, contents, info)))
-++      if (!((*xcoff64_calculate_relocation[rel->r_type])
-++	    (input_bfd, input_section, output_bfd, rel, sym, &howto, val,
-++	     addend, &relocation, contents, info)))
-+ 	return false;
-+ 
-+       /* address */
-+diff --git a/bfd/libxcoff.h b/bfd/libxcoff.h
-+index 81c4e205e06..ca716a9ef3a 100644
-+--- a/bfd/libxcoff.h
-++++ b/bfd/libxcoff.h
-+@@ -215,9 +215,6 @@ struct xcoff_backend_data_rec
-+ #define bfd_xcoff_text_align_power(a) ((xcoff_data (a)->text_align_power))
-+ #define bfd_xcoff_data_align_power(a) ((xcoff_data (a)->data_align_power))
-+ 
-+-/* xcoff*_ppc_relocate_section macros  */
-+-#define XCOFF_MAX_CALCULATE_RELOCATION (0x32)
-+-#define XCOFF_MAX_COMPLAIN_OVERFLOW (4)
-+ /* N_ONES produces N one bits, without overflowing machine arithmetic.  */
-+ #ifdef N_ONES
-+ #undef N_ONES
-+-- 
-+2.44.4
-+
--- 
-2.44.4
-
+Richard
 
