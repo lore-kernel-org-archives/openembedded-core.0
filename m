@@ -1,227 +1,233 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <nmjain23@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3656CFF885A
-	for <webhook@archiver.kernel.org>; Mon,  4 May 2026 11:08:18 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12316.1777892896414328322
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC63CD3430
+	for <webhook@archiver.kernel.org>; Mon,  4 May 2026 11:23:48 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12539.1777893823795992209
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2026 04:08:16 -0700
+ Mon, 04 May 2026 04:23:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=TYQ3oU38;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so31664885e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 04:08:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=WovtB1yr;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: nmjain23@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b7d3ecc10dso35736225ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 04:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777892894; x=1778497694; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1777893823; x=1778498623; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjw9IlJQZ7TAiueRegHLKhpuXUWisziSGML0sTPBSVU=;
-        b=TYQ3oU385ews+99p2ru+u6Gsfsey0Mb0CXu1ZgDa5x2Ixi9mf+RkfI+rjfLYo1TKO/
-         UtFFKHBC3K8SipR4jXmoHEWSfGo7p9qUJpIl/fK/BIzr8cq8E3tfDp34q5gaUZiH2OuL
-         NqOOOl7lOdFH/OfrU2yUzSx1Y6MTnF59D2LaSoZc1Ord387N9X8drT5OeCA8CjkK14/g
-         fCb8PXQ53WRcBNRv8gAq5fSSlA44C1ckN91/PSW9ZPW0BASxZxAMP5qcXU/DJT15s86Z
-         5ss+h6uPepBeExj6aXHci+K9X91s8lXkUYxdO+Pa7uwWKBpvUl+nF/xiA+FUZFJpj2hg
-         lx7Q==
+        bh=VQ39/S3U8dcmYfNbKqGBq7CIM0tDngI+tjKYlAUq0D4=;
+        b=WovtB1yrymeBQ6KeqtO+x/I9U0hgrvUYW7DylPKKBuUa1pfKtUIEU0wAu15W1lJIv7
+         lF2XSVICU+Wm9lryNM1zNMrgYKz7YjAWdFV3RX9TNdCq2CK6LajhhtxJwYYEMJjwCJge
+         QJ5OBjMgUcaKg7liAJ/vIt36unSRfnY8JW/tVxDuDW8HLLBDNQZuJWwvaC1r65LmppVQ
+         VRYApJ4Vazup0P3FW81M1r5ohkP7IzedJ5MiJ6S4y/10Z5RpZtYUPy6M41HePiXPIGLQ
+         LXP5SELOT4xfP1JpCoDu51YTaXR//gdekC7ZVQK/wnxk8ClBU1812E0ifhgldqO/d8EI
+         OM0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777892894; x=1778497694;
+        d=1e100.net; s=20251104; t=1777893823; x=1778498623;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qjw9IlJQZ7TAiueRegHLKhpuXUWisziSGML0sTPBSVU=;
-        b=JzO1eA6I7L9t1+BUbbAGitaRoHE7Hsqkc4fLKg6WVO3obZCuXW1Lzeu4TSsHHBFbNf
-         F5fOv8ooNO16oGUtLoQ/56MsVnzm7nxE8n1arJUZ+b0+7vIqfWcQK31NRoc9GQPFcyBD
-         iwPX95WU8j8++qYvYeBsQw8gFX2yz5NFEf4Ibk1ibyasgYtEiuxSNIa7bwY28qz135Mh
-         PBTHT/MWmGjhQ+CLRb5KFYqbb2xHqWKvRyuTCoRtutIEt2FqfboRkBuPjFYVzY5l8tdK
-         bUwVFcJyZ2pwci0CMUNO4lsSaw61Vj50UwG0QQ5OnVLP7tTsGXQeDhOL+r15rqQ4g4CH
-         Cntw==
-X-Gm-Message-State: AOJu0Yya3j3haJMuuNLT79Bs+1T2j+ltZ227TWo1iSXyNfYWgX/7Kzlx
-	8Y+aYxlEEEr2tMzIMPbtXJfkxUEkXlnNOJfimcKkJhp+ExPHsUyyo3rFSdF6JQ==
-X-Gm-Gg: AeBDietlXuO9LKseu2+hZ2AiLNitjo4eS5TfxPVtLzWp3bn631Mo9dyijoLYzeqlhSt
-	Krg96wQnbJ+zui32vgwYhwamzt1gSANo+C/00Bi8DXC/KiU6b+cVV99btzzJkuVVJBgDqeEGwF2
-	tpdrZR113Tl8cUygZ+vZ9lmjJPPlSB1m688g4Iq0ojIu/m86esaQK0ccw2OJt6dbTjjklvt4/xN
-	SYt/jb4VJoIdqqMyETR0XtMSl0rk4gxLizguikDOafnHznWfgi9aK5fOMFrxvHbChzkpACSyZ3y
-	aaS49H4WiCFZyPG4tevouu1ctH/jBbmTudy+XZiKv7odrugo37+lWAoFBq99McFY8b+nMWR7U8W
-	A2EZ5gIWSivFL0Nh1qoFwsdfkDRVKvNxENqQlpsx828U0YxEKGT/11M8ByPh25rhYanVJ7t3+io
-	tSFrephWB3pXcyRhnsIymQp65TEihZ1UcdCZKtlC/6BQXIBGR4zVsGwx7uCTzOadfwG9tLHVXEY
-	HeLaZ8NzfQQeFpmuxp7Yn1F8FI1ahJi+CpgDmdaTrwJITrJ
-X-Received: by 2002:a05:600c:a111:b0:48a:8b02:ae91 with SMTP id 5b1f17b1804b1-48a9863cee3mr104953735e9.11.1777892894026;
-        Mon, 04 May 2026 04:08:14 -0700 (PDT)
-Received: from localhost.localdomain (88-174-158-187.subs.proxad.net. [88.174.158.187])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a82301b7bsm384002215e9.11.2026.05.04.04.08.12
+        bh=VQ39/S3U8dcmYfNbKqGBq7CIM0tDngI+tjKYlAUq0D4=;
+        b=ZaMHNJ0+S95sL2ovKjZS1Swg3vqqEiFEDaSdf3xcTe5DpSy+vL2jl5BESb9H2J23xz
+         /2svlpqOHn0psTr4cWtIiZHbe5Nfj+n5H/RNPKOXhVRSacrCWguPpzn5KlAweB887XJd
+         wYMVg8UN459SAx3QUq2e9R+HvhxSmVDKZq40il3dxWNtls4my1lnkm+Z5FhsJ4A2iwNg
+         RyqpKFNTP8RmGXcVYbqLD69kokbdJn1AQyURM6dOgbQTTY9GXxobihz8XVF+vf7QCgWx
+         8id8k2TjTihGNGKD2grc9biGHpu9JeanWcD2nO9A9AkCSDAARM+lLUU46J6DAD4IPpi4
+         cpmQ==
+X-Gm-Message-State: AOJu0YwuA0D2/ARgCNK2IBIDuzS3JCDowVXd/VLmc5VdcGyzphVxfzWm
+	aBAhRt52/aGdrame/QIbeiuQLyFa7/UgwcjAEy5G7LF1NPJJQ0yeNTcAg+ZkoA==
+X-Gm-Gg: AeBDieuizoCBeu2O4buAclCmlN+wP3U0OhWDUitqSTLSqy9Utah0LM7iXk5yKCa/0+O
+	LbgycoYj84YUUCpWLSzDANUy7B5ZNZpLezHJnzP/eCea+AKSxAtIULGE1cQDLhP6bhrlxryzD6U
+	dgcpcJTb5O/cX94a51s6WErDO3paCcBmeiK1NDVzG1tcFheOKVtiToT7e93JUuZtAWLlV7adn58
+	gaMgY5d2G/oNMZgHO4vLjhx+/PzRsId1TI3xIIrJo9rHfsuMm/0I001ZK/CoYMuY1zqo+tBggRX
+	+y0Il7yQ2LNuWI73h4/mJzZa9pQ7hlyY4/hmI2mPMn+qMeQEtPE9L9NKrKtXL+7oALvcSrCZAHt
+	3i7VgDEgdmQyF5Ha5vabeD+2Rd7mfpY/8zPIjwDg2xq5Mztmvkz+NWMSg7i334o6DBBkC1FSk9z
+	3adD4wEofXXASTTdcaD2TDSsQOQ27wh28Wa33RNXQ7ZHtmggikC5Ahex3IUBQi8z8A371acTA=
+X-Received: by 2002:a17:902:fc87:b0:2ae:b9cd:d2ce with SMTP id d9443c01a7336-2b9f25fc690mr90790865ad.27.1777893822777;
+        Mon, 04 May 2026 04:23:42 -0700 (PDT)
+Received: from LL-3450LLL.kpit.com ([103.133.67.152])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae58906sm100381995ad.74.2026.05.04.04.23.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 04:08:13 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-X-Google-Original-From: Marta Rybczynska <marta.rybczynska@ygreky.com>
+        Mon, 04 May 2026 04:23:42 -0700 (PDT)
+From: Naman Jain <nmjain23@gmail.com>
+X-Google-Original-From: Naman Jain <namanj1@kpit.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <rybczynska@gmail.com>
-Subject: [PATCH] uboot-sign: sign SPL FIT configurations instead of images
-Date: Mon,  4 May 2026 13:08:03 +0200
-Message-ID: <20260504110803.67431-1-marta.rybczynska@ygreky.com>
-X-Mailer: git-send-email 2.47.3
+Cc: sana.kazi@bmwtechworks.in
+Subject: [meta][scarthgap][PATCH] python3-urllib3: fix CVE-2025-50182
+Date: Mon,  4 May 2026 16:53:21 +0530
+Message-Id: <20260504112321.1912618-1-namanj1@kpit.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 11:08:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236447
+ <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 11:23:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236448
 
-From: Marta Rybczynska <rybczynska@gmail.com>
+From: Yogita Urade <yogita.urade@windriver.com>
 
-The SPL FIT signing patch was signing individual images, but not the configuration.
+urllib3 is a user-friendly HTTP client library for Python. Prior
+to 2.5.0, urllib3 does not control redirects in browsers and
+Node.js. urllib3 supports being used in a Pyodide runtime utilizing
+the JavaScript Fetch API or falling back on XMLHttpRequest. This
+means Python libraries can be used to make HTTP requests from a
+browser or Node.js. Additionally, urllib3 provides a mechanism to
+control redirects, but the retries and redirect parameters are
+ignored with Pyodide; the runtime itself determines redirect
+behavior. This issue has been patched in version 2.5.0.
 
-Introduce signing of configuration with images under a separate option SPL_SIGN_CONF,
-enabled by default. It implies changes in the DTB content.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-50182
 
-The old behaviour is possible with SPL_SIGN_INDIVIDUAL, but should be removed in
-a subsequent patch.
+Upstream patch:
+https://github.com/urllib3/urllib3/commit/7eb4a2aafe49a279c29b6d1f0ed0f42e9736194f
 
-Signed-off-by: Marta Rybczynska <rybczynska@gmail.com>
+(From OE-Core rev: 082b865d9814e7e7aca4466551a035199aa8b563)
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit 0372024fe7ab2cea5eddf686f9bee0f8f07a2000)
+Signed-off-by: Sana Kazi <sana.kazi@bmwtechworks.in>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 76 ++++++++++++++++++++++++--
- 1 file changed, 72 insertions(+), 4 deletions(-)
+ .../python3-urllib3/CVE-2025-50182.patch      | 112 ++++++++++++++++++
+ .../python/python3-urllib3_2.2.2.bb           |   1 +
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-50182.patch
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index 9cb5c6ccf3..3af76200bf 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -34,6 +34,15 @@ UBOOT_FITIMAGE_ENABLE ?= "0"
- # Signature activation - this requires UBOOT_FITIMAGE_ENABLE = "1"
- SPL_SIGN_ENABLE ?= "0"
+diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50182.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50182.patch
+new file mode 100644
+index 0000000000..3c0efec119
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50182.patch
+@@ -0,0 +1,112 @@
++From 7eb4a2aafe49a279c29b6d1f0ed0f42e9736194f Mon Sep 17 00:00:00 2001
++From: Illia Volochii <illia.volochii@gmail.com>
++Date: Wed, 18 Jun 2025 16:30:35 +0300
++Subject: [PATCH] Merge commit from fork
++
++CVE: CVE-2025-50182
++Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/7eb4a2aafe49a279c29b6d1f0ed0f42e9736194f]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ docs/reference/contrib/emscripten.rst      |  2 +-
++ src/urllib3/contrib/emscripten/fetch.py    | 20 ++++++++++
++ test/contrib/emscripten/test_emscripten.py | 46 ++++++++++++++++++++++
++ 3 files changed, 67 insertions(+), 1 deletion(-)
++
++diff --git a/docs/reference/contrib/emscripten.rst b/docs/reference/contrib/emscripten.rst
++index a8f1cda..4670757 100644
++--- a/docs/reference/contrib/emscripten.rst
+++++ b/docs/reference/contrib/emscripten.rst
++@@ -68,7 +68,7 @@ Features which are usable with Emscripte
++ * Timeouts
++ * Retries
++ * Streaming (with Web Workers and Cross-Origin Isolation)
++-* Redirects (determined by browser/runtime, not restrictable with urllib3)
+++* Redirects (urllib3 controls redirects in Node.js but not in browsers where behavior is determined by runtime)
++ * Decompressing response bodies
++
++ Features which don't work with Emscripten:
++diff --git a/src/urllib3/contrib/emscripten/fetch.py b/src/urllib3/contrib/emscripten/fetch.py
++index a514306..6695821 100644
++--- a/src/urllib3/contrib/emscripten/fetch.py
+++++ b/src/urllib3/contrib/emscripten/fetch.py
++@@ -403,6 +403,21 @@ def send_request(request: EmscriptenRequ
++             raise _RequestError(err.message, request=request)
++
++
+++def _is_node_js() -> bool:
+++    """
+++    Check if we are in Node.js.
+++
+++    :return: True if we are in Node.js.
+++    :rtype: bool
+++    """
+++    return (
+++        hasattr(js, "process")
+++        and hasattr(js.process, "release")
+++        # According to the Node.js documentation, the release name is always "node".
+++        and js.process.release.name == "node"
+++    )
+++
+++
++ def streaming_ready() -> bool | None:
++     if _fetcher:
++         return _fetcher.streaming_ready
++diff --git a/test/contrib/emscripten/test_emscripten.py b/test/contrib/emscripten/test_emscripten.py
++index 5eaa674..fbf89fc 100644
++--- a/test/contrib/emscripten/test_emscripten.py
+++++ b/test/contrib/emscripten/test_emscripten.py
++@@ -964,6 +964,51 @@ def test_redirects(
++         selenium_coverage, testserver_http.http_host, testserver_http.http_port
++     )
++
+++@pytest.mark.with_jspi
+++def test_disabled_redirects(
+++    selenium_coverage: typing.Any, testserver_http: PyodideServerInfo
+++) -> None:
+++    """
+++    Test that urllib3 can control redirects in Node.js.
+++    """
+++
+++    @run_in_pyodide  # type: ignore[misc]
+++    def pyodide_test(selenium_coverage: typing.Any, host: str, port: int) -> None:
+++        import pytest
+++
+++        from urllib3 import PoolManager, request
+++        from urllib3.contrib.emscripten.fetch import _is_node_js
+++        from urllib3.exceptions import MaxRetryError
+++
+++        if not _is_node_js():
+++            pytest.skip("urllib3 does not control redirects in browsers.")
+++
+++        redirect_url = f"http://{host}:{port}/redirect"
+++
+++        with PoolManager(retries=0) as http:
+++            with pytest.raises(MaxRetryError):
+++                http.request("GET", redirect_url)
+++
+++            response = http.request("GET", redirect_url, redirect=False)
+++            assert response.status == 303
+++
+++        with PoolManager(retries=False) as http:
+++            response = http.request("GET", redirect_url)
+++            assert response.status == 303
+++
+++        with pytest.raises(MaxRetryError):
+++            request("GET", redirect_url, retries=0)
+++
+++        response = request("GET", redirect_url, redirect=False)
+++        assert response.status == 303
+++
+++        response = request("GET", redirect_url, retries=0, redirect=False)
+++        assert response.status == 303
+++
+++    pyodide_test(
+++        selenium_coverage, testserver_http.http_host, testserver_http.http_port
+++    )
+++
++
++ @install_urllib3_wheel()
++ def test_insecure_requests_warning(
++--
++2.40.0
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
+index f6ac8f89ca..19c51b68a7 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
+@@ -12,6 +12,7 @@ SRC_URI += " \
+     file://CVE-2025-66418.patch \
+     file://CVE-2025-66471.patch \
+     file://CVE-2026-21441.patch \
++    file://CVE-2025-50182.patch \
+ "
  
-+# Sign the FIT configuration in the SPL signing flow. Configuration
-+# signatures bind the selected images and boot metadata together.
-+SPL_SIGN_CONF ?= "1"
-+
-+# Legacy compatibility knob for per-image signatures in the SPL FIT path.
-+# Individual image signatures do not protect the configuration metadata
-+# which selects and parameterizes the boot images.
-+SPL_SIGN_INDIVIDUAL ?= "0"
-+
- # Default value for deployment filenames.
- UBOOT_DTB_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.dtb"
- UBOOT_DTB_BINARY ?= "u-boot.dtb"
-@@ -325,7 +334,15 @@ uboot_fitimage_atf() {
-             entry = <${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_ENTRYPOINT}>;
-             compression = "none";
- EOF
--	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            hash-1 {
-+                algo = "${UBOOT_FIT_HASH_ALG}";
-+            };
-+EOF
-+	fi
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
- 		cat << EOF >> ${UBOOT_ITS}
-             signature {
-                 algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-@@ -352,7 +369,15 @@ uboot_fitimage_tee() {
-             entry = <${UBOOT_FIT_TEE_ENTRYPOINT}>;
-             compression = "none";
- EOF
--	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            hash-1 {
-+                algo = "${UBOOT_FIT_HASH_ALG}";
-+            };
-+EOF
-+	fi
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
- 		cat << EOF >> ${UBOOT_ITS}
-             signature {
-                 algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-@@ -393,7 +418,15 @@ uboot_fitimage_assemble() {
-             entry = <${UBOOT_FIT_UBOOT_ENTRYPOINT}>;
- EOF
- 
--	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            hash-1 {
-+                algo = "${UBOOT_FIT_HASH_ALG}";
-+            };
-+EOF
-+	fi
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
- 		cat << EOF >> ${UBOOT_ITS}
-             signature {
-                 algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-@@ -412,7 +445,15 @@ EOF
-             compression = "none";
- EOF
- 
--	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            hash-1 {
-+                algo = "${UBOOT_FIT_HASH_ALG}";
-+            };
-+EOF
-+	fi
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
- 		cat << EOF >> ${UBOOT_ITS}
-             signature {
-                 algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-@@ -442,8 +483,10 @@ EOF
- 		conf_loadables="${conf_loadables}${UBOOT_FIT_CONF_USER_LOADABLES}"
- 	fi
- 
-+	conf_sign_images='"loadables", "fdt"'
- 	if [ -n "${UBOOT_FIT_CONF_FIRMWARE}" ] ; then
- 		conf_firmware="firmware = \"${UBOOT_FIT_CONF_FIRMWARE}\";"
-+		conf_sign_images='"firmware", "loadables", "fdt"'
- 	fi
- 
- 	cat << EOF >> ${UBOOT_ITS}
-@@ -456,6 +499,19 @@ EOF
-             ${conf_firmware}
-             loadables = ${conf_loadables};
-             fdt = "fdt";
-+EOF
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            sign-images = ${conf_sign_images};
-+            signature {
-+                algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-+                key-name-hint = "${SPL_SIGN_KEYNAME}";
-+            };
-+EOF
-+	fi
-+
-+	cat << EOF >> ${UBOOT_ITS}
-         };
-     };
- };
-@@ -470,6 +526,18 @@ EOF
- 		${UBOOT_FITIMAGE_BINARY}
- 
- 	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+		if [ "${SPL_SIGN_CONF}" != "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" != "1" ] ; then
-+			bbfatal "SPL_SIGN_ENABLE=1 requires SPL_SIGN_CONF=1 or SPL_SIGN_INDIVIDUAL=1"
-+		fi
-+
-+		if [ "${SPL_SIGN_CONF}" != "1" ] ; then
-+			bbwarn "SPL_SIGN_CONF is disabled. FIT configuration signing is recommended for SPL verified boot."
-+		fi
-+
-+		if [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
-+			bbwarn "SPL_SIGN_INDIVIDUAL=1 is enabled for compatibility only. Individual image signatures do not replace configuration signing."
-+		fi
-+
- 		if [ -n "${SPL_DTB_BINARY}" ] ; then
- 			#
- 			# Sign the U-boot FIT image and add public key to SPL dtb
+ RDEPENDS:${PN} += "\
 -- 
-2.47.3
+2.34.1
 
 
