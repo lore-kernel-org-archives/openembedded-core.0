@@ -2,33 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 103FFCD3427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E9DCFF885A
 	for <webhook@archiver.kernel.org>; Mon,  4 May 2026 19:53:27 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23681.1777924396846334661
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23661.1777924397984722795
  for <openembedded-core@lists.openembedded.org>;
  Mon, 04 May 2026 12:53:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=ckdLyoJg;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026050419531423618f36bf0002073d-ddtltj@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026050419531423618f36bf0002073d
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=DGCT10p8;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260504195315e98a172fac0002078b-c5gkmt@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260504195315e98a172fac0002078b
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 04 May 2026 21:53:14 +0200
+        Mon, 04 May 2026 21:53:16 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=+W8G/ehp9wWBo7IwZu8iuQJhp/nTnWGQcuCimqrIenc=;
- b=ckdLyoJg44yppB5yImXwlpK4IRzPwowAdSme27onHuvc8S+SuGyYKf6gUusxsd5TPWIVT5
- SiqIsG6pcpuVzMtbCLkG8HOkhfHCi/RZ1LNZy7SWXQN2h7KiOBLrOfljACWzwwnSrrBnWk6o
- lXVpLEeQJyC0uBUDjm5Vaf/8ux1eG6EwJiHfSlnlP8E1PPwO+l968eKz6PwBP3LiVqHaXG8A
- PZ09h5D+1LKXQpZJ+0BanmkGNZc23V45BduMqgZN2WFCQzgAxgPfTaahjWAy0YcP43zSlejC
- yfqhqd3rbmoHXHVLTEje/YWNZ+QVg10dEuNPmn8k2cG/3XBVfrCTdNVw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=2aTT36VfPhi+GnsRTtby26kb2T9vhxe0TCV5JvHh61g=;
+ b=DGCT10p87omXuY2t+GxXhitiLGx5JCT1cfpdP28W4XxClfFDHCyzJJ9HkgE7AMFI8JZipy
+ qj6tTG+HMcUY6d2nIfHnM10zM6lXSxyx47qu+esuqaY67E9X++mK9aCBSDaARduCZ5IW3XdZ
+ GBnM5pUZ2aQYkB1pNRfvBiYxBvBG7hIEX4onHilo75FkhKQvPxBev7X9VV2n0wpw5pFkh4MI
+ m/ArZmAluCmQPeWchYwPbCUECql3N7nyDyhRcmY2/LVkcJdXMvsDtbZvscW4+214joA95oQv
+ t0aWKsb89WC6Sxg8CtfjwvAeQ/T0rugF8eYp2pwjjqKN+FHjkt+8T+7g==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH 1/5] tiff: patch CVE-2026-4775
-Date: Mon,  4 May 2026 21:52:42 +0200
-Message-ID: <20260504195246.1190112-1-peter.marko@siemens.com>
+Subject: [PATCH 2/5] sudo: patch CVE-2026-35535
+Date: Mon,  4 May 2026 21:52:43 +0200
+Message-ID: <20260504195246.1190112-2-peter.marko@siemens.com>
+In-Reply-To: <20260504195246.1190112-1-peter.marko@siemens.com>
+References: <20260504195246.1190112-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,92 +39,182 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 19:53:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236453
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236454
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1].
-
-[1] https://security-tracker.debian.org/tracker/CVE-2026-4775
+Pick patch mentioned in both NVD and Debian report.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../libtiff/tiff/CVE-2026-4775.patch          | 55 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.7.1.bb |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch
+ .../sudo/files/CVE-2026-35535.patch           | 147 ++++++++++++++++++
+ meta/recipes-extended/sudo/sudo_1.9.17p2.bb   |   1 +
+ 2 files changed, 148 insertions(+)
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-35535.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch
+diff --git a/meta/recipes-extended/sudo/files/CVE-2026-35535.patch b/meta/recipes-extended/sudo/files/CVE-2026-35535.patch
 new file mode 100644
-index 0000000000..1f3c026b28
+index 0000000000..c90e4b3b0d
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch
-@@ -0,0 +1,55 @@
-+From 782a11d6b5b61c6dc21e714950a4af5bf89f023c Mon Sep 17 00:00:00 2001
-+From: Even Rouault <even.rouault@spatialys.com>
-+Date: Sun, 22 Feb 2026 23:32:47 +0100
-+Subject: [PATCH] TIFFReadRGBAImage(): prevent integer overflow and later heap
-+ overflow on images with huge width in YCbCr tile decoding functions
++++ b/meta/recipes-extended/sudo/files/CVE-2026-35535.patch
+@@ -0,0 +1,147 @@
++From 3e474c2f201484be83d994ae10a4e20e8c81bb69 Mon Sep 17 00:00:00 2001
++From: "Todd C. Miller" <Todd.Miller@sudo.ws>
++Date: Sat, 8 Nov 2025 15:34:02 -0700
++Subject: [PATCH] exec_mailer: Set group as well as uid when running the mailer
 +
-+Fixes https://gitlab.com/libtiff/libtiff/-/issues/787
++Also make a setuid(), setgid() or setgroups() failure fatal.
 +
-+CVE: CVE-2026-4775
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/782a11d6b5b61c6dc21e714950a4af5bf89f023c]
++Found by the ZeroPath AI Security Engineer <https://zeropath.com>
++
++CVE: CVE-2026-35535
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/3e474c2f201484be83d994ae10a4e20e8c81bb69]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ libtiff/tif_getimage.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ include/sudo_eventlog.h      |  3 ++-
++ lib/eventlog/eventlog.c      | 21 +++++++++++++++++----
++ lib/eventlog/eventlog_conf.c |  4 +++-
++ plugins/sudoers/logging.c    |  2 +-
++ plugins/sudoers/policy.c     |  2 +-
++ 5 files changed, 24 insertions(+), 8 deletions(-)
 +
-+diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-+index 4543ddda..fa82d091 100644
-+--- a/libtiff/tif_getimage.c
-++++ b/libtiff/tif_getimage.c
-+@@ -2216,7 +2216,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr44tile)
-+     uint32_t *cp1 = cp + w + toskew;
-+     uint32_t *cp2 = cp1 + w + toskew;
-+     uint32_t *cp3 = cp2 + w + toskew;
-+-    int32_t incr = 3 * w + 4 * toskew;
-++    const tmsize_t incr = 3 * (tmsize_t)w + 4 * (tmsize_t)toskew;
++diff --git a/include/sudo_eventlog.h b/include/sudo_eventlog.h
++index eb9f4f4a8..485d2593e 100644
++--- a/include/sudo_eventlog.h
+++++ b/include/sudo_eventlog.h
++@@ -80,6 +80,7 @@ struct eventlog_config {
++     int syslog_rejectpri;
++     int syslog_alertpri;
++     uid_t mailuid;
+++    gid_t mailgid;
++     bool omit_hostname;
++     const char *logpath;
++     const char *time_fmt;
++@@ -151,7 +152,7 @@ void eventlog_set_syslog_rejectpri(int pri);
++ void eventlog_set_syslog_alertpri(int pri);
++ void eventlog_set_syslog_maxlen(size_t len);
++ void eventlog_set_file_maxlen(size_t len);
++-void eventlog_set_mailuid(uid_t uid);
+++void eventlog_set_mailuser(uid_t uid, gid_t gid);
++ void eventlog_set_omit_hostname(bool omit_hostname);
++ void eventlog_set_logpath(const char *path);
++ void eventlog_set_time_fmt(const char *fmt);
++diff --git a/lib/eventlog/eventlog.c b/lib/eventlog/eventlog.c
++index f4a9f330d..2db2f251c 100644
++--- a/lib/eventlog/eventlog.c
+++++ b/lib/eventlog/eventlog.c
++@@ -304,15 +304,13 @@ exec_mailer(int pipein)
++ 	syslog(LOG_ERR, _("unable to dup stdin: %m")); // -V618
++ 	sudo_debug_printf(SUDO_DEBUG_ERROR,
++ 	    "unable to dup stdin: %s", strerror(errno));
++-	sudo_debug_exit(__func__, __FILE__, __LINE__, sudo_debug_subsys);
++-	_exit(127);
+++	goto bad;
++     }
 + 
-+     (void)y;
-+     /* adjust fromskew */
-+@@ -2356,7 +2356,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr44tile)
-+ DECLAREContigPutFunc(putcontig8bitYCbCr42tile)
-+ {
-+     uint32_t *cp1 = cp + w + toskew;
-+-    int32_t incr = 2 * toskew + w;
-++    const tmsize_t incr = 2 * (tmsize_t)toskew + w;
++     /* Build up an argv based on the mailer path and flags */
++     if ((mflags = strdup(evl_conf->mailerflags)) == NULL) {
++ 	syslog(LOG_ERR, _("unable to allocate memory")); // -V618
++-	sudo_debug_exit(__func__, __FILE__, __LINE__, sudo_debug_subsys);
++-	_exit(127);
+++	goto bad;
++     }
++     argv[0] = sudo_basename(mpath);
 + 
-+     (void)y;
-+     fromskew = (fromskew / 4) * (4 * 2 + 2);
-+@@ -2512,7 +2512,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr41tile)
-+ DECLAREContigPutFunc(putcontig8bitYCbCr22tile)
++@@ -331,11 +329,23 @@ exec_mailer(int pipein)
++     if (setuid(ROOT_UID) != 0) {
++ 	sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to change uid to %u",
++ 	    ROOT_UID);
+++	goto bad;
+++    }
+++    if (setgid(evl_conf->mailgid) != 0) {
+++	sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to change gid to %u",
+++	    (unsigned int)evl_conf->mailgid);
+++	goto bad;
+++    }
+++    if (setgroups(1, &evl_conf->mailgid) != 0) {
+++	sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to set groups to %u",
+++	    (unsigned int)evl_conf->mailgid);
+++	goto bad;
++     }
++     if (evl_conf->mailuid != ROOT_UID) {
++ 	if (setuid(evl_conf->mailuid) != 0) {
++ 	    sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to change uid to %u",
++ 		(unsigned int)evl_conf->mailuid);
+++	    goto bad;
++ 	}
++     }
++     sudo_debug_exit(__func__, __FILE__, __LINE__, sudo_debug_subsys);
++@@ -347,6 +357,9 @@ exec_mailer(int pipein)
++     sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to execute %s: %s",
++ 	mpath, strerror(errno));
++     _exit(127);
+++bad:
+++    sudo_debug_exit(__func__, __FILE__, __LINE__, sudo_debug_subsys);
+++    _exit(127);
++ }
++ 
++ /* Send a message to the mailto user */
++diff --git a/lib/eventlog/eventlog_conf.c b/lib/eventlog/eventlog_conf.c
++index bbc3daaac..3d37b632c 100644
++--- a/lib/eventlog/eventlog_conf.c
+++++ b/lib/eventlog/eventlog_conf.c
++@@ -70,6 +70,7 @@ static struct eventlog_config evl_conf = {
++     MAXSYSLOGLEN,		/* syslog_maxlen */
++     0,				/* file_maxlen */
++     ROOT_UID,			/* mailuid */
+++    ROOT_GID,			/* mailgid */
++     false,			/* omit_hostname */
++     _PATH_SUDO_LOGFILE,		/* logpath */
++     "%h %e %T",			/* time_fmt */
++@@ -151,9 +152,10 @@ eventlog_set_file_maxlen(size_t len)
++ }
++ 
++ void
++-eventlog_set_mailuid(uid_t uid)
+++eventlog_set_mailuser(uid_t uid, gid_t gid)
 + {
-+     uint32_t *cp2;
-+-    int32_t incr = 2 * toskew + w;
-++    const tmsize_t incr = 2 * (tmsize_t)toskew + w;
-+     (void)y;
-+     fromskew = (fromskew / 2) * (2 * 2 + 2);
-+     cp2 = cp + w + toskew;
-+@@ -2615,7 +2615,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr21tile)
-+ DECLAREContigPutFunc(putcontig8bitYCbCr12tile)
-+ {
-+     uint32_t *cp2;
-+-    int32_t incr = 2 * toskew + w;
-++    const tmsize_t incr = 2 * (tmsize_t)toskew + w;
-+     (void)y;
-+     fromskew = (fromskew / 1) * (1 * 2 + 2);
-+     cp2 = cp + w + toskew;
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb
-index 0d4b3a4abd..750565e11c 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ab490c3088a0acff254eb2f8c577547"
- CVE_PRODUCT = "libtiff"
++     evl_conf.mailuid = uid;
+++    evl_conf.mailgid = gid;
++ }
++ 
++ void
++diff --git a/plugins/sudoers/logging.c b/plugins/sudoers/logging.c
++index ec092d14e..1626a28cb 100644
++--- a/plugins/sudoers/logging.c
+++++ b/plugins/sudoers/logging.c
++@@ -1157,7 +1157,7 @@ init_eventlog_config(void)
++     eventlog_set_syslog_alertpri(def_syslog_badpri);
++     eventlog_set_syslog_maxlen(def_syslog_maxlen);
++     eventlog_set_file_maxlen(def_loglinelen);
++-    eventlog_set_mailuid(ROOT_UID);
+++    eventlog_set_mailuser(ROOT_UID, ROOT_GID);
++     eventlog_set_omit_hostname(!def_log_host);
++     eventlog_set_logpath(def_logfile);
++     eventlog_set_time_fmt(def_log_year ? "%h %e %T %Y" : "%h %e %T");
++diff --git a/plugins/sudoers/policy.c b/plugins/sudoers/policy.c
++index af3210dda..706c492b7 100644
++--- a/plugins/sudoers/policy.c
+++++ b/plugins/sudoers/policy.c
++@@ -639,7 +639,7 @@ sudoers_policy_deserialize_info(struct sudoers_context *ctx, void *v,
++     }
++ 
++ #ifdef NO_ROOT_MAILER
++-    eventlog_set_mailuid(ctx->user.uid);
+++    eventlog_set_mailuser(ctx->user.uid, ctx->user.gid);
++ #endif
++ 
++     /* Dump settings and user info (XXX - plugin args) */
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+index 6be2a7c678..7dfa0cef6c 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+@@ -4,6 +4,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
+ 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
++		   file://CVE-2026-35535.patch \
+            "
  
- SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-+        file://CVE-2026-4775.patch \
- 	   "
- 
- SRC_URI[sha256sum] = "f698d94f3103da8ca7438d84e0344e453fe0ba3b7486e04c5bf7a9a3fabe9b69"
+ PAM_SRC_URI = "file://sudo.pam"
 
