@@ -1,87 +1,116 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5486FF886F
-	for <webhook@archiver.kernel.org>; Sun,  3 May 2026 07:23:26 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19653.1777792996337304712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A87B7CD3423
+	for <webhook@archiver.kernel.org>; Mon,  4 May 2026 06:32:12 +0000 (UTC)
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9173.1777876331450905714
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2026 00:23:16 -0700
+ Sun, 03 May 2026 23:32:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RT8oNjfR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d7e23defbso1711205f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2026 00:23:16 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=R7kUIRRa;
+ spf=pass (domain: mvista.com, ip: 74.125.82.52, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12dfbcc0703so2897822c88.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2026 23:32:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777792995; x=1778397795; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Yy1aL09ua93CQepXrZ4w7fiMfg28oQgPM99xY6n7fMY=;
-        b=RT8oNjfR4HNbCKyyAw3AAO4naN3Z/xjHCmtxLpjiDZtlSt6CvJKgnxJhfY7JmbMFIQ
-         NDEdnqKcWIlGvz7WD/p3YFXq/9MTIR5s5zBhfDXo4qNVkP8xf8BdG45/+TZbKXnrGp8U
-         2XF3QuQ4j3eXnyeDqHIPWXRJ7W6+jrtYk2C3c=
+        d=mvista.com; s=google; t=1777876330; x=1778481130; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HHSX7KJY0DaDZnWLro7IfZTeXyetIQbspafcTVM61Qk=;
+        b=R7kUIRRaxGWS9yugKXyEDAfVi/0S6iosSIm2y/Iv0Uoo/KhjMzdtcAsJnXAp8TMpGa
+         m/oS9cvGLuTYQxN74/5OD4WxHYP4wZjYYzy0tpdL5zJ4rcPgk6hqsghE7z6VFs1ifiB6
+         92wP0N/zwpQ8j1RR17jAQKN8aE5h8boNUURqs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777792995; x=1778397795;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yy1aL09ua93CQepXrZ4w7fiMfg28oQgPM99xY6n7fMY=;
-        b=bd6zml4vMAUOiH6ffAAp9QNAqUukBWLuxYjXL0DnSpeC8NrM0V4qj898BaHE54z3W7
-         APRv/Dgg1g3knNp9VQUzd1UxyiXlBhaoLQ23O1zcqnFlaObtgrAGgC1jpj7UJiiKQZjC
-         i1OZfYkQOgILVkGjoiX1WZOsWEQRSCBQZ/EGAXcGoscHp3cSHxfHfyv/xYlC7iH9uF9o
-         KHh0WA24aaTLd9EszXjt4vYYimeU6dogLao7KVI+foEMYyjjrkJHkv8Fk/aQp7WTrx/f
-         7xh50bFEXptVLQEHBUbqxA+296PyERkVJmdA45BAmRXIgIGwSNvmZj0xwfrX+fAOIH97
-         rNPQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8HiFSeL4u9a05ewyXiEg/YFCX9r7hQotVaeRvtR5rAvrHtZVQiOOYYFH7VcbvtUWk+KnshuVQbWbeTQ8O3pVLcLw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx03OjJnY1GqVJflBtOjIv6ugUWSzVn6Jb3bZ8JRA3XxKHj4eO/
-	H51d8K5nBanjVd104DF0wRc/8YmGOYMAPAGfEuKNzM+k3ufFOeKDqyc2veKaZwYyT7uokNBxEhq
-	nFC1Q+HnBsV54tVh+AEsO+XIPu+2z5oBoZDiq/H18M23hEY92NK0d0fRfCwcOno3f1Ecbxxs9g8
-	M=
-X-Gm-Gg: AeBDietowlDVF2FUeWAcpY47l6Mpp+F3GjysruisFQ5VQ/TawXWjLe4EsE6j0VMM+NL
-	c8h9AvRAgJ6L6jete8Ys8XIKvJQM/b2K6raFE4pXIjt5yJ4AHndx8Sykam292jtRGQUoa/a2mY0
-	yfNSOhJ8RONXnG1vcA8itDYSr2WLn4RpjkJ6xDa5XlwGHZHUP5QMutI0j+NqqpTLwf2B+W8cPaz
-	2VIwvdhoetCSgBbQZ+PJnry4NdI7xOBoy2PLCuL8cfvDOsAbkLepb7DRML2MhcE3KuGa/SKl0rw
-	glh4fdZuuVLXOYSTQv2GkNZ6Yy5/LVqxUgFdM7vbYq5rbawpRemoGddBexsQwx5dGt9uhhaE/Ce
-	H50QbAUTpkQSQzSyFWQTjDiZGN5OgT5tz1wWiNYdQtI6I+kI5FxAMQedLrzb9chU2OP9FoX+sr5
-	FniX2h5JEkafWRwey5qwNlMEkKns5sRvjghSQDCYVK1P3S0YNeMjXxwWkOpXefudip9dU3AAMqk
-	0dOFaulXOEPtBkusBADr4dk
-X-Received: by 2002:a05:6000:2087:b0:44a:46bc:e5e2 with SMTP id ffacd0b85a97d-44bb2e2ececmr8288615f8f.9.1777792994659;
-        Sun, 03 May 2026 00:23:14 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ca9e:55c7:784:99bc? ([2001:8b0:aba:5f3c:ca9e:55c7:784:99bc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a8ea7cf6asm16842885f8f.8.2026.05.03.00.23.13
+        d=1e100.net; s=20251104; t=1777876330; x=1778481130;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HHSX7KJY0DaDZnWLro7IfZTeXyetIQbspafcTVM61Qk=;
+        b=oZERqc1MfUP6Pfz/I1bDyFkv0PV6+cgL+OUz02abDSq4pV79tpPAwIbqArf9im10tm
+         FfXrnA8SG3ToyI1xh7L3S2dmnOFSoxqcp93azS7Hjmb+OJDn3458K3tCgM9nMm/kleG0
+         Zb+4fqjTDda3p86MEW0VNlNaIYNP9XaEKoQB1Q4bYF08m1Fr2Ws76cEiiZtAFSLajYj2
+         92cAjGmk4Sp3pPzuTtVblg/9fzvtsoXHT9JwBjb46ldepZVHUmhgHXugICbjPHPGJoqx
+         78rKk4saqpUkmfDlXdg616gCDOmBoF/iDQ+XgooDN5O5BANEuYsOZ8bN0A52sxVyiTuP
+         kGbg==
+X-Gm-Message-State: AOJu0YxCYKUXKCw+i2QBObZr1BCT02pd3TnEkhm8Fs4P5XYWaTYvY2du
+	JkrpS/Es+sI13DZ6aN8jskBfgRRj20nfafCiyMinNEWDMZOQJUZBE2JW5QGohfdwrqUf9sChq93
+	q6f63gWQ=
+X-Gm-Gg: AeBDiesJwblSOS6yA6KzsjbmLrP8Fq646dvIKVx+mdQLZucj5W5R1GsjXKNCLW2IK9R
+	AYA+q7yj5FIBFXErh3WEgAP76ZQSgiB4HAgrn+vuStkir4a1PlmFV/IgbGyUCh1Wj/MYw/HnaiD
+	jIdtpB1hy433ugeQ5VwgcLf7LfXENEKxG5UnsRnCvDUAubnoO9KW7DMMqrk4kDOh8gZzCsb66iX
+	Zv5EVnZrO/URhbtBxBpuLUFBesMxAIrOGljR3SW6hPV2bYQPubmtldUKtNDNg9T+alhQ4W2EEO9
+	dDuqqV7Nu9BfaGL9PqHdHqOXeZJ8Zim1oh7LmGqHgNNetSPG19VR9yGcK0IiDecQuVWjIpzCClf
+	u7ldPcMn/JBcBmt1nqT61E/XtkRwNCva+QQ8f+51cJwc2CsMQHaITIzyq9NO44XHtaysBsO2/81
+	iQUZQB76AkztiZmdNNMZl7/0Cel1Xe7LGytnrLquXZRZ/dLnA=
+X-Received: by 2002:a05:7022:404:b0:12d:b7e5:a67b with SMTP id a92af1059eb24-12dfd7ca694mr3875762c88.14.1777876330473;
+        Sun, 03 May 2026 23:32:10 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([103.250.136.132])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df81ec067sm14995802c88.0.2026.05.03.23.32.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 00:23:13 -0700 (PDT)
-Message-ID: <c869700fc92b611b37d5ba78fb4537fbbf3a3582.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v2] vte: upgrade 0.82.2 -> 0.84.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ankur.tyagi85@gmail.com, openembedded-core@lists.openembedded.org
-Date: Sun, 03 May 2026 08:23:12 +0100
-In-Reply-To: <CADySD0FdwRz0h9nyrTnjHoLn1RB3Akmw9oXQd_ka_RFKs+1T9g@mail.gmail.com>
-References: <20260329005804.525216-1-ankur.tyagi85@gmail.com>
-	 <CADySD0FdwRz0h9nyrTnjHoLn1RB3Akmw9oXQd_ka_RFKs+1T9g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Sun, 03 May 2026 23:32:10 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH 1/3] libexif: upgrade 0.6.24 -> 0.6.25
+Date: Mon,  4 May 2026 12:01:57 +0530
+Message-ID: <20260504063159.30681-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-Gm-Spam: 0
-X-Gm-Phishy: 0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 May 2026 07:23:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236430
+ <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 06:32:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236431
 
-On Fri, 2026-05-01 at 08:31 +1200, Ankur Tyagi via lists.openembedded.org w=
-rote:
-> Hi Mathieu,
->=20
-> Is there anything else holding this one?
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../0001-Add-serial-tests-config-needed-by-ptest.patch      | 6 +++---
+ .../libexif/{libexif_0.6.24.bb => libexif_0.6.25.bb}        | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/libexif/{libexif_0.6.24.bb => libexif_0.6.25.bb} (94%)
 
-We were waiting until after feature freeze and release on this one.
+diff --git a/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config-needed-by-ptest.patch b/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config-needed-by-ptest.patch
+index 505aa07330..26ab7f657f 100644
+--- a/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config-needed-by-ptest.patch
++++ b/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config-needed-by-ptest.patch
+@@ -1,4 +1,4 @@
+-From 1ee7217c8ae724d793f9a9876c3608057a2ccbf8 Mon Sep 17 00:00:00 2001
++From ea0110e5def8eaf2567193323601f06ff892ce15 Mon Sep 17 00:00:00 2001
+ From: Julien Stephan <jstephan@baylibre.com>
+ Date: Tue, 11 Jul 2023 16:07:54 +0200
+ Subject: [PATCH] Add serial-tests config needed by ptest
+@@ -13,10 +13,10 @@ Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index cd48047..5413907 100644
++index 9e483c9..561b61c 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -16,6 +16,7 @@ AM_INIT_AUTOMAKE([
++@@ -21,6 +21,7 @@ AM_INIT_AUTOMAKE([
+    dist-zip
+    check-news
+    subdir-objects
+diff --git a/meta/recipes-support/libexif/libexif_0.6.24.bb b/meta/recipes-support/libexif/libexif_0.6.25.bb
+similarity index 94%
+rename from meta/recipes-support/libexif/libexif_0.6.24.bb
+rename to meta/recipes-support/libexif/libexif_0.6.25.bb
+index b407ee52de..59c22753d0 100644
+--- a/meta/recipes-support/libexif/libexif_0.6.24.bb
++++ b/meta/recipes-support/libexif/libexif_0.6.25.bb
+@@ -12,7 +12,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libexif-${PV}.tar.bz2 \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[sha256sum] = "d47564c433b733d83b6704c70477e0a4067811d184ec565258ac563d8223f6ae"
++SRC_URI[sha256sum] = "7c9eba99aed3e6594d8c3e85861f1c6aaf450c218621528bc989d3b3e7a26307"
+ 
+ inherit autotools gettext github-releases ptest
+ 
+-- 
+2.50.1
 
-Cheers,
-
-Richard
 
