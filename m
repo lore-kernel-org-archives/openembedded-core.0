@@ -2,67 +2,68 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB8ECD3423
-	for <webhook@archiver.kernel.org>; Mon,  4 May 2026 08:35:35 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10413.1777883729890957592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99110CD3423
+	for <webhook@archiver.kernel.org>; Mon,  4 May 2026 08:36:45 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10421.1777883802645682900
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2026 01:35:30 -0700
+ Mon, 04 May 2026 01:36:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Od6Mm4QX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48374014a77so43258905e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 01:35:29 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TDfark7f;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48a7fe4f40bso39845975e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 01:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777883728; x=1778488528; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1777883801; x=1778488601; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=paOx0KccDmYPKf5Xqei50KmdPsIDSsARYgChwj/mkWc=;
-        b=Od6Mm4QXItY4IqQiyBrKsEenx8gSqU3UGg1QWPZQZCWz/6d+ShT42F5nVEpFMcXJYK
-         djlRH8s4gs1Y6l1cUbfO1Ag2372hDLf7lv8ALcvOuBRuoDQcdqOnLfhx767y3KQmtXwQ
-         yMQjwA5qUWDcxT48aHwRxy22E9o0h6ab0Wceg=
+        bh=Fj8sRoLrzeM0YjEPxTP2vK8t13vhvmOgyxYC81IZRQk=;
+        b=TDfark7f3THJHIuaRPf7oyshWPAU372CjCKpHtm4sNr9VGEwr0jhvukOTsdrhkZP5Z
+         9FjK9trxG3SfOh+o+ID5EspSEbMumyUQiTOhxDaHFD4OEJ1+L0YEtHt9lDgU9dVnO3Mt
+         v+++cVRbywBIid0UtTFaLYxgPoYiFhAEpI2Vo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777883728; x=1778488528;
+        d=1e100.net; s=20251104; t=1777883801; x=1778488601;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=paOx0KccDmYPKf5Xqei50KmdPsIDSsARYgChwj/mkWc=;
-        b=mWgFDCCbB4dp84AGWg5FFTyyQcry6ZrT10Zp1Nw/4uLXb1AT08T7tPJyAkHdLivXxP
-         nJXp0RTWfksFkpnW5do2D5JArx6N1Bm+66jT4T2yA1Mkm2if5AzMvYQ4C5m9fA6mnhiq
-         nSiejr5gLwaa7iBK/b66WXnxnPP/nfnfrkiVHBXvKc+vnkjn/vYQdxqhSDPXOTb4eT19
-         tgSQeB+Mb4eVF1APhr9Fz5dPBGOU4xm1KP0zt194/OYsUrQleZvvb8yHVn0m7C9KsVHB
-         sbYbb0nzclSATQcnGcbKtgeadU1nBF39jdMuCw8EQ2kbLjDKqOrr7WD5SPXmvqQHoSu/
-         svew==
-X-Gm-Message-State: AOJu0YwI2PKPpzTmwP7rXOeTnOqEkO/eD62mHMpOOdvo65bCcMfUve/b
-	+WaGgRUXMgop+h7GXn2xMzqcPU4Pg8r9SlAzAiDAmZxPOwq1Q4ytUaA1dZHMRoBvvtUXfvjjrbl
-	KfTzBh41/GF56UTIor5bkfMcKvTkucsffXgCuQM+BepFkonMoLPHXD9CQvDSuTQAZldoDBVopho
-	E=
-X-Gm-Gg: AeBDieuHcPoE4Hf54fzwujmKGwRNXyF/VHmk2nvCp22TwB6Dtukag1w1TxDhGyYDlPk
-	G3wVqZWJQPMBk6JUihY3U8a9qcFbH0MLVkureMmnOb12SCTQeq3dOb1+80qNbmeFY77wWM+YtJ3
-	MyrihlAp62ICuJj9Ioha4IFo+91uAI6JJMsi+MuYmeEnk9lJYWyVAXpFJsCBX5MYph8rSf/eq/d
-	ehDQBBzrNXEJkUMXYV+uZjaXi3EG53qADHzaMXPTR4sR7bgGof8Re37sntmmXWMKOCLR/R23AGL
-	4XulykmejEaUx0k2vpTNjYMoNh6uWUhZ2n9/2cPBtuJxlJgpnyJX8UHEzRRru+2BM/NF7Kw9OBi
-	C/rTBvdCROg7J6i+3C5i0+fsXHjDj8H5vO9sUBDjaKgfUxcCtA85YjWeeVieQwO2H83UQVyl5uV
-	t2Qo+aNWCd4MOb+z5i0Bhriy6N2S1nbs1F8fWL2JdeiVroMRHHRg8++NTC/1E7fNdT/nlqM62+8
-	QznEt8Dr7HnBIpfyZ/rmZIKPfuJ7gHLcTS4wQ==
-X-Received: by 2002:a05:600c:859a:b0:489:1c32:210d with SMTP id 5b1f17b1804b1-48a9865e671mr101529015e9.15.1777883727123;
-        Mon, 04 May 2026 01:35:27 -0700 (PDT)
+        bh=Fj8sRoLrzeM0YjEPxTP2vK8t13vhvmOgyxYC81IZRQk=;
+        b=NyIYfJfBkaQBxma+cW4G/Kkc/zA4ezG/DoyaapJi0a6BcXpClTNq0XVgm4VxpS3PjV
+         mgyfan8RbMvVyeT8xkbVV5wHWa88/5yN4l7nqu9gQw3W0gftdET4cMdWxhr2gDkQ0AXX
+         Grz1r5CDBDqxeBL1tJEQZwbIzcsnfHiyc8QSHVbYrPSBP9sOruvDgKOyweqb5ztTXvbE
+         ydID7W3YVuaKU1IRTEyb0CnhNUdBLIPho1I1vyxcZoR603gDVnS0g8bP4KwxNDfiA78c
+         c9tIilx9iMnzUK3l/LqcX0SAATnDdQyUmHd5M+Du5N7LJjKVI2Ivh8GL9ZPY+Pg4i6eW
+         RkJw==
+X-Forwarded-Encrypted: i=1; AFNElJ9+kKoHYZw/+gdaUBP3gd/myY14/3JgwfS6fqKSiD11WUBXcFm591b37+NON7HvboL1taZmETCT2x3BNy/JSsgoDA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyJFPnZS2OqdY8e/pFc2sA8ISBUVq5hVXWjUOGlNV8PW/L39Pot
+	5nIF19j9Dkw9A+HklNw+e1Jb9uS2ZsGuT9DChIxD3dRASAl9I9qV8VBfVzsdlfST+G71ZQRvwEV
+	hvYhP41BzDevrM3Y421Hw/k/k2yvl6uyCKfwn59E1LPAE75f+qisK8PSPKDk5DDLC0O4pzs1KSG
+	M=
+X-Gm-Gg: AeBDieuikCBWVV4xhpL6AnYiVtpGRvSpsNufcZK+1q7kD01oTCXwJNM61hquOSjZY/1
+	pHucS+kYS8gamTd8NorEcArY+uRB32Y+E2vBnBMCnmQMmd3jZjS7VTTMy42+2sYgAAl727COCGr
+	0VliV7PnMYHkONjyfYaJ17EQNjKIUKmHB1Z5BhF+VcuaWSLJ9/H9omcqT0NPAWJwSTMK5Q+3dDN
+	GB8zklP9p0bvRpCavl/TvYcvL/uhajxUbpf8NvwWCkbWUgLA7YEPVXHnncxQUVf9UNHMmafHEOS
+	IQ0aimA042StuRl/kxKVnvEuFPVmPz7B01fKuGhv+8juPYDWoQqFPoliYh7q4M1ATErEBf7k7NR
+	uKB4+TQPCIDDWFN6Q5sQ4fvkMhOhrsVIfVpkjcGlftmRmOmW+FVtdrjDms+FzIwctgN1Mbdmdcy
+	JVPs/P3kN8XdwS1sGb9zKUFE3P7UMjhFq4bQXpBmdDK+Wo9+NKWiyc1MHf9MZTrasdiGfGjKsib
+	dKtyYy/FWN6yT3kf6EYHc1joAA=
+X-Received: by 2002:a05:600c:c0c5:b0:48a:72ab:f88c with SMTP id 5b1f17b1804b1-48a9865f865mr112690025e9.17.1777883800951;
+        Mon, 04 May 2026 01:36:40 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:fc3e:601d:3692:f075? ([2001:8b0:aba:5f3c:fc3e:601d:3692:f075])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8fed8ea0sm120617475e9.5.2026.05.04.01.35.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a81ed69fasm366040595e9.3.2026.05.04.01.36.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 01:35:26 -0700 (PDT)
-Message-ID: <0a68ea544451d546991ca5b532204af6fe3b6e69.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH] license.bbclass: only create hardlinks
- within $TMPDIR
+        Mon, 04 May 2026 01:36:40 -0700 (PDT)
+Message-ID: <0b0308b434031f0715e060fbdd6408d36528cee7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 3/3] machine: include: arm: simplify
+ conditional operations with bb.utils.filter
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Rasmus Villemoes <ravi@prevas.dk>
-Cc: openembedded-core@lists.openembedded.org, chbs@prevas.dk, emkan@prevas.dk
-Date: Mon, 04 May 2026 09:35:24 +0100
-In-Reply-To: <87cxzbshkn.fsf@prevas.dk>
-References: <20260501183615.2728124-1-ravi@prevas.dk>
-		<2130c0c232f6f4e0bebe64c4b3838d2de5ce022b.camel@linuxfoundation.org>
-	 <87cxzbshkn.fsf@prevas.dk>
+To: joaomarcos.costa@bootlin.com, openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com, quentin.schulz@cherry.de, 
+	qi.chen@windriver.com
+Date: Mon, 04 May 2026 09:36:39 +0100
+In-Reply-To: <20260427130846.96013-4-joaomarcos.costa@bootlin.com>
+References: <20260427130846.96013-1-joaomarcos.costa@bootlin.com>
+	 <20260427130846.96013-4-joaomarcos.costa@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -72,84 +73,36 @@ X-Gm-Phishy: 0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 08:35:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236438
+ <openembedded-core@lists.openembedded.org>; Mon, 04 May 2026 08:36:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236439
 
-On Mon, 2026-05-04 at 10:30 +0200, Rasmus Villemoes wrote:
-> On Sat, May 02 2026, Richard Purdie <richard.purdie@linuxfoundation.org> =
-wrote:
+On Mon, 2026-04-27 at 15:08 +0200, Joao Marcos Costa via lists.openembedded=
+.org wrote:
+> Some configuration files use bb.utils.contains to check for a string
+> inside a variable, and return the exact same string if true.
 >=20
-> > On Fri, 2026-05-01 at 20:36 +0200, Rasmus Villemoes via lists.openembed=
-ded.org wrote:
-> > From: Rasmus Villemoes <ravi@prevas.dk>
-> >=20
-> > This is _not_ meant to be applied, but merely acts as a place to start
-> > a discussion.
-> >=20
-> > > In our CI setup (which is gitlab-based, but I'm not sure that's too
-> > > relevant), we sometimes see spurious errors like
-> > >=20
-> > > =C2=A0 touch: setting times of '[...]/rootfs/usr/share/common-
-> > > licenses/go2rtc/COPYING.MIT': Operation not permitted
-> > >=20
-> > >=20
-> > > I do understand that using hard links is quite valuable for saving
-> > > time and space (I see GPL-2.0-only having 135 links, so that alone is
-> > > a few MB), which is why I don't think this should be applied as-is.
-> > >=20
-> > > Could we do something like create a $TMPDIR/license-pool/, and
-> > > whenever encountering a src not inside TMPDIR, copy that file to
-> > > $TMPDIR/license-pool/<basename>-<sha256 of source> [if it doesn't
-> > > already exist], and then use the latter as src in the subsequent "can
-> > > we hardlink" logic? That would then also improve the case where the
-> > > meta-layers are (bind)mounted R/O, and we thus always end up copying.
-> >=20
-> > I agree it does look like there is a potential issue here.
-> >=20
-> > I'm not sure we have ever claimed isolation between the build metadata
-> > and the builds, I know that for example patch files are linked in, so
-> > that when you update patches, it updates the metadata more easily. I
-> > can see why you might want that, equally, the ability to update patches
-> > that way is a nice usability feature.
-> >=20
-> > Did you track down where the utime of the files was being changed? From
-> > the link, it looks like:
-> >=20
-> > =C2=A0=C2=A0=C2=A0 find=C2=A0 ${IMAGE_ROOTFS} -print0 | xargs -0 touch =
--h=C2=A0 --date=3D@$REPRODUCIBLE_TIMESTAMP_ROOTFS
-> >=20
-> > in reproducible_final_image_task in image.bbclass
+> This can be simplified by a call to bb.utils.filter, since the result is
+> the same, and the inline is shorter.
 >=20
-> Yes, it it precisely that command/function where it triggers.
+> Replace "bb.utils.contains(A, 'a', 'a', '', d)" by "bb.utils.filter(A, 'a=
+', d)".
 >=20
-> > I think that function could be changed to clamp to anything newer than
-> > REPRODUCIBLE_TIMESTAMP_ROOTFS rather than changing all files, and that
-> > might actually avoid the issue.
+> bb.utils.filter() does not return the string with a leading space, and
+> this is handled by a leading space outside of the helper. This
+> workaround, however, has its limitations: the leading space is always
+> added. To avoid any potential issues, use .strip() when dereferencing
+> TUNE_CCARGS_MFPU in the if statements.
 >=20
-> I don't see how. First, how would that then serve the purpose of
-> producing something reproducible? It seems that the timestamps would or
-> could then depend on when the meta-data repo was cloned. Second, if the
-> mtime is still going to be changed sometimes under some conditions, the
-> problem is not really gone. And third, I think it would make the
-> implementation much more complicated, if one would need to make a
-> decision for each file for whether to touch it or not (i.e. the simple
-> find|xargs would no longer suffice).
+> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+> ---
+> =C2=A0meta/conf/machine/include/arm/feature-arm-neon.inc | 8 ++++----
+> =C2=A0meta/conf/machine/include/arm/feature-arm-vfp.inc=C2=A0 | 8 ++++---=
+-
+> =C2=A02 files changed, 8 insertions(+), 8 deletions(-)
 
-Pretty much all the rest of the system works like this for
-reproducibility. Whether you make everything
-REPRODUCIBLE_TIMESTAMP_ROOTFS or just clamp to a max value of
-REPRODUCIBLE_TIMESTAMP_ROOTFS doesn't really matter since you're using
-that value regardless.
-
-Basically anything touched as part of the build process (newer than the
-timestamp) would be reset, everything else (older than that) should be
-deterministic.
-
-The value of the actual timestamp used is a different discussion but
-we're not changing that.
-
-Having thought about this a bit, I do think that is the right solution,
-and it does match how we handle timestamps elsewhere like the packages.
+We've taken the other patches but not this one since we don't think
+this one is a net gain in readability or usability and there is no
+pressing reason we have to change.
 
 Cheers,
 
