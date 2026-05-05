@@ -1,120 +1,102 @@
-Return-Path: <marek.vasut@mailbox.org>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7C35CD342C
-	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 02:38:07 +0000 (UTC)
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30765.1777948678815460909
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E33FF885A
+	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 07:33:10 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33827.1777966383916814794
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2026 19:37:59 -0700
+ Tue, 05 May 2026 00:33:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=Aw/W1Rhr;
- spf=pass (domain: mailbox.org, ip: 80.241.56.152, mailfrom: marek.vasut@mailbox.org)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4g8jNg09fzz9v7B;
-	Tue,  5 May 2026 04:37:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777948675;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=grZttmnSS4kF5U4t3arihZHAST+S42Y39ROsP/AsOq8=;
-	b=Aw/W1RhrctXM7VI7YC4UTTHQGM0dGqJgoOEgegUP6CodA1pyTA+w37UKla8w8nEuYHAAG+
-	nyV5kO0WRyhIZdAFWr5q8HmRJ8Y2loaWclxypoqfZS8mOMYD9Tgeddkx1nrfxvXJqfiQpa
-	UchUdaQfY7N3mMdoC0QTUTCzzbJt5P05oirHKuXlxaVBWs3rQkzqskPULm7zkknKx+FGRC
-	uysDpPgGN+C1h4EP0pnppvQse/2XO+zkejcheKleQbHjO/klMQcHQOk1qjwVoTBlPuDepR
-	zTx3wCmK9nAnr8v6XDlUdmXsTk1XqyIVS1BRtTz066JyMiAehnpcwltvOXevjw==
-Message-ID: <a4490d5a-87e8-47c1-bc44-02c675336f40@mailbox.org>
-Date: Tue, 5 May 2026 04:37:51 +0200
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=yjw+9nx4;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id AA4431A3520;
+	Tue,  5 May 2026 07:33:01 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 73B715FD9D;
+	Tue,  5 May 2026 07:33:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CCF5811AD1E4F;
+	Tue,  5 May 2026 09:32:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1777966381; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=d7vktRpixYhHfFl9cWPvDA1Y7NsrDCJpBzK/f/+aeCI=;
+	b=yjw+9nx4wZuKfD5JltA+X0SdayNwYT5rGl6ZcVoY2R8T5V43csQJTWAHX6lpQdAp7/dWCp
+	5LUbLG5Yxnh6gtNQRx4zcvc3UWP2UQD1RbNlE11W0meprLDn++clPFDdP7xcPLJcCsiwSE
+	iDT3zNn+cn8aE+jdkYvYixyibEFvuSZJ2gOfE96QbQEhVUkq2G9ELXHa9GIQP5FHixxunB
+	HPAJCzfpk8zeyb/MdShig5gXn7+dacK0eLU83VtEnnI78iUh6ybURhcLXO0+4qZVSVbv/N
+	rMVaaZaalIWYgmOfNeqbm+M2vHHU3IIq/mvE2Lgohd2bKhbGOnwDfhT6LUMhPg==
+Message-ID: <d1935c45-4151-4084-b94d-09a3387cac3b@bootlin.com>
+Date: Tue, 5 May 2026 09:32:59 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH] populate_sdk: Execute populate_sdk before rm_work if
- rm_work.bbclass active
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 55/62] rsync: upgrade 3.4.1 -> 3.4.2
+To: richard.purdie@linuxfoundation.org,
  openembedded-core@lists.openembedded.org
-Cc: Adam Nilsson <Adam.X.Nilsson@axis.com>,
- Alexander Kanavin <alex@linutronix.de>, Khem Raj <raj.khem@gmail.com>,
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- Patrick Ohly <patrick.ohly@intel.com>,
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- Philip Lorenz <philip.lorenz@bmw.de>
-References: <20260429233224.562584-1-marek.vasut@mailbox.org>
- <e1a87043b8d16e9d2d49d5b0a2ac6ca48a023644.camel@linuxfoundation.org>
- <a8d75cfc-a4db-4c5c-b50e-1bc5f5df4511@mailbox.org>
- <be574cf23e4adf794471c99899db4a862d87c370.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <be574cf23e4adf794471c99899db4a862d87c370.camel@linuxfoundation.org>
+References: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
+ <20260502162929.1377831-55-richard.purdie@linuxfoundation.org>
+Content-Language: en-US, fr
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20260502162929.1377831-55-richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-X-MBO-RS-ID: e44ca310cd3017d78a7
-X-MBO-RS-META: iuoyfuf4jehyg1hs3oqbwpuiy8cnrd6k
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 02:38:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236461
+ <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 07:33:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236462
 
-On 5/3/26 12:07 AM, Richard Purdie wrote:
+Hello,
 
-Hello Richard,
-
->>>> +addhandler inject_sdk_rm_work
->>>> +inject_sdk_rm_work[eventmask] =3D "bb.event.RecipeTaskPreProcess"
->>>> +python inject_sdk_rm_work() {
->>>> +=C2=A0=C2=A0=C2=A0 if d.getVar('RM_WORK_BUILD_WITHOUT'):
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.build.addtask('do_pop=
-ulate_sdk', 'do_rm_work', ' ', d)
->>>> +}
->>>
->>> The solution is creative but I suspect it will cause problems with
->>> populate_sdk being injected into builds where it otherwise wasn't goi=
-ng
->>> to run.
->>
->> Currently, both populate_sdk.bbclass and populate_sdk_base.bbclass
->> already contain "addtask populate_sdk", so aren't those tasks already
->> injected into all such builds?
->>
->> My understanding is, that bb.build.addtask() only extends that addtask
->> with optional " ... before rm_work" in case the rm_work bbclass is
->> inherited in the build, so it shouldn't change the current behavior of
->> these bbclasses, except for the rm_work case.
+On 5/2/26 18:29, Richard Purdie via lists.openembedded.org wrote:
+> Drop backported CVE patch included in this release.
 >=20
-> When you run "bitbake XXX", it executes the default task, which is do_b=
-uild.
+> Parts of the prototypes patch were fixed upstream (in zlib) but some se=
+ctions
+> were not, drop the merged sections of the patch.
 >=20
-> If you add:
->=20
-> addtask do_populate_sdk before do_build
->=20
-> it will always run do_populate_sdk when you run "bitbake XXX", which is
-> a change of behaviour to what currently happens.
-Ahh, I understand, thank you for clarifying, it wasn't immediately=20
-obvious to me.
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   ...-prototypes-to-function-declarations.patch | 68 +++---------------=
+-
+>   .../rsync/files/CVE-2025-10158.patch          | 36 ----------
+>   .../rsync/files/determism.patch               |  4 +-
+>   .../rsync/files/makefile-no-rebuild.patch     |  6 +-
+>   .../rsync/{rsync_3.4.1.bb =3D> rsync_3.4.2.bb}  |  3 +-
+>   5 files changed, 16 insertions(+), 101 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2025-10158.p=
+atch
+>   rename meta/recipes-devtools/rsync/{rsync_3.4.1.bb =3D> rsync_3.4.2.b=
+b} (95%)
 
-Would it be acceptable to remove rm_work from image recipes to mitigate=20
-this issue , or maybe image recipes which also inherit populate_sdk ? I=20
-know this does reduce the usefulness of rm_work bbclass by keeping the=20
-image recipe content around. Something like this is what I have in mind:
+Could this update be related to the error below, at SWAT [1]?
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 52ecfafb72d..0d31c7da55d 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -166,6 +166,8 @@ inject_rm_work[eventmask] =3D=20
-"bb.event.RecipeTaskPreProcess"
-  python inject_rm_work() {
-      if bb.data.inherits_class('kernel', d):
-          d.appendVar("RM_WORK_EXCLUDE", ' ' + d.getVar("PN"))
-+    if bb.data.inherits_class('image', d):
-+        d.appendVar("RM_WORK_EXCLUDE", ' ' + d.getVar("PN"))
-      # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
-      excludes =3D (d.getVar("RM_WORK_EXCLUDE") or "").split()
-      pn =3D d.getVar("PN")
+ERROR: Logfile of failure stored in:=20
+/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/x86-64-=
+v3-poky-linux/rsync/3.4.2/temp/log.do_install_ptest_base.1107185
+Log data follows:
+| DEBUG: Executing shell function do_install_ptest_base
+| install: cannot stat=20
+'/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/x86-64=
+-v3-poky-linux/rsync/3.4.2/sources/rsync-3.4.2/runtests.sh':=20
+No such file or directory
+| WARNING: exit code 1 from a shell command.
+NOTE: recipe rsync-3.4.2-r0: task do_install_ptest_base: Failed
+ERROR: Task=20
+(/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembedded-c=
+ore/meta/recipes-devtools/rsync/rsync_3.4.2.bb:do_install_ptest_base)=20
+failed with exit code '1'
 
+[1]=20
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/3617/=
+steps/12/logs/stdio
+
+--=20
+Best regards,
+Jo=C3=A3o Marcos Costa
 
