@@ -2,266 +2,121 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE81CD3439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED737CD3441
 	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:58:52 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1048.1778000331586615544
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1076.1778000327731888532
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2026 09:58:51 -0700
+ Tue, 05 May 2026 09:58:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=m9zuyKRS;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48909558b3aso60058815e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:58:51 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=z0IlgVrQ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48d102471a4so22241005e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:58:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778000330; x=1778605130; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1778000326; x=1778605126; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NS1v5HGa4iyu1KmJ5rEKcRlmJa+UAZuNGT92ecVz4pk=;
-        b=m9zuyKRSpg7+Bdnx/lVaJwCjOVvsCNiIINyK3yasrErkgas8On8LeYjs3plUhzHh0x
-         47DEVvM/0hw6SYq71Hk2a85p3bXjMqDNXs19qZ065MRxeoaZSBV9hsxn352RhZS1HpI0
-         2jwEeKXPKKPJOm1AU1myhg3DpbsAhCJGd/3l8=
+        bh=TWhucAe1nmwi1xosahyfMtEQF1x9iNOUWp6y2UEoG4Q=;
+        b=z0IlgVrQ71Gh6WnYNv/6qH1POKftJ/BlJF9CnL8AN7s2YfXvg6RLC3UV16ywL8Awy/
+         7uNqeFGlF8M8CV8F2fey6Je/S9ypJl5Ep7/iGnlByr3Ofz6j35hHLvB343LKlfXAvlVd
+         8P7/D/Xq+8g7LAme1vA8dy3CexDYNG7zqQ4E8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778000330; x=1778605130;
+        d=1e100.net; s=20251104; t=1778000326; x=1778605126;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=NS1v5HGa4iyu1KmJ5rEKcRlmJa+UAZuNGT92ecVz4pk=;
-        b=W4cTzvheyy9ZDpQnNbD2V94BtqtVZTHS5AUQrF8wMpQKd5GgfLNj14Uic3QrYlJMPU
-         /6yJ4rUO++BnqsqOCAMIrxr4q9L4aO3XA8zz3mMLe10Lew0ucD6wgT3oEmVi0bGBxjTM
-         A08sSD2owa1S39MlEwpaKpV0kN1DIR03tj1RJnvC9YOjPlh3njU6AqMazobnLFGqM1KH
-         VJhTV22t+aOO75+o0dQx1vQiNrru0L5wT5zlAyQD4zGv5CIk8ZAVJHEUiNCmHVgqbo21
-         l1DQ+gJxAlx+HtyttzRhA0EIGNM9yGHRMLngObl4GHFeVXQmRP9JD7HvcOzEZslEPzDu
-         aamw==
-X-Gm-Message-State: AOJu0YzSFCosieT9PX8H5/xS5rFMpNEqPwcP5RwBGlk1oBwZr4y+FbF6
-	Lzy1wzdax0wslG2qsiLWL9UrQ5a8KJ1iJ3cjcUleuUv1RV0/paC52AyEal0wXTf6L77UUccP1Je
-	7CoduEac=
-X-Gm-Gg: AeBDievV/9xyTukWJUtzkvHHf1I2KG55qKlcikH5JzPUOmTMj17UU6sm2HlSdMIZY6K
-	0C4iAac8GRQZDhDUpr33Uzekdyt1LhSYD5zixo5uQHQPrQl2RvHIDvYxpm9a8hDww/sev9R8f61
-	o/6TykrMtxaKtvo2nQp+aZ4HgiVS+eWKJko1RPD3QPR0NMIN7EVF/XSacKd3+D7J6tMs4RDC8eA
-	InkHRPtYnjfmmmXN7kvyD/A54FouwAH2yfINvLG4MlilIul4Tlo3fIs692uY2GZqETlwYyBjZLj
-	Vk+UYHbYdqX006bQ/Q+IkPbiAy03ddWHxezRt81iLjuBJYE3GIpRamhxmF3m39udY1f17S13FnU
-	/X0y50wCdOFoYAW7Buhh64o0ZjqRQksl/s8uI0tT37/4Ozv6WJf6DxY4ZzsTNpb3AMTwVGojgUl
-	8NCEsgL4qQq8ft7kVnmgMn6A8oIZBciOQDio3AEh7PfnyJB8RfX3rXlYVzuoNuRQRoX2tsG8rS3
-	Lt+jJtdKnOf6RGEIfvF3eDYEQ==
-X-Received: by 2002:a05:600c:8b65:b0:48a:53ea:140b with SMTP id 5b1f17b1804b1-48e51f4e5fdmr616425e9.28.1778000329491;
-        Tue, 05 May 2026 09:58:49 -0700 (PDT)
+        bh=TWhucAe1nmwi1xosahyfMtEQF1x9iNOUWp6y2UEoG4Q=;
+        b=Fb9FTOF+8B/JVDBiYCKL7C4TVLrlC2rBXx2HUVDtBLP24SByxl7u3MC/6AjvjXDMw8
+         NQ+NFjCO7NfGVDYs8NvHH9uRDz31/32UZGAyvB7GKOZXZq1ZVcaHcFSV8LtJbSv+/57J
+         WupLvYejcDFyLksjMD5+MR72Q6+KDED72PSspJgAuGzy0/nQ1nCMgFjNH8j4V8yD5i2M
+         8pkPLhbDpLN74q3q/WMcWNAFZf+PnkniOeTsNZ9bhZjUM618OdVro/LiTZ1o0sk5E5xa
+         WF963KHz54752qCKUsUy1xzixXQ0GrJNyo4/s3r8l3pTNz9LaOizvBWUQLNJT0eHQrO7
+         wFow==
+X-Gm-Message-State: AOJu0YyX4xKUFd38ehpFWcXAd1nLa65EWvAqVvh6f2duQwoInG1hwZ69
+	B2AdAbMgy+P3u7pxoyRN340r7dsrz4TOsU8HhHwn9l8CUZWk1W3q+q7a9ZwurXxiuhhmNJzQyEs
+	V2lkSvu8=
+X-Gm-Gg: AeBDiesLKlUHY6Lcugbli7yZC0rjvreYPKwglUxfq4GbtVHd8f+MiYOy2H+MQ8nxz50
+	JSzjLJMDyPAlkpsaZYZKpYwCAxti6wZRfkKkes3VdZURBcAHsJCs1IfV8AmvhAFsJajzHTe9GeD
+	CZre8hdiSfrNa3lZyppGvxmiTLoNb0xmwV4hZNHiA8IqX4tAsXg7cfdaIEF8EAubMtzBEflVW2l
+	nExA0nJmX6xfZaqfePTLnLYvUjkp9prrQPS89JONc+hvcpLsmLVKMK59rdxsuOJkhGo6L6nWxFg
+	VKrkwyQqjNLyYMEYo4MpWyjhLYQwLKEhYozQi6itW35YQuvol8UYZD3BL8059Bqp2YeoSaCo59X
+	YwMnQGdBrzcZMQk6TxN8tK0VRrnY+ani+6DNz0qgM5Tl/etZeKZVK421Wup5wmexkCarQtgpp34
+	dSlvy0w0+m49Y6hxl/5dHi9fd/f4fNh6PjbEYYdHfdyHig0StgLF0yNFFLIgr4xh4tXE+J7yu3B
+	4t3m7viVL88MksB0e/0tqWumsvWsbJN85eW
+X-Received: by 2002:a05:600c:8b04:b0:47e:e2eb:bc22 with SMTP id 5b1f17b1804b1-48e51f183demr1231275e9.5.1778000325841;
+        Tue, 05 May 2026 09:58:45 -0700 (PDT)
 Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:58:48 -0700 (PDT)
+        Tue, 05 May 2026 09:58:44 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/23] expat: patch CVE-2026-32778
-Date: Tue,  5 May 2026 18:57:24 +0200
-Message-ID: <ea404c36732a4e3882a74707189b10a4a196df07.1777995876.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 04/23] dbus: gate user-session PACKAGECONFIG on systemd in DISTRO_FEATURES
+Date: Tue,  5 May 2026 18:57:21 +0200
+Message-ID: <5550d6eadb2fea1ecb13e035a04a57450510441f.1777995876.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1777995876.git.fabien.thomas@smile.fr>
 References: <cover.1777995876.git.fabien.thomas@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:58:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236498
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236495
 
-From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+From: Jhonata Poma-Hansen <jhonata.poma@gmail.com>
 
-Pick patches from [1] also mentioned in [2].
+On scarthgap images built without systemd in DISTRO_FEATURES, dbus
+still shipped dbus.socket and dbus.service under
+${systemd_user_unitdir} (/usr/lib/systemd/user), because the
+'user-session' PACKAGECONFIG was always enabled and passed
+--enable-user-session --with-systemduserunitdir=... to configure.
 
-[1] https://github.com/libexpat/libexpat/pull/1163
-[2] https://security-tracker.debian.org/tracker/CVE-2026-32778
+In dbus-1.14.10 the user-session autoconf option (configure.ac and
+bus/Makefile.am 'if DBUS_ENABLE_USER_SESSION') only installs systemd
+user units; it has no non-systemd effect. Enabling it on a sysvinit
+image has no benefit and produces the stale unit files.
 
-Signed-off-by: Bruno VERNAY <bruno.vernay@se.com>
-Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+Make user-session a systemd-gated PACKAGECONFIG by using
+bb.utils.contains in the default, so it is enabled when systemd is
+in DISTRO_FEATURES and disabled otherwise. No changes to the
+PACKAGECONFIG[user-session] or PACKAGECONFIG[systemd] entries are
+needed: --disable-user-session is passed on sysvinit builds, which
+prevents the configure/Makefile machinery from ever setting up the
+user-unit install step.
+
+This is the scarthgap equivalent of master commit a296b0623eb2
+("dbus: use the systemd class to handle the unit files"), adapted
+to the autotools 1.14.10 recipe. The master fix was broader because
+the meson 1.16.2 build handles unit-file install differently, which
+let that commit drop the manual do_install unit block, the
+systemctl mask postinst, and PACKAGE_WRITE_DEPS. On 1.14.10 those
+pieces are still needed; the minimal correct gate here is the
+user-session default.
+
+Fixes [YOCTO #15779]
+
+Signed-off-by: Jhonata Poma-Hansen <jhonata.poma@gmail.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../expat/expat/CVE-2026-32778-01.patch       | 91 +++++++++++++++++++
- .../expat/expat/CVE-2026-32778-02.patch       | 61 +++++++++++++
- meta/recipes-core/expat/expat_2.6.4.bb        |  2 +
- 3 files changed, 154 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32778-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32778-02.patch
+ meta/recipes-core/dbus/dbus_1.14.10.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-32778-01.patch b/meta/recipes-core/expat/expat/CVE-2026-32778-01.patch
-new file mode 100644
-index 0000000000..0105fe7417
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-32778-01.patch
-@@ -0,0 +1,91 @@
-+From b878628b560a2ba1e11b3a12ff8df0dab7d6b8bb Mon Sep 17 00:00:00 2001
-+From: laserbear <10689391+Laserbear@users.noreply.github.com>
-+Date: Sun, 8 Mar 2026 17:28:06 -0700
-+Subject: [PATCH 1/2] copy prefix name to pool before lookup
-+
-+.. so that we cannot end up with a zombie PREFIX in the pool
-+that has NULL for a name.
-+
-+CVE: CVE-2026-32778
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/576b61e42feeea704253cb7c7bedb2eeb3754387]
-+
-+Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
-+(cherry picked from commit 576b61e42feeea704253cb7c7bedb2eeb3754387)
-+Signed-off-by: Hugo SIMELIERE <simeliere.hugo@non.se.com>
-+---
-+ lib/xmlparse.c | 43 +++++++++++++++++++++++++++++++++++--------
-+ 1 file changed, 35 insertions(+), 8 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index bfb8ac58..9bc67f38 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -590,6 +590,8 @@ static XML_Char *poolStoreString(STRING_POOL *pool, const ENCODING *enc,
-+ static XML_Bool FASTCALL poolGrow(STRING_POOL *pool);
-+ static const XML_Char *FASTCALL poolCopyString(STRING_POOL *pool,
-+                                                const XML_Char *s);
-++static const XML_Char *FASTCALL poolCopyStringNoFinish(STRING_POOL *pool,
-++                                                       const XML_Char *s);
-+ static const XML_Char *poolCopyStringN(STRING_POOL *pool, const XML_Char *s,
-+                                        int n);
-+ static const XML_Char *FASTCALL poolAppendString(STRING_POOL *pool,
-+@@ -7443,16 +7445,24 @@ setContext(XML_Parser parser, const XML_Char *context) {
-+       else {
-+         if (! poolAppendChar(&parser->m_tempPool, XML_T('\0')))
-+           return XML_FALSE;
-+-        prefix
-+-            = (PREFIX *)lookup(parser, &dtd->prefixes,
-+-                               poolStart(&parser->m_tempPool), sizeof(PREFIX));
-+-        if (! prefix)
-++        const XML_Char *const prefixName = poolCopyStringNoFinish(
-++            &dtd->pool, poolStart(&parser->m_tempPool));
-++        if (! prefixName) {
-+           return XML_FALSE;
-+-        if (prefix->name == poolStart(&parser->m_tempPool)) {
-+-          prefix->name = poolCopyString(&dtd->pool, prefix->name);
-+-          if (! prefix->name)
-+-            return XML_FALSE;
-+         }
-++
-++        prefix = (PREFIX *)lookup(parser, &dtd->prefixes, prefixName,
-++                                  sizeof(PREFIX));
-++
-++        const bool prefixNameUsed = prefix && prefix->name == prefixName;
-++        if (prefixNameUsed)
-++          poolFinish(&dtd->pool);
-++        else
-++          poolDiscard(&dtd->pool);
-++
-++        if (! prefix)
-++          return XML_FALSE;
-++
-+         poolDiscard(&parser->m_tempPool);
-+       }
-+       for (context = s + 1; *context != CONTEXT_SEP && *context != XML_T('\0');
-+@@ -8041,6 +8051,23 @@ poolCopyString(STRING_POOL *pool, const XML_Char *s) {
-+   return s;
-+ }
-+ 
-++// A version of `poolCopyString` that does not call `poolFinish`
-++// and reverts any partial advancement upon failure.
-++static const XML_Char *FASTCALL
-++poolCopyStringNoFinish(STRING_POOL *pool, const XML_Char *s) {
-++  const XML_Char *const original = s;
-++  do {
-++    if (! poolAppendChar(pool, *s)) {
-++      // Revert any previously successful advancement
-++      const ptrdiff_t advancedBy = s - original;
-++      if (advancedBy > 0)
-++        pool->ptr -= advancedBy;
-++      return NULL;
-++    }
-++  } while (*s++);
-++  return pool->start;
-++}
-++
-+ static const XML_Char *
-+ poolCopyStringN(STRING_POOL *pool, const XML_Char *s, int n) {
-+   if (! pool->ptr && ! poolGrow(pool)) {
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-32778-02.patch b/meta/recipes-core/expat/expat/CVE-2026-32778-02.patch
-new file mode 100644
-index 0000000000..2cfda33dc8
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-32778-02.patch
-@@ -0,0 +1,61 @@
-+From c26728576de3850258c7762c036dd0eb7783ea15 Mon Sep 17 00:00:00 2001
-+From: laserbear <10689391+Laserbear@users.noreply.github.com>
-+Date: Sun, 8 Mar 2026 17:28:06 -0700
-+Subject: [PATCH 2/2] test that we do not end up with a zombie PREFIX in the
-+ pool
-+
-+CVE: CVE-2026-32778
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/d5fa769b7a7290a7e2c4a0b2287106dec9b3c030]
-+
-+(cherry picked from commit d5fa769b7a7290a7e2c4a0b2287106dec9b3c030)
-+Signed-off-by: Hugo SIMELIERE <simeliere.hugo@non.se.com>
-+---
-+ tests/nsalloc_tests.c | 27 +++++++++++++++++++++++++++
-+ 1 file changed, 27 insertions(+)
-+
-+diff --git a/tests/nsalloc_tests.c b/tests/nsalloc_tests.c
-+index a8f5718d..d284a58a 100644
-+--- a/tests/nsalloc_tests.c
-++++ b/tests/nsalloc_tests.c
-+@@ -1505,6 +1505,32 @@ START_TEST(test_nsalloc_prefixed_element) {
-+ }
-+ END_TEST
-+ 
-++/* Verify that retry after OOM in setContext() does not crash.
-++ */
-++START_TEST(test_nsalloc_setContext_zombie) {
-++  const char *text = "<doc>Hello</doc>";
-++  unsigned int i;
-++  const unsigned int max_alloc_count = 30;
-++
-++  for (i = 0; i < max_alloc_count; i++) {
-++    g_allocation_count = (int)i;
-++    if (XML_Parse(g_parser, text, (int)strlen(text), XML_TRUE)
-++        != XML_STATUS_ERROR)
-++      break;
-++    /* Retry on the same parser — must not crash */
-++    g_allocation_count = ALLOC_ALWAYS_SUCCEED;
-++    XML_Parse(g_parser, text, (int)strlen(text), XML_TRUE);
-++
-++    nsalloc_teardown();
-++    nsalloc_setup();
-++  }
-++  if (i == 0)
-++    fail("Parsing worked despite failing allocations");
-++  else if (i == max_alloc_count)
-++    fail("Parsing failed even at maximum allocation count");
-++}
-++END_TEST
-++
-+ void
-+ make_nsalloc_test_case(Suite *s) {
-+   TCase *tc_nsalloc = tcase_create("namespace allocation tests");
-+@@ -1539,4 +1565,5 @@ make_nsalloc_test_case(Suite *s) {
-+   tcase_add_test__if_xml_ge(tc_nsalloc, test_nsalloc_long_default_in_ext);
-+   tcase_add_test(tc_nsalloc, test_nsalloc_long_systemid_in_ext);
-+   tcase_add_test(tc_nsalloc, test_nsalloc_prefixed_element);
-++  tcase_add_test(tc_nsalloc, test_nsalloc_setContext_zombie);
-+ }
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
-index f78d9a8a60..151720a9e3 100644
---- a/meta/recipes-core/expat/expat_2.6.4.bb
-+++ b/meta/recipes-core/expat/expat_2.6.4.bb
-@@ -49,6 +49,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-32776.patch \
-            file://CVE-2026-32777-01.patch \
-            file://CVE-2026-32777-02.patch \
-+           file://CVE-2026-32778-01.patch \
-+           file://CVE-2026-32778-02.patch \
-            "
+diff --git a/meta/recipes-core/dbus/dbus_1.14.10.bb b/meta/recipes-core/dbus/dbus_1.14.10.bb
+index ffbf0780ed..e57a01478b 100644
+--- a/meta/recipes-core/dbus/dbus_1.14.10.bb
++++ b/meta/recipes-core/dbus/dbus_1.14.10.bb
+@@ -29,7 +29,7 @@ EXTRA_OECONF = "--disable-xml-docs \
+ EXTRA_OECONF:append:class-target = " SYSTEMCTL=${base_bindir}/systemctl"
  
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)} \
+-                   user-session \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'user-session', '', d)} \
+                   "
+ PACKAGECONFIG:class-native = ""
+ PACKAGECONFIG:class-nativesdk = ""
 
