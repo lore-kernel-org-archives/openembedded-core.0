@@ -2,222 +2,186 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D679ECD3427
-	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:58:12 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1059.1778000291508158172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC66BFF8855
+	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:58:52 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1072.1778000325180759221
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2026 09:58:12 -0700
+ Tue, 05 May 2026 09:58:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=RFNVinUy;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so28817785e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:58:11 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=3D5n0hUN;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so53160865e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778000290; x=1778605090; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f7eW6Iyn+/Kv2ox3Cc7fF1qcEZhtUOlUcb8cJW2akjc=;
-        b=RFNVinUyDFbkVhBjG9i3jaIHchULswSBHhfX7UB1B/h9BjL/B5pgkJEOoFFIQizfdt
-         KHgHcOoObXgDSGAQEFgjK75plVDwLzOeskqtIMiy1nwvIg92Prx3An8WAnFBDBa/xpVX
-         0feTs8OFFGaGnkM9pqrQ4pvIjzhGJmzAr4QIo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778000290; x=1778605090;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1778000323; x=1778605123; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f7eW6Iyn+/Kv2ox3Cc7fF1qcEZhtUOlUcb8cJW2akjc=;
-        b=r6PVz+7VlD1LJGDXQ7ho1/FluWVZWKTaHjs7tdIe3nS8RXzjWzkLq/OLmSXN8wr2iV
-         EbbZZbLW0HfSTlPYew5UFU1mPCWVPdSgJkJRC5ntnoDWaGRS6CDMDNwvWKQOrHg69Zhn
-         bEfM8O5Mb10WTr8ouP2zNf5VNBvK3sQr1aXJoSUsXg1/j8rKGEGcqXA4HD4Vw3ywRZe+
-         C3JMiG5AdwkJ4SqCOYHvCFdDp0P14305XtQKZPcEC9NKj46/iy3lzZ73l+UutKGxEMKK
-         WCukaog9Ww4avyqbnYgfxkCZ5qhhUYCUL+k36EgsBnHzNBnWumDV21xF4fNlI7jXC/7s
-         Rw2Q==
-X-Gm-Message-State: AOJu0Yxq6qWWHK7vuHuBwuU+2TtPWKD+2lzEgwItgjOujM/YFGB5Sa5X
-	kyT21wBJYivEO7NHnRjnszkKBfB5Kc7LuIO6JyOWOuRPupluJPcABujkUwO6Jw1qjlJllnIIDXU
-	ccP4O7I0=
-X-Gm-Gg: AeBDiet7qhkSr2htH8KTsRCZgZbs5xA4TblIP36+05pVx647DRJR4xej9U9GBF+QR8k
-	UQEux2GJzetaQDdhTayTt/rSO/RYODNIcWQh3lrSbR6UlgAf2y40ZCZt8G7qyWGp9wsey6z1i4x
-	UuZUlvnl1xdPWWBS9wCp5YucqtcazX6B+dOQwDsSFE5qM3aqGlHqvC3Jz1iYp7TpuDMpSUPDqUZ
-	1uE6Wf54fr4Usf8zmZMQwBnhNJPAta3IzX62VkQLrAaP1dhHbTtT1PwqbPsXQ5eLF1wgjbGdDPe
-	XlMZ0UbyYTnWBb+hKUP2ESV3bgntgsiPSxlMe9ATBKOHzBStIQEGgf5hpibrZ9AeHhpQ212TYJR
-	4xom/FcyFveZ2bK+Q186GKjOcYGgohrARQTpCy2BLkee+BPcZzzMNkgNfEqPV1Otv70NiiVd6NU
-	FNQiajR781YAq5LbaE8Iws6MTUTUYvi931etUJLLuAmeLFxTp1f9YKP/3vI23TU7lEMuzqBUtQ+
-	pjkgo1GxeJR4sobfpxTd7Jw+cLKvwYvwiml
-X-Received: by 2002:a05:600c:2d43:b0:48a:563c:c8c0 with SMTP id 5b1f17b1804b1-48e51e166a3mr909385e9.7.1778000289380;
-        Tue, 05 May 2026 09:58:09 -0700 (PDT)
+        bh=ElyNiWKJqqyxk/BSChtZrpcJkO8+HR6oMS+yVDz9Zts=;
+        b=3D5n0hUN8/MCKmnwoHPUptZoG3BV1a1XDc9lzk+UOK1SXaIe0Hg2x+arEXPzKTR3pc
+         2DyT/uT0xfiYaiiIDgMw2Bk6hH+E9SoSwEOQSgabvzo91LFdOV31KvI8I4kbfspPWwFZ
+         T3u57ImKrvMVQrO8Bn1BbebuHmMcWacWDrxig=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778000323; x=1778605123;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ElyNiWKJqqyxk/BSChtZrpcJkO8+HR6oMS+yVDz9Zts=;
+        b=J5AlyqdCgaJkzihit8mRMcgpLzB7ykpQP1qNJpKWxYRJlzS6n+GGWxJVWlj0rmf+wv
+         UpG2xswxboTc9Uidts34a2LviuOF5apMaMcxbQd0as2u9RP2waAL5OB0FSVoWSJ2kSUc
+         9oXb+8c527wTUpuDcUmITKZDIHllbLl0XburgKzNiAWFIXp3TQgyps7oyQ4cSkafMq7u
+         iGOPbWyxcgtRAyfgSS330PLqBJU8n4XI324jkl4R7yVAzzeL7nAQuAyrXs55vOK4cxr4
+         F24dkwCF1ZvIpjXa5UhFKPm8xyJF9PTm5n78iC+YlF5cgejwK/4g1LKJ0a0n0SuDd7ah
+         fZtQ==
+X-Gm-Message-State: AOJu0YyFQtU+Mq17AqlAU620rfgbL7Gujmkjyyfciz9GTCj4jfi5+wI8
+	/Y/dUdVn7l3DYO1RUpEhfZWWNV7NpJS6VoX/x3kG9V0/qVZt2OqhOyyH1Hgv8m7AzRjsKPWAefP
+	IbI9AZQo=
+X-Gm-Gg: AeBDievEaHajqGOSGdjWZaMzkYY3sOvyRf3/zgPXayzPrBzLK8ZRTfQSlToNzabJiA2
+	h7ldEpI1MjcJ8CeRmS4SQQls2csJQinaCOliRBvIhBPN8Lpv1mkc+O4SIaQcCp26wQrU4le3eT3
+	5gQTkD/f5T/2hvEkWpLeX6/36KPeFMDZarFxOc5E49HobanjInQbO9bijpCb9vdv9qDX7xdcbzH
+	zD2Pva0jG1mPIDkp8pITZAFg7D2LvIo1u89dH4V5VPRiUnfzWTBBN/xmiTejZdDnJvHC8+Z4+MJ
+	JeKbCSRClr1mxhFfHg5SceZn+vyXvhVY/3kchcvq1VSPJ6235+P5k1zq8rnoow/+A4co0cAEHQ5
+	JXj+oGbqR8/ld7LlR1nm2yM13lF9gKyt8ICW3B62EuhejPApBuD2n+nylqvTe3qF1gY5JfmB04A
+	vr0q23pyW3VTIq7mYlc8CN2lRsOrWJKTdqrLySAcZfsjA3iEC/sx26FiQYqgWFHD2q3VnbC5bEc
+	tj0yyGtfmcDgwC5eXayJHWUxw==
+X-Received: by 2002:a05:600c:4e0c:b0:48a:55d8:7882 with SMTP id 5b1f17b1804b1-48e51e16e58mr1834665e9.9.1778000323117;
+        Tue, 05 May 2026 09:58:43 -0700 (PDT)
 Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:58:08 -0700 (PDT)
+        Tue, 05 May 2026 09:58:42 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/23] Patch review
-Date: Tue,  5 May 2026 18:57:17 +0200
-Message-ID: <cover.1777995876.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 02/23] binutils: fix CVE-2025-69647
+Date: Tue,  5 May 2026 18:57:19 +0200
+Message-ID: <a15dfc1a05ba26ae9f806b0f4c5273bb7c484a04.1777995876.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1777995876.git.fabien.thomas@smile.fr>
+References: <cover.1777995876.git.fabien.thomas@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:58:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236491
+ <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:58:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236492
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Thursday, May 6.
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3774
+Backport upstream fix for CVE-2025-69647 [1].
 
-The following changes since commit dc2df90b1d4f71023169d492f3819326e0e6c055:
+[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=455446bbdc8675f34808187de2bbad4682016ff7
 
-  liburcu: upgrade 0.14.0 -> 0.14.2 (2026-04-24 16:06:21 +0200)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-for you to fetch changes up to 3c2f2b6f7af2bb743655859b64faae4786080cb9:
-
-  libsoup: fix CVE-2025-32049 (2026-05-05 13:01:04 +0200)
-
-----------------------------------------------------------------
-
-Adarsh Jagadish Kamini (2):
-  binutils: fix CVE-2025-69647
-  binutils: fix CVE-2025-69648
-
-Bruce Ashfield (3):
-  linux-yocto/6.6: update to v6.6.124
-  linux-yocto/6.6: update to v6.6.126
-  linux-yocto/6.6: update to v6.6.127
-
-Changqing Li (2):
-  libsoup: fix CVE-2025-14523
-  libsoup: fix CVE-2025-32049
-
-Fabien Thomas (1):
-  ghostscript: Pin to C17 std
-
-Himanshu Jadon (1):
-  apt: Add CVE_PRODUCT to support product name
-
-Hitendra Prajapati (3):
-  rsync: fix for CVE-2026-41035
-  systemd: fix for CVE-2026-40225
-  systemd: fix for CVE-2026-40226
-
-Hongxu Jia (3):
-  u-boot: fix CVE-2025-24857
-  ovmf: fix CVE-2025-2296
-  ovmf: fix CVE-2024-38798
-
-Hugo SIMELIERE (3):
-  expat: patch CVE-2026-32776
-  expat: patch CVE-2026-32777
-  expat: patch CVE-2026-32778
-
-Jhonata Poma-Hansen (1):
-  dbus: gate user-session PACKAGECONFIG on systemd in DISTRO_FEATURES
-
-Martin Jansa (1):
-  ghostscript: fix build with gcc-15 on host
-
-Sudhir Dumbhare (1):
-  libpng: fix CVE-2026-33636
-
-Vijay Anusuri (2):
-  avahi: Fix CVE-2026-34933
-  gdk-pixbuf: Fix CVE-2026-5201
-
- .../u-boot/files/CVE-2025-24857.patch         |  42 +
- meta/recipes-bsp/u-boot/u-boot-common.inc     |   4 +-
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   2 +
- .../avahi/files/CVE-2026-34933-1.patch        | 108 +++
- .../avahi/files/CVE-2026-34933-2.patch        |  96 +++
- meta/recipes-core/dbus/dbus_1.14.10.bb        |   2 +-
- .../expat/expat/CVE-2026-32776.patch          |  91 +++
- .../expat/expat/CVE-2026-32777-01.patch       |  49 ++
- .../expat/expat/CVE-2026-32777-02.patch       |  66 ++
- .../expat/expat/CVE-2026-32778-01.patch       |  91 +++
- .../expat/expat/CVE-2026-32778-02.patch       |  61 ++
- meta/recipes-core/expat/expat_2.6.4.bb        |   5 +
- ...mdSev-Halt-on-failed-blob-allocation.patch | 159 ++++
- .../ovmf/ovmf/CVE-2024-38798.patch            | 116 +++
- .../ovmf/ovmf/CVE-2025-2296-1.patch           | 762 ++++++++++++++++++
- .../ovmf/ovmf/CVE-2025-2296-2.patch           | 175 ++++
- .../ovmf/ovmf/CVE-2025-2296-3.patch           |  42 +
- .../ovmf/ovmf/CVE-2025-2296-4.patch           |  34 +
- .../ovmf/ovmf/CVE-2025-2296-5.patch           |  36 +
- .../ovmf/ovmf/CVE-2025-2296-6.patch           |  54 ++
- .../ovmf/ovmf/CVE-2025-2296-7.patch           | 124 +++
- .../ovmf/ovmf/CVE-2025-2296-8.patch           | 125 +++
- .../ovmf/ovmf/CVE-2025-2296-9.patch           | 108 +++
- meta/recipes-core/ovmf/ovmf_git.bb            |  11 +
- .../systemd/systemd/CVE-2026-40225-01.patch   | 131 +++
- .../systemd/systemd/CVE-2026-40225-02.patch   |  39 +
- .../systemd/systemd/CVE-2026-40226-01.patch   |  63 ++
- .../systemd/systemd/CVE-2026-40226-02.patch   |  39 +
- meta/recipes-core/systemd/systemd_255.21.bb   |   4 +
- meta/recipes-devtools/apt/apt_2.6.1.bb        |   3 +
- .../binutils/binutils-2.42.inc                |   2 +
- .../binutils/binutils/CVE-2025-69647.patch    |  85 ++
- .../binutils/binutils/CVE-2025-69648.patch    | 190 +++++
- .../rsync/files/CVE-2026-41035.patch          |  39 +
- meta/recipes-devtools/rsync/rsync_3.2.7.bb    |   1 +
- ...Fix-compatibility-with-C23-compilers.patch |  67 ++
- .../ghostscript/ghostscript_10.05.1.bb        |   3 +
- .../gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch |  44 +
- .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |   1 +
- .../linux/linux-yocto-rt_6.6.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 +-
- .../libpng/files/CVE-2026-33636.patch         |  99 +++
- .../libpng/libpng_1.6.42.bb                   |   1 +
- .../libsoup-3.4.4/CVE-2025-14523.patch        | 715 ++++++++++++++++
- .../libsoup-3.4.4/CVE-2025-32049-1.patch      | 229 ++++++
- .../libsoup-3.4.4/CVE-2025-32049-2.patch      |  34 +
- .../libsoup-3.4.4/CVE-2025-32049-3.patch      | 134 +++
- .../libsoup-3.4.4/CVE-2025-32049-4.patch      | 292 +++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   5 +
- 50 files changed, 4601 insertions(+), 22 deletions(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2025-24857.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32776.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32778-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32778-02.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-AmdSev-Halt-on-failed-blob-allocation.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2024-38798.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-1.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-2.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-3.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-4.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-5.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-6.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-7.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-8.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2025-2296-9.patch
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40226-01.patch
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40226-02.patch
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
+---
+ .../binutils/binutils-2.42.inc                |  1 +
+ .../binutils/binutils/CVE-2025-69647.patch    | 85 +++++++++++++++++++
+ 2 files changed, 86 insertions(+)
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69647.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-41035.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2026-5201.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-14523.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32049-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32049-2.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32049-3.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32049-4.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 096ccf42c2..fcbe7fbfab 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -72,5 +72,6 @@ SRC_URI = "\
+      file://0028-CVE-2025-11494.patch \
+      file://0029-CVE-2025-11839.patch \
+      file://0030-CVE-2025-11840.patch \
++     file://CVE-2025-69647.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69647.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69647.patch
+new file mode 100644
+index 0000000000..8e3c1c79e7
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69647.patch
+@@ -0,0 +1,85 @@
++From c87ed59208e1ce665f08ae2b2d8c1cdc2a653ea2 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sat, 22 Nov 2025 09:52:18 +1030
++Subject: [PATCH] PR 33639 .debug_loclists output
++
++The fuzzed testcase in this PR prints an almost endless table of
++offsets, due to a bogus offset count.  Limit that count, and the total
++length too.
++
++	PR 33639
++	* dwarf.c (display_loclists_unit_header): Return error on
++	length too small to read header.  Limit length to section
++	size.  Limit offset count similarly.
++
++CVE: CVE-2025-69647
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=455446bbdc8675f34808187de2bbad4682016ff7]
++
++Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++---
++ binutils/dwarf.c | 20 ++++++++++++++------
++ 1 file changed, 14 insertions(+), 6 deletions(-)
++
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 72bc9d7497a..06d68074046 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -7221,8 +7221,6 @@ display_loclists_unit_header (struct dwarf_section *  section,
++   bool is_64bit;
++   uint32_t i;
++ 
++-  printf (_("Table at Offset %#" PRIx64 "\n"), header_offset);
++-
++   SAFE_BYTE_GET_AND_INC (length, start, 4, end);
++   if (length == 0xffffffff)
++     {
++@@ -7231,6 +7229,11 @@ display_loclists_unit_header (struct dwarf_section *  section,
++     }
++   else
++     is_64bit = false;
+++  if (length < 8)
+++    return (uint64_t) -1;
+++
+++  printf (_("Table at Offset %#" PRIx64 "\n"), header_offset);
+++  header_offset = start - section->start;
++ 
++   SAFE_BYTE_GET_AND_INC (version, start, 2, end);
++   SAFE_BYTE_GET_AND_INC (address_size, start, 1, end);
++@@ -7243,15 +7246,21 @@ display_loclists_unit_header (struct dwarf_section *  section,
++   printf (_("  Segment size:    %u\n"), segment_selector_size);
++   printf (_("  Offset entries:  %u\n"), *offset_count);
++ 
+++  if (length > section->size - header_offset)
+++    length = section->size - header_offset;
+++
++   if (segment_selector_size != 0)
++     {
++       warn (_("The %s section contains an "
++ 	      "unsupported segment selector size: %d.\n"),
++ 	    section->name, segment_selector_size);
++-      return (uint64_t)-1;
+++      return (uint64_t) -1;
++     }
++ 
++-  if ( *offset_count)
+++  uint64_t max_off_count = length >> (is_64bit ? 3 : 2);
+++  if (*offset_count > max_off_count)
+++    *offset_count = max_off_count;
+++  if (*offset_count)
++     {
++       printf (_("\n   Offset Entries starting at %#tx:\n"),
++ 	      start - section->start);
++@@ -7268,8 +7277,7 @@ display_loclists_unit_header (struct dwarf_section *  section,
++   putchar ('\n');
++   *loclists_start = start;
++ 
++-  /* The length field doesn't include the length field itself.  */
++-  return header_offset + length + (is_64bit ? 12 : 4);
+++  return header_offset + length;
++ }
++ 
++ static int
++-- 
++2.34.1
++
 
