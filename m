@@ -2,222 +2,317 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B996ECD3442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F146CCD3445
 	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:59:03 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1053.1778000335709301449
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1089.1778000343048352921
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2026 09:58:56 -0700
+ Tue, 05 May 2026 09:59:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ZHSTYip0;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488ba840146so48304855e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:58:55 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dHqN6/TO;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4890d945eb4so586045e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778000334; x=1778605134; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1778000341; x=1778605141; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kf+C89NUO+DZGvHcxPQu9LGxbHQS2/4E+Qov+1jsKzA=;
-        b=ZHSTYip0OrXugiU8roSCLrDpnaJOJjpDTqxet77b+9xhyUnk6QbbGIy3/K46Jv9tdJ
-         z6tnOCRcCBnbdgXfgkS4kwRTiKPgNqLyUpY+HJKgRD2ep5eCkIgUYsEUQt76BCFtx4N9
-         /KqAfaGXT5y/hyBg3n8BjKJK1wAzOakAPdLZQ=
+        bh=u4aGmhFFmVhLT9sPC+X5gctrwuuYTDfEf9PVxMmFJ5I=;
+        b=dHqN6/TOGk61bN4uqzuiEW70BKTFk8Lpogq3iB2vfTIZMLOv1n5VjvQgAZamo3Po5r
+         rzf5Aat6CbsoJgjl30vsROD3Kqrya/ibQ94cOzqKqZgg6kT9U1QyjYGAU/rBYilWliPJ
+         /Hy+Q3CV7oQ6V8MzVlndJj5aBW1iYe1Vvltok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778000334; x=1778605134;
+        d=1e100.net; s=20251104; t=1778000341; x=1778605141;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=kf+C89NUO+DZGvHcxPQu9LGxbHQS2/4E+Qov+1jsKzA=;
-        b=hRkINXzqBOO1/rJgPZfPkCOdk3tMgTgdxaqJZprtPd2aJkKzzczVCggtMXP4yfIeC7
-         NuUMDh3RsHnAjhIV8oGNvZHnybCE3bjXKDeca+g1eFfQnEJa2wWWusSe/lJbffkdcXov
-         8VlTjhvqlFNCO8VlJmfWW3A/y8UMseoockjLtMs7/yRk+TKINc6QG3SXHhGy3o+fRfte
-         ZIbQB8Indq6EKSdJ5Qwyo2cdDFYTM+tDPDSmVon8bLUCuJnFmL07kuZNFSXBvQbzXpVp
-         JCFPZz3mP1eFsVtuSO+j8kB4Y6muDeuQD63QUyz2uq4vGIR7RJKcIl5hgCK6zMbh5XSR
-         hv3A==
-X-Gm-Message-State: AOJu0Yz6vTLnXlfbp1U13WigIwyC7GZCdMT67xjraBKgpfPB72JYLd+s
-	MPPap439ZpdD6puc57GaC4MW078I1tBlOTIEf3gU77MBA+8pDHZFsJaSYbCBkFOmmvQ66m7/FaZ
-	034FOKTY=
-X-Gm-Gg: AeBDies6v6flNjGdVkzBAcLQKcOXldQ1nElk9M7mKOHwRme0ub/xh5VO84ldTYtRlk6
-	adM06Z5+tABj1SL/oTqG4cnntDbcuITzfjyyiWc+g2iIJFfCKzJYlOvJPhBl+jzN5E79v6//BTL
-	EbTUP08+9kK57+w319+pl8dFPJfHN4A1Yw4KkKfkHzhMfOHLAFx88YsN4JbstHBLQCecVsGhfRf
-	5HkaU3kI/Y0r81M4z4CilDHoipAFAt0GovuXZyY0UwRnthzNIKa4TDX46jJdDfuHWqKl1cE9IVa
-	VMVMj5wxXB73xPwWPL4HeGAoHxEAUKChYDyFasDqxf/AQIhQfypJP3YIeihmmzOK7S3f4OC2a5S
-	Zi7rwUIZi/Z1gwxrKtoAaYuMEenGOyp1vOzOfVyPVPfcdVbelaNUzBNfdTS0RqqE/cZj3cAKeip
-	IkvQIDw29levau55YyvmtmOCs3oFNBXF/kV/hdqthN8BG7+RkvcT95GqnV+pOiv8VaQySNTNeH7
-	6kmZ4DqPoXdcSqiROlUyEoEOkHx3SI8WFTW
-X-Received: by 2002:a05:600c:3e0c:b0:489:1f08:91b with SMTP id 5b1f17b1804b1-48e51f2f82emr1118495e9.16.1778000333743;
-        Tue, 05 May 2026 09:58:53 -0700 (PDT)
+        bh=u4aGmhFFmVhLT9sPC+X5gctrwuuYTDfEf9PVxMmFJ5I=;
+        b=SmlW2m2CjMfozV3sbdODgFE0jurcfTVw1jqvFcI5FgypndTLkVoT7DLQIufjeGcvNI
+         oVFnjbUu5u4rkLwrR/Zlv9FND+pxbyC/riP6Esy8zmgItvJZI/tv4VenIuvuBYIzqpqy
+         0X9VAc5q5UKrv67v18HHG6n8ayI+Oa19x05bBiKdUcLhpA5ruVr0dHk7AYQxbGvv2Bkk
+         qSFJf+8s/hKdXIegqWE0ic1XdTqKXdy0FAYE8WOu25E2YYy6Y7Emd0LQ46rku+I6iO3U
+         syVKfzZSwRjJYR0BvLvrgXRa5Es/eXFYBQVcdRwSE4gcHf7+tw0yf1yFKKDamY3304HR
+         jVeQ==
+X-Gm-Message-State: AOJu0Yz3LsTx5gt6cowUrq0sUoHVJZPcWJgEmxBbiWsEKKPXZlo4gFDe
+	8GH4lsidAyt3TKRQAIAcGhFAM9BgbDvbFjB4C2x2kIkVXzXTxC+wBGP/RekXUyS/2/HQPdsaADD
+	cUi0gm6o=
+X-Gm-Gg: AeBDievsYTPEdi+NyC/RXN5bqxqu+BILv+FLOseMtCcKe8RxyKXUCVEjMAHmQyzVRAQ
+	Wmba0uuLwoSt9LGGbSz9qBSUNDi3ANcXBhl88K+J0HFg6Gvdo9S1kJkUrrdQQFKcd9KWVcJBnaQ
+	YcFrrUrZnpeumGUG+kJmjKyqFfvtFJ4KkXD60EUAj9BYB4Vc1MQdqaUTvFCxeKm+acQz33z+zfP
+	EzJpoLjlZscXiF6jIXjSK+rzGVtDVaCjCLcyftJAfizyN3MwS/oa5gxbF5EZ3wF1Dr8UzcvYAYu
+	Hq488sNZdW7117SEtwzhMv4tA8cSHbksFFkYz/hMwZjjyDtMw3/FiGfUJb4Wf0nm69TJroBIgiR
+	IOtPhhywe7W2vA8ksKjMUg817n08F49L/RsUHyJMYP7lHP+pqy78z4480TlhXYGmEUZjSi38QYS
+	5ZnzWkkrNmGA4ZxhsR9GE7jOMTHd3/Vv3i5nN//XzB3PqQn9IXdHuV6gilZw0zTdclIJ+nMY+Hf
+	5ECmbl1DAMBq5O7L5iEL9BDUcVKUBZwrSqe
+X-Received: by 2002:a05:600c:4e16:b0:486:f893:56c6 with SMTP id 5b1f17b1804b1-48d1425b450mr73514655e9.10.1778000341055;
+        Tue, 05 May 2026 09:59:01 -0700 (PDT)
 Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.59.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:58:52 -0700 (PDT)
+        Tue, 05 May 2026 09:59:00 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/23] linux-yocto/6.6: update to v6.6.127
-Date: Tue,  5 May 2026 18:57:27 +0200
-Message-ID: <a1a509419ca18a193eff978c97aac5d86a06e6e7.1777995876.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 16/23] avahi: Fix CVE-2026-34933
+Date: Tue,  5 May 2026 18:57:33 +0200
+Message-ID: <a556622a3964957491e7e7e56ed695f1bcfffc02.1777995876.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1777995876.git.fabien.thomas@smile.fr>
 References: <cover.1777995876.git.fabien.thomas@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:59:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236501
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236507
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Updating linux-yocto/6.6 to the latest korg -stable release that comprises
-the following commits:
+Pick patch according to [1]
 
-    7a137e9bfa0e Linux 6.6.127
-    f478b8239d65 net: tunnel: make skb_vlan_inet_prepare() return drop reasons
-    35ac888bf8ac USB: serial: option: add Telit FN920C04 RNDIS compositions
-    d4534a7f6c92 f2fs: fix to avoid mapping wrong physical block for swapfile
-    20a8bad29d18 f2fs: fix zoned block device information initialization
-    acc2c97fc000 f2fs: fix to avoid UAF in f2fs_write_end_io()
-    75e19da068ad f2fs: fix IS_CHECKPOINTED flag inconsistency issue caused by concurrent atomic commit and checkpoint writes
-    eebd72cff518 f2fs: fix out-of-bounds access in sysfs attribute read/write
-    81193503af1f f2fs: fix to add gc count stat in f2fs_gc_range
-    0634e8d65099 fbdev: smscufx: properly copy ioctl memory to kernelspace
-    78daf5984d96 fbdev: rivafb: fix divide error in nv3_arb()
-    f42a2d49c465 LoongArch: Add writecombine support for DMW-based ioremap()
-    6e5eccdef67e cpuset: Fix missing adaptation for cpuset_is_populated
-    ff37dd18ce77 mm/hugetlb: fix excessive IPI broadcasts when unsharing PMD tables using mmu_gather
-    2eeca9383efe mm/hugetlb: fix two comments related to huge_pmd_unshare()
-    51dcf459845f mm/hugetlb: fix hugetlb_pmd_shared()
-    8c9a1b071051 mm/hugetlb: fix copy_hugetlb_page_range() to use ->pt_share_count
-    168ee1549fa2 Revert "wireguard: device: enable threaded NAPI"
-    78e706f9b197 LoongArch: Rework KASAN initialization for PTW-enabled systems
-    f507fc06c7cd LoongArch: Add WriteCombine shadow mapping in KASAN
-    16f137fb74c1 gpiolib: acpi: Fix gpio count with string references
-    61e007657bf7 ASoC: fsl_xcvr: fix missing lock in fsl_xcvr_mode_put()
-    f49d2497da14 ASoC: cs42l43: Correct handling of 3-pole jack load detection
-    329bb274a3a9 platform/x86: panasonic-laptop: Fix sysfs group leak in error path
-    e8f5d1306a3a platform/x86/amd/pmc: Add quirk for MECHREVO Wujie 15X Pro
-    c3876edb0184 ASoC: amd: yc: Add quirk for HP 200 G2a 16
-    d7d7b93aca64 ASoC: Intel: sof_es8336: Add DMI quirk for Huawei BOD-WXX9
-    9cf4b9b8ad09 platform/x86: classmate-laptop: Add missing NULL pointer checks
-    e120bae4c56d drm/tegra: hdmi: sor: Fix error: variable ‘j’ set but not used
-    cbd9931e6456 romfs: check sb_set_blocksize() return value
-    79100c3bc0c4 ASoC: cs35l45: Corrects ASP_TX5 DAPM widget channel
-    6834804ad484 ALSA: hda/realtek: Add quirk for Inspur S14-G1
-    b204c5ec24a2 gpio: sprd: Change sprd_gpio lock to raw_spin_lock
-    4cfb1aed4753 ASoC: amd: yc: Add ASUS ExpertBook PM1503CDA to quirks list
-    2accd79be906 ALSA: hda/realtek: Fix headset mic for TongFang X6AR55xU
-    b19838402873 bus: fsl-mc: fix use-after-free in driver_override_show()
-    3118a9c6875b bus: fsl-mc: Replace snprintf and sprintf with sysfs_emit in sysfs show functions
-    8cb905eca739 PCI: endpoint: Avoid creating sub-groups asynchronously
-    68c9fdb01af8 PCI: endpoint: Remove unused field in struct pci_epf_group
-    74e7458537cd scsi: qla2xxx: Fix bsg_done() causing double free
+[1] https://security-tracker.debian.org/tracker/CVE-2026-34933
+[2] https://github.com/avahi/avahi/pull/891
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-34933
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |   2 +
+ .../avahi/files/CVE-2026-34933-1.patch        | 108 ++++++++++++++++++
+ .../avahi/files/CVE-2026-34933-2.patch        |  96 ++++++++++++++++
+ 3 files changed, 206 insertions(+)
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index e5f3c9b6cb..8685e5cbf6 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+index fce2d7cd56..31febc360d 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+@@ -41,6 +41,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
+            file://CVE-2025-68468.patch \
+            file://CVE-2025-68471.patch \
+            file://CVE-2026-24401.patch \
++           file://CVE-2026-34933-1.patch \
++           file://CVE-2026-34933-2.patch \
+            "
  
--SRCREV_machine ?= "aaa3191196fccd0d26d55a88dcc2396ce79cfc21"
--SRCREV_meta ?= "17b54189a09494c54960a80a479098010e428f81"
-+SRCREV_machine ?= "c45743dc8dc2ddfbe7bd165997e1f7cf887fa6b7"
-+SRCREV_meta ?= "45f69741c733e066ed1a12b6025e347e5cd6063e"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.6.126"
-+LINUX_VERSION ?= "6.6.127"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index 56b3e52003..d6a9afdf17 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.6.inc
- 
--LINUX_VERSION ?= "6.6.126"
-+LINUX_VERSION ?= "6.6.127"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "3a9d8ba770fff7d27a4d2607644d9d6925329e73"
--SRCREV_meta ?= "17b54189a09494c54960a80a479098010e428f81"
-+SRCREV_machine ?= "8247922ff493e4fef938ce36562cac9c0cce86aa"
-+SRCREV_meta ?= "45f69741c733e066ed1a12b6025e347e5cd6063e"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index b4d9452b80..92ad6afa3a 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
- KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "746f0ca46b4fdd56ba711cf7b49b9a71d4f64acf"
--SRCREV_machine:qemuarm64 ?= "9da440425610b9335df95d76dfa2a56ea4e492eb"
--SRCREV_machine:qemuloongarch64 ?= "c6bff8c03457825a34929284be97de7fd99f0c83"
--SRCREV_machine:qemumips ?= "208bd32390022fec5948b1808e6d9ea83d88d9bd"
--SRCREV_machine:qemuppc ?= "9645b14ebe59396b0d1035c5f96ac74ae483f4c7"
--SRCREV_machine:qemuriscv64 ?= "c6bff8c03457825a34929284be97de7fd99f0c83"
--SRCREV_machine:qemuriscv32 ?= "c6bff8c03457825a34929284be97de7fd99f0c83"
--SRCREV_machine:qemux86 ?= "c6bff8c03457825a34929284be97de7fd99f0c83"
--SRCREV_machine:qemux86-64 ?= "c6bff8c03457825a34929284be97de7fd99f0c83"
--SRCREV_machine:qemumips64 ?= "b7972053efd2ad49abf9a0637dfa2b4b1bdff8a4"
--SRCREV_machine ?= "c6bff8c03457825a34929284be97de7fd99f0c83"
--SRCREV_meta ?= "17b54189a09494c54960a80a479098010e428f81"
-+SRCREV_machine:qemuarm ?= "aa66687c1abe2afe2ee6c00c36bfaaf3d5d9636c"
-+SRCREV_machine:qemuarm64 ?= "cf88783fdb92901d9d228afb7d700c6575742f1b"
-+SRCREV_machine:qemuloongarch64 ?= "70af2998be31b72a111de67966b7816b3d54d472"
-+SRCREV_machine:qemumips ?= "cbd6f9a670486dcd83ef0f8b90a75b2b7b44b447"
-+SRCREV_machine:qemuppc ?= "bce75aa765505d7db3bb1bfefb5d3f524a1a5b64"
-+SRCREV_machine:qemuriscv64 ?= "70af2998be31b72a111de67966b7816b3d54d472"
-+SRCREV_machine:qemuriscv32 ?= "70af2998be31b72a111de67966b7816b3d54d472"
-+SRCREV_machine:qemux86 ?= "70af2998be31b72a111de67966b7816b3d54d472"
-+SRCREV_machine:qemux86-64 ?= "70af2998be31b72a111de67966b7816b3d54d472"
-+SRCREV_machine:qemumips64 ?= "4cc6d51a6f63436a37c3ba4ea2da93c7fd3240b4"
-+SRCREV_machine ?= "70af2998be31b72a111de67966b7816b3d54d472"
-+SRCREV_meta ?= "45f69741c733e066ed1a12b6025e347e5cd6063e"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "56865d9b7074c08d8191bc721b1e46baa650d9cd"
-+SRCREV_machine:class-devupstream ?= "7a137e9bfa0e1919555d60f9dc0c05a7a5ba75d0"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.6/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.6.126"
-+LINUX_VERSION ?= "6.6.127"
- 
- PV = "${LINUX_VERSION}+git"
- 
+ GITHUB_BASE_URI = "https://github.com/avahi/avahi/releases/"
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
+new file mode 100644
+index 0000000000..208345a325
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-1.patch
+@@ -0,0 +1,108 @@
++From 0be89b6bb5c3983837b5e0febcbbbf452ecf7675 Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Wed, 1 Apr 2026 05:31:58 +0000
++Subject: [PATCH] core: refuse to accept publish flags where both wide_area and
++ multicast are set
++
++It fixes a bug where it was possible for unprivileged local users to
++crash avahi-daemon via D-Bus by calling EntryGroup methods accepting
++flags and passing both AVAHI_PUBLISH_USE_WIDE_AREA and
++AVAHI_PUBLISH_USE_MULTICAST there. For example when AddRecord was
++invoked like that avahi-daemon crashed with
++```
++dbus-entry-group.c: interface=org.freedesktop.Avahi.EntryGroup, path=/Client0/EntryGroup1, member=AddRecord
++avahi-daemon: entry.c:57: transport_flags_from_domain: Assertion `!((*flags & AVAHI_PUBLISH_USE_MULTICAST) && (*flags & AVAHI_PUBLISH_USE_WIDE_AREA))' failed.
++==84944==
++==84944== Process terminating with default action of signal 6 (SIGABRT)
++==84944==    at 0x4B353BC: __pthread_kill_implementation (pthread_kill.c:44)
++==84944==    by 0x4ADE941: raise (raise.c:26)
++==84944==    by 0x4AC64AB: abort (abort.c:77)
++==84944==    by 0x4AC641F: __assert_fail_base.cold (assert.c:118)
++==84944==    by 0x48A9404: transport_flags_from_domain (entry.c:57)
++==84944==    by 0x48A9F8F: server_add_internal (entry.c:224)
++==84944==    by 0x48AA49F: avahi_server_add (entry.c:324)
++==84944==    by 0x401A670: avahi_dbus_msg_entry_group_impl (dbus-entry-group.c:348)
++==84944==    by 0x4A70741: ??? (in /usr/lib/x86_64-linux-gnu/libdbus-1.so.3.38.3)
++==84944==    by 0x4A5FB22: dbus_connection_dispatch (in /usr/lib/x86_64-linux-gnu/libdbus-1.so.3.38.3)
++==84944==    by 0x401D01D: dispatch_timeout_callback (dbus-watch-glue.c:105)
++==84944==    by 0x488E3AE: timeout_callback (simple-watch.c:447)
++==84944==
++```
++It's a follow-up to fbce111b069aa1e4c701ed37ee1d9f6d6cefaac5 where
++those flags were introduced and consistent with the other places
++where wide_area/multicast flags are used.
++
++It was discovered by
++Guillaume Meunier - Head of Vulnerability Operations Center France - Orange Cyberdefense
++
++https://github.com/avahi/avahi/security/advisories/GHSA-w65r-6gxh-vhvc
++
++CVE-2026-34933
++
++Upstream-Status: Backport [https://github.com/avahi/avahi/commit/0be89b6bb5c3983837b5e0febcbbbf452ecf7675]
++CVE: CVE-2026-34933
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-core/entry.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/avahi-core/entry.c b/avahi-core/entry.c
++index 0d862133d..06eb12076 100644
++--- a/avahi-core/entry.c
+++++ b/avahi-core/entry.c
++@@ -207,6 +207,7 @@ static AvahiEntry * server_add_internal(
++                                          AVAHI_PUBLISH_UPDATE|
++                                          AVAHI_PUBLISH_USE_WIDE_AREA|
++                                          AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
+++    AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, avahi_is_valid_domain_name(r->key->name), AVAHI_ERR_INVALID_HOST_NAME);
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, r->ttl != 0, AVAHI_ERR_INVALID_TTL);
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !avahi_key_is_pattern(r->key), AVAHI_ERR_IS_PATTERN);
++@@ -454,6 +455,7 @@ int avahi_server_add_address(
++                                               AVAHI_PUBLISH_UPDATE|
++                                               AVAHI_PUBLISH_USE_WIDE_AREA|
++                                               AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
+++    AVAHI_CHECK_VALIDITY(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY(s, !name || avahi_is_valid_fqdn(name), AVAHI_ERR_INVALID_HOST_NAME);
++ 
++     /* Prepare the host naem */
++@@ -595,6 +597,7 @@ static int server_add_service_strlst_nocopy(
++                                                                 AVAHI_PUBLISH_UPDATE|
++                                                                 AVAHI_PUBLISH_USE_WIDE_AREA|
++                                                                 AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
+++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
++@@ -754,6 +757,7 @@ static int server_update_service_txt_strlst_nocopy(
++                                                                 AVAHI_PUBLISH_NO_COOKIE|
++                                                                 AVAHI_PUBLISH_USE_WIDE_AREA|
++                                                                 AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
+++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
++@@ -843,6 +847,7 @@ int avahi_server_add_service_subtype(
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_IF_VALID(interface), AVAHI_ERR_INVALID_INTERFACE);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_PROTO_VALID(protocol), AVAHI_ERR_INVALID_PROTOCOL);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_MULTICAST|AVAHI_PUBLISH_USE_WIDE_AREA), AVAHI_ERR_INVALID_FLAGS);
+++    AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_name(name), AVAHI_ERR_INVALID_SERVICE_NAME);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, avahi_is_valid_service_type_strict(type), AVAHI_ERR_INVALID_SERVICE_TYPE);
++     AVAHI_CHECK_VALIDITY_SET_RET_GOTO_FAIL(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
++@@ -910,6 +915,7 @@ static AvahiEntry *server_add_dns_server_name(
++     assert(name);
++ 
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
+++    AVAHI_CHECK_VALIDITY_RETURN_NULL(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, type == AVAHI_DNS_SERVER_UPDATE || type == AVAHI_DNS_SERVER_RESOLVE, AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, port != 0, AVAHI_ERR_INVALID_PORT);
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(s, avahi_is_valid_fqdn(name), AVAHI_ERR_INVALID_HOST_NAME);
++@@ -967,6 +973,7 @@ int avahi_server_add_dns_server_address(
++     AVAHI_CHECK_VALIDITY(s, AVAHI_IF_VALID(interface), AVAHI_ERR_INVALID_INTERFACE);
++     AVAHI_CHECK_VALIDITY(s, AVAHI_PROTO_VALID(protocol) && AVAHI_PROTO_VALID(address->proto), AVAHI_ERR_INVALID_PROTOCOL);
++     AVAHI_CHECK_VALIDITY(s, AVAHI_FLAGS_VALID(flags, AVAHI_PUBLISH_USE_MULTICAST|AVAHI_PUBLISH_USE_WIDE_AREA), AVAHI_ERR_INVALID_FLAGS);
+++    AVAHI_CHECK_VALIDITY(s, !(flags & AVAHI_PUBLISH_USE_WIDE_AREA) || !(flags & AVAHI_PUBLISH_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY(s, type == AVAHI_DNS_SERVER_UPDATE || type == AVAHI_DNS_SERVER_RESOLVE, AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY(s, port != 0, AVAHI_ERR_INVALID_PORT);
++     AVAHI_CHECK_VALIDITY(s, !domain || avahi_is_valid_domain_name(domain), AVAHI_ERR_INVALID_DOMAIN_NAME);
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
+new file mode 100644
+index 0000000000..479d0d7e93
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2026-34933-2.patch
+@@ -0,0 +1,96 @@
++From a93fdd980d2db5d453475c0aa2b39946bd6611bd Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Wed, 1 Apr 2026 05:30:58 +0000
++Subject: [PATCH] tests: make sure AVAHI_PUBLISH_USE_WIDE_AREA is refused
++
++Upstream-Status: Backport [https://github.com/avahi/avahi/commit/a93fdd980d2db5d453475c0aa2b39946bd6611bd]
++CVE: CVE-2026-34933
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-client/client-test.c | 25 +++++++++++++++++++++++++
++ avahi-core/avahi-test.c    | 12 +++++++++++-
++ 2 files changed, 36 insertions(+), 1 deletion(-)
++
++diff --git a/avahi-client/client-test.c b/avahi-client/client-test.c
++index 9a015d7..c80e12f 100644
++--- a/avahi-client/client-test.c
+++++ b/avahi-client/client-test.c
++@@ -212,6 +212,28 @@ static void terminate(AVAHI_GCC_UNUSED AvahiTimeout *timeout, AVAHI_GCC_UNUSED v
++     avahi_simple_poll_quit(simple_poll);
++ }
++ 
+++static void test_refuse_publish_flags(AvahiEntryGroup *g, AvahiPublishFlags flags, int expected) {
+++    AvahiAddress a;
+++    AvahiStringList *l = NULL;
+++    int r;
+++
+++    r = avahi_entry_group_add_record(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test.local", AVAHI_DNS_CLASS_IN, AVAHI_DNS_TYPE_CNAME, 120, "\0", 1);
+++    assert(r == expected);
+++
+++    avahi_address_parse("224.0.0.251", AVAHI_PROTO_UNSPEC, &a);
+++    r = avahi_entry_group_add_address(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test.local", &a);
+++    assert(r == expected);
+++
+++    r = avahi_entry_group_add_service_strlst(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, NULL, 80, l);
+++    assert(r == expected);
+++
+++    r = avahi_entry_group_update_service_txt_strlst(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, l);
+++    assert(r == expected);
+++
+++    r = avahi_entry_group_add_service_subtype(g, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, flags, "test", "_http._tcp", NULL, "_magic._sub._http._tcp");
+++    assert(r == expected);
+++}
+++
++ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
++     AvahiClient *avahi;
++     AvahiEntryGroup *group, *group2;
++@@ -275,6 +297,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
++     error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
++     assert(error != AVAHI_OK);
++ 
+++    test_refuse_publish_flags(group, AVAHI_PUBLISH_USE_WIDE_AREA, AVAHI_ERR_NOT_SUPPORTED);
+++    test_refuse_publish_flags(group, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST, AVAHI_ERR_INVALID_FLAGS);
+++
++     avahi_entry_group_commit (group);
++ 
++     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
++diff --git a/avahi-core/avahi-test.c b/avahi-core/avahi-test.c
++index 2a7872b..2bae82b 100644
++--- a/avahi-core/avahi-test.c
+++++ b/avahi-core/avahi-test.c
++@@ -30,6 +30,7 @@
++ #include <netinet/in.h>
++ #include <arpa/inet.h>
++ 
+++#include <avahi-common/error.h>
++ #include <avahi-common/malloc.h>
++ #include <avahi-common/simple-watch.h>
++ #include <avahi-common/alternative.h>
++@@ -150,6 +151,7 @@ static void remove_entries(void) {
++ static void create_entries(int new_name) {
++     AvahiAddress a;
++     AvahiRecord *r;
+++    int error;
++ 
++     remove_entries();
++ 
++@@ -181,7 +183,15 @@ static void create_entries(int new_name) {
++         goto fail;
++     }
++ 
++-    if (avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, NULL, AVAHI_DNS_SERVER_RESOLVE, avahi_address_parse("192.168.50.1", AVAHI_PROTO_UNSPEC, &a), 53) < 0) {
+++    avahi_address_parse("192.168.50.1", AVAHI_PROTO_UNSPEC, &a);
+++
+++    error = avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, AVAHI_PUBLISH_USE_WIDE_AREA, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53);
+++    assert(error == AVAHI_ERR_NOT_SUPPORTED);
+++
+++    error = avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, AVAHI_PUBLISH_USE_WIDE_AREA|AVAHI_PUBLISH_USE_MULTICAST, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53);
+++    assert(error == AVAHI_ERR_INVALID_FLAGS);
+++
+++    if (avahi_server_add_dns_server_address(server, group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, NULL, AVAHI_DNS_SERVER_RESOLVE, &a, 53) < 0) {
++         avahi_log_error("Failed to add new DNS Server address");
++         goto fail;
++     }
++-- 
++2.43.0
++
 
