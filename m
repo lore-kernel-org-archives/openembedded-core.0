@@ -2,61 +2,61 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E670CCD3427
-	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:58:52 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1077.1778000328997643856
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16971CD343B
+	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:58:53 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1075.1778000326399069299
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2026 09:58:49 -0700
+ Tue, 05 May 2026 09:58:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=pNc4DiXJ;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43d77f6092eso3426061f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:58:48 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=O/v5lyYL;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4891d7164ddso29687665e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778000327; x=1778605127; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1778000324; x=1778605124; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OHDXrPP788jp0Tqxcv0hHqD41ui3LlCTVjz6D30ej6Y=;
-        b=pNc4DiXJzz+bnu4CSi+Z/IquwpbqRfaeaS+Jy3dwvC5D19s/C3kig0wssI7qwPqfkP
-         nLZX/vms6m2cGfQtJb7jCv/tdHABLm66STbSnZy5dneIQNpyOiWY8cJPXcr1lj690Xp1
-         g7mhCe/m4ajdCpGa23LFMdpSBKCENcNKEp3Bo=
+        bh=XiXjkK179qYhi1LTZjiC3ZKLTOYp5waxECb913XKmyY=;
+        b=O/v5lyYLMOczvA5j8XtrxPA6UzNrvWPcjD/LKO5lHtXxC6yVNZ/xDMwuhn15UlfSrk
+         XgFw6RKHcY6TgztnmeS3PgosN0Xp6VUS+DbrXzuNCo6ScPGFFlmThTmQ4qGMRuN43g68
+         yqB2ZaaqkLlaTzH0SO/8lf95vPrlWri9Vp9hw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778000327; x=1778605127;
+        d=1e100.net; s=20251104; t=1778000324; x=1778605124;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=OHDXrPP788jp0Tqxcv0hHqD41ui3LlCTVjz6D30ej6Y=;
-        b=G7d5TZ9QmeSDEyN7jqvMPu3udLthzeFDMgMS/QnmaLhF11WhFueNkwkssg/kAut6zA
-         OAh1B3EVg6LyhCD0z7SkV9JX22sY0lOrNkSKlStBBzVN3YxKcUbrn9XCqF1tedo58+Qr
-         Vp0iW8iixmt6K9q2Ckj+eOY0jASglTUUkpEP2WsIpQre9IOAg0wLXGKbe7kTy5jK1jmL
-         yGJCuOQyc62Hdwktic5ZygESywteZD+UeCPfHMi5foxeS5tT93FVDNxnpzxQuB0eGA7x
-         QZR/OyFu8Rumi7oF0jQkCvC/BE1drAq2MMrqKDH6c52mWUHOwpGPrL/YTP04ww0sQlXw
-         dtfA==
-X-Gm-Message-State: AOJu0YzdLHtkDl9tdpF7ktCafS72KOgVUQKJCasUplaYDlZ7K+iUQToO
-	k3mCdPkPl1VLQDlulw9pgtH4qvJPVEl6FKx8P+XfegXsgoXAsyUxVwtXMUSfzSe/z3yUQO7FY+z
-	WE5EjeDw=
-X-Gm-Gg: AeBDieuf2J9il9zWzIr10zl7MTbV4OAcuoMzF3acsIsxgxWKKpZfG4/Nrm5mriK9wQW
-	A3BqKY5eS3JwGJOX/5Y+t3jJifINLqX24L26YdBADUWpefNOMyUzIk4SsoZT0rNrofsN6tB80Gz
-	w8ZdlywHCIIpDU4yr5Tc2+BNkeJcXoP/9X1937k7Zkjt4cEY6hCavGgXDpEUUhMV9fc6mJ+DJHv
-	GxFG4KtRAUCQoZFdKKYeKU93QY+W/Ww7iIh8h8uSV805/FfNJMpB8P5ThF2+OFKz8F0ZniKiwTb
-	wnJgnAWSHvl6xhnLHdq3fZoHRMEGZYA1PU3gwOsITTBq+UY/PGIxN15XL4tlBArZ1rTUzoG9k2+
-	1uJ9zWJp226PSG0HzjPPJuhwPJu9lp0vEp/K+vEwdG8wudgbiCVTZ5I6Tavb90i13MxNYDsdX8d
-	mvsaeS8JgCqhUXNnWYnWQ5LQmshELQZ19jBjoiozAFBY9ebaS6fo8uBvuXape0p75M1YBiRy4B2
-	WAGo64Sg5Gr12xGOuHMauAv3w==
-X-Received: by 2002:a05:600c:17d8:b0:488:a797:f0ac with SMTP id 5b1f17b1804b1-48e51f46abemr459455e9.28.1778000326965;
-        Tue, 05 May 2026 09:58:46 -0700 (PDT)
+        bh=XiXjkK179qYhi1LTZjiC3ZKLTOYp5waxECb913XKmyY=;
+        b=hLGHXC5reD5nEzzr7ZS7THhPA6rBm2MGUlmyMwhOfIuzAc6rQBRSosSCE1vnuzx5mv
+         +wXc46q78HzHlMaeGlyNiFepmvTKsd8tVw5GI+KRvPbwlTyuUIzDfLBQrpNXjHB/94Tx
+         FEwZAPAgnUeYVdrO81VyU2Y7fJtV1dSLlqu9YnavyasUtlfsoNSg1q/k59VIlmpfuX7W
+         9qY5LSLwa31brRPZBTVrg7wzth+kfJODnteOYYmE13N1pD8k0iMCGBWlBcAQRgaXXEN6
+         BDflb+5fgtpdujkEZJnWRHESKiV3yUa8nDxD7jfPjBaROHZt+Sl2amqHSJBDkEx89vrm
+         9OJw==
+X-Gm-Message-State: AOJu0YxdyfUN6IGGoXJaSZUvF5vyf+nYIlWBkueGIFaqw911ylR6SN1E
+	a1ApDMQL05+BmKCZoNT2TN7vp4sbxIfMpcfNbBfS912Rdz/EdNRCM4+QORMVpmeyb0t16qz4IYD
+	q5A9w7gY=
+X-Gm-Gg: AeBDiesfZ0OyyvyCMzSNlQk9+c96VwNQ3+ltMIBni3lZNP5yLyelMN7YOChoNKKBN0s
+	PCJa6Q91gp1qt34xOlHupxgDvdt9A8SNT+BhOfS103yb+nAKi9tTfkXkcm6kA9EDVKw3mDq+0Vc
+	gibtpYhZxgnZfWHKzqodK/jaPdYKqvPlX0OoLDcrfbSfRI4lhpGqbMsKqOBTRpaU84Av5M+Po9s
+	rWA+v4j30d9pqGDz+YGTJBPkGj7ghYP6ox0PHK/uJDOZlvh3uJ6J/Ht3PSKB8CAJ+Yd7lzx3raD
+	kVKuIOCNM6Iu1GybSaaG5wmBpU1yMRXwO2pHlMryQ1QnK0fNL8PDXW0uf6bwqXEwmKLAfyYgKvh
+	bfQsfBkKgsScLGFM8aJ2157lkBDCPj6yOfPU31VXLt82UxoiW5YDsCirOp+OpJ/YBT7eId7lqHL
+	qEi6gte2T27pSuz2iGw0JvdYzwHV/B68eAwXOKVdpPHRy7EFCRYnKkNbTSDOE4BR/Go8VBeXOOM
+	geTEX3zTNL1MY3u0R1ePFtZdA==
+X-Received: by 2002:a05:600c:608f:b0:48d:35e:84a0 with SMTP id 5b1f17b1804b1-48e51f4a29emr711485e9.28.1778000324390;
+        Tue, 05 May 2026 09:58:44 -0700 (PDT)
 Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:58:46 -0700 (PDT)
+        Tue, 05 May 2026 09:58:43 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/23] expat: patch CVE-2026-32776
-Date: Tue,  5 May 2026 18:57:22 +0200
-Message-ID: <3c4c2ee503f21f1888eeb130ac3150e489f1660e.1777995876.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 03/23] binutils: fix CVE-2025-69648
+Date: Tue,  5 May 2026 18:57:20 +0200
+Message-ID: <a905532db94aa09b17ec6445d8b5702f278f22bd.1777995876.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1777995876.git.fabien.thomas@smile.fr>
 References: <cover.1777995876.git.fabien.thomas@smile.fr>
@@ -65,132 +65,228 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:58:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236496
+ <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:58:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236494
 
-From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-Pick patch from [1] also mentioned in [2].
+Backport upstream fix for CVE-2025-69648 [1].
 
-[1] https://github.com/libexpat/libexpat/pull/1158
-[2] https://security-tracker.debian.org/tracker/CVE-2026-32776
+[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=598704a00cbac5e85c2bedd363357b5bf6fcee33
 
-Signed-off-by: Bruno VERNAY <bruno.vernay@se.com>
-Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../expat/expat/CVE-2026-32776.patch          | 91 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.6.4.bb        |  1 +
- 2 files changed, 92 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32776.patch
+ .../binutils/binutils-2.42.inc                |   1 +
+ .../binutils/binutils/CVE-2025-69648.patch    | 190 ++++++++++++++++++
+ 2 files changed, 191 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-32776.patch b/meta/recipes-core/expat/expat/CVE-2026-32776.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index fcbe7fbfab..1a865c45f4 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -73,5 +73,6 @@ SRC_URI = "\
+      file://0029-CVE-2025-11839.patch \
+      file://0030-CVE-2025-11840.patch \
+      file://CVE-2025-69647.patch \
++     file://CVE-2025-69648.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
 new file mode 100644
-index 0000000000..96a869a7c8
+index 0000000000..e04d7ed6c2
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-32776.patch
-@@ -0,0 +1,91 @@
-+From 3340f971f2f92e499adf03156024105bb9bb7ed9 Mon Sep 17 00:00:00 2001
-+From: Francesco Bertolaccini <francesco.bertolaccini@trailofbits.com>
-+Date: Tue, 3 Mar 2026 16:41:43 +0100
-+Subject: [PATCH] Fix NULL function-pointer dereference for empty external
-+ parameter entities
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
+@@ -0,0 +1,190 @@
++From 7df481dd76c05c89782721e9df5468be829c356b Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sat, 22 Nov 2025 09:22:10 +1030
++Subject: [PATCH] PR 33638, debug_rnglists output
 +
-+When an external parameter entity with empty text is referenced inside
-+an entity declaration value, the sub-parser created to handle it receives
-+0 bytes of input.  Processing enters entityValueInitProcessor which calls
-+storeEntityValue() with the parser's encoding; since no bytes were ever
-+processed, encoding detection has not yet occurred and the encoding is
-+still the initial probing encoding set up by XmlInitEncoding().  That
-+encoding only populates scanners[] (for prolog and content), not
-+literalScanners[].  XmlEntityValueTok() calls through
-+literalScanners[XML_ENTITY_VALUE_LITERAL] which is NULL, causing a
-+SEGV.
++The fuzzed testcase in this PR continuously outputs an error about
++the debug_rnglists header.  Fixed by taking notice of the error and
++stopping output.  The patch also limits the length in all cases, not
++just when a relocation is present, and limits the offset entry count
++read from the header.  I removed the warning and the test for relocs
++because the code can't work reliably with unresolved relocs in the
++length field.
 +
-+Skip the tokenization loop entirely when entityTextPtr >= entityTextEnd,
-+and initialize the `next` pointer before the early exit so that callers
-+(callStoreEntityValue) receive a valid value through nextPtr.
++	PR 33638
++	* dwarf.c (display_debug_rnglists_list): Return bool.  Rename
++	"inital_length" to plain "length".  Verify length is large
++	enough to read header.  Limit length to rest of section.
++	Similarly limit offset_entry_count.
++	(display_debug_ranges): Check display_debug_rnglists_unit_header
++	return status.  Stop output on error.
 +
-+CVE: CVE-2026-32776
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5be25657583ea91b09025c858b4785834c20f59c]
++CVE: CVE-2025-69648
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=598704a00cbac5e85c2bedd363357b5bf6fcee33]
 +
-+(cherry picked from commit 5be25657583ea91b09025c858b4785834c20f59c)
-+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
++(cherry picked from commit 598704a00cbac5e85c2bedd363357b5bf6fcee33)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 +---
-+ lib/xmlparse.c      |  9 ++++++++-
-+ tests/basic_tests.c | 19 +++++++++++++++++++
-+ 2 files changed, 27 insertions(+), 1 deletion(-)
++ binutils/dwarf.c | 67 ++++++++++++++++++++++++------------------------
++ 1 file changed, 34 insertions(+), 33 deletions(-)
 +
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index aa5e91e4..56faf2eb 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -6777,7 +6777,14 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
-+       return XML_ERROR_NO_MEMORY;
-+   }
-+ 
-+-  const char *next;
-++  const char *next = entityTextPtr;
-++
-++  /* Nothing to tokenize. */
-++  if (entityTextPtr >= entityTextEnd) {
-++    result = XML_ERROR_NONE;
-++    goto endEntityValue;
-++  }
-++
-+   for (;;) {
-+     next
-+         = entityTextPtr; /* XmlEntityValueTok doesn't always set the last arg */
-+diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-+index 2a5e43d6..023d9ce4 100644
-+--- a/tests/basic_tests.c
-++++ b/tests/basic_tests.c
-+@@ -6210,6 +6210,24 @@ START_TEST(test_varying_buffer_fills) {
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index f4bcb677761..b4fb56351ec 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -8282,7 +8282,7 @@ display_debug_rnglists_list (unsigned char * start,
++   return start;
 + }
-+ END_TEST
 + 
-++START_TEST(test_empty_ext_param_entity_in_value) {
-++  const char *text = "<!DOCTYPE r SYSTEM \"ext.dtd\"><r/>";
-++  ExtOption options[] = {
-++      {XCS("ext.dtd"), "<!ENTITY % pe SYSTEM \"empty\">"
-++                       "<!ENTITY ge \"%pe;\">"},
-++      {XCS("empty"), ""},
-++      {NULL, NULL},
-++  };
++-static int
+++static bool
++ display_debug_rnglists_unit_header (struct dwarf_section *  section,
++ 				    uint64_t *              unit_offset,
++ 				    unsigned char *         poffset_size)
++@@ -8290,7 +8290,8 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
++   uint64_t        start_offset = *unit_offset;
++   unsigned char * p = section->start + start_offset;
++   unsigned char * finish = section->start + section->size;
++-  uint64_t        initial_length;
+++  unsigned char * hdr;
+++  uint64_t        length;
++   unsigned char   segment_selector_size;
++   unsigned int    offset_entry_count;
++   unsigned int    i;
++@@ -8299,66 +8300,59 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
++   unsigned char   offset_size;
++ 
++   /* Get and check the length of the block.  */
++-  SAFE_BYTE_GET_AND_INC (initial_length, p, 4, finish);
+++  SAFE_BYTE_GET_AND_INC (length, p, 4, finish);
++ 
++-  if (initial_length == 0xffffffff)
+++  if (length == 0xffffffff)
++     {
++       /* This section is 64-bit DWARF 3.  */
++-      SAFE_BYTE_GET_AND_INC (initial_length, p, 8, finish);
+++      SAFE_BYTE_GET_AND_INC (length, p, 8, finish);
++       *poffset_size = offset_size = 8;
++     }
++   else
++     *poffset_size = offset_size = 4;
++ 
++-  if (initial_length > (size_t) (finish - p))
++-    {
++-      /* If the length field has a relocation against it, then we should
++-	 not complain if it is inaccurate (and probably negative).
++-	 It is copied from .debug_line handling code.  */
++-      if (reloc_at (section, (p - section->start) - offset_size))
++-	initial_length = finish - p;
++-      else
++-	{
++-	  warn (_("The length field (%#" PRIx64
++-		  ") in the debug_rnglists header is wrong"
++-		  " - the section is too small\n"),
++-		initial_length);
++-	  return 0;
++-	}
++-    }
++-
++-  /* Report the next unit offset to the caller.  */
++-  *unit_offset = (p - section->start) + initial_length;
+++  if (length < 8)
+++    return false;
++ 
++   /* Get the other fields in the header.  */
+++  hdr = p;
++   SAFE_BYTE_GET_AND_INC (version, p, 2, finish);
++   SAFE_BYTE_GET_AND_INC (address_size, p, 1, finish);
++   SAFE_BYTE_GET_AND_INC (segment_selector_size, p, 1, finish);
++   SAFE_BYTE_GET_AND_INC (offset_entry_count, p, 4, finish);
++ 
++   printf (_(" Table at Offset: %#" PRIx64 ":\n"), start_offset);
++-  printf (_("  Length:          %#" PRIx64 "\n"), initial_length);
+++  printf (_("  Length:          %#" PRIx64 "\n"), length);
++   printf (_("  DWARF version:   %u\n"), version);
++   printf (_("  Address size:    %u\n"), address_size);
++   printf (_("  Segment size:    %u\n"), segment_selector_size);
++   printf (_("  Offset entries:  %u\n"), offset_entry_count);
++ 
+++  if (length > (size_t) (finish - hdr))
+++    length = finish - hdr;
 ++
-++  XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
-++  XML_SetExternalEntityRefHandler(g_parser, external_entity_optioner);
-++  XML_SetUserData(g_parser, options);
-++  if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
-++      == XML_STATUS_ERROR)
-++    xml_failure(g_parser);
-++}
-++END_TEST
+++  /* Report the next unit offset to the caller.  */
+++  *unit_offset = (hdr - section->start) + length;
 ++
-+ void
-+ make_basic_test_case(Suite *s) {
-+   TCase *tc_basic = tcase_create("basic tests");
-+@@ -6456,6 +6474,7 @@ make_basic_test_case(Suite *s) {
-+   tcase_add_test(tc_basic, test_empty_element_abort);
-+   tcase_add_test__ifdef_xml_dtd(tc_basic,
-+                                 test_pool_integrity_with_unfinished_attr);
-++  tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_ext_param_entity_in_value);
-+   tcase_add_test__if_xml_ge(tc_basic, test_entity_ref_no_elements);
-+   tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_entity);
-+   tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_attribute_entity);
++   /* Check the fields.  */
++   if (segment_selector_size != 0)
++     {
++       warn (_("The %s section contains "
++ 	      "unsupported segment selector size: %d.\n"),
++ 	    section->name, segment_selector_size);
++-      return 0;
+++      return false;
++     }
++ 
++   if (version < 5)
++     {
++       warn (_("Only DWARF version 5+ debug_rnglists info "
++ 	      "is currently supported.\n"));
++-      return 0;
+++      return false;
++     }
++ 
+++  uint64_t max_off_count = (length - 8) / offset_size;
+++  if (offset_entry_count > max_off_count)
+++    offset_entry_count = max_off_count;
++   if (offset_entry_count != 0)
++     {
++       printf (_("\n   Offsets starting at %#tx:\n"), p - section->start);
++@@ -8372,7 +8366,7 @@ display_debug_rnglists_unit_header (struct dwarf_section *  section,
++ 	}
++     }
++ 
++-  return 1;
+++  return true;
++ }
++ 
++ static bool
++@@ -8404,6 +8398,7 @@ display_debug_ranges (struct dwarf_section *section,
++   uint64_t last_offset = 0;
++   uint64_t next_rnglists_cu_offset = 0;
++   unsigned char offset_size;
+++  bool ok_header = true;
++ 
++   if (bytes == 0)
++     {
++@@ -8493,8 +8488,12 @@ display_debug_ranges (struct dwarf_section *section,
++       /* If we've moved on to the next compile unit in the rnglists section - dump the unit header(s).  */
++       if (is_rnglists && next_rnglists_cu_offset < offset)
++ 	{
++-	  while (next_rnglists_cu_offset < offset)
++-	    display_debug_rnglists_unit_header (section, &next_rnglists_cu_offset, &offset_size);
+++	  while (ok_header && next_rnglists_cu_offset < offset)
+++	    ok_header = display_debug_rnglists_unit_header (section,
+++							    &next_rnglists_cu_offset,
+++							    &offset_size);
+++	  if (!ok_header)
+++	    break;
++ 	  printf (_("    Offset   Begin    End\n"));
++ 	}
++ 
++@@ -8548,10 +8547,12 @@ display_debug_ranges (struct dwarf_section *section,
++     }
++ 
++   /* Display trailing empty (or unreferenced) compile units, if any.  */
++-  if (is_rnglists)
+++  if (is_rnglists && ok_header)
++     while (next_rnglists_cu_offset < section->size)
++-      display_debug_rnglists_unit_header (section, &next_rnglists_cu_offset, &offset_size);
++-
+++      if (!display_debug_rnglists_unit_header (section,
+++					       &next_rnglists_cu_offset,
+++					       &offset_size))
+++	break;
++   putchar ('\n');
++ 
++   free (range_entries);
 +-- 
-+2.43.0
++2.35.6
 +
-diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
-index 048093f010..631aebe6ca 100644
---- a/meta/recipes-core/expat/expat_2.6.4.bb
-+++ b/meta/recipes-core/expat/expat_2.6.4.bb
-@@ -46,6 +46,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-25210-01.patch \
-            file://CVE-2026-25210-02.patch \
-            file://CVE-2026-25210-03.patch \
-+           file://CVE-2026-32776.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
 
