@@ -2,107 +2,86 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C92B5CD3427
-	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 12:22:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D66CD3427
+	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 12:35:56 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.37495.1777983769009217206
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38058.1777984553307798899
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2026 05:22:50 -0700
+ Tue, 05 May 2026 05:35:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=NrWNmegZ;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=YT+Q1XQu;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id ABC784E42BC6
-	for <openembedded-core@lists.openembedded.org>; Tue,  5 May 2026 12:22:46 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 34D114E42BB4;
+	Tue,  5 May 2026 12:35:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 826AE6053C;
-	Tue,  5 May 2026 12:22:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3F73A11AD0100;
-	Tue,  5 May 2026 14:22:45 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E8F1E6053C;
+	Tue,  5 May 2026 12:35:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C76FD11AD0127;
+	Tue,  5 May 2026 14:35:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777983766; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1777984549; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=5U3Rhk98ppzW0GaMlUbJfrA0ftEFW89iMbPzeocBVZA=;
-	b=NrWNmegZYEXGVcjCSY3r+4JdbuyIV+hFO0zkU/dS0wcuC9oLII0kKyiLb1gDniTZAVHEeO
-	G0SPyai74Tvdkor6Dfjhy5swiX0MXcDwMdRVqsWvUdQXdTsCme0SflpqBkB87qvRdFWVrh
-	G3pQTSyzGccYPMQz1aQp/OAVzV94L/VaiDQrubrKQi+M0bFvJlflWG8CR9F/DybS19MnNL
-	fUFoHJLQboSsuJ83OU6UY/p/YJiBW92uYdQj8lJZjUUdOO0xk4KozMfvHbZt5Nrdfs+JHV
-	DEU+3woMdP46XXzWQL8EV9ZHn4nrmmSVNOQHgiJOZHCWtReV5Q4YC4KcnvodpQ==
+	bh=BYe6wOHpvWYdW6rpCZGX938BCXth8hSMcWJ+N9nRlZQ=;
+	b=YT+Q1XQud3sHh+Keb9KMFUtNNP76tYNBNcJnuZ4rIL1AmSVKZH9hcGK/SPsLHd5TVDD+Cr
+	wNrDtR+cPHMyZJEU1K2MUlCpW0rhAT4H4sMLJHWXmLwXu6KmzqdJDrZbUwUAPP5EaN+jxV
+	5NI07OV5uObC/wJGKcCsQ7OTkpF+dhGaw3lgpuQVisL5z5wGjj0exMTagTHv84gayYS41Y
+	agF5QW7MbBy52r4F8JJM4xTGFOzgKhGrYGrdN3nPmuozC20qy7xUnqO21kurs9XWMfI3sS
+	rux1Wv1guoHYaX5q2yGX6EfLkDWo0vJ3JL8E+gbO3GO3KM1Fc/g8A6yNi9xqtw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 05 May 2026 14:22:44 +0200
-Message-Id: <DIAQN5I2W6DN.367LM1KWJH8XC@bootlin.com>
-To: <rybczynska@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] uboot-sign: sign SPL FIT configurations
- instead of images
+Date: Tue, 05 May 2026 14:35:48 +0200
+Message-Id: <DIAQX5FG0NQM.N1ZBG0K7VW7W@bootlin.com>
+Subject: Re: [OE-core] [PATCH v3 1/2] oelib: add unit tests for kernel
+ module detection helpers
+Cc: <richard.purdie@linuxfoundation.org>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <sam.john.kent@gmail.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260504110803.67431-1-marta.rybczynska@ygreky.com>
-In-Reply-To: <20260504110803.67431-1-marta.rybczynska@ygreky.com>
+References: <20260428081046.1660101-1-sam.john.kent@gmail.com>
+ <20260429124524.2890648-1-sam.john.kent@gmail.com>
+In-Reply-To: <20260429124524.2890648-1-sam.john.kent@gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 12:22:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236487
+ <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 12:35:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236488
 
-On Mon May 4, 2026 at 1:08 PM CEST, Marta Rybczynska via lists.openembedded=
-.org wrote:
-> From: Marta Rybczynska <rybczynska@gmail.com>
+On Wed Apr 29, 2026 at 2:45 PM CEST, Sam Kent via lists.openembedded.org wr=
+ote:
+> Add tests for the filename pre-filter logic, is_kernel_module(), and
+> is_kernel_module_signed() to meta/lib/oeqa/selftest/cases/oelib/
 >
-> The SPL FIT signing patch was signing individual images, but not the conf=
-iguration.
->
-> Introduce signing of configuration with images under a separate option SP=
-L_SIGN_CONF,
-> enabled by default. It implies changes in the DTB content.
->
-> The old behaviour is possible with SPL_SIGN_INDIVIDUAL, but should be rem=
-oved in
-> a subsequent patch.
->
-> Signed-off-by: Marta Rybczynska <rybczynska@gmail.com>
+> Signed-off-by: Sam Kent <sam.john.kent@gmail.com>
 > ---
 
-Hi Marta,
+Hi Sam,
 
-Thanks for your patch.
+Now I remember why I had your patch flagged.
 
-It looks like this is breaking some of the selftests:
+This is triggering a fail in another test, as can be seen on the
+autobuilder:
 
-2026-05-05 09:18:40,306 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_sign_cascaded_uboot_fit_image (subunit.RemotedTestCase)
-2026-05-05 09:18:40,307 - oe-selftest - INFO -  ... FAIL
+2026-05-05 09:36:25,307 - oe-selftest - INFO - pkgdata.OePkgdataUtilTests.t=
+est_lookup_recipe (subunit.RemotedTestCase)
+2026-05-05 09:36:25,307 - oe-selftest - INFO -  ... FAIL
 ...
-ERROR: u-boot-1_2026.04-r0 do_uboot_assemble_fitimage: Execution of '/srv/p=
-okybuild/yocto-worker/oe-selftest-debian/build/build-st-2290997/tmp/work/qe=
-muarm-poky-linux-gnueabi/u-boot/2026.04/temp/run.do_uboot_assemble_fitimage=
-.3103596' failed with exit code 1
-...
-| Signature written to 'u-boot-fitImage', node '/configurations/conf/signat=
-ure'
-| Public key written to 'spl/u-boot-spl.dtb', node '/signature/key-spl-casc=
-aded-oe-selftest'
-| Signature check bad (error 1)
-| Verifying Hash Integrity for node 'conf'... sha256,rsa2048:spl-cascaded-o=
-e-selftest-
-|  error!
-| Verification failed for '(null)' hash node in 'conf' config node
-| Failed to verify required signature 'key-spl-cascaded-oe-selftest'
-| WARNING: exit code 1 from a shell command.
-...
-2026-05-05 09:19:22,128 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_sign_standalone_uboot_atf_tee_fit_image (subunit.RemotedTestCase)
-2026-05-05 09:19:22,128 - oe-selftest - INFO -  ... FAIL
-...
-2026-05-05 09:20:03,281 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_sign_standalone_uboot_fit_image (subunit.RemotedTestCase)
-2026-05-05 09:20:03,282 - oe-selftest - INFO -  ... FAIL
-...
-2026-05-05 09:20:46,932 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_sign_uboot_fit_image_without_spl (subunit.RemotedTestCase)
-2026-05-05 09:20:46,932 - oe-selftest - INFO -  ... FAIL
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/pkgdata.py", line 62, in test_looku=
+p_recipe
+    self.assertEqual(result.output, 'zlib\nbusybox')
+  File "/usr/lib/python3.12/unittest/case.py", line 885, in assertEqual
+    assertion_func(first, second, msg=3Dmsg)
+  File "/usr/lib/python3.12/unittest/case.py", line 1251, in assertMultiLin=
+eEqual
+    self.fail(self._formatMessage(msg, standardMsg))
+  File "/usr/lib/python3.12/unittest/case.py", line 715, in fail
+    raise self.failureException(msg)
+AssertionError: 'zlib' !=3D 'zlib\nbusybox'
+  zlib
++ busybox
 
 https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3792
 https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3665
