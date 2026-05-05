@@ -2,170 +2,285 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C13CD3442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AEFCCD3441
 	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:59:14 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1062.1778000346853456325
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1093.1778000348149809142
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2026 09:59:07 -0700
+ Tue, 05 May 2026 09:59:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=qZ5cmdWB;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso58041105e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:59:06 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=uEo+Y/Ua;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4891f625344so694675e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778000345; x=1778605145; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1778000346; x=1778605146; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rbyLKaUeMrL3Py2w9pL8JjeIEMbNpaie90EhJL2rDgs=;
-        b=qZ5cmdWBTx1woj3p9lJH4KGYscqpi2d1n/y16dKzJBEKm0S1klMtZhCHMQQcKkfN89
-         7ssVJTB0Es7zCDzKtff8AMLP62mhy59tG5AxYVlL0CivkXFaYlINbydMMfU5jO35c5RL
-         s8aN2RU6OpUIXZtMxYMLXYfd3p3ILh6WUmHN8=
+        bh=KtsX5rWLOn1lmdMNV1SC4yYmXWdMuwKNYyzR9JxlT/U=;
+        b=uEo+Y/Ua9EKT9uqDXwqY0hBvn/wdDz9+OyQy2EFm60czIsHH2TGOte4EYA7E0oZWb4
+         yq233x60CT6itJLqjoJ10ZuztsaWnDxF0YBYMI1+Knmn9ICJJ5vIigXfdfxVabBVGmjs
+         i60J8RfGDvegfnwK7Ttlc646FzNldSXLuQe9g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778000345; x=1778605145;
+        d=1e100.net; s=20251104; t=1778000346; x=1778605146;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=rbyLKaUeMrL3Py2w9pL8JjeIEMbNpaie90EhJL2rDgs=;
-        b=n5PhCnBvoJuUrT7TskUc55j9k9rfhfzX9DPrYxtCNzgz7Y/vHNTK0gPLlepx2NXLbN
-         Wacw6aNnRY31dhVZIQCi6PEeUCzo+kzmlLoN5I1nJoIkJHENWW2AZoaTYT9CJ3EinFoS
-         bhYVW0nKwm8Vc+V58RcY6wAn5liVE5HaBds7+jlhL5OS2pV+GW/axrqcDIKMEsyBeHVg
-         TlX+zmsSMgeyqb1SrjanpVlaR6+3vb9cgIe2BKR2sFuX2Y+c3J++M+hH+gs1ighoyNKy
-         jSQfrMjlI4AJaSbepYqzC5xfp/4FhTAHK+13LVrihEuna6ZzNg5EInAzxMU1egtZT3hN
-         ejuQ==
-X-Gm-Message-State: AOJu0YwHCN0Bf7qrShVErZJzvVvG6AmPwyhd+OE/2RTlitHs6bkH9lc9
-	1Xe43lMJ2JBJ3liT4T907miUOxenkQJwWTFpOfFwjLOZ/jUJqCiV56+D3uqJUW79dWZu3axZj6i
-	afChqNbQ=
-X-Gm-Gg: AeBDievxmZzygQxcJYADhX3B5se6HnND87EX1YVZDSoFaTivxLoOrfOS4VuNqKoZgqg
-	ZLBqtdslemVIymvtB6PFwMAC5INdw8UBk2qHNdAlyS8kaHldQks2QzQGqbG6J0EAf2XlA/tW+MN
-	J5EwYGvNlJ+OsGk4RDdpaWURwio3nPitbJf1qFIJR/ap8ZWwxymRYXDF/Y1UYXpl0Q+T35DAdy9
-	1KYvW2mCwLQJaFeGNmsa1L8LWd4M7QKb7gbK8vWVAHbhYbDW6gC4MJjrPgk1dISTl70Y9nkxwXZ
-	fNdg90rDgenHm0uKpDIQDY/dhjKCUWG3odXbCLvkktV2g2ryYLU93uKaslZK+b5zGzeX++qM419
-	iuO6FoMhrDDht2JctBLRC+QuLveVe1HIsjVDX6FM1Q2PWbDebChK7WNQAV3i8xA95ZKX7EuerHM
-	11Pu5PA6DSCi2l7CFuUcEwiMUCuCmZ7UrrOb+WUpB+UsPP4gOC0lSLeZeiVkhlv7+tPet3NlU4k
-	r6QXbSIiwGmNs82VuiWFjx78Q==
-X-Received: by 2002:a05:600c:c494:b0:485:46fd:7887 with SMTP id 5b1f17b1804b1-48e51f32c35mr747955e9.13.1778000344945;
-        Tue, 05 May 2026 09:59:04 -0700 (PDT)
+        bh=KtsX5rWLOn1lmdMNV1SC4yYmXWdMuwKNYyzR9JxlT/U=;
+        b=XPR4WoQTFM3lytd8JHCaU4PYRkvCSViakBKUlG1/FB/5sH2CNHmyYUvjSTJdLueMP1
+         ohD9qLHjDAjfHcp1SOifdMtemfbU6UZ61qQh6Wxb/hd0ZkreEmHOSIiGXjFwhDqVFNOh
+         eWGrfZXn1lK0OmjeTobXgjJILx07J+IrwJWMWgQQY3sLcg/ipzR4Q2nYkldyE9D2LzIG
+         /E4Mstfmk7vIUle/ZthKHKdszxjaV5AnRHqadUbIPsDudcdGOSFjq6/MOxNiQ9mswSCK
+         VbNhYw8T00zdTyA8//G46nLe/3SdGDoeAzEunfrmuGqmwp1JyMJMRThMcMKK6Fsl0ELx
+         M3wg==
+X-Gm-Message-State: AOJu0YyhVAZd9Gdc3mCglvWd/JoACxE5lbyhk6dfWvhI0AdoApskk2t4
+	Nk6ibUn6gVBHcZ0w33ze4+6WHoMxD0JZXjtndUef8fb5j5skQYDq3aTQenTh9Beag+bKyPZsFzL
+	N5pl/M8M=
+X-Gm-Gg: AeBDiesLTdO9DZzgEhte4dqxVU2C8wBb+TNOyMrh7iBRdeqLUICmPqtaxu9bfSvur01
+	Gdojru4hNqDDAQTr4N5wgR/7JtD57aX5OTIVVPpQ96baIdVr/5ia3K+VjZlqtuRw1IYohjIM30z
+	WD4O8izHzlapKrI7syOd0UL3s8n/m21SEXiWzpFazF4yXzbvedPUGQ7E2H4jrL1H6DVYQblm+1D
+	Y7Mi8X/bNWN1LnyJcBY9mL51Y34YYeqbt0+6LgMEaWAQotScAg3Dcl0f6+xXtcFinaxDZjLBN4h
+	DQL38+QdEVYt54YWiJxLWW3xCENgIdYSLnd/nn//HXzR+tXhHEeCUf6r3Fo+4/Mmk50965nKSov
+	3MJVX8b2ZAZvA0Zi8M+cQaZJxz5ChWVZ8RQWRe1MiHAyPWfKYEUdIIG0//gCMXaviKa7uvVY0kH
+	/dErCv/SApqkVRfqCO9DhKQyfK2rUiKkht1IkSo7saFn06A7uIUXxW2MrrQUFO078s6oW7j0aJF
+	ezRD7p9xF9OYItAaJe4Byc0YQxeYnYoI6pR
+X-Received: by 2002:a05:600c:3152:b0:489:1d7a:4537 with SMTP id 5b1f17b1804b1-48d1422bafamr73293675e9.3.1778000346110;
+        Tue, 05 May 2026 09:59:06 -0700 (PDT)
 Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.59.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.59.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:59:03 -0700 (PDT)
+        Tue, 05 May 2026 09:59:05 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 19/23] ghostscript: fix build with gcc-15 on host
-Date: Tue,  5 May 2026 18:57:36 +0200
-Message-ID: <0769c461e545073772aecc34e81fa309ade68dcb.1777995876.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 20/23] systemd: fix for CVE-2026-40225
+Date: Tue,  5 May 2026 18:57:37 +0200
+Message-ID: <fc2d33dbb2d5180b77c10865156db342f9d582da.1777995876.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1777995876.git.fabien.thomas@smile.fr>
 References: <cover.1777995876.git.fabien.thomas@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:59:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236510
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236511
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Backport commit[0] and [1] which fixes this vulnerability as mentioned in Debian report [2].
 
-(From OE-Core rev: 02e282f6417274a93c6f01978bf33e2d171297b0)
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+[0] https://github.com/systemd/systemd/commit/03bb697b8df0339c37f4b845025320b261aeb7cc
+[1] https://github.com/systemd/systemd/commit/5887e72ff87d3a66a4c3fa91897fbec1545f4d3d
+[2] https://security-tracker.debian.org/tracker/CVE-2026-40225
+
+More details : https://nvd.nist.gov/vuln/detail/CVE-2026-40225
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- ...Fix-compatibility-with-C23-compilers.patch | 67 +++++++++++++++++++
- .../ghostscript/ghostscript_10.05.1.bb        |  1 +
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch
+ .../systemd/systemd/CVE-2026-40225-01.patch   | 131 ++++++++++++++++++
+ .../systemd/systemd/CVE-2026-40225-02.patch   |  39 ++++++
+ meta/recipes-core/systemd/systemd_255.21.bb   |   2 +
+ 3 files changed, 172 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch b/meta/recipes-extended/ghostscript/ghostscript/0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch b/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
 new file mode 100644
-index 0000000000..78f3fc1c34
+index 0000000000..f616e636c2
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch
-@@ -0,0 +1,67 @@
-+From c595086bfe206776676e290df98cd09e91210e27 Mon Sep 17 00:00:00 2001
-+From: Alex Cherepanov <alex@coscript.biz>
-+Date: Thu, 3 Apr 2025 17:19:41 +0100
-+Subject: [PATCH] Bug 708160: Fix compatibility with C23 compilers
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
+@@ -0,0 +1,131 @@
++From 03bb697b8df0339c37f4b845025320b261aeb7cc Mon Sep 17 00:00:00 2001
++From: Luca Boccassi <luca.boccassi@gmail.com>
++Date: Fri, 6 Mar 2026 19:32:35 +0000
++Subject: [PATCH] udev: check for invalid chars in various fields received from
++ the kernel
 +
-+* fixes:
-+  http://errors.yoctoproject.org/Errors/Details/853021/
++(cherry picked from commit 16325b35fa6ecb25f66534a562583ce3b96d52f3)
++(cherry picked from commit 3513862eabe9ec4a6a095d7266e98f998f289ed2)
++(cherry picked from commit c20d21e0da293e715db468f9f4a15a5c8fbf8273)
 +
-+In file included from ./base/genconf.c:18:
-+./base/stdpre.h:348:13: error: ‘bool’ cannot be defined via ‘typedef’
-+  348 | typedef int bool;
-+      |             ^~~~
-+./base/stdpre.h:348:13: note: ‘bool’ is a keyword with ‘-std=c23’ onwards
-+./base/stdpre.h:348:1: warning: useless type name in empty declaration
-+  348 | typedef int bool;
-+      | ^~~~~~~
-+
-+Upstream-Status: Backport [Partial backport of https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/base/stdpre.h?id=ae940946473ceb8c5353bc6e7f04673c6e60502d]
-+
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++CVE: CVE-2026-40225
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/03bb697b8df0339c37f4b845025320b261aeb7cc]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ base/stdpre.h | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
++ src/udev/dmi_memory_id/dmi_memory_id.c | 3 ++-
++ src/udev/scsi_id/scsi_id.c             | 5 +++--
++ src/udev/udev-builtin-net_id.c         | 9 +++++++++
++ src/udev/v4l_id/v4l_id.c               | 5 ++++-
++ 4 files changed, 18 insertions(+), 4 deletions(-)
 +
-+diff --git a/base/stdpre.h b/base/stdpre.h
-+index dda30b6..2f9c84e 100644
-+--- a/base/stdpre.h
-++++ b/base/stdpre.h
-+@@ -1,4 +1,4 @@
-+-/* Copyright (C) 2001-2023 Artifex Software, Inc.
-++/* Copyright (C) 2001-2025 Artifex Software, Inc.
-+    All Rights Reserved.
++diff --git a/src/udev/dmi_memory_id/dmi_memory_id.c b/src/udev/dmi_memory_id/dmi_memory_id.c
++index 52ea250af8..4f2c21b80b 100644
++--- a/src/udev/dmi_memory_id/dmi_memory_id.c
+++++ b/src/udev/dmi_memory_id/dmi_memory_id.c
++@@ -51,6 +51,7 @@
++ #include "string-util.h"
++ #include "udev-util.h"
++ #include "unaligned.h"
+++#include "utf8.h"
 + 
-+    This software is provided AS-IS with no warranty, either express or
-+@@ -341,7 +341,9 @@ typedef signed char schar;
-+  * and the MetroWerks C++ compiler insists that bool be equivalent to
-+  * unsigned char.
-+  */
-+-#ifndef __cplusplus
++ #define SUPPORTED_SMBIOS_VER 0x030300
++ 
++@@ -185,7 +186,7 @@ static void dmi_memory_device_string(
++ 
++         str = strdupa_safe(dmi_string(h, s));
++         str = strstrip(str);
++-        if (!isempty(str))
+++        if (!isempty(str) && utf8_is_valid(str) && !string_has_cc(str, /* ok= */ NULL))
++                 printf("MEMORY_DEVICE_%u_%s=%s\n", slot_num, attr_suffix, str);
++ }
++ 
++diff --git a/src/udev/scsi_id/scsi_id.c b/src/udev/scsi_id/scsi_id.c
++index 6308c52b7e..7e18bc755a 100644
++--- a/src/udev/scsi_id/scsi_id.c
+++++ b/src/udev/scsi_id/scsi_id.c
++@@ -27,6 +27,7 @@
++ #include "strv.h"
++ #include "strxcpyx.h"
++ #include "udev-util.h"
+++#include "utf8.h"
++ 
++ static const struct option options[] = {
++         { "device",             required_argument, NULL, 'd' },
++@@ -443,8 +444,8 @@ static int scsi_id(char *maj_min_dev) {
++                 }
++                 if (dev_scsi.tgpt_group[0] != '\0')
++                         printf("ID_TARGET_PORT=%s\n", dev_scsi.tgpt_group);
++-                if (dev_scsi.unit_serial_number[0] != '\0')
++-                        printf("ID_SCSI_SERIAL=%s\n", dev_scsi.unit_serial_number);
+++                if (dev_scsi.unit_serial_number[0] != '\0' && utf8_is_valid(dev_scsi.unit_serial_number) && !string_has_cc(dev_scsi.unit_serial_number, /* ok= */ NULL))
+++                        printf("ID_SCSI_SERIAL=%s\n", serial_str);
++                 goto out;
++         }
++ 
++diff --git a/src/udev/udev-builtin-net_id.c b/src/udev/udev-builtin-net_id.c
++index 91b40088f4..715184e282 100644
++--- a/src/udev/udev-builtin-net_id.c
+++++ b/src/udev/udev-builtin-net_id.c
++@@ -39,6 +39,7 @@
++ #include "strv.h"
++ #include "strxcpyx.h"
++ #include "udev-builtin.h"
+++#include "utf8.h"
++ 
++ #define ONBOARD_14BIT_INDEX_MAX ((1U << 14) - 1)
++ #define ONBOARD_16BIT_INDEX_MAX ((1U << 16) - 1)
++@@ -247,6 +248,9 @@ static int get_port_specifier(sd_device *dev, bool fallback_to_dev_id, char **re
++                         }
++                 }
++ 
+++                if (!utf8_is_valid(phys_port_name) || string_has_cc(phys_port_name, /* ok= */ NULL))
+++                        return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid phys_port_name");
 ++
-++/* C23 has bool as a builtin type. */
-++#if !defined(__cplusplus) && (!defined(__STDC_VERSION__) || __STDC_VERSION__ < 202311L)
-+ #ifdef __BEOS__
-+ typedef unsigned char bool;
-+ #else
-+diff --git a/base/gp.h b/base/gp.h
-+index ad5bb61..cf2c9cf 100644
-+--- a/base/gp.h
-++++ b/base/gp.h
-+@@ -1,4 +1,4 @@
-+-/* Copyright (C) 2001-2023 Artifex Software, Inc.
-++/* Copyright (C) 2001-2025 Artifex Software, Inc.
-+    All Rights Reserved.
++                 /* Otherwise, use phys_port_name as is. */
++                 buf = strjoin("n", phys_port_name);
++                 if (!buf)
++@@ -351,6 +355,9 @@ static int names_pci_onboard_label(sd_device *dev, sd_device *pci_dev, const cha
++         if (r < 0)
++                 return log_device_debug_errno(pci_dev, r, "Failed to get PCI onboard label: %m");
 + 
-+    This software is provided AS-IS with no warranty, either express or
-+@@ -646,7 +646,7 @@ int gp_fseek_impl(FILE *strm, gs_offset_t offset, int origin);
-+ /* Create a second open gp_file on the basis of a given one */
-+ FILE *gp_fdup_impl(FILE *f, const char *mode);
+++        if (!utf8_is_valid(label) || string_has_cc(label, /* ok= */ NULL))
+++                return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid label");
+++
++         char str[ALTIFNAMSIZ];
++         if (snprintf_ok(str, sizeof str, "%s%s",
++                         naming_scheme_has(NAMING_LABEL_NOPREFIX) ? "" : prefix,
++@@ -1209,6 +1216,8 @@ static int names_netdevsim(sd_device *dev, const char *prefix, bool test) {
++         if (isempty(phys_port_name))
++                 return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EOPNOTSUPP),
++                                               "The 'phys_port_name' attribute is empty.");
+++        if (!utf8_is_valid(phys_port_name) || string_has_cc(phys_port_name, /* ok= */ NULL))
+++                return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINVAL), "Invalid phys_port_name");
 + 
-+-int gp_fseekable_impl(FILE *f);
-++bool gp_fseekable_impl(FILE *f);
++         char str[ALTIFNAMSIZ];
++         if (snprintf_ok(str, sizeof str, "%si%un%s", prefix, addr, phys_port_name))
++diff --git a/src/udev/v4l_id/v4l_id.c b/src/udev/v4l_id/v4l_id.c
++index 30527e9556..2ec96d8d3a 100644
++--- a/src/udev/v4l_id/v4l_id.c
+++++ b/src/udev/v4l_id/v4l_id.c
++@@ -29,6 +29,8 @@
++ #include "build.h"
++ #include "fd-util.h"
++ #include "main-func.h"
+++#include "string-util.h"
+++#include "utf8.h"
 + 
-+ /* Force given file into binary mode (no eol translations, etc) */
-+ /* if 2nd param true, text mode if 2nd param false */
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
-index 57a1098521..f7e1de734d 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
-@@ -28,6 +28,7 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
-            file://CVE-2025-59798.patch \
-            file://CVE-2025-59799.patch \
-            file://CVE-2025-59800.patch \
-+           file://0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch \
++ static const char *arg_device = NULL;
++ 
++@@ -82,7 +84,8 @@ static int run(int argc, char *argv[]) {
++                 int capabilities;
++ 
++                 printf("ID_V4L_VERSION=2\n");
++-                printf("ID_V4L_PRODUCT=%s\n", v2cap.card);
+++                if (utf8_is_valid((char *)v2cap.card) && !string_has_cc((char *)v2cap.card, /* ok= */ NULL))
+++                        printf("ID_V4L_PRODUCT=%s\n", v2cap.card);
++                 printf("ID_V4L_CAPABILITIES=:");
++ 
++                 if (v2cap.capabilities & V4L2_CAP_DEVICE_CAPS)
++-- 
++2.50.1
++
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch b/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+new file mode 100644
+index 0000000000..bc0a5514d4
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+@@ -0,0 +1,39 @@
++From 5887e72ff87d3a66a4c3fa91897fbec1545f4d3d Mon Sep 17 00:00:00 2001
++From: Luca Boccassi <luca.boccassi@gmail.com>
++Date: Fri, 13 Mar 2026 11:10:47 +0000
++Subject: [PATCH] udev: fix review mixup
++
++The previous version in the PR changed variable and sanitized it
++in place. The second version switched to skip if CCs are in the
++string instead, but didn't move back to the original variable.
++Because it's an existing variable, no CI caught it.
++
++Follow-up for 16325b35fa6ecb25f66534a562583ce3b96d52f3
++
++(cherry picked from commit 54f880b02ecf7362e630ffc885d1466df6ee6820)
++(cherry picked from commit 4425d8523e79f3cc00b3b93a0b5e7c6cdc284a97)
++(cherry picked from commit 75c585beae60e73208941e6b3f64cf249223f53d)
++
++CVE: CVE-2026-40225
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/5887e72ff87d3a66a4c3fa91897fbec1545f4d3d]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/udev/scsi_id/scsi_id.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/udev/scsi_id/scsi_id.c b/src/udev/scsi_id/scsi_id.c
++index 7e18bc755a..b2df8d9f7f 100644
++--- a/src/udev/scsi_id/scsi_id.c
+++++ b/src/udev/scsi_id/scsi_id.c
++@@ -445,7 +445,7 @@ static int scsi_id(char *maj_min_dev) {
++                 if (dev_scsi.tgpt_group[0] != '\0')
++                         printf("ID_TARGET_PORT=%s\n", dev_scsi.tgpt_group);
++                 if (dev_scsi.unit_serial_number[0] != '\0' && utf8_is_valid(dev_scsi.unit_serial_number) && !string_has_cc(dev_scsi.unit_serial_number, /* ok= */ NULL))
++-                        printf("ID_SCSI_SERIAL=%s\n", serial_str);
+++                        printf("ID_SCSI_SERIAL=%s\n", dev_scsi.unit_serial_number);
++                 goto out;
++         }
++ 
++-- 
++2.50.1
++
+diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-core/systemd/systemd_255.21.bb
+index 87e186bbfa..fe9d699816 100644
+--- a/meta/recipes-core/systemd/systemd_255.21.bb
++++ b/meta/recipes-core/systemd/systemd_255.21.bb
+@@ -29,6 +29,8 @@ SRC_URI += " \
+            file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-timedated-Respond-on-org.freedesktop.timedate1.SetNT.patch \
+            file://0008-implment-systemd-sysv-install-for-OE.patch \
++           file://CVE-2026-40225-01.patch \
++           file://CVE-2026-40225-02.patch \
             "
  
- SRC_URI[sha256sum] = "121861b6d29b2461dec6575c9f3cab665b810bd408d4ec02c86719fa708b0a49"
+ # patches needed by musl
 
