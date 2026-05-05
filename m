@@ -2,228 +2,249 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E17FCD3442
-	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:58:53 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1047.1778000330525811636
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF39CD3439
+	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 16:59:03 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1057.1778000340608032563
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2026 09:58:50 -0700
+ Tue, 05 May 2026 09:59:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=iZEy84KB;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so53490335e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:58:50 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=UuB5FLNZ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so378145e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778000329; x=1778605129; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1778000338; x=1778605138; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IHZDtO9EoBesYezMHgaDfLMKjRhIO+qeZINnAi5fbN0=;
-        b=iZEy84KBsTazLlZTucmPjLZULI+HULUga1cqgcA1oMQCo9Z7btCuXjUzPM1ciOj57j
-         2OUuQDa5dtpZFWxZLmQVrUC1KFDdIgA2gaCBiEbM+bVvLJxFsjBGwjzgYm98xuYVvivC
-         QmAqYzIGnG2St1z/i8xLkILjXd4miq0s3quV4=
+        bh=tHNiwqjKu7MW1EvUhnIuiIzhhtjRwHhvSCLaSkJ0GA0=;
+        b=UuB5FLNZ/9zDBUJr1Yib9b6DFaFtFZBqakueq3BlFjl6eHlYPDlfZTgYiUaHjgEkNp
+         zPZixu5aSTUUNPB5rkdEygIY28e7n/Amu7NP4xm/NTPZY6jsvwk95sTb/ACCNP8ZX2y/
+         NhaStymwyMn/dBbgOFh2qY3Z2/UsySzLH76pQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778000329; x=1778605129;
+        d=1e100.net; s=20251104; t=1778000338; x=1778605138;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=IHZDtO9EoBesYezMHgaDfLMKjRhIO+qeZINnAi5fbN0=;
-        b=o7SPBPpJ0ezGD2921eTIVWIU0PFGuNZDq6lFF3VxfSqMsdT7djPWdNXMQTSO3yD4xz
-         QjaI0o7dNPDHO/iph29LZqXxJHrvI/9OTf4JGhYAQbJxMAqG8tw1xWaHDtX2rluF/8dl
-         +86pYNP9dMU1WeDhySDbEe8x7Su0JKOz08uHMNfr3ziZT4bMLwL3VHI82/QJ+2rLQ2lx
-         3U/C/vPT+ZaAqAqTo6XVryTYfAUXeAGBYWbJBU4TmLSprmLYRRW9OzoGsechhsvWkMl8
-         +c+/hDul3QH+wVcr5cTqHJpIiN/8k+HArW+SyeQJTxfnhe5GabHGZGpnhgfGMwSyIIgt
-         nCjw==
-X-Gm-Message-State: AOJu0YzqZsn0vRISwwvHMFAY+G2S4wHl0s4+pDMLom0HK88NIcHgwiPJ
-	0sGnGMMGqg/v3uTR145Vz5kxVEtxhpxEXWQhGRKIv36NhEb7ze8YMfv95PnXfaC8Gsls1hgU2Mk
-	Nv0IsMTI=
-X-Gm-Gg: AeBDieuTvMdDVjNmCC1m8ETgjeUf+yN0+5OTrcdA5YcIRJz6ewWUcCaLmtkcVw7vfVO
-	MQubIqX+tEKEWiaMe4a+rK2wrBiELkQO0ecvHJXHOEGlJMEVShiym//Bs0fnA8Gs+vRygh1MWzQ
-	Y7xJqLF0W6O9gdmRscC3hyJL8ekEvxJaYoTfg0OJpdobzqa7rKV0R6hXTh5dBqembRqDqWEYrxX
-	gM6FPHYKk/aoH1q7VgGKbRTJPeCzFEstZ3v82XwCmPO/q/aAKZ0Cdnj3VwjoDxp+YI/IbBvrWs4
-	ck+7yn3d2wTYjqISB5ybXoqQl5Wo7/twT90JfR56v6qMTYXDiNXtswmCIy6xRjUyQt/ZQsbxyXC
-	U8KFXqmrrfje6yyn+d2GKDaTh11GChSRv/LT2CGw2fn1Z1QU+Ok3oH6VxB5dYnDN8Fwo+K51MT7
-	UkQdeL6DteQaWl3npov889L51I/OaVrqSqFwMj+rq4c3/UIKa65z34tHkl25zGuUjCHidVZ9+5p
-	y/r11MRWkkrk81dO99jakY1PA==
-X-Received: by 2002:a05:600c:1d18:b0:489:1a63:509c with SMTP id 5b1f17b1804b1-48e51dd689fmr2056995e9.0.1778000328450;
-        Tue, 05 May 2026 09:58:48 -0700 (PDT)
+        bh=tHNiwqjKu7MW1EvUhnIuiIzhhtjRwHhvSCLaSkJ0GA0=;
+        b=PKnjx8+1kZZ+VyTZs41c6OTNHKJ6G6FwcGpNWRR1d97NTXVHKGDmIJ8T6+ldAxI7QZ
+         JUkcHvxK7NHw0JujNrbtDZFEzpNDNu+Tq8uFJ/6Ab2Af9qbyNvQ3L3UN+EOswH20F7Ae
+         96BGR64Fd0U01ZH7vgyE/VT32u+VrA5LLm6HdqE6DHNRzLWkHZ8GxHEP30u6qK6sbmRI
+         I8J4omqbMNNRNFBK+7+X4fHJqgD2/F2E5hHS2dcxE1qC95wwTr8W9HNmVVJrW80EPDBk
+         PEVvvLzbUJQgBNtS0tK/N8PszMB51i7u9zszQAkMrDXi0rBDmxKLzOGDDV0AWB0qb22U
+         cEGg==
+X-Gm-Message-State: AOJu0YyvRLncPD76fEMXRe8LGoY+MbLglGbc3faPc+zzZA9Wh8WMaUuE
+	p33sH5AOGr2nSkMBigRurcCsRMDE+DCJAMDPNqUDAODHH/9HEVUtqf74qc7/k4lx8EFaATea4YH
+	pSWM1UyM=
+X-Gm-Gg: AeBDies4nHluNsM0F0ied0KUlYPrlNDQC5xklahZiElnMGqza2O8c6l04hD0+KExuu6
+	f9A8Ng72Srch3ZEvineVwmML52Bxjb3Mn0uMgHs9kPyAUOtHdGEjeId77qdhnj6CuRS1j+cVqbE
+	aarAZe63q7eCQuC+7KZltBlHNP6rYr8DoJq5jezA/0TSg6E67DsgmvPSwYk49z9sRnierI+fl5S
+	VlonukGRixW6k/UISXAAiqTJxCR41d+UIqD4GfxAVpd0kNDKTPU1XjKrc7oM5ZZDwgVcWMOF7y8
+	m+xy16iMOe33CYj0wknVC0JdbIdA0/f/t9zmn3gmqd/WHQKMmy7PiLZ2LrGCh+F+Htgm76GaBN5
+	vD1hVl2fQz70zkTdjxqpd0+MSQFc/8DflTw55Rv6k/3ixx1KTpPxFNdJIiTBV/nhI5s8mP0nsFe
+	r0VmNwoQNso0njbsO8Ilq/59Zu15bxxd4l/o9uq3kT9NNOZbNn+c3OUGncPO6Ib7WdLYdzyIfyV
+	JYfRnTjYsAvwzhFZa/+rl7Gvg==
+X-Received: by 2002:a05:600c:8116:b0:488:aa33:dc8f with SMTP id 5b1f17b1804b1-48d141ceb81mr67683835e9.0.1778000338149;
+        Tue, 05 May 2026 09:58:58 -0700 (PDT)
 Received: from localhost ([2a01:e0a:8cc:5b00:b8fa:c45c:f26d:53a3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e51f6805fsm60025e9.2.2026.05.05.09.58.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:58:47 -0700 (PDT)
+        Tue, 05 May 2026 09:58:57 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/23] expat: patch CVE-2026-32777
-Date: Tue,  5 May 2026 18:57:23 +0200
-Message-ID: <cbbaec4df5ce3a64d97b7f868f8f11432d808b9a.1777995876.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 14/23] ovmf: fix CVE-2024-38798
+Date: Tue,  5 May 2026 18:57:31 +0200
+Message-ID: <ed444adf325d3a985ed8f9ae0a009ecbaf67c3fd.1777995876.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1777995876.git.fabien.thomas@smile.fr>
 References: <cover.1777995876.git.fabien.thomas@smile.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:58:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236497
+ <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 16:59:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236505
 
-From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Pick patches from [1] also mentioned in [2].
+According to [1],
 
-[1] https://github.com/libexpat/libexpat/pull/1162
-[2] https://security-tracker.debian.org/tracker/CVE-2026-32777
+  EDK2 contains a vulnerability in BIOS where an attacker may cause =E2=80=
+=9CExposure of
+  Sensitive Information to an Unauthorized Actor=E2=80=9D by local access. =
+Successful
+  exploitation of this vulnerability will lead to possible information disc=
+losure
+  or escalation of privilege and impact Confidentiality.
 
-Signed-off-by: Bruno VERNAY <bruno.vernay@se.com>
-Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+Backport a patch [2] from upstream to fix CVE-2024-38798
+
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-38798
+[2] https://github.com/tianocore/edk2/commit/0cad130cb4885961da201bb9b08424=
+b3fd3d2249
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../expat/expat/CVE-2026-32777-01.patch       | 49 ++++++++++++++
- .../expat/expat/CVE-2026-32777-02.patch       | 66 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.6.4.bb        |  2 +
- 3 files changed, 117 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
+ .../ovmf/ovmf/CVE-2024-38798.patch            | 116 ++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2024-38798.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch b/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2024-38798.patch b/meta/recipe=
+s-core/ovmf/ovmf/CVE-2024-38798.patch
 new file mode 100644
-index 0000000000..50ba27dcd4
+index 0000000000..2d0a73c7a6
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
-@@ -0,0 +1,49 @@
-+From a6e6cf7c30e54402b2fa3c49f9d98702e74f8c34 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Sun, 1 Mar 2026 20:16:13 +0100
-+Subject: [PATCH 1/2] lib: Reject XML_TOK_INSTANCE_START infinite loop in
-+ entityValueProcessor
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2024-38798.patch
+@@ -0,0 +1,116 @@
++From 81263e46ad8cf2a6c7d86bc51c95342d07ec31ca Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 5 Jan 2026 13:04:18 +0800
++Subject: [PATCH] MdeModulePkg : Clear keyboard queue buffer after reading
 +
-+.. that OSS-Fuzz/ClusterFuzz uncovered
++There is a possibility to retrieve user input keystroke data stored in the
++queue buffer via the EFI_SIMPLE_TEXT_INPUT_PROTOCOL pointer. To prevent
++exposure of the password string, clear the queue buffer by filling it
++with zeros after reading.
 +
-+CVE: CVE-2026-32777
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/55cda8c7125986e17d7e1825cba413bd94a35d02]
++Signed-off-by: Nick Wang <nick.wang@insyde.com>
 +
-+(cherry picked from commit 55cda8c7125986e17d7e1825cba413bd94a35d02)
-+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
++CVE: CVE-2024-38798
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/0cad13=
+0cb4885961da201bb9b08424b3fd3d2249]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ lib/xmlparse.c | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
++ MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c       | 2 ++
++ MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c        | 1 +
++ MdeModulePkg/Bus/Usb/UsbKbDxe/KeyBoard.c                  | 2 +-
++ .../Universal/Console/ConSplitterDxe/ConSplitter.c        | 1 +
++ .../Universal/Console/TerminalDxe/TerminalConIn.c         | 8 ++++++--
++ 5 files changed, 11 insertions(+), 3 deletions(-)
 +
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 56faf2eb..bfb8ac58 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -5077,7 +5077,7 @@ entityValueInitProcessor(XML_Parser parser, const char *s, const char *end,
-+     }
-+     /* If we get this token, we have the start of what might be a
-+        normal tag, but not a declaration (i.e. it doesn't begin with
-+-       "<!").  In a DTD context, that isn't legal.
-++       "<!" or "<?").  In a DTD context, that isn't legal.
-+     */
-+     else if (tok == XML_TOK_INSTANCE_START) {
-+       *nextPtr = next;
-+@@ -5166,6 +5166,15 @@ entityValueProcessor(XML_Parser parser, const char *s, const char *end,
-+       /* found end of entity value - can store it now */
-+       return storeEntityValue(parser, enc, s, end, XML_ACCOUNT_DIRECT, NULL);
-+     }
-++    /* If we get this token, we have the start of what might be a
-++       normal tag, but not a declaration (i.e. it doesn't begin with
-++       "<!" or "<?").  In a DTD context, that isn't legal.
-++    */
-++    else if (tok == XML_TOK_INSTANCE_START) {
-++      *nextPtr = next;
-++      return XML_ERROR_SYNTAX;
-++    }
-++
-+     start = next;
-+   }
-+ }
-+-- 
-+2.43.0
++diff --git a/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c b/MdeModu=
+lePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c
++index 981309f..32757a7 100644
++--- a/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c
+++++ b/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdCtrller.c
++@@ -650,6 +650,8 @@ PopScancodeBufHead (
++     if (Buf !=3D NULL) {=0D
++       Buf[Index] =3D Queue->Buffer[Queue->Head];=0D
++     }=0D
+++=0D
+++    Queue->Buffer[Queue->Head] =3D 0;=0D
++   }=0D
++ =0D
++   return EFI_SUCCESS;=0D
++diff --git a/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c b/MdeModul=
+ePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c
++index 81d3c6e..e03c88f 100644
++--- a/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c
+++++ b/MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KbdTextIn.c
++@@ -51,6 +51,7 @@ PopEfikeyBufHead (
++     CopyMem (KeyData, &Queue->Buffer[Queue->Head], sizeof (EFI_KEY_DATA))=
+;=0D
++   }=0D
++ =0D
+++  ZeroMem (&Queue->Buffer[Queue->Head], sizeof (EFI_KEY_DATA));=0D
++   Queue->Head =3D (Queue->Head + 1) % KEYBOARD_EFI_KEY_MAX_COUNT;=0D
++   return EFI_SUCCESS;=0D
++ }=0D
++diff --git a/MdeModulePkg/Bus/Usb/UsbKbDxe/KeyBoard.c b/MdeModulePkg/Bus/U=
+sb/UsbKbDxe/KeyBoard.c
++index b5a6459..7df1566 100644
++--- a/MdeModulePkg/Bus/Usb/UsbKbDxe/KeyBoard.c
+++++ b/MdeModulePkg/Bus/Usb/UsbKbDxe/KeyBoard.c
++@@ -1840,7 +1840,7 @@ Dequeue (
++   }=0D
++ =0D
++   CopyMem (Item, Queue->Buffer[Queue->Head], ItemSize);=0D
++-=0D
+++  ZeroMem (Queue->Buffer[Queue->Head], ItemSize);=0D
++   //=0D
++   // Adjust the head pointer of the FIFO keyboard buffer.=0D
++   //=0D
++diff --git a/MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitter.c b=
+/MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitter.c
++index 0a776f3..5c1a35e 100644
++--- a/MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitter.c
+++++ b/MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitter.c
++@@ -3537,6 +3537,7 @@ ConSplitterTextInExDequeueKey (
++     &Private->KeyQueue[1],=0D
++     Private->CurrentNumberOfKeys * sizeof (EFI_KEY_DATA)=0D
++     );=0D
+++  ZeroMem (&Private->KeyQueue[Private->CurrentNumberOfKeys], sizeof (EFI_=
+KEY_DATA));=0D
++   return EFI_SUCCESS;=0D
++ }=0D
++ =0D
++diff --git a/MdeModulePkg/Universal/Console/TerminalDxe/TerminalConIn.c b/=
+MdeModulePkg/Universal/Console/TerminalDxe/TerminalConIn.c
++index f1d0a34..8aafb4b 100644
++--- a/MdeModulePkg/Universal/Console/TerminalDxe/TerminalConIn.c
+++++ b/MdeModulePkg/Universal/Console/TerminalDxe/TerminalConIn.c
++@@ -760,7 +760,8 @@ RawFiFoRemoveOneKey (
++     return FALSE;=0D
++   }=0D
++ =0D
++-  *Output =3D TerminalDevice->RawFiFo->Data[Head];=0D
+++  *Output                             =3D TerminalDevice->RawFiFo->Data[H=
+ead];=0D
+++  TerminalDevice->RawFiFo->Data[Head] =3D 0;=0D
++ =0D
++   TerminalDevice->RawFiFo->Head =3D (UINT8)((Head + 1) % (RAW_FIFO_MAX_NU=
+MBER + 1));=0D
++ =0D
++@@ -881,6 +882,7 @@ EfiKeyFiFoForNotifyRemoveOneKey (
++   }=0D
++ =0D
++   CopyMem (Output, &EfiKeyFiFo->Data[Head], sizeof (EFI_INPUT_KEY));=0D
+++  ZeroMem (&EfiKeyFiFo->Data[Head], sizeof (EFI_INPUT_KEY));=0D
++ =0D
++   EfiKeyFiFo->Head =3D (UINT8)((Head + 1) % (FIFO_MAX_NUMBER + 1));=0D
++ =0D
++@@ -1032,6 +1034,7 @@ EfiKeyFiFoRemoveOneKey (
++   }=0D
++ =0D
++   CopyMem (Output, &TerminalDevice->EfiKeyFiFo->Data[Head], sizeof (EFI_I=
+NPUT_KEY));=0D
+++  ZeroMem (&TerminalDevice->EfiKeyFiFo->Data[Head], sizeof (EFI_INPUT_KEY=
+));=0D
++ =0D
++   TerminalDevice->EfiKeyFiFo->Head =3D (UINT8)((Head + 1) % (FIFO_MAX_NUM=
+BER + 1));=0D
++ =0D
++@@ -1142,7 +1145,8 @@ UnicodeFiFoRemoveOneKey (
++   Head =3D TerminalDevice->UnicodeFiFo->Head;=0D
++   ASSERT (Head < FIFO_MAX_NUMBER + 1);=0D
++ =0D
++-  *Output =3D TerminalDevice->UnicodeFiFo->Data[Head];=0D
+++  *Output                                 =3D TerminalDevice->UnicodeFiFo=
+->Data[Head];=0D
+++  TerminalDevice->UnicodeFiFo->Data[Head] =3D 0;=0D
++ =0D
++   TerminalDevice->UnicodeFiFo->Head =3D (UINT8)((Head + 1) % (FIFO_MAX_NU=
+MBER + 1));=0D
++ }=0D
++--=20
++2.34.1
 +
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch b/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
-new file mode 100644
-index 0000000000..a1518c9a3e
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
-@@ -0,0 +1,66 @@
-+From 4b91fc7eb4998c49bfd3b701a679ad6eb7ce7682 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Fri, 6 Mar 2026 18:31:34 +0100
-+Subject: [PATCH 2/2] misc_tests.c: Cover XML_TOK_INSTANCE_START infinite loop
-+ case
-+
-+.. that OSS-Fuzz/ClusterFuzz uncovered
-+
-+CVE: CVE-2026-32777
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/a7805c1a8a48d2ce83ef289cf55bdc8b45de76a8]
-+
-+(cherry picked from commit a7805c1a8a48d2ce83ef289cf55bdc8b45de76a8)
-+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
-+---
-+ tests/misc_tests.c | 30 ++++++++++++++++++++++++++++++
-+ 1 file changed, 30 insertions(+)
-+
-+diff --git a/tests/misc_tests.c b/tests/misc_tests.c
-+index 07902d52..cdcdd507 100644
-+--- a/tests/misc_tests.c
-++++ b/tests/misc_tests.c
-+@@ -713,6 +713,35 @@ START_TEST(test_misc_async_entity_rejected) {
-+ }
-+ END_TEST
-+ 
-++START_TEST(test_misc_no_infinite_loop_issue_1161) {
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++
-++  const char *text = "<!DOCTYPE d SYSTEM 'secondary.txt'>";
-++
-++  struct ExtOption options[] = {
-++      {XCS("secondary.txt"),
-++       "<!ENTITY % p SYSTEM 'tertiary.txt'><!ENTITY g '%p;'>"},
-++      {XCS("tertiary.txt"), "<?xml version='1.0'?><a"},
-++      {NULL, NULL},
-++  };
-++
-++  XML_SetUserData(parser, options);
-++  XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
-++  XML_SetExternalEntityRefHandler(parser, external_entity_optioner);
-++
-++  assert_true(_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
-++              == XML_STATUS_ERROR);
-++
-++#if defined(XML_DTD)
-++  assert_true(XML_GetErrorCode(parser) == XML_ERROR_EXTERNAL_ENTITY_HANDLING);
-++#else
-++  assert_true(XML_GetErrorCode(parser) == XML_ERROR_NO_ELEMENTS);
-++#endif
-++
-++  XML_ParserFree(parser);
-++}
-++END_TEST
-++
-+ void
-+ make_miscellaneous_test_case(Suite *s) {
-+   TCase *tc_misc = tcase_create("miscellaneous tests");
-+@@ -743,4 +772,5 @@ make_miscellaneous_test_case(Suite *s) {
-+   tcase_add_test(tc_misc, test_misc_expected_event_ptr_issue_980);
-+   tcase_add_test(tc_misc, test_misc_sync_entity_tolerated);
-+   tcase_add_test(tc_misc, test_misc_async_entity_rejected);
-++  tcase_add_test(tc_misc, test_misc_no_infinite_loop_issue_1161);
-+ }
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
-index 631aebe6ca..f78d9a8a60 100644
---- a/meta/recipes-core/expat/expat_2.6.4.bb
-+++ b/meta/recipes-core/expat/expat_2.6.4.bb
-@@ -47,6 +47,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-25210-02.patch \
-            file://CVE-2026-25210-03.patch \
-            file://CVE-2026-32776.patch \
-+           file://CVE-2026-32777-01.patch \
-+           file://CVE-2026-32777-02.patch \
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index fd5ff25dc9..4e6227f484 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -39,6 +39,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+=3Dmaster;protocol=3Dhttps \
+            file://CVE-2025-2296-7.patch \
+            file://CVE-2025-2296-8.patch \
+            file://CVE-2025-2296-9.patch \
++           file://CVE-2024-38798.patch \
             "
- 
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+=20
+ PV =3D "edk2-stable202402"
 
