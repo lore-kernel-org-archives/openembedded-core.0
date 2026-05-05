@@ -1,162 +1,132 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB7D1FF885A
-	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 09:15:00 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.34819.1777972493456788568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E754FF885A
+	for <webhook@archiver.kernel.org>; Tue,  5 May 2026 09:31:14 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34982.1777973469347853164
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2026 02:14:53 -0700
+ Tue, 05 May 2026 02:31:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=RPaZxBCD;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8b59772d441so34843946d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 02:14:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777972492; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Ph/UEfamtnFeKdYzq8gU5ZzVbQUKrPlNAOzPserJbuEnaJwugKtJmFeqdCEaOXLVEw
-         cvnTUfUMWZgVKSH9wv9hkavk2gFleCObGOXlme++zOYhtlkXuo2x044Zqg0b780M3bZi
-         jHBEAyONH/JPHETh26VWbBpTpu7Br1GsF60VsMD8dVeBJwNL1SkNtgvjA93StVBL4qGZ
-         x1aYi7j3MT+zoaorC8grAoFWlkcnmLu3lSAAWLv66CeLrsfhWZRsVo15964ZYOfF0LYs
-         qx0jbmaRSlq5VgnxCv9/cLpelZ45HUz5khdSBDMWJQCku8aiUXKgs+18KHWCEke8GJE7
-         kQrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vHXk7iyc5fkIR4LE2JHkRIbffLYtdh3WaEgA7foWYtA=;
-        fh=ZnYSdWDyfWLFbrTOPRzBNP/Bqdki7saj1ekbT2y0/DM=;
-        b=XZTbjrKAdEIKOqHgp6SiCx8xMlWr17Gjk4VKF1DtDu/3woDyzchswSY5UyWodyXM7L
-         nYzb2tnxr0A3T48vQJ4F1WJFF/qF0I73XpzWmjuDiMrtdTp6bXCjNVnGZCG0DmewlSFg
-         Mu+IW7jz8O/nw1a5EBENJwWNGLPP6tS9ZLVqlI43bjQgUZ+8euTb5c/U/BPAOJoaFIjY
-         +OY4MtIhoiMaYkodoitcl/O7MJQcwUdkznu98qZZB3ex0sMe3y1UACDtzsbL/DUxX5EK
-         mMDwBpmqUMnqFWlDsKtMZwood9HayN8KYAB2DX055qbW9wCNqmLdMpIZXSTNNd3CvRwW
-         Jabg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YRJ9cMb+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4890d945eb4so33633395e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 02:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777972492; x=1778577292; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vHXk7iyc5fkIR4LE2JHkRIbffLYtdh3WaEgA7foWYtA=;
-        b=RPaZxBCDxp1dZRPzNDKmzb/y9wjhR1s8gmiUHiwZkiHkk+loj4Q34V/Pfoy1hCCD1v
-         1GJzH9NKVPT6S05sePoVz7fofwK7ce39rbybi00mqwJptKDzt69tsnAMIFilnV6ZM7fb
-         Wge1sJAvZnerEKuF31KtprGswkhrE2MWqnQDIEU3wZ18PUdlfTY9WbYY8YPKLidjWAh5
-         UolZ+ZLCz4YshcWLckpBjsNiNgoFb/y4mnGM1yj5H88cHPamXvHQTTwwj2BXoeeweGPz
-         RvPkAgVhA2H8iYWBy+lyP6Ym++VNR/H3ls2e+xn7hx9vUyeNrTxcoNgzn0pE9aplrAsY
-         dfaQ==
+        d=linuxfoundation.org; s=google; t=1777973468; x=1778578268; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PJQqzKRJrS9jTRb9QE0GRFplqyyryOAXKJQg90xbL2w=;
+        b=YRJ9cMb+DfwlKIhfA7vFPfECiCiQIaTF/47HnngZZ5IaMggP320EGwmFGXfClefOkD
+         lTJ52exggqK25+Bj3vfpllyT6yEnFEfnDVwsdn0yNPAZjup/YcaXS8lCZ/I7jxVGga7F
+         jPhX9UlcGP54OA4PrA7yQZqkxIr+Uhut/zMR8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777972492; x=1778577292;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vHXk7iyc5fkIR4LE2JHkRIbffLYtdh3WaEgA7foWYtA=;
-        b=CsUYSuTZrfc7GbeKKbwOzFOV9RE2kgW0x9PlCCEg1GMBmE4PDXEo9dv7hSx3JZI1qR
-         L7h1xYdZCzfiSbN8UqPHC3AgRzM9v0sbAcM3ZlK7ijRiLm+KLAcBLiZRTw5qQT8DhaNr
-         ycA3gLlEUcpG5pQ+C/Bq9rLp8rYS3ndw1t4+GI/djyw2lIr9pFxA7tu3oKKXs6mthjtJ
-         PestBHTg5JEBC84YUQ7cgOAfmmG1OKgcgKuXTyiPrdz4hiHI60Pc0c0LvSmJOjaAKVe8
-         /WxncvgACxJAw00P0P2KPma3Z29qENDCCizjnXcA1O0zgD7MVfxKQxnfwwhm9w+3YiU8
-         uTlQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8h/McATYJSlb5eMUlQqDKZ/nFWa013Pa2jpNMdYw9Qjnz501PbZL12i+m0hlbv4UoE3xrI2qE8fjs2Q0OshRiIWA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz57miD78/th/2zJ4Co2AVuBYpP543B8FkZUOPGJ7ffgKrHAFZb
-	pm9cCeyi+KeoeAma4PKpLOhmwsEycd8m67UOI1T2v+6hZBkGaZcL8XxvoYWtUL9vDtfwBgqN16j
-	VXoGERA0q+KegEXdztCaRyZ485Hfk884=
-X-Gm-Gg: AeBDievAygiLDc4Hd7xhCvNSPS4JFKr0RI4UXjYM3PbOaXd0BRiYRBrY5zUpm54RyZn
-	gLxyLQluwvLY823CvY2yX829aIESKvYEyXDH1ZzXZKIlpnlJKHO4LZvP5gzjpwhmpW/B2XZIFqA
-	Tm5f3Q5J1h8EBanByLfw+A4vHEWqWR27ruJpoIamMTDeEk/+bGjdD6JMRRE5AYgFRz+IHSnxd2E
-	mSnQ5QycRmiFL2cUPpgy0f5bAxsttwxzShx4uCDsbwvB67StZ6NMe9DZSdi20NfAmCA+WApDiNe
-	uRJMbi0r1rfj+KGmzspjUhHq3Aj6W3zaArEsm2m8TwvOmJU46lW2
-X-Received: by 2002:a05:6214:319a:b0:89c:4f7f:8479 with SMTP id
- 6a1803df08f44-8bad8ac41d7mr33094436d6.6.1777972492324; Tue, 05 May 2026
- 02:14:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260502162929.1377831-1-richard.purdie@linuxfoundation.org>
- <20260502162929.1377831-55-richard.purdie@linuxfoundation.org> <d1935c45-4151-4084-b94d-09a3387cac3b@bootlin.com>
-In-Reply-To: <d1935c45-4151-4084-b94d-09a3387cac3b@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 5 May 2026 11:14:40 +0200
-X-Gm-Features: AVHnY4Lxpul7U-111KgaMk2dfK9EUfkBosFUeBcnpiatubUpU0ZDlEHgStBAGwU
-Message-ID: <CANNYZj-4Bpu+tzUAaYPb6NwJXiCwEo-+ZcLxh9hZPdZXAe1a+w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 55/62] rsync: upgrade 3.4.1 -> 3.4.2
-To: joaomarcos.costa@bootlin.com
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+        d=1e100.net; s=20251104; t=1777973468; x=1778578268;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PJQqzKRJrS9jTRb9QE0GRFplqyyryOAXKJQg90xbL2w=;
+        b=YaTKy4A8xODVCvqMF/9Vjn8rAPSNiOuvwBNEAzuokdHL4ARzDFbVvSUubqYm7kOEcc
+         9lI4p7z+7EJlIXAEBbSeDubw9J6IRZgb5RaJZ3fBw6WFb6GUXjqwd+fYZw81NtzA1F8b
+         v3HO8e7GzC0rT3nhwXk5GP8gXY4XQ60/HvbVVxBx/qxE7W93aSaZI489Q0b6lQizX0k1
+         xIdqxSf8UnWVgMqFFiiWEbMWZ4Kr/VUqs3KfLQtlom4AYnmCsTivgQfDESKMv+os7NRa
+         F0EYtghKsVSK4lIexBvsRpsI9dBmKk1u6s+zysjRz3Cx4fPnCxdW99VWme6XoSbo6LGU
+         jskQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/Ik79TiKZPMUdwrE4HrpX8A7XRLM7ws5V/s4vJLjg7k9iz8dyc1Dpn6kvRUPKmT61+cI54jpLmld8iM9pojl/fOA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw0qf7trU0Y2bTqwnfv8T8C1ph7z71lMDiinlSW6PwmpL3lX9LL
+	8kJgr0D4T7fGjuF2h518oriB1qJtR/EmtKy1L+PHS+Xv0g1TpiYhsMS6J5y7/tnE0CA=
+X-Gm-Gg: AeBDieuBGJg6eGd0id3ihSjXECF1tw836DAx1y47UwkVtt29Rf5wAufUD6nE3p84TGF
+	PP3bGj6I5hel4CyOBlE7i2nQGnNAefimYapcnEWfuv9emCyGGnARfzmBE4ejq5/K6TrIDQcbron
+	GZ/peNWkl6OAvEZb3x9nD+D6Fa9lbaVARl15RFcXSTJiAB7Sxr5VF9e/6Ofa0ASwhJmb88KssSr
+	lgkeWY1iiveu0zJSYcrsIzpMdloC+fKUAtmhTBrKD/g1kmJR6k3lkwugDmOGyrn4qft72tUC53q
+	8mchqI5eOtJNDpmD5tCfTxoHC7Vb+HtXeZJsKJlF5EWf83EVOSoZtyhAfcoQs1K01z25rsKXEDW
+	BYeAIN0pfz0/mulxlEKecQo+tNfhkkpRzezD5Xhbcs4N0EMB1UQF0oqbgh7MUEznNDmk7PO/Frz
+	CDyC7VXNpacuy36qp0lN7AtaGh3ywVWxBQpimH8lF/Y4tksSxFO3V6Qht9XZGn6PaY0LF4mFcP9
+	BXJNTgOjDe+l0JO50BJ1SU+/RQ=
+X-Received: by 2002:a05:600c:c096:b0:48a:5821:6006 with SMTP id 5b1f17b1804b1-48d142331dcmr33112715e9.4.1777973467443;
+        Tue, 05 May 2026 02:31:07 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8349:ba09:9e5a:e125? ([2001:8b0:aba:5f3c:8349:ba09:9e5a:e125])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8eb3427fsm554362795e9.0.2026.05.05.02.31.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 02:31:06 -0700 (PDT)
+Message-ID: <5bb50c558f394d8e734019e00218fc45c4e1fc0e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/5 v5] clang: Set CLANG_ENABLE_TESTSUITE = "1"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: deepesh.varatharajan@windriver.com, 
+	openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, mathieu.dubois-briand@bootlin.com
+Date: Tue, 05 May 2026 10:31:06 +0100
+In-Reply-To: <20260505081625.849368-4-Deepesh.Varatharajan@windriver.com>
+References: <20260505081625.849368-1-Deepesh.Varatharajan@windriver.com>
+	 <20260505081625.849368-4-Deepesh.Varatharajan@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:15:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236474
+ <openembedded-core@lists.openembedded.org>; Tue, 05 May 2026 09:31:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236475
 
-I think this is caused by a different patch that adds ptest support to rsyn=
-c.
+On Tue, 2026-05-05 at 01:16 -0700, Varatharajan, Deepesh via lists.openembe=
+dded.org wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+>=20
+> While running testsuite set CLANG_ENABLE_TESTSUITE =3D "1"
+>=20
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> ---
+> =C2=A0meta-selftest/recipes-devtools/clang/clang_%.bbappend | 2 ++
+> =C2=A0meta-selftest/recipes-devtools/clang/lld_%.bbappend=C2=A0=C2=A0 | 2=
+ ++
+> =C2=A0meta-selftest/recipes-devtools/clang/llvm_%.bbappend=C2=A0 | 2 ++
+> =C2=A03 files changed, 6 insertions(+)
+> =C2=A0create mode 100644 meta-selftest/recipes-devtools/clang/clang_%.bba=
+ppend
+> =C2=A0create mode 100644 meta-selftest/recipes-devtools/clang/lld_%.bbapp=
+end
+> =C2=A0create mode 100644 meta-selftest/recipes-devtools/clang/llvm_%.bbap=
+pend
+>=20
+> diff --git a/meta-selftest/recipes-devtools/clang/clang_%.bbappend b/meta=
+-selftest/recipes-devtools/clang/clang_%.bbappend
+> new file mode 100644
+> index 0000000000..32c236b972
+> --- /dev/null
+> +++ b/meta-selftest/recipes-devtools/clang/clang_%.bbappend
+> @@ -0,0 +1,2 @@
+> +# Enable CLANG testsuite
+> +CLANG_ENABLE_TESTSUITE =3D "1"
+> diff --git a/meta-selftest/recipes-devtools/clang/lld_%.bbappend b/meta-s=
+elftest/recipes-devtools/clang/lld_%.bbappend
+> new file mode 100644
+> index 0000000000..32c236b972
+> --- /dev/null
+> +++ b/meta-selftest/recipes-devtools/clang/lld_%.bbappend
+> @@ -0,0 +1,2 @@
+> +# Enable CLANG testsuite
+> +CLANG_ENABLE_TESTSUITE =3D "1"
+> diff --git a/meta-selftest/recipes-devtools/clang/llvm_%.bbappend b/meta-=
+selftest/recipes-devtools/clang/llvm_%.bbappend
+> new file mode 100644
+> index 0000000000..32c236b972
+> --- /dev/null
+> +++ b/meta-selftest/recipes-devtools/clang/llvm_%.bbappend
+> @@ -0,0 +1,2 @@
+> +# Enable CLANG testsuite
+> +CLANG_ENABLE_TESTSUITE =3D "1"
 
-Alex
+Having bbappends inside meta-selftest isn't something we've done before
+and feels a bit odd. I think it will cause yocto-check=3Dlayer to fail
+too.
 
-On Tue, 5 May 2026 at 09:33, Joao Marcos Costa via
-lists.openembedded.org
-<joaomarcos.costa=3Dbootlin.com@lists.openembedded.org> wrote:
->
-> Hello,
->
-> On 5/2/26 18:29, Richard Purdie via lists.openembedded.org wrote:
-> > Drop backported CVE patch included in this release.
-> >
-> > Parts of the prototypes patch were fixed upstream (in zlib) but some se=
-ctions
-> > were not, drop the merged sections of the patch.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >   ...-prototypes-to-function-declarations.patch | 68 +++---------------=
--
-> >   .../rsync/files/CVE-2025-10158.patch          | 36 ----------
-> >   .../rsync/files/determism.patch               |  4 +-
-> >   .../rsync/files/makefile-no-rebuild.patch     |  6 +-
-> >   .../rsync/{rsync_3.4.1.bb =3D> rsync_3.4.2.bb}  |  3 +-
-> >   5 files changed, 16 insertions(+), 101 deletions(-)
-> >   delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2025-10158.p=
-atch
-> >   rename meta/recipes-devtools/rsync/{rsync_3.4.1.bb =3D> rsync_3.4.2.b=
-b} (95%)
->
-> Could this update be related to the error below, at SWAT [1]?
->
-> ERROR: Logfile of failure stored in:
-> /srv/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/x86-64-=
-v3-poky-linux/rsync/3.4.2/temp/log.do_install_ptest_base.1107185
-> Log data follows:
-> | DEBUG: Executing shell function do_install_ptest_base
-> | install: cannot stat
-> '/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/x86-64=
--v3-poky-linux/rsync/3.4.2/sources/rsync-3.4.2/runtests.sh':
-> No such file or directory
-> | WARNING: exit code 1 from a shell command.
-> NOTE: recipe rsync-3.4.2-r0: task do_install_ptest_base: Failed
-> ERROR: Task
-> (/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembedded-c=
-ore/meta/recipes-devtools/rsync/rsync_3.4.2.bb:do_install_ptest_base)
-> failed with exit code '1'
->
-> [1]
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/3617/=
-steps/12/logs/stdio
->
-> --
-> Best regards,
-> Jo=C3=A3o Marcos Costa
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#236462): https://lists.openembedded.org/g/openembedde=
-d-core/message/236462
-> Mute This Topic: https://lists.openembedded.org/mt/119117269/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Why wouldn't we just set this variable inside the tests that need it?
+
+Cheers,
+
+Richard
+
 
