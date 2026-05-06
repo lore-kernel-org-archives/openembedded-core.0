@@ -1,188 +1,147 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <igor.opaniuk@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9BCCCD342C
-	for <webhook@archiver.kernel.org>; Wed,  6 May 2026 18:58:36 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.11])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26814.1778093908544289473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 741C8CD342C
+	for <webhook@archiver.kernel.org>; Wed,  6 May 2026 19:45:37 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27896.1778096734596471044
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2026 11:58:28 -0700
+ Wed, 06 May 2026 12:45:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=ayZNvMur;
- spf=pass (domain: est.tech, ip: 52.101.72.11, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kMn8KFCajTLJVj3kLpwbJUDItGgoRbIBR+322Jfq1doR3+3h5yEh/br6pprQ6BvfeU3RtyXCrnU0+CKgtzGMpcOuj2u63WnG4Ctyi0wdUQ0okRX9BARwtWV5L9tCuDjBB7PT8UzLMcUdnVHEdRGqk/p+wTfOamfVfGvBYcQ/hllz0nTdgjOkdX5ia2oBallurxlkmrZFiEgn2TA7imihhV1wm3ETzRrSVNV5hg2a3CUQESCoP00ut6KC6bAJ8OWg9EselfnNCq6uKLOAPF5s0Ih8yOfaLnj8nCchqpE41N0G2Xu3zlvDIlriuB1UJLbXE+O6+MZJmyxkDvdMFqekAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KrIJRa5DICMpirf/LB5PEdUfORVQszClQsZCwNRwjsc=;
- b=xaWOYwwKSowPram4FiycVOcIBJ2H7v1XqTmFwxZI9EXW+pUlsKNnV1SCv0d39JWlTv1F1feAoPzN9TptkY2RUcWzIsJv/pjc/1kDCo4BQWp4uc2b+vBJbRE123y0vBhfJlcua4u9xZaKf/Af4ikDoq84erp6vItOXYG6OX6OH0TN46AgXsAFXy4XJgH304ox/5lBQe6bJj2aSgDJCVcYXU50PCyX/05W5n+cCJBc44lZTPGp/ZKdHFosbmwuqtcZtlaHhVXji/Knd5GOE/UjzIh3sJezFSIjdv3/eaufmAMSq74SY+XZJfw8OGk+cwOcT045rq56iZXwyUweJDjkDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KrIJRa5DICMpirf/LB5PEdUfORVQszClQsZCwNRwjsc=;
- b=ayZNvMurp0ZumgeZ6LFacIb3AHQBW7UXK88cVX0Mnr/oO4DYIQ8q8lH7YZrW4PifvMPwF8679lPViGZWt0Q9Ku4aDgmKrpr1+rpo9HjKx8f5hnib2aWKTFrDxSXK5/PtHLReeJzscx6plBV5hjjtQAJjrFXvIMIS3oABmoK30pvU3kYlBNOWB8e472Aw6XMFb5aqGw8YLQxHvwhknCNfU1clDBLiZw4ED3wYxelJ3ftLX6LZPqNk8+ls/tlheAcdQDx4sZ2OnRWZl2rmS58o9lSXfO5lm3nhOcaXV1PzJTJmbdmfytqSYIo3wtPbChNd15tGH1TYp03IgSXjqOIIzw==
-Received: from DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::a9e)
- by VE1P189MB1008.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:167::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Wed, 6 May
- 2026 18:58:22 +0000
-Received: from DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM
- ([fe80::48a0:eb8a:db1e:38bb]) by DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM
- ([fe80::48a0:eb8a:db1e:38bb%7]) with mapi id 15.20.9891.008; Wed, 6 May 2026
- 18:58:22 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>
-Subject: Re: [OE-core][PATCH v1] gmp: add ptest support
-Thread-Topic: [OE-core][PATCH v1] gmp: add ptest support
-Thread-Index: AQHc3SxxrA63AqOjH0mvBNDrKLwOh7YBLeaAgAAqmSI=
-Date: Wed, 6 May 2026 18:58:22 +0000
-Message-ID: 
- <DU2PPFB77F8FB19A906AB76BF556089CCF3FE3F2@DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM>
-References: <20260506074618.15882-1-pratik.farkase@est.tech>
- <DIBQB0RVEATG.2C6WJ1E87VNPL@bootlin.com>
-In-Reply-To: <DIBQB0RVEATG.2C6WJ1E87VNPL@bootlin.com>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU2PPFB77F8FB19:EE_|VE1P189MB1008:EE_
-x-ms-office365-filtering-correlation-id: b9563e01-0705-499b-a70b-08deaba1721e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|38070700021|56012099003|18002099003|22082099003;
-x-microsoft-antispam-message-info: 
- 0whSpI7FxaCQJxKsvR+V2PTc5Im2nVrK7XzXE4WI7lGm1si4syCjs9rsKTdMMJ5XYx7o00zdvgeHec/OwRtRiAOyljgSR/6Btq6c0Lp23lMaa12ZsLM01V0/FEluDwLvn+qkvqEeCpllhbtQtzitaYqBkuhpJq9GrPtP1Bac+4F8cJP1KJLjDRaCbJcQVY+nsuP4idayDvJ9hOr22qWbSy+smCtg1kNmAwb0VYndWjPzgpgDy/uKz98VdutTyrDRW3VzihP/ML2hzdEDePyr0dMP9THS4Lpr/0Ha+O4D5E2Bg88ebmnYr0ldKcuc09YFlBEdgom+Y5KMBCRvsgV14mfDxiAeg9b7mBI13BX1mMQj0Z4MhD/Bi8QVDAFjI2Nt/CMYeCv6sQtwr7S1SNDFwx0qqqd8KHz2Ml8iB3ldmWKYb4YNnYFt16zG22S7cTANOTCxWrhi9Pz+rQ9NLwr4H89DlKTyH9GA/Vm8id1RJcPuPmZKUeAVr92+v3mIP365d4dLF+4Z73pMaEzJoJ6FHytMxmo553BVi+MPVJoCfnyPi3ut8FIi/j389i4prb1qoXBha8NbY4lY+ewc4VEX/JcTpAzphcPfpjbDdV/GH7DFoF9QDXDC3pULMrvddAQczi0dNgSjteJ5cCPp0R3SYSvAUVDEy8f6AiRDJGYnU/W7notTEFlcs0X0hQPBIyw2
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?lbi1D6hURPHzDDPIwiOt7RghAtikOq5I1buLJuKvj45BTf24bdD+n/IdVJSS?=
- =?us-ascii?Q?c42o7KcSkKEsCQDWqzLlGzkB3HSk2lhAkIHJtur7oyV7xYD7O56QONJoTAFC?=
- =?us-ascii?Q?qYzuqcuC7iLfdhQwXyj+M8sNrsSBgQCrjNrwPcJreTBRJmGiCmDyCIR+eeev?=
- =?us-ascii?Q?5UITKkHbvmWVLvhRFVlho8dIVrm/AlBheJ0BZ1XuksyqJcaFEMvIa4pfWYuT?=
- =?us-ascii?Q?FQdnCIsXuni1cNGdxZs8M6RouZlzfNl0NqfHFS0BKunGLO3zTJ5CKOFiZ6rK?=
- =?us-ascii?Q?PouXOm4BM/UYcjORZbjUMKXyttHN/+EsNDmOtqs8lXIKHO8d/PHTSpDp3yLI?=
- =?us-ascii?Q?yiZ0HNy1IrZZM8L+5282/z0KXdzlJ/zrm6auKHcWn7SAwWi/BVr4CH6PnmU6?=
- =?us-ascii?Q?/6Sf5uDLcHEmp+9s+VEXFpwCPnI4UZspNmbIDG/z+aJFFoBNdRi1lm7+JPAj?=
- =?us-ascii?Q?ZUdZOBPHJITinszDoJimiUQE6mkx2QM0+iGCvHejJif1X6kmfNBDAPbTPw16?=
- =?us-ascii?Q?TO52tPBfbJd4yAONOTdQ8km250h+vW0wueRf1HDc1OYdg5WKMxcxN4DIxz4B?=
- =?us-ascii?Q?aegU+cEZhl9QYlUla+LykVVZWzJNd2TOoazSPY2jsTgSVAk22qyvHFbkL2s3?=
- =?us-ascii?Q?6Fwe2yfhxR/CnKpOXK7q8CUDkrjL4N8X2D1YD3At2xRuBLKIPHtR/DRtepL1?=
- =?us-ascii?Q?PxDc00wG6tmhpSJTO79IG6mZR2DSvqgq3peA+BB53BZPI3Ch1yaeHaMiRipj?=
- =?us-ascii?Q?wkPfdZctHyd3OZEKKp0WargxA+xHl+jveK/vyeAeAvIoquVNHu5SGXUsacIb?=
- =?us-ascii?Q?KgelkDTrcnAIBZs4BEKfcFi14+xAql+8HUNIn9sza65AoGCDHUBBlUIPhE+f?=
- =?us-ascii?Q?LNcmCT2arn3/b52wcKqz/bUPDst9DUufPxw2NrHFyfRBfpxUXdU1ipk+HS7k?=
- =?us-ascii?Q?A+UZfkzZJWDkFYnhEyghEEyXL/Rsv89jLBAHhbLzqcsdozER7QphJIPy5DBa?=
- =?us-ascii?Q?cY7YxxAq6mtRqWMQYUnVYgMcnjPl/eR563ZuuXRZiVo/4ivrQqgXj8hWCmaR?=
- =?us-ascii?Q?JsUAIFe8jrmPawHaOjDv7ahbSoBk//6huLqvkt+qf2JcnmRymKBgYN3giQPL?=
- =?us-ascii?Q?p1nxvPBcgiGIM0ToC1E6rgAudeVsfpc/mXonTkOfNWhHw7CABDg/PfbJQrvo?=
- =?us-ascii?Q?UHOGa4/Ac1TkrSbBZoJoxBhnnLCZ52+HUUiHPxG92jhWrMQPnvdEXv8w0ot4?=
- =?us-ascii?Q?yw1n10zny+4hqrX1X5TAX4AwNfpuKykBq1d/2dYcfn+5kpesIQJfSRMMYIze?=
- =?us-ascii?Q?JPqTJV0f9ws8Th32pDWVl4omK8wVLxmmiLtbl7+KwsQqBxeRjCDYYQewU9k/?=
- =?us-ascii?Q?THJ/6Sa+AQZeo9tOUeTHw2w7pU7bopqufRN4nQmk49g1p1+14WdaOtk1fm1q?=
- =?us-ascii?Q?9zPP9Hy9Tfn2+b+5r74M3VNNFlTEDkDB9pbDpGf8/oRMTFkWPJo8u7II2ba/?=
- =?us-ascii?Q?sZBOJfwZ80xenz+2gqgj0hvA4f5mbkqLY+P9LDbMiq5gt9Jq0lpjeyQ6bVLE?=
- =?us-ascii?Q?ggnx85oHvka20qxPAgm6HzvcPTitJR4S3W1y+Q5YaCWrjsiwK9FYCAtxQ9oW?=
- =?us-ascii?Q?cpog6iH0PVO29Mkkh7wZyb9XhA5+pjgKJMO2aC0lPjHikLafC9glWHDz0e7Z?=
- =?us-ascii?Q?drRzBsLRG85OAgEDCL80f7CRtdag3U68pPGMsg5NMzlg4LTRBodb1nkDsnhp?=
- =?us-ascii?Q?7DtOVjmMlQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@foundries.io header.s=google header.b=ZyZGEkAj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: foundries.io, ip: 205.220.180.131, mailfrom: igor.opaniuk@foundries.io)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 646FQ9xI442793
+	for <openembedded-core@lists.openembedded.org>; Wed, 6 May 2026 19:45:33 GMT
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e0299jfdu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2026 19:45:33 +0000 (GMT)
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-672a501ba46so20872a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2026 12:45:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=foundries.io; s=google; t=1778096731; x=1778701531; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Im1podSm/nZwBpJU4zvzA/KHT8U6ltQ5JsRiCvm8Geg=;
+        b=ZyZGEkAjgPw9+bV/vBrX7A4QPZ0OZJ3JNUTRT9wOVMLq0BVHsZsdUr40+j2nmvkF6z
+         fp9Joej4UabtzwZkphaIfji3OABjK/nryin5Up5J+oxqCPQ1HKf7gbbOZjVh6MNxgGsz
+         cAX+Qqmt1zr8eDKpZlwBMwJcpuUBd7sBez5Gf/FYuGoEQcb7Du9Ul3q8AQlflB70Vu69
+         r91ipfx1P9oYPi/GGR9afJCTXAtycG/P6DqdZZuKQejVLo/xRktot4PQCYEUShDzCR75
+         2+fRSAxatBteqNoNBCWicPKhGKO/TQx8omSuEJflW/bxxBDCM+Mj0MOeFpjdbLo0Vsdn
+         mUAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778096731; x=1778701531;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Im1podSm/nZwBpJU4zvzA/KHT8U6ltQ5JsRiCvm8Geg=;
+        b=Ew9vtA59EqnH97ROEALneDpBJtjKMoxgHyevoy+FoVbcx0nq/IkPGASy0wB4jZe3RJ
+         x8KVQZHlrJVCJOjDZGgJO8cFFGe9GXQ8WTFXmXSeSHDOI8IhJXVpUFzRb8d7g4Xizx1y
+         1GUw9bdlQdGaivN6dAq0ZqDlFwrsPP+2dVDqc5y0l0GEZi1hqmcLqYjoe3ldqPbRKjoT
+         r5rg0LZ93WjwFGfNsZv1ooUOUPugb36BtAK37FP2Q6rlUq84bCnxXZQjreaItJ/W8YTg
+         /ZrZE9JwDk7e7AUy2Y/NDK0lu2qmdhr02Eveu+mlIlSG/ynaz8hFPwjmeaeS1HkwMaEu
+         2Buw==
+X-Gm-Message-State: AOJu0YyD2o0O0mGS1GM1qjVG7f0WsipZUmDQvQIVVTS8KSBy/UTmJJLH
+	NnXVT92kqskwQMH81PhKUCPEkH5hVQhAmF2wNC4oC/BIx7I6cg7qlBojwOm8RlvDsG3Y1PqVHPI
+	+nqVMdq76PzsRqfSNPSTT4b7YugaKIdZJbD7J8jUzf01Br29SRtYnQnDzSLBQ4Rnm2WI62ah3uS
+	h1FoAP8EldksusoAr1
+X-Gm-Gg: AeBDies3Kd9AWDcWElpj45dHHihGUDIl/NfGJrvz8xigCAxvSvNek0Ogn2hzLKvflS+
+	1Ybc6aTPPo4A/EYQIQCWV4q2Tg3dTvYT0ucV1ZGLvZPLmJ0y/IWw5x3TXTpnc0u39UmvbJJ8jp7
+	+fCW9x06BNUQmuqObGOBtB936pMUGPysdct3qnk9kVEzQG8owbpzkKsPHnvVfbLruQ/ydflfFVF
+	pi1MAj6EBj/d01RnN5u7qjMQ2qxRsom3K7lS4SVx/SWqqtbT4ksZSzTQd50epS+iryKGVxsZOtf
+	I5D3mHVq9M4aEgQcHkeBDZ6tGLei/6kLNws36O2YYl8LlZVi7mhvNm0YoOkT1TjJYwGNz6foAgM
+	UEvCSLZn8ZBXi8B81SJNEBdzq1mTN5UBUZ+XBQPjwNneu54C/bXjRIr8i2QnZyXaX
+X-Received: by 2002:a05:6402:913:b0:67c:e014:464c with SMTP id 4fb4d7f45d1cf-67d638a7675mr2241612a12.5.1778096730964;
+        Wed, 06 May 2026 12:45:30 -0700 (PDT)
+X-Received: by 2002:a05:6402:913:b0:67c:e014:464c with SMTP id 4fb4d7f45d1cf-67d638a7675mr2241599a12.5.1778096730317;
+        Wed, 06 May 2026 12:45:30 -0700 (PDT)
+Received: from t14s-g6 (185-72-185-25.cgnat.inetia.pl. [185.72.185.25])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67cd90e1415sm1639441a12.5.2026.05.06.12.45.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2026 12:45:29 -0700 (PDT)
+From: Igor Opaniuk <igor.opaniuk@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Alexander Kanavin <alex@linutronix.de>,
+        Ricardo Salveti <ricardo@foundries.io>,
+        Igor Opaniuk <igor.opaniuk@foundries.io>
+Subject: [RFC PATCH] shadow: add libxcrypt-native dependency for native and nativesdk variants
+Date: Wed,  6 May 2026 21:45:07 +0200
+Message-ID: <20260506194507.3786568-1-igor.opaniuk@foundries.io>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9563e01-0705-499b-a70b-08deaba1721e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2026 18:58:22.5839
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: N+I9yzSzFOZAphR1KpT077uNEGbgznFV9i5pYb1FDc+j77uTC/ejpa+LuTs4tg1jeov87R4Ve2QtGIXuDKlNHA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1P189MB1008
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=fMMJG5ae c=1 sm=1 tr=0 ts=69fb9a5d cx=c_pps
+ a=Tczdrg5if7+wQeIJmxD/XA==:117 a=TZtGG/qN3gMgVqwrSXR3Ag==:17
+ a=NGcC8JguVDcA:10 a=9UA2AVYIz8kA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=jVwDQN0dAAAA:20
+ a=9GoDtVumSKF2uWb4zhUA:9 a=1oAhN8tkTtOBK6_UvoHx:22 a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-ORIG-GUID: YTIRDAvoKoIisO7Aaw3ZHyw_VkgqDdFW
+X-Proofpoint-GUID: YTIRDAvoKoIisO7Aaw3ZHyw_VkgqDdFW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDE5MiBTYWx0ZWRfX2ALZjSlZHulE
+ 3zzThwwYL8CADQZLJNc/ZKhxaQdTZNl0mOUuJoLPqlDM1E5OJHRamhD1oQtq468Gt5gqUOQnId/
+ xuAn0J/jnB1slR7+gr5Wuk6jTuk1Polez5uVy3SYdGonTNbpVf7p09i+5TfEHcmPeUiUMR0CLGy
+ QRIeR+ms3psYbaFBD4HVxPLWUlJS2e04xLjos+fcW4P7dsbagYTiAL1CCBPctkg+DcLbbouWN6D
+ nw5Usw/TDtLYs17UWyHKCBTtdagOsLQxeYF94XrgAcPMvvvt4HaCsEMF8cDKVu6BkQj0CxKp3+a
+ 485KeBVtIxBe29jp5kIQMqBRiNLS8Np3jrk765XIXZZuTdOHvez89n/jf8nMfZJQO9ldLf9hojR
+ SAFeiJejV9KjdCgPmC6qdwrhonOZ6j/7z7T7Hk+nndvqu31erCbdkUqB1dRRoPvy6VJ7XMtZwGM
+ sdoHuWtjphPeg7LyuiQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-06_01,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0
+ clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2605060192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 May 2026 18:58:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236550
+ <openembedded-core@lists.openembedded.org>; Wed, 06 May 2026 19:45:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236551
 
-Hi Mathieu,
+Configure fails with "crypt() not found" when building shadow-native on
+hosts where libcrypt is no longer part of glibc and the libxcrypt
+development files are not installed (e.g. fresh Ubuntu 24.04+, where
+glibc 2.39 dropped libcrypt and libxcrypt-dev is not pulled in by
+default).
 
-  Thanks for catching this. I see that one test "mpn/t-addaddmul" is failin=
-g only for qemuarm64 and qemuriscv64 platforms. The issue is that mpn/t-add=
-addmul exits with
-  code 77 on architectures without a native mpn_addaddmul_1msb0
-  implementation (riscv64, arm64). Exit 77 is the autotools convention for
-  SKIP, but the run-ptest script was treating any non-zero exit as FAIL. I =
-appreciate you catching this as my test setup has qemux86-64 as the MACHINE=
- so i did not see this test failing there.
+virtual/crypt-native is in ASSUME_PROVIDED (meta/conf/bitbake.conf),
+which is why a plain DEPENDS = "virtual/crypt" does not pull
+libxcrypt-native into the native sysroot - the host is expected to
+provide libcrypt. That assumption no longer holds on current
+distributions.
 
-  I have sent a v2 with the fix to handle exit 77 as SKIP.
+A previous attempt to fix this by adding libxcrypt-native to DEPENDS
+unconditionally (commit 65532fc751 "shadow: add libxcrypt-native
+dependency") was reverted in 54eccb76eb because it incorrectly pulled
+a -native recipe into the target build. Use class-specific overrides
+so the target build is unaffected and only shadow-native (and
+nativesdk-shadow) gain the explicit dependency on libxcrypt-native /
+nativesdk-libxcrypt.
 
-Best Regards,
-Pratik
+Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
+---
+ meta/recipes-extended/shadow/shadow_4.19.4.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-________________________________________
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Sent: Wednesday, May 6, 2026 6:19 PM
-To: Pratik Farkase; openembedded-core@lists.openembedded.org
-Cc: pratik.farkase@ericsson.com
-Subject: Re: [OE-core][PATCH v1] gmp: add ptest support
-
-On Wed May 6, 2026 at 9:46 AM CEST, Pratik Farkase wrote:
-> Add ptest support for gmp, running the full upstream unit test suite
-> (200 tests) covering mpz, mpn, mpf, mpq, rand, misc, and C++ bindings.
->
-> Tests are compiled with 'make check TESTS=3D' to build without executing,
-> then installed via libtool to the ptest directory preserving the upstream
-> subdirectory structure.
->
-> Tested on qemux86-64 with ptest-runner: 200 PASS, 0 FAIL (268s).
->
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> ---
-
-Hi Pratik,
-
-Thanks for your patch.
-
-I believe we are seeing some failing tests on the autobuilder:
-
-AssertionError:
-Failed ptests:
-{'gmp': ['mpn/t-addaddmul']}
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1552
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/367
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1553
-
-Ptest logs can be found here:
-
-https://valkyrie.yocto.io/pub/non-release/20260506-64/testresults/qemuriscv=
-64-ptest/core-image-ptest-gmp/
-https://valkyrie.yocto.io/pub/non-release/20260506-64/testresults/qemuarm64=
--musl-ptest/core-image-ptest-gmp/
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
---
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-extended/shadow/shadow_4.19.4.bb b/meta/recipes-extended/shadow/shadow_4.19.4.bb
+index 94f155641c..cc69864a2a 100644
+--- a/meta/recipes-extended/shadow/shadow_4.19.4.bb
++++ b/meta/recipes-extended/shadow/shadow_4.19.4.bb
+@@ -9,6 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c9a450b7be84eac23e6353efecb60b5b \
+                     "
+ 
+ DEPENDS = "virtual/crypt"
++DEPENDS:append:class-native = " libxcrypt-native"
++DEPENDS:append:class-nativesdk = " nativesdk-libxcrypt"
+ 
+ GITHUB_BASE_URI = "https://github.com/shadow-maint/shadow/releases"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+-- 
+2.53.0
 
 
