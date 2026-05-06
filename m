@@ -1,128 +1,307 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F331CD3439
-	for <webhook@archiver.kernel.org>; Wed,  6 May 2026 20:46:22 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29103.1778100373479978286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B837CD342C
+	for <webhook@archiver.kernel.org>; Wed,  6 May 2026 21:29:02 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31794.1778102939418253853
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2026 13:46:13 -0700
+ Wed, 06 May 2026 14:29:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=G/cI6s69;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso939295e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2026 13:46:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778100372; x=1778705172; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DoNkoXRRRbCRo0mSq9mdMrn0b4Cf/p/vUQO2DBND63w=;
-        b=G/cI6s69SSzCCvmNIKh2EasvBZI5EmDfJWwPYQe10w0/Lfu+7d85cmQuumT5D1tmUL
-         rk+R0QKkM+iR8rGm2dz1RgLFP2wkScs7rfMG1ovYtcBQy+iVTT+PhoMwZvFvDmyH5sdR
-         WijWoA6Sd8ndjQosp5y/kcYzaqjgdi3oPz69k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778100372; x=1778705172;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DoNkoXRRRbCRo0mSq9mdMrn0b4Cf/p/vUQO2DBND63w=;
-        b=QHZnDic8/xUqbWKW8TM9L5baMM4rxuewPnFMB5WCQDlDzexad1f+e3iRQbdKi296nz
-         UbMouRTBEYo3oSNpsAA1ptCdLCRQJdkXOMlHzwj1y7c/1hfXSz4gk9oI97gXDnsWHQl1
-         sz9Az73SlnmNdpAGtBN8RCMs8dHI3JHY5u32m0I+9pQ60tMF1xohI3nvD8bmRXfYUVkE
-         EbPoSzf+FuCPeXRuNJnE3HRVT2/fG6O8sQCo5xOMDrFDHFL6zulaeUjhlOYynMXjkqOl
-         gK7TjvzJpDQuMEO1eqB0qqPk7G4mnUggJiy5KviM20R2I54QLms6zOcqv/ctAgRtRl2z
-         F/Dw==
-X-Forwarded-Encrypted: i=1; AFNElJ+vv9V6uoKfQC6cTx8tqz6jz11E4zkQYELkmKIxAiTa8PZNcK1yuw2uaQmBaxeftkBR4rfzJ8eNuJKnJek7lbV3ug==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxW/aH6YoW3Emvs7mGyVsSTsqDdJ6a3jcGhY2su9TxSsrinsH+B
-	FLASF6EjDBTZY/Lwl2OwVLrisnZXjr/dXP5lOIrcANjdQpjoX8/yZ5kOs9DwzqSdBkc=
-X-Gm-Gg: AeBDieu5Ay4N6UpH5o92zC9r8bBZ4UHSl0mcC6sFJTIayZr9/AVjjBUQ2qo0Y6ByA3b
-	u/tDLawJd7sDl3qUQQcjgu0uZFUK/TxgZk+bHL2aWTHqi2BteI3Un3itj8ORauemQkFTGCxDS4s
-	q4StZFpJA83F8cGk7QKe+lRZ2Udq7lKS6D0Ea7RCokqjEdQXTYnoCepQfcGo91O6nppRE6/NJLT
-	2htILbkmMS2i1sjphXkzjZYsMa6KTFrPKW8AZyOlytm8f5pdIulbhddbUuYnKQK/VV+oSzR3UHb
-	ac6pJSGUXGftacYEf4mWy98kwa6NfzxCBoh8hsiDc1/0fl9+vMgzxtR4hSCoPvMk/J1bhzUoZdL
-	cNI7PnzvsORFHL0mrcsvT7QpsPIRHeocYsIs+PMb8vvRBC7LBorggJDq2D5tCaz4PnicDb0Lw2P
-	IaI+HtokoLaOrp4DyhpWKQXBlhtET5V30hxnem+4ZgzPQ9FsgN/Et3CbLTcIAeCZ0iDVrrC49GC
-	O7YhFa3N8NdiVxU522KkfKHmw1nWPbVZQJg
-X-Received: by 2002:a05:600c:c4a3:b0:48a:6fd4:d3d4 with SMTP id 5b1f17b1804b1-48e51f46e38mr84389595e9.29.1778100371559;
-        Wed, 06 May 2026 13:46:11 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e538a8159sm77695975e9.6.2026.05.06.13.46.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 13:46:11 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 06 May 2026 22:46:10 +0200
-Message-Id: <DIBVZ5KGY6VD.3JQ0DG3RR7SJG@smile.fr>
-Subject: Re: [OE-core] [RFC PATCH] shadow: add libxcrypt-native dependency
- for native and nativesdk variants
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Richard Purdie" <richard.purdie@linuxfoundation.org>, "Alexander
- Kanavin" <alex@linutronix.de>, "Ricardo Salveti" <ricardo@foundries.io>
-To: <igor.opaniuk@foundries.io>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260506194507.3786568-1-igor.opaniuk@foundries.io>
-In-Reply-To: <20260506194507.3786568-1-igor.opaniuk@foundries.io>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=by8gVbSI;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-2026050621285629750d16bd0002075f-zp2chh@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2026050621285629750d16bd0002075f
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 06 May 2026 23:28:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=xm9mYnSdGzQdODedWkARCjiAPwipKflVZcFsfzpYae0=;
+ b=by8gVbSI/GWj47fVj8HlkFL/BheccmemXelMSIL8lJdIPSFY+tDSdSlSrVKhls85En1GZd
+ 8Oe1tvYjNtYw7ZDWIjcOlHAPguXSGhnSdDqYKsyLJUgOGquCEuLf2o5RcC/TPFr4ojRzDVFS
+ I5fmDDUl/BQDJkWp4lbWZODwHJrCMHAJamMdgQLuQnkhdEijbt7oofqb0ADibuvB2zVALVU0
+ Oa1Sz5gB/w+mNMXnWKybOtz/qHN33qJZNB5xu9vWS22hNeqrHB+D882SztAKtin1ZvKCJuFp
+ 3eOGvWno20pdg1OtVVqMQ5fFa5P9oUuGhl1m8G+g9iSzUypGdwz9w1WA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] ffmpeg: upgrade 8.0.1 -> 8.1.1
+Date: Wed,  6 May 2026 23:28:40 +0200
+Message-ID: <20260506212840.902139-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 May 2026 20:46:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236552
+ <openembedded-core@lists.openembedded.org>; Wed, 06 May 2026 21:29:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236553
 
-On Wed May 6, 2026 at 9:45 PM CEST, Igor Opaniuk via lists.openembedded.org=
- wrote:
-> Configure fails with "crypt() not found" when building shadow-native on
-> hosts where libcrypt is no longer part of glibc and the libxcrypt
-> development files are not installed (e.g. fresh Ubuntu 24.04+, where
-> glibc 2.39 dropped libcrypt and libxcrypt-dev is not pulled in by
-> default).
->
-> virtual/crypt-native is in ASSUME_PROVIDED (meta/conf/bitbake.conf),
-> which is why a plain DEPENDS =3D "virtual/crypt" does not pull
-> libxcrypt-native into the native sysroot - the host is expected to
-> provide libcrypt. That assumption no longer holds on current
-> distributions.
+From: Peter Marko <peter.marko@siemens.com>
 
-Note that we added libcrypt-dev as a documented host dependency here:
-https://git.yoctoproject.org/yocto-docs/commit/?id=3D2b41d175ea1924bf401a20=
-3fb678261fefb228dc
+Solves CVE-2025-12343, CVE-2025-69693 and CVE-2026-40962.
 
-> A previous attempt to fix this by adding libxcrypt-native to DEPENDS
-> unconditionally (commit 65532fc751 "shadow: add libxcrypt-native
-> dependency") was reverted in 54eccb76eb because it incorrectly pulled
-> a -native recipe into the target build. Use class-specific overrides
-> so the target build is unaffected and only shadow-native (and
-> nativesdk-shadow) gain the explicit dependency on libxcrypt-native /
-> nativesdk-libxcrypt.
->
-> Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
+Remove patches included in this release and refresh remaining patch.
 
+Remove obsolete CVE_STATUS assigments for CVEs no longer reported as
+unpatched with this new version.
 
-> ---
->  meta/recipes-extended/shadow/shadow_4.19.4.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-extended/shadow/shadow_4.19.4.bb b/meta/recipes=
--extended/shadow/shadow_4.19.4.bb
-> index 94f155641c..cc69864a2a 100644
-> --- a/meta/recipes-extended/shadow/shadow_4.19.4.bb
-> +++ b/meta/recipes-extended/shadow/shadow_4.19.4.bb
-> @@ -9,6 +9,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc9a450b7be84ea=
-c23e6353efecb60b5b \
->                      "
-> =20
->  DEPENDS =3D "virtual/crypt"
-> +DEPENDS:append:class-native =3D " libxcrypt-native"
-> +DEPENDS:append:class-nativesdk =3D " nativesdk-libxcrypt"
-> =20
->  GITHUB_BASE_URI =3D "https://github.com/shadow-maint/shadow/releases"
->  SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...k-Consolidate-pattern-rules-for-comp.patch | 106 ------------------
+ ...s-Fix-double-build-by-disabling-.d-f.patch |  78 -------------
+ ...ak-ensure-target-directories-are-cre.patch |   2 +-
+ .../{ffmpeg_8.0.1.bb => ffmpeg_8.1.1.bb}      |   9 +-
+ 4 files changed, 2 insertions(+), 193 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_8.0.1.bb => ffmpeg_8.1.1.bb} (93%)
 
-
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch
+deleted file mode 100644
+index 6af9254d95..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch
++++ /dev/null
+@@ -1,106 +0,0 @@
+-From 95f1f05409fceb8b3615fa618554667a238f99a5 Mon Sep 17 00:00:00 2001
+-From: softworkz <softworkz@hotmail.com>
+-Date: Tue, 27 May 2025 23:24:20 +0200
+-Subject: [PATCH] ffbuild/commonmak: Consolidate pattern rules for compression
+-
+-This commit simplifies and consolidates all the rules around
+-ptx and resource file compression.
+-
+-Signed-off-by: softworkz <softworkz@hotmail.com>
+-
+-Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/a125f5db03b86c03fffb9598bd6e2026ba2c7a97]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- ffbuild/common.mak | 43 +++++++++++++++++--------------------------
+- 1 file changed, 17 insertions(+), 26 deletions(-)
+-
+-diff --git a/ffbuild/common.mak b/ffbuild/common.mak
+-index 81e8a46..0a60d01 100644
+---- a/ffbuild/common.mak
+-+++ b/ffbuild/common.mak
+-@@ -115,6 +115,12 @@ COMPILE_LASX = $(call COMPILE,CC,LASXFLAGS)
+- $(BIN2CEXE): ffbuild/bin2c_host.o
+- 	$(HOSTLD) $(HOSTLDFLAGS) $(HOSTLD_O) $^ $(HOSTEXTRALIBS)
+- 
+-+RUN_BIN2C = $(BIN2C) $(patsubst $(SRC_PATH)/%,$(SRC_LINK)/%,$<) $@ $(subst .,_,$(basename $(notdir $@)))
+-+RUN_GZIP  = $(M)gzip -nc9 $(patsubst $(SRC_PATH)/%,$(SRC_LINK)/%,$<) >$@
+-+RUN_MINIFY = $(M)sed 's!/\\*.*\\*/!!g' $< | tr '\n' ' ' | tr -s ' ' | sed 's/^ //; s/ $$//' > $@
+-+%.gz: TAG = GZIP
+-+%.min: TAG = MINIFY
+-+
+- %.metal.air: %.metal
+- 	$(METALCC) $< -o $@
+- 
+-@@ -122,61 +128,46 @@ $(BIN2CEXE): ffbuild/bin2c_host.o
+- 	$(METALLIB) --split-module-without-linking $< -o $@
+- 
+- %.metallib.c: %.metallib $(BIN2CEXE)
+--	$(BIN2C) $< $@ $(subst .,_,$(basename $(notdir $@)))
+-+	$(RUN_BIN2C)
+- 
+- %.ptx: %.cu $(SRC_PATH)/compat/cuda/cuda_runtime.h
+- 	$(COMPILE_NVCC)
+- 
+- ifdef CONFIG_PTX_COMPRESSION
+--%.ptx.gz: TAG = GZIP
+- %.ptx.gz: %.ptx
+--	$(M)gzip -nc9 $(patsubst $(SRC_PATH)/%,$(SRC_LINK)/%,$<) >$@
+-+	$(RUN_GZIP)
+- 
+- %.ptx.c: %.ptx.gz $(BIN2CEXE)
+--	$(BIN2C) $(patsubst $(SRC_PATH)/%,$(SRC_LINK)/%,$<) $@ $(subst .,_,$(basename $(notdir $@)))
+-+	$(RUN_BIN2C)
+- else
+- %.ptx.c: %.ptx $(BIN2CEXE)
+--	$(BIN2C) $(patsubst $(SRC_PATH)/%,$(SRC_LINK)/%,$<) $@ $(subst .,_,$(basename $(notdir $@)))
+-+	$(RUN_BIN2C)
+- endif
+- 
+--# 1) Preprocess CSS to a minified version
+--%.css.min: TAG = SED
+- %.css.min: %.css
+--	$(M)sed 's!/\\*.*\\*/!!g' $< \
+--	| tr '\n' ' ' \
+--	| tr -s ' ' \
+--	| sed 's/^ //; s/ $$//' \
+--	> $@
+-+	$(RUN_MINIFY)
+- 
+- ifdef CONFIG_RESOURCE_COMPRESSION
+- 
+--# 2) Gzip the minified CSS
+--%.css.min.gz: TAG = GZIP
+- %.css.min.gz: %.css.min
+--	$(M)gzip -nc9 $< > $@
+-+	$(RUN_GZIP)
+- 
+--# 3) Convert the gzipped CSS to a .c array
+- %.css.c: %.css.min.gz $(BIN2CEXE)
+--	$(BIN2C) $< $@ $(subst .,_,$(basename $(notdir $@)))
+-+	$(RUN_BIN2C)
+- 
+--# 4) Gzip the HTML file (no minification needed)
+--%.html.gz: TAG = GZIP
+- %.html.gz: %.html
+--	$(M)gzip -nc9 $< > $@
+-+	$(RUN_GZIP)
+- 
+--# 5) Convert the gzipped HTML to a .c array
+- %.html.c: %.html.gz $(BIN2CEXE)
+--	$(BIN2C) $< $@ $(subst .,_,$(basename $(notdir $@)))
+-+	$(RUN_BIN2C)
+- 
+- else   # NO COMPRESSION
+- 
+--# 2) Convert the minified CSS to a .c array
+- %.css.c: %.css.min $(BIN2CEXE)
+--	$(BIN2C) $< $@ $(subst .,_,$(basename $(notdir $@)))
+-+	$(RUN_BIN2C)
+- 
+--# 3) Convert the plain HTML to a .c array
+- %.html.c: %.html $(BIN2CEXE)
+--	$(BIN2C) $< $@ $(subst .,_,$(basename $(notdir $@)))
+-+	$(RUN_BIN2C)
+- endif
+- 
+- clean::
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch
+deleted file mode 100644
+index 20009c1022..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch
++++ /dev/null
+@@ -1,78 +0,0 @@
+-From a789ffae9de93eb70c355a81f9dd2ebf5d6b17a7 Mon Sep 17 00:00:00 2001
+-From: softworkz <softworkz@hotmail.com>
+-Date: Mon, 23 Jun 2025 14:56:19 +0200
+-Subject: [PATCH] fftools/resources: Fix double-build by disabling .d file
+- generation
+-
+-Signed-off-by: softworkz <softworkz@hotmail.com>
+-
+-Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/f52d9dd8693bc4628520258f18f89b4a3bf85533]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- ffbuild/common.mak         |  6 ++----
+- fftools/Makefile           |  1 +
+- fftools/resources/Makefile | 12 +++++++++---
+- 3 files changed, 12 insertions(+), 7 deletions(-)
+-
+-diff --git a/ffbuild/common.mak b/ffbuild/common.mak
+-index ddf4892..81e8a46 100644
+---- a/ffbuild/common.mak
+-+++ b/ffbuild/common.mak
+-@@ -229,11 +229,9 @@ SKIPHEADERS += $(ARCH_HEADERS:%=$(ARCH)/%) $(SKIPHEADERS-)
+- SKIPHEADERS := $(SKIPHEADERS:%=$(SUBDIR)%)
+- HOBJS        = $(filter-out $(SKIPHEADERS:.h=.h.o),$(ALLHEADERS:.h=.h.o))
+- PTXOBJS      = $(filter %.ptx.o,$(OBJS))
+--RESOURCEOBJS = $(filter %.css.o %.html.o,$(OBJS))
+- $(HOBJS):     CCFLAGS += $(CFLAGS_HEADERS)
+- checkheaders: $(HOBJS)
+--.SECONDARY:   $(HOBJS:.o=.c) $(PTXOBJS:.o=.c) $(PTXOBJS:.o=.gz) $(PTXOBJS:.o=) $(RESOURCEOBJS:.o=.c) $(RESOURCEOBJS:%.css.o=%.css.min) $(RESOURCEOBJS:%.css.o=%.css.min.gz) $(RESOURCEOBJS:%.html.o=%.html.gz) $(RESOURCEOBJS:.o=)
+--
+-+.SECONDARY:   $(HOBJS:.o=.c) $(PTXOBJS:.o=.c) $(PTXOBJS:.o=.gz) $(PTXOBJS:.o=)
+- alltools: $(TOOLS)
+- 
+- $(HOSTOBJS): %.o: %.c
+-@@ -252,7 +250,7 @@ $(TOOLOBJS): | tools
+- 
+- OUTDIRS := $(OUTDIRS) $(dir $(OBJS) $(HOBJS) $(HOSTOBJS) $(SHLIBOBJS) $(STLIBOBJS) $(TESTOBJS))
+- 
+--CLEANSUFFIXES     = *.d *.gcda *.gcno *.h.c *.ho *.map *.o *.objs *.pc *.ptx *.ptx.gz *.ptx.c *.ver *.version *.html.gz *.html.c *.css.gz *.css.c  *$(DEFAULT_X86ASMD).asm *~ *.ilk *.pdb
+-+CLEANSUFFIXES     = *.d *.gcda *.gcno *.h.c *.ho *.map *.o *.objs *.pc *.ptx *.ptx.gz *.ptx.c *.ver *.version *.html.gz *.html.c *.css.min.gz *.css.min *.css.c  *$(DEFAULT_X86ASMD).asm *~ *.ilk *.pdb
+- LIBSUFFIXES       = *.a *.lib *.so *.so.* *.dylib *.dll *.def *.dll.a
+- 
+- define RULES
+-diff --git a/fftools/Makefile b/fftools/Makefile
+-index b3c08ae..bdb44fc 100644
+---- a/fftools/Makefile
+-+++ b/fftools/Makefile
+-@@ -36,6 +36,7 @@ OBJS-ffmpeg +=                  \
+-     fftools/textformat/tw_buffer.o    \
+-     fftools/textformat/tw_stdout.o    \
+-     $(OBJS-resman)                    \
+-+    $(RESOBJS)                        \
+- 
+- OBJS-ffprobe +=                       \
+-     fftools/textformat/avtextformat.o \
+-diff --git a/fftools/resources/Makefile b/fftools/resources/Makefile
+-index 8579a52..3c93648 100644
+---- a/fftools/resources/Makefile
+-+++ b/fftools/resources/Makefile
+-@@ -4,10 +4,16 @@ clean::
+- vpath %.html $(SRC_PATH)
+- vpath %.css  $(SRC_PATH)
+- 
+--# Uncomment to prevent deletion during build
+--#.PRECIOUS: %.css.c %.css.min %.css.gz %.css.min.gz %.html.gz %.html.c
+--
+- OBJS-resman +=                     \
+-     fftools/resources/resman.o     \
+-+
+-+
+-+RESOBJS +=                         \
+-     fftools/resources/graph.html.o \
+-     fftools/resources/graph.css.o  \
+-+
+-+
+-+$(RESOBJS): CCDEP       =
+-+$(RESOBJS): CC_DEPFLAGS =
+-+
+-+.SECONDARY: $(RESOBJS:.o=.gz) $(RESOBJS:.o=.c) $(RESOBJS:%.css.o=%.css.min) $(RESOBJS:%.css.o=%.css.min.gz) $(RESOBJS:%.html.o=%.html.gz) $(RESOBJS:.o=)
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch
+index a27e30f710..2e26078f0f 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch
+@@ -30,7 +30,7 @@ diff --git a/ffbuild/common.mak b/ffbuild/common.mak
+ index 0a60d01..346bb0a 100644
+ --- a/ffbuild/common.mak
+ +++ b/ffbuild/common.mak
+-@@ -116,8 +116,8 @@ $(BIN2CEXE): ffbuild/bin2c_host.o
++@@ -126,8 +126,8 @@ $(BIN2CEXE): ffbuild/bin2c_host.o
+  	$(HOSTLD) $(HOSTLDFLAGS) $(HOSTLD_O) $^ $(HOSTEXTRALIBS)
+  
+  RUN_BIN2C = $(BIN2C) $(patsubst $(SRC_PATH)/%,$(SRC_LINK)/%,$<) $@ $(subst .,_,$(basename $(notdir $@)))
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.1.bb
+similarity index 93%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.1.bb
+index b6d3ceb6dc..bfa35882ea 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.1.bb
+@@ -23,12 +23,10 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     "
+ 
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+-           file://0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch \
+-           file://0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch \
+            file://0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "05ee0b03119b45c0bdb4df654b96802e909e0a752f72e4fe3794f487229e5a41"
++SRC_URI[sha256sum] = "b6863adde98898f42602017462871b5f6333e65aec803fdd7a6308639c52edf3"
+ 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET:armv4 = "arm"
+@@ -172,14 +170,9 @@ FILES:${PN}-examples = "${datadir}/${BPN}/examples"
+ 
+ CVE_PRODUCT = "ffmpeg libswresample libavcodec"
+ 
+-CVE_STATUS_GROUPS = "CVE_STATUS_WRONG_CPE"
+-CVE_STATUS_WRONG_CPE = "CVE-2023-51791 CVE-2023-51793 CVE-2023-51794 CVE-2023-51795 CVE-2023-51796 CVE-2023-51797 CVE-2023-51798 CVE-2025-22921"
+-CVE_STATUS_WRONG_CPE[status] = "fixed-version: these CVEs are fixed in used version"
+-
+ CVE_STATUS[CVE-2022-2566] = "fixed-version: these CVEs are fixed since v5.1.1"
+ CVE_STATUS[CVE-2025-9951] = "fixed-version: these CVEs are fixed since v8.0"
+ CVE_STATUS[CVE-2025-25468] = "fixed-version: these CVEs are fixed since v8.0"
+ CVE_STATUS[CVE-2025-25469] = "fixed-version: these CVEs are fixed since v8.0"
+-CVE_STATUS[CVE-2025-12343] = "fixed-version: this CVE are fixed since v8.0"
+ CVE_STATUS[CVE-2025-59729] = "fixed-version: this CVE are fixed since v8.0"
+ CVE_STATUS[CVE-2025-59730] = "fixed-version: this CVE are fixed since v8.0"
 
