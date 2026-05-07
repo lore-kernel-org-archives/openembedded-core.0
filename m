@@ -1,120 +1,92 @@
-Return-Path: <frezidok1@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DECECD3427
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 09:32:47 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7911.1778146366352420566
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6832ACD3427
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 09:45:57 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8147.1778147147097816259
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 02:32:46 -0700
+ Thu, 07 May 2026 02:45:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=QxApp7Oc;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: frezidok1@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a746f9c092so987705e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 02:32:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778146364; x=1778751164; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=twraJ6XO6aRYtror4E+8iNGz1nTBJtJKHdFsHHO/T5U=;
-        b=QxApp7Oc0N+PAUFxHL+eMWagHuKftWqocr+CQu5F4wkjmBs+fWn79VIYR61Q8Aa6Gg
-         w6lCCQeZ9LmWVPP9a5cOgZy+OQ5FkyqKtdzV5pt5azQnP+3eqahRyI6wo+cxskgHy3yd
-         lG9d+KioKS+Vfwa+6PAin4IJ5lQsYKC5GZo8zact3ObSDcZ6dmaMxDivhJr0kuJcXDf8
-         DazohGQ2Q+ylF2/3LTVaA+ybIaQTcE7nFFbu53U2UlOZjaNGWRTVID3VZo0wC+R+lWQg
-         Fk27F2Yq0ObtWgdnLx7PLt5Cjy0ANMFS7FTW2+H75a9eEDRrPp6bDxq0l8vLX+lhmYEr
-         6/IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778146364; x=1778751164;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=twraJ6XO6aRYtror4E+8iNGz1nTBJtJKHdFsHHO/T5U=;
-        b=oUrFK8bUwO2WciMwTuIGhXcZKwhq6+H6SeEFIuXGJsHjVe6/8ORfJeE/axDmDsBRfq
-         ijwIJmHdhuRGnVY2YcJNOwIuq4v5AkasiPq05gHVdvnGv/V0mG4w1ABcWbAdaREpGF0w
-         xBeJwpZhlyvkqijFKwoOLjw0YDoLZtMeme96Ea91KLWVnuwang3lTk1Pu/rjQ1TIC+dR
-         +c349Qq/cRcU0PkdfjKCZCuVlQMZSYRtOSQTOrIDUl69jJeO8/CcYdn0Ccc6feWMJLlW
-         Xlk7DQBN//bJiXlYRjQ5h8+Renj2Z03LFqMuuX9sE/gLq3Um2wgy3euliLy+wsmBRmQn
-         ISEg==
-X-Gm-Message-State: AOJu0Yw3NqIZ0mJg56p2z0BLxglD4yBY2HomqUa/08yeIaoo370mbsBv
-	COMJaI47ckioDVJp359DEFjIQ5xo488+yy/GmukGdEt5wp/ffAp2M24WxPb7oTUaPtA=
-X-Gm-Gg: AeBDieuTOnS9i0pYkEEDl3Ndcuz2NZG4Z8GXp4sWxJ9JxYp/tH3hIKmG20Bm5J3V+Mr
-	9eZBAXnjepO8eyr315LQD+8A02U7kejIAFISYCLpL4xezHqzQfzZm2UW3Dw52jCQ4CSakS5Nc14
-	YeEKmqFh7rFTAqalK1MllTQg8gfIP2vfNrFoDHcuqVKQzt7R0Grcy4FYApaMhy6bSbDEEFN+3ZE
-	vfIi50tuidN7cKGoo3fDxrexxjIlON7QTdSmbQSctYenattEylwvxMh5IPJsoE5NKL8Mcfh7pVg
-	A3lmSSVp60N6ezT5wCwCMltT2tXTStcvlnl7os2fN7VJEiZsq0uRFWwUBFBryaIiW4MfRdQFgk4
-	uP4cNh8v3nfOW5603dadk8uas3iOOugQAoBp2q8Gie35samMdO74WR6MPdvIlK3S8cuP/3dTej8
-	FJ1Q5CR+bBCMqMCSw7Ds+SB9ToAQoa0A==
-X-Received: by 2002:a05:6512:400f:b0:5a2:b86b:56c2 with SMTP id 2adb3069b0e04-5a899bc9384mr682301e87.21.1778146363583;
-        Thu, 07 May 2026 02:32:43 -0700 (PDT)
-Received: from ubuntu1.. ([213.87.139.100])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3936109039csm56796631fa.8.2026.05.07.02.32.42
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 02:32:43 -0700 (PDT)
-From: frezidok1@gmail.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] shadow-native: Disable syslog usage
-Date: Thu,  7 May 2026 12:32:22 +0300
-Message-Id: <20260507093222.33735-1-frezidok1@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mtrH0PaU;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=wwTOYfVe;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019e01d43a1e-e643c251-c241-4bb2-98e5-b96f050fb6c1-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1778147146; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=KuuEeWua9IVwLQHtjW3KPsm6ku46S3OdlOpDip9V8iQ=;
+	b=mtrH0PaUzkKbO2GBn8WoaBMtynrDgY6Okx0ixpQNLrxAdKXBU38yFFRDmD6nz123
+	BFEs1GklKfHr1JuKhk+HkOOW7Ox7Y9DiulDpcRYtFWkkI/5EKKE7P6P/oxj8F6x73XW
+	ntaWBLAlYxYZS+s29O5kr2e3OdLCNhHHUXepTKjY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778147146;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=KuuEeWua9IVwLQHtjW3KPsm6ku46S3OdlOpDip9V8iQ=;
+	b=wwTOYfVe3Ev+jI6ffrudDLMOEmp3wwnPMTF9jBCrSlfEwBswqQKrYclBIXo69dct
+	V/5bEVfXeWrSVecRL7Ie+eGLTNWq9/gTgQJZAioahdm/pCwZYANShLUG9zi6tNwriZ8
+	vJfiEo/n4njgclKPholFaTj3IsGgW1aFt3wykEe0=
+From: patchtest@automation.yoctoproject.org
+To: frezidok1@gmail.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] shadow-native: Disable syslog usage
+In-Reply-To: <20260507093222.33735-1-frezidok1@gmail.com>
+References: <20260507093222.33735-1-frezidok1@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019e01d43a1e-e643c251-c241-4bb2-98e5-b96f050fb6c1-000000@us-west-2.amazonses.com>
+Date: Thu, 7 May 2026 09:45:46 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.05.07-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 09:32:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236569
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 09:45:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236570
 
-Upstream has accepted configure option and merged it into their master branch.
+--NextPart
+Content-Type: text/plain
 
-After they release v4.20 we can remove the patch and rewrite recipe with the configure option.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
 ---
- .../shadow/files/disable_syslog.patch         | 22 +++++++++++++++++++
- meta/recipes-extended/shadow/shadow_4.17.2.bb |  1 +
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/disable_syslog.patch
+Testing patch /home/patchtest/share/mboxes/shadow-native-Disable-syslog-usage.patch
 
-diff --git a/meta/recipes-extended/shadow/files/disable_syslog.patch b/meta/recipes-extended/shadow/files/disable_syslog.patch
-new file mode 100644
-index 00000000000..7299a8e61cd
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/disable_syslog.patch
-@@ -0,0 +1,22 @@
-+When building images using shadow-native, we shouldn't be spamming the host's
-+log with lots of syslog messages which aren't relavent. Disable syslog use
-+in the native case.
-+
-+Upstream-Status: Submitted [Merged to upstream's master, waiting for release]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Signed-off-by: Dmitry Sakhonchik <frezidok1@gmail.com>
-+
-+Index: shadow-4.17.2/lib/defines.h
-+===================================================================
-+--- shadow-4.17.2.orig/lib/defines.h
-++++ shadow-4.17.2/lib/defines.h
-+@@ -88,7 +88,9 @@
-+ 
-+ /* cleaner than lots of #ifdefs everywhere - use this as follows:
-+    SYSLOG((LOG_CRIT, "user %s cracked root", user)); */
-+-#ifdef ENABLE_NLS
-++#if 1
-++#define SYSLOG(x)
-++#elif ENABLE_NLS
-+ /* Temporarily set LC_TIME to "C" to avoid strange dates in syslog.
-+    This is a workaround for a more general syslog(d) design problem -
-+    syslogd should log the current system time for each event, and not
-diff --git a/meta/recipes-extended/shadow/shadow_4.17.2.bb b/meta/recipes-extended/shadow/shadow_4.17.2.bb
-index 5459d4e57ff..19512f25941 100644
---- a/meta/recipes-extended/shadow/shadow_4.17.2.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.17.2.bb
-@@ -23,6 +23,7 @@ SRC_URI:append:class-target = " \
- 
- SRC_URI:append:class-native = " \
-            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
-+           file://disable_syslog.patch \
-            "
- SRC_URI[sha256sum] = "064a7c048e613ef5b5f3613e137d79d35d062ab434e89020f743e90844ec5c4f"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
