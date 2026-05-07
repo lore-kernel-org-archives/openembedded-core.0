@@ -1,213 +1,383 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE00CD3427
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 08:52:54 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7582.1778143971446994052
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20668CD3442
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 08:54:14 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7600.1778144049468885503
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 01:52:51 -0700
+ Thu, 07 May 2026 01:54:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=m4Xv7KFk;
- spf=pass (domain: est.tech, ip: 40.107.130.29, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uOu4BOa4STIVGKL9DW74B6AS1hzVCoAiOY5kIXYkyqWJqkPLskz99tEGQlJVx5j7lcgr8WImUFFqaRjXMagjLJmCAHUKfNxGmKCrUXfc36v+bzv5wMbwxmgdfhjXSE4+jE1dqBk/iI4zYu3pk/L3h5QeHHQr5w6qMWp0e8XOV2Zqn82IN75NCb/GH3ASyK8YKIwVxNVSYJ009oV2iTeUZVCX2fGWJgD4oy9hjKgMRcWRdv0m1g6p0rbhlg1Lb0JQ0sPSNpSzf8E6vrvW0Qc21W2/y6q1hKM8ucEe2gKnVjOM/3GvWNTAnlz9vPr3dAYu0pLreF5R6lrUJ0v6U8H9QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZEchNpUtRTSsGgNtGpQuPzRGmQDQXdn8DIsntLpFeUg=;
- b=SxUMYnxYwJHTmjFWweKQMOCVjHaXxiQf9ohWD77oemGOch3exGptU/15M9oYbAWsEAHcsV5jRzK8R2L9Ptg8miVc0t0xZL4DYjySqbO2VZtjrvRyIjN6Gc+bskCEwMdeRet9W8gIzm6fQ7pyHnKHwdvByVHSc2L/+OF3jzSyyKzzJuvOXITBhLH85CtFzWMlLYYQhOrqN29cs5Rb/grVZ9CLCLxsBkeMAIvsG7+64i9y8Wi71mKq5B1DnAKPn0WuZbZqXta3Ee5iUHRmVeDAbzEdX8RI1ICXpp0q0WMhrB68frPUF2oNpkmwUAyNDlQGn3fjRHcDoXIHIFyP1FGuVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZEchNpUtRTSsGgNtGpQuPzRGmQDQXdn8DIsntLpFeUg=;
- b=m4Xv7KFkzpVl/5i2Dwz+EYvF5Zysw1I6rXOGsQ9Qh5w/f2gGZ5HcdvsmAP9WmJYCcoy7LfGRyzu421gHGPltLxKY9p2EhCvMZRdDqbSKWQpKzCRCl15lAOavnITL7vlFWhpqSFOdYTEmhjqWeTT+3S8FvMhZyUS5ECsg/zBihp5L9I38lbWKKxwQPwjIJumrmOiMd1cIEDm0rPE9KlsaNc1pxD9bflBiPgtmLKm4iNw5QvbD4FL6T31bo6TK7a2EsPm+QJ6iujp9pYZklPhyL+apjLowlplbdaBAwMFg6llqZpvYBvuddwS4CQrUbCZBU7PDIGAYy/yn00DbiiL7ww==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by DU0P189MB3229.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:5a1::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
- 2026 08:52:47 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9891.008; Thu, 7 May 2026
- 08:52:47 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v1] libffi: add ptest support
-Date: Thu,  7 May 2026 10:52:42 +0200
-Message-ID: <20260507085242.39646-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO6P123CA0029.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:313::14) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=MDVxylio;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bc1f0f48351so92726666b.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 01:54:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778144048; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Xa1sZV56TCgF+falHuMvRQSckIbRWxUIFGb9G/BMTRtRGoKTkye7L5cfJpOOehKf17
+         jz50hH5GavP1P/t4TBgnTo1RBEezpf87t5BBSUpkwiYos//Y7+XQup42wFe3HobEXeHB
+         J18R/4fzDHVUmrcdk1ZwAPt/q3FHPVz/g4eQOfQi/vxh+9JydSAFz2tifdE4b+hL58q2
+         ccAfopn6S7Imwv6Ccq878ECEc/hjRZ3mxacdujXo5t+cbJ6kNc0rXVf/nrJXn/hN12yi
+         3S6sdRBPsFPqDK0M6L7iFUYr3Q1OwxigLcotH7TPh8Nh+8+6Vp6l1fbnREw5ZM3JVRyC
+         rsxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=7zww0tHR1aNLmblHp7TX2Wc/z2IINyotF9IO5+wbzD0=;
+        fh=Zf4Vo0Z5qWl+TYnw7pEdrD0DXWRUooM6UiwrZRJcA5c=;
+        b=Hb9DTUpS59ZZ4fhhd/hZdwZsGHpn/Ys4OX9JkZn2BnvHLafBzqiwao6IwdnSA9f8mZ
+         PbWOrFHbFZy5HBj1Wv05d6ImwrdIhwEdo5um+6sgXnWk0+x7EvC3sNP6dkrfjbBZXM2h
+         ++6cFDYPzROmpvwuun0Hf0uDPhY6WjAOpo8ebD741xlfG1TfvCQV4LfOZf8/8QMDXtel
+         DB6qm1C3ZCYDkCFp/ekabiakcM/5SbxsKdwwJ/76SgfgY0ys0bbPyNzErXEsTJvXiaE6
+         +EeVsupBi806AEKZO1Oi4C9492RIAy9VRrQIjhhV8qTWmx/nw4nIMcPuYfxtbB50d5dJ
+         Dv0w==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778144048; x=1778748848; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7zww0tHR1aNLmblHp7TX2Wc/z2IINyotF9IO5+wbzD0=;
+        b=MDVxylioxzNyYZhe7qtJQfkkvGt4THT8lKdkNodJwTloPJ5fbuMxDwlyaDgCZ/rd5C
+         iwJSTKd1w/A2jL4XwwNkTsq+9v4X7p78rl+a+SkE6RfGDaF83j8kL01QReze4WVKZZat
+         YtqPmt1XPlgGsPv5ES9QyomESN7BLxcBvrLCk3QYUp2AOgR4bBTiC67rWcf84SwJDQL4
+         iTWmzDDon+X7dVVCwk7e3snI8YxRdWSod7AoYHAq91DlqVmAs29sc6QvvpqeD4I5SBt/
+         nj06lLvHkUlZVVvA5pkvIJEyREHGujk5W0FDHJxHUu+u2cIUOCpVBUSZDwf1VV5Syp5W
+         V2lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778144048; x=1778748848;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7zww0tHR1aNLmblHp7TX2Wc/z2IINyotF9IO5+wbzD0=;
+        b=qqVnqP5hp2VRbnT+k3XSvxqOSKn+Nd3bHVmIXaBixLaRjUzkBhD07uLggqP6Fnnlcm
+         UOahL7+cBPUWOW9aPn9qBu5nBeWw3AerXAbjUEQoqe0UtokSwZYy80BzuD3SDrQY4y0z
+         p5yxoAltIpAZQzo/xOF2c2V4HDVqCU4hhmCfpRwVq8MSDhhIZopFoYGV634uds0jTudw
+         1oHdqrF6LP3CeRS/KGNTGBLKvak7G2+GqEFyQedQSf8Ygf7EWNVFO4nfhNV/JtXndiuM
+         Dbmp4bT9E+u59W003SuBoPJ7e4z4UVfExNSWwgB0jPBRiZXWGuOWzGuO0La8zHSVkdZK
+         odGw==
+X-Forwarded-Encrypted: i=1; AFNElJ/akRvvi1fhFObVAgVnlXD+T5BU//0GoYPgHmQZ2Wo5+GrkRu2b3rf+zgpqMzkyfp53XIzzvS0JaXFgSYCKCKUqCQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy7cf0cml1qJjeiW02vVxhuvVkSJ6fkJOkGKrSB40XhOP+B6GCl
+	OhtAqy8d5QcWFmNbaR9nunwtnmemkiORkJwOP8xzX36oAJrT/AKQnn4N2nnCdrXmKaen1HMSVii
+	4kUjMeeOD00uUbxcpikU7XMcgAYZ3nxw=
+X-Gm-Gg: AeBDiesFshziRsCkJRz14czVZerYqDy61LGfBECsV6EDfnqi6elwJBgcMYMf0yGf35r
+	bW0q7vQI1eMAXgPbhNSfNYdnE/LlxkiXkkCvxacW+kSZOOAKxbdiVZeZpeBx5S/B08KXlQ91OqY
+	FjHZb1cT27PWhNc2DgqYaGsP17BLW2EhpRFPRUE35MNAwnJUW5seusJU4kQ7ujrBUgHfPT6wNWN
+	iXX7GiBxI0/6qRUClhVI3+KaGx95fNff0lWl+ec84aENESjqNyZREJDuYx/EYoh9wdhJ3SPbYxK
+	dLSsp1aNVS4L0EvC7xxScBWPlMicYBdl+ITmzDXuEBzoVSzmUyKTDIexy4vqKZ2u+HriaDA7G8e
+	hZgGP
+X-Received: by 2002:a17:907:7242:b0:bc6:a223:85e0 with SMTP id
+ a640c23a62f3a-bc6a2238891mr186368866b.10.1778144047418; Thu, 07 May 2026
+ 01:54:07 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|DU0P189MB3229:EE_
-X-MS-Office365-Filtering-Correlation-Id: 906325a2-2740-4b73-e98a-08deac1602c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|56012099003|3023799003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	0yhmdDxAbbieDbryMrRYleNXqpBog4Kn9gB9g6O7Rw4sxB7SI2FtgrKtXxfrzrkO8rAB3vIq6vB9ZMztywfcwNvfG/WjgTq5EYdvTPqmnn6Ab4FeEmcZm9Av1gObf/zaMq14IZGsAYaozabfpwD177YLub7qQ36pZcrS610viZ1gLMasG9fci1si3QLRe4KoW1kyPQC/VIu1Q566UWpJfImFd95EQkxcxEEhzO2k4q0Zu/ZnQ8JJDZ2V+Nu0n0GOxYzIX2a8RBDN/HaG8ueE+7/LRD7uAuDHzTxvcwWTk+ktErbqDRnHvKnqf8C2tJGC1gXKUp1VMbMeHzEOC2dydaft72ZaT2jIXHcA2SPtzP5G1iVd8P6ujNY/RenetJmlyEB+EDGAK+cUr1O+35+4aAf+JMWfRfWfGt0tbCKbFC1rv52Zo6LnOobewxw9iap9d/2C36EURwbYm1ZYN0/TMq1flNckl3Ov2+pWO+/iZeArEfFlTQVn9fwDWqPw8o3ztJerMijmxKi4nA4jWnztwadtKWxfGw8v7detFLDoTWD+v8J3/cMa7wMTJEilTp2P9BBjyQWaaMgn/R0aXEENp+10ZTQ+h9y4JqFblQ6fqTMxs27zWcM3HiKF0wtxMruTqFtKaoWO0Rih0Nc6gAIVmdUHdAEoPMdArLGz6C9yu4AZMkqf1XAqf0GIWdyAbzqc
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(56012099003)(3023799003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hNccKrJLB2CcsQoYJmo5SwfOkgaVlcDlIXZ+kmwl1yNx491bz1iBcy02rFz0?=
- =?us-ascii?Q?H9gmC9zUTlNiInP1nMX5WHE8W4POP7Avy+80jMr3d5wjJUru9fGvCirryC9x?=
- =?us-ascii?Q?B6hcF1lSMwydVyizza7zHlQoNi7TYo6mnTCxwozFEwztv2+KoYSUijDw6oKt?=
- =?us-ascii?Q?t7qUYuG0LJYv9DN2QHULdC7sP0IoZ+y1m9xKWBqC2+g9M1ZrKhbskRBHaxT+?=
- =?us-ascii?Q?NhqPJk2PecXOOGLd/CTQiYd9G7Cyaoy74J1+JZMpcKsKVzDpBaC9erpmskwY?=
- =?us-ascii?Q?aPzgBXyRSKSaZ6jCTzFL2c1zL0//6GmzM2tMqqveFtep54uU5oXDcWbYvKE2?=
- =?us-ascii?Q?8cpNU67rqmii70P1XrwUwaAu/3W9ubF8vbHxdYWERxFABkd2DOw7R7C17FL2?=
- =?us-ascii?Q?XGBsjDygtigCPyjWsTm2zr9nqanbmorgJGuGT/m624Kv27sGbdFiJxyRFN68?=
- =?us-ascii?Q?w4PLBTEvtbr8gE22LEtq5lUbIzaNxnrdPcZ0AN2cFjj4ikbgYyYiCBuOcykw?=
- =?us-ascii?Q?EAzp8ajXdOSMVypQw41hQUb5hNzqYCjQbIw0VSU5vKfgvIKiUKsQMVrZ5zzk?=
- =?us-ascii?Q?/AZ6ix/qJi9wB2zazoTg3NPL9C+KhFHYoFihb9eOMBQe6CrEtHfKRgA9+KOp?=
- =?us-ascii?Q?qurw1p1YnMLaYoNpwaWXmh1vUJBgOXyUxvOS1XASBh1kFbFTPS5+e3DEeA5b?=
- =?us-ascii?Q?iQcbCV2xz5Qn+rLE0cOXm0u0Z1rSnmo/v9gXv5CYY/wDtXnGQHuQcLj4vr/0?=
- =?us-ascii?Q?lvaYaOlpID/eAPW0UferJwSRNt6+rLm3S/2mH0ztdcDBKILq6wLmFoYZOQNV?=
- =?us-ascii?Q?TylgHszXxEnmd9tKPplmrUnL1A5sq+esCMO1E1jzJx8rzLGjseZtHZHWJTXc?=
- =?us-ascii?Q?0lj0AqLbCbruZLO8nlG8IWDTd6OCT9VSk0/xxsq6n2as3lJZXc7u4w0sMIEq?=
- =?us-ascii?Q?/4AGm2WhqUf8Urs/1ivIeQlmUs/MUa9pKczSarOGPVUjQ8qJd0lm3CYiQgaw?=
- =?us-ascii?Q?8WTnFiEwYmUxHYE6kr0+m29afEyf7+XVgchwubonfgn8D5XbdgKNuxyv/Fzs?=
- =?us-ascii?Q?9y3Wf8EI60m8Yf8NNg4pxPOy0rnRzGBWa3nn8paxgo8BTVk944En7ClPZIzv?=
- =?us-ascii?Q?utIMwOLHRVxTP7zuu2b1LiKAClOxj5tzIBigT168b3RdZ3DAN9aOKMmj2UHo?=
- =?us-ascii?Q?+hKrHHNgsY90+KrCq3VGGPNkZvvuP2h12SD6waWv6uzJfb0G3aCJns8ztl2K?=
- =?us-ascii?Q?0GimEz2lH5urd76ySF7FPh4nBquzF4GSl9xHqImLksRlvIVYEmqdGTefz56x?=
- =?us-ascii?Q?1xYXzQrEDWOAiA6KnbAEGzRrNiDycKsz6Xqyfqi6/qj5UhizrNYLgdL0kDne?=
- =?us-ascii?Q?paZ1lu+ZSalpb+4W3Xy6fVBuQyunPSy/HM8IGvQe45CYC+DfvlnCuePEonpH?=
- =?us-ascii?Q?LmkO2qekSJegvJoqPEYZHd8KSfvnSerGeq2ijPpCzNBSZ1ByNCJsNDOgsGx3?=
- =?us-ascii?Q?EzqZ0BpitTr3kdEBOtzljA4/rl31fa04iTVszmfCHDs3fOiaAo1PXGW4Zlif?=
- =?us-ascii?Q?mDOyiyh6G+AXhJkndI2Vl9PeKKWGIcUxmVwFzyMRSlEahWEigaM0PzZQkf8O?=
- =?us-ascii?Q?bj8KPuwhgZxFiDRcCkfH45mVdxLfozg/02Lc8R6vAq2p6B/iuE1gPqokjBSA?=
- =?us-ascii?Q?/mC8iZgbXh6IgSOdUVV4Ut0RW2msVExn02/Akx9FnE1Bo0+6hiskGqmuchob?=
- =?us-ascii?Q?xdaHt9uUEg=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 906325a2-2740-4b73-e98a-08deac1602c8
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 08:52:47.1288
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: julxvqG7JwfUaYOUiz3yPPwnQPqj1IKaEvfEFszufFX5vosipiifraZ8mhWeYz+v/Ui1rYpr6Bs2n3Foz/nQKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB3229
+References: <20260506194507.3786568-1-igor.opaniuk@foundries.io>
+ <DIBVZ5KGY6VD.3JQ0DG3RR7SJG@smile.fr> <CAL6CDMH02AETCQ68CozA+DtYCAei4KyTeMm2WGOntcjfPQOVSQ@mail.gmail.com>
+In-Reply-To: <CAL6CDMH02AETCQ68CozA+DtYCAei4KyTeMm2WGOntcjfPQOVSQ@mail.gmail.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 7 May 2026 09:53:53 +0100
+X-Gm-Features: AVHnY4Iv_PINERQn_L1ffW4qopzWIFt8DpzLP4dUA5gJAp1STAVnw6gxVxuavWU
+Message-ID: <CANPvuR==eX=rLYTiAzJ-K0024gc5ojntG-jmqHC+wF9z8-3KsA@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH] shadow: add libxcrypt-native dependency for
+ native and nativesdk variants
+To: igor.opaniuk@foundries.io
+Cc: Yoann Congal <yoann.congal@smile.fr>, openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Alexander Kanavin <alex@linutronix.de>, 
+	Ricardo Salveti <ricardo@foundries.io>
+Content-Type: multipart/alternative; boundary="0000000000004e52f60651366c1b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 08:52:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236567
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 08:54:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236568
 
-Add ptest support for libffi using the upstream bhaible test suite which
-validates FFI call and callback interfaces across various calling
-conventions and data types.
+--0000000000004e52f60651366c1b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Tests are compiled on-target against the installed libffi. Headers and a
-linker symlink are installed in the ptest directory to avoid depending on
-libffi-dev.
+Igor Opaniuk via lists.openembedded.org <igor.opaniuk=3D
+foundries.io@lists.openembedded.org> escreveu (quinta, 7/05/2026 =C3=A0(s)
+08:13):
 
-Tested on qemux86-64 with ptest-runner: 2 PASS, 0 FAIL (29s).
+> Hi Yoann,
+>
+> On Wed, May 6, 2026 at 10:46=E2=80=AFPM Yoann Congal <yoann.congal@smile.=
+fr>
+> wrote:
+> >
+> > On Wed May 6, 2026 at 9:45 PM CEST, Igor Opaniuk via
+> lists.openembedded.org wrote:
+> > > Configure fails with "crypt() not found" when building shadow-native =
+on
+> > > hosts where libcrypt is no longer part of glibc and the libxcrypt
+> > > development files are not installed (e.g. fresh Ubuntu 24.04+, where
+> > > glibc 2.39 dropped libcrypt and libxcrypt-dev is not pulled in by
+> > > default).
+> > >
+> > > virtual/crypt-native is in ASSUME_PROVIDED (meta/conf/bitbake.conf),
+> > > which is why a plain DEPENDS =3D "virtual/crypt" does not pull
+> > > libxcrypt-native into the native sysroot - the host is expected to
+> > > provide libcrypt. That assumption no longer holds on current
+> > > distributions.
+> >
+> > Note that we added libcrypt-dev as a documented host dependency here:
+> >
+> https://git.yoctoproject.org/yocto-docs/commit/?id=3D2b41d175ea1924bf401a=
+203fb678261fefb228dc
+>
+> Thanks, I missed that. With virtual/crypt-native in ASSUME_PROVIDED
+> this is consistent with how OE-core treats other
+> host-provided libraries. I'll drop the patch.
+>
+> One small follow-up if it's worth the time:
+>
+> the failure mode for users who miss the doc update is a configure
+> error deep in shadow-native
+> (checking for crypt in -lcrypt... no -> configure: error: crypt() not
+> found), which doesn't obviously point at
+> "install libcrypt-dev on the host".
+>
+> Would a sanity-check addition (something along the lines of
+> ./meta/classes-global/sanity.bbclass
+> testing for crypt.h / -lcrypt on the build host and emitting the same
+> hint as the docs) be welcome?
+>
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
- meta/conf/distro/include/ptest-packagelists.inc |  1 +
- meta/recipes-support/libffi/libffi/run-ptest    | 16 ++++++++++++++++
- meta/recipes-support/libffi/libffi_3.5.2.bb     | 16 +++++++++++++++-
- 3 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-support/libffi/libffi/run-ptest
+I think that would be useful and help in interpreting the error. However,
+there's nothing like that in sanity.bbclass.
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 566445187d..0918507ce5 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -36,6 +36,7 @@ PTESTS_FAST =3D "\
-     libconfig \
-     libconvert-asn1-perl \
-     libexif \
-+    libffi \
-     libgpg-error\
-     libksba \
-     libmd \
-diff --git a/meta/recipes-support/libffi/libffi/run-ptest b/meta/recipes-su=
-pport/libffi/libffi/run-ptest
-new file mode 100755
-index 0000000000..9617977b00
---- /dev/null
-+++ b/meta/recipes-support/libffi/libffi/run-ptest
-@@ -0,0 +1,16 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: MIT
-+
-+PTEST_DIR=3D$(cd "$(dirname "$0")" && pwd)
-+cd "$PTEST_DIR/testsuite/libffi.bhaible" || exit 1
-+
-+for test in test-call test-callback; do
-+    gcc -O2 -Wall -I$PTEST_DIR/include -L$PTEST_DIR/lib -o $test $test.c -=
-lffi
-+    if ./$test > $test.out 2>&1 && ! LC_ALL=3DC uniq -u < $test.out | grep=
- -q .; then
-+        echo "PASS: $test"
-+    else
-+        echo "FAIL: $test"
-+        LC_ALL=3DC uniq -u < $test.out 2>/dev/null
-+    fi
-+    rm -f $test $test.out
-+done
-diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb b/meta/recipes-sup=
-port/libffi/libffi_3.5.2.bb
-index d3aa90d429..719c46865a 100644
---- a/meta/recipes-support/libffi/libffi_3.5.2.bb
-+++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dce4763670c5b77=
-56000561f9af1ab178"
-=20
- SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
-            file://not-win32.patch \
-+           file://run-ptest \
-            "
- SRC_URI[sha256sum] =3D "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52=
-e335676bac82dc"
-=20
-@@ -19,7 +20,7 @@ EXTRA_OECONF =3D "--disable-builddir"
- EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
- EXTRA_OEMAKE:class-target =3D "LIBTOOLFLAGS=3D'--tag=3DCC'"
-=20
--inherit autotools texinfo multilib_header github-releases
-+inherit autotools texinfo multilib_header github-releases ptest
-=20
- do_install:append() {
- 	oe_multilib_header ffi.h ffitarget.h
-@@ -30,3 +31,16 @@ do_install:append() {
- MIPS_INSTRUCTION_SET =3D "mips"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+RDEPENDS:${PN}-ptest +=3D "packagegroup-core-buildessential"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/testsuite
-+    cp -r ${S}/testsuite/libffi.bhaible ${D}${PTEST_PATH}/testsuite/
-+
-+    install -d ${D}${PTEST_PATH}/include
-+    install -m 0644 ${B}/include/ffi.h ${D}${PTEST_PATH}/include/
-+    install -m 0644 ${B}/include/ffitarget.h ${D}${PTEST_PATH}/include/
-+    install -d ${D}${PTEST_PATH}/lib
-+    ln -sf ${libdir}/libffi.so.8 ${D}${PTEST_PATH}/lib/libffi.so
-+}
+Jose
+
+
+> Happy to put a patch together if so.
+>
+> Thanks for the review.
+>
+>
+> >
+> > > A previous attempt to fix this by adding libxcrypt-native to DEPENDS
+> > > unconditionally (commit 65532fc751 "shadow: add libxcrypt-native
+> > > dependency") was reverted in 54eccb76eb because it incorrectly pulled
+> > > a -native recipe into the target build. Use class-specific overrides
+> > > so the target build is unaffected and only shadow-native (and
+> > > nativesdk-shadow) gain the explicit dependency on libxcrypt-native /
+> > > nativesdk-libxcrypt.
+> > >
+> > > Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
+> >
+> >
+> > > ---
+> > >  meta/recipes-extended/shadow/shadow_4.19.4.bb | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/meta/recipes-extended/shadow/shadow_4.19.4.bb
+> b/meta/recipes-extended/shadow/shadow_4.19.4.bb
+> > > index 94f155641c..cc69864a2a 100644
+> > > --- a/meta/recipes-extended/shadow/shadow_4.19.4.bb
+> > > +++ b/meta/recipes-extended/shadow/shadow_4.19.4.bb
+> > > @@ -9,6 +9,8 @@ LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Dc9a450b7be84eac23e6353efecb60b5b \
+> > >                      "
+> > >
+> > >  DEPENDS =3D "virtual/crypt"
+> > > +DEPENDS:append:class-native =3D " libxcrypt-native"
+> > > +DEPENDS:append:class-nativesdk =3D " nativesdk-libxcrypt"
+> > >
+> > >  GITHUB_BASE_URI =3D "https://github.com/shadow-maint/shadow/releases=
+"
+> > >  SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+> >
+> >
+> > --
+> > Yoann Congal
+> > Smile ECS
+> >
+>
+>
+> --
+> Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
+>
+> Igor Opaniuk
+> Senior Software Engineer, Embedded & Security
+> E: igor.opaniuk@foundries.io
+> W: www.foundries.io
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#236565):
+> https://lists.openembedded.org/g/openembedded-core/message/236565
+> Mute This Topic: https://lists.openembedded.org/mt/119185904/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
 --=20
-2.34.1
+Best regards,
 
+Jos=C3=A9 Quaresma
+
+--0000000000004e52f60651366c1b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Igor Opaniuk vi=
+a <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;=
+igor.opaniuk=3D<a href=3D"mailto:foundries.io@lists.openembedded.org">found=
+ries.io@lists.openembedded.org</a>&gt; escreveu (quinta, 7/05/2026 =C3=A0(s=
+) 08:13):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Yoa=
+nn,<br>
+<br>
+On Wed, May 6, 2026 at 10:46=E2=80=AFPM Yoann Congal &lt;<a href=3D"mailto:=
+yoann.congal@smile.fr" target=3D"_blank">yoann.congal@smile.fr</a>&gt; wrot=
+e:<br>
+&gt;<br>
+&gt; On Wed May 6, 2026 at 9:45 PM CEST, Igor Opaniuk via <a href=3D"http:/=
+/lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openemb=
+edded.org</a> wrote:<br>
+&gt; &gt; Configure fails with &quot;crypt() not found&quot; when building =
+shadow-native on<br>
+&gt; &gt; hosts where libcrypt is no longer part of glibc and the libxcrypt=
+<br>
+&gt; &gt; development files are not installed (e.g. fresh Ubuntu 24.04+, wh=
+ere<br>
+&gt; &gt; glibc 2.39 dropped libcrypt and libxcrypt-dev is not pulled in by=
+<br>
+&gt; &gt; default).<br>
+&gt; &gt;<br>
+&gt; &gt; virtual/crypt-native is in ASSUME_PROVIDED (meta/conf/bitbake.con=
+f),<br>
+&gt; &gt; which is why a plain DEPENDS =3D &quot;virtual/crypt&quot; does n=
+ot pull<br>
+&gt; &gt; libxcrypt-native into the native sysroot - the host is expected t=
+o<br>
+&gt; &gt; provide libcrypt. That assumption no longer holds on current<br>
+&gt; &gt; distributions.<br>
+&gt;<br>
+&gt; Note that we added libcrypt-dev as a documented host dependency here:<=
+br>
+&gt; <a href=3D"https://git.yoctoproject.org/yocto-docs/commit/?id=3D2b41d1=
+75ea1924bf401a203fb678261fefb228dc" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://git.yoctoproject.org/yocto-docs/commit/?id=3D2b41d175ea1924bf401a203f=
+b678261fefb228dc</a><br>
+<br>
+Thanks, I missed that. With virtual/crypt-native in ASSUME_PROVIDED<br>
+this is consistent with how OE-core treats other<br>
+host-provided libraries. I&#39;ll drop the patch.<br>
+<br>
+One small follow-up if it&#39;s worth the time:<br>
+<br>
+the failure mode for users who miss the doc update is a configure<br>
+error deep in shadow-native<br>
+(checking for crypt in -lcrypt... no -&gt; configure: error: crypt() not<br=
+>
+found), which doesn&#39;t obviously point at<br>
+&quot;install libcrypt-dev on the host&quot;.<br>
+<br>
+Would a sanity-check addition (something along the lines of<br>
+./meta/classes-global/sanity.bbclass<br>
+testing for crypt.h / -lcrypt on the build host and emitting the same<br>
+hint as the docs) be welcome?<br></blockquote><div><br></div><div>I think t=
+hat would be useful and help in interpreting the error. However, there&#39;=
+s nothing like that in sanity.bbclass.</div><div><br></div><div>Jose</div><=
+div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Happy to put a patch together if so.<br>
+<br>
+Thanks for the review.<br>
+<br>
+<br>
+&gt;<br>
+&gt; &gt; A previous attempt to fix this by adding libxcrypt-native to DEPE=
+NDS<br>
+&gt; &gt; unconditionally (commit 65532fc751 &quot;shadow: add libxcrypt-na=
+tive<br>
+&gt; &gt; dependency&quot;) was reverted in 54eccb76eb because it incorrect=
+ly pulled<br>
+&gt; &gt; a -native recipe into the target build. Use class-specific overri=
+des<br>
+&gt; &gt; so the target build is unaffected and only shadow-native (and<br>
+&gt; &gt; nativesdk-shadow) gain the explicit dependency on libxcrypt-nativ=
+e /<br>
+&gt; &gt; nativesdk-libxcrypt.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Igor Opaniuk &lt;<a href=3D"mailto:igor.opaniuk@fo=
+undries.io" target=3D"_blank">igor.opaniuk@foundries.io</a>&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 meta/recipes-extended/shadow/<a href=3D"http://shadow_4.19.=
+4.bb" rel=3D"noreferrer" target=3D"_blank">shadow_4.19.4.bb</a> | 2 ++<br>
+&gt; &gt;=C2=A0 1 file changed, 2 insertions(+)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-extended/shadow/<a href=3D"http://shado=
+w_4.19.4.bb" rel=3D"noreferrer" target=3D"_blank">shadow_4.19.4.bb</a> b/me=
+ta/recipes-extended/shadow/<a href=3D"http://shadow_4.19.4.bb" rel=3D"noref=
+errer" target=3D"_blank">shadow_4.19.4.bb</a><br>
+&gt; &gt; index 94f155641c..cc69864a2a 100644<br>
+&gt; &gt; --- a/meta/recipes-extended/shadow/<a href=3D"http://shadow_4.19.=
+4.bb" rel=3D"noreferrer" target=3D"_blank">shadow_4.19.4.bb</a><br>
+&gt; &gt; +++ b/meta/recipes-extended/shadow/<a href=3D"http://shadow_4.19.=
+4.bb" rel=3D"noreferrer" target=3D"_blank">shadow_4.19.4.bb</a><br>
+&gt; &gt; @@ -9,6 +9,8 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dc=
+9a450b7be84eac23e6353efecb60b5b \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 &quot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 DEPENDS =3D &quot;virtual/crypt&quot;<br>
+&gt; &gt; +DEPENDS:append:class-native =3D &quot; libxcrypt-native&quot;<br=
+>
+&gt; &gt; +DEPENDS:append:class-nativesdk =3D &quot; nativesdk-libxcrypt&qu=
+ot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 GITHUB_BASE_URI =3D &quot;<a href=3D"https://github.com/sha=
+dow-maint/shadow/releases" rel=3D"noreferrer" target=3D"_blank">https://git=
+hub.com/shadow-maint/shadow/releases</a>&quot;<br>
+&gt; &gt;=C2=A0 SRC_URI =3D &quot;${GITHUB_BASE_URI}/download/${PV}/${BP}.t=
+ar.gz \<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; Yoann Congal<br>
+&gt; Smile ECS<br>
+&gt;<br>
+<br>
+<br>
+-- <br>
+Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations<br>
+<br>
+Igor Opaniuk<br>
+Senior Software Engineer, Embedded &amp; Security<br>
+E: <a href=3D"mailto:igor.opaniuk@foundries.io" target=3D"_blank">igor.opan=
+iuk@foundries.io</a><br>
+W: <a href=3D"http://www.foundries.io" rel=3D"noreferrer" target=3D"_blank"=
+>www.foundries.io</a><br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#236565): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/236565" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/236565</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119185904/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/119185904/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
+div></div></div>
+
+--0000000000004e52f60651366c1b--
 
