@@ -1,229 +1,160 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <ricardo.salveti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96813CD343F
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 19:54:11 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4749.1778183642011779038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A24DDCD3442
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 20:06:11 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5007.1778184368212220339
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 12:54:03 -0700
+ Thu, 07 May 2026 13:06:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=VWJJl3p7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202605071953585eafc01fe700020781-kbtqsa@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202605071953585eafc01fe700020781
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 07 May 2026 21:53:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=ciiFHIM3ULiRlB/XHb3iVI6cm/mpn4IGnFGMDsPE740=;
- b=VWJJl3p7c8EqsBAapxJHsxETt4Cg6GxwYz90+wWYKoGQ3rldIjvZT9lrvHjBL21B/6aoPO
- 5DTcBEbCYwc8k2Bc7XqAgWeAT5b624xg0fiWD2srUgdHm0jxnpW9OMk3oYOxRioBEd0Vcg57
- S+hxEFeuQmFv+nMY9bdDEa+mEwXS0/Sal+uvOuMixDmlNQ6fu5jlcFkfrAV3oq9tDqOv/eB7
- 2AvlsaSfc6kNddld4fPRscnUx4n1PtPhCLdqIJnYx1P8m4nHS0C7RPJPlozFSwzdPihh4vgp
- 3RdQ/od7OKr7vmVQCqC6aZNjTcGXS0KKqpz83p3xW6PEu0lFPZFpU74w==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] go: upgrade 1.26.2 -> 1.26.3
-Date: Thu,  7 May 2026 21:53:38 +0200
-Message-ID: <20260507195340.147086-1-peter.marko@siemens.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=XI8YSYUH;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=LyhnqdI8;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 647IIpjt1417690
+	for <openembedded-core@lists.openembedded.org>; Thu, 7 May 2026 20:06:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	A6Vccissg2+hxk2nSrBpx0Ivj/ojf/3wU0iG5EA154M=; b=XI8YSYUHLyE5SZdz
+	p0I0otI6nagf5eQf1+Xj7q4s3eVR/PjlhywBP0r5e5zJsBDnDyyNT9/BzNT+fFlG
+	O5QN6F5Hh+0oCYBUSoI2WpTaAGmshCx1QLDahWcfFB/y7t7uB9xifjyhbdVsA1pC
+	r4+nJ7RxPjFGa8hVo0Nw4mjtGbNMN8W7vlxtpZnocy60D0od4/UARIvCLOMpGA1F
+	4Mixq97FxzuykD0zVV683Aox07adr//IQPASR3NpLkTZ/hghn+cnAd7Fu6tNbtQr
+	RWnqKiQbbt/JR1X/ztW/5BX/YHdGepEZWUEebr36LJwq/DIXEGfv+WmtyoMVPuRK
+	VjfNYA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e0ywhgbfd-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 20:06:07 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3663d5e9bf4so476838a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 13:06:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778184367; cv=none;
+        d=google.com; s=arc-20240605;
+        b=a9J0IiqAi9JCUIukpM5H4eoNxrfSRAn1XYOcRMtIeZbJPzpZ/7lha62jVC3hpxaQgi
+         yqi+gzsou0G+FTCLKZuwTZprF3tJN9K5JbuaPHP/8ddMGPaLJ3vW3tFywYTOMSDFcegA
+         gkG2bLbtGMtFUHrFwcc4Y5tCHMFNYHwWu2KyXGOrXe3NOEjCTa/YbJa8DekuPo9nLZCo
+         1hhGVutU++S8bYmTwABYDDCXaetgrC0UN0CI8g2XpvYRVWin6fsviXclWAyPtKxJGe4s
+         32201xqFaa+BiP5idSlBjLn3Aem5sI1w9BBuriCVGyR97FV6NCxs+1rqXz7Cd9UO5Phf
+         k97A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=A6Vccissg2+hxk2nSrBpx0Ivj/ojf/3wU0iG5EA154M=;
+        fh=scPkxuoXGaJ94+a0mnVuLQGwEAoXl2+waCiO0MASMyw=;
+        b=UX06Fq8MqDOyTOBnwdSnbmT8VMQgEjKTCN478r9+x5nKaJYSqcUSDEYeWZqybvfJBQ
+         ISwwBf/RPorHWJP0z66VD59htznqBhGPeq5dE22MmTexOen4tZ3ZeCK3thVY33+y3jND
+         aRUq5sufkZueh/scKMZo8ND8ion0j4OXIdDp6mGDY6g5TI8rJZecRaZSWdY6KPDH8pbZ
+         wqr4Xnahsj+QuoJLui9RyKKuECsu0Iq1XubSf//JmHqk214z/fxoPDhN/ybguvKXr9mo
+         FXANa734Z9SCMzKxGvqdHdNIkI9HeEpLVnCGebBm9Fv2bobIgxNm6mfoFF5LCKE4lohR
+         Luug==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778184367; x=1778789167; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A6Vccissg2+hxk2nSrBpx0Ivj/ojf/3wU0iG5EA154M=;
+        b=LyhnqdI8xdtRS0VrUsz4HM/0Tw5LCe/kgiHWdHStWXSt/+GuO2nDorOYBrj90EdtBB
+         hT8Qd5Qj1H8M7GK3gWcW2FLXT7TI8maFyACgc8i4Ze9xHlmI3NDsVXfYmwF4GOH+YcBx
+         AwMjPcZN7Rwe4T3wzMFzaOpJYu+H1DI5HgnyD5Hk1lYGAoJybG6/aGB7qqJacgTFkKvg
+         iZo9XJXlU43CkKPNm5md4PvdDgipTa6zXVkLu0hvOihiev4dRmhzZDreMze+sbxpaBFv
+         vJ+1xU1czOiD/pPTL+E3fe5IXZJWXblcbJM0bN5+PhA18tN1Dff6ws46MSLjSP9VJwwE
+         Y4zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778184367; x=1778789167;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=A6Vccissg2+hxk2nSrBpx0Ivj/ojf/3wU0iG5EA154M=;
+        b=lRMIia34ZLKP877W2ElzVzExjy5q7vXUCY8jvNgoMXAiZYOTfTxgcu1HewsX/7I0Rn
+         41SMiWwoT/9TFd3zbk+74f/ns+8OopLc/1UEdDHMA7aoJ9Hw7j66lRiqqreABRKo6Wrd
+         nBrEXGv0aLIgFZwi8oRpvzqmNiPqPCckJX+8vsn2PxJHEBFk2MwWGL7bxjxIcb/zVu/H
+         bk3PQYSEZ7LljLMadNOP1LF12d/NPjprCGgRRCox+TIcvN8mavJG2IuQnlPxA2itiPs/
+         CXOECoXL2gMs5CcGjEkGIwaMavOsR+xfHlXYu8/NL+DPfZk70faIDfwiPp8Eg158n+8y
+         Yt7Q==
+X-Gm-Message-State: AOJu0Yzjlk0j+qC6Sl9+L7BcR9lEZVDUH6cNO7/nyQEcmUt42by+/Y1T
+	8RgCJP897tzuhuyBxpyGvQC1BzelwV9BP7AhKPQlEEHUuCgdtVOWIPFr6+ec+YBcvVLIKccO9Iz
+	rFo/QbeRX+984D8RC2IzKSWyTZhCZ1R6UzSZTz470163b0Yh1ibQFV+Tjs7olNEn4sweA4vG4Jr
+	Mn/MmZg8NBlBRKN4RhJ0W4AYHQJ1znx3KBElg6eO2OVuGD+S3NOA2RhHt29g==
+X-Gm-Gg: Acq92OGghhr7VZBhhPYZhyZnjBDcDg+HQLrhygQWHkHDEakyIoYxKnrQ9DsyVyrklKz
+	aJhVn1YDUnE53nr1ZG9QU4PnIDgVpfTaHvCtUQ8AX2S9ocT7NDNzWqU1C/9mlLKvHNqy4yA1msB
+	pOXpVZwVTgYIUZF6yN/JQ+JrmOjjkRetB6l3w0c7j7CHP2vO/kBFxlmKgG9AIStpwUgaJ+1LeTa
+	wjv
+X-Received: by 2002:a17:90b:4b8c:b0:366:4a47:f26d with SMTP id 98e67ed59e1d1-3664a47f57amr106029a91.14.1778184366670;
+        Thu, 07 May 2026 13:06:06 -0700 (PDT)
+X-Received: by 2002:a17:90b:4b8c:b0:366:4a47:f26d with SMTP id
+ 98e67ed59e1d1-3664a47f57amr105987a91.14.1778184366075; Thu, 07 May 2026
+ 13:06:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20260429180631.170081-1-joaomarcos.costa@bootlin.com>
+In-Reply-To: <20260429180631.170081-1-joaomarcos.costa@bootlin.com>
+From: "Ricardo de Araujo (Salveti)" <ricardo.salveti@oss.qualcomm.com>
+Date: Thu, 7 May 2026 17:05:29 -0300
+X-Gm-Features: AVHnY4K6IGJVPQ4twgJh1r5BMcoNfhv8nwU40HT7fva_ikXnjgGdXL2YrIaXMgo
+Message-ID: <CAA_5yovdT5_WHP4mTR3ZMP3xodPQfsw1z5wH98vSrBwMWhZwwQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/1] u-boot-tools: drop yaml in DT validation
+To: joaomarcos.costa@bootlin.com
+Cc: openembedded-core@lists.openembedded.org, thomas.petazzoni@bootlin.com,
+        quentin.schulz@cherry.de, marek.vasut@mailbox.org, festevam@gmail.com,
+        khem.raj@oss.qualcomm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=bMAm5v+Z c=1 sm=1 tr=0 ts=69fcf0af cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=Q4-j1AaZAAAA:8 a=se8VwwewN4XTrN4cRv8A:9
+ a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: sMP8PY2ohBeANeFdFqcP7_J-jzQL1OAT
+X-Proofpoint-ORIG-GUID: sMP8PY2ohBeANeFdFqcP7_J-jzQL1OAT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDIwMyBTYWx0ZWRfX/9kVfBvToN4k
+ ywNbkq6j9HH4r+ICy5m0awC/NJZvcpoK79KCZryT2NHZ2VrkU/gWpuZfEaXXlRESSSZYtgMojDg
+ 3nvv108VLOMzPWpkf2BKHLTeX75q4TU+cp53BpaGJcJgfel72Q/DTKqV1xfe/pkbY7+3C+O3+L0
+ VxOHv5nb6Q5EW9HC4rPniXp4hkDyH6QT82M+Z90EMp4e6MP/9HlUmd3LACXtRCDVJZGHslNiWDv
+ W+z1xmFHU+3scfg8wJQeGp7JmjW88jokA44uzi200AlmqO/dU8DqKwn26LKZsbNT+rby361Z4Xd
+ zYqFgRJWB4BUAUE6LdZxjiomg1wwod0qP9cY1rT2XxK/2PoMc09DE3VsSoaeUusbuPPXIK34Wc0
+ uaiepwiWI+6Aa9/6qtAezAd04rwDfC71oNtxYBc0V1nJn1K/n8vireOmrUFNHN/tyANLUYCKygO
+ bSbACPJ09MlLndnhiEQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_02,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 adultscore=0 clxscore=1015 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070203
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 19:54:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236616
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 20:06:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236617
 
-From: Peter Marko <peter.marko@siemens.com>
+Hi,
 
-Upgrade to latest 1.26.x release [1]:
+On Wed, Apr 29, 2026 at 3:06=E2=80=AFPM Joao Marcos Costa via
+lists.openembedded.org
+<joaomarcos.costa=3Dbootlin.com@lists.openembedded.org> wrote:
+>
+> Hello,
+>
+> I hope this fixes the DTC build issues once and for all!
+>
+> Changes since v1:
+> - The patch was added to SRC_URI_RISCV only, so I replaced it by an appen=
+d
+>   straight to SRC_URI
 
-$ git --no-pager log --oneline go1.26.2..go1.26.3
-2dc996f71b (tag: go1.26.3) [release-branch.go1.26] go1.26.3
-8282c628a0 [release-branch.go1.26] cmd/go: reject sumdb response lacking module hash
-3baf3eec3b [release-branch.go1.26] all: avoid unsafe StringToUTF16Ptr on Windows
-0bec63330d [release-branch.go1.26] net/mail: fix quadratic consumePhrase behavior
-7136366ebf [release-branch.go1.26] cmd/go: invalidate test cache when -coverpkg dependencies change
-722b68ceca [release-branch.go1.26] cmd/compile: keep blank nodes alive in b.loop
-3ae315a8cd [release-branch.go1.26] os: avoid panic when RemoveAll fails to remove a symlink
-c9f97f50c4 [release-branch.go1.26] html/template: fix escaping of URLs in meta content attributes
-40fa774fff [release-branch.go1.26] cmd/pack: refuse to extract files with directory components
-d9389d318b [release-branch.go1.26] net/mail: fix quadratic complexity in consumeComment
-dd29b59a2b [release-branch.go1.26] cmd/compile: fix loopvar version detection with line directives
-18fa391f45 [release-branch.go1.26] crypto/fips140: add package docs
-e0f5c054cb [release-branch.go1.26] net: avoid double-free of cgo pointer when handling large DNS response
-2992086cf8 [release-branch.go1.26] lib/fips140: add certified pointing to v1.0.0-c2097c7c
-f43caf8712 [release-branch.go1.26] lib/fips140: update inprocess to v1.26.0
-19d2ce3401 [release-branch.go1.26] runtime: fix timespec definition on 32bits systems
-e9df527f06 [release-branch.go1.26] crypto/tls: wrap ML-KEM hybrids in fips140.WithoutEnforcement
-73f417a37c [release-branch.go1.26] go/types, types2: handle unconstrained type parameters correctly in a few places
-50856a181c [release-branch.go1.26] cmd/go: use MkdirTemp to create temp directory for "go bug"
-e137885d68 [release-branch.go1.26] cmd/compile/internal/devirtualize: use pointer identity for type comparison
-c9712872cc [release-branch.go1.26] crypto/internal/fips140/drbg: build tag out entropy generation on Wasm
-cb994d85ff [release-branch.go1.26] cmd/fix: change -diff to exit 1 if diffs exist
-95470667eb [release-branch.go1.26] net/http/httputil: reencode queries with many parameters in proxy
-9b01c04815 [release-branch.go1.26] html/template: fix escaper bypass by treating empty script type as JavaScript
-be12fe151c [release-branch.go1.26] runtime: use uname version check for 64-bit time on 32-bit arch codepaths
-ec5ebece41 [release-branch.go1.26] all: update x/net to 705de46f
-710f29a758 [release-branch.go1.26] runtime: add sysUnreserve to undo sysReserve
-efdc0fb354 [release-branch.go1.26] cmd/compile: handle min integer step in loop
-ba4554f03b [release-branch.go1.26] cmd/go: specify full path to go command when running go tool covdata
-f4e425d342 [release-branch.go1.26] fix incorrect loop trip counts
-0b4d5f85e6 [release-branch.go1.26] cmd/link: use bfd ld 2.36+ on linux/arm64 instead of gold
+It seems v1 was merged instead
+(https://git.openembedded.org/openembedded-core/commit/?id=3D5e97f3c1e2cf76=
+f8b810da5a8c591eb6e22586f2),
+which is causing build failures for non-riscv targets.
 
-Fixes CVE-2026-42501, CVE-2026-39825, CVE-2026-39836, CVE-2026-42499,
-      CVE-2026-39820, CVE-2026-39819, CVE-2026-39817, CVE-2026-33814,
-      CVE-2026-39826, CVE-2026-33811 and CVE-2026-39823.
+Will send a patch to get that fixed.
 
-Drop patch handling gold linker as upstream implemented gold linker
-availability autodetection with [3].
+Thanks,
 
-Release information: [2]
-
-[1] https://github.com/golang/go/compare/go1.26.2...go1.26.3
-[2] https://groups.google.com/g/golang-announce/c/qcCIEXso47M
-[3] https://github.com/golang/go/commit/0b4d5f85e68ea79b61de9989f9f37a984eb11289
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../go/{go-1.26.2.inc => go-1.26.3.inc}       |  3 +-
- ...e_1.26.2.bb => go-binary-native_1.26.3.bb} |  6 +-
- ..._1.26.2.bb => go-cross-canadian_1.26.3.bb} |  0
- ...{go-cross_1.26.2.bb => go-cross_1.26.3.bb} |  0
- ...osssdk_1.26.2.bb => go-crosssdk_1.26.3.bb} |  0
- ...runtime_1.26.2.bb => go-runtime_1.26.3.bb} |  0
- ...rcing-binutils-gold-dependency-on-aa.patch | 55 -------------------
- .../go/{go_1.26.2.bb => go_1.26.3.bb}         |  0
- 8 files changed, 4 insertions(+), 60 deletions(-)
- rename meta/recipes-devtools/go/{go-1.26.2.inc => go-1.26.3.inc} (83%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.2.bb => go-binary-native_1.26.3.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.2.bb => go-cross-canadian_1.26.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.2.bb => go-cross_1.26.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.2.bb => go-crosssdk_1.26.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.2.bb => go-runtime_1.26.3.bb} (100%)
- delete mode 100644 meta/recipes-devtools/go/go/0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch
- rename meta/recipes-devtools/go/{go_1.26.2.bb => go_1.26.3.bb} (100%)
-
-diff --git a/meta/recipes-devtools/go/go-1.26.2.inc b/meta/recipes-devtools/go/go-1.26.3.inc
-similarity index 83%
-rename from meta/recipes-devtools/go/go-1.26.2.inc
-rename to meta/recipes-devtools/go/go-1.26.3.inc
-index 8bb10bc89f..db7b18ed2d 100644
---- a/meta/recipes-devtools/go/go-1.26.2.inc
-+++ b/meta/recipes-devtools/go/go-1.26.3.inc
-@@ -15,6 +15,5 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
--    file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
- "
--SRC_URI[main.sha256sum] = "2e91ebb6947a96e9436fb2b3926a8802efe63a6d375dffec4f82aa9dbd6fd43b"
-+SRC_URI[main.sha256sum] = "1c646875d0aa8799133184ed57cf79ff24bdefe8c8820470602a9d3d6d9192b8"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.2.bb b/meta/recipes-devtools/go/go-binary-native_1.26.3.bb
-similarity index 80%
-rename from meta/recipes-devtools/go/go-binary-native_1.26.2.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.26.3.bb
-index d9006373f6..135c7fbf5e 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.26.2.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.26.3.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "990e6b4bbba816dc3ee129eaeaf4b42f17c2800b88a2166c265ac1a200262282"
--SRC_URI[go_linux_arm64.sha256sum] = "c958a1fe1b361391db163a485e21f5f228142d6f8b584f6bef89b26f66dc5b23"
--SRC_URI[go_linux_ppc64le.sha256sum] = "62b7645dd2404052535617c59e91cf03c7aa28e332dbaddbe4c0d7de7bcc6736"
-+SRC_URI[go_linux_amd64.sha256sum] = "2b2cfc7148493da5e73981bffbf3353af381d5f93e789c82c79aff64962eb556"
-+SRC_URI[go_linux_arm64.sha256sum] = "9d89a3ea57d141c2b22d70083f2c8459ba3890f2d9e818e7e933b75614936565"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "dbd82b50530ead2beb1fd72215117380df3cb16332b51467116dc35b3691dd75"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.2.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.26.2.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.26.3.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.26.2.bb b/meta/recipes-devtools/go/go-cross_1.26.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.26.2.bb
-rename to meta/recipes-devtools/go/go-cross_1.26.3.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.2.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.26.2.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.26.3.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.26.2.bb b/meta/recipes-devtools/go/go-runtime_1.26.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.26.2.bb
-rename to meta/recipes-devtools/go/go-runtime_1.26.3.bb
-diff --git a/meta/recipes-devtools/go/go/0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch b/meta/recipes-devtools/go/go/0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch
-deleted file mode 100644
-index dda0f2bb71..0000000000
---- a/meta/recipes-devtools/go/go/0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch
-+++ /dev/null
-@@ -1,55 +0,0 @@
--From 6d265b008e3d106b2706645e5a88cd8e2fb98953 Mon Sep 17 00:00:00 2001
--From: Dirk Müller <dirk@dmllr.de>
--Date: Wed, 09 Mar 2022 17:47:23 +0100
--Subject: [PATCH 11/11] cmd/link: stop forcing binutils-gold dependency on
--  aarch64
--
--The bfd linker appears to be working just fine at least in version
--2.41 or above. Reject the known broken one instead, which
--avoids an architecture specific linker dependency that
--is cumbersome for distributions.
--
--Fixes #22040.
--
--Change-Id: I9f377e47c22ef20497479c0978c053ed5de46a38
--
--Upstream-Status: Submitted [https://go-review.googlesource.com/c/go/+/391115]
-----
-- src/cmd/link/internal/ld/lib.go | 21 ---------------------
-- 1 file changed, 21 deletions(-)
--
--diff --git a/src/cmd/link/internal/ld/lib.go b/src/cmd/link/internal/ld/lib.go
--index dfc72e02c0..2a2a304113 100644
----- a/src/cmd/link/internal/ld/lib.go
--+++ b/src/cmd/link/internal/ld/lib.go
--@@ -1701,27 +1701,6 @@ func (ctxt *Link) hostlink() {
-- 			// Use lld to avoid errors from default linker (issue #38838)
-- 			altLinker = "lld"
-- 		}
---
---		if ctxt.Arch.InFamily(sys.ARM64) && buildcfg.GOOS == "linux" {
---			// On ARM64, the GNU linker will fail with
---			// -znocopyreloc if it thinks a COPY relocation is
---			// required. Switch to gold.
---			// https://sourceware.org/bugzilla/show_bug.cgi?id=19962
---			// https://go.dev/issue/22040
---			altLinker = "gold"
---
---			// If gold is not installed, gcc will silently switch
---			// back to ld.bfd. So we parse the version information
---			// and provide a useful error if gold is missing.
---			name, args := flagExtld[0], flagExtld[1:]
---			args = append(args, "-fuse-ld=gold", "-Wl,--version")
---			cmd := exec.Command(name, args...)
---			if out, err := cmd.CombinedOutput(); err == nil {
---				if !bytes.Contains(out, []byte("GNU gold")) {
---					log.Fatalf("ARM64 external linker must be gold (issue #15696, 22040), but is not: %s", out)
---				}
---			}
---		}
-- 	}
-- 	if ctxt.Arch.Family == sys.ARM64 && buildcfg.GOOS == "freebsd" {
-- 		// Switch to ld.bfd on freebsd/arm64.
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/go/go_1.26.2.bb b/meta/recipes-devtools/go/go_1.26.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.26.2.bb
-rename to meta/recipes-devtools/go/go_1.26.3.bb
+Ricardo
 
