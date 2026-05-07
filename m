@@ -1,158 +1,179 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 593C7CD343F
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 13:37:42 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.22])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12201.1778161054315825436
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B61F7CD343F
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 14:15:02 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13090.1778163299060810353
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 06:37:35 -0700
+ Thu, 07 May 2026 07:14:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=Kbo6jWUr;
- spf=pass (domain: cherry.de, ip: 40.107.130.22, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hOwOQkH82BPmw1sFXsOCZIjVXeCR9vXs+OOc5vwunz9YqWo7tDJnpG6owughcd/5S31CFeNs6bt/txT7brBQkbPwcZ7uVFurFPEj9YuNazvtCuCI2uFeQEekwKs2pdETCVpgblenzn1u2RcbxcF6T0NQ7Ue5E6ZxcfY975ojTA1oC70AjZO+84Gv77gNOOlB/uLzq/KMyvYk4c+LHWmGL4gAFHMItBYgsNeOIFVQFvG0Wkn5qHijTBJTCnBrl14gEzqpL+5C3L3tApOfSiElzOjTj4S1QE9y4FC8+JtEF3bps12IhzlTYYmvlggaGnFhayHFRdw3aXQRf9//GSLX7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tZV/5jS6fGoixA/SNZwR2rzh1WdX05XVBIddFGJrltM=;
- b=XkLt0LgAoSA7I8GtHsaGZs3cViXCyfoYBi7IS3E2FLc1FwfGXJ5Kb+dXCqZCY46ILxLCzVnfgxSx7BnRO9tEVPM06PC/T151m4XkYit3PVWUy9TA+ZsQThwTRHeaTGEa2Ur6dDGUt0B+8HP4jeBmjyu4/BQBIbHzxOJ6Sn42I3UdfwqK06sIXIxzFUh/77hKnxOV8HWmm9qAIVIzM25d8fRY3kJUU6vHjd/0xp+iLI9EuLE3tfGrB7p6UFrN8S9F1YjRDjglKvHUXU7jsj+1lz+sBKKHycJkc2OBJ9LuOh8DrJyAzFukmPC1vvAz6MUzI5Yxwlx9+S1HltfJbVORMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tZV/5jS6fGoixA/SNZwR2rzh1WdX05XVBIddFGJrltM=;
- b=Kbo6jWUr/YFZWQteuaTMr+J9EoIzGGgO8pyETH7Yhh9l4oZFle38IJXZXlJWscTbdF8QAnk9N9GAnv8Si5BF0vxmUlmzlqnHd8UDiLnDGA0hjTCZ/8mxUH6uMmQaVNS60uU8ah0Vbfx0Qt7HJryKdFOid2DBUdqOLugBEORgEaY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
- by DU7PR04MB11091.eurprd04.prod.outlook.com (2603:10a6:10:5b4::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.17; Thu, 7 May
- 2026 13:37:29 +0000
-Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
- ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
- ([fe80::5960:fb4b:9313:2b00%3]) with mapi id 15.20.9891.008; Thu, 7 May 2026
- 13:37:28 +0000
-Message-ID: <572fe019-4108-46c4-8136-1fbc52c70390@cherry.de>
-Date: Thu, 7 May 2026 15:37:27 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Best practice for including bootscript.txt in FIT image
- recipes
-To: rajendra.desai@emerson.com,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: "Vadrevu, Chaitanya" <chaitanya.vadrevu@emerson.com>
-References: <DS0PR10MB7954F61DA74A9B73FC8758AD89322@DS0PR10MB7954.namprd10.prod.outlook.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <DS0PR10MB7954F61DA74A9B73FC8758AD89322@DS0PR10MB7954.namprd10.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0083.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::18) To DBBPR04MB7737.eurprd04.prod.outlook.com
- (2603:10a6:10:1e5::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|DU7PR04MB11091:EE_
-X-MS-Office365-Filtering-Correlation-Id: bea1628c-0304-4cd7-50fc-08deac3dc856
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|56012099003|18002099003|22082099003|3023799003;
-X-Microsoft-Antispam-Message-Info: 
-	n1E2xyvhL7cJ7b6hHg18Jdrxz0rzSRJWMG4xnm4m1DiU1luN1+R1KwsTyGcoyjpBGjH9sFojakw2gsKo00Q7aPOKRrplet2VR6i+gHZEZIH/ZHTJzZKnNUanG3IAIILu+DILie1W3/wsj6aVqUvcqedi1Kde1XZew2XatJiF0Cn7jtWvq+jhjEttGWXzb3KlBlML59vv1Expj//Wh2L6tlNd+ILSVM0RkXdWFpqO6brIDuSoKSjumlAwrOUsZeNIqrLD8wsZCW1g/bR+CkSIo2FoKiW1y5T/yacIn2OLiCfB0kKciZY5lBkDkF/IYm0jnSVJpenoXWJRxoKbUNw3tR64tiNVYhyq2IWoWHVvToeIZIcKJqTM6NHNjXiQc7qVtg7GZ/TD199faDIn7Lu/s4T7m6e2U+iOLYko5PyKRp7+CSlYvgSdUpP7gb25xrNK6BxWeAQ42SeAHTO2ZsFp7tLQG+RoR3XvhPHDtF9oX9mDSnm6pH/51RcWU52g4dJnoTY089hmrYgSbLGvsLtivwnc92Z1xBSVegubJoIpc6rsktfo+KVrnhHIum7O2ax9K5YEe3gHFQjNGB+Qvzoj1hkvxP2TRZA/LrW0t0ey0h/cpUeJrxysCnbJz8uzKS/Dl2Qri/vfiyH0SqHtcA0HZ19KEzSmTECnywhAr8ALtzydWQYxRhSXxJTg+qtzEQ8n
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(56012099003)(18002099003)(22082099003)(3023799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?em92K2JGa1kzWHJOVUZyQjlkMUY4SnNMMlVOS3RmT0VkSnVSVElNdHBQYktp?=
- =?utf-8?B?MlZ0WlpmQi8wNDVEQXgydkQ4UDNYSWVrdFg2ZW1POVZMd21sNnhmekUwV1VJ?=
- =?utf-8?B?Rk4xeXFlT1JtcXNibFBzb203ZUlpSWZQUWhZd1VYYlV5MVZKaldhN1NhanBM?=
- =?utf-8?B?ZEFqWXJ2WWZlbGpXa1RsVmVLYm9GOFFkTkMyK0lwYytNb3l3OUpuZnBWWmhJ?=
- =?utf-8?B?dWo1c1hnOVZmaTREalRiVXpXK0pWVDlGanRlNXNHNUFnU29la2ViVFc4YmpS?=
- =?utf-8?B?V1RLNU5RQ0V0ajZDYjlRODJGekNuRDc5MktUYXNqWk84NVh6NC9rcUJ3VGN2?=
- =?utf-8?B?cDdoUU5DeWxwM2F3STZPcjhRT0xVLzk4UmZsZjMyNzRDbVJYLy9oOEdqa1h4?=
- =?utf-8?B?RWVSMWdqV2ZkbHZuS2V0K0VJUmdnQWluVFd2NWdNQ0ZVbW8wV0pCa0lkRE96?=
- =?utf-8?B?djVxVnlFK0hHRzg2QWg5UHB0RGJDV2JDU0dYZzhYU0xWMnY1WFFGZTlVS1I4?=
- =?utf-8?B?OXVqWE9YWFFvN203QTZBMU9rSlhmT0EvY1BiWlIzdWxpeXlVdWlsOXh2Mkhw?=
- =?utf-8?B?cVFJNFk0SlEvZStNL042RUVUcHJqc2xCbXAxb096dDk4MW5qNVhTaVpoV3hv?=
- =?utf-8?B?VnZxcVBDclVCV3RoUWE1Y3dmVnlWYkJoRGZua2lWNEQ4WmQxcDZpc2thTkc5?=
- =?utf-8?B?ZGV0TWJWT0F4ZENNUjFrNnNLY2JwMk1SdHd1c0EreW5UZFVoeTZ0R0tFeGFH?=
- =?utf-8?B?UVU0ZUdmTFF1eFdYS2hOdGsydHp2cDNlbDlwSjJkbVpBVFF1N2lLQ0tlRGZB?=
- =?utf-8?B?S1N5VVZwNGsrenh4dk1WWXRsVEdtZnBzYzQ3eXVzRlFDQUtPT0daRVo0UXZw?=
- =?utf-8?B?UG1WMmdIOTFzVitPRWNjSWV3ZFNYUEtpUmNONi9aaHh2anJ6OTBwSTJFSVJI?=
- =?utf-8?B?czY0VHF6OWtFWmlHRjFZYnc5V244cnMzdTRUeG9xU2FQWTRPTS9Ua25JRytw?=
- =?utf-8?B?cGMrY2NFOGd6d05Bc1JuTk1JT1pYSG4yV2MvMyt6WU1xSGthc1JMKzd5SENr?=
- =?utf-8?B?YzZWK2VwMFpnRGRFNTRQQy9lMnVWNFpOcHQweTd3Um9iNllPUUd1NnlVUmpY?=
- =?utf-8?B?MExYZW5vUDAxOTVJSFQzdW84dmRQRDNsa2YzRzBnSzZRdkoyb1N5T1VzOVA2?=
- =?utf-8?B?RlBLU2g4Rm1Yc1drdUpUazlIQzlRM1RhVEI5VU9ocXA2T2toYzZvU1Vta2tL?=
- =?utf-8?B?U1dacUdCSjJJamdyeHZLTGMzYWNKWUkvR0dJbW5DTjRRcXFpWU02aXhsL3JU?=
- =?utf-8?B?T2dGQThwc2dVM3dGdlVEb21VR3doS1hBOWR4L3UyeWNLRWFSR0d5aTFScTFa?=
- =?utf-8?B?MmVwc0FiRVF2ODJDR3oyOEJoUTlGU09rTWwzRVNyakNRUlg4R3N3TCs5LzdY?=
- =?utf-8?B?clM3UDhzbjkvWnFYTzdVUmZwQmhEejJSSTk5STZyUkhNU1RMeUhuc1Q3b21y?=
- =?utf-8?B?dXp0bWlxMHUzV2E2TU9ueXUyUkJicnlQZUNFZDFJWmNFQ2UyaUJYbGp1b0FE?=
- =?utf-8?B?anZNWStKbW9OeStpZHQxMnlySGkyUU5DTlNSRjRsSXI2MDVpSlFFRVl5cWZW?=
- =?utf-8?B?TStlSkFvZkRMTExzcHNBV3ljTlgxM2xkQTNYVTBna0FqdjZKSVBpVkFUMzNT?=
- =?utf-8?B?cW9lSUJnSGNFZ2tJTTc0NjI5TTRTR0lnS2FmUTlObStDN3hCc1R3NzdmaldY?=
- =?utf-8?B?K2xHc1NRc1c1ci9CMkd2ZUpnVWlWRk40bWNyWGNVT2RLVEtTMVhubFU2aHpR?=
- =?utf-8?B?U3V6WWd0TGI0YVduME9kanVOeGhzODAyMVkrV3JiREU3M3YzMlNpcVMwZmgv?=
- =?utf-8?B?OVJ3VmhvcGNCaGtsZDdLQm5xdlNzdGEvTGIvZWVmU25SdTdOZHBPVVBnd3hh?=
- =?utf-8?B?Q0ZTeU5IS0lvOVpwZm5DQjFIUVJySzNqR0VlOTBVbFFuNFcyQ1phTE9LeGZt?=
- =?utf-8?B?d1UvSEtRWWpYZ3J4TlY1eWJ5SFpYZGdXWm9FWXA2T215WE8ydGV2Nk5PM2Z1?=
- =?utf-8?B?L0JEMEJoTmNpR1ltSEE4QjQ5a1pQSFR1UFZla1RGVGxzQ1kxenFyUGlqVkNq?=
- =?utf-8?B?UG5DUEcrZ0J3bUNtdmIzZllZbEtXbGtWRjVvQ3BhRVV1bW1ndk11VmlqUkdW?=
- =?utf-8?B?ZVhTekhaWkt6ZW9qNjNhc0ZCaDg5VFU5UExKZll6YVJTeHNMVWpsN2svWmIx?=
- =?utf-8?B?blZzNmRqN1hKWCtReXVmb0VHZGhJNjY4RUN0WmZJVGdBMFFKb0s3Q2RpVEpO?=
- =?utf-8?B?ZmVwZE51ajZ6VzJUc3ROcHN0anNsS1lkSEswbTYzMFZPeSsxSGt0Zz09?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: bea1628c-0304-4cd7-50fc-08deac3dc856
-X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 13:37:28.8562
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kdBQ2Yj1hOVpeXjWiuNBM921r4lCDMd0BxqwU3YwGUd6amxnnSGHd8cn0qVoUR/PZT3aRignO7ZYG6+UsEMGXaRZUIkxbOYWu5Z85cdJxXw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PR04MB11091
+ dkim=pass header.i=@smile.fr header.s=google header.b=Fk2epX5V;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so10685715e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 07:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1778163297; x=1778768097; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j6efthW9MQISpC7YjXio7QhPLzpBTfrWC+PyZ1GTzus=;
+        b=Fk2epX5VevvPuU05gP2oP9N+jeKY+dJ7Ywmn93+wBIhGGSrluqJlj03oOyTPkzU1nW
+         fIrjaDHW7bTPa7eS/LhzHMSIQaMDrfEtVuWEbNOXM5ApGN7y+FCcEzjw9ir3PARi92qn
+         79NyWIonOzK+CuiD8IlLJzO1zQvMszXOsqWAU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778163297; x=1778768097;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=j6efthW9MQISpC7YjXio7QhPLzpBTfrWC+PyZ1GTzus=;
+        b=W+KjBWbP5FGOt2/501hAB/K8+Ellu0jr8wDQxbys+qDP4bC1p+7+J/5GZ+jUAcYwDb
+         YyGzAizmjt821GVlUIwhFRadJ17P9sRGV+6ud7bmberoPhrjNDJsyWUFosfytzS6Kfiy
+         ZKXj/3jpLxxa5l1JoIWnELVRjGiTgcjgUkUH+abxminJxt9k/ivyDBlBMiMKVMDBmV9N
+         z9HDgwb444X+oDnE/vgJPklYrKbAOL6Clh6C+qVaJgS26q6lHnwfkuTY0qA2jPnib8cX
+         DpiJvUfZEPuG8M5fQayAh3OuHaFmFjuGxJjGL6VtbPlXTqezBSENytq6t4IGe39ysUza
+         p0qw==
+X-Forwarded-Encrypted: i=1; AFNElJ+uCCGCYjqNtJg5YPHlljf1fYHoV+wJLN2igfCeS6WZACmOl9nPgFSPk3chBlhJA+d+pvTVSX8NJPWKk+G/EYAP+g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzRoIfP239lu99lsE/KBdbbqIQN5ypvtwBFpOaqXAAFkyyehTNq
+	bXZfPUgFTpY0mypmTnAQfTRYsrT5US3s62GNVWT3kxvDkYbSSC0E91zlOaotedCr2jk=
+X-Gm-Gg: AeBDiesf+JWHzTkzajcZKw7i3SWuxt6vjpNwj6TKXTVSrrU5CdhOSlXE0cWStQWd16V
+	xly9+MATzlZ4PPrSANNtDNeIxWm2Bk0Q6B2FJ+8iPlpaXVrNecEUyLVeqbVGoo3SwCmKQ1hfMep
+	C/7pVmLOI+Ys4zoDpkJ3qfj6LCUSFOVDo+oEXq7ao9qw9xaWCTBIvopM85sm93nz0Tc+NGUoe8j
+	fuyqEZRZNMaF/D+6+JmrQuD+SIkteGQrtZMHGwwJcvVQOi6HQaXItt3eibbB/WHtyMpohO4JvIg
+	DUAOKId3LhdfA1mWrsxVnxMQJv0UvuOuMflxZnZIM2qyEZp7CIry6mefXFsGVl6OLlhZOADiQy0
+	UaEIMWR6WrnmwMxvSeMza5p4GJ5+l+WDiAIYVfG9/VtgzZ67VphPRbQ/AJDIhYt4TYzApqOMK96
+	QeSpoziHgx/+XM4skm8wn4B2Gcprar2jkM0aPIkVj1aDjZjwvcAaswIlZohjNyLP5YcpWRRUsGn
+	dQMBcQaoiBG9umE0GcJx7Y08AkryTZXNnnKshkU7QemYNs=
+X-Received: by 2002:a05:600c:3e8d:b0:488:bc6a:528d with SMTP id 5b1f17b1804b1-48e51f40b12mr141848925e9.22.1778163297090;
+        Thu, 07 May 2026 07:14:57 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e538aaa0fsm155762585e9.7.2026.05.07.07.14.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2026 07:14:56 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 07 May 2026 16:14:56 +0200
+Message-Id: <DICIA54NRGQA.3213X4EU8EMW5@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH 3/3] libexif: upgrade 0.6.25 ->
+ 0.6.26
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260504063159.30681-1-hprajapati@mvista.com>
+ <20260504063159.30681-3-hprajapati@mvista.com>
+In-Reply-To: <20260504063159.30681-3-hprajapati@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 13:37:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236590
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 14:15:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236591
 
-Hi Rajendra,
+On Mon May 4, 2026 at 8:31 AM CEST, Hitendra Prajapati via lists.openembedd=
+ed.org wrote:
+> Release notes [1]:
+>
+> libexif-0.6.26 (2026-04-14):
+>
+> * Security issues fixed:
+>   * CVE-2026-40386: An unsigned integer underflow in Fuji and Olympus mak=
+ernote handling
+>   * CVE-2026-40385: An unsigned integer overflow on 32bit systems in Niko=
+n makernote handling
+>   * CVE-2026-32775: A buffer overwrite via integer underflow in makernote=
+ handling
+>
+> * handle JPEG APP3 marker
+>
+> * added EXIF_TAG_IMAGE_DEPTH tag
+>
+> * translations updated: Arabic, German, Spanish, Polish, Romanian,
+> * Serbian, Swedish, Ukrainian, Chinese
+>
+> [1] https://github.com/libexif/libexif/releases/tag/v0.6.26
+>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ---
 
-On 5/1/26 8:00 AM, Rajendra Desai via lists.openembedded.org wrote:
-> Hi,
-> 
-> Docs say that to add a u-boot script as text file to a FIT image, FIT_UBOOT_ENV should be used. What is the reason FIT_UBOOT_ENV was introduced instead of having kernel-fit-image.bbclass consume UBOOT_ENV_BINARY which is documented to support both .txt and .scr (as opposed to FIT_UBOOT_ENV which only supports .txt)?
-> 
+Hello,
 
-Where do you see FIT_UBOOT_ENV only supports .txt?
+I've tested this series but got a ptest failure:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/3632
+https://valkyrie.yocto.io/pub/non-release/20260507-71/testresults/qemux86-6=
+4-ptest/core-image-ptest-libexif/log.do_testimage.1906144.20260507125409
+| DEBUG: Command: ptest-runner -t 450 -d "/usr/lib"
+| Status: 0 Output:  START: ptest-runner
+| 2026-05-07T12:58
+| BEGIN: /usr/lib/libexif/ptest
+| All 0 tests passed (0 skipped)
+| DURATION: 0
+| END: /usr/lib/libexif/ptest
+| 2026-05-07T12:58
+| STOP: ptest-runner
+| TOTAL: 1 FAIL: 0
+[...]
+| WARNING: There were failing ptests.
+| NOTE:  ... expected failure
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/meta/lib/oeqa/=
+core/decorator/__init__.py", line 35, in wrapped_f
+|     return func(*args, **kwargs)
+|            ^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/meta/lib/oeqa/=
+core/decorator/__init__.py", line 35, in wrapped_f
+|     return func(*args, **kwargs)
+|            ^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/meta/lib/oeqa/=
+core/decorator/__init__.py", line 35, in wrapped_f
+|     return func(*args, **kwargs)
+|            ^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/meta/lib/oeqa/=
+runtime/cases/ptest.py", line 27, in test_ptestrunner_expectfail
+|     self.do_ptestrunner()
+|   File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/meta/lib/oeqa/=
+runtime/cases/ptest.py", line 120, in do_ptestrunner
+|     self.fail(failmsg)
+| AssertionError:=20
+| ptests which had no test results:
+| ['libexif']
 
-UBOOT_ENV_BINARY is a variable set in the U-Boot recipe, it is therefore 
-not guaranteed to be available outside of the recipe (depending on where 
-you set it).
 
-FIT_UBOOT_ENV is a path to a file. I'm assuming you could set it to the 
-UBOOT_ENV_BINARY file as installed in DEPLOYDIR (not sure about path 
-poisoning/reproducibility though).
+Looks like no tests actually run...
 
-> Also, docs indicate that if UBOOT_ENV_SUFFIX is set to txt, UBOOT_ENV_BINARY would get installed to /boot and DEPLOYDIR verbatim but that doesn't happen as u-boot.inc:do_compile only copies UBOOT_ENV_BINARY to ${B} if UBOOT_ENV_SUFFIX is "scr" - is this a bug?
-> 
+Can you look into it?
 
-Are you sure? Reading the do_compile() task in u-boot, it gets installed 
-to ${B} regardless of its type if you have UBOOT_ENV set. What am I missing?
+Thanks!
 
-The kernel-fit-image class is rather new and the U-Boot also has 
-received its share of deep changes recently, so it's possible the docs 
-are out of sync.
+>  .../libexif/{libexif_0.6.25.bb =3D> libexif_0.6.26.bb}            | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-support/libexif/{libexif_0.6.25.bb =3D> libexif_0.6.=
+26.bb} (93%)
+>
+> diff --git a/meta/recipes-support/libexif/libexif_0.6.25.bb b/meta/recipe=
+s-support/libexif/libexif_0.6.26.bb
+> similarity index 93%
+> rename from meta/recipes-support/libexif/libexif_0.6.25.bb
+> rename to meta/recipes-support/libexif/libexif_0.6.26.bb
+> index c57855303f..56b2e1e168 100644
+> --- a/meta/recipes-support/libexif/libexif_0.6.25.bb
+> +++ b/meta/recipes-support/libexif/libexif_0.6.26.bb
+> @@ -12,7 +12,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/libexif=
+-${PV}.tar.bz2 \
+>             file://run-ptest \
+>             "
+> =20
+> -SRC_URI[sha256sum] =3D "7c9eba99aed3e6594d8c3e85861f1c6aaf450c218621528b=
+c989d3b3e7a26307"
+> +SRC_URI[sha256sum] =3D "0830ed253fceeb60444fb309598bc8a9491d3007dc054aad=
+3a50a347c5597c57"
+> =20
+>  inherit autotools gettext github-releases ptest
+> =20
 
-Cheers,
-Quentin
+
+--=20
+Yoann Congal
+Smile ECS
+
 
