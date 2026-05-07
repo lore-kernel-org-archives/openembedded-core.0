@@ -1,157 +1,184 @@
-Return-Path: <j-sahu@ti.com>
+Return-Path: <frezidok1@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CCF1CD3427
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 11:41:08 +0000 (UTC)
-Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.5])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9546.1778154058939976118
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6273CD3427
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 11:47:39 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9787.1778154437999594430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 04:40:59 -0700
+ Thu, 07 May 2026 04:47:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=JHjNGQNG;
- spf=pass (domain: ti.com, ip: 52.101.48.5, mailfrom: j-sahu@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vjBjN2NzMBmZQ6fNfAnAfkcNKJxOhelkjlyndIBWZg7pFQTSdRiGGGBppekM4SP9Fz40hU7uypiSk3EuVHPWiKToY8K5F2QNiDsf+a5o9vUSPCK4+bxoyfFoyD9Vz9ob6SR0ihtRoultghMOjbTXaoKCykkbVf8kKC3j/Fsz8urNFDqgIzebxMdbJ3kZWHUnVcaVaG2QilN7nW5TZy/z5Y2AuEUMKxe/OoU4VGCAmyHrq2g7T5cgJPhnJXIAnszXfxQQD9ykZ3T1JZslko8tUyJZAb5Qi0faJwWLvukhz+R+b39hgRq78t1KBJQfKmyhkVV5+LqQJg0nasiKIlZ4Eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UGzVfN1QUOqU2XCE8XgG8UojnmBSmFQLsHuMz9vgaEo=;
- b=IFakuY9bBJGcHZPD6LD3/xD1wncIT90ouUOEWHyz06DC0jotCv2/fzy2jpRQgxHzkXgqT+dzKa3unKlKrldt8LhdM1nnRC2rXvb4j54kOA9fdee3Yq6ggyd3I2CGA4R1Nf7ZvH00ZkauIE5HuGJYSA8bmoq4ry0W0CT3eZGgXiFBSSPXSvDdnfF9wON8P0s0SohUEcq2IrDEzuQLJaG2RIs0WylqPWJXLNzAGNCEYI/2jHK0hKbWysvAFMBy/0+zidemORJ6RoYd5V2e7oINvqC9ecYhYf71DGbO8Z+z0qvVsLTrcOy8O4af820pVjsmxtSc+VPjyJgVmlFz4FNJyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UGzVfN1QUOqU2XCE8XgG8UojnmBSmFQLsHuMz9vgaEo=;
- b=JHjNGQNGW294abf7N0OOL+7MgddlHPGrdwqul78zJJHwTG11e1ucgcct1mVE2UX4e4Q0trGGOhJKtqfd1T2oGo8hR58+z+iMkvz7Vz4UzJhYd7uVKqZ6yRtjCZn0F/PfL81VwHP1xMM6LVX5wL8wuIbZDB/AbvQON1AARjYUc9Y=
-Received: from SA0PR12CA0005.namprd12.prod.outlook.com (2603:10b6:806:6f::10)
- by MW4PR10MB6298.namprd10.prod.outlook.com (2603:10b6:303:1e3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.17; Thu, 7 May
- 2026 11:40:56 +0000
-Received: from SA2PEPF00003AE8.namprd02.prod.outlook.com
- (2603:10b6:806:6f:cafe::34) by SA0PR12CA0005.outlook.office365.com
- (2603:10b6:806:6f::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.17 via Frontend Transport; Thu,
- 7 May 2026 11:40:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SA2PEPF00003AE8.mail.protection.outlook.com (10.167.248.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.9 via Frontend Transport; Thu, 7 May 2026 11:40:56 +0000
-Received: from DLEE209.ent.ti.com (157.170.170.98) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 7 May
- 2026 06:40:51 -0500
-Received: from DLEE207.ent.ti.com (157.170.170.95) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 7 May
- 2026 06:40:51 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE207.ent.ti.com
- (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Thu, 7 May 2026 06:40:51 -0500
-Received: from jeevan-HP-Z2-Tower-G9-Workstation-Desktop-PC.dhcp.ti.com (jeevan-hp-z2-tower-g9-workstation-desktop-pc.dhcp.ti.com [172.24.233.81])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 647Beof33229611
-	for <openembedded-core@lists.openembedded.org>; Thu, 7 May 2026 06:40:50 -0500
-From: Telukula Jeevan Kumar Sahu <j-sahu@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH][master] useradd: use --root for groupmems which lacks --prefix support
-Date: Thu, 7 May 2026 17:10:43 +0530
-Message-ID: <20260507114043.481583-1-j-sahu@ti.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=m8aDXi0c;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: frezidok1@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7b4ee3a88e1so6940137b3.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 04:47:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778154437; cv=none;
+        d=google.com; s=arc-20240605;
+        b=R92MzFsAi+QWiDTmnPL6FzuZ0o4kHUKwdIhDL2JfNh6WvyB7hHn+kjus6uKS052yRr
+         38DloE2I6KSD6WVbUNMlNbQ1r93kA4H5gQNxvV5d0YPtMz+3hg3a4/dpn/djO0pHZPXB
+         Zi4GB8oGvAktOqLGimkmDyAvk/2B/mZx/zGjciSnVHskVqfSHkGhapT7HvF5C9rNeI0B
+         VPRmw60J1RE5NUo1bSxPfbnUtnUaRISJ9E+etU3DxRvInSwimAFE0cu384sWf4wJpA0S
+         6JusNr+u97SaOa/hsUBAQoBgLeRwCfN3fF5E0eFXqF6/BUJWGnAtqK4b/FP0NdAALz+L
+         Ashw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=THndn4Mxv8Kfre76KHxTYKLa9dmDSeWUEpXqTVt07u8=;
+        fh=toEqJZwqRVBtWFdjvbnHcK/jgjDz0NeahqiJS/bEzeo=;
+        b=P3UHMp3TGT/eD5qO2tScnNnFdjfbmd/+4ZrItQSGCO0YxTB9IYpbYGQ+N+kqPsS290
+         2FhZA0phvCtQcIqt6Gg+WJb8k33vpW7cQ7u22QdJmJ//txxADkc82sEjOgrO/6ilG3M6
+         Ru5/i2XfQ4b0qlADCx+TUCyFBCLtUi+vkzJFaG5MjdBVHAHzvrNjy44lqLgeKJWzB5ki
+         8vjBQtGX26/9BlJTET6YC4kQs4g0EK8v9oDnGNAf6DehwD+J0eiVSSI8iexEH4ZNdh78
+         2aKrGwYc7I9UCXWe2qgiZqmibaldEQDXJ9rxxDwhRJ7mzxZRGdrxE8CCBV8aNzMy4AhY
+         hM+Q==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778154437; x=1778759237; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=THndn4Mxv8Kfre76KHxTYKLa9dmDSeWUEpXqTVt07u8=;
+        b=m8aDXi0csNPh7xmNYRnFO7+QO0g5RectSfCSZvBNjEH4JoDGsQzomShjm5Cc+Nu13x
+         CzvUDoX2FcQSHqm/zEmpqedkcH3pLDxc+3ZtyZVrI3nGKerhHsUsTCnoNi0tTDgt1zvJ
+         ZykehlC8gkqUI0iaAEN3Z4hJ+70pWU+VybUyd1eButNgjBCfPBvf9DgtQiO7+BK7MIuY
+         SMTJ+HtO1YuPSaF+65v9lUwXmXgXZYIDF7i7ScGGQNoXtecYPIYCr5rX7vdDpJTkNVtD
+         naroE4QeCgh4QRpSmzL+COLPIWdRhJKHJGZswrgiUVKaxW77tA71717z0sRYaK3hzCMD
+         XwBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778154437; x=1778759237;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=THndn4Mxv8Kfre76KHxTYKLa9dmDSeWUEpXqTVt07u8=;
+        b=dAdQ1W1fGrFW19BK2zOsIpt/J2QOq6CMcZH9fSD2GemNIRzzEQBQ8OsNQQ7ci3hwWr
+         EGpuxEyV+7T/IdbR3JaV3GYfElTpGlfiho5iu2lfXb/MNzaNPPYZ7qZ4s843ZEWMW10O
+         f6UxQBE9UMAj2C+U14hSe726HjILIxo37dDLZQYI1LYmFECmze/C8qE/eqdKTQrGgNgs
+         hvRrt9nPxYnE5m1/OAPc8iLOC54D2V74KVu8tNG+wWNl5QAw9nSB13yv+Ua4HuDTjZK6
+         8ImehzlQEM21iGcs33/pgsPPPT6JdRtAjRac/YC+nkJplWuOs4AxeUpU+b2qIHfUuCkm
+         lH0w==
+X-Gm-Message-State: AOJu0YzDP5D5kcSBp7nAnOPFt7PG6N4sM0M0qQYmOHBkdJnzPocHwBzp
+	xr3q3a5xSvdcscFbhx2z4psR3M5LrwVTW0ImE+D0HiFgjjdYn4aM53nE5HYu57P32MKr1qh/g1T
+	s/A6HEyLPt4WLMK4Z65+9BfGBGtdDA+s=
+X-Gm-Gg: Acq92OGwLLqnsBe5ICdqBq5tGS1Vqd0gFAnYgCEq3VSH7S3DPAg7+NyEo+vUqMZZ/4l
+	RYq4Wkifc+4W9qRlLU8gSP4rY8OyDwcaci6EqjdCJ0s9iXib+Q0NjRedD5y6L1aKYZ85VZ0IV+N
+	DQMxTdiDw8lXg/fsv88nYfogFt5gVXMuYz/nqijBQY4H7Qu7iJeBqYPhT7PPWbWn/4QkrUArO7/
+	EIvRBMpZEZOjAiCo3RoFh1QzFl6xgAXk/9gLQc0RvZPcnb3+KB+4Py8SmTG4+G2z90wd1W7QX5X
+	7AV7wr3uXt6eX2lcn4R/yIw4V3i9
+X-Received: by 2002:a05:690c:c4d3:b0:7b8:c19c:ee89 with SMTP id
+ 00721157ae682-7bdf5efccdcmr79043697b3.42.1778154436930; Thu, 07 May 2026
+ 04:47:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE8:EE_|MW4PR10MB6298:EE_
-X-MS-Office365-Filtering-Correlation-Id: c60b326f-836c-464e-843f-08deac2d8080
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|376014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	+QkgzOvi73CRGae1MdMc1ogsYwFlrLplT3icn/wQtwLhu6L0KOf1b8cbFhqGpftPDw991dcj04du6rSrdyAc2TfuoJNX13lyHPsq4W5bL+ZMcqyM/kA32pJi2MojvIlhmI63fem6t3Ujk6iriuqy2aLdey3rd1GLnYqxbty+V1PBX6Nb0Ky482pIT1dTLdU/I8+DD4dKUu6UmOwltrTNgQ2joLxVRv5Lw6Jj50uKuG4aP93ifDe/2VakWL2NoTUvZnzp9SWOsvZ1ye9EHPs6sYn7gwspSfcSoI+UvkXwaigszwt0cCYefI+b4C9BFtuRiyRpzu12osvL7SQ6yqNUEBFgyxqKs3+MukFIzI2xVPpEjFlRZ7V4hmPtMx3HY5Qt4/gpHU8julllbLYWcy8gJODjV88IpztNvd4+7ey94PkMP+PPWuLHuXOtxCproi1N7YHyZ+zV+bGwBNfIjmmS+braXdMZ39//tP0iI1aIe8LRcG7CR2oQTgshM3uNkJF/VW/Fs8AH+P1x0m/XtaiXHF/9xnHUnoLz7ZJ00dxI/8z+L5OYpcqBKWsjNsluoC04KeADBFLbovfScvWMyjF1CDDZ6HhMagwhRwg9V3yDzzWE0I8tZNBGU4jfYVy+qxStutM6AINpfhEVln09LoChXP0ChooaES/fbBReOoblPesrHk0WKZDNR+D6NjWM9TpE7TlNyZ6r9DDi08X7pUI/qnbnvqUgp/+1d7ZxbIpz2Xc=
-X-Forefront-Antispam-Report: 
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(376014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	Z5/nuFBnch3V828hCcuTiBAz2UGz8QUPIUWmthnjpnjOyziIcv/NNxoYykTAGel8kuXkXZJpERQudRAcMXMPmIlgFiaaf+KR9d3i2Okc19bZ4GCEsPjVPn1M3+UxHBr3BpvDhwL7loj4gba8Xen48XKZ4ZHrHKGceCCR+MTY7ZoU6X1+93JbY7QX5Jr7hDpju3e3QQS8SuSyDebvF+6y1BOiX9Gc2pnudty+kOY1d/MnIWbqJfX03n2tlZDQhffWfe/If4fKWhFKZAhnqb7DiDd2J6wnPulpeuMGC50yW8eZxkuEn+Dx+J4pFddsZaYHYx88dGFWoc0NPrls4S15aRKa1mt5bC/KxfLVC7Mi66HxZUW/cq9zNaXgCQmn1vJLVXN6dxr5Xl/nkXJd81oHdI0tU8ZdSWJwWk6VBQEwFJFw0l60SqoVKMSWuXEUemQf
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 11:40:56.1882
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c60b326f-836c-464e-843f-08deac2d8080
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SA2PEPF00003AE8.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6298
+References: <20260507102353.43585-1-frezidok1@gmail.com> <CANNYZj_49KqbtAbzWvZ=2Y=qQGroFftdjp1wbAzD0bq14aOOnA@mail.gmail.com>
+In-Reply-To: <CANNYZj_49KqbtAbzWvZ=2Y=qQGroFftdjp1wbAzD0bq14aOOnA@mail.gmail.com>
+From: Dmitry Sakhonchik <frezidok1@gmail.com>
+Date: Thu, 7 May 2026 14:47:06 +0300
+X-Gm-Features: AVHnY4Lv2J90Gk4AeEBtU6jz48VzF43rBgwGLfwksbQM4ku6dvasu60ahxUo0go
+Message-ID: <CAP4GjN67agViKaMrxbrzxtbmGCSM5hXAvNzNC9tqUEa0HsQtBw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] shadow-native: Change upstream status of disable_syslog.patch
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000091bb2f065138d76a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 11:41:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236581
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 11:47:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236582
 
-groupmems in shadow does not support --prefix (unlike useradd, groupadd,
-usermod). Only -R/--root is recognized. Recent commit [0] switched the
-global OPT to --prefix, breaking any recipe using GROUPMEMS_PARAM with
-"unrecognized option '--prefix'" at do_prepare_recipe_sysroot.
+--00000000000091bb2f065138d76a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Introduce GROUPMEMS_OPT=3D"--root $D" used exclusively in the groupmems
-loop, keeping OPT=3D"--prefix $D" unchanged for all other shadow ops.
+> You can replace the patch below with a backport of what was accepted
 
-[0]: https://git.openembedded.org/openembedded-core/commit/?id=3Da7b846ba7d=
-6d63a5e59939d75d9c5fe3e4cbb0e9
+No, I can't do that because the current shadow's master and v4.19.4 (last
+release) are quite different. I cannot simply cherry-pick my commit and
+apply it as a patch, the only way to backport is to manually completely
+recreate these changes for v4.19.4. I have already discussed this topic
+with Randy (randy.macleod@windriver.com), and he advised me that waiting
+for a stable release (they are promising late June 2026) is better than
+doing this complex backport.
 
-Signed-off-by: Telukula Jeevan Kumar Sahu <j-sahu@ti.com>
----
- meta/classes/useradd.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Though, if required, I don't mind creating a different patch special for
+v4.19.4 so we can use the new configure option ASAP. But since the shadow
+recipe will have to be rewritten anyway after v4.20 release, should I? I
+don't really know what would be better, so I appreciate any opinion.
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index d7ed6cb931..6738ad12f4 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -22,11 +22,15 @@ PACKAGE_WRITE_DEPS +=3D "shadow-native"
- useradd_preinst () {
- OPT=3D""
- SYSROOT=3D""
-+GROUPMEMS_OPT=3D""
-=20
- if test "x$D" !=3D "x"; then
- 	# Installing into a sysroot
- 	SYSROOT=3D"$D"
- 	OPT=3D"--prefix $D"
-+	# groupmems does not support --prefix (unlike useradd/groupadd/usermod),
-+	# only -R/--root is recognized. Use --root specifically for groupmems.
-+	GROUPMEMS_OPT=3D"--root $D"
-=20
- 	# Make sure login.defs is there, this is to make debian package backend w=
-ork
- 	# correctly while doing rootfs.
-@@ -92,7 +96,7 @@ if test "x`echo $GROUPMEMS_PARAM | tr -d '[:space:]'`" !=
-=3D "x"; then
- 	opts=3D`echo "$GROUPMEMS_PARAM" | cut -d ';' -f 1 | sed -e 's#[ \t]*$##'`
- 	remaining=3D`echo "$GROUPMEMS_PARAM" | cut -d ';' -f 2- | sed -e 's#[ \t]=
-*$##'`
- 	while test "x$opts" !=3D "x"; do
--		perform_groupmems "$SYSROOT" "$OPT $opts"
-+		perform_groupmems "$SYSROOT" "$GROUPMEMS_OPT $opts"
- 		if test "x$opts" =3D "x$remaining"; then
- 			break
- 		fi
---=20
-2.34.1
+=D1=87=D1=82, 7 =D0=BC=D0=B0=D1=8F 2026=E2=80=AF=D0=B3. =D0=B2 14:18, Alexa=
+nder Kanavin <alex.kanavin@gmail.com>:
 
+> On Thu, 7 May 2026 at 12:24, frezidok1 via lists.openembedded.org
+> <frezidok1=3Dgmail.com@lists.openembedded.org> wrote:
+> > After they release v4.20 we can remove the patch and rewrite recipe wit=
+h
+> the configure option.
+>
+> We don't need to wait for 4.20 to do that. You can replace the patch
+> below with a backport of what was accepted, and then tweak the recipe
+> to use the newly added option.
+>
+> > -Upstream-Status: Inappropriate [Would upstream accept a configure
+> option?]
+> > +Upstream-Status: Submitted [Merged to upstream's master, waiting for
+> release]
+>
+> Also this change isn't accurate: the patch that was submitted and
+> merged is not the same as this one. If this patch is kept, then the
+> accurate status would be:
+>
+> Inappropriate [upstream has accepted a better patch at $link]
+>
+> Alex
+>
+
+--00000000000091bb2f065138d76a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>&gt;=C2=A0You can replace the patch below with a back=
+port of what was accepted</div><div><br></div><div>No, I can&#39;t do that =
+because the current shadow&#39;s master and v4.19.4 (last release) are quit=
+e different. I cannot simply cherry-pick my commit and apply it as a patch,=
+ the only way to backport is to manually completely recreate these changes =
+for v4.19.4. I have already discussed this topic with Randy (<a href=3D"mai=
+lto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>), and he a=
+dvised=C2=A0me that waiting for a stable release (they are promising late J=
+une 2026) is better than doing this complex backport.</div><div><br></div><=
+div>Though, if required, I don&#39;t mind creating a different patch specia=
+l for v4.19.4 so we can use the new configure option ASAP. But since the sh=
+adow recipe will have to be rewritten anyway after v4.20 release, should I?=
+ I don&#39;t really know what would be better, so I appreciate any opinion.=
+</div></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">=D1=87=D1=82, 7 =D0=BC=D0=B0=D1=8F 2026=E2=80=
+=AF=D0=B3. =D0=B2 14:18, Alexander Kanavin &lt;<a href=3D"mailto:alex.kanav=
+in@gmail.com">alex.kanavin@gmail.com</a>&gt;:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">On Thu, 7 May 2026 at 12:24, frezidok1 via <a=
+ href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank=
+">lists.openembedded.org</a><br>
+&lt;frezidok1=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
+=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; After they release v4.20 we can remove the patch and rewrite recipe wi=
+th the configure option.<br>
+<br>
+We don&#39;t need to wait for 4.20 to do that. You can replace the patch<br=
+>
+below with a backport of what was accepted, and then tweak the recipe<br>
+to use the newly added option.<br>
+<br>
+&gt; -Upstream-Status: Inappropriate [Would upstream accept a configure opt=
+ion?]<br>
+&gt; +Upstream-Status: Submitted [Merged to upstream&#39;s master, waiting =
+for release]<br>
+<br>
+Also this change isn&#39;t accurate: the patch that was submitted and<br>
+merged is not the same as this one. If this patch is kept, then the<br>
+accurate status would be:<br>
+<br>
+Inappropriate [upstream has accepted a better patch at $link]<br>
+<br>
+Alex<br>
+</blockquote></div>
+
+--00000000000091bb2f065138d76a--
 
