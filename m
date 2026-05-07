@@ -2,38 +2,39 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE6F9CD3427
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 05:11:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 826D7CD3427
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 05:12:02 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5310.1778130667653789467
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5473.1778130719441604305
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2026 22:11:08 -0700
+ Wed, 06 May 2026 22:11:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=VS9VXqWN;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=IrzWlPxJ;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=95877633c6=changqing.li@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6474aeku3194007
-	for <openembedded-core@lists.openembedded.org>; Wed, 6 May 2026 22:11:07 -0700
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6474QtL33726071
+	for <openembedded-core@lists.openembedded.org>; Wed, 6 May 2026 22:11:59 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=PGMK5GWMl
-	dJZjnvWlI4mUb3ZffZOkiFUp/O8fT4efzw=; b=VS9VXqWNrVD5XV5IaytXsQlFz
-	4/8FZ1/L2T3ZDA8TfGfuImKM3S4VqySvYp6XJ5DVQ1dEkoQwmfiLVURjCyyx58B6
-	INI8tf8UwqCBwg53szTlOeaVXoJJ25a+BLayUSIIuG0IUjvMhZ04B0RDn3DaMCpH
-	wF+Qy15OfXkp4ciVKWR0X7weGztQhNPkX2AA4Y6fd49J1i1GNnJzILZuHbMRwN6/
-	Z1sWMF0yaVPtDseiEjJaK0UmcfeZBuUQH+8Nm12DixcucHxAf3zQhpjYRDlQMC3D
-	vTdUPBFHdi0aOm4K4+MK3+Cju3qVyPUtdTP5DtNmivDIAXvCfrzCosjeimoxw==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012014.outbound.protection.outlook.com [40.93.195.14])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dwchywuyu-1
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=lZpNn142RfWvBNjICtYyfVMZ/1IVwOFJw1wFgA9Pg/Y=; b=
+	IrzWlPxJ0nqicOHjy1Co/3ocqnD0+OSvhJXTzUdyx6vNxToKb5T1hFsJ9X5K7a34
+	2VGGZyDWQFo8DRZeDTy7gxutObWXnKpust00/1Wf1AX07igDApjdW/1NgFzPcvCY
+	oDvJxXzOXO9t7af6d1YbsW/iXpzCwOk3waAq96pjJy7/9t1O0ylnFp7MoujAJOpM
+	xe6OfnwE1AGJAIUdM4uQ6iJrS2O5It+PnPXa9Mmo+Gurq5GfLsEpS+NGTYOOE/Sp
+	j2Hdh1Neogp2GIxrzMtTd/eVTc+RDTLSOaA/3AuPeiQWR5dH/RErW7vchkr5WCdH
+	Jt33uGi8fDjfQ4AeevvL4A==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010037.outbound.protection.outlook.com [52.101.85.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dwgsddr29-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 06 May 2026 22:11:06 -0700 (PDT)
+	Wed, 06 May 2026 22:11:58 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FgL10iw9dkk9EZC/91MbqRiybhaC55czTSvEXuKGU2sIlwSydc+iaQ5zleyTuudMlw04gy+6r/j3OuT+S420B97bs+SwbFTRvUXKuKA6ohNRk8YsuBAiRNQru+T1z9ExNYVFQVOz0TP9eXgP6Egp0Il41Hm6jbeNEzYkGnfwUpdjGpMgJWoXN57O1uUZAcgPxs0+0h8f1piRr41mijigDbn9a0MI+HVAAesMfIlobr1IK04isdE835SrOXytgss5sreJGaJF9L1Eyl5TtZ/eIwrOpuQ9gE71Aqb3kOjV4sIMQzdggpBVeUB1dr9zfSJEQ1PAmbXxK8DlH+NIann+nw==
+ b=UYAmCroXV8CTCPCsuxxuLXZABWZ1oPpRROFEaIMePe30Mhg51mA5rLZsKrSN4UZth2kVIvPB5fFW1G8oZxXT/YVYOyPbfU+HrR8IeBi3Hme/G/GlH427e8o2XunazrEMaUJQ8d+8dwBa8qAd3Hy5+MST8B4eSE9E2Fc5+w+txCXMlBx77de0jHP9jlUQXLPOtd7AIiICTPuGYO3Ti0lWIV1sK1GJXIYM6Las7+/M00iV11fqzUx9cxbwuLRM7zW1Ivl3HNFoETh+gIyQKWiphJg1a/ONA7evTGgI5nOvUWWA2gEIyqaCp6zMuHbftH6rAvxJiR3LhiAyiDJatXfSLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PGMK5GWMldJZjnvWlI4mUb3ZffZOkiFUp/O8fT4efzw=;
- b=aRK40/wM2TbVSjoI9A/dLBEyRQVI8zc4ZhGyYkHZaDV0qUfTyZHbjaRj5wvCY1T6vpavM4ZzmPd6g+u6IWSOXQH8nBZwq/NUhhahBj8yczuBWrpDHZatbi0yNN6VoNjsB9sslpqRlo8eOJPZrg5Gr+yEMLkn7a08bmEjjA6afewi1QQixNiDBHu5fHPdH8+/I4V4x2D9U0M2QRXOlkwWmzbI78sDQv15yYFf5tU4g8FWizhVJyhgiiABMk+HcbdxUHHzQU1idUdO0gLgzZBE4hI8901w5g3crZ0vgYJm0vJFIRDdJt/cJPbgikxvHgd8H4W1MFAVP7Rn0XU+ZN2yFg==
+ bh=lZpNn142RfWvBNjICtYyfVMZ/1IVwOFJw1wFgA9Pg/Y=;
+ b=bKrfQAFX1jG5aDVyNyh+3r+0La6R7mW0ZE6WrucdejUPaoiv+BiHeeN1DsUdctRuiMeGIWDymU/E8wHjxKWpEnT8gqqtBkmcsRzZ685Yeu4JAQj0mioP6O62mGxyzp7dRwNSmgoxf+uUt5you0kw5kZP+nMPrVcQVnseg7SosgnUnJiTe5XABp9+ZW52fImsbvX+oAcgMll/UbrZzgbqd7tHC4QlaeLzChQx7p1q3dOdVeNNulbtMgvag/yY3EQOxyOmiAQJaqMqCielznWzugQZZ5MKpujKhsYn8n5PNVqSyItjc2FEujmtoaTnxGbt/wPyv7hmpKkzy+P9yd5u3A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -41,136 +42,164 @@ Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
  by MW4PR11MB5774.namprd11.prod.outlook.com (2603:10b6:303:182::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
- 2026 05:11:03 +0000
+ 2026 05:11:56 +0000
 Received: from DS0PR11MB7312.namprd11.prod.outlook.com
  ([fe80::531e:6ef5:812b:48f6]) by DS0PR11MB7312.namprd11.prod.outlook.com
  ([fe80::531e:6ef5:812b:48f6%5]) with mapi id 15.20.9891.008; Thu, 7 May 2026
- 05:11:03 +0000
+ 05:11:55 +0000
+Message-ID: <9a29beca-9ec6-4bc3-bff8-dc078eb277f1@windriver.com>
+Date: Thu, 7 May 2026 13:11:49 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [V3][PATCH] gstreamer1.0-plugins-bad: add
+ ANY_OF_DISTRO_FEATURES
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <18A61B7E9B9AB538.1398202@lists.openembedded.org>
+ <20260415021611.525515-1-changqing.li@windriver.com>
+ <EA0FD39A-16BC-4AFD-B20C-165881302EFD@arm.com>
+Content-Language: en-US
 From: Changqing Li <changqing.li@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ross.Burton@arm.com
-Subject: [PATCH] gstreamer1.0-plugins-bad: disable vulkan when x11/wayland not enabled
-Date: Thu,  7 May 2026 13:10:48 +0800
-Message-Id: <20260507051048.3943372-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TPYP295CA0040.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:7::12) To DS0PR11MB7312.namprd11.prod.outlook.com
+In-Reply-To: <EA0FD39A-16BC-4AFD-B20C-165881302EFD@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: SI1PR02CA0027.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::18) To DS0PR11MB7312.namprd11.prod.outlook.com
  (2603:10b6:8:11f::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|MW4PR11MB5774:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9180d67a-d8d3-4774-5839-08deabf708f9
+X-MS-Office365-Filtering-Correlation-Id: 42f5a894-a210-4ee4-363d-08deabf72839
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014|18002099003|56012099003;
+	BCL:0;ARA:13230040|376014|1800799024|366016|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info: 
-	n6aIbezlR36btYaKD1gebTwlWsEPvxVvkux/dH52uiDrSvveJvKQ5skZs7fEZMIBJahyLwxtlyd/VltBKJD2Rpn7AVSPxfi4BSgQIbMZoRhg0kRoF5OWFxVa4d8ld+bHtKLgNopTi13MHfNvVCbF3DseYadc2xFN/eT0d2HKl48enBGONko7W5q7qhftwgG2hMvuqJ6LhlshoMpAFdn7gRLQQgYGeLVAhXJituhReqjp9FVxva/6EFXWG8pMK4qKzxSSFAThBc4JWBgJHDqMjWuO6OutgU8bqN7FfPwcV9MVjd2VYiwN2KecB61wkMKGHQAGiBmDeZd21graancPt1lTfd7ollEbWny06sCm+QS1NDQLpWmUfxFmZa2AOIHbWcaB1PcVqSMcbD04IYlQM4LyUs3BTNPP6bFJyvLiqVI2SmhiHpt6QwVjns+QL2rYwjt4WkHhAQzcOkanonivSo2AxOXpJfBx5XPOeziNDACmplEFBZ6XAPhMJ1J02xUsHAl/mD1G7oT4dHGI+YGVd81xVqX9JDroZHg0wfTH9Ad7MKF5PDr2TRBK+tBK8XtlyXJJb0eziQ5SxPkeoxmQbygrgpLOCGZhAp9/Dve6g+hzG7bsG4/e9l9o0OqcMvODOcADb/EnTSU2gQjIbhY4azNKxV4P7C3VwYS+RWCC5idkX+Sysndch4VkJfRwz0LXQnfv0SY9dJ2hBVZHlps9f9ZMljuLuF3G4Cxy9cV3o1zxN1yxKnG7kepqYp++IT07
+	AgSQob61Xp3diFHroWv9yDWc1Co1YaORIsNWjF6ifuF7bXa8J2fpkjFUd3s3uIAOP5hyC3GTlw8IL8LvcQg43SC0EoS134yjgBEDc/1IGL1i5z8Ic9I67Umhjp8mo28IwhtcHUlHObWsUchwrYFB/hvmdpUP18d2GIJxL6QM/g0ml1OBFTS98Sh+9vBuY9AQHobedmspAlc+ebZ/KhgGxHJ6dIcpn0TTy3I7AD80XD/1Mv1rdHG4b2YzD8U7pZiZF6Cg/UaPIKPTC/RB5x753/fDgw+Zt3epqhzMYPQt1x4ljEP/I8i6y+Q96qnpTuVfiAFRSNwI10zvqpuqqt19k221EyyN4mbzw+XxJslY/WdOcHyBe9FZncjvSsxv/I5IZ7BzaUO4x8ZAqdkr5oiBG5z7YeGivdUeo6qFCvgIeZKYRkBmAeQSaqOA4n3EwO0kvGGrCqKq/VodbZwGMC4lUD5Pwz37rENDs3rPxd5Z/chS86ImIha5MogoS0n0N9Euvbdks5wRr+fzR709LBk+6VHvYuy2CZMCIFGJi6V+Qv6QjGPahV9BQEqVkEadIq2PJNmkSIrOve9LdkeN6oqWFpShEeeV+QjhM4Xn65jlOe/0SRQ6h47tbZ0wRJLjiziaZVAoRsDOR968jacCxjPFie34J9oAUudyfI8GtaALT7xxh67Kw555owcNkW4c25db
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?40K/YrSSHczsQ1jL3ZSaWRAJaK3CunLzmlSFVnLrekn4zepi8zpkgP+U3nMV?=
- =?us-ascii?Q?7t1dOIFlnk3P98n1TA/YgODIdDZpFoxGlsZR5jCEJALOhF/RT83QB6bstdd4?=
- =?us-ascii?Q?YRk0AcULZxNV+QAJ2vUtuaPe3P2wEhOHoKpfWqB8235UBcz+ashH4+T1smTu?=
- =?us-ascii?Q?SKCWUi9S7k83bO+eDyW/gODiVLJO+oThrkRrwn8DJrEXBYLfvA6yvFNdzHTk?=
- =?us-ascii?Q?vQUlU8LmKbDY+X8QQvKPl7M3R4fST1RX7jZd31u5Q3WJ+ONzqErRSL+rVkLY?=
- =?us-ascii?Q?OkIqvE/rg4kk0i8/TZb0J8doDSQf6CvAG9hdYlTDt+lvEvgksDUAvnQjNW8/?=
- =?us-ascii?Q?9qxwZ/dOziBL3FX+kcc9b0uMwGuu+xCMVru4VFDoJNosHnZNTmlD8IPuY1+K?=
- =?us-ascii?Q?RyLLi8hUvGYyHVZnM3BQEaQFEePyTO+zKMEqdBl5XVxi7q+9xmXZ5uXHdZSz?=
- =?us-ascii?Q?CEtJPGT8vDvaFeO05HIEiJFxyO8X5AxEUjxpdK2zYl84mVuqgQbsRRDjcikm?=
- =?us-ascii?Q?GISEQs/nFaGFlbnUvXV0M/RGbOY7Y4bH3ST2dO/D9atwiJA+Edr6yYF+raN5?=
- =?us-ascii?Q?xCtA08Z5++7Cigetf64SGBS3SeIS5Sz4JPMtGDpXwaZC7sRLdog4mhMAU59T?=
- =?us-ascii?Q?Zotz0HeLZjXl6dQMdTIbA8z1R52U1Cc2PixACKs8noXgCI3zTIkleoYLD7HX?=
- =?us-ascii?Q?IXrAWo3WRpMyF7UFwCAugxZDV41aYMdTB07pgOzyrKVUOhky7qXj5yc2PkW0?=
- =?us-ascii?Q?hfCjX9cX+Fi4T+KHBjwDOcONeqSw7gXjrT6X9aDzpS+FU46hdVOrAQegAGOo?=
- =?us-ascii?Q?RI84p+6tvon57GqSsj6Qh8tYCy8DYb4fOXk+fs7tZ2+0j7DuZ/Gx0CAqlnPD?=
- =?us-ascii?Q?4I4+rsxBiFi9mmX/DNZ/tOaQE+Q0hZM8gFokY7NvtulRsiUWVjt3z7R12Mpj?=
- =?us-ascii?Q?NSQvlBxW7cJR6hWr7xtFswAKeBecnb4rlhVCaqpc69wdaScdHNQiQ+cpGaCO?=
- =?us-ascii?Q?p4WEdY9dfbUngUuzre8uxVMLLoMsY8jjw9HZMZuVNYX51INc3jdX+W9u21fh?=
- =?us-ascii?Q?1RE96A1uobYyT8bsgWSQ1N7t1f9BU6nYXOcEX2kOGiTQ2YOVhXhcWouBUC8D?=
- =?us-ascii?Q?1iQvytDxhEcvvX/Y2f8XRwhYHeqETo6j0fMdElk6B/wwpaV2C6oMTY8Qu3U8?=
- =?us-ascii?Q?KhA6d2xd93bUPaQpRSxUmBZH942BIacA0IqJMyT+cX6TvPKoSBDPYA4qTMtm?=
- =?us-ascii?Q?5XVJACTim7VJib9QXrdvIq7IsRBc4wuRHqvkNpONyjG/cGvuBFTm8VitB0kL?=
- =?us-ascii?Q?yZCHlgXFKrYegJHdler9tg/K+5hykJYfSqcHsrkSdQ7Ov/QAvxL05cLCk/VA?=
- =?us-ascii?Q?2LDzeAaaRjVjzE4+ZWaATED1izO3Yhhp8PSHuIbDnUTjPSnOCUCUQ7zkfWMC?=
- =?us-ascii?Q?0Q5QRWC5hZfi1/Wid7t7rafGBnPjEd5kfpcWO5pkjKigIMy2J1QqtPaK7Hos?=
- =?us-ascii?Q?P1I+4Zn2k8UfB3+9jG/G3UdXmYhudgAc79CnoE+DE0CGebbxzoxUK/uIW+Ir?=
- =?us-ascii?Q?oXlG/ueZYUPp/XBVzDApVaoi/LCwRPRerda5YmEnZ4cwUdnQmC1DiSoU+ZZK?=
- =?us-ascii?Q?ipwySig4GYy2za+TvM2jhHsrSEo1Z3BpT0YfzcYcKYmxHjmztG2NIPyAHZ9T?=
- =?us-ascii?Q?hT26kap2IsdQsCgYumYhJraYYDGyqBfY7tbRTNar8L+pU6Y8Q3RGoEWXmv4h?=
- =?us-ascii?Q?rzA9m2ez6KdtlcGK54Xm95JW+7XuP2E=3D?=
+	=?utf-8?B?b2NyWDRjcTdpVkNIRFJNYjNlZk55Ym15eVh2d3c1YzdUZnBvdGFveDFkNG9u?=
+ =?utf-8?B?LzdSR1Y0NnFUdDgzZWRXY01IbEdNd2JHMDFBYTFKdzk2NUFocVBFcXRxUXV3?=
+ =?utf-8?B?Q3phdWJwT1hFa2xDalNFL0hPZkUrVjNnWVlQVGZQOG9MbEhOSFhQeUQwWGtX?=
+ =?utf-8?B?b1d3bHhqUmorb3ZjZ0VTTEFBQ2Nka200WS9pY0xQYnk4K21QQjNnYVlQa3Z1?=
+ =?utf-8?B?TGJ0QzVLdDU0T0hxUkoxWEV3aVdLOWpQb2pSWnp4dC9DUnMxNmo3TU9JK1dI?=
+ =?utf-8?B?KytIMVBRRUdwWWxoTUJYTEJzWFVvNVZvVFFzTWdpVzlxQTJ0ZlV1QlNDUmV4?=
+ =?utf-8?B?UkNhaUM3MlJ1VlhRR1pqTzhxRUJ6UWNaanR1VUVDVm51YU1JUGJvQnphNWtV?=
+ =?utf-8?B?WlRSNzdBNWZJUWZnK2FxOFZXTU10eDB1Tm1TQlFaTzFIZFVaWFpLYmxwTHdl?=
+ =?utf-8?B?WVNGbS9tVGsyaDBVenhHL3ZUMEYxcTZhKzJsdCtMT0dyVGpzMXJSSS9ZZ1lP?=
+ =?utf-8?B?Ri9LT0pjMThHZnF4N3ZKN3p1VnBRYTF4U1NXMFE3Nno3bFE1U1ZpRVVrT2hh?=
+ =?utf-8?B?djRFdGtZWWZUR2NPUGxJK3NVMk0vSS9rZjZocDNVeWwvVXNsR2NNNG40QVZ4?=
+ =?utf-8?B?NDFiTTZkSlBmZFVhTE9KNFFzVXZ5YWh5NWpwcEZ2eEY1aDJwTVV4WCtpYktT?=
+ =?utf-8?B?emtFVEZzS0E1Y09kSlVoeVl6SFBWWDIwU3JqeUxXVStpRlR6dlFHYVFDaS9R?=
+ =?utf-8?B?bWlUM0dDWEZTTTFvRmJsTTQ2eFEvalFnZjNyNXczaXRLblk0S01HQ0JNdklk?=
+ =?utf-8?B?T09KRHdxbUs0UDdnQWVWaVFBeFNKaDhVUU1UVitNaXhOdEs4TTVoMmxUSUEx?=
+ =?utf-8?B?WHNRWnRqS1lSNFZEV3hxTE9vS1pXS2tDeWNvV2hPS2lxdkNwbGtsWUp0cHlW?=
+ =?utf-8?B?MU84T3JUR3ViL0xzWFF4Ym9vMXlBcnB5a2E5OG9oL0xqU2dzSFpNUHQ1Y0pz?=
+ =?utf-8?B?M3BHQ3ZGdGc4MU5xQXlqTjhSa2d6enFaK2Voc2lFYzhLWTNuQitMYlNSR29C?=
+ =?utf-8?B?eFNpT2o4VWJEVnZmYTJhejRWWjNEK0VPQk9lYzlrdzhEd290SUNzZ0JrQWRp?=
+ =?utf-8?B?K3E5c0oyWUtIKzNGQ0FLSTFyK2JHYzVqK3V4ZVVDUTdhMVZVYlhsVmdxVGkz?=
+ =?utf-8?B?akhBNjNBcTFtZllpWFZIcDBKT2VyVTZkZEpXNm5YR3pqMWFrQzRmc3BuM0lG?=
+ =?utf-8?B?czdCU2xXNFAzYkkyc3ByV2xFanVuNDIxYXgybmE1U3lwN294b3Q1Y3lUS05N?=
+ =?utf-8?B?dFRsMzVVbkNoOENWakFYUjVFTmNjRi9nWno5Y1VDRlJwUktGMTRjZW1YTzd5?=
+ =?utf-8?B?TEdYcVR1bUVoSnlia2xyWWVRQXhVb2VGZnVwbjhNTjlITmxxOUR1em5jUnRz?=
+ =?utf-8?B?VXlESk1qTWFnNUo5ZDFHSW5NVWFSSUVrTFplak9tK3JQVjZmNFNzWC9qOUxp?=
+ =?utf-8?B?WVlxUmxQcC9PNW1rK1p2bVI1YjdxbkxmNDFQNjQxZkE5ZWwwVEVrZm5zMGcz?=
+ =?utf-8?B?QWZYV0s3cGtBUGFRSXI3c1lFMi9kTFpLcHdWK1dDS1ZwT1k5bU04NVhpNWZa?=
+ =?utf-8?B?aVMzRWs2UC9Pb0pMZE1KdW52OUIzYnRqOW8rWE00eGdOUjlwaTY5SEYvR2Ft?=
+ =?utf-8?B?NlY3TXlwWmJNV2dCTGpVNllnL3lkOVZXUEEvV2MwRGlXcWQ4bEdKMGY3a2xK?=
+ =?utf-8?B?bWswRlpuQk1oN0sxNTNhelpJbU5kWE5YUTJrR2ZiWlJOcEh3aDlTbjdMNGtz?=
+ =?utf-8?B?cHl5cDNEdnJxNnBuSWk4Tm5DMkpsSkxJeGxmbDFOaGVhM056NHViQ2lLS3V3?=
+ =?utf-8?B?b3NjdXo4RHcyVzk5OW9jTU5LZ0xKaWhUelJ3dnFFMklRZXRWYlBBaGEzVldz?=
+ =?utf-8?B?UC9CVWNTcmo5K1Y0Z25KL20yRzBuYXhzWDdjcm15MndJbTJMcXhoRUtxUlF6?=
+ =?utf-8?B?ODNVSGpSbXQ1TUg5YldISnEyN241WVVDZVJFZS9BaDVvamZoSWFPVTB3Ny9i?=
+ =?utf-8?B?NENrd1Y5NUJKakFJb0lqNGs3d2UyL0VGT2pBMjhhREJzako5ck8vQStlTENV?=
+ =?utf-8?B?RUl3bTBUaFdWZlNjSUQ2MTdiL0VCNmZDbkQzMklHTEpqancwZFhGbWxMZ3Vi?=
+ =?utf-8?B?Mk9hYWltYjMzNEZSTTlTS1NOSExUQWVzNzFCdjhGdlBUV2RHYzFZZmNsbUQ0?=
+ =?utf-8?B?UmZwbFdGaWFJU0ZTVWg5U3FWVnY0UjlJVGRIN24vRTlJTjZkNDFEWFVZVm96?=
+ =?utf-8?B?MzRlQmZvMHJRZ3hCU2pSSnNYVno4VnpDSTZLQlhhTU4wRldKVXlYNUFacHc5?=
+ =?utf-8?Q?4fVc9U/dyqYD+9H8=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	snk9m+DiNrNMrR10egSHyZFUGn4Izt+rE3MpBGTk47wr+z5nx6DCqZ15aGJBRw0wNu+QU8ohBA3U6gBKrkc3nUeRTctnrAht2xQsxd3NoifQPHsNL5puCb+gbChqaNVP63mq5b5xwtemZvYgPJxChlmkW1N0NmgHjERfaLViNLngKDdIfurB4MXZ5PGrLqOJvVFBBexzZdUBXKk0Wi3v0D6BYFTkIfLibNLmUijo50Fz60nKIOdkZqkIBjx7XCATUCyeflDQC9qi0CQu3sWv7ekjMBZmtStRhbM2CqBa08yRurAfpgtWe12MHRcZkY2eKlyAnYCgL2Mx9s9DZcMlLw==
+	ThTIYwrzDOmFgo0J8iCwNB4L4NYR+cqGNJ5YW6S4+6v8bcG4gLSfcJgLFmTXxxIb3w0tveJx8r+8bTsiyUgHnoirB8SE2Wu5l5t7UWBpJncMhw9+o+Xs6KH6n1kBI+K/iH0EC4cyz053UYkT1i5TAz3HVVKoD64/fl4c8iYrzJ3pzZtppqznTEEDRRiYTkiHzsKKs01RlPFtdoJxZFeindJSb019eYkqnjvnXeZgJ91cM/eKXFzJO9sPCFJ/aivbjHPYoju4x55X0B4ZRZa4zakCpQsXwhMvqEYgJ5cgJlLjX8VuEmi289qg2jg5g2V0rlGbM1KTY5ujsVD8MLjO7A==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9180d67a-d8d3-4774-5839-08deabf708f9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42f5a894-a210-4ee4-363d-08deabf72839
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 05:11:03.2325
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 05:11:55.7130
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1/+xdwCFqepTUHqmmEMsQw46TZDbcSGiOJzmEhwguX9na1diU59QfGSwc4m5T/fMnCarXzY1sA3Dnq9EGkYyxvgrZ81R1XCd7IQYuXjL0eA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0+dXW5Pw+c8yM+aYEDdOpsx927NQtjgjUGpf4yo15nZbEZZ9auX7j6E2HjWC+kcjfF+JObZlTOxtYXk3FxXxESR9EzP+yIhke2ZQopMwNao=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5774
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDA0NyBTYWx0ZWRfX1l4cbIgYrVTX
- LvEM2cTiwI2OkbyCG1SeAcTcNmmwPlwN0o71yShKr9Z7Mhwr9g6q+Gw86REtGeN7zDqJntK7TKO
- BrYjeKGANqhfehGSjqVChEqiUmr83Jm0UDEj8jDCHa0HdhfJ1BP1iNVvBL0Jz3vUztzB6zRA9PI
- L38u3FDfZvT35ENpQAFc+F9gR/wtlB2VdkAToJ4dUilowUqHb3HEutziI8JmCCyt0fmZ5g2zgFW
- 2KRJdVPkfPeAiolPzJ1wBmj4bM6S+xoCu+/j4fhW/R6WG18e/p8F8823OpJEnBAJfmNmKpFWIBA
- qp2YatgGqFr4mE5vjitcqDATtCmtXVb9kYqe7kLf6lf7aGrx0Y6Z2827ERpw1hrGifBXVuFg6yM
- qRZUqciDs8k0Uzu8ylAX0+Ha70t7VXnqIY3yx14qp5z/+pP+f7/Thh9lC9dA0jKAdQZ2bOdxrZN
- ZeQY/iKv8zVEPPIeAFg==
-X-Proofpoint-ORIG-GUID: MorSx2hLCS_kQsZib5AhHyqjsx0ZSJTD
-X-Authority-Analysis: v=2.4 cv=LsSiDHdc c=1 sm=1 tr=0 ts=69fc1eeb cx=c_pps
- a=C5q/T6pJLpFJxMBEEzTjbA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: 0R2SmUlLQ5lVQRJELEUHzW_-IfKRD0Ji
+X-Authority-Analysis: v=2.4 cv=JeGMa0KV c=1 sm=1 tr=0 ts=69fc1f1e cx=c_pps
+ a=jETFHvz8UvQZFuPXE07H+g==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
- a=8mI5Hb44qIRmAaL06cMA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: CrS6MIX5s5vQJ0gVvWtGHCvblgFaVX6O
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
+ a=Q4-j1AaZAAAA:8 a=PsjR_W-e97UUppd3sJAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-ORIG-GUID: ARJqKjCbQGeYUNxvT6SXhGCa_iQIplHz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDA0NyBTYWx0ZWRfX5dp+X+F7Ctiz
+ AlrFgxtz+sxlhOGz7+/QC6oykjx8T7nfqwP01iOQpVrZKqNGcl2MC2lTi8HzDCer3zy32JUZoCz
+ QsTCbMXUocwh0QNHwV73b3dm9X9/w8/SnlP7HtreiTAprv6yFWkTV4C9LwYzgs4PLEuceY4XL1f
+ bwVFelz8e5/aKpjThhPNYr4W4+K8Cs8IH2WKpNlKJAjYHkgPHnL8Al/q/ZvOstC0Loo1fFeuqQD
+ pTDBN/mni3d1oAR4M3zM2lsywsZYathcF8nLESPBAWYwCTLIft7Qjw3xLOSONGZqKauJcCnKQVU
+ 0GaIVkBwtstWDe3hcxiu7Ga25v4XGGlcvonQh7CnpAsOzFuCokxpNeeXtxN9DDzYQG81tUfZ9Ku
+ 5BTs/d1va85/8s7zUlIU3CYebXjq3DAzQnqceiDbJZ9KfWofy82PO11qPb9Ck/7beZGjKiqFNtc
+ j0GEhCPMa50XQjlGwMA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-06_02,2026-05-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0 suspectscore=0
- adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0 impostorscore=0
+ phishscore=0 impostorscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
+ bulkscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070047
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6474QtL33726071
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 05:11:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236555
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 05:12:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236556
 
-When vulkan is enabled in DISTRO_FEATURES without x11 or wayland,
-do_configure will failed with error:
-gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No Windowing system found. vulkansink will not work
 
-disable vulkan from PACKAGECONFIG when x11 and wayland is not enabled
+On 4/30/26 18:19, Ross Burton wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> On 15 Apr 2026, at 03:16, Changqing Li via lists.openembedded.org <chan=
+gqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
+>> When vulkan is enabled in DISTRO_FEATURES without x11 or wayland,
+>> do_configure will failed with error:
+>> gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No =
+Windowing system found. vulkansink will not work
+>>
+>> when vulkan is enabled in DISTRO_FEATURES, set ANY_OF_DISTRO_FEATURES =
+to
+>> x11 or wayland to skip building of gstreamer1.0-plugins-bad
+> It=E2=80=99s absolutely fine to enable vulkan but not x11/wayland (beca=
+use you=E2=80=99re doing vulkan to raw buffers, or using vulkan for compu=
+te) so I don=E2=80=99t think this combination should cause the entire rec=
+ipe to fail just because the vulkansink needs vulkan+display backend.
+>
+> Ideally, the PACKAGECONFIG is only enabled if vulkan && (x11 || wayland=
+) DISTRO_FEATURES are enabled, but that=E2=80=99s going to be quite a lon=
+g line in the recipe until we have a version of bb.utils.contains() that =
+can do logic.
+>
+> I think the better solution is that distros who want to do this just do=
+ PACKAGECONFIG:remove =3D =E2=80=9Cvulkan=E2=80=9D for this recipe.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb                | 2 ++
- 1 file changed, 2 insertions(+)
+Hi, Ross
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-index cdf3a20dff..51f51761f9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-@@ -32,6 +32,8 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('TUNE_FEATURES', 'mx32', '', 'rsvg', d)} \
- "
- 
-+PACKAGECONFIG:remove = "${@'vulkan' if (bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d) == '') else ''}"
-+
- PACKAGECONFIG[analytics]       = "-Danalyticsoverlay=enabled,-Danalyticsoverlay=disabled,"
- PACKAGECONFIG[aom]             = "-Daom=enabled,-Daom=disabled,aom"
- PACKAGECONFIG[assrender]       = "-Dassrender=enabled,-Dassrender=disabled,libass"
--- 
-2.34.1
+Thanks.=C2=A0 I resend a patch to try remove vulkan in this recipe.
 
+//Changqing
+
+> Ross
 
