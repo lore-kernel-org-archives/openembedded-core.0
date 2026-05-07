@@ -1,92 +1,161 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6832ACD3427
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 09:45:57 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8147.1778147147097816259
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CD3DCD3442
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 10:07:47 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8412.1778148458479256492
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 02:45:47 -0700
+ Thu, 07 May 2026 03:07:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mtrH0PaU;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=wwTOYfVe;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019e01d43a1e-e643c251-c241-4bb2-98e5-b96f050fb6c1-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1778147146; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=KuuEeWua9IVwLQHtjW3KPsm6ku46S3OdlOpDip9V8iQ=;
-	b=mtrH0PaUzkKbO2GBn8WoaBMtynrDgY6Okx0ixpQNLrxAdKXBU38yFFRDmD6nz123
-	BFEs1GklKfHr1JuKhk+HkOOW7Ox7Y9DiulDpcRYtFWkkI/5EKKE7P6P/oxj8F6x73XW
-	ntaWBLAlYxYZS+s29O5kr2e3OdLCNhHHUXepTKjY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778147146;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=KuuEeWua9IVwLQHtjW3KPsm6ku46S3OdlOpDip9V8iQ=;
-	b=wwTOYfVe3Ev+jI6ffrudDLMOEmp3wwnPMTF9jBCrSlfEwBswqQKrYclBIXo69dct
-	V/5bEVfXeWrSVecRL7Ie+eGLTNWq9/gTgQJZAioahdm/pCwZYANShLUG9zi6tNwriZ8
-	vJfiEo/n4njgclKPholFaTj3IsGgW1aFt3wykEe0=
-From: patchtest@automation.yoctoproject.org
-To: frezidok1@gmail.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] shadow-native: Disable syslog usage
-In-Reply-To: <20260507093222.33735-1-frezidok1@gmail.com>
-References: <20260507093222.33735-1-frezidok1@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019e01d43a1e-e643c251-c241-4bb2-98e5-b96f050fb6c1-000000@us-west-2.amazonses.com>
-Date: Thu, 7 May 2026 09:45:46 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.07-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Pk8Y7hX9;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8b3d6b215cfso10830836d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 03:07:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778148457; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YUrATu6L7YcJ/GZJ7mK8i4Ac839UsvEFG3kIQ177MKPaNnfW6qJZ7XWZtC1sbYx4W4
+         3HpIrqws6eXC9Gue/jgTpTSvKqWzF9eCW7yeidKfrZodRbPRvJVulXv1BTMWYi++p6ql
+         bxs0nrBi34qIRKwVjq5gYNDScFAIUZZWmswMuu6fEgC64b/p5DdfY2Sb8jTVMynJTzyO
+         yeYQZExJYyYgIPlUj9coz1n5Xzu+gNfztB4WSkr3X+XvJbxhfhbsfBHBb3cOTAERkhDZ
+         E5nKBoCu7fLhyMdGDv6BQyAd4uXkU/JztOPH4GBW3xWQlJ1vcgBIN14JF+SK69O1V7Y/
+         Hocg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=M8adGp3EAfYEs40T/uyBVh2UUfeMw0TRNXWcV26S8Jc=;
+        fh=hy4S8KThupuVU7aIPH1vI7GwNnkpTJ1M6UdbpYq/vfI=;
+        b=Zk/wzEKQLME/Qm0/gRurlpoP1SE+P2ChDKW9Z1Sci8Y0vGkSwHkxMhOOOJXEHIiL+o
+         7QeJZlxg+0XT8HVFoj0dqNNqlVw+/nqEAbf1iFkdaVTgnMgowFDpsA9an8sabEz+yB2z
+         I6+lXT2AwzSsd8xB4kWdQenuRRqz/mZnO3BXLVoqWHVJDiyvKRIilyfOZDcFBW+xisxi
+         3HdOmF4oN4AP+U+BecSpplaobTTJH62pptV8mm+u6x5MQF5Ok5Un5+7W2Lfv6wFdJBPw
+         Up/6dzvDL5mX/36zuUL8TMKwSaoB2eO7KDhmdkhQbdPxGA6ZkA8EXA3VI1ZLeZtW8l8y
+         gVEg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778148457; x=1778753257; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=M8adGp3EAfYEs40T/uyBVh2UUfeMw0TRNXWcV26S8Jc=;
+        b=Pk8Y7hX9GcZQs5ybU2/DoNVrWcsrxYKhIcxfK3TarbcyfrHY8Deevb1k5dmau71FkH
+         FHQS6UaX2WIwVIzQFLZeafgx5Qt/WsIeMFVZC9BCgna4Mz2DqvsDYXLI3tHGXHfY6HK9
+         xSe7Jchu+dxxPv08uh+3eWazGFfhYHGwJAeP4BzmTvnQtlao394dkWWO6h1wZ1LWk8Ma
+         E8IrK/Su/wn8kIA74WQr11tbKFYCXCcfxdVKC//q3HfUAjWP3of2DpyiVEWhVA5UBGlZ
+         1+Uad5KaIObN6ZTRWQXpBHrQdaLy4VXs4zZVwBM9z+PwsCw+Spm+Cu+M/u2g+jOnOzPZ
+         OpdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778148457; x=1778753257;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M8adGp3EAfYEs40T/uyBVh2UUfeMw0TRNXWcV26S8Jc=;
+        b=kl6caIpHmk/99s0KxlJ7A0o44t/0LmSUM3JRfilWdZj5acyJrJkoJ++FitDDe1QMTz
+         uR9zJ/g4TDGGEd9BEZ9MRLd3NJwsNUp5O9ACvqma4kwWMmL8/j1k14Ucydd02Uov4xad
+         Vkob/YebsY9CuCgJACSbcsQ8GJ+WPhz7T1/ONXNUJToiUmELptQtBdnsJNfqFRehHLCF
+         GDSRqi0WZ/PrJJ+oFnmpCKpyYNLLtyQDXqJsMZvn47mcp8J6K+msZ9rTl8gGah4V1+Yo
+         amZibwxuijW0qmohevsP2E2sbD3vToWpMINBdMzF+7FqIvubzHea1eI85vv+DkuBuabz
+         3TQQ==
+X-Gm-Message-State: AOJu0Yw9rZhiziBI+Fz/Ue8E9M3pDPSJy3EakD8za54kHp+3Yt0vkQ03
+	Mlu+OiSAUO0NkIRM2G4FR6YD+NenqwR7yhPtkxKtozOWjO8gw/nalsKw+/yn/+BwQZinNLmrHZV
+	KAjRGnwSHXoH8pXz/nVqXk8TFxnyH37A=
+X-Gm-Gg: AeBDiesZBCN6Rwo2l17x7NvXjncaDib3U9+AHVXgqTHxW2muEyUHuETI3Bx+/KGdiUi
+	oqdiU5CIvaDmxLogzYHti9NyvUDwGcmQvArz2DhTBBY/HxbWPfAB8M0ASbgg8D2tePg3KjaRo0z
+	Tg6B0zgiW/17CO88jrg43y+onnj+9ZYCZkN+Xsp9maekOPKKBPaktHtMSi1mcObB4rP2Qwa6NWm
+	noLU7rouubHyonThrxuapsbBJXv8fGnXF5VWuIFFo/Cc1rA8ESn6cLlyBeOOnT9+Vfz2HI37uiB
+	PFZKvoEZ6FFfzRT1zMHi2l/rzxLScRxVNIm/1ZPbnQ2MWT50Vjla
+X-Received: by 2002:a05:622a:1182:b0:50f:c245:85fd with SMTP id
+ d75a77b69052e-51461fce778mr102738521cf.31.1778148457337; Thu, 07 May 2026
+ 03:07:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260504-glibc-fix-stackprot-v1-1-fbfd0f22ddd2@sonos.com>
+In-Reply-To: <20260504-glibc-fix-stackprot-v1-1-fbfd0f22ddd2@sonos.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 7 May 2026 12:07:26 +0200
+X-Gm-Features: AVHnY4L7swBKpwSByd4gt-KTmTfam12CwT5C43dpv8LZPV2qRQGQQEjMaY-O0-k
+Message-ID: <CANNYZj8zc+Q4wzg8BOiY4GSNz+dZ5Byq7mjQSdO2zPuKB5XY4A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Fix recipe bug that disabled stack protector
+To: ivan.nestlerode@sonos.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 09:45:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236570
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 10:07:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236571
 
---NextPart
-Content-Type: text/plain
+The patch is fine, but there was interest on the patch review in
+finding out where and why these lines were introduced. The earliest
+commit is this one:
+https://git.openembedded.org/openembedded-core/commit/?h=master-next&id=bddc141e7cec18744902787ab53c21bf28e71f78
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Alex
 
----
-Testing patch /home/patchtest/share/mboxes/shadow-native-Disable-syslog-usage.patch
-
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Mon, 4 May 2026 at 23:28, Ivan Nestlerode via
+lists.openembedded.org
+<ivan.nestlerode=sonos.com@lists.openembedded.org> wrote:
+>
+> From: Ivan Nestlerode <ivan.nestlerode@sonos.com>
+>
+> Fixes [YOCTO #16265]
+>
+> The glibc recipe is supposed to be building with
+> --enable-stack-protector=strong, but some CACHED_CONFIGVARS values are
+> actually breaking this, causing glibc to be built with no stack
+> protector at all.
+>
+> Remove these CACHED_CONFIGVARS values so that stack protector support is
+> detected properly in do_configure and then enabled properly during
+> do_compile.
+>
+> Full details are here:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=16265
+>
+> Signed-off-by: Ivan Nestlerode <ivan.nestlerode@sonos.com>
+> ---
+> The glibc recipe is supposed to be building with
+> --enable-stack-protector=strong, but some CACHED_CONFIGVARS values
+> are actually breaking this, causing glibc to be built with no stack
+> protector at all.
+>
+> Full details are here:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=16265
+> ---
+>  meta/recipes-core/glibc/glibc.inc | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+> index 30d93bca77..dae087d53f 100644
+> --- a/meta/recipes-core/glibc/glibc.inc
+> +++ b/meta/recipes-core/glibc/glibc.inc
+> @@ -21,9 +21,6 @@ CACHED_CONFIGUREVARS += " \
+>    libc_cv_slibdir=${base_libdir} \
+>    libc_cv_rootsbindir=${base_sbindir} \
+>    libc_cv_localedir=${localedir} \
+> -  libc_cv_ssp_strong=no \
+> -  libc_cv_ssp_all=no \
+> -  libc_cv_ssp=no \
+>    libc_cv_include_x86_isa_level=no \
+>  "
+>
+>
+> ---
+> base-commit: 9ca41405e6bca276468a3b6f67eaa328b8016485
+> change-id: 20260504-glibc-fix-stackprot-47134ada0b7f
+>
+> Best regards,
+> --
+> Ivan Nestlerode <ivan.nestlerode@sonos.com>
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#236458): https://lists.openembedded.org/g/openembedded-core/message/236458
+> Mute This Topic: https://lists.openembedded.org/mt/119151502/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
