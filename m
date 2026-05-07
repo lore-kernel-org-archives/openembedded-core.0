@@ -2,108 +2,110 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E1ACD3427
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 11:23:58 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9405.1778153036094380036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7401BCD343F
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 11:33:18 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9421.1778153595342961437
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 04:23:56 -0700
+ Thu, 07 May 2026 04:33:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=oVTWoZcB;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-512f750d4b2so5140621cf.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 04:23:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778153035; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=krgG8CF2;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50e5c7eb565so5904121cf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 04:33:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778153594; cv=none;
         d=google.com; s=arc-20240605;
-        b=MutCl/Bld0YAcPlkA4foyLRS1eis0FSMhOtYbIrYzf7PZ55Eiml83YdxumaI3iIDRo
-         FQwKjduXS3HGvsabXYsS0EOQGeTRZxre5zpWoLLSdWnUf1SIMBhLiZFSseLqW7JoEEii
-         at5Cz7F20CnOs9klQJ4IrpqxT9tJaIWPe7sYZys/gmvVznmbvCLb0JPpSrErD5F33ZQn
-         vEu+/WFHKp2JENW/RIHl1/57p5Bqq+0f1r57WwInR6OfJstxS1DxKR6YUs8ySl6DwfYc
-         eoESTY/ekJcpt0GDCGy+ifshSn4Rn/+VRmCuurxSJ+8kJSGR2dk3hXnUoIkc3QfKc16s
-         VC1g==
+        b=EM9bmvSJ5sfOozFjXgTmfhDdPHiAnUBGhDsOKtpF2rsl+FjXp16Tu9rfCgS8J6OvD8
+         g8m2xr5Exio7lgERFAIXf8Jb3tR5jxcN9O1XZ8x3rLdAjdOks79U3FTd9coFz6vIwGTs
+         vSV3I0UED6jjtO4IJ1YxipI/TuRcoIYhSs+/ycMQMvTOY+WsCC6neWhmwpdbqHJzfM3c
+         MqfQdHb/DZYLz5YL3w/39A8ydSWYUS1HyofnEs4T125MQyAEvPxrttHu0YVDoN8+SPI5
+         dgoN7xCRg1mtJKKhtfqVoSgsB9/xre4WDusJdAbO809CIo33XFGGyrUv+5JXgI+d5yOD
+         1H3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=UHcOmZ9H5H1tsKwhCA0RG8/OXYfRextO99ZVk+4ipX8=;
-        fh=SZlaEGZ7YYupt88/Sw339uqnvSy+bxY8nibKjhKqbGU=;
-        b=ilyypG+8jEw2m0DAY3rLKcvhaFtZtz5oVB7zN8vHSaN9/Et9lmKfXfxRhRZF4DiD99
-         QU3LUP2iN6nKo5jvPb7b8bvUpdtElgkN7FJI4bYV1KOSmnBNf2397WHdmvkTp4fQ952d
-         kEo4WMw5EOSMNvLXyNz8HqFxatMTInY9Nvuhve7Frz0ooa5w0Hmx9sw2zcdIRwrut3Cg
-         H4qk9PyP32+izOcwWRm2B+byhDbFqO/T2hQSCeH6MTZT+S3Wu9VODDmAe4VdjO/bopmJ
-         yvst7p+UTz0C3inuimOAL+D4vsNV50KqmZ/IR5hZq0WJO24uQ1MldC4OD8Plsq5DUiDr
-         ZAOg==;
+        bh=JEHYd5pHCNPjECaDA2ajHvzfUPceEbfCXuy6LepEgSQ=;
+        fh=6D08F4ViEPMn9fNUTnXxh/MfSY/OtXZrNXQvtB6wCB0=;
+        b=UY/r3Mf4b8YcLIaakB03MrCVoCHFz+IXHPbGxGDbqnGhUAu9z2cTqCHo7+cUMGiGvF
+         ixo/2EhpgWFl4FkXSWMP0KOjQqoLkYM7KCssJzGb+tbRzQA5tCfEFSaensfq15qE74BX
+         RpN/P/HDGEFJ1e8UnzT0v169PCdxVsVNW5ys0XhUtQeFU02rpKm94yM6oOCOvlkYgD+r
+         n6C4v4N03Hy93y6t65pNhgckL+As1PeY4UrQfvFIjKm0zXzp66VRbKaJey5n4pcMrhiH
+         ZSrb7LX0zh+VqmmXJql0elvKXPQ8A96W/1cn8Aa1aG69UgsNugr/8g2RuljbR1ICQ/Jj
+         xUzA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778153035; x=1778757835; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1778153594; x=1778758394; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UHcOmZ9H5H1tsKwhCA0RG8/OXYfRextO99ZVk+4ipX8=;
-        b=oVTWoZcB8UreYJTzx/TQjE51FQ+pEXlzVfLGsAwGNG4pCdA2EOSp9fxxkfalDmL6Zm
-         BY43CfNTqg7NWWWrgTWWqmlRLvHucV05u9Ox5H5LzLZfPViywRPehUtgQHXPHD1CGsJl
-         mMQCbd9VA6dntaEIf79WTYh5dv2X56dZsE/QqTjrautaRrO5EtqXDQVNwwciwhfivPyT
-         zT1OflgbanD+vQINdSAvGWbpMcVUHiF2YF7SjXYzCNLtlRD0LLGaW1PZ3lNiCTK039sk
-         t0hPKfQnl8Emwz66xlDfPUjM5WrUvz+x7S7/VuhlSYlBixEmMQa22n28AQeFJn6pHGG6
-         mMYQ==
+        bh=JEHYd5pHCNPjECaDA2ajHvzfUPceEbfCXuy6LepEgSQ=;
+        b=krgG8CF20p0DYt6Dy5J5w9sdID8gxqgb1d67qNqR/1f0caQTy/hMdzZ0Adx642aySD
+         dAfrouozc+wEFXBKZXdXky5gv4p7afqeXnaP/BX6FbliOQk/S3fGgKzL0nQ96o32f6OP
+         /2rYx++UFuJI7WabzZu7L6v54cpV6fljLWjYHx8uaDv2QMVxcKC281je6+lCo0LMAaWt
+         TCP7nQNSQdwJxlmjvoCIXFLJ//WTCDEgBM20WtkmAZ0zIFjPbWnEUP/kPLXlsyYLRP3b
+         ymNJrsg7eDuqRH9wYigWpIXplH5OiUiN8Gv3IPvtl+GrV/nthpaoUcTtPkDgDLFGqXqK
+         j0aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778153035; x=1778757835;
+        d=1e100.net; s=20251104; t=1778153594; x=1778758394;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UHcOmZ9H5H1tsKwhCA0RG8/OXYfRextO99ZVk+4ipX8=;
-        b=pKTWV5etTxpoUgFaaOGz4arMwL69aJA95FXMC5GuYRGDOs8VwcBU9j7gHBE3flb+AP
-         cp6aPzzCixB+hbgQsIuCCtGkOD26DqowaEMmGqB/uF6vJHKBONnr4Ugw0iov8Q9hjQrR
-         E73AOd3En01RoF12/6FVtzaJJvCqlHKcuo8eeX8GKMXEo5gBmXhbxbqXr5Yf4iHU8G0s
-         g7eORAfYxZ5z8KAVLc5VSlLKQGFA6aMGaWkGbRSfTbt+eLRVZkUzkUB8FHBGyDCWUU8y
-         EX26/J7Apff3MUt0onPABN5/qR2o22izmkcSOU+kvE2CRJe22qm7qnjrDagdXO6yzdhW
-         kiJA==
-X-Gm-Message-State: AOJu0YwqwA80GzCrqnpN6hj1/vRZNTZrI61XhP+DG6d5bepxugMXoJbq
-	po00RjoMiIxx88MlDRYnZCoypUvpuc+XbQ3XSVDF5MlOPlK+NhDjrnG1j+zV4eixgMHM/ZFRIie
-	/t3vQLh1pGdwFupr8OjOFNVEDRBZiOc0=
-X-Gm-Gg: AeBDies/wvYg7OxvgBbC5CIDtza11UMvgWBCDSswYC46tKTt3bQwB2aRPucKMUIr7OA
-	/IYzjbbyNsM18U0ZefphVoeYSMMtiPtWc6KcgI1OKC7PEk/Qn18KKAK5c0nWlQpc2Xs7ff2GFFT
-	KdVOEFQ7a6v4LZZM3rHzXtYx5j1A2ybyN5S2WDtRAz7UfpoFGhSqNVCmZ22jmOA3/mhxJQrhnnl
-	ZB+M45NUEKFBViXocbVbLmYrOmqq0dqNIMUtoCrROx5R2H3WYBPbnnk7Oe8uIrjVR1G9DLVkixh
-	QcZZBX7jBUEIU6+QdJfYUxbu6baX/c0+37OVJlfLRlAx0HtrMynxRZupE3zQ0sQ=
-X-Received: by 2002:ac8:5a54:0:b0:50d:7384:a660 with SMTP id
- d75a77b69052e-51461be0587mr99211801cf.6.1778153034957; Thu, 07 May 2026
- 04:23:54 -0700 (PDT)
+        bh=JEHYd5pHCNPjECaDA2ajHvzfUPceEbfCXuy6LepEgSQ=;
+        b=H6W0T0gCCjZnW/ZhXsCAzq3crBUCUXgm3jX50OnP7aaDB57scQ6JIIP4wmaszF2Bll
+         wRxXX05J5ZqJRh7aWGVXe5mY3KjGqEcpmbWAkFQEeLzS+UqqxXuBracDCYXbRqpTZ2ow
+         glH1Ke7Qq+ay1Gj/PBdAj6f/u7+NLeG2/JWQEddFPcfgx18AKwjxOUuvAnFcNmiCLpgZ
+         pMHlajdueDqWOC6UeTUi3jeRIgiCe77Seys1gDdw6weptCe0TOKCNrntHomUbDB31WH7
+         ai2QE0lQg6Ft+2tc4E9pxs7i8tAuTkg+VwpclKAL7SE2ei7N/X5nbeQty+MV8anCRTIu
+         Rf9A==
+X-Gm-Message-State: AOJu0YzjODxR/ApKbGd7T9JMuhQtEu4avgz0N3ZHMrI8uKs4ns+r2tnr
+	bNJGURuhoBN68P/sqwGijt8XK5cTiX/GJgGrPlK4DpyhBhurS3M0lqwGzCycANhEeIR/uIs+3xY
+	iUZig1HjJOSnFgvIux4g6au7IosflrSD5C+Ng
+X-Gm-Gg: AeBDieu8OMQojxFTQEsB+VUYHCvjBuQC3Ak8kNldHXmwqcuHtUfX6ZAzV8HLAW8wDTz
+	79yDjcY6eA/sczinnD89mLrQ5pE4yAQEof3Jj9gcphEsPQ/M570utBEtZe3ye7f2m47PrTuEVOL
+	JHbgVjRunHSWj6f8LZ1yXTbE9maZQfZaKPTeRevKUGqncGG5bCRfd1+kkqxYC4D+tH+IQ4ZwVcF
+	lMfleq8Dhsa1ULSPWs5AypvqWB2jW0j1w9amYwNqUyZPx3Ngyc866AD79CLn5y8pSoTteA7Hzp9
+	2b1yvtqpBFoSmllE+nu9MwsNlIHKra6aafUTUc1bbcgkjQQHRZ/+
+X-Received: by 2002:a05:622a:6096:b0:50d:900e:c1c1 with SMTP id
+ d75a77b69052e-51461be0109mr102329461cf.7.1778153594305; Thu, 07 May 2026
+ 04:33:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260506214835.1578529-1-Quan.Sun@windriver.com>
-In-Reply-To: <20260506214835.1578529-1-Quan.Sun@windriver.com>
+References: <20260507062010.1461027-1-Qi.Chen@windriver.com>
+In-Reply-To: <20260507062010.1461027-1-Qi.Chen@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 7 May 2026 13:23:43 +0200
-X-Gm-Features: AVHnY4K04VSMrauUnTcZDGwaSapxDKcs8s8-rJ3NvVmrPu1A391PiwUYV0R-JEY
-Message-ID: <CANNYZj_++oDps3s2uq51a7j3CQgK1MSuuSgY9Cz0-wFtE2gnSQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
-To: Quan.Sun@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 7 May 2026 13:33:00 +0200
+X-Gm-Features: AVHnY4Iu7J0XaSI11url8VW6UXvSJpwFL-Sj3bXrOqw_BPYeWRpdsUz-P4HRdrM
+Message-ID: <CANNYZj_8xSNRRQSzWmUvxDb_r5dh46Ht1h5Ot9NBGu_MOpbvYw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V2 1/4] recipeutils: add optional stable_upgrade
+ parameter to get_recipe_upgrade_status
+To: Qi.Chen@windriver.com
+Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 11:23:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236578
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 11:33:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236579
 
-On Wed, 6 May 2026 at 23:49, Quan.Sun via lists.openembedded.org
-<Quan.Sun=windriver.com@lists.openembedded.org> wrote:
-> +SRC_URI += "git://gitlab.com/qemu-project/python-qemu-qmp.git;protocol=https;branch=main;destsuffix=python-qemu-qmp;name=qemu-qmp"
-> +SRCREV_qemu-qmp = "82006cb788d27b090a8b84fc7831feb9c528bcdc"
+On Thu, 7 May 2026 at 08:20, <Qi.Chen@windriver.com> wrote:
+> If it's not set, we give
+> it a reasonable default value, which means if a version consists of
+> at least three parts, the bump in last one is considered as a stable
+> upgrade.
 
-This component should be provided with a separate recipe.
+I strongly disagree and think we should be a lot more careful. This
+default will result in a lot of point version updates where the LTS
+maintainer would have to go and check whether the updates include new
+features or not. Yoann already had to reject a bunch of such updates,
+produced in a similar way with custom AUH tweaks.
 
-> +From f013e84d382bc1bd7d49206bdf47c689b0c6fbb5 Mon Sep 17 00:00:00 2001
-> +From: Quan Sun <Quan.Sun@windriver.com>
-> +Date: Fri, 1 May 2026 13:53:24 -0700
-> +Subject: [PATCH] meson: fix subproject include paths for standalone builds
-> +
-> +Upstream-Status: Inappropriate [OE-specific]
+Rather this should be enabled on a case by case basis for components
+that are known to do stable maintenance (a good indicator is presence
+of stable branches with a major.minor version in branch name
+somewhere), by setting UPSTREAM_STABLE_RELEASE_REGEX for them (perhaps
+via class inherit to avoid repetition).
 
-This should include an explanation of what makes it inappropriate.
-Don't just say 'oe specific', a lot of other patches do it, but it
-doesn't actually expain anything. What happens without the patch? Can
-we find a solution that would be acceptable upstream? Adding
-Inappropriate patches should be avoided if possible.
+No explicitly set UPSTREAM_STABLE_RELEASE_REGEX means no stable
+updates exist, or the situation hasn't yet been checked.
 
 Alex
 
