@@ -1,219 +1,260 @@
-Return-Path: <igor.opaniuk@foundries.io>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C56CD343B
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 07:14:04 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6667.1778138033531733768
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBD57CD3442
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 08:41:33 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7480.1778143277326698257
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 00:13:53 -0700
+ Thu, 07 May 2026 01:41:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@foundries.io header.s=google header.b=czl/7szq;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: foundries.io, ip: 205.220.168.131, mailfrom: igor.opaniuk@foundries.io)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6475LLUv1067923
-	for <openembedded-core@lists.openembedded.org>; Thu, 7 May 2026 07:13:53 GMT
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com [209.85.208.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e0mh18d1t-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 07:13:52 +0000 (GMT)
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-38e817d9498so2041091fa.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 00:13:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778138031; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=fzenyyhD;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bba0dde4f43so71887866b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 01:41:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778143276; cv=none;
         d=google.com; s=arc-20240605;
-        b=fGfOBpKionNtmL055+WF9IRSR7Zn2ujpfk2nfbpth0+8t+K9WWJMFXRb3xDqaNdBLS
-         EFR1VwUtIArcFI9rfgWoScwEmgz4/g6keiqN2dTWKkhv23ZZBnq3WcXPd/KDzi5V8A6b
-         p/cEWLtiwwGblgfTHvLiJqC3FmyakSXAEshlpTaCV4ycbySCmzvKTTi4DMiHnGoHHuru
-         NqWcKLubm2FdQogfNy1q1GnWxy8QgUt7MtEx4jevyEPxAQb90qPrLHDAackvFgSRrBnL
-         3qlP2SRcm6pkArMuaC5aGvRuo6i5HS8rhxXSlRtXhvhnigKTkey5pGl22Aecc1WQNoyg
-         MsBQ==
+        b=YkPvVNLsANalo0GMXpghcynTRXm59VI7ukRMfkn5xGQVPDdbvmJepqViO3taA6vgru
+         DcQaLTPo8x3kxvzaYG2yeen3f56MIDm7RgOZSG8sjz5l2qXX5eJhyG1dUYni/ckezMro
+         b4Rojmhqdevx0s7f3k1p4UmfGhIZZaY/g6UYSjhDaAy/NCtLpZ5ezEVdeqH7t8CgvobF
+         CtRNRzuH3j/xW8RYfPaqdJqKUBIOvfyk7DGOvFVCp8FpKnNxoGxkJZuBprFhfIhPQ6WM
+         0ZJlJlygpN1zRr5Mm49/UKYkQj3bXJa+KB2J/2XExyohi1MFpzCVwrsHJGt9zlNTq/5F
+         q0AQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZBqc6wZBI9fmLf5Tf51urvFs1/r51Ucl7Cg/kvedK9Y=;
-        fh=eSHs77o+1e8rrYY9HlIjoXBcQsPuH2vZyUVYKZJXqKc=;
-        b=k/kv1BMMOPFT/CbpGXvSokMvtbSW/ghBUml9vCMy8714HpnSg0ix1kXFXjbzH8uyMY
-         bXwZCjZHa0ninO62cllOQetjIAGDWKlZqxKJ6las9rYDKXyvXhN6LZqH+QUJzdlj69Xl
-         xOj+NfRuo9gyEEETYTY66MVX85hyta6IYI7erqA97j/j6w1Jtr2k99BJFYUSI9gqapCo
-         63detL068b5eyw6ymh0y5wocfmook1acyDU3IgFBRzX7r4F9FlRSgsEXfNM9ZRtOHoJm
-         0ptIQ+th0NMVYuM1XSXhXHRVOxxu75lXptMuZGq2vSGDd+caa5r2o2W3Yl4pu4m1IdSA
-         djKg==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=N27KamzdnxVyVYC9xzW8uDkhENu5Usl9Re6z5s+EbnQ=;
+        fh=Uv02zkATCgn7o53lsNXolUGKtQvc6B50vI9sz2t8LT8=;
+        b=GPecwHGHTmqgEUXXyUCNTr+O4KHHMdc1Z7gyl18ykZUbzx898KMWG+vofXEsaifYTo
+         CrvXtvzhdizLGpgT5pKSE6C0Wl/Jv79DGCCYmT4Nm6Pyte+vZgIFQWIBXOIvOs4fZxNA
+         TAxD/5vRUbkRuIDbpn6vBWSqjeIr5TuhTjgI8hOJdHeMBz4zK15ScxY7fhZdLa2Cu7vl
+         0Q+JQ/he/eS5dDbjET5/cskcPBZXkjiNv2CkFsfEqaqz0D5VQQOXGtl8vXhhq6HYtu5e
+         DmzP7O1pBsMgcr6r+1hq0vcPxWKP3skFSbCU2ZGSQfQj3VAxxmr2OFcEzTc2b/0MHhkc
+         A4Mw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries.io; s=google; t=1778138031; x=1778742831; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZBqc6wZBI9fmLf5Tf51urvFs1/r51Ucl7Cg/kvedK9Y=;
-        b=czl/7szqTPem1xIiZsPPwypS5M6qsWOccIaKUW5V2t/Isj897j7VmR0jVk8jZ3v8VO
-         l5DS75hOMwbWYpUPWUXFFfY6HE0WGix8QwONmfN0uPeM2veoY18JMiUMN3HCSjeXNHwf
-         eOBHA3RZTPKCS9PYqk1pVO1V8dMynM2lPyJfeKR1jNO8Zdc6034FBn3t/TxuTu1f4lKQ
-         p266vkaBkUvLY+S8D7NDOdxK1Zpz503f766jVrNSdY0mvUuzWNlc06iM6kps1v7JBY2g
-         +KmckDJaeicSb0T8oOaGUCWvAPj4QZysZ2IMaQSeQ0Jawk/KvDybqJP/ZmRII8u7zuVb
-         hhzA==
+        d=gmail.com; s=20251104; t=1778143276; x=1778748076; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=N27KamzdnxVyVYC9xzW8uDkhENu5Usl9Re6z5s+EbnQ=;
+        b=fzenyyhDAgiZQZBCv7IHmrS/Vi7AvmffjYE4Su0U0+I+KAnR0HseuRoQcSEwh5DSH1
+         Cavpa8Mzqe3uPwa1gmanb3sXHO29i33ZCZSgQh2fr/ib4jvTkdbHNvMI6RP1Wro0ab7i
+         J8LrduZanKkxBYKMJP1+3a8g4idBfov8sRZKVNAITvYfKBhY6u7d4C0OdN9O61DNdRiK
+         eu1p/tPzZJiuI8dvmjFKtorVrIWGXhDaqHoLM9d3Jr22Kjy5Zq9uQo0siIwfrb5iC7uy
+         plkzFnG+SuShfbG8ASVBUb4SH1p7eoer0657wZGDpaaUMq2C8kATlhsIRaUAiBfxHAgH
+         9QkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778138031; x=1778742831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZBqc6wZBI9fmLf5Tf51urvFs1/r51Ucl7Cg/kvedK9Y=;
-        b=jL0wQSPZbPO45aBgNfT7jY8ejF0x7kov8LT8kwn1LqLDncxUv0KPpzvGEGNrYHSq3N
-         hjzU54UQrUyJSlLob5eecMgkPscJX6CPj/VG2xm10INhA2BI0WDWy8zcmPyyUwFVa3vu
-         X7fViniZ1pJ6KsXQY01VtqnARH4rrGRWuI0Wrb5js7raB12Oik9SGkIzfd+ZWm+Ggni+
-         Ioi5+yisrso41pmKW1vKrVCQ41tT6x9YAH1NmIPp4+yG8xcl44+VKvSSsthWEVdudxr3
-         G2XVp/LyI6/iJtL2s4Cpy6kLF7xDdwB/DsqJDQOePEiVm1coF8g2OZBKX2pm2PyjKXos
-         SAqw==
-X-Gm-Message-State: AOJu0YzXPX4Hnc+8vxnlR+kMonrK1dggChUbhSv8E7j7j8OAKjTSt/Is
-	ilbJk+ZLo6MSlE04dqofrGT4sm/+oPitgVBp+ElXgdaJ/M6zgkKlptia2jQ1SPphzmX3xNkpa9z
-	jG258hoErGRFaVg193rTlnSqlG9nD8cMy68It1qPfvec+/Ltw2ySA+HpxrtsDjjPXZv+DsU0/ca
-	c9xCj+1vHz9zaxCFCgm74fvh1feZT+FRqvDgH1z1bFib9ly2l4yyRGvp31
-X-Gm-Gg: AeBDieuV5bdTMXPHdBHlmMVWpMcNwYR/UsA3eWcmKN4DzBqhWdCpo7tFgDt/kJhWM4k
-	x9vg3QRVbjuyOGf4UBSrRx3JGspoJYzIncp3d8TcN/fFfy2ApajT3UQ0nY4NmHyMVDUkFFTKYAu
-	4iOdKJnJji+bgxmLNZYOr+4J+UqqJaA/sQvXjXyXgvQA1aX9XOmz37zllKiaCUlS2zWguzJSy1e
-	AUbkJVxpowuvmvW
-X-Received: by 2002:a05:6512:3188:b0:5a3:e7df:2396 with SMTP id 2adb3069b0e04-5a887adff9cmr2721559e87.13.1778138030647;
-        Thu, 07 May 2026 00:13:50 -0700 (PDT)
-X-Received: by 2002:a05:6512:3188:b0:5a3:e7df:2396 with SMTP id
- 2adb3069b0e04-5a887adff9cmr2721528e87.13.1778138029685; Thu, 07 May 2026
- 00:13:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778143276; x=1778748076;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N27KamzdnxVyVYC9xzW8uDkhENu5Usl9Re6z5s+EbnQ=;
+        b=S0rh2NzDyHrRXliPwap/0D/9sdNQhYNQA1imVEnLm2gNtq5YSSAIKu/u3oAbTRKLbg
+         GoPpEICGqx6HTVhreJDuTbECl0stJm2UlOtmkE3qUD9upPtcK2f1fZSY7R1lvm4gv1sG
+         cxgn0jT6u7O93u7wrLCKT4sGYuZfHMdnuBKKf4aLQcZB0pDzmw4LGYCX6299K/Rlp41P
+         M9AKIy3znusRLJI9jLR5QqYC9SrYxc6uC1F7P50MnTywMQ3AJJvs96uXtPNtPeLgJsK0
+         WvwH1zW7Lvg8WCaDXu0wwrCDVcT2vKhcEf16HhwBxjtyDesYGIwSt9+b75+xeYSTqAIn
+         yWnA==
+X-Gm-Message-State: AOJu0YzlxLjm2KqK8ObETNuOFxUh1VVFwDr56aPwAjUubgN5YVaLH8HH
+	6AIm1tLYyNyma0YsQ9e+J/584jPwS18hb0uMA5gqM3MzYdmolb12W7B6vlH3z3hxXHLVy+hc43s
+	IbqkPGGSDIRe7yRZUmoEil85bBFOZeQU=
+X-Gm-Gg: AeBDies0/nuovcq5uMCYgZ2KNnSYcFTTnWZEau4OXHSU9XRE0lhnW9tBb4NBjTQJbcY
+	E7OFDgKXAvmLVO5+RliCX//OsoOqN7zL0L2rAHpmzP+JjS+gTunFcikWpNr7Cd1SvH5UiP3b56B
+	158PnrMezEh5sr+VHoIo2fJ7m/zTSoYGz5UNiUWTGKrOAoaaDkvWD4s+oSY/bYjd0PV4z9yVMCe
+	xYLahOLzC5gYSo5n9iQ1NCJrDruKFtpdChJuxCYSyu7Uir+GWNKr/lCGzhRDGOFnnaCOPvf/yo6
+	OX3Pz/wpwKBwagKx/GGta9a5/iRYKjWTKmoiU1ibwnpPR7NGGNNh1prxizeFaWfPrHIz5mF9L0L
+	b+GC/LEmmRmnmKMI=
+X-Received: by 2002:a17:906:6a26:b0:b9d:e301:20db with SMTP id
+ a640c23a62f3a-bc56e316a92mr399556366b.25.1778143275168; Thu, 07 May 2026
+ 01:41:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260506194507.3786568-1-igor.opaniuk@foundries.io> <DIBVZ5KGY6VD.3JQ0DG3RR7SJG@smile.fr>
-In-Reply-To: <DIBVZ5KGY6VD.3JQ0DG3RR7SJG@smile.fr>
-From: Igor Opaniuk <igor.opaniuk@foundries.io>
-Date: Thu, 7 May 2026 09:13:37 +0200
-X-Gm-Features: AVHnY4L1DC96E18mz5vhBBMKyvCDtwdxYuEQYV3Ud9yffDs02V3mMAYnnZx70S8
-Message-ID: <CAL6CDMH02AETCQ68CozA+DtYCAei4KyTeMm2WGOntcjfPQOVSQ@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH] shadow: add libxcrypt-native dependency for
- native and nativesdk variants
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org,
-        Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Alexander Kanavin <alex@linutronix.de>,
-        Ricardo Salveti <ricardo@foundries.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: VQt6MmDfgJsha2WJxewsfZnbC5L95nxb
-X-Proofpoint-ORIG-GUID: VQt6MmDfgJsha2WJxewsfZnbC5L95nxb
-X-Authority-Analysis: v=2.4 cv=P9gKQCAu c=1 sm=1 tr=0 ts=69fc3bb0 cx=c_pps
- a=/zUzjrEyDQOchHorqPmRvg==:117 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=9UA2AVYIz8kA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=DJpcGTmdVt4CTyJn9g5Z:22 a=iGHA9ds3AAAA:8 a=jVwDQN0dAAAA:20 a=Q4-j1AaZAAAA:8
- a=6jbKIeu7AAAA:8 a=EmXL969uBuqZkB3jJLUA:9 a=QEXdDO2ut3YA:10
- a=zJl3WwEMzhwkf_fFxYei:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=-0VUF4iAjVmhXKmeMUOz:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDA2OSBTYWx0ZWRfX/etUdG6m9lQl
- 8qPx/tYvVW9JgGjRS62VO9tKm2KHpZ2gzZ3Ac93BFBJZ8RSqSglaBHLPFfXC7Jf/AiTaCz+LG5k
- 97dnk0s41QjziAlFXBL8s9vuPXBAoy5sazvcpu7P89uQeCz8wqX/v4AHTMX58uzsiUeknQlr47b
- ojTHYyrZ1JQb8sIzP6egy2oo66W3Dejp7TS8mrAggYhcv8uHynyfUU4IletGH16oV4MA44jY7D0
- 97VqEqjYosGM/ILVibYtnI7GsfgfQNUA+oMxNwPexoXDU7caHfjGOOQhcaWMNf2Cu5Ds/bV/vGa
- k9MTBU0KYq6hYii9JIwHh3xd1FOWVdQBpU+ROs469gn51teee879mYhonSKHaol1omDQgCypUqz
- SAWGsqAJYHEO7cTrSmntqn3PziGJj5zU15T06TWRg1pzNELZ9741/6j/cf9FkroehTj+uff2QVF
- VMoPPFxb0ukQvbcXd2w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-06_02,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0 impostorscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
- definitions=main-2605070069
+References: <20260507051048.3943372-1-changqing.li@windriver.com>
+In-Reply-To: <20260507051048.3943372-1-changqing.li@windriver.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 7 May 2026 09:40:56 +0100
+X-Gm-Features: AVHnY4JjIJTARd1sDDidFO0bEWgVKvvupKk2N39c6QrLuBNfMaPe1UaEQOcqi_U
+Message-ID: <CANPvuRk2881_Eb=On2az8XnXiJbtC8azT1LQ7GBSCMuZHvfPOQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-bad: disable vulkan when
+ x11/wayland not enabled
+To: changqing.li@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Ross.Burton@arm.com
+Content-Type: multipart/alternative; boundary="00000000000046ba520651363e63"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 07:14:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236565
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 08:41:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236566
 
-Hi Yoann,
+--00000000000046ba520651363e63
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 6, 2026 at 10:46=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr=
-> wrote:
+Changqing Li via lists.openembedded.org <changqing.li=3D
+windriver.com@lists.openembedded.org> escreveu (quinta, 7/05/2026 =C3=A0(s)
+06:11):
+
+> When vulkan is enabled in DISTRO_FEATURES without x11 or wayland,
+> do_configure will failed with error:
+> gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No
+> Windowing system found. vulkansink will not work
 >
-> On Wed May 6, 2026 at 9:45 PM CEST, Igor Opaniuk via lists.openembedded.o=
-rg wrote:
-> > Configure fails with "crypt() not found" when building shadow-native on
-> > hosts where libcrypt is no longer part of glibc and the libxcrypt
-> > development files are not installed (e.g. fresh Ubuntu 24.04+, where
-> > glibc 2.39 dropped libcrypt and libxcrypt-dev is not pulled in by
-> > default).
-> >
-> > virtual/crypt-native is in ASSUME_PROVIDED (meta/conf/bitbake.conf),
-> > which is why a plain DEPENDS =3D "virtual/crypt" does not pull
-> > libxcrypt-native into the native sysroot - the host is expected to
-> > provide libcrypt. That assumption no longer holds on current
-> > distributions.
+> disable vulkan from PACKAGECONFIG when x11 and wayland is not enabled
 >
-> Note that we added libcrypt-dev as a documented host dependency here:
-> https://git.yoctoproject.org/yocto-docs/commit/?id=3D2b41d175ea1924bf401a=
-203fb678261fefb228dc
-
-Thanks, I missed that. With virtual/crypt-native in ASSUME_PROVIDED
-this is consistent with how OE-core treats other
-host-provided libraries. I'll drop the patch.
-
-One small follow-up if it's worth the time:
-
-the failure mode for users who miss the doc update is a configure
-error deep in shadow-native
-(checking for crypt in -lcrypt... no -> configure: error: crypt() not
-found), which doesn't obviously point at
-"install libcrypt-dev on the host".
-
-Would a sanity-check addition (something along the lines of
-./meta/classes-global/sanity.bbclass
-testing for crypt.h / -lcrypt on the build host and emitting the same
-hint as the docs) be welcome?
-Happy to put a patch together if so.
-
-Thanks for the review.
-
-
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  .../gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb                | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> > A previous attempt to fix this by adding libxcrypt-native to DEPENDS
-> > unconditionally (commit 65532fc751 "shadow: add libxcrypt-native
-> > dependency") was reverted in 54eccb76eb because it incorrectly pulled
-> > a -native recipe into the target build. Use class-specific overrides
-> > so the target build is unaffected and only shadow-native (and
-> > nativesdk-shadow) gain the explicit dependency on libxcrypt-native /
-> > nativesdk-libxcrypt.
-> >
-> > Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
+> diff --git a/meta/recipes-multimedia/gstreamer/
+> gstreamer1.0-plugins-bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/
+> gstreamer1.0-plugins-bad_1.28.2.bb
+> index cdf3a20dff..51f51761f9 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
+b
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
+b
+> @@ -32,6 +32,8 @@ PACKAGECONFIG ??=3D " \
+>      ${@bb.utils.contains('TUNE_FEATURES', 'mx32', '', 'rsvg', d)} \
+>  "
 >
+> +PACKAGECONFIG:remove =3D "${@'vulkan' if
+> (bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d) =3D=3D '') else ''}=
+"
+> +
 >
-> > ---
-> >  meta/recipes-extended/shadow/shadow_4.19.4.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/recipes-extended/shadow/shadow_4.19.4.bb b/meta/recip=
-es-extended/shadow/shadow_4.19.4.bb
-> > index 94f155641c..cc69864a2a 100644
-> > --- a/meta/recipes-extended/shadow/shadow_4.19.4.bb
-> > +++ b/meta/recipes-extended/shadow/shadow_4.19.4.bb
-> > @@ -9,6 +9,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc9a450b7be84=
-eac23e6353efecb60b5b \
-> >                      "
-> >
-> >  DEPENDS =3D "virtual/crypt"
-> > +DEPENDS:append:class-native =3D " libxcrypt-native"
-> > +DEPENDS:append:class-nativesdk =3D " nativesdk-libxcrypt"
-> >
-> >  GITHUB_BASE_URI =3D "https://github.com/shadow-maint/shadow/releases"
-> >  SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
->
->
+
+Using the 'remove' override on the core should be avoided because it's
+impossible to revert the changes on other layers.
+In my opinion, it would be better to use an auxiliary variable to define
+when vulkan is enabled, and this could be modified
+if necessary in other layers.
+
+PACKAGECONFIG_VULKAN ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11
+wayland', 'vulkan', '', d)"
+PACKAGECONFIG ??=3D " \
+    ${PACKAGECONFIG_VULKAN}
+"
+
+Jose
+
+ PACKAGECONFIG[analytics]       =3D
+> "-Danalyticsoverlay=3Denabled,-Danalyticsoverlay=3Ddisabled
+>  PACKAGECONFIG[aom]             =3D "-Daom=3Denabled,-Daom=3Ddisabled,aom=
+"
+>  PACKAGECONFIG[assrender]       =3D
+> "-Dassrender=3Denabled,-Dassrender=3Ddisabled,libass"
 > --
-> Yoann Congal
-> Smile ECS
+> 2.34.1
 >
-
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#236555):
+> https://lists.openembedded.org/g/openembedded-core/message/236555
+> Mute This Topic: https://lists.openembedded.org/mt/119192696/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
 --=20
-Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
+Best regards,
 
-Igor Opaniuk
-Senior Software Engineer, Embedded & Security
-E: igor.opaniuk@foundries.io
-W: www.foundries.io
+Jos=C3=A9 Quaresma
+
+--00000000000046ba520651363e63
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Changqing Li vi=
+a <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;=
+<a href=3D"http://changqing.li">changqing.li</a>=3D<a href=3D"mailto:windri=
+ver.com@lists.openembedded.org">windriver.com@lists.openembedded.org</a>&gt=
+; escreveu (quinta, 7/05/2026 =C3=A0(s) 06:11):<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">When vulkan is enabled in DISTRO_FEATURES =
+without x11 or wayland,<br>
+do_configure will failed with error:<br>
+gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No Windo=
+wing system found. vulkansink will not work<br>
+<br>
+disable vulkan from PACKAGECONFIG when x11 and wayland is not enabled<br>
+<br>
+Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.co=
+m" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../gstreamer/<a href=3D"http://gstreamer1.0-plugins-bad_1.28.2.bb" r=
+el=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugins-bad_1.28.2.bb</a>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1=
+.0-plugins-bad_1.28.2.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0=
+-plugins-bad_1.28.2.bb</a> b/meta/recipes-multimedia/gstreamer/<a href=3D"h=
+ttp://gstreamer1.0-plugins-bad_1.28.2.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">gstreamer1.0-plugins-bad_1.28.2.bb</a><br>
+index cdf3a20dff..51f51761f9 100644<br>
+--- a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-plug=
+ins-bad_1.28.2.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugin=
+s-bad_1.28.2.bb</a><br>
++++ b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-plug=
+ins-bad_1.28.2.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugin=
+s-bad_1.28.2.bb</a><br>
+@@ -32,6 +32,8 @@ PACKAGECONFIG ??=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39;mx32=
+&#39;, &#39;&#39;, &#39;rsvg&#39;, d)} \<br>
+=C2=A0&quot;<br>
+<br>
++PACKAGECONFIG:remove =3D &quot;${@&#39;vulkan&#39; if (bb.utils.filter(&#3=
+9;DISTRO_FEATURES&#39;, &#39;x11 wayland&#39;, d) =3D=3D &#39;&#39;) else &=
+#39;&#39;}&quot;<br>
++<br></blockquote><div><br></div><div>Using the &#39;remove&#39; override o=
+n the core should be avoided because it&#39;s impossible to revert the chan=
+ges on other layers.</div><div>In my opinion, it would be better to use an =
+auxiliary variable to define when vulkan=C2=A0is enabled, and this could be=
+ modified</div><div>if necessary in other layers.<br><br></div><div>PACKAGE=
+CONFIG_VULKAN ?=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#=
+39;x11 wayland&#39;, &#39;vulkan&#39;, &#39;&#39;, d)&quot;</div><div>PACKA=
+GECONFIG ??=3D &quot; \<br>=C2=A0 =C2=A0 ${PACKAGECONFIG_VULKAN}</div><div>=
+&quot;</div><div><br></div><div>Jose<br><br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+=C2=A0PACKAGECONFIG[analytics]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;-Danalyt=
+icsoverlay=3Denabled,-Danalyticsoverlay=3Ddisabled<br>
+=C2=A0PACKAGECONFIG[aom]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D=
+ &quot;-Daom=3Denabled,-Daom=3Ddisabled,aom&quot;<br>
+=C2=A0PACKAGECONFIG[assrender]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;-Dassren=
+der=3Denabled,-Dassrender=3Ddisabled,libass&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#236555): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/236555" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/236555</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119192696/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/119192696/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
+div></div></div>
+
+--00000000000046ba520651363e63--
 
