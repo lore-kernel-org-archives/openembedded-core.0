@@ -1,263 +1,181 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5125CD343B
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 14:30:02 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13453.1778164192323820745
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E33CD3439
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 15:01:35 +0000 (UTC)
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14240.1778166089641426007
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 07:29:52 -0700
+ Thu, 07 May 2026 08:01:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3kJ6iqep;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4891e5b9c1fso9584205e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 07:29:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778164190; x=1778768990; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qr6MFomYIVByQno/xhgd9BVp/rq/efIzTSDmpf+lx2Q=;
-        b=3kJ6iqepPNfl7qYaZZgAfT4qMLN/6DfTVbtArSDrLFnNOmtJU6EP9E1uXaBI5HB1RE
-         /hwFh0RFXOITkhIxtJcO9Qe3dEeinNofRwK81aESauz1jA21IlE1Nce9I2Lg85r68O9K
-         SyeE5TKBbiHHynRtovzYYCrKGNEAMMBY9xXNM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778164190; x=1778768990;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qr6MFomYIVByQno/xhgd9BVp/rq/efIzTSDmpf+lx2Q=;
-        b=CCPNcd4vuU3ZqjYdY9M4v6cYIZFnkD1i63LjaHOOkWH9aZBWlZX+fWbTygMIewCAS3
-         bikrfzU79Atr85DDbwKaLIovhXI68Udek2L2PIzjZUMi7LUUWHk3WzGL7+KzRPG6dVnB
-         TXblg+yHTZMKcimdVVGCaooq9wcW51MgF5A6MtM3HZjs7oG/AXXfBQrF6TnWy2Zs13td
-         kvUnQFGCZscmstRwTK9sYwI9Ac0i/w+q4jjDTkDJacUqmVqALEAtfEMXyJoW87FLuENU
-         aDTpdtL73cZfqMTdldg4N2t1Tb2Q1AcyH9/Uzq2WtMAXIGzokbA8Eatl39IgNItTN+H2
-         bE6A==
-X-Forwarded-Encrypted: i=1; AFNElJ87P1iN2x7um0IxAqea8zP/afpqwbgRi6m2fGlzQVrJJUcQPYYX30BPzM5ivxEzxv00QdwRvExnYfimhjSLtdnfCw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxyeB2pY2vY/oBl/lQLoZ57tEbX6teHvdrrkSaKpC0fqhXyYgRj
-	809urIwA/oqXr+p6pab6DufbMmAkleFeFczLcTy+TPgRecC+I23JLmCU+6c/DWv7Af0=
-X-Gm-Gg: AeBDiesQh5S2wW8/KuUoAHcuZdT/HCi68PyDC734YdtTYPCV8iFBzd3hEWf3uajsFjM
-	yX/3ymLAaktH8MFsuZd9CbdB+EAnF5ZOO/b0Rp2w+x+IMuWM8gsaAGNE7qd5JgrfSRr8gVBpC/w
-	bv58d0JSjxAchtlpOIXO+DIqlOTnMdPJOWVk+41FCt0YtmXTq9SkZsRFHU6rR7/31rdW27BVATh
-	xSbESmFgqcmqDciLEmMyvnsTlvfEbSs6IpppO0K3stAl8b96JkVBqbL8WEjNw8FO4rEYv36EnOB
-	1Ldk0AWcArKRJbRI0EZFzNXT22q3+MMFvVKIuKp3EIKUVOzQmpdpJzRRwSNxkj1SnmsMnxtNbEy
-	IdllqB0344VE/sfcEPmv1q/47cj0yCm3/R9GXJMauY0IgYGv5lWd1npjP24moseley8FeK7GRVI
-	4OTC8zbkP9Ga/wwzv4l1K15n9r0FGT68VVXyRkBQRvqdR4MCg1NOc9l69JT44oNuk2yrx+a2UMl
-	urhtrWhpPdiZ4aVTWH5VSHkPhQQv/BaO94R
-X-Received: by 2002:a05:600c:15d3:b0:488:c80c:c236 with SMTP id 5b1f17b1804b1-48e51e0977fmr77015185e9.5.1778164190398;
-        Thu, 07 May 2026 07:29:50 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e530c5c89sm40343595e9.13.2026.05.07.07.29.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2026 07:29:49 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 07 May 2026 16:29:49 +0200
-Message-Id: <DICILJH9LJB5.GSZ0LVSU42PG@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.tatrai.ext@siemens.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] oeqa/sdk: build libhandy instead
- of galculator
-X-Mailer: aerc 0.20.0
-References: <20260423181141.452976-1-peter.tatrai.ext@siemens.com>
-In-Reply-To: <20260423181141.452976-1-peter.tatrai.ext@siemens.com>
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=JCd8dPk+;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=g29kwMY1;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.150, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id AA6C71D000AC;
+	Thu,  7 May 2026 11:01:28 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Thu, 07 May 2026 11:01:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1778166088; x=1778252488; bh=O/Pz1QsMsO
+	wCMRoAiviq1CRMpCbxwV4M6+et0tTm3h4=; b=JCd8dPk+7LMnRdT8ToKEmD+JVl
+	hYgSGJ7wMWvnJpg+05i87ROExwRAdlolQWQhl1xVq8XpOY03YYLuKxy16AS+WZww
+	UsjmJONILm5ROaNDAfT4xVMXcvOPxxAas+Rq+Q+91rl7qa7sfmxRS0kKfTxIOEzp
+	Rq9XO6Mi+xtT/NUb29lBFcEx+O6mpSYZd1Ul9RuYCTOWd1zJKlrfPJuhG0FBdxqg
+	ql+2rmTODswNXC1WndhP56cfMkJDm34+t4NerVEoodC58j8qewY7M0PYkKSWbJPK
+	sto8rbNuBD+W9VKWb+YaVKcmKGFO7HP1eOXZTYAh/LA+qu5OOSo1CMnCbFsA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1778166088; x=1778252488; bh=O/Pz1QsMsOwCMRoAiviq1CRMpCbxwV4M6+e
+	t0tTm3h4=; b=g29kwMY1y9w4ajvT72gdX+c55FqCb0MbXnYXA3wLi4ItqttX0Cg
+	Nd+7G580i/EEB8VPz/aNbrueSPsoY0VG+/8bSwP7Bovi6YC1ZLtOp1CXbzUzqvyS
+	3EDVDj52rCTOC1D1v5DrqMjKcEA+vD0gwPZ/Xu4eo7tMXKuFKvOUigfBen4eNG7a
+	UaRsumDpBgw1I3M9e3/TGfzyVOvuaUodhTC1zPIAwhqPijcHKXDieB8ZXi41gGZ3
+	6amXw/3XQQQFJsIE5sOZ7jSj2pGV3/zTFV5TQFydlHWbg8PQq1QDdqHbn3KOBYi6
+	9WZBjY4qv/mjhEkmTya5uGkIe1EGsOX4qdg==
+X-ME-Sender: <xms:R6n8aXcAm9b6YIlGNzhssXPYarO-SoWa8gwPdahXQZszmvq-gPNPpw>
+    <xme:R6n8aUoU8PN1-vEt9NCos03HLyIXuuf4AkIhzF6ha9ufg81TQOQvvknaIdpPQ3Fct
+    qAHycn4X_QRnDuE_plJWjTlqjSDdIxJIKmZeFtJ1dxCiMR0--desHU>
+X-ME-Received: <xmr:R6n8ad4nKaSpupYgW-bJUi6it7rmu_m0YLlRj0pbaV_-V0R8he53FaUH7KcGNppvCuMW1CYK6uLIiWES6Zy9ol9VlvoXf1xuuJGyU-qWPGGm>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdejjeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
+    dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
+    rdguvghvqeenucggtffrrghtthgvrhhnpeelvdevheetleevfeetleetkedutdfgfeehhe
+    evveejffeiveetjeetueekfeevheenucffohhmrghinhepohhpvghnvghmsggvugguvggu
+    rdhorhhgpdhgihhtlhgrsgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghp
+    thhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlvgigrdhkrghnrg
+    hvihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepqhhurghnrdhsuhhnseifihhnughr
+    ihhvvghrrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslh
+    hishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-ME-Proxy: <xmx:R6n8aSrxyQySBq3DTphg4JgLHBJvpQIvRgvE63a5rnjdPG55H7Q1bA>
+    <xmx:R6n8aXjmwAlPCnw1pG6GJyKoiL_VY71zLVX69b9ydNTJL9Dkis44Ow>
+    <xmx:R6n8aUJyYwc3ntAAvHOy4uTLAvWKGbRQhz1F9md7sRadAVgINDD6vg>
+    <xmx:R6n8afD7qXzj-EAdZBGqXmw-UbiT2Yau5mCMns-RMQEt3j-xf8vNrw>
+    <xmx:SKn8aVSjvZyqql-vRAa1l95sdkiAkGKySCS6leZ1c9XO1dn80Go-8Jpx>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 7 May 2026 11:01:27 -0400 (EDT)
+Message-ID: <46e6de3dea514e2f30dfe806dbddef9f08caa60a.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
+From: Paul Barker <paul@pbarker.dev>
+To: alex.kanavin@gmail.com, Quan.Sun@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 07 May 2026 16:01:21 +0100
+In-Reply-To: <CANNYZj_++oDps3s2uq51a7j3CQgK1MSuuSgY9Cz0-wFtE2gnSQ@mail.gmail.com>
+References: <20260506214835.1578529-1-Quan.Sun@windriver.com>
+	 <CANNYZj_++oDps3s2uq51a7j3CQgK1MSuuSgY9Cz0-wFtE2gnSQ@mail.gmail.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-UEux6QLvVnwIDS2qdDom"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 14:30:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236596
-
-On Thu Apr 23, 2026 at 8:11 PM CEST, Peter via lists.openembedded.org Tatra=
-i wrote:
-> From: Peter Tatrai <peter.tatrai.ext@siemens.com>
->
-> galculator is unmaintained (last commit ~2014), its download URL is
-> gone causing core-image-sato:do_testsdk to fail.
->
-> Switch to building libhandy-1.8.3, a GTK+3 library from the GNOME
-> stack, using Meson (same as the buildepoxy test). This still exercises
-> SDK's GTK+3 cross-compilation support while using a project that is
-> actively hosted and builds cleanly.
->
-> Meson options disable optional features that require host tools not
-> guaranteed to be present in the SDK (glade, gobject-introspection,
-> vapi).
->
-> The file is renamed from buildgalculator.py to gtk3.py to reflect
-> that the test verifies GTK+3 SDK support, not a specific application.
->
-> Backport of master commits:
-> - ccf7fdc0e5 ('oeqa/sdk: rename test cases')
-> - ff6fa71eb0 ('oeqa/sdk/gtk3: build libhandy instead of galculator')
-> adapted for the scarthgap branch which does not have MesonTestBase
-> infrastructure.
->
-> Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
-
-Hello,
-
-This kind of change is ouside of normal stable policy but I tested it
-anyhow (before I noticed it was out-of-scope):
-FYI, it fails on arm: https://autobuilder.yoctoproject.org/valkyrie/?#/buil=
-ders/60/builds/3722
-
-Can we just change the download URL? I guess I never saw failure because
-the archive is on the yocto mirrors...
-
-Thanks!
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 15:01:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236597
 
 
-> ---
->  meta/lib/oeqa/sdk/cases/buildgalculator.py | 50 ---------------------
->  meta/lib/oeqa/sdk/cases/gtk3.py            | 51 ++++++++++++++++++++++
->  2 files changed, 51 insertions(+), 50 deletions(-)
->  delete mode 100644 meta/lib/oeqa/sdk/cases/buildgalculator.py
->  create mode 100644 meta/lib/oeqa/sdk/cases/gtk3.py
->
-> diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/s=
-dk/cases/buildgalculator.py
-> deleted file mode 100644
-> index 28187434a1..0000000000
-> --- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -#
-> -# Copyright OpenEmbedded Contributors
-> -#
-> -# SPDX-License-Identifier: MIT
-> -#
-> -
-> -import os
-> -import subprocess
-> -import tempfile
-> -import unittest
-> -
-> -from oeqa.sdk.case import OESDKTestCase
-> -from oeqa.utils.subprocesstweak import errors_have_output
-> -errors_have_output()
-> -
-> -class GalculatorTest(OESDKTestCase):
-> -    """
-> -    Test that autotools and GTK+ 3 compiles correctly.
-> -    """
-> -    def setUp(self):
-> -        libc =3D self.td.get("TCLIBC")
-> -        if libc in [ 'newlib' ]:
-> -            raise unittest.SkipTest("GTK3Test class: SDK doesn't contain=
- a supported C library")
-> -
-> -        if not (self.tc.hasTargetPackage("gtk+3", multilib=3DTrue) or \
-> -                self.tc.hasTargetPackage("libgtk-3.0", multilib=3DTrue))=
-:
-> -            raise unittest.SkipTest("GalculatorTest class: SDK don't sup=
-port gtk+3")
-> -        if not (self.tc.hasHostPackage("nativesdk-gettext-dev") or
-> -                self.tc.hasHostPackage("gettext-native")):
-> -            raise unittest.SkipTest("GalculatorTest class: SDK doesn't c=
-ontain gettext")
-> -
-> -    def test_galculator(self):
-> -        with tempfile.TemporaryDirectory(prefix=3D"galculator", dir=3Dse=
-lf.tc.sdk_dir) as testdir:
-> -            tarball =3D self.fetch(testdir, self.td["DL_DIR"], "http://g=
-alculator.mnim.org/downloads/galculator-2.1.4.tar.bz2")
-> -
-> -            dirs =3D {}
-> -            dirs["source"] =3D os.path.join(testdir, "galculator-2.1.4")
-> -            dirs["build"] =3D os.path.join(testdir, "build")
-> -            dirs["install"] =3D os.path.join(testdir, "install")
-> -
-> -            subprocess.check_output(["tar", "xf", tarball, "-C", testdir=
-], stderr=3Dsubprocess.STDOUT)
-> -            self.assertTrue(os.path.isdir(dirs["source"]))
-> -            os.makedirs(dirs["build"])
-> -
-> -            self._run("cd {source} && sed -i -e '/s_preferences.*prefs;/=
-d' src/main.c && autoreconf -i -f -I $OECORE_TARGET_SYSROOT/usr/share/acloc=
-al -I m4".format(**dirs))
-> -            self._run("cd {build} && {source}/configure $CONFIGURE_FLAGS=
-".format(**dirs))
-> -            self._run("cd {build} && make -j".format(**dirs))
-> -            self._run("cd {build} && make install DESTDIR=3D{install}".f=
-ormat(**dirs))
-> -
-> -            self.check_elf(os.path.join(dirs["install"], "usr", "local",=
- "bin", "galculator"))
-> diff --git a/meta/lib/oeqa/sdk/cases/gtk3.py b/meta/lib/oeqa/sdk/cases/gt=
-k3.py
-> new file mode 100644
-> index 0000000000..e32c1035ee
-> --- /dev/null
-> +++ b/meta/lib/oeqa/sdk/cases/gtk3.py
-> @@ -0,0 +1,51 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +import os
-> +import subprocess
-> +import tempfile
-> +import unittest
-> +
-> +from oeqa.sdk.case import OESDKTestCase
-> +from oeqa.utils.subprocesstweak import errors_have_output
-> +errors_have_output()
-> +
-> +class GTK3Test(OESDKTestCase):
-> +    """
-> +    Test that GTK+ 3 compile correctly by building libhandy.
-> +    """
-> +    def setUp(self):
-> +        libc =3D self.td.get("TCLIBC")
-> +        if libc in ['newlib']:
-> +            raise unittest.SkipTest("GTK3Test class: SDK doesn't contain=
- a supported C library")
-> +
-> +        if not (self.tc.hasTargetPackage("gtk+3", multilib=3DTrue) or
-> +                self.tc.hasTargetPackage("libgtk-3.0", multilib=3DTrue))=
-:
-> +            raise unittest.SkipTest("GTK3Test class: SDK doesn't support=
- gtk+3")
-> +
-> +        if not (self.tc.hasHostPackage("nativesdk-meson") or
-> +                self.tc.hasHostPackage("meson-native")):
-> +            raise unittest.SkipTest("GTK3Test class: SDK doesn't contain=
- Meson")
-> +
-> +    def test_libhandy(self):
-> +        with tempfile.TemporaryDirectory(prefix=3D"libhandy", dir=3Dself=
-.tc.sdk_dir) as testdir:
-> +            tarball =3D self.fetch(testdir, self.td["DL_DIR"], "https://=
-download.gnome.org/sources/libhandy/1.8/libhandy-1.8.3.tar.xz")
-> +
-> +            dirs =3D {}
-> +            dirs["source"] =3D os.path.join(testdir, "libhandy-1.8.3")
-> +            dirs["build"] =3D os.path.join(testdir, "build")
-> +            dirs["install"] =3D os.path.join(testdir, "install")
-> +
-> +            subprocess.check_output(["tar", "xf", tarball, "-C", testdir=
-], stderr=3Dsubprocess.STDOUT)
-> +            self.assertTrue(os.path.isdir(dirs["source"]))
-> +            os.makedirs(dirs["build"])
-> +
-> +            self._run("meson --warnlevel 1 -Dglade_catalog=3Ddisabled -D=
-introspection=3Ddisabled -Dvapi=3Dfalse {build} {source}".format(
-> +                **dirs))
-> +            self._run("ninja -C {build} -v".format(**dirs))
-> +            self._run("DESTDIR=3D{install} ninja -C {build} -v install".=
-format(**dirs))
-> +
-> +            self.check_elf(os.path.join(dirs["install"], "usr", "local",=
- "lib", "libhandy-1.so"))
+--=-UEux6QLvVnwIDS2qdDom
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, 2026-05-07 at 13:23 +0200, Alexander Kanavin via
+lists.openembedded.org wrote:
+> On Wed, 6 May 2026 at 23:49, Quan.Sun via lists.openembedded.org
+> <Quan.Sun=3Dwindriver.com@lists.openembedded.org> wrote:
+> > +SRC_URI +=3D "git://gitlab.com/qemu-project/python-qemu-qmp.git;protoc=
+ol=3Dhttps;branch=3Dmain;destsuffix=3Dpython-qemu-qmp;name=3Dqemu-qmp"
+> > +SRCREV_qemu-qmp =3D "82006cb788d27b090a8b84fc7831feb9c528bcdc"
+>=20
+> This component should be provided with a separate recipe.
+
+To explain this a little more:
+
+- python-qemu-qmp has its own version numbers now that it has been
+  broken out into its own repository. So, it would be much better to
+  have a proper recipe for this with the correct version number
+  specified.
+
+- In the README file, under "Who is this library for?" it says: "This
+  library was split out of the QEMU source tree in order to share a
+  reference version of a QMP library that was usable both within and
+  outside of the QEMU source tree." - so, python-qemu-qmp may be used by
+  other software packages in the future as well as being directly used
+  by qemu.
+
+- Packaging may be cleaner if this Python library is a separate recipe.
+
+Feel free to ask if you have any questions :)
+
+Best regards,
 
 --=20
-Yoann Congal
-Smile ECS
+Paul Barker
 
+
+--=-UEux6QLvVnwIDS2qdDom
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCafypQREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bkfLAP9HDDXAh3Y23K9/+a0SxrpVHUZxMpvAyrKw
+nVVywSJO3gD8DrBgKYL9UD8Hcis2xYYKyU1pHrk6w02pVVmC23HwBgg=
+=sZBt
+-----END PGP SIGNATURE-----
+
+--=-UEux6QLvVnwIDS2qdDom--
 
