@@ -1,171 +1,229 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC0C5CD343F
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 17:50:50 +0000 (UTC)
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2235.1778176240536812453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96813CD343F
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 19:54:11 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4749.1778183642011779038
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 10:50:40 -0700
+ Thu, 07 May 2026 12:54:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=eFoqCBYX;
- spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: deeratho@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3856; q=dns/txt;
-  s=iport01; t=1778176240; x=1779385840;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nPO36HIPc3VT+ajaZHcKN92/hRbzWXHppQGKks4yt0I=;
-  b=eFoqCBYXmU9NkiW6HwPYzvRAK/srV+cAyCKpPjzHlJoFK1B8x8AOx4Nw
-   uOGi5XNMj71V8BQBozJSKdmx4LZFlH9mPKM/hkLVtIB8uX8wvayzPlIqR
-   Z0mJ36cNp3iyo2SUx/xPp9GSYmEvzFJ+lo8r/VOBQJCystiMOIFoxcFZs
-   svlSQ5V34BEuZ0ie7DVDtHP3pfKOqqqg04AEVGJVHve1rrpN8B5IWVdW4
-   zD7dMmRAbHdhafva282ST5nOYae/dzSgzY2AH0ITMq+uZNP2QZpaITPB5
-   0hEp1WPzGGNs/IBHOR0IVU+ESnFSL44ehCJ6/HmfpEioAjRldnv7djQrE
-   A==;
-X-CSE-ConnectionGUID: 2BRrtSJpRUi9582FJBL1TA==
-X-CSE-MsgGUID: 8VafnQ60TQu6yi7nMvVi1A==
-X-IPAS-Result: =?us-ascii?q?A0BFAgAJ0Pxp/5X/Ja1aglmCV3JfQkmUKoE1bItnkjaBf?=
- =?us-ascii?q?w8BAQEPRA0EAQGEQI16AiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECA?=
- =?us-ascii?q?QcFgQ4Thk8NhloBOAEYAVkDAQJPCyMhgwIBgjoDNgIBEbcfgiyBAYMoAYFU2?=
- =?us-ascii?q?EgNglMBCxQBgTiFP4J6hSNbGAGEeicbG4FyhAd2gQUBgRlCAogkBIIigQ6BY?=
- =?us-ascii?q?B6BYIsoSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EMGwcFgUuCOXJqg?=
- =?us-ascii?q?QKEYHgjLANOewMLGA1IESwUIxQbBD5uB4pFHQ+BY02BDgErSIFFQSySQ2mRe?=
- =?us-ascii?q?qAdcQoog3SMHo8+hXwaM4QEgVeSPpJSC5h7jgmECZErgRyEaIFoPIFZcBWDI?=
- =?us-ascii?q?glKGQ+OLgoLg2CCZIMAbL4WJDUCCTIBAQcCBw0DC4FokAACJgQDbmABAQ?=
-IronPort-Data: A9a23:DnkavaCel7G7rBVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApDh00jwOm
- 2cXXmyCbqyPamT1c9gla4m0ox5U7MPSn9E2OVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jWGthh
- fuo+5eBYAL9hGYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEmd9UFl0NH5Uix+cmXDEU2
- 94yDGkxR0XW7w626OrTpuhEnM8vKozveYgYoHwllGufBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGY+BPjDS0Un1lM/BJ8zhu60hn7XeDxDo1XTrq0yi4TW5FMqjuS8boOFI7RmQ+0FoE+Wo
- FuYp1jAH08LNYOZ7CS78yuF07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/OOpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOT9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:lHktxax27Tbbsg5QdyCBKrPwHL1zdoMgy1knxilNoHtuA66lfq
- +V8sjzuSWYtN9zYgBCpTn/Asi9qBrnnPYfi7X5Vo3MYOCJggeVxflZjbfK8nnHBzD08PJb2O
- NLdqhzD8C1MH1B5PyKhTVR170bsb66GGfCv5a780tQ
-X-Talos-CUID: 9a23:X03uNGwpP4jsvNWH2iPsBgVOMPo/bkb/1E3tIh7lWTxHapexEGO5rfY=
-X-Talos-MUID: =?us-ascii?q?9a23=3Ax0/IpA8deCR8XiTEUfrDvpuQf5dW6qqoMR5Vraw?=
- =?us-ascii?q?b5diFaipVJQmc1R3iFw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,221,1770595200"; 
-   d="scan'208";a="736496181"
-Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
-  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 07 May 2026 17:50:39 +0000
-Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 5D22018000266
-	for <openembedded-core@lists.openembedded.org>; Thu,  7 May 2026 17:50:39 +0000 (GMT)
-Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
-	id 09A54CC1600; Thu,  7 May 2026 10:50:39 -0700 (PDT)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=VWJJl3p7;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202605071953585eafc01fe700020781-kbtqsa@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202605071953585eafc01fe700020781
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 07 May 2026 21:53:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=ciiFHIM3ULiRlB/XHb3iVI6cm/mpn4IGnFGMDsPE740=;
+ b=VWJJl3p7c8EqsBAapxJHsxETt4Cg6GxwYz90+wWYKoGQ3rldIjvZT9lrvHjBL21B/6aoPO
+ 5DTcBEbCYwc8k2Bc7XqAgWeAT5b624xg0fiWD2srUgdHm0jxnpW9OMk3oYOxRioBEd0Vcg57
+ S+hxEFeuQmFv+nMY9bdDEa+mEwXS0/Sal+uvOuMixDmlNQ6fu5jlcFkfrAV3oq9tDqOv/eB7
+ 2AvlsaSfc6kNddld4fPRscnUx4n1PtPhCLdqIJnYx1P8m4nHS0C7RPJPlozFSwzdPihh4vgp
+ 3RdQ/od7OKr7vmVQCqC6aZNjTcGXS0KKqpz83p3xW6PEu0lFPZFpU74w==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH] python3-requests: backport fix for CVE-2026-25645
-Date: Thu,  7 May 2026 10:50:26 -0700
-Message-Id: <20260507175026.4092131-1-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] go: upgrade 1.26.2 -> 1.26.3
+Date: Thu,  7 May 2026 21:53:38 +0200
+Message-ID: <20260507195340.147086-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-3552.cisco.com [171.68.249.250];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
-X-Outbound-Node: rcdn-l-core-12.cisco.com
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 17:50:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236615
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 19:54:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236616
 
-From: Ross Burton <ross.burton@arm.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-When unpacking zip files requests uses predictable paths. Backport a fix
-to use randomly generated pathnames to mitigate injection attacks.
+Upgrade to latest 1.26.x release [1]:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fe846d71b647fb06e6a87cb45a2dd9b0889e2891)
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+$ git --no-pager log --oneline go1.26.2..go1.26.3
+2dc996f71b (tag: go1.26.3) [release-branch.go1.26] go1.26.3
+8282c628a0 [release-branch.go1.26] cmd/go: reject sumdb response lacking module hash
+3baf3eec3b [release-branch.go1.26] all: avoid unsafe StringToUTF16Ptr on Windows
+0bec63330d [release-branch.go1.26] net/mail: fix quadratic consumePhrase behavior
+7136366ebf [release-branch.go1.26] cmd/go: invalidate test cache when -coverpkg dependencies change
+722b68ceca [release-branch.go1.26] cmd/compile: keep blank nodes alive in b.loop
+3ae315a8cd [release-branch.go1.26] os: avoid panic when RemoveAll fails to remove a symlink
+c9f97f50c4 [release-branch.go1.26] html/template: fix escaping of URLs in meta content attributes
+40fa774fff [release-branch.go1.26] cmd/pack: refuse to extract files with directory components
+d9389d318b [release-branch.go1.26] net/mail: fix quadratic complexity in consumeComment
+dd29b59a2b [release-branch.go1.26] cmd/compile: fix loopvar version detection with line directives
+18fa391f45 [release-branch.go1.26] crypto/fips140: add package docs
+e0f5c054cb [release-branch.go1.26] net: avoid double-free of cgo pointer when handling large DNS response
+2992086cf8 [release-branch.go1.26] lib/fips140: add certified pointing to v1.0.0-c2097c7c
+f43caf8712 [release-branch.go1.26] lib/fips140: update inprocess to v1.26.0
+19d2ce3401 [release-branch.go1.26] runtime: fix timespec definition on 32bits systems
+e9df527f06 [release-branch.go1.26] crypto/tls: wrap ML-KEM hybrids in fips140.WithoutEnforcement
+73f417a37c [release-branch.go1.26] go/types, types2: handle unconstrained type parameters correctly in a few places
+50856a181c [release-branch.go1.26] cmd/go: use MkdirTemp to create temp directory for "go bug"
+e137885d68 [release-branch.go1.26] cmd/compile/internal/devirtualize: use pointer identity for type comparison
+c9712872cc [release-branch.go1.26] crypto/internal/fips140/drbg: build tag out entropy generation on Wasm
+cb994d85ff [release-branch.go1.26] cmd/fix: change -diff to exit 1 if diffs exist
+95470667eb [release-branch.go1.26] net/http/httputil: reencode queries with many parameters in proxy
+9b01c04815 [release-branch.go1.26] html/template: fix escaper bypass by treating empty script type as JavaScript
+be12fe151c [release-branch.go1.26] runtime: use uname version check for 64-bit time on 32-bit arch codepaths
+ec5ebece41 [release-branch.go1.26] all: update x/net to 705de46f
+710f29a758 [release-branch.go1.26] runtime: add sysUnreserve to undo sysReserve
+efdc0fb354 [release-branch.go1.26] cmd/compile: handle min integer step in loop
+ba4554f03b [release-branch.go1.26] cmd/go: specify full path to go command when running go tool covdata
+f4e425d342 [release-branch.go1.26] fix incorrect loop trip counts
+0b4d5f85e6 [release-branch.go1.26] cmd/link: use bfd ld 2.36+ on linux/arm64 instead of gold
 
-diff --git a/meta/recipes-devtools/python/python3-requests/CVE-2026-25645.patch b/meta/recipes-devtools/python/python3-requests/CVE-2026-25645.patch
-new file mode 100644
-index 0000000000..3bebba6572
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-requests/CVE-2026-25645.patch
-@@ -0,0 +1,46 @@
-+From 66d21cb07bd6255b1280291c4fafb71803cdb3b7 Mon Sep 17 00:00:00 2001
-+From: Nate Prewitt <nate.prewitt@gmail.com>
-+Date: Wed, 25 Mar 2026 08:57:56 -0600
-+Subject: [PATCH] Merge commit from fork
-+
-+Prior to version 2.33.0, the `requests.utils.extract_zipped_paths()` utility function
-+uses a predictable filename when extracting files from zip archives into the system
-+temporary directory. If the target file already exists, it is reused without validation.
-+A local attacker with write access to the temp directory could pre-create a malicious
-+file that would be loaded in place of the legitimate one. Standard usage of the Requests
-+library is not affected by this vulnerability. Only applications that call
-+`extract_zipped_paths()` directly are impacted. Starting in version 2.33.0, the library
-+extracts files to a non-deterministic location. If developers are unable to upgrade,
-+they can set `TMPDIR` in their environment to a directory with restricted write access.
-+
-+CVE: CVE-2026-25645
-+Upstream-Status: Backport [https://github.com/psf/requests/commit/66d21cb07bd6255b1280291c4fafb71803cdb3b7]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ src/requests/utils.py | 13 +++++++------
-+ 1 file changed, 7 insertions(+), 6 deletions(-)
-+
-+diff --git a/src/requests/utils.py b/src/requests/utils.py
-+index d8803e6e91..54959bb8ab 100644
-+--- a/src/requests/utils.py
-++++ b/src/requests/utils.py
-+@@ -282,12 +282,13 @@ def extract_zipped_paths(path):
-+         return path
-+ 
-+     # we have a valid zip archive and a valid member of that archive
-+-    tmp = tempfile.gettempdir()
-+-    extracted_path = os.path.join(tmp, member.split("/")[-1])
-+-    if not os.path.exists(extracted_path):
-+-        # use read + write to avoid the creating nested folders, we only want the file, avoids mkdir racing condition
-+-        with atomic_open(extracted_path) as file_handler:
-+-            file_handler.write(zip_file.read(member))
-++    suffix = os.path.splitext(member.split("/")[-1])[-1]
-++    fd, extracted_path = tempfile.mkstemp(suffix=suffix)
-++    try:
-++        os.write(fd, zip_file.read(member))
-++    finally:
-++        os.close(fd)
-++
-+     return extracted_path
-+ 
-+ 
-diff --git a/meta/recipes-devtools/python/python3-requests_2.32.4.bb b/meta/recipes-devtools/python/python3-requests_2.32.4.bb
-index b86ecfba52..9ebdd4f08a 100644
---- a/meta/recipes-devtools/python/python3-requests_2.32.4.bb
-+++ b/meta/recipes-devtools/python/python3-requests_2.32.4.bb
-@@ -3,13 +3,12 @@ HOMEPAGE = "https://requests.readthedocs.io"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+Fixes CVE-2026-42501, CVE-2026-39825, CVE-2026-39836, CVE-2026-42499,
+      CVE-2026-39820, CVE-2026-39819, CVE-2026-39817, CVE-2026-33814,
+      CVE-2026-39826, CVE-2026-33811 and CVE-2026-39823.
+
+Drop patch handling gold linker as upstream implemented gold linker
+availability autodetection with [3].
+
+Release information: [2]
+
+[1] https://github.com/golang/go/compare/go1.26.2...go1.26.3
+[2] https://groups.google.com/g/golang-announce/c/qcCIEXso47M
+[3] https://github.com/golang/go/commit/0b4d5f85e68ea79b61de9989f9f37a984eb11289
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../go/{go-1.26.2.inc => go-1.26.3.inc}       |  3 +-
+ ...e_1.26.2.bb => go-binary-native_1.26.3.bb} |  6 +-
+ ..._1.26.2.bb => go-cross-canadian_1.26.3.bb} |  0
+ ...{go-cross_1.26.2.bb => go-cross_1.26.3.bb} |  0
+ ...osssdk_1.26.2.bb => go-crosssdk_1.26.3.bb} |  0
+ ...runtime_1.26.2.bb => go-runtime_1.26.3.bb} |  0
+ ...rcing-binutils-gold-dependency-on-aa.patch | 55 -------------------
+ .../go/{go_1.26.2.bb => go_1.26.3.bb}         |  0
+ 8 files changed, 4 insertions(+), 60 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.26.2.inc => go-1.26.3.inc} (83%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.26.2.bb => go-binary-native_1.26.3.bb} (80%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.26.2.bb => go-cross-canadian_1.26.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.26.2.bb => go-cross_1.26.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.26.2.bb => go-crosssdk_1.26.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.26.2.bb => go-runtime_1.26.3.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/go/go/0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch
+ rename meta/recipes-devtools/go/{go_1.26.2.bb => go_1.26.3.bb} (100%)
+
+diff --git a/meta/recipes-devtools/go/go-1.26.2.inc b/meta/recipes-devtools/go/go-1.26.3.inc
+similarity index 83%
+rename from meta/recipes-devtools/go/go-1.26.2.inc
+rename to meta/recipes-devtools/go/go-1.26.3.inc
+index 8bb10bc89f..db7b18ed2d 100644
+--- a/meta/recipes-devtools/go/go-1.26.2.inc
++++ b/meta/recipes-devtools/go/go-1.26.3.inc
+@@ -15,6 +15,5 @@ SRC_URI += "\
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+-    file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
+ "
+-SRC_URI[main.sha256sum] = "2e91ebb6947a96e9436fb2b3926a8802efe63a6d375dffec4f82aa9dbd6fd43b"
++SRC_URI[main.sha256sum] = "1c646875d0aa8799133184ed57cf79ff24bdefe8c8820470602a9d3d6d9192b8"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.2.bb b/meta/recipes-devtools/go/go-binary-native_1.26.3.bb
+similarity index 80%
+rename from meta/recipes-devtools/go/go-binary-native_1.26.2.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.26.3.bb
+index d9006373f6..135c7fbf5e 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.26.2.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.26.3.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
--SRC_URI:append:class-nativesdk = " \
--           file://environment.d-python3-requests.sh \
--"
-+inherit pypi python_setuptools_build_meta
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "990e6b4bbba816dc3ee129eaeaf4b42f17c2800b88a2166c265ac1a200262282"
+-SRC_URI[go_linux_arm64.sha256sum] = "c958a1fe1b361391db163a485e21f5f228142d6f8b584f6bef89b26f66dc5b23"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "62b7645dd2404052535617c59e91cf03c7aa28e332dbaddbe4c0d7de7bcc6736"
++SRC_URI[go_linux_amd64.sha256sum] = "2b2cfc7148493da5e73981bffbf3353af381d5f93e789c82c79aff64962eb556"
++SRC_URI[go_linux_arm64.sha256sum] = "9d89a3ea57d141c2b22d70083f2c8459ba3890f2d9e818e7e933b75614936565"
++SRC_URI[go_linux_ppc64le.sha256sum] = "dbd82b50530ead2beb1fd72215117380df3cb16332b51467116dc35b3691dd75"
  
- SRC_URI[sha256sum] = "27d0316682c8a29834d3264820024b62a36942083d52caf2f14c0591336d3422"
- 
--inherit pypi python_setuptools_build_meta
-+SRC_URI += "file://CVE-2026-25645.patch"
-+SRC_URI:append:class-nativesdk = " file://environment.d-python3-requests.sh"
- 
- do_install:append:class-nativesdk() {
- 	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
--- 
-2.35.6
-
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.2.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.26.2.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.26.3.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.26.2.bb b/meta/recipes-devtools/go/go-cross_1.26.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.26.2.bb
+rename to meta/recipes-devtools/go/go-cross_1.26.3.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.2.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.26.2.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.26.3.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.26.2.bb b/meta/recipes-devtools/go/go-runtime_1.26.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.26.2.bb
+rename to meta/recipes-devtools/go/go-runtime_1.26.3.bb
+diff --git a/meta/recipes-devtools/go/go/0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch b/meta/recipes-devtools/go/go/0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch
+deleted file mode 100644
+index dda0f2bb71..0000000000
+--- a/meta/recipes-devtools/go/go/0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 6d265b008e3d106b2706645e5a88cd8e2fb98953 Mon Sep 17 00:00:00 2001
+-From: Dirk Müller <dirk@dmllr.de>
+-Date: Wed, 09 Mar 2022 17:47:23 +0100
+-Subject: [PATCH 11/11] cmd/link: stop forcing binutils-gold dependency on
+-  aarch64
+-
+-The bfd linker appears to be working just fine at least in version
+-2.41 or above. Reject the known broken one instead, which
+-avoids an architecture specific linker dependency that
+-is cumbersome for distributions.
+-
+-Fixes #22040.
+-
+-Change-Id: I9f377e47c22ef20497479c0978c053ed5de46a38
+-
+-Upstream-Status: Submitted [https://go-review.googlesource.com/c/go/+/391115]
+----
+- src/cmd/link/internal/ld/lib.go | 21 ---------------------
+- 1 file changed, 21 deletions(-)
+-
+-diff --git a/src/cmd/link/internal/ld/lib.go b/src/cmd/link/internal/ld/lib.go
+-index dfc72e02c0..2a2a304113 100644
+---- a/src/cmd/link/internal/ld/lib.go
+-+++ b/src/cmd/link/internal/ld/lib.go
+-@@ -1701,27 +1701,6 @@ func (ctxt *Link) hostlink() {
+- 			// Use lld to avoid errors from default linker (issue #38838)
+- 			altLinker = "lld"
+- 		}
+--
+--		if ctxt.Arch.InFamily(sys.ARM64) && buildcfg.GOOS == "linux" {
+--			// On ARM64, the GNU linker will fail with
+--			// -znocopyreloc if it thinks a COPY relocation is
+--			// required. Switch to gold.
+--			// https://sourceware.org/bugzilla/show_bug.cgi?id=19962
+--			// https://go.dev/issue/22040
+--			altLinker = "gold"
+--
+--			// If gold is not installed, gcc will silently switch
+--			// back to ld.bfd. So we parse the version information
+--			// and provide a useful error if gold is missing.
+--			name, args := flagExtld[0], flagExtld[1:]
+--			args = append(args, "-fuse-ld=gold", "-Wl,--version")
+--			cmd := exec.Command(name, args...)
+--			if out, err := cmd.CombinedOutput(); err == nil {
+--				if !bytes.Contains(out, []byte("GNU gold")) {
+--					log.Fatalf("ARM64 external linker must be gold (issue #15696, 22040), but is not: %s", out)
+--				}
+--			}
+--		}
+- 	}
+- 	if ctxt.Arch.Family == sys.ARM64 && buildcfg.GOOS == "freebsd" {
+- 		// Switch to ld.bfd on freebsd/arm64.
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/go/go_1.26.2.bb b/meta/recipes-devtools/go/go_1.26.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.26.2.bb
+rename to meta/recipes-devtools/go/go_1.26.3.bb
 
