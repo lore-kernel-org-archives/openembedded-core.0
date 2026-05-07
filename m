@@ -1,181 +1,115 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <hjadon@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E33CD3439
-	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 15:01:35 +0000 (UTC)
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14240.1778166089641426007
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A425CCD3439
+	for <webhook@archiver.kernel.org>; Thu,  7 May 2026 15:54:15 +0000 (UTC)
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15587.1778169250162406692
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 08:01:30 -0700
+ Thu, 07 May 2026 08:54:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=JCd8dPk+;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=g29kwMY1;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.150, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id AA6C71D000AC;
-	Thu,  7 May 2026 11:01:28 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 07 May 2026 11:01:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1778166088; x=1778252488; bh=O/Pz1QsMsO
-	wCMRoAiviq1CRMpCbxwV4M6+et0tTm3h4=; b=JCd8dPk+7LMnRdT8ToKEmD+JVl
-	hYgSGJ7wMWvnJpg+05i87ROExwRAdlolQWQhl1xVq8XpOY03YYLuKxy16AS+WZww
-	UsjmJONILm5ROaNDAfT4xVMXcvOPxxAas+Rq+Q+91rl7qa7sfmxRS0kKfTxIOEzp
-	Rq9XO6Mi+xtT/NUb29lBFcEx+O6mpSYZd1Ul9RuYCTOWd1zJKlrfPJuhG0FBdxqg
-	ql+2rmTODswNXC1WndhP56cfMkJDm34+t4NerVEoodC58j8qewY7M0PYkKSWbJPK
-	sto8rbNuBD+W9VKWb+YaVKcmKGFO7HP1eOXZTYAh/LA+qu5OOSo1CMnCbFsA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778166088; x=1778252488; bh=O/Pz1QsMsOwCMRoAiviq1CRMpCbxwV4M6+e
-	t0tTm3h4=; b=g29kwMY1y9w4ajvT72gdX+c55FqCb0MbXnYXA3wLi4ItqttX0Cg
-	Nd+7G580i/EEB8VPz/aNbrueSPsoY0VG+/8bSwP7Bovi6YC1ZLtOp1CXbzUzqvyS
-	3EDVDj52rCTOC1D1v5DrqMjKcEA+vD0gwPZ/Xu4eo7tMXKuFKvOUigfBen4eNG7a
-	UaRsumDpBgw1I3M9e3/TGfzyVOvuaUodhTC1zPIAwhqPijcHKXDieB8ZXi41gGZ3
-	6amXw/3XQQQFJsIE5sOZ7jSj2pGV3/zTFV5TQFydlHWbg8PQq1QDdqHbn3KOBYi6
-	9WZBjY4qv/mjhEkmTya5uGkIe1EGsOX4qdg==
-X-ME-Sender: <xms:R6n8aXcAm9b6YIlGNzhssXPYarO-SoWa8gwPdahXQZszmvq-gPNPpw>
-    <xme:R6n8aUoU8PN1-vEt9NCos03HLyIXuuf4AkIhzF6ha9ufg81TQOQvvknaIdpPQ3Fct
-    qAHycn4X_QRnDuE_plJWjTlqjSDdIxJIKmZeFtJ1dxCiMR0--desHU>
-X-ME-Received: <xmr:R6n8ad4nKaSpupYgW-bJUi6it7rmu_m0YLlRj0pbaV_-V0R8he53FaUH7KcGNppvCuMW1CYK6uLIiWES6Zy9ol9VlvoXf1xuuJGyU-qWPGGm>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdejjeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
-    dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
-    rdguvghvqeenucggtffrrghtthgvrhhnpeelvdevheetleevfeetleetkedutdfgfeehhe
-    evveejffeiveetjeetueekfeevheenucffohhmrghinhepohhpvghnvghmsggvugguvggu
-    rdhorhhgpdhgihhtlhgrsgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghp
-    thhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlvgigrdhkrghnrg
-    hvihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepqhhurghnrdhsuhhnseifihhnughr
-    ihhvvghrrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslh
-    hishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-ME-Proxy: <xmx:R6n8aSrxyQySBq3DTphg4JgLHBJvpQIvRgvE63a5rnjdPG55H7Q1bA>
-    <xmx:R6n8aXjmwAlPCnw1pG6GJyKoiL_VY71zLVX69b9ydNTJL9Dkis44Ow>
-    <xmx:R6n8aUJyYwc3ntAAvHOy4uTLAvWKGbRQhz1F9md7sRadAVgINDD6vg>
-    <xmx:R6n8afD7qXzj-EAdZBGqXmw-UbiT2Yau5mCMns-RMQEt3j-xf8vNrw>
-    <xmx:SKn8aVSjvZyqql-vRAa1l95sdkiAkGKySCS6leZ1c9XO1dn80Go-8Jpx>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 May 2026 11:01:27 -0400 (EDT)
-Message-ID: <46e6de3dea514e2f30dfe806dbddef9f08caa60a.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
-From: Paul Barker <paul@pbarker.dev>
-To: alex.kanavin@gmail.com, Quan.Sun@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 07 May 2026 16:01:21 +0100
-In-Reply-To: <CANNYZj_++oDps3s2uq51a7j3CQgK1MSuuSgY9Cz0-wFtE2gnSQ@mail.gmail.com>
-References: <20260506214835.1578529-1-Quan.Sun@windriver.com>
-	 <CANNYZj_++oDps3s2uq51a7j3CQgK1MSuuSgY9Cz0-wFtE2gnSQ@mail.gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-UEux6QLvVnwIDS2qdDom"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=TSla53ln;
+ spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: hjadon@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=1033; q=dns/txt;
+  s=iport01; t=1778169250; x=1779378850;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tTO78pTm5sw2M4a+yRN62lQmUB+LKhUxsyIf/CaB6mk=;
+  b=TSla53lnlzn+gP9L+QUCX8Yn+sE8K4CTb58Y8nd45wYv6WR0QZDqyBtY
+   +t57Z4qBkvjMddt+Ber/BEbCQbGt3fWyAy8FhtcoerGNsRc/dFdxFxbTm
+   DzfNW+cCPhUX2HGgBJQxVSddOHamC5Y8n+DR8g1AqLd+FCsW7UwIWnIXL
+   P3fUnKKpgulmUqF3Z/MlyDgwNrLcFulsjt+Xofb86+5TabOB2CwhQLU+k
+   yeRE8FXK6PCVMluz6Xm1uPQs9V+424QHOwVCJwh2/DF9n/AwIjAzT8iYO
+   SJGnWiZ1ocscW+xNhBzG3o9pCNfP/YpZjj7KQ9UCWptQK5C51CVhlTcUA
+   Q==;
+X-CSE-ConnectionGUID: okn1QByUQAiTZtLuU9cMMA==
+X-CSE-MsgGUID: xSQrxrHxTXSqpHrrPv3+cg==
+X-IPAS-Result: =?us-ascii?q?A0BBAgDatPxp/5P/Ja1aglmCV3JeQ0mTWgGhDYF/DwEBA?=
+ =?us-ascii?q?Q8xIAQBAYUGjTQCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGXIZdNgEYAS0wXESDAgGCcwO4EYIsgQGDKAGBVNsoAQsUAYE4hT+IHYVuJ?=
+ =?us-ascii?q?xsbgXKEfYUQhXcEgiKBDoF+g12JK0iBHgNZLAFVEw0KCwcFgWYDNRIqFW4yH?=
+ =?us-ascii?q?YEjPheBDBsHBYFLgjlyaoEChGB4IywDTnsDCxgNSBEsNxQbBD5uB4pFHQ+CM?=
+ =?us-ascii?q?IEOgi+UJZF4oQ4KKIN0jB6VOhozqmsumFikWYRogWg8gVlwFYMiCUoZD9hsJ?=
+ =?us-ascii?q?zICOwIHAgcNAwuTZQEB?=
+IronPort-Data: A9a23:14n2O6u1d4ZaDZI/swj2XirErOfnVAFfMUV32f8akzHdYApBsoF/q
+ tZmKW2CbP+INjSmeYtxOt7g/E4DsJDSz9RjQQdlrSgwRSkSgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFYzdJ5xYuajhKs//b90s21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw/eVxWFhk5
+ MEhATExXAynmt/ny5eeY7w57igjBJGD0II3oHpsy3TdSP0hW52GGv2M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtIYH49tL/Aan3Xcz9RpFWTjaE2+GPUigd21dABNfKKJoTRH5oFxRnwS
+ mTu71/AGAEAFMyj+QGc6lK2nNfRxmDwV9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1dFnhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Pxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:P/MdAqvkumPKcbXPW5G7DU2u7skDQNV00zEX/kB9WHVpmwKj+P
+ xG+85rsCMc5wxxZJhNo7290cq7MBHhHOBOgbX5VI3KNGKNhILCFu9fBOXZrwEIYxeOldJ15O
+ NHb7V0DsH2ABxRiMb35xT9LvMbqeP3lJxBQYzlvhFQpcYAUdAG0ztE
+X-Talos-CUID: =?us-ascii?q?9a23=3A678jCWqbhyOeu5BbXRatzl7mUccmdCTk5mbtGma?=
+ =?us-ascii?q?5NVR1bKCoGFS13Yoxxg=3D=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3ApjKzSA45Xd/lFjZLieJWWGiaxox42J20GFotgak?=
+ =?us-ascii?q?2gNCcFTZqAynGzz+4F9o=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,221,1770595200"; 
+   d="scan'208";a="740327837"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 07 May 2026 15:54:09 +0000
+Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 23FC81800025B;
+	Thu,  7 May 2026 15:54:09 +0000 (GMT)
+Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
+	id AB105CC1288; Thu,  7 May 2026 08:54:08 -0700 (PDT)
+From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: vchavda@cisco.com
+Subject: [OE-core] [scarthgap] [PATCH] cargo: set CVE_PRODUCT
+Date: Thu,  7 May 2026 08:54:03 -0700
+Message-Id: <20260507155403.990855-1-hjadon@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 15:01:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236597
+ <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 15:54:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236598
 
+From: Peter Marko <peter.marko@siemens.com>
 
---=-UEux6QLvVnwIDS2qdDom
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This removes mediawiki:cargo CVEs from CVE metrics.
+* CVE-2026-39837, CVE-2026-39839, CVE-2026-39840, CVE-2026-39841
 
-On Thu, 2026-05-07 at 13:23 +0200, Alexander Kanavin via
-lists.openembedded.org wrote:
-> On Wed, 6 May 2026 at 23:49, Quan.Sun via lists.openembedded.org
-> <Quan.Sun=3Dwindriver.com@lists.openembedded.org> wrote:
-> > +SRC_URI +=3D "git://gitlab.com/qemu-project/python-qemu-qmp.git;protoc=
-ol=3Dhttps;branch=3Dmain;destsuffix=3Dpython-qemu-qmp;name=3Dqemu-qmp"
-> > +SRCREV_qemu-qmp =3D "82006cb788d27b090a8b84fc7831feb9c528bcdc"
->=20
-> This component should be provided with a separate recipe.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a5cb71e7df95925a5c342c341e699e244b1b84f6)
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+---
+ meta/recipes-devtools/rust/cargo_1.75.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-To explain this a little more:
+diff --git a/meta/recipes-devtools/rust/cargo_1.75.0.bb b/meta/recipes-devtools/rust/cargo_1.75.0.bb
+index a6d3f1754b..573430ef4e 100644
+--- a/meta/recipes-devtools/rust/cargo_1.75.0.bb
++++ b/meta/recipes-devtools/rust/cargo_1.75.0.bb
+@@ -17,6 +17,8 @@ require rust-snapshot.inc
+ S = "${RUSTSRC}/src/tools/cargo"
+ CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
+ 
++CVE_PRODUCT = "rust-lang:cargo"
++
+ inherit cargo pkgconfig
+ 
+ DEBUG_PREFIX_MAP += "-fdebug-prefix-map=${RUSTSRC}/vendor=${TARGET_DBGSRC_DIR}"
+-- 
+2.35.6
 
-- python-qemu-qmp has its own version numbers now that it has been
-  broken out into its own repository. So, it would be much better to
-  have a proper recipe for this with the correct version number
-  specified.
-
-- In the README file, under "Who is this library for?" it says: "This
-  library was split out of the QEMU source tree in order to share a
-  reference version of a QMP library that was usable both within and
-  outside of the QEMU source tree." - so, python-qemu-qmp may be used by
-  other software packages in the future as well as being directly used
-  by qemu.
-
-- Packaging may be cleaner if this Python library is a separate recipe.
-
-Feel free to ask if you have any questions :)
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-UEux6QLvVnwIDS2qdDom
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCafypQREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bkfLAP9HDDXAh3Y23K9/+a0SxrpVHUZxMpvAyrKw
-nVVywSJO3gD8DrBgKYL9UD8Hcis2xYYKyU1pHrk6w02pVVmC23HwBgg=
-=sZBt
------END PGP SIGNATURE-----
-
---=-UEux6QLvVnwIDS2qdDom--
 
