@@ -1,309 +1,242 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBDF6CD3447
-	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 13:11:19 +0000 (UTC)
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13313.1778245875413042232
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D217DCD3447
+	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 13:16:29 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.71])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13378.1778246188000648554
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 06:11:15 -0700
+ Fri, 08 May 2026 06:16:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=UJE7cl7K;
- spf=pass (domain: gmail.com, ip: 74.125.224.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-65c5361142fso2137258d50.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 06:11:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778245874; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GE3lLbM5gs/ae+WfBIkCQP4XVwRKuZ9+QE0/GPhuDilPJ1F+LRpvTIqCpOUGvfibVz
-         EBO1vXsj1Ojx3JGn3djaMI+ZE5xD7Cj2WO/G6KZfyr5bR586hLrKFVlDCTbaQMEnmFbP
-         /EukubL4aHdkm69+/uc5BBvFiscKU0PYIDrA/vi8IpqxFgIZ7glwLtKzz77tzPRzUdPq
-         P6PW2WFzEZrU0axuhTjAmP56KHsvkXP6kpSzyDo6X0tQpT99Rib2H22a7AWnj0+Rtqc9
-         dXa4rmT1+twgH/B6ifito22qiR+Kg1ZvdOC85EwlEy603h+lCKVf7t2GOVaUFVWDTExu
-         WK7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=MyHAPZ6vXfUiSDdJ5OQtO7KPgvNP8pNX4mku+QOvKGU=;
-        fh=4gDdst7jrBGUnACXSpNQq75rSKoUzWeWM32DKV6cGns=;
-        b=bwXA766zguHhlNprUOa5GBljbjh+r/VMDQYPIvHyIj2u8o/CoLP/HApvq6LyWB6oE2
-         ew0yJdm2/xNpE5xYiEX3lQ87jGayd2d+CvOdPHQK8m0KooJD4NKSoVbIC/ZK23BXc9K9
-         4k6N8Y2wRfXrVbi+FEvE+jPIjtTL2hr2TiDcuLBAt+eXCWWgeUqyP3fpho5mGraaror2
-         NfH+WfUe7nBK1o+7cNIEOAXkrPGZs2MIHs7BEXTogzhHkkU81b97pFbNXKtvxjC08V7c
-         z3rjRZuYROONp3xSzoa8P+AjvYoXVaBRofh5/nKHtg90rPz0Aa9BTCaWjmKkNg7PwqwC
-         eGNw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778245874; x=1778850674; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MyHAPZ6vXfUiSDdJ5OQtO7KPgvNP8pNX4mku+QOvKGU=;
-        b=UJE7cl7K2it2/5/jXrO4hdMt7IJy97Lcx/lZSqtH/Arr2LsQyTRJ43owujWx+Tn6hr
-         9GmTol6wA5NaaielKS7bwyETkYKA7WjFv55sCuAUifMzXQSojnjHy0yJE7gg5YFfIpVt
-         EkTjHZZyAK+5t+L/C25bBveXufEVhtToZfP+/XCGbnMVKkUHIgwyJU1P8i5x3V6hAI1U
-         TfwQfXlT+s7ZX3vA3PEHcjZ/NsgWjb15lM4XnePzY+DZpcn9Ox+EIW6wHm4nCP1gSGEL
-         FvtIGSIH18p6+Iji+K4i6dFvB+Rdy0JyECAD/sQE5LYH82XVNkcbMm+NrSiUpVZx1+j7
-         aXCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778245874; x=1778850674;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MyHAPZ6vXfUiSDdJ5OQtO7KPgvNP8pNX4mku+QOvKGU=;
-        b=KO4lhYpCTk3TlKEfkFYkKrz0UydizXcEJY4q3IMz5MkkueV6Oluaf7h5aVlhwy72dL
-         9ho6UwmBe71tqKCDh+x/HhMA9jSp1AG//grtNailS1CD5TYJONDTItGur4Wyf2eMpM6a
-         XOOM/W2akpknfAvKz0JpIITqS8xNtGGBB1O+wAPT1mp3Xid2IC2fBY1Pql7Gqo1rZzaj
-         JKwBKoZ//JrfWFMRxnNNdjjQSHOfWGcWKIGE1unPjctYsq56ahtxtcueh2mC8R8kAmhb
-         tByIA3HLD8BXSZQVETA3Yt3x7Md6c+89iT8c2K0zqNenBWw3WuiPLPjoXALl3s+whXJJ
-         4TNg==
-X-Forwarded-Encrypted: i=1; AFNElJ9tApazt2skcokXiLOJyY3ASqQVaxscpNX9Use9BvRTCxfaPdsxPMWyky/TFU7XRQwySSAilCY/BwNEMoHACIDF/g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxXC9OpYM8GJ5KLAgFBte6ct9JgrDebdjQe5I24Jy9Eo3nI4S7Q
-	pSFsvOjIFDVL3qpDCleeQHx3nSFhSZCnRfWFk1FY4VVv6BH9ayzZTGJRyrD6Ns72D5xlqov+2vb
-	MWviNNKUSsVzOKQQwncs3RAQIbLw8vXs=
-X-Gm-Gg: Acq92OGcXiEIptJGxhmP9YwfWddVGyfSgM1Jc8BHFrYwy4c8YFPe9lObxTJvKG+/U9P
-	XgWAB14KW+MBnCMbfBcaMH3V/ZEBya0bCecwTcrywgkhhQFSbIGiWhzrdMoRCVZc0BhNROU3kHt
-	TUD6tbimslgKa9TFKfhP3yKnjTUqY6IUQqFjEZ7cwaysbHBR8ClGXHR79CzpCv/0KKleZTb4LBo
-	AHFvHi9iOkDa0IJMkFvflF9e/cfBL4QVwNnD8NZ5BPkwOL1BMejBomJoHZa5z0wjkbVhjvDtwsi
-	/8cC6bJcJ2RZpt0and9k8pGxSepX+oBA20EXM+umt7fulRw24BOMk/wnXcXLiO1onB6vM2BvlfU
-	yCkNFH3yNzpyzw1hcs3fnOKFySR+Rn9C5kCJGcHQPEsupQ3kex1a7on2ZV1fS7o2wWZtSdLxum9
-	Uf2ysONw==
-X-Received: by 2002:a05:690e:44cd:b0:65c:6ffb:303d with SMTP id
- 956f58d0204a3-65c79a078c4mr9095886d50.62.1778245874376; Fri, 08 May 2026
- 06:11:14 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=pf72KUBb;
+ spf=pass (domain: est.tech, ip: 52.101.70.71, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bvvXTcYWTWYxesi6YC0X2yYPjFsg1BzB6V06PBmPhUn9GVg3mtyTSQoiQPeoFFH7yzZgpxyxBxh+zxfxU+cLfVYgRTVEsuHW1T5veF2evx9csHtnqK5YHipkO5+24DSrj47H927hnpBJppsVAK8UA66rUT7f7Mz8t3mWokyA5of5SLKVWtsU4gg0aKlTK+W0dl9WyWsxMSG5X/Nn8aN0Km7IdKEjkrpY9BR1IAzCyTygWyPFwq4j4GUaMerfVIIITObsdC0l8pFgIX/CkiYdxXGPM8cxftE9KrQ4jM4Byry3Ot+0JpStpcchuAuQyf3ozbz+VbNuCeH+AFKaxkcHEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9AZJtVtBvuV/HklkaIKQw42LTewkzKRINWi4MneaWIo=;
+ b=QjZBQpQXsp1gK5o9nQ1RrMh0mUdcmBDoIu5kZuhmlg3VOZPPBCKnEnFjvzeP7HrhhN/vjZLkVSzcBr40WM2U+4gy5LssTHmx7KuMTT2RY5cX9SyUXeNzBUjgmBDDuADurU2E7kXdb4DYxvLErccgdU7OQqt16Sd8PZiSZVlFPFHijXcLDard6vfkaHMnXmfB8/iDHxWjuF6miTZwyqaiVYH4hRulLcDB4Qa1hFmeC77IjSRvufIChcTr3CtkAc5ZPkvsKlwPp6QLfzt7g7UhnOJ242fulHVMbpERNjVKiz0vDiNzjrQu0rbj202ArUil3W7W7X78zdDI5hf2uvTkqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9AZJtVtBvuV/HklkaIKQw42LTewkzKRINWi4MneaWIo=;
+ b=pf72KUBbR8o/W4Ya0E+XE87eGDootbM09FSuUAlgy7hHcOp+YnULYftba7PEKlbnL/XVQ3CVB90N4gQK2C9aqSH8QOfC9CoQP+V8DZoINjDvfFga/SlJmQkujD0kerzOOg4E1XlESA94JpGYnryLHkdGd2pGeGgtbtKEw7StSg1ZRKwc2Se6AMKC9Ub1ybR4GkwzVPWOhlQDS3dajlb964HO9yiP+0bypJQWDnDEiLpAkO+UuRSdMzcm0Ht71cqAaISNcEyK3XxHKCauD8dpKA78rQ1tL1bprMmHnWP5Txc2ccHYAMLaR1Cr2c520LBi9GA0xELIZtGBrrHUG3q1ng==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
+ by GV4P189MB3584.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2bb::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.19; Fri, 8 May
+ 2026 13:16:21 +0000
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9891.019; Fri, 8 May 2026
+ 13:16:20 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v1] liburcu: ptest: add regression test suite
+Date: Fri,  8 May 2026 15:16:15 +0200
+Message-ID: <20260508131615.25076-1-pratik.farkase@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO6P123CA0047.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:310::16) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:26e::16)
 MIME-Version: 1.0
-References: <20260504-glibc-fix-stackprot-v1-1-fbfd0f22ddd2@sonos.com> <CANNYZj8zc+Q4wzg8BOiY4GSNz+dZ5Byq7mjQSdO2zPuKB5XY4A@mail.gmail.com>
-In-Reply-To: <CANNYZj8zc+Q4wzg8BOiY4GSNz+dZ5Byq7mjQSdO2zPuKB5XY4A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 May 2026 18:41:02 +0530
-X-Gm-Features: AVHnY4KCKz0edKYXpG8u6UHhGXGKsGALCd1AJjc3wc93BiDzyIorwv-V30EDCxw
-Message-ID: <CAMKF1sqGRZhTBxmJ_i=qiCoXqrZN-L8Xz8+i=2ev2CmbH_rQmg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Fix recipe bug that disabled stack protector
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: ivan.nestlerode@sonos.com, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000aa634306514e21a9"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|GV4P189MB3584:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76fdf45c-f08d-41a1-1431-08dead03fedf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|366016|1800799024|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	+qhkoGKXHGK/f/8V5S/sAMmKZRijbNIqpUKBjIoqSA7k0tmegLCgBGIX9ydjFWNtgpBjbJolTKZK/yYIODQWAm8o9lHBmKMU/kmMjjUJA7qLUwDxrKwrKimifV2l1q0IBYZv/wvv/2Bpoc3UcAJf0N/rMe1IBTWg4zclUV7bzX4vjiEXVJT0I0NjH/Ggk4LsDzhOWVweZ81TulLADLRg0ML0n3JfQ9XMLyF3uvRQEZR6PRlfDNtqIxMxaW1cjHG+1KHY2k9Fsj7YbG9T8WegxgIKCMnZ5OJD/wsFBdADsUR1yxPqClWcZ4dCrSFW4FgswGcu/EiDSPMf3m4Bbl5+pT7X6rXH0lo82xk8Tb3Xzk6YSBAp9mcBObzgQRFZ0tCixM1NrJ2lUmOOn+ia1KiafVoO/pvLMPZoU/OnJrxTu1R21uaejBs64Uz2jwx4oyTN24cpU0KgqNWjR0klhSUT/qqChVh6M8N0Pz2TBPEa9Ql0G0jbIBL0DeccdM6WlJYEvXP8TYnXDKUOKLGK48yO0sHukItBSqi56uE651B5YRJr8G5Yx4I6v6T1p6Y5WS4h4SEuWvzczlzJl4Op1cwxBptYvOfBm+OpcrqE89Aq5sgDMRndR3LaDY1ptnwh/MktSpKTPRZ0haxeAjNkw/ZyW462f1ymQL5h7QHA86KaYqZT/m636OiBwgJT7LOGBH58
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?b5gOqFwr/hQRvN2t7nUAKCcB9Rchvwvte9MlQr3z1lRskqDOuuIumPHMXvah?=
+ =?us-ascii?Q?HSpaBrGXNVhvdRiyT7pKxy95JxlAGULtP1eu42ZpRtbovOxL0J3lA1ZclZzV?=
+ =?us-ascii?Q?qqfQ2Alb5PqsZ0bdtePQjpVVBtV97HuvhiJDUKFMoHHtk8JSI9EpfPUx7fJK?=
+ =?us-ascii?Q?a5g9rFlzF+W/pGpTlxpU4srUD9OfP44ZZ0iOQ5AOiab1qY/gx6dogj2nxpvz?=
+ =?us-ascii?Q?aT0sBGpNHLGmc/rwsvPh4tqkOq3BvlxNZahPCXHFhmUS9MfFlHxpEPOq4DYx?=
+ =?us-ascii?Q?Tjz6cXz7xVjwb+LgxEz023j3nmUV3Oubh3fqmbZuNCoSwuc4ot9sxoaVbO8z?=
+ =?us-ascii?Q?rV27MUE32uQCB8E25FrP39j0haN+WukbJdx8YMhjpBI/l77lln+icOdALT4/?=
+ =?us-ascii?Q?GCva6zSu8xbwKx/D1JTF/sPyPmCCheIveJowITuxtPyPitL+AQS9VOf4sP0Y?=
+ =?us-ascii?Q?eJtTMNzJ1Ctom7l6iA3vteh3WrgtV1v9q0zG8Ye3rqGLun6Yr+kBWQZlyxhq?=
+ =?us-ascii?Q?vC9UzzYVdn/FsalCNPqCAGAkl7P/0uX8MoagFYTFGHUXu6wBwo6xUVcwqj6P?=
+ =?us-ascii?Q?m4u7dztenf7Us02Xf9Np6gr+5FpqWLjDksp1AKqBuwqu/oGGQLtbCE3HO12y?=
+ =?us-ascii?Q?8xUQJiYxohUzUQ8FF9qVBV5UuhxT3tYITiBzM2xQb8kYcEcVpaf+1598YYkg?=
+ =?us-ascii?Q?LV4NvHWON9d6fYuITGsUhOhrxC8OqGM0c3m+GgUzTENB/amofwtf16iOioj5?=
+ =?us-ascii?Q?wxv7BzoD/L9ZTUtiXt2kz9xPt8nHcTCh0aC2VvUbuza4HPExxBZJVlt4GWMj?=
+ =?us-ascii?Q?4dGsplan8BfR+mnpedEbqEzqkn0aDsLIKqoouTBRVGfu/M8+USoe5PNhcEGX?=
+ =?us-ascii?Q?jU4PdktjbyZiBBAZdfPPTgRkdLTZ13Pf95WiW2C7N4Qrl2xZ+vBdys7Jv0DF?=
+ =?us-ascii?Q?lL4d510N8ae9Gqi/qkGEf8Ql8Yu+VDrzOgPAyLWt0hbhafqpBqIEP95Tq8LA?=
+ =?us-ascii?Q?ERUgsLzOHxCkyFdYSiKUbT4h0StKkQENn1mQGumFZO1cLZqlNLSHM40AEdPA?=
+ =?us-ascii?Q?waSHfrXl71BhxpALfYWGriGq8p9DFicrTPkPVG7ys8X6DShduDoTNZgW1GtK?=
+ =?us-ascii?Q?KkaUl/VN7HC+mV9UnMeNH64se0m9NRxZ6vgUz0ORCmz/g7Qwrk6smF16xMZA?=
+ =?us-ascii?Q?x7MRYBPg9Ox9Zr2efTp2IoGKnAyaP7k9DYUlIbfHiB/GyWHCXaAfz2vitCAo?=
+ =?us-ascii?Q?KTfm4Rya5PKoneFebL8dgTiWDT7mvr7HBiqtON7TJEAXKQIqTcNE38CX0tI3?=
+ =?us-ascii?Q?SdiUiGEH093BR4zAdHmVvyJ17S/PFZd9KCCxlVLP4ApETDz3qMZrk9NSsero?=
+ =?us-ascii?Q?XqX6pdSqADsPeDpggFbtzJlbiBU3YzlcXtUgJu+1aAZzoZtOX6BuocgqZTjq?=
+ =?us-ascii?Q?mR0Q7nYWD/4tLg95Z2QvW9txNzGBel5eKtnY8xx7iyuXV1Av5izgq3IYeuzV?=
+ =?us-ascii?Q?2EbeQOgzvj2TndkNoCw2jESznHa/aS71dk6C4ZkCpuY40umUGzW4BYpjcHO8?=
+ =?us-ascii?Q?2VFHfdAiU1xS1Al3P18tqaldYmZtMnoNigp54lv2MgaYZOYGOkFyGldcoI6u?=
+ =?us-ascii?Q?h8oJTayGvSvAVsIiTutItI2P6wihFBdhiwUH8U+LsV6x7jaSdubOMQQ7KSrv?=
+ =?us-ascii?Q?y3ibb6WUZmB1gU5omz6qBnI+pgR9HGhagmnAiAvV3i5+BEPw+WL4EG3dVDem?=
+ =?us-ascii?Q?0zYgxyQLnQ=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76fdf45c-f08d-41a1-1431-08dead03fedf
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 13:16:20.7709
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xxjpehSY1AtHC3+Lx/obSTsnmG2wZwTdb1tnuID1ueSo6HqeIM3Djftew5hDpMhMEfLRaj0YBG/b1yW7IsHlgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4P189MB3584
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 13:11:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236710
+ <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 13:16:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236711
 
---000000000000aa634306514e21a9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add the upstream regression tests to the existing ptest for full
+coverage of both unit and regression suites:
 
-In olden days we had to solve bootstrap issues and there were chicken egg
-issues between glibc and gcc which we do not have today. I think this patch
-is fine. Please apply
+- rcutorture stress/perf tests across all RCU flavors (membarrier,
+mb, bp, qsbr) with global, per-cpu, and per-thread configurations
+- test_urcu_fork and test_urcu_fork_cxx for fork+RCU interaction
 
-On Thu, May 7, 2026, 3:37=E2=80=AFPM Alexander Kanavin via lists.openembedd=
-ed.org
-<alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
+Move liburcu from PTESTS_FAST to PTESTS_SLOW as the regression tests
+add ~6 minutes of runtime (total 379s).
 
-> The patch is fine, but there was interest on the patch review in
-> finding out where and why these lines were introduced. The earliest
-> commit is this one:
->
-> https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&id=
-=3Dbddc141e7cec18744902787ab53c21bf28e71f78
->
-> Alex
->
-> On Mon, 4 May 2026 at 23:28, Ivan Nestlerode via
-> lists.openembedded.org
-> <ivan.nestlerode=3Dsonos.com@lists.openembedded.org> wrote:
-> >
-> > From: Ivan Nestlerode <ivan.nestlerode@sonos.com>
-> >
-> > Fixes [YOCTO #16265]
-> >
-> > The glibc recipe is supposed to be building with
-> > --enable-stack-protector=3Dstrong, but some CACHED_CONFIGVARS values ar=
-e
-> > actually breaking this, causing glibc to be built with no stack
-> > protector at all.
-> >
-> > Remove these CACHED_CONFIGVARS values so that stack protector support i=
-s
-> > detected properly in do_configure and then enabled properly during
-> > do_compile.
-> >
-> > Full details are here:
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16265
-> >
-> > Signed-off-by: Ivan Nestlerode <ivan.nestlerode@sonos.com>
-> > ---
-> > The glibc recipe is supposed to be building with
-> > --enable-stack-protector=3Dstrong, but some CACHED_CONFIGVARS values
-> > are actually breaking this, causing glibc to be built with no stack
-> > protector at all.
-> >
-> > Full details are here:
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16265
-> > ---
-> >  meta/recipes-core/glibc/glibc.inc | 3 ---
-> >  1 file changed, 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc.inc
-> b/meta/recipes-core/glibc/glibc.inc
-> > index 30d93bca77..dae087d53f 100644
-> > --- a/meta/recipes-core/glibc/glibc.inc
-> > +++ b/meta/recipes-core/glibc/glibc.inc
-> > @@ -21,9 +21,6 @@ CACHED_CONFIGUREVARS +=3D " \
-> >    libc_cv_slibdir=3D${base_libdir} \
-> >    libc_cv_rootsbindir=3D${base_sbindir} \
-> >    libc_cv_localedir=3D${localedir} \
-> > -  libc_cv_ssp_strong=3Dno \
-> > -  libc_cv_ssp_all=3Dno \
-> > -  libc_cv_ssp=3Dno \
-> >    libc_cv_include_x86_isa_level=3Dno \
-> >  "
-> >
-> >
-> > ---
-> > base-commit: 9ca41405e6bca276468a3b6f67eaa328b8016485
-> > change-id: 20260504-glibc-fix-stackprot-47134ada0b7f
-> >
-> > Best regards,
-> > --
-> > Ivan Nestlerode <ivan.nestlerode@sonos.com>
-> >
-> >
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#236571):
-> https://lists.openembedded.org/g/openembedded-core/message/236571
-> Mute This Topic: https://lists.openembedded.org/mt/119151502/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Tested on qemux86-64 with ptest-runner: 122 PASS, 0 FAIL (379s).
 
---000000000000aa634306514e21a9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+---
+ .../distro/include/ptest-packagelists.inc     |  2 +-
+ .../recipes-support/liburcu/liburcu/run-ptest | 21 ++++++++++++++-----
+ .../recipes-support/liburcu/liburcu_0.15.6.bb | 12 ++++++++++-
+ 3 files changed, 28 insertions(+), 7 deletions(-)
 
-<div dir=3D"auto"><div>In olden days we had to solve bootstrap issues and t=
-here were chicken egg issues between glibc and gcc which we do not have tod=
-ay. I think this patch is fine. Please apply=C2=A0<br><br><div class=3D"gma=
-il_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Th=
-u, May 7, 2026, 3:37=E2=80=AFPM Alexander Kanavin via <a href=3D"http://lis=
-ts.openembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=
-=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.o=
-rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">The patch is fine, but there was interest on the patch review in<br>
-finding out where and why these lines were introduced. The earliest<br>
-commit is this one:<br>
-<a href=3D"https://git.openembedded.org/openembedded-core/commit/?h=3Dmaste=
-r-next&amp;id=3Dbddc141e7cec18744902787ab53c21bf28e71f78" rel=3D"noreferrer=
- noreferrer" target=3D"_blank">https://git.openembedded.org/openembedded-co=
-re/commit/?h=3Dmaster-next&amp;id=3Dbddc141e7cec18744902787ab53c21bf28e71f7=
-8</a><br><br>
-Alex<br><br>
-On Mon, 4 May 2026 at 23:28, Ivan Nestlerode via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">lists.openembedded.org</a><br>
-&lt;ivan.nestlerode=3D<a href=3D"mailto:sonos.com@lists.openembedded.org" t=
-arget=3D"_blank" rel=3D"noreferrer">sonos.com@lists.openembedded.org</a>&gt=
-; wrote:<br>
-&gt;<br>
-&gt; From: Ivan Nestlerode &lt;<a href=3D"mailto:ivan.nestlerode@sonos.com"=
- target=3D"_blank" rel=3D"noreferrer">ivan.nestlerode@sonos.com</a>&gt;<br>
-&gt;<br>
-&gt; Fixes [YOCTO #16265]<br>
-&gt;<br>
-&gt; The glibc recipe is supposed to be building with<br>
-&gt; --enable-stack-protector=3Dstrong, but some CACHED_CONFIGVARS values a=
-re<br>
-&gt; actually breaking this, causing glibc to be built with no stack<br>
-&gt; protector at all.<br>
-&gt;<br>
-&gt; Remove these CACHED_CONFIGVARS values so that stack protector support =
-is<br>
-&gt; detected properly in do_configure and then enabled properly during<br>
-&gt; do_compile.<br>
-&gt;<br>
-&gt; Full details are here:<br>
-&gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16265" =
-rel=3D"noreferrer noreferrer" target=3D"_blank">https://bugzilla.yoctoproje=
-ct.org/show_bug.cgi?id=3D16265</a><br>
-&gt;<br>
-&gt; Signed-off-by: Ivan Nestlerode &lt;<a href=3D"mailto:ivan.nestlerode@s=
-onos.com" target=3D"_blank" rel=3D"noreferrer">ivan.nestlerode@sonos.com</a=
->&gt;<br>
-&gt; ---<br>
-&gt; The glibc recipe is supposed to be building with<br>
-&gt; --enable-stack-protector=3Dstrong, but some CACHED_CONFIGVARS values<b=
-r>
-&gt; are actually breaking this, causing glibc to be built with no stack<br=
->
-&gt; protector at all.<br>
-&gt;<br>
-&gt; Full details are here:<br>
-&gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16265" =
-rel=3D"noreferrer noreferrer" target=3D"_blank">https://bugzilla.yoctoproje=
-ct.org/show_bug.cgi?id=3D16265</a><br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-core/glibc/glibc.inc | 3 ---<br>
-&gt;=C2=A0 1 file changed, 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/gli=
-bc/glibc.inc<br>
-&gt; index 30d93bca77..dae087d53f 100644<br>
-&gt; --- a/meta/recipes-core/glibc/glibc.inc<br>
-&gt; +++ b/meta/recipes-core/glibc/glibc.inc<br>
-&gt; @@ -21,9 +21,6 @@ CACHED_CONFIGUREVARS +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 libc_cv_slibdir=3D${base_libdir} \<br>
-&gt;=C2=A0 =C2=A0 libc_cv_rootsbindir=3D${base_sbindir} \<br>
-&gt;=C2=A0 =C2=A0 libc_cv_localedir=3D${localedir} \<br>
-&gt; -=C2=A0 libc_cv_ssp_strong=3Dno \<br>
-&gt; -=C2=A0 libc_cv_ssp_all=3Dno \<br>
-&gt; -=C2=A0 libc_cv_ssp=3Dno \<br>
-&gt;=C2=A0 =C2=A0 libc_cv_include_x86_isa_level=3Dno \<br>
-&gt;=C2=A0 &quot;<br>
-&gt;<br>
-&gt;<br>
-&gt; ---<br>
-&gt; base-commit: 9ca41405e6bca276468a3b6f67eaa328b8016485<br>
-&gt; change-id: 20260504-glibc-fix-stackprot-47134ada0b7f<br>
-&gt;<br>
-&gt; Best regards,<br>
-&gt; --<br>
-&gt; Ivan Nestlerode &lt;<a href=3D"mailto:ivan.nestlerode@sonos.com" targe=
-t=3D"_blank" rel=3D"noreferrer">ivan.nestlerode@sonos.com</a>&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#236571): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/236571" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/236571</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119151502/199=
-7914" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/119151502/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div></div>
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index ccac8e3bb3..66b7f10acf 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -51,7 +51,6 @@ PTESTS_FAST =3D "\
+     libtest-warnings-perl \
+     libtimedate-perl \
+     libtry-tiny-perl \
+-    liburcu \
+     libusb1 \
+     libxml-namespacesupport-perl \
+     libxml-parser-perl \
+@@ -134,6 +133,7 @@ PTESTS_SLOW =3D "\
+     libmodule-build-perl \
+     libpng \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'libseccomp', '',d)=
+} \
++    liburcu \
+     lttng-tools \
+     lz4 \
+     openssh \
+diff --git a/meta/recipes-support/liburcu/liburcu/run-ptest b/meta/recipes-=
+support/liburcu/liburcu/run-ptest
+index 5f8fb4fcfe..7dd1ee45e2 100755
+--- a/meta/recipes-support/liburcu/liburcu/run-ptest
++++ b/meta/recipes-support/liburcu/liburcu/run-ptest
+@@ -1,17 +1,28 @@
+ #!/bin/sh
+=20
+ PTEST_PATH=3D$(dirname "$0")
+-cd "$PTEST_PATH/tests/unit" || exit 1
++cd "$PTEST_PATH" || exit 1
+=20
+ export URCU_TESTS_SRCDIR=3D"$PTEST_PATH/tests"
+ export URCU_TESTS_BUILDDIR=3D"$PTEST_PATH/tests"
+ export URCU_TESTS_OS_TYPE=3D"linux"
+=20
+-for test in $(find . -maxdepth 1 -type f -executable -name "test_*" | sort=
+); do
++# Unit tests
++for test in $(find tests/unit -maxdepth 1 -type f -executable -name "test_=
+*" | sort); do
+     testname=3D$(basename "$test")
+-    if ./"$test"; then
+-        echo "PASS: $testname"
++    if ./"$test" 2>&1; then
++        echo "PASS: unit/$testname"
+     else
+-        echo "FAIL: $testname"
++        echo "FAIL: unit/$testname"
++    fi
++done
++
++# Regression tests
++for test in $(find tests/regression -maxdepth 1 -type f -name "*.tap" -exe=
+cutable | sort); do
++    testname=3D$(basename "$test" .tap)
++    if ./"$test" 2>&1; then
++        echo "PASS: regression/$testname"
++    else
++        echo "FAIL: regression/$testname"
+     fi
+ done
+diff --git a/meta/recipes-support/liburcu/liburcu_0.15.6.bb b/meta/recipes-=
+support/liburcu/liburcu_0.15.6.bb
+index e02f797041..0883c6d031 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.15.6.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.15.6.bb
+@@ -22,7 +22,7 @@ inherit autotools multilib_header ptest
+=20
+ CPPFLAGS:append:riscv64  =3D " -pthread -D_REENTRANT"
+=20
+-RDEPENDS:${PN}-ptest +=3D "bash"
++RDEPENDS:${PN}-ptest +=3D "bash coreutils"
+=20
+ do_install:append() {
+     oe_multilib_header urcu/config.h
+@@ -30,6 +30,7 @@ do_install:append() {
+=20
+ do_compile_ptest() {
+     oe_runmake -C ${B}/tests/unit check TESTS=3D
++    oe_runmake -C ${B}/tests/regression check TESTS=3D
+ }
+=20
+ do_install_ptest() {
+@@ -45,6 +46,15 @@ do_install_ptest() {
+     install -m 0755 ${S}/tests/unit/test_get_max_cpuid_from_sysfs ${D}${PT=
+EST_PATH}/tests/unit/
+     install -m 0755 ${S}/tests/unit/test_get_max_cpuid_from_sysfs_cxx ${D}=
+${PTEST_PATH}/tests/unit/
+=20
++    install -d ${D}${PTEST_PATH}/tests/regression
++
++    find ${B}/tests/regression -maxdepth 1 -type f -executable \
++        ! -name "*.la" | while read -r t; do
++        ${B}/libtool --mode=3Dinstall install -m 0755 "$t" ${D}${PTEST_PAT=
+H}/tests/regression/
++    done
++
++    install -m 0755 ${S}/tests/regression/*.tap ${D}${PTEST_PATH}/tests/re=
+gression/
++
+     install -d ${D}${PTEST_PATH}/tests/utils
+     install -m 0644 ${S}/tests/utils/tap.sh ${D}${PTEST_PATH}/tests/utils/
+     install -m 0644 ${S}/tests/utils/utils.sh ${D}${PTEST_PATH}/tests/util=
+s/
+--=20
+2.34.1
 
---000000000000aa634306514e21a9--
 
