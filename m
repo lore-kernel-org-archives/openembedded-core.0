@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16AECCD37B3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21E82CD37B2
 	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 07:12:29 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8161.1778224342491059571
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8231.1778224341302204890
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 00:12:22 -0700
+ Fri, 08 May 2026 00:12:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=xZBbwgV6;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-448528f4e69so1069695f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 00:12:22 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=QA1AKnsw;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-44c4cc7c1cfso1342517f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 00:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778224341; x=1778829141; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1778224339; x=1778829139; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OgZ00ChyLAYVM66AY0+ucW2IVTbROHRxghqXDls18Yg=;
-        b=xZBbwgV6/af8y3xmz3eXw7UN0u8h3S4yYUG6Y0tNMpoazRxALNS+df4Kf7HnIUcu3I
-         6Kt1up/2Zs44+moDDBoZuF3C5PzInjq0VYjzp58YfAhoEOpzRYa278rK3BBTnj0TC1yC
-         meSz50nCcDwHL/s6sMu/x9BpUhKChFh4i7igo=
+        bh=uUpVITxsVx+yFU9OHe9YXS/dXKWyqjIcXCOipi64QVs=;
+        b=QA1AKnswVbkSFtG81slSo7qsOruoW4y1KP0WDXK/GhP7y9Qoa84N4g7WGtdOiRRXDW
+         ZQ5GBXDgdfnfHGRFZKFpixo/jcd34ETM9XbH4sFeg0lVQp+cS7ebi9FMoRF0XYXfBqZo
+         49JZkE0wVoqTJrTO76B9LFWYxlvxldwk5V+8A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778224341; x=1778829141;
+        d=1e100.net; s=20251104; t=1778224339; x=1778829139;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=OgZ00ChyLAYVM66AY0+ucW2IVTbROHRxghqXDls18Yg=;
-        b=NBSV5R3JqpCeu+KdQSHrMY4PQ/m1gSEsNz/KCLMKtmIO1nDqO0U1HK44NqcxL/sOaR
-         gvzLscKJroI5LHxJfwL8JhEu6RXtPnSKWvDcVyv5NpbpyyXra++4B821MnNa9aBhUe6R
-         +2dkW4TiMfH+MyGmMIdFjx+xp9e8RuB16F7ULM9NSTBECqa1z7dsEn8QOuGi3UmFxCyT
-         hj/vX0EbsHo972sYLdMuPj1aftoNSN21Nh2oexljReEEM22bYFMa8RzfWfeJ9nhVB2M7
-         RA48Hh0QkndMZdJrD6FYmglPmOJ/PFvmU488ttS6VoHuwG8fwSEjsiMZzsHoCEaABVoO
-         fxPw==
-X-Gm-Message-State: AOJu0Yz74UloOgUh61KhAifncKBteOuxWEx5N1w/LopRnL5n19LTZwcb
-	81R/nSGpq6BKkqfwqn9iadWZlf6vQsJ7+Ny9cBR45UTadTHJ60aInpgjVM2Uw8k5rQeI4M0RDhd
-	7L2t+OgM=
-X-Gm-Gg: Acq92OHbskb1zi6BoTS2sdPyIL83bHXuyVM5J80yYkTUrsmboKGCZ7qlG/1OP1qBng0
-	B8hFuyYtO8pkxCWyiG79ffuLju4f2ZaFq6jTWZpIgMkQ3SczYweQp+baHR1WKSb5wIpWbkV+NRZ
-	iyS1LA01t01hyJSiL/pYpYUzrmxfYoLgezINfZdxRQDzr/p/ykI16g+Hvd2b+KnccFV1Ng6eCZC
-	c6cC91PVbwYd93mP7n9oz4b0EP39ShH6OPL1yczPvESctgNjvYxAHz59ueFkxHrnrMsX6Q/Emte
-	LU4Y4mKc+3+yjv8MYoUEqXRReGtiHNgKgCtZPUjbyzX/vp9UXuryhE2V7NgrqLsJEUuR/wdwHIn
-	X+ceBCtKUXxHxdNtvgPtEDiGNlQYBLoGjP3IOjeLDe2kJibEzr/aX/IyKaYfmusXLgCO4pi/I9y
-	qFrpEvcY0hULGc3Vo8jickpe9MQjnnwXv38QCOiz6YYez/fUChndzooDdXvjBbSa8hNEw+Tq4ev
-	hZQ+E+SgMbwgsDw2uGydQupDc4=
-X-Received: by 2002:a05:6000:2dc2:b0:43e:b0b0:629a with SMTP id ffacd0b85a97d-454636cd6ccmr2111461f8f.34.1778224340585;
-        Fri, 08 May 2026 00:12:20 -0700 (PDT)
+        bh=uUpVITxsVx+yFU9OHe9YXS/dXKWyqjIcXCOipi64QVs=;
+        b=nFtDLHnJrE+fD1HwwuPo5ni21l7rqg4ur+vXCCOZ5tVRer0vgBAfeRVVr/rybN1b7/
+         mv4zPCj0tVrhcWLsauSnoIePd2PeeyzsWlbggiHWE1ULYorNOxHA/A1u2hEpohPUmRl3
+         dS+NFU0i/ePbObHcMj+LaggKi2pKGsOuB+0HdFa7QIozqt0Er4jGvdxWLj2cOYc+xrWn
+         ioiZ507Kpv/n1Vpf3BMUfQsEzbKw0sex3V14H++w8ynR2HpXZJU6m5StEZ6yIBzGwe/G
+         VK7XUh0TNs+tCgyBUyic2/5dQyRRJn7PjZwP5yKvB7V3bf4Xy2SAXcrcbXGLBnW8Apq6
+         9wcg==
+X-Gm-Message-State: AOJu0Yyq+xbrv62ps18bVRc2xYXtqWhd3lIY0SFIM29vgfQa94ZbA7rk
+	gRPl+6s/gO85LeNb7zmvKpdEgtBvvIRRvD4psUKlE5D6xkpR/ZajSVBOStgTltcqLW5DLJYjL0n
+	mg5GzZW0=
+X-Gm-Gg: Acq92OGhA09LRIkH4Su+6w8VuAskAKz1OBZ9F30fahOur17LuMbcc793qz5fKJSQK1N
+	4vSulC8ms7oNoTk0gZXM7gd0r+/i5SzygIy4N/TeAiSDs7HDKJ1/4BIgkVdsPWxYLDv4Q3PW1Jb
+	Ss18StxJnwacQpiBXMVpmmNRhfMi1SEtWVp7MvYncYVcvH4ZA2C3E2q0ybnPovgswxbnuDBdyf4
+	0UX+7mCbiM85Q98qQwrfStdP28a7h/5ljnfTnH4JQAt9DbNGNiifpX/tJsD2/MoQFMLh4GcNBOu
+	X3RDt8cl79wnZsLheC1T/aKRUQWGNHFI8HUqUaB4ngmy6oTnkaDlfgB/0bOHFVyAh1KNgYuDHuE
+	Rmm2XXgIwDx6JQnkWPTOVZ7z16loMRSQd17N583yr7ucx+pZqe4nGvIyw2Y+H5G/QPBXL+52tuN
+	OFJiZL6k/lhn6uRwIK1xC6qjD8BWSExh+wGtRmdZqMHnzu20Az58DukRbDW4paQpxq6rRrme5Th
+	ZU38Qr/+s14pX//FIHtCFGyJvo=
+X-Received: by 2002:a05:6000:26c9:b0:44b:d88e:7ceb with SMTP id ffacd0b85a97d-4515d3dc4e0mr17980405f8f.32.1778224339392;
+        Fri, 08 May 2026 00:12:19 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6be40sm2415545f8f.12.2026.05.08.00.12.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6be40sm2415545f8f.12.2026.05.08.00.12.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 00:12:19 -0700 (PDT)
+        Fri, 08 May 2026 00:12:18 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 15/52] cargo: set status of CVE-2023-40030
-Date: Fri,  8 May 2026 09:11:08 +0200
-Message-ID: <392b88f7d93230194a7b4749de4c2f62e01e1069.1778198557.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 14/52] git: set status of 5 CVEs
+Date: Fri,  8 May 2026 09:11:07 +0200
+Message-ID: <2b29078c8794250118b5b30576baa74f69ec77ad.1778198557.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1778198557.git.yoann.congal@smile.fr>
 References: <cover.1778198557.git.yoann.congal@smile.fr>
@@ -66,29 +66,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 07:12:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236657
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236656
 
 From: Peter Marko <peter.marko@siemens.com>
 
-sbom-cve-check has problem matching version 1.72.
-It works only if cvelistV5 is modified to indicate 1.72.0.
+It is unclear why entries in cvelistV5 cause these CVEs to appear in CVE
+reports.
+There is one which should also not be shown per listed CPEs, however it
+does not have a patch, so it's not added to the list - CVE-2024-52005.
+The others are set to fixed with version based on which .0 release
+included patch mentioned in Debian security tracker for respective CVE.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ac18fd10e777b4ef688b7075c47c616e9405d752)
+(cherry picked from commit 139e4e6f17da181eee029c81ea17b847e9cc559e)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/rust/cargo_1.94.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/git/git_2.53.0.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-devtools/rust/cargo_1.94.1.bb b/meta/recipes-devtools/rust/cargo_1.94.1.bb
-index fc41a19a257..36ec3461135 100644
---- a/meta/recipes-devtools/rust/cargo_1.94.1.bb
-+++ b/meta/recipes-devtools/rust/cargo_1.94.1.bb
-@@ -83,3 +83,5 @@ RUSTLIB:append:class-nativesdk = " -L ${STAGING_DIR_HOST}/${SDKPATHNATIVE}/usr/l
- RUSTLIB_DEP:class-nativesdk = ""
+diff --git a/meta/recipes-devtools/git/git_2.53.0.bb b/meta/recipes-devtools/git/git_2.53.0.bb
+index 5fe1767e285..8d71905f419 100644
+--- a/meta/recipes-devtools/git/git_2.53.0.bb
++++ b/meta/recipes-devtools/git/git_2.53.0.bb
+@@ -171,3 +171,9 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
  
- BBCLASSEXTEND = "native nativesdk"
+ SRC_URI[tarball.sha256sum] = "429dc0f5fe5f14109930cdbbb588c5d6ef5b8528910f0d738040744bebdc6275"
 +
-+CVE_STATUS[CVE-2023-40030] = "fixed-version: fixed since 1.72"
++CVE_STATUS[CVE-2024-32002] = "fixed-version: fixed since v2.46.0"
++CVE_STATUS[CVE-2024-50349] = "fixed-version: fixed since v2.49.0"
++CVE_STATUS[CVE-2024-52006] = "fixed-version: fixed since v2.49.0"
++CVE_STATUS[CVE-2025-48385] = "fixed-version: fixed since v2.51.0"
++CVE_STATUS[CVE-2025-48386] = "fixed-version: fixed since v2.51.0"
 
