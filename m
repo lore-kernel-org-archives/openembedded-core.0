@@ -1,285 +1,194 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F0C3CD3436
-	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 14:40:30 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15290.1778251220023715954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F98CD3445
+	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 14:42:41 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.8])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15416.1778251352232092552
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 07:40:20 -0700
+ Fri, 08 May 2026 07:42:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=J7zj8NRb;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b9358dd7f79so346186166b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 07:40:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778251218; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VZMJgrWGMB54gE0QD4BGbUGUxpF6Zu5m4WyS2tMspXyR8PshRseym4NpEfwwU7bdWy
-         qh5x0XaX1jyMbrVz01MhdnCp++U/0d18GxVjQVrxRJ7BqhTwyfzt1kupTXEJ+K2Gmd1V
-         TwhZA7acK+02BaccVk7W2sOtgWaoHABbDTL+PbWmcFmoSkcvc3iUHE7YuO3vFKtbHrPK
-         cYgGGCgnQuzGuzOz8vEf9UDu4S4AVtD/IMUsUaY9pZSIYTPc49zuVwl0IiuWKWw9Tpjk
-         S0NJHkTFqJ9+mFpdLPmOilBxH0RZFUP9G59Hq/Lh/mgb8tu+g3ocC1/vC81kv+jlk4Nr
-         GGdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=+i5EFxUWaEyrA9xUOupvoLoB04UGYroNnyGmDqrHkVk=;
-        fh=yRup0gQd4Qk9N6eUNj8kXkuKvdCTwWcKSeXZ5+LSHis=;
-        b=GUhLXErfEcclEPhKeevexAVK+6ictZJ5Rblbfp295q9/xJr3Hc2n3hciZsvWVdvqkS
-         9Dx269+wjZcYqXPBL2k1re9BhoYcmxrzHoKIrz+BEpSS3SNfyiMNiH78pajBRC2KXozL
-         9I//G7daHYtG2eDKEyus99xEwPzylNrZtVGle7Dh4P2LAbkrBGtTHEZXUojkUo0JqUMt
-         QnBnN1crhExB+34JYDYJbInfm7Xpvy6mOMBE10F9Y6eC6/ONpgrf5FCnTTMnmqkz2yTm
-         HeCOuHPhFau8lJp17HRtzDcYWpgNgdLtKel6xDxyeOT3IUqzEgLZyrIacShiotyHBmzy
-         BqLg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778251218; x=1778856018; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+i5EFxUWaEyrA9xUOupvoLoB04UGYroNnyGmDqrHkVk=;
-        b=J7zj8NRbAIngRjpccBanKFlMsXHo/j5c8DRbw4SmEyVoE7OFjnYuXmLffbtX7tiKo+
-         hJYAT5TdvlOVI518g9E607sZzYp2L9oZ8O4y8D1QHjJnmlNd4CnHuJ1bUGLWPOyS3m8J
-         pNRkxdtCrzMoDyi2suZzUSF2NKhJg1wFWo5GDk3jZwXGUMxOsVcm00l9NTikGf3z14BU
-         GauK+mNb2/rct6f7D8ItOgRhN7PA6NPduogZbgvOWd6tjZ100ymb4PrIfNn0ZK2/PVgx
-         jZQ3oNOOOmd3K4NAPk3yohVGBkR6WEHZQNiwDqIHvYP83ujE7PT57FguVGTT075ElWwq
-         n/bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778251218; x=1778856018;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+i5EFxUWaEyrA9xUOupvoLoB04UGYroNnyGmDqrHkVk=;
-        b=Vu/NJwzm51HsV360YBo2Mv9Z5J4dzrVROm7ht3D5Aj5Ytgc0xHPdEocpOjZLdeOFco
-         CeF03ELCrqt42wbG8sSz3UGIV2HPZIN3CCmXpnRHcx47l+BWFPBRMTOF9UW4+SUKvd1g
-         pi14S2F1Six7ciMh1nm9XkjW43CUUfePnkWZfq3PhscIUMF641i9mPWEjYEpl5tDfUyQ
-         JMbxOMFn/TuMoiG3cvZLQnQ8Elk79AV+myGy5FKa2qCBS62EYwY1wQHZf52tzGayDG1K
-         Z9n64RBaNNsyI+7Wz8s1pgH+C7QzlJh7LQzECSKZ7H2Kpzp0RkC7b17/VTTbicB4Ka0w
-         qsWw==
-X-Gm-Message-State: AOJu0Yzzt3PuTS93WYh+mmZrHPbPqgjuWFqLBac7Gn7brm1Ugy3ZSyXP
-	HHE/1J7Mc2LoCm35tK/qLqs/pxdpCZzo/ZFdeQ8SdYzjzqG/ucUt3Vtpf4V2eXy0GSGPhOOGUaX
-	Qdk3hIk5QzYavuspPk7AxHK1wEIazar46N2Mo
-X-Gm-Gg: AeBDieviNZsGKhSSjEYJ6cPDCgrYn0zr/Ro79AFlTSMapV+TBAiFW3xGFMQmRcBkqKm
-	1sJ7jdyqZ+Ti9ANNMu8VZLzN0i3WELpXpDOTg7Uy3OcyQMYNnE8GDa9N5coFYXrgIJP5+gGGMiO
-	VK0J0ttSjfqJi/2lrrNF2vF17voijtJfeKfqlrzWTAJnss3jSBwQyNn65+uWaZki/LZyYy5FnIO
-	m26Opb7H/Fzftaw5Dql73g+3VMQF6Y8aoaNuzXQN5TdaUVlBuof06bzZrbgGgp7CXXXl3b0E74K
-	4YnwsLBl9q7gRwYGsVXI63NMRnagpDuyPGpynPHGAebVYkUjrLZOqoQJgWimFsIPXmZWPQ==
-X-Received: by 2002:a17:907:9721:b0:bb9:1a36:f811 with SMTP id
- a640c23a62f3a-bc56ae29c6cmr781408566b.9.1778251217777; Fri, 08 May 2026
- 07:40:17 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=eXGRyTrA;
+ spf=pass (domain: est.tech, ip: 52.101.83.8, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z7v1uDoE9wJUBi4a1mRGOU97UwtPkLQuAh+12lBChnxVe7xDSzhv6m/Z5eviZFvSX1SGvyOaxV20QxbqAWCzPp/Ydo5W5olxzN/8B2NRZFQpeFHkA0j1dUPuiLDvv9ilgcf7qJQfOp2bmFlvI3li2DRYU79k6O6+1Hh8io/ct5y6hshjlXPrziiQOcSNR+u/OGqBnzUtvkecsKwpEeKJKCybPLtgMDJ/+AStVjbd/UjQx5t4ZqC6qf5QO4UKGbXd8JZosxZBVKf7ZoBA8rcBCxh/p+Qn8EeX/6ljlisJjcGZF0eOsTIO1JNGXuU64U0mlPf+Pca5BdgkLzIpEHwVYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lmZtej4jhIfWPl4kO11E5+GQFYnIbeYTRTQWUX9HU0I=;
+ b=N4IM6MyoDKmT5B0PzNW5dP1qIDdzpMS6OWw2gfsrypUvzh/gwRHouTDHmPZ5Cb0OgMBrByG15tcJpVQar2jvBRTDuOX+gKXKg/G/f4nhhwxl9unu6H/GXx9j8HHatF9K1UeXhRinuH9aisFAetDD8fvAm+gAiEiKhDu6vuyZ0TToHDXX6ztevL/n4WsAJ18xcLZawKNdTdWeLgAk5HytoR3tw+RPhWkc05jwjQDc/hLDpB4uaGRyQXMTB57GalMNE0hn+l6kLjSJPbygivHLcxuYZwZ2S8rD5xM7DQ49VNZviuEWsLpUVMl4uRDs2+uaTHI7C659rA4oaE+mq1o07Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lmZtej4jhIfWPl4kO11E5+GQFYnIbeYTRTQWUX9HU0I=;
+ b=eXGRyTrAJ8Rth5MaZtKLHKGbOANfMuh5g2aZiRkLp7iwW9jlWCserAdhtGldTgASv4Ihl/B1lT+FUkvisMklkNiuIUGUESdRw4ZBR9uh+KnBWqUagaFIO7+gcnIxkbnz4sHOQi1fsSzBsUM8AYn4AWSAElyxecSiwry0xBolCiSIBn3Qpj1tDxVR3hX+SqgKu74dOHJKLa/crUGeFIxoe3UJq00gfNUZLpzaOfKvOyST0RqbJT9LEfXspQ4Ow1/28Qn3Bhs3OdaxuRknhRLY88amKVi9749GiElUVGiWMpe0XuzLow8NdvjYii8dKbVIqkhG/m2bkFFeqoVKw24Tlw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
+ by GV1P189MB3050.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:262::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Fri, 8 May
+ 2026 14:42:25 +0000
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9891.019; Fri, 8 May 2026
+ 14:42:25 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v1] go: ptest: fix GOROOT detection and improve cleanup/exit handling
+Date: Fri,  8 May 2026 16:42:19 +0200
+Message-ID: <20260508144219.28709-1-pratik.farkase@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU2P250CA0028.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:10:231::33) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:26e::16)
 MIME-Version: 1.0
-References: <20260508022311.3112415-1-changqing.li@windriver.com>
-In-Reply-To: <20260508022311.3112415-1-changqing.li@windriver.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 8 May 2026 15:40:05 +0100
-X-Gm-Features: AVHnY4J8plyCnfE7eKLik5Nuj0NcearM2R21wyU35QxwmGm1tuerCBTyoV5pUz8
-Message-ID: <CANPvuRkujxfc8M9v1Ye+tB4wzQgoC-FSpRsTpQLuXOiLNidtQA@mail.gmail.com>
-Subject: Re: [OE-core] [V2][PATCH] gstreamer1.0-plugins-bad: disble vulkan
- when x11/wayland not enabled
-To: changqing.li@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000028384206514f6062"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|GV1P189MB3050:EE_
+X-MS-Office365-Filtering-Correlation-Id: 113362bd-bd5a-4024-75a8-08dead100546
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|1800799024|3023799003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	rcjxAg+NWsTBTKIPT+ql/xuvyz9tx0LIZhJutN8oPxQvqbQRDZuPCPu20gSNB3ZZRVPn408Cx1GclcxMBCl2BbSal2EE8nSEn9gu4UC02oUsfcLw7GoEhKFlMTXl1em5Mr2v8dJ5J/O2zUxNIpGTUTBZ6zZcvxTFUaWUBCrvUfNq+SRTSr7kTW+aZAGmdc3Dy+ah7W/Rteeozu+r6b0OSNXbj9p77TSa9uKL5wO7Il39SDdEUAvuDwhrjaRxP9yJ1y2+3fNvAI2B8QT7ejupc9JwLVm/vxxtNSJXgC5Bh2CAdWeDsAfLQpS3f4YvdKQdAA515+GpISbym7K7Q2fhw7IYsGnX2Hx7AqJq78eOU2nOLwgRAFlghaEsmpV/uErMMUFWfkvjolOVDmoz6qhWRS8E+9uoEjIg3WDbMyuQRE4EdNN9HvWSb15NE++vJsbnk6Pcy1Vf7Dc/X+NYapgOMmTrGzfcRCVBz/8XZRoJf7Nf1YbJLC7agcYrOq4DGRwgKZxHhSVZQ2BUEaG2ZwQLX/yma69SvhwC7cLqCcWn8uDJcz4X0OVh3cR/xW4kWSrVBHpj8CM9785NwbRaFNqa6DfCpC4ChDo6iaLh5AQsOb6TuldoUto7SEwUzQelJoPFiSaopcVR2RUPnE61cT9ZrMebL73ccIeiFD5tbM+GsFa9aAsc8HyK1aNmFMblHhxU
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(3023799003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?4N+CNsX6D4pHM++5RpTEiWou68jIozXT42iamdoWC5jTxLbTMmDNU75wCw9Z?=
+ =?us-ascii?Q?GmWqvmjDDh+kZVQHmXay+KJKfceKR60NLx7iOaYXrYUQLHBIeLKp9QmptUZO?=
+ =?us-ascii?Q?yMp4TPublp5pmW84FwhFQgOYJKEfnYh++zNEbBPOL6RDT/Oy8a+Z9mJ3Li1w?=
+ =?us-ascii?Q?bqjMyjDG2JQ2KKzyrlSazG8XA953EBdropB16BZ9wUyCJNbWwEx5SPD1d71W?=
+ =?us-ascii?Q?gVh4UN9VxKsoQJeuc90jGHIEv02duoWz3cBVtgr+SDupuNkBKd6M5vgZ3Ym2?=
+ =?us-ascii?Q?NOY953MW7pZSTve/qeN4XONqF3serNtLP58NUpEGB6NFq5MHoIerCfYGUlcQ?=
+ =?us-ascii?Q?PTHMYbbvshYQTd5hgfyHQFWRMesKVyhBYwhoGt5u8zRV5m1AqsaTKuwnFWbx?=
+ =?us-ascii?Q?gUWMrBgjsA534wTIip61nHfjMZtxuRBRyd3+Sixd76f7MjKKFPFrdyngcjKQ?=
+ =?us-ascii?Q?3OLKO586DTtgmTt2MiJny4STxokF2ccF5rNOlkb+NEmZpQtjhFgLDDrMwyX3?=
+ =?us-ascii?Q?NkPolGfEWzJYMSeacMeqxU8CnX14ehEthmfnk3LTk1ANOM3JOHTWkO/rXPRE?=
+ =?us-ascii?Q?eEPJfwKzowAhqBsfswguemCraN8ABIzECYcAO6JKeM3PV2T//kQjPjD+r9gL?=
+ =?us-ascii?Q?g2CRAkpk+47Pr6ww8SEshqdP8AlqzcNfVKFgeMt9EabrwsBJt0uG7vktKUqe?=
+ =?us-ascii?Q?JVtXxNDq7YBTP2hxHM6gee7BAfPLTl3Wt3WFpprfwz6iS7V1P1deL+no7FMw?=
+ =?us-ascii?Q?mivYN2EJCJm/EOEUgfsRLGqwV9NOquhcXCeNsbd3NRhWLpOSI7/eK5yvLtYs?=
+ =?us-ascii?Q?4uOHATOjbAdtgKvNEy1GHajRkr1/yXyL3FzUsEI6x9+trDQIQ2kQIBNzPGIx?=
+ =?us-ascii?Q?/GBv+xGf/M/X4araT7D0nRPbZl4+I+neGV6VUCp39+dU31I9lN3DmO4xNuSm?=
+ =?us-ascii?Q?Xl++E2RH8TvslBEHkmJpdJmeCotzYBkXJ/iFt/hU97BicJnrc/T/niyP+e0j?=
+ =?us-ascii?Q?tKpTA8gCaOjAopLmr2I+B7XdBMIlHvKUGL52yI9Bm02noq9md/vearlJ2L+e?=
+ =?us-ascii?Q?nqPTwVxMx8Cnch5rLbN2NW5ETWyf5bFa4IHaitBMGOeM+jbRTGqoIELKHPtd?=
+ =?us-ascii?Q?s/ye6Gqkp9c8wId04wD+MCnJEtIxeH7doDtTzVBCSs3q10w9krrYhXePcIm+?=
+ =?us-ascii?Q?qwnxgwbp/2DRcrDMzOS0ORq6GDPV5YKF1CQk9VpYdsIA8s1j7AVZTY3XhVMs?=
+ =?us-ascii?Q?to35+30eJX0co9MpdXWfGpliwhpHM0Jm26VkY/lO85BsO4uhY5r6DyVF3s4b?=
+ =?us-ascii?Q?bn/JYkX4lwmyqqpwK/tw0kZnr2yVejj23pbwBz5/8iA+TA1vtWhXf2QGFqMy?=
+ =?us-ascii?Q?R62oVKm6kWpPNxttkcnTH/3/G7hrJVG+zPBmo4ixGjCoPp5jXAEBKeG14l+l?=
+ =?us-ascii?Q?MqiFiE8TTNYAAoerac5ECbJnTm7Dt6H+LJMcFswg8vwzzsWe1f8i4qOj77pS?=
+ =?us-ascii?Q?dFvZwMFTGrN8mrIpGXXmLf3YsjeA/YBwWGR8vHDwtbQUakKKDjEASC23k5k/?=
+ =?us-ascii?Q?m6SiNCDeYRNoLy6Y+v9i9t5ACdqca6FA2p5HUO5gJCCUBQgZpIbYc4UMQ28j?=
+ =?us-ascii?Q?vqAiFCmQxoeK4adDPPA++kf2etFgXdyGjcHG7ZGjTtmRL4OrSNlT00qro1S/?=
+ =?us-ascii?Q?16k/4PL9FtTCg2nRopIElm2GZ3rG09PabvgQCgUjlKkfF6s95nlzGSY98tlh?=
+ =?us-ascii?Q?gbLIFI0fjg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 113362bd-bd5a-4024-75a8-08dead100546
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 14:42:25.4088
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4DqVZuUdupg63q33QzeF94eUBx8FcS/jQ4aJX9BCgrQ3zHAFyB/FM5I15g0UYAc3+IHzyEiPfFc9GWkkyTmMtA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB3050
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 14:40:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236717
+ <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 14:42:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236718
 
---00000000000028384206514f6062
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changes:
+  - Derive GOROOT dynamically from PTEST_DIR instead of hardcoding
+    /usr/lib/go, which breaks on distros using lib64.
+  - Track and clean up VERSION and pkg/include files that were copied
+    into GOROOT, preventing stale artifacts after ptest runs.
+  - Track failures with RC variable and exit non-zero when tests fail,
+    consistent with other ptest scripts.
 
-Hi Changqing,
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+---
+ meta/recipes-devtools/go/go/run-ptest | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-Changqing Li via lists.openembedded.org <changqing.li=3D
-windriver.com@lists.openembedded.org> escreveu (sexta, 8/05/2026 =C3=A0(s)
-03:23):
-
-> When vulkan is enabled in DISTRO_FEATURES without x11 or wayland,
-> do_configure will failed with error:
-> gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No
-> Windowing system found. vulkansink will not work
->
-> disable vulkan from PACKAGECONFIG when x11 and wayland is not enabled
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  .../gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb             | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/
-> gstreamer1.0-plugins-bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/
-> gstreamer1.0-plugins-bad_1.28.2.bb
-> index cdf3a20dff..c7f081e25b 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
-b
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.b=
-b
-> @@ -21,10 +21,13 @@ DEPENDS +=3D "gstreamer1.0-plugins-base"
->
->  inherit gobject-introspection
->
-> +PACKAGECONFIG_VULKAN ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'vulkan=
-',
-> d)}"
-> +
->  PACKAGECONFIG ??=3D " \
->      ${GSTREAMER_ORC} \
-> +    ${@'${PACKAGECONFIG_VULKAN}' if (bb.utils.filter('DISTRO_FEATURES',
-> 'x11 wayland', d) !=3D '') else ''} \
->
-
-that is a little more difficult to understand than usual, why don't we just
-use the bb.utils.contains?
-
-${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', '${
-PACKAGECONFIG_VULKAN}', '', d)
-
-It seems to me that this would work.
-
-Or even the following, dropping the PACKAGECONFIG_VULKAN but then it loses
-some readability again.
-
-${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland',
-'${@bb.utils.filter('DISTRO_FEATURES', 'vulkan', d)}', '', d)
-
-Jose
-
-
->      ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)=
-}
-> \
-> -    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan x11', d)} \
-> +    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb x11', d)} \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)=
-}
-> \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
->      bz2 closedcaption curl dash dtls hls openssl sbc smoothstreaming \
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#236630):
-> https://lists.openembedded.org/g/openembedded-core/message/236630
-> Mute This Topic: https://lists.openembedded.org/mt/119208574/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
+diff --git a/meta/recipes-devtools/go/go/run-ptest b/meta/recipes-devtools/=
+go/go/run-ptest
+index b8a080526d..5fc9367570 100755
+--- a/meta/recipes-devtools/go/go/run-ptest
++++ b/meta/recipes-devtools/go/go/run-ptest
+@@ -2,7 +2,7 @@
+ # SPDX-License-Identifier: MIT
+=20
+ PTEST_DIR=3D$(cd "$(dirname "$0")" && pwd)
+-GOROOT=3D/usr/lib/go
++GOROOT=3D$(dirname "$PTEST_DIR")
+=20
+ export GOROOT
+ export PATH=3D$GOROOT/bin:$PATH
+@@ -16,11 +16,18 @@ if [ -d "$GOROOT/src" ] && [ ! -L "$GOROOT/src" ]; then
+ fi
+ ln -sf "$PTEST_DIR/src" "$GOROOT/src"
+=20
+-if [ -f "$PTEST_DIR/VERSION" ]; then
++CLEANUP_VERSION=3D0
++if [ -f "$PTEST_DIR/VERSION" ] && [ ! -f "$GOROOT/VERSION" ]; then
+     cp "$PTEST_DIR/VERSION" "$GOROOT/VERSION"
++    CLEANUP_VERSION=3D1
+ fi
++
++CLEANUP_INCLUDE=3D0
+ if ls "$PTEST_DIR/pkg/include/"* >/dev/null 2>&1; then
+-    mkdir -p "$GOROOT/pkg/include"
++    if [ ! -d "$GOROOT/pkg/include" ]; then
++        mkdir -p "$GOROOT/pkg/include"
++        CLEANUP_INCLUDE=3D1
++    fi
+     cp "$PTEST_DIR/pkg/include/"* "$GOROOT/pkg/include/"
+ fi
+=20
+@@ -38,6 +45,7 @@ SKIP_PKGS=3D"debug/dwarf debug/elf debug/pe debug/plan9ob=
+j go/types internal/xcoff
+=20
+ SKIP_REGEX=3D$(echo "$SKIP_PKGS" | sed 's/ /|/g')
+=20
++RC=3D0
+ for pkg in $(go list std); do
+     # Skip package and all its subpackages
+     if echo "$pkg" | grep -qE "^($SKIP_REGEX)(/|$)"; then
+@@ -52,6 +60,7 @@ for pkg in $(go list std); do
+     else
+         echo "FAIL: $pkg"
+         echo "$output"
++        RC=3D1
+     fi
+ done
+=20
+@@ -60,4 +69,12 @@ rm -f "$GOROOT/src"
+ if [ -d "$GOROOT/src.orig" ]; then
+     mv "$GOROOT/src.orig" "$GOROOT/src"
+ fi
++if [ $CLEANUP_VERSION -eq 1 ]; then
++    rm -f "$GOROOT/VERSION"
++fi
++if [ $CLEANUP_INCLUDE -eq 1 ]; then
++    rm -rf "$GOROOT/pkg/include"
++fi
+ rm -rf "$GOCACHE"
++
++exit $RC
 --=20
-Best regards,
+2.34.1
 
-Jos=C3=A9 Quaresma
-
---00000000000028384206514f6062
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi=C2=A0<span style=3D"color:rgb(0,0=
-,0)">Changqing,</span></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">Changqing Li via <a href=3D"http://lists.openembedded=
-.org" target=3D"_blank">lists.openembedded.org</a> &lt;<a href=3D"http://ch=
-angqing.li" target=3D"_blank">changqing.li</a>=3D<a href=3D"mailto:windrive=
-r.com@lists.openembedded.org" target=3D"_blank">windriver.com@lists.openemb=
-edded.org</a>&gt; escreveu (sexta, 8/05/2026 =C3=A0(s) 03:23):<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">When vulkan is enabled in DI=
-STRO_FEATURES without x11 or wayland,<br>
-do_configure will failed with error:<br>
-gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No Windo=
-wing system found. vulkansink will not work<br>
-<br>
-disable vulkan from PACKAGECONFIG when x11 and wayland is not enabled<br>
-<br>
-Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.co=
-m" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
----<br>
-=C2=A0.../gstreamer/<a href=3D"http://gstreamer1.0-plugins-bad_1.28.2.bb" r=
-el=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugins-bad_1.28.2.bb</a>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 5 ++++-<br>
-=C2=A01 file changed, 4 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1=
-.0-plugins-bad_1.28.2.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0=
--plugins-bad_1.28.2.bb</a> b/meta/recipes-multimedia/gstreamer/<a href=3D"h=
-ttp://gstreamer1.0-plugins-bad_1.28.2.bb" rel=3D"noreferrer" target=3D"_bla=
-nk">gstreamer1.0-plugins-bad_1.28.2.bb</a><br>
-index cdf3a20dff..c7f081e25b 100644<br>
---- a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-plug=
-ins-bad_1.28.2.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugin=
-s-bad_1.28.2.bb</a><br>
-+++ b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-plug=
-ins-bad_1.28.2.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugin=
-s-bad_1.28.2.bb</a><br>
-@@ -21,10 +21,13 @@ DEPENDS +=3D &quot;gstreamer1.0-plugins-base&quot;<br>
-<br>
-=C2=A0inherit gobject-introspection<br>
-<br>
-+PACKAGECONFIG_VULKAN ?=3D &quot;${@bb.utils.filter(&#39;DISTRO_FEATURES&#3=
-9;, &#39;vulkan&#39;, d)}&quot;<br>
-+<br>
-=C2=A0PACKAGECONFIG ??=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${GSTREAMER_ORC} \<br>
-+=C2=A0 =C2=A0 ${@&#39;${PACKAGECONFIG_VULKAN}&#39; if (bb.utils.filter(&#3=
-9;DISTRO_FEATURES&#39;, &#39;x11 wayland&#39;, d) !=3D &#39;&#39;) else &#3=
-9;&#39;} \<br></blockquote><div><br></div><div>that is a little more diffic=
-ult to understand than usual, why don&#39;t we just use the bb.utils.contai=
-ns?</div><div><br></div><div>${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;=
-, &#39;x11 wayland&#39;, &#39;${<span style=3D"color:rgb(34,34,34)">PACKAGE=
-CONFIG_VULKAN}</span>&#39;, &#39;&#39;, d)=C2=A0</div><div><br></div><div>I=
-t seems to me that this would work.</div><div><br></div><div>Or even the fo=
-llowing, dropping=C2=A0the PACKAGECONFIG_VULKAN=C2=A0but then it loses some=
- readability again.</div><div><br></div><div><div>${@bb.utils.contains(&#39=
-;DISTRO_FEATURES&#39;, &#39;x11 wayland&#39;, &#39;${@bb.utils.filter(&#39;=
-DISTRO_FEATURES&#39;, &#39;vulkan&#39;, d)}&#39;, &#39;&#39;, d)=C2=A0</div=
-><div><br></div></div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;bl=
-uetooth&#39;, &#39;bluez&#39;, &#39;&#39;, d)} \<br>
--=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;directfb =
-vulkan x11&#39;, d)} \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;directfb =
-x11&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;wa=
-yland&#39;, &#39;wayland&#39;, &#39;&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;op=
-engl&#39;, &#39;gl&#39;, &#39;&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0bz2 closedcaption curl dash dtls hls openssl sbc smooth=
-streaming \<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#236630): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/236630" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/236630</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119208574/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/119208574/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div>
-</div>
-
---00000000000028384206514f6062--
 
