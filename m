@@ -1,194 +1,117 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F98CD3445
-	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 14:42:41 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.8])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15416.1778251352232092552
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2865FCD3436
+	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 14:45:12 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15477.1778251505763564687
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 07:42:32 -0700
+ Fri, 08 May 2026 07:45:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=eXGRyTrA;
- spf=pass (domain: est.tech, ip: 52.101.83.8, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z7v1uDoE9wJUBi4a1mRGOU97UwtPkLQuAh+12lBChnxVe7xDSzhv6m/Z5eviZFvSX1SGvyOaxV20QxbqAWCzPp/Ydo5W5olxzN/8B2NRZFQpeFHkA0j1dUPuiLDvv9ilgcf7qJQfOp2bmFlvI3li2DRYU79k6O6+1Hh8io/ct5y6hshjlXPrziiQOcSNR+u/OGqBnzUtvkecsKwpEeKJKCybPLtgMDJ/+AStVjbd/UjQx5t4ZqC6qf5QO4UKGbXd8JZosxZBVKf7ZoBA8rcBCxh/p+Qn8EeX/6ljlisJjcGZF0eOsTIO1JNGXuU64U0mlPf+Pca5BdgkLzIpEHwVYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lmZtej4jhIfWPl4kO11E5+GQFYnIbeYTRTQWUX9HU0I=;
- b=N4IM6MyoDKmT5B0PzNW5dP1qIDdzpMS6OWw2gfsrypUvzh/gwRHouTDHmPZ5Cb0OgMBrByG15tcJpVQar2jvBRTDuOX+gKXKg/G/f4nhhwxl9unu6H/GXx9j8HHatF9K1UeXhRinuH9aisFAetDD8fvAm+gAiEiKhDu6vuyZ0TToHDXX6ztevL/n4WsAJ18xcLZawKNdTdWeLgAk5HytoR3tw+RPhWkc05jwjQDc/hLDpB4uaGRyQXMTB57GalMNE0hn+l6kLjSJPbygivHLcxuYZwZ2S8rD5xM7DQ49VNZviuEWsLpUVMl4uRDs2+uaTHI7C659rA4oaE+mq1o07Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lmZtej4jhIfWPl4kO11E5+GQFYnIbeYTRTQWUX9HU0I=;
- b=eXGRyTrAJ8Rth5MaZtKLHKGbOANfMuh5g2aZiRkLp7iwW9jlWCserAdhtGldTgASv4Ihl/B1lT+FUkvisMklkNiuIUGUESdRw4ZBR9uh+KnBWqUagaFIO7+gcnIxkbnz4sHOQi1fsSzBsUM8AYn4AWSAElyxecSiwry0xBolCiSIBn3Qpj1tDxVR3hX+SqgKu74dOHJKLa/crUGeFIxoe3UJq00gfNUZLpzaOfKvOyST0RqbJT9LEfXspQ4Ow1/28Qn3Bhs3OdaxuRknhRLY88amKVi9749GiElUVGiWMpe0XuzLow8NdvjYii8dKbVIqkhG/m2bkFFeqoVKw24Tlw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by GV1P189MB3050.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:262::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Fri, 8 May
- 2026 14:42:25 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9891.019; Fri, 8 May 2026
- 14:42:25 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v1] go: ptest: fix GOROOT detection and improve cleanup/exit handling
-Date: Fri,  8 May 2026 16:42:19 +0200
-Message-ID: <20260508144219.28709-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU2P250CA0028.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:10:231::33) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=a7X0WZbl;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9588382931=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 648B4eeZ470902
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 May 2026 14:45:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=eFOSc4GP0xuIBrSXDsAvzlqHpWMGhKWzEUVUzmgTKv8=; b=a7X0WZbluyqu
+	bN/wSIpcgxrWHAyQ+EnisnVzp9oVsvSS8oiKLtNcBpoNRKcMRq2dGdypVNwPWfCe
+	YT+UKV2BVmF864AtKiDZw/IXS9B1njbJv5uyaWGmU5PUUnaFl6pPABNzCVy9p+bR
+	IFwPW7RUvjqaQl63qhAdwHUa6zjosLN/hH4/1PXP1DLH3i08YfFlT0Dx+EXeh7Jl
+	XsCLYqzkP2KGj2bhwhTPN05SbQgnU6srQA4E4Rf67wgyLow6zR/f/0mKcl7fSmTA
+	zxssi/JZXaxT8GckoTtHyZmlEK0gR4ZVHXdG+cJIKJVS04iy+vuDaKE30sNPdb8M
+	iSTTa6tsqA==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e1cbvrc3v-4
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 14:45:04 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 8 May 2026 07:45:02 -0700
+Received: from ala-lpggp3.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 8 May 2026 07:45:02 -0700
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 2/3] nfs-utils: 2.8.7 -> 2.9.1
+Date: Fri, 8 May 2026 07:45:00 -0700
+Message-ID: <408e124b2d1340435c9c408879aa3ae8b966eef9.1778251103.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1778251103.git.liezhi.yang@windriver.com>
+References: <cover.1778251103.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|GV1P189MB3050:EE_
-X-MS-Office365-Filtering-Correlation-Id: 113362bd-bd5a-4024-75a8-08dead100546
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|3023799003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	rcjxAg+NWsTBTKIPT+ql/xuvyz9tx0LIZhJutN8oPxQvqbQRDZuPCPu20gSNB3ZZRVPn408Cx1GclcxMBCl2BbSal2EE8nSEn9gu4UC02oUsfcLw7GoEhKFlMTXl1em5Mr2v8dJ5J/O2zUxNIpGTUTBZ6zZcvxTFUaWUBCrvUfNq+SRTSr7kTW+aZAGmdc3Dy+ah7W/Rteeozu+r6b0OSNXbj9p77TSa9uKL5wO7Il39SDdEUAvuDwhrjaRxP9yJ1y2+3fNvAI2B8QT7ejupc9JwLVm/vxxtNSJXgC5Bh2CAdWeDsAfLQpS3f4YvdKQdAA515+GpISbym7K7Q2fhw7IYsGnX2Hx7AqJq78eOU2nOLwgRAFlghaEsmpV/uErMMUFWfkvjolOVDmoz6qhWRS8E+9uoEjIg3WDbMyuQRE4EdNN9HvWSb15NE++vJsbnk6Pcy1Vf7Dc/X+NYapgOMmTrGzfcRCVBz/8XZRoJf7Nf1YbJLC7agcYrOq4DGRwgKZxHhSVZQ2BUEaG2ZwQLX/yma69SvhwC7cLqCcWn8uDJcz4X0OVh3cR/xW4kWSrVBHpj8CM9785NwbRaFNqa6DfCpC4ChDo6iaLh5AQsOb6TuldoUto7SEwUzQelJoPFiSaopcVR2RUPnE61cT9ZrMebL73ccIeiFD5tbM+GsFa9aAsc8HyK1aNmFMblHhxU
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(3023799003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?4N+CNsX6D4pHM++5RpTEiWou68jIozXT42iamdoWC5jTxLbTMmDNU75wCw9Z?=
- =?us-ascii?Q?GmWqvmjDDh+kZVQHmXay+KJKfceKR60NLx7iOaYXrYUQLHBIeLKp9QmptUZO?=
- =?us-ascii?Q?yMp4TPublp5pmW84FwhFQgOYJKEfnYh++zNEbBPOL6RDT/Oy8a+Z9mJ3Li1w?=
- =?us-ascii?Q?bqjMyjDG2JQ2KKzyrlSazG8XA953EBdropB16BZ9wUyCJNbWwEx5SPD1d71W?=
- =?us-ascii?Q?gVh4UN9VxKsoQJeuc90jGHIEv02duoWz3cBVtgr+SDupuNkBKd6M5vgZ3Ym2?=
- =?us-ascii?Q?NOY953MW7pZSTve/qeN4XONqF3serNtLP58NUpEGB6NFq5MHoIerCfYGUlcQ?=
- =?us-ascii?Q?PTHMYbbvshYQTd5hgfyHQFWRMesKVyhBYwhoGt5u8zRV5m1AqsaTKuwnFWbx?=
- =?us-ascii?Q?gUWMrBgjsA534wTIip61nHfjMZtxuRBRyd3+Sixd76f7MjKKFPFrdyngcjKQ?=
- =?us-ascii?Q?3OLKO586DTtgmTt2MiJny4STxokF2ccF5rNOlkb+NEmZpQtjhFgLDDrMwyX3?=
- =?us-ascii?Q?NkPolGfEWzJYMSeacMeqxU8CnX14ehEthmfnk3LTk1ANOM3JOHTWkO/rXPRE?=
- =?us-ascii?Q?eEPJfwKzowAhqBsfswguemCraN8ABIzECYcAO6JKeM3PV2T//kQjPjD+r9gL?=
- =?us-ascii?Q?g2CRAkpk+47Pr6ww8SEshqdP8AlqzcNfVKFgeMt9EabrwsBJt0uG7vktKUqe?=
- =?us-ascii?Q?JVtXxNDq7YBTP2hxHM6gee7BAfPLTl3Wt3WFpprfwz6iS7V1P1deL+no7FMw?=
- =?us-ascii?Q?mivYN2EJCJm/EOEUgfsRLGqwV9NOquhcXCeNsbd3NRhWLpOSI7/eK5yvLtYs?=
- =?us-ascii?Q?4uOHATOjbAdtgKvNEy1GHajRkr1/yXyL3FzUsEI6x9+trDQIQ2kQIBNzPGIx?=
- =?us-ascii?Q?/GBv+xGf/M/X4araT7D0nRPbZl4+I+neGV6VUCp39+dU31I9lN3DmO4xNuSm?=
- =?us-ascii?Q?Xl++E2RH8TvslBEHkmJpdJmeCotzYBkXJ/iFt/hU97BicJnrc/T/niyP+e0j?=
- =?us-ascii?Q?tKpTA8gCaOjAopLmr2I+B7XdBMIlHvKUGL52yI9Bm02noq9md/vearlJ2L+e?=
- =?us-ascii?Q?nqPTwVxMx8Cnch5rLbN2NW5ETWyf5bFa4IHaitBMGOeM+jbRTGqoIELKHPtd?=
- =?us-ascii?Q?s/ye6Gqkp9c8wId04wD+MCnJEtIxeH7doDtTzVBCSs3q10w9krrYhXePcIm+?=
- =?us-ascii?Q?qwnxgwbp/2DRcrDMzOS0ORq6GDPV5YKF1CQk9VpYdsIA8s1j7AVZTY3XhVMs?=
- =?us-ascii?Q?to35+30eJX0co9MpdXWfGpliwhpHM0Jm26VkY/lO85BsO4uhY5r6DyVF3s4b?=
- =?us-ascii?Q?bn/JYkX4lwmyqqpwK/tw0kZnr2yVejj23pbwBz5/8iA+TA1vtWhXf2QGFqMy?=
- =?us-ascii?Q?R62oVKm6kWpPNxttkcnTH/3/G7hrJVG+zPBmo4ixGjCoPp5jXAEBKeG14l+l?=
- =?us-ascii?Q?MqiFiE8TTNYAAoerac5ECbJnTm7Dt6H+LJMcFswg8vwzzsWe1f8i4qOj77pS?=
- =?us-ascii?Q?dFvZwMFTGrN8mrIpGXXmLf3YsjeA/YBwWGR8vHDwtbQUakKKDjEASC23k5k/?=
- =?us-ascii?Q?m6SiNCDeYRNoLy6Y+v9i9t5ACdqca6FA2p5HUO5gJCCUBQgZpIbYc4UMQ28j?=
- =?us-ascii?Q?vqAiFCmQxoeK4adDPPA++kf2etFgXdyGjcHG7ZGjTtmRL4OrSNlT00qro1S/?=
- =?us-ascii?Q?16k/4PL9FtTCg2nRopIElm2GZ3rG09PabvgQCgUjlKkfF6s95nlzGSY98tlh?=
- =?us-ascii?Q?gbLIFI0fjg=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 113362bd-bd5a-4024-75a8-08dead100546
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 14:42:25.4088
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4DqVZuUdupg63q33QzeF94eUBx8FcS/jQ4aJX9BCgrQ3zHAFyB/FM5I15g0UYAc3+IHzyEiPfFc9GWkkyTmMtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB3050
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: ciAOXeOAMgOuQw2v0a3mqfS7FD7QV3gj
+X-Proofpoint-GUID: ciAOXeOAMgOuQw2v0a3mqfS7FD7QV3gj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE1MCBTYWx0ZWRfXzvslcXd9w0vo
+ M7r+X2cYAWe7Oa1z7qAtaI2T5jGm+Evh3n4k98oSZ81nZ5GhlkPjESQ5Yn9rFtXge80aV1waOeH
+ uPRk0sUR7kbTjOJT5xqdYCqCn3a8LNB39iyjWMXyryqa3GFfaSoE1t+kjaAzpSOAjptVILDYew5
+ BgoVcJ38m38hsHnCM+6HiiO9emQ4U97WId5/33PCw9Jbb+fihzZdn3hAKgGl7fehY8tVUHrZeQ5
+ ZM8wfglAWEkCIxSKMCNuVA15dsnVYI4XaHLFRVSb+ZyWQmI5x7wEMn/C8MjGIMOdR2Pypb0ae/L
+ P05COdMQOQQctWI7TBk9r8doJ7E8aCQ2dU9KLKNSlQv0dMcMhIywnLsg4FCRNw5c7G8p/D2qSlP
+ skdDO7VA+uPTvK6h3lRYbEvonXOscYlM6iEwzoVuXTHEtDPn+B0oTQEakQ+oraVD2uQV/QOou09
+ dBPX+aLkgRVDC/r8gMw==
+X-Authority-Analysis: v=2.4 cv=U9iiy+ru c=1 sm=1 tr=0 ts=69fdf6f0 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8 a=GqB59jVI8Mvp-EO1NFwA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_02,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 adultscore=0 spamscore=0 priorityscore=1501
+ phishscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605080150
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 14:42:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236718
+ <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 14:45:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236721
 
-Changes:
-  - Derive GOROOT dynamically from PTEST_DIR instead of hardcoding
-    /usr/lib/go, which breaks on distros using lib64.
-  - Track and clean up VERSION and pkg/include files that were copied
-    into GOROOT, preventing stale artifacts after ptest runs.
-  - Track failures with RC variable and exit non-zero when tests fail,
-    consistent with other ptest scripts.
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+* Add libnl to DEPENDS to fix:
+  configure: error: Package requirements (libnl-3.0 >= 3.1) were not met:
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/go/go/run-ptest | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ .../nfs-utils/{nfs-utils_2.8.7.bb => nfs-utils_2.9.1.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.8.7.bb => nfs-utils_2.9.1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/go/go/run-ptest b/meta/recipes-devtools/=
-go/go/run-ptest
-index b8a080526d..5fc9367570 100755
---- a/meta/recipes-devtools/go/go/run-ptest
-+++ b/meta/recipes-devtools/go/go/run-ptest
-@@ -2,7 +2,7 @@
- # SPDX-License-Identifier: MIT
-=20
- PTEST_DIR=3D$(cd "$(dirname "$0")" && pwd)
--GOROOT=3D/usr/lib/go
-+GOROOT=3D$(dirname "$PTEST_DIR")
-=20
- export GOROOT
- export PATH=3D$GOROOT/bin:$PATH
-@@ -16,11 +16,18 @@ if [ -d "$GOROOT/src" ] && [ ! -L "$GOROOT/src" ]; then
- fi
- ln -sf "$PTEST_DIR/src" "$GOROOT/src"
-=20
--if [ -f "$PTEST_DIR/VERSION" ]; then
-+CLEANUP_VERSION=3D0
-+if [ -f "$PTEST_DIR/VERSION" ] && [ ! -f "$GOROOT/VERSION" ]; then
-     cp "$PTEST_DIR/VERSION" "$GOROOT/VERSION"
-+    CLEANUP_VERSION=3D1
- fi
-+
-+CLEANUP_INCLUDE=3D0
- if ls "$PTEST_DIR/pkg/include/"* >/dev/null 2>&1; then
--    mkdir -p "$GOROOT/pkg/include"
-+    if [ ! -d "$GOROOT/pkg/include" ]; then
-+        mkdir -p "$GOROOT/pkg/include"
-+        CLEANUP_INCLUDE=3D1
-+    fi
-     cp "$PTEST_DIR/pkg/include/"* "$GOROOT/pkg/include/"
- fi
-=20
-@@ -38,6 +45,7 @@ SKIP_PKGS=3D"debug/dwarf debug/elf debug/pe debug/plan9ob=
-j go/types internal/xcoff
-=20
- SKIP_REGEX=3D$(echo "$SKIP_PKGS" | sed 's/ /|/g')
-=20
-+RC=3D0
- for pkg in $(go list std); do
-     # Skip package and all its subpackages
-     if echo "$pkg" | grep -qE "^($SKIP_REGEX)(/|$)"; then
-@@ -52,6 +60,7 @@ for pkg in $(go list std); do
-     else
-         echo "FAIL: $pkg"
-         echo "$output"
-+        RC=3D1
-     fi
- done
-=20
-@@ -60,4 +69,12 @@ rm -f "$GOROOT/src"
- if [ -d "$GOROOT/src.orig" ]; then
-     mv "$GOROOT/src.orig" "$GOROOT/src"
- fi
-+if [ $CLEANUP_VERSION -eq 1 ]; then
-+    rm -f "$GOROOT/VERSION"
-+fi
-+if [ $CLEANUP_INCLUDE -eq 1 ]; then
-+    rm -rf "$GOROOT/pkg/include"
-+fi
- rm -rf "$GOCACHE"
-+
-+exit $RC
---=20
-2.34.1
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.7.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.7.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
+index 7693a88682..39a747d344 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.7.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
+@@ -8,7 +8,7 @@ LICENSE = "MIT & GPL-2.0-or-later & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
+ 
+ # util-linux for libblkid
+-DEPENDS = "libcap libevent util-linux sqlite3 libtirpc libxml2"
++DEPENDS = "libcap libevent util-linux sqlite3 libtirpc libxml2 libnl"
+ RDEPENDS:${PN} = "netbase ${PN}-client"
+ RRECOMMENDS:${PN} = "kernel-module-nfsd"
+ 
+@@ -25,7 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0005-find-OE-provided-Kerberos.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "59d0f1e17b18efaa60ea3ccf89a9cad3217f8d3b23c18d2fe34b25c8969d60ae"
++SRC_URI[sha256sum] = "302846343bf509f8f884c23bdbd0fe853b7f7cbb6572060a9082279d13b21a2c"
+ 
+ # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
+ # pull in the remainder of the dependencies.
+-- 
+2.49.0
 
 
