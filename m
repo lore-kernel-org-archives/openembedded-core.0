@@ -1,301 +1,267 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD82CD3447
-	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 11:39:08 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11632.1778240343497827039
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA9BCD3447
+	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 12:43:38 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12666.1778244210171464752
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 04:39:03 -0700
+ Fri, 08 May 2026 05:43:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=wlntxB3N;
- spf=pass (domain: est.tech, ip: 52.101.72.31, mailfrom: pratik.farkase@est.tech)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=MyQ28shr;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=958805e18c=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 648C81so2270385
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 May 2026 05:43:29 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:message-id:mime-version:subject:to;
+	 s=PPS06212021; bh=Cuh+8u+twhFG8/yStcOzU3LyYOkmNk6TCk/re+/a5IM=; b=
+	MyQ28shruH4xoCBWrpvOihbfVEmQEblAsMf1v5PJfbTG9YJXUP42DC/0t7+cNE9T
+	F7tPj9BTHNV41rB9UlmmKOUMzDlehN9pBqbEdw5IiTA/w+cGRV3RGf8pjtyM4fuX
+	m6Wf0ef/7Gsv5YGTy2htseSEfjnmq1IRLS5mF1TzrxPQ9+TaQKQl9yXVIXWuqcK6
+	N2Fn7WkepkYmL5AEVbX7syJXnSYMK9tpwpVhXVIoe3SCrki6SI2X7nQxeMe6A7tU
+	W+BiokhM6IjupUAqzuXkANx1yf/BRaxE3zkZXD9I6bSvtxalaiHlquMsxInfoR0L
+	B0vmvBu6ecwgVkMH0hQ/dQ==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010047.outbound.protection.outlook.com [52.101.193.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dwchyyyj8-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 05:43:29 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iPDQEPTuTgTESmqPWaiUciKTthHg1Jl6qsxK6oSC8bohyfmBT9co6/Hx0AzPA4SwsnlULn/T7TVLvZ62EjzvFBjfSEmYvXU/1B/N8ElMmi9VaKPJ9tMgzZmcRGM2+nJoVLS4O1mP6PeLX9xKsCpK8gcBTdpI3HkSGHY8z1klJlg5LgIAYaipxKCdwe6cGhsqfm0zmgTRLueJtOYuR7TyaQ3cBr2l8TqSCKZDiHp+heIsnaTFwyN/vEE3s3kuDCMCvV6elk1EsHmxQTlu2X2X2mqAlSWcfZkI6/lUN4gqSjvzp3NMusgp/TQ8kcgW8TOJZ5yJYIqJ71OklStq+8IfQg==
+ b=PS3iWW7DZU/DBXUI26YKRZaVqc3159HRKKayXTB9s7lnzsl6J4q8yL5g8S+Nue3nGVegEcjyH0GNFj9jMNVhobhFilrvxlIRd2RS06PKl9zge2wYzl/VioQwngdHOAhbxe2IlCpSEstN6g9vxztT+d5x9oosUvTudZkMCAWoGNESkKdjSy4YFedmdH041rlrmIBRlcG2eUpg5AY8adt2uZ8RDLqUU5hjeLFxLleXCD2Um1gnHeGtCgvjrRuozXvXMUTumgIh8j+Rp8UNksOYkUyZfJsI64hQQmKw+sJ9EnzPpXNYKAYV/A/p53TEoYJnlr8tntv/UC9c8G2C7cyeeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Cs2QA7pjiWeDSQ8yU9TC3hTHzvZorrbA252W00KJz7Q=;
- b=GRueO2crBLsMt8r7GMI9NIcEGWc7CKnrSP+aJuQMl+x62zoHAqJeTcH6ME44y0qB8+rFqc4HWWAIx+j6dw8lXwGFDZXpKZBePq0bl8CVw5DRmjwVOrLgqStmnCLYH7ZEARX6pnT7ok5A8mRQCr1uT8fPeHqHxrhUz9SdkvFxufmCU+21oAIZ0EBKr61P2cmITfD8asI4YT9f9xJuc4tEOfIdAQxWg1j7WiQ/3PAC85tNshu3Xap7HBfoyeiq71PKUR/EcaORsstl1L9I+E7suuZk+O8YhsjZfg4galBa0OlIJ28dKeyqkDdMA7+d9dTu4aZVNVDyDwKU0LJheMmH1g==
+ bh=Cuh+8u+twhFG8/yStcOzU3LyYOkmNk6TCk/re+/a5IM=;
+ b=C3uBXl2TXx2e0gqBpkl0vwx/PDzoBnFy3e0wv4qb3DOERi+qPTl2i903alyfNLU7g7GvV5TvBk48yXkI3KYLEJTOlWZYBCW6EPQf75l9c7mj7XGK6bTFskEo9i1erBYPw+A6XaCTFDVypOQxPLfbAckMGGD611oHhcParKgFqFIjXXtdcmR5yQsaFxZTYrc472GCsSB2sVKeyluz94LVakMRgsbq0UtlvAH4zVLPVqJ/BeGzLuexxgqrny2FT407EXOEUj0O+CxQrfxLnmigkIWBjkWz1FqLA2J647UKWRAopHhs58hOP3pg5J/WJNeFy6itSnZWk78J0F+5qiR2rw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cs2QA7pjiWeDSQ8yU9TC3hTHzvZorrbA252W00KJz7Q=;
- b=wlntxB3Nb5LAt1HOYaf/mHu6GZHWJmIW96/bQP9XD1ft2DPuCXVk1J4fB1RhN8En1JsPGAaQcvsfUFlQNpasAVZ9L6LHOqaoLpSVaM4wXAgrvMgvhhqvpNdKKKZqCKCwkD+Nj1BCWqo/meHIQIULiUQ5JQSMTZjTQJ9pTBSnQHp/98Z5GhXhCsDtGbvkH+0uW8mES/bKPBn1JU50iZkkWgI/ksffxUq6tLBV/mlfvDsT1Q5dgEyv3VRTL+eCUcWfM8gs+K0lO0QBycyJKSi23ksMQmSAIC6YsK7I0zmRXsAcSS4mDOwO4lENt/abj3ZsrrgNCR4DflgN2UtLLacB1Q==
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by PA1P189MB3419.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4fc::19) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SN7PR11MB6677.namprd11.prod.outlook.com (2603:10b6:806:26b::6)
+ by CO1PR11MB4979.namprd11.prod.outlook.com (2603:10b6:303:99::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.19; Fri, 8 May
- 2026 11:38:58 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9891.019; Fri, 8 May 2026
- 11:38:58 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: "Marko, Peter" <Peter.Marko@siemens.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>
-Subject: Re: [OE-core][PATCH v2] libffi: add ptest support
-Thread-Topic: [OE-core][PATCH v2] libffi: add ptest support
-Thread-Index: AQHc3tTPooixy4Mp9kKxfi8YNOqX9LYD/QKAgAADnNI=
-Date: Fri, 8 May 2026 11:38:58 +0000
-Message-ID: 
- <GV2P189MB30056B6C051DCA22E9F005FBFE3D2@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
-References: <20260507085242.39646-1-pratik.farkase@est.tech>
- <20260508102405.16791-1-pratik.farkase@est.tech>
- <AS1PR10MB569736F5603EF1B021A44724FD3D2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: 
- <AS1PR10MB569736F5603EF1B021A44724FD3D2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-Accept-Language: en-US, en-GB
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Fri, 8 May
+ 2026 12:43:24 +0000
+Received: from SN7PR11MB6677.namprd11.prod.outlook.com
+ ([fe80::490a:519b:d657:99ab]) by SN7PR11MB6677.namprd11.prod.outlook.com
+ ([fe80::490a:519b:d657:99ab%7]) with mapi id 15.20.9891.019; Fri, 8 May 2026
+ 12:43:24 +0000
+Content-Type: multipart/alternative;
+ boundary="------------0aCaOh0yobgLMRLtRUrIEXF6"
+Message-ID: <4ccdf249-60a7-427e-8cc0-ca8559e6fa94@windriver.com>
+Date: Fri, 8 May 2026 18:13:16 +0530
+User-Agent: Mozilla Thunderbird
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2P189MB3005:EE_|PA1P189MB3419:EE_
-x-ms-office365-filtering-correlation-id: bb6f7de7-a4d8-4be1-0f04-08deacf664e6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|3023799003|22082099003|18002099003|56012099003|38070700021;
-x-microsoft-antispam-message-info: 
- WrW6yKpvHhXVN5n64b3XtGzm2ZaBwexSaXcFeA/8ALX/g3qYpcMLakaHGslwmaF7W49RK4BnwDVQv7X1mwPKynbszYcaTMk+qfp/ywfmIwzWT/cHnRZMnHwQky3p0JpW6+8l0Mxj2IdtykV/OWxXBGiKYtgvqcbEqIIkJoMEbm8FL5bGcU0qrVQ47ATYq3CuWZv8Th5+CRWY3lGbzN9MqR2ektGsBPolYXfSLrxYdYbtDmlsoXR7os7S2HzohfKTuJXKsp9zbAFD7BiEZqU/vF9obVTUMa/CQJViQ5qV0ivx7ev0LBWJhSj+9CFc4zLx/Tm4HSTEOjMlzuQrUb38OMF+Im528z3ox142l56YEY2jifpKOaksTZ/B/WwbLCCCiGcFPHvF79NZ1FMeGzMdFP1cRWA7rmGKG7zZCE5MOI3XGJyFZLs8KZFX9Jbr9V/+0ZfPzZ1M4MYNRS0N6V3esrn5dZNeDoe5YaG4F8fQPDWq79SmhyCbRZFnHE8uZjjdytkrEndd0sGt2x819FAqNBhUS8t6v6YvBtweYDGt0KqujHy3VmSsN1nIBXtj7xdbcJKrkcFzCDUNNP0AQnKpg28m4mIRDwhARQY902oInWOaSM5kFmFOTHGjqvlVzF1IfXicIMF6VcJ7bfhLhb8Zn7hbQaAMdwzPcnL5hhFAGaWEHPhacdlgubQRegGCIpwlprwebCUCLA2XE5kIXqK3RmXHysh2NYGFZmdKlPQm7Q7YNBIaaOahsCshWp9vurlB
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(3023799003)(22082099003)(18002099003)(56012099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?frag5hNf+zLVKBZ8lFemj5lZWnBpsovNrRma9mStn7hjuVVPDdgJQA5sDCcR?=
- =?us-ascii?Q?35BmO9GYRNQ5EtHAmqAB9yvqKLEsTuQYRPg2adLXy+GXV+ypt4j9rhWe+P6u?=
- =?us-ascii?Q?uf2U2hJvAaw7UYYGCsGBJXKaNHWBpXdnrCRmZ51s1yOCrCyLoYi7TncVEGuG?=
- =?us-ascii?Q?njWnCsfZxGrqDk89bOeAtpLvvvKRv378AmAyQ9kSDVPbIZyvI8chptQPz7AD?=
- =?us-ascii?Q?/hB1hZwRDYRaPiu6MZyaM0ZhoHZ8s/pElnqhYFA34I1nzCqEGRbDuzf4QEFY?=
- =?us-ascii?Q?TxXrQUoFFGd+M2jc034ntsZ8yYtU0NL5WBybGNyuFDVFyonRPxaOonTw4gbv?=
- =?us-ascii?Q?wHP+WD1xp9lnw5yEf9JErpC0hDeGj0wr4YbWlw6EScFan3EkNTUpkCdXlKjj?=
- =?us-ascii?Q?MlN8VEmt12dRup45ayOrPtI9KqS8pss/u+RcNVou9tMqfbyqWc69r6D6KlPV?=
- =?us-ascii?Q?sVC/bI+pxGfcywdlCBf8ZaZU4P6cqLKNeOOWYL0CTON34qDoQ1+bpJOE6JHk?=
- =?us-ascii?Q?/XcP1jG102Jpw1tOZnXUY6CefNJ4PceCZB7CLFJO6qNrl3ShBXdzxQoau56N?=
- =?us-ascii?Q?6CT4wee5GJgLHsDt7jJo2W+wLj39ptDb1TjV1DlwVz+hZCOMoVI46LkE+SY/?=
- =?us-ascii?Q?Xqe4J2FlCIJ/5xO9GTKR3ae6DB+miDUc2QTFUe7+95U9P7Ocbg3X+g8IlvqM?=
- =?us-ascii?Q?bT1lDwkXPQWn04Ja3CdUegYNFtPtvNsIqQu1Y8elhBNpgDYgyR4mBOvOaNv7?=
- =?us-ascii?Q?i71XZETVpm2vwx1ZgUe1P9QRL0p9EnOk3V+zzm1ArKHzrOO4kU7+miAwmSux?=
- =?us-ascii?Q?AVindtuHQ1wXvtPO/fDwU+vHQh5xwUNKGkJ2bU1p+tzMHMKzHu96l+3Lhzv5?=
- =?us-ascii?Q?5ZMU/73HXvYrsdBmE28mZpwE3JBg382iK5jHtm0QeUkjMjJVCKqLKEsOFnoC?=
- =?us-ascii?Q?eokwKpxDlO4dIvREMII/lIAlGRIl7m9kxNQ2QRKqa+xTae+BW/PIwFI56A5e?=
- =?us-ascii?Q?B/KVr29yz5tCyLlz6mB7FBh3IFiUdlhlOmPBRIjEic82hE0Shgc2s7dyLRss?=
- =?us-ascii?Q?/7bda6UWeVcB2M4svgUv7DMHTEhh+qqqggLOx7LVVJeT3/bQhKikYP/BERHK?=
- =?us-ascii?Q?CTeomhgcP2KhGV7yYm1egMMajn0WxUfX3nyjfwefX5yVAPD3b92u5E9uzhnO?=
- =?us-ascii?Q?DpFyW6F/hTzK7w5trlGnVzSXFpFO8ISGlpL3JFQRcRn0sSNV9Vz7hl/2/POs?=
- =?us-ascii?Q?sqcWwhCIIh+iYxN8VgOG0fVVz2S/wXYZsWZr2DYGv1K4vDMCF+uYjAZ2Ymsd?=
- =?us-ascii?Q?ODaGGsL5XoW2bnGINJBaF7xpzvbFNQpxr9u14AxlIUvTNNQjLvTlLZ+p2/VU?=
- =?us-ascii?Q?oaANOwfy9vrxIzdDfViC8XO+mpFnteVcDOCHzGXaEDRmJOptOPgFwLWX2uZW?=
- =?us-ascii?Q?T4BpFQk8UpNx/nD/PRA4r66ohKEwIE5Mn0aQ++R9P7T5/g9eJxoTIrzz5KNs?=
- =?us-ascii?Q?hrdORca7KVWTGMmwDQfrdG/NbrFXabgNZx5k6/bGV8QPmjUElP8h22wnKf0C?=
- =?us-ascii?Q?tACALIVH0Jrl55cQ+liRwk21eAo5B9tsxmzQNvJ+rf+YxB9y7ONehStJBM16?=
- =?us-ascii?Q?TL31J5p3PFXBIZvv6eECcnAM1zKF6G/6+qSogna6pDCHRiaWGAXDn2lBuRys?=
- =?us-ascii?Q?b4VdYJGk35LanRBAIHv0Dt2VeJuMp5MNJiVky/Fb1NucuJsido13Mj0cSpdm?=
- =?us-ascii?Q?RvYcWGhOpw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: "Kokkonda, Sundeep" <sundeep.kokkonda@windriver.com>,
+        Randy MacLeod <randy.macleod@windriver.com>
+From: Deepesh Varatharajan <deepesh.varatharajan@windriver.com>
+Subject: RUST 1.95.0 - WIP
+X-ClientProxiedBy: MA5P287CA0007.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:176::17) To SN7PR11MB6677.namprd11.prod.outlook.com
+ (2603:10b6:806:26b::6)
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB6677:EE_|CO1PR11MB4979:EE_
+X-MS-Office365-Filtering-Correlation-Id: d55b0043-5853-42c8-4d5e-08deacff64f4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|1800799024|13003099007|56012099003|18002099003|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	EVMBv9x2DZE37BvJoKfinBWiZq8+jfDgfWBeO1Y0drE0d38bdR4c6MYu0NLcUGkLOVS+g8/4aI44gStsXgsru2ZWki7E9Rcqz/r45FVX9ibezAZqTsUKs8SikCWiZiwj26L/bhzQicurX27UJpeMtuoqZ5JxO95taoY0UKqMScLM6ZFSuiBoiGfarJeDgUbOQ3SzPrTMv8SRqIEl28BLCpU8wyk5Gz//VganK/fgi6f4+J8xI3CopOT4Vxn+YlNgGkUnzLg4ZrxH7Y+pB/dXs2bB92SgYTxGKChboel0c2MBECn3zM/v3i4cZ+h75Z9aqRwiRhf6i+UJKCtjDFJyVfr0TCQPIRrlpz18dVggbmv8q2eLPmHrwSq5mIcDigEY9XDiW+Pfq4/orDwhTdXdS+chjxMNadmU8GTfo73m/d9RCcpZ/z9iGWlMWX+gTKcD210pYbXU3CZeH9ltNG8HsMipneNAUgFFLa/Znvi7Q0hpYlrJk7KuVU/1LDkpcO92+EOFb9Yftq1TszPstBp+zjpBTGtf+Xj/GT502t7dPI2iforIgdYljac3Q9HgU2WD52HTNrPuG87rqmwIvpFPkraT3vu1K867C8Me+SrzxnWO7PxkxFcQxz0GgQIArOh47swZOBRyZs+p7nAE4K2VH22ZhQ6XeJdB8T39xrzXME8bRsLaGDjM0OvPUdlELon+psSNk54pynzTn8+ozlhSVg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB6677.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007)(56012099003)(18002099003)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?dTZobXJzYmZtL0Q1MG9TQTcxeko5V05mdnpzRGw4ZGluQ2lORkh2UlBGVWJh?=
+ =?utf-8?B?WnNTaGxJaE16ZHRuWXAxTlFGd3E1eWg5WjkvNUJveEVSVDdOYlV4eCtJd3JZ?=
+ =?utf-8?B?VEdoV3F5RTFTZlB4S2pSaGt5cWQzM2Zka2RGeTlGYkVGTWtGL2dFUmN5eVNv?=
+ =?utf-8?B?MEpZdVVEcFhyeEJEaDl1SHlTd3NUU3EwQkRkRWF5bVRoZDk3cllIeUx4Z0hi?=
+ =?utf-8?B?VnRydHl4enNobGFWTWV5UmpGYlJ0MjQ2aThHT0dZT3RaZ0pPZDZhb2wzOGNK?=
+ =?utf-8?B?WVJHR0dYVGtmNlVWM2FKMkZGM2FuekVRQmx1ZkdjQkMwR3FodllhR3FuMHRQ?=
+ =?utf-8?B?MUZzWlZEaVU3cW4vWjBjb2pHcEZMZ2VvVE5NR2l5TXhvcVhLcmlzdUpHYUZV?=
+ =?utf-8?B?ZG9lVXE4dEdMVmdrQkEycU8vRVFnQWFVWUpnNkZPYzJ2NW1wRGlTYS81alpF?=
+ =?utf-8?B?aUhBVzY1azNpZUx0ZmVuVnplMDBVUVdaNHU0dzFDWXdzTTBZb1hpOE92K0w1?=
+ =?utf-8?B?YmRTNi9BakFtYkxsaWZSVHU4UnJ2RGtNU2F3cExrL1BzRkk4NGZ0d2oyZytw?=
+ =?utf-8?B?enRwQUFwL3ZZbnRlY29abjJvY1BPWWgxbjBnZ1lQbFZRZWRuMzRYOVBxYUQ4?=
+ =?utf-8?B?UlBVQmNCMlNiSUpwZ3VPeU4rQkd4dzR6UEpuRUZIejUzMWdZS1k4MS9NeDNP?=
+ =?utf-8?B?czRHMUprWXJuSmdldHpTWG04bGl1a2FtTmp0cmhtUWNqVFZtUWJPcU1iU200?=
+ =?utf-8?B?dXdmZUJiOTVMcEdjdm9QdUdJYmM3bU5FY3dnSnNDUkxyNkhmRlJJWksxS3cz?=
+ =?utf-8?B?RHM1REtxZ0tWTjFjWDB5SzN2R1lGNHR4dmNFOGJDTkpzYjVBbkRtZnhPSllX?=
+ =?utf-8?B?ZTBCMVhSeURSbW8ycjUxMWpEU2ZobjlOTkRKVDNZNExhWlQ5dVNNRm51ajVn?=
+ =?utf-8?B?OS9WMzhNNXhoWkR2ZTRmbk1BdEUvSlN3QnU3VDNKNmJTNzVCZXBEbzZ1TFRz?=
+ =?utf-8?B?T0NPajdIY0ZMWm9MVmVUSG1FRGpxeFZnN0tpc0pFNm9hbW9ldEFlNVU3MGZE?=
+ =?utf-8?B?VCs3T0RlcHd2SVRzZHo5dWJPVVlYVTE0Zy9yd0dWcWZUWWFKTzhZWVFqeWtj?=
+ =?utf-8?B?SGtFa3JUMUdYZGNFanBPd3cvYVBnSTNueElwQytmYTN5V1g3QWxsUkJpeW55?=
+ =?utf-8?B?elhoTmNNUXBCc1UwN1c2azFjQnF5bVZSOGJQWk9BRXoxekFyMlJSVVlsZUpn?=
+ =?utf-8?B?T1YyZjFXNDlrVzFka29MOGlWMnF0UVgvcHZHOHpPbVN5M2dGZnRhQld0akNG?=
+ =?utf-8?B?QlhZOTJCQ0dIZTBvRzM3YzVjYzBwNkZBWHN1eGNIM3BIQmZqYWR5ZUtqOEEr?=
+ =?utf-8?B?RStubm9zVDNZaWpTWlc5VUY3ajR1Um1tWmNBYnV0OVppeXdScVl4cE9UZFNp?=
+ =?utf-8?B?b3JWNGd0NDRXWWkwSUlwZlVGUE5Id2VESHFBbndUNTF1NWpNSldUbFdNREx2?=
+ =?utf-8?B?Zkg4MGJGbnJmVWd2NC9mWWpDYzhEV2d2eFhQVCtpV20zb3lWc1BadVlySEZE?=
+ =?utf-8?B?eXorazZCaTNzOXA1MFRvSzNNZlZrT2FNVWtFOWRNdDVZOWVuRi85THNmNU5a?=
+ =?utf-8?B?cFkzU0RDaE44Smp5WXZibWZDdVExL0FQbjJMcmo5YW9CajhGckZqSUZxR3l4?=
+ =?utf-8?B?cDNxZzVNc3IvdXBkTk5oQVE2dEJKY3kwZmhtUEZsbEROOFc3QXBwNkVpRXQ0?=
+ =?utf-8?B?MXkzK0duekp6a3BNYWVTZjJ3VFNIaGNVa1ZWSEZmT0pIYlptZXBBRTh4ay9I?=
+ =?utf-8?B?UGdWWjNyTkVpWFpoR3RHK3RTa1E3NjlQbGtVSk1yL0tONlozR3F6NVl5T1hI?=
+ =?utf-8?B?VlR6dlhJNmVKYVN6WnpZbjBPbHNydk12TVFWakRrb0xuVGxjVU1tUk8yZ2Ru?=
+ =?utf-8?B?ZExlQTRMemxBNEVmeGF3ZEYrdE45YVJTakV4L2t1SXdOaFJ3L0pLQWdSdTFN?=
+ =?utf-8?B?aFpTR2JEak52Ri84ajl1MGJlS2E5VHNmTDB5c2JOcEhUOEJXSUJOOVBpdGUx?=
+ =?utf-8?B?N0RlYzEwWThpcWlnOVhtMU9LNUZYK3hQdHYvNTNSL0k2VzUvVkZZbHFzaEdF?=
+ =?utf-8?B?NitBSSsxZHZ5aloya29jdjVJV3lxcDZoT2JULzYvTDErZlRZalZaQm1NSVJT?=
+ =?utf-8?B?NGNwa21Ha2F2YVlCdFhsZXdPKzBTMzBaWlhDWHhZZkdxY1o2d0F1Q1NhaEZp?=
+ =?utf-8?B?V1VHc2s5N3pEcSthdVM2YTVqTGc4Z2hxdlN2dUl0Z0FqdUpBZkc0djdkNWlY?=
+ =?utf-8?B?RzQ4MldlTEdLNENjVjczc0pXNzJMZHJyOHZ5eXB6Z243R2RoMHcrbEtsbXkw?=
+ =?utf-8?Q?V/2+tCKTVJ7N7ZcDCvE9GBTYv8kemR2TdraiN?=
+X-Exchange-RoutingPolicyChecked: 
+	n/3rIAmRj/i8l2lxFjmHwx+44hy/neQP1emjP3KMikQ7tI3od4XHcGMk0eZhK0NWwXIVsAmbphodiD1uB6Y0XI41uC7aFBRjWjet9Wec2ZLR1DtnGK3B/I8Fzk6ALlwrdMMuY709PuFFOet7VO9ORUxSOyyHLJquD+JZu8ZczpaVz/qTGiuHWK0tmJhX60b/9r8QZWehmBgqwU9+L+XAO29ORgQr656ViQ7poxG1vlG4BFAm5YP6f8DgV8s3eUhzC6x0/sSXrKZE7T7Fj4qmAAyU+A5IniR8lVwJz+n2DnnzuGZ8kICW3fLlGcsbWoTEYVprapSyA0dJkYoLyQGx8w==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d55b0043-5853-42c8-4d5e-08deacff64f4
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6677.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb6f7de7-a4d8-4be1-0f04-08deacf664e6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2026 11:38:58.6949
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 12:43:24.5399
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tGIlwxd13CgceH5iD4Q7xEvnxmxddjHmpKHJ7WhN6nYROyEOufRNdDS8M2Efizt5vLt+Sh5gUnh6luTmbwZAtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P189MB3419
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IYgj5ZPHjYVs5TnvqsANTRhUw3UjRjrEGQV/AGanzZ5znNSnXwU2zxy3vor9r4h+TvNT64sePRDnmntBlF8A97QRdTMyd6kHyYUaU4yhoJqxz0xtI4enILOLVwjzRl+M
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4979
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDEzMSBTYWx0ZWRfX5RQCg2ay9xXO
+ xMW++9sYuv7kazXinzBPhnhp2B9JOOf3iipQZEcEDDzKiKkx/31i31wlrpjjUEOz5Y4bf2mhkzy
+ i3EoGAcBZ+OovhSrG0dO0BdNBpSEcPbZxmiNgrDMO2RKAFmKJNq5IfOxp0Wk/QjmMmaAsI2jasE
+ 51HSTdDgTFJ976HfM5NxUEeAEFackTt5A1grmzmtFsAM+FOhuZ5Ic3nphXWt1ATSUPSdrPeKJp5
+ 8DGC7YjR3Sx+Z+ULBc1gxoUFCbFQNtK7dFfTevjuuxg+aa3w68Rgqeajo+dFzzFoQY4DqpQTA6v
+ 6Mij+Sw7YO399+0tufEarChdk1xDqZ5Oap4hgoi+fhZptPsQvvBI8I6oIJrJAIIuO45fMHcAH/0
+ 9cPrqUkav6j0A6ROQV+OAmGRttTKDhkLg3JgKmxdZKB53UwRynNNAaHTlz/Y9rMu9EzjHbx0A9m
+ 7WOOcslo6gyh+VGs/Iw==
+X-Proofpoint-ORIG-GUID: 7ME_IdDeSYtk3_1_JAOkHjjE0ZsbIvZi
+X-Authority-Analysis: v=2.4 cv=LsSiDHdc c=1 sm=1 tr=0 ts=69fdda71 cx=c_pps
+ a=vP0OKLXe+mBq485nSWAwQg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8
+ a=9qoiqKzhfu2JmB3tqxQA:9 a=QEXdDO2ut3YA:10 a=kH30YL77Z4YNs1qLoD0A:9
+ a=iP55aIi5ahHfE826:21 a=_W_S_7VecoQA:10
+X-Proofpoint-GUID: 7ME_IdDeSYtk3_1_JAOkHjjE0ZsbIvZi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_02,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0 suspectscore=0
+ adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605080131
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 11:39:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236707
+ <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 12:43:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236708
 
-Hi Peter,
+--------------0aCaOh0yobgLMRLtRUrIEXF6
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Good catch, thanks. v1 only had 2 tests (bhaible suite) which ran in ~29s,
-but v2 added all upstream test suites (199 tests) pushing it to 349s.
-I've moved libffi to PTESTS_SLOW in v3.
+We are facing several issues during this upgrade process because of 
+recent upstream Rust changes have made
+building rustc for custom targets as unstable.
 
-Best Regards,
-Pratik
+- Issue 1: Destabilise target-spec-json [Fixed]
+Custom target require -Zunstable-options
+https://github.com/rust-lang/rust/pull/150151 
+<https://github.com/rust-lang/rust/pull/150151>
+https://github.com/rust-lang/rust/pull/151534 
+<https://github.com/rust-lang/rust/pull/151534>
 
-________________________________________
-From: Marko, Peter <Peter.Marko@siemens.com>
-Sent: Friday, May 8, 2026 1:25 PM
-To: Pratik Farkase; openembedded-core@lists.openembedded.org
-Cc: pratik.farkase@ericsson.com
-Subject: RE: [OE-core][PATCH v2] libffi: add ptest support
+Fix commits:
+https://github.com/rust-lang/rust/issues/151729 
+<https://github.com/rust-lang/rust/issues/151729>
+https://github.com/rust-lang/rust/pull/152677 
+<https://github.com/rust-lang/rust/pull/152677>
+
+- Issue 2: Rust-dependent packages failures [Fixed]
+The librsvg, python3-maturin are failued due to -Zunstable-options
+Fix commits:
+https://github.com/PyO3/setuptools-rust/pull/587 
+<https://github.com/PyO3/setuptools-rust/pull/587>
+https://github.com/lu-zero/cargo-c/pull/537 
+<https://github.com/lu-zero/cargo-c/pull/537>
+
+- Issue 3: Failures with oe-selftest [Fixed]
+Fix commit:
+https://github.com/rust-lang/rust/pull/154993 
+<https://github.com/rust-lang/rust/pull/154993>
+
+- Issue 4: rustc need -Zunstable-options for every invocation [WIP]
+
+When rustc is built for custom targets, the resulting compiler requires 
+the -Zunstable-options flag for every invocation of rustc binary.
+
+For e.g., rustc -vV -Zunstable-options
+
+We tried to workaround this issue with a wrapper function but facing a 
+few issues with sdk env and currently discussing with upstream about 
+proper fix.
+https://github.com/rust-lang/rust/issues/155963 
+<https://github.com/rust-lang/rust/issues/155963>
+
+Upstream suggested registering our targets as another workaround. While 
+this is technically possible but it is not practical.
+
+Details were documented here -
+https://github.com/rust-lang/rust/issues/155963#issuecomment-4406456742
 
 
+--------------0aCaOh0yobgLMRLtRUrIEXF6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Pratik Farkase
-> Sent: Friday, May 8, 2026 12:24 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: pratik.farkase@ericsson.com; Pratik Farkase <pratik.farkase@est.tech>
-> Subject: [OE-core][PATCH v2] libffi: add ptest support
->
-> Add ptest support for libffi using all upstream test suites: bhaible,
-> call, closures, complex, go, and threads.
->
-> Tests are compiled on-target against the installed libffi. Headers
-> (including the generated fficonfig.h) and a linker symlink are installed
-> in the ptest directory to avoid depending on libffi-dev.
->
-> Tested on qemux86-64 with ptest-runner: 199 PASS, 0 FAIL, 2 SKIP (349s).
->
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> ---
-> Changes in v2 :
-> - Include all upstream test suites instead of only bhaible
-> - Install fficonfig.h required by ffitest.h
-> - Add support for C++ tests (closures/unwindtest*.cc)
-> - Add -lpthread for threads suite
-> ---
->  .../distro/include/ptest-packagelists.inc     |  1 +
->  meta/recipes-support/libffi/libffi/run-ptest  | 53 +++++++++++++++++++
->  meta/recipes-support/libffi/libffi_3.5.2.bb   | 21 +++++++-
->  3 files changed, 74 insertions(+), 1 deletion(-)
->  create mode 100755 meta/recipes-support/libffi/libffi/run-ptest
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc
-> b/meta/conf/distro/include/ptest-packagelists.inc
-> index 50b6a8a41e..79b541a199 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -34,6 +34,7 @@ PTESTS_FAST =3D "\
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><span data-teams="true">
+        <p>We are facing several issues during this upgrade process
+          because of recent upstream Rust changes have made<br>
+          building rustc for custom targets as unstable.</p>
+        <p>- Issue 1: Destabilise target-spec-json [Fixed]<br>
+          Custom target require -Zunstable-options<br>
+          <a aria-label="Link https://github.com/rust-lang/rust/pull/150151" id="menuranu" href="https://github.com/rust-lang/rust/pull/150151" rel="noreferrer noopener" target="_blank" class="fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn moz-txt-link-freetext" title="https://github.com/rust-lang/rust/pull/150151">https://github.com/rust-lang/rust/pull/150151</a><br>
+          <a aria-label="Link https://github.com/rust-lang/rust/pull/151534" id="menurao0" href="https://github.com/rust-lang/rust/pull/151534" rel="noreferrer noopener" target="_blank" class="fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn moz-txt-link-freetext" title="https://github.com/rust-lang/rust/pull/151534">https://github.com/rust-lang/rust/pull/151534</a></p>
+        <p>Fix commits:<br>
+          <a aria-label="Link https://github.com/rust-lang/rust/issues/151729" id="menurao2" href="https://github.com/rust-lang/rust/issues/151729" rel="noreferrer noopener" target="_blank" class="fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn moz-txt-link-freetext" title="https://github.com/rust-lang/rust/issues/151729">https://github.com/rust-lang/rust/issues/151729</a><br>
+          <a aria-label="Link https://github.com/rust-lang/rust/pull/152677" id="menurao4" href="https://github.com/rust-lang/rust/pull/152677" rel="noreferrer noopener" target="_blank" class="fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn moz-txt-link-freetext" title="https://github.com/rust-lang/rust/pull/152677">https://github.com/rust-lang/rust/pull/152677</a></p>
+        <p>- Issue 2: Rust-dependent packages failures [Fixed]<br>
+          The librsvg, python3-maturin are failued due to
+          -Zunstable-options<br>
+          Fix commits:<br>
+          <a aria-label="Link https://github.com/PyO3/setuptools-rust/pull/587" id="menurao6" href="https://github.com/PyO3/setuptools-rust/pull/587" rel="noreferrer noopener" target="_blank" class="fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn moz-txt-link-freetext" title="https://github.com/pyo3/setuptools-rust/pull/587">https://github.com/PyO3/setuptools-rust/pull/587</a><br>
+          <a aria-label="Link https://github.com/lu-zero/cargo-c/pull/537" id="menurao8" href="https://github.com/lu-zero/cargo-c/pull/537" rel="noreferrer noopener" target="_blank" class="fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn moz-txt-link-freetext" title="https://github.com/lu-zero/cargo-c/pull/537">https://github.com/lu-zero/cargo-c/pull/537</a></p>
+        <p>- Issue 3: Failures with oe-selftest [Fixed]<br>
+          Fix commit:<br>
+          <a aria-label="Link https://github.com/rust-lang/rust/pull/154993" id="menuraoa" href="https://github.com/rust-lang/rust/pull/154993" rel="noreferrer noopener" target="_blank" class="fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn moz-txt-link-freetext" title="https://github.com/rust-lang/rust/pull/154993">https://github.com/rust-lang/rust/pull/154993</a></p>
+        <p>- Issue 4: rustc need -Zunstable-options for every invocation
+          [WIP]</p>
+        <p>When rustc is built for custom targets, the resulting
+          compiler requires the -Zunstable-options flag for every
+          invocation of rustc binary.</p>
+        <p>For e.g., rustc -vV -Zunstable-options&nbsp;</p>
+        <p>We tried to workaround this issue with a wrapper function but
+          facing a few issues with sdk env and currently discussing with
+          upstream about proper fix.<br>
+          <a aria-label="Link https://github.com/rust-lang/rust/issues/155963" id="menuraoc" href="https://github.com/rust-lang/rust/issues/155963" rel="noreferrer noopener" target="_blank" class="fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn moz-txt-link-freetext" title="https://github.com/rust-lang/rust/issues/155963">https://github.com/rust-lang/rust/issues/155963</a></p>
+        <p>Upstream suggested registering our targets as another
+          workaround. While this is technically possible but it is not
+          practical.<br>
+          <span data-teams="true">
+            <p>Details were documented here -&nbsp;<br>
+              <a href="https://github.com/rust-lang/rust/issues/155963#issuecomment-4406456742" rel="noreferrer noopener" title="https://github.com/rust-lang/rust/issues/155963#issuecomment-4406456742" target="_blank" class="moz-txt-link-freetext">https://github.com/rust-lang/rust/issues/155963#issuecomment-4406456742</a></p>
+          </span></p>
+      </span><br>
+    </p>
+  </body>
+</html>
 
-Comment for PTESTS_FASTS is: "ptests which take less than ~30s each",
-While commit message suggests this takes 10x more (349s)
-
->      libconfig \
->      libconvert-asn1-perl \
->      libexif \
-> +    libffi \
->      libgpg-error\
->      libksba \
->      libmd \
-> diff --git a/meta/recipes-support/libffi/libffi/run-ptest b/meta/recipes-
-> support/libffi/libffi/run-ptest
-> new file mode 100755
-> index 0000000000..9f72becda1
-> --- /dev/null
-> +++ b/meta/recipes-support/libffi/libffi/run-ptest
-> @@ -0,0 +1,53 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: MIT
-> +
-> +PTEST_DIR=3D$(cd "$(dirname "$0")" && pwd)
-> +CFLAGS=3D"-O2 -Wall -I$PTEST_DIR/include -L$PTEST_DIR/lib"
-> +
-> +# bhaible tests validate by comparing paired output lines
-> +for t in test-call test-callback; do
-> +    src=3D"$PTEST_DIR/testsuite/libffi.bhaible/$t.c"
-> +    if gcc $CFLAGS -o "$PTEST_DIR/$t" "$src" -lffi 2>&1; then
-> +        "$PTEST_DIR/$t" > "$PTEST_DIR/$t.out" 2>&1
-> +        if ! LC_ALL=3DC uniq -u < "$PTEST_DIR/$t.out" | grep -q .; then
-> +            echo "PASS: libffi.bhaible/$t"
-> +        else
-> +            echo "FAIL: libffi.bhaible/$t"
-> +            cat "$PTEST_DIR/$t.out"
-> +        fi
-> +    else
-> +        echo "SKIP: libffi.bhaible/$t"
-> +    fi
-> +    rm -f "$PTEST_DIR/$t" "$PTEST_DIR/$t.out"
-> +done
-> +
-> +# Individual test programs from upstream dejagnu suites
-> +for suite in libffi.call libffi.closures libffi.complex libffi.go libffi=
-.threads; do
-> +    dir=3D"$PTEST_DIR/testsuite/$suite"
-> +    [ -d "$dir" ] || continue
-> +
-> +    extra=3D""
-> +    [ "$suite" =3D "libffi.threads" ] && extra=3D"-lpthread"
-> +
-> +    for src in "$dir"/*.c "$dir"/*.cc; do
-> +        [ -f "$src" ] || continue
-> +        grep -q "dg-do run" "$src" || continue
-> +
-> +        name=3D$(basename "${src%.*}")
-> +        case "$src" in
-> +            *.cc) cc=3D"g++";;
-> +            *)    cc=3D"gcc";;
-> +        esac
-> +
-> +        if $cc $CFLAGS -o "$PTEST_DIR/$name" "$src" -lffi $extra 2>&1; t=
-hen
-> +            if "$PTEST_DIR/$name" 2>&1; then
-> +                echo "PASS: $suite/$name"
-> +            else
-> +                echo "FAIL: $suite/$name"
-> +            fi
-> +        else
-> +            echo "SKIP: $suite/$name"
-> +        fi
-> +        rm -f "$PTEST_DIR/$name"
-> +    done
-> +done
-> diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb b/meta/recipes-
-> support/libffi/libffi_3.5.2.bb
-> index d3aa90d429..ec2b8032d3 100644
-> --- a/meta/recipes-support/libffi/libffi_3.5.2.bb
-> +++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
-> @@ -12,6 +12,7 @@ LIC_FILES_CHKSUM =3D
-> "file://LICENSE;md5=3Dce4763670c5b7756000561f9af1ab178"
->
->  SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
->             file://not-win32.patch \
-> +           file://run-ptest \
->             "
->  SRC_URI[sha256sum] =3D
-> "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
->
-> @@ -19,7 +20,7 @@ EXTRA_OECONF =3D "--disable-builddir"
->  EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
->  EXTRA_OEMAKE:class-target =3D "LIBTOOLFLAGS=3D'--tag=3DCC'"
->
-> -inherit autotools texinfo multilib_header github-releases
-> +inherit autotools texinfo multilib_header github-releases ptest
->
->  do_install:append() {
->       oe_multilib_header ffi.h ffitarget.h
-> @@ -30,3 +31,21 @@ do_install:append() {
->  MIPS_INSTRUCTION_SET =3D "mips"
->
->  BBCLASSEXTEND =3D "native nativesdk"
-> +
-> +RDEPENDS:${PN}-ptest +=3D "packagegroup-core-buildessential"
-> +
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/testsuite
-> +    for suite in libffi.bhaible libffi.call libffi.closures libffi.compl=
-ex \
-> +                 libffi.go libffi.threads; do
-> +        cp -r ${S}/testsuite/$suite ${D}${PTEST_PATH}/testsuite/
-> +    done
-> +
-> +    install -d ${D}${PTEST_PATH}/include
-> +    install -m 0644 ${B}/fficonfig.h ${D}${PTEST_PATH}/include/
-> +    install -m 0644 ${B}/include/ffi.h ${D}${PTEST_PATH}/include/
-> +    install -m 0644 ${B}/include/ffitarget.h ${D}${PTEST_PATH}/include/
-> +
-> +    install -d ${D}${PTEST_PATH}/lib
-> +    ln -sf ${libdir}/libffi.so.8 ${D}${PTEST_PATH}/lib/libffi.so
-> +}
-> --
-> 2.43.0
-
+--------------0aCaOh0yobgLMRLtRUrIEXF6--
 
