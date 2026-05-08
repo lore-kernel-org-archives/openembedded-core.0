@@ -2,40 +2,39 @@ Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09134CD3436
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A4B8CD3447
 	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 09:49:38 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10185.1778233773158204408
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10184.1778233772662805396
  for <openembedded-core@lists.openembedded.org>;
  Fri, 08 May 2026 02:49:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=Wnqkpt7l;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=zURifmwc;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 8F6584E42C4E;
-	Fri,  8 May 2026 09:49:31 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 748B64E42C4F;
+	Fri,  8 May 2026 09:49:30 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 64C1F606E9;
-	Fri,  8 May 2026 09:49:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D2B6C10819771;
-	Fri,  8 May 2026 11:49:29 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 42AD2606E3;
+	Fri,  8 May 2026 09:49:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AEB541081976F;
+	Fri,  8 May 2026 11:49:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778233770; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1778233769; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=XXZGDV68p96Yr0Y/kCr8p3SSPVyk/EudlrYYpLK6FPs=;
-	b=Wnqkpt7lXeIc8EixFgCc0ZOw8PnKu/9v0KWbFTn4KKlnwG32rpv/uKFPLzQU4Pc3m6lfUM
-	o8P8Hh6tzp5sRYbqGYLDnSImL2xcl3YS3smCWsDhwnmp9M5+VbgbMWCSutsMj83q8gU2gc
-	ahHnc7vb/oXVRjtf7hSd3CHAg58g2S5TflF3T+Qjx1v8DZm4ZmXG+ygnONlHfO8k8hIgto
-	j15mQiILbmvu9ye7GdyknmdVQoMQSkA/BlcCFDcM9ieT6ip7G/G9jOKNPcWSc+yMTP/kRu
-	mnr81DrVYnJ5CP8kFM2uRLpvCJAaAdWCBC9PNQav7nOtZGrLWzMJkDjImIxlFg==
+	bh=vrErO1Y0K1UFb96k0LiFlIHeKhVu31FLB4AQkTSV/yU=;
+	b=zURifmwcbT+q0KSDgd3AEZ6ZbghTS6Fz2EiUWiNWeP7BVZp1kquZ9QyFuQdHQFNtefmDCe
+	wUsYEsuD2XLlxHsFzzKGzvIRApaSYhXV+HXrX/wRTJvJHZal+H70uhaukCg8MUIvrglppd
+	5ilYFazBYMNpXSYYvI5pc8FqU69R0j99dU9KpCzo/+o6sXhMU3miUOz/t566Bl50feZZiY
+	8e3+ZRZhuP9EtRbBKtbLeNMRWmIZ4c5Dz7ae7zcXT9Gp7HqCY/mDi+Lw4Gb2eWkoFyOO6M
+	CzIVPHhkXmsjgqeGROJYTckW7pcZTDhXLHDjoSt6OBcgM2Bus0rW6CHiBeU75A==
 From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-Date: Fri, 08 May 2026 11:49:26 +0200
-Subject: [PATCH v2 2/3] sbom-cve-check-update-cvelist-native: Update source
- revision
+Date: Fri, 08 May 2026 11:49:25 +0200
+Subject: [PATCH v2 1/3] python3-sbom-cve-check: Update to version 1.3.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260508-update-sbom-cve-check-v2-2-386df4c5e6a4@bootlin.com>
+Message-Id: <20260508-update-sbom-cve-check-v2-1-386df4c5e6a4@bootlin.com>
 References: <20260508-update-sbom-cve-check-v2-0-386df4c5e6a4@bootlin.com>
 In-Reply-To: <20260508-update-sbom-cve-check-v2-0-386df4c5e6a4@bootlin.com>
 To: openembedded-core@lists.openembedded.org
@@ -50,29 +49,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 09:49:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236700
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236699
 
-Update source revision to cve_2026-05-07_1300Z
+For details on this new release which fixes various bugs, see:
+https://github.com/bootlin/sbom-cve-check/releases/tag/v1.3.1
+
+Also, update the LICENSE, which is now GPL-2.0-or-later instead of
+GPL-2.0-only, to be compatible with the licence dependencies.
 
 Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 ---
- .../sbom-cve-check/sbom-cve-check-update-cvelist-native.bb            | 4 ++--
+ ...ython3-sbom-cve-check_1.3.0.bb => python3-sbom-cve-check_1.3.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native.bb
-index 338712216590..3763e7f21f7a 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/CVEProject/cvelistV5"
- SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix="
- SBOM_CVE_CHECK_DB_NAME = "cvelist"
+diff --git a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.0.bb b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.1.bb
+similarity index 76%
+rename from meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.0.bb
+rename to meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.1.bb
+index 96fc167ecbc3..8120848a667d 100644
+--- a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.0.bb
++++ b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.1.bb
+@@ -1,11 +1,11 @@
+ SUMMARY = "Lightweight SBOM CVE analysis tool"
+ HOMEPAGE = "https://github.com/bootlin/sbom-cve-check"
+ SECTION = "devel/python"
+-LICENSE = "GPL-2.0-only"
++LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=570a9b3749dd0463a1778803b12a6dce"
  
--# 2026-03-19_baseline
--SRCREV = "ada54ee3cc8380820aa45e4996910bdc9dcb94e7"
-+# cve_2026-05-07_1300Z
-+SRCREV = "dd0e93c75034d0167498174c886a56729edc44de"
+ PYPI_PACKAGE = "sbom_cve_check"
+-SRC_URI[sha256sum] = "dad6f9df848f6dd7b69922baef0ec187b66ad0847fe0cf62614529e27203e842"
++SRC_URI[sha256sum] = "675828b2f02f11620b7a229853a24d09264bf41161be5fbb80a92456f46a14e0"
  
- require sbom-cve-check-update-db.inc
+ inherit pypi python_hatchling
+ 
 
 -- 
 2.54.0
