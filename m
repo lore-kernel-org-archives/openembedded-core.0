@@ -2,108 +2,141 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC2FCD342F
-	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 19:42:38 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2641.1778269354444338730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6695CD342F
+	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 20:08:58 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3241.1778270931027303007
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 12:42:34 -0700
+ Fri, 08 May 2026 13:08:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=GSUr8bzv;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-899a5db525cso15246226d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 12:42:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778269353; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=stQTmjhf;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8acb856a674so29410506d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 13:08:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778270930; cv=none;
         d=google.com; s=arc-20240605;
-        b=jOSyxwRoCJfcO2C8JnX3B3FI6TPtqh5eiyeG6/gzKW0VzI99fyu/BkoYXMM1MYbVdB
-         jNWT2ifMpNSpnxoHbvoABlamDtBJ5Y+Z1Rn/AW8KWafCdlglqyYn0iaUIs3EWCuLO0ES
-         5yHVTMUZwdGPYZWFQFANCzh7l7jpxviq8wTyZeNYT/KGa9fDRdGAxLrDcyXF4S9j8SCY
-         Zyaocu0USfPM3QrihloSS5z0fq5sB1Nm/djh5PvnerefCJ2OR9l8i5iDQ5n5cctI6j10
-         w/KNnMge8gHFi9Y+3e4TBT9EmW7d159MPC8rhzu51nOXB26LIM3Iejr+TeDOel+fy6KH
-         MXcw==
+        b=MJVEdtH2Fz84gpNWcAb9MscDMNxZQJnJHhIlXfml72+5GYvK5EyqvUi12jsLrPQyM6
+         H5QYYwaf/IS6nRyR/4njpmLKCgjeQnRuFGeOmZRtYahlSLR9EH4bL+BEu1Dyn3LDyI4e
+         NOZuB91LYUGuLdZNdsL7Npdcalf1iNCacuGy2uCH0x4DmWnu/4ujIhLznAw8xpAie3HT
+         ethT+hHV5egNawJ2RN9hmKKbxxzw/uFV0Y9PCBa5gac4LbvmrA1HNi3+FAAIoej5LW27
+         kYj9+IXzjArAVZoqO3WCOrMAfIIbruCtUXCfEMr7IfJazgGwALcILs4lFqc+Jwe8y/Rz
+         gKCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=wPg4GrRqo+tBVYpIEe2FdN06H5Hv1/GueqW8V+0fTRE=;
-        fh=MSjz4K3LYtALKJOtqf1MAWHHev6PceV020mgDq1NNBA=;
-        b=SNmpo9jc7xmvqSJ1+c/nPKDKU3m9i0bhTSCkdokF6uKdqyRb+lB2+aWfJMznsLEtuZ
-         p/L4QkXfCl20dnfN7ZSf6+u1jfGBqUT0ZqVgih23I0gWg/xWr0mfl+FlG34eL4on5QwM
-         qqx10psbiQKuKkSLnV5fsrYigTmW8GaixCUhTw0adEuchY6Ar3Cn2FnXpfdikH+OsTuY
-         8pu6sqA9xarHM1TtyQOCckB2wQohq2sUEvapdwOGe5fC0y3sylCDiyM4Jr4T7GtU9B5L
-         JzHvOLkjdn8kKGuOjTSEKLFjxLZsDqZReuLLUO5z8Rq2OM9tnrhdm7pmMTV5w2BE49q3
-         Zndw==;
+        bh=AsK884tEbKWGHl8uMZhRKovZNh6eEI2+k9ZnYmK4iys=;
+        fh=I0bPQZFD7c0bvk0Vwpq0V9MOMjVTHCwLIZsN+zNMp1s=;
+        b=ayCNTbR4szSfLkTnkjGrW0VUCyWjfYu4xL7/fGOTbfzYI1fDn2OgIN6ZzUyFzvS6+4
+         ItwvWERJsrMhIoDiZsmd4vvz2rwVNBaVxg0BkLjgCNlCVmChMi94CTyHEgPC3m1v1EAm
+         PCSWxhUNK4R4YbGxjqCcLdy+Ht2KPDQuDDaZbFiMS+xyA8ems8VgNRnYr8KB2tWH5yf2
+         lBEvono1Ezx/xeYJARG4ElUM4hsA4C14MRDoAV9GtUx00rPaZ8yvGYMN8KHHC/4CLMo4
+         A+pZXbWRKnbADNNIQ3ROKqukJFjELCsEtUJltt9EZPY71jAscACtZfWG/LvrTs9izBPA
+         hrKw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778269353; x=1778874153; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1778270930; x=1778875730; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wPg4GrRqo+tBVYpIEe2FdN06H5Hv1/GueqW8V+0fTRE=;
-        b=GSUr8bzv3j4nU/5BqelSAJpZH+bBlLJUsPmOYq99QTMtrBW9FVkGGrnWhO82rm1qLX
-         nXG7p0+LmQdKYH7PnouFq+mnCw542hVG8OeOUKxdkN3Pw90xobdjBzE4NShqQdIy9CGo
-         XWwpXixTau3IyKrb6iijEt33bw+CCuUDu9CE85eYTUn1ccd75/KPLLmH+cq+UuUt28jw
-         yQehorckcwNZ1FHq5rBg4Jo4Ix3HScvuGwWE/YTf9Zr9Try6H/l93+CjQyayFU1v9zV+
-         sxj/jYCEeKXw4O4K+Qvhrbqx6Wpocye3R7bPvVQWwu//sbVcp7drf96KIp6KUpx27VjZ
-         drAw==
+        bh=AsK884tEbKWGHl8uMZhRKovZNh6eEI2+k9ZnYmK4iys=;
+        b=stQTmjhfuK0i7fCa39OlNC+OpHZ0iNhIcK7R3CdxYpt9iyQruiuFa4DgsnR4TD226o
+         5dfOSKd9MsuzgVEBYOShsr+xiCrtLQV/QPC5sYb6kcQSHYHdH9uWEKyVzJRaoHHUbA2w
+         qKo01TMDoJCXbNlBKrfuPSs/BepyczPGdC9aATJ5aezDk3CnWmEAybdOU/YR76NO3h/r
+         t5NT10jRrTJENch21LMMBV4+qMl5BIjuw4tGv5tyaeoLNEeINcQ30zU1kc9EF9U7Cv/k
+         gOdTOLZOCQJudXvi56g4rVfWxJwCepMhW7euqX2rYNKH5l62C0rr3L8D8rdFk0thGnGD
+         89mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778269353; x=1778874153;
+        d=1e100.net; s=20251104; t=1778270930; x=1778875730;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wPg4GrRqo+tBVYpIEe2FdN06H5Hv1/GueqW8V+0fTRE=;
-        b=WT0Db5hY1FuxeRY7yfWtgr6QfIec0ELW44SZl5seQVxD6lDSTf+F4uiAOl1Grmbyal
-         IKPOkVwWtp4gA5+k3sv7PVOc5Ithnf5Eni9clYvyV1ZGkamyXMm+lefYPpGY1HE/cmzR
-         iwzeWgHrmaN6YkL99mbCxXGPgtNzO9fo66G8mNdAceMaH+G7THaQDDPfKF9SZ4vHlDrp
-         i3hU5hlX5RID+HkFpI7BvZNQjm6h3yGuOR26bt80svm7saUg86Gpc3WuSZMWIyt2IWyM
-         7F0EiaLdBYzYDQAfrKZJBHCw6JX/gcWwFMHeSyqgh/eYs2HFQTFNlKcJmuCXVj0Yz1GR
-         fejQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/Y5IE0XoQExe3/9uYkMLg9HUxV14tHax+lrXrCY6zoulQ922zhSPaXrbT92RCHHS9b2+Vakii4+VmeeEhwkOI6fw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwF5b8FkV4MEwAVToLyH6t3FINugJzY7oHX5GWnyVQ7/JkRrsiP
-	5CUhvXh3yYxGxfQUujlIOlLoNvwcIvYNYrIOdWLJQpOXa07TqrHXyVh4PkQv41OkK6zUpRq52Jf
-	Zt1oz3xUrvah4MgJ/yg0Zh+iTszXN7Hs=
-X-Gm-Gg: Acq92OHkulfbnr1l1PjBja5jo0fUDyXAnVI+mPgUJYZInPHC6zjVS4Jc5sAfjdRdvCs
-	xQV+eDpRG4IrlYaB+icwGpll/2VTcMaGxg0kU9qvL86LnSrDX7Y+iegyUHZVlEApVIJo8dBORS6
-	LbLnIvl52B7Njn3hdS3W+FA/IAjkIeiI22MrFnzscMTTMu+XHdvqE2QVv90B61DfdJeK+iQdqxO
-	u9WteRneoeiV3wD9DKe5mXX8QH2ul1g1XIRA2BinoWz1mhEQMtRFErhwchWXQXkG+O2dhJDsnFb
-	AjUpv0gpNhFEtSPcc9LHM+KvXkd51dMOp1/7LGki0A==
-X-Received: by 2002:a05:6214:319c:b0:896:fdd6:4a93 with SMTP id
- 6a1803df08f44-8bc467e16acmr189928656d6.50.1778269353346; Fri, 08 May 2026
- 12:42:33 -0700 (PDT)
+        bh=AsK884tEbKWGHl8uMZhRKovZNh6eEI2+k9ZnYmK4iys=;
+        b=sCUsckVBPtto4EbovweIpZMTj0lUyNl746otRtaT8HW8okohAIwphrOO5sFEPLWH8f
+         yYXZl3zJJf0DGN93ZeqJjWYm4sSCZr/V4WUM1dxD/mbwoU7rJA1YbjPVgIZ7EClghyC4
+         fZEaPgTu7Lkl9io9MaHs3MPHWh+ZYFZOEaI24nh87GDLHAK0z8zHE4jfusDkMIV76GEK
+         qpLazvuE+QvhiJfmrinMhsOH6TZlz0570HvzM0ZOYxyV+Z/co25psVuuUX6oZsZ3Lv4y
+         d+fyXBkXGOKq+nX7ESShjMXivKrg2uaUlEOv/l+PwU7rsJrgx40v1mVVE7aACPMWK8W9
+         uAHA==
+X-Gm-Message-State: AOJu0YyQloDVMo8zFYOCNYeGDpeCN46sio7F8HtpF77SOPc81JZ2Aspz
+	ZgJa0iAC3444LbPkNJxP8pVYdHzK32iUr17Ejfb1HEHPYAv0HjrNT/M2ack++vHdERYF3KC1Vjv
+	+wuTo5cuhfwI6ZNuZKjQf2+H9IkqcQFBJePdp
+X-Gm-Gg: Acq92OGCQStPtDUl5jImq0dNbjE8tLmxVCTSQXgHpxIT0kY9SKBQXlpIheCbbkcb5wJ
+	T4goNTEHo68pAgU8sPE5dYVtufSXNUxf4PoNGHK0EA8eYBlytSu9axtz3XAN3hJ10dLhSv3aAwK
+	OLewLkRyzB45pGS23CfhnE64BDOCk4aFrHsScrOrD9hvHk2IKSgIphufVktuluHQg/oyEDYsoHM
+	/4wXKTDlK5ld3iHxVl1u9Iw0MyarMDOgI2YrZ2E43OugtMGQCZWFg1++hQRRrTD0FbHmFenQ/82
+	NPAtqR2nN5yxa6avrPOz+gnpQIi4zltRIAhtUeq5S2jqbKu9yCDa
+X-Received: by 2002:a05:6214:21ec:b0:8a7:164c:d5c8 with SMTP id
+ 6a1803df08f44-8bdba9e4a32mr131713456d6.24.1778270929910; Fri, 08 May 2026
+ 13:08:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260507-update-sbom-cve-check-v1-0-3c398db78f5f@bootlin.com>
- <20260507-update-sbom-cve-check-v1-2-3c398db78f5f@bootlin.com> <18ADAC6FE23DE2EF.2984594@lists.openembedded.org>
-In-Reply-To: <18ADAC6FE23DE2EF.2984594@lists.openembedded.org>
+References: <20260506214835.1578529-1-Quan.Sun@windriver.com>
+ <CANNYZj_++oDps3s2uq51a7j3CQgK1MSuuSgY9Cz0-wFtE2gnSQ@mail.gmail.com> <2705098e-1dfe-4d9e-af37-aedf6771c392@windriver.com>
+In-Reply-To: <2705098e-1dfe-4d9e-af37-aedf6771c392@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 8 May 2026 21:42:20 +0200
-X-Gm-Features: AVHnY4I_iGpWc8Gc8ZZJVeLSrCpqurVrgfP3RSPF9UbP8wa0juxblJ-Pw7zMhCM
-Message-ID: <CANNYZj-fGt-JVeuqFcd6Kx4O7F15aYgvd_0uPQkGdNswz3qSZQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] sbom-cve-check-update-cvelist-native:
- Update source revision
-To: alex.kanavin@gmail.com
-Cc: benjamin.robin@bootlin.com, openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, peter.marko@siemens.com, 
-	ross.burton@arm.com, jpewhacker@gmail.com, olivier.benjamin@bootlin.com, 
-	antonin.godard@bootlin.com, mathieu.dubois-briand@bootlin.com, 
-	thomas.petazzoni@bootlin.com, pascal.eberhard@se.com, wahid.essid@se.com
+Date: Fri, 8 May 2026 22:08:38 +0200
+X-Gm-Features: AVHnY4JAxdOAg1kxTLpI4J_9-acsTC1wt68nPbaWz4ou2GBVY0wOXQK_VTYhuis
+Message-ID: <CANNYZj-A=+pbW3B-jHLpmLCVtYd=hWZY4J2SmL6ame9cDx=JvQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
+To: Quan Sun <Quan.Sun@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 19:42:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236736
+ <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 20:08:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236737
 
-On Fri, 8 May 2026 at 21:03, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> Note that I submitted a patch that sets PV and tag checks properly,
-> and fixes upstream checks:
->
-> https://lists.openembedded.org/g/openembedded-core/message/236714
->
-> Can you rebase the version upgrade on it please?
+On Thu, 7 May 2026 at 22:29, Quan Sun <Quan.Sun@windriver.com> wrote:
 
-NVM, there's an issue Peter pointed out in my patch that I need to fix first.
+> When these subprojects are built standalone (outside the main QEMU meson
+> project), they fail to compile because they cannot find headers from the
+> top-level QEMU source tree (e.g. include/standard-headers/ or root-level
+> headers). In a normal upstream build, the parent project provides these
+> paths implicitly. OE's build environment triggers standalone subproject
+> builds, requiring explicit include paths.
+
+I'm afraid I don't understand, and I can't reproduce the issue. I
+deleted this patch from SRC_URI, and qemu-native, qemu-system-native
+and qemu (target) still build just fine.
+
+What kind of error are you observing? How can it be reproduced? What
+exactly triggers the 'standalone build' and how does it look like
+compared to 'normal upstream build'?
+
+What I see is that qemu recipe just runs the top level qemu meson
+build, and these are built as regular subprojects of it:
+
+log.do_configure:
+
+Executing subproject libvduse
+
+libvduse| Project name: libvduse
+libvduse| Project version: undefined
+libvduse| C compiler for the host machine: x86_64-poky-linux-gcc -m64
+-march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2
+-Wformat -Wformat-security -Werror=format-security
+--sysroot=/srv/storage/alex/yocto/build-64-alt/tmp/work/x86-64-v3-poky-linux/qemu/11.0.0/recipe-sysroot
+-m64 (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
+libvduse| C linker for the host machine: x86_64-poky-linux-gcc -m64
+-march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2
+-Wformat -Wformat-security -Werror=format-security
+--sysroot=/srv/storage/alex/yocto/build-64-alt/tmp/work/x86-64-v3-poky-linux/qemu/11.0.0/recipe-sysroot
+-m64 ld.bfd 2.46
+libvduse| C compiler for the build machine: gcc (gcc 14.2.0 "gcc
+(Debian 14.2.0-19) 14.2.0")
+libvduse| C linker for the build machine: gcc ld.bfd 2.44
+libvduse| Compiler for C supports arguments -Wsign-compare: YES (cached)
+libvduse| Compiler for C supports arguments
+-Wdeclaration-after-statement: YES (cached)
+libvduse| Compiler for C supports arguments -Wstrict-aliasing: YES (cached)
+libvduse| Build targets in project: 5
+libvduse| Subproject libvduse finished.
+
+log.do_compile:
+
+[744/5268] Compiling C object subprojects/libvduse/libvduse.a.p/libvduse.c.o
+...
+[817/5268] Linking static target subprojects/libvduse/libvduse.a
 
 Alex
 
