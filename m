@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75104CD37AC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 904ECCD37B1
 	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 06:26:56 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7703.1778221607833048063
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7592.1778221606614020633
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2026 23:26:48 -0700
+ Thu, 07 May 2026 23:26:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2yAfDErT;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4891c0620bcso11852925e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 23:26:47 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=altNu1JY;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so19222835e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2026 23:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778221606; x=1778826406; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1778221605; x=1778826405; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LzGdwZmkASr175rA3WPJiOvnPfz16Tbby1iJ1/SBFX8=;
-        b=2yAfDErTW38z0atOQf3OTpadB0Q+LvwPUsQ1853C4l0CETVqa1/aOUK8UbvHqOuct5
-         wYDUSBEfoT4UukzdM4Rt/GbdpRDKMrnQiNjjFG8BoYm6ZljPtsKShb7FbzV0LUqFC1Lv
-         WO8fhyhp3NavGa+YRJcnDw9Z+fLu2nOYuoIns=
+        bh=liURZfgWxdeLevXBuLNSsUTGaxJEmbmU8974nCYJyg4=;
+        b=altNu1JY3gamED9xuzAUJSZWJwq+z43GtPGAMlh66IfJCIEXoLlf97+HALdPeN9FX8
+         xt2DvDc0ybtg3+XqdkzBc0liKy8T6fsDMjN5NYLgQwR/wYK8/FtkS9qxDbqC07/xYjmB
+         S21JG+06LmWPqbmuN92EqihMj8+Ihcc8TVwME=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778221606; x=1778826406;
+        d=1e100.net; s=20251104; t=1778221605; x=1778826405;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=LzGdwZmkASr175rA3WPJiOvnPfz16Tbby1iJ1/SBFX8=;
-        b=IUeceEbSKHM85nmrnE95NzgSFBD/ABnGzSyqMlib4tNJz2H3EIgIzy2mNNwNLHEHmC
-         vdxE1ynBcoRmmX+TXG84jyWRh0qZaMtcdA5p1ekCsGt0bLTpIKTRbI1wd9/ilEpHOlDi
-         +FSTN5ihNSKSPKIgrdWcFEOJFkc/VzOk8cRciI/psrdbytnXhfGLyPPWgniy9SVOZUgF
-         lrhdjKe33XfzlI32HGsaGWcT39i0FMJmjXXwvArC/B38yK8SD67iLwR8YLBvDrXXyDQN
-         Z0RpAtH8bvUY8kWtc/0do+5aKVSyi7oScL8AfFGjK+hPzkmOif4rwXqV7TfNuFii4ADi
-         n+Rw==
-X-Gm-Message-State: AOJu0Yy2c2F6JrpsIxoNSvG4s3i5mxeQQ8J9tPXw3jxtG2lXM5XVUa6S
-	phLHx8xPag1gWFHS0Yi9Nj4zG7cwko+lomrWYxMoCSgwFjBxRiaKz5K+4OlXjzrg8qUAfYhtjJg
-	0TVfs15g=
-X-Gm-Gg: AeBDieshW6SRkOkLx2dx0ExJJMLsi4xfrGLeV+HnGNx+kYAuI0QiutE39n+t0Fmh2EB
-	CJnqK9juDfizI6M9cs4MMo2LBzCr7SSopKt2fdD8D1X7qhTLnTTUiEN64J8x81c9jnwwpOm6mUM
-	Pa/htDp9cdSYDtS80o6ar+6y74/zA8dWK3J9IQTxJdpWaHQUvvZdF6pOxWpG5HISlJoT1bFem9E
-	pg7h3i5LGrLu8n7oYkvslPhPSZ+qA5KopKH5+QwNL7hPl8juQ1UNFRg96nwIsjaXUgD7eJJVvJi
-	ykGwBEqGEHn2Li3K3j+l5Pni+1Htm/L91cA3e6HQTZi1O4KiN6YcgO+zjWxzl3xuEFiv6xKQyRn
-	ekRnts6MDClCd5PY5QYS+DxWZCyPajyT9SUK83l9QJiMEGbo2vGVrqv1xjNjN/G7UAZOlH6Fhu8
-	EA+dKOMykFLQTLYu9ratm68+HgY24TepdjuPpGOimJtNhw/nYyKjIiIizgV/JOga13Q1E3ucqPs
-	PuhlXGVaB5Km4ZCYfoHR5w86lw=
-X-Received: by 2002:a05:600c:8594:b0:485:39b2:a47c with SMTP id 5b1f17b1804b1-48e676b65a9mr13985855e9.25.1778221605861;
-        Thu, 07 May 2026 23:26:45 -0700 (PDT)
+        bh=liURZfgWxdeLevXBuLNSsUTGaxJEmbmU8974nCYJyg4=;
+        b=XODpPt4L8sOmWtJAcKxnyrwDKsvjzENUSmdan9zIwEnQd8KF7hBTtP4la0SIGEXkKN
+         ZsRp8fe3FzHSc5qf3Jk90g4Wpbu6aCtc3AEmrLLh93H85hpKxwIH0ShvoQw8qOVQzBfZ
+         OoiwDVgmSBtH+1a6hk3gUEDQX3D54VNjEiM2oBRfozzP430d+z7GkyKKlSjI+LPg9F/R
+         KJGXm3r/lKlj8eu9ZDCAe6KuPQNMiM8tD1+YVWjNkEmFLfjP1OEMEiQG95onokIT187n
+         a1YvT1agN7wlluznfIulzbbHsHQdyLO2QTZq9ipZ1uU0SLaEgqWeosbP6ovGPTPu+eB7
+         9pwA==
+X-Gm-Message-State: AOJu0YzZDwNcHPMPlznq0rcACa2YcnDT4by+Pba05nQqe3DF/Z9dbrSq
+	eqgCuYWnC1CyCsvqNTdgEECHcJuLnubSgHRJAwLhQkkzba9huk+At/lhH7eIhUDgJs+7QCQ/sBr
+	JNFY5OJE=
+X-Gm-Gg: AeBDiestnlnS7+/iOcTbBWutpVqdHEbfL3KAv6XKf0Ocs9LNz9vQS12dgOb5ovoFFyd
+	kVznf3YGole6SPIYICRgq1NtvJCrYoGFv4+/+/+IatlQsyLbIVSC1cwAMl3JJs5eCIz3amg21Lx
+	czmwMVC6+cgg7J8AFUEookoqeslJtYiG8aj7ICgQf2RbTEY3IbnIPgdYILK3cBTMfwr3Jo1A9US
+	0J5FP03YOeKrnXTXfuzCL3+qckCFWlLLIo9tFdfnq67tNY8Z8VqFvzVqePOP+I37dtB+y8P7x/t
+	ffZcmk+fVLdY0yW6imwrwsLVzeRd56P+oc9sjlzmk5997Qk67gDAMVkyCAIMdIC6mRLs5lJEDFd
+	C9dmB8E0U2ovdfgkIn0gqq4YZdbJmikBYAfdcpnWFmeDsx0yB7f82XXohWPsFfuVd4VPKb4HW7n
+	5/t5l7+raD7pMNvZtJaq4kVVBvsweEfTG1D8yPv5orsg2eYNIGpaEyRAvL4CDprihqR0GgLj8VA
+	e3wT0iXDVI/5UhwayufCr5knbk=
+X-Received: by 2002:a05:600c:3ba8:b0:48a:7676:30bc with SMTP id 5b1f17b1804b1-48e52bd5035mr196923395e9.14.1778221604560;
+        Thu, 07 May 2026 23:26:44 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e68ec5c49sm15202695e9.11.2026.05.07.23.26.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e68ec5c49sm15202695e9.11.2026.05.07.23.26.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 23:26:45 -0700 (PDT)
+        Thu, 07 May 2026 23:26:44 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 6/8] inetutils: fix for CVE-2026-32772
-Date: Fri,  8 May 2026 08:25:58 +0200
-Message-ID: <02b29ddc66956c83af2702bbf0fcd4985c00fa68.1778198884.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 4/8] sudo: fix for CVE-2026-35535
+Date: Fri,  8 May 2026 08:25:56 +0200
+Message-ID: <ddf8325a5b791dfcb0fdf129274deea8ad7eb90a.1778198884.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1778198884.git.yoann.congal@smile.fr>
 References: <cover.1778198884.git.yoann.congal@smile.fr>
@@ -66,214 +66,190 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 06:26:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236638
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236636
 
 From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Pick patch from [1] also mentioned at NVD report in [2]
+Pick patch from [1] also mentioned at Debian report in [2]
 
-[1] https://www.openwall.com/lists/oss-security/2026/03/13/1
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-32772
-[3] https://cgit.git.savannah.gnu.org/cgit/inetutils.git/patch/?id=d6b8b83aa51616946fd314bc48087312d13c99f8
-[4] https://security-tracker.debian.org/tracker/CVE-2026-32772
+[1] https://github.com/sudo-project/sudo/commit/3e474c2f201484be83d994ae10a4e20e8c81bb69
+[2] https://security-tracker.debian.org/tracker/CVE-2026-35535
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-35535
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-[YC: NEWS diff in [3] links to [1]]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../inetutils/inetutils/CVE-2026-32772.patch  | 172 ++++++++++++++++++
- .../inetutils/inetutils_2.5.bb                |   1 +
- 2 files changed, 173 insertions(+)
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
+ .../sudo/files/CVE-2026-35535.patch           | 150 ++++++++++++++++++
+ meta/recipes-extended/sudo/sudo_1.9.17p2.bb   |   1 +
+ 2 files changed, 151 insertions(+)
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-35535.patch
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
+diff --git a/meta/recipes-extended/sudo/files/CVE-2026-35535.patch b/meta/recipes-extended/sudo/files/CVE-2026-35535.patch
 new file mode 100644
-index 00000000000..cc44f9531a4
+index 00000000000..8c27d2772bb
 --- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
-@@ -0,0 +1,172 @@
-+From d6b8b83aa51616946fd314bc48087312d13c99f8 Mon Sep 17 00:00:00 2001
-+From: Collin Funk <collin.funk1@gmail.com>
-+Date: Thu, 26 Mar 2026 22:52:54 -0700
-+Subject: telnet: don't leak the value of unexported environment variables
++++ b/meta/recipes-extended/sudo/files/CVE-2026-35535.patch
+@@ -0,0 +1,150 @@
++From 3e474c2f201484be83d994ae10a4e20e8c81bb69 Mon Sep 17 00:00:00 2001
++From: "Todd C. Miller" <Todd.Miller@sudo.ws>
++Date: Sat, 8 Nov 2025 15:34:02 -0700
++Subject: [PATCH] exec_mailer: Set group as well as uid when running the mailer
 +
-+Patch based on the following OpenBSD commit:
-+<https://github.com/openbsd/src/commit/1a11dc7253488a97d6df686dae9230f78682e8df>
++Also make a setuid(), setgid() or setgroups() failure fatal.
 +
-+* telnet/commands.c (env_getvalue): Add a boolean argument to prevent
-+prevent unexported variables from being returned.
-+* telnet/externs.h (env_getvalue): Adjust the function declaration.
-+* telnet/authenc.c (telnet_getenv): Add the new argument.
-+* telnet/telnet.c (dooption, gettermname, suboption, env_opt_add)
-+(telnet): Likewise.
++Found by the ZeroPath AI Security Engineer <https://zeropath.com>
 +
-+A telnet server can read a client's environment variables with the
-+NEW-ENVIRON option and the SEND ENV_USERVAR command.
-+
-+This had previously been reported as CVE-2005-0488, but inetutils never
-+got a fix for it.
-+
-+Reported-by: Justin Swartz <justin.swartz@risingedge.co.za>
-+Based-on-patch: https://gitlab.com/redhat/centos-stream/rpms/telnet/-/blob/c9s/telnet-0.17-env.patch
-+Link: https://www.openwall.com/lists/oss-security/2026/03/13/1
-+
-+CVE: CVE-2026-32772
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/patch/?id=d6b8b83aa51616946fd314bc48087312d13c99f8]
++CVE: CVE-2026-35535
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/3e474c2f201484be83d994ae10a4e20e8c81bb69]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ libtelnet/misc-proto.h |  4 +++-
-+ telnet/authenc.c       |  4 ++--
-+ telnet/commands.c      |  5 +++--
-+ telnet/externs.h       |  4 +++-
-+ telnet/telnet.c        | 10 +++++-----
-+ 5 files changed, 16 insertions(+), 11 deletions(-)
++ include/sudo_eventlog.h      |  3 ++-
++ lib/eventlog/eventlog.c      | 21 +++++++++++++++++----
++ lib/eventlog/eventlog_conf.c |  4 +++-
++ plugins/sudoers/logging.c    |  2 +-
++ plugins/sudoers/policy.c     |  2 +-
++ 5 files changed, 24 insertions(+), 8 deletions(-)
 +
-+diff --git a/libtelnet/misc-proto.h b/libtelnet/misc-proto.h
-+index abf8316..a836a69 100644
-+--- a/libtelnet/misc-proto.h
-++++ b/libtelnet/misc-proto.h
-+@@ -68,6 +68,8 @@
-+ #ifndef __MISC_PROTO__
-+ # define __MISC_PROTO__
-+ 
-++#include <stdbool.h>
-++
-+ void auth_encrypt_init (char *, char *, char *, char *, int);
-+ void auth_encrypt_user (char *);
-+ void auth_encrypt_connect (int);
-+@@ -79,6 +81,6 @@ void printd (unsigned char *, int);
-+ int net_write (unsigned char *, int);
-+ void net_encrypt (void);
-+ int telnet_spin (void);
-+-char *telnet_getenv (char *);
-++char *telnet_getenv (char *, bool);
-+ char *telnet_gets (char *, char *, int, int);
-+ #endif
-+diff --git a/telnet/authenc.c b/telnet/authenc.c
-+index b019251..dcd19e8 100644
-+--- a/telnet/authenc.c
-++++ b/telnet/authenc.c
-+@@ -91,9 +91,9 @@ telnet_spin ()
-+ }
-+ 
-+ char *
-+-telnet_getenv (char *val)
-++telnet_getenv (char *val, bool exported_only)
-+ {
-+-  return ((char *) env_getvalue (val));
-++  return ((char *) env_getvalue (val, exported_only));
-+ }
-+ 
-+ char *
-+diff --git a/telnet/commands.c b/telnet/commands.c
-+index 2a133c9..d8d0864 100644
-+--- a/telnet/commands.c
-++++ b/telnet/commands.c
-+@@ -66,6 +66,7 @@
-+ #include <stdarg.h>
-+ #include <errno.h>
-+ 
-++#include <stdbool.h>
-+ #include <stdlib.h>
-+ #include <limits.h>		/* LLONG_MAX for Solaris. */
-+ 
-+@@ -2059,10 +2060,10 @@ env_default (int init, int welldefined)
-+ }
-+ 
-+ unsigned char *
-+-env_getvalue (const char *var)
-++env_getvalue (const char *var, bool exported_only)
-+ {
-+   register struct env_lst *ep = env_find (var);
-+-  if (ep)
-++  if (ep && (!exported_only || ep->export))
-+     return (ep->value);
-+   return (NULL);
-+ }
-+diff --git a/telnet/externs.h b/telnet/externs.h
-+index f79c6ae..e0d9fbc 100644
-+--- a/telnet/externs.h
-++++ b/telnet/externs.h
-+@@ -67,6 +67,7 @@
-+ # endif
-+ #endif
-+ 
-++#include <stdbool.h>
-+ #include <stdio.h>
-+ #include <setjmp.h>
-+ #if defined CRAY && !defined NO_BSD_SETJMP
-+@@ -331,7 +332,8 @@ env_opt (unsigned char *, int),
-+ env_opt_start (void),
-+ env_opt_start_info (void), env_opt_add (unsigned char *), env_opt_end (int);
-+ 
-+-extern unsigned char *env_default (int, int), *env_getvalue (const char *);
-++extern unsigned char *env_default (int, int);
-++extern unsigned char *env_getvalue (const char *, bool);
-+ 
-+ int dosynch (const char *);
-+ int get_status (const char *);
-+diff --git a/telnet/telnet.c b/telnet/telnet.c
-+index 8884b6e..6a5cf8b 100644
-+--- a/telnet/telnet.c
-++++ b/telnet/telnet.c
-+@@ -496,7 +496,7 @@ dooption (int option)
-+ #endif
-+ 
-+ 	    case TELOPT_XDISPLOC:	/* X Display location */
-+-	      if (env_getvalue ("DISPLAY"))
-++	      if (env_getvalue ("DISPLAY", false))
-+ 		new_state_ok = 1;
-+ 	      break;
-+ 
-+@@ -793,7 +793,7 @@ gettermname (void)
-+       resettermname = 0;
-+       if (tnamep && tnamep != unknown)
-+ 	free (tnamep);
-+-      if ((tname = (char *) env_getvalue ("TERM")) &&
-++      if ((tname = (char *) env_getvalue ("TERM", false)) &&
-+ 	  (init_term (tname, &err) == 0))
-+ 	{
-+ 	  tnamep = mklist (termbuf, tname);
-+@@ -992,7 +992,7 @@ suboption (void)
-+ 	  unsigned char temp[50], *dp;
-+ 	  int len;
-+ 
-+-	  if ((dp = env_getvalue ("DISPLAY")) == NULL)
-++	  if ((dp = env_getvalue ("DISPLAY", false)) == NULL)
-+ 	    {
-+ 	      /*
-+ 	       * Something happened, we no longer have a DISPLAY
-+@@ -1727,7 +1727,7 @@ env_opt_add (register unsigned char *ep)
-+ 	env_opt_add (ep);
-+       return;
++diff --git a/include/sudo_eventlog.h b/include/sudo_eventlog.h
++index eb9f4f4..485d259 100644
++--- a/include/sudo_eventlog.h
+++++ b/include/sudo_eventlog.h
++@@ -80,6 +80,7 @@ struct eventlog_config {
++     int syslog_rejectpri;
++     int syslog_alertpri;
++     uid_t mailuid;
+++    gid_t mailgid;
++     bool omit_hostname;
++     const char *logpath;
++     const char *time_fmt;
++@@ -151,7 +152,7 @@ void eventlog_set_syslog_rejectpri(int pri);
++ void eventlog_set_syslog_alertpri(int pri);
++ void eventlog_set_syslog_maxlen(size_t len);
++ void eventlog_set_file_maxlen(size_t len);
++-void eventlog_set_mailuid(uid_t uid);
+++void eventlog_set_mailuser(uid_t uid, gid_t gid);
++ void eventlog_set_omit_hostname(bool omit_hostname);
++ void eventlog_set_logpath(const char *path);
++ void eventlog_set_time_fmt(const char *fmt);
++diff --git a/lib/eventlog/eventlog.c b/lib/eventlog/eventlog.c
++index 5a32824..d56c4e4 100644
++--- a/lib/eventlog/eventlog.c
+++++ b/lib/eventlog/eventlog.c
++@@ -304,15 +304,13 @@ exec_mailer(int pipein)
++ 	syslog(LOG_ERR, _("unable to dup stdin: %m")); // -V618
++ 	sudo_debug_printf(SUDO_DEBUG_ERROR,
++ 	    "unable to dup stdin: %s", strerror(errno));
++-	sudo_debug_exit(__func__, __FILE__, __LINE__, sudo_debug_subsys);
++-	_exit(127);
+++	goto bad;
 +     }
-+-  vp = env_getvalue ((char *) ep);
-++  vp = env_getvalue ((char *) ep, true);
-+   if (opt_replyp + (vp ? strlen ((char *) vp) : 0) +
-+       strlen ((char *) ep) + 6 > opt_replyend)
-+     {
-+@@ -2484,7 +2484,7 @@ telnet (char *user)
-+       send_will (TELOPT_LINEMODE, 1);
-+       send_will (TELOPT_NEW_ENVIRON, 1);
-+       send_do (TELOPT_STATUS, 1);
-+-      if (env_getvalue ("DISPLAY"))
-++      if (env_getvalue ("DISPLAY", false))
-+ 	send_will (TELOPT_XDISPLOC, 1);
-+       if (eight)
-+ 	tel_enter_binary (eight);
++ 
++     /* Build up an argv based on the mailer path and flags */
++     if ((mflags = strdup(evl_conf->mailerflags)) == NULL) {
++ 	syslog(LOG_ERR, _("unable to allocate memory")); // -V618
++-	sudo_debug_exit(__func__, __FILE__, __LINE__, sudo_debug_subsys);
++-	_exit(127);
+++	goto bad;
++     }
++     argv[0] = sudo_basename(mpath);
++ 
++@@ -331,11 +329,23 @@ exec_mailer(int pipein)
++     if (setuid(ROOT_UID) != 0) {
++ 	sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to change uid to %u",
++ 	    ROOT_UID);
+++	goto bad;
+++    }
+++    if (setgid(evl_conf->mailgid) != 0) {
+++	sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to change gid to %u",
+++	    (unsigned int)evl_conf->mailgid);
+++	goto bad;
+++    }
+++    if (setgroups(1, &evl_conf->mailgid) != 0) {
+++	sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to set groups to %u",
+++	    (unsigned int)evl_conf->mailgid);
+++	goto bad;
++     }
++     if (evl_conf->mailuid != ROOT_UID) {
++ 	if (setuid(evl_conf->mailuid) != 0) {
++ 	    sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to change uid to %u",
++ 		(unsigned int)evl_conf->mailuid);
+++	    goto bad;
++ 	}
++     }
++     sudo_debug_exit(__func__, __FILE__, __LINE__, sudo_debug_subsys);
++@@ -347,6 +357,9 @@ exec_mailer(int pipein)
++     sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to execute %s: %s",
++ 	mpath, strerror(errno));
++     _exit(127);
+++bad:
+++    sudo_debug_exit(__func__, __FILE__, __LINE__, sudo_debug_subsys);
+++    _exit(127);
++ }
++ 
++ /* Send a message to the mailto user */
++diff --git a/lib/eventlog/eventlog_conf.c b/lib/eventlog/eventlog_conf.c
++index 0663a38..ec3b569 100644
++--- a/lib/eventlog/eventlog_conf.c
+++++ b/lib/eventlog/eventlog_conf.c
++@@ -70,6 +70,7 @@ static struct eventlog_config evl_conf = {
++     MAXSYSLOGLEN,		/* syslog_maxlen */
++     0,				/* file_maxlen */
++     ROOT_UID,			/* mailuid */
+++    ROOT_GID,			/* mailgid */
++     false,			/* omit_hostname */
++     _PATH_SUDO_LOGFILE,		/* logpath */
++     "%h %e %T",			/* time_fmt */
++@@ -151,9 +152,10 @@ eventlog_set_file_maxlen(size_t len)
++ }
++ 
++ void
++-eventlog_set_mailuid(uid_t uid)
+++eventlog_set_mailuser(uid_t uid, gid_t gid)
++ {
++     evl_conf.mailuid = uid;
+++    evl_conf.mailgid = gid;
++ }
++ 
++ void
++diff --git a/plugins/sudoers/logging.c b/plugins/sudoers/logging.c
++index bd4de92..9535289 100644
++--- a/plugins/sudoers/logging.c
+++++ b/plugins/sudoers/logging.c
++@@ -1157,7 +1157,7 @@ init_eventlog_config(void)
++     eventlog_set_syslog_alertpri(def_syslog_badpri);
++     eventlog_set_syslog_maxlen(def_syslog_maxlen);
++     eventlog_set_file_maxlen(def_loglinelen);
++-    eventlog_set_mailuid(ROOT_UID);
+++    eventlog_set_mailuser(ROOT_UID, ROOT_GID);
++     eventlog_set_omit_hostname(!def_log_host);
++     eventlog_set_logpath(def_logfile);
++     eventlog_set_time_fmt(def_log_year ? "%h %e %T %Y" : "%h %e %T");
++diff --git a/plugins/sudoers/policy.c b/plugins/sudoers/policy.c
++index f3adfb0..27f6e58 100644
++--- a/plugins/sudoers/policy.c
+++++ b/plugins/sudoers/policy.c
++@@ -639,7 +639,7 @@ sudoers_policy_deserialize_info(struct sudoers_context *ctx, void *v,
++     }
++ 
++ #ifdef NO_ROOT_MAILER
++-    eventlog_set_mailuid(ctx->user.uid);
+++    eventlog_set_mailuser(ctx->user.uid, ctx->user.gid);
++ #endif
++ 
++     /* Dump settings and user info (XXX - plugin args) */
 +-- 
 +2.50.1
 +
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.5.bb b/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
-index 29ff62379d3..2e1d2a30d7a 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://CVE-2026-24061-2.patch \
-            file://CVE-2026-28372.patch \
-            file://CVE-2026-32746.patch \
-+           file://CVE-2026-32772.patch \
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+index d715bc2075f..c934dfdce27 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+@@ -3,6 +3,7 @@ require sudo.inc
+ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
++           file://CVE-2026-35535.patch \
             "
  
- inherit autotools gettext update-alternatives texinfo
+ PAM_SRC_URI = "file://sudo.pam"
 
