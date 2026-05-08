@@ -1,208 +1,285 @@
-Return-Path: <ricardo.salveti@oss.qualcomm.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D08ACD3436
-	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 16:04:44 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.372.1778256279275996270
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF039CD3445
+	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 16:35:14 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1047.1778258113719742978
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 09:04:39 -0700
+ Fri, 08 May 2026 09:35:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=TuLBfqeX;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=PEnqWbAu;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 648D9xVP3891064
-	for <openembedded-core@lists.openembedded.org>; Fri, 8 May 2026 16:04:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5xfDYjey4m/zMBG9REOUqaSpKdJbdw6XlK0jMohjvcE=; b=TuLBfqeXWRVwMrru
-	1YAdL5A8+TEso12IPgJlAc4mukR9ruHpE5L1RuYc7dzo0pXleEsnaheB/6Hmg5PH
-	lcxjA576X/OiCVIaPg396A4UW2DrmZ/Rs4BS/IMuP3Ct6Y5BbwVqoSZXLxd9s+Iz
-	9eMhseOTBgnbDRe//7eMnjgbRMIwo7mDkqnjA4KbbRIUrIxJIQiF/7pksGcKlKk/
-	dG+ZbbOBH6B/HMq2iJVQ0puON6Jg09+GP+eGLTi9wj8E0aaXDu4BK/uYjUKmVaG0
-	xh90gCaaHghV4syY1zQqLI+MIt43M+tQE1WTSWKYCmbty1dVYHP34mSusec1NK9Q
-	4dZN4g==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e1gfqru9g-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 16:04:38 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2b2ecc96a9aso24159095ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 09:04:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778256278; cv=none;
+ dkim=pass header.i=@underview.tech header.s=google header.b=eaJV5OcU;
+ spf=pass (domain: underview.tech, ip: 209.85.221.47, mailfrom: vince@underview.tech)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43d64313c39so1674430f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 09:35:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778258112; cv=none;
         d=google.com; s=arc-20240605;
-        b=Hrz2NfHnvPGGeOqbs3hZNYd4KMwLFz231bfoemjV6dMQvHzmTHk4MCiI0itx3hVzkB
-         xRgiFOAchzxesGufhGBYfVPvMCHOIKqMMeP0LiJqRZZgn2bXkVxsLQ8daW8avz33wh4+
-         ZE+B8RK3yLNwkT60ZRJjMHKf/18X3lY9bMNVY/fQmUIM4PjI98OVQfOzlum6X2KIjymz
-         fDqaV/JGpwIQhhOkTRKFUNy2zOcM/Axlnmu5+yA47G5itFd80m+NRpvbwGbygpqOJotU
-         fgCXHQFpnpjiLUwT4SXfR8dHGPT7ibsyFOHAyadZX5HIRBfG22Te+FE7mC68LDh9LCBp
-         KHXA==
+        b=USzal+XrJszcgQg8sE4R0WpJ5ArAasEEqOMRJ5E2tfBm1GkdRLRRT9VhB8uXP4++AC
+         le6f1Kq0yQOCgPj6T5N1BTfG1kRyJy3d+aok2NJuHwhL6lkhuWBckl04DTf+ctONjq2B
+         6svbcBINSh3ikmIRKHF9oBAYW7eMSEVC/ururhkXLL9DMsI7wgTcEgHrhElI2mA3dZbe
+         3qIP0OWDLJa5sR27zSK1qe0yo0U6JQqxQdu3Y4rqixSN64iNQVTt4HY4TdrT2H0brefx
+         li35vdiFpi7gMnuOMpB37DTPuAL4pXy/JMMvyY/l8BSfd2CWqX6Z7IQNYeWP4j4g3/Z0
+         Y2Fw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5xfDYjey4m/zMBG9REOUqaSpKdJbdw6XlK0jMohjvcE=;
-        fh=bDj0C6K6ljUdXnuZ4dQT3fMpBXg2UKnrLxEaSSWas04=;
-        b=eefdB2ahbcPB+lZ+Z3Jkjg6qvyJyYjJEb9/k9oZeZb9JMW3mtUwS2/5pItif08G7KL
-         FQ1RTsgX4dGZZdxU1z45QTGvDS7BBAjwtpgDBCWuWaXCfGOOBbFY2yxIdo8uLKSIK0EP
-         Ufy5B0K9wpXDPAPAZwGMjji+3DhPIG6UUIZSU1MVXNxBLgDhcYAxCzgo+8WiYP0cpMT3
-         dmq8kDzwkXmPTS7w4l0IwVO881LAN1/29Cxe7plOoC8CTgaoHcKigrFmJ60Qh5MNjoDw
-         rdRPkNI37CxFZDppuI7WYYQhGi/Xqlcma8Q/PHgZf+J/dloRjsOlecdBuL85v/cvNtGb
-         liUg==;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=cenIubbFx/epOp4eWrHcrXuSEfglsSEn6ZYB7jhFdyU=;
+        fh=X7/Fh8phLf3hksxzKcWGz+T+P2Hpiwoxad0NaVL5f2M=;
+        b=kZhn5LPASPQ5x8gIsKnxn5cXSj+72+3AWxZJawt0uSfKVJKkynZe45VL/SvsJ4197i
+         433RtwOCJYQGgwaKCf1HhKRqIdRAFLqJ5aahkNt1PkOfxHylYZ6rKxjTIFYPjWVZBSlK
+         Grzk8mfHmDEoen0uVeyu9LuL1fg94cwOEfoqqlwdT3wjHaYjZW/r52z5bhyiJqPlK+hX
+         MpoVOQ2xWry002SvhhBrX64E384oPkBGam/2tc396jDvjsnooD10wWsdrwEiJoYF3b9b
+         5p5VyQFSJ9DIq6cuxWGsDhOZD4hbBuHWOpznZ2ojvq+HNYo8adFvFZmsojlDLOEQU9tE
+         Dd9g==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778256278; x=1778861078; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5xfDYjey4m/zMBG9REOUqaSpKdJbdw6XlK0jMohjvcE=;
-        b=PEnqWbAuGMIhHk+GSVCFlEkUQxUp4PAJpbvg9EZo36UIUdxjCrcse0KL3bAayLYD5o
-         kNuZTMSF62+iupwMzsrTuLQigfK918bS5jPfsu2P6otHhitcqRxltn5B+GUra24G/P+Z
-         Xfr1DpwywcETRXJIh3jadEqg/jK+cN2QtW1Bs0owPrs974rTbQMWIvXfkcUOWgQYjFOb
-         FrvGGbp8U9WTVulKa38tW2RY/pCHUEFoQg8KjTB3qdpPDDJ+M1tkNuywVBkVZjIm9Zf1
-         0JAybpWMcbclnoKhMlkXJvHeiQ75jJiZ71OeYEFB38ke2qW2Bp1yYYZcuYZQfU3t7EVL
-         /zLg==
+        d=underview.tech; s=google; t=1778258112; x=1778862912; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cenIubbFx/epOp4eWrHcrXuSEfglsSEn6ZYB7jhFdyU=;
+        b=eaJV5OcUndFXZRuJQuJ2VQHMatvEik/O6Df8YKe2e3UGT3YUYkJG1mjz54+2Vg2kO3
+         vHBrliSqk80G9dE3np4DmB3q+UPpMYDeLDhUpIUfTAMl6hKNFUzm+VzSIgDI8wV3AWrI
+         B8iJXu+QxyCLeMEXNwhJ3YYwesjbgYFTsCcfDa97FDM5D7+H4dtP4Zsw7c2PES8f6LH5
+         96pbW8XRjHpweeeh86DAhgC80BLXlTuZxBo4DZ5HryN3QEiSHvC8jGWGSyXW0QhZ6Slu
+         xXvN3JD1WIX6ElQVhqEPxyLw5dASjBGDY9Ov5q1ylqVqbeOeyX3utb/HSLIuma8WIPXK
+         nbVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778256278; x=1778861078;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5xfDYjey4m/zMBG9REOUqaSpKdJbdw6XlK0jMohjvcE=;
-        b=JxCwm7cP2FR0W1QGaAMTwGOlCTkCoy+ydbRpuVQp2qgbT6VCgbPZu3zszwVuQVR0Os
-         gNwaLEZHUkfUBPw8YQESDIkaKefkPIZobnovqxO6xA1dXqZi2Hz7BHeYd8UI3pKcqYIx
-         O4Gsy9OfnkR+IOGm3QVAsTWNP0KhB9vSMDXEX11Ch+FoXQxoltODZqCPNppNYbc12dzE
-         8AO5PX01m3kZJcLB+ThjCeU/uZualooQZqXliQ/kTYXpJvbvaJB198ZkBJ9yd1PR4MN3
-         XcgBNtjybgdL2zbvnpCVgBIvv2TJxMuFOhR6yiiiOKBTSsaWbXzA1OZwrJtKwJHPRr/R
-         vkHA==
-X-Gm-Message-State: AOJu0YxVjQ0htGabgsqQSnhxUPKY6zIpCwGoveBHnZD+nFrR0YxWNucH
-	o76J4b6BpLYISGca60D+EETf/t6pY8eJrR/HaKTTbNfpYe+fRt8nBySbawBaB3N6cCUzt5qBfI7
-	TWLxBi051NusXIbimbXFYlhmhFLi+3jaD5zHC0cuyjKKkCaxb5l+S0RhSLomPYiBlbhordrTta8
-	sns5H2qkQdpgEkO0pw6d6eKjttArVso4UoL6i7M56ZykfBMWMeMSOHIs5AIg==
-X-Gm-Gg: Acq92OGsJg7tDPAzVK0QOenix4H0EnIbA7p1mN/rBXcS3U0Xbeh+zVSV6eTOerONdXJ
-	sg8UKNtAiRPf/LdSV+GmFnPQ1W0QbVv5gmqvqeemKopTa5l7eL7K2v1OZWNrh6FRJk2RI1eZNgr
-	V1YG76DNbei79L3b6CHe357r80JVTolxZWZBzBzh2IWjPDOMvHskYPf9W3Tq/vTs3ZqO+9JXeMc
-	SNT9YguzVTCCowaE9o=
-X-Received: by 2002:a17:903:1aa6:b0:2ae:450c:951e with SMTP id d9443c01a7336-2ba798c46c9mr138968225ad.17.1778256277932;
-        Fri, 08 May 2026 09:04:37 -0700 (PDT)
-X-Received: by 2002:a17:903:1aa6:b0:2ae:450c:951e with SMTP id
- d9443c01a7336-2ba798c46c9mr138967755ad.17.1778256277335; Fri, 08 May 2026
- 09:04:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778258112; x=1778862912;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cenIubbFx/epOp4eWrHcrXuSEfglsSEn6ZYB7jhFdyU=;
+        b=ihPJFBdzdXGkGvmhrF8NS+FAO/UX6Rsa7nGIyxBP1PrGQ23TtP2f2eZEyfmL8UKWKy
+         1XpZ/GrfYsxDEylHciYmFiG7JRu8QxNy23aeWEjg28rIC4twB+UYj0HesbRWH0ZHDsMM
+         +s7k42NHwNHqbohhKpUR19zGFP0vfJIgCMoFFg39fLmACogNJkk2wBZA5NbdFZ3n4QCA
+         VGhd2iSM9GiUx2FSx9wOnXq8WwgddVUcevzcmrGoNajZ97DGM+wFvI+nG9xt1J2fq284
+         I89ecmHwM28OPa9y1f4tDahFZBSfT8q+NGGm7QyMZvtF3EL0qtWDiJsuTN6qTqiIDuSg
+         wtJw==
+X-Gm-Message-State: AOJu0YwRT3PZa34j1hU3oyv7yxmfkufbtAISuQDsA+d/XVSWY27UP8uy
+	Rlm8VzWIQzl/uREgAX6PclBsTp0w1dqgL7gYg9ALQ3HNQeT7k7AaAfzt+bm4SvqFjxS/Awo9dP0
+	obW8lWsSwC0MQBJBBiAmz+yQf9rJbYnJr+CJH+LP5vwhsg+z1/6LL
+X-Gm-Gg: Acq92OE4f5d1r1qWjABiSmOLoWyHwtYuzwQhFseL3YQsNxhESuC4f3+zh/tkuT1HYvV
+	CaMExClN2ypjaU7fxveNKf8rhzvK0EkwbO/zBDI8hZ2i6t0FZSQ5+z5AiPNTnRDtLRacvApg+pj
+	gRu7u2V0R4EN/gIGSn3EaPnYs4zJP5JwG7XxS0nkxAMcmHW5k/ZqeOvX0nX0vdzjKUVXioBsoZt
+	Dzg6EPaCcMFwUbaob6chdwRjboYYyZb4BsdqwV4L+tqbA2n6IrGQqSpVBx889EKepeNQt6fMhqf
+	tInRYgO2IHIua9mjgdBonaMT
+X-Received: by 2002:a05:6000:18a5:b0:43d:1dfe:350a with SMTP id
+ ffacd0b85a97d-4515ce1c991mr22140440f8f.22.1778258111228; Fri, 08 May 2026
+ 09:35:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260507204018.3254064-1-ricardo.salveti@oss.qualcomm.com> <8410dd92-5356-49d2-a294-ec197ec67bac@cherry.de>
-In-Reply-To: <8410dd92-5356-49d2-a294-ec197ec67bac@cherry.de>
-From: "Ricardo de Araujo (Salveti)" <ricardo.salveti@oss.qualcomm.com>
-Date: Fri, 8 May 2026 13:04:00 -0300
-X-Gm-Features: AVHnY4INZvCPRzEyfZ-BwhhUJ0Mn8Nh8TJ3mA3rAmX2ms0qTtlClWYZOq1Wf-Jc
-Message-ID: <CAA_5yovyQCpgUFQFgak5T9CVmVLo-9dnECOQ7v8Z+YguuE_6JA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] u-boot: move DT validation yaml removal patch
- to common SRC_URI
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE2MCBTYWx0ZWRfX+q9KG+RGa1Xk
- DbNFMYbv+If7q8YdsVwHn55GYcjR6xYxd/UojIEiaFkwnkIOwfBxRCvi4alx3j/gqE4bID556Ac
- U5/KdObKmntZktD4yD6FnKLtq+m9tEPxl8XD94r//PLkozm6wHyYbUG49TfYTr3xJNCedugukC3
- BAoo0hRGBqpydTJG18jayaaPg11xeFaA9dsgAXFmaMXSFP30GhmGRLJ5pNy++/fB0oW7w9Tb5pE
- vsHRNzBc64IRBX1+Z5mvTl/cZt/nqRIex0oBffDv9UMmPOi+a8H6ygdS2u4Gi4OWwHDymA5/jXK
- IV5caPPX3FPEYMHdcioZC5H7k4l2s9vppnk5GMqVpoe0BX7ZhymQgp4iFgzMR0dCMxj6DHnSVeW
- bpwOyEO30fdxpw2uT1tP3Y5YyZHn7J5PJ3EuwXH9x3RKdafJDGMhdhpEBz0w8ho/AqnXBKMkGZ/
- wPosjlS9rhUNrLbDgTQ==
-X-Authority-Analysis: v=2.4 cv=W80IkxWk c=1 sm=1 tr=0 ts=69fe0996 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8
- a=gxoyNg6y6-uQNFO8U90A:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
- a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-ORIG-GUID: FNJ_CFVTW5j_2GPSey8KlZ0WwvIL9y1r
-X-Proofpoint-GUID: FNJ_CFVTW5j_2GPSey8KlZ0WwvIL9y1r
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-07_02,2026-05-08_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 phishscore=0 bulkscore=0 clxscore=1015
- malwarescore=0 spamscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605080160
+References: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev> <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com>
+In-Reply-To: <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com>
+From: Vincent Davis <vince@underview.tech>
+Date: Fri, 8 May 2026 12:34:58 -0400
+X-Gm-Features: AVHnY4LSQEIzpsAwLbBRkSsqnLb1QVVuwvyN7WhJdKtY_O1Ue8gehrd-RtiGquk
+Message-ID: <CAPQx_gNgsrsQJuxvnRi2LrM2K2hitm5Epnv55X1=PVLerZJozg@mail.gmail.com>
+Subject: Re: [OE-core] [Openembedded-architecture] What to do with vim in openembedded-core?
+To: openembedded-core@lists.openembedded.org, 
+	openembedded-architecture@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000009faae065150fb68"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 16:04:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236729
+ <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 16:35:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236730
 
-On Fri, May 8, 2026 at 11:35=E2=80=AFAM Quentin Schulz <quentin.schulz@cher=
-ry.de> wrote:
->
-> Hi Ricardo,
->
-> On 5/7/26 10:40 PM, Ricardo Salveti via lists.openembedded.org wrote:
-> > Commit 5e97f3c1e2cf ("u-boot-tools: drop yaml in DT validation") added =
-the
-> > backport through SRC_URI_RISCV, so only RISC-V u-boot builds picked it =
-up.
-> >
-> > This issue is because the v1 of the patch was merged instead the v2 (wh=
-ich
-> > is also not fully correct as it is not patching u-boot-tools). Drop the
-> > patch from SRC_URI_RISCV and move it to u-boot-common.inc so it is appl=
-ied
-> > consistently to both u-boot and u-boot-tools.
-> >
-> > Fixes: 5e97f3c1e2cf ("u-boot-tools: drop yaml in DT validation")
-> > Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
-> > ---
-> >   meta/recipes-bsp/u-boot/u-boot-common.inc | 5 ++++-
-> >   meta/recipes-bsp/u-boot/u-boot_2026.04.bb | 1 -
-> >   2 files changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-b=
-sp/u-boot/u-boot-common.inc
-> > index 574768b9f8..15e94a4e37 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > @@ -14,7 +14,10 @@ PE =3D "1"
-> >   # repo during parse
-> >   SRCREV =3D "88dc2788777babfd6322fa655df549a019aa1e69"
-> >
-> > -SRC_URI =3D "git://source.denx.de/u-boot/u-boot.git;protocol=3Dhttps;b=
-ranch=3Dmaster;tag=3Dv${PV}"
-> > +SRC_URI =3D "\
-> > +    git://source.denx.de/u-boot/u-boot.git;protocol=3Dhttps;branch=3Dm=
-aster;tag=3Dv${PV} \
-> > +    file://0001-scripts-dtc-drop-yaml-in-DT-validation.patch \
-> > +"
-> >
->
-> This means any recipe including recipes-bsp/u-boot/u-boot-common.inc
-> will need to override SRC_URI in addition to SRCREV otherwise the patch
-> may not apply.
->
-> Wondering if we should move SRCREV and that patch into a
->
-> u-boot-2026.04.inc
->
-> which we can then include from
-> meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb
-> meta/recipes-bsp/u-boot/u-boot_2026.04.bb
->
-> with
-> require u-boot-${PV}.inc
+--00000000000009faae065150fb68
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-u-boot-common.inc is really minimal and mostly just to add the common
-homepage, license, srcrev and src_uri, so not sure if other variants
-should really be including it (e.g. LIC_FILES_CHKSUM could as well
-change based on the base version used).
+Hello,
 
-If we move SRCREV and SRC_URI to another common include file then
-u-boot-common.inc will just be used to share non-critical variables,
-which should probably also be customized by other alternatives (e.g.
-HOMEPAGE could be different).
+Know I'm just a drive by contributor, but I agree with Tim. Think having a
+separate layer for just one recipe is over kill.
 
-So not sure if this would help much.
+Would it be fine to stop applying CVE patches to vim and keep the recipe in
+oe-core? I and i'm assuming most people solely use it for development
+purposes anyways. Then remove vim from production builds.
 
-Thanks,
+Given the package do CVE patches really matter?
 
-Ricardo
+Vincent
+
+
+On Fri, May 8, 2026, 11:03=E2=80=AFAM Tim Orling via lists.openembedded.org
+<ticotimo=3Dgmail.com@lists.openembedded.org> wrote:
+
+> I understand the pain points you mention, as I have tried to help maintai=
+n
+> vim in oe-core.
+>
+> However, I have a LIFETIME of muscle memory using vim and for me
+> personally forcing me to use nano is a non starter.
+> So then I would be constantly needing to pull it in from wherever else it
+> gets moved.
+>
+> I don't have any good suggestions for how to deal with the problem,
+> however.
+>
+> On Fri, May 8, 2026 at 6:29=E2=80=AFAM Paul Barker via lists.openembedded=
+.org
+> <paul=3Dpbarker.dev@lists.openembedded.org> wrote:
+>
+>> Hi all,
+>>
+>> We have a vim recipe in openembedded-core to provide:
+>> - An editor without the limitations of busybox vi.
+>> - The `xxd` command, used as a runtime dependency of dosfstools-ptest.
+>>
+>> However, vim is difficult to maintain in our stable releases. There is a
+>> regular stream of CVEs that need fixing due to the large UI and input
+>> surface of vim, and backporting fixes has proven difficult. This isn't
+>> just a Yocto Project issue, the Debian tracker [1] currently shows 14
+>> unresolved CVEs in Trixie and 15 unresolved CVEs in Bookworm. And, it's
+>> very difficult to share work between distros, as vim tags every commit
+>> as a new release, every distro ends up on a different release and needs
+>> to re-validate any backported patches.
+>>
+>> So, I propose we drop vim from openembedded-core on the master branch,
+>> post-wrynose.
+>>
+>> We can use tinyxxd [2] to provide xxd, this is based on the vim codebase
+>> and frequently merges changes from upstream.
+>>
+>> We can use GNU Nano as our default editor where something more capable
+>> than busybox vi is needed, this has a sensible release model. The much
+>> simpler input model and lack of scripting facility means that CVEs in
+>> nano are much fewer and further between.
+>>
+>> If we do this, what should we do with vim? We could move it back to
+>> meta-oe, but that would simply be moving the maintenance burden. We
+>> could stop backporting CVE fixes to vim and recommend that an LTS mixin
+>> layer is used to provide newer versions of vim for stable branches. I'm
+>> open to ideas.
+>>
+>> [1]: https://tracker.debian.org/pkg/vim
+>> [2]: https://github.com/xyproto/tinyxxd
+>>
+>> Best regards,
+>>
+>> --
+>> Paul Barker
+>>
+>>
+>>
+>>
+>>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#236726):
+> https://lists.openembedded.org/g/openembedded-core/message/236726
+> Mute This Topic: https://lists.openembedded.org/mt/119215860/7072109
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> [vince@underview.tech]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000009faae065150fb68
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div dir=3D"auto">Hello,</div><div dir=3D"auto"><br></div=
+><div dir=3D"auto">Know I&#39;m just a drive by contributor, but I agree wi=
+th Tim. Think having a separate layer for just one recipe is over kill.</di=
+v><div dir=3D"auto"><br></div><div dir=3D"auto">Would it be fine to stop ap=
+plying CVE patches to vim and keep the recipe in oe-core? I and i&#39;m ass=
+uming most people solely use it for development purposes anyways. Then remo=
+ve vim from production builds.</div><div dir=3D"auto"><br></div><div dir=3D=
+"auto">Given the package do CVE patches really matter?</div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto">Vincent</div><div dir=3D"auto"><br></div><di=
+v dir=3D"auto"></div></div><br><div class=3D"gmail_quote gmail_quote_contai=
+ner"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 8, 2026, 11:03=E2=80=
+=AFAM Tim Orling via <a href=3D"http://lists.openembedded.org">lists.openem=
+bedded.org</a> &lt;ticotimo=3D<a href=3D"mailto:gmail.com@lists.openembedde=
+d.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex"><div dir=3D"ltr"><div>I understand the pain points you =
+mention, as I have tried to help maintain vim in oe-core.</div><div><br></d=
+iv><div>However, I have a LIFETIME of muscle memory using vim and for me pe=
+rsonally forcing me to use nano is a non starter.</div><div>So then I would=
+ be constantly needing to pull it in from wherever else it gets moved.</div=
+><div><br></div><div>I don&#39;t have any good suggestions for how to deal =
+with the problem, however.</div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">On Fri, May 8, 2026 at 6:29=E2=80=AFAM Paul Barke=
+r via <a href=3D"http://lists.openembedded.org" target=3D"_blank" rel=3D"no=
+referrer">lists.openembedded.org</a> &lt;paul=3D<a href=3D"mailto:pbarker.d=
+ev@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer">pbarker.dev=
+@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">Hi all,<br>
+<br>
+We have a vim recipe in openembedded-core to provide:<br>
+- An editor without the limitations of busybox vi.<br>
+- The `xxd` command, used as a runtime dependency of dosfstools-ptest.<br>
+<br>
+However, vim is difficult to maintain in our stable releases. There is a<br=
+>
+regular stream of CVEs that need fixing due to the large UI and input<br>
+surface of vim, and backporting fixes has proven difficult. This isn&#39;t<=
+br>
+just a Yocto Project issue, the Debian tracker [1] currently shows 14<br>
+unresolved CVEs in Trixie and 15 unresolved CVEs in Bookworm. And, it&#39;s=
+<br>
+very difficult to share work between distros, as vim tags every commit<br>
+as a new release, every distro ends up on a different release and needs<br>
+to re-validate any backported patches.<br>
+<br>
+So, I propose we drop vim from openembedded-core on the master branch,<br>
+post-wrynose.<br>
+<br>
+We can use tinyxxd [2] to provide xxd, this is based on the vim codebase<br=
+>
+and frequently merges changes from upstream.<br>
+<br>
+We can use GNU Nano as our default editor where something more capable<br>
+than busybox vi is needed, this has a sensible release model. The much<br>
+simpler input model and lack of scripting facility means that CVEs in<br>
+nano are much fewer and further between.<br>
+<br>
+If we do this, what should we do with vim? We could move it back to<br>
+meta-oe, but that would simply be moving the maintenance burden. We<br>
+could stop backporting CVE fixes to vim and recommend that an LTS mixin<br>
+layer is used to provide newer versions of vim for stable branches. I&#39;m=
+<br>
+open to ideas.<br>
+<br>
+[1]: <a href=3D"https://tracker.debian.org/pkg/vim" rel=3D"noreferrer noref=
+errer" target=3D"_blank">https://tracker.debian.org/pkg/vim</a><br>
+[2]: <a href=3D"https://github.com/xyproto/tinyxxd" rel=3D"noreferrer noref=
+errer" target=3D"_blank">https://github.com/xyproto/tinyxxd</a><br>
+<br>
+Best regards,<br>
+<br>
+-- <br>
+Paul Barker<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#236726): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/236726" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://lists.openembedded.org/g/openembedded-core/message/236726</a><=
+br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119215860/707=
+2109" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
+edded.org/mt/119215860/7072109</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
+enembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a> [vince@underview.tech]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--00000000000009faae065150fb68--
 
