@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38AEDCD37B5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EB7ACD37B8
 	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 07:12:40 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8170.1778224353708350604
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8167.1778224350633879179
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 00:12:34 -0700
+ Fri, 08 May 2026 00:12:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=0YRosonD;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-44b330c5cc6so1186751f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 00:12:33 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ATPN4aua;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-44b330c5cc6so1186683f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 00:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1778224352; x=1778829152; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1778224349; x=1778829149; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W8O7Iu1ER7xa6Nzms4p7Af7/0HO3ouo9FLhOP0QUSiQ=;
-        b=0YRosonD6ioZ3iSyNc9i1wIZ6DnQ8hy239cIPG7dwS/341ezdmrG3VxeHPgt6//aDy
-         m3JRnezWLRrKCBKFYZ+7QE2bSQ9NxsIJCh+97D7qrniTRA3qiLDh4xhYQOeoKMHPCKPk
-         9Y1LR7rarls9XaLDQ+8jwEIyWnk9CkknmrM8c=
+        bh=q5xkKxCL3Jzsz3b6I3G9J3CF3bgTKUICtGA4MgL7tWk=;
+        b=ATPN4auaHbLlfhwUcbXmbu4SA3gT5MAgj1VZ4KUChPsb3/xBta3z5kuMpjh8YGH5wl
+         AhU1uhSD65yElkQv0yi0BLjXMtbb1hThg0ewWdQ+Vd/EnyyjuoF3LVhxHldRKyz+S2LB
+         Sgk7223JiAGvO/lJLPUgdLM4gHvI82SA6Bmnk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778224352; x=1778829152;
+        d=1e100.net; s=20251104; t=1778224349; x=1778829149;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=W8O7Iu1ER7xa6Nzms4p7Af7/0HO3ouo9FLhOP0QUSiQ=;
-        b=MWU8dFEBRc9NU6TGT00nShJA/GiKG3Cg0AG4wqwSJNbfdzF7J1ANXIG8HTNWLb4e/H
-         jykrrZ91x/MyC2ygVzRYKBZn9pf3yC57G591Uc/q6IdWOGanZM+WInTn/KGm+eFvHot1
-         gGsf+TVExhNH/JjtVbtF8sowdsaxExzspQ3nBwpRpaxpMIxnq6JcRO+ieT97oNhaV9vp
-         bVmatmSyTYcZouLVjadVP4PA9UgTt6ftGa/2hoX+X28mVeG1JRZnqlnm/kdvE1vHEDkK
-         3B0cYS/+DGf44U85ZmhCIzONDmmatsaak3xDfsFvsN3hjjhzDyI7DmDgaInbILGPOFWq
-         LCiw==
-X-Gm-Message-State: AOJu0Yze3hnxlrsXx929PTLZ+o5GpW+7qe3uLd3SrxudNt5NTgHoFBkh
-	D6TE3yGKGh/EnDUJL83MSCKdxIRz40zswjQXeTYCnoahDZrBgvkNoo2vyakAdxD3V1Dnhbj6aAq
-	pJx5VyXc=
-X-Gm-Gg: Acq92OFRUewFMaRSPDHKtjbSadEcxmplqthLy7vTvVlfLAd7JbduzWoXwzEeqZPl4AI
-	xz/fmLcdRQLTHNdq76KYQ1Ys+8nejAZymmTE3emdX27FKlbhoWR3exff7gKYvCjkpsLTS+wMzrc
-	BvtE/bKMU7zoKLijvkXuLe75kxhriw+C84KduYQYD0AG1IbABqaI59Vm+aN5BzmKse5lfcS8WUR
-	61VYod3kwnVgSoJnjpFpwyY80MH5JuEk74/BKxhOmojh6+DjZ5KqtvQB3werGU8618Gh+rxM6aJ
-	CAmsobPg1jQaFKSb4qgpXZj6PBp+qu9ul9gzlm3ff8joQTbJSCN9dwiDjbGWhp8qnWYrmsIbB+0
-	wwrZzB65XrTmvo1lw1YFMkJ2dSpynzzkfqo94i5QoIYucVgSvCw3gZg4AJnE/OtycVgTjj1eRHs
-	u6bBVYnyDhhmjxNxpdvOJKncIibGDpjVLQMs9kZwyjFzyg32xJTji65Z4s+GUtjGemmWNXZiUpW
-	QxqK7Rj3GLOS+Slyxw3fcxgo9ChIH1WtcqzeA==
-X-Received: by 2002:adf:f146:0:b0:452:bc55:c684 with SMTP id ffacd0b85a97d-452bc55c6cemr7615710f8f.19.1778224351723;
-        Fri, 08 May 2026 00:12:31 -0700 (PDT)
+        bh=q5xkKxCL3Jzsz3b6I3G9J3CF3bgTKUICtGA4MgL7tWk=;
+        b=RmM9rkfo025CKV+GiWda8ico5XqOz2/bZBUy37Hgam/5AXE/9OuH/4lvo1QuJl0Ezk
+         U6QJpKDcDgUfkGIs5KWAAAp5HPZotzU7cPoMHhQFi4JNhEZjNzMaTfHAH1Vp/GlmXNkk
+         R0+1MPhDkJPlat+fYF26PHKic2Dp0VnFsrWwD6qiIaTntO4Y57REKRam7Rs2uAseBZnN
+         FDCoSMALFY/e2KRT8apVjJ75oUNQoA3k2QpbKktQtijR9BUp+CCXyR9Eo6LZ6Zwu11KI
+         KMtmq6Lcwp0C8mHgHDeFHEWIgCpWarKurvfWuE2z+ZjBf554fp2VcRmE07twsP366nNU
+         mUnA==
+X-Gm-Message-State: AOJu0YzVt66V/4GCrInyrWWHSUhSrZ2XLZE7XN+1kdsKb6F4hTZp6k87
+	NeG3EHuj8XYwl9hfkBJnO6czCkTbQg8wHBiHvMlzZnrxYvmfhjneive/0X9Jcktds3SDF8g6OdH
+	ZeUBmxXM=
+X-Gm-Gg: Acq92OF/wNTF3GrUkrQsEKyyYrJr5b/9+YeaJoIWVgwuZDYe6twT1STOsbcDoIUkzvv
+	1psb0E4D11oV0U13joy/zR/o9zFvfmF4nDqRXUuEtjCp2JSBVBQeppe5PT6vZou3euio3mZnCAl
+	W1+BrxcGDwPAg+3PwnYZ13Kb+rgjrCv1AM/BSmRYx9QbJwI1GksGl+/DFP8TgXo4h5bQrT2GRKZ
+	DXomCU/v0L2oQDFSrJQcVzBGaKJ53alXrABZDvPuzX61T4htCbsfKOGAbu47SYidEHXtpxg8eEJ
+	x62eh3k/tNGTx/ncWnWrL4wuoysdHzfGkO5XNrCL+pSZ2mWMdz11ETi4kECRtun/Ds/e9np6JMB
+	PgHgHsI05ee/Px/wHlNt2LSiIwIQlwXKeUXV9wR6S9s86R+/wO+rRVXuWbStTNSfvbEwluDaQpM
+	/rYS1UCh4jL0/wnsaHU/F5GD1Pe3QWWCM8r7WLw6nNrqgF5h17Wnh3bME/l9f/MvImATGamTp4P
+	r1Zp2y1CcDRODL5sWUqofA+B84=
+X-Received: by 2002:a05:6000:2386:b0:43f:e938:1e67 with SMTP id ffacd0b85a97d-4515d99fff7mr17756950f8f.38.1778224348626;
+        Fri, 08 May 2026 00:12:28 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6be40sm2415545f8f.12.2026.05.08.00.12.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6be40sm2415545f8f.12.2026.05.08.00.12.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 00:12:31 -0700 (PDT)
+        Fri, 08 May 2026 00:12:28 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 29/52] bluez5: add patches to fix 8.56 cli issues
-Date: Fri,  8 May 2026 09:11:22 +0200
-Message-ID: <9ba494f3f3a06979fb23be925ed90d9e2720f2d7.1778198557.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 25/52] gtk4: upgrade 4.22.1 -> 4.22.2
+Date: Fri,  8 May 2026 09:11:18 +0200
+Message-ID: <aba4e1e7bb58de35c8c4c404dd5b28319560e8be.1778198557.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1778198557.git.yoann.congal@smile.fr>
 References: <cover.1778198557.git.yoann.congal@smile.fr>
@@ -66,132 +66,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 07:12:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236671
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236667
 
-From: Leonardo Costa <leonardo.costa@toradex.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-On bluez5 5.86, the bluetoothctl cli interface does not work outside of
-the dedicated shell to list controllers and devices [1]. These patches fix
-the issue while version 5.87 is not published.
+Bugs fixed:
+- #8117 Docs for the new SVG parser?
+- #8119 Wrong colors used for fallback symbolic icons containing classes
+- #8125 svg: Animating hrefs does not work
+- !9590 vulkan: fix GDK_VULKAN_FEATURE_SWAPCHAIN_MAINTENANCE check
+- !9660 Various Vulkan fixes
+- !9665 tests: fix libtestutils build under Windows.
+- !9667 Update Serbian translation
+- !9678 testsuite: Add dmabuf compare tests to needs-udmabuf suite
+- !9681 dmabuf: Support dmabufs with fewer fds than planes
+- !9682 Update Galician translation
+- !9701 Update Turkish translation
+- !9704 Update Catalan translation
+- !9711 Load less icons as symbolics
+- !9719 Fix traditional symbolic fallback
+- !9736 svg: Fix invalidation
+- !9739 Assorted backports
 
-[1] https://github.com/bluez/bluez/issues/1896
-
-Upstream-Status: Backport [https://github.com/bluez/bluez/commit/b33e923b55e4d0e9d78a83cfcb541fd1f687ef54,
-                           https://github.com/bluez/bluez/commit/21e13976f2e375d701b8b7032ba5c1b2e56c305f]
-
-Signed-off-by: Leonardo Costa <leonardo.costa@toradex.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 922227e3ed694f3c96ce3d761ba594255c03b5cc)
+(cherry picked from commit 4d325cb65a0a62af5a34872485dcde5a07765659)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  2 +
- ...ell-Don-t-init-input-for-non-interac.patch | 42 +++++++++++++++++++
- ...d-broken-stdin-handling-in-home-made.patch | 36 ++++++++++++++++
- 3 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Revert-shared-shell-Don-t-init-input-for-non-interac.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-tools-Work-around-broken-stdin-handling-in-home-made.patch
+ meta/recipes-gnome/gtk+/{gtk4_4.22.1.bb => gtk4_4.22.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.22.1.bb => gtk4_4.22.2.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index dd205830159..843e36b78de 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -68,6 +68,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://init \
-            file://run-ptest \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-+           file://0001-Revert-shared-shell-Don-t-init-input-for-non-interac.patch \
-+           file://0001-tools-Work-around-broken-stdin-handling-in-home-made.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.22.1.bb b/meta/recipes-gnome/gtk+/gtk4_4.22.2.bb
+similarity index 97%
+rename from meta/recipes-gnome/gtk+/gtk4_4.22.1.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.22.2.bb
+index bbe595c376a..f2cef8d13ac 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.22.1.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.22.2.bb
+@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM = " \
+     file://tests/testgtk.c;endline=25;md5=49d06770681b8322466b52ed19d29fb2 \
+ "
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Revert-shared-shell-Don-t-init-input-for-non-interac.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Revert-shared-shell-Don-t-init-input-for-non-interac.patch
-new file mode 100644
-index 00000000000..a0271513eb4
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Revert-shared-shell-Don-t-init-input-for-non-interac.patch
-@@ -0,0 +1,42 @@
-+From b33e923b55e4d0e9d78a83cfcb541fd1f687ef54 Mon Sep 17 00:00:00 2001
-+From: Bastien Nocera <hadess@hadess.net>
-+Date: Fri, 27 Feb 2026 12:27:17 +0100
-+Subject: [PATCH] Revert "shared/shell: Don't init input for non-interactive
-+ shells"
-+
-+This reverts commit e73bf582dae60356641a32fc27ae03d359ec4c47.
-+
-+The fix caused "bluetoothctl list" to not output any text, breaking
-+a lot of existing scripts.
-+
-+Closes: https://bugzilla.redhat.com/show_bug.cgi?id=2440346
-+
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/b33e923b55e4d0e9d78a83cfcb541fd1f687ef54]
-+Signed-off-by: Leonardo Costa <leonardo.costa@toradex.com>
-+---
-+ src/shared/shell.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/shared/shell.c b/src/shared/shell.c
-+index 78d58c513..b061f8001 100644
-+--- a/src/shared/shell.c
-++++ b/src/shared/shell.c
-+@@ -1642,13 +1642,13 @@ static bool shell_quit(void *data)
-+ 
-+ bool bt_shell_attach(int fd)
-+ {
-+-	if (data.mode == MODE_INTERACTIVE) {
-+-		struct input *input;
-++	struct input *input;
-+ 
-+-		input = input_new(fd);
-+-		if (!input)
-+-			return false;
-++	input = input_new(fd);
-++	if (!input)
-++		return false;
-+ 
-++	if (data.mode == MODE_INTERACTIVE) {
-+ 		io_set_read_handler(input->io, input_read, input, NULL);
-+ 		io_set_disconnect_handler(input->io, input_hup, input, NULL);
-+ 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tools-Work-around-broken-stdin-handling-in-home-made.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tools-Work-around-broken-stdin-handling-in-home-made.patch
-new file mode 100644
-index 00000000000..c362936bc20
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tools-Work-around-broken-stdin-handling-in-home-made.patch
-@@ -0,0 +1,36 @@
-+From 21e13976f2e375d701b8b7032ba5c1b2e56c305f Mon Sep 17 00:00:00 2001
-+From: Bastien Nocera <hadess@hadess.net>
-+Date: Fri, 27 Feb 2026 12:27:18 +0100
-+Subject: [PATCH] tools: Work-around broken stdin handling in home-made
-+ mainloop
-+
-+bluetoothd has 3 mainloop implementations, one relying on ell, one
-+relying on glib, and another home-made.
-+
-+The home-made mainloop handler use epoll() without any fallbacks, and
-+will hang if one tries to epoll() an stdin that redirects from
-+/dev/null.
-+
-+Closes: https://github.com/bluez/bluez/issues/700
-+
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/b33e923b55e4d0e9d78a83cfcb541fd1f687ef54]
-+Signed-off-by: Leonardo Costa <leonardo.costa@toradex.com>
-+---
-+ Makefile.tools | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile.tools b/Makefile.tools
-+index 589f7c94f..7c52e053f 100644
-+--- a/Makefile.tools
-++++ b/Makefile.tools
-+@@ -531,8 +531,8 @@ tools_obexctl_LDADD = gdbus/libgdbus-internal.la src/libshared-glib.la \
-+ 
-+ tools_btmgmt_SOURCES = tools/btmgmt.c src/uuid-helper.c client/display.c \
-+ 			client/mgmt.c
-+-tools_btmgmt_LDADD = lib/libbluetooth-internal.la src/libshared-mainloop.la \
-+-				-lreadline
-++tools_btmgmt_LDADD = lib/libbluetooth-internal.la src/libshared-glib.la \
-++				$(GLIB_LIBS) -lreadline
-+ if DEPRECATED
-+ noinst_PROGRAMS += attrib/gatttool
-+ 
+-SRC_URI[archive.sha256sum] = "cd7b5a9c41127da6fb321c5a842ad73c62e6996f9ce3f1960ca509f6559d55fc"
++SRC_URI[archive.sha256sum] = "b1c987370a0c30780cde351bdbee02eef816728f1c1c2ec7c8093281c0709ee8"
+ 
+ S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
+ 
 
