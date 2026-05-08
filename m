@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1069CD37AC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCDC0CD37B0
 	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 07:12:50 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8181.1778224368249346683
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8180.1778224367475417762
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 00:12:48 -0700
+ Fri, 08 May 2026 00:12:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=qhxv6MHM;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45297094718so1336339f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 00:12:48 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=G7Yz+zfs;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-44a044cb827so1304660f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 00:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1778224366; x=1778829166; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DbLMxbqJvbTldMzQ3NnHLQf60DA369NifxApNJQLXOA=;
-        b=qhxv6MHMTSbHNJPhg4Zp8INeLHhf7KEwSH6U1OmawEeleJ2Mqr/GlGeTRTu+rdQb0S
-         EA77XBrMbOSe22FCPGtb/ToQDVKA1yyK1J5+8mGclMyU6WrxAj0OOsnN1nPKj8mxWDv+
-         N1v3b1vUKrTFd2WweWFtYFjKZVS6AzSXnOlBE=
+        bh=oQUgV+M18RP3uOHUZOPyuF2v498jzbbqQI5XTZqO/FM=;
+        b=G7Yz+zfsq6OlXDgPaO6fmDr8RIKMuQmWHlGcTzmpB6/Z7HcaasJEeyHIZo2UEeCZ3q
+         ZD0Jw50TeX0LE4hbELAZmUArVi7HT6lCZ3QXxXiCbAUult33el3pwJT7oEFPWVUHTTXr
+         iNlwHtMR4kz3bhVffT90VJgMwPxpqk0cT4AM8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1778224366; x=1778829166;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=DbLMxbqJvbTldMzQ3NnHLQf60DA369NifxApNJQLXOA=;
-        b=PelZYmcHxkpusywqRu4Oshpx+j8QnQQUu6eKO2WQIW96PYWkJ4n1kyzxOJmTh7KgRN
-         fpGRFuRlREClpQcMal/BDjxA7n3d+BuwYCPuh6a+GIUiG4LssxgqbJKQ9Z5/cbw53gBG
-         vmL61yF3eVA1AVSX5zqA3Yl1wFkntyLpNxMgmj/XKWV1Ia0eGlKnVFjd2OiXcMcB477I
-         N6pi2E38avt49ppv5L8/d48i2i438A+q2dEuw78sXSFaHAwhUEavG7+RrjnAnRFXa/fW
-         p23V7lPvMNqNxf2Tlj0wgWsPq7Py5Cowq8tcC1UfRsR5s4tPDrZRqxxw7Q5Psunl/6zw
-         n6Zg==
-X-Gm-Message-State: AOJu0YxgJeRBTvqaZzp93ybekHuNEv4c+iHnjDj7T5uDIVGIMzNcl6A9
-	FzgjA0K3y3CHjz2jxFi/iS2ku1+9eJs3cH53aHhgOZd9E7k39S28AW8YnItPWX0jeqbwYy6NQ0S
-	4XBQdHuQ=
-X-Gm-Gg: Acq92OFXefm6hn9q6/6UKSFsd6Qvx1doAo+svFvGMgi7nRNr/kOvsUnpqHvSMIztPFk
-	01g6tMZYUTwTve4S5kuFVCgWnSZpoYzLuwqHoAV/gX4y9iVzXSeMmC+IPvPNdi0TRz8qLn+FSFL
-	x6LEERF5RNs0YWHSLdM9tzpMZ0V+GfDi+crsqJQkiwZwm1aTImyZDGHf4vqV9QsyUaGKT9Z3cKE
-	iEW5nHrMdbkN+3ztw+JAW2tbvXfJJQC+A+fRo7mr8UYLC67ktf5LduSc5k8jIg2vA+9iMLVuZNF
-	lVau0m+S2TcKcUEGEaGUuH/FFDN59sFfgg1e1lvUHWczGBvW/rGzCwuVhJUVYnPdPNS7cMpDp5o
-	fSyw/4fUSSuQfnZ9dy2xcfNkjHte86hhWEMqMdF6uN1wea/ukKu+3+D5WEGmF/k7CiCZxKB01ZI
-	sImkov6if4+tNDA9PN5jb4Hz4sPas7n/y7mB1TiywFzouzyKKxEgq4gDRWK4WQiZp1ZpXXKRfs6
-	zy2m9S6pSIpVY8V6cl900B60IM=
-X-Received: by 2002:a05:6000:1acf:b0:446:189c:ac4e with SMTP id ffacd0b85a97d-4515d5c63f0mr17368689f8f.34.1778224366175;
-        Fri, 08 May 2026 00:12:46 -0700 (PDT)
+        bh=oQUgV+M18RP3uOHUZOPyuF2v498jzbbqQI5XTZqO/FM=;
+        b=BJXLr+wGKu2wvuLJvE8me+iA0hIg5BbDNWnPRJXC8VQdBVqnZyWtz7ln4qe8+kznRy
+         fJwtNaSEjKi72e/K3Ba7cnrOJ37a2x+gJb3hby56+KFJACJm9gnSBnnn906fhN3ZIWIU
+         k3Jso2Nk4bPgC/jkoBOLkXdm1fXkJNGE5b4fhXB2hFIEA9ZP+mDfehQOCVVB0E0FkH1X
+         VL8hQxEBewiGOn7ju9uZa5P/eG8S2ZXQSlTKYwIwoxcM69GDLVy+UJdRpBaEuTspUcWI
+         14fbUFKGuZa8LM67bTSY2LWyaVz/9fM0s8rZo3yLoOXbVmizHKE/dxr+2Kt2kEDIPaP7
+         kyDQ==
+X-Gm-Message-State: AOJu0Yxk/pToYFF3uaDeSQHpd4sxF4IibuScMtfZwRBnOicIjqwUx/eb
+	A5aT8Qwuvehp5+6xmqt12fJv4h7gNs0RwEvUh7ZDzArbh6LsFxg40Ooep3w4YFJyfgXfV/tmG+L
+	8ftTNVX8=
+X-Gm-Gg: Acq92OGwfWAAJr5ABx1XSIMQfjVRvVKriYeH+LZZh70JVUUD5BqX0mzV8DoCd27vT5g
+	J2lRiGTNqpFighU4T2uWYwCZQzp0hIuWR+sysiOWQr22lD67a5IEOTBETAn1x6LDgG2/wdB8FbB
+	XMNdBofKYSzMq/jHpbaneIrwZr+PrJjW18Bz07WbmC3N32uY9d2DGUYFRksvjQrTyuRFd9hQLQB
+	AWksVO+o6vX6RIOfJgxY95/BBP6PZYvhtQg30yn/LLmqYe/F6z+dWBZdLy+ZHUdin3q4J2Dg+uw
+	H+ZHqQiwuvLoMnSQMtGAro4v2S2s+6RBUuSF+H3UBFYv1ryivmUuzHJmSgfgZvD50chfdJKX3yv
+	CvWrQkOTKNe+CbnkUVKDIZ2jrdQ6NY/mNp9ZS/G1V/2PHJPdNezY45ynUJdQIFe0RvbqQ20t3Pe
+	9WhPSt7bEbYkp8m19VK7zm5476wxmxq1NCKQDjlyogulPCfscZGRnnl090M6qC1He3xSisEy/en
+	swRd2GNyYQ3nv8bL0PmpZ2YTI8=
+X-Received: by 2002:a05:6000:2383:b0:43d:7dcf:ae26 with SMTP id ffacd0b85a97d-4515d4d107bmr19067835f8f.34.1778224365557;
+        Fri, 08 May 2026 00:12:45 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6be40sm2415545f8f.12.2026.05.08.00.12.45
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Fri, 08 May 2026 00:12:45 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 47/52] apr-util: Add CVE_PRODUCT to support product name
-Date: Fri,  8 May 2026 09:11:40 +0200
-Message-ID: <057caf59552ae32301a0c8868abf7b0f10f481db.1778198557.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 46/52] apr: Add CVE_PRODUCT to support product name
+Date: Fri,  8 May 2026 09:11:39 +0200
+Message-ID: <81e41469b7f2b455a54e10a534e679e4a466edeb.1778198557.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1778198557.git.yoann.congal@smile.fr>
 References: <cover.1778198557.git.yoann.congal@smile.fr>
@@ -66,32 +66,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 07:12:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236689
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236688
 
 From: Himanshu Jadon <hjadon@cisco.com>
 
-apr-util is tracked in NVD under apache:apr-util, while a smaller set
-of newer CVEs also appears under apache:portable_runtime_utility.
-Set CVE_PRODUCT accordingly so cve-check can cover both the historical
-and current NVD product identities used for APR-util.
+apr is tracked in NVD under apache:portable_runtime rather than the
+recipe name apr. Set CVE_PRODUCT accordingly so cve-check uses the
+correct NVD product identity for APR.
+
+No additional alias was found to be necessary for this recipe.
 
 Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 927b505c982ed7443aed348ca54b0073ac63d938)
+(cherry picked from commit bc3803e12d4938e2de514c39bd5d0f011f883ace)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-support/apr/apr-util_1.6.3.bb | 3 +++
+ meta/recipes-support/apr/apr_1.7.6.bb | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
-index 17dc79cc9a4..cb5465f8729 100644
---- a/meta/recipes-support/apr/apr-util_1.6.3.bb
-+++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
-@@ -94,3 +94,6 @@ do_install_ptest() {
- 	  cp -r ${B}/test/$i $t; \
- 	done
+diff --git a/meta/recipes-support/apr/apr_1.7.6.bb b/meta/recipes-support/apr/apr_1.7.6.bb
+index 8ad3756b3a0..43d5b0bf4dd 100644
+--- a/meta/recipes-support/apr/apr_1.7.6.bb
++++ b/meta/recipes-support/apr/apr_1.7.6.bb
+@@ -138,3 +138,6 @@ do_install_ptest() {
  }
+ 
+ export CONFIG_SHELL = "/bin/bash"
 +
 +# Add CVE_PRODUCT to match the NVD CPE product name
-+CVE_PRODUCT = "apache:apr-util apache:portable_runtime_utility"
++CVE_PRODUCT = "apache:portable_runtime"
 
