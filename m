@@ -1,523 +1,187 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB73CD3436
-	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 13:19:21 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13437.1778246354342247904
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37DB3CD3436
+	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 13:30:02 +0000 (UTC)
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13708.1778246993545175843
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 06:19:14 -0700
+ Fri, 08 May 2026 06:29:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=HCKJMIfR;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=958850bb7c=changqing.li@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 648BoUDq2647652
-	for <openembedded-core@lists.openembedded.org>; Fri, 8 May 2026 13:19:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:message-id:mime-version:subject:to;
-	 s=PPS06212021; bh=VXll8MND8qZMa+PhWXEYGIQYX0+qmxcQy4awRafW04I=; b=
-	HCKJMIfRL5sBk3PNtczLPXjfl6XoybEWWoYi2Z9VqAB0gGYXa/XrZKauZgEtX3X2
-	1Ncx1LHv0gCbCDi0OGmIXgjDVHEnRYo2GMkByIUXsBgthR97tskThtOkz1p/jgr8
-	WCwDfJ53mZLcqmXYHacoZL4dt+HWkeg9e7Ji6HIkgxsYPUEadtl2OigygHj+ylMa
-	l3E36QVYTnDkHKROWJRrZlKaa8SO+xTfrvP219hOso0AYgFAfeILP38Pq64crcbg
-	tlOE5z3ld150LppPfBDu/LcgiFECQtaat38dLpp6ksyu0bfP3Ni9PbwN1TN0JBX/
-	+JRb8vu5jIjLvpTIBX9Wbg==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011051.outbound.protection.outlook.com [52.101.62.51])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e1dvc05uu-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 08 May 2026 13:19:12 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZUSb+JeKPU7rQRxCAWf8oL/2kWmHvwHK1bJwT4eg75LriG6jqw0nbBk0egQx65cjL1JhmSqf76O2GBuxuEKC87MwkocoB0OKAAWyCiPyjxtZNxTAHPccIunLTSD58nzK/L2n/O1s7OgGIAD8DaPUltpVwfxNtISgancveTWJlAGYKJ0zYT+CDQWslPJnO4ljt7BNiiSgj6byzx43u1moJDm3kHNuHJf6YfRSKtd4efbwFJgxmXZ/BlTA41FaQjDCfxsHI0quEAtYJlV3/vAqLIr7C2WSxbcSZFzPI0Y3n+SXweE+Bc72LCk31poU1YASGklP12FT1dHdfabsl5RyhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VXll8MND8qZMa+PhWXEYGIQYX0+qmxcQy4awRafW04I=;
- b=CUYXdLlPDodtDvfkvh0gVvqBhLojT67/TGf7/E/tGXt6U/3YObX6Sd2ECsy9a41I2accEg7eUKcrlcMtf7cSDijQcsHsPE9t6K4JkWuSF4bnFHrftdv9m+Tk37Omjj9wMuuDgR9OyvlRF1CA9YzQ+bb7bko1cdC5qU3LB9mm6At6/0L3kqiLDXyAe68hufp91EWXdDw1wKIKB7MUSCDXUHpyww6gfTa8be8Htcg2GN5EFx6f+83zzMGeEXRp8OgQtVwzPsWrTSKOKdRS7mv5gFG4lMWdMPTMBmlLRqUsRoiRz57FzLqTjT5Kb8XBH1kkzILOrfjssrg+9pUzsyHyDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by PH8PR11MB6950.namprd11.prod.outlook.com (2603:10b6:510:226::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Fri, 8 May
- 2026 13:19:08 +0000
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::531e:6ef5:812b:48f6]) by DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::531e:6ef5:812b:48f6%5]) with mapi id 15.20.9891.019; Fri, 8 May 2026
- 13:19:08 +0000
-From: "Li, Changqing" <Changqing.Li@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        "mark.hatle@kernel.crashing.org" <mark.hatle@kernel.crashing.org>
-CC: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Pseudo abort issue on ubuntu 26.04
-Thread-Topic: Pseudo abort issue on ubuntu 26.04
-Thread-Index: AQHc3sUMDqQ6y7lZ50Ko18Wd7hw+SA==
-Date: Fri, 8 May 2026 13:19:08 +0000
-Message-ID: 
- <DS0PR11MB7312D96BD98C4D7FAD8D2BD6823D2@DS0PR11MB7312.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=True;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2026-05-08T13:19:07.874Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=1;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR11MB7312:EE_|PH8PR11MB6950:EE_
-x-ms-office365-filtering-correlation-id: 9d910096-468f-493b-7888-08dead0462e1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|10070799003|38070700021|8096899003|56012099003|3023799003|13003099007|18002099003;
-x-microsoft-antispam-message-info: 
- 2Ix9Nv76DdpWhtfgz1baRQBHW4gqRAxGW8ipEsowu3BlrWfhbJdcN+LF5p3ktXXb9SwDGBxQIGCifWPgAbNKF/bqp59r95wiD3iupH9XQ11c0InDbes3nVd5c3ONvHlpUqildfrtKsSYM3EP+QqGbS6A7mCAxCkfIfkAnZNEk1A6S9oVFQN4jktmLwvzYeyGrB3hhcYEGyMDgZSNZkmsSAc0NpC7FMQDcElfnmWipeWLWc6CjsHKbnPx043bq1FYaqyDp/Sb8r++bvz09e0pn0vEVpub4Vahp3i479yoh3gOdmlRvRFQUBc9MIjoh+IXYh6U8udsACEmvcOnIlzGfirjpvK6CfD2jqxCAT6erytqMUm1YgKe6SgoG3kOrKUyvkomAK/EoKuu+F3kXVkteI5IB4hi+m1ggRi0dwU+aaZfe+H5jl/T90hRtwYsR00OfZEiL5JFyGt+ZnWWFAO2cbX6LnQFkIs3SWAewcnpgJbSs0DTQPJnyS62Kj8vRrHm1yNkTWbe9zUL3op6iB3e4ZiOjdMFYbiY/L7KUS4Y1xWiJLVN7ZQZ4H3OgPzbt+1xzeneV/+YOG5wx4ZmarN4JVkX8Ex4qWltmo5IbI5cg4/CRtca8lG8Ev/XVdwkPmUyN5Ae7284wJihWLrYl0KwVJXacIfSvRaQjIolHpdXmIOzDNuf/45sipnr6P3FV2PVOX8R1oTYZ/EPEFSHFq339w==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(10070799003)(38070700021)(8096899003)(56012099003)(3023799003)(13003099007)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?windows-1256?Q?5CuaBBVi/EHEOAu9oCuGI293bO0n/hLbWcjU/79agWHOzNPwKXfKRQGq?=
- =?windows-1256?Q?/GR4i22QqsIzPZhe8m11fsIHwkvPjOWvZAcacP2rlS7UwhV4S/y7Iy6Z?=
- =?windows-1256?Q?T5OFJ5lO8BJg1Wd/FGbUZCyGXeLjTI4cDdis1ri2grVaC3c+wEFRbnm1?=
- =?windows-1256?Q?8S11Wp2QkraZ36QjqnU26v6tDwk1p8kx1ruMEQO0TXOwdGWW907uCb1a?=
- =?windows-1256?Q?lTks8g/iByg/SLdE4hZRzlcVvZoO+nog+87HrzubjpaFqPo0yJxJI7bO?=
- =?windows-1256?Q?6dFvQp7yewfVOJoAIrPZhoZrjtKTIUkMS+5bWNcmf7aIT4fIBIg4bRVL?=
- =?windows-1256?Q?MLwdvtjGgXSi1VOEstWnJQO5Tww6IK/qRUk+ESCZPod/UlVP/+iCEiQP?=
- =?windows-1256?Q?k7H9V9g2aVBeeKbrk4aYs8j7y+TezoAW1kpZAVA/4vanhA5337TJievf?=
- =?windows-1256?Q?/tmm+6H3J/0PKxH0RKU6hJQOxZLeXEk1Ia9dHdd1v6U8cmwkXMxpjS4L?=
- =?windows-1256?Q?6wSVmCFH6Z2ydLJenGdMgBChFaWu2E5XQ/6F/OntG5FwB9CCRWz+Y6U6?=
- =?windows-1256?Q?2KDEjceqcx3aISNQviChs9qptSLVN9m0av70fh25quLgveJfr+zjRjmE?=
- =?windows-1256?Q?qHFnyT4K9uSyzBRwASFSBrZqTXWxD+uq2oYqLB28fmyHOatpcp63uiW0?=
- =?windows-1256?Q?kzKeekS9rIcXXc3NigOu4JMWFtrelCh9shvh+sPqoWW1T5U8/7tDIEPO?=
- =?windows-1256?Q?Bcstt8q+RFlj3x2V+zjP/zwkarjjK8tmNHVCj4WBPAXX+pKbUb9+IgfQ?=
- =?windows-1256?Q?MZ60rNWfBXdu740t1gR4yuZZFsZ4gb+AT0F8bm4W9IzSn02+KoOdzwM6?=
- =?windows-1256?Q?5vXMoZ2OTiP8mCs8roXkCpIEBFLmgVJphMtyTy+kcjE5RwrLM7bJfc+e?=
- =?windows-1256?Q?qx5lRI10TgkxeL3PJhFMqrGyV6+/sjjM1UW/nCTla/ZEu3gitcHdzJSj?=
- =?windows-1256?Q?n575WChed5g+r0EQq31+7/tN3yIqDdcXVymOKgJwKbmJYzXtvhcuMJjj?=
- =?windows-1256?Q?LZv5xyP5trvSxEpeJAovRMFRmFjEbWrRw/hUJruGDb2K+00r9rSJ7Bbc?=
- =?windows-1256?Q?13bpsGSkQM7RyOgiXeXn9Uu4eEmKNyNe+9zgF+Kii5szRusd4n+2vrXu?=
- =?windows-1256?Q?teHlJG+3hVqmzHZfbeo0kHIIEtJiTxpAkwzKr0B8US0AIEEeHOqzkUNu?=
- =?windows-1256?Q?2knuL9dCfAUx/+dXkpocvF2JBL/db/X7BO6rN7u/v5XwfdGFB95TAdHE?=
- =?windows-1256?Q?DEMWt2/sjw4bgY6llaXQKO4WipsgyVYWibQVAkbFyXaaUDn4+Z+SbpL4?=
- =?windows-1256?Q?w+pNnYXezEScNiIsISRw11gmX2e4VfXcBXUjZcq1YLBWq7VV0fBCfrP+?=
- =?windows-1256?Q?D3bDYXKBSHKd1EavwfUMhq2P9q56WQzm4qJpcbNjVFhrkDjHSQevn7Eq?=
- =?windows-1256?Q?SOSozhUQRMZEY8lsvTMSz2oSLgoizLUJ7U4Rsc/+6Puo0bcDFaj9gE5v?=
- =?windows-1256?Q?UBdeO5UaRdvxC3g74G1brFaFrrS5iVtFj57urnockUSj97qevQ7vMcyf?=
- =?windows-1256?Q?i85U4oYNF5iFaffOsnKiWF6c+R60z2oRTjGvtCJeMyiHOvYKAtGBoOsg?=
- =?windows-1256?Q?BBXjr1HmRgMjsr4jo32Q0zoH3HZoAbpwVQAHnkZWdStCTBlor+73aVvu?=
- =?windows-1256?Q?nOqHhal4oi2hUC9ypMawZxGbxVuIa/SlYPAoa18eP7NpWmIf47zy28E4?=
- =?windows-1256?Q?DS1NP8C7wuH5FM3145Cx2LYOvCu08k7+NbNflIKnEHQRjFiNI92udLCR?=
- =?windows-1256?Q?9enKnp2YeXUpPo5s0p24lMtUObXnlCo320Y5YCNkGFKJ8aHiAH6Kvxcg?=
- =?windows-1256?Q?R3A/2niv?=
-x-ms-exchange-antispam-messagedata-1: HqSCrAXOErepaQ==
-Content-Type: multipart/alternative;
-	boundary="_000_DS0PR11MB7312D96BD98C4D7FAD8D2BD6823D2DS0PR11MB7312namp_"
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Vn0NNUJo;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=YQBzpkXq;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.152, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id C33A97A00E9;
+	Fri,  8 May 2026 09:29:52 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 08 May 2026 09:29:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
+	 t=1778246992; x=1778333392; bh=hBFzF8klNb5NJzkE8zR//Zh7iBYgMaHC
+	Z16lAKQfUoc=; b=Vn0NNUJor4ZOaX82gCczmx7qnVaEhko6lhbuhnOntdkJpvsu
+	4qo5fXf4kdemmlfpl5i9ldAkE4iNJl5U5azVhSiOI6Pz06TjbKzJC3bxCmOfV/Um
+	W6pNh+yswZ+rpdl9lk7n1FayAaP6UvXh1zlm7V+jhzQn6kYSSXzPzOnY/Rv7nKIK
+	pggPpFVNwIQQhn8KDVkbph0VECvu2NMnffXEsIsy0A6F1w4Zt2vRcRiAu+qhyJgo
+	6D7CEuw6HVoNkCAxvpafjho0EDh7sSXnY+bQvHWpBvbeZdKL2AaYKAC/y4jwm43m
+	2Ums+BZ1yqS81O5DjLGR5hJXcEmElSOo+PIr2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778246992; x=
+	1778333392; bh=hBFzF8klNb5NJzkE8zR//Zh7iBYgMaHCZ16lAKQfUoc=; b=Y
+	QBzpkXq/mpbHEfnDb35wY6RKWfE1BLBw1jhfwJKVNeeyM9UBD78fF29bgAlY0Uou
+	kNd2gCUAQJAeCbntHIDJp1Sfjb7Hjb//I5sHKCN+eNdcfdma1mHXZMjHXAUI1K5Z
+	uebPaZBp3T+CJimwHpWP5c5QXC54peFufuDaRi5kcbUF5M941LHTDmArXuTYtCaa
+	fZSU7hye8PRCBvQ7ncoDLssSwOY4Q/NccJBhnSpj3CnlUwuFyPbOFI+ZaHMIpl6p
+	MTMERWNWfzyIi04eO8OkrK5md0B2BvlhsD5RLAtjSTPi8kdwuj63NKawKaltAnQ8
+	jZKZvwzdQQEMvDPKQ4/TA==
+X-ME-Sender: <xms:UOX9aW5Wz8AokJ21GG3-Tj1N-d3zpZEQnL9KTRxVuSIUy_v6OsFy6A>
+    <xme:UOX9ad3pMJmCXq6Emj_jw2z6m5KH_f3ZEzxQqWfUUQnTbPnhCDnV9EC9uY91nKEC2
+    BArqU8E5Coprg-3NrNJ-Q7LHJ4D7k1qc8VYdbCczfPc4gVgqNPTxQ>
+X-ME-Received: <xmr:UOX9adCeclMhJ3EJ6858lLPvD5AOHbM2xc96qjn21D7WJrqJmbc2udNFi6cAqWCkBhmPwfIafX6nCu6jocpmOTSZGHjPb0xXPy7NlCemK5zU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddtgeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvffftggfggesghdtreertderje
+    enucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggv
+    vheqnecuggftrfgrthhtvghrnhepffefgeelleegueeujeevkefffffftdeigfehffevte
+    dtvefhgeehudeljeefveefnecuffhomhgrihhnpeguvggsihgrnhdrohhrghdpghhithhh
+    uhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvse
+    hlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehophgvnhgv
+    mhgsvgguuggvugdqrghrtghhihhtvggtthhurhgvsehlihhsthhsrdhophgvnhgvmhgsvg
+    guuggvugdrohhrgh
+X-ME-Proxy: <xmx:UOX9af1p1OeTb6ls1PbSfImmo_Vf09IEMT-oG8OSN2cb60sq7QqWig>
+    <xmx:UOX9aXshe4NDcRy_9vAQjs97oq9uSWTs19042U6TmSpKmafanMkd6Q>
+    <xmx:UOX9af66t9R6CB_ELEkbuCz1Xht_cA3YNqUV2g7bQvvjSBZ8X9z5Qg>
+    <xmx:UOX9aYLa4H6pLDXSjSF1qVdRBqW9uheUx8_2i3pnuKyVWn3GFzbAQg>
+    <xmx:UOX9aR6IalYAMRtx2wHHb6o9OW_UOA19wHgVKO1zR4eHnNOXRYE0NdJv>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 8 May 2026 09:29:51 -0400 (EDT)
+Message-ID: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev>
+Subject: What to do with vim in openembedded-core?
+From: Paul Barker <paul@pbarker.dev>
+To: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, 
+ "openembedded-architecture@lists.openembedded.org"
+	 <openembedded-architecture@lists.openembedded.org>
+Date: Fri, 08 May 2026 14:29:43 +0100
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-E8squ558cXtS0PoA1DZ5"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	nvF4YPlH0BQsMpYA7SpFFUESjmqj+N+nXPjHnD5CUIFoBA1XOC5XEdzBrUs3XmSYW8VyIB+O7vUan9cjLxGZnGarkxVY4ajbLdUwbq0B7kCJiSGe8sop6H2HlSSOBHbOo6kmKD+KGFPJSm4cvUu9Kbnf7Z2O0WEXRbSpF3EMw8g+IugmdH88KMBSj1oDcKizLm8EZzNj6zcTMI+QJCMWU9zntKD+XnxN3jPQXazw1/XVZU31PkuXN2aQ04fa6Ga/OC/IG9XXi1JGbLrah7QQO3oSwuPvrwKSiRgtZ23jLe1rKZeKNe43SVYGfxsjtdM/FOS8eWxD0lYt4Zn4YPXL+g==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d910096-468f-493b-7888-08dead0462e1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2026 13:19:08.3544
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yh2jrEH3qyqBfsNzzR5/T1EfnVhA8fPEY/kI+Eb34r6AK+PulST8iAyfgswaQxOAgAKklCWy53UQT/905xTtVaV7PN/ho+kkh02PUewkbP8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6950
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: EXjiy8zzyesSNdMq78C_8OtuxkywVEYq
-X-Authority-Analysis: v=2.4 cv=adZRWxot c=1 sm=1 tr=0 ts=69fde2d1 cx=c_pps
- a=qX5DP9EEIf1faxnBSU0rOg==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
- a=iGHA9ds3AAAA:8 a=oMtIHeyGAAAA:20 a=X-pmbOGEAAAA:20 a=Q4-j1AaZAAAA:8
- a=uk2fugl40XaAV7CYvOsA:9 a=RFXaeJp-pwgA:10 a=rDToEmndz5iFk6hnDvkA:9
- a=vIg6Ynigg5Sinkr0:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDEzOCBTYWx0ZWRfX06gVslPFHhjR
- QGJ4i7tRgJe7oZ3lyxc9MwREk0xTF6iowHmnjN8yN88UftaoJszbN/3CA7Jul57CjZp0lPTB8n5
- UGVji7g7knSw4xcIB6FshR2SF06dRJHC3208aavg6/I6xJA+RDOHUKszeU4zipqfM0gxC6ebiWS
- 8HykLW0WWfko2xcxdTlVZYVsOhGL2dYEYB4hq80YSe6xq67U6QD1UQ16UOoGztZYU3sUN/E7OZT
- s6QVhzDi1b5/fc9oHdMNT+yri+kt/m/tKitSlU4NJL6l5j1Gm2Ocs1Khh1mAfJEIxcmDsqBwZAH
- rSxjvf7voLdPyO2Nv11pSseB35Qi6hS8FgtxlXaho6EotAc/+npKeIknOUo1ESPyNvKaYUUex+a
- s4c0w4f73KaeBU/FsePUhNuvDaIHscvjqoRY+QShO28FMva3c5a1IgY2oip+9ou1ua/5b1NuCbw
- dVo6Y6jeQagD11+HCIw==
-X-Proofpoint-GUID: jlx6aTBETq_cqdiGyTA-TutZqyhJ4UiX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-07_02,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 spamscore=0 priorityscore=1501 impostorscore=0
- adultscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605080138
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 13:19:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236712
+ <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 13:30:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236713
 
---_000_DS0PR11MB7312D96BD98C4D7FAD8D2BD6823D2DS0PR11MB7312namp_
-Content-Type: text/plain; charset="windows-1256"
+
+--=-E8squ558cXtS0PoA1DZ5
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi all,
 
-I am trying to build project on ubuntu 26.04.  "bitbake postfix"  failed  a=
-t do_package since pseudo abort,   after doing  some search, it is caused b=
-y ubtunu26.04's new change,  Ubuntu has officially begun transitioning its =
-core system utilities from the traditional GNU Coreutils (written in C) to =
-uutils (a Rust-based rewrite).   I would like to seek some help,  could you=
- give some advices about how we should handle this?  Thanks.
+We have a vim recipe in openembedded-core to provide:
+- An editor without the limitations of busybox vi.
+- The `xxd` command, used as a runtime dependency of dosfstools-ptest.
 
-Here is how  it happened:
-* =FD  In do_install stage:
-There are  2 files target to installed under ${D}: (there are other files f=
-ollowing this pattern)
-${D}/usr/libexec/postfix/smtp:     which is  mv from file under {S}, and th=
-en chmod
-${D}/usr/libexec/postfix/lmtp:      hardlink to ${D}/usr/libexec/postfix/sm=
-tp
+However, vim is difficult to maintain in our stable releases. There is a
+regular stream of CVEs that need fixing due to the large UI and input
+surface of vim, and backporting fixes has proven difficult. This isn't
+just a Yocto Project issue, the Debian tracker [1] currently shows 14
+unresolved CVEs in Trixie and 15 unresolved CVEs in Bookworm. And, it's
+very difficult to share work between distros, as vim tags every commit
+as a new release, every distro ends up on a different release and needs
+to re-validate any backported patches.
 
-With the old gnu coreutils:
-when install smtp,   mv will call renameat2, which will finally calling rea=
-l syscall since the oldpath is under {S} which is not in PSEUDO_INCLUDE_PAT=
-HS.
-then chmod call fchmodat,   then fchmodat wrapper will save an entry with u=
-id 0 in files.db.   install lmtp will also insert an entry with uid 0 in fi=
-les.db
+So, I propose we drop vim from openembedded-core on the master branch,
+post-wrynose.
 
-With the new rust coreutils:
-when install smtp,    the behavior of chmod is different,   statx get curre=
-nt mode,  rust chmod check the current mode  is the same as the target mode=
-, then
-fchmodat is never called, then smtp is not saved in files.db,  and this wil=
-l also make install lmtp insert an entry with real uid like 25610  in files=
-.db since smtp is not found in files.db
+We can use tinyxxd [2] to provide xxd, this is based on the vim codebase
+and frequently merges changes from upstream.
 
-* =FD  in do_package stage:
+We can use GNU Nano as our default editor where something more capable
+than busybox vi is needed, this has a sensible release model. The much
+simpler input model and lack of scripting facility means that CVEs in
+nano are much fewer and further between.
 
-Exception: subprocess.CalledProcessError: Command 'tar --exclude=3D./sysroo=
-t-only -cf - -C /yocto/build/tmp/work/x86-64-v3-oe-linux/postfix/3.10.8/ima=
-ge -p -S . | tar -xf - -C /yocto/build/tmp/work/x86-64-v3-oe-linux/postfix/=
-3.10.8/package' returned non-zero exit status 2.
+If we do this, what should we do with vim? We could move it back to
+meta-oe, but that would simply be moving the maintenance burden. We
+could stop backporting CVE fixes to vim and recommend that an LTS mixin
+layer is used to provide newer versions of vim for stable branches. I'm
+open to ideas.
 
-Subprocess output:
-abort()ing pseudo client by server request. See https://wiki.yoctoproject.o=
-rg/wiki/Pseudo_Abort for more details on this.
-Check logfile: /buildarea1/cli10/yocto/build/tmp/work/x86-64-v3-oe-linux/po=
-stfix/3.10.8/pseudo//pseudo.log
+[1]: https://tracker.debian.org/pkg/vim
+[2]: https://github.com/xyproto/tinyxxd
 
-tar command may  call stat  for ${D}/usr/libexec/postfix/smtp,   since the =
- we have a same inode entry in files.db for lmtp, above error reported.
+Best regards,
+
+--=20
+Paul Barker
 
 
-The key  issue is ${D}/usr/libexec/postfix/smtp is not inserted in files.db=
- in do_install stage,  which will cause wrong uid for lmtp and  psedo abort=
- in do_package stage.
-I think we cannot change behavior of rust coreutils.   I am wondering even =
-we patch postfix to not use hardlink, the pseudo abort issue may disappear,=
-  but since
-chmod not call fchmodat,   we don't insert entries for these files,   maybe=
- the uid etc is wrong in final image.
+--=-E8squ558cXtS0PoA1DZ5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-[1] https://github.com/uutils/coreutils/blob/main/src/uu/chmod/src/chmod.rs
-[2] https://github.com/coreutils/coreutils/blob/master/src/chmod.c
-[3] https://lists.openembedded.org/g/openembedded-devel/topic/119211397    =
-// patch for build postfix with linux kernel 7.x
+-----BEGIN PGP SIGNATURE-----
 
-Regards
-Changqing
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaf3lRxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bu15AQCI2bhe/KD6n7A03vTuQWfLGMer2Cacjm7N
++EsdH4956wD/bc2X3+SiUd9P+ZpIJE/JxacguWAvxqwDlv0fBI7P0QI=
+=OQ6R
+-----END PGP SIGNATURE-----
 
-
-
-
-
-
-
-
-
-
-
-
---_000_DS0PR11MB7312D96BD98C4D7FAD8D2BD6823D2DS0PR11MB7312namp_
-Content-Type: text/html; charset="windows-1256"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dwindows-1=
-256">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Hi,&nbsp;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-I am trying to&nbsp;build project on ubuntu 26.04.&nbsp; &quot;bitbake post=
-fix&quot;&nbsp; failed&nbsp; at do_package since pseudo abort,&nbsp; &nbsp;=
-after doing&nbsp; some search, it is caused by ubtunu26.04's new&nbsp;chang=
-e,&nbsp; Ubuntu has officially begun transitioning its core system utilitie=
-s from the traditional
- GNU Coreutils (written in C) to uutils (a Rust-based rewrite).&nbsp; &nbsp=
-;I would like to seek some help,&nbsp; could you give some advices about ho=
-w we should handle this?&nbsp; Thanks.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Here is how&nbsp; it happened:</div>
-<div class=3D"elementToProof" style=3D"margin-top: 0px; margin-bottom: 0px;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-* =FD&nbsp; In do_install stage:</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-There are&nbsp; 2 files target to installed under ${D}: (there are other fi=
-les following this pattern)</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-${D}/usr/libexec/postfix/smtp:&nbsp; &nbsp; &nbsp;which is&nbsp; mv from fi=
-le&nbsp;under {S}, and then chmod&nbsp;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;">
-<span style=3D"color: rgb(0, 0, 0);">${D}/usr/libexec/postfix/lmtp:&nbsp; &=
-nbsp; &nbsp; hardlink to
-</span><span style=3D"color: rgb(0, 0, 0);">${D}/usr/libexec/postfix/smtp&n=
-bsp;</span></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-With the old gnu coreutils:</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-when install smtp,&nbsp; &nbsp;mv will call renameat2, which will finally c=
-alling real syscall since the oldpath is under {S} which is not in PSEUDO_I=
-NCLUDE_PATHS.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-then chmod call fchmodat,&nbsp; &nbsp;then fchmodat&nbsp;wrapper will save =
-an entry with uid 0 in files.db.&nbsp; &nbsp;install lmtp will also insert =
-an entry with uid 0 in files.db</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-With the new rust coreutils:</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-when install smtp,&nbsp; &nbsp; the behavior of chmod is different,&nbsp; &=
-nbsp;statx get current mode,&nbsp; rust chmod check the current mode&nbsp; =
-is the same as the target mode, then</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-fchmodat is never called, then smtp is not saved in files.db,&nbsp; and thi=
-s will also make install lmtp insert an entry with real uid like 25610&nbsp=
-; in files.db since smtp is not found in files.db</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"margin-top: 0px; margin-bottom: 0px;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-* =FD&nbsp; in do_package stage:</div>
-<div class=3D"elementToProof" style=3D"margin-top: 0px; margin-bottom: 0px;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-&nbsp; &nbsp;</div>
-<div class=3D"elementToProof" style=3D"margin-top: 0px; margin-bottom: 0px;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Exception: subprocess.CalledProcessError: Command 'tar --exclude=3D./sysroo=
-t-only -cf - -C /yocto/build/tmp/work/x86-64-v3-oe-linux/postfix/3.10.8/ima=
-ge -p -S . | tar -xf - -C /yocto/build/tmp/work/x86-64-v3-oe-linux/postfix/=
-3.10.8/package' returned non-zero
- exit status 2.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Subprocess output:</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-abort()ing pseudo client by server&nbsp;request. See https://wiki.yoctoproj=
-ect.org/wiki/Pseudo_Abort for more details on this.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Check logfile: /buildarea1/cli10/yocto/build/tmp/work/x86-64-v3-oe-linux/po=
-stfix/3.10.8/pseudo//pseudo.log</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-tar command may&nbsp; call stat&nbsp; for ${D}/usr/libexec/postfix/smtp,&nb=
-sp; &nbsp;since the&nbsp; we have a same inode entry in files.db for lmtp, =
-above error reported.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-The key&nbsp; issue is ${D}/usr/libexec/postfix/smtp is not inserted in fil=
-es.db in do_install stage,&nbsp; which will cause wrong uid for lmtp and &n=
-bsp;psedo abort in do_package stage.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-I think we cannot change behavior of rust coreutils.&nbsp; &nbsp;I am wonde=
-ring even we patch postfix to not use hardlink, the pseudo abort issue may =
-disappear,&nbsp; but since&nbsp;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-chmod not call fchmodat,&nbsp; &nbsp;we don't insert entries for these file=
-s,&nbsp; &nbsp;maybe the uid etc is wrong in final image.&nbsp;&nbsp;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-[1] <a href=3D"https://github.com/uutils/coreutils/blob/main/src/uu/chmod/s=
-rc/chmod.rs" id=3D"OWA7c6517a9-9a4b-07e1-325d-867ab1a7dc89" class=3D"OWAAut=
-oLink">
-https://github.com/uutils/coreutils/blob/main/src/uu/chmod/src/chmod.rs</a>=
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-[2] <a href=3D"https://github.com/coreutils/coreutils/blob/master/src/chmod=
-.c" id=3D"OWAc3173179-353d-719e-1387-ae1bb54d10d0" class=3D"OWAAutoLink">
-https://github.com/coreutils/coreutils/blob/master/src/chmod.c</a></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-[3] <a href=3D"https://lists.openembedded.org/g/openembedded-devel/topic/11=
-9211397">
-https://lists.openembedded.org/g/openembedded-devel/topic/119211397</a>&nbs=
-p; &nbsp; // patch for build postfix with linux kernel 7.x</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Regards</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Changqing</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-</body>
-</html>
-
---_000_DS0PR11MB7312D96BD98C4D7FAD8D2BD6823D2DS0PR11MB7312namp_--
+--=-E8squ558cXtS0PoA1DZ5--
 
