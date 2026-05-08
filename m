@@ -1,231 +1,247 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D51E7CD3445
-	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 14:58:44 +0000 (UTC)
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.327.1778252321261642265
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 221F9CD3445
+	for <webhook@archiver.kernel.org>; Fri,  8 May 2026 15:03:16 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.421.1778252585578765862
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2026 07:58:41 -0700
+ Fri, 08 May 2026 08:03:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Y1sjq6o7;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=rOZD/pcy;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.153, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 42DDC7A0038;
-	Fri,  8 May 2026 10:58:40 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Fri, 08 May 2026 10:58:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1778252320; x=1778338720; bh=D7QfjXgO53
-	/Yd3zwGsfK1vxUdWdi6XOsIuENmqq6Jww=; b=Y1sjq6o7GGCVPs/3oq9qwREBI5
-	hABoGDTUulZIfVbvH54MNosLT5fJtIp+N1DHN4EsqWdUV1sWZw8g4oN5uQUPZjNb
-	Rr7DOPddkaA2YWvMZm/QqnIsBWydILZGXtYdMUATsG/k2OsyqmUA1xIxSrxkvEz5
-	R+GYghQFdfYuh/9a6VuJKQNauqGnvaTnjgkKF9T1JPhpVaaOoJNf+ajYOuHwesF7
-	1qpSkFBRD+vpYoRdEXwzKhPyO7X1aUtyWSpF8AEcOpwKWl4XdrymsTeeMv14fTVg
-	WTobOjfu2heYWOcsjMDoGBkqY66tLm8+6cygNh3JJN4BngTfiE+CdLqD/aag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778252320; x=1778338720; bh=D7QfjXgO53/Yd3zwGsfK1vxUdWdi6XOsIuE
-	Nmqq6Jww=; b=rOZD/pcy9y5T/4p27jofR0THp2D7mFuRtOjn4PH/gmo1HNHvGjw
-	sPNmXbWp8lwxD8kETwSoGzDZju0qx4aoR6K4mkKJZ5CWWllLgI+rpsO8XgPNqeem
-	TwPxedBs/dAMJ/JjO7mUzH12HFGNv7einwWEn1h95iN/48UQ+lSX4P2XU6KagGmK
-	jETMPJtWxHIBItHvNzW5HRpwWIi/0b03ySIyM8YgWeb6taz4TmviiAgPVDqt1xIN
-	+Q2ES/v1fzhstd/ZrpFo3VSwCEzQ4noLP4ohO+plwqve/5/5zq77vu5wdQL1o2zI
-	XsLzZQLHoLiZ9t8ubqJ3o8ityi4c2swc3EA==
-X-ME-Sender: <xms:H_r9aVvDxSlxXUFNTIF9bZBem4JdCRd9V0sWc2ubGHK8gRBPAMqU0A>
-    <xme:H_r9acT9u1FbEXiKDwKPkCqmubqEAOP0FHhShF3ASG4wSdhKW-vle0ZVpnbsgogrZ
-    ed9dS9GZoT0nNYITwL9folMAvTMg_Ku39IZFnHYdIlR9xnhBFXH4Q>
-X-ME-Received: <xmr:H_r9aTNa-khUrH4hCo_S4geZ20ltSWBS8fDtEStxsyziOp1ZdIRedV_mW_qCaaK_5zNE1ds62oTA1Ruxf6bTm88J-J5fa2k5zAAGGdJuN8fd>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddtieehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
-    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    epvdetiefhheetfeevkeevieejkeevtdetieefhfeivedtvdffhfegtdehleehhfehnecu
-    ffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtg
-    htrdhorhhgpdhgihhthhhusgdrtghomhdptghhmhhougdrrhhsnecuvehluhhsthgvrhfu
-    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrd
-    guvghvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pegthhgrnhhgqhhinhhgrdhlihesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhope
-    hrihgthhgrrhgurdhpuhhrughivgeslhhinhhugihfohhunhgurghtihhonhdrohhrghdp
-    rhgtphhtthhopehmrghrkhdrhhgrthhlvgeskhgvrhhnvghlrdgtrhgrshhhihhnghdroh
-    hrghdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdho
-    phgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:H_r9aZaHPK_v-GiqLbCF11iC3Sh7oSnQA3qUTdr_hGP93bezLbOoOg>
-    <xmx:H_r9aVySyZhyZ9yxd44dttgfBBUlqvFLcANpX7DTBQQdIuTSsoFNIA>
-    <xmx:H_r9acLfTveoSDWE0NqtfspmyWx9UgRARtNfLbdvciPXgu0D3uuRCw>
-    <xmx:H_r9aXokiE83J-DVzcnb7_3ehEExIjdahjzXXKnm4uzf_mY-uzpx2A>
-    <xmx:IPr9aR3OCnYcH93QeRnfXku-wT9Af9nB9KaGqRWIm5c3Mnt4jxRy4T45>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 May 2026 10:58:38 -0400 (EDT)
-Message-ID: <0aa707e8222442434bf9361242653873931b9af3.camel@pbarker.dev>
-Subject: Re: [OE-core] Pseudo abort issue on ubuntu 26.04
-From: Paul Barker <paul@pbarker.dev>
-To: changqing.li@windriver.com, Richard Purdie
-	 <richard.purdie@linuxfoundation.org>, "mark.hatle@kernel.crashing.org"
-	 <mark.hatle@kernel.crashing.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 08 May 2026 15:58:36 +0100
-In-Reply-To: <DS0PR11MB7312D96BD98C4D7FAD8D2BD6823D2@DS0PR11MB7312.namprd11.prod.outlook.com>
-References: 
-	<DS0PR11MB7312D96BD98C4D7FAD8D2BD6823D2@DS0PR11MB7312.namprd11.prod.outlook.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ODzPZCVZc9C10MM4HCiw"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BBQUSCS0;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: ticotimo@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a887ebb416so2050617e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 08:03:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778252584; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JPT1tfON9TTMrwlJJvhg4ip0qxD8wXSwiRVf8hdPSFSMN7eDJCzj38h0WXy4oXtINx
+         RDzhxZpqeHR+Zvcw0W1EpOUqEUKQsxXFcJIDaQ55xgPjKfXMVadu+7xSB8hTlHOJDS2S
+         52jmvRDqt2M5vbuWlk/4lYL2vsnJ/t+TWXiDuTecz+AC419MjIHFaC6tGJsCu7FtjuXP
+         tuOf0pbg7bzLSdK714ZzXg0VadvAvvclOeNoVLUMMIFXMahIWBGhpHtwJ+JnckiutZDE
+         8PEmkDbEX+TXCS7kjhKR9Xv6/EuDmiPinBFHb3rouypGTBgKM59e2fv/jgAj4HoZDjrE
+         xJ2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jkFKmyD740JjXFGYA21uevbAzSXclb2hgWHwjc4wS9o=;
+        fh=Zve52/atCzKjDBqMU9JGyYKBzgaRoQKPMo/c/LuNNvE=;
+        b=hTp3OgZiSEFHuXT467aSgAGw0r6nMBWAM3Ocw7zXvca1mlNN39sc9AMVd83G9cSMqr
+         WplJ5rR+khunct8q1q/fBSGbQZFiV8s5jUWOEyIuBzZVrohktXuEWR92VKKDCeeWjUWc
+         IY0fIXmZPSq1HUZChpb46KJ8JrW3VfYsTZWUTZwQD4uU4jND6dlhYRiJF1F2HuT3UWqi
+         vpXhw6C+uP2UnIyIZcC5KFpk/56b9OKV8ggRvH5Ge7IN4EDs6AuaExSeYc9WjtZ+FGKw
+         mm2G89RKCPI7Ku9E1xkjBtqjVSvIG3T+SEcP5G7pQLMVwDjCFinYsaxfGQ8qWhPwPIpG
+         hvIg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778252584; x=1778857384; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jkFKmyD740JjXFGYA21uevbAzSXclb2hgWHwjc4wS9o=;
+        b=BBQUSCS0biGMefEkYkLX7hmnqgwmDCHvpB+a/3Ge5vm+k8tfNoyDb2RhxmfwURtmyj
+         /PSLvDBg5pdXnXqJWosfLy06Nel0cwEsgZKc4EkELykj5SZ/wY9v3yqR+z+hEIiwpyQc
+         lRypP9ERd24YhdJOf/ytqVdH3Nx0y4NrVSLoZ6RobUlecFVklDSme5F7Ze8GX7nIn/Lj
+         IjaEsZk2gvOERZAhK2Gx0jYmFzgd4dy8vXODnR9Z4RYzz/bLYNBf5VXj/R8pSfyO14jl
+         dZ4kWqzim9AwXHLgYSnCbC8HXEsS21M/pn1xrwKrbN8N54LPJkNiUh6mV2FYDfcckHoH
+         nU6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778252584; x=1778857384;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jkFKmyD740JjXFGYA21uevbAzSXclb2hgWHwjc4wS9o=;
+        b=f35I8QN0c242A1+UMV2S+GL8QbcM1MA//IJO41bGtbBjqq4i7SPZzAG0Q2a6ELzAWG
+         wbemfG9Cp9ldH9SwJJz0JTVrH/dPQ4lRWUPfLWN3EkSsYTyaKGrXoprXr5YdCCYOOTW5
+         84GZfYK0Kzjci1txxbghHxSzOpyC6lBmlSTGwBzeZUrEw8tyv/rW+DRGD7B+FXdz/yuG
+         W9OykdDeV8wN7ZwVlL3j8y7iwQqbZ37TbIZTACBg5fgL6f1qSvZ/gzhwVC/6rUVIC3tD
+         AK1dOQn909HVh9onFHr7pe/Oj/fFy7DN5mBalnisdk87RtwdN4q05z1FECcZ1Znp5PiJ
+         x4Kg==
+X-Gm-Message-State: AOJu0Yw/BA+3Kr+zEHHV76C1mr75NzuhwnlNnBjtHh7Y/xWWRVuNMX79
+	HZoLPqyQjSmSY/UeFr3JbnATYH0Ue35zXMl2OwzSeUcIR+LpSBoLPRu63i46+mhGpok90LheERq
+	LiK3w/STszol4R9Hk19SecfjBcfpHVwg=
+X-Gm-Gg: Acq92OHP/2IzNNsrwqtdxCbMs819YvguWw2jJdmxJ0vvIkxL1yhmWkYxs+rRJuMrVn7
+	8IoaSIghhRuEpvvUcmHes78Kq7Ix4EUxbyFk4lfAqVFPI+JS0AinpfB7Uk0NX9DiQrHtkdXNPLc
+	wTekJ1bM0okqNkqy0XiQd3j5se3N5yBA2AzNLhgLtPIj6aTyufaz7dM7ycmQUTMX5NvOhA3b4XJ
+	QuOtHb89SgDctc+QDtoxjf4WC6WNtQuL/VX1vQxgarbE4u8EnjEy3IGUbyGIK+Z/GBt25woq5ol
+	GH9GmdmdvrBkXGJFGA==
+X-Received: by 2002:a05:6512:1384:b0:5a4:db:abce with SMTP id
+ 2adb3069b0e04-5a887ae3fbdmr6252306e87.18.1778252582900; Fri, 08 May 2026
+ 08:03:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev>
+In-Reply-To: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Fri, 8 May 2026 08:02:50 -0700
+X-Gm-Features: AVHnY4IMun9PbR57ZMC2e4UBzGkdGkLsBQnB9mc6hki_iri3zCgwCgpwVQLgPZo
+Message-ID: <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com>
+Subject: Re: [Openembedded-architecture] What to do with vim in openembedded-core?
+To: paul@pbarker.dev
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"openembedded-architecture@lists.openembedded.org" <openembedded-architecture@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000086559406514fb11b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 14:58:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236725
+ <openembedded-core@lists.openembedded.org>; Fri, 08 May 2026 15:03:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236726
 
-
---=-ODzPZCVZc9C10MM4HCiw
+--00000000000086559406514fb11b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-05-08 at 13:19 +0000, Changqing Li via
-lists.openembedded.org wrote:
-> Hi,
->=20
-> I am trying to build project on ubuntu 26.04.  "bitbake postfix"  failed =
- at do_package since pseudo abort,   after doing  some search, it is caused=
- by ubtunu26.04's new change,  Ubuntu has officially begun transitioning it=
-s core system utilities from the traditional GNU Coreutils (written in C) t=
-o uutils (a Rust-based rewrite).   I would like to seek some help,  could y=
-ou give some advices about how we should handle this?  Thanks.
->=20
-> Here is how  it happened:
-> * =E2=80=8E  In do_install stage:
-> There are  2 files target to installed under ${D}: (there are other files=
- following this pattern)
-> ${D}/usr/libexec/postfix/smtp:     which is  mv from file under {S}, and =
-then chmod
-> ${D}/usr/libexec/postfix/lmtp:      hardlink to ${D}/usr/libexec/postfix/=
-smtp
->=20
-> With the old gnu coreutils:
-> when install smtp,   mv will call renameat2, which will finally calling r=
-eal syscall since the oldpath is under {S} which is not in PSEUDO_INCLUDE_P=
-ATHS.
-> then chmod call fchmodat,   then fchmodat wrapper will save an entry with=
- uid 0 in files.db.   install lmtp will also insert an entry with uid 0 in =
-files.db
->=20
-> With the new rust coreutils:
-> when install smtp,    the behavior of chmod is different,   statx get cur=
-rent mode,  rust chmod check the current mode  is the same as the target mo=
-de, then
-> fchmodat is never called, then smtp is not saved in files.db,  and this w=
-ill also make install lmtp insert an entry with real uid like 25610  in fil=
-es.db since smtp is not found in files.db
->=20
-> * =E2=80=8E  in do_package stage:
->=20
-> Exception: subprocess.CalledProcessError: Command 'tar --exclude=3D./sysr=
-oot-only -cf - -C /yocto/build/tmp/work/x86-64-v3-oe-linux/postfix/3.10.8/i=
-mage -p -S . | tar -xf - -C /yocto/build/tmp/work/x86-64-v3-oe-linux/postfi=
-x/3.10.8/package' returned non-zero exit status 2.
->=20
-> Subprocess output:
-> abort()ing pseudo client by server request. See https://wiki.yoctoproject=
-.org/wiki/Pseudo_Abort for more details on this.
-> Check logfile: /buildarea1/cli10/yocto/build/tmp/work/x86-64-v3-oe-linux/=
-postfix/3.10.8/pseudo//pseudo.log
->=20
-> tar command may  call stat  for ${D}/usr/libexec/postfix/smtp,   since th=
-e  we have a same inode entry in files.db for lmtp, above error reported.
->=20
->=20
-> The key  issue is ${D}/usr/libexec/postfix/smtp is not inserted in files.=
-db in do_install stage,  which will cause wrong uid for lmtp and  psedo abo=
-rt in do_package stage.
-> I think we cannot change behavior of rust coreutils.   I am wondering eve=
-n we patch postfix to not use hardlink, the pseudo abort issue may disappea=
-r,  but since
-> chmod not call fchmodat,   we don't insert entries for these files,   may=
-be the uid etc is wrong in final image.
->=20
-> [1] https://github.com/uutils/coreutils/blob/main/src/uu/chmod/src/chmod.=
-rs
-> [2] https://github.com/coreutils/coreutils/blob/master/src/chmod.c
-> [3] https://lists.openembedded.org/g/openembedded-devel/topic/119211397  =
-  // patch for build postfix with linux kernel 7.x
+I understand the pain points you mention, as I have tried to help maintain
+vim in oe-core.
 
-Hi Changqing,
+However, I have a LIFETIME of muscle memory using vim and for me personally
+forcing me to use nano is a non starter.
+So then I would be constantly needing to pull it in from wherever else it
+gets moved.
 
-The tar command failing with exit status 2 should be resolved by recent
-changes in pseudo. Which Yocto Project version are you using?
+I don't have any good suggestions for how to deal with the problem, however=
+.
 
-Thanks,
+On Fri, May 8, 2026 at 6:29=E2=80=AFAM Paul Barker via lists.openembedded.o=
+rg <paul=3D
+pbarker.dev@lists.openembedded.org> wrote:
 
---=20
-Paul Barker
+> Hi all,
+>
+> We have a vim recipe in openembedded-core to provide:
+> - An editor without the limitations of busybox vi.
+> - The `xxd` command, used as a runtime dependency of dosfstools-ptest.
+>
+> However, vim is difficult to maintain in our stable releases. There is a
+> regular stream of CVEs that need fixing due to the large UI and input
+> surface of vim, and backporting fixes has proven difficult. This isn't
+> just a Yocto Project issue, the Debian tracker [1] currently shows 14
+> unresolved CVEs in Trixie and 15 unresolved CVEs in Bookworm. And, it's
+> very difficult to share work between distros, as vim tags every commit
+> as a new release, every distro ends up on a different release and needs
+> to re-validate any backported patches.
+>
+> So, I propose we drop vim from openembedded-core on the master branch,
+> post-wrynose.
+>
+> We can use tinyxxd [2] to provide xxd, this is based on the vim codebase
+> and frequently merges changes from upstream.
+>
+> We can use GNU Nano as our default editor where something more capable
+> than busybox vi is needed, this has a sensible release model. The much
+> simpler input model and lack of scripting facility means that CVEs in
+> nano are much fewer and further between.
+>
+> If we do this, what should we do with vim? We could move it back to
+> meta-oe, but that would simply be moving the maintenance burden. We
+> could stop backporting CVE fixes to vim and recommend that an LTS mixin
+> layer is used to provide newer versions of vim for stable branches. I'm
+> open to ideas.
+>
+> [1]: https://tracker.debian.org/pkg/vim
+> [2]: https://github.com/xyproto/tinyxxd
+>
+> Best regards,
+>
+> --
+> Paul Barker
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#2336):
+> https://lists.openembedded.org/g/openembedded-architecture/message/2336
+> Mute This Topic: https://lists.openembedded.org/mt/119214237/924729
+> Group Owner: openembedded-architecture+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-architecture/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--00000000000086559406514fb11b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=-ODzPZCVZc9C10MM4HCiw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+<div dir=3D"ltr"><div>I understand the pain points you mention, as I have t=
+ried to help maintain vim in oe-core.</div><div><br></div><div>However, I h=
+ave a LIFETIME of muscle memory using vim and for me personally forcing me =
+to use nano is a non starter.</div><div>So then I would be constantly needi=
+ng to pull it in from wherever else it gets moved.</div><div><br></div><div=
+>I don&#39;t have any good suggestions for how to deal with the problem, ho=
+wever.</div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, May 8, 2026 at 6:29=E2=80=AFAM Paul B=
+arker via <a href=3D"http://lists.openembedded.org">lists.openembedded.org<=
+/a> &lt;paul=3D<a href=3D"mailto:pbarker.dev@lists.openembedded.org">pbarke=
+r.dev@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">Hi all,<br>
+<br>
+We have a vim recipe in openembedded-core to provide:<br>
+- An editor without the limitations of busybox vi.<br>
+- The `xxd` command, used as a runtime dependency of dosfstools-ptest.<br>
+<br>
+However, vim is difficult to maintain in our stable releases. There is a<br=
+>
+regular stream of CVEs that need fixing due to the large UI and input<br>
+surface of vim, and backporting fixes has proven difficult. This isn&#39;t<=
+br>
+just a Yocto Project issue, the Debian tracker [1] currently shows 14<br>
+unresolved CVEs in Trixie and 15 unresolved CVEs in Bookworm. And, it&#39;s=
+<br>
+very difficult to share work between distros, as vim tags every commit<br>
+as a new release, every distro ends up on a different release and needs<br>
+to re-validate any backported patches.<br>
+<br>
+So, I propose we drop vim from openembedded-core on the master branch,<br>
+post-wrynose.<br>
+<br>
+We can use tinyxxd [2] to provide xxd, this is based on the vim codebase<br=
+>
+and frequently merges changes from upstream.<br>
+<br>
+We can use GNU Nano as our default editor where something more capable<br>
+than busybox vi is needed, this has a sensible release model. The much<br>
+simpler input model and lack of scripting facility means that CVEs in<br>
+nano are much fewer and further between.<br>
+<br>
+If we do this, what should we do with vim? We could move it back to<br>
+meta-oe, but that would simply be moving the maintenance burden. We<br>
+could stop backporting CVE fixes to vim and recommend that an LTS mixin<br>
+layer is used to provide newer versions of vim for stable branches. I&#39;m=
+<br>
+open to ideas.<br>
+<br>
+[1]: <a href=3D"https://tracker.debian.org/pkg/vim" rel=3D"noreferrer" targ=
+et=3D"_blank">https://tracker.debian.org/pkg/vim</a><br>
+[2]: <a href=3D"https://github.com/xyproto/tinyxxd" rel=3D"noreferrer" targ=
+et=3D"_blank">https://github.com/xyproto/tinyxxd</a><br>
+<br>
+Best regards,<br>
+<br>
+-- <br>
+Paul Barker<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#2336): <a href=3D"https://lists.openembedded.org/g/open=
+embedded-architecture/message/2336" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://lists.openembedded.org/g/openembedded-architecture/message/2336</a><b=
+r>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119214237/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/119214237/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-architecture%2Bowner@lists.open=
+embedded.org" target=3D"_blank">openembedded-architecture+owner@lists.opene=
+mbedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-archi=
+tecture/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
+ded.org/g/openembedded-architecture/unsub</a> [<a href=3D"mailto:ticotimo@g=
+mail.com" target=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaf36HBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0brUYAQDZRnwqRRJXJxam/0wGhNUO+92qYE5A5irU
-IvYZWArIRQEAo2fh8Ykcp7bp3G37RzNfZh3QoZ+bdfp8V6GC6H/x8AY=
-=oA0/
------END PGP SIGNATURE-----
-
---=-ODzPZCVZc9C10MM4HCiw--
+--00000000000086559406514fb11b--
 
