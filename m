@@ -1,381 +1,179 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <floss@jetm.me>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 384DECD37BE
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 22:35:00 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.62961.1778538890815344485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E274CD37BE
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 23:55:50 +0000 (UTC)
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.63995.1778543745398545368
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 15:34:52 -0700
+ Mon, 11 May 2026 16:55:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=J/rCsqeY;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026051122344748fd7d88b200020749-gkb1fp@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026051122344748fd7d88b200020749
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 12 May 2026 00:34:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=dUCCLobKJ1WRA/8/EDofzMfi0eTvRq01uhkflitZj5A=;
- b=J/rCsqeYS3XJl+mmABY6IwndCzom4SWKOJxhLfoUj8LDpU4tG9FP2oLaePnZuOv4cc3gLQ
- lpy33DbeOGykrlas7Zz/SlGuQueEWUjsraxC1kEL8s9H+iJ2LSrQZ9RoL3AT1A4NdQveaW5k
- AQR0z3yOMHeOsrNSAlgBLcn2LSJpYF28VSDEtqZVSWWhAmKWf+n8C4e/jznLrW4ym54ZjjJj
- vM71O+P5K5bZzoOiZcHc0XEezrQ25DZzX27O36Y9ARMzjZw7/vlTFXHSY0LAle8AQp3cLfb3
- tyeJymMt773LcYzTFNbjtfFCmdn4KaI25b8O1AfUstbbbkjpSokSp3Tw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] python3: upgrade 3.14.4 -> 3.14.5
-Date: Tue, 12 May 2026 00:34:19 +0200
-Message-ID: <20260511223421.3077947-1-peter.marko@siemens.com>
+ dkim=pass header.i=@jetm.me header.s=fm2 header.b=t0czZPVR;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=MPiQIJIP;
+ spf=pass (domain: jetm.me, ip: 202.12.124.156, mailfrom: floss@jetm.me)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 907F17A0040;
+	Mon, 11 May 2026 19:55:44 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-02.internal (MEProxy); Mon, 11 May 2026 19:55:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jetm.me; h=cc:cc
+	:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1778543744; x=1778630144; bh=rGpFyLQI45
+	qX7HLhq8pl8eQ3L4mwCZD4Q0uNnGBbB/4=; b=t0czZPVRjIuPhcYObnQesFjOfN
+	uIYSijWJZ25quIPBiA3d7NeWGZhlg9llhMXgaz6qDFDU1ep/ZRU8hEywWMLLRsef
+	CpisVIZUmI8HP9km4YttkFWQzCx4wRWgIfcYoObBYBVVOGPs/uC40JGz4Hazus0O
+	ohdSul0WVYewtoIuiUSybYnScNkMjW/tVSWFf9/Zf8g65rDAskpO5T0ag1WOQy0i
+	A8AhahDWw1OlCK9PwVVLob3l+2IWkQ+N0tLngFnIVRLY7mkPz20OAiA1/iPiTjfh
+	UkvLqtvg3nNqs0jcU0Ata+imJUe8O6SuqFEbJpaWyAphH3Nw6IxPUYGV3oLg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1778543744; x=1778630144; bh=rGpFyLQI45qX7HLhq8pl8eQ3L4mw
+	CZD4Q0uNnGBbB/4=; b=MPiQIJIPIx2IOO6wUG+ZGkTsFjcHg/XKy8LdyRJL2cP3
+	yx0A1215acwAA7AJ4VlgVvfC/WkFhucRapcG3oG1svjsVym8ycfiO1A8J+T78e8C
+	BgEdsclofE28q3/yicf/OY4xZv44yIzidQafsdRglcGFjyPs6muzGvfy8XJrp0Cx
+	Iye72Gy1ol6LTktFGGZfok6GVHOrU5qE3BrsRAJye85AeLWUSJJpXDsWIEtTsp31
+	KzWZH+UjYu8jgp2bAH0QcHhKdKt5CBniGoYGbqLKC6gbJMP9fKGkdAV8qpYdcMNt
+	oPzJAi3JXEH4tylHo8X/Zvy4qYUMqqQ/Hmps3o/43w==
+X-ME-Sender: <xms:f2wCaoy-hu6hdSTtty50Q2XZBQORBAjQ5rH-544mAPlLfYyBAhAyEg>
+    <xme:f2wCanG9L4uwo0OuY8UTSI2uXjW3aa97vMF9yn46jtnzFbRkc5VFt67pVlr7Vhfly
+    lYmap3S_fMmaaB9zVeNkA-1Q6JGefYi-EsU-ppiYr1nrRYAdQVR7Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvddtfeduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegouf
+    hushhpvggtthffohhmrghinhculdegledmnecujfgurhepoffhfffugggtgffkvfevofes
+    thejredtredtjeenucfhrhhomheplfgrvhhivghrucfvihgruceofhhlohhsshesjhgvth
+    hmrdhmvgeqnecuggftrfgrthhtvghrnhepffeiueetueefudfftdfgjeelkedvhfehieet
+    ffelfffhteekvdeuleekvedthfelnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpsg
+    gstghlrghsshdrnhgvfidpghhithhhuhgsrdhiohenucevlhhushhtvghrufhiiigvpedt
+    necurfgrrhgrmhepmhgrihhlfhhrohhmpehflhhoshhssehjvghtmhdrmhgvpdhnsggprh
+    gtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeholhhivhhivghr
+    rdgsvghnjhgrmhhinhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehophgvnhgvmh
+    gsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:f2wCarfgbXA-FDk_DTirUat17EF5_pBc5r5nNYwAvxyNWc9-58IAiw>
+    <xmx:f2wCavJgO5lRTF-dfVKCIBPGq48NDnNPWurjv2_kXY_oiG_jL7KkiA>
+    <xmx:f2wCasEwQLyXAEQGIOelL1VVPHsVCS3hytMLEpQcigs7q4bdzL0fsQ>
+    <xmx:f2wCapoTpsBV_2tf9m0r27U7SFHtnltqyh0u5MFEtdoS0FzTEJ8CSA>
+    <xmx:gGwCarcCtyEH5CTMk1tM5s976XE6j6S9OZqPezsxXh1ZJI5vPJ7nxs0Y>
+Feedback-ID: i9dde48b3:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id CFC1D1EA006C; Mon, 11 May 2026 19:55:43 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+From: Javier Tia <floss@jetm.me>
+Date: Mon, 11 May 2026 17:55:42 -0600
+Subject: [PATCH] spdx30: default SPDX_PACKAGE_SUPPLIER to OpenEmbedded
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260511-spdx30-package-supplier-default-v1-1-12e0d086ccf4@jetm.me>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXN0QrCMAyF4VcZuTbQVFTwVcSLLM00OmZpVhmMv
+ btVLz8O/GcF12LqcO5WKPo2t9fUQLsO5M7TTdFSM8QQj+FAhJ7Tsg+YWZ7cVq85j6YFkw5cxxn
+ pJNQnocCRoFVy0cGW38Pl+rfX/qEyf7OwbR+JBq8ugwAAAA==
+X-Change-ID: 20260511-spdx30-package-supplier-default-17c1bdc10a21
+To: openembedded-core@lists.openembedded.org
+Cc: Olivier Benjamin <olivier.benjamin@bootlin.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3797; i=floss@jetm.me;
+ h=from:subject:message-id; bh=Uelom8E7biersk8ZXSab/6iLDc9OubxiPepcfKbo/HM=;
+ b=owEB7QES/pANAwAKAbXuwwuoZ3cfAcsmYgBqAmx9Q2Z+RXsnjIPx2EHRmXq9wAESzN/E2wGr0
+ CAC6xpgzbuJAbMEAAEKAB0WIQSbE7ILzw7eI0VKk8m17sMLqGd3HwUCagJsfQAKCRC17sMLqGd3
+ H/2yC/9EqSy+r/EyuljQLqp4THbyj01QtqX+0XEiy2ctAnaCwaJPkOkPUmbmobuO+1LpCTFpKVq
+ +PBstbn/TMyE/c7nAHnY5F1chaYEdya5Idf3eBHyuH/d+Y+AXFU/vPAyws2SHmdfQC7prdXA7BU
+ WOB7FX25XFK1l2V0A3ipyi3WI6Qk5xjLihxtHppm4s7bkWkTfP9EmIhPUrEtmiXJWeH/CONLHY+
+ gSt2VYzpY55obET4A/Nh8K28IitKrX1QkWGmcwRXfnLKPu3g8My6fNfHRM7vsQ1yluKdfoA/0dQ
+ +lr+sN/OwLoU32IJNZTaeJjSXBxQlORwiTUQsjhQn1Wrmeoln0NaMAo3/l+yHxhG0h79uRtfxTJ
+ pYgcshB/zuwUsYhDi0UOD18VjtXYJ3eDi6Sl32NQe57lm6g3KSOZd6tJsGjaLaA8Isz3nG0MAhc
+ KCHLLL31F2eTl9ROd7G80QNdMu35YLY4hE7Wsk9FCuL4UgTmnUaHKfp33+el/QdBXBpSo=
+X-Developer-Key: i=floss@jetm.me; a=openpgp;
+ fpr=9B13B20BCF0EDE23454A93C9B5EEC30BA867771F
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 22:35:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236842
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 23:55:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236843
 
-From: Peter Marko <peter.marko@siemens.com>
+spdx_package.suppliedBy is only set when SPDX_PACKAGE_SUPPLIER is
+explicitly configured. Default builds leave the property empty on every
+software_Package Element, so SBOM consumers that require it (BSI
+TR-03183-2 v2.1.0 validators among them, surfaced by shipcheck at
+https://github.com/jetm/shipcheck/issues/3) treat the SBOM as missing a
+normative field.
 
-Release notes: [1] and [2].
+Default SPDX_PACKAGE_SUPPLIER_ref to the SPDX_AUTHORS_openembedded
+agent already defined in this file. new_agent() resolves the _ref
+redirect (meta/lib/oe/sbom30.py), so the existing OpenEmbedded
+Organization Element gets attached as suppliedBy on every Package
+without creating a duplicate Agent. Builds that already configure
+SPDX_PACKAGE_SUPPLIER via _name/_type/_import/_ref keep their
+behavior; the ??= only kicks in when nothing is set. The default
+resolves to a fixed in-tree string, so SPDX output stays reproducible.
 
-Resolves following CVEs from reports:
-* CVE-2026-1502
-* CVE-2026-3087 (Windows specific)
-* CVE-2026-3298 (Windows specific)
-* CVE-2026-4786 (explicitly set, see Debian security tracker)
-* CVE-2026-5713 (explicitly set, see Debian security tracker)
-* CVE-2026-6019 (explicitly set, see Debian security tracker)
-* CVE-2026-6100 (explicitly set, see Debian security tracker)
-Also some security issues without CVE assignment.
+This follows the additive pattern used by commit c8e6953a0b
+("spdx30: Provide software_packageUrl field in SPDX 3.0 SBOM"): give
+the field a sensible default value, leave overrides untouched.
 
-Refresh patches.
-
-[1] https://docs.python.org/3/whatsnew/changelog.html#python-3-14-5-final
-[2] https://docs.python.org/3/whatsnew/changelog.html#python-3-14-5-release-candidate-1
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Javier Tia <floss@jetm.me>
 ---
- ...01-Avoid-shebang-overflow-on-python-config.py.patch |  2 +-
- ....py-handle-stdin-I-O-errors-same-way-as-maste.patch |  2 +-
- ...e.pre-use-qemu-wrapper-when-gathering-profile.patch |  2 +-
- ...ailing-tests-due-to-load-variability-on-YP-AB.patch | 10 +++++-----
- .../0001-Skip-flaky-test_default_timeout-tests.patch   |  4 ++--
- ...-Update-test_sysconfig-for-posix_user-purelib.patch |  2 +-
- ...no_stdout_fileno-test-due-to-load-variability.patch |  2 +-
- ...01-test_active_children-skip-problematic-test.patch |  2 +-
- .../0001-test_cmd-skip-bang-completion-test.patch      |  2 +-
- ...-test_ctypes.test_find-skip-without-tools-sdk.patch |  2 +-
- ...test_locale.py-correct-the-test-output-format.patch |  2 +-
- ...test_only_active_thread-skip-problematic-test.patch |  2 +-
- ...repl-skip-test_unix_console.test_cursor_back_.patch |  2 +-
- .../0001-test_readline-skip-limited-history-test.patch |  6 +++---
- ...sconfig-skip-test_sysconfig.test_sysconfigdat.patch |  2 +-
- meta/recipes-devtools/python/python3/makerace.patch    |  2 +-
- .../python/{python3_3.14.4.bb => python3_3.14.5.bb}    |  8 ++++++--
- 17 files changed, 29 insertions(+), 25 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.14.4.bb => python3_3.14.5.bb} (98%)
+COVER-LETTER-BODY-FOLLOWS
+shipcheck v0.0.6 (https://github.com/jetm/shipcheck) added an SPDX 3.0
+validator that scores SBOMs against the BSI TR-03183-2 v2.1.0 minimum
+content set. A stock poky core-image-minimal with
+INHERIT += "create-spdx-3.0" scores 0/30 on the per-package field
+check because suppliedBy is empty by default. Patch context and a
+public issue are at https://github.com/jetm/shipcheck/issues/3.
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-index eaf5ea5049..c2106f9437 100644
---- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-@@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index 9ec3a71..f7d5382 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2585,6 +2585,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-+@@ -2829,6 +2829,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-  	@ # Substitution happens here, as the completely-expanded BINDIR
-  	@ # is not available in configure
-  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-index 84ad2abb0b..d9072a36f7 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-@@ -32,7 +32,7 @@ diff --git a/Lib/pty.py b/Lib/pty.py
- index 1d97994..fa8821b 100644
- --- a/Lib/pty.py
- +++ b/Lib/pty.py
--@@ -178,7 +178,10 @@ def _copy(master_fd, master_read=_read, stdin_read=_read):
-+@@ -149,7 +149,10 @@ def _copy(master_fd, master_read=_read, stdin_read=_read):
-              i_buf = i_buf[n:]
-  
-          if stdin_avail and STDIN_FILENO in rfds:
-diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-index 39b62f6f26..e25797f57e 100644
---- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-@@ -18,7 +18,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index 3bd4495f95b..8e8fc60bc76 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -751,8 +751,7 @@ profile-run-stamp:
-+@@ -857,8 +857,7 @@ profile-run-stamp:
-  	# enabled.
-  	$(MAKE) profile-gen-stamp
-  	# Next, run the profile task to generate the profile information.
-diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-index 4a35e8854e..a236268efb 100644
---- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-@@ -30,7 +30,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
- index 9a72362c022..008e6a505a5 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -722,6 +722,7 @@ def test_close(self):
-+@@ -774,6 +774,7 @@ class _TestProcess(BaseTestCase):
-          close_queue(q)
-  
-      @support.requires_resource('walltime')
-@@ -38,7 +38,7 @@ index 9a72362c022..008e6a505a5 100644
-      def test_many_processes(self):
-          if self.TYPE == 'threads':
-              self.skipTest('test not appropriate for {}'.format(self.TYPE))
--@@ -2345,6 +2346,7 @@ def _test_timeout_f(cls, barrier, results):
-+@@ -2398,6 +2399,7 @@ class _TestBarrier(BaseTestCase):
-          except threading.BrokenBarrierError:
-              results.append(True)
-  
-@@ -46,7 +46,7 @@ index 9a72362c022..008e6a505a5 100644
-      def test_timeout(self):
-          """
-          Test wait(timeout)
--@@ -5459,6 +5461,7 @@ def signal_and_sleep(cls, sem, period):
-+@@ -5550,6 +5552,7 @@ class TestWait(unittest.TestCase):
-          time.sleep(period)
-  
-      @support.requires_resource('walltime')
-@@ -58,7 +58,7 @@ diff --git a/Lib/test/test_time.py b/Lib/test/test_time.py
- index 5312faa5077..36873d9a400 100644
- --- a/Lib/test/test_time.py
- +++ b/Lib/test/test_time.py
--@@ -548,6 +548,7 @@ def test_monotonic(self):
-+@@ -548,6 +548,7 @@ class TimeTestCase(unittest.TestCase):
-      def test_perf_counter(self):
-          time.perf_counter()
-  
-@@ -66,7 +66,7 @@ index 5312faa5077..36873d9a400 100644
-      @unittest.skipIf(
-          support.is_wasi, "process_time not available on WASI"
-      )
--@@ -567,6 +568,7 @@ def test_process_time(self):
-+@@ -567,6 +568,7 @@ class TimeTestCase(unittest.TestCase):
-          self.assertTrue(info.monotonic)
-          self.assertFalse(info.adjustable)
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch b/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
-index 4e1bd833b4..d41037f9ea 100644
---- a/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
-@@ -27,7 +27,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
- index e8064e7..9ab1f9e 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -2259,6 +2259,7 @@ class _TestBarrier(BaseTestCase):
-+@@ -2424,6 +2424,7 @@ class _TestBarrier(BaseTestCase):
-          """
-          Test the barrier's default timeout
-          """
-@@ -39,7 +39,7 @@ diff --git a/Lib/test/lock_tests.py b/Lib/test/lock_tests.py
- index 8c8f890..43e9b90 100644
- --- a/Lib/test/lock_tests.py
- +++ b/Lib/test/lock_tests.py
--@@ -1165,6 +1165,7 @@ class BarrierTests(BaseTestCase):
-+@@ -1215,6 +1215,7 @@ class BarrierTests(BaseTestCase):
-          """
-          Test the barrier's default timeout
-          """
-diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-index adaca4ff77..6a62c6dc5b 100644
---- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-@@ -25,7 +25,7 @@ diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
- index 1ade492..4e94889 100644
- --- a/Lib/test/test_sysconfig.py
- +++ b/Lib/test/test_sysconfig.py
--@@ -430,7 +430,7 @@ class TestSysConfig(unittest.TestCase):
-+@@ -434,7 +434,7 @@ class TestSysConfig(unittest.TestCase, VirtualEnvironmentMixin):
-                  expected = os.path.normpath(global_path.replace(base, user, 1))
-                  # bpo-44860: platlib of posix_user doesn't use sys.platlibdir,
-                  # whereas posix_prefix does.
-diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-index 9bc8b091cc..b186bdcb88 100644
---- a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-+++ b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-@@ -19,7 +19,7 @@ diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
- index c5394de..ed17fb6 100644
- --- a/Lib/test/test_builtin.py
- +++ b/Lib/test/test_builtin.py
--@@ -2474,6 +2474,7 @@ class PtyTests(unittest.TestCase):
-+@@ -2738,6 +2738,7 @@ class PtyTests(unittest.TestCase):
-                           "byte 0xe9 in position 4: ordinal not in "
-                           "range(128)")
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-index 80aa29faf0..d7202aa575 100644
---- a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-@@ -21,7 +21,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
- index 008e6a505a5..746de8945f0 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -615,6 +615,7 @@ def test_cpu_count(self):
-+@@ -667,6 +667,7 @@ class _TestProcess(BaseTestCase):
-          self.assertIsInstance(cpus, int)
-          self.assertGreaterEqual(cpus, 1)
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch b/meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch
-index d339e8c198..f1ba044cc3 100644
---- a/meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch
-@@ -18,7 +18,7 @@ diff --git a/Lib/test/test_cmd.py b/Lib/test/test_cmd.py
- index dbfec42fc21..c33dab8d10d 100644
- --- a/Lib/test/test_cmd.py
- +++ b/Lib/test/test_cmd.py
--@@ -295,6 +295,7 @@ def do_tab_completion_test(self, args):
-+@@ -295,6 +295,7 @@ class CmdTestReadline(unittest.TestCase):
-          self.assertIn(b'ab_completion_test', output)
-          self.assertIn(b'tab completion success', output)
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-index 68e277d662..cdcd9302d6 100644
---- a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-@@ -18,7 +18,7 @@ diff --git a/Lib/test/test_ctypes/test_find.py b/Lib/test/test_ctypes/test_find.
- index 85b2861..b033203 100644
- --- a/Lib/test/test_ctypes/test_find.py
- +++ b/Lib/test/test_ctypes/test_find.py
--@@ -116,10 +116,12 @@ class FindLibraryLinux(unittest.TestCase):
-+@@ -117,10 +117,12 @@ class FindLibraryLinux(unittest.TestCase):
-                  # LD_LIBRARY_PATH)
-                  self.assertEqual(find_library(libname), 'lib%s.so' % libname)
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-index 189246911b..201271b0c0 100644
---- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-@@ -34,7 +34,7 @@ diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
- index da4bd79..fd9e67d 100644
- --- a/Lib/test/test_locale.py
- +++ b/Lib/test/test_locale.py
--@@ -501,7 +501,7 @@ class TestRealLocales(unittest.TestCase):
-+@@ -500,7 +500,7 @@ class TestRealLocales(unittest.TestCase):
-              self.skipTest('test needs Turkish locale')
-          loc = locale.getlocale(locale.LC_CTYPE)
-          if verbose:
-diff --git a/meta/recipes-devtools/python/python3/0001-test_only_active_thread-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_only_active_thread-skip-problematic-test.patch
-index 4886b7e386..bc436e077a 100644
---- a/meta/recipes-devtools/python/python3/0001-test_only_active_thread-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_only_active_thread-skip-problematic-test.patch
-@@ -17,7 +17,7 @@ diff --git a/Lib/test/test_external_inspection.py b/Lib/test/test_external_inspe
- index a709b837161..7a87092c10e 100644
- --- a/Lib/test/test_external_inspection.py
- +++ b/Lib/test/test_external_inspection.py
--@@ -1111,6 +1111,7 @@ def test_self_trace(self):
-+@@ -1154,6 +1154,7 @@ class TestGetStackTrace(unittest.TestCase):
-              ],
-          )
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch b/meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch
-index e886c046cb..97f7871266 100644
---- a/meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch
-@@ -33,7 +33,7 @@ diff --git a/Lib/test/test_pyrepl/test_unix_console.py b/Lib/test/test_pyrepl/te
- index 3b0d2637dab..5a3c8952f61 100644
- --- a/Lib/test/test_pyrepl/test_unix_console.py
- +++ b/Lib/test/test_pyrepl/test_unix_console.py
--@@ -172,6 +172,7 @@ def test_cursor_up_down(self, _os_write):
-+@@ -186,6 +186,7 @@ class TestConsole(TestCase):
-          _os_write.assert_any_call(ANY, TERM_CAPABILITIES["cud"] + b":1")
-          con.restore()
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-index a619d51c10..c59c6672e0 100644
---- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-@@ -20,7 +20,7 @@ diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
- index 537a9fb..ddf0323 100644
- --- a/Lib/test/test_readline.py
- +++ b/Lib/test/test_readline.py
--@@ -71,6 +71,7 @@ class TestHistoryManipulation (unittest.TestCase):
-+@@ -74,6 +74,7 @@ class TestHistoryManipulation (unittest.TestCase):
-  
-      @unittest.skipUnless(hasattr(readline, "append_history_file"),
-                           "append_history not available")
-@@ -28,7 +28,7 @@ index 537a9fb..ddf0323 100644
-      def test_write_read_append(self):
-          hfile = tempfile.NamedTemporaryFile(delete=False)
-          hfile.close()
--@@ -142,6 +143,7 @@ class TestHistoryManipulation (unittest.TestCase):
-+@@ -145,6 +146,7 @@ class TestHistoryManipulation (unittest.TestCase):
-          self.assertEqual(readline.get_history_item(1), "entrée 1")
-          self.assertEqual(readline.get_history_item(2), "entrée 22")
-  
-@@ -36,7 +36,7 @@ index 537a9fb..ddf0323 100644
-      def test_write_read_limited_history(self):
-          previous_length = readline.get_history_length()
-          self.addCleanup(readline.set_history_length, previous_length)
--@@ -390,6 +392,7 @@ readline.write_history_file(history_file)
-+@@ -393,6 +395,7 @@ readline.write_history_file(history_file)
-          self.assertIn(b"done", output)
-  
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch b/meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch
-index 0fe9399bf1..6dfba59a44 100644
---- a/meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch
-@@ -19,7 +19,7 @@ diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
- index 09eff11179e..14fcdedccba 100644
- --- a/Lib/test/test_sysconfig.py
- +++ b/Lib/test/test_sysconfig.py
--@@ -685,6 +685,7 @@ def test_makefile_overwrites_config_vars(self):
-+@@ -689,6 +689,7 @@ class TestSysConfig(unittest.TestCase, VirtualEnvironmentMixin):
-          self.assertNotEqual(data['prefix'], data['base_prefix'])
-          self.assertNotEqual(data['exec_prefix'], data['base_exec_prefix'])
-  
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
-index bf73135e09..b29ea56cc3 100644
---- a/meta/recipes-devtools/python/python3/makerace.patch
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index be1b9ea..9ec3a71 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2492,7 +2492,7 @@ COMPILEALL_OPTS=-j0
-+@@ -2735,7 +2735,7 @@ COMPILEALL_OPTS=-j0
-  TEST_MODULES=@TEST_MODULES@
-  
-  .PHONY: libinstall
-diff --git a/meta/recipes-devtools/python/python3_3.14.4.bb b/meta/recipes-devtools/python/python3_3.14.5.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.14.4.bb
-rename to meta/recipes-devtools/python/python3_3.14.5.bb
-index 71f590f630..b5c1d6fb3e 100644
---- a/meta/recipes-devtools/python/python3_3.14.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.5.bb
-@@ -40,8 +40,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
+This series gives SPDX_PACKAGE_SUPPLIER a sensible default by
+reusing the SPDX_AUTHORS_openembedded agent already defined in
+create-spdx-3.0.bbclass. new_agent() (meta/lib/oe/sbom30.py) already
+supports _ref redirection, so the change is one line and no Python
+is touched. Builds that already configure SPDX_PACKAGE_SUPPLIER via
+_name/_type/_import/_ref keep their behavior.
+
+Two adjacent BSI gaps were considered for this series and intentionally
+left out:
+
+- software_declaredLicense as a field on software_Package. The
+  SPDX 3.0.1 spec
+  (https://spdx.github.io/spdx-spec/v3.0.1/model/Software/Classes/Package/)
+  does not define such a property; license is modeled exclusively via
+  Relationship Elements. The hasDeclaredLicense Relationship is
+  already emitted per package in meta/lib/oe/spdx30_tasks.py
+  (61ba0ef140 switched it from hasConcludedLicense). The shipcheck
+  validator needs the relationship-traversal path, not a new field.
+
+- Per-package verifiedUsing aggregated from contained software_File
+  Hash Elements. This is a real spec property (cardinality 0..*) but
+  the multi-hop aggregation is invasive enough to warrant a separate
+  discussion. Tracked on the shipcheck issue above.
+
+Cc: Olivier Benjamin <olivier.benjamin@bootlin.com>
+---
+ meta/classes/create-spdx-3.0.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 56fd01fd53..1fc15ecc7d 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -123,6 +123,7 @@ SPDX_ON_BEHALF_OF[doc] = "The base variable name to describe the Agent on who's
  
--SRC_URI[sha256sum] = "a97d5549e9ad81fe17159ed02c68774ad5d266c72f8d9a0b5a9c371fe85d902b"
--SRC_URI[sha256sum] = "d923c51303e38e249136fc1bdf3568d56ecb03214efdef48516176d3d7faaef8"
-+SRC_URI[sha256sum] = "7e32597b99e5d9a39abed35de4693fa169df3e5850d4c334337ffd6a19a36db6"
+ SPDX_PACKAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
+     is supplying artifacts produced by the build"
++SPDX_PACKAGE_SUPPLIER_ref ??= "SPDX_AUTHORS_openembedded"
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-@@ -522,3 +521,8 @@ SYSROOT_PREPROCESS_FUNCS += " py3_sysroot_cleanup"
- py3_sysroot_cleanup () {
- 	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
- }
-+
-+CVE_STATUS[CVE-2026-4786] = "cpe-stable-backport: backported to v3.14.5"
-+CVE_STATUS[CVE-2026-5713] = "cpe-stable-backport: backported to v3.14.5"
-+CVE_STATUS[CVE-2026-6019] = "cpe-stable-backport: backported to v3.14.5"
-+CVE_STATUS[CVE-2026-6100] = "cpe-stable-backport: backported to v3.14.5"
+ SPDX_IMAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
+     is supplying the image SBOM. The supplier will be set on all root elements \
+
+---
+base-commit: 3724b93538d3acbec9f48d4c524b51d166071708
+change-id: 20260511-spdx30-package-supplier-default-17c1bdc10a21
+
+Best regards,
+--  
+Javier Tia <floss@jetm.me>
+
 
