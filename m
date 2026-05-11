@@ -1,211 +1,143 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CD3CD37AC
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:02:19 +0000 (UTC)
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.46512.1778493737912371095
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4144CD3427
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:03:29 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47033.1778493805001275464
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 03:02:18 -0700
+ Mon, 11 May 2026 03:03:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=c0FvBVBr;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Zkoxjnzk;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.156, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 20D127A00D3;
-	Mon, 11 May 2026 06:02:17 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 11 May 2026 06:02:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1778493736; x=1778580136; bh=w2YXl4d7/d
-	P5p88zeJJENTn6BQB1qhI9SOJa052GZQ0=; b=c0FvBVBrRP8tz2yTLyjn9vvmWr
-	hZsa4uUL00rfE1seALlro1XuMUcGit0wIdoXUybCgqYsa/t9Lo3FLFHVhwkifmup
-	S4CkzmHeIGI60QhP76U4QmhAtpUQLrk7yzQTYq1mZ3SWqnPO2Uxhto9WUx0hNhJK
-	mUShVG3vVpdljOnoW1VZqK1ocyxWxNs2pn74tTh5QtAMxTulP4srgap3j64dDDXS
-	Cw+d634DScnZxlZ63d22FJMdEampuO1E0LnaQSLQS6peu5p47m5+EzIdN77Yedoc
-	V+iF2iI2TQmB89CcteOtrRZyYGcp0p5yW1i5oFE8LNlUpOU4dJCDQs8O2UIg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778493736; x=1778580136; bh=w2YXl4d7/dP5p88zeJJENTn6BQB1qhI9SOJ
-	a052GZQ0=; b=ZkoxjnzkS5ne8CFeEr06oUrp3e9nO/sqWVskaYNK01cCtb08q4f
-	fb+rj6POX3igbJBX24ulW0YWDNWspuBlUZu8BrJlf0JvkWp1Ls/UFtBoP2Y8nGyP
-	vi/DXpPU2rjHce3KlUbWUItDV1HZDXsEv+xfD5SU+LTsW8HEosdrngXALgJVS/Ea
-	+o3VKGBagGH2wdv3Q7zlhwjLNKwnmUbUBtZtA6NjqzYokNwhkz0NzuVuHERjarlD
-	28lEiW0r8SN/+Mm5hPkU+F1zy33OQVhkyvT/IEVHj4h19feTGcLGStETRqthWhr7
-	tqIbGOuOPFyGb+H6Wyjyscm7G9WTbzenimQ==
-X-ME-Sender: <xms:KKkBaisbLzq3Mi_6fGvU8t7FVe3WWF1Zc1kHrYsA-A-iy1bkFHWGKA>
-    <xme:KKkBatfSrkbExWLLrov6dVmeVHw5TsXln3UOFziwMZIi_rKc1-SMu5adAD9OWaQgD
-    Maf7dtfca2wJW5lpRbr1Vw4A83QzmiJE3E285YSyoML4wwsrvn9fXc>
-X-ME-Received: <xmr:KKkBarblWS6nrZmc_4EG1esVMzOcc2i5ycAhY0gqV2lw27M8Dxqk2uJp3ezpuMSxz0kez5VsCBsiUCahS6sWXQ1LUqf0bh4MW1wFNxU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekieehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkffuhffvffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegr
-    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
-    fhieeufffgtddvleefuddvgfeuheejueevtedvkeeuheetjeefleevkeefffeggeenucff
-    ohhmrghinhepvghnughsfihithhhrdhphienucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghr
-    tghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgrmhdrjhhohh
-    hnrdhkvghnthesghhmrghilhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggv
-    ugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:KKkBaoWbSkCoMVQbYxjO9gx2CHqbknOsKraffL53xhjSUi38wkvJRw>
-    <xmx:KKkBalgz4AXGaAGonaXgp54TrQAYOmTwLScnfxlLuh0ObH3AMkzA-A>
-    <xmx:KKkBauXXTjEx0_elnPdAf3cMFsT7MuuIZpJURFyfRkPRC8cxoSXiLA>
-    <xmx:KKkBakNdOk0OShM9qZpN5CC9UrMtdT4m_hHw-St7bEcD6oMwpdSz6g>
-    <xmx:KKkBav9JSqrE8WNblyKn3o-4_1ZXS_dglR10t8lYiBWB4UT60JvazIlJ>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 06:02:16 -0400 (EDT)
-Message-ID: <0ad1aa2e945023107fcfa0d5bb1f251394c00a4a.camel@pbarker.dev>
-Subject: Re: [PATCH 1/2] image_types_wic: make do_rootfs_wicenv hash-safe
-From: Paul Barker <paul@pbarker.dev>
-To: Sam Kent <sam.john.kent@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 11 May 2026 11:02:12 +0100
-In-Reply-To: <20260430083905.2967342-1-sam.john.kent@gmail.com>
-References: <20260430083905.2967342-1-sam.john.kent@gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ycHK2Fjfe4En8TdEMA2u"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=OSsaK3a7;
+ spf=pass (domain: cherry.de, ip: 52.101.66.56, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wate/2/Lffu2dqpdvhDseSKGxCFgnMXKkk/tz/VNQ0kBjwIsofWUILOhlEIQzlMrD5d0tINbwVGM+h8HtXE54nImxSSNw2z6/LrvNxgQwcCICoMSIls5m4zvYa4ywAymVOvVHyEI7NkgdQj2SiQzaSEvd+LVGLSVxiDFGooDnoXnxrADkvlrYkfGbqCZFQaC9uzy3rIKI4wPglvdMUw/Cijmw7G3Cvc74xDsZ+lDVxbNqH69LJH3XAigruW7dok2O8mXeVBra1IKGVbA/cUcefyDzP8z+jewZnXxRS6G3EsqanlMYh645hmbiA7tBrZn7P7EzbREB0fbRuOtVTgVrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=51uie+pVk1gfVXO6pah49sB2bqR6sFpokng3p2yysYU=;
+ b=QtLiQbOI6n8D2fwy7kBOlmqEj1AYDQES/giG1FVmoE891RiPkqhxN9NaZKZ2oA6u1J0qpmLtssyrJ2ExrYeE39dZJhf0W0NnI1hWZ8HWABV0z3SWE+bG5HYqZsG73A36AUPp7X0QAliNbPXUFEf3hUQ4LjrUyLQMEGCgjNnTZOuFe5FEMnru9hAbQCw8NXQbZ1g8u11t+pT/FgM2jOFaIQ1KEsp/5wOUwt4rRG+JAYCtGNWt9H0/ocQTJsevHnWn3M5CNyP3sVfeMWVCpQkLr/LkHpckBXqF1vsO8nv0wHIEEJtxdeYw5Au+5J1YNyVdDYWZkYIMaBNDqBR9MgmEzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=51uie+pVk1gfVXO6pah49sB2bqR6sFpokng3p2yysYU=;
+ b=OSsaK3a7jH8uE8YRSe6hpcXDahLhjAQv3rfvJYi/v1N0My4NTC0oUWchMskd4Xp+RyD0IWlOH+J8BZrYeyhwpmbmqSBfIzNvnPhw8XGTQba0o0TpxT/Uembki2zJC+zWpbgXkUSgf9kJR6CR4HzvZHHZbV+wJAPeO/YXJPNotsM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
+ by AM0PR04MB12075.eurprd04.prod.outlook.com (2603:10a6:20b:740::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.21; Mon, 11 May
+ 2026 10:03:21 +0000
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00%3]) with mapi id 15.20.9891.021; Mon, 11 May 2026
+ 10:03:21 +0000
+Message-ID: <257f886d-2be0-4af7-9233-716a68ce038a@cherry.de>
+Date: Mon, 11 May 2026 12:03:20 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] Split vim and xxd in different recipes
+To: =?UTF-8?Q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+CC: thomas.petazzoni@bootlin.com, paul@pbarker.dev,
+ mathieu.dubois-briand@bootlin.com
+References: <20260508214020.2488025-1-joaomarcos.costa@bootlin.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260508214020.2488025-1-joaomarcos.costa@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR4P281CA0210.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e5::11) To DBBPR04MB7737.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e5::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|AM0PR04MB12075:EE_
+X-MS-Office365-Filtering-Correlation-Id: 63544a27-2b00-4545-523c-08deaf44882a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	21WyyW3dnHUTz86RKkLj0GEdTdtfljZYKrz7c6YBbAZyrmmZfiauxeBUFW3qG2VljCDMfg2LnY8fwRek2widcbeQXzFvv2/4gvNX3SIj1E9/D7s/UXt06pWe21rE2kzKnE9Q/n4o1MM7/IMx7dWFnLcKvirTSLEW1P2BZHH9faAYj8vJItWKu5MwEoemqgG3z0kr/yNO55gqcdrbgDc4LvVEaNvveql/IMRuWwvoyhRrJfzjhiGf9sxkulmktzR7H6aDfQzzbfeaP+7IPwhXElihHrm4Sx9kjqxUOdSfDnr3cWfcxw0VlcephECbK33dxQhCPJZ+bX3Jb0kW8ixpjGAgUkKMRGAHaRKmV2i9NKfxV5xc0jUL9IqBzeFcyOaVDgt2w1Y5Dl4YUl7fTGYNvaL1tTC/Fz/Om83Uob64sC49oLEcNwwbanvOqYebXH6KBoaZR7amLI2NPhtV7kGSdfnzI6PAIhKgLNziR9DS10VmjoHBEWAabJmz7WK3wtx+b2IK0Og7QdU6yZayuOt6nQfau8BBIsnKEpCrGVzclrUDTMkr9PtZ3dQ2cQ5qcI8YKqE+6Jn03fNJ1ZJ2ijUib5D8bmuxL6Pij2JA0HbTJmb35QptwAny0iYdG+0t5o+gnEbrplL3NfNoOV+NlEJcQFUa9SKrcBxyCC3w3ftO+ELXocuBqtWUTmSX4oCp2t80
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?fGdgyxmpfxhr1GvgkOEHfvNNnXk3BJc+1dC6z7UWBp2awdDp2tvs0yqx53bz?=
+ =?us-ascii?Q?QKOgFy8EDEBEiiroYifXn4Gi8ad+pDKw4nbN3UfbJIYWSuYIv45uiAE+Eukg?=
+ =?us-ascii?Q?B6Rs6rEdiYwdGgeEcH/gx3u8PQYHT5VnR3kT7jqvAMM/01vjBCvnsChOsnyI?=
+ =?us-ascii?Q?VJ5l6gc+px/mAPcgywqTyHnM9yJOFMnBpsA0rCbqQjk72uflswNzuivPipvl?=
+ =?us-ascii?Q?+MLqx+nzNOR1TGIiSgqV+yFIpXV/rCBAiixd7ygsBoieghsfZMKFVCGIopTG?=
+ =?us-ascii?Q?t1ak+sD5+BpiUvl/brfESeAOLBF/k66nhWEbYhSuC5Ba1k0jhPkLhINFK1xt?=
+ =?us-ascii?Q?smamvfUaWxeG6BRFTk5UFgYxU7IYzUa26tdyl2gTsS5c+NWbeEfQV+xNLwO1?=
+ =?us-ascii?Q?kkLsXwblKr/o3TaZufoOHMiqDOinJZeC9IaieZ3cOkkWPNEzs7Ykm2MlxTwq?=
+ =?us-ascii?Q?a0TvfScAdbeBjUxQcwCaW7A8lbNS/uMP1FhyBz9DMpQeNegk/Zy6HCQWz47k?=
+ =?us-ascii?Q?3pgHPlaQe2/JbjrZekGbJFMcoLjD7R1NrB/WriZIpn0JymBytGUKbvZxmXJL?=
+ =?us-ascii?Q?At6XEHVHxCaYF/ybNqCZT3A3t8LotvAoyea/g9h/NC0QBLIBobQqtpsN8ALI?=
+ =?us-ascii?Q?Kr+2tjqRQr1jjMzYWd5PZHZDr7hLZdr1cI3TGlPPWyZqlgPW2E2TCNr33TB0?=
+ =?us-ascii?Q?QArRCb/aA8N1Nc9q4PhA/s6RoffzwiyGZQOREUcJ3mZHqdvqFZX+tZH8+VIi?=
+ =?us-ascii?Q?dPFJNfmLkc9YL8RxsXesyhBLMQOHsxStT5b2HnhzHUdRgke8sw5nG2eNRSrJ?=
+ =?us-ascii?Q?7uM0x6B1dxThvK+JRW53wxRYH/zMRewmiex3oeCcpANO1pQrxgpgNUQUx5j4?=
+ =?us-ascii?Q?1MIekqg26JPzT1FI2ABzX9WSyeiPxmzD7WpKT+WdMbOBZmzwj78lwEnVs4b8?=
+ =?us-ascii?Q?JR44oS2VwyPCjkINp8TquucyX6QFVQRcrGo0CpG9BaNANMP6Nfg/ecjZfxlt?=
+ =?us-ascii?Q?B8vMDTprY7HQGlCFhuQE3ge9K6wa7ugx2b2e9TQSeNc1r7PNR0fPtuxR9hOa?=
+ =?us-ascii?Q?RyiHBUcVSpHm+SFjJWHmlHOSKff+Xr15Qaf1KujxOQS4ig+9ENHtmbAQ1YZG?=
+ =?us-ascii?Q?I0U3e0alLiMoHjTxMknxcC6tnHJuFhgH8cDRa8Dr6eMaH+9AMaYBYr8vB6CI?=
+ =?us-ascii?Q?LyMe14Nbpqr7HSpmAZGT7WR1br4RsRRX1PUOUHx+L4Q4WxXyomN4yg5mlT/k?=
+ =?us-ascii?Q?52+Ia9DIcAR1TAC2W6+3xgVVn8QfZ6X8NOogUdAaFLRkaLcUQDoOYCg4aYTi?=
+ =?us-ascii?Q?fBF7xQU8n3pfjBXY/jToS8yDqZrbhnCsZOawZreUewkV3BbRhGehwGDcQPGv?=
+ =?us-ascii?Q?SntpA1+kkz+9Gpm86RA/Z5zhzyajA3YajXhObHQSa6tkVL4wXSPGlAGTfOhv?=
+ =?us-ascii?Q?BhgeCPp+mlg11rtcA+8VT4vmw+5hgN1HYFehi77JhsiNxfkQkZP2A7M7ka58?=
+ =?us-ascii?Q?HpQSVgxo/jACsobNtyhaooZSNjk3Gn1x6iV8bOp6AdR48BKx8TdC67WIPzvp?=
+ =?us-ascii?Q?y3BFX2Wt7Gd9vpfLhGqZ4MJNo+R72avML/EwTRGCOi4XBR0Hjb1yRYmbAIMa?=
+ =?us-ascii?Q?D5SgDQ1N++BK0V4Qz8hG71DiHzvqtv3th+jj+5jxNzqCxdIo1EYiHj6n4bjB?=
+ =?us-ascii?Q?StXvHiBIw3bpCQxzsxJlUHRI/RUglqYBFdvDtr746IHPF9UIW527HB6ANJ4/?=
+ =?us-ascii?Q?xWZN8Ntudg=3D=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63544a27-2b00-4545-523c-08deaf44882a
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 10:03:21.1279
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q2iotsKvWpb+yJIM8unz4qFFhTsrm8VgfdUCOha85QPM9zDeASGdWmLsJYhBT8ICCy97kvB2a8+aDpWlJCZigP/Ilz36CVMhPPjYxsLlEVU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB12075
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:02:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236796
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:03:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236797
 
+Hi Jo=C3=A3o,
 
---=-ycHK2Fjfe4En8TdEMA2u
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 2026-04-30 at 09:39 +0100, Sam Kent wrote:
-> BBLAYERS and BBPATH contain host-specific paths which contaminate the
-> hash and result in unnecessary cache misses.
+On 5/8/26 11:40 PM, Jo=C3=A3o Marcos Costa wrote:
+> Hello,
 >=20
-> Exclude BBLAYERS and BBPATH from vardeps and instead enumerate the wic
-> plugin .py files tracking them via file-checksums.
+> Honestly, my main motivation to send this series comes from a time when
+> I was building u-boot (meta-freescale) and I saw vim-native in Bitbake's
+> tasks. It blew my mind that a bootloader somehow dependend on a text
+> editor (yes, only to be built, not to be executed, I know), and the whole
+> text editor was being built to provide nothing more than xxd.
 >=20
-> The hash now only changes when a plugin file is actually added, removed,
-> or modified.
+> Just to be clear, what bothers me is NOT u-boot depending on xxd. It is
+> actually configuring and compiling Vim (considering the overhead this
+> represents) only to use a single tiny piece of it.
 >=20
-> Fixes [YOCTO #15662]
->=20
-> Signed-off-by: Sam Kent <sam.john.kent@gmail.com>
-> ---
->  meta/classes-recipe/image_types_wic.bbclass | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->=20
-> diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-r=
-ecipe/image_types_wic.bbclass
-> index ea8c1c9..e6f77e9 100644
-> --- a/meta/classes-recipe/image_types_wic.bbclass
-> +++ b/meta/classes-recipe/image_types_wic.bbclass
-> @@ -68,6 +68,22 @@ def wks_checksums(files, search_path):
->              ret =3D ret + " " + found + ":True"
->      return ret
-> =20
-> +def wic_plugin_checksums(bblayers, bbpath):
-> +    entries =3D []
-> +    seen =3D set()
-> +    paths =3D (bblayers or "").split() + [p for p in (bbpath or "").spli=
-t(":") if p]
-> +    for path in paths:
-> +        if path in seen:
-> +            continue
-> +        seen.add(path)
-> +        plugin_dir =3D os.path.join(path, "lib", "wic", "plugins")
-> +        if os.path.isdir(plugin_dir):
-> +            for root, dirs, files in os.walk(plugin_dir):
-> +                dirs.sort()
-> +                for f in sorted(files):
-> +                    if f.endswith(".py"):
-> +                        entries.append(os.path.join(root, f) + ":True")
-> +    return " ".join(entries)
 
-Re-implementing the wic plugin search logic here is likely to lead to
-inconsistencies. For example, wic currently searches for plugins based
-on BBLAYERS but not BBPATH, and it looks in both scripts/lib/wic/plugins
-and lib/wic/plugins. Even if we align the two implementations now, it
-will be very easy for them to drift apart again in the future.
+What's the build time impact? Because it may not be worth it in terms of=20
+complexity.
 
-Could we instead rely on wic to perform the plugin search? There is
-currently a `wic list source-plugins` command, we could add a `wic list
-imager-plugins` command or perhaps a `wic list plugins` command to list
-all plugins. We could then call that here to get the list.
+Note that you also need to specify how much it impacts a build in which=20
+both vim and vim-xxd are brought in the final image, which will result=20
+in a biggest build time.
 
-We should also move this to an event handler so that we don't
-unnecessarily re-run this search whenever the bitbake data store is
-updated. See image-postinst-intercepts.bbclass for an example of how to
-do this.
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-ycHK2Fjfe4En8TdEMA2u
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagGpJBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bsxfAQCqnirs87hRg4B9dZirjHmsPdHcZ8PinROC
-g8H0sVAXZgEA175xenQht20m3OrW6eSQ/XWp3WslyqCPtjh5+l8ekwk=
-=vDyw
------END PGP SIGNATURE-----
-
---=-ycHK2Fjfe4En8TdEMA2u--
+Cheers,
+Quentin
 
