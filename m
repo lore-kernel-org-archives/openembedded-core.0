@@ -2,252 +2,231 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68ED2CD484E
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 21:19:19 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.61209.1778534350272677378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDF0CD37BE
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 21:19:39 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.9])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.61512.1778534377069691614
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 14:19:12 -0700
+ Mon, 11 May 2026 14:19:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ld371z7H;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20260511211906b20f158a26000207b4-kcostk@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260511211906b20f158a26000207b4
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 11 May 2026 23:19:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=1eMjh+0SmYgMpPDyBTu4bfKRsvlqyaae4/wUkwGx0G8=;
- b=ld371z7HfHJB+G/MP6gBisj8qHxC7i31OcrR7pVJ/YPgwtGMPKG1orGkIK+AGnSo4TM8Te
- D5zZte4lTHH/6Wx4vRXQ1rf9zzWQLOP8k9Qc3Rggg7BVwwdTp7gjSex8XOzaNQHnz0SqHzvj
- VDgBW6uDNsbwVED1W8xYBYN9o1TAwpBHnhSfQWo78iZajkzWsgqZRnTxLlQDtbdD/UA0mOAh
- qSeFArum5sfZRgLRRf8dRtC55XZwpm1A3QC3hjznH5Uu03wHTcdHaK05e51QWTFfR/pQkCUy
- PnXVqNapZeQj3BMiwCBr96V9ZP0zVXJXZvJ3281D4nXGsGHBk4018FdA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH v2] gnutls: upgrade 3.8.12 -> 3.8.13
-Date: Mon, 11 May 2026 23:18:39 +0200
-Message-ID: <20260511211839.173868-1-peter.marko@siemens.com>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=UwvbNAAM;
+ spf=pass (domain: siemens.com, ip: 52.101.72.9, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N8JLI7UHnmnGMtSYTsTbRxO/AjzjlpUgQ/qP3cswKewekRCpTMQxVZc1F0yCqA+fFCb15u9mXogrOINeRHZouBqnkOaQQDRN1UNe6O/SeCu0vBI6OB4/Awlg5IZn06lDWtD6NhC48ZGGO2U9IN8cbG54i7MffkgZNuppCjaCH3XZ+xMGEQSH5X616lc8wljP6GxwApjF0zmOwEkeySQ06PwZTt7dBilfNp2oir272tfWBwhePtN6fYGuui2U6m/nInO6yEaTudpAVN1myuRrOB6qbCf6WaCpNPLfc+Z2/PbgqSS7SzkTFRFxHsE/R9rVeAxIM/Hoxz1IIosiPAKSYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YodJTFihhOAvgLr9ChnC5tsxtYVp17YGv8IFJ5NxAOk=;
+ b=uPbSMCrum45u684gIF03sKg46NW5cIfHWrNd48IIddcMVTc2esxWKpw6pPa7Qt6jCVLzIrYYEsNp4tXx5oVrGBRRUlOKtQmQQkV/dPKlm0IxqH/sHy8AgGYZMMWHRj685NY3/RrWbsWH0PsS06KXCwuKVhvGC8mNqvbqohDOevlUx3rotol+u2Cuo5VkFAoHqcU9aQ2bMs7DFRUSueWTxjJUmIN+y9DoHNBVEIPkIWSv9EzsE1enQ5Bhciwy4u9WnPtFU/phZUUQJ+z7AVk2bQBJfh5gJ8Q1C5DABgx8cxdKFcAkGBL6JVcgyB4ZnOMyM3aX+rrmyiGLYcbKLQXYGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YodJTFihhOAvgLr9ChnC5tsxtYVp17YGv8IFJ5NxAOk=;
+ b=UwvbNAAMZNTAjVCq/RkHvjvGgUAFBMMojcEAqnBKb9QS9kQFdxDQEusP8n+fNvUGHeOF0VPOHwRxPSzSw3byK/66+2dClIIoYKUj/z/qfiM6jzXSnymArWJIPVahtFDxdfjJVBysVc9Z5dUzoruURbP5N9xhxWT1KjR9lNxGPjbvTVuf3cmiRF69Yh0x6nHbAS7SnMaSGVw7IX8KDEkvfpkodQ1QnkX1OekAMAgr5MQsIfjrTvMBSZCi9msEYXCoEsb/4AGWPxlC70Hb0NCLLvoazNFnvu9jEt3ugHtB5M81+nPlt6JEGMl3FO3d4p0H1pIVx+wJlxZJhcig2BR54w==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by VI0PR10MB9767.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:341::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.17; Mon, 11 May
+ 2026 21:19:33 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7%4]) with mapi id 15.20.9913.009; Mon, 11 May 2026
+ 21:19:33 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] gnutls: upgrade 3.8.12 -> 3.8.13
+Thread-Topic: [OE-core] [PATCH] gnutls: upgrade 3.8.12 -> 3.8.13
+Thread-Index: AQHc4JmWQmtUWuP28ESzcFDaNTlPULYIi+CAgADJsnA=
+Date: Mon, 11 May 2026 21:19:32 +0000
+Message-ID: 
+ <AS1PR10MB5697004C19D5E6EFF636C68AFD382@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260510162450.1988369-1-peter.marko@siemens.com>
+ <DIFQE3VZD05G.2H5DUXPSAEZF5@bootlin.com>
+In-Reply-To: <DIFQE3VZD05G.2H5DUXPSAEZF5@bootlin.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=53d17772-3991-4b70-9fe8-4f2bba955360;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-05-11T21:16:08Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|VI0PR10MB9767:EE_
+x-ms-office365-filtering-correlation-id: 7ecd7067-6cff-40b7-053a-08deafa2fee8
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|22082099003|56012099003|18002099003|55112099003|11063799003;
+x-microsoft-antispam-message-info: 
+ t67HUAqNWVpXcNAeI7NbMAUfdgDa4xqfa1W2plzST6jWpa+q76pGi6QTnM63lpymlTOQa4krCi3vd5vIZPiEqke2skJZMppOiRtQIskeUenq75TVvVaogbnlj0OwY9nNdxXTt+NjVXQKRPuqVQnwdSRDPz7o4kn7XS+oWQuhMInuDufal0xcHPgfWHHXQxkkKDD8S3LknDBBJMcAkFwIy58ILOnhqU8xGFVC8fT+WEMpKJWruaKeWudxWo83LW7Nbw+7hZdsPrvBO2L9ECHzuVRhFrrF1NcPIwTnrCFm1sjlHl/47+iKkK/wxp5S4XVNXeyljACJmbxc9VfEq+PIEewetECr8tUx51+vMYls7HG1pfbI2wtvgcoCp6Sa3RCljkubzQqVoJQNgfkJViGikVZrzUl1dhS2ANyiI7Zn4LnN+xmcxqd2VhXqVcZ2NBkwMlaf6XwZvCS4pIwFkks61x+WaV3NQsrpncR8yejVvhNTQwDmJXpenxdSWg6Rl6eNA2NzYxxEZgvg6g2ETD4KEIkp9l0eM/QjyrFM9gDMc4QzN8MQNN02+kcpeaazcwn/iNpn57Vvz3xkaWVOc0aluu6qYbyF0wG2Y9LTzr4GKfk7e0jvqQmVtTJEC2upHK0N4omZLao+qGJXIh2ilXyLxwfPVz12HfL/B03Tf6SpH6S1hejAEbHZA2eCVgKw2Avr
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(22082099003)(56012099003)(18002099003)(55112099003)(11063799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?aEVPWEJIdko0YlozdExmemRpTjhxZ3dMMUd1OHRLMkxYaVY1Q2IyT2FkNXEr?=
+ =?utf-8?B?cmlWampCWFJQcC9jTnBRTXJwQkcyVTAwV0MvMlYrUm1sVUNWNC9mOVFwTEJa?=
+ =?utf-8?B?NVZKSU5XWjh0b3hVbDc5ZWpEZHN2Nyttb2xkZkUxVVdrN3AxQkRaL0loOTNR?=
+ =?utf-8?B?UFZGUFFJSlVCK2lkS05XTDg3VEVWOW50RjNPbGhCcHpESlJwZ1p0eFFDSjNJ?=
+ =?utf-8?B?YmZodnBtazl3cWZiYkJ4Y2hIUEJiQXlUTmhiSWY5QUZCTzVtd29NZEM0VDZ2?=
+ =?utf-8?B?TUZZU2RVb0RoZVlSSG9odTJ3eUs4RUY3VHUwMWdHdU1kUmsxWVNSbytNLzVm?=
+ =?utf-8?B?QTNqS2JBSnF4WnJmTWtENEthV2k0ZnVIU2FHQkFYcWFiZzN1ZUs1VW1RVFNP?=
+ =?utf-8?B?MHFRRWxVUVlCVUkxQThvVzdNenV2TUo0c0h6Sk1aNzhSKzY5dHBnYW00aGp4?=
+ =?utf-8?B?eFp6cS82Yit1Vk5uVWMzcUpUTFdxSHVVRUNsbWRIY2d0UGlYVkEwekdWUERq?=
+ =?utf-8?B?enhMMk9kZzM2bGEreGFnV2hITjZaTmo0UkJtczArWmZhQW15ODBUWmdBWGtE?=
+ =?utf-8?B?R0hrWExZdklGNk91d2dNTTV5SEhxN1hleUZmRmNraHVzS0xqT0NtMHM5MXA5?=
+ =?utf-8?B?RUtqLzQrcUNmS25rZ2E5ZmxIaVFQdGdJdTUxZXFhaE5Bb25PbVJSREkyWXFB?=
+ =?utf-8?B?bjNDcTRTVHk3ZXM4RkJaU2JudC9TMkIvdUI4MUpkT09ZN0VTUnowRXJmcmJh?=
+ =?utf-8?B?ZzdEdHZvU0pWUm92ZmJYV05iaTJnZCttS3kyV3ZVcW5JQzhXcXNxVWxzTE5J?=
+ =?utf-8?B?VDUyMmhKcm44WWJzT2wreVNUUjVVUkR2a0RlNGFZMGNTcXd5QzdkWklGS3E5?=
+ =?utf-8?B?bTdyK0FmMzBMRWV0elpYMXVSTnRzZ3ZFTUZ5RDJoSStyWGVhUHRGdUswL3RY?=
+ =?utf-8?B?WXVKL0Ezc3J2K2JGcGZCelNkb2tpZFozOFhtc2l2dkJWek0yb1F4WVVmaGpz?=
+ =?utf-8?B?Rkt1czFjTjV1eFd3V1o1K3VKT2I5TU1aWEI0dXhuMkNnUlc5ejhXd1VLZGc1?=
+ =?utf-8?B?UlRUSU42azl1Rk1haVdYRHhPZkQ2dGdDYSsxZlc5bDZZekU1V3poVnFzUmRv?=
+ =?utf-8?B?cHRDSXZ3S0pFaHU2TXYrUzU0alYyb0c1eHoxVUYyZjA4cU9FNzluZjlDZ0N5?=
+ =?utf-8?B?WG9nM3I2Y1NYK3NQWDRCcGc3V3h0TExNNXkzUkVjYVdIWG5sODRaSVdib2Jo?=
+ =?utf-8?B?L1F6YlR1UHVUWWo2WUQwSUVkZ3VZV3Z3bTRkRmhHanI3R2hncnM3UGhOTUlR?=
+ =?utf-8?B?SVVEcjJRY2k2blZ2QlhyN3AvdEVqaDd3ZlEvbXhnQTZsVzU5d0t6N0Z1UUNU?=
+ =?utf-8?B?eVdKand3TDN2SjN2eTE5ZGRxc0pwMUFzdHJ2ZU8xNGlLcUhXSlJZd0hSdWNI?=
+ =?utf-8?B?WjAxMGpNaTZET2RSUUZYN0F2V0lrMHB2bEI1OTE0NlJUcmFZbnhuT2laOGhX?=
+ =?utf-8?B?aFNrN0srSWx5RTdHVzZTN0NpS1N6ZnZLTlVFQllDcUs4Q1dpSTRwbkN1ZUJP?=
+ =?utf-8?B?SmxOY2ROcXFpNWczaHVld20rcVFXNHFFSVJTZU0xek9HSU93LzczL2FaL3VO?=
+ =?utf-8?B?QTIrdmpPQzM2VDRIOTJFOU85cnlQUWxXVzlDWWVMTmZ3MDNocTJMb3o3dURo?=
+ =?utf-8?B?SEdrQzBrUW1Zck5GaGRlWnlCUzRZbks0ZnZiQXVtL29MOUFkaXJibjJFK29J?=
+ =?utf-8?B?aE5lYmRPK1Y1eWxDUktNd3NnNngzRG5RTjZCa3pDWXhSeVFjMURqWVVOVXdD?=
+ =?utf-8?B?d3V5Nkp3UCtqR0NSdUJ2Z3Q0N0hLaVV5cGhUdDIybFdISXMvS29NTmdTczRF?=
+ =?utf-8?B?QkNpcmdXaFpBVVlPMWFZUXNLMjE3ZjYxQ3ViSkc3U0hFZXdsNUNuM2loS3Ra?=
+ =?utf-8?B?TGE0ZFFyWjBHSHp3VGw5M0V2bDRzVnJjakk0SWtFMkw4b01YMTMzeElheXBi?=
+ =?utf-8?B?ejNmLzJveFR3cnF4bEcraHdMMmwvMzdNc3FzTkUyYWdvbGNXQ2loVDB4L2dT?=
+ =?utf-8?B?RUkzQWkxUitWMmltMEJoUFlGZ0FhN1dEdmcycXJmNlBYNmxKemM1ZnlCZFNp?=
+ =?utf-8?B?MkZBeGFWd1ppMzRxdlZMNWNsSG85K0FGN05hTitIMUtPTXNVblo0V21tQTZM?=
+ =?utf-8?B?NGJ2am0wTVJ1dmw4NzVIY3MyU21PdENnb25VQ0ZnWmpBc2UydysxWGFIVkJ1?=
+ =?utf-8?B?R3MvaGJPM2pzTUZMRjRKMW84Yk51UERqclhMUzRwczY5Z1lKR3RITmZaV1VZ?=
+ =?utf-8?B?V2tNZVVJdFB5dlpvRVVGYkdCdWNOcDkwMGthR0dIWW82QzYxVkVJZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ecd7067-6cff-40b7-053a-08deafa2fee8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 21:19:32.8665
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CL9uwb+Nf8nD7OYRSdP4+idl2S5PbU2F0iXbpekWxQeFNybOa+iMTm2vX13Uz2KDipLXevU64qOGRXCqeOc1oQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR10MB9767
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 21:19:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236839
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 21:19:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236840
 
-From: Peter Marko <peter.marko@siemens.com>
-
-Solves CVE-2026-33846, CVE-2026-42009, CVE-2026-33845, CVE-2026-42010,
-CVE-2026-3833, CVE-2026-42011, CVE-2026-42012, CVE-2026-42013,
-CVE-2026-42014, CVE-2026-5260, CVE-2026-42015, CVE-2026-3832 and
-CVE-2026-5419.
-
-Release notes: [1]
-
-Rebase patches and drop patch included in this release.
-Add patches to fix linking with musl libc.
-Increase memory needed to successfully run test key-openssl.
-Drop code for previous release tarball problem.
-
-[1] https://github.com/gnutls/gnutls/blob/3.8.13/NEWS
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-core/images/core-image-ptest.bb  |  1 +
- ...ts-mini-dtls-framents-link-to-gnulib.patch | 25 +++++++++++
- ...ust-list-fault-fix-issues-in-linking.patch | 31 ++++++++++++++
- .../gnutls/gnutls/Add-ptest-support.patch     |  4 +-
- meta/recipes-support/gnutls/gnutls/c99.patch  | 41 -------------------
- .../{gnutls_3.8.12.bb => gnutls_3.8.13.bb}    |  9 ++--
- 6 files changed, 62 insertions(+), 49 deletions(-)
- create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-gnulib.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
- delete mode 100644 meta/recipes-support/gnutls/gnutls/c99.patch
- rename meta/recipes-support/gnutls/{gnutls_3.8.12.bb => gnutls_3.8.13.bb} (93%)
-
-diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
-index 166b4ded63..b20e8ca76d 100644
---- a/meta/recipes-core/images/core-image-ptest.bb
-+++ b/meta/recipes-core/images/core-image-ptest.bb
-@@ -44,6 +44,7 @@ QB_MEM:virtclass-mcextend-python3-cryptography = "-m 5100"
- QB_MEM:virtclass-mcextend-python3-numpy = "-m 4096"
- QB_MEM:virtclass-mcextend-tcl = "-m 5100"
- QB_MEM:virtclass-mcextend-go = "-m 4096"
-+QB_MEM:virtclass-mcextend-gnutls = "-m 1536"
- 
- TEST_SUITES = "ping ssh parselogs ptest"
- 
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-gnulib.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-gnulib.patch
-new file mode 100644
-index 0000000000..7f999c4b22
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-gnulib.patch
-@@ -0,0 +1,25 @@
-+From 68b2fb63c8df61d1480121a859f8c955f4910c01 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Thu, 30 Apr 2026 13:08:01 +0200
-+Subject: [PATCH] tests/mini-dtls-framents: link to gnulib
-+
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+
-+Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/68b2fb63c8df61d1480121a859f8c955f4910c01]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ tests/Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index f8797964d..1b27df751 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -524,6 +524,7 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
-+ mini_dtls_fragments_CPPFLAGS = $(AM_CPPFLAGS) \
-+ 	-I$(top_srcdir)/gl	\
-+ 	-I$(top_builddir)/gl
-++mini_dtls_fragments_LDADD = $(LDADD) ../gl/libgnu.la
-+ 
-+ if ENABLE_PKCS11
-+ if !WINDOWS
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
-new file mode 100644
-index 0000000000..b15a05d5b6
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
-@@ -0,0 +1,31 @@
-+From 9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <ueno@gnu.org>
-+Date: Thu, 7 May 2026 09:42:09 +0900
-+Subject: [PATCH] tests/pkcs11/trust-list-fault: fix issues in linking
-+
-+This fixes the use of automake variables and also adds the linked mock
-+library in .gitignore.
-+
-+Signed-off-by: Daiki Ueno <ueno@gnu.org>
-+
-+Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ tests/Makefile.am | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 1b27df751..f6a60a32b 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -540,8 +540,8 @@ pkcs11_os_locking_ok_DEPENDENCIES = libpkcs11mock4.la libutils.la
-+ pkcs11_os_locking_ok_LDADD = $(LDADD) $(LIBDL)
-+ pkcs11_long_label_DEPENDENCIES = libpkcs11mock4.la libutils.la
-+ pkcs11_long_label_LDADD = $(LDADD) $(LIBDL)
-+-pkcs11_trust_fault_DEPENDENCIES = libpkcs11mock5.la libutils.la
-+-pkcs11_trust_fault_LDADD = $(LDADD) $(LIBDL)
-++pkcs11_trust_list_fault_DEPENDENCIES = libpkcs11mock5.la libutils.la
-++pkcs11_trust_list_fault_LDADD = $(LDADD) $(LIBDL)
-+ endif
-+ endif
-+ 
-diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-index 398c0464e0..8c867a5a40 100644
---- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-+++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-@@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
- index 1744813..efb9e34 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1448,6 +1448,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-+@@ -1413,6 +1413,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-  
-  AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" = "yes")
-  
-@@ -42,7 +42,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
- index 189d068..8430b05 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -721,6 +721,12 @@ SH_LOG_COMPILER = $(SHELL)
-+@@ -745,6 +745,12 @@ SH_LOG_COMPILER = $(SHELL)
-  AM_VALGRINDFLAGS = --suppressions=$(srcdir)/suppressions.valgrind
-  LOG_COMPILER = $(LOG_VALGRIND)
-  
-diff --git a/meta/recipes-support/gnutls/gnutls/c99.patch b/meta/recipes-support/gnutls/gnutls/c99.patch
-deleted file mode 100644
-index 3f41241deb..0000000000
---- a/meta/recipes-support/gnutls/gnutls/c99.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 203d8f2187bb7f483290e0f8b7b48b152b1d027f Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Thu, 5 Mar 2026 11:33:57 +0000
--Subject: [PATCH] configure: make the C99 detection more resiliant
--
--autoconf 2.73 will default to C23 by default, which means that the >C99
--detection logic in configure.ac will fail because it only handles c11
--and c99.
--
--Instead of adding c23 to the list and then breaking again in the future,
--flip the logic around (as suggested by Zack Weinberg) and check
--explicitly for just c89.
--
--Closes #1806.
--
--Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/merge_requests/2081]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- configure.ac | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 740fb6339..c708d8f5e 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -54,9 +54,9 @@ AC_USE_SYSTEM_EXTENSIONS
-- # Require C99 support
-- #
-- AS_CASE([$ac_prog_cc_stdc],
---  [c11 | c99], [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])],
---  [AC_MSG_WARN([[Compiler does not support C99. It may not be able to compile the project.]])]
---)
--+  [c89],
--+  [AC_MSG_WARN([[Compiler does not support C99. It may not be able to compile the project.]])],
--+  [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])])
-- 
-- AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" = yes)
-- 
---- 
--2.43.0
--
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
-similarity index 93%
-rename from meta/recipes-support/gnutls/gnutls_3.8.12.bb
-rename to meta/recipes-support/gnutls/gnutls_3.8.13.bb
-index 8554ab943d..943864d4ba 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
-@@ -23,10 +23,11 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch \
-            file://run-ptest \
-            file://Add-ptest-support.patch \
--           file://c99.patch \
-+           file://0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch \
-+           file://0001-tests-mini-dtls-framents-link-to-gnulib.patch \
-            "
- 
--SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
-+SRC_URI[sha256sum] = "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e"
- 
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
- 
-@@ -63,10 +64,6 @@ do_configure:prepend() {
- 	for dir in . lib; do
- 		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4
- 	done
--
--	# remove on next upgrade when release tarball gets fixed
--	# https://gitlab.com/gnutls/gnutls/-/issues/1797
--	cp -p ${S}/doc/stamp_enums ${S}/doc/stamp_error_codes
- }
- 
- do_compile_ptest() {
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWF0aGlldSBEdWJvaXMt
+QnJpYW5kIDxtYXRoaWV1LmR1Ym9pcy1icmlhbmRAYm9vdGxpbi5jb20+DQo+IFNlbnQ6IE1vbmRh
+eSwgTWF5IDExLCAyMDI2IDExOjE0IEFNDQo+IFRvOiBNYXJrbywgUGV0ZXIgKEZUIEQgRVUgU0sg
+QkZTMSkgPFBldGVyLk1hcmtvQHNpZW1lbnMuY29tPjsNCj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ251
+dGxzOiB1cGdyYWRlIDMuOC4xMiAtPiAzLjguMTMNCj4gDQo+IE9uIFN1biBNYXkgMTAsIDIwMjYg
+YXQgNjoyNCBQTSBDRVNULCBQZXRlciBNYXJrbyB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
+PiB3cm90ZToNCj4gPiBGcm9tOiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+
+DQo+ID4NCj4gPiBTb2x2ZXMgQ1ZFLTIwMjYtMzM4NDYsIENWRS0yMDI2LTQyMDA5LCBDVkUtMjAy
+Ni0zMzg0NSwgQ1ZFLTIwMjYtNDIwMTAsDQo+ID4gQ1ZFLTIwMjYtMzgzMywgQ1ZFLTIwMjYtNDIw
+MTEsIENWRS0yMDI2LTQyMDEyLCBDVkUtMjAyNi00MjAxMywNCj4gPiBDVkUtMjAyNi00MjAxNCwg
+Q1ZFLTIwMjYtNTI2MCwgQ1ZFLTIwMjYtNDIwMTUsIENWRS0yMDI2LTM4MzIgYW5kDQo+ID4gQ1ZF
+LTIwMjYtNTQxOS4NCj4gPg0KPiA+IFJlbGVhc2Ugbm90ZXM6IFsxXQ0KPiA+DQo+ID4gUmViYXNl
+IHBhdGNoZXMgYW5kIGRyb3AgcGF0Y2ggaW5jbHVkZWQgaW4gdGhpcyByZWxlYXNlLg0KPiA+DQo+
+ID4gWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9nbnV0bHMvZ251dGxzL2Jsb2IvMy44LjEzL05FV1MN
+Cj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0BzaWVtZW5z
+LmNvbT4NCj4gPiAtLS0NCj4gDQo+IEhpIFBldGVyLA0KPiANCj4gVGhhbmtzIGZvciB0aGUgdXBn
+cmFkZS4NCj4gDQo+IEkgbm90ZSBzb21lIGlzc3VlcyBvbiB0aGUgYXV0b2J1aWxkZXI6IGJ1aWxk
+IGlzc3VlcyB3aXRoIG11c2wgYW5kIHB0ZXN0DQo+IGZhaWx1cmVzLg0KPiANCj4gRVJST1I6IGdu
+dXRscy0zLjguMTMtcjAgZG9faW5zdGFsbF9wdGVzdF9iYXNlOiBFeGVjdXRpb24gb2YgJy9zcnYv
+cG9reWJ1aWxkL3lvY3RvLQ0KPiB3b3JrZXIvbXVzbC1xZW11eDg2L2J1aWxkL2J1aWxkL3RtcC93
+b3JrL2NvcmUyLTMyLXBva3ktbGludXgtDQo+IG11c2wvZ251dGxzLzMuOC4xMy90ZW1wL3J1bi5k
+b19pbnN0YWxsX3B0ZXN0X2Jhc2UuNDAzNDg4MicgZmFpbGVkIHdpdGggZXhpdCBjb2RlIDENCj4g
+Li4uDQo+IHwgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL211c2wtcWVtdXg4Ni9idWlsZC9i
+dWlsZC90bXAvd29yay9jb3JlMi0zMi1wb2t5LQ0KPiBsaW51eC1tdXNsL2dudXRscy8zLjguMTMv
+cmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vaTY4Ni1wb2t5LWxpbnV4LW11c2wvaTY4Ni1w
+b2t5LQ0KPiBsaW51eC1tdXNsLWxkOiBtaW5pX2R0bHNfZnJhZ21lbnRzLW1pbmktZHRscy1mcmFn
+bWVudHMubzogaW4gZnVuY3Rpb24NCj4gYHNwbGl0X2NsaWVudF9oZWxsbyc6DQo+IHwgL3Vzci9z
+cmMvZGVidWcvZ251dGxzLzMuOC4xMy90ZXN0cy9taW5pLWR0bHMtZnJhZ21lbnRzLmM6NDI5Oigu
+dGV4dCsweDZjKTogdW5kZWZpbmVkDQo+IHJlZmVyZW5jZSB0byBgcnBsX21hbGxvYycNCj4gfCAv
+c3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvbXVzbC1xZW11eDg2L2J1aWxkL2J1aWxkL3RtcC93
+b3JrL2NvcmUyLTMyLXBva3ktDQo+IGxpbnV4LW11c2wvZ251dGxzLzMuOC4xMy9yZWNpcGUtc3lz
+cm9vdC1uYXRpdmUvdXNyL2Jpbi9pNjg2LXBva3ktbGludXgtbXVzbC9pNjg2LXBva3ktDQo+IGxp
+bnV4LW11c2wtbGQ6IC91c3Ivc3JjL2RlYnVnL2dudXRscy8zLjguMTMvdGVzdHMvbWluaS1kdGxz
+LQ0KPiBmcmFnbWVudHMuYzo0MzE6KC50ZXh0KzB4OGIpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRv
+IGBycGxfbWFsbG9jJw0KPiB8IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9tdXNsLXFlbXV4
+ODYvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItMzItcG9reS0NCj4gbGludXgtbXVzbC9nbnV0
+bHMvMy44LjEzL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2k2ODYtcG9reS1saW51eC1t
+dXNsL2k2ODYtcG9reS0NCj4gbGludXgtbXVzbC1sZDogbWluaV9kdGxzX2ZyYWdtZW50cy1taW5p
+LWR0bHMtZnJhZ21lbnRzLm86IGluIGZ1bmN0aW9uDQo+IGBxdWV1ZV9wdXRfcmVudW1iZXJlZCc6
+DQo+IHwgL3Vzci9zcmMvZGVidWcvZ251dGxzLzMuOC4xMy90ZXN0cy9taW5pLWR0bHMtZnJhZ21l
+bnRzLmM6NDEyOigudGV4dCsweDM5MSk6IHVuZGVmaW5lZA0KPiByZWZlcmVuY2UgdG8gYHJwbF9t
+YWxsb2MnDQo+IHwgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL211c2wtcWVtdXg4Ni9idWls
+ZC9idWlsZC90bXAvd29yay9jb3JlMi0zMi1wb2t5LQ0KPiBsaW51eC1tdXNsL2dudXRscy8zLjgu
+MTMvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vaTY4Ni1wb2t5LWxpbnV4LW11c2wvaTY4
+Ni1wb2t5LQ0KPiBsaW51eC1tdXNsLWxkOiAvdXNyL3NyYy9kZWJ1Zy9nbnV0bHMvMy44LjEzL3Rl
+c3RzL21pbmktZHRscy0NCj4gZnJhZ21lbnRzLmM6NDE3OigudGV4dCsweDQ0Yyk6IHVuZGVmaW5l
+ZCByZWZlcmVuY2UgdG8gYHJwbF9mcmVlJw0KPiB8IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
+ci9tdXNsLXFlbXV4ODYvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItMzItcG9reS0NCj4gbGlu
+dXgtbXVzbC9nbnV0bHMvMy44LjEzL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2k2ODYt
+cG9reS1saW51eC1tdXNsL2k2ODYtcG9reS0NCj4gbGludXgtbXVzbC1sZDogbWluaV9kdGxzX2Zy
+YWdtZW50cy1taW5pLWR0bHMtZnJhZ21lbnRzLm86IGluIGZ1bmN0aW9uDQo+IGBjbGllbnRfcHVz
+aF9zcGxpdF9oZWxsbyc6DQo+IHwgL3Vzci9zcmMvZGVidWcvZ251dGxzLzMuOC4xMy90ZXN0cy9t
+aW5pLWR0bHMtZnJhZ21lbnRzLmM6NDcyOigudGV4dCsweDUzNSk6IHVuZGVmaW5lZA0KPiByZWZl
+cmVuY2UgdG8gYHJwbF9mcmVlJw0KPiB8IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9tdXNs
+LXFlbXV4ODYvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItMzItcG9reS0NCj4gbGludXgtbXVz
+bC9nbnV0bHMvMy44LjEzL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2k2ODYtcG9reS1s
+aW51eC1tdXNsL2k2ODYtcG9reS0NCj4gbGludXgtbXVzbC1sZDogL3Vzci9zcmMvZGVidWcvZ251
+dGxzLzMuOC4xMy90ZXN0cy9taW5pLWR0bHMtDQo+IGZyYWdtZW50cy5jOjQ3MzooLnRleHQrMHg1
+NDEpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBycGxfZnJlZScNCj4gfCAvc3J2L3Bva3lidWls
+ZC95b2N0by13b3JrZXIvbXVzbC1xZW11eDg2L2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTMy
+LXBva3ktDQo+IGxpbnV4LW11c2wvZ251dGxzLzMuOC4xMy9yZWNpcGUtc3lzcm9vdC1uYXRpdmUv
+dXNyL2Jpbi9pNjg2LXBva3ktbGludXgtbXVzbC9pNjg2LXBva3ktDQo+IGxpbnV4LW11c2wtbGQ6
+IG1pbmlfZHRsc19mcmFnbWVudHMtbWluaS1kdGxzLWZyYWdtZW50cy5vOiBpbiBmdW5jdGlvbg0K
+PiBgY2xpZW50X3B1c2hfc3BsaXRfaGVsbG9fYmFkX3NlcSc6DQo+IHwgL3Vzci9zcmMvZGVidWcv
+Z251dGxzLzMuOC4xMy90ZXN0cy9taW5pLWR0bHMtZnJhZ21lbnRzLmM6NTAwOigudGV4dCsweDYy
+OSk6IHVuZGVmaW5lZA0KPiByZWZlcmVuY2UgdG8gYHJwbF9mcmVlJw0KPiB8IC9zcnYvcG9reWJ1
+aWxkL3lvY3RvLXdvcmtlci9tdXNsLXFlbXV4ODYvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTIt
+MzItcG9reS0NCj4gbGludXgtbXVzbC9nbnV0bHMvMy44LjEzL3JlY2lwZS1zeXNyb290LW5hdGl2
+ZS91c3IvYmluL2k2ODYtcG9reS1saW51eC1tdXNsL2k2ODYtcG9reS0NCj4gbGludXgtbXVzbC1s
+ZDogL3Vzci9zcmMvZGVidWcvZ251dGxzLzMuOC4xMy90ZXN0cy9taW5pLWR0bHMtDQo+IGZyYWdt
+ZW50cy5jOjUwMTooLnRleHQrMHg2MzUpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBycGxfZnJl
+ZScNCj4gfCAvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvbXVzbC1xZW11eDg2L2J1aWxkL2J1
+aWxkL3RtcC93b3JrL2NvcmUyLTMyLXBva3ktDQo+IGxpbnV4LW11c2wvZ251dGxzLzMuOC4xMy9y
+ZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2Jpbi9pNjg2LXBva3ktbGludXgtbXVzbC9pNjg2LXBv
+a3ktDQo+IGxpbnV4LW11c2wtbGQ6IG1pbmlfZHRsc19mcmFnbWVudHMtbWluaS1kdGxzLWZyYWdt
+ZW50cy5vOiBpbiBmdW5jdGlvbiBgY2xpZW50X3B1c2hfaW5qMCc6DQo+IHwgL3Vzci9zcmMvZGVi
+dWcvZ251dGxzLzMuOC4xMy90ZXN0cy9taW5pLWR0bHMtZnJhZ21lbnRzLmM6MTkyOigudGV4dCsw
+eDEzOWQpOg0KPiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBycGxfbWFsbG9jJw0KPiB8IC9zcnYv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9tdXNsLXFlbXV4ODYvYnVpbGQvYnVpbGQvdG1wL3dvcmsv
+Y29yZTItMzItcG9reS0NCj4gbGludXgtbXVzbC9nbnV0bHMvMy44LjEzL3JlY2lwZS1zeXNyb290
+LW5hdGl2ZS91c3IvYmluL2k2ODYtcG9reS1saW51eC1tdXNsL2k2ODYtcG9reS0NCj4gbGludXgt
+bXVzbC1sZDogL3Vzci9zcmMvZGVidWcvZ251dGxzLzMuOC4xMy90ZXN0cy9taW5pLWR0bHMtDQo+
+IGZyYWdtZW50cy5jOjIwODooLnRleHQrMHgxNDI0KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBg
+cnBsX2ZyZWUnDQo+IHwgY29sbGVjdDI6IGVycm9yOiBsZCByZXR1cm5lZCAxIGV4aXQgc3RhdHVz
+DQo+IA0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9i
+dWlsZGVycy82L2J1aWxkcy8zNzY3DQo+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0
+Lm9yZy92YWxreXJpZS8jL2J1aWxkZXJzLzEwOS9idWlsZHMvMzkxDQo+IGh0dHBzOi8vYXV0b2J1
+aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy92YWxreXJpZS8jL2J1aWxkZXJzLzExMC9idWlsZHMvMzc1
+DQo+IA0KPiBGYWlsZWQgcHRlc3RzOg0KPiB7J2dudXRscyc6IFsna2V5LW9wZW5zc2wnXX0NCj4g
+aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVpbGRlcnMv
+NzMvYnVpbGRzLzM2NTINCj4gDQo+IA0KPiBDYW4geW91IGhhdmUgYSBsb29rIGF0IHRoZSBpc3N1
+ZXM/DQoNCkkgaGF2ZSBiYWNrcG9ydGVkIHR3byBwYXRjaGVzIHRvIGZpeCBtdXNsIGJ1aWxkLg0K
+DQpJIGFsc28gaW5jcmVhc2VkIG1lbW9yeSBuZWVkZWQgdG8gcGFzcyB0aGUgdGVzdHMuDQpVbmZv
+cnR1bmF0ZWx5LCBJIGFtIHVzdWFsbHkgdGVzdGluZyB3aXRoIGN1c3RvbSBpbWFnZSBtdWNoIGxh
+cmdlciB0aGFuIGNvcmUtaW1hZ2UtcHRlc3QuLi4NCg0KdjIgaXMgb3V0Lg0KDQpQZXRlcg0KDQoN
+Cj4gDQo+IFRoYW5rcywNCj4gTWF0aGlldQ0KPiANCj4gLS0NCj4gTWF0aGlldSBEdWJvaXMtQnJp
+YW5kLCBCb290bGluDQo+IEVtYmVkZGVkIExpbnV4IGFuZCBLZXJuZWwgZW5naW5lZXJpbmcNCj4g
+aHR0cHM6Ly9ib290bGluLmNvbQ0KDQo=
 
