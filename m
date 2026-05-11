@@ -1,228 +1,173 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F03F5CD37BE
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 13:51:30 +0000 (UTC)
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.50297.1778507485590061798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0EB6CD37BE
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 13:52:30 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50326.1778507546681851397
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 06:51:26 -0700
+ Mon, 11 May 2026 06:52:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=HgIhe7Ts;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=cq8/1Z+d;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.146, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id B2E61EC02FC;
-	Mon, 11 May 2026 09:51:24 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 11 May 2026 09:51:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1778507484; x=1778593884; bh=e4
-	9LUDUI3fLq88ljRkuwcmOOBpJfMk49ZZpjNJEf8Y0=; b=HgIhe7TsgWhBD25+dT
-	8fcxT84XzKe4dzwvm/Fus7MpdqJ3f4E3C/7dQ2IoHTPXiqQ6NUtqyF9AVpehV6WL
-	ZZqvDmWXyjMbdNMxq5NYkUTXAbDHBnFX4FcKXHoMzOxkg/X/9uzykKKrEg83kerT
-	+qyeb9CmLH75U5h8wGA/UclwnxsQx9pyi54hDna/oP8L00swoZEGmCgfj6M9L2CG
-	jteuwUP9JbjEWU0Ben1PEv9GNt2M4KPQAAyydBVBPLxWzRo0F5zaJ3TNLBh/bc/P
-	j7x+RH8rQUNQ1dhOyLTaXZrZnDKxiH7Bm13KELAhmfzGtkgAXgt9qxTNIbxrysZa
-	Xodg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1778507484; x=1778593884; bh=e49LUDUI3fLq88ljRkuwcmOOBpJf
-	Mk49ZZpjNJEf8Y0=; b=cq8/1Z+dWNeMx69rGrvD45teWp65sKTXuX4XhNISczWj
-	Y2kS0eEI8j/WQrcjoFnIelxfLM/L+lX3lAXcyEftC8ZzohOAd8jzE+j1eukDCo07
-	ocWGN3M9IKQpBn5O73IhBcVNVcrFwQLMM/6te12MLk1hXTwklJCaEIO8f1Bxf6vV
-	t2RVFJutBx3g9eIoQD5ON1jg61G+EINkyKTOPgNxcktR4CXxEvWjVrtbivKllkcK
-	fvCEtIjxnO7iI60vEyV+L1ywEbBbXexOV5RQ98z+SkUk6syX8FgMdL9pyg4XApAQ
-	BYI1+uy93DVqRUDS+v1GpqXkoQ/4LiOehCfLwOL1tA==
-X-ME-Sender: <xms:3N4BahtU3emW2HmGm1v72XBVoMWnavPGlPeUmlRTx82cc6jogRzeJw>
-    <xme:3N4BagexRDglxwZuF1C4P7NtCVtPj4u1PJFZVPdTsz_06rVbnC7wiWb0_qYOceIsY
-    YbJEp8Sn0vrozKQWATsjW-FMZ_1gnXYAH9NBHDKNfizZfgRgjAOv_o>
-X-ME-Received: <xmr:3N4BaiagCCWFSHzb0zPoLlqgVc_QzvOpM1WzIE8tBBgpMhZyzgUEg3YfE20vKyBI1_Tlg87b7hwAeTCHw2e7jn9VB-igM2s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudeltdelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkvfevofesthejredtre
-    dtjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnhepieetvedvtdegledttdfhheehfeeuhfdtkeetke
-    fgvdeifeefhfekhfevveegtdetnecuffhomhgrihhnpehprhhotggvshhsrdhruhhnnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlse
-    hpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehprghulhesphgsrghrkhgvrhdruggvvhdprhgtphhtthhopehoph
-    gvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdr
-    ohhrgh
-X-ME-Proxy: <xmx:3N4BajWdcENyBEAVWtT2m4o45hADiL-1eQiT7HjFQCBzZdgEGiTcnQ>
-    <xmx:3N4BakgL07A7-dxRl0yWKvrahyrPHjPUUUWLoa0PGq7lqaT6348wOA>
-    <xmx:3N4BahVp9lkbSHqN32jNp8ka6WFOrOjhu_sSzE7laEAW6IzGMhr1gQ>
-    <xmx:3N4BarNORKFC4qLxAvBar62LbiD_1GsFbM8V2j-th61EGmbtLhQmvw>
-    <xmx:3N4BapSX-PmZ2o1-0Z8euc96M6QlV8HUCr3XmhcQL5FQMCtadaRHF_3b>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 09:51:24 -0400 (EDT)
-From: Paul Barker <paul@pbarker.dev>
-Date: Mon, 11 May 2026 14:51:21 +0100
-Subject: [PATCH] oe/lsb: Only read /etc/os-release
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=AzVP+wnh;
+ spf=pass (domain: cherry.de, ip: 40.107.130.45, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UUhOEs8M2iWaLl3nRYOcbBQk/J+ViMEWx238FGdGqWjGWeJxNm5YsRsvPrGNfqbseHkz6slcwyfgEQGPvHPijafVkdPCs4N6xBzbwg0TAGkclK29agJNCfkG30Y3MVp4hRxMcAu4wi2wkIdOi/FzVCcNHo6E9xdD49AJXy2k/OWZEGAbEHe8+DTVfE7DvBE0kmVUcnuWOH4SEYxGaeTOtaiwA9unpuyFoIciJuGBevV28I0asbR2j5haE+u8xNYFkYexOQVngSh/sWtvz4bNmg38LCjcmjl1haisM3xXDSDTsxqKZmd6CbCcviJx4OzfElXALFOp9exq1nNE8P53ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lVIMg74WEKdKgeiKiAFq/CUq7T1HA8ARXTTzjyZmjIM=;
+ b=b9PYcez20wYmoEbZz+9xp8ZC4/vqxXySP2wCE7BVTF2OcBC3w388quuvmaj7djsF8M1nJvaiCSdr14BnAaLeOWYkU/g2OQKCunYLZrG4sx0RArm2hc4Z3h4gGRRYlisatT/PYbgxGOYNkgZ7TNBofc+DB2cST+hnX4f0EKv6lpzooLfnO/yzr2QCieXpEx6u1z/pHogqVy9egKZnJ4tEaifpCaeSaOcrZ10neE/UaBJnuM/KLcA3emGYuyK8Qb9K5hh12L+D7+kp9eK0XNkEmgIEDpAQ7o2zDg18NIIs5it1LFyQpVZfZyHQBm4UUSbaODW4AXt7p7Pty32d2oFgng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lVIMg74WEKdKgeiKiAFq/CUq7T1HA8ARXTTzjyZmjIM=;
+ b=AzVP+wnhz6aCZKyjMlFUa/+U/fP4THytPvrD6CrkcaHTrgnke8+VRJCdH3zWQuPfaXbf1iVHAfbyNAd/EH9R+USVUL0OR3A0cFmG/BWS9ckScYrkiJ0ruhPLQPho5752t11x82f/L4L9TYWj20jFNY56mFRNyMa9GJ7HPbrBimE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
+ by DUZPR04MB9965.eurprd04.prod.outlook.com (2603:10a6:10:4db::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 13:52:19 +0000
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00%3]) with mapi id 15.20.9891.021; Mon, 11 May 2026
+ 13:52:19 +0000
+Message-ID: <bf76e336-9a8a-4488-a7fd-c4315303e53b@cherry.de>
+Date: Mon, 11 May 2026 15:52:18 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 2/3] ovmf: drop gcc-12 specific BUILD_CFLAGS
+ setting
+To: Joao Marcos Costa <joaomarcos.costa@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+References: <20260511092935.2631121-1-joaomarcos.costa@bootlin.com>
+ <20260511092935.2631121-3-joaomarcos.costa@bootlin.com>
+ <5f42f257-59fa-4085-a42c-7cbe55472567@cherry.de>
+ <708f2321-2420-431e-8b9a-3a5a470228dd@bootlin.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <708f2321-2420-431e-8b9a-3a5a470228dd@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR4P281CA0273.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e6::10) To DBBPR04MB7737.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e5::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260511-os-release-v1-1-26f53ae5e100@pbarker.dev>
-X-B4-Tracking: v=1; b=H4sIANjeAWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDU0ND3fxi3aLUnNTE4lTd5KRUw0Qzcwsj86Q0JaCGgqLUtMwKsGHRsRB
- +cWlSVmpyCcgEpdpaAL9kvPxuAAAA
-X-Change-ID: 20260511-os-release-cbe1a67827bf
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4511; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=6GWE7scf0cE+c0VeRpB78742SMxmBDkSdQhiAAxk/V0=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWQx3rutXfzoRSD3Z/bjT5M3yW9al7LVdIr4Wm+1Wc6KU
- ntX3A1Y0FHKwiDGxSArpsiyuefr/ae9jrwZIbcUYOawMoEMYeDiFICJKM9g+Gd1QqH2fWijs2u3
- 0ILil296zrxtdftiMVtZJLo6e8cphlhGhsV1db8eGZcvnZ01TzKeoSp+4b51vqpK2qWqbRcmvQ8
- 8wAkA
-X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
- fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|DUZPR04MB9965:EE_
+X-MS-Office365-Filtering-Correlation-Id: 334761fb-0583-4993-4b3c-08deaf6484e5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|1800799024|18002099003|22082099003|11063799003|4133799003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	p5y48ckDaa5xyeznOAsAJ2p0O/fiIqIHCd7i4GQQY6j5Q/tPS9mezc/JMizCztLhYZl/D+P1vS7VoF+AdK6O72lnfbyTaowgRorn5fqZXPnTXjSisq8u/GrI7ZNRy3lyvR0kmNYkxXEtJO3180JXlekRq7AFriQpLLcNHVosjd0kyc6eSMXe2NYopwoiL6N8p9aurNuxCufrClFsXk8GPbcwrzWw9NS31rF71U3hm+/jk/DpKjcmj2eG/L+snkyWLnpHtcogc2ESn7KxT7zItcbmSgvWZvOhksaBuDCWdX5BbvARhsOm1CaC5AtkrBPC5EQfznKOSRV1zb5BEqyMISFwgtYZzRiuVmyPdB34GdSJW1L1IZDDaHwWmjrmsMDtuBTIcRYfVlSR/amhbryZvhhbondovyLFROHpe9xS0rOyM2a69mCjiAwOpQogA5R6n3/RDCGIYUZPUGVSSLGB8e/mCju2qr60mvbeaj4EuG61RRNWaG3NMuinZuPqk5oZq8aTVl/mZkgTLLyoRLgInwDAMCn1Ux8eK6kOXnZtumLRhImWU93JPOsoSpwVS7sxOjKTeCopnVmYReM9vDf+0paWzPuMY5RgJC3Sn8PLJ3R/lSP1bt2+5S5jHAsIjHLRcPWisYY0QKq99DwbfIcZRQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(18002099003)(22082099003)(11063799003)(4133799003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?bswLLf85fmdkyXEhwSmufJ/zQrFLrCugWfH+o31S7yxT3pqrBnzs0ZWxFEr2?=
+ =?us-ascii?Q?TyOA3DmbbED0bRHpineZSoif4qut/qTLTqijvnEwfgp5W34wfNtqY6N0XV8z?=
+ =?us-ascii?Q?LCZ4dNwwHzmlG/sysdkENcjUoL+AnZIdQpxUlX19iW4Yau4gI3pVKfmESZy1?=
+ =?us-ascii?Q?sTJ26vQSTP7IQmn0AyrVsdQCSkPNaNIG31gKHuSA3Ug+vKuIdrPp9V74PUX/?=
+ =?us-ascii?Q?hSoF/AavoKsbOfOfbn6H0QsXJdcx5XU6pLoJAyOSoIFY9uRaoKUX3yrpDKCL?=
+ =?us-ascii?Q?Lv8O6A9xbsBKXTNTAp/Rvqy97kllnJD0AVMAxXF3z4/bcaU3PNtqsGXMPqJ9?=
+ =?us-ascii?Q?WZAugGLYQ3L9SXbcjgwVdK5h3LlZCoRVvR5E85T53xJkW6ypr4d8IiySgPgH?=
+ =?us-ascii?Q?/QnvSVbIw6oO7yBFeTWtMOPjMiLvJSlzETh/BANdPmIjmlVN+3bApOg9Mj81?=
+ =?us-ascii?Q?NVBLLVRXuBP0b9EWfVxFXZUjsAfswnXTnAHCMq6SBfUn8bQk94xTc+4cX9Du?=
+ =?us-ascii?Q?kN0clK4bEC8/B0ybFwXgJVLi3H8FEFmwwObXddlRIgEuxJ8onawy3vxfVPxe?=
+ =?us-ascii?Q?usB76PlXIRnrXQitKpwpjGt5nwTZrlwcf9AAUj+AHc64VuQ+MV9SPdynGGKV?=
+ =?us-ascii?Q?GNE1WXFo8RaaWCOqoip9olyvBSUpgSvNCXuv88tIZEr9hVCZ/g2Dexk9dZ6m?=
+ =?us-ascii?Q?5RSpVa55dMJSwQAwaxUa/RXlRyRpibBMpushQ8LhoxIw0T8cfHvBYr9vrX+2?=
+ =?us-ascii?Q?p59YO3XDx2B7zEEA0B2NgQGB8F3rNrTYtS7zovqL0nQHIUHM5ApGOdGwD9Vo?=
+ =?us-ascii?Q?QxFCkBzjCGenXZLMIOq0YmLbL2qrjUPWvLEQh242okccUPBNW7sIFinckoQo?=
+ =?us-ascii?Q?6gd04zRMURbKr3OEdp+qUVetseO0rX0VCt0Iman9rFSEBnyMMiWZ3NAodMc5?=
+ =?us-ascii?Q?z94t5cwzCXNGJHdT9NRtQbMWD+Z93fEY2kNlGCND2pgfTYeK0Mxe9PC9cfMY?=
+ =?us-ascii?Q?jxfRhVBJdIQ56a1IK95spWusyVwOOriBrFKayAYWjnjpBYy3a2O/UbaZdh6s?=
+ =?us-ascii?Q?9mAYlPqMeJto03ekPhO/VKTH8xGkT6Wfehw37QDsE6c3FTkK9nLD9jIh/OzR?=
+ =?us-ascii?Q?6ez76/1gzQNE6rnL0oyQHYkch20nHSY9VX/w+3JWKyY6nFqXT4zeYUK9gB3J?=
+ =?us-ascii?Q?UFkWvGUyxNWRHWdaGXZJG0N+R1qjD75ptggNdWSbHnA6G4cu9uUD0UjrunqR?=
+ =?us-ascii?Q?4z07O7EQ+3WcnN/ejELE+KUllX3F2fLfWn7ek/W1ezVmmNoIB+8mPZUnvTDs?=
+ =?us-ascii?Q?ToR7uy8ozhY9bmPw0P46xLGgL2ANWaZL6bimCTrvCx06B8vJrQyCTzuaBsf7?=
+ =?us-ascii?Q?RLgLr886csIuGUIP+RwXrKs0eYqU2SahThOzFxBm/+5WjqhPrI7PAHODIRGc?=
+ =?us-ascii?Q?28bMUkZpJSsgZT0wWH5NkfnYj8r16JI0Ua37020XaCkTc+nnx0hDE0AiygZr?=
+ =?us-ascii?Q?10X+C6B9j7FwpV3nhd4zJhDHfLjA9/IMArsndX4pPEXrSWPrO4jW1FcY2HpB?=
+ =?us-ascii?Q?vfucW4nxVmdv+LFWdWgI5ZD4QcZp4xVC24f1fyxZ6ovxSTrtGw2Yz7IFQlNs?=
+ =?us-ascii?Q?M6cisV/J3oy+GHSUY0SvPaNa/rAQGWLUceP014Ow01PvvG0cZTZsFW+EpnkG?=
+ =?us-ascii?Q?NlIEbH4T8f1fH9uT0eBecYRiBDP4AT+n9eeiysRaj45N+iZiZmuVQmFf6hkE?=
+ =?us-ascii?Q?tOQLXCRIhQ=3D=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 334761fb-0583-4993-4b3c-08deaf6484e5
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 13:52:19.5335
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cPcZK2XKrpMFlQWd5npkPSYN0SZS6/awqWtAErOCUpgqxt0Dvd+hI0jotpZM61MFYbyQ6tApdOtEFojMKNzZRiFTnlftOg5WDsFgFnnv9gw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9965
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 13:51:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236816
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 13:52:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236817
 
-Over time, distros have standardised on providing distro name and
-version information via /etc/os-release. All of our currently supported
-distros contain this file, so we can drop support for gathering distro
-name and version information via other methods.
+Hi Jo=C3=A3o,
 
-Signed-off-by: Paul Barker <paul@pbarker.dev>
----
- meta/lib/oe/lsb.py | 90 +++---------------------------------------------------
- 1 file changed, 5 insertions(+), 85 deletions(-)
+On 5/11/26 3:40 PM, Joao Marcos Costa wrote:
+> Hello,
+>=20
+> On 5/11/26 15:27, Quentin Schulz via lists.openembedded.org wrote:
+>> Hi Jo=C3=A3o,
+>>
+>> On 5/11/26 11:29 AM, Jo=C3=A3o Marcos Costa wrote:
+>>> This was handled upstream a while ago:
+>>>
+>>> https://eur02.safelinks.protection.outlook.com/?=20
+>>> url=3Dhttps%3A%2F%2Fgithub.com%2Ftianocore%2Fedk2%2Fblob%2Fmaster%2FBas=
+eTools%2FSource%2FC%2FDevicePath%2FGNUmakefile%23L27&data=3D05%7C02%7Cquent=
+in.schulz%40cherry.de%7Cd69acb4606d94a43ff0b08deaf62e1b9%7C5e0e1b5221b54e7b=
+83bb514ec460677e%7C0%7C0%7C639141036395687030%7CUnknown%7CTWFpbGZsb3d8eyJFb=
+XB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldU=
+IjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DD5wD6%2Bvq%2BYJP3wUROtdEswwwc4RJFYmYvt7GL=
+zsvJbo%3D&reserved=3D0
+>>>
+>>
+>> It's not because upstream supports it that the version we're building=20
+>> has it, so pointing at a commit and mentioning it's part of the=20
+>> version we're building would be nice.
+>>
+>> 22130dcd98b4 ("Basetools: turn off gcc12 warning") part of edk2-=20
+>> stable202205 tag (and also edk2-stable202511 which we currently are at.
+>=20
+> That's very much true. I will stick with this approach for the next time.
+>=20
+>> Also, unclear whether this single file is the only place this flag=20
+>> being set would be enough as the flag was set globally and now it's=20
+>> only in a specific file within edk2 source code.
+>>
+>> Cheers,
+>> Quentin
+>=20
+> In any case, the warnings/errors would have been noticed during the=20
+> build if this flag was still needed (and missing).
+>=20
 
-diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
-index 1fc3b968a0aa..650fb0572d0e 100644
---- a/meta/lib/oe/lsb.py
-+++ b/meta/lib/oe/lsb.py
-@@ -6,9 +6,8 @@
- 
- def get_os_release():
-     """Get all key-value pairs from /etc/os-release as a dict"""
--    from collections import OrderedDict
- 
--    data = OrderedDict()
-+    data = {}
-     if os.path.exists('/etc/os-release'):
-         with open('/etc/os-release') as f:
-             for line in f:
-@@ -19,95 +18,16 @@ def get_os_release():
-                 data[key.strip()] = val.strip('"\'')
-     return data
- 
--def release_dict_osr():
--    """ Populate a dict with pertinent values from /etc/os-release """
--    data = {}
--    os_release = get_os_release()
--    if 'ID' in os_release:
--        data['DISTRIB_ID'] = os_release['ID']
--    if 'VERSION_ID' in os_release:
--        data['DISTRIB_RELEASE'] = os_release['VERSION_ID']
--
--    return data
--
--def release_dict_lsb():
--    """ Return the output of lsb_release -ir as a dictionary """
--    from subprocess import PIPE
--
--    try:
--        output, err = bb.process.run(['lsb_release', '-ir'], stderr=PIPE)
--    except bb.process.CmdError as exc:
--        return {}
--
--    lsb_map = { 'Distributor ID': 'DISTRIB_ID',
--                'Release': 'DISTRIB_RELEASE'}
--    lsb_keys = lsb_map.keys()
--
--    data = {}
--    for line in output.splitlines():
--        if line.startswith("-e"):
--            line = line[3:]
--        try:
--            key, value = line.split(":\t", 1)
--        except ValueError:
--            continue
--        if key in lsb_keys:
--            data[lsb_map[key]] = value
--
--    if len(data.keys()) != 2:
--        return None
--
--    return data
--
--def release_dict_file():
--    """ Try to gather release information manually when other methods fail """
--    data = {}
--    try:
--        if os.path.exists('/etc/lsb-release'):
--            data = {}
--            with open('/etc/lsb-release') as f:
--                for line in f:
--                    key, value = line.split("=", 1)
--                    data[key] = value.strip()
--        elif os.path.exists('/etc/redhat-release'):
--            data = {}
--            with open('/etc/redhat-release') as f:
--                distro = f.readline().strip()
--            import re
--            match = re.match(r'(.*) release (.*) \((.*)\)', distro)
--            if match:
--                data['DISTRIB_ID'] = match.group(1)
--                data['DISTRIB_RELEASE'] = match.group(2)
--        elif os.path.exists('/etc/SuSE-release'):
--            data = {}
--            data['DISTRIB_ID'] = 'SUSE LINUX'
--            with open('/etc/SuSE-release') as f:
--                for line in f:
--                    if line.startswith('VERSION = '):
--                        data['DISTRIB_RELEASE'] = line[10:].rstrip()
--                        break
--
--    except IOError:
--        return {}
--    return data
--
- def distro_identifier(adjust_hook=None):
--    """Return a distro identifier string based upon lsb_release -ri,
-+    """Return a distro identifier string based upon /etc/os-release
-        with optional adjustment via a hook"""
- 
-     import re
- 
--    # Try /etc/os-release first, then the output of `lsb_release -ir` and
--    # finally fall back on parsing various release files in order to determine
--    # host distro name and version.
--    distro_data = release_dict_osr()
--    if not distro_data:
--        distro_data = release_dict_lsb()
--    if not distro_data:
--        distro_data = release_dict_file()
-+    distro_data = get_os_release()
- 
--    distro_id = distro_data.get('DISTRIB_ID', '')
--    release = distro_data.get('DISTRIB_RELEASE', '')
-+    distro_id = distro_data.get('ID')
-+    release = distro_data.get('VERSION_ID')
- 
-     if adjust_hook:
-         distro_id, release = adjust_hook(distro_id, release)
+Not necessarily true as I don't think we build GCC for native recipes=20
+(and ovmf has a native variant), so it depends on the GCC on the host=20
+(unless you have uninative?). I don't know the autobuilder=20
+infrastructure, e.g. whether we build patches on multiple workers on=20
+different distros to have a big GCC version test matrix.
 
----
-base-commit: 4f7d1a0885d7d6f2a533f7388ed5f5a35d6f99bc
-change-id: 20260511-os-release-cbe1a67827bf
+But yes, building with a newer GCC will generally not make warnings from=20
+previous versions disappear and I'm hoping upstream has had time to fix=20
+warnings returned by GCC12 in the last 4 years :)
 
-Best regards,
---  
-Paul Barker
-
+Cheers,
+Quentin
 
