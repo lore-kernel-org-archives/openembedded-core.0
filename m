@@ -2,84 +2,81 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B66F0CD37B5
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:35:19 +0000 (UTC)
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.46949.1778495716940861382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC56CCD37AC
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:42:39 +0000 (UTC)
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47512.1778496158073208367
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 03:35:17 -0700
+ Mon, 11 May 2026 03:42:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=mFh7U66P;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=FR5rZdRn;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.156, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1739A7A00BF;
-	Mon, 11 May 2026 06:35:16 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Mon, 11 May 2026 06:35:16 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=ZPUOr+Zc;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=bqPwg3o8;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.146, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 3A59E1D000B2;
+	Mon, 11 May 2026 06:42:37 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 11 May 2026 06:42:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1778495715; x=1778582115; bh=9yn2BhhHc+
-	cLtskWT8x+5rl4eEgxy+9NoPwOJ0ge9DI=; b=mFh7U66PQnof84th6mvNRQDHqR
-	i17fYLZdZ4rtGTYDb3oPc6m2S8L5hV0sDyxorlxLc14SnFhI45LMk1ZoeaGkjCjx
-	VQmDQLrDwbUldAEOF6m/dVM6HpYPPT57ejQCt9c7bPAtzDdqAxpCQhNJySG+Ngw6
-	dx2qCwof4Yi2tRR40VX6tYiLjKKhpjWqPfK7UgDJIbALN2jswQuP6mUKOEdnuGZJ
-	+LWwbe8GP00sPvzYybtuy6Saa50dOmKauDLCdpHqGurAhEgQppq+NHABlQq9NnCE
-	KeOmHQY60+SrjcoM/k3be4JT1aodahrhtLBAXVqETfQvpnQEetXE3iEqUQaA==
+	:subject:to:to; s=fm1; t=1778496157; x=1778582557; bh=v9flFG5V6e
+	ZdR5E344sC2hKkREVR30BcGANJelsUhDM=; b=ZPUOr+ZcbM4/lpSITUOiQF4jiD
+	w0X0UvJsaPv3CrTO1QKAPcL/zDSiW96rTkjsgqSGGaceb+yDHMueR9r4XDETAr5l
+	EswZeATsWPnMsdqMUVGW+iFigPduEsIXvTAoqkhy8zigQjju6wftXyzbSZTDvzRp
+	G4kLzwsahf31vYZQu0J4uIqyLqoZBclsUmQ0fB6omJBYLe42QCEFFgSm4I6wxyXz
+	we2ye65mnnaFcaBgXwUicKBLOhGMpyVrIse9tGP7fnZFTXYmr88sBAqk3jFIAdmk
+	ppyatdlYBzKbNAphx8hS/itrYDxhffu8r/9pX5BpCtYV5nb3olhCDTBawGAA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778495715; x=1778582115; bh=9yn2BhhHc+cLtskWT8x+5rl4eEgxy+9NoPw
-	OJ0ge9DI=; b=FR5rZdRnipVug0j/+Ow2pD2Tk6SE1cVWGwVPF0KtTpfz/dfk3P0
-	pZc2sQSmh8rRu41nwJVzVN+zGoIWwb40ZdmpCYs0DS1bLPmQpIVg4OFSiv29pVFi
-	0f2mqg/fmA9ehnoRr3MuQj1uc7EL61F3lN0UtjRLZrTpZ2Cg+CttnpMWMOaE6P0c
-	I6RnO9eqbGM5HcerFQN6XdnZKhmnlWjjdwMKdzWVgHpxDbMqTKAXG7YnMPNZfUI7
-	paR9o0oTxTkm+Rgpn5Lz11jBxs7VPZlKi6OINo1UONUtuczjuARYmgUa27+IyXsP
-	A8ZwOVeBDw2/7k0K674MbwW/vVYbP3ir+vA==
-X-ME-Sender: <xms:47ABataxT3WaG_rySS9RpYBfMclEx_416Fm2ySW0-f-ypxuDGgJAcw>
-    <xme:47ABal4mnpe8XO6pD_B2j0pPmcAA2j29aEIDb0G6ioPvlrvyTX1yhaXRDoF0t15n1
-    2ShFSPXkgD5Xt3KEXPBKk5IeMPYdtTHZ9NGU3yUtvwVMnNhEZBaSvzb>
-X-ME-Received: <xmr:47ABagCHjLx1NV59eFYURpg9QyEga4A4cJrEx4hN1cBUSF30QIJX98wv9-_2VU-AEK4v3kuuYZ5HwfUqQgj9joLf9Lt_mnO3PZF12-k>
+	1778496157; x=1778582557; bh=v9flFG5V6eZdR5E344sC2hKkREVR30BcGAN
+	JelsUhDM=; b=bqPwg3o8JJf0qM8vBRnkMFvnnxpsFnY1Ndyxh518np4GYAJSbB5
+	6m1oO42XpmPKHHANseXm6JmHwKFRCJE0VlowDRRj7mXPa8yKOduiJCyR8YhjvW+j
+	yq0+TMGuRZrxEFv1RZxVaPWeNSNq1kp4K09ipoKBHedxFrYUanBCzjuQb9Yc2f61
+	nRdCxi0MdgL5sD4a4cxfeYZiDtubTw3y3B4Qx2uL609dOXgf+zZrKRt9spXWKhLq
+	fqfIe8Te1zkcqF0wlD/cCZnl8QsVk+wZ3pTG+YOnRkz/kIMSxBgMt+f1vlXemnZD
+	Vt9lReDU1Bkujn2inBjU0HQO0DpToiZUvKw==
+X-ME-Sender: <xms:nLIBag7TRG22JD9fmO9g_AeTxZ7rmucZpHag5oFDBq-RFXsVfhzbxw>
+    <xme:nLIBaoxXASzbjOHSstQAq2yZ3k37ubURoqK4XSXCas5HmwUOv64w8fvnnybudQvpH
+    N6_2KKSUNr8bVbPtFWYLHbJ8yoYX2_pz5098HG1tpFNfxSW3-IBDjBL>
+X-ME-Received: <xmr:nLIBanyhXLEQ74eIbSm8galBUILj5uR-dpxx_ye7T_jWHVpPZrKAeevQXnlAvt9ee6RJ_3WFCfp147GwC9lyqExywb4kuJQNX9T53tI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekjedvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
     rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    epfeffvdefgeevkeduhfetueehhfeikedvieeufeevieffueektdeluddtgfegveehnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlse
-    hpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehjvghrvghmhidrrhhoshgvnhesshhmihhlvgdrfhhrpdhrtghpth
-    htoheprghlvgigrdhkrghnrghvihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvhhi
-    nhgtvgesuhhnuggvrhhvihgvfidrthgvtghhpdhrtghpthhtohepohhpvghnvghmsggvug
-    guvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghp
-    thhtohepohhpvghnvghmsggvugguvgguqdgrrhgthhhithgvtghtuhhrvgeslhhishhtsh
-    drohhpvghnvghmsggvugguvggurdhorhhg
-X-ME-Proxy: <xmx:47ABarfUGwHZD5dV8QhVFAfn95Arhg6XmGZprk1SrZQQGCN04NHLjQ>
-    <xmx:47ABavJD45oIH1iv6hMP08qb4TvcjI1_lV2JyJOmheOyJx0SEj9_EQ>
-    <xmx:47ABam2bWJgvrxScWdo6KqPnR6kEb4ncVFdchGrpNzowJuvag7mkvQ>
-    <xmx:47ABahh2nZA8LmWqLx07wegTIW5eDGoix2yLq7Jezq-h_rC4WpE-bg>
-    <xmx:47ABaibJT7yzbyNUbJFVD7rgh-3_buf_8cXgcic85r-NdrDH_mMYOUNP>
+    epudffkefgfefgleeuhffhveekjeevudetuddvieefueeileeihefhgeetgefgudfgnecu
+    ffhomhgrihhnpehvihhmrdhorhhgpdhgihhthhhusgdrtghomhenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdr
+    uggvvhdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
+    epjhhorghomhgrrhgtohhsrdgtohhsthgrsegsohhothhlihhnrdgtohhmpdhrtghpthht
+    ohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvug
+    guvggurdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohho
+    thhlihhnrdgtohhmpdhrtghpthhtohepqhhuvghnthhinhdrshgthhhulhiisegthhgvrh
+    hrhidruggvpdhrtghpthhtohepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnuges
+    sghoohhtlhhinhdrtghomh
+X-ME-Proxy: <xmx:nLIBagxUd6lcNkwPpMtUD3DKROvrPfZtuVtl-CWxhnlxq5XPoZRQtw>
+    <xmx:nLIBahZOd3UUupeR1euatgAFv4zDuqOvJWs0l1P49AkoOJZ1YRq3Dg>
+    <xmx:nLIBahVdOEh4mKp9LtkiUJMEwVdnQu1VHE8vRfyl5If_hN_7UfNTkQ>
+    <xmx:nLIBavjHNb8lo1DHfJPGkgt3HLekDqhr0W9MYg5MSJ9XvA3X4TGuvQ>
+    <xmx:nbIBapj-cdWZvue2MQrgzJAdKvTg28GfmKp7SHabSh3s1fCQoG7pOQS_>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 06:35:14 -0400 (EDT)
-Message-ID: <fbcfa1f857c748933980240845b24df104ce8c31.camel@pbarker.dev>
-Subject: Re: [DLP-CV-Audit] Re: [OE-core] [Openembedded-architecture] What
- to do with vim in openembedded-core?
+ 11 May 2026 06:42:36 -0400 (EDT)
+Message-ID: <8c8b009ce6c0d95d5243f3e4f0c1c6c1eb07c989.camel@pbarker.dev>
+Subject: Re: [PATCH 2/4] vim-xxd: introduce new recipe for xxd
 From: Paul Barker <paul@pbarker.dev>
-To: =?ISO-8859-1?Q?J=E9r=E9my?= Rosen <jeremy.rosen@smile.fr>, 
-	alex.kanavin@gmail.com, vince@underview.tech
-Cc: openembedded-core@lists.openembedded.org, 
-	openembedded-architecture@lists.openembedded.org
-Date: Mon, 11 May 2026 11:35:10 +0100
-In-Reply-To: <DIFQ129WWK14.2573UHH9YBRUK@smile.fr>
-References: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev>
-	 <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com>
-	 <CAPQx_gNgsrsQJuxvnRi2LrM2K2hitm5Epnv55X1=PVLerZJozg@mail.gmail.com>
-	 <CANNYZj_raMY7tQ-L5Jk=Ct_PAZw6KagDQGbR1zF3jzF=4-h9Bw@mail.gmail.com>
-	 <DIFQ129WWK14.2573UHH9YBRUK@smile.fr>
+To: =?ISO-8859-1?Q?Jo=E3o?= Marcos Costa <joaomarcos.costa@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com, quentin.schulz@cherry.de, 
+	mathieu.dubois-briand@bootlin.com
+Date: Mon, 11 May 2026 11:42:32 +0100
+In-Reply-To: <20260508214020.2488025-3-joaomarcos.costa@bootlin.com>
+References: <20260508214020.2488025-1-joaomarcos.costa@bootlin.com>
+	 <20260508214020.2488025-3-joaomarcos.costa@bootlin.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -125,30 +122,102 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-jMkTl37uW7YpmwkrV9iF"
+	protocol="application/pgp-signature"; boundary="=-VjjiDq9BqFpAgxNHqSFZ"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:35:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236804
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:42:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236805
 
 
---=-jMkTl37uW7YpmwkrV9iF
+--=-VjjiDq9BqFpAgxNHqSFZ
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-05-11 at 10:57 +0200, J=C3=A9r=C3=A9my Rosen wrote:
-> Maybe package an alternative to vim that provides vim and is more
-> friendly wrt version-releasing ?
+On Fri, 2026-05-08 at 23:40 +0200, Jo=C3=A3o Marcos Costa wrote:
+> This new recipe's main purpose is to handle xxd in the simplest way
+> possible, stripping it from any needless tasks and/or dependencies that
+> come from the fact it was originally provided by the same recipe as Vim.
 >=20
-> I have heard good things of nvim, though I don't use it myself...
+> Not only this recipe is faster to build, but it still provides the very
+> same program for both build-time and run-time, so there should be no
+> migration needed by the recipes depend on xxd.
+>=20
+> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc |  1 +
+>  meta/recipes-support/vim/vim-xxd_9.2.bb  | 29 ++++++++++++++++++++++++
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 meta/recipes-support/vim/vim-xxd_9.2.bb
+>=20
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+> index f98305e930..7d45bfaf65 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -871,6 +871,7 @@ RECIPE_MAINTAINER:pn-vala =3D "Unassigned <unassigned=
+@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-valgrind =3D "Mingli Yu <mingli.yu@windriver.com>"
+>  RECIPE_MAINTAINER:pn-vim =3D "Unassigned <unassigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-vim-tiny =3D "Unassigned <unassigned@yoctoproject.o=
+rg>"
+> +RECIPE_MAINTAINER:pn-vim-xxd =3D "Jo=C3=A3o Marcos Costa <joaomarcos.cos=
+ta@bootlin.com>"
+>  RECIPE_MAINTAINER:pn-virglrenderer =3D "Unassigned <unassigned@yoctoproj=
+ect.org>"
+>  RECIPE_MAINTAINER:pn-volatile-binds =3D "Chen Qi <Qi.Chen@windriver.com>=
+"
+>  RECIPE_MAINTAINER:pn-vte =3D "Unassigned <unassigned@yoctoproject.org>"
+> diff --git a/meta/recipes-support/vim/vim-xxd_9.2.bb b/meta/recipes-suppo=
+rt/vim/vim-xxd_9.2.bb
+> new file mode 100644
+> index 0000000000..d876efec4e
+> --- /dev/null
+> +++ b/meta/recipes-support/vim/vim-xxd_9.2.bb
+> @@ -0,0 +1,29 @@
+> +SUMMARY =3D "Hex dump and reverse utility from the Vim source tree"
+> +DESCRIPTION =3D "xxd is a small utility usually distributed with Vim tha=
+t creates hex dumps from binary data and can also convert hex dumps back to=
+ their original form."
+> +SECTION =3D "console/utils"
+> +HOMEPAGE =3D "https://www.vim.org/"
+> +BUGTRACKER =3D "https://github.com/vim/vim/issues"
+> +
+> +require vim-sources.inc
+> +
+> +inherit update-alternatives
+> +
+> +PROVIDES +=3D "xxd"
+> +
+> +do_compile() {
+> +    cd  ${S}/src/xxd;
+> +    oe_runmake xxd
+> +}
+> +
+> +do_install() {
+> +    install -d ${D}${bindir}
+> +    install -m 0755 src/xxd/xxd ${D}${bindir}
+> +}
+> +
+> +RPROVIDES:${PN} +=3D "xxd"
+> +
+> +ALTERNATIVE:${PN} =3D "xxd"
+> +ALTERNATIVE_TARGET[xxd] =3D "${bindir}/xxd"
+> +ALTERNATIVE_LINK_NAME[xxd] =3D "${bindir}/xxd"
+> +
+> +BBCLASSEXTEND =3D "native nativesdk"
 
-I use neovim as my main editor, I've also briefly looked at writing a
-recipe for it. Unfortunately it has a bunch more dependencies, some of
-which were non-trivial to write a good recipe for. So I don't think
-neovim is a good option for an editor in OE-core right now.
+I don't think separating out vim-xxd while keeping vim in OE-core is a
+significant improvement. There's also the potential to miss CVEs unless
+we set CVE_PRODUCT to "vim" in vim-xxd, and that will just result in
+duplication of reports.
+
+This also doesn't reduce the amount of time people will spend
+backporting CVE patches to the LTS branch, and time our LTS maintainer
+will need to spend reviewing them. So I'd still rather eject vim from
+OE-core if we can.
 
 Best regards,
 
@@ -156,17 +225,17 @@ Best regards,
 Paul Barker
 
 
---=-jMkTl37uW7YpmwkrV9iF
+--=-VjjiDq9BqFpAgxNHqSFZ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagGw3hEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0blDeAP0QJEqCnlNk+s+jT0xrpKBYI7HAwcIT7XMB
-O5rr4vf7EwD/RbL0pHIgy1WBaZ7JihUp7iVv4phV0hGjlHBXR5+zWwc=
-=e4X0
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagGymBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0botsAQCtKsv1XP6jLIbUgL9ZKNcpxnVG7hxmpNSa
+XPU53fnJUQEAmAjow+YRjQdPjcVnf2/1TgIA16Lb19BC3VnSyaQWkwE=
+=iPLx
 -----END PGP SIGNATURE-----
 
---=-jMkTl37uW7YpmwkrV9iF--
+--=-VjjiDq9BqFpAgxNHqSFZ--
 
