@@ -2,81 +2,80 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC56CCD37AC
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:42:39 +0000 (UTC)
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.47512.1778496158073208367
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBAD2CD37B5
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:45:19 +0000 (UTC)
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47556.1778496315205865635
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 03:42:38 -0700
+ Mon, 11 May 2026 03:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=ZPUOr+Zc;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=bqPwg3o8;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.146, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 3A59E1D000B2;
-	Mon, 11 May 2026 06:42:37 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Mon, 11 May 2026 06:42:37 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=KT1m6J/g;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=mA0j5MLo;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.156, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id A19857A00E9;
+	Mon, 11 May 2026 06:45:14 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Mon, 11 May 2026 06:45:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1778496157; x=1778582557; bh=v9flFG5V6e
-	ZdR5E344sC2hKkREVR30BcGANJelsUhDM=; b=ZPUOr+ZcbM4/lpSITUOiQF4jiD
-	w0X0UvJsaPv3CrTO1QKAPcL/zDSiW96rTkjsgqSGGaceb+yDHMueR9r4XDETAr5l
-	EswZeATsWPnMsdqMUVGW+iFigPduEsIXvTAoqkhy8zigQjju6wftXyzbSZTDvzRp
-	G4kLzwsahf31vYZQu0J4uIqyLqoZBclsUmQ0fB6omJBYLe42QCEFFgSm4I6wxyXz
-	we2ye65mnnaFcaBgXwUicKBLOhGMpyVrIse9tGP7fnZFTXYmr88sBAqk3jFIAdmk
-	ppyatdlYBzKbNAphx8hS/itrYDxhffu8r/9pX5BpCtYV5nb3olhCDTBawGAA==
+	:subject:to:to; s=fm1; t=1778496314; x=1778582714; bh=nYhaLBX8P2
+	yy0U09CgBpyHYI4WMUG22G36l2B5GO/f8=; b=KT1m6J/g4/bmBu+6Ua1Rru+2k4
+	eRqiN3FacS+34E6u198qot40gk8ovw+QyXTehxHTa5/k33oqSw1x/cNSQyKZ9sfz
+	/na6x4uyvdnCa3u9f/43bNSxHmI2zZBif28enBc5MStJdJmlZhdhFkazf7ezmbla
+	9dZeaMH+hJTUeFYHhyWuizSxv4l5FTGbl1c1Qu8j6wIqBZoGVNlPBOreI2kchCuj
+	5KG2valATw321fqprmmnNla9B71rlmiRP+w0MHmrc67dAuCtQNH8H3JydLw5AJaR
+	gGjflUL/MJji6KPATzbr0i3rg9SVsJeHBQMRIDas1Nu0ACy9+24yK0DYPoeg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778496157; x=1778582557; bh=v9flFG5V6eZdR5E344sC2hKkREVR30BcGAN
-	JelsUhDM=; b=bqPwg3o8JJf0qM8vBRnkMFvnnxpsFnY1Ndyxh518np4GYAJSbB5
-	6m1oO42XpmPKHHANseXm6JmHwKFRCJE0VlowDRRj7mXPa8yKOduiJCyR8YhjvW+j
-	yq0+TMGuRZrxEFv1RZxVaPWeNSNq1kp4K09ipoKBHedxFrYUanBCzjuQb9Yc2f61
-	nRdCxi0MdgL5sD4a4cxfeYZiDtubTw3y3B4Qx2uL609dOXgf+zZrKRt9spXWKhLq
-	fqfIe8Te1zkcqF0wlD/cCZnl8QsVk+wZ3pTG+YOnRkz/kIMSxBgMt+f1vlXemnZD
-	Vt9lReDU1Bkujn2inBjU0HQO0DpToiZUvKw==
-X-ME-Sender: <xms:nLIBag7TRG22JD9fmO9g_AeTxZ7rmucZpHag5oFDBq-RFXsVfhzbxw>
-    <xme:nLIBaoxXASzbjOHSstQAq2yZ3k37ubURoqK4XSXCas5HmwUOv64w8fvnnybudQvpH
-    N6_2KKSUNr8bVbPtFWYLHbJ8yoYX2_pz5098HG1tpFNfxSW3-IBDjBL>
-X-ME-Received: <xmr:nLIBanyhXLEQ74eIbSm8galBUILj5uR-dpxx_ye7T_jWHVpPZrKAeevQXnlAvt9ee6RJ_3WFCfp147GwC9lyqExywb4kuJQNX9T53tI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekjedvucetufdoteggodetrf
+	1778496314; x=1778582714; bh=nYhaLBX8P2yy0U09CgBpyHYI4WMUG22G36l
+	2B5GO/f8=; b=mA0j5MLoz41pQsCnO2GxTZ+0hGwKrxuG7dNeNQWzt7XvHQkzkJc
+	sx5xzHdNipujli+bkB0uCR02w3HdDqg6ol1E65RELQIBAhPl96Zh9MKywBnrSGQo
+	HiSJVsCfSUOGuOSRVfZswUtYcZ8Luli33Uu8kYfm0qzoVLwKNm4q6V8Hrw/Wevs+
+	zXHI3esaMMLeNrP1J+pFAdxlyHrbAdweWy/RCMhxhoN6Hp9E9CWQH2Eg0mpPfkN6
+	tWiw/OCoCs9x/xwwdDkb2N/jJS7X280g+EQF44MgGcogwqr54dD/3f254lr+hdKi
+	llq4yyyq1TGf6S25Yd1FCobP57CK4AiYCHQ==
+X-ME-Sender: <xms:OrMBaicpmo_eL4MNEw5kKwWM17r00AEte054NqSV2X3onA2DRAUbQg>
+    <xme:OrMBaj8TW1CI9GJWCKC05zcN5f82T5fDB6gDWqJrSYYUJT8RFweuMkGvjYzWtaZLz
+    pARP3piqCNVoB8LGlWvo6Ey82LRaxU7t3Z8RNtZsIScGZCb9269PM7e>
+X-ME-Received: <xmr:OrMBamlHh9QoBoUoW-9JlsA7IFglRoHHjhDu5zfQ0bBsKudbLkFOSLtq8p5Z_gOjW6cb3B-qOQR1CylbqzDfSAgmcTsZ7i1fVy-ziOI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekjeefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
-    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    epudffkefgfefgleeuhffhveekjeevudetuddvieefueeileeihefhgeetgefgudfgnecu
-    ffhomhgrihhnpehvihhmrdhorhhgpdhgihhthhhusgdrtghomhenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdr
-    uggvvhdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
-    epjhhorghomhgrrhgtohhsrdgtohhsthgrsegsohhothhlihhnrdgtohhmpdhrtghpthht
-    ohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvug
-    guvggurdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohho
-    thhlihhnrdgtohhmpdhrtghpthhtohepqhhuvghnthhinhdrshgthhhulhiisegthhgvrh
-    hrhidruggvpdhrtghpthhtohepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnuges
-    sghoohhtlhhinhdrtghomh
-X-ME-Proxy: <xmx:nLIBagxUd6lcNkwPpMtUD3DKROvrPfZtuVtl-CWxhnlxq5XPoZRQtw>
-    <xmx:nLIBahZOd3UUupeR1euatgAFv4zDuqOvJWs0l1P49AkoOJZ1YRq3Dg>
-    <xmx:nLIBahVdOEh4mKp9LtkiUJMEwVdnQu1VHE8vRfyl5If_hN_7UfNTkQ>
-    <xmx:nLIBavjHNb8lo1DHfJPGkgt3HLekDqhr0W9MYg5MSJ9XvA3X4TGuvQ>
-    <xmx:nbIBapj-cdWZvue2MQrgzJAdKvTg28GfmKp7SHabSh3s1fCQoG7pOQS_>
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
+    dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
+    rdguvghvqeenucggtffrrghtthgvrhhnpeefffdvfeegveekudfhteeuhefhieekvdeiue
+    efveeiffeukedtledutdfggeevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
+    mhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpth
+    htohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhitghothhimhhosehg
+    mhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslh
+    hishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepohhpvghnvghm
+    sggvugguvgguqdgrrhgthhhithgvtghtuhhrvgeslhhishhtshdrohhpvghnvghmsggvug
+    guvggurdhorhhg
+X-ME-Proxy: <xmx:OrMBat8-H_W5Td17fo-mUMassreCsQVWraAOfWKF_vt5pnzqqqWG8w>
+    <xmx:OrMBaskoMTabRTadAoKyvhy1tRo3X0E9h5zGMfWYr3XWYMSq1t4KPA>
+    <xmx:OrMBai20DYjept-RfI4vGWp9hmjMoQEsg3LaLoNdwaqvJc5Dra9VxA>
+    <xmx:OrMBavoyHMv9PDhOuPebmyonr0FUmWVg1ZFo7ZLbcElhlcfmYDU10g>
+    <xmx:OrMBapJv1t1HBYGdmqUaSRxjjdfdzES4FQyouC-ejzeGehIwDc9jOniD>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 06:42:36 -0400 (EDT)
-Message-ID: <8c8b009ce6c0d95d5243f3e4f0c1c6c1eb07c989.camel@pbarker.dev>
-Subject: Re: [PATCH 2/4] vim-xxd: introduce new recipe for xxd
+ 11 May 2026 06:45:13 -0400 (EDT)
+Message-ID: <51a71e4b0f5eeae36cdc2e7a4700e9d13d774af7.camel@pbarker.dev>
+Subject: Re: [Openembedded-architecture] What to do with vim in
+ openembedded-core?
 From: Paul Barker <paul@pbarker.dev>
-To: =?ISO-8859-1?Q?Jo=E3o?= Marcos Costa <joaomarcos.costa@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com, quentin.schulz@cherry.de, 
-	mathieu.dubois-briand@bootlin.com
-Date: Mon, 11 May 2026 11:42:32 +0100
-In-Reply-To: <20260508214020.2488025-3-joaomarcos.costa@bootlin.com>
-References: <20260508214020.2488025-1-joaomarcos.costa@bootlin.com>
-	 <20260508214020.2488025-3-joaomarcos.costa@bootlin.com>
+To: Tim Orling <ticotimo@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, 
+ "openembedded-architecture@lists.openembedded.org"
+	 <openembedded-architecture@lists.openembedded.org>
+Date: Mon, 11 May 2026 11:45:10 +0100
+In-Reply-To: <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com>
+References: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev>
+	 <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -122,102 +121,36 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-VjjiDq9BqFpAgxNHqSFZ"
+	protocol="application/pgp-signature"; boundary="=-A6sdvRWblRrsb9F9+mP6"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236805
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:45:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236806
 
 
---=-VjjiDq9BqFpAgxNHqSFZ
+--=-A6sdvRWblRrsb9F9+mP6
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-05-08 at 23:40 +0200, Jo=C3=A3o Marcos Costa wrote:
-> This new recipe's main purpose is to handle xxd in the simplest way
-> possible, stripping it from any needless tasks and/or dependencies that
-> come from the fact it was originally provided by the same recipe as Vim.
+On Fri, 2026-05-08 at 08:02 -0700, Tim Orling wrote:
+> I understand the pain points you mention, as I have tried to help maintai=
+n
+> vim in oe-core.
 >=20
-> Not only this recipe is faster to build, but it still provides the very
-> same program for both build-time and run-time, so there should be no
-> migration needed by the recipes depend on xxd.
->=20
-> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-> ---
->  meta/conf/distro/include/maintainers.inc |  1 +
->  meta/recipes-support/vim/vim-xxd_9.2.bb  | 29 ++++++++++++++++++++++++
->  2 files changed, 30 insertions(+)
->  create mode 100644 meta/recipes-support/vim/vim-xxd_9.2.bb
->=20
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-> index f98305e930..7d45bfaf65 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -871,6 +871,7 @@ RECIPE_MAINTAINER:pn-vala =3D "Unassigned <unassigned=
-@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-valgrind =3D "Mingli Yu <mingli.yu@windriver.com>"
->  RECIPE_MAINTAINER:pn-vim =3D "Unassigned <unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-vim-tiny =3D "Unassigned <unassigned@yoctoproject.o=
-rg>"
-> +RECIPE_MAINTAINER:pn-vim-xxd =3D "Jo=C3=A3o Marcos Costa <joaomarcos.cos=
-ta@bootlin.com>"
->  RECIPE_MAINTAINER:pn-virglrenderer =3D "Unassigned <unassigned@yoctoproj=
-ect.org>"
->  RECIPE_MAINTAINER:pn-volatile-binds =3D "Chen Qi <Qi.Chen@windriver.com>=
-"
->  RECIPE_MAINTAINER:pn-vte =3D "Unassigned <unassigned@yoctoproject.org>"
-> diff --git a/meta/recipes-support/vim/vim-xxd_9.2.bb b/meta/recipes-suppo=
-rt/vim/vim-xxd_9.2.bb
-> new file mode 100644
-> index 0000000000..d876efec4e
-> --- /dev/null
-> +++ b/meta/recipes-support/vim/vim-xxd_9.2.bb
-> @@ -0,0 +1,29 @@
-> +SUMMARY =3D "Hex dump and reverse utility from the Vim source tree"
-> +DESCRIPTION =3D "xxd is a small utility usually distributed with Vim tha=
-t creates hex dumps from binary data and can also convert hex dumps back to=
- their original form."
-> +SECTION =3D "console/utils"
-> +HOMEPAGE =3D "https://www.vim.org/"
-> +BUGTRACKER =3D "https://github.com/vim/vim/issues"
-> +
-> +require vim-sources.inc
-> +
-> +inherit update-alternatives
-> +
-> +PROVIDES +=3D "xxd"
-> +
-> +do_compile() {
-> +    cd  ${S}/src/xxd;
-> +    oe_runmake xxd
-> +}
-> +
-> +do_install() {
-> +    install -d ${D}${bindir}
-> +    install -m 0755 src/xxd/xxd ${D}${bindir}
-> +}
-> +
-> +RPROVIDES:${PN} +=3D "xxd"
-> +
-> +ALTERNATIVE:${PN} =3D "xxd"
-> +ALTERNATIVE_TARGET[xxd] =3D "${bindir}/xxd"
-> +ALTERNATIVE_LINK_NAME[xxd] =3D "${bindir}/xxd"
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
+> However, I have a LIFETIME of muscle memory using vim and for me personal=
+ly
+> forcing me to use nano is a non starter.
+> So then I would be constantly needing to pull it in from wherever else it
+> gets moved.
 
-I don't think separating out vim-xxd while keeping vim in OE-core is a
-significant improvement. There's also the potential to miss CVEs unless
-we set CVE_PRODUCT to "vim" in vim-xxd, and that will just result in
-duplication of reports.
+My general feeling on editors is "Give me vim or give me death!".
 
-This also doesn't reduce the amount of time people will spend
-backporting CVE patches to the LTS branch, and time our LTS maintainer
-will need to spend reviewing them. So I'd still rather eject vim from
-OE-core if we can.
+But it is really a pain, especially on stable branches. Perhaps we need
+a separate layer for perpetually unstable recipes, which will accept
+version bumps instead of CVE backports on stable branches.
 
 Best regards,
 
@@ -225,17 +158,17 @@ Best regards,
 Paul Barker
 
 
---=-VjjiDq9BqFpAgxNHqSFZ
+--=-A6sdvRWblRrsb9F9+mP6
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagGymBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0botsAQCtKsv1XP6jLIbUgL9ZKNcpxnVG7hxmpNSa
-XPU53fnJUQEAmAjow+YRjQdPjcVnf2/1TgIA16Lb19BC3VnSyaQWkwE=
-=iPLx
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagGzNhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bn2LAQC4WB9U96vK65BE1gI550WKYT9BF8uTi+Io
+dc1LArrqgAD8DYWfhoK7IydKKqHU7HDgtj+Vmqcw4dqiqW+jugEsMgA=
+=70BY
 -----END PGP SIGNATURE-----
 
---=-VjjiDq9BqFpAgxNHqSFZ--
+--=-A6sdvRWblRrsb9F9+mP6--
 
