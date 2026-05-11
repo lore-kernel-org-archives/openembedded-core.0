@@ -1,202 +1,288 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 766CECD37AC
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 08:07:03 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.66])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.45400.1778486814094988726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 678E3CD37AC
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 08:09:33 +0000 (UTC)
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.45433.1778486965123191140
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 01:06:54 -0700
+ Mon, 11 May 2026 01:09:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector1 header.b=igYnjh9B;
- spf=pass (domain: ericsson.com, ip: 52.101.84.66, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rc4Zn6yd16oZjrMT3N4lXG/YMkKb8MABWooOHDe9wm0ERA0KBhTezBqgLDtxRIeY4bI1CSrZb8Q4k5Hr8OyxD3NxO8LaQX3gHhQez3dQ9V+sZuENi4zHyk1mi9UQ1BydcDSqfHBmwT2YxI3IN5PfNo4hI1twgokB1yVpTdXOb/xy7IMVH2SjZZB0pCcXdxX94d7ExAV3WUaqsNNEBNACYXRkPaVsm96YmmusviouJfpsUpLBhfa3cHHNP1XD8ZDaQFG0UqvKaTt2xRHEwIaG6KrUBbDqzti7PEEjfHspgT6muSiIn73WIXaeZHmYGDDKlv591pacrwqT55TQg9MX8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rE0AftZlUxjrr43mkiv/ARTkFqponiYYvFPI1tJwAkg=;
- b=It0Pd22zi6JKreVm6eoOrQQMOww/5oxF4NKAM5MzO/RvpLmNrqDux6co6Jr+8DyJnVFH/EJIhk9X629CK4mOtaaQs7DpZU3DiYF3ihpWaXT+dX37AOg13AgzM7JmqJGvTHXBOZgH1BUjOKN53WvUrA4HYdxYHSCsKE9rqseae+WVS21UsxQ3WuIaKEHyQG3s3f5lfWtawVlQSC5f+SmLciKdTxWep3CcIX2QrhJ8+I0oXcr8yp9x/G6toi9QaazSC3o1xvziTaY5MS8Q8as8SCch9DyoGGOac/ppwxTYU5LV7Jknc4g/Nhuq4OkiccDmXAxwL4xAxN+LnNtHl/j7XA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rE0AftZlUxjrr43mkiv/ARTkFqponiYYvFPI1tJwAkg=;
- b=igYnjh9BeHSzKMsEwz9yjRlwrchxLA79K+tSZ0xEbIsvbbAuGYkqOR1yscou1QNGmwPeDRqawCw1ImrSG7IcwxHOcC7/E3iepkiTLE0npCnI+bWdBENngeAVm94STXycVr6DWlmj2M0N0YsLNcCBrjY/7LzGI1URZtABM/vv5tueKG82dK4N/DjY2ZVHE5oNQDbfXy3C2WWSozfZXZvk3UYenjA6M+DWmla1ENFuJpg5cdGaCm28Slhf82tWsBY1j+bF+/IehzNJAUtMW/Spw8gBO20GO02TaKFisoHcZ6J/LBMxwQowgN1dkP4Noqh45eVaLmAKH1gg1UWEmQF4Ww==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by AS2PR07MB9519.eurprd07.prod.outlook.com (2603:10a6:20b:64b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.22; Mon, 11 May
- 2026 08:06:49 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%7]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 08:06:49 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "trini@konsulko.com" <trini@konsulko.com>, Paul Barker <paul@pbarker.dev>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"openembedded-architecture@lists.openembedded.org"
-	<openembedded-architecture@lists.openembedded.org>
-Subject: RE: [Openembedded-architecture] What to do with vim in
- openembedded-core?
-Thread-Topic: [Openembedded-architecture] What to do with vim in
- openembedded-core?
-Thread-Index: AQHc3u7EOpIL5FSYZUmf0o15g0W1sbYEgSqAgAP6P/A=
-Date: Mon, 11 May 2026 08:06:49 +0000
-Message-ID: 
- <PA3PR07MB10721F0DFCA5DC39A8D55DF4A8A382@PA3PR07MB10721.eurprd07.prod.outlook.com>
-References: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev>
- <20260508191857.GE1858239@bill-the-cat>
-In-Reply-To: <20260508191857.GE1858239@bill-the-cat>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|AS2PR07MB9519:EE_
-x-ms-office365-filtering-correlation-id: 0d6c24fe-543e-4701-118c-08deaf344109
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|4133799003|22082099003|56012099003|38070700021|18002099003;
-x-microsoft-antispam-message-info: 
- o9BevCxRGtDg9X9Mqb4Y/iufojHNEzUgKbvjCaCukmmk1ABU9eGux2YWDzAmMhP/9xe2UyV/G7/5h1d+Qs5qzYf+ePALcTgPzpAuj5hndcZjB6FYBoC9JL+G/uwfJUrD2Fl7VOhe/MHZzPNpN9tO8IHJevlJPxyHkEkq59gsBCelppIqjKm4wZzImG+1esAyphku0Agmw9FvzoB6LBDY377kdw7Buv4iPwqaNaWDstIOs3jR5kLMtyIOs9mYS5Hi8EvbGnLgqp1/HKZUnKLRAAhJQwoTirvyBqUBsA0K7C19oB/cDKt+nFDeJ/rmdd5r9i3vpRqRIYv+cD0RTl7eH2tXVK/T/Nbl9KYx2HLc01bNPHgzn8gduD23siN2EPCUQu2VAJ4vCugitfGP6748a7D53uvo8Z/bJ05mB4FfFscGBrwTJNcdF5Tv7XgtYZyAvhXTiHY31rHhwnUR4pFi7VAoYgSCJAH7/z1PMlNDXwimQ4alpLT7Voac7NKFjxs6V9oudJMtksNIly8SoE+uqy1zdUlRcPCRtntO5v/cbxm+q/FMFQh8XYgfRBs873HkQIB048SI0wXLsIMx8mP9uNwUdbHGBnekn+XLbJY0eQtWIsplZR8ave9oXiwdT3sPuQOJrt+sUmB1D+gMx3ZhZznCEqhzeCN3uk9sRT/YszRP86F6DOIwuPXtbgST7Yi3f060RmLNlfmu+1Qy9JqimDhJN8kLxKCJ8rSZ/7RG+y1VJ3CEc+oz2v2qe8RfHEbt
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(4133799003)(22082099003)(56012099003)(38070700021)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?TDh2WjEySnliVzhoaE5uMDFrUWpLS3YydGptek1LbkZSdXAyR3E5U0ZvTERH?=
- =?utf-8?B?RjRVTGlPb2FDM0wxTmV2aE9teitEY2VEQkZmcXBKUW1USXc0SVNvcndpdjZn?=
- =?utf-8?B?bFJBeVI5MDlnNUpEeEdZeXNMc0tXeG1CUnFBRlhwNCtrelVINnpPT1FuSlhk?=
- =?utf-8?B?S0cydHBpMnNyaTY2QTVUSEN2YXRyclgwK3RZR21za1d3U0hUOHRiTU9BWjVT?=
- =?utf-8?B?Q3pRZG5PaHl6ejUvNzBtWHAwallmTVNkTm1VZU03SFRPbndEMzlteG1za2Nt?=
- =?utf-8?B?VnVybGt3bmFORC8yQ1o4aktGUXdPNGF1a28vSktXaHVUaXdvYlNXY21PL25m?=
- =?utf-8?B?bmFhd0FFamxNZ0VDQ3pWMWpNbXZHVENLU2gwL0NEeUdIOHdOZnZya3ZIU0FQ?=
- =?utf-8?B?ZWo0YVBUUUNoY3lkempaa0xvMUg2VlpKalFGMTY5b0htSW9NS1BJMUd6SlR6?=
- =?utf-8?B?eDFrQmV3UEhLSzhpRmtCSEw5cVVZNVBEUmZvMmVGUENxL2YxWnloZ2hoQmZi?=
- =?utf-8?B?TkpOK1NxRnl2dHVVQU9ZbjNtUTU3a3pkSnhCVzU4UXBwTXBSS0RST1JPRito?=
- =?utf-8?B?Sk9vUkVnbTZQNkVDcHBBcm9hTTZXaEZSa0hqTXJ6czNCaVdYend4VFFLSTRl?=
- =?utf-8?B?cXBmc2tERDdUYWdxNVk2OXV3MHltRWtOL285VStaL1FmOG0rZ2RadUw2dlJO?=
- =?utf-8?B?TFRTdWZCYmdzVE1qY2lObEk4dFI5T3puamJTNkZlUmR4cm1sTHBTWmtWdERF?=
- =?utf-8?B?Z3VtL3kydzR5Ui9yQWUrSUdIRHpmWm9IaGs1cHNjQklEOFJQaXJMS3NZT011?=
- =?utf-8?B?SnVEdXhLaG5uV09NcHM0ZERXYUxOanNZZHRwTC9Ea1g4MVo3bHc3MGVHTjJH?=
- =?utf-8?B?MFFlR3VuUFBReUhYV2Frdkl5a3ZTY3Zxa2dyT0J5cHd3TFBSZm5JY0pPZldG?=
- =?utf-8?B?VHY2RlpnZngweTh2cmNreXRsb1JiVy84NVZSckFZY3ZUcDBKR25rOGdnMUtO?=
- =?utf-8?B?NXJqOWhUbG1CSHo4Q0RuZGhZUTdNaWxQQi9VK3Y4RDE4SmthdTN2RWozZmFi?=
- =?utf-8?B?c1dWKzNhUWZ3QzltUjNJc1V4a3NBam83MmxyZHUrY25QYi9MeVZ3S1d2elNT?=
- =?utf-8?B?MFMwSmcyUWNENXdjSVNyTDd2N003SDVuUnlvQ2E0cHd4RUtXdjlLODJ5UHBI?=
- =?utf-8?B?NVFaVG9NKzVnbWRNSlV2MFhwcHB4dkRxYnJPK0dlblJ0b2NycVkzaW9IY1BM?=
- =?utf-8?B?T1hDTzNKeXowMTZDc1QxcDdjU09BckhrK1lDb3pPVXRTL1pBTi9KSWV1djdv?=
- =?utf-8?B?ajlmczVQbGswQS9RNVhMNmJIZVFlT3dRcW1wRWNJSGdHM0RJKy9id3dXY3h5?=
- =?utf-8?B?N0tNeXVUTXJYdTNlY1owd0UzdG43R2NCdWR5V0tqY1pCZ2l6Qm1PbC84Z1B1?=
- =?utf-8?B?N25OblMydWhrcmY0cldUc0ZSdVhNRU9NTlpIMzRCYXNXbjltVmpPMjVWcjJB?=
- =?utf-8?B?V1FhVTBHT2lsSlpCQVFIUUtuVGQ1amppS2hUZGtwWUlvNXZXZ3Z3UUs0TUpk?=
- =?utf-8?B?SnJEbG9tN2xOUngvTXlMT3ZrVDJ2VTE2NXp6eGQrVHNwRnUzNmI2YjI0THRG?=
- =?utf-8?B?eVc3WnY0MzBMR2t6VmQ1alhqWEpFWElHQmk2NHhzVndLR200c0pSai9UTm96?=
- =?utf-8?B?WlVDZnVNb0RkZkl0WVVDSnZ5UkFBWjdkZGNMU2pReUQ0alIxZWYyam1kb005?=
- =?utf-8?B?L1o3anErQWgzSUdjZFkvNVVaRE8yMUxrVC9pRHhqWDFWeTFGV3NpNTllU3Rh?=
- =?utf-8?B?SDI5ZGRBY2JzRVo2eTJYN1RtRC96Z2RXUlVrWmUwZkF3aDR4eXdBT2JjVnNO?=
- =?utf-8?B?OXpBUjB3OFl5RHJITHhOT0U5Y0NscXJHeDR5TTduM2QrczJNTWd5cjNFVlFl?=
- =?utf-8?B?N1pTclFVaDUxd1k0bmVBaGR1UGJ3SGlrQndHaTFiL2xRb3o3N3UxL2ZnMGdG?=
- =?utf-8?B?MTRBakp6endaaTIzMTJhQm5KVHhROFVaWmpHZVZMOUoyb2plS0lpa0YzeWha?=
- =?utf-8?B?Mytsc0E0enJJU3p3WTJmVHNPbnJCOTV3L1ZyTmlMQ2ZHbGNCV0lCb1V2R3dx?=
- =?utf-8?B?ZDVLYllobDVTa3R1d0NURG5UVmxsTFllV2wxSnA1YkFvME16dU1kdk5KTDdN?=
- =?utf-8?B?SUFiNU4wZFpMV0VPK1lsLzJhZXFuWTBsQjJsTWMzNzE2UGM4cWtuVWpBUmRk?=
- =?utf-8?B?UkxyMGFkY3dBVzNVM1I5dEFjTEw5UFNvalVzN1RBOFBOdXArWjIyWU95ZStS?=
- =?utf-8?B?QXVDZUd5YU9RR01hbllPMk51OGh4SkFtOTh4QzlNK0JZQlJxc0Zrdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=JVynZNvt;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=WAzQCMaA;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.153, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 5153D7A00B5;
+	Mon, 11 May 2026 04:09:24 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Mon, 11 May 2026 04:09:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1778486964; x=1778573364; bh=+24mNaO3SR
+	XLOO5U7l1oAmQ9vXrKLsGPGX6BOeyxPAU=; b=JVynZNvtt85Op76UcTi0DQW3oo
+	HOnjjBuNeg22k2ASiuQUzNPSjxN1At0mPGDTzw7lXRNEjJXbm/vIibp6YjcWNFJi
+	qhuWwt+FdB2sHiFrePJJ9WXjCaecGC07UHjmHr6oGAXMit5V78lPXNftV9NUKqIm
+	nKNx0YYUPqmTAQTFDBcfztcZPO4KWq4AVBkodlfD0YUHInwOJsjvk9DwT0z3tCW0
+	3kkmWl58yhFu7n9MvCGH9czmN/NvKajlil6Vc/azAgDmVM50OJMa5Z3RORpVyl6i
+	S/jaT44CFTe/wfC8GvVBVuFOx/p56kmgbdSG0ID3qnW3MNALpsW43rUNAhfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1778486964; x=1778573364; bh=+24mNaO3SRXLOO5U7l1oAmQ9vXrKLsGPGX6
+	BOeyxPAU=; b=WAzQCMaAqmlbT6XszaFdRXe7h207wjItCCDkIeNDpDUiaFedLD7
+	baR53i1dUuhY7vDcn3Ithyc73ygN1aCh7thwwJl75EioaR+MWYjEW2A0RYp8NFE2
+	8YeInILjQPRUXWEcluWs+YKWUzpN2vp8AawtWYw218UyzskjAEINPFU14ep4T6EB
+	MoJPudONzGkwJ69rSkDLt9p/JKc83Ac6MORgxnaO+MFY3BA18aEBOPXnET3oynwG
+	qOzuD36LhUO7K4II77spDbGRFyMAvc4KVv8eWmAIoQG2Wzsllq/1o7R5sz/NjUPd
+	31zsSSkBf0ju4VD6xpBcZQL4tihJ2K9T05w==
+X-ME-Sender: <xms:s44Bal-XjPhA0LdR-lz2cqd4wOsBVAonrGDw_8W4dqqIelzSk6MjZQ>
+    <xme:s44Banjbj-pG9zsPeAl87xFr-srn-buAXNlQoWCK5pxq722FF8Nbg5eEUQNXIONoR
+    DOfgKa0lnrwRdwL1zpM-dcXwyIbKs5xff8hsGfS2_0JTt5E_QFa6i8>
+X-ME-Received: <xmr:s44Batd3Ty6zaH3ArV7UNfXX-MBIYT9_ycMYWEyRrMYpTQE47J00S-BJVB1w5S6AUUQ41na47ezi9LGDQYDA7l8S4i8DZwDHCziirwpZl3Ht>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekgeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    epvdetiefhheetfeevkeevieejkeevtdetieefhfeivedtvdffhfegtdehleehhfehnecu
+    ffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtg
+    htrdhorhhgpdhgihhthhhusgdrtghomhdptghhmhhougdrrhhsnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrd
+    guvghvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pegthhgrnhhgqhhinhhgrdhlihesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhope
+    hrihgthhgrrhgurdhpuhhrughivgeslhhinhhugihfohhunhgurghtihhonhdrohhrghdp
+    rhgtphhtthhopehmrghrkhdrhhgrthhlvgeskhgvrhhnvghlrdgtrhgrshhhihhnghdroh
+    hrghdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdho
+    phgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:s44Bamp-S1guPJ_a3uMl-0KsNcspEvE30Fbj8oQFmQkxYGY6uL_jbg>
+    <xmx:s44BaqAiW2mmy2WI70brv-aWMqumIAJtcflXiToZmR0K9jRWNxNUcg>
+    <xmx:s44BarZkloNbnT8bUMOFtwPg3T7hgd-a09dHBVpqaXIdjAtEdyRxDA>
+    <xmx:s44Bal74XnSvirzxnFmkUheUF47dWG1C_znlZeNDFtcCxfe7INgl7w>
+    <xmx:tI4BasEvQItdtT83pccgdlW6cSVKsvjb7jWAIwAIDZR5ztjf960TTiqk>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 May 2026 04:09:22 -0400 (EDT)
+Message-ID: <d9f3b4688610911f39708cf584da58b5be3e25fe.camel@pbarker.dev>
+Subject: Re: [OE-core] Pseudo abort issue on ubuntu 26.04
+From: Paul Barker <paul@pbarker.dev>
+To: Changqing Li <changqing.li@windriver.com>, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>, "mark.hatle@kernel.crashing.org"
+	 <mark.hatle@kernel.crashing.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 May 2026 09:09:18 +0100
+In-Reply-To: <10dbe396971651a67f0dbe0056f7e8f3d4957620.camel@pbarker.dev>
+References: 
+	<DS0PR11MB7312D96BD98C4D7FAD8D2BD6823D2@DS0PR11MB7312.namprd11.prod.outlook.com>
+	 <0aa707e8222442434bf9361242653873931b9af3.camel@pbarker.dev>
+	 <db7385e4-6c92-42d7-8526-ce6192b7f775@windriver.com>
+	 <10dbe396971651a67f0dbe0056f7e8f3d4957620.camel@pbarker.dev>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-m3Uj3B/BUFJLZWIlHC2V"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d6c24fe-543e-4701-118c-08deaf344109
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 08:06:49.6945
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +4GwBHjynD4YSmFMSFOMT5yf7ufdNRiwUX1whi2mzv2fVoU+22kwplohfnBbRkaH5v5QCvqPNtF32MsUZ31g0bVjnCKm/Xox49JKLFAF81g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR07MB9519
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 08:07:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236782
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 08:09:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236783
 
-V2h5IG5vdCBhbHdheXMgdXBkYXRpbmcgdG8gdGhlIGxhdGVzdCB2ZXJzaW9uIGFsc28gaW4gc3Rh
-YmxlIHJlbGVhc2VzPyBJdCBpcyB1c3VhbGx5IHVzZWQgaW4gZGVidWcgaW1hZ2VzIGFuZCBpdCBp
-cyBtb3N0bHkgdXNlZCBpbnRlcmFjdGl2ZWx5IGJ5IGEgdXNlci4gVGhpcyB3aWxsIHJlZHVjZSB0
-aGUgZWZmb3J0IG9uIGJhY2twb3J0aW5nIENWRXMgYW5kIHdlIGxldCB0aGUgQVVIIHVwZGF0ZSBp
-dC4NCg0KSXMgdGhlcmUgYW55IG90aGVyIGNvbXBvbmVudCB0aGF0IGRlcGVuZHMgb24gaXQgdG8g
-a2VlcCBiYWNrd2FyZCBjb21wYXRpYmlsaXR5Pw0KDQpEYW5pZWwNCg0KPiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtYXJjaGl0ZWN0dXJlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcNCj4gPG9wZW5lbWJlZGRlZC1hcmNoaXRlY3R1cmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFRvbQ0KPiBSaW5pIHZpYSBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnDQo+IFNlbnQ6IEZyaWRheSwgOCBNYXkgMjAyNiAyMToxOQ0KPiBUbzogUGF1bCBCYXJr
-ZXIgPHBhdWxAcGJhcmtlci5kZXY+DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnOyBvcGVuZW1iZWRkZWQtDQo+IGFyY2hpdGVjdHVyZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT3BlbmVtYmVkZGVkLWFyY2hpdGVjdHVyZV0gV2hh
-dCB0byBkbyB3aXRoIHZpbSBpbg0KPiBvcGVuZW1iZWRkZWQtY29yZT8NCj4gDQo+IE9uIEZyaSwg
-TWF5IDA4LCAyMDI2IGF0IDAyOjI5OjQzUE0gKzAxMDAsIFBhdWwgQmFya2VyIHdyb3RlOg0KPiAN
-Cj4gPiBIaSBhbGwsDQo+ID4NCj4gPiBXZSBoYXZlIGEgdmltIHJlY2lwZSBpbiBvcGVuZW1iZWRk
-ZWQtY29yZSB0byBwcm92aWRlOg0KPiA+IC0gQW4gZWRpdG9yIHdpdGhvdXQgdGhlIGxpbWl0YXRp
-b25zIG9mIGJ1c3lib3ggdmkuDQo+ID4gLSBUaGUgYHh4ZGAgY29tbWFuZCwgdXNlZCBhcyBhIHJ1
-bnRpbWUgZGVwZW5kZW5jeSBvZiBkb3Nmc3Rvb2xzLXB0ZXN0Lg0KPiA+DQo+ID4gSG93ZXZlciwg
-dmltIGlzIGRpZmZpY3VsdCB0byBtYWludGFpbiBpbiBvdXIgc3RhYmxlIHJlbGVhc2VzLiBUaGVy
-ZSBpcw0KPiA+IGEgcmVndWxhciBzdHJlYW0gb2YgQ1ZFcyB0aGF0IG5lZWQgZml4aW5nIGR1ZSB0
-byB0aGUgbGFyZ2UgVUkgYW5kDQo+ID4gaW5wdXQgc3VyZmFjZSBvZiB2aW0sIGFuZCBiYWNrcG9y
-dGluZyBmaXhlcyBoYXMgcHJvdmVuIGRpZmZpY3VsdC4gVGhpcw0KPiA+IGlzbid0IGp1c3QgYSBZ
-b2N0byBQcm9qZWN0IGlzc3VlLCB0aGUgRGViaWFuIHRyYWNrZXIgWzFdIGN1cnJlbnRseQ0KPiA+
-IHNob3dzIDE0IHVucmVzb2x2ZWQgQ1ZFcyBpbiBUcml4aWUgYW5kIDE1IHVucmVzb2x2ZWQgQ1ZF
-cyBpbiBCb29rd29ybS4NCj4gPiBBbmQsIGl0J3MgdmVyeSBkaWZmaWN1bHQgdG8gc2hhcmUgd29y
-ayBiZXR3ZWVuIGRpc3Ryb3MsIGFzIHZpbSB0YWdzDQo+ID4gZXZlcnkgY29tbWl0IGFzIGEgbmV3
-IHJlbGVhc2UsIGV2ZXJ5IGRpc3RybyBlbmRzIHVwIG9uIGEgZGlmZmVyZW50DQo+ID4gcmVsZWFz
-ZSBhbmQgbmVlZHMgdG8gcmUtdmFsaWRhdGUgYW55IGJhY2twb3J0ZWQgcGF0Y2hlcy4NCj4gPg0K
-PiA+IFNvLCBJIHByb3Bvc2Ugd2UgZHJvcCB2aW0gZnJvbSBvcGVuZW1iZWRkZWQtY29yZSBvbiB0
-aGUgbWFzdGVyIGJyYW5jaCwNCj4gPiBwb3N0LXdyeW5vc2UuDQo+ID4NCj4gPiBXZSBjYW4gdXNl
-IHRpbnl4eGQgWzJdIHRvIHByb3ZpZGUgeHhkLCB0aGlzIGlzIGJhc2VkIG9uIHRoZSB2aW0NCj4g
-PiBjb2RlYmFzZSBhbmQgZnJlcXVlbnRseSBtZXJnZXMgY2hhbmdlcyBmcm9tIHVwc3RyZWFtLg0K
-PiA+DQo+ID4gV2UgY2FuIHVzZSBHTlUgTmFubyBhcyBvdXIgZGVmYXVsdCBlZGl0b3Igd2hlcmUg
-c29tZXRoaW5nIG1vcmUgY2FwYWJsZQ0KPiA+IHRoYW4gYnVzeWJveCB2aSBpcyBuZWVkZWQsIHRo
-aXMgaGFzIGEgc2Vuc2libGUgcmVsZWFzZSBtb2RlbC4gVGhlIG11Y2gNCj4gPiBzaW1wbGVyIGlu
-cHV0IG1vZGVsIGFuZCBsYWNrIG9mIHNjcmlwdGluZyBmYWNpbGl0eSBtZWFucyB0aGF0IENWRXMg
-aW4NCj4gPiBuYW5vIGFyZSBtdWNoIGZld2VyIGFuZCBmdXJ0aGVyIGJldHdlZW4uDQo+ID4NCj4g
-PiBJZiB3ZSBkbyB0aGlzLCB3aGF0IHNob3VsZCB3ZSBkbyB3aXRoIHZpbT8gV2UgY291bGQgbW92
-ZSBpdCBiYWNrIHRvDQo+ID4gbWV0YS1vZSwgYnV0IHRoYXQgd291bGQgc2ltcGx5IGJlIG1vdmlu
-ZyB0aGUgbWFpbnRlbmFuY2UgYnVyZGVuLiBXZQ0KPiA+IGNvdWxkIHN0b3AgYmFja3BvcnRpbmcg
-Q1ZFIGZpeGVzIHRvIHZpbSBhbmQgcmVjb21tZW5kIHRoYXQgYW4gTFRTDQo+ID4gbWl4aW4gbGF5
-ZXIgaXMgdXNlZCB0byBwcm92aWRlIG5ld2VyIHZlcnNpb25zIG9mIHZpbSBmb3Igc3RhYmxlDQo+
-ID4gYnJhbmNoZXMuIEknbSBvcGVuIHRvIGlkZWFzLg0KPiA+DQo+ID4gWzFdOg0KPiA+IGh0dHBz
-Oi8vZXVyMDIuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUy
-RiUyRnRyYWMNCj4gPg0KPiBrZXIuZGViaWFuLm9yZyUyRnBrZyUyRnZpbSZkYXRhPTA1JTdDMDIl
-N0NkYW5pZWwudHVydWxsJTQwZXJpY3Nzb24uYw0KPiBvbQ0KPiA+DQo+ICU3QzE2NTNjZTkyYzEz
-ZjQ2NzVmN2NiMDhkZWFkMzZhYTViJTdDOTJlODRjZWJmYmZkNDdhYmJlNTIwODBjNmINCj4gODc5
-NTNmDQo+ID4NCj4gJTdDMCU3QzAlN0M2MzkxMzg2NDc0NjExMjU3OTMlN0NVbmtub3duJTdDVFdG
-cGJHWnNiM2Q4ZXlKRmINCj4gWEIwZVUxaGNHa2kNCj4gPg0KPiBPblJ5ZFdVc0lsWWlPaUl3TGpB
-dU1EQXdNQ0lzSWxBaU9pSlhhVzR6TWlJc0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveQ0KPiBmUQ0K
-PiA+DQo+ICUzRCUzRCU3QzAlN0MlN0MlN0Mmc2RhdGE9aXZmQnFESzB6ZU5WZThqJTJCeTMlMkZa
-cUR4ekMwJTJCRg0KPiA2eTFVYWtRSW1CDQo+ID4gbWFyckElM0QmcmVzZXJ2ZWQ9MA0KPiA+IFsy
-XToNCj4gPiBodHRwczovL2V1cjAyLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91
-cmw9aHR0cHMlM0ElMkYlMkZnaXRoDQo+ID4NCj4gdWIuY29tJTJGeHlwcm90byUyRnRpbnl4eGQm
-ZGF0YT0wNSU3QzAyJTdDZGFuaWVsLnR1cnVsbCU0MGVyaWNzc29uLmMNCj4gb20NCj4gPg0KPiAl
-N0MxNjUzY2U5MmMxM2Y0Njc1ZjdjYjA4ZGVhZDM2YWE1YiU3QzkyZTg0Y2ViZmJmZDQ3YWJiZTUy
-MDgwYzZiDQo+IDg3OTUzZg0KPiA+DQo+ICU3QzAlN0MwJTdDNjM5MTM4NjQ3NDYxMTQ0Mzc5JTdD
-VW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SkZiDQo+IFhCMGVVMWhjR2tpDQo+ID4NCj4gT25SeWRX
-VXNJbFlpT2lJd0xqQXVNREF3TUNJc0lsQWlPaUpYYVc0ek1pSXNJa0ZPSWpvaVRXRnBiQ0lzSWxk
-VUlqb3kNCj4gZlENCj4gPg0KPiAlM0QlM0QlN0MwJTdDJTdDJTdDJnNkYXRhPWFDUiUyQmZNSU9P
-cktYblAwRiUyRnAxcVhyanlLdyUyQg0KPiBOUUdVbjk2RzYlMg0KPiA+IEZuQVlyT2clM0QmcmVz
-ZXJ2ZWQ9MA0KPiANCj4gTm90IGFuIG9iamVjdGlvbiwgYnV0IGEgbm90ZS4gVGhlIG1vdGl2YXRp
-b24gYmVoaW5kIGJyaW5naW5nIHZpbSBpbiB3YXMgZm9yDQo+ICJleGNsdWRlIGJ1c3lib3gsIGhh
-dmUgaWRlbnRpY2FsIGZ1bmN0aW9uYWxpdHkiLiBDaGFuZ2luZyB0aGF0IHRvICJhbG1vc3QNCj4g
-aWRlbnRpY2FsIGZ1bmN0aW9uYWxpdHkiIGFuZCBwdWxsaW5nIGluIG5hbm8gaXMgcHJvYmFibHkg
-ZmluZS4NCj4gUHJvYmFibHkganVzdCBtZWFucyBhZGRpbmcgYW5vdGhlciB2aXJ0dWFsIHdoaWNo
-IGJ1c3lib3ggcHJvdmlkZXMgd2l0aCAidmkiDQo+IGFuZCBuYW5vIGNhbiBhbHNvIHByb3ZpZGUu
-DQo+IA0KPiAtLQ0KPiBUb20NCg==
+
+--=-m3Uj3B/BUFJLZWIlHC2V
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, 2026-05-10 at 16:37 +0100, Paul Barker wrote:
+> On Sat, 2026-05-09 at 09:41 +0800, Changqing Li wrote:
+> > On 5/8/26 22:58, Paul Barker via lists.openembedded.org wrote:
+> > > CAUTION: This email comes from a non Wind River email account!
+> > > Do not click links or open attachments unless you recognize the sende=
+r and know the content is safe.
+> > >=20
+> > > On Fri, 2026-05-08 at 13:19 +0000, Changqing Li via
+> > > lists.openembedded.org wrote:
+> > > > Hi,
+> > > >=20
+> > > > I am trying to build project on ubuntu 26.04.  "bitbake postfix"  f=
+ailed  at do_package since pseudo abort,   after doing  some search, it is =
+caused by ubtunu26.04's new change,  Ubuntu has officially begun transition=
+ing its core system utilities from the traditional GNU Coreutils (written i=
+n C) to uutils (a Rust-based rewrite).   I would like to seek some help,  c=
+ould you give some advices about how we should handle this?  Thanks.
+> > > >=20
+> > > > Here is how  it happened:
+> > > > * =E2=80=8E  In do_install stage:
+> > > > There are  2 files target to installed under ${D}: (there are other=
+ files following this pattern)
+> > > > ${D}/usr/libexec/postfix/smtp:     which is  mv from file under {S}=
+, and then chmod
+> > > > ${D}/usr/libexec/postfix/lmtp:      hardlink to ${D}/usr/libexec/po=
+stfix/smtp
+> > > >=20
+> > > > With the old gnu coreutils:
+> > > > when install smtp,   mv will call renameat2, which will finally cal=
+ling real syscall since the oldpath is under {S} which is not in PSEUDO_INC=
+LUDE_PATHS.
+> > > > then chmod call fchmodat,   then fchmodat wrapper will save an entr=
+y with uid 0 in files.db.   install lmtp will also insert an entry with uid=
+ 0 in files.db
+> > > >=20
+> > > > With the new rust coreutils:
+> > > > when install smtp,    the behavior of chmod is different,   statx g=
+et current mode,  rust chmod check the current mode  is the same as the tar=
+get mode, then
+> > > > fchmodat is never called, then smtp is not saved in files.db,  and =
+this will also make install lmtp insert an entry with real uid like 25610  =
+in files.db since smtp is not found in files.db
+> > > >=20
+> > > > * =E2=80=8E  in do_package stage:
+> > > >=20
+> > > > Exception: subprocess.CalledProcessError: Command 'tar --exclude=3D=
+./sysroot-only -cf - -C /yocto/build/tmp/work/x86-64-v3-oe-linux/postfix/3.=
+10.8/image -p -S . | tar -xf - -C /yocto/build/tmp/work/x86-64-v3-oe-linux/=
+postfix/3.10.8/package' returned non-zero exit status 2.
+> > > >=20
+> > > > Subprocess output:
+> > > > abort()ing pseudo client by server request. See https://wiki.yoctop=
+roject.org/wiki/Pseudo_Abort for more details on this.
+> > > > Check logfile: /buildarea1/cli10/yocto/build/tmp/work/x86-64-v3-oe-=
+linux/postfix/3.10.8/pseudo//pseudo.log
+> > > >=20
+> > > > tar command may  call stat  for ${D}/usr/libexec/postfix/smtp,   si=
+nce the  we have a same inode entry in files.db for lmtp, above error repor=
+ted.
+> > > >=20
+> > > >=20
+> > > > The key  issue is ${D}/usr/libexec/postfix/smtp is not inserted in =
+files.db in do_install stage,  which will cause wrong uid for lmtp and  pse=
+do abort in do_package stage.
+> > > > I think we cannot change behavior of rust coreutils.   I am wonderi=
+ng even we patch postfix to not use hardlink, the pseudo abort issue may di=
+sappear,  but since
+> > > > chmod not call fchmodat,   we don't insert entries for these files,=
+   maybe the uid etc is wrong in final image.
+> > > >=20
+> > > > [1] https://github.com/uutils/coreutils/blob/main/src/uu/chmod/src/=
+chmod.rs
+> > > > [2] https://github.com/coreutils/coreutils/blob/master/src/chmod.c
+> > > > [3] https://lists.openembedded.org/g/openembedded-devel/topic/11921=
+1397    // patch for build postfix with linux kernel 7.x
+> > > Hi Changqing,
+> > >=20
+> > > The tar command failing with exit status 2 should be resolved by rece=
+nt
+> > > changes in pseudo. Which Yocto Project version are you using?
+> >=20
+> > I use the latest master branch with pseudo 1.9.6.=C2=A0And this issue o=
+nly=20
+> > can reproduce with ubuntu26.04 with uutils installed.
+> >=20
+> > ubuntu24.04 with gnu-coreutils=C2=A0 works well.
+>=20
+> Hi Changqing,
+>=20
+> I looked into this as the chmod behaviour differences you described
+> didn't sound like an issue to me.
+>=20
+> I think the actual issue is that files moved (instead of copied) into
+> ${D} are not tracked by pseudo. For postfix, when using GNU coreutils
+> this issue is hidden because chmod always sets the permissions of the
+> file, which pseudo observes. When using uutils on Ubuntu 26.04, chmod
+> may not set the permissions if they are already correct, so pseudo
+> doesn't observe anything it can add to its database.
+>=20
+> A simple recipe can reproduce this issue on Debian 13 (where uutils is
+> not used) as well as Ubuntu 26.04:
+>=20
+>     LICENSE =3D "MIT"
+>     LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9c=
+fbcb788c80a0384361b4de20420"
+>=20
+>     do_compile() {
+>         echo hello > ${B}/hello.txt
+>     }
+>=20
+>     do_install() {
+>         mv ${B}/hello.txt ${D}/hello.txt
+>         ln ${D}/hello.txt ${D}/hello2.txt
+>     }
+>=20
+>     FILES:${PN} +=3D "/hello2.txt /hello.txt"
+>=20
+> Building this recipe fails with the same pseudo abort which you are
+> seeing. If we use "cp" instead of "mv" in do_install then this works as
+> expected.
+>=20
+> I'll discuss this with Mark and see how we want to handle it.
+
+The recipe above also causes a pseudo abort on the initial Scarthgap
+release (tag yocto-5.0) so this isn't a new issue, recent changes in
+pseudo are not responsible.
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+--=-m3Uj3B/BUFJLZWIlHC2V
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagGOrhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0blMUAP4wMdz9FQnGEdsaQSwGvNMIyfbzpzrVwAot
+pgsMVN9rHwEA2hOC2a3//oUz6Q4FlFiX7mxtdxkzYx4uU5MZ0aGfuQ8=
+=Ac5P
+-----END PGP SIGNATURE-----
+
+--=-m3Uj3B/BUFJLZWIlHC2V--
 
