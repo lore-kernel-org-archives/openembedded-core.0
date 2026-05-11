@@ -1,105 +1,165 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C015CD37B9
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 11:04:50 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.47380.1778497480784015204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48624CD37AC
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 11:56:00 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.48509.1778500551620834812
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 04:04:40 -0700
+ Mon, 11 May 2026 04:55:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=mF7AZzKP;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8acae26e564so42392206d6.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 04:04:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778497480; cv=none;
-        d=google.com; s=arc-20240605;
-        b=X8d5niVGxZn9ohWwh54RUMJ8Td1+eeDe2yjLH7re8tWzaAkyrDylxSGrAz25k0Gqx/
-         bSOwNFmhha2kz3D/qSzV4b2yWBeway/9w+KXtU52mzlGvudztNFKFffuJ4Hai0ngTO3d
-         TT2IikJCWFOIAsC1uUAq4F+9p4V0WpOCsIIV+MiNHJcLZiJixTeoF2VoXYHx/KdsuaEf
-         A/7mVKAduB9DXKDAQwv2xQYBfGmT1n6lQ89fcsHfTv/ak7PRbQjL1qwCm/elZxYjrEC3
-         UiqRvu/qjW4QKgCAC4Ee+6OKB3bTp9oeocXtGeP5EYm3+fOt7rL4KMiIKNPd7Gfjao2f
-         kqFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=r7emNuyikDrKKWCFDmD2+XDQIGm6/jlgZioKHhb0b+Y=;
-        fh=zTd/cyEwchHX1XpnckVyINgrRZTp3RHip49+UeUjwoM=;
-        b=Jreq5edK4K2ufilFJ2ClRz1isQt0t6z/t9D+lJhr4ipHnreLUWftaz/qHTV1Q1EG4a
-         y9qF2tEvGR5dm2M1f9MVlQjgD4iELtPddPNxbWVJ4bTnYyq92r68N/Z1bjaJL8z0ZhK/
-         Dmli2Aw8Xg7zcAFccWaqZrUGQv1/p3uQ/j0VKRIGPRSKZ1mvLdIi+6PQDxCreElklVRd
-         m7214awQ1iKHBxcQnaVatK9hM88pcR/wC1jL1PaZTqMLgqdKGgfaU+rB2ZHyGKFw49Fq
-         74qwllemguOAot7jQE/RxQ5PElBkfPM4adP11UAa4J/mMQZ0AUaxot4E5++wP1QlxhtT
-         IY1Q==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778497480; x=1779102280; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=r7emNuyikDrKKWCFDmD2+XDQIGm6/jlgZioKHhb0b+Y=;
-        b=mF7AZzKPomU0zLz3WBZXlyDg36umDGHwgt/86JieXOjOHsfCmU92MwYDBnclC8FJQ0
-         zdbg2hlY3t5tkWSDhou69y8qMAo/S5cKu0JhY4gdRpPl9r6nWMctinXabLQ7nxp1w2kW
-         k+h+nEkheZGr8gHNjEFCWOzKGuGeHAAjfqziMWnzjTkVr/DU23sfBEusjkGJMxAcSdKC
-         eYZJ8KesSdxOAC2KTL2B7BVmXeTxJBrJs2WnvFR1NoInMGhPtFRbUTxVB//nZxsOxkDE
-         A9/IIKDTVG8DjSYoboIGVSsD68LAK2cRTllzrBJQPU6zarKoyHPDhbHjSIwhnaE2rGDs
-         VISA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778497480; x=1779102280;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r7emNuyikDrKKWCFDmD2+XDQIGm6/jlgZioKHhb0b+Y=;
-        b=gn/8Np9kpdDAwhoiyZEnndlB0MQM9KgdeDjHiVPf9rAzezhvk6THmIXdFYWc1Op94Y
-         PaF4ft63znbah9/ymoiQbnp/1OZQIKlWnY6BygU1NLOTHXUuQO/uekOwqDnsvAIZUWNq
-         A3pB3/93XeL0KSmCp/YgUhDPl4Ho4nTNQvwFxnWuPVAI7ZJ4J/QcylNp9cRkIlasVH0z
-         dMPMoSaj4qUYV1IqfEIUtXaE6FWGufyyS7yQO4t8fIT9VJBMDNZDACdvB0Axnd4M7/0y
-         GehG2Ivh9a7TU2t1RG62PUh63KANNgxzbmkDlH0hfXRR/tJUotl9O9CHXm0ZuBAO7jcD
-         i1Ig==
-X-Forwarded-Encrypted: i=1; AFNElJ+hbi8Lf+lVUivkdB9tpjPEvpliIxl+kzy3H0UJHLGwFCcH+kiJy5kqAQt8AbkAzFZ7GewHZARi/xjwlwG74uMKFg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyNOG/AZZsoC3FZfVmgcO0NSKl3ID+VF3sEnAXKC5rYI02qHTPv
-	lYWMKRn6jbRNiEnQqJckJ0LMmTZYZm8H2xFpTSBnKH2QPVWbhNfCvtv2EX2oYFKqpMjkeHyFOci
-	H3w1Sjt0e3NpIIHG/Ru3UfRFAn2989IA=
-X-Gm-Gg: Acq92OG8kYxquHhdwovI9KCG3V1ZrvHICCw6ARaqF/TmDV8NIQfh6ue0MgLsqtCLRO1
-	aIO4rcN6+qmCQEkaLB+zGB0p9cYP4mzWRsuoB18WqS6+6O83kQBm2ydP7qa6lP9G1LMIRyBUffG
-	T5H1t+8ceETte+waSfMklrMN7Sn1AqqMPSNUJQ12Tr8WC4/UYibPTZYsuF0Wasl9nPlR2h0en4W
-	REb/aImbNwuUMGfsiGaBJB8q1SfdqwRVCnj5J+mbodJueMHfEgDhiE7A1wyO9knCaZDMRaBAnZr
-	/9KPZtMGvgPpQJNY22bqkjc91Sp7zzx+jAPFJPMNCw==
-X-Received: by 2002:a05:6214:268c:b0:8b3:fb6a:d35d with SMTP id
- 6a1803df08f44-8c1b0570a36mr148102386d6.47.1778497479490; Mon, 11 May 2026
- 04:04:39 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=EKd6lmOO;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E00A2C5E176;
+	Mon, 11 May 2026 11:56:38 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5D61E60646;
+	Mon, 11 May 2026 11:55:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6E9211AE8077;
+	Mon, 11 May 2026 13:55:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1778500548; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=P8aUFrnFTYqf9IUgKwXMfBgWbT88O+OUyR4nKrcRnKg=;
+	b=EKd6lmOOcsDvYxEIJfvwR8MQTqdO3kiHj3wB3HhRk/GO9olg9SyKdDvWVhnwpjELQjrk2Y
+	SU+4QJMC46hTijjAowpy6NRWz/Cf11EY01u3ng3bVHArV1VegXUc+n7usJICuMtsqBbYO3
+	8IidC2pVJ9ngS0SJgk4zLlbnidjrEhb8BX/kZS2rDEEW6nv4AMNoGG7GtLrs3dN5Tr+x61
+	6oNKRjqKgmABU7915TYiS9fl+8+HX1BU85hz2hgxmGwbtGD73odjNsanu9GUERbeAtLfXu
+	iiaQtaMvyZd/tfzaMY22tyyIwUAIb1ikoFTdcqNO8ogvnJOYla0TlzUAkvjFWw==
+Message-ID: <2079917b-4de1-4949-9793-14428bdbdbe8@bootlin.com>
+Date: Mon, 11 May 2026 13:55:47 +0200
 MIME-Version: 1.0
-References: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev>
- <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com> <51a71e4b0f5eeae36cdc2e7a4700e9d13d774af7.camel@pbarker.dev>
-In-Reply-To: <51a71e4b0f5eeae36cdc2e7a4700e9d13d774af7.camel@pbarker.dev>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 11 May 2026 13:04:28 +0200
-X-Gm-Features: AVHnY4J7lNMYu0or3mtQ83whEOFvCIUJFNubkCRSh6y7IXT1XPBNspawn9AHBZs
-Message-ID: <CANNYZj8T5V2f8knAcpG=DddtcZx54XTM1XiuzstxoWgqRYkhGw@mail.gmail.com>
-Subject: Re: [Openembedded-architecture] What to do with vim in openembedded-core?
-To: paul@pbarker.dev
-Cc: Tim Orling <ticotimo@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"openembedded-architecture@lists.openembedded.org" <openembedded-architecture@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 0/4] Split vim and xxd in different recipes
+To: quentin.schulz@cherry.de, openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com, paul@pbarker.dev,
+ mathieu.dubois-briand@bootlin.com
+References: <20260508214020.2488025-1-joaomarcos.costa@bootlin.com>
+ <257f886d-2be0-4af7-9233-716a68ce038a@cherry.de>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <257f886d-2be0-4af7-9233-716a68ce038a@cherry.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 11:04:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236808
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 11:56:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236809
 
-On Mon, 11 May 2026 at 12:45, Paul Barker via lists.openembedded.org
-<paul=pbarker.dev@lists.openembedded.org> wrote:
-> My general feeling on editors is "Give me vim or give me death!".
+Hello,
 
-As a lifetime user of nano/pico, I say 'Give me CUA'. Which neither
-nano nor vim (without plugins) fulfil, but neverthless, this is the
-one key binding scheme that everyone knows, uses, and can (at least in
-theory :) agree on. Arrows for cursor movement, shift-arrows for
-selection, ctrl-c/x/v to copy/cut/paste.
+On 5/11/26 12:03, Quentin Schulz via lists.openembedded.org wrote:
+> Hi Jo=C3=A3o,
+>=20
+> On 5/8/26 11:40 PM, Jo=C3=A3o Marcos Costa wrote:
+>> Hello,
+>>
+>> Honestly, my main motivation to send this series comes from a time whe=
+n
+>> I was building u-boot (meta-freescale) and I saw vim-native in Bitbake=
+'s
+>> tasks. It blew my mind that a bootloader somehow dependend on a text
+>> editor (yes, only to be built, not to be executed, I know), and the wh=
+ole
+>> text editor was being built to provide nothing more than xxd.
+>>
+>> Just to be clear, what bothers me is NOT u-boot depending on xxd. It i=
+s
+>> actually configuring and compiling Vim (considering the overhead this
+>> represents) only to use a single tiny piece of it.
+>>
+>=20
+> What's the build time impact? Because it may not be worth it in terms o=
+f=20
+> complexity.
 
-What CUA editor is suitable for core? I don't know :)
+I performed some tests and the data below comes from tmp/buildstats. In=20
+my local.conf:
 
-Alex
+BB_NUMBER_THREADS =3D "20"
+PARALLEL_MAKE =3D "-j 20"
+
+Before every run, I ran 'bitbake -c cleansstate XXXX + rm -rf tmp/':
+
+1) Before the splitting:
+
+$ bitbake vim-native
+
+Elapsed time: 18.53 seconds
+CPU usage: 3.9%
+
+$ bitbake xxd-native
+
+Elapsed time: 18.52 seconds
+CPU usage: 3.9%
+
+2) After the splitting:
+
+$ bitbake vim-native
+
+Elapsed time: 18.49 seconds
+CPU usage: 4.0%
+
+$ bitbake xxd-native
+
+Elapsed time: 4.89 seconds
+CPU usage: 0.8%
+
+2.1) Since I'm not sure if the total elapsed time counts in the parsing=20
+time, let's also compare the time spent in specific tasks:
+
+vim-native-9.2.0340-r0: do_configure
+Elapsed time: 6.81 seconds
+
+vim-native-9.2.0340-r0: do_compile
+Elapsed time: 4.43 seconds
+
+vim-xxd-native-9.2.0340-r0: do_configure
+Elapsed time: 0.03 seconds
+
+vim-xxd-native-9.2.0340-r0: do_compile
+Elapsed time: 0.23 seconds
+
+3) I also compared the 'pn-buildlist' for both targets, and xxd-native=20
+after the splitting is minimal, considering the only dependencies are=20
+defined by BASEDEPENDS.
+
+Another thing to consider is the build time dependencies of vim were in=20
+sstate-cache, so this is not an entirely clean build. If that was the=20
+case, the delta would be even higher (once again: vim's DEPENDS vs.=20
+xxd's BASEDEPENDS).
+
+> Note that you also need to specify how much it impacts a build in which=
+=20
+> both vim and vim-xxd are brought in the final image, which will result=20
+> in a biggest build time.
+
+Well, vim already RDEPENDs on vim-xxd, so by default they are installed=20
+together if you have 'vim' in IMAGE_INSTALL. After the split, it is true=20
+that both recipes will be built, but as per the numbers above, the time=20
+spent building vim-xxd-native is minimal.
+
+As a matter of fact, I do believe that the total elapsed time counts in=20
+the parsing time, because a quick sum of the per-task elapsed time=20
+reveals that the whole thing takes roughly 2 seconds.
+
+$ cat tmp/buildstats/20260511115114/vim-xxd-native-9.2.0340-r0/do_* |=20
+grep "Elapsed time" -B1
+
+The major difference would be seen in the case where you have *only*=20
+vim-xxd in IMAGE_INSTALL:
+- before the split, vim is built only to provide vim-xxd
+- after the split, only vim-xxd is built and the same package is provided
+
+I made my best effort to keep the runtime side identical so this doesn't=20
+break anything in the final image.
+
+--=20
+Best regards,
+Jo=C3=A3o Marcos Costa
 
