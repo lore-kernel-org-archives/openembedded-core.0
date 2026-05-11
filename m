@@ -2,462 +2,1357 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 980ECCD4F23
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43AEFCD4855
 	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 20:25:35 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.60229.1778531127475032742
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.59987.1778531130550235524
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 13:25:27 -0700
+ Mon, 11 May 2026 13:25:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ai/30AHo;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-50e5c7eb565so46574591cf.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 13:25:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=UshdzMbG;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-50d75bfb259so31701801cf.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 13:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778531126; x=1779135926; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1778531129; x=1779135929; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2xOjqEop3ZdQv4/1HVRcLt7Sy+U/hgvl3J0DoQBps6w=;
-        b=ai/30AHoIg+kaxBaGIE9Y9y3uCRZ8zKgiL8QoEySQ0vw5COX1A3xRz9w1chT+ymL4/
-         msyFQEfZCnYULU8VxDt5ee0fzUEU3MOC+3xZSohbra99LoIWV6Jye1T81WFh64mNAz2U
-         6csKxAhzovlXL4JE0FS5WB2Hk/7unp/l38ewuZqmfy7JYYrR2tjWCBtEuTrW9N2lMPeF
-         usRTAgQFjIBm2DxyZBpGCrxETEfBF/tmuGyimvx/xav7bKN29Oklca1W5apm11aWW16V
-         Xaa4bY31up5+JPM7tIIH0AiYpnNTHa6x0zBrKU1qxCSE8K76WDi/KF4vcBH+uoe3+xS1
-         4Xlw==
+        bh=UC8Qz3XsVK2+/byItu/MNLLWGh7tBZrNou+srZpol2k=;
+        b=UshdzMbGYJDqpka8NK8gwFtC3b+uMyvqommFMBvPM5sihfUnQLy9pyNy5Inpzbquz8
+         rWnny4rqGpSqyRQjz48z/DQBrRyqRApQoo7I0iXTX7sG9aB0fSzOPdnUTB4NXi+f5GPN
+         AQLtJTMtjDTZOGf6aVJifRufFnHm6mBn3wV801BB3Bp/sHdaCNk6NsP1PRF4JlkAayo2
+         8VPYmKaqGnaepaDS+yUWRiLVOxVrH5akhNnufa9zORrq/hZoY1ecRkkR/YQCldfKnEiX
+         ygEgPRiOcKtke5ZujTZgsV0iEccUi0/hRScg/D5xD+V7//kFFiyKjYDVVzPXGSREJlij
+         NZUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778531126; x=1779135926;
+        d=1e100.net; s=20251104; t=1778531129; x=1779135929;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2xOjqEop3ZdQv4/1HVRcLt7Sy+U/hgvl3J0DoQBps6w=;
-        b=oRgib4XWugBMkeHt4/WjGgnDmgtZU3pG5zqIEQkUE3ZBHN3+oTd3R5BZ5kLC+xgMBP
-         +wH/nGb174RWgKF0nfqkWmgFg4Rbp2wgywQYw83MsvL14xNMMrQ2BdFEmIHWhDVhk3aB
-         nn6AVGbYxR/47cCRtqk7fhHMU0O1EJX1oE8RtOqhEr8lOwkIxPxuyF13iusRcHVXEpTm
-         7rTcismmzB7gEXKvtOftxo4qd/s7TrMRflzYlchSlNf6qpE2a3mme5eHpCPYGtt6uc+f
-         B/RCUfvXdGEhvjdQkXZt8ws0pDP3hEtNONI77n39eq6riAOUkfcPRTfxptIXYNHdGu6n
-         qM6w==
-X-Gm-Message-State: AOJu0Yw6a4apEpmqGuy5MUtBdU399oRQN0nfC5fmHVEixlst07CLSiZL
-	caNmUk6Ns6zo3epTAvTXmpUU7MeVZQbtzmy/BKeW9mfPkvCDNxOqxiXp1TWEPUiHROm3Yw==
-X-Gm-Gg: Acq92OEHZHTtmLbpOn7kUo+ujPA7LngTb2CfPlCEisJGZvMmAViZqg5ycYl9IAm3wy+
-	hoLaSvg/t0t7IfQBbbD5dK3CjM+N/SyrgdHkJVtA+sZDnCJqXbmOY3dQCdXo1p4GZ+FymBF8UHt
-	OGPpGOYKTcm6Vb4KWj7qxFvkrXQhaC+bXYyEllsD8ZF4zEuaRCzJbnpefFJVjTxWMX+6zKGyXDW
-	QIhFvhueXnwPXzIXvfQDoeI7EJ3C/wazIvfeEDeJBpPIGl4vXt+ih9NK+SO7tjEdpKN1oU9Zuw3
-	09oJp+sKow2izdbaZYBhpFJ7d8p1uGHorjklA27LbOp/KA7j2qvbwxX1LZYITEg7aDGTFLrr3HW
-	ExMoNqGPj/KU5UTGRlgbeK4N2FjWw7R8qqHqVB+tybKgKdnwwFkEgPupwPxxQOjw/ISn5bnEiNH
-	r5JtBV6dH1w8Z4dpa3jvSJ6RGPYtSx9RQhCm1qQfZMi2lEPOSoENiMPr1eNIt0ima8zrcvYOv2J
-	3i7QWJWJC3nK7sTI/Veg+idKY1AKbAVAlI8jH+1bKpOsHmU6hZYHUVk0aU=
-X-Received: by 2002:ac8:57d3:0:b0:50d:89f0:9a00 with SMTP id d75a77b69052e-514d2215eb4mr2619471cf.42.1778531126072;
-        Mon, 11 May 2026 13:25:26 -0700 (PDT)
+        bh=UC8Qz3XsVK2+/byItu/MNLLWGh7tBZrNou+srZpol2k=;
+        b=SI5mCYNsruxz5izyP7Mqx9ee4gt05fsW7WjBE+2zr/s4+J3Zt1K6xL4Oqz4I0pFFap
+         5cKpwUFkUtQzya3MuG14+eMTT1QiQo91LKUPGLktk5339G+OBG3A4DsqNHAJ8fZtlqww
+         d219Qxi7bT0f5ANa7sSZlHtr03jpRkIzmN7QphOpNBiI+v9doz59b6cALVYIII27204F
+         SypXykH436S9GUO8Z3VbbiStZ3p5QVZDXsAv38Dx1fIoB2lRO6HF1VdFnA2FJSpMZFF1
+         NUg7PEeFK6ETug0KuI+MYtZA9CIWxW3VmFLw3YojbXzU0ga4krfYMO/n/1TtFjBjVkBG
+         2BTA==
+X-Gm-Message-State: AOJu0YxcSsivCRK9vOG3w+KjdedE/PoYBwTvgCACXO1yPk0YBIADv9FA
+	/YIt/VMufPqaEdeoWgJE+XY99A/GDYuNFSmv0fQnijFKe1rjHfyHnZsVH4/Kd1Za0GUmKA==
+X-Gm-Gg: Acq92OFdNXEJDeYncSxqANvX3dGASwASZkkwMaqZi3U9+QO1rGpO0QawpnZA8Rs1pzZ
+	J0T2FMBUzczgL/syIqcEg40jtxO0XFj/4h6Fr6V2D4qmWTqFPSCJ9aBZIMsAsJa/FQEFTFEDC1K
+	ZDxd1yDvPQN3IbDPa4jILqVdabE9xbG6JEnopQtzmnihrx95t8XMC/m1OXXKF5TX0fAjzGpsp0t
+	ereUtRM4rF9fb9E0+ayVOjXg+InV+N7/vP7RUObBIxg1MIq+gVU8G9XYC0RPdJPpZ4so8B0x7Xm
+	DU8qOJuWwN8qwcub8lGGlGdxPSn3MldUHXtFVocwaDz6S2hSjZbFvmd/v/3HrScawaJORu4PQck
+	5nPU0YjPcmwdKk2SpVwq+vYyyJU5ePrtlpmx9qjkXgmUsjCLLj4ZLJRqBzjMJLab8oBMaOOEQG3
+	rgCBh/d9i4SqV7/qcwIOjG7YsIMV3PavE/wEg2QIlhL4CenXAn753Yl2agLciNgLn17q6LJMI6l
+	UD+eqstaJEI79DYy8XCqbO2hZwftgY7Q/SSpkuNlus4pIPcOKHpT1Qq55o7wvLFxGb/hg==
+X-Received: by 2002:a05:622a:620a:b0:50f:c8d7:cdf6 with SMTP id d75a77b69052e-51461bea165mr362130001cf.7.1778531128715;
+        Mon, 11 May 2026 13:25:28 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5148e83aa2bsm98213401cf.28.2026.05.11.13.25.25
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5148e83aa2bsm98213401cf.28.2026.05.11.13.25.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 13:25:25 -0700 (PDT)
+        Mon, 11 May 2026 13:25:26 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [meta][PATCH 05/09] linux-yocto/6.18: update to v6.18.28
-Date: Mon, 11 May 2026 16:25:12 -0400
-Message-ID: <20260511202517.1648910-6-bruce.ashfield@gmail.com>
+Subject: [meta][PATCH 06/09] linux-yocto/6.18: update CVE exclusions (6.18.28)
+Date: Mon, 11 May 2026 16:25:13 -0400
+Message-ID: <20260511202517.1648910-7-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260511202517.1648910-1-bruce.ashfield@gmail.com>
 References: <20260511202517.1648910-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 20:25:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236830
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236831
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/6.18 to the latest korg -stable release that comprises
-the following commits:
+Data pulled from: https://github.com/CVEProject/cvelistV5
 
-    c31b94a4231c Linux 6.18.28
-    71a1d9d985d2 xfrm: esp: avoid in-place decrypt on shared skb frags
-    ce685b6a03dc Linux 6.18.27
-    97d35052a816 ipmi:ssif: NULL thread on error
-    52a7c9a2823d ipmi:ssif: Remove unnecessary indention
-    6f820139d16a netfilter: reject zero shift in nft_bitwise
-    b778b6d09542 net: ipv6: fix NOREF dst use in seg6 and rpl lwtunnels
-    a8d95d274be2 mm/slab: return NULL early from kmalloc_nolock() in NMI on UP
-    05b4ed8bef30 mm/page_alloc: return NULL early from alloc_frozen_pages_nolock() in NMI on UP
-    e9b057a44def vmalloc: fix buffer overflow in vrealloc_node_align()
-    bdd9503c3d22 ALSA: aloop: Fix peer runtime UAF during format-change stop
-    6153878c5255 ALSA: caiaq: fix usb_dev refcount leak on probe failure
-    30c000a49094 drm/amdgpu: fix zero-size GDS range init on RDNA4
-    c261d07a8057 ipv6: rpl: reserve mac_len headroom when recompressed SRH grows
-    3d46009e2ad4 ALSA: caiaq: Don't abort when no input device is available
-    1d160e30aa42 ALSA: caiaq: Fix potentially leftover ep1_in_urb at error path
-    b8c5acce56e0 driver core: Add kernel-doc for DEV_FLAG_COUNT enum value
-    b42821c15445 crypto: authencesn - reject short ahash digests during instance creation
-    5cf6d5e5e3b8 net: qrtr: ns: Limit the total number of nodes
-    20855cef7e65 net: qrtr: ns: Limit the maximum number of lookups
-    35fb4a0c077c net: qrtr: ns: Limit the maximum server registration per node
-    5e9f1bad26df iio: frequency: admv1013: fix NULL pointer dereference on str
-    c772e9efe2b1 iio: frequency: admv1013: add dev variable
-    0adac0ee2c42 media: rc: igorplugusb: heed coherency rules
-    7ba734027b2b media: rc: ttusbir: respect DMA coherency rules
-    7d7863018f40 wifi: mt76: mt792x: fix mt7925u USB WFSYS reset handling
-    0bc155c4ca47 wifi: mt76: mt792x: describe USB WFSYS reset with a descriptor
-    09e1c96594af phy: qcom: m31-eusb2: clear PLL_EN during init
-    37ef11ab2cf3 phy: qcom: m31-eusb2: Update init sequence to set PHY_ENABLE
-    da4a33e739dc mei: me: add nova lake point H DID
-    09033be12a82 mei: me: use PCI_DEVICE_DATA macro
-    38f113f81d3f lib: test_hmm: evict device pages on file close to avoid use-after-free
-    1e67c82fb778 arm64: mm: Fix rodata=full block mapping support for realm guests
-    5e07126d7ab8 arm64: mm: Simplify check in arch_kfence_init_pool()
-    6f977b0472f7 mm: prevent droppable mappings from being locked
-    bbc4bfae9e43 seg6: fix seg6 lwtunnel output redirect for L2 reduced encap mode
-    13e550fbfccd scsi: sd: fix missing put_disk() when device_add(&disk_dev) fails
-    9da6e314ea5f sched_ext: Documentation: Clarify ops.dispatch() role in task lifecycle
-    43222ac484f9 rxgk: Fix potential integer overflow in length check
-    3fb7394a8377 rtmutex: Use waiter::task instead of current in remove_waiter()
-    f1af27cec07a ntfs3: fix integer overflow in run_unpack() volume boundary check
-    d3012690a706 ntfs3: add buffer boundary checks to run_unpack()
-    83e31039e0d7 NFSv4.1: Apply session size limits on clone path
-    fc8d81f189f0 ktest: Fix the month in the name of the failure directory
-    9f4ba5966c78 IB/core: Fix zero dmac race in neighbor resolution
-    4db061a40543 gtp: disable BH before calling udp_tunnel_xmit_skb()
-    b91e535f208c ceph: only d_add() negative dentries when they are unhashed
-    87c99a50e0fd dm mirror: fix integer overflow in create_dirty_log()
-    a616126cb080 crypto: nx - Fix packed layout in struct nx842_crypto_header
-    354a27e28447 crypto: nx - fix context leak in nx842_crypto_free_ctx
-    5c07962fed66 crypto: nx - fix bounce buffer leaks in nx842_crypto_{alloc,free}_ctx
-    2ae365e32998 crypto: atmel-sha204a - Fix uninitialized data access on OTP read error
-    1193c12126d3 crypto: atmel-sha204a - Fix potential UAF and memory leak in remove path
-    64ea9dbf4c77 crypto: atmel-sha204a - Fix error codes in OTP reads
-    863d11b39277 crypto: atmel-tdes - fix DMA sync direction
-    910f335786a0 crypto: ccree - fix a memory leak in cc_mac_digest()
-    808685bfd124 crypto: hisilicon - Fix dma_unmap_single() direction
-    9c032781c2b1 crypto: atmel-ecc - Release client on allocation failure
-    61516b4a5b26 crypto: atmel-aes - Fix 3-page memory leak in atmel_aes_buff_cleanup
-    4d713333dd32 crypto: arm64/aes - Fix 32-bit aes_mac_update() arg treated as 64-bit
-    343a5bf68a8f crypto: acomp - fix wrong pointer stored by acomp_save_req()
-    c524c124e309 can: ucan: fix devres lifetime
-    1656698656f6 bus: mhi: host: pci_generic: Switch to async power up to avoid boot delays
-    e08d75753db1 Bluetooth: hci_event: fix potential UAF in SSP passkey handlers
-    b4339521bb43 apparmor: use target task's context in apparmor_getprocattr()
-    b7a953374db9 mfd: core: Preserve OF node when ACPI handle is present
-    e88827bb0399 taskstats: set version in TGID exit notifications
-    83bb57635d7c tcp: call sk_data_ready() after listener migration
-    69c4d137b22d wifi: rtl8xxxu: fix potential use of uninitialized value
-    4f3374c990fb x86/shstk: Prevent deadlock during shstk sigreturn
-    ef7ce8f4a341 x86/cpu: Disable FRED when PTI is forced on
-    fdaa42ca370d inotify: fix watch count leak when fsnotify_add_inode_mark_locked() fails
-    371f4dc80601 HID: apple: ensure the keyboard backlight is off if suspending
-    ea43a34452a6 check-uapi: link into shared objects
-    73ce72edd113 md/raid5: validate payload size before accessing journal metadata
-    1985cb3247e8 md/raid5: fix soft lockup in retry_aligned_read()
-    9142f00a9287 md/md-llbitmap: raise barrier before state machine transition
-    98623c7e2a51 md/md-llbitmap: skip reading rdevs that are not in_sync
-    f7d9d0e4a64f amdgpu/jpeg: fix deepsleep register for jpeg 5_0_0 and 5_0_2
-    ac858718219f mtd: spinand: winbond: Declare the QE bit on W25NxxJW
-    134975be170b mtd: spi-nor: sst: Fix write enable before AAI sequence
-    1e6b0a69bf2c ext4: fix missing brelse() in ext4_xattr_inode_dec_ref_all()
-    537e06597702 ext4: fix bounds check in check_xattrs() to prevent out-of-bounds access
-    6b4bf6519e50 ring-buffer: Do not double count the reader_page
-    f9c279ffee6b ARM: 9472/1: fix race condition on PG_dcache_clean in __sync_icache_dcache()
-    cd2689d625b0 perf annotate: Use jump__delete when freeing LoongArch jumps
-    5955e053ff00 KVM: nSVM: Always intercept VMMCALL when L2 is active
-    009c0f726abe KVM: nSVM: Raise #UD if unhandled VMMCALL isn't intercepted by L1
-    83f7e055c138 KVM: nSVM: Add missing consistency check for nCR3 validity
-    0d1f3fd2664b KVM: nSVM: Drop the non-architectural consistency check for NP_ENABLE
-    aabd785f9565 KVM: nSVM: Add missing consistency check for EFER, CR0, CR4, and CS
-    d79720fc9959 KVM: nSVM: Clear tracking of L1->L2 NMI and soft IRQ on nested #VMEXIT
-    b6656ba26525 KVM: nSVM: Clear EVENTINJ fields in vmcb12 on nested #VMEXIT
-    c2fad967e652 KVM: nSVM: Clear GIF on nested #VMEXIT(INVALID)
-    d6f6371bbea6 KVM: nSVM: Triple fault if mapping VMCB12 fails on nested #VMEXIT
-    410ea5575c66 KVM: nSVM: Refactor writing vmcb12 on nested #VMEXIT as a helper
-    72fe7d04a669 KVM: nSVM: Refactor checking LBRV enablement in vmcb12 into a helper
-    49c8b2395bac KVM: nSVM: Always inject a #GP if mapping VMCB12 fails on nested VMRUN
-    2b922a42b531 KVM: SVM: Add missing save/restore handling of LBR MSRs
-    18ff4ab16412 KVM: SVM: Switch svm_copy_lbrs() to a macro
-    a5ea402844f1 KVM: nSVM: Delay setting soft IRQ RIP tracking fields until vCPU run
-    a3f0981a5a0e KVM: nSVM: Avoid clearing VMCB_LBR in vmcb12
-    88572f9d83d7 KVM: nSVM: Use vcpu->arch.cr2 when updating vmcb12 on nested #VMEXIT
-    3a95eb7c6950 KVM: nSVM: Delay stuffing L2's current RIP into NextRIP until vCPU run
-    3428ed1529a1 KVM: nSVM: Always use NextRIP as vmcb02's NextRIP after first L2 VMRUN
-    46b3827abc44 KVM: nSVM: Ensure AVIC is inhibited when restoring a vCPU to guest mode
-    8302e9be9f9c KVM: SVM: Explicitly mark vmcb01 dirty after modifying VMCB intercepts
-    c15392ed9e49 KVM: SVM: Inject #UD for INVLPGA if EFER.SVME=0
-    497f6af9679f KVM: nSVM: Sync interrupt shadow to cached vmcb12 after VMRUN of L2
-    076ab13fe321 KVM: nSVM: Sync NextRIP to cached vmcb12 after VMRUN of L2
-    e07ad47e53e9 KVM: nSVM: Mark all of vmcb02 dirty when restoring nested state
-    c098979293da KVM: x86: Defer non-architectural deliver of exception payload to userspace read
-    26f01d03775e LoongArch: KVM: Use CSR_CRMD_PLV in kvm_arch_vcpu_in_kernel()
-    fe06ea2f7b7f userfaultfd: allow registration of ranges below mmap_min_addr
-    0fedd09ef952 mm/damon/core: use time_in_range_open() for damos quota window start
-    b09958e235f2 mm/damon/core: validate damos_quota_goal->nid for node_mem_{used,free}_bp
-    8a62c58411cb mm/damon/stat: fix memory leak on damon_start() failure in damon_stat_start()
-    c42a7efb9060 mm/mempolicy: fix memory leaks in weighted_interleave_auto_store()
-    687ccdf58216 mm/vmalloc: take vmap_purge_lock in shrinker
-    5184e2c065e3 rtc: ntxec: fix OF node reference imbalance
-    b5856e85a1f0 tpm: tpm_tis: stop transmit if retries are exhausted
-    6503775a5c41 tpm: tpm_tis: add error logging for data transfer
-    53e6d2d834df tpm: Use kfree_sensitive() to free auth session in tpm_dev_release()
-    726ce5042359 tpm: Fix auth session leak in tpm2_get_random() error path
-    f8775d9d9062 tpm2-sessions: Fix missing tpm_buf_destroy() in tpm2_read_public()
-    82aa32a4d697 pwm: imx-tpm: Count the number of enabled channels in probe
-    dedaa897b9d7 crypto: talitos - rename first/last to first_desc/last_desc
-    4861d6cd923f crypto: talitos - fix SEC1 32k ahash request limitation
-    75d40ccf38ca firmware: google: framebuffer: Do not unregister platform device
-    5c293a1e1ef0 xfs: fix a resource leak in xfs_alloc_buftarg()
-    fe570daa5193 xfs: start gc on zonegc_low_space attribute updates
-    27f561bf894e crypto: qat - fix IRQ cleanup on 6xxx probe failure
-    6d8087a7d0f3 arm64: dts: ti: am62-verdin: Enable pullup for eMMC data pins
-    52e1a80bacc6 mmc: sdhci-of-dwcmshc: Disable clock before DLL configuration
-    d73c3a4070dc mmc: block: use single block write in retry
-    d780f24a4939 randomize_kstack: Maintain kstack_offset per task
-    95d48e37a130 hwmon: (pt5161l) Fix bugs in pt5161l_read_block_data()
-    6b11dfb3c517 ASoC: Intel: avs: replace strcmp with sysfs_streq
-    77eb3e79a3e7 drm/amd: Fix set but not used warnings
-    b3166d165753 fs: prepare for adding LSM blob to backing_file
-    b69a8729f84a hwmon: (isl28022) Fix integer overflow in power calculation on 32-bit
-    bff7dbfc326a power: supply: axp288_charger: Do not cancel work before initializing it
-    988eff645be4 LoongArch: Show CPU vulnerabilites correctly
-    c5dfddc57f1b tpm: avoid -Wunused-but-set-variable
-    80f54d6f9142 extract-cert: Wrap key_pass with '#ifdef USE_PKCS11_ENGINE'
-    11baa8b24bcb spi: fix resource leaks on device setup failure
-    016bc6636573 libceph: Prevent potential null-ptr-deref in ceph_handle_auth_reply()
-    c2178ff1c70e ipv4: icmp: validate reply type before using icmp_pointers
-    9b924f3a26b2 RDMA/rxe: Validate pad and ICRC before payload_size() in rxe_rcv
-    f344f04e33bf tracing/fprobe: Reject registration of a registered fprobe before init
-    38387ccc0fbe slub: fix data loss and overflow in krealloc()
-    9eed57e9defd drm/arcpgu: fix device node leak
-    e9be7d2fb0b1 net: ks8851: Avoid excess softirq scheduling
-    f826f0000100 net: mctp: fix don't require received header reserved bits to be zero
-    20ba739bd627 netconsole: avoid out-of-bounds access on empty string in trim_newline()
-    5424e678f9b3 net: bridge: use a stable FDB dst snapshot in RCU readers
-    be8aad558b46 net: ks8851: Reinstate disabling of BHs around IRQ handler
-    ea0b5d0fe963 net/smc: avoid early lgr access in smc_clc_wait_msg
-    1c2afc4a1dd1 net: txgbe: fix firmware version check
-    033370ffb3c9 net: rds: fix MR cleanup on copy error
-    154fc7fe3f62 net: qrtr: ns: Free the node during ctrl_cmd_bye()
-    7ef5b521785b arm64: dts: marvell: uDPU: add ethernet aliases
-    d29cafc7e4ee net: txgbe: fix RTNL assertion warning when remove module
-    491344b826a5 tools/accounting: handle truncated taskstats netlink messages
-    ff591df2cd7f EDAC/versalnet: Fix memory leak in remove and probe error paths
-    761c37b761ed rxrpc: Fix rxrpc_input_call_event() to only unshare DATA packets
-    76cb9a2d2522 rxrpc: Fix re-decryption of RESPONSE packets
-    293095ef6188 rxrpc: Fix error handling in rxgk_extract_token()
-    f0d3efd03b2a rxrpc: Fix rxkad crypto unalignment handling
-    ca71ac2de389 rxrpc: Fix conn-level packet handling to unshare RESPONSE packets
-    861b9a0a1823 rxrpc: Fix memory leaks in rxkad_verify_response()
-    996b0487b3cd rxrpc: Fix potential UAF after skb_unshare() failure
-    d42d5404782f iio: adc: ad7768-1: remove switch to one-shot mode
-    4ca3746d9492 iio: adc: ad7768-1: fix one-shot mode data acquisition
-    54af1a51bb8b ALSA: pcmtest: Fix resource leaks in module init error paths
-    91c8e75ba1f1 ALSA: pcmtest: fix reference leak on failed device registration
-    89ed38540e6b ALSA: hda/realtek - Add mute LED support for HP Victus 15-fa2xxx
-    1ac67f49ae2c ALSA: 6fire: Fix input volume change detection
-    e59ecd4ee3a4 ALSA: caiaq: Handle probe errors properly
-    30bd9ed68c84 ALSA: caiaq: Fix control_put() result and cache rollback
-    33df74673674 ALSA: core: Fix potential data race at fasync handling
-    9678e1b7f512 io_uring/poll: ensure EPOLL_ONESHOT is propagated for EPOLL_URING_WAKE
-    ea0697129807 io_uring/poll: fix signed comparison in io_poll_get_ownership()
-    23b4b18bac28 iio: adc: ti-ads7950: use iio_push_to_buffers_with_ts_unaligned()
-    8661370e0865 block: relax pgmap check in bio_add_page for compatible zone device pages
-    dd154d768db5 io_uring/timeout: check unused sqe fields
-    81880f84cb36 block: fix zone write plugs refcount handling in disk_zone_wplug_schedule_bio_work()
-    ad0126ffcba8 rbd: fix null-ptr-deref when device_add_disk() fails
-    4d79d0cf6538 selftests/landlock: Skip stale records in audit_match_record()
-    127ae2e73e61 selftests/landlock: Fix snprintf truncation checks in audit helpers
-    1e85a1ae1452 selftests/landlock: Fix format warning for __u64 in net_test
-    a496488e1702 selftests/landlock: Drain stale audit records on init
-    2fcde49092aa landlock: Fix LOG_SUBDOMAINS_OFF inheritance across fork()
-    df865a3bb91b selftests/mqueue: Fix incorrectly named file
-    558aa1e2cd11 sched: Use u64 for bandwidth ratio calculations
-    961db0b89200 reset: rzv2h-usb2phy: Keep PHY clock enabled for entire device lifetime
-    06d0bed2552f remoteproc: xlnx: Only access buffer information if IPI is buffered
-    8ba804869382 RDMA/mana_ib: Disable RX steering on RSS QP destroy
-    dffdcbeabaac PCI: cadence: Use cdns_pcie_read_sz() for byte or word read access
-    1fe317364cb5 parisc: Drop ip_fast_csum() inline assembly implementation
-    e6e3724c7870 parisc: _llseek syscall is only available for 32-bit userspace
-    c2462d54af3c nvme: respect NVME_QUIRK_DISABLE_WRITE_ZEROES when wzsl is set
-    8bcc66896e01 nvme-pci: add NVME_QUIRK_DISABLE_WRITE_ZEROES for Kingston OM3SGP4
-    d89044889ecd mtd: docg3: fix use-after-free in docg3_release()
-    2774bcf71473 mm/hugetlb: fix early boot crash on parameters without '=' separator
-    2691332ad88b mm/damon/core: fix damon_call() vs kdamond_fn() exit race
-    d5b495ba9de0 mm/alloc_tag: clear codetag for pages allocated before page_ext initialization
-    3c52d0946977 mfd: stpmic1: Attempt system shutdown twice in case PMIC is confused
-    377f5ad257fb io_uring/register: fix ring resizing with mixed/large SQEs/CQEs
-    cac2106bb9a2 md/raid10: fix deadlock with check operation and nowait requests
-    bdf33ba450af KVM: selftests: Fix reserved value WRMSR testcase for multi-feature MSRs
-    2b2fee890250 jbd2: fix deadlock in jbd2_journal_cancel_revoke()
-    858bc8b9edb6 ipmi:ssif: Clean up kthread on errors
-    8ebb951a284b erofs: fix the out-of-bounds nameoff handling for trailing dirents
-    33074b1e6c18 ALSA: seq_oss: return full count for successful SEQ_FULLSIZE writes
-    09496158f6eb ALSA: ctxfi: Add fallback to default RSR for S/PDIF
-    8d3124290a03 ALSA: aoa: Skip devices with no codecs in i2sbus_resume()
-    df462e82e82c ALSA: aoa: i2sbus: fix OF node lifetime handling
-    e79427ee11a8 ALSA: aoa: i2sbus: clear stale prepared state
-    0ae7d28dda5c mm/zsmalloc: copy KMSAN metadata in zs_page_migrate()
-    2dde6377ab2e ext2: reject inodes with zero i_nlink and valid mode in ext2_iget()
-    2e127ceb1c41 net: qrtr: ns: Fix use-after-free in driver remove()
-    da47f8a5958c media: i2c: imx219: Check return value of devm_gpiod_get_optional() in imx219_probe()
-    4d3a4638e9d2 lib/ts_kmp: fix integer overflow in pattern length calculation
-    dca29d20ab23 PCI: epf-mhi: Return 0, not remaining timeout, when eDMA ops complete
-    127a1fe59c78 Revert "ALSA: usb: Increase volume range that triggers a warning"
-    65fc57c8b8f0 PCI: endpoint: pci-epf-ntb: Remove duplicate resource teardown
-    4ca4351d269f crypto: atmel-sha204a - Fix OTP sysfs read and error handling
-    26506a30e0e2 media: mtk-jpeg: fix use-after-free in release path due to uncancelled work
-    19ca9475f18f net: strparser: fix skb_head leak in strp_abort_strp()
-    63d21a3aa010 net: caif: clear client service pointer on teardown
-    654c818a69c2 ALSA: control: Validate buf_len before strnlen() in snd_ctl_elem_init_enum_names()
-    fdc150dac1ad media: amphion: Fix race between m2m job_abort and device_run
-    e0a621459c61 PCI: imx6: Skip waiting for L2/L3 Ready on i.MX6SX
-    b6e61356ad24 EDAC/versalnet: Fix device_node leak in mc_probe()
-    b6cb07f02253 hwmon: (powerz) Fix missing usb_kill_urb() on signal interrupt
-    5b6122a67a29 of: unittest: fix use-after-free in testdrv_probe()
-    7f0f0926f301 of: unittest: fix use-after-free in of_unittest_changeset()
-    824897e69d7a dt-bindings: display: ti, am65x-dss: Fix AM62L DSS reg and clock constraints
-    77d55bc8675e crypto: pcrypt - Fix handling of MAY_BACKLOG requests
-    ebc235675f24 crypto: algif_aead - snapshot IV for async AEAD requests
-    efc52947247a mm: call ->free_folio() directly in folio_unmap_invalidate()
-    ff8a7996dc8b spi: ch341: fix memory leaks on probe failures
-    132e47030b0b spi: imx: fix use-after-free on unbind
-    75f8f3c3e091 thermal: core: Fix thermal zone governor cleanup issues
-    2810fc760aaf um: drivers: call kernel_strrchr() explicitly in cow_user.c
-    5d6c349c9823 vfio/cdx: Fix NULL pointer dereference in interrupt trigger path
-    7b436ade16cc vfio/cdx: Serialize VFIO_DEVICE_SET_IRQS with a per-device mutex
-    08da3594c8ba vfio/virtio: Convert list_lock from spinlock to mutex
-    7aa27b20e938 vfio: selftests: Fix VLA initialisation in vfio_pci_irq_set()
-    4e179a60a60c wifi: mwifiex: fix use-after-free in mwifiex_adapter_cleanup()
-    000134a20bbf wifi: rtw88: check for PCI upstream bridge existence
-    a02363f71a79 zram: do not forget to endio for partial discard requests
-    a516d4388662 Input: edt-ft5x06 - fix use-after-free in debugfs teardown
-    3c636a3edca9 ocfs2: split transactions in dio completion to avoid credit exhaustion
-    944a6864aa06 mm: migrate: requeue destination folio on deferred split queue
-    3f8805b8ca23 arm64/mm: Enable batched TLB flush in unmap_hotplug_range()
-    ecb3e4fa31ff firmware: google: framebuffer: Do not mark framebuffer as busy
-    f51f85c04480 fs: afs: revert mmap_prepare() change
-    d4d0c91a0afc kbuild: rust: allow `clippy::uninlined_format_args`
-    5447be57b311 rust: dma: remove DMA_ATTR_NO_KERNEL_MAPPING from public attrs
-    4404d7d2dda4 drm/nouveau: fix nvkm_device leak on aperture removal failure
-    fa9a4c5e69aa device property: Make modifications of fwnode "flags" thread safe
-    3e8fefd2997c driver core: Don't let a device probe until it's ready
-    c1c2417c60db ibmasm: fix heap over-read in ibmasm_send_i2o_message()
-    ee5737891464 ibmasm: fix OOB reads in command_file_write due to missing size checks
-    22a16d3eafee misc: ibmasm: fix OOB MMIO read in ibmasm_handle_mouse_interrupt()
-    b2801647c203 greybus: gb-beagleplay: fix sleep in atomic context in hdlc_tx_frames()
-    fb91d4e49fcb greybus: gb-beagleplay: bound bootloader receive buffering
-    438e357b3cc6 leds: qcom-lpg: Check for array overflow when selecting the high resolution
-    332884f5eb79 drm/nouveau: fix u32 overflow in pushbuf reloc bounds check
-    85cbf7fb568a LoongArch: Add spectre boundry for syscall dispatch table
-    c578b48b9fdf ALSA: usb-audio: Evaluate packsize caps at the right place
-    b216de91c0c0 usb: chipidea: core: allow ci_irq_handler() handle both ID and VBUS change
-    6f480aa64d4d usb: chipidea: otg: not wait vbus drop if use role_switch
-    49340680d41f usb: xhci: Make usb_host_endpoint.hcpriv survive endpoint_disable()
-    f28a8281792b ALSA: usb-audio: Fix Audio Advantage Micro II SPDIF switch
-    9bbbbbd404d3 ALSA: usb-audio: Avoid false E-MU sample-rate notifications
-    4d7893a137ea ALSA: usb-audio: stop parsing UAC2 rates at MAX_NR_RATES
+    1/1 [
+        Author: cvelistV5 Github Action
+        Email: github_action@example.com
+        Subject: 1537 changes (14 new | 1523 updated): - 14 new CVEs: CVE-2=
+022-4988, CVE-2026-2614, CVE-2026-42565, CVE-2026-42869, CVE-2026-42870, CV=
+E-2026-42872, CVE-2026-42873, CVE-2026-42874, CVE-2026-42875, CVE-2026-4287=
+6, CVE-2026-45025, CVE-2026-45026, CVE-2026-6146, CVE-2026-8319 - 1523 upda=
+ted CVEs: CVE-2022-21546, CVE-2022-48626, CVE-2022-48627, CVE-2022-48628, C=
+VE-2022-48629, CVE-2022-48630, CVE-2022-48631, CVE-2022-48632, CVE-2022-486=
+33, CVE-2022-48634, CVE-2022-48635, CVE-2022-48636, CVE-2022-48637, CVE-202=
+2-48638, CVE-2022-48639, CVE-2022-48640, CVE-2022-48641, CVE-2022-48642, CV=
+E-2022-48643, CVE-2022-48644, CVE-2022-48645, CVE-2022-48646, CVE-2022-4864=
+7, CVE-2022-48648, CVE-2022-48649, CVE-2022-48650, CVE-2022-48651, CVE-2022=
+-48652, CVE-2022-48653, CVE-2022-48654, CVE-2022-48655, CVE-2022-48656, CVE=
+-2022-48657, CVE-2022-48658, CVE-2022-48659, CVE-2022-48660, CVE-2022-48661=
+, CVE-2022-48662, CVE-2022-48663, CVE-2022-48664, CVE-2022-48665, CVE-2022-=
+48666, CVE-2022-48667, CVE-2022-48668, CVE-2022-48669, CVE-2022-48670, CVE-=
+2022-48671, CVE-2022-48672, CVE-2022-48673, CVE-2022-48674, CVE-2022-48675,=
+ CVE-2022-48686, CVE-2022-48687, CVE-2022-48688, CVE-2022-48689, CVE-2022-4=
+8690, CVE-2022-48691, CVE-2022-48692, CVE-2022-48693, CVE-2022-48694, CVE-2=
+022-48695, CVE-2022-48696, CVE-2022-48697, CVE-2022-48698, CVE-2022-48699, =
+CVE-2022-48701, CVE-2022-48702, CVE-2022-48703, CVE-2022-48704, CVE-2022-48=
+705, CVE-2022-48706, CVE-2022-48707, CVE-2022-48708, CVE-2022-48709, CVE-20=
+22-48710, CVE-2022-48711, CVE-2022-48712, CVE-2022-48713, CVE-2022-48714, C=
+VE-2022-48715, CVE-2022-48716, CVE-2022-48717, CVE-2022-48718, CVE-2022-487=
+19, CVE-2022-48720, CVE-2022-48721, CVE-2022-48722, CVE-2022-48723, CVE-202=
+2-48724, CVE-2022-48725, CVE-2022-48726, CVE-2022-48727, CVE-2022-48728, CV=
+E-2022-48729, CVE-2022-48730, CVE-2022-48731, CVE-2022-48732, CVE-2022-4873=
+3, CVE-2022-48734, CVE-2022-48735, CVE-2022-48738, CVE-2022-48739, CVE-2022=
+-48740, CVE-2022-48741, CVE-2022-48742, CVE-2022-48743, CVE-2022-48744, CVE=
+-2022-48745, CVE-2022-48746, CVE-2022-48747, CVE-2022-48748, CVE-2022-48749=
+, CVE-2022-48750, CVE-2022-48751, CVE-2022-48752, CVE-2022-48753, CVE-2022-=
+48754, CVE-2022-48755, CVE-2022-48756, CVE-2022-48757, CVE-2022-48758, CVE-=
+2022-48759, CVE-2022-48760, CVE-2022-48761, CVE-2022-48762, CVE-2022-48763,=
+ CVE-2022-48764, CVE-2022-48765, CVE-2022-48766, CVE-2022-48767, CVE-2022-4=
+8768, CVE-2022-48769, CVE-2022-48770, CVE-2022-48771, CVE-2022-48772, CVE-2=
+022-48773, CVE-2022-48774, CVE-2022-48775, CVE-2022-48776, CVE-2022-48777, =
+CVE-2022-48778, CVE-2022-48779, CVE-2022-48780, CVE-2022-48781, CVE-2022-48=
+782, CVE-2022-48783, CVE-2022-48784, CVE-2022-48785, CVE-2022-48786, CVE-20=
+22-48787, CVE-2022-48788, CVE-2022-48789, CVE-2022-48790, CVE-2022-48791, C=
+VE-2022-48792, CVE-2022-48793, CVE-2022-48794, CVE-2022-48795, CVE-2022-487=
+96, CVE-2022-48797, CVE-2022-48798, CVE-2022-48799, CVE-2022-48800, CVE-202=
+2-48801, CVE-2022-48802, CVE-2022-48803, CVE-2022-48804, CVE-2022-48805, CV=
+E-2022-48806, CVE-2022-48807, CVE-2022-48808, CVE-2022-48809, CVE-2022-4881=
+0, CVE-2022-48811, CVE-2022-48812, CVE-2022-48813, CVE-2022-48814, CVE-2022=
+-48815, CVE-2022-48816, CVE-2022-48817, CVE-2022-48818, CVE-2022-48819, CVE=
+-2022-48820, CVE-2022-48821, CVE-2022-48822, CVE-2022-48823, CVE-2022-48824=
+, CVE-2022-48825, CVE-2022-48826, CVE-2022-48827, CVE-2022-48828, CVE-2022-=
+48829, CVE-2022-48830, CVE-2022-48831, CVE-2022-48832, CVE-2022-48833, CVE-=
+2022-48834, CVE-2022-48835, CVE-2022-48836, CVE-2022-48837, CVE-2022-48838,=
+ CVE-2022-48839, CVE-2022-48840, CVE-2022-48841, CVE-2022-48842, CVE-2022-4=
+8844, CVE-2022-48845, CVE-2022-48846, CVE-2022-48847, CVE-2022-48848, CVE-2=
+022-48849, CVE-2022-48850, CVE-2022-48851, CVE-2022-48852, CVE-2022-48853, =
+CVE-2022-48854, CVE-2022-48855, CVE-2022-48856, CVE-2022-48857, CVE-2022-48=
+858, CVE-2022-48859, CVE-2022-48860, CVE-2022-48861, CVE-2022-48862, CVE-20=
+22-48863, CVE-2022-48864, CVE-2022-48865, CVE-2022-48866, CVE-2022-48867, C=
+VE-2022-48868, CVE-2022-48869, CVE-2022-48870, CVE-2022-48871, CVE-2022-488=
+72, CVE-2022-48873, CVE-2022-48874, CVE-2022-48875, CVE-2022-48876, CVE-202=
+2-48877, CVE-2022-48878, CVE-2022-48879, CVE-2022-48880, CVE-2022-48881, CV=
+E-2022-48882, CVE-2022-48883, CVE-2022-48884, CVE-2022-48885, CVE-2022-4888=
+6, CVE-2022-48887, CVE-2022-48888, CVE-2022-48889, CVE-2022-48890, CVE-2022=
+-48891, CVE-2022-48892, CVE-2022-48893, CVE-2022-48894, CVE-2022-48895, CVE=
+-2022-48896, CVE-2022-48897, CVE-2022-48898, CVE-2022-48899, CVE-2022-48901=
+, CVE-2022-48902, CVE-2022-48903, CVE-2022-48904, CVE-2022-48905, CVE-2022-=
+48906, CVE-2022-48907, CVE-2022-48908, CVE-2022-48909, CVE-2022-48910, CVE-=
+2022-48911, CVE-2022-48912, CVE-2022-48913, CVE-2022-48914, CVE-2022-48915,=
+ CVE-2022-48916, CVE-2022-48918, CVE-2022-48919, CVE-2022-48920, CVE-2022-4=
+8921, CVE-2022-48922, CVE-2022-48923, CVE-2022-48924, CVE-2022-48925, CVE-2=
+022-48926, CVE-2022-48927, CVE-2022-48928, CVE-2022-48929, CVE-2022-48930, =
+CVE-2022-48931, CVE-2022-48932, CVE-2022-48933, CVE-2022-48934, CVE-2022-48=
+935, CVE-2022-48937, CVE-2022-48938, CVE-2022-48939, CVE-2022-48940, CVE-20=
+22-48941, CVE-2022-48942, CVE-2022-48943, CVE-2022-48944, CVE-2022-48945, C=
+VE-2022-48946, CVE-2022-48947, CVE-2022-48948, CVE-2022-48949, CVE-2022-489=
+50, CVE-2022-48951, CVE-2022-48952, CVE-2022-48953, CVE-2022-48954, CVE-202=
+2-48955, CVE-2022-48956, CVE-2022-48957, CVE-2022-48958, CVE-2022-48959, CV=
+E-2022-48960, CVE-2022-48961, CVE-2022-48962, CVE-2022-48963, CVE-2022-4896=
+4, CVE-2022-48965, CVE-2022-48966, CVE-2022-48967, CVE-2022-48968, CVE-2022=
+-48969, CVE-2022-48970, CVE-2022-48971, CVE-2022-48972, CVE-2022-48973, CVE=
+-2022-48974, CVE-2022-48975, CVE-2022-48976, CVE-2022-48977, CVE-2022-48978=
+, CVE-2022-48979, CVE-2022-48980, CVE-2022-48981, CVE-2022-48982, CVE-2022-=
+48983, CVE-2022-48984, CVE-2022-48985, CVE-2022-48986, CVE-2022-48987, CVE-=
+2022-48988, CVE-2022-48989, CVE-2022-48990, CVE-2022-48991, CVE-2022-48992,=
+ CVE-2022-48994, CVE-2022-48995, CVE-2022-48996, CVE-2022-48997, CVE-2022-4=
+8998, CVE-2022-48999, CVE-2022-49000, CVE-2022-49001, CVE-2022-49002, CVE-2=
+022-49003, CVE-2022-49004, CVE-2022-49005, CVE-2022-49006, CVE-2022-49007, =
+CVE-2022-49008, CVE-2022-49009, CVE-2022-49010, CVE-2022-49011, CVE-2022-49=
+012, CVE-2022-49013, CVE-2022-49014, CVE-2022-49015, CVE-2022-49016, CVE-20=
+22-49017, CVE-2022-49018, CVE-2022-49019, CVE-2022-49020, CVE-2022-49021, C=
+VE-2022-49022, CVE-2022-49023, CVE-2022-49024, CVE-2022-49025, CVE-2022-490=
+26, CVE-2022-49027, CVE-2022-49028, CVE-2022-49029, CVE-2022-49030, CVE-202=
+2-49031, CVE-2022-49032, CVE-2022-49033, CVE-2022-49034, CVE-2022-49035, CV=
+E-2022-49044, CVE-2022-49046, CVE-2022-49047, CVE-2022-49048, CVE-2022-4904=
+9, CVE-2022-49050, CVE-2022-49051, CVE-2022-49052, CVE-2022-49053, CVE-2022=
+-49054, CVE-2022-49055, CVE-2022-49057, CVE-2022-49058, CVE-2022-49059, CVE=
+-2022-49060, CVE-2022-49061, CVE-2022-49062, CVE-2022-49063, CVE-2022-49064=
+, CVE-2022-49065, CVE-2022-49066, CVE-2022-49067, CVE-2022-49068, CVE-2022-=
+49069, CVE-2022-49070, CVE-2022-49071, CVE-2022-49072, CVE-2022-49073, CVE-=
+2022-49074, CVE-2022-49075, CVE-2022-49076, CVE-2022-49077, CVE-2022-49078,=
+ CVE-2022-49079, CVE-2022-49080, CVE-2022-49081, CVE-2022-49082, CVE-2022-4=
+9083, CVE-2022-49084, CVE-2022-49085, CVE-2022-49086, CVE-2022-49087, CVE-2=
+022-49088, CVE-2022-49089, CVE-2022-49090, CVE-2022-49091, CVE-2022-49092, =
+CVE-2022-49093, CVE-2022-49094, CVE-2022-49095, CVE-2022-49096, CVE-2022-49=
+097, CVE-2022-49098, CVE-2022-49099, CVE-2022-49100, CVE-2022-49102, CVE-20=
+22-49103, CVE-2022-49104, CVE-2022-49105, CVE-2022-49106, CVE-2022-49107, C=
+VE-2022-49108, CVE-2022-49109, CVE-2022-49110, CVE-2022-49111, CVE-2022-491=
+12, CVE-2022-49113, CVE-2022-49114, CVE-2022-49115, CVE-2022-49116, CVE-202=
+2-49117, CVE-2022-49118, CVE-2022-49119, CVE-2022-49120, CVE-2022-49121, CV=
+E-2022-49122, CVE-2022-49123, CVE-2022-49124, CVE-2022-49125, CVE-2022-4912=
+6, CVE-2022-49127, CVE-2022-49128, CVE-2022-49129, CVE-2022-49130, CVE-2022=
+-49131, CVE-2022-49132, CVE-2022-49133, CVE-2022-49134, CVE-2022-49135, CVE=
+-2022-49136, CVE-2022-49137, CVE-2022-49138, CVE-2022-49139, CVE-2022-49141=
+, CVE-2022-49142, CVE-2022-49144, CVE-2022-49145, CVE-2022-49146, CVE-2022-=
+49147, CVE-2022-49148, CVE-2022-49149, CVE-2022-49150, CVE-2022-49151, CVE-=
+2022-49152, CVE-2022-49153, CVE-2022-49154, CVE-2022-49155, CVE-2022-49156,=
+ CVE-2022-49157, CVE-2022-49158, CVE-2022-49159, CVE-2022-49160, CVE-2022-4=
+9161, CVE-2022-49162, CVE-2022-49163, CVE-2022-49164, CVE-2022-49165, CVE-2=
+022-49166, CVE-2022-49167, CVE-2022-49168, CVE-2022-49169, CVE-2022-49170, =
+CVE-2022-49171, CVE-2022-49172, CVE-2022-49173, CVE-2022-49174, CVE-2022-49=
+175, CVE-2022-49176, CVE-2022-49177, CVE-2022-49178, CVE-2022-49179, CVE-20=
+22-49180, CVE-2022-49182, CVE-2022-49183, CVE-2022-49184, CVE-2022-49185, C=
+VE-2022-49186, CVE-2022-49187, CVE-2022-49188, CVE-2022-49189, CVE-2022-491=
+90, CVE-2022-49191, CVE-2022-49192, CVE-2022-49193, CVE-2022-49194, CVE-202=
+2-49195, CVE-2022-49196, CVE-2022-49197, CVE-2022-49198, CVE-2022-49199, CV=
+E-2022-49200, CVE-2022-49201, CVE-2022-49202, CVE-2022-49203, CVE-2022-4920=
+4, CVE-2022-49205, CVE-2022-49206, CVE-2022-49207, CVE-2022-49208, CVE-2022=
+-49209, CVE-2022-49210, CVE-2022-49211, CVE-2022-49212, CVE-2022-49213, CVE=
+-2022-49214, CVE-2022-49215, CVE-2022-49216, CVE-2022-49217, CVE-2022-49218=
+, CVE-2022-49219, CVE-2022-49220, CVE-2022-49221, CVE-2022-49222, CVE-2022-=
+49223, CVE-2022-49224, CVE-2022-49225, CVE-2022-49226, CVE-2022-49227, CVE-=
+2022-49228, CVE-2022-49229, CVE-2022-49230, CVE-2022-49231, CVE-2022-49232,=
+ CVE-2022-49233, CVE-2022-49234, CVE-2022-49235, CVE-2022-49236, CVE-2022-4=
+9237, CVE-2022-49238, CVE-2022-49239, CVE-2022-49240, CVE-2022-49241, CVE-2=
+022-49242, CVE-2022-49243, CVE-2022-49244, CVE-2022-49245, CVE-2022-49246, =
+CVE-2022-49247, CVE-2022-49248, CVE-2022-49249, CVE-2022-49250, CVE-2022-49=
+251, CVE-2022-49252, CVE-2022-49253, CVE-2022-49254, CVE-2022-49255, CVE-20=
+22-49256, CVE-2022-49257, CVE-2022-49258, CVE-2022-49259, CVE-2022-49260, C=
+VE-2022-49261, CVE-2022-49262, CVE-2022-49263, CVE-2022-49264, CVE-2022-492=
+65, CVE-2022-49266, CVE-2022-49268, CVE-2022-49269, CVE-2022-49270, CVE-202=
+2-49271, CVE-2022-49272, CVE-2022-49273, CVE-2022-49274, CVE-2022-49275, CV=
+E-2022-49276, CVE-2022-49277, CVE-2022-49278, CVE-2022-49279, CVE-2022-4928=
+0, CVE-2022-49281, CVE-2022-49282, CVE-2022-49283, CVE-2022-49284, CVE-2022=
+-49285, CVE-2022-49286, CVE-2022-49287, CVE-2022-49288, CVE-2022-49289, CVE=
+-2022-49290, CVE-2022-49291, CVE-2022-49292, CVE-2022-49293, CVE-2022-49294=
+, CVE-2022-49295, CVE-2022-49296, CVE-2022-49297, CVE-2022-49298, CVE-2022-=
+49300, CVE-2022-49301, CVE-2022-49302, CVE-2022-49303, CVE-2022-49304, CVE-=
+2022-49305, CVE-2022-49306, CVE-2022-49307, CVE-2022-49308, CVE-2022-49309,=
+ CVE-2022-49310, CVE-2022-49311, CVE-2022-49312, CVE-2022-49313, CVE-2022-4=
+9314, CVE-2022-49315, CVE-2022-49316, CVE-2022-49317, CVE-2022-49318, CVE-2=
+022-49319, CVE-2022-49320, CVE-2022-49321, CVE-2022-49322, CVE-2022-49323, =
+CVE-2022-49324, CVE-2022-49325, CVE-2022-49326, CVE-2022-49327, CVE-2022-49=
+328, CVE-2022-49329, CVE-2022-49330, CVE-2022-49331, CVE-2022-49332, CVE-20=
+22-49333, CVE-2022-49334, CVE-2022-49335, CVE-2022-49336, CVE-2022-49337, C=
+VE-2022-49338, CVE-2022-49339, CVE-2022-49340, CVE-2022-49341, CVE-2022-493=
+42, CVE-2022-49343, CVE-2022-49344, CVE-2022-49345, CVE-2022-49346, CVE-202=
+2-49347, CVE-2022-49348, CVE-2022-49349, CVE-2022-49350, CVE-2022-49351, CV=
+E-2022-49352, CVE-2022-49353, CVE-2022-49354, CVE-2022-49356, CVE-2022-4935=
+7, CVE-2022-49358, CVE-2022-49359, CVE-2022-49360, CVE-2022-49361, CVE-2022=
+-49362, CVE-2022-49363, CVE-2022-49364, CVE-2022-49365, CVE-2022-49366, CVE=
+-2022-49367, CVE-2022-49368, CVE-2022-49369, CVE-2022-49370, CVE-2022-49371=
+, CVE-2022-49372, CVE-2022-49373, CVE-2022-49374, CVE-2022-49375, CVE-2022-=
+49376, CVE-2022-49377, CVE-2022-49378, CVE-2022-49379, CVE-2022-49380, CVE-=
+2022-49381, CVE-2022-49382, CVE-2022-49383, CVE-2022-49384, CVE-2022-49385,=
+ CVE-2022-49386, CVE-2022-49387, CVE-2022-49388, CVE-2022-49389, CVE-2022-4=
+9390, CVE-2022-49391, CVE-2022-49392, CVE-2022-49393, CVE-2022-49394, CVE-2=
+022-49395, CVE-2022-49396, CVE-2022-49397, CVE-2022-49398, CVE-2022-49399, =
+CVE-2022-49400, CVE-2022-49401, CVE-2022-49402, CVE-2022-49403, CVE-2022-49=
+404, CVE-2022-49405, CVE-2022-49406, CVE-2022-49407, CVE-2022-49408, CVE-20=
+22-49409, CVE-2022-49410, CVE-2022-49411, CVE-2022-49412, CVE-2022-49413, C=
+VE-2022-49414, CVE-2022-49415, CVE-2022-49416, CVE-2022-49417, CVE-2022-494=
+18, CVE-2022-49419, CVE-2022-49420, CVE-2022-49421, CVE-2022-49422, CVE-202=
+2-49423, CVE-2022-49424, CVE-2022-49425, CVE-2022-49426, CVE-2022-49427, CV=
+E-2022-49428, CVE-2022-49429, CVE-2022-49430, CVE-2022-49431, CVE-2022-4943=
+2, CVE-2022-49433, CVE-2022-49434, CVE-2022-49435, CVE-2022-49436, CVE-2022=
+-49437, CVE-2022-49438, CVE-2022-49439, CVE-2022-49440, CVE-2022-49441, CVE=
+-2022-49442, CVE-2022-49443, CVE-2022-49444, CVE-2022-49445, CVE-2022-49446=
+, CVE-2022-49447, CVE-2022-49448, CVE-2022-49449, CVE-2022-49450, CVE-2022-=
+49451, CVE-2022-49452, CVE-2022-49453, CVE-2022-49454, CVE-2022-49455, CVE-=
+2022-49456, CVE-2022-49457, CVE-2022-49458, CVE-2022-49459, CVE-2022-49460,=
+ CVE-2022-49461, CVE-2022-49462, CVE-2022-49463, CVE-2022-49464, CVE-2022-4=
+9465, CVE-2022-49466, CVE-2022-49467, CVE-2022-49468, CVE-2022-49469, CVE-2=
+022-49470, CVE-2022-49471, CVE-2022-49472, CVE-2022-49473, CVE-2022-49474, =
+CVE-2022-49475, CVE-2022-49476, CVE-2022-49477, CVE-2022-49478, CVE-2022-49=
+479, CVE-2022-49480, CVE-2022-49481, CVE-2022-49482, CVE-2022-49483, CVE-20=
+22-49484, CVE-2022-49485, CVE-2022-49486, CVE-2022-49487, CVE-2022-49488, C=
+VE-2022-49489, CVE-2022-49490, CVE-2022-49491, CVE-2022-49492, CVE-2022-494=
+93, CVE-2022-49494, CVE-2022-49495, CVE-2022-49496, CVE-2022-49497, CVE-202=
+2-49498, CVE-2022-49499, CVE-2022-49500, CVE-2022-49501, CVE-2022-49502, CV=
+E-2022-49503, CVE-2022-49504, CVE-2022-49505, CVE-2022-49506, CVE-2022-4950=
+7, CVE-2022-49508, CVE-2022-49509, CVE-2022-49510, CVE-2022-49511, CVE-2022=
+-49512, CVE-2022-49513, CVE-2022-49514, CVE-2022-49515, CVE-2022-49516, CVE=
+-2022-49517, CVE-2022-49518, CVE-2022-49519, CVE-2022-49520, CVE-2022-49521=
+, CVE-2022-49522, CVE-2022-49523, CVE-2022-49524, CVE-2022-49525, CVE-2022-=
+49526, CVE-2022-49527, CVE-2022-49528, CVE-2022-49529, CVE-2022-49530, CVE-=
+2022-49531, CVE-2022-49532, CVE-2022-49533, CVE-2022-49534, CVE-2022-49535,=
+ CVE-2022-49536, CVE-2022-49537, CVE-2022-49538, CVE-2022-49539, CVE-2022-4=
+9540, CVE-2022-49541, CVE-2022-49542, CVE-2022-49543, CVE-2022-49544, CVE-2=
+022-49545, CVE-2022-49546, CVE-2022-49547, CVE-2022-49548, CVE-2022-49549, =
+CVE-2022-49550, CVE-2022-49551, CVE-2022-49552, CVE-2022-49553, CVE-2022-49=
+554, CVE-2022-49555, CVE-2022-49556, CVE-2022-49557, CVE-2022-49558, CVE-20=
+22-49559, CVE-2022-49560, CVE-2022-49561, CVE-2022-49562, CVE-2022-49563, C=
+VE-2022-49564, CVE-2022-49565, CVE-2022-49566, CVE-2022-49567, CVE-2022-495=
+68, CVE-2022-49569, CVE-2022-49570, CVE-2022-49571, CVE-2022-49572, CVE-202=
+2-49573, CVE-2022-49574, CVE-2022-49575, CVE-2022-49576, CVE-2022-49577, CV=
+E-2022-49578, CVE-2022-49579, CVE-2022-49580, CVE-2022-49581, CVE-2022-4958=
+2, CVE-2022-49583, CVE-2022-49584, CVE-2022-49585, CVE-2022-49586, CVE-2022=
+-49587, CVE-2022-49588, CVE-2022-49589, CVE-2022-49590, CVE-2022-49591, CVE=
+-2022-49592, CVE-2022-49593, CVE-2022-49594, CVE-2022-49595, CVE-2022-49596=
+, CVE-2022-49597, CVE-2022-49598, CVE-2022-49599, CVE-2022-49600, CVE-2022-=
+49601, CVE-2022-49602, CVE-2022-49603, CVE-2022-49604, CVE-2022-49605, CVE-=
+2022-49606, CVE-2022-49607, CVE-2022-49608, CVE-2022-49609, CVE-2022-49610,=
+ CVE-2022-49611, CVE-2022-49612, CVE-2022-49613, CVE-2022-49615, CVE-2022-4=
+9616, CVE-2022-49617, CVE-2022-49618, CVE-2022-49619, CVE-2022-49620, CVE-2=
+022-49621, CVE-2022-49622, CVE-2022-49623, CVE-2022-49624, CVE-2022-49625, =
+CVE-2022-49626, CVE-2022-49627, CVE-2022-49628, CVE-2022-49629, CVE-2022-49=
+630, CVE-2022-49631, CVE-2022-49632, CVE-2022-49633, CVE-2022-49634, CVE-20=
+22-49635, CVE-2022-49636, CVE-2022-49637, CVE-2022-49638, CVE-2022-49639, C=
+VE-2022-49640, CVE-2022-49641, CVE-2022-49642, CVE-2022-49643, CVE-2022-496=
+44, CVE-2022-49645, CVE-2022-49646, CVE-2022-49647, CVE-2022-49648, CVE-202=
+2-49649, CVE-2022-49650, CVE-2022-49651, CVE-2022-49652, CVE-2022-49653, CV=
+E-2022-49654, CVE-2022-49655, CVE-2022-49656, CVE-2022-49657, CVE-2022-4965=
+8, CVE-2022-49659, CVE-2022-49661, CVE-2022-49662, CVE-2022-49663, CVE-2022=
+-49664, CVE-2022-49665, CVE-2022-49666, CVE-2022-49667, CVE-2022-49668, CVE=
+-2022-49669, CVE-2022-49670, CVE-2022-49671, CVE-2022-49672, CVE-2022-49673=
+, CVE-2022-49674, CVE-2022-49675, CVE-2022-49676, CVE-2022-49677, CVE-2022-=
+49678, CVE-2022-49679, CVE-2022-49680, CVE-2022-49681, CVE-2022-49682, CVE-=
+2022-49683, CVE-2022-49684, CVE-2022-49685, CVE-2022-49686, CVE-2022-49687,=
+ CVE-2022-49688, CVE-2022-49691, CVE-2022-49692, CVE-2022-49693, CVE-2022-4=
+9694, CVE-2022-49695, CVE-2022-49696, CVE-2022-49697, CVE-2022-49698, CVE-2=
+022-49699, CVE-2022-49700, CVE-2022-49701, CVE-2022-49702, CVE-2022-49703, =
+CVE-2022-49704, CVE-2022-49705, CVE-2022-49706, CVE-2022-49707, CVE-2022-49=
+708, CVE-2022-49709, CVE-2022-49710, CVE-2022-49711, CVE-2022-49712, CVE-20=
+22-49713, CVE-2022-49714, CVE-2022-49715, CVE-2022-49716, CVE-2022-49717, C=
+VE-2022-49718, CVE-2022-49719, CVE-2022-49720, CVE-2022-49721, CVE-2022-497=
+22, CVE-2022-49723, CVE-2022-49724, CVE-2022-49725, CVE-2022-49726, CVE-202=
+2-49727, CVE-2022-49728, CVE-2022-49729, CVE-2022-49731, CVE-2022-49732, CV=
+E-2022-49733, CVE-2022-49738, CVE-2022-49739, CVE-2022-49740, CVE-2022-4974=
+1, CVE-2022-49742, CVE-2022-49743, CVE-2022-49744, CVE-2022-49745, CVE-2022=
+-49746, CVE-2022-49747, CVE-2022-49748, CVE-2022-49749, CVE-2022-49750, CVE=
+-2022-49751, CVE-2022-49752, CVE-2022-49753, CVE-2022-49754, CVE-2022-49755=
+, CVE-2022-49756, CVE-2022-49757, CVE-2022-49758, CVE-2022-49759, CVE-2022-=
+49760, CVE-2022-49761, CVE-2022-49762, CVE-2022-49763, CVE-2022-49764, CVE-=
+2022-49765, CVE-2022-49766, CVE-2022-49767, CVE-2022-49768, CVE-2022-49769,=
+ CVE-2022-49770, CVE-2022-49771, CVE-2022-49772, CVE-2022-49773, CVE-2022-4=
+9774, CVE-2022-49775, CVE-2022-49776, CVE-2022-49777, CVE-2022-49778, CVE-2=
+022-49779, CVE-2022-49780, CVE-2022-49781, CVE-2022-49782, CVE-2022-49783, =
+CVE-2022-49784, CVE-2022-49785, CVE-2022-49786, CVE-2022-49787, CVE-2022-49=
+788, CVE-2022-49789, CVE-2022-49790, CVE-2022-49791, CVE-2022-49792, CVE-20=
+22-49793, CVE-2022-49794, CVE-2022-49795, CVE-2022-49796, CVE-2022-49797, C=
+VE-2022-49798, CVE-2022-49799, CVE-2022-49800, CVE-2022-49801, CVE-2022-498=
+02, CVE-2022-49803, CVE-2022-49804, CVE-2022-49805, CVE-2022-49806, CVE-202=
+2-49807, CVE-2022-49808, CVE-2022-49809, CVE-2022-49810, CVE-2022-49811, CV=
+E-2022-49812, CVE-2022-49813, CVE-2022-49814, CVE-2022-49815, CVE-2022-4981=
+7, CVE-2022-49818, CVE-2022-49819, CVE-2022-49820, CVE-2022-49821, CVE-2022=
+-49822, CVE-2022-49823, CVE-2022-49824, CVE-2022-49825, CVE-2022-49826, CVE=
+-2022-49827, CVE-2022-49828, CVE-2022-49829, CVE-2022-49830, CVE-2022-49831=
+, CVE-2022-49832, CVE-2022-49833, CVE-2022-49834, CVE-2022-49835, CVE-2022-=
+49836, CVE-2022-49837, CVE-2022-49838, CVE-2022-49839, CVE-2022-49840, CVE-=
+2022-49841, CVE-2022-49842, CVE-2022-49844, CVE-2022-49845, CVE-2022-49846,=
+ CVE-2022-49847, CVE-2022-49848, CVE-2022-49849, CVE-2022-49850, CVE-2022-4=
+9851, CVE-2022-49852, CVE-2022-49853, CVE-2022-49854, CVE-2022-49855, CVE-2=
+022-49857, CVE-2022-49858, CVE-2022-49859, CVE-2022-49860, CVE-2022-49861, =
+CVE-2022-49862, CVE-2022-49863, CVE-2022-49864, CVE-2022-49865, CVE-2022-49=
+866, CVE-2022-49867, CVE-2022-49868, CVE-2022-49869, CVE-2022-49870, CVE-20=
+22-49871, CVE-2022-49872, CVE-2022-49873, CVE-2022-49874, CVE-2022-49875, C=
+VE-2022-49876, CVE-2022-49877, CVE-2022-49878, CVE-2022-49879, CVE-2022-498=
+80, CVE-2022-49881, CVE-2022-49882, CVE-2022-49883, CVE-2022-49884, CVE-202=
+2-49885, CVE-2022-49886, CVE-2022-49887, CVE-2022-49888, CVE-2022-49889, CV=
+E-2022-49890, CVE-2022-49891, CVE-2022-49892, CVE-2022-49893, CVE-2022-4989=
+4, CVE-2022-49895, CVE-2022-49896, CVE-2022-49898, CVE-2022-49899, CVE-2022=
+-49900, CVE-2022-49901, CVE-2022-49902, CVE-2022-49903, CVE-2022-49904, CVE=
+-2022-49905, CVE-2022-49906, CVE-2022-49907, CVE-2022-49908, CVE-2022-49910=
+, CVE-2022-49911, CVE-2022-49912, CVE-2022-49913, CVE-2022-49914, CVE-2022-=
+49915, CVE-2022-49916, CVE-2022-49917, CVE-2022-49918, CVE-2022-49919, CVE-=
+2022-49920, CVE-2022-49921, CVE-2022-49922, CVE-2022-49923, CVE-2022-49924,=
+ CVE-2022-49925, CVE-2022-49926, CVE-2022-49927, CVE-2022-49928, CVE-2022-4=
+9929, CVE-2022-49930, CVE-2022-49931, CVE-2022-49932, CVE-2022-49934, CVE-2=
+022-49935, CVE-2022-49936, CVE-2022-49937, CVE-2022-49938, CVE-2022-49939, =
+CVE-2022-49940, CVE-2022-49942, CVE-2022-49943, CVE-2022-49944, CVE-2022-49=
+945, CVE-2022-49946, CVE-2022-49947, CVE-2022-49948, CVE-2022-49949, CVE-20=
+22-49950, CVE-2022-49951, CVE-2022-49952, CVE-2022-49953, CVE-2022-49954, C=
+VE-2022-49955, CVE-2022-49956, CVE-2022-49957, CVE-2022-49958, CVE-2022-499=
+59, CVE-2022-49960, CVE-2022-49961, CVE-2022-49962, CVE-2022-49963, CVE-202=
+2-49964, CVE-2022-49965, CVE-2022-49966, CVE-2022-49967, CVE-2022-49968, CV=
+E-2022-49969, CVE-2022-49970, CVE-2022-49971, CVE-2022-49972, CVE-2022-4997=
+3, CVE-2022-49974, CVE-2022-49975, CVE-2022-49976, CVE-2022-49977, CVE-2022=
+-49978, CVE-2022-49979, CVE-2022-49980, CVE-2022-49981, CVE-2022-49982, CVE=
+-2022-49983, CVE-2022-49984, CVE-2022-49985, CVE-2022-49986, CVE-2022-49987=
+, CVE-2022-49989, CVE-2022-49990, CVE-2022-49991, CVE-2022-49992, CVE-2022-=
+49993, CVE-2022-49994, CVE-2022-49995, CVE-2022-49996, CVE-2022-49997, CVE-=
+2022-49998, CVE-2022-49999, CVE-2022-50000, CVE-2022-50001, CVE-2022-50002,=
+ CVE-2022-50003, CVE-2022-50004, CVE-2022-50005, CVE-2022-50006, CVE-2022-5=
+0007, CVE-2022-50008, CVE-2022-50009, CVE-2022-50010, CVE-2022-50011, CVE-2=
+022-50012, CVE-2022-50013, CVE-2022-50014, CVE-2022-50015, CVE-2022-50016, =
+CVE-2022-50017, CVE-2022-50019, CVE-2022-50020, CVE-2022-50021, CVE-2022-50=
+022, CVE-2022-50023, CVE-2022-50024, CVE-2022-50025, CVE-2022-50026, CVE-20=
+22-50027, CVE-2022-50028, CVE-2022-50029, CVE-2022-50030, CVE-2022-50032, C=
+VE-2022-50033, CVE-2022-50034, CVE-2022-50035, CVE-2022-50036, CVE-2022-500=
+37, CVE-2022-50038, CVE-2022-50039, CVE-2022-50040, CVE-2022-50041, CVE-202=
+2-50042, CVE-2022-50043, CVE-2022-50044, CVE-2022-50045, CVE-2022-50046, CV=
+E-2022-50047, CVE-2022-50048, CVE-2022-50049, CVE-2022-50050, CVE-2022-5005=
+1, CVE-2022-50052, CVE-2022-50053, CVE-2022-50054, CVE-2022-50055, CVE-2022=
+-50056, CVE-2022-50057, CVE-2022-50058, CVE-2022-50059, CVE-2022-50060, CVE=
+-2022-50061, CVE-2022-50062, CVE-2022-50063, CVE-2022-50064, CVE-2022-50065=
+, CVE-2022-50066, CVE-2022-50067, CVE-2022-50068, CVE-2022-50069, CVE-2022-=
+50070, CVE-2022-50071, CVE-2022-50072, CVE-2022-50073, CVE-2022-50074, CVE-=
+2022-50075, CVE-2022-50076, CVE-2022-50077, CVE-2022-50078, CVE-2022-50079,=
+ CVE-2022-50080, CVE-2022-50082, CVE-2022-50084, CVE-2022-50085, CVE-2022-5=
+0086, CVE-2022-50087, CVE-2022-50088, CVE-2022-50089, CVE-2022-50090, CVE-2=
+022-50091, CVE-2022-50092, CVE-2022-50093, CVE-2022-50094, CVE-2022-50095, =
+CVE-2022-50096, CVE-2022-50097, CVE-2022-50098, CVE-2022-50099, CVE-2022-50=
+100, CVE-2022-50101, CVE-2022-50102, CVE-2022-50103, CVE-2022-50104, CVE-20=
+22-50105, CVE-2022-50106, CVE-2022-50107, CVE-2022-50108, CVE-2022-50109, C=
+VE-2022-50110, CVE-2022-50111, CVE-2022-50112, CVE-2022-50113, CVE-2022-501=
+14, CVE-2022-50115, CVE-2022-50116, CVE-2022-50117, CVE-2022-50118, CVE-202=
+2-50119, CVE-2022-50120, CVE-2022-50121, CVE-2022-50122, CVE-2022-50123, CV=
+E-2022-50124, CVE-2022-50125, CVE-2022-50126, CVE-2022-50127, CVE-2022-5012=
+9, CVE-2022-50130, CVE-2022-50131, CVE-2022-50132, CVE-2022-50133, CVE-2022=
+-50134, CVE-2022-50135, CVE-2022-50136, CVE-2022-50137, CVE-2022-50138, CVE=
+-2022-50139, CVE-2022-50140, CVE-2022-50141, CVE-2022-50142, CVE-2022-50143=
+, CVE-2022-50144, CVE-2022-50145, CVE-2022-50146, CVE-2022-50147, CVE-2022-=
+50148, CVE-2022-50149, CVE-2022-50151, CVE-2022-50152, CVE-2022-50153, CVE-=
+2022-50154, CVE-2022-50155, CVE-2022-50156, CVE-2022-50157, CVE-2022-50158,=
+ CVE-2022-50159, CVE-2022-50160, CVE-2022-50161, CVE-2022-50162, CVE-2022-5=
+0163, CVE-2022-50164, CVE-2022-50165, CVE-2022-50166, CVE-2023-42346, CVE-2=
+025-10908, CVE-2025-61305, CVE-2025-61306, CVE-2025-61307, CVE-2025-61308, =
+CVE-2025-61309, CVE-2025-61310, CVE-2025-65417, CVE-2025-67887, CVE-2025-69=
+599, CVE-2026-2393, CVE-2026-36906, CVE-2026-41308, CVE-2026-41506, CVE-202=
+6-41511, CVE-2026-41517, CVE-2026-42312, CVE-2026-42314, CVE-2026-42612, CV=
+E-2026-42843, CVE-2026-42856, CVE-2026-42866, CVE-2026-43638, CVE-2026-4389=
+4, CVE-2026-43968, CVE-2026-43969, CVE-2026-44200, CVE-2026-44336, CVE-2026=
+-44413, CVE-2026-44658, CVE-2026-44737, CVE-2026-44996, CVE-2026-45002, CVE=
+-2026-45223, CVE-2026-7210, CVE-2026-7308, CVE-2026-7790, CVE-2026-8318
+        Date: Mon, 11 May 2026 19:18:58 +0000
+
+    ]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_6.18.bb              |  6 ++---
- .../linux/linux-yocto-tiny_6.18.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_6.18.bb | 24 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ .../linux/cve-exclusion_6.18.inc              | 892 +++++++++++++++++-
+ 1 file changed, 886 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-index 0be25ae2a2..8002faf245 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-@@ -15,13 +15,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "e1a1c058b8b1fd85e631c877cacb0e5c38da1c57"
--SRCREV_meta ?= "127f83ad4e21b6663d72fceba80bfb945c21e4f0"
-+SRCREV_machine ?= "67f352d4d0901a3c3c2cb2cbecd23c66c793e860"
-+SRCREV_meta ?= "c99063540e188e32b089f957e192780f5a4adf88"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.18.26"
-+LINUX_VERSION ?= "6.18.28"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-index 1ff5f5d1d1..2b824c75c4 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-@@ -9,7 +9,7 @@ require recipes-kernel/linux/linux-yocto.inc
- include recipes-kernel/linux/cve-exclusion.inc
- include recipes-kernel/linux/cve-exclusion_6.18.inc
- 
--LINUX_VERSION ?= "6.18.26"
-+LINUX_VERSION ?= "6.18.28"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -18,8 +18,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
--SRCREV_meta ?= "127f83ad4e21b6663d72fceba80bfb945c21e4f0"
-+SRCREV_machine ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
-+SRCREV_meta ?= "c99063540e188e32b089f957e192780f5a4adf88"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-index 87e46024ca..de435d99e5 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.18/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.18/standard/base"
- KBRANCH:qemumips64 ?= "v6.18/standard/mti-malta"
- 
--SRCREV_machine:qemuarm ?= "11ba8770344f8b1cf3d6960b2d04ca19ed6d1f81"
--SRCREV_machine:qemuarm64 ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
--SRCREV_machine:qemuloongarch64 ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
-+SRCREV_machine:qemuarm ?= "3f4d05e9da100380b042f317240ef81262ed1574"
-+SRCREV_machine:qemuarm64 ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
-+SRCREV_machine:qemuloongarch64 ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
- SRCREV_machine:qemumips ?= "62ea92a539f58803a222be98b81118403074206e"
--SRCREV_machine:qemuppc ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
--SRCREV_machine:qemuriscv64 ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
--SRCREV_machine:qemuriscv32 ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
--SRCREV_machine:qemux86 ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
--SRCREV_machine:qemux86-64 ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
-+SRCREV_machine:qemuppc ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
-+SRCREV_machine:qemuriscv64 ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
-+SRCREV_machine:qemuriscv32 ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
-+SRCREV_machine:qemux86 ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
-+SRCREV_machine:qemux86-64 ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
- SRCREV_machine:qemumips64 ?= "9fb4ff0187c85426f21fd40d4c61b742800f65c4"
--SRCREV_machine ?= "4267d0126960b8bc599060c71014e8d8a4b8becf"
--SRCREV_meta ?= "127f83ad4e21b6663d72fceba80bfb945c21e4f0"
-+SRCREV_machine ?= "ed7dda90e9cbe47b9a234a82c41be27d624f7ee7"
-+SRCREV_meta ?= "c99063540e188e32b089f957e192780f5a4adf88"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "1fe06068166d4fc16722201f267b1fe19efad639"
-+SRCREV_machine:class-devupstream ?= "c31b94a4231c974dca12e6b83f2af1d1d95dfc5e"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.18/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.18.26"
-+LINUX_VERSION ?= "6.18.28"
- 
- PV = "${LINUX_VERSION}+git"
- 
--- 
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.18.inc b/meta/recipe=
+s-kernel/linux/cve-exclusion_6.18.inc
+index 8be1bf7726..f67ddb504b 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.18.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.18.inc
+@@ -1,11 +1,11 @@
+=20
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2026-05-04 02:25:37.499875+00:00 for kernel version 6.18.26
+-# From linux_kernel_cves cve_2026-05-04_0100Z-1-g159125fbf77
++# Generated at 2026-05-11 19:19:29.208225+00:00 for kernel version 6.18.28
++# From linux_kernel_cves cve_2026-05-11_1800Z-1-g7d1417e2456
+=20
+=20
+ python check_kernel_cve_status_version() {
+-    this_version =3D "6.18.26"
++    this_version =3D "6.18.28"
+     kernel_version =3D d.getVar("LINUX_VERSION")
+     if kernel_version !=3D this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but ke=
+rnel is %s" % (this_version, kernel_version))
+@@ -20426,6 +20426,50 @@ CVE_STATUS[CVE-2025-71269] =3D "cpe-stable-backpor=
+t: Backported in 6.18.10"
+=20
+ CVE_STATUS[CVE-2025-71270] =3D "cpe-stable-backport: Backported in 6.18.10"
+=20
++CVE_STATUS[CVE-2025-71271] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71272] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71273] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71274] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71285] =3D "cpe-stable-backport: Backported in 6.18.17"
++
++CVE_STATUS[CVE-2025-71286] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71287] =3D "cpe-stable-backport: Backported in 6.18.17"
++
++CVE_STATUS[CVE-2025-71288] =3D "cpe-stable-backport: Backported in 6.18.17"
++
++# CVE-2025-71289 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2025-71290] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71291] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71292] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71293] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71294] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71295] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71296] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71297] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71298] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71299] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71300] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71301] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2025-71302] =3D "cpe-stable-backport: Backported in 6.18.16"
++
+ CVE_STATUS[CVE-2026-22976] =3D "cpe-stable-backport: Backported in 6.18.6"
+=20
+ CVE_STATUS[CVE-2026-22977] =3D "cpe-stable-backport: Backported in 6.18.6"
+@@ -21816,7 +21860,7 @@ CVE_STATUS[CVE-2026-31587] =3D "cpe-stable-backport=
+: Backported in 6.18.24"
+=20
+ CVE_STATUS[CVE-2026-31588] =3D "cpe-stable-backport: Backported in 6.18.24"
+=20
+-# CVE-2026-31589 needs backporting (fixed from 7.1rc1)
++CVE_STATUS[CVE-2026-31589] =3D "cpe-stable-backport: Backported in 6.18.27"
+=20
+ CVE_STATUS[CVE-2026-31590] =3D "cpe-stable-backport: Backported in 6.18.24"
+=20
+@@ -22210,9 +22254,9 @@ CVE_STATUS[CVE-2026-31784] =3D "cpe-stable-backport=
+: Backported in 6.18.22"
+=20
+ CVE_STATUS[CVE-2026-31785] =3D "fixed-version: only affects 6.19 onwards"
+=20
+-# CVE-2026-31786 has no known resolution
++CVE_STATUS[CVE-2026-31786] =3D "cpe-stable-backport: Backported in 6.18.26"
+=20
+-# CVE-2026-31787 has no known resolution
++CVE_STATUS[CVE-2026-31787] =3D "cpe-stable-backport: Backported in 6.18.26"
+=20
+ CVE_STATUS[CVE-2026-31788] =3D "cpe-stable-backport: Backported in 6.18.20"
+=20
+@@ -22326,3 +22370,839 @@ CVE_STATUS[CVE-2026-43057] =3D "cpe-stable-backpo=
+rt: Backported in 6.18.22"
+=20
+ CVE_STATUS[CVE-2026-43058] =3D "cpe-stable-backport: Backported in 6.18.24"
+=20
++CVE_STATUS[CVE-2026-43059] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43060] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43061] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43062] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43063] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-43064] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-43065] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-43066] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-43067] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-43068] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-43069] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-43070] =3D "cpe-stable-backport: Backported in 6.18.21"
++
++CVE_STATUS[CVE-2026-43071] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43072] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43073] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43074] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43075] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43076] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43077] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43078] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43079] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43080] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43081] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43082] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43083] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43084] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43085] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43086] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43087] =3D "fixed-version: only affects 6.19 onwards"
++
++# CVE-2026-43088 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43089] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43090] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43091] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43092] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43093] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43094] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++# CVE-2026-43095 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43096] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43097] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43098] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43099] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43100] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43101] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43102] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43103] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43104] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43105] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43106] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43107] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43108] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43109] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43110] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43111] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43112] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43113] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43114] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++# CVE-2026-43115 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43116] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43117] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43118] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43119] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43120] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43121] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43122] =3D "cpe-stable-backport: Backported in 6.18.14"
++
++CVE_STATUS[CVE-2026-43123] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43124] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43125] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43126] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43127] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43128] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43129] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43130] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43131] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43132] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43133] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43134] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43135] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43136] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43137] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43138] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43139] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43140] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43141] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43142] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43143] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43144] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43145] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43146] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43147] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43148] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43149] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43150] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43151] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43152] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43153] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43154] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43155] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43156] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43157] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43158] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43159] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43160] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43161] =3D "cpe-stable-backport: Backported in 6.18.17"
++
++CVE_STATUS[CVE-2026-43162] =3D "cpe-stable-backport: Backported in 6.18.17"
++
++CVE_STATUS[CVE-2026-43163] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43164] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43165] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43166] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43167] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43168] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43169] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43170] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43171] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43172] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43173] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++# CVE-2026-43174 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43175] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43176] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43177] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43178] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43179] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43180] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43181] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43182] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43183] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43184] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43185] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43186] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43187] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43188] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43189] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43190] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++# CVE-2026-43191 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43192] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43193] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43194] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43195] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43196] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43197] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43198] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43199] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43200] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43201] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43202] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43203] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++# CVE-2026-43204 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43205] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43206] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43207] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43208] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43209] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43210] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43211] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43212] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43213] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43214] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43215] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43216] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43217] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43218] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43219] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++# CVE-2026-43220 has no known resolution
++
++CVE_STATUS[CVE-2026-43221] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43222] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43223] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43224] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43225] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43226] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43227] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++# CVE-2026-43228 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43229] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43230] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43231] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43232] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43233] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43234] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43235] =3D "cpe-stable-backport: Backported in 6.18.17"
++
++CVE_STATUS[CVE-2026-43236] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43237] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43238] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43239] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43240] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43241] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43242] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43243] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43244] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43245] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43246] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43247] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43248] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43249] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43250] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43251] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43252] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43253] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43254] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43255] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43256] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43257] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43258] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43259] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43260] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43261] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43262] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43263] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43264] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43265] =3D "cpe-stable-backport: Backported in 6.18.17"
++
++CVE_STATUS[CVE-2026-43266] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43267] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43268] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43269] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43270] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43271] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43272] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43273] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43274] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43275] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43276] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43277] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43278] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43279] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43280] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43281] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43282] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43283] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43284] =3D "cpe-stable-backport: Backported in 6.18.28"
++
++CVE_STATUS[CVE-2026-43285] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43286] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43287] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43288] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43289] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43290] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43291] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43292] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43293] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43294] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43295] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43296] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43297] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43298] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++# CVE-2026-43299 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43300] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43301] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43302] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43303] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43304] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43305] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43306] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43307] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++# CVE-2026-43308 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43309] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++# CVE-2026-43310 needs backporting (fixed from 7.0)
++
++# CVE-2026-43311 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43312] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43313] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43314] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43315] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43316] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43317] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43318] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43319] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43320] =3D "cpe-stable-backport: Backported in 6.18.16"
++
++CVE_STATUS[CVE-2026-43321] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43322] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43323] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43324] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43325] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++# CVE-2026-43326 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43327] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43328] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43329] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43330] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43331] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43332] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43333] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43334] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43335] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43336] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43337] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43338] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43339] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43340] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43341] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43342] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++CVE_STATUS[CVE-2026-43343] =3D "cpe-stable-backport: Backported in 6.18.22"
++
++# CVE-2026-43344 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43345] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43346] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43347] =3D "cpe-stable-backport: Backported in 6.18.24"
++
++CVE_STATUS[CVE-2026-43348] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43349] =3D "cpe-stable-backport: Backported in 6.18.25"
++
++CVE_STATUS[CVE-2026-43350] =3D "cpe-stable-backport: Backported in 6.18.25"
++
++CVE_STATUS[CVE-2026-43351] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43352] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43353] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43354] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43355] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43356] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43357] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43358] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43359] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43360] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43361] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43362] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43363] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43364] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43365] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43366] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43367] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43368] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43369] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43370] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43371] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43372] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43373] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43374] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43375] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43376] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43377] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43378] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43379] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43380] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43381] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43382] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43383] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43384] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43385] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43386] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43387] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43388] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43389] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43390] =3D "fixed-version: only affects 6.19 onwards"
++
++# CVE-2026-43391 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43392] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43393] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43394] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43395] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43396] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43397] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43398] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43399] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43400] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43401] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43402] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43403] =3D "cpe-stable-backport: Backported in 6.18.20"
++
++CVE_STATUS[CVE-2026-43404] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43405] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43406] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43407] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43408] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43409] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43410] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43411] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43412] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43413] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++# CVE-2026-43414 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43415] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43416] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43417] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43418] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43419] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43420] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43421] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43422] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43423] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43424] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43425] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43426] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43427] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43428] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43429] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43430] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43431] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43432] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43433] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43434] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43435] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43436] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43437] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43438] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43439] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43440] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43441] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43442] =3D "fixed-version: only affects 6.19 onwards"
++
++# CVE-2026-43443 needs backporting (fixed from 7.0)
++
++CVE_STATUS[CVE-2026-43444] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43445] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43446] =3D "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-43447] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43448] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43449] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43450] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43451] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43452] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43453] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43454] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43455] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43456] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43457] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43458] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43459] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43460] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43461] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43462] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43463] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43464] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43465] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43466] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43467] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43468] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43469] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43470] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43471] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43472] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43473] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43474] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++CVE_STATUS[CVE-2026-43475] =3D "cpe-stable-backport: Backported in 6.18.19"
++
++# CVE-2026-43500 may need backporting (fixed from 6.18.29)
++
+--=20
 2.43.0
 
 
