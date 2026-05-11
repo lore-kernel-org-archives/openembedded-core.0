@@ -1,174 +1,133 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBAD2CD37B5
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:45:19 +0000 (UTC)
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.47556.1778496315205865635
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E68F0CD37AC
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:50:09 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47605.1778496603314364462
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 03:45:15 -0700
+ Mon, 11 May 2026 03:50:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=KT1m6J/g;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=mA0j5MLo;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.156, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id A19857A00E9;
-	Mon, 11 May 2026 06:45:14 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Mon, 11 May 2026 06:45:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1778496314; x=1778582714; bh=nYhaLBX8P2
-	yy0U09CgBpyHYI4WMUG22G36l2B5GO/f8=; b=KT1m6J/g4/bmBu+6Ua1Rru+2k4
-	eRqiN3FacS+34E6u198qot40gk8ovw+QyXTehxHTa5/k33oqSw1x/cNSQyKZ9sfz
-	/na6x4uyvdnCa3u9f/43bNSxHmI2zZBif28enBc5MStJdJmlZhdhFkazf7ezmbla
-	9dZeaMH+hJTUeFYHhyWuizSxv4l5FTGbl1c1Qu8j6wIqBZoGVNlPBOreI2kchCuj
-	5KG2valATw321fqprmmnNla9B71rlmiRP+w0MHmrc67dAuCtQNH8H3JydLw5AJaR
-	gGjflUL/MJji6KPATzbr0i3rg9SVsJeHBQMRIDas1Nu0ACy9+24yK0DYPoeg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778496314; x=1778582714; bh=nYhaLBX8P2yy0U09CgBpyHYI4WMUG22G36l
-	2B5GO/f8=; b=mA0j5MLoz41pQsCnO2GxTZ+0hGwKrxuG7dNeNQWzt7XvHQkzkJc
-	sx5xzHdNipujli+bkB0uCR02w3HdDqg6ol1E65RELQIBAhPl96Zh9MKywBnrSGQo
-	HiSJVsCfSUOGuOSRVfZswUtYcZ8Luli33Uu8kYfm0qzoVLwKNm4q6V8Hrw/Wevs+
-	zXHI3esaMMLeNrP1J+pFAdxlyHrbAdweWy/RCMhxhoN6Hp9E9CWQH2Eg0mpPfkN6
-	tWiw/OCoCs9x/xwwdDkb2N/jJS7X280g+EQF44MgGcogwqr54dD/3f254lr+hdKi
-	llq4yyyq1TGf6S25Yd1FCobP57CK4AiYCHQ==
-X-ME-Sender: <xms:OrMBaicpmo_eL4MNEw5kKwWM17r00AEte054NqSV2X3onA2DRAUbQg>
-    <xme:OrMBaj8TW1CI9GJWCKC05zcN5f82T5fDB6gDWqJrSYYUJT8RFweuMkGvjYzWtaZLz
-    pARP3piqCNVoB8LGlWvo6Ey82LRaxU7t3Z8RNtZsIScGZCb9269PM7e>
-X-ME-Received: <xmr:OrMBamlHh9QoBoUoW-9JlsA7IFglRoHHjhDu5zfQ0bBsKudbLkFOSLtq8p5Z_gOjW6cb3B-qOQR1CylbqzDfSAgmcTsZ7i1fVy-ziOI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekjeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
-    dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
-    rdguvghvqeenucggtffrrghtthgvrhhnpeefffdvfeegveekudfhteeuhefhieekvdeiue
-    efveeiffeukedtledutdfggeevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpth
-    htohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhitghothhimhhosehg
-    mhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslh
-    hishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepohhpvghnvghm
-    sggvugguvgguqdgrrhgthhhithgvtghtuhhrvgeslhhishhtshdrohhpvghnvghmsggvug
-    guvggurdhorhhg
-X-ME-Proxy: <xmx:OrMBat8-H_W5Td17fo-mUMassreCsQVWraAOfWKF_vt5pnzqqqWG8w>
-    <xmx:OrMBaskoMTabRTadAoKyvhy1tRo3X0E9h5zGMfWYr3XWYMSq1t4KPA>
-    <xmx:OrMBai20DYjept-RfI4vGWp9hmjMoQEsg3LaLoNdwaqvJc5Dra9VxA>
-    <xmx:OrMBavoyHMv9PDhOuPebmyonr0FUmWVg1ZFo7ZLbcElhlcfmYDU10g>
-    <xmx:OrMBapJv1t1HBYGdmqUaSRxjjdfdzES4FQyouC-ejzeGehIwDc9jOniD>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 06:45:13 -0400 (EDT)
-Message-ID: <51a71e4b0f5eeae36cdc2e7a4700e9d13d774af7.camel@pbarker.dev>
-Subject: Re: [Openembedded-architecture] What to do with vim in
- openembedded-core?
-From: Paul Barker <paul@pbarker.dev>
-To: Tim Orling <ticotimo@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, 
- "openembedded-architecture@lists.openembedded.org"
-	 <openembedded-architecture@lists.openembedded.org>
-Date: Mon, 11 May 2026 11:45:10 +0100
-In-Reply-To: <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com>
-References: <5622df201a632dfc83c5193f029745b3ebd97e44.camel@pbarker.dev>
-	 <CANx9H-AbMu_n-0ww2UsV117jT20wjWP_i-HiMq4DHAh4NdYN9Q@mail.gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-A6sdvRWblRrsb9F9+mP6"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=HvIfGxaw;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-50faeb8317bso30034641cf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 03:50:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778496602; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BYLUm2+l6Lrq4DOl9gPHNMfAEtqxwt95SdP7Cxckh7CT+Oym7q0WOAoxkVgx0tIHwL
+         6OTdb2p8ReqZjLsfo426xHcR35qDS0zvmfEWUSNPF46kmFw/Fuverfqbg7rn0C+TCa6Y
+         nYCsdpOYAmaNXZ1pvhQzRWGT/QdPeCEQEsQHn2SjJZcaoSLP8LossbIz3SMvob1wL8NY
+         hWVyMGwwe21O6YHULLXPX+nPnBVROxfw7S8VOIFlB5Ye+Tx0eUInvoP45UemKBlQKN3u
+         69XHx9ijjBF/Sg8Qdh/xylJXdR61UoDldmdBHYVc4RyUJ0+jeSrha5Wf8c/mpKjNiszh
+         XWOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=G02b/ljAu59we1RjKOryDN8ek2b19EUbfuvErzty5KQ=;
+        fh=p9KDfLYLJoGZ84dXl1n2h2VLJK25MZJswUF1SG27mEA=;
+        b=i5DZykk8R++eiXDI1WiGG1a4RRSGuo2lvUCfY0yTdSkVeYm3Jndq/w9LVavhR7Tm3X
+         2SvDfLIe5/bFJCj+bh0jzOrf4VBKt/Aw6NDXevOm8Sxi3JmkXQubuUj2nvEPH0SKnueB
+         Ko1X+II+8Vj35gya1bL8V3+B/xTKCDW+gyuVecDeIt934l7MFvNZ0K4M42u/KOYTNjRl
+         adleLffgq+VdF1/FKlWdEpLyHU4vQMP3Tm9TJKF7ljq+QEfzIixlPIhYfXJVHo4zloKR
+         wxu+/xgAmUySQtFUKWVtFYMi3HcXWoIjJ3Y1WRV+QPdNUZ7GQ0Az55sUVKAYg4ypxJeJ
+         apDw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778496602; x=1779101402; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G02b/ljAu59we1RjKOryDN8ek2b19EUbfuvErzty5KQ=;
+        b=HvIfGxawTtEvQmFpgVk544jdPQznDnjlouXQks7s23lrlavNrVZQD5aiPBZE1Qvxxt
+         YScu/quO/CbmhPbusDGH+NKYT6PhyHeS80QHlLFTBpFj2o2UtsoldzzowJHRaqe77jLD
+         yWpbEyyZGWYuaJCXZMGHqeEQVmlfpLjKZb3FLk2qU/TKkbzeEALBkxyyfXN40iLz0aBq
+         hymO00wRRplFJ4p3Mlzndsm2NZMtn9fKA4lsj/Ax1nM0gFU2GvmdjUcHZJlXdndj6Cun
+         7GzaEUhVawMxaMmCDRb/oMemFKEYTfwWhFnnlzIRH5w0eqYQoD69Px7EdVtPZyODjcfv
+         ArLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778496602; x=1779101402;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G02b/ljAu59we1RjKOryDN8ek2b19EUbfuvErzty5KQ=;
+        b=OPPBkLpVT/nVTtS8Lbstg8ovJSYwq6w1yfy8TdcKKqEclvZ8ksFIt/otlDX8chSp+3
+         nr7zrispkB9pFNEfyIzsH6Mc+J+CDLigXQA2wlVWKgX2WEQKYhEZPchhdS6YJLjnRkcK
+         1dAOuJ2He0ZXyRkrgZDuqLBPsNPtnbZvqxGsjwtuDCSv6pTtM83Fru0O5ScvaBFWVvLf
+         AX/kqP+z5PdBS5T9b3X8/rtGUbgX3U/XBdW20z/koD4Rh2fWyB494+13GxW0fs+oaeSr
+         PQ0NauYB7AbzyLud4ra4QxCWkOAbCIxRKD0Ff3SZcCLQLjG5T7HVdKS5a0eZww4YrfXv
+         cPjg==
+X-Gm-Message-State: AOJu0YxPslUTcE9MvPITPWmCnfdhJdnVmBx096rUi4lMsrdIK2ZmurMT
+	3VHmi9FNM+gdBWq8wZp3kWgA1ZReyH9QZX4/QuLCbqnU+vZdGzl9eNRN7UwwqSZH4exz79TvLZX
+	IWr/z1EtX3dlN8r0Q4NxlcyPIuckD73yC1cXx
+X-Gm-Gg: Acq92OGLuCO5E2zDZejKOazyzmikaSvZp0RzWW107N7fVwui1PfMBrEOpxOqP8JBfZ5
+	0MGLrV1zw0tETzGcgxM9qzq91YJuFXtwKQdfWJkk6S0K0lfGrzt14nf5c0xwqq0yR0gudx1U6zh
+	JrlaiLaFNsJhNC2CDmAk0NDiwlZUvUC6KMMPKb+DRTiRg4kNBjtkf5o5l3yfse9jtXU/MU/yL79
+	gTPOFFWyPRYeK8bphvWl8T/5ADtGsmQSJ0LfKrO2XgkDzcMiwDlpgRsg7KqALmX4T39TvDnsqNz
+	6pFL44YHP/hg1NP2xniDYoNVogJ0wGwPQvf00C9ctQ==
+X-Received: by 2002:a05:622a:1ba1:b0:510:1543:31eb with SMTP id
+ d75a77b69052e-5148e9c1df8mr188422251cf.53.1778496602254; Mon, 11 May 2026
+ 03:50:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260509053033.1565462-1-Qi.Chen@windriver.com>
+ <20260509053033.1565462-2-Qi.Chen@windriver.com> <CANNYZj8ZMjaCQ9LOtqkw_JgF=Q4mg3vxOT0z6STu-whEKQ61cA@mail.gmail.com>
+ <95643438-e5ab-456f-945e-08972d3d8f7b@windriver.com>
+In-Reply-To: <95643438-e5ab-456f-945e-08972d3d8f7b@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 11 May 2026 12:49:49 +0200
+X-Gm-Features: AVHnY4LEl0QlwShPq-Ezn1ZzTpUo76_IHikQnurLE5Qzxp9tkURPsrPviKEkvhE
+Message-ID: <CANNYZj-CkLm_2Dgdwn78Lu0Q3TMFL1Fq_MjqA+qoLzSYUdNr3w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V3 2/6] upstream-stable-release-point.bbclass:
+ add bbclass for stable point upgrade
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:45:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236806
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:50:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236807
 
+On Mon, 11 May 2026 at 12:06, ChenQi <Qi.Chen@windriver.com> wrote:
 
---=-A6sdvRWblRrsb9F9+mP6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Introduce one configurable variable for this bbclass:
+> MAJMIN_VERSION_PARTS ?= ""
+>
+> By default, it's not set and the majmin version should be the [:-1] part
+> (I mean for 1.2.3, majmin is 1.2). And for recipes like systemd/kmod,
+> when inheriting this bbclass, they should also set MAJMIN_VERSION_PARTS
+> = "1", so the majmin version is [:1]. Recipes who want to do x.y ->
+> x.y.1 or x.y -> x.y.1.1 can set MAJMIN_VERSION_PARTS = "2", so that the
+> majmin version is [:2] which is x.y in this case.
+>
+> The number of recipes setting this var should be few.
+>
+> What do you think about the above solution?
 
-On Fri, 2026-05-08 at 08:02 -0700, Tim Orling wrote:
-> I understand the pain points you mention, as I have tried to help maintai=
-n
-> vim in oe-core.
->=20
-> However, I have a LIFETIME of muscle memory using vim and for me personal=
-ly
-> forcing me to use nano is a non starter.
-> So then I would be constantly needing to pull it in from wherever else it
-> gets moved.
+I agree with introducing the variable for configuration, but the
+problem with using the [:-1] default is that it sets up an upgrade
+'trap' where this sequence in stable x.y releases:
+x.y.z -> x.y.z.zz
+x.y.z.zz -> x.y.z+1
+will cause recipes to get stuck at x.y.z.zz.
 
-My general feeling on editors is "Give me vim or give me death!".
+My proposal is:
+- let's drop the majmin naming, it's only suitable for major.minor
+schemes. I'd suggest naming it STABLE_VERSION_PARTS.
 
-But it is really a pain, especially on stable branches. Perhaps we need
-a separate layer for perpetually unstable recipes, which will accept
-version bumps instead of CVE backports on stable branches.
+- then the class would slice that many parts from the front, and then
+add a regex that says 'anything after this is a maintenance release'.
 
-Best regards,
+STABLE_VERSION_PARTS ?= "2"
+def get_stable_version_regex(d):
+    pv = d.getVar('PV')
+    stable_parts = pv.split('.')[:int(d.getVar('STABLE_VERSION_PARTS'))]
+    return '\.'.join(stable_parts)
 
---=20
-Paul Barker
+STABLE_VERSION_REGEX = "${@get_stable_version_regex(d)}"
+UPSTREAM_STABLE_RELEASE_REGEX = "${STABLE_VERSION_REGEX}.+"
 
+I think this should cover everything common?
 
---=-A6sdvRWblRrsb9F9+mP6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagGzNhEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bn2LAQC4WB9U96vK65BE1gI550WKYT9BF8uTi+Io
-dc1LArrqgAD8DYWfhoK7IydKKqHU7HDgtj+Vmqcw4dqiqW+jugEsMgA=
-=70BY
------END PGP SIGNATURE-----
-
---=-A6sdvRWblRrsb9F9+mP6--
+Alex
 
