@@ -1,344 +1,197 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2FF7CD37B5
-	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:08:29 +0000 (UTC)
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.47094.1778494108785694613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F17ECD37AC
+	for <webhook@archiver.kernel.org>; Mon, 11 May 2026 10:13:09 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47145.1778494380596746044
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2026 03:08:29 -0700
+ Mon, 11 May 2026 03:13:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=gJisE8bq;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=l6TGiDIj;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.151, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 1357F1D00097;
-	Mon, 11 May 2026 06:08:28 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 11 May 2026 06:08:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1778494107; x=1778580507; bh=xBKgkLx+hH
-	K3w+gkuVP5vrEs1iuryLL9z5Of/o7ti6w=; b=gJisE8bqi1MYx1FvrUhBCS/qVi
-	uyS0Kezs2CeMyvTnmoivmTFSgpLgIZ4GR0skOvdn9GYwOBL1bW2GYamrer/YlmcB
-	5aPh64MBqPhb5ICX3/Hk5fSnncQpu2z70iT7lzALcnztsC1NtjvZUFkjsUIqKxO1
-	q+WscDuEWkXtvYQc8HoisBIsYFt+nOe3IFz9UZKMR0/vZYAtTVUa0BlY3UrRL2UY
-	ZtDOuTQIh/haaOMOY1DwbHzrhnOM/06ZfscP/mF7GxlmPUV58znXYRPAmxLBS+md
-	xIitoPGr4YeY+xor6jZhbor+B5ANOFbdZeLGyhSeK8FgyfLcGCJ8vABktDoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778494107; x=1778580507; bh=xBKgkLx+hHK3w+gkuVP5vrEs1iuryLL9z5O
-	f/o7ti6w=; b=l6TGiDIjBXH+49BNra2RJbb/DNYtorz9vqmud6R7WI9lZV8xcmm
-	C8nklmW3R7p5yidCYaJGYLkzg5GeHke/AS40GVGNZq4Q5CfXn4pz9LJJsxpvJyd3
-	XBH5DAElVrtbrzugJU2bYmSve3bTSoGxnruofsTdazoCcFGQBm3Z94tP4pxobGVu
-	+2tLs6LiLgiIHtGQpc9G1192x5K8OZkvkGHog54XgHnYT7xIWCElm5E9S9U5EWat
-	lw2sP/L4k06quNqkiaIdw2I4VxEYXFpyx0gxyeqncxZ2Up/90vFjzGlfasfnD+La
-	htjYlDSX8ipkj3If2tIYNbo3h9h0H7M0fFQ==
-X-ME-Sender: <xms:m6oBajamQMhAPz3zoVlvLSbrTsrf-y2b68nogFJdH8cQLAXSEi3yFQ>
-    <xme:m6oBaoboNj9-Zv4ffe2DdR3v5xRdT7gvyKS5bZSWXwT5dUHsTye_Es2tqwYQ__t-m
-    viKh84mTSKwIRfwxd-WO-IHcixnK4oH5sH0il7WeBPX6HdbL4Mh4yE>
-X-ME-Received: <xmr:m6oBajlbGgNZCJepZ-dzVkp74BBbzQIeykLeR_lOyXoKKYb0giypoQYmH2eG_BxsyjDTtmQKB5YNaiqDu_eClgELg0V-qoNLUr64oDA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekieeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkffuhffvffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegr
-    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
-    fhjefgteefteeiueevkeehudelgfdvgeevhfekkeeljeeufeekiedvtdejfffftdenucff
-    ohhmrghinhepshgvlhhfthgvshhtrdgtrghsvgdpuggvtghorhgrthhorhdruggrthgrne
-    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhl
-    sehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpoh
-    huthdprhgtphhtthhopehsrghmrdhjohhhnhdrkhgvnhhtsehgmhgrihhlrdgtohhmpdhr
-    tghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvg
-    hmsggvugguvggurdhorhhg
-X-ME-Proxy: <xmx:m6oBakxWlK5Y0aIBU79w53bMi7htRKVNwNEPJThQdAZSoyR8djK5ZA>
-    <xmx:m6oBahOEh_plZCDv-G49xlARqRevxx02ZNpR4VDhNCHM1c9aiFj-6A>
-    <xmx:m6oBaoQ5eEXiSP_DtZoa2BMN8UGZM5N54NZhaj5O6RZnAekJ_ejcZA>
-    <xmx:m6oBavbHIfHMvWa1QX9LXbXEKOBKYVJHIZ1lr4t-JJ1GcxLXF840dg>
-    <xmx:m6oBamrufpARkouS9DMG0KEHdn1F2saCFYEuB3kVdSy8mB_A3M54jXS8>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 06:08:27 -0400 (EDT)
-Message-ID: <8b75a816b10a0d13ee25eaf50db570e93eefdf6c.camel@pbarker.dev>
-Subject: Re: [PATCH 2/2] image_types_wic: add selftests for do_rootfs_wicenv
- hash safety
-From: Paul Barker <paul@pbarker.dev>
-To: Sam Kent <sam.john.kent@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 11 May 2026 11:08:24 +0100
-In-Reply-To: <20260430083905.2967342-2-sam.john.kent@gmail.com>
-References: <20260430083905.2967342-1-sam.john.kent@gmail.com>
-	 <20260430083905.2967342-2-sam.john.kent@gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-BMDa0VMKWBmQ9Qb77l8J"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=gQD8yztJ;
+ spf=pass (domain: cherry.de, ip: 52.101.65.43, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VkWhlCgsEGqv+gB82RLrTj9hS2Ra6ia4gVRNb/od2YtyBM43cdQVTcjxxqd6bUWORe+aMTHNu+yzhp9NMwaaBqjyOXWOSf8nuUbgH9C9BRtmiGmfyCpL3en1DiMCdPLrFsiKXIBrnYoedsyRcL6INFQGMtNsUEsoxAX8nsJBLSlclh3SFtbsKd8NMoDrbDqJc58gUN4h+64G/ozVUxogzOVvOS1SmlJDNHh5hYq/NbKXoupdr68b9D98os+yrVBNYA9WAmTRheNPth9NpEkI9OIu81b5Msf4dNdeVykaFGka6VDidSfArXAmj95xHqhJ8ANZhNM7IwrUfkazfM9bTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Aq52t4Q7PguCz8zlmYmS1uzUPdu0yFodetdpQjybNl4=;
+ b=s1P8GtKni2NQCdk5WqO41oeEduKm+EQRczdDNtZUgnK1NVM5T6stBBiJmehWcUjKcMcUaJj1+GSeQV6ahCVMtFMHzxRzvAWNaKslJUK6EfgW0HAd3V4Bay6hZUnF6YIPnPZqK3ukblF2f2OExG4+r7Eql6yqJVd8o86FppS1SWDkYkOGcYmbfPIhk960ZB1I7ZKE+qphUthPVFGpnCrjZXDZkDRH+7dI9U8Sc4wXjHuPrOlYY4KChsD8TgM7U4pRrstuEpgXoqdm0eN7ufbC+siUd5zNihCiTnzNOF7qWrL/msKuz8RJ3W0Cedf2iWkIHIUvvYnQ7bJYHNgGeGUujQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Aq52t4Q7PguCz8zlmYmS1uzUPdu0yFodetdpQjybNl4=;
+ b=gQD8yztJiXcBy8DSRPPgBbkvUahJtfNJfQnvva/WgHRmDJDdbUz4s1f2+xfdPquHCMVF1UzLPcLl/XKObrqA+qYn+FIHpj+u9mB475aR997izjUGTTNG/Y3jU3A9MMdiU67jULriFKzgoDLVfg87s8RIOpiG3Kpe3YAhYGGShZk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
+ by PA1PR04MB10843.eurprd04.prod.outlook.com (2603:10a6:102:480::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.22; Mon, 11 May
+ 2026 10:12:56 +0000
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00%3]) with mapi id 15.20.9891.021; Mon, 11 May 2026
+ 10:12:56 +0000
+Message-ID: <474b07c3-86e4-41f4-81ec-f66394e5bed6@cherry.de>
+Date: Mon, 11 May 2026 12:12:55 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [V2][PATCH] gstreamer1.0-plugins-bad: disble vulkan
+ when x11/wayland not enabled
+To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+References: <20260508022311.3112415-1-changqing.li@windriver.com>
+ <4e742cbe-27ca-401f-85a3-05b0193ae1c7@cherry.de>
+ <5d1436c0-4b31-4da8-8aee-f2a50e0f9cea@windriver.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <5d1436c0-4b31-4da8-8aee-f2a50e0f9cea@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: VI1PR09CA0092.eurprd09.prod.outlook.com
+ (2603:10a6:803:78::15) To DBBPR04MB7737.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e5::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|PA1PR04MB10843:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69bbb710-ff5d-4a23-6a71-08deaf45df1d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	zAApeT0cArwO6kpj7FWZyrelnhhzU1da5sBW+CMGoiLzki244qOQzTRqlBdPBeb14pcsIQPLtHM86RTEaMhlQtrFAFXpm9zC98F7ts0u8p2z/J19YjLePJ4/Ie+phJIhxRf+gL505MZ+FXArU/KR3rl01Kpz0tXQJzQRrY3/vozCY0qEXmW0sJt9RhVIAhGkoxQ5rRXFpBI+wYbrcqKy3cDWm/BvAgJIe1s5dEWo3q6mKDCoHlhzp7imBdKYUekF77xzJ9ZwsOYjydi07xr9YtsSsZRZiHdE+Nlm//fir5kYipsyCf4OdIRxC8xg9O+GCYuPpxekPPFylq0yt/4GA6pzSQco4XwFcPLfhMwdEk5dGk+R8MI9Nmzc0ItjFtniQewNhB5KHGxiVL2XCPbNEx4iomXibkECk/azLQSPfJ/F6JpxNWbizealNT2zDWm3ZyaFn1rlxpBPopydNe9c72rfUS2BzmsrjU3lQwCOnnGYmTub/LkGdY6lxGO3Wix1uWJlWXyl2l5r3NZsYdpd+gPqF0rb7aTyCKFdx6Za08LcseuvhA1FqyV1WekDtGXYaPn7014YyhVgQjIKRwd/1SfeSoBD/4k1c2KeAAmbGvVv6w+ALF+LHtdhHvY+rDzpGnZwLRyT5WPfPshIpgFCwvMfCve9GRj6RHBji0dRylf0tUysgagQHA6kmy+XM2cD
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ltnjQ4LW7CezlXYTCoxaFi3KZag5qHwy31cBo0lbuxIyuYUINs7sGcIeWPg6?=
+ =?us-ascii?Q?VzDFnFsvZ7M6WiMewR6U0vqa3JYnRmU49lkJaHPBZZ/24IHWJ4hGl7rLUqaJ?=
+ =?us-ascii?Q?5vxHJmvOSSwigSVUW1GdfI/sb+Ysi3pzDkEGEfTPLrciLYXWVp6YOKI5uM2M?=
+ =?us-ascii?Q?tuw1BhpVr+Vt3ZUkcj/JIPWe4ZoMNr0NdyYKnZfG8fZrftLwQHnLEnIqTcjM?=
+ =?us-ascii?Q?m1YILATKObs5GnSn7sjb/Zw81VErXuZsndnxgxSeMnGYiPdAWSwuxTxhWTtz?=
+ =?us-ascii?Q?WVrvsyI6PTkuIE++B5OpYLiNozF5U6VY4Ii/wgj3oD/obpyUXeD/X4NjHSBC?=
+ =?us-ascii?Q?pFtxgWCMGnHOtziGPdI8WNFgnO+5WaUA9TidVz4P6rqAFkVpDPwB6sSkLXjv?=
+ =?us-ascii?Q?LI9wn7zT1DRlOZQ+K811uDyYQX6txsaVB7mPcFRgQ1GmLb1aV71rcI2obfqG?=
+ =?us-ascii?Q?2WZ4+qRTpH7s8AE3uhuxZivr2j+SyHiyurCbibyRoACrY/hRuVGQEXScAVZn?=
+ =?us-ascii?Q?rNYNCdQ6CtOmTsOE3909bfjpOLQj1k+3d1p5RzEJYjL9by5rcdwt101fMLzY?=
+ =?us-ascii?Q?KLViONG2RqTZcAQXwuJmz6ORm3BW40az3IB35k5MVJpn0Cn0UfuVdZovku2C?=
+ =?us-ascii?Q?RGMutT48d8RWm3Z6yqVQtjvm+NMJfIcmT5g80Q32GY5pcWJl0ie36FV7iN21?=
+ =?us-ascii?Q?freVEEXKW3NjYln6rteO7kT8a3hKjtX1GTXFoUNMHagVl3+/uBcQdCQ/L/3G?=
+ =?us-ascii?Q?vuvXIucLwy18+m7tPSQ7VeKUurOezf0e3hJ2sFOjCa/99nxmfLv9aWNOjjYV?=
+ =?us-ascii?Q?xBtEV+YpMFXWkhz4qgRf8+zp+CrR5tRwtmKGQ7TTk4hA+c9xqDyENZImRuY6?=
+ =?us-ascii?Q?U61N8t7JdQGtm+i7QMtpxzLb4yCQ6HuviK7rL5e44UBvqfObSnqFRzc5ZYy0?=
+ =?us-ascii?Q?ln6Vwc7nMP2zSA664rBXxG/OEXSDEiRnAZAT+WY0oMsRaaxi7P7ypWfBNbTF?=
+ =?us-ascii?Q?7X1eSWZbGbLdn+jfPUB7c+SL6OK8HktgTg0uJH7a/QOwrOoCWMnKAjeKV/Ss?=
+ =?us-ascii?Q?/crVCWKXL9jIfzE3/WYWiKAtchpcOdMNdR4vdPd5PxqOhCpxEaWzCK8MGHCJ?=
+ =?us-ascii?Q?eqKM+EkMF6sVT4WLW+H0Xzl/gvhzPfrtG+Ibzok0w99cQ8uS/9h837Cljx9b?=
+ =?us-ascii?Q?1q6bUuaCCQIRXzmK7MfN2Sjke3fR73u1bEufwS8QKaVWra8YMw5rPdJjyvc5?=
+ =?us-ascii?Q?/NI/0X+1b/Mzm73Dm20b/uf8LiYQHbGQNzGUdfH3kZkjEeLtLIfxzmZkwyWT?=
+ =?us-ascii?Q?rQbLV+uH93naIqQfnogxcR/dfik2lryhXDV13EQK3+iGO2jgjPOy5NIpvnhV?=
+ =?us-ascii?Q?QV5nmbCYiodRSP6vYfJhFzbmyaRF9fQnqkAGAYqUAN6XeEaUXS6WaAzQZprF?=
+ =?us-ascii?Q?kc887a5XZiKb+pDDoU7Etpjm7vk6+pRipWugV8RWXVn1EEVLaP+K35kyHQ5H?=
+ =?us-ascii?Q?Xd96nAA5Fmpa+hZnJT+0NC0uPVeuObmLOl3zwpfkohTXAtE7upZy1ncZPiEf?=
+ =?us-ascii?Q?/gimD3aVXxZRQEjwyCzsS4HxqBLtV+BF/Ps0+FooFHvOQOSBefBv/v71XeBg?=
+ =?us-ascii?Q?lSpHgsMU5M0GJitdTFge41OoWmxoarke/0FtKW01B2IIeWGsWH3fEDE9h7pN?=
+ =?us-ascii?Q?tuR4cdHFUUVG2DFJwBpFJdGgn/O8VSHLi35SsqgSQSql5EiEQ0ZNeUGxuKeC?=
+ =?us-ascii?Q?mjjCiksk5g=3D=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69bbb710-ff5d-4a23-6a71-08deaf45df1d
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 10:12:56.5408
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W3iz7L8Y5vhLVND7VZ56YiFUUoh2w9NBcuHgarzuxY7eHWc4LbBxARsl6nXCQxj8mehSR2ly+pJwLB4Bfp1CocfSiVtz306NZk05GtegFqI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10843
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:08:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236799
+ <openembedded-core@lists.openembedded.org>; Mon, 11 May 2026 10:13:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236800
 
-
---=-BMDa0VMKWBmQ9Qb77l8J
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 2026-04-30 at 09:39 +0100, Sam Kent wrote:
-> Add WicEnvHashTests to the wic selftest suite to cover the fix for
-> bug 15662:
+On 5/9/26 6:59 AM, Changqing Li via lists.openembedded.org wrote:
 >=20
->  - test_bblayers_excluded_from_task_hash: static check via tinfoil that
->    BBLAYERS appears in do_rootfs_wicenv[vardepsexclude].
->=20
->  - test_hash_does_not_change_when_empty_layer_added_to_bblayers: runs
->    with -S none, adds a layer containing no wic plugins, and asserts the
->    sigdata hash is unchanged.
->=20
->  - test_hash_changes_when_wic_plugin_added_to_layer: the inverse =E2=80=
-=94 adds
->    a layer that contains a wic plugin and asserts the hash does change.
->=20
-> Signed-off-by: Sam Kent <sam.john.kent@gmail.com>
-> ---
->  meta/lib/oeqa/selftest/cases/wic.py | 111 +++++++++++++++++++++++++++-
->  1 file changed, 108 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
-/cases/wic.py
-> index 4e94f4d..174e57d 100644
-> --- a/meta/lib/oeqa/selftest/cases/wic.py
-> +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> @@ -17,14 +17,13 @@ import filecmp
-> =20
->  from glob import glob
->  from shutil import rmtree, copy
-> -from tempfile import NamedTemporaryFile
-> -from tempfile import TemporaryDirectory
-> +from tempfile import NamedTemporaryFile, TemporaryDirectory, mkdtemp
->  from textwrap import dedent
-> =20
->  from oeqa.selftest.case import OESelftestTestCase
->  from oeqa.core.decorator import OETestTag
->  from oeqa.core.decorator.data import skipIfNotArch
-> -from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars=
-, runqemu
-> +from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars=
-, runqemu, create_temp_layer
-> =20
-> =20
->  def extract_files(debugfs_output):
-> @@ -2300,3 +2299,109 @@ class ModifyTests(WicTestCase):
->          # check if it's removed
->          result =3D runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
->          self.assertNotIn('etc', [line.split()[-1] for line in result.out=
-put.split('\n') if line])
-> +
-> +
-> +class WicEnvHashTests(OESelftestTestCase):
-> +    """Tests for do_rootfs_wicenv task hash safety (bug 15662)."""
-> +
-> +    def setUpLocal(self):
-> +        super(WicEnvHashTests, self).setUpLocal()
-> +        self.topdir =3D get_bb_var('TOPDIR')
-> +
-> +    def _fresh_tmpdir(self, name):
-> +        """Return a clean TMPDIR path under TOPDIR, removing any prior c=
-ontents."""
-> +        import shutil
-> +        path =3D os.path.join(self.topdir, name)
-> +        if os.path.exists(path):
-> +            shutil.rmtree(path)
-> +        self.track_for_cleanup(path)
-> +        return path
-> +
-> +    def _get_task_sigdata_hash(self, tmpdir, taskname):
-> +        """Return the sigdata hash for taskname; fail if no match found.=
-"""
-> +        matches =3D []
-> +        for root, _, files in os.walk(os.path.join(tmpdir, 'stamps')):
-> +            for f in files:
-> +                if taskname in f and '.sigdata.' in f:
-> +                    matches.append(f.rsplit('.sigdata.', 1)[-1])
-> +        self.assertGreater(len(matches), 0,
-> +                           "No %s sigdata file found in %s" % (taskname,=
- tmpdir))
-> +        return matches[0]
-> +
-> +    def test_bblayers_excluded_from_task_hash(self):
-> +        """BBLAYERS must appear in do_rootfs_wicenv[vardepsexclude]."""
-> +        import bb.tinfoil
-> +        with bb.tinfoil.Tinfoil() as tinfoil:
-> +            tinfoil.prepare(config_only=3DFalse, quiet=3D2)
-> +            d =3D tinfoil.parse_recipe('core-image-minimal')
-> +            vardepsexclude =3D (d.getVarFlag('do_rootfs_wicenv', 'vardep=
-sexclude') or '').split()
-> +
-> +        self.assertIn('BBLAYERS', vardepsexclude,
-> +                      "BBLAYERS is not in do_rootfs_wicenv[vardepsexclud=
-e]; "
-> +                      "host paths will change the task hash across works=
-paces")
+> On 5/8/26 22:53, Quentin Schulz wrote:
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the sender=20
+>> and know the content is safe.
+>>
+>> Hi Changqing,
+>>
+>> On 5/8/26 4:23 AM, Changqing Li via lists.openembedded.org wrote:
+>>> When vulkan is enabled in DISTRO_FEATURES without x11 or wayland,
+>>> do_configure will failed with error:
+>>> gst-libs/gst/vulkan/meson.build:311:4: ERROR: Problem encountered: No=20
+>>> Windowing system found. vulkansink will not work
+>>>
+>>> disable vulkan from PACKAGECONFIG when x11 and wayland is not enabled
+>>>
+>>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>>> ---
+>>> =C2=A0 .../gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 5 ++++-
+>>> =C2=A0 1 file changed, 4 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-=20
+>>> bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-=20
+>>> plugins-bad_1.28.2.bb
+>>> index cdf3a20dff..c7f081e25b 100644
+>>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-=20
+>>> bad_1.28.2.bb
+>>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-=20
+>>> bad_1.28.2.bb
+>>> @@ -21,10 +21,13 @@ DEPENDS +=3D "gstreamer1.0-plugins-base"
+>>>
+>>> =C2=A0 inherit gobject-introspection
+>>>
+>>> +PACKAGECONFIG_VULKAN ?=3D "${@bb.utils.filter('DISTRO_FEATURES',=20
+>>> 'vulkan', d)}"
+>>> +
+>>> =C2=A0 PACKAGECONFIG ??=3D " \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${GSTREAMER_ORC} \
+>>> +=C2=A0=C2=A0=C2=A0 ${@'${PACKAGECONFIG_VULKAN}' if=20
+>>> (bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d) !=3D '') else ''}=
+ \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('DISTRO_FEATURES', =
+'bluetooth', 'bluez',=20
+>>> '', d)} \
+>>> -=C2=A0=C2=A0=C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vul=
+kan x11', d)} \
+>>> +=C2=A0=C2=A0=C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'directfb x11=
+', d)} \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('DISTRO_FEATURES', =
+'wayland', 'wayland',=20
+>>> '', d)} \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('DISTRO_FEATURES', =
+'opengl', 'gl', '', d)} \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bz2 closedcaption curl dash dtls hls ope=
+nssl sbc smoothstreaming \
+>>>
+>>
+>> Should we really build gstreamer-1.0-plugins-bad without vulkan support
+>> even if DISTRO_FEATURES contains it? Seems odd to me.
+>>
+>> If we can fail the build, then we could probably do:
+>>
+>> ANY_OF_DISTRO_FEATURES =3D "${@bb.utils.contains('DISTRO_FEATURES',
+>> 'vulkan', 'x11 wayland', '', d)}"
+>>
+> I did like this in the first version, see subject: [gstreamer1.0-=20
+> plugins-bad: add ANY_OF_DISTRO_FEATURES]
 
-I don't think we need this first test case, the other two confirm that
-BBLAYERS is excluded based on the observed behaviour.
+Don't reset the version number when it's for the same feature/fix=20
+otherwise it's difficult to keep track of patch history :)
 
-> +
-> +    def test_hash_does_not_change_when_empty_layer_added_to_bblayers(sel=
-f):
-> +        """Adding an empty layer to BBLAYERS must not change the do_root=
-fs_wicenv hash."""
-> +        tmpdir1 =3D self._fresh_tmpdir('tmp-wicenv-hash1')
-> +        self.write_config(
-> +            'TMPDIR =3D "%s"\n'
-> +            'BB_SIGNATURE_HANDLER =3D "OEBasicHash"\n'
-> +            'IMAGE_FSTYPES +=3D "wic"\n' % tmpdir1
-> +        )
-> +        bitbake('core-image-minimal -c do_rootfs_wicenv -S none')
-> +        hash_before =3D self._get_task_sigdata_hash(tmpdir1, 'do_rootfs_=
-wicenv')
-> +
-> +        # Add a layer with no wic plugins =E2=80=94 changes BBLAYERS but=
- must not change the hash.
-> +        templayerdir =3D mkdtemp(prefix=3D'selftest-wicenv-')
-> +        self.track_for_cleanup(templayerdir)
-> +        create_temp_layer(templayerdir, 'selftestwicenvhash')
-> +        runCmd('bitbake-layers add-layer %s' % templayerdir)
-> +        self.add_command_to_tearDown('bitbake-layers remove-layer %s' % =
-templayerdir)
-> +
-> +        tmpdir2 =3D self._fresh_tmpdir('tmp-wicenv-hash2')
-> +        self.write_config(
-> +            'TMPDIR =3D "%s"\n'
-> +            'BB_SIGNATURE_HANDLER =3D "OEBasicHash"\n'
-> +            'IMAGE_FSTYPES +=3D "wic"\n' % tmpdir2
-> +        )
-> +        bitbake('core-image-minimal -c do_rootfs_wicenv -S none')
-> +        hash_after =3D self._get_task_sigdata_hash(tmpdir2, 'do_rootfs_w=
-icenv')
-> +
-> +        self.assertEqual(hash_before, hash_after,
-> +                         "do_rootfs_wicenv hash changed after adding an =
-empty layer to "
-> +                         "BBLAYERS even though no wic plugins changed (b=
-ug 15662)")
-> +
-> +    def test_hash_changes_when_wic_plugin_added_to_layer(self):
-> +        """Adding a layer that contains a wic plugin must change the do_=
-rootfs_wicenv hash."""
-> +        tmpdir3 =3D self._fresh_tmpdir('tmp-wicenv-hash3')
-> +        self.write_config(
-> +            'TMPDIR =3D "%s"\n'
-> +            'BB_SIGNATURE_HANDLER =3D "OEBasicHash"\n'
-> +            'IMAGE_FSTYPES +=3D "wic"\n' % tmpdir3
-> +        )
-> +        bitbake('core-image-minimal -c do_rootfs_wicenv -S none')
-> +        hash_before =3D self._get_task_sigdata_hash(tmpdir3, 'do_rootfs_=
-wicenv')
-> +
-> +        # Add a layer that contains a wic plugin =E2=80=94 must change t=
-he hash.
-> +        templayerdir =3D mkdtemp(prefix=3D'selftest-wicenv-plugin-')
-> +        self.track_for_cleanup(templayerdir)
-> +        create_temp_layer(templayerdir, 'selftestwicenvplugin')
-> +        plugin_dir =3D os.path.join(templayerdir, 'lib', 'wic', 'plugins=
-', 'source')
-> +        os.makedirs(plugin_dir)
-> +        with open(os.path.join(plugin_dir, 'selftest_dummy.py'), 'w') as=
- f:
-> +            f.write('# selftest dummy wic source plugin\n')
-> +        runCmd('bitbake-layers add-layer %s' % templayerdir)
-> +        self.add_command_to_tearDown('bitbake-layers remove-layer %s' % =
-templayerdir)
-> +
-> +        tmpdir4 =3D self._fresh_tmpdir('tmp-wicenv-hash4')
-> +        self.write_config(
-> +            'TMPDIR =3D "%s"\n'
-> +            'BB_SIGNATURE_HANDLER =3D "OEBasicHash"\n'
-> +            'IMAGE_FSTYPES +=3D "wic"\n' % tmpdir4
-> +        )
-> +        bitbake('core-image-minimal -c do_rootfs_wicenv -S none')
-> +        hash_after =3D self._get_task_sigdata_hash(tmpdir4, 'do_rootfs_w=
-icenv')
-> +
-> +        self.assertNotEqual(hash_before, hash_after,
-> +                            "do_rootfs_wicenv hash did not change after =
-adding a layer "
-> +                            "with a wic plugin =E2=80=94 file-checksums =
-tracking is not working")
+For reference, what Changqing meant to point at was:=20
+https://lore.kernel.org/openembedded-core/20260415021611.525515-1-changqing=
+.li@windriver.com/T/#mf5e87479ea92059c8ade15922b960a57f0471046
 
-Two questions:
-
-- Why do we need a fresh TMPDIR for each build?
-
-- Can we combine these two test cases into one so that we're not
-  unnecessarily re-calculating hash_before?
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-BMDa0VMKWBmQ9Qb77l8J
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagGqmBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bjncAP9CM0D77ZLP2ou5N/VtxsFStn5FbE1ioIxg
-AOlMu/pXJwEAlTVOcjEmas2OyJyzPRjv7Rxvzpjp8wiXy0SxERRfsg0=
-=ILQI
------END PGP SIGNATURE-----
-
---=-BMDa0VMKWBmQ9Qb77l8J--
+Cheers,
+Quentin
 
