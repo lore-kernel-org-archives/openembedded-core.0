@@ -2,155 +2,396 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EEC1CD4F26
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 07:19:53 +0000 (UTC)
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.70310.1778570386999536475
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02939CD4F26
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 07:21:23 +0000 (UTC)
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.70325.1778570475270826709
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 00:19:47 -0700
+ Tue, 12 May 2026 00:21:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=gclT9V8L;
- spf=pass (domain: mvista.com, ip: 74.125.82.43, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12ddbe104ccso4747434c88.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 00:19:46 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=ShF8swVJ;
+ spf=pass (domain: mvista.com, ip: 74.125.82.47, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1334825de43so431427c88.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 00:21:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1778570386; x=1779175186; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1778570474; x=1779175274; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TvVMk2NPd3nKhix7HkZKXwSFiSBxcIAYlFKOjG4CZ2k=;
-        b=gclT9V8LcCEx4eHVLUzcLRZdn5XHSpOXnchagJKYaFvpz7GWOdCjqIntZlSRKALi6c
-         VShTof5IXXos3S6qm4jgbh35FflvxeAkDlj5Usejov5W8JEmJewT+ZDuAQqridnE+btH
-         6E1QhUwlzbilp+7V6bb4iwWCZXetTuS9JZ2qw=
+        bh=Ed8VOwN+HdnhRtaPn7OVlzPp7qQBEpBCwq/dcv5lTWk=;
+        b=ShF8swVJlQSgldQWDW4FYStaV8lDg2YcPlqncz96nAJGRktCOtm/ZMpTjC4KkeJIz7
+         TFy0T7z4MFNxPsgP2otrYpIWMi57Y5KlBeruGb89zah5f31MHjGpt8HoORlfjgl0OOSQ
+         SCEsV7QgXppEfBP7yR7SjyQwyOSABqFJME4so=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778570386; x=1779175186;
+        d=1e100.net; s=20251104; t=1778570474; x=1779175274;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TvVMk2NPd3nKhix7HkZKXwSFiSBxcIAYlFKOjG4CZ2k=;
-        b=IBvAX9o7YEKQQzancgPXG30xPZRNIeAe+zZix0Rj3FNqGE14FM9nZFW54HYWRkTi6v
-         Ykq9+WHKu7KayPj6tU1JKMWciN9rBKn5vofPZLLv/Nn/kVMGOeAz+ncqdEMYWj1o6UOJ
-         KEzKtlhMPXlxubTmVcA6gNPE6fCaSHNapM6TVE1UKsF2Vb1dEr6NtN/b6JYq55hmfwme
-         4i4DPEuKzghQAHdHV0zfiUvT7fyN46FADa66gLsT2UNSSHPzANVkJnw93JfoAGCAGxp0
-         x8FdTKxnYnL2nntPiDWm+OZ6igdQMls3i2pS8vXL2D6Sx67+Uq8kXVGcQjvT3lxT2i6j
-         yfxg==
-X-Gm-Message-State: AOJu0Yzx6RP6RqPsag1EUssUbC/kI92khUO5JrbVgTskfuzPfotcplj3
-	Sl0ilZSJLEP7FvvoK6wu8QnH91VCwDGbC1quL0epEgt86ehjBkfna+6pEE5OS8A1fS6D1KT8PYm
-	DJrt0Ipo=
-X-Gm-Gg: Acq92OEsC0a6NzzZJEiATzzQViDk8dSLUb0EsUrqExIZHivK8VcYJtboucAqfs798IW
-	H56vn5QOr81NyN8IXVR0t+EbNXe7E6hB/ZxdHG3NcUNwKpn55p2gEbsXvYDEEx4lNFt3e9v4bG4
-	fdeHNBWCw7MQXfvvwdeVDzMMMj9JXQSm+pejJx9szd6/eVjbeOZhUxQgCjtrXyT+cwhqIG0DoXM
-	e2TNsuC+5YdPbKjsl8yBFrgjeeeFPN6epKw3yrWD8nUpbqFLvAdTEn3f8P/64yg9DFSkVL458Qy
-	7N1AhHJeumBNDVIEc/lXZF+UI9FHoj8J+WBga6vNq+CBaU2vqWqNOHBN0JaBIQCxAsI8RPFwteU
-	l/KzT4tWhu3WTEbmBQyJNQA2Y0y2bhhjY+cE+CSkUM/8JdHtOtjdKFZRUhpMQT8q4RBRNCrVg2m
-	Obo+nUthnEZC/AUZlpTME/NsMd6EwsA1bB1de8
-X-Received: by 2002:a05:7022:6987:b0:12d:b6de:8da7 with SMTP id a92af1059eb24-13344c42e92mr1242836c88.6.1778570385969;
-        Tue, 12 May 2026 00:19:45 -0700 (PDT)
+        bh=Ed8VOwN+HdnhRtaPn7OVlzPp7qQBEpBCwq/dcv5lTWk=;
+        b=hIfg4/EsXo6GdDIbNDkrwiSO1vQrnAXsqD2T62qT8E0RqgyveE68NHI5+baoeP+Y4r
+         SGPTRN5rlslNvciI1Mi4dRSLQqYvxx8XiUrTkFJd5v/xx1CXPOVkDYA5OZ08+RUYb+Xd
+         wBVCCB9roQbc0r95qpMHo4p16Yx6goMJW4TlrZyOvjY9zHYkNYO7fQdhUH2nPO29AJhh
+         QKTs9awRi5NKJxwxERGgOQ78sz0TEm1I6e60T3UillortGpRyJz6JSoFG15BS+dmy/Ez
+         kFs4oqhkGVrfUC8XCvMUHgu2arLYeVD9gnBGlu6eo+qedOmw/eB8weBOeIwZJ2iTEjM4
+         3O5w==
+X-Gm-Message-State: AOJu0YxKmOK8Uv9mcE9KTWV3XIRdHyhrYqnun5GfYom67rXaQjR0pTbr
+	otSGr3VU3AQ0dVFZFG+kZXpFFMk7j0Kd4cBZ/Zs322+rFRTSYMBqYYSRHqFnKLN5yS/iYO+TrJx
+	H4+1jpvM=
+X-Gm-Gg: Acq92OGGeIutkypuLwziFdXOlT1/tz3Mo6TV6x7nZBazjM1fR1inSADlP+FwOGWIZpW
+	2wPKBRKbPnir3W09RYajXAVf8492XSvixJtUfv0Rnqdc6wwX9551zeiiLpmAWoGYe+WKDAjOz5t
+	V3NXya3c1kflvkBq/6RcHrnvEdcycnR++5hcceq1OTtZ/+hbK9dBlgV55+bM6s7dtpC55kQtvW4
+	Fa4e9uslUwuSylgtJ5kwIjU8nbCT0J1Svrwj2cvYaJ5nbmLGYcCvOYUir9blqDXvdqvHx/OeQu9
+	t3f29MTyDt8zxRFpGVys9U/tnkfsP4yIPbgRc5SCzbkVDLPR+eauhPHhSeabGzforfoIgrMIX6k
+	5WRje/+RmYjyc9CYio9rotW6QOu6CV8W5cY6rYLOiE8qASWXKEAUZxl/9hIN7jVN0ly5lfoRmzy
+	5rqIu7KaDKb8c0/VVsNOsbiycCA0li3oPc95MV
+X-Received: by 2002:a05:7022:45a2:b0:12a:b932:81d3 with SMTP id a92af1059eb24-132a83f746dmr6472279c88.26.1778570474248;
+        Tue, 12 May 2026 00:21:14 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([103.250.136.207])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13278758e0csm18778221c88.12.2026.05.12.00.19.44
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1327865a1a4sm17917845c88.10.2026.05.12.00.21.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 00:19:45 -0700 (PDT)
+        Tue, 12 May 2026 00:21:13 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] go 1.22.12: fix CVE-2026-27140
-Date: Tue, 12 May 2026 12:49:32 +0530
-Message-ID: <20260512071934.82378-1-hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] go 1.22.12: fix CVE-2026-27143, CVE-2026-27144
+Date: Tue, 12 May 2026 12:51:06 +0530
+Message-ID: <20260512072106.82626-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 07:19:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236852
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 07:21:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236853
 
-Pick patch from [1] also mentioned at Debian report in [2]
+Pick patch from [1] & [2] also mentioned at Debian report in [3] & [4]
 
-[1] https://github.com/golang/go/commit/abaa0cbb259e059ee60c33a7507eddc1fe7d20fa
-[2] https://security-tracker.debian.org/tracker/CVE-2026-27140
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-27140
+[1] https://github.com/golang/go/commit/7d2dd3488cdfbddda14c18c455d3263df75a46fc
+[2] https://github.com/golang/go/commit/72cc33629a3b26e68f6e6e5564618a1d763896f3
+[3] https://security-tracker.debian.org/tracker/CVE-2026-27143
+[4] https://security-tracker.debian.org/tracker/CVE-2026-27144
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
- .../go/go/CVE-2026-27140.patch                | 58 +++++++++++++++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27140.patch
+ meta/recipes-devtools/go/go-1.22.12.inc       |   2 +
+ .../go/go/CVE-2026-27143.patch                | 165 ++++++++++++++++++
+ .../go/go/CVE-2026-27144.patch                | 125 +++++++++++++
+ 3 files changed, 292 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27143.patch
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27144.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index 3fa421e223..7ece9095ff 100644
+index 7ece9095ff..03437f0358 100644
 --- a/meta/recipes-devtools/go/go-1.22.12.inc
 +++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -41,6 +41,7 @@ SRC_URI += "\
-     file://CVE-2025-68121_p1.patch \
+@@ -42,6 +42,8 @@ SRC_URI += "\
      file://CVE-2025-68121_p2.patch \
      file://CVE-2025-68121_p3.patch \
-+    file://CVE-2026-27140.patch \
+     file://CVE-2026-27140.patch \
++    file://CVE-2026-27143.patch \
++    file://CVE-2026-27144.patch \
  "
  SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
  
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-27140.patch b/meta/recipes-devtools/go/go/CVE-2026-27140.patch
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-27143.patch b/meta/recipes-devtools/go/go/CVE-2026-27143.patch
 new file mode 100644
-index 0000000000..5c9fb31c23
+index 0000000000..99e7f7639e
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-27140.patch
-@@ -0,0 +1,58 @@
-+From abaa0cbb259e059ee60c33a7507eddc1fe7d20fa Mon Sep 17 00:00:00 2001
-+From: Neal Patel <nealpatel@google.com>
-+Date: Tue, 24 Feb 2026 23:05:34 +0000
-+Subject: [PATCH] [release-branch.go1.25] cmd/go: disallow cgo trust boundary
-+ bypass
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/go/go/CVE-2026-27143.patch
+@@ -0,0 +1,165 @@
++From 7d2dd3488cdfbddda14c18c455d3263df75a46fc Mon Sep 17 00:00:00 2001
++From: Junyang Shao <shaojunyang@google.com>
++Date: Fri, 6 Mar 2026 00:03:45 +0000
++Subject: [PATCH] [release-branch.go1.25] cmd/compile: fix loopbce overflow
++ check logic
 +
-+The cgo compiler implicitly trusts generated files
-+with 'cgo' prefixes; thus, SWIG files containing 'cgo'
-+in their names will cause bypass of the trust boundary,
-+leading to code smuggling or arbitrary code execution.
++addWillOverflow and subWillOverflow has an implicit assumption that y is
++positive, using it outside of addU and subU is really incorrect. This CL
++fixes those incorrect usage to use the correct logic in place.
 +
-+The cgo compiler will now produce an error if it
-+encounters any SWIG files containing this prefix.
++Thanks to Jakub Ciolek for reporting this issue.
 +
-+Thanks to Juho Forsén of Mattermost for reporting this issue.
++Fixes #78333
++Fixes CVE-2026-27143
 +
-+Fixes #78335
-+Fixes CVE-2026-27140
-+
-+Change-Id: I44185a84e07739b3b347efdb86be7d8fa560b030
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3520
-+Reviewed-by: Nicholas Husin <husin@google.com>
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3700
 +Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3989
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/763556
++Reviewed-by: Neal Patel <nealpatel@google.com>
++Change-Id: I263e8e7ac227e2a68109eb7bbd45f66569ed22ec
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3987
++Commit-Queue: Damien Neil <dneil@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/763553
 +Reviewed-by: David Chase <drchase@google.com>
++Auto-Submit: Gopher Robot <gobot@golang.org>
 +TryBot-Bypass: Gopher Robot <gobot@golang.org>
 +Reviewed-by: Junyang Shao <shaojunyang@google.com>
-+Auto-Submit: Gopher Robot <gobot@golang.org>
 +
-+CVE: CVE-2026-27140
-+Upstream-Status: Backport [https://github.com/golang/go/commit/abaa0cbb259e059ee60c33a7507eddc1fe7d20fa]
++CVE: CVE-2026-27143
++Upstream-Status: Backport [https://github.com/golang/go/commit/7d2dd3488cdfbddda14c18c455d3263df75a46fc]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ src/cmd/go/internal/work/exec.go | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ src/cmd/compile/internal/ssa/loopbce.go | 36 +++++++++++++++++--------
++ test/loopbce.go                         | 28 +++++++++++++++++++
++ 2 files changed, 53 insertions(+), 11 deletions(-)
 +
-+diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
-+index 815942a..520c478 100644
-+--- a/src/cmd/go/internal/work/exec.go
-++++ b/src/cmd/go/internal/work/exec.go
-+@@ -3347,6 +3347,10 @@ func (b *Builder) swigIntSize(objdir string) (intsize string, err error) {
++diff --git a/src/cmd/compile/internal/ssa/loopbce.go b/src/cmd/compile/internal/ssa/loopbce.go
++index dd1f39d..1b3e567 100644
++--- a/src/cmd/compile/internal/ssa/loopbce.go
+++++ b/src/cmd/compile/internal/ssa/loopbce.go
++@@ -204,9 +204,11 @@ func findIndVar(f *Func) []indVar {
++ 						if init.AuxInt > v {
++ 							return false
++ 						}
+++						// TODO(1.27): investigate passing a smaller-magnitude overflow limit to addU
+++						// for addWillOverflow.
++ 						v = addU(init.AuxInt, diff(v, init.AuxInt)/uint64(step)*uint64(step))
++ 					}
++-					if addWillOverflow(v, step) {
+++					if addWillOverflow(v, step, maxSignedValue(ind.Type)) {
++ 						return false
++ 					}
++ 					if inclusive && v != limit.AuxInt || !inclusive && v+1 != limit.AuxInt {
++@@ -235,7 +237,7 @@ func findIndVar(f *Func) []indVar {
++ 				// ind < knn - k cannot overflow if step is at most k+1
++ 				return step <= k+1 && k != maxSignedValue(limit.Type)
++ 			} else { // step < 0
++-				if limit.Op == OpConst64 {
+++				if limit.isGenericIntConst() {
++ 					// Figure out the actual smallest value.
++ 					v := limit.AuxInt
++ 					if !inclusive {
++@@ -249,9 +251,11 @@ func findIndVar(f *Func) []indVar {
++ 						if init.AuxInt < v {
++ 							return false
++ 						}
+++						// TODO(1.27): investigate passing a smaller-magnitude underflow limit to subU
+++						// for subWillUnderflow.
++ 						v = subU(init.AuxInt, diff(init.AuxInt, v)/uint64(-step)*uint64(-step))
++ 					}
++-					if subWillUnderflow(v, -step) {
+++					if subWillUnderflow(v, -step, minSignedValue(ind.Type)) {
++ 						return false
++ 					}
++ 					if inclusive && v != limit.AuxInt || !inclusive && v-1 != limit.AuxInt {
++@@ -313,14 +317,22 @@ func findIndVar(f *Func) []indVar {
++ 	return iv
++ }
 + 
-+ // Run SWIG on one SWIG input file.
-+ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx bool, intgosize string) (outGo, outC string, err error) {
-++	if strings.HasPrefix(file, "cgo") {
-++		return "", "", errors.New("SWIG file must not use prefix 'cgo'")
++-// addWillOverflow reports whether x+y would result in a value more than maxint.
++-func addWillOverflow(x, y int64) bool {
++-	return x+y < x
+++// subWillUnderflow checks if x - y underflows the min value.
+++// y must be positive.
+++func subWillUnderflow(x, y int64, min int64) bool {
+++	if y < 0 {
+++		base.Fatalf("expecting positive value")
 ++	}
-++
-+ 	p := a.Package
-+ 	sh := b.Shell(a)
+++	return x < min+y
++ }
 + 
++-// subWillUnderflow reports whether x-y would result in a value less than minint.
++-func subWillUnderflow(x, y int64) bool {
++-	return x-y > x
+++// addWillOverflow checks if x + y overflows the max value.
+++// y must be positive.
+++func addWillOverflow(x, y int64, max int64) bool {
+++	if y < 0 {
+++		base.Fatalf("expecting positive value")
+++	}
+++	return x > max-y
++ }
++ 
++ // diff returns x-y as a uint64. Requires x>=y.
++@@ -341,7 +353,8 @@ func addU(x int64, y uint64) int64 {
++ 		x += 1
++ 		y -= 1 << 63
++ 	}
++-	if addWillOverflow(x, int64(y)) {
+++	// TODO(1.27): investigate passing a smaller-magnitude overflow limit in here.
+++	if addWillOverflow(x, int64(y), maxSignedValue(types.Types[types.TINT64])) {
++ 		base.Fatalf("addU overflowed %d + %d", x, y)
++ 	}
++ 	return x + int64(y)
++@@ -357,7 +370,8 @@ func subU(x int64, y uint64) int64 {
++ 		x -= 1
++ 		y -= 1 << 63
++ 	}
++-	if subWillUnderflow(x, int64(y)) {
+++	// TODO(1.27): investigate passing a smaller-magnitude underflow limit in here.
+++	if subWillUnderflow(x, int64(y), minSignedValue(types.Types[types.TINT64])) {
++ 		base.Fatalf("subU underflowed %d - %d", x, y)
++ 	}
++ 	return x - int64(y)
++diff --git a/test/loopbce.go b/test/loopbce.go
++index 04c186b..a4b101b 100644
++--- a/test/loopbce.go
+++++ b/test/loopbce.go
++@@ -466,6 +466,34 @@ func stride2(x *[7]int) int {
++ 	return s
++ }
++ 
+++// This loop should not be proved anything.
+++func smallIntUp(arr *[128]int) {
+++	for i := int8(0); i <= int8(120); i += int8(10) {
+++		arr[i] = int(i)
+++	}
+++}
+++
+++// This loop should not be proved anything.
+++func smallIntDown(arr *[128]int) {
+++	for i := int8(0); i >= int8(-120); i -= int8(10) {
+++		arr[127+i] = int(i)
+++	}
+++}
+++
+++// This loop should not be proved anything.
+++func smallUintUp(arr *[128]int) {
+++	for i := uint8(0); i <= uint8(250); i += uint8(10) {
+++		arr[i] = int(i)
+++	}
+++}
+++
+++// This loop should not be proved anything.
+++func smallUintDown(arr *[128]int) {
+++	for i := uint8(255); i >= uint8(0); i -= uint8(10) {
+++		arr[127+i] = int(i)
+++	}
+++}
+++
++ //go:noinline
++ func useString(a string) {
++ }
++-- 
++2.50.1
++
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-27144.patch b/meta/recipes-devtools/go/go/CVE-2026-27144.patch
+new file mode 100644
+index 0000000000..3f791ea491
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/CVE-2026-27144.patch
+@@ -0,0 +1,125 @@
++From 72cc33629a3b26e68f6e6e5564618a1d763896f3 Mon Sep 17 00:00:00 2001
++From: Junyang Shao <shaojunyang@google.com>
++Date: Thu, 12 Mar 2026 21:36:33 +0000
++Subject: [PATCH] [release-branch.go1.25] cmd/compile: fix mem access overlap
++ detection
++
++When a no-op interface conversion is wrapped around the rhs of an
++assignment, the memory overlap detection logic in the compiler failed to
++peel down conversion to see the actual pointer, causing an incorrect
++no-overlapping determination.
++
++Thanks to Jakub Ciolek for reporting this issue.
++
++
++Fixes #78371
++Fixes CVE-2026-27144
++
++Change-Id: I55ff0806b099e1447bdbfba7fde6c6597db5d65c
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3780
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-by: Neal Patel <nealpatel@google.com>
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/4002
++Reviewed-on: https://go-review.googlesource.com/c/go/+/763552
++Auto-Submit: Gopher Robot <gobot@golang.org>
++TryBot-Bypass: Gopher Robot <gobot@golang.org>
++Reviewed-by: Junyang Shao <shaojunyang@google.com>
++Reviewed-by: David Chase <drchase@google.com>
++
++CVE: CVE-2026-27144
++Upstream-Status: Backport [https://github.com/golang/go/commit/72cc33629a3b26e68f6e6e5564618a1d763896f3]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/cmd/compile/internal/ssagen/ssa.go        | 20 ++++++---
++ .../compile/internal/test/memoverlap_test.go  | 41 +++++++++++++++++++
++ 2 files changed, 55 insertions(+), 6 deletions(-)
++ create mode 100644 src/cmd/compile/internal/test/memoverlap_test.go
++
++diff --git a/src/cmd/compile/internal/ssagen/ssa.go b/src/cmd/compile/internal/ssagen/ssa.go
++index c794d6f..0214621 100644
++--- a/src/cmd/compile/internal/ssagen/ssa.go
+++++ b/src/cmd/compile/internal/ssagen/ssa.go
++@@ -1427,6 +1427,16 @@ func (s *state) stmtList(l ir.Nodes) {
++ 	}
++ }
++ 
+++func peelConvNop(n ir.Node) ir.Node {
+++	if n == nil {
+++		return n
+++	}
+++	for n.Op() == ir.OCONVNOP {
+++		n = n.(*ir.ConvExpr).X
+++	}
+++	return n
+++}
+++
++ // stmt converts the statement n to SSA and adds it to s.
++ func (s *state) stmt(n ir.Node) {
++ 	s.pushLine(n.Pos())
++@@ -1598,12 +1608,10 @@ func (s *state) stmt(n ir.Node) {
++ 		// arrays referenced are strictly smaller parts of the same base array.
++ 		// If one side of the assignment is a full array, then partial overlap
++ 		// can't happen. (The arrays are either disjoint or identical.)
++-		mayOverlap := n.X.Op() == ir.ODEREF && (n.Y != nil && n.Y.Op() == ir.ODEREF)
++-		if n.Y != nil && n.Y.Op() == ir.ODEREF {
++-			p := n.Y.(*ir.StarExpr).X
++-			for p.Op() == ir.OCONVNOP {
++-				p = p.(*ir.ConvExpr).X
++-			}
+++		ny := peelConvNop(n.Y)
+++		mayOverlap := n.X.Op() == ir.ODEREF && (n.Y != nil && ny.Op() == ir.ODEREF)
+++		if ny != nil && ny.Op() == ir.ODEREF {
+++			p := peelConvNop(ny.(*ir.StarExpr).X)
++ 			if p.Op() == ir.OSPTR && p.(*ir.UnaryExpr).X.Type().IsString() {
++ 				// Pointer fields of strings point to unmodifiable memory.
++ 				// That memory can't overlap with the memory being written.
++diff --git a/src/cmd/compile/internal/test/memoverlap_test.go b/src/cmd/compile/internal/test/memoverlap_test.go
++new file mode 100644
++index 0000000..c53288e
++--- /dev/null
+++++ b/src/cmd/compile/internal/test/memoverlap_test.go
++@@ -0,0 +1,41 @@
+++// Copyright 2026 The Go Authors. All rights reserved.
+++// Use of this source code is governed by a BSD-style
+++// license that can be found in the LICENSE file.
+++
+++package test
+++
+++import "testing"
+++
+++const arrFooSize = 96
+++
+++type arrFoo [arrFooSize]int
+++
+++//go:noinline
+++func badCopy(dst, src []int) {
+++	p := (*[arrFooSize]int)(dst[:arrFooSize])
+++	q := (*[arrFooSize]int)(src[:arrFooSize])
+++	*p = arrFoo(*q)
+++}
+++
+++//go:noinline
+++func goodCopy(dst, src []int) {
+++	p := (*[arrFooSize]int)(dst[:arrFooSize])
+++	q := (*[arrFooSize]int)(src[:arrFooSize])
+++	*p = *q
+++}
+++
+++func TestOverlapedMoveWithNoopIConv(t *testing.T) {
+++	h1 := make([]int, arrFooSize+1)
+++	h2 := make([]int, arrFooSize+1)
+++	for i := range arrFooSize + 1 {
+++		h1[i] = i
+++		h2[i] = i
+++	}
+++	badCopy(h1[1:], h1[:arrFooSize])
+++	goodCopy(h2[1:], h2[:arrFooSize])
+++	for i := range arrFooSize + 1 {
+++		if h1[i] != h2[i] {
+++			t.Errorf("h1 and h2 differ at index %d, expect them to be the same", i)
+++		}
+++	}
+++}
 +-- 
 +2.50.1
 +
