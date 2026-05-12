@@ -1,115 +1,117 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <jeremie.dautheribes@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE859CD4F24
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 16:31:14 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.79758.1778603464883030426
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58338CD343F
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 17:02:35 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.80917.1778605350367997936
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 09:31:05 -0700
+ Tue, 12 May 2026 10:02:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=qoC8x6wC;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82E471655
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 09:30:58 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 58E543F836
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 09:31:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778603463; bh=eTM9lvEKVSx5AifDfBj7eKCdR3Zkq1qbY1RdjugEEOg=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=qoC8x6wC/6mAVuNxKVePr4v/x8iLkcu4O5RRU1HQpDgnxqswI3DV8KMIz+KnNqbxq
-	 u9iqomsUqv0mh3SpK59lYhKRAJsSSRx9A6l8D/XDz1yA25zkROugCCpCVoGmpi4mpC
-	 +airoN6bdyA85RDZkvNIhWcOuVRArpto9cJjARas=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] libhandy: remove
-Date: Tue, 12 May 2026 17:30:54 +0100
-Message-ID: <20260512163055.3821810-4-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260512163055.3821810-1-ross.burton@arm.com>
-References: <20260512163055.3821810-1-ross.burton@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=JySyDA8b;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: jeremie.dautheribes@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 4F8B14E42C00
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 17:02:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1F11660646
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 17:02:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C41BF11AF8D50;
+	Tue, 12 May 2026 19:02:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1778605343; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=Vm/bybd2Ztvuafna8JrpyNLbHmbQathLuPd+O2eHrUs=;
+	b=JySyDA8bh72QcGMEOM3D2FUcJi9v2FYP01SqkC7jtZkNjVlBFLG0+ccznJRB1hLBaGHKEH
+	tNubkZ57DRzZX7MqfCgxfiQjbdDT2W0ga7WhAn3TL5dnCFl4akHNVaVORsQQSOL4h9lFzQ
+	pWlusicjbuUweypZwulDhhT9ph4znm+ZRjkPO8v/XoCl0lKzQf/yMFGqsl5U1GpLKoK7je
+	D/qoCKEVJ93HRPWDVSbEL7GP+Z8osKrSRvQ9jMnFLgAO06se9Ha1vyCxqifoNqFE+a4/zW
+	b5TQtcUHiwwXMstZTW0P7LvzGYT4iTEqY7tfk6PHasJ+Yf8eCqdLg+XImk7bqw==
+From: =?utf-8?q?J=C3=A9r=C3=A9mie_Dautheribes_=28Schneider_Electric_=29?= <jeremie.dautheribes@bootlin.com>
+Subject: [OE-core][PATCH 0/2] spdx3: support SBOM compression with Zstd
+Date: Tue, 12 May 2026 19:01:55 +0200
+Message-Id: <20260512-sbom-zstd-support-v1-0-93273381d548@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBA0auQWTsJrVHQvWsPQFjYdtAxkTYzx
+ RgJd7fC8i3+n0FJmBTO1QxCb1aOY4HZVeAft/FOyKEYbG2P9cFYVBdf+NUcUKeUomRsXDg5s29
+ bQxZKl4QG/qzPrt+sk3uSz/9Rd72gj0I9LMsPIHtsQn4AAAA=
+X-Change-ID: 20260512-sbom-zstd-support-7bd9b13881e2
+To: openembedded-core@lists.openembedded.org
+Cc: =?utf-8?q?J=C3=A9r=C3=A9mie_Dautheribes_=28Schneider_Electric=29?= <jeremie.dautheribes@bootlin.com>, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ benjamin.robin@bootlin.com
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1765;
+ i=jeremie.dautheribes@bootlin.com; h=from:subject:message-id;
+ bh=Hr1Aid3bOpV6KqpEaMEC6bHCVoI8Lt+GvuZJ3UVXHKs=;
+ b=owEBbQKS/ZANAwAKASsAXqAbWo8DAcsmYgBqA10d9yHatQkRhJzdp1Wg4UvHxmIDqGiKzAhol
+ ammR78LmvqJAjMEAAEKAB0WIQT7FK2Qhtu4QpBIBAkrAF6gG1qPAwUCagNdHQAKCRArAF6gG1qP
+ Ayl9EACP1XU9dfx9Tql4NeWLrNP+obJ1Wju2PLm3rvUcYCxeiKmcM1KNkq/I/zVBGyHlWM7Fdee
+ CqI5QLr2TXEXjXUit1FWpOVDCBxJ+fjcDynicXLAAHcCfeEnEzR0GpgABCbOzzq5cIftffOyDju
+ vs/RlCrVl1lQhgvxOwzbGPJioP3ICzzwv8Q63Qi72pXlwsQlYohQU4vbtwBaKsyJaMcuWKBWASk
+ 9zSMbhvcWzvVpMpyjnTZ3WNOxrYLvwprEE20i82CglwrFKk2n2S4xLokgZurwHgiotOXtXqWe07
+ fvnNb6356DPIZytj62D8iPf2f0S1EuGIjWwCBKAFcXPrlx1xB36LIN4Eg38Toe0qPj8r/38cUyF
+ BI9gJuFdhXd297ZDiz8qj5u13N+ZsixCNrYPz8COBE8f4N/ZlD85oQDQGPzRdfqbt3vfZfdH2RS
+ SHFWnWkSAPaHIIAPkRbycEN4Zv0fimQKrAyjyGybyGiKGqAdKVzuaHqeE5A3JvYbTiDoPPpf8dS
+ 7RqVqrfhz/g3QYzY+NjwHsz0FcPO3HuSou7NowJnYY7JkIjCkmvvkyO20xD7WsSRMNv+06xLfFE
+ itUQCJM72ybHn2RE30EHMZgBE5r0vK2iKvBw3V0UHzY83EH2+FLjqFYvA1ShmTNEM/4GrlI+cqm
+ +mb2HBy68Hxpgkg==
+X-Developer-Key: i=jeremie.dautheribes@bootlin.com; a=openpgp;
+ fpr=FB14AD9086DBB842904804092B005EA01B5A8F03
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 16:31:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236894
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 17:02:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236895
 
-This library was added for epiphany which no longer uses it and there
-are no other users, so remove it.
+Hi,
 
-The recipe will be added to meta-gnome for the GTK+3 applications there.
+This patch series adds support for compressing all types of SBOMs (image,
+recipe, SDK) using zstd, similar to what we had previously with SPDX 2.2.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+To do so, we introduce a new SPDX_SBOM_EXT variable containing the SBOM
+extension name. Based on this extension, we decide whether SBOMs should b=
+e
+compressed or not.
+
+This is optional and by default SBOMs are not compressed to keep the
+current behavior and not to break compatibility.
+
+This work was tested on the qemuarm64 machine on the following SBOMs:
+  - core-image-minimal SBOM (image SBOM)
+  - busybox SBOM (recipe SBOM)
+  - core-image-minimal SDK SBOM (SDK SBOM)
+
+At first, instead of SPDX_SBOM_EXT, I used a boolean SPDX_COMPRESSED_SBOM
+variable to decide whether or not a SBOM should be compressed, but it led
+to a lot of code additions to SBOM consumers (for instance sbom-cve-check=
+)
+to check whether the SBOM filename extension was ".spdx.json" or
+".spdx.json.zst".
+
+Signed-off-by: J=C3=A9r=C3=A9mie Dautheribes (Schneider Electric) <jeremi=
+e.dautheribes@bootlin.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 -
- meta/recipes-gnome/libhandy/libhandy_1.8.3.bb | 26 -------------------
- 2 files changed, 27 deletions(-)
- delete mode 100644 meta/recipes-gnome/libhandy/libhandy_1.8.3.bb
+J=C3=A9r=C3=A9mie Dautheribes (Schneider Electric) (2):
+      spdx3: introduce SPDX_SBOM_EXT variable
+      spdx3: support SBOM compression based on SPDX_SBOM_EXT
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 17ff3a6bbf6..24c5a9d7123 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -356,7 +356,6 @@ RECIPE_MAINTAINER:pn-libglu =3D "Ross Burton <ross.bu=
-rton@arm.com>"
- RECIPE_MAINTAINER:pn-libglvnd =3D "Dmitry Baryshkov <dmitry.baryshkov@os=
-s.qualcomm.com>"
- RECIPE_MAINTAINER:pn-libgpg-error =3D "Hongxu Jia <hongxu.jia@windriver.=
-com>"
- RECIPE_MAINTAINER:pn-libgudev =3D "Ross Burton <ross.burton@arm.com>"
--RECIPE_MAINTAINER:pn-libhandy =3D "Unassigned <unassigned@yoctoproject.o=
-rg>"
- RECIPE_MAINTAINER:pn-libical =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-libice =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-libidn2 =3D "Ross Burton <ross.burton@arm.com>"
-diff --git a/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb b/meta/recipes=
--gnome/libhandy/libhandy_1.8.3.bb
-deleted file mode 100644
-index cf2c64f8d0a..00000000000
---- a/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb
-+++ /dev/null
-@@ -1,26 +0,0 @@
--SUMMARY =3D "A library full of GTK+ widgets for mobile phones"
--DESCRIPTION =3D "Library with GTK widgets for mobile phones. Libhandy pr=
-ovides \
--GTK widgets and GObjects to ease developing applications for mobile phon=
-es. \
--It was developed by Purism (and used by several official GNOME projects)=
- \
--to extend Gtk by providing mobile-friendly widgets and make the creation=
- of \
--responsive apps easier."
--HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libhandy"
--BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/libhandy/-/issues"
--LICENSE =3D "LGPL-2.1-only"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
-16c"
--
--SRC_URI =3D "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=3Dhttps;=
-branch=3Dlibhandy-1-8"
--SRCREV =3D "9b0071408ce86a3ef843806fddd723a85f6f2416"
--
--UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.(\d*[02468])+(\.\d+))"
--GIR_MESON_ENABLE_FLAG =3D 'enabled'
--GIR_MESON_DISABLE_FLAG =3D 'disabled'
--
--inherit meson gobject-introspection vala gettext gi-docgen features_chec=
-k pkgconfig
--
--ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
--
--DEPENDS +=3D "gtk+3"
--
--PACKAGES =3D+ "${PN}-examples"
--FILES:${PN}-examples =3D "${bindir}"
---=20
-2.43.0
+ meta/classes-recipe/sbom-cve-check.bbclass |  2 +-
+ meta/classes/create-spdx-3.0.bbclass       |  4 ++++
+ meta/classes/sbom-cve-check-recipe.bbclass |  2 +-
+ meta/lib/oe/sbom30.py                      | 11 +++++++++--
+ meta/lib/oe/spdx30_tasks.py                | 12 +++++++-----
+ 5 files changed, 22 insertions(+), 9 deletions(-)
+---
+base-commit: 4f7d1a0885d7d6f2a533f7388ed5f5a35d6f99bc
+change-id: 20260512-sbom-zstd-support-7bd9b13881e2
+
+Best regards,
+-- =20
+J=C3=A9r=C3=A9mie Dautheribes (Schneider Electric) <jeremie.dautheribes@b=
+ootlin.com>
 
 
