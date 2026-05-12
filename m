@@ -1,395 +1,159 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA22FCD4851
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 12:13:07 +0000 (UTC)
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.73730.1778587982902634168
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B887CD4F24
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 13:21:58 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.14])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.75213.1778592108999978325
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 05:13:03 -0700
+ Tue, 12 May 2026 06:21:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Ii0hkiQO;
- spf=pass (domain: mvista.com, ip: 74.125.82.169, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2f7020a928eso7503456eec.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 05:13:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1778587982; x=1779192782; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/e1w/EpwDRW/K4I9W2mw1o+DIp3RmmBqmqrbKeAPGiI=;
-        b=Ii0hkiQOJBU5DqHME9O57RFTtKQL644MpbLtz9+LssD6Naft7LlPSarHT8qXkjR8v4
-         5vVMSvttulSYXx6enK30FMVXc/LYqHKUbv/D0ZCQBIlu3AvXID5b3iJGZZAae2MSG5AE
-         NYI+454v/XZtQldJX27a/b+EzMymgnuvstlMU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778587982; x=1779192782;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/e1w/EpwDRW/K4I9W2mw1o+DIp3RmmBqmqrbKeAPGiI=;
-        b=LdVy52nr+vQ9IbvQI++lvl21vzZTpTgKiBAU62c3O5OIHT3WHrZAMhRq4BEya4FxMO
-         Ra6SsGOR85LdS1Of5SWnA3HA8gPE5i+ZvvJ/qXrvvW56pOhPwQewZEuxtwmX3ET0hMMB
-         igF6RxdozB8HWpku9C32bKZRYjFT+UZ+i38XfwrxV6rQKRUFWJeLx52q1mR9lpCG7zFT
-         t6xrNx07MG3gdw/n9ocIjmMzps/7A1seH35Q91zVdADmEyocqnHCVMSi6+ypIeWWab2b
-         glj8PWZtV51+z+Qku6MQZx5BVtK5KcSlMbRaXnG24w0nBquH1GmDtMBlRR5Hc3LNLilE
-         LBFg==
-X-Gm-Message-State: AOJu0YyoHF3663X/XPx9DrKWvvmkk73SburohXoZt00rFAL05nvT0JO5
-	X+XZOTzPKI/tdZQdXB5vxTzp6PyBTuBPDRjhPFvX6NTQw5+398KjIlXuL2HK6zrFs5rl0OW2laz
-	bYFqS2EY=
-X-Gm-Gg: Acq92OETfQlWjvyZmysh+rCyhw9RL3wpaS5TevL8PeHCY8sb8b9Aj0qMi0gm9Am+Rp4
-	KipvfihyG5s9WDa5AIMgZaW9z7KMGPZuWdcz2yndPk/gGEBN2w9lVQDcyLc+9yK657XL9zlWZAI
-	UnNuRaALITqi4gtV7RjBi2BlxZq4whrkLu/IGydV0Hti/z6aOFzakDtXGm9qAf9/XrenvOOcLFG
-	rM2WFv2MHvYRpOXu8XYrbQo4HjFogKzg1zBq1jXiKGVNTVgKg6h5ow3e5ZRE23FvG0ALtasfW0H
-	dA50txYF6M/WndRvjrYaScoQ0hCyGcXTujzETiyM/EdKLGuh5sOxh7X2edruRmJcD2jA6EO5sKz
-	eyIckc05oUJfJDx8stM7wxl/wdC9mtx/pkNUcNNEJRgIrJiUpz3OL5tCDwbHhRHKlCfHeXdC98p
-	QII8GV/naGtS//jMzE/BQIev6vEIkuwZSIQA1s
-X-Received: by 2002:a05:7301:605:b0:2ed:e14:7f5b with SMTP id 5a478bee46e88-2ffd88b93cbmr1563907eec.31.1778587981581;
-        Tue, 12 May 2026 05:13:01 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([103.250.136.207])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f888c3b301sm21889756eec.23.2026.05.12.05.12.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 05:13:01 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] go 1.22.12: fix CVE-2026-32280
-Date: Tue, 12 May 2026 17:42:54 +0530
-Message-ID: <20260512121254.89456-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=AZSPdnFn;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=AZSPdnFn;
+ spf=pass (domain: arm.com, ip: 40.107.162.14, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=A6S0z8dnEcG+NynxWMm/2fST86Xk8E49rvmR5CIqhRPnAu0NTSMYOWwWx9YC3G1lcHpe4Q3bThCAmYkBZEnkApDIOsjmdMN9421NsXPkN579BnFAzYrakUZulW9ElLNGMqBMS0iWTb1DWdnJxNP/fRFn4nM3HuylRFCKGth5ALzfvBDNFGWLQdHwgijqdC2xQHRV/Wd8xsQV70HQaxRlMiwm6HfI6+9S0Z2DR3bqAfhQenoQfNqyQO14P5q6cT1+Wgik5IbC7fKzSIsKxz4lG5kZ90GDtwNEd05lJOvj4KVgdrF0gvIoRDj54D7gXUTnz2pDo9NmEi76U7hc4iZNMw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=egYUpsDFwDKiNqnQega28l+2Kp5ldhnhsQ67kdtWbjM=;
+ b=LeCe51TH8yUuODlIdqJvddJ63dmfDJPlfYzsDzJ3iVcbqJlj+7x5bqsM//lP1YElHK82seG7fI15bOnkhtZpg40iLSR7T/3O/684K8EX6qalx0XOIrec45Kb/8d5Ez+HXz3q5DnckBuL1JckS+tqsfUSixZ8rKjxP/oSrn3uhEpxejd8kpi3iR1ctUOVEho5Ch5IJe4uvl1KuUwATXuGq6GM2RNVXhRLi1lPPjXYBQf8frwymTV36qcJzwzEVuH5iuCumh+bKkpdeCI10KZvYgCNWGlRAbMOBDj3gbKINQ1+CGcqJkfLFozIpYxJeh234dTwO2YNH78LFvY8S0QCyg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=egYUpsDFwDKiNqnQega28l+2Kp5ldhnhsQ67kdtWbjM=;
+ b=AZSPdnFnTRosF2oOUFA3izveWij2TzV+Hz5eUIWJstbH3AOV10vi3ihQ3QCWMXhRC6CtKAzPqVLh7hNNIjN/JhxiqNs5VmmqracZdb3V/kSLRwioS1nK7quV0HZnHpX1HwmZxT92uUjsL1BLY0r9qJG8U2qYV3sFq1OL+zREgaE=
+Received: from AS4P191CA0023.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:5d9::19)
+ by DB4PR08MB8149.eurprd08.prod.outlook.com (2603:10a6:10:383::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Tue, 12 May
+ 2026 13:21:43 +0000
+Received: from AMS0EPF0000019D.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5d9:cafe::9b) by AS4P191CA0023.outlook.office365.com
+ (2603:10a6:20b:5d9::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.11 via Frontend Transport; Tue,
+ 12 May 2026 13:21:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF0000019D.mail.protection.outlook.com (10.167.16.249) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.13
+ via Frontend Transport; Tue, 12 May 2026 13:21:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ywawhNWXWHQXmDMSVE98yBuDwQKZPxSaxIQQCHREQq0xfYl0SMGPjmEueAV35MdJ3JUkSNcExhKMx3gzwqsThDzUf6EEVQ4gpyCiiUvyc88hNlPN950RSxK8UNfU4Gi18MEPU9oImKf8iZ3yEVAXLWnMevX0M+L+cqYecUnv7A2lFuE3Sj6kSnQKg/XB4r1uZRZOYR6vvWJJK5IhTOAtfWhsxZ/K1/0DzJlzKFuvzsy3jLggbdPUTtVQvzTScYEIrdqHW6NfIfAi2xdDHR0+cRkXdZ8vg9GCbsYbF4nXi9ui8sOvJmIhF0U9R6Sv2ap/VLL9Cc1GBxvT8gNmI+q3MQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=egYUpsDFwDKiNqnQega28l+2Kp5ldhnhsQ67kdtWbjM=;
+ b=r8p1ZvxtunnK3y9Mk9uhZ2qJlEj6Hh5ft8nT2GAvmDqALXFyQ3ulivCAvE2UDXjAtA7sa36PabR9vnIa2/VE73cdaoOJLQ9qpQa0dGH4GdnglZXRuWpahwycqEvWeWmPRoYlLeG6LA3dsualFcbuX88sOvYT2ckCXuwHXqANqn2FHIudCEePb/YNHl56jTQaOQjEaYN/FYcSXhRJZbVhsQ1kM3rio4nuKbH97O1eWZz5LKIq7MqvfB9hnRlwVIqK4Wmv6+E3IYM2Ka8VKWcDQmxKucT4UsH9OzUCceFEyrOwBptn5WIj+uJ+ERSt//sEbY8O35YrJzMAckHukegnUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=egYUpsDFwDKiNqnQega28l+2Kp5ldhnhsQ67kdtWbjM=;
+ b=AZSPdnFnTRosF2oOUFA3izveWij2TzV+Hz5eUIWJstbH3AOV10vi3ihQ3QCWMXhRC6CtKAzPqVLh7hNNIjN/JhxiqNs5VmmqracZdb3V/kSLRwioS1nK7quV0HZnHpX1HwmZxT92uUjsL1BLY0r9qJG8U2qYV3sFq1OL+zREgaE=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by DB9PR08MB11473.eurprd08.prod.outlook.com (2603:10a6:10:60f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.22; Tue, 12 May
+ 2026 13:20:38 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.20.9913.009; Tue, 12 May 2026
+ 13:20:37 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "liezhi.yang@windriver.com" <liezhi.yang@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 3/3] strace: upgrade 6.19 -> 7.0
+Thread-Topic: [OE-core] [PATCH 3/3] strace: upgrade 6.19 -> 7.0
+Thread-Index: AQHc3vlho2r/T53xiU2WseqXTJIPmLYKZj+A
+Date: Tue, 12 May 2026 13:20:37 +0000
+Message-ID: <1C70E210-D752-4CE0-8145-8B4FF7D58D8B@arm.com>
+References: <cover.1778251103.git.liezhi.yang@windriver.com>
+ <b45f339c84baf27040248d667f2a8d02ee2f25fd.1778251103.git.liezhi.yang@windriver.com>
+In-Reply-To: 
+ <b45f339c84baf27040248d667f2a8d02ee2f25fd.1778251103.git.liezhi.yang@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81.1.6)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|DB9PR08MB11473:EE_|AMS0EPF0000019D:EE_|DB4PR08MB8149:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70331442-3bc6-4bc2-e191-08deb0296859
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|11063799003|18002099003|56012099003|22082099003|3023799003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ Opj9nPotL9lt78VXX8ga3Ygky+0hdR6QN6Gd6CrTrsvJOY0BTwa7yaToiL2kpFWdjUGDOH9h7I0pXUeyKJ6wliJHT6PdxOby33Ywybc0VnwU/40cQYW95DIpq7CvWrUjRkv+y6fPsUYMacraI8dZG1t9vGEqHZZdNWQx2XyUaqsE6SGfy6pp1W++VWJeCSG863R7PpC9PSVWaUZQ/UF7PtlPekb3X55Cpa9rpysKGKJpR5oL7JyNyTUlCn0DpkL5YGO71d+52mFXGXVASwMb6FvHrxcu4BdKSlejb5y8fxwHE9GR4myvmwM3np1g55weapUx/SFuNu/Sui1Fph74Z8nqzxPoBIWs+egQThfI6OQy1b9PunCzLwE28Atvut4G4aysxYnDFJjS06tUxA1X/AJDwYbmxv4ZxbNgxaeCG+HJ6gzOi1o6zqlTexTow0/aQd2EzvpuGMUnF6z8B1Vj7HQk3JLZREbLp/EpJLazUBpUjRMhKZvEfFms7v98cOyoYyDA8Vz5brjA1K9uL5wCZN/9dmrkgG0c6twYIuKnXhzBJRcZwj4/XYG6xoy/v2BI333ECuh5c3YHmr9hRMcF2JviNeqoSMOPqrMbOCHfsUFYCqxE/7rM+tEWPLYGgpFx1PueK3WNg+ovNLFcVDNXuMcjiEctejgebjRN4YtdZkyYCOdLHxrxCOeY7XrQShWSOp+8u/vpIcLyIHVKoVSymOXESZXvxDgr78FDMSoecUpJQplEB8W+fdRBrzy0g3Kz
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(11063799003)(18002099003)(56012099003)(22082099003)(3023799003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7BE428E192A6404783143E5BCC98E08C@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked: 
+ UH7utNFGWJt3pKlxyQA2MyOjARdIWUI18iz6S3fv40QRnLvXlNXFQwbN2GHaHmEVX0sm3SnCiaNYINWWyLuWEEVBvDdBLJbOcpcqh5gf6Hl6xxBTGPWdAq1vCqx+5DbRvzb8QkTcbtqheemPGy+f/rmEaMCynmyq2to1GEC2Z6sdU0sKt4L49ffcCIS5PkU5YydNNdJdldgI0TctpUcz6bDxemgVEiyWY49Eo+ybTU24f0TBUGsWdn2xKI0zf7LHZzEA9GBhOs3lsQAYIeb/9HDYisQt2vB5u9+EX/E2VLktvtw6wWPG2ez7sR37a/lSHCRXFIPKnqqDT8joo7YuIA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB11473
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF0000019D.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	0006ad37-144f-4dd5-66f5-08deb02941e4
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700016|14060799003|82310400026|35042699022|376014|1800799024|56012099003|22082099003|18002099003|11063799003|3023799003;
+X-Microsoft-Antispam-Message-Info: 
+	A+xZzK7TvT5+xfr/E8SFrn102ViCpakny3bq9R7VmzrMq414O5GkAg+b5mZ9B0qzl502gHV+0r9rBe2jPR8LphBF0i37t6HVPzuqaWhGhiCjl84fZU1v2rcc7o2+RIyVjoUROCDAfC0sbt30qItJzREviyeeVGcRXGKtT9SC0OLdpu29/3hJxI/zkO1+3/Ipi7E9dUPlBgqA+pkYM2jsdcmf1wmuQqu7Fs3oSREbDjtf3TExuwuHtZcLMfxdygrgu4LHBBseDf3GFTi6J6vt4FbU5o6MCVBeFfzimgun4ltrxnzPG/qxDmhRDRuRytJeUdY+8+IA+9Kj45j2ao8vZqZUzmrYD/KZ/ic1MzCsSUMT+iDFoPouIJBlM860+uLbkFfajYLsctDB4o0m1931pYDC8MtaG6SrIdFoJ365THkaErWVMA2saEFO8xvRnByxudWFi/ld1vK7bon+e5eyzS6UmU+d7zv3B/oS+eiCuMAWJGZgu7wPvXFRBzxl8I9NRd5pkWw5p9idorD+3fk/9VbEqZheudEvWHFrsc0um51Wo31TVZMP5b8v5aecU/WDnuBRTtClcUEtogJECSu7t6ofOIKDf30hdCsxfhH2EMGs/fKpNOjGWG1o2DegKtUtffgcfcowM7cTmoF58Qdj8WGT+W8WkRZeqILu7D+czvYsVfev+1Y5caoqEf8ONEAhWYo7qtQ5lN/w6zcOixDm5LS8r0XAi/jg892afgRKoTE=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(14060799003)(82310400026)(35042699022)(376014)(1800799024)(56012099003)(22082099003)(18002099003)(11063799003)(3023799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	t3Dsv3FoLpCMbjEPjZK3BleUO0u+LsoKgffONCCSEsb1amavatkaj/9VX9MsFavN+fVV/DhTW6zzrIN/AC+cs+X7DCWyWvIzvt62vK09MWObZPjaJ69s+cYwf3av5/j6OAzI6heotID7ZlpnaUGS2c5Hmxg4gvgg5f5Zxltxzl16rFErSBw0L98WCNGpKwD/cHaHbQJsO5SU5fr31RipVTpSPnGZiTOg3VkZiiZdsp5dBYShlgnMp5ul66Gbx1AajHIY4P0UgYbMhUSGYtcVCU2uFKifjWgORk/sRun7SFmglLmWK3FcjDJPF3F2w3HIYvDRlxQMwQ1q1Su28IDPmDigMWbZkHzKFQ9kn4aCe71S7Nr+2TfpnqwLQ687HhB8SiUPsZIVVqGV+nLHh86xQnxi2v6HCzFZPj1eE7ZJYk/yAuGHQf8vdltaU7K8AL2V
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 13:21:42.3661
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70331442-3bc6-4bc2-e191-08deb0296859
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF0000019D.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB8149
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 12:13:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236881
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 13:21:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236882
 
-Pick patch from [1] also mentioned at Debian report in [2]
-
-[1] https://github.com/golang/go/commit/edc1e4a5f2af48b648502d987b8d4eebf43c884b
-[2] https://security-tracker.debian.org/tracker/CVE-2026-32280
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-32280
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
- .../go/go/CVE-2026-32280.patch                | 294 ++++++++++++++++++
- 2 files changed, 295 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-32280.patch
-
-diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index 03437f0358..5753243f0e 100644
---- a/meta/recipes-devtools/go/go-1.22.12.inc
-+++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -44,6 +44,7 @@ SRC_URI += "\
-     file://CVE-2026-27140.patch \
-     file://CVE-2026-27143.patch \
-     file://CVE-2026-27144.patch \
-+    file://CVE-2026-32280.patch \
- "
- SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
- 
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-32280.patch b/meta/recipes-devtools/go/go/CVE-2026-32280.patch
-new file mode 100644
-index 0000000000..30af4cf2ab
---- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-32280.patch
-@@ -0,0 +1,294 @@
-+From edc1e4a5f2af48b648502d987b8d4eebf43c884b Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Thu, 5 Mar 2026 14:28:44 -0800
-+Subject: [PATCH] [release-branch.go1.25] crypto/x509: fix signature checking
-+ limit
-+
-+We added the "is this cert already in the chain" check (alreadyInChain)
-+to considerCandidates before the signature limit. considerCandidates
-+bails out when we exceed the signature check, but buildChains keeps
-+calling considerCandidates until it exhausts all potential parents. In
-+the case where a large number of certificates look to have signed each
-+other (e.g. all have subject==issuerSubject and the same key),
-+alreadyInChain is not particularly cheap, meaning even though we hit our
-+"this is too much work" limit, we still do a lot of work.
-+
-+Move alreadyInChain after the signature limit, and also return a
-+sentinel error, and check it in buildChains so we can break out of the
-+loop early if we aren't actually going to do any more work.
-+
-+Thanks to Jakub Ciolek for reporting this issue.
-+
-+Updates #78282
-+Fixes #78361
-+Fixes CVE-2026-32280
-+
-+Change-Id: Ie6f05c6ba3b0a40c21f64f7c4f846e74fae3b10e
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/758320
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-by: Neal Patel <nealpatel@google.com>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Reviewed-by: Jakub Ciolek <jakub@ciolek.dev>
-+(cherry picked from commit 26d8a902002a2b41bc4c302044110f2eae8d597f)
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/759221
-+Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
-+
-+CVE: CVE-2026-32280
-+Upstream-Status: Backport [https://github.com/golang/go/commit/edc1e4a5f2af48b648502d987b8d4eebf43c884b]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/crypto/x509/verify.go      |  31 ++++---
-+ src/crypto/x509/verify_test.go | 150 ++++++++++++++++-----------------
-+ 2 files changed, 96 insertions(+), 85 deletions(-)
-+
-+diff --git a/src/crypto/x509/verify.go b/src/crypto/x509/verify.go
-+index 0ae8aef..1de06bc 100644
-+--- a/src/crypto/x509/verify.go
-++++ b/src/crypto/x509/verify.go
-+@@ -939,6 +939,8 @@ func alreadyInChain(candidate *Certificate, chain []*Certificate) bool {
-+ // for failed checks due to different intermediates having the same Subject.
-+ const maxChainSignatureChecks = 100
-+ 
-++var errSignatureLimit = errors.New("x509: signature check attempts limit reached while verifying certificate chain")
-++
-+ func (c *Certificate) buildChains(currentChain []*Certificate, sigChecks *int, opts *VerifyOptions) (chains [][]*Certificate, err error) {
-+ 	var (
-+ 		hintErr  error
-+@@ -946,16 +948,16 @@ func (c *Certificate) buildChains(currentChain []*Certificate, sigChecks *int, o
-+ 	)
-+ 
-+ 	considerCandidate := func(certType int, candidate potentialParent) {
-+-		if candidate.cert.PublicKey == nil || alreadyInChain(candidate.cert, currentChain) {
-+-			return
-+-		}
-+-
-+ 		if sigChecks == nil {
-+ 			sigChecks = new(int)
-+ 		}
-+ 		*sigChecks++
-+ 		if *sigChecks > maxChainSignatureChecks {
-+-			err = errors.New("x509: signature check attempts limit reached while verifying certificate chain")
-++			err = errSignatureLimit
-++			return
-++		}
-++
-++		if candidate.cert.PublicKey == nil || alreadyInChain(candidate.cert, currentChain) {
-+ 			return
-+ 		}
-+ 
-+@@ -996,11 +998,20 @@ func (c *Certificate) buildChains(currentChain []*Certificate, sigChecks *int, o
-+ 		}
-+ 	}
-+ 
-+-	for _, root := range opts.Roots.findPotentialParents(c) {
-+-		considerCandidate(rootCertificate, root)
-+-	}
-+-	for _, intermediate := range opts.Intermediates.findPotentialParents(c) {
-+-		considerCandidate(intermediateCertificate, intermediate)
-++candidateLoop:
-++	for _, parents := range []struct {
-++		certType   int
-++		potentials []potentialParent
-++	}{
-++		{rootCertificate, opts.Roots.findPotentialParents(c)},
-++		{intermediateCertificate, opts.Intermediates.findPotentialParents(c)},
-++	} {
-++		for _, parent := range parents.potentials {
-++			considerCandidate(parents.certType, parent)
-++			if err == errSignatureLimit {
-++				break candidateLoop
-++			}
-++		}
-+ 	}
-+ 
-+ 	if len(chains) > 0 {
-+diff --git a/src/crypto/x509/verify_test.go b/src/crypto/x509/verify_test.go
-+index 223c250..f3711ac 100644
-+--- a/src/crypto/x509/verify_test.go
-++++ b/src/crypto/x509/verify_test.go
-+@@ -1765,10 +1765,13 @@ func TestValidHostname(t *testing.T) {
-+ 	}
-+ }
-+ 
-+-func generateCert(cn string, isCA bool, issuer *Certificate, issuerKey crypto.PrivateKey) (*Certificate, crypto.PrivateKey, error) {
-+-	priv, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-+-	if err != nil {
-+-		return nil, nil, err
-++func generateCert(cn string, isCA bool, issuer *Certificate, issuerKey crypto.PrivateKey, priv crypto.PrivateKey) (*Certificate, crypto.PrivateKey, error) {
-++	if priv == nil {
-++		var err error
-++		priv, err = ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-++		if err != nil {
-++			return nil, nil, err
-++		}
-+ 	}
-+ 
-+ 	serialNumberLimit := new(big.Int).Lsh(big.NewInt(1), 128)
-+@@ -1779,6 +1782,7 @@ func generateCert(cn string, isCA bool, issuer *Certificate, issuerKey crypto.Pr
-+ 		Subject:      pkix.Name{CommonName: cn},
-+ 		NotBefore:    time.Now().Add(-1 * time.Hour),
-+ 		NotAfter:     time.Now().Add(24 * time.Hour),
-++		DNSNames:     []string{rand.Text()},
-+ 
-+ 		KeyUsage:              KeyUsageKeyEncipherment | KeyUsageDigitalSignature | KeyUsageCertSign,
-+ 		ExtKeyUsage:           []ExtKeyUsage{ExtKeyUsageServerAuth},
-+@@ -1790,7 +1794,7 @@ func generateCert(cn string, isCA bool, issuer *Certificate, issuerKey crypto.Pr
-+ 		issuerKey = priv
-+ 	}
-+ 
-+-	derBytes, err := CreateCertificate(rand.Reader, template, issuer, priv.Public(), issuerKey)
-++	derBytes, err := CreateCertificate(rand.Reader, template, issuer, priv.(crypto.Signer).Public(), issuerKey)
-+ 	if err != nil {
-+ 		return nil, nil, err
-+ 	}
-+@@ -1802,81 +1806,77 @@ func generateCert(cn string, isCA bool, issuer *Certificate, issuerKey crypto.Pr
-+ 	return cert, priv, nil
-+ }
-+ 
-+-func TestPathologicalChain(t *testing.T) {
-+-	if testing.Short() {
-+-		t.Skip("skipping generation of a long chain of certificates in short mode")
-+-	}
-+-
-+-	// Build a chain where all intermediates share the same subject, to hit the
-+-	// path building worst behavior.
-+-	roots, intermediates := NewCertPool(), NewCertPool()
-+-
-+-	parent, parentKey, err := generateCert("Root CA", true, nil, nil)
-+-	if err != nil {
-+-		t.Fatal(err)
-+-	}
-+-	roots.AddCert(parent)
-+-
-+-	for i := 1; i < 100; i++ {
-+-		parent, parentKey, err = generateCert("Intermediate CA", true, parent, parentKey)
-+-		if err != nil {
-+-			t.Fatal(err)
-+-		}
-+-		intermediates.AddCert(parent)
-+-	}
-+-
-+-	leaf, _, err := generateCert("Leaf", false, parent, parentKey)
-+-	if err != nil {
-+-		t.Fatal(err)
-+-	}
-+-
-+-	start := time.Now()
-+-	_, err = leaf.Verify(VerifyOptions{
-+-		Roots:         roots,
-+-		Intermediates: intermediates,
-+-	})
-+-	t.Logf("verification took %v", time.Since(start))
-+-
-+-	if err == nil || !strings.Contains(err.Error(), "signature check attempts limit") {
-+-		t.Errorf("expected verification to fail with a signature checks limit error; got %v", err)
-+-	}
-+-}
-+-
-+-func TestLongChain(t *testing.T) {
-++func TestPathologicalChains(t *testing.T) {
-+ 	if testing.Short() {
-+-		t.Skip("skipping generation of a long chain of certificates in short mode")
-+-	}
-+-
-+-	roots, intermediates := NewCertPool(), NewCertPool()
-+-
-+-	parent, parentKey, err := generateCert("Root CA", true, nil, nil)
-+-	if err != nil {
-+-		t.Fatal(err)
-+-	}
-+-	roots.AddCert(parent)
-++		t.Skip("skipping generation of a long chains of certificates in short mode")
-++	}
-++
-++	// Test four pathological cases, where the intermediates in the chain have
-++	// the same/different subjects and the same/different keys. This covers a
-++	// number of cases where the chain building algorithm might be inefficient,
-++	// such as when there are many intermediates with the same subject but
-++	// different keys, many intermediates with the same key but different
-++	// subjects, many intermediates with the same subject and key, or many
-++	// intermediates with different subjects and keys.
-++	//
-++	// The worst case for our algorithm is when all of the intermediates share
-++	// both subject and key, in which case all of the intermediates appear to
-++	// have signed each other, causing us to see a large number of potential
-++	// parents for each intermediate.
-++	//
-++	// All of these cases, Certificate.Verify should return errSignatureLimit.
-++	//
-++	// In all cases, don't have a root in the pool, so a valid chain cannot actually be built.
-++
-++	for _, test := range []struct {
-++		sameSubject bool
-++		sameKey     bool
-++	}{
-++		{sameSubject: false, sameKey: false},
-++		{sameSubject: true, sameKey: false},
-++		{sameSubject: false, sameKey: true},
-++		{sameSubject: true, sameKey: true},
-++	} {
-++		t.Run(fmt.Sprintf("sameSubject=%t,sameKey=%t", test.sameSubject, test.sameKey), func(t *testing.T) {
-++			intermediates := NewCertPool()
-++
-++			var intermediateKey crypto.PrivateKey
-++			if test.sameKey {
-++				var err error
-++				intermediateKey, err = ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-++				if err != nil {
-++					t.Fatal(err)
-++				}
-++			}
-+ 
-+-	for i := 1; i < 15; i++ {
-+-		name := fmt.Sprintf("Intermediate CA #%d", i)
-+-		parent, parentKey, err = generateCert(name, true, parent, parentKey)
-+-		if err != nil {
-+-			t.Fatal(err)
-+-		}
-+-		intermediates.AddCert(parent)
-+-	}
-++			var leafSigner crypto.PrivateKey
-++			var intermediate *Certificate
-++			for i := range 100 {
-++				cn := "Intermediate CA"
-++				if !test.sameSubject {
-++					cn += fmt.Sprintf(" #%d", i)
-++				}
-++				var err error
-++				intermediate, leafSigner, err = generateCert(cn, true, intermediate, leafSigner, intermediateKey)
-++				if err != nil {
-++					t.Fatal(err)
-++				}
-++				intermediates.AddCert(intermediate)
-++			}
-+ 
-+-	leaf, _, err := generateCert("Leaf", false, parent, parentKey)
-+-	if err != nil {
-+-		t.Fatal(err)
-+-	}
-++			leaf, _, err := generateCert("Leaf", false, intermediate, leafSigner, nil)
-++			if err != nil {
-++				t.Fatal(err)
-++			}
-+ 
-+-	start := time.Now()
-+-	if _, err := leaf.Verify(VerifyOptions{
-+-		Roots:         roots,
-+-		Intermediates: intermediates,
-+-	}); err != nil {
-+-		t.Error(err)
-++			start := time.Now()
-++			_, err = leaf.Verify(VerifyOptions{
-++				Roots:         NewCertPool(),
-++				Intermediates: intermediates,
-++			})
-++			t.Logf("verification took %v", time.Since(start))
-++		})
-+ 	}
-+-	t.Logf("verification took %v", time.Since(start))
-+ }
-+ 
-+ func TestSystemRootsError(t *testing.T) {
-+-- 
-+2.50.1
-+
--- 
-2.50.1
-
+SGksDQoNCj4gT24gOCBNYXkgMjAyNiwgYXQgMTU6NDUsIFJvYmVydCBZYW5nIHZpYSBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnIDxsaWV6aGkueWFuZz13aW5kcml2ZXIuY29tQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmc+IHdyb3RlOg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9uZnMtdXRpbHMvbmZzLXV0aWxzLzAwMDEtZmhfa2V5X2ZpbGUuYy1GaXgtYnVpbGQtZXJyb3It
+Zm9yLW11c2wucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMt
+dXRpbHMvMDAwMS1maF9rZXlfZmlsZS5jLUZpeC1idWlsZC1lcnJvci1mb3ItbXVzbC5wYXRjaA0K
+DQpUaGVyZeKAmXMgbmZzLXV0aWxzIGNoYW5nZXMgaW4gdGhpcyBzdHJhY2UgdXBncmFkZSwgdGhl
+eeKAmWxsIG5lZWQgdG8gYmUgcHV0IGJhY2sgaW50byB0aGUgcmlnaHQgY2hhbmdlLg0KDQo+ICMg
+cmVtb3ZlIGF0IG5leHQgdmVyc2lvbiB1cGdyYWRlIG9yIHdoZW4gb3V0cHV0IGNoYW5nZXMNCj4g
+LVBSID0gInIxIg0KPiBIQVNIRVFVSVZfSEFTSF9WRVJTSU9OIC49ICIuMeKAnQ0KDQpSZW1vdmUg
+YWxsIG9mIHRoaXMgYmxvY2sgKHRoZSBjb21tZW50IGFuZCBib3RoIGFzc2lnbm1lbnRzKSwgbm90
+IGp1c3QgdGhlIFBSLg0KDQpSb3NzDQoNCg==
 
