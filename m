@@ -2,60 +2,60 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7111CCD4851
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 09:00:03 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71357.1778576401509922014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70733CD4855
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 09:00:13 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.71362.1778576406555454458
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 02:00:01 -0700
+ Tue, 12 May 2026 02:00:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=jJVjCgJV;
- spf=pass (domain: mvista.com, ip: 209.85.216.51, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-367c2a39fcfso1722364a91.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 02:00:01 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=E6ALNeOg;
+ spf=pass (domain: mvista.com, ip: 209.85.216.41, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-367cbac9cb1so3140013a91.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 02:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1778576400; x=1779181200; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1778576405; x=1779181205; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WG1e3ECRgf9IL1mT7QDwKtQZnyHC0P63ib1yPnH5gA4=;
-        b=jJVjCgJV6E7vY4NYGthf0XKl63cejgHeFK67OBqwFZnWRGaIGZQwMyN/ywXgLxvl0T
-         0NGMPLrBl6EpgsBJEWMh21urUcJUjU3CiuBSM09WGguH9GM7vKUexZrq38pYV0xNmZFO
-         tMXoR3McIemUjmTtDF2usz/PtQCVAmVQ9nvsQ=
+        bh=InJtewPQxwU7CxyQgYip1ZO0Jubnb1p79O7GMU7QOkk=;
+        b=E6ALNeOg9T+IHuVbUW80vtJmDIn1TElIwPQ/7uui4E1GsqwQJOuXwvhCJFDHa4GXwj
+         Wwjw4kBl7zrWYq0L6L5dETr3qN2IeYZoxodDrua/qADI3HMMEq75WS9RfuZhIJz7/Nx5
+         Tl9AOuHU9El2rZo70Wt6iDVlieVZY3qxAHa4s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778576400; x=1779181200;
+        d=1e100.net; s=20251104; t=1778576405; x=1779181205;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WG1e3ECRgf9IL1mT7QDwKtQZnyHC0P63ib1yPnH5gA4=;
-        b=PEtDKAu/ocVZVsUvz9iSZrius92Jw0BavPa2MLO9+59pFmPHVNe3MdtlmXldP0yzD0
-         aUvll3xnDIGodD43mCah2vkpJmPF5795JUPxOQxy+uTFL82gv1ww0ZntcGFCt0WeEcXb
-         3W7h+W/29ukAQvVE5vVL5lSIr5XmTC5ZelJtSz++/U3cS6GEzAgyuZFVqa5NuYSNJ8fi
-         ShdMw6ctdLEad3rwZrRp8+UWZ28pDM73lK+Wq4cNzbw5GyxcT5WrDkIFTf/aNO4XfHIA
-         GUGB+SqNMjw3X784T6q+1wcm0EXmveD/2pOpBjFdAoEJv7pTZyY5rNiwvSQgXImM3Zid
-         Rx2A==
-X-Gm-Message-State: AOJu0Yzit9rsgm6dT5pTGo1RSjQoIBm5Hlv98sjRcfAYsL2rKCvvtVuZ
-	gBoeXcQDY6Y4CygJtHtNrdUqLSXBqiX2Q1g1yM6Fm1md4HS67ikcTdL3gIc+OgIv5H8cc2O4i8u
-	DUObZ
-X-Gm-Gg: Acq92OFdG1+QOV590iDTCFFGXzZwE7YJRoimdo/4Whx+k2B5lc7VchKiaPjmy0zGPUY
-	/EfATBydqtXA/dssrg0/kYfoOEbMmTHQTDCEnr12FyP6FQoYcUevTh6xx7v+wPsvwxomRl/1+sH
-	mAqOOSayWeCaCyYUcQgbnFTjxMubHYnIlv/Uy/L14y/DtUslbUtwHzJ1CesaNMNxLzMYDgOgJ91
-	jfqJW1f36Anrj3epsKi8GzjURMQ3EePq2dIzPFprPupEQ8o/+C9r82lpGc8KGfWuwj9HurueG7+
-	/tot73IxVavzGZG5V2e86tMXPQmXURl03ul+pMSPcChyYmCrGWhBmHtFHzrgGqJUI6bm3Qu+HuT
-	pgeRjqIKvly2tOiT0sgFGMMwftdthXU3iXW7EhCOrlqWvycxXDVnYqDTFvnL4ixpP45OfoMNHPB
-	jBP3TVO0wzw0iaXALF+ZbDBF6a9LM=
-X-Received: by 2002:a17:90b:5683:b0:35e:576e:5bc with SMTP id 98e67ed59e1d1-365ac79c531mr29827799a91.25.1778576400381;
-        Tue, 12 May 2026 02:00:00 -0700 (PDT)
+        bh=InJtewPQxwU7CxyQgYip1ZO0Jubnb1p79O7GMU7QOkk=;
+        b=lK3/XIjfw6zbpTwdNwyRtZTetI1Xu6W7jwUCGKDq62qUF7vwjZM0ryaXhU2/EXG4Rh
+         cAR4enYOsMjoNV3jiIH5met6j21ALUNcvESgGwXo5hsmDtfTKFeJK5B4+aBKMeyxUDF6
+         s4BIUqYeHe8PcH04skccDF718RW/mEYBeymPu0IN92beIKqTnlPNrn+9ERhMgnRxa/LG
+         T687iktFJXOKKn5bRyq5sCDZeW6fsWoF5gY9AuM232e3TDW1ufZ7bX52WkzfATKd5mk7
+         MIqbiK3HS7hz1d/QpOk1X/WFmQbwtQezWc5ZQgSi+nyIljAyH0VaMjbrX+5vuLIA86+U
+         PvAg==
+X-Gm-Message-State: AOJu0YyRxpuePSm0JHX0hhUo0mRZFcyHqELJUUu83IJYvd8QuJ1/GIfZ
+	8VoIL8JZZXzZ32mZTeggvtlQD+XKi7JUVYXlJVoASTuemGV3+GsXH/8afL0o20rKLLr9co006tF
+	Ocp+1
+X-Gm-Gg: Acq92OFPiowKpslFRD+cLgtpAgV67vaAtdF7jqBK2w59JmGj4o4LzYyI48HwC8aANcs
+	twNrRKmTtOYXnKVFT/i1EU/wr7Rp9S11ncGlr5Z4GvoUte5w8WoQ8FJC3gBUVwytrxk8OIiW3H4
+	5a2F4lFwkg8OuCjAEkPZ4id8DYqzyT3Gc/2HONXiybsxouw7Hmis3/jJcA9oUClhrHV6RFWvjtY
+	JfX8y8qklJVO6fe6KlCDPQ1kwgEotaZRFfFXu6n2H8lAPzuLUdKwLhc1UGBK5hyX541jMmu119f
+	Ejn/69Bv2u1UEh0E/fI80a0l4KH1kpeO4NthTCd67MakH1yOC1U/B8in2cQpbpDVio9mmScbgbQ
+	OZhLIN6yhysiInPRp5Us4BW8QHyvWV3HYYOyTHPCwELUHpFBtulYtW4yxDeg7JeguY1F75uXyp8
+	V2k+zQBKyfXynxOzx0KKgLja0AjCI=
+X-Received: by 2002:a17:90b:134e:b0:368:1979:5e8d with SMTP id 98e67ed59e1d1-36819796535mr10895847a91.2.1778576405043;
+        Tue, 12 May 2026 02:00:05 -0700 (PDT)
 Received: from MVIN00352.. ([2401:4900:1cc4:80a8:e6ce:e2c9:e8fb:6a6e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367d623fcfasm13591380a91.2.2026.05.12.01.59.58
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367d623fcfasm13591380a91.2.2026.05.12.02.00.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 01:59:59 -0700 (PDT)
+        Tue, 12 May 2026 02:00:04 -0700 (PDT)
 From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch 4/5] xserver-xorg: Fix CVE-2026-34002
-Date: Tue, 12 May 2026 14:29:22 +0530
-Message-ID: <20260512085923.820545-4-vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][patch 5/5] xserver-xorg: Fix CVE-2026-34003
+Date: Tue, 12 May 2026 14:29:23 +0530
+Message-ID: <20260512085923.820545-5-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260512085923.820545-1-vanusuri@mvista.com>
 References: <20260512085923.820545-1-vanusuri@mvista.com>
@@ -64,114 +64,365 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 09:00:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236866
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 09:00:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236867
 
 Pick patch according to [1]
 
 [1] https://lists.x.org/archives/xorg-announce/2026-April/003677.html
-[2] https://security-tracker.debian.org/tracker/CVE-2026-34002
+[2] https://security-tracker.debian.org/tracker/CVE-2026-34003
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../xserver-xorg/CVE-2026-34002.patch         | 93 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_21.1.18.bb      |  1 +
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34002.patch
+ .../xserver-xorg/CVE-2026-34003-1.patch       | 113 +++++++++
+ .../xserver-xorg/CVE-2026-34003-2.patch       | 223 ++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.18.bb      |   2 +
+ 3 files changed, 338 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-1.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-2.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34002.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34002.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-1.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-1.patch
 new file mode 100644
-index 0000000000..131caefcd5
+index 0000000000..3a1a9db8cb
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34002.patch
-@@ -0,0 +1,93 @@
-+From f056ce1cc96ed9261052c31524162c78e458f98c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-1.patch
+@@ -0,0 +1,113 @@
++From b85b00dd7b9eee05e3c12e7ad1fce4fc6671507b Mon Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 18 Feb 2026 17:02:09 +0100
-+Subject: [PATCH] xkb: Fix out-of-bounds read in CheckModifierMap()
++Date: Mon, 23 Feb 2026 15:52:49 +0100
++Subject: [PATCH] xkb: Add additional bound checking in CheckKeyTypes()
 +
-+As reported by valgrind:
++The function CheckKeyTypes() will loop over the client's request but
++won't perform any additional bound checking to ensure that the data
++read remains within the request bounds.
 +
-+  == Conditional jump or move depends on uninitialised value(s)
-+  ==    at 0x547E5B: CheckModifierMap (xkb.c:1972)
-+  ==    by 0x54A086: _XkbSetMapChecks (xkb.c:2574)
-+  ==    by 0x54A845: ProcXkbSetMap (xkb.c:2741)
-+  ==    by 0x556EF4: ProcXkbDispatch (xkb.c:7048)
-+  ==    by 0x454A8C: Dispatch (dispatch.c:553)
-+  ==    by 0x462CEB: dix_main (main.c:274)
-+  ==    by 0x405EA7: main (stubmain.c:34)
-+  ==  Uninitialised value was created by a heap allocation
-+  ==    at 0x4840B26: malloc (vg_replace_malloc.c:447)
-+  ==    by 0x592D5A: AllocateInputBuffer (io.c:981)
-+  ==    by 0x591F77: InsertFakeRequest (io.c:516)
-+  ==    by 0x45CA27: NextAvailableClient (dispatch.c:3629)
-+  ==    by 0x58FA81: AllocNewConnection (connection.c:628)
-+  ==    by 0x58FC70: EstablishNewConnections (connection.c:692)
-+  ==    by 0x58FFAA: HandleNotifyFd (connection.c:809)
-+  ==    by 0x593F42: ospoll_wait (ospoll.c:660)
-+  ==    by 0x58B9B6: WaitForSomething (WaitFor.c:208)
-+  ==    by 0x4548AC: Dispatch (dispatch.c:493)
-+  ==    by 0x462CEB: dix_main (main.c:274)
-+  ==    by 0x405EA7: main (stubmain.c:34)
++As a result, a specifically crafted request may cause CheckKeyTypes() to
++read past the request data, as reported by valgrind:
 +
-+The issue is that the loop in CheckModifierMap() reads from wire without
-+verifying that the data is within the request bounds.
++  == Invalid read of size 2
++  ==    at 0x5A3D1D: CheckKeyTypes (xkb.c:1694)
++  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
++  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
++  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
++  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
++  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==  Address is 30 bytes after a block of size 28,672 in arena "client"
++  ==
++  == Invalid read of size 2
++  ==    at 0x5A3AB6: CheckKeyTypes (xkb.c:1669)
++  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
++  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
++  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
++  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
++  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==  Address is 2 bytes after a block of size 28,672 alloc'd
++  ==    at 0x4848897: realloc (vg_replace_malloc.c:1804)
++  ==    by 0x5E357A: ReadRequestFromClient (io.c:336)
++  ==    by 0x4A1FAB: Dispatch (dispatch.c:519)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==
++  == Invalid write of size 2
++  ==    at 0x5A3AD7: CheckKeyTypes (xkb.c:1669)
++  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
++  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
++  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
++  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
++  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==  Address is 2 bytes after a block of size 28,672 alloc'd
++  ==    at 0x4848897: realloc (vg_replace_malloc.c:1804)
++  ==    by 0x5E357A: ReadRequestFromClient (io.c:336)
++  ==    by 0x4A1FAB: Dispatch (dispatch.c:519)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==
 +
-+The req->totalModMapKeys value could exceed the actual data provided,
-+causing reads of uninitialized memory.
++To avoid that issue, add additional bounds checking within the loops by
++calling _XkbCheckRequestBounds() and report an error if we are to read
++past the client's request.
 +
-+To fix that issue, we add a bounds check using _XkbCheckRequestBounds,
-+but for that, we need to also pass a ClientPtr parameter, which is not
-+a problem since CheckModifierMap() is a private, static function.
-+
-+CVE-2026-34002, ZDI-CAN-28737
++CVE-2026-34003, ZDI-CAN-28736
 +
 +This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++Jan-Niklas Sohn working with TrendAI Zero Day Initiative
 +
 +Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
 +Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/f056ce1cc96ed9261052c31524162c78e458f98c]
-+CVE: CVE-2026-34002
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/b85b00dd7b9eee05e3c12e7ad1fce4fc6671507b]
++CVE: CVE-2026-34003
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ xkb/xkb.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
++ xkb/xkb.c | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
 +
 +diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 1ba638b..3fcc6c4 100644
++index 3fcc6c4..0ef634b 100644
 +--- a/xkb/xkb.c
 ++++ b/xkb/xkb.c
-+@@ -1940,8 +1940,8 @@ CheckKeyExplicit(XkbDescPtr xkb,
++@@ -1639,6 +1639,10 @@ CheckKeyTypes(ClientPtr client,
++     for (i = 0; i < req->nTypes; i++) {
++         unsigned width;
++ 
+++	if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++	    *nMapsRtrn = _XkbErrCode3(0x0b, req->nTypes, i);
+++	    return 0;
+++	}
++         if (client->swapped && doswap) {
++             swaps(&wire->virtualMods);
++         }
++@@ -1664,7 +1668,18 @@ CheckKeyTypes(ClientPtr client,
++             xkbModsWireDesc *preWire;
++ 
++             mapWire = (xkbKTSetMapEntryWireDesc *) &wire[1];
+++	    if (!_XkbCheckRequestBounds(client, req, mapWire,
+++				        &mapWire[wire->nMapEntries])) {
+++		*nMapsRtrn = _XkbErrCode3(0x0c, i, wire->nMapEntries);
+++		return 0;
+++	    }
++             preWire = (xkbModsWireDesc *) &mapWire[wire->nMapEntries];
+++	    if (wire->preserve &&
+++		!_XkbCheckRequestBounds(client, req, preWire,
+++			                &preWire[wire->nMapEntries])) {
+++		*nMapsRtrn = _XkbErrCode3(0x0d, i, wire->nMapEntries);
+++		return 0;
+++	    }
++             for (n = 0; n < wire->nMapEntries; n++) {
++                 if (client->swapped && doswap) {
++                     swaps(&mapWire[n].virtualMods);
++-- 
++2.43.0
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-2.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-2.patch
+new file mode 100644
+index 0000000000..15b2b946d5
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-2.patch
+@@ -0,0 +1,223 @@
++From d38c563fab5c4a554e0939da39e4d1dadef7cbae Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Mon, 2 Mar 2026 14:09:57 +0100
++Subject: [PATCH] xkb: Add more _XkbCheckRequestBounds()
++
++Similar to the recent fixes, add more _XkbCheckRequestBounds() to the
++functions that loop over the request data, i.e.:
++
++ * CheckKeySyms()
++ * CheckKeyActions()
++ * CheckKeyBehaviors()
++ * CheckVirtualMods()
++ * CheckKeyExplicit()
++ * CheckVirtualModMap()
++ * _XkbSetMapChecks()
++
++All these are static functions so we can add the client to the parameters
++without breaking any API.
++
++See also:
++CVE-2026-34003, ZDI-CAN-28736, CVE-2026-34002, ZDI-CAN-28737
++
++v2: Check for "nSyms != 0" in CheckKeySyms() to avoid false positives.
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/d38c563fab5c4a554e0939da39e4d1dadef7cbae]
++CVE: CVE-2026-34003
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ xkb/xkb.c | 69 ++++++++++++++++++++++++++++++++++++++++++++-----------
++ 1 file changed, 55 insertions(+), 14 deletions(-)
++
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index 0ef634b..6320914 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -1752,6 +1752,11 @@ CheckKeySyms(ClientPtr client,
++         KeySym *pSyms;
++         register unsigned nG;
++ 
+++        /* Check we received enough data to read the next xkbSymMapWireDesc */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++            *errorRtrn = _XkbErrCode3(0x18, i + req->firstKeySym, i);
+++            return 0;
+++        }
++         if (client->swapped && doswap) {
++             swaps(&wire->nSyms);
++         }
++@@ -1790,6 +1795,12 @@ CheckKeySyms(ClientPtr client,
++             return 0;
++         }
++         pSyms = (KeySym *) &wire[1];
+++        if (wire->nSyms != 0) {
+++            if (!_XkbCheckRequestBounds(client, req, pSyms, &pSyms[wire->nSyms])) {
+++                *errorRtrn = _XkbErrCode3(0x19, i + req->firstKeySym, wire->nSyms);
+++                return 0;
+++            }
+++        }
++         wire = (xkbSymMapWireDesc *) &pSyms[wire->nSyms];
++     }
++ 
++@@ -1813,11 +1824,12 @@ CheckKeySyms(ClientPtr client,
 + }
 + 
 + static int
-+-CheckModifierMap(XkbDescPtr xkb, xkbSetMapReq * req, CARD8 **wireRtrn,
-+-                 int *errRtrn)
-++CheckModifierMap(ClientPtr client, XkbDescPtr xkb, xkbSetMapReq * req,
-++                 CARD8 **wireRtrn, int *errRtrn)
++-CheckKeyActions(XkbDescPtr xkb,
++-                xkbSetMapReq * req,
++-                int nTypes,
++-                CARD8 *mapWidths,
++-                CARD16 *symsPerKey, CARD8 **wireRtrn, int *nActsRtrn)
+++CheckKeyActions(ClientPtr client,
+++               XkbDescPtr xkb,
+++               xkbSetMapReq * req,
+++               int nTypes,
+++               CARD8 *mapWidths,
+++               CARD16 *symsPerKey, CARD8 **wireRtrn, int *nActsRtrn)
++ {
++     int nActs;
++     CARD8 *wire = *wireRtrn;
++@@ -1828,6 +1840,11 @@ CheckKeyActions(XkbDescPtr xkb,
++     CHK_REQ_KEY_RANGE2(0x21, req->firstKeyAct, req->nKeyActs, req, (*nActsRtrn),
++                        0);
++     for (nActs = i = 0; i < req->nKeyActs; i++) {
+++        /* Check we received enough data to read the next byte on the wire */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++            *nActsRtrn = _XkbErrCode3(0x24, i + req->firstKeyAct, i);
+++            return 0;
+++        }
++         if (wire[0] != 0) {
++             if (wire[0] == symsPerKey[i + req->firstKeyAct])
++                 nActs += wire[0];
++@@ -1846,7 +1863,8 @@ CheckKeyActions(XkbDescPtr xkb,
++ }
++ 
++ static int
++-CheckKeyBehaviors(XkbDescPtr xkb,
+++CheckKeyBehaviors(ClientPtr client,
+++                  XkbDescPtr xkb,
++                   xkbSetMapReq * req,
++                   xkbBehaviorWireDesc ** wireRtrn, int *errorRtrn)
++ {
++@@ -1872,6 +1890,11 @@ CheckKeyBehaviors(XkbDescPtr xkb,
++     }
++ 
++     for (i = 0; i < req->totalKeyBehaviors; i++, wire++) {
+++        /* Check we received enough data to read the next behavior */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++            *errorRtrn = _XkbErrCode3(0x36, first, i);
+++            return 0;
+++        }
++         if ((wire->key < first) || (wire->key > last)) {
++             *errorRtrn = _XkbErrCode4(0x33, first, last, wire->key);
++             return 0;
++@@ -1897,7 +1920,8 @@ CheckKeyBehaviors(XkbDescPtr xkb,
++ }
++ 
++ static int
++-CheckVirtualMods(XkbDescRec * xkb,
+++CheckVirtualMods(ClientPtr client,
+++                 XkbDescRec * xkb,
++                  xkbSetMapReq * req, CARD8 **wireRtrn, int *errorRtrn)
 + {
 +     register CARD8 *wire = *wireRtrn;
-+     CARD8 *start;
-+@@ -1965,6 +1965,10 @@ CheckModifierMap(XkbDescPtr xkb, xkbSetMapReq * req, CARD8 **wireRtrn,
++@@ -1909,12 +1933,18 @@ CheckVirtualMods(XkbDescRec * xkb,
++         if (req->virtualMods & bit)
++             nMods++;
++     }
+++    /* Check we received enough data for the number of virtual mods expected */
+++    if (!_XkbCheckRequestBounds(client, req, wire, wire + XkbPaddedSize(nMods))) {
+++        *errorRtrn = _XkbErrCode3(0x37, nMods, i);
+++        return 0;
+++    }
++     *wireRtrn = (wire + XkbPaddedSize(nMods));
++     return 1;
++ }
++ 
++ static int
++-CheckKeyExplicit(XkbDescPtr xkb,
+++CheckKeyExplicit(ClientPtr client,
+++                 XkbDescPtr xkb,
++                  xkbSetMapReq * req, CARD8 **wireRtrn, int *errorRtrn)
++ {
++     register CARD8 *wire = *wireRtrn;
++@@ -1940,6 +1970,11 @@ CheckKeyExplicit(XkbDescPtr xkb,
 +     }
 +     start = wire;
-+     for (i = 0; i < req->totalModMapKeys; i++, wire += 2) {
-++	if (!_XkbCheckRequestBounds(client, req, wire, wire + 2)) {
-++	    *errRtrn = _XkbErrCode3(0x64, req->totalModMapKeys, i);
-++	    return 0;
-++	}
++     for (i = 0; i < req->totalKeyExplicit; i++, wire += 2) {
+++        /* Check we received enough data to read the next two bytes */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 2)) {
+++            *errorRtrn = _XkbErrCode4(0x54, first, last, i);
+++            return 0;
+++        }
 +         if ((wire[0] < first) || (wire[0] > last)) {
-+             *errRtrn = _XkbErrCode4(0x63, first, last, wire[0]);
++             *errorRtrn = _XkbErrCode4(0x53, first, last, wire[0]);
 +             return 0;
-+@@ -2568,7 +2572,7 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
++@@ -1995,7 +2030,8 @@ CheckModifierMap(ClientPtr client, XkbDescPtr xkb, xkbSetMapReq * req,
++ }
++ 
++ static int
++-CheckVirtualModMap(XkbDescPtr xkb,
+++CheckVirtualModMap(ClientPtr client,
+++                   XkbDescPtr xkb,
++                    xkbSetMapReq * req,
++                    xkbVModMapWireDesc ** wireRtrn, int *errRtrn)
++ {
++@@ -2019,6 +2055,11 @@ CheckVirtualModMap(XkbDescPtr xkb,
++         return 0;
++     }
++     for (i = 0; i < req->totalVModMapKeys; i++, wire++) {
+++        /* Check we received enough data to read the next virtual mod map key */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++            *errRtrn = _XkbErrCode3(0x74, first, i);
+++            return 0;
+++        }
++         if ((wire->key < first) || (wire->key > last)) {
++             *errRtrn = _XkbErrCode4(0x73, first, last, wire->key);
++             return 0;
++@@ -2563,7 +2604,7 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
++     }
++ 
++     if ((req->present & XkbKeyActionsMask) &&
++-        (!CheckKeyActions(xkb, req, nTypes, mapWidths, symsPerKey,
+++        (!CheckKeyActions(client, xkb, req, nTypes, mapWidths, symsPerKey,
++                           (CARD8 **) &values, &nActions))) {
++         client->errorValue = nActions;
++         return BadValue;
++@@ -2571,18 +2612,18 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
++ 
++     if ((req->present & XkbKeyBehaviorsMask) &&
++         (!CheckKeyBehaviors
++-         (xkb, req, (xkbBehaviorWireDesc **) &values, &error))) {
+++         (client, xkb, req, (xkbBehaviorWireDesc **) &values, &error))) {
++         client->errorValue = error;
 +         return BadValue;
 +     }
-+     if ((req->present & XkbModifierMapMask) &&
-+-        (!CheckModifierMap(xkb, req, (CARD8 **) &values, &error))) {
-++        (!CheckModifierMap(client, xkb, req, (CARD8 **) &values, &error))) {
++ 
++     if ((req->present & XkbVirtualModsMask) &&
++-        (!CheckVirtualMods(xkb, req, (CARD8 **) &values, &error))) {
+++        (!CheckVirtualMods(client, xkb, req, (CARD8 **) &values, &error))) {
++         client->errorValue = error;
++         return BadValue;
++     }
++     if ((req->present & XkbExplicitComponentsMask) &&
++-        (!CheckKeyExplicit(xkb, req, (CARD8 **) &values, &error))) {
+++        (!CheckKeyExplicit(client, xkb, req, (CARD8 **) &values, &error))) {
++         client->errorValue = error;
++         return BadValue;
++     }
++@@ -2593,7 +2634,7 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
++     }
++     if ((req->present & XkbVirtualModMapMask) &&
++         (!CheckVirtualModMap
++-         (xkb, req, (xkbVModMapWireDesc **) &values, &error))) {
+++         (client, xkb, req, (xkbVModMapWireDesc **) &values, &error))) {
 +         client->errorValue = error;
 +         return BadValue;
 +     }
@@ -179,14 +430,15 @@ index 0000000000..131caefcd5
 +2.43.0
 +
 diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-index dfed2c2437..2f7edd16a1 100644
+index 2f7edd16a1..110b3bbbdf 100644
 --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
 +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-             file://CVE-2026-33999.patch \
+@@ -9,6 +9,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
              file://CVE-2026-34000.patch \
              file://CVE-2026-34001.patch \
-+            file://CVE-2026-34002.patch \
+             file://CVE-2026-34002.patch \
++            file://CVE-2026-34003-1.patch \
++            file://CVE-2026-34003-2.patch \
              "
  SRC_URI[sha256sum] = "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f2994deff90116352"
  
