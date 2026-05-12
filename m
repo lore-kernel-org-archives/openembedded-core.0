@@ -1,128 +1,169 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57379CD4851
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 09:42:07 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.71533.1778578904847583704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE8ACD4855
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 09:51:47 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.72020.1778579500510263679
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 02:41:45 -0700
+ Tue, 12 May 2026 02:51:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=DpyH8lY0;
- spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8d65f4073bfso734771085a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 02:41:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778578904; cv=none;
-        d=google.com; s=arc-20240605;
-        b=IlPuvhjbHdkqhNueDfIbkPptkOrCrprketBaqDyFBNFiPnbWbW8jQAarQ4mlpG03Of
-         9o6N+dRh1I65u1QspIkl4lMf3y9tlP3nViXC+411XiOZZfXwCMUILHqU7u7gkfk+KjW0
-         4N65B978RyNyzDFxidb94NiunHURrHzMKTH+LWr5H5dIUd/pGofYT/2OImeq4TTvLdZp
-         c4Me5BdWoj/gB1fnIGSlJE5gUHSoO9UTldububXELJ+zIPcgLp5YnlO7nthW/S7oTogl
-         xkXtTMIizVJ56a1FbPpso+apc8e3Trsp2EEpxTqWhO2BjliP1phX01bU4PRkIqRU1ae9
-         CKFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=lZE0r12TKMq1qPueqJU8VPcb9WreAxjMQrkiLvxU0P0=;
-        fh=p9KDfLYLJoGZ84dXl1n2h2VLJK25MZJswUF1SG27mEA=;
-        b=k/Ws42/Z6mVUtStHg57t/K3XInznjjHogcLyvMBINFH9VtOHr/EHXGw+HdnQE5k1Mg
-         73cR6v/pj7/xdmI22Q8tIKrxcoFGyWQ4WN5LTgBJgvCqVC1R9tacWnlTNnu55kW/FpTC
-         6rahnBynInn26v7UpUCwiLkakc+cJthRRUdVqEIPVOOfFAl5BXWHS9Vv3E4MVHbFhd3g
-         qiJW1XijokthaTH+BRrgMtUBsMTuTlR/QSQI29YqYbWZN/h3KMqwwAOZDIgv5UHD6x4h
-         2VsRctRltg9cs7X1Kc9CGc6VfRiS80pxrR2JChQnixJD+/UsH7xTA3vmoSYpP40rVck0
-         jqmg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aA9L6anQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43fe608cb92so3335967f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 02:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778578904; x=1779183704; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lZE0r12TKMq1qPueqJU8VPcb9WreAxjMQrkiLvxU0P0=;
-        b=DpyH8lY0acXrw/yk5V5L3pvxRI99K75sEXInz3+MYrNhC1h+77x/5bIo2+iRAmUigj
-         74n7Nf838VP7H1FGLvN7anmQX2tUzIV9VVSbyKpiQX4nsEnAgzIJ3qeQSaUT1vhBGgev
-         I239eeaOpCIWDu6/duV1aMzaa6KqqHofy3a/+HDd1+BDQsdK2JIHhtNgQGOkCoV1g98r
-         8W11z/fvoNhSqlOZjnZHOIiIb0mqGmnlvWxBN/+FSn09y3eVx/NIECpT0z0wiY8EZQ8e
-         4gPYS5awZJfD8f6ft4VtNV3z3WE60PR5wBGUUk2w7vHm8pCIz33/+++pGB09A1D2JU2d
-         81bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778578904; x=1779183704;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1778579499; x=1779184299; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lZE0r12TKMq1qPueqJU8VPcb9WreAxjMQrkiLvxU0P0=;
-        b=PqbOi+IrAlj9l61mjDCxus3irJyU01QmQdHTCXU5u0NOw93tZG4OKGXzwxnod0jl72
-         GFNAn6p7aPrIf6/NKuRgALa1a3flwftRdAUZq3hlYitQqRDeFx9KUKAlzw9baEEeMAwJ
-         AzXggYz/L8YZVGXrFJSjAEE8on24NaFuBbaqL/FvdphH9NvdYJH9TQfee+yIlf/PloEl
-         jNpSWHLSgeBCUg2TJlzkNYpl5ygC7g0oZQMJ+zLAgqJa9gyDrGUXH+6SswAODdP6Syry
-         cx7mIPu855O3LwaCEHGN3GDJIfTvaNh9HrdCj3nimjKTuLOWv/vNvHMh0S32CoUGXte4
-         +BuA==
-X-Gm-Message-State: AOJu0Yxxfu2CByrZr7ToUEayJO+8IkGf4FQIv0qjoP1yy34R7Yy5IeHv
-	o0Lp43xER1gtAqt0FEUqfihhSsjPhTCrl731E8SCL49XF7Wq0HYTGYSUVsv6iE9EMs46VMCaC09
-	YR6gJeCFS2oZI6ZPL9QKhy28m+/STkCUPXzNS
-X-Gm-Gg: Acq92OGlZy0C1P/Y0E+9kB16uzFfppwO62oJbDFGH0GOZFH/CJknAnrxnqyLrUUx6dD
-	6GkAv6kvIYo9A7GzhHv8EWYBE9OOTlky3vwYdAxt0Tg4O09zsAe2vDHbt75rMdvnNJ+cwu0HY5V
-	40dYCHSCTRZOifMg7QgZ3XnTm7dRBzcuXvd6nKKwzh2IOvRnYVzIffEGUcIQx87JVndyXV6QSj+
-	wdxhxjVsEOGFNFByKGtBZukz0I4vgqA2N40dWvwxj73Xbvgxu4vw83E9VDxj/AaIjAMth2VTAIr
-	hrS8q9rUlILDWw4g
-X-Received: by 2002:ac8:578f:0:b0:50d:2a98:2571 with SMTP id
- d75a77b69052e-514d1ca6a98mr30865261cf.26.1778578903691; Tue, 12 May 2026
- 02:41:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260512032614.2814369-1-Qi.Chen@windriver.com>
- <20260512032614.2814369-2-Qi.Chen@windriver.com> <CANNYZj-0da2o5EuriBVvxGB9=+G_Gro98ZyW9BNzA=6ciPGPpQ@mail.gmail.com>
- <359fbacf-ff1a-4750-89f2-0243ae8e3aa2@windriver.com>
-In-Reply-To: <359fbacf-ff1a-4750-89f2-0243ae8e3aa2@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 12 May 2026 11:41:32 +0200
-X-Gm-Features: AVHnY4J74VGeqkbKs8Mg_xWSj-IlO2TIRYPJwTQqgzerGEYNqkD7xg6lzs1CaMk
-Message-ID: <CANNYZj8XMQ3Na+HifAUDDz1Y+L2a-wTUA+tbEg0x_pM4WsB3YA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH V4 2/7] upstream-stable-release-point.bbclass:
- add bbclass for stable point upgrade
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com
+        bh=XBr7RJSB8Bc9JLwfJsHPd8dlzGleC5XI3vcatnpPqoM=;
+        b=aA9L6anQR1LHllNYezU7qp4mmJvT63yYt/IMH30gssFRd+V5nx07f49glyugxmxkq3
+         W9H+rbF2Jg0DclOlMuIwMbbie03ErEx3YS+MqyMUt1Z5f9ERYmUL9wCd1gD/wi4v+iRb
+         FPhIbCxa41eXCwGe2FqSZar/JTEWoRsDymK5Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778579499; x=1779184299;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XBr7RJSB8Bc9JLwfJsHPd8dlzGleC5XI3vcatnpPqoM=;
+        b=gmUca9I/LxgmE75y6ITKIAMlyize3YAg6X1aWXxNWyUFmbnrMZnqgz5bUiQ3j9I+CO
+         u6mD03e2nBRM1AXUVAP2AP1cuI5y0v5PgCynB4iBWumbset6AVTjoLN8ffz2sUuOEYIM
+         omChoQS9vr43U1tZ7SJD47smlH6AwVG/YFMxyhqLPBUWTPmXdd7m1JXLIT7srOxoUqTH
+         4QHKhgMVr1YBLL2gaSr5zvCQIOLK0Pmu/A1g0qfg2NrCvrlpcQsQee3Mcj7sNPPak82H
+         PxL++Ua6oDNxfopNT8FTa5CUAxfHZel2k+GdqDGoYAEjZe6xCVzGAdVNdyP41SIgarJM
+         f1Lg==
+X-Forwarded-Encrypted: i=1; AFNElJ/A6AOWStdZ/TvnSY1qF4gHchUIb7GkiJj0bemgHD3MFGJXYqiNOhlTZmwTnrq2Vg1NMHyBwrKDd54Lv+5d4Z6hPw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzYLC2LorMUsmtb8MCWkiLsiNnvc0oUjO+t4yVKHfioHQcz2ySX
+	1k0HhmLCyb0fPJgL36tHoMLW5fT3+l2k423y3rhU0jRzRz67G/6WUV5i0xlB2RYasmk=
+X-Gm-Gg: Acq92OGdnL9oSpTHZ1v3P3RiX5Jt4WPRlZqk9S1LVMXa14eIvGuqk8zY/VJ8lzCc0Nn
+	ZDvxsu/wcnrBir1AbHctiJ7j80R2zBtr9hMqc81QhHtXd6w+F6EYl/u9ZaV9jWdATIzUeMa94AQ
+	ES3t5whTp4gOnx/rAGa3JP05pxsxnfW9gm9vT8+/p5peaLzvsfA6+RCFGEc5JvFuIl29ahepaQ4
+	lQXhDE888sZ4yitTBhMSsHuGe2tNpf6jjUPUfzEUu9s232U3l26wdOSJF9wuGb8p6AYPC073xLI
+	1GvfSXxfw0inlG/kOyVaAe5ghMfIVnT94alQ7sfbId2N9h0AZVnI6CTZyjqc5Rj1MDG4HXrcjm6
+	Xnsn4uARnwrHLug6FT7DDcxwL5xXO3xy12U1sBPg96mvGcr4kkFxrjoXfsfrj2jpo4w48rC3csw
+	mgCbxQej9M0QlprUtUFD224jLjpY7DAKoTPQrSseApmtfhfIG0vt205ErVfhZaTxMNyNAbXoZih
+	9KhBLTSoLJPMKE0
+X-Received: by 2002:a05:6000:2311:b0:43d:6244:f8b with SMTP id ffacd0b85a97d-4546140ac8bmr27291042f8f.13.1778579498789;
+        Tue, 12 May 2026 02:51:38 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:44a5:ca0b:d27c:9664? ([2001:8b0:aba:5f3c:44a5:ca0b:d27c:9664])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e6a6a64sm32878535f8f.6.2026.05.12.02.51.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 02:51:38 -0700 (PDT)
+Message-ID: <1dbb58318bc8b75f49a0eb892d4774bd345f4e50.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/3] ovmf: drop gcc-12 specific BUILD_CFLAGS
+ setting
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joao Marcos Costa <joaomarcos.costa@bootlin.com>, 
+	quentin.schulz@cherry.de, openembedded-core@lists.openembedded.org
+Date: Tue, 12 May 2026 10:51:37 +0100
+In-Reply-To: <fc44ecfe-7502-457b-9dcf-1f63ac4e5fc1@bootlin.com>
+References: <20260511092935.2631121-1-joaomarcos.costa@bootlin.com>
+	 <20260511092935.2631121-3-joaomarcos.costa@bootlin.com>
+	 <5f42f257-59fa-4085-a42c-7cbe55472567@cherry.de>
+	 <708f2321-2420-431e-8b9a-3a5a470228dd@bootlin.com>
+	 <bf76e336-9a8a-4488-a7fd-c4315303e53b@cherry.de>
+	 <2558d49d-58e6-4e0b-be28-3d27cf521dc1@bootlin.com>
+	 <a74ef617f11ddfc139fb23c7d688118de207712e.camel@linuxfoundation.org>
+	 <03127fae-4d0f-46b1-b740-b6020a10a3e8@bootlin.com>
+	 <8af0d0102205adfe2e997435e5fae90445c3c88e.camel@linuxfoundation.org>
+	 <fc44ecfe-7502-457b-9dcf-1f63ac4e5fc1@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 09:42:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236873
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 09:51:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236874
 
-On Tue, 12 May 2026 at 10:59, ChenQi <Qi.Chen@windriver.com> wrote:
-> > - do not require that . separates the stable series and stable release
-> > part (this will allow openssh to inherit the class)
->
-> If we do not use '.' to separate stable parts and the other parts,
-> recipe with version such as 1.2.3 will also match 1.21.
+On Tue, 2026-05-12 at 11:17 +0200, Joao Marcos Costa wrote:
+> Hello,
+>=20
+> On 5/12/26 11:06, Richard Purdie wrote:
+> > On Tue, 2026-05-12 at 11:02 +0200, Joao Marcos Costa wrote:
+> > > Hello,
+> > >=20
+> > > On 5/12/26 10:46, Richard Purdie wrote:
+> > > > On Mon, 2026-05-11 at 16:00 +0200, Joao Marcos Costa via
+> > > > lists.openembedded.org wrote:
+> > > > > Hello,
+> > > > >=20
+> > > > > On 5/11/26 15:52, Quentin Schulz via lists.openembedded.org
+> > > > > wrote:
+> > > > > (...)
+> > > > > >=20
+> > > > > > Not necessarily true as I don't think we build GCC for
+> > > > > > native recipes
+> > > > > > (and ovmf has a native variant), so it depends on the GCC
+> > > > > > on the host
+> > > > > > (unless you have uninative?). I don't know the autobuilder
+> > > > > > infrastructure, e.g. whether we build patches on multiple
+> > > > > > workers on
+> > > > > > different distros to have a big GCC version test matrix.
+> > > > > >=20
+> > > > > > But yes, building with a newer GCC will generally not make
+> > > > > > warnings from
+> > > > > > previous versions disappear and I'm hoping upstream has had
+> > > > > > time to fix
+> > > > > > warnings returned by GCC12 in the last 4 years :)
+> > > > > >=20
+> > > > > > Cheers,
+> > > > > > Quentin
+> > > > >=20
+> > > > > Yep, my whole point is based on the the distros in
+> > > > > SANITY_TESTED_DISTROS
+> > > > > being recent enough to ship GCC > 12 :)
+> > > > >=20
+> > > > > I should have made it explicit in my commit message.
+> > > >=20
+> > > > I hate to say this but:
+> > > >=20
+> > > > Alma/Centos/Rocky 8 have gcc 8
+> > > > Debian 11 has gcc 10
+> > > >=20
+> > > > and we don't use buildtools on debian 11.
+> > > >=20
+> > > > I'm therefore not sure how you concluded that from
+> > > > SANITY_TESTED_DISTROS.
+> > > >=20
+> > > > Cheers,
+> > > >=20
+> > > > Richard
+> > >=20
+> > > Ah, my bad...
+> > >=20
+> > > =C2=A0=C2=A0From this list here:
+> > > https://docs.yoctoproject.org/ref-manual/system-requirements.html#sup=
+ported-linux-distributions
+> > >=20
+> > > Considering the versions of Fedora and Ubuntu, I presumed the
+> > > other
+> > > distros were at least as recent (in terms of packages versions)
+> > > as
+> > > Fedora 39 (which ships GCC 13).
+> > >=20
+> > > I will check the results in SWAT to see if this warnings pops up,
+> > > but
+> > > the commit message could use a rewording to address this point
+> > > and also
+> > > some questions raised by Quentin, so a v2 will be sent later in
+> > > this week.
+> >=20
+> > We currently support distros with gcc 10, I think that is clear.
+>=20
+> It is clear, yes, but my point here is the -Wno-error=3Dstringop-
+> overflow=20
+> already being available upstream in the version of edk2 we currently=20
+> use, and - as per what I understood in their git history - the flag
+> was=20
+> added for the very same reason we have it in the recipe.
 
-Yes :) I really had missed that problem.
+Ok, that makes sense.=20
 
-> How about:
->
-> UPSTREAM_STABLE_RELEASE_REGEX ?= "^${STABLE_VERSION_REGEX}(\.[^.]+)*$"
->
-> This will match 261 as well as 261.1 but not some other unexpected versions.
->
-> The regex starts to get a little complicated though.
->
-> What do you think?
+Cheers,
 
-Maybe this:
-
-UPSTREAM_STABLE_RELEASE_REGEX ?= "^${STABLE_VERSION_REGEX}(\.\d+)*$"
-
-I.e. the suffix is zero or more ".number" components, and they must be
-at the end of the version. This would match 261, and 261.12, and
-261.1.2.3 but not 262 or 261alpha3.
-
-Then openssh can inherit the class and set:
-
-UPSTREAM_STABLE_RELEASE_REGEX = "^${STABLE_VERSION_REGEX}(p\d+)*$"
-
-e.g replace . with p, as a separator.
-
-Note: you can test various regexes, what they match and what they
-don't here: https://regex101.com/
-
-Alex
+Richard
 
