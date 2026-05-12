@@ -1,132 +1,79 @@
-Return-Path: <jeremie.dautheribes@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9700ECD4F25
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 17:02:35 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.80921.1778605353918831403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5779CD4F24
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 17:37:15 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.81267.1778607428329449433
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 10:02:34 -0700
+ Tue, 12 May 2026 10:37:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=IbtX9X0c;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: jeremie.dautheribes@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4B4DD4E42C00
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 17:02:32 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 18A8A60646
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 17:02:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2A7EF11AF8D57;
-	Tue, 12 May 2026 19:02:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778605351; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=/F1six9UBAQi7TuKPbCP94iEf4zrxvASKncaayWJbc0=;
-	b=IbtX9X0cc222Gh4IR9x6cXDXFNglVN9Tc2JXwXfB7YtqCcGL+O11uOMZwQZ2e9xOB3XFme
-	Q1CxQoH2NySweYA7mV1grPGdvPxD6C6urfHj9zqcr675LGg03dGMRYNBrTCJAwOY8Eg+yL
-	nOZedCqOCpytly/koAuTTTAszf2h5dNvaKTFqIHDBS5kz7I4QxG9m24PqMQsTz3krM7F4e
-	czHspy0PPH6VMi7xWgMgWMACck0FDyHyx+1u4qG9PVkhPdjcw/c7iwb85aQEENTg3gz6qR
-	zh9MZi0P7jXUDDw04tB8mtFwectbDFHh3oc0Lroo4CYgat3HDEZgpLIyW9ZcNg==
-From: =?utf-8?q?J=C3=A9r=C3=A9mie_Dautheribes_=28Schneider_Electric_=29?= <jeremie.dautheribes@bootlin.com>
-Date: Tue, 12 May 2026 19:01:57 +0200
-Subject: [OE-core][PATCH 2/2] spdx3: support SBOM compression based on
- SPDX_SBOM_EXT
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20260512-sbom-zstd-support-v1-2-93273381d548@bootlin.com>
-References: <20260512-sbom-zstd-support-v1-0-93273381d548@bootlin.com>
-In-Reply-To: <20260512-sbom-zstd-support-v1-0-93273381d548@bootlin.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=sZfGMdD5;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2148E1684
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 10:37:02 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E28483F85F
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 10:37:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778607427; bh=BXBFKOpXgBaFN/xjjMTg6CKXwMV6b8UEKf6aZIFBZhY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=sZfGMdD5VTeo7e4JTrMcutk8HSYM930IZxyGDme2GxwWu/b9PIVIgEfIO1ADweIEH
+	 XUM+jR1f+/ffpBfuTvRRFunK08YXTXda8kn9zfMH1ZVhR9kStAMjcMCnWZFEdhLweS
+	 OcLzR/2GljFZX1hOtMSP24mOtenG3fBmnBuX0A3o=
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?utf-8?q?J=C3=A9r=C3=A9mie_Dautheribes_=28Schneider_Electric=29?= <jeremie.dautheribes@bootlin.com>, 
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
- benjamin.robin@bootlin.com
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2032;
- i=jeremie.dautheribes@bootlin.com; h=from:subject:message-id;
- bh=MF/HT/Y8UK7IxXN/7lUI8cq11fEc2zuDT2xjjcfc6Rw=;
- b=owEBbQKS/ZANAwAKASsAXqAbWo8DAcsmYgBqA10exSMEjd2wsd3wOparc9uSHuJsqBQJntKZO
- Q8TRUyXKLCJAjMEAAEKAB0WIQT7FK2Qhtu4QpBIBAkrAF6gG1qPAwUCagNdHgAKCRArAF6gG1qP
- A1W+D/0ccAsy65lNvDP46Vw6b33R8mfkY3j8CSXORMvyVHMHyIoZOs+VsuccDPVLz+r6SybCyJr
- bdY/wruWMYGza3E2suSE48bHO+EYcXzi5iPmIZxnW0wI+gYT1EJzWc8W73sLiva+qhkK8GHUuEp
- Mpn1LlM0oFcenffpkKog4OpGh/PxxnfbZp31LOXLrAEjU+cGHwIRJK3YhuSNe/loq3EsU2yw6NX
- V/EOO+McgseDPREZiSsENImGRD2/bGk9RBwVsnlicBOrC6f6VtDi9w8ICDKdJCQ/U//+WlObefj
- nvnD6R+rdzQS5CrtGNBR1jcCQjUgXhz7fSg71dpXsWSu8ougP04+6nYoseE2HoJ3vrVM3A0BStv
- u4yOMTTBKoHkPTAtjfg9Qlcl4uxYDlnryfDdea2DQnHmFq0gPWlAhPrHuBjCZG3EX0N18JFpxbB
- 7Uf6KqoQ1hcxDgcdqFdyxUNWILvZ25DZWVu/LWUCKRQkaadVAEzAC7AMd1m90+++LMCSJs0bAPL
- HvwNsxsl+H+Ob7Yet7P6RH3mYR4eBuodGRtzD3rQ9zjrliy7ztdUVuL7c4wsrB8gYQOKsiN8xfc
- KDWgzn9Nj85HPbhHXstGNSdRVnfMzkwwNEVZDPbuRqEx15CMrtYIRBeGe/5bJR5BSaUIIZrOrJj
- n6G0LvwxfJe10Mg==
-X-Developer-Key: i=jeremie.dautheribes@bootlin.com; a=openpgp;
- fpr=FB14AD9086DBB842904804092B005EA01B5A8F03
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: [PATCH 3/5] gcr: remove obsolete DEPENDS
+Date: Tue, 12 May 2026 18:37:00 +0100
+Message-ID: <20260512173702.4114193-3-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260512173702.4114193-1-ross.burton@arm.com>
+References: <20260512173702.4114193-1-ross.burton@arm.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 17:02:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236897
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 17:37:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236901
 
-Add support for optional zstd compression for all types of SBOMs,
-including:
-  - image SBOM
-  - recipe SBOM
-  - SDK SBOM
+libxslt-native was added back in 2017 to gcr-3.2.0 as a needed
+dependency when building with gobject-introspection[1], but this no
+longer appears to be the case.
 
-Zstd compression is applied if SPDX_SBOM_EXT ends with ".zst".
+gnupg-native was added in 2020[1] but we now pass the correct paths to
+Meson so this is no longer needed.
 
-Co-authored-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootl=
-in.com>
-Signed-off-by: J=C3=A9r=C3=A9mie Dautheribes (Schneider Electric) <jeremi=
-e.dautheribes@bootlin.com>
+[1] oe-core 58922a43f93 ("gcr: add missing dependency on xsltproc if intr=
+ospection is enabled")
+[2] oe-core afa5ec0dee8 ("gcr: depends on gnupg-native")
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes/create-spdx-3.0.bbclass |  3 ++-
- meta/lib/oe/sbom30.py                | 11 +++++++++--
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ meta/recipes-gnome/gcr/gcr_4.4.0.1.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
-pdx-3.0.bbclass
-index 785edb9865..6cf8fa4688 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -75,7 +75,8 @@ SPDX_IMPORTS[doc] =3D "SPDX_IMPORTS is the base variabl=
-e that describes how to \
-             SPDX 3 spec. Optional but recommended"
+diff --git a/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb b/meta/recipes-gnome/g=
+cr/gcr_4.4.0.1.bb
+index f3288c8d36e..1f4d2f48001 100644
+--- a/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb
++++ b/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb
+@@ -8,8 +8,7 @@ BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/gcr/issues=
+"
+ LICENSE =3D "LGPL-2.0-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9abc=
+605"
 =20
- SPDX_SBOM_EXT ??=3D ".spdx.json"
--SPDX_SBOM_EXT[doc] =3D "SBOM file extension name."
-+SPDX_SBOM_EXT[doc] =3D "SBOM file extension name.\
-+    If it ends with '.zst', SBOMs are automatically compressed using Zst=
-d."
+-DEPENDS =3D "p11-kit glib-2.0 libgcrypt gnupg-native \
+-           ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-nati=
+ve', '', d)}"
++DEPENDS =3D "p11-kit glib-2.0 libgcrypt"
 =20
- # Agents
- #   Bitbake variables can be used to describe an SPDX Agent that may be =
-used
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 0f1f9281ad..2184c1a07f 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -1036,8 +1036,15 @@ def write_jsonld_doc(d, objset, dest):
-         serializer =3D oe.spdx30.JSONLDInlineSerializer()
+ CFLAGS +=3D "-D_GNU_SOURCE"
 =20
-     objset.objects.add(objset.doc)
--    with dest.open("wb") as f:
--        serializer.write(objset, f, force_at_graph=3DTrue)
-+
-+    if dest.name.endswith(".zst"):
-+        num_threads =3D int(d.getVar("BB_NUMBER_THREADS"))
-+        with bb.compress.zstd.open(dest, "w", num_threads=3Dnum_threads)=
- as f:
-+            serializer.write(objset, f, force_at_graph=3DTrue)
-+    else:
-+        with dest.open("wb") as f:
-+            serializer.write(objset, f, force_at_graph=3DTrue)
-+
-     objset.objects.remove(objset.doc)
-=20
-=20
-
 --=20
-2.54.0
+2.43.0
 
 
