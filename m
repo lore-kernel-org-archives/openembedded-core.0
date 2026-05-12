@@ -1,189 +1,241 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C84CCD4F21
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 21:01:02 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.5])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.86690.1778619658287361005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4313ACD343F
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 22:24:23 +0000 (UTC)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.715.1778624658583663157
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 14:00:58 -0700
+ Tue, 12 May 2026 15:24:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=X6CTbyBJ;
- spf=pass (domain: axis.com, ip: 52.101.72.5, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kZ4bL3gBrYKxqLX0cyYOrPio/YAxgYWid+ab100WDXLE/4JqgMjoC/pB4Y8yZbo8wPDykDCIKUkGc32QOiOutJCT+/grln69fKDLONjInkiA4QAnLAyihGllAxG/jpISv2VDmOF2UR43s0d4WcBkvHJQdubk3MlE+jg+1JTc/0iFfhaY4atVBVrzlWFwHL0XHQbQuc7q11/YKQvO02BrIC4Iv48OjJqXMM3hlgl2hbmdSZg1l6mlIueRfpT3GqAhmA6ileXTbpItdBBe3WrQ+84GaI3oVGXfjtUzuhGOQa0xDlSIqyEsb1e5y+O382bkHxdzJs5rE44oMVtiExn/DQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6YRqxG1s37iaEeapc7A6as+M7BNgaM2wtwo1ktzbyRg=;
- b=gYCXx1lUYZgOunEgNO+nfKIwdD/QYjGy8GuDJuV6Q+RFGnrKBfSMAVZru1VdPX90RdAN121uEM5kB032dIVoAW9lk9j5RSGYkNr0MT/bQAUFSF770XUtO9+uuhGXYBf9GSLLexRvXNSsTOFcSVQD85Mm7eEqAjck5SorQtr5JXFMeFOZ65tZsg25wfa+wBrQAUtO81jPW26oUyZZUBqtKudB8vuovfp9aGQJ9iIVBPsT+qRYafJqtfsYYsjYKw2053Jrzrlq769Gfv7tDMwYzbl0ycamm1rkDZzHQJRouuAFxLQ4xY3xhh8CLXmyfaL/XtZmFOcdXOmSiv705lJLGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6YRqxG1s37iaEeapc7A6as+M7BNgaM2wtwo1ktzbyRg=;
- b=X6CTbyBJG+/1UemSmjrjaCnWqqrQ7ujYBJ8dJU2XfvPaxHrnOtvGgszVXxb90hHKfxRe6EwTgZ87MQevzv6RQqXUQfJ0YMgvrBKsiuuJ0x6pcZLl+bL35BqbY8K1UNNNyP+U9ulk/lXzrmAkTOH8t5zco6UOmu6qYwEaJ41/ohQ=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by VI0PR02MB10535.eurprd02.prod.outlook.com (2603:10a6:800:1b8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Tue, 12 May
- 2026 21:00:53 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9913.009; Tue, 12 May 2026
- 21:00:53 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 0/5] Add support for USERMOD_PARAM in
- useradd.bbclass
-Thread-Topic: [OE-core] [PATCH 0/5] Add support for USERMOD_PARAM in
- useradd.bbclass
-Thread-Index: AQHc4khvXgsyCrsfF02OgKFgBxJaYLYK0Saw
-Date: Tue, 12 May 2026 21:00:53 +0000
-Message-ID: 
- <DB5PR02MB10213126762F3E1B53CD51C8FEF392@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20260512190415.948535-1-pkj@axis.com>
- <2fc29d67622c753049478f8d1a399120310f281f.camel@linuxfoundation.org>
-In-Reply-To: 
- <2fc29d67622c753049478f8d1a399120310f281f.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|VI0PR02MB10535:EE_
-x-ms-office365-filtering-correlation-id: 8092edcb-c787-428e-2338-08deb0698e1d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|1800799024|22082099003|18002099003|38070700021|56012099003|11063799003;
-x-microsoft-antispam-message-info: 
- 7mP70X3LS8WeAPu98vHcnX24KunIKzi+IEKvtD7lvzjKr0KRkIk3D7DG1K/m/wCTY+vhHhyC11k8MZ1I+La8vjof0qHe+bLSOtwOljOdlvA8X4eBjwzKohk49/0oAvhkLJo7Hkn0Xznyx8rELbLpSd3TW77ZeIWBAljFAmtTfCx32w0i/+DhSHIvxT1w+SASIzksxHgTjayq2Ln7jAYFN+OPQ8SQtEKlnCcUM3u5gP64z7EtkdMCqntSQErFI9VyFKq0q6kYX6y04lXJWYV09XxTP28zTLvCkx44MhZErwQg8NOZ9jYknyYpwUUSB1Qu90wxhhv53nTU9g6RYoJgFHdA/6chvTJpn/ry0kvzagESqQyFIBOz4ZfP1tdrn/jOLkWLMd2qBKob2vO0khEqTTjdrnRLxXZuSDjVPjkfhZb7IB3f/muj7R7TvXeWz9gu2+quE0a0bZYP0S6knFudnIysWc0As5AdX8sph4jNQFuivC2ST2CcMHnWSzLVmmNwokwL1kaMAKM6xwSHgYWtmUL9xVhE6hq3VVt/3E9tZUkdO7KBXDx7qlSPQCv8fkmdpna8hiOslRXQFSILrh0kEToT9bWPq3ITTnNjMUIoP5FyutCKmYL0YjV1TnLVHcSTgdQBHBS63OEHo775QgJHAtoClvxy73vuRto8YyE7Aq6P/xi2GenARuzEI3f9qJAxA2034wFbdq6WMmgAh+9V1g==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(22082099003)(18002099003)(38070700021)(56012099003)(11063799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?R0F1c2lWekx5MUJ2clEwWHZTejkxSlpTbDBSTjBpd09mbk5WQjFialpoQ2NX?=
- =?utf-8?B?bldLWm1MaDRRNkRodjFqWWFlM2FyVWJTOE15WEFJbEh4ZVNBTyt4MU5xTGlr?=
- =?utf-8?B?emxqSW44V3pLSi9TZVE3VTlyVzBWTWRsSE9NWDhWelRRM0lVUzFOdVhHb3Vw?=
- =?utf-8?B?SzgvVlNaUEhxbGhZQXNvVUttME80K0tTVG1qM3ZVN05MUCtsNXlXY0xyWnBa?=
- =?utf-8?B?aVBiQklqRHBEblRmWFJXLzNTZEgxRU5QUFF2NlRPNm0yZCttZUpXSURLeUlj?=
- =?utf-8?B?dS9ENkUyOWZEMjNmNEU1Qm0xTUhON0tCVUVNZFRqZmNONkpJMUVoeWtwSEJM?=
- =?utf-8?B?N1NraWF4YWZsZUk3VElzaStVeFloNlJmODc3eFR5ZlVvRkh5bHRrMFI1NDRI?=
- =?utf-8?B?QkdzOVg4cHhUMlpEUXptUlZ1VXZSZmpYQVBqZFNYU3ByWHN4ZVp1OHNCQUV4?=
- =?utf-8?B?dnpCWXFEb3dFL3MwNko1cUZoaG0zTFIybVFVcHdNWnVvQlp6ZUtFeVUwb3Ay?=
- =?utf-8?B?TFJNbVlhTU5FNW1OS1ZxOXZWWkRIQWgxOExTbjlCSWd5MnB5ZTdxOTRJbHhv?=
- =?utf-8?B?U2hzZWNXbVBtcmVrMkVPOUdzVlNJK05mRVhkd1RzMURLVS9wUFRLUWsydWtZ?=
- =?utf-8?B?WFhucll6SGVUUFBqZ0NTc1AxTWhacFkvdEp1UGcvZlovTjFWTm82eW5hL0Zl?=
- =?utf-8?B?ZnRJMjFyNzFwSUpydVJuNG9XdzRZZ3cxYm5TVVhHdTA1KzhpbGpQSm1YYXZq?=
- =?utf-8?B?U1B1UUQ3eFVGTTR0clFkbVVyWmtqRFhOK1Z3SStHV1lzekVobjd1dVRDelVo?=
- =?utf-8?B?VFMwU3Y2MHRGY2JvL3JpYVhTVGpwY21DQXdQVURXa29ibDU4ZFppZi85Qk5I?=
- =?utf-8?B?eVo2aXlucExmVm9mV2hkRlVESWtNVmNrb0wveWNqOEhnNndKaGkzQ2hhN3ZL?=
- =?utf-8?B?elhxbG5wVnhYdU1FdFNUeGVVUW1hSnhFbnJlZkU1ellBNUMrMnA5NmJEQW1C?=
- =?utf-8?B?elZ2SGhYcC9SOWxHb2JrVW9acmxsTkVtY3FpYnBXZ1U2aXpMVWdkcURIcWlL?=
- =?utf-8?B?QU4wSUtZYmt4WU9YNFFLaVY1eldyTzYzVUx6cjVHL0VuQzhBZ1BiSmNIaDdE?=
- =?utf-8?B?UWliMzFZdG94MERWdnR0Y2UwUXBXN0RZRnV6L0Vzc0xGTkpURUdwK3BmRFZD?=
- =?utf-8?B?SHJvTXl5YW1ERWczRy83aDkyT1pONjNmTXF6bzBPTGlGbW9nU0NMQzRJQnZ2?=
- =?utf-8?B?cFVmbXllbHFCc2pteTdqdldqSmluWGRLM3JzSGx0RWwyZkVRSnVYMlNkWjZ1?=
- =?utf-8?B?enVMZzR6bllFajdXa2ZHcHl4NHBKK0YwVEpNdy9EVE5EYVBLc3pDeVB4bEF3?=
- =?utf-8?B?bFEzMHEwMXhHcGFPRnFBVng5MXV0NEhIRXlGWi9JQUNIMk4rTnNrdXM2UlA0?=
- =?utf-8?B?bGZYMVFPbWRNZG11MGVUbnNBRmgyRGo0VHlwcFFGN3FWSm0xcDZRTVZRZTV2?=
- =?utf-8?B?YUpuRWRYc1dLZUlBMHRDS0wxZ0oxc3pLcEZpTE02bEtqcE5hT1EvSEVmRUln?=
- =?utf-8?B?SVoxWHhmVGtEakUrNUNQVUkydWRERk10ZEZpdHEra1duNWVhL3pOLzVmT0Vs?=
- =?utf-8?B?ZHROc3hFTkY3enB2WWRuLzFhQko3U3JlYVdFYzlKRWV6U0VkajA0Y1B5T3o4?=
- =?utf-8?B?b01RTk5uNVV2SE45MmZjZjl3NURmc2kyNUZHWHRCU3M0aEZwMlZaOE1CQXU2?=
- =?utf-8?B?NTNYWWxoanpNa2FsTktRcHRWSlFXOWV4Qzc0L2krckhKTElpTDZjVGhkMU9R?=
- =?utf-8?B?Qkw3TEZ1YWYyVExPY0NGUXYxSGo1Mi9aSlFIckNzcUE3WEpiWlQxemlrS2xo?=
- =?utf-8?B?cktRRWhwOUVQU3hrTzlqZ2NNQzZJM1JkK1BQV0ZORW8rTThyc0FobDlqazBN?=
- =?utf-8?B?bUJXWEpGYUovR3VzcW9HWFlwcmtWcWVUOGJSZnVTOVFtd1RvRVZTMmdLT2JC?=
- =?utf-8?B?QmFSVkpjdUZMWGNtK0U0Vk8yaDAycTRFckpmSmV0L21UTzVVdmFkWjIwbXZn?=
- =?utf-8?B?a2RyMEI3UWljc3FZNlk3c005d1FCUE5CRlY4VmZURC9YT1gyRTBEQUE2SDdN?=
- =?utf-8?B?cUtDZm1xOHJSVEt3VkVMc0FDd2VZcmZYZUJWdHRyeHprRlNYUVBRaHYvOUNX?=
- =?utf-8?B?N3BMZElndThkTisxRGI4dWovbVBBWnJjVDN6ZTlBa2lOTXNjQ0FyQkhxTkxB?=
- =?utf-8?Q?kCQi1xKiJMaX3bPwtCBkGiFqcmzTw9Pn6qZ8jWi4uo=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=XD4IrxVh;
+ spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7c58e6eb3edso12621337b3.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 15:24:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778624658; cv=none;
+        d=google.com; s=arc-20240605;
+        b=P2nG/OMl/2ts9y/thEXyn4ZnuUz0D3K3b5W1wVoT1yisSR1sob/9xalXALVR7x2gRw
+         KEruiE+72zb6vkVkL1XHDFgCgbnsDFEyBz0BNYP3tXcaErQwBhsxZTBHjnmmgWZu8Hcy
+         v3XtG8pm6Ck0XRVDAdmK+C8gVowPkNz1gFaNxixw+upkXHRJ5CU/9AjsI89NhAKr0jVX
+         LUKnsSFq8xxH+VBwizvhkxLM2Oc7JF8p5RyW85sr3pat2iYl3IgEpZ2mZrKm14832kVP
+         EyTz/BHxFNQFf0Vs1qPK+Y61kJdGHWzWOzVHZpR9pFop8ceRhoJCutZ3dbhFHH8N+Rx4
+         t8cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=CZXCJDUrgPP5dBjYYLmoYgprli7f0hThsJToPbsNY2A=;
+        fh=/0bD1tHDTlNqNV+s0MufUGqSvGjmuOTE19tshw4lm28=;
+        b=fd9nXJ10JL22o8UtfaNdynugWDOGn2/Me2qEeMWFI0h12TiyUaej/LpfAKe8fnJZf8
+         vWj3Crs3ulSrM1EM9Wm6Ut0z5Bk84hlqt7mCp6biW0oR15dkZUHcyaRg2sreN4j9QD98
+         FWlou3SKSf9ob8dAsUYYOq/itwFS0OTEsmRzLZCTo0GHkj6pynqY5W6LyROSnHF9aa1M
+         +mB7sTdIi7sHAl10BLiGXle2m0c43eF6nyqJuagwWHGUvcwNfqlFmVkIA5SlbYJAUjQN
+         DDmUZulecC0y4ARU9sZBqcDotg9U/niDDE3l3VMCtnCv4SJ+0AzVb1ylvx+9dBb/GMDH
+         0mjQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778624658; x=1779229458; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CZXCJDUrgPP5dBjYYLmoYgprli7f0hThsJToPbsNY2A=;
+        b=XD4IrxVhDQUY6+731C00qtSR6hQ7/2PTn3U/uWwe2QPBhokU2w4BE8kl5CCyDEV6g5
+         TIDO8QrxQRLddGSariaE0sMgqFWdaUgxdqdUSBJFrVbc5RvQlsrKmumo0nTiM37TjX6B
+         AiZqE1wOvTKVDwPtRhKUMY2y+FZ5LsbPu1Tq4wbeJAPOh1WjpfV7NqifXnQEPxDb6xm/
+         wKRDHgYzOX9ci7eeCGSIUp1mdb0cmy2R7lMkUWsvDOP/Ktp4WOW6oFXDbaXvfwoiMXX7
+         qrLfDGT2aK9RjZ42TpozLgzflC4CY73cbG5svwH8GGQPiN/a1W1+fKO8PDovIvjM9qF0
+         Rl/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778624658; x=1779229458;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CZXCJDUrgPP5dBjYYLmoYgprli7f0hThsJToPbsNY2A=;
+        b=Z/dMmYkelRsBsqyzk3jGdhiRWMRHLLK0Mxf92enny59WS7KqABxM1W/vwHgyXMvDF6
+         n+s1akpBkeI0U+LW3NA37LqMEFpHccQYkrYiicshTuLxY/WnSyw6NNqVhhyELzbPkpuM
+         EUB+4gb7KuDMCVD9ee6VkWjkBNA+nj02OxXsx3np3FHEW3tZQnIlceyyyu010MZqW3wB
+         vcweioDaySFEwMVCf9c1ijsexk6xxcfLmANlUPqMxLXs7bWtuSjpeZ0qc/BJcmqruc40
+         13JDRzRV/SihbPMAWLav33A4LVVpMCrpMA3d7zQ76kz/CwvNczdsCVywA028O/yTbJCB
+         1c3Q==
+X-Gm-Message-State: AOJu0YyLkIkkyHeoRf17551vHd3NjANMNUWet54djAhIpCh7knw2ciRk
+	LyYOUQaH9BSDi6bDwTwI8569UShVF4RydNhHOF33Q6LnUCKwl4G8b01OxLXyrACOJScx61GrFVA
+	PiX7G5ZxUEr45pt3GQF9/CXd5RDeVP60jW/Mw
+X-Gm-Gg: Acq92OGZBVdS+iiIvIYT5fHvZQD5fsw4x5ruKO/BHUqINldR/6WLJIJMIVutz4mymtr
+	bUYbq1EaXTqrBJXshGD4WmW+swjGOKj4AvcuanteyZOLtZkXxulsIXmfLzA4DgiZtO6sEO0RGC6
+	UrPg6c/OzxEYEw/vHOpm7MuF90IDqCGklF9LtQLgl+FiEMkNGYHHtU8Gmh6ul/1v2kSIJjprVPW
+	kbIaRD4YWFQ/GX/IRn+KEhc2VYWED8SRZvlqG7hgD8eA1QlLSMx74JhFNxuwJmKcrm9oQcw355e
+	RGkl7tZruE/0gmAm2C0NMQ==
+X-Received: by 2002:a05:690c:4d44:b0:7bd:4792:66ef with SMTP id
+ 00721157ae682-7c6dc7b21b1mr1160697b3.42.1778624657595; Tue, 12 May 2026
+ 15:24:17 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8092edcb-c787-428e-2338-08deb0698e1d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2026 21:00:53.5427
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fwB/JC38fsqF0DT8tYWHfi4UKMHwV5xuBb0Ul2dQFqJRDU5o1CBoec4jmcOAfTIm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR02MB10535
+References: <20260512-sbom-zstd-support-v1-0-93273381d548@bootlin.com> <20260512-sbom-zstd-support-v1-1-93273381d548@bootlin.com>
+In-Reply-To: <20260512-sbom-zstd-support-v1-1-93273381d548@bootlin.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 12 May 2026 16:24:06 -0600
+X-Gm-Features: AVHnY4IHcC8qIzeo_1cfmHDHcX8iauty14C6BF6PJWn8IE-kVkBsNfCS4We5WEw
+Message-ID: <CAJdd5Gb27DgDdvnWpx8AoZiKngdJB_ZSwh6XPBv_TweUmhNZJQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] spdx3: introduce SPDX_SBOM_EXT variable
+To: jeremie.dautheribes@bootlin.com
+Cc: openembedded-core@lists.openembedded.org, miquel.raynal@bootlin.com, 
+	thomas.petazzoni@bootlin.com, benjamin.robin@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 21:01:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236914
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 22:24:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236915
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDEyIG1haiAyMDI2
-IDIxOjQ5DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlz
-LmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1
-YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDAvNV0gQWRkIHN1cHBvcnQgZm9yIFVTRVJNT0Rf
-UEFSQU0gaW4NCj4gdXNlcmFkZC5iYmNsYXNzDQo+IA0KPiBPbiBUdWUsIDIwMjYtMDUtMTIgYXQg
-MjE6MDQgKzAyMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZyB3cm90ZToNCj4gPiBUaGlzIGlzIG15IHByb3Bvc2VkIHNvbHV0aW9uIGZvciBncm91cG1lbXMn
-IGxhY2sgb2Ygc3VwcG9ydCBmb3IgdGhlDQo+ID4gLS1wcmVmaXggb3B0aW9uDQo+ID4gKGh0dHBz
-Oi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTYyNzcpLCBhbmQg
-dGhlIGZhY3QNCj4gPiB0aGF0IGdyb3VwbWVtcyB3aWxsIGJlIHJlbW92ZWQgaW4gdGhlIG5leHQg
-dmVyc2lvbiBvZiBzaGFkb3cuDQo+ID4NCj4gPiBUaGUgZmlyc3QgdGhyZWUgY29tbWl0cyBtYWtl
-IGEgbGl0dGxlIGJpdCBvZiBjbGVhbi11cCB0bw0KPiA+IHVzZXJhZGQuYmJjbGFzcyBhbmQgdGhl
-biBhZGQgdGhlIHN1cHBvcnQgZm9yIFVTRVJNT0RfUEFSQU0uIFRoZXNlIEkNCj4gPiB3b3VsZCBs
-aWtlIHRvIHNlZSBiYWNrcG9ydGVkIHRvIFdyeW5vc2UuIFdoaWxlIHRlY2huaWNhbGx5IGl0IGlz
-IGEgbmV3DQo+ID4gZmVhdHVyZSwgSSBob3BlIHRoaXMgY2FuIGJlIGFjY2VwdGVkIChpdCBzaG91
-bGQgbm90IGFmZmVjdCBhbnlvbmUgd2hvDQo+ID4gZG9lcyBub3QgYWN0aXZlbHkgc3RhcnQgdXNp
-bmcgaXQpLiBJdCB3b3VsZCBtYWtlIGl0IGEgbG90IGVhc2llciBmb3IgdXMNCj4gPiBhbmQgb3Ro
-ZXJzIHdobyBhcmUgdXNpbmcgR1JPVVBNRU1TX1BBUkFNIHRvZGF5ICh3ZSBoYXZlIG1vcmUgdGhh
-biAzMDANCj4gPiByZWNpcGVzIHRoYXQgd2lsbCBuZWVkIHRvIGJlIHVwZGF0ZWQpIGFzIGl0IHdv
-dWxkIHRoZW4gYmUgcG9zc2libGUgdG8NCj4gPiBtaWdyYXRlIHRoZSByZWNpcGVzIG92ZXIgc29t
-ZSB0aW1lIHJhdGhlciB0aGFuIGhhdmluZyB0byBkbyBhIGZsYWcgZGF5DQo+ID4gcmV3cml0ZS4N
-Cj4gDQo+IEkgYXBwcmVjaWF0ZSB0aGUgcGF0Y2ggc2VyaWVzLCB0aGFua3MgZm9yIGRvaW5nIHRo
-YXQuIEknbSBtdWNoIGxlc3MNCj4gaGFwcHkgdGhhdCB0aGlzIGlzIG1hcmtlZCBhcyAic29tZXRo
-aW5nIHdlIG11c3QgYmFja3BvcnQiIGFuZCB0aGVuIHRoZQ0KDQpJIGRpZCB3cml0ZSAidGhhdCBJ
-IHdvdWxkIGxpa2UiIGFuZCAiSSBob3BlIiBzbyBkZWZpbml0ZWx5IG5vdCAibXVzdCIuIA0KDQo+
-IHNlcmllcyBzdGFydHMgd2l0aCBhIHBhdGNoIG1peGluZyB3aGl0ZXNwYWNlIGFuZCAic2ltcGxp
-ZmljYXRpb25zIi4NCg0KSSBjYW4gc3BsaXQgdGhpcyBpZiB0aGF0IGlzIHRoZSBvbmx5IGJsb2Nr
-ZXIgZm9yIGEgYmFja3BvcnQgc28gdGhhdCANCndoYXQgaXMgbmVlZGVkIGZvciB0aGUgdHdvIGZv
-bGxvd2luZyBjb21taXRzIHJlbWFpbiwgYW5kIHRoZSBjbGVhbnVwIA0KaXMgbGVmdCBhcyBhIHNl
-cGFyYXRlIGNvbW1pdCBmb3IgbWFzdGVyLiBIb3dldmVyLCAuLi4NCg0KPiBXaGlsc3QgSSBhcHBy
-ZWNpYXRlIGl0IHdvdWxkIG1ha2UgaXQgZWFzaWVyIGZvciB5b3UsIHlvdSdyZSBicmVha2luZw0K
-PiBzZXZlcmFsIGRpZmZlcmVudCBlbGVtZW50cyBvZiB0aGUgc3RhYmxlIGJhY2twb3J0IHBvbGlj
-aWVzIGFuZCBoZW5jZQ0KPiBhY3R1YWxseSBhY3RpdmVseSBtYWtlIGl0IGhhcmRlciB0byBtYWtl
-IGNhc2UgdG8gYmFja3BvcnQgaXQuIEl0DQo+IGNlcnRhaW5seSBkb2Vzbid0IG1ha2UgaXQgZWFz
-aWVyIGZvciBtZSwgcXVpdGUgdGhlIG9wcG9zaXRlLg0KDQpJIGFtIGF3YXJlIG9mIHRoYXQgdGhp
-cyBpcyBhIG5ldyBmZWF0dXJlLCBhbGJlaXQgb25lIHRoYXQgc2hvdWxkIG5vdCANCmFmZmVjdCBh
-bnlvbmUgd2hvIGFyZSBub3QgYWN0aXZlbHkgdHJ5aW5nIHRvIHNvbHZlIHRoZSBwcm9ibGVtIHdp
-dGggDQpncm91cG1lbXMuIEl0IHdvdWxkIGNlcnRhaW5seSBiZSBlYXNpZXIgZm9yIG1lIGlmIHN1
-cHBvcnQgZm9yIA0KVVNFUk1PRF9QQVJBTSBpcyBiYWNrcG9ydGVkLCBidXQgd2UgY2FuIG1ha2Ug
-ZG8gd2l0aG91dCBpdCBhcyB3ZSBjYW4gDQpiYWNrcG9ydCBhIHZlcnNpb24gb2YgdXNlcmFkZC5i
-YmNsYXNzIGludG8gb25lIG9mIG91ciBvd24gbGF5ZXJzLiANCkhhdmluZyBpdCBpbiBPRS1Db3Jl
-IGlzIG1haW5seSBhIHdheSB0byBoZWxwIG90aGVycyB3aG8gYXJlIGluIHRoZSANCnNhbWUgc2l0
-dWF0aW9uIGFzIHVzLiANCg0KV2hhdCBJIHdvdWxkIHJlYWxseSBhcHByZWNpYXRlIHRob3VnaCBp
-cyB0byBhbGxvdyBzdXBwb3J0IGZvciANCkdST1VQTUVNU19QQVJBTSAoZW11bGF0ZWQgdXNpbmcg
-dXNlcm1vZCkgdG8gcmVtYWluIG9uIG1hc3RlciB1bnRpbCANCmNsb3NlciB0byBmZWF0dXJlIGZy
-ZWV6ZSBhcyBvdGhlcndpc2Ugd2Ugd2lsbCBoYXZlIHRvIHJlc29ydCB0byANCmEgZmxhZyBkYXkg
-dXBkYXRlIG9mIGFsbCBvdXIgcmVjaXBlcyB0aGF0IHVzZSBHUk9VUE1FTVNfUEFSQU0uIA0KSSBw
-cm9taXNlIHRoYXQgSSB3aWxsIHNlbmQgYSBwYXRjaCB0aGF0IHJlbW92ZXMgc3VwcG9ydCBmb3Ig
-DQpHUk9VUE1FTVNfUEFSQU0gaW4gZ29vZCB0aW1lIGJlZm9yZSB0aGUgZmVhdHVyZSBmcmVlemUu
-DQoNClRoZSBzYWQgcGFydCAoYXMgSSByZWFsaXplZCB3aGlsZSBtYWtpbmcgdGhlc2UgY2hhbmdl
-cyksIGlzIHRoYXQgDQpncm91cG1lbXMgKGFuZCB0aGVyZWZvcmUgR1JPVVBNRU1TX1BBUkFNKSBh
-Y3R1YWxseSBoYXMgYSBiZXR0ZXIgQVBJIA0KZm9yIHdoYXQgT0UgaXMgZG9pbmcsIGFuZCBhbGxv
-d3MgZm9yIG11Y2ggYmV0dGVyIHZhbGlkYXRpb24gaW4gDQpwZXJmb3JtX2dyb3VwbWVtcygpIHRo
-YW4gaW4gcGVyZm9ybV91c2VybW9kKCkuIEFuZCBubywgSSBhbSBub3QgDQphcmd1aW5nIGZvciBr
-ZWVwaW5nIHN1cHBvcnQgZm9yIEdST1VQTUVNU19QQVJBTSwgYXMgdGhhdCBkb2VzIG5vdCANCm1h
-a2UgYW55IHNlbnNlIGluIHRoZSBsb25nIHJ1biBpZiB1cHN0cmVhbSBpcyByZW1vdmluZyB0aGUg
-Y29tbWFuZC4gDQpJIGp1c3QgdGhvdWdodCBJJ2QgbWVudGlvbiBpdC4NCg0KPiANCj4gQ2hlZXJz
-LA0KPiANCj4gUmljaGFyZA0KDQovL1BldGVyDQoNCg==
+On Tue, May 12, 2026 at 11:02=E2=80=AFAM J=C3=A9r=C3=A9mie Dautheribes via
+lists.openembedded.org
+<jeremie.dautheribes=3Dbootlin.com@lists.openembedded.org> wrote:
+>
+> In preparation for upcoming work, introduce a new SPDX_SBOM_EXT variable
+> explicitly telling the file extension name for SBOMs.
+>
+> Keep the default value ".spdx.json" to maintain compatibility with the
+> current behavior.
+>
+> Co-authored-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootl=
+in.com>
+> Signed-off-by: J=C3=A9r=C3=A9mie Dautheribes (Schneider Electric) <jeremi=
+e.dautheribes@bootlin.com>
+> ---
+>  meta/classes-recipe/sbom-cve-check.bbclass |  2 +-
+>  meta/classes/create-spdx-3.0.bbclass       |  3 +++
+>  meta/classes/sbom-cve-check-recipe.bbclass |  2 +-
+>  meta/lib/oe/spdx30_tasks.py                | 12 +++++++-----
+>  4 files changed, 12 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-re=
+cipe/sbom-cve-check.bbclass
+> index fe145a2212..ddecb82e52 100644
+> --- a/meta/classes-recipe/sbom-cve-check.bbclass
+> +++ b/meta/classes-recipe/sbom-cve-check.bbclass
+> @@ -14,7 +14,7 @@ python do_sbom_cve_check() {
+>      """
+>      Task: Run sbom-cve-check analysis on SBOM.
+>      """
+> -    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.spdx.=
+json")
+> +    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}${SPDX=
+_SBOM_EXT}")
+>      image_name =3D d.getVar("IMAGE_NAME")
+>      link_name =3D d.getVar("IMAGE_LINK_NAME")
+>      run_sbom_cve_check(d, sbom_path, image_name, link_name)
+> diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
+pdx-3.0.bbclass
+> index 56fd01fd53..785edb9865 100644
+> --- a/meta/classes/create-spdx-3.0.bbclass
+> +++ b/meta/classes/create-spdx-3.0.bbclass
+> @@ -74,6 +74,9 @@ SPDX_IMPORTS[doc] =3D "SPDX_IMPORTS is the base variabl=
+e that describes how to \
+>              algorithms, as described by the HashAlgorithm vocabulary in =
+the\
+>              SPDX 3 spec. Optional but recommended"
+>
+> +SPDX_SBOM_EXT ??=3D ".spdx.json"
+
+We should perhaps consider making this SPDX_SBOM_EXT_SUFFIX instead;
+.spdx.json is the ISO standard extension for SPDX documents and is
+non-optional.
+
+> +SPDX_SBOM_EXT[doc] =3D "SBOM file extension name."
+> +
+>  # Agents
+>  #   Bitbake variables can be used to describe an SPDX Agent that may be =
+used
+>  #   during the build. An Agent is specified using a set of variables whi=
+ch all
+> diff --git a/meta/classes/sbom-cve-check-recipe.bbclass b/meta/classes/sb=
+om-cve-check-recipe.bbclass
+> index c80b8ac83f..eaad73ddaf 100644
+> --- a/meta/classes/sbom-cve-check-recipe.bbclass
+> +++ b/meta/classes/sbom-cve-check-recipe.bbclass
+> @@ -16,7 +16,7 @@ python do_sbom_cve_check_recipe() {
+>      """
+>      Task: Run sbom-cve-check analysis on a recipe SBOM.
+>      """
+> -    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${SPDX_RECIPE_SBOM_NAME}=
+.spdx.json")
+> +    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${SPDX_RECIPE_SBOM_NAME}=
+${SPDX_SBOM_EXT}")
+>      recipe =3D d.getVar("SPDX_RECIPE_SBOM_NAME")
+>      run_sbom_cve_check(d, sbom_path, recipe)
+>  }
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 1821dd7de4..63d93c7901 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -1526,8 +1526,9 @@ def create_image_sbom_spdx(d):
+>      image_link_name =3D d.getVar("IMAGE_LINK_NAME")
+>      imgdeploydir =3D Path(d.getVar("SPDXIMAGEDEPLOYDIR"))
+>      machine =3D d.getVar("MACHINE")
+> +    sbom_ext =3D d.getVar("SPDX_SBOM_EXT")
+>
+> -    spdx_path =3D imgdeploydir / (image_name + ".spdx.json")
+> +    spdx_path =3D imgdeploydir / f"{image_name}{sbom_ext}"
+>
+>      root_elements =3D []
+>
+> @@ -1567,7 +1568,7 @@ def create_image_sbom_spdx(d):
+>              if link !=3D target_path:
+>                  link.symlink_to(os.path.relpath(target_path, link.parent=
+))
+>
+> -    make_image_link(spdx_path, ".spdx.json")
+> +    make_image_link(spdx_path, sbom_ext)
+>
+>
+>  def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
+> @@ -1603,6 +1604,7 @@ def sdk_create_spdx(d, sdk_type, spdx_work_dir, too=
+lchain_outputname):
+>
+>
+>  def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputnam=
+e):
+> +    sbom_ext =3D d.getVar("SPDX_SBOM_EXT")
+>      # Load the document written earlier
+>      rootfs_objset =3D oe.sbom30.load_jsonld(
+>          d, spdx_work_dir / "sdk-rootfs.spdx.json", required=3DTrue
+> @@ -1681,15 +1683,15 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_d=
+ir, toolchain_outputname):
+>                  elem.suppliedBy =3D supplier_id
+>
+>      oe.sbom30.write_jsonld_doc(
+> -        d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
+> +        d, objset, sdk_deploydir / f"{toolchain_outputname}{sbom_ext}"
+>      )
+>
+>
+>  def create_recipe_sbom(d, deploydir):
+>      sbom_name =3D d.getVar("SPDX_RECIPE_SBOM_NAME")
+> -
+> +    sbom_ext =3D d.getVar("SPDX_SBOM_EXT")
+>      recipe, recipe_objset =3D load_recipe_spdx(d)
+>
+>      objset, sbom =3D oe.sbom30.create_sbom(d, sbom_name, [recipe], [reci=
+pe_objset])
+>
+> -    oe.sbom30.write_jsonld_doc(d, objset, deploydir / (sbom_name + ".spd=
+x.json"))
+> +    oe.sbom30.write_jsonld_doc(d, objset, deploydir / f"{sbom_name}{sbom=
+_ext}")
+>
+> --
+> 2.54.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#236896): https://lists.openembedded.org/g/openembedde=
+d-core/message/236896
+> Mute This Topic: https://lists.openembedded.org/mt/119282963/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
