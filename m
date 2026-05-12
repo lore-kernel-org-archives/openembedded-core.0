@@ -2,32 +2,32 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDBF7CD4F25
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D62A6CD4F3C
 	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 17:37:15 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.81678.1778607428633635322
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.81674.1778607427034136212
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 10:37:08 -0700
+ Tue, 12 May 2026 10:37:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=BgHTqX2+;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=ZmhOlMZy;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E9A5C168F
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 10:37:02 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A7B6168F
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 10:37:01 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BDF053F85F
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 10:37:07 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1CD553F85F
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 10:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778607428; bh=EQi0Ze4ABIahFdgH4TQNl3RCPJtDxzSupSYJR7krBY0=;
+	t=1778607426; bh=b5EJ/oVhG+Ud63JHe8R7rvEyeeFZTOhzuvzslbIM7eM=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=BgHTqX2+4tl6t8agqz8rlZvBYDFk0K3Fqfpg/kO3LPkNoLBSDdUMjlwhLWYtr3R72
-	 bN59ukmakxs292v9+Enxumfz6O6YKU23xPsvML1V2u7A6POIXUYYFd29GuNAAyl+po
-	 ZWQXjqUXk+DWy46GE1KuG5JRkkLpQXvrqAdsIiKc=
+	b=ZmhOlMZyEhA8sh+JeZkpxsIf6Q0OOCzdKSL2k+cNUJ8e2W7BKHgHg+RqOaU5LAo5D
+	 AmuM6DL8LXgnIz7Tsnf+0dmL2usuWt8Mk4znkQHp/BmFhTkykKwrCKgd2/vgAXB0ZZ
+	 nISJ0gmjqdv0aKGI0VscsniKkKnb6XzEJ5b/9cSM=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/5] gcr: remove obsolete packaging
-Date: Tue, 12 May 2026 18:37:01 +0100
-Message-ID: <20260512173702.4114193-4-ross.burton@arm.com>
+Subject: [PATCH 2/5] libportal split out gtk libs
+Date: Tue, 12 May 2026 18:36:59 +0100
+Message-ID: <20260512173702.4114193-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260512173702.4114193-1-ross.burton@arm.com>
 References: <20260512173702.4114193-1-ross.burton@arm.com>
@@ -37,68 +37,53 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 17:37:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236900
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236899
 
-Previously the package contained UI libraries but they were removed
-in the 4.0.0 release:
-
-- gcr4 will no longer ship UI libraries, i.e. gcr-gtk3 or gcr-gtk4.
-
-Remove a large amount of packaging metadata that is no longer needed,
-and add an optional and disabled PACKAGECONFIG for the viewer tool which
-is packaged separately from the libraries.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-gnome/gcr/gcr_4.4.0.1.bb | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ meta/recipes-gnome/libportal/libportal_0.9.1.bb | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb b/meta/recipes-gnome/g=
-cr/gcr_4.4.0.1.bb
-index 1f4d2f48001..fa769759c14 100644
---- a/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb
-+++ b/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb
-@@ -13,31 +13,23 @@ DEPENDS =3D "p11-kit glib-2.0 libgcrypt"
- CFLAGS +=3D "-D_GNU_SOURCE"
+diff --git a/meta/recipes-gnome/libportal/libportal_0.9.1.bb b/meta/recip=
+es-gnome/libportal/libportal_0.9.1.bb
+index f4924355f93..be58eeeaea1 100644
+--- a/meta/recipes-gnome/libportal/libportal_0.9.1.bb
++++ b/meta/recipes-gnome/libportal/libportal_0.9.1.bb
+@@ -9,14 +9,20 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D3000208d539e=
+c061b899bce1d9ce9404"
+ SRC_URI =3D "git://github.com/flatpak/${BPN}.git;protocol=3Dhttps;branch=
+=3Dmain"
+ SRCREV =3D "8f5dc8d192f6e31dafe69e35219e3b707bde71ce"
 =20
- GTKDOC_MESON_OPTION =3D "gtk_doc"
--inherit gnomebase gtk-icon-cache gi-docgen features_check vala gobject-i=
-ntrospection gettext mime mime-xdg
-+inherit gnomebase gi-docgen vala gobject-introspection lib_package
- UPSTREAM_CHECK_REGEX =3D "gcr-(?P<pver>\d+\.\d+\.(?!9\d+)\d+(\.\d+)?)"
+-inherit meson gi-docgen gobject-introspection vala features_check pkgcon=
+fig
++inherit meson gi-docgen gobject-introspection vala pkgconfig
+ GIDOCGEN_MESON_OPTION =3D 'docs'
 =20
--REQUIRED_DISTRO_FEATURES =3D "${@bb.utils.contains('DISTRO_FEATURES', 'x=
-11', 'opengl', '', d)}"
--
- SRC_URI[archive.sha256sum] =3D "0c3c341e49f9f4f2532a4884509804190a0c2663=
-e6120360bb298c5d174a8098"
+-ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
++DEPENDS +=3D "glib-2.0 glib-2.0-native"
 =20
- PACKAGECONFIG ??=3D " \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
--	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
--	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
- 	${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'vapi', '', d)} \
- "
--PACKAGECONFIG[gtk] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
- PACKAGECONFIG[ssh_agent] =3D "-Dssh_agent=3Dtrue,-Dssh_agent=3Dfalse,lib=
-secret,openssh"
- #'Use systemd socket activation for server programs'
- PACKAGECONFIG[systemd] =3D "-Dsystemd=3Denabled,-Dsystemd=3Ddisabled,sys=
-temd"
- PACKAGECONFIG[vapi] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,"
-+# A tool to view certificates
-+PACKAGECONFIG[viewer] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
+-DEPENDS +=3D "glib-2.0 glib-2.0-native gtk+3"
++PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', '${GTK3DIST=
+ROFEATURES}', 'gtk3', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gt=
+k4', '', d)}"
 =20
--FILES:${PN} +=3D " \
--    ${datadir}/dbus-1 \
--    ${datadir}/gcr-4 \
--    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
--    ${systemd_user_unitdir}/gcr-ssh-agent.service \
--"
-+FILES:${PN} +=3D "${systemd_user_unitdir}/gcr-ssh-agent.*"
+-PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '=
+gtk4', '', d)}"
++PACKAGECONFIG[gtk3] =3D "-Dbackend-gtk3=3Denabled,-Dbackend-gtk3=3Ddisab=
+led,gtk+3"
+ PACKAGECONFIG[gtk4] =3D "-Dbackend-gtk4=3Denabled,-Dbackend-gtk4=3Ddisab=
+led,gtk4"
 =20
- # http://errors.yoctoproject.org/Errors/Details/20229/
- ARM_INSTRUCTION_SET:armv4 =3D "arm"
+ EXTRA_OEMESON =3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dva=
+pi=3Dtrue', '-Dvapi=3Dfalse', d)} -Dbackend-qt5=3Ddisabled"
++
++PACKAGES =3D+ "${PN}-gtk3 ${PN}-gtk4"
++
++FILES:${PN}-gtk3 =3D "${libdir}/libportal-gtk3${SOLIBS} ${libdir}/girepo=
+sitory-1.0/*Gtk3-1.0.typelib"
++FILES:${PN}-gtk4 =3D "${libdir}/libportal-gtk4${SOLIBS} ${libdir}/girepo=
+sitory-1.0/*Gtk4-1.0.typelib"
 --=20
 2.43.0
 
