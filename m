@@ -1,115 +1,174 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE85CD4851
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 15:16:14 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.78347.1778598967085124619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAFB5CD4F24
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 16:28:44 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.80066.1778603318858274123
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 08:16:08 -0700
+ Tue, 12 May 2026 09:28:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=1Wkcnv1c;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id C1B5D4E42C83;
-	Tue, 12 May 2026 15:16:04 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 83C3560646;
-	Tue, 12 May 2026 15:16:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6D3C11AF88D0;
-	Tue, 12 May 2026 17:16:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778598964; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=kOSLmm/qoTRSbJox/sN+yTXj2eWWkhT8Pmi5ba534Ao=;
-	b=1Wkcnv1cs3b/2pmYbp3CPEeNFcSuu3h3bv07TbUfeGmwM5Xopo3pw8B1USmovr614BAdYP
-	WrRfye7BGSIwmVY0t7P+dMtp91oobKxApVyno/mdLUIXSSlP58yuTkc8mMLlDWo1SdsKK/
-	3+M/BzGLGzSQRkdUG/gA1aTwZjVwGNIbtcbiYrd4GH/UxMNhX+iMXelwNt31FSGxVybbJ+
-	vTWQfXhf0GqlNE8TaCVr/CBF5QUXQyauEDBjp2z+otoYVcnSRi4IFcfGMrCf1tPQ7ju1w3
-	wNU7f6NL/wjTg4+HmYCxiKSyjGA4eN0jwSs1sIvrAE7dvqXHHkfH2CFRPMcjfQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 12 May 2026 17:16:02 +0200
-Message-Id: <DIGSPNC40V0B.325NZ64GRFWZL@bootlin.com>
-To: "Pratik Farkase" <pratik.farkase@est.tech>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH v3] libffi: add ptest support
-Cc: "pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260508102405.16791-1-pratik.farkase@est.tech>
- <20260508113653.21478-1-pratik.farkase@est.tech>
- <DIFMGYW1190K.3MKM3KN0DWQMB@bootlin.com>
- <GV2P189MB3005B33FD42B8B07EF9ECC76FE382@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM> <DIFUGDKJKE7Y.SDTF3FXFC43W@bootlin.com> <GV2P189MB3005EFC4E16B3BD9CA42F3C6FE392@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
-In-Reply-To: <GV2P189MB3005EFC4E16B3BD9CA42F3C6FE392@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=sbgf3MOE;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8cb5c9ba82bso821114985a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 09:28:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778603318; cv=none;
+        d=google.com; s=arc-20240605;
+        b=letQzAnMVu3a3Lg90w+OnaQimWOnloma6YCmPF909azUTGCuscY6TdCtVIYhZTgrJi
+         3BNVbv841SNcETi3D+1+TNRl4U3H9W7KFngvXgQ3g5kLexg8pCGfzpaO+vDjHbwGKEz6
+         wvi+CqSYBS99KcIpbIGPbmQ7zGiygKfWKeDTwiXt6eLd2eo5k42a5gxj00VN9I/WZ0T1
+         ZaEnvf+YPeMF63ghDgFEUTbXOBwkGh0N4NtkXFrs4lwlSPdycNjN9lMo5Su+v+xzp+4h
+         6Ogf/DBABxZfVqWODE2L48yiSOcbfR/qZ49avnvfsBBvmYGtRUmKLMetVGnDTMJnw56O
+         liZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zz4aOf3i7F5lIaoShDKpJsUhmqlIjCaFdgSzBdGWCRk=;
+        fh=CBzNg/NL21DWTHY4T0WFOKUAyqx0HIPJNzSHf+IjR2E=;
+        b=WGOpl70zcS9+AJ9u3r7MjQwo7rnQIRoWcSuAqmrrVxJF+C3s+yZ+smbpVRegkTqTeB
+         MFz5QP2aoB0gCer4D6LSTanER5VMA4s0y37e95jLWSR7s7ExokVvhBTchxcHKEDJ3t6L
+         R5JYDMdcnCy/zhWdLoFhfY/rZHdDzu8u6XoQQu/T2KGAkBNeHUHUwOyLmc4kizP6XLSA
+         8NiFsPwv0FdXElC6uCI1GNovnlWxm3zrOtKz3n5bgXFNl9o2gDRuixvojgpkIt/7BPUc
+         Pi1R2OM5t0hekfKvLNnHjXlshUmIqES97kEaE5qWfSKCbTUaNU+bDjWEmGPz83uXNWJd
+         rUFw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778603318; x=1779208118; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zz4aOf3i7F5lIaoShDKpJsUhmqlIjCaFdgSzBdGWCRk=;
+        b=sbgf3MOEhaYUbyyMjZDsGTGl85kNt8CFKbJV0jkJ8gB2uqZplPKZ2KQ5h1wRHmfg+4
+         y1SGmuPAlPv4ySeJ6CPO8IITuBvJ9AICduHcztYoxhxUL4Juwc+Hwe96m3KsEgU66h+t
+         FoqvFbHLxykFfkaMA3pEvhQK5C9rmNp8LB4GPaE4ViWxpG4AhPBPMX166Ms0/y6HV8oV
+         gIJnhKYDLehmN65+auBKLV8xN0rFvK8K1YF+Sjoz8uWKGsCib0JoACM1NgKXfS5h4GUH
+         6wFJ0E/AL3pkElwTKsYyWWIsc3OSldTCYLWlgoylzxTVjdXJrFaVZzMJUnR8IZE8KO2X
+         W3Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778603318; x=1779208118;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zz4aOf3i7F5lIaoShDKpJsUhmqlIjCaFdgSzBdGWCRk=;
+        b=lCgySBuZO+f/b5xq6G6mMkcci2DdnQvqt+fbm3O3ch6z6a378gj1u0VfyBC9Mm09gh
+         4KOmZ55EBiDt90AMyfUrzj54Xs1CG2a6ByhnotB+0T0GwKrWsZjfKTniM7Nm1cszRiCF
+         ziiwZShF96ZGic+LA3SrZm7PieNIHXyaEzYBip/li0U57pXRjfxKQwArJkm84HLbXovh
+         TQb/Q02dP+36hTRQHDNcwhrds2vtvXbiIHO5lU8EawxIKrvsr8SryFJtLQvk1g3pUNmk
+         mCGpUUaiJIHNXe+uNxh/yGQYEyHNnh4Utu4+cWiq6lnwc9nJyEEtB9SwXDE168fJqidZ
+         8GrA==
+X-Gm-Message-State: AOJu0Yxr9jj7XnI+ELi3dVdxAEsoOHVgogZtGUFnTMknEdlZP5oBOq0a
+	VywwzAf+Po0GGEiYz+82nIu6oBNqwfoJCvEcVXDoXFJu2hrKr+v2bQmrjRSwjdNrOP1MtTuPJtq
+	XdLcPLothReOVqnXlcl6zjU7YtoBr9Gk=
+X-Gm-Gg: Acq92OHH8w/QTNUATeYOyjvGQ9VUGcfXIkE7mroUPOTFASx+aEuLqzJmf9O4OJpdTBu
+	riuMRIDsmRnOVAMpbSYywXc6MpzKrILp2f/1zCAk/nCA9utNSuI05PDCEqxnONzarAaBYMFSgoN
+	ChWIgLXA9umoyLYNpJYOx5X3KUvME3Ii7bl06ZF1tlDP10EETMLFxAg8y5BAJdJcLlwNb0J84FW
+	71x5qb08jG6D6SSFMSqJ0ky8XA+ttoZ5nbiPjmM+SP+4PFOqh0Sm+3sjQpgJ1//PgZaaXRLp+bO
+	ZnpHJWLRbTAZ5/kn40wKdLuvUcWktdguhZbT76aYbA==
+X-Received: by 2002:a05:620a:478a:b0:90d:1c6f:ce0a with SMTP id
+ af79cd13be357-90d1c6fcea5mr307899285a.52.1778603317796; Tue, 12 May 2026
+ 09:28:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260512072446.2323529-1-daniel.turull@ericsson.com> <20260512072446.2323529-2-daniel.turull@ericsson.com>
+In-Reply-To: <20260512072446.2323529-2-daniel.turull@ericsson.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 12 May 2026 18:28:25 +0200
+X-Gm-Features: AVHnY4Jp1OYzybRCfx8ecxewbOkNptl0g7fX8F08JoXwTAEUdepvKC8bwm0i3fI
+Message-ID: <CANNYZj92u79B64dhqRv9P0T7mA-bLDNLc9jhPbOgwczGbFSjKw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] devtool: upgrade: extract changelog between versions
+To: daniel.turull@ericsson.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 15:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236889
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 16:28:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236890
 
-On Tue May 12, 2026 at 10:30 AM CEST, Pratik Farkase wrote:
-> Hi Mathieu,
+On Tue, 12 May 2026 at 09:25, Daniel Turull via lists.openembedded.org
+<daniel.turull=ericsson.com@lists.openembedded.org> wrote:
+> Automatically extract changelog information when upgrading a recipe.
+> Uses the devtool-base tags created during upgrade to diff known
+> changelog files (NEWS, ChangeLog, CHANGES, etc.) between the old and
+> new versions. For git-based sources, falls back to git log --oneline
+> if no changelog file changed.
 >
-> I tested v3 on qemux86-64 against current master and was unable to
-> reproduce the glib-2.0 locale or multilib symlinks failures.
->
-> Could you share the steps or configuration you used to reproduce the
-> these two issues? That would help me investigate further.
->
-> Best Regards,
-> Pratik
->
+> Output is written to workspace/changelogs/<pn>.txt and cleaned up on
+> devtool reset. This allows AUH and other tools to pick up the changelog
+> without implementing their own extraction logic.
 
-Hi Pratik,
+Thanks, I like this a lot, and I think this should be fairly easy to
+get merged. Just a couple notes:
 
-Regarding the multilib one, I just managed to reproduce it locally:
+- probably patches 2/3 and 3/3 should all be folded into the main
+commit? (but also add those commit messages to the main commit
+message, don't discard the additional information)
 
-Using tag oecore/autobuilder.yoctoproject.org/valkyrie/a-full-3808 from
-poky-ci-archive git:
-https://git.yoctoproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder.yo=
-ctoproject.org/valkyrie/a-full-3808
+- please see below this about testing the functionality
 
-Default local.conf template, with these lines added:
-PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"
-OE_FRAGMENTS +=3D 'core/yocto-autobuilder/multilib-x86-lib64'
-SANITY_TESTED_DISTROS =3D ''
-OEQA_TESTDISPLAY =3D ':1'
-OE_FRAGMENTS +=3D 'core/yocto-autobuilder/autobuilder core/yocto-autobuilde=
-r/autobuilder-resource-constraints'
-EXTRA_IMAGE_FEATURES ?=3D 'allow-empty-password empty-root-password allow-r=
-oot-login'
-OE_FRAGMENTS +=3D 'machine/qemux86 distro/poky'
+> +    def test_devtool_upgrade_changelog(self):
+> +        # Check preconditions
+> +        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
+> +        self.track_for_cleanup(self.workspacedir)
+> +        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+> +        # dbus-wait has ChangeLog/NEWS files and one commit between these revisions
+> +        recipe = 'devtool-upgrade-test2'
+> +        commit = '6cc6077a36fe2648a5f993fe7c16c9632f946517'
+> +        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+> +        self.track_for_cleanup(tempdir)
+> +        # Perform upgrade
+> +        runCmd('devtool upgrade %s %s -S %s' % (recipe, tempdir, commit))
+> +        # Check changelog file was created with expected content
+> +        changelog_file = os.path.join(self.workspacedir, 'changelogs', '%s.txt' % recipe)
+> +        self.assertExists(changelog_file, 'Changelog file should exist after upgrade')
+> +        with open(changelog_file, 'r') as f:
+> +            content = f.read()
+> +        self.assertIn(recipe, content)
+> +        # The commit between versions fixes a typo - verify we got real content
+> +        self.assertIn('typo', content)
+> +        # Check devtool reset cleans up changelog
+> +        runCmd('devtool reset %s -n' % recipe)
+> +        self.assertNotExists(changelog_file, 'Changelog file should be removed after reset')
 
-Then:
-bitbake lib64-core-image-sato-sdk
-...
-ERROR: lib64-core-image-sato-sdk-1.0-r0 do_rootfs: Could not invoke dnf. Co=
-mmand '...' returned 1:
-...
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Error: Transaction test error:
-  file /usr/bin/g++ conflicts between attempted installs of lib64-g++-symli=
-nks-15.2.0-r0.x86_64 and g++-symlinks-15.2.0-r0.core2_32
-  file /usr/bin/cpp conflicts between attempted installs of cpp-symlinks-15=
-.2.0-r0.core2_32 and lib64-cpp-symlinks-15.2.0-r0.x86_64
-  file /usr/bin/gcc conflicts between attempted installs of lib64-gcc-symli=
-nks-15.2.0-r0.x86_64 and gcc-symlinks-15.2.0-r0.core2_32
+Rather than write a whole new test (which adds to the overall testing
+time, copy-pastes code, and repeats the upgrade procedure already
+happening in a different test), I think the changelog checks should be
+added to existing tests in DevtoolUpgradeTests class. At least these
+tests:
 
-I will try to reproduce the selftest failures.
+- test_devtool_upgrade
+- _test_devtool_upgrade_git_by_recipe
 
-Thanks,
-Mathieu
+but ideally everything where upgrade operation runs and changelogs are
+extracted.
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Also, don't look for simple strings as a way to check the changelog
+sanity. Instead, write a 'reference changelog' into meta-selftest, and
+compare that with the extracted changelog in the workspace, similar to
+how upgraded recipes are compared with reference data:
 
+        # Check recipe got changed as expected
+        with open(oldrecipefile + '.upgraded', 'r') as f:
+            desiredlines = f.readlines()
+        with open(newrecipefile, 'r') as f:
+            newlines = f.readlines()
+        self.assertEqual(desiredlines, newlines)
+
+Such a comparison could probably be in a helper function to avoid
+repeating code lines.
+
+It's okay if some of the upgrades are unable to extract anything
+useful into the changelog, then the reference data should simply stay
+empty. If you can cover all of these, would be awesome:
+
+meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded
+meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
+meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb.upgraded
+meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
+meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded
+meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded
+meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.upgraded
+
+Cheers,
+Alex
 
