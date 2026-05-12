@@ -1,192 +1,605 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 256A0CD343F
-	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 19:13:49 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.0])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.83452.1778613223125073605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 374D6CD343F
+	for <webhook@archiver.kernel.org>; Tue, 12 May 2026 19:28:49 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.83797.1778614122273347432
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2026 12:13:44 -0700
+ Tue, 12 May 2026 12:28:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=WWlfOfZF;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=WWlfOfZF;
- spf=pass (domain: arm.com, ip: 52.101.65.0, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=EYKvd5WB9H4zBYsyOt8ecL4bsLGVjAYhYPlYBK7QouGRLQM+VmMjIhiwQZxAGAbG4X1ZF0FSX5yGd2zaiTdJCG9JIt2hr7e7mudJIhLFADxYbbi7eNfhmiWBhX0sawf6U0lA3g811Pep1XwvwR+O011RiIbcC7jg05T4Dh3PtvRNnsaDqA3gTJxkpwGBDfkaH54WSY0wg019AYrycB1XNX8UEnkg3w6rvxAzYnZX8NwiIebyAvXPIJ5YqeLuKo5RdRl6UtlXjf8dpqoaO+8RlPEDeYjhebkhtpTQOXPwzKzGoYOseK43xBnEY2HTvsHmrEKDAWxFPVbQrVHXQD9CqQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cWlzBAf1vjgBMqbGZkQqATdA78/UnD/XJmSP11RfRJ8=;
- b=SGDIyeb9H/KVR071hxWquDjEOe0wpcREHPWevmvnJaLK16g08A3A3fG1pZn8Qv4x26Z6x/+tqRUOggQ8mfOyEMtpiO6mlTTQ0DhCuDXBo6O26ZdahaBBEGbVQX+yxnSWBufEbGxwi3dSxtPQBAsPTV/cOQrfCcO/iP7wEYyezUdG1R9EcN1xwi1gvi+EtfiIZ84O9roJQ1JoO41zviHgKQq7lFKwV9jTGMGZ60dBH8KSvKJo/qGtwTKTxWgbISHGw6K1QPw5ak0bIHE+k3QkL69BLC039zTTLi2VsikodBqdQp4WUAPE3tyJYk2Tz5VL5jShgWnHYEdRuBAhoDz1PQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cWlzBAf1vjgBMqbGZkQqATdA78/UnD/XJmSP11RfRJ8=;
- b=WWlfOfZFvzG14e9usUNIp8Wk1C/PsEA4fLdHmH24+gEV9jlJqi+mgg09pam9Yqm3U07311AIH88F7OE71BTazusU1QVxJYfVULKMU9TfEszZndMREq+oJeUUyMV5fZz6WaAcXsVhze0YNB5MNIQngOK1qReYF8M21pT7sfxgm1E=
-Received: from DU7P189CA0019.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:552::19)
- by AS2PR08MB9986.eurprd08.prod.outlook.com (2603:10a6:20b:649::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Tue, 12 May
- 2026 19:13:37 +0000
-Received: from DU6PEPF0000B61C.eurprd02.prod.outlook.com
- (2603:10a6:10:552:cafe::9e) by DU7P189CA0019.outlook.office365.com
- (2603:10a6:10:552::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.16 via Frontend Transport; Tue, 12
- May 2026 19:13:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU6PEPF0000B61C.mail.protection.outlook.com (10.167.8.135) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.13
- via Frontend Transport; Tue, 12 May 2026 19:13:36 +0000
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=nVlma1iw;
+ spf=pass (domain: axis.com, ip: 40.107.130.54, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=euNhZtPbHvvTkpowKU5DpprPdbMviw5sVkg/FP2KWHMhTg7QmUzGEhq6L8L4Ja3naGp4iRcID+f9V8H0awdOiVUQ/GeWIN+Wer5xHlFFd1ySMmWsKuQxxp2R5/zPiIHltJT+iRFYc2GolUz+yhHTjuT49F8J90we69GrSG+teqLVY4BeWxm858AlHoH/1/zMA5ErxKicz/CjXcTWzpHBIpHWxslLghhA8dNJAEzIGbZZLv18bna4GZprQeUAPcKjUDWnITHZjV1j5hvt/Hl/nz0v6MBq6hfFYKhl9ZQMDwwDh6DPDXpYuXFPj/W1NOBYtZop0QFY23vyoltqqy+kZQ==
+ b=A150exmrbXjfpneTwgclBDXm2IbD/bNaXGECzcl+1gTXShYtdUr/R0fBRq6zZlwa1H7rV2u2v5/ekAi7dLxZ3I0Ii8jAWugX7LODAI6j2i2o2Rfh21pntvQ+S4eRH1zVwDbgagdaBlhYMqSYWT7cf0haEYz9e4VLhkySOkROLhOVnHdHv0cco7s75eQtEN2ZqSFzQOesyPie+umTJjHAegUcG74QfXuPnX9qvYEiUiglDDcMdjKTTPtPJjNZR6Y8zEl1ZiQODr2amRFTz0SvXbLIWJK/8hzD7LQjY7T7Orwh++AcfbUOLaG8VqtvO8GcX9mNSZCQl4IaXiIlnc2btQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cWlzBAf1vjgBMqbGZkQqATdA78/UnD/XJmSP11RfRJ8=;
- b=dMtNyWYM6bWlRyMLrtIaPvwvVmGyYOnI1ZTnB64wJ3W32wi4Dno7lJNEBkh6LN4lWS83+aRrt05LbTFXNEUQlrl6pjsbK4nkJwtE6QFAkDp1en/gIJoNJyqk8PriUgnf4IioqLSxFl4fUGgPVBYC0KldmYNH9Gu8suYLQKZSfWZKMe2gCAP+07rkPp1dc2YbNVabCDsJFFJngEKML4zHXQyXb+Rn8S3nuIYXBWRMGGEGoF0V/YQ+uez2tvfBWe/FcJTpazQwIT3Ux3KGhILDMu8X8zG0T+31ymjI48uKhbMkLO7cRh/Jcpspw+19Z8PqRZo7LDsmOeXBFWwqAqo6Mw==
+ bh=2ytVMtJNv1xES8cos7Q+DL3dFnqY1tIgrT4/WNx3jGM=;
+ b=oTSYhGnBOiKIXCJaM2h5ry/WnDmNGaysk3zUZLgri6wQOpBpNOMG/5BAfG28HTvUEjktq6onVyguOwGrckDmJC5qcn4U4YGyNyDDWdcLrVsroS2WqQwH/DQN88VWSTLffVDFHhHQ91dlabaXzLx1V+2lKHUVG9PYmH6xUbT3orLHb4W05JFZkjUSbp7FkN2idSnl1DiYyOG9kPiRVVwAJeVxVdTC7jM0woUvFLQe1+nXWMdXptyX4S+PCPyyShKYtqU8+r2V7sj6zdg4aNwrnqzjr1cSd+TewY7XseB7lk7NtqbWS97rTqm6sNcB6DDkE15gw5UKFQs2gO3viSzcKw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cWlzBAf1vjgBMqbGZkQqATdA78/UnD/XJmSP11RfRJ8=;
- b=WWlfOfZFvzG14e9usUNIp8Wk1C/PsEA4fLdHmH24+gEV9jlJqi+mgg09pam9Yqm3U07311AIH88F7OE71BTazusU1QVxJYfVULKMU9TfEszZndMREq+oJeUUyMV5fZz6WaAcXsVhze0YNB5MNIQngOK1qReYF8M21pT7sfxgm1E=
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
- by DB9PR08MB7628.eurprd08.prod.outlook.com (2603:10a6:10:30c::14) with
+ bh=2ytVMtJNv1xES8cos7Q+DL3dFnqY1tIgrT4/WNx3jGM=;
+ b=nVlma1iwhAdOtqBa2gukiArRJgttcbIj2v8euR4gJPuPYewL+BPHdQpO5Xd09JSBZdtQy2l/G9PImiP1ftp/IDjJ3FxmLAbM9fgSpBkT7vyc7XzgVhaeWcqE89qEcDB1kbSZCKKiMmjv/X+UUUyoMnrNYpnAXqgryGbP0n/bq1Y=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by DB9PR02MB10018.eurprd02.prod.outlook.com (2603:10a6:10:462::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.22; Tue, 12 May
- 2026 19:12:34 +0000
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.20.9913.009; Tue, 12 May 2026
- 19:12:34 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "openembedded-core@lists.openembedded.org"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Tue, 12 May
+ 2026 19:28:36 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9913.009; Tue, 12 May 2026
+ 19:28:36 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "tarun@centricular.com" <tarun@centricular.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Patchtest results for [PATCH 2/5] libportal split out gtk libs
-Thread-Topic: Patchtest results for [PATCH 2/5] libportal split out gtk libs
-Thread-Index: AQHc4jdCPWpaKO/v7UeYo3D4/YoqU7YKwhgA
-Date: Tue, 12 May 2026 19:12:34 +0000
-Message-ID: <33420B02-22C6-433D-8653-50C48560C80F@arm.com>
-References: <20260512173702.4114193-2-ross.burton@arm.com>
- <0101019e1d4c08b3-1cbce957-130b-485c-a707-8cb48fb14c3c-000000@us-west-2.amazonses.com>
-In-Reply-To: 
- <0101019e1d4c08b3-1cbce957-130b-485c-a707-8cb48fb14c3c-000000@us-west-2.amazonses.com>
-Accept-Language: en-GB, en-US
+CC: "sebastian@centricular.com" <sebastian@centricular.com>,
+	"nirbheek@centricular.com" <nirbheek@centricular.com>
+Subject: RE: [OE-core] [PATCH] gstreamer1.0-plugins-rs: add new package
+Thread-Topic: [OE-core] [PATCH] gstreamer1.0-plugins-rs: add new package
+Thread-Index: AQHc4U5J4oTVJia71kmMCvdVkusZOLYKimaw
+Date: Tue, 12 May 2026 19:28:36 +0000
+Message-ID: 
+ <DB5PR02MB10213B7E2D21553836D68AAE2EF392@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20260511133450.50595-1-tarun@centricular.com>
+In-Reply-To: <20260511133450.50595-1-tarun@centricular.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AM9PR08MB6258:EE_|DB9PR08MB7628:EE_|DU6PEPF0000B61C:EE_|AS2PR08MB9986:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34e78691-9715-4451-ac9c-08deb05a91a6
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|18002099003|38070700021|56012099003|22082099003|11063799003;
-X-Microsoft-Antispam-Message-Info-Original: 
- cPawwZxJ2HDP8FJDM/qrbKlCV4bvSB7toXKLPJydiJE1xb68nJvh/b4zf2Ru7XZf8K7scxrWftUOp2PzPZTx/vukuSkWfrUj/dLu+9CIu489sMr45OPPnseAwPZ86pRhQ7oa81sXnSt2is4nChwf6SY4NlrMcs6HUzYFcKjF26iWTMLwWIeNKF7QBOa2LqN1mJUdb3/QnY3+Gn7XlXlkyWnaQ8EmeH4xHdzY355gggNtaNJ231gFqg2tZx8BsYS1P+RBrkeelkxdp5u/qT7VeOIT3Iffe6jNsLywSYJSYgHxPvZVMugc9bifI2/VJGfTi1k/A9azGFnhVWBq6dMQeduZmysiOHsoNzrZFhrDxZWUnYRHnRWOteNOZPUgJfBVrTsd1kP5Z/7OUvUG+uFlUwzHlOhVr4hliP9Ytt1jz3LJcDQotgqxVrKGfYNjxqh2iOrNl4F499i0hBwyTVaU6T9Zb7fHgYp8zaA9mwifEPo7NNwvv2rAx8pS5ifWIHl+SgcB1I89/pB4sZBBg9qtSlvMzG/xu4RjalIm1Wkrx0OS0pUzpZ0foNRCVqM4sJIBiQYBUwTkX9pkdjGXOahcCqQKzCFM0zsJaU9gi/K28vw4Z8rjBEX/+oZHZ1v5qb5Xkhx1njJymX2bkMs9KFF6R71xHT9cnTf4n0onWKBscX3uI32iR4bGUbg1sp+SEAKi
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(18002099003)(38070700021)(56012099003)(22082099003)(11063799003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <62111E15DCC24E47906933F9C0B4F3F5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB9PR02MB10018:EE_
+x-ms-office365-filtering-correlation-id: 18728548-6127-4042-77c0-08deb05ca9e4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|22082099003|18002099003|56012099003|13003099007|38070700021|3023799003|11063799003;
+x-microsoft-antispam-message-info: 
+ DKdUNT6fs1WfBdd7BLlVHrCXEURTl53tIGBzCbNrc64IUaF0Fu/G9eQCOGyfnE5NR74qGOF5a2udDVM8DIIWdS0A0Irhzjov6qbCVkjlDFKYX5wxEH7bFDLMed/41ysh89kdYzgiiANt5GO8HFIgdg1qHbSVPzHZtAln2q57Dx6Zg8i3R/UqfOUkM5ZQzERzbargp/Y6KX/C8LDuCoY4OXFvBMrN01Ff02JYm7u3oJnGicSth/7AgPhJiawU+KRBA99iZ9j7Zo7A+CyS+HtExz99J7MrdHzVuPSphDdg3U3yLdCYEVuaJsueOp2nrZBtA9KedM7/EUKwAZBYACUgDhiRrlBH5h5wKaoQkrXfukOD03moEAIqPlTfrAhEgfxWoC0Cxlyt8HnMNaNAr/5/eP/TGxhybzqNK5GP2kiZV4ESzEele5g8lvGlJnLg82Hue7dEKepk61mUZIsyORSsVM3QU3VePB3yPV1RbeKHXqYmYAd//W8Rcevxmv8ehGD/zNo7Wm65/0sL9W8wCptVWwDElCiZrlIsOSRY5Wal9RR6Drf6T7KbgqKWpSuQA5Uzp86YeWMPmcwpzrRNVc5E5/Gr/J3yHRW2XNIiONZLDT6KmpTX6OFbAACWJUdBZaZZpshtmX1UQKuplZ35w8HkgnwodEoWOl9GOFQkt+moBcVr6CvIxKCW7wsaq1WkIaFWdkI1tsfJdshXYS4fL/lJhA==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(22082099003)(18002099003)(56012099003)(13003099007)(38070700021)(3023799003)(11063799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?29A1zZCv8AuvDaAxuhb7/BwJRx/mFmCrWr6We5CN4jJyMyNFuFTkBafYKPM9?=
+ =?us-ascii?Q?npQcr/dTPoSGV6xVOi7ED8D3XZUt5ATGAnJ+RelDMnVP3D6S7DluzsOruh5w?=
+ =?us-ascii?Q?LLCjLN6AEyc1kmuBoQZy7PpIrXTTZIJnMO821uk9AV1ZMOJelUm0t9fAN5SY?=
+ =?us-ascii?Q?subUnWd/b6UsODbBun/l8+NRkmATxLgh/laZF2o6h1YRVX589WH24EElWfta?=
+ =?us-ascii?Q?rmuDGt9LCsJ0ePXv29EKZtvxuN6vkleVvfU7fU1lGlfLCyi5c0xSc3ZW6G+z?=
+ =?us-ascii?Q?Nuh7cTRIbPhUCtxRXNcXsvFNeKsBUEWo8m45sDrWVFdXad6Ud+i6w5CA7/S4?=
+ =?us-ascii?Q?VfCch2ldL0U2SX9bDAl8UKeQl5M+/+NtQCyWSYXuvEZj+VOGlXVSILlfZ07i?=
+ =?us-ascii?Q?LonP5mCYDug8zmPTxiJjksFeIbC62oydBJZ18iI0Q2Xyjmv1YHnk8s9j1M1z?=
+ =?us-ascii?Q?MJfYtC4QsimGNtnD51+e8vaX4BA3ajLGs+q/stBxBuGvz7R5FkKYVO6vHF1a?=
+ =?us-ascii?Q?yqSBT8gTniWsZFFqDl0EfWvk5vKc46HAinRsGZGjXKE7T3J8HYWTa1uSADxW?=
+ =?us-ascii?Q?BAG3tymfzJCXqGOkXTUaFcRO4wGqxbr4tEgqbdP5+G9+DXfGGOSKuPuo8CTI?=
+ =?us-ascii?Q?fIni4Dtb3831tZTOFuuCsmhrA+pTmdXQYfEP/HsKxuIscc2kHUihc/PtinHF?=
+ =?us-ascii?Q?PhCNMxHUoNRqczqw1lzhn4ezDMIDUPw4zweMUAOUGBpIsqLpz8lw+NrLBZkn?=
+ =?us-ascii?Q?YNMQY865aLxJ4HtDHUjvDMdDf22vwuqL32sTtbM3bbnTgBIoq/vzifKAfAEE?=
+ =?us-ascii?Q?Hl3K/zJ6opXKnIaPCaZtKwzH8/CVmYIu2ZVD5+4iwvfgPr9Km19vBHXHsQyd?=
+ =?us-ascii?Q?Pw2C9t/6G8imv7H2yNbcDB2FpgYUsPwGWei8HtrYLDAU8/EeGDdh4AgB+aJy?=
+ =?us-ascii?Q?qNiPtBuwtCarP03IvmYFGGRpeqGq/UtJyRL8uk9hp4MyuedLl7uRNJhWOzX6?=
+ =?us-ascii?Q?hLDawmn/4uRuUwC3Oj33/NdTlmb5m8+rkR/nfC/rFyS33W6LAYCk6M9rlrZm?=
+ =?us-ascii?Q?7Q0N2tX9kXUxYE2lE/FEy3KkhuD7lDFG5z8ZO9lqDt723ui3jptcriSd75q4?=
+ =?us-ascii?Q?HokAe37UqDRIzvWwdzJNETg0yFIn6PTTrsEeiUvTCuerjGZM6tU4+fDNie+D?=
+ =?us-ascii?Q?VaLoLFf9wAf0MuKHllCJUoXOXR4FfMPo5OINvYFoMDt0SscWjsYqjFk+4APx?=
+ =?us-ascii?Q?Bu6GUcc949YnXehSgAdMMFHv35qbAkJSsz/T05DxxQ2oVw641b0OlWCZ3yaY?=
+ =?us-ascii?Q?Hhbj89fOiklt579iLD33YLy4BIejgFhF0mtbZWXTbiRaMESs3zmpY8w5ynl3?=
+ =?us-ascii?Q?6KHLyL/7mD7llCbpPYh1a3w4jhBafydkcdi0/nrO5cdtWP7Qu2S1Y3rAEJFk?=
+ =?us-ascii?Q?/C5ZJ0VKNAj7nvzo9xL5D71K1mDWmggT0o3qifhA2H4GUQMvi1fo1HthEko6?=
+ =?us-ascii?Q?V5jtD5w2e9lP4T8qvMRcfq5xJHmyZSCfBMae/BuCeNpthVVnFul5aTKxYMaD?=
+ =?us-ascii?Q?GWsj4WFeNrM03cjVwhYdw6ihKtzciPJNClIuH9KL8u794lWx674jlUNkKtcR?=
+ =?us-ascii?Q?L55bKdphTfl0f+Wm9CclVKDkK9+C8e7tC8IsycmbXaa+FpUhvT5M4gK+cU72?=
+ =?us-ascii?Q?bgy8nktiI7T1hGUkNSCiUwgZkro=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- Y0Zg9XcTkDW4wnrwVJNFTMc86oCdqSbiMiw0AijwkUptckU1lx5mBWWXAZS/h35N5wRC1ZfxJgfNjxuqTxE52YnfO79T2Z7Z7m5Oad0zqkeQRiLQzf1WfIuQbV8vsZ9j0f2kdRtOnhgS60z1DrSLcwPprSDJNhWaNQ1t14p/Xh2eEhw2n2CcieOkeUcE5mK5M8mFflKqUYMF5haQEmE3ZxeSXYDXzOowZ5VT4HC9sSzvJJIyYOoOL7s71VsmZPX8PYJoGTPLFSVXwJ6FypKodFhd4U6MMVJuwKvZG2vhM3mWvcwRHSSQbBD2ATSMUOx47suZp/vo9jrTna/DGrcRkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7628
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU6PEPF0000B61C.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	2f713a0a-b2e7-4c87-6792-08deb05a6c3f
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|14060799003|35042699022|82310400026|36860700016|376014|1800799024|13003099007|22082099003|18002099003|56012099003|11063799003;
-X-Microsoft-Antispam-Message-Info: 
-	bAiXekKk5qDlOl1Szd/fHFpBgLqt8boiw1v4eDTzc3rZFgvSwV9VPHw7sMwVlu4u6ivAdwCbVYWlGN31KcQv5vdCWTrCcbwn+y2sEYWPgsmpTeKpkN1EM7wyT3Cj0EgBz9tNPbHiJk9V5c6Xoa8xiLgILZL/VFBPJQRMhUH+KmF5zY9unDuhEBQGzVVf0FIE7lzGzpr/PzgnixuQzGUoxgiSszS85caIViuULqnKzQiomJeWreP91j9w8uzxqNqDnmeo7Hv4bxRkS2dcNCgnQMFTjS65DwBoOug8Z6jOG21uSHx5SWLIuLdg02BY6CV8HBr6B0ahEQEUxd2Ue8Y8CHaAYpvEsGu0VBe0cc+PPWWrxNc+igkDauPWF49jNzLVVGS07DkcKpeB866y+Uq8m6qSxsof7qayE6rgB1/U50IcmlfoQUDRgQ5yRZf6IgT3Js+W0Eg6PJwVvdy/EbzWjRDbr12wsFCSCSjcVXjqg8HljT/pJ93Sb2e5K7Il/3mNMaEVM5+9rufVx/KJ74QYaUafa+PIMEJRC7fzlzC6awF66ruGf802r9dRbH2JOnG4LqDPwKHT0eWWSfqVXduGUKy/wrJ5wWe0sofihjW729DucxbHAjfL1MmMEjgBKhMhVmN3d920zZZ72w4G6tdcR7mjTkUjd/WNmNyNYLM+21Un+WgyM/aiFDV2zZIEd87i
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(35042699022)(82310400026)(36860700016)(376014)(1800799024)(13003099007)(22082099003)(18002099003)(56012099003)(11063799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	4jl0GPYp+Sz0FBzFuGiAlU634PgDiI21WHTGvWkl48pYNcMkjQSHQWHx60PAIegXLF6Ezqg947MO679hRvFwiMQeK8fgmcbs1p4ROe6GkyrSgN3INjfoNbeo7uhOcRZmykZV3HHDMLrhivMsTCzNhkcHBnPkjMcmIg+nVZW7H4eQoobWMpVdQ5Tm0y1stXDlI5HGuG2rcX27eVVzsOTY+Qon0zdrVvVb4adLD1q0hSA1De1OZfDG9Tkwa0PrBIiBPnArEWA/mJGzL+LYA9Nm3lG8k0IBlBiESrN+Bys0TTU6Tju+PtMrxilarkQHT0eF+iZyd7fYSbFS3LkT5Lb6clSgI6rbmWbWmzNbNP6vYC5wMMX+steIe0g0gsTJLt9PN0cxxfLbx/F9Fp8xEpJIS3+YNAKoZP0FJZJSSa0CgURqb+icKh9xjsWjmW1vzdv0
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 19:13:36.9986
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18728548-6127-4042-77c0-08deb05ca9e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2026 19:28:36.6760
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34e78691-9715-4451-ac9c-08deb05a91a6
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000B61C.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9986
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GubTkl37VkshuKrXIEgfxH1jRIiYE5PhRRKtm8yZVPyxgFmpggeOolGlSOlbh5Jn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB10018
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 19:13:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236910
+ <openembedded-core@lists.openembedded.org>; Tue, 12 May 2026 19:28:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236911
 
-V2hvb3BzLCBmb3Jnb3QgdG8gcmV3b3JkIHRoYXQuICBJ4oCZbGwgc2VuZCBhIHYyIHNob3J0bHku
-DQoNClJvc3MNCg0KPiBPbiAxMiBNYXkgMjAyNiwgYXQgMTg6NDYsIHBhdGNodGVzdEBhdXRvbWF0
-aW9uLnlvY3RvcHJvamVjdC5vcmcgd3JvdGU6DQo+IA0KPiBUaGFuayB5b3UgZm9yIHlvdXIgc3Vi
-bWlzc2lvbi4gUGF0Y2h0ZXN0IGlkZW50aWZpZWQgb25lDQo+IG9yIG1vcmUgaXNzdWVzIHdpdGgg
-dGhlIHBhdGNoLiBQbGVhc2Ugc2VlIHRoZSBsb2cgYmVsb3cgZm9yDQo+IG1vcmUgaW5mb3JtYXRp
-b246DQo+IA0KPiAtLS0NCj4gVGVzdGluZyBwYXRjaCAvaG9tZS9wYXRjaHRlc3Qvc2hhcmUvbWJv
-eGVzLzItNS1saWJwb3J0YWwtc3BsaXQtb3V0LWd0ay1saWJzLnBhdGNoDQo+IA0KPiBGQUlMOiB0
-ZXN0IFNpZ25lZC1vZmYtYnkgcHJlc2VuY2U6IE1ib3ggaXMgbWlzc2luZyBTaWduZWQtb2ZmLWJ5
-LiBBZGQgaXQgbWFudWFsbHkgb3Igd2l0aCAiZ2l0IGNvbW1pdCAtLWFtZW5kIC1zIiAodGVzdF9t
-Ym94LlRlc3RNYm94LnRlc3Rfc2lnbmVkX29mZl9ieV9wcmVzZW5jZSkNCj4gRkFJTDogdGVzdCBj
-b21taXQgbWVzc2FnZSBwcmVzZW5jZTogUGxlYXNlIGluY2x1ZGUgYSBjb21taXQgbWVzc2FnZSBv
-biB5b3VyIHBhdGNoIGV4cGxhaW5pbmcgdGhlIGNoYW5nZSAodGVzdF9tYm94LlRlc3RNYm94LnRl
-c3RfY29tbWl0X21lc3NhZ2VfcHJlc2VuY2UpDQo+IEZBSUw6IHRlc3Qgc2hvcnRsb2cgZm9ybWF0
-OiBDb21taXQgc2hvcnRsb2cgKGZpcnN0IGxpbmUgb2YgY29tbWl0IG1lc3NhZ2UpIHNob3VsZCBm
-b2xsb3cgdGhlIGZvcm1hdCAiPHRhcmdldD46IDxzdW1tYXJ5PiIgKHRlc3RfbWJveC5UZXN0TWJv
-eC50ZXN0X3Nob3J0bG9nX2Zvcm1hdCkNCj4gDQo+IFBBU1M6IHRlc3QgYXV0aG9yIHZhbGlkICh0
-ZXN0X21ib3guVGVzdE1ib3gudGVzdF9hdXRob3JfdmFsaWQpDQo+IFBBU1M6IHRlc3QgY29tbWl0
-IG1lc3NhZ2UgdXNlciB0YWdzICh0ZXN0X21ib3guVGVzdE1ib3gudGVzdF9jb21taXRfbWVzc2Fn
-ZV91c2VyX3RhZ3MpDQo+IFBBU1M6IHRlc3QgbWJveCBmb3JtYXQgKHRlc3RfbWJveC5UZXN0TWJv
-eC50ZXN0X21ib3hfZm9ybWF0KQ0KPiBQQVNTOiB0ZXN0IG5vbi1BVUggdXBncmFkZSAodGVzdF9t
-Ym94LlRlc3RNYm94LnRlc3Rfbm9uX2F1aF91cGdyYWRlKQ0KPiBQQVNTOiB0ZXN0IHNob3J0bG9n
-IGxlbmd0aCAodGVzdF9tYm94LlRlc3RNYm94LnRlc3Rfc2hvcnRsb2dfbGVuZ3RoKQ0KPiBQQVNT
-OiB0ZXN0IHRhcmdldCBtYWlsaW5nIGxpc3QgKHRlc3RfbWJveC5UZXN0TWJveC50ZXN0X3Rhcmdl
-dF9tYWlsaW5nX2xpc3QpDQo+IA0KPiBTS0lQOiBwcmV0ZXN0IHB5bGludDogTm8gcHl0aG9uIHJl
-bGF0ZWQgcGF0Y2hlcywgc2tpcHBpbmcgdGVzdCAodGVzdF9weXRob25fcHlsaW50LlB5TGludC5w
-cmV0ZXN0X3B5bGludCkNCj4gU0tJUDogdGVzdCBDVkUgdGFnIGZvcm1hdDogTm8gbmV3IENWRSBw
-YXRjaGVzIGludHJvZHVjZWQgKHRlc3RfcGF0Y2guVGVzdFBhdGNoLnRlc3RfY3ZlX3RhZ19mb3Jt
-YXQpDQo+IFNLSVA6IHRlc3QgU2lnbmVkLW9mZi1ieSBwcmVzZW5jZTogTm8gbmV3IENWRSBwYXRj
-aGVzIGludHJvZHVjZWQgKHRlc3RfcGF0Y2guVGVzdFBhdGNoLnRlc3Rfc2lnbmVkX29mZl9ieV9w
-cmVzZW5jZSkNCj4gU0tJUDogdGVzdCBVcHN0cmVhbS1TdGF0dXMgcHJlc2VuY2U6IE5vIG5ldyBD
-VkUgcGF0Y2hlcyBpbnRyb2R1Y2VkICh0ZXN0X3BhdGNoLlRlc3RQYXRjaC50ZXN0X3Vwc3RyZWFt
-X3N0YXR1c19wcmVzZW5jZV9mb3JtYXQpDQo+IFNLSVA6IHRlc3QgYnVnemlsbGEgZW50cnkgZm9y
-bWF0OiBObyBidWcgSUQgZm91bmQgKHRlc3RfbWJveC5UZXN0TWJveC50ZXN0X2J1Z3ppbGxhX2Vu
-dHJ5X2Zvcm1hdCkNCj4gU0tJUDogdGVzdCBweWxpbnQ6IE5vIHB5dGhvbiByZWxhdGVkIHBhdGNo
-ZXMsIHNraXBwaW5nIHRlc3QgKHRlc3RfcHl0aG9uX3B5bGludC5QeUxpbnQudGVzdF9weWxpbnQp
-DQo+IFNLSVA6IHRlc3Qgc2VyaWVzIG1lcmdlIG9uIGhlYWQ6IE1lcmdlIHRlc3QgaXMgZGlzYWJs
-ZWQgZm9yIG5vdyAodGVzdF9tYm94LlRlc3RNYm94LnRlc3Rfc2VyaWVzX21lcmdlX29uX2hlYWQp
-DQo+IA0KPiAtLS0NCj4gDQo+IFBsZWFzZSBhZGRyZXNzIHRoZSBpc3N1ZXMgaWRlbnRpZmllZCBh
-bmQNCj4gc3VibWl0IGEgbmV3IHJldmlzaW9uIG9mIHRoZSBwYXRjaCwgb3IgYWx0ZXJuYXRpdmVs
-eSwgcmVwbHkgdG8gdGhpcw0KPiBlbWFpbCB3aXRoIGFuIGV4cGxhbmF0aW9uIG9mIHdoeSB0aGUg
-cGF0Y2ggc2hvdWxkIGJlIGFjY2VwdGVkLiBJZiB5b3UNCj4gYmVsaWV2ZSB0aGVzZSByZXN1bHRz
-IGFyZSBkdWUgdG8gYW4gZXJyb3IgaW4gcGF0Y2h0ZXN0LCBwbGVhc2Ugc3VibWl0IGENCj4gYnVn
-IGF0IGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy8gKHVzZSB0aGUgJ1BhdGNodGVz
-dCcgY2F0ZWdvcnkNCj4gdW5kZXIgJ1lvY3RvIFByb2plY3QgU3VicHJvamVjdHMnKS4gRm9yIG1v
-cmUgaW5mb3JtYXRpb24gb24gc3BlY2lmaWMNCj4gZmFpbHVyZXMsIHNlZTogaHR0cHM6Ly93aWtp
-LnlvY3RvcHJvamVjdC5vcmcvd2lraS9QYXRjaHRlc3QuIFRoYW5rDQo+IHlvdSENCg0K
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Taruntej Kanakamalla via lists.openembedded.o=
+rg
+> Sent: den 11 maj 2026 15:35
+> To: openembedded-core@lists.openembedded.org
+> Cc: sebastian@centricular.com; nirbheek@centricular.com; Taruntej Kanakam=
+alla <tarun@centricular.com>
+> Subject: [OE-core] [PATCH] gstreamer1.0-plugins-rs: add new package
+>=20
+> Adapted from an existing patch:
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20220606132653.6=
+0232-5-brgl@bgdev.pl
+>=20
+> Update the recipe to track the latest upstream release of the official
+> GStreamer Rust plugins.
+>=20
+> Extend do_configure to handle the virtual manifest, as this is a
+> Cargo workspace project.
+>=20
+> Unlike the other GStreamer submodules, the Rust plugins follow a
+> separate release cycle and versioning scheme. These plugins are fully
+> stable and required for a fully-featured GStreamer installation, as most
+> new features and plugins are being written in Rust. They are also shipped
+> by multiple Linux distributions such as Fedora.
+>=20
+> Based on patch by: Bartosz Golaszewski <brgl@bgdev.pl>
+>=20
+> Signed-off-by: Taruntej Kanakamalla <tarun@centricular.com>
+> ---
+>  .../gstreamer1.0-plugins-rs-crates.inc        | 1940 +++++++++++++++++
+>  .../gstreamer1.0-plugins-rs_0.15.2.bb         |  339 +++
+>  2 files changed, 2279 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
+s-rs-crates.inc
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
+s-rs_0.15.2.bb
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs-cr=
+ates.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs-crates=
+.inc
+> new file mode 100644
+> index 0000000000..6440360a5d
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs-crates.in=
+c
+> @@ -0,0 +1,1940 @@
+> +# Autogenerated with 'bitbake -c update_crates gstreamer1.0-plugins-rs'
+> +
+> +# from Cargo.lock
+> +SRC_URI +=3D " \
+
+[cut]
+
+> +"
+> +
+> +SRC_URI[addr2line-0.25.1.sha256sum] =3D "1b5d307320b3181d6d7954e663bd7c7=
+74a838b8220fe0593c86d9fb09f498b4b"
+
+[cut]
+
+> +SRC_URI[zstd-sys-2.0.16+zstd.1.5.7.sha256sum] =3D "91e19ebc2adc8f83e4303=
+9e79776e3fda8ca919132d68a1fed6a5faca2683748"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.=
+15.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.2.=
+bb
+> new file mode 100644
+> index 0000000000..f3bdb51e4e
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.2.bb
+> @@ -0,0 +1,339 @@
+> +SUMMARY =3D "GStreamer Rust Plugins"
+> +HOMEPAGE =3D "https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs"
+> +LICENSE =3D "MIT & MPL-2.0 & Apache-2.0"
+> +
+> +LIC_FILES_CHKSUM =3D " \
+> +    file://LICENSE-MIT;md5=3Db377b220f43d747efdec40d69fcaa69d \
+> +    file://LICENSE-MPL-2.0;md5=3D815ca599c9df247a0c7f619bab123dad \
+> +    file://LICENSE-APACHE;md5=3D1836efb2eb779966696f473ee8540542 \
+> +"
+> +
+> +SRC_URI =3D " \
+> +    git://gitlab.freedesktop.org/gstreamer/gst-plugins-rs;protocol=3Dhtt=
+ps;branch=3D0.15;name=3Ddefault \
+> +    git://github.com/gtk-rs/gtk4-rs;protocol=3Dhttps;branch=3D0.11;name=
+=3Dgtk4-rs;destsuffix=3Dgtk4-rs \
+> +    git://github.com/gtk-rs/gtk-rs-core;protocol=3Dhttps;branch=3D0.22;n=
+ame=3Dgtk-rs-core;destsuffix=3Dgtk-rs-core \
+> +    git://github.com/rust-av/ffv1.git;protocol=3Dhttps;nobranch=3D1;name=
+=3Dffv1;destsuffix=3Dffv1 \
+> +    git://github.com/rust-av/flavors;protocol=3Dhttps;nobranch=3D1;name=
+=3Dflavors;destsuffix=3Dflavors \
+> +    git://gitlab.freedesktop.org/gstreamer/gstreamer-rs;protocol=3Dhttps=
+;branch=3D0.25;name=3Dgstreamer-rs;destsuffix=3Dgstreamer-rs \
+> +"
+> +
+> +SRCREV_default =3D "1d5931d5f28d4f7bc9dc53e53f2852c3d716044c"
+> +SRCREV_gtk4-rs =3D "12259c689cf3278ace2b82452cbcaba8c4942020"
+> +SRCREV_gtk-rs-core =3D "484fbe01e74fc880cf9d5ed10c33a38747044a42"
+> +SRCREV_ffv1 =3D "bd9eabfc14c9ad53c37b32279e276619f4390ab8"
+> +SRCREV_flavors =3D "833508af656d298c269f2397c8541a084264d992"
+> +SRCREV_gstreamer-rs =3D "3d56963cfca15dffd2a34d2be91ceefa6ad3fc40"
+> +
+> +SRCREV_FORMAT =3D "default_gtk4-rs_gtk-rs-core_ffv1_flavors_gstreamer-rs=
+"
+> +
+> +inherit cargo cargo-update-recipe-crates pkgconfig
+> +
+> +require ${BPN}-crates.inc
+> +
+> +DEPENDS =3D " \
+> +    glib-2.0 \
+> +    gstreamer1.0 \
+> +    gstreamer1.0-plugins-good \
+> +    gstreamer1.0-plugins-bad \
+> +    gstreamer1.0-plugins-base \
+> +    gst-devtools \
+> +    gtk4 \
+> +"
+> +
+> +# This fix appends to the cargo_common_do_patch_paths to correctly handl=
+e
+> +# workspace git dependencies (repos with virtual manifests).
+> +#
+> +# The default cargo_common.bbclass generates [patch] entries that point
+> +# to the workspace root, which causes:
+> +#   "found a virtual manifest at ... instead of a package manifest"
+> +#
+> +# TODO: this logic could be added in the original cargo_common_do_patch_=
+paths
+> +# function of cargo_common.bbclass file in a generic way. Some care need=
+s to
+> +# be taken to make it traverse through all the subdirectories (like
+> +# gstreamer-rs/gstreamer-gl/x11, gstreamer-rs/gstreamer-gl/wayland etc) =
+and fetch the
+> +# package names and their paths correctly
+> +#
+> +python cargo_common_do_patch_paths:append() {
+> +    import re
+> +
+> +    cargo_config =3D os.path.join(d.getVar("CARGO_HOME"), "config.toml")
+> +    workdir =3D d.getVar("UNPACKDIR")
+> +
+> +    with open(cargo_config, 'r') as f:
+> +        content =3D f.read()
+> +
+> +    # Remove auto-generated [patch] sections for workspace repos
+> +    content =3D re.sub(r'\[patch\."https://gitlab\.freedesktop\.org/gstr=
+eamer/gstreamer-rs"\][^\[]*', '', content)
+> +    content =3D re.sub(r'\[patch\."https://github\.com/gtk-rs/gtk-rs-cor=
+e"\][^\[]*', '', content)
+> +    content =3D re.sub(r'\[patch\."https://github\.com/gtk-rs/gtk4-rs"\]=
+[^\[]*', '', content)
+> +    content =3D re.sub(r'\[patch\."https://github\.com/rust-av/ffv1\.git=
+"\][^\[]*', '', content)
+> +    content =3D re.sub(r'\[patch\."https://github\.com/rust-av/flavors"\=
+][^\[]*', '', content)
+> +
+> +    with open(cargo_config, 'w') as f:
+> +        f.write(content)
+> +
+> +    gst =3D workdir + "/gstreamer-rs"
+> +    gtk_core =3D workdir + "/gtk-rs-core"
+> +    gtk4 =3D workdir + "/gtk4-rs"
+> +
+> +    with open(cargo_config, 'a') as f:
+> +        print(f'[patch."https://gitlab.freedesktop.org/gstreamer/gstream=
+er-rs"]', file=3Df)
+> +        print(f'gstreamer =3D {{ path =3D "{gst}/gstreamer" }}', file=3D=
+f)
+> +        print(f'gstreamer-allocators =3D {{ path =3D "{gst}/gstreamer-al=
+locators" }}', file=3Df)
+> +        print(f'gstreamer-analytics =3D {{ path =3D "{gst}/gstreamer-ana=
+lytics" }}', file=3Df)
+> +        print(f'gstreamer-app =3D {{ path =3D "{gst}/gstreamer-app" }}',=
+ file=3Df)
+> +        print(f'gstreamer-audio =3D {{ path =3D "{gst}/gstreamer-audio" =
+}}', file=3Df)
+> +        print(f'gstreamer-base =3D {{ path =3D "{gst}/gstreamer-base" }}=
+', file=3Df)
+> +        print(f'gstreamer-check =3D {{ path =3D "{gst}/gstreamer-check" =
+}}', file=3Df)
+> +        print(f'gstreamer-gl =3D {{ path =3D "{gst}/gstreamer-gl" }}', f=
+ile=3Df)
+> +        print(f'gstreamer-gl-egl =3D {{ path =3D "{gst}/gstreamer-gl/egl=
+" }}', file=3Df)
+> +        print(f'gstreamer-gl-wayland =3D {{ path =3D "{gst}/gstreamer-gl=
+/wayland" }}', file=3Df)
+> +        print(f'gstreamer-gl-x11 =3D {{ path =3D "{gst}/gstreamer-gl/x11=
+" }}', file=3Df)
+> +        print(f'gstreamer-net =3D {{ path =3D "{gst}/gstreamer-net" }}',=
+ file=3Df)
+> +        print(f'gstreamer-pbutils =3D {{ path =3D "{gst}/gstreamer-pbuti=
+ls" }}', file=3Df)
+> +        print(f'gstreamer-rtp =3D {{ path =3D "{gst}/gstreamer-rtp" }}',=
+ file=3Df)
+> +        print(f'gstreamer-sdp =3D {{ path =3D "{gst}/gstreamer-sdp" }}',=
+ file=3Df)
+> +        print(f'gstreamer-tag =3D {{ path =3D "{gst}/gstreamer-tag" }}',=
+ file=3Df)
+> +        print(f'gstreamer-utils =3D {{ path =3D "{gst}/gstreamer-utils" =
+}}', file=3Df)
+> +        print(f'gstreamer-validate =3D {{ path =3D "{gst}/gstreamer-vali=
+date" }}', file=3Df)
+> +        print(f'gstreamer-video =3D {{ path =3D "{gst}/gstreamer-video" =
+}}', file=3Df)
+> +        print(f'gstreamer-webrtc =3D {{ path =3D "{gst}/gstreamer-webrtc=
+" }}', file=3Df)
+> +
+> +        print(f'[patch."https://github.com/gtk-rs/gtk-rs-core"]', file=
+=3Df)
+> +        print(f'cairo-rs =3D {{ path =3D "{gtk_core}/cairo" }}', file=3D=
+f)
+> +        print(f'cairo-sys-rs =3D {{ path =3D "{gtk_core}/cairo/sys" }}',=
+ file=3Df)
+> +        print(f'gdk-pixbuf =3D {{ path =3D "{gtk_core}/gdk-pixbuf" }}', =
+file=3Df)
+> +        print(f'gdk-pixbuf-sys =3D {{ path =3D "{gtk_core}/gdk-pixbuf/sy=
+s" }}', file=3Df)
+> +        print(f'gio =3D {{ path =3D "{gtk_core}/gio" }}', file=3Df)
+> +        print(f'gio-sys =3D {{ path =3D "{gtk_core}/gio/sys" }}', file=
+=3Df)
+> +        print(f'glib =3D {{ path =3D "{gtk_core}/glib" }}', file=3Df)
+> +        print(f'glib-macros =3D {{ path =3D "{gtk_core}/glib-macros" }}'=
+, file=3Df)
+> +        print(f'glib-sys =3D {{ path =3D "{gtk_core}/glib/sys" }}', file=
+=3Df)
+> +        print(f'gobject-sys =3D {{ path =3D "{gtk_core}/glib/gobject-sys=
+" }}', file=3Df)
+> +        print(f'graphene-rs =3D {{ path =3D "{gtk_core}/graphene" }}', f=
+ile=3Df)
+> +        print(f'graphene-sys =3D {{ path =3D "{gtk_core}/graphene/sys" }=
+}', file=3Df)
+> +        print(f'pango =3D {{ path =3D "{gtk_core}/pango" }}', file=3Df)
+> +        print(f'pango-sys =3D {{ path =3D "{gtk_core}/pango/sys" }}', fi=
+le=3Df)
+> +        print(f'pangocairo =3D {{ path =3D "{gtk_core}/pangocairo" }}', =
+file=3Df)
+> +        print(f'pangocairo-sys =3D {{ path =3D "{gtk_core}/pangocairo/sy=
+s" }}', file=3Df)
+> +
+> +        print(f'[patch."https://github.com/gtk-rs/gtk4-rs"]', file=3Df)
+> +        print(f'gdk4 =3D {{ path =3D "{gtk4}/gdk4" }}', file=3Df)
+> +        print(f'gdk4-wayland =3D {{ path =3D "{gtk4}/gdk4-wayland" }}', =
+file=3Df)
+> +        print(f'gdk4-x11 =3D {{ path =3D "{gtk4}/gdk4-x11" }}', file=3Df=
+)
+> +        print(f'gdk4-win32 =3D {{ path =3D "{gtk4}/gdk4-win32" }}', file=
+=3Df)
+> +        print(f'gsk4 =3D {{ path =3D "{gtk4}/gsk4" }}', file=3Df)
+> +        print(f'gtk4 =3D {{ path =3D "{gtk4}/gtk4" }}', file=3Df)
+> +        print(f'gtk4-macros =3D {{ path =3D "{gtk4}/gtk4-macros" }}', fi=
+le=3Df)
+> +
+> +        print(f'[patch."https://github.com/rust-av/flavors"]', file=3Df)
+> +        print(f'flavors =3D {{ path =3D "{workdir}/flavors" }}', file=3D=
+f)
+> +
+> +        print(f'[patch."https://github.com/rust-av/ffv1.git"]', file=3Df=
+)
+> +        print(f'ffv1 =3D {{ path =3D "{workdir}/ffv1" }}', file=3Df)
+> +}
+> +
+> +do_configure:append() {
+> +
+> +    # Remove any existing patch sections of gtk-rs-core
+> +         sed -i '/\[patch\."https:\/\/github\.com\/gtk-rs\/gtk-rs-core"\=
+]/,/^$/d' ${UNPACKDIR}/gstreamer-rs/Cargo.toml
+> +         sed -i '/\[patch\."https:\/\/github\.com\/gtk-rs\/gtk-rs-core"\=
+]/,/^$/d' ${UNPACKDIR}/gtk4-rs/Cargo.toml
+> +
+> +    GTK_CORE_PATCH=3D"
+> +[patch.\"https://github.com/gtk-rs/gtk-rs-core\"]
+> +cairo-rs =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/cairo\" }
+> +cairo-sys-rs =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/cairo/sys\" }
+> +gdk-pixbuf =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/gdk-pixbuf\" }
+> +gdk-pixbuf-sys =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/gdk-pixbuf/sys\=
+" }
+> +gio =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/gio\" }
+> +gio-sys =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/gio/sys\" }
+> +glib =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/glib\" }
+> +glib-macros =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/glib-macros\" }
+> +glib-sys =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/glib/sys\" }
+> +gobject-sys =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/glib/gobject-sys\"=
+ }
+> +graphene-rs =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/graphene\" }
+> +graphene-sys =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/graphene/sys\" }
+> +pango =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/pango\" }
+> +pango-sys =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/pango/sys\" }
+> +pangocairo =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/pangocairo\" }
+> +pangocairo-sys =3D { path =3D \"${UNPACKDIR}/gtk-rs-core/pangocairo/sys\=
+" }"
+> +
+> +    echo "$GTK_CORE_PATCH" >> ${UNPACKDIR}/gstreamer-rs/Cargo.toml
+> +    echo "$GTK_CORE_PATCH" >> ${UNPACKDIR}/gtk4-rs/Cargo.toml
+> +}
+> +
+> +# Tutorial
+> +PACKAGECONFIG[tutorial] =3D "-p gst-plugin-tutorial"
+> +
+> +# Version helper
+> +PACKAGECONFIG[version-helper] =3D "-p gst-plugin-version-helper"
+> +
+> +# Analytics
+> +PACKAGECONFIG[analytics] =3D "-p gst-plugin-analytics"
+> +PACKAGECONFIG[burn] =3D "-p gst-plugin-burn"
+> +
+> +# Audio
+> +PACKAGECONFIG[audioparsers] =3D "-p gst-plugin-audioparsers"
+> +PACKAGECONFIG[audiofx] =3D "-p gst-plugin-audiofx"
+> +PACKAGECONFIG[claxon] =3D "-p gst-plugin-claxon"
+> +PACKAGECONFIG[csound] =3D "-p gst-plugin-csound"
+> +PACKAGECONFIG[demucs] =3D "-p gst-plugin-demucs"
+> +PACKAGECONFIG[elevenlabs] =3D "-p gst-plugin-elevenlabs"
+> +PACKAGECONFIG[lewton] =3D "-p gst-plugin-lewton"
+> +PACKAGECONFIG[spotify] =3D "-p gst-plugin-spotify"
+> +PACKAGECONFIG[speechmatics] =3D "-p gst-plugin-speechmatics"
+> +PACKAGECONFIG[whisper] =3D "-p gst-plugin-whisper"
+> +
+> +# Generic
+> +PACKAGECONFIG[file] =3D "-p gst-plugin-file"
+> +PACKAGECONFIG[originalbuffer] =3D "-p gst-plugin-originalbuffer"
+> +PACKAGECONFIG[gopbuffer] =3D "-p gst-plugin-gopbuffer"
+> +PACKAGECONFIG[sodium] =3D "-p gst-plugin-sodium"
+> +PACKAGECONFIG[threadshare] =3D "-p gst-plugin-threadshare"
+> +PACKAGECONFIG[inter] =3D "-p gst-plugin-inter"
+> +PACKAGECONFIG[streamgrouper] =3D "-p gst-plugin-streamgrouper"
+> +
+> +# Mux
+> +PACKAGECONFIG[flavors] =3D "-p gst-plugin-flavors"
+> +PACKAGECONFIG[isobmff] =3D "-p gst-plugin-isobmff"
+> +
+> +# Net
+> +PACKAGECONFIG[aws] =3D "-p gst-plugin-aws"
+> +PACKAGECONFIG[deepgram] =3D "-p gst-plugin-deepgram"
+> +PACKAGECONFIG[hlsmultivariantsink] =3D "-p gst-plugin-hlsmultivariantsin=
+k"
+> +PACKAGECONFIG[hlssink3] =3D "-p gst-plugin-hlssink3"
+> +PACKAGECONFIG[icecast] =3D "-p gst-plugin-icecast"
+> +PACKAGECONFIG[mpegtslive] =3D "-p gst-plugin-mpegtslive"
+> +PACKAGECONFIG[ndi] =3D "-p gst-plugin-ndi"
+> +PACKAGECONFIG[onvif] =3D "-p gst-plugin-onvif"
+> +PACKAGECONFIG[raptorq] =3D "-p gst-plugin-raptorq"
+> +PACKAGECONFIG[reqwest] =3D "-p gst-plugin-reqwest"
+> +PACKAGECONFIG[rtsp] =3D "-p gst-plugin-rtsp"
+> +PACKAGECONFIG[rtp] =3D "-p gst-plugin-rtp"
+> +PACKAGECONFIG[webrtc] =3D "-p gst-plugin-webrtc"
+> +PACKAGECONFIG[webrtc-signalling] =3D "-p gst-plugin-webrtc-signalling"
+> +PACKAGECONFIG[webrtc-signalling-protocol] =3D "-p gst-plugin-webrtc-sign=
+alling-protocol"
+> +PACKAGECONFIG[webrtchttp] =3D "-p gst-plugin-webrtchttp"
+> +PACKAGECONFIG[quinn] =3D "-p gst-plugin-quinn"
+> +
+> +# Text
+> +PACKAGECONFIG[textaccumulate] =3D "-p gst-plugin-textaccumulate"
+> +PACKAGECONFIG[textahead] =3D "-p gst-plugin-textahead"
+> +PACKAGECONFIG[json] =3D "-p gst-plugin-json"
+> +PACKAGECONFIG[regex] =3D "-p gst-plugin-regex"
+> +PACKAGECONFIG[textwrap] =3D "-p gst-plugin-textwrap"
+> +
+> +# Utils
+> +PACKAGECONFIG[fallbackswitch] =3D "-p gst-plugin-fallbackswitch"
+> +PACKAGECONFIG[livesync] =3D "-p gst-plugin-livesync"
+> +PACKAGECONFIG[debugseimetainserter] =3D "-p gst-plugin-debugseimetainser=
+ter"
+> +PACKAGECONFIG[togglerecord] =3D "-p gst-plugin-togglerecord"
+> +PACKAGECONFIG[tracers] =3D "-p gst-plugin-tracers"
+> +PACKAGECONFIG[uriplaylistbin] =3D "-p gst-plugin-uriplaylistbin"
+> +PACKAGECONFIG[validate] =3D "-p gst-plugin-validate"
+> +
+> +# Video
+> +PACKAGECONFIG[cdg] =3D "-p gst-plugin-cdg"
+> +PACKAGECONFIG[closedcaption] =3D "-p gst-plugin-closedcaption"
+> +# need dav1d recipe meta-openembedded/meta-multimedia
+> +PACKAGECONFIG[dav1d] =3D "-p gst-plugin-dav1d,,dav1d, dav1d"
+> +PACKAGECONFIG[ffv1] =3D "-p gst-plugin-ffv1"
+> +PACKAGECONFIG[gif] =3D "-p gst-plugin-gif"
+> +PACKAGECONFIG[gtk4] =3D "-p gst-plugin-gtk4"
+> +PACKAGECONFIG[hsv] =3D "-p gst-plugin-hsv"
+> +PACKAGECONFIG[png] =3D "-p gst-plugin-png"
+> +PACKAGECONFIG[rav1e] =3D "-p gst-plugin-rav1e"
+> +PACKAGECONFIG[skia] =3D "-p gst-plugin-skia"
+> +PACKAGECONFIG[videofx] =3D "-p gst-plugin-videofx"
+> +PACKAGECONFIG[vvdec] =3D "-p gst-plugin-vvdec"
+> +PACKAGECONFIG[webp] =3D "-p gst-plugin-webp"
+> +
+> +
+> +# Default members
+> +PACKAGECONFIG ??=3D " \
+> +    tutorial \
+> +    version-helper \
+> +    analytics \
+> +    burn \
+> +    audiofx \
+> +    audioparsers \
+> +    claxon \
+> +    demucs \
+> +    elevenlabs \
+> +    lewton \
+> +    speechmatics \
+> +    spotify \
+> +    file \
+> +    originalbuffer \
+> +    sodium \
+> +    threadshare \
+> +    rtp \
+> +    inter \
+> +    streamgrouper \
+> +    gopbuffer \
+> +    flavors \
+> +    isobmff \
+> +    aws \
+> +    deepgram \
+> +    hlsmultivariantsink \
+> +    hlssink3 \
+> +    icecast \
+> +    mpegtslive \
+> +    ndi \
+> +    onvif \
+> +    raptorq \
+> +    reqwest \
+> +    rtsp \
+> +    webrtchttp \
+> +    webrtc \
+> +    webrtc-signalling-protocol \
+> +    webrtc-signalling \
+> +    quinn \
+> +    textaccumulate \
+> +    textahead \
+> +    json \
+> +    regex \
+> +    textwrap \
+> +    fallbackswitch \
+> +    gtk4 \
+> +    livesync \
+> +    debugseimetainserter \
+> +    togglerecord \
+> +    tracers \
+> +    uriplaylistbin \
+> +    validate \
+> +    cdg \
+> +    closedcaption \
+> +    dav1d \
+> +    ffv1 \
+> +    gif \
+> +    hsv \
+> +    png \
+> +    rav1e \
+> +    videofx \
+> +    webp \
+> +"
+> +
+> +# FIXME build errors
+> +# PACKAGECONFIG +=3D " whisper csound"
+> +
+> +# FIXME failing to download skia from
+> +# https://codeload.github.com/rust-skia/skia/tar.gz/m145-0.92.0
+> +# PACKAGECONFIG +=3D " skia"
+> +
+> +# TODO no vvdec recipe
+> +# PACKAGECONFIG +=3D " vvdec"
+> +
+> +do_install:append() {
+> +     install -d ${D}${libdir}/gstreamer-1.0/
+> +     install -m 0755 ${B}/target/${CARGO_TARGET_SUBDIR}/*.so ${D}${libdi=
+r}/gstreamer-1.0/
+> +}
+> +
+> +FILES:${PN} +=3D "${libdir}/gstreamer-1.0/*"
+> +
+> +# Silence package QA errors like:
+> +# ERROR: gstreamer1.0-plugins-rs-0.15.1-r0 do_package_qa:
+> +# QA Issue: File /usr/lib/gstreamer-1.0/.debug/libgstrswebrtc.so in
+> +# package gstreamer1.0-plugins-rs-dbg contains reference to TMPDIR [buil=
+dpaths]
+> +# TODO: look for proper fix
+> +INSANE_SKIP:${PN}-dbg +=3D "buildpaths"
+> --
+> 2.54.0
+
+AFAICT, there is no splitting of the individual plugins into separate=20
+packages as is done for the other GStreamer plugin recipes.
+Is this intentional?
+
+//Peter
+
 
