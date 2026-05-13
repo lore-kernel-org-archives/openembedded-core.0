@@ -1,170 +1,221 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53165CD37B6
-	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 07:18:55 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2070.1778656727470907994
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED750CD4851
+	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 07:26:58 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.3])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2122.1778657216934998443
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 00:18:48 -0700
+ Wed, 13 May 2026 00:26:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=FNcED8l/;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 2921F4E42C8B;
-	Wed, 13 May 2026 07:18:45 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EF680606CE;
-	Wed, 13 May 2026 07:18:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 280DF11AF8C85;
-	Wed, 13 May 2026 09:18:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778656724; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=fKHsPEtUjs11fc0Vhat7Eo89aRJ1LYxFV4umWbel8DE=;
-	b=FNcED8l/q/cQqxylBCavpmcKxnrVk5hkwQCPaW/8UrFGZ2WIf5oh+x5SLy1fARKKPG6Yom
-	EUK+9d7CVdRkW4cV21Rstfk+In5A5bcN/MptOe38rEQsC9HFNSW/TlL8Y/MWmULXpY6OcD
-	LIdAjpjno9WLy+glgPwOn6ekDBXYOZBMZEJrvcVT/qMEdz53pUVbK+ISIp66nbR8TKO8p1
-	1xrIQ3Q7fuEPsmv5UjHtJKBhcaYWu6Mkak3q0CJIsb/3Ke0cHnuLyZDG1yUk7q+MjNrzh9
-	rF/axcZH0cBc/MWFVxnlTsZA18zrX+hlVvktF8O/ssNSi/votZCHR9x/jxMwGg==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: jeremie.dautheribes@bootlin.com, Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com
-Subject: 
- Re: [OE-core][PATCH 2/2] spdx3: support SBOM compression based on
- SPDX_SBOM_EXT
-Date: Wed, 13 May 2026 09:18:42 +0200
-Message-ID: <4IxK-KmrSyWeqjlMbRmw5Q@bootlin.com>
+ dkim=pass header.i=@ericsson.com header.s=selector1 header.b=A81uskH2;
+ spf=pass (domain: ericsson.com, ip: 52.101.70.3, mailfrom: daniel.turull@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TCT0HBh/g0NsinizkO87wfuw63HNBc9/4T/4D3GE6+1JZtHVOrwim7Jl6IPZzDKR4QtmqvY6HaOMsYsY4WlvQaBdX5Dkz2KSj5nJLI48PGllirpLuPwOI2kHsrJQ+ncYOh5L7IDqhyoVSI2faoPPitnS0iXtf3W33EG2447hM8n+3/AhUF1yymtE/VkEVLemB1ND/sI9eKuNjwAqaOMjpudGGqpJy0bF+uEp2J4T610tiOJtKcv6/MAuI9DpPqVUE0aJBVoWrMUkup/8qESLspWhKnc4cYMFY6hdSEmJ4rJHKpgFNxCvFtp25qC2xJWyUjRaf3zmgI7p2wyOCgComA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VaQQzTLhUIoex86V/bRdCNFu45dpp9gNso4+JikDG5A=;
+ b=eDkGdsRUrgtJiULE9lUJnM8/RaPXsD5QHh434u3Ldq6+JcYpTCZabVZbqMoo8OkutwyO8a3nl/OYfMGYYB6Ger6nFXl+n3Bn6kRfRv3djcZYeToNdYjkuFGYe2291dUHZOngNaVFwVCiTA3RAkLtdnIhTd+BFdMeGzSO7H5z/gXS6OVdBvMK0HgkOAfEgv+Tvw9hQXQ08uq5/EqNa15u3MrsfBXWEjo9Iujkib4WZ1rlMg+R4kPQDdfrg2UEdL0zexG6A42EISKRBZobaFI7JcMngp4TMp2dV/hWReru9PZRHh7f0urdgqFAaX5oU39EPbFUHXhU5qELl8Cz8tCNdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VaQQzTLhUIoex86V/bRdCNFu45dpp9gNso4+JikDG5A=;
+ b=A81uskH2JPMqvQfpaqXhEWuxIrsOzPD9/KKNFC4nOQBi9l9HFHswVXvc3GsRq342p90WHHeA/rLTZxATttU9J22j5dmtbRLPoR8RByNZgflR0w68TjoyQq+WYXlliFp1SASVMdARnisE1U2w/qtBxappfm+zytkyPfhd/0TMyvNl9f+hNzcdnHf485SYzCE7rsFDyqVoZtqFbdQKFXJQ1hdC22AydWXdyPiZOSoVhUEKdjRZPxbRpY6FOwO+HHdHy6FVBSotl1ZnDfeiG4+Rui87czVIWhuQqGkIlevxd+5wiWjQqS19OnnyUDcdnKOJA1DwIa4fckP+y2kuYE7OiA==
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
+ by AMBPR07MB11911.eurprd07.prod.outlook.com (2603:10a6:20b:757::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.17; Wed, 13 May
+ 2026 07:26:53 +0000
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7%7]) with mapi id 15.21.0025.012; Wed, 13 May 2026
+ 07:26:52 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 1/3] devtool: upgrade: extract changelog between
+ versions
+Thread-Topic: [OE-core] [PATCH 1/3] devtool: upgrade: extract changelog
+ between versions
+Thread-Index: AQHc4eBzDJSR9Mm4LUu4O8X9zzyoz7YKlPWAgAD6o2A=
+Date: Wed, 13 May 2026 07:26:52 +0000
+Message-ID: 
+ <PA3PR07MB107218AC8873AAA1BBEBE2A8C8A062@PA3PR07MB10721.eurprd07.prod.outlook.com>
+References: <20260512072446.2323529-1-daniel.turull@ericsson.com>
+ <20260512072446.2323529-2-daniel.turull@ericsson.com>
+ <CANNYZj92u79B64dhqRv9P0T7mA-bLDNLc9jhPbOgwczGbFSjKw@mail.gmail.com>
 In-Reply-To: 
- <CAJdd5GZfKYWsR3Ryw7OFpbe6qD-HaKXm8o2CENby1q5H9oZrkQ@mail.gmail.com>
-References: 
- <20260512-sbom-zstd-support-v1-0-93273381d548@bootlin.com>
- <20260512-sbom-zstd-support-v1-2-93273381d548@bootlin.com>
- <CAJdd5GZfKYWsR3Ryw7OFpbe6qD-HaKXm8o2CENby1q5H9oZrkQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ <CANNYZj92u79B64dhqRv9P0T7mA-bLDNLc9jhPbOgwczGbFSjKw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|AMBPR07MB11911:EE_
+x-ms-office365-filtering-correlation-id: 3b92cf07-cfa5-480a-2103-08deb0c10130
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|18002099003|56012099003|22082099003|11063799003|3023799003|38070700021;
+x-microsoft-antispam-message-info: 
+ Kku6njT6drcIb0e5Z20AaI3ihXTLvpP8YLOAP5WaJc24i+zb8sD+pqwyacralQwXdbtthZBvdfNG3Zzio67fQ24rlBSxFAAivnlaC//UQWIZR5jp0Oa9XYhEsrTyrG5xAJ4L0y6AW61/wfV1MOmpSS2aJOBAzK4tuUdzZxw/7vIMB1cexIl7l5b5KpmbhqkdbuLU92F0j21cZVFNv4oIXNwxH8Rkqax1nfhLc28xeZE3jHVCwJNfLYuKQbtGw4MUAEFDSRuRmFDvq4X+xaBtjjMWE6G4u4TY7Nr1KZ9HPDtLCyvV+Dsfdwq7M0G9jhQKEBz8vqrtgPHszfVk6/Ky+mDtdP1Zcnfvw3f9pwPdgrKtwY7RluDKyOGlaue2KxgamMCOoDzp9T4YrWX9+B5PM01Mj3/RF8+vS8gGANgmMJ5+ck/ekODXDpkZl9IzJkB+XnuXDKz5G3YdHtQn0FiY23vM5pt5+kLSRsT0Pv7iESGd/0e0hRPMvlESezUYNzruuZPlVrqWb2utndTbcEnJNllmgBmQDQTNfBxFYNTkGbsqdi4EhamN5R6eZGklpUbo6Jfu4E9pp7huWD7jI4kq2vypQ2kjKi5oo611jxrRYIedfyuNhJ5ZXnLTYb++ZtKCZ0ZHUhZfZLwHUIo8aF+HNITqwYxd0nltyCEW7pK3AwAdLi8gpwEDj3J1gHt2qO8YUVoiWdBiILuN7qVN0NadI5fRYfBtbVhxAOX8KNLOSrW+4K0O3Y+8zITPbgCqp22d
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(18002099003)(56012099003)(22082099003)(11063799003)(3023799003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?WnhaNHJyMCt3a1l5aFhPdFNXVTJPVmpvUVlzSnI1N1o5N2F0Ym1vaGtYYWFR?=
+ =?utf-8?B?dlY5S0JIYUkvMDhHRXNSRTBWVGRpVG1lTHc5Rm9pOHErZDVueEFwU2E0MzBD?=
+ =?utf-8?B?NlBSeW1BNjRuQ2lqM3JQKytrWktNQ1lmOWJkZnJKWkZyZlBUUGNrR1VYSjJE?=
+ =?utf-8?B?Y0p6UFcyZmlsMmxlZXRJYTBXTzFBYlZ0Ylh1cURUa2pRd1ZpeVc2YVNBWk0y?=
+ =?utf-8?B?MW1TWXlqS1k5TDVWMXJpU202MFVwWmxWWXVDT0dSYlBYdkhxN2dKSDhRWkRN?=
+ =?utf-8?B?U2k3UFAxSHdRYy9tMXlGMW1GdlYvVklUWkcydGJ3T1VFeWFJRXdRRkVSemoz?=
+ =?utf-8?B?YlRCeDR6R0E0enhvOFQ5THdibWJWY0VzbVhIUDdFNWRSWjdXam5NcFFUUXFG?=
+ =?utf-8?B?dDBRQk4vaThSQTRtKzlLRER0dUFFNjJiVTg2Z0p5UUZNQldDOHpJMTdUQmN3?=
+ =?utf-8?B?OWM0SHJTOHBYZFo2ODBNY1ErQ1ZwS09lSGxKcy9tbEI5bHhhaC9OaHlsbkl0?=
+ =?utf-8?B?bnN2SldSN3BBQkhySlFELzdmVEd2Rm5KTzFZbVZVd2s3NE52enkyK2dZcHFF?=
+ =?utf-8?B?bXQ1azdHdHl4ODZxNnBzVWlJQlhYKy9HRUVRaUQ3YVBhUXJHZzVIS0FVcVUx?=
+ =?utf-8?B?TkJLaHN3aXdoekxaRnc5OVZubVQyQU9WekkzVDlUOC9zZmw0WUlzMVdndjl5?=
+ =?utf-8?B?SzE3b2tNRTdaTGxLbGVhM0NNMG5kRHlycEQxVXB4bVJsTHpWT1JsdDUrZUFz?=
+ =?utf-8?B?RUVnSWp1amIwa0hyUWIvYlgwQzJPUXVBUGRXeWRhWGtxUkI3SmxsUVBQSWgw?=
+ =?utf-8?B?dStyVW4yclJOcUZ2aTVISDFRaVNuR0E4QWMzdjE1QjhwR1pxNExlQlJITnNT?=
+ =?utf-8?B?UnNqTXNmVHlyOGNqdXp2V3V6ZzFoZ3Q3Ykc5TStnOHQzeFRnOUY0bWJJa2I5?=
+ =?utf-8?B?MW53WXNWL0VEZndEUU84REhCT2RPREZ1d3ZPV3N5ZnczTTZibXdNRStXRjhJ?=
+ =?utf-8?B?VDJDc1ZuWVkvTDBsU0NaRlpQWitLVzgrdS9oVUFiMGdkcTVKWTVNMTU0RW5H?=
+ =?utf-8?B?RUdUQXI2MkpHeGFza2twZ2tWanUvQ0FQVG1PY0paS0o4UzZ2MXJ6R0hDYW04?=
+ =?utf-8?B?NTRZTmdUbWlBY0hVNUYyekJUV1AzaGhvczg0UGQ3allLWHh1QTRnQ0NZMzM5?=
+ =?utf-8?B?Q3NWUWthdUF4MFd3Q0ZjdDJ0MnBxd0todlpvNlQvNy9LTnB2WHNiaVpSNmEr?=
+ =?utf-8?B?NDFiMGU3dzBHRG1HQURRL0xMK1JIZmx2VERyVDN2ajBMUURxQ05UVXBMb20x?=
+ =?utf-8?B?ZDhRTld5VUZyL1Rtam5qSThLZFdEZmxFRUtXZ3BLcGtNTHo0eVVlb1BIMmJo?=
+ =?utf-8?B?NEE5RjFWWnB2WTlaT1lqME85S0ZZN2NPaDMxcXNXZnBCYldUaCtJM2IySHpE?=
+ =?utf-8?B?QWN6Z3BHRElIM2IxcGllS0E2bjZOTC80aTVQTVhObnI4TUk2Rmd4MWRPZHhV?=
+ =?utf-8?B?cjY1TjRManVISlphM0hoWUZvNHdBRjZFT3U2LzdtQWlScXpBZzlDME5rYjBa?=
+ =?utf-8?B?Q00vNUkzNXY4MitjeW56Mm9MNlJwTDNxUDZ0TGhtTnczdnBVSlM0MnNicHVU?=
+ =?utf-8?B?dGMrZUpoME1uZUh3SGtFem5Kbm5VVEEyam5CZEI4UXVlUUllRnRRYnNISEZm?=
+ =?utf-8?B?cFhSdURKZjZqc1J4THpRbTNNSUxjbCtBK2gwKy90Rkc2bWRQUnllQ0lFUHpj?=
+ =?utf-8?B?SU43amlSZU5Sa0xQVjlSbU9WdHFGVUJOSW50VnVQN2xOemFXQ0w2SS91M3Y2?=
+ =?utf-8?B?d0lVU2lYbUl4SDV3ZVFpOVczaGxwRlcvd1dZWTQrbE1YNUdBQnZPbkVDa1Jo?=
+ =?utf-8?B?TWRPTEx3aXFtWjRyRzZLdVQ5TXJneGN0eVpib3VTcWU2NnVYdGZHR0tueHoy?=
+ =?utf-8?B?cVFtZE5NRldTWVptbStFL0VVNmR3VWRlM2kzd3Z6N0RuTjlQYkFZMjNHRjRC?=
+ =?utf-8?B?YTIzSjJGUnZFNUxlUFAvS04wOE9lYVJHSVNWOXJURmhrZ1pMQlhZaUpRUEcw?=
+ =?utf-8?B?ZGpBbVFrakF1MlU1ZVo4Nit2dFBWV085QjhMQzFaeEszMDFIbEVFLzNZejdQ?=
+ =?utf-8?B?cWtIQjJ5OGRVdjJ4SUV0OFZqejc5SjFJaGlnYWdQRjJGQVpRVHQzeWZnd2ov?=
+ =?utf-8?B?Rk13bzkvNkpackdEZVYzdXhubWZnYnVMcTE5WHk4VnJmSzc0NnV4OWlua2xy?=
+ =?utf-8?B?YjJKVnlZTHZIeGpzRTFkc2grekxlWUdNblhGQ1hvSGhZNTdyakZuTnduejdm?=
+ =?utf-8?B?anh3UEVQTDBaWkI1K0cwZW0zbGgwK1o2TDNHQVh2V2lKbFM3cC84dz09?=
 Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b92cf07-cfa5-480a-2103-08deb0c10130
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2026 07:26:52.8122
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: soiAHvI+I7JjvADShHRHvO0aIfP1pvlFoUnz7/sbPHoPnOaAGJMwcFgyKaHqn6xgA6zsMvx+R2hTfJnz2P+Bv1XzKiDeFvMHoXfiazpo8To=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR07MB11911
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 07:18:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236934
+ <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 07:26:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236935
 
-On Wednesday, May 13, 2026 at 12:27=E2=80=AFAM, Joshua Watt wrote:
-> On Tue, May 12, 2026 at 11:02=E2=80=AFAM J=C3=A9r=C3=A9mie Dautheribes via
-> lists.openembedded.org
-> <jeremie.dautheribes=3Dbootlin.com@lists.openembedded.org> wrote:
-> >
-> > Add support for optional zstd compression for all types of SBOMs,
-> > including:
-> >   - image SBOM
-> >   - recipe SBOM
-> >   - SDK SBOM
-> >
-> > Zstd compression is applied if SPDX_SBOM_EXT ends with ".zst".
-> >
-> > Co-authored-by: Benjamin Robin (Schneider Electric) <benjamin.robin@boo=
-tlin.com>
-> > Signed-off-by: J=C3=A9r=C3=A9mie Dautheribes (Schneider Electric) <jere=
-mie.dautheribes@bootlin.com>
-> > ---
-> >  meta/classes/create-spdx-3.0.bbclass |  3 ++-
-> >  meta/lib/oe/sbom30.py                | 11 +++++++++--
-> >  2 files changed, 11 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create=
-=2Dspdx-3.0.bbclass
-> > index 785edb9865..6cf8fa4688 100644
-> > --- a/meta/classes/create-spdx-3.0.bbclass
-> > +++ b/meta/classes/create-spdx-3.0.bbclass
-> > @@ -75,7 +75,8 @@ SPDX_IMPORTS[doc] =3D "SPDX_IMPORTS is the base varia=
-ble that describes how to \
-> >              SPDX 3 spec. Optional but recommended"
-> >
-> >  SPDX_SBOM_EXT ??=3D ".spdx.json"
-> > -SPDX_SBOM_EXT[doc] =3D "SBOM file extension name."
-> > +SPDX_SBOM_EXT[doc] =3D "SBOM file extension name.\
-> > +    If it ends with '.zst', SBOMs are automatically compressed using Z=
-std."
-> >
-> >  # Agents
-> >  #   Bitbake variables can be used to describe an SPDX Agent that may b=
-e used
-> > diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-> > index 0f1f9281ad..2184c1a07f 100644
-> > --- a/meta/lib/oe/sbom30.py
-> > +++ b/meta/lib/oe/sbom30.py
-> > @@ -1036,8 +1036,15 @@ def write_jsonld_doc(d, objset, dest):
-> >          serializer =3D oe.spdx30.JSONLDInlineSerializer()
-> >
-> >      objset.objects.add(objset.doc)
-> > -    with dest.open("wb") as f:
-> > -        serializer.write(objset, f, force_at_graph=3DTrue)
-> > +
-> > +    if dest.name.endswith(".zst"):
->=20
-> I'm not sure I like this detection mechanism; I think we usually do
-> something more explicit for compression rather than relying on the
-> suffix in other places?
-
-Do you have an example somewhere in the code base?
-I am not opposed to use a variable like `SPDX_COMPRESSED_SBOM`
-and to have the following code "duplicated" (or create a function for it):
-
-sbom_file_extension =3D ".spdx.json.zst" if compressed_sbom else ".spdx.jso=
-n"
-
-The goal was to simplify the code, and to allow user flexibility.
-The user could choose any other extension (even if it violate the
-ISO standard extension for SPDX documents).
-
->=20
-> > +        num_threads =3D int(d.getVar("BB_NUMBER_THREADS"))
->=20
-> The API is oe.utils.parallel_make_argument()
-
-Thanks, but for information all code instance calling
-`bb.compress.zstd.open` use the BB_NUMBER_THREADS variable :)
-
-So maybe this should be fixed by another patch?
-
->=20
-> > +        with bb.compress.zstd.open(dest, "w", num_threads=3Dnum_thread=
-s) as f:
-> > +            serializer.write(objset, f, force_at_graph=3DTrue)
-> > +    else:
-> > +        with dest.open("wb") as f:
-> > +            serializer.write(objset, f, force_at_graph=3DTrue)
-> > +
-> >      objset.objects.remove(objset.doc)
-> >
-> >
-> >
-> > --
-> > 2.54.0
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#236897): https://lists.openembedded.org/g/openembed=
-ded-core/message/236897
-> > Mute This Topic: https://lists.openembedded.org/mt/119282964/3616693
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-JPEWhacker@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->=20
-
-
-=2D-=20
-Benjamin Robin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxleGFuZGVyIEthbmF2
+aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQo+IFNlbnQ6IFR1ZXNkYXksIDEyIE1heSAyMDI2
+IDE4OjI4DQo+IFRvOiBEYW5pZWwgVHVydWxsIDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4N
+Cj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVj
+dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8zXSBkZXZ0b29sOiB1cGdyYWRlOiBleHRyYWN0IGNo
+YW5nZWxvZyBiZXR3ZWVuDQo+IHZlcnNpb25zDQo+IA0KPiBPbiBUdWUsIDEyIE1heSAyMDI2IGF0
+IDA5OjI1LCBEYW5pZWwgVHVydWxsIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IDxkYW5p
+ZWwudHVydWxsPWVyaWNzc29uLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4g
+PiBBdXRvbWF0aWNhbGx5IGV4dHJhY3QgY2hhbmdlbG9nIGluZm9ybWF0aW9uIHdoZW4gdXBncmFk
+aW5nIGEgcmVjaXBlLg0KPiA+IFVzZXMgdGhlIGRldnRvb2wtYmFzZSB0YWdzIGNyZWF0ZWQgZHVy
+aW5nIHVwZ3JhZGUgdG8gZGlmZiBrbm93bg0KPiA+IGNoYW5nZWxvZyBmaWxlcyAoTkVXUywgQ2hh
+bmdlTG9nLCBDSEFOR0VTLCBldGMuKSBiZXR3ZWVuIHRoZSBvbGQgYW5kDQo+ID4gbmV3IHZlcnNp
+b25zLiBGb3IgZ2l0LWJhc2VkIHNvdXJjZXMsIGZhbGxzIGJhY2sgdG8gZ2l0IGxvZyAtLW9uZWxp
+bmUNCj4gPiBpZiBubyBjaGFuZ2Vsb2cgZmlsZSBjaGFuZ2VkLg0KPiA+DQo+ID4gT3V0cHV0IGlz
+IHdyaXR0ZW4gdG8gd29ya3NwYWNlL2NoYW5nZWxvZ3MvPHBuPi50eHQgYW5kIGNsZWFuZWQgdXAg
+b24NCj4gPiBkZXZ0b29sIHJlc2V0LiBUaGlzIGFsbG93cyBBVUggYW5kIG90aGVyIHRvb2xzIHRv
+IHBpY2sgdXAgdGhlDQo+ID4gY2hhbmdlbG9nIHdpdGhvdXQgaW1wbGVtZW50aW5nIHRoZWlyIG93
+biBleHRyYWN0aW9uIGxvZ2ljLg0KPiANCj4gVGhhbmtzLCBJIGxpa2UgdGhpcyBhIGxvdCwgYW5k
+IEkgdGhpbmsgdGhpcyBzaG91bGQgYmUgZmFpcmx5IGVhc3kgdG8gZ2V0IG1lcmdlZC4gSnVzdCBh
+DQo+IGNvdXBsZSBub3RlczoNCj4gDQo+IC0gcHJvYmFibHkgcGF0Y2hlcyAyLzMgYW5kIDMvMyBz
+aG91bGQgYWxsIGJlIGZvbGRlZCBpbnRvIHRoZSBtYWluIGNvbW1pdD8gKGJ1dA0KPiBhbHNvIGFk
+ZCB0aG9zZSBjb21taXQgbWVzc2FnZXMgdG8gdGhlIG1haW4gY29tbWl0IG1lc3NhZ2UsIGRvbid0
+IGRpc2NhcmQgdGhlDQo+IGFkZGl0aW9uYWwgaW5mb3JtYXRpb24pDQo+IA0KDQpTdXJlLCBJJ2xs
+IHNxdWFzaCB0aGVtIGludG8gb25lLg0KDQo+IC0gcGxlYXNlIHNlZSBiZWxvdyB0aGlzIGFib3V0
+IHRlc3RpbmcgdGhlIGZ1bmN0aW9uYWxpdHkNCj4gDQo+ID4gKyAgICBkZWYgdGVzdF9kZXZ0b29s
+X3VwZ3JhZGVfY2hhbmdlbG9nKHNlbGYpOg0KPiA+ICsgICAgICAgICMgQ2hlY2sgcHJlY29uZGl0
+aW9ucw0KPiA+ICsgICAgICAgIHNlbGYuYXNzZXJ0VHJ1ZShub3Qgb3MucGF0aC5leGlzdHMoc2Vs
+Zi53b3Jrc3BhY2VkaXIpLCAnVGhpcyB0ZXN0IGNhbm5vdCBiZQ0KPiBydW4gd2l0aCBhIHdvcmtz
+cGFjZSBkaXJlY3RvcnkgdW5kZXIgdGhlIGJ1aWxkIGRpcmVjdG9yeScpDQo+ID4gKyAgICAgICAg
+c2VsZi50cmFja19mb3JfY2xlYW51cChzZWxmLndvcmtzcGFjZWRpcikNCj4gPiArICAgICAgICBz
+ZWxmLmFkZF9jb21tYW5kX3RvX3RlYXJEb3duKCdiaXRiYWtlLWxheWVycyByZW1vdmUtbGF5ZXIN
+Cj4gKi93b3Jrc3BhY2UnKQ0KPiA+ICsgICAgICAgICMgZGJ1cy13YWl0IGhhcyBDaGFuZ2VMb2cv
+TkVXUyBmaWxlcyBhbmQgb25lIGNvbW1pdCBiZXR3ZWVuIHRoZXNlDQo+IHJldmlzaW9ucw0KPiA+
+ICsgICAgICAgIHJlY2lwZSA9ICdkZXZ0b29sLXVwZ3JhZGUtdGVzdDInDQo+ID4gKyAgICAgICAg
+Y29tbWl0ID0gJzZjYzYwNzdhMzZmZTI2NDhhNWY5OTNmZTdjMTZjOTYzMmY5NDY1MTcnDQo+ID4g
+KyAgICAgICAgdGVtcGRpciA9IHRlbXBmaWxlLm1rZHRlbXAocHJlZml4PSdkZXZ0b29scWEnKQ0K
+PiA+ICsgICAgICAgIHNlbGYudHJhY2tfZm9yX2NsZWFudXAodGVtcGRpcikNCj4gPiArICAgICAg
+ICAjIFBlcmZvcm0gdXBncmFkZQ0KPiA+ICsgICAgICAgIHJ1bkNtZCgnZGV2dG9vbCB1cGdyYWRl
+ICVzICVzIC1TICVzJyAlIChyZWNpcGUsIHRlbXBkaXIsIGNvbW1pdCkpDQo+ID4gKyAgICAgICAg
+IyBDaGVjayBjaGFuZ2Vsb2cgZmlsZSB3YXMgY3JlYXRlZCB3aXRoIGV4cGVjdGVkIGNvbnRlbnQN
+Cj4gPiArICAgICAgICBjaGFuZ2Vsb2dfZmlsZSA9IG9zLnBhdGguam9pbihzZWxmLndvcmtzcGFj
+ZWRpciwgJ2NoYW5nZWxvZ3MnLCAnJXMudHh0JyAlDQo+IHJlY2lwZSkNCj4gPiArICAgICAgICBz
+ZWxmLmFzc2VydEV4aXN0cyhjaGFuZ2Vsb2dfZmlsZSwgJ0NoYW5nZWxvZyBmaWxlIHNob3VsZCBl
+eGlzdCBhZnRlcg0KPiB1cGdyYWRlJykNCj4gPiArICAgICAgICB3aXRoIG9wZW4oY2hhbmdlbG9n
+X2ZpbGUsICdyJykgYXMgZjoNCj4gPiArICAgICAgICAgICAgY29udGVudCA9IGYucmVhZCgpDQo+
+ID4gKyAgICAgICAgc2VsZi5hc3NlcnRJbihyZWNpcGUsIGNvbnRlbnQpDQo+ID4gKyAgICAgICAg
+IyBUaGUgY29tbWl0IGJldHdlZW4gdmVyc2lvbnMgZml4ZXMgYSB0eXBvIC0gdmVyaWZ5IHdlIGdv
+dCByZWFsIGNvbnRlbnQNCj4gPiArICAgICAgICBzZWxmLmFzc2VydEluKCd0eXBvJywgY29udGVu
+dCkNCj4gPiArICAgICAgICAjIENoZWNrIGRldnRvb2wgcmVzZXQgY2xlYW5zIHVwIGNoYW5nZWxv
+Zw0KPiA+ICsgICAgICAgIHJ1bkNtZCgnZGV2dG9vbCByZXNldCAlcyAtbicgJSByZWNpcGUpDQo+
+ID4gKyAgICAgICAgc2VsZi5hc3NlcnROb3RFeGlzdHMoY2hhbmdlbG9nX2ZpbGUsICdDaGFuZ2Vs
+b2cgZmlsZSBzaG91bGQNCj4gPiArIGJlIHJlbW92ZWQgYWZ0ZXIgcmVzZXQnKQ0KPiANCj4gUmF0
+aGVyIHRoYW4gd3JpdGUgYSB3aG9sZSBuZXcgdGVzdCAod2hpY2ggYWRkcyB0byB0aGUgb3ZlcmFs
+bCB0ZXN0aW5nIHRpbWUsIGNvcHktDQo+IHBhc3RlcyBjb2RlLCBhbmQgcmVwZWF0cyB0aGUgdXBn
+cmFkZSBwcm9jZWR1cmUgYWxyZWFkeSBoYXBwZW5pbmcgaW4gYSBkaWZmZXJlbnQNCj4gdGVzdCks
+IEkgdGhpbmsgdGhlIGNoYW5nZWxvZyBjaGVja3Mgc2hvdWxkIGJlIGFkZGVkIHRvIGV4aXN0aW5n
+IHRlc3RzIGluDQo+IERldnRvb2xVcGdyYWRlVGVzdHMgY2xhc3MuIEF0IGxlYXN0IHRoZXNlDQo+
+IHRlc3RzOg0KPiANCj4gLSB0ZXN0X2RldnRvb2xfdXBncmFkZQ0KPiAtIF90ZXN0X2RldnRvb2xf
+dXBncmFkZV9naXRfYnlfcmVjaXBlDQo+IA0KPiBidXQgaWRlYWxseSBldmVyeXRoaW5nIHdoZXJl
+IHVwZ3JhZGUgb3BlcmF0aW9uIHJ1bnMgYW5kIGNoYW5nZWxvZ3MgYXJlDQo+IGV4dHJhY3RlZC4N
+Cj4gDQo+IEFsc28sIGRvbid0IGxvb2sgZm9yIHNpbXBsZSBzdHJpbmdzIGFzIGEgd2F5IHRvIGNo
+ZWNrIHRoZSBjaGFuZ2Vsb2cgc2FuaXR5LiBJbnN0ZWFkLA0KPiB3cml0ZSBhICdyZWZlcmVuY2Ug
+Y2hhbmdlbG9nJyBpbnRvIG1ldGEtc2VsZnRlc3QsIGFuZCBjb21wYXJlIHRoYXQgd2l0aCB0aGUN
+Cj4gZXh0cmFjdGVkIGNoYW5nZWxvZyBpbiB0aGUgd29ya3NwYWNlLCBzaW1pbGFyIHRvIGhvdyB1
+cGdyYWRlZCByZWNpcGVzIGFyZQ0KPiBjb21wYXJlZCB3aXRoIHJlZmVyZW5jZSBkYXRhOg0KPiAN
+Cj4gICAgICAgICAjIENoZWNrIHJlY2lwZSBnb3QgY2hhbmdlZCBhcyBleHBlY3RlZA0KPiAgICAg
+ICAgIHdpdGggb3BlbihvbGRyZWNpcGVmaWxlICsgJy51cGdyYWRlZCcsICdyJykgYXMgZjoNCj4g
+ICAgICAgICAgICAgZGVzaXJlZGxpbmVzID0gZi5yZWFkbGluZXMoKQ0KPiAgICAgICAgIHdpdGgg
+b3BlbihuZXdyZWNpcGVmaWxlLCAncicpIGFzIGY6DQo+ICAgICAgICAgICAgIG5ld2xpbmVzID0g
+Zi5yZWFkbGluZXMoKQ0KPiAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwoZGVzaXJlZGxpbmVzLCBu
+ZXdsaW5lcykNCj4gDQo+IFN1Y2ggYSBjb21wYXJpc29uIGNvdWxkIHByb2JhYmx5IGJlIGluIGEg
+aGVscGVyIGZ1bmN0aW9uIHRvIGF2b2lkIHJlcGVhdGluZyBjb2RlDQo+IGxpbmVzLg0KPiANCj4g
+SXQncyBva2F5IGlmIHNvbWUgb2YgdGhlIHVwZ3JhZGVzIGFyZSB1bmFibGUgdG8gZXh0cmFjdCBh
+bnl0aGluZyB1c2VmdWwgaW50byB0aGUNCj4gY2hhbmdlbG9nLCB0aGVuIHRoZSByZWZlcmVuY2Ug
+ZGF0YSBzaG91bGQgc2ltcGx5IHN0YXkgZW1wdHkuIElmIHlvdSBjYW4gY292ZXIgYWxsDQo+IG9m
+IHRoZXNlLCB3b3VsZCBiZSBhd2Vzb21lOg0KPiANCj4gbWV0YS1zZWxmdGVzdC9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWd1ZXNzaW5nLWdhbWUtDQo+IGNyYXRlcy5pbmMudXBncmFk
+ZWQNCj4gbWV0YS1zZWxmdGVzdC9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWd1ZXNz
+aW5nLWdhbWVfZ2l0LmJiLnVwZ3JhZGVkDQo+IG1ldGEtc2VsZnRlc3QvcmVjaXBlcy10ZXN0L2Rl
+dnRvb2wvZGV2dG9vbC11cGdyYWRlLXRlc3QxXzEuNS4zLmJiLnVwZ3JhZGVkDQo+IG1ldGEtc2Vs
+ZnRlc3QvcmVjaXBlcy10ZXN0L2RldnRvb2wvZGV2dG9vbC11cGdyYWRlLXRlc3QyX2dpdC5iYi51
+cGdyYWRlZA0KPiBtZXRhLXNlbGZ0ZXN0L3JlY2lwZXMtdGVzdC9kZXZ0b29sL2RldnRvb2wtdXBn
+cmFkZS10ZXN0M18xLjUuMy5iYi51cGdyYWRlZA0KPiBtZXRhLXNlbGZ0ZXN0L3JlY2lwZXMtdGVz
+dC9kZXZ0b29sL2RldnRvb2wtdXBncmFkZS10ZXN0NF8xLjUuMy5iYi51cGdyYWRlZA0KPiBtZXRh
+LXNlbGZ0ZXN0L3JlY2lwZXMtdGVzdC9kZXZ0b29sL2RldnRvb2wtdXBncmFkZS10ZXN0NV9naXQu
+YmIudXBncmFkZWQNCj4gDQoNCkknbGwgcmVkbyB0aGUgdGVzdHMgd2l0aCB5b3VyIHN1Z2dlc3Rp
+b25zIGFuZCBzZW5kIGEgdjINCg0KVGhhbmtzDQoNCkRhbmllbA0KPiBDaGVlcnMsDQo+IEFsZXgN
+Cg==
 
