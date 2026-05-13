@@ -1,124 +1,290 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F54CD4851
-	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 13:25:24 +0000 (UTC)
-Received: from mailer8.gate185.sl.smtp.com (mailer8.gate185.sl.smtp.com [192.40.185.8])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7242.1778677910012644241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B244CCD4851
+	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 13:28:14 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7565.1778678885866827413
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 06:11:50 -0700
+ Wed, 13 May 2026 06:28:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@centricular.com header.s=201701 header.b=ZLp6cVGu;
- dkim=pass header.i=@smtpsendemail.com header.s=smtpcustomer header.b=dyQ5oFkQ;
- spf=pass (domain: centricular.com, ip: 192.40.185.8, mailfrom: nirbheek@centricular.com)
-X-Report-Abuse: SMTP.com is an email service provider. Our abuse team cares
- about your feedback. Please contact abuse@smtp.com for further investigation.
-Received: from [10.0.16.200] (unknown [10.138.12.210])
-	by mtl-mta01-out1 (Halon) with ESMTP
-	id c9768c03-3763-4328-9a25-fd685212df18;
-	Wed, 13 May 2026 13:11:49 +0000 (UTC)
-Received: Received from 10.138.12.40 by Caffeine (s0-aws-app2-swarm-manager-5)
- with SMTP id 79437669-3dc4-4459-98ee-14828bc2c1db  for
- openembedded-core@lists.openembedded.org;
-  Wed, 13 May 2026 13:11:11 +0000 (UTC)
-Feedback-ID: 9075006:SMTPCOM
-Received: from hermes.centricular.com (unknown [138.201.245.53])
-	by s0-aws-app-mta-in-1 (Halon) with ESMTPSA
-	id 79437669-3dc4-4459-98ee-14828bc2c1db;
-	Wed, 13 May 2026 13:11:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5EA8F9CB0C;
-	Wed, 13 May 2026 15:11:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=centricular.com;
-	s=201701; t=1778677868;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=cTH0evZxJ08qQZrOSDMT3JwjU6zEq8o1l3aH0Zq3de8=;
-	b=ZLp6cVGu2M69khF+hQ3cZszAehnWsBQggM5K17u+89g5GS9Aq4xSAzZ8VkzV/6jcDHwG+6
-	RBjIpsdPIgKLJwdlhSwtf2o9gM/O/E31hcF3DaNpooWZUOuWvlJWhi1R/69TB+G2RhtieP
-	PuKrzytmWbBzKYA0APWIccAMCo655G0tyc5tzH1RzmAVGa9k4dwXPumHSrdyWPhmjlyeJM
-	XVJyopmCqp32K02DWmKtVfDsqQ0RUs/82E5kG0zxHMXgxNAV/F5iHWiHlRYNtFQnhzdYL3
-	wylQZ58DIaAEsJrlEj/O8rKzkQgeJMn0sPzEH1pddAoZo+7P5qGkJupxWNk0Aw==
-Message-ID: <aa1e4940d5cf8b60f404822679a601ddf6b7794e.camel@centricular.com>
-Subject: Re: [OE-core] [PATCH v2] gstreamer1.0-plugins-rs: add new package
-From: Nirbheek Chauhan <nirbheek@centricular.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: tarun@centricular.com, openembedded-core@lists.openembedded.org,
-	sebastian@centricular.com
-Date: Wed, 13 May 2026 18:40:54 +0530
-In-Reply-To: 
- <CANNYZj9CND_HxCwiWUyt1Boej19_5Nnm76NXhZ+NtazYD-Zukw@mail.gmail.com>
-References: <20260511133450.50595-1-tarun@centricular.com>
-	 <20260513071155.1215141-1-tarun@centricular.com>
-	 <CANNYZj8sYaa=hGCCWViiOQojN9TjuroAPs7FHhVLCT=g+Ut1=w@mail.gmail.com>
-	 <885d89d6d131a5b1649189936537154f290e1dc6.camel@centricular.com>
-	 <CANNYZj8TutyAOc_Kz2+r02iDY8VQ_JaoGk5oHbrZSk5Er=UYBg@mail.gmail.com>
-	 <f30852d76ecd85f3f437f508ccbbb2591f410353.camel@centricular.com>
-	 <CANNYZj9CND_HxCwiWUyt1Boej19_5Nnm76NXhZ+NtazYD-Zukw@mail.gmail.com>
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
-MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
-X-SMTPCOM-Sender-ID: 9075006
-X-SMTPCOM-Tracking-Number: 79437669-3dc4-4459-98ee-14828bc2c1db
-X-SMTPCOM-Message-ID: 892850dd-9fc7-40d8-beef-a084452e2242
-X-SMTPCOM-Payload: 
- B3-r0ZtNZtx4K-_pIAiGfxzxO5jGGxEqlohyX_bHv8X-KX2cfSK-5ZRnQDQsmqNQE2qUHkFmtsC9UkPsjyMJG1CKZ7nPV8uxmlhIX_E9w4rd7OX2zIhOMI2v66ykgU4sABpAExqx0vAsqtWcPcLKNEksnZbG7cA1Coo8skjpNeFxDDoHrypCLgsuQ3a2Z8h6YzM4sOQV0bigYZbq4H0BAA==
-List-Unsubscribe: 
- <mailto:abuse@abuse.smtp.com?subject=MailStop&body=892850dd-9fc7-40d8-beef-a084452e2242_9075006>,
- <https://api.smtp.com/v4/unsubscribe?mid=892850dd-9fc7-40d8-beef-a084452e2242&sid=9075006>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=smtpsendemail.com;
- i=@smtpsendemail.com; q=dns/txt; s=smtpcustomer; t=1778677902;
- h=feedback-id : message-id : subject : from : to : cc : date :
- in-reply-to : references : content-type : content-transfer-encoding :
- mime-version : list-unsubscribe : list-unsubscribe-post : subject :
- from : to : cc : date;
- bh=cTH0evZxJ08qQZrOSDMT3JwjU6zEq8o1l3aH0Zq3de8=;
- b=dyQ5oFkQNKKUGJY8XxB15L+qURTtFzO+bR6pIbd+OWGo5fphf9hZ5qN1rkuWz1HpL4z8A
- 0EHe6/TXCfs2I6nkkCvgLB6oXRx5IpOPshLLAtSAClbvt0N4dTZKJlwMuOo3xf9FPOJfDOK
- EKdZvd/3tNp2ZTpPChtZMqsDIW6Xjl6fgeeCeoa4QbKM3aIyZQ5I6dX09oPGfjS1fhNJUHy
- UAtb2sFH5btMR72XS9EvjYiusqdrwvBxbYKeo76J+u5sR0wRxoC//EKsPX5XbZIT+M/sv1g
- K0u8xID9HNVk/ri3teJtJ9aqAVi89lar2Fp71NFS9xn39R+NW9YWe6cOva1w==
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HbP26wOG;
+ spf=pass (domain: est.tech, ip: 40.107.130.49, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gRnW5uERx5WvfYV3WRO47DFeDhRbZj6M4Wbc1QkryeuBgO4fUksZX1trHmAaYhfFAOyWFSauYcoQb5KXvSLLqnnejIRhcvAejbr+f7mqp2HG8vU0e1JXdl+DPes6w4gh6wkiHZ9AhV3B8+Z1GSaVqUtLOKltMiPtqhnLgNx2dfCCpowtTzEUmiRo1OCwkP+HMNYPa+8Pql2fDOX11T4NFD5gvJhvS3gEiyT/NDFjaqSAZJSADmzeMJJe9sGGyYMds4XVc1JCi0+Itp9vbxgOwKs9wjIMtAYX3rFqGiMdMr5/pt5yfKHfCMwWS9RThF4MzM9t1K3HYA20A/lSWueSGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=28vuV+3UtgLwD3xmL+H2XG67CTv0DxbWShnQU2SX5Ow=;
+ b=kJzWymf96L/scRL/FxjUOTvXgPpMvENdXVVUYZcSwDWRSYcOHpw2DLJfOZPUvahanTD8Cr0JYpTtpSsWVnDlKhQxLY4qVmafYepmutpXUxpVAXcbX/7WzDSfigjdekGK2qEOXygYOE5r6EZkNEE7vL1hIz3fACYYSq4e7wuIIeoGbO0FncyuxQwcEGnLpqr0Xm1P4k33zm09rhOmHsnE1MZ2+CcxtRYelKmqNmOkOggNH9OrxqKctBrEqchkd42dkuLr+8dWrWVyM3upn5N+paw1AUHjAHS0Gl8YlJ4QoWoi4hkCY/Sb7N6XmQbkVxuxMBP3MdUJ3SDK5zqB0frOUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=28vuV+3UtgLwD3xmL+H2XG67CTv0DxbWShnQU2SX5Ow=;
+ b=HbP26wOGsZ/r9IfWFwRHarNetfj+aJWhoGFEKYlHSVkmK4swKJ1WHYuUCkmSXgAGgFlp4lMvM6YRLtne1phc9+iI8KjT7/lvnpiSRpV/nbfNs+hDBizoSfp6EKOQ/rhbw3L5E3bze/iqgCUmW2JTKd7J+Myrnc7vVgbT9IzkSUSb341H2Kn02fCecvKkQwU8Ied0PVMXKG0AExHQ1Pxwc9M1a8iJ9DjZB9EVaKiJMxUWs7n3hV3pOnqYHoC+8MYkdSB2FkgfNmAII3zaE0mo6L70WaWUgrZlr/3uHSpiARPhN99mQnb6gtnQG643VLSswAZUTRDcpnS7aUvxOo68Ew==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
+ by DU0P189MB1916.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:34c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.17; Wed, 13 May
+ 2026 13:28:01 +0000
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9891.021; Wed, 13 May 2026
+ 13:28:01 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v4] libffi: add ptest support
+Date: Wed, 13 May 2026 15:27:56 +0200
+Message-ID: <20260513132756.27283-1-pratik.farkase@est.tech>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260508102405.16791-1-pratik.farkase@est.tech>
+References: <20260508102405.16791-1-pratik.farkase@est.tech>
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU7P194CA0028.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:10:553::12) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:26e::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|DU0P189MB1916:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4df05412-d1f9-4f81-e224-08deb0f37445
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|366016|1800799024|22082099003|18002099003|56012099003|3023799003|11063799003;
+X-Microsoft-Antispam-Message-Info: 
+	JqEPlioJN4tVXCcwJC374ttHkn45qhnNVs8U4cpKOvENYzFOh67dBxR23AxRwy+EOPkMpS4ZxsS/F74RkK01b2O5chJijeiv/yqGpf5M2XrOObxU36QhtoJJCc3v8wlHMJEuvsYKQWV/JDd4czhWbhd1y36dLOtP3+2tM70aG59fCrCa2Q8n9aBI8n3rnjg70JXgl0pCqQ/nDKrr1humFxzCyXJz7pmHbNMqgw37GJQPHU/tLTLrfxqjwzejUejNITkDFzstBVCp64963tKtX9Bdn4lh53HWRjar0ZnacnJxEChz/aopJJ0OtNJWfNQhixJRBJkSlJummvqmzy8DpoPc5+KygT49cKgyyD1GMNq99eOueVn459xDKJG37iQ8hI6uRun1lUrUgNmruM4v6jPw7D7RN6qaWIbqBxEoWmtJlVUV6O8T+1JUwIoXn3OoDgJ8n+emuHCgHubRfOgcCaPGZOvDac7OGiOkgccUTFpgSTIm2IDDPzHqVB9NNIVqlDvqDt29MZx3KY9phjQ25VA3aljwX/nDeqVtAx1U1yb7NxRtCeCCFNAHJY1dLEDkv7Q0xqW7cllxGJr9syfBwyHy8LjnRQTk/tj//Lj2OAMX1t2vOL2F0sk0M/WnvrpbcfCqumQEm/MyL9U4wVY5MlvB4EcTw6wuPGqAmJ7oZuCFPrEN0Fj2uhu8eBJ59G4A
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(22082099003)(18002099003)(56012099003)(3023799003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?0WaPCmDlpJWaR5SrGutzqZ+qZ3Dnyx40PoradW5w25rEtbjdGLD5reEcniFC?=
+ =?us-ascii?Q?7qJ8t9eAA7zEUyJIUVjsKHMxMAz5RdnctsZckrJSXq6D87ZzcEAIHtQU0Iu/?=
+ =?us-ascii?Q?LU8gdJPdaOAsSdvcqKDE020UmlfIr6xFw7+ykWPfNvcmtckkVHuCp1pVMv+7?=
+ =?us-ascii?Q?bB20/noKokngrSBr/YzrL9k9OluKvqoMUwSMZnoO/70Qrmo2QbV587oiXThW?=
+ =?us-ascii?Q?ZQsLc8AqSfUTHUv6iQy0Fp2ZQFlpgyKz7zl27Mqsi1pn3EMNx3QuJPX0LkIN?=
+ =?us-ascii?Q?mpRYewic5fx9jUtKA4vP6dAVhhzRcc9mcDieOXdHnKNtaQL4VedqixKvjKq8?=
+ =?us-ascii?Q?uZCg5vzTs8pQb3wK5PV3xMD5f/SS8+3PVIhLA/UmmWeXka+ce6xtk+ZI6xnQ?=
+ =?us-ascii?Q?n341Nz9TiNqNo8B/xyWFXtz2b31y4Msm1uwGJ2DCmJLWuHlaFcjY+3qz2xul?=
+ =?us-ascii?Q?C+JDDeALVPyQ3tHZ63qrw0TmN0EfUcLyNd490eIE+Ugd5ppehE5cYD4tH6Mq?=
+ =?us-ascii?Q?SD9A4XGycB3HzWoCSnPMuQE5QaVuVSQvuFqXVgZ6lV0ZRJs9bKjPdLcgrChm?=
+ =?us-ascii?Q?90C9Beg9y6hKXq0mcSzmI6FCmYKiMRhHLUY/6EEsBosfF1DgDSX6F42vBjGN?=
+ =?us-ascii?Q?/HkxOuK2dlypF/QfLyxSjA7XBNVquKuIsVdzxAx378ia/lvK57HyEebvKxOS?=
+ =?us-ascii?Q?Yo+kxyWHbFCz+ZGuw6Ls4VLDDNAtxevnHvOeXydWkZXDao+x4cLXqSmsvfyH?=
+ =?us-ascii?Q?3vS1pVpXFzix7n0pwHgaEBuyEJPUCkdPyIn1fxrPxYzJXxJKSX5dLn1zKtkZ?=
+ =?us-ascii?Q?MuEpt6gAOZE0D88oj808Hy/nMiXKofXYUjv8Z7H8APjQYmH0gKqkGSSUX+0x?=
+ =?us-ascii?Q?ftXi/bAJm3HOsLg6slhjG/56ri+yqOfQQ1QdSH3Dj71BeBJgLXdUMbnDuLjp?=
+ =?us-ascii?Q?C/mIHULW7pmFecFj6hTXtyYrMcLS080rWO5lOBp1wkccbcR1cJuC1NIxeR5w?=
+ =?us-ascii?Q?ZoU5yLneQhEka0mesP+jao7nUsKTYv90kBsTIVaP4WUYS94yMxY5QIPNdYLt?=
+ =?us-ascii?Q?igGYCa4BXJHwwWsTStDQdJRL3tLyunvgKjF54bI8EzeFTH19nByaR/HaZiGv?=
+ =?us-ascii?Q?fH89JGac/IKfIUrYSRmK/2k6XGG7I17pjE3K28yyQ+27dWZ9WMinsqpygO6a?=
+ =?us-ascii?Q?wr2q8JLVMVgFywvxjVrDS6MQsGDI+wOKBYDCBYVCR0KX62wjoRyz3AAOF6R3?=
+ =?us-ascii?Q?O8f8ZCcKfUWjBAQgzlcxkkfxdAZtu8eZGYwI0QAdqiDIodlnFbgObyP5BiKD?=
+ =?us-ascii?Q?I36UJMd0/AsBpz56F/OyPB7dyjNuW8MyJqLWWM8ZdYt+Mc7EUJyemDhgP7WF?=
+ =?us-ascii?Q?hY/U2Oxtm62r5r8GZS0FfCTBaB/Z36BtW7bWEW4p6hJC0ZxNjIo+dtIzmp0H?=
+ =?us-ascii?Q?V5ZRjHJecvV8bg17NQoGoF0HB8xsjHZwJauG6CgnE8XflgYFtEIgQ5eYT75Q?=
+ =?us-ascii?Q?SxoONXaArkQF/LplAoWPfl0TSr0eZdqvn/SJhItAsZt7G8H3xiaikTnpYLF6?=
+ =?us-ascii?Q?t/tElYXH4hsBPeV5xumD13MM7hb8I6MuozCwiJJF22wUmx2RijFcpFNgbcoJ?=
+ =?us-ascii?Q?tgkKW+9fySSpDNE/2SI/APmgs4RTldn62s3YhbT4SKePAw1irIOaFHpaaYQq?=
+ =?us-ascii?Q?koE2SKAdBByq9y11pYhGYH5tpjrZ1DucS7R4v/Fzg6hOvdQTKl+y/d4tgqDF?=
+ =?us-ascii?Q?rQ/j+Bw1gQ=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4df05412-d1f9-4f81-e224-08deb0f37445
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 13:28:00.9553
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qO8xfdnp2MCBoq41CXIeQhkYCIMYpTGo9F4KG+G4DOUZM/SxegRk03wt7WdkialqCwsVqCPBzsLWfllua8tHzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB1916
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 13:25:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236976
+ <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 13:28:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236977
 
-On Wed, 2026-05-13 at 14:15 +0200, Alexander Kanavin wrote:
-> Are these copies listed in Cargo.toml of the plugins? If so, they
-> shouldn't be manually specified in SRC_URI, instead they should be in
-> the auto-generated gstreamer1.0-plugins-rs-crates.inc, and the build
-> process should be able find and use them.
+Add ptest support for libffi using all upstream test suites: bhaible,
+call, closures, complex, go, and threads.
 
-Yes, but only with the plugins published to crates.io. That's how
-`cargo publish` works. Tarun is exploring whether to switch to that,
-and split this recipe into separate recipes for each plugin.
+Tests are compiled on-target against the installed libffi. Headers
+(including the generated fficonfig.h) and a linker symlink are installed
+in the ptest directory to avoid depending on libffi-dev.
 
-> There are concerns over discovering and fixing a critical security
-> issue in one of the components, when they are vendored into the
-> source
-> tree this way, all because the compiler team can't settle on an ABI.
-> I'm sure you've seen that many times before. The issue is general to
-> rust (or node.js or any number of similar approaches to dependency
-> management) and not gstreamer-specific, but I still wanted to mention
-> it. The problem is, when it happens, it's the integrators that have
-> to
-> deal with it, not the compiler writers and not the component writers.
+The complex_int test is excluded as it uses non-standard _Complex int
+which is unsupported on some architectures (e.g. riscv64).
 
-Yeah this is a problem for projects that aren't written in Rust, and
-this is why Debian ships its own source packages for all the crates,
-and they would update / patch those crates independently of what
-Cargo.lock says for a project. I don't think that infra exists in Yocto
-right now.
+Tested on qemux86-64 with ptest-runner: 198 PASS, 0 FAIL, 2 SKIP (327s).
 
-Rust projects would just run `cargo audit` and that would recursively
-update all crates to fix security vulnerabilities, but that breaks if
-you're using Rust to create C libs.
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+---
+Changes in v4:
+- Replace packagegroup-core-buildessential with gcc/g++/make to fix
+  multilib symlinks conflict in lib64-core-image-sato-sdk
+- Detect compiler dynamically in run-ptest (works without symlinks)
+- Exclude complex_int test (fails on riscv64)
 
-Cheers,
-Nirbheek
+Changes in v3:
+- Move libffi from PTESTS_FAST to PTESTS_SLOW (349s) runtime
+
+Changes in v2 :
+- Include all upstream test suites instead of only bhaible
+- Install fficonfig.h required by ffitest.h
+- Add support for C++ tests (closures/unwindtest*.cc)
+- Add -lpthread for threads suite
+---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-support/libffi/libffi/run-ptest  | 62 +++++++++++++++++++
+ meta/recipes-support/libffi/libffi_3.5.2.bb   | 23 ++++++-
+ 3 files changed, 84 insertions(+), 2 deletions(-)
+ create mode 100755 meta/recipes-support/libffi/libffi/run-ptest
+
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index 50b6a8a41e..68189ec2a3 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -126,6 +126,7 @@ PTESTS_SLOW =3D "\
+     less \
+     libevent \
+     libgcrypt \
++    libffi \
+     libmodule-build-perl \
+     libpng \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'libseccomp', '',d)=
+} \
+diff --git a/meta/recipes-support/libffi/libffi/run-ptest b/meta/recipes-su=
+pport/libffi/libffi/run-ptest
+new file mode 100755
+index 0000000000..0a1845b2fd
+--- /dev/null
++++ b/meta/recipes-support/libffi/libffi/run-ptest
+@@ -0,0 +1,62 @@
++#!/bin/sh
++# SPDX-License-Identifier: MIT
++
++PTEST_DIR=3D$(cd "$(dirname "$0")" && pwd)
++CC=3D"gcc"
++CXX=3D"g++"
++if ! command -v gcc >/dev/null 2>&1; then
++    CC=3D$(find /usr/bin -name "*-gcc" | head -n 1)
++    CXX=3D$(find /usr/bin -name "*-g++" | head -n 1)
++fi
++CFLAGS=3D"-O2 -Wall -I$PTEST_DIR/include -L$PTEST_DIR/lib"
++
++# bhaible tests validate by comparing paired output lines
++for t in test-call test-callback; do
++    src=3D"$PTEST_DIR/testsuite/libffi.bhaible/$t.c"
++    if $CC $CFLAGS -o "$PTEST_DIR/$t" "$src" -lffi 2>&1; then
++        "$PTEST_DIR/$t" > "$PTEST_DIR/$t.out" 2>&1
++        if ! LC_ALL=3DC uniq -u < "$PTEST_DIR/$t.out" | grep -q .; then
++            echo "PASS: libffi.bhaible/$t"
++        else
++            echo "FAIL: libffi.bhaible/$t"
++            cat "$PTEST_DIR/$t.out"
++        fi
++    else
++        echo "SKIP: libffi.bhaible/$t"
++    fi
++    rm -f "$PTEST_DIR/$t" "$PTEST_DIR/$t.out"
++done
++
++# Individual test programs from upstream dejagnu suites
++for suite in libffi.call libffi.closures libffi.complex libffi.go libffi.t=
+hreads; do
++    dir=3D"$PTEST_DIR/testsuite/$suite"
++    [ -d "$dir" ] || continue
++
++    extra=3D""
++    [ "$suite" =3D "libffi.threads" ] && extra=3D"-lpthread"
++
++    for src in "$dir"/*.c "$dir"/*.cc; do
++        [ -f "$src" ] || continue
++        grep -q "dg-do run" "$src" || continue
++
++        name=3D$(basename "${src%.*}")
++
++	# complex_int uses non-standard _Complex int, fails on some arches (riscv=
+64)
++        [ "$name" =3D "complex_int" ] && continue
++        case "$src" in
++            *.cc) cc=3D"$CXX";;
++            *)    cc=3D"$CC";;
++        esac
++
++        if $cc $CFLAGS -o "$PTEST_DIR/$name" "$src" -lffi $extra 2>&1; the=
+n
++            if "$PTEST_DIR/$name" 2>&1; then
++                echo "PASS: $suite/$name"
++            else
++                echo "FAIL: $suite/$name"
++            fi
++        else
++            echo "SKIP: $suite/$name"
++        fi
++        rm -f "$PTEST_DIR/$name"
++    done
++done
+diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb b/meta/recipes-sup=
+port/libffi/libffi_3.5.2.bb
+index d3aa90d429..09d686acd9 100644
+--- a/meta/recipes-support/libffi/libffi_3.5.2.bb
++++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
+@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dce4763670c5b77=
+56000561f9af1ab178"
+=20
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
+            file://not-win32.patch \
++           file://run-ptest \
+            "
+ SRC_URI[sha256sum] =3D "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52=
+e335676bac82dc"
+=20
+@@ -19,10 +20,10 @@ EXTRA_OECONF =3D "--disable-builddir"
+ EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
+ EXTRA_OEMAKE:class-target =3D "LIBTOOLFLAGS=3D'--tag=3DCC'"
+=20
+-inherit autotools texinfo multilib_header github-releases
++inherit autotools texinfo multilib_header github-releases ptest
+=20
+ do_install:append() {
+-	oe_multilib_header ffi.h ffitarget.h
++        oe_multilib_header ffi.h ffitarget.h
+ }
+=20
+ # Doesn't compile in MIPS16e mode due to use of hand-written
+@@ -30,3 +31,21 @@ do_install:append() {
+ MIPS_INSTRUCTION_SET =3D "mips"
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
++
++RDEPENDS:${PN}-ptest +=3D "gcc g++ make"
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/testsuite
++    for suite in libffi.bhaible libffi.call libffi.closures libffi.complex=
+ \
++                 libffi.go libffi.threads; do
++        cp -r ${S}/testsuite/$suite ${D}${PTEST_PATH}/testsuite/
++    done
++
++    install -d ${D}${PTEST_PATH}/include
++    install -m 0644 ${B}/fficonfig.h ${D}${PTEST_PATH}/include/
++    install -m 0644 ${B}/include/ffi.h ${D}${PTEST_PATH}/include/
++    install -m 0644 ${B}/include/ffitarget.h ${D}${PTEST_PATH}/include/
++
++    install -d ${D}${PTEST_PATH}/lib
++    ln -sf ${libdir}/libffi.so.8 ${D}${PTEST_PATH}/lib/libffi.so
++}
+--=20
+2.43.0
+
 
