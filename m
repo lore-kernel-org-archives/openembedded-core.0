@@ -1,101 +1,124 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C45CD4851
-	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 15:03:46 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9837.1778684619163429632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A7B1CD4851
+	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 15:40:04 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.78.1778686797952892675
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 08:03:39 -0700
+ Wed, 13 May 2026 08:39:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=DLRuZRBU;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-439a8366831so907136fac.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:03:39 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aL/N/oQq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-44985f4ab0fso4109512f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778684618; x=1779289418; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HVl30Il4g+zGgUBuocg5KfmJ7J9V+xbdgS2IXXQs0eQ=;
-        b=DLRuZRBUIcENn73a7rRakTiQR0qc3v/VNiG6x2thhZsTqbflXcUWGqyMYIgoN2HCCI
-         P7zKtvot2/DA5KmYd2T7UIJSGzyrwCAZ5YlMdF+WwIsRD35Ezu9rBklBT/eVihWEzro0
-         wsZ2AJB2lE0Yz/gQaKa/ZUY6Zg9MO/qConiNxiBmXvpqlkY7hAV8GojLTS4qlkVsFjKD
-         jN6GeI9i4ZodUvjEKn70IkOyXHteOyYbor2LLVjZ6HttxEW0wExjBr0POdo1fgFtVk1E
-         mbtkkxAppdtm8TzSdQva2j3dYQLEuD2G+tPmTgso1aMMEoUcY0sYRTmPnpaGlvysnFoP
-         sFIw==
+        d=linuxfoundation.org; s=google; t=1778686796; x=1779291596; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DWF1G9ELMKsGQZOLppx2w3ZclhzlMEN/h2rKtiOZmHU=;
+        b=aL/N/oQqm9DQ4uN2UVWeztKikXSPLB1aC6vtfY7Kxk1yQSWQ1cYdSAJ34OfWNcz6Zt
+         Xao14/qQmfIehOIhFw0TRMfblopFyJWWVQPr/0pgS+8TvyLITuiqJX/ytdYPzHfpzuKO
+         NPy53IbaO49O8+EemnH2OMaEN2ip8M9KB042g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778684618; x=1779289418;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HVl30Il4g+zGgUBuocg5KfmJ7J9V+xbdgS2IXXQs0eQ=;
-        b=DPbYQJP8Y/a2ChBBhuaGAyxT95ro/67CX6K/NFHranEWcXM/6Q/sYsHTIiyjJMZGKl
-         lVvaeRt3sX/anvxMZKOFqMtAPx8x0q6k9m8zDS5TejXZTQqZtkZ2KV3SqKuMMAWg4P8Q
-         K53uNo1Nq2f+mRUaaU/hY7xDo/O4V/7jL/yosLhAXM48iEAZBp8SUA5FomhdpJZgXtBS
-         xbb3R0y1n+yBVigXBw7J3uKNimiUx6DEABzJTH+a+nPePBIx2/9a0aLywZjdSfr49imn
-         A0HM2/meYHp8qHjNV7yyrWf8rzIKDlTLTGNWc1CxDeWywwx9j3EWr0DBleX1VuThI8y+
-         vY6Q==
-X-Gm-Message-State: AOJu0YzR6mM8BZBI3ALkqjrKjgXinY9nyD/DlLE9R7MM1mZDm/GqBmAt
-	bkuPQ3l16tAjzN0c+ECTvz1J7gomaCdHZA63py2DyT5JRoCQObgEa51jOtD2+oGI
-X-Gm-Gg: Acq92OGk5Byc7N2x8KU37fNOfW4729hHm8rO5MGB30hEG+d+KFI+ww3Qv5kxZs+2gxk
-	aHVpQIc7YswBNEur3OrKgNJav3nTYqXXrJoF/7VWHz7Z0LvQ+qkxWjA2AsLcjUtMVuNyuiVYmDd
-	dAEFd8VRoZuCrZYuKpx47WVz/qG+zKPLK9XK6ylCE6abiv2TznKtLOf48xDI+PLUQGRwGjL570w
-	NRnthGBDsn/OFmgwMxFWWy2JA+yJNV1TNUPldYona3pws5TT4nztJPnhNOqQyzhMkdz1aB942iR
-	wqm+2k3lvwT0gqpI87l/t1BBnMXkSQbs/LMgTn5u8T5Y6gl7N8g5CpQTtwD4yv7CSOAU9d4CeH0
-	5vUzbTivnsyj/SmJUia0A1NgblWmXeMn/u0YDZ6WOsBmdPimzp8BQZZ2mh/N/e4ALnvtE3iGWo/
-	qQnf+PHkP+EXHfyWdh3Oo+
-X-Received: by 2002:a05:6870:eca6:b0:42c:d92:1c68 with SMTP id 586e51a60fabf-439ce36b71bmr2142705fac.21.1778684617951;
-        Wed, 13 May 2026 08:03:37 -0700 (PDT)
-Received: from localhost.localdomain ([2601:283:4b02:22d0::c552])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-435573e7254sm14765400fac.14.2026.05.13.08.03.37
+        d=1e100.net; s=20251104; t=1778686796; x=1779291596;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DWF1G9ELMKsGQZOLppx2w3ZclhzlMEN/h2rKtiOZmHU=;
+        b=egsUEKhi+Gr5kiQCuTStpWs9j2EJ0Vw6UzNnmdJatJz9Fye39uLtgcW4OtbcE9hU9D
+         sBT/YhQ87N2eciH1keZy9B/DeaSU5bmH1QLqJKGD5mEAMOsOIDYJqn4hkYMFVQoFUrkA
+         S5oNRyCm8tfvIKn955xdDIzgc1/Edg8qff3H+o9agA9BTkuyXxcP/xXF/oipHM5Cwunr
+         1xYkKNZEVQlz4DOuin+tNsdFi45YtuN7asONfFku9M8Nas3nPJdCTc8nxZUZcahety7P
+         INQt2kFTuwD+ikPFA+pIO6ePJuvv3bxAryCzfjPehb8rvVbu6j7chpkz0JmaY+GLBzDK
+         hHog==
+X-Gm-Message-State: AOJu0YygtFgaZX4AmF5SmR+4sL+OXuF7L+hUvSCHdUpyvGcT//rM9qIc
+	XCs5rl04vJwA2m0otnGviQJ8pwrqkoUbNAnaoFTbGDfO7G0joO721sGM+cF1u/D0gL4=
+X-Gm-Gg: Acq92OE0WKWZJ7wDZ8E1OA1BBh6dvsQOkmd/Kp7n5TEvlHgx0A3c8nZgF2CmYo5xCaG
+	vVqovSpmfUfMyFesb/XXn0YZZ61SWGkFFBULk0Fh1mnIhWQVuV+lX9fPlFXIABe8HuriMURVU9K
+	IU7GSJTQz3wZ6VO7HGc8N7ZavwqP5ROB5JEO7NS3une4121deodR3hp9WLZxaGiwM5E9J7S/N25
+	ZWBo8odD4/v4A6HiIVD9eH80meipoQ76Q+D5cJgvYq5TKebUctNkgrzNcGne6b/2ejrnJsSleFC
+	8uNO0Ki+me6U4PM3XyZ9vhOfCHiUDEa6nOiBrUoaS7kdHWgUEJneRTS80zz2QjLLqe7NNxynFJU
+	jQugO974tT/rOZ5t2+Xjs9cJDEy/AgGQSrIJDh8cfEfCql5U2x0mYgwMmhgej8poh2g/N75s8S7
+	3IALoV+0E/b8nASUSKyfojUQ2gd6qicBwEiF2Tlhi/im5/PZdjyASCjjj72LSHdh9T3yLLTX6s9
+	1XS/XN/yPibY/XE
+X-Received: by 2002:a05:6000:4313:b0:43d:67f4:91aa with SMTP id ffacd0b85a97d-45c5ad4af38mr6093794f8f.40.1778686796352;
+        Wed, 13 May 2026 08:39:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b7ef:b234:c010:91da? ([2001:8b0:aba:5f3c:b7ef:b234:c010:91da])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6c221sm42796599f8f.13.2026.05.13.08.39.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 08:03:37 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 1/2] spdx: Use checksum list from bitbake
-Date: Wed, 13 May 2026 09:00:57 -0600
-Message-ID: <20260513150334.925178-2-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260513150334.925178-1-JPEWhacker@gmail.com>
-References: <20260513150334.925178-1-JPEWhacker@gmail.com>
+        Wed, 13 May 2026 08:39:55 -0700 (PDT)
+Message-ID: <f59f44f5584cc54bea8813854aeb88ed10ba4014.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/7] Remove 'extend_recipe_sysroot' from
+ 'BB_HASHEXCLUDE_COMMON'
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: adam.blank.g@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 13 May 2026 16:39:55 +0100
+In-Reply-To: <CAFAffzxnk+YvferrFbRO2O_rrz8FvGbgKAmGewq0Rf=Mxye-cA@mail.gmail.com>
+References: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
+	 <64eb162c5c22721ff9d11d9c1f0d6c15aea3640a.camel@linuxfoundation.org>
+	 <CAFAffzxnk+YvferrFbRO2O_rrz8FvGbgKAmGewq0Rf=Mxye-cA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 15:03:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236988
+ <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 15:40:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236990
 
-Instead of manually curating a hardcoded list of checksums, use the same
-list that bitbake uses.
+On Thu, 2026-04-30 at 17:15 +0200, Adam Blank via
+lists.openembedded.org wrote:
+> >=20
+> > which is a lot of non-trivial change and a lot of extra data in the
+> > sigdata file.
+> >=20
+> > Do we really want all of this data to be added into every signature
+> > computation?
+> >=20
+> > Are we 100% sure that add the newly added variable dependencies are
+> > "safe" and won't trigger sstate cache reuse issues?
+>=20
+> Well, obviously such increase in the visibility of dependencies is
+> not a comforting or welcome thing, but let's not forget, that those
+> dependencies truly are there :-)
+> I'd ask the opposite question: given the extent and nature of the
+> relations exposed by this change, do we want to keep wholesale hiding
+> them with the current implementation?
+> Or in other words, are those particular dependencies (stemming from
+> 'extend_recipe_sysroot') so irrelevant for the overall signature and
+> sstate management, that it is justifiable to keep ignoring them in
+> such a unique way and on such a fundamental level?
+>=20
+> Unless it is truly a desirable situation and the whole subject can be
+> dismissed, what would be the recommended way to tackle it?
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oe/spdx30_tasks.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+FWIW I was finally able to isolate one example of a change here which
+isn't desired.
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 1821dd7de4..0a30be5767 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -547,8 +547,10 @@ def add_download_files(d, objset):
-             _enrich_source_package(d, dl, fd, file_name, primary_purpose)
- 
-             if fd.method.supports_checksum(fd):
--                # TODO Need something better than hard coding this
--                for checksum_id in ["sha256", "sha1"]:
-+                for checksum_id in bb.fetch2.CHECKSUM_LIST:
-+                    if checksum_id not in oe.spdx30.HashAlgorithm.NAMED_INDIVIDUALS:
-+                        continue
-+
-                     expected_checksum = getattr(fd, "%s_expected" % checksum_id, None)
-                     if expected_checksum is None:
-                         continue
--- 
-2.54.0
+For qemu-helper-native, we saw do_fetch change signatures when it
+shouldn't really have done. The change was:
 
+basehash changed from ba2bcd325c42f37db9aa87567dbf0ccd217f4f12910558975a9e5=
+2e642dd426c to bd5120be022a43e6fd1273a14f0ceda3b72847308d4c4e65bfe91f9fea21=
+683e
+Variable SSTATETASKS value changed:
+"do_create_package_spdx do_create_recipe_sbom do_create_recipe_spdx do_crea=
+te_spdx do_deploy_source_date_epoch do_package do_package_qa [-do_package_w=
+rite_deb-] do_package_write_ipk [-do_package_write_rpm-] do_packagedata do_=
+populate_lic do_populate_sysroot do_recipe_qa"
+
+which was probably a PACKAGE_CLASSES change in configuration triggering
+it.
+
+Whether this is the only undesired change in dependencies, I'm not sure
+but we do need to track these kinds of issues down.
+
+Cheers,
+
+Richard
 
