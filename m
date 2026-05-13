@@ -1,142 +1,127 @@
-Return-Path: <jeremie.dautheribes@bootlin.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D71CD4851
-	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 08:04:09 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2482.1778659439443188790
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 851E0CD4F24
+	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 08:14:09 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2669.1778660047262628337
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 01:04:00 -0700
+ Wed, 13 May 2026 01:14:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=XewBMw2o;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: jeremie.dautheribes@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4706F4E42C8C
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:03:57 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 18816606CE;
-	Wed, 13 May 2026 08:03:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8475C11AF84A7;
-	Wed, 13 May 2026 10:03:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778659436; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=ZJxD3lzghYSxvN/GO1UrDL9ORBWo9EhhdIdGKe1xPMA=;
-	b=XewBMw2oAkY5tcEBpgSD8PwA+gQXv5atY/eexLH6Wx52gqOt2bxl1na/H9abp/DWBGRQFM
-	MTv9auFFw3Y4/JWkCllBVIyCUYuZ77Wz4VtOzxssXnLQh2XbhKrRORKtfpxUOuSO/txk5P
-	r0EKIRmeQYyvfyeIBGVXPD3A1ukEdR7PvF7D9KDRCjb0C2e4fH4Mw84cC3ECJr/yqHwpyt
-	gdf9iIlv/sJwejj4WZfnYSmv6dwd9m27nZ/eY+PZu4QjkeiJfIqCH0LA7RIi0rmruGRA5x
-	vKhXBaW/kZVY5GTSinnWCE6jH0H+lSAARkH89L3tuWU1X1sh3Kbgq8E5mNkANg==
-Message-ID: <b227586e-0d54-4134-bf93-1a6d717b9cf5@bootlin.com>
-Date: Wed, 13 May 2026 10:03:54 +0200
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=GRxSIsES;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9593f74c6b=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D42IFb258937
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:14:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=BMFMZ/3JJE6azR5yBtx/
+	8sC+899JNUVFIRlEvFki8sw=; b=GRxSIsESsAAikWoAE2T9/2a15HVhVl89f3VQ
+	IiBAI2P/2x5uCIAPOqZC5jm13ZWn673ckF6bnqWeQfDZI1slFPLJq0Iwk13yELTP
+	BKbmqGEfS/hn780BqPO2KObq/FTjWht/a5h7XNqf34xeL57mwuk7qAX5q/GcPA2S
+	7ucP/nVrLxlqzhy+8wox9D+FxvR19vyuh3tUbjeB1oQY5xgU/F8TQsvK7BSMoQNU
+	q7dBj1MYbgECVUWzhREr+pWKXTzBllofj2XFNTYEuS5IWmOVSY4IToGw+u3785Vh
+	IKbgotoxNC86qEpf/+/39hG+6teHOT9x/QTvjlzFK0TV9Fx8Kg==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e4ft78dbb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:14:06 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 13 May 2026 01:14:05 -0700
+Received: from ala-lpggp3.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 13 May 2026 01:14:05 -0700
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v2 0/2] Packages upgrade
+Date: Wed, 13 May 2026 01:14:03 -0700
+Message-ID: <cover.1778659781.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH 2/2] spdx3: support SBOM compression based on
- SPDX_SBOM_EXT
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, benjamin.robin@bootlin.com
-References: <20260512-sbom-zstd-support-v1-0-93273381d548@bootlin.com>
- <20260512-sbom-zstd-support-v1-2-93273381d548@bootlin.com>
- <CAJdd5GZfKYWsR3Ryw7OFpbe6qD-HaKXm8o2CENby1q5H9oZrkQ@mail.gmail.com>
- <18AF106AF6BDC73B.3227972@lists.openembedded.org>
-Content-Language: en-US, fr
-From: =?UTF-8?B?SsOpcsOpbWllIERhdXRoZXJpYmVz?=
- <jeremie.dautheribes@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <18AF106AF6BDC73B.3227972@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: cEIFahQn6wMfGUsW_aXUgeApdAqGBwaY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDA4MyBTYWx0ZWRfX1ZZuYol/fOrZ
+ xDVM7SnUOzAiPxgbHr7CLP43J8uKQYKc3zKy5l0svKqhDwAdmJElPzVrEGZk4Wm+r6vsZ27RXzH
+ 1LvsHBXm0vNA6v9/AHLabMy9gCXZOLB4FrIqh3ke+Z1VRFghJbPtOKBw1rPwidt5H1/M7ja6/8X
+ A+lHIKI8Mzb8dIjeAaoFNqRFk6xTbRUqikE2SOCMOx1wIW/vqs7cbgRGkYIy4SKTIC6sICs1zLc
+ ZRI5LzNxsAUwgZEzNQrJFoaJsDEOQslC7ASZaOEbeSthFpz+ur8qxlGKxhhWAxnMgWK4BR3BuAH
+ ZrIUEf7kqbqJnDFuYur2li3y8EavUbHGvIMu9b8sPtrigWzr8NWzXsCvRT5tFCjQPWAVbfzRz8p
+ OiMval4q9M0RJSGH5x4AA868pSo4ufSDNTToAz4o9usbXGD16kYygaaNFiMYagDvjAnH/15kbBB
+ dyJ93GwvnqBQs1loogA==
+X-Proofpoint-GUID: cEIFahQn6wMfGUsW_aXUgeApdAqGBwaY
+X-Authority-Analysis: v=2.4 cv=G6As1dk5 c=1 sm=1 tr=0 ts=6a0432ce cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=klDOsUkWDRETUCZYPvoE:22 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
+ a=breqiNkwc08GHzlmXv4A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 malwarescore=0 adultscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605130083
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:04:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236941
+ <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:14:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236943
 
-On 13/05/2026 09:47, J=C3=A9r=C3=A9mie Dautheribes via lists.openembedded=
-.org wrote:
-> Hello Joshua,
->=20
-> On 13/05/2026 00:27, Joshua Watt wrote:
->> On Tue, May 12, 2026 at 11:02=E2=80=AFAM J=C3=A9r=C3=A9mie Dautheribes=
- via
->> lists.openembedded.org
->> <jeremie.dautheribes=3Dbootlin.com@lists.openembedded.org> wrote:
->>>
->>> Add support for optional zstd compression for all types of SBOMs,
->>> including:
->>> =C2=A0=C2=A0 - image SBOM
->>> =C2=A0=C2=A0 - recipe SBOM
->>> =C2=A0=C2=A0 - SDK SBOM
->>>
->>> Zstd compression is applied if SPDX_SBOM_EXT ends with ".zst".
->>>
->>> Co-authored-by: Benjamin Robin (Schneider Electric)=20
->>> <benjamin.robin@bootlin.com>
->>> Signed-off-by: J=C3=A9r=C3=A9mie Dautheribes (Schneider Electric)=20
->>> <jeremie.dautheribes@bootlin.com>
->>> ---
->>> =C2=A0 meta/classes/create-spdx-3.0.bbclass |=C2=A0 3 ++-
->>> =C2=A0 meta/lib/oe/sbom30.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 +++++++++--
->>> =C2=A0 2 files changed, 11 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/=20
->>> create-spdx-3.0.bbclass
->>> index 785edb9865..6cf8fa4688 100644
->>> --- a/meta/classes/create-spdx-3.0.bbclass
->>> +++ b/meta/classes/create-spdx-3.0.bbclass
->>> @@ -75,7 +75,8 @@ SPDX_IMPORTS[doc] =3D "SPDX_IMPORTS is the base=20
->>> variable that describes how to \
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 SPDX 3 spec. Optional but recommended"
->>>
->>> =C2=A0 SPDX_SBOM_EXT ??=3D ".spdx.json"
->>> -SPDX_SBOM_EXT[doc] =3D "SBOM file extension name."
->>> +SPDX_SBOM_EXT[doc] =3D "SBOM file extension name.\
->>> +=C2=A0=C2=A0=C2=A0 If it ends with '.zst', SBOMs are automatically c=
-ompressed using=20
->>> Zstd."
->>>
->>> =C2=A0 # Agents
->>> =C2=A0 #=C2=A0=C2=A0 Bitbake variables can be used to describe an SPD=
-X Agent that=20
->>> may be used
->>> diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
->>> index 0f1f9281ad..2184c1a07f 100644
->>> --- a/meta/lib/oe/sbom30.py
->>> +++ b/meta/lib/oe/sbom30.py
->>> @@ -1036,8 +1036,15 @@ def write_jsonld_doc(d, objset, dest):
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 serializer =3D=
- oe.spdx30.JSONLDInlineSerializer()
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 objset.objects.add(objset.doc)
->>> -=C2=A0=C2=A0=C2=A0 with dest.open("wb") as f:
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 serializer.write(objset, =
-f, force_at_graph=3DTrue)
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if dest.name.endswith(".zst"):
->>
->> I'm not sure I like this detection mechanism; I think we usually do
->> something more explicit for compression rather than relying on the
->> suffix in other places?
->=20
-> Maybe we should then introduce a SPDX_COMPRESSED_SBOM boolean variable,
-> which would be used by SPDX_SBOM_EXT_SUFFIX to determine whether ".zst"
-> is appended to the SBOM file name or not. Then, we could check in the
-> `write_jsonld_doc` function whether compression is enabled based on thi=
-s
-> SPDX_COMPRESSED_SBOM variable.
->=20
+From: Robert Yang <liezhi.yang@windriver.com>
 
-After further thought, that solution would not work well since
-`write_jsonld_doc` is not only used for SBOM generation.
+* V2:
+  - Move 0001-fh_key_file.c-Fix-build-error-for-musl.patch into nfs-utils' commit.
 
---=20
-J=C3=A9r=C3=A9mie Dautheribes, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+* V1:
+  - Initial version
+
+// Robert
+
+The following changes since commit 3724b93538d3acbec9f48d4c524b51d166071708:
+
+  sbom-cve-check-update-nvd-native: Update source revision (2026-05-11 17:55:43 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/robertlinux/yocto rbt/pu
+  https://github.com/robertlinux/yocto/tree/rbt/pu
+
+for you to fetch changes up to 19dc384322b778c446534c54666b60f0eb721827:
+
+  strace: upgrade 6.19 -> 7.0 (2026-05-13 00:21:22 -0700)
+
+----------------------------------------------------------------
+
+Robert Yang (2):
+  nfs-utils: 2.8.7 -> 2.9.1
+  strace: upgrade 6.19 -> 7.0
+
+ ..._key_file.c-Fix-build-error-for-musl.patch | 31 ++++++++++
+ ...{nfs-utils_2.8.7.bb => nfs-utils_2.9.1.bb} |  5 +-
+ ...gnore-pwritev-pwrite64-tests-on-musl.patch | 62 +++++++++++++++++++
+ ...toconf-macro-to-detect-largefile-sup.patch |  4 +-
+ ...kport-ax_prog_cc_for_build.m4-macros.patch |  2 +-
+ ...001-strace-fix-reproducibilty-issues.patch |  2 +-
+ ...002-tests-Replace-off64_t-with-off_t.patch |  2 +-
+ .../strace/strace/Makefile-ptest.patch        |  6 +-
+ .../strace/strace/ptest-spacesave.patch       |  2 +-
+ .../strace/strace/skip-bpf.patch              | 25 +++++---
+ .../strace/strace/skip-load.patch             |  2 +-
+ .../strace/strace/update-gawk-paths.patch     |  2 +-
+ .../strace/{strace_6.19.bb => strace_7.0.bb}  |  3 +-
+ 13 files changed, 125 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-fh_key_file.c-Fix-build-error-for-musl.patch
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.8.7.bb => nfs-utils_2.9.1.bb} (96%)
+ create mode 100644 meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
+ rename meta/recipes-devtools/strace/{strace_6.19.bb => strace_7.0.bb} (96%)
+
+-- 
+2.49.0
 
 
