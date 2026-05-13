@@ -1,153 +1,161 @@
-Return-Path: <frieder.schrempf@kontron.de>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DBDCD4F35
-	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 10:45:28 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.138])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4635.1778669123031982932
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B936CCD4F35
+	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 11:10:00 +0000 (UTC)
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4971.1778670597656564620
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 03:45:23 -0700
+ Wed, 13 May 2026 04:09:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@kontron.de header.s=selector1 header.b=bhGMR4yn;
- spf=pass (domain: kontron.de, ip: 52.101.72.138, mailfrom: frieder.schrempf@kontron.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PPoo3gUAtz8rpvlaGJwZZ4YdsKRIbuZwQQ1/T+xjCR2f4UBLiuUqoPgESecJLiTxe2umd3oWP5u1c94vZ3DTE8JlebmO5WFTA9G2gCHjWrnhAy/YopeJkCxDBwcrhdo4ng6AoEGl9p6IVVmTRicX1o3MaSBriAcZlR/NVTdBaMYfIFmIgVQmkIjCACozSBdcQJ6M0bqzCy5gKYUbcedvgdkMxtbz6uP+YYs8vKp3uf1t3ECYRDNfIF0Yz9Ni1POjidtr/nquyDCqbtsa5EO3ctEGxr6HE3nhUiU4FNWLiLzAk+T2hw1g4GDtgK18DXN2dPOviiROoFJDDP6p8uw8XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O0pOg8uKmnuv4sgIKk785ci2arC66gyM3+D3alZl1io=;
- b=nBg+Q+WQWNXrhLQuF31N9TizFH9zk6HI/RI3r75twyjIgxA5H9YTLvl7/u4Xx4+IO3u1YAODwIl6fB0nAHwM87RGV25R5MZzEIgf49TOMIpJ9aFhPdoyT9MaewKQmKQ5k+gYRZ530eeIMd0eoH6sl8SmBpF7zGp54a3oAM1ynDKMIqazhmp4ZclZcnNewDK4+tLcQWDmVRonBu3pssjM6M0OTa358kFEUCC9O1eq/0zMR2b2YoY/l2XlHFDG2cmXzsfnSOiValvsyvWzPDExJEuyzYMTABMAPdGgvmPmXXAtAOZRp9mRIzi0kVxyx+ieGUiTHGUOEPo8C341e05u2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kontron.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O0pOg8uKmnuv4sgIKk785ci2arC66gyM3+D3alZl1io=;
- b=bhGMR4ynlmg22/nZ9QmkcfpSG66gXhYwkhXmZ/lYXqSWsIb1OLOB/zhRTt75Q74Pg5NyxwW/7sZNOTLSN4VDhKET8XcZGtv8TTAqkrczh6zMdbPnxw2MISh1+f/CqH+i0lbG3b5jO/CD/vFa8uYumfW4OyDrdaz4MKT2BnIW/Eu7wX1IF1TbEFnPTEIeRPB41FeGudzT0aahpXGueVyH0jm0Xe1v9CIvfJqmg0ClZGuY/9tnoDLn8sjAl/sSctN/7mgbYzV3kNrmXBmk5LxqIDIr4KZJWNx59sJvCDBCr2jozQ+CKSAstTmQg+EGX+PHJMGhaoE+y8jFGATl3l9PKQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fb::23)
- by DB9PR10MB5379.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:334::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Wed, 13 May
- 2026 10:45:18 +0000
-Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a276:4ad7:962:da22]) by AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a276:4ad7:962:da22%3]) with mapi id 15.21.0025.012; Wed, 13 May 2026
- 10:45:18 +0000
-Message-ID: <b95117fa-9ea2-4f89-ad22-432931887f8e@kontron.de>
-Date: Wed, 13 May 2026 12:45:17 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] devtool: prevent 'devtool modify -n' from
- corrupting kernel Git repos
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-To: Yoann Congal <yoann.congal@smile.fr>
-CC: yocto@pengutronix.de, ejo@pengutronix.de,
- openembedded-core@lists.openembedded.org
-References: <20260323232008.3456362-1-ejo@pengutronix.de>
- <afdbd1da-826b-48fe-b24c-324e32b14670@kontron.de>
-Content-Language: en-US, de-DE
-In-Reply-To: <afdbd1da-826b-48fe-b24c-324e32b14670@kontron.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR4P281CA0245.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f5::9) To AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:1fb::23)
+ dkim=pass header.i=@mvista.com header.s=google header.b=KmaxKB8y;
+ spf=pass (domain: mvista.com, ip: 74.125.82.52, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-133466cf955so666702c88.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 04:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1778670597; x=1779275397; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eEprWPOxJIR9sABZHCS8P10QTCklYbbIZ00n59bvcJI=;
+        b=KmaxKB8ySCkepkDNgj64IqR3YGgw/LJrsZ4tRtW5+YFV+VQjBujXtgffRTiR2r5gmA
+         dMxvzu5sg6vOHgXy8FGvXzWbxsztKXVPXqI5DvxXEhYbpgOVeGz2xLww6rkCbpz1Ph96
+         bclv0FIWezpoh3EJuqtuwMp5d+LRKHdWajdJk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778670597; x=1779275397;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eEprWPOxJIR9sABZHCS8P10QTCklYbbIZ00n59bvcJI=;
+        b=HKZ0FRNGQ84E5BRlblT+V87lX4swCYYKL2OMXS3jD3CsmmcWgr0J/++TfrR/eKP/64
+         ZuAdBA9RK7VUEku2TELIz0Uv5qT23x7IW45ynH0tLClJ8pTbjvaVOFDRYpWlJnMHELm5
+         m2DisDbsOLBW5zioQAT2FG+LbOEhhr8lIFU00xjXEbSPSmlWZ3+t+XCzHdpNXbahxbjH
+         T7961qN+f/6TWQ2s/Bp2Hj1+0hMXQcQMXLu71LnO2e0Ne1ziXc/b3T3gPczkFIkTYz/t
+         Uj3lrxiJZRCH9LBGuNonFnC7eZWWlPVpkk6mxZjVeyAD1usDyOMs6yxw1wLxxwzQScJh
+         LOKg==
+X-Gm-Message-State: AOJu0YyTjmH36/veyGZaaBtZqY3fLiSgL+k/Tv4sxtXKtLrn8csL2JjW
+	sffFoxH5rjsOJUcN9zO4YeLvRMsBQYVNF4LIYIBFcpB5x1AdvAcBA/WYzpk9hnodimzDp5zUeOE
+	L3Ng8UHc=
+X-Gm-Gg: Acq92OGBYexYEUaf2QdiXhQZqjix3Rjkw/yXXY63LmgV5dyII+J017A9TSjt7p1n49q
+	+poX/VTIuXUwvTUVdFzOF2umwWIHgnel5NPn0VDPIVq4V+CEtzzaUjpClZ3fu3mK9/zGdAZIr36
+	ovxs7LFgm5zNDYzSb0ilIlO0yJcuUc3hheTOA0kzre3Mpe+sD+bokHuWAzhiE79unyaTdYKmK9u
+	EDqFyJyGOrDtR/hEpOys+GzHb3u5btCrLGTxSiByTk+rZ9BHNSTPSVF1yYFwPJWvCsyalFvoGiw
+	kyREEtDj5hIwqHpaw6UcVr5yuQon3yuhJ9GHYYy8TS5dH/Vt2TlG7k4mqXyI77q0IS49relZfY9
+	awbhtrsCwixcpoxiVgcq0bwF6fcnrcnMksJGTKj5zGUpGVjrHy6XpUpVHkTHzeE6MdO7fjveDKt
+	yWBXppVS8cEIeeZXa5JB8gzCOBWmhIXYbc/uaQ
+X-Received: by 2002:a05:7022:1b08:b0:130:6c8f:5a87 with SMTP id a92af1059eb24-1342ef445admr1676115c88.13.1778670596759;
+        Wed, 13 May 2026 04:09:56 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([103.250.136.207])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1327810ffb9sm30910332c88.2.2026.05.13.04.09.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 04:09:56 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] libssh2: fix for CVE-2026-7598
+Date: Wed, 13 May 2026 16:39:47 +0530
+Message-ID: <20260513110948.195740-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4277:EE_|DB9PR10MB5379:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3df636f-7514-4c6e-6fbc-08deb0dcb954
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|18002099003|11063799003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	doyDq3XIwkjGiwFbDBTWicL1GqCs+KX5XsQL90XT0rjXDdnK5EgO5EsEijIoKyN9RK2DW8d+iVLn/dzX6p1cPqj0gITugSrNn24FfYJa8TzBQ/cWDrY+A6i+youA7ogboHtDZSCmsHCU2ikw5R1pJ6xfT3/DeYA+uI2rg52atDPDa+Gg5D7wsn5jwj4QD7QWU/Q6ADexY15Ag7/ofDMw8UbF7Y+kQxYTqADtSkiUFq2Q2vUo3UfNNWIgVTsL5psAzUOk9rAJov+BJlgQA1vQewlnC+6BrIrODdmpQaa0V4OpsaD2fJwBHcsEvCyh69FhiDFyR9mcQhgv5MlNDaQGFKyuu1vwm/owrRMwR74ZDUbUUXMyG2MRz7cD67dpXKb1C5iODboAQZVFR8tUuMghD+CkZ0kITfWTQhX5jou+wQFPOYzwtHBM01O7L3iukpLOmsW9Po8gNtQ5Ew2QHGdpNAuE8YvnkDtI3aSi7rTjhFQbBZRPHV8XEQvReGCfWIloq4YgVr5302PFfEnqxdxZBOJFhYOQnirTfPX4/7hNTT6sJ/fP0/Y8L9em6XI2DEiH9joVwRyDiVxGWORHamgcvcXdUTmovp1S4RmcnmMfHRqiq57s/XhicIMnjcCzef2wtxe2HOtkrP0XpEvbhSKaC8b7Jta6UdfL1Dl+mesi54DywEJPCP44cGUcfR5kk27B
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(18002099003)(11063799003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Jh4iMIdFqWUGn6hwWNHb6c9X3UHoYdWs+dQuCMy2ArBf02e/chGH1Bfm+831?=
- =?us-ascii?Q?/L6eFcEUTC02A/eEQebCw/56QqUNn4FoYu2YiEJXVytvniGOeHNeL5E7+621?=
- =?us-ascii?Q?qPM1Df60/uP7YYndgfq7kdiWT7satXUf+Gy/AD0OIe7v/mda8IzFV8dfDrVF?=
- =?us-ascii?Q?u+vbZoPWRq3TrHPV0cL34yexGf8DhrDI/7QiRdNGPHpRR8cW82fKA34WMvTb?=
- =?us-ascii?Q?EY0rNeBmAyki93HtMfKLbwggbVr8377SGTG4lKnOJOsUBhaxPKZUke1BM1aB?=
- =?us-ascii?Q?NOvqBHcxha5HNgCpdCBhZcO7mUIm/T0UoUVM5icz4u8XV+AshAG0S33e3P22?=
- =?us-ascii?Q?I3kgbDeiiNICmdJi7gSayVypQnOhqKcvxgpX4HftiEjynb3Nh0F5azRrIYpG?=
- =?us-ascii?Q?QGJ9c9ilqUtdcSRF+CxDCW0mVCz62VeF5evK3cf5YLR0i5pu5Ne6ZmQjBcyF?=
- =?us-ascii?Q?UNoAw5OuNHjSWXSOj6UmsbwY/ngY7HUjKzudRHajUIS7n6uAoxOQ1hw/2kkW?=
- =?us-ascii?Q?YI39cJAzOMI+/Jyr55ezraRuM9+iaelLDyH9+2tnQ5ILjZTMdoMyLmElP68O?=
- =?us-ascii?Q?26lvkoMz5ff0jgg2ylisjjbkwKeY25FL/OSbIX+Z6xE0NKwAAu1m+layUOhD?=
- =?us-ascii?Q?41bPxRFt1sRmjYx+/ciWu7ZDwuT8fFc70iRxkVpJtKVz1rREhHYDVaLJ+/nw?=
- =?us-ascii?Q?xpzxyGYtleOekt4IkXKkaD6bv8qrYF7WmHy6IcSSAAU7U9dy/q6MoLNgMq0U?=
- =?us-ascii?Q?fbCU0nZnbecOMLwlS4ZX3FXzpmM0BTI3MtHB79XWN7Di4l7noOn4kd8TZNyB?=
- =?us-ascii?Q?GSrsDIbgGKjWiN/xaJ+QyJcvCi+74eeF6bZReApxH+z2KWNwyjOdbw9M8nik?=
- =?us-ascii?Q?+18vTbQM7kTPPKzOnWfxXWzmkJKFP0A/ys3b8s5lVxk6kZz6TYUez+amncSE?=
- =?us-ascii?Q?7mGFx/8JjPY6TXi6H1BRnG5lz4iZDym8BK6ldrQ0lw7Y6YakIzmNPGl3BxUK?=
- =?us-ascii?Q?VLILiy01R3NziWtHN3bebW3UbtRavIYFwHjqHeWo+aYIt0zg06dEcvZnf/f2?=
- =?us-ascii?Q?KM9+MZHKrE8rr2S2di1qUhbAYvk5eTbqAJM+wMgPEfIJf8aWgcxyM1xu0BxF?=
- =?us-ascii?Q?0QhysCOFY5aAMGGumjBd5nDENLBK/MlXuxCoq+ODppfI9am2+rFO/yy3tFPY?=
- =?us-ascii?Q?8auaUQ1VO8c1N5FCKWZM19pzJS4H7lsb72/3Subycc1UtgV8vZYEbwHVzMwf?=
- =?us-ascii?Q?kxpNEcRxdnGaD2M19jm4WHerPbn/E/kC+EmrLkjiuH0g4YxXi5MLAYlFW5gJ?=
- =?us-ascii?Q?ToQhnVjmIbMtNByeb/uupHQSVfR5xLMxKSckbQDqPFgSjd1Br3sBJq8O3fnK?=
- =?us-ascii?Q?4RXBM/I751WGOuQJrh/kEpPXSQZ/ap5vUgYPEjdUQKy9iVH/vrChkG5VxJ/8?=
- =?us-ascii?Q?R4R0GWNvnoeMz/rtUyMiea/AVCOHwYJD5sA/eH5XlE69WO/NKU4wc2f4cOhp?=
- =?us-ascii?Q?LxFmd1mnHa1Rw1N4TvbGtFQ0wZ7GC7MPAZBK+bTEXL0Qm5THg5eR3RAHubX5?=
- =?us-ascii?Q?pie4RGGqJuR7jeHT82Sy8uUZiE0uW+r6A4OFT24Rrork82iGupDT7guWQUtP?=
- =?us-ascii?Q?t+cCAEjkVI8kBJDiKWCfZOsqB/sH1/T5CfQ31V9Ok7WQnlh9KntYCC6jRcEL?=
- =?us-ascii?Q?H3gAuHwmYHHr0o6DxxUSfcMWbdRtBqo3nCYGfWgmhT19PMJqJ8I5i7JZAACT?=
- =?us-ascii?Q?Q28vMHFXFmLk721Oa+UEd983P9OYDpc=3D?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3df636f-7514-4c6e-6fbc-08deb0dcb954
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 10:45:18.3140
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vELlMvrBHN+seDwoxhnuOw+jSePDUbRNb2lcC2dRYLUfV9SAmJQ7zqSGNSUBJAQQjlp+mZtNNXtExZV9xbcPttS/xgQ1ba1GTh4RSpJjR/Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5379
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 10:45:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236961
+ <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 11:10:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236962
 
-On 13.05.26 12:41, Frieder Schrempf wrote:
-> Hi Yoann,
->=20
-> On 24.03.26 00:19, Enrico J=C3=B6rns via lists.openembedded.org wrote:
->> Running 'devtool modify -n' on a kernel recipe that inherits
->> 'kernel-yocto' can unintentionally corrupt an existing Git repo or
->> worktree.
->>
->> The work-shared optimization introduced in 3c3a9bae ("devtool/standard.p=
-y:
->> Update devtool modify to copy source from work-shared if its already
->> downloaded") is not skipped when '--no-extract' ('args.no_extract') is s=
-et.
->>
->> As a result, for kernel builds where STAGING_KERNEL_DIR was already
->> populated when running 'devtool modify -n', the existing source tree is
->> overwritten (via oe.path.copyhardlinktree()) with the contents of
->> STAGING_KERNEL_DIR.
->>
->> Fix by adding 'and not args.no_extract' to the kernel-yocto guard
->> condition.
->>
->> Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
->=20
-> Can you please pick this devtool fix from the following upstream commit
-> to stable branches scarthgap and kirkstone?
+Pick patch from [1] also mentioned at NVD report in [2]
 
-Sorry, kirkstone is EOL of course. So only scarthgap.
-> d383ea37e4 ("devtool: prevent 'devtool modify -n' from corrupting kernel
-> Git repos")
->=20
-> Thanks and best regards!
-> Frieder
+[1] https://github.com/libssh2/libssh2/commit/256d04b60d80bf1190e96b0ad1e91b2174d744b1
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-7598
+[3] https://security-tracker.debian.org/tracker/CVE-2026-7598
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../libssh2/libssh2/CVE-2026-7598.patch       | 60 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-7598.patch
+
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-7598.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-7598.patch
+new file mode 100644
+index 0000000000..6b89cb71ba
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-7598.patch
+@@ -0,0 +1,60 @@
++From 256d04b60d80bf1190e96b0ad1e91b2174d744b1 Mon Sep 17 00:00:00 2001
++From: Will Cosgrove <will@panic.com>
++Date: Mon, 13 Apr 2026 11:18:25 -0700
++Subject: [PATCH] userauth.c: username_len bounds checking (#1858)
++
++Return errors when username_len will exceed bounds, fix existing bounds
++check.
++
++Credit:
++[dapickle](https://github.com/dapickle)
++
++
++CVE: CVE-2026-7598
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/256d04b60d80bf1190e96b0ad1e91b2174d744b1]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/userauth.c | 13 ++++++++++++-
++ 1 file changed, 12 insertions(+), 1 deletion(-)
++
++diff --git a/src/userauth.c b/src/userauth.c
++index 0040c3f..588b83f 100644
++--- a/src/userauth.c
+++++ b/src/userauth.c
++@@ -80,6 +80,12 @@ static char *userauth_list(LIBSSH2_SESSION *session, const char *username,
++         memset(&session->userauth_list_packet_requirev_state, 0,
++                sizeof(session->userauth_list_packet_requirev_state));
++ 
+++        if(username_len > UINT32_MAX - 27) {
+++            _libssh2_error(session, LIBSSH2_ERROR_PROTO,
+++                           "username_len out of bounds");
+++            return NULL;
+++        }
+++
++         session->userauth_list_data_len = username_len + 27;
++ 
++         s = session->userauth_list_data =
++@@ -307,6 +313,11 @@ userauth_password(LIBSSH2_SESSION *session,
++          * 40 = packet_type(1) + username_len(4) + service_len(4) +
++          * service(14)"ssh-connection" + method_len(4) + method(8)"password" +
++          * chgpwdbool(1) + password_len(4) */
+++        if(username_len > UINT32_MAX - 40) {
+++            return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
+++                                  "username_len out of bounds");
+++        }
+++
++         session->userauth_pswd_data_len = username_len + 40;
++ 
++         session->userauth_pswd_data0 =
++@@ -447,7 +458,7 @@ password_response:
++                         }
++ 
++                         /* basic data_len + newpw_len(4) */
++-                        if(username_len + password_len + 44 <= UINT_MAX) {
+++                        if(username_len <= UINT32_MAX - password_len - 44) {
++                             session->userauth_pswd_data_len =
++                                 username_len + password_len + 44;
++                             s = session->userauth_pswd_data =
++-- 
++2.50.1
++
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 49da9698a3..2284d054b1 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2fbf8f834408079bf1fcbadb9814b1bc"
+ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://run-ptest \
+            file://0001-Return-error-if-user-KEX-methods-are-invalid.patch \
++           file://CVE-2026-7598.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
+-- 
+2.50.1
 
 
