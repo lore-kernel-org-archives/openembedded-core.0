@@ -1,110 +1,118 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F99CD4851
-	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 11:59:31 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5831.1778673567482959909
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1563ACD4F24
+	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 12:16:01 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6159.1778674559687445449
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 04:59:28 -0700
+ Wed, 13 May 2026 05:15:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JSwrG9hV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so71344085e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 04:59:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=j3NGcJ6c;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7c2fa14795aso27263067b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 05:15:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778674559; cv=none;
+        d=google.com; s=arc-20240605;
+        b=C9Oty49+mRZHCvkIxwxn9tSGkxEPqjYjb/mxvwahXHff+6c0OicbPhZR33SPX9WIZZ
+         0ZpVwcF6PfqqU/+MXxjs1Vt7496iUWazoi1w4tSkQFUPa6R/5YfUOsqVx6YotPkiJhCG
+         gm7KnA3zPiwuGIGyGrGDa/kF4GnwwC3wTt+rzfrrmfGTEHq7BzhTpL+QIEBQW4K8oZ7e
+         KiNWup7LCElZ+rJBWqn9Pvf5M6/bbzR/RfG3t8aHSXbPEqFl6CqjAALS9BCDUx5qdaVx
+         V6trMEc/OBBQBT3HawHYW8kzvkoDpZA7l3vJTTITct/MYJUujvyRijYOVquMTj8pKqa5
+         2E1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ISv54XdLHqTSF5j0ExnAQuOjEVrvMUB9K0cpNHFiYpI=;
+        fh=STxI6ZU+B4k4hQRbZNGJkI3s4uh7iqpTa+oS8bKJPVI=;
+        b=ghg5KL1/Dx5xTdDhG7/Q3YyLwValsX4ToYhpitmOiGAKblIReVVN1YBsltBkL/+tu6
+         I+oowJMxC2hiovJ9+dcM5o/GLYO7CMa8JI2Clc/synpHPEcYlWxvm3RmiXGh2HDL7iw7
+         K10qu9kr5WkkdTYyTLdA9xg5u5Ypq9iy/xpz1e6/ZJFlczf3vh6c5fS6xOApYL2f9CkO
+         DQnVZjCXNU4UYthkPc3T81DO8rvLVA6t6ywdSW7VAbhn+yh7nyCOJd5OR5iev3DWEXbh
+         S3H5+7aGXYgBLTsBv7RABD6bfudrWnjJGqWu/cVN+sta/P/pL5NwrINJpiKmxW/5RYKy
+         GUtw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778673565; x=1779278365; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gnuqz9ynQKph3a2Ok4O3L5AgERSzQlo412aiePajP2Q=;
-        b=JSwrG9hVTYo/6j9Mxz+Ky7/Hl8pExwalXkRE0IL0UWvlXKjA6sTCEK/eI0f7Aoh4N2
-         Gsyj1b/0uCZwTs8xOCzk7VmSl/0qhUmZk3CRDHLX4z9fw1nJyzZUmCs10VBfZTktQS5g
-         ggByR4eenu5UDUnLFroZ+Rq9zMRobHgHzxFRk=
+        d=gmail.com; s=20251104; t=1778674559; x=1779279359; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ISv54XdLHqTSF5j0ExnAQuOjEVrvMUB9K0cpNHFiYpI=;
+        b=j3NGcJ6cFho1O2jeWEDigtVAo3wtFn9Do9AMmHMpv0sQOLc1reMsMuA7EFSFdCXcEW
+         gIjtZsnfOuzFtlYdm9Lg/VwYTMBndirmwGUwh2prwp99ViGWg3zv2uSYvSVl8KSD/bXN
+         3XD7fEnnhjAyjebcDqWRWWupP6hBoeNNQwqweOdGRm9Wera1wSdcVeOhN/C8uaQ1HD5l
+         L3P74RVM7BWnFNIhVNqqClmYP3qQucEGxZyB56mywE/dRKlxKW31hM7tQnYIdUFFtsEA
+         loy5aBAaHNWKKghVXicfwYy+d0xhwVEsg1tzObqqkBI/ME6IOyji/4xIMkswRt7riSu8
+         TGjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778673565; x=1779278365;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gnuqz9ynQKph3a2Ok4O3L5AgERSzQlo412aiePajP2Q=;
-        b=P8/r0DcPoAhr1nIs9EtX9oXEDKcX63FYgD3YqXsbVQ1HeVAp924orxLCo/5QxXKRrq
-         uuGWdgjqArT9h5Y6USVShmSFhF//hGjwL50g+TwgwUaRsFzFyoW2hu0dkV6xBP/00UPQ
-         v2R+GUhA4pWLQCwYNc0lN1quds1AlICm9aM2ZjmxcutsSnN7RIm+yAsf6LaXOfe6VYG3
-         BN1qy4Xkw5M/pPvmDKdZSZ6W0cBzi108PMLjDQ1ZaeQsY4QIi0TtanPNjVka3Dtfp3Qw
-         ElIJjhpXi3S3Pob454x50sJFgfwS168CMz1IiZSdJkBip5P6iL+lY30sBkm8783QPvEZ
-         1B/w==
-X-Gm-Message-State: AOJu0Yx9XB9Ym6QKgajW/jsWsaIy4M+iyLmqx1peclp/6Nl1CXHCUi9h
-	zF5MAdIdwQcskLZjbKbfC2hZNr9DRKGm/NXEXmHolK9HihgLgT01VUwrdeWZkdjl9mwBknK//Cg
-	9oFJ6
-X-Gm-Gg: Acq92OHgQd6+wS49gv0NyJ1U8BPRVO6nIS+Sd2BN4xHHQ50c5IGxaBNoYVQekZVwmxL
-	aVmgs/pCP85kuBEvI40QPPjXgg9UWiCpUwX63bCH11pQY9F7mBBZURGEQcigV/uKxuFCn8H+dM2
-	MCqsmA6i22WSxOVMQLJ4bsglxHGnpasgVwlrad46lEoAfXvF77Qe0srNI7/mCOAOJmPw4yrw+80
-	M+0Yil1aIfG0vodqvp4M27dralzj95jkOrZFj4vTGTDfALFtgtCdnLe+cQWZ6qvxXdXKGQSPHiz
-	oGREM6TgkGG5e3bDiKhifHbE6P13TbboWFjDJTu4XBnNS+B6+L+6VS28mjFs3LDn/05GBetxBm0
-	BuLYCngFhWtcEPb8/6Z6N2iCDgpgR+3cnuIYmjgJFdLHT/kWwfQChjJdzUGz+nK5/cOorAS85kO
-	fxJPIn3gEUVxuYHnjGvO6JoBQLZakeimNoUTFFIosnmb/5n1D1MsJ1
-X-Received: by 2002:a05:600c:19c9:b0:489:1a63:509c with SMTP id 5b1f17b1804b1-48fc999e736mr41507555e9.0.1778673565058;
-        Wed, 13 May 2026 04:59:25 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b7ef:b234:c010:91da])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d624fbsm160495895e9.10.2026.05.13.04.59.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 04:59:24 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] expat: Upgrade 2.8.0 -> 2.8.1
-Date: Wed, 13 May 2026 12:59:23 +0100
-Message-ID: <20260513115923.3375717-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1778674559; x=1779279359;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ISv54XdLHqTSF5j0ExnAQuOjEVrvMUB9K0cpNHFiYpI=;
+        b=JPX/v0kmb0nsYOeMhYNQpoVd9xeHWEjSIdiQ5lVJd8fUqMsLWA9+l8tgtE3GfSRVWG
+         RU88sSmEV+rrsWjhVtivfa3uFD+6k1pt60Q9m030ipocrTSOhm175Bvw+ywsbg5Fh3yc
+         qldxuutAUNoN88HfHEUFV4xZ/LB1RbcOlzwmFdQhJmsmTDLTxTxxcJBh0aviTDzjwB1x
+         AoSVevypNra1Js5nxkPHQDId2aTBcxii+yMJ8n+Nazy5cqg7JOul+5hJHh0hypp5VNaq
+         DqnbqXOBp7X6BYfPtEyJN3TWe2b/IiVQETovt00qYMbkzWLkiE5fJERVQo/5DVGAWhnE
+         VuDA==
+X-Forwarded-Encrypted: i=1; AFNElJ+SBva1A08iyUqXGMcbXUvMGxgGv1pswuoswcpJbldHAPB5vIxt9DsCHKGvjm0OEBEY6OElnvk99gEHthQYZWwXVQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyLF3bjh3JVzbt4MN05FKJqE6hYIpqLRE6XcTLfewEzzyWymDuJ
+	6XfS6lsjyzRSFmfEhi5g6cdeeQNgfGsaLrWLkj+2p/Tts/e48fywl1aFwWEnJ7SFEJXXk+0I9MD
+	sRhLjFSPcsDt1eXeZ867sobeYtinb6TU=
+X-Gm-Gg: Acq92OEqjVK704qq3EI+qiOm15CK2rQRbkTD87xLJyoQPbYZcaZLo1XBC3psYxCXOwH
+	5QpRp1GOC1bEtBXU0n7cHMBFQCHsfNhclyA/TQc8J1IlhCl/yuKZmbqJwW1028Z+mViXED4AtP9
+	n/Xck0C+FyC6zzw3XPstRVCi4ClqGz89FeT0zuWzwhwaOCESdSSOYfGxSB8dmiyE1AS56URQ6uS
+	zADnkdVbUXRRNcddXxAsplbyBY2G2ob4eqlBT2EojgUPgpXl2he07DjBHKEvWk+IxSTVBAtVS93
+	O0/hGgb3Irn4Upy0e3LMQUM4i6RIJ5Gq/x+hCCrvbQ==
+X-Received: by 2002:a05:690c:e3cd:b0:79e:766d:81df with SMTP id
+ 00721157ae682-7c6dc4aeb9dmr24329447b3.33.1778674558571; Wed, 13 May 2026
+ 05:15:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260511133450.50595-1-tarun@centricular.com> <20260513071155.1215141-1-tarun@centricular.com>
+ <CANNYZj8sYaa=hGCCWViiOQojN9TjuroAPs7FHhVLCT=g+Ut1=w@mail.gmail.com>
+ <885d89d6d131a5b1649189936537154f290e1dc6.camel@centricular.com>
+ <CANNYZj8TutyAOc_Kz2+r02iDY8VQ_JaoGk5oHbrZSk5Er=UYBg@mail.gmail.com> <f30852d76ecd85f3f437f508ccbbb2591f410353.camel@centricular.com>
+In-Reply-To: <f30852d76ecd85f3f437f508ccbbb2591f410353.camel@centricular.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 13 May 2026 14:15:47 +0200
+X-Gm-Features: AVHnY4LXe4dcwXWQhpfkItZGzYCiYyQYC2xj6Ch8G6uBuYo-7iV6qqrAxIsdmPg
+Message-ID: <CANNYZj9CND_HxCwiWUyt1Boej19_5Nnm76NXhZ+NtazYD-Zukw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] gstreamer1.0-plugins-rs: add new package
+To: Nirbheek Chauhan <nirbheek@centricular.com>
+Cc: tarun@centricular.com, openembedded-core@lists.openembedded.org, 
+	sebastian@centricular.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 11:59:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236965
+ <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 12:16:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236966
 
-https://blog.hartwork.org/posts/expat-2-8-1-released/
+On Wed, 13 May 2026 at 14:03, Nirbheek Chauhan <nirbheek@centricular.com> wrote:
 
-Security fixes:
-  #1216  CVE-2026-45186 -- Fix quadratic runtime from attribute name
-            collision checks that allowed denial of service attacks
-            through moderately sized crafted XML input (CWE-407).
-            Please note that a layer of compression around XML can
-            significantly reduce the minimum attack payload size.
+> Yes, this means each plugin has its own copy of gtk-rs, gstreamer-rs,
+> and other common crates. The reasons for this are complicated:
+>
+> https://viruta.org/rust-stable-abi.html#rust_does_not_have_a_stable_abi
+>
+> If you see the librsvg recipe, it does the same thing. Tarun is going
+> to change these git repo URLs to also use crates.io links in V3.
 
-Other changes:
-  #1209 #1213  Drop more casts related to `void *` that C99 does not need
-  #1213        xmlwf: Streamline use of `mmap`
-  #1214 #1217  Version info bumped from 13:0:12 (libexpat*.so.1.12.0)
-                    to 13:1:12 (libexpat*.so.1.12.1); see https://verbump.de/
-                    for what these numbers do
+Are these copies listed in Cargo.toml of the plugins? If so, they
+shouldn't be manually specified in SRC_URI, instead they should be in
+the auto-generated gstreamer1.0-plugins-rs-crates.inc, and the build
+process should be able find and use them.
 
-Infrastructure:
-  #1210  CI: Cover compilation with Visual Studio 18 2026 on Windows
-  #1215  CI: Cover compilation for ARM64 on Windows
-  #1212  CI: Bump WASI SDK from 32 to 33
+There are concerns over discovering and fixing a critical security
+issue in one of the components, when they are vendored into the source
+tree this way, all because the compiler team can't settle on an ABI.
+I'm sure you've seen that many times before. The issue is general to
+rust (or node.js or any number of similar approaches to dependency
+management) and not gstreamer-specific, but I still wanted to mention
+it. The problem is, when it happens, it's the integrators that have to
+deal with it, not the compiler writers and not the component writers.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/expat/{expat_2.8.0.bb => expat_2.8.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/expat/{expat_2.8.0.bb => expat_2.8.1.bb} (92%)
-
-diff --git a/meta/recipes-core/expat/expat_2.8.0.bb b/meta/recipes-core/expat/expat_2.8.1.bb
-similarity index 92%
-rename from meta/recipes-core/expat/expat_2.8.0.bb
-rename to meta/recipes-core/expat/expat_2.8.1.bb
-index 53c141c2005..fa48d42bf86 100644
---- a/meta/recipes-core/expat/expat_2.8.0.bb
-+++ b/meta/recipes-core/expat/expat_2.8.1.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
- 
--SRC_URI[sha256sum] = "586494499ac3ad46d87f3beda7b1f770c1c8026a9b60e151593f8b29089a52ca"
-+SRC_URI[sha256sum] = "f5833dd2e1cd7739ec9182804a1a29c4f0cc7c2f26b633d3a2188b7766a88ecb"
- 
- EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
- 
+Alex
 
