@@ -1,264 +1,382 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD868CD4851
-	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 13:30:54 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.39])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7712.1778679050410552176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C1BCD4F21
+	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 13:34:54 +0000 (UTC)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7696.1778679294297711498
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 06:30:50 -0700
+ Wed, 13 May 2026 06:34:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=FXuB5nHj;
- spf=pass (domain: est.tech, ip: 40.107.159.39, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TMJhNy5VRtVIo2/CIDdDvnN5oBVdc1Qp8oIlOy07klFtRVZWlFOR7jA1Lyn0zD1o5qjMmxOZat5SM4Mn9/IVuYQ6gPioLSGYymIeV3M5npAh2JFGu2Z+Dd0vK2/1alg68mMp/YgtHZBkIFpDTuoD9IVamuC0ppDwCwWcnLWoE/P1WTY7HADVJhkcyjXwMRMBVFDH+nDKHbkVZVajTQ+ZCZCrUAsCXEnmyplzwo62tSTq8dxw/mVWQKnj5XFlZYLW+24ACRcJp5d48YSjvvmApxK6l81m5U4KEb+SuVXwGTTqQ6m5LcK0H012hof/Rx6jGIetno9H32D+Z8KLEHFVow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yJ04vejRmCVgJx9s42ZLO3IN+NJuQpkcmWDGc3+pyM4=;
- b=CVhmbNKrD8mp+vDo+vY2gFOI34rshj4bYDPi49//oDkp7wPEy1rsUhE3HF+jtnn8VCyMB1Nky5Vm9AdmDGkMnC85ZtDbNEmDA+fuNI/RNXBC6JXLEYlpB01+6FlGKyK+Kr3lyG25RUbLti3PU6XRqKgDypBsdUmICcnPCkdVd6oOEk2C+b2mN4AanMY1Gp05X5z65EECC+4ZSjrmj0t6BrU89CTEc4J23kVnV4Ua1QdxmlMsC7xn3lz2cBtn2/AGmru8FAE4/pxNCapj0Xp2tidNtGvuAilO9Wn+u4na49/Ph2uJQlmEScMn3Vgd6Cv8M36Af2EYTSfZhLChcUxDww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yJ04vejRmCVgJx9s42ZLO3IN+NJuQpkcmWDGc3+pyM4=;
- b=FXuB5nHjoPnZ+ihhlcnppykh/98p8Yi4qW0u2OLZmUys6OqgVUAynqJnpFDRxKvLaK5CLhu3CaWXCWNuEv7BA3pRZrIyqOFs0tWXyrRAqqrrO6+N7B7BMELCEOC7VsoFWWO8fS1tbU4zbZQZDqwVARJIo0BBco0kG/lhSGtQvsMQqje4jZ5HmxWbfrld3GqZYpfpTVvulLJVlYXUZsr+ThAsm9zj5km5pyGmaV5xwLWHbYE71nUxOabIlPi4/g/DZxt5YB2KzvbuhbXN3TEhHzlegvQ3m5v47Kp3yRTe1S5r4uO6dJDJR1ddcknp8OIDtjjEi8fQhpMfd2yN4XVAhw==
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by DB8P189MB0854.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:14a::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.15; Wed, 13 May
- 2026 13:30:45 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9891.021; Wed, 13 May 2026
- 13:30:45 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>
-Subject: Re: [OE-core][PATCH v3] libffi: add ptest support
-Thread-Topic: [OE-core][PATCH v3] libffi: add ptest support
-Thread-Index: 
- AQHc3t79HFJRIyPmnEaLI9NoW4xm/7YIW9SAgAAvgyCAADlegIABUG3kgABxnQCAAO95gIAALya0gAA0+4CAACDQ5A==
-Date: Wed, 13 May 2026 13:30:45 +0000
-Message-ID: 
- <GV2P189MB300539A6C4506B6852CFB9D3FE062@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
-References: <20260508102405.16791-1-pratik.farkase@est.tech>
- <20260508113653.21478-1-pratik.farkase@est.tech>
- <DIFMGYW1190K.3MKM3KN0DWQMB@bootlin.com>
- <GV2P189MB3005B33FD42B8B07EF9ECC76FE382@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
- <DIFUGDKJKE7Y.SDTF3FXFC43W@bootlin.com>
- <GV2P189MB3005EFC4E16B3BD9CA42F3C6FE392@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
- <DIGSPNC40V0B.325NZ64GRFWZL@bootlin.com>
- <DIHAXWVL9CB6.2DT385U5BQUR8@bootlin.com>
- <GV2P189MB3005E48C410DEC97170387B2FE062@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
- <DIHIKAQL0NEQ.2BWFTYOSD28MQ@bootlin.com>
-In-Reply-To: <DIHIKAQL0NEQ.2BWFTYOSD28MQ@bootlin.com>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2P189MB3005:EE_|DB8P189MB0854:EE_
-x-ms-office365-filtering-correlation-id: d1de3772-07e0-4076-5f91-08deb0f3d646
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|38070700021|56012099003|18002099003|22082099003|11063799003|3023799003;
-x-microsoft-antispam-message-info: 
- 4QIJkw/CY9T4HTEZ0qeKdL3nCru+Y0GFw/67Z1vJZfge1SK1apL8R2yNholUJxnkyDjQNPmVrW1kM3FK7iBCWLsXnOZcPkP2qSLnjlMLjTUgYSIpuEmEhru2EE3vbZyGvQE2lG6HU8n/pTL1+EwSbLGmCDMAXloLmfOxQTOdJzf5Dr7eLLs272TBZ+4ND2rKodXCRkVIXD1DamBiLwKZyqkoOBbeu+tZ2kCoBSyrQEZiBbleY8Nh6GOXs9nHWh92fICu/82MsjOOenvtHGa16ggEUHW9ro67pMxnoNtH1TXuoWdz5JAw615ilLZkJ9SisA7okKosNoo3hmZ/JcFr83fp6Tgsj0xwIUJge10FDDKl5Tme2tmX7OruJwV606tGVIXIJdE4gOwcRanVAtEkZNcd6KulWDr6sIp6DJrWWDts+Qqwv+Hwcc/TDxoqmVD/td3VC4hpBMtHLpklTgNbS/FLR8yMe3dW+kfTtOQNhdPvg6QIQ2wwtsGR0qK1DGQmTRXhnX+bMcPh659jaXM1jHbtnufNYljp/8QSuaxC12+Ca8vfjp5I/QKxZf7Avnj59+PDHMEcvEJUue2i9TRa1Oep66o77z4E/47IBWSFt6r4HaegEKwvJDdf0NkaUqtZ2ohh3QAzT+CqkuVnQPJB8ALvakTijZMt052KXoAo21LvyZzL3fQ2cqk36P61xglC
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(38070700021)(56012099003)(18002099003)(22082099003)(11063799003)(3023799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?DU40Umql3CuI7HGXnvS51U/lPRzJRLb6ADEhZ9wm1UZuZMSvNMwB+zmu0hXl?=
- =?us-ascii?Q?lBmSND887E67fjS7lsIuBQfgh+o7mc/0qczi4bfI2teGiDhMdDujPvMv/F1n?=
- =?us-ascii?Q?hUUYdfSGheefxCpHrJRF3vzCNJcD1I8G0vBvK2CYzyT5TP774f2Uy2M+6JiZ?=
- =?us-ascii?Q?Lpd1dMxaiKsCYZmFrwuW32LAGHelWwJkElRekzd1QWwYkycUW2nNKWfR1IH/?=
- =?us-ascii?Q?sUnkWhae/Y6/5sWmUH7OMGZm9PXJ1heG168rMMKdrvJIOkXgEAU6lxmAfZpP?=
- =?us-ascii?Q?Qu+stj63fnwHi7de8qyDGm5NOV6JXAiLNZmClW0ihbb+O9dHg7rvmIiYzev7?=
- =?us-ascii?Q?4tY39qX1PI6ghU7F5BNvQmLOwe8Yef35atfIV4bUA8YVp9Pyd85eeCbLd+cQ?=
- =?us-ascii?Q?UAd+xN+Tj+K8GBwVyOui4/JdYXKejyXYAZGgcLGIBaZA4CENFcWyMleThpcs?=
- =?us-ascii?Q?mWU41B6bMiTctZeSNni93H+kmC1GnFMQNihO/Vxc0l7ULHYd+uzaQhE6BY+I?=
- =?us-ascii?Q?GBf83kEdfEghfolLW2pqvwcCA4bAuQKGjiwRz7oesmfECNm30WD7zntlbPCv?=
- =?us-ascii?Q?69Ve0HrwZZEUSTrmuPSpNJUL09J371iT5Ebn3i0slKnl8FJ6hkMCtubuJxx8?=
- =?us-ascii?Q?fwc4zQNmyp7Y/0V2HR6eer9u8opKQPzy9rUhgE7vpTAF/Mp9eGuSqhGUBi+K?=
- =?us-ascii?Q?uFH79HrNMrzFnmt4pXP/gAMDJtJYu+mIJEDYRA/XGi0wXCfucFOUjTB1hhBY?=
- =?us-ascii?Q?Wp1hxJ63+Moold33V+iid8zv3KX1ZtU/lQTo2jDL1Ffhg/elUiPqiwX93i8/?=
- =?us-ascii?Q?hbEeLSBfwAVnwA4oF2MY6AHWnNlvt9xXNsBOo8UcyM9aCNdwewUd7MWN0pkr?=
- =?us-ascii?Q?ceOtS79Co/Fr75bkrbBc431A4/h+oPrZsJsj8yPsJ9T8wjuZPAhp+/CHH8kx?=
- =?us-ascii?Q?I8F4JmMrT9Ioa7T3/mmEXLvaLGxUpJ0ABsXBajVhKkp+P4Zw7S0USQcSVcYa?=
- =?us-ascii?Q?Sp57778QYOCEkSfrTcDfnlRblx4/dcRiwF9TNuoi/J9v2m+t+Q2tJ8YvSXLX?=
- =?us-ascii?Q?1C5dJVLvO8XYLMrEzQCaIXJWWJdhO7zxLWLwSDgent40zarO4mpllzpYP2Ps?=
- =?us-ascii?Q?4iETKAfe8D0vLMP6glDZKDSfSChQEPfLKVCj6Q4miSRqq5FNYlC0YR6WIgl3?=
- =?us-ascii?Q?Fpo9AQ1wWsGfG/3BeThC/4kHFKHoKTI4eq0nopInKM7P5yVn1Tf624SCBhsF?=
- =?us-ascii?Q?MJQY0khbBfe5/MfRG7gJr8q3Nc/JJJXdHMdesoLjaOOj65kSZYwEyNwDAzjd?=
- =?us-ascii?Q?q784jzYJ8Fl1nB91dLeb/a2kI9gmhtuAnF1czSTARVF8aW50ORr1Due9AFVs?=
- =?us-ascii?Q?7CGXDqRKe5SK8CMG0pfaOPO/gHDzyOyl1Lpfj8udOngzou3zrDAGoLx4O0ra?=
- =?us-ascii?Q?ALYmpPoITUe48N4H/F64oKDR1gQd/mGNiNQvXID/3zUI+IRnXlLEV49MuZZG?=
- =?us-ascii?Q?KMiuXq/GWH8A/Zc3L0yC1Sr8F1IQYI+LRdcnK93rzNakESc1Wc05mXaGYiOi?=
- =?us-ascii?Q?i9VtlSODj5ITBFXtu+1Kn8HE0aKHrLLcdlScjQmVAwBKbgB9jOOfJtIs3l8k?=
- =?us-ascii?Q?H2TjosM7NfXVb68Re863W6w44jBoM+PJLfvbD3W2/NcKwjg+CeTdxJLBgOuM?=
- =?us-ascii?Q?sC4Ajwpb+kD5eBLZfUEzJhNL3q57lDRXaSgT/bA3MzCDYzpSRAkpeWjQBr1Q?=
- =?us-ascii?Q?l++shHKOTA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BDw2aHMr;
+ spf=pass (domain: gmail.com, ip: 209.85.221.177, mailfrom: martin.jansa@gmail.com)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5637886c92aso3226683e0c.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 06:34:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778679293; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gy0vgypjFnVBgQgKBLmse6m9VN/XUI2dyBoixVgtO/U+m++PaI27cb+ecZd2p0bWwo
+         wxqqVaGQUxhL1x8abQT6TVYI1rt1JMCfhT0HesXpTmDigKNw5GRLdRLNmPZvyL1LcGrZ
+         vW7/FW6YNH6SogESbxIDjGJXU50iU09gHqm9e6L9XCWs+tsodHLB/WxtSAEXjfCiZqpO
+         B+F1IKuCR/OWkF24GFNQC+7xg4P0iOUba3cVzurdrToJE28v/xqN+IqwBQU42ktYNJ9L
+         lwcpY+ZSXEhDPaPpCfZZCD+zxnnhD9FQ8u1lxYioNdT9WjNPdfTk/G2HS/JJQjbKzafC
+         yOdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Gt5cbVIdcSiefcI4ErGlRshI97WYzM4aD3mpOcrYfcE=;
+        fh=6irEZha/lyQ3HYzOyzz/XoTRlEv55OlHAKTGuuXF/dc=;
+        b=LE+Ps4mdfyKUfcag56Z2UkYwDSn2Dj0jElnELFTwawJuPNeApPdQWa88oRmzf0e4i3
+         bsUuTUPK4E4fVxt6LC/VDRfHgCQtr21+tkTl54nHfMTcTgyyiiBfi6MYhvDlRoXk0HdX
+         o4TSSjAVoPuu87hEZrT/w7sjpV2SYnck57n3st7Nd5dYISpw4kZW27Ee8U5l/JepQo4W
+         XuLZckm2czbT1xtxrzNFfbeVVLlGo1uprvxR0mD1pXiAO6a3k3DtpAq1EX34P6lIc2lp
+         J2LV52VE0tdjUujip5LQweZt+hSGGX5GndyCbj8fln6feqxPQyj2v21o1Q7vzvR0+NXr
+         iO7A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778679293; x=1779284093; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gt5cbVIdcSiefcI4ErGlRshI97WYzM4aD3mpOcrYfcE=;
+        b=BDw2aHMr5aGQMtdOlbOtDnRh68RKAzsrVTOM6ywzvhuUnTdwCh7l5nbp3Zugb7Jv01
+         RAOLjK/ixOjB8baF6WRKabcgfbdfGAg3om9mBYa7G7LHN1LygYuC2pck9vaL5Gu479Ej
+         Llr4ajRoiuXABCGPw8nC3d8i65RZlu9jCf2u9GTEb5OBzYaxkPaS5kEl/lRI8dQq3ywj
+         h/VD86cd7TTrPjYCZ0tR29NA7Hkdj+0I98JamQ3njpBdYSuwzVJcKu90hgvySTLL8R0f
+         iUNE8h5Fc9cowle5l4JLohwgHxBGFM6E51alGfsH3M5DI/Fp2bIWjlq+5S8PX5j6R/U5
+         Xr2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778679293; x=1779284093;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Gt5cbVIdcSiefcI4ErGlRshI97WYzM4aD3mpOcrYfcE=;
+        b=kt+MoOyL4wy0sbPXjN8GeT/syV3FwKvJzFIwLOCpQ5a8yO5k0lWsInWLo4OrPHyBr8
+         xLnD4lU/oHRLgbClx20YoEpZgkdXOcDv7HGnEH7oDxp9qK/lIJYvT8UbWRgDdgYHTB04
+         cx6JMzVLHITKDv2ppgVQ3mP7RM11SlxDmPaO+4rmyAuN2s+miqWpcAxPS7ERnzDERrgH
+         L/ptRdm72I559ITn/uNi+kIlJB16lycCY6bupUHUsLMoTWROXNFVT1ExO0P2AqZS0BVC
+         YD8AcJNyn0qvS4+2TchnK7aptHqRC5ko0m81M4uezJd52/x+4J5RlsQdVrgMzUePKT8t
+         PJiQ==
+X-Gm-Message-State: AOJu0YzMKz7gYc67tFfMayu7Rx5wqs+lviwwgFWMZ4UNN5h3/73WQAgd
+	r3DveFhwatDZvPSfJHzXojNU2xZLFBO+OBBEKfZVd+oIe2d+lNzg7AL9GSLn9dh5cxm8uk22Vyu
+	ToIEdxy6P2X4jNuBSN8XxYQ3hEjBuN5t3NQ==
+X-Gm-Gg: Acq92OEAbjoWXF3xl27uQd/TA8XnYaUIjJDteGmAEXxBXQ0W2joPocmnfjk8rQsT+ow
+	Kf9oVenQnsp8C6dX1540GGyAJ9jLeMjNPLJUFBtjTLTQupIj1OmStEti7pYHMkGQ3cEnhO/0Ie7
+	+RiVU1TcUmRJlM5FnwT43LyNo4j6T7kbYwD1o5yHyCabw4Vidd6KlHzxuL6Vyt/UcsTNmM5jMQn
+	C6tu948oxKj4pDk7aWnHHbIpbxXMo5tsLnCiswfVDg/T4tPJLhjp6jF+NweLGo2DujwWR9MOeQO
+	T5QvsKqznyPob7qi0f3hwR5GNV/OcMur32sLEAAAR64aQC95lYsr8sy1ZZwKS0cNnw==
+X-Received: by 2002:a05:6122:6992:b0:575:352f:eac0 with SMTP id
+ 71dfb90a1353d-575e6fb88e4mr1519936e0c.7.1778679293026; Wed, 13 May 2026
+ 06:34:53 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1de3772-07e0-4076-5f91-08deb0f3d646
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2026 13:30:45.1252
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KlFxFsPpk5EknDe42DXjHK9C3Ox2TChgEfxTUTaquNgcEnkDJGP834UFzQed0E8zJHD5m+h4v3H/Hq/yOtxjaQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0854
+References: <20260428122528.659662-1-hprajapati@mvista.com>
+In-Reply-To: <20260428122528.659662-1-hprajapati@mvista.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 13 May 2026 15:34:35 +0200
+X-Gm-Features: AVHnY4KvLW5T5EK3Tt9P81CBbVMrwU5ZcAiXeV7aS1DZ6ynIhPt3CAcBg-ranPk
+Message-ID: <CA+chaQf-kkXEosZPvmG_6G41+b4vPabCAvo2PCSJJSvpqRSrRQ@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] systemd: fix for CVE-2026-40225
+To: hprajapati@mvista.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 13:30:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236978
+ <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 13:34:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236979
 
-Hi Mathieu,
+This is causing do_patch failure for scarthgap builds with musl:
 
-I have sent a v4 which addresses the issues you reported:
+Hunk #1 FAILED at 39.
+1 out of 1 hunk FAILED -- rejects in file src/udev/udev-builtin-net_id.c
+patching file src/udev/udev-builtin-path_id.c
+patching file src/udev/udev-event.c
+patching file src/udev/udev-rules.c
+Patch 0003-src-basic-missing.h-check-for-missing-strndupa.patch does
+not apply (enforce with -f)
 
-- Replaced packagegroup-core-buildessential with "gcc g++ make" to fix
-   the multilib symlinks conflict in lib64-core-image-sato-sdk
-- Excluded complex_int test (fails on riscv64)
-- Compiler is detected dynamically in run-ptest (works without symlinks)
+stderr: ')
+ERROR: Logfile of failure stored in:
+/OE/build/oe-core/tmp-musl/work/core2-64-oe-linux-musl/systemd/255.21/temp/=
+log.do_patch.215528
+ERROR: Task (/OE/build/oe-core/openembedded-core/meta/recipes-core/systemd/=
+systemd_255.21.bb:do_patch)
+failed with exit code '1'
 
-Best Regards,
-Pratik
+I'll send a fix.
 
-________________________________________
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Sent: Wednesday, May 13, 2026 1:31 PM
-To: Pratik Farkase; openembedded-core@lists.openembedded.org
-Cc: pratik.farkase@ericsson.com
-Subject: Re: [OE-core][PATCH v3] libffi: add ptest support
 
-On Wed May 13, 2026 at 10:27 AM CEST, Pratik Farkase wrote:
-> Hi Mathieu,
+
+On Tue, Apr 28, 2026 at 2:25=E2=80=AFPM Hitendra Prajapati via
+lists.openembedded.org <hprajapati=3Dmvista.com@lists.openembedded.org>
+wrote:
 >
-> I was able to reproduce the multilib symlinks conflict locally with the s=
-ame configuration. The root cause is that packagegroup-core-buildessential =
-pulls in
-> gcc-symlinks, g++-symlinks, and cpp-symlinks which conflict in multilib i=
-mages (both arches try to own /usr/bin/gcc).
+> Backport commit[0] and [1] which fixes this vulnerability as mentioned in=
+ Debian report [2].
 >
-> The fix is to replace:
->   RDEPENDS:${PN}-ptest +=3D "packagegroup-core-buildessential"
->  with:
->   RDEPENDS:${PN}-ptest +=3D "gcc g++ make"
+> [0] https://github.com/systemd/systemd/commit/03bb697b8df0339c37f4b845025=
+320b261aeb7cc
+> [1] https://github.com/systemd/systemd/commit/5887e72ff87d3a66a4c3fa91897=
+fbec1545f4d3d
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-40225
 >
-> And update run-ptest to find the compiler dynamically rather than hardcod=
-ing gcc/g++. I've verified this resolves the multilib conflict -lib64-core-=
-image-sato-sdk builds cleanly with the fix applied.
-
-Thanks.
-
+> More details : https://nvd.nist.gov/vuln/detail/CVE-2026-40225
 >
-> Once you've had a chance to reproduce the glib-2.0 locale selftest issue,=
- I'll send v4 addressing all three problems:
-> - glib-2.0 locale selftest issue
-> - Multilib symlinks conflict (use gcc/g++/make instead of packagegroup)
-> - complex_int exclusion (fails on riscv64)
-
-I failed to do that yesterday, and I won't have time to look at this in
-the coming days. As I said, it might be some other issue that just shows
-here.
-
-Send your v4 when you are ready, if we are a bit lucky we won't see this
-issue anymore.
-
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ---
+>  .../systemd/systemd/CVE-2026-40225-01.patch   | 131 ++++++++++++++++++
+>  .../systemd/systemd/CVE-2026-40225-02.patch   |  39 ++++++
+>  meta/recipes-core/systemd/systemd_255.21.bb   |   2 +
+>  3 files changed, 172 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-01.p=
+atch
+>  create mode 100644 meta/recipes-core/systemd/systemd/CVE-2026-40225-02.p=
+atch
 >
-> Best Regards,
-> Pratik
+> diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch b/=
+meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
+> new file mode 100644
+> index 0000000000..f616e636c2
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/CVE-2026-40225-01.patch
+> @@ -0,0 +1,131 @@
+> +From 03bb697b8df0339c37f4b845025320b261aeb7cc Mon Sep 17 00:00:00 2001
+> +From: Luca Boccassi <luca.boccassi@gmail.com>
+> +Date: Fri, 6 Mar 2026 19:32:35 +0000
+> +Subject: [PATCH] udev: check for invalid chars in various fields receive=
+d from
+> + the kernel
+> +
+> +(cherry picked from commit 16325b35fa6ecb25f66534a562583ce3b96d52f3)
+> +(cherry picked from commit 3513862eabe9ec4a6a095d7266e98f998f289ed2)
+> +(cherry picked from commit c20d21e0da293e715db468f9f4a15a5c8fbf8273)
+> +
+> +CVE: CVE-2026-40225
+> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/03b=
+b697b8df0339c37f4b845025320b261aeb7cc]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + src/udev/dmi_memory_id/dmi_memory_id.c | 3 ++-
+> + src/udev/scsi_id/scsi_id.c             | 5 +++--
+> + src/udev/udev-builtin-net_id.c         | 9 +++++++++
+> + src/udev/v4l_id/v4l_id.c               | 5 ++++-
+> + 4 files changed, 18 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/src/udev/dmi_memory_id/dmi_memory_id.c b/src/udev/dmi_memor=
+y_id/dmi_memory_id.c
+> +index 52ea250af8..4f2c21b80b 100644
+> +--- a/src/udev/dmi_memory_id/dmi_memory_id.c
+> ++++ b/src/udev/dmi_memory_id/dmi_memory_id.c
+> +@@ -51,6 +51,7 @@
+> + #include "string-util.h"
+> + #include "udev-util.h"
+> + #include "unaligned.h"
+> ++#include "utf8.h"
+> +
+> + #define SUPPORTED_SMBIOS_VER 0x030300
+> +
+> +@@ -185,7 +186,7 @@ static void dmi_memory_device_string(
+> +
+> +         str =3D strdupa_safe(dmi_string(h, s));
+> +         str =3D strstrip(str);
+> +-        if (!isempty(str))
+> ++        if (!isempty(str) && utf8_is_valid(str) && !string_has_cc(str, =
+/* ok=3D */ NULL))
+> +                 printf("MEMORY_DEVICE_%u_%s=3D%s\n", slot_num, attr_suf=
+fix, str);
+> + }
+> +
+> +diff --git a/src/udev/scsi_id/scsi_id.c b/src/udev/scsi_id/scsi_id.c
+> +index 6308c52b7e..7e18bc755a 100644
+> +--- a/src/udev/scsi_id/scsi_id.c
+> ++++ b/src/udev/scsi_id/scsi_id.c
+> +@@ -27,6 +27,7 @@
+> + #include "strv.h"
+> + #include "strxcpyx.h"
+> + #include "udev-util.h"
+> ++#include "utf8.h"
+> +
+> + static const struct option options[] =3D {
+> +         { "device",             required_argument, NULL, 'd' },
+> +@@ -443,8 +444,8 @@ static int scsi_id(char *maj_min_dev) {
+> +                 }
+> +                 if (dev_scsi.tgpt_group[0] !=3D '\0')
+> +                         printf("ID_TARGET_PORT=3D%s\n", dev_scsi.tgpt_g=
+roup);
+> +-                if (dev_scsi.unit_serial_number[0] !=3D '\0')
+> +-                        printf("ID_SCSI_SERIAL=3D%s\n", dev_scsi.unit_s=
+erial_number);
+> ++                if (dev_scsi.unit_serial_number[0] !=3D '\0' && utf8_is=
+_valid(dev_scsi.unit_serial_number) && !string_has_cc(dev_scsi.unit_serial_=
+number, /* ok=3D */ NULL))
+> ++                        printf("ID_SCSI_SERIAL=3D%s\n", serial_str);
+> +                 goto out;
+> +         }
+> +
+> +diff --git a/src/udev/udev-builtin-net_id.c b/src/udev/udev-builtin-net_=
+id.c
+> +index 91b40088f4..715184e282 100644
+> +--- a/src/udev/udev-builtin-net_id.c
+> ++++ b/src/udev/udev-builtin-net_id.c
+> +@@ -39,6 +39,7 @@
+> + #include "strv.h"
+> + #include "strxcpyx.h"
+> + #include "udev-builtin.h"
+> ++#include "utf8.h"
+> +
+> + #define ONBOARD_14BIT_INDEX_MAX ((1U << 14) - 1)
+> + #define ONBOARD_16BIT_INDEX_MAX ((1U << 16) - 1)
+> +@@ -247,6 +248,9 @@ static int get_port_specifier(sd_device *dev, bool f=
+allback_to_dev_id, char **re
+> +                         }
+> +                 }
+> +
+> ++                if (!utf8_is_valid(phys_port_name) || string_has_cc(phy=
+s_port_name, /* ok=3D */ NULL))
+> ++                        return log_device_debug_errno(dev, SYNTHETIC_ER=
+RNO(EINVAL), "Invalid phys_port_name");
+> ++
+> +                 /* Otherwise, use phys_port_name as is. */
+> +                 buf =3D strjoin("n", phys_port_name);
+> +                 if (!buf)
+> +@@ -351,6 +355,9 @@ static int names_pci_onboard_label(sd_device *dev, s=
+d_device *pci_dev, const cha
+> +         if (r < 0)
+> +                 return log_device_debug_errno(pci_dev, r, "Failed to ge=
+t PCI onboard label: %m");
+> +
+> ++        if (!utf8_is_valid(label) || string_has_cc(label, /* ok=3D */ N=
+ULL))
+> ++                return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINV=
+AL), "Invalid label");
+> ++
+> +         char str[ALTIFNAMSIZ];
+> +         if (snprintf_ok(str, sizeof str, "%s%s",
+> +                         naming_scheme_has(NAMING_LABEL_NOPREFIX) ? "" :=
+ prefix,
+> +@@ -1209,6 +1216,8 @@ static int names_netdevsim(sd_device *dev, const c=
+har *prefix, bool test) {
+> +         if (isempty(phys_port_name))
+> +                 return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EOPN=
+OTSUPP),
+> +                                               "The 'phys_port_name' att=
+ribute is empty.");
+> ++        if (!utf8_is_valid(phys_port_name) || string_has_cc(phys_port_n=
+ame, /* ok=3D */ NULL))
+> ++                return log_device_debug_errno(dev, SYNTHETIC_ERRNO(EINV=
+AL), "Invalid phys_port_name");
+> +
+> +         char str[ALTIFNAMSIZ];
+> +         if (snprintf_ok(str, sizeof str, "%si%un%s", prefix, addr, phys=
+_port_name))
+> +diff --git a/src/udev/v4l_id/v4l_id.c b/src/udev/v4l_id/v4l_id.c
+> +index 30527e9556..2ec96d8d3a 100644
+> +--- a/src/udev/v4l_id/v4l_id.c
+> ++++ b/src/udev/v4l_id/v4l_id.c
+> +@@ -29,6 +29,8 @@
+> + #include "build.h"
+> + #include "fd-util.h"
+> + #include "main-func.h"
+> ++#include "string-util.h"
+> ++#include "utf8.h"
+> +
+> + static const char *arg_device =3D NULL;
+> +
+> +@@ -82,7 +84,8 @@ static int run(int argc, char *argv[]) {
+> +                 int capabilities;
+> +
+> +                 printf("ID_V4L_VERSION=3D2\n");
+> +-                printf("ID_V4L_PRODUCT=3D%s\n", v2cap.card);
+> ++                if (utf8_is_valid((char *)v2cap.card) && !string_has_cc=
+((char *)v2cap.card, /* ok=3D */ NULL))
+> ++                        printf("ID_V4L_PRODUCT=3D%s\n", v2cap.card);
+> +                 printf("ID_V4L_CAPABILITIES=3D:");
+> +
+> +                 if (v2cap.capabilities & V4L2_CAP_DEVICE_CAPS)
+> +--
+> +2.50.1
+> +
+> diff --git a/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch b/=
+meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+> new file mode 100644
+> index 0000000000..bc0a5514d4
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/CVE-2026-40225-02.patch
+> @@ -0,0 +1,39 @@
+> +From 5887e72ff87d3a66a4c3fa91897fbec1545f4d3d Mon Sep 17 00:00:00 2001
+> +From: Luca Boccassi <luca.boccassi@gmail.com>
+> +Date: Fri, 13 Mar 2026 11:10:47 +0000
+> +Subject: [PATCH] udev: fix review mixup
+> +
+> +The previous version in the PR changed variable and sanitized it
+> +in place. The second version switched to skip if CCs are in the
+> +string instead, but didn't move back to the original variable.
+> +Because it's an existing variable, no CI caught it.
+> +
+> +Follow-up for 16325b35fa6ecb25f66534a562583ce3b96d52f3
+> +
+> +(cherry picked from commit 54f880b02ecf7362e630ffc885d1466df6ee6820)
+> +(cherry picked from commit 4425d8523e79f3cc00b3b93a0b5e7c6cdc284a97)
+> +(cherry picked from commit 75c585beae60e73208941e6b3f64cf249223f53d)
+> +
+> +CVE: CVE-2026-40225
+> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/588=
+7e72ff87d3a66a4c3fa91897fbec1545f4d3d]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + src/udev/scsi_id/scsi_id.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/src/udev/scsi_id/scsi_id.c b/src/udev/scsi_id/scsi_id.c
+> +index 7e18bc755a..b2df8d9f7f 100644
+> +--- a/src/udev/scsi_id/scsi_id.c
+> ++++ b/src/udev/scsi_id/scsi_id.c
+> +@@ -445,7 +445,7 @@ static int scsi_id(char *maj_min_dev) {
+> +                 if (dev_scsi.tgpt_group[0] !=3D '\0')
+> +                         printf("ID_TARGET_PORT=3D%s\n", dev_scsi.tgpt_g=
+roup);
+> +                 if (dev_scsi.unit_serial_number[0] !=3D '\0' && utf8_is=
+_valid(dev_scsi.unit_serial_number) && !string_has_cc(dev_scsi.unit_serial_=
+number, /* ok=3D */ NULL))
+> +-                        printf("ID_SCSI_SERIAL=3D%s\n", serial_str);
+> ++                        printf("ID_SCSI_SERIAL=3D%s\n", dev_scsi.unit_s=
+erial_number);
+> +                 goto out;
+> +         }
+> +
+> +--
+> +2.50.1
+> +
+> diff --git a/meta/recipes-core/systemd/systemd_255.21.bb b/meta/recipes-c=
+ore/systemd/systemd_255.21.bb
+> index 87e186bbfa..fe9d699816 100644
+> --- a/meta/recipes-core/systemd/systemd_255.21.bb
+> +++ b/meta/recipes-core/systemd/systemd_255.21.bb
+> @@ -29,6 +29,8 @@ SRC_URI +=3D " \
+>             file://0002-binfmt-Don-t-install-dependency-links-at-install-=
+tim.patch \
+>             file://0003-timedated-Respond-on-org.freedesktop.timedate1.Se=
+tNT.patch \
+>             file://0008-implment-systemd-sysv-install-for-OE.patch \
+> +           file://CVE-2026-40225-01.patch \
+> +           file://CVE-2026-40225-02.patch \
+>             "
 >
-> ________________________________________
-> From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Sent: Wednesday, May 13, 2026 7:33 AM
-> To: Pratik Farkase; openembedded-core@lists.openembedded.org
-> Cc: pratik.farkase@ericsson.com
-> Subject: Re: [OE-core][PATCH v3] libffi: add ptest support
->
-> On Tue May 12, 2026 at 5:16 PM CEST, Mathieu Dubois-Briand wrote:
->> On Tue May 12, 2026 at 10:30 AM CEST, Pratik Farkase wrote:
->>> Hi Mathieu,
->>>
->>> I tested v3 on qemux86-64 against current master and was unable to
->>> reproduce the glib-2.0 locale or multilib symlinks failures.
->>>
->>> Could you share the steps or configuration you used to reproduce the
->>> these two issues? That would help me investigate further.
->>>
->>> Best Regards,
->>> Pratik
->>>
->>
->> Hi Pratik,
->>
->> Regarding the multilib one, I just managed to reproduce it locally:
->>
->> Using tag oecore/autobuilder.yoctoproject.org/valkyrie/a-full-3808 from
->> poky-ci-archive git:
->> https://git.yoctoproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder=
-.yoctoproject.org/valkyrie/a-full-3808
->>
->> Default local.conf template, with these lines added:
->> PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"
->> OE_FRAGMENTS +=3D 'core/yocto-autobuilder/multilib-x86-lib64'
->> SANITY_TESTED_DISTROS =3D ''
->> OEQA_TESTDISPLAY =3D ':1'
->> OE_FRAGMENTS +=3D 'core/yocto-autobuilder/autobuilder core/yocto-autobui=
-lder/autobuilder-resource-constraints'
->> EXTRA_IMAGE_FEATURES ?=3D 'allow-empty-password empty-root-password allo=
-w-root-login'
->> OE_FRAGMENTS +=3D 'machine/qemux86 distro/poky'
->>
->> Then:
->> bitbake lib64-core-image-sato-sdk
->> ...
->> ERROR: lib64-core-image-sato-sdk-1.0-r0 do_rootfs: Could not invoke dnf.=
- Command '...' returned 1:
->> ...
->> Running transaction check
->> Transaction check succeeded.
->> Running transaction test
->> Error: Transaction test error:
->>   file /usr/bin/g++ conflicts between attempted installs of lib64-g++-sy=
-mlinks-15.2.0-r0.x86_64 and g++-symlinks-15.2.0-r0.core2_32
->>   file /usr/bin/cpp conflicts between attempted installs of cpp-symlinks=
--15.2.0-r0.core2_32 and lib64-cpp-symlinks-15.2.0-r0.x86_64
->>   file /usr/bin/gcc conflicts between attempted installs of lib64-gcc-sy=
-mlinks-15.2.0-r0.x86_64 and gcc-symlinks-15.2.0-r0.core2_32
->>
->> I will try to reproduce the selftest failures.
->>
->
-> I don't have the selftest issue locally. We can assume it is some sstate
-> pollution for now, we will go back to it later if it happens again.
->
+>  # patches needed by musl
 > --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
-
-
-
---
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+> 2.50.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#236060): https://lists.openembedded.org/g/openembedde=
+d-core/message/236060
+> Mute This Topic: https://lists.openembedded.org/mt/119046714/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
