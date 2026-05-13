@@ -2,289 +2,263 @@ Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B244CCD4851
-	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 13:28:14 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7565.1778678885866827413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD868CD4851
+	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 13:30:54 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.39])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7712.1778679050410552176
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 06:28:06 -0700
+ Wed, 13 May 2026 06:30:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HbP26wOG;
- spf=pass (domain: est.tech, ip: 40.107.130.49, mailfrom: pratik.farkase@est.tech)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=FXuB5nHj;
+ spf=pass (domain: est.tech, ip: 40.107.159.39, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gRnW5uERx5WvfYV3WRO47DFeDhRbZj6M4Wbc1QkryeuBgO4fUksZX1trHmAaYhfFAOyWFSauYcoQb5KXvSLLqnnejIRhcvAejbr+f7mqp2HG8vU0e1JXdl+DPes6w4gh6wkiHZ9AhV3B8+Z1GSaVqUtLOKltMiPtqhnLgNx2dfCCpowtTzEUmiRo1OCwkP+HMNYPa+8Pql2fDOX11T4NFD5gvJhvS3gEiyT/NDFjaqSAZJSADmzeMJJe9sGGyYMds4XVc1JCi0+Itp9vbxgOwKs9wjIMtAYX3rFqGiMdMr5/pt5yfKHfCMwWS9RThF4MzM9t1K3HYA20A/lSWueSGQ==
+ b=TMJhNy5VRtVIo2/CIDdDvnN5oBVdc1Qp8oIlOy07klFtRVZWlFOR7jA1Lyn0zD1o5qjMmxOZat5SM4Mn9/IVuYQ6gPioLSGYymIeV3M5npAh2JFGu2Z+Dd0vK2/1alg68mMp/YgtHZBkIFpDTuoD9IVamuC0ppDwCwWcnLWoE/P1WTY7HADVJhkcyjXwMRMBVFDH+nDKHbkVZVajTQ+ZCZCrUAsCXEnmyplzwo62tSTq8dxw/mVWQKnj5XFlZYLW+24ACRcJp5d48YSjvvmApxK6l81m5U4KEb+SuVXwGTTqQ6m5LcK0H012hof/Rx6jGIetno9H32D+Z8KLEHFVow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=28vuV+3UtgLwD3xmL+H2XG67CTv0DxbWShnQU2SX5Ow=;
- b=kJzWymf96L/scRL/FxjUOTvXgPpMvENdXVVUYZcSwDWRSYcOHpw2DLJfOZPUvahanTD8Cr0JYpTtpSsWVnDlKhQxLY4qVmafYepmutpXUxpVAXcbX/7WzDSfigjdekGK2qEOXygYOE5r6EZkNEE7vL1hIz3fACYYSq4e7wuIIeoGbO0FncyuxQwcEGnLpqr0Xm1P4k33zm09rhOmHsnE1MZ2+CcxtRYelKmqNmOkOggNH9OrxqKctBrEqchkd42dkuLr+8dWrWVyM3upn5N+paw1AUHjAHS0Gl8YlJ4QoWoi4hkCY/Sb7N6XmQbkVxuxMBP3MdUJ3SDK5zqB0frOUw==
+ bh=yJ04vejRmCVgJx9s42ZLO3IN+NJuQpkcmWDGc3+pyM4=;
+ b=CVhmbNKrD8mp+vDo+vY2gFOI34rshj4bYDPi49//oDkp7wPEy1rsUhE3HF+jtnn8VCyMB1Nky5Vm9AdmDGkMnC85ZtDbNEmDA+fuNI/RNXBC6JXLEYlpB01+6FlGKyK+Kr3lyG25RUbLti3PU6XRqKgDypBsdUmICcnPCkdVd6oOEk2C+b2mN4AanMY1Gp05X5z65EECC+4ZSjrmj0t6BrU89CTEc4J23kVnV4Ua1QdxmlMsC7xn3lz2cBtn2/AGmru8FAE4/pxNCapj0Xp2tidNtGvuAilO9Wn+u4na49/Ph2uJQlmEScMn3Vgd6Cv8M36Af2EYTSfZhLChcUxDww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=28vuV+3UtgLwD3xmL+H2XG67CTv0DxbWShnQU2SX5Ow=;
- b=HbP26wOGsZ/r9IfWFwRHarNetfj+aJWhoGFEKYlHSVkmK4swKJ1WHYuUCkmSXgAGgFlp4lMvM6YRLtne1phc9+iI8KjT7/lvnpiSRpV/nbfNs+hDBizoSfp6EKOQ/rhbw3L5E3bze/iqgCUmW2JTKd7J+Myrnc7vVgbT9IzkSUSb341H2Kn02fCecvKkQwU8Ied0PVMXKG0AExHQ1Pxwc9M1a8iJ9DjZB9EVaKiJMxUWs7n3hV3pOnqYHoC+8MYkdSB2FkgfNmAII3zaE0mo6L70WaWUgrZlr/3uHSpiARPhN99mQnb6gtnQG643VLSswAZUTRDcpnS7aUvxOo68Ew==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
+ bh=yJ04vejRmCVgJx9s42ZLO3IN+NJuQpkcmWDGc3+pyM4=;
+ b=FXuB5nHjoPnZ+ihhlcnppykh/98p8Yi4qW0u2OLZmUys6OqgVUAynqJnpFDRxKvLaK5CLhu3CaWXCWNuEv7BA3pRZrIyqOFs0tWXyrRAqqrrO6+N7B7BMELCEOC7VsoFWWO8fS1tbU4zbZQZDqwVARJIo0BBco0kG/lhSGtQvsMQqje4jZ5HmxWbfrld3GqZYpfpTVvulLJVlYXUZsr+ThAsm9zj5km5pyGmaV5xwLWHbYE71nUxOabIlPi4/g/DZxt5YB2KzvbuhbXN3TEhHzlegvQ3m5v47Kp3yRTe1S5r4uO6dJDJR1ddcknp8OIDtjjEi8fQhpMfd2yN4XVAhw==
 Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by DU0P189MB1916.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:34c::9) with
+ by DB8P189MB0854.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:14a::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.17; Wed, 13 May
- 2026 13:28:01 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.15; Wed, 13 May
+ 2026 13:30:45 +0000
 Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
  ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
  ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9891.021; Wed, 13 May 2026
- 13:28:01 +0000
+ 13:30:45 +0000
 From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v4] libffi: add ptest support
-Date: Wed, 13 May 2026 15:27:56 +0200
-Message-ID: <20260513132756.27283-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260508102405.16791-1-pratik.farkase@est.tech>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>
+Subject: Re: [OE-core][PATCH v3] libffi: add ptest support
+Thread-Topic: [OE-core][PATCH v3] libffi: add ptest support
+Thread-Index: 
+ AQHc3t79HFJRIyPmnEaLI9NoW4xm/7YIW9SAgAAvgyCAADlegIABUG3kgABxnQCAAO95gIAALya0gAA0+4CAACDQ5A==
+Date: Wed, 13 May 2026 13:30:45 +0000
+Message-ID: 
+ <GV2P189MB300539A6C4506B6852CFB9D3FE062@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
 References: <20260508102405.16791-1-pratik.farkase@est.tech>
+ <20260508113653.21478-1-pratik.farkase@est.tech>
+ <DIFMGYW1190K.3MKM3KN0DWQMB@bootlin.com>
+ <GV2P189MB3005B33FD42B8B07EF9ECC76FE382@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+ <DIFUGDKJKE7Y.SDTF3FXFC43W@bootlin.com>
+ <GV2P189MB3005EFC4E16B3BD9CA42F3C6FE392@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+ <DIGSPNC40V0B.325NZ64GRFWZL@bootlin.com>
+ <DIHAXWVL9CB6.2DT385U5BQUR8@bootlin.com>
+ <GV2P189MB3005E48C410DEC97170387B2FE062@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+ <DIHIKAQL0NEQ.2BWFTYOSD28MQ@bootlin.com>
+In-Reply-To: <DIHIKAQL0NEQ.2BWFTYOSD28MQ@bootlin.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV2P189MB3005:EE_|DB8P189MB0854:EE_
+x-ms-office365-filtering-correlation-id: d1de3772-07e0-4076-5f91-08deb0f3d646
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|38070700021|56012099003|18002099003|22082099003|11063799003|3023799003;
+x-microsoft-antispam-message-info: 
+ 4QIJkw/CY9T4HTEZ0qeKdL3nCru+Y0GFw/67Z1vJZfge1SK1apL8R2yNholUJxnkyDjQNPmVrW1kM3FK7iBCWLsXnOZcPkP2qSLnjlMLjTUgYSIpuEmEhru2EE3vbZyGvQE2lG6HU8n/pTL1+EwSbLGmCDMAXloLmfOxQTOdJzf5Dr7eLLs272TBZ+4ND2rKodXCRkVIXD1DamBiLwKZyqkoOBbeu+tZ2kCoBSyrQEZiBbleY8Nh6GOXs9nHWh92fICu/82MsjOOenvtHGa16ggEUHW9ro67pMxnoNtH1TXuoWdz5JAw615ilLZkJ9SisA7okKosNoo3hmZ/JcFr83fp6Tgsj0xwIUJge10FDDKl5Tme2tmX7OruJwV606tGVIXIJdE4gOwcRanVAtEkZNcd6KulWDr6sIp6DJrWWDts+Qqwv+Hwcc/TDxoqmVD/td3VC4hpBMtHLpklTgNbS/FLR8yMe3dW+kfTtOQNhdPvg6QIQ2wwtsGR0qK1DGQmTRXhnX+bMcPh659jaXM1jHbtnufNYljp/8QSuaxC12+Ca8vfjp5I/QKxZf7Avnj59+PDHMEcvEJUue2i9TRa1Oep66o77z4E/47IBWSFt6r4HaegEKwvJDdf0NkaUqtZ2ohh3QAzT+CqkuVnQPJB8ALvakTijZMt052KXoAo21LvyZzL3fQ2cqk36P61xglC
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(38070700021)(56012099003)(18002099003)(22082099003)(11063799003)(3023799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?DU40Umql3CuI7HGXnvS51U/lPRzJRLb6ADEhZ9wm1UZuZMSvNMwB+zmu0hXl?=
+ =?us-ascii?Q?lBmSND887E67fjS7lsIuBQfgh+o7mc/0qczi4bfI2teGiDhMdDujPvMv/F1n?=
+ =?us-ascii?Q?hUUYdfSGheefxCpHrJRF3vzCNJcD1I8G0vBvK2CYzyT5TP774f2Uy2M+6JiZ?=
+ =?us-ascii?Q?Lpd1dMxaiKsCYZmFrwuW32LAGHelWwJkElRekzd1QWwYkycUW2nNKWfR1IH/?=
+ =?us-ascii?Q?sUnkWhae/Y6/5sWmUH7OMGZm9PXJ1heG168rMMKdrvJIOkXgEAU6lxmAfZpP?=
+ =?us-ascii?Q?Qu+stj63fnwHi7de8qyDGm5NOV6JXAiLNZmClW0ihbb+O9dHg7rvmIiYzev7?=
+ =?us-ascii?Q?4tY39qX1PI6ghU7F5BNvQmLOwe8Yef35atfIV4bUA8YVp9Pyd85eeCbLd+cQ?=
+ =?us-ascii?Q?UAd+xN+Tj+K8GBwVyOui4/JdYXKejyXYAZGgcLGIBaZA4CENFcWyMleThpcs?=
+ =?us-ascii?Q?mWU41B6bMiTctZeSNni93H+kmC1GnFMQNihO/Vxc0l7ULHYd+uzaQhE6BY+I?=
+ =?us-ascii?Q?GBf83kEdfEghfolLW2pqvwcCA4bAuQKGjiwRz7oesmfECNm30WD7zntlbPCv?=
+ =?us-ascii?Q?69Ve0HrwZZEUSTrmuPSpNJUL09J371iT5Ebn3i0slKnl8FJ6hkMCtubuJxx8?=
+ =?us-ascii?Q?fwc4zQNmyp7Y/0V2HR6eer9u8opKQPzy9rUhgE7vpTAF/Mp9eGuSqhGUBi+K?=
+ =?us-ascii?Q?uFH79HrNMrzFnmt4pXP/gAMDJtJYu+mIJEDYRA/XGi0wXCfucFOUjTB1hhBY?=
+ =?us-ascii?Q?Wp1hxJ63+Moold33V+iid8zv3KX1ZtU/lQTo2jDL1Ffhg/elUiPqiwX93i8/?=
+ =?us-ascii?Q?hbEeLSBfwAVnwA4oF2MY6AHWnNlvt9xXNsBOo8UcyM9aCNdwewUd7MWN0pkr?=
+ =?us-ascii?Q?ceOtS79Co/Fr75bkrbBc431A4/h+oPrZsJsj8yPsJ9T8wjuZPAhp+/CHH8kx?=
+ =?us-ascii?Q?I8F4JmMrT9Ioa7T3/mmEXLvaLGxUpJ0ABsXBajVhKkp+P4Zw7S0USQcSVcYa?=
+ =?us-ascii?Q?Sp57778QYOCEkSfrTcDfnlRblx4/dcRiwF9TNuoi/J9v2m+t+Q2tJ8YvSXLX?=
+ =?us-ascii?Q?1C5dJVLvO8XYLMrEzQCaIXJWWJdhO7zxLWLwSDgent40zarO4mpllzpYP2Ps?=
+ =?us-ascii?Q?4iETKAfe8D0vLMP6glDZKDSfSChQEPfLKVCj6Q4miSRqq5FNYlC0YR6WIgl3?=
+ =?us-ascii?Q?Fpo9AQ1wWsGfG/3BeThC/4kHFKHoKTI4eq0nopInKM7P5yVn1Tf624SCBhsF?=
+ =?us-ascii?Q?MJQY0khbBfe5/MfRG7gJr8q3Nc/JJJXdHMdesoLjaOOj65kSZYwEyNwDAzjd?=
+ =?us-ascii?Q?q784jzYJ8Fl1nB91dLeb/a2kI9gmhtuAnF1czSTARVF8aW50ORr1Due9AFVs?=
+ =?us-ascii?Q?7CGXDqRKe5SK8CMG0pfaOPO/gHDzyOyl1Lpfj8udOngzou3zrDAGoLx4O0ra?=
+ =?us-ascii?Q?ALYmpPoITUe48N4H/F64oKDR1gQd/mGNiNQvXID/3zUI+IRnXlLEV49MuZZG?=
+ =?us-ascii?Q?KMiuXq/GWH8A/Zc3L0yC1Sr8F1IQYI+LRdcnK93rzNakESc1Wc05mXaGYiOi?=
+ =?us-ascii?Q?i9VtlSODj5ITBFXtu+1Kn8HE0aKHrLLcdlScjQmVAwBKbgB9jOOfJtIs3l8k?=
+ =?us-ascii?Q?H2TjosM7NfXVb68Re863W6w44jBoM+PJLfvbD3W2/NcKwjg+CeTdxJLBgOuM?=
+ =?us-ascii?Q?sC4Ajwpb+kD5eBLZfUEzJhNL3q57lDRXaSgT/bA3MzCDYzpSRAkpeWjQBr1Q?=
+ =?us-ascii?Q?l++shHKOTA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU7P194CA0028.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:10:553::12) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|DU0P189MB1916:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4df05412-d1f9-4f81-e224-08deb0f37445
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|1800799024|22082099003|18002099003|56012099003|3023799003|11063799003;
-X-Microsoft-Antispam-Message-Info: 
-	JqEPlioJN4tVXCcwJC374ttHkn45qhnNVs8U4cpKOvENYzFOh67dBxR23AxRwy+EOPkMpS4ZxsS/F74RkK01b2O5chJijeiv/yqGpf5M2XrOObxU36QhtoJJCc3v8wlHMJEuvsYKQWV/JDd4czhWbhd1y36dLOtP3+2tM70aG59fCrCa2Q8n9aBI8n3rnjg70JXgl0pCqQ/nDKrr1humFxzCyXJz7pmHbNMqgw37GJQPHU/tLTLrfxqjwzejUejNITkDFzstBVCp64963tKtX9Bdn4lh53HWRjar0ZnacnJxEChz/aopJJ0OtNJWfNQhixJRBJkSlJummvqmzy8DpoPc5+KygT49cKgyyD1GMNq99eOueVn459xDKJG37iQ8hI6uRun1lUrUgNmruM4v6jPw7D7RN6qaWIbqBxEoWmtJlVUV6O8T+1JUwIoXn3OoDgJ8n+emuHCgHubRfOgcCaPGZOvDac7OGiOkgccUTFpgSTIm2IDDPzHqVB9NNIVqlDvqDt29MZx3KY9phjQ25VA3aljwX/nDeqVtAx1U1yb7NxRtCeCCFNAHJY1dLEDkv7Q0xqW7cllxGJr9syfBwyHy8LjnRQTk/tj//Lj2OAMX1t2vOL2F0sk0M/WnvrpbcfCqumQEm/MyL9U4wVY5MlvB4EcTw6wuPGqAmJ7oZuCFPrEN0Fj2uhu8eBJ59G4A
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(22082099003)(18002099003)(56012099003)(3023799003)(11063799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?0WaPCmDlpJWaR5SrGutzqZ+qZ3Dnyx40PoradW5w25rEtbjdGLD5reEcniFC?=
- =?us-ascii?Q?7qJ8t9eAA7zEUyJIUVjsKHMxMAz5RdnctsZckrJSXq6D87ZzcEAIHtQU0Iu/?=
- =?us-ascii?Q?LU8gdJPdaOAsSdvcqKDE020UmlfIr6xFw7+ykWPfNvcmtckkVHuCp1pVMv+7?=
- =?us-ascii?Q?bB20/noKokngrSBr/YzrL9k9OluKvqoMUwSMZnoO/70Qrmo2QbV587oiXThW?=
- =?us-ascii?Q?ZQsLc8AqSfUTHUv6iQy0Fp2ZQFlpgyKz7zl27Mqsi1pn3EMNx3QuJPX0LkIN?=
- =?us-ascii?Q?mpRYewic5fx9jUtKA4vP6dAVhhzRcc9mcDieOXdHnKNtaQL4VedqixKvjKq8?=
- =?us-ascii?Q?uZCg5vzTs8pQb3wK5PV3xMD5f/SS8+3PVIhLA/UmmWeXka+ce6xtk+ZI6xnQ?=
- =?us-ascii?Q?n341Nz9TiNqNo8B/xyWFXtz2b31y4Msm1uwGJ2DCmJLWuHlaFcjY+3qz2xul?=
- =?us-ascii?Q?C+JDDeALVPyQ3tHZ63qrw0TmN0EfUcLyNd490eIE+Ugd5ppehE5cYD4tH6Mq?=
- =?us-ascii?Q?SD9A4XGycB3HzWoCSnPMuQE5QaVuVSQvuFqXVgZ6lV0ZRJs9bKjPdLcgrChm?=
- =?us-ascii?Q?90C9Beg9y6hKXq0mcSzmI6FCmYKiMRhHLUY/6EEsBosfF1DgDSX6F42vBjGN?=
- =?us-ascii?Q?/HkxOuK2dlypF/QfLyxSjA7XBNVquKuIsVdzxAx378ia/lvK57HyEebvKxOS?=
- =?us-ascii?Q?Yo+kxyWHbFCz+ZGuw6Ls4VLDDNAtxevnHvOeXydWkZXDao+x4cLXqSmsvfyH?=
- =?us-ascii?Q?3vS1pVpXFzix7n0pwHgaEBuyEJPUCkdPyIn1fxrPxYzJXxJKSX5dLn1zKtkZ?=
- =?us-ascii?Q?MuEpt6gAOZE0D88oj808Hy/nMiXKofXYUjv8Z7H8APjQYmH0gKqkGSSUX+0x?=
- =?us-ascii?Q?ftXi/bAJm3HOsLg6slhjG/56ri+yqOfQQ1QdSH3Dj71BeBJgLXdUMbnDuLjp?=
- =?us-ascii?Q?C/mIHULW7pmFecFj6hTXtyYrMcLS080rWO5lOBp1wkccbcR1cJuC1NIxeR5w?=
- =?us-ascii?Q?ZoU5yLneQhEka0mesP+jao7nUsKTYv90kBsTIVaP4WUYS94yMxY5QIPNdYLt?=
- =?us-ascii?Q?igGYCa4BXJHwwWsTStDQdJRL3tLyunvgKjF54bI8EzeFTH19nByaR/HaZiGv?=
- =?us-ascii?Q?fH89JGac/IKfIUrYSRmK/2k6XGG7I17pjE3K28yyQ+27dWZ9WMinsqpygO6a?=
- =?us-ascii?Q?wr2q8JLVMVgFywvxjVrDS6MQsGDI+wOKBYDCBYVCR0KX62wjoRyz3AAOF6R3?=
- =?us-ascii?Q?O8f8ZCcKfUWjBAQgzlcxkkfxdAZtu8eZGYwI0QAdqiDIodlnFbgObyP5BiKD?=
- =?us-ascii?Q?I36UJMd0/AsBpz56F/OyPB7dyjNuW8MyJqLWWM8ZdYt+Mc7EUJyemDhgP7WF?=
- =?us-ascii?Q?hY/U2Oxtm62r5r8GZS0FfCTBaB/Z36BtW7bWEW4p6hJC0ZxNjIo+dtIzmp0H?=
- =?us-ascii?Q?V5ZRjHJecvV8bg17NQoGoF0HB8xsjHZwJauG6CgnE8XflgYFtEIgQ5eYT75Q?=
- =?us-ascii?Q?SxoONXaArkQF/LplAoWPfl0TSr0eZdqvn/SJhItAsZt7G8H3xiaikTnpYLF6?=
- =?us-ascii?Q?t/tElYXH4hsBPeV5xumD13MM7hb8I6MuozCwiJJF22wUmx2RijFcpFNgbcoJ?=
- =?us-ascii?Q?tgkKW+9fySSpDNE/2SI/APmgs4RTldn62s3YhbT4SKePAw1irIOaFHpaaYQq?=
- =?us-ascii?Q?koE2SKAdBByq9y11pYhGYH5tpjrZ1DucS7R4v/Fzg6hOvdQTKl+y/d4tgqDF?=
- =?us-ascii?Q?rQ/j+Bw1gQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4df05412-d1f9-4f81-e224-08deb0f37445
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 13:28:00.9553
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1de3772-07e0-4076-5f91-08deb0f3d646
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2026 13:30:45.1252
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qO8xfdnp2MCBoq41CXIeQhkYCIMYpTGo9F4KG+G4DOUZM/SxegRk03wt7WdkialqCwsVqCPBzsLWfllua8tHzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB1916
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KlFxFsPpk5EknDe42DXjHK9C3Ox2TChgEfxTUTaquNgcEnkDJGP834UFzQed0E8zJHD5m+h4v3H/Hq/yOtxjaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0854
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 13:28:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236977
+ <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 13:30:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236978
 
-Add ptest support for libffi using all upstream test suites: bhaible,
-call, closures, complex, go, and threads.
+Hi Mathieu,
 
-Tests are compiled on-target against the installed libffi. Headers
-(including the generated fficonfig.h) and a linker symlink are installed
-in the ptest directory to avoid depending on libffi-dev.
+I have sent a v4 which addresses the issues you reported:
 
-The complex_int test is excluded as it uses non-standard _Complex int
-which is unsupported on some architectures (e.g. riscv64).
+- Replaced packagegroup-core-buildessential with "gcc g++ make" to fix
+   the multilib symlinks conflict in lib64-core-image-sato-sdk
+- Excluded complex_int test (fails on riscv64)
+- Compiler is detected dynamically in run-ptest (works without symlinks)
 
-Tested on qemux86-64 with ptest-runner: 198 PASS, 0 FAIL, 2 SKIP (327s).
+Best Regards,
+Pratik
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
-Changes in v4:
-- Replace packagegroup-core-buildessential with gcc/g++/make to fix
-  multilib symlinks conflict in lib64-core-image-sato-sdk
-- Detect compiler dynamically in run-ptest (works without symlinks)
-- Exclude complex_int test (fails on riscv64)
+________________________________________
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Sent: Wednesday, May 13, 2026 1:31 PM
+To: Pratik Farkase; openembedded-core@lists.openembedded.org
+Cc: pratik.farkase@ericsson.com
+Subject: Re: [OE-core][PATCH v3] libffi: add ptest support
 
-Changes in v3:
-- Move libffi from PTESTS_FAST to PTESTS_SLOW (349s) runtime
+On Wed May 13, 2026 at 10:27 AM CEST, Pratik Farkase wrote:
+> Hi Mathieu,
+>
+> I was able to reproduce the multilib symlinks conflict locally with the s=
+ame configuration. The root cause is that packagegroup-core-buildessential =
+pulls in
+> gcc-symlinks, g++-symlinks, and cpp-symlinks which conflict in multilib i=
+mages (both arches try to own /usr/bin/gcc).
+>
+> The fix is to replace:
+>   RDEPENDS:${PN}-ptest +=3D "packagegroup-core-buildessential"
+>  with:
+>   RDEPENDS:${PN}-ptest +=3D "gcc g++ make"
+>
+> And update run-ptest to find the compiler dynamically rather than hardcod=
+ing gcc/g++. I've verified this resolves the multilib conflict -lib64-core-=
+image-sato-sdk builds cleanly with the fix applied.
 
-Changes in v2 :
-- Include all upstream test suites instead of only bhaible
-- Install fficonfig.h required by ffitest.h
-- Add support for C++ tests (closures/unwindtest*.cc)
-- Add -lpthread for threads suite
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-support/libffi/libffi/run-ptest  | 62 +++++++++++++++++++
- meta/recipes-support/libffi/libffi_3.5.2.bb   | 23 ++++++-
- 3 files changed, 84 insertions(+), 2 deletions(-)
- create mode 100755 meta/recipes-support/libffi/libffi/run-ptest
+Thanks.
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 50b6a8a41e..68189ec2a3 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -126,6 +126,7 @@ PTESTS_SLOW =3D "\
-     less \
-     libevent \
-     libgcrypt \
-+    libffi \
-     libmodule-build-perl \
-     libpng \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'libseccomp', '',d)=
-} \
-diff --git a/meta/recipes-support/libffi/libffi/run-ptest b/meta/recipes-su=
-pport/libffi/libffi/run-ptest
-new file mode 100755
-index 0000000000..0a1845b2fd
---- /dev/null
-+++ b/meta/recipes-support/libffi/libffi/run-ptest
-@@ -0,0 +1,62 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: MIT
-+
-+PTEST_DIR=3D$(cd "$(dirname "$0")" && pwd)
-+CC=3D"gcc"
-+CXX=3D"g++"
-+if ! command -v gcc >/dev/null 2>&1; then
-+    CC=3D$(find /usr/bin -name "*-gcc" | head -n 1)
-+    CXX=3D$(find /usr/bin -name "*-g++" | head -n 1)
-+fi
-+CFLAGS=3D"-O2 -Wall -I$PTEST_DIR/include -L$PTEST_DIR/lib"
-+
-+# bhaible tests validate by comparing paired output lines
-+for t in test-call test-callback; do
-+    src=3D"$PTEST_DIR/testsuite/libffi.bhaible/$t.c"
-+    if $CC $CFLAGS -o "$PTEST_DIR/$t" "$src" -lffi 2>&1; then
-+        "$PTEST_DIR/$t" > "$PTEST_DIR/$t.out" 2>&1
-+        if ! LC_ALL=3DC uniq -u < "$PTEST_DIR/$t.out" | grep -q .; then
-+            echo "PASS: libffi.bhaible/$t"
-+        else
-+            echo "FAIL: libffi.bhaible/$t"
-+            cat "$PTEST_DIR/$t.out"
-+        fi
-+    else
-+        echo "SKIP: libffi.bhaible/$t"
-+    fi
-+    rm -f "$PTEST_DIR/$t" "$PTEST_DIR/$t.out"
-+done
-+
-+# Individual test programs from upstream dejagnu suites
-+for suite in libffi.call libffi.closures libffi.complex libffi.go libffi.t=
-hreads; do
-+    dir=3D"$PTEST_DIR/testsuite/$suite"
-+    [ -d "$dir" ] || continue
-+
-+    extra=3D""
-+    [ "$suite" =3D "libffi.threads" ] && extra=3D"-lpthread"
-+
-+    for src in "$dir"/*.c "$dir"/*.cc; do
-+        [ -f "$src" ] || continue
-+        grep -q "dg-do run" "$src" || continue
-+
-+        name=3D$(basename "${src%.*}")
-+
-+	# complex_int uses non-standard _Complex int, fails on some arches (riscv=
-64)
-+        [ "$name" =3D "complex_int" ] && continue
-+        case "$src" in
-+            *.cc) cc=3D"$CXX";;
-+            *)    cc=3D"$CC";;
-+        esac
-+
-+        if $cc $CFLAGS -o "$PTEST_DIR/$name" "$src" -lffi $extra 2>&1; the=
-n
-+            if "$PTEST_DIR/$name" 2>&1; then
-+                echo "PASS: $suite/$name"
-+            else
-+                echo "FAIL: $suite/$name"
-+            fi
-+        else
-+            echo "SKIP: $suite/$name"
-+        fi
-+        rm -f "$PTEST_DIR/$name"
-+    done
-+done
-diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb b/meta/recipes-sup=
-port/libffi/libffi_3.5.2.bb
-index d3aa90d429..09d686acd9 100644
---- a/meta/recipes-support/libffi/libffi_3.5.2.bb
-+++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dce4763670c5b77=
-56000561f9af1ab178"
-=20
- SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
-            file://not-win32.patch \
-+           file://run-ptest \
-            "
- SRC_URI[sha256sum] =3D "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52=
-e335676bac82dc"
-=20
-@@ -19,10 +20,10 @@ EXTRA_OECONF =3D "--disable-builddir"
- EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
- EXTRA_OEMAKE:class-target =3D "LIBTOOLFLAGS=3D'--tag=3DCC'"
-=20
--inherit autotools texinfo multilib_header github-releases
-+inherit autotools texinfo multilib_header github-releases ptest
-=20
- do_install:append() {
--	oe_multilib_header ffi.h ffitarget.h
-+        oe_multilib_header ffi.h ffitarget.h
- }
-=20
- # Doesn't compile in MIPS16e mode due to use of hand-written
-@@ -30,3 +31,21 @@ do_install:append() {
- MIPS_INSTRUCTION_SET =3D "mips"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+RDEPENDS:${PN}-ptest +=3D "gcc g++ make"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/testsuite
-+    for suite in libffi.bhaible libffi.call libffi.closures libffi.complex=
- \
-+                 libffi.go libffi.threads; do
-+        cp -r ${S}/testsuite/$suite ${D}${PTEST_PATH}/testsuite/
-+    done
-+
-+    install -d ${D}${PTEST_PATH}/include
-+    install -m 0644 ${B}/fficonfig.h ${D}${PTEST_PATH}/include/
-+    install -m 0644 ${B}/include/ffi.h ${D}${PTEST_PATH}/include/
-+    install -m 0644 ${B}/include/ffitarget.h ${D}${PTEST_PATH}/include/
-+
-+    install -d ${D}${PTEST_PATH}/lib
-+    ln -sf ${libdir}/libffi.so.8 ${D}${PTEST_PATH}/lib/libffi.so
-+}
---=20
-2.43.0
+>
+> Once you've had a chance to reproduce the glib-2.0 locale selftest issue,=
+ I'll send v4 addressing all three problems:
+> - glib-2.0 locale selftest issue
+> - Multilib symlinks conflict (use gcc/g++/make instead of packagegroup)
+> - complex_int exclusion (fails on riscv64)
+
+I failed to do that yesterday, and I won't have time to look at this in
+the coming days. As I said, it might be some other issue that just shows
+here.
+
+Send your v4 when you are ready, if we are a bit lucky we won't see this
+issue anymore.
+
+>
+> Best Regards,
+> Pratik
+>
+> ________________________________________
+> From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Sent: Wednesday, May 13, 2026 7:33 AM
+> To: Pratik Farkase; openembedded-core@lists.openembedded.org
+> Cc: pratik.farkase@ericsson.com
+> Subject: Re: [OE-core][PATCH v3] libffi: add ptest support
+>
+> On Tue May 12, 2026 at 5:16 PM CEST, Mathieu Dubois-Briand wrote:
+>> On Tue May 12, 2026 at 10:30 AM CEST, Pratik Farkase wrote:
+>>> Hi Mathieu,
+>>>
+>>> I tested v3 on qemux86-64 against current master and was unable to
+>>> reproduce the glib-2.0 locale or multilib symlinks failures.
+>>>
+>>> Could you share the steps or configuration you used to reproduce the
+>>> these two issues? That would help me investigate further.
+>>>
+>>> Best Regards,
+>>> Pratik
+>>>
+>>
+>> Hi Pratik,
+>>
+>> Regarding the multilib one, I just managed to reproduce it locally:
+>>
+>> Using tag oecore/autobuilder.yoctoproject.org/valkyrie/a-full-3808 from
+>> poky-ci-archive git:
+>> https://git.yoctoproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder=
+.yoctoproject.org/valkyrie/a-full-3808
+>>
+>> Default local.conf template, with these lines added:
+>> PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"
+>> OE_FRAGMENTS +=3D 'core/yocto-autobuilder/multilib-x86-lib64'
+>> SANITY_TESTED_DISTROS =3D ''
+>> OEQA_TESTDISPLAY =3D ':1'
+>> OE_FRAGMENTS +=3D 'core/yocto-autobuilder/autobuilder core/yocto-autobui=
+lder/autobuilder-resource-constraints'
+>> EXTRA_IMAGE_FEATURES ?=3D 'allow-empty-password empty-root-password allo=
+w-root-login'
+>> OE_FRAGMENTS +=3D 'machine/qemux86 distro/poky'
+>>
+>> Then:
+>> bitbake lib64-core-image-sato-sdk
+>> ...
+>> ERROR: lib64-core-image-sato-sdk-1.0-r0 do_rootfs: Could not invoke dnf.=
+ Command '...' returned 1:
+>> ...
+>> Running transaction check
+>> Transaction check succeeded.
+>> Running transaction test
+>> Error: Transaction test error:
+>>   file /usr/bin/g++ conflicts between attempted installs of lib64-g++-sy=
+mlinks-15.2.0-r0.x86_64 and g++-symlinks-15.2.0-r0.core2_32
+>>   file /usr/bin/cpp conflicts between attempted installs of cpp-symlinks=
+-15.2.0-r0.core2_32 and lib64-cpp-symlinks-15.2.0-r0.x86_64
+>>   file /usr/bin/gcc conflicts between attempted installs of lib64-gcc-sy=
+mlinks-15.2.0-r0.x86_64 and gcc-symlinks-15.2.0-r0.core2_32
+>>
+>> I will try to reproduce the selftest failures.
+>>
+>
+> I don't have the selftest issue locally. We can assume it is some sstate
+> pollution for now, we will go back to it later if it happens again.
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
+
+
+
+--
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
