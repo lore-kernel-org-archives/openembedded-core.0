@@ -2,81 +2,130 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA419CD4F24
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB61BCD4F39
 	for <webhook@archiver.kernel.org>; Wed, 13 May 2026 15:03:45 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9835.1778684618427559682
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9839.1778684621171687730
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2026 08:03:38 -0700
+ Wed, 13 May 2026 08:03:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=hTRVCJYf;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-439c3cc76deso825092fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:03:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=quem/v8i;
+ spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-4645dde00a7so6257088b6e.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 08:03:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778684617; x=1779289417; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/ZmB0BFogLS6yxRoPa7VdLip39g55OvIfQUMf5+fmYg=;
-        b=hTRVCJYfywvVdPapOVMQ3TZy0ytoK4CWMHx10WF50Gg/mT0TY82WiFLqw78o88dcWb
-         4Hd+W40CcZNQeHzw0QaY9PzEkZsFvWJZXLwYYY4UU/aKdc6md7V1/99n1fIJOBs8zXlk
-         7iI38ZaSVLo5bCY+QPsjpLaQm4tDFYcg7edyXDdydfQjYBKQg3dtEgwbHuQAtjzJEOEf
-         +s0Zu7jEllU3nQFimviXJro6M3j/VvKbgC0fEp1v86AuLVaV4am8YgwbpUMTUthwqv+d
-         VCB70RMuktRQGpZdOwCdb1kKlldir8DSu4Fcn9WdbMKR13KdM7J8Gw50DIXnXFJmsQhw
-         wCfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778684617; x=1779289417;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778684620; x=1779289420; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/ZmB0BFogLS6yxRoPa7VdLip39g55OvIfQUMf5+fmYg=;
-        b=cW7/+IOdsgS2t4BVRs0/So/VtP/njg2YNdM2Daj6/2c4fDFv+X4LP0p4bGLQv1QPpa
-         uOKUrLh27/Jt2N8SkRot8A7D1e/phW1U6ma3oWoe7MgQiau/AZJfr2zaZyB5ctjWdMrm
-         myVA56qb7YgIpccH9xdsWu7KUcbTVKgvQ8oc3Zc/xkAkOMk1ZM6tKWyP/FBiqndJ/Vpu
-         vkuf1d3Dd0Sz/hXWf+s0EOKOEBRdLnOPW+hiAPE/hNhzY5gpzDDEoSHPtJtbLuh+jtqb
-         Mss+pbtZMh5V6EpRLpYr2uYjJK6lDC6jr83eQVaw4u9Uokm9U+zipmrt+NgsBGTNJieu
-         vQiw==
-X-Gm-Message-State: AOJu0YyuKF9SbVyNwikNw5BVu4ciDGl4dnnAVzBkSKdYVKiLPtCOEqBb
-	P133E+tZpEIa+uSIbTBZSS2OAWdXWfPZSCsetn4700CqJIwLZajoK9H7ooMSO6uh
-X-Gm-Gg: Acq92OFmOSJk0kvqps6m/hQIRe9aUWYp1qM5gTvk4iueivHTwTxYVtNBA5Zhw4LTmMD
-	/bAwwu8Qz8fIwnCRI8OInrvRcm9w1JK+WY/NieVyqpZApZaGkh/6EqFTx6oIZe+CO2xWf3pOmGY
-	JBnDX+QAfsGsJnBJiLBGfg3IIJBa6KcAmZNKbvbh+2OmROhOnDVF8z6AzP+wYS+Pt650s4v++K/
-	eZ3IEvQR0crLzp0xXCjSuK8LXJMXaN2dwJANKf5Y/wEEQWaSYiLosLguNTVqaY3DL5eWg/M4lQ0
-	NgBZvARuQVRN6xyqLiCFVIXFGOqucSmGxQjEnxT/yTMjAIRLr+l7VPGAOG1WaD87Ey1mi48lvvh
-	jD8/Xh2U54cDYMj4oSFjxTPo5PactLvgITr1mkPJFF1yXpg7UGBNmnrfApAofFnzk4luckHTX+s
-	cfLDYq3UAOAA77GJ0gpkpwqbkNp1X33zk=
-X-Received: by 2002:a05:6870:96a5:b0:439:c04c:3898 with SMTP id 586e51a60fabf-439ce5fef5amr2057644fac.37.1778684617255;
-        Wed, 13 May 2026 08:03:37 -0700 (PDT)
+        bh=pPYM7+EjK2MbhDX9cT/Y2IS0M8NU3Yl6H+gjjMjlytQ=;
+        b=quem/v8iatj+nDH5gAJgNsRbeG2z+i9/AvxloHP0OWAeHyPmcUZ8jhx/ojX7hM5NuJ
+         6Ece2o1FZE0xXZpdfH3f4StRViDedcRc3+cKrff7DHP39n8te52v6B1+foSBsIYUg8KS
+         pfDM+xnGEd0XMekpmjXiC1+2vgS7/y7YA+qug9MuEdE3eGgdbY4wFWiIWzh0GH/lWJeW
+         UxPrmkmgkJZRB4rQAtF5f/cjUvuM/4PMXSuaKZZt+3S4s77bsdFwGUomijTzBtERPE0Q
+         g1KLOjXfLYW7jHn0P0/2snT0sccnHpMSmB8VT3o8Yw817FVnw6NFUqzVae0FYeb7A6eP
+         QLRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778684620; x=1779289420;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pPYM7+EjK2MbhDX9cT/Y2IS0M8NU3Yl6H+gjjMjlytQ=;
+        b=ivfPfhVDqMm7abeP7yGeH5Pc2t1/flzcvCyD0NGW46Kcmp4pmNm5wgTK1jgDfzWc+d
+         pqpMSfBJFqrqRonF8u0W2Mt8XbRHYLZ8UyuAzFj56xl9awmH2r1YyZxYLcpAYo+RbIop
+         pyJgVIyOa0+tSCVTG7barwB/1VIyGb9PD9b3E5o8NMEV04CbgtyB5xLe1Op6h9s6qBRq
+         Cew52oRYn7OFjr0fsgV2k+bUZ67WZ6rXSraJBqXSeK0rLUqu37Q51cYfcvMKTk0JL2Xb
+         rM2v+KiGGjjOOVxKIy6dBcrVyvpQ43XMkW67Pb9FAlK3hOm9JtNZ1ulGSsyTzRwMHu2C
+         AQmQ==
+X-Gm-Message-State: AOJu0Yycge9fUUBMWRBPf6AFAzFagr65L8m6E/HVc07mtWqGgrUF89jG
+	Otl1jAELPaoli5EG1G04XLyJixJv9hb6CYiOiGEaBifBKewrBaaDLTnRBvj3Tc7A
+X-Gm-Gg: Acq92OFtT3DC2B+Qh6tgcyMxzo0QWhOe8HECKD/uxcQHoqigqV4g4gfq0LGrl13pw8M
+	569ri5RdIpjzrOARugEXYjBkPI2biJajeEL0BgrPFNWEnt5jVgPh4e4ZWOmoZEjuEzOe4cyeChx
+	DyTItIFT858HQuTYXakXwAOD//+WIguTMjKkRZd8ep3lHc30oIOsEpEHjFfD/gmBanyE8utSeG6
+	txNrymOrCrpv5QkqtIdwGDZUeESUMyuyo7ug17R/OVAgvfMZwIoNShKjihg1MxtwqaLnHaPF6Bk
+	UhpALwXf8w6WCQcFjPAqDcyfgAGp5qTkrJaDFUHUlNSiyib6U0x5if/T9gdv4WZlD4zJGIO6VV0
+	SlG6SP8OgYdB3kMvdVrxbl5lMlY3TdoAJyxpTOl1JKQihNB7r3P7za/5wFbleIRZexCvgZFyWRl
+	CM3wCjjxTw3UjGA7weSRy8
+X-Received: by 2002:a05:6808:191f:b0:479:fca7:465d with SMTP id 5614622812f47-48293dec886mr5351673b6e.30.1778684618620;
+        Wed, 13 May 2026 08:03:38 -0700 (PDT)
 Received: from localhost.localdomain ([2601:283:4b02:22d0::c552])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-435573e7254sm14765400fac.14.2026.05.13.08.03.36
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-435573e7254sm14765400fac.14.2026.05.13.08.03.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 08:03:36 -0700 (PDT)
+        Wed, 13 May 2026 08:03:38 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 0/2] spdx: SHA 512 support
-Date: Wed, 13 May 2026 09:00:56 -0600
-Message-ID: <20260513150334.925178-1-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 2/2] spdx: Add SHA 512 support
+Date: Wed, 13 May 2026 09:00:58 -0600
+Message-ID: <20260513150334.925178-3-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260513150334.925178-1-JPEWhacker@gmail.com>
+References: <20260513150334.925178-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 May 2026 15:03:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236987
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/236989
 
-Add SHA 512 support for compliance with BSI TR-03183
+Adds support for adding SHA-512 hashes (where possible). This is to
+improve compliance with SBoM standards, in particular BSI TR-03181 [1].
 
-Joshua Watt (2):
-  spdx: Use checksum list from bitbake
-  spdx: Add SHA 512 support
+SHA 256 hashes are still included for each file, and still used to index
+files in the database. Also, while SHA 512 is supported as a hash for
+downloads, most recipes are still using SHA 256 and would need to be
+upgraded for full compliance with BSI TR-03183
 
- meta/lib/oe/sbom30.py       |  7 +++++++
- meta/lib/oe/spdx30_tasks.py | 10 ++++++++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
+[1]: https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03183/TR-03183_node.html
 
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oe/sbom30.py       | 7 +++++++
+ meta/lib/oe/spdx30_tasks.py | 4 ++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index 0f1f9281ad..b379ff947c 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -638,6 +638,7 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+     def new_file(self, _id, name, path, *, purposes=[], hashfile=True):
+         if hashfile:
+             sha256_hash = bb.utils.sha256_file(path)
++            sha512_hash = bb.utils.sha512_file(path)
+ 
+             for f in self.by_sha256_hash.get(sha256_hash, []):
+                 if not isinstance(f, oe.spdx30.software_File):
+@@ -684,6 +685,12 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+                     hashValue=sha256_hash,
+                 )
+             )
++            spdx_file.verifiedUsing.append(
++                oe.spdx30.Hash(
++                    algorithm=oe.spdx30.HashAlgorithm.sha512,
++                    hashValue=sha512_hash,
++                )
++            )
+ 
+         return self.add(spdx_file)
+ 
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 0a30be5767..7cc46d579b 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -1478,6 +1478,10 @@ def create_image_spdx(d):
+                             oe.spdx30.Hash(
+                                 algorithm=oe.spdx30.HashAlgorithm.sha256,
+                                 hashValue=bb.utils.sha256_file(image_path),
++                            ),
++                            oe.spdx30.Hash(
++                                algorithm=oe.spdx30.HashAlgorithm.sha512,
++                                hashValue=bb.utils.sha512_file(image_path),
+                             )
+                         ],
+                     )
 -- 
 2.54.0
 
