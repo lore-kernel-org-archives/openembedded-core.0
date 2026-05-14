@@ -1,462 +1,177 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86D2ACD4F25
-	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 10:41:45 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7810.1778755297459336014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD66CD4F25
+	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 10:58:35 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.2])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8094.1778756312130399810
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2026 03:41:37 -0700
+ Thu, 14 May 2026 03:58:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Mm2ooiH5;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4891d7164ddso42768175e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 03:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778755296; x=1779360096; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nIW8Xy4rfIjOi8EBduHC2JgBJZ+Q3ftllIu2Iqhx9a0=;
-        b=Mm2ooiH5TVw1+JdkZfIanf5Yqhmd2qo0hsRRV3N+CZEteqbL6bBphL+bKL2403uO7B
-         UDjC6Gd8DpQSWx4yHIlQjaMF52fqdNloz3nrMPHsh9A8SZkmlfvn/8dWkwvL4U7elqGB
-         aR9xnj1MJukJy6OJ0ffFV1qObAXUuYgWsiHy/DZ7GxmBt9GONI35E33yQSRi0GgS5++d
-         cE9YglOCX1PPb8fQt2q2bbLBu971Boifxn6Vv7ls4A1Bxd4mBR1r90lE4twUtkGGTvCI
-         SosoLO8bmnIa3qpHHGl3OqabRcNy+zq8V1bawEWV/byVk8saLk0n8LRHxELXJ+wrQYtf
-         NeVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778755296; x=1779360096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nIW8Xy4rfIjOi8EBduHC2JgBJZ+Q3ftllIu2Iqhx9a0=;
-        b=TNapDhga1X5Dk7lZ4gHasAP5JNQH2BiPtUEIXDJmqWwpJNvwKio/z4K7mhQx8ClsCD
-         rlROW/EGVuEOJPUwSOsVjPDVqVqcpxXUy08ZRfrbLONm/3yhJ7MrrxBRuVr4Sk+DUQdB
-         dET8cvglAJKrJX/SmUpm90OpS17rUX7WaMnm5u5u8XSm7gCRcRBtYGQY3XzKAHsHsSA5
-         fvPvGeAtyNrEZxHNiHiRAhuWSggruhzpZp3bbZBjQFDHQZ2MlqmP007kNWJtp+KkHKU9
-         GWKeUjx2B/X5f3oxZOvNXPYvsvsPKSzvm0RTut6LhfTwotURGWwGkffhR21aeov/7jXQ
-         RFZg==
-X-Gm-Message-State: AOJu0YxxzqPOWW5i+O0/Ith5B27mnjqNBWuFnhWAXPWUa/hU96qTjkp6
-	8zxnJdrQeUF7Ft6pR+1/Zr0pWAbMvjg3O5l15TmTHccJDxGO2CbpEM8C3nA6sQ==
-X-Gm-Gg: Acq92OH2gGBu6wW0btYzOeYwTJAvbf1/OqzsCoksxoQwwZk42K2RYwnC5DHxTadVbxu
-	4f50T/Q00bx02svM55rdkfv5ihy4TxXweU9JGpB+YEqF7UcpPXtcz/z9NV/BZglXucMTZwZzn6j
-	b1cFDxjPYHt/O3Yx7X8PmWWX2Og3oT576Jst/gDcdWUCeOVKPEhL4idtOSBHJMLvNNnGO3o3VOk
-	boUHhbdoDvwT7RA8dg03nZDCgTPe7rA7ZiJDxJcFXiVWAodK3G8oW7qY/eMPd2gOgfYwsYntJ6N
-	7INu9li+47GJx7At2l/WVI0HqBDNehiM4qQ+HEOF9Q9wv9uai8sXk+/ADCGS39lV4BOHGmSYjZy
-	wU9ZgQxFF+IbG2BqkcpSTGZjX6chK7ofKHago/zRLzg8TIn1QE704s5xKjhnapESX393dNBSKeI
-	kjpSJoCy6VXIAdC4Y4l9RCKWB7hGK/2XyGq35SLuaar95VQg==
-X-Received: by 2002:a05:600c:4e02:b0:48e:5fb8:f80f with SMTP id 5b1f17b1804b1-48fcea062bemr103260725e9.24.1778755295588;
-        Thu, 14 May 2026 03:41:35 -0700 (PDT)
-Received: from localhost.localdomain ([81.15.96.179])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fd64a0e38sm58139495e9.7.2026.05.14.03.41.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 03:41:35 -0700 (PDT)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
-Date: Thu, 14 May 2026 10:41:22 +0000
-Message-ID: <20260514104122.1104945-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=oEYBIkMj;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=oEYBIkMj;
+ spf=pass (domain: arm.com, ip: 52.101.69.2, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=CJAOLTq5FxfbV+0codrNbM+wE0lf7deqnh3kDQKBk5ApA0yN5fq/txr9/UJkYfmEm+Ah9ZBHUBpwMsDWzPALbelrZ5VXsPYv6Bfi2b5BCCYYeE7ozp1oMnu7UQ6u4oplNZkhuQQYhHt/DDcoDmIWvuIVvoeIzSOzn2FpDBCi/Gyq9Z77MpSs408q/MPndWJbirb+QxMTBo4jOt1CCEZmALiT94YJidUHEqiANx99Z/Xcu6xB8LNm2Lj1O503xeZzohLxIn3tRKe+SXTeKTNREOI2bzyDNtRii5X6HHUOVuetmPB259wF6mQU67inG+EHnjo2+winc1AqH9vBA1om4A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PSzqOfEtGIlnk38/yl6fEQIkBGwe+QVUoxId0u6uiuM=;
+ b=kCIlUxnkPuU7fnlugvdbvxClpFiLRysj42jHtIqimgf4NdNnJL+hDzqnp+KniaNezLZ4/DH3UC193ZjmL4SAb/mp41d57uP9grXtBQ04KQ6JxX7YirlgnGXQqZHaD7BLoB0RR2iXK4Udxcv3QFcchWbdPeU1FsNSWL2yd89zoybvaXA8O8ktAkF5MF5GL5Rh1nTY2xpvTpd7dC7M3B8dSLA8RDayGNtabDF7wY5RkQhzYoHHMeeEcY6eGEYkt7qGpcIP6S10/bz6cYm2p7i9llD90DBQq3vnIzeKDqs/jvw7KFqYcUyTo5fTmfjhD/GdV8vNWuopZ1u/SuAgfuQLZw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=bootlin.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PSzqOfEtGIlnk38/yl6fEQIkBGwe+QVUoxId0u6uiuM=;
+ b=oEYBIkMjaPCK7JTHo4LtihJKxsCPH4Cw8B5fuWuFrGnO+jyrRa6CBypv5ke5vsf7omgUPzpcqj2K94degsisnuyB09hkpmyVHmyiwbgkv/FDHYiCVUmzwrw5ttQKZobr70RY9T3i9aiMwkypJq9PsoI3CGmJlLBwRuXdXhYE5Os=
+Received: from AS4P192CA0054.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:658::14)
+ by AS2PR08MB8949.eurprd08.prod.outlook.com (2603:10a6:20b:5f8::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Thu, 14 May
+ 2026 10:58:25 +0000
+Received: from AMS0EPF000001AD.eurprd05.prod.outlook.com
+ (2603:10a6:20b:658:cafe::e2) by AS4P192CA0054.outlook.office365.com
+ (2603:10a6:20b:658::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.12 via Frontend Transport; Thu,
+ 14 May 2026 10:58:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF000001AD.mail.protection.outlook.com (10.167.16.153) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.13
+ via Frontend Transport; Thu, 14 May 2026 10:58:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TwO9IR9x9Yk7DrzU8D8mimObmEsM5WgQgnwN/4wvmkJYORUtmxwLpRgyLivnF1X4Ghucs7i5CrBVHyTmW80X9aT+nZVkPZfMStSWz75hSDQWhx5Y0HqjaZdA1zyazRqWYOsw+F11kZ1TjTtnck65nEmqRhP6nULMsOdWI7mBNHJsPwaFwAnJbYrPAWsKHWzyf5EoiEWcLc9L/kc7F0R23X031lLjGpMgQBXzAGYFFqYhGfj7LBouQ82nQq8IFCT+Qq4JQU2rudEf4k/OelG3P+c8nC5LiJfgp5MKAHgen0X7gB5aobZgHV/hSc4ZaopZdasNuzwmDPvQgcMq2SBO4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PSzqOfEtGIlnk38/yl6fEQIkBGwe+QVUoxId0u6uiuM=;
+ b=ZOCWwhIJIZ6XlHtaYqxyFqVrRqRY+w7jOR7pUuonFOfEaBmVQvAVTxBfzw1YBJR9nsqzegKDUM66UCuE0TfDvx+slMXB+nF5YlMr7nuPNpAlEMkssKq/7FWwLzF2W8L9nA2kHYF3Ye7SwMdoLI5rlcTWLni5Q5Stiu6zFXfxnIHE8yitgB066yYddR2lRD1soC+raquQ2j65b9cloXEFWaYo16uwemGJwyVgtukHMa7FtC4LORWkQIlXrUCR1jVEzvDB/Vuu7Jep4gL+3zCXs+wcB5tRCKtaRqBJaitZnzfFjhBHezwcjD9EwAe+G6Ktfv9Po1NaKUFL6XK8aMNVmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PSzqOfEtGIlnk38/yl6fEQIkBGwe+QVUoxId0u6uiuM=;
+ b=oEYBIkMjaPCK7JTHo4LtihJKxsCPH4Cw8B5fuWuFrGnO+jyrRa6CBypv5ke5vsf7omgUPzpcqj2K94degsisnuyB09hkpmyVHmyiwbgkv/FDHYiCVUmzwrw5ttQKZobr70RY9T3i9aiMwkypJq9PsoI3CGmJlLBwRuXdXhYE5Os=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by DU0PR08MB9417.eurprd08.prod.outlook.com (2603:10a6:10:420::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Thu, 14 May
+ 2026 10:57:21 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.20.9913.009; Thu, 14 May 2026
+ 10:57:21 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: =?utf-8?B?Sm/Do28gTWFyY29zIENvc3Rh?= <joaomarcos.costa@bootlin.com>
+CC: "quentin.schulz@cherry.de" <quentin.schulz@cherry.de>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "thomas.petazzoni@bootlin.com"
+	<thomas.petazzoni@bootlin.com>
+Subject: Re: [OE-core] [PATCH 1/3] ovmf: simplify PACKAGECONFIG's default
+ value
+Thread-Topic: [OE-core] [PATCH 1/3] ovmf: simplify PACKAGECONFIG's default
+ value
+Thread-Index: AQHc4SjMkKz+TSG3AE+SC17/OWqH5rYIz2eAgASPGgA=
+Date: Thu, 14 May 2026 10:57:21 +0000
+Message-ID: <B94EE239-0488-4DF5-80CD-81B9EC3A630E@arm.com>
+References: <20260511092935.2631121-1-joaomarcos.costa@bootlin.com>
+ <20260511092935.2631121-2-joaomarcos.costa@bootlin.com>
+ <16ac5a86-680c-46c6-8079-92a0880f5def@cherry.de>
+In-Reply-To: <16ac5a86-680c-46c6-8079-92a0880f5def@cherry.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81.1.6)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|DU0PR08MB9417:EE_|AMS0EPF000001AD:EE_|AS2PR08MB8949:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2181eba-3ad7-41ec-8a39-08deb1a7b8dc
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|3023799003|11063799003|4143699003|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ TE2kjKTVtvLoPkFNIhvYoVxsosOhdulAQpy2ICDVORoF5fIQ2UVN1X0KhUTPEnteYDCVREXjg5+k+0wNdsnamA9mrAfeMxGKo0QfQNAvO1RQ4sH93wVww50hN2AcwM1pEBL+3vTh/9yqTl43sMUEaF9r3VzuHfwdtvv03in1HWLExS1EHUMOxOmrHS9GIAPLPFENRd15V3ZEe0oahHgZIALSN01wikyC8PYBfipP75dooAIRtuqku7G1oZj+YC9ZjRE95BEdha5aIl8jlb4NJ+7lglQzE8RlOPneNpwaRuiFhjekooPZhwCnji6ATWpiaFwqtSyqIWlqTLXLrM9R/06L6lnvd7Sk1keHwafAvQeR1GRAP3oX/u+Fsnfq4cvF+0BCDBflh1Ax00C7vgvHUpewPO8FaTed9VgfcDLfm6po8TlPJDEBQ+rTO4OApTa5G5BrfRrA7QRNsfFHznnBCF9KOnmP6TAQ0mjO0/XxaVGnXjvLYcR5hPaBtzq08rhyE2QJNh+hWAVSvJk/+kyqqS5m+vvRhYOo5oxqmVBIBwztsf6fm/KeJDLYiWM7Vdze1Y+kCn27AaKnfcV1axMVBHLWvEWhwFnHfteavNlQqZL4HP3UW0DxYIJd3KXzg0qIMH0r9HZb/MgMKF24JpUyp65rgAKg+1V8s0gAq2XkO3dmP3dFVpILxicCL7Iqir0iBV87rriLobibg/BKsiP0vf6R/iQ8R8YkPkxQspM4C6Yg4wqQplwa4UaoR7YxUUPd
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(3023799003)(11063799003)(4143699003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <00085B4E2486F34C8867ADA28E88F569@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked: 
+ QbjUzEUNJ/Eeti/7Ow5Xo852vrtadYjfAcIzlo/fq0Xyj3Ks0dbdeg1XKEzyxZWdHe14lcliWWBDy8Z4gk6pAvxs4Lz7zeFGLllXWq65aPNGPoHNalq0IbnUO4p1gXyY/bgVXBp/sj5Aqj9HQfsRpl/DsQX0Nw0vW3ilKyqDkgrFs74w36En+Rb0rX7JCSfTuvePkIRRwG0+yQJDP3hNpq+7kMxAzTGzzUPtHhVdND51yPrifcFYGmmlnO/sWMI6yBYdu45Vvu4ZMzs/v3falZMyhjHxixx1l+5znRzzbOvswmv9jpdH+l5KsMHHTkYrFTidyZeF7iX4WOL/5qr2Iw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9417
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF000001AD.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	7bb7367f-8cfd-4d0b-4193-08deb1a792ae
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700016|1800799024|14060799003|82310400026|35042699022|376014|56012099003|11063799003|4143699003|3023799003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	UyRWgf7uaJ3D/UmsN8k5qXabSmFAsQhFnj5bLWx1HnFiJw+OZcaGIrI3ZriN0Kza1L22nPObItj4FQmFNvGpR4GN6K7gEemy4LZ07hE2d0xzUBVG93cuRKblgUiAYqhROT2HtMMqvmeieIwY/gvzWkcMcdPH1sCF43F+TFTfSKON0JcjLY8lOwTErqorDswUsLrp5n//0NN0VVt8bUp+z+7d0mMldhkty6W9W3TUrfLXwNh2BBGh56sY8hNGdqzs+7fiDXSrG7beNsq8yPZV8+FKAeL0LGV6iEUiiyb5y4syVLVH1qhsECkbplYDb+fr4ZXJ7nGEzKWCe5MIx00pnCc+ZrFyYgH0z+s8p5pmofajZEgHq4EhfZ4k+AVb8woeSsW32EH0hZh0jkgF55pAMZBVI5rO/dR+/QxcJAe9n1uRAGzE8Vee+W5QG6xYRRQtuPh6JXVWUqtMB95sT0Bs28hEzG81rp8xdEXMEMf4bHUpaIgV3ageswBJOJV3WnUXbZXoDwe6d0QhqDULPWPxaQ7TNAM49z17hhQm5z4qb8HnTQdBEf48DjCUEwG2B3R6Az/pymbqPqDlUk0T64s1LQeDVw5B9LBh1zMqaA2EeCOXCKnzWywkEG1tsJm8Ev1To4JrkJAWG6iRAJo5fQb4DSD0KrYZJFqDGq4rFmWOIT5G5QD6y4MjzFuJwIV6cgNgqUvR3ruRZhWMg5BD4YEgfzDZbiFXvqUMKIIaX9dlf/A=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(14060799003)(82310400026)(35042699022)(376014)(56012099003)(11063799003)(4143699003)(3023799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	1KnIOXmw1dHxQKMdCS9LYVM6dH3cgd3OLhBy9tEUrgqzP7GTCBcBT17bjpDNlsydJguJuOp//UDNQysOc1LOSuRLavl8A5NS0QLj5PFnkDF89fOmMYI97uoo0wGh+U9Tfnnhey+2KrCTJRS2Iq1yWKLxi0/0a/cxw6MhRQ6QRrk52x6LUtkF49eb3VRIl8bdW/7fTnZaqWRssRFmlPoVu1vcSPhKyPGIZysaKqgfMiBgNZTNEOzzWAYexCNaOE1zZppa985TJHmgYXXJjmXDG5/r8tEbHHUODF1cJfy4GcCh61mcjCkBzhUVhq5KkE4ht4rqU8vA5F60OMd5KsnmMmBmViM9KL/jbR9mafNMwHFzLVouBPjml7YLxcMyODwmt3bym4jz9pPq/I8c8xjZnFKnMq3rvDIytVBpXGENmrbiPjj2cSiv3YHEHHlFHAy8
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2026 10:58:25.1391
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2181eba-3ad7-41ec-8a39-08deb1a7b8dc
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF000001AD.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8949
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 10:41:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237023
+ <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 10:58:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237024
 
-Drop one patch since change is included in the release.
-
-Upgrade was performed using devtool
-
-Full changelog:
-https://github.com/gpg/gnupg/compare/gnupg-2.4.8...gnupg-2.4.9
-
-Noteworthy changes in version 2.4.9 (2025-12-30)
-------------------------------------------------
-  * gpg: Fix possible memory corruption in the armor parser.  [T7906]
-  * gpg: Avoid potential downgrade to SHA1 in 3rd party key
-    signatures.  [rGddb012be7f]
-  * gpg: Error out on unverified output for non-detached signatures.
-    [rG9d302f978b]
-  * gpg: Do not allow compressed key packets on import.  [T7014]
-  * scd: Fix a harmless read buffer over-read in a function used by
-    PKCS#15 cards.  [T7662]
-  * dirmngr: Do not require a keyserver for "gpg --fetch-key".
-    [T7693]
-  * agent: Fix ssh-agent's request_identities for skipped Brainpool
-    keys.  [rG6bf5696c85]
-
-  Release-info: https://dev.gnupg.org/T8001
-
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
----
- ...erride-init-is-not-needed-with-gcc-9.patch |   7 +-
- ...-a-custom-value-for-the-location-of-.patch |   5 +-
- ...use-pkgconfig-instead-of-npth-config.patch |   3 +-
- ...h-fix-find-version-for-beta-checking.patch |   3 +-
- .../gnupg/gnupg/CVE-2025-68973.patch          | 108 ------------------
- .../gnupg/gnupg/CVE-2026-24882-0001.patch     |   7 +-
- .../gnupg/gnupg/CVE-2026-24882-0002.patch     |   7 +-
- .../gnupg/gnupg/relocate.patch                |  19 ++-
- .../gnupg/{gnupg_2.4.8.bb => gnupg_2.4.9.bb}  |   3 +-
- 9 files changed, 20 insertions(+), 142 deletions(-)
- delete mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
- rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb => gnupg_2.4.9.bb} (96%)
-
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-index 83195b5bd4..f4c6f1452a 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-@@ -1,4 +1,4 @@
--From e3adc816d2d56dd929016073937ba24e01e03cb8 Mon Sep 17 00:00:00 2001
-+From 0d5c3389fae260c7eac3f37c1b62f16f6d149613 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Dec 2018 17:37:48 -0800
- Subject: [PATCH] Woverride-init is not needed with gcc 9
-@@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/dirmngr/dns.h b/dirmngr/dns.h
--index 024d6dcc8..c6e141e16 100644
-+index 1f647e1..334acb6 100644
- --- a/dirmngr/dns.h
- +++ b/dirmngr/dns.h
- @@ -139,7 +139,7 @@ DNS_PUBLIC int *dns_debug_p(void);
-@@ -29,6 +29,3 @@ index 024d6dcc8..c6e141e16 100644
-  #define DNS_PRAGMA_PUSH _Pragma("GCC diagnostic push")
-  #define DNS_PRAGMA_QUIET _Pragma("GCC diagnostic ignored \"-Woverride-init\"")
-  #define DNS_PRAGMA_POP _Pragma("GCC diagnostic pop")
---- 
--2.17.1
--
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index f957f6b55e..3873af5ec5 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-@@ -1,4 +1,4 @@
--From 6b581c43bd01f815db78a410fd3814fc5994171e Mon Sep 17 00:00:00 2001
-+From 9ca764edb7673e7e607f6bd57655a60e769781de Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -8,13 +8,12 @@ This should avoid clashes with the host gpg-agent observed on autobuilders.
- 
- Upstream-Status: Inappropriate [oe-core specific, and only for -native]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 26d7f7b..e953c2e 100644
-+index 94bc805..503979e 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -1921,7 +1921,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-index 0e58fd4c4d..4d705ed37d 100644
---- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-@@ -1,4 +1,4 @@
--From d9048788d906774b1475c3bb1b17e22455c2add4 Mon Sep 17 00:00:00 2001
-+From 6899557f13de1cb1c4e32a3fae5a4832e85b8499 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Wed, 16 Aug 2017 11:16:30 +0800
- Subject: [PATCH] use pkgconfig instead of npth config
-@@ -9,7 +9,6 @@ Signed-off-by: Saul Wold <sgw@linux.intel.com>
- 
- Rebase to 2.1.23
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
- ---
-  m4/npth.m4 | 53 ++++++++---------------------------------------------
-  1 file changed, 8 insertions(+), 45 deletions(-)
-diff --git a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-index d664c36a1b..e29ffcfa59 100644
---- a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-@@ -1,4 +1,4 @@
--From 6a7f9b71d936847dcaeeac7d1b69d8299be4dd85 Mon Sep 17 00:00:00 2001
-+From 85fa969022df651e78346b38718515a4b32d8187 Mon Sep 17 00:00:00 2001
- From: Wenzong Fan <wenzong.fan@windriver.com>
- Date: Wed, 16 Aug 2017 11:23:22 +0800
- Subject: [PATCH] autogen.sh: fix find-version for beta checking
-@@ -13,7 +13,6 @@ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
- 
- Rebase to 2.1.23
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
- ---
-  autogen.sh | 1 -
-  1 file changed, 1 deletion(-)
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
-deleted file mode 100644
-index 4eaf7cdb38..0000000000
---- a/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
-+++ /dev/null
-@@ -1,108 +0,0 @@
--From 4ecc5122f20e10c17172ed72f4fa46c784b5fb48 Mon Sep 17 00:00:00 2001
--From: Werner Koch <wk@gnupg.org>
--Date: Thu, 23 Oct 2025 11:36:04 +0200
--Subject: [PATCH] gpg: Fix possible memory corruption in the armor parser.
--
--* g10/armor.c (armor_filter): Fix faulty double increment.
--
--* common/iobuf.c (underflow_target): Assert that the filter
--implementations behave well.
----
--
--This fixes a bug in a code path which can only be reached with special
--crafted input data and would then error out at an upper layer due to
--corrupt input (every second byte in the buffer is unitialized
--garbage).  No fuzzing has yet hit this case and we don't have a test
--case for this code path.  However memory corruption can never be
--tolerated as it always has the protential for remode code execution.
--
--Reported-by: 8b79fe4dd0581c1cd000e1fbecba9f39e16a396a
--Fixes-commit: c27c7416d5148865a513e007fb6f0a34993a6073
--which fixed
--Fixes-commit: 7d0efec7cf5ae110c99511abc32587ff0c45b14f
--Backported-from-master: 115d138ba599328005c5321c0ef9f00355838ca9
--
--The bug was introduced on 1999-01-07 by me:
--* armor.c: Rewrote large parts.
--which I fixed on 1999-03-02 but missed to fix the other case:
--* armor.c (armor_filter): Fixed armor bypassing.
--
--Below is base64+gzipped test data which can be used with valgrind to
--show access to uninitalized memory in write(2) in the unpatched code.
--
----8<---------------cut here---------------start------------->8---
--H4sICIDd+WgCA3h4AO3QMQ6CQBCG0djOKbY3G05gscYFSRAJt/AExp6Di0cQG0ze
--a//MV0zOq3Pt+jFN3ZTKfLvP9ZLafqifJUe8juOjeZbVtSkbRPmRgICAgICAgICA
--gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
--gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
--gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
--gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
--gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
--gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
--gICAgICAgICAgICAgICAgICAgICAgICAgMCXF6dYDgAAAAAAAAAAAAAAAAAAAAAA
--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC7E14AAAAA
--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwZ94aieId3+8EAA==
----8<---------------cut here---------------end--------------->8---
--
--CVE: CVE-2025-68973
--Upstream-Status: Backport [https://github.com/gpg/gnupg/commit/4ecc5122f20e10c17172ed72f4fa46c784b5fb48]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- common/iobuf.c | 8 +++++++-
-- g10/armor.c    | 4 ++--
-- 2 files changed, 9 insertions(+), 3 deletions(-)
--
--diff --git a/common/iobuf.c b/common/iobuf.c
--index 748e6935d..2497713c1 100644
----- a/common/iobuf.c
--+++ b/common/iobuf.c
--@@ -2043,6 +2043,8 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
-- 	rc = 0;
--       else
--       {
--+        size_t tmplen;
--+
-- 	/* If no buffered data and drain buffer has been setup, and drain
-- 	 * buffer is largish, read data directly to drain buffer. */
-- 	if (a->d.len == 0
--@@ -2055,8 +2057,10 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
-- 	      log_debug ("iobuf-%d.%d: underflow: A->FILTER (%lu bytes, to external drain)\n",
-- 			 a->no, a->subno, (ulong)len);
-- 
---	    rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
--+            tmplen = len;  /* Used to check for bugs in the filter.  */
--+            rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
-- 			    a->e_d.buf, &len);
--+            log_assert (len <= tmplen);
-- 	    a->e_d.used = len;
-- 	    len = 0;
-- 	  }
--@@ -2066,8 +2070,10 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
-- 	      log_debug ("iobuf-%d.%d: underflow: A->FILTER (%lu bytes)\n",
-- 			 a->no, a->subno, (ulong)len);
-- 
--+            tmplen = len;  /* Used to check for bugs in the filter.  */
-- 	    rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
-- 			    &a->d.buf[a->d.len], &len);
--+            log_assert (len <= tmplen);
-- 	  }
--       }
--       a->d.len += len;
--diff --git a/g10/armor.c b/g10/armor.c
--index 81af15339..f8cfa86db 100644
----- a/g10/armor.c
--+++ b/g10/armor.c
--@@ -1302,8 +1302,8 @@ armor_filter( void *opaque, int control,
-- 	n = 0;
-- 	if( afx->buffer_len ) {
--             /* Copy the data from AFX->BUFFER to BUF.  */
---	    for(; n < size && afx->buffer_pos < afx->buffer_len; n++ )
---		buf[n++] = afx->buffer[afx->buffer_pos++];
--+            for(; n < size && afx->buffer_pos < afx->buffer_len;)
--+                buf[n++] = afx->buffer[afx->buffer_pos++];
-- 	    if( afx->buffer_pos >= afx->buffer_len )
-- 		afx->buffer_len = 0;
-- 	}
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0001.patch b/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0001.patch
-index 6e6d44c372..d0bb89222f 100644
---- a/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0001.patch
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0001.patch
-@@ -1,7 +1,7 @@
--From d07e2f19134129d59014fe181642cd122dc2e29f Mon Sep 17 00:00:00 2001
-+From 4e70ef4af04b48b1b91c3b6862978106b8dfdf01 Mon Sep 17 00:00:00 2001
- From: Werner Koch <wk@gnupg.org>
- Date: Mon, 26 Jan 2026 11:13:44 +0100
--Subject: [PATCH 1/2] tpm: Fix possible buffer overflow in PKDECRYPT
-+Subject: [PATCH] tpm: Fix possible buffer overflow in PKDECRYPT
- 
- * tpm2d/tpm2.c (tpm2_ecc_decrypt): Bail out on too long CIPHERTEXT.
- (tpm2_rsa_decrypt): Ditto.
-@@ -65,6 +65,3 @@ index 3e908dd..cd0347c 100644
-    inScheme.scheme = TPM_ALG_RSAES;
-    /*
-     * apparent gcrypt error: occasionally rsa ciphertext will
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0002.patch b/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0002.patch
-index 2e872ea491..15abe64b85 100644
---- a/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0002.patch
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0002.patch
-@@ -1,7 +1,7 @@
--From e8eaa9bf018d3276d613f371207c91c1ffa3e16c Mon Sep 17 00:00:00 2001
-+From ae9db1f2e5745bf34fea5ad0e8ed9adbd2165c2a Mon Sep 17 00:00:00 2001
- From: NIIBE Yutaka <gniibe@fsij.org>
- Date: Thu, 12 Feb 2026 11:51:17 +0900
--Subject: [PATCH 2/2] agent: Fix the regression in pkdecrypt with TPM RSA.
-+Subject: [PATCH] agent: Fix the regression in pkdecrypt with TPM RSA.
- 
- * agent/divert-tpm2.c (divert_tpm2_pkdecrypt): Care about additional
- 0x00.
-@@ -42,6 +42,3 @@ index 2496d09..5b5bd14 100644
-      }
-    else if (smatch (&s, n, "ecdh"))
-      {
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index ea0252026a..0501d182a5 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From c50d0a95fcf8f96c272fadd4ba85f3eeac39fcaf Mon Sep 17 00:00:00 2001
-+From 922a17cd375a72c59ce09a77923bb47df69e4c08 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-@@ -8,16 +8,15 @@ Upstream-Status: Inappropriate [OE-specific]
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
--
- ---
-  common/homedir.c | 14 +++++++-------
-  1 file changed, 7 insertions(+), 7 deletions(-)
- 
- diff --git a/common/homedir.c b/common/homedir.c
--index 6f99f3e..f22aa9e 100644
-+index 9fcb90b..fe91dcb 100644
- --- a/common/homedir.c
- +++ b/common/homedir.c
--@@ -1284,7 +1284,7 @@ gnupg_socketdir (void)
-+@@ -1294,7 +1294,7 @@ gnupg_socketdir (void)
-    if (!name)
-      {
-        unsigned int dummy;
-@@ -26,7 +25,7 @@ index 6f99f3e..f22aa9e 100644
-        gpgrt_annotate_leaked_object (name);
-      }
-  
--@@ -1316,7 +1316,7 @@ gnupg_sysconfdir (void)
-+@@ -1326,7 +1326,7 @@ gnupg_sysconfdir (void)
-    if (dir)
-      return dir;
-    else
-@@ -35,7 +34,7 @@ index 6f99f3e..f22aa9e 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1352,7 +1352,7 @@ gnupg_bindir (void)
-+@@ -1362,7 +1362,7 @@ gnupg_bindir (void)
-        return name;
-      }
-    else
-@@ -44,7 +43,7 @@ index 6f99f3e..f22aa9e 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1379,7 +1379,7 @@ gnupg_libexecdir (void)
-+@@ -1389,7 +1389,7 @@ gnupg_libexecdir (void)
-        return name;
-      }
-    else
-@@ -53,7 +52,7 @@ index 6f99f3e..f22aa9e 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1409,7 +1409,7 @@ gnupg_libdir (void)
-+@@ -1419,7 +1419,7 @@ gnupg_libdir (void)
-        return name;
-      }
-    else
-@@ -62,7 +61,7 @@ index 6f99f3e..f22aa9e 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1440,7 +1440,7 @@ gnupg_datadir (void)
-+@@ -1450,7 +1450,7 @@ gnupg_datadir (void)
-        return name;
-      }
-    else
-@@ -71,7 +70,7 @@ index 6f99f3e..f22aa9e 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1472,7 +1472,7 @@ gnupg_localedir (void)
-+@@ -1482,7 +1482,7 @@ gnupg_localedir (void)
-        return name;
-      }
-    else
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.8.bb b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
-similarity index 96%
-rename from meta/recipes-support/gnupg/gnupg_2.4.8.bb
-rename to meta/recipes-support/gnupg/gnupg_2.4.9.bb
-index 6a865ed57d..c85de6047f 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.8.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
-@@ -18,7 +18,6 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
--           file://CVE-2025-68973.patch \
-            file://CVE-2026-24882-0001.patch \
-            file://CVE-2026-24882-0002.patch \
-            "
-@@ -26,7 +25,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
- 
--SRC_URI[sha256sum] = "b58c80d79b04d3243ff49c1c3fc6b5f83138eb3784689563bcdd060595318616"
-+SRC_URI[sha256sum] = "dd17ab2e9a04fd79d39d853f599cbc852062ddb9ab52a4ddeb4176fd8b302964"
- 
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
--- 
-2.43.0
-
+T24gMTEgTWF5IDIwMjYsIGF0IDE0OjE5LCBRdWVudGluIFNjaHVseiB2aWEgbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZyA8cXVlbnRpbi5zY2h1bHo9Y2hlcnJ5LmRlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc+IHdyb3RlOg0KPiANCj4+IC1QQUNLQUdFQ09ORklHID8/PSAiIg0KPj4gLVBBQ0tBR0VDT05G
+SUcgKz0gIiR7QGJiLnV0aWxzLmZpbHRlcignTUFDSElORV9GRUFUVVJFUycsICd0cG0nLCBkKX0i
+DQo+PiAtUEFDS0FHRUNPTkZJRyArPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ01BQ0hJTkVfRkVB
+VFVSRVMnLCAndHBtMicsICd0cG0nLCAnJywgZCl9Ig0KPj4gK1BBQ0tBR0VDT05GSUcgPz0gIiR7
+QGJiLnV0aWxzLmNvbnRhaW5zX2FueSgnTUFDSElORV9GRUFUVVJFUycsICd0cG0gdHBtMicsICd0
+cG0nLCAnJywgZCl9Ig0KPiANCj4gSnVzdCBhIGhlYWRzIHVwIHRoYXQgdGhpcyBpcyAqbm90KiBl
+cXVpdmFsZW50Lg0KPiANCj4gVGhlIHVzZSBvZiA/Pz0gbWVhbnQgdGhhdCBhbnkgPz0gKGFuZCA/
+Pz0pIHBhcnNlZCBhbnl3aGVyZSBiZWZvcmUgdGhhdCBsaW5lIGlzIG1lYW50IHRoYXQgaXQgd291
+bGQgc2V0IHRoZSBkZWZhdWx0IHZhbHVlcywgYW5kIHRoZW4gd2Ugd291bGQgYXBwZW5kIHRvIHRo
+b3NlIGRlZmF1bHQgdmFsdWVzIHRwbS4NCj4gDQo+IE5vdyBieSBtZXJnaW5nIHRob3NlIGludG8g
+YSBzaW5nbGUgPz0sIGEgcHJldmlvdXMgPz0gd2lsbCBvdmVycmlkZSB0aGlzIG5ldyA/PSBvcGVy
+YXRvciwgbWVhbmluZyB0cG0gd29uJ3QgbWFrZSAgaXQgdG8gdGhlIFBBQ0tBR0VDT05GSUcgZXZl
+biBpZiB0aGUgTUFDSElORV9GRUFUVVJFUyBpcyBzZXQgdG8gdHBtL3RwbTIuIEFsc28sIGFuIGVh
+cmxpZXIgPz89IHdvbid0IGRvIGFueXRoaW5nIGFueW1vcmUuDQo+IA0KPiBXaGV0aGVyIHRoYXQn
+cyBhbiBhY3R1YWwgaXNzdWUsIEkgZG9uJ3Qga25vdywgYnV0IHlvdSBtYXkgYnJlYWsgdXNlcnMu
+DQo+IA0KPiBNZXJnaW5nIHRoZSB0d28gKz0gaW50byBhIHNpbmdsZSBvbmUgd291bGQgdHJ1bHkg
+YmUgZXF1aXZhbGVudC4NCg0KVGhlIG9sZCB2YWx1ZSBfd2FzXyB2ZXJ5IHVuLWlkaW9tYXRpYyBi
+dXQgdGhlIHJlcGxhY2VtZW50IGlzIHRvby4NCg0KSG93ZXZlcjoNCg0KUEFDS0FHRUNPTkZJRyA/
+Pz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zX2FueSgnTUFDSElORV9GRUFUVVJFUycsICd0cG0gdHBt
+MicsICd0cG0nLCAnJywgZCl94oCdDQoNCklzIGlkaW9tYXRpYyBhbmQgd2hpbHN0IGEgY2hhbmdl
+IG9mIGJlaGF2aW91ciwgaXQgaGFzIHRoZSBleHBlY3RlZCBiZWhhdmlvdXIuICBDYW4geW91IHVz
+ZSA/Pz0gYW5kIGNsYXJpZnkgdGhhdCB3aGlsc3QgdGhpcyBjaGFuZ2VzIHRoZSBiZWhhdmlvdXIg
+aW4gZWRnZSBjYXNlcywgd2hhdCB3ZSBwcmVmZXIgaXMgY29uc2lzdGVuY3kgYmV0d2VlbiByZWNp
+cGVzLg0KDQpSb3Nz
 
