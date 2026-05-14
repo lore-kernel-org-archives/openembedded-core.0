@@ -2,63 +2,63 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CC8CD37AC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE7C5CD4F42
 	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 19:42:27 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19915.1778787743955530690
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19891.1778787741995680451
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2026 12:42:24 -0700
+ Thu, 14 May 2026 12:42:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20251104.gappssmtp.com header.s=20251104 header.b=EAJHTmw2;
- spf=pass (domain: baylibre.com, ip: 209.85.219.54, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8b3d6b215cfso125261196d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 12:42:23 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20251104.gappssmtp.com header.s=20251104 header.b=etI3c2ZV;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.48, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8acb09ddbf6so127235426d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 12:42:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778787742; x=1779392542; darn=lists.openembedded.org;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778787740; x=1779392540; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=03sLf7GZ43UAXBy/c8TQkTofSGXJSiF8liOGS0PQ/GQ=;
-        b=EAJHTmw2cqhVZImZuuW9UXmRKqOMMIE9Rbh5bakaFiw/D3V9pF0UM2dPaJzeoM9PMt
-         NSHjK8MTGqTpjMWXAKyBA+Ixg5aE9o+Ut5JwrMhUs+P2+GrXteTpfO6l7PnqwMvYJEoI
-         cAn3WRfWiaj//WmWBhi+VQjSgv844AqscSlsNZNPIT7TztAfP015om7nlA6ladpIUm9H
-         pX66ryKVps33RhWJQVUv4po3jp8cAEE7kZABUr5BLCGdeooJN4KCzKY00070ArE9JsbY
-         Z64wKzY6FVIhTTFbq2kjNqA3/vOzJHNrKOnpygaE6d63enuT28R1PAg3SZfC7V+E1vLh
-         gQhA==
+        bh=9nkeeLbqRVoHNO0OGqbIdgMRYgQNLcDrWm7X/mzEJ1o=;
+        b=etI3c2ZVpEIDbi5bESUCGv7d0vSIlACgPA+unaThQvKscblZMeU72HcOYPW2GtqK1N
+         5/4cnu7FgiGsFac12wVGwP1PrTK8+YNcxpMWtmpQ67rjdqMPALzPD3e/Cnn9rxzbqdLs
+         lCKY3Rg+8r7+amWjHSvUmhd3uD+GMvUmeKQzvMrzXlhdhUrzfA77J73X5g6vpPcD6GlV
+         bzaRgWZNoHqsLEpVvYYaWfdBjM467eD6mqURzWxRfxq7CVss12Abx9mcua5dZbnG8yqO
+         ZuCdNn0XAswGrLKqP8maPV4psRJwBo0O8Y9k4qHYuai4Nq2KkBmoM9X4k+koUQJCzb7E
+         vDzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778787742; x=1779392542;
+        d=1e100.net; s=20251104; t=1778787740; x=1779392540;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=03sLf7GZ43UAXBy/c8TQkTofSGXJSiF8liOGS0PQ/GQ=;
-        b=sInVERrwBIbuJW4PCewNT0sq2WiTTAxiqP9pNCHUMxWx6eWwvAL7H8NWX4qRmkDQSh
-         i0rSpnAfNEH02zgnYewuisvlf6isKisghoN0R6FPQ/GlsY8D06OAelrI9+g2YRRjmaCb
-         7FJkgv1E8853vIQIyXQToYZ6TS984xSJ2Q01RSr9hIaj1/s625szK3gzYsJEIdlyoLOC
-         LorDcMb8+rW4FPW70nmxpuswPH+J8kT6gtRY+E8y3gly8JqkUKz0l8MKEUPikN6TMY74
-         MEjM7CVVtwTQN5eltte9KQDy832gMV3bkHxNRMdb4vprnk0dEtga9S49x9VoX1rFnhuj
-         zcSg==
-X-Gm-Message-State: AOJu0YzTqYIjFZgHptzJZEoJh9iV9fnvwQUJEdo6U9zlMW7/gK17pAXn
-	i/AgGcNWRn3rh/BQs2+DfnVAS1FAHEl5dQzOYbv44J4pMfabl9wJzR6zpxuIhr2upyc9VrfTq8o
-	oLAU3lsc=
-X-Gm-Gg: Acq92OF0WKyLHWCi4rUQzmtv9mK9tesMz/a9o2yV97OezthwcdQcy8I4vhn90m5lFHK
-	u9NxQenNh5W6zrFwJH1xg40hML8JsEexmjAw3AEj/gpDsmKTYgphiaaWBBxa+NH4E/BLLpevZ1e
-	ROs4KHI2Nz8laBMENnwWxzaI13Jire30zVTMQBwOgPxXpNbKxmEPiBpXSg5YdRxEIIpzO7x3Wxc
-	bEIhFG4iYkF3HmYGXdnoGIg4qRmeVsPijacANK42WcLUiDyu7j1RfvoMJyDW/ugnDIFCjzIhbuO
-	ZQmHyplKeaBAdUaY766EgmwkL8EFf/1NX7z6RZ4Ejpmwl889l3qiHXvav52xLQEZEjdeCH8g4q1
-	5sDoLNyveDFZS6PC46DWQYEOGJPvHb5IWKxW8xOT7vAvCIY6tfJtT90Zpjox8fDHp8OfHYuh30s
-	tSl10CQ7rSAr1tsP+AcPAi1C/ILQ==
-X-Received: by 2002:a05:622a:544c:b0:50f:b260:cad7 with SMTP id d75a77b69052e-5165a1ec980mr10712821cf.41.1778787742375;
-        Thu, 14 May 2026 12:42:22 -0700 (PDT)
+        bh=9nkeeLbqRVoHNO0OGqbIdgMRYgQNLcDrWm7X/mzEJ1o=;
+        b=frxUpFZSmIexYy7fbmcEX1468hlFMWRBVT40IWhhrZWBF7Sbdap6kqEYrMyEQLS862
+         T+tg57PE2G/tWg/sbpT0qilaf9pLy+KYR2s6HyWPR+6pFvO7EgNK1LW5exHRnG+GKj61
+         36ErIsXuu5UuaY6Fr+gI/z/N+DkfBGTG9IXVG3U2LGW0AwRe+QeEtKhk7hzV3TwhOZx1
+         +umBYRDTlU3cnYUu9xryToit5/8YvhPtPL44TxDU6wZhLGyyls52004rrz1IBdplMJTf
+         t9VkFW2aIXEZsnLzZryVy8tV1t3g04miRrnzOBH+xPJJIBWbh8nJFTnouzzSVBYe0hzm
+         0yBA==
+X-Gm-Message-State: AOJu0Ywdvs5FxGhOTKg7940+8Mvy++b/0giZmJ48KD0+Ut3czXI81zHD
+	N1E3iJwXOcZDY9uUugJ+qdS1w8+tP08+lRwfEKUyJuAniSz6vNEZYPetKPBusrNyWTGhRmTvmFA
+	UURKP3sI=
+X-Gm-Gg: Acq92OF2HHlfas1vG0/g0ClrbXtzLzxgDLmg1oMCjBgcuZt9vgItO7I6z+rqCtc/ypH
+	8LEmB7uRPee9Rfu/snhU9ZUpDRoMsjdxuR6SuRtBcGt+Ww2xSF5bi3A8imbyXjbNPP5Dwt0bc5f
+	T4zfE6/G2kleYDvBvA0x6WxLZoZvV60u9K/wrwkxjntL+vrEABvo5zTNqoegvZkQQmbwNWiruz8
+	lZRRQuxQi0xrPHE7SbciposyeHqDgGzKY3xSa8WDpKHcDTZuVJ1VCRC0MA8dpu/YWGSuK+WG0MK
+	zoy12ds23853GyMQ1eZyzOep3KXwbQC7hV4sMiJuSBfIM27Prja5xs5ztp1cVrbz+YYoJlN0g6m
+	nuLX7oJL0MpNLeBVkCBARZJIpe8rAeYplGGpM+zVVHA1rolAqcIlZv6Ra+Kkt0zSscMdQnNkRwv
+	+j2VdEZf5aTAnbPUmpF8lWc7n3qp0x7s3Jt7zO
+X-Received: by 2002:a05:6214:5a05:b0:8b1:f784:7ec8 with SMTP id 6a1803df08f44-8ca0f6fcd58mr19874696d6.47.1778787740483;
+        Thu, 14 May 2026 12:42:20 -0700 (PDT)
 Received: from localhost ([2001:1970:3847:e000:537:a9f7:1a84:f246])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-516457d630csm23862571cf.14.2026.05.14.12.42.21
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c90b2dc42csm31548366d6.26.2026.05.14.12.42.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 12:42:21 -0700 (PDT)
+        Thu, 14 May 2026 12:42:19 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr
-Subject: [OE-core][PATCH 06/11] patchtest: test_patch: improve patch-specific tests
-Date: Thu, 14 May 2026 15:42:02 -0400
-Message-ID: <20260514194207.1958325-7-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 05/11] patchtest: fix branch applicability reporting
+Date: Thu, 14 May 2026 15:42:01 -0400
+Message-ID: <20260514194207.1958325-6-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260514194207.1958325-1-tgamblin@baylibre.com>
 References: <20260514194207.1958325-1-tgamblin@baylibre.com>
@@ -68,169 +68,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 19:42:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237053
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237052
 
-[YOCTO #16247]
+There are two issues with how patchtest reports results for testing a
+patch series:
 
-- Create two new tests:
-  1. test_patch_malformed_context, for catching empty lines which might be
-     treated as context lines (and ensuring they begin with proper diff
-     characters);
-  2. test_patch_trailing_whitespace, for catching trailing spaces/tabs on
-     new lines.
+1. When a target branch mismatch is detected, it reports (for example)
+   "scarthgap 50/71" as the target branch instead of just "scarthgap";
+2. It doesn't report the full shortlog for a commit which fails to
+   apply, as expected.
 
-- Be explicit about line numbers when a patch has one or more malformed
-  lines. To do this correctly, we actually have to rework the test a bit
-  and extract the inner patch hunks for checking, otherwise we are
-  functionally testing the entire diff and reporting malformed lines for
-  the whole commit. This means, for example, that we could see something
-  like this for an mbox adding a patch with only 29 lines:
-
-  |FAIL: test patch malformed context: Malformed patch line: context line is missing its leading space prefix (test_patch.TestPatch.test_patch_malformed_context)
-  |    Patch: 174c24d6e87aeae631bc0a7bb1ba983cf8def4de.patch
-  |    Lines: 23, 36
-
-- When no new patches are introduced, patchtest reports that there are
-  no *CVE* patches introduced, but this is not the only type we
-  potentially carry. Remove that acronym from the message so the warning
-  doesn't mislead users.
-
-- When running test_signed_off_by_presence() and
-  test_upstream_status_presence_format(), don't test the existing tags
-  if the patch has only been modified to carry forward. This way we
-  avoid sending false positive emails out during some upgrades and patch
-  refreshes.
+Fix both issues, but make sure that we only print shortlogs for patches
+which fail to apply if there's more than one actual commit being tested,
+as otherwise the patch failing to merge is obvious.
 
 AI-Generated: Uses Claude Code
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/lib/patchtest/tests/test_patch.py | 80 +++++++++++++++++++++++++-
- 1 file changed, 78 insertions(+), 2 deletions(-)
+ meta/lib/patchtest/mbox.py            | 5 ++++-
+ meta/lib/patchtest/tests/test_mbox.py | 2 +-
+ scripts/patchtest                     | 5 ++++-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/patchtest/tests/test_patch.py b/meta/lib/patchtest/tests/test_patch.py
-index 9f1d7d2c8f..42a4f7f9ac 100644
---- a/meta/lib/patchtest/tests/test_patch.py
-+++ b/meta/lib/patchtest/tests/test_patch.py
-@@ -10,6 +10,23 @@ import os
- import patchtest_patterns
- import pyparsing
+diff --git a/meta/lib/patchtest/mbox.py b/meta/lib/patchtest/mbox.py
+index 400d73f19f..2342fbda65 100644
+--- a/meta/lib/patchtest/mbox.py
++++ b/meta/lib/patchtest/mbox.py
+@@ -70,7 +70,10 @@ class PatchSeries:
+         # Parse each [tag] in the subject individually
+         tags = re.findall(r'\[([^\[\]]*)\]', self.patches[0].subject)
+         valid_branches = [t.strip() for t in tags if PatchSeries.valid_branch(t.strip())]
+-        return valid_branches[0] if valid_branches else None
++        if not valid_branches:
++            return None
++        # Strip trailing series position, e.g. "scarthgap 50/71" -> "scarthgap"
++        return re.sub(r'\s+\d+/\d+$', '', valid_branches[0])
  
-+
-+def _format_line_numbers(nums):
-+    """Format a sorted list of line numbers as compact ranges, e.g. [1,2,3,7] -> '1-3, 7'."""
-+    if not nums:
-+        return ''
-+    nums = sorted(set(nums))
-+    parts = []
-+    start = end = nums[0]
-+    for n in nums[1:]:
-+        if n == end + 1:
-+            end = n
-+        else:
-+            parts.append(str(start) if start == end else '%d-%d' % (start, end))
-+            start = end = n
-+    parts.append(str(start) if start == end else '%d-%d' % (start, end))
-+    return ', '.join(parts)
-+
- class TestPatch(base.Base):
+     @staticmethod
+     def valid_branch(branch):
+diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
+index f158f4472c..a216028250 100644
+--- a/meta/lib/patchtest/tests/test_mbox.py
++++ b/meta/lib/patchtest/tests/test_mbox.py
+@@ -89,7 +89,7 @@ class TestMbox(base.Base):
+         if failures:
+             self.fail(
+                 'One or more patches in the series do not apply cleanly',
+-                data=[('Patch', subject) for subject, _ in failures],
++                data=[('Patch', subject) for subject, _ in failures] if len(results) > 1 else None,
+             )
  
-     @classmethod
-@@ -17,7 +34,7 @@ class TestPatch(base.Base):
-         cls.newpatches = []
-         # get just those relevant patches: new software patches
-         for patch in cls.patchset:
--            if patch.path.endswith('.patch') and patch.is_added_file:
-+            if patch.path.endswith('.patch') and (patch.is_added_file or patch.is_modified_file):
-                 cls.newpatches.append(patch)
+     def test_target_mailing_list(self):
+diff --git a/scripts/patchtest b/scripts/patchtest
+index 435610b54f..f359a6a96d 100755
+--- a/scripts/patchtest
++++ b/scripts/patchtest
+@@ -90,8 +90,11 @@ def make_result_class(patch, mergepatch, logfile=None):
+         def addFailure(self, test, err):
+             self.test_failure = True
+             desc = _format_test_description(test)
+-            issue = json.loads(str(err[1]))["issue"]
++            parsed = json.loads(str(err[1]))
++            issue = parsed["issue"]
+             _emit('{}: {}: {} ({})'.format(self.fail, desc, issue, test.id()), logfile)
++            for key, val in parsed.get('data') or []:
++                _emit('    {}: {}'.format(key, val), logfile)
  
-         cls.mark = str(patchtest_patterns.signed_off_by_prefix).strip('"')
-@@ -29,7 +46,7 @@ class TestPatch(base.Base):
-         if self.unidiff_parse_error:
-             self.skip('Parse error %s' % self.unidiff_parse_error)
-         if not TestPatch.newpatches:
--            self.skip('No new CVE patches introduced')
-+            self.skip('No new patches introduced')
- 
-     def test_upstream_status_presence_format(self):
-         if not TestPatch.newpatches:
-@@ -39,6 +56,8 @@ class TestPatch(base.Base):
-         standard_format = "Upstream-Status: <Valid status>"
- 
-         for newpatch in TestPatch.newpatches:
-+            if not newpatch.is_added_file:
-+                continue
-             payload = newpatch.__str__()
-             lines = payload.splitlines()
- 
-@@ -147,6 +166,8 @@ class TestPatch(base.Base):
-             self.skip("There are no new software patches, no reason to test %s presence" % TestPatch.mark)
- 
-         for newpatch in TestPatch.newpatches:
-+            if not newpatch.is_added_file:
-+                continue
-             payload = newpatch.__str__()
-             for line in payload.splitlines():
-                 if patchtest_patterns.patchmetadata_regex.match(line):
-@@ -169,3 +190,58 @@ class TestPatch(base.Base):
-                 if not tag_found:
-                     self.fail('Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX"',
-                               commit=commit)
-+
-+    def _iter_inner_patch_hunk_lines(self, newpatch):
-+        """Yield (lineno, raw) for each newly introduced hunk content line in a .patch file.
-+
-+        Reads from the outer diff's added lines so we check exactly what the
-+        submission introduces, regardless of what may already exist on disk.
-+        lineno is 1-based among the added lines of the inner patch content.
-+        """
-+        # Collect inner patch lines from the outer diff's '+' lines.
-+        # '++++ b/file' (outer '+' + inner '+++ b/file') starts with '+++' and is
-+        # excluded, but in_hunk will already be False from the preceding '--- ' line.
-+        inner_lines = []
-+        for line in str(newpatch).splitlines(keepends=True):
-+            if line.startswith('+') and not line.startswith('+++ '):
-+                inner_lines.append(line[1:])
-+
-+        in_hunk = False
-+        for lineno, raw in enumerate(inner_lines, start=1):
-+            if raw.startswith('diff --git') or raw.startswith('--- ') or raw.startswith('+++ ') or raw.startswith('index '):
-+                in_hunk = False
-+            elif raw.rstrip('\n\r') in ('-- ', '--'):
-+                # git format-patch email signature separator; nothing after this is hunk content
-+                in_hunk = False
-+            elif raw.startswith('@@ '):
-+                in_hunk = True
-+            elif in_hunk:
-+                yield lineno, raw
-+
-+    def test_patch_malformed_context(self):
-+        for newpatch in TestPatch.newpatches:
-+            bad_linenos = []
-+            for lineno, raw in self._iter_inner_patch_hunk_lines(newpatch):
-+                # git strips trailing whitespace from blank context lines, leaving bare '\n'
-+                if raw.rstrip('\n\r') and not raw.startswith((' ', '+', '-', '\\')):
-+                    bad_linenos.append(lineno)
-+            if bad_linenos:
-+                self.fail(
-+                    'Malformed patch line: context line is missing its leading space prefix',
-+                    data=[
-+                        ('Patch', os.path.basename(newpatch.path)),
-+                        ('Lines', _format_line_numbers(bad_linenos)),
-+                    ],
-+                )
-+
-+    def test_patch_trailing_whitespace(self):
-+        for newpatch in TestPatch.newpatches:
-+            for lineno, raw in self._iter_inner_patch_hunk_lines(newpatch):
-+                if raw.startswith('+') and raw.rstrip('\n\r') != raw.rstrip():
-+                    self.fail(
-+                        'Trailing whitespace in added line',
-+                        data=[
-+                            ('Patch', os.path.basename(newpatch.path)),
-+                            ('Line', repr(raw)),
-+                        ],
-+                    )
+         def addSuccess(self, test):
+             desc = _format_test_description(test)
 -- 
 2.54.0
 
