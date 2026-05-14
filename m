@@ -2,63 +2,63 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8CE8CD4F41
-	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 19:42:27 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19916.1778787746929474962
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7EE4CD4F39
+	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 19:42:37 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19897.1778787749130114660
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2026 12:42:27 -0700
+ Thu, 14 May 2026 12:42:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20251104.gappssmtp.com header.s=20251104 header.b=wW+VZKv/;
- spf=pass (domain: baylibre.com, ip: 209.85.222.170, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-90fbf21d9d3so329733485a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 12:42:26 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20251104.gappssmtp.com header.s=20251104 header.b=J4oMBF1G;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.41, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8b5de17382cso61012326d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 12:42:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778787746; x=1779392546; darn=lists.openembedded.org;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778787747; x=1779392547; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f0oz8UC0HsO76iOCQQOJfXC7w97F/7y97/18eSRQVyA=;
-        b=wW+VZKv/9GVjLNYqefbgK8D8tjRz1W6RNE1cejirylLwpBRCSVFWw8yMqCsBJzLAEH
-         Fr7Ta+AHgsigoW5Ch8a9bIErjUX+fJl/KgSpevbQHRqbQ4NbKuYIIygn7/1zMrdCDoKe
-         lp682L1giQAHfGaSDjkzxgEHnx6N4l9Tw9Xzt9Hk/ORGqU2p5Q0YkQ/I2DgdzRxDLiL3
-         OWSm2wvD8e/zZA7DTAaW5ljB3gKCOHe4rlfg3d7t96uCEGSTuC2ZQGql6cyFsmporS5s
-         Cb/bpJoNNQhf6TVc/ZeOCbtwAKXWzB4+OjP7qWV7NAQu/DdThqlbnTotk1CnVnI/cwVs
-         xVYQ==
+        bh=PeyK0wgBvEGvRBzxwPhgqKGbT7kA4AAeUKYw+Q1AWRU=;
+        b=J4oMBF1GhudxYwezZfHdnR7o6S/BWSvAXpWRZbL4+DJct4UkdpuEH6x+cVwi2daTpq
+         8kJk9ovANisIUFDW0KFM/8Cs7Ivl50ISUIhdFTJRPqiUpPa3S+SLarii5evx3otZedKd
+         FPvxSt/FGRQSuuIwgxjQsTcsJ6sgOceuEdp91eLQqlOXKF/rJXW+kzArhLq6JJPUW3oy
+         hC2LdMs6tbNtDVitsdkgg7AWnpy6OzxhKtcU9DKCZYibdKoRODLg+S4hFxSPb71HfVek
+         wzG8YBPMtmRmoWYytRV0+L6ugG0XaFuidCDRopp8jaonnkavsdXT6idSS6phBfimBdcC
+         SE6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778787746; x=1779392546;
+        d=1e100.net; s=20251104; t=1778787747; x=1779392547;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=f0oz8UC0HsO76iOCQQOJfXC7w97F/7y97/18eSRQVyA=;
-        b=f+5oNFD5tDd+Ca1826jANM0XRsBPu0UIppbY5oIVvTtVfGIUDzz+Bo9Ha9pakQMTf/
-         vpNfbsw2glJ+zRg59HnERuqh6P7Kc4Jcjk/ir3ntObTx7n1wJ/7R1SohhRVp0GaTEe8b
-         rRLlc/cvCV4nvA3va+XBAVCEX9D2JQ45DFJNyZrjhFnKx9A3K8mPxxqWDRMBu8pgKiri
-         UgL1NoUitO4RXF+VusDWyei4+T4ZmO4u32dx5MP4pNwC3Q4jaMoNPF7EkdtC83Z7FzbH
-         yJ2LChoZa4/HVh6Cx2bwUJSuRrTsP0pjNUv+znUYBLOf3aNckIK23RY3PlPH6VhjhhG6
-         Mofg==
-X-Gm-Message-State: AOJu0YwkaTV/AlGaIzlf8tic/SJRmc55Jd/YkznW4hpHNCluhIW3EkAI
-	3nH15vLBTKqhGyID9eAfsIPEaJj7OJ3IUJ7t/0c/UXPjQW/8nLoQ7HS6dMVPkcYGM++7dgqoDku
-	CgyBKp6Y=
-X-Gm-Gg: Acq92OGZY3ovIZDj5Agv7LFbNiLHZ2CIS3/8QjqUenSgzCzglqHSJag20WCfXrTOjEH
-	ZTkRDvRY/aPUJh50BcW5FKGbMNWTpHBo2E4cp3R74iqqsJ3iz5zhiQoUeRaNbvUZ9a9Cv+Y2E02
-	c66TYNRFUrEyKr/49Ye5p+96rb0mKIsFXJHxt8JcSQU94GHbK22njDPR47jaQdSw87Se4Uo6N0A
-	0Vnde+u66qcbnn2Qmpl/TitUbZr2qE+TEADpZhPZoogU8cQRFH0CAJuZjE2AirIxR3v1FglPKR/
-	+cY6sIJUYVp3JcBXUtxpJTqdXw86kvMwpoaepspISIu1HDpv3hGXtQBy6PRqf6yNlNCWjIu36SL
-	kZOWQc0G2Y0teb8zNtsFZkFXoxMy2oe7xbtFdalLMlUZpfV16SLd0a0WrtsJyWPMfHV+LOM+kS/
-	wnMfwiUh7lk+Xhd/0bIj6Ob4FQeKYB4BNhZcOv
-X-Received: by 2002:a05:620a:4481:b0:8cd:b6b7:1e6c with SMTP id af79cd13be357-911cdc4336emr172512785a.35.1778787745819;
-        Thu, 14 May 2026 12:42:25 -0700 (PDT)
+        bh=PeyK0wgBvEGvRBzxwPhgqKGbT7kA4AAeUKYw+Q1AWRU=;
+        b=jJ1DWAtfFx/r4eXpI/8tClHxJIK1WnRe3nOZZSs5Tvu1DlCokFs1bWJ0VtKs3XyRBB
+         IkFRr7Lda5YTz9xy65oqA0KbI/3jRLyCAWOAmuaigwZNYeZk8lt/gfsquajKg3MqzI4k
+         X74JUDA0b/GdJXNk3graZT60ligjjOWMO5tIq7fteOoDlA7O2sh3bOpAsMLV3dQECMfB
+         B1lSe143aD+VTwJzNBpbofAnVgIp8SCIUoTObm9lfQTTaiRx1Kx19ZPq3i85iseT27qa
+         M5VRu6zAVAOw6hDM9CN064w6sQPQgktBGbmMffBGejc1U1iOueTGadn8lUFa2gjIr6CR
+         GHaQ==
+X-Gm-Message-State: AOJu0YybrkDBK9q1Vc4m57j4PEWxzr/E1D8Sg6VWBWd5OUaMNZjbVdfb
+	VZM4BrdCd+sFTz6bgD/671WilPXfQ6GehO+gUIbtn5StbcLQJM2YgDQkgO6T1oWnSGWr4yEsAxV
+	0tk0wXJA=
+X-Gm-Gg: Acq92OEjRYV+kK7kYDmcoGLf2JKNdoSAqSObQhfsw3niCnGExynmlMhVkqxuW85PiqB
+	k7+I+EbP6BHQJ8QRD2ImgojQOURjwMtCDfRlrziZ8Qx24+3iG/beC34OeTZoJ1jzPZYP3jlQ+Ug
+	ny0GeGBR2VjKVEngIUzVZZbIlHVln7ZdCsNzAC6EPatNOKppuUNuPPOKbMSkyW/kHW8T9E4swM3
+	ezWAK+sp+SfrlolfCT7gF2PnOAd7fQWeAi1Ul/pAMQxbNlr5XrZFZDG6AztmgVI1N6VuvbaulDU
+	uyGzMQvmuvITUuhESsuCs9L5r56A3th9VCw6obGtIFNtA1Y6fMY3Z96Ihxk7aH7U1mKM2D/L1Wr
+	Ek1Q9wPzKxj2L6OWkNrA3z5IAvJVmRypxnzKEEikEA1hGOFkJFEBcacmnoKD1ecDF/xc9eteNq5
+	zgyh8Lt/kZg4PdzL1NF3hCufXg9Q==
+X-Received: by 2002:a0c:f003:0:b0:8ca:eca:dc91 with SMTP id 6a1803df08f44-8ca0f634fa2mr19778636d6.6.1778787747490;
+        Thu, 14 May 2026 12:42:27 -0700 (PDT)
 Received: from localhost ([2001:1970:3847:e000:537:a9f7:1a84:f246])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c90c372117sm31517336d6.47.2026.05.14.12.42.24
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c90c372117sm31517996d6.47.2026.05.14.12.42.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 12:42:24 -0700 (PDT)
+        Thu, 14 May 2026 12:42:26 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr
-Subject: [OE-core][PATCH 08/11] patchtest: mbox.py: improve 'From' line matching
-Date: Thu, 14 May 2026 15:42:04 -0400
-Message-ID: <20260514194207.1958325-9-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 09/11] patchtest: selftest: stop if patchtest fails
+Date: Thu, 14 May 2026 15:42:05 -0400
+Message-ID: <20260514194207.1958325-10-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260514194207.1958325-1-tgamblin@baylibre.com>
 References: <20260514194207.1958325-1-tgamblin@baylibre.com>
@@ -67,60 +67,88 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 19:42:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237055
+ <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 19:42:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237056
 
-It's possible that a patch's commit message includes a line that begins
-with 'From' to indicate a range, where a change's inspiration came from,
-and so on. The current patchtest logic automatically splits on anything
-that looks this way, which results in an error thrown due to missing
-context in the diff list. Add a new regex pattern matching the typical
-'From' line format in patch files so that patchtest splits on the
-correct text.
+- Make sure that the selftest doesn't run the full suite and provide
+  useless output if patchtest itself fails. Now we see this sort of
+  message, for example when meta-selftest isn't in bblayers.conf:
+
+  |(venv) tgamblin@megalith ~/workspace/yocto/openembedded-core (master)$ ./meta/lib/patchtest/selftest/selftest
+  |patchtest failed before producing results:
+  |patchtest: meta-selftest layer not found in /home/tgamblin/workspace/yocto/openembedded-core/build/conf/bblayers.conf - add it to BBLAYERS before running patchtest
+
+- If the selftest stops because patchtest does, the branch isn't reset.
+  Make sure this happens.
+
+- Adjust the way we parse the resultline content in selftests so that
+  malformed output lines are skipped instead of crashing the selftest
+  script when we split on a ':' character.
 
 AI-Generated: Uses Claude Code
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/lib/patchtest/mbox.py               | 3 ++-
- meta/lib/patchtest/patchtest_patterns.py | 4 ++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ meta/lib/patchtest/selftest/selftest | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/meta/lib/patchtest/mbox.py b/meta/lib/patchtest/mbox.py
-index 2342fbda65..990ae02109 100644
---- a/meta/lib/patchtest/mbox.py
-+++ b/meta/lib/patchtest/mbox.py
-@@ -11,6 +11,7 @@
- #
+diff --git a/meta/lib/patchtest/selftest/selftest b/meta/lib/patchtest/selftest/selftest
+index 26d1b61227..d922e12206 100755
+--- a/meta/lib/patchtest/selftest/selftest
++++ b/meta/lib/patchtest/selftest/selftest
+@@ -56,6 +56,8 @@ def analyze_result(results, patch, counts, return_code):
+     expected_result = str(patch["expected"])
+     for resultline in results.splitlines():
+         if testid in resultline:
++            if ':' not in resultline:
++                continue
+             result, _ = resultline.split(':', 1)
  
- import email
-+import patchtest_patterns
- import re
+             if expected_result.upper() == "FAIL" and result.upper() == "FAIL" and return_code != 0:
+@@ -80,7 +82,10 @@ def analyze_result(results, patch, counts, return_code):
+                      counts["error"] = counts["error"] + 1
+             break
+     else:
+-        print ("No test for=%s" % patch["patch"])
++        if return_code != 0:
++            print("patchtest failed before producing results:\n%s" % results.strip())
++            sys.exit(return_code)
++        print("No test for=%s" % patch["patch"])
  
- # From: https://stackoverflow.com/questions/59681461/read-a-big-mbox-file-with-python
-@@ -32,7 +33,7 @@ class MboxReader:
-         lines = []
-         while True:
-             line = self.handle.readline()
--            if line == b'' or line.startswith(b'From '):
-+            if line == b'' or patchtest_patterns.mbox_from.match(line):
-                 yield email.message_from_bytes(b''.join(lines))
-                 if line == b'':
-                     break
-diff --git a/meta/lib/patchtest/patchtest_patterns.py b/meta/lib/patchtest/patchtest_patterns.py
-index b3478d2f0f..e12e85c65b 100644
---- a/meta/lib/patchtest/patchtest_patterns.py
-+++ b/meta/lib/patchtest/patchtest_patterns.py
-@@ -61,6 +61,10 @@ mbox_cover_letter_regex = pyparsing.Regex(r'\[\S+\s+0+/\d+\]')
- mbox_shortlog_maxlength = 90
- # based on https://stackoverflow.com/questions/30281026/regex-parsing-github-usernames-javascript
- mbox_github_username = pyparsing.Regex(r'\B(?<!\${)@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))')
-+# Standard mbox From_ separator line: "From <addr> Www Mmm [D]D HH:MM:SS YYYY"
-+mbox_from = re.compile(
-+    rb'^From \S+ \w{3} \w{3} [ \d]\d \d{2}:\d{2}:\d{2} \d{4}'
-+)
+     return counts
  
- # patch
+@@ -131,12 +136,10 @@ def git_detach_head():
+ 
+ # Once the tests are in oe-core, we can remove the testdir param and use os.path.dirname to get relative paths
+ def test(root, patch):
+-    res = True
+     patchpath = os.path.abspath(os.path.join(root, patch))
+-    
+-    cmd     = 'patchtest --base-commit HEAD --repodir %s --testdir %s/tests --patch %s' % (repodir, topdir, patchpath)
+-    results = subprocess.run(cmd, capture_output=True, universal_newlines=True, shell=True)
+-
++    cmd = 'patchtest --base-commit HEAD --repodir %s --testdir %s/tests --patch %s' % (repodir, topdir, patchpath)
++    results = subprocess.run(cmd, universal_newlines=True, shell=True,
++                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+     return results.returncode, results.stdout
+ 
+ def test_head_attached(patches, counts, branch):
+@@ -171,10 +174,12 @@ def run_tests(patches, counts):
+     temp_branch = "test_patchtest_head_attached"
+     git_state = get_git_state()
+     assert git_state['branch'] != temp_branch, f"Cannot run patchtest selftest while on branch '{temp_branch}'"
+-    counts = test_head_attached(patches, counts, temp_branch)
+-    counts = test_head_detached(patches, counts)
+-    restore_git_state(git_state)
+-    run_sh(f"git branch -D {temp_branch}")
++    try:
++        counts = test_head_attached(patches, counts, temp_branch)
++        counts = test_head_detached(patches, counts)
++    finally:
++        restore_git_state(git_state)
++        run_sh(f"git branch -D {temp_branch}")
+ 
+     return counts
  
 -- 
 2.54.0
