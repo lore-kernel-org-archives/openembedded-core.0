@@ -2,216 +2,364 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E71CD4F41
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 816FCCD4F39
 	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 19:42:17 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19884.1778787730996529850
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19885.1778787733082468346
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2026 12:42:11 -0700
+ Thu, 14 May 2026 12:42:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20251104.gappssmtp.com header.s=20251104 header.b=Egk1NerD;
- spf=pass (domain: baylibre.com, ip: 209.85.160.176, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-50faf8ed9c5so44912051cf.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 12:42:10 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20251104.gappssmtp.com header.s=20251104 header.b=KQmRdOp2;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.42, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8b98482b253so111529956d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 12:42:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778787730; x=1779392530; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZbyPQPD5eU7Qj5L6AhGzGghmIkDUdhE1EtdhBNAjvV0=;
-        b=Egk1NerDsnEw6o5joIk3itcB10yFaE7qasXgYrFerxxtKSl6dknluaTufDxhQ6TSuG
-         difa9bQ2+5ErYIFuVJ0RbGbJdH+u9CSrAMiIk9c/csH6cdXx3Bmru4zNNi5C/Lw4pit2
-         +npPeEWBzUJGGQXFjf8aPIMPg1IR/0l1+qMalrcXq2LT20J1slfgq1Q1Lz9LPoHGPtfu
-         yKgrq39F90XRJLLtoNQ9fnoCEOxza0wlnO8IGdH2jSgIQ+Okt7A0S9tomA5eQRPXXqRY
-         ZJGi8omd4fwvcaZio+hfBpTTKYNiOPN5hwPr3xKvJHp5NaqVwVWxx+WrHGHrb8RZ6aNV
-         yC6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778787730; x=1779392530;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778787732; x=1779392532; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZbyPQPD5eU7Qj5L6AhGzGghmIkDUdhE1EtdhBNAjvV0=;
-        b=CazIKtmV4/FXIPgCF3Z0OabElzn1cS6fIFwYU0vUqr5zrlIP16Gp8Xaf96nDKkl/gQ
-         JI0qzqe1yVKpK6w9BA3kz2XOB67PDWlFTcCdtpvIGeVoNZEo4tJIytzRufPH6tFZxZgF
-         fFyjtHG/nCXy0SpF4WLfamYoGQudwalr+ia/S0Q9CudnYSB4pmZFbz/OOinDjxapp2CA
-         70Fp17nKwFZrdmPs6VvlmjZPsmEKRmAyHAQm6MXo3ZPKUsUg4kTT/fMRQ5BXIdRtBbuh
-         oT+GiYnwASpZi5tfNCwI93M1CBMp9bQc7tTpDpd5Ba2El9IgicBM5b6EaT3iutOMbN7b
-         nR1A==
-X-Gm-Message-State: AOJu0YyAr9HJ/WnXEdhes2BE28vUsCxpGvAjIKl2Gx00CSn1ZC67roXe
-	Q+fpMmW5v4LwKoathz/gjXzeMdSDKMadMvpw4vh1pI12ozwkNAk4Zx5cfWGq6JYttnfbFYR6Uxi
-	EhMdRrGY=
-X-Gm-Gg: Acq92OEccK/PAxZuVPsChdAaQCti/GN4rWxucuQg8CVUUP7sDvP3glFasmLGSo1ipsL
-	vFGXzB/HPOKZJ7Z3bi5pWfzp42/Y4MLzolzkHlH/OUGJoXdhT4m2gsVgDBWgWltrBWLTz5n7D0V
-	WmDJJ9IOrODw4BQkom0KoMNyRNfuD7Fjuvyn8lBLp1XO+35uQ8qTibFs9pJ/T8GZxjPE88tK4yy
-	uMw19rkBeu9f+YHCgceLE0QRZojB8lP7InsOkmVaGgzYUQ3NEdIioZgIP8uTv456d34XEsd3bXL
-	CPbXRP4oYyEaDkwxk6i114KmewyRRw2167EOKB7fzfypzvRm4ImGSPqk+7dvZ14MxZ0dYOTrMCg
-	Cv4uLcFNwy3MWFs7LpOkA8ov5O1bOi6dYyTGhGMzh/+uFchJc4DcukxYsx34sMFhMLvtXsz0mKq
-	S2bf1Mo6C+LJvJSVf0RfPej187IQ==
-X-Received: by 2002:a05:622a:4e06:b0:512:e813:7ceb with SMTP id d75a77b69052e-5165a21a05bmr9571131cf.46.1778787729781;
-        Thu, 14 May 2026 12:42:09 -0700 (PDT)
+        bh=oVoUZiRJ0gsx1vHCooFoI5IwMpQUoj/9ia9BAu/KPBs=;
+        b=KQmRdOp2WEf1ImoPL4cIvySsV5jv115MXfFpNn00UJjK7j3L1JK5g+IVAWshsB0BJk
+         X1Xa3VprrAgSM4Rdzj0ev3PSkmyttQKDER/t5Dm9fSHQEL0jLGlLLss/mN5CC8rGQOp1
+         7kWzcwYXxGkLgxgH6TRKOqTVwZCa24O4+c0bOKOPa2X1wpcTF46YtxBHtoTv29wI9O+W
+         +NMgQMTgBFhL+41jVTPEe/ALQoY7Vr0zDvjYH0D4crRcxvfgfkhLGTNJN0NO6oY7ZV7w
+         HWOMVf+k5XNp6aJUizAa8sOpchXpO91RTyXtEJEcIZjEERjvAGyEPFiRULx7tKEytPDM
+         NLVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778787732; x=1779392532;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oVoUZiRJ0gsx1vHCooFoI5IwMpQUoj/9ia9BAu/KPBs=;
+        b=qSA18j2q+KshlEnrN85EtDXMiu+UdpxkwyLtD7DJa5C7lASN5eLv7k5PKHkHkzDY9B
+         nuVHMmTod+pokSWENDTKCvQYBkA5qMogn7IjxlOXZlbj9kvt5KdnuM0aq8jKeJPtKJTJ
+         wR7AET967+TxGr5A7HfGpUt3/apAebMrVTcyIUObXUXun6+yIzLqPyi9Hmi7KCh8UuGZ
+         cRhZ7e/emFdptimp7/HiNMO+xOz+fFYXxJt263e9x4J7pP+VpTEf0D/jClf1OYLDPbKV
+         3Xoaieu4frVv0v24ZGdKWcHIvEl9HObtgytn/k5xrxbFPHWh1RCEGxesEthd/0gPnGED
+         hKVg==
+X-Gm-Message-State: AOJu0YxcnAws940L4qYSRnkJo8hgrsGTDTvvbKwpeIgWos4aGBmqdcka
+	9u0RIEh/PYLeavwam5mgIiyiltcB3PJcPye1EFB8RQ/ZU+EVNAL1AcF+GvoCR1du/chEgkcWx7V
+	pIJdscwM=
+X-Gm-Gg: Acq92OG8jfQduGi3majFF41Tn084lX9XvsFLOiwjPBkdCNmSShleAkyOJtZG3xME/Av
+	i1iHPrAu5NSZQyokjLryKbTX2qFSz24aaGgqZ4tLeHa/lfuVfY9Mv2x512AadotcT/D9Qc7ii6A
+	q7Osm92J3P+vSEm2O3M2/faFrB5+c+P9vRg5S678Oy/Ctinx7Pqf2bwiVa/VYwt6TqzKYEL185M
+	ytIjAuz+C1j6yg8Oeg4SiRWM5s9qZoskDwNiligQtgcuEe/FptS0QTnNOkMk+dq4fAp4zpOKNcT
+	AinmRavUc+V5qjvizYHal2YUa0n75YzbYHpLtazJDxJuCUT+bwIDTb0/tH8XoKVsi/Nh5QU6D5s
+	gcp/qFtXHGGGrJPs74nMdf8KIcevVUzMlx0CNEbl32yX2hDCKQPUtNIsoSyT9WRnC3XKCOc7Cl9
+	nhlQlqOUsKykhnAy7XGeh1hUMYTA==
+X-Received: by 2002:a05:6214:398a:b0:8ac:ae56:b493 with SMTP id 6a1803df08f44-8ca0f6c434dmr16292186d6.40.1778787731840;
+        Thu, 14 May 2026 12:42:11 -0700 (PDT)
 Received: from localhost ([2001:1970:3847:e000:537:a9f7:1a84:f246])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-516456b6cf7sm25177011cf.8.2026.05.14.12.42.08
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c908f0601asm33511106d6.17.2026.05.14.12.42.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 12:42:09 -0700 (PDT)
+        Thu, 14 May 2026 12:42:11 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr
-Subject: [OE-core][PATCH 00/11] patchtest: improve testing coverage
-Date: Thu, 14 May 2026 15:41:56 -0400
-Message-ID: <20260514194207.1958325-1-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 01/11] patchtest: check for meta-selftest, cleanup script
+Date: Thu, 14 May 2026 15:41:57 -0400
+Message-ID: <20260514194207.1958325-2-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260514194207.1958325-1-tgamblin@baylibre.com>
+References: <20260514194207.1958325-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 19:42:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237047
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237048
 
-Make changes to the patchtest script, helper modules, test suites, and selftest
-files to address various shortcomings with the current version, including:
+- Stop immediately and print a warning if meta-selftest isn't in
+  bblayers.conf:
+  |patchtest: meta-selftest layer not found in /home/tgamblin/workspace/yocto/openembedded-core/build/conf/bblayers.conf - add it to BBLAYERS before running patchtest
+- Remove a variety of unused code blocks and inconsistent formatting,
+  then simplify the results-generation logic. This includes removing the
+  'finally:' block which was never actually reached.
 
-- Re-enable the previously included mergeability tests, which have been broken
-  since prior to the 2023 Yocto RFQ
-- Improve series testing by fixing signal handling and return code logic for the
-  '--directory' flag, and by making it possible for patchtest to report the
-  shortlog for failing commits when testing series as single files
-- Make branch checking for merge tests more robust but retain flexibility for
-  the selftest suite, and so that users can test series against branches other
-  than the target one
-- Add new tests for malformed lines and whitespace in the TestPatch module
-- Refactors across the entire suite to remove dead code, simplify logic, and
-  update selftest files
-- Expand the selftest file suite for all of the new cases added, bringing us
-  from 38 to 51 selftests.
+AI-Generated: Uses Claude Code
 
-Before: 
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ scripts/patchtest | 170 ++++++++++++++++++++--------------------------
+ 1 file changed, 73 insertions(+), 97 deletions(-)
 
-|============================================================================
-|Testsuite summary for patchtest
-|============================================================================
-|# TOTAL: 38
-|# XPASS: 18
-|# XFAIL: 18
-|# XSKIP: 2
-|# PASS: 0
-|# FAIL: 0
-|# SKIP: 0
-|# ERROR: 0
-|============================================================================
-
-After:
-
-|============================================================================
-|Testsuite summary for patchtest
-|============================================================================
-|# TOTAL: 51
-|# XPASS: 25
-|# XFAIL: 26
-|# XSKIP: 0
-|# PASS: 0
-|# FAIL: 0
-|# SKIP: 0
-|# ERROR: 0
-|============================================================================
-
-As always, there's lots of room for patchtest to grow further (I'd still very
-much like to convert it to a standalone Python tool one day). However, this is
-already a sizeable rework, and it should bring immediate benefit to anyone using
-it. I've made a point to label each individual patch appropriately, but for
-emphasis this work has been done in tandem with the Claude AI, specifically
-Sonnet 4.6 and 4.7. 
-
-Given the skepticism that many of us have towards AI tooling, I made a point to
-do a review of the changes Claude had made myself before performing the final
-squash and rebase. This did reveal some bloat that I've since removed, but for
-the most part it made functional and useful changes. The selftest suite was
-routinely triggered locally to ensure it didn't cause any bizarre regressions,
-and new selftest files were added immediately for new test cases (or, in the
-case of the mergeability tests, refactored so that they were no longer labeled
-as skips). I've also made a point to pull patch series at random from the
-mailing list and test directly.
-
-Parts of this series (such as the '--directory' usage improvements) were written
-to address the needs of folks at Smile. Others address one or more outstanding
-bugs in Bugzilla, which I haven't consistently labeled as such (but I'll close
-them when this gets merged). The next priority will be to improve the actual
-deployment of the Patchtest service on the Yocto Project infrastructure.
-
-Trevor Gamblin (11):
-  patchtest: check for meta-selftest, cleanup script
-  patchtest: test series mergeability
-  patchtest: tests: cleanup test suites
-  patchtest: correctly abort --directory test
-  patchtest: fix branch applicability reporting
-  patchtest: test_patch: improve patch-specific tests
-  patchtest: test_mbox: skip cover letters
-  patchtest: mbox.py: improve 'From' line matching
-  patchtest: selftest: stop if patchtest fails
-  patchtest: selftest: rework test files
-  patchtest: selftest: extend test file suite
-
- meta/lib/patchtest/mbox.py                    |  56 ++---
- meta/lib/patchtest/patchtest_parser.py        |   2 +-
- meta/lib/patchtest/patchtest_patterns.py      |   5 +
- meta/lib/patchtest/repo.py                    |  48 +++++
- ...x.pretest_series_applies_on_branch.1.pass} |  22 +-
- ...x.pretest_series_applies_on_branch.2.fail} |   0
- .../TestMbox.test_bugzilla_entry_format.fail  |   5 +-
- .../TestMbox.test_bugzilla_entry_format.pass  |   5 +-
- ...TestMbox.test_commit_message_presence.fail |   5 +-
- ...TestMbox.test_commit_message_presence.pass |   5 +-
- ...tMbox.test_commit_message_user_tags.1.pass |   5 +-
- ...tMbox.test_commit_message_user_tags.2.pass |   5 +-
- ...estMbox.test_commit_message_user_tags.fail |   5 +-
- .../files/TestMbox.test_mbox_format.pass      |   5 +-
- .../files/TestMbox.test_non_auh_upgrade.fail  |  25 +++
- .../files/TestMbox.test_non_auh_upgrade.pass  |  25 +++
- .../files/TestMbox.test_shortlog_format.fail  |   5 +-
- .../files/TestMbox.test_shortlog_format.pass  |   5 +-
- .../files/TestMbox.test_shortlog_length.fail  |   5 +-
- .../files/TestMbox.test_shortlog_length.pass  |   5 +-
- ...estMbox.test_signed_off_by_presence.1.fail |   5 +-
- ...estMbox.test_signed_off_by_presence.2.fail |   5 +-
- .../TestMbox.test_signed_off_by_presence.pass |   5 +-
- .../TestMbox.test_target_mailing_list.1.fail  |  26 +++
- .../TestMbox.test_target_mailing_list.2.fail  |  24 +++
- .../TestMbox.test_target_mailing_list.pass    |  25 +++
- .../TestMetadata.test_max_line_length.fail    |  26 +++
- .../TestMetadata.test_max_line_length.pass    |  25 +++
- .../files/TestPatch.test_cve_tag_format.fail  |   5 +-
- .../files/TestPatch.test_cve_tag_format.pass  |   5 +-
- ...estPatch.test_patch_malformed_context.fail |  38 ++++
- ...estPatch.test_patch_malformed_context.pass |  38 ++++
- ...tPatch.test_patch_trailing_whitespace.fail |  38 ++++
- ...tPatch.test_patch_trailing_whitespace.pass |  38 ++++
- ...TestPatch.test_signed_off_by_presence.fail |   5 +-
- ...TestPatch.test_signed_off_by_presence.pass |   5 +-
- ....test_upstream_status_presence_format.fail |  61 ++++++
- ....test_upstream_status_presence_format.pass |  62 ++++++
- meta/lib/patchtest/selftest/selftest          |  25 ++-
- meta/lib/patchtest/tests/base.py              | 117 ++++------
- meta/lib/patchtest/tests/test_mbox.py         |  56 +++--
- meta/lib/patchtest/tests/test_metadata.py     | 112 +++++-----
- meta/lib/patchtest/tests/test_patch.py        | 113 ++++++++--
- .../lib/patchtest/tests/test_python_pylint.py |   8 +-
- scripts/patchtest                             | 200 +++++++++---------
- 45 files changed, 904 insertions(+), 406 deletions(-)
- rename meta/lib/patchtest/selftest/files/{TestMbox.test_series_merge_on_head.1.skip => TestMbox.pretest_series_applies_on_branch.1.pass} (66%)
- rename meta/lib/patchtest/selftest/files/{TestMbox.test_series_merge_on_head.2.skip => TestMbox.pretest_series_applies_on_branch.2.fail} (100%)
- create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_non_auh_upgrade.fail
- create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_non_auh_upgrade.pass
- create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_target_mailing_list.1.fail
- create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_target_mailing_list.2.fail
- create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_target_mailing_list.pass
- create mode 100644 meta/lib/patchtest/selftest/files/TestMetadata.test_max_line_length.fail
- create mode 100644 meta/lib/patchtest/selftest/files/TestMetadata.test_max_line_length.pass
- create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_patch_malformed_context.fail
- create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_patch_malformed_context.pass
- create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_patch_trailing_whitespace.fail
- create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_patch_trailing_whitespace.pass
- create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_upstream_status_presence_format.fail
- create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_upstream_status_presence_format.pass
-
+diff --git a/scripts/patchtest b/scripts/patchtest
+index 143cf08572..e8ace03905 100755
+--- a/scripts/patchtest
++++ b/scripts/patchtest
+@@ -12,6 +12,7 @@
+ import json
+ import logging
+ import os
++import subprocess
+ import sys
+ import traceback
+ import unittest
+@@ -30,37 +31,50 @@ loggerhandler = logging.StreamHandler()
+ loggerhandler.setFormatter(logging.Formatter("%(message)s"))
+ logger.addHandler(loggerhandler)
+ logger.setLevel(logging.INFO)
+-info = logger.info
+-error = logger.error
+ 
+-def getResult(patch, mergepatch, logfile=None):
++
++def _format_test_description(test):
++    return (test.id().split('.')[-1]
++            .replace('_', ' ')
++            .replace("cve", "CVE")
++            .replace("signed off by", "Signed-off-by")
++            .replace("upstream status", "Upstream-Status")
++            .replace("non auh", "non-AUH")
++            .replace("presence format", "presence"))
++
++
++def _emit(line, logfile=None):
++    print(line)
++    if logfile:
++        with open(logfile, "a") as f:
++            f.write(line + "\n")
++
++
++def make_result_class(patch, mergepatch, logfile=None):
+ 
+     class PatchTestResult(unittest.TextTestResult):
+         """ Patchtest TextTestResult """
+         shouldStop  = True
+         longMessage = False
+ 
+-        success     = 'PASS'
+-        fail        = 'FAIL'
+-        skip        = 'SKIP'
++        success = 'PASS'
++        fail    = 'FAIL'
++        skip    = 'SKIP'
+ 
+         def startTestRun(self):
+-            # let's create the repo already, it can be used later on
+-            repoargs = {
+-                "repodir": PatchtestParser.repodir,
+-                "commit": PatchtestParser.basecommit,
+-                "branch": PatchtestParser.basebranch,
+-                "patch": patch,
+-            }
+-
+-            self.repo_error    = False
+-            self.test_error    = False
+-            self.test_failure  = False
++            self.repo_error   = False
++            self.test_error   = False
++            self.test_failure = False
+ 
+             try:
+-                self.repo = PatchtestParser.repo = PatchTestRepo(**repoargs)
+-            except:
+-                logger.error(traceback.print_exc())
++                self.repo = PatchtestParser.repo = PatchTestRepo(
++                    patch=patch,
++                    repodir=PatchtestParser.repodir,
++                    commit=PatchtestParser.basecommit,
++                    branch=PatchtestParser.basebranch,
++                )
++            except Exception:
++                traceback.print_exc()
+                 self.repo_error = True
+                 self.stop()
+                 return
+@@ -70,100 +84,59 @@ def getResult(patch, mergepatch, logfile=None):
+ 
+         def addError(self, test, err):
+             self.test_error = True
+-            (ty, va, trace) = err
+-            logger.error(traceback.print_exc())
++            traceback.print_exc()
+ 
+         def addFailure(self, test, err):
+-            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
+-            "Signed-off-by").replace("upstream status",
+-            "Upstream-Status").replace("non auh",
+-            "non-AUH").replace("presence format", "presence")
+             self.test_failure = True
+-            fail_str = '{}: {}: {} ({})'.format(self.fail,
+-            test_description, json.loads(str(err[1]))["issue"],
+-            test.id())
+-            print(fail_str)
+-            if logfile:
+-                with open(logfile, "a") as f:
+-                    f.write(fail_str + "\n")
++            desc = _format_test_description(test)
++            issue = json.loads(str(err[1]))["issue"]
++            _emit('{}: {}: {} ({})'.format(self.fail, desc, issue, test.id()), logfile)
+ 
+         def addSuccess(self, test):
+-            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
+-            "Signed-off-by").replace("upstream status",
+-            "Upstream-Status").replace("non auh",
+-            "non-AUH").replace("presence format", "presence")
+-            success_str = '{}: {} ({})'.format(self.success,
+-            test_description, test.id())
+-            print(success_str)
+-            if logfile:
+-                with open(logfile, "a") as f:
+-                    f.write(success_str + "\n")
++            desc = _format_test_description(test)
++            _emit('{}: {} ({})'.format(self.success, desc, test.id()), logfile)
+ 
+         def addSkip(self, test, reason):
+-            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
+-            "Signed-off-by").replace("upstream status",
+-            "Upstream-Status").replace("non auh",
+-            "non-AUH").replace("presence format", "presence")
+-            skip_str = '{}: {}: {} ({})'.format(self.skip,
+-            test_description, json.loads(str(reason))["issue"],
+-            test.id())
+-            print(skip_str)
+-            if logfile:
+-                with open(logfile, "a") as f:
+-                    f.write(skip_str + "\n")
++            desc = _format_test_description(test)
++            issue = json.loads(str(reason))["issue"]
++            _emit('{}: {}: {} ({})'.format(self.skip, desc, issue, test.id()), logfile)
+ 
+         def stopTestRun(self):
+-
+-            # in case there was an error on repo object creation, just return
+-            if self.repo_error:
+-                return
+-
+-            self.repo.clean()
++            if not self.repo_error:
++                self.repo.clean()
+ 
+     return PatchTestResult
+ 
+ def _runner(resultklass, prefix=None):
+-    # load test with the corresponding prefix
+     loader = unittest.TestLoader()
+     if prefix:
+         loader.testMethodPrefix = prefix
+ 
+-    # create the suite with discovered tests and the corresponding runner
+     suite = loader.discover(
+         start_dir=PatchtestParser.testdir,
+         pattern=PatchtestParser.pattern,
+         top_level_dir=PatchtestParser.topdir,
+     )
+-    ntc = suite.countTestCases()
+ 
+-    # if there are no test cases, just quit
+-    if not ntc:
++    if not suite.countTestCases():
+         return 2
+-    runner = unittest.TextTestRunner(resultclass=resultklass, verbosity=0)
+ 
++    runner = unittest.TextTestRunner(resultclass=resultklass, verbosity=0)
+     try:
+         result = runner.run(suite)
+-    except:
+-        logger.error(traceback.print_exc())
++    except Exception:
++        traceback.print_exc()
+         logger.error('patchtest: something went wrong')
+         return 1
+-    if result.test_failure or result.test_error:
+-        return 1 
+ 
+-    return 0
++    return 1 if (result.test_failure or result.test_error) else 0
+ 
+ def run(patch, logfile=None):
+     """ Load, setup and run pre and post-merge tests """
+-    # Get the result class and install the control-c handler
+     unittest.installHandler()
+ 
+-    # run pre-merge tests, meaning those methods with 'pretest' as prefix
+-    premerge_resultklass = getResult(patch, False, logfile)
+-    premerge_result = _runner(premerge_resultklass, 'pretest')
+-
+-    # run post-merge tests, meaning those methods with 'test' as prefix
+-    postmerge_resultklass = getResult(patch, True, logfile)
+-    postmerge_result = _runner(postmerge_resultklass, 'test')
++    premerge_result = _runner(make_result_class(patch, False, logfile), 'pretest')
++    postmerge_result = _runner(make_result_class(patch, True, logfile), 'test')
+ 
+     print_result_message(premerge_result, postmerge_result)
+     return premerge_result or postmerge_result
+@@ -183,24 +156,34 @@ def print_result_message(preresult, postresult):
+     print("----------------------------------------------------------------------\n")
+ 
+ def main():
+-    ret = 0
+-    tmp_patch = False
+     patch_path = PatchtestParser.patch_path
+-    log_results = PatchtestParser.log_results
+-    log_path = None
+-    patch_list = None
+ 
+-    git_status = os.popen("(cd %s && git status)" % PatchtestParser.repodir).read()
++    git_status = subprocess.run(
++        ['git', '-C', PatchtestParser.repodir, 'status'],
++        capture_output=True, text=True,
++    ).stdout
+     status_matches = ["Changes not staged for commit", "Changes to be committed"]
+-    if any([match in git_status for match in status_matches]):
++    if any(match in git_status for match in status_matches):
+         logger.error("patchtest: there are uncommitted changes in the target repo that would be overwritten. Please commit or restore them before running patchtest")
+         return 1
+ 
++    builddir = os.environ.get('BUILDDIR')
++    if builddir:
++        bblayers_conf = os.path.join(builddir, 'conf', 'bblayers.conf')
++        if os.path.exists(bblayers_conf):
++            with open(bblayers_conf) as f:
++                if 'meta-selftest' not in f.read():
++                    logger.error(
++                        "patchtest: meta-selftest layer not found in %s - add it to BBLAYERS before running patchtest" % bblayers_conf
++                    )
++                    return 1
++
+     if os.path.isdir(patch_path):
+-        patch_list = [os.path.join(patch_path, filename) for filename in sorted(os.listdir(patch_path))]
++        patch_list = [os.path.join(patch_path, f) for f in sorted(os.listdir(patch_path))]
+     else:
+         patch_list = [patch_path]
+ 
++    ret = 0
+     for patch in patch_list:
+         if os.path.getsize(patch) == 0:
+             logger.error('patchtest: patch is empty')
+@@ -208,19 +191,13 @@ def main():
+ 
+         logger.info('Testing patch %s' % patch)
+ 
+-        if log_results:
++        log_path = None
++        if PatchtestParser.log_results:
+             log_path = patch + ".testresult"
+             with open(log_path, "a") as f:
+                 f.write("Patchtest results for patch '%s':\n\n" % patch)
+ 
+-        try:
+-            if log_path:
+-                ret = run(patch, log_path)
+-            else:
+-                ret = run(patch)
+-        finally:
+-            if tmp_patch:
+-                os.remove(patch)
++        ret = run(patch, log_path)
+ 
+     return ret
+ 
+@@ -241,7 +218,6 @@ if __name__ == '__main__':
+     try:
+         ret = main()
+     except Exception:
+-        import traceback
+         traceback.print_exc(5)
+ 
+     sys.exit(ret)
 -- 
 2.54.0
 
