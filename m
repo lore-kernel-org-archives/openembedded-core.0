@@ -2,31 +2,32 @@ Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 130F8CD4F25
-	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 14:15:37 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12133.1778768128962385631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F936CD4851
+	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 14:15:47 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12138.1778768137812292507
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2026 07:15:29 -0700
+ Thu, 14 May 2026 07:15:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=h01fyJH1;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=Ze5X2cNy;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4B1274E42C98;
-	Thu, 14 May 2026 14:15:27 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 43D231A35BC
+	for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 14:15:36 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 20C1260495;
-	Thu, 14 May 2026 14:15:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7FCA711AF8FBC;
-	Thu, 14 May 2026 16:15:25 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1A9BF60495;
+	Thu, 14 May 2026 14:15:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EDCB511AF8C61;
+	Thu, 14 May 2026 16:15:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778768126; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=9wKH44rh9ouBdpFLYpz4UcwKj54bAlyqIsDpdKs6unE=;
-	b=h01fyJH1GQ8HNcs0FS07uNLNTR0v79ghljAOBFgn5S0qW0ZLIHxGwZNABsiyxw1hx9spNf
-	ukAyReu3IuUfg/YRhMety5p+wsaGVrnSlCv0SGGaoZKKl0msNBGoZaQ99BbcZJNVn+uADk
-	qOmbBm8XU0aVPyXOb9Nh4zt9K1X44wwDObycHsZt8AAxi0/XARsJp2kHuBd0ZiQl37j15e
-	RIME/uTSLLe8iXVg46QkqLIbSXUO5hG+S/p5X64vemaPT7qM5POAlsbOtBXNEkKsnX7JRB
-	WM+c7cDvcpnT9dNWDtq4s+44xfIJNLP+whJ64eyJ9KWSNBThjwWhbG9mQ9HAgw==
+	t=1778768135; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=AE4qFF1iQy8Cqz6cWv6akpstWz76dgtBZpuBldxbRlc=;
+	b=Ze5X2cNyMpVSzMBtSUOE8jbH74S1ny6dsqvzAhXTKxNpevtQhlpwNSt/+jy/bjtjgeGPP8
+	jxuM6eRPHFMuZFs9S9oNJVQXGPQQBMcr0+Z+gmfG/2lbld18lIHLWZglkO4PQ2IIZf6rSw
+	EZbQ8w8i3e8ox4T1VqWVCcUqbDPdSYIaV1ekqTUsz82gKchSdpgVFfyC3NOsEqU+/wAqgz
+	grgmyfx3eYUeCyKzK/TaYPL1IHLYqzdWlCXKc3EmabGDrStrLoW4l21AwSYo4l83agabnE
+	C4nfwsJ8wjhh20awg7RpqRmdgDKBVwbLuxLMwVT6JJA3VDn2vsEFJMPQ2W/Ufw==
 From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: thomas.petazzoni@bootlin.com,
@@ -34,10 +35,12 @@ Cc: thomas.petazzoni@bootlin.com,
 	raj.khem@gmail.com,
 	Ross.Burton@arm.com,
 	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-Subject: [PATCH v2 0/3] ovmf: add some rework to the recipe
-Date: Thu, 14 May 2026 16:15:14 +0200
-Message-ID: <20260514141517.226933-1-joaomarcos.costa@bootlin.com>
+Subject: [PATCH v2 3/3] ovmf: add support for Clang toolchain
+Date: Thu, 14 May 2026 16:15:17 +0200
+Message-ID: <20260514141517.226933-4-joaomarcos.costa@bootlin.com>
 X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20260514141517.226933-1-joaomarcos.costa@bootlin.com>
+References: <20260514141517.226933-1-joaomarcos.costa@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Last-TLS-Session-Version: TLSv1.3
@@ -45,43 +48,121 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 14:15:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237040
+ <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 14:15:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237043
 
-Hello,
+ovmf can be built with clang by using "CLANGDWARF" toolchain, so add
+TARGET_TOOLS variable to represent the switch between "GCC" and
+"CLANGDWARF".
 
-This patch series contains, first of all, a slight issue with PACKAGECONF=
-IG
-previously evoked by Q. Schulz (cc'ed) in the mailing list.
+Since the targets represented by FIXED_GCCVER were deprecated upstream,
+remove them (and FIXED_GCCVER itself) from the recipe and use "GCC"
+instead.
 
-The main point of the series is the support for Clang, which I tested wit=
-h the
-latest version llvm/clang available as of now in oe-core. I also tested t=
-he
-result with the help of runqemu.
-
-Moreover, some of the settings are obsolete and can be removed.
-
-Best regards,
-
+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 ---
+ meta/recipes-core/ovmf/ovmf_git.bb | 43 ++++++------------------------
+ 1 file changed, 8 insertions(+), 35 deletions(-)
 
-Changes since v1:
-- clarify the behaviour change in PACKAGECONFIG's assignment
-- in the second patch, make it clear that the flag is obsolete because it=
- was
-  already upstreamed (and is part of the currently used tag), not because=
- of
-  GCC's version
-
-Jo=C3=A3o Marcos Costa (3):
-  ovmf: simplify PACKAGECONFIG's default value
-  ovmf: drop upstreamed BUILD_CFLAGS setting
-  ovmf: add support for Clang toolchain
-
- meta/recipes-core/ovmf/ovmf_git.bb | 51 ++++++------------------------
- 1 file changed, 9 insertions(+), 42 deletions(-)
-
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/=
+ovmf_git.bb
+index f91f458006..25c857bdf9 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -55,6 +55,7 @@ inherit deploy
+ PARALLEL_MAKE =3D ""
+=20
+ DEPENDS =3D "nasm-native acpica-native ovmf-native util-linux-native"
++DEPENDS:append:toolchain-clang =3D " lld-native"
+=20
+ EDK_TOOLS_DIR =3D "edk2_basetools"
+=20
+@@ -145,39 +146,13 @@ fix_toolchain:append:class-native() {
+ export NASM_PREFIX_MAP =3D "--debug-prefix-map=3D${WORKDIR}=3D${TARGET_D=
+BGSRC_DIR}"
+ export GCC_PREFIX_MAP =3D "${DEBUG_PREFIX_MAP} -Wno-stringop-overflow -W=
+no-maybe-uninitialized"
+=20
+-GCC_VER =3D "$(${CC} -v 2>&1 | tail -n1 | awk '{print $3}')"
+-
+-fixup_target_tools() {
+-    case ${1} in
+-      4.4.*)
+-        FIXED_GCCVER=3DGCC44
+-        ;;
+-      4.5.*)
+-        FIXED_GCCVER=3DGCC45
+-        ;;
+-      4.6.*)
+-        FIXED_GCCVER=3DGCC46
+-        ;;
+-      4.7.*)
+-        FIXED_GCCVER=3DGCC47
+-        ;;
+-      4.8.*)
+-        FIXED_GCCVER=3DGCC48
+-        ;;
+-      4.9.*)
+-        FIXED_GCCVER=3DGCC49
+-        ;;
+-      *)
+-        FIXED_GCCVER=3DGCC5
+-        ;;
+-    esac
+-    echo ${FIXED_GCCVER}
+-}
+-
+ do_compile:class-native() {
+     oe_runmake -C ${S}/BaseTools
+ }
+=20
++TARGET_TOOLS ?=3D "GCC"
++TARGET_TOOLS:toolchain-clang =3D "CLANGDWARF"
++
+ do_compile:class-target() {
+     export LFLAGS=3D"${LDFLAGS}"
+     PARALLEL_JOBS=3D"${@oe.utils.parallel_make_argument(d, '-n %d')}"
+@@ -198,13 +173,12 @@ do_compile:class-target() {
+     rm -rf ${WORKDIR}/ovmf
+     mkdir ${WORKDIR}/ovmf
+     OVMF_DIR_SUFFIX=3D"X64"
+-    FIXED_GCCVER=3D$(fixup_target_tools ${GCC_VER})
+-    bbnote FIXED_GCCVER is ${FIXED_GCCVER}
+-    build_dir=3D"${S}/Build/Ovmf$OVMF_DIR_SUFFIX/${OVMF_BUILD_TYPE}_${FI=
+XED_GCCVER}"
++    bbnote TARGET_TOOLS is ${TARGET_TOOLS}
++    build_dir=3D"${S}/Build/Ovmf$OVMF_DIR_SUFFIX/${OVMF_BUILD_TYPE}_${TA=
+RGET_TOOLS}"
+=20
+     bbnote "Building without Secure Boot."
+     rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
+-    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b ${OVMF_BUILD_T=
+YPE} -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS}
++    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b ${OVMF_BUILD_T=
+YPE} -t ${TARGET_TOOLS} ${PACKAGECONFIG_CONFARGS}
+     ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.fd
+     ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.code.fd
+     ln ${build_dir}/FV/OVMF_VARS.fd ${WORKDIR}/ovmf/ovmf.vars.fd
+@@ -214,7 +188,7 @@ do_compile:class-target() {
+         # Repeat build with the Secure Boot flags.
+         bbnote "Building with Secure Boot."
+         rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
+-        ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b ${OVMF_BUI=
+LD_TYPE} -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS} ${OVMF_SECURE_BOOT_=
+FLAGS}
++        ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b ${OVMF_BUI=
+LD_TYPE} -t ${TARGET_TOOLS} ${PACKAGECONFIG_CONFARGS} ${OVMF_SECURE_BOOT_=
+FLAGS}
+         ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.secboot.fd
+         ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.secboot.cod=
+e.fd
+         ln ${build_dir}/${OVMF_ARCH}/EnrollDefaultKeys.efi ${WORKDIR}/ov=
+mf/
+@@ -277,4 +251,3 @@ do_deploy:class-target() {
+ addtask do_deploy after do_compile before do_build
+=20
+ BBCLASSEXTEND =3D "native"
+-TOOLCHAIN =3D "gcc"
 --=20
 2.47.0
 
