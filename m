@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D0ACD5BDD
-	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:51 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.34765.1778851234421357612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B2E0CD6E41
+	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:52 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34761.1778851229494506621
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 May 2026 06:20:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bLcXVKje;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jRZbMo9o;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019e2bcbccc7-9ef12361-ed8a-4a41-bbf6-34085e6ec8f7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CmJyapZ9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=uV1k+q9w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019e2bcbcbc7-53d8dac9-87c8-45aa-a409-472ccd30f118-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1778851237;
+	t=1778851236;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=//Q9H7L+3RWpZRd7KRqt5gOYmI6z6grkCJS9QEno+X8=;
-	b=bLcXVKjecbnY3NzzXxHbFTXi2YsRVvSkVzXXQHSAURFWryLBmGMWGMIqE21PbSmG
-	/Ku1Lo7wITMmFdZGAvUD2LmHSzAjnkyCc2qxuiv1NOmhY+ZjURnx7DwycMa06noJbIc
-	0BoedekoWSc1RvQUhCpcSj/2zknTGneso4QMYmO8=
+	bh=5t3EIq213abZjfgmsgVv/MMJNajQE7idvOCTByPoEqM=;
+	b=CmJyapZ9w4ujCzZeZnz3T4CQ4BopZq76u2LdKbaoCydxgngiqbn9gqtfChJ1wzKl
+	044KCRiCRTGD0UV/nAW7ytmsN0qZ29ZeeVFGFVkaWl42MXrlzRYtxSlzIovyvft4kfy
+	2iGAq7CpBAzCC90sKzSLO3qIuUQvWu71xtMyg9bI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851237;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851236;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=//Q9H7L+3RWpZRd7KRqt5gOYmI6z6grkCJS9QEno+X8=;
-	b=jRZbMo9oIe/nkgPRanOMC7CkrMvnKSr+61j5m7PDGkzqrY7Tyqi7YahxzYNTqKt6
-	ljX99CS/jdSHCLlfSPknJahLzPfAF7EpgeNl1DMhTITESaM9wT5k6fXjRFsstkeZutZ
-	cohLl6DZ79nROg6r1RflCpAAJeM1KUw/+PtNShlI=
-Content-Type: multipart/mixed; boundary="===============0782202523968383562=="
+	bh=5t3EIq213abZjfgmsgVv/MMJNajQE7idvOCTByPoEqM=;
+	b=uV1k+q9wOXQ86etE3l7iEg8hlZP0IJaqQRZWPS80HaNn0x3xY4HfCE4Tav3GjmEA
+	rEK//2WWNkdVTV/ks8MhfIXKzuqz///xLZeygN3j0M373b+g7G5sl/n2TX9IIPYOoGS
+	v65J8FiBdXdJPxY/9PgWMcb1Tp846uFtN9ZZybTQ=
+Content-Type: multipart/mixed; boundary="===============0386259444752770928=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glslang: upgrading to 1.4.350.0 SUCCEEDED
-Message-ID: <0101019e2bcbccc7-9ef12361-ed8a-4a41-bbf6-34085e6ec8f7-000000@us-west-2.amazonses.com>
-Date: Fri, 15 May 2026 13:20:37 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] librsvg: upgrading to 2.62.2 FAILED
+Message-ID: <0101019e2bcbcbc7-53d8dac9-87c8-45aa-a409-472ccd30f118-000000@us-west-2.amazonses.com>
+Date: Fri, 15 May 2026 13:20:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.15-54.240.27.23
+X-SES-Outgoing: 2026.05.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237138
+ <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237134
 
---===============0782202523968383562==
+--===============0386259444752770928==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,172 +51,114 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *glslang* to *1.4.350.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *librsvg* to *2.62.2* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-glslang-upgrade-1.4.341.0-1.4.350.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe librsvg failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1974 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-47e1e7853cf969788b8f558513639e2e71ef1b04"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:47e1e7853cf969788b8f558513639e2e71ef1b04"
+meta-yocto-bsp       
+meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 950 .bb files complete (0 cached, 950 parsed). 1975 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-47e1e7853cf969788b8f558513639e2e71ef1b04"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:47e1e7853cf969788b8f558513639e2e71ef1b04"
+meta-yocto-bsp       
+meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  69% |#########################           | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-47e1e7853cf969788b8f558513639e2e71ef1b04"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:47e1e7853cf969788b8f558513639e2e71ef1b04"
+meta-yocto-bsp       
+meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 25 Local 25 Mirrors 0 Missed 0 Current 62 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 292 tasks of which 291 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.gnome.org/sources//librsvg/2.62/librsvg-2.62.2.tar.xz;name=archive...
+INFO: Rebasing devtool onto 8a39593469d5af558518f807981a75189124be15
+WARNING: Command 'git rebase 8a39593469d5af558518f807981a75189124be15' failed:
+Auto-merging rsvg_convert/tests/rsvg_convert.rs
+CONFLICT (content): Merge conflict in rsvg_convert/tests/rsvg_convert.rs
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Running extra recipe upgrade task: do_update_crates
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/librsvg
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/librsvg/librsvg_2.62.2.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 39064313f2aabd7febe3ebe9ba8188de5c905eca Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 May 2026 09:57:23 +0000
-Subject: [PATCH] glslang: upgrade 1.4.341.0 -> 1.4.350.0
-
----
- .../glslang/glslang/0001-generate-glslang-pkg-config.patch      | 2 +-
- .../glslang/{glslang_1.4.341.0.bb => glslang_1.4.350.0.bb}      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.4.341.0.bb => glslang_1.4.350.0.bb} (96%)
-
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-index 150242ce1d..babea82779 100644
---- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-+++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-@@ -1,4 +1,4 @@
--From 6a4237802d8a79f65ed74b12865e2ce5b666993d Mon Sep 17 00:00:00 2001
-+From 0b83b30fef3ca5dc1a073f6362690018a54dd04c Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 7 Feb 2021 01:30:39 +0000
- Subject: [PATCH] generate glslang pkg-config
-diff --git a/meta/recipes-graphics/glslang/glslang_1.4.341.0.bb b/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/glslang/glslang_1.4.341.0.bb
-rename to meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
-index aa4f48bb9c..bc33931b3c 100644
---- a/meta/recipes-graphics/glslang/glslang_1.4.341.0.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=50ff9d0fcde2d5b953ebe431c48e34e3"
- 
--SRCREV = "f0bd0257c308b9a26562c1a30c4748a0219cc951"
-+SRCREV = "275822a6261ee689aadb1da5f09a0ec2f058685c"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-${PV} \
-            file://0001-generate-glslang-pkg-config.patch \
-            "
--- 
-2.47.1
-
-
---===============0782202523968383562==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libglslang-default-resource-limits.so.16.2.0 /usr/lib/.debug/libSPIRV.so.16.2.0 /usr/lib/.debug/libglslang.so.16.2.0", added "/usr/lib/.debug/libSPIRV.so.16.3.0 /usr/lib/.debug/libglslang-default-resource-limits.so.16.3.0 /usr/lib/.debug/libglslang.so.16.3.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 53195040 to 53773712 (+1%)
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PV changed from "1.4.341.0" to "1.4.350.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PKGSIZE changed from 424308 to 425929 (+0%)
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PV changed from "1.4.341.0" to "1.4.350.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-doc: PV changed from "1.4.341.0" to "1.4.350.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-doc: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-locale: PV changed from "1.4.341.0" to "1.4.350.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-locale: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-src: FILELIST: directory renamed /usr/src/debug/glslang/1.4.341.0/glslang/MachineIndependent -> /usr/src/debug/glslang/1.4.350.0/glslang/MachineIndependent, directory renamed /usr/src/debug/glslang/1.4.341.0/glslang/Public -> /usr/src/debug/glslang/1.4.350.0/glslang/Public, directory renamed /usr/src/debug/glslang/1.4.341.0/include/glslang -> /usr/src/debug/glslang/1.4.350.0/include/glslang, directory renamed /usr/src/debug/glslang/1.4.341.0/glslang/GenericCodeGen -> /usr/src/debug/glslang/1.4.350.0/glslang/GenericCodeGen, directory renamed /usr/src/debug/glslang/1.4.341.0/glslang -> /usr/src/debug/glslang/1.4.350.0/glslang, directory renamed /usr/src/debug/glslang/1.4.341.0/glslang/OSDependent/Unix -> /usr/src/debug/glslang/1.4.350.0/glslang/OSDependent/Unix, directory renamed /usr/src/debug/glslang/1.4.341.0/glslang/ResourceLimits -> /usr/src/debug/glslang/1.4.350.0/glslang/ResourceLimits, directory renamed /usr/src/debug/glslang/1.4.34
- 1.0/glslang/CInterface -> /usr/src/debug/glslang/1.4.350.0/glslang/CInterface, directory renamed /usr/src/debug/glslang/1.4.341.0/glslang/OSDependent -> /usr/src/debug/glslang/1.4.350.0/glslang/OSDependent, directory renamed /usr/src/debug/glslang/1.4.341.0/glslang/MachineIndependent/preprocessor -> /usr/src/debug/glslang/1.4.350.0/glslang/MachineIndependent/preprocessor, directory renamed /usr/src/debug/glslang/1.4.341.0/StandAlone -> /usr/src/debug/glslang/1.4.350.0/StandAlone, directory renamed /usr/src/debug/glslang/1.4.341.0/glslang/HLSL -> /usr/src/debug/glslang/1.4.350.0/glslang/HLSL, directory renamed /usr/src/debug/glslang/1.4.341.0/SPIRV/CInterface -> /usr/src/debug/glslang/1.4.350.0/SPIRV/CInterface, removed "/usr/src/debug/glslang/1.4.341.0/glslang/Include/ConstantUnion.h /usr/src/debug/glslang/1.4.341.0/SPIRV/GLSL.ext.QCOM.h /usr/src/debug/glslang/1.4.341.0/SPIRV/hex_float.h /usr/src/debug/glslang/1.4.341.0/SPIRV/GLSL.ext.ARM.h /usr/src/debug/glslang/1.4.341.0/glslang/I
- nclude/SpirvIntrinsics.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/ResourceLimits.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/PoolAlloc.h /usr/src/debug/glslang/1.4.341.0/SPIRV/GLSL.ext.AMD.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/intermediate.h /usr/src/debug/glslang/1.4.341.0/SPIRV/GLSL.std.450.h /usr/src/debug/glslang/1.4.341.0/SPIRV/NonSemanticDebugPrintf.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/ShHandle.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/Types.h /usr/src/debug/glslang/1.4.341.0/SPIRV/SpvPostProcess.cpp /usr/src/debug/glslang/1.4.341.0/SPIRV/NonSemanticShaderDebugInfo100.h /usr/src/debug/glslang/1.4.341.0/SPIRV/SpvTools.cpp /usr/src/debug/glslang/1.4.341.0/SPIRV/GLSL.ext.NV.h /usr/src/debug/glslang/1.4.341.0/SPIRV/bitutils.h /usr/src/debug/glslang/1.4.341.0/SPIRV/spirv.hpp11 /usr/src/debug/glslang/1.4.341.0/SPIRV/disassemble.cpp /usr/src/debug/glslang/1.4.341.0/glslang/Include/glslang_c_interface.h /usr/src/debug/glslang/1.4.341.
- 0/SPIRV/SpvTools.h /usr/src/debug/glslang/1.4.341.0/SPIRV/doc.cpp /usr/src/debug/glslang/1.4.341.0/SPIRV/Logger.cpp /usr/src/debug/glslang/1.4.341.0/SPIRV/Logger.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/BaseTypes.h /usr/src/debug/glslang/1.4.341.0/SPIRV/InReadableOrder.cpp /usr/src/debug/glslang/1.4.341.0/SPIRV/SpvBuilder.h /usr/src/debug/glslang/1.4.341.0/SPIRV/GlslangToSpv.h /usr/src/debug/glslang/1.4.341.0/SPIRV/SpvBuilder.cpp /usr/src/debug/glslang/1.4.341.0/SPIRV/GlslangToSpv.cpp /usr/src/debug/glslang/1.4.341.0/SPIRV/doc.h /usr/src/debug/glslang/1.4.341.0/SPIRV/spvIR.h /usr/src/debug/glslang/1.4.341.0/SPIRV/spvUtil.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/Common.h /usr/src/debug/glslang/1.4.341.0/SPIRV/GLSL.ext.KHR.h /usr/src/debug/glslang/1.4.341.0/SPIRV/disassemble.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/arrays.h /usr/src/debug/glslang/1.4.341.0/SPIRV/GLSL.ext.EXT.h /usr/src/debug/glslang/1.4.341.0/glslang/Include/glslang_c_shader_types.h /usr/
- src/debug/glslang/1.4.341.0/glslang/Include/InfoSink.h", added "/usr/src/debug/glslang/1.4.350.0/glslang/Include/ConstantUnion.h /usr/src/debug/glslang/1.4.350.0/SPIRV/GLSL.ext.QCOM.h /usr/src/debug/glslang/1.4.350.0/SPIRV/hex_float.h /usr/src/debug/glslang/1.4.350.0/SPIRV/GLSL.ext.ARM.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/SpirvIntrinsics.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/ResourceLimits.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/PoolAlloc.h /usr/src/debug/glslang/1.4.350.0/SPIRV/GLSL.ext.AMD.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/intermediate.h /usr/src/debug/glslang/1.4.350.0/SPIRV/GLSL.std.450.h /usr/src/debug/glslang/1.4.350.0/SPIRV/NonSemanticDebugPrintf.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/ShHandle.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/Types.h /usr/src/debug/glslang/1.4.350.0/SPIRV/SpvPostProcess.cpp /usr/src/debug/glslang/1.4.350.0/SPIRV/SpvTools.cpp /usr/src/debug/glslang/1.4.350.0/SPIRV/GLSL.ext.NV.
- h /usr/src/debug/glslang/1.4.350.0/SPIRV/bitutils.h /usr/src/debug/glslang/1.4.350.0/SPIRV/spirv.hpp11 /usr/src/debug/glslang/1.4.350.0/SPIRV/disassemble.cpp /usr/src/debug/glslang/1.4.350.0/glslang/Include/glslang_c_interface.h /usr/src/debug/glslang/1.4.350.0/SPIRV/SpvTools.h /usr/src/debug/glslang/1.4.350.0/SPIRV/doc.cpp /usr/src/debug/glslang/1.4.350.0/SPIRV/Logger.cpp /usr/src/debug/glslang/1.4.350.0/SPIRV/Logger.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/BaseTypes.h /usr/src/debug/glslang/1.4.350.0/SPIRV/InReadableOrder.cpp /usr/src/debug/glslang/1.4.350.0/SPIRV/SpvBuilder.h /usr/src/debug/glslang/1.4.350.0/SPIRV/GlslangToSpv.h /usr/src/debug/glslang/1.4.350.0/SPIRV/SpvBuilder.cpp /usr/src/debug/glslang/1.4.350.0/SPIRV/GlslangToSpv.cpp /usr/src/debug/glslang/1.4.350.0/SPIRV/NonSemanticShaderDebugInfo.h /usr/src/debug/glslang/1.4.350.0/SPIRV/doc.h /usr/src/debug/glslang/1.4.350.0/SPIRV/spvIR.h /usr/src/debug/glslang/1.4.350.0/SPIRV/spvUtil.h /usr/src/debug/glslang/1.4.3
- 50.0/glslang/Include/Common.h /usr/src/debug/glslang/1.4.350.0/SPIRV/GLSL.ext.KHR.h /usr/src/debug/glslang/1.4.350.0/SPIRV/disassemble.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/arrays.h /usr/src/debug/glslang/1.4.350.0/SPIRV/GLSL.ext.EXT.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/defer.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/glslang_c_shader_types.h /usr/src/debug/glslang/1.4.350.0/glslang/Include/InfoSink.h"
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PKGSIZE changed from 5477810 to 5515424 (+1%)
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PV changed from "1.4.341.0" to "1.4.350.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-staticdev: PV changed from "1.4.341.0" to "1.4.350.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang-default-resource-limits.so.16.2.0 /usr/lib/libSPIRV.so.16.2.0 /usr/lib/libglslang.so.16.2.0", added "/usr/lib/libSPIRV.so.16.3.0 /usr/lib/libglslang.so.16.3.0 /usr/lib/libglslang-default-resource-limits.so.16.3.0"
-packages/x86-64-v3-poky-linux/glslang/glslang: PKGSIZE changed from 3776633 to 3834009 (+2%)
-packages/x86-64-v3-poky-linux/glslang/glslang: PV changed from "1.4.341.0" to "1.4.350.0"
-packages/x86-64-v3-poky-linux/glslang/glslang: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
-packages/x86-64-v3-poky-linux/glslang: SRC_URI changed from "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-1.4.341.0 file://0001-generate-glslang-pkg-config.patch" to "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-1.4.350.0 file://0001-generate-glslang-pkg-config.patch"
-packages/x86-64-v3-poky-linux/glslang: PV changed from "1.4.341.0" to "1.4.350.0"
-packages/x86-64-v3-poky-linux/glslang: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
-Changes to packages/x86-64-v3-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so.16 changed symlink target from libglslang-default-resource-limits.so.16.2.0 to libglslang-default-resource-limits.so.16.3.0
-  /usr/lib/libglslang.so.16 changed symlink target from libglslang.so.16.2.0 to libglslang.so.16.3.0
-  /usr/lib/libSPIRV.so.16 changed symlink target from libSPIRV.so.16.2.0 to libSPIRV.so.16.3.0
-  /usr/lib/libglslang-default-resource-limits.so.16.2.0 moved to /usr/lib/libglslang-default-resource-limits.so.16.3.0
-  /usr/lib/libglslang.so.16.2.0 moved to /usr/lib/libglslang.so.16.3.0
-  /usr/lib/libSPIRV.so.16.2.0 moved to /usr/lib/libSPIRV.so.16.3.0
-
---===============0782202523968383562==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang.so.16.2.0 /usr/lib/libglslang-default-resource-limits.so.16.2.0 /usr/lib/libSPIRV.so.16.2.0", added "/usr/lib/libglslang-default-resource-limits.so.16.3.0 /usr/lib/libSPIRV.so.16.3.0 /usr/lib/libglslang.so.16.3.0"
-Changes to packages/x86-64-v3-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so.16 changed symlink target from libglslang-default-resource-limits.so.16.2.0 to libglslang-default-resource-limits.so.16.3.0
-  /usr/lib/libglslang.so.16 changed symlink target from libglslang.so.16.2.0 to libglslang.so.16.3.0
-  /usr/lib/libSPIRV.so.16 changed symlink target from libSPIRV.so.16.2.0 to libSPIRV.so.16.3.0
-  /usr/lib/libglslang-default-resource-limits.so.16.2.0 moved to /usr/lib/libglslang-default-resource-limits.so.16.3.0
-  /usr/lib/libglslang.so.16.2.0 moved to /usr/lib/libglslang.so.16.3.0
-  /usr/lib/libSPIRV.so.16.2.0 moved to /usr/lib/libSPIRV.so.16.3.0
-
---===============0782202523968383562==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-glslang-upgrade-1.4.341.0-1.4.350.0.patch"
-
-RnJvbSAzOTA2NDMxM2YyYWFiZDdmZWJlM2ViZTliYTgxODhkZTVjOTA1ZWNhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWF5IDIwMjYgMDk6NTc6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bHNsYW5nOiB1cGdyYWRlIDEuNC4zNDEuMCAtPiAxLjQuMzUwLjAKCi0tLQogLi4uL2dsc2xhbmcv
-Z2xzbGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaCAgICAgIHwgMiAr
-LQogLi4uL2dsc2xhbmcve2dsc2xhbmdfMS40LjM0MS4wLmJiID0+IGdsc2xhbmdfMS40LjM1MC4w
-LmJifSAgICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVs
-ZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcve2dsc2xhbmdf
-MS40LjM0MS4wLmJiID0+IGdsc2xhbmdfMS40LjM1MC4wLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmcvMDAwMS1nZW5lcmF0ZS1nbHNs
-YW5nLXBrZy1jb25maWcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNs
-YW5nLzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ctY29uZmlnLnBhdGNoCmluZGV4IDE1MDI0MmNl
-MWQuLmJhYmVhODI3NzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5n
-L2dsc2xhbmcvMDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2gKKysrIGIvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmct
-cGtnLWNvbmZpZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNmE0MjM3ODAyZDhhNzlmNjVl
-ZDc0YjEyODY1ZTJjZTViNjY2OTkzZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMGI4
-M2IzMGZlZjNjYTVkYzFhMDczZjYzNjI2OTAwMThhNTRkZDA0YyBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogRGF0
-ZTogU3VuLCA3IEZlYiAyMDIxIDAxOjMwOjM5ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdlbmVy
-YXRlIGdsc2xhbmcgcGtnLWNvbmZpZwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L2dsc2xhbmcvZ2xzbGFuZ18xLjQuMzQxLjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xz
-bGFuZy9nbHNsYW5nXzEuNC4zNTAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuNC4zNDEuMC5iYgpyZW5h
-bWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjQuMzUwLjAuYmIK
-aW5kZXggYWE0ZjQ4YmI5Yy4uYmMzMzkzMWIzYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjQuMzQxLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjQuMzUwLjAuYmIKQEAgLTgsNyArOCw3IEBAIEhPTUVQ
-QUdFID0gImh0dHBzOi8vd3d3Lmtocm9ub3Mub3JnL29wZW5nbGVzL3Nkay90b29scy9SZWZlcmVu
-Y2UtQ29tcGlsZXIiCiBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSAmIEJTRC0yLUNsYXVzZSAmIE1J
-VCAmIEFwYWNoZS0yLjAgJiBHUEwtMy13aXRoLWJpc29uLWV4Y2VwdGlvbiIKIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT01MGZmOWQwZmNkZTJkNWI5NTNlYmU0MzFj
-NDhlMzRlMyIKIAotU1JDUkVWID0gImYwYmQwMjU3YzMwOGI5YTI2NTYyYzFhMzBjNDc0OGEwMjE5
-Y2M5NTEiCitTUkNSRVYgPSAiMjc1ODIyYTYyNjFlZTY4OWFhZGIxZGE1ZjA5YTBlYzJmMDU4Njg1
-YyIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvZ2xzbGFuZy5naXQ7
-cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW47dGFnPXZ1bGthbi1zZGstJHtQVn0gXAogICAgICAg
-ICAgICBmaWxlOi8vMDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2ggXAogICAg
-ICAgICAgICAiCi0tIAoyLjQ3LjEKCg==
-
---===============0782202523968383562==--
+--===============0386259444752770928==--
 
