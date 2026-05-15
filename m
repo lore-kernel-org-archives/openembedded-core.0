@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C934CD5BA7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6390DCD5BA4
 	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:35 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34815.1778851225744947672
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34813.1778851223005675442
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 May 2026 06:20:25 -0700
+ Fri, 15 May 2026 06:20:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PR5OFES2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=eh7CDqll;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019e2bcb9e01-b22f2991-8943-4806-9e07-4c3457969504-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mCg8W39b;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AkGuhR/u;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019e2bcba9fd-19846010-299f-4b4f-8ec4-4e8ecf0bf713-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1778851225;
+	t=1778851228;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=771NlTLZrFcSdV/8R6ElYwtVXwSiyzMrHePisCdtyV8=;
-	b=PR5OFES2MbG4PMkTTeZaHF5WbCR4n3Mo2VGZR9I4M5EWBgBR7YF8tSNSk4xxVCj7
-	LfuUFlo0RaMSKY6H5iO153JHaTsZFZ1PNYRLwDFqblX7obvDpKbJudF71o3dUVGfXa4
-	jbzoMn3/7zv9V0k7/hGBGNVl+S7+I2baFQDcbqiI=
+	bh=MesgCz+NkMDL8bKIxw6vsi0b7TnQgFVK5onFbfHNoT4=;
+	b=mCg8W39bdZfyfDU9nzjvyaos7OixMDq8wQZHQKW7mRqjoCPgMKC5suLVBLSC9jxh
+	P9GiXOA7cmo4CCDVdkTyAXvxFGZtEWryf+Kdy2KJcC3AsjsVOFB6XrSA9Ji71Wf7LCY
+	oimkV3EtmX6oBLQirk+zCEvRFjBH4e4OEC/3UYgk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851225;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851228;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=771NlTLZrFcSdV/8R6ElYwtVXwSiyzMrHePisCdtyV8=;
-	b=eh7CDqllppvMEO1jZs8ngV3ThovUQvKV5DXyg0cssT9F5pCfS6yM2Dy08j1sZMTh
-	bKVdihNr7U8vMq98CuWXuMDKPGGiHfu9uIObOxwBQQGSH+/HxsAFdi+67g62HWDd+Wq
-	cySRYzZ8sVt23Ijc3XkhQVbK1HuCt3tLTYuhWfZk=
-Content-Type: multipart/mixed; boundary="===============8315989512552489810=="
+	bh=MesgCz+NkMDL8bKIxw6vsi0b7TnQgFVK5onFbfHNoT4=;
+	b=AkGuhR/uGAxl1wR/YQrJSrQBUIN69UuT3sfY5T2CU7qnnFN4XcfzLPYdamxvrPJM
+	6BfMfzTAsPqeXh2gbn9INdhiGofozgz2+7SXSQnK9qF8lpLEwzhQ/FyXZ7f51e7go8e
+	teiTv3YIaeJDJf1+CxGpKivXLOvpA3Vn0E7GHQ7c=
+Content-Type: multipart/mixed; boundary="===============2631735620630004916=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] inetutils: upgrading to 2.8 FAILED
-Message-ID: <0101019e2bcb9e01-b22f2991-8943-4806-9e07-4c3457969504-000000@us-west-2.amazonses.com>
-Date: Fri, 15 May 2026 13:20:25 +0000
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] diffstat: upgrading to 1.69 FAILED
+Message-ID: <0101019e2bcba9fd-19846010-299f-4b4f-8ec4-4e8ecf0bf713-000000@us-west-2.amazonses.com>
+Date: Fri, 15 May 2026 13:20:28 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.15-54.240.27.23
+X-SES-Outgoing: 2026.05.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237089
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237103
 
---===============8315989512552489810==
+--===============2631735620630004916==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *inetutils* to *2.8* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *diffstat* to *1.69* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe inetutils failed.
+Running 'devtool upgrade' for recipe diffstat failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 949 .bb files complete (0 cached, 949 parsed). 1974 targets, 40 skipped, 0 masked, 0 errors.
+Loaded 1974 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -71,9 +69,9 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-4559d599a35839db3510eec46717408ee691de98"
+DISTRO_VERSION       = "6.0.99+snapshot-4fb5a5f4004ef56097aee45767bfd36d1fe374a2"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:4559d599a35839db3510eec46717408ee691de98"
+meta                 = "tmp-auh-upgrades:4fb5a5f4004ef56097aee45767bfd36d1fe374a2"
 meta-yocto-bsp       
 meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
 workspace            = "<unknown>:<unknown>"
@@ -99,9 +97,9 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-4559d599a35839db3510eec46717408ee691de98"
+DISTRO_VERSION       = "6.0.99+snapshot-4fb5a5f4004ef56097aee45767bfd36d1fe374a2"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:4559d599a35839db3510eec46717408ee691de98"
+meta                 = "tmp-auh-upgrades:4fb5a5f4004ef56097aee45767bfd36d1fe374a2"
 meta-yocto-bsp       
 meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
 workspace            = "<unknown>:<unknown>"
@@ -115,29 +113,18 @@ NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   9% |###                                 | ETA:  0:00:01
-Adding changed files:  18% |######                              | ETA:  0:00:00
-Adding changed files:  27% |#########                           | ETA:  0:00:00
-Adding changed files:  36% |############                        | ETA:  0:00:00
-Adding changed files:  45% |################                    | ETA:  0:00:00
-Adding changed files:  54% |###################                 | ETA:  0:00:00
-Adding changed files:  63% |######################              | ETA:  0:00:00
-Adding changed files:  72% |#########################           | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://ftpmirror.gnu.org/gnu/inetutils/inetutils-2.8.tar.gz...
-INFO: Rebasing devtool onto 0d69d615d5ca51b29b6bd8d2636e00ea6d0c849c
-WARNING: Command 'git rebase 0d69d615d5ca51b29b6bd8d2636e00ea6d0c849c' failed:
-Auto-merging telnetd/utility.c
-CONFLICT (content): Merge conflict in telnetd/utility.c
+INFO: Fetching http://invisible-mirror.net/archives/diffstat/diffstat-1.69.tgz...
+INFO: Rebasing devtool onto 33a45baa692a885a826d0a1de8a61583ccc0df63
+WARNING: Command 'git rebase 33a45baa692a885a826d0a1de8a61583ccc0df63' failed:
+Auto-merging configure.in
+CONFLICT (content): Merge conflict in configure.in
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/inetutils
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/inetutils/inetutils_2.8.bb
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/diffstat
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/diffstat/diffstat_1.69.bb
 
 
 
@@ -146,5 +133,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8315989512552489810==--
+--===============2631735620630004916==--
 
