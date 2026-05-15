@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F6FCD5BCB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F7A8CD5BCC
 	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:51 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34834.1778851235157759110
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34832.1778851233021692824
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 May 2026 06:20:41 -0700
+ Fri, 15 May 2026 06:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cOIaXOOD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=WmpXBtSm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019e2bcbdd7c-aa909615-7374-47c9-b39a-084922eddaf2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CDxpFofd;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IdZszqm+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019e2bcbd1bc-263d2eee-1a01-437a-b9a9-49283de74d53-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1778851241;
+	t=1778851238;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iS2cFVCGasjio5lsWigHi7AR3z5T3vSB86S3VGlGqGk=;
-	b=cOIaXOOD6irh2OEfdp2WVioaARR+9eycG3uxwxGrmsxkJ4h5I7AGyaUrOWxn2fYV
-	XkyGoJ1+6NVnEbcJEN3jgCbb/3UIMUv+J6m+s06U9d+mRtMkK2QIFkgn4H+JpjdpiEG
-	g+H8lqvd0ej+0cmsUDnr/Wk7X6h8xv2+n4Q7GiDs=
+	bh=xl35xQy+waY+jmdXg5C/PnP1Xwm//ZYJdG0iqBMD+4o=;
+	b=CDxpFofd6bOAxIdvCwzUMwXLBdv2c9OpJXVQDdnrKTqJyzd9ARvYMuZYsumRdOPq
+	FpBLcqTtK5y3v5aZvfG+Hl34K7r5mKYj63oS9DyaKTHvCiSt53HgqFMpN19wC13Tl/J
+	BonLIluJ8pu2H2Fo0K9neZ8WYfHD+gB+hzL5EbJo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851241;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851238;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iS2cFVCGasjio5lsWigHi7AR3z5T3vSB86S3VGlGqGk=;
-	b=WmpXBtSmMbuN1ROc0MJm18HxqBWjEkl+se5+bhJRbMAsDacrfucsCOCVYVsnrdRT
-	xcYyCSNF/iF9ZhYVprqVmb+RSe5Y/ckqxCiE5NYWtfJ6/8IRgJtAqQCtKyG3yjWax5v
-	G8F17XBTto4VLHubm6MPfBL8oikpmfcodGz2yJZY=
-Content-Type: multipart/mixed; boundary="===============7672644498561128197=="
+	bh=xl35xQy+waY+jmdXg5C/PnP1Xwm//ZYJdG0iqBMD+4o=;
+	b=IdZszqm+89kr6wwSp9C/7uCHHJguzJwoht5KUmt9fIML4/n46ZM0SKbal7LwjHMw
+	Q+OYf1FJ2k4nqHUlU3kk08XPzev3bstKzo0vuIgLLYx71XtKnreTnBiHVuj0yAHeG7y
+	Or2NQZdlZCQ1uHId6roBj3U5vEYfFObmiFKb7PqI=
+Content-Type: multipart/mixed; boundary="===============8585552857844159289=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 318 SUCCEEDED
-Message-ID: <0101019e2bcbdd7c-aa909615-7374-47c9-b39a-084922eddaf2-000000@us-west-2.amazonses.com>
-Date: Fri, 15 May 2026 13:20:41 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] vulkan-headers: upgrading to 1.4.350.0 SUCCEEDED
+Message-ID: <0101019e2bcbd1bc-263d2eee-1a01-437a-b9a9-49283de74d53-000000@us-west-2.amazonses.com>
+Date: Fri, 15 May 2026 13:20:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.15-54.240.27.192
+X-SES-Outgoing: 2026.05.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237161
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237144
 
---===============7672644498561128197==
+--===============8585552857844159289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *diffoscope* to *318* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-headers* to *1.4.350.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-317-318.patch
+    - apply the patch: git am 0001-vulkan-headers-upgrade-1.4.341.0-1.4.350.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,101 +72,104 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e8e12f2311f264d4c3f9501e3c89986e23f49624 Mon Sep 17 00:00:00 2001
+From 55eefd722fd438b01d9a97bd2520551e75a620d5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 May 2026 12:05:22 +0000
-Subject: [PATCH] diffoscope: upgrade 317 -> 318
+Date: Fri, 15 May 2026 10:16:47 +0000
+Subject: [PATCH] vulkan-headers: upgrade 1.4.341.0 -> 1.4.350.0
 
 ---
- .../diffoscope/{diffoscope_317.bb => diffoscope_318.bb}         | 2 +-
+ ...{vulkan-headers_1.4.341.0.bb => vulkan-headers_1.4.350.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_317.bb => diffoscope_318.bb} (93%)
+ rename meta/recipes-graphics/vulkan/{vulkan-headers_1.4.341.0.bb => vulkan-headers_1.4.350.0.bb} (95%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_317.bb b/meta/recipes-support/diffoscope/diffoscope_318.bb
-similarity index 93%
-rename from meta/recipes-support/diffoscope/diffoscope_317.bb
-rename to meta/recipes-support/diffoscope/diffoscope_318.bb
-index 06c3ee1a30..7a4562cfce 100644
---- a/meta/recipes-support/diffoscope/diffoscope_317.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_318.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.0.bb
+index 6dbb069325..ff5108e013 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.0.bb
+@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https;tag=vulkan-sdk-${PV}"
  
- inherit pypi setuptools3
+-SRCREV = "b5c8f996196ba4aa6d8f97e52b5d3b6e70f7e4e2"
++SRCREV = "8864cdc896bbc2a9b6eb36b3218fc9ef57908d77"
  
--SRC_URI[sha256sum] = "9c8741f76bcbd1faec59227da31981a524abca63e19d03f3a594c19f326de542"
-+SRC_URI[sha256sum] = "313261c0da6b6c02e525a6b8a898a00aaba32cb7c5511364d5939fc0394295d9"
+ inherit cmake
  
- RDEPENDS:${PN} += "\
-         binutils \
 -- 
 2.47.1
 
 
---===============7672644498561128197==
+--===============8585552857844159289==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-vulkan-headers-upgrade-1.4.341.0-1.4.350.0.patch"
+
+RnJvbSA1NWVlZmQ3MjJmZDQzOGIwMWQ5YTk3YmQyNTIwNTUxZTc1YTYyMGQ1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgTWF5IDIwMjYgMTA6MTY6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4taGVhZGVyczogdXBncmFkZSAxLjQuMzQxLjAgLT4gMS40LjM1MC4wCgotLS0KIC4uLnt2
+dWxrYW4taGVhZGVyc18xLjQuMzQxLjAuYmIgPT4gdnVsa2FuLWhlYWRlcnNfMS40LjM1MC4wLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi1oZWFkZXJzXzEuNC4z
+NDEuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjQuMzUwLjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjQuMzQxLjAu
+YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zNTAu
+MC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zNDEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjQuMzUwLjAuYmIKaW5kZXggNmRi
+YjA2OTMyNS4uZmY1MTA4ZTAxMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
+bGthbi92dWxrYW4taGVhZGVyc18xLjQuMzQxLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjQuMzUwLjAuYmIKQEAgLTExLDcgKzExLDcgQEAg
+TElDRU5TRSA9ICJBcGFjaGUtMi4wICYgTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+TElDRU5TRS5tZDttZDU9MWJjMzU1ZDhjNDE5NmY3NzRjOGI4N2VkMWE4ZGQ2MjUiCiBTUkNfVVJJ
+ID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1IZWFkZXJzLmdpdDticmFu
+Y2g9bWFpbjtwcm90b2NvbD1odHRwczt0YWc9dnVsa2FuLXNkay0ke1BWfSIKIAotU1JDUkVWID0g
+ImI1YzhmOTk2MTk2YmE0YWE2ZDhmOTdlNTJiNWQzYjZlNzBmN2U0ZTIiCitTUkNSRVYgPSAiODg2
+NGNkYzg5NmJiYzJhOWI2ZWIzNmIzMjE4ZmM5ZWY1NzkwOGQ3NyIKIAogaW5oZXJpdCBjbWFrZQog
+Ci0tIAoyLjQ3LjEKCg==
+
+--===============8585552857844159289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dbg: PV changed from "317" to "318"
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 317 [default] to 318 [default]
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dev: PV changed from "317" to "318"
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 317 [default] to 318 [default]
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-doc: PV changed from "317" to "318"
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 317 [default] to 318 [default]
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-locale: PV changed from "317" to "318"
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 317 [default] to 318 [default]
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-src: PV changed from "317" to "318"
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-src: PKGV changed from 317 [default] to 318 [default]
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "317" to "318"
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 317 [default] to 318 [default]
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PV changed from "317" to "318"
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.14/site-packages/diffoscope-317.dist-info/licenses -> /usr/lib/python3.14/site-packages/diffoscope-318.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/diffoscope-317.dist-info -> /usr/lib/python3.14/site-packages/diffoscope-318.dist-info
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1411702 to 1411641 (-0%)
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PKGV changed from 317 [default] to 318 [default]
-packages/x86-64-v3-poky-linux/diffoscope: PV changed from "317" to "318"
-packages/x86-64-v3-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-317.tar.gz;downloadfilename=diffoscope-317.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-318.tar.gz;downloadfilename=diffoscope-318.tar.gz"
-packages/x86-64-v3-poky-linux/diffoscope: PKGV changed from 317 [default] to 318 [default]
-Changes to packages/x86-64-v3-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.14/site-packages/diffoscope-317.dist-info moved to /usr/lib/python3.14/site-packages/diffoscope-318.dist-info
+packages/x86-64-v3-poky-linux/vulkan-headers: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-headers: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-headers: SRC_URI changed from "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https;tag=vulkan-sdk-1.4.341.0" to "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https;tag=vulkan-sdk-1.4.350.0"
+Changes to packages/x86-64-v3-poky-linux/vulkan-headers (sysroot):
+  /usr/share/vulkan/registry/vk.xml changed permissions from rwxr-xr-x to rw-r--r--
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-dev: PKGSIZE changed from 21288612 to 21577077 (+1%)
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 16585152 to 19134140 (+15%)
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
 
---===============7672644498561128197==
+--===============8585552857844159289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.14/site-packages/diffoscope-317.dist-info/licenses -> /usr/lib/python3.14/site-packages/diffoscope-318.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/diffoscope-317.dist-info -> /usr/lib/python3.14/site-packages/diffoscope-318.dist-info
-Changes to packages/x86-64-v3-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.14/site-packages/diffoscope-317.dist-info moved to /usr/lib/python3.14/site-packages/diffoscope-318.dist-info
+Changes to packages/x86-64-v3-poky-linux/vulkan-headers (sysroot):
+  /usr/share/vulkan/registry/vk.xml changed permissions from rwxr-xr-x to rw-r--r--
+packages/x86-64-v3-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 16585152 to 19134140 (+15%)
 
---===============7672644498561128197==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-317-318.patch"
-
-RnJvbSBlOGUxMmYyMzExZjI2NGQ0YzNmOTUwMWUzYzg5OTg2ZTIzZjQ5NjI0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWF5IDIwMjYgMTI6MDU6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-aWZmb3Njb3BlOiB1cGdyYWRlIDMxNyAtPiAzMTgKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
-c2NvcGVfMzE3LmJiID0+IGRpZmZvc2NvcGVfMzE4LmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8zMTcuYmIgPT4gZGlmZm9zY29wZV8z
-MTguYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
-ZS9kaWZmb3Njb3BlXzMxNy5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
-Zm9zY29wZV8zMTguYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzMxNy5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzMxOC5iYgppbmRleCAwNmMzZWUx
-YTMwLi43YTQ1NjJjZmNlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
-b3BlL2RpZmZvc2NvcGVfMzE3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
-cGUvZGlmZm9zY29wZV8zMTguYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
-ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiOWM4NzQxZjc2YmNiZDFmYWVjNTkyMjdkYTMxOTgxYTUyNGFiY2E2M2UxOWQwM2YzYTU5
-NGMxOWYzMjZkZTU0MiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzMTMyNjFjMGRhNmI2YzAyZTUy
-NWE2YjhhODk4YTAwYWFiYTMyY2I3YzU1MTEzNjRkNTkzOWZjMDM5NDI5NWQ5IgogCiBSREVQRU5E
-Uzoke1BOfSArPSAiXAogICAgICAgICBiaW51dGlscyBcCi0tIAoyLjQ3LjEKCg==
-
---===============7672644498561128197==--
+--===============8585552857844159289==--
 
