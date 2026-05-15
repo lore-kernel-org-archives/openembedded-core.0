@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1465CD5BD6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1144CD5BDE
 	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:51 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.34749.1778851223006143454
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34754.1778851225997440227
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 May 2026 06:20:37 -0700
+ Fri, 15 May 2026 06:20:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IBv4UJDk;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=R2HvSx5U;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019e2bcbcdb3-14a367ba-47f3-4641-85bd-c9cb4327a60a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=j2o1LKS0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Khseo/9Q;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019e2bcbd2b3-e4641994-3c7d-4c3e-98c5-4c101b4162f4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1778851237;
+	t=1778851238;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=I+o5h2AFvpF6It02E9O3DGt4y3SPynNva3hka4Hopr0=;
-	b=IBv4UJDk0mrijBpsIf2Q1rQAClXRFhmgVbg2w7SshvpTiGZTIjBKliVC7PrY28bm
-	hmiNPuZY5FESY8zQgX0I9ApZr3NueuwvxIOxVO3n82rLZt+oPYLQO9AcWxpQw+bWKdg
-	0o0nBwNhl2qedHGlO2qe0AasAOI7WNLoeJMzJaoY=
+	bh=BVs0ettwEoLi4GkEHwoCdo/SAbcY1KZagtmW5gC0ANI=;
+	b=j2o1LKS0pHVdZNoP34ni8RXmxsgjmuxZZOwsoyFlN5pqplvRy1ChrcQ6eMJsDdlT
+	wsTvoVoq4zKgogbl9kFcKk4gw3+a6ii3R6DGkENlDGkNtDHzbsS7YXHTxZmJ/4341Oe
+	Fe/bOTE0Q9g2oWQ2eUTYP+2qsnSt6qA3TBxrZ3h4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851237;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851238;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=I+o5h2AFvpF6It02E9O3DGt4y3SPynNva3hka4Hopr0=;
-	b=R2HvSx5UsvzANOl+msviKN+ux6gqPUuSNhw9Twj6/KV4JdKDOwp206P/gBWY1unM
-	O+yiQCKE45O4gWgb6NdVsQWVwMWZOHKDmXugq4kMZZ7CbiKGmbv4YK826PNO09FHQyT
-	DJj1Ii3KONy7HbcozZoEvBYxY3206p/QcavWJPU0=
-Content-Type: multipart/mixed; boundary="===============4046664989548664904=="
+	bh=BVs0ettwEoLi4GkEHwoCdo/SAbcY1KZagtmW5gC0ANI=;
+	b=Khseo/9QIGsVARBG5cM6yEm99+P83o40jmhQmGmLdiCwRcqKrv3GBCZX9KAhMIVa
+	NHqbGJMF4k4T1w6XIcK2+8ZwPH2KQWaPgWHuTiS9EBLj38A4P/XHqJusn9J20//2cNX
+	Kpz0gtr+7379jx8U7R3N1SxO7U03ycBLaSi2jkeE=
+Content-Type: multipart/mixed; boundary="===============7562044250466166932=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] igt-gpu-tools: upgrading to 2.4 FAILED
-Message-ID: <0101019e2bcbcdb3-14a367ba-47f3-4641-85bd-c9cb4327a60a-000000@us-west-2.amazonses.com>
-Date: Fri, 15 May 2026 13:20:37 +0000
+Subject: [AUH] vulkan-loader: upgrading to 1.4.350.0 FAILED
+Message-ID: <0101019e2bcbd2b3-e4641994-3c7d-4c3e-98c5-4c101b4162f4-000000@us-west-2.amazonses.com>
+Date: Fri, 15 May 2026 13:20:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.05.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237140
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237145
 
---===============4046664989548664904==
+--===============7562044250466166932==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *igt-gpu-tools* to *2.4* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *vulkan-loader* to *1.4.350.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-igt-gpu-tools-upgrade-2.3-2.4.patch
+    - apply the patch: git am 0001-vulkan-loader-upgrade-1.4.341.0-1.4.350.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,132 +78,68 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d71ca9aa5eb047f3253a4199658d014fe2a49c3a Mon Sep 17 00:00:00 2001
+From b2e15d802151014896c19c5b7ee21d45f23a3a4d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 May 2026 10:00:27 +0000
-Subject: [PATCH] igt-gpu-tools: upgrade 2.3 -> 2.4
+Date: Fri, 15 May 2026 10:18:55 +0000
+Subject: [PATCH] vulkan-loader: upgrade 1.4.341.0 -> 1.4.350.0
 
 ---
- ...-meson.build-do-not-hardcode-the-build-directory-.patch | 7 +++----
- .../{igt-gpu-tools_2.3.bb => igt-gpu-tools_2.4.bb}         | 2 +-
- 2 files changed, 4 insertions(+), 5 deletions(-)
- rename meta/recipes-graphics/igt-gpu-tools/{igt-gpu-tools_2.3.bb => igt-gpu-tools_2.4.bb} (97%)
+ .../{vulkan-loader_1.4.341.0.bb => vulkan-loader_1.4.350.0.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-loader_1.4.341.0.bb => vulkan-loader_1.4.350.0.bb} (97%)
 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
-index 7ff8aa22a9..12cb487bdc 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
-@@ -1,4 +1,4 @@
--From 27fd94beadfc29ea4ad82f660dbdb2540d0b6b97 Mon Sep 17 00:00:00 2001
-+From 1563a17280c21777facb0ab3eb5589b9531f5956 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 18 Dec 2025 15:45:11 +0100
- Subject: [PATCH] lib/meson.build: do not hardcode the build directory into the
-@@ -25,7 +25,6 @@ and them IGT_IMGDIR is used thusly in lib/igt_core.h:
- #define igt_fopen_data(filename) \
-         __igt_fopen_data(IGT_SRCDIR, IGT_DATADIR, IGT_IMGDIR, filename)
- 
--
- Upstream-Status: Inappropriate [hack patching in a bogus dir; issue reported at https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/190]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
- ---
-@@ -33,10 +32,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/lib/meson.build b/lib/meson.build
--index d0487fb3c..f6452e970 100644
-+index 5c4829345..d28c95d99 100644
- --- a/lib/meson.build
- +++ b/lib/meson.build
--@@ -292,7 +292,7 @@ foreach f: lib_sources
-+@@ -301,7 +301,7 @@ foreach f: lib_sources
-  	    '-DIGT_DATADIR="@0@"'.format(join_paths(prefix, datadir)),
-  	    '-DIGT_SRCDIR="@0@"'.format(srcdir),
-  	    '-DIGT_LOG_DOMAIN="@0@"'.format(f.split('.')[0]),
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb
+diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.4.341.0.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb
 similarity index 97%
-rename from meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb
-rename to meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb
-index c92d10c617..536e7a2652 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT"
+rename from meta/recipes-graphics/vulkan/vulkan-loader_1.4.341.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb
+index e6ad8738fc..1180cdc91c 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-loader_1.4.341.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb
+@@ -10,7 +10,7 @@ SECTION = "libs"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=main;protocol=https;tag=vulkan-sdk-${PV}"
+-SRCREV = "32fcb949e253cbeb40cda7ea76122b492db579ae"
++SRCREV = "a9e72c66d5cb79911eb9a9063bf4016dd0a3a123"
  
- inherit meson pkgconfig
+ REQUIRED_DISTRO_FEATURES = "vulkan"
  
--SRCREV = "2d7ec9a36c550c48af4bdd6e748f6753369ab8ff"
-+SRCREV = "e6b603e4984e4ce30fe1cc2705734d0f130e0550"
- 
- SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
-            file://0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch \
 -- 
 2.47.1
 
 
---===============4046664989548664904==
+--===============7562044250466166932==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-igt-gpu-tools-upgrade-2.3-2.4.patch"
+ filename="0001-vulkan-loader-upgrade-1.4.341.0-1.4.350.0.patch"
 
-RnJvbSBkNzFjYTlhYTVlYjA0N2YzMjUzYTQxOTk2NThkMDE0ZmUyYTQ5YzNhIE1vbiBTZXAgMTcg
+RnJvbSBiMmUxNWQ4MDIxNTEwMTQ4OTZjMTljNWI3ZWUyMWQ0NWYyM2EzYTRkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWF5IDIwMjYgMTA6MDA6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
-Z3QtZ3B1LXRvb2xzOiB1cGdyYWRlIDIuMyAtPiAyLjQKCi0tLQogLi4uLW1lc29uLmJ1aWxkLWRv
-LW5vdC1oYXJkY29kZS10aGUtYnVpbGQtZGlyZWN0b3J5LS5wYXRjaCB8IDcgKysrLS0tLQogLi4u
-L3tpZ3QtZ3B1LXRvb2xzXzIuMy5iYiA9PiBpZ3QtZ3B1LXRvb2xzXzIuNC5iYn0gICAgICAgICB8
-IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL3tpZ3QtZ3B1LXRvb2xz
-XzIuMy5iYiA9PiBpZ3QtZ3B1LXRvb2xzXzIuNC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvaWd0LWdwdS10b29scy9pZ3QtZ3B1LXRvb2xzLzAwMDEtbGliLW1l
-c29uLmJ1aWxkLWRvLW5vdC1oYXJkY29kZS10aGUtYnVpbGQtZGlyZWN0b3J5LS5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHMvMDAwMS1saWIt
-bWVzb24uYnVpbGQtZG8tbm90LWhhcmRjb2RlLXRoZS1idWlsZC1kaXJlY3RvcnktLnBhdGNoCmlu
-ZGV4IDdmZjhhYTIyYTkuLjEyY2I0ODdiZGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHMvMDAwMS1saWItbWVzb24uYnVpbGQtZG8t
-bm90LWhhcmRjb2RlLXRoZS1idWlsZC1kaXJlY3RvcnktLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHMvMDAwMS1saWItbWVzb24uYnVp
-bGQtZG8tbm90LWhhcmRjb2RlLXRoZS1idWlsZC1kaXJlY3RvcnktLnBhdGNoCkBAIC0xLDQgKzEs
-NCBAQAotRnJvbSAyN2ZkOTRiZWFkZmMyOWVhNGFkODJmNjYwZGJkYjI1NDBkMGI2Yjk3IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxNTYzYTE3MjgwYzIxNzc3ZmFjYjBhYjNlYjU1ODli
-OTUzMWY1OTU2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2
-aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IFRodSwgMTggRGVjIDIwMjUgMTU6NDU6MTEg
-KzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gbGliL21lc29uLmJ1aWxkOiBkbyBub3QgaGFyZGNvZGUg
-dGhlIGJ1aWxkIGRpcmVjdG9yeSBpbnRvIHRoZQpAQCAtMjUsNyArMjUsNiBAQCBhbmQgdGhlbSBJ
-R1RfSU1HRElSIGlzIHVzZWQgdGh1c2x5IGluIGxpYi9pZ3RfY29yZS5oOgogI2RlZmluZSBpZ3Rf
-Zm9wZW5fZGF0YShmaWxlbmFtZSkgXAogICAgICAgICBfX2lndF9mb3Blbl9kYXRhKElHVF9TUkNE
-SVIsIElHVF9EQVRBRElSLCBJR1RfSU1HRElSLCBmaWxlbmFtZSkKIAotCiBVcHN0cmVhbS1TdGF0
-dXM6IEluYXBwcm9wcmlhdGUgW2hhY2sgcGF0Y2hpbmcgaW4gYSBib2d1cyBkaXI7IGlzc3VlIHJl
-cG9ydGVkIGF0IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vaWd0LWdwdS10b29s
-cy8tL2lzc3Vlcy8xOTBdCiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBs
-aW51dHJvbml4LmRlPgogLS0tCkBAIC0zMywxMCArMzIsMTAgQEAgU2lnbmVkLW9mZi1ieTogQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KICAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2xpYi9tZXNvbi5idWls
-ZCBiL2xpYi9tZXNvbi5idWlsZAotaW5kZXggZDA0ODdmYjNjLi5mNjQ1MmU5NzAgMTAwNjQ0Citp
-bmRleCA1YzQ4MjkzNDUuLmQyOGM5NWQ5OSAxMDA2NDQKIC0tLSBhL2xpYi9tZXNvbi5idWlsZAog
-KysrIGIvbGliL21lc29uLmJ1aWxkCi1AQCAtMjkyLDcgKzI5Miw3IEBAIGZvcmVhY2ggZjogbGli
-X3NvdXJjZXMKK0BAIC0zMDEsNyArMzAxLDcgQEAgZm9yZWFjaCBmOiBsaWJfc291cmNlcwogIAkg
-ICAgJy1ESUdUX0RBVEFESVI9IkAwQCInLmZvcm1hdChqb2luX3BhdGhzKHByZWZpeCwgZGF0YWRp
-cikpLAogIAkgICAgJy1ESUdUX1NSQ0RJUj0iQDBAIicuZm9ybWF0KHNyY2RpciksCiAgCSAgICAn
-LURJR1RfTE9HX0RPTUFJTj0iQDBAIicuZm9ybWF0KGYuc3BsaXQoJy4nKVswXSksCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaWd0LWdwdS10b29scy9pZ3QtZ3B1LXRvb2xzXzIu
-My5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHNf
-Mi40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFw
-aGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHNfMi4zLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvaWd0LWdwdS10b29scy9pZ3QtZ3B1LXRvb2xzXzIuNC5iYgppbmRleCBj
-OTJkMTBjNjE3Li41MzZlN2EyNjUyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-aWd0LWdwdS10b29scy9pZ3QtZ3B1LXRvb2xzXzIuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3MvaWd0LWdwdS10b29scy9pZ3QtZ3B1LXRvb2xzXzIuNC5iYgpAQCAtOSw3ICs5LDcgQEAg
-TElDRU5TRSA9ICJNSVQiCiAKIGluaGVyaXQgbWVzb24gcGtnY29uZmlnCiAKLVNSQ1JFViA9ICIy
-ZDdlYzlhMzZjNTUwYzQ4YWY0YmRkNmU3NDhmNjc1MzM2OWFiOGZmIgorU1JDUkVWID0gImU2YjYw
-M2U0OTg0ZTRjZTMwZmUxY2MyNzA1NzM0ZDBmMTMwZTA1NTAiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8v
-Z2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vaWd0LWdwdS10b29scy5naXQ7cHJvdG9jb2w9aHR0
-cHM7YnJhbmNoPW1hc3Rlcjt0YWc9diR7UFZ9IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtbGli
-LW1lc29uLmJ1aWxkLWRvLW5vdC1oYXJkY29kZS10aGUtYnVpbGQtZGlyZWN0b3J5LS5wYXRjaCBc
-Ci0tIAoyLjQ3LjEKCg==
+CkRhdGU6IEZyaSwgMTUgTWF5IDIwMjYgMTA6MTg6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tbG9hZGVyOiB1cGdyYWRlIDEuNC4zNDEuMCAtPiAxLjQuMzUwLjAKCi0tLQogLi4uL3t2
+dWxrYW4tbG9hZGVyXzEuNC4zNDEuMC5iYiA9PiB2dWxrYW4tbG9hZGVyXzEuNC4zNTAuMC5iYn0g
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi97dnVsa2FuLWxvYWRlcl8xLjQuMzQx
+LjAuYmIgPT4gdnVsa2FuLWxvYWRlcl8xLjQuMzUwLjAuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tbG9hZGVyXzEuNC4zNDEuMC5iYiBi
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLWxvYWRlcl8xLjQuMzUwLjAuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
+bGthbi92dWxrYW4tbG9hZGVyXzEuNC4zNDEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdy
+YXBoaWNzL3Z1bGthbi92dWxrYW4tbG9hZGVyXzEuNC4zNTAuMC5iYgppbmRleCBlNmFkODczOGZj
+Li4xMTgwY2RjOTFjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1
+bGthbi1sb2FkZXJfMS40LjM0MS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxr
+YW4vdnVsa2FuLWxvYWRlcl8xLjQuMzUwLjAuYmIKQEAgLTEwLDcgKzEwLDcgQEAgU0VDVElPTiA9
+ICJsaWJzIgogTElDRU5TRSA9ICJBcGFjaGUtMi4wIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxl
+Oi8vTElDRU5TRS50eHQ7bWQ1PTdkYmVmZWQyMzI0Mjc2MGFhMzQ3NWVlNDI4MDFjNWFjIgogU1JD
+X1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9WdWxrYW4tTG9hZGVyLmdpdDti
+cmFuY2g9bWFpbjtwcm90b2NvbD1odHRwczt0YWc9dnVsa2FuLXNkay0ke1BWfSIKLVNSQ1JFViA9
+ICIzMmZjYjk0OWUyNTNjYmViNDBjZGE3ZWE3NjEyMmI0OTJkYjU3OWFlIgorU1JDUkVWID0gImE5
+ZTcyYzY2ZDVjYjc5OTExZWI5YTkwNjNiZjQwMTZkZDBhM2ExMjMiCiAKIFJFUVVJUkVEX0RJU1RS
+T19GRUFUVVJFUyA9ICJ2dWxrYW4iCiAKLS0gCjIuNDcuMQoK
 
---===============4046664989548664904==
+--===============7562044250466166932==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -226,182 +162,142 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-c0d2c79119e1b91e8b3f33752298665496323c2f"
+DISTRO_VERSION       = "6.0.99+snapshot-b4029ada486c35f629600175631617e54f207852"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:c0d2c79119e1b91e8b3f33752298665496323c2f"
+meta                 = "tmp-auh-upgrades:b4029ada486c35f629600175631617e54f207852"
 meta-yocto-bsp       
 meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 260 Local 246 Mirrors 0 Missed 14 Current 807 (94% match, 98% complete)
+Sstate summary: Wanted 304 Local 282 Mirrors 0 Missed 22 Current 777 (92% match, 97% complete)
 done.
+Removing 1 stale sstate objects for arch qemux86_64...done.
+Removing 8 stale sstate objects for arch x86-64-v3...done.
 NOTE: Executing Tasks
+NOTE: Running setscene task 979 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-tools-native.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 986 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 991 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 994 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 995 of 1081 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.341.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 996 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1003 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe mesa-tools-native-2_26.0.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe expat-2.8.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 1066 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_recipe_qa)
+NOTE: recipe glslang-native-1_1.4.341.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe mesa-tools-native-2_26.0.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1021 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-tools-native.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1054 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1057 of 1081 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe expat-2.8.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_recipe_qa: Started
+NOTE: recipe glslang-native-1_1.4.341.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe mesa-2_26.0.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe mesa-tools-native-2_26.0.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe mesa-tools-native-2_26.0.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_create_recipe_spdx_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2175 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_recipe_qa)
-NOTE: Running task 2333 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_write_config)
-NOTE: Running task 2480 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_create_recipe_spdx)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_recipe_qa: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_write_config: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_create_recipe_spdx: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_write_config: Succeeded
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_recipe_qa unihash changed to 02decd8f8ff254a9f3441fd4cd82dacf19bc10093304c07405309ff14fb0e851
-NOTE: Setscene tasks completed
-NOTE: Running task 2495 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_fetch)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_fetch: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2496 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_unpack)
-NOTE: Running task 2497 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_unpack: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2498 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_patch)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_patch: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_patch: Succeeded
-NOTE: Running task 2499 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2500 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_populate_lic)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_populate_lic: Started
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_populate_lic unihash changed to a33b57f4c8e33c66e562f6210499ec10d3e5152529fb247d50180b06d574e5d2
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_deploy_source_date_epoch unihash changed to 1da6d7d54eaa25de9de0b3b53262d85ed256e9d7f4d5b4c4d5cbd43087022edc
-NOTE: Setscene tasks completed
-NOTE: Running task 2501 of 2513 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_configure)
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_configure: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1907 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_fetch)
+NOTE: Running task 2031 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_fetch)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_fetch: Started
+NOTE: Running task 2330 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_write_config)
+NOTE: Running task 2415 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_create_recipe_spdx)
+NOTE: recipe mesa-2_26.0.6-r0: task do_fetch: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_fetch: Succeeded
+NOTE: Running task 2520 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_unpack)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_write_config: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_write_config: Succeeded
+NOTE: recipe mesa-2_26.0.6-r0: task do_unpack: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2521 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_unpack)
+NOTE: Running task 2522 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2523 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_create_recipe_spdx)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_unpack: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_create_recipe_spdx: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2524 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_patch)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_patch: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_patch: Succeeded
+NOTE: Running task 2525 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2526 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_generate_toolchain_file)
+NOTE: Running task 2527 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_populate_lic)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2528 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_configure)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_configure: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_unpack: Succeeded
+NOTE: Running task 2529 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_patch)
+NOTE: recipe mesa-2_26.0.6-r0: task do_patch: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_patch: Succeeded
+NOTE: Running task 2531 of 2556 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_rust_gen_targets)
+NOTE: recipe mesa-2_26.0.6-r0: task do_rust_gen_targets: Started
+NOTE: recipe mesa-2_26.0.6-r0: task do_rust_gen_targets: Succeeded
 Log data follows:
 | DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd_259.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/
- openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/procps/procps_4.0.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.133.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_populate_
- sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunwind/libunwind_1.8.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/bison/bison_3.8.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.11.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb:do_populate_s
- ysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_populate_sysroot']
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.3.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.25.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/au
+ h/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot']
 | NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'base-files', 'base-passwd', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'systemd', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'procps', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'wayland-protocols', 'wayland', 'libpciaccess', 'libpthread-stubs', 'libx11', 'libxau', 'libxcb', 'libxdmcp', 'libxext', 'libxkbcommon', 'libxrender', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'libpng', 'acl', 'attr', 'bash-completion', 'curl', 'gdbm', 'gmp', 'gnutls', 
- 'libtasn1', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libmicrohttpd', 'libpcre2', 'libseccomp', 'libunistring', 'libunwind', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'bison-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconf-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| NOTE: Skipping as already exists in sysroot: ['expat', 'gettext-minimal-native', 'glibc', 'libxml2', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libtool-native', 'm4-native', 'quilt-native', 'texinfo-dummy-native', 'vulkan-headers', 'wayland', 'libpthread-stubs', 'libx11', 'libxau', 'libxcb', 'libxdmcp', 'libxext', 'libxrandr', 'libxrender', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'libffi', 'openssl-native', 'ncurses-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'make-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconf-native', 'pseudo-native', 'bzip2-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libmpc-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
 | DEBUG: Python function extend_recipe_sysroot finished
 | DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddocs=disabled -Drunner=enabled -Dsrcdir=/usr/src/debug/igt-gpu-tools/2.4/git/ -Dversion_hash=2.4 -Dchamelium=disabled...
-| The Meson build system
-| Version: 1.11.1
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/sources/igt-gpu-tools-2.4
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/build
-| Build type: cross build
-| Project name: igt-gpu-tools
-| Project version: 2.4
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/recipe-sysroot ld.bfd 2.46
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Compiler for C supports arguments -Wbad-function-cast: YES
-| Compiler for C supports arguments -Wdeclaration-after-statement: YES
-| Compiler for C supports arguments -Wformat=2: YES
-| Compiler for C supports arguments -Wimplicit-fallthrough=0: YES
-| Compiler for C supports arguments -Wlogical-op: YES
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wmissing-format-attribute: YES
-| Compiler for C supports arguments -Wmissing-noreturn: YES
-| Compiler for C supports arguments -Wmissing-prototypes: YES
-| Compiler for C supports arguments -Wnested-externs: YES
-| Compiler for C supports arguments -Wold-style-definition: YES
-| Compiler for C supports arguments -Wpointer-arith: YES
-| Compiler for C supports arguments -Wredundant-decls: YES
-| Compiler for C supports arguments -Wshadow: YES
-| Compiler for C supports arguments -Wstrict-prototypes: YES
-| Compiler for C supports arguments -Wuninitialized: YES
-| Compiler for C supports arguments -Wunused: YES
-| Compiler for C supports arguments -Wno-clobbered: YES
-| Compiler for C supports arguments -Wno-maybe-uninitialized: YES
-| Compiler for C supports arguments -Wno-missing-field-initializers: YES
-| Compiler for C supports arguments -Wno-pointer-arith: YES
-| Compiler for C supports arguments -Wno-address-of-packed-member: YES
-| Compiler for C supports arguments -Wno-sign-compare: YES
-| Compiler for C supports arguments -Wno-type-limits: YES
-| Compiler for C supports arguments -Wno-unused-parameter: YES
-| Compiler for C supports arguments -Wno-unused-result: YES
-| Compiler for C supports arguments -Werror=address: YES
-| Compiler for C supports arguments -Werror=array-bounds: YES
-| Compiler for C supports arguments -Werror=dangling-pointer: YES
-| Compiler for C supports arguments -Werror=implicit: YES
-| Compiler for C supports arguments -Werror=init-self: YES
-| Compiler for C supports arguments -Werror=int-conversion: YES
-| Compiler for C supports arguments -Werror=int-to-pointer-cast: YES
-| Compiler for C supports arguments -Werror=main: YES
-| Compiler for C supports arguments -Werror=missing-braces: YES
-| Compiler for C supports arguments -Werror=nonnull: YES
-| Compiler for C supports arguments -Werror=pointer-to-int-cast: YES
-| Compiler for C supports arguments -Werror=return-type: YES
-| Compiler for C supports arguments -Werror=sequence-point: YES
-| Compiler for C supports arguments -Werror=trigraphs: YES
-| Compiler for C supports arguments -Werror=write-strings: YES
-| Compiler for C supports arguments -fno-builtin-malloc: YES
-| Compiler for C supports arguments -fno-builtin-calloc: YES
-| Compiler for C supports arguments -D_LARGEFILE64_SOURCE=1: YES
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/recipe-sysroot-native/usr/bin/pkg-config) 2.5.1
-| Run-time dependency libdrm found: YES 2.4.133
-| Run-time dependency libdrm_intel found: YES 2.4.133
-| Run-time dependency libdrm_nouveau found: YES 2.4.133
-| Run-time dependency libdrm_amdgpu found: YES 2.4.133
-| Run-time dependency pciaccess found: YES 0.19
-| Run-time dependency libkmod found: YES 34.2
-| Found CMake: NO
-| Run-time dependency libprocps found: NO  (tried pkg-config and cmake)
-| Run-time dependency libproc2 found: YES 4.0.6-dirty
-| Run-time dependency libunwind found: YES 1.8.3
-| Run-time dependency libdw found: YES 0.194
-| Run-time dependency pixman-1 found: YES 0.46.4
-| Run-time dependency valgrind found: NO  (tried pkg-config)
-| Run-time dependency cairo found: YES 1.18.4
-| Run-time dependency libpci found: NO  (tried pkg-config)
+| -- The C compiler identification is GNU 15.2.0
+| -- Detecting C compiler ABI info
+| -- Detecting C compiler ABI info - done
+| -- Check for working C compiler: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc - skipped
+| -- Detecting C compile features
+| -- Detecting C compile features - done
+| CMake Error at CMakeLists.txt:56 (if):
+|   if given arguments:
 | 
-| ../sources/igt-gpu-tools-2.4/meson.build:165:9: ERROR: Dependency "libpci" not found (tried pkg-config)
+|     "VERSION_GREATER" "1.4.350"
 | 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/build/meson-logs/meson-log.txt
+|   Unknown arguments specified
 | 
-| Last 10 lines of meson-log.txt:
-| Package libpci was not found in the pkg-config search path.
-| Perhaps you should add the directory containing `libpci.pc'
-| to the PKG_CONFIG_PATH environment variable
-| Package 'libpci' not found
-| -----------
-| CMake binary for host machine is cached as not found
-| Dependency lookup for libpci with method 'cmake' failed: CMake binary for machine host machine not found. Giving up.
-| Run-time dependency libpci found: NO  (tried pkg-config)
 | 
-| ../sources/igt-gpu-tools-2.4/meson.build:165:9: ERROR: Dependency "libpci" not found (tried pkg-config)
-| 
-| ERROR: meson setup failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.2430412:170 exit 1 from 'exit 1'
+| -- Configuring incomplete, errors occurred!
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/temp/run.do_configure.2512658:161 exit 1 from 'cmake -G 'Ninja' -DCMAKE_MAKE_PROGRAM=ninja $oecmake_sitefile /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/sources/vulkan-loader-1.4.350.0 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_INSTALL_BINDIR:PATH=bin -DCMAKE_INSTALL_SBINDIR:PATH=sbin -DCMAKE_INSTALL_LIBEXECDIR:PATH=libexec -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=../com -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=/var -DCMAKE_INSTALL_LIBDIR:PATH=lib -DCMAKE_INSTALL_INCLUDEDIR:PATH=include -DCMAKE_INSTALL_DATAROOTDIR:PATH=share -DPYTHON_EXECUTABLE:PATH=/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 -DPython_EXECUTABLE:PATH=/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 -DPython3_EXECUTABLE:PATH=/srv/pokybuild
+ /yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 -DLIB_SUFFIX= -DCMAKE_INSTALL_SO_NO_EXE=0 -DCMAKE_TOOLCHAIN_FILE:FILEPATH=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/toolchain.cmake -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON -DFETCHCONTENT_FULLY_DISCONNECTED=ON -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DBUILD_TESTS=OFF -DPYTHON_EXECUTABLE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/python3 -DASSEMBLER_WORKS=FALSE -DVulkanHeaders_INCLUDE_DIR=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/recipe-sysroot/usr/include -DVulkanRegistry_DIR=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/recipe-sysroot//usr/share -DBUILD_WSI_WAYLAND_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON -Wno-dev'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.2430412, line 170
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.2430412, line 159
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.2430412, line 146
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.2430412, line 183
-NOTE: recipe igt-gpu-tools-2.4-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2501 tasks of which 2491 didn't need to be rerun and 1 failed.
+| 	#1: cmake_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/temp/run.do_configure.2512658, line 161
+| 	#2: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/temp/run.do_configure.2512658, line 140
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/temp/run.do_configure.2512658, line 179
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2531 tasks of which 2515 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260515100011.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260515101840.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260515100011.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260515101840.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/log.do_configure.2430412
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: igt-gpu-tools-2.4-r0 do_configure: meson setup failed
-ERROR: igt-gpu-tools-2.4-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/run.do_configure.2430412' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.4/temp/log.do_configure.2430412
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.4.bb:do_configure) failed with exit code '1'
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/temp/log.do_configure.2512658
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: vulkan-loader-1.4.350.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/temp/run.do_configure.2512658' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/vulkan-loader/1.4.350.0/temp/log.do_configure.2512658
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_configure) failed with exit code '1'
 
---===============4046664989548664904==--
+--===============7562044250466166932==--
 
