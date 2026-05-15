@@ -1,1704 +1,1149 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Quan.Sun@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CE11CD4F47
-	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 15:10:13 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.37163.1778857810610730598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA7E8CD4F25
+	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 15:49:34 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38050.1778860167468141569
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 May 2026 08:10:11 -0700
+ Fri, 15 May 2026 08:49:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=IbsUB1oT;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D521A2880
-	for <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 08:10:04 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6D7323F85F
-	for <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 08:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778857810; bh=KdRVKXsT29GE7Av+ZeBCYTSTq9epjxwxYhroCbbzifI=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=IbsUB1oTmml04KoO3HS6P8Hv46l2B9ZOf0ffbCrxbICPlTQqxyDnIFsMfHieXxkPb
-	 Ub3IHGtS9ypQ+huq6pK4er0UPwqXEpAb9sesBa5ogHLNvfSbcBkKe/fFYFtSQeIRl8
-	 vxMR+ij8e/9/57QkKtyLgncqVxfSFJCJ1pROZECI=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=EVrbmhWh;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9595dbcff7=quan.sun@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64FFnRsF2678677
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 08:49:27 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=brsr5JTHItAHQHvFYfrU
+	HcHcxGeJqdgxanxjlhCOIhk=; b=EVrbmhWhQgwfoqn5aJEPFUnLJh/8W7babSZa
+	6Ij/FZWo8+aC+mT0X2xArE7b9c7Oh6ntAyxQAgXEBsou6MnBRkQEGLuZkTXvHXnf
+	yz9a7l2AgNnZfLJ28cisy4u9NssATzwCWPA8A7IO9rsFbbDUqryVOpai+azvx00w
+	cFcuDcaKwFvpijtnzSrZJcpfaRXhDEY6YI/c9+6pO2DVKNjqPUs7RmUcF/WFpTFD
+	/RRS+raL5MaQfEVWT9++cLozxyesr7ewTSYv/XwF0/s6SNhnBgDwv1vAfpkl35v6
+	rsmzd+CacWxBJbxoTs/1Emi7LJgNAUz7jDKKGLGknARQWyoaRA==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011038.outbound.protection.outlook.com [52.101.52.38])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e5m68979a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 08:49:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EL2nKWNbbS1l1DpVXeJykkTTHVLoXIX2oOO+sQ7muKpudDEjSYJj/B/KzSxuM0rlUx/4Z6lLMNIf0TLtqRP+LGDSpkI6jxDpkZg+i/n3cA4OzlDws/UJZ3PquKICkqjJU6An6+t8mWkZWPNNYya+l+dHyLj/dIG2mdCWqFtI/yMl6vzUiMbMl801pYsR+QDH4Za8QwLGvrH5Cdjpf/xq2LFFJBXHJ1TmN3UiSgG5KYxehDHnyeg99MxZv46w1S9/mP6gRBAWQqVNiZqzkSbYGjGRXlBtnO7KjxMZoJy93twYSKFYo8J6jBo/c5vQMGBwRFKFUuYT7PFs6KSeikgmlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=brsr5JTHItAHQHvFYfrUHcHcxGeJqdgxanxjlhCOIhk=;
+ b=dNbOtML0BDtjjOPSDJ8FRp+twnqObXzmmBqBmoq0oUj084fAfMIIV6T74RI1PdYZoFOgnaDBMqmLy6BJDb+04FkvGoveYVMAgjedPxoF8l2ruR+9akWJErzg6E2uIqjoPsLvf2e1zMXC78eAGmeh3H3MExZesLndzB7xqXB2bltVShq3YI6JuU6+Q2ueZuoErMl202YBr9Fp/kTbRAjIOe/wuZRXkMEU/1/deY2L1kKC4NFqjjd1S9U6Ph6k5LTho7XZICU+dMvk1wsiBZPCz8mK9P7oEsbbiXy01J+CTUTw4hpcyhjs25vrKNHGQqyf7zkw3P/6G/kV8NVc9Sjtjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from IA0PR11MB7283.namprd11.prod.outlook.com (2603:10b6:208:439::10)
+ by CY8PR11MB7081.namprd11.prod.outlook.com (2603:10b6:930:53::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Fri, 15 May
+ 2026 15:49:21 +0000
+Received: from IA0PR11MB7283.namprd11.prod.outlook.com
+ ([fe80::6e41:656f:120e:8e8]) by IA0PR11MB7283.namprd11.prod.outlook.com
+ ([fe80::6e41:656f:120e:8e8%5]) with mapi id 15.20.9913.009; Fri, 15 May 2026
+ 15:49:21 +0000
+From: Quan.Sun@windriver.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] librsvg: upgrade 2.61.3 -> 2.62.2
-Date: Fri, 15 May 2026 16:10:04 +0100
-Message-ID: <20260515151004.2591185-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260515151004.2591185-1-ross.burton@arm.com>
-References: <20260515151004.2591185-1-ross.burton@arm.com>
+Subject: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
+Date: Fri, 15 May 2026 08:48:40 -0700
+Message-ID: <20260515154841.242278-1-Quan.Sun@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: BY3PR10CA0022.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::27) To IA0PR11MB7283.namprd11.prod.outlook.com
+ (2603:10b6:208:439::10)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR11MB7283:EE_|CY8PR11MB7081:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2142ec3-0e54-4e45-6f00-08deb29987a8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|12006099003|3023799003|13003099007|25016099003|38350700014|29003799003|56012099003|18002099003|11063799003;
+X-Microsoft-Antispam-Message-Info: 
+	DmH4fcOKhn+g6AACIEulYnHqXosTG0RcRppQfowfc10aosweUNj9dgKdkYndPey4zi7Y3KjTL/cng0h8xzRmX4r9A11/l3o3MfbMjRg1LfTdiXBvpaIes4WShfCpn5R0St5Xos/bAnDJEDJjrNkcGfswOGpmn0V0quW0QRV6xjISGR9bq0oQzz3Km+VS9MDvYBJVNo3SWreQfWjt2dEEMHn1ggB4Wxov4VSicuntowg6PgATMyo2FzHKtDGP5tLa7LwRj/GkgNjf3x/KCqUOlUbHD1qbZfbCGlqCBifBy7yEqFRkcLU+AtAOCcAUb8jgSr8X4WBlb3ubA7IabOJ4mSdsUb6LuPrZ+TkvTDGhOxbYSiCtWnbk6t9ybA0z/1RidWY83KVwjG1brQVPgsFGxmXuwsRLiTjH9sBRtCvE3dxeVoayGkpPsS1BCC64Vn8hw3sWmbBmLhK/70Qdhs8oD6BXgOSHOSnHdw24EgHQS/C/JyZYzAD0hRDv2Kxsg25hycripq3YifGWZnoOeVt6k/FxTJtRsjsDWB1LgQSUdlBzXr+NCVbx9iYBxkCOY8nR9prw9CJEa8EU6KmTSMYqbMlo4ZSmuZI2i4ZsdLfsGCqlk1/wftvCeePpSKRSNA1ok8EAZHV9c08tfFI5LJuV+ldgHwJYenurrb8HcJeyYt1Sx8Jer5YTm8ovKV7EZ/vY
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(12006099003)(3023799003)(13003099007)(25016099003)(38350700014)(29003799003)(56012099003)(18002099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bE1rdFRlcjhla1F6RFV2dXBUdVpkQmdJWUtRWjhZZ2FlYlNnMHB4ZnRsZ3NN?=
+ =?utf-8?B?RDJnc292MWppNjNnUnloVkxVU3l3aEk3SEJxYVgrVkZSN3NjZnJjQW9Gbisy?=
+ =?utf-8?B?MGtyd0VwTXFoL2hLbXFkNVI0VWdXcW9JQWdlV09XWjc5NmpscnJKL3N2Uml5?=
+ =?utf-8?B?eEFUeENXV1hoU3Y0TzFwMVBrZ2haMlVWTkRTTzRUN0xvNFU0UFczSVdTbGlk?=
+ =?utf-8?B?a0ROczBaYkk2RFhlSVpnbDl5ZStxNzhRK2kwNUEzY1FzSWtDUmliVTdwVkts?=
+ =?utf-8?B?ZWNoR2dUYUpZOUJUSmNXdmY2ckJ2Uy9lUVcxaFI2VURmU2xScDUwMGFqQXBS?=
+ =?utf-8?B?MFFIVFRkR2xEN1Q1Sy9iWWRvelZ4c2hOWHdmRXZ4Y0h5YmV2bHJwMUZ1M3p1?=
+ =?utf-8?B?VTFlVmFtazNMd2VzN0x1Y0dOVW9NbDZ1eDBFQ2RES3FjOTJrYjdwUmhjZ2d2?=
+ =?utf-8?B?emFEMjlCTExLV1hPMTdLYXpTbHZ0OExCWW1HSzNNWE1TYnZVWE5KY0EybkFx?=
+ =?utf-8?B?K201TzR1Q2krZTFVU3pQSGFJeUJxTUErb2F1YXBHblNqeTRlUWE5SmQ0Q1Zv?=
+ =?utf-8?B?dGtvR1NrZ2ZmS0hWc0ozby9iVFppYmNqRmpkYzlKZkxFTkNOV2RsZnFRY08z?=
+ =?utf-8?B?clBXMExNMUNmMzVtZUE2dUphYTE0b2pLVlVDWmxVMS9jazRWb1B4MDZkR0RZ?=
+ =?utf-8?B?YXF1WjgzSG50UURoS2hGQmNQek44dW9PR28xRThTSUpac0JxRnRxZXRqU2ZB?=
+ =?utf-8?B?S0pGa0pHZ0prUU1FV3VNQ0o2YVhGd1UzMkE5a2VYTm1sdUwrTEJpMENqcGFq?=
+ =?utf-8?B?MlVHWXZSRlpLOVdWNTMrTWxiQlc0OWZCaWsxckN4MTRWa3MrNzNLWXNuS2FJ?=
+ =?utf-8?B?eHBVWXpnU0JqbHgrSXpDUlMyZmNoUFg5V3A5enB5MU9PWGU4V3dlbStxQ2Jx?=
+ =?utf-8?B?QnlyZzFLYTVvcUxzZW41Smg1UWw1S25CYndYSUpXQ1JSM1JrZEZVQzM4U1Vv?=
+ =?utf-8?B?Q09rUkpGZm5aR2lqWVdwc01jVGFDdk9WOGxuZUFCb216ckZEU0RCMHNCZ2pw?=
+ =?utf-8?B?VDQ2Wi9Fc3RWZzBHaFNNV1hFd1FLcnNpOVBHcnlvL0x3bTM2SytQWTFCQytw?=
+ =?utf-8?B?U1lyM0tOWHRJVW5NRmE4aWVBUk9LNm92eDlyb2VRTUF4UGVRSmRtTldUT0s2?=
+ =?utf-8?B?UUtyRm9jQjNpU1h0TkN0eVRkMXUvdXVybUZpVDdwOHFBQU02QWNIYnF0TVUr?=
+ =?utf-8?B?eHZtbXNHVWE0bG5zcDRTcTNlNHdDcDBzMDJZdWxoM1VLTm1BVzdBVnZpZ1lu?=
+ =?utf-8?B?YUVzdUY1VzN6RS80VjZhdVNHR2IxdUhpd0hmYW4zMFF2a2lxMGlrRFpaM2lt?=
+ =?utf-8?B?dFVPOG5ibUtJOGF2QmxrOTZaWGw4NXcyUFdVRGloK2daK09OZXphMG8wbzNK?=
+ =?utf-8?B?V1NiQytxMGcvWENNcE9oVEpDekVlMUZ2N0JySVhpUzFxdXVmdkkrT2NPSGlI?=
+ =?utf-8?B?akQwUWlPMXBtZTVUcnJMcTlCNDh4MVR2OVlpTW5USmRmWnY3dVR4OE43ZTBI?=
+ =?utf-8?B?aG43ampMN0FWbFR6UkxRSjZ0dUw1cVlCR3VweERYK2F0K05zTm5LZWJMSkRl?=
+ =?utf-8?B?b1o2ckFubTRZdVVQaDhVaGszOTl5S0lXRzNpdFI0UElPUVdzY0pGQ1dMNmRk?=
+ =?utf-8?B?QUNsK3BOTWVOaThVaGJiT2tyQURDWlk2WnlMYmNCaU9yY2RzdFFLSDZRVnZm?=
+ =?utf-8?B?Zm81Z2RZaWgzdXFBaS9kOFY3eUhwcnRaM2Y3eHlGZmVDTVNVVDJuNFc0cnNO?=
+ =?utf-8?B?N1dBejhEY2c1QS9pNC9ZVTVwMUxtcXRYZ3hHNnFNSWxuN21seTIxK3J2eEFk?=
+ =?utf-8?B?SVAzS1VzY21wWGFiWkpFZ0VCOFJrclMrK1pvNHI3ZU5tak9jbDlHWmUwaVJ2?=
+ =?utf-8?B?d0JtYjk1QlYvRnU1TUJZejJFTDhzQXNFYmdieXV5Y05xR2g0TVZnV0VEek5q?=
+ =?utf-8?B?aTk1V0ovR2lwWWVXK0VwSi9KY0J6SU85TkQ1SVh2VXFmVm8yQi9oRXlDYkJD?=
+ =?utf-8?B?U0FWWHltYWJNRXBob0xaMU9ETE9VQWpRUzVzM2FRdGRaaHFuYnl5SGlCTm5x?=
+ =?utf-8?B?RWxqNDMrckh2QlZhVTZ1TTBLNktBdTJJeVFlbVB0OG96M1pPYmdTd3JFd1hS?=
+ =?utf-8?B?MndYZFpQK3RIQUI4VktrYmFUbGF2b3ZqY2RIUlZtNHU3djR6SmIwN0hvRjda?=
+ =?utf-8?B?WTVLdVhVNmN6eFhOS2xGUi9wWTB3V2YrTWxrd3FiYUlxbUFWMzBWdmFWTFZ5?=
+ =?utf-8?B?dkw3ZThBNnBoN3RqalRGbXIyUS96Y0N0aVpTZUJKZG13c3FWMTAxQT09?=
+X-Exchange-RoutingPolicyChecked: 
+	d96jUGmgxoQiqPAcaFgvRzFjRJLR8/Vh7CMS11SEoofyG3Tscm/M5N/CcMPBZULDgGHJROLdq2lPqotFjceSA6xLOA6QFq71JWRQqpcUP7uFznXyfLgGo1YTjr1T7pV0iKf8+w7sblU6nxg3HEZx3spvXb/USVlavHtp49Q6E22iT8SsQdfJcWlBrtvhsKbMuc3C9U2d0yn2QNReprUvmgeS3T4i9DFVoxZM2cKZc5MQ0YeK0fxAn0ztPWgKTapQ/4h46g54hbyhyqiyh5uCIWnJWJJZYlDRauwWqWw6v6+vcrlNVH4x7JYGs0MW7qdzQS46Mbe1s7B6Qy47B6SY7A==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2142ec3-0e54-4e45-6f00-08deb29987a8
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7283.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 15:49:21.1074
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DBsFUONXng2J/Ka2brcFDDBvwE8QOUpTx/kGDO0KON3ygurEU+0C0HVrAMmPaAZUPfytsRsK62lLjJ6wGowWvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7081
+X-Proofpoint-ORIG-GUID: EnAa4Hb0Rq3kv6u1fn18t-oHgMsVIFGs
+X-Authority-Analysis: v=2.4 cv=GoZyPE1C c=1 sm=1 tr=0 ts=6a074086 cx=c_pps
+ a=Lazl6XkH4A3N9SONPos2PQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
+ a=p0WdMEafAAAA:8 a=ID6ng7r3AAAA:8 a=69wJf7TsAAAA:8 a=mDV3o1hIAAAA:8
+ a=D2nq_zG4AAAA:20 a=kmYkUENqAAAA:8 a=t7CeM3EgAAAA:8 a=pFyQfRViAAAA:8
+ a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=AUd_NHdVAAAA:8 a=ag1SF4gXAAAA:8
+ a=pGLkceISAAAA:8 a=ilKATfAMAAAA:8 a=eSGx9tU9hqytYc4GiSgA:9
+ a=CRfl-DGUfOd5BFjU:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=AkheI1RvQwOzcTXhi5f4:22 a=Fg1AiH1G6rFz08G2ETeA:22 a=p9kz6gysRiz6SGr9lVkz:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=oJz5jJLG1JtSoe7EL652:22 a=cvBusfyB2V15izCimMoJ:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22 a=73awMTU50e6eLoBjGbzZ:22 a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-GUID: EnAa4Hb0Rq3kv6u1fn18t-oHgMsVIFGs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE1MDE2MSBTYWx0ZWRfX5cn1n8XMIOBC
+ FZP1QDYezqIXQ/nj9BK75s9vNtinuZY/RdG5E+ubN+0DGcE9lHlM7QaTe4V1d9hkzY1GfbjeooP
+ M3FzRnstw8+ir4pjgsq9kWBVUwsGfu0Lpb5lrljkqOvyOL+S15Fz/dJyrHO3Zy/2QOEd/WjSdtc
+ 8CL0o5baUlj2S51dpsiVZ7KYPqXjlp7on3fYBxjEzOc6Qej0eKsAUnIJeNqfEyGyUXKRPtbVIyp
+ 1dQ//XLcjpLXHQelGBiq3AudRywggzEpUSlliD4sv2ihje145qojs200llSXud2BUGOXHaWFg+s
+ T9RN1OYx4oKE/dG0Dgo6OUl0LsvV4kToH433y352t0jgwwx5BouVUW6/G1JrKVeuaVkB+g6grEh
+ T6Svyx9HMEIyPh0a3Fg7O6tdpgWRYvyAUYDG8RoCHef2faPiG0o/lWqzPDHPAo7Yghc5Rbowtmt
+ aoIAHy34Uo7NNQ93rtw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-15_04,2026-05-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015 spamscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605150161
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 64FFnRsF2678677
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 15:10:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237179
+ <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 15:49:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237180
 
-Selected highlights from the release notes:
+From: Quan Sun <Quan.Sun@windriver.com>
 
-Version 2.62.2
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Upgrade QEMU to version 11.0.0.
 
-- #1142: Fix blurry embeded SVG images by rasterizing them at
-  device resolution (Dylan Sechet).
+Main changes:
 
-- #1229: Fix build when gobject-introspection is enabled but
-  gdk-pixbuf is disabled.
+- Add python3-qemu-qmp recipe (0.0.6) as a separate package. The QMP
+  Python library was removed from the QEMU source tree in 11.0.0 and
+  split into its own upstream project. This is needed by
+  qemu-system-native for testimage integration.
 
-Version 2.62.0
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- QEMU 11.0.0 has officially dropped all support for 32-bit host systems.
+  This includes the ability to build the system emulator (softmmu) on
+  any 32-bit host architecture. Add COMPATIBLE_HOST:class-target to
+  restrict target builds to 64-bit architectures.
+  Note: QEMU 11.0.0 still supports emulating 32-bit guest architectures
+  (such as qemu-system-i386 or qemu-system-arm) as long as they are
+  running on a 64-bit host.
 
-- The minimum supported Rust version (MSRV) is 1.92.0.
+- qemu-targets.inc: skip linux-user targets when HOST_ARCH is not in the
+  set of architectures supported by QEMU 11.0.0's linux-user mode
+  (64-bit only: aarch64, loongarch64, mips64, ppc64, riscv64, s390x,
+  sparc64, x86_64).
 
-- #1218: Fix rendering of markers at the end of open subpaths.
+- Add --cpu=3D${TUNE_ARCH} to EXTRA_OECONF for class-target, and add
+  --cpu=3D${SDK_ARCH} to nativesdk configure options to fix build
+  failure. QEMU 11's configure script falls back to 'uname -m' (x86_64)
+  when it cannot detect the host CPU.
 
-- #1216: Small optimization for userLanguage so regexes only get
-  compiled if needed (Adetoye Anointing).
+- Drop fix-strerrorname_np.patch (fixed upstream).
+  Drop 0001-linux-user-elfload.c-Correction-to-HWCAP2-accessor.patch
+  (fixed upstream).
+  Drop 0001-accel-tcg-Fix-iotlb_to_section-for-different-Address.patch
+  (fixed upstream).
 
-Update cross-query-loaders.patch to the final version that was submitted
-upstream.
+AI-Generated: kiro-cli
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Quan Sun <Quan.Sun@windriver.com>
 ---
- meta/recipes-gnome/librsvg/librsvg-crates.inc | 490 +++++++++---------
- ...e-care-of-deprecated-assert_cmd-Comm.patch |   8 +-
- .../librsvg/librsvg/cross-query-loaders.patch | 173 ++++---
- .../{librsvg_2.61.3.bb =3D> librsvg_2.62.2.bb}  |   2 +-
- 4 files changed, 360 insertions(+), 313 deletions(-)
- rename meta/recipes-gnome/librsvg/{librsvg_2.61.3.bb =3D> librsvg_2.62.2=
-.bb} (98%)
+ .../qemu/python3-qemu-qmp_0.0.6.bb            |  30 ++
+ ...native_10.2.0.bb =3D> qemu-native_11.0.0.bb} |   1 -
+ ...10.2.0.bb =3D> qemu-system-native_11.0.0.bb} |   7 +-
+ meta/recipes-devtools/qemu/qemu-targets.inc   |   4 +
+ meta/recipes-devtools/qemu/qemu.inc           |  17 +-
+ ...tlb_to_section-for-different-Address.patch | 274 ------------------
+ ...load.c-Correction-to-HWCAP2-accessor.patch |  42 ---
+ ...n-environment-space-to-boot-loader-q.patch |   8 +-
+ .../0002-apic-fixup-fallthrough-to-PIC.patch  |   6 +-
+ ...mu-Do-not-include-file-if-not-exists.patch |   6 +-
+ ...er-space-mmap-tweaks-to-address-musl.patch |  24 +-
+ .../qemu/0006-qemu-Determinism-fixes.patch    |   4 +-
+ ...d-use-relative-path-to-refer-to-file.patch |   6 +-
+ ...and-MAP_SHARED_VALIDATE-on-needed-li.patch |   2 +-
+ ...gure-lookup-meson-exutable-from-PATH.patch |  10 +-
+ ...and-the-python-venv-aren-t-used-for-.patch |  10 +-
+ .../qemu/qemu/fix-strerrorname_np.patch       |  35 ---
+ .../qemu/{qemu_10.2.0.bb =3D> qemu_11.0.0.bb}   |   0
+ 18 files changed, 79 insertions(+), 407 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
+ rename meta/recipes-devtools/qemu/{qemu-native_10.2.0.bb =3D> qemu-nativ=
+e_11.0.0.bb} (99%)
+ rename meta/recipes-devtools/qemu/{qemu-system-native_10.2.0.bb =3D> qem=
+u-system-native_11.0.0.bb} (85%)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-accel-tcg-Fix-io=
+tlb_to_section-for-different-Address.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-elflo=
+ad.c-Correction-to-HWCAP2-accessor.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.p=
+atch
+ rename meta/recipes-devtools/qemu/{qemu_10.2.0.bb =3D> qemu_11.0.0.bb} (=
+100%)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg-crates.inc b/meta/recipes=
--gnome/librsvg/librsvg-crates.inc
-index 2260a6f6436..dfa96e28b1b 100644
---- a/meta/recipes-gnome/librsvg/librsvg-crates.inc
-+++ b/meta/recipes-gnome/librsvg/librsvg-crates.inc
-@@ -11,10 +11,10 @@ SRC_URI +=3D " \
-     crate://crates.io/anstream/0.6.21 \
-     crate://crates.io/anstyle/1.0.13 \
-     crate://crates.io/anstyle-parse/0.2.7 \
--    crate://crates.io/anstyle-query/1.1.4 \
--    crate://crates.io/anstyle-wincon/3.0.10 \
-+    crate://crates.io/anstyle-query/1.1.5 \
-+    crate://crates.io/anstyle-wincon/3.0.11 \
-     crate://crates.io/approx/0.5.1 \
--    crate://crates.io/assert_cmd/2.1.1 \
-+    crate://crates.io/assert_cmd/2.1.2 \
-     crate://crates.io/autocfg/1.5.0 \
-     crate://crates.io/av-data/0.4.4 \
-     crate://crates.io/bit-set/0.8.0 \
-@@ -25,30 +25,30 @@ SRC_URI +=3D " \
-     crate://crates.io/block-buffer/0.10.4 \
-     crate://crates.io/block-padding/0.3.3 \
-     crate://crates.io/bstr/1.12.1 \
--    crate://crates.io/bumpalo/3.19.0 \
-+    crate://crates.io/bumpalo/3.19.1 \
-     crate://crates.io/byte-slice-cast/1.2.3 \
-     crate://crates.io/bytecount/0.6.9 \
-     crate://crates.io/bytemuck/1.24.0 \
-     crate://crates.io/byteorder/1.5.0 \
-     crate://crates.io/byteorder-lite/0.1.0 \
--    crate://crates.io/bytes/1.10.1 \
--    crate://crates.io/cairo-rs/0.21.2 \
--    crate://crates.io/cairo-sys-rs/0.21.2 \
-+    crate://crates.io/bytes/1.11.1 \
-+    crate://crates.io/cairo-rs/0.22.0 \
-+    crate://crates.io/cairo-sys-rs/0.22.0 \
-     crate://crates.io/cast/0.3.0 \
-     crate://crates.io/cbc/0.1.2 \
--    crate://crates.io/cc/1.2.44 \
--    crate://crates.io/cfg-expr/0.20.4 \
-+    crate://crates.io/cc/1.2.54 \
-+    crate://crates.io/cfg-expr/0.20.6 \
-     crate://crates.io/cfg-if/1.0.4 \
--    crate://crates.io/chrono/0.4.42 \
-+    crate://crates.io/chrono/0.4.43 \
-     crate://crates.io/ciborium/0.2.2 \
-     crate://crates.io/ciborium-io/0.2.2 \
-     crate://crates.io/ciborium-ll/0.2.2 \
-     crate://crates.io/cipher/0.4.4 \
--    crate://crates.io/clap/4.5.51 \
--    crate://crates.io/clap_builder/4.5.51 \
--    crate://crates.io/clap_complete/4.5.60 \
--    crate://crates.io/clap_derive/4.5.49 \
--    crate://crates.io/clap_lex/0.7.6 \
-+    crate://crates.io/clap/4.5.56 \
-+    crate://crates.io/clap_builder/4.5.56 \
-+    crate://crates.io/clap_complete/4.5.65 \
-+    crate://crates.io/clap_derive/4.5.55 \
-+    crate://crates.io/clap_lex/0.7.7 \
-     crate://crates.io/color_quant/1.1.0 \
-     crate://crates.io/colorchoice/1.0.4 \
-     crate://crates.io/core-foundation-sys/0.8.7 \
-@@ -60,21 +60,22 @@ SRC_URI +=3D " \
-     crate://crates.io/crossbeam-epoch/0.9.18 \
-     crate://crates.io/crossbeam-utils/0.8.21 \
-     crate://crates.io/crunchy/0.2.4 \
--    crate://crates.io/crypto-common/0.1.6 \
-+    crate://crates.io/crypto-common/0.1.7 \
-     crate://crates.io/cssparser/0.35.0 \
-     crate://crates.io/cssparser-color/0.3.0 \
-     crate://crates.io/cssparser-macros/0.6.1 \
-     crate://crates.io/data-url/0.3.2 \
--    crate://crates.io/dav1d/0.10.4 \
-+    crate://crates.io/dav1d/0.11.1 \
-     crate://crates.io/dav1d-sys/0.8.3 \
-     crate://crates.io/deranged/0.5.5 \
--    crate://crates.io/derive_more/2.0.1 \
--    crate://crates.io/derive_more-impl/2.0.1 \
-+    crate://crates.io/derive_more/2.1.1 \
-+    crate://crates.io/derive_more-impl/2.1.1 \
-+    crate://crates.io/diff/0.1.13 \
-     crate://crates.io/difflib/0.4.0 \
-     crate://crates.io/digest/0.10.7 \
-     crate://crates.io/displaydoc/0.2.5 \
-     crate://crates.io/dlib/0.5.2 \
--    crate://crates.io/dtoa/1.0.10 \
-+    crate://crates.io/dtoa/1.0.11 \
-     crate://crates.io/dtoa-short/0.3.5 \
-     crate://crates.io/ecb/0.1.2 \
-     crate://crates.io/either/1.15.0 \
-@@ -84,68 +85,88 @@ SRC_URI +=3D " \
-     crate://crates.io/fallible_collections/0.4.9 \
-     crate://crates.io/fastrand/2.3.0 \
-     crate://crates.io/fdeflate/0.3.7 \
--    crate://crates.io/find-msvc-tools/0.1.4 \
--    crate://crates.io/flate2/1.1.5 \
-+    crate://crates.io/find-msvc-tools/0.1.8 \
-+    crate://crates.io/flate2/1.1.8 \
-     crate://crates.io/float-cmp/0.10.0 \
-     crate://crates.io/fnv/1.0.7 \
-     crate://crates.io/form_urlencoded/1.2.2 \
-     crate://crates.io/futf/0.1.5 \
-     crate://crates.io/futures-channel/0.3.31 \
--    crate://crates.io/futures-core/0.3.31 \
-+    crate://crates.io/futures-core/0.3.32 \
-     crate://crates.io/futures-executor/0.3.31 \
-     crate://crates.io/futures-io/0.3.31 \
--    crate://crates.io/futures-macro/0.3.31 \
--    crate://crates.io/futures-task/0.3.31 \
--    crate://crates.io/futures-util/0.3.31 \
-+    crate://crates.io/futures-macro/0.3.32 \
-+    crate://crates.io/futures-task/0.3.32 \
-+    crate://crates.io/futures-util/0.3.32 \
-     crate://crates.io/fxhash/0.2.1 \
--    crate://crates.io/gdk-pixbuf/0.21.2 \
--    crate://crates.io/gdk-pixbuf-sys/0.21.2 \
--    crate://crates.io/generic-array/0.14.9 \
-+    crate://crates.io/gdk-pixbuf/0.22.0 \
-+    crate://crates.io/gdk-pixbuf-sys/0.22.0 \
-+    crate://crates.io/generic-array/0.14.7 \
-     crate://crates.io/getrandom/0.3.4 \
--    crate://crates.io/gif/0.13.3 \
--    crate://crates.io/gio/0.21.4 \
--    crate://crates.io/gio-sys/0.21.2 \
--    crate://crates.io/glib/0.21.4 \
--    crate://crates.io/glib-macros/0.21.4 \
--    crate://crates.io/glib-sys/0.21.2 \
--    crate://crates.io/gobject-sys/0.21.2 \
-+    crate://crates.io/gif/0.14.1 \
-+    crate://crates.io/gio/0.22.1 \
-+    crate://crates.io/gio-sys/0.22.0 \
-+    crate://crates.io/gio-unix/0.22.0 \
-+    crate://crates.io/gio-unix-sys/0.22.0 \
-+    crate://crates.io/gio-win32/0.22.0 \
-+    crate://crates.io/gio-win32-sys/0.22.0 \
-+    crate://crates.io/glam/0.14.0 \
-+    crate://crates.io/glam/0.15.2 \
-+    crate://crates.io/glam/0.16.0 \
-+    crate://crates.io/glam/0.17.3 \
-+    crate://crates.io/glam/0.18.0 \
-+    crate://crates.io/glam/0.19.0 \
-+    crate://crates.io/glam/0.20.5 \
-+    crate://crates.io/glam/0.21.3 \
-+    crate://crates.io/glam/0.22.0 \
-+    crate://crates.io/glam/0.23.0 \
-+    crate://crates.io/glam/0.24.2 \
-+    crate://crates.io/glam/0.25.0 \
-+    crate://crates.io/glam/0.27.0 \
-+    crate://crates.io/glam/0.28.0 \
-+    crate://crates.io/glam/0.29.3 \
-+    crate://crates.io/glam/0.30.10 \
-+    crate://crates.io/glib/0.22.0 \
-+    crate://crates.io/glib-macros/0.22.0 \
-+    crate://crates.io/glib-sys/0.22.0 \
-+    crate://crates.io/gobject-sys/0.22.0 \
-     crate://crates.io/half/2.7.1 \
-     crate://crates.io/hashbrown/0.13.2 \
--    crate://crates.io/hashbrown/0.16.0 \
-+    crate://crates.io/hashbrown/0.16.1 \
-     crate://crates.io/heck/0.5.0 \
--    crate://crates.io/iana-time-zone/0.1.64 \
-+    crate://crates.io/iana-time-zone/0.1.65 \
-     crate://crates.io/iana-time-zone-haiku/0.1.2 \
-     crate://crates.io/icu_collections/2.1.1 \
-     crate://crates.io/icu_locale_core/2.1.1 \
-     crate://crates.io/icu_normalizer/2.1.1 \
-     crate://crates.io/icu_normalizer_data/2.1.1 \
--    crate://crates.io/icu_properties/2.1.1 \
--    crate://crates.io/icu_properties_data/2.1.1 \
-+    crate://crates.io/icu_properties/2.1.2 \
-+    crate://crates.io/icu_properties_data/2.1.2 \
-     crate://crates.io/icu_provider/2.1.1 \
-     crate://crates.io/idna/1.1.0 \
-     crate://crates.io/idna_adapter/1.2.1 \
--    crate://crates.io/image/0.25.8 \
-+    crate://crates.io/image/0.25.10 \
-     crate://crates.io/image-webp/0.2.4 \
--    crate://crates.io/indexmap/2.12.0 \
-+    crate://crates.io/indexmap/2.13.0 \
-     crate://crates.io/inout/0.1.4 \
-     crate://crates.io/is_terminal_polyfill/1.70.2 \
-     crate://crates.io/itertools/0.13.0 \
-     crate://crates.io/itertools/0.14.0 \
--    crate://crates.io/itoa/1.0.15 \
--    crate://crates.io/jiff/0.2.15 \
--    crate://crates.io/jiff-static/0.2.15 \
--    crate://crates.io/jiff-tzdb/0.1.4 \
-+    crate://crates.io/itoa/1.0.17 \
-+    crate://crates.io/jiff/0.2.18 \
-+    crate://crates.io/jiff-static/0.2.18 \
-+    crate://crates.io/jiff-tzdb/0.1.5 \
-     crate://crates.io/jiff-tzdb-platform/0.1.3 \
--    crate://crates.io/js-sys/0.3.82 \
-+    crate://crates.io/js-sys/0.3.85 \
-     crate://crates.io/language-tags/0.3.2 \
-     crate://crates.io/lazy_static/1.5.0 \
--    crate://crates.io/libc/0.2.177 \
-+    crate://crates.io/libc/0.2.180 \
-     crate://crates.io/libloading/0.8.9 \
-     crate://crates.io/linux-raw-sys/0.11.0 \
-     crate://crates.io/litemap/0.8.1 \
-     crate://crates.io/locale_config/0.3.0 \
-     crate://crates.io/lock_api/0.4.14 \
--    crate://crates.io/log/0.4.28 \
-+    crate://crates.io/log/0.4.29 \
-     crate://crates.io/lopdf/0.38.0 \
-     crate://crates.io/mac/0.1.1 \
-     crate://crates.io/malloc_buf/0.0.6 \
-@@ -153,19 +174,20 @@ SRC_URI +=3D " \
-     crate://crates.io/matches/0.1.10 \
-     crate://crates.io/matrixmultiply/0.3.10 \
-     crate://crates.io/md-5/0.10.6 \
--    crate://crates.io/memchr/2.7.6 \
-+    crate://crates.io/memchr/2.8.0 \
-     crate://crates.io/miniz_oxide/0.8.9 \
--    crate://crates.io/moxcms/0.7.9 \
-+    crate://crates.io/moxcms/0.8.1 \
-     crate://crates.io/mp4parse/0.17.0 \
--    crate://crates.io/nalgebra/0.33.2 \
--    crate://crates.io/nalgebra-macros/0.2.2 \
-+    crate://crates.io/mutants/0.0.3 \
-+    crate://crates.io/nalgebra/0.34.1 \
-+    crate://crates.io/nalgebra-macros/0.3.0 \
-     crate://crates.io/new_debug_unreachable/1.0.6 \
-     crate://crates.io/nom/8.0.0 \
-     crate://crates.io/nom_locate/5.0.0 \
-     crate://crates.io/normalize-line-endings/0.3.0 \
-     crate://crates.io/num-bigint/0.4.6 \
-     crate://crates.io/num-complex/0.4.6 \
--    crate://crates.io/num-conv/0.1.0 \
-+    crate://crates.io/num-conv/0.2.0 \
-     crate://crates.io/num-derive/0.4.2 \
-     crate://crates.io/num-integer/0.1.46 \
-     crate://crates.io/num-rational/0.4.2 \
-@@ -176,10 +198,10 @@ SRC_URI +=3D " \
-     crate://crates.io/once_cell/1.21.3 \
-     crate://crates.io/once_cell_polyfill/1.70.2 \
-     crate://crates.io/oorandom/11.1.5 \
--    crate://crates.io/pango/0.21.3 \
--    crate://crates.io/pango-sys/0.21.2 \
--    crate://crates.io/pangocairo/0.21.2 \
--    crate://crates.io/pangocairo-sys/0.21.2 \
-+    crate://crates.io/pango/0.22.0 \
-+    crate://crates.io/pango-sys/0.22.0 \
-+    crate://crates.io/pangocairo/0.22.0 \
-+    crate://crates.io/pangocairo-sys/0.22.0 \
-     crate://crates.io/parking_lot/0.12.5 \
-     crate://crates.io/parking_lot_core/0.9.12 \
-     crate://crates.io/paste/1.0.15 \
-@@ -191,13 +213,12 @@ SRC_URI +=3D " \
-     crate://crates.io/phf_shared/0.11.3 \
-     crate://crates.io/phf_shared/0.13.1 \
-     crate://crates.io/pin-project-lite/0.2.16 \
--    crate://crates.io/pin-utils/0.1.0 \
-     crate://crates.io/pkg-config/0.3.32 \
-     crate://crates.io/plotters/0.3.7 \
-     crate://crates.io/plotters-backend/0.3.7 \
-     crate://crates.io/plotters-svg/0.3.7 \
--    crate://crates.io/png/0.18.0 \
--    crate://crates.io/portable-atomic/1.11.1 \
-+    crate://crates.io/png/0.18.1 \
-+    crate://crates.io/portable-atomic/1.13.0 \
-     crate://crates.io/portable-atomic-util/0.2.4 \
-     crate://crates.io/potential_utf/0.1.4 \
-     crate://crates.io/powerfmt/0.2.0 \
-@@ -206,21 +227,21 @@ SRC_URI +=3D " \
-     crate://crates.io/predicates/3.1.3 \
-     crate://crates.io/predicates-core/1.0.9 \
-     crate://crates.io/predicates-tree/1.0.12 \
--    crate://crates.io/proc-macro-crate/3.4.0 \
--    crate://crates.io/proc-macro2/1.0.103 \
-+    crate://crates.io/pretty_assertions/1.4.1 \
-+    crate://crates.io/proc-macro2/1.0.106 \
-     crate://crates.io/proptest/1.9.0 \
--    crate://crates.io/pxfm/0.1.25 \
-+    crate://crates.io/pxfm/0.1.27 \
-     crate://crates.io/quick-error/1.2.3 \
-     crate://crates.io/quick-error/2.0.1 \
--    crate://crates.io/quote/1.0.41 \
-+    crate://crates.io/quote/1.0.44 \
-     crate://crates.io/r-efi/5.3.0 \
-     crate://crates.io/rand/0.8.5 \
-     crate://crates.io/rand/0.9.2 \
-     crate://crates.io/rand_chacha/0.9.0 \
-     crate://crates.io/rand_core/0.6.4 \
--    crate://crates.io/rand_core/0.9.3 \
-+    crate://crates.io/rand_core/0.9.5 \
-     crate://crates.io/rand_xorshift/0.4.0 \
--    crate://crates.io/rangemap/1.6.0 \
-+    crate://crates.io/rangemap/1.7.1 \
-     crate://crates.io/rawpointer/0.2.1 \
-     crate://crates.io/rayon/1.11.0 \
-     crate://crates.io/rayon-core/1.13.0 \
-@@ -230,26 +251,27 @@ SRC_URI +=3D " \
-     crate://crates.io/regex-automata/0.4.13 \
-     crate://crates.io/regex-syntax/0.8.8 \
-     crate://crates.io/rgb/0.8.52 \
--    crate://crates.io/rustix/1.1.2 \
-+    crate://crates.io/rustc_version/0.4.1 \
-+    crate://crates.io/rustix/1.1.3 \
-     crate://crates.io/rustversion/1.0.22 \
-     crate://crates.io/rusty-fork/0.3.1 \
--    crate://crates.io/ryu/1.0.20 \
-     crate://crates.io/safe_arch/0.7.4 \
-     crate://crates.io/same-file/1.0.6 \
-     crate://crates.io/scopeguard/1.2.0 \
-     crate://crates.io/selectors/0.31.0 \
-+    crate://crates.io/semver/1.0.27 \
-     crate://crates.io/serde/1.0.228 \
-     crate://crates.io/serde_core/1.0.228 \
-     crate://crates.io/serde_derive/1.0.228 \
--    crate://crates.io/serde_json/1.0.145 \
--    crate://crates.io/serde_spanned/1.0.3 \
--    crate://crates.io/servo_arc/0.4.1 \
-+    crate://crates.io/serde_json/1.0.149 \
-+    crate://crates.io/serde_spanned/1.0.4 \
-+    crate://crates.io/servo_arc/0.4.3 \
-     crate://crates.io/sha2/0.10.9 \
--    crate://crates.io/shell-words/1.1.0 \
-+    crate://crates.io/shell-words/1.1.1 \
-     crate://crates.io/shlex/1.3.0 \
-     crate://crates.io/simba/0.9.1 \
--    crate://crates.io/simd-adler32/0.3.7 \
--    crate://crates.io/siphasher/1.0.1 \
-+    crate://crates.io/simd-adler32/0.3.8 \
-+    crate://crates.io/siphasher/1.0.2 \
-     crate://crates.io/slab/0.4.11 \
-     crate://crates.io/smallvec/1.15.1 \
-     crate://crates.io/stable_deref_trait/1.2.1 \
-@@ -259,27 +281,26 @@ SRC_URI +=3D " \
-     crate://crates.io/string_cache_codegen/0.5.4 \
-     crate://crates.io/stringprep/0.1.5 \
-     crate://crates.io/strsim/0.11.1 \
--    crate://crates.io/syn/2.0.108 \
-+    crate://crates.io/syn/2.0.114 \
-     crate://crates.io/synstructure/0.13.2 \
-     crate://crates.io/system-deps/7.0.7 \
-     crate://crates.io/target-lexicon/0.13.3 \
--    crate://crates.io/tempfile/3.23.0 \
-+    crate://crates.io/tempfile/3.24.0 \
-     crate://crates.io/tendril/0.4.3 \
-     crate://crates.io/termtree/0.5.1 \
--    crate://crates.io/thiserror/2.0.17 \
--    crate://crates.io/thiserror-impl/2.0.17 \
--    crate://crates.io/time/0.3.44 \
--    crate://crates.io/time-core/0.1.6 \
--    crate://crates.io/time-macros/0.2.24 \
-+    crate://crates.io/thiserror/2.0.18 \
-+    crate://crates.io/thiserror-impl/2.0.18 \
-+    crate://crates.io/time/0.3.47 \
-+    crate://crates.io/time-core/0.1.8 \
-+    crate://crates.io/time-macros/0.2.27 \
-     crate://crates.io/tinystr/0.8.2 \
-     crate://crates.io/tinytemplate/1.2.1 \
-     crate://crates.io/tinyvec/1.10.0 \
-     crate://crates.io/tinyvec_macros/0.1.1 \
--    crate://crates.io/toml/0.9.8 \
--    crate://crates.io/toml_datetime/0.7.3 \
--    crate://crates.io/toml_edit/0.23.7 \
--    crate://crates.io/toml_parser/1.0.4 \
--    crate://crates.io/toml_writer/1.0.4 \
-+    crate://crates.io/toml/0.9.11+spec-1.1.0 \
-+    crate://crates.io/toml_datetime/0.7.5+spec-1.1.0 \
-+    crate://crates.io/toml_parser/1.0.6+spec-1.1.0 \
-+    crate://crates.io/toml_writer/1.0.6+spec-1.1.0 \
-     crate://crates.io/ttf-parser/0.25.1 \
-     crate://crates.io/typenum/1.19.0 \
-     crate://crates.io/unarray/0.1.4 \
-@@ -287,7 +308,7 @@ SRC_URI +=3D " \
-     crate://crates.io/unicode-ident/1.0.22 \
-     crate://crates.io/unicode-normalization/0.1.25 \
-     crate://crates.io/unicode-properties/0.1.4 \
--    crate://crates.io/url/2.5.7 \
-+    crate://crates.io/url/2.5.8 \
-     crate://crates.io/utf-8/0.7.6 \
-     crate://crates.io/utf8_iter/1.0.4 \
-     crate://crates.io/utf8parse/0.2.2 \
-@@ -295,14 +316,14 @@ SRC_URI +=3D " \
-     crate://crates.io/version_check/0.9.5 \
-     crate://crates.io/wait-timeout/0.2.1 \
-     crate://crates.io/walkdir/2.5.0 \
--    crate://crates.io/wasip2/1.0.1+wasi-0.2.4 \
--    crate://crates.io/wasm-bindgen/0.2.105 \
--    crate://crates.io/wasm-bindgen-macro/0.2.105 \
--    crate://crates.io/wasm-bindgen-macro-support/0.2.105 \
--    crate://crates.io/wasm-bindgen-shared/0.2.105 \
--    crate://crates.io/web-sys/0.3.82 \
-+    crate://crates.io/wasip2/1.0.2+wasi-0.2.9 \
-+    crate://crates.io/wasm-bindgen/0.2.108 \
-+    crate://crates.io/wasm-bindgen-macro/0.2.108 \
-+    crate://crates.io/wasm-bindgen-macro-support/0.2.108 \
-+    crate://crates.io/wasm-bindgen-shared/0.2.108 \
-+    crate://crates.io/web-sys/0.3.85 \
-     crate://crates.io/web_atoms/0.1.3 \
--    crate://crates.io/weezl/0.1.10 \
-+    crate://crates.io/weezl/0.1.12 \
-     crate://crates.io/wide/0.7.33 \
-     crate://crates.io/winapi/0.3.9 \
-     crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
-@@ -314,43 +335,25 @@ SRC_URI +=3D " \
-     crate://crates.io/windows-link/0.2.1 \
-     crate://crates.io/windows-result/0.4.1 \
-     crate://crates.io/windows-strings/0.5.1 \
--    crate://crates.io/windows-sys/0.59.0 \
--    crate://crates.io/windows-sys/0.60.2 \
-     crate://crates.io/windows-sys/0.61.2 \
--    crate://crates.io/windows-targets/0.52.6 \
--    crate://crates.io/windows-targets/0.53.5 \
--    crate://crates.io/windows_aarch64_gnullvm/0.52.6 \
--    crate://crates.io/windows_aarch64_gnullvm/0.53.1 \
--    crate://crates.io/windows_aarch64_msvc/0.52.6 \
--    crate://crates.io/windows_aarch64_msvc/0.53.1 \
--    crate://crates.io/windows_i686_gnu/0.52.6 \
--    crate://crates.io/windows_i686_gnu/0.53.1 \
--    crate://crates.io/windows_i686_gnullvm/0.52.6 \
--    crate://crates.io/windows_i686_gnullvm/0.53.1 \
--    crate://crates.io/windows_i686_msvc/0.52.6 \
--    crate://crates.io/windows_i686_msvc/0.53.1 \
--    crate://crates.io/windows_x86_64_gnu/0.52.6 \
--    crate://crates.io/windows_x86_64_gnu/0.53.1 \
--    crate://crates.io/windows_x86_64_gnullvm/0.52.6 \
--    crate://crates.io/windows_x86_64_gnullvm/0.53.1 \
--    crate://crates.io/windows_x86_64_msvc/0.52.6 \
--    crate://crates.io/windows_x86_64_msvc/0.53.1 \
--    crate://crates.io/winnow/0.7.13 \
--    crate://crates.io/wit-bindgen/0.46.0 \
-+    crate://crates.io/winnow/0.7.14 \
-+    crate://crates.io/wit-bindgen/0.51.0 \
-     crate://crates.io/writeable/0.6.2 \
-     crate://crates.io/xml5ever/0.35.0 \
-+    crate://crates.io/yansi/1.0.1 \
-     crate://crates.io/yeslogic-fontconfig-sys/6.0.0 \
-     crate://crates.io/yoke/0.8.1 \
-     crate://crates.io/yoke-derive/0.8.1 \
--    crate://crates.io/zerocopy/0.8.27 \
--    crate://crates.io/zerocopy-derive/0.8.27 \
-+    crate://crates.io/zerocopy/0.8.36 \
-+    crate://crates.io/zerocopy-derive/0.8.36 \
-     crate://crates.io/zerofrom/0.1.6 \
-     crate://crates.io/zerofrom-derive/0.1.6 \
-     crate://crates.io/zerotrie/0.2.3 \
-     crate://crates.io/zerovec/0.11.5 \
-     crate://crates.io/zerovec-derive/0.11.2 \
--    crate://crates.io/zune-core/0.4.12 \
--    crate://crates.io/zune-jpeg/0.4.21 \
-+    crate://crates.io/zmij/1.0.17 \
-+    crate://crates.io/zune-core/0.5.1 \
-+    crate://crates.io/zune-jpeg/0.5.13 \
- "
+diff --git a/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb b/meta/=
+recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
+new file mode 100644
+index 0000000000..b328f61ea0
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
+@@ -0,0 +1,30 @@
++SUMMARY =3D "QEMU Monitor Protocol Python library"
++DESCRIPTION =3D "An asyncio library for communicating with QEMU Monitor =
+Protocol (QMP). \
++This library was split out of the QEMU source tree to provide a referenc=
+e QMP \
++implementation usable both within and outside of the QEMU source tree."
++HOMEPAGE =3D "https://gitlab.com/qemu-project/python-qemu-qmp"
++LICENSE =3D "LGPL-2.0-only & GPL-2.0-only"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4cf66a4984120007c9881cc871cf4=
+9db"
++
++SRC_URI =3D "git://gitlab.com/qemu-project/python-qemu-qmp.git;protocol=3D=
+https;branch=3Dmain"
++SRCREV =3D "82006cb788d27b090a8b84fc7831feb9c528bcdc"
++
++inherit python_setuptools_build_meta
++
++DEPENDS +=3D "python3-setuptools-scm-native"
++
++# setuptools_scm needs this when building from git without tags in the c=
+lone
++SETUPTOOLS_SCM_PRETEND_VERSION =3D "0.0.6"
++
++RDEPENDS:${PN} +=3D "python3-core python3-asyncio"
++
++# Install to the custom path expected by oeqa/utils/qemurunner.py
++# which imports "qmp.legacy" from ${libdir}/qemu-python/
++do_install:append:class-native() {
++    install -d ${D}${libdir}/qemu-python/qmp/
++    cp -R --no-dereference --preserve=3Dmode,links ${S}/qemu/qmp/* ${D}$=
+{libdir}/qemu-python/qmp/
++}
++
++FILES:${PN}:append:class-native =3D " ${libdir}/qemu-python"
++
++BBCLASSEXTEND =3D "native nativesdk"
+diff --git a/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb b/meta/reci=
+pes-devtools/qemu/qemu-native_11.0.0.bb
+similarity index 99%
+rename from meta/recipes-devtools/qemu/qemu-native_10.2.0.bb
+rename to meta/recipes-devtools/qemu/qemu-native_11.0.0.bb
+index 26fa84c180..a77953529b 100644
+--- a/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb
++++ b/meta/recipes-devtools/qemu/qemu-native_11.0.0.bb
+@@ -7,4 +7,3 @@ require qemu-native.inc
+ EXTRA_OECONF:append =3D " --target-list=3D${@get_qemu_usermode_target_li=
+st(d)} --disable-tools --disable-install-blobs --disable-guest-agent"
 =20
- SRC_URI[adler2-2.0.1.sha256sum] =3D "320119579fcad9c21884f5c4861d16174d0=
-e06250625266f50fe6898340abefa"
-@@ -362,10 +365,10 @@ SRC_URI[anes-0.1.6.sha256sum] =3D "4b46cbb362ab8752=
-921c97e041f5e366ee6297bd428a312
- SRC_URI[anstream-0.6.21.sha256sum] =3D "43d5b281e737544384e969a5ccad3f1c=
-dd24b48086a0fc1b2a5262a26b8f4f4a"
- SRC_URI[anstyle-1.0.13.sha256sum] =3D "5192cca8006f1fd4f7237516f40fa183b=
-b07f8fbdfedaa0036de5ea9b0b45e78"
- SRC_URI[anstyle-parse-0.2.7.sha256sum] =3D "4e7644824f0aa2c7b9384579234e=
-f10eb7efb6a0deb83f9630a49594dd9c15c2"
--SRC_URI[anstyle-query-1.1.4.sha256sum] =3D "9e231f6134f61b71076a3eab506c=
-379d4f36122f2af15a9ff04415ea4c3339e2"
--SRC_URI[anstyle-wincon-3.0.10.sha256sum] =3D "3e0633414522a32ffaac8ac6cc=
-8f748e090c5717661fddeea04219e2344f5f2a"
-+SRC_URI[anstyle-query-1.1.5.sha256sum] =3D "40c48f72fd53cd289104fc64099a=
-bca73db4166ad86ea0b4341abe65af83dadc"
-+SRC_URI[anstyle-wincon-3.0.11.sha256sum] =3D "291e6a250ff86cd4a820112fb8=
-898808a366d8f9f58ce16d1f538353ad55747d"
- SRC_URI[approx-0.5.1.sha256sum] =3D "cab112f0a86d568ea0e627cc1d6be74a1e9=
-cd55214684db5561995f6dad897c6"
--SRC_URI[assert_cmd-2.1.1.sha256sum] =3D "bcbb6924530aa9e0432442af08bbcaf=
-dad182db80d2e560da42a6d442535bf85"
-+SRC_URI[assert_cmd-2.1.2.sha256sum] =3D "9c5bcfa8749ac45dd12cb11055aeeb6=
-b27a3895560d60d71e3c23bf979e60514"
- SRC_URI[autocfg-1.5.0.sha256sum] =3D "c08606f8c3cbf4ce6ec8e28fb0014a2c08=
-6708fe954eaa885384a6165172e7e8"
- SRC_URI[av-data-0.4.4.sha256sum] =3D "fca67ba5d317924c02180c576157afd54b=
-abe48a76ebc66ce6d34bb8ba08308e"
- SRC_URI[bit-set-0.8.0.sha256sum] =3D "08807e080ed7f9d5433fa9b275196cfc35=
-414f66a0c79d864dc51a0d825231a3"
-@@ -376,30 +379,30 @@ SRC_URI[block-0.1.6.sha256sum] =3D "0d8c1fef690941d=
-3e7788d328517591fecc684c0840847
- SRC_URI[block-buffer-0.10.4.sha256sum] =3D "3078c7629b62d3f0439517fa3949=
-96acacc5cbc91c5a20d8c658e77abd503a71"
- SRC_URI[block-padding-0.3.3.sha256sum] =3D "a8894febbff9f758034a5b8e12d8=
-7918f56dfc64a8e1fe757d65e29041538d93"
- SRC_URI[bstr-1.12.1.sha256sum] =3D "63044e1ae8e69f3b5a92c736ca6269b8d12f=
-a7efe39bf34ddb06d102cf0e2cab"
--SRC_URI[bumpalo-3.19.0.sha256sum] =3D "46c5e41b57b8bba42a04676d81cb89e9e=
-e8e859a1a66f80a5a72e1cb76b34d43"
-+SRC_URI[bumpalo-3.19.1.sha256sum] =3D "5dd9dc738b7a8311c7ade152424974d81=
-15f2cdad61e8dab8dac9f2362298510"
- SRC_URI[byte-slice-cast-1.2.3.sha256sum] =3D "7575182f7272186991736b7017=
-3b0ea045398f984bf5ebbb3804736ce1330c9d"
- SRC_URI[bytecount-0.6.9.sha256sum] =3D "175812e0be2bccb6abe50bb8d5661261=
-98344f707e304f45c648fd8f2cc0365e"
- SRC_URI[bytemuck-1.24.0.sha256sum] =3D "1fbdf580320f38b612e485521afda1ee=
-26d10cc9884efaaa750d383e13e3c5f4"
- SRC_URI[byteorder-1.5.0.sha256sum] =3D "1fd0f2584146f6f2ef48085050886acf=
-353beff7305ebd1ae69500e27c67f64b"
- SRC_URI[byteorder-lite-0.1.0.sha256sum] =3D "8f1fe948ff07f4bd06c30984e69=
-f5b4899c516a3ef74f34df92a2df2ab535495"
--SRC_URI[bytes-1.10.1.sha256sum] =3D "d71b6127be86fdcfddb610f7182ac57211d=
-4b18a3e9c82eb2d17662f2227ad6a"
--SRC_URI[cairo-rs-0.21.2.sha256sum] =3D "dfe4354df4da648870e363387679081f=
-8f9fc538ec8b55901e3740c6a0ef81b1"
--SRC_URI[cairo-sys-rs-0.21.2.sha256sum] =3D "47d6c3300c7103eb8e4de0759100=
-3511aa25664438f8c6fc317a3a9902c103f8"
-+SRC_URI[bytes-1.11.1.sha256sum] =3D "1e748733b7cbc798e1434b6ac524f0c1ff2=
-ab456fe201501e6497c8417a4fc33"
-+SRC_URI[cairo-rs-0.22.0.sha256sum] =3D "5cc8d9aa793480744cd9a0524fef1a2e=
-197d9eaa0f739cde19d16aba530dcb95"
-+SRC_URI[cairo-sys-rs-0.22.0.sha256sum] =3D "f8b4985713047f5faee02b8db6a6=
-ef32bbb50269ff53c1aee716d1d195b76d54"
- SRC_URI[cast-0.3.0.sha256sum] =3D "37b2a672a2cb129a2e41c10b1224bb368f9f3=
-7a2b16b612598138befd7b37eb5"
- SRC_URI[cbc-0.1.2.sha256sum] =3D "26b52a9543ae338f279b96b0b9fed9c8093744=
-685043739079ce85cd58f289a6"
--SRC_URI[cc-1.2.44.sha256sum] =3D "37521ac7aabe3d13122dc382493e20c9416f29=
-9d2ccd5b3a5340a2570cdeb0f3"
--SRC_URI[cfg-expr-0.20.4.sha256sum] =3D "9acd0bdbbf4b2612d09f52ba61da4321=
-40cb10930354079d0d53fafc12968726"
-+SRC_URI[cc-1.2.54.sha256sum] =3D "6354c81bbfd62d9cfa9cb3c773c2b7b2a3a482=
-d569de977fd0e961f6e7c00583"
-+SRC_URI[cfg-expr-0.20.6.sha256sum] =3D "78cef5b5a1a6827c7322ae2a636368a5=
-73006b27cfa76c7ebd53e834daeaab6a"
- SRC_URI[cfg-if-1.0.4.sha256sum] =3D "9330f8b2ff13f34540b44e946ef35111825=
-727b38d33286ef986142615121801"
--SRC_URI[chrono-0.4.42.sha256sum] =3D "145052bdd345b87320e369255277e3fb51=
-52762ad123a901ef5c262dd38fe8d2"
-+SRC_URI[chrono-0.4.43.sha256sum] =3D "fac4744fb15ae8337dc853fee7fb3f4e48=
-c0fbaa23d0afe49c447b4fab126118"
- SRC_URI[ciborium-0.2.2.sha256sum] =3D "42e69ffd6f0917f5c029256a24d0161db=
-17cea3997d185db0d35926308770f0e"
- SRC_URI[ciborium-io-0.2.2.sha256sum] =3D "05afea1e0a06c9be33d539b876f1ce=
-3692f4afea2cb41f740e7743225ed1c757"
- SRC_URI[ciborium-ll-0.2.2.sha256sum] =3D "57663b653d948a338bfb3eeba9bb2f=
-d5fcfaecb9e199e87e1eda4d9e8b240fd9"
- SRC_URI[cipher-0.4.4.sha256sum] =3D "773f3b9af64447d2ce9850330c473515014=
-aa235e6a783b02db81ff39e4a3dad"
--SRC_URI[clap-4.5.51.sha256sum] =3D "4c26d721170e0295f191a69bd9a1f93efcdb=
-0aff38684b61ab5750468972e5f5"
--SRC_URI[clap_builder-4.5.51.sha256sum] =3D "75835f0c7bf681bfd05abe44e965=
-760fea999a5286c6eb2d59883634fd02011a"
--SRC_URI[clap_complete-4.5.60.sha256sum] =3D "8e602857739c5a4291dfa33b5a2=
-98aeac9006185229a700e5810a3ef7272d971"
--SRC_URI[clap_derive-4.5.49.sha256sum] =3D "2a0b5487afeab2deb2ff4e03a807a=
-d1a03ac532ff5a2cee5d86884440c7f7671"
--SRC_URI[clap_lex-0.7.6.sha256sum] =3D "a1d728cc89cf3aee9ff92b05e62b19ee6=
-5a02b5702cff7d5a377e32c6ae29d8d"
-+SRC_URI[clap-4.5.56.sha256sum] =3D "a75ca66430e33a14957acc24c5077b503e7d=
-374151b2b4b3a10c83b4ceb4be0e"
-+SRC_URI[clap_builder-4.5.56.sha256sum] =3D "793207c7fa6300a0608d1080b858=
-e5fdbe713cdc1c8db9fb17777d8a13e63df0"
-+SRC_URI[clap_complete-4.5.65.sha256sum] =3D "430b4dc2b5e3861848de79627b2=
-bedc9f3342c7da5173a14eaa5d0f8dc18ae5d"
-+SRC_URI[clap_derive-4.5.55.sha256sum] =3D "a92793da1a46a5f2a02a6f4c46c64=
-96b28c43638adea8306fcb0caa1634f24e5"
-+SRC_URI[clap_lex-0.7.7.sha256sum] =3D "c3e64b0cc0439b12df2fa678eae89a1c5=
-6a529fd067a9115f7827f1fffd22b32"
- SRC_URI[color_quant-1.1.0.sha256sum] =3D "3d7b894f5411737b7867f482795592=
-4d7c254fc9f4d91a6aad6b097804b1018b"
- SRC_URI[colorchoice-1.0.4.sha256sum] =3D "b05b61dc5112cbb17e4b6cd61790d9=
-845d13888356391624cbe7e41efeac1e75"
- SRC_URI[core-foundation-sys-0.8.7.sha256sum] =3D "773648b94d0e5d620f64f2=
-80777445740e61fe701025087ec8b57f45c791888b"
-@@ -411,21 +414,22 @@ SRC_URI[crossbeam-deque-0.8.6.sha256sum] =3D "9dd11=
-1b7b7f7d55b72c0a6ae361660ee5853
- SRC_URI[crossbeam-epoch-0.9.18.sha256sum] =3D "5b82ac4a3c2ca9c3460964f02=
-0e1402edd5753411d7737aa39c3714ad1b5420e"
- SRC_URI[crossbeam-utils-0.8.21.sha256sum] =3D "d0a5c400df2834b80a4c3327b=
-3aad3a4c4cd4de0629063962b03235697506a28"
- SRC_URI[crunchy-0.2.4.sha256sum] =3D "460fbee9c2c2f33933d720630a6a0bac33=
-ba7053db5344fac858d4b8952d77d5"
--SRC_URI[crypto-common-0.1.6.sha256sum] =3D "1bfb12502f3fc46cca1bb51ac28d=
-f9d618d813cdc3d2f25b9fe775a34af26bb3"
-+SRC_URI[crypto-common-0.1.7.sha256sum] =3D "78c8292055d1c1df0cce5d180393=
-dc8cce0abec0a7102adb6c7b1eef6016d60a"
- SRC_URI[cssparser-0.35.0.sha256sum] =3D "4e901edd733a1472f944a45116df3f8=
-46f54d37e67e68640ac8bb69689aca2aa"
- SRC_URI[cssparser-color-0.3.0.sha256sum] =3D "6eeef9ae8c0e112edd89eb6406=
-b3156ffa99c7e037b3baef1dbdf4158d35c324"
- SRC_URI[cssparser-macros-0.6.1.sha256sum] =3D "13b588ba4ac1a99f7f2964d24=
-b3d896ddc6bf847ee3855dbd4366f058cfcd331"
- SRC_URI[data-url-0.3.2.sha256sum] =3D "be1e0bca6c3637f992fc1cc7cbc52a78c=
-1ef6db076dbf1059c4323d6a2048376"
--SRC_URI[dav1d-0.10.4.sha256sum] =3D "80c3f80814db85397819d464bb553268992=
-c393b4b3b5554b89c1655996d5926"
-+SRC_URI[dav1d-0.11.1.sha256sum] =3D "3ee89cb860616069c67520dcd66cacdb900=
-b57c799f634a0eb6d91f6e2a82b61"
- SRC_URI[dav1d-sys-0.8.3.sha256sum] =3D "c3c91aea6668645415331133ed6f8ddf=
-0e7f40160cd97a12d59e68716a58704b"
- SRC_URI[deranged-0.5.5.sha256sum] =3D "ececcb659e7ba858fb4f10388c250a725=
-2eb0a27373f1a72b8748afdd248e587"
--SRC_URI[derive_more-2.0.1.sha256sum] =3D "093242cf7570c207c83073cf82f797=
-06fe7b8317e98620a47d5be7c3d8497678"
--SRC_URI[derive_more-impl-2.0.1.sha256sum] =3D "bda628edc44c4bb645fbe0f75=
-8797143e4e07926f7ebf4e9bdfbd3d2ce621df3"
-+SRC_URI[derive_more-2.1.1.sha256sum] =3D "d751e9e49156b02b44f9c1815bcb94=
-b984cdcc4396ecc32521c739452808b134"
-+SRC_URI[derive_more-impl-2.1.1.sha256sum] =3D "799a97264921d8623a957f6c3=
-b9011f3b5492f557bbb7a5a19b7fa6d06ba8dcb"
-+SRC_URI[diff-0.1.13.sha256sum] =3D "56254986775e3233ffa9c4d7d3faaf6d36a2=
-c09d30b20687e9f88bc8bafc16c8"
- SRC_URI[difflib-0.4.0.sha256sum] =3D "6184e33543162437515c2e2b48714794e3=
-7845ec9851711914eec9d308f6ebe8"
- SRC_URI[digest-0.10.7.sha256sum] =3D "9ed9a281f7bc9b7576e61468ba615a66a5=
-c8cfdff42420a70aa82701a3b1e292"
- SRC_URI[displaydoc-0.2.5.sha256sum] =3D "97369cbbc041bc366949bc74d34658d=
-6cda5621039731c6310521892a3a20ae0"
- SRC_URI[dlib-0.5.2.sha256sum] =3D "330c60081dcc4c72131f8eb70510f1ac07223=
-e5d4163db481a04a0befcffa412"
--SRC_URI[dtoa-1.0.10.sha256sum] =3D "d6add3b8cff394282be81f3fc1a0605db594=
-ed69890078ca6e2cab1c408bcf04"
-+SRC_URI[dtoa-1.0.11.sha256sum] =3D "4c3cf4824e2d5f025c7b531afcb232536408=
-4a16806f6d47fbc1f5fbd9960590"
- SRC_URI[dtoa-short-0.3.5.sha256sum] =3D "cd1511a7b6a56299bd043a9c167a6d2=
-bfb37bf84a6dfceaba651168adfb43c87"
- SRC_URI[ecb-0.1.2.sha256sum] =3D "1a8bfa975b1aec2145850fcaa1c6fe269a1657=
-8c44705a532ae3edc92b8881c7"
- SRC_URI[either-1.15.0.sha256sum] =3D "48c757948c5ede0e46177b7add2e67155f=
-70e33c07fea8284df6576da70b3719"
-@@ -435,68 +439,88 @@ SRC_URI[errno-0.3.14.sha256sum] =3D "39cab71617ae0d=
-63f51a36d69f866391735b51691dbda
- SRC_URI[fallible_collections-0.4.9.sha256sum] =3D "a88c69768c0a15262df21=
-899142bc6df9b9b823546d4b4b9a7bc2d6c448ec6fd"
- SRC_URI[fastrand-2.3.0.sha256sum] =3D "37909eebbb50d72f9059c3b6d82c0463f=
-2ff062c9e95845c43a6c9c0355411be"
- SRC_URI[fdeflate-0.3.7.sha256sum] =3D "1e6853b52649d4ac5c0bd02320cddc5ba=
-956bdb407c4b75a2c6b75bf51500f8c"
--SRC_URI[find-msvc-tools-0.1.4.sha256sum] =3D "52051878f80a721bb68ebfbc93=
-0e07b65ba72f2da88968ea5c06fd6ca3d3a127"
--SRC_URI[flate2-1.1.5.sha256sum] =3D "bfe33edd8e85a12a67454e37f8c75e73083=
-0d83e313556ab9ebf9ee7fbeb3bfb"
-+SRC_URI[find-msvc-tools-0.1.8.sha256sum] =3D "8591b0bcc8a98a64310a2fae1b=
-b3e9b8564dd10e381e6e28010fde8e8e8568db"
-+SRC_URI[flate2-1.1.8.sha256sum] =3D "b375d6465b98090a5f25b1c7703f3859783=
-755aa9a80433b36e0379a3ec2f369"
- SRC_URI[float-cmp-0.10.0.sha256sum] =3D "b09cf3155332e944990140d967ff5ec=
-eb70df778b34f77d8075db46e4704e6d8"
- SRC_URI[fnv-1.0.7.sha256sum] =3D "3f9eec918d3f24069decb9af1554cad7c880e2=
-da24a9afd88aca000531ab82c1"
- SRC_URI[form_urlencoded-1.2.2.sha256sum] =3D "cb4cb245038516f5f85277875c=
-daa4f7d2c9a0fa0468de06ed190163b1581fcf"
- SRC_URI[futf-0.1.5.sha256sum] =3D "df420e2e84819663797d1ec6544b13c5be846=
-29e7bb00dc960d6917db2987843"
- SRC_URI[futures-channel-0.3.31.sha256sum] =3D "2dff15bf788c671c1934e366d=
-07e30c1814a8ef514e1af724a602e8a2fbe1b10"
--SRC_URI[futures-core-0.3.31.sha256sum] =3D "05f29059c0c2090612e8d742178b=
-0580d2dc940c837851ad723096f87af6663e"
-+SRC_URI[futures-core-0.3.32.sha256sum] =3D "7e3450815272ef58cec6d564423f=
-6e755e25379b217b0bc688e295ba24df6b1d"
- SRC_URI[futures-executor-0.3.31.sha256sum] =3D "1e28d1d997f585e54aebc3f9=
-7d39e72338912123a67330d723fdbb564d646c9f"
- SRC_URI[futures-io-0.3.31.sha256sum] =3D "9e5c1b78ca4aae1ac06c48a526a655=
-760685149f0d465d21f37abfe57ce075c6"
--SRC_URI[futures-macro-0.3.31.sha256sum] =3D "162ee34ebcb7c64a8abebc059ce=
-0fee27c2262618d7b60ed8faf72fef13c3650"
--SRC_URI[futures-task-0.3.31.sha256sum] =3D "f90f7dce0722e95104fcb0955859=
-10c0977252f286e354b5e3bd38902cd99988"
--SRC_URI[futures-util-0.3.31.sha256sum] =3D "9fa08315bb612088cc391249efdc=
-3bc77536f16c91f6cf495e6fbe85b20a4a81"
-+SRC_URI[futures-macro-0.3.32.sha256sum] =3D "e835b70203e41293343137df5c0=
-664546da5745f82ec9b84d40be8336958447b"
-+SRC_URI[futures-task-0.3.32.sha256sum] =3D "037711b3d59c33004d3856fbdc83=
-b99d4ff37a24768fa1be9ce3538a1cde4393"
-+SRC_URI[futures-util-0.3.32.sha256sum] =3D "389ca41296e6190b48053de0321d=
-02a77f32f8a5d2461dd38762c0593805c6d6"
- SRC_URI[fxhash-0.2.1.sha256sum] =3D "c31b6d751ae2c7f11320402d34e41349dd1=
-016f8d5d45e48c4312bc8625af50c"
--SRC_URI[gdk-pixbuf-0.21.2.sha256sum] =3D "2a3c64459f569154f37616fc28923b=
-fac490d4aaa134aaf5eca58a2c0c13050f"
--SRC_URI[gdk-pixbuf-sys-0.21.2.sha256sum] =3D "3854ef7a6a8b8f3b4013a01d5f=
-9cb0d1794ec4e810c6cb4e2cc6d980f1baf724"
--SRC_URI[generic-array-0.14.9.sha256sum] =3D "4bb6743198531e02858aeaea539=
-8fcc883e71851fcbcb5a2f773e2fb6cb1edf2"
-+SRC_URI[gdk-pixbuf-0.22.0.sha256sum] =3D "25f420376dbee041b2db374ce45738=
-92a36222bb3f6c0c43e24f0d67eae9b646"
-+SRC_URI[gdk-pixbuf-sys-0.22.0.sha256sum] =3D "48f31b37b1fc4b48b54f6b91b7=
-ef04c18e00b4585d98359dd7b998774bbd91fb"
-+SRC_URI[generic-array-0.14.7.sha256sum] =3D "85649ca51fd72272d7821adaf27=
-4ad91c288277713d9c18820d8499a7ff69e9a"
- SRC_URI[getrandom-0.3.4.sha256sum] =3D "899def5c37c4fd7b2664648c28120ece=
-c138e4d395b459e5ca34f9cce2dd77fd"
--SRC_URI[gif-0.13.3.sha256sum] =3D "4ae047235e33e2829703574b54fdec96bfbad=
-892062d97fed2f76022287de61b"
--SRC_URI[gio-0.21.4.sha256sum] =3D "daeff3dd716d1ba91850b976b76a1c2d28f99=
-ef6c1602cd8fdaa8fab8017fd9c"
--SRC_URI[gio-sys-0.21.2.sha256sum] =3D "171ed2f6dd927abbe108cfd9eebff2052=
-c335013f5879d55bab0dc1dee19b706"
--SRC_URI[glib-0.21.4.sha256sum] =3D "5b9dbecb1c33e483a98be4acfea2ab369e1c=
-28f517c6eadb674537409c25c4b2"
--SRC_URI[glib-macros-0.21.4.sha256sum] =3D "880e524e0085f3546cfb38532b2c2=
-02c0d64741d9977a6e4aa24704bfc9f19fb"
--SRC_URI[glib-sys-0.21.2.sha256sum] =3D "d09d3d0fddf7239521674e57b0465dfb=
-d844632fec54f059f7f56112e3f927e1"
--SRC_URI[gobject-sys-0.21.2.sha256sum] =3D "538e41d8776173ec107e7b0f2acec=
-ed60abc368d7e1d81c1f0e2ecd35f59080d"
-+SRC_URI[gif-0.14.1.sha256sum] =3D "f5df2ba84018d80c213569363bdcd0c64e693=
-3c67fe4c1d60ecf822971a3c35e"
-+SRC_URI[gio-0.22.1.sha256sum] =3D "bb018ae3f3967134a833fac8a2568c3e698f4=
-b95c658865360772d73803cc5de"
-+SRC_URI[gio-sys-0.22.0.sha256sum] =3D "64729ba2772c080448f9f966dba8f4456=
-beeb100d8c28a865ef8a0f2ef4987e1"
-+SRC_URI[gio-unix-0.22.0.sha256sum] =3D "69db2f0bb80c9d97c315720c395db76d=
-4649969bce3a130aea6c5c9d757bf80f"
-+SRC_URI[gio-unix-sys-0.22.0.sha256sum] =3D "44bab97ce39112040216e268f074=
-645f50b31caeb53af708ab5d7e4e67f0dbfd"
-+SRC_URI[gio-win32-0.22.0.sha256sum] =3D "bcbc408e97739d418bed9200f4af709=
-a47ccfbf7efb9adf02882ba2cdb02304f"
-+SRC_URI[gio-win32-sys-0.22.0.sha256sum] =3D "d673cd130fa7b598cf3fa776265=
-a8e4c02634f3283433d441b8fc6f9fe07f327"
-+SRC_URI[glam-0.14.0.sha256sum] =3D "333928d5eb103c5d4050533cec0384302db6=
-be8ef7d3cebd30ec6a35350353da"
-+SRC_URI[glam-0.15.2.sha256sum] =3D "3abb554f8ee44336b72d522e0a7fe86a29e0=
-9f839a36022fa869a7dfe941a54b"
-+SRC_URI[glam-0.16.0.sha256sum] =3D "4126c0479ccf7e8664c36a2d719f5f2c140f=
-bb4f9090008098d2c291fa5b3f16"
-+SRC_URI[glam-0.17.3.sha256sum] =3D "e01732b97afd8508eee3333a541b9f7610f4=
-54bb818669e66e90f5f57c93a776"
-+SRC_URI[glam-0.18.0.sha256sum] =3D "525a3e490ba77b8e326fb67d4b44b4bd2f92=
-0f44d4cc73ccec50adc68e3bee34"
-+SRC_URI[glam-0.19.0.sha256sum] =3D "2b8509e6791516e81c1a630d0bd7fbac36d2=
-fa8712a9da8662e716b52d5051ca"
-+SRC_URI[glam-0.20.5.sha256sum] =3D "f43e957e744be03f5801a55472f593d43fab=
-debf25a4585db250f04d86b1675f"
-+SRC_URI[glam-0.21.3.sha256sum] =3D "518faa5064866338b013ff9b2350dc318e14=
-cc4fcd6cb8206d7e7c9886c98815"
-+SRC_URI[glam-0.22.0.sha256sum] =3D "12f597d56c1bd55a811a1be189459e8fad2b=
-bc272616375602443bdfb37fa774"
-+SRC_URI[glam-0.23.0.sha256sum] =3D "8e4afd9ad95555081e109fe1d21f2a30c691=
-b5f0919c67dfa690a2e1eb6bd51c"
-+SRC_URI[glam-0.24.2.sha256sum] =3D "b5418c17512bdf42730f9032c74e1ae39afc=
-408745ebb2acf72fbc4691c17945"
-+SRC_URI[glam-0.25.0.sha256sum] =3D "151665d9be52f9bb40fc7966565d39666f2d=
-1e69233571b71b87791c7e0528b3"
-+SRC_URI[glam-0.27.0.sha256sum] =3D "9e05e7e6723e3455f4818c7b26e855439f75=
-46cf617ef669d1adedb8669e5cb9"
-+SRC_URI[glam-0.28.0.sha256sum] =3D "779ae4bf7e8421cf91c0b3b64e7e8b40b862=
-fba4d393f59150042de7c4965a94"
-+SRC_URI[glam-0.29.3.sha256sum] =3D "8babf46d4c1c9d92deac9f7be466f76dfc44=
-82b6452fc5024b5e8daf6ffeb3ee"
-+SRC_URI[glam-0.30.10.sha256sum] =3D "19fc433e8437a212d1b6f1e68c7824af3ae=
-d907da60afa994e7f542d18d12aa9"
-+SRC_URI[glib-0.22.0.sha256sum] =3D "9a3b79a62980e85d61aae88988e5bcca6a35=
-f05b0008e1333aa43bd61ef9bf35"
-+SRC_URI[glib-macros-0.22.0.sha256sum] =3D "8b48a968528354e04603ae96205f0=
-0cf7e77347ffde0fc943a2159948d7d6d80"
-+SRC_URI[glib-sys-0.22.0.sha256sum] =3D "48073e3b228419faa80b9b7f7122759d=
-4ab2f44cd52a065fde7ca08f34c03147"
-+SRC_URI[gobject-sys-0.22.0.sha256sum] =3D "18eda93f09d3778f38255b231b17e=
-f67195013a592c91624a4daf8bead875565"
- SRC_URI[half-2.7.1.sha256sum] =3D "6ea2d84b969582b4b1864a92dc5d27cd2b77b=
-622a8d79306834f1be5ba20d84b"
- SRC_URI[hashbrown-0.13.2.sha256sum] =3D "43a3c133739dddd0d2990f9a4bdf8eb=
-4b21ef50e4851ca85ab661199821d510e"
--SRC_URI[hashbrown-0.16.0.sha256sum] =3D "5419bdc4f6a9207fbeba6d11b604d48=
-1addf78ecd10c11ad51e76c2f6482748d"
-+SRC_URI[hashbrown-0.16.1.sha256sum] =3D "841d1cc9bed7f9236f321df97703037=
-3f4a4163ae1a7dbfe1a51a2c1a51d9100"
- SRC_URI[heck-0.5.0.sha256sum] =3D "2304e00983f87ffb38b55b444b5e3b60a884b=
-5d30c0fca7d82fe33449bbe55ea"
--SRC_URI[iana-time-zone-0.1.64.sha256sum] =3D "33e57f83510bb73707521ebaff=
-a789ec8caf86f9657cad665b092b581d40e9fb"
-+SRC_URI[iana-time-zone-0.1.65.sha256sum] =3D "e31bc9ad994ba00e440a8aa5c9=
-ef0ec67d5cb5e5cb0cc7f8b744a35b389cc470"
- SRC_URI[iana-time-zone-haiku-0.1.2.sha256sum] =3D "f31827a206f56af32e590=
-ba56d5d2d085f558508192593743f16b2306495269f"
- SRC_URI[icu_collections-2.1.1.sha256sum] =3D "4c6b649701667bbe825c3b7e63=
-88cb521c23d88644678e83c0c4d0a621a34b43"
- SRC_URI[icu_locale_core-2.1.1.sha256sum] =3D "edba7861004dd3714265b4db54=
-a3c390e880ab658fec5f7db895fae2046b5bb6"
- SRC_URI[icu_normalizer-2.1.1.sha256sum] =3D "5f6c8828b67bf8908d82127b205=
-4ea1b4427ff0230ee9141c54251934ab1b599"
- SRC_URI[icu_normalizer_data-2.1.1.sha256sum] =3D "7aedcccd01fc5fe81e6b48=
-9c15b247b8b0690feb23304303a9e560f37efc560a"
--SRC_URI[icu_properties-2.1.1.sha256sum] =3D "e93fcd3157766c0c8da2f8cff6c=
-e651a31f0810eaa1c51ec363ef790bbb5fb99"
--SRC_URI[icu_properties_data-2.1.1.sha256sum] =3D "02845b3647bb045f1100ec=
-d6480ff52f34c35f82d9880e029d329c21d1054899"
-+SRC_URI[icu_properties-2.1.2.sha256sum] =3D "020bfc02fe870ec3a66d93e677c=
-cca0562506e5872c650f893269e08615d74ec"
-+SRC_URI[icu_properties_data-2.1.2.sha256sum] =3D "616c294cf8d725c6afcd8f=
-55abc17c56464ef6211f9ed59cccffe534129c77af"
- SRC_URI[icu_provider-2.1.1.sha256sum] =3D "85962cf0ce02e1e0a629cc34e7ca3=
-e373ce20dda4c4d7294bbd0bf1fdb59e614"
- SRC_URI[idna-1.1.0.sha256sum] =3D "3b0875f23caa03898994f6ddc501886a45c7d=
-3d62d04d2d90788d47be1b1e4de"
- SRC_URI[idna_adapter-1.2.1.sha256sum] =3D "3acae9609540aa318d1bc58845522=
-5fb2085b9ed0c4f6bd0d9d5bcd86f1a0344"
--SRC_URI[image-0.25.8.sha256sum] =3D "529feb3e6769d234375c4cf1ee2ce713682=
-b8e76538cb13f9fc23e1400a591e7"
-+SRC_URI[image-0.25.10.sha256sum] =3D "85ab80394333c02fe689eaf900ab500fbd=
-0c2213da414687ebf995a65d5a6104"
- SRC_URI[image-webp-0.2.4.sha256sum] =3D "525e9ff3e1a4be2fbea1fdf0e98686a=
-6d98b4d8f937e1bf7402245af1909e8c3"
--SRC_URI[indexmap-2.12.0.sha256sum] =3D "6717a8d2a5a929a1a2eb43a12812498e=
-d141a0bcfb7e8f7844fbdbe4303bba9f"
-+SRC_URI[indexmap-2.13.0.sha256sum] =3D "7714e70437a7dc3ac8eb7e6f8df75fd8=
-eb422675fc7678aff7364301092b1017"
- SRC_URI[inout-0.1.4.sha256sum] =3D "879f10e63c20629ecabbb64a8010319738c6=
-6a5cd0c29b02d63d272b03751d01"
- SRC_URI[is_terminal_polyfill-1.70.2.sha256sum] =3D "a6cb138bb79a146c1bd4=
-60005623e142ef0181e3d0219cb493e02f7d08a35695"
- SRC_URI[itertools-0.13.0.sha256sum] =3D "413ee7dfc52ee1a4949ceeb7dbc8a33=
-f2d6c088194d9f922fb8318faf1f01186"
- SRC_URI[itertools-0.14.0.sha256sum] =3D "2b192c782037fadd9cfa75548310488=
-aabdbf3d2da73885b31bd0abd03351285"
--SRC_URI[itoa-1.0.15.sha256sum] =3D "4a5f13b858c8d314ee3e8f639011f7ccefe7=
-1f97f96e50151fb991f267928e2c"
--SRC_URI[jiff-0.2.15.sha256sum] =3D "be1f93b8b1eb69c77f24bbb0afdf66f54b63=
-2ee39af40ca21c4365a1d7347e49"
--SRC_URI[jiff-static-0.2.15.sha256sum] =3D "03343451ff899767262ec32146f6d=
-559dd759fdadf42ff0e227c7c48f72594b4"
--SRC_URI[jiff-tzdb-0.1.4.sha256sum] =3D "c1283705eb0a21404d2bfd6eef2a7593=
-d240bc42a0bdb39db0ad6fa2ec026524"
-+SRC_URI[itoa-1.0.17.sha256sum] =3D "92ecc6618181def0457392ccd0ee51198e06=
-5e016d1d527a7ac1b6dc7c1f09d2"
-+SRC_URI[jiff-0.2.18.sha256sum] =3D "e67e8da4c49d6d9909fe03361f9b620f5889=
-8859f5c7aded68351e85e71ecf50"
-+SRC_URI[jiff-static-0.2.18.sha256sum] =3D "e0c84ee7f197eca9a86c6fd6cb771=
-e55eb991632f15f2bc3ca6ec838929e6e78"
-+SRC_URI[jiff-tzdb-0.1.5.sha256sum] =3D "68971ebff725b9e2ca27a601c5eb38a4=
-c5d64422c4cbab0c535f248087eda5c2"
- SRC_URI[jiff-tzdb-platform-0.1.3.sha256sum] =3D "875a5a69ac2bab1a891711c=
-f5eccbec1ce0341ea805560dcd90b7a2e925132e8"
--SRC_URI[js-sys-0.3.82.sha256sum] =3D "b011eec8cc36da2aab2d5cff675ec18454=
-fad408585853910a202391cf9f8e65"
-+SRC_URI[js-sys-0.3.85.sha256sum] =3D "8c942ebf8e95485ca0d52d97da7c5a2c38=
-7d0e7f0ba4c35e93bfcaee045955b3"
- SRC_URI[language-tags-0.3.2.sha256sum] =3D "d4345964bb142484797b161f473a=
-503a434de77149dd8c7427788c6e13379388"
- SRC_URI[lazy_static-1.5.0.sha256sum] =3D "bbd2bcb4c963f2ddae06a2efc7e9f3=
-591312473c50c6685e1f298068316e66fe"
--SRC_URI[libc-0.2.177.sha256sum] =3D "2874a2af47a2325c2001a6e6fad9b16a53b=
-802102b528163885171cf92b15976"
-+SRC_URI[libc-0.2.180.sha256sum] =3D "bcc35a38544a891a5f7c865aca548a982cc=
-b3b8650a5b06d0fd33a10283c56fc"
- SRC_URI[libloading-0.8.9.sha256sum] =3D "d7c4b02199fee7c5d21a5ae7d8cfa79=
-a6ef5bb2fc834d6e9058e89c825efdc55"
- SRC_URI[linux-raw-sys-0.11.0.sha256sum] =3D "df1d3c3b53da64cf5760482273a=
-98e575c651a67eec7f77df96b5b642de8f039"
- SRC_URI[litemap-0.8.1.sha256sum] =3D "6373607a59f0be73a39b6fe456b8192fcc=
-3585f602af20751600e974dd455e77"
- SRC_URI[locale_config-0.3.0.sha256sum] =3D "08d2c35b16f4483f6c26f0e4e955=
-0717a2f6575bcd6f12a53ff0c490a94a6934"
- SRC_URI[lock_api-0.4.14.sha256sum] =3D "224399e74b87b5f3557511d98dff8b14=
-089b3dadafcab6bb93eab67d3aace965"
--SRC_URI[log-0.4.28.sha256sum] =3D "34080505efa8e45a4b816c349525ebe327cea=
-a8559756f0356cba97ef3bf7432"
-+SRC_URI[log-0.4.29.sha256sum] =3D "5e5032e24019045c762d3c0f28f5b6b8bbf38=
-563a65908389bf7978758920897"
- SRC_URI[lopdf-0.38.0.sha256sum] =3D "c7184fdea2bc3cd272a1acec4030c321a8f=
-9875e877b3f92a53f2f6033fdc289"
- SRC_URI[mac-0.1.1.sha256sum] =3D "c41e0c4fef86961ac6d6f8a82609f55f31b05e=
-4fce149ac5710e439df7619ba4"
- SRC_URI[malloc_buf-0.0.6.sha256sum] =3D "62bb907fe88d54d8d9ce32a3cceab42=
-18ed2f6b7d35617cafe9adf84e43919cb"
-@@ -504,19 +528,20 @@ SRC_URI[markup5ever-0.35.0.sha256sum] =3D "311fe69c=
-934650f8f19652b3946075f0fc41ad8
- SRC_URI[matches-0.1.10.sha256sum] =3D "2532096657941c2fea9c289d370a25097=
-1c689d4f143798ff67113ec042024a5"
- SRC_URI[matrixmultiply-0.3.10.sha256sum] =3D "a06de3016e9fae57a36fd14dba=
-131fccf49f74b40b7fbdb472f96e361ec71a08"
- SRC_URI[md-5-0.10.6.sha256sum] =3D "d89e7ee0cfbedfc4da3340218492196241d8=
-9eefb6dab27de5df917a6d2e78cf"
--SRC_URI[memchr-2.7.6.sha256sum] =3D "f52b00d39961fc5b2736ea853c9cc86238e=
-165017a493d1d5c8eac6bdc4cc273"
-+SRC_URI[memchr-2.8.0.sha256sum] =3D "f8ca58f447f06ed17d5fc4043ce1b10dd20=
-5e060fb3ce5b979b8ed8e59ff3f79"
- SRC_URI[miniz_oxide-0.8.9.sha256sum] =3D "1fa76a2c86f704bdb222d66965fb3d=
-63269ce38518b83cb0575fca855ebb6316"
--SRC_URI[moxcms-0.7.9.sha256sum] =3D "0fbdd3d7436f8b5e892b8b7ea114271ff0f=
-a00bc5acae845d53b07d498616ef6"
-+SRC_URI[moxcms-0.8.1.sha256sum] =3D "bb85c154ba489f01b25c0d36ae69a87e4a1=
-c73a72631fc6c0eb6dde34a73e44b"
- SRC_URI[mp4parse-0.17.0.sha256sum] =3D "63a35203d3c6ce92d5251c77520acb2e=
-57108c88728695aa883f70023624c570"
--SRC_URI[nalgebra-0.33.2.sha256sum] =3D "26aecdf64b707efd1310e3544d709c5c=
-0ac61c13756046aaaba41be5c4f66a3b"
--SRC_URI[nalgebra-macros-0.2.2.sha256sum] =3D "254a5372af8fc138e36684761d=
-3c0cdb758a4410e938babcff1c860ce14ddbfc"
-+SRC_URI[mutants-0.0.3.sha256sum] =3D "bc0287524726960e07b119cebd01678f85=
-2f147742ae0d925e6a520dca956126"
-+SRC_URI[nalgebra-0.34.1.sha256sum] =3D "c4d5b3eff5cd580f93da45e64715e8c2=
-0a3996342f1e466599cf7a267a0c2f5f"
-+SRC_URI[nalgebra-macros-0.3.0.sha256sum] =3D "973e7178a678cfd059ccec5088=
-7658d482ce16b0aa9da3888ddeab5cd5eb4889"
- SRC_URI[new_debug_unreachable-1.0.6.sha256sum] =3D "650eef8c711430f1a879=
-fdd01d4745a7deea475becfb90269c06775983bbf086"
- SRC_URI[nom-8.0.0.sha256sum] =3D "df9761775871bdef83bee530e60050f7e54b11=
-05350d6884eb0fb4f46c2f9405"
- SRC_URI[nom_locate-5.0.0.sha256sum] =3D "0b577e2d69827c4740cba2b52efaad1=
-c4cc7c73042860b199710b3575c68438d"
- SRC_URI[normalize-line-endings-0.3.0.sha256sum] =3D "61807f77802ff30975e=
-01f4f071c8ba10c022052f98b3294119f3e615d13e5be"
- SRC_URI[num-bigint-0.4.6.sha256sum] =3D "a5e44f723f1133c9deac646763579fd=
-b3ac745e418f2a7af9cd0c431da1f20b9"
- SRC_URI[num-complex-0.4.6.sha256sum] =3D "73f88a1307638156682bada9d76041=
-35552957b7818057dcef22705b4d509495"
--SRC_URI[num-conv-0.1.0.sha256sum] =3D "51d515d32fb182ee37cda2ccdcb92950d=
-6a3c2893aa280e540671c2cd0f3b1d9"
-+SRC_URI[num-conv-0.2.0.sha256sum] =3D "cf97ec579c3c42f953ef76dbf8d55ac91=
-fb219dde70e49aa4a6b7d74e9919050"
- SRC_URI[num-derive-0.4.2.sha256sum] =3D "ed3955f1a9c7c0c15e092f9c887db08=
-b1fc683305fdf6eb6684f22555355e202"
- SRC_URI[num-integer-0.1.46.sha256sum] =3D "7969661fd2958a5cb096e56c8e1ad=
-0444ac2bbcd0061bd28660485a44879858f"
- SRC_URI[num-rational-0.4.2.sha256sum] =3D "f83d14da390562dca69fc84082e73=
-e548e1ad308d24accdedd2720017cb37824"
-@@ -527,10 +552,10 @@ SRC_URI[objc_id-0.1.1.sha256sum] =3D "c92d4ddb4bd7b=
-50d730c215ff871754d0da6b2178849
- SRC_URI[once_cell-1.21.3.sha256sum] =3D "42f5e15c9953c5e4ccceeb2e7382a71=
-6482c34515315f7b03532b8b4e8393d2d"
- SRC_URI[once_cell_polyfill-1.70.2.sha256sum] =3D "384b8ab6d37215f3c5301a=
-95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
- SRC_URI[oorandom-11.1.5.sha256sum] =3D "d6790f58c7ff633d8771f42965289203=
-411a5e5c68388703c06e14f24770b41e"
--SRC_URI[pango-0.21.3.sha256sum] =3D "e37b7a678e18c2e9f2485f7e39b7b2dac99=
-590d5ddef08a7f56eae38a145402e"
--SRC_URI[pango-sys-0.21.2.sha256sum] =3D "f4f5daf21da43fba9f2a0092da0eebe=
-b77637c23552bccaf58f791c518009c94"
--SRC_URI[pangocairo-0.21.2.sha256sum] =3D "7fe686297711b9c0499d0e292e86d3=
-43d90b4832d19ebff3d50ce3f627b64e17"
--SRC_URI[pangocairo-sys-0.21.2.sha256sum] =3D "e6263d7d919c8f3ccd31874774=
-b5f7924e88f5b82ddee3163b3ef49197786a00"
-+SRC_URI[pango-0.22.0.sha256sum] =3D "25d8f224eddef627b896d2f7b05725b3fae=
-dbd140e0e8343446f0d34f34238ee"
-+SRC_URI[pango-sys-0.22.0.sha256sum] =3D "bbd111a20ca90fedf03e09c59783c67=
-9c00900f1d8491cca5399f5e33609d5d6"
-+SRC_URI[pangocairo-0.22.0.sha256sum] =3D "d9f15369c787b1cc59a5b86eff6aff=
-fd5a9716c5beb4969d20b307cebfe7e407"
-+SRC_URI[pangocairo-sys-0.22.0.sha256sum] =3D "d95cb73468373b9e568abb1afb=
-af5b42fe6ab9128fc41b5f2adbf69451c3c77f"
- SRC_URI[parking_lot-0.12.5.sha256sum] =3D "93857453250e3077bd71ff98b6a65=
-ea6621a19bb0f559a85248955ac12c45a1a"
- SRC_URI[parking_lot_core-0.9.12.sha256sum] =3D "2621685985a2ebf1c516881c=
-026032ac7deafcda1a2c9b7850dc81e3dfcb64c1"
- SRC_URI[paste-1.0.15.sha256sum] =3D "57c0d7b74b563b49d38dae00a0c37d4d6de=
-9b432382b2892f0574ddcae73fd0a"
-@@ -542,13 +567,12 @@ SRC_URI[phf_macros-0.11.3.sha256sum] =3D "f84ac0442=
-9c13a7ff43785d75ad27569f2951ce0
- SRC_URI[phf_shared-0.11.3.sha256sum] =3D "67eabc2ef2a60eb7faa00097bd1ffd=
-b5bd28e62bf39990626a582201b7a754e5"
- SRC_URI[phf_shared-0.13.1.sha256sum] =3D "e57fef6bc5981e38c2ce2d63bfa546=
-861309f875b8a75f092d1d54ae2d64f266"
- SRC_URI[pin-project-lite-0.2.16.sha256sum] =3D "3b3cff922bd51709b605d9ea=
-d9aa71031d81447142d828eb4a6eba76fe619f9b"
--SRC_URI[pin-utils-0.1.0.sha256sum] =3D "8b870d8c151b6f2fb93e84a13146138f=
-05d02ed11c7e7c54f8826aaaf7c9f184"
- SRC_URI[pkg-config-0.3.32.sha256sum] =3D "7edddbd0b52d732b21ad9a5fab5c70=
-4c14cd949e5e9a1ec5929a24fded1b904c"
- SRC_URI[plotters-0.3.7.sha256sum] =3D "5aeb6f403d7a4911efb1e33402027fc44=
-f29b5bf6def3effcc22d7bb75f2b747"
- SRC_URI[plotters-backend-0.3.7.sha256sum] =3D "df42e13c12958a16b3f7f4386=
-b9ab1f3e7933914ecea48da7139435263a4172a"
- SRC_URI[plotters-svg-0.3.7.sha256sum] =3D "51bae2ac328883f7acdfea3d66a7c=
-35751187f870bc81f94563733a154d7a670"
--SRC_URI[png-0.18.0.sha256sum] =3D "97baced388464909d42d89643fe4361939af9=
-b7ce7a31ee32a168f832a70f2a0"
--SRC_URI[portable-atomic-1.11.1.sha256sum] =3D "f84267b20a16ea918e43c6a88=
-433c2d54fa145c92a811b5b047ccbe153674483"
-+SRC_URI[png-0.18.1.sha256sum] =3D "60769b8b31b2a9f263dae2776c37b1b28ae24=
-6943cf719eb6946a1db05128a61"
-+SRC_URI[portable-atomic-1.13.0.sha256sum] =3D "f89776e4d69bb58bc6993e99f=
-fa1d11f228b839984854c7daeb5d37f87cbe950"
- SRC_URI[portable-atomic-util-0.2.4.sha256sum] =3D "d8a2f0d8d040d7848a709=
-caf78912debcc3f33ee4b3cac47d73d1e1069e83507"
- SRC_URI[potential_utf-0.1.4.sha256sum] =3D "b73949432f5e2a09657003c25bca=
-5e19a0e9c84f8058ca374f49e0ebe605af77"
- SRC_URI[powerfmt-0.2.0.sha256sum] =3D "439ee305def115ba05938db6eb1644ff9=
-4165c5ab5e9420d1c1bcedbba909391"
-@@ -557,21 +581,21 @@ SRC_URI[precomputed-hash-0.1.1.sha256sum] =3D "9253=
-83efa346730478fb4838dbe9137d2a4
- SRC_URI[predicates-3.1.3.sha256sum] =3D "a5d19ee57562043d37e82899fade9a2=
-2ebab7be9cef5026b07fda9cdd4293573"
- SRC_URI[predicates-core-1.0.9.sha256sum] =3D "727e462b119fe9c93fd0eb1429=
-a5f7647394014cf3c04ab2c0350eeb09095ffa"
- SRC_URI[predicates-tree-1.0.12.sha256sum] =3D "72dd2d6d381dfb73a193c7fca=
-536518d7caee39fc8503f74e7dc0be0531b425c"
--SRC_URI[proc-macro-crate-3.4.0.sha256sum] =3D "219cb19e96be00ab2e37d6e29=
-9658a0cfa83e52429179969b0f0121b4ac46983"
--SRC_URI[proc-macro2-1.0.103.sha256sum] =3D "5ee95bc4ef87b8d5ba32e8b7714c=
-cc834865276eab0aed5c9958d00ec45f49e8"
-+SRC_URI[pretty_assertions-1.4.1.sha256sum] =3D "3ae130e2f271fbc2ac3a40fb=
-1d07180839cdbbe443c7a27e1e3c13c5cac0116d"
-+SRC_URI[proc-macro2-1.0.106.sha256sum] =3D "8fd00f0bb2e90d81d1044c2b3261=
-7f68fcb9fa3bb7640c23e9c748e53fb30934"
- SRC_URI[proptest-1.9.0.sha256sum] =3D "bee689443a2bd0a16ab0348b52ee43e3b=
-2d1b1f931c8aa5c9f8de4c86fbe8c40"
--SRC_URI[pxfm-0.1.25.sha256sum] =3D "a3cbdf373972bf78df4d3b518d07003938e2=
-c7d1fb5891e55f9cb6df57009d84"
-+SRC_URI[pxfm-0.1.27.sha256sum] =3D "7186d3822593aa4393561d186d1393b3923e=
-9d6163d3fbfd6e825e3e6cf3e6a8"
- SRC_URI[quick-error-1.2.3.sha256sum] =3D "a1d01941d82fa2ab50be1e79e67142=
-89dd7cde78eba4c074bc5a4374f650dfe0"
- SRC_URI[quick-error-2.0.1.sha256sum] =3D "a993555f31e5a609f617c12db6250d=
-edcac1b0a85076912c436e6fc9b2c8e6a3"
--SRC_URI[quote-1.0.41.sha256sum] =3D "ce25767e7b499d1b604768e7cde645d14cc=
-8584231ea6b295e9c9eb22c02e1d1"
-+SRC_URI[quote-1.0.44.sha256sum] =3D "21b2ebcf727b7760c461f091f9f0f539b77=
-b8e87f2fd88131e7f1b433b3cece4"
- SRC_URI[r-efi-5.3.0.sha256sum] =3D "69cdb34c158ceb288df11e18b4bd39de994f=
-6657d83847bdffdbd7f346754b0f"
- SRC_URI[rand-0.8.5.sha256sum] =3D "34af8d1a0e25924bc5b7c43c079c942339d8f=
-0a8b57c39049bef581b46327404"
- SRC_URI[rand-0.9.2.sha256sum] =3D "6db2770f06117d490610c7488547d543617b2=
-1bfa07796d7a12f6f1bd53850d1"
- SRC_URI[rand_chacha-0.9.0.sha256sum] =3D "d3022b5f1df60f26e1ffddd6c66e8a=
-a15de382ae63b3a0c1bfc0e4d3e3f325cb"
- SRC_URI[rand_core-0.6.4.sha256sum] =3D "ec0be4795e2f6a28069bec0b5ff3e2ac=
-9bafc99e6a9a7dc3547996c5c816922c"
--SRC_URI[rand_core-0.9.3.sha256sum] =3D "99d9a13982dcf210057a8a78572b2217=
-b667c3beacbf3a0d8b454f6f82837d38"
-+SRC_URI[rand_core-0.9.5.sha256sum] =3D "76afc826de14238e6e8c374ddcc1fa19=
-e374fd8dd986b0d2af0d02377261d83c"
- SRC_URI[rand_xorshift-0.4.0.sha256sum] =3D "513962919efc330f829edb253584=
-4d1b912b0fbe2ca165d613e4e8788bb05a5a"
--SRC_URI[rangemap-1.6.0.sha256sum] =3D "f93e7e49bb0bf967717f7bd674458b3d6=
-b0c5f48ec7e3038166026a69fc22223"
-+SRC_URI[rangemap-1.7.1.sha256sum] =3D "973443cf09a9c8656b574a866ab68dfa1=
-9f0867d0340648c7d2f6a71b8a8ea68"
- SRC_URI[rawpointer-0.2.1.sha256sum] =3D "60a357793950651c4ed0f3f52338f53=
-b2f809f32d83a07f72909fa13e4c6c1e3"
- SRC_URI[rayon-1.11.0.sha256sum] =3D "368f01d005bf8fd9b1206fb6fa653e6c4a8=
-1ceb1466406b81792d87c5677a58f"
- SRC_URI[rayon-core-1.13.0.sha256sum] =3D "22e18b0f0062d30d4230b2e85ff77f=
-dfe4326feb054b9783a3460d8435c8ab91"
-@@ -581,26 +605,27 @@ SRC_URI[regex-1.12.2.sha256sum] =3D "843bc0191f75f3=
-e22651ae5f1e72939ab2f72a4bc30fa
- SRC_URI[regex-automata-0.4.13.sha256sum] =3D "5276caf25ac86c8d810222b3db=
-b938e512c55c6831a10f3e6ed1c93b84041f1c"
- SRC_URI[regex-syntax-0.8.8.sha256sum] =3D "7a2d987857b319362043e95f5353c=
-0535c1f58eec5336fdfcf626430af7def58"
- SRC_URI[rgb-0.8.52.sha256sum] =3D "0c6a884d2998352bb4daf0183589aec883f16=
-a6da1f4dde84d8e2e9a5409a1ce"
--SRC_URI[rustix-1.1.2.sha256sum] =3D "cd15f8a2c5551a84d56efdc1cd049089e40=
-9ac19a3072d5037a17fd70719ff3e"
-+SRC_URI[rustc_version-0.4.1.sha256sum] =3D "cfcb3a22ef46e85b45de6ee7e79d=
-063319ebb6594faafcf1c225ea92ab6e9b92"
-+SRC_URI[rustix-1.1.3.sha256sum] =3D "146c9e247ccc180c1f61615433868c99f3d=
-e3ae256a30a43b49f67c2d9171f34"
- SRC_URI[rustversion-1.0.22.sha256sum] =3D "b39cdef0fa800fc44525c84ccb54a=
-029961a8215f9619753635a9c0d2538d46d"
- SRC_URI[rusty-fork-0.3.1.sha256sum] =3D "cc6bf79ff24e648f6da1f8d1f011e9c=
-ac26491b619e6b9280f2b47f1774e6ee2"
--SRC_URI[ryu-1.0.20.sha256sum] =3D "28d3b2b1366ec20994f1fd18c3c594f05c5dd=
-4bc44d8bb0c1c632c8d6829481f"
- SRC_URI[safe_arch-0.7.4.sha256sum] =3D "96b02de82ddbe1b636e6170c21be6222=
-23aea188ef2e139be0a5b219ec215323"
- SRC_URI[same-file-1.0.6.sha256sum] =3D "93fc1dc3aaa9bfed95e02e6eadabb4ba=
-f7e3078b0bd1b4d7b6b0b68378900502"
- SRC_URI[scopeguard-1.2.0.sha256sum] =3D "94143f37725109f92c262ed2cf5e59b=
-ce7498c01bcc1502d7b9afe439a4e9f49"
- SRC_URI[selectors-0.31.0.sha256sum] =3D "5685b6ae43bfcf7d2e7dfcfb5d8e8f6=
-1b46442c902531e41a32a9a8bf0ee0fb6"
-+SRC_URI[semver-1.0.27.sha256sum] =3D "d767eb0aabc880b29956c35734170f26ed=
-551a859dbd361d140cdbeca61ab1e2"
- SRC_URI[serde-1.0.228.sha256sum] =3D "9a8e94ea7f378bd32cbbd37198a4a91436=
-180c5bb472411e48b5ec2e2124ae9e"
- SRC_URI[serde_core-1.0.228.sha256sum] =3D "41d385c7d4ca58e59fc732af25c39=
-83b67ac852c1a25000afe1175de458b67ad"
- SRC_URI[serde_derive-1.0.228.sha256sum] =3D "d540f220d3187173da220f885ab=
-66608367b6574e925011a9353e4badda91d79"
--SRC_URI[serde_json-1.0.145.sha256sum] =3D "402a6f66d8c709116cf22f558eab2=
-10f5a50187f702eb4d7e5ef38d9a7f1c79c"
--SRC_URI[serde_spanned-1.0.3.sha256sum] =3D "e24345aa0fe688594e73770a5f6d=
-1b216508b4f93484c0026d521acd30134392"
--SRC_URI[servo_arc-0.4.1.sha256sum] =3D "204ea332803bd95a0b60388590d59cf6=
-468ec9becf626e2451f1d26a1d972de4"
-+SRC_URI[serde_json-1.0.149.sha256sum] =3D "83fc039473c5595ace860d8c4fafa=
-220ff474b3fc6bfdb4293327f1a37e94d86"
-+SRC_URI[serde_spanned-1.0.4.sha256sum] =3D "f8bbf91e5a4d6315eee45e704372=
-590b30e260ee83af6639d64557f51b067776"
-+SRC_URI[servo_arc-0.4.3.sha256sum] =3D "170fb83ab34de17dc69aa7c67482b222=
-18ddb85da56546f9bd6b929e32a05930"
- SRC_URI[sha2-0.10.9.sha256sum] =3D "a7507d819769d01a365ab707794a4084392c=
-824f54a7a6a7862f8c3d0892b283"
--SRC_URI[shell-words-1.1.0.sha256sum] =3D "24188a676b6ae68c3b2cb3a01be17f=
-bf7240ce009799bb56d5b1409051e78fde"
-+SRC_URI[shell-words-1.1.1.sha256sum] =3D "dc6fe69c597f9c37bfeeeeeb33da35=
-30379845f10be461a66d16d03eca2ded77"
- SRC_URI[shlex-1.3.0.sha256sum] =3D "0fda2ff0d084019ba4d7c6f371c95d8fd75c=
-e3524c3cb8fb653a3023f6323e64"
- SRC_URI[simba-0.9.1.sha256sum] =3D "c99284beb21666094ba2b75bbceda012e610=
-f5479dfcc2d6e2426f53197ffd95"
--SRC_URI[simd-adler32-0.3.7.sha256sum] =3D "d66dc143e6b11c1eddc06d5c423cf=
-c97062865baf299914ab64caa38182078fe"
--SRC_URI[siphasher-1.0.1.sha256sum] =3D "56199f7ddabf13fe5074ce809e7d3f42=
-b42ae711800501b5b16ea82ad029c39d"
-+SRC_URI[simd-adler32-0.3.8.sha256sum] =3D "e320a6c5ad31d271ad523dcf3ad13=
-e2767ad8b1cb8f047f75a8aeaf8da139da2"
-+SRC_URI[siphasher-1.0.2.sha256sum] =3D "b2aa850e253778c88a04c3d7323b043a=
-eda9d3e30d5971937c1855769763678e"
- SRC_URI[slab-0.4.11.sha256sum] =3D "7a2ae44ef20feb57a68b23d846850f861394=
-c2e02dc425a50098ae8c90267589"
- SRC_URI[smallvec-1.15.1.sha256sum] =3D "67b1b7a3b5fe4f1376887184045fcf45=
-c69e92af734b7aaddc05fb777b6fbd03"
- SRC_URI[stable_deref_trait-1.2.1.sha256sum] =3D "6ce2be8dc25455e1f91df71=
-bfa12ad37d7af1092ae736f3a6cd0e37bc7810596"
-@@ -610,27 +635,26 @@ SRC_URI[string_cache-0.9.0.sha256sum] =3D "a18596f8=
-c785a729f2819c0f6a7eae6ebeebdff
- SRC_URI[string_cache_codegen-0.5.4.sha256sum] =3D "c711928715f1fe0fe509c=
-53b43e993a9a557babc2d0a3567d0a3006f1ac931a0"
- SRC_URI[stringprep-0.1.5.sha256sum] =3D "7b4df3d392d81bd458a8a621b8bffbd=
-2302a12ffe288a9d931670948749463b1"
- SRC_URI[strsim-0.11.1.sha256sum] =3D "7da8b5736845d9f2fcb837ea5d9e262856=
-4b3b043a70948a3f0b778838c5fb4f"
--SRC_URI[syn-2.0.108.sha256sum] =3D "da58917d35242480a05c2897064da0a80589=
-a2a0476c9a3f2fdc83b53502e917"
-+SRC_URI[syn-2.0.114.sha256sum] =3D "d4d107df263a3013ef9b1879b0df87d706ff=
-80f65a86ea879bd9c31f9b307c2a"
- SRC_URI[synstructure-0.13.2.sha256sum] =3D "728a70f3dbaf5bab7f0c4b1ac8d7=
-ae5ea60a4b5549c8a5914361c99147a709d2"
- SRC_URI[system-deps-7.0.7.sha256sum] =3D "48c8f33736f986f16d69b6cb8b03f5=
-5ddcad5c41acc4ccc39dd88e84aa805e7f"
- SRC_URI[target-lexicon-0.13.3.sha256sum] =3D "df7f62577c25e07834649fc3b3=
-9fafdc597c0a3527dc1c60129201ccfcbaa50c"
--SRC_URI[tempfile-3.23.0.sha256sum] =3D "2d31c77bdf42a745371d260a26ca7163=
-f1e0924b64afa0b688e61b5a9fa02f16"
-+SRC_URI[tempfile-3.24.0.sha256sum] =3D "655da9c7eb6305c55742045d5a8d2037=
-996d61d8de95806335c7c86ce0f82e9c"
- SRC_URI[tendril-0.4.3.sha256sum] =3D "d24a120c5fc464a3458240ee02c299ebcb=
-9d67b5249c8848b09d639dca8d7bb0"
- SRC_URI[termtree-0.5.1.sha256sum] =3D "8f50febec83f5ee1df3015341d8bd429f=
-2d1cc62bcba7ea2076759d315084683"
--SRC_URI[thiserror-2.0.17.sha256sum] =3D "f63587ca0f12b72a0600bcba1d40081=
-f830876000bb46dd2337a3051618f4fc8"
--SRC_URI[thiserror-impl-2.0.17.sha256sum] =3D "3ff15c8ecd7de3849db632e14d=
-18d2571fa09dfc5ed93479bc4485c7a517c913"
--SRC_URI[time-0.3.44.sha256sum] =3D "91e7d9e3bb61134e77bde20dd4825b97c010=
-155709965fedf0f49bb138e52a9d"
--SRC_URI[time-core-0.1.6.sha256sum] =3D "40868e7c1d2f0b8d73e4a8c7f0ff63af=
-4f6d19be117e90bd73eb1d62cf831c6b"
--SRC_URI[time-macros-0.2.24.sha256sum] =3D "30cfb0125f12d9c277f35663a0a33=
-f8c30190f4e4574868a330595412d34ebf3"
-+SRC_URI[thiserror-2.0.18.sha256sum] =3D "4288b5bcbc7920c07a1149a35cf9590=
-a2aa808e0bc1eafaade0b80947865fbc4"
-+SRC_URI[thiserror-impl-2.0.18.sha256sum] =3D "ebc4ee7f67670e9b64d05fa425=
-3e753e016c6c95ff35b89b7941d6b856dec1d5"
-+SRC_URI[time-0.3.47.sha256sum] =3D "743bd48c283afc0388f9b8827b976905fb21=
-7ad9e647fae3a379a9283c4def2c"
-+SRC_URI[time-core-0.1.8.sha256sum] =3D "7694e1cfe791f8d31026952abf09c69c=
-a6f6fa4e1a1229e18988f06a04a12dca"
-+SRC_URI[time-macros-0.2.27.sha256sum] =3D "2e70e4c5a0e0a8a4823ad65dfe1a6=
-930e4f4d756dcd9dd7939022b5e8c501215"
- SRC_URI[tinystr-0.8.2.sha256sum] =3D "42d3e9c45c09de15d06dd8acf5f4e0e399=
-e85927b7f00711024eb7ae10fa4869"
- SRC_URI[tinytemplate-1.2.1.sha256sum] =3D "be4d6b5f19ff7664e8c98d03e2139=
-cb510db9b0a60b55f8e8709b689d939b6bc"
- SRC_URI[tinyvec-1.10.0.sha256sum] =3D "bfa5fdc3bce6191a1dbc8c02d5c8bffcf=
-557bafa17c124c5264a458f1b0613fa"
- SRC_URI[tinyvec_macros-0.1.1.sha256sum] =3D "1f3ccbac311fea05f86f61904b4=
-62b55fb3df8837a366dfc601a0161d0532f20"
--SRC_URI[toml-0.9.8.sha256sum] =3D "f0dc8b1fb61449e27716ec0e1bdf0f6b8f3e8=
-f6b05391e8497b8b6d7804ea6d8"
--SRC_URI[toml_datetime-0.7.3.sha256sum] =3D "f2cdb639ebbc97961c51720f8585=
-97f7f24c4fc295327923af55b74c3c724533"
--SRC_URI[toml_edit-0.23.7.sha256sum] =3D "6485ef6d0d9b5d0ec17244ff7eb0531=
-0113c3f316f2d14200d4de56b3cb98f8d"
--SRC_URI[toml_parser-1.0.4.sha256sum] =3D "c0cbe268d35bdb4bb5a56a2de88d0a=
-d0eb70af5384a99d648cd4b3d04039800e"
--SRC_URI[toml_writer-1.0.4.sha256sum] =3D "df8b2b54733674ad286d16267dcfc7=
-a71ed5c776e4ac7aa3c3e2561f7c637bf2"
-+SRC_URI[toml-0.9.11+spec-1.1.0.sha256sum] =3D "f3afc9a848309fe1aaffaed6e=
-1546a7a14de1f935dc9d89d32afd9a44bab7c46"
-+SRC_URI[toml_datetime-0.7.5+spec-1.1.0.sha256sum] =3D "92e1cfed4a3038bc5=
-a127e35a2d360f145e1f4b971b551a2ba5fd7aedf7e1347"
-+SRC_URI[toml_parser-1.0.6+spec-1.1.0.sha256sum] =3D "a3198b4b0a8e11f09dd=
-03e133c0280504d0801269e9afa46362ffde1cbeebf44"
-+SRC_URI[toml_writer-1.0.6+spec-1.1.0.sha256sum] =3D "ab16f14aed21ee8bfd8=
-ec22513f7287cd4a91aa92e44edfe2c17ddd004e92607"
- SRC_URI[ttf-parser-0.25.1.sha256sum] =3D "d2df906b07856748fa3f6e0ad0cbaa=
-047052d4a7dd609e231c4f72cee8c36f31"
- SRC_URI[typenum-1.19.0.sha256sum] =3D "562d481066bde0658276a35467c4af00b=
-dc6ee726305698a55b86e61d7ad82bb"
- SRC_URI[unarray-0.1.4.sha256sum] =3D "eaea85b334db583fe3274d12b4cd188003=
-2beab409c0d774be044d4480ab9a94"
-@@ -638,7 +662,7 @@ SRC_URI[unicode-bidi-0.3.18.sha256sum] =3D "5c1cb5db3=
-9152898a79168971543b1cb5020df
- SRC_URI[unicode-ident-1.0.22.sha256sum] =3D "9312f7c4f6ff9069b165498234c=
-e8be658059c6728633667c526e27dc2cf1df5"
- SRC_URI[unicode-normalization-0.1.25.sha256sum] =3D "5fd4f6878c9cb28d874=
-b009da9e8d183b5abc80117c40bbd187a1fde336be6e8"
- SRC_URI[unicode-properties-0.1.4.sha256sum] =3D "7df058c713841ad818f1dc5=
-d3fd88063241cc61f49f5fbea4b951e8cf5a8d71d"
--SRC_URI[url-2.5.7.sha256sum] =3D "08bc136a29a3d1758e07a9cca267be308aeebf=
-5cfd5a10f3f67ab2097683ef5b"
-+SRC_URI[url-2.5.8.sha256sum] =3D "ff67a8a4397373c3ef660812acab3268222035=
-010ab8680ec4215f38ba3d0eed"
- SRC_URI[utf-8-0.7.6.sha256sum] =3D "09cc8ee72d2a9becf2f2febe0205bbed8fc6=
-615b7cb429ad062dc7b7ddd036a9"
- SRC_URI[utf8_iter-1.0.4.sha256sum] =3D "b6c140620e7ffbb22c2dee59cafe6084=
-a59b5ffc27a8859a5f0d494b5d52b6be"
- SRC_URI[utf8parse-0.2.2.sha256sum] =3D "06abde3611657adf66d383f00b093d7f=
-aecc7fa57071cce2578660c9f1010821"
-@@ -646,14 +670,14 @@ SRC_URI[version-compare-0.2.1.sha256sum] =3D "03c28=
-56837ef78f57382f06b2b8563a2f512
- SRC_URI[version_check-0.9.5.sha256sum] =3D "0b928f33d975fc6ad9f86c8f2838=
-53ad26bdd5b10b7f1542aa2fa15e2289105a"
- SRC_URI[wait-timeout-0.2.1.sha256sum] =3D "09ac3b126d3914f9849036f826e05=
-4cbabdc8519970b8998ddaf3b5bd3c65f11"
- SRC_URI[walkdir-2.5.0.sha256sum] =3D "29790946404f91d9c5d06f9874efddea1d=
-c06c5efe94541a7d6863108e3a5e4b"
--SRC_URI[wasip2-1.0.1+wasi-0.2.4.sha256sum] =3D "0562428422c63773dad2c345=
-a1882263bbf4d65cf3f42e90921f787ef5ad58e7"
--SRC_URI[wasm-bindgen-0.2.105.sha256sum] =3D "da95793dfc411fbbd93f5be7715=
-b0578ec61fe87cb1a42b12eb625caa5c5ea60"
--SRC_URI[wasm-bindgen-macro-0.2.105.sha256sum] =3D "04264334509e04a7bf869=
-0f2384ef5265f05143a4bff3889ab7a3269adab59c2"
--SRC_URI[wasm-bindgen-macro-support-0.2.105.sha256sum] =3D "420bc339d9f32=
-2e562942d52e115d57e950d12d88983a14c79b86859ee6c7ebc"
--SRC_URI[wasm-bindgen-shared-0.2.105.sha256sum] =3D "76f218a38c84bcb33c25=
-ec7059b07847d465ce0e0a76b995e134a45adcb6af76"
--SRC_URI[web-sys-0.3.82.sha256sum] =3D "3a1f95c0d03a47f4ae1f7a64643a6bb97=
-465d9b740f0fa8f90ea33915c99a9a1"
-+SRC_URI[wasip2-1.0.2+wasi-0.2.9.sha256sum] =3D "9517f9239f02c069db75e65f=
-174b3da828fe5f5b945c4dd26bd25d89c03ebcf5"
-+SRC_URI[wasm-bindgen-0.2.108.sha256sum] =3D "64024a30ec1e37399cf85a7ffef=
-ebdb72205ca1c972291c51512360d90bd8566"
-+SRC_URI[wasm-bindgen-macro-0.2.108.sha256sum] =3D "008b239d9c740232e71bd=
-39e8ef6429d27097518b6b30bdf9086833bd5b6d608"
-+SRC_URI[wasm-bindgen-macro-support-0.2.108.sha256sum] =3D "5256bae2d58f5=
-4820e6490f9839c49780dff84c65aeab9e772f15d5f0e913a55"
-+SRC_URI[wasm-bindgen-shared-0.2.108.sha256sum] =3D "1f01b580c9ac74c8d8f0=
-c0e4afb04eeef2acf145458e52c03845ee9cd23e3d12"
-+SRC_URI[web-sys-0.3.85.sha256sum] =3D "312e32e551d92129218ea9a2452120f4a=
-abc03529ef03e4d0d82fb2780608598"
- SRC_URI[web_atoms-0.1.3.sha256sum] =3D "57ffde1dc01240bdf9992e3205668b23=
-5e59421fd085e8a317ed98da0178d414"
--SRC_URI[weezl-0.1.10.sha256sum] =3D "a751b3277700db47d3e574514de2eced5e5=
-4dc8a5436a3bf7a0b248b2cee16f3"
-+SRC_URI[weezl-0.1.12.sha256sum] =3D "a28ac98ddc8b9274cb41bb4d9d4d5c425b6=
-020c50c46f25559911905610b4a88"
- SRC_URI[wide-0.7.33.sha256sum] =3D "0ce5da8ecb62bcd8ec8b7ea19f69a51275e9=
-1299be594ea5cc6ef7819e16cd03"
- SRC_URI[winapi-0.3.9.sha256sum] =3D "5c839a674fcd7a98952e593242ea400abe9=
-3992746761e38641405d28b00f419"
- SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] =3D "ac3b87c63620426=
-dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
-@@ -665,40 +689,22 @@ SRC_URI[windows-interface-0.59.3.sha256sum] =3D "3f=
-316c4a2570ba26bbec722032c4099d8
- SRC_URI[windows-link-0.2.1.sha256sum] =3D "f0805222e57f7521d6a62e36fa916=
-3bc891acd422f971defe97d64e70d0a4fe5"
- SRC_URI[windows-result-0.4.1.sha256sum] =3D "7781fa89eaf60850ac3d2da7af8=
-e5242a5ea78d1a11c49bf2910bb5a73853eb5"
- SRC_URI[windows-strings-0.5.1.sha256sum] =3D "7837d08f69c77cf6b076895445=
-38e017c1bfcf57e34b4c0ff58e6c2cd3b37091"
--SRC_URI[windows-sys-0.59.0.sha256sum] =3D "1e38bc4d79ed67fd075bcc251a1c3=
-9b32a1776bbe92e5bef1f0bf1f8c531853b"
--SRC_URI[windows-sys-0.60.2.sha256sum] =3D "f2f500e4d28234f72040990ec9d39=
-e3a6b950f9f22d3dba18416c35882612bcb"
- SRC_URI[windows-sys-0.61.2.sha256sum] =3D "ae137229bcbd6cdf0f7b80a31df61=
-766145077ddf49416a728b02cb3921ff3fc"
--SRC_URI[windows-targets-0.52.6.sha256sum] =3D "9b724f72796e036ab90c1021d=
-4780d4d3d648aca59e491e6b98e725b84e99973"
--SRC_URI[windows-targets-0.53.5.sha256sum] =3D "4945f9f551b88e0d65f3db0bc=
-25c33b8acea4d9e41163edf90dcd0b19f9069f3"
--SRC_URI[windows_aarch64_gnullvm-0.52.6.sha256sum] =3D "32a4622180e7a0ec0=
-44bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3"
--SRC_URI[windows_aarch64_gnullvm-0.53.1.sha256sum] =3D "a9d8416fa8b42f5c9=
-47f8482c43e7d89e73a173cead56d044f6a56104a6d1b53"
--SRC_URI[windows_aarch64_msvc-0.52.6.sha256sum] =3D "09ec2a7bb152e2252b53=
-fa7803150007879548bc709c039df7627cabbd05d469"
--SRC_URI[windows_aarch64_msvc-0.53.1.sha256sum] =3D "b9d782e804c2f632e395=
-708e99a94275910eb9100b2114651e04744e9b125006"
--SRC_URI[windows_i686_gnu-0.52.6.sha256sum] =3D "8e9b5ad5ab802e97eb8e295a=
-c6720e509ee4c243f69d781394014ebfe8bbfa0b"
--SRC_URI[windows_i686_gnu-0.53.1.sha256sum] =3D "960e6da069d81e09becb0ca5=
-7a65220ddff016ff2d6af6a223cf372a506593a3"
--SRC_URI[windows_i686_gnullvm-0.52.6.sha256sum] =3D "0eee52d38c090b3caa76=
-c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66"
--SRC_URI[windows_i686_gnullvm-0.53.1.sha256sum] =3D "fa7359d10048f68ab8b0=
-9fa71c3daccfb0e9b559aed648a8f95469c27057180c"
--SRC_URI[windows_i686_msvc-0.52.6.sha256sum] =3D "240948bc05c5e7c6dabba28=
-bf89d89ffce3e303022809e73deaefe4f6ec56c66"
--SRC_URI[windows_i686_msvc-0.53.1.sha256sum] =3D "1e7ac75179f18232fe9c285=
-163565a57ef8d3c89254a30685b57d83a38d326c2"
--SRC_URI[windows_x86_64_gnu-0.52.6.sha256sum] =3D "147a5c80aabfbf0c7d901c=
-b5895d1de30ef2907eb21fbbab29ca94c5b08b1a78"
--SRC_URI[windows_x86_64_gnu-0.53.1.sha256sum] =3D "9c3842cdd74a865a8066ab=
-39c8a7a473c0778a3f29370b5fd6b4b9aa7df4a499"
--SRC_URI[windows_x86_64_gnullvm-0.52.6.sha256sum] =3D "24d5b23dc417412679=
-681396f2b49f3de8c1473deb516bd34410872eff51ed0d"
--SRC_URI[windows_x86_64_gnullvm-0.53.1.sha256sum] =3D "0ffa179e2d07eee8ad=
-8f57493436566c7cc30ac536a3379fdf008f47f6bb7ae1"
--SRC_URI[windows_x86_64_msvc-0.52.6.sha256sum] =3D "589f6da84c646204747d1=
-270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
--SRC_URI[windows_x86_64_msvc-0.53.1.sha256sum] =3D "d6bbff5f0aada427a1e5a=
-6da5f1f98158182f26556f345ac9e04d36d0ebed650"
--SRC_URI[winnow-0.7.13.sha256sum] =3D "21a0236b59786fed61e2a80582dd500fe6=
-1f18b5dca67a4a067d0bc9039339cf"
--SRC_URI[wit-bindgen-0.46.0.sha256sum] =3D "f17a85883d4e6d00e8a97c586de76=
-4dabcc06133f7f1d55dce5cdc070ad7fe59"
-+SRC_URI[winnow-0.7.14.sha256sum] =3D "5a5364e9d77fcdeeaa6062ced926ee3381=
-faa2ee02d3eb83a5c27a8825540829"
-+SRC_URI[wit-bindgen-0.51.0.sha256sum] =3D "d7249219f66ced02969388cf2bb04=
-4a09756a083d0fab1e566056b04d9fbcaa5"
- SRC_URI[writeable-0.6.2.sha256sum] =3D "9edde0db4769d2dc68579893f2306b26=
-c6ecfbe0ef499b013d731b7b9247e0b9"
- SRC_URI[xml5ever-0.35.0.sha256sum] =3D "ee3f1e41afb31a75aef076563b0ad3ec=
-c24f5bd9d12a72b132222664eb76b494"
-+SRC_URI[yansi-1.0.1.sha256sum] =3D "cfe53a6657fd280eaa890a3bc59152892ffa=
-3e30101319d168b781ed6529b049"
- SRC_URI[yeslogic-fontconfig-sys-6.0.0.sha256sum] =3D "503a066b4c037c4401=
-69d995b869046827dbc71263f6e8f3be6d77d4f3229dbd"
- SRC_URI[yoke-0.8.1.sha256sum] =3D "72d6e5c6afb84d73944e5cedb052c4680d565=
-7337201555f9f2a16b7406d4954"
- SRC_URI[yoke-derive-0.8.1.sha256sum] =3D "b659052874eb698efe5b9e8cf38220=
-4678a0086ebf46982b79d6ca3182927e5d"
--SRC_URI[zerocopy-0.8.27.sha256sum] =3D "0894878a5fa3edfd6da3f88c4805f4c8=
-558e2b996227a3d864f47fe11e38282c"
--SRC_URI[zerocopy-derive-0.8.27.sha256sum] =3D "88d2b8d9c68ad2b9e4340d783=
-2716a4d21a22a1154777ad56ea55c51a9cf3831"
-+SRC_URI[zerocopy-0.8.36.sha256sum] =3D "dafd85c832c1b68bbb4ec0c72c7f6f4f=
-c5179627d2bc7c26b30e4c0cc11e76cc"
-+SRC_URI[zerocopy-derive-0.8.36.sha256sum] =3D "7cb7e4e8436d9db52fbd6625d=
-bf2f45243ab84994a72882ec8227b99e72b439a"
- SRC_URI[zerofrom-0.1.6.sha256sum] =3D "50cc42e0333e05660c3587f3bf9d04786=
-88e15d870fab3346451ce7f8c9fbea5"
- SRC_URI[zerofrom-derive-0.1.6.sha256sum] =3D "d71e5d6e06ab090c67b5e44993=
-ec16b72dcbaabc526db883a360057678b48502"
- SRC_URI[zerotrie-0.2.3.sha256sum] =3D "2a59c17a5562d507e4b54960e8569ebee=
-33bee890c70aa3fe7b97e85a9fd7851"
- SRC_URI[zerovec-0.11.5.sha256sum] =3D "6c28719294829477f525be0186d13efa9=
-a3c602f7ec202ca9e353d310fb9a002"
- SRC_URI[zerovec-derive-0.11.2.sha256sum] =3D "eadce39539ca5cb39855901026=
-71f2567e659fca9666581ad3411d59207951f3"
--SRC_URI[zune-core-0.4.12.sha256sum] =3D "3f423a2c17029964870cfaabb1f13df=
-ab7d092a62a29a89264f4d36990ca414a"
--SRC_URI[zune-jpeg-0.4.21.sha256sum] =3D "29ce2c8a9384ad323cf564b67da86e2=
-1d3cfdff87908bc1223ed5c99bc792713"
-+SRC_URI[zmij-1.0.17.sha256sum] =3D "02aae0f83f69aafc94776e879363e9771d7e=
-cbffe2c7fbb6c14c5e00dfe88439"
-+SRC_URI[zune-core-0.5.1.sha256sum] =3D "cb8a0807f7c01457d0379ba880ba6322=
-660448ddebc890ce29bb64da71fb40f9"
-+SRC_URI[zune-jpeg-0.5.13.sha256sum] =3D "ec5f41c76397b7da451efd19915684f=
-727d7e1d516384ca6bd0ec43ec94de23c"
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-ca=
-re-of-deprecated-assert_cmd-Comm.patch b/meta/recipes-gnome/librsvg/librs=
-vg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch
-index f893d81e9aa..85ae52c62f7 100644
---- a/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-d=
-eprecated-assert_cmd-Comm.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-d=
-eprecated-assert_cmd-Comm.patch
-@@ -20,17 +20,17 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 1 insertion(+), 2 deletions(-)
-=20
- diff --git a/rsvg_convert/tests/rsvg_convert.rs b/rsvg_convert/tests/rsv=
-g_convert.rs
--index 3d0a340..90a4c2f 100644
-+index dbf6dd7..2dbc8f6 100644
- --- a/rsvg_convert/tests/rsvg_convert.rs
- +++ b/rsvg_convert/tests/rsvg_convert.rs
--@@ -3,7 +3,6 @@ mod internal_predicates;
-- use internal_predicates::file;
-+@@ -4,7 +4,6 @@ use internal_predicates::file;
- =20
-+ use assert_cmd::Command;
-  use assert_cmd::assert::IntoOutputPredicate;
- -use assert_cmd::cargo::cargo_bin_cmd;
-- use assert_cmd::Command;
-  #[cfg(system_deps_have_cairo_pdf)]
-  use chrono::{TimeZone, Utc};
-+ use predicates::boolean::*;
- @@ -50,7 +49,7 @@ impl RsvgConvert {
-          let path_str =3D config_file_path.to_str().unwrap();
-          eprintln!("FONTCONFIG_FILE=3D{path_str}");
-diff --git a/meta/recipes-gnome/librsvg/librsvg/cross-query-loaders.patch=
- b/meta/recipes-gnome/librsvg/librsvg/cross-query-loaders.patch
-index ab0ca2bf1eb..dff36aadb3c 100644
---- a/meta/recipes-gnome/librsvg/librsvg/cross-query-loaders.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/cross-query-loaders.patch
-@@ -1,4 +1,8 @@
--gdk-pixbuf-loader/meson_install: improve argument parsing and logic
-+From e46317a80e9d37d7b9c4cbf43ff1d60c3ac21fff Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Mon, 11 May 2026 12:34:53 +0100
-+Subject: [PATCH 1/2] gdk-pixbuf-loader/meson_install: improve argument p=
-arsing
-+ and logic
-=20
- Make the arguments more explicit by changing the path arguments to be
- specified with options, such as --queryloaders <path>. Previously one of
-@@ -13,78 +17,34 @@ parser another Path instance does not need to be crea=
-ted.
- None of this changes the underlying logic, just makes it more consistent
- and explicit.
-=20
+ PACKAGECONFIG ??=3D "pie"
 -
--gdk-pixbuf-loader: fix install logic in cross builds
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_10.2.0.bb b/me=
+ta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/qemu/qemu-system-native_10.2.0.bb
+rename to meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
+index 2e4f7328ad..7947499c5f 100644
+--- a/meta/recipes-devtools/qemu/qemu-system-native_10.2.0.bb
++++ b/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
+@@ -5,7 +5,7 @@ require qemu-native.inc
+ # As some of the files installed by qemu-native and qemu-system-native
+ # are the same, we depend on qemu-native to get the full installation se=
+t
+ # and avoid file clashes
+-DEPENDS +=3D "glib-2.0-native zlib-native pixman-native qemu-native"
++DEPENDS +=3D "glib-2.0-native zlib-native pixman-native qemu-native pyth=
+on3-qemu-qmp-native"
+=20
+ EXTRA_OECONF:append =3D " --target-list=3D${@get_qemu_system_target_list=
+(d)}"
+=20
+@@ -25,9 +25,4 @@ do_install:append() {
+     rm -rf ${D}${datadir}/qemu/dtb
+     rm -rf ${D}${datadir}/icons/
+     rm -rf ${D}${includedir}/qemu-plugin.h
 -
--The logic in this install rule was getting complicated, but it should be
--quite simple really:
+-    # Install qmp.py to be used with testimage
+-    install -d ${D}${libdir}/qemu-python/qmp/
+-    install -D ${S}/python/qemu/qmp/* ${D}${libdir}/qemu-python/qmp/
+ }
 -
--- In native builds we can run host binaries.  Look for the
--  gdk-pixbuf-query-loaders tool and run it when installing.
--- In cross builds we might be able to run host binaries, if an executabl=
+diff --git a/meta/recipes-devtools/qemu/qemu-targets.inc b/meta/recipes-d=
+evtools/qemu/qemu-targets.inc
+index 50e5eb6796..937ef1a911 100644
+--- a/meta/recipes-devtools/qemu/qemu-targets.inc
++++ b/meta/recipes-devtools/qemu/qemu-targets.inc
+@@ -25,6 +25,10 @@ def get_qemu_target_list(d):
+             archs.remove(arch)
+     if 'linux' not in tos:
+         return softmmuonly + ''.join([arch + "-softmmu" + "," for arch i=
+n archs]).rstrip(',')
++    # QEMU 11.0.0+ only supports linux-user on 64-bit host architectures
++    linux_user_hosts =3D ['aarch64', 'loongarch64', 'mips64', 'ppc64', '=
+riscv64', 's390x', 'sparc64', 'x86_64']
++    if tarch not in linux_user_hosts:
++        return softmmuonly + ''.join([arch + "-softmmu" + "," for arch i=
+n archs]).rstrip(',')
+     return softmmuonly + linuxuseronly + ''.join([arch + "-linux-user" +=
+ "," + arch + "-softmmu" + "," for arch in archs]).rstrip(',')
+=20
+ def get_qemu_usermode_target_list(d):
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index 5f30416a48..1e5890f15a 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -4,6 +4,7 @@ machine's processor through dynamic binary translation an=
+d provides a set \
+ of different hardware and device models for the machine, enabling it to =
+run \
+ a variety of guest operating systems"
+ HOMEPAGE =3D "http://qemu.org"
++BUGTRACKER =3D "https://gitlab.com/qemu-project/qemu/-/issues"
+ LICENSE =3D "GPL-2.0-only & LGPL-2.1-only"
+=20
+ DEPENDS +=3D "bison-native meson-native ninja-native"
+@@ -22,7 +23,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da3b50d8b88dc=
+c0eb3d7d39b760b9e821 \
+ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://powerpc_rom.bin \
+            file://run-ptest \
+-           file://fix-strerrorname_np.patch \
+            file://0001-qemu-Add-addition-environment-space-to-boot-loade=
+r-q.patch \
+            file://0002-apic-fixup-fallthrough-to-PIC.patch \
+            file://0004-qemu-Do-not-include-file-if-not-exists.patch \
+@@ -32,8 +32,6 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+            file://0008-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed=
+-li.patch \
+            file://0010-configure-lookup-meson-exutable-from-PATH.patch \
+            file://0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-f=
+or-.patch \
+-           file://0001-linux-user-elfload.c-Correction-to-HWCAP2-accesso=
+r.patch \
+-           file://0001-accel-tcg-Fix-iotlb_to_section-for-different-Addr=
+ess.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            "
+@@ -41,7 +39,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+ UPSTREAM_CHECK_URI =3D "https://www.qemu.org"
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+-SRC_URI[sha256sum] =3D "9e30ad1b8b9f7b4463001582d1ab297f39cfccea5d08540c=
+0ca6d6672785883a"
++SRC_URI[sha256sum] =3D "c04ca36012653f32d11c674d370cf52a710e7d3f18c2d8b6=
+3e4932052a4854d6"
+=20
+ CVE_STATUS[CVE-2007-0998] =3D "not-applicable-config: The VNC server can=
+ expose host files uder some circumstances. We don't enable it by default=
+."
+=20
+@@ -61,6 +59,9 @@ COMPATIBLE_HOST:mipsarchn32 =3D "null"
+ COMPATIBLE_HOST:mipsarchn64 =3D "null"
+ COMPATIBLE_HOST:riscv32 =3D "null"
+=20
++# QEMU 11.0.0+ requires a 64-bit host architecture for emulator builds
++COMPATIBLE_HOST:class-target =3D "(aarch64|x86_64|ppc64|riscv64|loongarc=
+h64|mips64|s390x|sparc64).*-linux"
++
+ # Per https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03873.=
+html
+ # upstream states qemu doesn't work without optimization
+ DEBUG_BUILD =3D "0"
+@@ -75,7 +76,7 @@ do_install_ptest() {
+ 	find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcodp]" | xargs -i rm =
+-rf {}
+=20
+ 	# Don't check the file genreated by configure
+-	sed -i -e "1s,#!/usr/bin/bash,#!${base_bindir}/bash," ${D}${PTEST_PATH}=
+/tests/data/acpi/disassemle-aml.sh
++	sed -i -e "1s,#!/usr/bin/bash,#!${base_bindir}/bash," ${D}${PTEST_PATH}=
+/tests/data/acpi/disassemble-aml.sh
+=20
+ 	# Strip the paths from the QEMU variable, we can use PATH
+ 	makfiles=3D$(find ${D}${PTEST_PATH} -name "*.mak")
+@@ -119,8 +120,8 @@ EXTRA_OECONF =3D " \
+     ${PACKAGECONFIG_CONFARGS} \
+     "
+=20
+-EXTRA_OECONF:append:class-target =3D " --cross-prefix=3D${HOST_PREFIX}"
+-EXTRA_OECONF:append:class-nativesdk =3D " --cross-prefix=3D${HOST_PREFIX=
+}"
++EXTRA_OECONF:append:class-target =3D " --cross-prefix=3D${HOST_PREFIX} -=
+-cpu=3D${TUNE_ARCH}"
++EXTRA_OECONF:append:class-nativesdk =3D " --cross-prefix=3D${HOST_PREFIX=
+} --cpu=3D${SDK_ARCH}"
+=20
+ B =3D "${WORKDIR}/build"
+=20
+@@ -130,7 +131,7 @@ do_configure:prepend:class-native() {
+ 	# Append build host pkg-config paths for native target since the host m=
+ay provide sdl
+ 	BHOST_PKGCONFIG_PATH=3D$(PATH=3D/usr/bin:/bin pkg-config --variable pc_=
+path pkg-config || echo "")
+ 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
+-		export PKG_CONFIG_LIBDIR=3D$PKG_CONFIG_LIBDIR:$BHOST_PKGCONFIG_PATH
++		export PKG_CONFIG_PATH=3D$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
+ 	fi
+ }
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-accel-tcg-Fix-iotlb_to_=
+section-for-different-Address.patch b/meta/recipes-devtools/qemu/qemu/000=
+1-accel-tcg-Fix-iotlb_to_section-for-different-Address.patch
+deleted file mode 100644
+index d19f872fc3..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/0001-accel-tcg-Fix-iotlb_to_section=
+-for-different-Address.patch
++++ /dev/null
+@@ -1,274 +0,0 @@
+-From 858e6bb252e075e09cca6e78299151d3af0bf5fb Mon Sep 17 00:00:00 2001
+-From: Quan Sun <Quan.Sun@windriver.com>
+-Date: Tue, 28 Apr 2026 14:56:36 -0400
+-Subject: [PATCH] accel/tcg: Fix iotlb_to_section() for different Address=
+Space
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-'CPUTLBEntryFull.xlat_section' stores section_index in last 12 bits to
+-find the correct section when CPU access the IO region over the IOTLB.
+-However, section_index is only unique inside single AddressSpace. If
+-address space translation is over IOMMUMemoryRegion, it could return
+-section from other AddressSpace. 'iotlb_to_section()' API only finds the
+-sections from CPU's AddressSpace so that it couldn't find section in
+-other AddressSpace. Thus, using 'iotlb_to_section()' API will find the
+-wrong section and QEMU will have wrong load/store access.
+-
+-To fix this bug of iotlb_to_section(), store complete MemoryRegionSectio=
+n
+-pointer in CPUTLBEntryFull to replace the section_index in xlat_section.
+-Rename 'xlat_section' to 'xlat_offset' as we remove last 12 bits
+-section_index inside. Also, since we directly use section pointer in the
+-CPUTLBEntryFull (full->section), we can remove the unused functions:
+-iotlb_to_section(), memory_region_section_get_iotlb().
+-
+-This bug occurs only when
+-(1) IOMMUMemoryRegion is in the path of CPU access.
+-(2) IOMMUMemoryRegion returns different target_as and the section is in
+-the IO region.
+-
+-This patch incorporates prerequisite changes from upstream commit
+-94c6e9cf0440 ("accel/tcg: Send the CPUTLBEntryFull struct into
+-io_prepare()") needed for the fix to apply cleanly.
+-
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
+/854cd16e318eed12de2995014b28d9f374c64bf7]
+-
+-Signed-off-by: Jim Shu <jim.shu@sifive.com>
+-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+-Tested-by: Mark Burton <mburton@qti.qualcomm.com>
+-Reviewed-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+-Signed-off-by: Quan Sun <Quan.Sun@windriver.com>
+----
+- accel/tcg/cputlb.c        | 32 +++++++++++++++-----------------
+- include/accel/tcg/iommu.h | 15 ---------------
+- include/exec/cputlb.h     |  4 ++--
+- include/hw/core/cpu.h     | 17 +++++++++--------
+- system/physmem.c          | 25 -------------------------
+- 5 files changed, 26 insertions(+), 67 deletions(-)
+-
+-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+-index fd1606c85..fa0f4d8b3 100644
+---- a/accel/tcg/cputlb.c
+-+++ b/accel/tcg/cputlb.c
+-@@ -1089,7 +1089,7 @@ void tlb_set_page_full(CPUState *cpu, int mmu_idx,
+-         }
+-     } else {
+-         /* I/O or ROMD */
+--        iotlb =3D memory_region_section_get_iotlb(cpu, section) + xlat;
+-+        iotlb =3D xlat;
+-         /*
+-          * Writes to romd devices must go through MMIO to enable write.
+-          * Reads to romd devices go through the ram_ptr found above,
+-@@ -1140,10 +1140,9 @@ void tlb_set_page_full(CPUState *cpu, int mmu_idx=
+,
+-     /*
+-      * When memory region is ram, iotlb contains a TARGET_PAGE_BITS
+-      * aligned ram_addr_t of the page base of the target RAM.
+--     * Otherwise, iotlb contains
+--     *  - a physical section number in the lower TARGET_PAGE_BITS
+--     *  - the offset within section->mr of the page base (I/O, ROMD) wi=
+th the
+--     *    TARGET_PAGE_BITS masked off.
+-+     * Otherwise, iotlb contains a TARGET_PAGE_BITS aligned
+-+     * offset within section->mr of the page base (I/O, ROMD)
+-+     *
+-      * We subtract addr_page (which is page aligned and thus won't
+-      * disturb the low bits) to give an offset which can be added to th=
 e
--  wrapper has been set _and_ if the target sysroot contains executables.
+-      * (non-page-aligned) vaddr of the eventual memory access to get
+-@@ -1153,7 +1152,8 @@ void tlb_set_page_full(CPUState *cpu, int mmu_idx,
+-      */
+-     desc->fulltlb[index] =3D *full;
+-     full =3D &desc->fulltlb[index];
+--    full->xlat_section =3D iotlb - addr_page;
+-+    full->xlat_offset =3D iotlb - addr_page;
+-+    full->section =3D section;
+-     full->phys_addr =3D paddr_page;
 -
--The presence of target executables isn't a given, as some systems (such
--as OpenEmbedded) strip the target sysroot down to headers are libraries.
+-     /* Now calculate the new entry */
+-@@ -1269,14 +1269,14 @@ static inline void cpu_unaligned_access(CPUState=
+ *cpu, vaddr addr,
+- }
 -
--So the logic should be:
+- static MemoryRegionSection *
+--io_prepare(hwaddr *out_offset, CPUState *cpu, hwaddr xlat,
+-+io_prepare(hwaddr *out_offset, CPUState *cpu, CPUTLBEntryFull *full,
+-            MemTxAttrs attrs, vaddr addr, uintptr_t retaddr)
+- {
+-     MemoryRegionSection *section;
+-     hwaddr mr_offset;
 -
--- In native builds, look for query-loaders and fail if not found.
--- In cross builds where you can run host binaries, look for query-loader=
-s
--  but allow it to be missing.
--- In cross builds where you cannot run host binaries, there's no use in
--  looking for query-loaders.
+--    section =3D iotlb_to_section(cpu, xlat, attrs);
+--    mr_offset =3D (xlat & TARGET_PAGE_MASK) + addr;
+-+    section =3D full->section;
+-+    mr_offset =3D full->xlat_offset + addr;
+-     cpu->mem_io_pc =3D retaddr;
+-     if (!cpu->neg.can_do_io) {
+-         cpu_io_recompile(cpu, retaddr);
+-@@ -1335,7 +1335,7 @@ static bool victim_tlb_hit(CPUState *cpu, size_t m=
+mu_idx, size_t index,
+- static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned siz=
+e,
+-                            CPUTLBEntryFull *full, uintptr_t retaddr)
+- {
+--    ram_addr_t ram_addr =3D mem_vaddr + full->xlat_section;
+-+    ram_addr_t ram_addr =3D mem_vaddr + full->xlat_offset;
 -
--Then either pass the paths or --show-cross-message to meson_install.py,
--depending on whether query-loaders was found or not.
+-     trace_memory_notdirty_write_access(mem_vaddr, ram_addr, size);
 -
--This fixes the case where Meson can run host executables, but the target
--sysroot does not actually contain gdk-pixbuf-query-loaders.
+-@@ -1592,9 +1592,7 @@ bool tlb_plugin_lookup(CPUState *cpu, vaddr addr, =
+int mmu_idx,
 -
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/librsvg/-/mer=
-ge_requests/1194]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ gdk-pixbuf-loader/meson.build      |  4 +++-
-+ gdk-pixbuf-loader/meson_install.py | 23 +++++++++++------------
-+ 2 files changed, 14 insertions(+), 13 deletions(-)
-=20
--diff --git i/gdk-pixbuf-loader/meson.build w/gdk-pixbuf-loader/meson.bui=
-ld
--index 6fa10a68b..4f88ba037 100644
----- i/gdk-pixbuf-loader/meson.build
--+++ w/gdk-pixbuf-loader/meson.build
--@@ -37,19 +37,21 @@ pixbuf_thumbnailer =3D configure_file(
-- )
--=20
-- if meson.can_run_host_binaries()
---  gdk_pixbuf_query_loaders =3D find_program(pixbuf_dep.get_variable(pkg=
-config: 'gdk_pixbuf_query_loaders', default_value: 'gdk-pixbuf-query-load=
-ers'))
--+  gdk_pixbuf_query_loaders =3D find_program(pixbuf_dep.get_variable(pkg=
-config: 'gdk_pixbuf_query_loaders', default_value: 'gdk-pixbuf-query-load=
-ers'), required: not meson.is_cross_build())
-+diff --git a/gdk-pixbuf-loader/meson.build b/gdk-pixbuf-loader/meson.bui=
-ld
-+index 951d2d1c9..c7c017978 100644
-+--- a/gdk-pixbuf-loader/meson.build
-++++ b/gdk-pixbuf-loader/meson.build
-+@@ -43,9 +43,11 @@ else
-  endif
- =20
---pixbufloader_svg_install_args =3D [
-+ pixbufloader_svg_install_args =3D [
- -  '--gdk-pixbuf-moduledir',
---  pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_moduledir', pkgconfig_=
-define: ['prefix', prefix]),
---  pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_query_loaders', pkgcon=
-fig_define: ['prefix', prefix]),
---  pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_cache_file', pkgconfig=
-_define: ['prefix', prefix])
---]
+-     /* We must have an iotlb entry for MMIO */
+-     if (tlb_addr & TLB_MMIO) {
+--        MemoryRegionSection *section =3D
+--            iotlb_to_section(cpu, full->xlat_section & ~TARGET_PAGE_MAS=
+K,
+--                             full->attrs);
+-+        MemoryRegionSection *section =3D full->section;
+-         data->is_io =3D true;
+-         data->mr =3D section->mr;
+-     } else {
+-@@ -1980,7 +1978,7 @@ static uint64_t do_ld_mmio_beN(CPUState *cpu, CPUT=
+LBEntryFull *full,
+-     tcg_debug_assert(size > 0 && size <=3D 8);
+-
+-     attrs =3D full->attrs;
+--    section =3D io_prepare(&mr_offset, cpu, full->xlat_section, attrs, =
+addr, ra);
+-+    section =3D io_prepare(&mr_offset, cpu, full, attrs, addr, ra);
+-     mr =3D section->mr;
+-
+-     BQL_LOCK_GUARD();
+-@@ -2001,7 +1999,7 @@ static Int128 do_ld16_mmio_beN(CPUState *cpu, CPUT=
+LBEntryFull *full,
+-     tcg_debug_assert(size > 8 && size <=3D 16);
+-
+-     attrs =3D full->attrs;
+--    section =3D io_prepare(&mr_offset, cpu, full->xlat_section, attrs, =
+addr, ra);
+-+    section =3D io_prepare(&mr_offset, cpu, full, attrs, addr, ra);
+-     mr =3D section->mr;
+-
+-     BQL_LOCK_GUARD();
+-@@ -2521,7 +2519,7 @@ static uint64_t do_st_mmio_leN(CPUState *cpu, CPUT=
+LBEntryFull *full,
+-     tcg_debug_assert(size > 0 && size <=3D 8);
+-
+-     attrs =3D full->attrs;
+--    section =3D io_prepare(&mr_offset, cpu, full->xlat_section, attrs, =
+addr, ra);
+-+    section =3D io_prepare(&mr_offset, cpu, full, attrs, addr, ra);
+-     mr =3D section->mr;
+-
+-     BQL_LOCK_GUARD();
+-@@ -2541,7 +2539,7 @@ static uint64_t do_st16_mmio_leN(CPUState *cpu, CP=
+UTLBEntryFull *full,
+-     tcg_debug_assert(size > 8 && size <=3D 16);
+-
+-     attrs =3D full->attrs;
+--    section =3D io_prepare(&mr_offset, cpu, full->xlat_section, attrs, =
+addr, ra);
+-+    section =3D io_prepare(&mr_offset, cpu, full, attrs, addr, ra);
+-     mr =3D section->mr;
+-
+-     BQL_LOCK_GUARD();
+-diff --git a/include/accel/tcg/iommu.h b/include/accel/tcg/iommu.h
+-index 90cfd6c0e..547f8ea0e 100644
+---- a/include/accel/tcg/iommu.h
+-+++ b/include/accel/tcg/iommu.h
+-@@ -14,18 +14,6 @@
+- #include "exec/hwaddr.h"
+- #include "exec/memattrs.h"
+-
+--/**
+-- * iotlb_to_section:
+-- * @cpu: CPU performing the access
+-- * @index: TCG CPU IOTLB entry
+-- *
+-- * Given a TCG CPU IOTLB entry, return the MemoryRegionSection that
+-- * it refers to. @index will have been initially created and returned
+-- * by memory_region_section_get_iotlb().
+-- */
+--MemoryRegionSection *iotlb_to_section(CPUState *cpu,
+--                                      hwaddr index, MemTxAttrs attrs);
 --
---# Tell people to run gdk-pixbuf-query-loaders manually for cross builds
---if not meson.can_run_host_binaries()
---  pixbufloader_svg_install_args +=3D '--show-cross-message'
--+if meson.can_run_host_binaries() and gdk_pixbuf_query_loaders.found()
--+  pixbufloader_svg_install_args =3D [
--+    '--moduledir',
--+    pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_moduledir', pkgconfi=
-g_define: ['prefix', prefix]),
--+    '--queryloaders',
--+    gdk_pixbuf_query_loaders.full_path(),
--+    '--cache-file',
--+    pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_cache_file', pkgconf=
-ig_define: ['prefix', prefix])
--+  ]
--+else
--+  # Tell people to run gdk-pixbuf-query-loaders manually for cross buil=
-ds
--+  pixbufloader_svg_install_args =3D ['--show-cross-message']
-- endif
-++  '--moduledir',
-+   pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_moduledir', pkgconfig_=
-define: ['prefix', prefix]),
-++  '--queryloaders',
-+   gdk_pixbuf_query_loaders,
-++  '--cache-file',
-+   pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_cache_file', pkgconfig=
-_define: ['prefix', prefix])
-+ ]
+- MemoryRegionSection *address_space_translate_for_iotlb(CPUState *cpu,
+-                                                        int asidx,
+-                                                        hwaddr addr,
+-@@ -34,8 +22,5 @@ MemoryRegionSection *address_space_translate_for_iotlb=
+(CPUState *cpu,
+-                                                        MemTxAttrs attrs=
+,
+-                                                        int *prot);
+-
+--hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+--                                       MemoryRegionSection *section);
+--
+- #endif
+-
+-diff --git a/include/exec/cputlb.h b/include/exec/cputlb.h
+-index 9bec0e789..16f866990 100644
+---- a/include/exec/cputlb.h
+-+++ b/include/exec/cputlb.h
+-@@ -43,8 +43,8 @@ void tlb_reset_dirty_range_all(ram_addr_t start, ram_a=
+ddr_t length);
+-  * @full: the details of the tlb entry
+-  *
+-  * Add an entry to @cpu tlb index @mmu_idx.  All of the fields of
+-- * @full must be filled, except for xlat_section, and constitute
+-- * the complete description of the translated page.
+-+ * @full must be filled, except for xlat_offset & section, and
+-+ * constitute the complete description of the translated page.
+-  *
+-  * This is generally called by the target tlb_fill function after
+-  * having performed a successful page table walk to find the physical
+-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+-index 961505177..a3db3f66f 100644
+---- a/include/hw/core/cpu.h
+-+++ b/include/hw/core/cpu.h
+-@@ -214,15 +214,16 @@ typedef uint32_t MMUIdxMap;
+-  */
+- struct CPUTLBEntryFull {
+-     /*
+--     * @xlat_section contains:
+--     *  - in the lower TARGET_PAGE_BITS, a physical section number
+--     *  - with the lower TARGET_PAGE_BITS masked off, an offset which
+--     *    must be added to the virtual address to obtain:
+--     *     + the ram_addr_t of the target RAM (if the physical section
+--     *       number is PHYS_SECTION_NOTDIRTY or PHYS_SECTION_ROM)
+--     *     + the offset within the target MemoryRegion (otherwise)
+-+     * @xlat_offset: TARGET_PAGE_BITS aligned offset which must be adde=
+d to
+-+     * the virtual address to obtain:
+-+     *   + the ram_addr_t of the target RAM (if the physical section
+-+     *     number is PHYS_SECTION_NOTDIRTY or PHYS_SECTION_ROM)
+-+     *   + the offset within the target MemoryRegion (otherwise)
+-      */
+--    hwaddr xlat_section;
+-+    hwaddr xlat_offset;
+-+
+-+    /* @section contains physical section. */
+-+    MemoryRegionSection *section;
+-
+-     /*
+-      * @phys_addr contains the physical address in the address space
+-diff --git a/system/physmem.c b/system/physmem.c
+-index c9869e404..a21e7ca64 100644
+---- a/system/physmem.c
+-+++ b/system/physmem.c
+-@@ -748,31 +748,6 @@ translate_fail:
+-     return &d->map.sections[PHYS_SECTION_UNASSIGNED];
+- }
+-
+--MemoryRegionSection *iotlb_to_section(CPUState *cpu,
+--                                      hwaddr index, MemTxAttrs attrs)
+--{
+--    int asidx =3D cpu_asidx_from_attrs(cpu, attrs);
+--    CPUAddressSpace *cpuas =3D &cpu->cpu_ases[asidx];
+--    AddressSpaceDispatch *d =3D address_space_to_dispatch(cpuas->as);
+--    int section_index =3D index & ~TARGET_PAGE_MASK;
+--    MemoryRegionSection *ret;
+--
+--    assert(section_index < d->map.sections_nb);
+--    ret =3D d->map.sections + section_index;
+--    assert(ret->mr);
+--    assert(ret->mr->ops);
+--
+--    return ret;
+--}
+--
+--/* Called from RCU critical section */
+--hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+--                                       MemoryRegionSection *section)
+--{
+--    AddressSpaceDispatch *d =3D flatview_to_dispatch(section->fv);
+--    return section - d->map.sections;
+--}
+--
+- #endif /* CONFIG_TCG */
+-
+- void cpu_address_space_init(CPUState *cpu, int asidx,
+---
+-2.43.0
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-elfload.c-Co=
+rrection-to-HWCAP2-accessor.patch b/meta/recipes-devtools/qemu/qemu/0001-=
+linux-user-elfload.c-Correction-to-HWCAP2-accessor.patch
+deleted file mode 100644
+index 47d6f41385..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/0001-linux-user-elfload.c-Correctio=
+n-to-HWCAP2-accessor.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From c333f9c4ee212297f3b9a8a6ef62396a63c48e61 Mon Sep 17 00:00:00 2001
+-From: Jim MacArthur <jim.macarthur@linaro.org>
+-Date: Tue, 6 Jan 2026 15:40:48 +0000
+-Subject: [PATCH] linux-user/elfload.c: Correction to HWCAP2 accessor
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-get_elf_hwcap was used when get_elf_hwcap2 should have been.
+-
+-Cc: qemu-stable@nongnu.org
+-Fixes: fcac98d0ba8b ("linux-user: Remove ELF_HWCAP2")
+-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/3259
+-Signed-off-by: Jim MacArthur <jim.macarthur@linaro.org>
+-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+-Message-ID: <20260106-fix-hwcap2-sve2-v1-1-1d70dff63370@linaro.org>
+-
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
+/c333f9c4ee212297f3b9a8a6ef62396a63c48e61]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- linux-user/elfload.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+-index 0002d5be2f..35471c0c9a 100644
+---- a/linux-user/elfload.c
+-+++ b/linux-user/elfload.c
+-@@ -708,7 +708,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int =
+argc, int envc,
+-     NEW_AUX_ENT(AT_EXECFN, info->file_string);
+-=20
+-     if (HAVE_ELF_HWCAP2) {
+--        NEW_AUX_ENT(AT_HWCAP2, get_elf_hwcap(thread_cpu));
+-+        NEW_AUX_ENT(AT_HWCAP2, get_elf_hwcap2(thread_cpu));
+-     }
+-     if (u_base_platform) {
+-         NEW_AUX_ENT(AT_BASE_PLATFORM, u_base_platform);
+---=20
+-2.34.1
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-qemu-Add-addition-envir=
+onment-space-to-boot-loader-q.patch b/meta/recipes-devtools/qemu/qemu/000=
+1-qemu-Add-addition-environment-space-to-boot-loader-q.patch
+index bc8dace013..40b08cd247 100644
+--- a/meta/recipes-devtools/qemu/qemu/0001-qemu-Add-addition-environment-=
+space-to-boot-loader-q.patch
++++ b/meta/recipes-devtools/qemu/qemu/0001-qemu-Add-addition-environment-=
+space-to-boot-loader-q.patch
+@@ -1,10 +1,10 @@
+-From f2d9bc614f7edf66412209aba78aa086e65dc75e Mon Sep 17 00:00:00 2001
++From a84184c98cf296954e0c757604e969b8565eb474 Mon Sep 17 00:00:00 2001
+ From: Jason Wessel <jason.wessel@windriver.com>
+ Date: Fri, 28 Mar 2014 17:42:43 +0800
+ Subject: [PATCH] qemu: Add addition environment space to boot loader
+  qemu-system-mips
+=20
+-Upstream-Status: Inappropriate - OE uses deep paths
++Upstream-Status: Inappropriate [OE uses deep paths]
+=20
+ If you create a project with very long directory names like 128 characte=
+rs
+ deep and use NFS, the kernel arguments will be truncated. The kernel wil=
+l
+@@ -18,10 +18,10 @@ Signed-off-by: Roy Li <rongqing.li@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+ diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+-index cbdbb2105..62681fdae 100644
++index 812ff64d8..daf929943 100644
+ --- a/hw/mips/malta.c
+ +++ b/hw/mips/malta.c
+-@@ -65,7 +65,7 @@
++@@ -66,7 +66,7 @@
+  #define ENVP_PADDR          0x2000
+  #define ENVP_VADDR          cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
+  #define ENVP_NB_ENTRIES     16
+diff --git a/meta/recipes-devtools/qemu/qemu/0002-apic-fixup-fallthrough-=
+to-PIC.patch b/meta/recipes-devtools/qemu/qemu/0002-apic-fixup-fallthroug=
+h-to-PIC.patch
+index bfc85f4842..ad00f24482 100644
+--- a/meta/recipes-devtools/qemu/qemu/0002-apic-fixup-fallthrough-to-PIC.=
+patch
++++ b/meta/recipes-devtools/qemu/qemu/0002-apic-fixup-fallthrough-to-PIC.=
+patch
+@@ -1,4 +1,4 @@
+-From 945af9ecc80653955cbdbb7d3e28dce61795b251 Mon Sep 17 00:00:00 2001
++From 0a688e763d91c2e0e11cbe960f405442a9f35417 Mon Sep 17 00:00:00 2001
+ From: Mark Asselstine <mark.asselstine@windriver.com>
+ Date: Tue, 26 Feb 2013 11:43:28 -0500
+ Subject: [PATCH] apic: fixup fallthrough to PIC
+@@ -33,10 +33,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+ diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+-index aad253a..212b01f 100644
++index 8766ed00b..581fc6deb 100644
+ --- a/hw/intc/apic.c
+ +++ b/hw/intc/apic.c
+-@@ -740,7 +740,7 @@ int apic_accept_pic_intr(APICCommonState *s)
++@@ -741,7 +741,7 @@ int apic_accept_pic_intr(APICCommonState *s)
+  {
+      uint32_t lvt0;
  =20
-- meson.add_install_script(
--diff --git i/gdk-pixbuf-loader/meson_install.py w/gdk-pixbuf-loader/meso=
-n_install.py
-+diff --git a/gdk-pixbuf-loader/meson_install.py b/gdk-pixbuf-loader/meso=
-n_install.py
- index ff003350f..d9bbbe433 100644
----- i/gdk-pixbuf-loader/meson_install.py
--+++ w/gdk-pixbuf-loader/meson_install.py
-+--- a/gdk-pixbuf-loader/meson_install.py
-++++ b/gdk-pixbuf-loader/meson_install.py
- @@ -6,29 +6,28 @@ import os
-  import subprocess
-  import sys
-@@ -126,3 +86,84 @@ index ff003350f..d9bbbe433 100644
-                  check=3DTrue
-              )
- -
-+--=20
-+2.43.0
-+
-+
-+From 85e11b2c1c6b2a27949a0e3e883c01e4b48060e0 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Mon, 11 May 2026 12:46:08 +0100
-+Subject: [PATCH 2/2] gdk-pixbuf-loader: fix install logic in cross build=
-s
-+
-+The logic in this install rule was getting complicated, but it should be
-+quite simple really:
-+
-+- In native builds we can run host binaries.  Look for the
-+  gdk-pixbuf-query-loaders tool and run it when installing.
-+- In cross builds we might be able to run host binaries, if an executabl=
-e
-+  wrapper has been set _and_ if the target sysroot contains executables.
-+
-+The presence of target executables isn't a given, as some systems (such
-+as OpenEmbedded) strip the target sysroot down to headers are libraries.
-+
-+So the logic should be:
-+
-+- In native builds, look for query-loaders and fail if not found.
-+- In cross builds where you can run host binaries, look for query-loader=
-s
-+  but allow it to be missing.
-+- In cross builds where you cannot run host binaries, there's no use in
-+  looking for query-loaders.
-+
-+Then either pass the paths or --show-cross-message to meson_install.py,
-+depending on whether query-loaders was found or not.
-+
-+This fixes the case where Meson can run host executables, but the target
-+sysroot does not actually contain gdk-pixbuf-query-loaders.
-+---
-+ gdk-pixbuf-loader/meson.build | 28 +++++++++++++---------------
-+ 1 file changed, 13 insertions(+), 15 deletions(-)
-+
-+diff --git a/gdk-pixbuf-loader/meson.build b/gdk-pixbuf-loader/meson.bui=
-ld
-+index c7c017978..4f88ba037 100644
-+--- a/gdk-pixbuf-loader/meson.build
-++++ b/gdk-pixbuf-loader/meson.build
-+@@ -37,23 +37,21 @@ pixbuf_thumbnailer =3D configure_file(
-+ )
-+=20
-+ if meson.can_run_host_binaries()
-+-  gdk_pixbuf_query_loaders =3D find_program(pixbuf_dep.get_variable(pkg=
-config: 'gdk_pixbuf_query_loaders', default_value: 'gdk-pixbuf-query-load=
-ers')).path()
-+-else
-+-  gdk_pixbuf_query_loaders =3D pixbuf_dep.get_variable(pkgconfig: 'gdk_=
-pixbuf_query_loaders', pkgconfig_define: ['prefix', prefix])
-++  gdk_pixbuf_query_loaders =3D find_program(pixbuf_dep.get_variable(pkg=
-config: 'gdk_pixbuf_query_loaders', default_value: 'gdk-pixbuf-query-load=
-ers'), required: not meson.is_cross_build())
-+ endif
-+=20
-+-pixbufloader_svg_install_args =3D [
-+-  '--moduledir',
-+-  pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_moduledir', pkgconfig_=
-define: ['prefix', prefix]),
-+-  '--queryloaders',
-+-  gdk_pixbuf_query_loaders,
-+-  '--cache-file',
-+-  pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_cache_file', pkgconfig=
-_define: ['prefix', prefix])
-+-]
-+-
-+-# Tell people to run gdk-pixbuf-query-loaders manually for cross builds
-+-if not meson.can_run_host_binaries()
-+-  pixbufloader_svg_install_args +=3D '--show-cross-message'
-++if meson.can_run_host_binaries() and gdk_pixbuf_query_loaders.found()
-++  pixbufloader_svg_install_args =3D [
-++    '--moduledir',
-++    pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_moduledir', pkgconfi=
-g_define: ['prefix', prefix]),
-++    '--queryloaders',
-++    gdk_pixbuf_query_loaders.full_path(),
-++    '--cache-file',
-++    pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_cache_file', pkgconf=
-ig_define: ['prefix', prefix])
-++  ]
-++else
-++  # Tell people to run gdk-pixbuf-query-loaders manually for cross buil=
-ds
-++  pixbufloader_svg_install_args =3D ['--show-cross-message']
-+ endif
-+=20
-+ meson.add_install_script(
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.61.3.bb b/meta/recipes-=
-gnome/librsvg/librsvg_2.62.2.bb
-similarity index 98%
-rename from meta/recipes-gnome/librsvg/librsvg_2.61.3.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.62.2.bb
-index 2c1979dd154..8c2623468d9 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.61.3.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.62.2.bb
-@@ -27,7 +27,7 @@ SRC_URI +=3D "file://0001-query-rustc-append-RUSTFLAGS-=
-to-rustc-executable.patch \
-             file://0001-tests-revert-Take-care-of-deprecated-assert_cmd-=
-Comm.patch \
-             file://cross-query-loaders.patch \
-             file://run-ptest"
--SRC_URI[archive.sha256sum] =3D "a56d2c80d744ad2f2718f85df466fe71d24ff1f9=
-bc3e5ef588bde4d7e87815f2"
-+SRC_URI[archive.sha256sum] =3D "c0c1367e381e1ae4842a78f1b57c656ff19b2563=
-7e3a6527cb44ae5a1cc68d65"
+diff --git a/meta/recipes-devtools/qemu/qemu/0004-qemu-Do-not-include-fil=
+e-if-not-exists.patch b/meta/recipes-devtools/qemu/qemu/0004-qemu-Do-not-=
+include-file-if-not-exists.patch
+index 2e738abaa3..4b6ac54445 100644
+--- a/meta/recipes-devtools/qemu/qemu/0004-qemu-Do-not-include-file-if-no=
+t-exists.patch
++++ b/meta/recipes-devtools/qemu/qemu/0004-qemu-Do-not-include-file-if-no=
+t-exists.patch
+@@ -1,4 +1,4 @@
+-From f8c1614b204c1d64af906dc70dbf4a1534eb6b38 Mon Sep 17 00:00:00 2001
++From b38315a5a6f9fc033c72bb94ff258bb4b1ac8dd3 Mon Sep 17 00:00:00 2001
+ From: Oleksiy Obitotskyy <oobitots@cisco.com>
+ Date: Wed, 25 Mar 2020 21:21:35 +0200
+ Subject: [PATCH] qemu: Do not include file if not exists
+@@ -16,10 +16,10 @@ Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com=
+>
+  1 file changed, 2 insertions(+)
 =20
- UPSTREAM_CHECK_REGEX =3D "librsvg-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+-index c236b2834..2a3527a87 100644
++index f4b74ad35..3da51ea83 100644
+ --- a/linux-user/syscall.c
+ +++ b/linux-user/syscall.c
+-@@ -119,7 +119,9 @@
++@@ -117,7 +117,9 @@
+  #include <linux/blkpg.h>
+  #include <netpacket/packet.h>
+  #include <linux/netlink.h>
+diff --git a/meta/recipes-devtools/qemu/qemu/0005-qemu-Add-some-user-spac=
+e-mmap-tweaks-to-address-musl.patch b/meta/recipes-devtools/qemu/qemu/000=
+5-qemu-Add-some-user-space-mmap-tweaks-to-address-musl.patch
+index ffbbb1ab32..59236999f9 100644
+--- a/meta/recipes-devtools/qemu/qemu/0005-qemu-Add-some-user-space-mmap-=
+tweaks-to-address-musl.patch
++++ b/meta/recipes-devtools/qemu/qemu/0005-qemu-Add-some-user-space-mmap-=
+tweaks-to-address-musl.patch
+@@ -1,4 +1,4 @@
+-From 3621615790270449bf9c8a0777e8ef28eb762bf9 Mon Sep 17 00:00:00 2001
++From e4abb937ba5a6a476d31886e71e67006df22a664 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 8 Jan 2021 17:27:06 +0000
+ Subject: [PATCH] qemu: Add some user space mmap tweaks to address musl 3=
+2 bit
+@@ -16,32 +16,24 @@ A better return value for the other cases of invalid =
+addresses is EINVAL
+ rather than ENOMEM so adjust the other part of the test to this.
 =20
+ Upstream-Status: Submitted [https://lists.gnu.org/archive/html/qemu-deve=
+l/2021-01/msg01355.html]
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ ---
+- linux-user/mmap.c | 10 +++++++---
+- 1 file changed, 7 insertions(+), 3 deletions(-)
++ linux-user/mmap.c | 5 +++++
++ 1 file changed, 5 insertions(+)
+=20
+ diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+-index 002e1e668..912839dec 100644
++index b635b6a21..a5a617516 100644
+ --- a/linux-user/mmap.c
+ +++ b/linux-user/mmap.c
+-@@ -1109,12 +1109,16 @@ abi_long target_mremap(abi_ulong old_addr, abi_u=
+long old_size,
++@@ -1113,6 +1113,11 @@ abi_long target_mremap(abi_ulong old_addr, abi_ul=
+ong old_size,
+      int prot;
+      void *host_addr;
+ =20
+--    if (!guest_range_valid_untagged(old_addr, old_size) ||
+--        ((flags & MREMAP_FIXED) &&
+ +    if (!guest_range_valid_untagged(old_addr, old_size)) {
+ +        errno =3D EFAULT;
+ +        return -1;
+ +    }
+-+   =20
+-+    if (((flags & MREMAP_FIXED) &&
+++
++     if (((flags & MREMAP_FIXED) &&
+           !guest_range_valid_untagged(new_addr, new_size)) ||
+          ((flags & MREMAP_MAYMOVE) =3D=3D 0 &&
+-          !guest_range_valid_untagged(old_addr, new_size))) {
+--        errno =3D ENOMEM;
+-+        errno =3D EINVAL;
+-         return -1;
+-     }
+-=20
+diff --git a/meta/recipes-devtools/qemu/qemu/0006-qemu-Determinism-fixes.=
+patch b/meta/recipes-devtools/qemu/qemu/0006-qemu-Determinism-fixes.patch
+index 5b24c18916..0d7974fcdc 100644
+--- a/meta/recipes-devtools/qemu/qemu/0006-qemu-Determinism-fixes.patch
++++ b/meta/recipes-devtools/qemu/qemu/0006-qemu-Determinism-fixes.patch
+@@ -1,4 +1,4 @@
+-From 8b28a9376074067bc2d84d4f77d5c7a42433b31b Mon Sep 17 00:00:00 2001
++From e891928d2248e186c65979cf5a2ba0cff9d00824 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Mon, 1 Mar 2021 13:00:47 +0000
+ Subject: [PATCH] qemu: Determinism fixes
+@@ -11,6 +11,8 @@ meson to pass relative paths but we can fix that in the=
+ script.
+=20
+ Upstream-Status: Pending [some version of all/part of this may be accept=
+ed]
+ RP 2021/3/1
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ ---
+  scripts/decodetree.py | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/qemu/qemu/0007-tests-meson.build-use-r=
+elative-path-to-refer-to-file.patch b/meta/recipes-devtools/qemu/qemu/000=
+7-tests-meson.build-use-relative-path-to-refer-to-file.patch
+index a58c936d06..275c500894 100644
+--- a/meta/recipes-devtools/qemu/qemu/0007-tests-meson.build-use-relative=
+-path-to-refer-to-file.patch
++++ b/meta/recipes-devtools/qemu/qemu/0007-tests-meson.build-use-relative=
+-path-to-refer-to-file.patch
+@@ -1,4 +1,4 @@
+-From 097b75ad8310143decab92f6d1744144e7a4809f Mon Sep 17 00:00:00 2001
++From ac9a866ac807cb1542f26df07b4aad3a06342a99 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Thu, 14 Jan 2021 06:33:04 +0000
+ Subject: [PATCH] tests/meson.build: use relative path to refer to files
+@@ -17,10 +17,10 @@ Signed-off-by: Changqing Li <changqing.li@windriver.c=
+om>
+  1 file changed, 3 insertions(+), 3 deletions(-)
+=20
+ diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+-index d5248ae51..2c581f055 100644
++index 41e8b06c3..ce5df4957 100644
+ --- a/tests/unit/meson.build
+ +++ b/tests/unit/meson.build
+-@@ -127,17 +127,17 @@ endif
++@@ -124,17 +124,17 @@ endif
+ =20
+  if have_system
+    tests +=3D {
+diff --git a/meta/recipes-devtools/qemu/qemu/0008-Define-MAP_SYNC-and-MAP=
+_SHARED_VALIDATE-on-needed-li.patch b/meta/recipes-devtools/qemu/qemu/000=
+8-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch
+index af0eafb65f..f6e563ad80 100644
+--- a/meta/recipes-devtools/qemu/qemu/0008-Define-MAP_SYNC-and-MAP_SHARED=
+_VALIDATE-on-needed-li.patch
++++ b/meta/recipes-devtools/qemu/qemu/0008-Define-MAP_SYNC-and-MAP_SHARED=
+_VALIDATE-on-needed-li.patch
+@@ -1,4 +1,4 @@
+-From 9d5deb767523ea0d1aeecb9960244c702530acad Mon Sep 17 00:00:00 2001
++From c0bfd2c5556afcf4413c81b3fda54a62f2bdd8c8 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 21 Mar 2022 10:09:38 -0700
+ Subject: [PATCH] Define MAP_SYNC and MAP_SHARED_VALIDATE on needed linux
+diff --git a/meta/recipes-devtools/qemu/qemu/0010-configure-lookup-meson-=
+exutable-from-PATH.patch b/meta/recipes-devtools/qemu/qemu/0010-configure=
+-lookup-meson-exutable-from-PATH.patch
+index db88766cf6..430b1aa509 100644
+--- a/meta/recipes-devtools/qemu/qemu/0010-configure-lookup-meson-exutabl=
+e-from-PATH.patch
++++ b/meta/recipes-devtools/qemu/qemu/0010-configure-lookup-meson-exutabl=
+e-from-PATH.patch
+@@ -1,4 +1,4 @@
+-From aaec67c133dddda7204d23964732b4b788cbc9ce Mon Sep 17 00:00:00 2001
++From e357ac91b04f733148defe8c133ae8b2085a9a23 Mon Sep 17 00:00:00 2001
+ From: =3D?UTF-8?q?Martin=3D20Hundeb=3DC3=3DB8ll?=3D <martin@geanix.com>
+ Date: Wed, 22 May 2024 14:02:55 +0200
+ Subject: [PATCH] configure: lookup meson exutable from PATH
+@@ -13,10 +13,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+  1 file changed, 1 insertion(+), 4 deletions(-)
+=20
+ diff --git a/configure b/configure
+-index 82cace1..83bbda9 100755
++index eea903067..217af781f 100755
+ --- a/configure
+ +++ b/configure
+-@@ -993,10 +993,7 @@ get_pwd() {
++@@ -981,10 +981,7 @@ get_pwd() {
+      fi
+  }
+ =20
+@@ -26,5 +26,5 @@ index 82cace1..83bbda9 100755
+ -fi
+ +meson=3D`which meson`
+ =20
+- # Conditionally ensure Sphinx is installed.
+-=20
++ # On Haiku, meson might show up in a "non-packaged" subfolder instead, =
+see
++ # https://github.com/haiku/haiku/blob/r1beta5/docs/user/storage/storage=
+intro.dox
+diff --git a/meta/recipes-devtools/qemu/qemu/0011-qemu-Ensure-pip-and-the=
+-python-venv-aren-t-used-for-.patch b/meta/recipes-devtools/qemu/qemu/001=
+1-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch
+index d04596d313..040931a941 100644
+--- a/meta/recipes-devtools/qemu/qemu/0011-qemu-Ensure-pip-and-the-python=
+-venv-aren-t-used-for-.patch
++++ b/meta/recipes-devtools/qemu/qemu/0011-qemu-Ensure-pip-and-the-python=
+-venv-aren-t-used-for-.patch
+@@ -1,4 +1,4 @@
+-From c9f174b2f7b43e59e91f88c75c8b3e2ee30bfcdd Mon Sep 17 00:00:00 2001
++From 70fa360e5bf72b28960747da47d9b85e650ad312 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 22 May 2024 13:58:23 +0200
+ Subject: [PATCH] qemu: Ensure pip and the python venv aren't used for me=
+son
+@@ -29,10 +29,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfo=
+undation.org>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+=20
+ diff --git a/configure b/configure
+-index 84e429409..1a9585e8e 100755
++index 217af781f..cf8666337 100755
+ --- a/configure
+ +++ b/configure
+-@@ -981,14 +981,14 @@ python=3D"$(command -v "$python")"
++@@ -951,14 +951,14 @@ python=3D"$(command -v "$python")"
+  echo "python determined to be '$python'"
+  echo "python version: $($python --version)"
+ =20
+@@ -47,5 +47,5 @@ index 84e429409..1a9585e8e 100755
+ -mkvenv=3D"$python ${source_path}/python/scripts/mkvenv.py"
+ +mkvenv=3Dtrue
+ =20
+- # Finish preparing the virtual environment using vendored .whl files
+-=20
++ # Finish preparing the virtual environment using vendored .whl files.
++ # Even if PyPI is allowed, we disallow it here to force installation
+diff --git a/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch b/=
+meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
+deleted file mode 100644
+index 524e20a3dd..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 475dbdbee7ff878d113f45a1a623e9abbf0e55f3 Mon Sep 17 00:00:00 2001
+-From: Natanael Copa <ncopa@alpinelinux.org>
+-Date: Wed, 18 Sep 2024 16:19:37 -0700
+-Subject: [PATCH] target/riscv/kvm: do not use non-portable strerrorname_=
+np()
+-
+-strerrorname_np is non-portable and breaks building with musl libc.
+-
+-Use strerror(errno) instead, like we do other places.
+-
+-Upstream-Status: Submitted [https://mail.gnu.org/archive/html/qemu-stabl=
+e/2023-12/msg00069.html]
+-
+-Cc: qemu-stable@nongnu.org
+-Fixes: commit 082e9e4a58ba (target/riscv/kvm: improve 'init_multiext_cfg=
+' error
+-msg)
+-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2041
+-Buglink: https://gitlab.alpinelinux.org/alpine/aports/-/issues/15541
+-Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
+----
+- target/riscv/kvm/kvm-cpu.c | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+-diff --git a/target/riscv/kvm/kvm-cpu.c b/target/riscv/kvm/kvm-cpu.c
+-index e06d2126b..e1cc02fba 100644
+---- a/target/riscv/kvm/kvm-cpu.c
+-+++ b/target/riscv/kvm/kvm-cpu.c
+-@@ -1994,8 +1994,7 @@ static bool kvm_cpu_realize(CPUState *cs, Error **=
+errp)
+-     if (riscv_has_ext(&cpu->env, RVV)) {
+-         ret =3D prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_ON=
+);
+-         if (ret) {
+--            error_setg(errp, "Error in prctl PR_RISCV_V_SET_CONTROL, co=
+de: %s",
+--                       strerrorname_np(errno));
+-+            error_setg(errp, "Error in prctl PR_RISCV_V_SET_CONTROL, er=
+ror %d", errno);
+-             return false;
+-         }
+-     }
+diff --git a/meta/recipes-devtools/qemu/qemu_10.2.0.bb b/meta/recipes-dev=
+tools/qemu/qemu_11.0.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu_10.2.0.bb
+rename to meta/recipes-devtools/qemu/qemu_11.0.0.bb
 --=20
-2.43.0
+2.49.0
 
 
