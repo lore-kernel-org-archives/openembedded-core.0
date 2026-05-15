@@ -2,72 +2,72 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A64CCD4F3C
-	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 02:34:45 +0000 (UTC)
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.26714.1778812483981428536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18312CD4F3C
+	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 02:37:35 +0000 (UTC)
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26838.1778812648754718672
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2026 19:34:44 -0700
+ Thu, 14 May 2026 19:37:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=dEfr+gab;
- spf=pass (domain: gmail.com, ip: 74.125.82.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2f7ca62a3c4so9144107eec.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 19:34:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=rU7DOHcK;
+ spf=pass (domain: gmail.com, ip: 74.125.82.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1332772f6b3so7903899c88.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2026 19:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778812483; x=1779417283; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1778812648; x=1779417448; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=xtpIQ8dyQux7SVPKrJrSlBq9/WW3zXM06w0PAf+h9IE=;
-        b=dEfr+gabAhfCQqTw7di/T4dzxUXZ8DG2F3CXTSb8/ZFtqHb8RZfEVWnz2xL7rNq7ll
-         5qZj0J6X0ivFCcCfz32SuPUDhZxxOcrcq+rFzTPcyupRbFR/EzbFEm86JR5xWT9Q7NPT
-         lqNwFPl4qoZdzBbfIAvUHIa48b2+zuWb2n7UmrxxeHD5qAL/cXdA9y/jggANhNdBCkwD
-         0NNYCvC6MBbLkAtAAQIqzubxLVbhqMrZPJ8fesa+9ScFpXd/nQzwQEO69VwV7xuRF4mg
-         BzwLVcnoVCwe/5TyLGPecn7VU9iH+TW6I4qfCPru+jaJALMgu5UlEDekDJrgiowxovmy
-         HMRA==
+        b=rU7DOHcKn5Io4WOXA3ROQzibGxsTdZbTFpHZ2g0lsJUZZK//erBkVrY6iSfFaeIJq+
+         IT1ef/s0RyOY8vHdK93UGohbc6dNXzLRwF2zvzurvFgHAOh7dLNVrjLzcFgjWkPqunGf
+         m5j9cTa3ByFa7MuuT2O3OVnC5ojI5qFnxvaA6EWLB7cbDAU4XV33gyaoLEaQBfpa1PYU
+         In9iK2NZvjtMr+JSLIv9Do3GjIPZTCOtGFFnics+lYM5ajzOA5AhVq2lhfoqrP6A50iC
+         IJNS3oSsbJKTwLvRJ0F6uuw3f1aMNaSfrly+bOA/Ul9f5rfA11xe/FfiYelu5fHKAGW1
+         KxrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778812483; x=1779417283;
+        d=1e100.net; s=20251104; t=1778812648; x=1779417448;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=xtpIQ8dyQux7SVPKrJrSlBq9/WW3zXM06w0PAf+h9IE=;
-        b=d5SLhsLyIDmf0zHA55oFHTASijD3n+DC3IqgTML/8oAcoLfs7d2t+jQJUsNuX+YIRf
-         QJSgbsZG0+Lhks6d0ZXMkeyq7Oxo8vgDs6qe2QOWvrAzjAd8oelUS5i78Sv4XGQqF1qK
-         FhPrX3Ykk8edI3WRRwxZ7CSkMY5XGimN1k4na/4d6aPyAFuWrFUWxFOwr5q5UKoJvhAX
-         DwtajPhGPRNHClLaijl9835b4+C0v0wIZlzFEQyOAABKVoyO98Q8bfCxuixmIm//9een
-         TapD3t8fCXXWGXYRr1v1wuYWRie63498UxdnPffMRGtHeCQg3336Ntokr8+MY51rmw3l
-         UtGA==
-X-Gm-Message-State: AOJu0YwdDlHQuAPd7X+Ik52+h0PP3Zcc15+URnYUrGjSxsU6t0SUj1+2
-	uxceXEbvYMeL0G6xS5j8us/HDF5DPget2r6BONU19QS7vFReV8xSjGWmliEcONQxbko=
-X-Gm-Gg: Acq92OFNamnFfYwtJvjXDoCf1DTHuvfm3G5LNZv7LJN3TYhzFtE4RR7zQO8AinvFawI
-	C/ChBoFuc/qQHnnBIfS8PZ/md5FGvGvEw/Qv5nIYiImd1QwZMVzaSXIre60bksAPGM7g5rLjjfm
-	qyrnHezMgZPHuCfZLv2xm0HLm1ovwfTwfg5QNzaIk2rc0gEYpJeYw/e35jsDs6AXtyybs4IWMbh
-	kA60FuZrNHMMVfBBZPHzCfLekNcEbDpAP8l1jGDqaEsdYiML72DsDiplJ+7rC8j89I/jCag8D3C
-	nNeNUKr+FqNP9PVXX19r6vURQBRKqznJevfSO6EHrWdd/ZLijYjLUD6GjySwbwBYk1ACcv/Ud7H
-	SmoCX0SF9YaI1dDDAjjWbXchoYeHFb+CU+GzaSliLAOzepH7+agqaviWm82+cs377VVHPbWigul
-	D2IaZt6LALzoBtmauJlLC6/ie2JqrJufg2e4rQ+fijcper/rncAOLTyFMdTTAJLeFJbMJ4i+YBC
-	8ohczrrJ4BjgnMS4nM+0w7HQGXRzQunB59t3OYdygMUpX6UJkmg4FaiNjxMLClqQik7qqTj27KX
-	+nC7jUfcUPT5kVqlZP7UxyNmkhFKRAu/KdqjGRhxVLtL3efuUqg=
-X-Received: by 2002:a05:7300:fd16:b0:2f2:6dde:df66 with SMTP id 5a478bee46e88-3039868c86cmr1021854eec.22.1778812482939;
-        Thu, 14 May 2026 19:34:42 -0700 (PDT)
+        b=Rdr/BdTbRgiBLUwVAAjxqqGglvCn5CHPxHUVDrVOdAqMJYa9Llp65oitWk2LtCgeZy
+         5UWOHrnGMHCHxsZnOeVDXLuOgf5WEFW04nj05l7xwFKuqhHRyvtbTmZR11wLm1Jh9vzU
+         9/IH+PpIsiluRBIcxq1lZUnzFeLVT/Ef+zR58HTmOnTsLaIOC1MQ7hEguCmsdlpB27Ag
+         nwPOGrgwahlMec7efpOxACMPSw75G2Udor46VrwJzGQnYSz1pA9wPvtqBwmPrJpr7uH5
+         He3QU3eIfPVa/VqfWamrVztq2WuKfeKlVQv9W0e6wXLKVTTwQreekfVijfT+goRmt8lI
+         Ls4Q==
+X-Gm-Message-State: AOJu0Yy2r+RK/ILemAGgUTZilnZmp8pgIU285sQu6HgYTKZz+4w95V/B
+	6KFO+UiFzaMJ7MOLqp3UJBZBafVg0SJLtnaIAgXCbmdO4Re1YmyAi4sNmCYJRn77gx8=
+X-Gm-Gg: Acq92OHdiuZkhu8Q40UmdX6AFEDjorTStphcmVt1Mp879SlbKU2XdcftcbBUnzAdH+Q
+	J+h41NHNsAILXQTTAjZrwuqxWv+MFh8sQiYTiznMdGcV/3138dYE23wUOL9jKFzyFxJYYqatyYh
+	If2ug1Emx3I2VpoTqCoERqnI2CAozoNljoXHoasCe/xbPv3aa4PXsaqw0ULsyUYH7tBhzY5LUIz
+	yfyYHjFr7xSzrvnOtwdvjC1PrIuJxyTdMKGXcqG/u4LyYhIcFj5tGXGpwob0Re7+MENad2QutQM
+	D5yp7y7SeFea++nFo7gEvycCiVo3sIVSjaBz0+YSnG/DazCAa+cy4OV2IZwvrXVn1ZRnA4FkLjz
+	fr+ZvDBG32YJ+/NUtBBRPVpRD/XKFg4mxbAAsmClyE/ameoUEKGaWL5V/pDhzYxpKjTufC7Njg6
+	MGBtiJ0Y8T0AOxiH4101zHqfJDZeu14OO499Ai0z7HTE2jMLp0Px+gIGkVy8hHskNledg1fcKgt
+	L6K+pDns4C2q7WckOmFOZjg7d9lOkPYdQpRcU7MuZo47Cm7zdOptnModGhaVG5sIojrORElhR6H
+	38v1lHHVkm/x/9pVjcFR0yW2IsHFv9GY1ghBasJC
+X-Received: by 2002:a05:7022:619f:b0:132:2486:b47 with SMTP id a92af1059eb24-1350430e63fmr839956c88.3.1778812647586;
+        Thu, 14 May 2026 19:37:27 -0700 (PDT)
 Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcc464sm5682872eec.14.2026.05.14.19.34.41
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbcb9ef5sm7034405c88.2.2026.05.14.19.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 19:34:42 -0700 (PDT)
+        Thu, 14 May 2026 19:37:26 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <khem.raj@oss.qualcomm.com>
 Subject: [PATCH] python3-uv-build: Update python3-uv-build from 0.11.8 to 0.11.14
-Date: Thu, 14 May 2026 19:34:39 -0700
-Message-ID: <20260515023439.1379139-1-khem.raj@oss.qualcomm.com>
+Date: Thu, 14 May 2026 19:37:24 -0700
+Message-ID: <20260515023724.1380806-1-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 02:34:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237061
+ <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 02:37:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237062
 
 Notable fixes
 - packaging-related changes include fixing editable builds to include data files
