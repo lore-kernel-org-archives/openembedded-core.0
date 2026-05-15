@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C5A1CD343F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48302CD4F4A
 	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:33 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.34763.1778851231778229599
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34762.1778851231560523614
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 May 2026 06:20:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=g712qMbu;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tTeYXVWZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019e2bcbb5c8-bd568206-9476-46f9-b3ab-bfce65039e24-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=iSPv1/yG;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SaODF92y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019e2bcbb4ba-7a5d5879-1dea-4e15-af86-296ae04b4729-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1778851231;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nXcEnqIGmLSGRCyYC0meGydwdvNiSnK5irO1xyisd+8=;
-	b=g712qMbu96BzU0Dbu2o6JVQxlEAZcugQ4Tr1ykb6mDcr+LwSSL1lCLVKh+zS8pPi
-	VgHt3S2wMydySNn381OLM8i8ufBvBmHbIqYwRSjO0VcdHsvyi14DuZDNoev9LDQCE0P
-	/Tz4ao+lC757W7UJqqcWGMnh5KlBJvCtlpu4TJRw=
+	bh=h6v9ekyLf9Mrvvd20ejBXOAVkQqDzplBYMfxCI8FN7c=;
+	b=iSPv1/yGbAOfhJitdmp83ysO9LJ2mi6M4xRGqbz7pUxkAxKBijZhFab9Lhn8xkSp
+	dDwb4HEMTHhdESG+zUsTpSPWObthN+6ICn+qj6vfibWfEfPKDbGmURNf123KxtmuQ6D
+	0IxCpDgUcUDT39Zr8mIPklrOrY6q4qJBXKl2DffA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851231;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nXcEnqIGmLSGRCyYC0meGydwdvNiSnK5irO1xyisd+8=;
-	b=tTeYXVWZkJd0nDSi8SZamMFz1WGZgBYk64iFXx9fpYeee15tDFuQc/7xs1dkzwDh
-	yO06JJdL54Z1rlpRQ7nYR8CknERDI4YW8ZFqzohD/2t4MMHyd6TbTy/Weos0KUBGYYu
-	ZfaS9WYaZ9bQSlqklv1Zlg0VxPIMYlqQGwOBAPVg=
-Content-Type: multipart/mixed; boundary="===============4974019278205786268=="
+	bh=h6v9ekyLf9Mrvvd20ejBXOAVkQqDzplBYMfxCI8FN7c=;
+	b=SaODF92ymN9Kr/B/mLFqYLsNe8CSwN5MZ7msvddzVQ0h/9fhk65/G2BrGXLYltNv
+	tz4ajzShRqFQoVPBp4pLBN3FNPEG8ELfjAt8aB5XDzbwo4kSMuk7oNG1+a+phQ7OTKz
+	w0BFfbnUxRXJyYWbF+UlIOdKx3aOlp8ZfYs+JFNA=
+Content-Type: multipart/mixed; boundary="===============6163226177358301298=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-packaging: upgrading to 26.2 SUCCEEDED
-Message-ID: <0101019e2bcbb5c8-bd568206-9476-46f9-b3ab-bfce65039e24-000000@us-west-2.amazonses.com>
-Date: Fri, 15 May 2026 13:20:31 +0000
+Subject: [AUH] python3-pdm: upgrading to 2.26.9 SUCCEEDED
+Message-ID: <0101019e2bcbb4ba-7a5d5879-1dea-4e15-af86-296ae04b4729-000000@us-west-2.amazonses.com>
+Date: Fri, 15 May 2026 13:20:30 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.05.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237117
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237115
 
---===============4974019278205786268==
+--===============6163226177358301298==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-packaging* to *26.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.26.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-packaging-upgrade-26.0-26.2.patch
+    - apply the patch: git am 0001-python3-pdm-upgrade-2.26.8-2.26.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,145 +72,118 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b121122fb2b01c58557203d7f37a6ac6ec881ead Mon Sep 17 00:00:00 2001
+From e0b544c5a733ca9d72a81895dd248b415ebe7157 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 May 2026 08:39:14 +0000
-Subject: [PATCH] python3-packaging: upgrade 26.0 -> 26.2
+Date: Fri, 15 May 2026 08:42:32 +0000
+Subject: [PATCH] python3-pdm: upgrade 2.26.8 -> 2.26.9
 
 ---
- .../{python3-packaging_26.0.bb => python3-packaging_26.2.bb}    | 2 +-
+ .../python/{python3-pdm_2.26.8.bb => python3-pdm_2.26.9.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-packaging_26.0.bb => python3-packaging_26.2.bb} (94%)
+ rename meta/recipes-devtools/python/{python3-pdm_2.26.8.bb => python3-pdm_2.26.9.bb} (80%)
 
-diff --git a/meta/recipes-devtools/python/python3-packaging_26.0.bb b/meta/recipes-devtools/python/python3-packaging_26.2.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-packaging_26.0.bb
-rename to meta/recipes-devtools/python/python3-packaging_26.2.bb
-index ff45cb5133..1e4c0a6bd3 100644
---- a/meta/recipes-devtools/python/python3-packaging_26.0.bb
-+++ b/meta/recipes-devtools/python/python3-packaging_26.2.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/packaging"
- LICENSE = "Apache-2.0 | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
+diff --git a/meta/recipes-devtools/python/python3-pdm_2.26.8.bb b/meta/recipes-devtools/python/python3-pdm_2.26.9.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-pdm_2.26.8.bb
+rename to meta/recipes-devtools/python/python3-pdm_2.26.9.bb
+index 91fcc6a5af..51f9284a92 100644
+--- a/meta/recipes-devtools/python/python3-pdm_2.26.8.bb
++++ b/meta/recipes-devtools/python/python3-pdm_2.26.9.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ SECTION = "devel/python"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
  
--SRC_URI[sha256sum] = "00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4"
-+SRC_URI[sha256sum] = "ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661"
+-SRC_URI[sha256sum] = "f53a20b4b6beaa88da577a7413ebbb51bee534441339b006dba2260edbc81757"
++SRC_URI[sha256sum] = "6f7279b5e54b2948db3dcc1495197e9d0b2c8643e8159cc835e22d8f9af083b5"
  
- SRC_URI += "file://run-ptest.in"
+ inherit pypi python_pdm
  
 -- 
 2.47.1
 
 
---===============4974019278205786268==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-packaging-upgrade-26.0-26.2.patch"
-
-RnJvbSBiMTIxMTIyZmIyYjAxYzU4NTU3MjAzZDdmMzdhNmFjNmVjODgxZWFkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWF5IDIwMjYgMDg6Mzk6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBhY2thZ2luZzogdXBncmFkZSAyNi4wIC0+IDI2LjIKCi0tLQogLi4uL3tweXRob24z
-LXBhY2thZ2luZ18yNi4wLmJiID0+IHB5dGhvbjMtcGFja2FnaW5nXzI2LjIuYmJ9ICAgIHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wYWNrYWdpbmdfMjYuMC5iYiA9
-PiBweXRob24zLXBhY2thZ2luZ18yNi4yLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYWNrYWdpbmdfMjYuMC5iYiBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYWNrYWdpbmdfMjYuMi5iYgpzaW1pbGFyaXR5
-IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtcGFja2FnaW5nXzI2LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1wYWNrYWdpbmdfMjYuMi5iYgppbmRleCBmZjQ1Y2I1MTMzLi4xZTRjMGE2YmQz
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGFja2Fn
-aW5nXzI2LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBh
-Y2thZ2luZ18yNi4yLmJiCkBAIC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1
-Yi5jb20vcHlwYS9wYWNrYWdpbmciCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAgfCBCU0QtMi1DbGF1
-c2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1mYWFkYWVkY2E5MjUx
-YTkwYjIwNWM5MTY3NTc4Y2U5MSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAwMjQzYWUzNTFh
-MjU3MTE3YjZhMjQxMDYxNzk2Njg0YjA4NGVkMWM1MTZhMDhjNDhhM2Y3ZTE0N2E5ZDgwYjQiCitT
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiZmY0NTJmZjVhM2U4MjhjZTExMDE5MGZlZmYxMTc4YmIxZjJl
-YTIyODFmYTIwNzVhYWRiOTg3YzJmYjIyMTY2MSIKIAogU1JDX1VSSSArPSAiZmlsZTovL3J1bi1w
-dGVzdC5pbiIKIAotLSAKMi40Ny4xCgo=
-
---===============4974019278205786268==
+--===============6163226177358301298==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/all-poky-linux/ca-certificates/ca-certificates-dev: FILES: removed "/lib/*.la /lib/lib*.so /lib/*.o"
-packages/all-poky-linux/ca-certificates/ca-certificates-staticdev: FILES: removed "/lib/*.a"
-packages/all-poky-linux/ca-certificates/ca-certificates: FILES: removed "/bin/* /lib/*.so.* /sbin/*", added "/usr/lib/*.so.*"
-packages/all-poky-linux/tzdata/tzdata: FILES: removed "/bin/* /lib/*.so.* /sbin/*", added "/usr/lib/*.so.*"
-packages/x86-64-v3-poky-linux/python3-packaging: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/packaging/packaging-26.0.tar.gz;downloadfilename=packaging-26.0.tar.gz file://run-ptest.in" to "https://files.pythonhosted.org/packages/source/p/packaging/packaging-26.2.tar.gz;downloadfilename=packaging-26.2.tar.gz file://run-ptest.in"
-packages/x86-64-v3-poky-linux/python3-packaging: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-dbg: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-dbg: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-dev: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-dev: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-doc: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-doc: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-locale: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-locale: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: FILELIST: removed "/usr/lib/python3-packaging/ptest/tests/test_structures.py", added "/usr/lib/python3-packaging/ptest/tests/test_direct_url.py /usr/lib/python3-packaging/ptest/tests/property/test_version_normalization.py /usr/lib/python3-packaging/ptest/tests/property/test_specifier_matching.py /usr/lib/python3-packaging/ptest/tests/property/strategies.py /usr/lib/python3-packaging/ptest/tests/test_dependency_groups.py /usr/lib/python3-packaging/ptest/tests/conftest.py /usr/lib/python3-packaging/ptest/tests/property/test_version_format.py /usr/lib/python3-packaging/ptest/tests/property/test_version_ordering.py /usr/lib/python3-packaging/ptest/tests/test_pylock_select.py /usr/lib/python3-packaging/ptest/tests/property/test_specifier_comparison.py /usr/lib/python3-packaging/ptest/tests/test_errors.py /usr/lib/python3-packaging/ptest/tests/property/__init__.py /usr/lib/python3-packaging/ptest/tests/property/test_s
- pecifier_extended.py /usr/lib/python3-packaging/ptest/tests/property/test_specifier_implied.py /usr/lib/python3-packaging/ptest/tests/property/test_version_releases.py"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: PKGSIZE changed from 311714 to 651821 (+109%)
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-src: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-src: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-staticdev: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-staticdev: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: PV changed from "26.0" to "26.2"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: FILELIST: directory renamed /usr/lib/python3.14/site-packages/packaging-26.0.dist-info -> /usr/lib/python3.14/site-packages/packaging-26.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/packaging-26.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/packaging-26.2.dist-info/licenses, added "/usr/lib/python3.14/site-packages/packaging/errors.py /usr/lib/python3.14/site-packages/packaging/direct_url.py /usr/lib/python3.14/site-packages/packaging/dependency_groups.py /usr/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc /usr/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc /usr/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: PKGV changed from 26.0 [default] to 26.2 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: PKGSIZE changed from 602735 to 835406 (+39%)
-Changes to packages/x86-64-v3-poky-linux/python3-packaging (sysroot):
-  /usr/lib/python3.14/site-packages/packaging-26.0.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.2.dist-info
-  /usr/lib/python3.14/site-packages/packaging/dependency_groups.py was added
-  /usr/lib/python3.14/site-packages/packaging/direct_url.py was added
-  /usr/lib/python3.14/site-packages/packaging/errors.py was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc was added
+packages/x86-64-v3-poky-linux/python3-pdm: PKGV changed from 2.26.8 [default] to 2.26.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.26.8.tar.gz;downloadfilename=pdm-2.26.8.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.26.9.tar.gz;downloadfilename=pdm-2.26.9.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pdm: PV changed from "2.26.8" to "2.26.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.26.8" to "2.26.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.26.8 [default] to 2.26.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.26.8" to "2.26.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.26.8 [default] to 2.26.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.26.8" to "2.26.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.26.8 [default] to 2.26.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.26.8" to "2.26.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.26.8 [default] to 2.26.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.26.8" to "2.26.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.26.8 [default] to 2.26.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.26.8" to "2.26.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.26.8 [default] to 2.26.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PV changed from "2.26.8" to "2.26.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2500151 to 2503106 (+0%)
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pdm-2.26.8.dist-info/licenses -> /usr/lib/python3.14/site-packages/pdm-2.26.9.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pdm-2.26.8.dist-info -> /usr/lib/python3.14/site-packages/pdm-2.26.9.dist-info
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.26.8 [default] to 2.26.9 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
+  /usr/lib/python3.14/site-packages/pdm-2.26.8.dist-info moved to /usr/lib/python3.14/site-packages/pdm-2.26.9.dist-info
 Changes to packages/x86_64-linux/python3-packaging-native (sysroot):
-  /usr/lib/python3.14/site-packages/packaging-26.0.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.2.dist-info
-  /usr/lib/python3.14/site-packages/packaging/dependency_groups.py was added
-  /usr/lib/python3.14/site-packages/packaging/direct_url.py was added
-  /usr/lib/python3.14/site-packages/packaging/errors.py was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/packaging-26.2.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.0.dist-info
+  /usr/lib/python3.14/site-packages/packaging/dependency_groups.py was removed
+  /usr/lib/python3.14/site-packages/packaging/direct_url.py was removed
+  /usr/lib/python3.14/site-packages/packaging/errors.py was removed
+  /usr/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc was removed
 
---===============4974019278205786268==
+--===============6163226177358301298==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: PKGSIZE changed from 311714 to 651821 (+109%)
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: FILELIST: removed "/usr/lib/python3-packaging/ptest/tests/test_structures.py", added "/usr/lib/python3-packaging/ptest/tests/property/test_specifier_implied.py /usr/lib/python3-packaging/ptest/tests/property/test_version_releases.py /usr/lib/python3-packaging/ptest/tests/property/__init__.py /usr/lib/python3-packaging/ptest/tests/test_errors.py /usr/lib/python3-packaging/ptest/tests/property/test_specifier_matching.py /usr/lib/python3-packaging/ptest/tests/property/test_version_ordering.py /usr/lib/python3-packaging/ptest/tests/property/test_specifier_extended.py /usr/lib/python3-packaging/ptest/tests/test_pylock_select.py /usr/lib/python3-packaging/ptest/tests/property/test_version_format.py /usr/lib/python3-packaging/ptest/tests/property/test_specifier_comparison.py /usr/lib/python3-packaging/ptest/tests/property/strategies.py /usr/lib/python3-packaging/ptest/tests/conftest.py /usr/lib/python3-packaging/ptest/
- tests/test_dependency_groups.py /usr/lib/python3-packaging/ptest/tests/property/test_version_normalization.py /usr/lib/python3-packaging/ptest/tests/test_direct_url.py"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: PKGSIZE changed from 602735 to 835406 (+39%)
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: FILELIST: directory renamed /usr/lib/python3.14/site-packages/packaging-26.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/packaging-26.2.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/packaging-26.0.dist-info -> /usr/lib/python3.14/site-packages/packaging-26.2.dist-info, added "/usr/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc /usr/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc /usr/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc /usr/lib/python3.14/site-packages/packaging/dependency_groups.py /usr/lib/python3.14/site-packages/packaging/direct_url.py /usr/lib/python3.14/site-packages/packaging/errors.py"
-Changes to packages/x86-64-v3-poky-linux/python3-packaging (sysroot):
-  /usr/lib/python3.14/site-packages/packaging-26.0.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.2.dist-info
-  /usr/lib/python3.14/site-packages/packaging/dependency_groups.py was added
-  /usr/lib/python3.14/site-packages/packaging/direct_url.py was added
-  /usr/lib/python3.14/site-packages/packaging/errors.py was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc was added
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pdm-2.26.8.dist-info/licenses -> /usr/lib/python3.14/site-packages/pdm-2.26.9.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pdm-2.26.8.dist-info -> /usr/lib/python3.14/site-packages/pdm-2.26.9.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
+  /usr/lib/python3.14/site-packages/pdm-2.26.8.dist-info moved to /usr/lib/python3.14/site-packages/pdm-2.26.9.dist-info
 Changes to packages/x86_64-linux/python3-packaging-native (sysroot):
-  /usr/lib/python3.14/site-packages/packaging-26.0.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.2.dist-info
-  /usr/lib/python3.14/site-packages/packaging/dependency_groups.py was added
-  /usr/lib/python3.14/site-packages/packaging/direct_url.py was added
-  /usr/lib/python3.14/site-packages/packaging/errors.py was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/packaging-26.2.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.0.dist-info
+  /usr/lib/python3.14/site-packages/packaging/dependency_groups.py was removed
+  /usr/lib/python3.14/site-packages/packaging/direct_url.py was removed
+  /usr/lib/python3.14/site-packages/packaging/errors.py was removed
+  /usr/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc was removed
 
---===============4974019278205786268==--
+--===============6163226177358301298==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pdm-upgrade-2.26.8-2.26.9.patch"
+
+RnJvbSBlMGI1NDRjNWE3MzNjYTlkNzJhODE4OTVkZDI0OGI0MTVlYmU3MTU3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgTWF5IDIwMjYgMDg6NDI6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXBkbTogdXBncmFkZSAyLjI2LjggLT4gMi4yNi45CgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtcGRtXzIuMjYuOC5iYiA9PiBweXRob24zLXBkbV8yLjI2LjkuYmJ9ICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcGRtXzIuMjYuOC5iYiA9PiBweXRo
+b24zLXBkbV8yLjI2LjkuYmJ9ICg4MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjguYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtcGRtXzIuMjYuOS5iYgpzaW1pbGFyaXR5IGluZGV4IDgwJQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjYuOC5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2Ljku
+YmIKaW5kZXggOTFmY2M2YTVhZi4uNTFmOTI4NGE5MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjguYmIKKysrIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjkuYmIKQEAgLTQsNyArNCw3IEBAIExJ
+Q0VOU0UgPSAiTUlUIgogU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFO21kNT0yZWIzMWEyY2MxYTc1OGMzNGI0OTlmMjg3ZGQwNGVmMiIK
+IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImY1M2EyMGI0YjZiZWFhODhkYTU3N2E3NDEzZWJiYjUx
+YmVlNTM0NDQxMzM5YjAwNmRiYTIyNjBlZGJjODE3NTciCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+NmY3Mjc5YjVlNTRiMjk0OGRiM2RjYzE0OTUxOTdlOWQwYjJjODY0M2U4MTU5Y2M4MzVlMjJkOGY5
+YWYwODNiNSIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9wZG0KIAotLSAKMi40Ny4xCgo=
+
+--===============6163226177358301298==--
 
