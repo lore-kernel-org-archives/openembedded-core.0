@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 946B6CD4851
-	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:47 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34837.1778851237013082504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3093CCD4F4B
+	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:48 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34819.1778851226675266815
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 May 2026 06:20:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=or32Lsuo;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nW13wZ5e;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019e2bcbca4e-38bbc8ab-155f-4e72-ae64-d0d8671eca22-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=inQvz7y3;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PiswNANO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019e2bcbcc4f-cf12172b-a64d-494d-a4bd-1d8478973fd9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1778851236;
+	t=1778851237;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=josUZqjvZN9gvFSHzWpoKBiulW4cQkOMayEWqiJdemQ=;
-	b=or32LsuolcJUltdPGjGKk2u3Q+EFYhm2a8D+eD/S0VmQrLaBZlbwXbmNBiQtiA2i
-	i24+j7/xYsclRMmn/DXFCg1SVUcbidP4XYeRwCqwmKJTXMlV7arJ5VJhsOMlXmHcHxu
-	6TCydDpGLxnrw//F7xVJf95r0mhi6KMqKotMlQeE=
+	bh=gF5qKJ3uOdNLMenOAZVEdf0Nf4Tj3rK+GWKiERV1b6A=;
+	b=inQvz7y3cRKjeAaVpnph1L6JFCIO8JABy/WbbWkj+R/8Yo9gUQ0DL1UH9sHr5IgT
+	zv7NJK8ACrU46SCtzA7x8fVNrVWmAKTfAJuSQ1XRZSPq719dTvjEFU1w/11snrEc0S0
+	ew39hfRValRpCfuyn4M5bACcsz10reCf96o02nOA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851236;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851237;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=josUZqjvZN9gvFSHzWpoKBiulW4cQkOMayEWqiJdemQ=;
-	b=nW13wZ5ejYXUmQVPi4Uy3vn+WpX7D9LpBtyMmv5LXDTHO1Em2LcgFQbHYYB1C/X5
-	ghb9Q3Z1r+m/GosWcX3YY4vBa+hOJg3ABn422tNMUjrcbTiT/AZQtbyDmXr0cEm9QXa
-	HyNGBd7x3OfbUZVhdVKS/+4cIqwRuPtgBwSJ8Ots=
-Content-Type: multipart/mixed; boundary="===============5107917764796809308=="
+	bh=gF5qKJ3uOdNLMenOAZVEdf0Nf4Tj3rK+GWKiERV1b6A=;
+	b=PiswNANOQJHPMbBcKq7cWNc5Njop0audhzzp4FQb9R/tkSsx692abMIOf8CEGNqx
+	npkAPceaKRS6fEEoWkGNj2xE6jkDk4uxEM8TJuDGYaD5noQkSHuMhitwUa22ByCaolM
+	+1AP0GAi5a4tiMAwPE7e2JZA5UcuY8cfs3crLWVo=
+Content-Type: multipart/mixed; boundary="===============6664119592674206564=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] man-pages: upgrading to 6.18 FAILED
-Message-ID: <0101019e2bcbca4e-38bbc8ab-155f-4e72-ae64-d0d8671eca22-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] gtk-doc: upgrading to 1.36.1 FAILED
+Message-ID: <0101019e2bcbcc4f-cf12172b-a64d-494d-a4bd-1d8478973fd9-000000@us-west-2.amazonses.com>
 Date: Fri, 15 May 2026 13:20:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.15-54.240.27.33
+X-SES-Outgoing: 2026.05.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237133
+ <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237135
 
---===============5107917764796809308==
+--===============6664119592674206564==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *man-pages* to *6.18* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *gtk-doc* to *1.36.1* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade man-pages -V 6.18
+The following devtool command failed:  upgrade gtk-doc -V 1.36.1
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 949 .bb files complete (0 cached, 949 parsed). 1974 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -71,18 +72,18 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-760240d28394e4046c96fcf8070c35f21b9b7a45"
+DISTRO_VERSION       = "6.0.99+snapshot-47e1e7853cf969788b8f558513639e2e71ef1b04"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:760240d28394e4046c96fcf8070c35f21b9b7a45"
+meta                 = "tmp-auh-upgrades:47e1e7853cf969788b8f558513639e2e71ef1b04"
 meta-yocto-bsp       
 meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 Loading cache...done.
@@ -99,48 +100,37 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-760240d28394e4046c96fcf8070c35f21b9b7a45"
+DISTRO_VERSION       = "6.0.99+snapshot-47e1e7853cf969788b8f558513639e2e71ef1b04"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:760240d28394e4046c96fcf8070c35f21b9b7a45"
+meta                 = "tmp-auh-upgrades:47e1e7853cf969788b8f558513639e2e71ef1b04"
 meta-yocto-bsp       
 meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
 
 INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 INFO: Extracting upgraded version source...
-INFO: Fetching https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-6.18.tar.gz...
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 352, in <module>
-    ret = main()
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 338, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/upgrade.py", line 592, in upgrade
-    rev2, checksums, srcbranch, srcsubdir2 = _extract_new_source(args.version, srctree, args.no_patch,
-                                             ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                                            args.srcrev, args.srcbranch, args.branch, args.keep_temp,
-                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                                            tinfoil, rd)
-                                            ^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/upgrade.py", line 239, in _extract_new_source
-    shutil.rmtree(itempath)
-    ~~~~~~~~~~~~~^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/python3.13/shutil.py", line 763, in rmtree
-    _rmtree_safe_fd(stack, onexc)
-    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/python3.13/shutil.py", line 707, in _rmtree_safe_fd
-    onexc(func, path, err)
-    ~~~~~^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/python3.13/shutil.py", line 676, in _rmtree_safe_fd
-    raise OSError("Cannot call rmtree on a symbolic link")
-OSError: [Errno None] None: '/srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/man-pages/man7'
+INFO: Fetching https://download.gnome.org/sources//gtk-doc/1.36/gtk-doc-1.36.1.tar.xz;name=archive...
+INFO: Rebasing devtool onto cac26814c78f26fd24269ff35d75925c545d7a76
+WARNING: Command 'git rebase cac26814c78f26fd24269ff35d75925c545d7a76' failed:
+CONFLICT (modify/delete): configure.ac deleted in HEAD and modified in abfe43e (Do not error out if xsltproc is not found.).  Version abfe43e (Do not error out if xsltproc is not found.) of configure.ac left in tree.
+
+INFO: Rebasing devtool-override-class-native onto cac26814c78f26fd24269ff35d75925c545d7a76
+ERROR: Execution of 'git checkout devtool-override-class-native' failed with exit code 1:
+error: you need to resolve your current index first
+configure.ac: needs merge
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -148,5 +138,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5107917764796809308==--
+--===============6664119592674206564==--
 
