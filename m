@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 647D7CD4F53
-	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:49 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34829.1778851231040779576
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A71FCD5BBC
+	for <webhook@archiver.kernel.org>; Fri, 15 May 2026 13:20:50 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34771.1778851241539642875
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 May 2026 06:20:43 -0700
+ Fri, 15 May 2026 06:20:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OMtvxt/1;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kKHKpHEQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019e2bcbe3a5-62423fa1-5ec7-44db-911f-fb618f854281-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=uvdQ6jnY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Pq3y4fk1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019e2bcbdbb1-8e6ae1d7-6245-411a-b13d-5c1f05d6c424-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1778851243;
+	t=1778851241;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dWbY/cxUw6nh0BSBSDo6aiKJBEf5Efdjqy2jidYRaUo=;
-	b=OMtvxt/1aMdK1I6dNfLlkNTV1p0+oDePnk0wpfGctbyKwJDcEE6d/e1ufvEZH/Hp
-	YK9vUuPwARrCTsC/nrkJwrZjQGnXUddaWyO0NR9XTIji3ew+KvFWm5vxuUv9q9BORgP
-	RgSK+7HgBMf2pN6iEpRJj6sEvi6oAAG1H3giN/Ow=
+	bh=FvBRbwtEVirrPF8SCOSbRi7R46vvygcg8CdGncaWnrg=;
+	b=uvdQ6jnYpZL//JaIVZ9+qZKizos20mKV5Jxtgqr6sGdD5Np7dzjdo2i5dac+br8I
+	s+81nO3ebAl02pD/v4yDGge7Zksw1TvE8AOi5MWlj+X9XwxI9Wbmc29pAwAlRo+SkHW
+	j2JmuGDe1ZX70Pr9Np54n0wOESJl1OoXYHl9j02k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851243;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1778851241;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dWbY/cxUw6nh0BSBSDo6aiKJBEf5Efdjqy2jidYRaUo=;
-	b=kKHKpHEQYsOAXK8NGgQ8vYHcZ1e+H0W6mBbDlK6SBAtirPcRjcq06Xt4w3CqWWc1
-	s3Pn4PU93faYuiWgrTy23bpPgGU6rX9f+F3+9KmOtSLYzdMEPNqYmGvvy4auJGLCYRO
-	vLfgSg0PUuUfLrsIe0LTMOgJ6aVB7uUxVOsZaRCM=
-Content-Type: multipart/mixed; boundary="===============7519247310461130470=="
+	bh=FvBRbwtEVirrPF8SCOSbRi7R46vvygcg8CdGncaWnrg=;
+	b=Pq3y4fk1eXs9ygnCTSUNm6m7MjxYjb6u9Qij5Md572qe/d1kqSiw3E5iXSm22zlz
+	6NcgEvWb1qBHEJSio7BBSzPnWpksHG4v3z/wfQqAQ84fsPifas+XsEJl1nnpbTukrf3
+	5LxlbAJ3hu4OmpGx/pNoXMjoaSJuXiM0mUPRRwVo=
+Content-Type: multipart/mixed; boundary="===============6158276990936724135=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changqing Li <changqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libfyaml: upgrading to 0.9.6 FAILED
-Message-ID: <0101019e2bcbe3a5-62423fa1-5ec7-44db-911f-fb618f854281-000000@us-west-2.amazonses.com>
-Date: Fri, 15 May 2026 13:20:42 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] webkitgtk: upgrading to 2.52.3 FAILED
+Message-ID: <0101019e2bcbdbb1-8e6ae1d7-6245-411a-b13d-5c1f05d6c424-000000@us-west-2.amazonses.com>
+Date: Fri, 15 May 2026 13:20:40 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.15-54.240.27.191
+X-SES-Outgoing: 2026.05.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237167
+ <openembedded-core@lists.openembedded.org>; Fri, 15 May 2026 13:20:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237159
 
---===============7519247310461130470==
+--===============6158276990936724135==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,762 +51,276 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libfyaml* to *0.9.6* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *webkitgtk* to *2.52.3* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-libfyaml-upgrade-0.9.4-0.9.6.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From b82e36a63ce4754490606e8d1f071e0cfab79d35 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 May 2026 12:29:21 +0000
-Subject: [PATCH] libfyaml: upgrade 0.9.4 -> 0.9.6
-
----
- .../libfyaml/{libfyaml_0.9.4.bb => libfyaml_0.9.6.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libfyaml/{libfyaml_0.9.4.bb => libfyaml_0.9.6.bb} (83%)
-
-diff --git a/meta/recipes-support/libfyaml/libfyaml_0.9.4.bb b/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb
-similarity index 83%
-rename from meta/recipes-support/libfyaml/libfyaml_0.9.4.bb
-rename to meta/recipes-support/libfyaml/libfyaml_0.9.6.bb
-index 77fe0a15b0..b48cc4efcd 100644
---- a/meta/recipes-support/libfyaml/libfyaml_0.9.4.bb
-+++ b/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=6399094fbc639a289cfca2d660c010aa"
- 
- GITHUB_BASE_URI = "https://github.com/pantoniou/libfyaml"
- SRC_URI = "${GITHUB_BASE_URI}/releases/download/v${PV}/libfyaml-${PV}.tar.gz"
--SRC_URI[sha256sum] = "dac2b0af7b757b32a4fa7c6493d85d0f7dea6effd20ae4352570b6a450b9e5fb"
-+SRC_URI[sha256sum] = "a59cc3331e2eb903ec36933ad52a45888041cac31e44f553a00511131242c483"
- 
- inherit autotools pkgconfig github-releases
- 
--- 
-2.47.1
-
-
---===============7519247310461130470==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
+Running 'devtool upgrade' for recipe webkitgtk failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 949 .bb files complete (0 cached, 949 parsed). 1974 targets, 62 skipped, 0 masked, 0 errors.
+Parsing of 949 .bb files complete (0 cached, 949 parsed). 1974 targets, 40 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.19.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-musleabi"
-MACHINE              = "qemuarm"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-69eed4b7be6cae22bfc360d056d40fd03f609018"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-meta                 = "tmp-auh-upgrades:69eed4b7be6cae22bfc360d056d40fd03f609018"
+DISTRO_VERSION       = "6.0.99+snapshot-85337c6dd4a53b53884ba17677b6e1b985675b19"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:85337c6dd4a53b53884ba17677b6e1b985675b19"
 meta-yocto-bsp       
 meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 139 Local 128 Mirrors 0 Missed 11 Current 219 (92% match, 96% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 227 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 293 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 303 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 304 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 305 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe libfyaml-0.9.6-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 306 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 853 of 1000 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_fetch)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 307 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 309 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 310 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 312 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 313 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libfyaml-0.9.6-r0: task do_fetch: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_fetch: Succeeded
-NOTE: Running task 854 of 1000 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_unpack)
-NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 319 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libfyaml-0.9.6-r0: task do_unpack: Succeeded
-NOTE: Running task 860 of 1000 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_patch)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 321 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_patch: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running task 878 of 1000 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_create_recipe_spdx)
-NOTE: recipe libfyaml-0.9.6-r0: task do_patch: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 331 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 332 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 879 of 1000 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_create_recipe_spdx: Started
-NOTE: Running setscene task 334 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libfyaml-0.9.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 336 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 337 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
-NOTE: Running setscene task 338 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: recipe libfyaml-0.9.6-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 339 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 340 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 345 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 350 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 351 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 352 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 354 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 356 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 358 of 358 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 984 of 1000 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libfyaml-0.9.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_deploy_source_date_epoch unihash changed to b99541e0a5bd9ca82e602ad62f51d96e6836b684ad9309f655fcb104bc412b5f
-NOTE: Setscene tasks completed
-NOTE: Running task 988 of 1000 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_configure)
-NOTE: recipe libfyaml-0.9.6-r0: task do_configure: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_configure: Succeeded
-NOTE: Running task 989 of 1000 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_compile)
-NOTE: recipe libfyaml-0.9.6-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75
-| config.status: creating config.h
-| config.status: config.h is unchanged
-| Making all in src
-|   CC    tool/fy_tool-fy-tool.o
-|   CC    tool/fy_tool-fy-tool-util.o
-|   CC    tool/fy_tool-fy-tool-dump.o
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/tool/fy-tool-dump.c:26:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/tool/fy-tool.c:29:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/tool/fy-tool-util.c:27:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1734: tool/fy_tool-fy-tool-util.o] Error 1
-| make[2]: *** Waiting for unfinished jobs....
-| make[2]: *** [Makefile:1748: tool/fy_tool-fy-tool-dump.o] Error 1
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1720: tool/fy_tool-fy-tool.o] Error 1
-|   CC    lib/fy-parse.o
-|   CC    lib/fy-types.o
-|   CC    lib/fy-token.o
-|   CC    lib/fy-atom.o
-|   CC    lib/fy-docstate.o
-|   CC    lib/fy-diag.o
-|   CC    lib/fy-dump.o
-|   CC    lib/fy-doc.o
-|   CC    lib/fy-input.o
-|   CC    lib/fy-emit.o
-|   CC    lib/fy-event.o
-|   CC    lib/fy-accel.o
-|   CC    lib/fy-docbuilder.o
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-types.c:20:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-parse.c:21:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-dump.c:20:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-accel.c:15:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-diag.c:20:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-doc.c:20:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-docstate.c:19:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-token.c:21:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-docbuilder.c:19:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-emit.c:20:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-atom.c:22:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-event.c:21:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| In file included from ../../sources/libfyaml-0.9.6/include/libfyaml.h:84,
-|                  from ../../sources/libfyaml-0.9.6/src/lib/fy-input.c:29:
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_decode_size_nocheck':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:813:48: error: passing argument 2 of 'fy_decode_size32_nocheck' from incompatible pointer type [-Wincompatible-pointer-types]
-|   813 |         return fy_decode_size32_nocheck(start, sizep);
-|       |                                                ^~~~~
-|       |                                                |
-|       |                                                size_t * {aka unsigned int *}
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:266:58: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
-|   266 | fy_decode_size32_nocheck(const uint8_t *start, uint64_t *sizep)
-|       |                                                ~~~~~~~~~~^~~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h: In function 'fy_skip_size':
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: error: 'sz' undeclared (first use in this function)
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                                              ^~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:46: note: each undeclared identifier is reported only once for each function it appears in
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:819:16: error: too many arguments to function 'fy_skip_size32'; expected 2, have 3
-|   819 |         return fy_skip_size32(start, bufsz, &sz);
-|       |                ^~~~~~~~~~~~~~               ~~~
-| ../../sources/libfyaml-0.9.6/include/libfyaml/libfyaml-vlsize.h:300:1: note: declared here
-|   300 | fy_skip_size32(const uint8_t *start, size_t bufsz)
-|       | ^~~~~~~~~~~~~~
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1426: lib/libfyaml_la-fy-types.lo] Error 1
-| make[2]: *** [Makefile:1440: lib/libfyaml_la-fy-dump.lo] Error 1
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1503: lib/libfyaml_la-fy-accel.lo] Error 1
-| make[2]: *** [Makefile:1468: lib/libfyaml_la-fy-docstate.lo] Error 1
-| make[2]: *** [Makefile:1482: lib/libfyaml_la-fy-docbuilder.lo] Error 1
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1433: lib/libfyaml_la-fy-diag.lo] Error 1
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1496: lib/libfyaml_la-fy-event.lo] Error 1
-| make[2]: *** [Makefile:1461: lib/libfyaml_la-fy-input.lo] Error 1
-| make[2]: *** [Makefile:1454: lib/libfyaml_la-fy-token.lo] Error 1
-| make[2]: *** [Makefile:1447: lib/libfyaml_la-fy-atom.lo] Error 1
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1489: lib/libfyaml_la-fy-emit.lo] Error 1
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1475: lib/libfyaml_la-fy-doc.lo] Error 1
-| At top level:
-| cc1: note: unrecognized command-line option '-Wno-tautological-constant-out-of-range-compare' may have been intended to silence earlier diagnostics
-| make[2]: *** [Makefile:1419: lib/libfyaml_la-fy-parse.lo] Error 1
-| make[1]: *** [Makefile:610: all-recursive] Error 1
-| make: *** [Makefile:515: all] Error 2
-| ERROR: oe_runmake failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/run.do_compile.125299:180 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/run.do_compile.125299, line 180
-| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/run.do_compile.125299, line 164
-| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/run.do_compile.125299, line 159
-| 	#4: autotools_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/run.do_compile.125299, line 154
-| 	#5: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/run.do_compile.125299, line 149
-| 	#6: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/run.do_compile.125299, line 193
-NOTE: recipe libfyaml-0.9.6-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 989 tasks of which 981 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 950 .bb files complete (0 cached, 950 parsed). 1975 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-85337c6dd4a53b53884ba17677b6e1b985675b19"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:85337c6dd4a53b53884ba17677b6e1b985675b19"
+meta-yocto-bsp       
+meta-poky            = "master:0247a9ac12ffbb645d84c671ef34858c3307f01e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260515122858.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260515122858.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:00:34
+Adding changed files:   1% |                                    | ETA:  0:00:25
+Adding changed files:   1% |                                    | ETA:  0:00:22
+Adding changed files:   2% |                                    | ETA:  0:00:20
+Adding changed files:   2% |                                    | ETA:  0:00:19
+Adding changed files:   3% |#                                   | ETA:  0:00:18
+Adding changed files:   3% |#                                   | ETA:  0:00:18
+Adding changed files:   4% |#                                   | ETA:  0:00:17
+Adding changed files:   4% |#                                   | ETA:  0:00:17
+Adding changed files:   5% |#                                   | ETA:  0:00:17
+Adding changed files:   5% |##                                  | ETA:  0:00:16
+Adding changed files:   6% |##                                  | ETA:  0:00:16
+Adding changed files:   6% |##                                  | ETA:  0:00:16
+Adding changed files:   7% |##                                  | ETA:  0:00:16
+Adding changed files:   8% |##                                  | ETA:  0:00:22
+Adding changed files:   8% |###                                 | ETA:  0:00:21
+Adding changed files:   9% |###                                 | ETA:  0:00:21
+Adding changed files:   9% |###                                 | ETA:  0:00:20
+Adding changed files:  10% |###                                 | ETA:  0:00:20
+Adding changed files:  10% |###                                 | ETA:  0:00:19
+Adding changed files:  11% |####                                | ETA:  0:00:19
+Adding changed files:  11% |####                                | ETA:  0:00:19
+Adding changed files:  12% |####                                | ETA:  0:00:18
+Adding changed files:  12% |####                                | ETA:  0:00:18
+Adding changed files:  13% |####                                | ETA:  0:00:18
+Adding changed files:  13% |#####                               | ETA:  0:00:17
+Adding changed files:  14% |#####                               | ETA:  0:00:17
+Adding changed files:  14% |#####                               | ETA:  0:00:17
+Adding changed files:  15% |#####                               | ETA:  0:00:16
+Adding changed files:  16% |#####                               | ETA:  0:00:16
+Adding changed files:  16% |#####                               | ETA:  0:00:16
+Adding changed files:  17% |######                              | ETA:  0:00:16
+Adding changed files:  17% |######                              | ETA:  0:00:16
+Adding changed files:  18% |######                              | ETA:  0:00:16
+Adding changed files:  18% |######                              | ETA:  0:00:16
+Adding changed files:  19% |######                              | ETA:  0:00:15
+Adding changed files:  19% |#######                             | ETA:  0:00:15
+Adding changed files:  20% |#######                             | ETA:  0:00:15
+Adding changed files:  20% |#######                             | ETA:  0:00:15
+Adding changed files:  21% |#######                             | ETA:  0:00:15
+Adding changed files:  21% |#######                             | ETA:  0:00:15
+Adding changed files:  22% |########                            | ETA:  0:00:15
+Adding changed files:  22% |########                            | ETA:  0:00:14
+Adding changed files:  23% |########                            | ETA:  0:00:14
+Adding changed files:  24% |########                            | ETA:  0:00:14
+Adding changed files:  24% |########                            | ETA:  0:00:14
+Adding changed files:  25% |#########                           | ETA:  0:00:14
+Adding changed files:  25% |#########                           | ETA:  0:00:14
+Adding changed files:  26% |#########                           | ETA:  0:00:14
+Adding changed files:  26% |#########                           | ETA:  0:00:14
+Adding changed files:  27% |#########                           | ETA:  0:00:14
+Adding changed files:  27% |##########                          | ETA:  0:00:14
+Adding changed files:  28% |##########                          | ETA:  0:00:13
+Adding changed files:  28% |##########                          | ETA:  0:00:13
+Adding changed files:  29% |##########                          | ETA:  0:00:13
+Adding changed files:  29% |##########                          | ETA:  0:00:13
+Adding changed files:  30% |##########                          | ETA:  0:00:13
+Adding changed files:  31% |###########                         | ETA:  0:00:13
+Adding changed files:  31% |###########                         | ETA:  0:00:13
+Adding changed files:  32% |###########                         | ETA:  0:00:13
+Adding changed files:  32% |###########                         | ETA:  0:00:13
+Adding changed files:  33% |###########                         | ETA:  0:00:13
+Adding changed files:  33% |############                        | ETA:  0:00:13
+Adding changed files:  34% |############                        | ETA:  0:00:12
+Adding changed files:  34% |############                        | ETA:  0:00:12
+Adding changed files:  35% |############                        | ETA:  0:00:12
+Adding changed files:  35% |############                        | ETA:  0:00:12
+Adding changed files:  36% |#############                       | ETA:  0:00:12
+Adding changed files:  36% |#############                       | ETA:  0:00:12
+Adding changed files:  37% |#############                       | ETA:  0:00:12
+Adding changed files:  37% |#############                       | ETA:  0:00:12
+Adding changed files:  38% |#############                       | ETA:  0:00:12
+Adding changed files:  39% |##############                      | ETA:  0:00:11
+Adding changed files:  39% |##############                      | ETA:  0:00:11
+Adding changed files:  40% |##############                      | ETA:  0:00:11
+Adding changed files:  40% |##############                      | ETA:  0:00:11
+Adding changed files:  41% |##############                      | ETA:  0:00:11
+Adding changed files:  41% |###############                     | ETA:  0:00:11
+Adding changed files:  42% |###############                     | ETA:  0:00:11
+Adding changed files:  42% |###############                     | ETA:  0:00:11
+Adding changed files:  43% |###############                     | ETA:  0:00:10
+Adding changed files:  43% |###############                     | ETA:  0:00:10
+Adding changed files:  44% |###############                     | ETA:  0:00:10
+Adding changed files:  44% |################                    | ETA:  0:00:10
+Adding changed files:  45% |################                    | ETA:  0:00:10
+Adding changed files:  45% |################                    | ETA:  0:00:10
+Adding changed files:  46% |################                    | ETA:  0:00:10
+Adding changed files:  47% |################                    | ETA:  0:00:10
+Adding changed files:  47% |#################                   | ETA:  0:00:10
+Adding changed files:  48% |#################                   | ETA:  0:00:09
+Adding changed files:  48% |#################                   | ETA:  0:00:09
+Adding changed files:  49% |#################                   | ETA:  0:00:09
+Adding changed files:  49% |#################                   | ETA:  0:00:09
+Adding changed files:  50% |##################                  | ETA:  0:00:09
+Adding changed files:  50% |##################                  | ETA:  0:00:09
+Adding changed files:  51% |##################                  | ETA:  0:00:09
+Adding changed files:  51% |##################                  | ETA:  0:00:09
+Adding changed files:  52% |##################                  | ETA:  0:00:09
+Adding changed files:  52% |###################                 | ETA:  0:00:08
+Adding changed files:  53% |###################                 | ETA:  0:00:08
+Adding changed files:  53% |###################                 | ETA:  0:00:08
+Adding changed files:  54% |###################                 | ETA:  0:00:08
+Adding changed files:  55% |###################                 | ETA:  0:00:08
+Adding changed files:  55% |####################                | ETA:  0:00:08
+Adding changed files:  56% |####################                | ETA:  0:00:08
+Adding changed files:  56% |####################                | ETA:  0:00:08
+Adding changed files:  57% |####################                | ETA:  0:00:08
+Adding changed files:  57% |####################                | ETA:  0:00:07
+Adding changed files:  58% |####################                | ETA:  0:00:07
+Adding changed files:  58% |#####################               | ETA:  0:00:07
+Adding changed files:  59% |#####################               | ETA:  0:00:07
+Adding changed files:  59% |#####################               | ETA:  0:00:07
+Adding changed files:  60% |#####################               | ETA:  0:00:07
+Adding changed files:  60% |#####################               | ETA:  0:00:07
+Adding changed files:  61% |######################              | ETA:  0:00:07
+Adding changed files:  62% |######################              | ETA:  0:00:07
+Adding changed files:  62% |######################              | ETA:  0:00:07
+Adding changed files:  63% |######################              | ETA:  0:00:06
+Adding changed files:  63% |######################              | ETA:  0:00:06
+Adding changed files:  64% |#######################             | ETA:  0:00:06
+Adding changed files:  64% |#######################             | ETA:  0:00:06
+Adding changed files:  65% |#######################             | ETA:  0:00:06
+Adding changed files:  65% |#######################             | ETA:  0:00:06
+Adding changed files:  66% |#######################             | ETA:  0:00:06
+Adding changed files:  66% |########################            | ETA:  0:00:06
+Adding changed files:  67% |########################            | ETA:  0:00:06
+Adding changed files:  67% |########################            | ETA:  0:00:06
+Adding changed files:  68% |########################            | ETA:  0:00:05
+Adding changed files:  68% |########################            | ETA:  0:00:05
+Adding changed files:  69% |#########################           | ETA:  0:00:05
+Adding changed files:  70% |#########################           | ETA:  0:00:05
+Adding changed files:  70% |#########################           | ETA:  0:00:05
+Adding changed files:  71% |#########################           | ETA:  0:00:05
+Adding changed files:  71% |#########################           | ETA:  0:00:05
+Adding changed files:  72% |#########################           | ETA:  0:00:05
+Adding changed files:  72% |##########################          | ETA:  0:00:05
+Adding changed files:  73% |##########################          | ETA:  0:00:05
+Adding changed files:  73% |##########################          | ETA:  0:00:04
+Adding changed files:  74% |##########################          | ETA:  0:00:04
+Adding changed files:  74% |##########################          | ETA:  0:00:04
+Adding changed files:  75% |###########################         | ETA:  0:00:04
+Adding changed files:  75% |###########################         | ETA:  0:00:04
+Adding changed files:  76% |###########################         | ETA:  0:00:04
+Adding changed files:  76% |###########################         | ETA:  0:00:04
+Adding changed files:  77% |###########################         | ETA:  0:00:04
+Adding changed files:  78% |############################        | ETA:  0:00:04
+Adding changed files:  78% |############################        | ETA:  0:00:04
+Adding changed files:  79% |############################        | ETA:  0:00:03
+Adding changed files:  79% |############################        | ETA:  0:00:03
+Adding changed files:  80% |############################        | ETA:  0:00:03
+Adding changed files:  80% |#############################       | ETA:  0:00:03
+Adding changed files:  81% |#############################       | ETA:  0:00:03
+Adding changed files:  81% |#############################       | ETA:  0:00:03
+Adding changed files:  82% |#############################       | ETA:  0:00:03
+Adding changed files:  82% |#############################       | ETA:  0:00:03
+Adding changed files:  83% |##############################      | ETA:  0:00:03
+Adding changed files:  83% |##############################      | ETA:  0:00:03
+Adding changed files:  84% |##############################      | ETA:  0:00:02
+Adding changed files:  84% |##############################      | ETA:  0:00:02
+Adding changed files:  85% |##############################      | ETA:  0:00:02
+Adding changed files:  86% |##############################      | ETA:  0:00:02
+Adding changed files:  86% |###############################     | ETA:  0:00:02
+Adding changed files:  87% |###############################     | ETA:  0:00:02
+Adding changed files:  87% |###############################     | ETA:  0:00:02
+Adding changed files:  88% |###############################     | ETA:  0:00:02
+Adding changed files:  88% |###############################     | ETA:  0:00:02
+Adding changed files:  89% |################################    | ETA:  0:00:02
+Adding changed files:  89% |################################    | ETA:  0:00:01
+Adding changed files:  90% |################################    | ETA:  0:00:01
+Adding changed files:  90% |################################    | ETA:  0:00:01
+Adding changed files:  91% |################################    | ETA:  0:00:01
+Adding changed files:  91% |#################################   | ETA:  0:00:01
+Adding changed files:  92% |#################################   | ETA:  0:00:01
+Adding changed files:  93% |#################################   | ETA:  0:00:01
+Adding changed files:  93% |#################################   | ETA:  0:00:01
+Adding changed files:  94% |#################################   | ETA:  0:00:01
+Adding changed files:  94% |##################################  | ETA:  0:00:01
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:18
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.webkitgtk.org/releases/webkitgtk-2.52.3.tar.xz...
+INFO: Rebasing devtool onto 14d175fc6863ad31f527ff76c721e1102980534d
+WARNING: Command 'git rebase 14d175fc6863ad31f527ff76c721e1102980534d' failed:
+Auto-merging Source/WebCore/contentextensions/ContentExtensionActions.h
+CONFLICT (content): Merge conflict in Source/WebCore/contentextensions/ContentExtensionActions.h
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/log.do_compile.125299
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: libfyaml-0.9.6-r0 do_compile: oe_runmake failed
-ERROR: libfyaml-0.9.6-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/run.do_compile.125299' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libfyaml/0.9.6/temp/log.do_compile.125299
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_compile) failed with exit code '1'
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/webkitgtk
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/webkitgtk/webkitgtk_2.52.3.bb
 
---===============7519247310461130470==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libfyaml: PKGV changed from 0.9.4 [default] to 0.9.6 [default]
-packages/x86-64-v3-poky-linux/libfyaml: SRC_URI changed from "https://github.com/pantoniou/libfyaml/releases/download/v0.9.4/libfyaml-0.9.4.tar.gz" to "https://github.com/pantoniou/libfyaml/releases/download/v0.9.6/libfyaml-0.9.6.tar.gz"
-packages/x86-64-v3-poky-linux/libfyaml: PV changed from "0.9.4" to "0.9.6"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dbg: PKGSIZE changed from 5379432 to 5454672 (+1%)
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dbg: PV changed from "0.9.4" to "0.9.6"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dbg: PKGV changed from 0.9.4 [default] to 0.9.6 [default]
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dev: FILELIST: added "/usr/include/libfyaml/libfyaml-align.h /usr/include/libfyaml/libfyaml-dociter.h /usr/include/libfyaml/libfyaml-composer.h /usr/include/libfyaml/libfyaml-docbuild.h /usr/include/libfyaml/libfyaml-path-exec.h /usr/include/libfyaml/libfyaml-util.h /usr/include/libfyaml/libfyaml-endian.h /usr/include/libfyaml/libfyaml-blake3.h /usr/include/libfyaml/libfyaml-atomics.h /usr/include/libfyaml/libfyaml-vlsize.h /usr/include/libfyaml/libfyaml-thread.h /usr/include/libfyaml/libfyaml-allocator.h /usr/include/libfyaml/libfyaml-core.h"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dev: PKGSIZE changed from 280962 to 390678 (+39%)
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dev: PV changed from "0.9.4" to "0.9.6"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dev: PKGV changed from 0.9.4 [default] to 0.9.6 [default]
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-doc: FILELIST: added "/usr/share/man/man3/libfyaml.3 /usr/share/man/man3/libfyaml-core.3 /usr/share/man/man3/libfyaml-misc.3"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-doc: PKGSIZE changed from 19922 to 443532 (+2126%)
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-doc: PV changed from "0.9.4" to "0.9.6"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-doc: PKGV changed from 0.9.4 [default] to 0.9.6 [default]
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-locale: PV changed from "0.9.4" to "0.9.6"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-locale: PKGV changed from 0.9.4 [default] to 0.9.6 [default]
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-src: FILELIST: directory renamed /usr/src/debug/libfyaml/0.9.4/src/tool -> /usr/src/debug/libfyaml/0.9.6/src/tool, directory renamed /usr/src/debug/libfyaml/0.9.4/src/lib -> /usr/src/debug/libfyaml/0.9.6/src/lib, directory renamed /usr/src/debug/libfyaml/0.9.4/src/allocator -> /usr/src/debug/libfyaml/0.9.6/src/allocator, directory renamed /usr/src/debug/libfyaml/0.9.4/src/blake3 -> /usr/src/debug/libfyaml/0.9.6/src/blake3, directory renamed /usr/src/debug/libfyaml/0.9.4/src/thread -> /usr/src/debug/libfyaml/0.9.6/src/thread, directory renamed /usr/src/debug/libfyaml/0.9.4/src/valgrind -> /usr/src/debug/libfyaml/0.9.6/src/valgrind, directory renamed /usr/src/debug/libfyaml/0.9.4/src/xxhash -> /usr/src/debug/libfyaml/0.9.6/src/xxhash, removed "/usr/src/debug/libfyaml/0.9.4/src/util/fy-utils.c /usr/src/debug/libfyaml/0.9.4/src/util/fy-ctype.c /usr/src/debug/libfyaml/0.9.4/src/util/fy-id.h /usr/src/debug/libfyaml/0.9.4/src/util/fy-align.h /
- usr/src/debug/libfyaml/0.9.4/include/libfyaml.h /usr/src/debug/libfyaml/0.9.4/src/util/fy-bit64.h /usr/src/debug/libfyaml/0.9.4/src/util/fy-ctype.h /usr/src/debug/libfyaml/0.9.4/src/util/fy-utils.h /usr/src/debug/libfyaml/0.9.4/src/util/fy-atomics.h /usr/src/debug/libfyaml/0.9.4/src/util/fy-utf8.c /usr/src/debug/libfyaml/0.9.4/src/util/fy-blob.h /usr/src/debug/libfyaml/0.9.4/src/util/fy-blob.c /usr/src/debug/libfyaml/0.9.4/src/util/fy-list.h /usr/src/debug/libfyaml/0.9.4/src/util/fy-utf8.h", added "/usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-blake3.h /usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-thread.h /usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-atomics.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-blob.h /usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-path-exec.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-blob.c /usr/src/debug/libfyaml/0.9.6/src/util/fy-ctype.c /usr/src/debug/libfyaml/0.9.6/src/util/fy-utils.c /usr/src/debug/libfyaml/0.9.6/i
- nclude/libfyaml/libfyaml-docbuild.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-bit64.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-ctype.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-utils.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-utf8.c /usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-composer.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-list.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-utf8.h /usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-core.h /usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-allocator.h /usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-align.h /usr/src/debug/libfyaml/0.9.6/src/util/fy-id.h /usr/src/debug/libfyaml/0.9.6/include/libfyaml/libfyaml-dociter.h"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-src: PKGSIZE changed from 1949450 to 1994919 (+2%)
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-src: PV changed from "0.9.4" to "0.9.6"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-src: PKGV changed from 0.9.4 [default] to 0.9.6 [default]
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-staticdev: PV changed from "0.9.4" to "0.9.6"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-staticdev: PKGV changed from 0.9.4 [default] to 0.9.6 [default]
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml: PKGSIZE changed from 926611 to 943059 (+2%)
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml: PV changed from "0.9.4" to "0.9.6"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml: PKGV changed from 0.9.4 [default] to 0.9.6 [default]
-Changes to packages/x86-64-v3-poky-linux/libfyaml (sysroot):
-  /usr/include/libfyaml was added
-  /usr/include/libfyaml/libfyaml-align.h was added
-  /usr/include/libfyaml/libfyaml-allocator.h was added
-  /usr/include/libfyaml/libfyaml-atomics.h was added
-  /usr/include/libfyaml/libfyaml-blake3.h was added
-  /usr/include/libfyaml/libfyaml-composer.h was added
-  /usr/include/libfyaml/libfyaml-core.h was added
-  /usr/include/libfyaml/libfyaml-docbuild.h was added
-  /usr/include/libfyaml/libfyaml-dociter.h was added
-  /usr/include/libfyaml/libfyaml-endian.h was added
-  /usr/include/libfyaml/libfyaml-path-exec.h was added
-  /usr/include/libfyaml/libfyaml-thread.h was added
-  /usr/include/libfyaml/libfyaml-util.h was added
-  /usr/include/libfyaml/libfyaml-vlsize.h was added
 
---===============7519247310461130470==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dev: PKGSIZE changed from 280962 to 390678 (+39%)
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-dev: FILELIST: added "/usr/include/libfyaml/libfyaml-blake3.h /usr/include/libfyaml/libfyaml-util.h /usr/include/libfyaml/libfyaml-allocator.h /usr/include/libfyaml/libfyaml-vlsize.h /usr/include/libfyaml/libfyaml-composer.h /usr/include/libfyaml/libfyaml-docbuild.h /usr/include/libfyaml/libfyaml-endian.h /usr/include/libfyaml/libfyaml-dociter.h /usr/include/libfyaml/libfyaml-path-exec.h /usr/include/libfyaml/libfyaml-align.h /usr/include/libfyaml/libfyaml-core.h /usr/include/libfyaml/libfyaml-thread.h /usr/include/libfyaml/libfyaml-atomics.h"
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-doc: PKGSIZE changed from 19922 to 443532 (+2126%)
-packages/x86-64-v3-poky-linux/libfyaml/libfyaml-doc: FILELIST: added "/usr/share/man/man3/libfyaml-misc.3 /usr/share/man/man3/libfyaml-core.3 /usr/share/man/man3/libfyaml.3"
-Changes to packages/x86-64-v3-poky-linux/libfyaml (sysroot):
-  /usr/include/libfyaml was added
-  /usr/include/libfyaml/libfyaml-align.h was added
-  /usr/include/libfyaml/libfyaml-allocator.h was added
-  /usr/include/libfyaml/libfyaml-atomics.h was added
-  /usr/include/libfyaml/libfyaml-blake3.h was added
-  /usr/include/libfyaml/libfyaml-composer.h was added
-  /usr/include/libfyaml/libfyaml-core.h was added
-  /usr/include/libfyaml/libfyaml-docbuild.h was added
-  /usr/include/libfyaml/libfyaml-dociter.h was added
-  /usr/include/libfyaml/libfyaml-endian.h was added
-  /usr/include/libfyaml/libfyaml-path-exec.h was added
-  /usr/include/libfyaml/libfyaml-thread.h was added
-  /usr/include/libfyaml/libfyaml-util.h was added
-  /usr/include/libfyaml/libfyaml-vlsize.h was added
-
---===============7519247310461130470==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libfyaml-upgrade-0.9.4-0.9.6.patch"
-
-RnJvbSBiODJlMzZhNjNjZTQ3NTQ0OTA2MDZlOGQxZjA3MWUwY2ZhYjc5ZDM1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWF5IDIwMjYgMTI6Mjk6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJmeWFtbDogdXBncmFkZSAwLjkuNCAtPiAwLjkuNgoKLS0tCiAuLi4vbGliZnlhbWwve2xpYmZ5
-YW1sXzAuOS40LmJiID0+IGxpYmZ5YW1sXzAuOS42LmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJmeWFtbC97bGliZnlhbWxfMC45LjQuYmIgPT4gbGliZnlhbWxfMC45
-LjYuYmJ9ICg4MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZnlhbWwv
-bGliZnlhbWxfMC45LjQuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmeWFtbC9saWJmeWFt
-bF8wLjkuNi5iYgpzaW1pbGFyaXR5IGluZGV4IDgzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9saWJmeWFtbC9saWJmeWFtbF8wLjkuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGliZnlhbWwvbGliZnlhbWxfMC45LjYuYmIKaW5kZXggNzdmZTBhMTViMC4uYjQ4
-Y2M0ZWZjZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZnlhbWwvbGliZnlh
-bWxfMC45LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZnlhbWwvbGliZnlhbWxf
-MC45LjYuYmIKQEAgLTUsNyArNSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VO
-U0U7bWQ1PTYzOTkwOTRmYmM2MzlhMjg5Y2ZjYTJkNjYwYzAxMGFhIgogCiBHSVRIVUJfQkFTRV9V
-UkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL3BhbnRvbmlvdS9saWJmeWFtbCIKIFNSQ19VUkkgPSAi
-JHtHSVRIVUJfQkFTRV9VUkl9L3JlbGVhc2VzL2Rvd25sb2FkL3Yke1BWfS9saWJmeWFtbC0ke1BW
-fS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGFjMmIwYWY3Yjc1N2IzMmE0ZmE3YzY0
-OTNkODVkMGY3ZGVhNmVmZmQyMGFlNDM1MjU3MGI2YTQ1MGI5ZTVmYiIKK1NSQ19VUklbc2hhMjU2
-c3VtXSA9ICJhNTljYzMzMzFlMmViOTAzZWMzNjkzM2FkNTJhNDU4ODgwNDFjYWMzMWU0NGY1NTNh
-MDA1MTExMzEyNDJjNDgzIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgZ2l0aHViLXJl
-bGVhc2VzCiAKLS0gCjIuNDcuMQoK
-
---===============7519247310461130470==--
+Regards,
+The Upgrade Helper
+--===============6158276990936724135==--
 
