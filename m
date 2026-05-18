@@ -1,229 +1,137 @@
-Return-Path: <joaohf@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61453CD4F4A
-	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 14:49:22 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10071.1779115753446210662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF37FCD4F49
+	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 16:22:46 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1143.1779121357347806826
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2026 07:49:13 -0700
+ Mon, 18 May 2026 09:22:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=gMWMf5l0;
- spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: joaohf@gmail.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7b301fdb5d8so2146317b3.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 07:49:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779115752; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GcZLVEK3ikJ+EETqkf2lhi+S2GBCM3S1zMI2hQ3UshlPoOFcKc6NvyMkyRnA7cGTEf
-         gfAvzQ/l1c8B6VGrAdPfLokkGEcP6vlZ9G4m36r9N+yH3n16wnouelWNDhMO6I5l7V6G
-         f8QfAyzVGlVgN9OwIaSxft/IiGTp6Gn0mu5N323ISt2stAdL3iehCXKFzdzrgh35Pkxs
-         jqUgLl00O1m7m0BThC8Ok3J0QUWjhLzxqvDyAUZzqNwxmcaGDX1+mrNsie1Sx4SbaiP6
-         m8/hEZAl8+xWmXGLn6uqp0laG0HBDPtfBp9ShRiCaoLDR395lbjC4sy4472nop8rYMMt
-         CzVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Bx9QkqYcCH+ul1CrOTKccMQ/ATtJ24Dz/DIqDs6bW8M=;
-        fh=8P6pgecEmxdRAMFrp7Ocjxw3uqQw4F9IqG5YpNgZhvM=;
-        b=PXY6Skr0mNumrLLcIWtNaH/KRr/Ak3B5+sxLuOmNy20oM1AmatDUdGlsZAMbnP/ehZ
-         aeI7KZi3OwcfGGOKjabi04SVnak6y8jqsnLYYKOH1bTR6qbzDltkc9nHrmcx8cKJZ95U
-         p2pLe8hsp8QUYYcsSd6CgJJLIlQfHAP/qVJaAHk7oqbopEBDCbVoMh98IfbOc4ylYY6k
-         arb4w8SocZizAmV+kHH5T7ZJ8uvFdY0y02GiXlaYXKyc+zHTPyVdZV9aWixVrsbm6WJt
-         Aj0nM378D+6lgqDmctgnBePD2wnOs02FAzwRiESdF6g2Nb5ZyBgFG0HRkMu9NCx4J4sH
-         i4tg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aQ2gfTeq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-44e5624c053so1471006f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 09:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779115752; x=1779720552; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bx9QkqYcCH+ul1CrOTKccMQ/ATtJ24Dz/DIqDs6bW8M=;
-        b=gMWMf5l0IPC/xRVZ5/dmzF18xpwpRLPsLte2WqCakSlGKh7w9Q1zvmpMW3KQ9re4Cc
-         F/p/Uy2RGTy4mQATA4cqWr4g5yxuvZbaWcFdyMLI8clR7HFOsqZem/2iSf24pXK9zf2t
-         S/diHTAsOW/HWIAQCva29WQgIjfapZhuzylaJJBynKiP7nQlX8yzvsOtIlnd4y7X90hB
-         YMjvb8YX7LUdLGr9iEw9pKQfj7zeAR8Q6DQkiE6fT60Fn3zagsoPZI6LWYLO9ODhYIg4
-         MW0RsH+I5zsUaqLL4+q+sJwktsSHrF4Ljwi2uq3SakXsMzGNG51Bn5veNI4UNl3ST+BF
-         gkZQ==
+        d=linuxfoundation.org; s=google; t=1779121355; x=1779726155; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1F6PXpZbECP9zgFDEOPZCrrPLmOTZyk65Emx/2blKgc=;
+        b=aQ2gfTeqd8g0hTF2U/K1PwaThQF/nuZWdA8UOopioHRDBuc9ezcfn9PWLMarRbg65S
+         mmv+D48BayB8RIqn9U1UNH+3a08n5moZxZf09EWnUHGHG3Q6AJMHGAgaRJM1I3st4zXb
+         CXsSr8RdqTWp81nEs1jExKDQlbnPo6T/7JSks=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779115752; x=1779720552;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bx9QkqYcCH+ul1CrOTKccMQ/ATtJ24Dz/DIqDs6bW8M=;
-        b=IvpmMJglXP/rjZgWz6+T7CEDwbwI5UTN9nIB5qrAKichj0c1zA5oxS1IebCU237BFo
-         nDU9e2ShIOPxCDs0NgVlr0hLYmHJmbEWZHZFNNR2cVIphhF8EqQGxRJI2HN7Km5p9iXX
-         5amwp8YSDOaA5cl71SB0w+kriRKN12A79xv/dc0c1n1aRlTDJAaTDPA3VXuRePZtOsQG
-         QYe8xykZ4jA+VY1FSFNXs5o7CIOsDKOM4QC8g/VZ8xGaeZ/V7d/+BhSZd2WgtxeDkMsV
-         lmS0dtL7MYLpukA/ebj3bVVzRIwmxUtMUAW56jDH/f3Ej6BNJwfp54jrpSVhc7QfxDhB
-         vjPw==
-X-Gm-Message-State: AOJu0Yx2ruDfsHAr42odldW2XOCHboLywWdfBBmKBBI/TITveMWCxNCO
-	FpiFZrtgzwy7ppAsuOyD4ICMHVbpLtNCa3nd0gfBNa/zyUInn+Ev2yKPyaVl9ymn+AXURkqiGUW
-	dlilgQKgi1UUG7FudcC4g8JUE8cgpmXZr9A==
-X-Gm-Gg: Acq92OH8YkYDefRmfjb1m6mkWlPlTbgnO0LRDFxEBZ+sZ4TQ0MxShYMAbKri4yDtMnZ
-	GdDX7umqjHXqedm1/pxDoGxwnmJZ39peCArww3U7yyfsWEmM6fqmn/P34uVsOHjfSSdRopQC7qz
-	0x/1ApEMStyzvd98w1qX209Zg9ajv0hneIwWknV+M9dKudtOg/14I0kyDbXgjn8tZKKot5RZugb
-	69V75d0/q1A9XEBF5y9t9XZZAJsGItgvqRspfIhLiZDGbjjid88oGvJ2uWYegltD0bgbQsyMtzV
-	m5IRw89R90WMTxD9IL8K
-X-Received: by 2002:a05:690c:6911:b0:79a:8e00:a5bf with SMTP id
- 00721157ae682-7c958bd452cmr104720087b3.1.1779115752320; Mon, 18 May 2026
- 07:49:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779121355; x=1779726155;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1F6PXpZbECP9zgFDEOPZCrrPLmOTZyk65Emx/2blKgc=;
+        b=QKk63q+cs5E4w3ZT9iRg5OLFHgqkb3WBtliD+sTn90kgq8wTece/w0qgYv6AxXQe9f
+         1Uoc38XbZYiA2khEgP/b0QEEvmBPhUqUiFg39VEE2mOe3wwOkB9HoLpD7Hp17UBx4z5Q
+         wWE2MxuJD+czD/9W8YNXYKI5JkpCG64xv9LvFKrzmG7uhqiFl/C5Av++zk1BCi0e5nA6
+         HlHNiwcD9kWuJrlHr2oAdH4jupU6hijVCnb7D7KcONf4kS9h5KadD6VW1YzwOTohJzLQ
+         w0DyXaZoVeYsVK6g0r5i7/sle3XhlnNNgijSayfcoTvgI3lF6ehPkGSN/LXjUgpZKm1S
+         VOfw==
+X-Forwarded-Encrypted: i=1; AFNElJ/U4dNtPKAEiiYgd7sdzgA+NHPnjPojx6xFLofRIbpU51piJJjRWMHBUQT7ueaimnV+0aWJ6iVdhdIvbbkvlyv8Hw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwG4S2amp1XzRLoRplTwShFeXMtBnrVix2fF7cBGVzuQuccSaq6
+	e/wcT02ArkvD5eSe2nqszvrMjxoNrNvcu/41bFXvTp0z+rV4HguYZ7fu+6OM4lTF9gY=
+X-Gm-Gg: Acq92OGG/XTOgPRuHCn6S6QvEswjUfSZgzu81OPvNMmFwiTY/ljl9pm7lv78ofnCYFj
+	/syJF/2skTsBwFq1xAplrk6+ncCYWywpapDtDa8VQFFoAgwNjIN6cMRDsIQfPbeclIIP7sUJrFm
+	U4pfdoIRdNORRtMnBD2qqbvLsHW0CGq9MAbFomqTFzy120FZFXvpQsqUcmBKltKlPD2BAfyeCZC
+	j2ivMAYfu1CbUUKSu1OBBESzkCTFF2e77E+GIF4NiNbOrqvFB5fyoLHJEXy6ZZtsNglcU+X5QSx
+	0lp7eHqB5RhFVdyd9cuirkqwe4tBPWeP5ndzytAifZtT2CaRvc2zihjeaHgnhqZPs+O5fgcMsBm
+	Y7Oka53KopXMjryx5Fcx77lzYxCYBL+H3ZcCabTfXQGK5VTwem3FGxJhn1VVOIbhYpnDwct0Unq
+	Q5UVV0NPvtR8phifubTeV3JhEplEaf9Vg092sh0S3cKIOrK8+7o61Ih2qW/JIg64g+Lqvj2jwWE
+	VG7Y7h69VrxBg==
+X-Received: by 2002:a05:600c:4692:b0:48f:d5b8:5b07 with SMTP id 5b1f17b1804b1-48fe63253e0mr248766285e9.20.1779121355412;
+        Mon, 18 May 2026 09:22:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c0c5:308:9c51:e911? ([2001:8b0:aba:5f3c:c0c5:308:9c51:e911])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe57944c1sm288250175e9.7.2026.05.18.09.22.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 09:22:34 -0700 (PDT)
+Message-ID: <0d9172f08910760f6ff0866997a4723699f96ec5.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] curl: Remove absolute paths when mbedtls is
+ enabled
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mark.jonas@de.bosch.com, openembedded-core@lists.openembedded.org
+Cc: robert.joslyn@redrectangle.org, paul@pbarker.dev,
+ peter.marko@siemens.com, 	pkj@axis.com, Moritz.Haase@bmw.de,
+ changqing.li@windriver.com, Ricardo Simoes	 <ricardo.simoes@pt.bosch.com>
+Date: Mon, 18 May 2026 17:22:33 +0100
+In-Reply-To: <20260513160218.11997-1-mark.jonas@de.bosch.com>
+References: <20260513160218.11997-1-mark.jonas@de.bosch.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-References: <20260518111659.282642-1-alex.kanavin@gmail.com>
-In-Reply-To: <20260518111659.282642-1-alex.kanavin@gmail.com>
-From: =?UTF-8?Q?Jo=C3=A3o_Henrique_Freitas?= <joaohf@gmail.com>
-Date: Mon, 18 May 2026 11:49:00 -0300
-X-Gm-Features: AVHnY4ItUfGIsEbE5E8-7BsycS92tjDIlt78Mux4CCHc2rFTEer-pC4nWlElRtw
-Message-ID: <CANFVK7-j-Sn02NKBZV-OkgXoX=atWsdhxNVrfVaddcFQfJpFWw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3targetconfig: pull in nativesdk python
- when building nativesdk recipes
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="0000000000006e71fc065218aa02"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 14:49:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237249
+ <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 16:22:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237250
 
---0000000000006e71fc065218aa02
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-This fix works for me. It makes sense.
-
-wrynose branch also has the very same issue. Could this fix also be applied
-there ?
-
-Thanks
-
-On Mon, May 18, 2026 at 8:17=E2=80=AFAM Alexander Kanavin via lists.openemb=
-edded.org
-<alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
-
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> For the class to work, target python needs to be present in the target
-> sysroot. This was done only for :target builds but not for :nativesdk
-> ones, and this patch addresses that.
->
-> The issue was reported in
-> https://lists.openembedded.org/g/openembedded-core/message/237188
-> (but the proposed fix there isn't right).
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+On Wed, 2026-05-13 at 18:02 +0200, Mark Jonas via lists.openembedded.org wr=
+ote:
+> From: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+>=20
+> When enabling mbedtls PACKAGECONFIG option, the curl-config and
+> libcurl.pc are generated with paths to STAGE_DIR_TARGET, causing the
+> QA check buildpaths to fail. This is due to the fact that the mbedtls
+> option uses the path to STAGING_DIR_TARGET to find the mbedtls library.
+>=20
+> When installed, the curl-config and libcurl.pc will still need the
+> the flag '--with-mbedtls', but not with the path. Same is true for the
+> library path flag. Thus drop the absolute paths from both files when
+> mbedtls is enabled, and add the flag '--with-mbedtls' to the curl-config
+> and libcurl.pc.
+>=20
+> Signed-off-by: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+> Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
 > ---
->  meta/classes-recipe/python3targetconfig.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes-recipe/python3targetconfig.bbclass
-> b/meta/classes-recipe/python3targetconfig.bbclass
-> index 2877665737..3b9333a4be 100644
-> --- a/meta/classes-recipe/python3targetconfig.bbclass
-> +++ b/meta/classes-recipe/python3targetconfig.bbclass
-> @@ -8,6 +8,7 @@ inherit python3native
->
->  EXTRA_PYTHON_DEPENDS ?=3D ""
->  EXTRA_PYTHON_DEPENDS:class-target =3D "python3"
-> +EXTRA_PYTHON_DEPENDS:class-nativesdk =3D "nativesdk-python3"
->  DEPENDS:append =3D " ${EXTRA_PYTHON_DEPENDS}"
->
->  setup_target_config() {
-> --
-> 2.47.3
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#237233):
-> https://lists.openembedded.org/g/openembedded-core/message/237233
-> Mute This Topic: https://lists.openembedded.org/mt/119370886/3616735
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> joaohf@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> =C2=A0meta/recipes-support/curl/curl_8.19.0.bb | 6 ++++--
+> =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-supp=
+ort/curl/curl_8.19.0.bb
+> index b9251336b8..cc37cc934b 100644
+> --- a/meta/recipes-support/curl/curl_8.19.0.bb
+> +++ b/meta/recipes-support/curl/curl_8.19.0.bb
+> @@ -93,13 +93,15 @@ EXTRA_OECONF =3D " \
+> =C2=A0"
+> =C2=A0
+> =C2=A0fix_absolute_paths () {
+> -	# cleanup buildpaths from curl-config
+> +	# cleanup buildpaths from curl-config and libcurl.pc
+> =C2=A0	sed -i \
+> =C2=A0	=C2=A0=C2=A0=C2=A0 -e 's,--sysroot=3D${STAGING_DIR_TARGET},,g' \
+> =C2=A0	=C2=A0=C2=A0=C2=A0 -e 's,--with-libtool-sysroot=3D${STAGING_DIR_TA=
+RGET},,g' \
+> +	=C2=A0=C2=A0=C2=A0 -e 's,--with-mbedtls=3D${STAGING_DIR_TARGET},--with-=
+mbedtls,g' \
+> +	=C2=A0=C2=A0=C2=A0 -e 's,-L${STAGING_DIR_TARGET},,g' \
+> =C2=A0	=C2=A0=C2=A0=C2=A0 -e 's|${DEBUG_PREFIX_MAP}||g' \
+> =C2=A0	=C2=A0=C2=A0=C2=A0 -e 's|${@" ".join(d.getVar("DEBUG_PREFIX_MAP").=
+split())}||g' \
+> -	=C2=A0=C2=A0=C2=A0 ${D}${bindir}/curl-config
+> +	=C2=A0=C2=A0=C2=A0 ${D}${bindir}/curl-config ${D}${libdir}/pkgconfig/li=
+bcurl.pc
+> =C2=A0}
+> =C2=A0
+> =C2=A0do_install:append:class-target() {
 
---=20
-Jo=C3=A3o Henrique Ferreira de Freitas - joaohf_at_gmail.com
-Campinas-SP-Brasil
+In most cases we don't need to edit .pc files. I'm concerned about
+seeing this being added to the sed, we should fix the data coming into
+.pc files in the first place. I'm really happy we don't need to change
+many .pc files and I don't want to see us regress like this.
 
---0000000000006e71fc065218aa02
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+curl-config is a different story unfortunately but can you see if the
+.pc can be fixed at source please?
 
-<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>This fix works for me. I=
-t makes sense.</div><div><br></div><div>wrynose branch also has the very sa=
-me issue. Could this fix also be applied there ?</div><div><br></div><div>T=
-hanks</div></div><br><div class=3D"gmail_quote gmail_quote_container"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Mon, May 18, 2026 at 8:17=E2=80=AFAM Al=
-exander Kanavin via <a href=3D"http://lists.openembedded.org">lists.openemb=
-edded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.com@lists.openembe=
-dded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">From: Alexander Kanavin &lt;<a hr=
-ef=3D"mailto:alex@linutronix.de" target=3D"_blank">alex@linutronix.de</a>&g=
-t;<br>
-<br>
-For the class to work, target python needs to be present in the target<br>
-sysroot. This was done only for :target builds but not for :nativesdk<br>
-ones, and this patch addresses that.<br>
-<br>
-The issue was reported in<br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/23718=
-8" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/op=
-enembedded-core/message/237188</a><br>
-(but the proposed fix there isn&#39;t right).<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
-target=3D"_blank">alex@linutronix.de</a>&gt;<br>
----<br>
-=C2=A0meta/classes-recipe/python3targetconfig.bbclass | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/classes-recipe/python3targetconfig.bbclass b/meta/classes=
--recipe/python3targetconfig.bbclass<br>
-index 2877665737..3b9333a4be 100644<br>
---- a/meta/classes-recipe/python3targetconfig.bbclass<br>
-+++ b/meta/classes-recipe/python3targetconfig.bbclass<br>
-@@ -8,6 +8,7 @@ inherit python3native<br>
-<br>
-=C2=A0EXTRA_PYTHON_DEPENDS ?=3D &quot;&quot;<br>
-=C2=A0EXTRA_PYTHON_DEPENDS:class-target =3D &quot;python3&quot;<br>
-+EXTRA_PYTHON_DEPENDS:class-nativesdk =3D &quot;nativesdk-python3&quot;<br>
-=C2=A0DEPENDS:append =3D &quot; ${EXTRA_PYTHON_DEPENDS}&quot;<br>
-<br>
-=C2=A0setup_target_config() {<br>
--- <br>
-2.47.3<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#237233): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/237233" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/237233</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119370886/361=
-6735" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/119370886/3616735</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:joaohf@gmail.com" target=
-=3D"_blank">joaohf@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Jo=C3=A3o Henrique Ferreira de Freitas - <a href=3D"http://j=
-oaohf_at_gmail.com" target=3D"_blank">joaohf_at_gmail.com</a><br>Campinas-S=
-P-Brasil</div></div>
+Thanks,
 
---0000000000006e71fc065218aa02--
+Richard
+
+
 
