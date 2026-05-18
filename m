@@ -2,80 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5428ECD4F3C
-	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 17:39:59 +0000 (UTC)
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2969.1779125993530724097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B83CD4F4A
+	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 17:52:49 +0000 (UTC)
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3248.1779126763925891323
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2026 10:39:54 -0700
+ Mon, 18 May 2026 10:52:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=zAYRUsq3;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=bb3EYhsu;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id A35B67A010C;
-	Mon, 18 May 2026 13:39:52 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 18 May 2026 13:39:52 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=hvmRZAlh;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=WFq1233R;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.144, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id E691A1D00066;
+	Mon, 18 May 2026 13:52:42 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Mon, 18 May 2026 13:52:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1779125992; x=1779212392; bh=pwjEBOoe8B
-	6oKUDitEAPJPSw/gTz7ccC22AYY6LYO6Y=; b=zAYRUsq3gpnoFuIhLy5dip6CwT
-	O2oVC1X1/neRPH1QCKDXhNLjI9AyhvaEB04oh8bXix6PnY1G8BJDbfDHclBFLB4V
-	wMyRr+FbqEDjxEbWt6H/qvTSYAlQTP/kbomrUGxhfv6q+3ZdpVx1yoBZfrDFqDrM
-	fZOQFefcBfOZatmSroy0TaEJeCXkZctOAeBqAxKYfo3Y6aNa6AU0uKFRjPFMU1i7
-	BqWdma3biiJlxn3xOGrVEGT2KWbpQbGQmUIVlVG79A8mU8SejKZdPNHgJgfVvXli
-	zYw41T7LH64eMTCm+t5Xngf5IW0blEI+3p/rLSRmw5+/xwRRfnezDLmmLiTw==
+	:subject:to:to; s=fm2; t=1779126762; x=1779213162; bh=rEAkmD1QwO
+	W/GkOnD9IcDvWm6Yr97c2yGvAYG0oLXWM=; b=hvmRZAlhcj2MCseepSwbp132Xn
+	9MXHRLYVO7jKeqCx0iEbq90zPrIenamNX8f5r+8YxzsS6aYr3MtOHozCKaO62W9M
+	aIu2mgmidjQe2U+iEbfiyCjS/J396iQlT3PhocYWYqBV4PlibjTKHQQ8M2KL6IlO
+	baHei/eL4DA8dVYfl9Mzw+fsoTNlKz7wi7MwdeAzMs0PQ5u+40q3y51f1ftEZFi6
+	V+Ub74hb8rSxaJx9hx1atOd5/M0b87VyK+IxEtdk1xzwP+7L3vHBjLntnJGiAZQm
+	P+l22vBLAvHyPoibRzu0do3IlYoeOnEXzCB5TLw2tMJ9RFRvuaMHuDU4HTPA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1779125992; x=1779212392; bh=pwjEBOoe8B6oKUDitEAPJPSw/gTz7ccC22A
-	YY6LYO6Y=; b=bb3EYhsu9RI5mWysT7brUIMIWN3qXO3//rI9hYkhIM0OccXjq08
-	DzPd3H6SB7YXbEBKTeJcYlm28xMlm8xbJNzJbCMAs7KvEZVLQaUv04dPFtvHp9s5
-	YH5gwOjTkP2p7VWmXMavMyzjdak/UZiBiK+UrqtiI72T2y3g124ZmgwWqFJY5XFE
-	lZtYJzvPErebZUjm2+X3OM3RDFYgGqNSOrX8yiHWUK+uPMdg6Dfb690+EiB5upkb
-	zfT+pHWUc+B5Un/InUyddeeDhZpXBznPMrtuY0+1NZ/i9NlWZFNplo9T2BNwNZvB
-	hhm8vMib1OeGF9Ru9g3d4QOEOLZWQCxnYYA==
-X-ME-Sender: <xms:504LavLt0IaEIiEX6nfSmerEEf67WeNMZBjDOnBZDuspAUcDtMkP6w>
-    <xme:504LaqJ8A7eQXbhQChk4irlPJUQ3Al1Q5s8x15IgCC4M8c0cM58S5j_Y_nanmLkhp
-    3dcJpepJCToWu1fETzjEEdoOf7E-HPjc4CSjzf9K3hKlzE4zk-EhPc>
-X-ME-Received: <xmr:504Lasuqt90Uu9rWXpsqlhpL_jYIseqvDOOO_p9o_aWKlYgQbv8A3MsxOUkfS3-B3G5nhshgBJEgkfnSiKDo_n_v3XnhEg853KKnsqzG21Ze>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeelgeelucetufdoteggodetrf
+	1779126762; x=1779213162; bh=rEAkmD1QwOW/GkOnD9IcDvWm6Yr97c2yGvA
+	YG0oLXWM=; b=WFq1233RHxvJjWPa2+worhSXseSnPBMR8q/7VD8vHYE3Sd7Adiu
+	TOtps2KrdSUjMOly6KwcJA0DqAyxbJueC4XUsHeWvU/AbIHaIjg+4Q1UCb8AnWKw
+	S09WBtfOzfR8gsgKWqbxwBfZnay/FeUYG0OVrMp2k2yLTRFCdU5VeEEtEFrDGlwk
+	MyDIqcTFhXNRjQCBX7c+qo7BOg8wdUx+NRqDCssWKJTGH6MbXyDFp0MpCH/uQP4L
+	TxqYXGcQW3jmzXLwhr0DWBEiaQcBL/UXD9J9fMGdKUEeuFiSg/kZtToaqzi21Eth
+	3E6JRTiFVA4XqSJx8Mtt4leWr4JZmmob/xA==
+X-ME-Sender: <xms:6lELaq66O41lYN91RmnoAPstSpJi72KWskUoAHGsDEZXJEN-dHrthQ>
+    <xme:6lELap5vIqH_4hVAUA2XL9KZ3AQLWhEstjNNRcLg0Qu-9D1Y4YV7IX_esNqohmYEy
+    PI-VasCTKwe2TRhg_DThreCmUDaQVIwRLN4Sswe3saz095cuix_rWs>
+X-ME-Received: <xmr:6lELanFw4qkT8oL9bg2Yfjau6ENzYWtMN4kiPSPF9xdQk4fkTQc2k-ftDhwEtGnUs9BKERI0Fvd_Cjh7BW_cAV0UMYLUyXKvwRT-pumWMp3M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeelhedvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
-    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    epfeffvdefgeevkeduhfetueehhfeikedvieeufeevieffueektdeluddtgfegveehnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlse
-    hpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehjrghmihhnpghlihhnsegrshhpvggvughtvggthhdrtghomhdprh
-    gtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgv
-    mhgsvgguuggvugdrohhrghdprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguth
-    gvtghhrdgtohhmpdhrtghpthhtohepvhhinhgtvggptghhrghnghesrghsphgvvgguthgv
-    tghhrdgtohhm
-X-ME-Proxy: <xmx:504LanQo6sBMCUvCN3rzXX83fvyCwbpojmKxemoN3-UghnCjlQq_Vg>
-    <xmx:504LaiOnPBQ78b5xTroE-Eaf0QpMUkgUA10AWgAE_NmdAh2stcZTVg>
-    <xmx:504Lasbp1thaQOrxvP1x0m1X6Ptv0zN5oqjZ2S0WghCHxQx7MeQ4Hw>
-    <xmx:504LasyA_CcaecpYZGrzheJ4euxC3oPHX6-nX3nytEz4yv9gRzEk7A>
-    <xmx:6E4Lat436wlUI7cfO4f47r0yAlgAR7U6hwao_nqj6ZEok9Hy9h4iaFux>
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
+    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepvdethfdtgfevteetieeuvdehieegkeehgedvge
+    etvddttdeufffgleeffeekgfdunecuffhomhgrihhnpeduledrsggsnecuvehluhhsthgv
+    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvg
+    hrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehlihgviihhihdrhigrnhhgseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtoh
+    epohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvuggu
+    vggurdhorhhg
+X-ME-Proxy: <xmx:6lELaiSvdZRTSKQteQ-6q2s5g9ezMF8ZZU0lOMO_Fc1IqcRuVxI1Ow>
+    <xmx:6lELagtobIiMXM9GwIwQXOSRoG_5DnOewmwoAttPj_Pv9J_jJYcBUw>
+    <xmx:6lELahwaXo3wrY__g1BJhGXk3NTzfQDBW9VOc3Af0rDzQbyIXb5-Mw>
+    <xmx:6lELaq746vFt5OHwl_EkDH7qmASiTm28nBX2BSBOpMMwQjBlBRB01Q>
+    <xmx:6lELauahXNAVCFowDZUSosEG1K8I0zhQHU3kyADMYf86HVi9BYwLVJYH>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 May 2026 13:39:50 -0400 (EDT)
-Message-ID: <f8757960b4f15bf66d30fad45ab7b0a1512b036a.camel@pbarker.dev>
-Subject: Re: [PATCH v1] kernel-fit-image: Check signing key files based on
- algorithm
+ 18 May 2026 13:52:41 -0400 (EDT)
+Message-ID: <cf357f4b53fc07fdc62cf8def7f75395b490feec.camel@pbarker.dev>
+Subject: Re: [PATCH v2 2/2] strace: upgrade 6.19 -> 7.0
 From: Paul Barker <paul@pbarker.dev>
-To: Jamin Lin <jamin_lin@aspeedtech.com>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: Troy Lee <troy_lee@aspeedtech.com>, Vince Chang
- <vince_chang@aspeedtech.com>
-Date: Mon, 18 May 2026 18:39:47 +0100
-In-Reply-To: <20260515094251.433364-1-jamin_lin@aspeedtech.com>
-References: <20260515094251.433364-1-jamin_lin@aspeedtech.com>
+To: liezhi.yang@windriver.com, openembedded-core@lists.openembedded.org
+Date: Mon, 18 May 2026 18:52:38 +0100
+In-Reply-To: <19dc384322b778c446534c54666b60f0eb721827.1778659781.git.liezhi.yang@windriver.com>
+References: <cover.1778659781.git.liezhi.yang@windriver.com>
+	 <19dc384322b778c446534c54666b60f0eb721827.1778659781.git.liezhi.yang@windriver.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -121,40 +115,80 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-alL+wGIqr2lb7bXkK1lG"
+	protocol="application/pgp-signature"; boundary="=-wZBKXMlSSE6QRRDxU+eS"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 17:39:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237254
+ <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 17:52:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237255
 
 
---=-alL+wGIqr2lb7bXkK1lG
+--=-wZBKXMlSSE6QRRDxU+eS
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-05-15 at 09:42 +0000, Jamin Lin wrote:
-> The key file validation in run_mkimage_sign() unconditionally required
-> .key and .crt regardless of the signing algorithm. This prevented ECDSA
-> signing which uses a single .pem file.
+On Wed, 2026-05-13 at 01:14 -0700, liezhi.yang@windriver.com wrote:
+> From: Robert Yang <liezhi.yang@windriver.com>
 >=20
-> Extract the check into _check_sign_key_files() and detect the algorithm
-> from the algo string (e.g. "sha256,ecdsa384") by scanning all
-> comma-separated parts so field order does not matter:
-> - ECDSA: requires <keyname>.pem
-> - RSA  : requires <keyname>.key and <keyname>.crt
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  ...gnore-pwritev-pwrite64-tests-on-musl.patch | 62 +++++++++++++++++++
+>  ...toconf-macro-to-detect-largefile-sup.patch |  4 +-
+>  ...kport-ax_prog_cc_for_build.m4-macros.patch |  2 +-
+>  ...001-strace-fix-reproducibilty-issues.patch |  2 +-
+>  ...002-tests-Replace-off64_t-with-off_t.patch |  2 +-
+>  .../strace/strace/Makefile-ptest.patch        |  6 +-
+>  .../strace/strace/ptest-spacesave.patch       |  2 +-
+>  .../strace/strace/skip-bpf.patch              | 25 +++++---
+>  .../strace/strace/skip-load.patch             |  2 +-
+>  .../strace/strace/update-gawk-paths.patch     |  2 +-
+>  .../strace/{strace_6.19.bb =3D> strace_7.0.bb}  |  3 +-
+>  11 files changed, 91 insertions(+), 21 deletions(-)
+>  create mode 100644 meta/recipes-devtools/strace/files/0001-Ignore-pwrite=
+v-pwrite64-tests-on-musl.patch
+>  rename meta/recipes-devtools/strace/{strace_6.19.bb =3D> strace_7.0.bb} =
+(96%)
+>=20
+> diff --git a/meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrit=
+e64-tests-on-musl.patch b/meta/recipes-devtools/strace/files/0001-Ignore-pw=
+ritev-pwrite64-tests-on-musl.patch
+> new file mode 100644
+> index 0000000000..d19533854c
+> --- /dev/null
+> +++ b/meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tes=
+ts-on-musl.patch
 
-Hi Jamin,
+It looks like this file has been copied from the directory
+meta/recipes-devtools/strace/strace, perhaps by the AUH misbehaving.
 
-This contradicts my understanding of cryptographic algorithms and file
-formats. To my knowledge, ECDSA & RSA are algorithms, PEM vs .key/.crt
-are file formats. You can have an RSA certificate in PEM format, and you
-can store the key & cert for use in ECDSA in .key & .crt files if you
-want to.
+Also, a few of the patch refreshes look unnecessary to me as they only
+change the From line.
 
-Am I misunderstanding something here?
+> diff --git a/meta/recipes-devtools/strace/strace_6.19.bb b/meta/recipes-d=
+evtools/strace/strace_7.0.bb
+> similarity index 96%
+> rename from meta/recipes-devtools/strace/strace_6.19.bb
+> rename to meta/recipes-devtools/strace/strace_7.0.bb
+> index 7b8d4851fb..1150cfda61 100644
+> --- a/meta/recipes-devtools/strace/strace_6.19.bb
+> +++ b/meta/recipes-devtools/strace/strace_7.0.bb
+> @@ -20,10 +20,9 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/strace=
+-${PV}.tar.xz \
+>  SRC_URI:append:libc-musl =3D "\
+>             file://0001-Ignore-pwritev-pwrite64-tests-on-musl.patch \
+>             "
+> -SRC_URI[sha256sum] =3D "e076c851eec0972486ec842164fdc54547f9d17abd3d1449=
+de8b120f5d299143"
+> +SRC_URI[sha256sum] =3D "6c92419be3f2ec560b31728a4652217c59864c8642ba7b1b=
+3771b1b013ad074b"
+> =20
+>  # remove at next version upgrade or when output changes
+> -PR =3D "r1"
+>  HASHEQUIV_HASH_VERSION .=3D ".1"
+
+Please send a v3 with the comment and both assignments dropped.
 
 Best regards,
 
@@ -162,17 +196,17 @@ Best regards,
 Paul Barker
 
 
---=-alL+wGIqr2lb7bXkK1lG
+--=-wZBKXMlSSE6QRRDxU+eS
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagtO4xEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0btUKAQCSI8Qfj2IvPzLOo2CkyxrMLjBtKi83G12T
-iBW+ZWZiUwEAiVuUi5zsDtcEdkeLWKEokOu9ieQy7A9CrsyZagdRGgQ=
-=8+iN
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagtR5hEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bq92AQCXTXPi+uNLCVLe9csbgXsvq+Aj/7OXgobA
+NtD6Do3yogD+N287uaxvO6R+N3saEvABXMGQoD80G/zdRD1qFMkhcwY=
+=5EC3
 -----END PGP SIGNATURE-----
 
---=-alL+wGIqr2lb7bXkK1lG--
+--=-wZBKXMlSSE6QRRDxU+eS--
 
