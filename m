@@ -1,110 +1,117 @@
-Return-Path: <frezidok1@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02706CD4F52
-	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 13:21:42 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8232.1779110493487365128
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F6BCD4F3C
+	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 13:45:02 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8672.1779111899118486767
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2026 06:21:33 -0700
+ Mon, 18 May 2026 06:44:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ma05OHhZ;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: frezidok1@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-393925cb1baso27220161fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 06:21:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RA3WLMTf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45d96d21e82so1325823f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 06:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779110492; x=1779715292; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tx1UkK2FKl6aLRrzZFH6SiGqGEbgsxuHPPUqhBSgOYg=;
-        b=Ma05OHhZOe71cvElcidECUYjGrR+M26xQXTHx4nBqM8NiHKBnQr3cm+l1l+k5Ttvyi
-         nt59aGHe0Pu0Xv74x2jHXpkSaONwXJHCvlRQuMuioFPY/kZCLsC82GgRC6GDpd7jrdmS
-         UKBoOSyruSSrM6dfC4320aU/OdWLb/ZLwKp09/gK+QRMDBeDG4MqDVT5DR0aQXRiz9Tr
-         KT6l9XT3FjQ0qL5+ninrtPfEj+gF/T9Mo7bVSl/2n7eB3zg+EHcw0wMkkq7nivcxRiAH
-         vmB5EgNdnx05cONSI97vwkvTQoKdvPpLqTZgv7tCrzOETLX6N+hGVURWDp8J506a1suM
-         /6SQ==
+        d=linuxfoundation.org; s=google; t=1779111897; x=1779716697; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zBBoFY3FXROb5k+EOso24zU8FoqEhOWu6bI+dg50Ngo=;
+        b=RA3WLMTfaIBpju8H4S4r2Rcz2L4cM4UqBKVFjbS3j9xmEJfrgHLkGKJzuG95z8aXoP
+         Z5U2m6lV5ifeG5Qs94+IFsQeEANZSjEpTaSVqs6dYouwAtnNG1Z6P6ud9544fLUEuiST
+         fbscEdovZOYqL8xLta3mZFjIbaWGvHZzB976U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779110492; x=1779715292;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tx1UkK2FKl6aLRrzZFH6SiGqGEbgsxuHPPUqhBSgOYg=;
-        b=Gs2QXtsXOrPPnmTr1NOX5qUsR1vomboFjpQCO/Zou5ipaGDJgfeFM4/9h1c16g2A11
-         9LL9ie+/tQVftgjnvH3j0R0VY1Z0gVawkQiKXijrfu/gRmWO7LhuC8qazRJZzv8FGrHV
-         liW1eMo1fRdtDUq6Y+qD7iFOes+/MIRzl0TYB513asGreMVkw1Y5iIee7b8RlGzR9kUA
-         hUxhicSfsnvNsMCHACgyjxj2p74DJ3xU8Vu7+Ui453NtVZP5MHvihmGv/jLTfJ1A6+se
-         eUXVX2E1DhSuDqsgexi9ZXenMJ4Ebu4wZX9VpGmLMlmYBMlUo85WV0FqSWLl3Sc5+gsQ
-         cRAw==
-X-Gm-Message-State: AOJu0YxGAtXoJLPRXEtiJv9Lj2ewLcDWhnmUoxoRqiNChBpiIm4dJSRc
-	AQ6FN8vNUpDrQFoh+hh/SVmpOybfpK5bHe6tddwVGS13r7uzuG0SuVUPag6bWbOAONs=
-X-Gm-Gg: Acq92OGlz8dTmPowiuejW55BkfPFtR5AgR7BmmcDt7l5iBM8ULjhfd45Sr8eQe65i/T
-	6g5DERsWxaI4OhUUfUJ3wy5tBrevPZk+vqOSbmNNZ/EBg6l/pet6FanP3qsL2u6Nonl1v7PIrmp
-	zA9r7csbJXCuVpyOt/BwCsW8+j9g7k5mwyjohpdj2/Iu3+K3uaVlhL8ZCUIl4u1iZp04J2DVN8l
-	Ej6w5hlvyzK86idkpOmtAd0TMZaiN5ahnn7HjDI0EBASZwQwrASxhtEcmD1B3+tgtDykyvFYxo5
-	yGYqeMk6xh69Nij6tgT3hMMC1t+yhDEBVqgMSCDk5Am7Y0vWIxHakTHFCbVLxpxDZB+hlrnYpZ1
-	ScVxDMFmuVHqfq5iteBLBcNTf+rlnf2SbX5splbiO4hCmrFlrn4w9ZVXAXUY+dpVu+Er9+dz6t4
-	SgRMGI0p6ltST3ZyW5Tg==
-X-Received: by 2002:a2e:928a:0:b0:393:8ba5:3d01 with SMTP id 38308e7fff4ca-39561f22d3dmr31222591fa.22.1779110491373;
-        Mon, 18 May 2026 06:21:31 -0700 (PDT)
-Received: from ubuntu1.. ([213.87.153.150])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3958827ec4csm11865711fa.4.2026.05.18.06.21.30
+        d=1e100.net; s=20251104; t=1779111897; x=1779716697;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zBBoFY3FXROb5k+EOso24zU8FoqEhOWu6bI+dg50Ngo=;
+        b=Sea2KSSVc02+N8CRbbj1WvTzz8F4nco7xkZ9PyM1Dr9NTUHobdTvBOE9/p0ToTFWQH
+         M80sWH+FrWl+iKRImppKjKlaDhaFwZxdRUXpkYQVXlBETEXxjTbanRN7szOraF4CtAXM
+         a+a6GlLYaouYRzVw1GXy1MnUWlKRB0nLICkZAecfNAd15GX6va1kGbavNOxVhrQVjdD6
+         ja5O0YWCFi+i7k9w8yVR8BJArCJ3RVVcK25YOqjVBFYuQJ/G0Oa3nOK0PiLTpKgdkMOw
+         6BMdSsmkWd4QP5uifHv1Ph80asLtjUiSN6IeEAgQMaNPXGVMr6AduoDP6exAu6yBuU++
+         NNJw==
+X-Gm-Message-State: AOJu0YzHx/6+fwzGUkGhSyL3Eu0/hbsMGvrrzwqF4fQNzm2DPSmBqK0l
+	Lj4rgcYc8tRV82juCeaRrvuYbcZiOxOy1qFcmA6VHzf/TbOsJOX8vAGrrEh6P580yML4VsS5loS
+	Vn8ZB
+X-Gm-Gg: Acq92OHATC59X9/wGSlINgrjAhM5UhflP2CxyixzU+0jyM/ULEMHCt9wG1pTCIHQDGs
+	7iCf1FwcfeTlDrp5LRoHofVhf+7OsjOL0V8R96xkBVRLAZEjAR8LLoaNeVCJsWdyBnzAB3bBPhT
+	t5gfYkvubi4VwMjP2+5u8WVwTUnOGzYzQFb3ZDCUnFwN/vDyZ3A9zs3vh1RXTKRspdm/BbBBqpB
+	bO/Rcaexz4chKWSLd3bzggzdVwfkVb42o6EA5U03IUetdBQmvPMdOFkYppJHYEo9ZAUdxuRpOtX
+	sJtOa99bLmCXpiRu1B2UbJQ2HMDPAnCGL1S4HPCIKq/y6WuZrFf76DLzBNqXRUdudBT/SK1jpZj
+	t77ejaaUluzJmkLYoSRgjTFEUzAAJVwLjZbCMxao17++DrwDgCDRTgkmsZ7u+TTN3Y8Xhr0cRTm
+	1URNT048AsVFLdKRl9DNje1DqDyK5+o9pInhp4OAhkiqB80YN/X/k=
+X-Received: by 2002:a05:600c:5296:b0:48a:65ad:1881 with SMTP id 5b1f17b1804b1-48fe60ed846mr233955655e9.13.1779111897113;
+        Mon, 18 May 2026 06:44:57 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c0c5:308:9c51:e911])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fffb9aac4sm252510305e9.9.2026.05.18.06.44.56
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 06:21:30 -0700 (PDT)
-From: frezidok1@gmail.com
+        Mon, 18 May 2026 06:44:56 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Sakhonchik <frezidok1@gmail.com>
-Subject: [OE-Core][PATCH] matchbox-panel-2: fix clock widget width resize
-Date: Mon, 18 May 2026 16:21:06 +0300
-Message-Id: <20260518132106.1296563-1-frezidok1@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] layer.conf: Update to use blacksail release series name
+Date: Mon, 18 May 2026 14:44:55 +0100
+Message-ID: <20260518134455.3568809-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 13:21:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237245
+ <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 13:45:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237246
 
-From: Dmitry Sakhonchik <frezidok1@gmail.com>
+For now we remain compatible with wrynose so just start the transition.
 
-Previously clock widget used to change its size depending on digits' width inside it, which caused other icons in the panel to move.
-
-Fixes [YOCTO #15435]
-
-Signed-off-by: Dmitry Sakhonchik <frezidok1@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- applets/clock/clock.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta-selftest/conf/layer.conf | 2 +-
+ meta-skeleton/conf/layer.conf | 2 +-
+ meta/conf/layer.conf          | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/applets/clock/clock.c b/applets/clock/clock.c
-index b8057a4..3065cfc 100644
---- a/applets/clock/clock.c
-+++ b/applets/clock/clock.c
-@@ -73,6 +73,7 @@ mb_panel_applet_create (const char    *id,
-         GtkWidget *label;
-         time_t t;
-         struct tm *local_time;
-+        int ref_string_width;
+diff --git a/meta-selftest/conf/layer.conf b/meta-selftest/conf/layer.conf
+index ff14960bab0..40b6b6910ad 100644
+--- a/meta-selftest/conf/layer.conf
++++ b/meta-selftest/conf/layer.conf
+@@ -11,6 +11,6 @@ BBFILE_PRIORITY_selftest = "5"
  
-         applet = g_slice_new0 (ClockApplet);
+ addpylib ${LAYERDIR}/lib oeqa
  
-@@ -81,6 +82,17 @@ mb_panel_applet_create (const char    *id,
+-LAYERSERIES_COMPAT_selftest = "wrynose"
++LAYERSERIES_COMPAT_selftest = "blacksail"
  
-         gtk_widget_set_name (label, "MatchboxPanelClock");
+ OE_FRAGMENTS_BUILTIN:append = " selftest-fragment:SELFTEST_BUILTIN_FRAGMENT_VARIABLE"
+diff --git a/meta-skeleton/conf/layer.conf b/meta-skeleton/conf/layer.conf
+index a36211a8c9a..94909d51205 100644
+--- a/meta-skeleton/conf/layer.conf
++++ b/meta-skeleton/conf/layer.conf
+@@ -14,4 +14,4 @@ LAYERVERSION_skeleton = "1"
  
-+        /* Size the widget using the widest possible time string ("88:88") */
-+        PangoContext *context = gtk_widget_get_pango_context(label);
-+        PangoLayout *reference_string = pango_layout_new(context);
-+
-+        pango_layout_set_text(reference_string, "88:88", 5);
-+        pango_layout_get_pixel_size(reference_string, &ref_string_width, NULL);
-+
-+        g_object_unref(reference_string);
-+
-+        gtk_widget_set_size_request(label, ref_string_width, -1);
-+
-         g_object_weak_ref (G_OBJECT (label),
-                            (GWeakNotify) clock_applet_free,
-                            applet);
+ LAYERDEPENDS_skeleton = "core"
+ 
+-LAYERSERIES_COMPAT_skeleton = "wrynose"
++LAYERSERIES_COMPAT_skeleton = "blacksail"
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index b097c34c7ba..b91ce3e4371 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -7,12 +7,12 @@ BBFILE_COLLECTIONS += "core"
+ BBFILE_PATTERN_core = "^${LAYERDIR}/"
+ BBFILE_PRIORITY_core = "5"
+ 
+-LAYERSERIES_CORENAMES = "wrynose"
++LAYERSERIES_CORENAMES = "wrynose blacksail"
+ 
+ # This should only be incremented on significant changes that will
+ # cause compatibility issues with other layers
+ LAYERVERSION_core = "15"
+-LAYERSERIES_COMPAT_core = "wrynose"
++LAYERSERIES_COMPAT_core = "blacksail"
+ 
+ BBLAYERS_LAYERINDEX_NAME_core = "openembedded-core"
+ 
 
