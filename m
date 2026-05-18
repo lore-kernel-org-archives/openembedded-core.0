@@ -1,290 +1,179 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D41CD4F52
-	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 10:36:27 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5674.1779100586891283324
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDDD9CD4F3C
+	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 10:40:57 +0000 (UTC)
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5577.1779100847269335717
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2026 03:36:27 -0700
+ Mon, 18 May 2026 03:40:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=YMMYVu+n;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 465054617
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 03:36:21 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 051833F85F
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 03:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779100586; bh=I3SGgE0bE420M+ihWe1X30kRNhpwPAJ7GjW8Nxjbtqg=;
-	h=From:To:Subject:Date:From;
-	b=YMMYVu+nYQriTdAxt+1VNX+lPb7CEvu8KvYa0PnM48gkTIhtQezyhy4lgpBGP4IcU
-	 DHl9xPTiY5Esv0ZM6Ek0wve+kCnmyYD7IJTSR8Z5NNYJLRbkras+bAGNGHiJ9f9j8q
-	 z6karZEs5G9GbIMaYZyI7UikMoLtIaHafB9FuLuI=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-installer: upgrade 0.7.0 -> 1.0.1
-Date: Mon, 18 May 2026 11:36:24 +0100
-Message-ID: <20260518103624.598829-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=BJlleiDX;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=u+pMNYaW;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.146, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id 0474F1D00133;
+	Mon, 18 May 2026 06:40:45 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Mon, 18 May 2026 06:40:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1779100845; x=1779187245; bh=A2ps6f5R04
+	etHMiehX7k+4k+og/9VeOiFACJoBS3F1k=; b=BJlleiDXnnG/jpCbY0PqLeWoFE
+	Cnxa/pg8crDGJYnkYC/SXX0Z7VSNVhEgwLGGJJe8HRIA6Bm46l0rPx5amT9iDjQ8
+	KCS6EnAzylKkw6M55qBxr9GkR+d7qJICvw5yXHqQ3PEpGWTi39QiJy8cv4PiEnjG
+	YAzZsxHYHtLXGCK7YgPJ5EXNY3EMdntEWYdyLXBhwB+MF6uVnEd6Rku7tSdRl19p
+	tCyVqiSmuk6C3Wpn72VUhD2oFsWPrYqFCZT6XpiXdLwOwkD8LRtROogpjt2wNC9P
+	fdAuMl6gB3Q/KodcVduSJ7iXPVEWwkxeqiIsWvDQd9PITSI+86FOGnzSwKCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1779100845; x=1779187245; bh=A2ps6f5R04etHMiehX7k+4k+og/9VeOiFAC
+	JoBS3F1k=; b=u+pMNYaWAIfnnVhkFDM5+El2G4WuuxZyTDDO33thoFg2Ci0utjz
+	0lHRFbuYwoofu1hZT6qHdoeY88+IVUlNc4kdWO9fTKd1WaHx5rViCO0cjYI/I3/L
+	kTI/d9+skN0K4heCoefI43QllpxdhLbp/XBS1CCaklXnzWjJGYztZdgsn1JAtds2
+	46MAZO5h8izXjuB7A5OAAf5QQ6cl9rKZmXJAQiWYcziIgiqz1I/jy9DZE4Fti9bK
+	+vWDZLRP4kYxdL9u7KAU+07x5d4ez0LzWWovNw0fntPibHjR2EYGWPLMEug10j3L
+	YnCGMhzAbevRcsYcmOmkdY5Bs3pv6NL72Lg==
+X-ME-Sender: <xms:rOwKasdsq3APhynCYiiz9KMoFaBO2LjFyfdsr8L5z9Z8DDSWjAl5ow>
+    <xme:rOwKaloS_ofNLhZgcmn5x49A3SOcXN4uqfnrZVvA2G2yBAJ8R4Ysp5rYb7RRoNqpu
+    xk1K0zbRcI3rWiZr4v_Av0XWYce1wZc-bMMlmClr439Xh5zWlL1hWM>
+X-ME-Received: <xmr:rOwKaq60IFeYyRAc2HTkhI-cTr-DMksweteGJxPRwGtbNXu_F0rXcC_gDgMZZRw9wr_sz-QtDd3wOYXEYfciIl-avgfCXfajT0pqRw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeekieeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
+    dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
+    rdguvghvqeenucggtffrrghtthgvrhhnpefhkefhuefgleefleduleelhfektedvffeitd
+    dtueeukefhieduiedvfeeuhedutdenucffohhmrghinhepohhpvghnvghmsggvugguvggu
+    rdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeefpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegrlhgvgidrkhgrnhgrvhhinhesghhmrghilhdrtg
+    homhdprhgtphhtthhopegthhgrnhhgqhhinhhgrdhlihesfihinhgurhhivhgvrhdrtgho
+    mhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhoph
+    gvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:rOwKarrFc9gQJYjdimXbU3CvseClvyOXwlvMjo4sruefI8RrpfYglw>
+    <xmx:rOwKasjHySqdeWs8RdvAUAvQu7di8iWGJgHuIJ6WK2ehoCi92Vfu3w>
+    <xmx:rOwKalJBWShQGvXcf7SmooqxEwZ3lNYMQcX4Ztm_L2qtpf96Xgfk-w>
+    <xmx:rOwKasCFGyDL2P6SM2h6pfa4ERJ9SjW4PCPZEzFfEXRqQiUrcYZ5Ww>
+    <xmx:rewKamQHjlRwO3xdm89-sP6MbPcZjqlgSlPFSa6paIiptdrP0HzJSeUm>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 18 May 2026 06:40:44 -0400 (EDT)
+Message-ID: <3e3c326a5b907cc8c10521bb7590c8738bdaaad6.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH] cgo-helloworld: init add
+From: Paul Barker <paul@pbarker.dev>
+To: alex.kanavin@gmail.com
+Cc: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+Date: Mon, 18 May 2026 11:40:41 +0100
+In-Reply-To: <CANNYZj-pCF3r5PMPO+f-O2KNc=iwc74Nxg3jHmNY5L1RLOEkPw@mail.gmail.com>
+References: <20260515024119.4192524-1-changqing.li@windriver.com>
+	 <1b05833208339033ec4ae244d71d1391b4fe42cd.camel@pbarker.dev>
+	 <CANNYZj-pCF3r5PMPO+f-O2KNc=iwc74Nxg3jHmNY5L1RLOEkPw@mail.gmail.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-iUzJ8jfTSFAFQa+Yioeo"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 10:36:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237218
+ <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 10:40:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237219
 
-v1.0.1 (May 11, 2026)
-- Include docs and tests in sdist again (#322)
-- Fix long path issue on Windows (#321)
-- Fix date in changelog (#324)
-- Use `os.path.abspath()` instead of `Path.resolve()` for performance (#3=
-26)
 
-v1.0.0 (Mar 28, 2026)
+--=-iUzJ8jfTSFAFQa+Yioeo
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- Drop support for Python 3.9, 3.8, and 3.7 (#305, #242, #206)
-- Add support and Python 3.13 and 3.14 (#201, #282)
-- Add `--overwrite-existing` CLI option (#216)
-- Add `--validate-record` CLI option (#161)
-- Support installing multiple wheels (#203)
-- Handle invalid hash algorithms (#179)
-- Stream-based validation instead of in-memory (#98)
-- Add validate_stream methods (#99)
-- Consolidate and refine validation APIs (#108, #111)
-- Sort entries before writing RECORD (#245)
-- Do not install __pycache__ from wheels (#307)
-- Fix a path traversal bug (#317)
-- Update launcher scripts and Windows behavior (#212, #181)
-- Fix Windows relpath bug (#286)
-- Migrate to dataclasses (#200)
-- Use cached_property for memoization (#243)
-- Refactor installer.scripts (#239)
-- Decouple test modules (#104)
-- Avoid cross-module imports from .utils (#102)
-- Lazy imports for performance (#226)
-- Complete type annotations and enforce strict mypy (#173)
-- Deprecate RecordEntry.validate (#186)
-- Fix documentation typos and grammar (#309, #210)
-- Improve docstrings and internal documentation (#100)
+On Mon, 2026-05-18 at 12:22 +0200, Alexander Kanavin via
+lists.openembedded.org wrote:
+> On Mon, 18 May 2026 at 09:18, Paul Barker via lists.openembedded.org
+> <paul=3Dpbarker.dev@lists.openembedded.org> wrote:
+>=20
+> > Please could you add a selftest case which checks that this recipe can
+> > be built? I think this should be added in the existing file
+> > meta/lib/oeqa/selftest/cases/gotoolchain.py.
+>=20
+> I don't think this is necessary. The recipe is for the purpose of
+> testing cgo reproducibility, and this is covered by the world build in
+> the reproducible selftest.
 
-Remove an upstreamed patch, and rewrite the patch adding an --interpreter
-option.
+Ah, I understand now!
 
-Verified that building everything in oe-core that uses the pep517 class
-is identical before and after the upgrade.
+>=20
+> It does however complement go-helloworld, and so places which use that
+> should be amended to include cgo-helloworld:
+> meta/lib/oeqa/runtime/cases/go.py
+> meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...ils.py-sort-entries-before-writing-o.patch | 27 ------
- .../python3-installer/interpreter.patch       | 85 ++++++++++---------
- ...er_0.7.0.bb =3D> python3-installer_1.0.1.bb} |  5 +-
- 3 files changed, 45 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-installer/0001-s=
-rc-installer-utils.py-sort-entries-before-writing-o.patch
- rename meta/recipes-devtools/python/{python3-installer_0.7.0.bb =3D> pyt=
-hon3-installer_1.0.1.bb} (79%)
+Changqing, please could you send a v2 with this update, and add a
+sentence to the commit message saying that test coverage is provided by
+the reproducibility world build.
 
-diff --git a/meta/recipes-devtools/python/python3-installer/0001-src-inst=
-aller-utils.py-sort-entries-before-writing-o.patch b/meta/recipes-devtool=
-s/python/python3-installer/0001-src-installer-utils.py-sort-entries-befor=
-e-writing-o.patch
-deleted file mode 100644
-index a6715ed457d..00000000000
---- a/meta/recipes-devtools/python/python3-installer/0001-src-installer-u=
-tils.py-sort-entries-before-writing-o.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 760ddf50ce559abd67bbdd31797267d00bcddfb3 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 1 Oct 2024 19:22:11 +0200
--Subject: [PATCH] src/installer/utils.py: sort entries before writing out
-- RECORD file
--
--This helps build reproducibility.
--
--Upstream-Status: Submitted [https://github.com/pypa/installer/pull/245]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- src/installer/utils.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/installer/utils.py b/src/installer/utils.py
--index 3e601d6..073297c 100644
----- a/src/installer/utils.py
--+++ b/src/installer/utils.py
--@@ -207,7 +207,7 @@ def construct_record_file(
--         io.BytesIO(), encoding=3D"utf-8", write_through=3DTrue, newline=
-=3D""
--     )
--     writer =3D csv.writer(stream, delimiter=3D",", quotechar=3D'"', lin=
-eterminator=3D"\n")
---    for scheme, record in records:
--+    for scheme, record in sorted(records, key=3Dlambda x: x[1].path):
--         writer.writerow(record.to_row(prefix_for_scheme(scheme)))
--     stream.seek(0)
--     return stream.detach()
-diff --git a/meta/recipes-devtools/python/python3-installer/interpreter.p=
-atch b/meta/recipes-devtools/python/python3-installer/interpreter.patch
-index 7906769b901..0a5d34a349a 100644
---- a/meta/recipes-devtools/python/python3-installer/interpreter.patch
-+++ b/meta/recipes-devtools/python/python3-installer/interpreter.patch
-@@ -1,23 +1,24 @@
--From 74fe171fa4a25c120607e9f8450cbdfee675c959 Mon Sep 17 00:00:00 2001
-+From 22fa800b4cbcfddd57fa262fd7f2aeb06a15a711 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Mon, 14 Mar 2022 14:39:22 +0000
--Subject: [PATCH] python3-installer: add installer module
-+Subject: [PATCH 1/2] installer: add --interpreter option
-=20
--Let us override the hashbang directly (possibly upstreamable), and don't
--play games with hashbangs: for now assume that even hashbangs with space=
-s
--are simple (assume the spaces are only used to separate arguments) and
--we don't have long hashbangs.
-+The currently running Python might not be the right one for the installe=
-d
-+wheels, so add an option to allow the interpreter to be overridden.
-=20
--Upstream-Status: Inappropriate
-+This is essential in cross/distro builds where we want to install a
-+wheel into a working directory to build a distro package (eg a rpm or
-+deb) with pypa/installer, but the currently running python on the build
-+host might not be the right path for the scripts to use on the target.
-+
-+Upstream-Status: Submitted [https://github.com/pypa/installer/pull/332]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
--
- ---
-- src/installer/__main__.py |  9 ++++++++-
-- src/installer/scripts.py  | 15 +--------------
-- 2 files changed, 9 insertions(+), 15 deletions(-)
-+ src/installer/__main__.py | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
-=20
- diff --git a/src/installer/__main__.py b/src/installer/__main__.py
--index 51014b9..38de286 100644
-+index b7a7445..25415ea 100644
- --- a/src/installer/__main__.py
- +++ b/src/installer/__main__.py
- @@ -30,6 +30,13 @@ def _get_main_parser() -> argparse.ArgumentParser:
-@@ -34,38 +35,38 @@ index 51014b9..38de286 100644
-      parser.add_argument(
-          "--compile-bytecode",
-          action=3D"append",
--@@ -86,7 +93,7 @@ def _main(cli_args: Sequence[str], program: Optional[s=
-tr] =3D None) -> None:
--     with WheelFile.open(args.wheel) as source:
--         destination =3D SchemeDictionaryDestination(
--             scheme_dict=3D_get_scheme_dict(source.distribution, prefix=3D=
-args.prefix),
---            interpreter=3Dsys.executable,
--+            interpreter=3Dargs.interpreter,
--             script_kind=3Dget_launcher_kind(),
--             bytecode_optimization_levels=3Dbytecode_levels,
--             destdir=3Dargs.destdir,
-+@@ -102,7 +109,7 @@ def _main(cli_args: Sequence[str], program: str | No=
-ne =3D None) -> None:
-+                 source.validate_record(validate_contents=3Dargs.validat=
-e_record =3D=3D "all")
-+             destination =3D SchemeDictionaryDestination(
-+                 scheme_dict=3D_get_scheme_dict(source.distribution, pre=
-fix=3Dargs.prefix),
-+-                interpreter=3Dsys.executable,
-++                interpreter=3Dargs.interpreter,
-+                 script_kind=3Dget_launcher_kind(),
-+                 bytecode_optimization_levels=3Dbytecode_levels,
-+                 destdir=3Dargs.destdir,
- diff --git a/src/installer/scripts.py b/src/installer/scripts.py
--index 7e3c8fc..ba6ed5a 100644
-+index b21a72e..551941f 100644
- --- a/src/installer/scripts.py
- +++ b/src/installer/scripts.py
--@@ -59,20 +59,7 @@ def _build_shebang(executable: str, forlauncher: bool=
-) -> bytes:
--     https://bitbucket.org/pypa/distlib/src/58cd5c6/distlib/scripts.py#l=
-ines-124
--     """
--     executable_bytes =3D executable.encode("utf-8")
---    if forlauncher:  # The launcher can just use the command as-is.
---        return b"#!" + executable_bytes
---    if _is_executable_simple(executable_bytes):
---        return b"#!" + executable_bytes
-+@@ -138,17 +138,4 @@ class Script:
-+         https://bitbucket.org/pypa/distlib/src/58cd5c6/distlib/scripts.=
-py#lines-124
-+         """
-+         executable_bytes =3D executable.encode("utf-8")
-+-        if forlauncher:  # The launcher can just use the command as-is.
-+-            return b"#!" + executable_bytes
-+-        if self._is_executable_simple(executable_bytes):
-+-            return b"#!" + executable_bytes
- -
---    # Shebang support for an executable with a space in it is under-spe=
-cified
---    # and platform-dependent, so we use a clever hack to generate a scr=
-ipt to
---    # run in ``/bin/sh`` that should work on all reasonably modern plat=
-forms.
---    # Read the following message to understand how the hack works:
---    # https://github.com/pradyunsg/installer/pull/4#issuecomment-623668=
-717
-+-        # Shebang support for an executable with a space in it is under=
--specified
-+-        # and platform-dependent, so we use a clever hack to generate a=
- script to
-+-        # run in ``/bin/sh`` that should work on all reasonably modern =
-platforms.
-+-        # Read the following message to understand how the hack works:
-+-        # https://github.com/pypa/installer/pull/4#issuecomment-6236687=
-17
- -
---    quoted =3D shlex.quote(executable).encode("utf-8")
---    # I don't understand a lick what this is trying to do.
---    return b"#!/bin/sh\n'''exec' " + quoted + b' "$0" "$@"\n' + b"' '''=
-"
--+    return b"#!" + executable_bytes
--=20
--=20
-- class InvalidScript(ValueError):
-+-        quoted =3D shlex.quote(executable).encode("utf-8")
-+-        # I don't understand a lick what this is trying to do.
-+-        return b"#!/bin/sh\n'''exec' " + quoted + b' "$0" "$@"\n' + b"'=
- '''"
-++        return b"#!" + executable_bytes
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/python/python3-installer_0.7.0.bb b/me=
-ta/recipes-devtools/python/python3-installer_1.0.1.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-installer_0.7.0.bb
-rename to meta/recipes-devtools/python/python3-installer_1.0.1.bb
-index 6aaf1b3a379..6727f8e21e8 100644
---- a/meta/recipes-devtools/python/python3-installer_0.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-installer_1.0.1.bb
-@@ -6,10 +6,9 @@ BUGTRACKER =3D "https://github.com/pypa/installer/issues=
-"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5038641aec7a77451e31da828ebfa=
-e00"
-=20
--SRC_URI +=3D "file://interpreter.patch \
--            file://0001-src-installer-utils.py-sort-entries-before-writi=
-ng-o.patch"
-+SRC_URI +=3D "file://interpreter.patch"
-=20
--SRC_URI[sha256sum] =3D "a26d3e3116289bb08216e0d0f7d925fcef0b0194eedfa0c9=
-44bcaaa106c4b631"
-+SRC_URI[sha256sum] =3D "052c7fc3721d54c696e2dea019be67539d7b144e924f559f=
-54beb3121831c364"
-=20
- inherit pypi python_flit_core
-=20
+Best regards,
+
 --=20
-2.43.0
+Paul Barker
 
+
+--=-iUzJ8jfTSFAFQa+Yioeo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagrsqREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bqczAP9btqD/MzS+T7dvSsrTFNvOY3JNEzs2aOaz
+LdGJPE4oHAD/ebXyS6MWD+I/WLOtAaFHPWe/x8ddm1/z73p/So2qmgk=
+=C7tC
+-----END PGP SIGNATURE-----
+
+--=-iUzJ8jfTSFAFQa+Yioeo--
 
