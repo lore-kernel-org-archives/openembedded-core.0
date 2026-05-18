@@ -2,73 +2,86 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5634CD4F48
-	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 07:18:10 +0000 (UTC)
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3286.1779088687967019988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DF9CD4F3C
+	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 07:27:20 +0000 (UTC)
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3302.1779089235798983446
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2026 00:18:08 -0700
+ Mon, 18 May 2026 00:27:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=a1rBWTsw;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=XvQfow7l;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.150, mailfrom: paul@pbarker.dev)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=AYRzmeRa;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=vE75uOUT;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.153, mailfrom: paul@pbarker.dev)
 Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id AA1401D000F6;
-	Mon, 18 May 2026 03:18:06 -0400 (EDT)
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 1373B7A0073;
+	Mon, 18 May 2026 03:27:15 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Mon, 18 May 2026 03:18:06 -0400
+  by phl-compute-06.internal (MEProxy); Mon, 18 May 2026 03:27:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1779088685; x=1779175085; bh=vkvj+8ALAL
-	rzFkC2nalR22Y127qOk8fN83DfgWlV+7w=; b=a1rBWTsw1CBGFzKI6LbxsX74er
-	aN7z956dNH15aXsAp8KM6eta5Vz6evanW1UAVJeDFTKoYHhF2ogLVBEflUFO7rql
-	2F9OB1Q0C1vA/GfpyGCXHxBHBHrK7K4sdrEvaPwgrlPFt1Ljlv063j3l1eh2tS09
-	IRoN7eo5cYRaWuQsMkFgsjBMnezI+1ROU2cjYQBnmRmACViqOJI45a8XGnxLL1CE
-	raWvhBPKmW6k5uISuKJAw8Fy6BfweyldvyIktaDBs69A6cfvRsgwwehUCkdN/IQM
-	RannIaO42mKD7h68R3YdN2zByTrzBlraskvZc5TvuiyrAno5kcinOfxvQTcQ==
+	:subject:to:to; s=fm2; t=1779089234; x=1779175634; bh=cAaa5BevPu
+	ZtoKINO3AfXmvJ5s4249XgjnfOSPRlgrE=; b=AYRzmeRaRWOos6c8shYtlk14n9
+	EGUqpTd84XkITWg62y+wmMTMKPZv2OuGkogrRQlRtTRHbAjZPm3g9/6+fFP1Iawj
+	U0efuBf0XdYs3x0DfpBwea0OLS5KgXiST650hNNcMt+eeebPBN+f3ewpCXQumAQS
+	QXFQZZcOHdIcEEgr3ybqL1fKiRo9uraDUrciFdzTyn6HtKvrFrfxb5a+PwwgCU1h
+	/xaq3s9TqIxNe75uD3+OClWtQdouXXBwV8+IRKe/h7DL6u+f/u7FmhpRljELOWCa
+	RLKLq/kYB7TkPjhj1NiUrM/d2ouVpQ0BMEqys016xED1n0riRJvWojtZAGlg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1779088685; x=1779175085; bh=vkvj+8ALALrzFkC2nalR22Y127qOk8fN83D
-	fgWlV+7w=; b=XvQfow7lLzMdG7rxAe0/XO7Cdx4JTKTppmPJLay/iSbhHmYjFvL
-	ZggFLrERWgyz57dI7YBDQ8mnmdeRD0wddkM0jNdkKe7mEhDDmF1h4Y8ktokIT6rT
-	BwwH0qPJIADM9XSrL/3TkQkum9DB0XaQxzy0j3nPAHB+a/vUYoP8dcT25LdzbwLw
-	4qJYR/W9o+EtDD3ilNVd6Cq3T0+dQhGHKzeAsy3VywzbhGC8VSIvi0Nlz6fq/lFw
-	wJRcvO3crEh8mZf+r567oJu/dVLjdlcphXT+IBP0fi5Rd0TtciEPB5QO0tL+XFTr
-	TL7Fb9TRW+Zwpf/yZ/B6aeKKjXBHweBrY9w==
-X-ME-Sender: <xms:K70KatpZ5LjLnXCyed_dpMXA-kFmV9PwUdeCTmF0YRCowjyjBIXA4w>
-    <xme:K70Kalq9f5sMjEw8I6jMIoUJueA59ot24JK8qAtRfp9H59pg1x7wypQw7E-gtOtXE
-    D4sBGA7CYOVRrKT7T-BQiCZPL2ctwnLTeurmGH_7QsVpD8CpuCCRag>
-X-ME-Received: <xmr:K70Kan1xw8iSZtg1ebYWCvlGCLpWzYuw3ycZaZaf2zTMVvCRCh00W-nG56QTkNCIXa4Wz-glE3JhdkdaBhB6hAoDHNpqMhje7KvP3A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeekvdehucetufdoteggodetrf
+	1779089234; x=1779175634; bh=cAaa5BevPuZtoKINO3AfXmvJ5s4249Xgjnf
+	OSPRlgrE=; b=vE75uOUTaz8aro0iUMiW6lgh8WOCG1vdwh4KzqSijq0FOzXkSg7
+	JWETx+3bAMmlgw3leQB42e1EkYM8ofDmeJHCkl1itqZujNfycAkkGNJcd6LIqHdH
+	r+dsIAzXBy+kp4UOyCpn8XjbHmOqVGxMFL1/sZlzlBt4i/mPG/u8kt9C/0krmIdp
+	BXbKim67Ts8DZY7/xJLAYWCiv+oEU+xAd7/Yif4aDHgWZ2NuDAKyWnWWSVaXE8Lz
+	jqMoXvGxcUFM9tvg5MX3kEnQrjmjZUFyFXP+wu5VPtJmWzT9wumSlW8BgLg+B5Zr
+	sQ4E6LJu2ylpvDMLX6YrWm9X++V8OJ0L3tg==
+X-ME-Sender: <xms:Ur8KasPdiQdk-IDQZBYQHkLtXbyIgjiaitAsljh-Ue6RbKFFLHYd-g>
+    <xme:Ur8KaqaVhk71zKNwWLMYLbUyOG4ll_SUgizuRWiVAyT_eH55RKeYooAo6f3mvvNRr
+    nc6C60jkcCvjmlQVBeROZfzxoqSDK-hrSHBtbB-v4IpP2BBs1IhX-c>
+X-ME-Received: <xmr:Ur8KagrkRnedePQ15fMiNw-YlshVbQswZqyo9xCYh9SxtYFz8ofpjcaDzPhY8EZquAsmUBMOHleSePciKHGT9m6opkV2bz17cRB8Aw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeekvdejucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
-    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnhepieelheejfefgueffvddtveffteegieelteevje
-    elieeiveehhfdtvdevteeuledunecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
-    ohhrghdpghholhgrnhhgrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphht
-    thhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegthhgrnhhgqhhinhhgrd
-    hlihesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggv
-    ugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:LL0KakDpQ0BcLRz7rsA4PagCtcV8nClnAEAczRy5t4xnxm6LMQc2lg>
-    <xmx:LL0KavdNQNHt5yklX_tqkgEiNkLCPdM8MUKPxdilPdls4FRRC4pgIg>
-    <xmx:LL0KapgHuY2IJOsvO5Txt_6ofhpWD47amYXTJsRT3Vya2WWPt9aifQ>
-    <xmx:LL0Kanp-T0Bk8n4X40MQLONuAOGyp737LIbhgvrIF_dsWxf17Hi4vw>
-    <xmx:Lb0KapJA52uemIC8VnV-RFN17eNDRVzhMCc7T85aJDwNQIkbXxy0ytwZ>
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    epgeefieekgeefkeejgfeuvdejhfffffevjedtfefgueefffdukeetffejfeefgfevnecu
+    ffhomhgrihhnpehtvghsthgpsghughiiihhllhgrpggvnhhtrhihpghfohhrmhgrthdrfh
+    grihhlpdhtvghsthgptghomhhmihhtpghmvghsshgrghgvpghprhgvshgvnhgtvgdrfhgr
+    ihhlpdhtvghsthgptghomhhmihhtpghmvghsshgrghgvpghushgvrhgpthgrghhsrdhfrg
+    hilhdpthgvshhtpghnohhnpggruhhhpghuphhgrhgruggvrdhfrghilhdpthgvshhtpghs
+    hhhorhhtlhhoghgpfhhorhhmrghtrdhfrghilhdpthgvshhtpghshhhorhhtlhhoghgplh
+    gvnhhgthhhrdhfrghilhdpthgvshhtpghmrgigpghlihhnvggplhgvnhhgthhhrdhfrghi
+    lhdpthgvshhtpggtvhgvpghtrghgpghfohhrmhgrthdrfhgrihhlpdhtvghsthgpphgrth
+    gthhgpmhgrlhhfohhrmhgvuggptghonhhtvgigthdrfhgrihhlpdhtvghsthgpphgrthgt
+    hhgpthhrrghilhhinhhgpgifhhhithgvshhprggtvgdrfhgrihhlpdhtvghsthgpshhigh
+    hnvggupghofhhfpggshigpphhrvghsvghntggvrdhfrghilhdpthgvshhtpghuphhsthhr
+    vggrmhgpshhtrghtuhhspghprhgvshgvnhgtvggpfhhorhhmrghtrdhfrghilhenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgs
+    rghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepthhgrghmsghlihhnsegsrgihlhhisghrvgdrtghomhdprhgtphhtthho
+    pehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguug
+    gvugdrohhrghdprhgtphhtthhopeihohgrnhhnrdgtohhnghgrlhesshhmihhlvgdrfhhr
+X-ME-Proxy: <xmx:Ur8KauaXEkgSCRfbS-z0bf734hOuWQplFkjFAXT2FJB4iMTkFKIweQ>
+    <xmx:Ur8KaoTMzEr95vCZOHsXLIwn6C3AkPEmScI_jfwgSyLbd3wJ9JMhcQ>
+    <xmx:Ur8Kal4tM-WoDaROQF2QUo_jwU2IDvqlF22P74YcBe15GuGZfyFSIA>
+    <xmx:Ur8KatzOB1bWaMYr-AZh4JindEqVBsfSnNnucpFbCCERva-zmpeGIw>
+    <xmx:Ur8KarinR-MnJaS8zU0lUp-XVmkw4fwZbtWWgStWCiLEr4NP8c0RJeWa>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 May 2026 03:18:03 -0400 (EDT)
-Message-ID: <1b05833208339033ec4ae244d71d1391b4fe42cd.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH] cgo-helloworld: init add
+ 18 May 2026 03:27:13 -0400 (EDT)
+Message-ID: <545a0006d99223f869d13bd5370837ba58474d8a.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH 00/11] patchtest: improve testing coverage
 From: Paul Barker <paul@pbarker.dev>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Mon, 18 May 2026 08:17:56 +0100
-In-Reply-To: <20260515024119.4192524-1-changqing.li@windriver.com>
-References: <20260515024119.4192524-1-changqing.li@windriver.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: yoann.congal@smile.fr
+Date: Mon, 18 May 2026 08:27:11 +0100
+In-Reply-To: <20260514194207.1958325-1-tgamblin@baylibre.com>
+References: <20260514194207.1958325-1-tgamblin@baylibre.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -114,114 +127,238 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-SF59IYUWJNtjh3UMRyb7"
+	protocol="application/pgp-signature"; boundary="=-Xig7DPq2a5wuzUnA1iON"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 07:18:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237203
+ <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 07:27:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237204
 
 
---=-SF59IYUWJNtjh3UMRyb7
+--=-Xig7DPq2a5wuzUnA1iON
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-05-15 at 10:41 +0800, Changqing Li via
-lists.openembedded.org wrote:
-> Add a go example recipe with cgo enabled. This is for covering
-> go reproducibility with cgo enabled. Related to the following commit [1]:
-> [0642d23230 go.bbclass: change GOTMPDIR to improve reproducibility]
+On Thu, 2026-05-14 at 15:41 -0400, Trevor Gamblin wrote:
+> Make changes to the patchtest script, helper modules, test suites, and se=
+lftest
+> files to address various shortcomings with the current version, including=
+:
 >=20
-> [1] https://git.openembedded.org/openembedded-core/commit/?id=3D0642d2323=
-072f561a4d0eeb9266213387b2997fc
+> - Re-enable the previously included mergeability tests, which have been b=
+roken
+>   since prior to the 2023 Yocto RFQ
+> - Improve series testing by fixing signal handling and return code logic =
+for the
+>   '--directory' flag, and by making it possible for patchtest to report t=
+he
+>   shortlog for failing commits when testing series as single files
+> - Make branch checking for merge tests more robust but retain flexibility=
+ for
+>   the selftest suite, and so that users can test series against branches =
+other
+>   than the target one
+> - Add new tests for malformed lines and whitespace in the TestPatch modul=
+e
+> - Refactors across the entire suite to remove dead code, simplify logic, =
+and
+>   update selftest files
+> - Expand the selftest file suite for all of the new cases added, bringing=
+ us
+>   from 38 to 51 selftests.
 >=20
-> [YOCTO #16100]
+> Before:=20
 >=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../cgo-helloworld/cgo-helloworld.go          |  9 ++++++++
->  .../go-examples/cgo-helloworld_1.0.bb         | 23 +++++++++++++++++++
->  3 files changed, 33 insertions(+)
->  create mode 100644 meta/recipes-extended/go-examples/cgo-helloworld/cgo-=
-helloworld.go
->  create mode 100644 meta/recipes-extended/go-examples/cgo-helloworld_1.0.=
-bb
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > Testsuite summary for patchtest
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > # TOTAL: 38
+> > # XPASS: 18
+> > # XFAIL: 18
+> > # XSKIP: 2
+> > # PASS: 0
+> > # FAIL: 0
+> > # SKIP: 0
+> > # ERROR: 0
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
 >=20
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-> index 24c5a9d712..b72cbe7c93 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -97,6 +97,7 @@ RECIPE_MAINTAINER:pn-cargo =3D "Randy MacLeod <Randy.Ma=
-cLeod@windriver.com>"
->  RECIPE_MAINTAINER:pn-cargo-c =3D "Deepesh Varatharajan <Deepesh.Varathar=
-ajan@windriver.com>"
->  RECIPE_MAINTAINER:pn-ccache =3D "Robert Yang <liezhi.yang@windriver.com>=
-"
->  RECIPE_MAINTAINER:pn-cdrtools-native =3D "Yi Zhao <yi.zhao@windriver.com=
->"
-> +RECIPE_MAINTAINER:pn-cgo-helloworld =3D "Changqing Li <changqing.li@wind=
-river.com>"
->  RECIPE_MAINTAINER:pn-chrpath =3D "Yi Zhao <yi.zhao@windriver.com>"
->  RECIPE_MAINTAINER:pn-clang =3D "Khem Raj <raj.khem@gmail.com>"
->  RECIPE_MAINTAINER:pn-clang-cross-${TARGET_ARCH} =3D "Khem Raj <raj.khem@=
-gmail.com>"
-> diff --git a/meta/recipes-extended/go-examples/cgo-helloworld/cgo-hellowo=
-rld.go b/meta/recipes-extended/go-examples/cgo-helloworld/cgo-helloworld.go
-> new file mode 100644
-> index 0000000000..4eb052a09e
-> --- /dev/null
-> +++ b/meta/recipes-extended/go-examples/cgo-helloworld/cgo-helloworld.go
-> @@ -0,0 +1,9 @@
-> +package main
-> +
-> +// #include <stdio.h>
-> +// void hello() { printf("Hello, World!\n"); }
-> +import "C"
-> +
-> +func main() {
-> +	C.hello()
-> +}
-> diff --git a/meta/recipes-extended/go-examples/cgo-helloworld_1.0.bb b/me=
-ta/recipes-extended/go-examples/cgo-helloworld_1.0.bb
-> new file mode 100644
-> index 0000000000..9ca1e16c7a
-> --- /dev/null
-> +++ b/meta/recipes-extended/go-examples/cgo-helloworld_1.0.bb
-> @@ -0,0 +1,23 @@
-> +SUMMARY =3D "A simple CGO example that calls C to print hello world"
-> +SECTION =3D "examples"
-> +HOMEPAGE =3D "https://golang.org/"
-> +
-> +LICENSE =3D "MIT"
-> +LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
-0bcf8506ecda2f7b4f302"
-> +
-> +SRC_URI =3D "file://cgo-helloworld.go"
-> +
-> +S =3D "${UNPACKDIR}"
-> +
-> +GO_IMPORT =3D "cgo-helloworld"
-> +GO_INSTALL =3D "${GO_IMPORT}"
-> +
-> +inherit go
-> +
-> +export GO111MODULE =3D "off"
-> +export CGO_ENABLED =3D "1"
-> +
-> +do_configure:prepend() {
-> +    mkdir -p ${S}/src/${GO_IMPORT}
-> +    cp ${UNPACKDIR}/cgo-helloworld.go ${S}/src/${GO_IMPORT}/main.go
-> +}
+> After:
+>=20
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > Testsuite summary for patchtest
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > # TOTAL: 51
+> > # XPASS: 25
+> > # XFAIL: 26
+> > # XSKIP: 0
+> > # PASS: 0
+> > # FAIL: 0
+> > # SKIP: 0
+> > # ERROR: 0
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+>=20
+> As always, there's lots of room for patchtest to grow further (I'd still =
+very
+> much like to convert it to a standalone Python tool one day). However, th=
+is is
+> already a sizeable rework, and it should bring immediate benefit to anyon=
+e using
+> it. I've made a point to label each individual patch appropriately, but f=
+or
+> emphasis this work has been done in tandem with the Claude AI, specifical=
+ly
+> Sonnet 4.6 and 4.7.=20
+>=20
+> Given the skepticism that many of us have towards AI tooling, I made a po=
+int to
+> do a review of the changes Claude had made myself before performing the f=
+inal
+> squash and rebase. This did reveal some bloat that I've since removed, bu=
+t for
+> the most part it made functional and useful changes. The selftest suite w=
+as
+> routinely triggered locally to ensure it didn't cause any bizarre regress=
+ions,
+> and new selftest files were added immediately for new test cases (or, in =
+the
+> case of the mergeability tests, refactored so that they were no longer la=
+beled
+> as skips). I've also made a point to pull patch series at random from the
+> mailing list and test directly.
+>=20
+> Parts of this series (such as the '--directory' usage improvements) were =
+written
+> to address the needs of folks at Smile. Others address one or more outsta=
+nding
+> bugs in Bugzilla, which I haven't consistently labeled as such (but I'll =
+close
+> them when this gets merged). The next priority will be to improve the act=
+ual
+> deployment of the Patchtest service on the Yocto Project infrastructure.
+>=20
+> Trevor Gamblin (11):
+>   patchtest: check for meta-selftest, cleanup script
+>   patchtest: test series mergeability
+>   patchtest: tests: cleanup test suites
+>   patchtest: correctly abort --directory test
+>   patchtest: fix branch applicability reporting
+>   patchtest: test_patch: improve patch-specific tests
+>   patchtest: test_mbox: skip cover letters
+>   patchtest: mbox.py: improve 'From' line matching
+>   patchtest: selftest: stop if patchtest fails
+>   patchtest: selftest: rework test files
+>   patchtest: selftest: extend test file suite
+>=20
+>  meta/lib/patchtest/mbox.py                    |  56 ++---
+>  meta/lib/patchtest/patchtest_parser.py        |   2 +-
+>  meta/lib/patchtest/patchtest_patterns.py      |   5 +
+>  meta/lib/patchtest/repo.py                    |  48 +++++
+>  ...x.pretest_series_applies_on_branch.1.pass} |  22 +-
+>  ...x.pretest_series_applies_on_branch.2.fail} |   0
+>  .../TestMbox.test_bugzilla_entry_format.fail  |   5 +-
+>  .../TestMbox.test_bugzilla_entry_format.pass  |   5 +-
+>  ...TestMbox.test_commit_message_presence.fail |   5 +-
+>  ...TestMbox.test_commit_message_presence.pass |   5 +-
+>  ...tMbox.test_commit_message_user_tags.1.pass |   5 +-
+>  ...tMbox.test_commit_message_user_tags.2.pass |   5 +-
+>  ...estMbox.test_commit_message_user_tags.fail |   5 +-
+>  .../files/TestMbox.test_mbox_format.pass      |   5 +-
+>  .../files/TestMbox.test_non_auh_upgrade.fail  |  25 +++
+>  .../files/TestMbox.test_non_auh_upgrade.pass  |  25 +++
+>  .../files/TestMbox.test_shortlog_format.fail  |   5 +-
+>  .../files/TestMbox.test_shortlog_format.pass  |   5 +-
+>  .../files/TestMbox.test_shortlog_length.fail  |   5 +-
+>  .../files/TestMbox.test_shortlog_length.pass  |   5 +-
+>  ...estMbox.test_signed_off_by_presence.1.fail |   5 +-
+>  ...estMbox.test_signed_off_by_presence.2.fail |   5 +-
+>  .../TestMbox.test_signed_off_by_presence.pass |   5 +-
+>  .../TestMbox.test_target_mailing_list.1.fail  |  26 +++
+>  .../TestMbox.test_target_mailing_list.2.fail  |  24 +++
+>  .../TestMbox.test_target_mailing_list.pass    |  25 +++
+>  .../TestMetadata.test_max_line_length.fail    |  26 +++
+>  .../TestMetadata.test_max_line_length.pass    |  25 +++
+>  .../files/TestPatch.test_cve_tag_format.fail  |   5 +-
+>  .../files/TestPatch.test_cve_tag_format.pass  |   5 +-
+>  ...estPatch.test_patch_malformed_context.fail |  38 ++++
+>  ...estPatch.test_patch_malformed_context.pass |  38 ++++
+>  ...tPatch.test_patch_trailing_whitespace.fail |  38 ++++
+>  ...tPatch.test_patch_trailing_whitespace.pass |  38 ++++
+>  ...TestPatch.test_signed_off_by_presence.fail |   5 +-
+>  ...TestPatch.test_signed_off_by_presence.pass |   5 +-
+>  ....test_upstream_status_presence_format.fail |  61 ++++++
+>  ....test_upstream_status_presence_format.pass |  62 ++++++
+>  meta/lib/patchtest/selftest/selftest          |  25 ++-
+>  meta/lib/patchtest/tests/base.py              | 117 ++++------
+>  meta/lib/patchtest/tests/test_mbox.py         |  56 +++--
+>  meta/lib/patchtest/tests/test_metadata.py     | 112 +++++-----
+>  meta/lib/patchtest/tests/test_patch.py        | 113 ++++++++--
+>  .../lib/patchtest/tests/test_python_pylint.py |   8 +-
+>  scripts/patchtest                             | 200 +++++++++---------
+>  45 files changed, 904 insertions(+), 406 deletions(-)
+>  rename meta/lib/patchtest/selftest/files/{TestMbox.test_series_merge_on_=
+head.1.skip =3D> TestMbox.pretest_series_applies_on_branch.1.pass} (66%)
+>  rename meta/lib/patchtest/selftest/files/{TestMbox.test_series_merge_on_=
+head.2.skip =3D> TestMbox.pretest_series_applies_on_branch.2.fail} (100%)
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_non_a=
+uh_upgrade.fail
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_non_a=
+uh_upgrade.pass
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_targe=
+t_mailing_list.1.fail
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_targe=
+t_mailing_list.2.fail
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_targe=
+t_mailing_list.pass
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestMetadata.test_m=
+ax_line_length.fail
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestMetadata.test_m=
+ax_line_length.pass
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_patc=
+h_malformed_context.fail
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_patc=
+h_malformed_context.pass
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_patc=
+h_trailing_whitespace.fail
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_patc=
+h_trailing_whitespace.pass
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_upst=
+ream_status_presence_format.fail
+>  create mode 100644 meta/lib/patchtest/selftest/files/TestPatch.test_upst=
+ream_status_presence_format.pass
 
-Hi Changqing,
+Hi Trevor,
 
-Please could you add a selftest case which checks that this recipe can
-be built? I think this should be added in the existing file
-meta/lib/oeqa/selftest/cases/gotoolchain.py.
+This is a difficult series to review, there are a lot of changes and
+several of the patches do more than one thing. Patches 1 & 2 are
+especially busy, and patch 6 both adds new tests and fixes existing
+tests - these should be separated into multiple commits that each do one
+thing.
+
+Is it possible to break this apart into a couple of separate patch
+series? That would make review significantly easier. Perhaps start with
+an initial series which just includes bugfixes and cleanup of existing
+test cases, then once that is merged send a second series which adds new
+test cases.
 
 Best regards,
 
@@ -229,17 +366,17 @@ Best regards,
 Paul Barker
 
 
---=-SF59IYUWJNtjh3UMRyb7
+--=-Xig7DPq2a5wuzUnA1iON
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagq9JBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bgP9AP0drVL9ROgQ8C7UKPQNws5n4NdqPwX8MK79
-06WZibYJmwD/VoW2eEH+XR7D/G1nsABtYkgz6HLUweJJ5tbaUlBu6Qw=
-=HBP1
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagq/TxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bpplAP49HEnwBIX/RJppfCo/8QbvbD2Vsy7Pvanv
+zgVr92YOawD+Ke0pZGftqm3vV7ad9N4e8WlaJ6yOCPqkN2kBdfz08gQ=
+=Cibw
 -----END PGP SIGNATURE-----
 
---=-SF59IYUWJNtjh3UMRyb7--
+--=-Xig7DPq2a5wuzUnA1iON--
 
