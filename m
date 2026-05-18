@@ -2,39 +2,38 @@ Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A32ECD4F51
-	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 05:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57DB7CD4F54
+	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 05:56:29 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2429.1779083785588676533
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2427.1779083779430281916
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 May 2026 22:56:25 -0700
+ Sun, 17 May 2026 22:56:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=GN/FF30K;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=mFcAnmFB;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9598bf1d35=qi.chen@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I4cNMC517155
-	for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2026 22:56:25 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I5flMg625877
+	for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2026 22:56:19 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=t39f4c82Ct9BYctsrmwSfz+VME5mRwp20s9PKbKeYsE=; b=
-	GN/FF30KMwoU2dM6ZUqFeOE68tpeToMi2zJmrA7/QrGFWSZRJeW+bTPb19VJrha6
-	PT1gJi1RXmHDkOhE3b0MqHJU5UjICs0/GL3F5I9x0EXtngbYOcRVVBXlgUsiIa2O
-	4qdc4autq8OtXdEWoNmbx3cUfmF2kMceuBwe8ODHE2MDUxs6wf8aLpflncT4e4Ff
-	2Tg05BEvNaTUoJD8OQd74iCxILgZReHwpZJGc63+aGRXhvUMyCyvXEVJoRVZ/+Yv
-	CiZ037h0Sr1FrHfzN9txxDyNmVbod5SteD2qI2nPJOtgTg7gKJgPi9qatLlwiNOS
-	XZEPjFZT6AcJg2Zdn9Jg1Q==
-Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011054.outbound.protection.outlook.com [52.101.52.54])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e6kux1fpb-1
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=PQS4ENWqP
+	sVL6xNfNx7RuuiRDSQtmNYBYl3+kFy4wYE=; b=mFcAnmFBJFA6JcBAGk5RBK8tH
+	yR98P6iSEx4kxgaWFdTMrB4Dwl+zdX8eoW1zLiBVvGyYrjUuAdPliEOhiLyZtEbm
+	CtDx58MxzpIJUX8jsvMP8jqHcVHi7sekQCT7HNqpHpg6QySsBKxSjpTcvIzWdrwv
+	fTW7pKObzmi7UMENWWdvWZw2GvYnk1+A036ODJQerEiHGf6uC6bgIXg7go/WuUoP
+	sd7Z2Ocf4VLGIGnycFzTC1H3iVPSVW6ra6b/L1AibuDWhK+7cM8c720wOv7jSRNv
+	iZHUH/O8M6nO5HjDo4a4djg3F6dUY1ku3iNmIJRwfpaGK8SCP8kBstG6eSI6w==
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011012.outbound.protection.outlook.com [52.101.57.12])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e6kux1fp0-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 17 May 2026 22:56:24 -0700 (PDT)
+	Sun, 17 May 2026 22:56:18 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PaNSDsecGdrjLmxNXJcogSKLavD8m4f9/ZuZNW8DMHfeNTnUzS91lTvXtdgx/SV5g4sY1DndCyVjUyhvcUEhVH2JmhEyAN69cdud4viSi+krjlJ2ya1OvXtl/iFN5EbMFVAA2ljAs2hTGE35Gtdl6hOyVU1lu5XSmE2pHagVFRLes1tHe9AxFiV+kV2+mhXk6EsefmjoQ3xBya2SmmMqhLpGkoFqoY8g6uUniGyuwPtkvTjiFVAL44EhK7TJNGdwlNTq6aohmFKZYWIlOnJq0kvY5uVB0hZVIsMDH3l5E87CIb6F6f6QfZLQKSgWL2OKNHWna1X6czFIc/y0DShIdg==
+ b=QNkX79qH5UAyw7mobpEZ72MAuijZqVU5WpnjZFokMyd5cMMRHWtZW8ei4wWjpvk1Kyl90637si0xDTAfTy7fhfm6lfhWUNokbq3gqZWNlsRxXg+gQgzsVSqKt1QMCpsRkprbSuhrhTNWU26IvTlOKhKlhTw4v9dml+ATseTFn7wTB+6X0UFyMTX8ekk9U4nA2JiUU/b+KfuCqBT3ewmn3MPn4I5zHhpeQsnOAdwJoSkDnbkohivZJjNsQkIU5o5xMWvZ1QfNpQ8Lzie8Okd58jd4fcag9huVRtx6KD7ESaoKCXvF66Jx3+vOaabW9CUmQpQUaOL5R9rgZ4BCNujmww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t39f4c82Ct9BYctsrmwSfz+VME5mRwp20s9PKbKeYsE=;
- b=SNyP5Z7as+6LXSN5HDEY+u8zoVXUe9nfUzxPHHiFI68hIHKuzfWtJWTnpzoA6aCuqyasb2mONbTYgFcnS4w2Yjw/DDAdyezPHryCNJqC1toe1SIDX5/pQNztoGInVtGcyfVVMSo+ZMFkY4NKBibxoth7/fcvlat4khslXwJGrx6rnAeSbTCf2bPqGOHR59tAk8HVJkcl+dnKMp6m9I6oQxIW21XrX2D5mfNml54isjcF55Nr1HabLny69e7np9oDFh170OYlUx1XO3wlI778rqSm1cPioOhq/zplCwiIr/Xcf2hmKlSMTj/4wCSjfMUAVYoryifrG/5N3P0jrH0lxw==
+ bh=PQS4ENWqPsVL6xNfNx7RuuiRDSQtmNYBYl3+kFy4wYE=;
+ b=nxHKw0L5aws6gIoY8PUtk5Yrl9pudtWAqiqxM2M+asPs6e18mukVESwyKlGy0nahXMHRC3+h1K6yimnJpS8GJ9WdF6i3aHwApeviWDoRNRG8GPZFoRuKER9dbdWFAv7gfQR04lCSKCOgjTP3M0R3G2ZK7Ljel9m/woz+zkxe2flDOyxdxlZvSFA0ItxrEnDSqqhpeC2drmTUu7oF+Js5OJf9RQLW3l702taFPz5FKelMAtJT1g6UQP/9JMlC4298FQZOvBUWgQCOed+cPv+EnudLe14S9OmIFXTr6IV/s4hJ/nOezTnG650Y++05LvQDe4CRjbshm8kvCFClUIvhSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,20 +41,18 @@ Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
  by CH2PR11MB8780.namprd11.prod.outlook.com (2603:10b6:610:284::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.22; Mon, 18 May
- 2026 05:56:23 +0000
+ 2026 05:56:16 +0000
 Received: from CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::5ad6:8f90:b01d:2c62]) by CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::5ad6:8f90:b01d:2c62%3]) with mapi id 15.21.0025.022; Mon, 18 May 2026
- 05:56:23 +0000
+ 05:56:16 +0000
 From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com, randy.macleod@windriver.com
-Subject: [OE-core][PATCH V6 4/7] systemd: inherit upstream-stable-release-point
-Date: Mon, 18 May 2026 13:55:55 +0800
-Message-Id: <20260518055558.3982813-4-Qi.Chen@windriver.com>
+Subject: [OE-core][PATCH V6 1/7] recipeutils: add optional stable_upgrade parameter to get_recipe_upgrade_status
+Date: Mon, 18 May 2026 13:55:52 +0800
+Message-Id: <20260518055558.3982813-1-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260518055558.3982813-1-Qi.Chen@windriver.com>
-References: <20260518055558.3982813-1-Qi.Chen@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SE2P216CA0186.KORP216.PROD.OUTLOOK.COM
@@ -64,77 +61,77 @@ X-ClientProxiedBy: SE2P216CA0186.KORP216.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|CH2PR11MB8780:EE_
-X-MS-Office365-Filtering-Correlation-Id: e533c0a9-e4f0-4c70-6822-08deb4a230a9
+X-MS-Office365-Filtering-Correlation-Id: 31662c27-98ee-403a-289b-08deb4a22cd0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|56012099003|18002099003|22082099003|11063799003|3023799003|38350700014;
+	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|56012099003|18002099003|11063799003|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	W2ECK23Eo/FxNr/QnN/RWDVuBYM88smgueo/Dqq4BIu3BAqGiohWWSvN5JbajmRvRWvf12CdaMB7uPIU9+bMiPuecRdnFU4pxaxQ7C2YANryYdiW/mt9Cq1p8JPFo/oL5S8jIt/u4LMBqrsbm2M77rKtfU/MmCBI2tNUA+Y0NhilDMkm33UllRSFe0IpdVyopszAILo4k8NHm3CqWMcB9fwyWz5NrG/BNzsm1zm+RTCZ3sdt4Da0ECuYQdnqy8XituXwLJqBwG672BazVFX6S2ss6yB4g8fRvVe+4+53u5nUE7nCwMSXZtFHO8x02idDbwPTcozgom2anL9I2x6Bsoq3Sjpi/ZetH8o6C4Xvj5PCIAZj8JaGcee3BzfMeR5ysMsBikfpc8mSU2oKyvaHaeDlsXIWqZDW1n/BJJISTPTW7bA/97dvqzDuRQZ5gLwOvjfV6NQpbIjUi8sYAHsUYYcFdtaCxdPvVV34r5PFCm0hhIqQixCevEQp7d+GQdbzjx4mNSTwvA1qwDXevLLxfT7vuKmdwd0M3l5Qg7m/SWcrSVYyMTd3xa2nmNGMij8sz5gunVjpyYPez+o7utiIpGayzqXDv37nJnrETD59JRxZgmB2Akv7L5jGA4/SRvYh0lSwqEhmVKiWzVd5XPq1kzbWgrJaQpRGdhjXf+x0sF0DxTkbgf/YlqPbclL8ZzfzVR4cfem3Bjk1JPmV/OBhI6kHThLjRC7Bcn4+0Vms0Y6MQSbZ46z7VJ/5gcQD6uki
+	/Go9qdcNXS50r+yxePOFpgjFTl1S4wyLTq0GQRMeiWnosk321JmGfAYhdRVG2VadGajg0aywTmsd0Ivq61q1w3A4a1YKSPxU6SCPV8w6jq966A7EDxkTeIafUv0bducPW7RiQrvdZx7VxZ1TiziDZT6Y8MgHT+0qT3+XHUZScHPRu2CAbDMaXZQ2EMGQSDkLvH+MjMvrylVhVUQx7HzlBBmNVwioxpSUYnAzkY5egVmoBEkg3FmJasrLk/lSL3uJxk/g+JjOv5H35V/bNiEjE3uOOotz0M9WdnHwa+IpPne94YL+O9wIgA+LsBMiAhe1wg35E0YFg2qx7YOIXeWrLkGW0Ra8YzBt8XgJDnupWJCsByDRS8P/sYq8XTmOsfJRGUU5FI3w1ebcbC2E+ULpDtO5DQef4lCIx1OGkKrUTA8Zo/2XJGlC2s6r77o72RT78+kobfxsTRFIQUGVhvb/9FseYxwF9FNiYooeT7CNuMWnsiRugc2tcC8MLXF2FzZcg8ynNdNWbI+oXApHTXkIE5MpiiRNwcfB3/9dFwV7OWqi+hSotA3YOQM+SnPI6vpZmY5/v8DLnELx3L7JYBQ2gVCeno5L8yHPh2cEuoXFZ7T1mtukwFOse2pBC4v2hTdxYOHJmV7dOTlPkl0nGuhagb3BxZYH9abEyLoNt2BINSSyM71IoSSGqP+AHRNQATvXpqInKOuF2zwO1FXPu5UzgkNeOvo8jfgYFlPMP0cdKpJHuW219vZ9Bn17/sb11FTW
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(56012099003)(18002099003)(22082099003)(11063799003)(3023799003)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(56012099003)(18002099003)(11063799003)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5HIBlsqLtTqoeHP/Omt7HTZuob+z0NOAxnmTyCiR6caPBuKBUOIHIwcuOket?=
- =?us-ascii?Q?00nwq0W5YPUTHd1+ikOOQ2n6A3ZgI82OitV/quJwVugdKJwvu9VYJZJSCQqf?=
- =?us-ascii?Q?8rzZqN39IFkk4QpIShDjHECk4WxYcONfbXsJUva3sUaDvsWy4xRGMLVJUYX4?=
- =?us-ascii?Q?cRTIVDVg3GAb+4A1EfStqsdo3MP6ZjTs+ZDfdjekN/J9OIJ1z5FEQ3Cujazz?=
- =?us-ascii?Q?bemIE20//4y9AF3cRSsR907cGHIYKxT9ITxAI5vllgJ8rkgCQGRvf0VIB9D5?=
- =?us-ascii?Q?+YPv1JmN4NDzV4RGF0RpYJn2yjsxApCcn6KDq+89Fgofi+Tpborh8pN8iyqh?=
- =?us-ascii?Q?qtEeih1YnDb9BdW52/j2DnN6x8SYo1+nIUDdES/l7VxWQv4oszblLREBl0d8?=
- =?us-ascii?Q?VN0ut+Wzm/+kkbyUMIO5in+Rc37OTxd1RMLTAe9bV1YcDC2zaj7B+3TMfB+j?=
- =?us-ascii?Q?dwUojNpmwW6zVW1FG0Fi9UGYw+PIYwp9ERzAtdUqTpsbAZ6p5qdjPzoQF9Rk?=
- =?us-ascii?Q?Yu6WV8myKFd1IQGXDuHVjL4+fqh8cETz+DGqqm58/1ig2akth/0Kov086h+g?=
- =?us-ascii?Q?NYA6kukraMbbGIrXgMBJPE96ScdBNc3MMYjybwPTFw/EzvWKAhH/XcQAmGQg?=
- =?us-ascii?Q?mc6XUh95s1jXwAn/XvQzHRQz82LzEItomdZPuVedKDE/XdBTB6qHmMLk3GCU?=
- =?us-ascii?Q?Lcf0KJotc0lneyv0BcMlHRkiXJBTNyOuPvriy/FkvhP6/KPohHx8qKay5NsZ?=
- =?us-ascii?Q?iFxiUffLhlVN5lSyFxaWHDhvWxJYUxSanii1M1/Ak9EFvx2kaphe81Auc5u4?=
- =?us-ascii?Q?/YGVCpXhc3InvqPXAuyvHx6dFjxXj2fgE4HMnrDywq+NSdFdxZbqwm2WnOGH?=
- =?us-ascii?Q?EDfGKm+utpjhpX49+UHI2laczvP0nNRxTg5yUslVnMsgUdLfD7GxKeGT2Y2O?=
- =?us-ascii?Q?sAO/W02OcsqE2TVFmfbYKSfQZEe/WC/Fju4WbhSzgfuttNivEl7LJ7MYLTVZ?=
- =?us-ascii?Q?mk+OZlQ0jEhUERmVf2GAcFoGcvloU2k/3WElB2R4WaPfPvrhpc7zwphe31EG?=
- =?us-ascii?Q?QppgO/GPbTDwvm3eI8qyawq08Zg3UDpkwoOfi/tZPG+f7/IUOHXNa7ozlVyo?=
- =?us-ascii?Q?FSuchFNmpk1uGKDrJrG/cNIdxlM0P6e9uDY1rF9JerzvbcuMXMEOE1QeGpGI?=
- =?us-ascii?Q?6UnH1LVbHDUv23jteV/ZSUBMrWCxAYHU4yO73KZ7aTAfTWlcUqTwdGq+AavT?=
- =?us-ascii?Q?NB5XjMZI6TjLd4rKKopneyA1nwSk9LvSjC4qB6C62i6uU0F2zkI2HzwxzU/z?=
- =?us-ascii?Q?4ae9z7GRCv9u5U/0wRDz0Y3d8hR4OPiQ0Wayfda/+4YW7v4SH1soYF+g6uvN?=
- =?us-ascii?Q?Svj3TgilznfSdJGJFi7eHE8fCV/xqgG8kddkR/MKZNY6B/7jvpPk5WZMYiu/?=
- =?us-ascii?Q?DjP5p3Z2FfYvDKa7U4LdPVNB0nhX1WYMuTqDcwx/tGDZawGAMOknc8UCKRzx?=
- =?us-ascii?Q?4a4cXKricwUBg/pkZpFBJuVeAN+Mx1VykpalFPKRELWiCIcOfmhHPZpNg+aj?=
- =?us-ascii?Q?3Io2pgoJlOSvNMGC5oIA1OmqSKOKXfZ2JJaQLYQcJY5YWPWV9ubPPO7gchL0?=
- =?us-ascii?Q?FJFp5gODtsg5FdrmE+9IuddvTy9ys0oiqfqwstNaR+TntqdTDEWLrDkXtv7S?=
- =?us-ascii?Q?zwIjfzv+55a9EoAnRA/skry/9uhb4Lus95cDt3Ts2cZ4Jo5wje3jknJTgJDg?=
- =?us-ascii?Q?/D8km5LolA=3D=3D?=
+	=?us-ascii?Q?h/mXb5lFAGHWgnfmeJihbgLjaV0JFZpahtHfBGUu5v1d4Cq/ZoK6EbD0u0JU?=
+ =?us-ascii?Q?6gXy3sw9kLl2ASpuiBYSZ3lXCkwHQ8QYhbP7yt5RJ+fqDRxjNNXmTcFqp+9y?=
+ =?us-ascii?Q?1QfBhtFS7a7r0tMdnnzRH5O+/Yqr+YWVcDHHJbM7fshtb+2Nihn6OVGfaIYv?=
+ =?us-ascii?Q?NDsIyWjFRgV9vpeb5l2XCL2hCrMCIPdmdvDZMk+fTe9nfhuzLoCkmXWgXZ7f?=
+ =?us-ascii?Q?1zOZaZ0LbTlbdc5eKXvAmT/+0aY6yf3Qc2gHgaysmDYesiHqnekddqd7UdmK?=
+ =?us-ascii?Q?qlkeTvoToG3lb1UyWA1CIPCLdZ8GEE300bZOVwPDbStGzU+x41yymPCDybV2?=
+ =?us-ascii?Q?R+ZrN1lYhZs7g8MT+YoSKzMG1uIUlkbvOClYOEzNODlo08f07US2I6a6dP/n?=
+ =?us-ascii?Q?349UeVmPF2ogeYG7Lq+v/gU65PW5XbrdsVgzfnHjRAJaPLznNOKKgVnnnviL?=
+ =?us-ascii?Q?avI7zKRHLgVNpEK0XiOEQtzWsfN9gTEfWtEE6IWEeboYmkXL9WIMRXRppkgv?=
+ =?us-ascii?Q?ubusQXxWElFx5/viRIhMCABErVHTVxi1Nu+gPLKfq1gonlU3tLq0BnZ+Pu+w?=
+ =?us-ascii?Q?TluaIfO1qTWMfVceAyue3ROnGSiFME+JjlF4KSq1kpYFcmEVHrtFdwlLa2qa?=
+ =?us-ascii?Q?Ih87vYauHI8EYd1w1um13uP3kLkwfUl+Qk+zeqYGRdn475hE/+X4gfsHdlc6?=
+ =?us-ascii?Q?lXehFMtNA3jl+4oqRnIiqPoMrnhH8vVoB3SLPYHI3456jNlGC8hhsmOIOGa3?=
+ =?us-ascii?Q?veUxZG8Ft4F4vKDVbKOEoDBbf7KxijVPWFCnsQTDQofZ4yvbcRD9uMoTuHnd?=
+ =?us-ascii?Q?1VdMJrAq78++zLQdtKjd3jNPOkHiZQ71dAzNBS7zOMiW9fmmdKHMj+PHPNV+?=
+ =?us-ascii?Q?UE6dk5+KbRnMOuUzmLeGjFG2f3RKvt8vtnr/VKEBKjeIBOPvEv+ddfMkFphJ?=
+ =?us-ascii?Q?X9mPICPs4bw/BKUrkQUmScilTo1wzZn7tsCQRq5/e84jwUgsfic6OTakOo6U?=
+ =?us-ascii?Q?sunmOR8Xe4pcx476eOORpUo1X8woVP9C4Lno1NvcefYJ67CYef2loVAvSYkE?=
+ =?us-ascii?Q?rtHhMbBkPLaPXvMXN2XmDXx6AxnyIUDVOPDbz7J8xmYWgeqPCxk+miA5HbgC?=
+ =?us-ascii?Q?8QfKNMEkcSY6yVdOW3db9mntgOy1cTue40NStMT0MyQJcVahIfLv64Qj00xT?=
+ =?us-ascii?Q?8vyRfHYxken73SnsTQ8ExMjj5SGdfCDCi2pf6vrvl37PuTcNr+Jd5hcXAGUy?=
+ =?us-ascii?Q?XY085BvevxaxWbMrEHiwjwXqCnCFAI5kq9MXpQpzOtNITOb9rxjZGnzGogk4?=
+ =?us-ascii?Q?wIZvpNhZPgHOwEtxm+ZLWApQ17mW8dVDfadVL4RWtA9ZbiGtrgd1+6SZyhoh?=
+ =?us-ascii?Q?KqwEyQL6K8d29l6dImQ2lcC+xc9qBZAA9B9iyyCZkod9RDHGK6SxsNTpPyt5?=
+ =?us-ascii?Q?nZvJgFW6Pz2I7BuveeK+5BUFLcqI5dCeBewGMuC2ABbkuTXTmKf+/hpljV8I?=
+ =?us-ascii?Q?HNP8T1NeGMtkqhIRzdhceVjbiDGtIX/oFKUy3KDMvG72OZ7NDwkjN5a55Sfg?=
+ =?us-ascii?Q?k4pKSMN14OguDHvjX3pbiqlNLzwf4ZMFedhzHXUASvD2B4iloeQtR3BgX4un?=
+ =?us-ascii?Q?91iYv4hgkh2ZpSLgnmMPVZMVB0fWZVrTayeN7PFnD+XfIioiKma2mUKiMwRL?=
+ =?us-ascii?Q?7G2TKcEZi2jyyL9opXwUONxebW5LBj2/GZlJnWupjYRSKtj+10vyb9V5/NlB?=
+ =?us-ascii?Q?KRSUd4K2Rg=3D=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	jW9aLYc9GsewhxGtTfhIN3N8redYR8urnkxXZDOD2rLzGdDV1rM6ByqSt1RRdu2Zn1tFBxPYCKm395XICjuFOO8TzdEhocqyWp2pj4OhejBzXE/F9nSIXIG/v38bGW/4imDbvZZfW/h5v9Ngm/7qn6J2RqvfxU8x3ntOB02xVQ/tWrgDA5s6ljHtGOzx5rgk9BWos6O2ZvGFouponWPwCldOvTAgMAgbEcnnk4RStKRkRDbH6ObFJacSJEuiVz2pjknKMY6fxy421qFgqtAhfPEvknZRa7onppOL5+mJjbXxfhAqeXn2ndqakC4TyHYkdE4oHBewrO0g4zbln8nnKw==
+	NWmRglX4er4XI1NoMmnD2W4YH+4YYiHQ6JoczQeaSZZvzaQmHudoQWjTPCTGoNLe+msqoULwVq9llJmhvAhWep8+ADGML2eGu2Yars7PdHPoGxl1AifffzjjzwyHsji377Xzkw+0fYkF2l2YBM7+SVl4E1qRS0qQqZs0en5DC+s5OJimTF6x3xJ+XelZ4ds7tPUkF8IuXxVX7/15Km7LKm/aJm1qubcNt3BpbazDGWzAyWv4MSLwYezXcc2aVftoovgqpTNp0wTfVPP35JCm1S2tIricN8mDdi2fP/ohJGRJlCkt2rZ4mTelUE3cN7Zg0rKaQAgW7tRlcpUQ+ObPCA==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e533c0a9-e4f0-4c70-6822-08deb4a230a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31662c27-98ee-403a-289b-08deb4a22cd0
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 05:56:22.9889
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 05:56:16.3388
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vvkid62lpY0xgSP/moyewwBfVbQo2ftbTRPUGjFlmdwC6DtE1KlyGEaEXUyoMuR6qcECOzW20BOHJi0k+C7mpw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8eK9Y7D1oWcu+c3D3RYln0o6Hz/ztVaYBtx6zuzctoQrmg/jBBEUKKiK2BkJpnuAThzK1hsqXOg8eCoaZQtdJQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB8780
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: VSdGBt4It6ufthiFPg-Jr1DTk6GAZFhW
-X-Proofpoint-ORIG-GUID: JYpROmWFfzgNIV-rae509H65SzeTXKpN
-X-Authority-Analysis: v=2.4 cv=NMblPU6g c=1 sm=1 tr=0 ts=6a0aaa09 cx=c_pps
- a=i69ZgmgbQZPDBD2C4G6j1A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: 0-0fmdRXwTaItw9FckC6GRChj1O3AuA8
+X-Proofpoint-ORIG-GUID: SVTaH_Yxmepwnag0HjFuUL0AOf08ua4b
+X-Authority-Analysis: v=2.4 cv=NMblPU6g c=1 sm=1 tr=0 ts=6a0aaa02 cx=c_pps
+ a=6brTJxCCefizds7ERwDNzw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8
- a=t7CeM3EgAAAA:8 a=TIlOCVwuG6zFfn-mFGAA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA1NSBTYWx0ZWRfX9lIm/HwXxSrU
- tSXtsbfpng62q0gAJbpXq9Cnafcjo5if14PXQHZ01BvXmeQ1xk4TioF/QmZWXeSht1ajwmH6mGB
- cpHZc5HQkAxmGjF7PEtKt3RqyqQdX/9PC2ZSNr3RFcnYiyCHvClBE6UA6vA4vSwK4p6r8V4a+r7
- A4J9PQmn8w/J+Q7+7fiU0277fI8JpbcxFHSl+LL2plooupRjOaRz9Q+RWp5/9AnsOvwIvt9s6+w
- e+adtqprzCbDuF887lbTeeIhDrCsS612hq6ahr+oB8aipMFaUu9uUzyxHLICJw3cv8CmnfyRAGB
- OVFSNHA0PNqQkt/3szjOFLzyWWk8PXnZoF66ubn9eb0ADxAQNemL3bPlSQpFI31T/sk03bLL/tX
- 9nB5HJh4ZPccqiG2j9pIdgFFZNBrivRDLG8hhbpfZqzAI8fW1goLU6foSZfX4WkThKSp8fUyGDr
- Q2XJEe+RYnqh6Ks5lJg==
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
+ a=9yvo8pdFzNs4Kck5P0oA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA1NSBTYWx0ZWRfXwldQEvSlT3r1
+ tMHyxeaonLay7chmIjOsjtCtst1aQJepLFAtQRXS5PUonkHkE9LTtQPDzuwjFMrlkGxMNVPmPgn
+ OhyN3uzYsN/QPCleROkOXMJ3+oqXx+hsY0Wlu7VsOXpX6gWJ63XvyMAGX06DR9JvxnDcrN8MYlI
+ bEdTQlD5HElMqAhEqbOHoZ3i07T46ENnoBsfFi/hwfy0ynJkSdwG69OmpktM6MKTeURDxZD1WFr
+ KH+r+7nC7b7UTz7lU9vUNrZ6JuoNNNEbo4wWxd8W8ChE64P7U15DIsJ8qxmF5IaLTtT4FvRGfb1
+ 6bJ6mZmYQyHM8gWHP8KrXVgXUKX2MQCjQ7aqe3W36PoVxmi/4C+LuJVJaZNSwD8+w0VzhWyo6nJ
+ INCqz517BjqpI5mg7kAg3Q/JKnzksAXXO38UBfkyzN3KlT5FBmcqbTHg1TlPPO3+OBA4zJSnzgj
+ EaIC/Xsc7iL6XIDjlbg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-18_01,2026-05-15_01,2025-10-01_01
@@ -146,44 +143,102 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 05:56:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237197
+ <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 05:56:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237195
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-Upgrades like 259 -> 259.1 or 259.1 -> 259.2 are stable upgrades
-for systemd.
+We want the ability to do stable version upgrades for recipes.
+To this end, add an optional stable_upgrade parameter to the
+get_recipe_upgrade_status function, which defaults to False and
+when enabled will try to get the latest stable version of the recipe.
 
-* Evidence
-
-  Its repo[1] has remote branches like:
-    origin/v256-stable
-    origin/v257-stable
-    origin/v258-stable
-    origin/v259-stable
-    origin/v260-stable
-
-[1] https://github.com/systemd/systemd.git
+The UPSTREAM_STABLE_RELEASE_REGEX is respected. If a recipe sets
+it, it will be used as the filter_regex. If it's not set explicitly,
+it means that there's no stable updates or the recipe hasn't been
+checked yet.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/systemd/systemd.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oe/recipeutils.py | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index f107c4c5da..e63dde3af9 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -19,6 +19,9 @@ SRCREV = "b3d8fc43e9cb531d958c17ef2cd93b374bc14e8a"
- SRCBRANCH = "v259-stable"
- SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH};tag=v${PV}"
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index c6604f536d..7c1df518a8 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -1009,7 +1009,7 @@ def get_recipe_pv_with_pfx_sfx(pv, uri_type):
  
-+inherit upstream-stable-release-point
-+STABLE_VERSION_PARTS = "1"
-+
- CVE_PRODUCT = "systemd"
+     return (pv, pfx, sfx)
  
- CVE_STATUS[CVE-2019-3815] = "not-applicable-platform: only applied to RHEL"
+-def get_recipe_upstream_version(rd):
++def get_recipe_upstream_version(rd, stable_upgrade):
+     """
+         Get upstream version of recipe using bb.fetch2 methods with support for
+         http, https, ftp and git.
+@@ -1080,7 +1080,15 @@ def get_recipe_upstream_version(rd):
+             except bb.fetch2.FetchError as e:
+                 bb.warn("Unable to obtain latest revision: {}".format(e))
+         else:
+-            pupver = ud.method.latest_versionstring(ud, rd)
++            if stable_upgrade:
++                stable_release_regex = rd.getVar("UPSTREAM_STABLE_RELEASE_REGEX")
++                if stable_release_regex:
++                    pupver = ud.method.latest_versionstring(ud, rd, filter_regex=stable_release_regex)
++                else:
++                    # Not explicitly setting "UPSTREAM_STABLE_RELEASE_REGEX" means there's no stable upgrade
++                    pupver = (ru['current_version'], None)
++            else:
++                pupver = ud.method.latest_versionstring(ud, rd)
+             (upversion, revision) = pupver
+ 
+         if upversion:
+@@ -1094,8 +1102,8 @@ def get_recipe_upstream_version(rd):
+ 
+     return ru
+ 
+-def _get_recipe_upgrade_status(data):
+-    uv = get_recipe_upstream_version(data)
++def _get_recipe_upgrade_status(data, stable_upgrade):
++    uv = get_recipe_upstream_version(data, stable_upgrade)
+ 
+     pn = data.getVar('PN')
+     cur_ver = uv['current_version']
+@@ -1119,9 +1127,10 @@ def _get_recipe_upgrade_status(data):
+ 
+     return {'pn':pn, 'status':status, 'cur_ver':cur_ver, 'next_ver':next_ver, 'maintainer':maintainer, 'revision':revision, 'no_upgrade_reason':no_upgrade_reason}
+ 
+-def get_recipe_upgrade_status(recipes=None):
++def get_recipe_upgrade_status(recipes=None, stable_upgrade=False):
+     pkgs_list = []
+     data_copy_list = []
++    stable_copy_list = []
+     copy_vars = ('SRC_URI',
+                  'PV',
+                  'DL_DIR',
+@@ -1134,6 +1143,7 @@ def get_recipe_upgrade_status(recipes=None):
+                  'UPSTREAM_CHECK_REGEX',
+                  'UPSTREAM_CHECK_URI',
+                  'UPSTREAM_VERSION_UNKNOWN',
++                 'UPSTREAM_STABLE_RELEASE_REGEX',
+                  'RECIPE_MAINTAINER',
+                  'RECIPE_NO_UPDATE_REASON',
+                  'RECIPE_UPSTREAM_VERSION',
+@@ -1180,12 +1190,13 @@ def get_recipe_upgrade_status(recipes=None):
+                     data_copy.setVar(k, data.getVar(k))
+ 
+             data_copy_list.append(data_copy)
++            stable_copy_list.append(stable_upgrade)
+ 
+             recipeincludes[data.getVar('FILE')] = {'bbincluded':data.getVar('BBINCLUDED').split(),'pn':data.getVar('PN')}
+ 
+     from concurrent.futures import ProcessPoolExecutor
+     with ProcessPoolExecutor(max_workers=utils.cpu_count()) as executor:
+-        pkgs_list = executor.map(_get_recipe_upgrade_status, data_copy_list)
++        pkgs_list = executor.map(_get_recipe_upgrade_status, data_copy_list, stable_copy_list)
+ 
+     return _group_recipes(pkgs_list, _get_common_include_recipes(recipeincludes))
+ 
 -- 
 2.34.1
 
