@@ -2,48 +2,48 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D6CACD4F4A
-	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 19:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C293CD4F4A
+	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 19:22:30 +0000 (UTC)
 Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5177.1779131811253684931
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5294.1779132142944622545
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2026 12:16:51 -0700
+ Mon, 18 May 2026 12:22:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=M17oTDfG;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=mueIJ6fF;
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=lKxEihDV;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=hKdlXl1L;
  spf=pass (domain: pbarker.dev, ip: 202.12.124.152, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 72A2A7A00AF;
-	Mon, 18 May 2026 15:16:50 -0400 (EDT)
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 14A8E7A007A;
+	Mon, 18 May 2026 15:22:22 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 18 May 2026 15:16:50 -0400
+  by phl-compute-07.internal (MEProxy); Mon, 18 May 2026 15:22:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1779131810; x=1779218210; bh=8rxgn0dWoX
-	jmGFXERr1qNROVGI5oeyoTYAg1wfJBMuo=; b=M17oTDfGpaOee26g+TGICe3qBU
-	Dtx3MAVFwKEvUPl4zWlShUbL1D3qR7fO/p/A2CcHieQ1clpjIg49qUOP8Ycwqq3P
-	Kuav4xvK+oEiBgoUcE7O1pPU/xlrZDrI9ze71nq1DZ5nWQxHnsvUvc/luvVH9Da5
-	dIoV/PwwujvFQ9KINPx1bZ9EkdOTKrynb1sb1UG0cZr7sSRxDbMLITSPWGJF2gs0
-	57lDB1xExKvs2H1Rmw2IsAIhrsd1dWBi3zZ+tp0ZGiN87XrJtSAZSrv0zB3AYQ/j
-	v8Eqxw/+o+8JMC+dnmcJq5BknSWHrLoxgksnmX5md+S0FaEmrL6iKhBGWBwA==
+	:subject:to:to; s=fm2; t=1779132141; x=1779218541; bh=5t/3KDZlKd
+	+nW5cyA1FZygbZZntwYlcKDgPfNrcybv0=; b=lKxEihDVO7MmnGoWz6gxqsO7W8
+	RVX78zAnE9q5j9ePtvtKdCJhBWLnTnHJfKq/8viaLLiyv9eh0IAxmHgbjvJFl6HQ
+	WbIhI5qsnhgUjmSl/2fpegVWFlp3PKSadQGA149D/oAelx1Kzw3SaqZuweTeJsXF
+	rY44Lh9b+BRODPI8Mfv7lxZL7+DsC4u6zdWNlqi151FFRpQLr+wLCbPee173NLQT
+	2LSVVYbSa8wyjWG9ni+2rWnVv21XmAY6/JFvCSLXCmaPjr/z0kw98ktyeRwHhfDy
+	yR7QFh0MTj0+FA54bUuZzjTqy90XxfkhqMviuArqBmGYW19WlxSIGxhVNdbg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1779131810; x=1779218210; bh=8rxgn0dWoXjmGFXERr1qNROVGI5oeyoTYAg
-	1wfJBMuo=; b=mueIJ6fFyP/J+bcvMh8XwTTyJMJgLXxnIf1/jJ08avxjve3Xj8U
-	SpWIXKaAtI544lY047yvlIRQt8vgfGxl34qsR3CJXvLGTg0Oyq+U2o96/+fMzWO0
-	C4fyaaoZ2byRCnk3u06Iu4NdmhSCWHogjYU9RagfO4UanKbQpRH9aAu/HjNoaivU
-	I30pglJayz3c8JmbBnJPcDKt6P1ih9LSc/zGmqImLUpNhDBenJCJ+HuAJZ4DHpJl
-	YgRl+UD9G0JbO5EmtUNNXNzJ+vtCy5mLzq2tjr3qhLne3dQrPkNb378ZRQ+FaeSd
-	boPK7I4EfnmmIB4TvRziHtqij+SB3aIBU/Q==
-X-ME-Sender: <xms:oWULahoVERQ7ZPU__aaj6_liZCypUFo22936TVN8bifB3yULo8FA4A>
-    <xme:oWULaqoYYkdonS5IUra-0N6i4SrjPFMBodV2vnahqLEeokdohFz96yjgs1_LfddQT
-    kL7erOd6Ab4KWam3HL13v6Ra9P3OA1Qm-dSZ4chMAsBV8CqLkvzxA>
-X-ME-Received: <xmr:oWULajNKjx2NBku-u6FNz6O3ppCP-XEG1no_6Ub2pZ4auBjRFxLoicwRcFT3Yf1I7hqjNaEIQi1vYxBXkAHmG2v39gMu4mddq-clqLBncQbX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeelieelucetufdoteggodetrf
+	1779132141; x=1779218541; bh=5t/3KDZlKd+nW5cyA1FZygbZZntwYlcKDgP
+	fNrcybv0=; b=hKdlXl1LkBTxOPKcO3fhvLarb62ftvVtGCHYWsMVEEAFm0UNmPY
+	jke0TbBKQdsD1iaa8vB3csI2D9Z33S0nx8hlm2FyP21T39uZ+S9atBTLLJfsq93o
+	Gbu6EpnlW0iGg1HCoxg6Wkc0yO4ISAaFSgWdedZ+pJI8RtUfQKbEJOxVTr3VhcJo
+	0VSzAXFzylphAZYO20f4Ow6SfpcCnR7x222crDQdTAr6rR2zAeFD/FHwqt7JRBXy
+	eQIKdn2fkTvz8StyCvWv/oM8cUrBOy8cHlqBtlas1BWQpW7FLVWqtw7kf6PMzqPs
+	RiJUTQf/fPct42gZtxjnDTX9RpMAv70/GKA==
+X-ME-Sender: <xms:7WYLauIH5ou7KibUWO20bqcpnT8penemesvaxDekTqBpBod6P8zTVQ>
+    <xme:7WYLatInjd-XvrxIZZbIMScbVZKqnuK5n9G_238O7DrdwMjnZZ24I2fKk_3e1bEIa
+    ZN47vfp9RFkoKOoN95rJJmqmE-n_B4KbALohQQf7LT6Lac3PQe0-c8>
+X-ME-Received: <xmr:7WYLajuuYkCWvlkvIpbxBN9hHKvqdCeGqL-pOahofUfzQPdPUI5vQVNYdeh3KJdreVO1cS49hgwl1bHwVpwBiTA7F7JGjSBperpmimvrAo3h>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeeljedtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
@@ -56,27 +56,27 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeelieelucetufdote
     mhgsvgguuggvugdrohhrghdprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguth
     gvtghhrdgtohhmpdhrtghpthhtohepvhhinhgtvggptghhrghnghesrghsphgvvgguthgv
     tghhrdgtohhm
-X-ME-Proxy: <xmx:oWULarx30MybfmFzSuPLQnHqZGTnAx2kbCPbdzlFoyWjxLk--hhc_A>
-    <xmx:oWULassY55agkNq3nnk9hY8kb5pY0JMlJl2e00p1YifExroPNSRNiQ>
-    <xmx:oWULak4-ZhR4NKrUY4hxSAY3ovwyaVeQGXGK6VV4lkRU1KOPlV12Ew>
-    <xmx:oWULarSuVSftAMBgtVL4qQsJCQA5LRbnjq18apOq4FIRvI7_yGiGAA>
-    <xmx:omULainql1UgiKScS783JIdaj38EE6NiiaDp8MtZfzQhCfTrQkQGKbW0>
+X-ME-Proxy: <xmx:7WYLaiQ_EbQ1zi_9AaPeM3PZGFOUSLwClhUnGwN4VGQld-Z5X2hBTw>
+    <xmx:7WYLahNwg0S4oEGStmINFubHU1_Ug1DyPenc5Xyv-CgJJAupUAKGdw>
+    <xmx:7WYLavYXwlwYHcNkXwBGe2PbVXCZtE8c5L47dyrZns4TDnBz5J0sCw>
+    <xmx:7WYLajxL3tJLbO8yEXfvLVipEedHF0Y5rv8dhP5e3UVZVIoWA8hsxA>
+    <xmx:7WYLanGF2aXpM49lJIsZaZMUlMgNKh0IXjx4jtJAEgUEJgWsQB3kCWzz>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 May 2026 15:16:48 -0400 (EDT)
-Message-ID: <ea944ab1b8149e83b522e0c315b6436f6142da5c.camel@pbarker.dev>
-Subject: Re: [PATCH v1 1/2] externalsrc: Handle nested git repos from
- multiple SRC_URI entries
+ 18 May 2026 15:22:20 -0400 (EDT)
+Message-ID: <5110ac3567bdc84efcd16b904f4a9b1734ea04f3.camel@pbarker.dev>
+Subject: Re: [PATCH v1 2/2] reproducible: Handle nested git repos in
+ find_git_repositories
 From: Paul Barker <paul@pbarker.dev>
 To: Jamin Lin <jamin_lin@aspeedtech.com>, 
  "openembedded-core@lists.openembedded.org"
 	 <openembedded-core@lists.openembedded.org>
 Cc: Troy Lee <troy_lee@aspeedtech.com>, Vince Chang
  <vince_chang@aspeedtech.com>
-Date: Mon, 18 May 2026 20:16:45 +0100
-In-Reply-To: <20260515093615.126849-2-jamin_lin@aspeedtech.com>
+Date: Mon, 18 May 2026 20:22:17 +0100
+In-Reply-To: <20260515093615.126849-3-jamin_lin@aspeedtech.com>
 References: <20260515093615.126849-1-jamin_lin@aspeedtech.com>
-	 <20260515093615.126849-2-jamin_lin@aspeedtech.com>
+	 <20260515093615.126849-3-jamin_lin@aspeedtech.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -122,121 +122,75 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-+H62ePBw5axPZWD3Y8JY"
+	protocol="application/pgp-signature"; boundary="=-c3vq3/CiOqgwrd3ivAPZ"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 19:17:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237258
+ <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 19:22:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237259
 
 
---=-+H62ePBw5axPZWD3Y8JY
+--=-c3vq3/CiOqgwrd3ivAPZ
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, 2026-05-15 at 09:36 +0000, Jamin Lin wrote:
-> When a recipe uses multiple git SRC_URI entries with different
-> destsuffix values (e.g. Zephyr-based recipes with separate repos for
-> the kernel, modules, and application), each source is unpacked into a
-> subdirectory of EXTERNALSRC that retains its own .git directory.
+> When EXTERNALSRC contains multiple nested git repositories (from
+> multiple SRC_URI git entries with different destsuffix values),
+> find_git_repositories() walks into sub-repos and
+> get_source_date_epoch_from_git() subsequently fails with exit code 128
+> when running 'git log -1' inside them.
 >=20
-> srctree_hash_files() calls 'git add -A .' at the EXTERNALSRC root,
-> which fails with exit code 128 when git encounters these unregistered
-> nested git repositories, halting the bitbake parse phase.
-
-Is this true? The documentation for `git add` [1] talks about issuing a
-warning when this occurs, not an error, and in some quick local testing
-I get a successful exit (exit code 0) when I try this.
-
-> Fix by scanning for nested git repos before the add. If any are found,
-> exclude them from the top-level 'git add' using pathspec magic
-> ':(exclude)<path>' and hash each nested repo independently using a
-> temporary index. This ensures changes in any nested repo still trigger
-> do_compile/do_configure to re-run.
+> Two fixes:
+> - Stop os.walk recursion when a .git entry is found (dirs[:] =3D []) to
+>   avoid descending into nested repos.
+> - Change 'git log -1' from check=3DTrue to check=3DFalse with explicit
+>   error handling, so a failing nested repo is skipped gracefully
+>   instead of raising CalledProcessError and aborting do_unpack.
 >=20
 > Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 > ---
->  meta/classes/externalsrc.bbclass | 37 +++++++++++++++++++++++++++++++-
->  1 file changed, 36 insertions(+), 1 deletion(-)
+>  meta/lib/oe/reproducible.py | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.=
-bbclass
-> index 902ff2604f..0dd57af668 100644
-> --- a/meta/classes/externalsrc.bbclass
-> +++ b/meta/classes/externalsrc.bbclass
-> @@ -234,8 +234,43 @@ def srctree_hash_files(d, srcdir=3DNone):
->              # Update our custom index
->              env =3D os.environ.copy()
->              env['GIT_INDEX_FILE'] =3D tmp_index.name
-> -            subprocess.check_output(['git', 'add', '-A', '.'], cwd=3Ds_d=
-ir, env=3Denv)
-> +            # Find nested git repos created by multiple SRC_URI git entr=
-ies with
-> +            # different destsuffix values. git add -A . exits 128 when i=
-t encounters
-> +            # these unregistered nested repos.
-> +            nested_git_dirs =3D []
-> +            for root, dirs, files in os.walk(s_dir):
-> +                if root =3D=3D s_dir:
-> +                    continue
-> +                if '.git' in dirs or '.git' in files:
-> +                    nested_git_dirs.append(root)
-> +                    dirs[:] =3D []  # don't recurse into nested repos
+> diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
+> index a80376010a..6bb25da55a 100644
+> --- a/meta/lib/oe/reproducible.py
+> +++ b/meta/lib/oe/reproducible.py
+> @@ -82,6 +82,7 @@ def find_git_repositories(d, sourcedir):
+>          for root, dirs, files in os.walk(mainpath, topdown=3DTrue):
+>              if '.git' in dirs or '.git' in files:
+>                  git_repositories.append(root)
+> +                dirs[:] =3D []  # don't recurse into nested git repos (m=
+ultiple SRC_URI destsuffix)
+> =20
+>      if not git_repositories:
+>          bb.warn('Failed to find any git repositories in UNPACKDIR or S')
+> @@ -105,7 +106,10 @@ def get_source_date_epoch_from_git(d, sourcedir):
+> =20
+>          bb.debug(1, "git repository: %s" % repo_path)
+>          p =3D subprocess.run(['git', '-C', repo_path, 'log', '-1', '--pr=
+etty=3D%ct'],
+> -                           check=3DTrue, stdout=3Dsubprocess.PIPE)
+> +                           check=3DFalse, stdout=3Dsubprocess.PIPE, stde=
+rr=3Dsubprocess.STDOUT)
+> +        if p.returncode !=3D 0:
+> +            bb.debug(1, "git log failed for %s (exit %d): %s" % (repo_pa=
+th, p.returncode, p.stdout.decode('utf-8')))
+> +            continue
+>          source_dates.append(int(p.stdout.decode('utf-8')))
 
-This os.walk() loop is expensive, is there an alternative way to handle
-this?
+This causes the repository to be silently (in most cases, since
+bb.debug() output is not usually printed) dropped from the source_dates
+array. Does this invalidate the returned source date epoch?
 
-The code has also become difficult to parse. My rule of thumb is that if
-a group of lines needs a leading comment, it also needs an empty line
-before the comment to visually separate things.
+We may want a warning here instead of a debug print.
 
-> +            if nested_git_dirs:
-> +                excludes =3D [':(exclude)' + os.path.relpath(n, s_dir) f=
-or n in nested_git_dirs]
-> +                subprocess.check_output(['git', 'add', '-A', '.'] + excl=
-udes, cwd=3Ds_dir, env=3Denv)
-> +            else:
-> +                subprocess.check_output(['git', 'add', '-A', '.'], cwd=
-=3Ds_dir, env=3Denv)
-
-To simplify the code, construct a cmd variable and call
-subprocess.check_output(cmd, ...) once.
-
->              git_sha1 =3D subprocess.check_output(['git', 'write-tree'], =
-cwd=3Ds_dir, env=3Denv).decode("utf-8")
-> +            # Hash each nested git repo separately so source changes the=
-re still
-> +            # trigger do_compile/do_configure to re-run.
-> +            for nested in nested_git_dirs:
-> +                nested_git =3D os.path.join(nested, '.git')
-> +                if not os.path.isdir(nested_git):
-> +                    continue
-> +                with tempfile.NamedTemporaryFile(prefix=3D'oe-devtool-ne=
-sted-index') as nested_tmp:
-> +                    nested_index =3D os.path.join(nested_git, 'index')
-> +                    if os.path.exists(nested_index):
-> +                        shutil.copyfile(nested_index, nested_tmp.name)
-> +                    nested_env =3D os.environ.copy()
-> +                    nested_env['GIT_INDEX_FILE'] =3D nested_tmp.name
-> +                    proc =3D subprocess.Popen(['git', 'add', '-A', '.'],=
- cwd=3Dnested,
-> +                                           env=3Dnested_env, stdout=3Dsu=
-bprocess.DEVNULL,
-> +                                           stderr=3Dsubprocess.DEVNULL)
-> +                    proc.communicate()
-> +                    proc =3D subprocess.Popen(['git', 'write-tree'], cwd=
-=3Dnested,
-> +                                           env=3Dnested_env, stdout=3Dsu=
-bprocess.PIPE,
-> +                                           stderr=3Dsubprocess.DEVNULL)
-> +                    stdout, _ =3D proc.communicate()
-> +                    git_sha1 +=3D stdout.decode("utf-8")
-
-We should re-use the code from the following block which handles
-submodules instead of re-implementing the behaviour. Perhaps the common
-code needs to be refactored out.
+Also note that there may be other reasons for the `git log` command to
+fail, and the output that identifies why it failed is likely to be in
+stderr rather than stdout so we don't want to throw that way.
 
 Best regards,
 
@@ -244,17 +198,17 @@ Best regards,
 Paul Barker
 
 
---=-+H62ePBw5axPZWD3Y8JY
+--=-c3vq3/CiOqgwrd3ivAPZ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagtlnREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bnI5AP0ezqX4n35ZbzFn8Yr1yaFYjXx9DfX3nT8m
-ek2Lj2MkVQEA5BMrnGqH7RaOH1E/KO9Y3+QDcJTtIG60PkCW13BopA0=
-=jpLh
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagtm6REccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bu+/AQC9GiqX/BVZIGPjEnPUH5aHlQZ+U4Cx1GI7
+b3Go/dVOHgD8CUGVMyk8cDcKvEIAABefLOIijNdLJ9fzchphwEEpEwU=
+=0HUY
 -----END PGP SIGNATURE-----
 
---=-+H62ePBw5axPZWD3Y8JY--
+--=-c3vq3/CiOqgwrd3ivAPZ--
 
