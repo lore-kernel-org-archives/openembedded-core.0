@@ -1,92 +1,101 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <george.refseth@remarkable.no>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD98FCD4F54
-	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 12:47:00 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7530.1779108418142122537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2509CD4F3C
+	for <webhook@archiver.kernel.org>; Mon, 18 May 2026 13:07:41 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7962.1779109659220963003
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2026 05:46:58 -0700
+ Mon, 18 May 2026 06:07:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=En5h69Ws;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=j323ce2o;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019e3b200f85-5350f53c-9577-4540-98d8-51af33910351-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1779108417; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=w6L0T9MmLOpNacV1yCQTUDy6aBFOIpfdk99gwR1LXcc=;
-	b=En5h69WsknXaBPCR20k4STWP9zq189L+Kcu5VmxJYtzBFDye70a0WZJiOe9o55gh
-	/M3NORE9Ba9iUIhqHsvulpWM6towsJ3L56hsOmzaMljVwSgiGFo6YTYqlW552opThty
-	sejmGkKI4jnHm+uTZQChcQBTZmPRPjYFUAbnbQLc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1779108417;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=w6L0T9MmLOpNacV1yCQTUDy6aBFOIpfdk99gwR1LXcc=;
-	b=j323ce2oSki55v+iJfhuIyK/Rl2tkw1/uLcfLlOXDJl0PLHOamh1vnxlA7hcshrq
-	X87ARa5DqRnKwPxN0V+u94i2V5pRF/MbTvvVZQ6ugv9viHc9hQkNR9TpRVo9aBL1m2W
-	E7A+Xbh4C7WanZ1m2T+kItp5x1/0AWNPNlnhyTSE=
-From: patchtest@automation.yoctoproject.org
-To: Hemanth.KumarMD@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 09/12] gn: fix build with GCC 16 on musl
-In-Reply-To: <20260518110327.2347543-10-Hemanth.KumarMD@windriver.com>
-References: <20260518110327.2347543-10-Hemanth.KumarMD@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019e3b200f85-5350f53c-9577-4540-98d8-51af33910351-000000@us-west-2.amazonses.com>
-Date: Mon, 18 May 2026 12:46:57 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.05.18-54.240.27.29
+ dkim=pass header.i=@remarkable.no header.s=google header.b=Km43oBSo;
+ spf=pass (domain: remarkable.no, ip: 209.85.218.52, mailfrom: george.refseth@remarkable.no)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bccd251d622so394633566b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 06:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=remarkable.no; s=google; t=1779109657; x=1779714457; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kBW631x/n/2oir7zA8w/QA83ucXEg64ThtZi6vZrbu4=;
+        b=Km43oBSoFPj9imHE0PuJmshzsLMQM0eHppjVyy6CNFo34RLXTHElVH5pZUl5AowQDD
+         NQIN1tZOBHEc44AO/kjxPjpOyTJ7BKq5pTlrW6ZlsIOJ2juCKMhCKeDMMfPc91l7h+b8
+         pfn3N9u62fmg52oKF3I0qoUx6/IRrUHfbtxkBc62CUw6i4ktpjiT+eZ5WV4kz/Hq/0RR
+         TL95AfVSLmA+PTfMCdPjhIFDcZ1NKDEHD/XDyT1/lhPY/Le9cVDhxMKnL7ErjFh5g2iC
+         qP3o4ddb8tEP1yWXIZEHoVaRXSrfHxvkPfMqFmGW2h3Jg5qquyQj9RmLJtm0oxEwmOlS
+         ibrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779109657; x=1779714457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kBW631x/n/2oir7zA8w/QA83ucXEg64ThtZi6vZrbu4=;
+        b=NMCuH3PNHizycmX1t9Q6okoDSzhRPjvrd4gVR2uL85stZ8Je+IxPYvpvyAXoNbWFHF
+         UIRMrwJnIe/a3amDP7YNwqjY8upTANUcXuSuugoCo+8XxGeR8O5OHMlR1uNdzJ5KaGW0
+         3yf06/iwezZemBUfn+Gz1Li34d0layLqXTWl0Fo191WqYoYhg0/Om1fgHlDEODL7lKvs
+         zRXX4Epk+PHLe8CqbQ7UfYSQc41ixvp6pe1AEXqyEtN8v/eevh9G71RRTjFVOO+6gur/
+         I7mQASOLnkOl8CN/lQjNUrfP14whSyIua7hJ2YAs4nZKN78vfpucJaluKOId1p+BWi3N
+         nXdw==
+X-Gm-Message-State: AOJu0YyxfcfdCRqii9ZpREjK0ogUYY9pE+0UoEtTM578CR+12pP3VKLq
+	eAb27C0zUjImmu/C3Ykblg0hzBXak7LRdACalkksQN/gMYzGuA++EWWtKyM69ABEwYchBwJ9hdL
+	fVFnTcpTIFw==
+X-Gm-Gg: Acq92OEHPzsB4vJL1Xf+mZD699iPo0xliaHb3+HNqCahZzHCAekVRfnTv36L+pPzUcq
+	mKgmeyIyzrb/475OWjxVQ7ue3B7BF324WlT/IU098DoipaEWZDd6LxJCAzGnYwPRXbs/McThwpd
+	J+bZOLC0zoVOaUNbKMyBI92+svAhxKhz3JZmGZz0UUMWuTxWZh6u9k4kPPrMztlaVXlAzqJCITa
+	sBlBomASz0tbNQNFo1qRpJqPKEIvXjQiCiYA4ppdOTiHj2s1WQHrqjCe4cmFrWRYAXOi2UpZZOY
+	bC3cGqY+zzZHEo01wMs7+J4kROp8pBceMgsYpHwXxteJ3IQR4JM/4AcyVrkHvZsvv8fATZ47Vsi
+	W37q8LGfSJPDfUyptTF1Q3ZOVrQ4kF8q2ZAAzg/i56EbnlQOD3+QLlcbZMXgI+2Es2FKBMF+2CW
+	krwnFTF0udAOpm2Kl0Ywc2fQzq4hS2j2DX7XR/prug12pCww==
+X-Received: by 2002:a17:907:3c86:b0:bd7:bbae:2169 with SMTP id a640c23a62f3a-bd7bbae68ccmr235292466b.35.1779109657290;
+        Mon, 18 May 2026 06:07:37 -0700 (PDT)
+Received: from rfz-hpz.prod.rem.lan ([213.52.63.204])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4dec855sm567633166b.37.2026.05.18.06.07.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 06:07:36 -0700 (PDT)
+From: george.refseth@remarkable.no
+To: openembedded-core@lists.openembedded.org
+Cc: George Refseth <george.refseth@remarkable.no>,
+	Erik Wierich <erik@riscstar.com>
+Subject: [PATCH] cargo_common.bbclass: add subdir argument to git dependency to let cargo find crate
+Date: Mon, 18 May 2026 15:07:30 +0200
+Message-ID: <20260518130730.1480629-1-george.refseth@remarkable.no>
+X-Mailer: git-send-email 2.54.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 12:47:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237242
+ <openembedded-core@lists.openembedded.org>; Mon, 18 May 2026 13:07:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237244
 
---NextPart
-Content-Type: text/plain
+From: George Refseth <george.refseth@remarkable.no>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+When git referenced crate dependency dependens on (root) workspace virtual
+manifest, when patching path the path to the folder containing the crate
+within the referenced repo need to be added to the patching process.
+A subdir argument is added to address this need.
 
+Example usage when repo contains an api crate defining the api for org/repo:
+SRC_URI:append = "git://git@github.com/<org>/<repo>.git;name=api;destsuffix=repo-api;subdir=crates/api;type=git-dependency"
+
+Cc: Erik Wierich <erik@riscstar.com>
+Signed-off-by: George Refseth <george.refseth@remarkable.no>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-09-12-gn-fix-build-with-GCC-16-on-musl.patch
+ meta/classes-recipe/cargo_common.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-gn-fix-build-with-gcc-16-on-musl.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index 0d3edfe4a7..c1fe6a24ed 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -154,6 +154,9 @@ python cargo_common_do_patch_paths() {
+                     repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
+                 else:
+                     repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
++                subdir = ud.parm.get('subdir')
++                if subdir is not None:
++                    destsuffix = os.path.join(destsuffix, subdir)
+                 path = '%s = { path = "%s" }' % (name, os.path.join(workdir, destsuffix))
+                 patches.setdefault(repo, []).append(path)
+ 
 
