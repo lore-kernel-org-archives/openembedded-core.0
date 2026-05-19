@@ -1,141 +1,92 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4888BCD4F5E
-	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 14:15:21 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22163.1779200114970961879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5731BCD4F3C
+	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 14:19:11 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22712.1779200350824870990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 07:15:15 -0700
+ Tue, 19 May 2026 07:19:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=Afk3u/0U;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 234C11D31
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:15:09 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF17D3F7B4
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779200114; bh=faBzwxmwwxf1PcTc0M56fzwgTx0eyJZazFxzFd8s+OU=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Afk3u/0UovP8/UJkQjjicmWwtAzkS/h4L8MGcTF0VK1au2xlFl0+oi3d7bxkkNh3G
-	 6ogUXydRTGgTrovLnIX0FAckoW30qWb/XR2wi+e5ZtNtf1HsRpr9YBaZDbXDmOTyQJ
-	 +uYHUYUfOBA6BUPEABIP+7Lvk6/NyhizGZMlMxEw=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] groff: build less in groff-native
-Date: Tue, 19 May 2026 15:15:08 +0100
-Message-ID: <20260519141508.563089-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260519141508.563089-1-ross.burton@arm.com>
-References: <20260519141508.563089-1-ross.burton@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rxAhD+Cd;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GtllP8c/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019e409ad720-50950253-6346-4d08-92bf-16737f40f6f9-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1779200350; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=zToWv9BT4YsrXXQjH8lopu7ANKIV4wDkCIu4pDwt8pY=;
+	b=rxAhD+Cdt6lbs9ZS/3CoU98e880uTJOJiyysdUgNT3S2sp9B0NkeWCQGAeBunRK7
+	qRE9WQKCWibZS2NUT66UNw3vwSVOviEoXffE79ar31AP2BC6ldx8OSyPbIP3/9w2+FT
+	3j9dxnDNk8+6rFN6F0YCeLoHWhYNcdJTd7yZWXI0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1779200350;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=zToWv9BT4YsrXXQjH8lopu7ANKIV4wDkCIu4pDwt8pY=;
+	b=GtllP8c/UYxaQH+kNlvzUabNHO5wIdCTKFqQ0VMFPZwemXHSIJhFI9+7aMstuYh5
+	JNVa/iq0cRPbIYgjUftl/vb4CzzaeOfg3rGB7jQ7dLN3QtccMk9mCfiy2kn31Dg+Hxa
+	oQ0pZavLZH6ZpcTzVLielZ5YyN8fKxyuT7wuzgow=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 2/2] groff: build less in groff-native
+In-Reply-To: <20260519141508.563089-2-ross.burton@arm.com>
+References: <20260519141508.563089-2-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019e409ad720-50950253-6346-4d08-92bf-16737f40f6f9-000000@us-west-2.amazonses.com>
+Date: Tue, 19 May 2026 14:19:09 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.05.19-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 14:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237329
+ <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 14:19:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237330
 
-When building groff-native we only really need enough of groff to build
-manpages, and don't need documentation or extra tools.
+--NextPart
+Content-Type: text/plain
 
-Patch the Makefile to stop building the doc and contrib directories,
-which both take time and have incomplete build dependencies that cause
-intermittent failures[1][2].
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-This makes groff-native faster to build:
-
-  groff-native    do_compile   -30.6s   -33.7%     90.9s -> 60.3s
-
-And some tools are removed, which I don't believe are needed by anything
-we build:
-
-  /usr/bin/chem was removed
-  /usr/bin/eqn2graph was removed
-  /usr/bin/gdiffmk was removed
-  /usr/bin/gperl was removed
-  /usr/bin/gpinyin was removed
-  /usr/bin/mmroff was removed
-  /usr/bin/pic2graph was removed
-  /usr/share/groff/1.24.1/tmac/chem.pic was removed
-  /usr/share/groff/1.24.1/tmac/hdmisc.tmac was removed
-  /usr/share/groff/1.24.1/tmac/hdtbl.tmac was removed
-  /usr/share/groff/1.24.1/tmac/mm was removed
-  /usr/share/groff/1.24.1/tmac/mm/0.MT was removed
-  /usr/share/groff/1.24.1/tmac/mm/4.MT was removed
-  /usr/share/groff/1.24.1/tmac/mm/5.MT was removed
-  /usr/share/groff/1.24.1/tmac/mm/ms.cov was removed
-  /usr/share/groff/1.24.1/tmac/mm/se_ms.cov was removed
-  /usr/share/groff/1.24.1/tmac/mmse.tmac was removed
-  /usr/share/groff/1.24.1/tmac/mm.tmac was removed
-  /usr/share/groff/1.24.1/tmac/mom.tmac was removed
-  /usr/share/groff/1.24.1/tmac/mse.tmac was removed
-  /usr/share/groff/1.24.1/tmac/m.tmac was removed
-  /usr/share/groff/1.24.1/tmac/om.tmac was removed
-  /usr/share/groff/1.24.1/tmac/refer-mm.tmac was removed
-  /usr/share/groff/1.24.1/tmac/rfc1345.tmac was removed
-  /usr/share/groff/1.24.1/tmac/sboxes.tmac was removed
-
-[1] oe-core d1a02bdd242 ("groff: Fix occasional build race failure")
-[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16279
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../groff/files/build-less.patch              | 24 +++++++++++++++++++
- meta/recipes-extended/groff/groff_1.24.1.bb   |  2 ++
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-extended/groff/files/build-less.patch
+Testing patch /home/patchtest/share/mboxes/v2-2-2-groff-build-less-in-groff-native.patch
 
-diff --git a/meta/recipes-extended/groff/files/build-less.patch b/meta/re=
-cipes-extended/groff/files/build-less.patch
-new file mode 100644
-index 0000000000..dc560fbb30
---- /dev/null
-+++ b/meta/recipes-extended/groff/files/build-less.patch
-@@ -0,0 +1,24 @@
-+Build less bits of groff to save time and reduce random build
-+failures from missing dependencies in this logic.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+--- a/Makefile.am~	2026-05-15 13:23:08.000000000 +0100
-++++ b/Makefile.am	2026-05-15 13:29:17.053867035 +0100
-+@@ -556,15 +556,0 @@
-+-include $(top_srcdir)/contrib/chem/chem.am
-+-include $(top_srcdir)/contrib/eqn2graph/eqn2graph.am
-+-include $(top_srcdir)/contrib/gdiffmk/gdiffmk.am
-+-include $(top_srcdir)/contrib/glilypond/glilypond.am
-+-include $(top_srcdir)/contrib/gperl/gperl.am
-+-include $(top_srcdir)/contrib/gpinyin/gpinyin.am
-+-include $(top_srcdir)/contrib/grap2graph/grap2graph.am
-+-include $(top_srcdir)/contrib/hdtbl/hdtbl.am
-+-include $(top_srcdir)/contrib/install-font/install-font.am
-+-include $(top_srcdir)/contrib/mm/mm.am
-+-include $(top_srcdir)/contrib/mom/mom.am
-+-include $(top_srcdir)/contrib/pic2graph/pic2graph.am
-+-include $(top_srcdir)/contrib/rfc1345/rfc1345.am
-+-include $(top_srcdir)/contrib/sboxes/sboxes.am
-+-include $(top_srcdir)/doc/doc.am
-diff --git a/meta/recipes-extended/groff/groff_1.24.1.bb b/meta/recipes-e=
-xtended/groff/groff_1.24.1.bb
-index 256dcfd8c3..dd5ebee3df 100644
---- a/meta/recipes-extended/groff/groff_1.24.1.bb
-+++ b/meta/recipes-extended/groff/groff_1.24.1.bb
-@@ -15,6 +15,8 @@ SRC_URI =3D "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
-            file://builddep.patch \
-            "
-=20
-+SRC_URI:append:class-native =3D "file://build-less.patch"
-+
- SRC_URI[sha256sum] =3D "74e2819795b6aff431aeac983d63a9c8968eeaba2a2eba7d=
-f8ba4c7b41e7cfd8"
-=20
- DEPENDS =3D "bison-native groff-native"
---=20
-2.43.0
+FAIL: test Upstream-Status presence: Upstream-Status is Inappropriate, but no reason was provided (test_patch.TestPatch.test_upstream_status_presence_format)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
