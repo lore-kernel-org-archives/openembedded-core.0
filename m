@@ -1,137 +1,111 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BE0CD5BA4
-	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 11:23:00 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17513.1779182252435060548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD2ECD4F57
+	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 11:26:00 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19080.1779189955987718730
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 02:17:32 -0700
+ Tue, 19 May 2026 04:25:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=PK1M0Idk;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: saisneha196@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-90fbf21d9d3so610712785a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 02:17:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hq74/iUf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-448528f4e69so2280189f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 04:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779182251; x=1779787051; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qPkJWDQFJp/4U8GVa5Un2SoUehIl1YUMQsIBS+tLq14=;
-        b=PK1M0IdkwvX9t4NDpIXnrJZf4DJoytUtx75rla+qhgiyewHPZXQ1DBUQ0ablweR7vv
-         wHJFVVT0masl7rt942N/9Q17wfhXvXirNrH34lsQ/vgDyBMv2cZvolurGiQ3KiQFH7pp
-         +EGasA7PHIrnICv1mf0EtEHfUfdctBx0cziZEg93tyhBPuThFvTAqcRXNnmoKkKBJ/ib
-         iIBUSyx+4Nym+TJ0qkIVpO1hV9LToQTLrKbpn4aYZVC+gvEKjikhdR2CQS2lHGOJxiCQ
-         UMGaqqnWqhxdsH/Eismkl2CzPw3QrZNMEu85ucyY4UBs9r7fWSposiSH4LN0+QJk3Pjy
-         xubQ==
+        d=linuxfoundation.org; s=google; t=1779189954; x=1779794754; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=C6QxwCjvGm1nOmPCaWozLZdgI40CH5a2+LS9KkPgUKc=;
+        b=hq74/iUfhVd9fd/ytWLtVkkvGVTDOA1A+teHqpmjdL3qnV1HBQQQNPad2jz8UUps1y
+         /g1AfXPtDTyH3LzZhweDy981vTdAmWZcBF9qYQQ1/4gqFcEJctmUUwQotJVBFHRSQ331
+         tDIibRIwfh1FRWI7+cjshxCtSH9PG+Db8ACKA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779182251; x=1779787051;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qPkJWDQFJp/4U8GVa5Un2SoUehIl1YUMQsIBS+tLq14=;
-        b=nrwwxVfvinQVRsd//5NSSNJJHrhbKo/ex0JaytzI2nAmOHJ0K2zMEZqbNnfyvTi5QH
-         9/tQ+Ba06Tw1fBDhVos+s2nV9FdL+zRDVAVyp1CpEsWZQMxp4G5E2NOeq+5w45LhqRh6
-         9XTAx67UC+1lZ8mBaS3njbDZn+7XGgJt0opttWiBs/deY6SnBY4fIVqMyFVDc1D5JGbq
-         v6svgc6MYLDjvt9b+lJreCeuN+zJ7NJ8lxJxWCJhPJKM1m0GLJ9VVAPvpg9MuBBjGI7x
-         ikEqHhhCgf/Z7jQSSghm1cxWjxc5mBH0eBFlfK7+aZ4Ow46GRprpfcQkPMpzVnGopDIy
-         ACnw==
-X-Gm-Message-State: AOJu0YzziwbAQMURxH0x1Z0fX6VWTa1DB9gb2AAFkI6jqyYsLJXg4N2H
-	y80SG375CSGv15nEW+97CakQhXaSHXJ1nWeRCbYyYTApFf2AgitROATcVq3kjppN
-X-Gm-Gg: Acq92OFO2IIftc1+3M6DjGhLEnWBjUO0DV1hCHmUoCeYbnhkju+hHkjOMtw3xR/8UbS
-	Sw5ojdt/qy7v4qNMP+HXHgBWmHqM096jN596nQ6PISpjkVjLf2wzT2E2vRpxGeTl2Y3fmZcePBw
-	OGQ023XCYr7mNhw5M1exUuLQtbHCUONRXDspokbFgpYsXqiM8/yQtYYymRh4tENrTAek/qsC+Ms
-	vpW1ZHDI8gz7SK1Q3TqIrLNWE3q8tLJz37F9KZe9xy6XafMFLf+aW0W8ErzfhxEUT/XtmBUrnrv
-	Hqp+SRDnWkagM0/V1L5nGOEry10r9Ranaf6YfwJpgW703oIhQHNUXDi/0Agi9ZepIP1g4Nb0gqj
-	DpmJ0EiY6YmdYNmjzCD3p+HgACyrmCfSJu8KsJsdMNLRhgjVUVsrQ0WlcMVNap0t5iq3qtq4fNi
-	2lNSkStUP/91DlX2GrsOMJKRGM3qfxTtGyhvVPORVMrX2degs=
-X-Received: by 2002:a17:903:2ecf:b0:2ba:b643:1f81 with SMTP id d9443c01a7336-2bd7e84407dmr197948325ad.15.1779181776106;
-        Tue, 19 May 2026 02:09:36 -0700 (PDT)
-Received: from BLR1RLPT00004.localdomain ([152.57.112.247])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5cfe4935sm187342225ad.42.2026.05.19.02.09.33
+        d=1e100.net; s=20251104; t=1779189954; x=1779794754;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C6QxwCjvGm1nOmPCaWozLZdgI40CH5a2+LS9KkPgUKc=;
+        b=JrDyBDUf8/eGjYIKker59E/csqcxQ+qzyvFrwEi/NtS5VhO3uZpdbgovyuBzFUAz+m
+         olTOy3xeX9DVnQpivBaDqQFqDwFv8a01VSt2PKTsze0Wrx52nGvPU4mS6RwNRZKsCsmW
+         ZPSl3/F6F12Iyd6rVecxiprmcSowk7lFXYVAW2dn8+3MaR014+FiOeC3EgkWl2QzczMX
+         ag11TaqjKyZ5kTQhSVTxi3cIzY3/uVmDRr2xz8wzj0A/k2ovFdp3xveOtseCUzdpLDbU
+         zSxuHMOLCBnOqymw/o1QoNFI0umjJoFzDGYktBFkALCI6TOrsqTqsFL9SQF4zMnHNxDG
+         YtWw==
+X-Forwarded-Encrypted: i=1; AFNElJ8CXYPMjpNMRqEMnZdhx2tfOhkqVRBmEIkwj8+12P/JybtH2xmUX/z4IAyHhmb9kQqn0qlQ+O6p6YImDbSHOw6xEQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzKbki6wcSlwZpWdVvi1EF5jqBUOr4dI2h6c93JgrGoU/UU6UQ7
+	D84R2jzYJM5YGzQLD15BMievKg4Q7NaPsBSBEtjcrhVNJ6gwXQP2t64NQt24HRbWFLo=
+X-Gm-Gg: Acq92OGdRF9ezlJWyTiAhU5TpmwzsIBrK4MgIZV5xRedkW8ZKQRaQImjj9VqIT2WCk3
+	54+t6MKIoS0Q0/i6OG9G405eAdi+Nokgxs0/KEqJYN1l/t3qC5quh/et3FmBKSghAYh1JFvPD7i
+	fjq7cbP0T6DmYB6wDlHyGr3YwMUk8Zd8POKKi1smpylNMhpn1fmol7I72uYvzg0Qp1AyjV6J36G
+	WcYLnGK6IXeJcxh46kOZQdpcPs8pYuXWLyCU3hKybdZruD1bsmY0qAM4vhmFEAPx+UT2FWvgVCy
+	vZlFHzedlKe7I8Qz+OE9YPCQ4fnvlBHJ9I3qIVzP7v6U6M0Ir8yuRB3dvAdjSK9f/tm0tS3eMvL
+	BIp+yxc4AS0djndl9S/UHUPP5aonG70EgUxV9QFMHeiYu5yvToRm+MdqPRcL9GPsmEQMfj4SWAF
+	ZEk/X8UTNeQYZa8d+XOn1G00GiXecr6algVvh5SKa87Pj2NqgJwMI+HTlI4FoIYcVnIh7pXiB99
+	Qh68Hph5hWNxM0sJcBCiLkmmsU=
+X-Received: by 2002:a05:6000:2f8a:b0:45d:817c:b8b2 with SMTP id ffacd0b85a97d-45e5c5cc656mr30824936f8f.30.1779189954194;
+        Tue, 19 May 2026 04:25:54 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9c0a:1d5b:88a6:aea2? ([2001:8b0:aba:5f3c:9c0a:1d5b:88a6:aea2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9e768bcesm47073479f8f.4.2026.05.19.04.25.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 02:09:35 -0700 (PDT)
-From: Sai Sneha <saisneha196@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr,
-	corentin.guillevic@smile.fr,
-	Sai Sneha <saisneha196@gmail.com>
-Subject: [PATCH 3/3] yocto-check-layer.bbclass: enforce missing SRCREV check during layer validation
-Date: Tue, 19 May 2026 14:39:18 +0530
-Message-Id: <20260519090918.235880-4-saisneha196@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260519090918.235880-1-saisneha196@gmail.com>
-References: <20260519090918.235880-1-saisneha196@gmail.com>
+        Tue, 19 May 2026 04:25:53 -0700 (PDT)
+Message-ID: <da740047848f706c420629378838229833bc9fe4.camel@linuxfoundation.org>
+Subject: Re: Re-visiting: bitbake-setup on PyPI as the recommended install
+ path
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Patches and
+ discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Cc: Daiane Angolini <angolini@gmail.com>, Rob Woolley
+	 <rob.woolley@windriver.com>
+Date: Tue, 19 May 2026 12:25:52 +0100
+In-Reply-To: <CAP9ODKq0E4gjR2R6TXK38v-a3wQa5Yi892BVOB=3YoU+ibM23A@mail.gmail.com>
+References: 
+	<CAP9ODKq0E4gjR2R6TXK38v-a3wQa5Yi892BVOB=3YoU+ibM23A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 11:23:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237316
+ <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 11:26:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237317
 
-Add check_missing_srcrev() to yocto-check-layer.bbclass to enforce
-the missing-srcrev check as an error during yocto-check-layer runs.
+Hi Otavio,
 
-This ensures layer maintainers submitting layers to the Yocto
-ecosystem must fix all missing SRCREVs before their layer passes
-validation, even if their layer only gets WARN_QA during normal builds.
+On Tue, 2026-05-19 at 08:20 -0300, Otavio Salvador wrote:
+> - What's the current status of promoting bitbake-setup out of alpha
+> on PyPI? Are there known blockers (release tooling, packaging,
+> version coupling to BitBake/Yocto releases)?
+> - Is the previously discussed plan still the intended direction, or
+> has thinking shifted?
+> - Would coordinating the PyPI release cadence with BitBake/Yocto
+> releases be feasible, so users could pin to a known good version?
+>=20
+> Happy to help where I can if there are concrete blockers =E2=80=94 packag=
+ing,
+> release automation, documentation, or otherwise.
 
-This satisfies the requirement from Bug 16051 Comment 2:
-'add a QA check outside of checklayer then add it to checklayer'
+We still have the intent of doing this and Rob Woolley posted some
+initial patches on the bitbake mailing list. The timing was tricky with
+the LTS feature freeze and we ended up focusing on getting the release
+done.
 
-Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=16051
-Signed-off-by: Sai Sneha <saisneha196@gmail.com>
----
- meta/classes-global/yocto-check-layer.bbclass | 32 +++++++++++++++++++
- 1 file changed, 32 insertions(+)
+There are some logical steps such as needing to properly vendor the
+bitbake modules and needing to work out a way to correctly version
+bitbake's library and main scripts so that incompatible version
+combinations error appropriately.
 
-diff --git a/meta/classes-global/yocto-check-layer.bbclass b/meta/classes-global/yocto-check-layer.bbclass
-index ba93085325..1ef5424083 100644
---- a/meta/classes-global/yocto-check-layer.bbclass
-+++ b/meta/classes-global/yocto-check-layer.bbclass
-@@ -56,7 +56,39 @@ def check_network_flag(d):
-         if network and not is_allowed(bpn, task):
-             bb.error(f"QA Issue: task {task} has network enabled")
- 
-+def check_missing_srcrev(d):
-+    import bb.fetch2
-+    src_uri = (d.getVar('SRC_URI', False) or '').split()
-+    pn = d.getVar('PN')
-+    for uri in src_uri:
-+        try:
-+            (scheme, _, _, _, _, params) = bb.fetch2.decodeurl(uri)
-+        except Exception:
-+            continue
-+        if scheme not in ('git', 'gitsm', 'hg', 'svn'):
-+            continue
-+        if params.get('rev', ''):
-+            continue
-+        name = params.get('name', '') or 'default'
-+        candidates = [
-+            'SRCREV_%s:pn-%s' % (name, pn),
-+            'SRCREV_%s' % name,
-+            'SRCREV:pn-%s' % pn,
-+            'SRCREV',
-+        ]
-+        raw = None
-+        for candidate in candidates:
-+            raw = d.getVar(candidate, False)
-+            if raw:
-+                break
-+        if not raw or raw == 'INVALID':
-+            bb.error("QA Issue: %s: %s not set for SCM URI %s [missing-srcrev]" % (
-+                d.getVar('PN'), candidates[-1], uri))
-+            d.setVar("QA_ERRORS_FOUND", "True")
-+
-+
- python () {
-     check_insane_skip(d)
-     check_network_flag(d)
-+    check_missing_srcrev(d)
- }
--- 
-2.34.1
+The patches as posted currently aren't right, we're struggling with a
+combination of review feedback and getting to the right patches...
+
+Cheers,
+
+Richard
+
+
 
 
