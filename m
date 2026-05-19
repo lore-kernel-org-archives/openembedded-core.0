@@ -2,68 +2,139 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BA1CD4F3C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4888BCD4F5E
 	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 14:15:21 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22161.1779200114021773616
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22163.1779200114970961879
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 07:15:14 -0700
+ Tue, 19 May 2026 07:15:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=cPLXri8l;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=Afk3u/0U;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4BE921D31
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:15:08 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 234C11D31
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:15:09 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EFCBB3F7B4
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:15:12 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF17D3F7B4
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:15:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779200113; bh=nF+OxIjJ/SyHMCYmxNGjGEXl3crK62j0JzyNH80ePbg=;
-	h=From:To:Subject:Date:From;
-	b=cPLXri8l2QL6sMrhwNsiZk0oSJt/Os/K2QHAzL7/+O/sLF+gUVxBswmEgdMlvh3VB
-	 9iPYB3pVcfwDnoqF0u4IaqqkU9yHM7yc5Z5bzuUNu5Ozve+2qrmfekFZgSH/1MiO/j
-	 tcnNyycgyGbzFMUTOc3n0GQd1CQcscU/Vicz1kAw=
+	t=1779200114; bh=faBzwxmwwxf1PcTc0M56fzwgTx0eyJZazFxzFd8s+OU=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Afk3u/0UovP8/UJkQjjicmWwtAzkS/h4L8MGcTF0VK1au2xlFl0+oi3d7bxkkNh3G
+	 6ogUXydRTGgTrovLnIX0FAckoW30qWb/XR2wi+e5ZtNtf1HsRpr9YBaZDbXDmOTyQJ
+	 +uYHUYUfOBA6BUPEABIP+7Lvk6/NyhizGZMlMxEw=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] groff: fix whitespace
-Date: Tue, 19 May 2026 15:15:07 +0100
-Message-ID: <20260519141508.563089-1-ross.burton@arm.com>
+Subject: [PATCH v2 2/2] groff: build less in groff-native
+Date: Tue, 19 May 2026 15:15:08 +0100
+Message-ID: <20260519141508.563089-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260519141508.563089-1-ross.burton@arm.com>
+References: <20260519141508.563089-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 14:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237328
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237329
 
-Fix bad indentation.
+When building groff-native we only really need enough of groff to build
+manpages, and don't need documentation or extra tools.
+
+Patch the Makefile to stop building the doc and contrib directories,
+which both take time and have incomplete build dependencies that cause
+intermittent failures[1][2].
+
+This makes groff-native faster to build:
+
+  groff-native    do_compile   -30.6s   -33.7%     90.9s -> 60.3s
+
+And some tools are removed, which I don't believe are needed by anything
+we build:
+
+  /usr/bin/chem was removed
+  /usr/bin/eqn2graph was removed
+  /usr/bin/gdiffmk was removed
+  /usr/bin/gperl was removed
+  /usr/bin/gpinyin was removed
+  /usr/bin/mmroff was removed
+  /usr/bin/pic2graph was removed
+  /usr/share/groff/1.24.1/tmac/chem.pic was removed
+  /usr/share/groff/1.24.1/tmac/hdmisc.tmac was removed
+  /usr/share/groff/1.24.1/tmac/hdtbl.tmac was removed
+  /usr/share/groff/1.24.1/tmac/mm was removed
+  /usr/share/groff/1.24.1/tmac/mm/0.MT was removed
+  /usr/share/groff/1.24.1/tmac/mm/4.MT was removed
+  /usr/share/groff/1.24.1/tmac/mm/5.MT was removed
+  /usr/share/groff/1.24.1/tmac/mm/ms.cov was removed
+  /usr/share/groff/1.24.1/tmac/mm/se_ms.cov was removed
+  /usr/share/groff/1.24.1/tmac/mmse.tmac was removed
+  /usr/share/groff/1.24.1/tmac/mm.tmac was removed
+  /usr/share/groff/1.24.1/tmac/mom.tmac was removed
+  /usr/share/groff/1.24.1/tmac/mse.tmac was removed
+  /usr/share/groff/1.24.1/tmac/m.tmac was removed
+  /usr/share/groff/1.24.1/tmac/om.tmac was removed
+  /usr/share/groff/1.24.1/tmac/refer-mm.tmac was removed
+  /usr/share/groff/1.24.1/tmac/rfc1345.tmac was removed
+  /usr/share/groff/1.24.1/tmac/sboxes.tmac was removed
+
+[1] oe-core d1a02bdd242 ("groff: Fix occasional build race failure")
+[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16279
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-extended/groff/groff_1.24.1.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../groff/files/build-less.patch              | 24 +++++++++++++++++++
+ meta/recipes-extended/groff/groff_1.24.1.bb   |  2 ++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-extended/groff/files/build-less.patch
 
+diff --git a/meta/recipes-extended/groff/files/build-less.patch b/meta/re=
+cipes-extended/groff/files/build-less.patch
+new file mode 100644
+index 0000000000..dc560fbb30
+--- /dev/null
++++ b/meta/recipes-extended/groff/files/build-less.patch
+@@ -0,0 +1,24 @@
++Build less bits of groff to save time and reduce random build
++failures from missing dependencies in this logic.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++--- a/Makefile.am~	2026-05-15 13:23:08.000000000 +0100
+++++ b/Makefile.am	2026-05-15 13:29:17.053867035 +0100
++@@ -556,15 +556,0 @@
++-include $(top_srcdir)/contrib/chem/chem.am
++-include $(top_srcdir)/contrib/eqn2graph/eqn2graph.am
++-include $(top_srcdir)/contrib/gdiffmk/gdiffmk.am
++-include $(top_srcdir)/contrib/glilypond/glilypond.am
++-include $(top_srcdir)/contrib/gperl/gperl.am
++-include $(top_srcdir)/contrib/gpinyin/gpinyin.am
++-include $(top_srcdir)/contrib/grap2graph/grap2graph.am
++-include $(top_srcdir)/contrib/hdtbl/hdtbl.am
++-include $(top_srcdir)/contrib/install-font/install-font.am
++-include $(top_srcdir)/contrib/mm/mm.am
++-include $(top_srcdir)/contrib/mom/mom.am
++-include $(top_srcdir)/contrib/pic2graph/pic2graph.am
++-include $(top_srcdir)/contrib/rfc1345/rfc1345.am
++-include $(top_srcdir)/contrib/sboxes/sboxes.am
++-include $(top_srcdir)/doc/doc.am
 diff --git a/meta/recipes-extended/groff/groff_1.24.1.bb b/meta/recipes-e=
 xtended/groff/groff_1.24.1.bb
-index 24b8146a72..256dcfd8c3 100644
+index 256dcfd8c3..dd5ebee3df 100644
 --- a/meta/recipes-extended/groff/groff_1.24.1.bb
 +++ b/meta/recipes-extended/groff/groff_1.24.1.bb
-@@ -65,8 +65,10 @@ do_install:append() {
- 	rm -rf ${D}${bindir}/grap2graph
- 	rm -rf ${D}${mandir}/man1/grap2graph*
+@@ -15,6 +15,8 @@ SRC_URI =3D "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
+            file://builddep.patch \
+            "
 =20
--        # strip hosttool path out of generated files
--        sed -i -e 's:${HOSTTOOLS_DIR}/::g' ${D}${docdir}/${BP}/examples/=
-hdtbl/*.roff
-+	# strip hosttool path out of generated files
-+	if [ -d ${D}${docdir}/${BP}/examples/hdtbl/ ]; then
-+		sed -i -e 's:${HOSTTOOLS_DIR}/::g' ${D}${docdir}/${BP}/examples/hdtbl/=
-*.roff
-+	fi
- }
++SRC_URI:append:class-native =3D "file://build-less.patch"
++
+ SRC_URI[sha256sum] =3D "74e2819795b6aff431aeac983d63a9c8968eeaba2a2eba7d=
+f8ba4c7b41e7cfd8"
 =20
- do_install:append:class-native() {
+ DEPENDS =3D "bison-native groff-native"
 --=20
 2.43.0
 
