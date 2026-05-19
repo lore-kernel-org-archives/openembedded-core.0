@@ -1,437 +1,240 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E30CCD4F54
-	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 07:01:53 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15935.1779174105397917954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9821ACD4F3C
+	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 07:07:53 +0000 (UTC)
+Received: from OS8PR02CU002.outbound.protection.outlook.com (OS8PR02CU002.outbound.protection.outlook.com [40.107.75.143])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15992.1779174469318272209
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 00:01:45 -0700
+ Tue, 19 May 2026 00:07:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ltP5BN35;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso32431475e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 00:01:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1779174104; x=1779778904; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nEiRYD43zWa1wCzbWNHzOrhR37RZR8PQ4/QXwbHRubw=;
-        b=ltP5BN35fPhKenh4Ggw0BHytXx9hYwX1fZpTPgZNID0it7JuS2egOTJ9Nb61ipk+QB
-         173D2LJ171NPOsFPATNZpAqomEROEaPao+LyoX5nqN8Aj1ipX9JJygk+U8QluehDinui
-         aQcnpDbAMkr6WA0bOPfdW3D7AV9A4ZALIGYxM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779174104; x=1779778904;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nEiRYD43zWa1wCzbWNHzOrhR37RZR8PQ4/QXwbHRubw=;
-        b=mWbM7IZnr2ceCIVcagfd2qqr9Tl1AFsNv3mGR99/g0VIUG4tfrJrb651NF1wcGrzpo
-         c941ZHqM+xId6unGGlHsAaK+9jB9b8Vd07qvjOfaNuzi1vXPfkKneFnmaXT2Ta7q6Lj6
-         185QZkoyDWCVWWpIdzIUAHb7JMhfbZFzzQEmth8dLW6B+oqkMbCyVtlRCaZY9vUe2TJs
-         DLlKqzWevPzUaY4Oqtk34uWOCKVCiPCbBxLu0XrNWJk2JgRkmmkwcRfvES7/s2feJLQa
-         luavdKRk9/a4R0iM+yT7bGEqK/uqCZzbnIO1nS6PWs8Gt9jP3pvImjfHNAOz+2I7MceL
-         6GAg==
-X-Forwarded-Encrypted: i=1; AFNElJ9Ct5jdeUCFoSuq9AVb2BdcOEQoW6vhCcpV/XnwFnOFvhX94ZwEk789eojwtXnZraE+xF1q3NpZUep87c9DwpsDbg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyeEfY93pv1XdsrDpxDLEuHUCJQYZ+4Hm275iiQdmEc6OG/3wd9
-	f+XF9DcWJQDqkr5zRcf1Ot4f3Cf5z+2HQSCMg7olfWhIBetbm82dFtvyW9KxPrHheOo=
-X-Gm-Gg: Acq92OGkJylCZp5ifmBb74w5SFJQL5o4ZPzmQh5S8nTHcWIdB+vNskNoP22SpTkAZAu
-	XWyQBrYPtq+2b3Vfu3N2rRClbjbg3rbqtpko72ESCfC/64LKH9TVqu92JunmeeRFpfeaFroKnUR
-	lXleseIJO9Bmww8UXbVv2Kx4z3xQs7mIZqBOAu34F3a3z6PavbfPpWpEWbn39gWjag0d5E2kfZw
-	LRDeUycL0u90MDAFmNE4xuFVy6zzMvMs6/JXFhokr7RNzU1bQDeE3ldXVhTw9VAM8iIX1nn5+6n
-	YE6f9aSIrh+b/QyhgM7ZlxAl72wBrI/OM170ZL5ju80wjYiJ8wNnKcahek5vtbL35YRavCGlUjH
-	gltbxkzbRBkZyLZ5nBzmkMQp5uY8uSYnUDUXaF5Dccj9qebOGDNt19Rhf6sC8ct0jNctAI/L/N7
-	15KcsT5GH5mdVj0nubN9HW3yi2nFdF11Su0NihuHnzN4b5OkavlPcVbg6vG6ln9zawCOTDEPg0n
-	7VjFd4n3GbDXdE=
-X-Received: by 2002:a05:600c:4692:b0:48f:d5e8:758c with SMTP id 5b1f17b1804b1-48fe6325792mr288081135e9.16.1779174103478;
-        Tue, 19 May 2026 00:01:43 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49017d7108fsm22188745e9.23.2026.05.19.00.01.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 00:01:42 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 19 May 2026 09:01:43 +0200
-Message-Id: <DIMGKZGKFOAP.2INLU5ELU1YNK@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCHv2] qemu: fix for CVE-2025-11234
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "Kai" <kai.kang@windriver.com>, <hprajapati@mvista.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260220051011.11250-1-hprajapati@mvista.com>
- <DGVZXBTVF9IV.1T2VD5JUSSC1F@smile.fr>
- <8b5048c5-f57f-45ca-801c-e31357578015@windriver.com>
-In-Reply-To: <8b5048c5-f57f-45ca-801c-e31357578015@windriver.com>
+ dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=F/37W9++;
+ spf=pass (domain: aspeedtech.com, ip: 40.107.75.143, mailfrom: jamin_lin@aspeedtech.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k6rECCX1W1CKLjYRZrjy0d9qWMNvET5wx/cd8H83ND0s/VMbA66QHjA7niRyqgDpGq9FSpEVrgEg8QlSso4i/k8oT5t++O9jiIrWUs4NZADQhtpVrvZe9awOKBMmRPssP6XFkqNrtUrp55KAr+pFzqOdEZ080yrWDMbTOhzJW1QSBshz+FwNhSqmoS/O3/ocThULogLfAGnrCBqOluYYWBsuQVGY/a4EB6ZAlT0rXCtTcF5gNeLraNiBLCrW3yPn8yhinILUnZCapgHCVEmSqvsh9pBqAeVeaJoUVMjeWYjGjteoftz5lGR/77f2SEu4I6iPPwBfJn/ASg3S7ZrPmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7LgbYeUlTH1U/2YhefHNHSdFChGaLH9LsxXPSx3eWHo=;
+ b=xqlRVZxIQ2QMaxUDkhbwxuzJ1r6aKr3uHw9Dlt8HOn5onU3XasIz9893KXXOYNhh5J4qb/JTqcVV7WSJDY4famhgkzpJ09uPQqhtyvQp1DDaoZ0QSXdagpSm8GS6v7Xy+tdxZyDni05q6n+TcJNG/T/Q6og49+X6LWb/lzmyrvmdQkxLrL/Tuszqwi+O5JXFUsIJ0ma2F4VcD1/qnvWFwYFNEJoJdREh0ONedcQvBW+DAYMwNRR4CWrDxQ40Can8UX5zpkXJFc2MTgO9qkQh0zQjc3ptSL5Se8zzPdPJg6bC3S50at3F6IsvtkbnDe14LhycGp6kNwIowuyOZzGI3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7LgbYeUlTH1U/2YhefHNHSdFChGaLH9LsxXPSx3eWHo=;
+ b=F/37W9++4hwVRy5K/lmZ3rU6i6fV0fJxCDJLrDmWc6eUaoTLnjwzQ2QSMxNpl3Fp5BdIG+47vVc8lTUjgLFxFeEKmL1u952YxcKZD9YYZonVFnAFJy+iY7hpKz/FtMVh6P6xzh/tZ5IjlnG/WP6qX3WQHmj1W6v56zbxkBtToNJTP+rgOBgJGNqpGiweIx/Vznn/epwRSjMvuIQ1mWOmbKL97XmdSSNf328RMpfMf1BssUFHuT6+QmkRQetszfaqKROCKZjkm/TPMR3d6lJCBaebsl4UVXh/n/2VqNE9QUF+sJioRA8FYTaDPd7hrZMgLQU2CxcLzblqf5G7vC5nAw==
+Received: from TYPPR06MB8206.apcprd06.prod.outlook.com (2603:1096:405:383::19)
+ by SEZPR06MB5992.apcprd06.prod.outlook.com (2603:1096:101:f2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.22; Tue, 19 May
+ 2026 07:07:43 +0000
+Received: from TYPPR06MB8206.apcprd06.prod.outlook.com
+ ([fe80::e659:1ead:77cb:f6d3]) by TYPPR06MB8206.apcprd06.prod.outlook.com
+ ([fe80::e659:1ead:77cb:f6d3%2]) with mapi id 15.21.0025.023; Tue, 19 May 2026
+ 07:07:43 +0000
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Troy Lee <troy_lee@aspeedtech.com>, Vince Chang
+	<vince_chang@aspeedtech.com>
+Subject: RE: [PATCH v1 1/2] externalsrc: Handle nested git repos from multiple
+ SRC_URI entries
+Thread-Topic: [PATCH v1 1/2] externalsrc: Handle nested git repos from
+ multiple SRC_URI entries
+Thread-Index: AQHc5E5IWG4WbSnYm0WaLzDNjO9OhbYULR6AgADFljA=
+Date: Tue, 19 May 2026 07:07:43 +0000
+Message-ID: 
+ <TYPPR06MB8206716FCB7AF5E5EE845AC9FC002@TYPPR06MB8206.apcprd06.prod.outlook.com>
+References: <20260515093615.126849-1-jamin_lin@aspeedtech.com>
+	 <20260515093615.126849-2-jamin_lin@aspeedtech.com>
+ <ea944ab1b8149e83b522e0c315b6436f6142da5c.camel@pbarker.dev>
+In-Reply-To: <ea944ab1b8149e83b522e0c315b6436f6142da5c.camel@pbarker.dev>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYPPR06MB8206:EE_|SEZPR06MB5992:EE_
+x-ms-office365-filtering-correlation-id: 5f00ec8a-f457-4512-9f9d-08deb5755289
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|18002099003|56012099003|22082099003|3023799003|38070700021|4143699003;
+x-microsoft-antispam-message-info: 
+ GqUo71W7QipDu2F2GkkgNRJTUkeM2Lq8G4gKp/MWpy9nCUmJ7FdnBCwAPV5pANPhetbebVqe2eHv5wULdbFJLWUyyR46VCyZNqIrPjXSl0Ljfm36Www+KaeVhd3+6njz6okNtJnhmcrouwMD4qxojFYTX7QQ5u80VqOakyOHKLSlHWL3h1f+sBPARw628LxaX4bNIsgHLCFDRqX7S98LgplMjY7sfuIG3Mr1ahY2QAtr0LI+APcJswt/tkupx4E14ZK2htZ0r/8u+fxReKhKU/5nxLzMW0fIWRfdsNfqsr1KFJi1FSRze0U+4Lh1U38JOIjNhm0Jb4lH0Mzi8NA3UTkFGEqndG4GKfgGmVfvcOoodcWPUX6N5y8JuzqzpWbTsRKw6qOQxrofhiLm0uWHtZ4e0SL/P/iNANgmwKHgNxNsqGFOZztTLfgO7CI4MIJ7J07NIc5A8HbqWCqlM1WjlhH6EHzL6mdI9eBnYOpjqEdqM+IlJOECiofFR4R9UowhFkYYHcGdOXiJW5CWQuKwPjd69hkLovZCXkAHuIPAIgDz641iYEuSzJ2ap+2STdD8KjmB1yvAgJnAHP8s28o7mWz0DsOwUiEBe2J+tJXWtz752iae1XguwCAIkjH2tcYGeXE/isoU1BWaIYiLY4fCtOkyEd5qG6RIV6/MVQr7tE0NLGvJpX3kL/0iAvqM47RtIJBX6R6nL8X+D92sheFhJQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYPPR06MB8206.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(18002099003)(56012099003)(22082099003)(3023799003)(38070700021)(4143699003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?WHV3b2xRYkU0WWVlMDc0bmp4N2pEQmtlQjlOVFRXbFQ3R29WZEM2Rk5sM09a?=
+ =?utf-8?B?T3QwK1U1MnQ4OUk4SUZhN1Q0Y2U4T3FwZUxJd29DaTVXaDVGelpnOUhySkZi?=
+ =?utf-8?B?d255WGNRQzBpY0tNcW5qM3VBbW5sWGlhcVVmUmQyK3VkY3g0Y2FCRHhzMC9s?=
+ =?utf-8?B?MTZ1NFRTR1oxUDNOaEJWYjhJZ01zT1hNQnVnY0YyNGdpSm9rSW9XdHhESVYz?=
+ =?utf-8?B?ajYxdW9DOXRMNzNjSUFYQksyTDNlSGE2c1JUL1VCOHU1V1Ewb0R6dmhWSzhI?=
+ =?utf-8?B?U3hDUUhFV1VwSHU1c3BNNTJuU0VYYkRDSUpMK2hlTnptdEhYSHBRdjhiN3lF?=
+ =?utf-8?B?R1pHL1kzV2hrcEI1dndZdEk1N09GRE5LZVBjejhKbDZLQVZXRjB5MzVlMEZQ?=
+ =?utf-8?B?QTIwMzZBMkpzcVlWd0JqMWxTUDBFZERKOXdxYzMxcnh3S0VmcjNObFpEbFh1?=
+ =?utf-8?B?Ti9tWDhMd1M1bG9VVGs5bzhXS3NyTlFBaW9tNXMzNWZVc1laeEg4YTZ2Qzh3?=
+ =?utf-8?B?U2lGOE1tT2xmRUE2bjZmUHJQNG8wNlRPWWwvNk1NSGdQelp1NWI3a1loUkdT?=
+ =?utf-8?B?WE0wMWp2aWFBR3dsaHA1VnprS0Z4Y1JDY1JrUU5wUzE1WDRoNjdVaGRlVXdV?=
+ =?utf-8?B?aXlEUEhJTzZUTUVjaW1PcFFmUjNSZmh4OWJqZmtWUHQ5RjlGVVVKNFNkQnl1?=
+ =?utf-8?B?SnJUcnV2QlBOV3lhUGN1dTBrUTBoeEZMYStDaDM1NGc1elhXRjQ4d083U2V0?=
+ =?utf-8?B?cGhkUWszWFgwaVRtbmZJL2hJMFA4eWhCa0MrMnNDYzB4Y3M4ZWtoSWpMcDR3?=
+ =?utf-8?B?bEl1UGVlWUp3MzJxOGhySi9MRTJNOWhWQlltVEhCMjN0R0l4SGc1SnpaaGMv?=
+ =?utf-8?B?YUg1ek5EMCtFdGpLRnU5WE5sTzVpR3FMKzFkY2d4STJRTWsyU2t1RGZiZld0?=
+ =?utf-8?B?L3h5dzRLd1ZxSXhtS0M2emxNcUZRZjRZR1lIc0NOTTNhb1hJa0llR2puUmww?=
+ =?utf-8?B?SjJ5MlkyT1JZNHgyVXVOWXJ3eWhSamNtVFJTMG9PTTlnc1FhS2NmT0loSG9h?=
+ =?utf-8?B?dUpRZ3dMa3JXNGZzYk5tWlAxcitmbFFBS2dRSkdTYkUzS1loZlJzZStMZ3Rs?=
+ =?utf-8?B?UW4ydzBMSkpoWDFRSG1wdk9EU3ltK0xTSHkxMmVBOStvbGFSd0tKU2o2WmRK?=
+ =?utf-8?B?NnRXS1E4L2R4V3hkckxxejZ2RjJPdFJkM29QVnp4YVhiMTVHU3RKMHY4blJi?=
+ =?utf-8?B?VWNzYW5qQWJodW1LeFNlbFhGREl3WnVWTVhBbGV5M2V5S1hGT0tiTTFiZnlO?=
+ =?utf-8?B?bkVzT1lEc3dEeTVoN2lZMlB2Vk4ySVV3UVV5N01DSi9OVmdJUkxSUFhyR1lM?=
+ =?utf-8?B?ZkpLT0N0MU94SWM5ZmVaWnR5cTA3cC90MHZBcEJhR2Q3MUdjREx0ZWUzQzk1?=
+ =?utf-8?B?Yks3R2dhMUhSV1FoaXlKOUlPZU56czRFTUpjYjBpRTNHUFhhK3R3WXJRODBY?=
+ =?utf-8?B?S3VMOVdQVmN1MEVKMGlyY0c5Z1dkcWZheTB6UjFUZVVpVi82K0Q5Z3czekpk?=
+ =?utf-8?B?bHQ4bC9tMk9pMkZ5S2pXSW5jZGxyQWplSmE1UEZEbkIwM01LUXVLRk1GeWtO?=
+ =?utf-8?B?VnZWT3FGSDlsbUZ4NnN2QUxoSmxBSEdORThQQlF5cXZyemNRZGtNbEVhTmJp?=
+ =?utf-8?B?eGZIOEw5OG1iTVJKN0dINDF0QXhjcng0Q3E1NEZobmwrQUU4K2dVZCs2bU91?=
+ =?utf-8?B?V3hDakppNUlMTWZEck42SVh4ak5uSkE5MCt4UDVLVmZ1czVqRVFzT0NsbHdo?=
+ =?utf-8?B?aTVkZng3RXdZaldXYXJ6R01PNldTQnhyTXFEb2VIbXNjR1QwYnZHTDYwSVNR?=
+ =?utf-8?B?dGNObGthK2ZoWUhiS29WNm9HcFpaaU9LR3I1a1pYUmRVclFoYVh0TStRMkFp?=
+ =?utf-8?B?ejlZcnhIVWE2VzhlQ014QmcrVWRVWW5mdlJXcUp5VjB6cm9LZUpWbXpNSFBE?=
+ =?utf-8?B?bCsxK2l3Rnh1b3F5QndvM3lZRkRUL08rSWU0VU1qdSt6M2NVaG5OR1c3YTB5?=
+ =?utf-8?B?RGZTYXcrdmRZRWZTVEdOR3V4bmt6SnZMaXVHT0U3K2Z4Q2FLWWwrTnNmd0ZQ?=
+ =?utf-8?B?S0RaaXlJTGJtY2ZPeG1UMlhRVDZ5dEU1Z3p3S01qNytqWWdaUVBEWFF2ZFEx?=
+ =?utf-8?B?ZHc2VHIwZCtZWXhDS1ZxV3dLRzlJTnZMY1dvYnhLOVNDTCtMUndCUDdQd2Y5?=
+ =?utf-8?B?QlpNY2Q5TmVhVnpGdmhVZDVBYkoxL3BYeTdtZE5QdjJRSHJ2M3JZRTFpVVBo?=
+ =?utf-8?B?NzdHZzFPS0RVZmZaakR1OEkzd05uTjhvODYrK3QzM29HNmJNdi8xQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYPPR06MB8206.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f00ec8a-f457-4512-9f9d-08deb5755289
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2026 07:07:43.3308
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3jTAcQ2BiRHMI5+gi/dNO45kZ4g9Gv4seAKYsgTHF0RhJoWLK1s8vl8K9vCxuuGwWtiJQquEZcGscaUb0n/ciPEg5l+tF518KyMRD7qAgPc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5992
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:01:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237272
+ <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:07:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237273
 
-On Mon May 18, 2026 at 10:17 AM CEST, Kai wrote:
-> On 3/7/26 04:53, Yoann Congal via lists.openembedded.org wrote:
->> On Fri Feb 20, 2026 at 6:10 AM CET, Hitendra Prajapati via lists.openemb=
-edded.org wrote:
->>> This patch fix use after free in websocket handshake code.
->>>
->>> Backport patch from debian refer :
->>> https://security-tracker.debian.org/tracker/CVE-2025-11234
->>>
->>> Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
->>> ---
->>>   meta/recipes-devtools/qemu/qemu.inc           |   2 +
->>>   .../qemu/qemu/CVE-2025-11234-01.patch         |  72 ++++++++
->>>   .../qemu/qemu/CVE-2025-11234-02.patch         | 174 +++++++++++++++++=
-+
->>>   3 files changed, 248 insertions(+)
->>>   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.=
-patch
->>>   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.=
-patch
->> Hello,
-> Hi Yoann,
->> Thanks for the v2, it looks better. But it still needs a fix for
->> whinlatter (the fix is in 10.0.7, whinlatter in 10.0.6, so maybe an
->> upgrade?)
->
-> May I ask why it didn't be merged to scarthgap, please?
-
-I simply lost track of it. I've added this one to my scarthgap review
-branch. I plan to review the patches in "Awaiting Upstream" state on
-patchwork (like this one) for the next cycle.
-
-Thanks!
-
-> Regards,
-> Kai
->
->>
->> Regards,
->>
->>> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtool=
-s/qemu/qemu.inc
->>> index 748a32215e..ba21d57010 100644
->>> --- a/meta/recipes-devtools/qemu/qemu.inc
->>> +++ b/meta/recipes-devtools/qemu/qemu.inc
->>> @@ -43,6 +43,8 @@ SRC_URI =3D"https://download.qemu.org/${BPN}-${PV}.ta=
-r.xz \=20
->>> file://qemu-guest-agent.udev \ file://CVE-2024-8354.patch \=20
->>> file://CVE-2025-12464.patch \ + file://CVE-2025-11234-01.patch \ +=20
->>> file://CVE-2025-11234-02.patch \ "
->>>   UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
->>>  =20
->>> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch b/=
-meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch
->>> new file mode 100644
->>> index 0000000000..c3797bc66f
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch
->>> @@ -0,0 +1,72 @@
->>> +From 911c814c8cc5f836286bd96694843036db83e99f Mon Sep 17 00:00:00 2001
->>> +From: =3D?UTF-8?q?Daniel=3D20P=3D2E=3D20Berrang=3DC3=3DA9?=3D<berrange=
-@redhat.com>
->>> +Date: Tue, 30 Sep 2025 11:58:35 +0100
->>> +Subject: [PATCH] io: move websock resource release to close method
->>> +MIME-Version: 1.0
->>> +Content-Type: text/plain; charset=3DUTF-8
->>> +Content-Transfer-Encoding: 8bit
->>> +
->>> +The QIOChannelWebsock object releases all its resources in the
->>> +finalize callback. This is later than desired, as callers expect
->>> +to be able to call qio_channel_close() to fully close a channel
->>> +and release resources related to I/O.
->>> +
->>> +The logic in the finalize method is at most a failsafe to handle
->>> +cases where a consumer forgets to call qio_channel_close.
->>> +
->>> +This adds equivalent logic to the close method to release the
->>> +resources, using g_clear_handle_id/g_clear_pointer to be robust
->>> +against repeated invocations. The finalize method is tweaked
->>> +so that the GSource is removed before releasing the underlying
->>> +channel.
->>> +
->>> +Reviewed-by: Eric Blake<eblake@redhat.com>
->>> +Signed-off-by: Daniel P. Berrang=C3=A9<berrange@redhat.com>
->>> +(cherry picked from commit 322c3c4f3abee616a18b3bfe563ec29dd67eae63)
->>> +Signed-off-by: Michael Tokarev<mjt@tls.msk.ru>
->>> +
->>> +CVE: CVE-2025-11234
->>> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/comm=
-it/911c814c8cc5f836286bd96694843036db83e99f]
->>> +Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
->>> +---
->>> + io/channel-websock.c | 11 ++++++++++-
->>> + 1 file changed, 10 insertions(+), 1 deletion(-)
->>> +
->>> +diff --git a/io/channel-websock.c b/io/channel-websock.c
->>> +index de39f0d18..1aac3c88a 100644
->>> +--- a/io/channel-websock.c
->>> ++++ b/io/channel-websock.c
->>> +@@ -922,13 +922,13 @@ static void qio_channel_websock_finalize(Object =
-*obj)
->>> +     buffer_free(&ioc->encinput);
->>> +     buffer_free(&ioc->encoutput);
->>> +     buffer_free(&ioc->rawinput);
->>> +-    object_unref(OBJECT(ioc->master));
->>> +     if (ioc->io_tag) {
->>> +         g_source_remove(ioc->io_tag);
->>> +     }
->>> +     if (ioc->io_err) {
->>> +         error_free(ioc->io_err);
->>> +     }
->>> ++    object_unref(OBJECT(ioc->master));
->>> + }
->>> +
->>> +
->>> +@@ -1219,6 +1219,15 @@ static int qio_channel_websock_close(QIOChannel=
- *ioc,
->>> +     QIOChannelWebsock *wioc =3D QIO_CHANNEL_WEBSOCK(ioc);
->>> +
->>> +     trace_qio_channel_websock_close(ioc);
->>> ++    buffer_free(&wioc->encinput);
->>> ++    buffer_free(&wioc->encoutput);
->>> ++    buffer_free(&wioc->rawinput);
->>> ++    if (wioc->io_tag) {
->>> ++        g_clear_handle_id(&wioc->io_tag, g_source_remove);
->>> ++    }
->>> ++    if (wioc->io_err) {
->>> ++        g_clear_pointer(&wioc->io_err, error_free);
->>> ++    }
->>> +     return qio_channel_close(wioc->master, errp);
->>> + }
->>> +
->>> +--
->>> +2.50.1
->>> +
->>> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch b/=
-meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch
->>> new file mode 100644
->>> index 0000000000..364d19457d
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch
->>> @@ -0,0 +1,174 @@
->>> +From cebdbd038e44af56e74272924dc2bf595a51fd8f Mon Sep 17 00:00:00 2001
->>> +From: =3D?UTF-8?q?Daniel=3D20P=3D2E=3D20Berrang=3DC3=3DA9?=3D<berrange=
-@redhat.com>
->>> +Date: Tue, 30 Sep 2025 12:03:15 +0100
->>> +Subject: [PATCH] io: fix use after free in websocket handshake code
->>> +MIME-Version: 1.0
->>> +Content-Type: text/plain; charset=3DUTF-8
->>> +Content-Transfer-Encoding: 8bit
->>> +
->>> +If the QIOChannelWebsock object is freed while it is waiting to
->>> +complete a handshake, a GSource is leaked. This can lead to the
->>> +callback firing later on and triggering a use-after-free in the
->>> +use of the channel. This was observed in the VNC server with the
->>> +following trace from valgrind:
->>> +
->>> +=3D=3D2523108=3D=3D Invalid read of size 4
->>> +=3D=3D2523108=3D=3D    at 0x4054A24: vnc_disconnect_start (vnc.c:1296)
->>> +=3D=3D2523108=3D=3D    by 0x4054A24: vnc_client_error (vnc.c:1392)
->>> +=3D=3D2523108=3D=3D    by 0x4068A09: vncws_handshake_done (vnc-ws.c:10=
-5)
->>> +=3D=3D2523108=3D=3D    by 0x44863B4: qio_task_complete (task.c:197)
->>> +=3D=3D2523108=3D=3D    by 0x448343D: qio_channel_websock_handshake_io =
-(channel-websock.c:588)
->>> +=3D=3D2523108=3D=3D    by 0x6EDB862: UnknownInlinedFun (gmain.c:3398)
->>> +=3D=3D2523108=3D=3D    by 0x6EDB862: g_main_context_dispatch_unlocked.=
-lto_priv.0 (gmain.c:4249)
->>> +=3D=3D2523108=3D=3D    by 0x6EDBAE4: g_main_context_dispatch (gmain.c:=
-4237)
->>> +=3D=3D2523108=3D=3D    by 0x45EC79F: glib_pollfds_poll (main-loop.c:28=
-7)
->>> +=3D=3D2523108=3D=3D    by 0x45EC79F: os_host_main_loop_wait (main-loop=
-.c:310)
->>> +=3D=3D2523108=3D=3D    by 0x45EC79F: main_loop_wait (main-loop.c:589)
->>> +=3D=3D2523108=3D=3D    by 0x423A56D: qemu_main_loop (runstate.c:835)
->>> +=3D=3D2523108=3D=3D    by 0x454F300: qemu_default_main (main.c:37)
->>> +=3D=3D2523108=3D=3D    by 0x73D6574: (below main) (libc_start_call_mai=
-n.h:58)
->>> +=3D=3D2523108=3D=3D  Address 0x57a6e0dc is 28 bytes inside a block of =
-size 103,608 free'd
->>> +=3D=3D2523108=3D=3D    at 0x5F2FE43: free (vg_replace_malloc.c:989)
->>> +=3D=3D2523108=3D=3D    by 0x6EDC444: g_free (gmem.c:208)
->>> +=3D=3D2523108=3D=3D    by 0x4053F23: vnc_update_client (vnc.c:1153)
->>> +=3D=3D2523108=3D=3D    by 0x4053F23: vnc_refresh (vnc.c:3225)
->>> +=3D=3D2523108=3D=3D    by 0x4042881: dpy_refresh (console.c:880)
->>> +=3D=3D2523108=3D=3D    by 0x4042881: gui_update (console.c:90)
->>> +=3D=3D2523108=3D=3D    by 0x45EFA1B: timerlist_run_timers.part.0 (qemu=
--timer.c:562)
->>> +=3D2523108=3D=3D    by 0x45EC765: main_loop_wait (main-loop.c:600)
->>> +=3D=3D2523108=3D=3D    by 0x423A56D: qemu_main_loop (runstate.c:835)
->>> +=3D=3D2523108=3D=3D    by 0x454F300: qemu_default_main (main.c:37)
->>> +=3D=3D2523108=3D=3D    by 0x73D6574: (below main) (libc_start_call_mai=
-n.h:58)
->>> +=3D=3D2523108=3D=3D  Block was alloc'd at
->>> +=3D=3D2523108=3D=3D    at 0x5F343F3: calloc (vg_replace_malloc.c:1675)
->>> +=3D=3D2523108=3D=3D    by 0x6EE2F81: g_malloc0 (gmem.c:133)
->>> +=3D=3D2523108=3D=3D    by 0x4057DA3: vnc_connect (vnc.c:3245)
->>> +=3D=3D2523108=3D=3D    by 0x448591B: qio_net_listener_channel_func (ne=
-t-listener.c:54)
->>> +=3D=3D2523108=3D=3D    by 0x6EDB862: UnknownInlinedFun (gmain.c:3398)
->>> +=3D=3D2523108=3D=3D    by 0x6EDB862: g_main_context_dispatch_unlocked.=
-lto_priv.0 (gmain.c:4249)
->>> +=3D=3D2523108=3D=3D    by 0x6EDBAE4: g_main_context_dispatch (gmain.c:=
-4237)
->>> +=3D=3D2523108=3D=3D    by 0x45EC79F: glib_pollfds_poll (main-loop.c:28=
-7)
->>> +=3D=3D2523108=3D=3D    by 0x45EC79F: os_host_main_loop_wait (main-loop=
-.c:310)
->>> +=3D=3D2523108=3D=3D    by 0x45EC79F: main_loop_wait (main-loop.c:589)
->>> +=3D=3D2523108=3D=3D    by 0x423A56D: qemu_main_loop (runstate.c:835)
->>> +=3D=3D2523108=3D=3D    by 0x454F300: qemu_default_main (main.c:37)
->>> +=3D=3D2523108=3D=3D    by 0x73D6574: (below main) (libc_start_call_mai=
-n.h:58)
->>> +=3D=3D2523108=3D=3D
->>> +
->>> +The above can be reproduced by launching QEMU with
->>> +
->>> +  $ qemu-system-x86_64 -vnc localhost:0,websocket=3D5700
->>> +
->>> +and then repeatedly running:
->>> +
->>> +  for i in {1..100}; do
->>> +     (echo -n "GET / HTTP/1.1" && sleep 0.05) | nc -w 1 localhost 5700=
- &
->>> +  done
->>> +
->>> +CVE-2025-11234
->>> +Reported-by: Grant Millar | Cylo<rid@cylo.io>
->>> +Reviewed-by: Eric Blake<eblake@redhat.com>
->>> +Signed-off-by: Daniel P. Berrang=C3=A9<berrange@redhat.com>
->>> +(cherry picked from commit b7a1f2ca45c7865b9e98e02ae605a65fc9458ae9)
->>> +Signed-off-by: Michael Tokarev<mjt@tls.msk.ru>
->>> +
->>> +CVE: CVE-2025-11234
->>> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/comm=
-it/cebdbd038e44af56e74272924dc2bf595a51fd8f]
->>> +Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
->>> +---
->>> + include/io/channel-websock.h |  3 ++-
->>> + io/channel-websock.c         | 22 ++++++++++++++++------
->>> + 2 files changed, 18 insertions(+), 7 deletions(-)
->>> +
->>> +diff --git a/include/io/channel-websock.h b/include/io/channel-websock=
-.h
->>> +index e180827c5..6700cf894 100644
->>> +--- a/include/io/channel-websock.h
->>> ++++ b/include/io/channel-websock.h
->>> +@@ -61,7 +61,8 @@ struct QIOChannelWebsock {
->>> +     size_t payload_remain;
->>> +     size_t pong_remain;
->>> +     QIOChannelWebsockMask mask;
->>> +-    guint io_tag;
->>> ++    guint hs_io_tag; /* tracking handshake task */
->>> ++    guint io_tag; /* tracking watch task */
->>> +     Error *io_err;
->>> +     gboolean io_eof;
->>> +     uint8_t opcode;
->>> +diff --git a/io/channel-websock.c b/io/channel-websock.c
->>> +index 1aac3c88a..583ea8618 100644
->>> +--- a/io/channel-websock.c
->>> ++++ b/io/channel-websock.c
->>> +@@ -545,6 +545,7 @@ static gboolean qio_channel_websock_handshake_send=
-(QIOChannel *ioc,
->>> +         trace_qio_channel_websock_handshake_fail(ioc, error_get_prett=
-y(err));
->>> +         qio_task_set_error(task, err);
->>> +         qio_task_complete(task);
->>> ++        wioc->hs_io_tag =3D 0;
->>> +         return FALSE;
->>> +     }
->>> +
->>> +@@ -560,6 +561,7 @@ static gboolean qio_channel_websock_handshake_send=
-(QIOChannel *ioc,
->>> +             trace_qio_channel_websock_handshake_complete(ioc);
->>> +             qio_task_complete(task);
->>> +         }
->>> ++        wioc->hs_io_tag =3D 0;
->>> +         return FALSE;
->>> +     }
->>> +     trace_qio_channel_websock_handshake_pending(ioc, G_IO_OUT);
->>> +@@ -586,6 +588,7 @@ static gboolean qio_channel_websock_handshake_io(Q=
-IOChannel *ioc,
->>> +         trace_qio_channel_websock_handshake_fail(ioc, error_get_prett=
-y(err));
->>> +         qio_task_set_error(task, err);
->>> +         qio_task_complete(task);
->>> ++        wioc->hs_io_tag =3D 0;
->>> +         return FALSE;
->>> +     }
->>> +     if (ret =3D=3D 0) {
->>> +@@ -597,7 +600,7 @@ static gboolean qio_channel_websock_handshake_io(Q=
-IOChannel *ioc,
->>> +     error_propagate(&wioc->io_err, err);
->>> +
->>> +     trace_qio_channel_websock_handshake_reply(ioc);
->>> +-    qio_channel_add_watch(
->>> ++    wioc->hs_io_tag =3D qio_channel_add_watch(
->>> +         wioc->master,
->>> +         G_IO_OUT,
->>> +         qio_channel_websock_handshake_send,
->>> +@@ -907,11 +910,12 @@ void qio_channel_websock_handshake(QIOChannelWeb=
-sock *ioc,
->>> +
->>> +     trace_qio_channel_websock_handshake_start(ioc);
->>> +     trace_qio_channel_websock_handshake_pending(ioc, G_IO_IN);
->>> +-    qio_channel_add_watch(ioc->master,
->>> +-                          G_IO_IN,
->>> +-                          qio_channel_websock_handshake_io,
->>> +-                          task,
->>> +-                          NULL);
->>> ++    ioc->hs_io_tag =3D qio_channel_add_watch(
->>> ++        ioc->master,
->>> ++        G_IO_IN,
->>> ++        qio_channel_websock_handshake_io,
->>> ++        task,
->>> ++        NULL);
->>> + }
->>> +
->>> +
->>> +@@ -922,6 +926,9 @@ static void qio_channel_websock_finalize(Object *o=
-bj)
->>> +     buffer_free(&ioc->encinput);
->>> +     buffer_free(&ioc->encoutput);
->>> +     buffer_free(&ioc->rawinput);
->>> ++    if (ioc->hs_io_tag) {
->>> ++        g_source_remove(ioc->hs_io_tag);
->>> ++    }
->>> +     if (ioc->io_tag) {
->>> +         g_source_remove(ioc->io_tag);
->>> +     }
->>> +@@ -1222,6 +1229,9 @@ static int qio_channel_websock_close(QIOChannel =
-*ioc,
->>> +     buffer_free(&wioc->encinput);
->>> +     buffer_free(&wioc->encoutput);
->>> +     buffer_free(&wioc->rawinput);
->>> ++    if (wioc->hs_io_tag) {
->>> ++        g_clear_handle_id(&wioc->hs_io_tag, g_source_remove);
->>> ++    }
->>> +     if (wioc->io_tag) {
->>> +         g_clear_handle_id(&wioc->io_tag, g_source_remove);
->>> +     }
->>> +--
->>> +2.50.1
->>> +
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#232598):https://lists.openembedded.org/g/openembedde=
-d-core/message/232598
->> Mute This Topic:https://lists.openembedded.org/mt/117905702/3616933
->> Group Owner:openembedded-core+owner@lists.openembedded.org
->> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [ka=
-i.kang@windriver.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
-
-
---=20
-Yoann Congal
-Smile ECS
-
+SGkgUGF1bCwNCg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYxIDEvMl0gZXh0ZXJuYWxzcmM6IEhh
+bmRsZSBuZXN0ZWQgZ2l0IHJlcG9zIGZyb20gbXVsdGlwbGUNCj4gU1JDX1VSSSBlbnRyaWVzDQo+
+IA0KPiBPbiBGcmksIDIwMjYtMDUtMTUgYXQgMDk6MzYgKzAwMDAsIEphbWluIExpbiB3cm90ZToN
+Cj4gPiBXaGVuIGEgcmVjaXBlIHVzZXMgbXVsdGlwbGUgZ2l0IFNSQ19VUkkgZW50cmllcyB3aXRo
+IGRpZmZlcmVudA0KPiA+IGRlc3RzdWZmaXggdmFsdWVzIChlLmcuIFplcGh5ci1iYXNlZCByZWNp
+cGVzIHdpdGggc2VwYXJhdGUgcmVwb3MgZm9yDQo+ID4gdGhlIGtlcm5lbCwgbW9kdWxlcywgYW5k
+IGFwcGxpY2F0aW9uKSwgZWFjaCBzb3VyY2UgaXMgdW5wYWNrZWQgaW50byBhDQo+ID4gc3ViZGly
+ZWN0b3J5IG9mIEVYVEVSTkFMU1JDIHRoYXQgcmV0YWlucyBpdHMgb3duIC5naXQgZGlyZWN0b3J5
+Lg0KPiA+DQo+ID4gc3JjdHJlZV9oYXNoX2ZpbGVzKCkgY2FsbHMgJ2dpdCBhZGQgLUEgLicgYXQg
+dGhlIEVYVEVSTkFMU1JDIHJvb3QsDQo+ID4gd2hpY2ggZmFpbHMgd2l0aCBleGl0IGNvZGUgMTI4
+IHdoZW4gZ2l0IGVuY291bnRlcnMgdGhlc2UgdW5yZWdpc3RlcmVkDQo+ID4gbmVzdGVkIGdpdCBy
+ZXBvc2l0b3JpZXMsIGhhbHRpbmcgdGhlIGJpdGJha2UgcGFyc2UgcGhhc2UuDQo+IA0KPiBJcyB0
+aGlzIHRydWU/IFRoZSBkb2N1bWVudGF0aW9uIGZvciBgZ2l0IGFkZGAgWzFdIHRhbGtzIGFib3V0
+IGlzc3VpbmcgYSB3YXJuaW5nDQo+IHdoZW4gdGhpcyBvY2N1cnMsIG5vdCBhbiBlcnJvciwgYW5k
+IGluIHNvbWUgcXVpY2sgbG9jYWwgdGVzdGluZyBJIGdldCBhIHN1Y2Nlc3NmdWwNCj4gZXhpdCAo
+ZXhpdCBjb2RlIDApIHdoZW4gSSB0cnkgdGhpcy4NCj4gDQo+ID4gRml4IGJ5IHNjYW5uaW5nIGZv
+ciBuZXN0ZWQgZ2l0IHJlcG9zIGJlZm9yZSB0aGUgYWRkLiBJZiBhbnkgYXJlIGZvdW5kLA0KPiA+
+IGV4Y2x1ZGUgdGhlbSBmcm9tIHRoZSB0b3AtbGV2ZWwgJ2dpdCBhZGQnIHVzaW5nIHBhdGhzcGVj
+IG1hZ2ljDQo+ID4gJzooZXhjbHVkZSk8cGF0aD4nIGFuZCBoYXNoIGVhY2ggbmVzdGVkIHJlcG8g
+aW5kZXBlbmRlbnRseSB1c2luZyBhDQo+ID4gdGVtcG9yYXJ5IGluZGV4LiBUaGlzIGVuc3VyZXMg
+Y2hhbmdlcyBpbiBhbnkgbmVzdGVkIHJlcG8gc3RpbGwgdHJpZ2dlcg0KPiA+IGRvX2NvbXBpbGUv
+ZG9fY29uZmlndXJlIHRvIHJlLXJ1bi4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEphbWluIExp
+biA8amFtaW5fbGluQGFzcGVlZHRlY2guY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL2NsYXNzZXMv
+ZXh0ZXJuYWxzcmMuYmJjbGFzcyB8IDM3DQo+ID4gKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKy0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDM2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24o
+LSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvZXh0ZXJuYWxzcmMuYmJjbGFz
+cw0KPiA+IGIvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MNCj4gPiBpbmRleCA5MDJm
+ZjI2MDRmLi4wZGQ1N2FmNjY4IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9leHRlcm5h
+bHNyYy5iYmNsYXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MN
+Cj4gPiBAQCAtMjM0LDggKzIzNCw0MyBAQCBkZWYgc3JjdHJlZV9oYXNoX2ZpbGVzKGQsIHNyY2Rp
+cj1Ob25lKToNCj4gPiAgICAgICAgICAgICAgIyBVcGRhdGUgb3VyIGN1c3RvbSBpbmRleA0KPiA+
+ICAgICAgICAgICAgICBlbnYgPSBvcy5lbnZpcm9uLmNvcHkoKQ0KPiA+ICAgICAgICAgICAgICBl
+bnZbJ0dJVF9JTkRFWF9GSUxFJ10gPSB0bXBfaW5kZXgubmFtZQ0KPiA+IC0gICAgICAgICAgICBz
+dWJwcm9jZXNzLmNoZWNrX291dHB1dChbJ2dpdCcsICdhZGQnLCAnLUEnLCAnLiddLCBjd2Q9c19k
+aXIsDQo+IGVudj1lbnYpDQo+ID4gKyAgICAgICAgICAgICMgRmluZCBuZXN0ZWQgZ2l0IHJlcG9z
+IGNyZWF0ZWQgYnkgbXVsdGlwbGUgU1JDX1VSSSBnaXQNCj4gZW50cmllcyB3aXRoDQo+ID4gKyAg
+ICAgICAgICAgICMgZGlmZmVyZW50IGRlc3RzdWZmaXggdmFsdWVzLiBnaXQgYWRkIC1BIC4gZXhp
+dHMgMTI4IHdoZW4gaXQNCj4gZW5jb3VudGVycw0KPiA+ICsgICAgICAgICAgICAjIHRoZXNlIHVu
+cmVnaXN0ZXJlZCBuZXN0ZWQgcmVwb3MuDQo+ID4gKyAgICAgICAgICAgIG5lc3RlZF9naXRfZGly
+cyA9IFtdDQo+ID4gKyAgICAgICAgICAgIGZvciByb290LCBkaXJzLCBmaWxlcyBpbiBvcy53YWxr
+KHNfZGlyKToNCj4gPiArICAgICAgICAgICAgICAgIGlmIHJvb3QgPT0gc19kaXI6DQo+ID4gKyAg
+ICAgICAgICAgICAgICAgICAgY29udGludWUNCj4gPiArICAgICAgICAgICAgICAgIGlmICcuZ2l0
+JyBpbiBkaXJzIG9yICcuZ2l0JyBpbiBmaWxlczoNCj4gPiArICAgICAgICAgICAgICAgICAgICBu
+ZXN0ZWRfZ2l0X2RpcnMuYXBwZW5kKHJvb3QpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgZGly
+c1s6XSA9IFtdICAjIGRvbid0IHJlY3Vyc2UgaW50byBuZXN0ZWQgcmVwb3MNCj4gDQo+IFRoaXMg
+b3Mud2FsaygpIGxvb3AgaXMgZXhwZW5zaXZlLCBpcyB0aGVyZSBhbiBhbHRlcm5hdGl2ZSB3YXkg
+dG8gaGFuZGxlIHRoaXM/DQo+IA0Kb3Muc2NhbmRpcigpIHdhcyBjb25zaWRlcmVkIGJ1dCByZWpl
+Y3RlZDogZGVzdHN1ZmZpeCBhbGxvd3MgYXJiaXRyYXJpbHkNCmRlZXAgcGF0aHMgKGUuZy4gZGVz
+dHN1ZmZpeD0ke1B9L21vZHVsZXMvdGVlL3RmLW0vdHJ1c3RlZC1maXJtd2FyZS1tKSwgc28gYSBk
+ZXB0aC0xIHNjYW4gd291bGQNCnNpbGVudGx5IG1pc3MgbmVzdGVkIHJlcG9zIGFuZCBzdG9wIGhh
+c2hpbmcgdGhlaXIgY29udGVudCDigJQgc291cmNlDQpjaGFuZ2VzIHRoZXJlIHdvdWxkIG5vIGxv
+bmdlciB0cmlnZ2VyIGRvX2NvbXBpbGUgdG8gcmUtcnVuLg0KDQpUaGUgb3Mud2FsaygpIGxvb3Ag
+dXNlcyBkaXJzWzpdID0gW10gdG8gc3RvcCByZWN1cnNpbmcgYXMgc29vbiBhcyBhDQouZ2l0IGVu
+dHJ5IGlzIGZvdW5kLCBzbyB3ZSBuZXZlciBkZXNjZW5kIGludG8gdGhlIG5lc3RlZCByZXBvcw0K
+dGhlbXNlbHZlcyAod2hpY2ggbWF5IGNvbnRhaW4gdGVucyBvZiB0aG91c2FuZHMgb2YgZmlsZXMp
+LiBUaGUgd2FsayBvbmx5DQp0cmF2ZXJzZXMgdGhlIHNoYWxsb3cgc2tlbGV0b24gb2YgaW50ZXJt
+ZWRpYXRlIGRpcmVjdG9yaWVzIGJldHdlZW4NCkVYVEVSTkFMU1JDIGFuZCBlYWNoIG5lc3RlZCBy
+ZXBvLg0KDQpQbGVhc2Ugc2VlIHRoZSB1c2UgY2FzZSBoZXJlOg0KaHR0cHM6Ly9naXQueW9jdG9w
+cm9qZWN0Lm9yZy9tZXRhLXplcGh5ci90cmVlL21ldGEtemVwaHlyLWNvcmUvcmVjaXBlcy1rZXJu
+ZWwvemVwaHlyLWtlcm5lbC96ZXBoeXIta2VybmVsLXNyYy00LjMuMC5pbmMNCg0KJHtTUkNfVVJJ
+X1pFUEhZUl9PUEVOX0FNUH07bmFtZT1vcGVuLWFtcDtub2JyYW5jaD0xO2Rlc3RzdWZmaXg9JHtQ
+fS9tb2R1bGVzL2xpYi9vcGVuLWFtcCBcDQoke1NSQ19VUklfWkVQSFlSX1RSVVNURURfRklSTVdB
+UkVfTX07bmFtZT10cnVzdGVkLWZpcm13YXJlLW07bm9icmFuY2g9MTtkZXN0c3VmZml4PSR7UH0v
+bW9kdWxlcy90ZWUvdGYtbS90cnVzdGVkLWZpcm13YXJlLW0gXA0KDQpUaGFua3MtSmFtaW4NCg0K
+PiBUaGUgY29kZSBoYXMgYWxzbyBiZWNvbWUgZGlmZmljdWx0IHRvIHBhcnNlLiBNeSBydWxlIG9m
+IHRodW1iIGlzIHRoYXQgaWYgYSBncm91cA0KPiBvZiBsaW5lcyBuZWVkcyBhIGxlYWRpbmcgY29t
+bWVudCwgaXQgYWxzbyBuZWVkcyBhbiBlbXB0eSBsaW5lIGJlZm9yZSB0aGUNCj4gY29tbWVudCB0
+byB2aXN1YWxseSBzZXBhcmF0ZSB0aGluZ3MuDQo+IA0KPiA+ICsgICAgICAgICAgICBpZiBuZXN0
+ZWRfZ2l0X2RpcnM6DQo+ID4gKyAgICAgICAgICAgICAgICBleGNsdWRlcyA9IFsnOihleGNsdWRl
+KScgKyBvcy5wYXRoLnJlbHBhdGgobiwgc19kaXIpIGZvciBuDQo+IGluIG5lc3RlZF9naXRfZGly
+c10NCj4gPiArICAgICAgICAgICAgICAgIHN1YnByb2Nlc3MuY2hlY2tfb3V0cHV0KFsnZ2l0Jywg
+J2FkZCcsICctQScsICcuJ10gKyBleGNsdWRlcywNCj4gY3dkPXNfZGlyLCBlbnY9ZW52KQ0KPiA+
+ICsgICAgICAgICAgICBlbHNlOg0KPiA+ICsgICAgICAgICAgICAgICAgc3VicHJvY2Vzcy5jaGVj
+a19vdXRwdXQoWydnaXQnLCAnYWRkJywgJy1BJywgJy4nXSwNCj4gPiArIGN3ZD1zX2RpciwgZW52
+PWVudikNCj4gDQo+IFRvIHNpbXBsaWZ5IHRoZSBjb2RlLCBjb25zdHJ1Y3QgYSBjbWQgdmFyaWFi
+bGUgYW5kIGNhbGwNCj4gc3VicHJvY2Vzcy5jaGVja19vdXRwdXQoY21kLCAuLi4pIG9uY2UuDQo+
+IA0KPiA+ICAgICAgICAgICAgICBnaXRfc2hhMSA9IHN1YnByb2Nlc3MuY2hlY2tfb3V0cHV0KFsn
+Z2l0JywgJ3dyaXRlLXRyZWUnXSwNCj4gPiBjd2Q9c19kaXIsIGVudj1lbnYpLmRlY29kZSgidXRm
+LTgiKQ0KPiA+ICsgICAgICAgICAgICAjIEhhc2ggZWFjaCBuZXN0ZWQgZ2l0IHJlcG8gc2VwYXJh
+dGVseSBzbyBzb3VyY2UgY2hhbmdlcw0KPiB0aGVyZSBzdGlsbA0KPiA+ICsgICAgICAgICAgICAj
+IHRyaWdnZXIgZG9fY29tcGlsZS9kb19jb25maWd1cmUgdG8gcmUtcnVuLg0KPiA+ICsgICAgICAg
+ICAgICBmb3IgbmVzdGVkIGluIG5lc3RlZF9naXRfZGlyczoNCj4gPiArICAgICAgICAgICAgICAg
+IG5lc3RlZF9naXQgPSBvcy5wYXRoLmpvaW4obmVzdGVkLCAnLmdpdCcpDQo+ID4gKyAgICAgICAg
+ICAgICAgICBpZiBub3Qgb3MucGF0aC5pc2RpcihuZXN0ZWRfZ2l0KToNCj4gPiArICAgICAgICAg
+ICAgICAgICAgICBjb250aW51ZQ0KPiA+ICsgICAgICAgICAgICAgICAgd2l0aA0KPiB0ZW1wZmls
+ZS5OYW1lZFRlbXBvcmFyeUZpbGUocHJlZml4PSdvZS1kZXZ0b29sLW5lc3RlZC1pbmRleCcpIGFz
+DQo+IG5lc3RlZF90bXA6DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgbmVzdGVkX2luZGV4ID0g
+b3MucGF0aC5qb2luKG5lc3RlZF9naXQsICdpbmRleCcpDQo+ID4gKyAgICAgICAgICAgICAgICAg
+ICAgaWYgb3MucGF0aC5leGlzdHMobmVzdGVkX2luZGV4KToNCj4gPiArICAgICAgICAgICAgICAg
+ICAgICAgICAgc2h1dGlsLmNvcHlmaWxlKG5lc3RlZF9pbmRleCwNCj4gbmVzdGVkX3RtcC5uYW1l
+KQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgIG5lc3RlZF9lbnYgPSBvcy5lbnZpcm9uLmNvcHko
+KQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgIG5lc3RlZF9lbnZbJ0dJVF9JTkRFWF9GSUxFJ10g
+PSBuZXN0ZWRfdG1wLm5hbWUNCj4gPiArICAgICAgICAgICAgICAgICAgICBwcm9jID0gc3VicHJv
+Y2Vzcy5Qb3BlbihbJ2dpdCcsICdhZGQnLCAnLUEnLCAnLiddLA0KPiBjd2Q9bmVzdGVkLA0KPiA+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW52PW5lc3RlZF9l
+bnYsDQo+IHN0ZG91dD1zdWJwcm9jZXNzLkRFVk5VTEwsDQo+ID4gKw0KPiBzdGRlcnI9c3VicHJv
+Y2Vzcy5ERVZOVUxMKQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgIHByb2MuY29tbXVuaWNhdGUo
+KQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgIHByb2MgPSBzdWJwcm9jZXNzLlBvcGVuKFsnZ2l0
+JywgJ3dyaXRlLXRyZWUnXSwNCj4gY3dkPW5lc3RlZCwNCj4gPiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGVudj1uZXN0ZWRfZW52LA0KPiBzdGRvdXQ9c3VicHJv
+Y2Vzcy5QSVBFLA0KPiA+ICsNCj4gc3RkZXJyPXN1YnByb2Nlc3MuREVWTlVMTCkNCj4gPiArICAg
+ICAgICAgICAgICAgICAgICBzdGRvdXQsIF8gPSBwcm9jLmNvbW11bmljYXRlKCkNCj4gPiArICAg
+ICAgICAgICAgICAgICAgICBnaXRfc2hhMSArPSBzdGRvdXQuZGVjb2RlKCJ1dGYtOCIpDQo+IA0K
+PiBXZSBzaG91bGQgcmUtdXNlIHRoZSBjb2RlIGZyb20gdGhlIGZvbGxvd2luZyBibG9jayB3aGlj
+aCBoYW5kbGVzIHN1Ym1vZHVsZXMNCj4gaW5zdGVhZCBvZiByZS1pbXBsZW1lbnRpbmcgdGhlIGJl
+aGF2aW91ci4gUGVyaGFwcyB0aGUgY29tbW9uIGNvZGUgbmVlZHMgdG8NCj4gYmUgcmVmYWN0b3Jl
+ZCBvdXQuDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IA0KPiAtLQ0KPiBQYXVsIEJhcmtlcg0KDQo=
 
