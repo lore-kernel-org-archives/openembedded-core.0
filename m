@@ -1,938 +1,844 @@
-Return-Path: <tgaige.opensource@witekio.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50575CD4F3C
-	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 14:20:41 +0000 (UTC)
-Received: from mx-relay05-hz12-if1.hornetsecurity.com (mx-relay05-hz12-if1.hornetsecurity.com [94.100.139.205])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22733.1779200434516459345
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B95CD4F3C
+	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 14:50:24 +0000 (UTC)
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.491.1779202215466402811
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 07:20:36 -0700
+ Tue, 19 May 2026 07:50:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=MoLtRYov;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.205, mailfrom: tgaige@witekio.com)
-ARC-Authentication-Results: i=2; mx-gate05-hz12.hornetsecurity.com 1;
- spf=pass reason=mailfrom (ip=40.107.162.102, headerfrom=witekio.com)
- smtp.mailfrom=witekio.com
- smtp.helo=pa4pr04cu001.outbound.protection.outlook.com; dkim=pass
- header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
- header.from=witekio.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=nmo5XFl33FuqSlE8jtAV/TF/ixfcI8vCOW5yP9T4pMo=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=2; s=hse1;
- t=1779200431;
- b=MZSQSaPc2OZ+5ZnF/ORHIg8aaZ18ZJ9Gm9PUzlTy0BuKbf1aqyV2VFHfHCU1x6Nr6I+7XjUB
- G/9UGpJ6Sg4ZRtocACugnjp4AuWgde7IxNG/CZukCNX556Dr8g807/jdbSahVGkExzLOYsy5h0V
- TO8FFpJvf9nQbDTyGcLTZY2eatcjMGQaJi9wT8Oa44Z//HDH2MSjAhfjFfoQXESW3QlbAFJRanO
- DG2AnoQj1qWjteynPiJzDAVBn9AtdUv2rKIZYSeaLb5Xpybx30fvPNebfkF3CXLM6hRstPYXYi2
- vm1v5atDQHSVrp6z4pPP2w70ZTxSdvRU1yuMQb5zlayrg==
-ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
- t=1779200431;
- b=IBVoq0beJ0ul70g4pS/WbZ6Uy99sAk2ToCMnz3fAXBIIn+kEY4LxsJ2bSq+cu01qav6fvSKn
- uusmaiyy5LIstwhgyffsyistOx8L4PABbp9KDjYX0JfoaPvcKqIdcWxgpajw2usSHaQ/0NpH/hF
- /NUjLQtoRDsG6GdMcViO03UvShtLwvNkuEXeLcIr2rLv8FiPjgZ1rK426Z/KsATY90WeDFJ+Syo
- Z3GF4EuuhfN1Io99pD71tuhgEL6CNRFgzDDxz8BOyEOG1BTDNuJIt2jv0kT+N+Bq/6dQF1GmzMN
- V6gOT39AXKvTFfDUeA9PjdwzC0cilqBuWM3MzKEMESy/g==
-Received: from mail-francecentralazon11023102.outbound.protection.outlook.com ([40.107.162.102]) by mx-gate05-hz12;
- Tue, 19 May 2026 16:20:31 +0200
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rrLOuXYz1PZNx9yC/0b/oyJnr8XP/ZBhIMHjsw5ePIRPLtOSPynPofZQEzs4sTikpW7TNBi4io8QgUlGK8MHy2c7wy0iXyOloyc+U7LdbJYxyAkGb0/atEJaVimt4uZJPssIG3Rnu6O6DCkdsTxEgFuWzkESFKZSTUUNIGOle9JDgxNCVcAf0Ea5mSwbJCgNgrtwmOn+zc45t2IjLls1GF6f+FE4bYgquEFSod27mJLjxzOqTYfaPgddIRG90m3e+cilNdQsa5ArrI+A1mX7+eWTMy5Wl9SnMStX8TmX5lBVzaiPS3c8Lph5B0B7qmboCIUilNZjhAAaT3WdaZeIEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nmo5XFl33FuqSlE8jtAV/TF/ixfcI8vCOW5yP9T4pMo=;
- b=ci6jLoPaHNOzkcw1fl42eXwofgM4KBKkiamdwUhKaoYuYVZ5l0nZ3XQlr8uhMBs0e8nh3UqhFfMHoXOpAisPX6rSA6WlmHk12qMYe/soywoYlxIpyvti7wmgb3C8CLFLzRRIFaQYInX2NwkTgQ20hZobryRndSi/LAoElcyvUF4Gwm+dQMIGj2p5Ts5Rp5Hp+lgWKDOeNrh+TSpBfXRvZTbaDHIgQAlQe9qkcF84Zw8eMgssKJkw7EP+sCezwZjxr2AxzcKJAzZoHdxaxHiFXBf/eIy9U592ruXLfRMWHVuSGKpWGxVz62r7eqbM2ebuexC2d9UnYE4M/YEo+vllzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
- dkim=pass header.d=witekio.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nmo5XFl33FuqSlE8jtAV/TF/ixfcI8vCOW5yP9T4pMo=;
- b=MoLtRYovbDbEktIhxKw5c+aQJRGp9Gp5i8m3FuzoJk0WXDFAuCUhPeI/TS/znMwwEfIzJsKghaTU73s1n14wxBK8uIgnflhXI3gUGfTU5gJm1a2SNvktin2RQplqyzwRIyx4/W8Un7bzVy8eMHt4LCdqwToCF7zn3tj8Go1dYQC76rmi5XZ0pSBuLbBYn7cTL17gNRsyTM1wnce10gZH+jjGwFz3AIr6RcyxqpSkwJDGwu25B/Ko/XWrTKc8ASj61+t5PaYAj1Xyfp3OsHWqwnFO4x5A2gWosmXvpqTN5q8dSEIVa/wwISxVMbEri01GvqqLBb3kGNno+1JRUx3tdA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=witekio.com;
-Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3ad::23)
- by GV1P192MB2609.EURP192.PROD.OUTLOOK.COM (2603:10a6:150:25b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Tue, 19 May
- 2026 14:20:15 +0000
-Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- ([fe80::25ed:86ef:4d24:3d38]) by AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- ([fe80::25ed:86ef:4d24:3d38%5]) with mapi id 15.21.0025.023; Tue, 19 May 2026
- 14:20:15 +0000
-From: tgaige.opensource@witekio.com
-To: openembedded-core@lists.openembedded.org
-Cc: hsimeliere.opensource@witekio.com,
-	Theo Gaige <tgaige.opensource@witekio.com>,
-	Bruno Vernay <bruno.vernay@se.com>
-Subject: [scarthgap][PATCH] expat: patch CVE-2026-45186
-Date: Tue, 19 May 2026 16:16:38 +0200
-Message-ID: <20260519141641.1367089-1-tgaige.opensource@witekio.com>
-X-Mailer: git-send-email 2.43.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ZR0P278CA0138.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:40::17) To AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:3ad::23)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ncx6vlrc;
+ spf=pass (domain: gmail.com, ip: 74.125.82.176, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-304106b1204so204333eec.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 07:50:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779202215; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iSgTos2d7LUZ2Krsb1USLjiKGZq1MzvvgK0Is+T6mtK1Pgsfqdz1SAB9fLyDaEKaY4
+         YShWU1wOeyit1i5M3lMz7P2JKDw+H6Q4KWPC0fjH0O7CnL3pQeuBTcmohL3LjJJZP0V6
+         tZbtButo7cSb/HVQbA1JXoLEvMjecolQ6ecG1sHHLBxeBX5KYiemlzUYwOPnSsbNn37Y
+         rkiFNeeqDcqsHhuN1lHLG7fw4axlixfWVep5D40Nl1qcQ3AvHLNhtOhAuiH6Cy1yUMly
+         2swGd50Ce4sTTiDwHCGl+fFIOldsMFr1Pavz9com61Zyw8yx1Os4qS4J+tbSsi8V2KiB
+         QlSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=ayXA7OHoeGgV2Vmcjnnb+DvZyovFQzCx/5dnyZY9CDw=;
+        fh=PrQtXCMO/8Wg7v3zrvCgyA6R/Kq3UUxzKvEnzGrmlJo=;
+        b=RfCBeMnvs3WPn9X3H8XCJqGIQKGw7wQWmJkaZ6YwegE8p8Fl16XMfR3ZkLI5nOTVDE
+         Vujpi1E/ZA//zLeI+16EIfWMef5TzQBf//59XA59Thmuzsmm7L8BTSzdBYtfUDDZGKBn
+         rDqCKKmJa4JW8VoueL7p16u0FCU0OAniIVqsz2VBKpPv5r7NXS9PKMlps5WroW3i42M5
+         dMaDj0g4kDOHpVlTEO1ZeKU21dTub+q9InGj3pnErWV5cwvhUJJLN0CQ3L02gKiCqSmp
+         dUv/7psQBVbt8RAEhO7oXmLb+2Gz2SarY/JJYkZ9uPx70BYWMRr54zE1lzM5kiKoEFBk
+         UyMQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779202215; x=1779807015; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ayXA7OHoeGgV2Vmcjnnb+DvZyovFQzCx/5dnyZY9CDw=;
+        b=Ncx6vlrcc+Yav7cOMCcu4liwVDgpGPbBoa4Tr79Qa9gNKJSgokx8bPpkMYvqnzL+eb
+         gONjHTQ4cf8CE+OO2s9pe4TWKWrmfvG5vL/MeVDCv7LntPCbNciyWy/Emv59HAJAWyI6
+         LpiyU3fXf4mfkO5cR3zjBjtduOvBO+NMFqTACROdjEXOIh5b9SrC8stH/2qYCK7qIpSv
+         sZwm2wND+7i+//qWXuFl8do0cGz6kLNoZE+ewSV7ZAmOZlyxjFftJ0TtP61HRY2cIurd
+         E2LuyPGHiiZ8EZAEGRU67uNQJNOQJQ8Lvkkw0BUcroyu8rBDItch4QmW9c+xZvRWbGER
+         m1Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779202215; x=1779807015;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ayXA7OHoeGgV2Vmcjnnb+DvZyovFQzCx/5dnyZY9CDw=;
+        b=m/juFB1H5jVMN9PZD0qkkk/NDy7jlXfeYWr0XDJr+bHK5pOCJjI29DOyCbhEaExw58
+         6sk7GHnKBFVe6Rx4kJmewDPj/kpaimfn5+QraPaBeb2DCHyp9veBGvk1xLXu2sbVqPfn
+         ftPPsTFDzlXuel52+F3YoF1wUDGT2Z/WsIw8NffKxmu2AZtZNXJdxIBpBYE0+ftOtfSD
+         Cx+0MlGCw+E/PDQ8fFTYygYkeqzPHm2ej5bcXlztpbWI+4tZdisgKiZMXIcr3BucqPek
+         +en81WQGYYgt3nqbUQOGfOE+ytLaAfhxaW9dCAwrG8vWeglOnGLzwKgdDe68TB/DL2MK
+         X8ew==
+X-Forwarded-Encrypted: i=1; AFNElJ9FkUNc6em9my6D8zQMxBuq+45VEcGEJA0cSPUhDbNKNDhb/1/6FhlCaqluSNyqOOyUiEmCEF3SI1xodYWeD+Lr/Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwO7dARd4K0nuCk4MRAwUKID10+g872tFotcWMAgHmBpdXPeC/+
+	Yl1fwxX3BGToEgR1i2Mysezi2Pq9MpNMy6WcK3DI+0HcqV3NeY0GOVhVd7NETkZepVZtpoRQJuZ
+	Fnln3b+XfueJQ5L/Hvzkr29ueYT+IDjOSen60
+X-Gm-Gg: Acq92OE4OO51EjTTjouLtu5JJF6SMKYz04T9d4AbDVBXcmQqzeV9sFfvvo+3KDg5TaU
+	0OsojXmO4XUASvQfq7r5cUK4yLTzwMj2hEUF34oToNlQQPQ+G6qTbX1TKVQFqogUVnGtUnuGb6P
+	k3ZB8XAFXgfaLNYTV4fo4A8Dr/o0QfwFbyKmA/QrlUavoQoUlDUrVNzlWfLAfzSBb8IYvbJXLxx
+	/Ktxa5kLUOoGEI0s4yJciuHPK43IQRCTc/lArhYS4o6Y4q/cXL+Lg2bcVl5qi8noe3hLRyWISUg
+	T+p3C9gjNASsfcr7lPvG6qC7gUG7pvSds1CiLqEdRzeSUgCkbnO656JfVBvqXRcmPGcCOF0v9Dz
+	moNqlMepDVQ8aUkWyNZUrHAE8WhpxCCQ9sbuCRS5agwetgMdsxehZVOdKCA9KUB+eRlcZ7K2RJO
+	RhJffSQX8=
+X-Received: by 2002:a05:7301:1018:b0:304:b14:ec53 with SMTP id
+ 5a478bee46e88-3040b14f541mr858199eec.27.1779202214508; Tue, 19 May 2026
+ 07:50:14 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|GV1P192MB2609:EE_
-X-MS-Office365-Filtering-Correlation-Id: 337ad2c6-ef72-4500-6ac7-08deb5b1befc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|13003099007|38350700014|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	rI5+Za3TxYRW3YG0HBTSF9UXKD37c38et4SCic6h5uVc2rglz0hd8Ug9XOjGf54Kbtae+RdxsOZS+T0YYJGozcwWOqgGvsDIWTJXNjq8qyD70ygx2+TkWDNDaNc860doJoNvTh3RmhzJem3YjwK+R0+aHUkDHm7AxsVgABOJgSc6DEKSeS90ndQLRZN1HNhH4Z2joUatPmUf9aIlcxncKFiVGT/A8DmYA1Bd0NyfxM1YSHY+vegAW/AvyBwtvHS/Pe+vJrNfCNlmKQtgxCwm8aveFOb/mZg8O+9XnKYMluBW9ptJprvXabrT6SRPddbjzaenPZi/NtPd5ceapcm+PGypnPrtx3vCTS27CJ+KZwKYGxKHkZTAXUQ2f8YQC7BmOzoKslV65lw7sGPD+j2yE+ewGtiHDtxGeXnotyTWRr3c7IpxAb3hpjUXStLzkfjgGfDWdExRlyXJxXUkla/iMh5TmWEfUst6TKS+EuPdblrV4sKDyd5RUn4YI9O0Mf60X8Az3AQiMcmYNY4ZXy07/7jlTuimgfpRoCbMU+OpPho+zYe/I57jHvNu2pxE5JQgKcO2H1EITDm+ZpZfISNEzh1riClqvL7S4Xm28Z41H6PcPW603xPN0VaFDTrw+lyPYlJ4BLuDHIIrjl1Fp041V5ZTg42RcHo6bvVLqskmKaMKO+ffarkA82gy9ngMIuAcctk3pQHlXV+GMswdhKHvkg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(13003099007)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?QlJCVXppazlHYk02VUwrVE5jM0E3elZPeDhFVzBaM2RHQ2pJSk9XZmRoemxm?=
- =?utf-8?B?YTF5U0V6TlM0SzIzaUJZY1JqVUNKbWYvc1FoZWxyamRUNFk5L245WHdVbG1i?=
- =?utf-8?B?ZGVRSFRucHpweWRnUER0L3MyVkh2bHpsSVJzY0M3UnJyQTBCbmpJSGFndEZa?=
- =?utf-8?B?QXpSVzV3OEN6SWZaVEh4bG5CSkRuQUp1S0lEYUMvRzFwdWxLSjdZc1RaeDhT?=
- =?utf-8?B?VmFrYm5paDBKeWllcXN5aVRzWmdiOFMxYUVnTEVDY3Fyb3hFK1E3K2dWVmox?=
- =?utf-8?B?eEdOa0ppNTJyUFdOTEw2RnNHUEN5Y3hRUmtNa00reENIVFE0amNtNC9SSGVE?=
- =?utf-8?B?eFhFWkdMQ1ZtOHcvejRVbWtDNFJiY25tNHJadnBrMVZERlJ2MW43MTkvWHNF?=
- =?utf-8?B?Q0FEb3ovenBmN1I0bU02OXYzV0ZHbW9veTRIZGViOG5OWkd1QnY3cGFZU1R0?=
- =?utf-8?B?MDRneXBHMmlaQm51UVhtMDVlVVVWTnYvSzJ1VDg2dU8wUUY3U0Zmc2QrYnl0?=
- =?utf-8?B?eUJvQWllOTdISWcxUmxIbDJ0ZU1yQVhxSzJsSWwzZFkxY2JnWXB0SDZLNXV0?=
- =?utf-8?B?Wi8yQ3U0Zk5FTDEybnppVkt6ZVNFR0xESDUyMWtmd3lPV2ROZE51bHBFcGVE?=
- =?utf-8?B?ZUh1V2NuR0V1eG5mLzRObGc1cnd6NWJHT09pQldJeFhXSkwwSmZucko2UnRK?=
- =?utf-8?B?dUNHOW1sNmYwaG1vNFI0WUcxOWdoanNkTlY5Qk1la21OYWQydWtWeGUvckN1?=
- =?utf-8?B?SlpCL1dkZHZmVDFnUEcwU2RSYVFRQ2xlbnZDV2NMMzVrU2hsMDUxc2pPd3VQ?=
- =?utf-8?B?ZkpXWExZbUpnTzZmMFR0akRhRW82MEd5UnhORFVBY01OUGNRbjZUNzF6Rll2?=
- =?utf-8?B?dGhyYUZsM0hxWEhkeGpsTE1qS2hLSTJpMTk1MVg2MTlVMndYdVRENXAxNTRZ?=
- =?utf-8?B?WHdQaWFySVpZNCtua2ZmQkxUNnNzZ1JGSzF0RXcrNTNhNWo1N0xwSmtDUFVp?=
- =?utf-8?B?U2FzbzNsNEgvSHdFYitZZjB1L21HaUhZOERKME8yRHVDbDFmSElhQkdlUXVZ?=
- =?utf-8?B?VDZ6VGpHM0tOcEhoaGFNLzRZSi94WWNyR25IYlVnL0M3ZzhBb1BETEtZbHVW?=
- =?utf-8?B?VkQ5S3FXalJMNmtJZTRsVVlFaFpEVjBZbWdxWFFTTG8rYkRFMHc0M3JOckk4?=
- =?utf-8?B?cjMza2xZY2Fzay9qYVVZb2dtL29BQnBmN3k3ZmJZdm9BYTlxd2dRZHhXNDlL?=
- =?utf-8?B?Z0s0d0M2UW55UndJL3JrMmU0UUtjczh6NFBvSHFqRC9sSi9FcVhETUg3N1Mx?=
- =?utf-8?B?T3RaNlRKeGdUNWgwME8zbldzVlR3MDNZVDVENmhVVHhQLzdCaFNBeDFCTzFi?=
- =?utf-8?B?TjVLSHdWbmd3MVJLMWxMV0ZkWDZKdDhCT1dDMHk0cDdFU3NZbUswSncycGpI?=
- =?utf-8?B?TklNaVhjWTJXbEFZSkt1eWRIMlZlLzdqUlVhNkRZN24xci94YmV1ZlpzeSty?=
- =?utf-8?B?akhiallrVVE4NXFYb3J2aVVib3VPcVdEMzY5QXN5NGpSQk9QTU8wdThXUFpy?=
- =?utf-8?B?QjRCZnI1eitCMVhacmlXVWlrSW5renY3SDZDU1cwRllYNVhOYXZxWEo0RVUy?=
- =?utf-8?B?elFIQjhpQ2ZUdEFCRHJTMjdvZG9RNmRNSldud0pXZDNSVTNEVnZaaytDYnpV?=
- =?utf-8?B?VmNPTldMZVJ6MmJOY0J4dGkveEl4Ny9ZckI2Rkc5N1B2MU9EL2l5N0NkNnI4?=
- =?utf-8?B?NE90QXlMSTVtSndmYzhCWmdzVVVieElvOVNHOFczN2xFaW5hdS9zQ2hQUnRG?=
- =?utf-8?B?QUdpTlBOaExtYXJ2K0NxbTJoSXNESFpkOXZiU3R2UUp5YVBoWnhjSUwvUi9y?=
- =?utf-8?B?WElGU1AvUGU5WTBQNXpEamptdUtQRitoeWFLYXJrSUp6TGRvMFZIU2lSZWJQ?=
- =?utf-8?B?OUhNQ1J2bVJwWk1lTTJnck5OYkdYTHZqUzd6MVVhNlBJaFJXUlE2RExCWDRW?=
- =?utf-8?B?UTE0M3VONEhPaUdheFBScUk3MlhLaWd2ZzhqTmdrNnVPdjRNTHBJS1UvQlg0?=
- =?utf-8?B?dUVRNm9BTmNSNXFORnNMQjVzZFlmYTh0ZVhwZDlNMWpHang0dXVXL2tROTZo?=
- =?utf-8?B?ek5jOG8xdzNBYkZ4UEx3T0hhT2svZXhXVkhuQnhJVnRnblMzUkNIbnI4TmtP?=
- =?utf-8?B?SkZNc2EyRk8yWUtXRmRSWjNxdnAzb0owN0tzQVZpeThMcGFIYTJ3dFRVR013?=
- =?utf-8?B?WnpvVXg5TjBNdUJVN3VaU3YzZXhQV01vUGMwTnFmQmlERThQT1BlN0d6bXVR?=
- =?utf-8?B?eWR3Q1dXcE5UNmUydXVyZktnb0g5bDRnTlFMcVQvNjk2NmNCNWg4QT09?=
-X-Exchange-RoutingPolicyChecked: 
-	VGJMiYxEF3EP4Q45VIy69HBgEww011MYAq2g9OYkc3zzDcNzC+ixaxGPWwBnRrZerQjHYsC6hDdKqjH/AhUWkQj76DSfQRrlYnKXUHBqzMkZmtkYphAvSQPvwt9s4zY8To6P1GHTQUDU2jNsD8lv+kYdW1Fy1h24yGd+U/gSAIp07USwIqWpifK3Gi0t/2+ONwec9smOfXwrMAW14RoLJI+0SBJTznVdSvwc3SSDX6+QW6h4a+SU7Dwnej3pKAyuFTddfTUP46Dhj9dsNE+qD4qZIxluHICHnV5WvOGEmT5FfCX5+3wCfkvg7zxuQi3m3j/YqX/19Vq+UoRqaLUCGQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	x+x59eo3YaXgU9nA63OkqjPhMowmQVgf+DWZbnC+BzjVTAUeyh+rdk7G8/bPdfjwE0tl40ECkTkC5xxFANIESJ1kLATZCHmiiSpTCkMpPk4ghP3WzM09ax5fVLYbeEFlvsqW4Uga7YUqIpTXDEeSWfZqE2NOdCLBhedVGVeDztvXEtrCDDNCUHqnDj43MLBZvQSvYYuDlP591VQ0nBuVmVz4Fk7LxO7h9jYd8bSoEdEwh2nf5cP45HWDMyPz6IJXyZtKkOXp2r9w63eMvufMXkK2piIHHHTOY1sLHzFvAhNftDT+zYBc9Klf4BBV2o4cOJh5IBHrEUlCsJ+JM9ILVv+0MDySeaPswH0pfPdvb5YkxYs2kAgdNcWKSWfLGk4edYpGQr6NYAtk4dHxkGei6TaWMmx58ybq1qI369RJ2DWwnmKVJVpmw/RrJ/PnxeIiOKywEDiqY9qZycLoXkSYNBHwIgoG5/cDfvlMRfzFWgxHh6UckB1UCfz8qS371zr7+UA+rWfuBA1VrM4/OUD3KMHkTDaceMJzl/Adx0Nv0/nx78FMkDYxf2HTVfocJ+fc29jkYGV3HZj+8U3XQH7nlIqqg5weeb3RfSM/UoeYUBGdvaWoKz3bXv9GE1GTYzi+
-X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 337ad2c6-ef72-4500-6ac7-08deb5b1befc
-X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 14:20:15.2660
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YxhtcLJWsy+CEFMb8jf7lCAXtZL0BRz1AurS3A1ogcyrJOsfuuQ4vTupmcv1feQQIIyPHUWmi4kROqbnGFerCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P192MB2609
-X-cloud-security-sender: tgaige@witekio.com
-X-cloud-security-recipient: openembedded-core@lists.openembedded.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
-X-cloud-security-Mailarchivtype: outbound
-X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate05-hz12 with 4gKcJg1dkcz2RZZT
-X-cloud-security-connect: mail-francecentralazon11023102.outbound.protection.outlook.com[40.107.162.102], TLS=1, IP=40.107.162.102
-X-cloud-security-Digest: e04478a9c30ea5eaf4f248a3d45ba142
-X-cloud-security: scantime:2.667
+From: Stephen K Jolley <sjolley.yp.pm@gmail.com>
+Date: Tue, 19 May 2026 07:50:03 -0700
+X-Gm-Features: AVHnY4ITSaER__vyAMUF3ca5K1XOFYlKS35zpGryiqjdWhCEGoI2jac7_tTUavw
+Message-ID: <CAK5yBb_KrK2n1UKh1sE0yGd4EMt1aHph+ioent23seDSOx7-+Q@mail.gmail.com>
+Subject: Subject: Yocto Project Status 19 May 2026 (WW21)
+To: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	yocto-status@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000fabb9306522ccb71"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 14:20:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237331
+ <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 14:50:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237332
 
-From: Theo Gaige <tgaige.opensource@witekio.com>
+--000000000000fabb9306522ccb71
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Backport patches from [1] also mentioned in [2].
+Current Dev Position: YP 6.1 M1
 
-[1] https://github.com/libexpat/libexpat/pull/1216
-[2] https://security-tracker.debian.org/tracker/CVE-2026-45186
+Next Deadline: YP 6.1 M1: w/c 2026-06-08
 
-Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
----
- .../expat/expat/CVE-2026-45186-01.patch       |  70 ++++
- .../expat/expat/CVE-2026-45186-02.patch       | 318 ++++++++++++++++++
- .../expat/expat/CVE-2026-45186-03.patch       |  46 +++
- .../expat/expat/CVE-2026-45186-04.patch       |  32 ++
- .../expat/expat/CVE-2026-45186-05.patch       |  32 ++
- .../expat/expat/CVE-2026-45186-06.patch       |  87 +++++
- .../expat/expat/CVE-2026-45186-07.patch       |  52 +++
- .../expat/expat/CVE-2026-45186-08.patch       |  39 +++
- meta/recipes-core/expat/expat_2.6.4.bb        |   8 +
- 9 files changed, 684 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-08.patch
+Next Team Meetings:
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
-new file mode 100644
-index 0000000000..bc97341d44
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
-@@ -0,0 +1,70 @@
-+From 02fd51c3475c400cf4095228eb1ce4fa19639f5f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@siemens.com>
-+Date: Fri, 13 Mar 2026 13:26:45 +0100
-+Subject: [PATCH 1/8] Make "counting_start_element_handler" count default attrs
-+
-+(cherry picked from commit 0802a5892030610144b736dec6e2f63e8600fe85)
-+
-+CVE: CVE-2026-45186
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/0802a5892030610144b736dec6e2f63e8600fe85]
-+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-+---
-+ tests/basic_tests.c | 8 ++++----
-+ tests/handlers.c    | 2 +-
-+ tests/handlers.h    | 1 +
-+ 3 files changed, 6 insertions(+), 5 deletions(-)
-+
-+diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-+index 023d9ce4..d6edb16b 100644
-+--- a/tests/basic_tests.c
-++++ b/tests/basic_tests.c
-+@@ -2439,9 +2439,9 @@ START_TEST(test_attributes) {
-+                          {XCS("id"), XCS("one")},
-+                          {NULL, NULL}};
-+   AttrInfo tag_info[] = {{XCS("c"), XCS("3")}, {NULL, NULL}};
-+-  ElementInfo info[] = {{XCS("doc"), 3, XCS("id"), NULL},
-+-                        {XCS("tag"), 1, NULL, NULL},
-+-                        {NULL, 0, NULL, NULL}};
-++  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), NULL},
-++                        {XCS("tag"), 1, 0, NULL, NULL},
-++                        {NULL, 0, 0, NULL, NULL}};
-+   info[0].attributes = doc_info;
-+   info[1].attributes = tag_info;
-+ 
-+@@ -5496,7 +5496,7 @@ START_TEST(test_deep_nested_attribute_entity) {
-+            (long unsigned)(N_LINES - 1));
-+ 
-+   AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
-+-  ElementInfo info[] = {{XCS("foo"), 1, NULL, NULL}, {NULL, 0, NULL, NULL}};
-++  ElementInfo info[] = {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, NULL, NULL}};
-+   info[0].attributes = doc_info;
-+ 
-+   XML_Parser parser = XML_ParserCreate(NULL);
-+diff --git a/tests/handlers.c b/tests/handlers.c
-+index e6582231..9ff7b354 100644
-+--- a/tests/handlers.c
-++++ b/tests/handlers.c
-+@@ -137,7 +137,7 @@ counting_start_element_handler(void *userData, const XML_Char *name,
-+     fail("ID does not have the correct name");
-+     return;
-+   }
-+-  for (i = 0; i < info->attr_count; i++) {
-++  for (i = 0; i < info->attr_count + info->default_attr_count; i++) {
-+     attr = info->attributes;
-+     while (attr->name != NULL) {
-+       if (! xcstrcmp(atts[0], attr->name))
-+diff --git a/tests/handlers.h b/tests/handlers.h
-+index ac4ca940..11d45ebd 100644
-+--- a/tests/handlers.h
-++++ b/tests/handlers.h
-+@@ -88,6 +88,7 @@ typedef struct attrInfo {
-+ typedef struct elementInfo {
-+   const XML_Char *name;
-+   int attr_count;
-++  int default_attr_count;
-+   const XML_Char *id_name;
-+   AttrInfo *attributes;
-+ } ElementInfo;
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
-new file mode 100644
-index 0000000000..d7991b3b9c
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
-@@ -0,0 +1,318 @@
-+From 943a9bccac7fa8d156807fb7f106335b4e02da36 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@siemens.com>
-+Date: Fri, 13 Mar 2026 13:27:31 +0100
-+Subject: [PATCH 2/8] test(attlist): Cover duplicate attribute names
-+
-+Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
-+(cherry picked from commit e569f47181c43dca5d262089e541ddf9a9c09927)
-+
-+CVE: CVE-2026-45186
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/e569f47181c43dca5d262089e541ddf9a9c09927]
-+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-+---
-+ tests/basic_tests.c | 282 ++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 282 insertions(+)
-+
-+diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-+index d6edb16b..907a4580 100644
-+--- a/tests/basic_tests.c
-++++ b/tests/basic_tests.c
-+@@ -2462,6 +2462,279 @@ START_TEST(test_attributes) {
-+ }
-+ END_TEST
-+ 
-++START_TEST(test_duplicate_cdata_attribute) {
-++  /*
-++  https://www.w3.org/TR/xml/#attdecls
-++
-++  Test the following statement from the linked specification:
-++    When more than one definition is provided for the same attribute of a given
-++    element type, the first declaration is binding and later declarations are
-++    ignored.
-++  */
-++
-++  const char *text
-++      = "<!DOCTYPE doc [\n"
-++        "  <!ATTLIST doc attribute CDATA 'expected' attribute CDATA 'ignored'>\n"
-++        "]>\n"
-++        "<doc/>\n";
-++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected")}, {NULL, NULL}};
-++  ElementInfo info[]
-++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
-++
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++  assert_true(parser != NULL);
-++
-++  ParserAndElementInfo parserAndElementInfos = {
-++      parser,
-++      info,
-++  };
-++
-++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-++  XML_SetUserData(parser, &parserAndElementInfos);
-++
-++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
-++      != XML_STATUS_OK)
-++    xml_failure(parser);
-++
-++  XML_ParserFree(parser);
-++}
-++END_TEST
-++
-++START_TEST(test_duplicate_id_attribute_1) {
-++  /*
-++  https://www.w3.org/TR/xml/#attdecls
-++
-++  Test the following statement from the linked specification:
-++    When more than one definition is provided for the same attribute of a given
-++    element type, the first declaration is binding and later declarations are
-++    ignored.
-++  */
-++
-++  const char *text
-++      = "<!DOCTYPE doc [\n"
-++        "  <!ATTLIST doc identifier CDATA 'expected' identifier ID #REQUIRED>\n"
-++        "]>\n"
-++        "<doc/>\n";
-++  AttrInfo doc_info[] = {{XCS("identifier"), XCS("expected")}, {NULL, NULL}};
-++  ElementInfo info[]
-++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
-++
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++  assert_true(parser != NULL);
-++
-++  ParserAndElementInfo parserAndElementInfos = {
-++      parser,
-++      info,
-++  };
-++
-++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-++  XML_SetUserData(parser, &parserAndElementInfos);
-++
-++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
-++      != XML_STATUS_OK)
-++    xml_failure(parser);
-++
-++  XML_ParserFree(parser);
-++}
-++END_TEST
-++
-++START_TEST(test_duplicate_id_attribute_2) {
-++  /*
-++  https://www.w3.org/TR/xml/#attdecls
-++
-++  Test the following statement from the linked specification:
-++    When more than one definition is provided for the same attribute of a given
-++    element type, the first declaration is binding and later declarations are
-++    ignored.
-++  */
-++
-++  const char *text
-++      = "<!DOCTYPE doc [\n"
-++        "  <!ATTLIST doc identifier ID #REQUIRED identifier CDATA 'unexpected'>\n"
-++        "]>\n"
-++        "<doc/>\n";
-++  AttrInfo doc_info[] = {{NULL, NULL}};
-++
-++  ElementInfo info[]
-++      = {{XCS("doc"), 0, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
-++
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++  assert_true(parser != NULL);
-++
-++  ParserAndElementInfo parserAndElementInfos = {
-++      parser,
-++      info,
-++  };
-++
-++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-++  XML_SetUserData(parser, &parserAndElementInfos);
-++
-++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
-++      != XML_STATUS_OK)
-++    xml_failure(parser);
-++
-++  XML_ParserFree(parser);
-++}
-++END_TEST
-++
-++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl) {
-++  /*
-++  https://www.w3.org/TR/xml/#attdecls
-++
-++  Test the following statement from the linked specification:
-++    When more than one AttlistDecl is provided for a given element type,
-++    the contents of all those provided are merged.
-++  */
-++  const char *text = "<!DOCTYPE doc [\n"
-++                     "  <!ATTLIST doc attribute CDATA 'expected'>\n"
-++                     "  <!ATTLIST doc attribute CDATA 'ignored'>\n"
-++                     "]>\n"
-++                     "<doc/>\n";
-++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected")}, {NULL, NULL}};
-++  ElementInfo info[]
-++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
-++
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++  assert_true(parser != NULL);
-++
-++  ParserAndElementInfo parserAndElementInfos = {
-++      parser,
-++      info,
-++  };
-++
-++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-++  XML_SetUserData(parser, &parserAndElementInfos);
-++
-++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
-++      != XML_STATUS_OK)
-++    xml_failure(parser);
-++
-++  XML_ParserFree(parser);
-++}
-++END_TEST
-++
-++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_2) {
-++  /*
-++  https://www.w3.org/TR/xml/#attdecls
-++
-++  Test the following statement from the linked specification:
-++    When more than one AttlistDecl is provided for a given element type,
-++    the contents of all those provided are merged.
-++  */
-++  const char *text = "<!DOCTYPE doc [\n"
-++                     "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
-++                     "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
-++                     "  <!ATTLIST doc attribute CDATA 'ignored_doc'>\n"
-++                     "]>\n"
-++                     "<doc><tag></tag></doc>\n";
-++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected_doc")}, {NULL, NULL}};
-++  AttrInfo tag_info[] = {{XCS("attribute"), XCS("expected_tag")}, {NULL, NULL}};
-++  ElementInfo info[] = {{XCS("doc"), 0, 1, NULL, doc_info},
-++                        {XCS("tag"), 0, 1, NULL, tag_info},
-++                        {NULL, 0, 0, NULL, NULL}};
-++
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++  assert_true(parser != NULL);
-++
-++  ParserAndElementInfo parserAndElementInfos = {
-++      parser,
-++      info,
-++  };
-++
-++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-++  XML_SetUserData(parser, &parserAndElementInfos);
-++
-++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
-++      != XML_STATUS_OK)
-++    xml_failure(parser);
-++
-++  XML_ParserFree(parser);
-++}
-++END_TEST
-++
-++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_3) {
-++  /*
-++  https://www.w3.org/TR/xml/#attdecls
-++
-++  Test the following statement from the linked specification:
-++    When more than one AttlistDecl is provided for a given element type,
-++    the contents of all those provided are merged.
-++  */
-++  const char *text
-++      = "<!DOCTYPE doc [\n"
-++        "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
-++        "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
-++        "  <!ATTLIST doc second_attribute CDATA 'second_expected_doc' attribute CDATA 'ignored_doc'>\n"
-++        "]>\n"
-++        "<doc><tag></tag></doc>\n";
-++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected_doc")},
-++                         {XCS("second_attribute"), XCS("second_expected_doc")},
-++                         {NULL, NULL}};
-++  AttrInfo tag_info[] = {{XCS("attribute"), XCS("expected_tag")}, {NULL, NULL}};
-++  ElementInfo info[] = {{XCS("doc"), 0, 2, NULL, doc_info},
-++                        {XCS("tag"), 0, 1, NULL, tag_info},
-++                        {NULL, 0, 0, NULL, NULL}};
-++
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++  assert_true(parser != NULL);
-++
-++  ParserAndElementInfo parserAndElementInfos = {
-++      parser,
-++      info,
-++  };
-++
-++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-++  XML_SetUserData(parser, &parserAndElementInfos);
-++
-++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
-++      != XML_STATUS_OK)
-++    xml_failure(parser);
-++
-++  XML_ParserFree(parser);
-++}
-++END_TEST
-++
-++START_TEST(test_duplicate_id_attribute_multiple_attlistdecl) {
-++  /*
-++  https://www.w3.org/TR/xml/#attdecls
-++
-++  Test the following statement from the linked specification:
-++    When more than one AttlistDecl is provided for a given element type,
-++    the contents of all those provided are merged.
-++  */
-++  const char *text = "<!DOCTYPE doc [\n"
-++                     "  <!ATTLIST doc identifier ID #REQUIRED>\n"
-++                     "  <!ATTLIST tag identifier CDATA 'identifier_tag'>\n"
-++                     "  <!ATTLIST doc identifier CDATA 'ignored'>\n"
-++                     "]>\n"
-++                     "<doc identifier='doc_identity'><tag></tag></doc>\n";
-++  AttrInfo doc_info[]
-++      = {{XCS("identifier"), XCS("doc_identity")}, {NULL, NULL}};
-++  AttrInfo tag_info[]
-++      = {{XCS("identifier"), XCS("identifier_tag")}, {NULL, NULL}};
-++  ElementInfo info[] = {{XCS("doc"), 1, 0, XCS("identifier"), doc_info},
-++                        {XCS("tag"), 0, 1, NULL, tag_info},
-++                        {NULL, 0, 0, NULL, NULL}};
-++
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++  assert_true(parser != NULL);
-++
-++  ParserAndElementInfo parserAndElementInfos = {
-++      parser,
-++      info,
-++  };
-++
-++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-++  XML_SetUserData(parser, &parserAndElementInfos);
-++
-++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
-++      != XML_STATUS_OK)
-++    xml_failure(parser);
-++
-++  XML_ParserFree(parser);
-++}
-++END_TEST
-++
-+ /* Test reset works correctly in the middle of processing an internal
-+  * entity.  Exercises some obscure code in XML_ParserReset().
-+  */
-+@@ -6325,6 +6598,15 @@ make_basic_test_case(Suite *s) {
-+   tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_foreign_dtd);
-+   tcase_add_test(tc_basic, test_set_base);
-+   tcase_add_test(tc_basic, test_attributes);
-++  tcase_add_test(tc_basic, test_duplicate_cdata_attribute);
-++  tcase_add_test(tc_basic, test_duplicate_id_attribute_1);
-++  tcase_add_test(tc_basic, test_duplicate_id_attribute_2);
-++  tcase_add_test(tc_basic, test_duplicate_cdata_attribute_multiple_attlistdecl);
-++  tcase_add_test(tc_basic,
-++                 test_duplicate_cdata_attribute_multiple_attlistdecl_2);
-++  tcase_add_test(tc_basic,
-++                 test_duplicate_cdata_attribute_multiple_attlistdecl_3);
-++  tcase_add_test(tc_basic, test_duplicate_id_attribute_multiple_attlistdecl);
-+   tcase_add_test__if_xml_ge(tc_basic, test_reset_in_entity);
-+   tcase_add_test(tc_basic, test_resume_invalid_parse);
-+   tcase_add_test(tc_basic, test_resume_resuspended);
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
-new file mode 100644
-index 0000000000..fe3e329b88
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
-@@ -0,0 +1,46 @@
-+From 74e67b6a37d2e14b899a182bad37d8c49c539f29 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Mon, 20 Apr 2026 13:44:43 +0200
-+Subject: [PATCH 3/8] tests: Define .attributes the first time around
-+
-+(cherry picked from commit 05307d352a5aa858cdda57ec53a53b597b3a4a82)
-+
-+CVE: CVE-2026-45186
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/05307d352a5aa858cdda57ec53a53b597b3a4a82]
-+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-+---
-+ tests/basic_tests.c | 10 ++++------
-+ 1 file changed, 4 insertions(+), 6 deletions(-)
-+
-+diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-+index 907a4580..b0178fc7 100644
-+--- a/tests/basic_tests.c
-++++ b/tests/basic_tests.c
-+@@ -2439,11 +2439,9 @@ START_TEST(test_attributes) {
-+                          {XCS("id"), XCS("one")},
-+                          {NULL, NULL}};
-+   AttrInfo tag_info[] = {{XCS("c"), XCS("3")}, {NULL, NULL}};
-+-  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), NULL},
-+-                        {XCS("tag"), 1, 0, NULL, NULL},
-++  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), doc_info},
-++                        {XCS("tag"), 1, 0, NULL, tag_info},
-+                         {NULL, 0, 0, NULL, NULL}};
-+-  info[0].attributes = doc_info;
-+-  info[1].attributes = tag_info;
-+ 
-+   XML_Parser parser = XML_ParserCreate(NULL);
-+   assert_true(parser != NULL);
-+@@ -5769,8 +5767,8 @@ START_TEST(test_deep_nested_attribute_entity) {
-+            (long unsigned)(N_LINES - 1));
-+ 
-+   AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
-+-  ElementInfo info[] = {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, NULL, NULL}};
-+-  info[0].attributes = doc_info;
-++  ElementInfo info[]
-++      = {{XCS("foo"), 1, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
-+ 
-+   XML_Parser parser = XML_ParserCreate(NULL);
-+   ParserAndElementInfo parserPlusElemenInfo = {parser, info};
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
-new file mode 100644
-index 0000000000..0c725b232b
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
-@@ -0,0 +1,32 @@
-+From fa671cc8f4900c709231732c40b0941d4ec36f53 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Mon, 13 Apr 2026 01:34:03 +0200
-+Subject: [PATCH 4/8] tests: Make counting_start_element_handler enforce
-+ complete attribute lists
-+
-+(cherry picked from commit 4176aff73840711060913e0ac6aa1168d8ba5c8d)
-+
-+CVE: CVE-2026-45186
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/4176aff73840711060913e0ac6aa1168d8ba5c8d]
-+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-+---
-+ tests/handlers.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/tests/handlers.c b/tests/handlers.c
-+index 9ff7b354..5e72e8b6 100644
-+--- a/tests/handlers.c
-++++ b/tests/handlers.c
-+@@ -155,6 +155,9 @@ counting_start_element_handler(void *userData, const XML_Char *name,
-+     /* Remember, two entries in atts per attribute (see above) */
-+     atts += 2;
-+   }
-++
-++  // Self-test that the test case's list of expected attributes is complete
-++  assert_true(atts[0] == NULL);
-+ }
-+ 
-+ void XMLCALL
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
-new file mode 100644
-index 0000000000..5ca401935c
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
-@@ -0,0 +1,32 @@
-+From 3e060a687a3485938f98244f92ebc6f87d53a019 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Sun, 8 Mar 2026 22:14:41 +0100
-+Subject: [PATCH 5/8] lib: Extract a constant for upcoming reuse
-+
-+(cherry picked from commit fb35f2d2040d114f355bae8a7450942533237530)
-+
-+CVE: CVE-2026-45186
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/fb35f2d2040d114f355bae8a7450942533237530]
-+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-+---
-+ lib/xmlparse.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 9bc67f38..8d3e8db1 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -7708,8 +7708,9 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
-+       newE->prefix = (PREFIX *)lookup(oldParser, &(newDtd->prefixes),
-+                                       oldE->prefix->name, 0);
-+     for (i = 0; i < newE->nDefaultAtts; i++) {
-++      const XML_Char *const attributeName = oldE->defaultAtts[i].id->name;
-+       newE->defaultAtts[i].id = (ATTRIBUTE_ID *)lookup(
-+-          oldParser, &(newDtd->attributeIds), oldE->defaultAtts[i].id->name, 0);
-++          oldParser, &(newDtd->attributeIds), attributeName, 0);
-+       newE->defaultAtts[i].isCdata = oldE->defaultAtts[i].isCdata;
-+       if (oldE->defaultAtts[i].value) {
-+         newE->defaultAtts[i].value
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
-new file mode 100644
-index 0000000000..14e5545792
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
-@@ -0,0 +1,87 @@
-+From cbf6df87b8525169533e0742fd587fdb0d9ec997 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Sun, 8 Mar 2026 23:05:49 +0100
-+Subject: [PATCH 6/8] lib: Introduce ELEMENT_TYPE.defaultAttsNames
-+
-+(cherry picked from commit 7f0f1b9e70d937072d2e9e37ae9edf27784cc080)
-+
-+CVE: CVE-2026-45186
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/7f0f1b9e70d937072d2e9e37ae9edf27784cc080]
-+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-+---
-+ lib/xmlparse.c | 17 +++++++++++++++++
-+ 1 file changed, 17 insertions(+)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 8d3e8db1..4a29c18f 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -388,6 +388,7 @@ typedef struct {
-+   int nDefaultAtts;
-+   int allocDefaultAtts;
-+   DEFAULT_ATTRIBUTE *defaultAtts;
-++  HASH_TABLE defaultAttsNames;
-+ } ELEMENT_TYPE;
-+ 
-+ typedef struct {
-+@@ -3844,6 +3845,8 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+                                          sizeof(ELEMENT_TYPE));
-+     if (! elementType)
-+       return XML_ERROR_NO_MEMORY;
-++    if (! elementType->defaultAttsNames.parser)
-++      hashTableInit(&(elementType->defaultAttsNames), parser);
-+     if (parser->m_ns && ! setElementTypePrefix(parser, elementType))
-+       return XML_ERROR_NO_MEMORY;
-+   }
-+@@ -7549,6 +7552,7 @@ dtdReset(DTD *p, XML_Parser parser) {
-+     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
-+     if (! e)
-+       break;
-++    hashTableDestroy(&(e->defaultAttsNames));
-+     if (e->allocDefaultAtts != 0)
-+       FREE(parser, e->defaultAtts);
-+   }
-+@@ -7590,6 +7594,7 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser) {
-+     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
-+     if (! e)
-+       break;
-++    hashTableDestroy(&(e->defaultAttsNames));
-+     if (e->allocDefaultAtts != 0)
-+       FREE(parser, e->defaultAtts);
-+   }
-+@@ -7683,6 +7688,10 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
-+                                   sizeof(ELEMENT_TYPE));
-+     if (! newE)
-+       return 0;
-++
-++    if (! newE->defaultAttsNames.parser)
-++      hashTableInit(&(newE->defaultAttsNames), parser);
-++
-+     if (oldE->nDefaultAtts) {
-+       /* Detect and prevent integer overflow.
-+        * The preprocessor guard addresses the "always false" warning
-+@@ -7719,6 +7728,12 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
-+           return 0;
-+       } else
-+         newE->defaultAtts[i].value = NULL;
-++
-++      NAMED *const nameAddedOrFound = (NAMED *)lookup(
-++          parser, &(newE->defaultAttsNames), attributeName, sizeof(NAMED));
-++      if (! nameAddedOrFound) {
-++        return 0;
-++      }
-+     }
-+   }
-+ 
-+@@ -8458,6 +8473,8 @@ getElementType(XML_Parser parser, const ENCODING *enc, const char *ptr,
-+                                sizeof(ELEMENT_TYPE));
-+   if (! ret)
-+     return NULL;
-++  if (! ret->defaultAttsNames.parser)
-++    hashTableInit(&(ret->defaultAttsNames), getRootParserOf(parser, NULL));
-+   if (ret->name != name)
-+     poolDiscard(&dtd->pool);
-+   else {
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
-new file mode 100644
-index 0000000000..77fafd67e4
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
-@@ -0,0 +1,52 @@
-+From 6c72e124eb8f699977600edc5183ecce89ce13ec Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Sun, 8 Mar 2026 23:06:29 +0100
-+Subject: [PATCH 7/8] lib: Leverage ELEMENT_TYPE.defaultAttsNames for attribute
-+ collision detection
-+
-+.. to resolve quadratic runtime behavior
-+
-+(cherry picked from commit 4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5)
-+
-+CVE: CVE-2026-45186
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5]
-+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-+---
-+ lib/xmlparse.c | 14 ++++++++++----
-+ 1 file changed, 10 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 4a29c18f..b3f0b734 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -7177,10 +7177,10 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
-+   if (value || isId) {
-+     /* The handling of default attributes gets messed up if we have
-+        a default which duplicates a non-default. */
-+-    int i;
-+-    for (i = 0; i < type->nDefaultAtts; i++)
-+-      if (attId == type->defaultAtts[i].id)
-+-        return 1;
-++    NAMED *const nameFound
-++        = (NAMED *)lookup(parser, &(type->defaultAttsNames), attId->name, 0);
-++    if (nameFound)
-++      return 1;
-+     if (isId && ! type->idAtt && ! attId->xmlns)
-+       type->idAtt = attId;
-+   }
-+@@ -7227,6 +7227,12 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
-+   att->isCdata = isCdata;
-+   if (! isCdata)
-+     attId->maybeTokenized = XML_TRUE;
-++
-++  NAMED *const nameAddedOrFound = (NAMED *)lookup(
-++      parser, &(type->defaultAttsNames), attId->name, sizeof(NAMED));
-++  if (! nameAddedOrFound)
-++    return 0;
-++
-+   type->nDefaultAtts += 1;
-+   return 1;
-+ }
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-08.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-08.patch
-new file mode 100644
-index 0000000000..1ce5494d3d
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-45186-08.patch
-@@ -0,0 +1,39 @@
-+From 594f59a8013ab78cd2e439f4c8d56ed5d261b0a4 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Fri, 8 May 2026 22:16:24 +0200
-+Subject: [PATCH 8/8] Changes: Document CVE-2026-45186
-+
-+(cherry picked from commit 1045a780a850f1fd0ee3a59b04ec79dd659705ec)
-+
-+CVE: CVE-2026-45186
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/1045a780a850f1fd0ee3a59b04ec79dd659705ec]
-+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-+---
-+ Changes | 11 +++++++++++
-+ 1 file changed, 11 insertions(+)
-+
-+diff --git a/Changes b/Changes
-+index 4265d608..1d91af70 100644
-+--- a/Changes
-++++ b/Changes
-+@@ -30,6 +30,17 @@
-+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-+ 
-+ Patches:
-++        Security fixes:
-++           #1216  CVE-2026-45186 -- Fix quadratic runtime from attribute name
-++                    collision checks that allowed denial of service attacks
-++                    through moderately sized crafted XML input (CWE-407).
-++                    Please note that a layer of compression around XML can
-++                    significantly reduce the minimum attack payload size.
-++
-++        Special thanks to:
-++            Berkay Eren Ürün
-++            Nick Wellnhofer
-++
-+         Security fixes:
-+      #1018 #1034  CVE-2025-59375 -- Disallow use of disproportional amounts of
-+                     dynamic memory from within an Expat parser (e.g. previously
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
-index 151720a9e3..a1997ecbba 100644
---- a/meta/recipes-core/expat/expat_2.6.4.bb
-+++ b/meta/recipes-core/expat/expat_2.6.4.bb
-@@ -51,6 +51,14 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-32777-02.patch \
-            file://CVE-2026-32778-01.patch \
-            file://CVE-2026-32778-02.patch \
-+           file://CVE-2026-45186-01.patch \
-+           file://CVE-2026-45186-02.patch \
-+           file://CVE-2026-45186-03.patch \
-+           file://CVE-2026-45186-04.patch \
-+           file://CVE-2026-45186-05.patch \
-+           file://CVE-2026-45186-06.patch \
-+           file://CVE-2026-45186-07.patch \
-+           file://CVE-2026-45186-08.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
--- 
-2.43.0
+   -
 
+   Bug Triage meeting - Thursday 21st May 7:30am PDT (
+   https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
+   -
+
+   Weekly Project Engineering Sync  - Tuesday 19th May. 8am PDT (
+   https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
+   <https://zoom.us/j/990892712>
+   -
+
+   Yocto Project Patch Review - Thursday 19th May 10am GMT (
+   https://zoom.us/j/9776239
+   <https://zoom.us/j/97762397148?pwd=3D1xkiC9hp9SjEonaTaONwTb6iWry4Eb.1>7
+   148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1
+   <https://zoom.us/j/97762397148?pwd=3D1xkiC9hp9SjEonaTaONwTb6iWry4Eb.1>)
+
+
+Project data dashboard: https://dashboard.yoctoproject.org/
+
+Key Status/Updates:
+
+   -
+
+   YP 6.0 was released, thanks everyone who contributed!
+   -
+
+   YP 5.0.18 is in QA.
+   -
+
+   We=E2=80=99re working through the backlog of patches, the bandwidth for =
+changes
+   needing in depth review/feedback continues to be a challenge.
+   -
+
+   Intermittent build failures continue to be problematic:
+   -
+
+      several qemu =E2=80=98hang=E2=80=99 type issues
+      -
+
+      sometimes yocto-check-layer is showing checksum mismatch issues
+      -
+
+      siggen reset issues (=E2=80=9CResourceWarning: unclosed transport=E2=
+=80=9D)
+      -
+
+      groff build race issues
+      -
+
+      intermittent ptest failures in many recipes
+      -
+
+   Master (blacksail) is open for new development
+   -
+
+   We would like to know what people are planning to work on for Yocto
+   Project 6.1 and beyond. We have a roadmap document in Google Docs:
+   https://docs.google.com/document/d/12xgAzSjDj5zVlo4eQIbiv1s3QMjtBTCvBFY3=
+_T7OPto
+   -
+
+   We are updating the project=E2=80=99s security team and welcome nominati=
+ons
+   and/or feedback:
+   https://lists.openembedded.org/g/openembedded-architecture/topic/1193887=
+16
+   -
+
+   Monday 25th May is a public holiday in the UK and USA so there will be
+   no patch review call.
+
+
+Want to contribute? We would appreciate help with the following areas:
+
+   -
+
+   We have several open issues for pseudo and limited maintainer time to
+   work on them. Help from someone familiar with systems programming in C
+   would be greatly appreciated.
+   https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&priority=
+=3DHigh&priority=3DMedium%2B&product=3DPseudo&query_format=3Dadvanced&resol=
+ution=3D---
+   -
+
+   There are a large number of intermittent failures on our autobuilder,
+   any help with investigating, reproducing or solving these issues would b=
+e
+   welcome! https://valkyrie.yocto.io/pub/non-release/abint/
+   -
+
+   Many recipes in openembedded-core would benefit from a new recipe
+   maintainer. Please look at
+   https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/inc=
+lude/maintainers.inc
+   and see if you can adopt any of the unassigned recipes.
+   -
+
+   For more ways to contribute, see
+   https://docs.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuC=
+WbzgjOk/edit?usp=3Dsharing
+
+
+New to the project?
+
+   -
+
+   We have a list of issues we think are good places to start contributing:
+   https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER
+
+
+Tracking Metrics:
+
+   -
+
+   WDD 2673 (last week 2688) (
+   https://wiki.yoctoproject.org/charts/combo.html)
+   -
+
+   OE-Core/Poky Patch Metrics
+   -
+
+      Total patches found: 1083 (last week 1087)
+      -
+
+      Patches in the Pending State: 148 (14%) [last week 146 (13%)
+      -
+
+      https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+
+
+Upcoming development releases:
+
+   -
+
+   6.1 M1:
+   -
+
+      Build Date: w/c 2026-06-08
+      -
+
+      Release Date: w/c 2026-06-22
+      -
+
+   6.1 M2:
+   -
+
+      Build Date: w/c 2026-07-20
+      -
+
+      Release Date: w/c 2026-08-03
+      -
+
+   6.1 M3:
+   -
+
+      Build Date: w/c 2026-08-31
+      -
+
+      Release Date: w/c 2026-09-14
+      -
+
+   6.1.0:
+   -
+
+      Build Date (M4): w/c 2026-10-12
+      -
+
+      Release Date: w/c 2026-11-02
+
+
+Upcoming dot releases:
+
+   -
+
+   YP 5.3.4 was released.
+   -
+
+   YP 5.0.18 is in QA.
+   -
+
+   YP 6.0.1
+   -
+
+      Build Date  2026-05-18
+      -
+
+      Release Date 2026-06-01
+      -
+
+   YP 5.0.19
+   -
+
+      Build Date  2026-06-30
+      -
+
+      Release Date 2026-07-13
+      -
+
+   For future release dates, see
+   https://wiki.yoctoproject.org/wiki/Release_calendar
+
+
+The Yocto Project=E2=80=99s technical governance is through its Technical S=
+teering
+Committee, more information is available at:
+
+https://wiki.yoctoproject.org/wiki/TSC
+
+The Status reports are now stored on the wiki at:
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+[If anyone has suggestions for other information you=E2=80=99d like to see =
+on this
+weekly status update, let us know!]
+
+Thanks,
+
+
+
+*Stephen K. Jolley*
+
+*Yocto Project Program Manager*
+
+(    *Cell*:                (208) 244-4460
+
+* *Email*:                 *s
+<stephen.k.jolley@intel.com>jolley.yp.pm@gmail.com <jolley.yp.pm@gmail.com>=
+*
+
+--000000000000fabb9306522ccb71
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><span id=3D"gmail-docs-internal-guid-96304855-7fff-dc=
+1c-589d-c54c22d885f6"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
+pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-=
+serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;ver=
+tical-align:baseline;white-space:pre-wrap">Current Dev Position: YP 6.1 M1<=
+/span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bo=
+ttom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:=
+rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:=
+baseline;white-space:pre-wrap">Next Deadline: YP </span><span style=3D"font=
+-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
+transparent;font-variant:normal;vertical-align:baseline;white-space:pre-wra=
+p">6.1 M1:</span><span style=3D"font-size:11pt;font-family:Arial,sans-serif=
+;color:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical=
+-align:baseline;white-space:pre-wrap"> w/c 2026-06-08</span></p><br><p dir=
+=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span =
+style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backg=
+round-color:transparent;font-variant:normal;vertical-align:baseline;white-s=
+pace:pre-wrap">Next Team Meetings:</span></p><ul style=3D"margin-top:0px;ma=
+rgin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:9.=
+5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpar=
+ent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"=
+ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pr=
+esentation"><span style=3D"font-size:11pt;background-color:transparent;font=
+-variant:normal;vertical-align:baseline;white-space:pre-wrap">Bug Triage me=
+eting - Thursday 21st May 7:30am PDT (</span><a href=3D"https://zoom.us/j/4=
+54367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" style=3D"text-decoration:n=
+one"><span style=3D"font-size:11pt;background-color:transparent;font-varian=
+t:normal;text-decoration:underline;vertical-align:baseline;white-space:pre-=
+wrap">https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</s=
+pan></a><span style=3D"font-size:11pt;background-color:transparent;font-var=
+iant:normal;vertical-align:baseline;white-space:pre-wrap">)</span></p></li>=
+<li dir=3D"ltr" style=3D"list-style-type:disc;font-size:9.5pt;font-family:A=
+rial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:=
+normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"lin=
+e-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span=
+ style=3D"font-size:11pt;background-color:transparent;font-variant:normal;v=
+ertical-align:baseline;white-space:pre-wrap">Weekly Project Engineering Syn=
+c=C2=A0 - Tuesday 19th May. 8am PDT (</span><a href=3D"https://zoom.us/j/99=
+0892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09" style=3D"text-decoration:no=
+ne"><span style=3D"font-size:11pt;background-color:transparent;font-variant=
+:normal;text-decoration:underline;vertical-align:baseline;white-space:pre-w=
+rap">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</sp=
+an></a><a href=3D"https://zoom.us/j/990892712" style=3D"text-decoration:non=
+e"><span style=3D"font-size:11pt;background-color:transparent;font-variant:=
+normal;text-decoration:underline;vertical-align:baseline;white-space:pre-wr=
+ap">)</span></a></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font=
+-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
+transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p=
+ dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" ro=
+le=3D"presentation"><span style=3D"font-size:11pt;background-color:transpar=
+ent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Yocto=
+ Project Patch Review - Thursday 19th May 10am GMT (</span><a href=3D"https=
+://zoom.us/j/97762397148?pwd=3D1xkiC9hp9SjEonaTaONwTb6iWry4Eb.1" style=3D"t=
+ext-decoration:none"><span style=3D"font-size:11pt;background-color:transpa=
+rent;font-variant:normal;text-decoration:underline;vertical-align:baseline;=
+white-space:pre-wrap">https://zoom.us/j/9776239</span></a><span style=3D"fo=
+nt-size:11pt;background-color:transparent;font-variant:normal;vertical-alig=
+n:baseline;white-space:pre-wrap">7</span><a href=3D"https://zoom.us/j/97762=
+397148?pwd=3D1xkiC9hp9SjEonaTaONwTb6iWry4Eb.1" style=3D"text-decoration:non=
+e"><span style=3D"font-size:11pt;background-color:transparent;font-variant:=
+normal;text-decoration:underline;vertical-align:baseline;white-space:pre-wr=
+ap">148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1</span></a><span style=3D"fo=
+nt-size:11pt;background-color:transparent;font-variant:normal;vertical-alig=
+n:baseline;white-space:pre-wrap">)</span></p></li></ul><br><p dir=3D"ltr" s=
+tyle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"f=
+ont-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-colo=
+r:transparent;font-variant:normal;vertical-align:baseline;white-space:pre-w=
+rap">Project data dashboard: </span><a href=3D"https://dashboard.yoctoproje=
+ct.org/" style=3D"text-decoration:none"><span style=3D"font-size:11pt;font-=
+family:Arial,sans-serif;background-color:transparent;font-variant:normal;te=
+xt-decoration:underline;vertical-align:baseline;white-space:pre-wrap">https=
+://dashboard.yoctoproject.org/</span></a><span style=3D"font-size:11pt;font=
+-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font=
+-variant:normal;vertical-align:baseline;white-space:pre-wrap">=C2=A0</span>=
+</p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bott=
+om:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rg=
+b(0,0,0);background-color:transparent;font-variant:normal;vertical-align:ba=
+seline;white-space:pre-wrap">Key Status/Updates:</span></p><ul style=3D"mar=
+gin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:dis=
+c;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-c=
+olor:transparent;font-variant:normal;vertical-align:baseline;white-space:pr=
+e"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0p=
+t" role=3D"presentation"><span style=3D"font-size:11pt;background-color:tra=
+nsparent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">=
+YP 6.0 was released, thanks everyone who contributed!</span></p></li><li di=
+r=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sa=
+ns-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;=
+vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heigh=
+t:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
+l-align:baseline;white-space:pre-wrap">YP 5.0.18 is in QA.</span></p></li><=
+li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Ari=
+al,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:no=
+rmal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span s=
+tyle=3D"font-size:11pt;background-color:transparent;font-variant:normal;ver=
+tical-align:baseline;white-space:pre-wrap">We=E2=80=99re working through th=
+e backlog of patches, the bandwidth for changes needing in depth review/fee=
+dback continues to be a challenge.</span></p></li><li dir=3D"ltr" style=3D"=
+list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(=
+0,0,0);background-color:transparent;font-variant:normal;vertical-align:base=
+line;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
+pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;b=
+ackground-color:transparent;font-variant:normal;vertical-align:baseline;whi=
+te-space:pre-wrap">Intermittent build failures continue to be problematic:<=
+/span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"lt=
+r" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-se=
+rif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;verti=
+cal-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.3=
+8;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fo=
+nt-size:11pt;background-color:transparent;font-variant:normal;vertical-alig=
+n:baseline;white-space:pre-wrap">several qemu =E2=80=98hang=E2=80=99 type i=
+ssues</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-s=
+ize:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tra=
+nsparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p di=
+r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">sometim=
+es yocto-check-layer is showing checksum mismatch issues</span></p></li><li=
+ dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Ari=
+al,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:no=
+rmal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span s=
+tyle=3D"font-size:11pt;background-color:transparent;font-variant:normal;ver=
+tical-align:baseline;white-space:pre-wrap">siggen reset issues (=E2=80=9CRe=
+sourceWarning: unclosed transport=E2=80=9D)</span></p></li><li dir=3D"ltr" =
+style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-serif=
+;color:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical=
+-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;m=
+argin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-=
+size:11pt;background-color:transparent;font-variant:normal;vertical-align:b=
+aseline;white-space:pre-wrap">groff build race issues</span></p></li><li di=
+r=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,=
+sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:norma=
+l;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-hei=
+ght:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span styl=
+e=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertic=
+al-align:baseline;white-space:pre-wrap">intermittent ptest failures in many=
+ recipes</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;=
+font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-col=
+or:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
+ role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
+parent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Ma=
+ster (blacksail) is open for new development</span></p></li><li dir=3D"ltr"=
+ style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;=
+color:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-=
+align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;ma=
+rgin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-s=
+ize:11pt;background-color:transparent;font-variant:normal;vertical-align:ba=
+seline;white-space:pre-wrap">We would like to know what people are planning=
+ to work on for Yocto Project 6.1 and beyond. We have a roadmap document in=
+ Google Docs: </span><a href=3D"https://docs.google.com/document/d/12xgAzSj=
+Dj5zVlo4eQIbiv1s3QMjtBTCvBFY3_T7OPto" style=3D"text-decoration:none"><span =
+style=3D"font-size:11pt;background-color:transparent;font-variant:normal;te=
+xt-decoration:underline;vertical-align:baseline;white-space:pre-wrap">https=
+://docs.google.com/document/d/12xgAzSjDj5zVlo4eQIbiv1s3QMjtBTCvBFY3_T7OPto<=
+/span></a></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:=
+11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpa=
+rent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D=
+"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"p=
+resentation"><span style=3D"font-size:11pt;background-color:transparent;fon=
+t-variant:normal;vertical-align:baseline;white-space:pre-wrap">We are updat=
+ing the project=E2=80=99s security team and welcome nominations and/or feed=
+back: </span><a href=3D"https://lists.openembedded.org/g/openembedded-archi=
+tecture/topic/119388716" style=3D"text-decoration:none"><span style=3D"font=
+-size:11pt;background-color:transparent;font-variant:normal;text-decoration=
+:underline;vertical-align:baseline;white-space:pre-wrap">https://lists.open=
+embedded.org/g/openembedded-architecture/topic/119388716</span></a></p></li=
+><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:A=
+rial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:=
+normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"lin=
+e-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span=
+ style=3D"font-size:11pt;background-color:transparent;font-variant:normal;v=
+ertical-align:baseline;white-space:pre-wrap">Monday 25th May is a public ho=
+liday in the UK and USA so there will be no patch review call.</span></p></=
+li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-=
+bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;colo=
+r:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-alig=
+n:baseline;white-space:pre-wrap">Want to contribute? We would appreciate he=
+lp with the following areas:</span></p><ul style=3D"margin-top:0px;margin-b=
+ottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;fon=
+t-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;fon=
+t-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" st=
+yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentat=
+ion"><span style=3D"font-size:11pt;background-color:transparent;font-varian=
+t:normal;vertical-align:baseline;white-space:pre-wrap">We have several open=
+ issues for pseudo and limited maintainer time to work on them. Help from s=
+omeone familiar with systems programming in C would be greatly appreciated.=
+ </span><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D=
+661406&amp;priority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo&am=
+p;query_format=3Dadvanced&amp;resolution=3D---" style=3D"text-decoration:no=
+ne"><span style=3D"font-size:11pt;background-color:transparent;font-variant=
+:normal;text-decoration:underline;vertical-align:baseline;white-space:pre-w=
+rap">https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&amp;pri=
+ority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo&amp;query_format=
+=3Dadvanced&amp;resolution=3D---</span></a></p></li><li dir=3D"ltr" style=
+=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:=
+rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:=
+baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
+op:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11=
+pt;background-color:transparent;font-variant:normal;vertical-align:baseline=
+;white-space:pre-wrap">There are a large number of intermittent failures on=
+ our autobuilder, any help with investigating, reproducing or solving these=
+ issues would be welcome! </span><a href=3D"https://valkyrie.yocto.io/pub/n=
+on-release/abint/" style=3D"text-decoration:none"><span style=3D"font-size:=
+11pt;background-color:transparent;font-variant:normal;text-decoration:under=
+line;vertical-align:baseline;white-space:pre-wrap">https://valkyrie.yocto.i=
+o/pub/non-release/abint/</span></a></p></li><li dir=3D"ltr" style=3D"list-s=
+tyle-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0)=
+;background-color:transparent;font-variant:normal;vertical-align:baseline;w=
+hite-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
+gin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgro=
+und-color:transparent;font-variant:normal;vertical-align:baseline;white-spa=
+ce:pre-wrap">Many recipes in openembedded-core would benefit from a new rec=
+ipe maintainer. Please look at </span><a href=3D"https://git.openembedded.o=
+rg/openembedded-core/tree/meta/conf/distro/include/maintainers.inc" style=
+=3D"text-decoration:none"><span style=3D"font-size:11pt;background-color:tr=
+ansparent;font-variant:normal;text-decoration:underline;vertical-align:base=
+line;white-space:pre-wrap">https://git.openembedded.org/openembedded-core/t=
+ree/meta/conf/distro/include/maintainers.inc</span></a><span style=3D"font-=
+size:11pt;background-color:transparent;font-variant:normal;vertical-align:b=
+aseline;white-space:pre-wrap"> and see if you can adopt any of the unassign=
+ed recipes.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;fo=
+nt-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color=
+:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><=
+p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" r=
+ole=3D"presentation"><span style=3D"font-size:11pt;background-color:transpa=
+rent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">For =
+more ways to contribute, see </span><a href=3D"https://docs.google.com/docu=
+ment/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing" sty=
+le=3D"text-decoration:none"><span style=3D"font-size:11pt;background-color:=
+transparent;font-variant:normal;text-decoration:underline;vertical-align:ba=
+seline;white-space:pre-wrap">https://docs.google.com/document/d/18oxKWxLorf=
+F813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing</span></a></p></li></u=
+l><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom=
+:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(=
+0,0,0);background-color:transparent;font-variant:normal;vertical-align:base=
+line;white-space:pre-wrap">New to the project?</span></p><ul style=3D"margi=
+n-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;=
+font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-col=
+or:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
+ role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
+parent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">We=
+ have a list of issues we think are good places to start contributing: </sp=
+an><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DN=
+EWCOMER" style=3D"text-decoration:none"><span style=3D"font-size:11pt;backg=
+round-color:transparent;font-variant:normal;text-decoration:underline;verti=
+cal-align:baseline;white-space:pre-wrap">https://bugzilla.yoctoproject.org/=
+buglist.cgi?quicksearch=3DNEWCOMER</span></a></p></li></ul><br><p dir=3D"lt=
+r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=
+=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background=
+-color:transparent;font-variant:normal;vertical-align:baseline;white-space:=
+pre-wrap">Tracking Metrics:</span></p><ul style=3D"margin-top:0px;margin-bo=
+ttom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font=
+-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font=
+-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" sty=
+le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentati=
+on"><span style=3D"font-size:11pt;background-color:transparent;font-variant=
+:normal;vertical-align:baseline;white-space:pre-wrap">WDD 2673 (last week 2=
+688) </span><span style=3D"font-size:11pt;font-family:Consolas,sans-serif;b=
+ackground-color:transparent;font-variant:normal;vertical-align:baseline;whi=
+te-space:pre-wrap">(</span><a href=3D"https://wiki.yoctoproject.org/charts/=
+combo.html" style=3D"text-decoration:none"><span style=3D"font-size:11pt;ba=
+ckground-color:transparent;font-variant:normal;text-decoration:underline;ve=
+rtical-align:baseline;white-space:pre-wrap">https://wiki.yoctoproject.org/c=
+harts/combo.html</span></a><span style=3D"font-size:11pt;font-family:Consol=
+as,sans-serif;background-color:transparent;font-variant:normal;vertical-ali=
+gn:baseline;white-space:pre-wrap">)</span></p></li><li dir=3D"ltr" style=3D=
+"list-style-type:disc;font-size:11pt;font-family:Consolas,sans-serif;color:=
+rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:=
+baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
+op:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11=
+pt;font-family:Arial,sans-serif;background-color:transparent;font-variant:n=
+ormal;vertical-align:baseline;white-space:pre-wrap">OE-Core/Poky Patch Metr=
+ics</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
+=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
+ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
+;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
+ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
+l-align:baseline;white-space:pre-wrap">Total patches found: 1083 (last week=
+ 1087)</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-=
+size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tr=
+ansparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p d=
+ir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Patches=
+ in the Pending State: 148 (14%) [last week 146 (13%)</span></p></li><li di=
+r=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Consol=
+as,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:no=
+rmal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><a href=
+=3D"https://valkyrie.yocto.io/pub/non-release/patchmetrics/" style=3D"text-=
+decoration:none"><span style=3D"font-size:11pt;font-family:Arial,sans-serif=
+;background-color:transparent;font-variant:normal;text-decoration:underline=
+;vertical-align:baseline;white-space:pre-wrap">https://valkyrie.yocto.io/pu=
+b/non-release/patchmetrics/</span></a></p></li></ul></ul><br><p dir=3D"ltr"=
+ style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D=
+"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-co=
+lor:transparent;font-variant:normal;vertical-align:baseline;white-space:pre=
+-wrap">Upcoming development releases:</span></p><ul style=3D"margin-top:0px=
+;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size=
+:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transp=
+arent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=
+=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1 M1:=
+=C2=A0</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li di=
+r=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,=
+sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:norma=
+l;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-hei=
+ght:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span styl=
+e=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertic=
+al-align:baseline;white-space:pre-wrap">Build Date: w/c 2026-06-08</span></=
+p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-=
+family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-=
+variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" styl=
+e=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentatio=
+n"><span style=3D"font-size:11pt;background-color:transparent;font-variant:=
+normal;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026=
+-06-22</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;fo=
+nt-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color=
+:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><=
+p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" r=
+ole=3D"presentation"><span style=3D"font-size:11pt;background-color:transpa=
+rent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1 =
+M2:</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
+=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
+ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
+;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
+ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
+l-align:baseline;white-space:pre-wrap">Build Date: w/c 2026-07-20</span></p=
+></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-f=
+amily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-v=
+ariant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
+"><span style=3D"font-size:11pt;background-color:transparent;font-variant:n=
+ormal;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026-=
+08-03</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;fon=
+t-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
+transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p=
+ dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" ro=
+le=3D"presentation"><span style=3D"font-size:11pt;background-color:transpar=
+ent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1 M=
+3:</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D=
+"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans=
+-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;ve=
+rtical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:=
+1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D=
+"font-size:11pt;background-color:transparent;font-variant:normal;vertical-a=
+lign:baseline;white-space:pre-wrap">Build Date: w/c 2026-08-31</span></p></=
+li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-fami=
+ly:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-vari=
+ant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D=
+"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><=
+span style=3D"font-size:11pt;background-color:transparent;font-variant:norm=
+al;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026-09-=
+14</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;font-s=
+ize:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tra=
+nsparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p di=
+r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1.0:<=
+/span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"lt=
+r" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-se=
+rif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;verti=
+cal-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.3=
+8;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fo=
+nt-size:11pt;background-color:transparent;font-variant:normal;vertical-alig=
+n:baseline;white-space:pre-wrap">Build Date (M4): w/c 2026-10-12</span></p>=
+</li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-fa=
+mily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-va=
+riant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
+"><span style=3D"font-size:11pt;background-color:transparent;font-variant:n=
+ormal;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026-=
+11-02</span></p></li></ul></ul><br><p dir=3D"ltr" style=3D"line-height:1.38=
+;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-famil=
+y:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varia=
+nt:normal;vertical-align:baseline;white-space:pre-wrap">Upcoming dot releas=
+es:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr=
+" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif=
+;color:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical=
+-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;m=
+argin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-=
+size:11pt;background-color:transparent;font-variant:normal;vertical-align:b=
+aseline;white-space:pre-wrap">YP 5.3.4 was released.</span></p></li><li dir=
+=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,san=
+s-serif;background-color:transparent;font-variant:normal;vertical-align:bas=
+eline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:=
+0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;=
+font-variant:normal;vertical-align:baseline;white-space:pre-wrap">YP 5.0.18=
+ is in QA.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;fon=
+t-size:11pt;font-family:Arial,sans-serif;background-color:transparent;font-=
+variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" styl=
+e=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentatio=
+n"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:baselin=
+e;white-space:pre-wrap">YP 6.0.1</span></p></li><ul style=3D"margin-top:0px=
+;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:circle;font-si=
+ze:11pt;font-family:Arial,sans-serif;background-color:transparent;font-vari=
+ant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D=
+"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><=
+span style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline;wh=
+ite-space:pre-wrap">Build Date=C2=A0 2026-05-18</span></p></li><li dir=3D"l=
+tr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-s=
+erif;background-color:transparent;font-variant:normal;vertical-align:baseli=
+ne;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt=
+;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;fon=
+t-variant:normal;vertical-align:baseline;white-space:pre-wrap">Release Date=
+ 2026-06-01</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:di=
+sc;font-size:11pt;font-family:Arial,sans-serif;background-color:transparent=
+;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr=
+" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"prese=
+ntation"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:b=
+aseline;white-space:pre-wrap">YP 5.0.19</span></p></li><ul style=3D"margin-=
+top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:circle;=
+font-size:11pt;font-family:Arial,sans-serif;background-color:transparent;fo=
+nt-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" s=
+tyle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presenta=
+tion"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:base=
+line;white-space:pre-wrap">Build Date=C2=A0 2026-06-30</span></p></li><li d=
+ir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial=
+,sans-serif;background-color:transparent;font-variant:normal;vertical-align=
+:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-=
+top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:1=
+1pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Relea=
+se Date 2026-07-13</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-=
+type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);back=
+ground-color:transparent;font-variant:normal;vertical-align:baseline;white-=
+space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
+ottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-c=
+olor:transparent;font-variant:normal;vertical-align:baseline;white-space:pr=
+e-wrap">For future release dates, see </span><a href=3D"https://wiki.yoctop=
+roject.org/wiki/Release_calendar" style=3D"text-decoration:none"><span styl=
+e=3D"font-size:11pt;background-color:transparent;font-variant:normal;text-d=
+ecoration:underline;vertical-align:baseline;white-space:pre-wrap">https://w=
+iki.yoctoproject.org/wiki/Release_calendar</span></a></p></li></ul><br><p d=
+ir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><spa=
+n style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);bac=
+kground-color:transparent;font-variant:normal;vertical-align:baseline;white=
+-space:pre-wrap">The Yocto Project=E2=80=99s technical governance is throug=
+h its Technical Steering Committee, more information is available at:</span=
+></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:=
+0pt"><a href=3D"https://wiki.yoctoproject.org/wiki/TSC" style=3D"text-decor=
+ation:none"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;back=
+ground-color:transparent;font-variant:normal;text-decoration:underline;vert=
+ical-align:baseline;white-space:pre-wrap">https://wiki.yoctoproject.org/wik=
+i/TSC</span></a></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
+:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,san=
+s-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;v=
+ertical-align:baseline;white-space:pre-wrap">The Status reports are now sto=
+red on the wiki at: </span><a href=3D"https://wiki.yoctoproject.org/wiki/We=
+ekly_Status" style=3D"text-decoration:none"><span style=3D"font-size:11pt;f=
+ont-family:Arial,sans-serif;background-color:transparent;font-variant:norma=
+l;text-decoration:underline;vertical-align:baseline;white-space:pre-wrap">h=
+ttps://wiki.yoctoproject.org/wiki/Weekly_Status</span></a></p><br><p dir=3D=
+"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span sty=
+le=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgrou=
+nd-color:transparent;font-variant:normal;vertical-align:baseline;white-spac=
+e:pre-wrap">[If anyone has suggestions for other information you=E2=80=99d =
+like to see on this weekly status update, let us know!]</span></p></span><b=
+r class=3D"gmail-Apple-interchange-newline"></div><div dir=3D"ltr" class=3D=
+"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div =
+dir=3D"ltr"><p class=3D"MsoNormal" style=3D"background-image:initial;backgr=
+ound-position:initial;background-repeat:initial"><span style=3D"font-size:1=
+2pt;font-family:Arial,sans-serif">Thanks,<span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:12pt;font-fam=
+ily:Arial,sans-serif">=C2=A0<span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><b><i><span style=3D"font-size:16pt;co=
+lor:purple">Stephen K. Jolley</span></i></b><span style=3D"font-size:12pt;f=
+ont-family:Arial,sans-serif"><span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><b><span style=3D"font-size:8pt;font-f=
+amily:&quot;Courier New&quot;;color:blue">Yocto Project Program Manager</sp=
+an></b></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
+ly:Wingdings;color:black">(</span><span style=3D"font-size:9pt;font-family:=
+&quot;MS Sans Serif&quot;,serif;color:teal">=C2=A0=C2=A0=C2=A0=C2=A0</span>=
+<b><span style=3D"font-size:8pt;font-family:&quot;Comic Sans MS&quot;;color=
+:teal">Cell</span></b><span style=3D"font-size:9pt;font-family:&quot;MS San=
+s Serif&quot;,serif;color:teal">:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 </span><span style=3D"font=
+-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif">(208) 244-4460</span=
+><span style=3D"font-size:12pt;font-family:Arial,sans-serif"><span></span><=
+/span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
+ly:Wingdings">*=C2=A0</span><b><span lang=3D"FR" style=3D"font-size:8pt;fon=
+t-family:&quot;Comic Sans MS&quot;;color:teal">Email</span></b><span lang=
+=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif;=
+color:teal">:</span><span lang=3D"FR" style=3D"font-size:9pt;font-family:&q=
+uot;MS Sans Serif&quot;,serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0</span><u><span=
+ lang=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,s=
+erif;color:blue"><span style=3D"color:rgb(17,85,204)"><a href=3D"mailto:ste=
+phen.k.jolley@intel.com" target=3D"_blank">s</a><a href=3D"mailto:jolley.yp=
+.pm@gmail.com" target=3D"_blank">jolley.yp.pm@gmail.com</a></span></span></=
+u></p></div></div></div></div>
+
+--000000000000fabb9306522ccb71--
 
