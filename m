@@ -2,63 +2,63 @@ Return-Path: <Yash.Shinde.oss.dev@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C3BCD4F5B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52D1DCD5BAB
 	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 17:22:42 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4115.1779211359610313083
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4110.1779211352634050156
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 10:22:39 -0700
+ Tue, 19 May 2026 10:22:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=nf2P3zAu;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: yash.shinde.oss.dev@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c80227c9572so1801416a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 10:22:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=B/P2ZY0A;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: yash.shinde.oss.dev@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-365eecc5885so3581466a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 10:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779211359; x=1779816159; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1779211352; x=1779816152; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZHoRr9A4Ep3SEdxxoBow9zIh9X8sOBqQmReA5UO6Ado=;
-        b=nf2P3zAuWCO+WmpdhUHgiICpZipscSjbNLO0/qJJOj33cxVvwQBV12D46ELSTcnjuO
-         9JRQVAhua2YpWz04bx3rWM5v0ZaR5KasC6B47V1/QyhN95beq5Krf8xxxIjwU4MCNDn4
-         t6p74AeDS6M3rcCQL1lWFQrOr8Qo6hptf9L+Ux4S/8eyEhphZHggmnX0lFrhAPMwEG0J
-         O+Q6oxCeMpMynOOJvlKAgK8kAXhBzuoFzePZ8gmZmS2FjparNICIYjwvUvazEq7qUg6F
-         m7wdE3JgtYT53mqlkoo0C5sbHwjHwPmBaNiBDzwxnQdaGpcem1a+tuYmAsW/agQ3GYi6
-         e57w==
+        bh=lXjw0y0qUwxzPQ2gwyb1OMU+H01htYYnMhWnasztlI4=;
+        b=B/P2ZY0A/EAw9YLJRePScBxeof3EqnGOyaTYr1pSBMQ0122sWxFQ4DNBRzGYgCTKte
+         BI8sEfvMd3iuIlgZEN3nwEH4snFkcdLqpmGVmwwUsK9MBrC6VqsVNdQF3W0GAhAUIygL
+         33KqfDrm/wxXBgi+TCIBT2KPoDtIra0nUdSjovjaHBejN2Luq1MGvb1N0lAiPDuXZHDw
+         7JVRAKXLhuGFaIS9hi9nhD1fpn2gnblob1IOzc4Bo0d1dpJYwfxaYM0c3vAt11wklJqr
+         9GYn1xtQvXzb9Cx9Tvv4D3T6wR7WvnEpwONWLyVlmclFKBnZWCvnBp1xqCohsp5Iofhj
+         dALg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779211359; x=1779816159;
+        d=1e100.net; s=20251104; t=1779211352; x=1779816152;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZHoRr9A4Ep3SEdxxoBow9zIh9X8sOBqQmReA5UO6Ado=;
-        b=cFDlbbb0xUZtWWu80hqtRBTJzqbfQDepaHjVy7hKsLpWp+v+7EJFhiHjqQWQBsR9gA
-         rz10aBzgeRcjU8T3JqdW01U1q6c955VpVJrj8YJIt0nul35u6XpzpOS/jQWCBQI+SAzq
-         V7CEnbuI6ItsN1MV1TKtdyoCm4d/1tr/MEU6p+wiEBQKacyEAEqJErJLcbk5jFvVcBWM
-         0ddg/HMdErPLLoHI/Wpiu+xd+gFN3FS5RfkxhD645TINjQpktNxDN0RLFm5smGHYf+kr
-         vN0xsYzVlctLC24bjumAXOTQ0I4ko+8eoP667jDWUzRPPUMk15GO1H2WVYWT51FnC6kc
-         6+Yg==
-X-Gm-Message-State: AOJu0YwYyG+Mfv8lrxFsJCf5YsZ/vlkdmSbjeuu0dE+Pyht2Khlt2RJj
-	PAbOGauFZitsTBhrG0iFuPC+XdzMFUZg+njY435pFD5LQAWStwVe+vZ5T+mALj4l
-X-Gm-Gg: Acq92OGxQLqLyKwjCS4l/ndMr8PLJUktWfwGuDzArTRTS8tCIpaCFVaU0nYjYEGr2SK
-	zrjKWtb5bYHi8oOQX1/lVg3jLdUO9ukCQsTzMAhC79O3WdLjcWDXPzvfkj0HME+7ExHPU0nXSMj
-	UVaNR9g663oiK9qibPAmWnd1uF75jun7ihV8L/jJTtp5+wMU7l6UyRc9NYyUBC5Ps4KMAspURFi
-	nhEOz1MoGJP+KQKBDIenDYOaquuoErXfgmeGupLxYvPB1xF69scus7Umv6cgXLTbQUz4psYaZ5x
-	oo3f/l5CNzVJK/7bihERHDF54NIh5XG2zsv1OCZatDc2PY0bUQ/WzDtZi/MKCeNnkPQc0O3yzHR
-	JOVFVjpQk5uUwFyJ00i25OeZPeR1+VzvUVAXkr334WtQWKOd2t8DXvY9nHBdyX4dc3IHGiOZT2G
-	UxiFohiO75Q8iRD3B5yUhgLpiKx3waLbMhlpCWUdyMiNOCbf5ye8NE0oTVWw==
-X-Received: by 2002:a17:903:acf:b0:2bc:d1ec:9f09 with SMTP id d9443c01a7336-2bd7e9c9cf1mr223545895ad.40.1779211358975;
-        Tue, 19 May 2026 10:22:38 -0700 (PDT)
+        bh=lXjw0y0qUwxzPQ2gwyb1OMU+H01htYYnMhWnasztlI4=;
+        b=WoBp7XYYLnH0ixY0hPZWpTTtlpgil/cNtv9zEobwXLF7vGctG47i3pVwDotBStRrx7
+         5YUq6CUR3eWboKdqhk9vyxwDkX7u5TFHSmMdr+izrGwMEsz1MsgPNbblNYzVF9Er9Cts
+         N/WnXpL5Hzwey07RbHhkxKBK+4A72PNqW4Z0CragZIQC0QFJvNlsZlSXoRaFtJ58ESYe
+         jAEtpFanCuzhz7lKxuZWyQMbGzRe0ySGrxdvODXY0K3odbFNoRKLGK0TdKPB94IQqC6S
+         nlzaTBbQ/Uuu7502IeOfBNJWqULrJ5mi3NJaFOX45HgNWx8SmlOmNMg67bFECaWxzCe7
+         Ep1Q==
+X-Gm-Message-State: AOJu0YxUWp+35xUSs8I+ljLJj/zkxDJaPnelu+RI+2khGwmyohxd5XRH
+	Y6HIEgV/Flk9KUGpNGcoaNJRUi/sUyl5VPI1Io/l7Sfu9giivWjj4mAw+0jNG69j
+X-Gm-Gg: Acq92OFYfWbRG9tIYVrLqbNHRppHS2wgaWw0SQ20AHzbetexma///ag7EuJVoC93zfA
+	s7TLsndiwyYBJm8Cd2UL29Nr1LExtkewccz1y3xP61iQsm5Sc48UCA0n6seZ33xEfgUlK98Uvq1
+	oNkftUbIhRL06SQI+Q3Ik94WLjU8PNLHyp9N+oGu8hJSDOf/U4SQr3FWqDeOvqPq05IZz9JVfL2
+	gNU8WnWaoy1WMo5VMnW4fOi7uqLmGxViYQfTaHFfRt4ggdQjG/N5Ee3vJ2vCzNreaMZFsfjy++P
+	VSmb67UHNumasIgVp6BQrgkQZI3F84A50kz8vG4TZbhXg3WmtF1EabNkcgimsxsUnOQMUg6tA2P
+	It/5yLD0aM9YLwG5jvwYVEhvibtBv+trhHcK+iPaqa8MZ8QmVvjSXtBolhKaaHx0yT+QQcYi8iM
+	qNJviwc/2rmK2LTSxiJNl9PAFJe+t713wxIbnMUiIkqjBk6SpTTsmiR9W90A==
+X-Received: by 2002:a17:903:46d0:b0:2bd:657f:3a1a with SMTP id d9443c01a7336-2bd7e77ab65mr223800785ad.8.1779211351822;
+        Tue, 19 May 2026 10:22:31 -0700 (PDT)
 Received: from QCOM-V9bhWph2GA.qualcomm.com ([103.172.209.48])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bdc58575dfsm107910735ad.20.2026.05.19.10.22.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bdc58575dfsm107910735ad.20.2026.05.19.10.22.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 10:22:38 -0700 (PDT)
+        Tue, 19 May 2026 10:22:31 -0700 (PDT)
 From: yash.shinde.oss.dev@gmail.com
 X-Google-Original-From: Yash.Shinde.oss.dev@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
-Subject: [PATCH 7/7] python3-urllib3: upgrade 2.6.3 -> 2.7.0
-Date: Tue, 19 May 2026 22:52:05 +0530
-Message-ID: <20260519172205.274641-7-Yash.Shinde.oss.dev@gmail.com>
+Subject: [PATCH 4/7] python3-pip: upgrade 26.1 -> 26.1.1
+Date: Tue, 19 May 2026 22:52:02 +0530
+Message-ID: <20260519172205.274641-4-Yash.Shinde.oss.dev@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260519172205.274641-1-Yash.Shinde.oss.dev@gmail.com>
 References: <20260519172205.274641-1-Yash.Shinde.oss.dev@gmail.com>
@@ -68,78 +68,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 17:22:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237343
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237340
 
 From: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
 
-https://github.com/urllib3/urllib3/releases/tag/2.7.0
-https://github.com/urllib3/urllib3/compare/2.6.3...2.7.0
-
-Drop merged patches:
-- 001-pyproject.toml-remove-setuptools-scm-upper-limit.patch
+https://github.com/pypa/pip/compare/26.1...26.1.1
+Release Notes: https://pip.pypa.io/en/stable/news/#v26-1-1
 
 Signed-off-by: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
 ---
- ...ml-remove-setuptools-scm-upper-limit.patch | 30 -------------------
- ...lib3_2.6.3.bb => python3-urllib3_2.7.0.bb} |  6 +---
- 2 files changed, 1 insertion(+), 35 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-urllib3/0001-pyproject.toml-remove-setuptools-scm-upper-limit.patch
- rename meta/recipes-devtools/python/{python3-urllib3_2.6.3.bb => python3-urllib3_2.7.0.bb} (83%)
+ .../python/{python3-pip_26.1.bb => python3-pip_26.1.1.bb}       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pip_26.1.bb => python3-pip_26.1.1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3/0001-pyproject.toml-remove-setuptools-scm-upper-limit.patch b/meta/recipes-devtools/python/python3-urllib3/0001-pyproject.toml-remove-setuptools-scm-upper-limit.patch
-deleted file mode 100644
-index 62c7e3d68d..0000000000
---- a/meta/recipes-devtools/python/python3-urllib3/0001-pyproject.toml-remove-setuptools-scm-upper-limit.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 7a4a7fddff72413bac190ad14bca8fca2d1461e3 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Miro=20Hron=C4=8Dok?= <miro@hroncok.cz>
--Date: Wed, 1 Apr 2026 19:09:22 +0200
--Subject: [PATCH] Allow using setuptools_scm 10 (#4954)
--
--Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/166f66faa5ef23e255f654e8c6b66ad8590fe630]
--
--It works in Fedora, so I hope it will work upstream as well.
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- pyproject.toml | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/pyproject.toml b/pyproject.toml
--index 45538a6e..d2607c78 100644
----- a/pyproject.toml
--+++ b/pyproject.toml
--@@ -1,7 +1,7 @@
-- # This file is protected via CODEOWNERS
-- 
-- [build-system]
---requires = ["hatchling>=1.27.0,<2", "hatch-vcs>=0.4.0,<0.6.0", "setuptools-scm>=8,<10"]
--+requires = ["hatchling>=1.27.0,<2", "hatch-vcs>=0.4.0,<0.6.0", "setuptools-scm>=8,<11"]
-- build-backend = "hatchling.build"
-- 
-- [project]
---- 
--2.53.0
--
-diff --git a/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb b/meta/recipes-devtools/python/python3-urllib3_2.7.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-urllib3_2.6.3.bb
-rename to meta/recipes-devtools/python/python3-urllib3_2.7.0.bb
-index b8028efece..9e73a49bca 100644
---- a/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_2.7.0.bb
-@@ -3,11 +3,7 @@ HOMEPAGE = "https://github.com/urllib3/urllib3"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
+diff --git a/meta/recipes-devtools/python/python3-pip_26.1.bb b/meta/recipes-devtools/python/python3-pip_26.1.1.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-pip_26.1.bb
+rename to meta/recipes-devtools/python/python3-pip_26.1.1.bb
+index a6275be140..2e09075de2 100644
+--- a/meta/recipes-devtools/python/python3-pip_26.1.bb
++++ b/meta/recipes-devtools/python/python3-pip_26.1.1.bb
+@@ -26,7 +26,7 @@ inherit pypi python_setuptools_build_meta
  
--SRC_URI[sha256sum] = "1b62b6884944a57dbe321509ab94fd4d3b307075e0c2eae991ac71ee15ad38ed"
--
--SRC_URI += "\
--    file://0001-pyproject.toml-remove-setuptools-scm-upper-limit.patch \
--"
-+SRC_URI[sha256sum] = "231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c"
+ SRC_URI += "file://no_shebang_mangling.patch"
  
- inherit pypi python_hatchling
+-SRC_URI[sha256sum] = "81e13ebcca3ffa8cc85e4deff5c27e1ee26dea0aa7fc2f294a073ac208806ff3"
++SRC_URI[sha256sum] = "d36762751d156a4ee895de8af39aa0abeeeb577f93a2eca6ab62467bbf0f8a78"
  
+ do_install:append(){
+ 	# pip vendors distlib which ships Windows launcher templates (*.exe).
 
