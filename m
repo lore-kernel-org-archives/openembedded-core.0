@@ -1,267 +1,175 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <saisneha196@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0BECD4851
-	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 10:04:59 +0000 (UTC)
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18030.1779185089201014476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77902CD4F57
+	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 10:09:19 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17799.1779185356405889776
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 03:04:49 -0700
+ Tue, 19 May 2026 03:09:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=rEJkdGUl;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=s5ecLDth;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 37499140006D;
-	Tue, 19 May 2026 06:04:48 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Tue, 19 May 2026 06:04:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1779185088; x=1779271488; bh=RDKYi74Hfy
-	1vQNw3pp4C0JJKfr9NM4IXhocdRWa1Qhk=; b=rEJkdGUlavprrmw4OVlP/jnqd9
-	I/woyU/uc0zKHV0CLb4KERk/14rTrbNO4ix1tZwzdjfArdJuvsApJ93vZ8Pg4gbH
-	da/N6NvSTgXPN+v1YO8//j5Xmm+rNCuB67PgMCYFC4ApAUUQyORhHedUwlWRRYiE
-	ACPBBRLmbEm6unJyx6UxKQrJ632AJ8UIASaR8HCrLaLUEN+jwyyo9yJIR3TgKpDc
-	0kxrAGpWB5IGlnUZLti81MmfhFBXxvR/l1kPpaW+KmnPhLrzg3BROH/1SaOmf+3o
-	wBBvlvCamsVLaV7ImD3FKEsXuthfV/xxOJJ2MEECx0dokckwqldbTHLz6uJA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1779185088; x=1779271488; bh=RDKYi74Hfy1vQNw3pp4C0JJKfr9NM4IXhoc
-	dRWa1Qhk=; b=s5ecLDthg+WF+czhFdB6flLlvCgycY+D6RYVMf4X39ryCtWjgEq
-	fMBt39aGBWB4s/O5jnYW0VlKjTpkIDMbjoaN3gX8yTFpVDZbUbUN5ZVZyNYGLB9A
-	LqBQAv4wLu1XgCKSYM4fXxIE8Hncenr0OfLRch/YfwbL1+OwxmlUB0Z+4rWO9Vr8
-	q34/LosxBLHP9BWC2QdZPoIYHKAPYQYIhUCn3soOv/RCj/Z+Xn1njC5ADXSPHIV6
-	zo8d3DYIwwakiShAe/72gt+e6UrFJRSQQIOJtSGy8hjvVrn65W2HTcC0o+/jNRHp
-	IogQI22M0owcPaMKih+4VLfsXVfJ+OUth8Q==
-X-ME-Sender: <xms:vzUMaiOfgREPNCP0tVVNuEmxDWfXso2PNwm7M24GZukc4hcEoc7L0A>
-    <xme:vzUMan_0nFpJJPPxEbAPYa9l198VL2RsbsJkczwIFpwxkSpO5ee2XBl1whpF-kdgi
-    DmEObpj24FCr6jlB-5d98bRWXxJpLsvLmbNM9TC9hM3u_1EbfmiZbE>
-X-ME-Received: <xmr:vzUMauRBfI24gcPh4QEh6a1VSU1K4t1ylQpEkUcOBQBfK0IAkE0lUO0FmqGy15iRr1HLJ_NwsAB-WR3cH4C3fvvpDh8WdWr13WShb9iZq5hX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugedugeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
-    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    epffeiudegffegkeduveegvdefgeevhefhteeuleevkedttddvueeufeefheeivdejnecu
-    ffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtg
-    htrdhorhhgpdhgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgr
-    rhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtg
-    hpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhgrmhhinhgplhhi
-    nhesrghsphgvvgguthgvtghhrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvg
-    guqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthht
-    ohepthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomhdprhgtphhtthhopehvih
-    hntggvpggthhgrnhhgsegrshhpvggvughtvggthhdrtghomh
-X-ME-Proxy: <xmx:vzUMahn0ajDnC9OPr2aioCAR0QkpK_9hvtuvaXShW6ZNrBt5wQiqlg>
-    <xmx:vzUMamSaJRdozJYG2TrMqRN9p-4gqG7S1AOOKJJ8VuwLjitp2dSXfw>
-    <xmx:vzUManPifv7YDFXibmTAN4kLZcxb6y7lKwwPPQRlFC3VQ0pqAOs1og>
-    <xmx:vzUManXQaF9DPRc5kRuArKOWTKFaTKxviGrS3gzvJIUmQ9sVVsmTFQ>
-    <xmx:wDUMakIs3Iu5RpEKzD2o4mNl5kFUVJ8JRt_a9D1yhOVBVnRVuQODkDBe>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 19 May 2026 06:04:47 -0400 (EDT)
-Message-ID: <1b23a714bd45226cba3644356fb60dc861723ab1.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v1 1/2] externalsrc: Handle nested git repos
- from multiple SRC_URI entries
-From: Paul Barker <paul@pbarker.dev>
-To: jamin_lin@aspeedtech.com, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: Troy Lee <troy_lee@aspeedtech.com>, Vince Chang
- <vince_chang@aspeedtech.com>
-Date: Tue, 19 May 2026 11:04:44 +0100
-In-Reply-To: <TYPPR06MB8206BFFB5A9D2CB2989F16F1FC002@TYPPR06MB8206.apcprd06.prod.outlook.com>
-References: <20260515093615.126849-1-jamin_lin@aspeedtech.com>
-	 <20260515093615.126849-2-jamin_lin@aspeedtech.com>
-	 <ea944ab1b8149e83b522e0c315b6436f6142da5c.camel@pbarker.dev>
-	 <TYPPR06MB8206BFFB5A9D2CB2989F16F1FC002@TYPPR06MB8206.apcprd06.prod.outlook.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-G/U7UjlDNkkIpM/988Ap"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=dHglEcOh;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: saisneha196@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c7980c060cfso1456746a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 03:09:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779185355; x=1779790155; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LdC2ZMQgTU/wA9yLZoJVEmDnvopQ7g42B5yw8JMOBdg=;
+        b=dHglEcOhZsAvWKdMPo5Z71g7aMhd8o7kTCLHWECl+miLR/9H6yAnKbkVe61UKeZ7dN
+         Dxbb1OPyR0B2sZYIJouaFFGToric7eRpd/FwyEXM71U0KBBtm8fg1+apT+UFqgH/iIVO
+         xVpABSMQTbXiFjJsPUgMLxSWWM/XB/UgoVNpgaeG+WVJFyJ94vaOCr42fK/ZUolqo61/
+         dMwTW31jcfHWZ9kmtwS9X9VcRa7y06ZPQYPtPnwYMLfXuOxUzEi54ckuRImt55UQdDH2
+         pfgR7P12yOfjxMSV6t6n2V94wYUwRp1bQSzj3nENtIPtAYqNYuPfqeYsbs+UQk5gYDFI
+         cHXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779185355; x=1779790155;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LdC2ZMQgTU/wA9yLZoJVEmDnvopQ7g42B5yw8JMOBdg=;
+        b=EHLm35OwtAzY4C4GtNWPMYep0djMLIVozLoMxP7e2WE6jj8XyVXz+rwWOrgySu76yg
+         VHMZlTiV7MfBhsmjGa2wFvxTRgnFkmkIsB4xSBewv6Ax3lGOGmGl3Y5iGW2GGEev3OZ1
+         xDMzJRI4GgnrNi3ppyGlytLTEQwzwE55h6GrstlmtMv8sxdDgvDRR+Ek3/shfcgpr3ox
+         Y5oCY/+v/dIdET+gX/nHfbMoeU7D4RPhS9rMxRk6tPaA0RyLuAl1Z1GoSoDVMbv7XfKx
+         LqXU6J2CVt4iZnKL+bK8SAfOu6kdgl0tIPHAFOGOqDcB04KlrCyehX2Xqktsjn92bQIg
+         halg==
+X-Gm-Message-State: AOJu0Yxafp1HXHA55ZhDRPotL9S1EsosZ4K4OGtR/VvryLSO58TP8CJ/
+	u8VT/X2eucGwPXKmS2FkVWPE2sEtHGKKuQrotx6AImUTubPhLixVSqlaMCHwrLkx
+X-Gm-Gg: Acq92OFwlmFmWuDyFtRLuIwqipaIu875VXWGOX+eCbzTeNbtj5hmtzPqmhzaAQ6rsAx
+	SfklA1YMhmqlxub5EQrOK/vhB2Q64KqDPTOT6O2ME12CTQvKaygtYghkkOv3xRnTJIT+ph8pMhZ
+	YQ2fdMibc9pIo9TEx/utReYPVQJDG5qPQo2AJCWxvUyqU/UMUKZ5Q+P7XlBk/EeQivuNj+5wOIk
+	GBtkLs/pQoY8QyBzxFHe+nNV4ZlWqzMLAU05Qh8vi0rryPpDJC7u/xkYPKeOyoK0koUu8ZjsghJ
+	cVrb6QAZuTcsSOFlug8UEsMFxIYOaAY3fIKGmgFkwv6xp+o5R9mLArEHcbtJRPkDtzSz3Jivq1X
+	ZgObKYiFdhHq+pLEu+NKpaswE9u9q8uugauuNy6NSe7YjE7uMcQ6/yViZexQL7CxVgh0j13QAuq
+	uoppykYdLAbhHT4ZZpJkdfp/AZv/je2mD50YhrOxWu8Ad80A==
+X-Received: by 2002:a17:902:7083:b0:2bd:3bfd:7512 with SMTP id d9443c01a7336-2bd7e9381bdmr144370995ad.29.1779185355218;
+        Tue, 19 May 2026 03:09:15 -0700 (PDT)
+Received: from BLR1RLPT00004.localdomain ([152.57.112.62])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0fc2bdsm231081355ad.63.2026.05.19.03.09.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 03:09:14 -0700 (PDT)
+From: Sai Sneha <saisneha196@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: yoann.congal@smile.fr,
+	corentin.guillevic@smile.fr,
+	Sai Sneha <saisneha196@gmail.com>
+Subject: [PATCH v2 0/3] Add missing SRCREV check for SCM URIs
+Date: Tue, 19 May 2026 15:39:01 +0530
+Message-Id: <20260519100904.235971-1-saisneha196@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 10:04:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237299
+ <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 10:09:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237300
 
+This patch series adds a check for git:// (and other SCM) URIs in
+SRC_URI that are missing a corresponding SRCREV, addressing
+Bugzilla #16051 [1] and building on Corentin Guillevic's RFC series [2].
 
---=-G/U7UjlDNkkIpM/988Ap
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+== Problem ==
 
-On Tue, 2026-05-19 at 06:28 +0000, Jamin Lin via lists.openembedded.org
-wrote:
-> Hi Paul,
->=20
-> > Subject: Re: [PATCH v1 1/2] externalsrc: Handle nested git repos from m=
-ultiple
-> > SRC_URI entries
-> >=20
-> > On Fri, 2026-05-15 at 09:36 +0000, Jamin Lin wrote:
-> > > When a recipe uses multiple git SRC_URI entries with different
-> > > destsuffix values (e.g. Zephyr-based recipes with separate repos for
-> > > the kernel, modules, and application), each source is unpacked into a
-> > > subdirectory of EXTERNALSRC that retains its own .git directory.
-> > >=20
-> > > srctree_hash_files() calls 'git add -A .' at the EXTERNALSRC root,
-> > > which fails with exit code 128 when git encounters these unregistered
-> > > nested git repositories, halting the bitbake parse phase.
-> >=20
-> > Is this true? The documentation for `git add` [1] talks about issuing a=
- warning
-> > when this occurs, not an error, and in some quick local testing I get a=
- successful
-> > exit (exit code 0) when I try this.
-> >=20
->=20
-> Please try the "zephyr-helloworld" package.
->=20
-> This recipe uses multiple Git repositories in "SRC_URI", and I can reprod=
-uce the issue with this package:
->=20
-> https://git.yoctoproject.org/meta-zephyr/tree/meta-zephyr-core/recipes-ke=
-rnel/zephyr-kernel/zephyr-kernel-src-4.3.0.inc=20
->=20
-> Steps to reproduce:
->=20
-> 1. git clone https://github.com/openembedded/bitbake.git
-> 2. git clone https://github.com/openembedded/openembedded-core.git
-> 3. git clone https://git.yoctoproject.org/meta-zephyr
-> 4. git clone https://github.com/openembedded/meta-openembedded.git
-> 5. source openembedded-core/oe-init-build-env build
-> 6. Edit build/conf/bblayers.conf and add the following layers:
->=20
->    * meta-openembedded/meta-python
->    * meta-zephyr/meta-zephyr-core
->    * meta-openembedded/meta-oe
-> 7. devtool modify zephyr-helloworld
-> 8. bitbake -c cleanall zephyr-helloworld
-> 9. bitbake zephyr-helloworld
->=20
-> After that, the following parser error occurs, and the package can no lon=
-ger be built:
->=20
-> ```text
-> jamin_lin@aspeed-fw02:~/oe-review/build$ bitbake zephyr-helloworld
-> Loading cache: 100% |####################################################=
-###########################################################################=
-##########################################################################|=
- Time: 0:00:01
-> Loaded 4949 entries from dependency cache.
-> ERROR: ExpansionError during parsing /home/jamin_lin/oe-review/meta-zephy=
-r/meta-zephyr-core/recipes-kernel/zephyr-kernel/zephyr-helloworld.bb
-> bb.data_smart.ExpansionError: Failure expanding variable do_compile[file-=
-checksums], expression was ${@srctree_hash_files(d)} which triggered except=
-ion CalledProcessError: Command '['git', 'add', '-A', '.']' returned non-ze=
-ro exit status 128.
-> The variable dependency chain for the failure is: do_compile[file-checksu=
-ms]
->=20
-> ERROR: Parsing halted due to errors, see error messages above
-> Parsing recipes:   0% |                                                  =
-                                                                           =
-                                                                         | =
-ETA:  --:--:--
-> Summary: There were 2 ERROR messages, returning a non-zero exit code.
-> ```
+A recipe with a git:// URI and no SRCREV causes two problems:
 
-Following these steps I see the same error. But the cause is not the
-nested git repositories. `bitbake -c cleanall ...` has deleted the
-sources from the downloads directory, but the devtool workspace is still
-referencing the deleted sources. Even a `git status` command in the
-zephyr-helloworld sources directory fails:
+1. Under BB_NO_NETWORK=1, parsing fails with a FetchError that halts
+   parsing of ALL recipes, not just the offending one. This breaks CI
+   pipelines that use "bitbake --parse-only" as a sanity check, which
+   was the original motivation reported by Ross Burton [3].
 
-  $ git -C workspace/sources/zephyr-helloworld status
-  error: unable to normalize alternate object path: /home/pbarker/bitbake-b=
-uilds/.bitbake-setup-downloads/git2/github.com.zephyrproject-rtos.mcuboot//=
-objects
-  error: unable to normalize alternate object path: /home/pbarker/bitbake-b=
-uilds/.bitbake-setup-downloads/git2/github.com.zephyrproject-rtos.mcuboot//=
-objects
-  error: unable to normalize alternate object path: /home/pbarker/bitbake-b=
-uilds/.bitbake-setup-downloads/git2/github.com.zephyrproject-rtos.mcuboot//=
-objects
-  error: unable to normalize alternate object path: /home/pbarker/bitbake-b=
-uilds/.bitbake-setup-downloads/git2/github.com.zephyrproject-rtos.mcuboot//=
-objects
-  fatal: bad object HEAD
-  fatal: 'git status --porcelain=3D2' failed in submodule bootloader/mcuboo=
-t
+2. Without BB_NO_NETWORK, BitBake silently queries the remote
+   repository on every parse, breaking reproducibility.
 
-If I replace step 8 with `bitbake -c cleansstate ...` then there is no
-parse error.
+== Why the trivial fix doesn't work ==
 
-What we need to fix is the interaction between `devtool modify` and
-`bitbake -c cleanall`. Perhaps devtool needs to detect this broken state
-and tell the user how to fix it - simply running `bitbake -c fetch
-zephyr-helloworld` isn't possible as the metadata can't be parsed.
+The obvious fix of checking SRCREV in insane.bbclass do_recipe_qa
+was attempted by Corentin Guillevic [2] but fails because
+fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV at parse time
+BEFORE QA checks run. This triggers get_autorev() which causes:
 
-Best regards,
+  "AUTOREV/SRCPV set too late for the fetcher to work properly"
 
---=20
-Paul Barker
+This was confirmed by Mathieu Dubois-Briand's autobuilder testing [2].
+Corentin's series needed 4 patches including devtool/recipetool
+workarounds to paper over the expansion crash.
 
+== This series' approach ==
 
---=-G/U7UjlDNkkIpM/988Ap
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+We intercept at the vardepvalue expansion point itself in base.bbclass:
 
------BEGIN PGP SIGNATURE-----
+  fetcher_hashes_dummyfunc[vardepvalue] = \
+    "${@bb.fetch.get_hashvalue(d) if check_srcrev_set(d) else ''}"
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCagw1vBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bhRzAQDciw6ub88+Ar6oQRmCUeyU5id6BXlauUsl
-gvVoQCIXagEAiAhrlThYLrGAx6qB4AX2Uen49ROxzJvNTMwWNwiP4QQ=
-=ydwM
------END PGP SIGNATURE-----
+check_srcrev_set() uses d.getVar(candidate, False) — the False flag
+prevents expansion entirely, so get_autorev() is never triggered and
+no network access occurs. This solves the root cause in one patch
+without needing devtool/recipetool changes.
 
---=-G/U7UjlDNkkIpM/988Ap--
+== Design decisions ==
+
+1. Why not use srcrev_internal_helper()?
+
+   srcrev_internal_helper() expands SRCREV internally, which triggers
+   get_autorev() and live git ls-remote calls — exactly what we are
+   trying to prevent. We intentionally use d.getVar(candidate, False)
+   instead. Our fallback chain mirrors BitBake's resolution order
+   exactly, as confirmed by BitBake's own error messages:
+     SRCREV_default:pn-X, SRCREV_default, SRCREV:pn-X, SRCREV
+
+2. Why duplicate warnings at parse time AND QA time?
+
+   Parse-time warnings (base.bbclass) are necessary for CI pipelines
+   running "bitbake --parse-only" with BB_NO_NETWORK=1 — they would
+   miss the issue entirely if only QA-time warnings existed.
+   QA-time warnings (insane.bbclass) are necessary for proper
+   WARN_QA/ERROR_QA layer control and QA framework integration.
+   This pattern is already established — src-uri-bad fires at both
+   parse and QA time.
+
+3. Why hardcode git/gitsm/hg/svn schemes?
+
+   These are the fetchers that require SRCREV. This is a known
+   limitation — if new SCM fetchers are added in future, this list
+   will need updating. Noted as a follow-on improvement.
+
+== Enforcement levels ==
+
+  Normal builds, all layers  →  WARN_QA   (warning, build continues)
+  oe-core layer              →  ERROR_QA  (error, strict enforcement)
+  yocto-check-layer runs     →  ERROR     (layer validation fails)
+
+This matches the graduated enforcement requested in Bug 16051
+Comments 2 and 3.
+
+== Testing ==
+
+Tested on openembedded-core with:
+
+- Recipe with missing SRCREV → WARNING/ERROR at parse time ✓
+- Recipe with SRCREV = "${AUTOREV}" → silent passthrough ✓
+- Recipe with rev= in URI → no false positive ✓
+- Recipe with multiple SCM URIs → all missing SRCREVs reported ✓
+- oe-core recipe → ERROR instead of WARNING ✓
+- yocto-check-layer on layer with missing SRCREV → FAIL ✓
+- 952 other recipes parse cleanly → 0 errors ✓
+
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=16051
+[2] https://lore.kernel.org/openembedded-core/20260304104342.869457-1-corentin.guillevic@smile.fr/
+[3] https://lists.openembedded.org/g/openembedded-devel/topic/115911777
+
+Sai Sneha (3):
+  base.bbclass: warn when SRCREV is missing for SCM URIs at parse time
+  insane.bbclass: add missing-srcrev QA check for SCM URIs
+  yocto-check-layer.bbclass: enforce missing SRCREV check during layer validation
+
+ meta/classes-global/base.bbclass             | 40 +++++++++++++++++++
+ meta/classes-global/insane.bbclass           | 32 +++++++++++++++
+ meta/classes-global/yocto-check-layer.bbclass| 32 +++++++++++++++
+ 3 files changed, 104 insertions(+), 2 deletions(-)
+
 
