@@ -1,122 +1,154 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <martin@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C863CD4F5E
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 06:39:48 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6157.1779259181781548656
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74F88CD4F5E
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 06:49:58 +0000 (UTC)
+Received: from mail-244119.protonmail.ch (mail-244119.protonmail.ch [109.224.244.119])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6244.1779259789812635851
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 23:39:42 -0700
+ Tue, 19 May 2026 23:49:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Wl75rUgA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-44c350a5b87so2649525f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2026 23:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1779259180; x=1779863980; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vn7gbpPhPvVKVpq3Usskl/SqniMkpPjNafvUGw7tpAk=;
-        b=Wl75rUgAz4PBNYPDPAclje3szUIZnvwxvQTQ/dvUaA4+v2deqf8xDAW59U9HHDtxUE
-         jeDGMG9yyBNI44DlbeJOt2AtSTzYczXRjGmuKI/Ai+5qk2pMyq1cv0VM/KKXvvhr4eUz
-         5/hWZzvg9APgE+A1gZ0LonZ5Ej9RIPXWv/4f8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779259180; x=1779863980;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vn7gbpPhPvVKVpq3Usskl/SqniMkpPjNafvUGw7tpAk=;
-        b=iodt5VtsJN9vm5C6hYwS1V+2CzP8JiRCbvIDCasSvPMi7d2EDLes0Nfek3eLd27SI0
-         rWqp2ros9ie7Z8vn2LR7VAyMhIUWTRjQjpH3zIqXTBMdnK4Q+zFTdh8ERzv3yIywzhct
-         /kY/9F5EY6Z/gBNxdCfvX8eARmScbDWuqOSMbXNG61SXprGcBKoUwe8QWnrfoUQ4jGb5
-         2qxvr5TIRiTaURXgVAebYKBTCJq7ERN1UlJedrq6/LkrgGUaQMM8ZbrG81BRCYY2v9aN
-         1Ywl3swsWfnTuUlalSs+FZIdq1v5WBmWkUgt6pVc9dVRidF28RfVo8tFm+SyJx8zMmdH
-         zCZw==
-X-Forwarded-Encrypted: i=1; AFNElJ/W3xFgOqrDcSPk1tBSvuIg0EeT1xfWmfGW4ZWbhKdPypaGjwobykOv2QMXOkL7vhMabaKR1Koub808xEje+r6GTA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy5sJGObC3/M8i8n9ANnz7SoKjMDCKYUTe8BHo0XvESwQcp1x9c
-	oI7e/Y10Gf1lrow0Yui5G2clU/C4hw9BLogHT70SDUVxfUD3+sQfNEnaOz1wc9JWwu+eb5unLf4
-	34s84
-X-Gm-Gg: Acq92OFJpVkh9iB9L3eDwJM5n7MYfmX8Jc+bDZc4gex4Rx7PBBq0/qy0+xYmqYRXm6t
-	1MDmTdBD1m5GhasgXoMbsGnF9daFMJPhexhWTbj5xwyFaw3D40v7mDWXhFrhZOxNlomHq31WlpF
-	qFPTrGu4UIMJloeWcC5bzHUCBHDltWKbxr4toxgXikzzssFnEj41TJvuenMDXvF2jA28wGvg3nk
-	phwKAD4LNwV9yE4RrNYN7YOuthxDEiTGrDEVbOWNzVn91a7HcGoLrJiWFeFU+pwnxVlN2p149Nb
-	X5HGBxQVx0VHQzAUp43x68UresSH8CmLUmmGQYMmLtNWjOFAnVWgNJiE1GCea33tnJQgKp6SBjy
-	iWeIQ+i8oIrcjb0Q34s2q1JiMAUpYImKBkcmCfYZxb27iqpxN/354obr6KIllLdHgVzkWy1/y9M
-	3Y/33/w+q/kOBJHbXe1cqUjHZV9il+SqIPDA6IqapYjzVWz2vKoKvs2e2Lac2r3dl+w0AELhUBf
-	Fw54qpa/IszVgCd0mpPePRQ5TM=
-X-Received: by 2002:a05:6000:24c5:b0:45a:cea8:e4b2 with SMTP id ffacd0b85a97d-45e5c5ebcdfmr35278867f8f.29.1779259179883;
-        Tue, 19 May 2026 23:39:39 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ba52:db3d:42e4:2c0d? ([2001:8b0:aba:5f3c:ba52:db3d:42e4:2c0d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec3ac86sm50945293f8f.14.2026.05.19.23.39.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 23:39:39 -0700 (PDT)
-Message-ID: <ee09cd976a5a301e7ed4eb6a3c419eb05e965508.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] perf: disable BUILD_BPF_SKEL when rust in
- kernel feature is enabled
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Wed, 20 May 2026 07:39:36 +0100
-In-Reply-To: <20260519152512.662193-1-Harish.Sadineni@windriver.com>
-References: <20260519152512.662193-1-Harish.Sadineni@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@geanix.com header.s=protonmail3 header.b=NM5MUFgT;
+ spf=pass (domain: geanix.com, ip: 109.224.244.119, mailfrom: martin@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
+	s=protonmail3; t=1779259787; x=1779518987;
+	bh=R+cv2NoxgQOUcPlP4fsNGJnM3WXIC+CbPmYbAJ8XTco=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=NM5MUFgT3y2F+WOyaXq3sWXtL9gzg5Ync2wRv8BrdYDCahgocK2uqWDU43ANAmo47
+	 PVsKdnSB3Zr9ew2XxwmiRUysgenuTgyXc63RejvgQ+0z8/Xb8KzRtvCeyBNxXXe0An
+	 vmqEAQAf5vARkU3/f1W3c66lR0gVrQVpAxH3E+almsGZrewfU1YSRtnmxT4CCqDVp2
+	 PmgK6of2E7LjNlm4i+i2CdbxxcjIx+qsohsLsN3nxt2M90NQvvXFtK11eHQiq2mbku
+	 0Xw6MCQWk1AUJDiGwx2THNiH+mm13Tlwh52q/KGMK73vhlqklbRnq92Rk3BpOcjxt2
+	 i5dxGM2dwOU/g==
+Date: Wed, 20 May 2026 06:49:44 +0000
+To: saisneha196@gmail.com, openembedded-core@lists.openembedded.org
+From: =?utf-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
+Cc: yoann.congal@smile.fr, corentin.guillevic@smile.fr
+Subject: Re: [OE-core] [PATCH v2 1/3] base.bbclass: warn when SRCREV is missing for SCM URIs at parse time
+Message-ID: <f20494c00d7948b9d1f59390afaee73449f71d83.camel@geanix.com>
+In-Reply-To: <20260519100904.235971-2-saisneha196@gmail.com>
+References: <20260519100904.235971-1-saisneha196@gmail.com> <20260519100904.235971-2-saisneha196@gmail.com>
+Feedback-ID: 134068524:user:proton
+X-Pm-Message-ID: e4d2631189b814df5f3d544b7c86f0605ac84a39
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 06:39:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237384
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 06:49:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237385
 
-On Tue, 2026-05-19 at 08:25 -0700, Sadineni, Harish via lists.openembedded.=
-org wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->=20
-> Enabling the Rust in-kernel feature pulls in clang-native as a
-> dependency for the kernel build. During the perf build, the presence of c=
-lang
-> causes all BUILD_BPF_SKEL dependency checks to succeed, which makes perf =
-attempt
-> to build bpftool as part of its build process and make build to fail.
->=20
-> Previously, When Rust support was not enabled, BUILD_BPF_SKEL is set 0 du=
-e to missing
-> clang dependency.
->=20
-> Error:
-> > make[3]: *** ../bpf/bpftool: No such file or directory.=C2=A0 Stop.
->=20
-> As a workaround currently disabling BUILD_BPF_SKEL to make perf to build.
->=20
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
-> =C2=A0meta/recipes-kernel/perf/perf.bb | 6 ++++++
-> =C2=A01 file changed, 6 insertions(+)
->=20
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/=
-perf.bb
-> index c3ef25fd99..6e4d395828 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -438,3 +438,9 @@ perf_fix_sources () {
-> =C2=A0		fi
-> =C2=A0	done
-> =C2=A0}
-> +
-> +# Disable BUILD_BPF_SKEL when the Rust kernel feature is enabled.
-> +# Rust in kernel support pulls in clang-native, which satisfies the
-> +# BUILD_BPF_SKEL dependency checks and causes perf to attempt
-> +# building bpftool, resulting in a build failure.
-> +EXTRA_OEMAKE +=3D "${@bb.utils.contains('KERNEL_FEATURES', 'rust', 'BUIL=
-D_BPF_SKEL=3D0', '', d)}"
+Hi Sai,
 
-Wouldn't you disable that unconditionally, or add a PACKAGECONFIG for
-it which we just disable by default?
+On Tue, 2026-05-19 at 15:39 +0530, Sai Sneha via lists.openembedded.org
+wrote:
 
-Cheers,
+<snip>
 
-Richard
+> +def check_srcrev_set(d):
+> +=C2=A0=C2=A0=C2=A0 import bb.fetch2
+> +=C2=A0=C2=A0=C2=A0 src_uri =3D (d.getVar('SRC_URI', False) or '').split(=
+)
+> +=C2=A0=C2=A0=C2=A0 pn =3D d.getVar('PN')
+> +=C2=A0=C2=A0=C2=A0 found_issue =3D False
+> +=C2=A0=C2=A0=C2=A0 for uri in src_uri:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (sche=
+me, _, _, _, _, params) =3D bb.fetch2.decodeurl(uri)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except Exception:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 conti=
+nue
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if scheme not in ('git', 'git=
+sm', 'hg', 'svn'):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 conti=
+nue
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if params.get('rev', ''):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 conti=
+nue
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 name =3D params.get('name', '=
+') or 'default'
+
+Use
+    name =3D params.get('name', 'default')
+
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 candidates =3D [
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'SRCR=
+EV_%s:pn-%s' % (name, pn),
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'SRCR=
+EV_%s' % name,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'SRCR=
+EV:pn-%s' % pn,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'SRCR=
+EV',
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ]
+
+Consider using f-strings here:
+
+    candidates =3D [
+        f'SRCREV_{name}:pn-{pn}',
+        f'SRCREV_{name}'
+        f'SRCREV:pn-{pn}'
+        'SRCREV'
+    ]
+
+Maybe also reverse the list, so plain 'SRCREV' is tested first, as that
+is the most common variable used for SCM revision.
+
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raw =3D None
+
+Why is this variable named 'raw'? Should it be 'rev'?
+
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for candidate in candidates:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raw =
+=3D d.getVar(candidate, False)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ra=
+w:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 break
+
+I would use a `for-else` block:
+
+    for candidate in candidates:
+        rev =3D d.getVar(candidate, False)
+        if rev and rev =3D=3D 'INVALID':
+            break
+    else:
+       # report and return error
+
+    return False
+       =20
+
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not raw or raw =3D=3D 'INV=
+ALID':
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 found=
+_issue =3D True
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if bb=
+.utils.contains('ERROR_QA', 'missing-srcrev', True,
+> False, d):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 bb.error("%s: %s not set for %s" % (pn, candidates[-
+> 1], uri))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 elif =
+bb.utils.contains('WARN_QA', 'missing-srcrev',
+> True, False, d):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 bb.warn("%s: %s not set for %s" % (pn, candidates[-
+> 1], uri))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 elif '${AUTOREV}' in raw:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
+n True
+> +=C2=A0=C2=A0=C2=A0 return not found_issue
+
+I'm confused about the return value of this function. Add a short doc-
+string explaining what is indicated by True and False.
+
+Also, drop the use of the `found_issue` variable, and reorder the code
+to return 'True' or 'False' directly from the right places.
+
+// Martin
+
 
