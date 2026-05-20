@@ -1,312 +1,300 @@
-Return-Path: <jamin_lin@aspeedtech.com>
+Return-Path: <vpuar@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75B0ECD4F54
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 03:25:55 +0000 (UTC)
-Received: from TYPPR03CU001.outbound.protection.outlook.com (TYPPR03CU001.outbound.protection.outlook.com [52.101.126.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4272.1779247548441905296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0E0CD4F54
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 05:11:55 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5434.1779253914453687082
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 20:25:49 -0700
+ Tue, 19 May 2026 22:11:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=UYy8Szj6;
- spf=pass (domain: aspeedtech.com, ip: 52.101.126.141, mailfrom: jamin_lin@aspeedtech.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Cx1NcyFc1xm+bOenZI+sMbe4K2mX4smDXZvri+T6itnKjefavmMLg5rJCOxh67cIDJh+niC425mE+IDDPKfd0k/BZ8JziEM7JIDcAm5hBEnPjfREVtnNk7e1VKK4GS5RH/DrMwDN1pwobsmQ8PWjp/JcFlnbid/TGqx1z1CKymVhhGUXDSZvdwPH3wE+Ly+qp/58F+U8Wu8R6X0xbpvgEbq+JCcYoinaEX6rHu9ZXQXUimpUjZBIGHiaZQdmsZ9s/JVEgQ4JbXCClz+7upBLEwUCdVnnW66uwIKoUdSCKYZIwBFhs2tmdhIlclbMIar1Qs4RbvWhxcoDXu9vN1tOlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sB/RU+ZwTET8fVZsjbfE/ya2Zi9yvuzpfbt6ew+CXl0=;
- b=MH9rctga5jMR+wmoDPscmMq9LGxeTioUZw1ZK7Z6kWRf6lVu6Zwu9m67L0RABWZGXHPQTtISAVODwnRdGF2H8jHgf2MvXZ4/9pf2DwvSIG/qMX9xNjrCxQFUf0vnQO73MFyDzM3Zjnv2+sUSWNRtxMlts3FtiTvimTKqzaWBP1OX7KDbJMCi+9N7Tf/693lXWRxj5BOK3+fUHJj5tfZhW6sfQ3kDcWobx8gwrp10AI1uCpUV+CjG6R3daM8qJHgRSyro+YMXasaGJYl6c+FtJD96RMYQrGhzKkDf8Nxs5g6anJob0KHJPcZJS0DeLEWnemJPCwwZZJsFfe2pv1p6sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sB/RU+ZwTET8fVZsjbfE/ya2Zi9yvuzpfbt6ew+CXl0=;
- b=UYy8Szj6PLArxUQZEAoAZY4dtDSYsy4WL0tmRPNnj9VBpnG9fZIKWAAoOzxj47w2llnqRFpb18vfUrsHXJBuAPvMT02H05FCxr5FN4xrzgJ4BR98+HCrfUlRj9/DfefazWlvnrwqxCdXx11yVPGKNPSWOY18Re13rBaASmPPcrVZe4Ck0S/4xiZNyvQUL6CIfRiftgJQtVa+m44md5xiADmY27yAX5urZZe5+3zsIgU5kwlfSbPpP9LxeeqxrygVRwTYRAciWomsVJVvGm9bfMPT4NG/SX2X7s83C/2w4x0zyOR1rD0OtjBrtJ2MVpWPme94g0xDFIW04aldEgPC7Q==
-Received: from TYPPR06MB8206.apcprd06.prod.outlook.com (2603:1096:405:383::19)
- by KUXPR06MB8295.apcprd06.prod.outlook.com (2603:1096:d10:5c::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
- 2026 03:25:44 +0000
-Received: from TYPPR06MB8206.apcprd06.prod.outlook.com
- ([fe80::e659:1ead:77cb:f6d3]) by TYPPR06MB8206.apcprd06.prod.outlook.com
- ([fe80::e659:1ead:77cb:f6d3%2]) with mapi id 15.21.0025.023; Wed, 20 May 2026
- 03:25:44 +0000
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Troy Lee <troy_lee@aspeedtech.com>, Vince Chang
-	<vince_chang@aspeedtech.com>
-Subject: RE: [OE-core] [PATCH v1 1/2] externalsrc: Handle nested git repos
- from multiple SRC_URI entries
-Thread-Topic: [OE-core] [PATCH v1 1/2] externalsrc: Handle nested git repos
- from multiple SRC_URI entries
-Thread-Index: AQHc5E5IWG4WbSnYm0WaLzDNjO9OhbYULR6AgAC62LCAAD1CAIABFNYw
-Date: Wed, 20 May 2026 03:25:44 +0000
-Message-ID: 
- <TYPPR06MB8206791B92D42EE15826E1E1FC012@TYPPR06MB8206.apcprd06.prod.outlook.com>
-References: <20260515093615.126849-1-jamin_lin@aspeedtech.com>
-	 <20260515093615.126849-2-jamin_lin@aspeedtech.com>
-	 <ea944ab1b8149e83b522e0c315b6436f6142da5c.camel@pbarker.dev>
-	 <TYPPR06MB8206BFFB5A9D2CB2989F16F1FC002@TYPPR06MB8206.apcprd06.prod.outlook.com>
- <1b23a714bd45226cba3644356fb60dc861723ab1.camel@pbarker.dev>
-In-Reply-To: <1b23a714bd45226cba3644356fb60dc861723ab1.camel@pbarker.dev>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYPPR06MB8206:EE_|KUXPR06MB8295:EE_
-x-ms-office365-filtering-correlation-id: 3357cbfe-e7dc-4bc2-ea6a-08deb61f7a18
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|4143699003|56012099003|18002099003|22082099003;
-x-microsoft-antispam-message-info: 
- IFZQkTfS6eZJrgzV3QOfw7492kF5UQXG83sE8t7sI8f5LST+7CqjjN068GJmdpoj1Z1M0gWfiFdlVRr1FNcqrSTOny/BKyBu+dPH4K5YXlCcFXFr28PQGb+hJ+DxSfHiwmbEuSf/Dvo8PrmVBuFxelT/x9L2rKmC/0vrFje5p9/joPfj/+TDw7YCZooV6GpAvlF0BgfC/dscwvtx+W0jA0BvOmk7uED4Jt2CY9rv3hdvsbrRchZrLpAkyicJPn7CG1OA3PBR7igIcYIspKham3AEm/PYJpD7FvCuICtfg7z+SlEabrQ8ITBG0Ro9pfUAYengAlFi8Kln5lPYZWZ1Zww6smRx6GgHC6YH6rQzpa0joN60HPYS40rRWdqMU/ZMUBLHEF8XvmaPhuAec2bKkA4zogCZzkEjtcLesjHBqKrNZ1zn3iw9v2iDr6efowMycR51gR5WFdHucxXgNvcxNg0NZ9ruRFwwNKrQoJ+OwFxdQ+j2vBEEi5AxRg1wlyByMpgpI0QtPicLHVJ1Ry62LI+qAjoTlXjLoBuImPl936q7yhgmx44ywysR4KPVkT7jaukiHgHRW972h3HpOrHm+oFff5KhcNfFiIKTJpilqrohxachL/srXlL8SurDwF/FqSnQPVZOKtLUdZM2kdI/Vyt1QDt6QvYxWNKoQpZj/6GPDaXq67msDwtwv9bMy3gOoxkS/VkEHxdQZaT2gSfBTwaiFOtEeO75ekb9t/dKFVad0ngDfCRTHbrEnQirVk5V
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYPPR06MB8206.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(4143699003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?RVY0OGFpbG8raUpXZ1lEZk9XSFJkYjFoUVBXbVlyeFJ0Tkd5V2VTUFFpTjI5?=
- =?utf-8?B?enFWdXM1aDhBWmVOejdzQWlCRGEyNVlmTmdiUkliVk80RTZHeVJCT05pVWtY?=
- =?utf-8?B?a1hZa3V0c2ZlNVR6UTc5VUJTNk9tTDFRUXF4SDRLdnUyZDNtMHA0RlhmS1Ay?=
- =?utf-8?B?NkdOLy9OV1ZoWVlxcHMzczF3VFRJM21MN0ZnY2cwa2F6T25MdVZwaTVNUDlm?=
- =?utf-8?B?SlM5aFdGRlpsbFVFSFB1NThuT2h6YU9mVkc5MFMvb2t2MTdnMG5WTFh3UStE?=
- =?utf-8?B?VjJLVlFqZFNoSXErV21FS1ZsWjR0RThVMDFZaVVkdFNGMHZndHdhS3FNdWtQ?=
- =?utf-8?B?dXlQSmxZS21ES3dBVlZVbE9FdUdmUFF4OGMvWmsxWXZDL0Vka09CZkplZ3RK?=
- =?utf-8?B?OFM2MlJQdmlXd09XQjVvVVNMOUpxVDhGNkNYYlhFeGdkY1ZYWG9ON0Y1alUr?=
- =?utf-8?B?T2lRQVlPbG1tc0hmRUZIMlhJTXVtejRYNXBobGZBZjFoc1FTZlRXbXNieW5E?=
- =?utf-8?B?THRJVDlHcy9nV0I4QlJaS2Jna1l6cXVLc01TY3JJcno2SUNoVitTYXc2cUhG?=
- =?utf-8?B?aFNwREthRzlOTVd1a01OOWVkYm4vaTVtZFM5WjU4ZkZmUnFmTWlVRThySGdp?=
- =?utf-8?B?U1h6OVVqQ1dwZFpkYjRuR0NiL2pabGFxakdQekViMHo0SlJxa1llTUtvSVRi?=
- =?utf-8?B?YmxCa3dJd29CWTdNWE14dDd3T24xVys4S3NlUkdWOTVKUHJiOXAwS3JnbnYx?=
- =?utf-8?B?YThDbU9lVUhjVFJ2N0NURzhHU204cjZLREJkb3Z4SFhEWmcveVpIUXFxRi9Y?=
- =?utf-8?B?SGV5dVRHUXM0b3d6cTczT1p0ZkdEdkhZdnRzd2pzYW1NdUdnTU1US2hITFZy?=
- =?utf-8?B?c3ExUERnZDFhOXJGQTIxWkNLVFNhVWZJT2l0UEJFQVUvTkQyY1NNdkhOaUxG?=
- =?utf-8?B?NjE1Q0dINWxYT2l6N0lqdHFSNXdTenVYU0pXUm5teG1sclhKWXJhbFI3WXo4?=
- =?utf-8?B?ZEZzSWk1cUlmN2dGQjRmQW4zaXZHWXBjbHFxdVgvNE1tSEJFQWdlWGM4ZXZp?=
- =?utf-8?B?S05ORGY0U2krQjJRWVcxeXE4eUl3cStvNXZVREpRcEpzbzNEbEpIM3BVTlNB?=
- =?utf-8?B?RmgwSU1kTGNTVzJkWmFnWEhWbkx0WkYwV2I4QzJNMlZIS2Y4VmdhV09PNGxS?=
- =?utf-8?B?NElCYkdpd05QUU5uYm1pYkNwa0w3bEpkTkFGOGJROThsUEswdmNRYUgzSzNk?=
- =?utf-8?B?MnFvU1pZS0RickwxM01MaFN5bWpKVjlaaGdRSUs2NUZuUmJjTkEyMkc0QVpv?=
- =?utf-8?B?V1VkUnNPMmF3Q2sxQ1phd0V2UkttWkJBL1Vic3BJd0toLytnMWRHNFRpaUFH?=
- =?utf-8?B?WGZkbkU3RjRGU1RNM2RxVHI3MG9jYVVBdlNyMEh5Smh1WnVyUzF3VDVhNFdt?=
- =?utf-8?B?VXdUQUQvRkQxWWVqa21WWE9MdE01UmxOeGQ0SVNyN3Z6VWpjKzJyUWRPeHRs?=
- =?utf-8?B?L2h2d2IzTzE2dm1qVVY3SzhzU3l3SnlLMnFUc2dYVHNZRUNhbGhDeVRjTGVI?=
- =?utf-8?B?Nk42WmFHS1FtM1k0VzhjRzhHcFNLNlh4NHkxeG85NmRZUWIxSVVTQk9BR2Ny?=
- =?utf-8?B?a3AzWGpXNTV4TjdQclV3SzJEdnIvWlcrSDkvaEYwMllBZlFvdDZPWFNlcW1G?=
- =?utf-8?B?WGxJTW1MYi9SbHlnU1VKS3E0dEZGQ2E1KzFFRXFaT2ZaZjVLRjQ2bzlGSEp2?=
- =?utf-8?B?UzVSWHl1VkowOWI1NHdGMUhpdkNDbmdIV29SaW5qT085NDhCLy9yb3VmeGNy?=
- =?utf-8?B?OFpnSGZxbnpwQ3ltV3o3cjRDbjJVUHUyRmgyK1NOVUFIODJhR01QT3o0TDIz?=
- =?utf-8?B?TGM0YUwwRmM3SlFjK2g4VlBCdTZVTFIvRmhVM3ZoQi8zditXMWxsRjdnZUVN?=
- =?utf-8?B?UUhpQ3MydEMxTFdVc0tNbm4yOWVaNTM3cmRsVG9GM1RabzVGdXVFcloyN25i?=
- =?utf-8?B?Nk5FWHhNb1AyMUNraWtuWVZZckZLa3daVk9JMCt6c1JaT0xoYlc5akhLUkZo?=
- =?utf-8?B?NUNBM01YaDZsMnZsVkd1U05lN3MrTmV4YTA2SlNQMGhTUjl0U0RYd1g1dHpR?=
- =?utf-8?B?dElUc3p3SUtVbnNZOUswOXhXMXlrMXlhK3gxMUsxTDRxVXZudjJ6ZEVTSXFV?=
- =?utf-8?B?S0RPRnRRaTFPTW9LYkxjdXJLOFJkNHp3QUppZnZWbkhkZUNSOTkxNUthRUF4?=
- =?utf-8?B?eGNxbmd1ZThYZVVQMWw2N2s1enJ1ekhlMENRWGYraGREd05CanNzeFhaMXR0?=
- =?utf-8?B?b3JQY3dVMHFwSjVPQmJsSlcyYkNEdlVaTFBEaHFJdU1rb2htVDM0QT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=W7oi2v/o;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: vpuar@qti.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64JMmF9t341539
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:11:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=eLKOfHJMYQsAWaxudN80pk
+	spZTajFfKA11wokNCcmTw=; b=W7oi2v/o3seAXtGdFfkq1w90/12AB/gjjirO2g
+	y1GthYgHbcs7PrqYYIIJ7vG0fjQS6g8UnHUHzBoCbuvgWAD7ThzxmFv/zJcrdzZJ
+	H59masvpChD26LCvi+1uBxSKkId1qR7gAJzjEFQQDdsA5Hb5hOWp3oaCTRTcY5P7
+	Hczm7/UfPI1GJKU2eIl7fCZySEQQ+ZstdoG2VI0hBlN66HqYps9Nlt3fsngmKWel
+	5aYL4jZsdpuwQHB0IPk39GfJlkRaob8OnCpvNVEFl2rt8Nvfadm2GrebIQUCbfE3
+	3MCP3xyhZHyQXo/gfbM/8GCfDZ01Ow64toHknwlI4OeiIMIA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e8t3vb0c2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:11:53 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTPS id 64K5Bqxl022743
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:11:52 GMT
+Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 19 May 2026 22:11:50 -0700
+From: Vivek Puar <vpuar@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <vpuar@qti.qualcomm.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH] linux-firmware: upgrade 20260410 -> 20260519
+Date: Wed, 20 May 2026 10:41:36 +0530
+Message-ID: <20260520051136.2806904-1-vpuar@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYPPR06MB8206.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3357cbfe-e7dc-4bc2-ea6a-08deb61f7a18
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2026 03:25:44.1657
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ETrbmT4FeuQvkRFYSa+KKT3aLlzLDGXFkw1tEK77VmA1Y9vJFuyRH6a7IMXCPZ4Ty3A5IK4KA8I/CIMBLnLi+AFwNXumo6SbwfTWssZISrM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUXPR06MB8295
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-GUID: sB-umyhxBRZgdjlg-pgckg0XNHt8Y0Nl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDA0NyBTYWx0ZWRfXywIzmReGcmCo
+ RjPT/hiU19nPQ76JFqqCvKWCrcpacOU/jBYsCFYmAlGiNWVrkuoSp7f+E8BF6EQgSCRp7N7/7uT
+ cGlWYI7ihiHIRQVzUHGTH4FpOqbv8ksTLFc6QhfNuM6oXY4n8U8DcB3Wu+22RyichOqxVTYmPvu
+ 9I5iOkFm9HajR9ouywMMzzY97oSjmQTj+dUQaLxZTXVWTYE4eUJxhD2LiCcx8WEaVm/K2/rKkUm
+ bXCNz98taVdFcLAouKaio1HRD0UX6QG7Sj36Rp2bBAGr4rK0vTZxB+0xo3SAUU5B7qPmO8LfnLe
+ SZnBMVVeBAbVVeAjucYPo0vCQMy4i/qQxAOv3Xh7uKb9HbFuEPbdGbgARKcg08V1kmY9OVyBNSr
+ dHSI9vPM7/ETib3lY5/2h1vydHPTxKIeZE+PCneWX7ryKffCxA0Q5eDe9M8F78PYuPA6OFTA1ja
+ oKaK3LejTk79ZrjgtGQ==
+X-Authority-Analysis: v=2.4 cv=JuPBas4C c=1 sm=1 tr=0 ts=6a0d4299 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=G7KpAmuA_FgF0sezETUA:9
+X-Proofpoint-ORIG-GUID: sB-umyhxBRZgdjlg-pgckg0XNHt8Y0Nl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-20_01,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
+ phishscore=0 impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605200047
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 03:25:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237380
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:11:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237381
 
-SGkgUGF1bCwNCg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MSAxLzJdIGV4dGVy
-bmFsc3JjOiBIYW5kbGUgbmVzdGVkIGdpdCByZXBvcyBmcm9tDQo+IG11bHRpcGxlIFNSQ19VUkkg
-ZW50cmllcw0KPiANCj4gT24gVHVlLCAyMDI2LTA1LTE5IGF0IDA2OjI4ICswMDAwLCBKYW1pbiBM
-aW4gdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gd3JvdGU6DQo+ID4gSGkgUGF1bCwNCj4g
-Pg0KPiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSCB2MSAxLzJdIGV4dGVybmFsc3JjOiBIYW5kbGUg
-bmVzdGVkIGdpdCByZXBvcw0KPiA+ID4gZnJvbSBtdWx0aXBsZSBTUkNfVVJJIGVudHJpZXMNCj4g
-PiA+DQo+ID4gPiBPbiBGcmksIDIwMjYtMDUtMTUgYXQgMDk6MzYgKzAwMDAsIEphbWluIExpbiB3
-cm90ZToNCj4gPiA+ID4gV2hlbiBhIHJlY2lwZSB1c2VzIG11bHRpcGxlIGdpdCBTUkNfVVJJIGVu
-dHJpZXMgd2l0aCBkaWZmZXJlbnQNCj4gPiA+ID4gZGVzdHN1ZmZpeCB2YWx1ZXMgKGUuZy4gWmVw
-aHlyLWJhc2VkIHJlY2lwZXMgd2l0aCBzZXBhcmF0ZSByZXBvcw0KPiA+ID4gPiBmb3IgdGhlIGtl
-cm5lbCwgbW9kdWxlcywgYW5kIGFwcGxpY2F0aW9uKSwgZWFjaCBzb3VyY2UgaXMgdW5wYWNrZWQN
-Cj4gPiA+ID4gaW50byBhIHN1YmRpcmVjdG9yeSBvZiBFWFRFUk5BTFNSQyB0aGF0IHJldGFpbnMg
-aXRzIG93biAuZ2l0IGRpcmVjdG9yeS4NCj4gPiA+ID4NCj4gPiA+ID4gc3JjdHJlZV9oYXNoX2Zp
-bGVzKCkgY2FsbHMgJ2dpdCBhZGQgLUEgLicgYXQgdGhlIEVYVEVSTkFMU1JDIHJvb3QsDQo+ID4g
-PiA+IHdoaWNoIGZhaWxzIHdpdGggZXhpdCBjb2RlIDEyOCB3aGVuIGdpdCBlbmNvdW50ZXJzIHRo
-ZXNlDQo+ID4gPiA+IHVucmVnaXN0ZXJlZCBuZXN0ZWQgZ2l0IHJlcG9zaXRvcmllcywgaGFsdGlu
-ZyB0aGUgYml0YmFrZSBwYXJzZSBwaGFzZS4NCj4gPiA+DQo+ID4gPiBJcyB0aGlzIHRydWU/IFRo
-ZSBkb2N1bWVudGF0aW9uIGZvciBgZ2l0IGFkZGAgWzFdIHRhbGtzIGFib3V0DQo+ID4gPiBpc3N1
-aW5nIGEgd2FybmluZyB3aGVuIHRoaXMgb2NjdXJzLCBub3QgYW4gZXJyb3IsIGFuZCBpbiBzb21l
-IHF1aWNrDQo+ID4gPiBsb2NhbCB0ZXN0aW5nIEkgZ2V0IGEgc3VjY2Vzc2Z1bCBleGl0IChleGl0
-IGNvZGUgMCkgd2hlbiBJIHRyeSB0aGlzLg0KPiA+ID4NCj4gPg0KPiA+IFBsZWFzZSB0cnkgdGhl
-ICJ6ZXBoeXItaGVsbG93b3JsZCIgcGFja2FnZS4NCj4gPg0KPiA+IFRoaXMgcmVjaXBlIHVzZXMg
-bXVsdGlwbGUgR2l0IHJlcG9zaXRvcmllcyBpbiAiU1JDX1VSSSIsIGFuZCBJIGNhbiByZXByb2R1
-Y2UNCj4gdGhlIGlzc3VlIHdpdGggdGhpcyBwYWNrYWdlOg0KPiA+DQo+ID4gaHR0cHM6Ly9naXQu
-eW9jdG9wcm9qZWN0Lm9yZy9tZXRhLXplcGh5ci90cmVlL21ldGEtemVwaHlyLWNvcmUvcmVjaXBl
-cw0KPiA+IC1rZXJuZWwvemVwaHlyLWtlcm5lbC96ZXBoeXIta2VybmVsLXNyYy00LjMuMC5pbmMN
-Cj4gPg0KPiA+IFN0ZXBzIHRvIHJlcHJvZHVjZToNCj4gPg0KPiA+IDEuIGdpdCBjbG9uZSBodHRw
-czovL2dpdGh1Yi5jb20vb3BlbmVtYmVkZGVkL2JpdGJha2UuZ2l0DQo+ID4gMi4gZ2l0IGNsb25l
-IGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuZW1iZWRkZWQvb3BlbmVtYmVkZGVkLWNvcmUuZ2l0DQo+
-ID4gMy4gZ2l0IGNsb25lIGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvbWV0YS16ZXBoeXIN
-Cj4gPiA0LiBnaXQgY2xvbmUgaHR0cHM6Ly9naXRodWIuY29tL29wZW5lbWJlZGRlZC9tZXRhLW9w
-ZW5lbWJlZGRlZC5naXQNCj4gPiA1LiBzb3VyY2Ugb3BlbmVtYmVkZGVkLWNvcmUvb2UtaW5pdC1i
-dWlsZC1lbnYgYnVpbGQgNi4gRWRpdA0KPiA+IGJ1aWxkL2NvbmYvYmJsYXllcnMuY29uZiBhbmQg
-YWRkIHRoZSBmb2xsb3dpbmcgbGF5ZXJzOg0KPiA+DQo+ID4gICAgKiBtZXRhLW9wZW5lbWJlZGRl
-ZC9tZXRhLXB5dGhvbg0KPiA+ICAgICogbWV0YS16ZXBoeXIvbWV0YS16ZXBoeXItY29yZQ0KPiA+
-ICAgICogbWV0YS1vcGVuZW1iZWRkZWQvbWV0YS1vZQ0KPiA+IDcuIGRldnRvb2wgbW9kaWZ5IHpl
-cGh5ci1oZWxsb3dvcmxkDQo+ID4gOC4gYml0YmFrZSAtYyBjbGVhbmFsbCB6ZXBoeXItaGVsbG93
-b3JsZCA5LiBiaXRiYWtlIHplcGh5ci1oZWxsb3dvcmxkDQo+ID4NCj4gPiBBZnRlciB0aGF0LCB0
-aGUgZm9sbG93aW5nIHBhcnNlciBlcnJvciBvY2N1cnMsIGFuZCB0aGUgcGFja2FnZSBjYW4gbm8g
-bG9uZ2VyDQo+IGJlIGJ1aWx0Og0KPiA+DQo+ID4gYGBgdGV4dA0KPiA+IGphbWluX2xpbkBhc3Bl
-ZWQtZncwMjp+L29lLXJldmlldy9idWlsZCQgYml0YmFrZSB6ZXBoeXItaGVsbG93b3JsZA0KPiA+
-IExvYWRpbmcgY2FjaGU6IDEwMCUNCj4gPg0KPiB8IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQo+ICMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCj4gIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-Iw0KPiAjIyMjIyMjIyMjfCBUaW1lOiAwOjAwOjAxIExvYWRlZCA0OTQ5IGVudHJpZXMgZnJvbSBk
-ZXBlbmRlbmN5IGNhY2hlLg0KPiA+IEVSUk9SOiBFeHBhbnNpb25FcnJvciBkdXJpbmcgcGFyc2lu
-Zw0KPiA+IC9ob21lL2phbWluX2xpbi9vZS1yZXZpZXcvbWV0YS16ZXBoeXIvbWV0YS16ZXBoeXIt
-Y29yZS9yZWNpcGVzLWtlcm5lbC8NCj4gPiB6ZXBoeXIta2VybmVsL3plcGh5ci1oZWxsb3dvcmxk
-LmJiDQo+ID4gYmIuZGF0YV9zbWFydC5FeHBhbnNpb25FcnJvcjogRmFpbHVyZSBleHBhbmRpbmcg
-dmFyaWFibGUNCj4gZG9fY29tcGlsZVtmaWxlLWNoZWNrc3Vtc10sIGV4cHJlc3Npb24gd2FzICR7
-QHNyY3RyZWVfaGFzaF9maWxlcyhkKX0gd2hpY2gNCj4gdHJpZ2dlcmVkIGV4Y2VwdGlvbiBDYWxs
-ZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snZ2l0JywgJ2FkZCcsICctQScsICcuJ10nDQo+IHJl
-dHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDEyOC4NCj4gPiBUaGUgdmFyaWFibGUgZGVwZW5k
-ZW5jeSBjaGFpbiBmb3IgdGhlIGZhaWx1cmUgaXM6DQo+ID4gZG9fY29tcGlsZVtmaWxlLWNoZWNr
-c3Vtc10NCj4gPg0KPiA+IEVSUk9SOiBQYXJzaW5nIGhhbHRlZCBkdWUgdG8gZXJyb3JzLCBzZWUg
-ZXJyb3IgbWVzc2FnZXMgYWJvdmUNCj4gPiBQYXJzaW5nIHJlY2lwZXM6ICAgMCUgfA0KPiB8IEVU
-QTogIC0tOi0tOi0tDQo+ID4gU3VtbWFyeTogVGhlcmUgd2VyZSAyIEVSUk9SIG1lc3NhZ2VzLCBy
-ZXR1cm5pbmcgYSBub24temVybyBleGl0IGNvZGUuDQo+ID4gYGBgDQo+IA0KPiBGb2xsb3dpbmcg
-dGhlc2Ugc3RlcHMgSSBzZWUgdGhlIHNhbWUgZXJyb3IuIEJ1dCB0aGUgY2F1c2UgaXMgbm90IHRo
-ZSBuZXN0ZWQgZ2l0DQo+IHJlcG9zaXRvcmllcy4gYGJpdGJha2UgLWMgY2xlYW5hbGwgLi4uYCBo
-YXMgZGVsZXRlZCB0aGUgc291cmNlcyBmcm9tIHRoZQ0KPiBkb3dubG9hZHMgZGlyZWN0b3J5LCBi
-dXQgdGhlIGRldnRvb2wgd29ya3NwYWNlIGlzIHN0aWxsIHJlZmVyZW5jaW5nIHRoZSBkZWxldGVk
-DQo+IHNvdXJjZXMuIEV2ZW4gYSBgZ2l0IHN0YXR1c2AgY29tbWFuZCBpbiB0aGUgemVwaHlyLWhl
-bGxvd29ybGQgc291cmNlcw0KPiBkaXJlY3RvcnkgZmFpbHM6DQo+IA0KPiAgICQgZ2l0IC1DIHdv
-cmtzcGFjZS9zb3VyY2VzL3plcGh5ci1oZWxsb3dvcmxkIHN0YXR1cw0KPiAgIGVycm9yOiB1bmFi
-bGUgdG8gbm9ybWFsaXplIGFsdGVybmF0ZSBvYmplY3QgcGF0aDoNCj4gL2hvbWUvcGJhcmtlci9i
-aXRiYWtlLWJ1aWxkcy8uYml0YmFrZS1zZXR1cC1kb3dubG9hZHMvZ2l0Mi9naXRodWIuY29tLnpl
-cGgNCj4geXJwcm9qZWN0LXJ0b3MubWN1Ym9vdC8vb2JqZWN0cw0KPiAgIGVycm9yOiB1bmFibGUg
-dG8gbm9ybWFsaXplIGFsdGVybmF0ZSBvYmplY3QgcGF0aDoNCj4gL2hvbWUvcGJhcmtlci9iaXRi
-YWtlLWJ1aWxkcy8uYml0YmFrZS1zZXR1cC1kb3dubG9hZHMvZ2l0Mi9naXRodWIuY29tLnplcGgN
-Cj4geXJwcm9qZWN0LXJ0b3MubWN1Ym9vdC8vb2JqZWN0cw0KPiAgIGVycm9yOiB1bmFibGUgdG8g
-bm9ybWFsaXplIGFsdGVybmF0ZSBvYmplY3QgcGF0aDoNCj4gL2hvbWUvcGJhcmtlci9iaXRiYWtl
-LWJ1aWxkcy8uYml0YmFrZS1zZXR1cC1kb3dubG9hZHMvZ2l0Mi9naXRodWIuY29tLnplcGgNCj4g
-eXJwcm9qZWN0LXJ0b3MubWN1Ym9vdC8vb2JqZWN0cw0KPiAgIGVycm9yOiB1bmFibGUgdG8gbm9y
-bWFsaXplIGFsdGVybmF0ZSBvYmplY3QgcGF0aDoNCj4gL2hvbWUvcGJhcmtlci9iaXRiYWtlLWJ1
-aWxkcy8uYml0YmFrZS1zZXR1cC1kb3dubG9hZHMvZ2l0Mi9naXRodWIuY29tLnplcGgNCj4geXJw
-cm9qZWN0LXJ0b3MubWN1Ym9vdC8vb2JqZWN0cw0KPiAgIGZhdGFsOiBiYWQgb2JqZWN0IEhFQUQN
-Cj4gICBmYXRhbDogJ2dpdCBzdGF0dXMgLS1wb3JjZWxhaW49MicgZmFpbGVkIGluIHN1Ym1vZHVs
-ZSBib290bG9hZGVyL21jdWJvb3QNCj4gDQo+IElmIEkgcmVwbGFjZSBzdGVwIDggd2l0aCBgYml0
-YmFrZSAtYyBjbGVhbnNzdGF0ZSAuLi5gIHRoZW4gdGhlcmUgaXMgbm8gcGFyc2UgZXJyb3IuDQo+
-IA0KPiBXaGF0IHdlIG5lZWQgdG8gZml4IGlzIHRoZSBpbnRlcmFjdGlvbiBiZXR3ZWVuIGBkZXZ0
-b29sIG1vZGlmeWAgYW5kIGBiaXRiYWtlDQo+IC1jIGNsZWFuYWxsYC4gUGVyaGFwcyBkZXZ0b29s
-IG5lZWRzIHRvIGRldGVjdCB0aGlzIGJyb2tlbiBzdGF0ZSBhbmQgdGVsbCB0aGUgdXNlcg0KPiBo
-b3cgdG8gZml4IGl0IC0gc2ltcGx5IHJ1bm5pbmcgYGJpdGJha2UgLWMgZmV0Y2ggemVwaHlyLWhl
-bGxvd29ybGRgIGlzbid0IHBvc3NpYmxlDQo+IGFzIHRoZSBtZXRhZGF0YSBjYW4ndCBiZSBwYXJz
-ZWQuDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IA0KPiAtLQ0KPiBQYXVsIEJhcmtlcg0KDQpIaSBQ
-YXVsLA0KDQpUaGFua3MgZm9yIGlkZW50aWZ5aW5nIHRoZSByb290IGNhdXNlLg0KDQpBZnRlciBz
-dHVkeWluZyB0aGUgZGV2dG9vbCBkZXNpZ24sIEkgbm93IHVuZGVyc3RhbmQgd2hhdCBoYXBwZW5z
-OiB3aGVuIGRldnRvb2wgbW9kaWZ5IGNyZWF0ZXMgdGhlIHdvcmtzcGFjZSwgaXQgZG9lcyBub3Qg
-Y29weSB0aGUgZnVsbCBnaXQgb2JqZWN0IHN0b3JlIGxvY2FsbHkuDQpJbnN0ZWFkLCBpdCBjbG9u
-ZXMgdGhlIHNvdXJjZSB0cmVlIHVzaW5nIGdpdCdzIGFsdGVybmF0ZSBvYmplY3Qgc3RvcmUgbWVj
-aGFuaXNtIC0gdGhlIHdvcmtzcGFjZSdzIC5naXQvb2JqZWN0cy9pbmZvL2FsdGVybmF0ZXMgZmls
-ZSBwb2ludHMgYmFjayB0byB0aGUgZG93bmxvYWRlZCBiYXJlIHJlcG9zaXRvcmllcyB1bmRlciB0
-aGUgZG93bmxvYWRzLyBkaXJlY3RvcnkuDQpUaGlzIHdheSB0aGUgd29ya3NwYWNlIHNoYXJlcyB0
-aGUgZ2l0IG9iamVjdHMgd2l0aCB0aGUgZG93bmxvYWQgY2FjaGUgcmF0aGVyIHRoYW4gZHVwbGlj
-YXRpbmcgdGhlbSBvbiBkaXNrLg0KDQpXaGVuIGJpdGJha2UgLWMgY2xlYW5hbGwgaXMgcnVuLCBp
-dCBkZWxldGVzIHRoZSBkb3dubG9hZGVkIGJhcmUgcmVwb3NpdG9yaWVzIGZyb20gZG93bmxvYWRz
-Ly4gVGhlIHdvcmtzcGFjZSBzb3VyY2UgdHJlZSBzdGlsbCBleGlzdHMsIGJ1dCBpdHMgYWx0ZXJu
-YXRlcyBub3cgcG9pbnQgdG8gbWlzc2luZyBwYXRocy4NCkFueSBnaXQgb3BlcmF0aW9uIG9uIHRo
-ZSB3b3Jrc3BhY2UgKGluY2x1ZGluZyBnaXQgc3RhdHVzLCBnaXQgYWRkLCBldGMuKSB0aGVuIGZh
-aWxzIGJlY2F1c2UgZ2l0IGNhbm5vdCByZXNvbHZlIHRoZSBvYmplY3QgcmVmZXJlbmNlcywgcHJv
-ZHVjaW5nIGVycm9ycyBsaWtlOg0KDQplcnJvcjogdW5hYmxlIHRvIG5vcm1hbGl6ZSBhbHRlcm5h
-dGUgb2JqZWN0IHBhdGg6IC4uLi9kb3dubG9hZHMvZ2l0Mi8uLi4vb2JqZWN0cw0KZmF0YWw6IGJh
-ZCBvYmplY3QgSEVBRA0KDQpUaGlzIGlzIHdoYXQgY2F1c2VzIHRoZSBwYXJzZXIgdG8gaGFsdCB3
-aXRoIGV4aXQgMTI4Lg0KDQpUaGUgZml4IG9uIG15IHNpZGUgaXMgc3RyYWlnaHRmb3J3YXJkOiBy
-ZXBsYWNlIGJpdGJha2UgLWMgY2xlYW5hbGwgd2l0aCBiaXRiYWtlIC1jIGNsZWFuc3N0YXRlIGlu
-IG15IGRldnRvb2wgd29ya2Zsb3cuIGNsZWFuc3N0YXRlIGNsZWFycyB0aGUgc3N0YXRlIGNhY2hl
-IHdpdGhvdXQgdG91Y2hpbmcgdGhlIGRvd25sb2FkcyBkaXJlY3RvcnksIHNvIHRoZSB3b3Jrc3Bh
-Y2UgYWx0ZXJuYXRlcyByZW1haW4gaW50YWN0Lg0KDQpUaGF0IHNhaWQsIEkgYW0gbm90IHN1cmUg
-d2hldGhlciBzb21lIGltcHJvdmVtZW50IG9uIHRoZSBPRSBzaWRlIHdvdWxkIHN0aWxsIGJlIHdv
-cnRod2hpbGUuIEN1cnJlbnRseSwgd2hlbiB0aGlzIGJyZWFrYWdlIG9jY3VycywgdGhlIHVzZXIg
-c2VlcyBvbmx5IGEgY3J5cHRpYyBDYWxsZWRQcm9jZXNzRXJyb3I6IGV4aXQgMTI4IHdpdGggbm8g
-aW5kaWNhdGlvbiBvZiB3aGF0IHdlbnQgd3Jvbmcgb3IgaG93IHRvIHJlY292ZXIuDQpUaGUgc2l0
-dWF0aW9uIGlzIGFsc28gbm90IG9idmlvdXM6IHJ1bm5pbmcgYml0YmFrZSAtYyBjbGVhbmFsbCBv
-biBhIHNpbmdsZS1yZXBvIHJlY2lwZSB3aXRoIGEgZGV2dG9vbCB3b3Jrc3BhY2UgZG9lcyBub3Qg
-dHJpZ2dlciB0aGlzIHByb2JsZW0sIHNvIHVzZXJzIHdvcmtpbmcgd2l0aCBtdWx0aS1yZXBvIHJl
-Y2lwZXMgKHN1Y2ggYXMgWmVwaHlyLWJhc2VkIHJlY2lwZXMgdGhhdCBmZXRjaCBtdWx0aXBsZSBn
-aXQgcmVwb3NpdG9yaWVzIGludG8gc2VwYXJhdGUgZGVzdHN1ZmZpeCBkaXJlY3RvcmllcykgYXJl
-IGxpa2VseSB0byBoaXQgdGhpcyB1bmV4cGVjdGVkbHkuIEEgY2xlYXJlciBlcnJvciBtZXNzYWdl
-IHBvaW50aW5nIHRvIHRoZSByb290IGNhdXNlIGFuZCB0aGUgcmVjb3Zlcnkgc3RlcHMgKGRldnRv
-b2wgcmVzZXQgLW4gZm9sbG93ZWQgYnkgZGV2dG9vbCBtb2RpZnkpIG1pZ2h0IHNhdmUgb3RoZXIg
-dXNlcnMgZnJvbSB0aGUgc2FtZSBjb25mdXNpb24uDQoNClBsZWFzZSBkcm9wIHRoaXMgcGF0Y2gg
-c2VyaWVzIGJlY2F1c2UgaXQgaXMgbm90IGEgbm9ybWFsIHRlc3QgY2FzZSBmb3IgZGV2dG9vbC4N
-Cg0KQmVsb3cgcGF0Y2ggdGhhdCBtYXkgaGVscCBpbXByb3ZlIHRoZSB1c2VyIGV4cGVyaWVuY2Us
-IHRob3VnaCBJIGxlYXZlIGl0IHRvIHRoZSBjb21tdW5pdHkgdG8gZGVjaWRlIHdoZXRoZXIgdGhl
-eSBhcmUgd29ydGggcmV2aWV3aW5nOg0KDQpCZXN0IHJlZ2FyZHMsDQpKYW1pbg0KDQpkaWZmIC0t
-Z2l0IGEvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvZXh0
-ZXJuYWxzcmMuYmJjbGFzcw0KaW5kZXggOTAyZmYyNjA0Zi4uM2U2YzlkOTM3ZSAxMDA2NDQNCi0t
-LSBhL21ldGEvY2xhc3Nlcy9leHRlcm5hbHNyYy5iYmNsYXNzDQorKysgYi9tZXRhL2NsYXNzZXMv
-ZXh0ZXJuYWxzcmMuYmJjbGFzcw0KQEAgLTIyNyw2ICsyMjcsNTcgQEAgZGVmIHNyY3RyZWVfaGFz
-aF9maWxlcyhkLCBzcmNkaXI9Tm9uZSk6DQoNCiAgICAgcmV0ID0gIiAiDQogICAgIGlmIGdpdF9k
-aXIgaXMgbm90IE5vbmU6DQorICAgICAgICAjIEZpbmQgbmVzdGVkIGdpdCByZXBvcyBjcmVhdGVk
-IGJ5IG11bHRpcGxlIFNSQ19VUkkgZ2l0IGVudHJpZXMgd2l0aA0KKyAgICAgICAgIyBkaWZmZXJl
-bnQgZGVzdHN1ZmZpeCB2YWx1ZXMsIHNvIHRoZWlyIGFsdGVybmF0ZXMgY2FuIGFsc28gYmUgY2hl
-Y2tlZA0KKyAgICAgICAgIyBmb3IgYnJlYWthZ2UgYmVsb3cuDQorICAgICAgICBuZXN0ZWRfZ2l0
-X2RpcnMgPSBbXQ0KKyAgICAgICAgZm9yIHJvb3QsIGRpcnMsIGZpbGVzIGluIG9zLndhbGsoc19k
-aXIpOg0KKyAgICAgICAgICAgIGlmIHJvb3QgPT0gc19kaXI6DQorICAgICAgICAgICAgICAgIGNv
-bnRpbnVlDQorICAgICAgICAgICAgaWYgJy5naXQnIGluIGRpcnMgb3IgJy5naXQnIGluIGZpbGVz
-Og0KKyAgICAgICAgICAgICAgICBuZXN0ZWRfZ2l0X2RpcnMuYXBwZW5kKHJvb3QpDQorICAgICAg
-ICAgICAgICAgIGRpcnNbOl0gPSBbXQ0KKw0KKyAgICAgICAgIyBDaGVjayBmb3IgYnJva2VuIGdp
-dCBhbHRlcm5hdGVzIGluIHRoZSB0b3AtbGV2ZWwgcmVwbyBhbmQgYWxsIG5lc3RlZA0KKyAgICAg
-ICAgIyByZXBvcy4gVGhpcyBjYW4gaGFwcGVuIHdoZW4gJ2JpdGJha2UgLWMgY2xlYW5hbGwnIGRl
-bGV0ZXMgdGhlDQorICAgICAgICAjIGRvd25sb2FkcyBkaXJlY3RvcnkgdGhhdCB0aGUgZGV2dG9v
-bCB3b3Jrc3BhY2UgcmVmZXJlbmNlcyB2aWENCisgICAgICAgICMgYWx0ZXJuYXRlcywgY2F1c2lu
-ZyBhbGwgc3Vic2VxdWVudCBnaXQgb3BlcmF0aW9ucyB0byBleGl0IDEyOCBhbmQNCisgICAgICAg
-ICMgaGFsdCB0aGUgcGFyc2UgcGhhc2UuICBSZWxhdGl2ZSBhbHRlcm5hdGUgcGF0aHMgYXJlIHJl
-c29sdmVkIGFnYWluc3QNCisgICAgICAgICMgdGhlIHJlcG8ncyBvYmplY3RzIGRpcmVjdG9yeTsg
-ZG91YmxlLXNsYXNoIHBhdGhzIChhIGtub3duIGRldnRvb2wNCisgICAgICAgICMgYXJ0ZWZhY3Qp
-IGFyZSBub3JtYWxpc2VkIGJlZm9yZSB0aGUgZXhpc3RlbmNlIGNoZWNrLg0KKyAgICAgICAgZGVm
-IGhhc19icm9rZW5fYWx0ZXJuYXRlcyhkb3RfZ2l0KToNCisgICAgICAgICAgICBvYmpfZGlyID0g
-b3MucGF0aC5qb2luKGRvdF9naXQsICdvYmplY3RzJykNCisgICAgICAgICAgICBhbHRfZmlsZSA9
-IG9zLnBhdGguam9pbihvYmpfZGlyLCAnaW5mbycsICdhbHRlcm5hdGVzJykNCisgICAgICAgICAg
-ICBpZiBub3Qgb3MucGF0aC5leGlzdHMoYWx0X2ZpbGUpOg0KKyAgICAgICAgICAgICAgICByZXR1
-cm4gRmFsc2UNCisgICAgICAgICAgICB3aXRoIG9wZW4oYWx0X2ZpbGUpIGFzIGY6DQorICAgICAg
-ICAgICAgICAgIGZvciBsaW5lIGluIGY6DQorICAgICAgICAgICAgICAgICAgICBwYXRoID0gbGlu
-ZS5zdHJpcCgpDQorICAgICAgICAgICAgICAgICAgICBpZiBub3QgcGF0aCBvciBwYXRoLnN0YXJ0
-c3dpdGgoJyMnKToNCisgICAgICAgICAgICAgICAgICAgICAgICBjb250aW51ZQ0KKyAgICAgICAg
-ICAgICAgICAgICAgaWYgbm90IG9zLnBhdGguaXNhYnMocGF0aCk6DQorICAgICAgICAgICAgICAg
-ICAgICAgICAgcGF0aCA9IG9zLnBhdGguam9pbihvYmpfZGlyLCBwYXRoKQ0KKyAgICAgICAgICAg
-ICAgICAgICAgaWYgbm90IG9zLnBhdGguZXhpc3RzKG9zLnBhdGgubm9ybXBhdGgocGF0aCkpOg0K
-KyAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBUcnVlDQorICAgICAgICAgICAgcmV0dXJu
-IEZhbHNlDQorDQorICAgICAgICBicm9rZW4gPSBoYXNfYnJva2VuX2FsdGVybmF0ZXMoZ2l0X2Rp
-cikNCisgICAgICAgIGlmIG5vdCBicm9rZW46DQorICAgICAgICAgICAgZm9yIG5lc3RlZCBpbiBu
-ZXN0ZWRfZ2l0X2RpcnM6DQorICAgICAgICAgICAgICAgIG5lc3RlZF9kb3RfZ2l0ID0gb3MucGF0
-aC5qb2luKG5lc3RlZCwgJy5naXQnKQ0KKyAgICAgICAgICAgICAgICBpZiBvcy5wYXRoLmlzZGly
-KG5lc3RlZF9kb3RfZ2l0KSBhbmQgaGFzX2Jyb2tlbl9hbHRlcm5hdGVzKG5lc3RlZF9kb3RfZ2l0
-KToNCisgICAgICAgICAgICAgICAgICAgIGJyb2tlbiA9IFRydWUNCisgICAgICAgICAgICAgICAg
-ICAgIGJyZWFrDQorDQorICAgICAgICBpZiBicm9rZW46DQorICAgICAgICAgICAgYmIud2Fybign
-JXM6IGRldnRvb2wgd29ya3NwYWNlIGhhcyBicm9rZW4gZ2l0IGFsdGVybmF0ZXMsICcNCisgICAg
-ICAgICAgICAgICAgICAgICdsaWtlbHkgY2F1c2VkIGJ5ICJiaXRiYWtlIC1jIGNsZWFuYWxsIiBy
-ZW1vdmluZyB0aGUgJw0KKyAgICAgICAgICAgICAgICAgICAgJ2Rvd25sb2FkcyBkaXJlY3Rvcnku
-ICcNCisgICAgICAgICAgICAgICAgICAgICdUbyByZXBhaXIgdGhlIHdvcmtzcGFjZSwgcnVuOiAn
-DQorICAgICAgICAgICAgICAgICAgICAnZGV2dG9vbCByZXNldCAlcyAmJiBkZXZ0b29sIG1vZGlm
-eSAlcycNCisgICAgICAgICAgICAgICAgICAgICUgKGQuZ2V0VmFyKCdQTicpLCBkLmdldFZhcign
-UE4nKSwgZC5nZXRWYXIoJ1BOJykpKQ0KKyAgICAgICAgICAgIHJldHVybiBzX2RpciArICcvKjpU
-cnVlJw0KKw0KDQoNCg0KDQoNCg==
+Upgrade the firmware package to latest release. Add compute package
+for shikra. Add packages ${PN}-ath12k-{ipq5424, qcc2072} for ath12k
+based chips. Add Texas Instruments PCM6240 firmware, firmware for
+tas2783A projects, firmware for Lontium LT7911EXC and LT9611C. Move
+lt*_fw.bin firmware to Lontium subdir. Add HP ISH firmware for Intel
+Panther Lake systems. Add RDEPENDS on ${PN}-qcom-license for Dell
+XPS13 packages as qcom/NOTICE.txt is applicable to those firmwares.
+
+Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ ...20260410.bb => linux-firmware_20260519.bb} | 62 +++++++++++++++----
+ 1 file changed, 50 insertions(+), 12 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260410.bb => linux-firmware_20260519.bb} (98%)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
+similarity index 98%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
+index b34f8ef255..7eb9bf35fb 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
+@@ -314,7 +314,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "1468492365c9cec2e7ebf71c79d2e8f5"
++WHENCE_CHKSUM  = "6048e3ea8acf04b4c415db8a9e35a912"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -452,7 +452,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "b7812ed6d59f6b09ecceddaa0be842a7e82a79cc0e46ca60478a4ebf02f1e178"
++SRC_URI[sha256sum] = "b14e7197a290a7e5569f5ef790cde289bddc47e32126f2eb262a8e677fc39727"
+ 
+ inherit allarch
+ 
+@@ -564,7 +564,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-mwl8k ${PN}-mwlwifi\
+              ${PN}-ti-connectivity-license ${PN}-wl1251-license ${PN}-wlcommon ${PN}-wl1251 ${PN}-wl12xx ${PN}-wl18xx ${PN}-cc33xx \
+              ${PN}-ti-keystone-license ${PN}-ti-keystone \
+-             ${PN}-ti-tspa-license ${PN}-ti-tas2563 ${PN}-ti-tas2781 ${PN}-ti-tas2783 ${PN}-ti-vpe \
++             ${PN}-ti-tspa-license ${PN}-ti-pcm6240 ${PN}-ti-tas2563 ${PN}-ti-tas2781 ${PN}-ti-tas2783 ${PN}-ti-vpe \
+              ${PN}-ti-usb-3410-5052 \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rs9113 ${PN}-rs9116 ${PN}-rsi-91x \
+@@ -641,6 +641,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-ath11k-wcn6750 \
+              ${PN}-ath11k-wcn6855 \
+              ${PN}-ath12k \
++             ${PN}-ath12k-ipq5424 \
++             ${PN}-ath12k-qcc2072 \
+              ${PN}-ath12k-qcn9274 \
+              ${PN}-ath12k-wcn7850 \
+              ${PN}-qca \
+@@ -748,7 +750,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
+              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
+              ${PN}-qcom-sdx35-foxconn-firehose ${PN}-qcom-sdx61-foxconn-firehose \
+-             ${PN}-qcom-shikra-qupv3fw \
++             ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-qupv3fw \
+              ${PN}-qcom-sm8150-adreno \
+              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
+              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
+@@ -776,7 +778,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qla2xxx ${PN}-qla2xxx-license \
+              ${PN}-rockchip-license ${PN}-rockchip-dptx \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+-             ${PN}-lt8713sx ${PN}-lt9611uxc ${PN}-lontium-license \
++             ${PN}-lt7911exc ${PN}-lt8713sx ${PN}-lt9611c ${PN}-lt9611uxc ${PN}-lontium-license \
+              ${PN}-wfx-license ${PN}-wfx \
+              ${PN}-whence-license \
+              ${PN}-xc4000-license ${PN}-xc4000 \
+@@ -785,7 +787,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-typhoon-license ${PN}-typhoon \
+              ${PN}-intel-license ${PN}-ish-lnlm \
+              ${PN}-dell-license ${PN}-ish-lnlm-39ceeaf8 ${PN}-ish-ptl-39ceeaf8 \
+-             ${PN}-hp-license ${PN}-ish-lnlm-12128606 \
++             ${PN}-hp-license ${PN}-ish-lnlm-12128606 ${PN}-ish-ptl-12128606 \
+              ${PN}-lenovo-license ${PN}-ish-lnlm-53c4ffad ${PN}-ish-ptl-53c4ffad \
+              ${PN}-ish-ptl ${PN}-ish-wcl \
+              ${PN}-advansys-license ${PN}-advansys \
+@@ -954,6 +956,8 @@ LICENSE:${PN}-ath11k-qcn9074 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath11k-wcn6750 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath11k-wcn6855 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath12k = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath12k-ipq5424 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath12k-qcc2072 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath12k-qcn9274 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath12k-wcn7850 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-qca-qca2066 = "Firmware-qualcommAthos_ath10k"
+@@ -999,6 +1003,8 @@ FILES:${PN}-ath11k-wcn6855 = "${firmwaredir}/ath11k/WCN6855"
+ # -ath11k is a virtual package that depends upon all ath11k packages.
+ ALLOW_EMPTY:${PN}-ath11k = "1"
+ 
++FILES:${PN}-ath12k-ipq5424 = "${firmwaredir}/ath12k/IPQ5424"
++FILES:${PN}-ath12k-qcc2072 = "${firmwaredir}/ath12k/QCC2072"
+ FILES:${PN}-ath12k-qcn9274 = "${firmwaredir}/ath12k/QCN9274"
+ FILES:${PN}-ath12k-wcn7850 = "${firmwaredir}/ath12k/WCN7850"
+ # -ath12k is a virtual package that depends upon all ath12k packages.
+@@ -1127,6 +1133,8 @@ RDEPENDS:${PN}-ath11k-qcn9074 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath11k-wcn6750 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath11k-wcn6855 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath12k-ipq5424 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath12k-qcc2072 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath12k-qcn9274 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath12k-wcn7850 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-qca += "${PN}-ath10k-license ${PN}-qcom-license"
+@@ -1344,12 +1352,16 @@ RDEPENDS:${PN}-amdgpu-vega12 += "${PN}-amdgpu-license"
+ RDEPENDS:${PN}-amdgpu-misc += "${PN}-amdgpu-license"
+ 
+ # For lontium
++LICENSE:${PN}-lt7911exc = "Firmware-Lontium"
+ LICENSE:${PN}-lt8713sx = "Firmware-Lontium"
++LICENSE:${PN}-lt9611c = "Firmware-Lontium"
+ LICENSE:${PN}-lt9611uxc = "Firmware-Lontium"
+ 
+ FILES:${PN}-lontium-license = "${firmwaredir}/LICENSE.Lontium"
+-FILES:${PN}-lt8713sx = "${firmwaredir}/lt8713sx_fw.bin*"
+-FILES:${PN}-lt9611uxc = "${firmwaredir}/lt9611uxc_fw.bin*"
++FILES:${PN}-lt7911exc = "${firmwaredir}/Lontium/lt7911exc_fw.bin*"
++FILES:${PN}-lt8713sx = "${firmwaredir}/lt8713sx_fw.bin* ${firmwaredir}/Lontium/lt8713sx_fw.bin*"
++FILES:${PN}-lt9611c = "${firmwaredir}/Lontium/lt9611c_fw.bin*"
++FILES:${PN}-lt9611uxc = "${firmwaredir}/lt9611uxc_fw.bin* ${firmwaredir}/Lontium/lt9611uxc_fw.bin*"
+ 
+ # For Arm Mali
+ FILES:${PN}-mali-csffw-license = "${firmwaredir}/LICENCE.mali_csffw"
+@@ -1830,6 +1842,13 @@ FILES:${PN}-ti-tas2563 = "\
+ "
+ RDEPENDS:${PN}-ti-tas2563 = "${PN}-ti-tspa-license"
+ 
++# For ti-pcm6240 - pcm6240 firmware
++LICENSE:${PN}-ti-pcm6240 = "Firmware-ti-tspa"
++FILES:${PN}-ti-pcm6240 = "\
++    ${firmwaredir}/ti/pcm6240/pcm6240-i2c-1-2dev.bin* \
++"
++RDEPENDS:${PN}-ti-pcm6240 = "${PN}-ti-tspa-license"
++
+ # For ti-tas2781 - tas2781 firmware
+ LICENSE:${PN}-ti-tas2781 = "Firmware-ti-tspa"
+ FILES:${PN}-ti-tas2781 = "\
+@@ -1843,7 +1862,17 @@ RDEPENDS:${PN}-ti-tas2781 = "${PN}-ti-tspa-license"
+ # For ti-tas2783 - tas2783 firmware
+ LICENSE:${PN}-ti-tas2783 = "Firmware-ti-tspa"
+ FILES:${PN}-ti-tas2783 = "\
+-    ${firmwaredir}/8E[8F]*-?-?.bin* \
++    ${firmwaredir}/1534-2-*.bin* \
++    ${firmwaredir}/16F4-1-*.bin* \
++    ${firmwaredir}/1714-1-*.bin* \
++    ${firmwaredir}/19[569]4-?-?-*.bin* \
++    ${firmwaredir}/1A[CD]4-?-?-*.bin* \
++    ${firmwaredir}/1B[09]4-?-?-*.bin* \
++    ${firmwaredir}/3??1-?-0x*.bin* \
++    ${firmwaredir}/8E??-?-0x*.bin* \
++    ${firmwaredir}/8E??-?-?-0x*.bin* \
++    ${firmwaredir}/8F??-?-0x*.bin* \
++    ${firmwaredir}/8F??-?-?-0x*.bin* \
+     ${firmwaredir}/ti/audio/tas2783/* \
+ "
+ RDEPENDS:${PN}-ti-tas2781 = "${PN}-ti-tspa-license"
+@@ -2401,6 +2430,7 @@ LICENSE:${PN}-qcom-sdm845-modem = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdx35-foxconn-firehose = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdx61-foxconn-firehose = "Firmware-qcom"
++LICENSE:${PN}-qcom-shikra-compute = "Firmware-qcom-2"
+ LICENSE:${PN}-qcom-shikra-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8150-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-adreno = "Firmware-qcom"
+@@ -2564,6 +2594,7 @@ FILES:${PN}-qcom-sdm845-modem = "${firmwaredir}/qcom/sdm845/mba.mbn* ${firmwared
+ FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${firmwaredir}/qcom/sdm845/Thundercomm/db845c/slpi*.*"
+ FILES:${PN}-qcom-sdx35-foxconn-firehose = "${firmwaredir}/qcom/sdx35/foxconn/xbl_s_devprg_ns.melf*"
+ FILES:${PN}-qcom-sdx61-foxconn-firehose = "${firmwaredir}/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
++FILES:${PN}-qcom-shikra-compute = "${firmwaredir}/qcom/shikra/cdsp*.*"
+ FILES:${PN}-qcom-shikra-qupv3fw = "${firmwaredir}/qcom/shikra/qupv3fw.elf*"
+ FILES:${PN}-qcom-sm8150-adreno = "${firmwaredir}/qcom/sm8150/a640*.*"
+ FILES:${PN}-qcom-sm8250-adreno = "${firmwaredir}/qcom/sm8250/a650*.*"
+@@ -2725,6 +2756,7 @@ RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdx35-foxconn-firehose = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdx61-foxconn-firehose = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-shikra-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-shikra-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8150-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-adreno = "${PN}-qcom-license"
+@@ -2749,9 +2781,9 @@ RDEPENDS:${PN}-qcom-x1e80100-asus-vivobook-s15-audio-tplg = "${PN}-linaro-licens
+ RDEPENDS:${PN}-qcom-x1e80100-asus-zenbook-a14-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-x1e80100-dell-inspiron-14-plus-7441-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-x1e80100-dell-latitude-7455-audio-tplg = "${PN}-linaro-license"
+-RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-adreno = "${PN}-dell-license"
+-RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-audio = "${PN}-dell-license ${PN}-linaro-license"
+-RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-compute = "${PN}-dell-license"
++RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-adreno = "${PN}-dell-license ${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-audio = "${PN}-dell-license ${PN}-linaro-license ${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-compute = "${PN}-dell-license ${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-x1e80100-hp-omnibook-x14-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "${PN}-qcom-license ${PN}-linaro-license"
+@@ -2835,6 +2867,12 @@ FILES:${PN}-ish-lnlm-12128606 = " \
+ "
+ RDEPENDS:${PN}-ish-lnlm-12128606 = "${PN}-hp-license"
+ 
++LICENSE:${PN}-ish-ptl-12128606 = "Firmware-HP"
++FILES:${PN}-ish-ptl-12128606 = " \
++    ${firmwaredir}/HP/ish/ish_ptl_12128606_*.bin* \
++"
++RDEPENDS:${PN}-ish-ptl-12128606 = "${PN}-hp-license"
++
+ # For LENOVO ish - Intel Integrated Sensor Hub
+ LICENSE:${PN}-lenovo-license = "Firmware-lenovo"
+ FILES:${PN}-lenovo-license = "${firmwaredir}/LICENCE.lenovo"
+-- 
+2.34.1
+
 
