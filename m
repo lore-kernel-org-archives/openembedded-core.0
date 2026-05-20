@@ -1,208 +1,160 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5756CD4F3C
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 09:24:39 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8245.1779269074398000754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 054DECD4F3C
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 09:41:30 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8549.1779270082184520865
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2026 02:24:34 -0700
+ Wed, 20 May 2026 02:41:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=iABNZZef;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-50e5ad864a6so55291881cf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 02:24:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779269073; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Kzp1XL4Cc+jVJyzgV34RfJy8oj6OlWDXVn5tmxY9TBLUKR5IHPw3da0oV2I7RU9sPr
-         J+A9Uwgg8qoprE4+7MzfP7pafxBLK6AWtpU8qTo+wtUiXZcLH+NNZf79ejq1eZFu/gz1
-         VPRVLfIfj4KK/Sjx2S3Zk0IycWIcbUH9N5UGlbue5Fd5ntloGilTWvGgIGfK0ceV2YC4
-         C++tUzUHIJrZohxcZKM/EVHd2YfA/+MES/ZCthDJVl1LtQAy4e1MuHSQtaTPlJCWeZ4u
-         r3wZlrxkfSOv21X15YRpAxZDXvmB3+uH2CoCP/0cbJ0lWK22NaFiVH2YgbTSpF82oMB/
-         F8uQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=lDqSthtbm8zP4TA4cQnfo9/nUfUznP8faKiMsV7NAVI=;
-        fh=yhT5l7IQjYfvIAKfBtNG10j44QdTws+JShOfIQwGZ/w=;
-        b=Nt4zWbK4oRNhVe5zIa2GOlvAZ6XMd0lOkklaPFGyGQFABa6hVIx55XxAB5IzlYtuQn
-         3R3jAa441enMba42g5Fy16FrGV8SR91f2UEUz3VmEPt0QT0S0Xipm0XDt6iCnYI8gB15
-         ea7jzLNzv/tU1QDX9YdklBQHlRxqHMUxm0cPWEARBfwQPAqe8bUv+2mQ2hQMwiRKgoxr
-         2mjIOAD6gJrLaV0fej735sf1/xzXtQ9mnIwIEZvNwcDxpXsUzx4/GrpMWuRIOT8Ta+vD
-         rtp4oNYMufmDA4pNuYNawIjHBuRRDx3PUftcnnPEN2Q8kgALnX6rMpSMOMWMnEV0aOFb
-         3T9Q==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779269073; x=1779873873; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lDqSthtbm8zP4TA4cQnfo9/nUfUznP8faKiMsV7NAVI=;
-        b=iABNZZef2soEJK5h/f3e4g3E72mNYOe/wg+VrG5SxufT3e2InxTC30X8iZ/4pLD+zj
-         zQh7QhuV/UfMXZJQYovJh9R/TI1OqyNQQoEnrtTjBlmn8GCnwd/4Bf5Fomu/HPiaR3zO
-         qTo9RpDCpOsxO7vOakLenKGmPskfMpcP4FcTrf4Q3tD90ll5J2ywjZpfoBmiZux1CYF6
-         GccoOzHywtRGoaMc3FxPcQQBUG+oT31W/b0w7a19PsOsxIWyx01e7sgRFd52lWLHCldG
-         J0LLGiYoCrdzT2D34EPdzRdl2T4Bgf4YuQe9YNk86jqtu5vlceXs5PbzdnT4VoeM8rI4
-         2aNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779269073; x=1779873873;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lDqSthtbm8zP4TA4cQnfo9/nUfUznP8faKiMsV7NAVI=;
-        b=dPnCtg1AfR04vxh3NWLil0M/ba2Ws5NcfNih3ZuDB+QO6eH8nv9gY8IcsmLo0Yv9ZA
-         T+Qwlr1VoYeo1Z0HWzmZUjEwHQw0vmqLj/XxW/vcF7Teu+SQ2h//wDmJIVf6cr9RGpRF
-         sciE+kGmbOvhtk3WlfHczcAXz/RgfcUSHEw6H5vH/iFUILUxoTAcB+VESdNbqbztE2PI
-         U33IgSjhhM7xI8V45eFZSv7yNxg28MNONGTzssPbcNaOfVjUPX9bAbZBJv98kZmSLYtm
-         /tbIgINfqSulqLaI7HrH31wEGdPZdQy24M9HL9WEDi1Pc1XaG/wP3AIMrULsddrXsyEv
-         VWfQ==
-X-Gm-Message-State: AOJu0YywA3XKOKhOdVDCrgZ6JNcYQC6BXLUlGGgdGmyhuiNUUytiIu7P
-	bC//tReK8DJe9M5GwHBl/KudGqSymWpo0PTtEbUFMzDgNmXsCukZ6HQHmOnc5+9aeQGKGbBnYYU
-	YoMzTWagbvuw+KF3tPWhbS2qTmH5Gqu4=
-X-Gm-Gg: Acq92OExlsRvqK2RnXo3hcZdt6K0X3XqBIFGYB4B1w3Y/Lm2VDBIoGWndwioWoTu5Qw
-	AMfkOAYb2QQzXMGwrUXHtw83xUPJRfXh/dRs1Lp25c/KH+OMCjjyLHzqIfP9NfxyYKWROleeBBT
-	LmsXnK5k28IxiqiWkzM9IfMzRjiWpKUwZdPfn9U1EFhRN+8iqYRO/7q1Mzx7+eE2DYFDTGnxzBf
-	VKthGsEDiD6JhuMWfWHvwj91vX7QOB8XnsDApDIkVPrpNFcpCA/aYMZ4LGAZfHzIX4jHrCXn1ER
-	ZXuBv0hv0c2XcSmscokV4Fv1X7SGQmyegCzCwmbQswwwzI4wrSZf
-X-Received: by 2002:ac8:57cd:0:b0:50f:b1e6:a901 with SMTP id
- d75a77b69052e-5165a035e73mr331006701cf.24.1779269073350; Wed, 20 May 2026
- 02:24:33 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=nPPg2ArI;
+ spf=pass (domain: axis.com, ip: 40.107.159.47, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FH8lvwOL7rHEgkZPETt0Uj2TFs7Onmm8+w8+lepa2SlN+s3P69XG2LbjGPLo7n/Au/Gd3XX0zF0zVywRMHwVDNvjx/dOo2GtvvetyPwTHvc/20/cNACMe8MUgMjHko9mvv4ctlxSyojtTz9M2PUYceTt4Uyy8JOZ0dGTp1szEkZUhjt/T0fNlBhHLSj+zT/yJo+gDQIEkaPDY5NnSHrK1IzFZ3igYOiHSUPpQ+W7e+1EgZMQRoPpi6I2nwIfTvevqUCm+H8TmhPXog64+RSo5AqBCumDr0WlY480raTzyfZmZ4hqlLyA/eUOFeqpIqEqkOChmHKkTZM115hBurFPTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9RDCYm3iTB15iarDni/UpN+oxWG5HaZPaDPIECksk1Y=;
+ b=fMadw/JURVSxEQiP3OgRa7k4QZhKJgyaCW+RRTpxnI8fmUAB38VAqP2lqjwufmda6cXxWyfuqF8NL68wOQ+efMDkKpWKLQZhf5oaHH0F4FRIlMtb21HIRFB7EJ4qUr+GOVs1U79ogcRc1+tVmVOhR2qbWihhWpon5SnKqooG+w7FXzN3HqVoaXunEsMjFcKxlpPgweH2TMa4qqdXOtu9mnR+Fq+gwGDkzWuvPMgfz5cvP03DHoOKRCLgHbAZL75inEArNpzm4wL8PY3qjn7DpOAvrnS26AUbfOSVVsIRYybppZzfcEfzVL/6m3WvVzHZvmKuXY0t2LEXQ1y/+ldY0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9RDCYm3iTB15iarDni/UpN+oxWG5HaZPaDPIECksk1Y=;
+ b=nPPg2ArI0NtaHRBf8KxVVlNr2G1hftpYRuVeENdXVA3rTfKQkoPvTwvOL4uJiRZBKuAKUtjf6Gw/34zqMbG40JKbNiI8SxyRrMvaah2J56GWM3zAtEyG0ucKzbp2oXU0WMK5aRP8MxBOFrecE02Ga6tLdnyjFEJVCh30ZGGuPxA=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by AS8PR02MB9041.eurprd02.prod.outlook.com (2603:10a6:20b:5bc::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
+ 2026 09:41:17 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.21.0048.013; Wed, 20 May 2026
+ 09:41:17 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "ross.burton@arm.com" <ross.burton@arm.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 3/4] groff: fix whitespace
+Thread-Topic: [OE-core] [PATCH 3/4] groff: fix whitespace
+Thread-Index: AQHc5rHDXj1l0Usgd02VLAq8BdzRirYWq2TQ
+Date: Wed, 20 May 2026 09:41:16 +0000
+Message-ID: 
+ <DB5PR02MB10213130D4C46BBE37E4184D6EF012@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20260518103249.592747-1-ross.burton@arm.com>
+ <20260518103249.592747-3-ross.burton@arm.com>
+In-Reply-To: <20260518103249.592747-3-ross.burton@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AS8PR02MB9041:EE_
+x-ms-office365-filtering-correlation-id: 420e55db-7eb5-479f-4fcc-08deb653f0bd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|4143699003|18002099003|56012099003|22082099003|38070700021|11063799006;
+x-microsoft-antispam-message-info: 
+ tSKydUOi1XiMjgbKdk4+qI4vFg6IKtz197Dqy5SokoXvFLjy33rAPiTSea2BbH2wVvFshztbZVjGd3GP+DPpmb0MmktQ+egRDTaJloLqL08gca3jbAh0hEyI0LtYCYbbT/zO+G76HoW8MWtyfeL1NRghrIIECZeRE8AruGL1yL4dyafywc7ao8cJymI0OW47IY10Hyg7IAV4sB1I9Ij+boHOTSuE+PRPFaOxAp5p6Z6IeAGC6fGQklVlU/MY//6BF37xjMHFzBbWfQ9Oje8nawYkMJo83ueTeQz44A8lNd763PYQVjA5udjROAQzpFkK9ZRG68sVgImpFLcmQ9P8IMyncjWT4+UKC7V/WOj0ilMJufsL52LIGUb+b+6dgipz2t0AAQAQeHQa4lBb8C9tZSX7/ZVJlFrvqkxUB1QaNjJHwW6iF/UmXybvAFLHgzQ8dawaZiZ4ZCMWnVj+BJM8mGiu72esEfSRu30NpMvXsdzKgiU7D0Rk9ywrCFXc4Cgu36tMN28UmD874UJ3xJC59HxX1f1DTVjP6aSKr9UjT6v0tp+3jfHeoGdwmherNFMM2vTF6Zfdhym+6n2V1JlqOJRKZRcTCcjqm2K2dNkjXTZrWmBC1No1rm6pEMBG0HITTATJIFZJqTHEjHv2dZ08/Uu9ajjHJtm0/F2xah0VoXpQUKt0hZODywQCQs9iNutFjprtQ3qOKDiuF+IN7N6y4Dtw31OXnVgCWkfqE0H1Er1qjXCKc5Fu/HUFwp/Dcw8t
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(4143699003)(18002099003)(56012099003)(22082099003)(38070700021)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?w+i7yendjplz8BIvO/BEvSxN/PpS80qwE0qgsa2sHpldEPVgMfMQPejlQgTy?=
+ =?us-ascii?Q?bPegfqDikITYz5c4tD7djXfMewkb3SShWJ4SwRLbMP9bY2K7jwBDnBt3ykM3?=
+ =?us-ascii?Q?8c+7w+EAz8RZBP4cx1AvsfPFPKljAnaVw2eTfJQ0jLjYOTbiLhlp3nh08rKd?=
+ =?us-ascii?Q?Id5SS2GuLs2gL+9k1OT57osl+LyxnuPlPIHAwDK47fX4taoag+AhIl6lH8mL?=
+ =?us-ascii?Q?bd6BdS9otXlvaEdpSo/lx2WUCJwmZSRlQpLVI4f5tdCKdhzWAxsPkx9wdGnU?=
+ =?us-ascii?Q?MrbLPXG5woITGYPcfQ3F0Of3Ka/zGDm1vFrG43+fdIyeUhZHJog5QwDCtttU?=
+ =?us-ascii?Q?3bRju/Zk7bmduG8PSZ6qvDAYiDaEP3N86ALUNjHwzJvcsirK+lltZE0MllWA?=
+ =?us-ascii?Q?J1r/YSCoxxTJxAWVDy/rE5Vu8tONyMyUNCuQmwLS2MOz60+DaCTn6jcfrbTv?=
+ =?us-ascii?Q?G7NFZ5a6bIyFvcfkb2if9pH0xgyp6LVtwdraYvsoJ3Kotalq8HTCpvnJAM6y?=
+ =?us-ascii?Q?lTLYnYUFOxL2ko5iIjl4AVx/+CxiVapCKjlOLyCm9d4SQ//92k6UbOyvGdIN?=
+ =?us-ascii?Q?iKSTsQXOYkmc59WVKYiG54Gp90rbMLDTDcrTTshHbtSNsBnDsffyfaAA4VeJ?=
+ =?us-ascii?Q?y1Rj4o1ukwfmuAiGsW1K1kMJISHwM8/EoTzpkpw82XXMrTSrJNXc+H1fLwIS?=
+ =?us-ascii?Q?gN+vpmdHXxIoAm6lDhnQLboIgVUkF/Yxr8k7mKpgLhNoFsEI1v5GecgfOU6m?=
+ =?us-ascii?Q?9gP34m9ZCVZ2BRda8fPt6+DT50NWOtTNYbE/0AJJaqDrkrgT0WiFcVWZCLzp?=
+ =?us-ascii?Q?tzNpqjf5pxMzlz4RcovFj+xJ1JFSIEzam3WydT/C8FZXUn0tu0084w89pXx1?=
+ =?us-ascii?Q?2Gwyyp97awo2I8l+ntyJVTxbGvNmbW8JQtvJTSbaVk2S8y8zIwZ92UYl0B3d?=
+ =?us-ascii?Q?xh9FTN+MylvwfDHzYt6nxbnydmoWa9tyz96u794wOqvayQPiGUYosdVn16mL?=
+ =?us-ascii?Q?Ddu3ylLC3NdCLgGW3bXwu42DJRgZxqPQ49Q9pJqaTU0wCfSAMHhFAutAnUT/?=
+ =?us-ascii?Q?uNHY07OZ9OFZXlKOywjm4HLxOxIMpx/B0fnaRj2+Nkdt/jbmw5tDwwx4vVVc?=
+ =?us-ascii?Q?PM//dtJarSvH7bYhHkWZoicYU/3gxYuN6R9JB6ddoRZ4+xvBr7IwTInwPnGB?=
+ =?us-ascii?Q?Bbtcu9otkPg6bWLji1xs23pZcHLfyaBA701a1wJwBjjsXBiGG+0R6L3iP5i1?=
+ =?us-ascii?Q?gun01LN6KuBj7pkorCLFwRfzP0zN7JGjfIURnVKu8HvQLfycdn82tM2dphQS?=
+ =?us-ascii?Q?0IIhfDxCFZMk8FO8iRD5ZKIzjvOBHMypE2rMJ9aYAe9x9Y5FlKE9uV253AHG?=
+ =?us-ascii?Q?OYMsKfikqiKu1sIW2gd3I8LaxB7VdytGP0KHKGZwt8lz7QewFGqCUn4ta77Z?=
+ =?us-ascii?Q?Ikr1tQYh5NSPFLY5XW+J4DYPHb7Uwk4yUO3uQsgyDNPCWSfXNWziscQYaZxi?=
+ =?us-ascii?Q?v+frLEJKaaRyYwWtgrQoPvjrwvrxV+aarMg6L/HaA4bSDh35WGSXUrlLZlhP?=
+ =?us-ascii?Q?79LMSiBfqkoOsaXXLONZwMHE5hjwPDTwXVXxoUXC7AhgWxOQ3S+/Pq8uFPnv?=
+ =?us-ascii?Q?J9GcYASdEy82EhgsyoOlArRelG66ArG/aHJ1oJFwHUxyTqFHNnByGDTMEUOA?=
+ =?us-ascii?Q?S4T6D+G9UVawOlrF4MqWkqTmywI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20260520051800.1951624-1-jamin_lin@aspeedtech.com>
-In-Reply-To: <20260520051800.1951624-1-jamin_lin@aspeedtech.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 20 May 2026 11:24:21 +0200
-X-Gm-Features: AVHnY4LnETATv3pTUF7tPQwEzo6wRJPmqCNGbHOYOlAfxksuybYXvXqOVvWc5co
-Message-ID: <CANNYZj-i4hzB9XdtwYQmuB073mxSaLTLU+CCqZWRQi+XbYR-7w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v1] scripts/scriptutils: Convert nested git
- repos to standalone clones in devtool workspace
-To: jamin_lin@aspeedtech.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Troy Lee <troy_lee@aspeedtech.com>, Vince Chang <vince_chang@aspeedtech.com>, 
-	"paul@pbarker.dev" <paul@pbarker.dev>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 420e55db-7eb5-479f-4fcc-08deb653f0bd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2026 09:41:17.0159
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0rZhemHBl9JTdIrvL3uYNn5OOdS2AZBxP43Ltmj+Cy5fq51mkA2nq4VzgIflBAXY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB9041
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 09:24:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237438
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 09:41:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237439
 
-There have been patches fixing similar issues, for which oe-core has
-no tests or ways to reproduce. Rather than ask reviewers to set up
-zephyr builds so they can observe the issue, can you add a testcase
-for this to devtool's oe-selftest?
-
-Alex
-
-On Wed, 20 May 2026 at 07:18, Jamin Lin via lists.openembedded.org
-<jamin_lin=aspeedtech.com@lists.openembedded.org> wrote:
->
-> When a recipe uses multiple git SRC_URI entries with different destsuffix
-> values (e.g. Zephyr-based recipes with separate repositories for the
-> kernel, modules and application), do_unpack clones each source tree with
-> 'git clone -n -s'.
->
-> The -s flag uses git's shared-object mechanism:
-> instead of copying objects locally it writes a .git/objects/info/alternates file
-> pointing back to the bare repository under the downloads directory (DL_DIR/git2/).
->
-> git_convert_standalone_clone() is called by devtool_post_unpack to make
-> the workspace standalone: it runs 'git repack -a' to copy all objects
-> into the local object store and then removes the alternates file.
->
-> However it only processes the top-level source directory.  Each nested
-> git repo created by a separate SRC_URI entry retains its own alternates
-> file still pointing into downloads/.
->
-> Steps to reproduce:
->   1. devtool modify <recipe-with-multiple-git-SRC_URI>
->   2. bitbake -c cleanall <recipe>
->   3. bitbake <recipe>
->
-> At step 2, 'bitbake -c cleanall' calls fetcher.clean() which deletes
-> the bare repositories from downloads/git2/. The top-level workspace
-> repo is standalone (alternates already removed by the original code),
-> but the nested repos still hold alternates pointing to the now-deleted
-> paths.
->
-> At step 3, srctree_hash_files() runs 'git add -A .' with a custom
-> GIT_INDEX_FILE. Git internally calls 'git status --porcelain=2' on
-> each nested repo to check for changes; this fails with exit 128 because
-> the nested alternates are broken:
->   error: unable to normalize alternate object path:
->          .../downloads/git2/github.com.zephyrproject-rtos.acpica//objects
->   fatal: bad object HEAD
->   fatal: 'git status --porcelain=2' failed in submodule modules/lib/acpica
->
-> This halts the BitBake parse phase with a CalledProcessError and leaves
-> the workspace in an unrecoverable state without manual intervention.
->
-> Fix by extending git_convert_standalone_clone() to walk the source tree
-> and apply the same 'git repack -a' + remove-alternates treatment to
-> every nested git repository found, making the entire workspace fully
-> standalone at devtool modify time.  The walk uses dirs[:] = [] to stop
-> at each git boundary so it never descends into already-converted repos.
->
-> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Ross Burton via lists.openembedded.org
+> Sent: den 18 maj 2026 12:33
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 3/4] groff: fix whitespace
+>=20
+> Fix bad indentation.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  scripts/lib/scriptutils.py | 28 ++++++++++++++++++++++++----
->  1 file changed, 24 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-> index 32e749dbb1..0a83470373 100644
-> --- a/scripts/lib/scriptutils.py
-> +++ b/scripts/lib/scriptutils.py
-> @@ -100,16 +100,36 @@ def load_plugins(logger, plugins, pluginpath):
->
->
->  def git_convert_standalone_clone(repodir):
-> -    """If specified directory is a git repository, ensure it's a standalone clone"""
-> +    """
-> +    If specified directory is a git repository, ensure it's a standalone clone.
-> +    Also converts any nested git repositories (created by multiple SRC_URI git
-> +    entries with different destsuffix values) so that none of their contents
-> +    depend on the shared downloads directory via alternates.
-> +    """
-> +
->      import bb.process
-> -    if os.path.exists(os.path.join(repodir, '.git')):
-> -        alternatesfile = os.path.join(repodir, '.git', 'objects', 'info', 'alternates')
-> +
-> +    def _convert(gitdir, workdir):
-> +        alternatesfile = os.path.join(gitdir, 'objects', 'info', 'alternates')
->          if os.path.exists(alternatesfile):
->              # This will have been cloned with -s, so we need to convert it so none
->              # of the contents is shared
-> -            bb.process.run('git repack -a', cwd=repodir)
-> +            bb.process.run('git repack -a', cwd=workdir)
->              os.remove(alternatesfile)
->
-> +    if os.path.exists(os.path.join(repodir, '.git')):
-> +        _convert(os.path.join(repodir, '.git'), repodir)
-> +
-> +    # Also handle nested git repos created by multiple SRC_URI git entries
-> +    # with different destsuffix values. Each nested repo is cloned with -s
-> +    # and has its own alternates pointing to the downloads directory.
-> +    for root, dirs, files in os.walk(repodir):
-> +        if root == repodir:
-> +            continue
-> +        if '.git' in dirs:
-> +            _convert(os.path.join(root, '.git'), root)
-> +            dirs[:] = []  # don't recurse into nested repos
-> +
->  def _get_temp_recipe_dir(d):
->      # This is a little bit hacky but we need to find a place where we can put
->      # the recipe so that bitbake can find it. We're going to delete it at the
+>  meta/recipes-extended/groff/groff_1.24.1.bb | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/groff/groff_1.24.1.bb b/meta/recipes-e=
+xtended/groff/groff_1.24.1.bb
+> index e780603b1e6..74e422c6af4 100644
+> --- a/meta/recipes-extended/groff/groff_1.24.1.bb
+> +++ b/meta/recipes-extended/groff/groff_1.24.1.bb
+> @@ -65,8 +65,10 @@ do_install:append() {
+>  	rm -rf ${D}${bindir}/grap2graph
+>  	rm -rf ${D}${mandir}/man1/grap2graph*
+>=20
+> -        # strip hosttool path out of generated files
+> -        sed -i -e 's:${HOSTTOOLS_DIR}/::g' ${D}${docdir}/${BP}/examples/=
+hdtbl/*.roff
+> +	# strip hosttool path out of generated files
+> +	if [ -d ${D}${docdir}/${BP}/examples/hdtbl/ ]; then
+
+This is not a whitespace clean-up...
+
+> +		sed -i -e 's:${HOSTTOOLS_DIR}/::g' ${D}${docdir}/${BP}/examples/hdtbl/=
+*.roff
+> +	fi
+>  }
+>=20
+>  do_install:append:class-native() {
 > --
 > 2.43.0
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#237382): https://lists.openembedded.org/g/openembedded-core/message/237382
-> Mute This Topic: https://lists.openembedded.org/mt/119403462/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+
+//Peter
+
 
